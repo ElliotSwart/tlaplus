@@ -34,7 +34,7 @@ public class BuiltInLevel implements LevelConstants {
     }
   }
     
-  private static HashMap LevelData = new HashMap();
+  private static HashMap<String, Data> LevelData = new HashMap<String, Data>();
 
   static int[] make() { return new int[0]; }
 
@@ -149,7 +149,7 @@ public class BuiltInLevel implements LevelConstants {
 
     while (Enum.hasMoreElements()) {
       SymbolNode sn = Enum.nextElement();
-      Data d = (Data)LevelData.get(sn.getName().toString());
+      Data d = LevelData.get(sn.getName().toString());
       if (d != null) {
 	OpDefNode opDef = (OpDefNode)gcon.getSymbol(sn.getName());
 	if (opDef.getArity() != d.arity) {

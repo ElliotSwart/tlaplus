@@ -15,7 +15,7 @@ import java.util.Hashtable;
 class ModuleRelationships {
 
   // Maps ModulePointer objects to ModuleRelatives objects
-  private Hashtable modRelHashtable = new Hashtable();
+  private Hashtable<ModulePointer, ModuleRelatives> modRelHashtable = new Hashtable<ModulePointer, ModuleRelatives>();
 
 /*
   ModuleRelatives getRelatives(ModulePointer modulePointer) { 
@@ -39,7 +39,7 @@ class ModuleRelationships {
   // Add the entries from otherMR into THIS; they are assumed not to overlap.
   void union(ModuleRelationships otherMR) {
 
-    Enumeration otherKeys = otherMR.getKeys();
+    Enumeration<ModulePointer> otherKeys = otherMR.getKeys();
 
     while ( otherKeys.hasMoreElements() ) {
       ModulePointer key = (ModulePointer)otherKeys.nextElement();
@@ -56,10 +56,10 @@ class ModuleRelationships {
 
     String ret = "";
 
-    Enumeration e = modRelHashtable.keys();
+    Enumeration<ModulePointer> e = modRelHashtable.keys();
     while ( e.hasMoreElements()) {
 
-      ModulePointer   modPtr    = (ModulePointer)e.nextElement();
+      ModulePointer   modPtr    = e.nextElement();
 
       ret = ret + "\n----------- Module '" + modPtr.getName() + "'\n";
       ret = ret + modPtr.getRelatives().toString(); 

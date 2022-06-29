@@ -244,7 +244,7 @@ package tla2tex;
 import java.util.Vector;
 
 public class TokenizeComment
-  { private static Vector vspec = new Vector(50, 50) ;
+  { private static Vector<Vector<CToken>> vspec = new Vector<Vector<CToken>>(50, 50) ;
       /*********************************************************************
       * The vector that will eventually be turned into the array returned  *
       * by the Tokenize method.                                            *
@@ -257,13 +257,13 @@ public class TokenizeComment
     * (which are defined as private class methods).                        *
     ***********************************************************************/
 
-    private static Vector linev = new Vector(40, 40) ;
+    private static Vector<CToken> linev = new Vector<CToken>(40, 40) ;
           /*****************************************************************
           * Vector linev contains the tokens found so far on the current   *
           * line.                                                          *
           *****************************************************************/
 
-    private static Vector argVec ;
+    private static Vector<String> argVec ;
       /*********************************************************************
       * The argument with which the Tokenize method is called, "exposed"   *
       * so that other methods, which are actually subprocedures of         *
@@ -523,7 +523,7 @@ public class TokenizeComment
       * removed from the input stream.                                     *
       *********************************************************************/
       { vspec.addElement(linev)    ;
-        linev = new Vector(30, 30) ;
+        linev = new Vector<CToken>(30, 30) ;
         col = 0 ;
         ncol = 0 ;
       } ;
@@ -536,20 +536,20 @@ public class TokenizeComment
         int n = 0 ;                                                       
         while (n < vspec.size())                                          
           { aspec[n] =                                                     
-               new CToken [ ((Vector) vspec.elementAt(n)) . size() ] ;     
+               new CToken [ vspec.elementAt(n) . size() ] ;     
             int m = 0 ;                                                   
             while (m < aspec[n].length)                                    
               {aspec[n][m] =                                               
-                (CToken) ((Vector) vspec.elementAt(n)) . elementAt(m);     
+                (CToken) vspec.elementAt(n) . elementAt(m);     
                m = m+1;                                                   
               };                                                          
             n = n+1 ;                                                     
           };                                                              
-        vspec = new Vector(50, 50) ;
+        vspec = new Vector<Vector<CToken>>(50, 50) ;
         return aspec;
       } ;
 
-    public static CToken[][] Tokenize(Vector vec)
+    public static CToken[][] Tokenize(Vector<String> vec)
       /*********************************************************************
       * Tokenize the comment represented by vec, which must be a vector    *
       * of strings.                                                        *
@@ -1026,7 +1026,7 @@ public class TokenizeComment
         return vspecToArray();
       }
 
-    public static CToken[][] TeXTokenize(Vector vec)
+    public static CToken[][] TeXTokenize(Vector<String> vec)
       /*********************************************************************
       * Tokenize the comment represented by vec, which must be a vector of *
       * strings, turning each line into a TeX token.                       *
@@ -1042,7 +1042,7 @@ public class TokenizeComment
         while (line < vec.size())
          {String curString = "" ;
           if (vec.elementAt(line) != null)
-           {curString = (String) vec.elementAt(line) ;
+           {curString = vec.elementAt(line) ;
            } ;
           result[line] = new CToken[1];
           result[line][0] = new CToken(curString,0,CToken.TEX, false, false);

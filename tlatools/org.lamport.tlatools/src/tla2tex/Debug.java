@@ -100,7 +100,7 @@ public class Debug
           {ToolIO.out.println(name + " = zero-length array" ); } ;
       } ;
 
-    public static void printVector(Vector vec, String name)
+    public static void printVector(Vector<?> vec, String name)
       /*********************************************************************
       * This method prints to standard output the contents of the vector   *
       * argument, where name is the name of the vector.                    *

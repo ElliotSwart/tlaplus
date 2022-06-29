@@ -2,7 +2,7 @@
 package tla2sany.utilities;
 
 public class
-Stack extends tla2sany.utilities.Vector {
+Stack extends tla2sany.utilities.Vector<Object> {
 
   public Stack() { super(); }
 

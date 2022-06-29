@@ -96,7 +96,7 @@ public class ModelValue extends Value implements IModelValue {
 
   /* Make str a new model value, if it is not one yet.  */
   public static Value make(String str) {
-    ModelValue mv = (ModelValue)mvTable.get(str);
+    ModelValue mv = mvTable.get(str);
     if (mv != null) return mv;
     mv = new ModelValue(str);
     mvTable.put(str, mv);
@@ -104,7 +104,7 @@ public class ModelValue extends Value implements IModelValue {
   }
 
   public static Value add(String str) {
-	    ModelValue mv = (ModelValue)mvTable.get(str);
+	    ModelValue mv = mvTable.get(str);
 	    if (mv != null) return mv;
 	    mv = new ModelValue(str);
 	    mvTable.put(str, mv);
@@ -123,9 +123,9 @@ public class ModelValue extends Value implements IModelValue {
   /* Collect all the model values defined thus far. */
   public static void setValues() {
     mvs = new ModelValue[mvTable.size()];
-    Enumeration Enum = mvTable.elements();
+    Enumeration<ModelValue> Enum = mvTable.elements();
     while (Enum.hasMoreElements()) {
-      ModelValue mv = (ModelValue)Enum.nextElement();
+      ModelValue mv = Enum.nextElement();
       mvs[mv.index] = mv;
     }
   }

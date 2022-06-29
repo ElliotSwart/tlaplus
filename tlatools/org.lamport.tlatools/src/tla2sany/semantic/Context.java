@@ -194,7 +194,7 @@ public class Context implements ExploreNode {
    * one exists; else returns null
    */
   public SymbolNode getSymbol(Object name) {
-    Pair r = (Pair)table.get(name);
+    Pair r = table.get(name);
     if (r != null) {
       return r.info;
     }
@@ -241,13 +241,14 @@ public class Context implements ExploreNode {
    * Returns a Vector of those SymbolNodes in this Context that are
    * instances of class "template" (or one of its subclasses)
    */
-  public Vector<SymbolNode> getByClass( Class<?> template ) {
-    Vector<SymbolNode> result = new Vector<>();
+  @SuppressWarnings("unchecked")
+public<T> Vector<T> getByClass( Class<T> template ) {
+    Vector<T> result = new Vector<>();
     Enumeration<Pair> list = table.elements();
     while (list.hasMoreElements()) {
       Pair elt = list.nextElement();
       if (template.isInstance(elt.info)) {
-        result.addElement( elt.info );
+        result.addElement((T) elt.info );
       }
     }
     return result;
@@ -392,7 +393,7 @@ public class Context implements ExploreNode {
 					table.put(sName, new Pair(sn));
 				} else {
 					// If this Context DOES contain this name
-					SymbolNode symbol = ((Pair) table.get(sName)).info;
+					SymbolNode symbol = table.get(sName).info;
 					if (symbol != sn) {
 						// if the two SymbolNodes with the same name are distinct nodes,
 						// We issue a warning or do nothing if they are instances of the same Java
@@ -496,7 +497,7 @@ public class Context implements ExploreNode {
       if (b || (!initialContext.table.containsKey(key) &&
 		(naturalsContext == null ||
 		 !naturalsContext.table.containsKey(key)))) {
-        SymbolNode symbNode  = ((Pair)(table.get(key))).info;
+        SymbolNode symbNode  = (table.get(key)).info;
 	ctxtEntries.addElement("\nContext Entry: " + key.toString() + "  "
                     + String.valueOf(((SemanticNode)symbNode).myUID).toString() + " "
                     + Strings.indentSB(2,(symbNode.toString(depth-1))));
@@ -543,7 +544,7 @@ public class Context implements ExploreNode {
         }
       else {
         key = (UniqueString) next;
-        ((Pair)table.get(key)).info.walkGraph(semNodesTable, visitor);
+        table.get(key).info.walkGraph(semNodesTable, visitor);
        } ;
        visitor.postVisit(this);
     }

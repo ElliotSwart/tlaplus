@@ -128,7 +128,7 @@ public class Set implements Cloneable, java.io.Serializable {
      * @return  an enumeration of the elements in this set.
      * @see     java.util.Enumeration
      */
-    public synchronized Enumeration elements() {
+    public synchronized Enumeration<Object> elements() {
       return new SetEnumerator(set);
     }
 
@@ -282,7 +282,7 @@ public class Set implements Cloneable, java.io.Serializable {
     public synchronized String toString() {
 	int max = size() - 1;
 	StringBuffer buf = new StringBuffer();
-	Enumeration e = elements();
+	Enumeration<Object> e = elements();
 	buf.append("{");
 
 	for (int i = 0; i <= max; i++) {
@@ -365,7 +365,7 @@ public class Set implements Cloneable, java.io.Serializable {
    * that are not also in x.
    */
   public void intersection (Set x) { 
-    Enumeration elements = elements();
+    Enumeration<Object> elements = elements();
     Object a;
     while (elements.hasMoreElements()) {
       a = elements.nextElement();
@@ -398,7 +398,7 @@ public class Set implements Cloneable, java.io.Serializable {
    * are not in x.
    */
   public void union(Set x) { 
-    Enumeration elements = x.elements();
+    Enumeration<Object> elements = x.elements();
     while (elements.hasMoreElements()) 
       put(elements.nextElement());
   }
@@ -429,12 +429,12 @@ public class Set implements Cloneable, java.io.Serializable {
    */
   public void minus(Set x) { 
     if (size() > x.size()) {
-      Enumeration elements = x.elements();
+      Enumeration<Object> elements = x.elements();
       while (elements.hasMoreElements()) 
 	remove(elements.nextElement());
     }
     else {
-      Enumeration elements = elements();
+      Enumeration<Object> elements = elements();
       Object a;
       while (elements.hasMoreElements()) {
 	a = elements.nextElement();
@@ -456,7 +456,7 @@ public class Set implements Cloneable, java.io.Serializable {
 
   /* Is this a subset of x. */  
   public boolean subset (Set x) {
-    Enumeration elements = elements();
+    Enumeration<Object> elements = elements();
     while (elements.hasMoreElements()) 
       if (! x.in(elements.nextElement()))
 	return false;
@@ -479,7 +479,7 @@ public class Set implements Cloneable, java.io.Serializable {
  * A set enumerator class.  This class should remain opaque 
  * to the client. It will use the Enumeration interface. 
  */
-class SetEnumerator implements Enumeration {
+class SetEnumerator implements Enumeration<Object> {
   int index;
   SetEntry set[];
   SetEntry entry;

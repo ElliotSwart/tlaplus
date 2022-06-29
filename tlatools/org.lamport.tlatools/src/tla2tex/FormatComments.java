@@ -69,7 +69,7 @@ import java.util.Vector;
 
 public final class FormatComments
 { public static void WriteComment(OutputFileWriter writer, 
-                                  Vector           vec, 
+                                  Vector<String>   vec, 
                                   int              commentType,
                                   float            indentOrWidth,
                                   boolean          tlaMode )
@@ -181,7 +181,7 @@ public final class FormatComments
 
   /* ---------------------- THE word HASH TABLE ------------------------- */
 
-  private static Hashtable wordHashTable  = new Hashtable(100000);
+  private static Hashtable<String, String> wordHashTable  = new Hashtable<String, String>(100000);
     /***********************************************************************
     * A hashtable of all common English words.                             *
     ***********************************************************************/
@@ -214,7 +214,7 @@ public final class FormatComments
 
   /* -------------------- THE ambiguous HASH TABLE ---------------------- */
 
-  private static Hashtable ambiguousHashTable  = new Hashtable(100);
+  private static Hashtable<String,String> ambiguousHashTable  = new Hashtable<String,String>(100);
     /***********************************************************************
     * A hashtable of all built-in symbols that can appear as ordinary      *
     * punctuation.  The entry for a symbol is the TeX string that          *
@@ -276,7 +276,7 @@ public final class FormatComments
 
   /* -------------------- THE repeatChar HASH TABLE --------------------- */
 
-  private static Hashtable repeatCharHashTable  = new Hashtable(100);
+  private static Hashtable<String,Symbol> repeatCharHashTable  = new Hashtable<String,Symbol>(100);
     /***********************************************************************
     * A hashtable of all characters that can be repeated to make some      *
     * sort of "dash", for example writing "==========".  We should define  *
@@ -306,7 +306,7 @@ public final class FormatComments
     * a string of n ch characters, or "" if Misc.TeXify(the string of n    *
     * ch's) should be output.                                              *
     ***********************************************************************/
-      { return ((Symbol) repeatCharHashTable.get("" + ch)).TeXString ;
+      { return repeatCharHashTable.get("" + ch).TeXString ;
       } ;   
 
   public static int getRepeatCharMin(char ch) 
@@ -314,7 +314,7 @@ public final class FormatComments
     * Returns the minimum number of ch characters that constitutes a       *
     * REPEATED_CHAR CToken.                                                *
     ***********************************************************************/
-      { return ((Symbol) repeatCharHashTable.get("" + ch)).symbolType ;
+      { return repeatCharHashTable.get("" + ch).symbolType ;
       } ;   
 
   private static void addRepeatChar(char ch, String tex, int min)
@@ -341,7 +341,7 @@ public final class FormatComments
 
   /* -------------------- THE alignToken HASH TABLE --------------------- */
 
-  private static Hashtable alignTokenHashTable  = new Hashtable(100);
+  private static Hashtable<String,String> alignTokenHashTable  = new Hashtable<>(100);
     /***********************************************************************
     * A hashtable of all alignment tokens.  An alignment token t is one    *
     * such that, if two successive lines in a comment have t in the same   *
@@ -879,7 +879,7 @@ public final class FormatComments
      /**********************************************************************
      * Set thisCommentTLA to be a hash table of all TLA IDENT tokens.      *
      **********************************************************************/
-     Hashtable thisCommentTLA  = new Hashtable(100);     
+     Hashtable<String, String> thisCommentTLA  = new Hashtable<String, String>(100);     
      line = 0 ;
      while (line < com.length)
       {item = 0 ;

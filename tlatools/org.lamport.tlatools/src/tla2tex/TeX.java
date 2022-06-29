@@ -173,7 +173,7 @@ class TeX
       * \begin{document}, and save everything except the                   *
       * \begin{document} in the Vector preamble.                           *
       *********************************************************************/
-      Vector preamble = new Vector(200);
+      Vector<String> preamble = new Vector<String>(200);
       String line = "" ;
       try
        { line = infile.readLine();
@@ -257,7 +257,7 @@ class TeX
              **************************************************************/
              Starting(envName + " environment number " + (envNum + 1) 
                          + " on line " + (lineNum + 1));
-             Vector tla = new Vector(100);
+             Vector<String> tla = new Vector<String>(100);
              int tlaLineNum = lineNum ;
              line = infile.readLine();
              while (   (line != null) 
@@ -690,7 +690,7 @@ class TeX
                "No file " + Parameters.LaTeXOutputFile + ".log");
          return new float[0];
        }
-      Vector resultVec = new Vector(50);
+      Vector<String> resultVec = new Vector<String>(50);
         /*******************************************************************
         * A vector of the strings representing the linewidths.             *
         *******************************************************************/

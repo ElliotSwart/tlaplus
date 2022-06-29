@@ -68,13 +68,16 @@ package pcal;
 
 import java.util.Vector;
 
+import pcal.PcalSymTab.ProcedureEntry;
+import pcal.PcalSymTab.ProcessEntry;
+import pcal.PcalSymTab.SymTabEntry;
 import pcal.exception.PcalSymTabException;
 
 public class PcalSymTab {
-    public Vector symtab;             // Vector of SymTabEntry
-    public Vector procs;              // Vector of ProcedureEntry
-    public Vector processes;          // Vector of ProcessEntry
-    public Vector disambiguateReport; // Vector of String (comments)
+    public Vector<SymTabEntry> symtab;             // Vector of SymTabEntry
+    public Vector<ProcedureEntry> procs;              // Vector of ProcedureEntry
+    public Vector<ProcessEntry> processes;          // Vector of ProcessEntry
+    public Vector<String> disambiguateReport; // Vector of String (comments)
     public String errorReport;        // Accumulated errors
     public String iPC;                // initial pc value for unip algorithm
 
@@ -143,8 +146,8 @@ public class PcalSymTab {
     /* NESTED CLASS: Procedure table entries */
     public class ProcedureEntry {
         public String name;    // Procedure name
-        public Vector params;  // of PVarDecl
-        public Vector decls;   // of PVarDecl
+        public Vector<AST.PVarDecl> params;  // of PVarDecl
+        public Vector<AST.PVarDecl> decls;   // of PVarDecl
         public String iPC;     // initial label of procedure
         public AST.Procedure ast; // AST of the procedure
                                   // Added 13 Jan 2011 by LL 
@@ -167,7 +170,7 @@ public class PcalSymTab {
         public String name;      // Process name
         public boolean isEq;     // true means "=", false means "\\in"
         public TLAExpr id;       // set of identifiers or identifier
-        public Vector decls;     // of ParDecl
+        public Vector<?> decls;     // of ParDecl
         public String iPC;       // Initial pc of this process
         public AST.Process ast; // AST of the procedure
         // Added 13 Jan 2011 by LL 
@@ -197,11 +200,11 @@ public class PcalSymTab {
      */
     public PcalSymTab (AST ast) throws PcalSymTabException {
 
-        symtab = new Vector();
+        symtab = new Vector<SymTabEntry>();
         iPC = null;
-        disambiguateReport = new Vector();
-        procs = new Vector();
-        processes = new Vector();
+        disambiguateReport = new Vector<String>();
+        procs = new Vector<ProcedureEntry>();
+        processes = new Vector<ProcessEntry>();
         errorReport = "";
 // Following line removed by LL on 3 Feb 2006
 //        InsertSym(LABEL, "Done", "", "", 0, 0);
@@ -271,7 +274,7 @@ public class PcalSymTab {
     public int FindSym (int type, String id, String context) {
         int i = 0;
         while (i < symtab.size()) {
-            SymTabEntry se = (SymTabEntry) symtab.elementAt(i);
+            SymTabEntry se = symtab.elementAt(i);
             if (se.id.equals(id) && se.context.equals(context)
                 && se.type == type) return i;
             i = i + 1;
@@ -286,7 +289,7 @@ public class PcalSymTab {
     public int FindSym (String id, String context) {
         int i = 0;
         while (i < symtab.size()) {
-            SymTabEntry se = (SymTabEntry) symtab.elementAt(i);
+            SymTabEntry se = symtab.elementAt(i);
             if (se.id.equals(id) && se.context.equals(context))
                 return i;
             i = i + 1;
@@ -301,7 +304,7 @@ public class PcalSymTab {
     public int FindProc (String id) {
         int i = 0;
         while (i < procs.size()) {
-            ProcedureEntry pe = (ProcedureEntry) procs.elementAt(i);
+            ProcedureEntry pe = procs.elementAt(i);
             if (pe.name.equals(id)) return i;
             i = i + 1;
         }
@@ -315,7 +318,7 @@ public class PcalSymTab {
     public int FindProcess (String id) {
         int i = 0;
         while (i < processes.size()) {
-            ProcessEntry pe = (ProcessEntry) processes.elementAt(i);
+            ProcessEntry pe = processes.elementAt(i);
             if (pe.name.equals(id)) return i;
             i = i + 1;
         }
@@ -330,7 +333,7 @@ public class PcalSymTab {
     public String UseThis (int type, String id, String context) {
         int i = FindSym(type, id, context);
         if (i == symtab.size()) return id;
-        else return ((SymTabEntry) symtab.elementAt(i)).useThis;
+        else return symtab.elementAt(i).useThis;
     }
 
     /* Return the disambiguated name for a label in a context */
@@ -349,7 +352,7 @@ public class PcalSymTab {
         SymTabEntry se = null;
         int i = FindSym(id, context);
         if (i == symtab.size()) return id;
-        se = (SymTabEntry) symtab.elementAt(i);
+        se = symtab.elementAt(i);
         if (se.type == GLOBAL || se.type == PROCESSVAR
             || se.type == PROCEDUREVAR || se.type == PARAMETER)
             return se.useThis;
@@ -364,14 +367,14 @@ public class PcalSymTab {
     public String UseThis (String id, String context) {
         int i = 0;
         while (i < symtab.size()) {
-            SymTabEntry se = (SymTabEntry) symtab.elementAt(i);
+            SymTabEntry se = symtab.elementAt(i);
             if (se.id.equals(id) && se.context.equals(context)
                 && (se.type == GLOBAL || se.type == PROCESSVAR 
                     || se.type == PROCEDUREVAR || se.type == PARAMETER)) break;
             i = i + 1;
         }
         if (i == symtab.size()) return id;
-        else return ((SymTabEntry) symtab.elementAt(i)).useThis;
+        else return symtab.elementAt(i).useThis;
     }
 
     /*********************************************************
@@ -381,7 +384,7 @@ public class PcalSymTab {
         int i = 0;
         boolean found = false;
         while (i < symtab.size()) {
-            SymTabEntry se = (SymTabEntry) symtab.elementAt(i);
+            SymTabEntry se = symtab.elementAt(i);
             if (se.useThis.equals(id)) {
                 if (! found) found = true;
                 else return true;
@@ -406,7 +409,7 @@ public class PcalSymTab {
     public void Disambiguate ( ) {
         for (int vtype = 0; vtype <= num_vtypes; vtype++)
             for (int i = 0; i < symtab.size(); i++) {
-                SymTabEntry se = (SymTabEntry) symtab.elementAt(i);
+                SymTabEntry se = symtab.elementAt(i);
                 if (se.type == vtype) {
                     se.useThis = typePrefix[vtype] + se.id;
                     int suffixLength = 0;
@@ -438,7 +441,7 @@ public class PcalSymTab {
         int i = 0;
         String result = "[";
         while (i < symtab.size()) {
-           SymTabEntry se = (SymTabEntry) symtab.elementAt(i);
+           SymTabEntry se = symtab.elementAt(i);
             if (i > 0) result = result + ", ";
             result = result + vtypeName[se.type] + " " + se.context
                 + ':' + se.id + " line " + se.line + " col " +
@@ -684,7 +687,7 @@ public class PcalSymTab {
     ***********************************************************************/
     private void ExtractEither(AST.Either ast, String context, String cType) {
         for (int i = 0; i < ast.ors.size(); i++)
-              { Vector orClause = (Vector) ast.ors.elementAt(i) ;
+              { Vector<AST> orClause = (Vector<AST>) ast.ors.elementAt(i) ;
                 for (int j = 0; j < orClause.size(); j++)
                   ExtractStmt((AST) orClause.elementAt(j), context, cType);
                } ;
@@ -711,7 +714,7 @@ public class PcalSymTab {
    public void CheckForDefaultInitValue() throws PcalSymTabException {
      String errors = "" ;
      for (int i = 0 ; i < symtab.size() ; i++) 
-       { SymTabEntry se = (SymTabEntry) symtab.elementAt(i);
+       { SymTabEntry se = symtab.elementAt(i);
          if (se.id.equals("defaultInitValue")) 
            { if (errors.equals(""))
                { errors = "Cannot use `defaultInitValue' as " ;}

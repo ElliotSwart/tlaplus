@@ -36,7 +36,7 @@ class PcalCharReader
   { /***********************************************************************
     * The variables representing the state of the object.                  *
     ***********************************************************************/
-    private Vector vec ;
+    private Vector<String> vec ;
       /*********************************************************************
       * This is the vector providing the input characters.                 *
       *********************************************************************/
@@ -137,7 +137,7 @@ class PcalCharReader
             vcolumn     = 0 ;
             if (line >= vec.size())
                  {currentLine = null ;}
-            else {currentLine = (String) vec.elementAt(line) ;} ;
+            else {currentLine = vec.elementAt(line) ;} ;
             return '\n' ;
            } ;
   
@@ -178,7 +178,7 @@ class PcalCharReader
                   "move past beginning of reader");
              } ;
            line = line - 1 ;
-           currentLine = (String) vec.elementAt(line) ;
+           currentLine = vec.elementAt(line) ;
            column = 0 ;
            vcolumn = 0 ;
 
@@ -216,7 +216,7 @@ class PcalCharReader
         return currentLine.substring(column) + "\n" ;
       }
       
-    public PcalCharReader(Vector vector, int firstLine, int firstCol,
+    public PcalCharReader(Vector<String> vector, int firstLine, int firstCol,
                             int lastLine, int lastCol) 
       /*********************************************************************
       * The class constructor.  The only tricky part is setting vcolumn    *
@@ -233,7 +233,7 @@ class PcalCharReader
         *******************************************************************/
         if (firstLine < vector.size())
           { int i = 0 ;
-            String ln = (String) vector.elementAt(firstLine) ;
+            String ln = vector.elementAt(firstLine) ;
             while (i < firstCol)
              { if (ln.charAt(i) == '\t')
                  { this.vcolumn = ((this.vcolumn / 8) + 1) * 8 ;}
@@ -246,6 +246,6 @@ class PcalCharReader
         * Set currentLine.                                                 *
         *******************************************************************/
         if (firstLine < vector.size())
-          { this.currentLine = (String) vector.elementAt(firstLine) ; } ;
+          { this.currentLine = vector.elementAt(firstLine) ; } ;
       } ;
   }     

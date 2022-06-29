@@ -222,19 +222,19 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 
 		// loVals
 		for (final Iterator<Long> itr0 = loVals.iterator(); itr0.hasNext();) {
-			final Long loVal = (Long) itr0.next();
+			final Long loVal = itr0.next();
 			// hiVals
 			for (final Iterator<Long> itr1 = hiVals.iterator(); itr1.hasNext();) {
-				final Long hiVal = (Long) itr1.next();
+				final Long hiVal = itr1.next();
 				// fps
 				for (final Iterator<Long> itr2 = fps.iterator(); itr2.hasNext();) {
-					final Long fp = (Long) itr2.next();
+					final Long fp = itr2.next();
 					// loEntry
 					for (final Iterator<Long> itr3 = loEntries.iterator(); itr3.hasNext();) {
-						final Long loEntry = (Long) itr3.next();
+						final Long loEntry = itr3.next();
 						// hiEntry
 						for (final Iterator<Long> itr4 = hiEntries.iterator(); itr4.hasNext();) {
-							final Long hiEntry = (Long) itr4.next();
+							final Long hiEntry = itr4.next();
 							testCalculateMidEntry(fpSet, loVal, hiVal, fp, loEntry, hiEntry);
 						}
 					}

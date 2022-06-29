@@ -57,7 +57,7 @@ public class XMLExporter {
     // -o offline mode (no validation) //TODO: use a resolver to do offline validation
     // then a list of top level modules to parse)
     if (args.length < 1) throw new IllegalArgumentException("at least one .tla file must be given");
-    LinkedList pathsLs = new LinkedList();
+    LinkedList<String> pathsLs = new LinkedList<String>();
 
     boolean offline_mode = false;
     int lastarg = -1; // lastarg will be incremented, initialize at -1
@@ -77,7 +77,7 @@ public class XMLExporter {
     lastarg++;
 
     String[] paths = new String[pathsLs.size()];
-    for (int i = 0; i < paths.length; i++) paths[i] = (String) pathsLs.get(i);
+    for (int i = 0; i < paths.length; i++) paths[i] = pathsLs.get(i);
 
     if (args.length - lastarg != 1)
       throw new IllegalArgumentException("Only one TLA file to check allowed!");

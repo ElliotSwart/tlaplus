@@ -474,7 +474,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
       }
 
       this.opLevelCond = new boolean[this.params.length][this.params.length][];
-      HashSet alpSet = this.body.getArgLevelParams();
+      HashSet<ArgLevelParam> alpSet = this.body.getArgLevelParams();
       for (int i = 0; i < this.params.length; i++) {
         for (int j = 0; j < this.params.length; j++) {
           this.opLevelCond[i][j] = new boolean[this.params[i].getArity()];
@@ -516,9 +516,9 @@ public class ThmOrAssumpDefNode extends SymbolNode
         }
       }
 
-      Iterator iter = alpSet.iterator();
+      Iterator<ArgLevelParam> iter = alpSet.iterator();
       while (iter.hasNext()) {
-        ArgLevelParam alp = (ArgLevelParam)iter.next();
+        ArgLevelParam alp = iter.next();
         if (!alp.op.occur(this.params) ||
             !alp.param.occur(this.params)) {
           this.argLevelParams.add(alp);

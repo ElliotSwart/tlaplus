@@ -19,7 +19,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     ***********************************************************************/
     String[]deps = new String[ dependencyList.size() ];
     for (int lvi =0; lvi < deps.length; lvi++)
-      deps[lvi] = ((UniqueString)dependencyList.elementAt(lvi)).toString();
+      deps[lvi] = dependencyList.elementAt(lvi).toString();
     return deps;
   }
   public TreeNode rootNode() { return ParseTree; }
@@ -32,7 +32,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     * The root node.                                                       *
     ***********************************************************************/
 
-  public Vector dependencyList = new Vector( 20 );
+  public Vector<UniqueString> dependencyList = new Vector<UniqueString>( 20 );
 
   private UniqueString mn = null;
      /**********************************************************************
@@ -11869,7 +11869,7 @@ ClosedStart() : {
       return (jj_ntk = jj_nt.kind);
   }
 
-  private java.util.Vector jj_expentries = new java.util.Vector();
+  private java.util.Vector<int[]> jj_expentries = new java.util.Vector<int[]>();
   private int[] jj_expentry;
   private int jj_kind = -1;
   private int[] jj_lasttokens = new int[100];
@@ -11885,8 +11885,8 @@ ClosedStart() : {
         jj_expentry[i] = jj_lasttokens[i];
       }
       boolean exists = false;
-      for (java.util.Enumeration e = jj_expentries.elements(); e.hasMoreElements();) {
-        int[] oldentry = (int[])(e.nextElement());
+      for (java.util.Enumeration<int[]> e = jj_expentries.elements(); e.hasMoreElements();) {
+        int[] oldentry = (e.nextElement());
         if (oldentry.length == jj_expentry.length) {
           exists = true;
           for (int i = 0; i < jj_expentry.length; i++) {
@@ -11955,7 +11955,7 @@ ClosedStart() : {
     jj_add_error_token(0, 0);
     int[][] exptokseq = new int[jj_expentries.size()][];
     for (int i = 0; i < jj_expentries.size(); i++) {
-      exptokseq[i] = (int[])jj_expentries.elementAt(i);
+      exptokseq[i] = jj_expentries.elementAt(i);
     }
     return new ParseException(token, exptokseq, tokenImage);
   }

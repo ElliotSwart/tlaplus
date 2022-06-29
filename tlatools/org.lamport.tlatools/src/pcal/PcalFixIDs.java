@@ -104,8 +104,8 @@ public class PcalFixIDs {
         // procedureNames and proceduresCalled represents the mapping
         // from procedure Names to the set of names of procedures that
         // they call.
-        Vector  procedureNames = new Vector();   // Vector of Strings
-        Vector  proceduresCalled = new Vector(); // Vector of Vectors of Strings
+        Vector<String>  procedureNames = new Vector<String>();   // Vector of Strings
+        Vector<Vector<String>>  proceduresCalled = new Vector<Vector<String>>(); // Vector of Vectors of Strings
         for (int i = 0; i < ast.prcds.size(); i++) {
             AST.Procedure prcd = (AST.Procedure) ast.prcds.elementAt(i);
             FixProcedure(prcd, "");
@@ -139,7 +139,7 @@ public class PcalFixIDs {
                 
                 // following added 2 Apr 2013
                 String nm = (String) procedureNames.elementAt(j);
-                path[i][j] = (-1 != nameToNum(nm, (Vector) proceduresCalled.elementAt(i)));
+                path[i][j] = (-1 != nameToNum(nm, proceduresCalled.elementAt(i)));
             }
         }
         
@@ -157,7 +157,7 @@ public class PcalFixIDs {
         // unnecessary, and should be commented out.
         for (int i = 0; i < ast.prcds.size(); i++) {
             AST.Procedure prcd = (AST.Procedure) ast.prcds.elementAt(i);
-            Vector pCalled = new Vector();
+            Vector<String> pCalled = new Vector<String>();
             for (int j = 0; j < n; j++) {
                 if (path[i][j]) {
                     pCalled.addElement(procedureNames.elementAt(j));
@@ -173,7 +173,7 @@ public class PcalFixIDs {
             
             // We now fix proc.proceduresCalled by, for each procedure p in
             // it, we add all the procedures that p calls.
-            Vector pCalled = proc.proceduresCalled;
+            Vector<String> pCalled = proc.proceduresCalled;
             for (int j = 0; j < pCalled.size(); j++) {
                 // Set idx to the value such that pCalled.elementAt(j)
                 // is the name of the idx-th element in procedureNames.
@@ -225,7 +225,7 @@ public class PcalFixIDs {
      * return -1 if nm is not any element of names.
      * @return
      */
-    private static int nameToNum(String nm, Vector names) {
+    private static int nameToNum(String nm, Vector<String> names) {
         for (int i = 0; i < names.size(); i++) {
             if (names.elementAt(i).equals(nm)) {
                 return i;
@@ -249,7 +249,6 @@ public class PcalFixIDs {
         for (int i = 0; i < ast.body.size(); i++)
             FixLabeledStmt((AST.LabeledStmt) ast.body.elementAt(i), ast.name);
         PcalSymTab.ProcedureEntry p = 
-            (PcalSymTab.ProcedureEntry)
             st.procs.elementAt(st.FindProc(ast.name));
         for (int i = 0; i < ast.plusLabels.size(); i++) {
         	String lbl = (String) ast.plusLabels.elementAt(i);
@@ -279,7 +278,6 @@ public class PcalFixIDs {
         for (int i = 0; i < ast.body.size(); i++)
             FixLabeledStmt((AST.LabeledStmt) ast.body.elementAt(i), ast.name);
         PcalSymTab.ProcessEntry p = 
-            (PcalSymTab.ProcessEntry)
             st.processes.elementAt(st.FindProcess(ast.name));
         for (int i = 0; i < ast.plusLabels.size(); i++) {
         	String lbl = (String) ast.plusLabels.elementAt(i);
@@ -423,7 +421,7 @@ public class PcalFixIDs {
     ***********************************************************************/
     private static void FixEither(AST.Either ast, String context) throws PcalFixIDException {
         for (int i = 0; i < ast.ors.size(); i++)
-              { Vector orClause = (Vector) ast.ors.elementAt(i) ;
+              { Vector<AST> orClause = (Vector) ast.ors.elementAt(i) ;
                 for (int j = 0; j < orClause.size(); j++)
                   FixSym((AST) orClause.elementAt(j), context);
                } ;
@@ -449,12 +447,12 @@ public class PcalFixIDs {
          * contains a single token whose string is the identifier substituted for the
          * corresponding identifier of stringVec.
         */
-        Vector exprVec = new Vector();   // the substituting exprs
-        Vector stringVec = new Vector(); // the substituted  ids
-        Vector tokenVec = new Vector();  // the 
+        Vector<TLAExpr> exprVec = new Vector<TLAExpr>();   // the substituting exprs
+        Vector<String> stringVec = new Vector<String>(); // the substituted  ids
+        Vector<TLAToken> tokenVec = new Vector<TLAToken>();  // the 
 
         for (int i = 0; i < expr.tokens.size(); i++) {
-            Vector tv = (Vector) expr.tokens.elementAt(i);
+            Vector<TLAToken> tv = expr.tokens.elementAt(i);
             String useMe = null;
             for (int j = 0; j < tv.size(); j++) {
                 int shift = 0;
@@ -486,7 +484,7 @@ public class PcalFixIDs {
     /****************************************************************/
     /* Returns whether the string is present in a vector of string. */
     /****************************************************************/
-    private static boolean InVector(String var, Vector v) {
+    private static boolean InVector(String var, Vector<String> v) {
         for (int i = 0; i < v.size(); i++)
             if (var.equals((String) v.elementAt(i))) return true;
         return false;

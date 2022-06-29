@@ -670,7 +670,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 				tfbin.addElement(tf);
 				pembin.addElement(new Vect<OSExprPem>());
 			}
-			((Vect<OSExprPem>) pembin.elementAt(found)).addElement(pems[i]);
+			pembin.elementAt(found).addElement(pems[i]);
 		}
 		// Could null pems (OSExprPem) and tfs (LiveExprNode[]) here.
 
@@ -755,21 +755,21 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			// in LiveWorker.
 			final Vect<LiveExprNode> stateBin = new Vect<>();
 			final Vect<LiveExprNode> actionBin = new Vect<>();
-			final Vect<OSExprPem> tfPems = (Vect<OSExprPem>) pembin.elementAt(i);
+			final Vect<OSExprPem> tfPems = pembin.elementAt(i);
 			oss[i].setPems(new PossibleErrorModel[tfPems.size()]);
 			for (int j = 0; j < tfPems.size(); j++) {
-				final OSExprPem pem = (OSExprPem) tfPems.elementAt(j);
+				final OSExprPem pem = tfPems.elementAt(j);
 				oss[i].getPems()[j] = new PossibleErrorModel(addToBin(pem.AEAction, actionBin),
 						addToBin(pem.AEState, stateBin), addToBin(pem.EAAction, actionBin));
 			}
 			// Finally, store the bins with the order of solution.
 			oss[i].setCheckState(new LiveExprNode[stateBin.size()]);
 			for (int j = 0; j < stateBin.size(); j++) {
-				oss[i].getCheckState()[j] = (LiveExprNode) stateBin.elementAt(j);
+				oss[i].getCheckState()[j] = stateBin.elementAt(j);
 			}
 			oss[i].setCheckAction(new LiveExprNode[actionBin.size()]);
 			for (int j = 0; j < actionBin.size(); j++) {
-				oss[i].getCheckAction()[j] = (LiveExprNode) actionBin.elementAt(j);
+				oss[i].getCheckAction()[j] = actionBin.elementAt(j);
 			}
 		}
 		// Could null TBPar tfbin and Vect<Vect<OSExprPem>> pembin here.
@@ -792,7 +792,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		int len = bin.size();
 		int idx;
 		for (idx = 0; idx < len; idx++) {
-			LiveExprNode ln = (LiveExprNode) bin.elementAt(idx);
+			LiveExprNode ln = bin.elementAt(idx);
 			if (check.equals(ln)) {
 				break;
 			}
@@ -806,7 +806,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 	private static int[] addToBin(Vect<LiveExprNode> checks, Vect<LiveExprNode> bin) {
 		int[] index = new int[checks.size()];
 		for (int i = 0; i < checks.size(); i++) {
-			LiveExprNode check = (LiveExprNode) checks.elementAt(i);
+			LiveExprNode check = checks.elementAt(i);
 			index[i] = addToBin(check, bin);
 		}
 		return index;
@@ -888,11 +888,11 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			if (tfs.size() == 1) {
 				// Once again avoid creating a superfluous LNConj in case of a singleton
 				// junction.
-				return (LiveExprNode) tfs.elementAt(0);
+				return tfs.elementAt(0);
 			} else if (tfs.size() > 1) {
 				final LNConj lnc2 = new LNConj(tfs.size());
 				for (int j = 0; j < tfs.size(); j++) {
-					lnc2.addConj((LiveExprNode) tfs.elementAt(j));
+					lnc2.addConj(tfs.elementAt(j));
 				}
 				return lnc2;
 			} else {

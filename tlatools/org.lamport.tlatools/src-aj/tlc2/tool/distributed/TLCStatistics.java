@@ -159,7 +159,7 @@ public class TLCStatistics {
 
 		// write number of invocations
 		for (Iterator<Integer> iterator = invocations.values().iterator(); iterator.hasNext();) {
-			final Integer amountOfInvocations = (Integer) iterator.next();
+			final Integer amountOfInvocations = iterator.next();
 			writer.write(Integer.toString(amountOfInvocations));
 			writer.write(",");
 		}

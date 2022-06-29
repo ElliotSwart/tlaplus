@@ -31,9 +31,8 @@ import tlc2.overrides.ITLCOverrides;
 // "tlc2.overrides.TLCOverrides".
 public class TLCBuiltInOverrides implements ITLCOverrides {
 
-	@SuppressWarnings("rawtypes")
 	@Override
-	public Class[] get() {		
+	public Class<?>[] get() {		
 		return new Class[] { TLCGetSet.class, TLCEval.class, TLCExt.class, Json.class, _TLAPlusDebugger.class };
 	}
 }

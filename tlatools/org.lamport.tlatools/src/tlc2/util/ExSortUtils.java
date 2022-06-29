@@ -76,7 +76,7 @@ public class ExSortUtils
             throws IOException
     {
 
-        Vector A = new Vector();
+        Vector<BigInt> A = new Vector<BigInt>();
         int i = 0;
 
         try
@@ -93,7 +93,7 @@ public class ExSortUtils
         ExternalSortable[] eA = new ExternalSortable[i];
 
         for (int j = 0; j < i; j++)
-            eA[j] = (ExternalSortable) A.elementAt(j);
+            eA[j] = A.elementAt(j);
 
         return eA;
     }

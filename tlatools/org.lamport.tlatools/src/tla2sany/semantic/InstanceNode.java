@@ -132,7 +132,7 @@ public class InstanceNode extends LevelNode {
     levelChecked = itr ;
 
 
-    levelParams = new HashSet() ;
+    levelParams = new HashSet<SymbolNode>() ;
       /*********************************************************************
       * Added in SANY2.                                                    *
       *********************************************************************/
@@ -245,9 +245,9 @@ public class InstanceNode extends LevelNode {
       }
     }
 
-    Iterator iter = this.module.getArgLevelParams().iterator();
-    while (iter.hasNext()) {
-      ArgLevelParam alp = (ArgLevelParam)iter.next();
+    Iterator<ArgLevelParam> argIter = this.module.getArgLevelParams().iterator();
+    while (argIter.hasNext()) {
+      ArgLevelParam alp = argIter.next();
       for (int i = 0; i < this.substs.length; i++) {
         SymbolNode pi = this.substs[i].getOp();
         for (int j = 0; j < this.substs.length; j++) {
@@ -287,18 +287,18 @@ public class InstanceNode extends LevelNode {
       * on all nodes substs[i].getExpr(), which is a precondition for      *
       * calling getSubLCSet.                                               *
       *********************************************************************/
-    iter = lcSet.keySet().iterator();
-    while (iter.hasNext()) {
-      SymbolNode param = (SymbolNode)iter.next();
+    Iterator<SymbolNode> lcIter = lcSet.keySet().iterator();
+    while (lcIter.hasNext()) {
+      SymbolNode param = lcIter.next();
       if (!param.occur(this.params)) {
         this.levelConstraints.put(param, lcSet.get(param));
       }
     }
     for (int i = 0; i < this.substs.length; i++) {
       lcSet = this.substs[i].getExpr().getLevelConstraints();
-      iter = lcSet.keySet().iterator();
-      while (iter.hasNext()) {
-        SymbolNode param = (SymbolNode)iter.next();
+      lcIter = lcSet.keySet().iterator();
+      while (lcIter.hasNext()) {
+        SymbolNode param = lcIter.next();
         if (!param.occur(this.params)) {
           this.levelConstraints.put(param, lcSet.get(param));
         }
@@ -307,18 +307,18 @@ public class InstanceNode extends LevelNode {
 
 //    this.argLevelConstraints = new SetOfArgLevelConstraints();
     alcSet = Subst.getSubALCSet(this.module, this.substs, itr);
-    iter = alcSet.keySet().iterator();
-    while (iter.hasNext()) {
-      ParamAndPosition pap = (ParamAndPosition)iter.next();
+    Iterator<ParamAndPosition> alcIter = alcSet.keySet().iterator();
+    while (alcIter.hasNext()) {
+      ParamAndPosition pap = alcIter.next();
       if (!pap.param.occur(this.params)) {
         this.argLevelConstraints.put(pap, alcSet.get(pap));
       }
     }
     for (int i = 0; i < this.substs.length; i++) {
       alcSet = this.substs[i].getExpr().getArgLevelConstraints();
-      iter = alcSet.keySet().iterator();
-      while (iter.hasNext()) {
-        ParamAndPosition pap = (ParamAndPosition)iter.next();
+      alcIter = alcSet.keySet().iterator();
+      while (alcIter.hasNext()) {
+        ParamAndPosition pap = alcIter.next();
         if (!pap.param.occur(this.params)) {
           this.argLevelConstraints.put(pap, alcSet.get(pap));
         }
@@ -326,24 +326,24 @@ public class InstanceNode extends LevelNode {
     }
 
 //    this.argLevelParams = new HashSet();
-    HashSet alpSet = Subst.getSubALPSet(this.module, this.substs);
+    HashSet<ArgLevelParam> alpSet = Subst.getSubALPSet(this.module, this.substs);
       /*********************************************************************
       * At this point, levelCheck(itr) has been called on this.module      *
       * and all nodes substs[i].getExpr(), which is a precondition for     *
       * calling getSubALPSet.                                              *
       *********************************************************************/
-    iter = alpSet.iterator();
-    while (iter.hasNext()) {
-      ArgLevelParam alp = (ArgLevelParam)iter.next();
+    Iterator<ArgLevelParam> alpIter = alpSet.iterator();
+    while (alpIter.hasNext()) {
+      ArgLevelParam alp = alpIter.next();
       if (!alp.occur(this.params)) {
         this.argLevelParams.add(alp);
       }
     }
     for (int i = 0; i < this.substs.length; i++) {
       alpSet = this.substs[i].getExpr().getArgLevelParams();
-      iter = alpSet.iterator();
-      while (iter.hasNext()) {
-        ArgLevelParam alp = (ArgLevelParam)iter.next();
+      alpIter = alpSet.iterator();
+      while (alpIter.hasNext()) {
+        ArgLevelParam alp = alpIter.next();
         if (!alp.occur(this.params)) {
           this.argLevelParams.add(alp);
         }
@@ -363,7 +363,7 @@ public class InstanceNode extends LevelNode {
     return 0;    // make compiler happy
   }
 
-  public final HashSet getLevelParams() {
+  public final HashSet<SymbolNode> getLevelParams() {
     /***********************************************************************
     * In SANY1, this was never called.  However, in SANY2 it is called     *
     * for instance nodes inside proofs.                                    *

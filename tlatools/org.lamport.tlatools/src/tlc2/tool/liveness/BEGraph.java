@@ -32,7 +32,7 @@ public class BEGraph {
 	public final void resetNumberField() {
 		MemObjectStack stack = new MemObjectStack(this.metadir, "resetstack");
 		for (int i = 0; i < this.initNodes.size(); i++) {
-			BEGraphNode node = (BEGraphNode) this.initNodes.elementAt(i);
+			BEGraphNode node = this.initNodes.elementAt(i);
 			if (node.resetNumberField() != 0) {
 				stack.push(this.initNodes.elementAt(i));
 			}
@@ -50,7 +50,7 @@ public class BEGraph {
 
 	/* Returns the ith initial node. */
 	public final BEGraphNode getInitNode(int i) {
-		return (BEGraphNode) this.initNodes.elementAt(i);
+		return this.initNodes.elementAt(i);
 	}
 
 	public final void addInitNode(BEGraphNode node) {
@@ -104,7 +104,7 @@ public class BEGraph {
 		int sz = path.size();
 		BEGraphNode[] bpath = new BEGraphNode[sz];
 		for (int i = 0; i < sz; i++) {
-			bpath[i] = (BEGraphNode) path.elementAt(sz - i - 1);
+			bpath[i] = path.elementAt(sz - i - 1);
 		}
 		return bpath;
 	}

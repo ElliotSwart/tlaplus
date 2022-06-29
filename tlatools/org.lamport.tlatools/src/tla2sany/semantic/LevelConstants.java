@@ -19,7 +19,7 @@ public interface LevelConstants {
 				   Integer.valueOf(ActionLevel),
 				   Integer.valueOf(TemporalLevel)};
   
-  static final HashSet EmptySet = new HashSet();
+  static final HashSet<?> EmptySet = new HashSet<>();
   static final SetOfLevelConstraints EmptyLC = new SetOfLevelConstraints();
   static final SetOfArgLevelConstraints EmptyALC = new SetOfArgLevelConstraints();
 }

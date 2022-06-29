@@ -188,7 +188,7 @@ public class SubstInNode extends ExprNode {
     // that are legally possible. Make an array out of them
     this.substs = new Subst[ vtemp.size() ];
     for (int i = 0; i < vtemp.size(); i++) {
-      this.substs[i] = (Subst)vtemp.elementAt(i);
+      this.substs[i] = vtemp.elementAt(i);
     }
   } // end constructSubst()
 

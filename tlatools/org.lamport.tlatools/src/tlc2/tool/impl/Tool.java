@@ -208,7 +208,7 @@ public abstract class Tool
 			int sz = this.actionVec.size();
 			this.actions = new Action[sz];
 			for (int i = 0; i < sz; i++) {
-				this.actions[i] = (Action) this.actionVec.elementAt(i);
+				this.actions[i] = this.actionVec.elementAt(i);
 			}
 		}
 		
@@ -416,11 +416,11 @@ public abstract class Tool
       // predicate Init == A /\ B /\ C /\ D was evaluated in the order A, D, C, B (A
       // doesn't get added to acts at all).
 	  for (int i = (init.size() - 1); i > 0; i--) {
-		  Action elem = (Action)init.elementAt(i);
+		  Action elem = init.elementAt(i);
 		  acts = (ActionItemList) acts.cons(elem, IActionItemList.PRED);
 	  }
 	  if (init.size() != 0) {
-		  Action elem = (Action)init.elementAt(0);
+		  Action elem = init.elementAt(0);
 		  TLCState ps = TLCState.Empty.createEmpty();
 		  if (acts.isEmpty()) {
 			  acts.setAction(elem);

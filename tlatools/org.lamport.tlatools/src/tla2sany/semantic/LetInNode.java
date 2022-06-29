@@ -269,7 +269,7 @@ implements ExploreNode, LevelConstants {
     /***********************************************************************
     * Print context.                                                       *
     ***********************************************************************/
-    Vector contextEntries = context.getContextEntryStringVector(1,false);
+    Vector<String> contextEntries = context.getContextEntryStringVector(1,false);
       /*********************************************************************
       * The depth argument 1 of getContextEntryStringVector causes only    *
       * the name and node uid of the entry and not the node itself to be   *

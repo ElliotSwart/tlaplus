@@ -8,13 +8,14 @@ package tlc2.util;
 import java.io.PrintWriter;
 import java.util.Hashtable;
 
+import tlc2.util.Sx.SxAtom;
 import util.WrongInvocationException;
 
 public abstract class Sx {
 
   public static SxNil nil = new SxNil();
 
-  private static Hashtable atomTbl = new Hashtable();
+  private static Hashtable<String, SxAtom> atomTbl = new Hashtable<String, SxAtom>();
   private static int symCount = 0;  // Number of symbols returned by genSym().
   
   public static Sx cons(Sx a, Sx b) {
@@ -73,7 +74,7 @@ public abstract class Sx {
   }
   
   public static SxAtom Atom(String st) {
-    SxAtom res = (SxAtom)atomTbl.get(st);
+    SxAtom res = atomTbl.get(st);
     if (res == null) {
       res = new SxAtom(st);
       atomTbl.put(st, res);

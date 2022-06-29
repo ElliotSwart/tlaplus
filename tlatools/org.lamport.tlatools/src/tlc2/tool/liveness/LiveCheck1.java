@@ -163,7 +163,7 @@ public class LiveCheck1 implements ILiveCheck {
 				}
 			}
 			for (int i = 0; i < srcNodes.size(); i++) {
-				BEGraphNode srcNode = (BEGraphNode) srcNodes.elementAt(i);
+				BEGraphNode srcNode = srcNodes.elementAt(i);
 				TBGraphNode tnode = srcNode.getTNode(os.getTableau());
 				for (int j = 0; j < tnode.nextSize(); j++) {
 					TBGraphNode tnode1 = tnode.nextAt(j);
@@ -181,7 +181,7 @@ public class LiveCheck1 implements ILiveCheck {
 				checkStateRes = os.checkState(myTool, destState);
 				checkActionRes = os.checkAction(tool, srcState, destState);
 				for (int j = 0; j < srcNodes.size(); j++) {
-					BEGraphNode srcNode = (BEGraphNode) srcNodes.elementAt(j);
+					BEGraphNode srcNode = srcNodes.elementAt(j);
 					TBGraphNode tnode = srcNode.getTNode(os.getTableau());
 					for (int k = 0; k < tnode.nextSize(); k++) {
 						TBGraphNode tnode1 = tnode.nextAt(k);
@@ -202,7 +202,7 @@ public class LiveCheck1 implements ILiveCheck {
 				}
 				checkActionRes = os.checkAction(tool, destState, destState);
 				for (int j = 0; j < destNodes.size(); j++) {
-					BEGraphNode srcNode = (BEGraphNode) destNodes.elementAt(j);
+					BEGraphNode srcNode = destNodes.elementAt(j);
 					TBGraphNode tnode = srcNode.getTNode(os.getTableau());
 					for (int k = 0; k < tnode.nextSize(); k++) {
 						TBGraphNode tnode1 = tnode.nextAt(k);
@@ -500,7 +500,7 @@ public class LiveCheck1 implements ILiveCheck {
 			initSccParams(os);
 			int numOfInits = initNodes.size();
 			for (int i = 0; i < numOfInits; i++) {
-				initNode = (BEGraphNode) initNodes.elementAt(i);
+				initNode = initNodes.elementAt(i);
 				if (initNode.getNumber() == 0) {
 					checkSccs(initNode);
 				}
@@ -818,7 +818,7 @@ public class LiveCheck1 implements ILiveCheck {
 				startSecondNum = secondNum;
 				startThirdNum = thirdNum;
 				for (int j = nodes.size() - 1; j >= 0; j--) {
-					BEGraphNode node1 = (BEGraphNode) nodes.elementAt(j);
+					BEGraphNode node1 = nodes.elementAt(j);
 					if (node1.getNumber() < startThirdNum) {
 						checkSccs1(node1);
 					}

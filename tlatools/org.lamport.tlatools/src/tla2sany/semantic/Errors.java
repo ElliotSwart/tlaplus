@@ -33,9 +33,9 @@ public class Errors {
   private int    numErrors   = 0;
   private int    numWarnings = 0;
 
-  private Vector warnings = new Vector();
-  private Vector errors   = new Vector();
-  private Vector aborts   = new Vector();
+  private Vector<String> warnings = new Vector<String>();
+  private Vector<String> errors   = new Vector<String>();
+  private Vector<String> aborts   = new Vector<String>();
 
   /*************************************************************************
   * The following methods to return the warnings, errors, and aborts in a  *
@@ -45,10 +45,10 @@ public class Errors {
   public String[] getErrors()   { return StringVectortoStringArray(errors) ; }
   public String[] getWarnings() { return StringVectortoStringArray(warnings) ; }
 
-  private String[] StringVectortoStringArray(Vector vec) {
+  private String[] StringVectortoStringArray(Vector<String> vec) {
     String[] retVal = new String[vec.size()] ;
     for (int i = 0 ; i < retVal.length; i++) {
-      retVal[i] = (String) vec.elementAt(i) ;
+      retVal[i] = vec.elementAt(i) ;
      } ;
     return retVal;
    }

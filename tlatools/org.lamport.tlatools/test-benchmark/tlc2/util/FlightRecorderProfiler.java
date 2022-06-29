@@ -83,7 +83,7 @@ public class FlightRecorderProfiler implements ExternalProfiler {
 	 * @see org.openjdk.jmh.profile.ExternalProfiler#afterTrial(org.openjdk.jmh.results.BenchmarkResult, long, java.io.File, java.io.File)
 	 */
 	@Override
-	public Collection<? extends Result> afterTrial(BenchmarkResult arg0, long arg1, File arg2, File arg3) {
+	public Collection<? extends Result<?>> afterTrial(BenchmarkResult arg0, long arg1, File arg2, File arg3) {
         return new ArrayList<>();
 	}
 

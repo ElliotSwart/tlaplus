@@ -124,7 +124,7 @@ public class StateMonitor {
 		final ObjectName mbeanName = new ObjectName(ModelCheckerMXWrapper.OBJ_NAME);
 
 		// Get MBean proxy instance that will be used to make calls to registered MBean
-		final TLCStatisticsMXBean mbeanProxy = (TLCStatisticsMXBean) MBeanServerInvocationHandler
+		final TLCStatisticsMXBean mbeanProxy = MBeanServerInvocationHandler
 				.newProxyInstance(mbeanServerConnection, mbeanName, TLCStatisticsMXBean.class, true);
 
 		while (true) {

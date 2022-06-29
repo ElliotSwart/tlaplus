@@ -27,7 +27,7 @@ public class PcalResourceFileReader
       * in the same directory as pcal.AST.                             *
       *********************************************************************/
      { name = fileName ;
-       Class cl = null ;
+       Class<?> cl = null ;
        
        // TODO fix this!
        try { cl = Class.forName("pcal.AST"); }

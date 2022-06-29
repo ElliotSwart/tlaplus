@@ -869,7 +869,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
       } ;
       iter = alpSet.iterator();
       while (iter.hasNext()) {
-        ArgLevelParam alp = (ArgLevelParam)iter.next();
+        ArgLevelParam alp = iter.next();
         ExprOrOpArgNode arg = this.getArg(alp.op);
         if (arg == null) {
           arg = this.getArg(alp.param);

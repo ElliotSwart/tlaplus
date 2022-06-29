@@ -109,6 +109,13 @@ package pcal;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import pcal.AST.Clause;
+import pcal.AST.LabeledStmt;
+import pcal.AST.Macro;
+import pcal.AST.PVarDecl;
+import pcal.AST.Procedure;
+import pcal.AST.Process;
+import pcal.AST.VarDecl;
 import pcal.exception.ParseAlgorithmException;
 import pcal.exception.TLAExprException;
 import pcal.exception.TokenizerException;
@@ -138,9 +145,9 @@ public class ParseAlgorithm
     * current process or procedure with + or - modifiers, respectively.
     * Added in Version 1.5.
     */
-   public static Vector plusLabels;
+   public static Vector<String> plusLabels;
    
-   public static Vector minusLabels;
+   public static Vector<String> minusLabels;
    
    /**
     * proceduresCalled is the vector of distinct names of 
@@ -169,7 +176,7 @@ public class ParseAlgorithm
    public static boolean omitPC;
    public static boolean omitStutteringWhenDone;
    
-   public static Vector proceduresCalled;
+   public static Vector<String> proceduresCalled;
    
    public static boolean hasDefaultInitialization;
      /**********************************************************************
@@ -194,7 +201,7 @@ public class ParseAlgorithm
      * uniprocess algorithm.                                               *
      **********************************************************************/
 
-   public static Hashtable allLabels;
+   public static Hashtable<String, String> allLabels;
      /**********************************************************************
      * Set by GetStmtSeq to a table of String objects containing all the   *
      * algorithm's (user-typed) labels.  The strings are the keys, the     *
@@ -218,14 +225,14 @@ public class ParseAlgorithm
    * the i-th added label and the location of the statement to which it    *
    * was added.                                                            *
    ************************************************************************/
-   public static Vector addedLabels;
-   public static Vector addedLabelsLocs;
+   public static Vector<String> addedLabels;
+   public static Vector<String> addedLabelsLocs;
 
    /**********************************************************************
     * Is set to the sequence of procedures.  It's easier making this a    *
     * global variable than passing it as a parameter.                     *
     **********************************************************************/
-   public static Vector procedures;
+   public static Vector<Procedure> procedures;
 
    /**********************************************************************
     * One of these booleans will be set true when we discover which       *
@@ -244,15 +251,15 @@ public class ParseAlgorithm
    public static void Init(PcalCharReader charR) 
    { 
     // initialization moved 
-    addedLabels = new Vector(); 
-    addedLabelsLocs = new Vector();
+    addedLabels = new Vector<String>(); 
+    addedLabelsLocs = new Vector<String>();
     nextLabelNum = 1;
     charReader = charR;
-    allLabels = new Hashtable();       
+    allLabels = new Hashtable<String, String>();       
     hasLabel = false;
     hasDefaultInitialization = false;
     currentProcedure = null;
-    procedures = new Vector();
+    procedures = new Vector<Procedure>();
     
     pSyntax = false;
     cSyntax = false; 
@@ -261,9 +268,9 @@ public class ParseAlgorithm
     // never hurt.
     // The following initializations are redundant, but a little redundancy
     // never hurt.
-    plusLabels = new Vector(0);
-    minusLabels = new Vector(0);
-    proceduresCalled = new Vector(0);
+    plusLabels = new Vector<String>(0);
+    minusLabels = new Vector<String>(0);
+    proceduresCalled = new Vector<String>(0);
     
     gotoUsed = false;
     gotoDoneUsed = false;
@@ -329,7 +336,7 @@ public class ParseAlgorithm
          { cSyntax = true ;
            MustGobbleThis("{") ; } 
        else {pSyntax = true ; } ;
-       Vector vdecls = new Vector() ;
+       Vector<VarDecl> vdecls = new Vector<VarDecl>() ;
        if ( PeekAtAlgToken(1).equals("variable")
            || PeekAtAlgToken(1).equals("variables"))
          { vdecls = GetVarDecls() ; } ;
@@ -345,7 +352,7 @@ public class ParseAlgorithm
              { GobbleThis("}") ; } ;
            GobbleThis(";") ; 
          }
-       Vector macros = new Vector() ;
+       Vector<Macro> macros = new Vector<Macro>() ;
        while (PeekAtAlgToken(1).equals("macro"))
          { macros.addElement(GetMacro(macros)) ; } ;
        while (PeekAtAlgToken(1).equals("procedure"))
@@ -370,7 +377,7 @@ public class ParseAlgorithm
            multiproc.defs   = defs ;
            multiproc.macros = macros ;
            multiproc.prcds  = procedures ;
-           multiproc.procs  = new Vector() ;
+           multiproc.procs  = new Vector<Process>() ;
            while (PeekAtAlgToken(1).equals("fair") ||
         		   PeekAtAlgToken(1).equals("process"))
              { int fairness = AST.UNFAIR_PROC;
@@ -581,7 +588,7 @@ public class ParseAlgorithm
     * 
     * @param body
     */
-   private static void checkBody(Vector body) {
+   private static void checkBody(Vector<AST> body) {
        // The body should not be empty, so the following
        // test should be redundant.  But just in case the
        // error is being found elsewhere...
@@ -607,13 +614,13 @@ public class ParseAlgorithm
        } ;
        
        AST.While whileStmt = (AST.While) lblStmt.stmts.elementAt(0);
-       Vector tokens = whileStmt.test.tokens;
+       Vector<?> tokens = whileStmt.test.tokens;
        if (tokens.size() != 1) {
            omitPC = false;
            omitStutteringWhenDone = false;
            return;
        }
-       Vector line = (Vector) tokens.elementAt(0);
+       Vector<?> line = (Vector<?>) tokens.elementAt(0);
        if (line.size() != 1) {
            omitPC = false;
            omitStutteringWhenDone = false;
@@ -658,7 +665,7 @@ public class ParseAlgorithm
          {msg = "Missing label at the following location:" ;} ;
        int i = 0 ;
        while (i < addedLabels.size() )
-        { msg = msg + "\n     " + ((String) addedLabelsLocs.elementAt(i)) ;
+        { msg = msg + "\n     " + addedLabelsLocs.elementAt(i) ;
           i = i + 1 ;
         } ;
        throw new ParseAlgorithmException(msg) ;
@@ -673,9 +680,9 @@ public class ParseAlgorithm
        int i = 0 ;
        while (i < addedLabels.size() )
         { PcalDebug.reportInfo("  " 
-              + ((String) addedLabels.elementAt(i)) 
+              + addedLabels.elementAt(i) 
               + " at "
-              + ((String) addedLabelsLocs.elementAt(i)));
+              + addedLabelsLocs.elementAt(i));
           i = i + 1 ;
         } ;
        return ; }
@@ -688,11 +695,11 @@ public class ParseAlgorithm
        result.line = lastTokLine ;
        result.name = GetAlgToken() ;
        currentProcedure = result.name ;
-       plusLabels = new Vector(0);
-       minusLabels = new Vector(0);
-       proceduresCalled = new Vector(0);
+       plusLabels = new Vector<String>(0);
+       minusLabels = new Vector<String>(0);
+       proceduresCalled = new Vector<String>(0);
        GobbleThis("(") ;
-       result.params = new Vector() ;
+       result.params = new Vector<PVarDecl>() ;
        boolean lookForComma = false ;
        while (! PeekAtAlgToken(1).equals(")"))
          { if (lookForComma)
@@ -703,7 +710,7 @@ public class ParseAlgorithm
        MustGobbleThis(")") ;
        if (   PeekAtAlgToken(1).equals("begin")
            || PeekAtAlgToken(1).equals("{"))
-         { result.decls = new Vector(1) ; }
+         { result.decls = new Vector<PVarDecl>(1) ; }
        else
          { result.decls = GetPVarDecls() ; } ;
        GobbleBeginOrLeftBrace() ;
@@ -731,15 +738,15 @@ public class ParseAlgorithm
        result.name = GetAlgToken() ;
        result.isEq = GobbleEqualOrIf() ;
        result.id   = GetExpr() ; 
-       plusLabels = new Vector(0);
-       minusLabels = new Vector(0);
-       proceduresCalled = new Vector(0);
+       plusLabels = new Vector<String>(0);
+       minusLabels = new Vector<String>(0);
+       proceduresCalled = new Vector<String>(0);
        if (cSyntax) { GobbleThis(")") ; } ;
        if (result.id.tokens.size()==0)
          { ParsingError("Empty process id at ") ;}
        if (   PeekAtAlgToken(1).equals("begin")
            || PeekAtAlgToken(1).equals("{"))
-         { result.decls = new Vector(1) ; }
+         { result.decls = new Vector<VarDecl>(1) ; }
        else
          { result.decls = GetVarDecls() ; } ;
        GobbleBeginOrLeftBrace() ;
@@ -756,7 +763,7 @@ public class ParseAlgorithm
        return result ;
      }
 
-   public static Vector GetPVarDecls() throws ParseAlgorithmException
+   public static Vector<PVarDecl> GetPVarDecls() throws ParseAlgorithmException
      /**********************************************************************
      * Parses a <PVarDecls> as a Vector of AST.PVarDecl objects.           *
      **********************************************************************/
@@ -765,7 +772,7 @@ public class ParseAlgorithm
          { MustGobbleThis("variables") ; } 
        else 
          { GobbleThis("variable") ; } ;
-       Vector result = new Vector() ;
+       Vector<PVarDecl> result = new Vector<PVarDecl>() ;
 
        /********************************************************************
        * The <PVarDecls> nonterminal is terminated by a "begin"            *
@@ -802,7 +809,7 @@ public class ParseAlgorithm
        return pv ;
      }
 
-   public static Vector GetVarDecls() throws ParseAlgorithmException
+   public static Vector<VarDecl> GetVarDecls() throws ParseAlgorithmException
      /**********************************************************************
      * Parses a <VarDecls> as a Vector of AST.VarDecl objects.             *
      **********************************************************************/
@@ -811,7 +818,7 @@ public class ParseAlgorithm
          { MustGobbleThis("variables") ; } 
        else 
          { GobbleThis("variable") ; } ;
-       Vector result = new Vector() ;
+       Vector<VarDecl> result = new Vector<VarDecl>() ;
 
        /********************************************************************
        * The <VarDecls> nonterminal appears in two places:                 *
@@ -883,10 +890,10 @@ public class ParseAlgorithm
          * region comprising the tokens.  Otherwise, set the region to null.
          */
         if (result.tokens != null && result.tokens.size() != 0) {          
-            PCalLocation begin = ((TLAToken) ((Vector)
+            PCalLocation begin = ((TLAToken) ((Vector<?>)
                                 result.tokens.elementAt(0))
                                 .elementAt(0)).source.getBegin();
-            Vector lastLineOfTokens = (Vector) result.tokens.elementAt(
+            Vector<?> lastLineOfTokens = (Vector<?>) result.tokens.elementAt(
                                            result.tokens.size()-1) ;
            if (lastLineOfTokens.size()==0) {
                Debug.ReportBug("Unexpected Event in ParseAlgorithm.GetExpr");
@@ -901,13 +908,13 @@ public class ParseAlgorithm
         return result ;
      }
 
-   /* OBSOLETE */ public static Vector ObsoleteGetLabeledStmtSeq() throws ParseAlgorithmException
+   /* OBSOLETE */ public static Vector<LabeledStmt> ObsoleteGetLabeledStmtSeq() throws ParseAlgorithmException
      /**********************************************************************
      * Returns a (possibly null) sequence of LabeledStmt elements.  This   *
      * is the obvious iterative call of GetLabeledStmt that stops when     *
      * it's not at a label.                                                *
      **********************************************************************/
-     { Vector result = new Vector();
+     { Vector<LabeledStmt> result = new Vector<LabeledStmt>();
        while (IsLabelNext())
          { result.addElement(ObsoleteGetLabeledStmt()) ;
          } ;
@@ -926,12 +933,12 @@ public class ParseAlgorithm
          { ParsingError("Cannot use `Error' as a label.") ; } ;
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
-       result.stmts = new Vector() ;
+       result.stmts = new Vector<AST>() ;
        GobbleThis(":") ;
        AST.While whileStmt = null ;
        if (PeekAtAlgToken(1).equals("while"))
          { result.stmts.addElement(GetWhile()) ; }
-       Vector stmtSeq = GetStmtSeq() ;
+       Vector<AST> stmtSeq = GetStmtSeq() ;
        int i = 0 ;
        while (i < stmtSeq.size())
          { result.stmts.addElement(stmtSeq.elementAt(i)) ;
@@ -965,7 +972,7 @@ public class ParseAlgorithm
          { result.unlabDo = GetCStmt() ; } ;
        if (result.unlabDo.size() == 0)
          { ParsingError("Missing body of while statement at"); }
-       result.labDo = new Vector() ;
+       result.labDo = new Vector<AST>() ;
          /******************************************************************
          * For historical reasons, some methods expect a labDo field to    *
          * contain a vector, even though they are called before the real   *
@@ -1030,7 +1037,7 @@ public class ParseAlgorithm
        return nextLabel;
      }     
 
-   public static Vector GetStmtSeq() throws ParseAlgorithmException 
+   public static Vector<AST> GetStmtSeq() throws ParseAlgorithmException 
      /**********************************************************************
      * Parses a sequence of <Stmt>s and returns the result as a Vector of  *
      * <Stmt> nodes.  It detects the end of the sequence by the            *
@@ -1040,7 +1047,7 @@ public class ParseAlgorithm
      *                                                                     *
      * in the p-syntax or "}" in the c-syntax.                             *
      **********************************************************************/
-     { Vector result = new Vector() ;
+     { Vector<AST> result = new Vector<AST>() ;
        String tok = PeekAtAlgToken(1) ;
        while (! (    (    pSyntax
                       && (   tok.equals("end")
@@ -1098,7 +1105,7 @@ public class ParseAlgorithm
        return GetAssign() ;
      }
 
-   public static Vector GetCStmtSeq(String lbl) throws ParseAlgorithmException 
+   public static Vector<AST> GetCStmtSeq(String lbl) throws ParseAlgorithmException 
      /**********************************************************************
      * Gets a c-syntax StmtSeq (enclosed in curly braces) that has a       *
      * label lbl.                                                          *
@@ -1111,7 +1118,7 @@ public class ParseAlgorithm
 	    */
 	   PCalLocation lblLocation = getLabelLocation ;
 	   MustGobbleThis("{") ;
-       Vector sseq = GetStmtSeq() ;
+       Vector<AST> sseq = GetStmtSeq() ;
        GobbleThis("}") ;
        GobbleThis(";") ;
        if (! lbl.equals(""))
@@ -1128,7 +1135,7 @@ public class ParseAlgorithm
       return sseq ;
      }     
 
-   public static Vector GetCStmt() throws ParseAlgorithmException
+   public static Vector<AST> GetCStmt() throws ParseAlgorithmException
      /**********************************************************************
      * Get one (possibly labeled) statement in the c-syntax, which could   *
      * be a StmtSeq, so this returns a vector of AST nodes.                *
@@ -1140,7 +1147,7 @@ public class ParseAlgorithm
        AST stmt = GetStmt() ;
        stmt.lbl = label ;
        stmt.lblLocation = labelLocation ;
-       Vector result = new Vector() ;
+       Vector<AST> result = new Vector<AST>() ;
        result.addElement(stmt) ;       
        return result ;
      }     
@@ -1234,11 +1241,11 @@ public class ParseAlgorithm
             }
            else if (nextTok.equals("elsif"))
                  { AST.LabelIf innerIf = GetIf(depth + 1) ;
-                   result.unlabElse = new Vector() ;
+                   result.unlabElse = new Vector<AST>() ;
                    result.unlabElse.addElement(innerIf) ;
                  }
            else if (nextTok.equals("end")) 
-                 { result.unlabElse = new Vector() ; 
+                 { result.unlabElse = new Vector<AST>() ; 
                  }
             else { ParsingError(
                      "Expecting \"else\", \"elsif\", or \"end\"")  ; } ;
@@ -1254,10 +1261,10 @@ public class ParseAlgorithm
               result.unlabElse = GetCStmt() ;
             } 
            else
-            { result.unlabElse = new Vector() ; }
+            { result.unlabElse = new Vector<AST>() ; }
          } ;
-       result.labThen = new Vector() ; 
-       result.labElse = new Vector() ; 
+       result.labThen = new Vector<AST>() ; 
+       result.labElse = new Vector<AST>() ; 
 
        /**
         * Set lastStmt to the AST node of the last statement in the
@@ -1286,12 +1293,12 @@ public class ParseAlgorithm
        AST.LabelEither result = new AST.LabelEither() ;
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
-       result.clauses = new Vector() ;
+       result.clauses = new Vector<Clause>() ;
        boolean done = false ;
        boolean hasOr = false ;
        while (! done)
         { AST.Clause nextClause = new AST.Clause() ;
-          nextClause.labOr = new Vector() ;
+          nextClause.labOr = new Vector<AST>() ;
           if (pSyntax)
             { nextClause.unlabOr = GetStmtSeq() ; }
           else
@@ -1393,7 +1400,7 @@ public class ParseAlgorithm
            result.Do = GetCStmt() ;
          }
        else 
-         { result.Do = new Vector() ;
+         { result.Do = new Vector<AST>() ;
            result.Do.addElement(InnerGetWith(depth+1, begLoc)) ;
          };
 		try {
@@ -1413,7 +1420,7 @@ public class ParseAlgorithm
          * We use the fact here that this method is called after           *
          * PeekAtAlgToken(1), so LAT[0] contains the next token.           *
          ******************************************************************/
-       result.ass = new Vector() ;
+       result.ass = new Vector<AST.SingleAssign>() ;
        result.ass.addElement(GetSingleAssign()) ;
        while (PeekAtAlgToken(1).equals("||"))
          { String throwAway = GetAlgToken() ;
@@ -1549,7 +1556,7 @@ public class ParseAlgorithm
        result.line = lastTokLine ;
        result.to = GetAlgToken() ;
        GobbleThis("(") ;
-       result.args = new Vector() ;
+       result.args = new Vector<TLAExpr>() ;
        boolean moreArgs = (PeekPastAlgToken(0).charAt(0) != ')') ;
        while (moreArgs)
          { result.args.addElement(GetExpr()) ;
@@ -1708,7 +1715,7 @@ public class ParseAlgorithm
     *  of GetMacro, and change the error message generated in
     *  ExpandMacroCall.
     */
-   public static AST.Macro GetMacro(Vector macros) throws ParseAlgorithmException 
+   public static AST.Macro GetMacro(Vector<Macro> macros) throws ParseAlgorithmException 
    /**********************************************************************
    * This method was largely copied from GetProcedure.                   *
    **********************************************************************/
@@ -1720,7 +1727,7 @@ public class ParseAlgorithm
      result.line = lastTokLine ;
      result.name = GetAlgToken() ;
      GobbleThis("(") ;
-     result.params = new Vector() ;
+     result.params = new Vector<String>() ;
      boolean lookForComma = false ;
      while (! PeekAtAlgToken(1).equals(")"))
        { if (lookForComma)
@@ -1749,7 +1756,7 @@ public class ParseAlgorithm
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
        MustGobbleThis("(") ;
-       result.args = new Vector() ;
+       result.args = new Vector<TLAExpr>() ;
        boolean moreArgs = (PeekPastAlgToken(0).charAt(0) != ')') ;
        while (moreArgs)
          { result.args.addElement(GetExpr()) ;
@@ -1771,12 +1778,12 @@ public class ParseAlgorithm
 * @throws ParseAlgorithmException *
 ***************************************************************************/
 
-   public static void AddLabelsToStmtSeq(Vector stmtseq) throws ParseAlgorithmException 
+   public static void AddLabelsToStmtSeq(Vector<AST> stmtseq) throws ParseAlgorithmException 
      { InnerAddLabels(stmtseq,
                       true,            // firstLabeled
                       false,           // inWith
-                      new Vector(),    // inAssigned = {}
-                      new Vector() );  // outAssigned
+                      new Vector<String>(),    // inAssigned = {}
+                      new Vector<String>() );  // outAssigned
        return ;
      }
 
@@ -1789,7 +1796,7 @@ public class ParseAlgorithm
 *                                                                          *
 ***************************************************************************/
    public static boolean InnerAddLabels(
-     Vector stmtseq, 
+     Vector<AST> stmtseq, 
        /********************************************************************
        * The sequence of statements to which labels are to be added.       *
        ********************************************************************/
@@ -1801,14 +1808,14 @@ public class ParseAlgorithm
        /********************************************************************
        * True iff stmtseq occurs within a `with' statement.                *
        ********************************************************************/
-     Vector inAssigned, 
+     Vector<String> inAssigned, 
        /********************************************************************
        * The set of variables to which assignments have been made in the   *
        * current step before executing stmtseq.  When calling              *
        * InnerAddLabels for an outermost `with', this will be set to the   *
        * empty set.                                                        *
        ********************************************************************/
-     Vector outAssigned) throws ParseAlgorithmException
+     Vector<String> outAssigned) throws ParseAlgorithmException
        /********************************************************************
        * This is a call-by-reference argument used to return the set of    *
        * variables to which values have been assigned in the current step  *
@@ -1878,8 +1885,8 @@ public class ParseAlgorithm
                  /******************************************************
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
-               Vector thenAssigned     = new Vector() ;
-               Vector elseAssigned     = new Vector() ;
+               Vector<String> thenAssigned     = new Vector<String>() ;
+               Vector<String> elseAssigned     = new Vector<String>() ;
 // System.out.println("If at " + stmt.location()) ;
 // PcalDebug.printVector(outAssigned, "pre outAssigned") ;
 // PcalDebug.printVector(inAssigned, "pre inAssigned") ;
@@ -1911,13 +1918,13 @@ public class ParseAlgorithm
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
                int j = 0 ;
-               Vector newOutAssigned = new Vector() ;
-               Vector newOutWithAssigned = new Vector() ;
+               Vector<String> newOutAssigned = new Vector<String>() ;
+               Vector<?> newOutWithAssigned = new Vector<Object>() ;
 
                while (j < obj.clauses.size())
                  { AST.Clause clause = (AST.Clause) obj.clauses.elementAt(j) ;
-                   Vector orAssigned     = new Vector() ;
-                   Vector orWithAssigned = new Vector() ;
+                   Vector<String> orAssigned     = new Vector<String>() ;
+                   Vector<?> orWithAssigned = new Vector<Object>() ;
                    nextStepNeedsLabel =
                      InnerAddLabels(clause.unlabOr,  
                                     false,             // firstLabeled
@@ -1947,7 +1954,7 @@ public class ParseAlgorithm
                NeedsLabel(stmt) ;
                hadOrAddedLabel = true ;
                outAssigned.removeAllElements() ;
-               Vector newOutAssigned = new Vector() ;
+               Vector<String> newOutAssigned = new Vector<String>() ;
                InnerAddLabels(obj.unlabDo,  
                               false,             // firstLabeled
                               false,             // inWith
@@ -1973,9 +1980,9 @@ public class ParseAlgorithm
                  /******************************************************
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
-               Vector newInAssigned  = new Vector() ;
+               Vector<String> newInAssigned  = new Vector<String>() ;
                if (inWith) {Copy(inAssigned, newInAssigned) ;} ;
-               Vector newOutAssigned = new Vector() ;
+               Vector<String> newOutAssigned = new Vector<String>() ;
                nextStepNeedsLabel =
                   InnerAddLabels(obj.Do,  
                                  false,             // firstLabeled
@@ -2015,7 +2022,7 @@ public class ParseAlgorithm
                /************************************************************
                * assignedVbls := the set of variables being assigned.      *
                ************************************************************/
-               Vector assignedVbls = new Vector() ;
+               Vector<String> assignedVbls = new Vector<String>() ;
                int j = 0 ;
                while (j < obj.ass.size())
                  { AST.SingleAssign assgn = 
@@ -2052,7 +2059,7 @@ public class ParseAlgorithm
                * a call, return, callReturn, or callGoto.                  *
                ************************************************************/
                nextStepNeedsLabel = false ;
-               Vector assignedVbls = new Vector() ;
+               Vector<String> assignedVbls = new Vector<String>() ;
 
                /************************************************************
                * Set isCallOrReturn true iff this is a call, return,       *
@@ -2098,7 +2105,7 @@ public class ParseAlgorithm
                     { int j = 0 ;
                       while (j < procedures.size())
                         { AST.Procedure prcd = 
-                            (AST.Procedure) procedures.elementAt(j) ;
+                            procedures.elementAt(j) ;
                           int k = 0 ;
                           while (k < prcd.params.size())
                             { AST.PVarDecl decl = 
@@ -2166,7 +2173,7 @@ public class ParseAlgorithm
 * Methods for handling sets of strings, where such a set is represented    *
 * as a vector of its elements.                                             *
 ***************************************************************************/
-   public static boolean IsIn(String elt, Vector set)
+   public static boolean IsIn(String elt, Vector<String> set)
      /**********************************************************************
      * True iff elt is in `set'.  Implemented in a dumb way because it     *
      * should usually be called when it returns false.                     *
@@ -2181,7 +2188,7 @@ public class ParseAlgorithm
      }
 
 
-   public static boolean HasEmptyIntersection(Vector S, Vector T)
+   public static boolean HasEmptyIntersection(Vector<String> S, Vector<String> T)
      /**********************************************************************
      * Returns the value of (S \cap T = {}).  Implemented in a dumb way    *
      * because it should usually be called to return false.                *
@@ -2196,11 +2203,11 @@ public class ParseAlgorithm
      }
 
 
-   public static Vector Union(Vector S, Vector T)
+   public static Vector<String> Union(Vector<String> S, Vector<String> T)
      /**********************************************************************
      * Returns S \cup T.                                                   *
      **********************************************************************/
-     { Vector result = (Vector) S.clone() ;
+     { Vector<String> result = (Vector<String>) S.clone() ;
        int i = 0 ;
        while (i < T.size())
          { String str = (String) T.elementAt(i) ;
@@ -2212,7 +2219,7 @@ public class ParseAlgorithm
      }
 
      
-   public static void Copy(Vector in, Vector out)
+   public static void Copy(Vector<String> in, Vector<String> out)
      /**********************************************************************
      * Sets the non-null vector `out' to a copy of the non-null vector     *
      * `in'.  Note that `out' is a "call-by-reference" argument, while     *
@@ -2228,24 +2235,24 @@ public class ParseAlgorithm
      }
 
 
-   public static Vector MakeLabeledStmtSeq(Vector stmtseq) throws ParseAlgorithmException 
+   public static Vector<AST> MakeLabeledStmtSeq(Vector<AST> stmtseq) throws ParseAlgorithmException 
      /**********************************************************************
      * Returns the sequence of <LabeledStmt> objects represented by the    *
      * sequence of <Stmt> objects and their lbl fields.                    *
      **********************************************************************/
-     { Vector result = InnerMakeLabeledStmtSeq(stmtseq);
+     { Vector<AST> result = InnerMakeLabeledStmtSeq(stmtseq);
        CheckLabeledStmtSeq(result) ;
        return result ;
       }
 
 
-   public static Vector InnerMakeLabeledStmtSeq(Vector stmtseq) 
+   public static Vector<AST> InnerMakeLabeledStmtSeq(Vector<AST> stmtseq) 
      /**********************************************************************
      * This does the real work of MakeLabeledStmtSeq.  It is made a        *
      * separate procedure to avoid calling ClassifyStmtSeq with every      *
      * recursive call.                                                     *
      **********************************************************************/
-     { Vector result = new Vector() ;
+     { Vector<AST> result = new Vector<AST>() ;
        int nextStmt = 0 ;
        while (nextStmt < stmtseq.size())
          { AST.LabeledStmt lstmt = new AST.LabeledStmt() ;
@@ -2275,7 +2282,7 @@ public class ParseAlgorithm
 	           "ParseAlgorithmInnerMakeLabeledStmtSeq found null label starting labeled stmt seq");
            }
            
-           lstmt.stmts = new Vector() ;
+           lstmt.stmts = new Vector<AST>() ;
            PCalLocation lstmtBegin = null ;
            if (!stmt.lbl.equals("")) {
                lstmtBegin = stmt.lblLocation ;
@@ -2315,7 +2322,7 @@ public class ParseAlgorithm
      }
 
 
-   public static void FixStmtSeq(Vector stmtseq) 
+   public static void FixStmtSeq(Vector<AST> stmtseq) 
      /**********************************************************************
      * stmtseq is a sequence of statement objects that are produced by     *
      * GetStmtSeq.  This procedure expands the substatements within each   *
@@ -2323,7 +2330,7 @@ public class ParseAlgorithm
      * this removes the labeled statements from the unlabThen and          *
      * unlabElse sequences and puts them in labThen and labElse.           *
      **********************************************************************/
-     { Vector result = new Vector() ;
+     { Vector<?> result = new Vector<Object>() ;
        int i = 0 ;
        while (i < stmtseq.size())
         { AST stmt = (AST) stmtseq.elementAt(i) ;
@@ -2340,8 +2347,8 @@ public class ParseAlgorithm
                  /******************************************************
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
-               Vector curr = obj.unlabThen ;
-               obj.unlabThen = new Vector() ;
+               Vector<AST> curr = obj.unlabThen ;
+               obj.unlabThen = new Vector<AST>() ;
                while (    (curr.size() > 0)
                        && ((AST) curr.elementAt(0)).lbl.equals("") )
                 { obj.unlabThen.addElement(curr.elementAt(0)) ;
@@ -2354,7 +2361,7 @@ public class ParseAlgorithm
                 * fashion.                                              *
                 ********************************************************/
                curr = obj.unlabElse ;
-               obj.unlabElse = new Vector() ;
+               obj.unlabElse = new Vector<AST>() ;
                while (    (curr.size() > 0)
                        && ((AST) curr.elementAt(0)).lbl.equals("") )
                 { obj.unlabElse.addElement(curr.elementAt(0)) ;
@@ -2376,8 +2383,8 @@ public class ParseAlgorithm
                int j = 0 ;
                while (j < obj.clauses.size())
                  { AST.Clause clause = (AST.Clause) obj.clauses.elementAt(j) ;
-                   Vector curr = clause.unlabOr ;
-                   clause.unlabOr = new Vector() ;
+                   Vector<AST> curr = clause.unlabOr ;
+                   clause.unlabOr = new Vector<AST>() ;
                    while (    (curr.size() > 0)
                            && ((AST) curr.elementAt(0)).lbl.equals("") )
                     { clause.unlabOr.addElement(curr.elementAt(0)) ;
@@ -2402,8 +2409,8 @@ public class ParseAlgorithm
                  /******************************************************
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
-               Vector curr = obj.unlabDo ;
-               obj.unlabDo = new Vector() ;
+               Vector<AST> curr = obj.unlabDo ;
+               obj.unlabDo = new Vector<AST>() ;
                while (    (curr.size() > 0)
                        && ((AST) curr.elementAt(0)).lbl.equals("") )
                 { obj.unlabDo.addElement(curr.elementAt(0)) ;
@@ -2427,7 +2434,7 @@ public class ParseAlgorithm
 * document (so the rules for where labels can appear are satisfied).       
  * @throws ParseAlgorithmException *
 ***************************************************************************/
-   public static void CheckLabeledStmtSeq(Vector stmtseq) throws ParseAlgorithmException
+   public static void CheckLabeledStmtSeq(Vector<AST> stmtseq) throws ParseAlgorithmException
      { int i = 0 ;
        while (i < stmtseq.size())
          { AST.LabeledStmt stmt = (AST.LabeledStmt) stmtseq.elementAt(i) ;
@@ -2436,7 +2443,7 @@ public class ParseAlgorithm
          } ;
      }
 
-   public static int ClassifyStmtSeq(Vector stmtseq) throws ParseAlgorithmException
+   public static int ClassifyStmtSeq(Vector<AST> stmtseq) throws ParseAlgorithmException
      /**********************************************************************
      * Vector stmtseq must be a vector of <Stmt>s.  This method returns    *
      *                                                                     *
@@ -2475,7 +2482,7 @@ public class ParseAlgorithm
                  result = ClassifyEither(eitherNode) ;
                  if (result < 2)
                    { AST.Either newEither = new AST.Either() ;
-                     newEither.ors = new Vector() ;
+                     newEither.ors = new Vector<Object>() ;
                      int j = 0 ;
                      while (j < eitherNode.clauses.size())
                        { newEither.ors.addElement(
@@ -2648,16 +2655,16 @@ public class ParseAlgorithm
  * @throws ParseAlgorithmException *
 ***************************************************************************/
 
-   public static void CheckForDuplicateMacros(Vector macros) throws ParseAlgorithmException
+   public static void CheckForDuplicateMacros(Vector<Macro> macros) throws ParseAlgorithmException
      /**********************************************************************
      * Argument macros is a vector of AST.Macro                            *
      **********************************************************************/
      { int i = 0 ;
        while (i < macros.size())
-         { String namei = ((AST.Macro) macros.elementAt(i)).name ;
+         { String namei = macros.elementAt(i).name ;
            int j = i + 1 ;
            while (j < macros.size())
-             { if (namei.equals(((AST.Macro) macros.elementAt(j)).name))
+             { if (namei.equals(macros.elementAt(j).name))
                  { throw new ParseAlgorithmException(
                      "Multiple definitions of macro name `" + namei +"'");
                  }
@@ -2668,8 +2675,8 @@ public class ParseAlgorithm
      }     
 
    public static void ObsoleteExpandMacrosInLabeledStmtSeq(
-                        Vector stmtseq, // of LabeledStmt
-                        Vector macros) throws ParseAlgorithmException  // of Macro
+                        Vector<?> stmtseq, // of LabeledStmt
+                        Vector<Macro> macros) throws ParseAlgorithmException  // of Macro
      /**********************************************************************
      * Expands macro calls.                                                *
      **********************************************************************/
@@ -2681,7 +2688,7 @@ public class ParseAlgorithm
          }
      }
 
-   public static void ExpandMacrosInStmtSeq(Vector stmtseq, Vector macros) throws ParseAlgorithmException
+   public static void ExpandMacrosInStmtSeq(Vector<AST> stmtseq, Vector<Macro> macros) throws ParseAlgorithmException
      /**********************************************************************
      * This is called on a sequence stmtseq of statements, before          *
      * MakeLabeledStmtSeq has been called.  Therefore, stmtseq contains    *
@@ -2719,7 +2726,7 @@ public class ParseAlgorithm
                }
              else if (node.getClass().equals(
                            AST.MacroCallObj.getClass())  )
-               { Vector expansion = 
+               { Vector<AST> expansion = 
                           ExpandMacroCall( ((AST.MacroCall) node), macros);
                  
                  stmtseq.remove(i) ;
@@ -2735,12 +2742,12 @@ public class ParseAlgorithm
       return ;
      }     
 
-   public static Vector ExpandMacroCall(AST.MacroCall call, Vector macros) throws ParseAlgorithmException
+   public static Vector<AST> ExpandMacroCall(AST.MacroCall call, Vector<Macro> macros) throws ParseAlgorithmException
      { // Set macroDef to the Macro object
        AST.Macro macroDef = null ;
        int i = 0 ;
        while (i < macros.size() )
-         { AST.Macro md = (AST.Macro) macros.elementAt(i) ;
+         { AST.Macro md = macros.elementAt(i) ;
            if (md.name.equals(call.name))
              { macroDef = md ; } ;
            i = i + 1 ;
@@ -2762,7 +2769,7 @@ public class ParseAlgorithm
                                  " called with wrong number of arguments at "
                                    + "\n    " + call.location()) ; 
          } ;
-      Vector result = SubstituteInStmtSeq(macroDef.body,
+      Vector<AST> result = SubstituteInStmtSeq(macroDef.body,
                                           call.args,
                                           macroDef.params,
                                           call.line,
@@ -2794,11 +2801,11 @@ public class ParseAlgorithm
 
 
 
-    public static Vector SubstituteInLabeledStmtSeq(
-                           Vector stmts,  // of AST.LabeledStmt 
-                           Vector args,   // of TLAExpr
-                           Vector params) throws ParseAlgorithmException // of String
-      { Vector result = new Vector() ;
+    public static Vector<AST> SubstituteInLabeledStmtSeq(
+                           Vector<AST> stmts,  // of AST.LabeledStmt 
+                           Vector<TLAExpr> args,   // of TLAExpr
+                           Vector<String> params) throws ParseAlgorithmException // of String
+      { Vector<AST> result = new Vector<AST>() ;
         int i = 0 ;
         while (i < stmts.size())
           {  result.addElement( SubstituteInLabeledStmt( 
@@ -2813,8 +2820,8 @@ public class ParseAlgorithm
 
    public static AST.LabeledStmt SubstituteInLabeledStmt(
                                    AST.LabeledStmt stmt, 
-                                   Vector args,   // of TLAExpr
-                                   Vector params) throws ParseAlgorithmException // of String
+                                   Vector<TLAExpr> args,   // of TLAExpr
+                                   Vector<String> params) throws ParseAlgorithmException // of String
       { AST.LabeledStmt result = new AST.LabeledStmt() ;
         result.label = stmt.label ;
         result.stmts = SubstituteInStmtSeq(stmt.stmts, args, params, -1, 0) ;
@@ -2830,9 +2837,9 @@ public class ParseAlgorithm
 * arbitrary substitutions in the body of a process or uniprocess           *
 * algorithm.                                                               *
 ***************************************************************************/
-    public static Vector SubstituteInStmtSeq(Vector stmts, // of AST
-                                             Vector args,   // of TLAExpr
-                                             Vector params, // of String
+    public static Vector<AST> SubstituteInStmtSeq(Vector<AST> stmts, // of AST
+                                             Vector<TLAExpr> args,   // of TLAExpr
+                                             Vector<String> params, // of String
                                              int macroLine,
                                              int macroCol) throws ParseAlgorithmException
       /*********************************************************************
@@ -2842,7 +2849,7 @@ public class ParseAlgorithm
       * macroLine, column macroCol, where macroLine = -1 if this is not    *
       * being called because of a macro expansion.                         *
       *********************************************************************/
-      { Vector result = new Vector() ;
+      { Vector<AST> result = new Vector<AST>() ;
         int i = 0 ;
         while (i < stmts.size())
           {  result.addElement( SubstituteInStmt( (AST) stmts.elementAt(i),
@@ -2857,8 +2864,8 @@ public class ParseAlgorithm
       }
 
     public static AST SubstituteInStmt(AST stmt, 
-                                       Vector args,   // of TLAExpr
-                                       Vector params, // of String
+                                       Vector<TLAExpr> args,   // of TLAExpr
+                                       Vector<String> params, // of String
                                        int macroLine,
                                        int macroCol) throws ParseAlgorithmException
       /*********************************************************************
@@ -2889,7 +2896,7 @@ public class ParseAlgorithm
                 result.macroCol  = macroCol ;
               } ; 
             int i = 0 ;
-            result.ass = new Vector() ;
+            result.ass = new Vector<AST.SingleAssign>() ;
             while (i < tstmt.ass.size())
               { result.ass.addElement(
                   SubstituteInSingleAssign(
@@ -2937,12 +2944,12 @@ public class ParseAlgorithm
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
               } ; 
-            result.ors = new Vector() ;
+            result.ors = new Vector<Object>() ;
             int i = 0 ;
             while (i < tstmt.ors.size())
               { result.ors.addElement(
                      SubstituteInStmtSeq(
-                        (Vector) tstmt.ors.elementAt(i), 
+                        (Vector<AST>) tstmt.ors.elementAt(i), 
                           args, params, macroLine, macroCol ) ) ;
                 i = i + 1 ;
               } ;
@@ -3122,7 +3129,7 @@ public class ParseAlgorithm
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
               } ; 
-            result.clauses = new Vector() ;
+            result.clauses = new Vector<Clause>() ;
             int i = 0 ;
             while (i < tstmt.clauses.size())
              { AST.Clause oldClause = 
@@ -3244,10 +3251,10 @@ public class ParseAlgorithm
       }
     }      
 
-    public static AST SubstituteInSingleAssign(
+    public static AST.SingleAssign SubstituteInSingleAssign(
                 AST.SingleAssign assgn, 
-                Vector args,   // of TLAExpr
-                Vector params, // of String
+                Vector<TLAExpr> args,   // of TLAExpr
+                Vector<String> params, // of String
                 int macroLine,
                 int macroCol) throws ParseAlgorithmException
       /*********************************************************************
@@ -3308,7 +3315,7 @@ public class ParseAlgorithm
           } ;
 
         if (found)
-          { TLAExpr subForVar = (TLAExpr) args.elementAt(i) ;
+          { TLAExpr subForVar = args.elementAt(i) ;
             TLAToken varToken = subForVar.tokenAt(new IntPair(0,0)) ;
             if (varToken.type != TLAToken.IDENT)
               { throw new ParseAlgorithmException(
@@ -3329,7 +3336,7 @@ public class ParseAlgorithm
                 * the assignment variable) removed.                        *
                 ***********************************************************/
                 TLAExpr exprCopy = subForVar.cloneAndNormalize() ;
-                Vector firstLine = (Vector) exprCopy.tokens.elementAt(0) ;
+                Vector<?> firstLine = (Vector<?>) exprCopy.tokens.elementAt(0) ;
                 firstLine.removeElementAt(0) ;
                 exprCopy.normalize() ; 
                   /*********************************************************
@@ -3711,7 +3718,7 @@ public class ParseAlgorithm
 *                                                                          *
 * Bug fixed by LL on 28 Feb 2006                                           
 ***************************************************************************/
-   public static void uncomment(Vector inp,
+   public static void uncomment(Vector<String> inp,
                                 int begLine,
                                 int begCol) throws ParseAlgorithmException
 
@@ -3923,7 +3930,7 @@ public class ParseAlgorithm
     * 
     * See the comments above for an explanation of the arguments.
     */
-    public static int ProcessOptions(Vector untabInputVec, IntPair curLoc)
+    public static int ProcessOptions(Vector<?> untabInputVec, IntPair curLoc)
     {
         String curLine = GotoNextNonSpace(untabInputVec, curLoc);
         if (curLine.substring(curLoc.two).startsWith("options"))
@@ -3941,7 +3948,7 @@ public class ParseAlgorithm
             curLoc.two++;
             curLine = GotoNextNonSpace(untabInputVec, curLoc);
 
-            Vector argsVec = new Vector();
+            Vector<String> argsVec = new Vector<String>();
             // the vector of option arguments
 
             while (curLoc.one < untabInputVec.size() && (curLine.charAt(curLoc.two) != ')'))
@@ -3999,7 +4006,7 @@ public class ParseAlgorithm
     */
    public static void FindToken(
            String token,  
-           Vector inputVec,  
+           Vector<?> inputVec,  
            IntPair curLoc,   
            String errorMsg  // The error message to be reported if not found.
           )
@@ -4069,7 +4076,7 @@ public class ParseAlgorithm
     * @throws ParseAlgorithmException
     */
    public static void FindMatchingBrace(
-           Vector inputVec,  // Vector of strings
+           Vector<?> inputVec,  // Vector of strings
 //           Vector outputVec, // null or Vector of strings
            IntPair curLoc,   // <row, column> in Java coordinates of
                               // "(*" that begins a comment.
@@ -4233,7 +4240,7 @@ public class ParseAlgorithm
     * removal is possible.)
     * 
     */
-   public static String GotoNextNonSpace(Vector inputVec, IntPair curLoc) {
+   public static String GotoNextNonSpace(Vector<?> inputVec, IntPair curLoc) {
        boolean found = false;
        while ((!found) && curLoc.one < inputVec.size()) {
          String line = (String) inputVec.elementAt(curLoc.one);
@@ -4335,7 +4342,7 @@ public class ParseAlgorithm
     * 
     * See the comments above for an explanation of the arguments.
     */
-   public static void gotoEndOfComment(Vector inputVec,  // Vector of strings
+   public static void gotoEndOfComment(Vector<?> inputVec,  // Vector of strings
 //                                       Vector outputVec, // null or Vector of strings
                                        IntPair curLoc      
                                          // <row, column> in Java coordinates of

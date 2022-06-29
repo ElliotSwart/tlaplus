@@ -474,7 +474,7 @@ import java.util.Vector;
  *
  */
 public class TokenizeSpec
-  { private static Hashtable identHashTable  = new Hashtable(1000);
+  { private static Hashtable<String, String> identHashTable  = new Hashtable<String, String>(1000);
       /*********************************************************************
       * A hash table containing all the IDENT and STRING tokens found in   *
       * the spec.  It is used for formatting comments.                     *
@@ -491,7 +491,7 @@ public class TokenizeSpec
       { return null !=  identHashTable.get(str);
       }
 
-    private static Hashtable usedBuiltinHashTable  = new Hashtable(1000);
+    private static Hashtable<String, String> usedBuiltinHashTable  = new Hashtable<String, String>(1000);
       /*********************************************************************
       * A hash table containing all the BUILTIN tokens found in the spec.  *
       * It is used for formatting comments.                                *
@@ -504,7 +504,7 @@ public class TokenizeSpec
       { return null !=  usedBuiltinHashTable.get(str);
       }
 
-    private static Hashtable stringHashTable  = new Hashtable(100);
+    private static Hashtable<String, String> stringHashTable  = new Hashtable<String, String>(100);
       /*********************************************************************
       * A hash table containing all the STRING tokens found in the spec.   *
       * It is used for formatting comments.                                *
@@ -592,13 +592,13 @@ public class TokenizeSpec
       // processing a comment--true if processing an OR (overrun) comment,
       // false if processing a normal comment.  
     
-    private static Vector vspec = null ;
+    private static Vector<Vector<Token>> vspec = null ;
           /*****************************************************************
           * vspec is a vector of vectors in which the TokenizedSpec is     *
           * constructed.  At the end, it is turned into an array.          *
           *****************************************************************/
 
-    private static Vector linev = new Vector(30, 30) ;
+    private static Vector<Token> linev = new Vector<Token>(30, 30) ;
           /*****************************************************************
           * Vector linev contains the tokens found so far on the current   *
           * line.                                                          *
@@ -779,7 +779,7 @@ public class TokenizeSpec
       * whenever a \n character is removed from the input stream.          *
       *********************************************************************/
       { vspec.addElement(linev)    ;
-        linev = new Vector(30, 30) ;
+        linev = new Vector<Token>(30, 30) ;
         col = 0 ;
       } ;
 
@@ -825,11 +825,11 @@ public class TokenizeSpec
         int n = 0 ;                                                       
         while (n < vspec.size())                                          
           { aspec[n] =                                                     
-               new Token [ ((Vector) vspec.elementAt(n)) . size() ] ;     
+               new Token [ vspec.elementAt(n) . size() ] ;     
             int m = 0 ;                                                   
             while (m < aspec[n].length)                                    
               {aspec[n][m] =                                               
-                (Token) ((Vector) vspec.elementAt(n)) . elementAt(m);     
+                (Token) vspec.elementAt(n) . elementAt(m);     
                m = m+1;                                                   
               };                                                          
             n = n+1 ;                                                     
@@ -841,7 +841,7 @@ public class TokenizeSpec
       /*********************************************************************
       * Tokenize the input from the CharReader.                            *
       *********************************************************************/
-      { vspec = new Vector(1000, 1000) ;
+      { vspec = new Vector<Vector<Token>>(1000, 1000) ;
         reader = charReader ;
            /****************************************************************
            * This "exports" the charReader for use by the classes other    *

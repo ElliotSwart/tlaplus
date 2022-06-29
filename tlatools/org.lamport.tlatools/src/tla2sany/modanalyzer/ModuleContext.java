@@ -22,7 +22,7 @@ import java.util.Hashtable;
  */
 public class ModuleContext {
 
-  Hashtable context = new Hashtable();
+  Hashtable<String, ModulePointer> context = new Hashtable<String, ModulePointer>();
 
   /** 
    * Find the ModulePointer that the String modName resolves to;
@@ -31,7 +31,7 @@ public class ModuleContext {
    */
 
   ModulePointer resolve( String modName ) {
-    return (ModulePointer)context.get(modName);
+    return context.get(modName);
   }
 
   /**
@@ -56,9 +56,9 @@ public class ModuleContext {
    */
   void union (ModuleContext unionee) {
 
-    Enumeration Enum = unionee.context.keys();
+    Enumeration<String> Enum = unionee.context.keys();
     while ( Enum.hasMoreElements() ) {
-      String key = (String)Enum.nextElement();
+      String key = Enum.nextElement();
       this.bindIfNotBound(key,unionee.resolve(key));
     }
 
@@ -66,11 +66,11 @@ public class ModuleContext {
 
   public String toString() {
     String ret = "Context:\n";
-    Enumeration Enum = context.keys();
+    Enumeration<String> Enum = context.keys();
 
     while (Enum.hasMoreElements()) {
-      String key = (String)Enum.nextElement();
-      ModulePointer modPointer = (ModulePointer)context.get(key);
+      String key = Enum.nextElement();
+      ModulePointer modPointer = context.get(key);
 
       ret = ret + "  " + key + "-->" + (modPointer != null ? modPointer.toStringAbbrev() : "null");
     }

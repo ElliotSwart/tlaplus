@@ -678,7 +678,7 @@ abstract class Spec
 	
 		final Enumeration<ParseUnit> parseUnitContext = specProcessor.getSpecObj().parseUnitContext.elements();
 		while (parseUnitContext.hasMoreElements()) {
-			ParseUnit pu = (ParseUnit) parseUnitContext.nextElement();
+			ParseUnit pu = parseUnitContext.nextElement();
 			File resolve = resolver.resolve(pu.getFileName(), false);
 			result.add(resolve);
 		}

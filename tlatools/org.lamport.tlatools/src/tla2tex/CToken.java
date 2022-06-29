@@ -182,7 +182,7 @@ public class CToken
       boolean lastIsTLA = false ;
       for (int k = 0 ; k < toks.length ; k++) 
         { CToken[] input = toks[k] ;
-          Vector outputVec = new Vector(input.length) ;
+          Vector<CToken> outputVec = new Vector<CToken>(input.length) ;
           int i = 0 ;
           while (i < input.length)
            { if (   (i < input.length - 2)
@@ -222,7 +222,7 @@ public class CToken
           if (outputVec.size() != input.length)
             { toks[k] = new CToken[outputVec.size()] ;
               for (i = 0; i < outputVec.size(); i++) 
-                 { toks[k][i] = (CToken) outputVec.elementAt(i) ;
+                 { toks[k][i] = outputVec.elementAt(i) ;
                  } ;
             }
         } // for k

@@ -429,11 +429,11 @@ public class MappingObject implements Serializable {
      * @param mvec  A mapping vector.
      * @param shift The distance to shift to the right.
      */
-    public static void shiftMappingVector(Vector mvec, int shift) {
+    public static void shiftMappingVector(Vector<Vector<MappingObject>> mvec, int shift) {
         for (int i = 0; i < mvec.size(); i++) {
-            Vector line = (Vector) mvec.elementAt(i);
+            Vector<MappingObject> line = mvec.elementAt(i);
             for (int j = 0; j < line.size(); j++) {
-                MappingObject mobj = (MappingObject) line.elementAt(j);
+                MappingObject mobj = line.elementAt(j);
                 if (mobj.type == BEGIN_TLATOKEN) {
                     BeginTLAToken obj = (BeginTLAToken) mobj;
                     obj.setColumn(obj.getColumn()+shift) ;
@@ -453,12 +453,12 @@ public class MappingObject implements Serializable {
      * For debugging.
      * @param mvec
      */
-    public static void printMappingVector(Vector mvec) {
+    public static void printMappingVector(Vector<Vector<MappingObject>> mvec) {
         for (int i = 0; i < mvec.size(); i++) {
-            Vector line = (Vector) mvec.elementAt(i);
+            Vector<MappingObject> line = mvec.elementAt(i);
             System.out.print("line " + i + ":");
             for (int j = 0; j < line.size(); j++) {
-                MappingObject mobj = (MappingObject) line.elementAt(j) ;
+                MappingObject mobj = line.elementAt(j) ;
                 System.out.print("  " + mobj.toString());
             }
             System.out.println("");

@@ -19,15 +19,15 @@ public class ModuleRelatives {
   ModulePointer outerModule                     = null; // TreeNode of the immediate outer (parent) module; 
                                                         //   null currentModule is the outermost in parseUnit
 
-  Vector        directInnerModules              = new Vector(); 
+  Vector<ModulePointer>        directInnerModules              = new Vector<ModulePointer>(); 
                                                         // Vector of ModulePointers for immediate inner modules 
 
-  Vector        directlyExtendedModuleNames     = new Vector(); 
+  Vector<String>        directlyExtendedModuleNames     = new Vector<String>(); 
                                                         // Vector of String names for modules mentioned in EXTENDS decls by 
                                                         //   currentModule, whether or not they are resolved within the 
                                                         //   current ParseUnit
 
-  Vector        directlyInstantiatedModuleNames = new Vector(); 
+  Vector<String>        directlyInstantiatedModuleNames = new Vector<String>(); 
                                                         // Vector of String names for modules directly instantiated 
                                                         //   by currentModule, whether or not they are resolved within the
                                                         //   current ParseUnit
@@ -51,17 +51,17 @@ public class ModuleRelatives {
 
     ret += "\ndirectInnerModules: ";
     for (int i = 0; i < directInnerModules.size(); i++) {
-      ret += ((ModulePointer)(directInnerModules.elementAt(i))).getName() + " ";
+      ret += (directInnerModules.elementAt(i)).getName() + " ";
     }
 
     ret += "\ndirectlyExtendedModuleNames: ";
     for (int i = 0; i < directlyExtendedModuleNames.size(); i++) {
-      ret += (String)(directlyExtendedModuleNames.elementAt(i)) + " ";
+      ret += (directlyExtendedModuleNames.elementAt(i)) + " ";
     }
 
     ret += "\ndirectlyInstantiatedModuleNames: ";
     for (int i = 0; i < directlyInstantiatedModuleNames.size(); i++) {
-      ret += (String)(directlyInstantiatedModuleNames.elementAt(i)) + " ";
+      ret += (directlyInstantiatedModuleNames.elementAt(i)) + " ";
     }
 
     ret += "\n" + context.toString();

@@ -15,17 +15,19 @@ import util.WrongInvocationException;
 
 public class OpRcdValue extends OpValue implements Applicable {
 
+
   private static final long serialVersionUID = 6268427410634909269L;
-public Vect<Value[]> domain;
-  public Vect values;
+
+  public Vect<Value[]> domain;
+  public Vect<Value> values;
 
   /* Constructor */
   public OpRcdValue() {
-    this.domain = new Vect();
-    this.values = new Vect();
+    this.domain = new Vect<Value[]>();
+    this.values = new Vect<Value>();
   }
 
-  public OpRcdValue(Vect domain, Vect values) {
+  public OpRcdValue(Vect<Value[]> domain, Vect<Value> values) {
     this.domain = domain;
     this.values = values;
   }
@@ -84,12 +86,12 @@ public Vect<Value[]> domain;
     }
   }
 
-  public final void addLine(Vect vs) {
+  public final void addLine(Vect<Value> vs) {
     try {
       int len = vs.size();
       Value[] args = new Value[len-2];
       for (int i = 0; i < len-2; i++) {
-        args[i] = (Value)vs.elementAt(i+1);
+        args[i] = vs.elementAt(i+1);
       }
       this.domain.addElement(args);
       this.values.addElement(vs.elementAt(len-1));
@@ -116,7 +118,7 @@ public Vect<Value[]> domain;
     try {
       int sz = this.domain.size();
       for (int i = 0; i < sz; i++) {
-        Value[] vals = (Value[])this.domain.elementAt(i);
+        Value[] vals = this.domain.elementAt(i);
         if (args.length != vals.length) {
           Assert.fail("Attempted to apply the operator " + Values.ppr(this.toString()) +
           "\nwith wrong number of arguments.", getSource());
@@ -127,7 +129,7 @@ public Vect<Value[]> domain;
           if (!matched) break;
         }
         if (matched) {
-          return (Value)this.values.elementAt(i);
+          return this.values.elementAt(i);
         }
       }
       // Generate the error message:
@@ -238,7 +240,7 @@ public Vect<Value[]> domain;
     try {
       boolean defined = true;
       for (int i = 0; i < this.values.size(); i++) {
-        defined = defined && ((Value)this.values.elementAt(i)).isDefined();
+        defined = defined && this.values.elementAt(i).isDefined();
       }
       return defined;
     }
@@ -269,22 +271,22 @@ public Vect<Value[]> domain;
       sb.append("{ ");
       if (this.values.size() != 0) {
         sb.append("<");
-        Value[] args = (Value[])this.domain.elementAt(0);
+        Value[] args = this.domain.elementAt(0);
         for (int j = 0; j < args.length; j++) {
           sb = args[j].toString(sb, offset, swallow);
           sb.append(", ");
         }
-        sb = ((Value)this.values.elementAt(0)).toString(sb, offset, swallow);
+        sb = this.values.elementAt(0).toString(sb, offset, swallow);
         sb.append(">");
       }
       for (int i = 1; i < this.values.size(); i++) {
         sb.append(", <");
-        Value[] args = (Value[])this.domain.elementAt(i);
+        Value[] args = this.domain.elementAt(i);
         for (int j = 0; j < args.length; j++) {
           sb = args[j].toString(sb, offset, swallow);
           sb.append(", ");
         }
-        sb = ((Value)this.values.elementAt(i)).toString(sb, offset, swallow);
+        sb = this.values.elementAt(i).toString(sb, offset, swallow);
         sb.append(">");
       }
       return sb.append("}");

@@ -8,16 +8,16 @@ import java.util.Vector;
 import util.ToolIO;
 
 class Test
-  { public static Vector Singleton(Object obj) 
+  { public static <T> Vector<T> Singleton(T obj) 
       /*********************************************************************
       * If we think of a vector as a sequence, then this returns <<obj>>.  *
       *********************************************************************/
-      { Vector result = new Vector() ;
+      { Vector<T> result = new Vector<T>() ;
         result.addElement(obj) ;
         return result; 
       }
  
-    public static Vector Singleton2(Object obj)
+    public static <T> Vector<Vector<T>> Singleton2(T obj)
       /*********************************************************************
       * If we think of a vector as a sequence, then this returns           *
       * << <<obj>> >>.                                                     *
@@ -58,7 +58,7 @@ class Test
         return result ;
       }
 
-    public static TLAExpr MakeExpr(Vector vec)
+    public static TLAExpr MakeExpr(Vector<Vector<TLAToken>> vec)
       /*********************************************************************
       * Makes a normalized expression exp with exp.tokens = vec.           *
       *********************************************************************/
@@ -67,13 +67,13 @@ class Test
         return result ;
       }
 
-    public static TLAExpr TokVectorToExpr(Vector vec, int spaces)
+    public static TLAExpr TokVectorToExpr(Vector<TLAToken> vec, int spaces)
       /*********************************************************************
       * If vec is a vector of TLAToken objects, then this method returns   *
       * a TLAExpr describing a one-line expression composed of clones of   *
       * the tokens in vec separated by `spaces' spaces.                    *
       *********************************************************************/
-      { Vector firstLine = new Vector() ;
+      { Vector<TLAToken> firstLine = new Vector<TLAToken>() ;
         int nextCol = 0 ;
         int i = 0 ;
         while (i < vec.size())
@@ -93,7 +93,7 @@ class Test
       *********************************************************************/
       { AST.SingleAssign sAss = new AST.SingleAssign() ;
         sAss.lhs.var = id ;
-        sAss.lhs.sub = MakeExpr(new Vector()) ;
+        sAss.lhs.sub = MakeExpr(new Vector<Vector<TLAToken>>()) ;
         sAss.rhs = exp ;
         AST.Assign result = new AST.Assign() ;
         result.ass = Singleton(sAss) ;

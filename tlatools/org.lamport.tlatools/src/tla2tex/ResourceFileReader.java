@@ -26,7 +26,7 @@ public class ResourceFileReader
       * in the same directory as tlatex.Token.                             *
       *********************************************************************/
      { name = fileName ;
-       Class cl = null ;
+       Class<?> cl = null ;
        try { cl = Class.forName("tla2tex.Token"); }
        catch (ClassNotFoundException e)
            { Debug.ReportError( 

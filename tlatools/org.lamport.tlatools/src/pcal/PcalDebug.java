@@ -211,7 +211,7 @@ public class PcalDebug
         ;
     };
 
-    public static void printVector(Vector vec, String name)
+    public static void printVector(Vector<?> vec, String name)
     /*********************************************************************
     * This method prints to standard output the contents of the vector   *
     * argument, where name is the name of the vector.                    *
@@ -243,7 +243,7 @@ public class PcalDebug
         ;
     };
 
-    public static void print2DVector(Vector vec, String name)
+    public static void print2DVector(Vector<?> vec, String name)
     /*********************************************************************
     * This method prints to standard output the contents of its vector   *
     * argument, which is a vector of vectors, where name is the name of  *
@@ -264,7 +264,7 @@ public class PcalDebug
                 ToolIO.out.println(name + "[" + i + "] = null");
             } else
             {
-                printVector((Vector) vec.elementAt(i), name + "[" + i + "]");
+                printVector((Vector<?>)vec.elementAt(i), name + "[" + i + "]");
             }
             ;
             i = i + 1;

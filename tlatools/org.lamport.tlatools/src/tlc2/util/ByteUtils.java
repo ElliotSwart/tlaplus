@@ -361,7 +361,7 @@ public class ByteUtils {
   public static BigInt[] readArrayOfSizeBigInts(InputStream in) 
   throws IOException{
   
-    Vector A = new Vector();
+    Vector<BigInt> A = new Vector<BigInt>();
     int i = 0;
 
     try {
@@ -375,7 +375,7 @@ public class ByteUtils {
     BigInt[] bA = new BigInt[i];
     
     for (int j=0; j<i; j++)
-      bA[j] = (BigInt) A.elementAt(j);
+      bA[j] = A.elementAt(j);
     
     return bA;
   }

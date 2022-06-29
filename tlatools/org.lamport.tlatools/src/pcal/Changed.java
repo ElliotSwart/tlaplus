@@ -22,9 +22,9 @@ public class Changed {
 	 *          i-th variable in vars has been changed.
 	 */
     public int[] count; /* number times variable set */
-    public Vector vars; /* list of variables */
+    public Vector<String> vars; /* list of variables */
 
-    public Changed (Vector vars) {
+    public Changed (Vector<String> vars) {
 	count = new int[vars.size()];
 	this.vars = vars;
 	for (int i = 0; i < count.length; i++)
@@ -101,8 +101,8 @@ public class Changed {
     /* (except for vars whose length is over ch-1)       */
     /* This method is called only once, from             */
     /* GenLabeledStmt.                                   */
-    public Vector Unchanged (int ch) {
-	Vector sv = new Vector();
+    public Vector<String> Unchanged (int ch) {
+	Vector<String> sv = new Vector<String>();
 	String s = "";
 	boolean haveOne = false;
 	for (int i = 0; i < count.length; i++)
@@ -123,8 +123,8 @@ public class Changed {
     /* String of vars that were changed in c but not in this */
     /* Each string is no longer than ch characters           */
     /* (except for vars whose length is over ch-1)           */
-    public Vector Unchanged (Changed c, int ch) {
-	Vector sv = new Vector();
+    public Vector<String> Unchanged (Changed c, int ch) {
+	Vector<String> sv = new Vector<String>();
 	String s = "";
 	boolean haveOne = false;
 	for (int i = 0; i < count.length; i++)

@@ -388,7 +388,7 @@ public class OpDefNode extends OpDefOrDeclNode
     * the body that are not within the scope of an inner label or LET      *
     * definition.                                                          *
     ***********************************************************************/
-    private Hashtable labels = null ;
+    private Hashtable<UniqueString, LabelNode> labels = null ;
 
     private OpDefNode source = null ;
     
@@ -845,7 +845,7 @@ public class OpDefNode extends OpDefOrDeclNode
   * There doesn't seem to be any easy way to write these methods only      *
   * once.                                                                  *
   *************************************************************************/
-  public void setLabels(Hashtable ht) {labels = ht; }
+  public void setLabels(Hashtable<UniqueString, LabelNode> ht) {labels = ht; }
     /***********************************************************************
     * Sets the set of labels.                                              *
     ***********************************************************************/
@@ -865,7 +865,7 @@ public class OpDefNode extends OpDefOrDeclNode
     * as odn, then odn is added to the set and true is return; else the    *
     * set is unchanged and false is returned.                              *
     ***********************************************************************/
-    if (labels == null) {labels = new Hashtable(); } ;
+    if (labels == null) {labels = new Hashtable<UniqueString, LabelNode>(); } ;
     if (labels.containsKey(odn)) {return false ;} ;
     labels.put(odn.getName(), odn) ;
     return true;
@@ -877,8 +877,8 @@ public class OpDefNode extends OpDefOrDeclNode
     * `labels'.                                                            *
     ***********************************************************************/
     if (labels == null) {return new LabelNode[0];} ;
-    Vector v = new Vector() ;
-    Enumeration e = labels.elements() ;
+    Vector<LabelNode> v = new Vector<LabelNode>() ;
+    Enumeration<LabelNode> e = labels.elements() ;
     while (e.hasMoreElements()) { v.addElement(e.nextElement()); } ;
     LabelNode[] retVal = new LabelNode[v.size()] ;
     for (int i = 0 ; i < v.size() ; i++)
@@ -886,7 +886,7 @@ public class OpDefNode extends OpDefOrDeclNode
     return retVal ;
    }
 
-  public Hashtable  getLabelsHT() {
+  public Hashtable<UniqueString, LabelNode>  getLabelsHT() {
     /***********************************************************************
     * Return the labels field.  Used to "clone" an OpDefNode for module    *
     * instantiation.                                                       *
@@ -1067,7 +1067,7 @@ public class OpDefNode extends OpDefOrDeclNode
     }
 
     this.opLevelCond = new boolean[this.params.length][this.params.length][];
-    HashSet alpSet = this.body.getArgLevelParams();
+    HashSet<ArgLevelParam> alpSet = this.body.getArgLevelParams();
     for (int i = 0; i < this.params.length; i++) {
       for (int j = 0; j < this.params.length; j++) {
         this.opLevelCond[i][j] = new boolean[this.params[i].getArity()];
@@ -1116,9 +1116,9 @@ public class OpDefNode extends OpDefOrDeclNode
     }
 
 //    this.argLevelParams = new HashSet();
-    Iterator iter = alpSet.iterator();
+    Iterator<ArgLevelParam> iter = alpSet.iterator();
     while (iter.hasNext()) {
-      ArgLevelParam alp = (ArgLevelParam)iter.next();
+      ArgLevelParam alp = iter.next();
       if (!alp.op.occur(this.params) ||
           !alp.param.occur(this.params)) {
         this.argLevelParams.add(alp);
@@ -1386,9 +1386,9 @@ public class OpDefNode extends OpDefOrDeclNode
     ***********************************************************************/
     if (labels != null) {
        ret += "\n  Labels: " ;
-       Enumeration list = labels.keys() ;
+       Enumeration<UniqueString> list = labels.keys() ;
        while (list.hasMoreElements()) {
-          ret += ((UniqueString) list.nextElement()).toString() + "  " ;
+          ret += list.nextElement().toString() + "  " ;
          } ;
       }
     else {ret += "\n  Labels: null";};

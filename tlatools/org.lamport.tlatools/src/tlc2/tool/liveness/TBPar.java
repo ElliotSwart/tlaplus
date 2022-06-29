@@ -160,7 +160,7 @@ public class TBPar extends Vect<LiveExprNode> {
 		do {
 			done = true;
 			for (int i = 0; i < alphas.size(); i++) {
-				TBTriple alpha = (TBTriple) alphas.elementAt(i);
+				TBTriple alpha = alphas.elementAt(i);
 				if (terms1.member(alpha.getB()) && terms1.member(alpha.getC()) && !terms1.member(alpha.getA())) {
 					terms1.addElement(alpha.getA());
 					done = false;
@@ -197,7 +197,7 @@ public class TBPar extends Vect<LiveExprNode> {
 		}
 		// try a beta^-1 expansion
 		for (int i = 0; i < betas.size(); i++) {
-			TBTriple beta = (TBTriple) betas.elementAt(i);
+			TBTriple beta = betas.elementAt(i);
 			if ((terms.member(beta.getB()) || terms.member(beta.getC())) && !terms.member(beta.getA())) {
 				return particleClosure(terms.append(beta.getA()), alphas, betas);
 			}
@@ -383,12 +383,12 @@ public class TBPar extends Vect<LiveExprNode> {
 		sb.append("{");
 		String padding1 = padding + " ";
 		if (this.size() != 0) {
-			((LiveExprNode) this.elementAt(0)).toString(sb, padding1);
+			this.elementAt(0).toString(sb, padding1);
 		}
 		for (int i = 1; i < this.size(); i++) {
 			sb.append(",\n");
 			sb.append(padding1);
-			((LiveExprNode) this.elementAt(i)).toString(sb, padding1);
+			this.elementAt(i).toString(sb, padding1);
 		}
 		sb.append("}");
 	}
@@ -403,12 +403,12 @@ public class TBPar extends Vect<LiveExprNode> {
 		final StringBuffer sb = new StringBuffer();
 		sb.append("{");
 		if (this.size() != 0) {
-			LiveExprNode liveExprNode = (LiveExprNode) this.elementAt(0);
+			LiveExprNode liveExprNode = this.elementAt(0);
 			sb.append(liveExprNode.toDotViz());
 		}
 		for (int i = 1; i < this.size(); i++) {
 			sb.append(",\n");
-			LiveExprNode liveExprNode = (LiveExprNode) this.elementAt(i);
+			LiveExprNode liveExprNode = this.elementAt(i);
 			sb.append(liveExprNode.toDotViz());
 		}
 		sb.append("}");

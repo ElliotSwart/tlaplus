@@ -15,24 +15,24 @@ import java.util.Hashtable;
 class ParseUnitsTable {
 
   // Maps ParseUnit string names to their respective ParseUnit objects
-  Hashtable parseUnitTable = new Hashtable();
+  Hashtable<ParseUnit, ParseUnit> parseUnitTable = new Hashtable<ParseUnit, ParseUnit>();
 
-  ParseUnit get(String parseUnitName) { 
-    return (ParseUnit)parseUnitTable.get(parseUnitName); 
+  ParseUnit get(ParseUnit parseUnitName) { 
+    return parseUnitTable.get(parseUnitName); 
   }
 
   void put (ParseUnit parseUnitName, ParseUnit parseUnit) {
     parseUnitTable.put(parseUnitName, parseUnit);
   }
 
-  Enumeration getKeys() { return parseUnitTable.keys(); }  
+  Enumeration<ParseUnit> getKeys() { return parseUnitTable.keys(); }  
 
   public String toString() {
     String ret = "";
 
-    Enumeration e = parseUnitTable.keys();
+    Enumeration<ParseUnit> e = parseUnitTable.keys();
     while ( e.hasMoreElements()) {
-      ret += "[ ParseUnit: " + ((ParseUnit)e.nextElement()).getName() + " ] ";
+      ret += "[ ParseUnit: " + e.nextElement().getName() + " ] ";
     }
     return ret;
   }

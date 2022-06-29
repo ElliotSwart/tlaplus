@@ -208,7 +208,7 @@ public class NonLeafProofNode extends ProofNode {
     * The following code for printing the context field copied without     *
     * understanding from ModuleNode.java.                                  *
     ***********************************************************************/
-    Vector contextEntries = context.getContextEntryStringVector(depth-1,false);
+    Vector<String> contextEntries = context.getContextEntryStringVector(depth-1,false);
     if (contextEntries != null) {
       for (int i = 0; i < contextEntries.size(); i++) {
         if (contextEntries.elementAt(i) != null) {

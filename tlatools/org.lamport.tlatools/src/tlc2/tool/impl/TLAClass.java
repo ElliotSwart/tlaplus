@@ -54,9 +54,9 @@ public class TLAClass
 	 * <p>
 	 * If no class could be loaded, <code>null</code> is returned.
 	 **/
-    public synchronized Class loadClass(String name)
+    public synchronized Class<?> loadClass(String name)
     {
-        Class cl = null;
+        Class<?> cl = null;
         try
         {
         	try {

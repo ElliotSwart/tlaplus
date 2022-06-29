@@ -28,6 +28,6 @@ package tlc2.overrides;
 // This is provisional and might change or disappear in future version.
 public interface ITLCOverrides {
 
-	Class[] get();
+	Class<?>[] get();
 
 }

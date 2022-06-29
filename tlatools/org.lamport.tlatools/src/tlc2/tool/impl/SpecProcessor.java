@@ -499,8 +499,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
         // Get the constants and overrides in config file.
         // Note: Both hash tables use String as key.
-        Hashtable constants = this.initializeConstants();
-        Hashtable overrides = this.config.getOverrides();
+        Hashtable<String, Comparable<?>> constants = this.initializeConstants();
+        Hashtable<String, String> overrides = this.config.getOverrides();
 
         // Apply config file constants to the constant decls visible to rootModule.
         OpDeclNode[] rootConsts = this.rootModule.getConstantDecls();
@@ -534,11 +534,11 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
         // Apply config file module specific constants to operator defns.
         // We do not allow this kind of replacement for constant decls.
-        Hashtable<String, Hashtable> modConstants = this.initializeModConstants();
+        Hashtable<String, Hashtable<String, Comparable<?>>> modConstants = this.initializeModConstants();
         for (int i = 0; i < mods.length; i++)
         {
             UniqueString modName = mods[i].getName();
-            Hashtable mConsts = modConstants.get(modName.toString());
+            Hashtable<String, Comparable<?>> mConsts = modConstants.get(modName.toString());
             if (mConsts != null)
             {
                 OpDefNode[] opDefs = mods[i].getOpDefs();
@@ -827,7 +827,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             }
         }
 
-        Enumeration keys = overrides.keys();
+        Enumeration<String> keys = overrides.keys();
         while (keys.hasMoreElements())
         {
             Object key = keys.nextElement();
@@ -839,11 +839,11 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
         // Apply config file module specific overrides to operator defns.
         // We do not allow this kind of replacement for constant decls.
-        Hashtable<String, Hashtable> modOverrides = this.config.getModOverrides();
+        Hashtable<String, Hashtable<Comparable<?>, Object>> modOverrides = this.config.getModOverrides();
         for (int i = 0; i < mods.length; i++)
         {
             UniqueString modName = mods[i].getName();
-            Hashtable mDefs = modOverrides.get(modName.toString());
+            Hashtable<Comparable<?>, Object> mDefs = modOverrides.get(modName.toString());
             HashSet<String> modOverriden = new HashSet<>();
             if (mDefs != null)
             {
@@ -876,7 +876,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                     }
                 }
 
-                Enumeration mkeys = mDefs.keys();
+                Enumeration<Comparable<?>> mkeys = mDefs.keys();
                 while (mkeys.hasMoreElements())
                 {
                     Object mkey = mkeys.nextElement();
@@ -889,7 +889,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         }
 
         // Check if the module names specified in the config file are defined.
-        Enumeration modKeys = modOverrides.keys();
+        Enumeration<String> modKeys = modOverrides.keys();
         while (modKeys.hasMoreElements())
         {
             Object modName = modKeys.nextElement();
@@ -938,7 +938,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         }
 
         // Process the properties:
-        Vect<String> propNames = this.config.getProperties();
+        Vect<Comparable<?>> propNames = this.config.getProperties();
         for (int i = 0; i < propNames.size(); i++)
         {
             String propName = (String) propNames.elementAt(i);
@@ -965,7 +965,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         this.invNames = new String[this.invVec.size()];
         for (int i = 0; i < this.invVec.size(); i++)
         {
-            this.invariants[i] = (Action) this.invVec.elementAt(i);
+            this.invariants[i] = this.invVec.elementAt(i);
             this.invNames[i] = (String) this.invNameVec.elementAt(i);
         }
 
@@ -973,7 +973,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         this.impliedInitNames = new String[this.impliedInitVec.size()];
         for (int i = 0; i < this.impliedInits.length; i++)
         {
-            this.impliedInits[i] = (Action) this.impliedInitVec.elementAt(i);
+            this.impliedInits[i] = this.impliedInitVec.elementAt(i);
             this.impliedInitNames[i] = (String) this.impliedInitNameVec.elementAt(i);
         }
         this.impliedInitVec = null;
@@ -983,7 +983,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         this.impliedActNames = new String[this.impliedActionVec.size()];
         for (int i = 0; i < this.impliedActions.length; i++)
         {
-            this.impliedActions[i] = (Action) this.impliedActionVec.elementAt(i);
+            this.impliedActions[i] = this.impliedActionVec.elementAt(i);
             this.impliedActNames[i] = (String) this.impliedActNameVec.elementAt(i);
         }
         this.impliedActionVec = null;
@@ -993,7 +993,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         this.temporalNames = new String[this.temporalNameVec.size()];
         for (int i = 0; i < this.temporals.length; i++)
         {
-            this.temporals[i] = (Action) this.temporalVec.elementAt(i);
+            this.temporals[i] = this.temporalVec.elementAt(i);
             this.temporalNames[i] = (String) this.temporalNameVec.elementAt(i);
         }
         this.temporalVec = null;
@@ -1003,7 +1003,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         this.impliedTemporalNames = new String[this.impliedTemporalNameVec.size()];
         for (int i = 0; i < this.impliedTemporals.length; i++)
         {
-            this.impliedTemporals[i] = (Action) this.impliedTemporalVec.elementAt(i);
+            this.impliedTemporals[i] = this.impliedTemporalVec.elementAt(i);
             this.impliedTemporalNames[i] = (String) this.impliedTemporalNameVec.elementAt(i);
         }
         this.impliedTemporalVec = null;
@@ -1096,7 +1096,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
      */
     private void processConfigInvariants()
     {
-        Vect invs = this.config.getInvariants();
+        Vect<Comparable<?>> invs = this.config.getInvariants();
         for (int i = 0; i < invs.size(); i++)
         {
             String name = (String) invs.elementAt(i);
@@ -1207,7 +1207,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                     ExprNode arg = (ExprNode) ((OpApplNode) boxArg).getArgs()[0];
                     // ---sm 09/06/04 <<<
                     ExprNode subscript = (ExprNode) ((OpApplNode) boxArg).getArgs()[1];
-                    Vect varsInSubscript = null;
+                    Vect<SymbolNode> varsInSubscript = null;
                     // collect the variables from the subscript...
                     try
                     {
@@ -1493,7 +1493,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     }
     
 	private void processActionConstraints() {
-	    Vect names = this.config.getActionConstraints();
+	    Vect<Comparable<?>> names = this.config.getActionConstraints();
 	    this.actionConstraints = new ExprNode[names.size()];
 	    int idx = 0;
 	    for (int i = 0; i < names.size(); i++)
@@ -1539,7 +1539,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 	}
     
 	private final void processModelConstraints() {
-	    Vect names = this.config.getConstraints();
+	    Vect<Comparable<?>> names = this.config.getConstraints();
 	    this.modelConstraints = new ExprNode[names.size()];
 	    int idx = 0;
 	    for (int i = 0; i < names.size(); i++)
@@ -1756,12 +1756,14 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         }
     }
 
-    private final Hashtable<String, Serializable> makeConstantTable(Vect<Vect<String>> consts)
+    // Requires cast
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	private final Hashtable<String, Comparable<?>> makeConstantTable(Vect<Vect<Comparable<?>>> consts)
     {
-        Hashtable<String, Serializable> constTbl = new Hashtable<>();
+        Hashtable<String, Comparable<?>> constTbl = new Hashtable<>();
         for (int i = 0; i < consts.size(); i++)
         {
-            Vect<String> line = (Vect<String>) consts.elementAt(i);
+            Vect<Comparable<?>> line = consts.elementAt(i);
             int len = line.size();
             String name = (String) line.elementAt(0);
             if (len <= 2)
@@ -1773,7 +1775,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                 if (val == null)
                 {
                     OpRcdValue opVal = new OpRcdValue();
-                    opVal.addLine(line);
+                    opVal.addLine((Vect)line);
                     constTbl.put(name, opVal);
                 } else
                 {
@@ -1783,7 +1785,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                     {
                         Assert.fail(EC.TLC_CONFIG_OP_ARITY_INCONSISTENT, name);
                     }
-                    opVal.addLine(line);
+                    opVal.addLine((Vect)line);
                 }
             }
         }
@@ -1793,9 +1795,9 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     /** 
      * Initialize the spec constants using the config file.  
      */
-    private final Hashtable initializeConstants()
+    private final Hashtable<String,Comparable<?>> initializeConstants()
     {
-        Vect<Vect<String>> consts = this.config.getConstants();
+        Vect<Vect<Comparable<?>>> consts = this.config.getConstants();
         if (consts == null)
         {
             return new Hashtable<>();
@@ -1803,15 +1805,15 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         return this.makeConstantTable(consts);
     }
 
-    private final Hashtable<String, Hashtable> initializeModConstants()
+    private final Hashtable<String, Hashtable<String, Comparable<?>>> initializeModConstants()
     {
-        Hashtable<String, ?> modConstants = this.config.getModConstants();
-        Hashtable<String, Hashtable> constants = new Hashtable<>();
+        Hashtable<String, Vect<Vect<Comparable<?>>>> modConstants = this.config.getModConstants();
+        Hashtable<String, Hashtable<String, Comparable<?>>> constants = new Hashtable<>();
         Enumeration<String> mods = modConstants.keys();
         while (mods.hasMoreElements())
         {
             String modName = mods.nextElement();
-            constants.put(modName, this.makeConstantTable((Vect<Vect<String>>) modConstants.get(modName)));
+            constants.put(modName, this.makeConstantTable(modConstants.get(modName)));
         }
         return constants;
     }

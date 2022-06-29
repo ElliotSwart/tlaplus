@@ -21,7 +21,7 @@ public class BracketStack implements //LogCategories,
 * and an Offset field, which are of type int.  The constructor is          *
 * StackElement(int Offset, int Kind)                                       *
 ***************************************************************************/
-  private Stack stack = new Stack( );
+  private Stack<StackElement> stack = new Stack<StackElement>( );
   private int [] classes = new int[ NULL_ID ];
     /***********************************************************************
     * This is an array of length NULL_ID = 227.  Apparently, NULL_ID is    *
@@ -91,7 +91,7 @@ public class BracketStack implements //LogCategories,
     * classes[kind] and se.Offset = o.  Throws an exception if             *
     * classes[kind] = null.                                                *
     ***********************************************************************/
-    StackElement se = (StackElement)  stack.peek();
+    StackElement se = stack.peek();
 // Log.log(bracketStackLog, "--- onReference, " + o + " " + classes [ kind ] + 
 //                          "  " + se.Kind + " " + se.Offset);
      /************************************************************************
@@ -108,7 +108,7 @@ public class BracketStack implements //LogCategories,
     *                                                                      *
     * THIS METHOD IS APPARENTLY NOT USED.                                  *
     ***********************************************************************/
-    StackElement se = (StackElement)  stack.peek();
+    StackElement se = stack.peek();
 // Log.log(bracketStackLog, "--- belowReference, " + o + " " + se.Offset);
      /************************************************************************
      * A use of a class from tla2sany/error eliminated by LL on 2 Mar 2007   *
@@ -118,7 +118,7 @@ public class BracketStack implements //LogCategories,
   }
 
   boolean aboveReference( int o ) {
-    StackElement se = (StackElement)  stack.peek();
+    StackElement se = stack.peek();
 // Log.log(bracketStackLog, "--- aboveReference, " + o + " " + se.Offset);
      /************************************************************************
      * A use of a class from tla2sany/error eliminated by LL on 2 Mar 2007   *

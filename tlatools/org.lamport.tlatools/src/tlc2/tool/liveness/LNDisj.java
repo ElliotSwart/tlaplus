@@ -39,7 +39,7 @@ class LNDisj extends LiveExprNode {
 		boolean hasAct = false;
 		int level = 0;
 		for (int i = 0; i < disjs.size(); i++) {
-			LiveExprNode lexpr = (LiveExprNode) disjs.elementAt(i);
+			LiveExprNode lexpr = disjs.elementAt(i);
 			level = Math.max(level, lexpr.getLevel());
 			hasAct = hasAct || lexpr.containAction();
 		}
@@ -51,7 +51,7 @@ class LNDisj extends LiveExprNode {
 	}
 
 	public final LiveExprNode getBody(int i) {
-		return (LiveExprNode) this.disjs.elementAt(i);
+		return this.disjs.elementAt(i);
 	}
 
 	public final void addDisj(LiveExprNode elem) {
@@ -79,7 +79,7 @@ class LNDisj extends LiveExprNode {
 	@Override
 	public final boolean isPositiveForm() {
 		for (int i = 0; i < disjs.size(); i++) {
-			LiveExprNode lexpr = (LiveExprNode) disjs.elementAt(i);
+			LiveExprNode lexpr = disjs.elementAt(i);
 			if (!lexpr.isPositiveForm()) {
 				return false;
 			}
@@ -90,7 +90,7 @@ class LNDisj extends LiveExprNode {
 	public final boolean eval(ITool tool, TLCState s1, TLCState s2) {
 		int sz = disjs.size();
 		for (int i = 0; i < sz; i++) {
-			LiveExprNode item = (LiveExprNode) disjs.elementAt(i);
+			LiveExprNode item = disjs.elementAt(i);
 			if (item.eval(tool, s1, s2)) {
 				return true;
 			}

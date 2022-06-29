@@ -83,7 +83,7 @@ public class TBGraphNode {
 	}
 
 	public TBGraphNode nextAt(int i) {
-		return (TBGraphNode) this.nexts.elementAt(i);
+		return this.nexts.elementAt(i);
 	}
 
 	public final boolean hasLink(TBGraphNode target) {

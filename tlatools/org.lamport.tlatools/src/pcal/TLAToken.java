@@ -146,21 +146,21 @@ public class TLAToken
      * remove redundant pairs of matching parens (the ones for "b" in the example), and
      * perhaps I'll do that.
      */
-    private Vector beginSubst = new Vector(2) ; // of PCalLocation
-    private Vector endSubst = new Vector(2);    // of PCalLocation
-    public Vector getBeginSubst() {
+    private Vector<PCalLocation> beginSubst = new Vector<PCalLocation>(2) ; // of PCalLocation
+    private Vector<PCalLocation> endSubst = new Vector<PCalLocation>(2);    // of PCalLocation
+    public Vector<PCalLocation> getBeginSubst() {
         return beginSubst;
     }
 
-    public void setBeginSubst(Vector beginSubst) {
+    public void setBeginSubst(Vector<PCalLocation> beginSubst) {
         this.beginSubst = beginSubst;
     }
 
-    public Vector getEndSubst() {
+    public Vector<PCalLocation> getEndSubst() {
         return endSubst;
     }
 
-    public void setEndSubst(Vector endSubst) {
+    public void setEndSubst(Vector<PCalLocation> endSubst) {
         this.endSubst = endSubst;
     }
     
@@ -325,8 +325,8 @@ public class TLAToken
      { 
 	   TLAToken result = new TLAToken(this.string, this.column, this.type) ;
 	   result.source = this.source ;
-	   result.beginSubst = (Vector) this.beginSubst.clone();
-	   result.endSubst = (Vector) this.endSubst.clone();
+	   result.beginSubst = (Vector<PCalLocation>) this.beginSubst.clone();
+	   result.endSubst = (Vector<PCalLocation>) this.endSubst.clone();
 	   result.isAppended = this.isAppended;
 	   return result ;
      }

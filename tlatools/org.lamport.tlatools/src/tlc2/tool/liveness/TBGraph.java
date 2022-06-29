@@ -57,7 +57,7 @@ public class TBGraph extends Vect<TBGraphNode> {
 		this.setInitCnt(this.size());
 		// We now repeatedly compute the outlinks of each node:
 		for (int i = 0; i < this.size(); i++) {
-			final TBGraphNode gnSrc = (TBGraphNode) this.elementAt(i);
+			final TBGraphNode gnSrc = this.elementAt(i);
 			final TBPar imps = gnSrc.getPar().impliedSuccessors();
 			final TBParVec succs = imps.particleClosure();
 			for (int j = 0; j < succs.size(); j++) {
@@ -79,7 +79,7 @@ public class TBGraph extends Vect<TBGraphNode> {
 	 */
 	private TBGraphNode findOrCreateNode(final TBPar par) {
 		for (int i = 0; i < this.size(); i++) {
-			final TBGraphNode gn = (TBGraphNode) this.elementAt(i);
+			final TBGraphNode gn = this.elementAt(i);
 			if (par.equals(gn.getPar())) {
 				return gn;
 			}
@@ -90,7 +90,7 @@ public class TBGraph extends Vect<TBGraphNode> {
 	}
 
 	public TBGraphNode getNode(int idx) {
-		return (TBGraphNode) this.elementAt(idx);
+		return this.elementAt(idx);
 	}
 
 	public final void setInitCnt(int n) {

@@ -10,7 +10,7 @@ package tla2tex;
 import java.util.Vector;
 
 public class VectorCharReader extends CharReader
-  { private Vector vec ;
+  { private Vector<String> vec ;
       /*********************************************************************
       * This is the vector providing the input characters.                 *
       *********************************************************************/
@@ -20,7 +20,7 @@ public class VectorCharReader extends CharReader
       * The next element of vec to be returned by innerGetNextLine.        *
       *********************************************************************/
       
-    public VectorCharReader(Vector vector, int firstLine) 
+    public VectorCharReader(Vector<String> vector, int firstLine) 
       /*********************************************************************
       * The class constructor.  The fileName argument is the name of the   *
       * file.  It exits TLATeX if the file cannot be found.                *
@@ -38,7 +38,7 @@ public class VectorCharReader extends CharReader
       { if (nextLine == vec.size())
          { return null ; } ;
         nextLine = nextLine + 1;
-        return (String) vec.elementAt(nextLine - 1);
+        return vec.elementAt(nextLine - 1);
       } ;
 
     public void close()

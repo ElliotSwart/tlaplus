@@ -80,7 +80,7 @@ public class APSubstInNode extends LevelNode {
    * substitutions is to be produced.
    */
   public APSubstInNode(TreeNode treeNode, SymbolTable instancerST,
-		     Vector instanceeDecls, ModuleNode ingmn, ModuleNode edmn)
+		     Vector<OpDeclNode> instanceeDecls, ModuleNode ingmn, ModuleNode edmn)
   throws AbortException {
     super(APSubstInKind, treeNode);
     this.instantiatingModule = ingmn;
@@ -130,17 +130,17 @@ public class APSubstInNode extends LevelNode {
    * OpApplNode or an OpArgNode substituted for each CONSTANT of
    * VARIABLE OpDeclNode in vector v.
    */
-  final void constructSubst(Vector instanceeDecls, SymbolTable instancerST,
+  final void constructSubst(Vector<OpDeclNode> instanceeDecls, SymbolTable instancerST,
 			    TreeNode treeNode)
   throws AbortException {
-    Vector vtemp = new Vector();
+    Vector<Subst> vtemp = new Vector<Subst>();
 
     // for each CONSTANT or VARIABLE declared in module being
     // instantiated (the instancee)
     for ( int i = 0; i < instanceeDecls.size(); i++ ) {
       // Get the OpDeclNode for the CONSTANT or VARIABLE being
       // substituted for, i.e. "c" in" c <- e"
-      OpDeclNode decl = (OpDeclNode)instanceeDecls.elementAt(i);
+      OpDeclNode decl = instanceeDecls.elementAt(i);
 
       // Try to resolve the name in the instancer module so we can see
       // if it is recognized as an operator, and if so, what kind of
@@ -185,7 +185,7 @@ public class APSubstInNode extends LevelNode {
     // that are legally possible. Make an array out of them
     this.substs = new Subst[ vtemp.size() ];
     for (int i = 0; i < vtemp.size(); i++) {
-      this.substs[i] = (Subst)vtemp.elementAt(i);
+      this.substs[i] = vtemp.elementAt(i);
     }
   } // end constructSubst()
 
@@ -262,10 +262,10 @@ public class APSubstInNode extends LevelNode {
    * possible, because X is not defined in the instantiating module,
    * then we have an error.
    */
-  final void matchAll(Vector decls) {
+  final void matchAll(Vector<OpDeclNode> decls) {
     for (int i = 0; i < decls.size(); i++) {
       // Get the name of the i'th operator that must be substituted for
-      UniqueString opName = ((OpDeclNode)decls.elementAt(i)).getName();
+      UniqueString opName = decls.elementAt(i).getName();
 
       // See if it is represented in the substitutions array
       int j;

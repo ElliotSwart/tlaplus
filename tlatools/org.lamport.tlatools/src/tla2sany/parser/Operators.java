@@ -30,12 +30,12 @@ public class Operators {
     /***********************************************************************
     * The only operator of class nfix seems to be \X (aka \times).         *
     ***********************************************************************/
-  static Hashtable DefinitionTable = new Hashtable();
+  static Hashtable<UniqueString, Operator> DefinitionTable = new Hashtable<UniqueString, Operator>();
     /***********************************************************************
     * Contains the Operator objects for all operators.  It is constructed  *
     * from the data in ConfigConstants.defaultConfig.                      *
     ***********************************************************************/
-  static Hashtable BuiltinTable = new Hashtable();
+  static Hashtable<UniqueString, UniqueString> BuiltinTable = new Hashtable<UniqueString, UniqueString>();
     /***********************************************************************
     * It appears that this is not used.                                    *
     ***********************************************************************/
@@ -45,14 +45,14 @@ public class Operators {
   }
 
   static public Operator getOperator( UniqueString name ) {
-    return (Operator) DefinitionTable.get( name );
+    return DefinitionTable.get( name );
   }
 
   static public Operator getMixfix( Operator op ) {
      if (op.isPrefix()) return op;
      else {
        UniqueString id = UniqueString.uniqueStringOf( op.getIdentifier().toString() + ".");
-       return (Operator) DefinitionTable.get( id );
+       return DefinitionTable.get( id );
      }
   }
   
@@ -65,7 +65,7 @@ public class Operators {
        do make sure that the operator already exists.
        We make the new definition point to the other one.
     */
-    Operator n = (Operator) DefinitionTable.get( match );
+    Operator n = DefinitionTable.get( match );
     if (n != null) {
       DefinitionTable.put(template, n);
     } /* else {
@@ -82,7 +82,7 @@ public class Operators {
   * has no synonmys, then resolveSynonym(a) = a.                           *
   *************************************************************************/
   static public UniqueString resolveSynonym( UniqueString name ) {
-    Operator n = (Operator) DefinitionTable.get( name );
+    Operator n = DefinitionTable.get( name );
     if ( n == null ) return name;
     else return n.getIdentifier();
   }
@@ -96,11 +96,11 @@ public class Operators {
   *************************************************************************/
   static public UniqueString getBuiltinAssoc( UniqueString symbol ) {
     /* first, resolve synonyms */
-    Operator n = (Operator) DefinitionTable.get(symbol);
+    Operator n = DefinitionTable.get(symbol);
     if (n != null) {
       UniqueString name = n.getIdentifier(); /* can't be null */
       /* then lookup solution */
-      return (UniqueString) (BuiltinTable.get(name));
+      return (BuiltinTable.get(name));
     } else
       return null;
   }
@@ -108,8 +108,8 @@ public class Operators {
 /* debugging help */
   static public void printTable() {
     System.out.println("printing Operators table");
-    Enumeration Enum = DefinitionTable.keys();
-    while( Enum.hasMoreElements() ) { System.out.println("-> " + ((UniqueString)Enum.nextElement()).toString() ); }
+    Enumeration<UniqueString> Enum = DefinitionTable.keys();
+    while( Enum.hasMoreElements() ) { System.out.println("-> " + Enum.nextElement().toString() ); }
   }
 
 // shouldn't be necessary

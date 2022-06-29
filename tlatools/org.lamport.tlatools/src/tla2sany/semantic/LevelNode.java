@@ -64,10 +64,10 @@ public class LevelNode extends SemanticNode {
 ***************************************************************************/
 public boolean                   levelCorrect        = true ;
 public int                       level               = ConstantLevel ;
-public HashSet<SymbolNode>       levelParams         = new HashSet<>() ;
+public HashSet<SymbolNode>       levelParams         = new HashSet<SymbolNode>() ;
 public SetOfLevelConstraints     levelConstraints    = new SetOfLevelConstraints();
 public SetOfArgLevelConstraints  argLevelConstraints = new SetOfArgLevelConstraints();
-public HashSet<ArgLevelParam>    argLevelParams      = new HashSet<>() ;
+public HashSet<ArgLevelParam>    argLevelParams      = new HashSet<ArgLevelParam>() ;
 
 /***************************************************************************
 * The following HashSets are used in computing Leibnizity.                 *

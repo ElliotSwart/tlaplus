@@ -81,11 +81,11 @@ public class ModelConfig implements ValueConstants, Serializable {
             ActionConstraints, Invariant, Invariants, Init, Next, View, Symmetry, Spec, Prop, Props, Alias,
             PostCondition, CheckDeadlock };
 
-    private Hashtable configTbl;
+    private Hashtable<String, Object> configTbl;
     private Hashtable<String, String> overrides;
     private Hashtable<String, String> overridesReverseMap;
-    private Hashtable modConstants;
-    private Hashtable modOverrides;
+    private Hashtable<String, Vect<Vect<Comparable<?>>>> modConstants;
+    private Hashtable<String, Hashtable<Comparable<?>,Object>> modOverrides;
     private String configFileName;
     private FilenameToStream resolver; // resolver for the file
     private List<String> rawConstants;
@@ -112,7 +112,7 @@ public class ModelConfig implements ValueConstants, Serializable {
 
         this.configFileName = configFileName;
         this.configTbl = new Hashtable<>();
-        Vect temp = new Vect<>();
+        Vect<Comparable<?>> temp = new Vect<>();
         this.configTbl.put(Constant, temp);
         this.configTbl.put(Constants, temp);
         temp = new Vect<>();
@@ -148,11 +148,12 @@ public class ModelConfig implements ValueConstants, Serializable {
      */
     public final void parse()
     {
-        Vect constants = (Vect) this.configTbl.get(Constant);
-        Vect constraints = (Vect) this.configTbl.get(Constraint);
-        Vect actionConstraints = (Vect) this.configTbl.get(ActionConstraint);
-        Vect invariants = (Vect) this.configTbl.get(Invariant);
-        Vect props = (Vect) this.configTbl.get(Prop);
+        Vect<Vect<Comparable<?>>> constants = this.getConstants();
+        Vect<Comparable<?>> constraints = this.getConstraints();
+        Vect<Comparable<?>> actionConstraints = this.getActionConstraints();
+        Vect<Comparable<?>> invariants = this.getInvariants();
+        Vect<Comparable<?>> props = this.getProperties();
+        
         try
         {
             // SZ 23.02.2009: separated file resolution from stream retrieval
@@ -296,7 +297,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                             lhs = lhs + "!" + tt.image;
                             tt = getNextToken(tmgr, buf);
                         }
-                        Vect line = new Vect();
+                        Vect<Comparable<?>> line = new Vect<Comparable<?>>();
                         line.addElement(lhs);
                         // Following code replaced on 30 July 2009.
                         // line.addElement(tt.image);
@@ -326,10 +327,10 @@ public class ModelConfig implements ValueConstants, Serializable {
                                     throw new ConfigFileException(EC.CFG_EXPECT_ID, new String[] {
                                             String.valueOf(scs.getBeginLine()), "<-[mod]" });
                                 }
-                                Hashtable defs = (Hashtable) this.modOverrides.get(modName);
+                                Hashtable<Comparable<?>, Object> defs = this.modOverrides.get(modName);
                                 if (defs == null)
                                 {
-                                    defs = new Hashtable();
+                                    defs = new Hashtable<Comparable<?>, Object>();
                                     this.modOverrides.put(modName, defs);
                                 }
                                 defs.put(line.elementAt(0), tt.image);
@@ -388,10 +389,10 @@ public class ModelConfig implements ValueConstants, Serializable {
                                 }
                                 tt = getNextToken(tmgr, buf);
                                 line.addElement(this.parseValue(tt, scs, tmgr, buf));
-                                Vect mConsts = (Vect) this.modConstants.get(modName);
+                                Vect<Vect<Comparable<?>>> mConsts = (Vect<Vect<Comparable<?>>>) this.modConstants.get(modName);
                                 if (mConsts == null)
                                 {
-                                    mConsts = new Vect();
+                                    mConsts = new Vect<Vect<Comparable<?>>>();
                                     this.modConstants.put(modName, mConsts);
                                 }
                                 mConsts.addElement(line);
@@ -632,12 +633,13 @@ public class ModelConfig implements ValueConstants, Serializable {
             .collect(Collectors.toList());
     }
 
-    public synchronized final Vect getConstants()
+    @SuppressWarnings("unchecked")
+	public synchronized final Vect<Vect<Comparable<?>>> getConstants()
     {
-        return (Vect) this.configTbl.get(Constant);
+        return (Vect<Vect<Comparable<?>>>) this.configTbl.get(Constant);
     }
 
-    public synchronized final Hashtable getModConstants()
+    public synchronized final Hashtable<String, Vect<Vect<Comparable<?>>>> getModConstants()
     {
         return this.modConstants;
     }
@@ -651,19 +653,21 @@ public class ModelConfig implements ValueConstants, Serializable {
     	return this.overridesReverseMap.get(configName);
     }
 
-    public synchronized final Hashtable getModOverrides()
+    public synchronized final Hashtable<String, Hashtable<Comparable<?>,Object>> getModOverrides()
     {
         return this.modOverrides;
     }
 
-    public synchronized final Vect getConstraints()
+    @SuppressWarnings("unchecked")
+	public synchronized final Vect<Comparable<?>> getConstraints()
     {
-        return (Vect) this.configTbl.get(Constraint);
+        return (Vect<Comparable<?>>) this.configTbl.get(Constraint);
     }
 
-    public synchronized final Vect getActionConstraints()
+    @SuppressWarnings("unchecked")
+	public synchronized final Vect<Comparable<?>> getActionConstraints()
     {
-        return (Vect) this.configTbl.get(ActionConstraint);
+        return (Vect<Comparable<?>>) this.configTbl.get(ActionConstraint);
     }
 
     public synchronized final String getInit()
@@ -692,9 +696,10 @@ public class ModelConfig implements ValueConstants, Serializable {
         return (String) this.configTbl.get(Symmetry);
     }
 
-    public synchronized final Vect getInvariants()
+    @SuppressWarnings("unchecked")
+	public synchronized final Vect<Comparable<?>> getInvariants()
     {
-        return (Vect) this.configTbl.get(Invariant);
+        return (Vect<Comparable<?>>) this.configTbl.get(Invariant);
     }
 
     public synchronized final String getSpec()
@@ -702,9 +707,10 @@ public class ModelConfig implements ValueConstants, Serializable {
         return (String) this.configTbl.get(Spec);
     }
 
-    public synchronized final Vect getProperties()
+    @SuppressWarnings("unchecked")
+	public synchronized final Vect<Comparable<?>> getProperties()
     {
-        return (Vect) this.configTbl.get(Prop);
+        return (Vect<Comparable<?>>) this.configTbl.get(Prop);
     }
 
     public synchronized final String getAlias()

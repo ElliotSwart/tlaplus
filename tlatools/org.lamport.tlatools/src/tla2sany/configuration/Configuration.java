@@ -392,7 +392,7 @@ public final class Configuration implements ConfigConstants {
       return (jj_ntk = jj_nt.kind);
   }
 
-  static private java.util.Vector jj_expentries = new java.util.Vector();
+  static private java.util.Vector<int[]> jj_expentries = new java.util.Vector<int[]>();
   static private int[] jj_expentry;
   static private int jj_kind = -1;
 
@@ -424,7 +424,7 @@ public final class Configuration implements ConfigConstants {
     }
     int[][] exptokseq = new int[jj_expentries.size()][];
     for (int i = 0; i < jj_expentries.size(); i++) {
-      exptokseq[i] = (int[])jj_expentries.elementAt(i);
+      exptokseq[i] = jj_expentries.elementAt(i);
     }
     return new ParseException(token, exptokseq, tokenImage);
   }

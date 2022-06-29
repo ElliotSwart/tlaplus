@@ -232,7 +232,7 @@ public class Token
     static void FindPfStepTokens(Token[][] toks) {
       for (int k = 0 ; k < toks.length ; k++) 
         { Token[] input = toks[k] ;
-          Vector outputVec = new Vector(input.length) ;
+          Vector<Token> outputVec = new Vector<Token>(input.length) ;
           int i = 0 ;
           while (i < input.length)
            { if (   (i < input.length - 2)
@@ -282,7 +282,7 @@ public class Token
           if (outputVec.size() != input.length)
             { toks[k] = new Token[outputVec.size()] ;
               for (i = 0; i < outputVec.size(); i++) 
-                 { toks[k][i] = (Token) outputVec.elementAt(i) ;
+                 { toks[k][i] = outputVec.elementAt(i) ;
                  } ;
             }
         } // for k

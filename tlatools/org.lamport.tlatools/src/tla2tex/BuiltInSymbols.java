@@ -40,37 +40,37 @@ public final class BuiltInSymbols
     /***********************************************************************
     * The following six hash tables are built by the Initialize method.  *
     ***********************************************************************/
-    private static Hashtable builtInHashTable = new Hashtable(200);
+    private static Hashtable<String, Symbol> builtInHashTable = new Hashtable<String, Symbol>(200);
       /*********************************************************************
       * Maps built-in symbols (which are strings) to their Symbol          *
       * objects.  Does not contain PlusCal symbols.                        *
       *********************************************************************/
 
-    private static Hashtable prefixHashTable  = new Hashtable(700);
+    private static Hashtable<String, String> prefixHashTable  = new Hashtable<String, String>(700);
       /*********************************************************************
       * A table containing the prefixes of all built-in symbols in         *
       * builtInHashTable.  (It holds only their keys.)                     *
       *********************************************************************/
 
-    private static Hashtable pcalBuiltInHashTable = new Hashtable(200);
+    private static Hashtable<String, Symbol> pcalBuiltInHashTable = new Hashtable<String, Symbol>(200);
       /*********************************************************************
       * Maps built-in symbols (which are strings) to their Symbol          *
       * objects.  It includes the PlusCal symbols.                         *
       *********************************************************************/
 
-    private static Hashtable pcalPrefixHashTable  = new Hashtable(700);
+    private static Hashtable<String, String> pcalPrefixHashTable  = new Hashtable<String, String>(700);
       /*********************************************************************
       * A table containing the prefixes of all built-in symbols in         *
       * pcalBuiltInHashTable.  (It holds only their keys.)                 *
       *********************************************************************/
 
-    private static Hashtable stringCharTable  = new Hashtable(100);
+    private static Hashtable<String, String> stringCharTable  = new Hashtable<String, String>(100);
       /*********************************************************************
       * A table of all the characters that may appear in a TLA+ string     *
       * token.                                                             *
       *********************************************************************/
 
-    private static Hashtable canPrecedeLabelTable = new Hashtable(15);
+    private static Hashtable<String, String> canPrecedeLabelTable = new Hashtable<String, String>(15);
       /*********************************************************************
       * A table of all the tokens (strings) that can precede a labeled     *
       * statement.                                                         *
@@ -118,10 +118,10 @@ public final class BuiltInSymbols
     public static Symbol GetBuiltInSymbol(String str, boolean pcalMode)
       { Symbol sym ;
         if (pcalMode) { 
-            sym = (Symbol) pcalBuiltInHashTable.get(str);
+            sym = pcalBuiltInHashTable.get(str);
         }
         else {
-            sym = (Symbol) builtInHashTable.get(str); 
+            sym = builtInHashTable.get(str); 
         }
        
         if (sym == null || (sym.pcal && ! pcalMode)) {
@@ -132,7 +132,7 @@ public final class BuiltInSymbols
 
 
     public static Symbol GetBuiltInSymbol(String str)
-      { return (Symbol) builtInHashTable.get(str);
+      { return builtInHashTable.get(str);
       } ;
 
     public static boolean IsBuiltInPrefix(String str)
@@ -510,9 +510,9 @@ public final class BuiltInSymbols
       * Initializes prefixHashTable and pcalPrefixHashTable, assuming that *
       * builtInHashTable and pcalBuiltInHashTable are already initialize   *
       *********************************************************************/
-      { Enumeration builtInEnum = builtInHashTable.keys();
+      { Enumeration<String> builtInEnum = builtInHashTable.keys();
         while (builtInEnum.hasMoreElements())
-          { String symbol = (String) builtInEnum.nextElement();
+          { String symbol = builtInEnum.nextElement();
             if (    Misc.IsLetter(symbol.charAt(0))
                  ||    (symbol.length() > 1)
                     && (symbol.charAt(0) == '\\')
@@ -534,7 +534,7 @@ public final class BuiltInSymbols
           }
         builtInEnum = pcalBuiltInHashTable.keys();
         while (builtInEnum.hasMoreElements())
-          { String symbol = (String) builtInEnum.nextElement();
+          { String symbol = builtInEnum.nextElement();
             if (    Misc.IsLetter(symbol.charAt(0))
                  ||    (symbol.length() > 1)
                     && (symbol.charAt(0) == '\\')
