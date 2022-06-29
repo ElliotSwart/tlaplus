@@ -31,8 +31,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import tlc2.TLCGlobals;
-import tlc2.value.impl.IntervalValue;
-import tlc2.value.impl.SetOfTuplesValue;
 
 public class SetOfTuplesValueTest {
 	

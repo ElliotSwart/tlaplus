@@ -3,6 +3,10 @@ package pcal;
 import java.util.Vector;
 
 import pcal.AST.VarDecl;
+
+import pcal.MappingObject.LeftParen;
+import pcal.MappingObject.RightParen;
+
 import pcal.exception.PcalTLAGenException;
 import pcal.exception.TLAExprException;
 import util.TLAConstants;

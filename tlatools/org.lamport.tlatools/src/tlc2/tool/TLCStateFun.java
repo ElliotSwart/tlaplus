@@ -15,7 +15,6 @@ import tlc2.util.Context;
 import tlc2.value.IValue;
 import tlc2.value.IValueInputStream;
 import tlc2.value.IValueOutputStream;
-import tlc2.value.impl.Value;
 import util.UniqueString;
 import util.WrongInvocationException;
 

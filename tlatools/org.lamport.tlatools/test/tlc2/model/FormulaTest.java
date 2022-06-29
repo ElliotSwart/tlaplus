@@ -1,10 +1,9 @@
 package tlc2.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
-
-import tlc2.model.Formula;
 
 public class FormulaTest {
 

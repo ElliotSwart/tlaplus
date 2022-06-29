@@ -29,7 +29,6 @@ package util;
 import static org.junit.Assert.assertArrayEquals;
 
 import junit.framework.TestCase;
-import util.StringHelper;
 
 public class StringHelperTest extends TestCase {
 

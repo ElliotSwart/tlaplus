@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import tla2sany.st.Location;
-import tlc2.tool.TLCState;
 import tlc2.tool.TLCStateInfo;
 import tlc2.value.IValue;
 import tlc2.value.impl.RecordValue;

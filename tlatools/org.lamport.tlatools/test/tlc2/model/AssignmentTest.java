@@ -30,8 +30,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import tlc2.model.Assignment;
-
 public class AssignmentTest {
 
 	@Test

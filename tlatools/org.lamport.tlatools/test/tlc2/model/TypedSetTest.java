@@ -1,7 +1,6 @@
 package tlc2.model;
 
 import junit.framework.TestCase;
-import tlc2.model.TypedSet;
 
 /**
  * Test of the typed set factory

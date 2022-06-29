@@ -23,18 +23,10 @@
  ******************************************************************************/
 package tlc2.value.impl;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import tlc2.TLCGlobals;
-import tlc2.value.impl.IntervalValue;
-import tlc2.value.impl.SetOfTuplesValue;
-import tlc2.value.impl.TupleValue;
-import tlc2.value.impl.IntValue;
-import tlc2.value.impl.StringValue;
-import tlc2.value.impl.Value;
 import util.Assert;
 
 
