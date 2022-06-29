@@ -18,7 +18,9 @@ class SetOfArgLevelConstraints extends HashMap<ParamAndPosition, Integer> implem
   * k.position.                                                            *
   *************************************************************************/
   
-  /**
+  private static final long serialVersionUID = -7784778621001953833L;
+
+/**
    * This method adds <pap, level> into this set, and "subsumes"
    * it with another one for the same parameter if one is there, or
    * ignoring the constraint if it is vacuous.

@@ -20,7 +20,8 @@ import util.Assert;
 
 public class IntervalValue extends EnumerableValue
 implements Enumerable, Reducible {
-  public int low, high;   // the integer interval [low, high]
+  private static final long serialVersionUID = 7943224461448491541L;
+public int low, high;   // the integer interval [low, high]
 
   /* Constructor */
   public IntervalValue(int low, int high) {

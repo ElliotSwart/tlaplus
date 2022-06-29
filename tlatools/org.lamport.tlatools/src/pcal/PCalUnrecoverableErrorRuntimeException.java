@@ -10,7 +10,9 @@ package pcal;
 public class PCalUnrecoverableErrorRuntimeException extends RuntimeException
 {
 
-    public PCalUnrecoverableErrorRuntimeException(String message)
+    private static final long serialVersionUID = -7122672794272829880L;
+
+	public PCalUnrecoverableErrorRuntimeException(String message)
     {
         super(message);
     }

@@ -14,7 +14,9 @@ import util.Assert;
 import util.WrongInvocationException;
 
 public class OpRcdValue extends OpValue implements Applicable {
-  public Vect domain;
+
+  private static final long serialVersionUID = 6268427410634909269L;
+public Vect<Value[]> domain;
   public Vect values;
 
   /* Constructor */

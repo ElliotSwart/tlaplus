@@ -30,6 +30,7 @@ import tlc2.tool.coverage.CostModel;
 
 public class KSubsetValue extends SubsetValue {
 
+	private static final long serialVersionUID = -3232154930645775831L;
 	private final int k;
 
 	public KSubsetValue(int k, Value set) {

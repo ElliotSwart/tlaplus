@@ -19,7 +19,8 @@ import tlc2.value.Values;
 import util.Assert;
 
 public class SetCupValue extends EnumerableValue implements Enumerable {
-  public final Value set1;
+  private static final long serialVersionUID = -3722888493173106476L;
+public final Value set1;
   public final Value set2;
   protected SetEnumValue cupSet;
 

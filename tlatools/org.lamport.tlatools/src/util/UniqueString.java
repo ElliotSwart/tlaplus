@@ -61,7 +61,8 @@ import tlc2.util.FP64;
 public final class UniqueString implements Serializable
 {
     
-    /** 
+    private static final long serialVersionUID = -4248026930568621196L;
+	/** 
      * Maps from strings to variables. 
      */
     public static InternTable internTbl = null;

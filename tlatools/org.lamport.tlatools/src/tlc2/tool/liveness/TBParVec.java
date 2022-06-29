@@ -9,6 +9,8 @@ import tlc2.util.Vect;
 
 public class TBParVec extends Vect<TBPar> {
 
+	private static final long serialVersionUID = -3448802399964070243L;
+
 	public TBParVec(int size) {
 		super(size);
 	}

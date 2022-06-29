@@ -19,7 +19,8 @@ import util.Assert;
 import util.WrongInvocationException;
 
 public class OpLambdaValue extends OpValue implements Applicable {
-  public final OpDefNode opDef;       // the operator definition.
+  private static final long serialVersionUID = -4415785686305868764L;
+public final OpDefNode opDef;       // the operator definition.
   public final ITool tool;
   public final Context con;
   public final TLCState state;

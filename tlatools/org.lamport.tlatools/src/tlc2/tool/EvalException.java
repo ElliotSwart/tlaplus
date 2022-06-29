@@ -20,7 +20,8 @@ public class EvalException extends StatefulRuntimeException
 //    private int type;
 
 
-    private final int errorCode;
+    private static final long serialVersionUID = -7401139507774908329L;
+	private final int errorCode;
     private final String[] parameters;
 
 	public EvalException(int errorCode, String[] parameters)

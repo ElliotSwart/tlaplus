@@ -8,6 +8,11 @@ public class TokenizerException extends UnrecoverableException
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2587329931029412047L;
+
+	/**
      * @param message
      */
     public TokenizerException(String message)

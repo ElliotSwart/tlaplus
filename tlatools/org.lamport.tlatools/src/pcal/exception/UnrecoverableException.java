@@ -6,7 +6,12 @@ package pcal.exception;
  */
 public class UnrecoverableException extends Throwable
 {
-    public UnrecoverableException(String message)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5651132038554471989L;
+
+	public UnrecoverableException(String message)
     {
         super(message);
     }

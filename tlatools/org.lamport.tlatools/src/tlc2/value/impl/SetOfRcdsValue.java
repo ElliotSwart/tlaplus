@@ -22,7 +22,8 @@ import util.Assert;
 import util.UniqueString;
 
 public class SetOfRcdsValue extends SetOfFcnsOrRcdsValue implements Enumerable {
-  public final UniqueString[] names;      // The names of the fields.
+  private static final long serialVersionUID = -9092903562165832666L;
+public final UniqueString[] names;      // The names of the fields.
   public final Value[] values;            // The values of the fields.
   protected SetEnumValue rcdSet;
 

@@ -36,7 +36,8 @@ import util.Assert;
 */
 
 public class ReadersWriterLock implements Serializable {
-    /** Acquire a share of the object's read lock. This call will
+    private static final long serialVersionUID = -153102115077172613L;
+	/** Acquire a share of the object's read lock. This call will
         block until no writer holds the lock and there are no writers
         waiting to acquire the lock.<p>
         REQUIRES LL = SELF. */

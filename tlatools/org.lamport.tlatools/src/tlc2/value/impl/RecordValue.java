@@ -39,7 +39,8 @@ import util.TLAConstants;
 import util.UniqueString;
 
 public class RecordValue extends Value implements Applicable {
-  private static final UniqueString BLI = UniqueString.of("beginLine");
+  private static final long serialVersionUID = -6591667243555442695L;
+private static final UniqueString BLI = UniqueString.of("beginLine");
   private static final UniqueString BCOL = UniqueString.of("beginColumn");
   private static final UniqueString ELI = UniqueString.of("endLine");
   private static final UniqueString ECOL = UniqueString.of("endColumn");
@@ -772,6 +773,7 @@ public class RecordValue extends Value implements Applicable {
 
 		private static final class PrintTLCState extends TLCState {
 
+			private static final long serialVersionUID = -4084984937231648467L;
 			private final RecordValue rcd;
 			private final TLCState state;
 

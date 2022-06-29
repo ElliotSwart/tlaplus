@@ -129,6 +129,8 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 	 * Encapsulates information about an error produced by a simulation worker.
 	 */
 	 public static class SimulationWorkerError extends InvariantViolatedException  {
+		private static final long serialVersionUID = -5450381609419573305L;
+
 		public SimulationWorkerError(int errorCode, String[] parameters, TLCState state, StateVec stateTrace) {
 			this(errorCode, parameters, state, stateTrace, null);
 		}

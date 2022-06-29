@@ -11,7 +11,12 @@ import tlc2.output.MP;
  */
 public class ConfigFileException extends RuntimeException
 {
-    public ConfigFileException(int errorCode, String[] parameters)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1479692626467317310L;
+
+	public ConfigFileException(int errorCode, String[] parameters)
     {
         super(MP.getMessage(errorCode, parameters));
     }

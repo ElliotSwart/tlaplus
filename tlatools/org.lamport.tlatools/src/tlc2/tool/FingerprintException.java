@@ -34,7 +34,8 @@ import tlc2.value.IValue;
 
 public class FingerprintException extends RuntimeException {
 
-  final public IValue value;
+  private static final long serialVersionUID = -3982482838722472641L;
+final public IValue value;
   final public FingerprintException next;
 
   private FingerprintException(Throwable initCauseThrowable, IValue value, FingerprintException next) {

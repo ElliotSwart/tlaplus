@@ -46,7 +46,8 @@ import util.Assert.TLCRuntimeException;
 import util.WrongInvocationException;
 
 public class EvaluatingValue extends OpValue implements Applicable {
-  protected final MethodHandle mh;
+  private static final long serialVersionUID = -7014059367973382505L;
+protected final MethodHandle mh;
   protected final Method md;
   protected final int minLevel;
   protected final int priority;

@@ -41,7 +41,9 @@ import tlc2.value.RandomEnumerableValues;
 
 public abstract class EnumerableValue extends Value implements Enumerable {
 
-  @Override
+  private static final long serialVersionUID = -7395685156018142895L;
+
+@Override
   public Value isSubsetEq(Value other) {
     try {
       final ValueEnumeration Enum = this.elements();

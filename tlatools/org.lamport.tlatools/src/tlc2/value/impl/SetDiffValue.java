@@ -18,7 +18,8 @@ import tlc2.value.Values;
 import util.Assert;
 
 public class SetDiffValue extends EnumerableValue implements Enumerable {
-  public final Value set1;
+  private static final long serialVersionUID = 762054913537637136L;
+public final Value set1;
   public final Value set2;
   protected SetEnumValue diffSet;
 

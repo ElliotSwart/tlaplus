@@ -22,7 +22,8 @@ import util.Assert;
 import util.UniqueString;
 
 public class StringValue extends Value {
-  public final UniqueString val;
+  private static final long serialVersionUID = 2662360691785009553L;
+public final UniqueString val;
 
   /* Constructor */
   public StringValue(String str) {

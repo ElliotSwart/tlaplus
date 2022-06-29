@@ -17,7 +17,9 @@ import tlc2.value.Values;
 import util.Assert;
 
 public class IntValue extends Value {
-  private static final IntValue[] cache;
+  private static final long serialVersionUID = 3127167023658570028L;
+
+private static final IntValue[] cache;
 
   static {
     cache = new IntValue[10];

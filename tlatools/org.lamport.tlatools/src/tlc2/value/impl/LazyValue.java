@@ -23,6 +23,7 @@ import util.Assert;
 import util.ToolIO;
 
 public class LazyValue extends Value {
+	private static final long serialVersionUID = -6829055787675377238L;
 	/**
 	 * Allow to completely disable LazyValue by passing a VM property/system
 	 * property to the Java VM with "-Dtlc2.value.LazyValue.off=true". This is meant

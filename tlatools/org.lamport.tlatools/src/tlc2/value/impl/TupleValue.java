@@ -29,7 +29,8 @@ import util.Assert;
 import util.UniqueString;
 
 public class TupleValue extends Value implements Applicable, ITupleValue {
-  public final Value[] elems;          // the elements of this tuple.
+  private static final long serialVersionUID = 5004755628424465591L;
+public final Value[] elems;          // the elements of this tuple.
   public static final TupleValue EmptyTuple = new TupleValue(new Value[0]);
 
   /* Constructor */

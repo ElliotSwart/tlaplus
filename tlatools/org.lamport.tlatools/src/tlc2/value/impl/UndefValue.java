@@ -13,7 +13,8 @@ import util.Assert;
 
 public class UndefValue extends Value {
 
-  public static final UndefValue ValUndef = new UndefValue();
+  private static final long serialVersionUID = -2146173262270469092L;
+public static final UndefValue ValUndef = new UndefValue();
 
   public UndefValue() { /*SKIP*/ }
 

@@ -41,6 +41,8 @@ import util.Assert;
 
 public class CallableValue extends EvaluatingValue {
 
+	private static final long serialVersionUID = 3406961825539255119L;
+
 	public CallableValue(Method md, int minLevel, OpDefNode opDef) throws IllegalAccessException {
 		super(MethodHandles.publicLookup().unreflect(md).asSpreader(IValue[].class, md.getParameterCount()), md, minLevel, 100, opDef);
 	}

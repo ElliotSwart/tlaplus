@@ -46,6 +46,7 @@ import util.Assert.TLCRuntimeException;
 
 public final class CallStackTool extends Tool {
 
+	private static final long serialVersionUID = -8495648034821638082L;
 	private final CallStack callStack = new CallStack();
 
 	public CallStackTool(ITool other) {

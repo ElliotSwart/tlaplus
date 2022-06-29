@@ -35,6 +35,7 @@ import util.UniqueString;
 
 public class CounterExample extends RecordValue {
 
+	private static final long serialVersionUID = -3909695203802430063L;
 	private static final UniqueString STATES = UniqueString.of("state");
 	private static final UniqueString ACTIONS = UniqueString.of("action");
 

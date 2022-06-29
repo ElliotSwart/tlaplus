@@ -40,6 +40,8 @@ import util.Assert;
 
 public class PriorityEvaluatingValue extends EvaluatingValue {
 
+	private static final long serialVersionUID = 6911089129982560105L;
+
 	private static final Comparator<EvaluatingValue> comparator = new Comparator<EvaluatingValue>() {
 		@Override
 		public int compare(EvaluatingValue o1, EvaluatingValue o2) {

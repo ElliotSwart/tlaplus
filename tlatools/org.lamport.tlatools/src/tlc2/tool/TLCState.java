@@ -22,7 +22,8 @@ import util.Assert;
 import util.UniqueString;
 
 public abstract class TLCState implements Cloneable, Serializable {
-  public short workerId = Short.MAX_VALUE; // Must be set to a non-negative number. Valid worker ids \in [0,Short.MAX_VALUE] and start at 0.
+  private static final long serialVersionUID = 746951381647227756L;
+public short workerId = Short.MAX_VALUE; // Must be set to a non-negative number. Valid worker ids \in [0,Short.MAX_VALUE] and start at 0.
   public static final int INIT_UID = -1;
   public long uid = INIT_UID;   // Must be set to a non-negative number
   // The level of an initial state is initialized with 1 to assert that

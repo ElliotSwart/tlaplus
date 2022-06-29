@@ -8,6 +8,8 @@ package tlc2.util;
  */
 public class SingleThreadedReadersWriterLock extends ReadersWriterLock {
 
+	private static final long serialVersionUID = 2313689013094915102L;
+
 	/* (non-Javadoc)
 	 * @see tlc2.util.ReadersWriterLock#BeginRead()
 	 */

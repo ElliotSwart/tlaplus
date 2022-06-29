@@ -18,7 +18,8 @@ import tlc2.value.Values;
 import util.Assert;
 
 public class SetCapValue extends EnumerableValue implements Enumerable {
-  public final Value set1;
+  private static final long serialVersionUID = 4770756788244430399L;
+public final Value set1;
   public final Value set2;
   protected SetEnumValue capSet;
 

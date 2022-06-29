@@ -25,7 +25,8 @@ import util.WrongInvocationException;
  * can not be used in getInitStates and getNextStates.
  */
 public final class TLCStateFun extends TLCState {
-  private SymbolNode name;
+  private static final long serialVersionUID = -357349115038775307L;
+private SymbolNode name;
   private IValue value;
   private TLCStateFun next;
 

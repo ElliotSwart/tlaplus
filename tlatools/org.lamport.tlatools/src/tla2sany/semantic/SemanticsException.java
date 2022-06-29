@@ -6,7 +6,8 @@ package tla2sany.semantic;
 
 public class SemanticsException extends Exception {
 
-  int    severity;      // 0 == warning; 1 == error; 2 == abort
+  private static final long serialVersionUID = 3916308283655414705L;
+int    severity;      // 0 == warning; 1 == error; 2 == abort
   String message;       // human-readable error message
 
   public SemanticsException( int s, String m) { 

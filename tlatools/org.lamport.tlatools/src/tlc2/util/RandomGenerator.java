@@ -9,7 +9,9 @@ import java.util.Random;
 
 public class RandomGenerator extends Random {
 
-  private long aril;
+  private static final long serialVersionUID = 1180606528797062350L;
+
+private long aril;
 
   public final static int[] primes =
   { 1277011, 1277021, 1277039, 1277041, 1277063, 1277069, 1277071, 1277083, 1277093,

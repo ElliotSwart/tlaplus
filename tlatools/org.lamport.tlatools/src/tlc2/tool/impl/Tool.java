@@ -113,7 +113,8 @@ public abstract class Tool
     implements ValueConstants, ToolGlobals, ITool
 {
 
-  	public static final String PROBABLISTIC_KEY = Tool.class.getName() + ".probabilistic";
+  	private static final long serialVersionUID = -8485049126843307912L;
+	public static final String PROBABLISTIC_KEY = Tool.class.getName() + ".probabilistic";
     /*
 	 * Prototype, do *not* activate when checking safety or liveness!!!:
 	 * For simulation that is not meant as a substitute of exhaustive checking for too

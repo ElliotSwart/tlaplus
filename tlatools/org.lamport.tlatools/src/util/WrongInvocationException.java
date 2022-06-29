@@ -10,7 +10,12 @@ package util;
 public class WrongInvocationException extends RuntimeException
 {
 
-    public WrongInvocationException(String message)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3746913549917545561L;
+
+	public WrongInvocationException(String message)
     {
         super(message);
     }

@@ -21,7 +21,8 @@ import tlc2.value.Values;
 import util.Assert;
 
 public class SetOfFcnsValue extends SetOfFcnsOrRcdsValue implements Enumerable {
-  public final Value domain;        /* Function domain  */
+  private static final long serialVersionUID = 9047929732716539750L;
+public final Value domain;        /* Function domain  */
   public final Value range;         /* Function range   */
   protected SetEnumValue fcnSet;
 

@@ -8,6 +8,11 @@ public class TokenMgrError extends Error
     */
 
    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3472846090570209427L;
+
+/**
     * Lexical error occured.
     */
    static final int LEXICAL_ERROR = 0;

@@ -4,6 +4,8 @@ package tla2sany.semantic;
 
 class LevelException extends Exception {
 
-  LevelException(String s) { super(s); }
+  private static final long serialVersionUID = -877141057145413215L;
+
+LevelException(String s) { super(s); }
 
 }

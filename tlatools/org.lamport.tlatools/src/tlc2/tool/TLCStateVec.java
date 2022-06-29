@@ -11,7 +11,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class TLCStateVec implements Cloneable, Serializable {
-  private TLCState[] elementData;
+  private static final long serialVersionUID = 7857470899073321671L;
+private TLCState[] elementData;
   private int elementCount;
          
   public TLCStateVec() { this(10); }

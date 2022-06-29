@@ -29,7 +29,9 @@ import util.WrongInvocationException;
 
 public abstract class Value implements ValueConstants, Serializable, IValue {
 
-	  private static final String[] ValueImage = {
+	  private static final long serialVersionUID = 1770876870369249885L;
+
+	private static final String[] ValueImage = {
 	    "a Boolean value",                     // "BoolValue",
 	    "an integer",                          // "IntValue",
 	    "a real",                              // "RealValue",

@@ -21,7 +21,8 @@ import tlc2.tool.distributed.InternRMI;
 public final class InternTable implements Serializable
 {
 
-    private int count;  // The number of entries in the table.
+    private static final long serialVersionUID = -7724996567267270160L;
+	private int count;  // The number of entries in the table.
     private int length; // The length of the table.
     private int thresh; // The maximum number of entries before the table
                         // needs to be grown.

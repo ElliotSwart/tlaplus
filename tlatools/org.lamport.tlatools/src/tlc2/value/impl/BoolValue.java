@@ -18,7 +18,8 @@ import tlc2.value.Values;
 import util.Assert;
 
 public class BoolValue extends Value implements IBoolValue {
-  public boolean val;   // the boolean
+  private static final long serialVersionUID = -782332311372582825L;
+public boolean val;   // the boolean
   public static final BoolValue ValFalse = new BoolValue(false);
   /* Value constants. */
   public static final BoolValue ValTrue  = new BoolValue(true);

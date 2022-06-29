@@ -30,7 +30,8 @@ import util.Assert;
 import util.TLAConstants;
 
 public class SubsetValue extends EnumerableValue implements Enumerable {
-  public Value  set;           // SUBSET set
+  private static final long serialVersionUID = -1137881698755279134L;
+public Value  set;           // SUBSET set
   protected SetEnumValue pset;
 
   /* Constructor */

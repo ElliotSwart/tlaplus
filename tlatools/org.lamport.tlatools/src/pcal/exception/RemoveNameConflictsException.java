@@ -8,6 +8,11 @@ public class RemoveNameConflictsException extends UnrecoverablePositionedExcepti
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9110055310375572440L;
+
+	/**
      * @param message
      */
     public RemoveNameConflictsException(String message)

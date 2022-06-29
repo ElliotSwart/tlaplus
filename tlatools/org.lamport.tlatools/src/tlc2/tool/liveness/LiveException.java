@@ -7,6 +7,7 @@ package tlc2.tool.liveness;
 
 public class LiveException extends RuntimeException {
 
+	private static final long serialVersionUID = 8031014064543953310L;
 	public final int errorCode;
 
 	public LiveException(int errorCode) {

@@ -13,6 +13,8 @@ import tlc2.util.Context;
 
 public abstract class OpValue extends Value implements Applicable {
 
+	private static final long serialVersionUID = -5571735573122262202L;
+
 	// Allow sub-classes to override.
 	public Value eval(final Tool tool, final ExprOrOpArgNode[] args, final Context c, final TLCState s0,
 			final TLCState s1, final int control, final CostModel cm) {

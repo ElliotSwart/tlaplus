@@ -19,7 +19,8 @@ import tlc2.value.Values;
 import util.Assert;
 
 public class SetOfTuplesValue extends EnumerableValue implements Enumerable {
-  public final Value[] sets;
+  private static final long serialVersionUID = -1393994948158930526L;
+public final Value[] sets;
   protected SetEnumValue tupleSet;
 
   /* Constructor */

@@ -52,7 +52,9 @@ import util.UniqueString;
 
 public class ModelValue extends Value implements IModelValue {
 
-    /**
+    private static final long serialVersionUID = -7258152579962463620L;
+
+	/**
      * A method to reset the model values
      * All callers should make sure that the model value class has been initialized
      */

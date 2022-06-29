@@ -10,6 +10,11 @@ public class PcalTLAGenException extends UnrecoverablePositionedException
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3722678227263123382L;
+
+	/**
      * @param message
      */
     public PcalTLAGenException(String message)

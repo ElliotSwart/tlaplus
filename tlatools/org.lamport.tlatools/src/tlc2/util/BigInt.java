@@ -11,7 +11,8 @@ import java.util.Random;
 
 public class BigInt extends BigInteger implements Cloneable, ExternalSortable {
 
-  public final static BigInt BigZero = new BigInt("0");
+  private static final long serialVersionUID = 612839568056678260L;
+public final static BigInt BigZero = new BigInt("0");
   public final static BigInt BigOne = new BigInt("1");
   public final static BigInt BigTwo = new BigInt("2");
 

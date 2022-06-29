@@ -15,6 +15,8 @@ import tlc2.util.Context;
 import util.UniqueString;
 
 public final class Action implements ToolGlobals, Serializable {
+	private static final long serialVersionUID = 1010035283875600923L;
+
 	private static final UniqueString UNNAMED_ACTION = UniqueString.uniqueStringOf("UnnamedAction");
 
 	public static final Action UNKNOWN = new Action(SemanticNode.nullSN, Context.Empty, UNNAMED_ACTION, false, false);

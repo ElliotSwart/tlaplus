@@ -15,7 +15,9 @@ class SetOfLevelConstraints extends HashMap<SymbolNode, Integer> implements Leve
   * that the key/parameter must have a level <= the value/int.             *
   *************************************************************************/
   
-  /**
+  private static final long serialVersionUID = -770627695426802007L;
+
+/**
    * This method adds <param, level> into this map. It subsumes
    * any existing one. 
    */

@@ -7,7 +7,9 @@ package tlc2.pprint;
 
 public class FormatException extends Exception {
 
-  FormatException(String s) {
+  private static final long serialVersionUID = 2695283309065188474L;
+
+FormatException(String s) {
     super(s);
   }
 

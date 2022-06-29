@@ -6,7 +6,12 @@ package pcal.exception;
  */
 public class TLCTranslationException extends UnrecoverableException
 {
-    public TLCTranslationException(String message)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2886016690366119178L;
+
+	public TLCTranslationException(String message)
     {
         super(message);
     }

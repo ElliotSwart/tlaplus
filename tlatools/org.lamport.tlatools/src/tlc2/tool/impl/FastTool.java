@@ -42,6 +42,8 @@ import util.FilenameToStream;
 
 public final class FastTool extends Tool {
 
+	private static final long serialVersionUID = -2731198442040450257L;
+
 	public FastTool(String mainFile, String configFile) {
 		super(mainFile, configFile);
 	}

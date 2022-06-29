@@ -31,6 +31,8 @@ import tlc2.value.RandomEnumerableValues;
 
 public abstract class SetOfFcnsOrRcdsValue extends EnumerableValue {
 
+	private static final long serialVersionUID = -8514697790429935381L;
+
 	@Override
 	public EnumerableValue getRandomSubset(final int kOutOfN) {
 		final ValueVec vec = new ValueVec(kOutOfN);

@@ -24,7 +24,8 @@ import util.FileUtil;
  */
 
 public class MemFPSet extends FPSet {
-  private String metadir;
+  private static final long serialVersionUID = 8950184917272370210L;
+private String metadir;
   private String filename;
 
   /**

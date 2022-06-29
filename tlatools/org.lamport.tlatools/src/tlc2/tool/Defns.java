@@ -28,7 +28,8 @@ import util.UniqueString;
 // there is no reason to have any static fields in it. 
 public class Defns implements ToolGlobals, Serializable
 {
-    private int defnIdx;
+    private static final long serialVersionUID = -6385408029837446202L;
+	private int defnIdx;
     private Object[] table;
 
     /**

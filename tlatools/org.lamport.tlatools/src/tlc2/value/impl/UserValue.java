@@ -12,7 +12,8 @@ import tlc2.value.Values;
 import util.Assert;
 
 public class UserValue extends Value {
-  public UserObj userObj;
+  private static final long serialVersionUID = -6041715513566030525L;
+public UserObj userObj;
 
   public UserValue(UserObj obj) { this.userObj = obj; }
 

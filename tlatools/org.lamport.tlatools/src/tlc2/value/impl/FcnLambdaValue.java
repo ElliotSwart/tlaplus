@@ -30,7 +30,8 @@ import util.Assert;
 import util.UniqueString;
 
 public class FcnLambdaValue extends Value implements Applicable, IFcnLambdaValue {
-  public final FcnParams params;       // the function formals
+  private static final long serialVersionUID = -1519055048140855139L;
+public final FcnParams params;       // the function formals
   public final SemanticNode body;      // the function body
   public ValueExcept[] excepts;  // the EXCEPTs
   public final ITool tool;

@@ -27,7 +27,8 @@ import tlc2.value.Values;
 import util.Assert;
 
 public class SetPredValue extends EnumerableValue implements Enumerable {
-  public final Object vars;           // FormalParamNode or FormalParamNode[]
+  private static final long serialVersionUID = -2758301062935588759L;
+public final Object vars;           // FormalParamNode or FormalParamNode[]
     /***********************************************************************
     * Was OpDeclNode or OpDeclNode[].                                      *
     ***********************************************************************/

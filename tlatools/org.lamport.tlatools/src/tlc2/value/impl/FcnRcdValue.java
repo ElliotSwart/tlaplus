@@ -32,6 +32,7 @@ import util.UniqueString;
 
 public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 	
+	private static final long serialVersionUID = -5437467086149651742L;
 	// -Dtlc2.value.impl.FcnRcdValue.threshold=16
 	private static final int LINEAR_SEARCH_THRESHOLD = Integer.getInteger(FcnRcdValue.class.getName() + ".threshold", 32);
 	static {

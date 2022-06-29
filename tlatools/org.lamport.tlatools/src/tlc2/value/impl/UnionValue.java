@@ -19,7 +19,8 @@ import tlc2.value.Values;
 import util.Assert;
 
 public class UnionValue extends EnumerableValue implements Enumerable {
-  public final Value set;
+  private static final long serialVersionUID = 2254984769923081449L;
+public final Value set;
   protected SetEnumValue realSet;
 
   /* Constructor */

@@ -12,7 +12,8 @@ import tlc2.TLCGlobals;
 import util.WrongInvocationException;
 
 public class ValueVec implements Cloneable, Serializable {
-  private Value [] elementData;
+  private static final long serialVersionUID = 3328179603723089649L;
+private Value [] elementData;
   private int elementCount;
          
   private static final Value [] empty = new Value [0];
