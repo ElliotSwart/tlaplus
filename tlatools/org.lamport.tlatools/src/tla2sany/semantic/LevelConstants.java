@@ -14,10 +14,10 @@ public interface LevelConstants {
   static final int MinLevel      = 0;
   static final int MaxLevel      = 3;
 
-  static final Integer[] Levels = {new Integer(ConstantLevel),
-				   new Integer(VariableLevel),
-				   new Integer(ActionLevel),
-				   new Integer(TemporalLevel)};
+  static final Integer[] Levels = {Integer.valueOf(ConstantLevel),
+				   Integer.valueOf(VariableLevel),
+				   Integer.valueOf(ActionLevel),
+				   Integer.valueOf(TemporalLevel)};
   
   static final HashSet EmptySet = new HashSet();
   static final SetOfLevelConstraints EmptyLC = new SetOfLevelConstraints();

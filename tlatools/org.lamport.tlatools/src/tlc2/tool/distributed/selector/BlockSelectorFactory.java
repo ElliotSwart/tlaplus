@@ -1,5 +1,7 @@
 package tlc2.tool.distributed.selector;
 
+import java.lang.reflect.InvocationTargetException;
+
 import tlc2.tool.distributed.TLCServer;
 
 public class BlockSelectorFactory {
@@ -46,7 +48,7 @@ public class BlockSelectorFactory {
 			// poor mans version of modularity, booh!
 			final ClassLoader classLoader = BlockSelectorFactory.class.getClassLoader();
 			final Class<?> factoryClass = classLoader.loadClass(clazz);
-			final Object instance = factoryClass.newInstance();
+			final Object instance = factoryClass.getDeclaredConstructor().newInstance();
 			// sanity check if given class from string implements bsf
 			if (instance instanceof BlockSelectorFactory) {
 				bsf = (BlockSelectorFactory) instance;
@@ -56,6 +58,14 @@ public class BlockSelectorFactory {
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
 			e.printStackTrace();
 		}
 		return bsf;

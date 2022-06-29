@@ -27,7 +27,7 @@ class SetOfLevelConstraints extends HashMap<SymbolNode, Integer> implements Leve
     Integer old = this.get(param);
 
     int oldLevel = (old == null) ? MaxLevel : old.intValue();
-    super.put(param, new Integer(Math.min(newLevel, oldLevel)));
+    super.put(param, Integer.valueOf(Math.min(newLevel, oldLevel)));
     return old;
   }
   

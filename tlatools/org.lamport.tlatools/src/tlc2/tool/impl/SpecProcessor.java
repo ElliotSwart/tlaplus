@@ -26,7 +26,10 @@
 package tlc2.tool.impl;
 
 import java.io.File;
+
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
@@ -640,7 +643,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 			final Class<?> idx = this.tlaClass.loadClass(ovrde);
 			if (idx != null && ITLCOverrides.class.isAssignableFrom(idx)) {
 				try {
-					final ITLCOverrides index = (ITLCOverrides) idx.newInstance();
+					final ITLCOverrides index = (ITLCOverrides) idx.getDeclaredConstructor().newInstance();
 					final Class<?>[] candidateClasses = index.get();
 					for (Class<?> c : candidateClasses) {
 						final Method[] candidateMethods = c.getDeclaredMethods();
@@ -755,8 +758,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 							}
 						}
 					}
-				} catch (InstantiationException | IllegalAccessException e) {
-					// TODO Specific error code.
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 					Assert.fail(EC.GENERAL);
 					return;
 				}
