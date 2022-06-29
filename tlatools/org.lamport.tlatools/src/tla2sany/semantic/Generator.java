@@ -238,10 +238,6 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			return args;
 		}
 
-		public final Vector getArgsVector() {
-			return argsVector;
-		}
-
 		/** Append a new segment to the compound name of the operator */
 		public final void append(String s) {
 			compoundID.append(s);
@@ -287,14 +283,6 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			for (int i = 0; i < args.length; i++) {
 				args[i] = (ExprOrOpArgNode) argsVector.elementAt(i);
 			}
-		}
-
-		/**
-		 * Special kluge to append a "." to the name of this ID; should be used ONLY to
-		 * change unary "-" to "-."
-		 */
-		public final void appendDot() {
-			compoundIDUS = UniqueString.uniqueStringOf(compoundIDUS.toString() + ".");
 		}
 
 		public final String toString(int n) {
@@ -4290,98 +4278,6 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 				syntaxTreeNode, true, // Is defined. Its value should not matter.
 				null); // Source
 	} // generateLambda
-
-	/**
-	 * Generates an OpApplNode or an OpArgNode for a SyntaxTreeNode, according to
-	 * whether the value of "typeExpected" is either opAppl or opArg.
-	 */
-	private final ExprNode generateOpAppl(TreeNode syntaxTreeNode, ModuleNode cm) throws AbortException {
-		TreeNode primaryArgs = null;
-		// points to syntax tree of primary arg list (if any); otherwise null
-		boolean isOpApp = syntaxTreeNode.isKind(N_OpApplication);
-		// true ==> to indicate this is an OpAppl; must have primary args
-		// false ==> operator used as an argument (OpArg); has no primary args
-		int primaryArgCount = 0;
-		// total # of arguments, including those of prefix, if any
-		int len;
-		// number of prefix elements
-		TreeNode[] children = syntaxTreeNode.heirs();
-		// temp used for finding the prefix
-		TreeNode[] prefix;
-		// array of prefix elements
-		TreeNode[] allArgs = null;
-		// to collect arg arrays from both prefix and the main op (if any)
-		TreeNode[] prefixElt;
-		// a prefixElement; 2 or 3 elem array: [op, (args), "!"]
-		UniqueString symbol;
-		// UniqueString name of the fully-qualified operator
-		SymbolNode fullOperator;
-		// The SymbolNode for the fully-qualified operator
-		int iarg = 0;
-		// loop counter for actual args (as opposed to
-		// arg syntax elements like commas and parens)
-		TreeNode[] argsList = null;
-		// Will hold an array of arg syntax trees for primary operator
-		ExprOrOpArgNode[] args = null;
-		// Will hold an array of arg semantic trees for primary operator
-
-		// Process the Generized ID that is the operator for this OpAppl
-		GenID genID = generateGenID(children[0], cm);
-
-		// Set up pointers to OpAppl's primary args
-		primaryArgs = children[1];
-		// Array of argument list syntax elements for the main
-		// (rightmost) operator, including parens and commas;
-		// should be an N_OpArgs node
-
-		// calc number of primary args;
-		// args are interspersed w/ parens & commas--hence the /2
-		primaryArgCount = primaryArgs.heirs().length / 2;
-
-		if (genID == null || genID.getFullyQualifiedOp() == null) {
-			// if operator is @ or an unresolved symbol; error has already
-			// been generated inside genID
-			return nullOAN;
-		}
-
-		args = new ExprOrOpArgNode[primaryArgCount];
-		// Array to hold semantic trees for primary args
-
-		// pick up array of arg list syntax elements
-		argsList = primaryArgs.heirs();
-
-		// The odd numbered syntax elements are the args expressions; the
-		// even numbered ones are parens and commas.
-		// for each arg in this arg list ...
-		for (int ia = 1; ia < argsList.length; ia += 2) {
-			// Each arg may be an ordinary expression, or it may be an OpArg;
-			// produce appropriate semantic tree or node for it.
-			// Note that operators can be used in place of expressions
-			// in only two contexts:
-			// as argument to suitable user-defined ops, and in the RHS
-			// of a substitution in module instantiation
-			args[iarg] = generateExprOrOpArg(genID.getFullyQualifiedOp(), syntaxTreeNode, iarg, argsList[ia], cm);
-			iarg++; // count the actual args
-		} // end for
-
-		// Concatenate the list of args in the GenID object to the
-		// primary arg list just created
-		Vector genIDArgList = genID.getArgsVector();
-		ExprOrOpArgNode[] finalArgList = new ExprOrOpArgNode[genIDArgList.size() + iarg];
-
-		// Copy the args from the prefix
-		for (int i = 0; i < genIDArgList.size(); i++) {
-			finalArgList[i] = (ExprOrOpArgNode) (genIDArgList.elementAt(i));
-		}
-		// Copy the primary args
-		for (int i = 0, j = genIDArgList.size(); i < iarg; i++, j++) {
-			finalArgList[j] = args[i];
-		}
-
-		// return an OpApplNode constructed from the fully-qualified
-		// operator and the final arg list
-		return new OpApplNode(genID.getFullyQualifiedOp(), finalArgList, syntaxTreeNode, cm);
-	} // end generateOpAppl()
 
 	/**
 	 * Process a named, parameterixed instantiation, e.g. of the form D(p1,...pn) =

@@ -292,27 +292,6 @@ public class PcalTranslate {
         return MakeAssign("pc", MakeExpr(Singleton2(StringToken(next))));
     }
 
-    /**
-     * @deprecated method not used
-     */
-    private static AST.If IfForLabelIf (TLAExpr test,
-                                        Vector unlabThen,
-                                        String nextThen,
-                                        Vector unlabElse,
-                                        String nextElse) {
-        /*********************************************************************
-        * Generate  if test then unlabThen; pc := nextThen ;                 *
-        *           else unlabElse; pc := nextElse ;                         *
-        *********************************************************************/
-        AST.If ifForLabelIf = new AST.If();
-        ifForLabelIf.test = test;
-        ifForLabelIf.Then = unlabThen;
-        ifForLabelIf.Then.addElement(UpdatePC(nextThen));
-        ifForLabelIf.Else = unlabElse;
-        ifForLabelIf.Else.addElement(UpdatePC(nextElse));
-        return ifForLabelIf;
-    }
-
     /*************************************************************************
      * Explode                                                               
      **

@@ -2088,18 +2088,7 @@ public final class FormatComments
        } ; 
       Misc.WriteIfNonNull(writer, curOut);
       writer.putLine("\\end{" + Parameters.LaTeXCommentPar + "}%");
-    } ;
-    
-
-  private static boolean HasDigit(String str)
-   { int i = 0 ;
-     boolean result = false ;
-     while ((!result) && (i < str.length()))
-      { result = Misc.IsDigit(str.charAt(i));
-        i = i + 1;
-      } ;
-     return result;
-   }
+    }
 
 } // END Class
 

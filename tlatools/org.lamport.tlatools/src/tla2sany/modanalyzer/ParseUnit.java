@@ -604,47 +604,6 @@ public class ParseUnit {
     ***/
   }
 
-  /*************************************************************************
-  * If we want to allow plain INSTANCEs inside a LET, this method must be  *
-  * modified accordingly.                                                  *
-  * @deprecated not used (no local references)
-  *************************************************************************/
-  private void getInstanceInLet(TreeNode treeNode, ModuleRelatives currentRelatives) {
-    TreeNode[] children = treeNode.heirs();  
-
-    if (treeNode.getImage().equals("N_LetIn")) {
-      TreeNode[] syntaxTreeNode = children[1].heirs();
-
-      for (int i = 0; i < syntaxTreeNode.length; i++) {
-	TreeNode def = syntaxTreeNode[i];
-	if (def.getImage().equals("N_ModuleDefinition")) {
-	  // We encounter a module definition (i.e. D(x,y) == INSTANCE Modname WITH ...)
-	  // that counts as an instance also
-	  TreeNode[] instanceHeirs = def.heirs();
-	  int nonLocalInstanceNodeIX = 2;
-
-	  // Find the name of the module being instantiated
-	  String instanceModuleName = instanceHeirs[nonLocalInstanceNodeIX].heirs()[1].getImage();
-
-	  // Append it to the Vector of instantiated modules
-	  currentRelatives.directlyInstantiatedModuleNames.addElement(instanceModuleName);
-	} // if (def.getImage().equals("N_ModuleDefinition"))
-	else {
-	  TreeNode[] defChildren = def.heirs();
-	  for (int j = 0; j < defChildren.length; j++) {
-	    this.getInstanceInLet(defChildren[j], currentRelatives);
-	  }
-	}
-      }
-    } // if (treeNode.getImage().equals("N_LetIn"))
-    else {
-      for (int i = 0; i < children.length; i++) {
-	this.getInstanceInLet(children[i], currentRelatives);
-      }
-    }
-  } // getInstanceInLet 
-
-
   private void getInstances(TreeNode treeNode, 
                             ModuleRelatives currentRelatives) {
     /***********************************************************************

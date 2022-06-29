@@ -722,30 +722,6 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
   }; // END public static void SetDimensions
 
 
-  private static int findInt(String str, int start)
-   /************************************************************************
-   * Finds the Natural number represented by the string starting at        *
-   * str.charAt(start).                                                    *
-   ************************************************************************/
-   { int nextChar = start;
-     while (('0' <= str.charAt(nextChar) ) && (str.charAt(nextChar) <= '9'))
-      { nextChar = nextChar + 1; };
-     return Integer.parseInt(str.substring(start,nextChar));
-   } ;
-
- 
-  private static float findFloat(String str, int start)
-   /************************************************************************
-   * Finds the float represented by the string starting at                 *
-   * str.charAt(start).                                                    *
-   ************************************************************************/
-   { int nextChar = start;
-     while (   (('0' <= str.charAt(nextChar) ) && (str.charAt(nextChar) <= '9'))
-            || (str.charAt(nextChar) == '.'))
-      { nextChar = nextChar + 1; };
-     return Misc.stringToFloat(str.substring(start,nextChar));
-   } ;
-
   private static float TotalIndent(Token[][] spec, Position pos)
     /***********************************************************************
     * The total indentation of the token tok at pos, according to the      *
@@ -762,25 +738,6 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
       return val + pos.toToken(spec).distFromMargin;
     }
 
-  /**
-   * Equals TotalIndent(spec, pos) plus the extra space added because of
-   * spaces to the left of the token at pos
-   * 
-   * @param spec
-   * @param pos
-   * @return
-   */
-  private static float TotalIndentWithSpace(Token[][] spec, Position pos) {
-      int posOfFirstSpaceToLeft = 0;
-      if (pos.item > 0) {
-          Token tokToLeft = spec[pos.line][pos.item-1] ;
-          posOfFirstSpaceToLeft = tokToLeft.column + tokToLeft.getWidth();          
-      }
-      float spaceToLeft = Parameters.LaTeXLeftSpace(
-                           pos.toToken(spec).column - posOfFirstSpaceToLeft - 1) ;
-      return spaceToLeft + TotalIndent(spec, pos) ;
-  }
-  
   private static String FixString(String inputStr)
     /***********************************************************************
     * Result is Misc.TeXify(str) with spaces replaced by "\ " and "-"      *

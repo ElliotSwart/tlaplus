@@ -573,19 +573,6 @@ class TeX
         }
      }   
 
-    private static int GetIntArg(String str, String option)
-      /*********************************************************************
-      * Returns str interpreted as an integer, or generates an error       *
-      * message for the indicated option.                                  *
-      *********************************************************************/
-      {int val = 0; 
-       try { val = Integer.parseInt(str) ; }
-       catch (NumberFormatException e)
-        { CommandLineError(option + " option must specify an integer value");
-        };
-       return val ;
-      }
-
     private static String RemoveExtension(String fileName)
       /*********************************************************************
       * The string fileName with any extensions removed.                   *

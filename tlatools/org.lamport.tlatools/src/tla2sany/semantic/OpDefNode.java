@@ -723,12 +723,6 @@ public class OpDefNode extends OpDefOrDeclNode
    //              params[i].getArity() == ((OpArgNode)arg).getArity());
   }
 
-  /* This method shortens the match() method right after it */
-  private boolean errReport(Location loc, String s) {
-    errors.addError(loc, s);
-    return false;
-  }
-
   /**
    * This method is called at the end of OpApplNode constructors to
    * make sure the OpApplNode is correct by "matching" the argument

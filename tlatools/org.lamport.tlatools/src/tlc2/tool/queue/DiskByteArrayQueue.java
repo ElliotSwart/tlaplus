@@ -349,38 +349,6 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	    }
 	  }
 
-	  public final synchronized void beginChkpt(ObjectOutputStream oos)
-	  throws IOException {
-	    boolean hasFile = (this.poolFile == null) ? false : true;
-	    oos.writeBoolean(hasFile);
-	    if (hasFile) {
-	      oos.writeObject(this.poolFile);
-	      for (int i = 0; i < this.buf.length; i++) {
-		oos.writeObject(this.buf[i]);
-	      }
-	    }
-	  }
-
-	  /* Note this method is not synchronized.  */
-	  public final void recover(ObjectInputStream ois) throws IOException {    
-	    boolean hasFile = ois.readBoolean();
-	    if (hasFile) {
-	      try {
-		this.poolFile = (File)ois.readObject();
-		for (int i = 0; i < this.buf.length; i++) {
-		  this.buf[i] = (byte[])ois.readObject();
-		}
-	      }
-	      catch (ClassNotFoundException e) 
-	      {
-	          Assert.fail(EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT, e);
-	      }
-	    }
-	    else {
-	      this.poolFile = null;
-	    }
-	  }
-
 	  /**
 	   * Write "buf" to "poolFile". The objects in the queue are written
 	   * using Java's object serialization facilities.
@@ -514,43 +482,6 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		    return null;
 		  }
 
-		  public final synchronized void beginChkpt(ObjectOutputStream oos)
-		  throws IOException {
-		    boolean hasFile = this.poolFile != null;
-		    oos.writeBoolean(hasFile);
-		    oos.writeBoolean(this.canRead);
-		    oos.writeBoolean(this.isFull);
-		    if (hasFile) {
-		      oos.writeObject(this.poolFile);
-		    }
-		    if (this.isFull) {
-		      for (int i = 0; i < this.buf.length; i++) {
-			oos.writeObject(this.buf[i]);
-		      }
-		    }
-		  }
-
-		  /* Note that this method is not synchronized. */
-		  public final void recover(ObjectInputStream ois) throws IOException {
-		    boolean hasFile = ois.readBoolean();
-		    this.canRead = ois.readBoolean();
-		    this.isFull = ois.readBoolean();
-		    try {
-		      if (hasFile) {
-			this.poolFile = (File)ois.readObject();
-		      }
-		      if (this.isFull) {
-			for (int i = 0; i < this.buf.length; i++) {
-			  this.buf[i] = (byte[])ois.readObject();
-			}
-		      }
-		    }
-		    catch (ClassNotFoundException e) 
-		    {
-		      Assert.fail(EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT, e);
-		    }
-		  }
-		  
 		  /**
 		   * Read the contents of "poolFile" into "buf". The objects in the
 		   * file are read using Java's object serialization facilities.

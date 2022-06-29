@@ -509,16 +509,6 @@ What do left and right mean?????? What does shift mean????????
 
 // simple utility
 
-  final private String printStack() {
-    String str = new String( "stack dump, " + StackOfStack.size() + " levels, " + CurrentTop.size() + " in top one: ");
-     for (int i = 0; i< CurrentTop.size(); i++ ) {
-       SyntaxTreeNode tn = ((OSelement)CurrentTop.elementAt( i )).getNode();
-       if (tn != null)
-         str = str.concat(tn.getImage() + " " );
-     }
-   return str;     
-  }
-
   final public OSelement topOfStack() {
     /***********************************************************************
     * Returns the top element of the top stack, or null if that stack is   *
