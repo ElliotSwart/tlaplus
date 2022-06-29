@@ -9,7 +9,8 @@ import java.util.Hashtable;
 
 import tlc2.tool.ToolGlobals;
 import util.UniqueString;
-
+// Broken and unused, so not concerned about warnings
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class SimpUtil implements ToolGlobals {
 
   public static Sx store = Sx.Atom("store");
@@ -36,7 +37,8 @@ public class SimpUtil implements ToolGlobals {
   public static Sx bgPush = Sx.Atom("BG_PUSH");
   public static Sx pats = Sx.Atom("PATS");  
   
-  protected static Hashtable trop;
+
+protected static Hashtable trop;
   public static Hashtable defns; // Maps operator name to translated defintions.
 
   // The following list contains the Sx translations of the TLA expressions in

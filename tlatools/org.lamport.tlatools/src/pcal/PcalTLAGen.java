@@ -22,6 +22,9 @@ import util.TLAConstants;
  * @author keith (modified on Mon  3 Oct 2005 at 21:43:09 UT)                  
  *                                                                          
  ****************************************************************************/
+
+// Relies heavily on untyped generics. Ignored after typing what could be typed.
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class PcalTLAGen
 {
     // Constants that control formatting
@@ -63,7 +66,8 @@ public class PcalTLAGen
      * reflects the TLA+ that has been inserted in the {@link PcalTLAGen#tlacode}  
      * vector.  It is set in the {@link TLAtoPCalMapping#generate} method.
      */
-    private Vector mappingVector;
+
+	private Vector mappingVector;
     
     /**
      * mappingVectorNextLine contains the sequence of MappingObject objects

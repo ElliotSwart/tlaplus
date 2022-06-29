@@ -43,7 +43,6 @@ import util.TLCRuntime;
  * In 2012 this poses a too hard limit on the usable memory, hence we trade
  * generality for performance.
  */
-@SuppressWarnings("restriction")
 public final class LongArray {
 
 	private final Unsafe unsafe;

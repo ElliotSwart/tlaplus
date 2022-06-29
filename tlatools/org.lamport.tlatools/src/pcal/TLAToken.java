@@ -321,7 +321,8 @@ public class TLAToken
     * 
     * @return
     */
-   public TLAToken Clone()
+   @SuppressWarnings("unchecked")
+public TLAToken Clone()
      { 
 	   TLAToken result = new TLAToken(this.string, this.column, this.type) ;
 	   result.source = this.source ;

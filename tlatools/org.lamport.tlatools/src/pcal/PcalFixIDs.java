@@ -419,7 +419,8 @@ public class PcalFixIDs {
     * Handling of Either and LabelEither added by LL on 24 Jan 2006.       
      * @throws PcalFixIDException *
     ***********************************************************************/
-    private static void FixEither(AST.Either ast, String context) throws PcalFixIDException {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	private static void FixEither(AST.Either ast, String context) throws PcalFixIDException {
         for (int i = 0; i < ast.ors.size(); i++)
               { Vector<AST> orClause = (Vector) ast.ors.elementAt(i) ;
                 for (int j = 0; j < orClause.size(); j++)

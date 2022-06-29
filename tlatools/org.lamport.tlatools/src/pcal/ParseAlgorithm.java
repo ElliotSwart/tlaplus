@@ -2207,7 +2207,8 @@ public class ParseAlgorithm
      /**********************************************************************
      * Returns S \cup T.                                                   *
      **********************************************************************/
-     { Vector<String> result = (Vector<String>) S.clone() ;
+     { @SuppressWarnings("unchecked")
+	Vector<String> result = (Vector<String>) S.clone() ;
        int i = 0 ;
        while (i < T.size())
          { String str = (String) T.elementAt(i) ;
@@ -2863,7 +2864,8 @@ public class ParseAlgorithm
         return result ;
       }
 
-    public static AST SubstituteInStmt(AST stmt, 
+    @SuppressWarnings("unchecked")
+	public static AST SubstituteInStmt(AST stmt, 
                                        Vector<TLAExpr> args,   // of TLAExpr
                                        Vector<String> params, // of String
                                        int macroLine,

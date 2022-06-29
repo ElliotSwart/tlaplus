@@ -34,7 +34,7 @@ import pcal.exception.PcalTranslateException;
 
 // Using untyped objects is part of architecture
 // Added suppression after typing what could be typed
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class PcalTranslate {
 
     private static PcalSymTab st = null;  /* Set by invocation of Explode */

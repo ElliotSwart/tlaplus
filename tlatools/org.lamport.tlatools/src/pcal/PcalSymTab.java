@@ -687,7 +687,8 @@ public class PcalSymTab {
     ***********************************************************************/
     private void ExtractEither(AST.Either ast, String context, String cType) {
         for (int i = 0; i < ast.ors.size(); i++)
-              { Vector<AST> orClause = (Vector<AST>) ast.ors.elementAt(i) ;
+              { @SuppressWarnings("unchecked")
+			Vector<AST> orClause = (Vector<AST>) ast.ors.elementAt(i) ;
                 for (int j = 0; j < orClause.size(); j++)
                   ExtractStmt((AST) orClause.elementAt(j), context, cType);
                } ;
