@@ -59,7 +59,7 @@ public final class Configuration implements ConfigConstants {
       Parser = new Configuration( input );
 
       try {
-        Parser.ConfigurationUnit();
+        Configuration.ConfigurationUnit();
 //      Operators.printTable();
       } catch (ParseException e) {
         errors.addAbort(Location.nullLoc,"\nConfiguration Parser:  Encountered errors during parse.  " 
@@ -283,8 +283,8 @@ public final class Configuration implements ConfigConstants {
 
   static public void ReInit(java.io.InputStream stream) {
     jj_initialized_once = false;
-    jj_input_stream.ReInit(stream, 1, 1);
-    token_source.ReInit(jj_input_stream);
+    ASCII_CharStream.ReInit(stream, 1, 1);
+    ConfigurationTokenManager.ReInit(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
@@ -309,8 +309,8 @@ public final class Configuration implements ConfigConstants {
 
   static public void ReInit(java.io.Reader stream) {
     jj_initialized_once = false;
-    jj_input_stream.ReInit(stream, 1, 1);
-    token_source.ReInit(jj_input_stream);
+    ASCII_CharStream.ReInit(stream, 1, 1);
+    ConfigurationTokenManager.ReInit(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
@@ -320,8 +320,8 @@ public final class Configuration implements ConfigConstants {
   // The following method added by DRJ.  It should be in the .jcc version of this file
   static public void ReInit() {
     jj_initialized_once = false;
-    jj_input_stream.ReInit(input, 1, 1);
-    token_source.ReInit(jj_input_stream);
+    ASCII_CharStream.ReInit(input, 1, 1);
+    ConfigurationTokenManager.ReInit(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
@@ -355,7 +355,7 @@ public final class Configuration implements ConfigConstants {
   static final private Token jj_consume_token(int kind) throws ParseException {
     Token oldToken;
     if ((oldToken = token).next != null) token = token.next;
-    else token = token.next = token_source.getNextToken();
+    else token = token.next = ConfigurationTokenManager.getNextToken();
     jj_ntk = -1;
     if (token.kind == kind) {
       jj_gen++;
@@ -368,7 +368,7 @@ public final class Configuration implements ConfigConstants {
 
   static final public Token getNextToken() {
     if (token.next != null) token = token.next;
-    else token = token.next = token_source.getNextToken();
+    else token = token.next = ConfigurationTokenManager.getNextToken();
     jj_ntk = -1;
     jj_gen++;
     return token;
@@ -378,14 +378,14 @@ public final class Configuration implements ConfigConstants {
     Token t = token;
     for (int i = 0; i < index; i++) {
       if (t.next != null) t = t.next;
-      else t = t.next = token_source.getNextToken();
+      else t = t.next = ConfigurationTokenManager.getNextToken();
     }
     return t;
   }
 
   static final private int jj_ntk() {
     if ((jj_nt=token.next) == null)
-      return (jj_ntk = (token.next=token_source.getNextToken()).kind);
+      return (jj_ntk = (token.next=ConfigurationTokenManager.getNextToken()).kind);
     else
       return (jj_ntk = jj_nt.kind);
   }

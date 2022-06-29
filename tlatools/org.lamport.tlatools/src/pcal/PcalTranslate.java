@@ -864,11 +864,11 @@ public class PcalTranslate {
         newif.setSource(
             ((ast.labThen.size() != 0 || 
             ((Vector) explodedThen.elementAt(1)).size() != 0 ) 
-               ? AST.IfObj.BROKEN_THEN : 0)      
+               ? If.BROKEN_THEN : 0)      
             +
             ((ast.labElse.size() != 0 || 
             ((Vector) explodedElse.elementAt(1)).size() != 0 ) 
-               ? AST.IfObj.BROKEN_ELSE : 0)
+               ? If.BROKEN_ELSE : 0)
           ) ;
         result1.addElement(newif);
 

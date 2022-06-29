@@ -9,6 +9,7 @@
 
 package tla2sany.configuration;
 
+@SuppressWarnings("unused")
 public class ConfigurationTokenManager implements ConfigConstants
 {
 static private final int jjStopAtPos(int pos, int kind)
@@ -29,7 +30,7 @@ static private final int jjMoveStringLiteralDfa0_1()
 }
 static private final int jjMoveStringLiteralDfa1_1(long active0)
 {
-   try { curChar = input_stream.readChar(); }
+   try { curChar = ASCII_CharStream.readChar(); }
    catch(java.io.IOException e) {
       return 1;
    }
@@ -67,7 +68,7 @@ static private final int jjStartNfaWithStates_0(int pos, int kind, int state)
 {
    jjmatchedKind = kind;
    jjmatchedPos = pos;
-   try { curChar = input_stream.readChar(); }
+   try { curChar = ASCII_CharStream.readChar(); }
    catch(java.io.IOException e) { return pos + 1; }
    return jjMoveNfa_0(state, pos + 1);
 }
@@ -83,7 +84,7 @@ static private final int jjMoveStringLiteralDfa0_0()
 }
 static private final int jjMoveStringLiteralDfa1_0(long active0)
 {
-   try { curChar = input_stream.readChar(); }
+   try { curChar = ASCII_CharStream.readChar(); }
    catch(java.io.IOException e) {
       jjStopStringLiteralDfa_0(0, active0);
       return 1;
@@ -972,7 +973,7 @@ static private final int jjMoveNfa_0(int startState, int curPos)
       ++curPos;
       if ((i = jjnewStateCnt) == (startsAt = 174 - (jjnewStateCnt = startsAt)))
          return curPos;
-      try { curChar = input_stream.readChar(); }
+      try { curChar = ASCII_CharStream.readChar(); }
       catch(java.io.IOException e) { return curPos; }
    }
 }
@@ -1054,11 +1055,11 @@ static private final Token jjFillToken()
    Token t = Token.newToken(jjmatchedKind);
    t.kind = jjmatchedKind;
    String im = jjstrLiteralImages[jjmatchedKind];
-   t.image = (im == null) ? input_stream.GetImage() : im;
-   t.beginLine = input_stream.getBeginLine();
-   t.beginColumn = input_stream.getBeginColumn();
-   t.endLine = input_stream.getEndLine();
-   t.endColumn = input_stream.getEndColumn();
+   t.image = (im == null) ? ASCII_CharStream.GetImage() : im;
+   t.beginLine = ASCII_CharStream.getBeginLine();
+   t.beginColumn = ASCII_CharStream.getBeginColumn();
+   t.endLine = ASCII_CharStream.getEndLine();
+   t.endColumn = ASCII_CharStream.getEndColumn();
    return t;
 }
 
@@ -1081,7 +1082,7 @@ public static final Token getNextToken()
   {   
    try   
    {     
-      curChar = input_stream.BeginToken();
+      curChar = ASCII_CharStream.BeginToken();
    }     
    catch(java.io.IOException e)
    {        
@@ -1100,7 +1101,7 @@ public static final Token getNextToken()
        case 0:
          try { 
             while (curChar <= 32 && (0x100000600L & (1L << curChar)) != 0L)
-               curChar = input_stream.BeginToken();
+               curChar = ASCII_CharStream.BeginToken();
          }
          catch (java.io.IOException e1) { continue EOFLoop; }
          jjmatchedKind = 0x7fffffff;
@@ -1120,7 +1121,7 @@ public static final Token getNextToken()
      if (jjmatchedKind != 0x7fffffff)
      {
         if (jjmatchedPos + 1 < curPos)
-           input_stream.backup(curPos - jjmatchedPos - 1);
+           ASCII_CharStream.backup(curPos - jjmatchedPos - 1);
         if ((jjtoToken[jjmatchedKind >> 6] & (1L << (jjmatchedKind & 077))) != 0L)
         {
            matchedToken = jjFillToken();
@@ -1155,19 +1156,19 @@ public static final Token getNextToken()
         curPos = 0;
         jjmatchedKind = 0x7fffffff;
         try {
-           curChar = input_stream.readChar();
+           curChar = ASCII_CharStream.readChar();
            continue;
         }
         catch (java.io.IOException e1) { }
      }
-     int error_line = input_stream.getEndLine();
-     int error_column = input_stream.getEndColumn();
+     int error_line = ASCII_CharStream.getEndLine();
+     int error_column = ASCII_CharStream.getEndColumn();
      String error_after = null;
      boolean EOFSeen = false;
-     try { input_stream.readChar(); input_stream.backup(1); }
+     try { ASCII_CharStream.readChar(); ASCII_CharStream.backup(1); }
      catch (java.io.IOException e1) {
         EOFSeen = true;
-        error_after = curPos <= 1 ? "" : input_stream.GetImage();
+        error_after = curPos <= 1 ? "" : ASCII_CharStream.GetImage();
         if (curChar == '\n' || curChar == '\r') {
            error_line++;
            error_column = 0;
@@ -1176,8 +1177,8 @@ public static final Token getNextToken()
            error_column++;
      }
      if (!EOFSeen) {
-        input_stream.backup(1);
-        error_after = curPos <= 1 ? "" : input_stream.GetImage();
+        ASCII_CharStream.backup(1);
+        error_after = curPos <= 1 ? "" : ASCII_CharStream.GetImage();
      }
      throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
    }
