@@ -11,6 +11,7 @@ import util.TLAConstants;
 import util.ToolIO;
 import util.UniqueString;
 
+@SuppressWarnings("unused")
 public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree, TLAplusParserConstants {
 
   public String[] dependencies() {

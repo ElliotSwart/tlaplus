@@ -106,6 +106,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	private final static UniqueString S_f = UniqueString.uniqueStringOf("\\A");
 	private final static UniqueString S_fx = UniqueString.uniqueStringOf("\\always");
 	private final static UniqueString S_te = UniqueString.uniqueStringOf("\\EE");
+	@SuppressWarnings("unused")
 	private final static UniqueString S_tf = UniqueString.uniqueStringOf("\\AA");
 	private final static UniqueString S_a = UniqueString.uniqueStringOf("<<");
 	private final static UniqueString S_brack = UniqueString.uniqueStringOf("[");
@@ -113,6 +114,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	private final static UniqueString S_wf = UniqueString.uniqueStringOf("WF_");
 	private final static UniqueString S_at = UniqueString.uniqueStringOf("@");
 	private final static UniqueString S_lambda = UniqueString.uniqueStringOf("LAMBDA");
+	@SuppressWarnings("unused")
 	private final static UniqueString S_subexpression = UniqueString.uniqueStringOf("$Subexpression");
 
 	class Function {
@@ -290,6 +292,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			}
 		}
 
+		@SuppressWarnings("unused")
 		public final String toString(int n) {
 			String ret = "compound ID: " + compoundID.toString() + "\nargs: " + args.length + "\n";
 			for (int i = 0; i < args.length; i++) {
@@ -2242,6 +2245,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 				errors.addError(treeNodes[lvi].getLocation(), "Attempted to declare '@' as a constant.");
 			}
 			;
+			@SuppressWarnings("unused")
 			OpDeclNode odn = buildParameter(treeNodes[lvi], ConstantDeclKind, ConstantLevel, cm, true);
 			/*******************************************************************
 			 * We throw away the OpDeclNode because, when it was constructed, * it was added

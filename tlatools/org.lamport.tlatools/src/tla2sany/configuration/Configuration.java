@@ -38,7 +38,8 @@ public final class Configuration implements ConfigConstants {
     ToolIO.out.println( defaultConfig );
   }
 
-  public static void load (Errors errs ) throws AbortException {
+  @SuppressWarnings("unused")
+public static void load (Errors errs ) throws AbortException {
     /***********************************************************************
     * Called from drivers/SANY.java                                        *
     ***********************************************************************/
