@@ -121,8 +121,8 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
       * ExceptComponent() if it finds "!.@", and in FairnessExpr().        *
       *********************************************************************/
       final tla2sany.st.ParseError[] list = PErrors.errors();
-      for (int i = 0; i < list.length; i++ ) {
-        ToolIO.out.println( list[i].reportedError() );
+      for (tla2sany.st.ParseError parseError : list) {
+        ToolIO.out.println(parseError.reportedError());
 //        ToolIO.out.println( "+ " + list[i].defaultError() );
       }
     }
@@ -512,18 +512,18 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); }
     * exception.                                                           *
     ***********************************************************************/
     final TreeNode[] children = nd.heirs() ;
-    for (int i = 0; i < children.length; i++) {
-      final SyntaxTreeNode child = (SyntaxTreeNode) children[i] ;
-      if (! (   child.isKind(N_ConjList)
-             || child.isKind(N_DisjList))) {
-         if (!BStack.aboveReference(child.location[1])) {
-           throw new ParseException(
-              "Item at " + child.getLocation().toString() +
-              " is not properly indented inside conjunction or " +
-              " disjunction list item at " + junct.getLocation().toString()) ;
-          }
-        checkIndentation(child, junct) ;
-       }
+    for (TreeNode treeNode : children) {
+      final SyntaxTreeNode child = (SyntaxTreeNode) treeNode;
+      if (!(child.isKind(N_ConjList)
+              || child.isKind(N_DisjList))) {
+        if (!BStack.aboveReference(child.location[1])) {
+          throw new ParseException(
+                  "Item at " + child.getLocation().toString() +
+                          " is not properly indented inside conjunction or " +
+                          " disjunction list item at " + junct.getLocation().toString());
+        }
+        checkIndentation(child, junct);
+      }
     }
   }
 
@@ -11424,8 +11424,8 @@ final SyntaxTreeNode tn;
       jj_gen++;
       if (++jj_gc > 100) {
         jj_gc = 0;
-        for (int i = 0; i < jj_2_rtns.length; i++) {
-          JJCalls c = jj_2_rtns[i];
+        for (JJCalls jj_2_rtn : jj_2_rtns) {
+          JJCalls c = jj_2_rtn;
           while (c != null) {
             if (c.gen < jj_gen) c.first = null;
             c = c.next;

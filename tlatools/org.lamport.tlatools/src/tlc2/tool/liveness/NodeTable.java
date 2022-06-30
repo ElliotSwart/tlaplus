@@ -26,16 +26,15 @@ public final class NodeTable {
 		this.length = 2 * this.length + 1;
 		this.thresh = this.length / 2;
 		this.elems = new Object[this.length];
-		for (int i = 0; i < oldElems.length; i++) {
-			final Object elem = oldElems[i];
-			if (elem != null) {
-				if (this.isBT) {
-					this.putBTNodes(elem);
-				} else {
-					this.putBENode((BEGraphNode) elem);
-				}
-			}
-		}
+        for (final Object elem : oldElems) {
+            if (elem != null) {
+                if (this.isBT) {
+                    this.putBTNodes(elem);
+                } else {
+                    this.putBENode((BEGraphNode) elem);
+                }
+            }
+        }
 	}
 
 	
@@ -115,11 +114,11 @@ public final class NodeTable {
 			} else {
 				final BTGraphNode[] nodes = (BTGraphNode[]) elem;
 				if (nodes[0].stateFP == k1) {
-					for (int i = 0; i < nodes.length; i++) {
-						if (nodes[i].getIndex() == k2) {
-							return loc;
-						}
-					}
+                    for (BTGraphNode btGraphNode : nodes) {
+                        if (btGraphNode.getIndex() == k2) {
+                            return loc;
+                        }
+                    }
 					final BTGraphNode[] newElem = new BTGraphNode[nodes.length + 1];
                     System.arraycopy(nodes, 0, newElem, 0, nodes.length);
 					newElem[nodes.length] = node;
@@ -182,12 +181,11 @@ public final class NodeTable {
 			} else {
 				final BTGraphNode[] nodes = (BTGraphNode[]) elem;
 				if (nodes[0].stateFP == k1) {
-					for (int i = 0; i < nodes.length; i++) {
-						final BTGraphNode node = nodes[i];
-						if (node.getIndex() == k2) {
-							return node;
-						}
-					}
+                    for (final BTGraphNode node : nodes) {
+                        if (node.getIndex() == k2) {
+                            return node;
+                        }
+                    }
 					return null;
 				}
 			}

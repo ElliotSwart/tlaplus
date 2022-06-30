@@ -128,9 +128,9 @@ public class StatePoolReader extends Thread {
       oos.writeObject(this.poolFile);
     }
     if (this.isFull) {
-      for (int i = 0; i < this.buf.length; i++) {
-	oos.writeObject(this.buf[i]);
-      }
+        for (TLCState tlcState : this.buf) {
+            oos.writeObject(tlcState);
+        }
     }
   }
 

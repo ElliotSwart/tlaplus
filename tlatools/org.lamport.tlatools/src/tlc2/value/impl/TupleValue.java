@@ -213,9 +213,9 @@ public final Value[] elems;          // the elements of this tuple.
   public final Value takeExcept(final ValueExcept[] exs) {
     try {
       Value val = this;
-      for (int i = 0; i < exs.length; i++) {
-        val = val.takeExcept(exs[i]);
-      }
+        for (ValueExcept ex : exs) {
+            val = val.takeExcept(ex);
+        }
       return val;
     }
     catch (final RuntimeException | OutOfMemoryError e) {
@@ -241,9 +241,9 @@ public final Value[] elems;          // the elements of this tuple.
   @Override
   public final void deepNormalize() {
 	  try {
-      for (int i = 0; i < elems.length; i++) {
-          elems[i].deepNormalize();
-        }
+          for (Value elem : elems) {
+              elem.deepNormalize();
+          }
 	    }
 	    catch (final RuntimeException | OutOfMemoryError e) {
 	      if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
@@ -279,9 +279,9 @@ public final Value[] elems;          // the elements of this tuple.
   public final boolean isDefined() {
     try {
       boolean defined = true;
-      for (int i = 0; i < this.elems.length; i++) {
-        defined = defined && this.elems[i].isDefined();
-      }
+        for (Value elem : this.elems) {
+            defined = defined && elem.isDefined();
+        }
       return defined;
     }
     catch (final RuntimeException | OutOfMemoryError e) {
@@ -329,9 +329,9 @@ public final Value[] elems;          // the elements of this tuple.
 			vos.writeByte(TUPLEVALUE);
 			final int len = elems.length;
 			vos.writeNat(len);
-			for (int i = 0; i < len; i++) {
-				elems[i].write(vos);
-			}
+            for (Value elem : elems) {
+                elem.write(vos);
+            }
 		} else {
 			vos.writeByte(DUMMYVALUE);
 			vos.writeNat(index);

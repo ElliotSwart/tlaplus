@@ -235,43 +235,41 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	        final MCVariable[] vars = currentState.getVariables();
 	
 	        // variables from spec
-			for (int i = 0; i < vars.length; i++) {
-	            final MCVariable var = vars[i];
-	            /*
-	             *    /\ var = (
-	             *            expr
-	             *          )
-	             */
-	            initAndNext.append(TLAConstants.INDENTED_CONJUNCTIVE);
-	            initAndNext.append(var.getName()).append(TLAConstants.EQ).append(TLAConstants.L_PAREN);
-	            initAndNext.append(TLAConstants.CR);
-	            
-	            initAndNext.append(var.getValueAsStringReIndentedAs(TRI_INDENT)).append(TLAConstants.CR);
-	            
-	            initAndNext.append(TLAConstants.INDENT).append(TLAConstants.INDENT);
-	            initAndNext.append(TLAConstants.R_PAREN).append(TLAConstants.CR);
-	        }
+            for (final MCVariable var : vars) {
+                /*
+                 *    /\ var = (
+                 *            expr
+                 *          )
+                 */
+                initAndNext.append(TLAConstants.INDENTED_CONJUNCTIVE);
+                initAndNext.append(var.getName()).append(TLAConstants.EQ).append(TLAConstants.L_PAREN);
+                initAndNext.append(TLAConstants.CR);
+
+                initAndNext.append(var.getValueAsStringReIndentedAs(TRI_INDENT)).append(TLAConstants.CR);
+
+                initAndNext.append(TLAConstants.INDENT).append(TLAConstants.INDENT);
+                initAndNext.append(TLAConstants.R_PAREN).append(TLAConstants.CR);
+            }
 	
 	        // variables representing trace explorer expressions
 			if (expressionData != null) {
-				for (int i = 0; i < expressionData.length; i++) {
-	                final TraceExpressionInformationHolder expressionInfo = expressionData[i];
-	                initAndNext.append(TLAConstants.INDENTED_CONJUNCTIVE);
-	                initAndNext.append(expressionInfo.getVariableName()).append(TLAConstants.EQ);
-	                initAndNext.append(TLAConstants.L_PAREN).append(TLAConstants.CR);
-	
-	                initAndNext.append(TRI_INDENT);
-					if (expressionInfo.getLevel() == 2) {
-	                    // add "--" if the expression is temporal level
-						initAndNext.append(TLAConstants.TRACE_NA);
-					} else {
-	                    // add the actual expression if it is not temporal level
-						initAndNext.append(expressionInfo.getIdentifier());
-	                }
-	
-					initAndNext.append(TLAConstants.CR).append(TLAConstants.INDENT).append(TLAConstants.INDENT);
-		            initAndNext.append(TLAConstants.R_PAREN).append(TLAConstants.CR);
-	            }
+                for (final TraceExpressionInformationHolder expressionInfo : expressionData) {
+                    initAndNext.append(TLAConstants.INDENTED_CONJUNCTIVE);
+                    initAndNext.append(expressionInfo.getVariableName()).append(TLAConstants.EQ);
+                    initAndNext.append(TLAConstants.L_PAREN).append(TLAConstants.CR);
+
+                    initAndNext.append(TRI_INDENT);
+                    if (expressionInfo.getLevel() == 2) {
+                        // add "--" if the expression is temporal level
+                        initAndNext.append(TLAConstants.TRACE_NA);
+                    } else {
+                        // add the actual expression if it is not temporal level
+                        initAndNext.append(expressionInfo.getIdentifier());
+                    }
+
+                    initAndNext.append(TLAConstants.CR).append(TLAConstants.INDENT).append(TLAConstants.INDENT);
+                    initAndNext.append(TLAConstants.R_PAREN).append(TLAConstants.CR);
+                }
 	        }
 			
 			if (leaveStubsForTraceExpression) {
@@ -386,15 +384,14 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	             * )
 	             * 
 	             */
-				for (int i = 0; i < currentStateVars.length; i++) {
-					final MCVariable currentStateVar = currentStateVars[i];
-					subActionsAndConstraint.append(TLAConstants.INDENT).append(TLAConstants.INDENTED_CONJUNCTIVE);
-					subActionsAndConstraint.append(currentStateVar.getName()).append(TLAConstants.EQ);
-					subActionsAndConstraint.append(TLAConstants.L_PAREN).append(TLAConstants.CR);
-					subActionsAndConstraint.append(currentStateVar.getValueAsStringReIndentedAs(TRI_INDENT + TLAConstants.INDENT));
-					subActionsAndConstraint.append(TLAConstants.CR);
-					subActionsAndConstraint.append(TRI_INDENT).append(TLAConstants.R_PAREN).append(TLAConstants.CR);
-	            }
+                for (final MCVariable currentStateVar : currentStateVars) {
+                    subActionsAndConstraint.append(TLAConstants.INDENT).append(TLAConstants.INDENTED_CONJUNCTIVE);
+                    subActionsAndConstraint.append(currentStateVar.getName()).append(TLAConstants.EQ);
+                    subActionsAndConstraint.append(TLAConstants.L_PAREN).append(TLAConstants.CR);
+                    subActionsAndConstraint.append(currentStateVar.getValueAsStringReIndentedAs(TRI_INDENT + TLAConstants.INDENT));
+                    subActionsAndConstraint.append(TLAConstants.CR);
+                    subActionsAndConstraint.append(TRI_INDENT).append(TLAConstants.R_PAREN).append(TLAConstants.CR);
+                }
 	
 	            /*
 	             * If the trace is a single state, make the next state
@@ -440,20 +437,19 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	             * 
 	             */
 				if (expressionData != null) {
-					for (int i = 0; i < expressionData.length; i++) {
-	                    final TraceExpressionInformationHolder expressionInfo = expressionData[i];
-		                subActionsAndConstraint.append(TLAConstants.INDENT).append(TLAConstants.INDENTED_CONJUNCTIVE);
-	                    subActionsAndConstraint.append(expressionInfo.getVariableName()).append(TLAConstants.PRIME);
-	                    subActionsAndConstraint.append(TLAConstants.EQ).append(TLAConstants.L_PAREN).append(TLAConstants.CR);
-	                    subActionsAndConstraint.append(TRI_INDENT);
-	                    subActionsAndConstraint.append(expressionInfo.getIdentifier()).append(TLAConstants.CR);
-	                    subActionsAndConstraint.append(TRI_INDENT).append(TLAConstants.R_PAREN);
-	
-						if (expressionInfo.getLevel() < 2) {
-							subActionsAndConstraint.append(TLAConstants.PRIME);
-	                    }
-						subActionsAndConstraint.append(TLAConstants.CR);
-	                }
+                    for (final TraceExpressionInformationHolder expressionInfo : expressionData) {
+                        subActionsAndConstraint.append(TLAConstants.INDENT).append(TLAConstants.INDENTED_CONJUNCTIVE);
+                        subActionsAndConstraint.append(expressionInfo.getVariableName()).append(TLAConstants.PRIME);
+                        subActionsAndConstraint.append(TLAConstants.EQ).append(TLAConstants.L_PAREN).append(TLAConstants.CR);
+                        subActionsAndConstraint.append(TRI_INDENT);
+                        subActionsAndConstraint.append(expressionInfo.getIdentifier()).append(TLAConstants.CR);
+                        subActionsAndConstraint.append(TRI_INDENT).append(TLAConstants.R_PAREN);
+
+                        if (expressionInfo.getLevel() < 2) {
+                            subActionsAndConstraint.append(TLAConstants.PRIME);
+                        }
+                        subActionsAndConstraint.append(TLAConstants.CR);
+                    }
 	            }
 	
 				subActionsAndConstraint.append(TLAConstants.INDENT).append(TLAConstants.R_PAREN);

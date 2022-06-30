@@ -369,9 +369,9 @@ public class GraphNode extends AbstractGraphNode {
 		// Write nnodes
 		final int cnt = nnodes.length;
 		nodeRAF.writeNat(cnt);
-		for (int i = 0; i < cnt; i++) {
-			nodeRAF.writeInt(nnodes[i]);
-		}
+        for (int nnode : nnodes) {
+            nodeRAF.writeInt(nnode);
+        }
 		// Write checks
 		checks.write(nodeRAF);
 	}

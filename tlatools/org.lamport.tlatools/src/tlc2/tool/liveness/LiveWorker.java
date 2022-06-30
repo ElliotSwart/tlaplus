@@ -1269,12 +1269,12 @@ public class LiveWorker implements Callable<Boolean> {
 			this.dg = checker.getDiskGraph();
 			this.dg.createCache();
 			final PossibleErrorModel[] pems = this.oos.getPems();
-			for (int i = 0; i < pems.length; i++) {
-				if (!hasErrFound()) {
-					this.pem = pems[i];
-					this.checkSccs(tool);
-				}
-			}
+            for (PossibleErrorModel possibleErrorModel : pems) {
+                if (!hasErrFound()) {
+                    this.pem = possibleErrorModel;
+                    this.checkSccs(tool);
+                }
+            }
 			this.dg.destroyCache();
 			// Record the size of the disk graph at the time its checked. This
 			// information is later used to decide if it it makes sense to

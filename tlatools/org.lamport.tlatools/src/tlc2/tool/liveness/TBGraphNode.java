@@ -95,11 +95,11 @@ public class TBGraphNode {
 	 * predicates are deduced from the particles during tableau construction.
 	 */
 	public boolean isConsistent(final TLCState state, final ITool tool) {
-		for (int j = 0; j < this.statePreds.length; j++) {
-			if (!this.statePreds[j].eval(tool, state, null)) {
-				return false;
-			}
-		}
+        for (LiveExprNode statePred : this.statePreds) {
+            if (!statePred.eval(tool, state, null)) {
+                return false;
+            }
+        }
 		return true;
 	}
 	

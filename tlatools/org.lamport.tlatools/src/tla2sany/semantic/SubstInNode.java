@@ -363,31 +363,41 @@ public class SubstInNode extends ExprNode {
     ***********************************************************************/
     this.allParams        = (HashSet<SymbolNode>)this.body.getAllParams().clone() ;
     this.nonLeibnizParams = (HashSet<SymbolNode>)this.body.getNonLeibnizParams().clone() ;
-    for (int i = 0 ; i < this.substs.length ; i++) {
-      final OpDeclNode param = substs[i].getOp() ;
-      if (this.allParams.contains(param)) {
-        /*******************************************************************
-        * Remove param from this.allParams, add the substituting           *
-        * expression's allParams to it, and add the substituting           *
-        * expression's nonLeibnizParams to this.nonLeibnizParams.          *
-        *******************************************************************/
-        this.allParams.remove(param) ;
-        this.allParams.addAll(substs[i].getExpr().getAllParams()) ;
-        this.nonLeibnizParams.addAll(
-              substs[i].getExpr().getNonLeibnizParams()) ;
+      /*******************************************************************
+       * Remove param from this.allParams, add the substituting           *
+       * expression's allParams to it, and add the substituting           *
+       * expression's nonLeibnizParams to this.nonLeibnizParams.          *
+       *******************************************************************/
+      /*******************************************************************
+       * If param is in this.body.nonLeibnizParams, remove it from        *
+       * this.nonLeibnizParams and add the substituting expression's      *
+       * allParams to it.                                                 *
+       *******************************************************************/
+      for (Subst subst : this.substs) {
+          final OpDeclNode param = subst.getOp();
+          if (this.allParams.contains(param)) {
+              /*******************************************************************
+               * Remove param from this.allParams, add the substituting           *
+               * expression's allParams to it, and add the substituting           *
+               * expression's nonLeibnizParams to this.nonLeibnizParams.          *
+               *******************************************************************/
+              this.allParams.remove(param);
+              this.allParams.addAll(subst.getExpr().getAllParams());
+              this.nonLeibnizParams.addAll(
+                      subst.getExpr().getNonLeibnizParams());
 
-        /*******************************************************************
-        * If param is in this.body.nonLeibnizParams, remove it from        *
-        * this.nonLeibnizParams and add the substituting expression's      *
-        * allParams to it.                                                 *
-        *******************************************************************/
-        if (this.nonLeibnizParams.contains(param)) {
-          this.nonLeibnizParams.remove(param) ;
-          this.nonLeibnizParams.addAll(substs[i].getExpr().getAllParams()) ;
+              /*******************************************************************
+               * If param is in this.body.nonLeibnizParams, remove it from        *
+               * this.nonLeibnizParams and add the substituting expression's      *
+               * allParams to it.                                                 *
+               *******************************************************************/
+              if (this.nonLeibnizParams.contains(param)) {
+                  this.nonLeibnizParams.remove(param);
+                  this.nonLeibnizParams.addAll(subst.getExpr().getAllParams());
 
-         }// if
-       }// if (bodyParams.contains(param))
-     }// for
+              }// if
+          }// if (bodyParams.contains(param))
+      }// for
 
 
 //    /***********************************************************************
@@ -478,13 +488,13 @@ public class SubstInNode extends ExprNode {
             + ", instantiated module: " + instantiatedModule.getName()
             + Strings.indent(2, "\nSubstitutions:"));
     if (this.substs != null) {
-      for (int i = 0; i < this.substs.length; i++) {
-        ret.append(Strings.indent(2,
-                Strings.indent(2, "\nSubst:" +
-                        (this.substs[i] != null ?
-                                Strings.indent(2, this.substs[i].toString(depth - 1)) :
-                                "<null>"))));
-      }
+        for (Subst subst : this.substs) {
+            ret.append(Strings.indent(2,
+                    Strings.indent(2, "\nSubst:" +
+                            (subst != null ?
+                                    Strings.indent(2, subst.toString(depth - 1)) :
+                                    "<null>"))));
+        }
     }
     else {
       ret.append(Strings.indent(2, "<null>"));
@@ -517,9 +527,9 @@ public class SubstInNode extends ExprNode {
     visitor.preVisit(this);
 
     if (this.substs != null) {
-      for (int i = 0; i < this.substs.length; i++) {
-        if (this.substs[i] != null) this.substs[i].walkGraph(semNodesTable, visitor);
-      }
+        for (Subst subst : this.substs) {
+            if (subst != null) subst.walkGraph(semNodesTable, visitor);
+        }
     }
     if (this.body != null) this.body.walkGraph(semNodesTable, visitor);
     visitor.postVisit(this);
@@ -528,8 +538,8 @@ public class SubstInNode extends ExprNode {
   @Override
   protected Element getLevelElement(final Document doc, final SymbolContext context) {
       final Element sbts = doc.createElement("substs");
-      for (int i=0; i<substs.length; i++) {
-        sbts.appendChild(substs[i].export(doc,context));
+      for (Subst subst : substs) {
+          sbts.appendChild(subst.export(doc, context));
       }
       final Element bdy = doc.createElement("body");
       bdy.appendChild(body.export(doc,context));

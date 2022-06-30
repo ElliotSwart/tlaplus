@@ -240,14 +240,14 @@ public final FcnParams params;       // the function formals
               }
             }
             else {
-              for (int j = 0; j < ids.length; j++) {
-                if (!domain.member(elems[argn])) {
-                  Assert.fail("In applying the function\n" + Values.ppr(this.toString()) +
-                        ",\nthe argument number " + (argn+1) + " is:\n" +
-                        Values.ppr(elems[argn].toString()) + "\nwhich is not in the function's domain " + this.getDomain().toString() +".\n", getSource());
+                for (FormalParamNode id : ids) {
+                    if (!domain.member(elems[argn])) {
+                        Assert.fail("In applying the function\n" + Values.ppr(this.toString()) +
+                                ",\nthe argument number " + (argn + 1) + " is:\n" +
+                                Values.ppr(elems[argn].toString()) + "\nwhich is not in the function's domain " + this.getDomain().toString() + ".\n", getSource());
+                    }
+                    c1 = c1.cons(id, elems[argn++]);
                 }
-                c1 = c1.cons(ids[j], elems[argn++]);
-              }
             }
           }
         }
@@ -366,10 +366,10 @@ public final FcnParams params;       // the function formals
               }
             }
             else {
-              for (int j = 0; j < ids.length; j++) {
-                if (!domain.member(elems[argn])) return null;
-                c1 = c1.cons(ids[j], elems[argn++]);
-              }
+                for (FormalParamNode id : ids) {
+                    if (!domain.member(elems[argn])) return null;
+                    c1 = c1.cons(id, elems[argn++]);
+                }
             }
           }
         }
@@ -584,17 +584,17 @@ public final FcnParams params;       // the function formals
 	    try {
       if (fcnRcd == null) {
         if (excepts != null) {
-          for (int i = 0; i < excepts.length; i++) {
-            excepts[i].value.deepNormalize();
-            for (int j = 0; j < excepts[i].path.length; j++) {
-        excepts[i].path[j].deepNormalize();
+            for (ValueExcept except : excepts) {
+                except.value.deepNormalize();
+                for (int j = 0; j < except.path.length; j++) {
+                    except.path[j].deepNormalize();
+                }
             }
-          }
         }
         final IValue[] paramDoms = params.domains;
-        for (int i = 0; i < paramDoms.length; i++) {
-          paramDoms[i].deepNormalize();
-        }
+          for (IValue paramDom : paramDoms) {
+              paramDom.deepNormalize();
+          }
       }
       else {
         fcnRcd.deepNormalize();
@@ -708,9 +708,9 @@ public final FcnParams params;       // the function formals
                 }
               }
               else {
-                for (int j = 0; j < ids.length; j++) {
-                  c1 = c1.cons(ids[j], argList[argn++]);
-                }
+                  for (FormalParamNode id : ids) {
+                      c1 = c1.cons(id, argList[argn++]);
+                  }
               }
             }
             values[idx++] = (Value) this.tool.eval(this.body, c1, this.state, this.pstate, this.control);

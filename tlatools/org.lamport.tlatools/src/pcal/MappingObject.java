@@ -469,8 +469,7 @@ public class MappingObject implements Serializable {
         for (int i = 0; i < mapping.length; i++) {
             final MappingObject[] line = mapping[i];
             System.out.print("line " + i + ":");
-            for (int j = 0; j < line.length; j++) {
-                final MappingObject mobj = line[j] ;
+            for (final MappingObject mobj : line) {
                 System.out.print("  " + mobj.toString());
             }
             System.out.println();

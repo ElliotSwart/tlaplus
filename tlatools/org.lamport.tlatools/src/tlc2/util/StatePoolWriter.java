@@ -43,9 +43,9 @@ public class StatePoolWriter extends Thread {
   throws IOException {
     if (this.poolFile != null) {
       final ValueOutputStream vos = new ValueOutputStream(this.poolFile);
-      for (int i = 0; i < this.buf.length; i++) {
-	this.buf[i].write(vos);
-      }
+        for (TLCState tlcState : this.buf) {
+            tlcState.write(vos);
+        }
       vos.close();
     }
     final TLCState[] res = this.buf;
@@ -70,9 +70,9 @@ public class StatePoolWriter extends Thread {
     oos.writeBoolean(hasFile);
     if (hasFile) {
       oos.writeObject(this.poolFile);
-      for (int i = 0; i < this.buf.length; i++) {
-	oos.writeObject(this.buf[i]);
-      }
+        for (TLCState tlcState : this.buf) {
+            oos.writeObject(tlcState);
+        }
     }
   }
 
@@ -113,9 +113,9 @@ public class StatePoolWriter extends Thread {
 	    }
 	  }
 	  final ValueOutputStream vos = new ValueOutputStream(this.poolFile);
-	  for (int i = 0; i < this.buf.length; i++) {
-	    this.buf[i].write(vos);
-	  }
+        for (TLCState tlcState : this.buf) {
+            tlcState.write(vos);
+        }
 	  vos.close();
 	  this.poolFile = null;
 	  this.notify();

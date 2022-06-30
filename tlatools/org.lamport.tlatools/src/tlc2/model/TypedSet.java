@@ -172,9 +172,8 @@ public class TypedSet {
         {
             final List<String> typedList = new ArrayList<>(values.length);
             // add type to the list
-            for (int i = 0; i < values.length; i++)
-            {
-                final String value = type + SEPARATOR + values[i];
+            for (String s : values) {
+                final String value = type + SEPARATOR + s;
                 typedList.add(value);
             }
             return typedList;
@@ -238,9 +237,8 @@ public class TypedSet {
         if (array == null)
             return 0;
         int result = 1;
-        for (int index = 0; index < array.length; index++)
-        {
-            result = prime * result + (array[index] == null ? 0 : array[index].hashCode());
+        for (Object o : array) {
+            result = prime * result + (o == null ? 0 : o.hashCode());
         }
         return result;
     }
@@ -318,10 +316,8 @@ public class TypedSet {
             return !hasValidType();
         } else
         {
-            for (int i = 0; i < values.length; i++)
-            {
-                if (values[i].matches("\\d*"))
-                {
+            for (String value : values) {
+                if (value.matches("\\d*")) {
                     // a digit sequence found
                     return true;
                 }

@@ -262,44 +262,44 @@ public abstract class AbstractSpecWriter {
 
         Assignment constant;
         // first run for all the declarations
-		for (int i = 0; i < constants.size(); i++) {
-			constant = constants.get(i);
-			if (constant.isModelValue()) {
-				if (constant.isSetOfModelValues()) {
-					// set model values
-					addMVTypedSet(constant.getSetOfModelValues(), "MV CONSTANT declarations", attributeConstants);
-				}
-			}
-		}
+        for (Assignment value : constants) {
+            constant = value;
+            if (constant.isModelValue()) {
+                if (constant.isSetOfModelValues()) {
+                    // set model values
+                    addMVTypedSet(constant.getSetOfModelValues(), "MV CONSTANT declarations", attributeConstants);
+                }
+            }
+        }
 
         // now all the definitions
-		for (int i = 0; i < constants.size(); i++) {
-			constant = constants.get(i);
-			if (constant.isModelValue()) {
-				if (constant.isSetOfModelValues()) {
+        for (Assignment assignment : constants) {
+            constant = assignment;
+            if (constant.isModelValue()) {
+                if (constant.isSetOfModelValues()) {
                     // set model values
-					if (cfgBuffer != null) {
-						cfgBuffer.append(TLAConstants.COMMENT).append("MV CONSTANT definitions").append(TLAConstants.CR);
-					}
+                    if (cfgBuffer != null) {
+                        cfgBuffer.append(TLAConstants.COMMENT).append("MV CONSTANT definitions").append(TLAConstants.CR);
+                    }
                     tlaBuffer.append(TLAConstants.COMMENT).append("MV CONSTANT definitions ").append(constant.getLeft());
                     tlaBuffer.append(TLAConstants.CR);
 
                     final String id = addArrowAssignment(constant, TLAConstants.Schemes.CONSTANT_SCHEME);
-					if (constant.isSymmetricalSet()) {
-						symmetrySets.add(id);
-					}
+                    if (constant.isSymmetricalSet()) {
+                        symmetrySets.add(id);
+                    }
                     tlaBuffer.append(TLAConstants.SEP).append(TLAConstants.CR).append(TLAConstants.CR);
-				} else if (cfgBuffer != null) {
-					cfgBuffer.append(TLAConstants.COMMENT).append(TLAConstants.KeyWords.CONSTANT)
-							 .append(" declarations").append(TLAConstants.CR);
-					// model value assignment
-					// to .cfg : foo = foo
-					// to _MC.tla : <nothing>, since the constant is already defined in one of the
-					// spec modules
-					cfgBuffer.append(TLAConstants.KeyWords.CONSTANT).append(TLAConstants.SPACE).append(constant.getLabel());
-					cfgBuffer.append(TLAConstants.EQ).append(constant.getRight()).append(TLAConstants.CR);
-				}
-			} else {
+                } else if (cfgBuffer != null) {
+                    cfgBuffer.append(TLAConstants.COMMENT).append(TLAConstants.KeyWords.CONSTANT)
+                            .append(" declarations").append(TLAConstants.CR);
+                    // model value assignment
+                    // to .cfg : foo = foo
+                    // to _MC.tla : <nothing>, since the constant is already defined in one of the
+                    // spec modules
+                    cfgBuffer.append(TLAConstants.KeyWords.CONSTANT).append(TLAConstants.SPACE).append(constant.getLabel());
+                    cfgBuffer.append(TLAConstants.EQ).append(constant.getRight()).append(TLAConstants.CR);
+                }
+            } else {
 //                // simple constant value assignment
 //                cfgBuffer.append(COMMENT).append("CONSTANT definitions").append(CR);
 //

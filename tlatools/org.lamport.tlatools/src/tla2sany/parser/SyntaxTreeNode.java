@@ -587,16 +587,17 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
                   // Printing of preComment added by LL on 2 Jul 2009
     );
 
-    for (int i=0; i<heirs.length; i++) {
-      if (heirs[i] != null)
-        heirs[i].printST(indentLevel+1);
-                // Indent 1 more level
-      else {
-        for (int j = 0; j <= indentLevel; j++) {
-            System.out.print(Strings.blanks[2]);}
-          System.out.println("<null>");
-      } // end else
-    } // end for
+      for (TreeNode heir : heirs) {
+          if (heir != null)
+              heir.printST(indentLevel + 1);
+              // Indent 1 more level
+          else {
+              for (int j = 0; j <= indentLevel; j++) {
+                  System.out.print(Strings.blanks[2]);
+              }
+              System.out.println("<null>");
+          } // end else
+      } // end for
     
   } // end method
  

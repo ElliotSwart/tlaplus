@@ -490,9 +490,8 @@ public abstract class AbstractChecker
         }
 
         // Wait for all the workers to terminate:
-        for (int i = 0; i < workers.length; i++)
-        {
-            workers[i].join();
+        for (IWorker worker : workers) {
+            worker.join();
         }
 		if (!this.keepCallStack) {
 			// A worker explicitly set an errorCode (without interrupting
@@ -505,9 +504,9 @@ public abstract class AbstractChecker
     }
     
 	public final void setAllValues(final int idx, final IValue val) {
-		for (int i = 0; i < this.workers.length; i++) {
-			workers[i].setLocalValue(idx, val);
-		}
+        for (IWorker worker : this.workers) {
+            worker.setLocalValue(idx, val);
+        }
 	}
 
 	public final List<IValue> getAllValue(final int idx) {

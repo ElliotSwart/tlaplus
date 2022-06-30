@@ -994,9 +994,9 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 			// Finally close the out rafs after all tasks have finished. On
 			// Linux, closing an instance of the tmpRAFs appears to be racy when
 			// other tasks still execute.
-			for (int i = 0; i < tmpRAFs.length; i++) {
-				tmpRAFs[i].close();
-			}
+            for (BufferedRandomAccessFile tmpRAF : tmpRAFs) {
+                tmpRAF.close();
+            }
 
 			assert checkRAFs(inRAFs);
 			assert checkTable(a) : "Missed element during eviction.";

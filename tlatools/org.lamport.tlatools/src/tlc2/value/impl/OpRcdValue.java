@@ -272,20 +272,20 @@ public class OpRcdValue extends OpValue implements Applicable {
       if (this.values.size() != 0) {
         sb.append("<");
         final Value[] args = this.domain.elementAt(0);
-        for (int j = 0; j < args.length; j++) {
-          sb = args[j].toString(sb, offset, swallow);
-          sb.append(", ");
-        }
+          for (Value arg : args) {
+              sb = arg.toString(sb, offset, swallow);
+              sb.append(", ");
+          }
         sb = this.values.elementAt(0).toString(sb, offset, swallow);
         sb.append(">");
       }
       for (int i = 1; i < this.values.size(); i++) {
         sb.append(", <");
         final Value[] args = this.domain.elementAt(i);
-        for (int j = 0; j < args.length; j++) {
-          sb = args[j].toString(sb, offset, swallow);
-          sb.append(", ");
-        }
+          for (Value arg : args) {
+              sb = arg.toString(sb, offset, swallow);
+              sb.append(", ");
+          }
         sb = this.values.elementAt(i).toString(sb, offset, swallow);
         sb.append(">");
       }

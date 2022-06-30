@@ -81,9 +81,9 @@ public class SynchronousDiskIntStack implements IntStack {
 				poolFile.deleteOnExit();
 				final BufferedDataOutputStream bdos = FileUtil.newBdFOS(false, poolFile);
 				final int len = buf.length;
-				for (int i = 0; i < len; i++) {
-					bdos.writeInt(buf[i]);
-				}
+                for (int j : buf) {
+                    bdos.writeInt(j);
+                }
 				bdos.close();
 				this.hiPool++;
 				this.index = 0;

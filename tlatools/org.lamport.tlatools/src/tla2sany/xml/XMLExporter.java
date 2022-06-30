@@ -140,11 +140,11 @@ public class XMLExporter {
       //Element e = table.getRootModule().exportDefinition(doc,context);
       //rootElement.appendChild(e);
       final ModuleNode[] externalModules = table.getModuleNodes();
-      for (int j = 0; j < externalModules.length; j++) {
-        //Element ext_e = externalModules[j].exportDefinition(doc, context);
-        final Element ext_e = externalModules[j].export(doc, context);
-        rootElement.appendChild(ext_e);
-      }
+        for (ModuleNode externalModule : externalModules) {
+            //Element ext_e = externalModules[j].exportDefinition(doc, context);
+            final Element ext_e = externalModule.export(doc, context);
+            rootElement.appendChild(ext_e);
+        }
 
       // Insert the symbol table into the beginning of the XML DOM
       rootElement.insertBefore(context.getContextElement(doc), rootElement.getFirstChild());

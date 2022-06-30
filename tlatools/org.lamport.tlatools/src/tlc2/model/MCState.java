@@ -334,35 +334,33 @@ public class MCState {
     public String getConjunctiveDescription(final boolean includeTraceExpressions, final String indent,
     										final boolean ansiMarkup) {
         final StringBuilder result = new StringBuilder();
-        
-		for (int i = 0; i < variables.length; i++) {
-			final MCVariable var = variables[i];
-			
-			if (var.isTraceExplorerExpression() && !includeTraceExpressions) {
-				continue;
-			}
-			
-			if (indent != null) {
-				result.append(indent);
-			}
-			
+
+        for (final MCVariable var : variables) {
+            if (var.isTraceExplorerExpression() && !includeTraceExpressions) {
+                continue;
+            }
+
+            if (indent != null) {
+                result.append(indent);
+            }
+
             result.append("/\\ ");
-			if (var.isTraceExplorerExpression()) {
-				if (ansiMarkup) {
-					result.append(TLAConstants.ANSI.BOLD_CODE);
-				}
-				
-				result.append(var.getSingleLineDisplayName());
-			} else {
-				result.append(var.getName());
-			}
+            if (var.isTraceExplorerExpression()) {
+                if (ansiMarkup) {
+                    result.append(TLAConstants.ANSI.BOLD_CODE);
+                }
+
+                result.append(var.getSingleLineDisplayName());
+            } else {
+                result.append(var.getName());
+            }
 
             result.append(" = ").append(var.getValueAsString());
 
-			if (var.isTraceExplorerExpression() && ansiMarkup) {
-				result.append(TLAConstants.ANSI.RESET_CODE);
-			}
-			
+            if (var.isTraceExplorerExpression() && ansiMarkup) {
+                result.append(TLAConstants.ANSI.RESET_CODE);
+            }
+
             result.append('\n');
         }
 		
@@ -379,32 +377,32 @@ public class MCState {
 		String[] stateVarString = null;
 
 		// iterate line-wise
-		for (int j = 0; j < lines.length; j++) {
-			// find the index of the first /\ in the line
-			index = lines[j].indexOf(TLAConstants.TLA_AND);
-			// adding the current line to the previous lines
-			if (index != -1) {
-				// there was something in the buffer for the state variable
-				// found an empty line, which means that this is the end of the current state
-				if (stateVarString != null) {
-					final MCVariable var = new MCVariable(stateVarString[0], stateVarString[1]);
-					vars.add(var);
-				}
+        for (String line : lines) {
+            // find the index of the first /\ in the line
+            index = line.indexOf(TLAConstants.TLA_AND);
+            // adding the current line to the previous lines
+            if (index != -1) {
+                // there was something in the buffer for the state variable
+                // found an empty line, which means that this is the end of the current state
+                if (stateVarString != null) {
+                    final MCVariable var = new MCVariable(stateVarString[0], stateVarString[1]);
+                    vars.add(var);
+                }
 
-				stateVarString = lines[j].substring(index + TLAConstants.TLA_AND.length() + 1).split(TLAConstants.EQ);
-			} else {
-				// no index
+                stateVarString = line.substring(index + TLAConstants.TLA_AND.length() + 1).split(TLAConstants.EQ);
+            } else {
+                // no index
 
-				if (stateVarString != null) {
-					// either an empty line
-					stateVarString[1] += TLAConstants.CR;
-					stateVarString[1] += lines[j];
-				} else {
-					// the state has one variable only
-					stateVarString = lines[j].split(TLAConstants.EQ);
-				}
-			}
-		}
+                if (stateVarString != null) {
+                    // either an empty line
+                    stateVarString[1] += TLAConstants.CR;
+                    stateVarString[1] += line;
+                } else {
+                    // the state has one variable only
+                    stateVarString = line.split(TLAConstants.EQ);
+                }
+            }
+        }
 
 		// write the last one
 		if (stateVarString != null) {

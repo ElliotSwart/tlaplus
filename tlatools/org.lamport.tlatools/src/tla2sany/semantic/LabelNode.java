@@ -227,9 +227,11 @@ public boolean addLabel(final LabelNode odn) {
     if (levelChecked >= iter) {return true ;}
       levelChecked = iter;
     final boolean retVal = true ;
-    for (int i=0; i < params.length; i++) {
-      if (params[i] != null) {params[i].levelCheck(iter);}
-    }
+      for (FormalParamNode param : params) {
+          if (param != null) {
+              param.levelCheck(iter);
+          }
+      }
       return this.body.levelCheck(iter) && retVal ;
   }
 
@@ -295,9 +297,9 @@ public boolean addLabel(final LabelNode odn) {
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
     if (body != null) body.walkGraph(semNodesTable, visitor);
-    for (int i = 0 ; i < params.length; i++) {
-      params[i].walkGraph(semNodesTable, visitor);
-     }
+      for (FormalParamNode param : params) {
+          param.walkGraph(semNodesTable, visitor);
+      }
       visitor.postVisit(this);
   }
 
@@ -346,7 +348,7 @@ public boolean addLabel(final LabelNode odn) {
       ret.appendChild(appendText(doc,"arity",Integer.toString(getArity())));
       ret.appendChild(appendElement(doc,"body",body.export(doc,context)));
       final Element arguments = doc.createElement("params");
-      for (int i=0; i<params.length; i++) arguments.appendChild(params[i].export(doc,context));
+      for (FormalParamNode param : params) arguments.appendChild(param.export(doc, context));
       ret.appendChild(arguments);
       return ret;
     }

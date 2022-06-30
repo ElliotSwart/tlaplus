@@ -82,11 +82,11 @@ private String metadir;
   public final synchronized long sizeof() {
     long size = 28; // 8 (ptr table) + 8 (long count) + 8 (long threshold) + 4 (int mask)
     size += 16 + (this.table.length * 8L); // for this.table
-    for (int i = 0; i < this.table.length; i++) {
-      if (this.table[i] != null) {
-	size += 16 + (this.table[i].length * 8L);
+      for (long[] longs : this.table) {
+          if (longs != null) {
+              size += 16 + (longs.length * 8L);
+          }
       }
-    }
     return size;
   }
 
@@ -107,9 +107,9 @@ private String metadir;
     // Test if the fingerprint is already in the hashtable.
     if (list != null) {
       final int listlen = list.length;
-      for (int i = 0; i < listlen; i++) {
-	if (list[i] == fp) return true;
-      }
+        for (long l : list) {
+            if (l == fp) return true;
+        }
     }
 
     if (count >= threshold) {
@@ -139,9 +139,9 @@ private String metadir;
     // Test if the fingerprint is already in the hashtable.
     if (list != null) {
       final int listlen = list.length;
-      for (int i = 0; i < listlen; i++) {
-	if (list[i] == fp) return true;
-      }
+        for (long l : list) {
+            if (l == fp) return true;
+        }
     }
     return false;
   }
@@ -170,12 +170,12 @@ private String metadir;
 	final int listlen = list.length;
 	if (listlen < min) min = listlen;
 	if (listlen > max) max = listlen;
-	for (int j = 0; j < listlen; j++) {
-	  if ((list[j] & onebitmask) == 0)
-	    cnt0++;
-	  else
-	    cnt1++;
-	}
+          for (long value : list) {
+              if ((value & onebitmask) == 0)
+                  cnt0++;
+              else
+                  cnt1++;
+          }
         	    
 	// handle special cases if either list is empty
 	if (cnt0 == 0) {
@@ -190,12 +190,12 @@ private String metadir;
 	  final long[] list1 = new long[cnt1];
             	  
 	  // copy the entries from the old list into the two new ones
-	  for (int j = 0; j < listlen; j++) {
-	    if ((list[j] & onebitmask) == 0) 
-	      list0[--cnt0] = list[j];
-	    else
-	      list1[--cnt1] = list[j];
-	  }
+        for (long l : list) {
+            if ((l & onebitmask) == 0)
+                list0[--cnt0] = l;
+            else
+                list1[--cnt1] = l;
+        }
             	    
 	  // install new arrays in new table
 	  newTable[i] = list0;
@@ -234,14 +234,14 @@ private String metadir;
 	  for (int k = i+1; k < this.table.length; k++) {
 	    final long[] bucket1 = this.table[k];
 	    if (bucket1 != null) {
-	      for (int m = 0; m < bucket1.length; m++) {
-		final long x = bucket[j];
-		final long y = bucket1[m];
-		final long dis1 = (x > y) ? x-y : y-x;
-		if (dis1 >= 0) {
-		  dis = Math.min(dis, dis1);
-		}
-	      }
+            for (long l : bucket1) {
+                final long x = bucket[j];
+                final long y = l;
+                final long dis1 = (x > y) ? x - y : y - x;
+                if (dis1 >= 0) {
+                    dis = Math.min(dis, dis1);
+                }
+            }
 	    }
 	  }
 	}
@@ -255,14 +255,13 @@ private String metadir;
   public final void beginChkpt(final String fname) throws IOException {
     final BufferedDataOutputStream dos =
       new BufferedDataOutputStream(this.chkptName(fname, "tmp"));
-    for (int i = 0; i < this.table.length; i++) {
-      final long[] bucket = this.table[i];
-      if (bucket != null) {
-	for (int j = 0; j < bucket.length; j++) {
-	  dos.writeLong(bucket[j]);
-	}
+      for (final long[] bucket : this.table) {
+          if (bucket != null) {
+              for (long l : bucket) {
+                  dos.writeLong(l);
+              }
+          }
       }
-    }
     dos.close();
   }
       

@@ -20,9 +20,9 @@ public class SyntaxTreePrinter {
       output.println("%% no dependencies");
     } else {
       output.print("%% dependends on:");
-      for (int lvi = 0; lvi < dependencies.length; lvi++) {
-        output.print(" " + dependencies[lvi]);
-      }
+        for (String dependency : dependencies) {
+            output.print(" " + dependency);
+        }
       output.println(".");
     }
     printSubTree(output, "", pt.rootNode() );
@@ -61,9 +61,9 @@ public class SyntaxTreePrinter {
       }
       outS.append(" {");
       o.println(outS);
-      for (int i=0; i<h.length; i++) {
-        printSubTree(o, offset + ".", h[i] );
-      }
+        for (TreeNode treeNode : h) {
+            printSubTree(o, offset + ".", treeNode);
+        }
       o.print(offset); o.println( "}");
     } else {
       outS.append(" ***WARNING***  null array reference ");

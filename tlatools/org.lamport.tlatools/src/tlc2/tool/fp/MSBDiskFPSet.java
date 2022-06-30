@@ -79,20 +79,19 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 			
 			// copy table contents into a buffer array buff; do not erase tbl, but 1
 			// msb of each fp to indicate it has been flushed to disk
-			for (int j = 0; j < tbl.length; j++) {
-				final long[] bucket = tbl[j];
-				if (bucket != null) {
-					final int blen = bucket.length;
-					// for all bucket positions and non-null values
-					int k = 0;
-					for (; k < blen && bucket[k] > 0; k++) {
+            for (final long[] bucket : tbl) {
+                if (bucket != null) {
+                    final int blen = bucket.length;
+                    // for all bucket positions and non-null values
+                    int k = 0;
+                    for (; k < blen && bucket[k] > 0; k++) {
                     }
-					// * Postconditions:
-					// * - Zero/0 Element(s) remains at the end
-					// * - Negative elements maintain their position (remain untouched) 
-					Arrays.sort(bucket, 0, k);
-				}
-			}
+                    // * Postconditions:
+                    // * - Zero/0 Element(s) remains at the end
+                    // * - Negative elements maintain their position (remain untouched)
+                    Arrays.sort(bucket, 0, k);
+                }
+            }
 	
 			// At this point this.tbl should be fully sorted modulo the fps which
 			// had been flush in a previous flush operation and zero/0 (which is invalid anyway).

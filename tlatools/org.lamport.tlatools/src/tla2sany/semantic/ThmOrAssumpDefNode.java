@@ -517,16 +517,16 @@ public class ThmOrAssumpDefNode extends SymbolNode
       }
 
       this.levelConstraints = (SetOfLevelConstraints)lcSet.clone();
-      for (int i = 0; i < this.params.length; i++) {
-        this.levelConstraints.remove(this.params[i]);
+      for (FormalParamNode formalParamNode : this.params) {
+          this.levelConstraints.remove(formalParamNode);
       }
 
       this.argLevelConstraints = (SetOfArgLevelConstraints)alcSet.clone();
-      for (int i = 0; i < this.params.length; i++) {
-        final int alen = this.params[i].getArity();
-        for (int j = 0; j < alen; j++) {
-          this.argLevelConstraints.remove(new ParamAndPosition(this.params[i], j));
-        }
+      for (FormalParamNode param : this.params) {
+          final int alen = param.getArity();
+          for (int j = 0; j < alen; j++) {
+              this.argLevelConstraints.remove(new ParamAndPosition(param, j));
+          }
       }
 
       for (ArgLevelParam alp : alpSet) {
@@ -620,11 +620,11 @@ public class ThmOrAssumpDefNode extends SymbolNode
         ret.append(" instantiatedFrom: ").append(instantiatedFrom.getName()); }
       if (params != null) {
       StringBuilder tempString = new StringBuilder("\nFormal params: " + params.length);
-      for (int i = 0; i < params.length; i++) {
-        tempString.append(Strings.indent(2, ((params[i] != null)
-                ? params[i].toString(depth - 1)
-                : "\nnull")));
-        }
+          for (FormalParamNode param : params) {
+              tempString.append(Strings.indent(2, ((param != null)
+                      ? param.toString(depth - 1)
+                      : "\nnull")));
+          }
           ret.append(Strings.indent(2, tempString.toString()));
      }
       if (body != null) {

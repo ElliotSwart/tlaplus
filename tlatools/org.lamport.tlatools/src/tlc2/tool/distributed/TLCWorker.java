@@ -105,19 +105,19 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 			TLCState[] nstates;
 			final Set<Holder> treeSet = getSet();
 			// Compute all of the next states of this block of states.
-			for (int i = 0; i < states.length; i++) {
-				state1 = states[i];
-				nstates = this.work.getNextStates(state1);
-				// Keep statistics about states computed during this invocation
-				statesComputed += nstates.length;
-				// add all succ states/fps to the array designated for the corresponding fp server
-				for (int j = 0; j < nstates.length; j++) {
-					final long fp = nstates[j].fingerPrint();
-					if (!cache.hit(fp)) {
-						treeSet.add(new Holder(fp, nstates[j], state1));
-					}
-				}
-			}
+            for (TLCState state : states) {
+                state1 = state;
+                nstates = this.work.getNextStates(state1);
+                // Keep statistics about states computed during this invocation
+                statesComputed += nstates.length;
+                // add all succ states/fps to the array designated for the corresponding fp server
+                for (TLCState nstate : nstates) {
+                    final long fp = nstate.fingerPrint();
+                    if (!cache.hit(fp)) {
+                        treeSet.add(new Holder(fp, nstate, state1));
+                    }
+                }
+            }
 			
 			// Amount of states computed in during all invocations
 			overallStatesComputed += statesComputed;
@@ -417,16 +417,16 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 		}
 		
 		// Exit and unregister all worker threads
-		for (int i = 0; i < runnables.length; i++) {
-			final TLCWorker worker = runnables[i].getTLCWorker();
-			try {
-				if (worker != null) {
-					worker.exit();
-				}
-			} catch (final NoSuchObjectException e) {
-				// may happen, ignore
-			}
-		}
+        for (TLCWorkerRunnable runnable : runnables) {
+            final TLCWorker worker = runnable.getTLCWorker();
+            try {
+                if (worker != null) {
+                    worker.exit();
+                }
+            } catch (final NoSuchObjectException e) {
+                // may happen, ignore
+            }
+        }
 		
 		fts = null;
 		runnables = new TLCWorkerRunnable[0];

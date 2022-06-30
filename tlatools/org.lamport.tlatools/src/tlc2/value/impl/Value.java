@@ -279,15 +279,15 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
   public final Value select(final Value[] path) {
     try {
       Value result = this;
-      for (int i = 0; i < path.length; i++) {
-        if (!(result instanceof Applicable)) {
-          Assert.fail("Attempted to apply EXCEPT construct to the value " +
-                Values.ppr(result.toString()) + ".", getSource());
+        for (Value value : path) {
+            if (!(result instanceof Applicable)) {
+                Assert.fail("Attempted to apply EXCEPT construct to the value " +
+                        Values.ppr(result.toString()) + ".", getSource());
+            }
+            final Value elem = value;
+            result = ((Applicable) result).select(elem);
+            if (result == null) return null;
         }
-        final Value elem = path[i];
-        result = ((Applicable)result).select(elem);
-        if (result == null) return null;
-      }
       return result;
     }
     catch (final RuntimeException | OutOfMemoryError e) {

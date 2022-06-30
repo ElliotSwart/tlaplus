@@ -177,8 +177,8 @@ public class NonLeafProofNode extends ProofNode {
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
-    for (int  i = 0; i < steps.length; i++) {
-      steps[i].walkGraph(semNodesTable, visitor);
+      for (LevelNode step : steps) {
+          step.walkGraph(semNodesTable, visitor);
       }
       /***********************************************************************
     * Note: there's no need to walk the defs array because all the nodes   *
@@ -198,8 +198,8 @@ public class NonLeafProofNode extends ProofNode {
     StringBuilder ret = new StringBuilder("\n*ProofNode:\n"
             + super.toString(depth)
             + Strings.indent(2, "\nsteps:"));
-    for (int i = 0 ; i < this.steps.length; i++) {
-        ret.append(Strings.indent(4, this.steps[i].toString(depth - 1)));
+      for (LevelNode step : this.steps) {
+          ret.append(Strings.indent(4, step.toString(depth - 1)));
       }
 
       /***********************************************************************
@@ -222,9 +222,9 @@ public class NonLeafProofNode extends ProofNode {
   protected Element getLevelElement(final Document doc, final SymbolContext context) {
     final Element e = doc.createElement("steps");
 
-    for (int i=0; i< steps.length; i++) {
-      e.appendChild(steps[i].export(doc,context));
-    }
+      for (LevelNode step : steps) {
+          e.appendChild(step.export(doc, context));
+      }
 
     return e;
   }

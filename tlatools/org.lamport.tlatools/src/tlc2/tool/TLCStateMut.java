@@ -158,12 +158,11 @@ private final IValue[] values;
   
   @Override
   public final void deepNormalize() {
-    for (int i = 0; i < this.values.length; i++) {
-      final IValue val = this.values[i];
-      if (val != null) {
-	val.deepNormalize();
+      for (final IValue val : this.values) {
+          if (val != null) {
+              val.deepNormalize();
+          }
       }
-    }
   }
 
   /**
@@ -217,42 +216,43 @@ private final IValue[] values;
 			// lexicographically smaller than the currently smallest, it replaces the
 			// current smallest. Once all permutations (perms) have been processed, we know
 			// we have found the smallest state.
-			NEXT_PERM: for (int i = 0; i < perms.length; i++) {
-				int cmp = 0;
-				// For each value in values succinctly permute the current value
-				// and compare it to its corresponding minValue in minVals.
-				for (int j = 0; j < sz; j++) {
-					vals[j] = this.values[j].permute(perms[i]);
-					if (cmp == 0) {
-						// Only compare unless an earlier compare has found a
-						// difference already (if a difference has been found
-						// earlier, still permute the remaining values of the
-						// state to fully permute all state values).
-						cmp = vals[j].compareTo(minVals[j]);
-						if (cmp > 0) {
-							// When cmp evaluates to >0, all subsequent
-							// applications of perms[i] for the remaining values
-							// won't make the resulting vals[] smaller than
-							// minVals. Thus, exit preemptively from the loop
-							// over vals. This works because perms is the cross
-							// product of all symmetry sets.
-							continue NEXT_PERM;
-						}
-					}
-				}
-				// cmp < 0 means the current state is part of a symmetry
-				// permutation set/group and not the "smallest" one.
-				if (cmp < 0) {
-					if (minVals == this.values) {
-						minVals = vals;
-						vals = new IValue[sz];
-					} else {
-						final IValue[] temp = minVals;
-						minVals = vals;
-						vals = temp;
-					}
-				}
-			}
+			NEXT_PERM:
+            for (IMVPerm perm : perms) {
+                int cmp = 0;
+                // For each value in values succinctly permute the current value
+                // and compare it to its corresponding minValue in minVals.
+                for (int j = 0; j < sz; j++) {
+                    vals[j] = this.values[j].permute(perm);
+                    if (cmp == 0) {
+                        // Only compare unless an earlier compare has found a
+                        // difference already (if a difference has been found
+                        // earlier, still permute the remaining values of the
+                        // state to fully permute all state values).
+                        cmp = vals[j].compareTo(minVals[j]);
+                        if (cmp > 0) {
+                            // When cmp evaluates to >0, all subsequent
+                            // applications of perms[i] for the remaining values
+                            // won't make the resulting vals[] smaller than
+                            // minVals. Thus, exit preemptively from the loop
+                            // over vals. This works because perms is the cross
+                            // product of all symmetry sets.
+                            continue NEXT_PERM;
+                        }
+                    }
+                }
+                // cmp < 0 means the current state is part of a symmetry
+                // permutation set/group and not the "smallest" one.
+                if (cmp < 0) {
+                    if (minVals == this.values) {
+                        minVals = vals;
+                        vals = new IValue[sz];
+                    } else {
+                        final IValue[] temp = minVals;
+                        minVals = vals;
+                        vals = temp;
+                    }
+                }
+            }
 		}
 		// Fingerprint the state:
 		long fp = FP64.New();
@@ -261,14 +261,14 @@ private final IValue[] values;
 				fp = minVals[i].fingerPrint(fp);
 			}
 			if (this.values != minVals) {
-				for (int i = 0; i < sz; i++) {
-					this.values[i].deepNormalize();
-				}
+                for (IValue value : this.values) {
+                    value.deepNormalize();
+                }
 			}
 		} else {
-			for (int i = 0; i < sz; i++) {
-				this.values[i].deepNormalize();
-			}
+            for (IValue value : this.values) {
+                value.deepNormalize();
+            }
 			TLCStateMut state = this;
 			if (minVals != this.values) {
 				state = new TLCStateMut(minVals);
@@ -282,20 +282,20 @@ private final IValue[] values;
   @Override
   public final boolean allAssigned() {
     final int len = this.values.length;
-    for (int i = 0; i < len; i++) {
-      if (values[i] == null) return false;
-    }
+      for (IValue value : this.values) {
+          if (value == null) return false;
+      }
     return true;
   }
 
     @Override
 	public boolean noneAssigned() {
 		final int len = this.values.length;
-		for (int i = 0; i < len; i++) {
-			if (values[i] != null) {
-				return false;
-			}
-		}
+        for (IValue value : this.values) {
+            if (value != null) {
+                return false;
+            }
+        }
 		return true;
 	}
  
@@ -325,9 +325,9 @@ private final IValue[] values;
   public final void write(final IValueOutputStream vos) throws IOException {
     super.write(vos);
     final int len = this.values.length;
-    for (int i = 0; i < len; i++) {
-    	this.values[i].write(vos);
-    }
+      for (IValue value : this.values) {
+          value.write(vos);
+      }
   }
   
   /* Returns a string representation of this state.  */
@@ -347,15 +347,15 @@ private final IValue[] values;
       result.append("\n");
     }
     else {
-      for (int i = 0; i < vlen; i++) {
-	final UniqueString key = vars[i].getName();
-	final IValue val = this.lookup(key);
-	result.append("/\\ ");
-	result.append(key.toString());
-    result.append(" = ");
-    result.append(Values.ppr(val));
-    result.append("\n");
-      }
+        for (OpDeclNode var : vars) {
+            final UniqueString key = var.getName();
+            final IValue val = this.lookup(key);
+            result.append("/\\ ");
+            result.append(key.toString());
+            result.append(" = ");
+            result.append(Values.ppr(val));
+            result.append("\n");
+        }
     }
     return result.toString();
   }
@@ -377,16 +377,16 @@ private final IValue[] values;
       }
     }
     else {
-      for (int i = 0; i < vlen; i++) {
-	final UniqueString key = vars[i].getName();
-	final IValue val = this.lookup(key);
-	final IValue lstateVal = lstate.lookup(key);
-	if (!lstateVal.equals(val)) {
-	  result.append("/\\ ");
-	  result.append(key.toString());
-	  result.append(" = ").append(Values.ppr(val)).append("\n");
-	}
-      }
+        for (OpDeclNode var : vars) {
+            final UniqueString key = var.getName();
+            final IValue val = this.lookup(key);
+            final IValue lstateVal = lstate.lookup(key);
+            if (!lstateVal.equals(val)) {
+                result.append("/\\ ");
+                result.append(key.toString());
+                result.append(" = ").append(Values.ppr(val)).append("\n");
+            }
+        }
     }
     return result.toString();
   }

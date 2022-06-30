@@ -161,9 +161,9 @@ public final class DiskIntStack implements IntStack {
 	    }
 	    final BufferedDataOutputStream bdos = FileUtil.newBdFOS(false, DiskIntStack.this.poolFile);
 	    final int len = DiskIntStack.this.buf.length;
-	    for (int i = 0; i < len; i++) {
-	      bdos.writeInt(DiskIntStack.this.buf[i]);
-	    }
+          for (int j : DiskIntStack.this.buf) {
+              bdos.writeInt(j);
+          }
 	    bdos.close();
 	    DiskIntStack.this.poolFile = null;
 	    DiskIntStack.this.isIdle = true;

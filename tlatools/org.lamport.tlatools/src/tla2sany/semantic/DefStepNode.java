@@ -65,8 +65,8 @@ public class DefStepNode extends LevelNode {
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
-    for (int  i = 0; i < defs.length; i++) {
-      defs[i].walkGraph(semNodesTable, visitor);
+      for (OpDefNode def : defs) {
+          def.walkGraph(semNodesTable, visitor);
       }
       visitor.postVisit(this);
    }
@@ -84,8 +84,8 @@ public class DefStepNode extends LevelNode {
     StringBuilder ret = new StringBuilder("\n*DefStepNode:\n"
             + super.toString(depth)
             + Strings.indent(2, "\ndefs:"));
-    for (int i = 0 ; i < this.defs.length; i++) {
-        ret.append(Strings.indent(4, this.defs[i].toString(depth - 1)));
+      for (OpDefNode def : this.defs) {
+          ret.append(Strings.indent(4, def.toString(depth - 1)));
       }
       return ret.toString();
    }
@@ -93,8 +93,8 @@ public class DefStepNode extends LevelNode {
   @Override
   protected Element getLevelElement(final Document doc, final SymbolContext context) {
       final Element e = doc.createElement("DefStepNode");
-      for (int i=0; i<defs.length;i++) {
-        e.appendChild(defs[i].export(doc,context));
+      for (OpDefNode def : defs) {
+          e.appendChild(def.export(doc, context));
       }
       return e;
     }

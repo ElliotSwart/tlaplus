@@ -39,9 +39,9 @@ public class MultiFPIntSet extends FPIntSet {
   @Override
   public final long size() {
     int sum = 0;
-    for (int i = 0; i < this.sets.length; i++) {
-      sum += this.sets[i].size();
-    }
+      for (FPIntSet set : this.sets) {
+          sum += set.size();
+      }
     return sum;
   }
 
@@ -66,76 +66,76 @@ public class MultiFPIntSet extends FPIntSet {
 
   @Override
   public final boolean allLeveled() {
-    for (int i = 0; i < this.sets.length; i++) {
-      if (!this.sets[i].allLeveled()) return false;
-    }
+      for (FPIntSet set : this.sets) {
+          if (!set.allLeveled()) return false;
+      }
     return true;
   }
 
   @Override
   public final void close() {
-    for (int i = 0; i < this.sets.length; i++) {
-      this.sets[i].close();
-    }
+      for (FPIntSet set : this.sets) {
+          set.close();
+      }
   }
 
   /* This is not quite correct. */
   @Override
   public final long checkFPs() throws IOException {
     long res = Long.MIN_VALUE;
-    for (int i = 0; i < this.sets.length; i++) {
-      res = Math.max(res, this.sets[i].checkFPs());
-    }
+      for (FPIntSet set : this.sets) {
+          res = Math.max(res, set.checkFPs());
+      }
     return res;
   }
 
   @Override
   public final void exit(final boolean cleanup) throws IOException {
-    for (int i = 0; i < this.sets.length; i++) {
-      this.sets[i].exit(cleanup);
-    }
+      for (FPIntSet set : this.sets) {
+          set.exit(cleanup);
+      }
   }
   
   @Override
   public final void beginChkpt() throws IOException {
-    for (int i = 0; i < this.sets.length; i++) {
-      this.sets[i].beginChkpt();
-    }
+      for (FPIntSet set : this.sets) {
+          set.beginChkpt();
+      }
   }
   
   @Override
   public final void commitChkpt() throws IOException {
-    for (int i = 0; i < this.sets.length; i++) {
-      this.sets[i].commitChkpt();
-    }
+      for (FPIntSet set : this.sets) {
+          set.commitChkpt();
+      }
   }
        
   @Override
   public final void recover() throws IOException {
-    for (int i = 0; i < this.sets.length; i++) {
-      this.sets[i].recover();
-    }
+      for (FPIntSet set : this.sets) {
+          set.recover();
+      }
   }
 
   @Override
   public final void beginChkpt(final String filename) throws IOException {
-    for (int i = 0; i < this.sets.length; i++) {
-      this.sets[i].beginChkpt(filename);
-    }
+      for (FPIntSet set : this.sets) {
+          set.beginChkpt(filename);
+      }
   }
   
   @Override
   public final void commitChkpt(final String filename) throws IOException {
-    for (int i = 0; i < this.sets.length; i++) {
-      this.sets[i].commitChkpt(filename);
-    }
+      for (FPIntSet set : this.sets) {
+          set.commitChkpt(filename);
+      }
   }
   
   @Override
   public final void recover(final String filename) throws IOException {
-    for (int i = 0; i < this.sets.length; i++) {
-      this.sets[i].recover(filename);
-    }
+      for (FPIntSet set : this.sets) {
+          set.recover(filename);
+      }
   }
 
 }

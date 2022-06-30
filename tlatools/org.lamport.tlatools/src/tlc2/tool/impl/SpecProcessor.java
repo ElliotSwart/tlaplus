@@ -188,12 +188,12 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
      */
     private void processConstantDefns() {
         final ModuleNode[] mods = this.moduleTbl.getModuleNodes();
-        for (int i = 0; i < mods.length; i++) {
-          if (   (! mods[i].isInstantiated())
-            || (   (mods[i].getConstantDecls().length == 0)
-              && (mods[i].getVariableDecls().length == 0) ) ) {
-              this.processConstantDefns(mods[i]);
-          }
+        for (ModuleNode mod : mods) {
+            if ((!mod.isInstantiated())
+                    || ((mod.getConstantDecls().length == 0)
+                    && (mod.getVariableDecls().length == 0))) {
+                this.processConstantDefns(mod);
+            }
         }
     }
 
@@ -219,125 +219,125 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
       // run for constant definitions
       final OpDeclNode[] consts = mod.getConstantDecls();
-      for (int i = 0; i < consts.length; i++) {
-        final Object val = consts[i].getToolObject(toolId);
-        if (val instanceof IValue) {
-		  // We do not wrap this value in a WorkerValue, because we assume that explicit
-		  // initialization does not pose a problem here. This is based on the observation,
-          // that val is either an atom (IValue#isAtom) or a set (of sets) of atoms (primarily
-          // ModelValues).
-	      ((IValue)val).initialize();
-          constantDefns.computeIfAbsent(mod, key -> new HashMap<>()).put(consts[i], val);
-          // System.err.println(consts[i].getName() + ": " + val);
-        } // The following else clause was added by LL on 17 March 2012.
-        else if (val instanceof final OpDefNode opDef) {
-            // The following check logically belongs in Spec.processSpec, but it's not there.
-          // So, LL just added it here.  This error cannot occur when running TLC from
-          // the Toolbox.
-          Assert.check(opDef.getArity() == consts[i].getArity(),
-                       EC.TLC_CONFIG_WRONG_SUBSTITUTION_NUMBER_OF_ARGS,
-                       new String[] {consts[i].getName().toString(), opDef.getName().toString()});
+        for (OpDeclNode aConst : consts) {
+            final Object val = aConst.getToolObject(toolId);
+            if (val instanceof IValue) {
+                // We do not wrap this value in a WorkerValue, because we assume that explicit
+                // initialization does not pose a problem here. This is based on the observation,
+                // that val is either an atom (IValue#isAtom) or a set (of sets) of atoms (primarily
+                // ModelValues).
+                ((IValue) val).initialize();
+                constantDefns.computeIfAbsent(mod, key -> new HashMap<>()).put(aConst, val);
+                // System.err.println(consts[i].getName() + ": " + val);
+            } // The following else clause was added by LL on 17 March 2012.
+            else if (val instanceof final OpDefNode opDef) {
+                // The following check logically belongs in Spec.processSpec, but it's not there.
+                // So, LL just added it here.  This error cannot occur when running TLC from
+                // the Toolbox.
+                Assert.check(opDef.getArity() == aConst.getArity(),
+                        EC.TLC_CONFIG_WRONG_SUBSTITUTION_NUMBER_OF_ARGS,
+                        new String[]{aConst.getName().toString(), opDef.getName().toString()});
 
-          if (opDef.getArity() == 0) {
-            try {
-            	final Object defVal = WorkerValue.demux(opDefEvaluator, opDef.getBody());
-            	opDef.setToolObject(toolId, defVal);
-            	// https://github.com/tlaplus/tlaplus/issues/648
-            	//
-            	// Without consts[i].setTool... below, TLC re-evaluates CONSTANT definitions on
-            	// every invocation.  With consts[i].setTool..., TLC caches values.  Here is the
-            	// reason why consts[i].setTool... is commented:
-            	//
-            	// A) For "cheap" definitions such as CONSTANT N = 4, caching values makes no 
-            	//    difference.
-            	//
-            	// B) For more expensive expressions, such as PaxosMadeSimple.tla the performance
-            	//    gain is around 10%.
-            	//
-            	//    Quorum == {i \in SUBSET(Server) : Cardinality(i) * 2 > Cardinality(Server)}
-            	//
-            	//    CONSTANT Q <- Quorum
-            	//    
-            	// C) However, half of our user base expects the following spec to probabilistically
-            	//    have 2 to 4 distinct states:
-            	//
-            	//    EXTENDS TLC
-            	//    R == RandomElement({1,2,3})
-            	//    CONSTANT C
-            	//    VARIABLE x
-            	//    Spec == x = 0 /\ [][x' = C]_x
-            	//
-            	//    CONSTANT C <- R
-            	// 
-            	// Therefore, we let the user decide by giving her TLC!TLCEval to wrap expressive 
-            	// constant definitions when necessary:
-            	//
-            	//    R == TLCEval(RandomElement({1,2,3}))
-            	// 
+                if (opDef.getArity() == 0) {
+                    try {
+                        final Object defVal = WorkerValue.demux(opDefEvaluator, opDef.getBody());
+                        opDef.setToolObject(toolId, defVal);
+                        // https://github.com/tlaplus/tlaplus/issues/648
+                        //
+                        // Without consts[i].setTool... below, TLC re-evaluates CONSTANT definitions on
+                        // every invocation.  With consts[i].setTool..., TLC caches values.  Here is the
+                        // reason why consts[i].setTool... is commented:
+                        //
+                        // A) For "cheap" definitions such as CONSTANT N = 4, caching values makes no
+                        //    difference.
+                        //
+                        // B) For more expensive expressions, such as PaxosMadeSimple.tla the performance
+                        //    gain is around 10%.
+                        //
+                        //    Quorum == {i \in SUBSET(Server) : Cardinality(i) * 2 > Cardinality(Server)}
+                        //
+                        //    CONSTANT Q <- Quorum
+                        //
+                        // C) However, half of our user base expects the following spec to probabilistically
+                        //    have 2 to 4 distinct states:
+                        //
+                        //    EXTENDS TLC
+                        //    R == RandomElement({1,2,3})
+                        //    CONSTANT C
+                        //    VARIABLE x
+                        //    Spec == x = 0 /\ [][x' = C]_x
+                        //
+                        //    CONSTANT C <- R
+                        //
+                        // Therefore, we let the user decide by giving her TLC!TLCEval to wrap expressive
+                        // constant definitions when necessary:
+                        //
+                        //    R == TLCEval(RandomElement({1,2,3}))
+                        //
 //            	consts[i].setToolObject(toolId, defVal);
 
-            	constantDefns.computeIfAbsent(mod, key -> new HashMap<>()).put(opDef, defVal);
-            } catch (final Assert.TLCRuntimeException | EvalException e) {
-              final String addendum = (e instanceof EvalException) ? "" : (" - specifically: " + e.getMessage());
-              Assert.fail(EC.TLC_CONFIG_SUBSTITUTION_NON_CONSTANT,
-                  new String[] { consts[i].getName().toString(), opDef.getName().toString(), addendum });
+                        constantDefns.computeIfAbsent(mod, key -> new HashMap<>()).put(opDef, defVal);
+                    } catch (final Assert.TLCRuntimeException | EvalException e) {
+                        final String addendum = (e instanceof EvalException) ? "" : (" - specifically: " + e.getMessage());
+                        Assert.fail(EC.TLC_CONFIG_SUBSTITUTION_NON_CONSTANT,
+                                new String[]{aConst.getName().toString(), opDef.getName().toString(), addendum});
+                    }
+                }
             }
-          }
         }
-      }
 
       // run for constant operator definitions
       final OpDefNode[] opDefs = mod.getOpDefs();
-      DEFS: for (int i = 0; i < opDefs.length; i++) {
-        OpDefNode opDef = opDefs[i];
+      DEFS:
+      for (OpDefNode opDefNode : opDefs) {
+          OpDefNode opDef = opDefNode;
 
-        // The following variable evaluate and its value added by LL on 24 July 2013
-        // to prevent pre-evaluation of a definition from an EXTENDS of a module that
-        // is also instantiated.
-        final ModuleNode moduleNode = opDef.getOriginallyDefinedInModuleNode() ;
-        final boolean evaluate =    (moduleNode == null)
-                       || (! moduleNode.isInstantiated())
-                       || (   (moduleNode.getConstantDecls().length == 0)
-                           && (moduleNode.getVariableDecls().length == 0) ) ;
+          // The following variable evaluate and its value added by LL on 24 July 2013
+          // to prevent pre-evaluation of a definition from an EXTENDS of a module that
+          // is also instantiated.
+          final ModuleNode moduleNode = opDef.getOriginallyDefinedInModuleNode();
+          final boolean evaluate = (moduleNode == null)
+                  || (!moduleNode.isInstantiated())
+                  || ((moduleNode.getConstantDecls().length == 0)
+                  && (moduleNode.getVariableDecls().length == 0));
 
-        if (evaluate && opDef.getArity() == 0) {
-          final Object realDef = symbolNodeValueLookupProvider.lookup(opDef, Context.Empty, false, toolId);
-          if (realDef instanceof OpDefNode) {
-            opDef = (OpDefNode)realDef;
-            if (symbolNodeValueLookupProvider.getLevelBound(opDef.getBody(), Context.Empty, toolId) == LevelConstants.ConstantLevel) {
-              try {
-                final UniqueString opName = opDef.getName();
-                if (isVetoed(opName)) {
-                	continue DEFS;
-                }
-                // System.err.println(opName);
-                final Object val = WorkerValue.demux(opDefEvaluator, opDef.getBody());
-                opDef.setToolObject(toolId, val);
-                final Object def = this.defns.get(opName);
-                if (def == opDef) {
-					this.defns.put(opName, val);
-					constantDefns.computeIfAbsent(
-							opDef.hasSource() ? opDef.getSource().getOriginallyDefinedInModuleNode() : moduleNode,
-							key -> new HashMap<>()).put(opDef, val);
-                }
+          if (evaluate && opDef.getArity() == 0) {
+              final Object realDef = symbolNodeValueLookupProvider.lookup(opDef, Context.Empty, false, toolId);
+              if (realDef instanceof OpDefNode) {
+                  opDef = (OpDefNode) realDef;
+                  if (symbolNodeValueLookupProvider.getLevelBound(opDef.getBody(), Context.Empty, toolId) == LevelConstants.ConstantLevel) {
+                      try {
+                          final UniqueString opName = opDef.getName();
+                          if (isVetoed(opName)) {
+                              continue DEFS;
+                          }
+                          // System.err.println(opName);
+                          final Object val = WorkerValue.demux(opDefEvaluator, opDef.getBody());
+                          opDef.setToolObject(toolId, val);
+                          final Object def = this.defns.get(opName);
+                          if (def == opDef) {
+                              this.defns.put(opName, val);
+                              constantDefns.computeIfAbsent(
+                                      opDef.hasSource() ? opDef.getSource().getOriginallyDefinedInModuleNode() : moduleNode,
+                                      key -> new HashMap<>()).put(opDef, val);
+                          }
+                      } catch (final Throwable swallow) {
+                          // We get here when Op fails to evaluate. e is swallowed because Op might e.g. be
+                          // Reals!Infinity from the standard module that has to be redefined iff it appears
+                          // in the actual spec. Another example is TLC!TLCGet(42) that the code above
+                          // attempts to evaluate that fails with an EvalException. By definition, TLCGet
+                          // is not constant.
+                      }
+                  }
               }
-              catch (final Throwable swallow) {
-				// We get here when Op fails to evaluate. e is swallowed because Op might e.g. be 
-            	// Reals!Infinity from the standard module that has to be redefined iff it appears
-              	// in the actual spec. Another example is TLC!TLCGet(42) that the code above 
-              	// attempts to evaluate that fails with an EvalException. By definition, TLCGet
-              	// is not constant. 
-			  }
-            }
           }
-        }
       }
 
       // run for all inner modules
       final ModuleNode[] imods = mod.getInnerModules();
-      for (int i = 0; i < imods.length; i++) {
-        this.processConstantDefns(imods[i]);
-      }
+        for (ModuleNode imod : imods) {
+            this.processConstantDefns(imod);
+        }
     }
 
 	public static final String LAZY_CONSTANT_OPERATORS = SpecProcessor.class.getName() + ".vetoed";
@@ -448,19 +448,17 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             Assert.fail(EC.TLC_STRING_MODULE_NOT_FOUND);
         }
         final Method[] ms = stringModule.getDeclaredMethods();
-        for (int i = 0; i < ms.length; i++)
-        {
-            final int mod = ms[i].getModifiers();
-            if (Modifier.isStatic(mod))
-            {
-                final String name = TLARegistry.mapName(ms[i].getName());
+        for (Method element : ms) {
+            final int mod = element.getModifiers();
+            if (Modifier.isStatic(mod)) {
+                final String name = TLARegistry.mapName(element.getName());
                 // Bytecode modification (e.g. by code coverage
-				// tools/aspectj/...) might have added synthetic members.
-				// Synthetic members are generated by the compiler and thus
-				// should not be accessed by application code. Thus, exclude
-				// synthetic members from being processed.
-                if (!ms[i].isSynthetic()) {
-                	this.defns.put(name, MethodValue.get(ms[i]));
+                // tools/aspectj/...) might have added synthetic members.
+                // Synthetic members are generated by the compiler and thus
+                // should not be accessed by application code. Thus, exclude
+                // synthetic members from being processed.
+                if (!element.isSynthetic()) {
+                    this.defns.put(name, MethodValue.get(element));
                 }
             }
         }
@@ -470,10 +468,9 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         // wrong to use it in the method processConstants.
         final ModuleNode[] mods = this.moduleTbl.getModuleNodes();
         final Map<String, ModuleNode> modSet = new HashMap<>();
-        for (int i = 0; i < mods.length; i++)
-        {
-            this.processConstants(mods[i]);
-            modSet.put(mods[i].getName().toString(), mods[i]);
+        for (ModuleNode item : mods) {
+            this.processConstants(item);
+            modSet.put(item.getName().toString(), item);
         }
 
         // Collect all the assumptions.
@@ -493,30 +490,25 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
         // Apply config file constants to the constant decls visible to rootModule.
         final OpDeclNode[] rootConsts = this.rootModule.getConstantDecls();
-        for (int i = 0; i < rootConsts.length; i++)
-        {
-            final UniqueString name = rootConsts[i].getName();
+        for (OpDeclNode aConst : rootConsts) {
+            final UniqueString name = aConst.getName();
             final Object val = constants.get(name.toString());
-            if (val == null && !overrides.containsKey(name.toString()))
-            {
+            if (val == null && !overrides.containsKey(name.toString())) {
                 Assert.fail(EC.TLC_CONFIG_VALUE_NOT_ASSIGNED_TO_CONSTANT_PARAM, name.toString());
             }
-            rootConsts[i].setToolObject(toolId, val);
+            aConst.setToolObject(toolId, val);
             this.defns.put(name, val);
         }
 
         // Apply config file constants to the operator defns visible to rootModule.
         final OpDefNode[] rootOpDefs = this.rootModule.getOpDefs();
-        for (int i = 0; i < rootOpDefs.length; i++)
-        {
-            final UniqueString name = rootOpDefs[i].getName();
+        for (OpDefNode def : rootOpDefs) {
+            final UniqueString name = def.getName();
             final Object val = constants.get(name.toString());
-            if (val == null)
-            {
-                this.defns.put(name, rootOpDefs[i]);
-            } else
-            {
-                rootOpDefs[i].setToolObject(toolId, val);
+            if (val == null) {
+                this.defns.put(name, def);
+            } else {
+                def.setToolObject(toolId, val);
                 this.defns.put(name, val);
             }
         }
@@ -524,75 +516,66 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         // Apply config file module specific constants to operator defns.
         // We do not allow this kind of replacement for constant decls.
         final Hashtable<String, Hashtable<String, Comparable<?>>> modConstants = this.initializeModConstants();
-        for (int i = 0; i < mods.length; i++)
-        {
-            final UniqueString modName = mods[i].getName();
+        for (ModuleNode value : mods) {
+            final UniqueString modName = value.getName();
             final Hashtable<String, Comparable<?>> mConsts = modConstants.get(modName.toString());
-            if (mConsts != null)
-            {
-                final OpDefNode[] opDefs = mods[i].getOpDefs();
-                for (int j = 0; j < opDefs.length; j++)
-                {
-                    final UniqueString name = opDefs[j].getName();
+            if (mConsts != null) {
+                final OpDefNode[] opDefs = value.getOpDefs();
+                for (OpDefNode opDef : opDefs) {
+                    final UniqueString name = opDef.getName();
                     final Object val = mConsts.get(name.toString());
-                    if (val != null)
-                    {
-                        opDefs[j].getBody().setToolObject(toolId, val);
+                    if (val != null) {
+                        opDef.getBody().setToolObject(toolId, val);
                     }
                 }
             }
         }
 
         // Apply module overrides:
-        for (int i = 0; i < mods.length; i++)
-        {
-        	
-        	final UniqueString modName = mods[i].getName();
+        for (ModuleNode node : mods) {
+
+            final UniqueString modName = node.getName();
             final Class<?> userModule = this.tlaClass.loadClass(modName.toString());
-            if (userModule != null)
-            {
-            	final Map<UniqueString, Integer> opname2arity = new HashMap<>();
-            	if (!BuiltInModuleHelper.isBuiltInModule(userModule)) {
-					// Remember arity for non built-in overrides to later match with java override
-					// when loading.
-            		for (final OpDefNode opDefNode : rootOpDefs) {
-            			if (opDefNode.getOriginallyDefinedInModuleNode().getName().equals(modName)) {
-            				opname2arity.put(opDefNode.getName(), opDefNode.getArity());
-            			}
-            		}
-            	}
+            if (userModule != null) {
+                final Map<UniqueString, Integer> opname2arity = new HashMap<>();
+                if (!BuiltInModuleHelper.isBuiltInModule(userModule)) {
+                    // Remember arity for non built-in overrides to later match with java override
+                    // when loading.
+                    for (final OpDefNode opDefNode : rootOpDefs) {
+                        if (opDefNode.getOriginallyDefinedInModuleNode().getName().equals(modName)) {
+                            opname2arity.put(opDefNode.getName(), opDefNode.getArity());
+                        }
+                    }
+                }
                 // Override with a user defined Java class for the TLA+ module.
                 // Collects new definitions:
                 final Hashtable<UniqueString, IValue> javaDefs = new Hashtable<>();
                 final Method[] mds = userModule.getDeclaredMethods();
-                for (int j = 0; j < mds.length; j++)
-                {
-                	final Method method = mds[j];
+                for (final Method method : mds) {
                     final int mdf = method.getModifiers();
-                    if (Modifier.isPublic(mdf) && Modifier.isStatic(mdf))
-                    {
+                    if (Modifier.isPublic(mdf) && Modifier.isStatic(mdf)) {
                         final String name = TLARegistry.mapName(method.getName());
                         final UniqueString uname = UniqueString.uniqueStringOf(name);
-						if (method.getAnnotation(TLAPlusOperator.class) != null
-								|| method.getAnnotation(Evaluation.class) != null) {
-							// Skip, handled below with annotation based mechanism.
-							continue;
-						}
-                    	final int acnt = method.getParameterCount();
-                    	final Value val = MethodValue.get(method);
-                        
+                        if (method.getAnnotation(TLAPlusOperator.class) != null
+                                || method.getAnnotation(Evaluation.class) != null) {
+                            // Skip, handled below with annotation based mechanism.
+                            continue;
+                        }
+                        final int acnt = method.getParameterCount();
+                        final Value val = MethodValue.get(method);
+
                         if (!BuiltInModuleHelper.isBuiltInModule(userModule)) {
-                    		final URL resource = userModule.getResource(userModule.getSimpleName() + ".class");
-                    		// Print success or failure of loading the module override (arity mismatch).
-							final Integer arity = opname2arity.get(uname);
-							if (arity == null || arity != acnt) {
-								MP.printWarning(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_MISMATCH, uname.toString(),
-										resource.toExternalForm(), val.toString());
-							} else {
-		                        javaDefs.put(uname, val);
-								MP.printMessage(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_LOADED, uname.toString(),
-										resource.toExternalForm(), val.toString());
-							}
+                            final URL resource = userModule.getResource(userModule.getSimpleName() + ".class");
+                            // Print success or failure of loading the module override (arity mismatch).
+                            final Integer arity = opname2arity.get(uname);
+                            if (arity == null || arity != acnt) {
+                                MP.printWarning(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_MISMATCH, uname.toString(),
+                                        resource.toExternalForm(), val.toString());
+                            } else {
+                                javaDefs.put(uname, val);
+                                MP.printMessage(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_LOADED, uname.toString(),
+                                        resource.toExternalForm(), val.toString());
+                            }
                         } else {
                             javaDefs.put(uname, val);
                         }
@@ -602,14 +585,12 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                 //TODO This loop could be merged with the previous loop
                 // by using mods[i].getOpDef(UniqueString) right away
                 // without javaDefns.
-                final OpDefNode[] opDefs = mods[i].getOpDefs();
-                for (int j = 0; j < opDefs.length; j++)
-                {
-                    final UniqueString uname = opDefs[j].getName();
+                final OpDefNode[] opDefs = node.getOpDefs();
+                for (OpDefNode opDef : opDefs) {
+                    final UniqueString uname = opDef.getName();
                     final Object val = javaDefs.get(uname);
-                    if (val != null)
-                    {
-                        opDefs[j].getBody().setToolObject(toolId, val);
+                    if (val != null) {
+                        opDef.getBody().setToolObject(toolId, val);
                         this.defns.put(uname, val);
                     }
                 }
@@ -756,22 +737,18 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
         final Set<String> overriden = new HashSet<>();
         // Apply config file overrides to constants:
-        for (int i = 0; i < rootConsts.length; i++)
-        {
-            final UniqueString lhs = rootConsts[i].getName();
+        for (OpDeclNode rootConst : rootConsts) {
+            final UniqueString lhs = rootConst.getName();
             final String rhs = overrides.get(lhs.toString());
-            if (rhs != null)
-            {
-                if (overrides.containsKey(rhs))
-                {
+            if (rhs != null) {
+                if (overrides.containsKey(rhs)) {
                     Assert.fail(EC.TLC_CONFIG_RHS_ID_APPEARED_AFTER_LHS_ID, rhs);
                 }
                 final Object myVal = this.defns.get(rhs);
-                if (myVal == null)
-                {
-                    Assert.fail(EC.TLC_CONFIG_WRONG_SUBSTITUTION, new String[] { lhs.toString(), rhs });
+                if (myVal == null) {
+                    Assert.fail(EC.TLC_CONFIG_WRONG_SUBSTITUTION, new String[]{lhs.toString(), rhs});
                 }
-                rootConsts[i].setToolObject(toolId, myVal);
+                rootConst.setToolObject(toolId, myVal);
                 this.defns.put(lhs, myVal);
                 overriden.add(lhs.toString());
             }
@@ -789,27 +766,22 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 		}
 
         // Apply config file overrides to operator definitions:
-        for (int i = 0; i < rootOpDefs.length; i++)
-        {
-            final UniqueString lhs = rootOpDefs[i].getName();
+        for (OpDefNode rootOpDef : rootOpDefs) {
+            final UniqueString lhs = rootOpDef.getName();
             final String rhs = overrides.get(lhs.toString());
-            if (rhs != null)
-            {
-                if (overrides.containsKey(rhs))
-                {
+            if (rhs != null) {
+                if (overrides.containsKey(rhs)) {
                     Assert.fail(EC.TLC_CONFIG_RHS_ID_APPEARED_AFTER_LHS_ID, rhs);
                 }
                 final Object myVal = this.defns.get(rhs);
-                if (myVal == null)
-                {
-                    Assert.fail(EC.TLC_CONFIG_WRONG_SUBSTITUTION, new String[] { lhs.toString(), rhs });
+                if (myVal == null) {
+                    Assert.fail(EC.TLC_CONFIG_WRONG_SUBSTITUTION, new String[]{lhs.toString(), rhs});
                 }
                 if ((myVal instanceof OpDefNode)
-                        && rootOpDefs[i].getNumberOfArgs() != ((OpDefNode) myVal).getNumberOfArgs())
-                {
-                    Assert.fail(EC.TLC_CONFIG_WRONG_SUBSTITUTION_NUMBER_OF_ARGS, new String[] { lhs.toString(), rhs });
+                        && rootOpDef.getNumberOfArgs() != ((OpDefNode) myVal).getNumberOfArgs()) {
+                    Assert.fail(EC.TLC_CONFIG_WRONG_SUBSTITUTION_NUMBER_OF_ARGS, new String[]{lhs.toString(), rhs});
                 }
-                rootOpDefs[i].setToolObject(toolId, myVal);
+                rootOpDef.setToolObject(toolId, myVal);
                 this.defns.put(lhs, myVal);
                 overriden.add(lhs.toString());
             }
@@ -828,48 +800,39 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         // Apply config file module specific overrides to operator defns.
         // We do not allow this kind of replacement for constant decls.
         final Hashtable<String, Hashtable<Comparable<?>, Object>> modOverrides = this.config.getModOverrides();
-        for (int i = 0; i < mods.length; i++)
-        {
-            final UniqueString modName = mods[i].getName();
+        for (ModuleNode mod : mods) {
+            final UniqueString modName = mod.getName();
             final Hashtable<Comparable<?>, Object> mDefs = modOverrides.get(modName.toString());
             final HashSet<String> modOverriden = new HashSet<>();
-            if (mDefs != null)
-            {
+            if (mDefs != null) {
                 // the operator definitions:
-                final OpDefNode[] opDefs = mods[i].getOpDefs();
-                for (int j = 0; j < opDefs.length; j++)
-                {
-                    final UniqueString lhs = opDefs[j].getName();
+                final OpDefNode[] opDefs = mod.getOpDefs();
+                for (OpDefNode opDef : opDefs) {
+                    final UniqueString lhs = opDef.getName();
                     final String rhs = (String) mDefs.get(lhs.toString());
-                    if (rhs != null)
-                    {
-                        if (mDefs.containsKey(rhs))
-                        {
+                    if (rhs != null) {
+                        if (mDefs.containsKey(rhs)) {
                             Assert.fail(EC.TLC_CONFIG_RHS_ID_APPEARED_AFTER_LHS_ID, rhs);
                         }
                         // The rhs comes from the root module.
                         final Object myVal = this.defns.get(rhs);
-                        if (myVal == null)
-                        {
-                            Assert.fail(EC.TLC_CONFIG_WRONG_SUBSTITUTION, new String[] { lhs.toString(), rhs });
+                        if (myVal == null) {
+                            Assert.fail(EC.TLC_CONFIG_WRONG_SUBSTITUTION, new String[]{lhs.toString(), rhs});
                         }
                         if ((myVal instanceof OpDefNode)
-                                && opDefs[j].getNumberOfArgs() != ((OpDefNode) myVal).getNumberOfArgs())
-                        {
-                            Assert.fail(EC.TLC_CONFIG_WRONG_SUBSTITUTION_NUMBER_OF_ARGS, new String[] { lhs.toString(),
-                                    rhs });
+                                && opDef.getNumberOfArgs() != ((OpDefNode) myVal).getNumberOfArgs()) {
+                            Assert.fail(EC.TLC_CONFIG_WRONG_SUBSTITUTION_NUMBER_OF_ARGS, new String[]{lhs.toString(),
+                                    rhs});
                         }
-                        opDefs[j].getBody().setToolObject(toolId, myVal);
+                        opDef.getBody().setToolObject(toolId, myVal);
                         modOverriden.add(lhs.toString());
                     }
                 }
 
                 final Enumeration<Comparable<?>> mkeys = mDefs.keys();
-                while (mkeys.hasMoreElements())
-                {
+                while (mkeys.hasMoreElements()) {
                     final Object mkey = mkeys.nextElement();
-                    if (!modOverriden.contains(mkey))
-                    {
+                    if (!modOverriden.contains(mkey)) {
                         Assert.fail(EC.TLC_CONFIG_ID_DOES_NOT_APPEAR_IN_SPEC, mkey.toString());
                     }
                 }
@@ -1175,9 +1138,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             }
             if (opcode == OPCODE_cl || opcode == OPCODE_land)
             {
-                for (int i = 0; i < args.length; i++)
-                {
-                    this.processConfigSpec((ExprNode) args[i], c, subs);
+                for (ExprOrOpArgNode arg : args) {
+                    this.processConfigSpec((ExprNode) arg, c, subs);
                 }
                 return;
             }
@@ -1306,9 +1268,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                         {
                             final SubstInNode sn = (SubstInNode) subs1.car();
                             final Subst[] snsubs = sn.getSubsts();
-                            for (int i = 0; i < snsubs.length; i++)
-                            {
-                                c1 = c1.cons(snsubs[i].getOp(), symbolNodeValueLookupProvider.getVal(snsubs[i].getExpr(), c, false, toolId));
+                            for (Subst snsub : snsubs) {
+                                c1 = c1.cons(snsub.getOp(), symbolNodeValueLookupProvider.getVal(snsub.getExpr(), c, false, toolId));
                             }
                             subs1 = subs1.cdr();
                         }
@@ -1323,14 +1284,12 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                     // ... and make sure they contain all the state variables
                     if (varsInSubscript != null)
                     {
-                        for (int i = 0; i < this.variablesNodes.length; i++)
-                        {
-                            if (!varsInSubscript.contains(this.variablesNodes[i]))
-                            {
+                        for (OpDeclNode variablesNode : this.variablesNodes) {
+                            if (!varsInSubscript.contains(variablesNode)) {
                                 // Assert.fail("The subscript of the next-state relation specified by the specification\ndoes not contain the state variable "
                                 // + this.variables[i].getName());
                                 MP.printWarning(EC.TLC_SUBSCRIPT_CONTAIN_NO_STATE_VAR,
-                                        new String[] { this.variablesNodes[i].getName().toString() });
+                                        new String[]{variablesNode.getName().toString()});
                             }
                         }
                     }
@@ -1413,9 +1372,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             final int opcode = BuiltInOPs.getOpCode(pred1.getOperator().getName());
             if (opcode == OPCODE_cl || opcode == OPCODE_land)
             {
-                for (int i = 0; i < args.length; i++)
-                {
-                    final ExprNode conj = (ExprNode) args[i];
+                for (ExprOrOpArgNode arg : args) {
+                    final ExprNode conj = (ExprNode) arg;
                     this.processConfigProps(conj.toString(), conj, c, subs);
                 }
                 return;

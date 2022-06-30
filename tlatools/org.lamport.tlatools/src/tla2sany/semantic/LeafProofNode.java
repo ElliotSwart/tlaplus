@@ -107,8 +107,8 @@ public class LeafProofNode extends ProofNode {
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
-    for (int  i = 0; i < facts.length; i++) {
-      facts[i].walkGraph(semNodesTable, visitor);
+      for (LevelNode fact : facts) {
+          fact.walkGraph(semNodesTable, visitor);
       }
       /***********************************************************************
     * Note: there's no need to walk the defs array because all the nodes   *
@@ -123,12 +123,12 @@ public class LeafProofNode extends ProofNode {
     StringBuilder ret = new StringBuilder("\n*LeafProofNode:\n"
             + super.toString(depth)
             + Strings.indent(2, "\nfacts:"));
-    for (int i = 0 ; i < this.facts.length; i++) {
-        ret.append(Strings.indent(4, this.facts[i].toString(depth - 1)));
+      for (LevelNode fact : this.facts) {
+          ret.append(Strings.indent(4, fact.toString(depth - 1)));
       }
       ret.append(Strings.indent(2, "\ndefs:"));
-    for (int i = 0 ; i < this.defs.length; i++) {
-        ret.append(Strings.indent(4, this.defs[i].toString(depth - 1)));
+      for (SymbolNode def : this.defs) {
+          ret.append(Strings.indent(4, def.toString(depth - 1)));
       }
       ret.append(Strings.indent(2, "\nomitted: " + this.omitted)).append(Strings.indent(2, "\nonlyFlag: " + this.isOnly));
     return ret.toString();
@@ -151,8 +151,8 @@ public class LeafProofNode extends ProofNode {
       final Element factse = doc.createElement("facts");
       final Element definitions = doc.createElement("defs");
 
-      for (int i=0; i<facts.length; i++) factse.appendChild(facts[i].export(doc,context));
-      for (int i=0; i<defs.length; i++) definitions.appendChild(defs[i].export(doc,context));
+        for (LevelNode fact : facts) factse.appendChild(fact.export(doc, context));
+        for (SymbolNode def : defs) definitions.appendChild(def.export(doc, context));
 
       e.appendChild(factse);
       e.appendChild(definitions);

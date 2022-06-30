@@ -351,9 +351,9 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
   public final Value takeExcept(final ValueExcept[] exs) {
     try {
       Value res = this;
-      for (int i = 0; i < exs.length; i++) {
-        res = res.takeExcept(exs[i]);
-      }
+        for (ValueExcept ex : exs) {
+            res = res.takeExcept(ex);
+        }
       return res;
     }
     catch (final RuntimeException | OutOfMemoryError e) {
@@ -540,9 +540,9 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
   @Override
   public final void deepNormalize() {
 	  try {
-      for (int i = 0; i < values.length; i++) {
-          values[i].deepNormalize();
-        }
+          for (Value value : values) {
+              value.deepNormalize();
+          }
         normalize();
 	    }
 	    catch (final RuntimeException | OutOfMemoryError e) {
@@ -555,9 +555,9 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
   public final boolean isDefined() {
     try {
       boolean defined = true;
-      for (int i = 0; i < this.values.length; i++) {
-        defined = defined && this.values[i].isDefined();
-      }
+        for (Value value : this.values) {
+            defined = defined && value.isDefined();
+        }
       return defined;
     }
     catch (final RuntimeException | OutOfMemoryError e) {
@@ -758,15 +758,15 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
     public TLCState toState() {
 			final TLCState state = TLCState.Empty.createEmpty();
 			final OpDeclNode[] vars = state.getVars();
-			for (int i = 0; i < vars.length; i++) {
-				final UniqueString name = vars[i].getName();
-				final int rlen = this.names.length;
-				for (int j = 0; j < rlen; j++) {
-					if (name.equals(this.names[j])) {
-						state.bind(name, this.values[j]);
-					}
-				}
-			}
+        for (OpDeclNode var : vars) {
+            final UniqueString name = var.getName();
+            final int rlen = this.names.length;
+            for (int j = 0; j < rlen; j++) {
+                if (name.equals(this.names[j])) {
+                    state.bind(name, this.values[j]);
+                }
+            }
+        }
 			return new PrintTLCState(this, state);
 		}
 

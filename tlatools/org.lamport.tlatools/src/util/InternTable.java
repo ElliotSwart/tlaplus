@@ -49,9 +49,7 @@ public final class InternTable implements Serializable
         this.length = 2 * this.length + 1;
         this.thresh = this.length / 2;
         this.table = new UniqueString[this.length];
-        for (int i = 0; i < old.length; i++)
-        {
-            final UniqueString var = old[i];
+        for (final UniqueString var : old) {
             if (var != null)
                 this.put(var);
         }
@@ -92,11 +90,8 @@ public final class InternTable implements Serializable
      */
     public UniqueString get(final int id)
     {
-        for (int i = 0; i < this.table.length; i++)
-        {
-            final UniqueString var = this.table[i];
-            if (var != null && var.getTok() == id)
-            {
+        for (final UniqueString var : this.table) {
+            if (var != null && var.getTok() == id) {
                 return var;
             }
         }
@@ -153,9 +148,7 @@ public final class InternTable implements Serializable
     {
         final BufferedDataOutputStream dos = new BufferedDataOutputStream(this.chkptName(filename, "tmp"));
         dos.writeInt(tokenCnt);
-        for (int i = 0; i < this.table.length; i++)
-        {
-            final UniqueString var = this.table[i];
+        for (final UniqueString var : this.table) {
             if (var != null)
                 var.write(dos);
         }
@@ -203,12 +196,11 @@ public final class InternTable implements Serializable
 
 	public final Map<String, UniqueString> toMap() {
 		final Map<String, UniqueString> map = new HashMap<>();
-		for (int i = 0; i < this.table.length; i++) {
-			final UniqueString var = this.table[i];
-			if (var != null) {
-				map.put(var.toString(), var);
-			}
-		}
+        for (final UniqueString var : this.table) {
+            if (var != null) {
+                map.put(var.toString(), var);
+            }
+        }
 		return map;
 	}
 }

@@ -301,14 +301,13 @@ public class TableauNodePtrTable {
 	 */
 	public final void resetElems() {
 		// Only called when the error trace is being printed. 
-		for (int i = 0; i < this.nodes.length; i++) {
-			final int[] node = this.nodes[i];
-			if (node != null) {
-				for (int j = 3; j < node.length; j += getElemLength()) {
-					node[j] &= 0x7FFFFFFF; // Clear the MSB set by setSeen(..)
-				}
-			}
-		}
+        for (final int[] node : this.nodes) {
+            if (node != null) {
+                for (int j = 3; j < node.length; j += getElemLength()) {
+                    node[j] &= 0x7FFFFFFF; // Clear the MSB set by setSeen(..)
+                }
+            }
+        }
 	}
 
 	/* Double the table when the table is full by the threshhold. */
@@ -317,12 +316,11 @@ public class TableauNodePtrTable {
 		this.thresh = (int) (this.length * 0.75);
 		final int[][] oldNodes = this.nodes;
 		this.nodes = new int[this.length][];
-		for (int i = 0; i < oldNodes.length; i++) {
-			final int[] node = oldNodes[i];
-			if (node != null) {
-				this.put(node);
-			}
-		}
+        for (final int[] node : oldNodes) {
+            if (node != null) {
+                this.put(node);
+            }
+        }
 	}
 	
 	/**

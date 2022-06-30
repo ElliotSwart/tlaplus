@@ -547,9 +547,9 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   public final Value takeExcept(final ValueExcept[] exs) {
     try {
       Value res = this;
-      for (int i = 0; i < exs.length; i++) {
-        res = res.takeExcept(exs[i]);
-      }
+        for (ValueExcept ex : exs) {
+            res = res.takeExcept(ex);
+        }
       return res;
     }
     catch (final RuntimeException | OutOfMemoryError e) {
@@ -716,9 +716,9 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   @Override
   public final void deepNormalize() {
 	  try {
-      for (int i = 0; i < values.length; i++) {
-           values[i].deepNormalize();
-        }
+          for (Value value : values) {
+              value.deepNormalize();
+          }
         normalize();
 	    }
 	    catch (final RuntimeException | OutOfMemoryError e) {
@@ -737,9 +737,9 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
           defined = defined && this.domain[i].isDefined();
         }
       }
-      for (int i = 0; i < this.values.length; i++) {
-        defined = defined && this.values[i].isDefined();
-      }
+        for (Value value : this.values) {
+            defined = defined && value.isDefined();
+        }
       return defined;
 
     }
@@ -800,9 +800,9 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 				vos.writeByte((byte) 0);
 				vos.writeInt(intv.low);
 				vos.writeInt(intv.high);
-				for (int i = 0; i < len; i++) {
-					values[i].write(vos);
-				}
+                for (Value value : values) {
+                    value.write(vos);
+                }
 			} else {
 				vos.writeByte((isNormalized()) ? (byte) 1 : (byte) 2);
 				for (int i = 0; i < len; i++) {
@@ -904,12 +904,11 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 
   private final boolean isRcd() {
     if (this.intv != null) return false;
-    for (int i = 0; i < this.domain.length; i++) {
-      final Value dval = this.domain[i];
-      final boolean isName = ((dval instanceof StringValue) &&
-      isName(((StringValue)dval).val.toString()));
-      if (!isName) return false;
-    }
+      for (final Value dval : this.domain) {
+          final boolean isName = ((dval instanceof StringValue) &&
+                  isName(((StringValue) dval).val.toString()));
+          if (!isName) return false;
+      }
     return true;
   }
 
@@ -917,11 +916,11 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
     if (this.intv != null) {
       return (this.intv.low == 1);
     }
-    for (int i = 0; i < this.domain.length; i++) {
-      if (!(this.domain[i] instanceof IntValue)) {
-        return false;
+      for (Value value : this.domain) {
+          if (!(value instanceof IntValue)) {
+              return false;
+          }
       }
-    }
     this.normalize();
     for (int i = 0; i < this.domain.length; i++) {
       if (((IntValue)this.domain[i]).val != (i+1)) {

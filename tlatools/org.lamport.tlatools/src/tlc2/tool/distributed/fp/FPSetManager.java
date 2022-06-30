@@ -434,9 +434,9 @@ public abstract class FPSetManager implements IFPSetManager {
 			// Start checkFP on all FPSets concurrently
 			// (checkFPs scans the full set sequentially!)
 			final CompletionService<Long> ecs = new ExecutorCompletionService<>(executorService);
-			for (int i = 0; i < len; i++) {
-				ecs.submit(new CheckFPsCallable(fpSets.get(i).getFpset()));
-			}
+            for (FPSets fpSet : this.fpSets) {
+                ecs.submit(new CheckFPsCallable(fpSet.getFpset()));
+            }
 			// Return minimum value
 			long res = Long.MAX_VALUE;
 			for (int i = 0; i < len; i++) {
@@ -467,9 +467,9 @@ public abstract class FPSetManager implements IFPSetManager {
 			// Start checkFP on all FPSets concurrently
 			// (checkFPs scans the full set sequentially!)
 			final CompletionService<Boolean> ecs = new ExecutorCompletionService<>(executorService);
-			for (int i = 0; i < len; i++) {
-				ecs.submit(new CheckInvariantCallable(fpSets.get(i).getFpset()));
-			}
+            for (FPSets fpSet : this.fpSets) {
+                ecs.submit(new CheckInvariantCallable(fpSet.getFpset()));
+            }
 			// Return minimum value
 			for (int i = 0; i < len; i++) {
 				try {

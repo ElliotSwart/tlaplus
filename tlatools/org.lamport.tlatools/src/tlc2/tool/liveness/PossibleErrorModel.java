@@ -73,39 +73,36 @@ public class PossibleErrorModel {
 		boolean noPadding = true;
 		final String padding1 = padding + "       ";
 
-		for (int i = 0; i < this.EAAction.length; i++) {
-			final int idx = this.EAAction[i];
-			if (noPadding) {
-				noPadding = false;
-			} else {
-				sb.append(padding);
-			}
-			sb.append("/\\ <>[]");
-			checkAction[idx].toString(sb, padding1);
-			sb.append("\n");
-		}
-		for (int i = 0; i < this.AEState.length; i++) {
-			final int idx = this.AEState[i];
-			if (noPadding) {
-				noPadding = false;
-			} else {
-				sb.append(padding);
-			}
-			sb.append("/\\ []<>");
-			checkState[idx].toString(sb, padding1);
-			sb.append("\n");
-		}
-		for (int i = 0; i < this.AEAction.length; i++) {
-			final int idx = this.AEAction[i];
-			if (noPadding) {
-				noPadding = false;
-			} else {
-				sb.append(padding);
-			}
-			sb.append("/\\ []<>");
-			checkAction[idx].toString(sb, padding1);
-			sb.append("\n");
-		}
+        for (final int idx : this.EAAction) {
+            if (noPadding) {
+                noPadding = false;
+            } else {
+                sb.append(padding);
+            }
+            sb.append("/\\ <>[]");
+            checkAction[idx].toString(sb, padding1);
+            sb.append("\n");
+        }
+        for (final int idx : this.AEState) {
+            if (noPadding) {
+                noPadding = false;
+            } else {
+                sb.append(padding);
+            }
+            sb.append("/\\ []<>");
+            checkState[idx].toString(sb, padding1);
+            sb.append("\n");
+        }
+        for (final int idx : this.AEAction) {
+            if (noPadding) {
+                noPadding = false;
+            } else {
+                sb.append(padding);
+            }
+            sb.append("/\\ []<>");
+            checkAction[idx].toString(sb, padding1);
+            sb.append("\n");
+        }
 	}
 
 }

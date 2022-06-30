@@ -3229,9 +3229,9 @@ public class PcalTLAGen
                   "        /\\ " + 
                   procFairnessFormulas.elementAt(i).format(indent).toString();
              final String [] splitStr = str.split("\n");
-             for (int j = 0; j < splitStr.length; j++) {
-                 addOneLineOfTLA(splitStr[j]);
-             }
+            for (String s : splitStr) {
+                addOneLineOfTLA(s);
+            }
 
 //            tlacode.addElement(
 //                        "        /\\ " +

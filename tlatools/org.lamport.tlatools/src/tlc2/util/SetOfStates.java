@@ -78,14 +78,13 @@ public final class SetOfStates {
 		this.length = 2 * this.length + 1;
 		this.thresh = this.length / 2;
 		this.states = new TLCState[this.length];
-		for (int i = 0; i < old.length; i++) {
-			final TLCState s = old[i];
-			// This is where we have to redundantly compute the state's
-			// fingerprint. Thus, try to minimize the number of grow operations.
-			if (s != null) {
-				this.put(s.fingerPrint(), s);
-			}
-		}
+        for (final TLCState s : old) {
+            // This is where we have to redundantly compute the state's
+            // fingerprint. Thus, try to minimize the number of grow operations.
+            if (s != null) {
+                this.put(s.fingerPrint(), s);
+            }
+        }
 	}
 
 	public final boolean put(final TLCState aState) {
@@ -186,17 +185,16 @@ public final class SetOfStates {
 	 */
 	public String toString() {
 		final StringBuilder buf = new StringBuilder("{");
-		for (int i = 0; i < states.length; i++) {
-			final TLCState tlcState = states[i];
-			if (tlcState != null) {
-				buf.append("<<");
-				buf.append(tlcState.fingerPrint());
-				buf.append(",");
-				final String toStr = tlcState.toString();
-				buf.append(toStr, 0, toStr.length() - 1); // chop off "\n"
-				buf.append(">>,\n");
-			}
-		}
+        for (final TLCState tlcState : states) {
+            if (tlcState != null) {
+                buf.append("<<");
+                buf.append(tlcState.fingerPrint());
+                buf.append(",");
+                final String toStr = tlcState.toString();
+                buf.append(toStr, 0, toStr.length() - 1); // chop off "\n"
+                buf.append(">>,\n");
+            }
+        }
 		buf.append("}");
 		return buf.toString();
 	}

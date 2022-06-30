@@ -40,12 +40,11 @@ public final class MVPerm implements IMVPerm {
 
   public final int hashCode() {
     int res = 0;
-    for (int i = 0; i < this.elems.length; i++) {
-      final ModelValue mv = this.elems[i];
-      if (mv != null) {
-	res = 31*res + mv.val.hashCode();
+      for (final ModelValue mv : this.elems) {
+          if (mv != null) {
+              res = 31 * res + mv.val.hashCode();
+          }
       }
-    }
     return res;
   }
   
@@ -103,12 +102,12 @@ public final class MVPerm implements IMVPerm {
    */
   public List<ModelValue> getAllModelValues() {
 	  final List<ModelValue> values = new ArrayList<>();
-	  
-	  for (int i = 0; i < elems.length; i++) {
-		  if (elems[i] != null) {
-			  values.add(elems[i]);
-		  }
-	  }
+
+      for (ModelValue elem : elems) {
+          if (elem != null) {
+              values.add(elem);
+          }
+      }
 	  
 	  return values;
   }

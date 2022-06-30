@@ -174,9 +174,9 @@ public final class BuiltInSymbols
     private static void buildCanPrecedeLabelTable() {
         final String[] canPrecedeLabel =
            {";", ")", "{",  "begin", "do", "either", "or", "then", "else", "elsif"};
-        for (int i = 0; i < canPrecedeLabel.length; i++) {
-            canPrecedeLabelTable.put(canPrecedeLabel[i], nullString);
-        }
+      for (String s : canPrecedeLabel) {
+        canPrecedeLabelTable.put(s, nullString);
+      }
     }
     private static void add(final String tla, final String tex, final int stype, final int atype)
       /*********************************************************************

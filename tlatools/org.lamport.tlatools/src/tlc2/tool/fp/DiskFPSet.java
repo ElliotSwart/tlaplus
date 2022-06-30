@@ -287,18 +287,18 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	@Override
     public final void finalize() {
 		/* Close any backing disk files in use by this object. */
-		for (int i = 0; i < this.braf.length; i++) {
-			try {
-				this.braf[i].close();
-			} catch (final IOException e) { /* SKIP */
-			}
-		}
-		for (int i = 0; i < this.brafPool.length; i++) {
-			try {
-				this.brafPool[i].close();
-			} catch (final IOException e) { /* SKIP */
-			}
-		}
+        for (BufferedRandomAccessFile randomAccessFile : this.braf) {
+            try {
+                randomAccessFile.close();
+            } catch (final IOException e) { /* SKIP */
+            }
+        }
+        for (BufferedRandomAccessFile bufferedRandomAccessFile : this.brafPool) {
+            try {
+                bufferedRandomAccessFile.close();
+            } catch (final IOException e) { /* SKIP */
+            }
+        }
 	}
 
 	/* (non-Javadoc)
@@ -589,19 +589,19 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
     public final void close() {
 		// close JMX stats
 		diskFPSetMXWrapper.unregister();
-		
-		for (int i = 0; i < this.braf.length; i++) {
-			try {
-				this.braf[i].close();
-			} catch (final IOException e) { /* SKIP */
-			}
-		}
-		for (int i = 0; i < this.brafPool.length; i++) {
-			try {
-				this.brafPool[i].close();
-			} catch (final IOException e) { /* SKIP */
-			}
-		}
+
+        for (BufferedRandomAccessFile randomAccessFile : this.braf) {
+            try {
+                randomAccessFile.close();
+            } catch (final IOException e) { /* SKIP */
+            }
+        }
+        for (BufferedRandomAccessFile bufferedRandomAccessFile : this.brafPool) {
+            try {
+                bufferedRandomAccessFile.close();
+            } catch (final IOException e) { /* SKIP */
+            }
+        }
 		this.poolIndex = 0;
 	}
 
@@ -1117,13 +1117,13 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 			// provide a way to re-use an existing RandomAccessFile object on
 			// a different file, this implementation must close all existing
 			// files and re-allocate new BufferedRandomAccessFile objects.
-			for (int i = 0; i < braf.length; i++) {
-				// Seek readers to zero position.
-				braf[i].seek(0L);
-			}
-			for (int i = 0; i < brafPool.length; i++) {
-				brafPool[i].close();
-			}
+            for (BufferedRandomAccessFile accessFile : braf) {
+                // Seek readers to zero position.
+                accessFile.seek(0L);
+            }
+            for (BufferedRandomAccessFile randomAccessFile : brafPool) {
+                randomAccessFile.close();
+            }
 
 			// create temporary file
 			final File tmpFile = new File(tmpFilename);
@@ -1135,10 +1135,10 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 			mergeNewEntries(braf, tmpRAF);
 			
 			// clean up
-			for (int i = 0; i < braf.length; i++) {
-				// close existing files (except brafPool[0])
-				braf[i].close();
-			}
+            for (BufferedRandomAccessFile bufferedRandomAccessFile : braf) {
+                // close existing files (except brafPool[0])
+                bufferedRandomAccessFile.close();
+            }
 			tmpRAF.close();
 			try {
 				FileUtil.replaceFile(tmpFilename, fpFilename);

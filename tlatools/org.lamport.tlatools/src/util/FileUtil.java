@@ -88,12 +88,10 @@ public class FileUtil
             // must be a directory:
             final String[] fnames = file.list();
             File child = null;
-            for (int i = 0; i < fnames.length; i++)
-            {
-                child = new File(file, fnames[i]);
+            for (String fname : fnames) {
+                child = new File(file, fname);
 
-                if (!doDeleteDir(child, recurse))
-                {
+                if (!doDeleteDir(child, recurse)) {
                     return false;
                 }
             }
@@ -181,17 +179,15 @@ public class FileUtil
     public static void printArrayOfBigInts(final InputStream in) throws IOException
     {
         final BigInt[] A = ByteUtils.readSizeArrayOfSizeBigInts(in);
-        for (int i = 0; i < A.length; i++)
-        {
-            ToolIO.out.println(A[i]);
+        for (BigInt bigInt : A) {
+            ToolIO.out.println(bigInt);
         }
     }
 
     public static void printSizeArrayOfSizeBigIntegers(final InputStream in) throws IOException {
         final BigInteger[] A = ByteUtils.readSizeArrayOfSizeBigInts(in);
-        for (int i = 0; i < A.length; i++)
-        {
-            ToolIO.out.println(A[i]);
+        for (BigInteger bigInteger : A) {
+            ToolIO.out.println(bigInteger);
         }
     }
 

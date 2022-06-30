@@ -92,15 +92,15 @@ public class UseOrHideNode extends LevelNode {
   *************************************************************************/
   public void factCheck() {
     if (this.facts == null || this.getKind() == UseKind) { return; }
-      for (int i = 0; i < this.facts.length; i++) {
-      if (    (this.facts[i].getKind() == OpApplKind)
-           && (((OpApplNode) this.facts[i]).operator.getKind()
-                   != ThmOrAssumpDefKind)) {
-          errors.addError(
-             this.facts[i].stn.getLocation(),
-               "The only expression allowed as a fact in a HIDE " +
-               "is \nthe name of a theorem, assumption, or step.");
-      }
+      for (LevelNode fact : this.facts) {
+          if ((fact.getKind() == OpApplKind)
+                  && (((OpApplNode) fact).operator.getKind()
+                  != ThmOrAssumpDefKind)) {
+              errors.addError(
+                      fact.stn.getLocation(),
+                      "The only expression allowed as a fact in a HIDE " +
+                              "is \nthe name of a theorem, assumption, or step.");
+          }
       } // for
   }
 
@@ -121,8 +121,8 @@ public class UseOrHideNode extends LevelNode {
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
-    for (int  i = 0; i < facts.length; i++) {
-      facts[i].walkGraph(semNodesTable, visitor);
+      for (LevelNode fact : facts) {
+          fact.walkGraph(semNodesTable, visitor);
       }
       /***********************************************************************
     * Note: there's no need to walk the defs array because all the nodes   *
@@ -152,12 +152,12 @@ public class UseOrHideNode extends LevelNode {
             + super.toString(depth)
             + Strings.indent(2, "\nisOnly: " + this.isOnly)
             + Strings.indent(2, "\nfacts:"));
-    for (int i = 0 ; i < this.facts.length; i++) {
-        ret.append(Strings.indent(4, this.facts[i].toString(1)));
+      for (LevelNode fact : this.facts) {
+          ret.append(Strings.indent(4, fact.toString(1)));
       }
       ret.append(Strings.indent(2, "\ndefs:"));
-    for (int i = 0 ; i < this.defs.length; i++) {
-        ret.append(Strings.indent(4, this.defs[i].toString(1)));
+      for (SymbolNode def : this.defs) {
+          ret.append(Strings.indent(4, def.toString(1)));
       }
       return ret.toString();
    }
@@ -170,8 +170,8 @@ public class UseOrHideNode extends LevelNode {
     final Element factse = doc.createElement("facts");
     final Element definitions = doc.createElement("defs");
 
-    for (int i=0; i<facts.length; i++) factse.appendChild(facts[i].export(doc,context));
-    for (int i=0; i<defs.length; i++) definitions.appendChild(defs[i].export(doc,context));
+      for (LevelNode fact : facts) factse.appendChild(fact.export(doc, context));
+      for (SymbolNode def : defs) definitions.appendChild(def.export(doc, context));
 
     e.appendChild(factse);
     e.appendChild(definitions);

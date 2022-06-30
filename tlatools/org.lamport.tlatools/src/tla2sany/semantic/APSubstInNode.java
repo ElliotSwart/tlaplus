@@ -393,11 +393,11 @@ public class APSubstInNode extends LevelNode {
             + ", instantiated module: " + instantiatedModule.getName()
             + Strings.indent(2, "\nSubstitutions:"));
     if (this.substs != null) {
-      for (int i = 0; i < this.substs.length; i++) {
+      for (Subst subst : this.substs) {
         ret.append(Strings.indent(2,
                 Strings.indent(2, "\nSubst:" +
-                        (this.substs[i] != null ?
-                                Strings.indent(2, this.substs[i].toString(depth - 1)) :
+                        (subst != null ?
+                                Strings.indent(2, subst.toString(depth - 1)) :
                                 "<null>"))));
       }
     }
@@ -432,8 +432,8 @@ public class APSubstInNode extends LevelNode {
     visitor.preVisit(this);
 
     if (this.substs != null) {
-      for (int i = 0; i < this.substs.length; i++) {
-        if (this.substs[i] != null) this.substs[i].walkGraph(semNodesTable, visitor);
+      for (Subst subst : this.substs) {
+        if (subst != null) subst.walkGraph(semNodesTable, visitor);
       }
     }
     if (this.body != null) this.body.walkGraph(semNodesTable, visitor);
@@ -443,9 +443,9 @@ public class APSubstInNode extends LevelNode {
   @Override
   protected Element getLevelElement(final Document doc, final SymbolContext context) {
       final Element sbts = doc.createElement("substs");
-      for (int i=0; i<substs.length; i++) {
-        sbts.appendChild(substs[i].export(doc, context));
-      }
+    for (Subst subst : substs) {
+      sbts.appendChild(subst.export(doc, context));
+    }
       final Element bdy = doc.createElement("body");
       bdy.appendChild(body.export(doc,context));
 

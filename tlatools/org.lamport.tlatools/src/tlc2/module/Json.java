@@ -386,9 +386,9 @@ public class Json {
     value.normalize();
     final Value[] values = value.elems.toArray();
     final JsonArray jsonArray = new JsonArray(values.length);
-    for (int i = 0; i < values.length; i++) {
-      jsonArray.add(getNode(values[i]));
-    }
+      for (Value item : values) {
+          jsonArray.add(getNode(item));
+      }
     return jsonArray;
   }
 

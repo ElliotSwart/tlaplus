@@ -247,15 +247,12 @@ public final class Location implements Comparable<Location>
          * to nullLoc.
          */
         Matcher matcher;
-        for (int i = 0; i < ALL_PATTERNS.length; i++)
-        {
-            matcher = ALL_PATTERNS[i].matcher(input);
-            while (matcher.find())
-            {
+        for (Pattern allPattern : ALL_PATTERNS) {
+            matcher = allPattern.matcher(input);
+            while (matcher.find()) {
                 final String locationString = matcher.group();
                 final Location location = Location.parseLocation(locationString);
-                if (location != null && !location.equals(nullLoc))
-                {
+                if (location != null && !location.equals(nullLoc)) {
                     locations.add(location);
                 }
             }

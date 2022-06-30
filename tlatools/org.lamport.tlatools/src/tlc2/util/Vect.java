@@ -50,9 +50,9 @@ public class Vect<E> implements Cloneable, Serializable {
   public Vect(final E[] array) {
     this(array.length);
     final int sz = array.length;
-    for (int i = 0; i < sz; i++) {
-      this.addElement(array[i]);
-    }
+      for (E e : array) {
+          this.addElement(e);
+      }
   }
 
   public Vect(final Vector<E> v) {

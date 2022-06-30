@@ -641,12 +641,12 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
 	  HashSet<ModuleNode> extendeesSet = depthAllExtendeesMap.get(key);
 	  if (extendeesSet == null) {
 		  extendeesSet = new HashSet<>();
-		  for (int i = 0; i < this.extendees.length; i++) {
-			  extendeesSet.add(extendees[i]);
-			  if (recursively) {
-				  extendeesSet.addAll(extendees[i].getExtendedModuleSet(true));
-			  }
-		  }
+          for (ModuleNode extendee : this.extendees) {
+              extendeesSet.add(extendee);
+              if (recursively) {
+                  extendeesSet.addAll(extendee.getExtendedModuleSet(true));
+              }
+          }
 		  
 		  depthAllExtendeesMap.put(key, extendeesSet);
 	  }
@@ -870,11 +870,11 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     // Level check everything in this module
     this.levelCorrect = true;
     final ModuleNode[] mods = this.getInnerModules();
-    for (int i = 0; i < mods.length; i++) {
-      if (!mods[i].levelCheck(1)) {
-        this.levelCorrect = false;
+      for (ModuleNode mod : mods) {
+          if (!mod.levelCheck(1)) {
+              this.levelCorrect = false;
+          }
       }
-    }
 
     final OpDefNode[] opDefs = this.getOpDefs();
       /*********************************************************************
@@ -882,32 +882,32 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
       * presumably making it a local variable.  However, it doesn't seem   *
       * to make any difference, so I've left it.                           *
       *********************************************************************/
-    for (int i = 0; i < opDefs.length; i++) {
+      for (OpDefNode def : opDefs) {
 // System.out.println("opDef, module " + this.getName() + ": "
 // + opDefs[i].getName());
-      if (!opDefs[i].levelCheck(1)) {
-        this.levelCorrect = false;
+          if (!def.levelCheck(1)) {
+              this.levelCorrect = false;
+          }
       }
-    }
     thmOrAssDefs = this.getThmOrAssDefs();
-    for (int i = 0; i < thmOrAssDefs.length; i++) {
+      for (ThmOrAssumpDefNode thmOrAssDef : thmOrAssDefs) {
 // System.out.println("opDef, module " + this.getName() + ": "
 // + opDefs[i].getName());
-      if (!thmOrAssDefs[i].levelCheck(1)) {
-        this.levelCorrect = false;
+          if (!thmOrAssDef.levelCheck(1)) {
+              this.levelCorrect = false;
+          }
       }
-    }
 
     /***********************************************************************
     * Can use topLevel instead of the three separate arrays theorems,      *
     * assumptions, and instances.                                          *
     ***********************************************************************/
     final LevelNode[] tpLev = this.getTopLevel() ;
-    for (int i = 0; i < tpLev.length; i++) {
-      if (!tpLev[i].levelCheck(1)) {
-        this.levelCorrect = false;
+      for (LevelNode node : tpLev) {
+          if (!node.levelCheck(1)) {
+              this.levelCorrect = false;
+          }
       }
-    }
 //    TheoremNode[] thms = this.getTheorems();
 //    for (int i = 0; i < thms.length; i++) {
 //// System.out.println("theorem " + i + " from module " + this.getName());
@@ -933,38 +933,38 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     // Calculate level and Leibniz information.
 //    this.levelParams = new HashSet();
     final OpDeclNode[] decls = this.getConstantDecls();
-    for (int i = 0; i < decls.length; i++) {
-      this.levelParams.add(decls[i]);
-      this.allParams.add(decls[i]);
-    }
+      for (OpDeclNode opDeclNode : decls) {
+          this.levelParams.add(opDeclNode);
+          this.allParams.add(opDeclNode);
+      }
 
 //    this.levelConstraints = new SetOfLevelConstraints();
 //    this.argLevelConstraints = new SetOfArgLevelConstraints();
 //    this.argLevelParams = new HashSet();
     if (!this.isConstant()) {
-      for (int i = 0; i < decls.length; i++) {
-        this.levelConstraints.put(decls[i], Levels[ConstantLevel]);
-      }
-    }
-    for (int i = 0; i < opDefs.length; i++) {
-      this.levelConstraints.putAll(opDefs[i].getLevelConstraints());
-      this.argLevelConstraints.putAll(opDefs[i].getArgLevelConstraints());
-        for (ArgLevelParam alp : opDefs[i].getArgLevelParams()) {
-            if (!alp.occur(opDefs[i].getParams())) {
-                this.argLevelParams.add(alp);
-            }
+        for (OpDeclNode decl : decls) {
+            this.levelConstraints.put(decl, Levels[ConstantLevel]);
         }
     }
+      for (OpDefNode opDef : opDefs) {
+          this.levelConstraints.putAll(opDef.getLevelConstraints());
+          this.argLevelConstraints.putAll(opDef.getArgLevelConstraints());
+          for (ArgLevelParam alp : opDef.getArgLevelParams()) {
+              if (!alp.occur(opDef.getParams())) {
+                  this.argLevelParams.add(alp);
+              }
+          }
+      }
 
     /***********************************************************************
     * Can use topLevel instead of the three separate arrays theorems,      *
     * assumptions, and instances.                                          *
     ***********************************************************************/
-    for (int i = 0; i < tpLev.length; i++) {
-      this.levelConstraints.putAll(tpLev[i].getLevelConstraints());
-      this.argLevelConstraints.putAll(tpLev[i].getArgLevelConstraints());
-      this.argLevelParams.addAll(tpLev[i].getArgLevelParams());
-    }
+      for (LevelNode levelNode : tpLev) {
+          this.levelConstraints.putAll(levelNode.getLevelConstraints());
+          this.argLevelConstraints.putAll(levelNode.getArgLevelConstraints());
+          this.argLevelParams.addAll(levelNode.getArgLevelParams());
+      }
 
 //    for (int i = 0; i < thms.length; i++) {
 //      this.levelConstraints.putAll(thms[i].getLevelConstraints());
@@ -1037,11 +1037,11 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
       * level information for the module's opDefs.                         *
       *********************************************************************/
     final OpDefNode[] opDefs = this.getOpDefs();
-    for (int i = 0; i < opDefs.length; i++) {
-      if (opDefs[i].getKind() != ModuleInstanceKind &&
-          opDefs[i].getBody().getLevel() != ConstantLevel)
-        return false;
-    }
+      for (OpDefNode opDef : opDefs) {
+          if (opDef.getKind() != ModuleInstanceKind &&
+                  opDef.getBody().getLevel() != ConstantLevel)
+              return false;
+      }
 
     // If the module contains any nonconstant expressions as Theorems
     // it is nonconstant module.  (Assumptions can only be of level 0
@@ -1217,25 +1217,25 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     // constants
     //Element constants = doc.createElement("constants");
     nodes = getConstantDecls();
-    for (int i=0; i<nodes.length; i++) {
-      ret.appendChild(nodes[i].export(doc,context));
-    }
+      for (SemanticNode item : nodes) {
+          ret.appendChild(item.export(doc, context));
+      }
     //ret.appendChild(constants);
 
     // variables
     //Element variables = doc.createElement("variables");
     nodes = getVariableDecls();
-    for (int i=0; i<nodes.length; i++) {
-      ret.appendChild(nodes[i].export(doc,context));
-    }
+      for (SemanticNode value : nodes) {
+          ret.appendChild(value.export(doc, context));
+      }
     //ret.appendChild(variables);
 
     //operators
     //Element operators = doc.createElement("definitions");
     nodes = getOpDefs();
-    for (int i=0; i<nodes.length; i++) {
-      ret.appendChild(nodes[i].export(doc,context)); //was with true to expand operators
-    }
+      for (SemanticNode semanticNode : nodes) {
+          ret.appendChild(semanticNode.export(doc, context)); //was with true to expand operators
+      }
     //ret.appendChild(operators);
 
     /*
@@ -1257,9 +1257,9 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
   */
 
     nodes = getTopLevel();
-    for (int i=0; i<nodes.length; i++) {
-      ret.appendChild(nodes[i].export(doc,context));
-    }
+      for (SemanticNode node : nodes) {
+          ret.appendChild(node.export(doc, context));
+      }
 
     return ret;
   }

@@ -932,9 +932,8 @@ public class ModelChecker extends AbstractChecker
     	// if necessary (e.g. OffHeapDiskFPSet).
         this.theFPSet.incWorkers(this.workers.length);
 
-        for (int i = 0; i < this.workers.length; i++)
-        {
-            this.workers[i].start();
+        for (IWorker worker : this.workers) {
+            worker.start();
         }
         return this.workers;
     }

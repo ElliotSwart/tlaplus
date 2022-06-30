@@ -57,18 +57,17 @@ public class LSBDiskFPSet extends HeapBasedDiskFPSet {
 			// copy table contents into a buffer array buff; do not erase tbl
 			buff = new long[cnt];
 			int idx = 0;
-			for (int j = 0; j < tbl.length; j++) {
-				final long[] bucket = tbl[j];
-				if (bucket != null) {
-					final int blen = bucket.length;
-					// for all bucket positions and non-null values
-					for (int k = 0; k < blen && bucket[k] > 0; k++) {
-						buff[idx++] = bucket[k];
-						// indicate fp has been flushed to disk
-						bucket[k] |= 0x8000000000000000L;
-					}
-				}
-			}
+            for (final long[] bucket : tbl) {
+                if (bucket != null) {
+                    final int blen = bucket.length;
+                    // for all bucket positions and non-null values
+                    for (int k = 0; k < blen && bucket[k] > 0; k++) {
+                        buff[idx++] = bucket[k];
+                        // indicate fp has been flushed to disk
+                        bucket[k] |= 0x8000000000000000L;
+                    }
+                }
+            }
 			
 			// sort in-memory entries
 			Arrays.sort(buff, 0, buff.length);

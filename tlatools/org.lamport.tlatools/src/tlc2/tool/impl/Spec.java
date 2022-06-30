@@ -613,9 +613,8 @@ abstract class Spec
             	// UNCHANGED vars
 				// For the latter, we don't want vars == <<x,y,z>> to show up, but the vars in
 				// UNCHANGED vars (see CoverageStatisticsTest).
-                for (int i = 0; i < args.length; i++)
-                {
-               		this.collectUnchangedLocs(args[i], c, tbl);
+                for (ExprOrOpArgNode arg : args) {
+                    this.collectUnchangedLocs(arg, c, tbl);
                 }
                 return;
             }

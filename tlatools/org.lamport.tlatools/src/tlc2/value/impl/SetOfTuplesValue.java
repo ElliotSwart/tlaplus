@@ -125,11 +125,11 @@ public final Value[] sets;
   @Override
   public final boolean isFinite() {
     try {
-      for (int i = 0; i < this.sets.length; i++) {
-        if (!this.sets[i].isFinite()) {
-          return false;
+        for (Value set : this.sets) {
+            if (!set.isFinite()) {
+                return false;
+            }
         }
-      }
       return true;
     }
     catch (final RuntimeException | OutOfMemoryError e) {
@@ -172,13 +172,13 @@ public final Value[] sets;
   public final int size() {
     try {
       long sz = 1;
-      for (int i = 0; i < this.sets.length; i++) {
-        sz *= this.sets[i].size();
-        if (sz < -2147483648 || sz > 2147483647) {
-          Assert.fail("Overflow when computing the number of elements in " +
-                Values.ppr(this.toString()), getSource());
+        for (Value set : this.sets) {
+            sz *= set.size();
+            if (sz < -2147483648 || sz > 2147483647) {
+                Assert.fail("Overflow when computing the number of elements in " +
+                        Values.ppr(this.toString()), getSource());
+            }
         }
-      }
       return (int)sz;
     }
     catch (final RuntimeException | OutOfMemoryError e) {
@@ -191,11 +191,11 @@ public final Value[] sets;
   public final boolean isNormalized() {
     try {
       if (this.tupleSet == null || this.tupleSet == SetEnumValue.DummyEnum) {
-        for (int i = 0; i < this.sets.length; i++) {
-          if (!this.sets[i].isNormalized()) {
-            return false;
+          for (Value set : this.sets) {
+              if (!set.isNormalized()) {
+                  return false;
+              }
           }
-        }
         return true;
       }
       return this.tupleSet.isNormalized();
@@ -210,9 +210,9 @@ public final Value[] sets;
   public final Value normalize() {
     try {
       if (this.tupleSet == null || this.tupleSet == SetEnumValue.DummyEnum) {
-        for (int i = 0; i < this.sets.length; i++) {
-          this.sets[i].normalize();
-        }
+          for (Value set : this.sets) {
+              set.normalize();
+          }
       }
       else {
         this.tupleSet.normalize();
@@ -228,9 +228,9 @@ public final Value[] sets;
   @Override
   public final void deepNormalize() {
 	    try {
-      for (int i = 0; i < sets.length; i++) {
-          sets[i].deepNormalize();
-        }
+            for (Value set : sets) {
+                set.deepNormalize();
+            }
         if (tupleSet == null) {
           tupleSet = SetEnumValue.DummyEnum;
         }
@@ -248,9 +248,9 @@ public final Value[] sets;
   public final boolean isDefined() {
     try {
       boolean defined = true;
-      for (int i = 0; i < this.sets.length; i++) {
-        defined = defined && this.sets[i].isDefined();
-      }
+        for (Value set : this.sets) {
+            defined = defined && set.isDefined();
+        }
       return defined;
     }
     catch (final RuntimeException | OutOfMemoryError e) {
@@ -337,13 +337,13 @@ public final Value[] sets;
       try {
         if (unlazy) {
           long sz = 1;
-          for (int i = 0; i < this.sets.length; i++) {
-            sz *= this.sets[i].size();
-            if (sz < -2147483648 || sz > 2147483647) {
-              unlazy = false;
-              break;
+            for (Value set : this.sets) {
+                sz *= set.size();
+                if (sz < -2147483648 || sz > 2147483647) {
+                    unlazy = false;
+                    break;
+                }
             }
-          }
           unlazy = sz < TLCGlobals.enumBound;
         }
       }

@@ -163,12 +163,11 @@ public class TLCApp extends DistApp {
     public final TLCState[] getNextStates(final TLCState curState)
 			throws WorkerException {
 		StateVec nextStates = new StateVec(10);
-		for (int i = 0; i < this.actions.length; i++) {
-			final Action curAction = this.actions[i];
-			final StateVec nstates = this.tool.getNextStates(curAction,
+        for (final Action curAction : this.actions) {
+            final StateVec nstates = this.tool.getNextStates(curAction,
                     curState);
-			nextStates = nextStates.addElements(nstates);
-		}
+            nextStates = nextStates.addElements(nstates);
+        }
 		final int len = nextStates.size();
 		if (len == 0 && this.checkDeadlock) {
 			throw new WorkerException("Error: deadlock reached.", curState,

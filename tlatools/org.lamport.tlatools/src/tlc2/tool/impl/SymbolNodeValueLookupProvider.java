@@ -198,9 +198,9 @@ public interface SymbolNodeValueLookupProvider {
 
 		int level = 0;
 		final ExprNode[] bnds = expr.getBdedQuantBounds();
-		for (int i = 0; i < bnds.length; i++) {
-			level = Math.max(level, getLevelBound(bnds[i], c, forToolId));
-		}
+        for (ExprNode bnd : bnds) {
+            level = Math.max(level, getLevelBound(bnd, c, forToolId));
+        }
 
 		if (opcode == ToolGlobals.OPCODE_rfs) {
 			// For recursive function, don't compute level of the function body
@@ -211,11 +211,11 @@ public interface SymbolNodeValueLookupProvider {
 
 		final ExprOrOpArgNode[] args = expr.getArgs();
 		final int alen = args.length;
-		for (int i = 0; i < alen; i++) {
-			if (args[i] != null) {
-				level = Math.max(level, getLevelBound(args[i], c, forToolId));
-			}
-		}
+        for (ExprOrOpArgNode arg : args) {
+            if (arg != null) {
+                level = Math.max(level, getLevelBound(arg, c, forToolId));
+            }
+        }
 
 		if (opcode == 0) {
 			// This operator is a user-defined operator.

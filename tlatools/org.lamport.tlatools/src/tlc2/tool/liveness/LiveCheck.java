@@ -82,9 +82,9 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public void addInitState(final ITool tool, final TLCState state, final long stateFP) {
-		for (int i = 0; i < checker.length; i++) {
-			checker[i].addInitState(tool, state, stateFP);
-		}
+        for (ILiveChecker iLiveChecker : checker) {
+            iLiveChecker.addInitState(tool, state, stateFP);
+        }
 	}
 
 	/* (non-Javadoc)
@@ -92,44 +92,43 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) throws IOException {
-		for (int i = 0; i < checker.length; i++) {
-			final ILiveChecker check = checker[i];
-			final OrderOfSolution oos = check.getSolution();
-			final int alen = oos.getCheckAction().length;
+        for (final ILiveChecker check : checker) {
+            final OrderOfSolution oos = check.getSolution();
+            final int alen = oos.getCheckAction().length;
 
-			// Check the actions *before* the solution lock is acquired. This
-			// increase concurrency as the lock on the OrderOfSolution is pretty
-			// coarse grained (it essentially means we lock the complete
-			// behavior graph (DiskGraph) just to add a single node). The
-			// drawback is obviously, that we create a short-lived BitVector
-			// to hold the result and loop over actions x successors twice
-			// (here and down below). This is a little price to pay for significantly
-			// increased concurrency.
-			//
-			// The actions have to be checked here because - in the light of
-			// symmetry - while we still have access to the actual successor
-			// state rather than just its fingerprint that represents all states
-			// in the symmetry set. Unless super-symmetry is in place (the
-			// actions checks for all states in the symmetry set evaluate to the
-			// same value), the "smallest" (see
-			// tlc2.tool.TLCStateMut.fingerPrint()) cannot be used as a
-			// replacement state to check the actions.
-			// TODO: In the past (commit 768b8e8), actions were only evaluated for nodes
-			// that are new (ptr == -1)
-			// (see https://github.com/tlaplus/tlaplus/issues/614)
-			final BitVector checkActionResults = new BitVector(alen * nextStates.size());
-			for (int sidx = 0; sidx < nextStates.size(); sidx++) {
-				final TLCState s1 = nextStates.next();
-				oos.checkAction(tool, s0, s1, checkActionResults, alen * sidx);
-			}
-			nextStates.resetNext();
-			check.addNextState(tool, s0, fp0, nextStates, checkActionResults, oos.checkState(tool, s0));
-			
-			// Write the content of the current graph to a file in GraphViz
-			// format. Useful when debugging!
+            // Check the actions *before* the solution lock is acquired. This
+            // increase concurrency as the lock on the OrderOfSolution is pretty
+            // coarse grained (it essentially means we lock the complete
+            // behavior graph (DiskGraph) just to add a single node). The
+            // drawback is obviously, that we create a short-lived BitVector
+            // to hold the result and loop over actions x successors twice
+            // (here and down below). This is a little price to pay for significantly
+            // increased concurrency.
+            //
+            // The actions have to be checked here because - in the light of
+            // symmetry - while we still have access to the actual successor
+            // state rather than just its fingerprint that represents all states
+            // in the symmetry set. Unless super-symmetry is in place (the
+            // actions checks for all states in the symmetry set evaluate to the
+            // same value), the "smallest" (see
+            // tlc2.tool.TLCStateMut.fingerPrint()) cannot be used as a
+            // replacement state to check the actions.
+            // TODO: In the past (commit 768b8e8), actions were only evaluated for nodes
+            // that are new (ptr == -1)
+            // (see https://github.com/tlaplus/tlaplus/issues/614)
+            final BitVector checkActionResults = new BitVector(alen * nextStates.size());
+            for (int sidx = 0; sidx < nextStates.size(); sidx++) {
+                final TLCState s1 = nextStates.next();
+                oos.checkAction(tool, s0, s1, checkActionResults, alen * sidx);
+            }
+            nextStates.resetNext();
+            check.addNextState(tool, s0, fp0, nextStates, checkActionResults, oos.checkState(tool, s0));
+
+            // Write the content of the current graph to a file in GraphViz
+            // format. Useful when debugging!
 //			check.getDiskGraph().writeDotViz(oos, new java.io.File(
 //					metadir + java.io.File.separator + "dgraph_" + i + "_" + System.currentTimeMillis() + ".dot"));
-		}
+        }
 	}
 
 	/* (non-Javadoc)
@@ -137,33 +136,33 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public boolean doLiveCheck() {
-		for (int i = 0; i < checker.length; i++) {
-			// If one of the disk graph's size has increased by the given
-			// percentage, run liveness checking.
-			//
-			// TODO Alternatively:
-			//
-			// - LL suggest to dedicate a fixed fraction of model checking time
-			// to liveness checking.
-			//
-			// - The level could be taken into account. Unless the level
-			// (height) of the graph increases, no new cycle won't be found
-			// anyway (all other aspects of liveness checking are checked as
-			// part of regular safety checking).
-			//
-			// - The authors of the Divine model checker describe an algorithm
-			// in http://dx.doi.org/10.1109/ASE.2003.1240299
-			// that counts the "Back-level Edges" and runs liveness checking upon
-			// a counter reaching a certain (user defined?!) threshold.
-			//
-			final AbstractDiskGraph diskGraph = checker[i].getDiskGraph();
-			final long sizeAtLastCheck = diskGraph.getSizeAtLastCheck();
-			final long sizeCurrently = diskGraph.size();
-			final double delta = (sizeCurrently - sizeAtLastCheck) / (sizeAtLastCheck * 1.d);
-			if (delta > TLCGlobals.livenessThreshold) {
-				return true;
-			}
-		}
+        for (ILiveChecker iLiveChecker : checker) {
+            // If one of the disk graph's size has increased by the given
+            // percentage, run liveness checking.
+            //
+            // TODO Alternatively:
+            //
+            // - LL suggest to dedicate a fixed fraction of model checking time
+            // to liveness checking.
+            //
+            // - The level could be taken into account. Unless the level
+            // (height) of the graph increases, no new cycle won't be found
+            // anyway (all other aspects of liveness checking are checked as
+            // part of regular safety checking).
+            //
+            // - The authors of the Divine model checker describe an algorithm
+            // in http://dx.doi.org/10.1109/ASE.2003.1240299
+            // that counts the "Back-level Edges" and runs liveness checking upon
+            // a counter reaching a certain (user defined?!) threshold.
+            //
+            final AbstractDiskGraph diskGraph = iLiveChecker.getDiskGraph();
+            final long sizeAtLastCheck = diskGraph.getSizeAtLastCheck();
+            final long sizeCurrently = diskGraph.size();
+            final double delta = (sizeCurrently - sizeAtLastCheck) / (sizeAtLastCheck * 1.d);
+            if (delta > TLCGlobals.livenessThreshold) {
+                return true;
+            }
+        }
 		return false;
 	}
 	
@@ -177,16 +176,16 @@ public class LiveCheck implements ILiveCheck {
 			// state graph.
 			return EC.NO_ERROR;
 		}
-		for (int i = 0; i < checker.length; i++) {
-			// see note in doLiveCheck() above!
-			final AbstractDiskGraph diskGraph = checker[i].getDiskGraph();
-			final long sizeAtLastCheck = diskGraph.getSizeAtLastCheck();
-			final long sizeCurrently = diskGraph.size();
-			final double delta = (sizeCurrently - sizeAtLastCheck) / (sizeAtLastCheck * 1.d);
-			if (delta > TLCGlobals.livenessThreshold) {
-				return check0(tool, false);
-			}
-		}
+        for (ILiveChecker iLiveChecker : checker) {
+            // see note in doLiveCheck() above!
+            final AbstractDiskGraph diskGraph = iLiveChecker.getDiskGraph();
+            final long sizeAtLastCheck = diskGraph.getSizeAtLastCheck();
+            final long sizeCurrently = diskGraph.size();
+            final double delta = (sizeCurrently - sizeAtLastCheck) / (sizeAtLastCheck * 1.d);
+            if (delta > TLCGlobals.livenessThreshold) {
+                return check0(tool, false);
+            }
+        }
 		return EC.NO_ERROR;
 	}
 	
@@ -209,9 +208,9 @@ public class LiveCheck implements ILiveCheck {
 		// Sum up the number of nodes in all disk graphs to indicate the amount
 		// of work to be done by liveness checking.
 		long sum = 0L;
-		for (int i = 0; i < checker.length; i++) {
-			sum += checker[i].getDiskGraph().size();
-		}
+        for (ILiveChecker liveChecker : checker) {
+            sum += liveChecker.getDiskGraph().size();
+        }
 		MP.printMessage(EC.TLC_CHECKING_TEMPORAL_PROPS, finalCheck ? "complete" : "current",
                 Long.toString(sum), checker.length == 1 ? "" : checker.length + " branches of ");
 
@@ -287,9 +286,9 @@ public class LiveCheck implements ILiveCheck {
 		
 		// Reset after checking unless it's the final check:
 		if (finalCheck == false) {
-			for (int i = 0; i < checker.length; i++) {
-				checker[i].getDiskGraph().makeNodePtrTbl();
-			}
+            for (ILiveChecker iLiveChecker : checker) {
+                iLiveChecker.getDiskGraph().makeNodePtrTbl();
+            }
 		}
 		MP.printMessage(EC.TLC_CHECKING_TEMPORAL_PROPS_END, TLC.convertRuntimeToHumanReadable(System.currentTimeMillis() - startTime));
 		
@@ -380,9 +379,9 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public void close() throws IOException {
-		for (int i = 0; i < checker.length; i++) {
-			checker[i].close();
-		}
+        for (ILiveChecker iLiveChecker : checker) {
+            iLiveChecker.close();
+        }
 	}
 
 	/* Checkpoint. */
@@ -391,9 +390,9 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public synchronized void beginChkpt() throws IOException {
-		for (int i = 0; i < checker.length; i++) {
-			checker[i].getDiskGraph().beginChkpt();
-		}
+        for (ILiveChecker iLiveChecker : checker) {
+            iLiveChecker.getDiskGraph().beginChkpt();
+        }
 	}
 
 	/* (non-Javadoc)
@@ -401,9 +400,9 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public void commitChkpt() throws IOException {
-		for (int i = 0; i < checker.length; i++) {
-			checker[i].getDiskGraph().commitChkpt();
-		}
+        for (ILiveChecker iLiveChecker : checker) {
+            iLiveChecker.getDiskGraph().commitChkpt();
+        }
 	}
 
 	/* (non-Javadoc)
@@ -411,10 +410,10 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public void recover() throws IOException {
-		for (int i = 0; i < checker.length; i++) {
-			MP.printMessage(EC.TLC_AAAAAAA);
-			checker[i].getDiskGraph().recover();
-		}
+        for (ILiveChecker iLiveChecker : checker) {
+            MP.printMessage(EC.TLC_AAAAAAA);
+            iLiveChecker.getDiskGraph().recover();
+        }
 	}
 
 	/* (non-Javadoc)
@@ -422,9 +421,9 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public void reset() throws IOException {
-		for (int i = 0; i < checker.length; i++) {
-			checker[i].getDiskGraph().reset();
-		}
+        for (ILiveChecker iLiveChecker : checker) {
+            iLiveChecker.getDiskGraph().reset();
+        }
 	}
 
 	/* (non-Javadoc)
@@ -432,10 +431,10 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public IBucketStatistics calculateInDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
-		for (int i = 0; i < checker.length; i++) {
-			final AbstractDiskGraph diskGraph = checker[i].getDiskGraph();
-			diskGraph.calculateInDegreeDiskGraph(aGraphStats);
-		}
+        for (ILiveChecker iLiveChecker : checker) {
+            final AbstractDiskGraph diskGraph = iLiveChecker.getDiskGraph();
+            diskGraph.calculateInDegreeDiskGraph(aGraphStats);
+        }
 		return aGraphStats;
 	}
 	
@@ -444,10 +443,10 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public IBucketStatistics calculateOutDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
-		for (int i = 0; i < checker.length; i++) {
-			final AbstractDiskGraph diskGraph = checker[i].getDiskGraph();
-			diskGraph.calculateOutDegreeDiskGraph(aGraphStats);
-		}
+        for (ILiveChecker iLiveChecker : checker) {
+            final AbstractDiskGraph diskGraph = iLiveChecker.getDiskGraph();
+            diskGraph.calculateOutDegreeDiskGraph(aGraphStats);
+        }
 		return aGraphStats;
 	}
 	
@@ -859,40 +858,40 @@ public class LiveCheck implements ILiveCheck {
 			// state graph):
 			cnt = 0;
 			final Action[] actions = tool.getActions();
-			for (int i = 0; i < actions.length; i++) {
-				final StateVec nextStates = tool.getNextStates(actions[i], s);
-				final int nextCnt = nextStates.size();
-				for (int j = 0; j < nextCnt; j++) {
-					final TLCState s1 = nextStates.elementAt(j);
-					if (tool.isInModel(s1) && tool.isInActions(s, s1)) {
-						final long fp1 = s1.fingerPrint();
-						final BitVector checkActionRes = oos.checkAction(tool, s, s1, new BitVector(alen), 0);
-						final boolean isDone = dgraph.isDone(fp1);
-						for (int k = 0; k < tnode.nextSize(); k++) {
-							final TBGraphNode tnode1 = tnode.nextAt(k);
-							final int tidx1 = tnode1.getIndex();
-							final long ptr1 = dgraph.getPtr(fp1, tidx1);
-							final int total = actions.length * nextCnt * tnode.nextSize();
-							if (tnode1.isConsistent(s1, tool) && (ptr1 == -1 || !node.transExists(fp1, tidx1))) {
-								node.addTransition(fp1, tidx1, slen, alen, checkActionRes, 0, (total - cnt));
-								writer.writeState(s, tnode, s1, tnode1, checkActionRes, 0, alen, false, Visualization.DOTTED);
-								// Record that we have seen <fp1, tnode1>. If
-								// fp1 is done, we have to compute the next
-								// states for <fp1, tnode1>.
-								if (ptr1 == -1) {
-									dgraph.recordNode(fp1, tidx1);
-									if (isDone) {
-										addNextState(tool, s1, fp1, tnode1, oos, dgraph);
-									}
-								}
-							}
-							cnt++;
-						}
-					} else {
-						cnt++;
-					}
-				}
-			}
+            for (Action action : actions) {
+                final StateVec nextStates = tool.getNextStates(action, s);
+                final int nextCnt = nextStates.size();
+                for (int j = 0; j < nextCnt; j++) {
+                    final TLCState s1 = nextStates.elementAt(j);
+                    if (tool.isInModel(s1) && tool.isInActions(s, s1)) {
+                        final long fp1 = s1.fingerPrint();
+                        final BitVector checkActionRes = oos.checkAction(tool, s, s1, new BitVector(alen), 0);
+                        final boolean isDone = dgraph.isDone(fp1);
+                        for (int k = 0; k < tnode.nextSize(); k++) {
+                            final TBGraphNode tnode1 = tnode.nextAt(k);
+                            final int tidx1 = tnode1.getIndex();
+                            final long ptr1 = dgraph.getPtr(fp1, tidx1);
+                            final int total = actions.length * nextCnt * tnode.nextSize();
+                            if (tnode1.isConsistent(s1, tool) && (ptr1 == -1 || !node.transExists(fp1, tidx1))) {
+                                node.addTransition(fp1, tidx1, slen, alen, checkActionRes, 0, (total - cnt));
+                                writer.writeState(s, tnode, s1, tnode1, checkActionRes, 0, alen, false, Visualization.DOTTED);
+                                // Record that we have seen <fp1, tnode1>. If
+                                // fp1 is done, we have to compute the next
+                                // states for <fp1, tnode1>.
+                                if (ptr1 == -1) {
+                                    dgraph.recordNode(fp1, tidx1);
+                                    if (isDone) {
+                                        addNextState(tool, s1, fp1, tnode1, oos, dgraph);
+                                    }
+                                }
+                            }
+                            cnt++;
+                        }
+                    } else {
+                        cnt++;
+                    }
+                }
+            }
 			if (numSucc < node.succSize()) {
 				node.realign(); // see node.addTransition() hint
 				dgraph.addNode(node);

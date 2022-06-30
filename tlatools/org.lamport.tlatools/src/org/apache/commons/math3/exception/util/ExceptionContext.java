@@ -232,13 +232,13 @@ public class ExceptionContext implements Serializable {
             final int aLen = args.length;
             // Step 4.
             out.writeInt(aLen);
-            for (int j = 0; j < aLen; j++) {
-                if (args[j] instanceof Serializable) {
+            for (Object arg : args) {
+                if (arg instanceof Serializable) {
                     // Step 5a.
-                    out.writeObject(args[j]);
+                    out.writeObject(arg);
                 } else {
                     // Step 5b.
-                    out.writeObject(nonSerializableReplacement(args[j]));
+                    out.writeObject(nonSerializableReplacement(arg));
                 }
             }
         }

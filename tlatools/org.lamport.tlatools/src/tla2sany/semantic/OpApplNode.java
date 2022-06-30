@@ -438,28 +438,37 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     * Level check all operands[i] and ranges[i]                            *
     ***********************************************************************/
     this.levelCorrect = true;
-    for (int i = 0; i < this.operands.length; i++) {
-      if (this.operands[i] != null &&
-        /*******************************************************************
-        * Below, this.operands[i] is dereferenced without first checking   *
-        * it for null, so I presume it can't be null.                      *
-        *******************************************************************/
-          !this.operands[i].levelCheck(itr)) {
-        this.levelCorrect = false;
+      /*******************************************************************
+       * Below, this.operands[i] is dereferenced without first checking   *
+       * it for null, so I presume it can't be null.                      *
+       *******************************************************************/
+      for (ExprOrOpArgNode opArgNode : this.operands) {
+          if (opArgNode != null &&
+                  /*******************************************************************
+                   * Below, this.operands[i] is dereferenced without first checking   *
+                   * it for null, so I presume it can't be null.                      *
+                   *******************************************************************/
+                  !opArgNode.levelCheck(itr)) {
+              this.levelCorrect = false;
+          }
       }
-    }
-    for (int i = 0; i < this.ranges.length; i++) {
-      if (this.ranges[i] != null &&
-        /*******************************************************************
-        * It appears that this.ranges[i] is never null, because there are  *
-        * several places below where this.ranges[i] is dereferenced        *
-        * without first checking if it's null.                             *
-        *******************************************************************/
-          !this.ranges[i].levelCheck(itr)) {
+      /*******************************************************************
+       * It appears that this.ranges[i] is never null, because there are  *
+       * several places below where this.ranges[i] is dereferenced        *
+       * without first checking if it's null.                             *
+       *******************************************************************/
+      for (ExprNode element : this.ranges) {
+          if (element != null &&
+                  /*******************************************************************
+                   * It appears that this.ranges[i] is never null, because there are  *
+                   * several places below where this.ranges[i] is dereferenced        *
+                   * without first checking if it's null.                             *
+                   *******************************************************************/
+                  !element.levelCheck(itr)) {
 
-        this.levelCorrect = false;
+              this.levelCorrect = false;
+          }
       }
-    }
 
     // On 24 Oct 2012, LL Changed OpDefNode -> AnyDefNode so this
     // handles ThmnOrAssumpDefNodes as well as OpDefNodes.  See the
@@ -588,9 +597,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
           this.level = Math.max(this.level, this.operands[i].getLevel());
         }
       }
-      for (int i = 0; i < this.ranges.length; i++) {
-        this.level = Math.max(this.level, this.ranges[i].getLevel());
-      }
+        for (ExprNode item : this.ranges) {
+            this.level = Math.max(this.level, item.getLevel());
+        }
 
       /*********************************************************************
       * Compute this.levelParams, this.allParams, and                      *
@@ -619,11 +628,11 @@ public class OpApplNode extends ExprNode implements ExploreNode {
           this.nonLeibnizParams.addAll(this.operands[i].getAllParams());
          }
       }
-      for (int i = 0; i < this.ranges.length; i++) {
-        this.levelParams.addAll(this.ranges[i].getLevelParams());
-        this.allParams.addAll(this.ranges[i].getAllParams());
-        this.nonLeibnizParams.addAll(this.ranges[i].getNonLeibnizParams());
-      }
+        for (ExprNode value : this.ranges) {
+            this.levelParams.addAll(value.getLevelParams());
+            this.allParams.addAll(value.getAllParams());
+            this.nonLeibnizParams.addAll(value.getNonLeibnizParams());
+        }
 
       /*********************************************************************
       * Set allBoundSymbols to a hashset containing all the                *
@@ -634,11 +643,11 @@ public class OpApplNode extends ExprNode implements ExploreNode {
         allBoundSymbols.addAll(Arrays.asList(this.unboundedBoundSymbols));
        }
         if (this.boundedBoundSymbols != null) {
-        for (int i = 0 ; i < this.boundedBoundSymbols.length; i++){
-          if (this.boundedBoundSymbols[i] != null) {
-            allBoundSymbols.addAll(Arrays.asList(this.boundedBoundSymbols[i]));
-           }
-         }
+            for (FormalParamNode[] boundedBoundSymbol : this.boundedBoundSymbols) {
+                if (boundedBoundSymbol != null) {
+                    allBoundSymbols.addAll(Arrays.asList(boundedBoundSymbol));
+                }
+            }
        }
 
         /*********************************************************************
@@ -656,35 +665,43 @@ public class OpApplNode extends ExprNode implements ExploreNode {
       * Compute this.levelConstraints.                                     *
       *********************************************************************/
       this.levelConstraints.putAll(opDef.getLevelConstraints());
-      for (int i = 0; i < this.operands.length; i++) {
-        if (this.operands[i] != null) {
-          if (allBoundSymbols.size() == 0) {
-              this.levelConstraints.putAll(
-                 this.operands[i].getLevelConstraints());
-           }
-          else {
-            /***************************************************************
-            * There are bound identifiers, so we add a levelConstraint of  *
-            * the operand to this.levelConstraints iff it is not a         *
-            * constraint on a bound symbol.                                *
-            *                                                              *
-            * Note: this method of iterating over the elements of a        *
-            * SetOfLevelConstraints copied from the toString() method in   *
-            * SetOfLevelConstraints.java.                                  *
-            ***************************************************************/
-            final SetOfLevelConstraints lcons =
-               this.operands[i].getLevelConstraints() ;
-              for (SymbolNode param : lcons.keySet()) {
-                  if (!allBoundSymbols.contains(param)) {
-                      this.levelConstraints.put(param, lcons.get(param));
-                  }
-              } // while
-           } // else
-        } // if (this.operands[i] != null)
-      } // for i
-      for (int i = 0; i < this.ranges.length; i++) {
-        this.levelConstraints.putAll(this.ranges[i].getLevelConstraints());
-      }
+        /***************************************************************
+         * There are bound identifiers, so we add a levelConstraint of  *
+         * the operand to this.levelConstraints iff it is not a         *
+         * constraint on a bound symbol.                                *
+         *                                                              *
+         * Note: this method of iterating over the elements of a        *
+         * SetOfLevelConstraints copied from the toString() method in   *
+         * SetOfLevelConstraints.java.                                  *
+         ***************************************************************/
+        for (ExprOrOpArgNode orOpArgNode : this.operands) {
+            if (orOpArgNode != null) {
+                if (allBoundSymbols.size() == 0) {
+                    this.levelConstraints.putAll(
+                            orOpArgNode.getLevelConstraints());
+                } else {
+                    /***************************************************************
+                     * There are bound identifiers, so we add a levelConstraint of  *
+                     * the operand to this.levelConstraints iff it is not a         *
+                     * constraint on a bound symbol.                                *
+                     *                                                              *
+                     * Note: this method of iterating over the elements of a        *
+                     * SetOfLevelConstraints copied from the toString() method in   *
+                     * SetOfLevelConstraints.java.                                  *
+                     ***************************************************************/
+                    final SetOfLevelConstraints lcons =
+                            orOpArgNode.getLevelConstraints();
+                    for (SymbolNode param : lcons.keySet()) {
+                        if (!allBoundSymbols.contains(param)) {
+                            this.levelConstraints.put(param, lcons.get(param));
+                        }
+                    } // while
+                } // else
+            } // if (this.operands[i] != null)
+        } // for i
+        for (ExprNode node : this.ranges) {
+            this.levelConstraints.putAll(node.getLevelConstraints());
+        }
       for (int i = 0; i < this.operands.length; i++) {
         final Integer mlevel = opDef.getMaxLevel(i);
         if (this.operands[i] != null) {
@@ -766,15 +783,15 @@ public class OpApplNode extends ExprNode implements ExploreNode {
       * Compute this.argLevelConstraints.                                  *
       *********************************************************************/
       this.argLevelConstraints.putAll(opDef.getArgLevelConstraints());
-      for (int i = 0; i < this.operands.length; i++) {
-        if (this.operands[i] != null) {
-          this.argLevelConstraints.putAll(
-                         this.operands[i].getArgLevelConstraints());
+        for (ExprOrOpArgNode exprOrOpArgNode : this.operands) {
+            if (exprOrOpArgNode != null) {
+                this.argLevelConstraints.putAll(
+                        exprOrOpArgNode.getArgLevelConstraints());
+            }
         }
-      }
-      for (int i = 0; i < this.ranges.length; i++) {
-        this.argLevelConstraints.putAll(this.ranges[i].getArgLevelConstraints());
-      }
+        for (ExprNode exprNode : this.ranges) {
+            this.argLevelConstraints.putAll(exprNode.getArgLevelConstraints());
+        }
       for (int i = 0; i < this.operands.length; i++) {
         final ExprOrOpArgNode opdi = this.operands[i];
         if (opdi instanceof OpArgNode &&
@@ -815,30 +832,36 @@ public class OpApplNode extends ExprNode implements ExploreNode {
       * Compute this.argLevelParams.                                       *
       *********************************************************************/
       this.argLevelParams = new HashSet<>();
-      for (int i = 0; i < this.operands.length; i++) {
-        if (this.operands[i] != null) {
-          if (allBoundSymbols.size() == 0) {
-            this.argLevelParams.addAll(this.operands[i].getArgLevelParams());
-           }
-          else {
-            /***************************************************************
-            * There are bound identifiers, so we add an ArgLevelParam alp  *
-            * of the operand to this.argLevelParams iff alp.param is not   *
-            * a bound identifier.  For now at least, we will not add to    *
-            * argLevelConstraints the element implied as described above   *
-            * if alp.param IS a bound identifier.                          *
-            ***************************************************************/
-              for (ArgLevelParam alp : this.operands[i].getArgLevelParams()) {
-                  if (!allBoundSymbols.contains(alp.param)) {
-                      this.argLevelParams.add(alp);
-                  }
-              }
-          }
+        /***************************************************************
+         * There are bound identifiers, so we add an ArgLevelParam alp  *
+         * of the operand to this.argLevelParams iff alp.param is not   *
+         * a bound identifier.  For now at least, we will not add to    *
+         * argLevelConstraints the element implied as described above   *
+         * if alp.param IS a bound identifier.                          *
+         ***************************************************************/
+        for (ExprOrOpArgNode operand : this.operands) {
+            if (operand != null) {
+                if (allBoundSymbols.size() == 0) {
+                    this.argLevelParams.addAll(operand.getArgLevelParams());
+                } else {
+                    /***************************************************************
+                     * There are bound identifiers, so we add an ArgLevelParam alp  *
+                     * of the operand to this.argLevelParams iff alp.param is not   *
+                     * a bound identifier.  For now at least, we will not add to    *
+                     * argLevelConstraints the element implied as described above   *
+                     * if alp.param IS a bound identifier.                          *
+                     ***************************************************************/
+                    for (ArgLevelParam alp : operand.getArgLevelParams()) {
+                        if (!allBoundSymbols.contains(alp.param)) {
+                            this.argLevelParams.add(alp);
+                        }
+                    }
+                }
+            }
         }
-      }
-        for (int i = 0; i < this.ranges.length; i++) {
-        this.argLevelParams.addAll(this.ranges[i].getArgLevelParams());
-      }
+        for (ExprNode range : this.ranges) {
+            this.argLevelParams.addAll(range.getArgLevelParams());
+        }
         iter = alpSet.iterator();
       while (iter.hasNext()) {
         final ArgLevelParam alp = iter.next();
@@ -895,10 +918,10 @@ public class OpApplNode extends ExprNode implements ExploreNode {
         * Need to invoke levelCheck before invoking getLevel.              *
         *******************************************************************/
       this.level = this.operator.getLevel();
-      for (int i = 0; i < this.operands.length; i++) {
-        this.operands[i].levelCheck(itr) ;
-        this.level = Math.max(this.level, this.operands[i].getLevel());
-      } // for
+        for (ExprOrOpArgNode orOpArgNode : this.operands) {
+            orOpArgNode.levelCheck(itr);
+            this.level = Math.max(this.level, orOpArgNode.getLevel());
+        } // for
 
       this.levelParams = new HashSet<>();
       /*********************************************************************
@@ -911,20 +934,20 @@ public class OpApplNode extends ExprNode implements ExploreNode {
       * Add to levelParams, allParams, and nonLeibnizParams the            *
       * corresponding parameters of the operands.                          *
       *********************************************************************/
-      for (int i = 0; i < this.operands.length; i++) {
-        this.levelParams.addAll(this.operands[i].getLevelParams());
-        this.allParams.addAll(this.operands[i].getAllParams());
-        this.nonLeibnizParams.addAll(this.operands[i].getNonLeibnizParams());
-      }
+        for (ExprOrOpArgNode exprOrOpArgNode : this.operands) {
+            this.levelParams.addAll(exprOrOpArgNode.getLevelParams());
+            this.allParams.addAll(exprOrOpArgNode.getAllParams());
+            this.nonLeibnizParams.addAll(exprOrOpArgNode.getNonLeibnizParams());
+        }
 
       /*********************************************************************
       * Set levelConstraints to the union of the levelConstraints of the   *
       * operands.                                                          *
       *********************************************************************/
       this.levelConstraints = new SetOfLevelConstraints();
-      for (int i = 0; i < this.operands.length; i++) {
-        this.levelConstraints.putAll(this.operands[i].getLevelConstraints());
-      }
+        for (ExprOrOpArgNode operand : this.operands) {
+            this.levelConstraints.putAll(operand.getLevelConstraints());
+        }
 
       this.argLevelConstraints = new SetOfArgLevelConstraints();
       for (int i = 0; i < this.operands.length; i++) {
@@ -1064,13 +1087,13 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     if (    (this.level == TemporalLevel)
         && (   opName.equals("$BoundedExists")
             || opName.equals("$BoundedForall"))) {
-      for (int i = 0; i < this.ranges.length; i++) {
-          if (this.ranges[i].getLevel() == ActionLevel) {
-              errors.addError(
-                 this.ranges[i].stn.getLocation(),
-                 "Action-level bound of quantified temporal formula.");
+        for (ExprNode range : this.ranges) {
+            if (range.getLevel() == ActionLevel) {
+                errors.addError(
+                        range.stn.getLocation(),
+                        "Action-level bound of quantified temporal formula.");
             }
-          }
+        }
 
     }
 
@@ -1137,30 +1160,28 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     }
 
     if (unboundedBoundSymbols != null && unboundedBoundSymbols.length > 0) {
-      for (int i = 0; i < unboundedBoundSymbols.length; i++)
-        if (unboundedBoundSymbols[i] != null)
-           unboundedBoundSymbols[i].walkGraph(semNodesTable, visitor);
+        for (FormalParamNode unboundedBoundSymbol : unboundedBoundSymbols)
+            if (unboundedBoundSymbol != null)
+                unboundedBoundSymbol.walkGraph(semNodesTable, visitor);
     }
 
     if (operands != null && operands.length > 0) {
-      for (int i = 0; i < operands.length; i++)
-        if (operands[i] != null) operands[i].walkGraph(semNodesTable, visitor);
+        for (ExprOrOpArgNode operand : operands) if (operand != null) operand.walkGraph(semNodesTable, visitor);
     }
 
     if (ranges.length > 0) {
-      for (int i = 0; i < ranges.length; i++)
-        if (ranges[i] != null) ranges[i].walkGraph(semNodesTable, visitor);
+        for (ExprNode range : ranges) if (range != null) range.walkGraph(semNodesTable, visitor);
     }
 
     if (boundedBoundSymbols != null && boundedBoundSymbols.length > 0) {
-      for (int i = 0; i < boundedBoundSymbols.length; i++) {
-        if (boundedBoundSymbols[i] != null && boundedBoundSymbols[i].length > 0) {
-          for (int j = 0; j < boundedBoundSymbols[i].length; j++) {
-            if (boundedBoundSymbols[i][j] != null)
-               boundedBoundSymbols[i][j].walkGraph(semNodesTable, visitor);
-          }
+        for (FormalParamNode[] boundedBoundSymbol : boundedBoundSymbols) {
+            if (boundedBoundSymbol != null && boundedBoundSymbol.length > 0) {
+                for (int j = 0; j < boundedBoundSymbol.length; j++) {
+                    if (boundedBoundSymbol[j] != null)
+                        boundedBoundSymbol[j].walkGraph(semNodesTable, visitor);
+                }
+            }
         }
-      }
     }
     visitor.postVisit(this);
   }
@@ -1180,9 +1201,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
 
     if (unboundedBoundSymbols!=null && unboundedBoundSymbols.length > 0) {
       ret.append("\nUnbounded bound symbols:  ");
-      for (int i = 0; i < unboundedBoundSymbols.length; i++) {
-        ret.append(Strings.indent(2, unboundedBoundSymbols[i].toString(depth - 1)));
-      }
+        for (FormalParamNode unboundedBoundSymbol : unboundedBoundSymbols) {
+            ret.append(Strings.indent(2, unboundedBoundSymbol.toString(depth - 1)));
+        }
     }
 
     if (boundedBoundSymbols != null && boundedBoundSymbols.length > 0) {
@@ -1199,25 +1220,25 @@ public class OpApplNode extends ExprNode implements ExploreNode {
 
     if (ranges.length > 0) {
       ret.append("\nRanges: ");
-      for (int i = 0; i < ranges.length; i++)
-        ret.append(Strings.indent(2, (ranges[i] != null ?
-                ranges[i].toString(depth - 1) : "null")));
+        for (ExprNode range : ranges)
+            ret.append(Strings.indent(2, (range != null ?
+                    range.toString(depth - 1) : "null")));
     }
 
     if (tupleOrs != null && tupleOrs.length > 0 /* && tupleOrs[0] */) {
       ret.append("\nTupleOrs:   ");
-      for (int i = 0; i < tupleOrs.length; i++) {
-        ret.append(Strings.indent(2, (tupleOrs[i] ? "\ntrue" : "\nfalse")));
-      }
+        for (boolean tupleOr : tupleOrs) {
+            ret.append(Strings.indent(2, (tupleOr ? "\ntrue" : "\nfalse")));
+        }
     }
 
     if (operands != null) {
       if (operands.length > 0) {
         ret.append("\nOperands: ").append(operands.length);
-        for (int i = 0; i < operands.length; i++) {
-          ret.append(Strings.indent(2,
-                  (operands[i] == null ? "\nnull" : operands[i].toString(depth - 1))));
-        }
+          for (ExprOrOpArgNode operand : operands) {
+              ret.append(Strings.indent(2,
+                      (operand == null ? "\nnull" : operand.toString(depth - 1))));
+          }
       }
     }
     else {

@@ -1108,17 +1108,17 @@ public boolean addLabel(final LabelNode odn) {
     }
 
     this.levelConstraints = (SetOfLevelConstraints)lcSet.clone();
-    for (int i = 0; i < this.params.length; i++) {
-      this.levelConstraints.remove(this.params[i]);
-    }
+      for (FormalParamNode formalParamNode : this.params) {
+          this.levelConstraints.remove(formalParamNode);
+      }
 
     this.argLevelConstraints = (SetOfArgLevelConstraints)alcSet.clone();
-    for (int i = 0; i < this.params.length; i++) {
-      final int alen = this.params[i].getArity();
-      for (int j = 0; j < alen; j++) {
-        this.argLevelConstraints.remove(new ParamAndPosition(this.params[i], j));
+      for (FormalParamNode param : this.params) {
+          final int alen = param.getArity();
+          for (int j = 0; j < alen; j++) {
+              this.argLevelConstraints.remove(new ParamAndPosition(param, j));
+          }
       }
-    }
 
 //    this.argLevelParams = new HashSet();
       for (ArgLevelParam alp : alpSet) {
@@ -1234,19 +1234,21 @@ public boolean addLabel(final LabelNode odn) {
         StringBuilder opLevelCondStr = new StringBuilder();
       if (opLevelCond != null) {
         opLevelCondStr = new StringBuilder("[");
-        for (int i = 0; i < opLevelCond.length; i++) {
-          opLevelCondStr.append(" [");
-          for (int j = 0; j < opLevelCond[i].length; j++) {
-            opLevelCondStr.append(" [");
-            for (int k = 0; k < opLevelCond[i][j].length; k++) {
-               String foo = " " ;
-               if (k==0) {foo = "";}
-               opLevelCondStr.append(foo).append(this.opLevelCond[i][j][k]);
-             } // for k
-            opLevelCondStr.append("]");
-           } // for j
-          opLevelCondStr.append("]");
-         } // for i
+          for (boolean[][] booleans : opLevelCond) {
+              opLevelCondStr.append(" [");
+              for (int j = 0; j < booleans.length; j++) {
+                  opLevelCondStr.append(" [");
+                  for (int k = 0; k < booleans[j].length; k++) {
+                      String foo = " ";
+                      if (k == 0) {
+                          foo = "";
+                      }
+                      opLevelCondStr.append(foo).append(booleans[j][k]);
+                  } // for k
+                  opLevelCondStr.append("]");
+              } // for j
+              opLevelCondStr.append("]");
+          } // for i
         opLevelCondStr.append("]");
        } // if (opLevelCond != null)
       return "Arity: "               + this.arity                    + "\n" +
@@ -1290,9 +1292,9 @@ public boolean addLabel(final LabelNode odn) {
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
     if (params != null && params.length > 0) {
-      for (int i = 0; i < params.length; i++) {
-        if (params[i] != null) params[i].walkGraph(semNodesTable, visitor);
-      }
+        for (FormalParamNode param : params) {
+            if (param != null) param.walkGraph(semNodesTable, visitor);
+        }
     }
     if (body != null) body.walkGraph(semNodesTable, visitor);
     if (stepNode != null) stepNode.walkGraph(semNodesTable, visitor);
@@ -1361,11 +1363,11 @@ public boolean addLabel(final LabelNode odn) {
 //     else {ret = ret + nextDependency.getName().toString();} ;
     if (params != null) {
       StringBuilder tempString = new StringBuilder("\n  Formal params: " + params.length);
-      for (int i = 0; i < params.length; i++) {
-        tempString.append(Strings.indent(4, ((params[i] != null)
-                ? params[i].toString(depth - 1)
-                : "\nnull")));
-      }
+        for (FormalParamNode param : params) {
+            tempString.append(Strings.indent(4, ((param != null)
+                    ? param.toString(depth - 1)
+                    : "\nnull")));
+        }
       ret.append(tempString);
     }
     else {

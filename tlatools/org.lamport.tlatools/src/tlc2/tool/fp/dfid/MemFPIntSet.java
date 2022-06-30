@@ -86,11 +86,11 @@ public class MemFPIntSet extends FPIntSet {
   public final synchronized long sizeof() {
     long size = 28; // 8 (ptr table) + 8 (long count) + 8 (long threshold) + 4 (int mask)
     size += 16 + (this.table.length * 8L); // for this.table
-    for (int i = 0; i < this.table.length; i++) {
-      if (this.table[i] != null) {
-	size += 16 + (this.table[i].length * 4L);
+      for (int[] ints : this.table) {
+          if (ints != null) {
+              size += 16 + (ints.length * 4L);
+          }
       }
-    }
     return size;
   }
 
@@ -174,16 +174,15 @@ public class MemFPIntSet extends FPIntSet {
 
   @Override
   public final boolean allLeveled() {
-    for (int i = 0; i < this.table.length; i++) {
-      final int[] bucket = this.table[i];
-      if (bucket != null) {
-	for (int j = 0; j < bucket.length; j += 3) {
-	  if ((bucket[j+2] & LeveledMask) != Leveled) {
-	    return false;
-	  }
-	}
+      for (final int[] bucket : this.table) {
+          if (bucket != null) {
+              for (int j = 0; j < bucket.length; j += 3) {
+                  if ((bucket[j + 2] & LeveledMask) != Leveled) {
+                      return false;
+                  }
+              }
+          }
       }
-    }
     return true;
   }
   
@@ -305,14 +304,13 @@ public class MemFPIntSet extends FPIntSet {
   public final void beginChkpt(final String fname) throws IOException {
     final BufferedDataOutputStream dos =
       new BufferedDataOutputStream(this.chkptName(fname, "tmp"));
-    for (int i = 0; i < this.table.length; i++) {
-      final int[] bucket = this.table[i];
-      if (bucket != null) {
-	for (int j = 0; j < bucket.length; j++) {
-	  dos.writeInt(bucket[j]);
-	}
+      for (final int[] bucket : this.table) {
+          if (bucket != null) {
+              for (int k : bucket) {
+                  dos.writeInt(k);
+              }
+          }
       }
-    }
     dos.close();
   }
       

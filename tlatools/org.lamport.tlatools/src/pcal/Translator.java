@@ -104,13 +104,13 @@ public class Translator
 	public List<Error> getErrors() {
 		final String[] messages = ToolIO.getAllMessages();
 		final Vector<Error> errorMessages = new Vector<>();
-		for (int i = 0; i < messages.length; i++) {
-			final int position = messages[i].indexOf(PcalDebug.UNRECOVERABLE_ERROR);
-			if (position != -1) {
-				errorMessages.add(new Error(messages[i].substring(position,
-						messages[i].length() - PcalDebug.ERROR_POSTFIX.length())));
-			}
-		}
+        for (String message : messages) {
+            final int position = message.indexOf(PcalDebug.UNRECOVERABLE_ERROR);
+            if (position != -1) {
+                errorMessages.add(new Error(message.substring(position,
+                        message.length() - PcalDebug.ERROR_POSTFIX.length())));
+            }
+        }
 		return errorMessages;
 	}
 	

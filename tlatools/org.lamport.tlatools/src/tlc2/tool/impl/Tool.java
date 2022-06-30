@@ -322,10 +322,10 @@ public abstract class Tool
             final FormalParamNode[] formals = opDef.getParams();
             final int alen = args.length;
             int argLevel = 0;
-            for (int i = 0; i < alen; i++) {
-              argLevel = args[i].getLevel();
-              if (argLevel != 0) break;
-            }
+              for (ExprOrOpArgNode arg : args) {
+                  argLevel = arg.getLevel();
+                  if (argLevel != 0) break;
+              }
             if (argLevel == 0) {
               Context con1 = con;
               for (int i = 0; i < alen; i++) {
@@ -852,9 +852,9 @@ public abstract class Tool
   
   @Override
   public boolean getNextStates(final INextStateFunctor functor, final TLCState state) {
-	  for (int i = 0; i < actions.length; i++) {
-			this.getNextStates(functor, state, actions[i]);
-		}
+      for (Action action : actions) {
+          this.getNextStates(functor, state, action);
+      }
 		return false;
   }
 
@@ -910,10 +910,9 @@ public abstract class Tool
   	final Subst[] subs = pred1.getSubsts();
   	final int slen = subs.length;
   	Context c1 = c;
-  	for (int i = 0; i < slen; i++) {
-  	  final Subst sub = subs[i];
-  	  c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, coverage ? sub.getCM() : cm, toolId));
-  	}
+      for (final Subst sub : subs) {
+          c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, coverage ? sub.getCM() : cm, toolId));
+      }
   	return this.getNextStates(action, pred1.getBody(), acts, c1, s0, s1, nss, cm);
   }
   
@@ -922,10 +921,9 @@ public abstract class Tool
   	final Subst[] subs = pred1.getSubsts();
   	final int slen = subs.length;
   	Context c1 = c;
-  	for (int i = 0; i < slen; i++) {
-  	  final Subst sub = subs[i];
-  	  c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, cm, toolId));
-  	}
+      for (final Subst sub : subs) {
+          c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, cm, toolId));
+      }
   	return this.getNextStates(action, pred1.getBody(), acts, c1, s0, s1, nss, cm);
   }
   
@@ -1698,13 +1696,12 @@ public abstract class Tool
 	final OpDefNode[] letDefs = expr1.getLets();
 	final int letLen = letDefs.length;
 	Context c1 = c;
-	for (int i = 0; i < letLen; i++) {
-	  final OpDefNode opDef = letDefs[i];
-	  if (opDef.getArity() == 0) {
-	    final Value rhs = new LazyValue(opDef.getBody(), c1, cm);
-	    c1 = c1.cons(opDef, rhs);
-	  }
-	}
+      for (final OpDefNode opDef : letDefs) {
+          if (opDef.getArity() == 0) {
+              final Value rhs = new LazyValue(opDef.getBody(), c1, cm);
+              c1 = c1.cons(opDef, rhs);
+          }
+      }
 	return this.eval(expr1.getBody(), c1, s0, s1, control, cm);
   }
 
@@ -1713,10 +1710,9 @@ public abstract class Tool
   	final Subst[] subs = expr1.getSubsts();
   	final int slen = subs.length;
   	Context c1 = c;
-  	for (int i = 0; i < slen; i++) {
-  	  final Subst sub = subs[i];
-  	  c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, coverage ? sub.getCM() : cm, toolId));
-  	}
+      for (final Subst sub : subs) {
+          c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, coverage ? sub.getCM() : cm, toolId));
+      }
   	return this.eval(expr1.getBody(), c1, s0, s1, control, cm);
   }
     
@@ -1725,10 +1721,9 @@ public abstract class Tool
   	final Subst[] subs = expr1.getSubsts();
   	final int slen = subs.length;
   	Context c1 = c;
-  	for (int i = 0; i < slen; i++) {
-  	  final Subst sub = subs[i];
-  	  c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, cm, toolId));
-  	}
+      for (final Subst sub : subs) {
+          c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, cm, toolId));
+      }
   	return this.eval(expr1.getBody(), c1, s0, s1, control, cm);
   }
   
@@ -2698,23 +2693,23 @@ public abstract class Tool
   @Override
   public final boolean isInModel(final TLCState state) throws EvalException {
     final ExprNode[] constrs = this.getModelConstraints();
-    for (int i = 0; i < constrs.length; i++) {
-      final CostModel cm = coverage ? ((Action) constrs[i].getToolObject(toolId)).cm : CostModel.DO_NOT_RECORD;
-      final IValue bval = this.eval(constrs[i], Context.Empty, state, cm);
-      if (!(bval instanceof BoolValue)) {
-        Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", constrs[i].toString()}, constrs[i]);
+      for (ExprNode constr : constrs) {
+          final CostModel cm = coverage ? ((Action) constr.getToolObject(toolId)).cm : CostModel.DO_NOT_RECORD;
+          final IValue bval = this.eval(constr, Context.Empty, state, cm);
+          if (!(bval instanceof BoolValue)) {
+              Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", constr.toString()}, constr);
+          }
+          if (!((BoolValue) bval).val) {
+              if (coverage) {
+                  cm.incInvocations();
+              }
+              return false;
+          } else {
+              if (coverage) {
+                  cm.incSecondary();
+              }
+          }
       }
-      if (!((BoolValue)bval).val) {
-  		  if (coverage) {
-  			  cm.incInvocations();
-		  }
-    	  return false;
-      } else {
-  		  if (coverage) {
-  			  cm.incSecondary();
-		  }
-      }
-    }
     return true;
   }
 
@@ -2722,23 +2717,23 @@ public abstract class Tool
   @Override
   public final boolean isInActions(final TLCState s1, final TLCState s2) throws EvalException {
     final ExprNode[] constrs = this.getActionConstraints();
-    for (int i = 0; i < constrs.length; i++) {
-      final CostModel cm = coverage ? ((Action) constrs[i].getToolObject(toolId)).cm : CostModel.DO_NOT_RECORD;
-      final Value bval = this.eval(constrs[i], Context.Empty, s1, s2, EvalControl.Clear, cm);
-      if (!(bval instanceof BoolValue)) {
-        Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", constrs[i].toString()}, constrs[i]);
+      for (ExprNode constr : constrs) {
+          final CostModel cm = coverage ? ((Action) constr.getToolObject(toolId)).cm : CostModel.DO_NOT_RECORD;
+          final Value bval = this.eval(constr, Context.Empty, s1, s2, EvalControl.Clear, cm);
+          if (!(bval instanceof BoolValue)) {
+              Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", constr.toString()}, constr);
+          }
+          if (!((BoolValue) bval).val) {
+              if (coverage) {
+                  cm.incInvocations();
+              }
+              return false;
+          } else {
+              if (coverage) {
+                  cm.incSecondary();
+              }
+          }
       }
-      if (!((BoolValue)bval).val) {
-  		  if (coverage) {
-			  cm.incInvocations();
-		  }
-    	  return false;
-      } else {
-  		  if (coverage) {
-  			  cm.incSecondary();
-		  }
-      }
-    }
     return true;
   }
   
@@ -3439,20 +3434,19 @@ public abstract class Tool
 	private final int checkPostConditionWithContext(final Context ctxt) {
 		// User request: http://discuss.tlapl.us/msg03658.html
 		final ExprNode[] postConditions = getPostConditionSpecs();
-		for (int i = 0; i < postConditions.length; i++) {
-			final ExprNode en = postConditions[i];
-			try {
-				if (!isValid(en, ctxt)) {
-					// It's not an assumption because the expression doesn't appear inside
-					// an ASSUME, but good enough for this prototype.
-					return MP.printError(EC.TLC_ASSUMPTION_FALSE, en.toString());
-				}
-			} catch (final Exception e) {
-				// tool.isValid(sn) failed to evaluate...
-				return MP.printError(EC.TLC_ASSUMPTION_EVALUATION_ERROR,
-						new String[] { en.toString(), e.getMessage() });
-			}
-		}
+        for (final ExprNode en : postConditions) {
+            try {
+                if (!isValid(en, ctxt)) {
+                    // It's not an assumption because the expression doesn't appear inside
+                    // an ASSUME, but good enough for this prototype.
+                    return MP.printError(EC.TLC_ASSUMPTION_FALSE, en.toString());
+                }
+            } catch (final Exception e) {
+                // tool.isValid(sn) failed to evaluate...
+                return MP.printError(EC.TLC_ASSUMPTION_EVALUATION_ERROR,
+                        new String[]{en.toString(), e.getMessage()});
+            }
+        }
 		// The PostCheckAssumption/PostCondition cannot be stated as an ordinary
 		// invariant
 		// with the help of TLCSet/Get because the invariant will only be evaluated for
@@ -3536,19 +3530,18 @@ public abstract class Tool
   @Override
   public final TLCStateInfo getState(final long fp, final TLCState s) {
 	  IdThread.setCurrentState(s);
-    for (int i = 0; i < this.actions.length; i++) {
-      final Action curAction = this.actions[i];
-      final StateVec nextStates = this.getNextStates(curAction, s);
-      for (int j = 0; j < nextStates.size(); j++) {
-        final TLCState state = nextStates.elementAt(j);
-        final long nfp = state.fingerPrint();
-        if (fp == nfp) {
-        	state.setPredecessor(s);
-        	assert !state.isInitial();
-          return new TLCStateInfo(state, curAction);
-        }
+      for (final Action curAction : this.actions) {
+          final StateVec nextStates = this.getNextStates(curAction, s);
+          for (int j = 0; j < nextStates.size(); j++) {
+              final TLCState state = nextStates.elementAt(j);
+              final long nfp = state.fingerPrint();
+              if (fp == nfp) {
+                  state.setPredecessor(s);
+                  assert !state.isInitial();
+                  return new TLCStateInfo(state, curAction);
+              }
+          }
       }
-    }
     return null;
   }
 
@@ -3556,18 +3549,17 @@ public abstract class Tool
   @Override
   public final TLCStateInfo getState(final TLCState s1, final TLCState s) {
 	  IdThread.setCurrentState(s);
-    for (int i = 0; i < this.actions.length; i++) {
-      final Action curAction = this.actions[i];
-      final StateVec nextStates = this.getNextStates(curAction, s);
-      for (int j = 0; j < nextStates.size(); j++) {
-        final TLCState state = nextStates.elementAt(j);
-        if (s1.equals(state)) {
-        	state.setPredecessor(s);
-        	assert !state.isInitial();
-          return new TLCStateInfo(state, curAction);
-        }
+      for (final Action curAction : this.actions) {
+          final StateVec nextStates = this.getNextStates(curAction, s);
+          for (int j = 0; j < nextStates.size(); j++) {
+              final TLCState state = nextStates.elementAt(j);
+              if (s1.equals(state)) {
+                  state.setPredecessor(s);
+                  assert !state.isInitial();
+                  return new TLCStateInfo(state, curAction);
+              }
+          }
       }
-    }
     return null;
   }
 
@@ -3793,15 +3785,15 @@ public abstract class Tool
           }
         }
         else {
-          for (int j = 0; j < ids.length; j++) {
-            if (!domain.member(elems[argn])) {
-              Assert.fail("In applying the function\n" + Values.ppr(fcn.toString()) +
-                          ",\nthe argument number " + (argn+1) + " is:\n" +
-                          Values.ppr(elems[argn].toString()) +
-                          "which is not in its domain.\n" + args[0], args[0], c);
+            for (FormalParamNode id : ids) {
+                if (!domain.member(elems[argn])) {
+                    Assert.fail("In applying the function\n" + Values.ppr(fcn.toString()) +
+                            ",\nthe argument number " + (argn + 1) + " is:\n" +
+                            Values.ppr(elems[argn].toString()) +
+                            "which is not in its domain.\n" + args[0], args[0], c);
+                }
+                fcon = fcon.cons(id, elems[argn++]);
             }
-            fcon = fcon.cons(ids[j], elems[argn++]);
-          }
         }
       }
     }
@@ -3846,10 +3838,10 @@ public abstract class Tool
 	        enums[idx++] = ((Enumerable)boundSet).elements(ordering);
 	      }
 	      else {
-	        for (int j = 0; j < farg.length; j++) {
-	          vars[idx] = farg[j];
-	          enums[idx++] = ((Enumerable)boundSet).elements(ordering);
-	        }
+              for (FormalParamNode formalParamNode : farg) {
+                  vars[idx] = formalParamNode;
+                  enums[idx++] = ((Enumerable) boundSet).elements(ordering);
+              }
 	      }
 	    }
 	    return new ContextEnumerator(vars, enums, c);

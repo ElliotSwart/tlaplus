@@ -53,10 +53,8 @@ public class Bags implements ValueConstants
         	return BoolValue.ValFalse;
         }
         final Value[] vals = fcn.values;
-        for (int i = 0; i < vals.length; i++)
-        {
-            if (!(vals[i] instanceof IntValue) || ((IntValue) vals[i]).val <= 0)
-            {
+        for (Value val : vals) {
+            if (!(val instanceof IntValue) || ((IntValue) val).val <= 0) {
                 return BoolValue.ValFalse;
             }
         }
@@ -73,23 +71,18 @@ public class Bags implements ValueConstants
         }
         int num = 0;
         final Value[] vals = fcn.values;
-        for (int i = 0; i < vals.length; i++)
-        {
-            if (vals[i] instanceof IntValue)
-            {
-                final int cnt = ((IntValue) vals[i]).val;
-                if (cnt > 0)
-                {
-                    num += ((IntValue) vals[i]).val;
-                } else
-                {
-                    throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[] { "BagCardinality", "a bag",
-                            Values.ppr(b.toString()) });
+        for (Value val : vals) {
+            if (val instanceof IntValue) {
+                final int cnt = ((IntValue) val).val;
+                if (cnt > 0) {
+                    num += ((IntValue) val).val;
+                } else {
+                    throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[]{"BagCardinality", "a bag",
+                            Values.ppr(b.toString())});
                 }
-            } else
-            {
-            	throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[] { "BagCardinality", "a bag",
-                        Values.ppr(b.toString()) });
+            } else {
+                throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[]{"BagCardinality", "a bag",
+                        Values.ppr(b.toString())});
             }
         }
         return IntValue.gen(num);

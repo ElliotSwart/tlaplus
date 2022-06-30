@@ -73,13 +73,12 @@ public class BitVector implements Serializable {
 
   public int hashCode() {
     int res = 0;
-    for (int i = 0; i < this.word.length; i++) {
-      final long w = this.word[i];
-      if (w != 0) {
-	res ^= (int)(w & 0xffffL);
-	res ^= (int)(w >>> 32);
+      for (final long w : this.word) {
+          if (w != 0) {
+              res ^= (int) (w & 0xffffL);
+              res ^= (int) (w >>> 32);
+          }
       }
-    }
     return res;
   }
 
@@ -201,9 +200,9 @@ public class BitVector implements Serializable {
   public void write(final BufferedRandomAccessFile raf) throws IOException {
     final int len = this.word.length;
     raf.writeNat(len);
-    for (int i = 0; i < len; i++) {
-      raf.writeLong(this.word[i]);
-    }
+      for (long l : this.word) {
+          raf.writeLong(l);
+      }
   }
 
   /** Read a bit vector from a file */

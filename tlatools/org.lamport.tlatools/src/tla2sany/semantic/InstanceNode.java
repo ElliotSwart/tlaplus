@@ -145,125 +145,156 @@ public class InstanceNode extends LevelNode {
     if (!this.module.levelCheck(itr)) {
       this.levelCorrect = false;
     }
-    for (int i = 0; i < this.substs.length; i++ ) {
-      if (!this.substs[i].getExpr().levelCheck(itr)) {
-        this.levelCorrect = false;
+      for (Subst subst2 : this.substs) {
+          if (!subst2.getExpr().levelCheck(itr)) {
+              this.levelCorrect = false;
+          }
       }
-    }
 
     // Check constraints on the substitution.
-    for (int i = 0; i < this.substs.length; i++ ) {
-      final SymbolNode mparam = substs[i].getOp();
-      final ExprOrOpArgNode mexp = substs[i].getExpr();
-      mexp.levelCheck(itr) ;
-      mparam.levelCheck(itr);
-        /*****************************************************************
-        * Have to call levelCheck on these objects before calling        *
-        * getLevel.                                                      *
-        *****************************************************************/
+      /*****************************************************************
+       * Have to call levelCheck on these objects before calling        *
+       * getLevel.                                                      *
+       *****************************************************************/
       /*********************************************************************
-      * Check level constraints for a constant module.                     *
-      *********************************************************************/
-      if (!this.module.isConstant()) {
-        if (mexp.getLevel() > mparam.getLevel()) {
-          if (mexp.levelCheck(itr) && mparam.levelCheck(itr)) {
-            errors.addError(
-               this.stn.getLocation(),
-               "Level error in instantiating module '" + module.getName() +
-               "':\nThe level of the expression or operator substituted for '"
-                   + mparam.getName() +
-               "' \nmust be at most " + mparam.getLevel() + ".");
-          }
-          this.levelCorrect = false;
-         } //  if (mexp.getLevel() > mparam.getLevel())
-       } // if (!this.module.isConstant())
+       * Check level constraints for a constant module.                     *
+       *********************************************************************/
+      /*******************************************************************
+       * For if mparam an operator parameter, check that mexp is          *
+       * Leibniz.                                                         *
+       *******************************************************************/
+      for (Subst subst1 : this.substs) {
+          final SymbolNode mparam = subst1.getOp();
+          final ExprOrOpArgNode mexp = subst1.getExpr();
+          mexp.levelCheck(itr);
+          mparam.levelCheck(itr);
+          /*****************************************************************
+           * Have to call levelCheck on these objects before calling        *
+           * getLevel.                                                      *
+           *****************************************************************/
+          /*********************************************************************
+           * Check level constraints for a constant module.                     *
+           *********************************************************************/
+          if (!this.module.isConstant()) {
+              if (mexp.getLevel() > mparam.getLevel()) {
+                  if (mexp.levelCheck(itr) && mparam.levelCheck(itr)) {
+                      errors.addError(
+                              this.stn.getLocation(),
+                              "Level error in instantiating module '" + module.getName() +
+                                      "':\nThe level of the expression or operator substituted for '"
+                                      + mparam.getName() +
+                                      "' \nmust be at most " + mparam.getLevel() + ".");
+                  }
+                  this.levelCorrect = false;
+              } //  if (mexp.getLevel() > mparam.getLevel())
+          } // if (!this.module.isConstant())
 
-        /*******************************************************************
-        * For if mparam an operator parameter, check that mexp is          *
-        * Leibniz.                                                         *
-        *******************************************************************/
-      if (mexp.getKind() == OpArgKind) {
-        final SymbolNode op = ((OpArgNode) mexp).getOp() ;
-        if (   (   (op.getKind() == UserDefinedOpKind)
-                || (op.getKind() == BuiltInKind))
-            && ( ! ((OpDefNode) op).isLeibniz)) {
-          errors.addError(
-               this.stn.getLocation(),
-               "Error in instantiating module '" + module.getName() +
-               "':\n A non-Leibniz operator substituted for '"
-                   + mparam.getName() + "'.");
-            } // if ;
-        } // if (mexp.getKind() == OpArgKind) ;
+          /*******************************************************************
+           * For if mparam an operator parameter, check that mexp is          *
+           * Leibniz.                                                         *
+           *******************************************************************/
+          if (mexp.getKind() == OpArgKind) {
+              final SymbolNode op = ((OpArgNode) mexp).getOp();
+              if (((op.getKind() == UserDefinedOpKind)
+                      || (op.getKind() == BuiltInKind))
+                      && (!((OpDefNode) op).isLeibniz)) {
+                  errors.addError(
+                          this.stn.getLocation(),
+                          "Error in instantiating module '" + module.getName() +
+                                  "':\n A non-Leibniz operator substituted for '"
+                                  + mparam.getName() + "'.");
+              } // if ;
+          } // if (mexp.getKind() == OpArgKind) ;
       } // for i
 
     SetOfLevelConstraints lcSet = this.module.getLevelConstraints();
     SetOfArgLevelConstraints alcSet = this.module.getArgLevelConstraints();
-    for (int i = 0; i < this.substs.length; i++ ) {
-      final SymbolNode mparam = substs[i].getOp();
-      final ExprOrOpArgNode mexp = substs[i].getExpr();
-        /*******************************************************************
-        * mexp was level-checked above.                                    *
-        *******************************************************************/
-      final Integer plevel = lcSet.get(mparam);
-      if (plevel != null &&
-          mexp.getLevel() > plevel) {
-        if (mexp.levelCheck(itr)) {
-          errors.addError(this.stn.getLocation(),
-            "Level error in instantiating module '" + module.getName() +
-            "':\nThe level of the expression or operator substituted for '" +
-            mparam.getName() + "' \nmust be at most " + plevel + ".");
-        }
-        this.levelCorrect = false;
-      }
-
-      final int alen = mparam.getArity();
-      if (alen > 0 && ((OpArgNode) mexp).getOp() instanceof final OpDefNode opDef) {
-          for (int j = 0; j < alen; j++) {
-          final ParamAndPosition pap = new ParamAndPosition(mparam, j);
-          final Integer alevel = alcSet.get(pap);
-          final boolean opDefLevelCheck = opDef.levelCheck(itr) ;
-            /***************************************************************
-            * Need to call opDef.levelCheck before calling                 *
-            * opDef.getMaxLevel.                                           *
-            ***************************************************************/
-          if (alevel != null &&
-              opDef.getMaxLevel(j) < alevel) {
-            if (opDefLevelCheck) {
-              /*************************************************************
-              * Apparently, we only bother reporting this error if level   *
-              * checking opDef didn't cause an error.                      *
-              *************************************************************/
-              errors.addError(
-                this.stn.getLocation(),
-                "Level error in instantiating module '" + module.getName() +
-                  "':\nThe level of the argument " + j + " of the operator " +
-                  opDef.getName() + " \nmust be at least " + plevel + ".");
-            }
-            this.levelCorrect = false;
+      /*******************************************************************
+       * mexp was level-checked above.                                    *
+       *******************************************************************/
+      /***************************************************************
+       * Need to call opDef.levelCheck before calling                 *
+       * opDef.getMaxLevel.                                           *
+       ***************************************************************/
+      /*************************************************************
+       * Apparently, we only bother reporting this error if level   *
+       * checking opDef didn't cause an error.                      *
+       *************************************************************/
+      for (Subst element : this.substs) {
+          final SymbolNode mparam = element.getOp();
+          final ExprOrOpArgNode mexp = element.getExpr();
+          /*******************************************************************
+           * mexp was level-checked above.                                    *
+           *******************************************************************/
+          final Integer plevel = lcSet.get(mparam);
+          if (plevel != null &&
+                  mexp.getLevel() > plevel) {
+              if (mexp.levelCheck(itr)) {
+                  errors.addError(this.stn.getLocation(),
+                          "Level error in instantiating module '" + module.getName() +
+                                  "':\nThe level of the expression or operator substituted for '" +
+                                  mparam.getName() + "' \nmust be at most " + plevel + ".");
+              }
+              this.levelCorrect = false;
           }
-        }
+
+          final int alen = mparam.getArity();
+          if (alen > 0 && ((OpArgNode) mexp).getOp() instanceof final OpDefNode opDef) {
+              for (int j = 0; j < alen; j++) {
+                  final ParamAndPosition pap = new ParamAndPosition(mparam, j);
+                  final Integer alevel = alcSet.get(pap);
+                  final boolean opDefLevelCheck = opDef.levelCheck(itr);
+                  /***************************************************************
+                   * Need to call opDef.levelCheck before calling                 *
+                   * opDef.getMaxLevel.                                           *
+                   ***************************************************************/
+                  if (alevel != null &&
+                          opDef.getMaxLevel(j) < alevel) {
+                      if (opDefLevelCheck) {
+                          /*************************************************************
+                           * Apparently, we only bother reporting this error if level   *
+                           * checking opDef didn't cause an error.                      *
+                           *************************************************************/
+                          errors.addError(
+                                  this.stn.getLocation(),
+                                  "Level error in instantiating module '" + module.getName() +
+                                          "':\nThe level of the argument " + j + " of the operator " +
+                                          opDef.getName() + " \nmust be at least " + plevel + ".");
+                      }
+                      this.levelCorrect = false;
+                  }
+              }
+          }
       }
-    }
 
       /************************************************************
        * Need to level check before calling op.getMaxLevel.        *
        ************************************************************/
       for (ArgLevelParam alp : this.module.getArgLevelParams()) {
-          for (int i = 0; i < this.substs.length; i++) {
-              final SymbolNode pi = this.substs[i].getOp();
-              for (int j = 0; j < this.substs.length; j++) {
+          /************************************************************
+           * Need to level check before calling op.getMaxLevel.        *
+           ************************************************************/
+          /************************************************************
+           * Need to level check before calling op.getMaxLevel.        *
+           ************************************************************/
+          for (Subst value : this.substs) {
+              final SymbolNode pi = value.getOp();
+              /************************************************************
+               * Need to level check before calling op.getMaxLevel.        *
+               ************************************************************/
+              for (Subst subst : this.substs) {
                   if (alp.op == pi &&
-                          alp.param == this.substs[j].getOp()) {
-                      final SymbolNode op = ((OpArgNode) this.substs[i].getExpr()).getOp();
+                          alp.param == subst.getOp()) {
+                      final SymbolNode op = ((OpArgNode) value.getExpr()).getOp();
                       final boolean opLevelCheck = op.levelCheck(itr);
                       /************************************************************
                        * Need to level check before calling op.getMaxLevel.        *
                        ************************************************************/
                       if (op instanceof OpDefNode &&
-                              this.substs[j].getExpr().getLevel() >
+                              subst.getExpr().getLevel() >
                                       ((OpDefNode) op).getMaxLevel(alp.i)) {
                           if (opLevelCheck &&
-                                  this.substs[j].getExpr().levelCheck(itr)) {
+                                  subst.getExpr().levelCheck(itr)) {
                               errors.addError(
                                       this.stn.getLocation(),
                                       "Level error when instantiating module '" +
@@ -293,16 +324,16 @@ public class InstanceNode extends LevelNode {
               this.levelConstraints.put(param, lcSet.get(param));
           }
       }
-    for (int i = 0; i < this.substs.length; i++) {
-      lcSet = this.substs[i].getExpr().getLevelConstraints();
-        Iterator<SymbolNode> lcIter = lcSet.keySet().iterator();
-      while (lcIter.hasNext()) {
-        final SymbolNode param = lcIter.next();
-        if (!param.occur(this.params)) {
-          this.levelConstraints.put(param, lcSet.get(param));
-        }
+      for (Subst item : this.substs) {
+          lcSet = item.getExpr().getLevelConstraints();
+          Iterator<SymbolNode> lcIter = lcSet.keySet().iterator();
+          while (lcIter.hasNext()) {
+              final SymbolNode param = lcIter.next();
+              if (!param.occur(this.params)) {
+                  this.levelConstraints.put(param, lcSet.get(param));
+              }
+          }
       }
-    }
 
 //    this.argLevelConstraints = new SetOfArgLevelConstraints();
     alcSet = Subst.getSubALCSet(this.module, this.substs, itr);
@@ -311,16 +342,16 @@ public class InstanceNode extends LevelNode {
               this.argLevelConstraints.put(pap, alcSet.get(pap));
           }
       }
-    for (int i = 0; i < this.substs.length; i++) {
-      alcSet = this.substs[i].getExpr().getArgLevelConstraints();
-        Iterator<ParamAndPosition> alcIter = alcSet.keySet().iterator();
-      while (alcIter.hasNext()) {
-        final ParamAndPosition pap = alcIter.next();
-        if (!pap.param.occur(this.params)) {
-          this.argLevelConstraints.put(pap, alcSet.get(pap));
-        }
+      for (Subst value : this.substs) {
+          alcSet = value.getExpr().getArgLevelConstraints();
+          Iterator<ParamAndPosition> alcIter = alcSet.keySet().iterator();
+          while (alcIter.hasNext()) {
+              final ParamAndPosition pap = alcIter.next();
+              if (!pap.param.occur(this.params)) {
+                  this.argLevelConstraints.put(pap, alcSet.get(pap));
+              }
+          }
       }
-    }
 
 //    this.argLevelParams = new HashSet();
     HashSet<ArgLevelParam> alpSet = Subst.getSubALPSet(this.module, this.substs);
@@ -334,16 +365,16 @@ public class InstanceNode extends LevelNode {
               this.argLevelParams.add(alp);
           }
       }
-    for (int i = 0; i < this.substs.length; i++) {
-      alpSet = this.substs[i].getExpr().getArgLevelParams();
-        Iterator<ArgLevelParam> alpIter = alpSet.iterator();
-      while (alpIter.hasNext()) {
-        final ArgLevelParam alp = alpIter.next();
-        if (!alp.occur(this.params)) {
-          this.argLevelParams.add(alp);
-        }
+      for (Subst subst : this.substs) {
+          alpSet = subst.getExpr().getArgLevelParams();
+          Iterator<ArgLevelParam> alpIter = alpSet.iterator();
+          while (alpIter.hasNext()) {
+              final ArgLevelParam alp = alpIter.next();
+              if (!alp.occur(this.params)) {
+                  this.argLevelParams.add(alp);
+              }
+          }
       }
-    }
     return this.levelCorrect;
   }
 
@@ -411,20 +442,20 @@ public class InstanceNode extends LevelNode {
             + Strings.indent(2, "\nlocal: " + this.local));
     if (params.length > 0) {
       ret.append(Strings.indent(2, "\nInstance parameters:"));
-      for ( int i = 0; i < params.length; i++ ) {
-        ret.append(Strings.indent(4, params[i].toString(depth - 1)));
-      }
+        for (FormalParamNode param : params) {
+            ret.append(Strings.indent(4, param.toString(depth - 1)));
+        }
     }
 
     if (substs.length > 0) {
       ret.append(Strings.indent(2, "\nSubstitutions:"));
-      for (int i = 0; i < substs.length; i++) {
-        ret.append(Strings.indent(2,
-                Strings.indent(2, "\nSubst:" +
-                        (substs[i] != null ?
-                                Strings.indent(2, substs[i].toString(depth - 1)) :
-                                "<null>"))));
-      }
+        for (Subst subst : substs) {
+            ret.append(Strings.indent(2,
+                    Strings.indent(2, "\nSubst:" +
+                            (subst != null ?
+                                    Strings.indent(2, subst.toString(depth - 1)) :
+                                    "<null>"))));
+        }
     }
     return ret.toString();
   }
@@ -433,13 +464,13 @@ public class InstanceNode extends LevelNode {
   protected Element getLevelElement(final Document doc, final tla2sany.xml.SymbolContext context) {
 
       final Element sbts = doc.createElement("substs");
-      for (int i=0; i<substs.length; i++) {
-        sbts.appendChild(substs[i].export(doc,context));
+      for (Subst subst : substs) {
+          sbts.appendChild(subst.export(doc, context));
       }
 
       final Element prms = doc.createElement("params");
-      for (int i=0; i<params.length; i++) {
-        prms.appendChild(params[i].export(doc,context));
+      for (FormalParamNode param : params) {
+          prms.appendChild(param.export(doc, context));
       }
 
       final Element ret = doc.createElement("InstanceNode");

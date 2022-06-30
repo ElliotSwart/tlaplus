@@ -119,8 +119,8 @@ public class ObjectPoolStack {
                           this.wait();
                       }
                       final ObjectOutputStream oos = FileUtil.newOBFOS(ObjectPoolStack.this.poolFile);
-                      for (int i = 0; i < ObjectPoolStack.this.buf.length; i++) {
-                          oos.writeObject(ObjectPoolStack.this.buf[i]);
+                      for (Object o : ObjectPoolStack.this.buf) {
+                          oos.writeObject(o);
                       }
                       oos.close();
                       ObjectPoolStack.this.poolFile = null;

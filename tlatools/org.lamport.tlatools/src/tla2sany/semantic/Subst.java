@@ -62,11 +62,11 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
   }
 
   public static ExprOrOpArgNode getSub(final Object param, final Subst[] subs) {
-    for (int i = 0; i < subs.length; i++) {
-      if (subs[i].getOp() == param) {
-	return subs[i].getExpr();
+      for (Subst sub : subs) {
+          if (sub.getOp() == param) {
+              return sub.getExpr();
+          }
       }
-    }
     return null;
   }
 

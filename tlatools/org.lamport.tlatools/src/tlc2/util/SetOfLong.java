@@ -33,10 +33,9 @@ public final class SetOfLong {
     this.length = 2 * this.length + 1;
     this.thresh = this.length / 2;
     this.table = new long[this.length];
-    for (int i = 0; i < old.length; i++) {
-      final long k = old[i];
-      if (k != 0) this.put(k);
-    }
+      for (final long k : old) {
+          if (k != 0) this.put(k);
+      }
   }
 
   /**

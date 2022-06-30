@@ -295,9 +295,9 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		@SuppressWarnings("unused")
 		public final String toString(final int n) {
 			StringBuilder ret = new StringBuilder("compound ID: " + compoundID.toString() + "\nargs: " + args.length + "\n");
-			for (int i = 0; i < args.length; i++) {
-				ret.append(Strings.indent(2, args[i].toString(n)));
-			}
+            for (ExprOrOpArgNode arg : args) {
+                ret.append(Strings.indent(2, arg.toString(n)));
+            }
 			return ret.toString();
 		}
 
@@ -499,53 +499,67 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		final TreeNode prefix = genId.heirs()[0];
 		final TreeNode[] prefixElts = prefix.heirs();
 		final SyntaxTreeNode lastOp = (SyntaxTreeNode) genId.heirs()[1];
-		for (int i = 0; i < prefixElts.length; i++) {
-			final TreeNode[] pe = prefixElts[i].heirs();
-			if (pe.length == 0) {
-				/*******************************************************************
-				 * We reach this point when processing the nonsensical input * HIDE DEF X' * So
-				 * we report a not very helpful error in the hopes that further * processing
-				 * will produce a more useful error message. *
-				 *******************************************************************/
-				errors.addError(genId.getLocation(), "Was expecting a GeneralId.");
-				break;
-			}
+        /*******************************************************************
+         * We reach this point when processing the nonsensical input * HIDE DEF X' * So
+         * we report a not very helpful error in the hopes that further * processing
+         * will produce a more useful error message. *
+         *******************************************************************/
+        /*****************************************************************
+         * This must be an identifier or operator. It may or may not * have arguments. *
+         *****************************************************************/
+        /***************************************************************
+         * There are no arguments (the 2nd heir is the "!"). *
+         ***************************************************************/
+        /***************************************************************
+         * There are arguments, which are heirs()[1]. *
+         ***************************************************************/
+        for (TreeNode prefixElt : prefixElts) {
+            final TreeNode[] pe = prefixElt.heirs();
+            if (pe.length == 0) {
+                /*******************************************************************
+                 * We reach this point when processing the nonsensical input * HIDE DEF X' * So
+                 * we report a not very helpful error in the hopes that further * processing
+                 * will produce a more useful error message. *
+                 *******************************************************************/
+                errors.addError(genId.getLocation(), "Was expecting a GeneralId.");
+                break;
+            }
             final SyntaxTreeNode thisPrefix = (SyntaxTreeNode) pe[0];
-			switch (thisPrefix.getKind()) {
-			case N_OpArgs:
-				retval.addSelector(thisPrefix, thisPrefix);
-				break;
-			case N_StructOp:
-				retval.addSelector(thisPrefix, null);
-				break;
-			default:
-				/*****************************************************************
-				 * This must be an identifier or operator. It may or may not * have arguments. *
-				 *****************************************************************/
-				if (prefixElts[i].heirs().length == 2) {
-					/***************************************************************
-					 * There are no arguments (the 2nd heir is the "!"). *
-					 ***************************************************************/
-					retval.addSelector(thisPrefix, null);
-				} else {
-					/***************************************************************
-					 * There are arguments, which are heirs()[1]. *
-					 ***************************************************************/
-					if (prefixElts[i].heirs().length != 3) {
-						// Note added 13 April 2015 by LL:
-						// This error is caused by the spurious "(x)" in the leaf proof
-						// BY ... DEF A!foo(x)
-						// It would be nice if this produced a more helpful error
-						// message, but I have no idea if there are other bad inputs
-						// that can cause it.
-						errors.addAbort(prefixElts[i].getLocation(),
-								"Internal error: " + "IdPrefixElement has other than 2 or 3 heirs.");
-					}
-                    retval.addSelector(thisPrefix, (SyntaxTreeNode) prefixElts[i].heirs()[1]);
-				} // if}
-				break;
-			} // switch
-		}
+            switch (thisPrefix.getKind()) {
+                case N_OpArgs:
+                    retval.addSelector(thisPrefix, thisPrefix);
+                    break;
+                case N_StructOp:
+                    retval.addSelector(thisPrefix, null);
+                    break;
+                default:
+                    /*****************************************************************
+                     * This must be an identifier or operator. It may or may not * have arguments. *
+                     *****************************************************************/
+                    if (prefixElt.heirs().length == 2) {
+                        /***************************************************************
+                         * There are no arguments (the 2nd heir is the "!"). *
+                         ***************************************************************/
+                        retval.addSelector(thisPrefix, null);
+                    } else {
+                        /***************************************************************
+                         * There are arguments, which are heirs()[1]. *
+                         ***************************************************************/
+                        if (prefixElt.heirs().length != 3) {
+                            // Note added 13 April 2015 by LL:
+                            // This error is caused by the spurious "(x)" in the leaf proof
+                            // BY ... DEF A!foo(x)
+                            // It would be nice if this produced a more helpful error
+                            // message, but I have no idea if there are other bad inputs
+                            // that can cause it.
+                            errors.addAbort(prefixElt.getLocation(),
+                                    "Internal error: " + "IdPrefixElement has other than 2 or 3 heirs.");
+                        }
+                        retval.addSelector(thisPrefix, (SyntaxTreeNode) prefixElt.heirs()[1]);
+                    } // if}
+                    break;
+            } // switch
+        }
         // for i
 
 		if (lastOp.getKind() == N_OpArgs) {
@@ -1923,109 +1937,121 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		definitions = children[2].heirs();
 
 		// for each declaration, op definition, etc. in the body...
-		for (int lvi = 0; lvi < definitions.length; lvi++) {
-			switch (definitions[lvi].getKind()) {
-			case N_VariableDeclaration:
-				checkIfInRecursiveSection(definitions[lvi], "A VARIABLE declaration");
-				processVariables(definitions[lvi].heirs(), currentModule);
-				break;
+        /*******************************************************************
+         * Append the opDefsInRecursiveSection field of the inner module * to that of
+         * the current module. *
+         *******************************************************************/
+        /*******************************************************************
+         * This code was originally * * case 35 * // Intended to handle "---------".
+         * Kludge for a parser bug. * * I have no idea why 35 was used instead of
+         * SEPARATOR, and what * kind of parser bug mentioned was encountered. The
+         * original * code did not import parser.TLAplusParserConstants where *
+         * SEPARATOR was used, so perhaps there was some reason why this * class could
+         * not be imported. *
+         *******************************************************************/
+        for (TreeNode definition : definitions) {
+            switch (definition.getKind()) {
+                case N_VariableDeclaration:
+                    checkIfInRecursiveSection(definition, "A VARIABLE declaration");
+                    processVariables(definition.heirs(), currentModule);
+                    break;
 
-			case N_ParamDeclaration:
-				checkIfInRecursiveSection(definitions[lvi], "A declaration");
-				processParameters(definitions[lvi].heirs(), currentModule);
-				break;
+                case N_ParamDeclaration:
+                    checkIfInRecursiveSection(definition, "A declaration");
+                    processParameters(definition.heirs(), currentModule);
+                    break;
 
-			case N_OperatorDefinition:
-				processOperator(definitions[lvi], null, currentModule);
-				break;
+                case N_OperatorDefinition:
+                    processOperator(definition, null, currentModule);
+                    break;
 
-			case N_FunctionDefinition:
-				processFunction(definitions[lvi], null, currentModule);
-				break;
+                case N_FunctionDefinition:
+                    processFunction(definition, null, currentModule);
+                    break;
 
-			case N_ModuleDefinition:
+                case N_ModuleDefinition:
 // We now allow INSTANCEs in recursive sections.
 //        checkIfInRecursiveSection(definitions[lvi], "An INSTANCE") ;
-				processModuleDefinition(definitions[lvi], null, null, currentModule);
-				break;
+                    processModuleDefinition(definition, null, null, currentModule);
+                    break;
 
-			case N_Module:
-				// Modules can be nested, but inner ones need to keep a
-				// separate SymbolTable of their own.
-				checkIfInRecursiveSection(definitions[lvi], "A MODULE ");
-				final SymbolTable oldSt = symbolTable;
-				symbolTable = new SymbolTable(moduleTable, errors, oldSt);
-				context = new Context(moduleTable, errors);
-				symbolTable.pushContext(context);
-				final ModuleNode mn = generateModule(definitions[lvi], currentModule);
-				symbolTable.popContext();
-				symbolTable = oldSt;
+                case N_Module:
+                    // Modules can be nested, but inner ones need to keep a
+                    // separate SymbolTable of their own.
+                    checkIfInRecursiveSection(definition, "A MODULE ");
+                    final SymbolTable oldSt = symbolTable;
+                    symbolTable = new SymbolTable(moduleTable, errors, oldSt);
+                    context = new Context(moduleTable, errors);
+                    symbolTable.pushContext(context);
+                    final ModuleNode mn = generateModule(definition, currentModule);
+                    symbolTable.popContext();
+                    symbolTable = oldSt;
 
-				// Add the inner module's name to the context of the outer module
-				symbolTable.addModule(mn.getName(), mn);
+                    // Add the inner module's name to the context of the outer module
+                    symbolTable.addModule(mn.getName(), mn);
 
-				/*******************************************************************
-				 * Append the opDefsInRecursiveSection field of the inner module * to that of
-				 * the current module. *
-				 *******************************************************************/
-				for (int i = 0; i < mn.opDefsInRecursiveSection.size(); i++) {
-					currentModule.opDefsInRecursiveSection.addElement(mn.opDefsInRecursiveSection.elementAt(i));
-				}
-                // System.err.println(mn.getName() + " added to SymbolTable for " +
-				// currentModule.getName());
-				break;
+                    /*******************************************************************
+                     * Append the opDefsInRecursiveSection field of the inner module * to that of
+                     * the current module. *
+                     *******************************************************************/
+                    for (int i = 0; i < mn.opDefsInRecursiveSection.size(); i++) {
+                        currentModule.opDefsInRecursiveSection.addElement(mn.opDefsInRecursiveSection.elementAt(i));
+                    }
+                    // System.err.println(mn.getName() + " added to SymbolTable for " +
+                    // currentModule.getName());
+                    break;
 
-			case N_Instance:
+                case N_Instance:
 // We now allow INSTANCEs in recursive sections.
 //        checkIfInRecursiveSection(definitions[lvi], "An INSTANCE") ;
-				generateInstance(definitions[lvi], currentModule, true);
-				break;
+                    generateInstance(definition, currentModule, true);
+                    break;
 
-			case N_Proof:
-				checkIfInRecursiveSection(definitions[lvi], "A proof");
-				break;
+                case N_Proof:
+                    checkIfInRecursiveSection(definition, "A proof");
+                    break;
 
-			case N_Theorem:
-				checkIfInRecursiveSection(definitions[lvi], "A THEOREM");
-				processTheorem(definitions[lvi], currentModule);
-				break;
+                case N_Theorem:
+                    checkIfInRecursiveSection(definition, "A THEOREM");
+                    processTheorem(definition, currentModule);
+                    break;
 
-			case N_Assumption:
-				checkIfInRecursiveSection(definitions[lvi], "An ASSUME");
-				processAssumption(definitions[lvi], currentModule);
-				break;
+                case N_Assumption:
+                    checkIfInRecursiveSection(definition, "An ASSUME");
+                    processAssumption(definition, currentModule);
+                    break;
 
-			case N_UseOrHide:
-				checkIfInRecursiveSection(definitions[lvi], "A USE or HIDE");
-				final UseOrHideNode uohn = generateUseOrHide(definitions[lvi], currentModule);
-				uohn.factCheck();
-				// Added 4 Mar 2009.
-				if (uohn.facts.length + uohn.defs.length == 0) {
-					errors.addError(definitions[lvi].getLocation(), "Empty USE or HIDE statement.");
-				}
-                currentModule.addTopLevel(uohn);
-				break;
+                case N_UseOrHide:
+                    checkIfInRecursiveSection(definition, "A USE or HIDE");
+                    final UseOrHideNode uohn = generateUseOrHide(definition, currentModule);
+                    uohn.factCheck();
+                    // Added 4 Mar 2009.
+                    if (uohn.facts.length + uohn.defs.length == 0) {
+                        errors.addError(definition.getLocation(), "Empty USE or HIDE statement.");
+                    }
+                    currentModule.addTopLevel(uohn);
+                    break;
 
-			case SEPARATOR:
-				/*******************************************************************
-				 * This code was originally * * case 35 * // Intended to handle "---------".
-				 * Kludge for a parser bug. * * I have no idea why 35 was used instead of
-				 * SEPARATOR, and what * kind of parser bug mentioned was encountered. The
-				 * original * code did not import parser.TLAplusParserConstants where *
-				 * SEPARATOR was used, so perhaps there was some reason why this * class could
-				 * not be imported. *
-				 *******************************************************************/
-				break;
+                case SEPARATOR:
+                    /*******************************************************************
+                     * This code was originally * * case 35 * // Intended to handle "---------".
+                     * Kludge for a parser bug. * * I have no idea why 35 was used instead of
+                     * SEPARATOR, and what * kind of parser bug mentioned was encountered. The
+                     * original * code did not import parser.TLAplusParserConstants where *
+                     * SEPARATOR was used, so perhaps there was some reason why this * class could
+                     * not be imported. *
+                     *******************************************************************/
+                    break;
 
-			case N_Recursive:
-				processRecursive(definitions[lvi], currentModule);
-				break;
-			default:
-				errors.addAbort(definitions[lvi].getLocation(), "Internal error: Syntax node of kind "
-						+ definitions[lvi].getKind() + " unsupported " + definitions[lvi].getImage(), true);
-				break;
-			}
-		}
+                case N_Recursive:
+                    processRecursive(definition, currentModule);
+                    break;
+                default:
+                    errors.addAbort(definition.getLocation(), "Internal error: Syntax node of kind "
+                            + definition.getKind() + " unsupported " + definition.getImage(), true);
+                    break;
+            }
+        }
 
 		checkForUndefinedRecursiveOps(currentModule);
 
@@ -2294,9 +2320,9 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					 *****************************************************************/
 					boolean paramsMatch = (odn.getParams().length == params.length);
 					if (paramsMatch) {
-						for (int i = 0; i < params.length; i++) {
-							paramsMatch = (params[i].getArity() == 0);
-						}
+                        for (FormalParamNode param : params) {
+                            paramsMatch = (param.getArity() == 0);
+                        }
                     }
                     // if
 					if (!paramsMatch) {
@@ -2630,33 +2656,37 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		 * nesting depth. *
 		 *********************************************************************/
 
-		for (int lvi = 0; lvi < syntaxTreeNode.length; lvi++) {
-			/*********************************************************************
-			 * Note: LL changed from an "if" and a sequence of "elseif"s to a * switch
-			 * statement on 7 Apr 2007 when adding the N_Recursive case. *
-			 *********************************************************************/
-			switch (syntaxTreeNode[lvi].getKind()) {
-			case N_OperatorDefinition:
-				processOperator(syntaxTreeNode[lvi], defVec, cm);
-				break;
+        /*********************************************************************
+         * Note: LL changed from an "if" and a sequence of "elseif"s to a * switch
+         * statement on 7 Apr 2007 when adding the N_Recursive case. *
+         *********************************************************************/
+        for (TreeNode node : syntaxTreeNode) {
+            /*********************************************************************
+             * Note: LL changed from an "if" and a sequence of "elseif"s to a * switch
+             * statement on 7 Apr 2007 when adding the N_Recursive case. *
+             *********************************************************************/
+            switch (node.getKind()) {
+                case N_OperatorDefinition:
+                    processOperator(node, defVec, cm);
+                    break;
 
-			case N_FunctionDefinition:
-				processFunction(syntaxTreeNode[lvi], defVec, cm);
-				break;
+                case N_FunctionDefinition:
+                    processFunction(node, defVec, cm);
+                    break;
 
-			case N_ModuleDefinition:
-				processModuleDefinition(syntaxTreeNode[lvi], defVec, instVec, cm);
-				break;
+                case N_ModuleDefinition:
+                    processModuleDefinition(node, defVec, instVec, cm);
+                    break;
 
-			case N_Recursive:
-				processRecursive(syntaxTreeNode[lvi], cm);
-				break;
+                case N_Recursive:
+                    processRecursive(node, cm);
+                    break;
 
-			default:
-				errors.addAbort(syntaxTreeNode[lvi].getLocation(),
-						"Internal error: found unexpected syntax " + "tree node in LET.");
-			} // switch
-		} // for
+                default:
+                    errors.addAbort(node.getLocation(),
+                            "Internal error: found unexpected syntax " + "tree node in LET.");
+            } // switch
+        } // for
 
 		checkForUndefinedRecursiveOps(cm);
 
@@ -4032,26 +4062,26 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 		// for each argument list in prefix
 		int iarg = 0;
-		for (int i = 0; i < allArgs.length; i++) {
-			// if there is an actual arg list here (instead of a "!" or null)
-			if (allArgs[i] != null && allArgs[i].isKind(N_OpArgs)) {
-				// pick up array of arg list syntax elements
-				argsList = allArgs[i].heirs();
+        for (TreeNode allArg : allArgs) {
+            // if there is an actual arg list here (instead of a "!" or null)
+            if (allArg != null && allArg.isKind(N_OpArgs)) {
+                // pick up array of arg list syntax elements
+                argsList = allArg.heirs();
 
-				// The odd numbered syntax elements are the args expressions;
-				// the even numbered ones are parens and commas.
-				for (int ia = 1; ia < argsList.length; ia += 2) {
-					// Each arg may be an ordinary expression, or it may be an OpArg;
-					// produce appropriate semantic tree or node for it.
-					// Note that operators can be used in place of expressions in only two contexts:
-					// as argument to suitable user-defined ops, and in the RHS of a substitution
-					// in module instantiation
-					genID.addArg(
-							generateExprOrOpArg(genID.getFullyQualifiedOp(), syntaxTreeNode, iarg, argsList[ia], mn));
-					iarg++;
-				}
-			}
-		}
+                // The odd numbered syntax elements are the args expressions;
+                // the even numbered ones are parens and commas.
+                for (int ia = 1; ia < argsList.length; ia += 2) {
+                    // Each arg may be an ordinary expression, or it may be an OpArg;
+                    // produce appropriate semantic tree or node for it.
+                    // Note that operators can be used in place of expressions in only two contexts:
+                    // as argument to suitable user-defined ops, and in the RHS of a substitution
+                    // in module instantiation
+                    genID.addArg(
+                            generateExprOrOpArg(genID.getFullyQualifiedOp(), syntaxTreeNode, iarg, argsList[ia], mn));
+                    iarg++;
+                }
+            }
+        }
 
 		// "finalize the GenID object (i.e. convert argument vector to array)
 		genID.finalizeID();
@@ -6544,18 +6574,18 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		 * such a 2-dimensional array, since * "bounded bound symbols" may be tuples. *
 		 ***********************************************************************/
 		int size = 0;
-		for (int i = 0; i < array.length; i++) {
-			size = size + array[i].length;
-		}
+        for (FormalParamNode[] paramNodes : array) {
+            size = size + paramNodes.length;
+        }
         final FormalParamNode[] res = new FormalParamNode[size];
 		int k = 0;
-		for (int i = 0; i < array.length; i++) {
-			for (int j = 0; j < array[i].length; j++) {
-				res[k] = array[i][j];
-				k++;
-			}
+        for (FormalParamNode[] formalParamNodes : array) {
+            for (int j = 0; j < formalParamNodes.length; j++) {
+                res[k] = formalParamNodes[j];
+                k++;
+            }
             // for j
-		}
+        }
         // for i
 		return res;
 	}

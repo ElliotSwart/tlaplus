@@ -437,16 +437,16 @@ public class ByteUtils {
     final StringBuilder res = new StringBuilder();
     StringBuffer t, t1;
 
-    for (int i = 0; i < b.length; i++) {
-      t = new StringBuffer(Integer.toHexString(b[i]));
-      if (t.length() > 2) {
-	t1 = new StringBuffer();
-	t1.append(t.charAt(t.length()-2));
-	t1.append(t.charAt(t.length()-1));
-	t = t1;
-      } 
-      res.append(t);
-    }	
+      for (byte value : b) {
+          t = new StringBuffer(Integer.toHexString(value));
+          if (t.length() > 2) {
+              t1 = new StringBuffer();
+              t1.append(t.charAt(t.length() - 2));
+              t1.append(t.charAt(t.length() - 1));
+              t = t1;
+          }
+          res.append(t);
+      }
     return res.toString();
   }
 

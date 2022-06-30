@@ -447,10 +447,10 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		// WF_vars(Next(self))`.
 		final Action[] fairs = tool.getTemporals();
 		final LNConj lnc = new LNConj(fairs.length);
-		for (int i = 0; i < fairs.length; i++) {
-			final LiveExprNode ln = astToLive(tool, (ExprNode) fairs[i].pred, fairs[i].con);
-			lnc.addConj(ln);
-		}
+        for (Action fair : fairs) {
+            final LiveExprNode ln = astToLive(tool, (ExprNode) fair.pred, fair.con);
+            lnc.addConj(ln);
+        }
 		
 		// livecheck
 		final Action[] checks = tool.getImpliedTemporals();
@@ -471,10 +471,10 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			lnc.addConj(new LNNeg(ln));
 		} else {
 			final LNDisj lnd = new LNDisj(checks.length);
-			for (int i = 0; i < checks.length; i++) {
-				final LiveExprNode ln = astToLive(tool, (ExprNode) checks[i].pred, checks[i].con);
-				lnd.addDisj(new LNNeg(ln));
-			}
+            for (Action check : checks) {
+                final LiveExprNode ln = astToLive(tool, (ExprNode) check.pred, check.con);
+                lnd.addDisj(new LNNeg(ln));
+            }
 			if (lnc.getCount() == 0) {
 				return lnd;
 			}

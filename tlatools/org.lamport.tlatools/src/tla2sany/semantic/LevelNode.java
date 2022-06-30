@@ -141,31 +141,44 @@ public int levelChecked   = 0 ;
     ***********************************************************************/
     if (this.levelChecked >= iter) return this.levelCorrect;
     this.levelChecked = iter ;
-    for (int i = 0; i < sub.length; i++ ) {
-      if (   (sub[i].getKind() != ModuleKind)
+      /*******************************************************************
+       * Here are the exceptional cases:                                  *
+       *                                                                  *
+       *  - A module node should already have been level checked.         *
+       *    This method can be called for a module only when level        *
+       *    checking a USE, HIDE, or BY statement.                        *
+       *                                                                  *
+       *  - There is nothing to check in a ModuleInstanceNode.            *
+       *    This method is called for such a node only when               *
+       *    level-checking a proof.                                       *
+       *******************************************************************/
+      for (LevelNode levelNode : sub) {
+          if ((levelNode.getKind() != ModuleKind)
 //          && (sub[i].getKind() != InstanceKind)
-          && (sub[i].getKind() != ModuleInstanceKind)) {
-        /*******************************************************************
-        * Here are the exceptional cases:                                  *
-        *                                                                  *
-        *  - A module node should already have been level checked.         *
-        *    This method can be called for a module only when level        *
-        *    checking a USE, HIDE, or BY statement.                        *
-        *                                                                  *
-        *  - There is nothing to check in a ModuleInstanceNode.            *
-        *    This method is called for such a node only when               *
-        *    level-checking a proof.                                       *
-        *******************************************************************/
-        this.levelCorrect = sub[i].levelCheck(iter) && this.levelCorrect ;
-        if (this.level < sub[i].getLevel()) {this.level = sub[i].getLevel();}
-          this.levelParams.addAll(sub[i].getLevelParams());
-        this.levelConstraints.putAll(sub[i].getLevelConstraints());
-        this.argLevelConstraints.putAll(sub[i].getArgLevelConstraints());
-        this.argLevelParams.addAll(sub[i].getArgLevelParams());
-        this.allParams.addAll(sub[i].getAllParams());
-        this.nonLeibnizParams.addAll(sub[i].getNonLeibnizParams());
-       }
-    }
+                  && (levelNode.getKind() != ModuleInstanceKind)) {
+              /*******************************************************************
+               * Here are the exceptional cases:                                  *
+               *                                                                  *
+               *  - A module node should already have been level checked.         *
+               *    This method can be called for a module only when level        *
+               *    checking a USE, HIDE, or BY statement.                        *
+               *                                                                  *
+               *  - There is nothing to check in a ModuleInstanceNode.            *
+               *    This method is called for such a node only when               *
+               *    level-checking a proof.                                       *
+               *******************************************************************/
+              this.levelCorrect = levelNode.levelCheck(iter) && this.levelCorrect;
+              if (this.level < levelNode.getLevel()) {
+                  this.level = levelNode.getLevel();
+              }
+              this.levelParams.addAll(levelNode.getLevelParams());
+              this.levelConstraints.putAll(levelNode.getLevelConstraints());
+              this.argLevelConstraints.putAll(levelNode.getArgLevelConstraints());
+              this.argLevelParams.addAll(levelNode.getArgLevelParams());
+              this.allParams.addAll(levelNode.getAllParams());
+              this.nonLeibnizParams.addAll(levelNode.getNonLeibnizParams());
+          }
+      }
       return this.levelCorrect ;
    }
 

@@ -297,50 +297,50 @@ public final class SpecWriterUtilities {
 		final OpDefNode[] opDefNodes = specObj.getExternalModuleTable().getRootModule().getOpDefs();
 		final HashMap<String, OpDefNode> nodeTable = new HashMap<>(opDefNodes.length);
 
-		for (int j = 0; j < opDefNodes.length; j++) {
-			final String key = opDefNodes[j].getName().toString();
-			nodeTable.put(key, opDefNodes[j]);
-		}
+        for (OpDefNode opDefNode : opDefNodes) {
+            final String key = opDefNode.getName().toString();
+            nodeTable.put(key, opDefNode);
+        }
 
-		for (int i = 0; i < overrides.size(); i++) {
+        for (Assignment override : overrides) {
             id = getValidIdentifier(labelingScheme);
             // formulas
             // to .cfg : <id>
             // to _MC.tla : <id> == <expression>
-            formula = overrides.get(i);
+            formula = override;
 
             final OpDefNode defNode = nodeTable.get(formula.getLabel());
-			if (defNode == null) {
-				// should raise an error
-				content = null;
-			} else {
-				final OpDefNode source = defNode.getSource();
-				if (source == defNode) {
+            if (defNode == null) {
+                // should raise an error
+                content = null;
+            } else {
+                final OpDefNode source = defNode.getSource();
+                if (source == defNode) {
                     // user is overriding a definition in the root module
-					if (formula.isModelValue() && !formula.isSetOfModelValues()) {
+                    if (formula.isModelValue() && !formula.isSetOfModelValues()) {
                         // model value
-                        content = new String[] { formula.getLabel() + TLAConstants.EQ + formula.getLabel(), TLAConstants.EMPTY_STRING };
-					} else {
+                        content = new String[]{formula.getLabel() + TLAConstants.EQ + formula.getLabel(), TLAConstants.EMPTY_STRING};
+                    } else {
                         // not a model value
-                        content = new String[] { formula.getLabel() + TLAConstants.ARROW + id,
-                                formula.getParametrizedLabel(id) + TLAConstants.DEFINES_CR + formula.getRight() };
+                        content = new String[]{formula.getLabel() + TLAConstants.ARROW + id,
+                                formula.getParametrizedLabel(id) + TLAConstants.DEFINES_CR + formula.getRight()};
                     }
-				} else if (source.getSource() == source) {
-					// user is overriding a definition that is not in the root module
-					if (formula.isModelValue() && !formula.isSetOfModelValues()) {
+                } else if (source.getSource() == source) {
+                    // user is overriding a definition that is not in the root module
+                    if (formula.isModelValue() && !formula.isSetOfModelValues()) {
                         // model value
-                        content = new String[] {
+                        content = new String[]{
                                 source.getName().toString() + TLAConstants.ARROW + "["
                                         + source.getOriginallyDefinedInModuleNode().getName().toString() + "]" + id
-                                        + " " + id + TLAConstants.EQ + source.getName().toString(), "CONSTANT " + id };
-					} else {
+                                        + " " + id + TLAConstants.EQ + source.getName().toString(), "CONSTANT " + id};
+                    } else {
                         // not a model value
-                        content = new String[] {
+                        content = new String[]{
                                 source.getName().toString() + TLAConstants.ARROW + "["
                                         + source.getOriginallyDefinedInModuleNode().getName().toString() + "]" + id,
-                                formula.getParametrizedLabel(id) + TLAConstants.DEFINES_CR + formula.getRight() };
+                                formula.getParametrizedLabel(id) + TLAConstants.DEFINES_CR + formula.getRight()};
                     }
-				} else {
+                } else {
                     // should raise an error window
                     content = null;
                 }
