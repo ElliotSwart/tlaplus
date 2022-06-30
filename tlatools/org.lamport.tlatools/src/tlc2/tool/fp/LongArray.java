@@ -304,7 +304,7 @@ public final class LongArray {
 	}
 	
 	public static void main(final String[] args) throws IOException {
-		final long elements = 1L << Integer.valueOf(args[0]);
+		final long elements = 1L << Integer.parseInt(args[0]);
 		System.out.format("Allocating LongArray with %,d elements.\n", elements);
 		final LongArray longArray = new LongArray(elements);
 		longArray.zeroMemory();

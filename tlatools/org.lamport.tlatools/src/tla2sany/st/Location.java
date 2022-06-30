@@ -97,8 +97,8 @@ public final class Location implements Comparable<Location>
     protected final int eColumn;
 
 	public Location(final String fName, final String bl, final String bc, final String el, final String ec) {
-		this(UniqueString.uniqueStringOf(fName), Integer.valueOf(bl), Integer.valueOf(bc), Integer.valueOf(el),
-				Integer.valueOf(ec));
+		this(UniqueString.uniqueStringOf(fName), Integer.parseInt(bl), Integer.parseInt(bc), Integer.parseInt(el),
+				Integer.parseInt(ec));
 	}
 
 	public Location(final String fName, final int bl, final int bc, final int el, final int ec) {

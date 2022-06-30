@@ -294,7 +294,7 @@ public abstract class SemanticNode
    */
   @Override
   public void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
-    final Integer uid = Integer.valueOf(myUID);
+    final Integer uid = myUID;
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);

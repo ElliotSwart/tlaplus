@@ -93,7 +93,7 @@ public class TLCApp extends DistApp {
 	 */
 	@Override
     public final Boolean getCheckDeadlock() {
-		return Boolean.valueOf(this.checkDeadlock);
+		return this.checkDeadlock;
 	}
 
 	/* (non-Javadoc)
@@ -101,7 +101,7 @@ public class TLCApp extends DistApp {
 	 */
 	@Override
     public final Boolean getPreprocess() {
-		return Boolean.valueOf(this.preprocess);
+		return this.preprocess;
 	}
 
 	/* (non-Javadoc)

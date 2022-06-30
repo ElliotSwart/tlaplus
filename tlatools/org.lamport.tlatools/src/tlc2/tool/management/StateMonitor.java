@@ -59,7 +59,7 @@ public class StateMonitor {
 	public static void main(final String[] args) throws IOException, MalformedObjectNameException, InterruptedException, AttachNotSupportedException {
 		int interval = 10; // 10sec interval by default
 		if (args.length == 1) {
-			interval = Integer.valueOf(args[0]);
+			interval = Integer.parseInt(args[0]);
 		}
 		
 		JMXServiceURL url = null;

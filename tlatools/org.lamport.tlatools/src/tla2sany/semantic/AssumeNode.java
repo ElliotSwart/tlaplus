@@ -187,7 +187,7 @@ public AssumeNode(final TreeNode stn, final ExprNode expr, final ModuleNode mn,
    */
   @Override
   public final void walkGraph (final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
-    final Integer uid = Integer.valueOf(myUID);
+    final Integer uid = myUID;
 
     if (semNodesTable.get(uid) != null) return;
 

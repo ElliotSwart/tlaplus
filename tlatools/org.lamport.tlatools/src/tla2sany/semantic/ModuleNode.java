@@ -637,7 +637,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
 		 * all modules that are extended by this module--either directly or     *
 		 * indirectly.                                                          *
 		 ***********************************************************************/
-	  final Boolean key = Boolean.valueOf(recursively);
+	  final Boolean key = recursively;
 	  HashSet<ModuleNode> extendeesSet = depthAllExtendeesMap.get(key);
 	  if (extendeesSet == null) {
 		  extendeesSet = new HashSet<>();

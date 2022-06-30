@@ -31,13 +31,13 @@ class SetOfArgLevelConstraints extends HashMap<ParamAndPosition, Integer> implem
     final Integer old = this.get(pap);
 
     final int oldLevel = (old == null) ? MinLevel : old.intValue();
-    super.put(pap, Integer.valueOf(Math.max(newLevel, oldLevel)));
+    super.put(pap, Math.max(newLevel, oldLevel));
     return old;
   }
 
   public final Integer put(final SymbolNode param, final int position, final int level) {
     final ParamAndPosition pap = new ParamAndPosition(param, position);
-    return this.put(pap, Integer.valueOf(level));
+    return this.put(pap, level);
   }
 
   /**
