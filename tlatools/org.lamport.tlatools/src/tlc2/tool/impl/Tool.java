@@ -1233,9 +1233,7 @@ public abstract class Tool
 	     * YuanYu to mimic the way \/ works.  Change made
 	     *  11 Mar 2009, with LL sitting next to him.
 	     */
-	      //    this.getNextStates(action, args[0], acts, c, s0, s1, nss);
-	      //    return this.processUnchanged(args[1], acts, c, s0, s1, nss);
-	    resState = this.getNextStates(action, args[0], acts, c, s0, resState, nss, cm);
+          resState = this.getNextStates(action, args[0], acts, c, s0, resState, nss, cm);
 	    return this.processUnchanged(action, args[1], acts, c, s0, resState, nss, cm);
 	  }
 	case OPCODE_ite:    // IfThenElse
@@ -2570,11 +2568,7 @@ public abstract class Tool
         	  //    ...
         	  // The fail statement below is obviously too generic to be useful and needs to be
         	  // clarified if the actual cause has been identified.
-//        	  if (s1 == null) {
-//                  Assert.fail("Attempted to evaluate the following expression," +
-//                          " but expression failed to evaluate.\n" + expr);
-//        	  }
-            return this.eval(args[0], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
+              return this.eval(args[0], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
           }
         case OPCODE_unchanged:
           {

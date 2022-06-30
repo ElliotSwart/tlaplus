@@ -1285,8 +1285,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                     {
                         for (OpDeclNode variablesNode : this.variablesNodes) {
                             if (!varsInSubscript.contains(variablesNode)) {
-                                // Assert.fail("The subscript of the next-state relation specified by the specification\ndoes not contain the state variable "
-                                // + this.variables[i].getName());
                                 MP.printWarning(EC.TLC_SUBSCRIPT_CONTAIN_NO_STATE_VAR,
                                         new String[]{variablesNode.getName().toString()});
                             }

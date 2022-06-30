@@ -1047,10 +1047,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 						final int temp = ArgNum(sel.ops[idx], opNode.getArity());
 						if (temp == -1) {
 							reportSelectorError(sel, idx);
-//               errors.addError(sel.opsSTN[idx].getLocation(),
-//                               "NoNexistent operand specified by `"
-//                                + sel.opNames[idx].toString() + "'.");
-							return nullOAN;
+                            return nullOAN;
 						}
                         curNode = curArgs[temp - 1];
 					} // if (opNode.getKind() == FormalParamKind) || ...
@@ -1061,10 +1058,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 							final int temp = ArgNum(sel.ops[idx], curArgs.length);
 							if (temp == -1) {
-//                 errors.addError(sel.opsSTN[idx].getLocation(),
-//                                 "NonExistent operand specified by `"
-//                                  + sel.opNames[idx].toString() + "'.");
-								reportSelectorError(sel, idx);
+                                reportSelectorError(sel, idx);
 								return nullOAN;
 							}
                             curOpApplNode = (OpApplNode) curArgs[temp - 1];
@@ -1972,8 +1966,6 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
                     for (int i = 0; i < mn.opDefsInRecursiveSection.size(); i++) {
                         currentModule.opDefsInRecursiveSection.addElement(mn.opDefsInRecursiveSection.elementAt(i));
                     }
-                    // System.err.println(mn.getName() + " added to SymbolTable for " +
-                    // currentModule.getName());
                     break;
 
                 case N_Instance:

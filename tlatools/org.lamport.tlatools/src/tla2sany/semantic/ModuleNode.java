@@ -866,16 +866,12 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
       * to make any difference, so I've left it.                           *
       *********************************************************************/
       for (OpDefNode def : opDefs) {
-// System.out.println("opDef, module " + this.getName() + ": "
-// + opDefs[i].getName());
           if (!def.levelCheck(1)) {
               this.levelCorrect = false;
           }
       }
     thmOrAssDefs = this.getThmOrAssDefs();
       for (ThmOrAssumpDefNode thmOrAssDef : thmOrAssDefs) {
-// System.out.println("opDef, module " + this.getName() + ": "
-// + opDefs[i].getName());
           if (!thmOrAssDef.levelCheck(1)) {
               this.levelCorrect = false;
           }

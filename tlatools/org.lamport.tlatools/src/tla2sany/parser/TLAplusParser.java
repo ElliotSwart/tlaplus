@@ -3513,10 +3513,8 @@ expecting = "==";
         tn.image = correctedStepNum(t) ;
 // ToolIO.out.println("correcting " + tn.originalImage) ;
        }
-// ToolIO.out.println("xyz: t.image = " + t.image + ", correctedImage = " 
-// + tn.image + ", t.kind = " + t.kind ) ;
 
-      addHeir(tn) ;
+    addHeir(tn) ;
       expecting = "QED" ;
     t = jj_consume_token(QED);
         sn = new SyntaxTreeNode[1] ;
@@ -3567,9 +3565,7 @@ expecting = "==";
         tn.originalImage = tn.image ;
         tn.image = correctedStepNum(t) ;
        }
-// ToolIO.out.println("xyz2: t.image = " + t.image + ", correctedImage = " 
-// + tn.image + ", t.kind = " + t.kind ) ;
-      addHeir(tn) ;
+    addHeir(tn) ;
       expecting = "proof step";
     if ((getToken(1).kind == USE) || (getToken(1).kind == HIDE)) {
       tn = UseOrHideOrBy();
@@ -6912,9 +6908,6 @@ final SyntaxTreeNode tn;
                     tn0.originalImage = tn0.image ;
                     tn0.image = correctedStepNum(t) ;
                    }
-
-// ToolIO.out.println("xyz-expr: t.image = " + t.image + 
-// ", correctedImage = " + tn0.image) ;
 
           break;
         case op_1:
