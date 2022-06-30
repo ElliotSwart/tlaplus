@@ -36,29 +36,29 @@ private String metadir;
   }
 
   @Override
-  public final FPSet init(final int numThreads, final String metadir, final String filename) {
+  public FPSet init(final int numThreads, final String metadir, final String filename) {
     this.metadir = metadir;
     this.filename = filename;
 	return this;
   }
 
   @Override
-  public final long size() { return this.set.size(); }
+  public long size() { return this.set.size(); }
 
-  public final long sizeof() { return 8 + this.set.sizeof(); }
+  public long sizeof() { return 8 + this.set.sizeof(); }
 
   @Override
-  public synchronized final boolean put(final long fp) {
+  public synchronized boolean put(final long fp) {
     return this.set.put(fp);
   }
 
   @Override
-  public synchronized final boolean contains(final long fp) {
+  public synchronized boolean contains(final long fp) {
     return this.set.contains(fp);
   }
 
   @Override
-  public final void exit(final boolean cleanup) throws IOException {
+  public void exit(final boolean cleanup) throws IOException {
     super.exit(cleanup);
     if (cleanup) {
       // Delete the metadata directory:
@@ -71,18 +71,18 @@ private String metadir;
   }
 
   @Override
-  public final long checkFPs() { return this.set.checkFPs(); }
+  public long checkFPs() { return this.set.checkFPs(); }
 
   /* Checkpoint. */
   @Override
-  public final void beginChkpt(final String fname) throws IOException {
+  public void beginChkpt(final String fname) throws IOException {
     final DataOutputStream dos = FileUtil.newDFOS(this.chkptName(fname, "tmp"));
     this.set.beginChkpt(dos);
     dos.close();
   }
   
   @Override
-  public final void commitChkpt(final String fname) throws IOException {
+  public void commitChkpt(final String fname) throws IOException {
     final File oldChkpt = new File(this.chkptName(fname, "chkpt"));
     final File newChkpt = new File(this.chkptName(fname, "tmp"));
     if ((oldChkpt.exists() && !oldChkpt.delete()) ||
@@ -92,7 +92,7 @@ private String metadir;
   } 
 
   @Override
-  public final void recover(final String fname) throws IOException {
+  public void recover(final String fname) throws IOException {
     
     final DataInputStream dis = FileUtil.newDFIS(this.chkptName(fname, "chkpt"));
     this.set.recover(dis);
@@ -101,22 +101,22 @@ private String metadir;
   }
 
   @Override
-  public final void beginChkpt() throws IOException {
+  public void beginChkpt() throws IOException {
     this.beginChkpt(this.filename);
   }
 
   @Override
-  public final void commitChkpt() throws IOException {
+  public void commitChkpt() throws IOException {
     this.commitChkpt(this.filename);
   }
   
   @Override
-  public final void recover(final TLCTrace trace) throws IOException {
+  public void recover(final TLCTrace trace) throws IOException {
     this.recover(this.filename);
   }
 
   @Override
-  public final void recoverFP(final long fp) throws IOException {
+  public void recoverFP(final long fp) throws IOException {
     Assert.check(!this.set.put(fp), EC.TLC_FP_NOT_IN_SET);
   }
   

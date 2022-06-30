@@ -54,13 +54,13 @@ public final class CallStackTool extends Tool {
 	}
 
 	@Override
-	public final String toString() {
+	public String toString() {
 		return this.callStack.toString();
 	}
 
 	@Override
-	protected final void getInitStates(final SemanticNode init, final ActionItemList acts, final Context c,
-			final TLCState ps, final IStateFunctor states, final CostModel cm) {
+	protected void getInitStates(final SemanticNode init, final ActionItemList acts, final Context c,
+                                 final TLCState ps, final IStateFunctor states, final CostModel cm) {
 		this.callStack.push(init);
 		try {
 			super.getInitStates(init, acts, c, ps, states, cm);
@@ -98,8 +98,8 @@ public final class CallStackTool extends Tool {
 	}
 
 	@Override
-	protected final TLCState getNextStates(final Action action, final SemanticNode pred, final ActionItemList acts,
-			final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm) {
+	protected TLCState getNextStates(final Action action, final SemanticNode pred, final ActionItemList acts,
+                                     final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm) {
 		this.callStack.push(pred);
 		try {
 			return getNextStatesImpl(action, pred, acts, c, s0, s1, nss, cm);
@@ -117,8 +117,8 @@ public final class CallStackTool extends Tool {
 	}
 
 	@Override
-	protected final TLCState getNextStatesAppl(final Action action, final OpApplNode pred, final ActionItemList acts,
-			final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm) {
+	protected TLCState getNextStatesAppl(final Action action, final OpApplNode pred, final ActionItemList acts,
+                                         final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm) {
 		this.callStack.push(pred);
 		try {
 			return getNextStatesApplImpl(action, pred, acts, c, s0, s1, nss, cm);
@@ -136,8 +136,8 @@ public final class CallStackTool extends Tool {
 	}
 
 	@Override
-	public final Value eval(final SemanticNode expr, final Context c, final TLCState s0, final TLCState s1,
-			final int control, final CostModel cm) {
+	public Value eval(final SemanticNode expr, final Context c, final TLCState s0, final TLCState s1,
+                      final int control, final CostModel cm) {
 		this.callStack.push(expr);
 		try {
 			// Replace stale ITool instances with this instance.
@@ -164,8 +164,8 @@ public final class CallStackTool extends Tool {
 	}
 
 	@Override
-	protected final Value evalAppl(final OpApplNode expr, final Context c, final TLCState s0, final TLCState s1,
-			final int control, final CostModel cm) {
+	protected Value evalAppl(final OpApplNode expr, final Context c, final TLCState s0, final TLCState s1,
+                             final int control, final CostModel cm) {
 		this.callStack.push(expr);
 		try {
 			// Replace stale ITool instances with this instance.
@@ -192,8 +192,8 @@ public final class CallStackTool extends Tool {
 	}
 
 	@Override
-	public final TLCState enabled(final SemanticNode pred, final IActionItemList acts, final Context c,
-			final TLCState s0, final TLCState s1, final CostModel cm) {
+	public TLCState enabled(final SemanticNode pred, final IActionItemList acts, final Context c,
+                            final TLCState s0, final TLCState s1, final CostModel cm) {
 		this.callStack.push(pred);
 		try {
 			return enabledImpl(pred, (ActionItemList) acts, c, s0, s1, cm);
@@ -211,8 +211,8 @@ public final class CallStackTool extends Tool {
 	}
 
 	@Override
-	protected final TLCState enabledAppl(final OpApplNode pred, final ActionItemList acts, final Context c,
-                                         final TLCState s0, final TLCState s1, final CostModel cm) {
+	protected TLCState enabledAppl(final OpApplNode pred, final ActionItemList acts, final Context c,
+                                   final TLCState s0, final TLCState s1, final CostModel cm) {
 		this.callStack.push(pred);
 		try {
 			return enabledApplImpl(pred, acts, c, s0, s1, cm);
@@ -230,8 +230,8 @@ public final class CallStackTool extends Tool {
 	}
 
 	@Override
-	protected final TLCState processUnchanged(final Action action, final SemanticNode expr, final ActionItemList acts,
-                                              final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm) {
+	protected TLCState processUnchanged(final Action action, final SemanticNode expr, final ActionItemList acts,
+                                        final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm) {
 		this.callStack.push(expr);
 		try {
 			return processUnchangedImpl(action, expr, acts, c, s0, s1, nss, cm);
@@ -249,8 +249,8 @@ public final class CallStackTool extends Tool {
 	}
 
 	@Override
-	protected final TLCState enabledUnchanged(final SemanticNode expr, final ActionItemList acts, final Context c,
-			final TLCState s0, final TLCState s1, final CostModel cm) {
+	protected TLCState enabledUnchanged(final SemanticNode expr, final ActionItemList acts, final Context c,
+                                        final TLCState s0, final TLCState s1, final CostModel cm) {
 		this.callStack.push(expr);
 		try {
 			return enabledUnchangedImpl(expr, acts, c, s0, s1, cm);
@@ -268,7 +268,7 @@ public final class CallStackTool extends Tool {
 	}
 
 	@Override
-	protected final Value setSource(final SemanticNode expr, final Value value) {
+	protected Value setSource(final SemanticNode expr, final Value value) {
 		value.setSource(expr);
 		return value;
 	}

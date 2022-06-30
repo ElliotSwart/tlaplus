@@ -310,10 +310,10 @@ public final Value set1;
     }
 
     @Override
-    public final void reset() { this.enum1.reset(); }
+    public void reset() { this.enum1.reset(); }
 
     @Override
-    public final Value nextElement() {
+    public Value nextElement() {
     	Value elem = this.enum1.nextElement();
       while (elem != null) {
     	  if (coverage) { cm.incSecondary(); }

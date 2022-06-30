@@ -20,7 +20,7 @@ public final class LongObjTable {
     this.thresh = this.length / 2;
   }
 
-  private final void grow() {
+  private void grow() {
     final long[] oldKeys = this.keys;
     final Object[] oldElems = this.elems;
     this.count = 0;
@@ -34,9 +34,9 @@ public final class LongObjTable {
     }
   }
 
-  public final int size() { return this.count; }
+  public int size() { return this.count; }
 
-  public final int put(final long k, final Object elem) {
+  public int put(final long k, final Object elem) {
     if (count >= thresh) this.grow();
     int loc = ((int)k & 0x7FFFFFFF) % length ;
     while (true) {
@@ -54,7 +54,7 @@ public final class LongObjTable {
     }
   }
 
-  public final Object get(final long k) {
+  public Object get(final long k) {
     int loc = ((int)k & 0x7FFFFFFF) % length ;
     while (true) {
       final Object elem = this.elems[loc];

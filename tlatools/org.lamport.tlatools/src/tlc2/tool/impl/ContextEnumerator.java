@@ -37,7 +37,7 @@ public final class ContextEnumerator implements IContextEnumerator {
   }
   
   @Override
-  public final Context nextElement() {
+  public Context nextElement() {
       Context con1 = this.con;
       if (this.isDone) return null;
       for (int i = 0; i < enums.length; i++) {
@@ -72,7 +72,7 @@ public final class ContextEnumerator implements IContextEnumerator {
       return con1;
   }
 
-  public final boolean isDone() {
+  public boolean isDone() {
 	return isDone;
   }
 }

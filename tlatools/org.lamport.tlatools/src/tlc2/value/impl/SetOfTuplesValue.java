@@ -415,7 +415,7 @@ public final Value[] sets;
     }
 
     @Override
-    public final void reset() {
+    public void reset() {
       if (this.enums != null) {
         for (int i = 0; i < this.enums.length; i++) {
           this.enums[i].reset();
@@ -426,7 +426,7 @@ public final Value[] sets;
     }
 
     @Override
-    public final Value nextElement() {
+    public Value nextElement() {
       if (this.isDone) return null;
       final Value[] elems = new Value[this.currentElems.length];
 	  if (coverage) { cm.incSecondary(elems.length); }

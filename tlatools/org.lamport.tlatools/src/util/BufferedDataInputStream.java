@@ -100,7 +100,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     
     /** REQUIRES LL = SELF */
     /** Returns <code>true</code> iff the stream is exhausted. */
-    public final boolean atEOF() {
+    public boolean atEOF() {
         return (this.len < 0);
     }
     
@@ -109,7 +109,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         and returns the number of bytes read, or -1 if the stream is 
         exhausted on entry. */
     @Override
-    public final int read(final byte[] b) throws IOException {
+    public int read(final byte[] b) throws IOException {
         return this.read(b, 0, b.length);
     }
     
@@ -118,7 +118,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         at position <code>off</code>, and returns the number of bytes
         read, or -1 if the stream is exhausted on entry. */
     @Override
-    public final int read(final byte[] b, int off, int n) throws IOException {
+    public int read(final byte[] b, int off, int n) throws IOException {
         if (this.len < 0) return -1;
         final int offInit = off;
         while (n > 0 && this.len > 0) {
@@ -139,7 +139,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     /** Reads <code>b.length</code> bytes into <code>b</code>, or
         throws <code>EOFException</code> if the stream contains fewer
         than <code>b.length</code> bytes. */
-    public final void readFully(final byte[] b) throws IOException, EOFException {
+    public void readFully(final byte[] b) throws IOException, EOFException {
         this.readFully(b, 0, b.length);
     }
     
@@ -147,7 +147,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     /** Reads <code>n</code> bytes into <code>b</code> starting at
         position <code>off</code>, or throws <code>EOFException</code>
         if the stream contains fewer than <code>n</code> bytes. */
-    public final void readFully(final byte[] b, int off, int n)
+    public void readFully(final byte[] b, int off, int n)
       throws IOException, EOFException {
         while (n > 0) {
             final int numRead = this.read(b, off, n);
@@ -159,7 +159,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     /** REQUIRES LL = SELF */
     /** Reads and returns the next byte of this stream, or throws
         <code>EOFException</code> if the stream is exhausted. */
-    public final byte readByte() throws IOException, EOFException {
+    public byte readByte() throws IOException, EOFException {
         if (this.len < 0) throw new EOFException();
         final byte res = this.buff[this.curr++];
         if (this.curr == this.len) {
@@ -176,7 +176,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         encoded in the next byte of this stream, or
         throws <code>EOFException</code> if the stream is
         exhausted. */
-    public final boolean readBoolean() throws IOException, EOFException {
+    public boolean readBoolean() throws IOException, EOFException {
         return (this.readByte() != 0);
     }
     
@@ -185,7 +185,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         encoded in the next two bytes of this stream, or
         throw <code>EOFException</code> if the stream contains
         fewer than two bytes. */
-    public final short readShort() throws IOException, EOFException {
+    public short readShort() throws IOException, EOFException {
         this.readFully(this.temp, 0, 2);
         return (short) ((temp[0] << 8) | (temp[1] & 0xff));
     }
@@ -196,7 +196,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         throws <code>EOFException</code> if the stream contains
         fewer than four bytes. */
     @Override
-    public final int readInt() throws IOException, EOFException {
+    public int readInt() throws IOException, EOFException {
         this.readFully(this.temp, 0, 4);
         int res = temp[0];
         res <<= 8; res |= (temp[1] & 0xff);
@@ -210,7 +210,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         encoded in the next eight bytes of this stream, or
         throws <code>EOFException</code> if the stream contains
         fewer than eight bytes. */
-    public final long readLong() throws IOException, EOFException {
+    public long readLong() throws IOException, EOFException {
         this.readFully(this.temp, 0, 8);
         long res = temp[0];
         res <<= 8; res |= (temp[1] & 0xff);
@@ -230,7 +230,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         by a carriage return character (<code>'\r'</code>), a newline 
         character (<code>'\n'</code>), a carriage return immediately 
         followed by a newline, or by the end of the stream. */
-    public final String readLine() throws IOException {
+    public String readLine() throws IOException {
         StringBuilder res = null;
         while (this.len > 0) {
             for (int i = this.curr; i < this.len; i++) {
@@ -267,7 +267,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     }
 
     @Override
-    public final String readString(int n) throws IOException {
+    public String readString(int n) throws IOException {
       final char[] b = new char[n];
       int off = 0;
       while (n > 0) {
@@ -296,7 +296,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     /** Skips over the next <code>n</code> bytes in this stream,
         or throws <code>EOFException</code> if it contains fewer
         than <code>n</code> bytes. */
-    public final void skip(int n) throws IOException, EOFException {
+    public void skip(int n) throws IOException, EOFException {
         while (this.len > 0 && this.curr + n >= this.len) {
             n -= (this.len - this.curr);
             // refill buffer from underlying input stream

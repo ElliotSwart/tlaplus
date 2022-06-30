@@ -21,7 +21,7 @@ public final class MVPerm implements IMVPerm {
     this.count = 0;
   }
 
-  public final boolean equals(final Object obj) {
+  public boolean equals(final Object obj) {
     if (obj instanceof final MVPerm perm) {
         for (int i = 0; i < this.elems.length; i++) {
 	if (this.elems[i] == null) {
@@ -38,7 +38,7 @@ public final class MVPerm implements IMVPerm {
     return false;
   }
 
-  public final int hashCode() {
+  public int hashCode() {
     int res = 0;
       for (final ModelValue mv : this.elems) {
           if (mv != null) {
@@ -49,15 +49,15 @@ public final class MVPerm implements IMVPerm {
   }
   
   @Override
-  public final int size() { return this.count; }
+  public int size() { return this.count; }
 
   @Override
-  public final IValue get(final IValue k) {
+  public IValue get(final IValue k) {
     return this.elems[((ModelValue) k).index];
   }
 
   @Override
-  public final void put(final IModelValue m1, final IModelValue m2) {
+  public void put(final IModelValue m1, final IModelValue m2) {
 	  final ModelValue k = (ModelValue) m1;
 	  final ModelValue elem = (ModelValue) m2;
     if (!k.equals(elem) && this.elems[k.index] == null) {
@@ -66,7 +66,7 @@ public final class MVPerm implements IMVPerm {
     }
   }
 
-  private final void put(final int i, final ModelValue elem) {
+  private void put(final int i, final ModelValue elem) {
     if (this.elems[i] == null && elem != null) {
       this.elems[i] = elem;
       this.count++;
@@ -74,7 +74,7 @@ public final class MVPerm implements IMVPerm {
   }
   
   @Override
-  public final IMVPerm compose(final IMVPerm perm) {
+  public IMVPerm compose(final IMVPerm perm) {
 	  final MVPerm res = new MVPerm();
     for (int i = 0; i < this.elems.length; i++) {
       final ModelValue mv = this.elems[i];
@@ -112,7 +112,7 @@ public final class MVPerm implements IMVPerm {
 	  return values;
   }
 
-  public final String toString() {
+  public String toString() {
     final StringBuilder sb = new StringBuilder("[");
     int i = 0;
     for (i = 0; i < this.elems.length; i++) {

@@ -329,7 +329,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	   * It then notifies this writer to flush enqBuf to file. In practice,
 	   * we expect the preceding write to have been completed. 
 	   */
-	  public final synchronized byte[][] doWork(final byte[][] enqBuf, final File file)
+	  public synchronized byte[][] doWork(final byte[][] enqBuf, final File file)
 	  throws IOException {
 	    if (this.poolFile != null) {
 	  	  final BufferedDataOutputStream vos = new BufferedDataOutputStream(this.poolFile);
@@ -347,7 +347,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	  }
 
 	  /* Spin waiting for the write to complete.  */
-	  public final void ensureWritten() throws InterruptedException {
+	  public void ensureWritten() throws InterruptedException {
 	    synchronized(this) {
 	      while (this.poolFile != null) {
 		this.wait();
@@ -407,12 +407,12 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		  private boolean canRead;    // true iff the file can be read
 		  private boolean finished = false;
 
-		  public final synchronized void wakeup() {
+		  public synchronized void wakeup() {
 		    this.canRead = true;
 		    this.notify();
 		  }
 
-		  public final synchronized void restart(final File file, final boolean canRead) {
+		  public synchronized void restart(final File file, final boolean canRead) {
 		    this.poolFile = file;
 		    this.isFull = false;
 		    this.canRead = canRead;
@@ -424,7 +424,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		   * full, it returns its buffer and notifies this reader to read the
 		   * content of the file.
 		   */
-		  public final synchronized byte[][] doWork(final byte[][] deqBuf, final File file)
+		  public synchronized byte[][] doWork(final byte[][] deqBuf, final File file)
 		  throws IOException, ClassNotFoundException {
 		    if (this.isFull) {
 		      assert this.poolFile == null : EC.SYSTEM_FILE_NULL;

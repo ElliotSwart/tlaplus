@@ -22,7 +22,7 @@ public final class ObjLongTable<T> {
   }
 
   @SuppressWarnings("unchecked")
-  private final void grow() {
+  private void grow() {
     final Object[] oldKeys = this.keys;
     final long[] oldElems = this.elems;
     this.count = 0;
@@ -36,9 +36,9 @@ public final class ObjLongTable<T> {
     }
   }
 
-  public final int size() { return this.count; }
+  public int size() { return this.count; }
 
-  public final int put(final T k, final long elem) {
+  public int put(final T k, final long elem) {
     if (count >= thresh) this.grow();
     int loc = (k.hashCode() & 0x7FFFFFFF) % this.length;
     while (true) {
@@ -57,7 +57,7 @@ public final class ObjLongTable<T> {
     }
   }
 
-  public final int add(final T k, final long elem) {
+  public int add(final T k, final long elem) {
     if (count >= thresh) this.grow();
     int loc = (k.hashCode() & 0x7FFFFFFF) % this.length;
     while (true) {
@@ -76,7 +76,7 @@ public final class ObjLongTable<T> {
     }
   }
   
-  public final long get(final Object k) {
+  public long get(final Object k) {
     int loc = (k.hashCode() & 0x7FFFFFFF) % length;
     while (true) {
       final Object key = this.keys[loc];
@@ -111,14 +111,14 @@ public final class ObjLongTable<T> {
 		return a;
 	}
   
-  public final Enumerator<T> keys() { return new Enumerator<>(); }
+  public Enumerator<T> keys() { return new Enumerator<>(); }
 
   @SuppressWarnings("hiding")
   public final class Enumerator<T> {
     int index = 0;
 
     @SuppressWarnings("unchecked")
-	public final T nextElement() {
+	public T nextElement() {
       while (this.index < keys.length) {
 	if (keys[this.index] != null) {
 	  return (T) keys[this.index++];

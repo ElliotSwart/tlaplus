@@ -306,13 +306,13 @@ public final Value set1;
     }
 
     @Override
-    public final void reset() {
+    public void reset() {
       this.enum1.reset();
       this.enum2.reset();
     }
 
     @Override
-    public final Value nextElement() {
+    public Value nextElement() {
   	  if (coverage) { cm.incSecondary(); }
   	Value elem = this.enum1.nextElement();
       if (elem != null) return elem;

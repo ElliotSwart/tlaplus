@@ -263,7 +263,7 @@ public final class Location implements Comparable<Location>
     /** 
      * gets the begin line number of this location. 
      */
-    public final int beginLine()
+    public int beginLine()
     {
         return this.bLine;
     }
@@ -271,7 +271,7 @@ public final class Location implements Comparable<Location>
     /** 
      * gets the begin column number of this location. 
      */
-    public final int beginColumn()
+    public int beginColumn()
     {
         return this.bColumn;
     }
@@ -279,19 +279,19 @@ public final class Location implements Comparable<Location>
     /** 
      * gets the end line number of this location. 
      */
-    public final int endLine()
+    public int endLine()
     {
         return this.eLine;
     }
 
-    public final int[] getCoordinates() {
+    public int[] getCoordinates() {
 		return new int[] { bLine, bColumn, eLine, eColumn };
     }
     
     /** 
      * gets the end column number of this location. 
      */
-    public final int endColumn()
+    public int endColumn()
     {
         return this.eColumn;
     }
@@ -299,12 +299,12 @@ public final class Location implements Comparable<Location>
     /** 
      * gets the file name of this location. 
      */
-    public final String source()
+    public String source()
     {
         return name != null ? name.toString() : null;
     }
 
-    public final UniqueString sourceAsUniqueString() {
+    public UniqueString sourceAsUniqueString() {
     	return name;
     }
     
@@ -317,7 +317,7 @@ public final class Location implements Comparable<Location>
      *                                                                    
      * where source() = "Foo".                                       
      */
-    public final String toString()
+    public String toString()
     {
         if (this == nullLoc)
         {

@@ -51,7 +51,7 @@ public final class ValueInputStream implements ValueConstants, IValueInputStream
   }
 
 	@Override
-	public final IValue read() throws IOException {
+	public IValue read() throws IOException {
 		final byte kind = this.dis.readByte();
 
 		switch (kind) {
@@ -91,7 +91,7 @@ public final class ValueInputStream implements ValueConstants, IValueInputStream
 		}
 	}
 	
-	public final IValue read(final Map<String, UniqueString> tbl) throws IOException {
+	public IValue read(final Map<String, UniqueString> tbl) throws IOException {
 		final byte kind = this.dis.readByte();
 
 		switch (kind) {
@@ -132,27 +132,27 @@ public final class ValueInputStream implements ValueConstants, IValueInputStream
 	}
  
   @Override
-  public final int readShort() throws IOException {
+  public int readShort() throws IOException {
 	    return this.dis.readShort();
   }
 
   @Override
-  public final int readInt() throws IOException {
+  public int readInt() throws IOException {
     return this.dis.readInt();
   }
 
   @Override
-  public final long readLong() throws IOException {
+  public long readLong() throws IOException {
     return this.dis.readLong();
   }
   
   @Override
-  public final void close() throws IOException {
+  public void close() throws IOException {
     this.dis.close();
   }
 
   @Override
-  public final int readNat() throws IOException {
+  public int readNat() throws IOException {
     int res = this.dis.readShort();
     if (res >= 0) return res;
     res = (res << 16) | (this.dis.readShort() & 0xFFFF);
@@ -160,14 +160,14 @@ public final class ValueInputStream implements ValueConstants, IValueInputStream
   }
   
   @Override
-  public final short readShortNat() throws IOException {
+  public short readShortNat() throws IOException {
 	final short res = this.dis.readByte();
 	if (res >= 0) return res;
 	return (short) -((res << 8) | (this.dis.readByte() & 0xFF));
   }
   
   @Override
-  public final long readLongNat() throws IOException {
+  public long readLongNat() throws IOException {
     long res = this.dis.readInt();
     if (res >= 0) return res;
     res = (res << 32) | ((long)this.dis.readInt() & 0xFFFFFFFFL);
@@ -175,27 +175,27 @@ public final class ValueInputStream implements ValueConstants, IValueInputStream
   }
 
 	@Override
-	public final byte readByte() throws EOFException, IOException {
+	public byte readByte() throws EOFException, IOException {
 		return this.dis.readByte();
 	}
 
 	@Override
-	public final void assign(final Object obj, final int idx) {
+	public void assign(final Object obj, final int idx) {
 		this.handles.assign(obj, idx);
 	}
 
 	@Override
-	public final int getIndex() {
+	public int getIndex() {
 		return handles.getIndex();
 	}
 
 	@Override
-	public final IDataInputStream getInputStream() {
+	public IDataInputStream getInputStream() {
 		return dis;
 	}
 
 	@Override
-	public final UniqueString getValue(final int idx) {
+	public UniqueString getValue(final int idx) {
 		return (UniqueString) this.handles.getValue(idx);
 	}
 

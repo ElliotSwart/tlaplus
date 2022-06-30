@@ -82,10 +82,10 @@ public final class MemFPSet2 extends FPSet {
   }
 
   @Override
-  public synchronized final long size() { return this.count; }
+  public synchronized long size() { return this.count; }
     
   @Override
-  public synchronized final boolean put(final long fp) {
+  public synchronized boolean put(final long fp) {
         final int index = (int)(fp & this.mask);
         final byte[] bucket = this.table[index];
         final byte b1 = (byte)((fp >>> 24) & 0xffL);
@@ -116,7 +116,7 @@ public final class MemFPSet2 extends FPSet {
   }
 
   @Override
-  public synchronized final boolean contains(final long fp) {
+  public synchronized boolean contains(final long fp) {
     final int index = (int)(fp & this.mask);
     final byte[] bucket = this.table[index];
     final byte b1 = (byte)((fp >>> 24) & 0xffL);
@@ -137,7 +137,7 @@ public final class MemFPSet2 extends FPSet {
   }
 
   @Override
-  public final void exit(final boolean cleanup) throws IOException {
+  public void exit(final boolean cleanup) throws IOException {
 	super.exit(cleanup);
     if (cleanup) {
       // Delete the metadata directory:
@@ -149,7 +149,7 @@ public final class MemFPSet2 extends FPSet {
   }
 
   @Override
-  public final long checkFPs() {
+  public long checkFPs() {
     long dis = Long.MAX_VALUE;
     for (int i = 0; i < this.table.length; i++) {
       final long low = i & 0xffffffL;
@@ -202,7 +202,7 @@ public final class MemFPSet2 extends FPSet {
   }
 
   @Override
-  public final void beginChkpt(final String fname) throws IOException {
+  public void beginChkpt(final String fname) throws IOException {
     final BufferedDataOutputStream dos =
       new BufferedDataOutputStream(this.chkptName(fname, "tmp"));
     for (int i = 0; i < this.table.length; i++) {
@@ -225,7 +225,7 @@ public final class MemFPSet2 extends FPSet {
   }
 
   @Override
-  final public void commitChkpt(final String fname) throws IOException {
+  public void commitChkpt(final String fname) throws IOException {
     final File oldChkpt = new File(this.chkptName(fname, "chkpt"));
     final File newChkpt = new File(this.chkptName(fname, "tmp"));
     if ((oldChkpt.exists() && !oldChkpt.delete()) ||
@@ -236,7 +236,7 @@ public final class MemFPSet2 extends FPSet {
   }
     
   @Override
-  public final void recover(final String fname) throws IOException {
+  public void recover(final String fname) throws IOException {
     final BufferedDataInputStream dis =
       new BufferedDataInputStream(this.chkptName(fname, "chkpt"));
     try {
@@ -252,22 +252,22 @@ public final class MemFPSet2 extends FPSet {
   }
 
   @Override
-  public final void beginChkpt() throws IOException {
+  public void beginChkpt() throws IOException {
     this.beginChkpt(this.filename);
   }
 
   @Override
-  public final void commitChkpt() throws IOException {
+  public void commitChkpt() throws IOException {
     this.commitChkpt(this.filename);
   }
 
   @Override
-  public final void recover(final TLCTrace trace) throws IOException {
+  public void recover(final TLCTrace trace) throws IOException {
     this.recover(this.filename);
   }
 
   @Override
-  public final void recoverFP(final long fp) throws IOException {
+  public void recoverFP(final long fp) throws IOException {
     Assert.check(!this.put(fp), EC.TLC_FP_NOT_IN_SET);
   }
   

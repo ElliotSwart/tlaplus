@@ -66,13 +66,13 @@ private final IValue[] values;
   }
 
   @Override
-  public final TLCState createEmpty() {
+  public TLCState createEmpty() {
 	  final IValue[] vals = new IValue[vars.length];
     return new TLCStateMutExt(vals);
   }
 
   //TODO equals without hashcode!
-  public final boolean equals(final Object obj) {
+  public boolean equals(final Object obj) {
     if (obj instanceof final TLCStateMutExt state) {
         for (int i = 0; i < this.values.length; i++) {
 	if (this.values[i] == null) {
@@ -89,7 +89,7 @@ private final IValue[] values;
   }
   
   @Override
-  public final TLCState bind(final UniqueString name, final IValue value) {
+  public TLCState bind(final UniqueString name, final IValue value) {
 	  // Note, tla2sany.semantic.OpApplNode.toString(Value) relies on this ordering.
     final int loc = name.getVarLoc();
     this.values[loc] = value;
@@ -97,31 +97,31 @@ private final IValue[] values;
   }
 
   @Override
-  public final TLCState bind(final SymbolNode id, final IValue value) {
+  public TLCState bind(final SymbolNode id, final IValue value) {
     throw new WrongInvocationException("TLCStateMut.bind: This is a TLC bug.");
   }
   
   @Override
-  public final TLCState unbind(final UniqueString name) {
+  public TLCState unbind(final UniqueString name) {
     final int loc = name.getVarLoc();
     this.values[loc] = null;
     return this;
   }
 
   @Override
-  public final IValue lookup(final UniqueString var) {
+  public IValue lookup(final UniqueString var) {
     final int loc = var.getVarLoc();
     if (loc < 0) return null;
     return this.values[loc];
   }
 
   @Override
-  public final boolean containsKey(final UniqueString var) {
+  public boolean containsKey(final UniqueString var) {
     return (this.lookup(var) != null);
   }
 
   @Override
-  public final TLCState copy() {
+  public TLCState copy() {
     final int len = this.values.length;
     final IValue[] vals = new IValue[len];
       System.arraycopy(this.values, 0, vals, 0, len);
@@ -129,7 +129,7 @@ private final IValue[] values;
   }
 
   @Override
-  public final TLCState deepCopy() {
+  public TLCState deepCopy() {
     final int len = this.values.length;
     final IValue[] vals = new IValue[len];
     for (int i = 0; i < len; i++) {
@@ -142,12 +142,12 @@ private final IValue[] values;
   }
 
   @Override
-  public final StateVec addToVec(final StateVec states) {
+  public StateVec addToVec(final StateVec states) {
     return states.addElement(this.copy());
   }
   
   @Override
-  public final void deepNormalize() {
+  public void deepNormalize() {
       for (final IValue val : this.values) {
           if (val != null) {
               val.deepNormalize();
@@ -165,7 +165,7 @@ private final IValue[] values;
    * the state queue.  We do that here.
    */
 	@Override
-    public final long fingerPrint() {
+    public long fingerPrint() {
 		final int sz = this.values.length;
 
 		// TLC supports symmetry reduction. Symmetry reduction works by defining classes
@@ -270,7 +270,7 @@ private final IValue[] values;
 	}
 
   @Override
-  public final boolean allAssigned() {
+  public boolean allAssigned() {
     final int len = this.values.length;
       for (IValue value : this.values) {
           if (value == null) return false;
@@ -290,7 +290,7 @@ private final IValue[] values;
 	}
  
     @Override
-	public final Set<OpDeclNode> getUnassigned() {
+	public Set<OpDeclNode> getUnassigned() {
 		// Return sorted set (lexicographical).
 		final Set<OpDeclNode> unassignedVars = new TreeSet<>((o1, o2) -> o1.getName().toString().compareTo(o2.getName().toString()));
 		final int len = this.values.length;
@@ -303,7 +303,7 @@ private final IValue[] values;
 	}
 
   @Override
-  public final void read(final IValueInputStream vis) throws IOException {
+  public void read(final IValueInputStream vis) throws IOException {
     super.read(vis);
     final int len = this.values.length;
     for (int i = 0; i < len; i++) {
@@ -312,7 +312,7 @@ private final IValue[] values;
   }
 
   @Override
-  public final void write(final IValueOutputStream vos) throws IOException {
+  public void write(final IValueOutputStream vos) throws IOException {
     super.write(vos);
     final int len = this.values.length;
       for (IValue value : this.values) {
@@ -321,7 +321,7 @@ private final IValue[] values;
   }
   
   /* Returns a string representation of this state.  */
-  public final String toString() {
+  public String toString() {
     if (TLCGlobals.useView && viewMap != null) {
       final IValue val = mytool.eval(viewMap, Context.Empty, this);
       return viewMap.toString(val);
@@ -352,7 +352,7 @@ private final IValue[] values;
   
   /* Returns a string representation of this state.  */
   @Override
-  public final String toString(final TLCState lastState) {
+  public String toString(final TLCState lastState) {
     final StringBuilder result = new StringBuilder();
     final TLCStateMutExt lstate = (TLCStateMutExt)lastState;
 

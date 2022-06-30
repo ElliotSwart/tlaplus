@@ -54,11 +54,11 @@ public final class DiskIntStack implements IntStack {
 
   /* Return the number of items on the stack. */
   @Override
-  public final long size() { return this.size; }
+  public long size() { return this.size; }
   
   /* Push an integer onto the stack.  */
   @Override
-  public final synchronized void pushInt(final int x) {
+  public synchronized void pushInt(final int x) {
     if (this.index == BufSize && this.buf == this.buf2) {
       // need to flush buf1 to disk
       try {
@@ -82,14 +82,14 @@ public final class DiskIntStack implements IntStack {
   
   /* Push a long integer onto the stack.  */
   @Override
-  public final synchronized void pushLong(final long x) {
+  public synchronized void pushLong(final long x) {
     this.pushInt((int)(x & 0xFFFFFFFFL));
     this.pushInt((int)(x >>> 32));
   }
 
   /* Pop the integer on top of the stack.  */
   @Override
-  public final synchronized int popInt() {
+  public synchronized int popInt() {
     if (this.buf == this.buf1 && this.index < BufSize/2 && this.hiPool != 0) {
       // need to fill buf1 from disk
       try {
@@ -116,7 +116,7 @@ public final class DiskIntStack implements IntStack {
 
   /* Pop the long integer on top of the stack.  */
   @Override
-  public final synchronized long popLong() {
+  public synchronized long popLong() {
     final long high = this.popInt();
     final long low = this.popInt();
     return (high << 32) | (low & 0xFFFFFFFFL);

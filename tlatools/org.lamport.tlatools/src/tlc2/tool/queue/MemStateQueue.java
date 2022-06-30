@@ -38,7 +38,7 @@ public final class MemStateQueue extends StateQueue {
   }
     
   @Override
-  final void enqueueInner(final TLCState state) {
+  void enqueueInner(final TLCState state) {
 	if (this.len > Integer.MAX_VALUE) {
         Assert.fail(EC.SYSTEM_ERROR_WRITING_STATES, new String[]{"queue", "Amount of states exceeds internal storage"});
 	}
@@ -64,7 +64,7 @@ public final class MemStateQueue extends StateQueue {
   }
 
   @Override
-  final TLCState dequeueInner() {
+  TLCState dequeueInner() {
     final TLCState res = this.states[this.start];
     this.states[this.start] = null;
     this.start = (this.start + 1) % this.states.length;
@@ -75,13 +75,13 @@ public final class MemStateQueue extends StateQueue {
    * @see tlc2.tool.queue.StateQueue#peekInner()
    */
   @Override
-  final TLCState peekInner() {
+  TLCState peekInner() {
 	return this.states[this.start];
   }
 
   // Checkpoint.
   @Override
-  public final void beginChkpt() throws IOException {
+  public void beginChkpt() throws IOException {
     final String filename = this.diskdir + FileUtil.separator + "queue.tmp";
     final ValueOutputStream vos = new ValueOutputStream(filename);
     vos.writeInt((int)this.len);
@@ -94,7 +94,7 @@ public final class MemStateQueue extends StateQueue {
   }
 
   @Override
-  public final void commitChkpt() throws IOException {
+  public void commitChkpt() throws IOException {
     final String oldName = this.diskdir + FileUtil.separator + "queue.chkpt";
     final File oldChkpt = new File(oldName);
     final String newName = this.diskdir + FileUtil.separator + "queue.tmp";
@@ -106,7 +106,7 @@ public final class MemStateQueue extends StateQueue {
   }
   
   @Override
-  public final void recover() throws IOException {
+  public void recover() throws IOException {
     final String filename = this.diskdir + FileUtil.separator + "queue.chkpt";
     final ValueInputStream vis = new ValueInputStream(filename);
     this.len = vis.readInt();

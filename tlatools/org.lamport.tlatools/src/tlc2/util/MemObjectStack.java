@@ -32,7 +32,7 @@ public final class MemObjectStack extends ObjectStack {
   }
     
   @Override
-  final void enqueueInner(final Object state) {
+  void enqueueInner(final Object state) {
     if (this.len == this.states.length) {
       // grow the array
       final int newLen = Math.max(1, this.len * GrowthFactor);
@@ -44,7 +44,7 @@ public final class MemObjectStack extends ObjectStack {
   }
     
   @Override
-  final Object dequeueInner() {
+  Object dequeueInner() {
     final int head = this.len - 1;
     final Object res = this.states[head];
     this.states[head] = null;
@@ -53,7 +53,7 @@ public final class MemObjectStack extends ObjectStack {
 
   // Checkpoint.
   @Override
-  public final void beginChkpt() throws IOException {
+  public void beginChkpt() throws IOException {
     final String tmpfile = this.filename + ".tmp";
     
     final ObjectOutputStream oos = FileUtil.newOBFOS(tmpfile);
@@ -66,7 +66,7 @@ public final class MemObjectStack extends ObjectStack {
   }
 
   @Override
-  public final void commitChkpt() throws IOException {
+  public void commitChkpt() throws IOException {
     final String oldName = this.filename + ".chkpt";
     final File oldChkpt = new File(oldName);
     final String newName = this.filename + ".tmp";
@@ -77,7 +77,7 @@ public final class MemObjectStack extends ObjectStack {
   }
   
   @Override
-  public final void recover() throws IOException {
+  public void recover() throws IOException {
     final String chkptfile = this.filename + ".chkpt";
     final ObjectInputStream ois = FileUtil.newOBFIS(chkptfile);
     try (ois) {

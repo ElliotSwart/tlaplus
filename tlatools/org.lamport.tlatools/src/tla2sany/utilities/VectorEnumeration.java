@@ -12,13 +12,13 @@ final class VectorEnumeration<E> implements Enumeration<E> {
   }
 
   @Override
-  public final boolean hasMoreElements() {
+  public boolean hasMoreElements() {
     return index < data.length;
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public final E nextElement() {
+  public E nextElement() {
     if (index < data.length)
       return (E)data[index++];
     else

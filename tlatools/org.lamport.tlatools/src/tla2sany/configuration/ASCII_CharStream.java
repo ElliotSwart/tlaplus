@@ -29,7 +29,7 @@ public final class ASCII_CharStream
   static private int maxNextCharInd = 0;
   static private int inBuf = 0;
 
-  static private final void ExpandBuff(final boolean wrapAround)
+  static private void ExpandBuff(final boolean wrapAround)
   {
      final char[] newbuffer = new char[bufsize + 2048];
      final int[] newbufline = new int[bufsize + 2048];
@@ -79,7 +79,7 @@ public final class ASCII_CharStream
      tokenBegin = 0;
   }
 
-  static private final void FillBuff() throws java.io.IOException
+  static private void FillBuff() throws java.io.IOException
   {
      if (maxNextCharInd == available)
      {
@@ -123,7 +123,7 @@ public final class ASCII_CharStream
      }
   }
 
-  static public final char BeginToken() throws java.io.IOException
+  static public char BeginToken() throws java.io.IOException
   {
      tokenBegin = -1;
      final char c = readChar();
@@ -132,7 +132,7 @@ public final class ASCII_CharStream
      return c;
   }
 
-  static private final void UpdateLineColumn(final char c)
+  static private void UpdateLineColumn(final char c)
   {
      column++;
 
@@ -172,7 +172,7 @@ public final class ASCII_CharStream
      bufcolumn[bufpos] = column;
   }
 
-  static public final char readChar() throws java.io.IOException
+  static public char readChar() throws java.io.IOException
   {
      if (inBuf > 0)
      {
@@ -193,23 +193,23 @@ public final class ASCII_CharStream
 
   
 
-  static public final int getEndColumn() {
+  static public int getEndColumn() {
      return bufcolumn[bufpos];
   }
 
-  static public final int getEndLine() {
+  static public int getEndLine() {
      return bufline[bufpos];
   }
 
-  static public final int getBeginColumn() {
+  static public int getBeginColumn() {
      return bufcolumn[tokenBegin];
   }
 
-  static public final int getBeginLine() {
+  static public int getBeginLine() {
      return bufline[tokenBegin];
   }
 
-  static public final void backup(final int amount) {
+  static public void backup(final int amount) {
 
     inBuf += amount;
     if ((bufpos -= amount) < 0)
@@ -292,7 +292,7 @@ public final class ASCII_CharStream
      ReInit(dstream, startline, startcolumn, 4096);
   }
 
-  static public final String GetImage()
+  static public String GetImage()
   {
      if (bufpos >= tokenBegin)
         return new String(buffer, tokenBegin, bufpos - tokenBegin + 1);

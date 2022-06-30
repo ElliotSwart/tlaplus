@@ -16,7 +16,7 @@ public final class MemIntStack extends MemBasedSet implements IntStack {
 	 * @see tlc2.util.IntStack#pushInt(int)
 	 */
 	@Override
-    public final synchronized void pushInt(final int x) {
+    public synchronized void pushInt(final int x) {
 		if (this.size == this.elems.length) {
 			final int[] newElems = ensureCapacity(MIN_CAPACITY);
 			System.arraycopy(elems, 0, newElems, 0, this.size);
@@ -30,7 +30,7 @@ public final class MemIntStack extends MemBasedSet implements IntStack {
 	 * @see tlc2.util.IntStack#pushLong(long)
 	 */
 	@Override
-    public final synchronized void pushLong(final long x) {
+    public synchronized void pushLong(final long x) {
 		this.pushInt((int) (x & 0xFFFFFFFFL));
 		this.pushInt((int) (x >>> 32));
 	}
@@ -39,16 +39,16 @@ public final class MemIntStack extends MemBasedSet implements IntStack {
 	 * @see tlc2.util.IntStack#popInt()
 	 */
 	@Override
-    public final synchronized int popInt() {
+    public synchronized int popInt() {
 		return this.elems[--this.size];
 	}
 
 	@Override
-    public final synchronized int peakInt() {
+    public synchronized int peakInt() {
 		return peakInt(size - 1);
 	}
 
-	public final synchronized int peakInt(final int pos) {
+	public synchronized int peakInt(final int pos) {
 		return this.elems[pos];
 	}
 
@@ -56,20 +56,20 @@ public final class MemIntStack extends MemBasedSet implements IntStack {
 	 * @see tlc2.util.IntStack#popLong()
 	 */
 	@Override
-    public final synchronized long popLong() {
+    public synchronized long popLong() {
 		final long high = this.popInt();
 		final long low = this.popInt();
 		return (high << 32) | (low & 0xFFFFFFFFL);
 	}
 
 	@Override
-    public final synchronized long peakLong() {
+    public synchronized long peakLong() {
 		final long high = this.peakInt();
 		final long low = this.peakInt();
 		return (high << 32) | (low & 0xFFFFFFFFL);
 	}
 
-	public final synchronized long peakLong(final int pos) {
+	public synchronized long peakLong(final int pos) {
 		final long high = this.peakInt(pos + 1);
 		final long low = this.peakInt(pos);
 		return (high << 32) | (low & 0xFFFFFFFFL);
@@ -79,7 +79,7 @@ public final class MemIntStack extends MemBasedSet implements IntStack {
 	 * @see tlc2.util.IntStack#reset()
 	 */
 	@Override
-    public final void reset() {
+    public void reset() {
 		this.size = 0;
 	}
 }

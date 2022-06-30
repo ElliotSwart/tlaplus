@@ -62,11 +62,11 @@ public final class Action implements ToolGlobals, Serializable {
   }
 
 /* Returns a string representation of this action.  */
-  public final String toString() {
+  public String toString() {
     return "<Action " + pred.toString() + ">";
   }
 
-  public final String getLocation() {
+  public String getLocation() {
 	  // It is possible that actionName is "Action" but lets ignore it for now.
 	  if (isNamed()) {
 		  // If known, print the action name instead of the generic string "Action".
@@ -75,22 +75,22 @@ public final class Action implements ToolGlobals, Serializable {
 	  return getLocation("Action");
   }
   
-  public final String getLocation(final String actionName) {
+  public String getLocation(final String actionName) {
       return "<" + actionName + " " +  pred.getLocation() + ">";
   }
   
-  public final boolean isNamed() {
+  public boolean isNamed() {
 	  return actionName != UNNAMED_ACTION && actionName != null && !"".equals(actionName.toString());
   }
   
   /**
    * @return The name of this action. Can be {@link Action#UNNAMED_ACTION}.
    */
-  public final UniqueString getName() {
+  public UniqueString getName() {
 	  return actionName;
   }
   
-	public final String getNameOfDefault() {
+	public String getNameOfDefault() {
 		if (isNamed()) {
 			return getName().toString();
 		}
@@ -105,11 +105,11 @@ public final class Action implements ToolGlobals, Serializable {
 	 *         the Action is not explicitly declared. I.e. "Spec == x = 42 /\ [][x'
 	 *         = x + 1]_x".
 	 */
-	public final OpDefNode getOpDef() {
+	public OpDefNode getOpDef() {
 		return this.opDef;
 	}
 
-	public final boolean isDeclared() {
+	public boolean isDeclared() {
 		// Spec == x = 0 /\ [][x' = x + 1]_x  has no declared actions.
 		return getDeclaration() != Location.nullLoc;
 	}
@@ -131,7 +131,7 @@ public final class Action implements ToolGlobals, Serializable {
 		return Location.nullLoc;
 	}
 
-	public final Location getDefinition() {
+	public Location getDefinition() {
 	   return pred.getLocation();
 	}
 
@@ -142,7 +142,7 @@ public final class Action implements ToolGlobals, Serializable {
 		return this.id;
 	}
 	
-	public final boolean isInitPredicate() {
+	public boolean isInitPredicate() {
 		return isInitPred;
 	}
 

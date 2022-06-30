@@ -766,12 +766,12 @@ public Value  set;           // SUBSET set
     }
 
     @Override
-    public final void reset() {
+    public void reset() {
       this.descriptor = new BitSet(this.elems.size());
     }
 
     @Override
-    public final Value nextElement() {
+    public Value nextElement() {
 			if (this.descriptor == null)
 				return null;
 			final ValueVec vals;

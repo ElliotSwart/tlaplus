@@ -74,7 +74,7 @@ public static void load (final Errors errs ) throws AbortException {
 
 
 
-  static final public void ConfigurationUnit() throws ParseException, AbortException {
+  static public void ConfigurationUnit() throws ParseException, AbortException {
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -91,7 +91,7 @@ public static void load (final Errors errs ) throws AbortException {
   }
 
 
-  static final public void OpDefinition() throws ParseException, AbortException {
+  static public void OpDefinition() throws ParseException, AbortException {
   final Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case OPERATOR:
@@ -124,7 +124,7 @@ public static void load (final Errors errs ) throws AbortException {
     }
   }
 
- static final public void OpBody(final String s) throws ParseException {
+ static public void OpBody(final String s) throws ParseException {
  Token t;
  final int kind;
      final int assoc;
@@ -191,7 +191,7 @@ public static void load (final Errors errs ) throws AbortException {
    Operators.addOperator( UniqueString.uniqueStringOf(s), op );
   }
 
-  static final public void OpSynonym() throws ParseException {
+  static public void OpSynonym() throws ParseException {
   final Token t1;
       final Token t2;
       jj_consume_token(SYNONYM);
@@ -201,11 +201,11 @@ public static void load (final Errors errs ) throws AbortException {
                           UniqueString.uniqueStringOf(t2.image) );
   }
 
-  static final public void OpNull(final String s) throws ParseException {
+  static public void OpNull(final String s) throws ParseException {
     jj_consume_token(NOTOP);
   }
 
-  static final public void OpBuiltin() throws ParseException, AbortException {
+  static public void OpBuiltin() throws ParseException, AbortException {
   Token t;
   final String external;
   final UniqueString us;
@@ -354,7 +354,7 @@ public static void load (final Errors errs ) throws AbortException {
     for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
-  static final private Token jj_consume_token(final int kind) throws ParseException {
+  static private Token jj_consume_token(final int kind) throws ParseException {
     final Token oldToken;
     if ((oldToken = token).next != null) token = token.next;
     else token = token.next = ConfigurationTokenManager.getNextToken();
@@ -368,7 +368,7 @@ public static void load (final Errors errs ) throws AbortException {
     throw generateParseException();
   }
 
-  static final public Token getNextToken() {
+  static public Token getNextToken() {
     if (token.next != null) token = token.next;
     else token = token.next = ConfigurationTokenManager.getNextToken();
     jj_ntk = -1;
@@ -376,7 +376,7 @@ public static void load (final Errors errs ) throws AbortException {
     return token;
   }
 
-  static final public Token getToken(final int index) {
+  static public Token getToken(final int index) {
     Token t = token;
     for (int i = 0; i < index; i++) {
       if (t.next != null) t = t.next;
@@ -385,7 +385,7 @@ public static void load (final Errors errs ) throws AbortException {
     return t;
   }
 
-  static final private int jj_ntk() {
+  static private int jj_ntk() {
     if ((jj_nt=token.next) == null)
       return (jj_ntk = (token.next=ConfigurationTokenManager.getNextToken()).kind);
     else
@@ -396,7 +396,7 @@ public static void load (final Errors errs ) throws AbortException {
   static private int[] jj_expentry;
   static private int jj_kind = -1;
 
-  static final public ParseException generateParseException() {
+  static public ParseException generateParseException() {
     jj_expentries.removeAllElements();
     final boolean[] la1tokens = new boolean[24];
     for (int i = 0; i < 24; i++) {
@@ -429,10 +429,10 @@ public static void load (final Errors errs ) throws AbortException {
     return new ParseException(token, exptokseq, tokenImage);
   }
 
-  static final public void enable_tracing() {
+  static public void enable_tracing() {
   }
 
-  static final public void disable_tracing() {
+  static public void disable_tracing() {
   }
 
 }

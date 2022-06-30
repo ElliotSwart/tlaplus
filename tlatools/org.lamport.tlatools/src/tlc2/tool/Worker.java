@@ -165,7 +165,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 	private final boolean checkLiveness;
 	private static boolean printedLivenessErrorStack = false;
 
-	private final void doNextCheckLiveness(final TLCState curState, final SetOfStates liveNextStates) throws IOException {
+	private void doNextCheckLiveness(final TLCState curState, final SetOfStates liveNextStates) throws IOException {
 		final long curStateFP = curState.fingerPrint();
 
 		// Add the stuttering step:
@@ -236,7 +236,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		}
 	}
 	
-	private final SetOfStates createSetOfStates() {
+	private SetOfStates createSetOfStates() {
 		return new SetOfStates(multiplier * INITIAL_CAPACITY);
 	}
 	
@@ -247,23 +247,23 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 	
 	/* Statistics */
 
-	final void incrementStatesGenerated(final long l) {
+	void incrementStatesGenerated(final long l) {
 		this.statesGenerated += l;		
 	}
 	
-	final long getStatesGenerated() {
+	long getStatesGenerated() {
 		return this.statesGenerated;
 	}
 
-	public final IBucketStatistics getOutDegree() {
+	public IBucketStatistics getOutDegree() {
 		return this.outDegree;
 	}
 	
-	public final int getMaxLevel() {
+	public int getMaxLevel() {
 		return maxLevel;
 	}
 
-	final void setLevel(final int level) {
+	void setLevel(final int level) {
 		maxLevel = level;
 	}
 
@@ -283,7 +283,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 	 * cache in BufferedRandomAccessFile hasn't been flushed out.
 	 */
 	
-	public final synchronized void writeState(final TLCState initialState, final long fp) throws IOException {
+	public synchronized void writeState(final TLCState initialState, final long fp) throws IOException {
 		// Write initial state to trace file.
 		this.lastPtr = this.raf.getFilePointer();
 		this.raf.writeLongNat(1L);
@@ -295,7 +295,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		initialState.uid = this.lastPtr;
 	}
 
-	public final synchronized void writeState(final TLCState curState, final long sucStateFp, final TLCState sucState) throws IOException {
+	public synchronized void writeState(final TLCState curState, final long sucStateFp, final TLCState sucState) throws IOException {
 		// Keep track of maximum diameter.
 		maxLevel = Math.max(curState.getLevel() + 1, maxLevel);
 		
@@ -316,7 +316,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
     }
 
 	// Read from previously written (see writeState) trace file.
-	public final synchronized ConcurrentTLCTrace.Record readStateRecord(final long ptr) throws IOException {
+	public synchronized ConcurrentTLCTrace.Record readStateRecord(final long ptr) throws IOException {
 		// Remember current tip of the file before we rewind.
 		this.raf.mark();
 		
@@ -342,7 +342,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 	
 	/* Checkpointing */
 
-	public final synchronized void beginChkpt() throws IOException {
+	public synchronized void beginChkpt() throws IOException {
 		this.raf.flush();
 		final DataOutputStream dos = FileUtil.newDFOS(filename + ".tmp");
 		dos.writeLong(this.raf.getFilePointer());
@@ -350,7 +350,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		dos.close();
 	}
 
-	public final synchronized void commitChkpt() throws IOException {
+	public synchronized void commitChkpt() throws IOException {
 		final File oldChkpt = new File(filename + ".chkpt");
 		final File newChkpt = new File(filename + ".tmp");
 		if ((oldChkpt.exists() && !oldChkpt.delete()) || !newChkpt.renameTo(oldChkpt)) {
@@ -358,7 +358,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		}
 	}
 
-	public final void recover() throws IOException {
+	public void recover() throws IOException {
 		final DataInputStream dis = FileUtil.newDFIS(filename + ".chkpt");
 		final long filePos = dis.readLong();
 		this.lastPtr = dis.readLong();
@@ -368,7 +368,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 	
 	/* Enumerator */
 	
-	public final Enumerator elements() throws IOException {
+	public Enumerator elements() throws IOException {
 		return new Enumerator();
 	}
 
@@ -401,12 +401,12 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 	//**************************************************************//
 
 	@Override
-	public final Object addElement(final TLCState state) {
+	public Object addElement(final TLCState state) {
 		throw new WrongInvocationException("tlc2.tool.Worker.addElement(TLCState) should not be called");
 	}
 
 	@Override
-	public final Object addElement(final TLCState curState, final Action action, final TLCState succState) {
+	public Object addElement(final TLCState curState, final Action action, final TLCState succState) {
 	    if (coverage) { action.cm.incInvocations(); }
 		this.statesGenerated++;
 		
@@ -481,7 +481,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		}
 	}
 
-	private final boolean isSeenState(final TLCState curState, final TLCState succState, final Action action)
+	private boolean isSeenState(final TLCState curState, final TLCState succState, final Action action)
 			throws IOException {
 		final long fp = succState.fingerPrint();
 		final boolean seen = this.theFPSet.put(fp);
@@ -507,7 +507,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		return seen;
 	}
 
-	private final boolean doNextCheckInvariants(final TLCState curState, final TLCState succState) throws IOException, WorkerException, Exception {
+	private boolean doNextCheckInvariants(final TLCState curState, final TLCState succState) throws IOException, WorkerException, Exception {
         int k = 0;
 		try
         {
@@ -538,7 +538,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		return false;
 	}
 
-	private final boolean doNextCheckImplied(final TLCState curState, final TLCState succState) throws IOException, WorkerException, Exception {
+	private boolean doNextCheckImplied(final TLCState curState, final TLCState succState) throws IOException, WorkerException, Exception {
 		int k = 0;
         try
         {
@@ -593,7 +593,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		}
 	}
 	
-	private final void doPostCondition(final TLCState curState, final TLCState succState) throws IOException {
+	private void doPostCondition(final TLCState curState, final TLCState succState) throws IOException {
 		final LinkedList<TLCStateInfo> trace = new LinkedList<>();
 		if (curState.isInitial()) {
 			trace.add(tool.getState(curState.fingerPrint()));

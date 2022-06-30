@@ -36,7 +36,7 @@ public final class NoopStateWriter implements IStateWriter {
 	 * @see tlc2.util.StateWriter#writeState(tlc2.tool.TLCState)
 	 */
 	@Override
-    public final void writeState(final TLCState state) {
+    public void writeState(final TLCState state) {
 		// noop
 	}
 
@@ -44,7 +44,7 @@ public final class NoopStateWriter implements IStateWriter {
 	 * @see tlc2.util.StateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, boolean)
 	 */
 	@Override
-    public final void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew) {
+    public void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew) {
 		// noop
 	}
 
@@ -60,7 +60,7 @@ public final class NoopStateWriter implements IStateWriter {
 	 * @see tlc2.util.IStateWriter#close()
 	 */
 	@Override
-    public final void close() {
+    public void close() {
 		// noop
 	}
 

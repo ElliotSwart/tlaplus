@@ -8,14 +8,14 @@ public final class ParseErrors implements tla2sany.st.ParseErrors {
 
   ParseErrors() { loe = new Vector<>(); }
 
-    final boolean empty() { return loe.isEmpty(); }
+    boolean empty() { return loe.isEmpty(); }
 
-  final void push(final ParseError pe ) {
+  void push(final ParseError pe ) {
     loe.addElement( pe );
   }
 
   @Override
-  public final tla2sany.st.ParseError[] errors() {
+  public tla2sany.st.ParseError[] errors() {
     final tla2sany.st.ParseError[] pes = new tla2sany.st.ParseError[ loe.size() ];
     for (int lvi = 0; lvi < pes.length; lvi++ )
       pes[ lvi ] = loe.elementAt( lvi );

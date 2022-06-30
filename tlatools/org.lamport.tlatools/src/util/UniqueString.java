@@ -308,7 +308,7 @@ public final class UniqueString implements Serializable
      * @return
      * @throws IOException
      */
-    public final void write(final IDataOutputStream dos) throws IOException
+    public void write(final IDataOutputStream dos) throws IOException
     {
         dos.writeInt(this.tok);
         dos.writeInt(this. getVarLoc()); 

@@ -384,10 +384,10 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
     }
 
     @Override
-    public final void reset() { this.Enum.reset(); }
+    public void reset() { this.Enum.reset(); }
 
     @Override
-    public final Value nextElement() {
+    public Value nextElement() {
     	Value  elem;
       while ((elem = this.Enum.nextElement()) != null) {
     	  if (coverage) { cm.incSecondary(); }

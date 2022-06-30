@@ -356,10 +356,10 @@ public final int low;
     int index = low;
 
     @Override
-    public final void reset() { this.index = low; }
+    public void reset() { this.index = low; }
 
     @Override
-    public final Value nextElement() {
+    public Value nextElement() {
       if (this.index <= high) {
     	  if (coverage) { cm.incSecondary(); }
         return IntValue.gen(this.index++);

@@ -52,28 +52,28 @@ public final class ValueOutputStream implements IValueOutputStream {
 	  }
 
   @Override
-  public final void writeShort(final short x) throws IOException {
+  public void writeShort(final short x) throws IOException {
 	  this.dos.writeShort(x);
   }
   
   @Override
-  public final void writeInt(final int x) throws IOException {
+  public void writeInt(final int x) throws IOException {
     this.dos.writeInt(x);
   }
 
   @Override
-  public final void writeLong(final long x) throws IOException {
+  public void writeLong(final long x) throws IOException {
     this.dos.writeLong(x);
   }
   
   @Override
-  public final void close() throws IOException {
+  public void close() throws IOException {
     this.dos.close();
   }
   
   /* Precondition: x is a non-negative short. */
   @Override
-  public final void writeShortNat(final short x) throws IOException {
+  public void writeShortNat(final short x) throws IOException {
     if (x > 0x7f) {
       this.dos.writeShort((short) -x);
     }
@@ -84,7 +84,7 @@ public final class ValueOutputStream implements IValueOutputStream {
 
   /* Precondition: x is a non-negative int. */
   @Override
-  public final void writeNat(final int x) throws IOException {
+  public void writeNat(final int x) throws IOException {
     if (x > 0x7fff) {
       this.dos.writeInt(-x);
     }
@@ -95,7 +95,7 @@ public final class ValueOutputStream implements IValueOutputStream {
 
   /* Precondition: x is a non-negative long. */
   @Override
-  public final void writeLongNat(final long x) throws IOException {
+  public void writeLongNat(final long x) throws IOException {
     if (x <= 0x7fffffff) {
       this.dos.writeInt((int)x);
     }
@@ -105,17 +105,17 @@ public final class ValueOutputStream implements IValueOutputStream {
   }
 	
 	@Override
-	public final void writeByte(final byte b) throws IOException {
+	public void writeByte(final byte b) throws IOException {
 		this.dos.writeByte(b);
 	}
 
 	@Override
-	public final void writeBoolean(final boolean b) throws IOException {
+	public void writeBoolean(final boolean b) throws IOException {
 		this.dos.writeBoolean(b);
 	}
 
 	@Override
-	public final BufferedDataOutputStream getOutputStream() {
+	public BufferedDataOutputStream getOutputStream() {
 		return dos;
 	}
 
@@ -147,7 +147,7 @@ public final class ValueOutputStream implements IValueOutputStream {
 	 * adverse effects.
 	 */
 	@Override
-	public final int put(final Object obj) {
+	public int put(final Object obj) {
 		return this.handles.put(obj);
 	}
   

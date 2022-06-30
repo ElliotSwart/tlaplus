@@ -31,7 +31,7 @@ public final class MemIntQueue extends MemBasedSet {
 		this.filename = filename;
 	}
 
-	public final void enqueueInt(final int elem) {
+	public void enqueueInt(final int elem) {
 		if (this.size == this.elems.length) {
 			// grow the array
 			final int[] newElems = ensureCapacity(InitialSize);
@@ -47,12 +47,12 @@ public final class MemIntQueue extends MemBasedSet {
 		this.size++;
 	}
 
-	public final void enqueueLong(final long elem) {
+	public void enqueueLong(final long elem) {
 		this.enqueueInt((int) (elem >>> 32));
 		this.enqueueInt((int) (elem & 0xFFFFFFFFL));
 	}
 
-	public final int dequeueInt() {
+	public int dequeueInt() {
 		// Assert.check(this.len > 0);
 		if (this.size < 1) {
 			throw new NoSuchElementException();
@@ -63,7 +63,7 @@ public final class MemIntQueue extends MemBasedSet {
 		return res;
 	}
 
-	public final long dequeueLong() {
+	public long dequeueLong() {
 		final long high = this.dequeueInt();
 		final long low = this.dequeueInt();
 		return (high << 32) | (low & 0xFFFFFFFFL);
@@ -84,7 +84,7 @@ public final class MemIntQueue extends MemBasedSet {
 	}
 
 	// Checkpoint.
-	public final void beginChkpt() throws IOException {
+	public void beginChkpt() throws IOException {
 		final String tmpName = this.diskdir + FileUtil.separator + this.filename + ".tmp";
 		final BufferedDataOutputStream bos = new BufferedDataOutputStream(tmpName);
 		bos.writeInt(this.size);
@@ -97,7 +97,7 @@ public final class MemIntQueue extends MemBasedSet {
 		bos.close();
 	}
 
-	public final void commitChkpt() throws IOException {
+	public void commitChkpt() throws IOException {
 		final String oldName = this.diskdir + FileUtil.separator + this.filename + ".chkpt";
 		final File oldChkpt = new File(oldName);
 		final String newName = this.diskdir + FileUtil.separator + this.filename + ".tmp";
@@ -107,7 +107,7 @@ public final class MemIntQueue extends MemBasedSet {
 		}
 	}
 
-	public final void recover() throws IOException {
+	public void recover() throws IOException {
 		final String chkptName = this.diskdir + FileUtil.separator + this.filename + ".chkpt";
 		final BufferedDataInputStream bis = new BufferedDataInputStream(chkptName);
 		this.size = bis.readInt();

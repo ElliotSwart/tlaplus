@@ -25,12 +25,12 @@ public class Vect<E> implements Cloneable, Serializable {
     int index = 0;
 
     @Override
-    public final boolean hasMoreElements () {
+    public boolean hasMoreElements () {
       return (this.index < elementCount);
     }
 
     @Override
-    public final E nextElement() {
+    public E nextElement() {
       return elementData[index++];
     }
   }

@@ -118,7 +118,7 @@ public abstract class RandomEnumerableValues {
 		}
 
 		@Override
-		public final Random initialize() {
+		public Random initialize() {
 			// Noop
 			return this;
 		}

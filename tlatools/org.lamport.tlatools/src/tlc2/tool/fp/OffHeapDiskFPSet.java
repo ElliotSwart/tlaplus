@@ -248,7 +248,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	 * @see tlc2.tool.fp.DiskFPSet#needsDiskFlush()
 	 */
 	@Override
-	protected final boolean needsDiskFlush() {
+	protected boolean needsDiskFlush() {
 		return loadFactorExceeds(1d) || forceFlush;
 	}
 	
@@ -261,7 +261,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	 *            from growing past it.
 	 * @return true iff the current hash table load exceeds the given limit
 	 */
-	private final boolean loadFactorExceeds(final double limit) {
+	private boolean loadFactorExceeds(final double limit) {
 		final double d = (this.tblCnt.doubleValue()) / (double) this.maxTblCnt;
 		return d >= limit;
 	}
@@ -272,11 +272,11 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	 * @see tlc2.tool.fp.DiskFPSet#memLookup(long)
 	 */
 	@Override
-    final boolean memLookup(final long fp0) {
+	boolean memLookup(final long fp0) {
 		return memLookup0(fp0) == FOUND;
 	}
 
-	final int memLookup0(final long fp0) {
+	int memLookup0(final long fp0) {
 		int free = PROBE_LIMIT;
 		for (int i = 0; i <= PROBE_LIMIT; i++) {
 			final long position = indexer.getIdx(fp0, i);
@@ -298,11 +298,11 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	 * @see tlc2.tool.fp.DiskFPSet#memInsert(long)
 	 */
 	@Override
-    final boolean memInsert(final long fp0) throws IOException {
+	boolean memInsert(final long fp0) throws IOException {
 		return memInsert0(fp0, 0);
 	}
 
-	final boolean memInsert0(final long fp0, final int start) throws IOException {
+	boolean memInsert0(final long fp0, final int start) throws IOException {
 		// See OffHeapDiskFPSetJPFTest for a (verbatim) version that has
 		// additionally been verified with JPF.
 		for (int i = start; i < PROBE_LIMIT; i++) {
@@ -346,7 +346,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	 * @see tlc2.tool.fp.FPSet#put(long)
 	 */
 	@Override
-    public final boolean put(final long fp) throws IOException {
+    public boolean put(final long fp) throws IOException {
 		if (checkEvictPending()) {
 			return put(fp);
 		}
@@ -379,7 +379,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	 * @see tlc2.tool.fp.FPSet#contains(long)
 	 */
 	@Override
-    public final boolean contains(final long fp) throws IOException {
+    public boolean contains(final long fp) throws IOException {
 		// maintains happen-before with regards to successful put
 		
 		if (checkEvictPending()) {

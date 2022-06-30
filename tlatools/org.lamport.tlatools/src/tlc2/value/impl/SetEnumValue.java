@@ -460,10 +460,10 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
     }
 
     @Override
-    public final void reset() { this.index = 0; }
+    public void reset() { this.index = 0; }
 
     @Override
-    public final Value nextElement() {
+    public Value nextElement() {
     	if (coverage) { cm.incSecondary(); }
       if (this.index < elems.size()) {
         return elems.elementAt(this.index++);

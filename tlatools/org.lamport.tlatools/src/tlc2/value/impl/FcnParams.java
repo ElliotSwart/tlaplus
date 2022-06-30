@@ -138,7 +138,7 @@ public class FcnParams implements IFcnParams {
     }
 
     @Override
-    public final void reset() {
+    public void reset() {
       if (this.enums != null) {
 	for (int i = 0; i < this.enums.length; i++) {
 	  this.enums[i].reset();
@@ -148,7 +148,7 @@ public class FcnParams implements IFcnParams {
     }
 
     @Override
-    public final Value nextElement() {
+    public Value nextElement() {
       if (this.enums == null) return null;
       final Value[] elems = new Value[argLen];
         System.arraycopy(this.currentElems, 0, elems, 0, argLen);

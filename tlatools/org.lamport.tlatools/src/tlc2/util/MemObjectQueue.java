@@ -34,7 +34,7 @@ public final class MemObjectQueue {
     this.diskdir = metadir;
   }
     
-  public final void enqueue(final Object state) {
+  public void enqueue(final Object state) {
     if (this.len == this.states.length) {
       // grow the array
       final int newLen = Math.max(1, this.len * GrowthFactor);
@@ -50,7 +50,7 @@ public final class MemObjectQueue {
     this.len++;
   }
     
-  public final Object dequeue() {
+  public Object dequeue() {
     if (this.len == 0) return null;
     final Object res = this.states[this.start];
     this.states[this.start] = null;
@@ -60,7 +60,7 @@ public final class MemObjectQueue {
   }
 
   // Checkpoint.
-  public final void beginChkpt() throws IOException {
+  public void beginChkpt() throws IOException {
     final String filename = this.diskdir + FileUtil.separator + "queue.tmp";
     final ObjectOutputStream oos = FileUtil.newOBFOS(filename);
     oos.writeInt(this.len);
@@ -72,7 +72,7 @@ public final class MemObjectQueue {
     oos.close();
   }
 
-  public final void commitChkpt() throws IOException {
+  public void commitChkpt() throws IOException {
     final String oldName = this.diskdir + FileUtil.separator + "queue.chkpt";
     final File oldChkpt = new File(oldName);
     final String newName = this.diskdir + FileUtil.separator + "queue.tmp";
@@ -83,7 +83,7 @@ public final class MemObjectQueue {
     }
   }
   
-  public final void recover() throws IOException {
+  public void recover() throws IOException {
     final String filename = this.diskdir + FileUtil.separator + "queue.chkpt";
     final ObjectInputStream ois = FileUtil.newOBFIS(filename);
     this.len = ois.readInt();

@@ -19,21 +19,21 @@ public final class Striped {
 		}
 	}
 
-	public final ReadWriteLock getAt(final int lockIndex) {
+	public ReadWriteLock getAt(final int lockIndex) {
 		return this.locks[lockIndex];
 	}
 
-	public final int size() {
+	public int size() {
 		return locks.length;
 	}
 
-	public final void releaseAllLocks() {
+	public void releaseAllLocks() {
 		for (int i = size() - 1; i >= 0; i--) {
 			this.locks[i].writeLock().unlock();
 		}
 	}
 
-	public final void acquireAllLocks() {
+	public void acquireAllLocks() {
 		//TODO find way to do this more efficiently
 		for (int i = 0; i < size(); i++) {
 			this.locks[i].writeLock().lock();

@@ -63,7 +63,7 @@ public final class Context implements Iterator<Context> {
 		return new Context(null, null, base);
 	}
 
-	public final Context cons(final SymbolNode name, final Object value) {
+	public Context cons(final SymbolNode name, final Object value) {
 		return new Context(name, value, this);
 	}
 
@@ -71,7 +71,7 @@ public final class Context implements Iterator<Context> {
 	 * This method returns the value for the name var. It returns null if this
 	 * context does not contain var.
 	 */
-	public final Object lookup(final SymbolNode var) {
+	public Object lookup(final SymbolNode var) {
 		Context cur = this;
 		// Follow the linked list of Contexts (chain) starting at this context
 		// until a Context has been reached whose name (SymbolNode) is identical
@@ -89,7 +89,7 @@ public final class Context implements Iterator<Context> {
 		return null; // On Empty Context (end of chain), return null value
 	}
 	
-	public final Object lookup(final Function<SymbolNode, Boolean> f) {
+	public Object lookup(final Function<SymbolNode, Boolean> f) {
 		Context cur = this;
 		while (cur != Empty) {
 			if (f.apply(cur.name)) {
@@ -100,7 +100,7 @@ public final class Context implements Iterator<Context> {
 		return null;
 	}
 
-	public final SymbolNode lookupName(final Function<SymbolNode, Boolean> f) {
+	public SymbolNode lookupName(final Function<SymbolNode, Boolean> f) {
 		Context cur = this;
 		while (cur != Empty) {
 			if (f.apply(cur.name)) {
@@ -120,7 +120,7 @@ public final class Context implements Iterator<Context> {
 	 * @return value associated with the {@link SymbolNode} var or null if var
 	 *         could not be found in the search along the Context "chain"
 	 */
-	public final Object lookup(final SymbolNode var, final boolean cutoff) {
+	public Object lookup(final SymbolNode var, final boolean cutoff) {
 		Context cur = this;
 		// Follow the linked list of Contexts (chain) starting at this context until a Context has been
 		// reached whose name (SymbolNode) is identical to the searched for var. Stop if the Context's
@@ -142,7 +142,7 @@ public final class Context implements Iterator<Context> {
 		return null; // On Empty Context (end of chain), return null value
 	}
 
-	public final Map<UniqueString, Value> toMap() {
+	public Map<UniqueString, Value> toMap() {
 		if (this.name == null) {
 			if (this == Empty) {
 				return new HashMap<>();
@@ -163,7 +163,7 @@ public final class Context implements Iterator<Context> {
 		return res;
 	}
 	
-	public final StringBuffer toString(final StringBuffer sb) {
+	public StringBuffer toString(final StringBuffer sb) {
 		if (this.name == null) {
 			if (this == Empty) {
 				return sb;
@@ -184,7 +184,7 @@ public final class Context implements Iterator<Context> {
 		return sb;
 	}
 
-	public final String toString() {
+	public String toString() {
 		StringBuffer sb = new StringBuffer("[");
 		sb = this.toString(sb);
 		sb.append("]");
@@ -201,23 +201,23 @@ public final class Context implements Iterator<Context> {
 		return this.next;
 	}
 
-	public final SymbolNode getName() {
+	public SymbolNode getName() {
 		return name;
 	}
 
-	public final Object getValue() {
+	public Object getValue() {
 		return value;
 	}
 	
-	public final boolean isEmpty() {
+	public boolean isEmpty() {
 		return this == Empty;
 	}
 
-	public final boolean isDeepEmpty() {
+	public boolean isDeepEmpty() {
 		return this.isEmpty() || this == BaseBranch;
 	}
 
-	public final int depth() {
+	public int depth() {
 		int depth = 1;
 		Context child = next();
 		while (child.hasNext()) {

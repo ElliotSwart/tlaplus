@@ -20,7 +20,7 @@ public final class NodeTable {
 	}
 
 	/* Double the table when the table is full by the threshhold. */
-	private final void grow() {
+	private void grow() {
 		final Object[] oldElems = this.elems;
 		this.count = 0;
 		this.length = 2 * this.length + 1;
@@ -39,7 +39,7 @@ public final class NodeTable {
 
 	
 
-	public final int putBENode(final BEGraphNode node) {
+	public int putBENode(final BEGraphNode node) {
 		if (count >= thresh) {
 			this.grow();
 		}
@@ -59,7 +59,7 @@ public final class NodeTable {
 		}
 	}
 
-	public final BEGraphNode getBENode(final long k) {
+	public BEGraphNode getBENode(final long k) {
 		int loc = ((int) k & 0x7FFFFFFF) % this.length;
 		while (true) {
 			final BEGraphNode node = (BEGraphNode) this.elems[loc];
@@ -73,7 +73,7 @@ public final class NodeTable {
 		}
 	}
 
-	private final int putBTNodes(final Object nodes) {
+	private int putBTNodes(final Object nodes) {
 		final long k = ((nodes instanceof BTGraphNode) ? ((BTGraphNode) nodes).stateFP : ((BTGraphNode[]) nodes)[0].stateFP);
 		int loc = ((int) k & 0x7FFFFFFF) % this.length;
 		while (this.elems[loc] != null) {
@@ -84,7 +84,7 @@ public final class NodeTable {
 		return loc;
 	}
 
-	public final int putBTNode(final BTGraphNode node) {
+	public int putBTNode(final BTGraphNode node) {
 		if (this.count >= this.thresh) {
 			this.grow();
 		}
@@ -132,7 +132,7 @@ public final class NodeTable {
 	}
 
 	/* This method gets all the nodes with state fingerprint k. */
-	public final BTGraphNode[] getBTNode(final long k) {
+	public BTGraphNode[] getBTNode(final long k) {
 		int loc = ((int) k & 0x7FFFFFFF) % this.length;
 		while (true) {
 			final Object elem = this.elems[loc];
@@ -164,7 +164,7 @@ public final class NodeTable {
 	 * This method gets the node with state fingerprint k1 and tableau node
 	 * index k2. It returns null if there is no such node.
 	 */
-	public final BTGraphNode getBTNode(final long k1, final int k2) {
+	public BTGraphNode getBTNode(final long k1, final int k2) {
 		int loc = ((int) k1 & 0x7FFFFFFF) % this.length;
 		while (true) {
 			final Object elem = this.elems[loc];
@@ -198,7 +198,7 @@ public final class NodeTable {
 	 * elems[idx]. So, if there is a new node being added to elems[idx], we must
 	 * get this new node done.
 	 */
-	public final boolean isDone(final int loc) {
+	public boolean isDone(final int loc) {
 		final Object elem = this.elems[loc];
 		if (elem == null) {
 			return false;
@@ -209,7 +209,7 @@ public final class NodeTable {
 		return ((BTGraphNode[]) elem)[0].isDone();
 	}
 
-	public final void setDone(final long k) {
+	public void setDone(final long k) {
 		if (this.count >= this.thresh) {
 			this.grow();
 		}

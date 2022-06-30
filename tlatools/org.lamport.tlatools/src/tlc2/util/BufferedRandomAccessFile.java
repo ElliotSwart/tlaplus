@@ -332,21 +332,21 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
       return new BigInteger(b);
     }
     
-    public final int readShortNat() throws IOException {
+    public int readShortNat() throws IOException {
         int res = this.readByte();
         if (res >= 0) return res;
         res = (res << 16) | (this.readByte() & 0xff);
         return -res;
     }
 
-  public final int readNat() throws IOException {
+  public int readNat() throws IOException {
     int res = this.readShort();
     if (res >= 0) return res;
     res = (res << 16) | (this.readShort() & 0xffff);
     return -res;
   }
 
-  public final long readLongNat() throws IOException {
+  public long readLongNat() throws IOException {
     long res = this.readInt();
     if (res >= 0) return res;
     res = (res << 32) | ((long)this.readInt() & 0xffffffffL);
@@ -407,7 +407,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
     }
     
     /* Precondition: x is a non-negative short. */
-    public final void writeShortNat(final int x) throws IOException {
+    public void writeShortNat(final int x) throws IOException {
       if (x <= 0x7f) {
         this.writeByte((short)x);
       }
@@ -417,7 +417,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
     }
 
   /* Precondition: x is a non-negative int. */
-  public final void writeNat(final int x) throws IOException {
+  public void writeNat(final int x) throws IOException {
     if (x <= 0x7fff) {
       this.writeShort((short)x);
     }
@@ -427,7 +427,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
   }
 
   /* Precondition: x is a non-negative long. */
-  public final void writeLongNat(final long x) throws IOException {
+  public void writeLongNat(final long x) throws IOException {
     if (x <= 0x7fffffff) {
       this.writeInt((int)x);
     }

@@ -104,7 +104,7 @@ public final class ActionWrapper extends CostModelNode {
 	 * @see tlc2.tool.CostModel#get(tla2sany.semantic.SemanticNode)
 	 */
 	@Override
-	public final CostModel get(final SemanticNode eon) {
+	public CostModel get(final SemanticNode eon) {
 		// returns this instance in case no match is found in children. As a result, the
 		// CostModel will be incorrect which is not as severe as running into an NPE.
 		if (eon instanceof final SubstInNode sin) {

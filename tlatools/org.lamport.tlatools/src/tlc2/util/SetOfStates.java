@@ -67,12 +67,12 @@ public final class SetOfStates {
 		}
 	}
 
-	public final void clear() {
+	public void clear() {
 		this.count = 0;
 		this.states = new TLCState[length];
 	}
 	
-	private final void grow() {
+	private void grow() {
 		final TLCState[] old = states;
 		this.count = 0;
 		this.length = 2 * this.length + 1;
@@ -87,11 +87,11 @@ public final class SetOfStates {
         }
 	}
 
-	public final boolean put(final TLCState aState) {
+	public boolean put(final TLCState aState) {
 		return put(aState.fingerPrint(), aState);
 	}
 
-	public final boolean put(final long fingerprint, final TLCState aState) {
+	public boolean put(final long fingerprint, final TLCState aState) {
 		if (count >= thresh) {
 			this.grow();
 		}
@@ -169,14 +169,14 @@ public final class SetOfStates {
 	/**
 	 * @return The current capacity of this set. [](capacity > size)
 	 */
-	public final int capacity() {
+	public int capacity() {
 		return this.length;
 	}
 	
 	/**
 	 * @return The number of {@link TLCState}s in this set. [](capacity > size)
 	 */
-	public final int size() {
+	public int size() {
 		return this.count;
 	}
 	
@@ -229,7 +229,7 @@ public final class SetOfStates {
 
 	private int iteratorIndex = 0;
 	
-	public final TLCState next() {
+	public TLCState next() {
 		TLCState next = null;
 		while ((next = this.states[iteratorIndex++]) == null) {
 			// No-op loop

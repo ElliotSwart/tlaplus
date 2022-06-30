@@ -207,7 +207,7 @@ public final class Parameters
   * Various LaTeX commands and environments used in the LaTeX output.      *
   *************************************************************************/
 
-  public final static float LaTeXLeftSpace(final int n)
+  public static float LaTeXLeftSpace(final int n)
     /***********************************************************************
     * The amount of space, in points, that corresponds to n spaces in the  *
     * input file.  The definition of \PROVE in tlatex.sty depends on this  *
@@ -215,21 +215,21 @@ public final class Parameters
     ***********************************************************************/
     { return Misc.stringToFloat("4.1") * n * LaTeXptSize / 10  ; }
     
-  public final static float LaTeXCommentLeftSpace(final int n)
+  public static float LaTeXCommentLeftSpace(final int n)
     /***********************************************************************
     * The amount of space, in points, that corresponds to n spaces in a    *
     * comment in the input file.                                           *
     ***********************************************************************/
     { return Misc.stringToFloat("2.5") * n * LaTeXptSize / 10 ; }
 
-  public final static float LaTeXVSpace(final int n)
+  public static float LaTeXVSpace(final int n)
     /***********************************************************************
     * The amount of vertical space, in points, that corresponds to n       *
     * blank lines in the input file.                                       *
     ***********************************************************************/
     { return Misc.stringToFloat("8.0") * n  ; }
     
-  public final static float LaTeXCommentVSpace(final int n)
+  public static float LaTeXCommentVSpace(final int n)
     /***********************************************************************
     * The amount of space, in points, that corresponds to n blank lines    *
     * in a comment in the input file.                                      *

@@ -364,14 +364,14 @@ public final Value set;
     }
 
     @Override
-    public final void reset() {
+    public void reset() {
       this.Enum.reset();
       this.elemSet = this.Enum.nextElement();
       this.elemSetEnum = ((Enumerable)this.elemSet).elements();
     }
 
     @Override
-    public final Value nextElement() {
+    public Value nextElement() {
       if (this.elemSet == null) return null;
       Value val = this.elemSetEnum.nextElement();
       if (val == null) {

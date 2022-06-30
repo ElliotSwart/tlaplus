@@ -38,25 +38,25 @@ private final SymbolNode name;
   }
 
   @Override
-  public final TLCState createEmpty() { return Empty; }
+  public TLCState createEmpty() { return Empty; }
 
   @Override
-  public final TLCState bind(final UniqueString name, final IValue value) {
+  public TLCState bind(final UniqueString name, final IValue value) {
       throw new WrongInvocationException("TLCStateFun.bind: This is a TLC bug.");
   }
 
   @Override
-  public final TLCState bind(final SymbolNode id, final IValue value) {
+  public TLCState bind(final SymbolNode id, final IValue value) {
     return new TLCStateFun(id, value, this);
   }
   
   @Override
-  public final TLCState unbind(final UniqueString name) {
+  public TLCState unbind(final UniqueString name) {
       throw new WrongInvocationException("TLCStateFun.unbind: This is a TLC bug.");
   }
   
   @Override
-  public final IValue lookup(final UniqueString var) {
+  public IValue lookup(final UniqueString var) {
     for (TLCStateFun cur = this; cur != Empty; cur = cur.next) {
       if (var == cur.name.getName()) return cur.value;
     }
@@ -64,12 +64,12 @@ private final SymbolNode name;
   }
   
   @Override
-  public final boolean containsKey(final UniqueString var) {
+  public boolean containsKey(final UniqueString var) {
     return this.lookup(var) != null;
   }
   
   @Override
-  public final TLCState copy() {
+  public TLCState copy() {
       // The following code added blindly by LL on 28 May 2010
       // to fix a bug.  I have no idea what's going on here.
        return new TLCStateFun(this.name, this.value, this.next);
@@ -77,35 +77,35 @@ private final SymbolNode name;
   }
   
   @Override
-  public final TLCState deepCopy() {
+  public TLCState deepCopy() {
       throw new WrongInvocationException("TLCStateFun.deepCopy: This is a TLC bug.");
   }
   
   @Override
-  public final void deepNormalize() {
+  public void deepNormalize() {
       throw new WrongInvocationException("TLCStateFun.normalizeFcns: This is a TLC bug.");
   }
   
   @Override
-  public final long fingerPrint() {
+  public long fingerPrint() {
       throw new WrongInvocationException("TLCStateFun.fingerPrint: This is a TLC bug.");
   }
 
   @Override
-  public final boolean allAssigned() { return true; }
+  public boolean allAssigned() { return true; }
   
   @Override
-  public final Set<OpDeclNode> getUnassigned() { return new HashSet<>(); }
+  public Set<OpDeclNode> getUnassigned() { return new HashSet<>(); }
 
   
 
   @Override
-  public final StateVec addToVec(final StateVec states) {
+  public StateVec addToVec(final StateVec states) {
     return states.addElement(this);
   }
   
   @Override
-  public final void read(final IValueInputStream vis) throws IOException {
+  public void read(final IValueInputStream vis) throws IOException {
       throw new WrongInvocationException("TLCStateFun.read: This is a TLC bug.");
   }
 

@@ -27,7 +27,7 @@ public final class SetOfLong {
 
   public SetOfLong(final int size, final float ignore) { this(size); }
 
-  private final void grow() {
+  private void grow() {
     final long[] old = table;
     this.count = 0;
     this.length = 2 * this.length + 1;
@@ -42,7 +42,7 @@ public final class SetOfLong {
    * Add k into the table. Return true iff the table has already
    * contained k.
    */
-  public final boolean put(final long k) {
+  public boolean put(final long k) {
     if (count >= thresh) this.grow();
     if (k == 0) {
       if (this.hasZero) return true;
@@ -66,7 +66,7 @@ public final class SetOfLong {
   }
 
   /* Return true iff the table contains k. */
-  public final boolean contains(final long k) {
+  public boolean contains(final long k) {
     if (k == 0) {
       return this.hasZero;
     }
@@ -81,11 +81,11 @@ public final class SetOfLong {
     }
   }
 
-  public final int size() { return this.count; }
+  public int size() { return this.count; }
 
-  public final long sizeof() { return 20 + (8L * this.length); }
+  public long sizeof() { return 20 + (8L * this.length); }
 
-  public final long checkFPs() {
+  public long checkFPs() {
     int cnt = 0;
     for (int i = 0; i < this.length; i++) {
       final long x = this.table[i];
@@ -109,7 +109,7 @@ public final class SetOfLong {
     return dis;
   }
 
-  public final void beginChkpt(final DataOutputStream dos) throws IOException {
+  public void beginChkpt(final DataOutputStream dos) throws IOException {
     dos.writeInt(this.count);
     dos.writeInt(this.length);
     dos.writeInt(this.thresh);
@@ -120,7 +120,7 @@ public final class SetOfLong {
     }
   }
 
-  public final void recover(final DataInputStream dis) throws IOException {
+  public void recover(final DataInputStream dis) throws IOException {
     this.count = dis.readInt();
     this.length = dis.readInt();
     this.thresh = dis.readInt();

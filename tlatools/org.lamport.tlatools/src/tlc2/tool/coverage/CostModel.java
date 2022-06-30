@@ -32,53 +32,53 @@ public interface CostModel {
 	CostModel DO_NOT_RECORD = new CostModel() {
 
 		@Override
-		public final CostModel report() {
+		public CostModel report() {
 			// no-op
 			return this;
 		}
 
 		@Override
-		public final CostModel get(final SemanticNode sn) {
+		public CostModel get(final SemanticNode sn) {
 			return this;
 		}
 		
 		@Override
-		public final CostModel getRoot() {
+		public CostModel getRoot() {
 			return this;
 		}
 
 		@Override
-		public final CostModel incInvocations() {
+		public CostModel incInvocations() {
 			// no-op
 			return this;
 		}
 
 		@Override
-		public final CostModel incInvocations(final long value) {
+		public CostModel incInvocations(final long value) {
 			// no-op
 			return this;
 		}
 
 		@Override
-		public final CostModel incSecondary() {
+		public CostModel incSecondary() {
 			// no-op
 			return this;
 		}
 
 		@Override
-		public final CostModel incSecondary(final long value) {
+		public CostModel incSecondary(final long value) {
 			// no-op
 			return null;
 		}
 
 		@Override
-		public final CostModel getAndIncrement(final SemanticNode eon) {
+		public CostModel getAndIncrement(final SemanticNode eon) {
 			// no-op
 			return this;
 		}
 		
 		@Override
-		public final String toString() {
+		public String toString() {
 			return "DO_NOT_RECORD";
 		}
 	};

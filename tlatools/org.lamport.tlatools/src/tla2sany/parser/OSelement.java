@@ -9,7 +9,7 @@ final class OSelement {
   OSelement(final SyntaxTreeNode n ) { node = n; op = null; }
   OSelement(final SyntaxTreeNode n, final Operator o ) { node = n; op = o; }
 
-  final Operator getOperator() { return op; }
-  final SyntaxTreeNode  getNode() { return node; }
-  final boolean  isOperator() { return op != null; }
+  Operator getOperator() { return op; }
+  SyntaxTreeNode  getNode() { return node; }
+  boolean  isOperator() { return op != null; }
 }
