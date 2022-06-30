@@ -1605,7 +1605,7 @@ public final class FormatComments
     /***********************************************************************
     * Write out the body of the comment.                                   *
     ***********************************************************************/
-    String curOutput = "" ;
+    StringBuilder curOutput = new StringBuilder();
       /*********************************************************************
       * The current output line.                                           *
       * Invariant: ~openPar => (curOutput = "")                            *
@@ -1651,11 +1651,11 @@ public final class FormatComments
            /****************************************************************
            * Close an open paragraph.                                      *
            ****************************************************************/
-          { CloseParagraph(writer, curOutput, openMath, openVerb) ;
+          { CloseParagraph(writer, curOutput.toString(), openMath, openVerb) ;
             openPar   = false ;
             openMath  = false ;
             openVerb  = false ;
-            curOutput = "" ;
+            curOutput = new StringBuilder();
           }
 
            /******************************************************************
@@ -1694,10 +1694,10 @@ public final class FormatComments
               * Need to start new paragraph, but old one is still open.    *
               * So, need to close it.                                      *
               *************************************************************/
-              CloseParagraph(writer, curOutput, openMath, openVerb) ;
+              CloseParagraph(writer, curOutput.toString(), openMath, openVerb) ;
               openMath  = false ;
               openVerb  = false ;
-              curOutput = "" ;
+              curOutput = new StringBuilder();
             }
 
               writer.putLine(parStart[line]);
@@ -1716,7 +1716,7 @@ public final class FormatComments
         /*******************************************************************
         * Now, process the tokens on this line, which should be non-blank. *
         *******************************************************************/
-        Debug.Assert(curOutput.equals(""),
+        Debug.Assert(curOutput.toString().equals(""),
                      "FormatComments.InnerWriteComment: Output not processed\n"
                      + "    when it should have been");
 
@@ -1732,11 +1732,11 @@ public final class FormatComments
                { /**********************************************************
                  * Have to close the \ensuremath.                          *
                  **********************************************************/
-                 curOutput = curOutput + "}";
+                 curOutput.append("}");
                  openMath = false;
                }
                Misc.BreakStringOut (writer, curOutput + "}%") ;
-             curOutput = "";
+             curOutput = new StringBuilder();
              openLabel = false;
            }
 
@@ -1745,7 +1745,7 @@ public final class FormatComments
              * This is a VERB token.                                       *
              **************************************************************/
              if (openMath)
-              { curOutput = curOutput + "}" ;
+              { curOutput.append("}");
                 openMath = false; }
 
                if (IsParType(commentType) && (! openLabel) && (item == 0))
@@ -1757,7 +1757,7 @@ public final class FormatComments
               * because TeX may process the string inside a command        *
               * argument.)                                                 *
               *************************************************************/
-              { Debug.Assert(curOutput.equals(""),
+              { Debug.Assert(curOutput.toString().equals(""),
                   "FormatComments.InnerWriteComment: "
                    + "failed to write curOutput");
                 if (! openVerb)
@@ -1776,16 +1776,16 @@ public final class FormatComments
                    ********************************************************/
                    int w = com[line][item].column;
                    while (w > 0)
-                    { curOutput = curOutput + " ";
+                    { curOutput.append(" ");
                       w = w - 1;
                     }
                   }
 
                   writer.putLine(curOutput + com[line][0].string) ;
-                curOutput = "";
+                curOutput = new StringBuilder();
               }
              else
-              { curOutput = curOutput + Misc.TeXify(com[line][item].string) ;
+              { curOutput.append(Misc.TeXify(com[line][item].string));
               }
            }       
           else
@@ -1819,7 +1819,7 @@ public final class FormatComments
                         * (For example, it might have been inside a        *
                         * "`...'".)                                        *
                         ***************************************************/
-               { curOutput = curOutput + "}" ;
+               { curOutput.append("}");
                  openMath = false;}
 
              /**************************************************************
@@ -1851,13 +1851,10 @@ public final class FormatComments
 
                 if (   (item > 0)
                     && (ptok.column + ptok.getWidth() <= tok.column - 5))
-                 { curOutput = 
-                    curOutput + Parameters.LaTeXSpaceCommand
-                     + "{" 
-                     + Misc.floatToString(
-                           Parameters.LaTeXCommentLeftSpace(
-                               tok.column - (ptok.column + ptok.getWidth())),
-                           2) + "}";
+                 { curOutput.append(Parameters.LaTeXSpaceCommand).append("{").append(Misc.floatToString(
+                         Parameters.LaTeXCommentLeftSpace(
+                                 tok.column - (ptok.column + ptok.getWidth())),
+                         2)).append("}");
                  }
                 else
                  {
@@ -1874,10 +1871,10 @@ public final class FormatComments
                          || (BuiltInSymbols.GetBuiltInSymbol(
                               ptok.string, true).symbolType == Symbol.KEYWORD))
                      && (ptok.type != CToken.LEFT_DQUOTE))
-                   { curOutput = curOutput + "} \\ensuremath{"; 
+                   { curOutput.append("} \\ensuremath{");
                    }
                   else
-                   { curOutput = curOutput + " "; 
+                   { curOutput.append(" ");
                    }
                  }
                }
@@ -1885,7 +1882,7 @@ public final class FormatComments
              * Check if need to start an \ensuremath argument.             *
              **************************************************************/
              if ( (!openMath) && tok.isTLA)
-               { curOutput = curOutput + "\\ensuremath{" ;
+               { curOutput.append("\\ensuremath{");
                  openMath  = true;}
 
              /**************************************************************
@@ -1895,26 +1892,24 @@ public final class FormatComments
               {
                case CToken.BUILTIN :
                  if (tok.isTLA)
-                  { curOutput = curOutput + 
-                     BuiltInSymbols.GetBuiltInSymbol(tok.string, true).TeXString;
+                  { curOutput.append(BuiltInSymbols.GetBuiltInSymbol(tok.string, true).TeXString);
                    /********************************************************
                    * For subscripted BUILINs like WF_, we don't do         *
                    * subscripting in comments, so we must print the "_".   *
                    ********************************************************/
                    if (   (tok.string.charAt(tok.string.length()-1) == '_')      
                        && (tok.string.length() != 1))
-                    { curOutput = curOutput + "\\_"; }
+                    { curOutput.append("\\_"); }
                   }
                  else
-                  { curOutput = curOutput + 
-                      getAmbiguous(tok.string);
+                  { curOutput.append(getAmbiguous(tok.string));
                   }
                    break ;
 
                case CToken.NUMBER :
 
                   case CToken.OTHER :
-                      curOutput = curOutput + Misc.TeXify(tok.string);
+                      curOutput.append(Misc.TeXify(tok.string));
                                 /*******************************************
                                 * Need to TeXify because of numbers like   *
                                 * "\O777".                                 *
@@ -1922,16 +1917,15 @@ public final class FormatComments
                  break ;        
 
                case CToken.STRING :
-                 curOutput = curOutput + Parameters.LaTeXStringCommand 
-                             + "{" + Misc.TeXify(tok.string) + "}" ;
+                 curOutput.append(Parameters.LaTeXStringCommand).append("{").append(Misc.TeXify(tok.string)).append("}");
                  break ;
 
                case CToken.PF_STEP :
-                 curOutput = curOutput + LaTeXOutput.PfStepString(tok.string) ;
+                 curOutput.append(LaTeXOutput.PfStepString(tok.string));
                  break ;
 
                case CToken.IDENT :
-                 curOutput = curOutput + Misc.TeXifyIdent(tok.string);
+                 curOutput.append(Misc.TeXifyIdent(tok.string));
                  break ;
 
                   case CToken.REP_CHAR :
@@ -1966,25 +1960,29 @@ public final class FormatComments
                       { outS = outS + "{\\par}" ; 
                       }
                   }
-                   curOutput = curOutput + outS ;
+                   curOutput.append(outS);
                 break ;
 
                case CToken.LEFT_DQUOTE :
                  if (tok.isTLA)
-                   {curOutput = curOutput + "\\mbox{``}" ; }
+                   {
+                       curOutput.append("\\mbox{``}"); }
                  else
-                   {curOutput = curOutput + "``" ; }
+                   {
+                       curOutput.append("``"); }
                  break ;
 
                case CToken.RIGHT_DQUOTE :
                  if (tok.isTLA)
-                   {curOutput = curOutput + "\\mbox{''}" ; }
+                   {
+                       curOutput.append("\\mbox{''}"); }
                  else
-                   {curOutput = curOutput + "''" ; }
+                   {
+                       curOutput.append("''"); }
                  break ;
 
                case CToken.TEX :
-                 curOutput = curOutput + tok.string;
+                 curOutput.append(tok.string);
                  break ;
 
                default :
@@ -1999,8 +1997,8 @@ public final class FormatComments
          }                        // END while (item < com[item].length)
        }// END else OF if ((lineType[line] == -2)...)
      
-      Misc.WriteIfNonNull(writer, curOutput);
-      curOutput = "" ;
+      Misc.WriteIfNonNull(writer, curOutput.toString());
+      curOutput = new StringBuilder();
       line = line + 1;
      }// END while (line < endLine)
 
@@ -2011,11 +2009,11 @@ public final class FormatComments
     * environment.                                                         *
     ***********************************************************************/
     if (IsParType(commentType) && openPar)
-      { CloseParagraph(writer, curOutput, openMath, openVerb) ;
-        curOutput = ""; }
+      { CloseParagraph(writer, curOutput.toString(), openMath, openVerb) ;
+        curOutput = new StringBuilder(); }
     else
       { if (openMath)
-          { curOutput = curOutput + "}" ; 
+          { curOutput.append("}");
           }
       }
        switch (commentType)
@@ -2025,11 +2023,11 @@ public final class FormatComments
          Misc.BreakStringOut(writer, curOutput + "}%");
          break ;
        case PAR :
-         Misc.WriteIfNonNull(writer, curOutput);
+         Misc.WriteIfNonNull(writer, curOutput.toString());
          writer.putLine("\\end{" + Parameters.LaTeXLeftMultiLineComment + "}%");
          break ;
        case RIGHT_MULTI :
-         Misc.WriteIfNonNull(writer, curOutput);
+         Misc.WriteIfNonNull(writer, curOutput.toString());
          writer.putLine("\\end{" + Parameters.LaTeXRightMultiLineComment
                                     + "}%");
          break ;

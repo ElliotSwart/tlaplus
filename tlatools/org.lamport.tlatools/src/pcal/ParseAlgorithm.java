@@ -657,17 +657,19 @@ public class ParseAlgorithm
    }
    
    public static void AddedMessagesError() throws ParseAlgorithmException 
-     { String msg = null ;
+     { StringBuilder msg = null;
        if (addedLabels.size() > 1)
-         {msg = "Missing labels at the following locations:" ;}
+         {
+             msg = new StringBuilder("Missing labels at the following locations:");}
        else 
-         {msg = "Missing label at the following location:" ;}
+         {
+             msg = new StringBuilder("Missing label at the following location:");}
          int i = 0 ;
        while (i < addedLabels.size() )
-        { msg = msg + "\n     " + addedLabelsLocs.elementAt(i) ;
+        { msg.append("\n     ").append(addedLabelsLocs.elementAt(i));
           i = i + 1 ;
         }
-         throw new ParseAlgorithmException(msg) ;
+         throw new ParseAlgorithmException(msg.toString()) ;
        }
 
    public static void ReportLabels() 

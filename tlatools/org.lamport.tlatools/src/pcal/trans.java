@@ -1192,7 +1192,7 @@ class trans {
         * encoding of TLA+ statements as sequences of strings.               *
         *********************************************************************/
         int i = 0;
-        String transl = "";
+        StringBuilder transl = new StringBuilder();
         while (i < tlcOut.length())
         {
             if (tlcOut.charAt(i) == '"')
@@ -1214,7 +1214,7 @@ class trans {
                         i = i + 1;
                     }
                     i = i + 1;
-                    transl = transl + "\"";
+                    transl.append("\"");
                     while (tlcOut.charAt(i) != '"') // "
                     {
                         if (tlcOut.charAt(i) == '\\')
@@ -1222,16 +1222,16 @@ class trans {
                             /***********************************************
                             * Get special character.                       *
                             ***********************************************/
-                            transl = transl + tlcOut.substring(i, i + 2);
+                            transl.append(tlcOut.substring(i, i + 2));
                             i = i + 2;
                         } else
                         {
-                            transl = transl + tlcOut.charAt(i);
+                            transl.append(tlcOut.charAt(i));
                             i = i + 1;
                         }
                     }
                     i = i + 8;
-                    transl = transl + "\"";
+                    transl.append("\"");
                 } else
                 {
                     while (tlcOut.charAt(i) != '"')
@@ -1240,7 +1240,7 @@ class trans {
                         {
                             i = i + 1;
                         }
-                        transl = transl + tlcOut.charAt(i);
+                        transl.append(tlcOut.charAt(i));
                         i = i + 1;
                     }
                     i = i + 1;
@@ -1255,7 +1255,7 @@ class trans {
                 {
                     throw new TLCTranslationException("Expected space but found `" + tlcOut.charAt(i) + "'");
                 }
-                transl = transl + tlcOut.charAt(i);
+                transl.append(tlcOut.charAt(i));
                 i = i + 1;
             }
         }
@@ -1263,9 +1263,9 @@ class trans {
         /* ******************************************************************
          * Wrap the translated string into approximately 80 character lines *
          *******************************************************************/
-        transl = WrapString(transl, 78);
+        transl = new StringBuilder(WrapString(transl.toString(), 78));
         final Vector<String> result = new Vector<>();
-        result.addElement(transl);
+        result.addElement(transl.toString());
         return result;
     }
 
@@ -1911,17 +1911,17 @@ class trans {
          ********************************************************************/
         final Vector<String> newVec = new Vector<>();
         for (final String oldLine : input) {
-            String newLine = "";
+            StringBuilder newLine = new StringBuilder();
             int next = 0;
             while (next < oldLine.length()) {
                 if (oldLine.charAt(next) == '\t') {
                     int toAdd = 8 - (newLine.length() % 8);
                     while (toAdd > 0) {
-                        newLine = newLine + " ";
+                        newLine.append(" ");
                         toAdd = toAdd - 1;
                     }
                 } else {
-                    newLine = newLine + oldLine.charAt(next);
+                    newLine.append(oldLine.charAt(next));
                 }
                 next = next + 1;
             }
@@ -1931,9 +1931,9 @@ class trans {
             // a legal token but has a prefix that is a legal token--for
             // example "(+" and "::" (since ::= is a legal operator).
             // It was added by LL on 13 May 2020            
-            newLine = newLine + " ";
+            newLine.append(" ");
             
-            newVec.add(newLine);
+            newVec.add(newLine.toString());
         }
 
         return newVec;

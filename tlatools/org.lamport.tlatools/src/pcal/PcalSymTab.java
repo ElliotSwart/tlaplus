@@ -419,13 +419,11 @@ public class PcalSymTab {
 
     public String toString ( ) {
         int i = 0;
-        String result = "[";
+        StringBuilder result = new StringBuilder("[");
         while (i < symtab.size()) {
            final SymTabEntry se = symtab.elementAt(i);
-            if (i > 0) result = result + ", ";
-            result = result + vtypeName[se.type] + " " + se.context
-                + ':' + se.id + " line " + se.line + " col " +
-                se.col + " (" + se.useThis + ")";
+            if (i > 0) result.append(", ");
+            result.append(vtypeName[se.type]).append(" ").append(se.context).append(':').append(se.id).append(" line ").append(se.line).append(" col ").append(se.col).append(" (").append(se.useThis).append(")");
             i = i + 1;
         }
         return result + "]";

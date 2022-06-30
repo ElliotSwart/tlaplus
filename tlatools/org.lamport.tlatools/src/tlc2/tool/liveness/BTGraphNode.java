@@ -104,16 +104,16 @@ public class BTGraphNode extends BEGraphNode {
     protected final void toString(final StringBuffer buf, final boolean unseen) {
 		if (this.getVisited() == unseen) {
 			this.flipVisited();
-			buf.append("(" + this.stateFP + "," + this.getIndex() + ") --> ");
+			buf.append("(").append(this.stateFP).append(",").append(this.getIndex()).append(") --> ");
 			final int size = this.nextSize();
 			if (size != 0) {
 				final BTGraphNode node = (BTGraphNode) this.nextAt(0);
-				buf.append("(" + node.stateFP + "," + node.getIndex() + ")");
+				buf.append("(").append(node.stateFP).append(",").append(node.getIndex()).append(")");
 			}
 			for (int i = 1; i < size; i++) {
 				buf.append(", ");
 				final BTGraphNode node = (BTGraphNode) this.nextAt(i);
-				buf.append("(" + node.stateFP + "," + node.getIndex() + ")");
+				buf.append("(").append(node.stateFP).append(",").append(node.getIndex()).append(")");
 			}
 			buf.append("\n");
 			for (int i = 0; i < size; i++) {

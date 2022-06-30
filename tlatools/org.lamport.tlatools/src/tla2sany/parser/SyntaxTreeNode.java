@@ -602,10 +602,10 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
  
   public static String PreCommentToString(final String[] pcarray) {
     if (pcarray == null || pcarray.length == 0) {return "";}
-      String res = "\n preComment: ";
+      StringBuilder res = new StringBuilder("\n preComment: ");
     for (int i = 0; i < pcarray.length; i++) {
-      res = res +  ((i==0)?"":"\n             ") + i + " " + pcarray[i];
+      res.append((i == 0) ? "" : "\n             ").append(i).append(" ").append(pcarray[i]);
     }
-      return res ;
+      return res.toString();
   }
   }

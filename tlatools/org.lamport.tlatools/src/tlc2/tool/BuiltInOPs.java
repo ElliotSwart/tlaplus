@@ -88,9 +88,7 @@ public class BuiltInOPs implements ToolGlobals {
     if (loc >= OpCodeTable.length) {
       final int len1 = loc + 20;
       final int[] OpCodeTable1 = new int[len1];
-      for (int i = 0; i < OpCodeTable.length; i++) {
-	OpCodeTable1[i] = OpCodeTable[i];
-      }
+      System.arraycopy(OpCodeTable, 0, OpCodeTable1, 0, OpCodeTable.length);
       OpCodeTable = OpCodeTable1;
     }
     OpCodeTable[loc] = opcode;

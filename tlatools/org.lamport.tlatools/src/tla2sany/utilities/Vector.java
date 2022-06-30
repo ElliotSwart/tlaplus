@@ -78,8 +78,7 @@ public class Vector<E> {
     if (i < 0 || i >= size )
       throw new ArrayIndexOutOfBoundsException();
     else {
-      for (int lvi = i+1; lvi < size; lvi++ )
-        info[ lvi-1 ] = info [lvi];
+        if (size - (i + 1) >= 0) System.arraycopy(info, i + 1, info, i + 1 - 1, size - (i + 1));
       size--;
       info[ size ] = null;
     }
@@ -96,8 +95,7 @@ public class Vector<E> {
       capacity+= increment;
       info = next;
     } else {
-      for ( int lvi = size; lvi > i; lvi-- )
-        info[ lvi ] = info[lvi-1];
+        System.arraycopy(info, i, info, i + 1, size - i);
       info[ i ] = obj;
     }
     size++;
@@ -143,11 +141,11 @@ public class Vector<E> {
 
   @Override
   public final String toString() {
-    String ret;
-    ret = "[ ";
-    if (this.size() > 0) ret += this.elementAt(0).toString();
+    StringBuilder ret;
+    ret = new StringBuilder("[ ");
+    if (this.size() > 0) ret.append(this.elementAt(0).toString());
     for (int i = 1; i<this.size(); i++) {
-      ret += ", " + this.elementAt(i).toString();
+      ret.append(", ").append(this.elementAt(i).toString());
     }
     return ret + " ]";
   } // end toString()

@@ -279,6 +279,6 @@ public class MultiFPSet extends FPSet {
 	}
 
 	public FPSet[] getFPSets() {
-		return sets.toArray(new FPSet[sets.size()]);
+		return sets.toArray(new FPSet[0]);
 	}
 }

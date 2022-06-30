@@ -286,7 +286,7 @@ public class LazyValue extends Value {
   public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow) {
     try {
       if (this.val == null || this.val == UndefValue.ValUndef) {
-        return sb.append("<LAZY " + this.expr + ">");
+        return sb.append("<LAZY ").append(this.expr).append(">");
       }
       return this.val.toString(sb, offset, swallow);
     }

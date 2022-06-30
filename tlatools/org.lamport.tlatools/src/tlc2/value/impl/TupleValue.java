@@ -193,9 +193,7 @@ public final Value[] elems;          // the elements of this tuple.
         if (arcVal instanceof IntValue) {
           final int idx = ((IntValue)arcVal).val - 1;
           if (0 <= idx && idx < tlen) {
-            for (int i = 0; i < tlen; i++) {
-              newElems[i] = this.elems[i];
-            }
+              System.arraycopy(this.elems, 0, newElems, 0, tlen);
             ex.idx++;
             newElems[idx] = this.elems[idx].takeExcept(ex);
           }

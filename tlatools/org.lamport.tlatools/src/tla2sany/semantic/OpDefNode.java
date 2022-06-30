@@ -707,9 +707,10 @@ public class OpDefNode extends OpDefOrDeclNode
 		  final OpArgNode argOpArg = (OpArgNode) arg ;
 		  if (argOpArg.getOp() instanceof final OpDefNode opdefArg) {
               for (int j = 0; j < opdefArg.getArity() ; j++) {
-				  if (opdefArg.getParams()[j].getArity() > 0) {
-					  result = false ;
-				  }
+                  if (opdefArg.getParams()[j].getArity() > 0) {
+                      result = false;
+                      break;
+                  }
 			  }
 		  }
 	  }

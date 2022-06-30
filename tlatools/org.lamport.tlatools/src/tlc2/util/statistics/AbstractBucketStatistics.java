@@ -76,7 +76,7 @@ public abstract class AbstractBucketStatistics implements IBucketStatistics {
 	public String toString() {
 		final StringBuilder buf = new StringBuilder();
 		buf.append("============================%n");
-		buf.append("=" + title + "=%n");
+		buf.append("=").append(title).append("=%n");
 		buf.append("============================%n");
 		buf.append(String.format("Observations: %d%n", getObservations()));
 		buf.append(String.format("Min: %d%n", getMin()));

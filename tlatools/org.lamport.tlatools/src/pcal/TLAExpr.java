@@ -343,11 +343,12 @@ public class TLAExpr
         int i = 0 ;
         while (i < tokens.size())
           { final Vector<TLAToken> curTokLine = tokens.elementAt(i) ;
-            String curString = "" ;
+            StringBuilder curString = new StringBuilder();
             final TLAToken curAncTok = anchorTokens[i] ;
             final int      curAncCol = anchorTokCol[i] ;
             if (curAncTok != null)
-              {curString = SpacesString(curAncTok.column - curAncCol) ;} 
+              {
+                  curString = new StringBuilder(SpacesString(curAncTok.column - curAncCol));}
 
             TLAToken curTok = null ;
             TLAToken lastTok = null ;
@@ -355,22 +356,23 @@ public class TLAExpr
             while (j < curTokLine.size())
               { curTok = curTokLine.elementAt(j);
                 if (j == 0)
-                  {curString = curString + SpacesString(curTok.column) ; }
+                  {
+                      curString.append(SpacesString(curTok.column)); }
                 else
-                  {curString = 
-                     curString +
-                     SpacesString( curTok.column - lastTok.column
-                                     - lastTok.getWidth()) ;}
+                  {
+                      curString.append(SpacesString(curTok.column - lastTok.column
+                              - lastTok.getWidth()));}
                 /***********************************************************
                 * Need to add the quotes for a string token.               *
                 ***********************************************************/
                 if (curTok.type == TLAToken.STRING)
-                     {curString = curString + "\"" + curTok.string + "\""; }
-                else { curString = curString + curTok.string ; }
+                     {
+                         curString.append("\"").append(curTok.string).append("\""); }
+                else { curString.append(curTok.string); }
                   lastTok = curTok ;
                 j = j + 1;
               }
-            result.addElement(curString) ;
+            result.addElement(curString.toString()) ;
             i = i + 1;
           }
         return result;
@@ -429,23 +431,22 @@ public class TLAExpr
         return result ;
     }
     public String toString()
-      { String result = "<< " ;
+      { StringBuilder result = new StringBuilder("<< ");
         int i = 0;
         boolean nonempty = false ;
         while (i < tokens.size() )
          { if (i > 0)
-             { result = result + "\n" ; }
+             { result.append("\n"); }
              final Vector<TLAToken> curLine = tokens.elementAt(i);
            int j = 0 ;
            while (j < curLine.size())
              { if (nonempty)
-                 { result = result + ", " ; }
+                 { result.append(", "); }
                  nonempty = true ;
                final TLAToken tok = curLine.elementAt(j) ;
                
                if (tok.type == TLAToken.STRING)
-                 { result = result + "\"\\\"\", \"" + tok.string 
-                                + "\", \"\\\"\"" ;
+                 { result.append("\"\\\"\", \"").append(tok.string).append("\", \"\\\"\"");
                  }
 //               else if (tok.type == TLAToken.BEGIN_REPLACEMENT) {
 //            	   result = result + "(map" ;
@@ -454,13 +455,13 @@ public class TLAExpr
 //            	   result = result + "map)" ;
 //               }
                else if (tok.string.equals("\\/"))
-                 { result = result + String.format("\"(col%s) \\\\/\"", tok.column); }
+                 { result.append(String.format("\"(col%s) \\\\/\"", tok.column)); }
                else if (tok.string.charAt(0) == '\\')
-                 { result = result + "\"\\" + tok.string + "\""; }
+                 { result.append("\"\\").append(tok.string).append("\""); }
                else if (tok.string.equals("/\\"))
-                 { result = result + String.format("\"(col%s) /\\\\\"", tok.column); }
+                 { result.append(String.format("\"(col%s) /\\\\\"", tok.column)); }
                else
-                 { result = result + "\"" + tok.string + "\""; }
+                 { result.append("\"").append(tok.string).append("\""); }
                j = j + 1 ;
              }
            i = i + 1;
@@ -1293,14 +1294,14 @@ public class TLAExpr
     * A string of n spaces.                                                *
     ***********************************************************************/
     { int i = 0 ;
-      String result = "" ;
+      StringBuilder result = new StringBuilder();
       if (i < 0) {PcalDebug.ReportBug(
                     "SpacesString called with negative argument");}
       while (i < n)
-       { result = result + " ";
+       { result.append(" ");
          i = i + 1;
        }
-      return result;
+      return result.toString();
     }
 
 

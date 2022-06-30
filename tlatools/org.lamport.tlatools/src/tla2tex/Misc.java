@@ -91,7 +91,7 @@ public final class Misc
     * Converts the float f to a string of the form "xxx.yyyyy", where the  *
     * number of digits in yyyyy is at most d.                              *
     ***********************************************************************/
-    { String fStr = "" + f;
+    { StringBuilder fStr = new StringBuilder("" + f);
       final int ePos = fStr.indexOf("E");
       int shiftRight = 0 ;
       int ptPos;
@@ -104,26 +104,26 @@ public final class Misc
         if (f <= tenToTheMinusD) {return "0";}
         if (ePos != -1)
         { shiftRight = Integer.parseInt(fStr.substring(ePos + 1));
-          fStr = fStr.substring(0, ePos);
+          fStr = new StringBuilder(fStr.substring(0, ePos));
           ptPos = fStr.indexOf(".") ;
-          fStr = fStr.substring(0, ptPos) + fStr.substring(ptPos + 1);
+          fStr = new StringBuilder(fStr.substring(0, ptPos) + fStr.substring(ptPos + 1));
           ptPos = ptPos + shiftRight ;
           while (ptPos < 0)
-           { fStr = "0" + fStr;
+           { fStr.insert(0, "0");
              ptPos = ptPos + 1;
            }
             while (ptPos > fStr.length())
-           { fStr = fStr + "0" ;
+           { fStr.append("0");
            }
             if (ptPos != fStr.length())
-           { fStr = fStr.substring(0, ptPos) + "." + fStr.substring(ptPos);
+           { fStr = new StringBuilder(fStr.substring(0, ptPos) + "." + fStr.substring(ptPos));
            }
         } // END if (ePos != -1)
       ptPos = fStr.indexOf(".") ;
-      if (ptPos == -1) {return fStr;}
+      if (ptPos == -1) {return fStr.toString();}
       while (fStr.length() - ptPos > d+1)
-       { fStr = fStr.substring(0, fStr.length()-1); }
-      return fStr ;      
+       { fStr = new StringBuilder(fStr.substring(0, fStr.length() - 1)); }
+      return fStr.toString();
     }
 
   public static void WriteIfNonNull(final OutputFileWriter writer, final String str)
@@ -257,19 +257,19 @@ public final class Misc
     /***********************************************************************
     * Result is str with each occurrence of "_" replaced by a \\_ command. *
     ***********************************************************************/
-    { String out = str ;
+    { StringBuilder out = new StringBuilder(str);
       int nextUS = str.indexOf("_");
       while (nextUS != -1)
        { 
          if (nextUS == 0)
-          { out = "\\" + out;
+          { out.insert(0, "\\");
           }
          else
-          { out = out.substring(0, nextUS) + "\\_" + out.substring(nextUS+1);
+          { out = new StringBuilder(out.substring(0, nextUS) + "\\_" + out.substring(nextUS + 1));
           }
            nextUS = out.indexOf("_", nextUS + 2) ;
        }
-        return out ;
+        return out.toString();
     }
 
   /**
@@ -287,7 +287,7 @@ public final class Misc
    * @return
    */
   public static String TeXifyPcalLabel(final String str) {
-      String out = "";
+      StringBuilder out = new StringBuilder();
       int next = 0 ;
       while (    (next < str.length())
               && (   IsLetter(str.charAt(next))) 
@@ -295,9 +295,9 @@ public final class Misc
           final char nextChar = str.charAt(next) ;
           next++ ;
           if (nextChar == '_') {
-              out = out + "\\" ;
+              out.append("\\");
           } 
-          out = out + nextChar ;
+          out.append(nextChar);
       }
       int numberOfSpaces = 0 ;
       while (next < str.length() && IsSpace(str.charAt(next))) {
@@ -305,21 +305,21 @@ public final class Misc
           next++ ;
       }
       if (numberOfSpaces == 0) {
-          out = out + "\\@s{.5}" ;
+          out.append("\\@s{.5}");
       }
       else {
-          out = out + "\\@s{2.5}" ;
+          out.append("\\@s{2.5}");
       }
-      out = out + "\\textrm{" ;
+      out.append("\\textrm{");
       while (next < str.length()) {
           final char nextChar = str.charAt(next) ;
           next++ ;
           if (! IsSpace(nextChar)) {
-              out = out + nextChar ;
+              out.append(nextChar);
           }
       }
-      out = out + ((numberOfSpaces == 0) ? "}\\@s{3}" : "}\\@s{4}") ;
-      return out;
+      out.append((numberOfSpaces == 0) ? "}\\@s{3}" : "}\\@s{4}");
+      return out.toString();
   }
 
   private static final int MAXLEN = 48;
@@ -336,23 +336,23 @@ public final class Misc
   **************************************************************************/
   { int lineLen = 0 ; 
     int nextChar = 0 ;
-    String newStr = "" ;
+    StringBuilder newStr = new StringBuilder();
     char ch = '0' ;
     while (nextChar < str.length())
       { ch = str.charAt(nextChar) ;
         if (ch == '\t')
           { if (lineLen > MAXLEN)
-              { newStr = newStr + "\n       " ;
+              { newStr.append("\n       ");
                 lineLen = 7;
               }
           }
         else
-          { newStr = newStr + ch;
+          { newStr.append(ch);
             lineLen = lineLen + 1;
           }
           nextChar = nextChar + 1 ;
       }
-      return newStr ;
+      return newStr.toString();
    }
 
     public static boolean IsLetter(final char c)

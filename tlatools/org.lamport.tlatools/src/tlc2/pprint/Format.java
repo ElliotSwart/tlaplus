@@ -172,20 +172,17 @@ public class Format {
                                      final String leftpad,
                                      final String sep) throws FormatException {
     try {
-      String pp = "";
+      StringBuilder pp = new StringBuilder();
       for (Node value = values; value != null; value = value.next()) {
 	if (value.next() != null) {
 	  // this is not the last value in the list, so leave room for sep
-	  pp = pp + 
-	    format(value,columnwidth,sep.length(),leftpad) +
-	    sep + "\n" + leftpad;
+	  pp.append(format(value, columnwidth, sep.length(), leftpad)).append(sep).append("\n").append(leftpad);
 	} else {
 	  // this is the last value in the list
-	  pp = pp +
-	    format(value,columnwidth,trailerwidth,leftpad);
+	  pp.append(format(value, columnwidth, trailerwidth, leftpad));
 	}
       }
-      return pp;
+      return pp.toString();
     }
     catch (final FormatException e) {
       throw e;
@@ -240,7 +237,7 @@ public class Format {
                                     final String div,
                                     final String divpad) throws FormatException {
     try {
-      String pp = "";
+      StringBuilder pp = new StringBuilder();
       for (Node pair = pairs; pair != null; pair = pair.next()) {
 	final Node arg = pair.children();
 	final Node val = arg.next();
@@ -256,32 +253,24 @@ public class Format {
 	  // put argument and value on one line if they will fit
 	  if (arg.length() + div.length()+ 1 + val.length() + sep.length()
 	      <= columnwidth) {
-	    pp = pp 
-	      + arg.value() + div + " " + val.value() + sep 
-              + "\n" + leftpad;
+	    pp.append(arg.value()).append(div).append(" ").append(val.value()).append(sep).append("\n").append(leftpad);
 	    continue;
 	  }
 
 	  // put argument on one line if it will fit
 	  if (arg.length() + div.length() <= columnwidth) {
-	    pp = pp
-	      + arg.value() + div 
-	      + "\n" + leftpad + divpad + format(val,
-						 columnwidth-divpad.length(),
-						 sep.length(),
-						 leftpad+divpad) + sep
-	      + "\n" + leftpad;
+	    pp.append(arg.value()).append(div).append("\n").append(leftpad).append(divpad).append(format(val,
+                columnwidth - divpad.length(),
+                sep.length(),
+                leftpad + divpad)).append(sep).append("\n").append(leftpad);
 	    continue;
 	  }
 
 	  // format the argument on multiple lines and then the value
-	  pp = pp
-	    + format(arg,columnwidth,trailerwidth+div.length(),leftpad) + div
-	    + "\n" + leftpad + divpad + format(val,
-					       columnwidth-divpad.length(),
-					       sep.length(),
-					       leftpad+divpad) + sep
-	    + "\n" + leftpad;
+	  pp.append(format(arg, columnwidth, trailerwidth + div.length(), leftpad)).append(div).append("\n").append(leftpad).append(divpad).append(format(val,
+              columnwidth - divpad.length(),
+              sep.length(),
+              leftpad + divpad)).append(sep).append("\n").append(leftpad);
 	  continue;
 	}
 
@@ -292,30 +281,26 @@ public class Format {
 	// put argument and value on one line if they will fit
 	if (arg.length() + div.length() + 1 + val.length()
 	    <= columnwidth-trailerwidth) {
-	  pp = pp + arg.value() + div + " " + val.value();
+	  pp.append(arg.value()).append(div).append(" ").append(val.value());
 	  continue;
 	}
 
 	// put argument alone on one line if it will fit
 	if (arg.length() + div.length() <= columnwidth) {
-	  pp = pp
-	    + arg.value() + div 
-	    + "\n" + leftpad + divpad + format(val,
-					       columnwidth-divpad.length(),
-					       trailerwidth,
-					       leftpad+divpad);
+	  pp.append(arg.value()).append(div).append("\n").append(leftpad).append(divpad).append(format(val,
+              columnwidth - divpad.length(),
+              trailerwidth,
+              leftpad + divpad));
 	  continue;
 	}
 
 	// format the argument on multiple lines and then the value
-	pp = pp
-	  + format(arg,columnwidth,trailerwidth+div.length(),leftpad) + div
-	  + "\n" + leftpad + divpad + format(val,
-					     columnwidth-divpad.length(),
-					     trailerwidth,
-					     leftpad+divpad);
+	pp.append(format(arg, columnwidth, trailerwidth + div.length(), leftpad)).append(div).append("\n").append(leftpad).append(divpad).append(format(val,
+            columnwidth - divpad.length(),
+            trailerwidth,
+            leftpad + divpad));
       }
-      return pp;
+      return pp.toString();
     }
     catch (final FormatException e) {
       throw e;

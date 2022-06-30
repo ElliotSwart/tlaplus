@@ -50,7 +50,7 @@ public class DotActionWriter {
 	public DotActionWriter(final String fname, final String strict) throws IOException {
         this.fname = fname;
         this.writer = new PrintWriter(FileUtil.newBFOS(fname));
-		this.writer.append(strict + "digraph ActionGraph {\n"); // strict removes redundant edges
+		this.writer.append(strict).append("digraph ActionGraph {\n"); // strict removes redundant edges
 		// Turned off LR because top to bottom provides better results with GraphViz viewer.
 //		this.writer.append("rankdir=LR;\n"); // Left to right rather than top to bottom
         

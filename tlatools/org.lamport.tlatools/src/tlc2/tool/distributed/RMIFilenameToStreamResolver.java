@@ -129,7 +129,7 @@ public class RMIFilenameToStreamResolver implements FilenameToStream {
     public String getFullPath() {
 		final StringBuilder buf = new StringBuilder();
 
-		final String[] strings = fileCache.keySet().toArray(new String[fileCache.size()]);
+		final String[] strings = fileCache.keySet().toArray(new String[0]);
 		for (int i = 0; i < strings.length; i++) {
 			final String string = strings[i];
 			buf.append(string);

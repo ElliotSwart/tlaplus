@@ -111,7 +111,7 @@ public class OrderOfSolution {
 			final String padding1 = padding + "   ";
 			this.getPems()[0].toString(sb, padding1, checkState, this.getCheckAction());
 			for (int i = 1; i < plen; i++) {
-				sb.append(padding + "\\/ ");
+				sb.append(padding).append("\\/ ");
 				this.getPems()[i].toString(sb, padding1, checkState, this.getCheckAction());
 			}
 		}

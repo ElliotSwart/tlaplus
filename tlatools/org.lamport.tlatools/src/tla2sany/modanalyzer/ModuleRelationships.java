@@ -52,20 +52,20 @@ class ModuleRelationships {
 
   public String toString() {
 
-    String ret = "";
+    StringBuilder ret = new StringBuilder();
 
     final Enumeration<ModulePointer> e = modRelHashtable.keys();
     while ( e.hasMoreElements()) {
 
       final ModulePointer   modPtr    = e.nextElement();
 
-      ret = ret + "\n----------- Module '" + modPtr.getName() + "'\n";
-      ret = ret + modPtr.getRelatives().toString(); 
-      ret = ret + "-----------" + "\n";  
+      ret.append("\n----------- Module '").append(modPtr.getName()).append("'\n");
+      ret.append(modPtr.getRelatives().toString());
+      ret.append("-----------").append("\n");
 
     } // end while 
 
-    return ret;
+    return ret.toString();
 
   } // end toString()
 

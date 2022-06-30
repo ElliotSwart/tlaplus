@@ -59,17 +59,17 @@ public class ModuleContext {
   }
 
   public String toString() {
-    String ret = "Context:\n";
+    StringBuilder ret = new StringBuilder("Context:\n");
     final Enumeration<String> Enum = context.keys();
 
     while (Enum.hasMoreElements()) {
       final String key = Enum.nextElement();
       final ModulePointer modPointer = context.get(key);
 
-      ret = ret + "  " + key + "-->" + (modPointer != null ? modPointer.toStringAbbrev() : "null");
+      ret.append("  ").append(key).append("-->").append(modPointer != null ? modPointer.toStringAbbrev() : "null");
     }
 
-    return ret;
+    return ret.toString();
 
   } // end toString()
     

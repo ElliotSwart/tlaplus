@@ -295,7 +295,7 @@ public class MethodValue extends OpValue implements Applicable {
   @Override
   public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean ignored) {
     try {
-      return sb.append("<Java Method: " + this.md + ">");
+      return sb.append("<Java Method: ").append(this.md).append(">");
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }

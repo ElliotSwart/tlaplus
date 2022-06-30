@@ -54,22 +54,22 @@ public class MonolithSpecExtractor {
 	
 	public static InputStream config(final InputStream in, final String configName) throws IOException {
 		try (final BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
-			String config = "";
+			StringBuilder config = new StringBuilder();
 
 			String line = "";
 			while ((line = reader.readLine()) != null) {
-				if (!config.isEmpty() && line.matches("====.*")) {
+				if ((config.length() > 0) && line.matches("====.*")) {
 					break;
 				}
-				if (config.isEmpty() && line.matches("-----*\\s*CONFIG\\s+" + configName + "\\s*-----*")) {
-					config += " "; // activate.
+				if ((config.length() == 0) && line.matches("-----*\\s*CONFIG\\s+" + configName + "\\s*-----*")) {
+					config.append(" "); // activate.
 					continue; // skip to next line/don't include marker.
 				}
-				if (!config.isEmpty()) {
-					config += line + "\n";
+				if (config.length() > 0) {
+					config.append(line).append("\n");
 				}
 			}
-			return new ByteArrayInputStream(config.trim().getBytes(Charset.forName("UTF-8")));
+			return new ByteArrayInputStream(config.toString().trim().getBytes(Charset.forName("UTF-8")));
 		}
 	}
 	

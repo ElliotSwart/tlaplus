@@ -66,7 +66,7 @@ class LNStateEnabled extends LNState {
 		} else {
 			sb.append((this.isBox) ? "[" : "<");
 			this.pred.toString(sb, padding + "         ");
-			sb.append(((this.isBox) ? "]_" : ">_") + this.subscript);
+			sb.append((this.isBox) ? "]_" : ">_").append(this.subscript);
 		}
 	}
 	

@@ -69,7 +69,7 @@ public class CallStack {
         }
         expr = this.stack[i];
         final Location loc = expr.getTreeNode().getLocation();
-        sb.append(stackDepth + ". ");
+        sb.append(stackDepth).append(". ");
         sb.append("Line ");
         sb.append(loc.beginLine());
         sb.append(", column ");
@@ -79,7 +79,7 @@ public class CallStack {
         sb.append(", column ");
         sb.append(loc.endColumn());
         sb.append(" in ");
-        sb.append(loc.source() + "\n");
+        sb.append(loc.source()).append("\n");
         stackDepth++;
       }
       sb.append("\n");

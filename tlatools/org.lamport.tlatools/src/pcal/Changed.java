@@ -34,20 +34,15 @@ public class Changed {
     public Changed (final Changed c) {
 	vars = c.vars;
 	count = new int[vars.size()];
-	for (int i = 0; i < count.length; i++)
-	    count[i] = c.count[i];
+		System.arraycopy(c.count, 0, count, 0, count.length);
     }
 
     public String toString () {
-	String s = "[";
+	StringBuilder s = new StringBuilder("[");
 	for (int i = 0; i < count.length; i++)
-	    s = s
-		+ ((i == 0) ? "" : ", ")
-		+ vars.elementAt(i)
-		+ " "
-		+ count[i];
-	s = s + "]";
-	return s;
+	    s.append((i == 0) ? "" : ", ").append(vars.elementAt(i)).append(" ").append(count[i]);
+	s.append("]");
+	return s.toString();
     }
 
     public int Size() {
@@ -76,24 +71,20 @@ public class Changed {
 
     /* String of vars whose change count is 0 */
     public String Unchanged () {
-	String s = "";
+	StringBuilder s = new StringBuilder();
 	for (int i = 0; i < count.length; i++)
 	    if (count[i] == 0)
-		s = s
-		    + ((s.length() == 0) ? "" : ", ")
-		    + vars.elementAt(i);
-	return s;
+		s.append((s.length() == 0) ? "" : ", ").append(vars.elementAt(i));
+	return s.toString();
     }
 
     /* String of vars that were changed in c but not in this */
     public String Unchanged (final Changed c) {
-	String s = "";
+	StringBuilder s = new StringBuilder();
 	for (int i = 0; i < count.length; i++)
 	    if ((count[i] == 0) && c.count[i] > 0)
-		s = s
-		    + ((s.length() == 0) ? "" : ", ")
-		    + vars.elementAt(i);
-	return s;
+		s.append((s.length() == 0) ? "" : ", ").append(vars.elementAt(i));
+	return s.toString();
     }
   
     /* Vector of strings of vars whose change count is 0 */
@@ -103,20 +94,20 @@ public class Changed {
     /* GenLabeledStmt.                                   */
     public Vector<String> Unchanged (final int ch) {
 	final Vector<String> sv = new Vector<>();
-	String s = "";
+	StringBuilder s = new StringBuilder();
 	boolean haveOne = false;
 	for (int i = 0; i < count.length; i++)
 	    if (count[i] == 0) {
 		final String one = vars.elementAt(i);
-		if (haveOne) s = s + ", ";
+		if (haveOne) s.append(", ");
 		else haveOne = true;
 		if (s.length() + one.length() > ch) {
-		    if (s.length() > 0) sv.addElement(s);
-		    s = one;
+		    if (s.length() > 0) sv.addElement(s.toString());
+		    s = new StringBuilder(one);
 		}
-		else s = s + one;
+		else s.append(one);
 	    }
-	if  (s.length() > 0) sv.addElement(s);
+	if  (s.length() > 0) sv.addElement(s.toString());
 	return sv;
     }
 
@@ -125,20 +116,20 @@ public class Changed {
     /* (except for vars whose length is over ch-1)           */
     public Vector<String> Unchanged (final Changed c, final int ch) {
 	final Vector<String> sv = new Vector<>();
-	String s = "";
+	StringBuilder s = new StringBuilder();
 	boolean haveOne = false;
 	for (int i = 0; i < count.length; i++)
 	    if ((count[i] == 0) && c.count[i] > 0) {
 		final String one = vars.elementAt(i);
-		if (haveOne) s = s + ", ";
+		if (haveOne) s.append(", ");
 		else haveOne = true;
 		if (s.length() + one.length() > ch) {
-		    if (s.length() > 0) sv.addElement(s);
-		    s = one;
+		    if (s.length() > 0) sv.addElement(s.toString());
+		    s = new StringBuilder(one);
 		}
-		else s = s + one;
+		else s.append(one);
 	    }
-	if  (s.length() > 0) sv.addElement(s);
+	if  (s.length() > 0) sv.addElement(s.toString());
 	return sv;
     }
   

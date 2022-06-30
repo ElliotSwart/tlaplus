@@ -36,19 +36,19 @@ public class StringHelper {
      * }
      */
     public static final String copyString(final String str, final int copies) {
-        String result = "";
-        String powerOf2Copies = str;
+        StringBuilder result = new StringBuilder();
+        StringBuilder powerOf2Copies = new StringBuilder(str);
         int    remaining = copies;
         while (remaining > 0) {
             if (remaining %2 != 0) {
-                result = result + powerOf2Copies;
+                result.append(powerOf2Copies);
             }
             remaining = remaining / 2;
             if (remaining != 0) {
-                powerOf2Copies = powerOf2Copies + powerOf2Copies;
+                powerOf2Copies.append(powerOf2Copies);
             }
         }
-        return result;
+        return result.toString();
     }
     
     /**

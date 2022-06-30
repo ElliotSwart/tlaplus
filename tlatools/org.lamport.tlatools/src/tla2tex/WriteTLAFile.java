@@ -34,7 +34,8 @@ public class WriteTLAFile
         *******************************************************************/
         
       while (line < spec.length)
-       {String outLine = "" ;
+       {
+           StringBuilder outLine = new StringBuilder();
         int item = 0 ;
         boolean nullComment = false ;
           /*****************************************************************
@@ -45,13 +46,12 @@ public class WriteTLAFile
          {
              final Token tok = spec[line][item] ;
           if (item > 0)
-           { outLine = 
-                outLine + SpacesString(tok.column 
-                                        - spec[line][item-1].column 
-                                        - spec[line][item-1].getWidth()) ;
+           { outLine.append(SpacesString(tok.column
+                   - spec[line][item - 1].column
+                   - spec[line][item - 1].getWidth()));
            } 
           else
-           { outLine = outLine + SpacesString(tok.column);
+           { outLine.append(SpacesString(tok.column));
            }
              switch (tok.type)
            {case Token.BUILTIN    : 
@@ -63,10 +63,10 @@ public class WriteTLAFile
             case Token.PROLOG     : 
             case Token.EPILOG     : 
             case Token.PF_STEP    :
-              outLine = outLine + tok.string ;
+              outLine.append(tok.string);
               break ;
             case Token.STRING : 
-              outLine = outLine + "\"" + tok.string + "\"" ;
+              outLine.append("\"").append(tok.string).append("\"");
               break ;
 
             case Token.COMMENT : 
@@ -163,19 +163,19 @@ public class WriteTLAFile
                 commentString = ReplaceQuoteTildes(commentString);
                 switch (ctok.rsubtype)
                  {case CommentToken.NORMAL :
-                    outLine = outLine + "(*" + commentString + "*)" ;
+                    outLine.append("(*").append(commentString).append("*)");
                     break ;
                   case CommentToken.LINE : 
-                    outLine = outLine + "\\*" + commentString ;
+                    outLine.append("\\*").append(commentString);
                     break ;
                   case CommentToken.BEGIN_OVERRUN : 
-                    outLine = outLine + "(*" + commentString ;
+                    outLine.append("(*").append(commentString);
                     break ;
                   case CommentToken.END_OVERRUN : 
-                    outLine = outLine + commentString + "*)" ;
+                    outLine.append(commentString).append("*)");
                     break ;
                   case CommentToken.OVERRUN : 
-                    outLine = outLine + commentString ;
+                    outLine.append(commentString);
                     break ;
                   default :
                     Debug.ReportBug("Bad CommentToken subtype found.");
@@ -194,7 +194,7 @@ public class WriteTLAFile
          }
            if ( ! (   nullComment
                 && (spec[line].length == 1)))
-          { writer.putLine(outLine) ; }
+          { writer.putLine(outLine.toString()) ; }
            line = line + 1;
        }
       writer.close() ;
@@ -205,12 +205,12 @@ public class WriteTLAFile
     * A string of n spaces.                                                *
     ***********************************************************************/
     { int i = 0 ;
-      String result = "" ;
+      StringBuilder result = new StringBuilder();
       while (i < n)
-       { result = result + " ";
+       { result.append(" ");
          i = i + 1;
        }
-      return result;
+      return result.toString();
     }
 
   private static boolean UnmatchedDelete(final String str)
@@ -226,10 +226,10 @@ public class WriteTLAFile
     * the next "^'" (if there is one).                                     *
     ***********************************************************************/
     { String rest  = str ;
-      String start = "" ;
+      StringBuilder start = new StringBuilder();
       int nextDel = rest.indexOf("`^") ;
       while ( nextDel != -1 )
-       { start = start + rest.substring(0, nextDel) ;
+       { start.append(rest.substring(0, nextDel));
          rest = rest.substring(nextDel) ;
          final int nextEnd = rest.indexOf("^'") ;
          if (nextEnd == -1)

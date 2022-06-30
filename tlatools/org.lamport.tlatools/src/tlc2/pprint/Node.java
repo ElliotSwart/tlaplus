@@ -118,12 +118,12 @@ public class Node {
   }
 
   public String toString() {
-    String s = "";
+    StringBuilder s = new StringBuilder();
 
     for (Node ch = children(); ch != null; ch = ch.next()) {
-      s = s + ch;
+      s.append(ch);
     }
-    return s + first() + " " + last() + " " + value() + "\n";
+    return s.toString() + first() + " " + last() + " " + value() + "\n";
   }
   
 /***************************************************************************/

@@ -130,8 +130,8 @@ public final class MemIntQueue extends MemBasedSet {
 			final StringBuilder buf = new StringBuilder(aQueue.size / 3);
 			for (int i = 0; i < aQueue.size; i += 3) {
 				final long fp = ((long) aQueue.elems[i] << 32) | ((long) (aQueue.elems[i + 1]) & 0xFFFFFFFFL);
-				buf.append("fp: " + fp);
-				buf.append(" tidx: " + aQueue.elems[i + 2]);
+				buf.append("fp: ").append(fp);
+				buf.append(" tidx: ").append(aQueue.elems[i + 2]);
 				buf.append("\n");
 			}
 			return buf.toString();
@@ -143,10 +143,10 @@ public final class MemIntQueue extends MemBasedSet {
 			final StringBuilder buf = new StringBuilder(aQueue.size / 5);
 			for (int i = 0; i < aQueue.size; i += 5) {
 				final long fp = ((long) aQueue.elems[i] << 32) | ((long) (aQueue.elems[i + 1]) & 0xFFFFFFFFL);
-				buf.append("fp: " + fp);
-				buf.append(" tidx: " + aQueue.elems[i + 2]);
+				buf.append("fp: ").append(fp);
+				buf.append(" tidx: ").append(aQueue.elems[i + 2]);
 				final long ptr = ((long) aQueue.elems[i + 3] << 32) | ((long) (aQueue.elems[i + 4]) & 0xFFFFFFFFL);
-				buf.append(" ptr: " + ptr);
+				buf.append(" ptr: ").append(ptr);
 				buf.append("\n");
 			}
 			return buf.toString();

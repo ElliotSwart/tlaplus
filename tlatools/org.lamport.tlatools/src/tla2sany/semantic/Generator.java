@@ -462,13 +462,11 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			/********************************************************************
 			 * For debugging. *
 			 ********************************************************************/
-			String retval = "Selector object:\n";
+			StringBuilder retval = new StringBuilder("Selector object:\n");
 			for (int i = 0; i < ops.length; i++) {
-				retval = retval + " elt " + i + " : ops = " + ops[i] + ", opNames = " + opNames[i].toString()
-						+ ", opsSTN.kind = " + opsSTN[i].getKind() + ", args.kind = "
-						+ ((args[i] == null) ? "null" : (args[i].getKind() + " ")) + "\n";
+				retval.append(" elt ").append(i).append(" : ops = ").append(ops[i]).append(", opNames = ").append(opNames[i].toString()).append(", opsSTN.kind = ").append(opsSTN[i].getKind()).append(", args.kind = ").append((args[i] == null) ? "null" : (args[i].getKind() + " ")).append("\n");
 			}
-			return retval;
+			return retval.toString();
 		}
 
 	} // class Selector

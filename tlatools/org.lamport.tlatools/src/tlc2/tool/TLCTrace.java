@@ -235,7 +235,7 @@ public class TLCTrace {
 			}
 		}
 
-		return locToState.values().toArray(new TLCStateInfo[locToState.size()]);
+		return locToState.values().toArray(new TLCStateInfo[0]);
 	}
 
 	/**

@@ -160,7 +160,7 @@ public class MailSender {
 				if (object instanceof String) {
 					final String[] split = ((String) object).split("\\s+");
 					if (split != null && split.length == 2) {
-						final Integer weight = Integer.parseInt(split[0]);
+						final int weight = Integer.parseInt(split[0]);
 						list.add(new MXRecord(weight, split[1]));
 					}
 				}
@@ -254,10 +254,10 @@ public class MailSender {
 			boolean success = false;
 			for (final InternetAddress toAddress : toAddresses) {
 				if (send(from, toAddress, "Model Checking result for " + modelName + " with spec " + specName,
-						extractBody(out), files.toArray(new File[files.size()]))) {
+						extractBody(out), files.toArray(new File[0]))) {
 					success = true;
 				} else if (send(fromAlt, toAddress, "Model Checking result for " + modelName + " with spec " + specName,
-						extractBody(out), files.toArray(new File[files.size()]))) {
+						extractBody(out), files.toArray(new File[0]))) {
 					// Try with alternative from address which some receivers might actually accept.
 					success = true;
 				}
@@ -286,7 +286,7 @@ public class MailSender {
 			scanner.close();
 		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
-			result.append("Failed to find file " + out.getAbsolutePath()); 
+			result.append("Failed to find file ").append(out.getAbsolutePath());
 		}
 		return result.toString();
 	}

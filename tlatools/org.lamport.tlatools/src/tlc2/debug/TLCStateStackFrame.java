@@ -162,7 +162,7 @@ public class TLCStateStackFrame extends TLCStackFrame {
 								trace.add(getStateAsVariable(new RecordValue(s, NOT_EVAL),
 										"1: " + (s.hasAction() ? s.getAction().getLocation()
 												: TLCStateInfo.INITIAL_PREDICATE)));
-								return trace.toArray(new Variable[trace.size()]);
+								return trace.toArray(new Variable[0]);
 							}
 							trace.add(getStateAsVariable(new RecordValue(s, NOT_EVAL), s.getLevel() + ": "
 									+ (s.hasAction() ? s.getAction().getLocation() : "<???>")));
@@ -190,7 +190,7 @@ public class TLCStateStackFrame extends TLCStackFrame {
 								ti.state.getLevel() + ": " + ti.info.toString()));
 					}
 					
-					return trace.toArray(new Variable[trace.size()]);
+					return trace.toArray(new Variable[0]);
 				} catch (final IOException e) {
 					//TODO: Handle exception case.
 					return new Variable[0];
@@ -270,8 +270,7 @@ public class TLCStateStackFrame extends TLCStackFrame {
 	
 	@Override
 	public Scope[] getScopes() {
-		final List<Scope> scopes = new ArrayList<>();
-		scopes.addAll(Arrays.asList(super.getScopes()));
+		final List<Scope> scopes = new ArrayList<>(Arrays.asList(super.getScopes()));
 		
 		// TODO: Consider merging SCOPE and TRACE. The separation, however, makes sure
 		// that we only pay the price for re-constructing the error-trace if a user
@@ -294,7 +293,7 @@ public class TLCStateStackFrame extends TLCStackFrame {
 		scope.setVariablesReference(stateId + 1);
 		scopes.add(scope);
 		
-		return scopes.toArray(new Scope[scopes.size()]);
+		return scopes.toArray(new Scope[0]);
 	}
 
 	protected String getScope() {

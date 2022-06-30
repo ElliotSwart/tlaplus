@@ -43,29 +43,29 @@ public class ModuleRelatives {
   }
 
   public String toString() {
-    String ret = "currentModuleName: " + currentModule.getName();
+    StringBuilder ret = new StringBuilder("currentModuleName: " + currentModule.getName());
 
-    ret += "\nouterModule: " + ( outerModule == null 
-				 ? "<null>" 
-				 : outerModule.getName() );
+    ret.append("\nouterModule: ").append(outerModule == null
+            ? "<null>"
+            : outerModule.getName());
 
-    ret += "\ndirectInnerModules: ";
+    ret.append("\ndirectInnerModules: ");
     for (int i = 0; i < directInnerModules.size(); i++) {
-      ret += (directInnerModules.elementAt(i)).getName() + " ";
+      ret.append((directInnerModules.elementAt(i)).getName()).append(" ");
     }
 
-    ret += "\ndirectlyExtendedModuleNames: ";
+    ret.append("\ndirectlyExtendedModuleNames: ");
     for (int i = 0; i < directlyExtendedModuleNames.size(); i++) {
-      ret += (directlyExtendedModuleNames.elementAt(i)) + " ";
+      ret.append(directlyExtendedModuleNames.elementAt(i)).append(" ");
     }
 
-    ret += "\ndirectlyInstantiatedModuleNames: ";
+    ret.append("\ndirectlyInstantiatedModuleNames: ");
     for (int i = 0; i < directlyInstantiatedModuleNames.size(); i++) {
-      ret += (directlyInstantiatedModuleNames.elementAt(i)) + " ";
+      ret.append(directlyInstantiatedModuleNames.elementAt(i)).append(" ");
     }
 
-    ret += "\n" + context.toString();
-    return ret;
+    ret.append("\n").append(context.toString());
+    return ret.toString();
   }
 
 	public void addExtendee(final String module) {

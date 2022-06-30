@@ -331,9 +331,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
           UniqueString[] newNames = this.names;
           if (!this.isNorm) {
             newNames = new UniqueString[rlen];
-            for (int i = 0; i < rlen; i++) {
-              newNames[i] = this.names[i];
-            }
+              System.arraycopy(this.names, 0, newNames, 0, rlen);
           }
           return new RecordValue(newNames, newValues, this.isNorm);
         }

@@ -15,12 +15,7 @@ package tla2sany.semantic;
 * the bound symbols are irrelevant in computing the node's level.          *
 ***************************************************************************/
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -344,16 +339,12 @@ public class OpApplNode extends ExprNode implements ExploreNode {
 	  final List<FormalParamNode> l = new ArrayList<>();
 		final FormalParamNode[] unbdedQuantSymbols = getUnbdedQuantSymbols();
 		if (unbdedQuantSymbols != null) {
-			for (final FormalParamNode s : unbdedQuantSymbols) {
-				l.add(s);
-			}
+          l.addAll(Arrays.asList(unbdedQuantSymbols));
 		}
 		final FormalParamNode[][] bdedQuantSymbolLists = getBdedQuantSymbolLists();
 		if (bdedQuantSymbolLists != null) {
 			for (final FormalParamNode[] outer : bdedQuantSymbolLists) {
-				for (final FormalParamNode inner : outer) {
-					l.add(inner);
-				}
+              l.addAll(Arrays.asList(outer));
 			}
 		}
 	  return l;

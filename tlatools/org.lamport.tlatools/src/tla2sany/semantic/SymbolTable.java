@@ -242,18 +242,18 @@ public class SymbolTable implements ASTConstants {
   
   // return a string with all symbols in all contexts, from top to bottom
   public String toString() {
-    String ret = "\n\n***SymbolTable\n\n*** top context";
+    StringBuilder ret = new StringBuilder("\n\n***SymbolTable\n\n*** top context");
 
     for (int c = contextStack.size()-1; c >= 0; c--) {
       final Context ct = (Context) contextStack.elementAt(c);
       final Vector<String> v = ct.getContextEntryStringVector(1,true);
 
       for (int i = 0; i < v.size(); i++) {
-        ret += v.elementAt(i);
+        ret.append(v.elementAt(i));
       }
-      ret += "\n\n*** next context\n";
+      ret.append("\n\n*** next context\n");
     }
-    return ret; 
+    return ret.toString();
   }
 
   static class ModuleName {

@@ -109,11 +109,11 @@ public class TBGraph extends Vect<TBGraphNode> {
 		for (int i = 0; i < this.size(); i++) {
 			final TBGraphNode tnode = this.getNode(i);
 			sb.append(padding);
-			sb.append("Node " + i + ".\n");
+			sb.append("Node ").append(i).append(".\n");
 			tnode.getPar().toString(sb, padding);
 			sb.append(" --> ");
 			for (int j = 0; j < tnode.nexts.size(); j++) {
-				sb.append(tnode.nextAt(j).getIndex() + " ");
+				sb.append(tnode.nextAt(j).getIndex()).append(" ");
 			}
 			sb.append("\n");
 		}

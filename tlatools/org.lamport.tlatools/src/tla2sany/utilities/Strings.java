@@ -10,16 +10,16 @@ public class Strings {
   // indentation when printed.
   public static String indent(int n /* numb blanks to insert*/ , final String ss) {
 
-    String s = "";
+    StringBuilder s = new StringBuilder();
     if (n >= blanks.length) n = blanks.length-1;
 
     for (int i=0; i < ss.length(); i++) {
-      s += ss.charAt(i);
+      s.append(ss.charAt(i));
       if (ss.charAt(i) == '\n' && i!=ss.length()-1) {  // no blanks after terminal \n
-        s += blanks[n];
+        s.append(blanks[n]);
       }
     } // end for
-    return s;
+    return s.toString();
   }
 
   // Same as above, but uses StringBuffer operations internally

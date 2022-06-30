@@ -504,9 +504,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 
       final int flen = this.values.length;
       final Value[] newValues = new Value[flen];
-      for (int i = 0; i < flen; i++) {
-        newValues[i] = this.values[i];
-      }
+        System.arraycopy(this.values, 0, newValues, 0, flen);
       final Value arg = ex.path[ex.idx];
 
       if (this.intv != null) {
@@ -530,9 +528,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
             Value[] newDomain = this.domain;
             if (!this.isNorm) {
               newDomain = new Value[flen];
-              for (int j = 0; j < flen; j++) {
-                newDomain[j] = this.domain[j];
-              }
+                System.arraycopy(this.domain, 0, newDomain, 0, flen);
             }
             return new FcnRcdValue(newDomain, newValues, this.isNorm);
           }

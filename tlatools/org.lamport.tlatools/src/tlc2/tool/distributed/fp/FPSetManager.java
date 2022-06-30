@@ -89,8 +89,7 @@ public abstract class FPSetManager implements IFPSetManager {
     public int numOfAliveServers() {
 		// Add all fpsets to a set to remove the duplicates. The duplicates stem
 		// from reassigning alive fpsets to the slot of a dead one.
-		final Set<FPSets> s = new HashSet<>();
-		s.addAll(this.fpSets);
+		final Set<FPSets> s = new HashSet<>(this.fpSets);
 		
 		int aliveServer = 0;
 

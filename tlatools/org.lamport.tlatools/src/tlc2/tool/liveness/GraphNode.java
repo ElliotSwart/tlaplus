@@ -397,7 +397,7 @@ public class GraphNode extends AbstractGraphNode {
 
 	public final String toString(final int alen) {
 		final StringBuilder buf = new StringBuilder();
-		buf.append("<" + this.stateFP + "," + this.tindex + "> --> ");
+		buf.append("<").append(this.stateFP).append(",").append(this.tindex).append("> --> ");
 		for (int i = 0; i < succSize(); i++) {
 			// action checks
 			buf.append("[");
@@ -410,7 +410,7 @@ public class GraphNode extends AbstractGraphNode {
 			}
 			buf.append("] ");
 			// fingerprint/tableau id
-			buf.append("<" + getStateFP(i) + "," + getTidx(i) + ">");
+			buf.append("<").append(getStateFP(i)).append(",").append(getTidx(i)).append(">");
 			buf.append(", ");
 		}
 		return buf.substring(0, buf.length() - ", ".length()); // chop off dangling ", "
@@ -434,22 +434,22 @@ public class GraphNode extends AbstractGraphNode {
 		// label iff the first 6 (+2) chars of their fingerprint match. However
 		// the graph will still contain all nodes regardless of the label
 		// collision due to id.
-		String label = Long.toString(this.stateFP).substring(0, 6) + (hasTableau ? "." + this.tindex : "");
+		StringBuilder label = new StringBuilder(Long.toString(this.stateFP).substring(0, 6) + (hasTableau ? "." + this.tindex : ""));
 		if (slen > 0) {
-			label += "\n";
+			label.append("\n");
 			for (int i = 0; i < slen; i++) {
 				if (getCheckState(i)) {
-					label += "t";
+					label.append("t");
 				} else {
-					label += "f";
+					label.append("f");
 				}
 			}
 		}
 		final StringBuilder buf = new StringBuilder();
 		if (isInitState) {
-			buf.append("\"" + id + "\" [style = filled][label = \"" + label + "\"]\n"); // node's label
+			buf.append("\"").append(id).append("\" [style = filled][label = \"").append(label).append("\"]\n"); // node's label
 		} else {
-			buf.append("\"" + id + "\" [label = \"" + label + "\"]\n");
+			buf.append("\"").append(id).append("\" [label = \"").append(label).append("\"]\n");
 		}
 		
 		// Each outgoing transition
@@ -468,12 +468,12 @@ public class GraphNode extends AbstractGraphNode {
 //				continue;
 //			}
 			
-			buf.append("\"" + id + "\" -> ");
+			buf.append("\"").append(id).append("\" -> ");
 			if (hasTableau) {
-				buf.append(("\"" + fp) + "." + tidx + "\"");
+				buf.append("\"").append(fp).append(".").append(tidx).append("\"");
 			} else {
 				//Omit tableau index when it's -1 (indicating no tableau)
-				buf.append(("\"" + fp) + "\"");
+				buf.append("\"").append(fp).append("\"");
 			}
 			
 			buf.append(" [label=\"");

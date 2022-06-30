@@ -530,7 +530,7 @@ public class TLCStackFrame extends StackFrame {
 			scopes.add(scope);
 		}
 		
-		return scopes.toArray(new Scope[scopes.size()]);
+		return scopes.toArray(new Scope[0]);
 	}
 	
 	public SemanticNode getNode() {

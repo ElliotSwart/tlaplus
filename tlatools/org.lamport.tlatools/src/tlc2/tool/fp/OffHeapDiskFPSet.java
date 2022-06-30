@@ -1338,7 +1338,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 			if (idx <= pos && pos <= idx + reprobe) {
 				continue;
 			}
-			System.err.println(String.format("%s with idx %s at pos %s (reprobe: %s).", tmp, idx, pos, reprobe));
+			System.err.printf("%s with idx %s at pos %s (reprobe: %s).%n", tmp, idx, pos, reprobe);
 			return false;
 		}
 		return true;
@@ -1374,7 +1374,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 				continue;
 			}
 			if (e >= tmp) {
-				System.err.println(String.format("%s >= %s at pos %s.", e, tmp, pos));
+				System.err.printf("%s >= %s at pos %s.%n", e, tmp, pos);
 				return pos;
 			}
 			e = tmp;
@@ -1404,7 +1404,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		for (long i = 0L; i < array.size(); i++) {
 			final long elem = array.get(i);
 			if (elem > EMPTY) {
-				System.err.println(String.format("%s elem at pos %s.", elem, i));
+				System.err.printf("%s elem at pos %s.%n", elem, i);
 				return false;
 			}
 		}

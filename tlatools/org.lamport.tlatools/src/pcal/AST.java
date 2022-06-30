@@ -1008,13 +1008,13 @@ public class AST
 
 
    public static String NewLine()
-     { String result = "\n" ;
+     { StringBuilder result = new StringBuilder("\n");
        int i = 0 ;
        while (i < curIndent[indentDepth])
-         { result = result + " " ;
+         { result.append(" ");
            i = i + 1 ;
          }
-         return result ;
+         return result.toString();
      }     
 
      
@@ -1025,12 +1025,12 @@ public class AST
      * representation.                                                     *
      **********************************************************************/
      { if (vec == null) {return "null" ;}
-         String result = Indent("<<") ;
+         StringBuilder result = new StringBuilder(Indent("<<"));
        int i = 0 ;
        while (i < vec.size())
          { if (i > 0)
-             { result = result + ", " + NewLine() ; }
-             result = result + vec.elementAt(i).toString() ;
+             { result.append(", ").append(NewLine()); }
+             result.append(vec.elementAt(i).toString());
            i = i + 1 ;
          }
          return result + ">>" + EndIndent();
@@ -1043,12 +1043,12 @@ public class AST
    * representation to be quoted.                                        *
    **********************************************************************/
    { if (vec == null) {return "null" ;}
-       String result = Indent("<<") ;
+       StringBuilder result = new StringBuilder(Indent("<<"));
      int i = 0 ;
      while (i < vec.size())
        { if (i > 0)
-           { result = result + ", " /* + NewLine() */ ; }
-           result = result + "\"" + vec.elementAt(i).toString() + "\"" ;
+           { result.append(", ") /* + NewLine() */ ; }
+           result.append("\"").append(vec.elementAt(i).toString()).append("\"");
          i = i + 1 ;
        }
        return result + ">>" + EndIndent();
@@ -1061,12 +1061,12 @@ public static String VectorOfVectorsToSeqString(final Vector<?> vecvec)
      * elements, where each of its elements is a vector of objects whose   *
      * representation is obtained by calling toString().                   *
      **********************************************************************/
-     { String result = Indent("<< ") ;
+     { StringBuilder result = new StringBuilder(Indent("<< "));
        int i = 0 ;
        while (i < vecvec.size())
          { if (i > 0)
-             { result = result + ", " + NewLine() ; }
-             result = result + VectorToSeqString((Vector<?>)vecvec.elementAt(i));
+             { result.append(", ").append(NewLine()); }
+             result.append(VectorToSeqString((Vector<?>) vecvec.elementAt(i)));
            i = i + 1 ;
          }
          return result + " >>" + EndIndent();

@@ -176,14 +176,8 @@ public class Sequences extends UserObj implements ValueConstants
         if (len2 == 0)
             return seq1;
         final Value[] values = new Value[len1 + len2];
-        for (int i = 0; i < len1; i++)
-        {
-            values[i] = seq1.elems[i];
-        }
-        for (int i = 0; i < len2; i++)
-        {
-            values[i + len1] = seq2.elems[i];
-        }
+        if (len1 >= 0) System.arraycopy(seq1.elems, 0, values, 0, len1);
+        if (len2 >= 0) System.arraycopy(seq2.elems, 0, values, 0 + len1, len2);
         return new TupleValue(values);
     }
 
@@ -316,10 +310,7 @@ public class Sequences extends UserObj implements ValueConstants
         	return new StringValue(str.substring(beg-1,end));
         }
         final Value[] elems = new Value[sublen];
-        for (int i = 0; i < sublen; i++)
-        {
-            elems[i] = seq.elems[beg + i - 1];
-        }
+        System.arraycopy(seq.elems, beg + 0 - 1, elems, 0, sublen);
         return new TupleValue(elems);
     }
 
@@ -475,10 +466,7 @@ public class Sequences extends UserObj implements ValueConstants
             values[0] = v;
         } else
         {
-            for (int i = idx - 1; i >= 0; i--)
-            {
-                values[i] = seq.elems[i];
-            }
+            if (idx - 1 + 1 >= 0) System.arraycopy(seq.elems, 0, values, 0, idx - 1 + 1);
         }
         return new TupleValue(values);
     }

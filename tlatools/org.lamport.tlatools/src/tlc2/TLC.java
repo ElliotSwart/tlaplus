@@ -1407,7 +1407,7 @@ public class TLC {
     }
     
 	private void printStartupBanner(final int mode, final Map<String, String> parameters) {
-		MP.printMessage(mode, parameters.values().toArray(new String[parameters.size()]));
+		MP.printMessage(mode, parameters.values().toArray(new String[0]));
 		
 		final Map<String, String> udc = new LinkedHashMap<>();
 		// First indicate the version (to make parsing forward compatible)

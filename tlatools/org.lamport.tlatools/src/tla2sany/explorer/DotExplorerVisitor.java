@@ -93,7 +93,7 @@ public class DotExplorerVisitor extends ExplorerVisitor {
 		} else {
 			final SemanticNode sn = (SemanticNode) exploreNode;
 			this.writer.append(Integer.toString(sn.hashCode()));
-			this.writer.append(type2format.getOrDefault(exploreNode.getClass(), " [") + "label=\"");
+			this.writer.append(type2format.getOrDefault(exploreNode.getClass(), " [")).append("label=\"");
 			if (exploreNode instanceof OpDefNode) {
 				this.writer.append(toDot(((OpDefNode) sn).getName().toString()));
 			} else {
@@ -104,7 +104,7 @@ public class DotExplorerVisitor extends ExplorerVisitor {
 				final String loc = sn.getLocation().toString();
 				this.writer.append("\n");
 				this.writer.append(loc.replace("of module", "\n"));
-				this.writer.append("\n" + sn.getClass().getSimpleName());
+				this.writer.append("\n").append(sn.getClass().getSimpleName());
 			}
 			this.writer.append("\"]");
 			this.writer.append(";\n");

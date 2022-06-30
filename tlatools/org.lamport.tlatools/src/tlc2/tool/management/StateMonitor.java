@@ -85,11 +85,11 @@ public class StateMonitor {
 			try (final Scanner scanner = new Scanner(System.in)) {
 				rd: while (true) {
 					index = 1;
-					System.out.printf("============\n");
+					System.out.print("============\n");
 					for (final VirtualMachineDescriptor vmd : vmds) {
 						System.out.printf("[%s]: pid=%s, name=%s\n", index++, vmd.id(), vmd.displayName());
 					}
-					System.out.printf("Please select the number of the Java VM running TLC to connect to:\n");
+					System.out.print("Please select the number of the Java VM running TLC to connect to:\n");
 					if (scanner.hasNextInt()) {
 						index = scanner.nextInt();
 						

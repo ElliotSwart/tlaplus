@@ -264,7 +264,7 @@ public abstract class AbstractChecker
         final String valString = Double.toString(val) ;
         final int valStringLen = valString.length();
         
-        String result = "";
+        StringBuilder result = new StringBuilder();
         int next = 0; // pointer to the next character in valString to examine.
         int significantDigitsFound = 0;
         
@@ -281,7 +281,7 @@ public abstract class AbstractChecker
          */
         while ( (next < valStringLen)  && 
                 Character.isDigit(valString.charAt(next))) {
-            result = result + valString.charAt(next);
+            result.append(valString.charAt(next));
             significantDigitsFound++;
             next++ ;
          }
@@ -292,7 +292,7 @@ public abstract class AbstractChecker
          *                  ELSE return valString.
          */
         if (next == valStringLen) {
-            return result;
+            return result.toString();
         } else if (valString.charAt(next) != '.') {
             return valString;
         }
@@ -320,17 +320,17 @@ public abstract class AbstractChecker
              }
         } else {
             next++;
-            result = result + ".";
+            result.append(".");
             if (significantDigitsFound == 0) {
                 while ((next < valStringLen)  && (valString.charAt(next) == '0')) {
                     next++ ;
-                    result = result + "0";
+                    result.append("0");
                 }
             }
             while ((next < valStringLen)  && 
                   Character.isDigit(valString.charAt(next)) &&
                   significantDigitsFound < significantDigits ) {
-                      result = result + valString.charAt(next);
+                      result.append(valString.charAt(next));
                       next++;
                       significantDigitsFound++;
              }
@@ -341,7 +341,7 @@ public abstract class AbstractChecker
                 boolean done = false;
                 while (!done) {
                     if (prev < 0) {
-                        result = "1" + result;
+                        result.insert(0, "1");
                         done = true;
                     } else {
                         final char prevChar = result.charAt(prev);
@@ -349,9 +349,9 @@ public abstract class AbstractChecker
                         final String back = result.substring(prev+1);
                         if (Character.isDigit(prevChar)) {
                             if (prevChar == '9') {
-                                result = front + '0' + back;
+                                result = new StringBuilder(front + '0' + back);
                             } else {
-                                result = front + Character.forDigit(Character.digit(prevChar, 10)+1, 10) + back;
+                                result = new StringBuilder(front + Character.forDigit(Character.digit(prevChar, 10) + 1, 10) + back);
                                 done = true;
                             }
                             
@@ -375,16 +375,16 @@ public abstract class AbstractChecker
          *   ELSE return valString
          */
         if (next >= valStringLen) {
-            return result;
+            return result.toString();
         }
         if (valString.charAt(next)=='E') {
             next++;
-            result = result + "E";
+            result.append("E");
             while (next < valStringLen) {
-                result = result + valString.charAt(next);
+                result.append(valString.charAt(next));
                 next++;
             }
-            return result;
+            return result.toString();
         }
         return valString;
     }

@@ -28,13 +28,13 @@ class ParseUnitsTable {
   Enumeration<ParseUnit> getKeys() { return parseUnitTable.keys(); }  
 
   public String toString() {
-    String ret = "";
+    StringBuilder ret = new StringBuilder();
 
     final Enumeration<ParseUnit> e = parseUnitTable.keys();
     while ( e.hasMoreElements()) {
-      ret += "[ ParseUnit: " + e.nextElement().getName() + " ] ";
+      ret.append("[ ParseUnit: ").append(e.nextElement().getName()).append(" ] ");
     }
-    return ret;
+    return ret.toString();
   }
 
 }

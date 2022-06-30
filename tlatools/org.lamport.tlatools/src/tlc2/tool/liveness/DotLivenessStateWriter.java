@@ -53,8 +53,7 @@ public class DotLivenessStateWriter extends DotStateWriter implements ILivenessS
 		this.writer.append(" [style = filled]");
 		this.writer.append(" [label=\"");
 		this.writer.append(states2dot(state));
-		this.writer.append("\n#" + Long.toString(state.fingerPrint()) + "."
-				+ tableauNode.getIndex() + "#");
+		this.writer.append("\n#").append(Long.toString(state.fingerPrint())).append(".").append(String.valueOf(tableauNode.getIndex())).append("#");
 		this.writer.append("\"]");
 		this.writer.append("\n");
 	}
@@ -96,7 +95,7 @@ public class DotLivenessStateWriter extends DotStateWriter implements ILivenessS
 			this.writer.append(" [style=\"dotted\"]");
 		}
 		if (length > 0) {
-			this.writer.append(" [label=\"" + actionChecks.toString(from, length, 't', 'f') + "\"]");
+			this.writer.append(" [label=\"").append(actionChecks.toString(from, length, 't', 'f')).append("\"]");
 		}
 		this.writer.append(";\n");
 
@@ -113,9 +112,7 @@ public class DotLivenessStateWriter extends DotStateWriter implements ILivenessS
 			this.writer.append("\"");
 			this.writer.append(" [label=\"");
 			this.writer.append(states2dot(successor));
-			this.writer.append(
-					"\n#" + Long.toString(successor.fingerPrint()) + "."
-							+ tableauNodeSuccessor.getIndex() + "#");
+			this.writer.append("\n#").append(Long.toString(successor.fingerPrint())).append(".").append(String.valueOf(tableauNodeSuccessor.getIndex())).append("#");
 			this.writer.append("\"]");
 			this.writer.append(";\n");
 		}

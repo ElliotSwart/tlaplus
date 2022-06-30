@@ -170,8 +170,7 @@ public class TLCExt {
 					}
 					return BoolValue.ValTrue;
 				} else {
-					MP.printMessage(EC.TLC_MODULE_OVERRIDE_STDOUT, String.format(
-							"Marking a state explored is unsupported by the current TLC mode. Is TLC running in simulation mode?"));
+					MP.printMessage(EC.TLC_MODULE_OVERRIDE_STDOUT, "Marking a state explored is unsupported by the current TLC mode. Is TLC running in simulation mode?");
 				}
 			} else if (nextLine.charAt(0) == 'n') {
 				return BoolValue.ValFalse;

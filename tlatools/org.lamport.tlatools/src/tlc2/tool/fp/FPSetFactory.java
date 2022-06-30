@@ -151,7 +151,7 @@ public abstract class FPSetFactory {
 		l.add(LSBDiskFPSet.class.getName());
 		l.add(OffHeapDiskFPSet.class.getName());
 
-		return l.toArray(new String[l.size()]);
+		return l.toArray(new String[0]);
 	}
 
 	/**

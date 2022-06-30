@@ -476,7 +476,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 		}
 		
 		final List<TLCStackFrame> frames = stack.subList(from, to);
-		res.setStackFrames(frames.toArray(new StackFrame[frames.size()]));
+		res.setStackFrames(frames.toArray(new StackFrame[0]));
 		res.setTotalFrames(stack.size());
 		return CompletableFuture.completedFuture(res);
 	}
@@ -503,7 +503,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 		for (final TLCStackFrame frame : this.stack) {
 			collect.addAll(Arrays.asList(frame.getVariables(vr)));
 		}
-		value.setVariables(collect.toArray(new Variable[collect.size()]));
+		value.setVariables(collect.toArray(new Variable[0]));
 		
 		return CompletableFuture.completedFuture(value);
 	}

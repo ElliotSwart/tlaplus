@@ -156,7 +156,7 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
          * item is the current item of the current line.                   *
          ******************************************************************/
          
-       String outLine = Parameters.LaTeXStartAlignLine + "{";
+       StringBuilder outLine = new StringBuilder(Parameters.LaTeXStartAlignLine + "{");
 
          while (item < spec[line].length)
         /*******************************************************************
@@ -174,12 +174,11 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
               * The current subcript has ended; close the command's "}".   *
               *************************************************************/
               inSub = false ;
-              outLine = outLine + "}";
+              outLine.append("}");
             }
 
             if (tok.isAlignmentPoint)
-              { outLine = outLine + "}" + Parameters.LaTeXAlignPoint + "{"
-                            + line + "}{" + item + "}{" ; 
+              { outLine.append("}").append(Parameters.LaTeXAlignPoint).append("{").append(line).append("}{").append(item).append("}{");
               }
             switch (tok.type)
            { case Token.BUILTIN :
@@ -206,16 +205,14 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
                      { /****************************************************
                        * It's a subscript.                                 *
                        ****************************************************/
-                       outLine = outLine + " " +  
-                          BuiltInSymbols.GetBuiltInSymbol(
-                                                   tok.string, true).TeXString
-                          + "_{";
+                       outLine.append(" ").append(BuiltInSymbols.GetBuiltInSymbol(
+                               tok.string, true).TeXString).append("_{");
                      }    
                     else
                      { /****************************************************
                        * It's a superscript.                               *
                        ****************************************************/
-                       outLine = outLine + " " + "^{";
+                       outLine.append(" ").append("^{");
                      }    
                   } // END then OF if if (   (! inSub) ... )
                  else
@@ -225,14 +222,13 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
                     * specification line, since it's typeset in math       *
                     * mode.                                                *
                     *******************************************************/
-                    outLine = outLine + " " +  
-                     BuiltInSymbols.GetBuiltInSymbol(tok.string, true).TeXString;
+                    outLine.append(" ").append(BuiltInSymbols.GetBuiltInSymbol(tok.string, true).TeXString);
                   }// END else OF if if (   (! inSub) ... )
                break ;
 
              case Token.NUMBER :
              case Token.IDENT :
-               outLine = outLine + " " + Misc.TeXify(tok.string) ; 
+               outLine.append(" ").append(Misc.TeXify(tok.string));
                  /**********************************************************
                  * We TeXify the string to typeset a "\" from a number or  *
                  * a "_" from an identifier.                               *
@@ -240,18 +236,18 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
                break ;
                
              case Token.PCAL_LABEL :
-               outLine = outLine + " " + Misc.TeXifyPcalLabel(tok.string) ;
+               outLine.append(" ").append(Misc.TeXifyPcalLabel(tok.string));
                break ;
 
              case Token.STRING :
-               outLine = outLine + Parameters.LaTeXStringCommand + "{"  
-                           + FixString(tok.string) + "}";
+               outLine.append(Parameters.LaTeXStringCommand).append("{").append(FixString(tok.string)).append("}");
                break ;
 
              case Token.PF_STEP :
-               outLine = outLine + PfStepString(tok.string) ;
+               outLine.append(PfStepString(tok.string));
                if ( ((Token.PfStepToken) tok).needsSpace )
-                 {outLine = outLine + "\\ "; }
+                 {
+                     outLine.append("\\ "); }
                  break ;
 
              case Token.COMMENT :
@@ -268,9 +264,9 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
                       * the line, we don't need to output it in the        *
                       * alignment file.                                    *
                       *****************************************************/
-                      { outLine = outLine + "%";
-                        Misc.WriteIfNonNull(writer, outLine);
-                        outLine = "" ;
+                      { outLine.append("%");
+                        Misc.WriteIfNonNull(writer, outLine.toString());
+                        outLine = new StringBuilder();
                         final Vector<String> vec = new Vector<>(2);
                         vec.addElement(tok.string) ;
                         FormatComments.WriteComment
@@ -302,8 +298,7 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
                 { /*********************************************************
                   * Ending a "--- MODULE foo ---".                         *
                   *********************************************************/
-                  outLine = outLine + "}" + Parameters.LaTeXAlignRightDash 
-                              + "{" ;
+                  outLine.append("}").append(Parameters.LaTeXAlignRightDash).append("{");
                   inBeginModule = false ;
                 }  // END THEN if (inBeginModule)
                else
@@ -312,24 +307,21 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
                    { /******************************************************
                      * Starting a "--- MODULE foo ---".                    *
                      ******************************************************/
-                     outLine = outLine + "}" + 
-                                Parameters.LaTeXAlignLeftDash + "{" ;
+                     outLine.append("}").append(Parameters.LaTeXAlignLeftDash).append("{");
                      inBeginModule = true ;
                    } // END THEN of if ( (item + 1 < ... ))
                   else
                    { /******************************************************
                      * This is a mid-module dash.                          *
                      ******************************************************/
-                     outLine = outLine + "}" + Parameters.LaTeXAlignDash 
-                                 + "{" ;
+                     outLine.append("}").append(Parameters.LaTeXAlignDash).append("{");
                    } // END ELSE of if ( (item + 1 < ... ))
 
                 } // END ELSE if (inBeginModule)
                break ;
 
              case Token.END_MODULE :
-               outLine = outLine + "}" + Parameters.LaTeXAlignEndModule 
-                           + "{";
+               outLine.append("}").append(Parameters.LaTeXAlignEndModule).append("{");
                break ;
 
              case Token.EPILOG :
@@ -356,11 +348,11 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
         { /*****************************************************************
           * If inside a sub/superscript, have to close the "^{" or "_{".   *
           *****************************************************************/
-          outLine = outLine + "}";
+          outLine.append("}");
           inSub = false ;
         }
-         outLine = outLine + "}";
-       Misc.BreakStringOut(writer, outLine);
+         outLine.append("}");
+       Misc.BreakStringOut(writer, outLine.toString());
        line = line + 1;
      }// END while (line < spec.length)
 
@@ -743,22 +735,22 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
     * Result is Misc.TeXify(str) with spaces replaced by "\ " and "-"      *
     * replaced by {-}.                                                     *
     ***********************************************************************/
-    { String result = "" ;
+    { StringBuilder result = new StringBuilder();
       final String str = Misc.TeXify(inputStr);
       int pos = 0 ;
       while (pos < str.length())
        { final char ch = str.charAt(pos) ;
          if (ch == ' ')
-           { result = result + "\\ " ; }
+           { result.append("\\ "); }
          else 
            { if (ch == '-')
-               { result = result + "{-}" ; }
+               { result.append("{-}"); }
              else
-               { result = result + ch ; }
+               { result.append(ch); }
            }
            pos = pos + 1 ;
        }
-        return result ;
+        return result.toString();
     }    
 
   static String PfStepString(final String str)
@@ -978,7 +970,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
       ********************************************************************/
        Debug.Assert(spec[line].length != 0,
          "LaTeXOutput.WriteLaTeXFile: Unprocessed or unskipped blank line.");
-      String outLine = "" ;
+      StringBuilder outLine = new StringBuilder();
   
       boolean openLine = false ;
         /*******************************************************************
@@ -1052,7 +1044,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
           writer.putLine(Parameters.LaTeXEndMultiLineVSpace + "{" 
                       + count + "}%");
           line = i ;
-          outLine = "";
+          outLine = new StringBuilder();
           openLine = false ;
         }// END if (issueVSpace)
   
@@ -1063,7 +1055,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
         /*********************************************************************
         * Start the output line with a LaTeXStartLine command.               *
         *********************************************************************/
-        outLine = Parameters.LaTeXStartLine + "{" ; 
+        outLine = new StringBuilder(Parameters.LaTeXStartLine + "{");
 //        if (pcalLine2) {
 //            outLine = "\\xtest{" ;
 //        }
@@ -1073,9 +1065,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
         * If numbering, then write the line number.                        *
         *******************************************************************/
         if (Parameters.PrintLineNumbers)
-          { outLine = outLine 
-                      + "\\makebox[0pt][r]{\\scriptsize "
-                      + (line + 1) + "\\hspace{1em}}";
+          { outLine.append("\\makebox[0pt][r]{\\scriptsize ").append(line + 1).append("\\hspace{1em}}");
           }
 
            /********************************************************************
@@ -1105,15 +1095,14 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
               * The current subcript has ended; close the command's "}".   *
               *************************************************************/
               inSub = false ;
-              outLine = outLine + "}";
+              outLine.append("}");
             }
 
              /*****************************************************************
           * Write the command to produce the preSpace space.               *
           *****************************************************************/
           if (tok.preSpace >= Misc.stringToFloat("0.01"))
-            { outLine = outLine + Parameters.LaTeXSpaceCommand + "{"
-                          + Misc.floatToString(tok.preSpace,2) + "}";
+            { outLine.append(Parameters.LaTeXSpaceCommand).append("{").append(Misc.floatToString(tok.preSpace, 2)).append("}");
             }
 
              switch (tok.type)
@@ -1134,21 +1123,18 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                      { /****************************************************
                        * It's a subscript.                                 *
                        ****************************************************/
-                       outLine = outLine + " " +  
-                          BuiltInSymbols.GetBuiltInSymbol(
-                                                   tok.string, true).TeXString
-                          + "_{";
+                       outLine.append(" ").append(BuiltInSymbols.GetBuiltInSymbol(
+                               tok.string, true).TeXString).append("_{");
                      }    
                     else
                      { /****************************************************
                        * It's a superscript.                               *
                        ****************************************************/
-                       outLine = outLine + " " + "^{";
+                       outLine.append(" ").append("^{");
                      }    
                   } // END then OF if (   (! inSub) ... )
                  else
-                  { outLine = outLine + " " +  
-                     BuiltInSymbols.GetBuiltInSymbol(tok.string, true).TeXString;
+                  { outLine.append(" ").append(BuiltInSymbols.GetBuiltInSymbol(tok.string, true).TeXString);
                   }// END else OF if (   (! inSub) ... )
                break ;
   
@@ -1157,26 +1143,26 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                * A number can begin with a '\'.  Won't bother optimizing     *
                * for this special case of TeXify'ing.                        *
                **************************************************************/
-               outLine = outLine + " " + Misc.TeXify(tok.string) ; 
+               outLine.append(" ").append(Misc.TeXify(tok.string));
                break ;
   
              case Token.IDENT :
-               outLine = outLine + " " + Misc.TeXifyIdent(tok.string) ; 
+               outLine.append(" ").append(Misc.TeXifyIdent(tok.string));
                break ;
 
              case Token.PCAL_LABEL :
-               outLine = outLine + " " + Misc.TeXifyPcalLabel(tok.string) ;
+               outLine.append(" ").append(Misc.TeXifyPcalLabel(tok.string));
                break ;
                
              case Token.STRING :
-               outLine = outLine + Parameters.LaTeXStringCommand + "{"  
-                          + FixString(tok.string) + "}";
+               outLine.append(Parameters.LaTeXStringCommand).append("{").append(FixString(tok.string)).append("}");
                break ;
   
              case Token.PF_STEP :
-               outLine = outLine + PfStepString(tok.string) ;
+               outLine.append(PfStepString(tok.string));
                if ( ((Token.PfStepToken) tok).needsSpace )
-                 {outLine = outLine + "\\ "; }
+                 {
+                     outLine.append("\\ "); }
                  break ;
 
              case Token.COMMENT :
@@ -1226,7 +1212,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                     * There may be more to come on the line, so open a       *
                     * LaTeXContinueLine command.                             *
                     *********************************************************/
-                    outLine = Parameters.LaTeXContinueLine + "{" ;
+                    outLine = new StringBuilder(Parameters.LaTeXContinueLine + "{");
                     break ;
   
                   case CommentToken.BEGIN_MULTI :
@@ -1304,7 +1290,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                         * Just delete the current LaTeXStartLine command   *
                         * and write out the comment as a PAR comment.      *
                         ***************************************************/
-                       outLine = "" ;
+                       outLine = new StringBuilder();
                        openLine = false ;
                        FormatComments.WriteComment(writer, mlineVector,
                             FormatComments.PAR, TotalIndent(spec, pos), 
@@ -1318,7 +1304,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                         * write the comment.                               *
                         ***************************************************/
                         Misc.BreakStringOut(writer, outLine + "}%" ) ;
-                        outLine = "" ;
+                        outLine = new StringBuilder();
                         openLine = false ;
                         FormatComments.WriteComment(writer, mlineVector,
                              FormatComments.RIGHT_MULTI, commentWidth, 
@@ -1342,14 +1328,14 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                     * This is the only token on the line, so we can        *
                     * delete the LaTeXStartLine command.                   *
                     *******************************************************/
-                    outLine = "" ;
+                    outLine = new StringBuilder();
                     openLine = false ;
                     
                     /*******************************************************
                     * Set lineVector to the vector of lines in the         *
                     * multi-line comment, and skip over all its lines.     *
                     *******************************************************/
-                    Debug.Assert(outLine.equals(""),
+                    Debug.Assert(outLine.toString().equals(""),
                       "Non-empty outLine at beginning of PAR comment");
   
                     final Vector<String> lineVector = new Vector<>();
@@ -1358,10 +1344,10 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                     * Add tok.column + 2 spaces to beginning of first      *
                     * line.                                                *
                     *******************************************************/
-                    String spaces = "  ";
+                    StringBuilder spaces = new StringBuilder("  ");
                     int j = 0 ;
                     while (j < tok.column)
-                      { spaces = spaces + " ";
+                      { spaces.append(" ");
                         j = j + 1;
                       }
 
@@ -1404,8 +1390,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                 { /*********************************************************
                   * Ending a "--- MODULE foo ---".                         *
                   *********************************************************/
-                  outLine = outLine + "}" + Parameters.LaTeXRightDash 
-                              + "{" ;
+                  outLine.append("}").append(Parameters.LaTeXRightDash).append("{");
                   inBeginModule = false ;
                 }  // END THEN if (inBeginModule)
                else
@@ -1414,24 +1399,21 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                    { /******************************************************
                      * Starting a "--- MODULE foo ---".                    *
                      ******************************************************/
-                     outLine = outLine + "}" + 
-                                 Parameters.LaTeXLeftDash + "{" ;
+                     outLine.append("}").append(Parameters.LaTeXLeftDash).append("{");
                      inBeginModule = true ;
                    } // END THEN of if ( (item + 1 < ... ))
                   else
                    { /******************************************************
                      * This is a mid-module dash.                          *
                      ******************************************************/
-                     outLine = outLine + "}" + Parameters.LaTeXDash 
-                                   + "{" ;
+                     outLine.append("}").append(Parameters.LaTeXDash).append("{");
                    } // END ELSE of if ( (item + 1 < ... ))
   
                 } // END ELSE if (inBeginModule)
                break ;
   
              case Token.END_MODULE :
-               outLine = outLine + "}" + Parameters.LaTeXEndModule 
-                           + "{" ;
+               outLine.append("}").append(Parameters.LaTeXEndModule).append("{");
                break ;
   
              case Token.EPILOG :
@@ -1458,7 +1440,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                     * only of spaces.                                      *
                     *******************************************************/
                 }
-                 outLine = null ;
+                 outLine = null;
                openLine = false;
 
                if (Parameters.PrintEpilog)
@@ -1502,7 +1484,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
          *****************************************************************/
          Debug.Assert(outLine != null,
                          "Unclosed sub/superscript command at end of line") ;
-         outLine = outLine + "}";
+         outLine.append("}");
          inSub = false ;
        }
 
@@ -1521,7 +1503,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
 //           writer.putLine("\\end{ppar}%") ;
 //       }
 
-      outLine = "" ;
+      outLine = new StringBuilder();
       item = 0 ;
       line = line + 1;
      }                 // END else OF if (spec[line].length == 0)

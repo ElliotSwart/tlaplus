@@ -139,17 +139,17 @@ public class Errors {
 
     ret.append((numAborts > 0) ? "*** Abort messages: " + numAborts + "\n\n" : "");
     for (int i = 0; i < aborts.size(); i++)   {
-      ret.append(aborts.elementAt(i) + "\n\n\n");
+      ret.append(aborts.elementAt(i)).append("\n\n\n");
     }
 
     ret.append((numErrors > 0) ? "*** Errors: " + numErrors + "\n\n" : "");
     for (int i = 0; i < errors.size(); i++)   {
-      ret.append(errors.elementAt(i) + "\n\n\n");
+      ret.append(errors.elementAt(i)).append("\n\n\n");
     }
 
     ret.append((numWarnings > 0) ? "*** Warnings: " + numWarnings + "\n\n" : "");
     for (int i = 0; i < warnings.size(); i++) {
-      ret.append(warnings.elementAt(i) + "\n\n\n");
+      ret.append(warnings.elementAt(i)).append("\n\n\n");
     }
 
     return ret.toString();

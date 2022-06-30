@@ -97,9 +97,7 @@ public class LeafProofNode extends ProofNode {
           return null;
       }
       final SemanticNode[] res = new SemanticNode[this.facts.length];
-      for (int i = 0; i < facts.length; i++) {
-          res[i] = facts[i];
-      }
+      System.arraycopy(facts, 0, res, 0, facts.length);
       return res;
    }
 

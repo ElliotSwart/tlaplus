@@ -309,9 +309,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 		synchronized (this.braf) {
 			final int len = this.braf.length;
 			final BufferedRandomAccessFile[] nraf = new BufferedRandomAccessFile[len + 1];
-			for (int i = 0; i < len; i++) {
-				nraf[i] = this.braf[i];
-			}
+			System.arraycopy(this.braf, 0, nraf, 0, len);
 			nraf[len] = new BufferedRandomAccessFile(this.fpFilename, "r");
 			this.braf = nraf;
 		}
@@ -1204,18 +1202,17 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 
 			final long elements = braf.length() / FPSet.LongSize;
 			final DecimalFormat df = new DecimalFormat("###,###.###");
-			System.out.println(String.format("About to scan %s elements.", df.format(elements)));
+			System.out.printf("About to scan %s elements.%n", df.format(elements));
 
 			long elem = 0L;
 			for (long i = 0; i < elements; i++) {
 				final long l = braf.readLong();
 				if (l < elem) {
-					System.err.println(
-							String.format("Inconsistent elements %s at pos %s < %s at pos %s.", elem, i - 1L, l, i));
+					System.err.printf("Inconsistent elements %s at pos %s < %s at pos %s.%n", elem, i - 1L, l, i);
 				}
 				elem = l;
 				if (i > 0 && i % 100000000L == 0L) {
-					System.out.println(String.format("Scanned %s elements.", df.format(i)));
+					System.out.printf("Scanned %s elements.%n", df.format(i));
 				}
 			}
 		} else if (args.length == 2 && !args[0].equals("") && !args[1].equals("")) {
@@ -1233,12 +1230,11 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 						continue OUTER;
 					} else if (m > l) {
 						System.err
-								.println(String.format("Inconsistent element in superset %s not in superset at pos %s.",
-										m, superset.getFilePointer()));
+								.printf("Inconsistent element in superset %s not in superset at pos %s.%n",
+										m, superset.getFilePointer());
 					}
 				}
-				System.err.println(
-						String.format("Element in subset %s not in superset at pos %s.", l, subset.getFilePointer()));
+				System.err.printf("Element in subset %s not in superset at pos %s.%n", l, subset.getFilePointer());
 			}
 
 			System.out.println("Finished scanning files.");

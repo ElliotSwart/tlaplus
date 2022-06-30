@@ -133,11 +133,11 @@ public class OpRcdValue extends OpValue implements Applicable {
         }
       }
       // Generate the error message:
-      String msg = "Attempted to apply operator:\n" + Values.ppr(this.toString()) +
-        "\nto arguments (";
-      if (args.length > 0) msg += args[0];
+      StringBuilder msg = new StringBuilder("Attempted to apply operator:\n" + Values.ppr(this.toString()) +
+              "\nto arguments (");
+      if (args.length > 0) msg.append(args[0]);
       for (int i = 1; i < args.length; i++) {
-        msg += ", " + args[i];
+        msg.append(", ").append(args[i]);
       }
       Assert.fail(msg +  "), which is undefined.", getSource());
       return null;     // make compiler happy

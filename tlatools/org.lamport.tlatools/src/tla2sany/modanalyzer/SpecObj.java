@@ -363,10 +363,10 @@ public class SpecObj
     // in nonCircularityBody method below.
     private String pathToString(final Vector<ParseUnit> path)
     {
-        String ret = "";
+        StringBuilder ret = new StringBuilder();
         for (int i = 0; i < path.size(); i++)
         {
-            ret += path.elementAt(i).getFileName() + " --> ";
+            ret.append(path.elementAt(i).getFileName()).append(" --> ");
         }
         return ret + path.elementAt(0).getFileName();
     }
@@ -1022,10 +1022,10 @@ public class SpecObj
     	       modify the translation.
     	       TLC called: By default, a warning should be raised.  It should be considered
     	          the same as Case 2. */
-				ToolIO.out.println(String.format(
+				ToolIO.out.printf(
 						"!! WARNING: The PlusCal algorithm and its TLA+ translation in "
-								+ "module %s filename since the last translation.",
-						parseUnit.getName()));
+								+ "module %s filename since the last translation.%n",
+						parseUnit.getName());
     		} else if (results.contains(ValidationResult.TLA_DIVERGENCE_EXISTS)) {
       	      /* The algorithm hash is valid and the translation hash is invalid.
      	       There are two reasons: (1) The user is debugging the spec, or
@@ -1037,16 +1037,16 @@ public class SpecObj
      	          TLC but raise a transient window with a warning that is easily ignored.  
      	          For case (2), it should be possible to put something in a translation 
      	          comment to disable the warning. */
-				ToolIO.out.println(String.format("!! WARNING: The TLA+ translation in "
-						+ "module %s has changed since its last translation.", parseUnit.getName()));
+				ToolIO.out.printf("!! WARNING: The TLA+ translation in "
+						+ "module %s has changed since its last translation.%n", parseUnit.getName());
     		} else if (results.contains(ValidationResult.PCAL_DIVERGENCE_EXISTS)) {
        	      /* The algorithm hash is invalid and the translation hash is valid.
      	       TLC called: By default, a warning should be generated.  I see little reason 
      	         for not generating the warning.  So, it doesn't matter if its inconvenient
      	         to turn off the warning, but turning it off should affect only the current
      	         spec; and it should be easy to turn back on. */
-				ToolIO.out.println(String.format("!! WARNING: The PlusCal algorithm in "
-						+ "module %s has changed since its last translation.", parseUnit.getName()));
+				ToolIO.out.printf("!! WARNING: The PlusCal algorithm in "
+						+ "module %s has changed since its last translation.%n", parseUnit.getName());
     		} else if (results.contains(ValidationResult.ERROR_ENCOUNTERED)) {
 				ToolIO.err.println("A unexpected problem was encountered attempting to validate the specification for "
 						+ parseUnit.getName());

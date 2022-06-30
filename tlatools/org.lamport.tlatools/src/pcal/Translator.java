@@ -54,7 +54,7 @@ public class Translator
     }
     
     public Translator(final String anInput, final List<String> args) {
-    	this(anInput, args.toArray(new String[args.size()]));
+    	this(anInput, args.toArray(new String[0]));
     }
 
     /**

@@ -61,9 +61,7 @@ private Value [] elementData;
       final int cmp = this.elementData[i].compareTo(val);
       if (cmp == 0) return;
       if (cmp > 0) {
-	for (int j = this.elementCount-1; j >= i; j--) {
-	  this.elementData[j+1] = this.elementData[j];
-	}
+          System.arraycopy(this.elementData, i, this.elementData, i + 1, this.elementCount - i);
 	this.elementData[i] = val;
 	this.elementCount++;
 	return;
@@ -192,9 +190,7 @@ private Value [] elementData;
       }
       if (cmp != 0 || !noDup) {
 	idx = (cmp < 0) ? idx  : idx + 1;
-	for (int j = newCount; j > idx; j--) {
-	  this.elementData[j] = this.elementData[j-1];
-	}
+          if (newCount - idx >= 0) System.arraycopy(this.elementData, idx, this.elementData, idx + 1, newCount - idx);
 	this.elementData[idx] = elem;
 	newCount++;
       }

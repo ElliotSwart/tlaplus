@@ -167,9 +167,7 @@ public class NonLeafProofNode extends ProofNode {
           return null;
       }
       final SemanticNode[] res = new SemanticNode[this.steps.length];
-      for (int i = 0; i < steps.length; i++) {
-          res[i] = steps[i];
-      }
+      System.arraycopy(steps, 0, res, 0, steps.length);
       return res;
    }
 

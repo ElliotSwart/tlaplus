@@ -127,8 +127,7 @@ public class TraceExplorationSpec {
 		// field ModelValue.mvs.
 		ModelValue.setValues();
 		final Set<String> declaredConstantNames = constants.stream().map(l -> l.get(0)).collect(Collectors.toSet());
-		final Set<ModelValue> reifiedConstants = new HashSet<>();
-		reifiedConstants.addAll(Arrays.asList(ModelValue.mvs));
+        final Set<ModelValue> reifiedConstants = new HashSet<>(Arrays.asList(ModelValue.mvs));
 		reifiedConstants.stream().filter(m -> !declaredConstantNames.contains(m.toString()))
 				.collect(Collectors.toSet());
 

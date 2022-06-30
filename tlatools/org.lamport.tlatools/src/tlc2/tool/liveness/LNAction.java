@@ -92,7 +92,7 @@ public class LNAction extends LiveExprNode {
 		} else {
 			sb.append((this.isBox) ? "[" : "<");
 			this.body.toString(sb, padding + " ");
-			sb.append(((this.isBox) ? "]_" : ">_") + this.subscript);
+			sb.append((this.isBox) ? "]_" : ">_").append(this.subscript);
 		}
 	}
 

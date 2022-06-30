@@ -178,7 +178,7 @@ public class MCState {
 			variableList.add(variable);
 		}
 		
-		this.variables = variableList.toArray(new MCVariable[variableList.size()]);
+		this.variables = variableList.toArray(new MCVariable[0]);
 		this.record = new RecordValue(tlcState.getOriginalState());
 	}
 

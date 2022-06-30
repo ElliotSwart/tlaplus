@@ -152,13 +152,13 @@ public class ExternalModuleTable implements ExploreNode {
   @Override
   public String toString() {
     final Enumeration<ExternalModuleTableEntry> Enum = moduleHashTable.elements();
-    String ret = "";
+    StringBuilder ret = new StringBuilder();
 
     while (Enum.hasMoreElements()) {
       final ExternalModuleTableEntry mte = Enum.nextElement();
-      ret = ret + mte.toString();
+      ret.append(mte.toString());
     }
-    return "\nModule Table:" + Strings.indent(2,ret);
+    return "\nModule Table:" + Strings.indent(2, ret.toString());
   }
 
   public void printExternalModuleTable(final int depth, final boolean b) {
@@ -188,17 +188,17 @@ public class ExternalModuleTable implements ExploreNode {
   public String toString(final int depth) {
     if (depth <= 0) return "";
 
-    String ret = "";
+    StringBuilder ret = new StringBuilder();
     for (int i = 0; i < moduleNodeVector.size(); i++) {
       final ModuleNode mn = moduleNodeVector.elementAt(i);
       if (mn != null) {
-        ret += Strings.indent(2, "\nModule: " + Strings.indent(2, mn.toString(depth)) );
+        ret.append(Strings.indent(2, "\nModule: " + Strings.indent(2, mn.toString(depth))));
       } else {
 	final String str = "\n***Null ExternalModuleTable entry; module contained error and was not created.";
-	ret += Strings.indent(2, "\nModule: " + Strings.indent(2, str));
+	ret.append(Strings.indent(2, "\nModule: " + Strings.indent(2, str)));
       }
     }
-    return ret;
+    return ret.toString();
   }
 
   public void walkGraph(final Hashtable<Integer, ExploreNode> moduleNodesTable) {

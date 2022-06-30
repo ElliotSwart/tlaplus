@@ -103,7 +103,7 @@ public class DotStateWriter extends StateWriter {
 		this.colorize = colorize;
 		this.actionLabels = actionLabels;
 		this.snapshot = snapshot;
-		this.writer.append(strict + "digraph DiskGraph {\n"); // strict removes redundant edges
+		this.writer.append(strict).append("digraph DiskGraph {\n"); // strict removes redundant edges
 		// Turned off LR because top to bottom provides better results with GraphViz viewer.
 //		this.writer.append("rankdir=LR;\n"); // Left to right rather than top to bottom
         
@@ -341,7 +341,7 @@ public class DotStateWriter extends StateWriter {
 		for (final Set<Long> entry : rankToNodes.values()) {
 			this.writer.append("{rank = same; ");
 			for (final Long l : entry) {
-				this.writer.append(l + ";");
+				this.writer.append(String.valueOf(l)).append(";");
 			}
 			this.writer.append("}\n");
 		}
@@ -369,7 +369,7 @@ public class DotStateWriter extends StateWriter {
 		for (final Set<Long> entry : rankToNodes.values()) {
 			buf.append("{rank = same; ");
 			for (final Long l : entry) {
-				buf.append(l + ";");
+				buf.append(l).append(";");
 			}
 			buf.append("}\n");
 		}
