@@ -388,7 +388,7 @@ public final Value[] elems;          // the elements of this tuple.
         sb = this.elems[0].toString(sb, offset, swallow);
       }
       for (int i = 1; i < len; i++) {
-        sb = sb.append(", ");
+        sb.append(", ");
         sb = this.elems[i].toString(sb, offset, swallow);
       }
       sb.append(">>");

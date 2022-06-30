@@ -853,8 +853,8 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       }
       else if (this.isTuple()) {
         // It is actually a sequence:
-        sb = sb.append("<<");
-        sb = this.values[0].toString(sb, offset, swallow);
+          sb.append("<<");
+          sb = this.values[0].toString(sb, offset, swallow);
 
         for (int i = 1; i < len; i++) {
           sb.append(", ");
@@ -864,8 +864,8 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       }
       else {
     	final Value[] domainAsValues = getDomainAsValues();
-        sb = sb.append("(");
-        sb = domainAsValues[0].toString(sb, offset, swallow);
+          sb.append("(");
+          sb = domainAsValues[0].toString(sb, offset, swallow);
         sb.append(" :> ");
         sb = this.values[0].toString(sb, offset, swallow);
 

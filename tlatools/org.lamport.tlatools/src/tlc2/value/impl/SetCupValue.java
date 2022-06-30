@@ -263,8 +263,8 @@ public final Value set1;
       catch (final Throwable e) { if (!swallow) throw e; }
 
       sb = this.set1.toString(sb, offset, swallow);
-      sb = sb.append(" \\cup ");
-      sb = this.set2.toString(sb, offset, swallow);
+        sb.append(" \\cup ");
+        sb = this.set2.toString(sb, offset, swallow);
       return sb;
     }
     catch (final RuntimeException | OutOfMemoryError e) {

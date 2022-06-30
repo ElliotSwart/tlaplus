@@ -3013,8 +3013,7 @@ public class PcalTLAGen
          * mapping vectors are not properly matching in the returned expression
          */
 //        depths = new int[1000];
-        
-        parenDepth = 0;
+
         for (int i = 0; i < expr.tokens.size(); i++) {
             final Vector<TLAToken> line = expr.tokens.elementAt(i);
             for (int j = 0; j < line.size(); j++) {

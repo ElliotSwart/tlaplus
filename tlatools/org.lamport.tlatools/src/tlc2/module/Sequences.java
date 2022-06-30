@@ -410,14 +410,14 @@ public class Sequences extends UserObj implements ValueConstants
     {
         if (this.size == Integer.MAX_VALUE)
         {
-            sb = sb.append("Seq(");
+            sb.append("Seq(");
             sb = this.range.toString(sb, offset, swallow);
         } else
         {
-            sb = sb.append("BSeq(");
+            sb.append("BSeq(");
             sb = this.range.toString(sb, offset, swallow);
-            sb = sb.append(", ");
-            sb = sb.append(this.size);
+            sb.append(", ");
+            sb.append(this.size);
         }
         sb = sb.append(")");
         return sb;

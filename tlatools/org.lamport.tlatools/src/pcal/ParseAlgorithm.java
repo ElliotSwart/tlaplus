@@ -1900,7 +1900,6 @@ public class ParseAlgorithm
                               false,             // inWith
                               outAssigned,       // inAssigned = {}
                               newOutAssigned) ;  // outAssigned
-               nextStepNeedsLabel = false ;
                  /**********************************************************
                  * A label is never needed after a `while' statement       *
                  * because that statement immediately follows the labeled  *
@@ -1986,7 +1985,6 @@ public class ParseAlgorithm
                    Copy(assignedVbls, outAssigned) ;
                  }
 
-                 nextStepNeedsLabel = false ;
              }
            else 
              { /************************************************************
@@ -1996,8 +1994,7 @@ public class ParseAlgorithm
                * true and set assignedVbls to a non-empty set iff this is  *
                * a call, return, callReturn, or callGoto.                  *
                ************************************************************/
-               nextStepNeedsLabel = false ;
-               final Vector<String> assignedVbls = new Vector<>() ;
+                 final Vector<String> assignedVbls = new Vector<>() ;
 
                /************************************************************
                * Set isCallOrReturn true iff this is a call, return,       *

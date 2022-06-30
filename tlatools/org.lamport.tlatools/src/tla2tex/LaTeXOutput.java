@@ -1035,7 +1035,6 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                       + count + "}%");
           line = i ;
           outLine = new StringBuilder();
-          openLine = false ;
         }// END if (issueVSpace)
   
        }// END if ( (spec[line][0].type == Token.COMMENT) ... )

@@ -4504,7 +4504,6 @@ expecting = "==";
       numberFlag = true;
       sn = new SyntaxTreeNode[1];
       sn[0] =  new SyntaxTreeNode(mn, t1);
-      kind = N_Number;
     }
     {if (true) return new SyntaxTreeNode(mn, kind, sn);}
     throw new Error("Missing return statement in function");
@@ -5336,8 +5335,7 @@ final SyntaxTreeNode tn;
         }
       } else if (jj_2_45(2147483647)) {
         tn = Expression();
-      kind = N_SetEnumerate;
-      addHeir( tn );
+        addHeir( tn );
         label_30:
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -5422,8 +5420,7 @@ final SyntaxTreeNode tn;
             label_33:
             while (true) {
               t = jj_consume_token(COMMA);
-                      kind = N_SetEnumerate;
-        addHeir( new SyntaxTreeNode(mn, t) );
+              addHeir( new SyntaxTreeNode(mn, t) );
               tn = Expression();
                             addHeir( tn );
               switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -8595,7 +8592,6 @@ final SyntaxTreeNode tn;
       xsp = jj_scanpos;
       if (jj_3_61()) { jj_scanpos = xsp; break; }
     }
-    xsp = jj_scanpos;
     if (jj_3_69()) jj_scanpos = xsp;
     return false;
   }
@@ -8734,7 +8730,6 @@ final SyntaxTreeNode tn;
       xsp = jj_scanpos;
       if (jj_3R_126()) { jj_scanpos = xsp; break; }
     }
-    xsp = jj_scanpos;
     lookingAhead = true;
     jj_semLA = BStack.aboveReference( getToken(1).beginColumn);
     lookingAhead = false;
@@ -9302,7 +9297,6 @@ final SyntaxTreeNode tn;
       xsp = jj_scanpos;
       if (jj_3R_255()) { jj_scanpos = xsp; break; }
     }
-    xsp = jj_scanpos;
     if (jj_3R_256()) jj_scanpos = xsp;
     return false;
   }
@@ -10561,7 +10555,6 @@ final SyntaxTreeNode tn;
       xsp = jj_scanpos;
       if (jj_3R_138()) { jj_scanpos = xsp; break; }
     }
-    xsp = jj_scanpos;
     if (jj_scan_token(75)) {
     jj_scanpos = xsp;
       return jj_scan_token(76);
@@ -10949,7 +10942,6 @@ final SyntaxTreeNode tn;
       xsp = jj_scanpos;
       if (jj_3R_259()) { jj_scanpos = xsp; break; }
     }
-    xsp = jj_scanpos;
     lookingAhead = true;
     jj_semLA = BStack.aboveReference( getToken(1).beginColumn);
     lookingAhead = false;

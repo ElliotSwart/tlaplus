@@ -589,8 +589,7 @@ public final class FormatComments
      *       followed by an IDENT that are not both TLA tokenS.            *
      * - a "+" token immediately following "TLA".                          *
      **********************************************************************/
-     line = 0 ;
-     while (line < com.length)
+        while (line < com.length)
       {item = 0 ;
        while (item < com[line].length)
         {tok = com[line][item];

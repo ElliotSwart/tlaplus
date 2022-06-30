@@ -324,8 +324,8 @@ public Value  set;           // SUBSET set
         return val.toString(sb, offset, swallow);
       }
       else {
-        sb = sb.append("SUBSET ");
-        if (this.set instanceof IntervalValue) {
+          sb.append("SUBSET ");
+          if (this.set instanceof IntervalValue) {
         	// MAK 07/2021:
 			// SUBSET has higher precedence than the .. (infix) operator appearing in
 			// interval definitions (see tla2sany.semantic.BuiltInLevel). Thus, printing

@@ -317,7 +317,7 @@ public final Value set;
         return val.toString(sb, offset, swallow);
       }
       else {
-        sb = sb.append("UNION(");
+        sb.append("UNION(");
         sb = this.set.toString(sb, offset, swallow);
         sb.append(")");
         return sb;

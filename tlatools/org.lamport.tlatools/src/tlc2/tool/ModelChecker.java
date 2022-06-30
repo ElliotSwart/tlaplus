@@ -266,8 +266,7 @@ public class ModelChecker extends AbstractChecker
                 }
 
                 // We get here because the checking has been completed.
-                result = EC.NO_ERROR;
-                reportSuccess(this.theFPSet, getStatesGenerated());
+				reportSuccess(this.theFPSet, getStatesGenerated());
             } else if (this.keepCallStack)
             {
                 // Replay the error with the error stack recorded:

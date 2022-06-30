@@ -335,7 +335,6 @@ public class PcalTranslate {
         newast.prcds = new Vector<>(ast.prcds.size(), 10);
         newast.defs = ast.defs ;  // added 25 Jan 2006 by LL
         newast.setOrigin(ast.getOrigin()) ;
-        i = 0;
         while (i < ast.prcds.size()) {
             newast.prcds.addElement(
                                     ExplodeProcedure(ast.prcds.elementAt(i)));
@@ -872,7 +871,6 @@ public class PcalTranslate {
         /* Explode the labeled then statements */
         AST.LabeledStmt nextThen = (ast.labThen.size() > 1)
             ? (AST.LabeledStmt) ast.labThen.elementAt(1) : null;
-        i = 0;
         while (i < ast.labThen.size()) {
             final String nextThenLabel = (nextThen == null) ? next : nextThen.label;
             result2.addAll(ExplodeLabeledStmt(firstThen, nextThenLabel));

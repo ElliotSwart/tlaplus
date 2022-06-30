@@ -992,7 +992,6 @@ private final int jjStopStringLiteralDfa_2(final int pos, final long active0, fi
             if (jjmatchedPos == 0)
             {
                jjmatchedKind = 231;
-               jjmatchedPos = 0;
             }
             return -1;
          }

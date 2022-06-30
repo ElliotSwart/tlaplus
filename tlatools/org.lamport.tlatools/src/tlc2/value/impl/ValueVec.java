@@ -204,11 +204,11 @@ private Value [] elementData;
 
     sb.append("{");
     if (this.size() > 0) {
-      sb = sb.append(this.elementData[0].toString());
+        sb.append(this.elementData[0].toString());
     }
     for (int pos = 1; pos < size(); pos++) {
-      sb = sb.append(", ");
-      sb = sb.append(this.elementData[pos].toString());
+        sb.append(", ");
+        sb.append(this.elementData[pos].toString());
     }
     sb.append("}");    
     return sb.toString();

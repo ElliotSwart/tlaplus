@@ -418,8 +418,8 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       }
 
       final int len = this.elems.size();
-      sb = sb.append("{");
-      if (len > 0) {
+        sb.append("{");
+        if (len > 0) {
         this.elems.elementAt(0).toString(sb, offset, swallow);
       }
       for (int i = 1; i < len; i++) {

@@ -1279,7 +1279,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                     { // probably a ClassCastException
                         // Assert.printStack(e);
                         MP.printWarning(EC.TLC_COULD_NOT_DETERMINE_SUBSCRIPT, new String[0]);
-                        varsInSubscript = null;
                     }
                     // ... and make sure they contain all the state variables
                     if (varsInSubscript != null)

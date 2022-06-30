@@ -3440,7 +3440,6 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			} else {
 				odna[0] = new FormalParamNode[1];
 				odna[0][0] = new FormalParamNode(children[1].getUS(), 0, children[1], symbolTable, cm);
-				tuples[0] = false;
 			}
 			pushFormalParams(flattenParams(odna));
 			/*******************************************************************
@@ -3578,7 +3577,6 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		} else {
 			odna[0] = new FormalParamNode[1];
 			odna[0][0] = new FormalParamNode(children[1].getUS(), 0, children[1], symbolTable, cm);
-			tuples[0] = false;
 		}
 
 		pushFormalParams(flattenParams(odna));
@@ -5788,7 +5786,6 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		boolean hasNonExprBody = false;
 		if (heirs[nextTok].getKind() == N_NonExprBody) {
 			heirs = heirs[nextTok].heirs();
-			nextTok = 0;
 			hasNonExprBody = true;
 		}
 
