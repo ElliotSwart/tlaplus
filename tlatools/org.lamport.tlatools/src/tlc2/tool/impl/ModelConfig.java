@@ -693,6 +693,7 @@ public class ModelConfig implements ValueConstants, Serializable {
      * @param args
      * @deprecated
      */
+    @Deprecated
     public static void main(final String[] args)
     {
         try

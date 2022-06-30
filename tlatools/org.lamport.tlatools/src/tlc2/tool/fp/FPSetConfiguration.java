@@ -118,7 +118,8 @@ public class FPSetConfiguration implements Serializable {
 	 *             only accepts a ratio rather than an absolute memory value
 	 * @param fpMemSize
 	 */
-	public void setMemory(final long fpMemSize) {
+	@Deprecated
+    public void setMemory(final long fpMemSize) {
 		Assert.check(fpMemSize >= 0, EC.GENERAL);
 		this.memoryInBytes = fpMemSize;
 	}
