@@ -705,7 +705,9 @@ class TeX
               resultVec.addElement(inputLine.substring(start, after));
             }; 
            inputLine = logfile.readLine();
-         } 
+         }
+        
+        logfile.close();
        }
       catch (Exception e)
        { Debug.ReportError(

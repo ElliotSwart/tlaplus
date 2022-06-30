@@ -57,6 +57,8 @@ public class TLAClass
     public synchronized Class<?> loadClass(String name)
     {
         Class<?> cl = null;
+        URLClassLoader classLoader = null;
+        
         try
         {
         	try {
@@ -64,7 +66,8 @@ public class TLAClass
         			final File module = resolver.resolve(name + ".class", false);
         			if (module != null && module.getAbsoluteFile() != null) {
         				final URL url = module.getAbsoluteFile().getParentFile().toURI().toURL();
-        				cl = new URLClassLoader(new URL[] {url}).loadClass(name);
+        				classLoader = new URLClassLoader(new URL[] {url});
+        				cl = classLoader.loadClass(name);
         			}
         		}
         	} catch (Exception ignored1) {
@@ -77,6 +80,10 @@ public class TLAClass
         			} catch (Exception e)
         			{ /*SKIP*/
         			}
+        		}
+        		
+        		if(classLoader != null) {
+        			classLoader.close();
         		}
         	}
             if (cl == null)
