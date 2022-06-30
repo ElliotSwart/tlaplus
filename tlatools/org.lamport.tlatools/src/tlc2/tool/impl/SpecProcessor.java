@@ -31,14 +31,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import tla2sany.drivers.FrontEndException;
@@ -228,7 +221,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
       final OpDeclNode[] consts = mod.getConstantDecls();
       for (int i = 0; i < consts.length; i++) {
         final Object val = consts[i].getToolObject(toolId);
-        if (val != null && val instanceof IValue) {
+        if (val instanceof IValue) {
 		  // We do not wrap this value in a WorkerValue, because we assume that explicit
 		  // initialization does not pose a problem here. This is based on the observation,
           // that val is either an atom (IValue#isAtom) or a set (of sets) of atoms (primarily
@@ -237,7 +230,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
           constantDefns.computeIfAbsent(mod, key -> new HashMap<OpDefOrDeclNode, Object>()).put(consts[i], val);
           // System.err.println(consts[i].getName() + ": " + val);
         } // The following else clause was added by LL on 17 March 2012.
-        else if (val != null && val instanceof final OpDefNode opDef) {
+        else if (val instanceof final OpDefNode opDef) {
             // The following check logically belongs in Spec.processSpec, but it's not there.
           // So, LL just added it here.  This error cannot occur when running TLC from
           // the Toolbox.
@@ -350,7 +343,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 	public static final String LAZY_CONSTANT_OPERATORS = SpecProcessor.class.getName() + ".vetoed";
 
 	private static final Set<String> vetos = new HashSet<>(
-            Arrays.asList(System.getProperty(LAZY_CONSTANT_OPERATORS, "")));
+            Collections.singletonList(System.getProperty(LAZY_CONSTANT_OPERATORS, "")));
 
 	private boolean isVetoed(final UniqueString us) {
 		return vetos.contains(us.toString());
@@ -653,14 +646,14 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 									if (evaluation.warn()) MP.printMessage(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_MODULE_MISMATCH,
 											evaluation.module() + "!" + evaluation.definition(),
 											c.getResource(c.getSimpleName() + ".class").toExternalForm(), "<Java Method: " + m + ">");
-									continue LOOP;
+									continue;
 								}
 								final OpDefNode opDef = moduleNode.getOpDef(evaluation.definition());
 								if (opDef == null) {
 									if (evaluation.warn()) MP.printMessage(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_IDENTIFIER_MISMATCH,
 											evaluation.module() + "!" + evaluation.definition(),
 											c.getResource(c.getSimpleName() + ".class").toExternalForm(), "<Java Method: " + m + ">");
-									continue LOOP;
+									continue;
 								}
 								
 								// Either load the first EvaluatingValue or combine multiple EvaluatingValues for this operator into
@@ -687,7 +680,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 			                    }
 			                    
 			                    // continue with next method (don't try to also load Execution annotation below).
-			                    continue LOOP;
+			                    continue;
 							}
 							
 							final TLAPlusCallable jev = m.getAnnotation(TLAPlusCallable.class);
@@ -698,7 +691,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 									if (jev.warn()) MP.printMessage(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_MODULE_MISMATCH,
 											jev.module() + "!" + jev.definition(),
 											c.getResource(c.getSimpleName() + ".class").toExternalForm(), "<Java Method: " + m + ">");
-									continue LOOP;
+									continue;
 								}
 								final OpDefNode opDef = moduleNode.getOpDef(jev.definition());
 								if (opDef == null) {
@@ -719,7 +712,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 										c.getResource(c.getSimpleName() + ".class").toExternalForm(), val.toString());
 			                    
 			                    // continue with next method (don't try to also load Execution annotation below).
-			                    continue LOOP;
+			                    continue;
 							}
 							
 							final TLAPlusOperator opOverrideCandidate = m.getAnnotation(TLAPlusOperator.class);
@@ -734,14 +727,14 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 								if (opDef == null) {
 									if (opOverrideCandidate.warn()) MP.printWarning(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_IDENTIFIER_MISMATCH,
 											opOverrideCandidate.identifier(), opOverrideCandidate.module(), m.toString());
-									continue LOOP;
+									continue;
 								}
 
 								final Value val = MethodValue.get(m, opOverrideCandidate.minLevel());
 								if (opDef.getArity() != m.getParameterCount()) {
 									if (opOverrideCandidate.warn()) MP.printWarning(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_MISMATCH,
 											opDef.getName().toString(), c.getName(), val.toString());
-									continue LOOP;
+									continue;
 								} else {
 									if (opOverrideCandidate.warn()) MP.printMessage(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_LOADED,
 											opDef.getName().toString(), c.getName(),
@@ -766,7 +759,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         for (int i = 0; i < rootConsts.length; i++)
         {
             final UniqueString lhs = rootConsts[i].getName();
-            final String rhs = (String) overrides.get(lhs.toString());
+            final String rhs = overrides.get(lhs.toString());
             if (rhs != null)
             {
                 if (overrides.containsKey(rhs))
@@ -799,7 +792,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         for (int i = 0; i < rootOpDefs.length; i++)
         {
             final UniqueString lhs = rootOpDefs[i].getName();
-            final String rhs = (String) overrides.get(lhs.toString());
+            final String rhs = overrides.get(lhs.toString());
             if (rhs != null)
             {
                 if (overrides.containsKey(rhs))
@@ -1297,7 +1290,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                                 }
                                 default: // give up
                                     Assert.fail(EC.TLC_CANT_HANDLE_SUBSCRIPT, subscript.toString());
-                                    return;
                                 }
                             }
 
@@ -1514,10 +1506,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 	    if (idx < this.actionConstraints.length)
 	    {
 	        final ExprNode[] constrs = new ExprNode[idx];
-	        for (int i = 0; i < idx; i++)
-	        {
-	            constrs[i] = this.actionConstraints[i];
-	        }
+            System.arraycopy(this.actionConstraints, 0, constrs, 0, idx);
 	        this.actionConstraints = constrs;
 	    }
 	}
@@ -1559,10 +1548,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 	    if (idx < this.modelConstraints.length)
 	    {
 	        final ExprNode[] constrs = new ExprNode[idx];
-	        for (int i = 0; i < idx; i++)
-	        {
-	            constrs[i] = this.modelConstraints[i];
-	        }
+            System.arraycopy(this.modelConstraints, 0, constrs, 0, idx);
 	        this.modelConstraints = constrs;
 	    }
 	}
