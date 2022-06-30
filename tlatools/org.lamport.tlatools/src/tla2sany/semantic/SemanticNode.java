@@ -376,11 +376,8 @@ public abstract class SemanticNode
 		if (kind != other.kind) {
 			return false;
 		}
-		if (myUID != other.myUID) {
-			return false;
-		}
-		return true;
-	}
+        return myUID == other.myUID;
+    }
 
 /***************************************************************************
 * XXXXX A test for getLocation() returning null should be added            *

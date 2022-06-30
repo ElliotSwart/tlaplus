@@ -47,7 +47,7 @@ public class Assignment extends Formula {
         super(right);
         this.label = label;
         this.setParams(params);
-		if ((this.label != null) && (right != null) && this.label.equals(right)) {
+		if ((this.label != null) && this.label.equals(right)) {
             // right side equals label => model value
             setModelValue(true);
         }

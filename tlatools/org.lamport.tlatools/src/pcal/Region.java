@@ -88,12 +88,9 @@ public class Region implements Serializable {
 		} else if (!begin.equals(other.begin))
 			return false;
 		if (end == null) {
-			if (other.end != null)
-				return false;
-		} else if (!end.equals(other.end))
-			return false;
-		return true;
-	}
+            return other.end == null;
+		} else return end.equals(other.end);
+    }
 
 	
 }

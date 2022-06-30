@@ -249,9 +249,7 @@ public class PcalTLAGen
     {
         if (expr == null)
             return true;
-        if (expr.tokens == null || expr.tokens.size() == 0)
-            return true;
-        return false;
+        return expr.tokens == null || expr.tokens.size() == 0;
     }
 
     /*****************************************************************/
@@ -1377,14 +1375,10 @@ public class PcalTLAGen
             addExprToTLA(exp);
             addRightParen(exp.getOrigin());
             addOneTokenToTLA(" IN");
-            endCurrentLineOfTLA();
-            sb = new StringBuilder(NSpaces(col + 2));
             /*************************************************************
             * LL changed "col + 4" to "col + 2" here to correct an       *
             * alignment problem on 31 Jan 2006.                          *
             *************************************************************/
-            if (ast.Do.size() > 1)
-                sb.append("/\\ ");
         } else
         {
             /* generate \E statement */
@@ -1397,11 +1391,11 @@ public class PcalTLAGen
             addRightParen(exp.getOrigin());
 //            int here = sb.le
             addOneTokenToTLA(":");
-            endCurrentLineOfTLA();
-            sb = new StringBuilder(NSpaces(col + 2));
-            if (ast.Do.size() > 1)
-                sb.append("/\\ ");
         }
+        endCurrentLineOfTLA();
+        sb = new StringBuilder(NSpaces(col + 2));
+        if (ast.Do.size() > 1)
+            sb.append("/\\ ");
         for (int i = 0; i < ast.Do.size(); i++)
         {
             GenStmt(ast.Do.elementAt(i), c, context, sb.toString(), sb.length());
@@ -2015,9 +2009,7 @@ public class PcalTLAGen
                                            decl.val,
                                            SubExpr(Self("procedure")), 
                                            new Changed(new Vector<>())));
-                            addRightParen(decl.val.getOrigin());
-                            addOneTokenToTLA("]");
-                            
+
                         }
                         else {
                             /*
@@ -2073,9 +2065,9 @@ public class PcalTLAGen
                             addLeftParen(decl.val.getOrigin());
                             addExprToTLA(AddSubscriptsToExpr(
                                           decl.val, expr, new Changed(new Vector<>())) );
-                            addRightParen(decl.val.getOrigin());
-                            addOneTokenToTLA("]");
                         }
+                        addRightParen(decl.val.getOrigin());
+                        addOneTokenToTLA("]");
                     }
                     /*
                      * This adds the final )) .
@@ -2261,19 +2253,15 @@ public class PcalTLAGen
                         if (pe.isEq) {
                             is.append("= ");
                             // int colExpr = is.length();
-                            addOneTokenToTLA(is.toString());
-                            addLeftParen(pe.id.getOrigin());
-                            addExprToTLA(pe.id);
-                            addRightParen(pe.id.getOrigin());
 
                         } else {
                             is.append("\\in ");
-                            addOneTokenToTLA(is.toString());
-                            addLeftParen(pe.id.getOrigin());
-                            addExprToTLA(pe.id);
-                            addRightParen(pe.id.getOrigin());
 
                         }
+                        addOneTokenToTLA(is.toString());
+                        addLeftParen(pe.id.getOrigin());
+                        addExprToTLA(pe.id);
+                        addRightParen(pe.id.getOrigin());
                         // is.append(" -> \"");
                         is = new StringBuffer(" -> \"");
                         is.append(pe.iPC);

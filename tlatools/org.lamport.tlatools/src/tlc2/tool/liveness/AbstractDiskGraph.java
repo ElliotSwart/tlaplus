@@ -657,10 +657,8 @@ public abstract class AbstractDiskGraph {
 				return false;
 			if (fp != other.fp)
 				return false;
-			if (tidx != other.tidx)
-				return false;
-			return true;
-		}
+            return tidx == other.tidx;
+        }
 
 		private AbstractDiskGraph getOuterType() {
 			return AbstractDiskGraph.this;

@@ -4293,19 +4293,17 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 						// "the same" or "different"
 						newOdn = new OpDefNode(qualifiedName, UserDefinedOpKind, params, localness, substInNode, cm,
 								symbolTable, treeNode, true, odn.getSource(), cID);
-						setOpDefNodeRecursionFields(newOdn, cm);
-						newOdn.setLabels(odn.getLabelsHT());
-					} // if (substIn.getSubsts().length > 0)
+                    } // if (substIn.getSubsts().length > 0)
 					else {
 						// no SUBST-IN node required; but because of the new
 						// operator name, cm is the module of origin for purposes of
 						// deciding of two defs are "the same" or "different"
 						newOdn = new OpDefNode(qualifiedName, UserDefinedOpKind, params, localness, odn.getBody(), cm,
 								symbolTable, treeNode, true, odn.getSource());
-						setOpDefNodeRecursionFields(newOdn, cm);
-						newOdn.setLabels(odn.getLabelsHT());
-					} // else
-				} // if (odn.kind == UserDefinedOpKind)
+                    } // else
+                    setOpDefNodeRecursionFields(newOdn, cm);
+                    newOdn.setLabels(odn.getLabelsHT());
+                } // if (odn.kind == UserDefinedOpKind)
 				else {
 					/*****************************************************************
 					 * This is a ModuleInstanceKind node. *
@@ -4377,10 +4375,8 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					// Following statement added by LL on 30 Oct 2012 to handle locally
 					// instantiated theorems and assumptions. Added setLabels call
 					// on 31 Oct 2012.
-					newtaOdn.setLocal(localness);
-					newtaOdn.setLabels(taOdn.getLabelsHT());
 
-					/*****************************************************************
+                    /*****************************************************************
 					 * No recursion fields needed for a theorem or assumption * because it can't
 					 * appear in a recursive section. *
 					 *****************************************************************/
@@ -4394,16 +4390,16 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					// Following statement added by LL on 30 Oct 2012 to handle locally
 					// instantiated theorems and assumptions. Added setLabels call
 					// on 31 Oct 2012.
-					newtaOdn.setLocal(localness);
-					newtaOdn.setLabels(taOdn.getLabelsHT());
-					/*****************************************************************
+                    /*****************************************************************
 					 * No recursion fields needed for theorems or assumptions * because they can't
 					 * appear in a recursive section. *
 					 *****************************************************************/
 					// setThmOrAssumpDefNodeRecursionFields(newtaOdn, cm) ;
 				}
+                newtaOdn.setLocal(localness);
+                newtaOdn.setLabels(taOdn.getLabelsHT());
 
-				// defs is non-null iff this module definition is in the Let
+                // defs is non-null iff this module definition is in the Let
 				// part of a Let-In expression. Add this newly created ThmOrAssumpDef
 				// to either the LET list or the module cm's definition list.
 				if (defs == null) {

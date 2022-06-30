@@ -266,15 +266,15 @@ public class PcalTranslate {
         final Vector<TLAToken> line = tokens.elementAt(0);
         if (line.size() == 1) {
             final TLAToken tok = line.elementAt(0);
-            return (tok.string.equals("TRUE")) ? true : false;
+            return tok.string.equals("TRUE");
         }
         else if (line.size() == 3) {
             final TLAToken tok1 = line.elementAt(0);
             final TLAToken tok2 = line.elementAt(1);
             final TLAToken tok3 = line.elementAt(2);
-            return (tok1.string.equals("(")
+            return tok1.string.equals("(")
                     && tok2.string.equals("TRUE")
-                    && tok3.string.equals(")")) ? true : false;
+                    && tok3.string.equals(")");
         }
         else return false;
     }

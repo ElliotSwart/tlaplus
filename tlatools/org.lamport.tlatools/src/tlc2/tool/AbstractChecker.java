@@ -314,10 +314,6 @@ public abstract class AbstractChecker
          */
         if (significantDigitsFound >= significantDigits) {
             next++ ;
-            while ( (next < valStringLen)  && 
-                    Character.isDigit(valString.charAt(next))) {
-                 next++ ;
-             }
         } else {
             next++;
             result.append(".");
@@ -362,12 +358,12 @@ public abstract class AbstractChecker
                     prev--;
                 }
             }
-            while ((next < valStringLen)  &&  
-                    Character.isDigit(valString.charAt(next))) {
-                next++;
-            }
         }
-        
+        while ( (next < valStringLen)  &&
+                Character.isDigit(valString.charAt(next))) {
+             next++ ;
+         }
+
         /*
          * IF next at end of valString or at "E"
          *   THEN copy remaining chars of valString to result;

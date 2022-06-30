@@ -227,12 +227,11 @@ public class PcalSymTab {
             i = FindSym(GLOBAL, id, "");
             if (i < symtab.size()) return false; /* GLOBAL with same id exists */
             i = FindSym(id, context);
-            if (i < symtab.size()) return false; /* id in same context exists */
         }
         else {
             i = FindSym(type, id, context);
-            if (i < symtab.size()) return false;
         }
+        if (i < symtab.size()) return false; /* id in same context exists */
         final SymTabEntry se = new SymTabEntry(type, id, context, cType, line, col);
         symtab.addElement(se);
         return true;

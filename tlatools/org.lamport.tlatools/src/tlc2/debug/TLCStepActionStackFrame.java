@@ -125,11 +125,9 @@ public final class TLCStepActionStackFrame extends TLCActionStackFrame {
 		if (tool.getMode() == Mode.Simulation) {
 			final Action nextPred = tool.getSpecProcessor().getNextPred();
 			final Location loc = nextPred.getDefinition();
-			if (loc.includes(bp.getLocation())) {
-				// We do not support hit count with state-level stepping because stepping back
-				// to level/diameter < bp.getHits() does not work.
-                return true;
-			}
+            // We do not support hit count with state-level stepping because stepping back
+            // to level/diameter < bp.getHits() does not work.
+            return loc.includes(bp.getLocation());
 		}
 		return false;
 	}

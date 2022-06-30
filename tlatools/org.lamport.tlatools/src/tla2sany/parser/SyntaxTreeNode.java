@@ -304,11 +304,8 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
    }
 
   public boolean isGenOp() {
-    if ( kind == N_GenPrefixOp || kind == N_GenNonExpPrefixOp || 
-         kind == N_GenInfixOp || kind == N_GenPostfixOp )
-       return true;
-    else
-      return false;
+      return kind == N_GenPrefixOp || kind == N_GenNonExpPrefixOp ||
+              kind == N_GenInfixOp || kind == N_GenPostfixOp;
   }
 
 

@@ -930,9 +930,7 @@ public class FindAlignments
        * item is the current item.                                         *
        * nsItem is the last non-subscript item found that covers tok.      *
        ********************************************************************/
-     boolean dashFound = false ;
-     if (spec[line][0].type == Token.DASHES)
-      { dashFound = true;}
+     boolean dashFound = spec[line][0].type == Token.DASHES;
         while (    (! dashFound)
              && (item + 1 < spec[line].length)
              && (spec[line][item + 1].column <= tok.column))

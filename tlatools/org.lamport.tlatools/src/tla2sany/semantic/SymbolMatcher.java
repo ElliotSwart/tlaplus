@@ -66,12 +66,8 @@ public interface SymbolMatcher {
 			final String symbolName = aSymbol.getName().toString();
 			if (matchCaseSensitive() && !symbolName.startsWith(getPrefix())) {
 				return false;
-			} else if (!symbolName.toLowerCase().startsWith(getPrefix().toLowerCase())){
-				return false;
-			}
-			
-			return true;
-		}
+			} else return symbolName.toLowerCase().startsWith(getPrefix().toLowerCase());
+        }
 		
 		//** Invoked by matches, subclasses may override **//
 		

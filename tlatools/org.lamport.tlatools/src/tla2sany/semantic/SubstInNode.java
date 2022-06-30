@@ -299,10 +299,7 @@ public class SubstInNode extends ExprNode {
     * Level check the components body and substs.getSubWith(i) which       *
     * equals substs[i].getExpr().                                          *
     ***********************************************************************/
-    this.levelCorrect = true;
-    if (!this.body.levelCheck(itr)) {
-      this.levelCorrect = false;
-    }
+        this.levelCorrect = this.body.levelCheck(itr);
     for (int i = 0; i < this.substs.length; i++) {
       if (!this.getSubWith(i).levelCheck(itr)) {
 	this.levelCorrect = false;

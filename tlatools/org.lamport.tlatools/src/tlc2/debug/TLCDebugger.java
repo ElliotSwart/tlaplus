@@ -965,14 +965,10 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 				return true;
 //			}
 		} else if (dir == Step.Over) {
-			if (currentLevel == targetLevel) {
-				return true;
-			}
+            return currentLevel == targetLevel;
 		} else if (dir == Step.Out) {
 			// When stepping out, level has to be greater than or zero/0;
-			if (currentLevel < targetLevel || currentLevel == 0) {
-				return true;
-			}
+            return currentLevel < targetLevel || currentLevel == 0;
 		}
 		return false;
 	}

@@ -1083,17 +1083,8 @@ class trans {
         * Run TLC on the specification file and set tlcOut to TLC's output.  *
         *********************************************************************/
         final String javaInvocation;
-        if (PcalParams.SpecOption || PcalParams.MyspecOption)
-        {
-            // Modified on 29 May 2010 by LL so tlc2 is run in
-            // all cases.
-            PcalDebug.reportInfo("Running TLC2.");
-            javaInvocation = "java -Xss1m tlc2.TLC ";
-        } else
-        {
-            PcalDebug.reportInfo("Running TLC2.");
-            javaInvocation = "java -Xss1m tlc2.TLC ";
-        }
+        PcalDebug.reportInfo("Running TLC2.");
+        javaInvocation = "java -Xss1m tlc2.TLC ";
         String tlcOut = "      ";
         final Runtime rt = Runtime.getRuntime();
         try

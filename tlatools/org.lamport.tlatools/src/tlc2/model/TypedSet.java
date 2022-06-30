@@ -263,9 +263,7 @@ public class TypedSet {
                 return false;
         } else if (!type.equals(other.type))
             return false;
-        if (!Arrays.equals(values, other.values))
-            return false;
-        return true;
+        return Arrays.equals(values, other.values);
     }
 
     /**
@@ -330,11 +328,8 @@ public class TypedSet {
     {
         if (type != null)
         {
-            if (!type.matches("[A-Za-z][A-Za-z\\d]*"))
-            {
-                // the type must be a valid identifier
-                return false;
-            }
+            // the type must be a valid identifier
+            return type.matches("[A-Za-z][A-Za-z\\d]*");
         }
         return true;
     }

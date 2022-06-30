@@ -78,11 +78,8 @@ public class GraphNode extends AbstractGraphNode {
 		if (stateFP != other.stateFP) {
 			return false;
 		}
-		if (tindex != other.tindex) {
-			return false;
-		}
-		return true;
-	}
+        return tindex == other.tindex;
+    }
 
 	public final long getStateFP(final int i) {
 		final long high = this.nnodes[NNODE_RECORD_SIZE * i];
@@ -334,10 +331,8 @@ public class GraphNode extends AbstractGraphNode {
 				return false;
 			if (fp != other.fp)
 				return false;
-			if (tidx != other.tidx)
-				return false;
-			return true;
-		}
+            return tidx == other.tidx;
+        }
 		
 		public BitVector getChecks() {
 			return bv;

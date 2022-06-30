@@ -1192,12 +1192,11 @@ public class TLC {
 							FPSetFactory.getFPSetInitialized(fpSetConfiguration, metadir, new File(mainFile).getName()),
 							startTime);
 					modelCheckerMXWrapper = new ModelCheckerMXWrapper((ModelChecker) TLCGlobals.mainChecker, this);
-					result = TLCGlobals.mainChecker.modelCheck();
                 } else
                 {
 					TLCGlobals.mainChecker = new DFIDModelChecker(tool, metadir, stateWriter, deadlock, fromChkpt, startTime);
-					result = TLCGlobals.mainChecker.modelCheck();
                 }
+                result = TLCGlobals.mainChecker.modelCheck();
 
             }
 			return result;

@@ -135,13 +135,12 @@ public class Parse {
 	// append node for this element to list of set elements
 	if (firstelement == null) {
 	  firstelement = elt;
-	  lastelement = elt;
-	} else {
+    } else {
 	  lastelement.next(elt);
-	  lastelement = elt;
-	}
+    }
+          lastelement = elt;
 
-	// point to character after this element
+          // point to character after this element
 	last = elt.last() + 1;
 
 	// skip the comma between elements, and surrounding whitespace
@@ -201,13 +200,12 @@ public class Parse {
 	// append node for this element to list of sequence elements
 	if (firstelement == null) {
 	  firstelement = elt;
-	  lastelement = elt;
-	} else {
+    } else {
 	  lastelement.next(elt);
-	  lastelement = elt;
-	}
+    }
+          lastelement = elt;
 
-	// point to character after this element
+          // point to character after this element
 	last = elt.last() + 1;
 
 	// skip the comma between elements, and surrounding whitespace
@@ -272,13 +270,12 @@ public class Parse {
 	// append node for this element to list of record elements
 	if (firstelement == null) {
 	  firstelement = elt;
-	  lastelement = elt;
-	} else {
+    } else {
 	  lastelement.next(elt);
-	  lastelement = elt;
-	}
+    }
+          lastelement = elt;
 
-	// point to character after this element
+          // point to character after this element
 	last = elt.last() + 1;
 
 	// skip the comma between elements, and surrounding whitespace
@@ -397,13 +394,12 @@ public class Parse {
 	// append node for this pair to list of function pairs
 	if (firstpair == null) {
 	  firstpair = pair;
-	  lastpair = pair;
-	} else {
+    } else {
 	  lastpair.next(pair);
-	  lastpair = pair;
-	}
+    }
+          lastpair = pair;
 
-	// point to character after this pair
+          // point to character after this pair
 	last = pair.last() + 1;
 
 	// skip the separator between pairs, and surrounding whitespace

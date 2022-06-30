@@ -99,11 +99,8 @@ public final class LongArray {
 			return false;
 		}
 		try {
-			if (getUnsafe() != null) {
-				return true;
-			}
-			return false;
-		} catch (final RuntimeException e) {
+            return getUnsafe() != null;
+        } catch (final RuntimeException e) {
 			return false;
 		}
 	}

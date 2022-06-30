@@ -187,11 +187,8 @@ public class TLCGlobals
     public static boolean tool = false;
 
 	public static boolean isValidSetSize(final int bound) {
-		if (bound < 1) {
-			return false;
-		}
-		return true;
-	}
+        return bound >= 1;
+    }
 	
 	public static boolean expand = true;
 	

@@ -808,11 +808,8 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		raf.seek((midEntry - 1L) * LongSize);
 		final long low = raf.readLong();
 		final long high = raf.readLong();
-		if (low < fp && fp < high) {
-			return true;
-		}
-		return false;
-	}
+        return low < fp && fp < high;
+    }
 
 	public class ConcurrentOffHeapMSBFlusher extends OffHeapMSBFlusher {
 		

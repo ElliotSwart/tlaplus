@@ -1066,14 +1066,12 @@ public class TokenizeSpec
                     }
                     if ((nextChar == '+') || (nextChar == '-')) {
                         addNextChar() ;
-                        TokenOut(Token.PCAL_LABEL) ;
-                        gotoStart() ;
                     }
                     else {
                         token = token1 ;
-                        TokenOut(Token.PCAL_LABEL) ;
-                        gotoStart() ;
                     }
+                    TokenOut(Token.PCAL_LABEL) ;
+                    gotoStart() ;
                     break;
                   
                 case NUM_OR_ID :
@@ -1354,13 +1352,12 @@ public class TokenizeSpec
                   if (nextChar == '*')
                     { skipNextChar();
                       cdepth = cdepth + 1;
-                      state = LINE_COMMENT;
                     }
                   else
                     { if (cdepth == 0) {token = token + "(";}
-                        state = LINE_COMMENT;
                     }
-                  break;
+                    state = LINE_COMMENT;
+                    break;
 
                 case LINE_COM_STAR :   // (     
                   if (nextChar == ')')  
@@ -1368,13 +1365,12 @@ public class TokenizeSpec
                       cdepth = cdepth - 1;
                       Debug.Assert(cdepth >= 0,
                                    "case LINE_COM_STAR");
-                      state = LINE_COMMENT;
                     }
                   else
                     { if (cdepth == 0) {token = token + "*";}
-                        state = LINE_COMMENT;
                     }
-                  break;
+                    state = LINE_COMMENT;
+                    break;
 
                 case COMMENT :
                   if (nextChar == '*')
@@ -1526,13 +1522,12 @@ public class TokenizeSpec
                   if (nextChar == '*')
                     { skipNextChar();
                       cdepth = cdepth + 1;
-                      state = COMMENT;
                     }
                   else
                     { if (cdepth == 1) {token = token + "(";}
-                        state = COMMENT;
                     }
-                  break;
+                    state = COMMENT;
+                    break;
 
                 case OR_COMMENT :
                   if (nextChar == '*')
@@ -1593,13 +1588,12 @@ public class TokenizeSpec
                   if (nextChar == '*')
                     { skipNextChar();
                       cdepth = cdepth + 1;
-                      state = OR_COMMENT;
                     }
                   else
                     { if (cdepth == 1) {token = token + "(";}
-                        state = OR_COMMENT;
                     }
-                  break;
+                    state = OR_COMMENT;
+                    break;
 
                 case PROLOG :
                   if (nextChar == '-')

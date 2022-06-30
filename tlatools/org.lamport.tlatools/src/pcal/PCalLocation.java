@@ -76,9 +76,7 @@ public class PCalLocation implements Serializable {
 		final PCalLocation other = (PCalLocation) obj;
 		if (column != other.column)
 			return false;
-		if (line != other.line)
-			return false;
-		return true;
-	}
+        return line == other.line;
+    }
 
 }

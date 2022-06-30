@@ -79,11 +79,8 @@ public class BEGraphNode extends AbstractGraphNode {
 			return false;
 		}
 		final BEGraphNode other = (BEGraphNode) obj;
-		if (stateFP != other.stateFP) {
-			return false;
-		}
-		return true;
-	}
+        return stateFP == other.stateFP;
+    }
 
 	public final BEGraphNode nextAt(final int i) {
 		return this.nnodes[i];

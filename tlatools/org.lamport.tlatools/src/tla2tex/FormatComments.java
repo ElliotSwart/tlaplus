@@ -1709,9 +1709,7 @@ public final class FormatComments
            /****************************************************************
            * Set openLabel true iff this is a labeled paragraph.           *
            ****************************************************************/
-           openLabel = false ;
-           if (lineType[line] > 0)
-             { openLabel = true; }
+              openLabel = lineType[line] > 0;
          }                              // END if (lineType[line] != -1) 
         /*******************************************************************
         * Now, process the tokens on this line, which should be non-blank. *

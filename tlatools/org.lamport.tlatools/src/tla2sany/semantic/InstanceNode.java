@@ -137,10 +137,7 @@ public class InstanceNode extends LevelNode {
     /***********************************************************************
     * Level check the components this.module and this.substs[i].getExpr(). *
     ***********************************************************************/
-    this.levelCorrect = true;
-    if (!this.module.levelCheck(itr)) {
-      this.levelCorrect = false;
-    }
+        this.levelCorrect = this.module.levelCheck(itr);
       for (Subst subst2 : this.substs) {
           if (!subst2.getExpr().levelCheck(itr)) {
               this.levelCorrect = false;

@@ -1171,13 +1171,10 @@ public class ParseAlgorithm
           )
          {return false ;}
          tok = charReader.peek() ;
-        if (   (tok.length() == 0) // I don't think this can happen.
-            || (tok.charAt(0) != ':')
-            || (   (tok.length() > 1)
-                && (tok.charAt(1) == '='))
-           )
-          {return false ;}
-         return true;
+         return (tok.length() != 0) // I don't think this can happen.
+                 && (tok.charAt(0) == ':')
+                 && ((tok.length() <= 1)
+                 || (tok.charAt(1) != '='));
      }
 
 
@@ -3899,10 +3896,7 @@ public class ParseAlgorithm
             }
 // printArray(argsArray);           
             final int status = trans.parseAndProcessArguments(argsArray);
-            if (status != trans.STATUS_OK)
-            {
-                return status;
-            }
+            return status;
         }
         return trans.STATUS_OK;
     }

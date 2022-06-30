@@ -66,7 +66,7 @@ public class StatePoolWriter extends Thread {
 
   public final synchronized void beginChkpt(final ObjectOutputStream oos)
   throws IOException {
-    final boolean hasFile = (this.poolFile == null) ? false : true;
+    final boolean hasFile = this.poolFile != null;
     oos.writeBoolean(hasFile);
     if (hasFile) {
       oos.writeObject(this.poolFile);

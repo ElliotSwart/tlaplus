@@ -384,11 +384,8 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 
 		public boolean hasMoreFP() {
 			final long fpos = this.enumRaf.getFilePointer();
-			if (fpos < this.len) {
-				return true;
-			}
-			return false;
-		}
+            return fpos < this.len;
+        }
 
 		public long nextFP() throws IOException {
 			this.enumRaf.readLongNat(); /* drop */

@@ -326,14 +326,12 @@ public class ModelConfig implements ValueConstants, Serializable {
                                 }
                             } else {
                                 if (tt.image.equals("(")) {
-                                    while (true) {
+                                    do {
                                         tt = getNextToken(tmgr, buf);
                                         final IValue arg = this.parseValue(tt, scs, tmgr, buf);
                                         line.addElement(arg);
                                         tt = getNextToken(tmgr, buf);
-                                        if (!tt.image.equals(","))
-                                            break;
-                                    }
+                                    } while (tt.image.equals(","));
                                     if (!tt.image.equals(")")) {
                                         throw new ConfigFileException(EC.CFG_GENERAL, new String[]{String.valueOf(loc)});
                                     }

@@ -132,7 +132,7 @@ public final class Context implements Iterator<Context> {
 				if (var == cur.name) {
 					return cur.value;
 				}
-			} else if (cutoff == true) {
+			} else if (cutoff) {
 				// reached a branching context (value is null)
 				assert cur.value == null;
 				return null;
@@ -214,10 +214,7 @@ public final class Context implements Iterator<Context> {
 	}
 
 	public final boolean isDeepEmpty() {
-		if (this.isEmpty() || this == BaseBranch) {
-			return true;
-		}
-		return false;
+		return this.isEmpty() || this == BaseBranch;
 	}
 
 	public final int depth() {

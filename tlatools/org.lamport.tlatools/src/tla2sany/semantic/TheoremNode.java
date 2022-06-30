@@ -76,8 +76,7 @@ public class TheoremNode extends LevelNode {
     if (opd != null) opd.thmOrAssump = this;
 
     // make sure that definition and statemtent agree
-    if (def != null)
-      assert(def.getBody() == theoremExprOrAssumeProve);
+      assert def == null || (def.getBody() == theoremExprOrAssumeProve);
   }
 
   /* Returns the statement of the theorem  */

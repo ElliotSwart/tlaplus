@@ -117,12 +117,9 @@ public class MappingObject implements Serializable {
 				return false;
 			final LeftParen other = (LeftParen) obj;
 			if (location == null) {
-				if (other.location != null)
-					return false;
-			} else if (!location.equals(other.location))
-				return false;
-			return true;
-		}
+                return other.location == null;
+			} else return location.equals(other.location);
+        }
     }
     
     public static class RightParen extends MappingObject {
@@ -171,12 +168,9 @@ public class MappingObject implements Serializable {
 				return false;
 			final RightParen other = (RightParen) obj;
 			if (location == null) {
-				if (other.location != null)
-					return false;
-			} else if (!location.equals(other.location))
-				return false;
-			return true;
-		}
+                return other.location == null;
+			} else return location.equals(other.location);
+        }
     }
     
     public static class BeginTLAToken extends MappingObject {
@@ -223,10 +217,8 @@ public class MappingObject implements Serializable {
 			if (getClass() != obj.getClass())
 				return false;
 			final BeginTLAToken other = (BeginTLAToken) obj;
-			if (column != other.column)
-				return false;
-			return true;
-		}
+            return column == other.column;
+        }
     }
     
     public static class EndTLAToken extends MappingObject {
@@ -273,10 +265,8 @@ public class MappingObject implements Serializable {
 			if (getClass() != obj.getClass())
 				return false;
 			final EndTLAToken other = (EndTLAToken) obj;
-			if (column != other.column)
-				return false;
-			return true;
-		}
+            return column == other.column;
+        }
     }
     
     public static class SourceToken extends MappingObject {
@@ -352,12 +342,9 @@ public class MappingObject implements Serializable {
 			if (endColumn != other.endColumn)
 				return false;
 			if (origin == null) {
-				if (other.origin != null)
-					return false;
-			} else if (!origin.equals(other.origin))
-				return false;
-			return true;
-		}
+                return other.origin == null;
+			} else return origin.equals(other.origin);
+        }
         
     }
     public static class Break extends MappingObject{
@@ -399,10 +386,8 @@ public class MappingObject implements Serializable {
 			if (getClass() != obj.getClass())
 				return false;
 			final Break other = (Break) obj;
-			if (depth != other.depth)
-				return false;
-			return true;
-		}
+            return depth == other.depth;
+        }
 
     }
     
@@ -487,8 +472,6 @@ public class MappingObject implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final MappingObject other = (MappingObject) obj;
-		if (type != other.type)
-			return false;
-		return true;
-	}
+        return type == other.type;
+    }
 }

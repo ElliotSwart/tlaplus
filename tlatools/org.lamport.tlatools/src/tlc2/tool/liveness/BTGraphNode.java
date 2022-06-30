@@ -79,11 +79,8 @@ public class BTGraphNode extends BEGraphNode {
 		if (stateFP != other.stateFP) {
 			return false;
 		}
-		if (getIndex() != other.getIndex()) {
-			return false;
-		}
-		return true;
-	}
+        return getIndex() == other.getIndex();
+    }
 
 	@Override
     public final TBGraphNode getTNode(final TBGraph tableau) {

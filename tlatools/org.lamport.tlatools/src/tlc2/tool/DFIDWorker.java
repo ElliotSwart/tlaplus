@@ -154,10 +154,7 @@ public class DFIDWorker extends IdThread implements IWorker {
       int idx = 0;
       for (; idx <= this.curLevel; idx++)
       {
-    	  if (this.curLevel == idx)
-    	  {
-    		  assert s1.equals(this.stateStack[idx]);
-    	  }
+          assert this.curLevel != idx || s1.equals(this.stateStack[idx]);
     	  
     	  final int ordinal = idx + 1;
     	  final TLCStateInfo currentState = new TLCStateInfo(this.stateStack[idx], ordinal);

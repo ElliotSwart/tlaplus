@@ -104,13 +104,11 @@ public class LiveWorker implements Callable<Boolean> {
 	 */
 	private/* static synchronized */boolean setErrFound() {
 		synchronized (workerLock) {
+			// (* GetId()) {
 			if (errFoundByThread == -1) {
 				errFoundByThread = this.id; // GetId();
 				return true;
-			} else if (errFoundByThread == this.id) { // (* GetId()) {
-				return true;
-			}
-			return false;
+			} else return errFoundByThread == this.id;
 		}
 	}
 
@@ -1378,42 +1376,42 @@ public class LiveWorker implements Callable<Boolean> {
   			final int size = (int) dfsStack.size();
 			final StringBuilder buf = new StringBuilder(size / 7); // approximate the size needed (buf will grow or shrink if needed)
   			int i = 0;
-  			for (; i < dfsStack.size();) {
-  				// Peak element to see if it's a marker or not
-  				final long topElement = dfsStack.peakLong(size - i - 2);
-  				if (topElement == SCC_MARKER) {
-  					// It is the marker element
-  	  				buf.append("node [");
-  	  				buf.append(" fp: ");
-  	  				buf.append(dfsStack.peakLong(size - i - 5));
-  	  				buf.append(" tidx: ");
-  	  				buf.append(dfsStack.peakInt(size - i - 3));
-  	  				buf.append(" lowLink: ");
-  	  				buf.append(dfsStack.peakLong(size - i - 7) - DiskGraph.MAX_PTR);
-  	  				buf.append("]\n");
-  	  				// Increase i by the number of elements peaked
-  	  				i += 7;
-  				} else if (DiskGraph.isFilePointer(topElement)) {
-  					final long location = topElement;
-  	  				buf.append("succ [");
-  	  				buf.append(" fp: ");
-  	  				buf.append(dfsStack.peakLong(size - i - 5));
-  	  				buf.append(" tidx: ");
-  	  				buf.append(dfsStack.peakInt(size - i - 3));
-  	  				buf.append(" location: ");
-  	  				buf.append(location);
-  	  				buf.append("]\n");
-  	  				// Increase i by the number of elements peaked
-  	  				i += 5;
-  				} else if (topElement >= DiskGraph.MAX_PTR) {
-  					final long pLowLink = topElement - DiskGraph.MAX_PTR;
-  	  				buf.append("pLowLink: ");
-  	  				buf.append(pLowLink);
-  	  				buf.append("\n");
-  					i += 2;
-  				}
-  			}
-  			// Assert all elements are used up
+            while (i < dfsStack.size()) {
+                // Peak element to see if it's a marker or not
+                final long topElement = dfsStack.peakLong(size - i - 2);
+                if (topElement == SCC_MARKER) {
+                    // It is the marker element
+                      buf.append("node [");
+                      buf.append(" fp: ");
+                      buf.append(dfsStack.peakLong(size - i - 5));
+                      buf.append(" tidx: ");
+                      buf.append(dfsStack.peakInt(size - i - 3));
+                      buf.append(" lowLink: ");
+                      buf.append(dfsStack.peakLong(size - i - 7) - DiskGraph.MAX_PTR);
+                      buf.append("]\n");
+                      // Increase i by the number of elements peaked
+                      i += 7;
+                } else if (DiskGraph.isFilePointer(topElement)) {
+                    final long location = topElement;
+                      buf.append("succ [");
+                      buf.append(" fp: ");
+                      buf.append(dfsStack.peakLong(size - i - 5));
+                      buf.append(" tidx: ");
+                      buf.append(dfsStack.peakInt(size - i - 3));
+                      buf.append(" location: ");
+                      buf.append(location);
+                      buf.append("]\n");
+                      // Increase i by the number of elements peaked
+                      i += 5;
+                } else if (topElement >= DiskGraph.MAX_PTR) {
+                    final long pLowLink = topElement - DiskGraph.MAX_PTR;
+                      buf.append("pLowLink: ");
+                      buf.append(pLowLink);
+                      buf.append("\n");
+                    i += 2;
+                }
+            }
+            // Assert all elements are used up
   			assert i == size;
  			return buf.toString();
   		}

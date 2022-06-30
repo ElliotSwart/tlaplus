@@ -283,7 +283,7 @@ public class LiveCheck implements ILiveCheck {
 		}
 		
 		// Reset after checking unless it's the final check:
-		if (finalCheck == false) {
+		if (!finalCheck) {
             for (ILiveChecker iLiveChecker : checker) {
                 iLiveChecker.getDiskGraph().makeNodePtrTbl();
             }

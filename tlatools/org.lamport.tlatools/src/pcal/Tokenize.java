@@ -1287,13 +1287,12 @@ public class Tokenize
                   if (nextChar == '*')
                     { skipNextChar();
                       cdepth = cdepth + 1;
-                      state = LINE_COMMENT;
                     }
                   else
                     { if (cdepth == 0) {token = token + "(";}
-                        state = LINE_COMMENT;
                     }
-                  break;
+                    state = LINE_COMMENT;
+                    break;
 
                 case LINE_COM_STAR :   // (     
                   if (nextChar == ')')  
@@ -1301,13 +1300,12 @@ public class Tokenize
                       cdepth = cdepth - 1;
                       PcalDebug.Assert(cdepth >= 0,
                                    "case LINE_COM_STAR");
-                      state = LINE_COMMENT;
                     }
                   else
                     { if (cdepth == 0) {token = token + "*";}
-                        state = LINE_COMMENT;
                     }
-                  break;
+                    state = LINE_COMMENT;
+                    break;
 
                 case COMMENT :
                   if (nextChar == '*')
@@ -1358,13 +1356,12 @@ public class Tokenize
                   if (nextChar == '*')
                     { skipNextChar();
                       cdepth = cdepth + 1;
-                      state = COMMENT;
                     }
                   else
                     { if (cdepth == 1) {token = token + "(";}
-                        state = COMMENT;
                     }
-                  break;
+                    state = COMMENT;
+                    break;
 
                 case OR_COMMENT :
                   if (nextChar == '*')
@@ -1415,13 +1412,12 @@ public class Tokenize
                   if (nextChar == '*')
                     { skipNextChar();
                       cdepth = cdepth + 1;
-                      state = OR_COMMENT;
                     }
                   else
                     { if (cdepth == 1) {token = token + "(";}
-                        state = OR_COMMENT;
                     }
-                  break;
+                    state = OR_COMMENT;
+                    break;
 
                 case PROLOG :
                   if (nextChar == '-')

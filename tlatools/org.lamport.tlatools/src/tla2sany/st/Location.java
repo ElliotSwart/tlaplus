@@ -438,11 +438,8 @@ public final class Location implements Comparable<Location>
 		if (this.eLine < other.eLine) {
 			return false;
 		}
-		if (this.endLine() == other.endLine() && this.endColumn() < other.endColumn()) {
-			return false;
-		}
-		return true;
-	}
+        return this.endLine() != other.endLine() || this.endColumn() >= other.endColumn();
+    }
 
 	public String linesAndColumns() {
 		return toString().replaceAll(OF_MODULE + ".*", "");

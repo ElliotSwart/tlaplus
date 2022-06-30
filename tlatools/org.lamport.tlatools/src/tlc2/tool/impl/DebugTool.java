@@ -280,15 +280,12 @@ public class DebugTool extends Tool {
 			// point evaluating ENABLED expr.
 			return true;
 		}
-		if (s0 instanceof TLCStateFun || s1 instanceof TLCStateFun) {
-			// If EvalControl is set to primed or enabled, TLC is evaluating an ENABLED expr.
-			// (see previous if branch).  However, if expr is built from an operator with a
-			// Java module override, control is cleared/reset and the only indicator that
-			// evaluation is in the scope of enabled, is TLCStateFunc.
-			return true;
-		}
-		return false;
-	}
+        // If EvalControl is set to primed or enabled, TLC is evaluating an ENABLED expr.
+        // (see previous if branch).  However, if expr is built from an operator with a
+        // Java module override, control is cleared/reset and the only indicator that
+        // evaluation is in the scope of enabled, is TLCStateFunc.
+        return s0 instanceof TLCStateFun || s1 instanceof TLCStateFun;
+    }
 
 	private boolean isBoring(final SemanticNode expr, final Context c) {
 //		if (c.isEmpty()) {

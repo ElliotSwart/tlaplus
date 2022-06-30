@@ -125,12 +125,9 @@ public interface IValue extends Comparable<Object> {
 	String toUnquotedString();
 
 	default boolean isAtom() {
-		if (this instanceof ModelValue || this instanceof IntValue || this instanceof StringValue
-				|| this instanceof BoolValue) {
-			return true;
-		}
-		return false;
-	}
+        return this instanceof ModelValue || this instanceof IntValue || this instanceof StringValue
+                || this instanceof BoolValue;
+    }
 	
 	/**
 	 * @return true if a value mutates as part of normalization or fingerprinting.

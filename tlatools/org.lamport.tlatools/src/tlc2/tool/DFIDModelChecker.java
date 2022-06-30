@@ -59,7 +59,7 @@ public class DFIDModelChecker extends AbstractChecker
 		Assert.check(TLCGlobals.getNumWorkers() == 1, EC.GENERAL,
 				"Depth-First Iterative Deepening mode does not support multiple workers (https://github.com/tlaplus/tlaplus/issues/548).  Please run TLC with a single worker.");
 		// https://github.com/tlaplus/tlaplus/issues/548
-		Assert.check(this.checkLiveness == false, EC.GENERAL,
+		Assert.check(!this.checkLiveness, EC.GENERAL,
 				"Depth-First Iterative Deepening mode does not support checking liveness properties (https://github.com/tlaplus/tlaplus/issues/548).  Please check liveness properties in Breadth-First-Search mode.");
 
 		this.theInitStates = null;

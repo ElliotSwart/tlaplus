@@ -140,10 +140,8 @@ public class TLAtoPCalMapping implements Serializable {
 		// mapping is an [][] for which Arrays.equals(Object[],Object[]) check
 		// referential equality on its elements. Since the element is an array
 		// itself, object equality has to be checked.
-		if (!equals(mapping, other.mapping))
-			return false;
-		return true;
-	}
+        return equals(mapping, other.mapping);
+    }
 	
 	/**
 	 * @see Arrays#equals(Object[], Object[]) except that elements are checked

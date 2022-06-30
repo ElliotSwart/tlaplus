@@ -111,11 +111,8 @@ public class TBGraphNode {
 	}
 	
 	public final boolean isAccepting() {
-		if (par.isEmpty() && isSelfLoop()) {
-			return true;
-		}
-		return false;
-	}
+        return par.isEmpty() && isSelfLoop();
+    }
 
 	public final String toString() {
 		final StringBuffer buf = new StringBuffer();

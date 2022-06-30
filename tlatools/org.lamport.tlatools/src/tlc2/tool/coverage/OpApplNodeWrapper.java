@@ -105,14 +105,10 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 		}
 		final OpApplNodeWrapper other = (OpApplNodeWrapper) obj;
 		if (node.getLocation() == null) {
-			if (other.node.getLocation() != null)
-				return false;
-		} else if (!node.getLocation().equals(other.node.getLocation())) {
-			return false;
-		}
-		return true;
+            return other.node.getLocation() == null;
+		} else return node.getLocation().equals(other.node.getLocation());
 
-	}
+    }
 
 	@Override
 	public String toString() {
