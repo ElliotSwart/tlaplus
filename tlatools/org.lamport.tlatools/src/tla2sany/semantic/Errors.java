@@ -33,9 +33,9 @@ public class Errors {
   private int    numErrors   = 0;
   private int    numWarnings = 0;
 
-  private Vector<String> warnings = new Vector<String>();
-  private Vector<String> errors   = new Vector<String>();
-  private Vector<String> aborts   = new Vector<String>();
+  private final Vector<String> warnings = new Vector<String>();
+  private final Vector<String> errors   = new Vector<String>();
+  private final Vector<String> aborts   = new Vector<String>();
 
   /*************************************************************************
   * The following methods to return the warnings, errors, and aborts in a  *

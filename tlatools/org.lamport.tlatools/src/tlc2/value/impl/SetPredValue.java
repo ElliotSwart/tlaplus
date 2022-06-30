@@ -373,7 +373,7 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
   }
 
   final class Enumerator implements ValueEnumeration {
-    ValueEnumeration Enum;
+    final ValueEnumeration Enum;
 
     public Enumerator() {
       if (!(inVal instanceof Enumerable)) {

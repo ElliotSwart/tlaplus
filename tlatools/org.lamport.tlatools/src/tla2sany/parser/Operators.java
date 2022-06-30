@@ -12,9 +12,9 @@ import java.util.Hashtable;
 import util.UniqueString;
 
 public class Operators {
-  static public int assocNone = 0;
-  static public int assocLeft = 1;
-  static public int assocRight = 2;
+  static public final int assocNone = 0;
+  static public final int assocLeft = 1;
+  static public final int assocRight = 2;
 
   /*************************************************************************
   * The following appear to be classes of operators.                       *
@@ -23,19 +23,19 @@ public class Operators {
     /***********************************************************************
     * What is a nofix operator?????????                                    *
     ***********************************************************************/
-  static public int prefix = 1;
-  static public int postfix = 2;
-  static public int infix = 3;
-  static public int nfix = 4;// \X
+  static public final int prefix = 1;
+  static public final int postfix = 2;
+  static public final int infix = 3;
+  static public final int nfix = 4;// \X
     /***********************************************************************
     * The only operator of class nfix seems to be \X (aka \times).         *
     ***********************************************************************/
-  static Hashtable<UniqueString, Operator> DefinitionTable = new Hashtable<UniqueString, Operator>();
+  static final Hashtable<UniqueString, Operator> DefinitionTable = new Hashtable<UniqueString, Operator>();
     /***********************************************************************
     * Contains the Operator objects for all operators.  It is constructed  *
     * from the data in ConfigConstants.defaultConfig.                      *
     ***********************************************************************/
-  static Hashtable<UniqueString, UniqueString> BuiltinTable = new Hashtable<UniqueString, UniqueString>();
+  static final Hashtable<UniqueString, UniqueString> BuiltinTable = new Hashtable<UniqueString, UniqueString>();
     /***********************************************************************
     * It appears that this is not used.                                    *
     ***********************************************************************/

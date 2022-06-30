@@ -81,13 +81,13 @@ public class ModelConfig implements ValueConstants, Serializable {
             ActionConstraints, Invariant, Invariants, Init, Next, View, Symmetry, Spec, Prop, Props, Alias,
             PostCondition, CheckDeadlock };
 
-    private Hashtable<String, Object> configTbl;
-    private Hashtable<String, String> overrides;
-    private Hashtable<String, String> overridesReverseMap;
-    private Hashtable<String, Vect<Vect<Comparable<?>>>> modConstants;
-    private Hashtable<String, Hashtable<Comparable<?>,Object>> modOverrides;
-    private String configFileName;
-    private FilenameToStream resolver; // resolver for the file
+    private final Hashtable<String, Object> configTbl;
+    private final Hashtable<String, String> overrides;
+    private final Hashtable<String, String> overridesReverseMap;
+    private final Hashtable<String, Vect<Vect<Comparable<?>>>> modConstants;
+    private final Hashtable<String, Hashtable<Comparable<?>,Object>> modOverrides;
+    private final String configFileName;
+    private final FilenameToStream resolver; // resolver for the file
     private List<String> rawConstants;
 
     /**

@@ -35,7 +35,7 @@ public class DiskObjectStack extends ObjectStack {
   private final String filePrefix;
   protected Object[] buf1, buf2, buf;
   protected int index;
-  protected ObjectPoolStack diskStack;
+  protected final ObjectPoolStack diskStack;
   
   /* Constructors */
   public DiskObjectStack(final String diskdir, final String name) {

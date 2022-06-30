@@ -40,43 +40,43 @@ public final class BuiltInSymbols
     /***********************************************************************
     * The following six hash tables are built by the Initialize method.  *
     ***********************************************************************/
-    private static Hashtable<String, Symbol> builtInHashTable = new Hashtable<String, Symbol>(200);
+    private static final Hashtable<String, Symbol> builtInHashTable = new Hashtable<String, Symbol>(200);
       /*********************************************************************
       * Maps built-in symbols (which are strings) to their Symbol          *
       * objects.  Does not contain PlusCal symbols.                        *
       *********************************************************************/
 
-    private static Hashtable<String, String> prefixHashTable  = new Hashtable<String, String>(700);
+    private static final Hashtable<String, String> prefixHashTable  = new Hashtable<String, String>(700);
       /*********************************************************************
       * A table containing the prefixes of all built-in symbols in         *
       * builtInHashTable.  (It holds only their keys.)                     *
       *********************************************************************/
 
-    private static Hashtable<String, Symbol> pcalBuiltInHashTable = new Hashtable<String, Symbol>(200);
+    private static final Hashtable<String, Symbol> pcalBuiltInHashTable = new Hashtable<String, Symbol>(200);
       /*********************************************************************
       * Maps built-in symbols (which are strings) to their Symbol          *
       * objects.  It includes the PlusCal symbols.                         *
       *********************************************************************/
 
-    private static Hashtable<String, String> pcalPrefixHashTable  = new Hashtable<String, String>(700);
+    private static final Hashtable<String, String> pcalPrefixHashTable  = new Hashtable<String, String>(700);
       /*********************************************************************
       * A table containing the prefixes of all built-in symbols in         *
       * pcalBuiltInHashTable.  (It holds only their keys.)                 *
       *********************************************************************/
 
-    private static Hashtable<String, String> stringCharTable  = new Hashtable<String, String>(100);
+    private static final Hashtable<String, String> stringCharTable  = new Hashtable<String, String>(100);
       /*********************************************************************
       * A table of all the characters that may appear in a TLA+ string     *
       * token.                                                             *
       *********************************************************************/
 
-    private static Hashtable<String, String> canPrecedeLabelTable = new Hashtable<String, String>(15);
+    private static final Hashtable<String, String> canPrecedeLabelTable = new Hashtable<String, String>(15);
       /*********************************************************************
       * A table of all the tokens (strings) that can precede a labeled     *
       * statement.                                                         *
       *********************************************************************/
 
-    private static String nullString = "" ;
+    private static final String nullString = "" ;
       /*********************************************************************
       * Some hash tables are used only to remember the keys; there is no   *
       * value attached to them.  However, the Hashtable class stores a     *
@@ -198,10 +198,10 @@ public final class BuiltInSymbols
      * strings to represent special versions of the symbols "(", ")", "{"
      * and "}" that get printed differently from their normal versions.
      */
-      public static String pcalLeftParen  = "" + '\0' ;
-      public static String pcalRightParen = "" + '\1' ;
-      public static String pcalLeftBrace  = "" + '\2' ;
-      public static String pcalRightBrace = "" + '\3' ;
+      public static final String pcalLeftParen  = "" + '\0' ;
+      public static final String pcalRightParen = "" + '\1' ;
+      public static final String pcalLeftBrace  = "" + '\2' ;
+      public static final String pcalRightBrace = "" + '\3' ;
 
     private static void buildHashTable() 
       /*********************************************************************

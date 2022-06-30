@@ -8,8 +8,8 @@ package tlc2.value.impl;
 import tla2sany.semantic.FormalParamNode;
 
 public class ValueExcept {
-  public Value[] path;
-  public Value value;
+  public final Value[] path;
+  public final Value value;
   public int idx;
 
   public ValueExcept(final Value [] lhs, final Value  rhs) {

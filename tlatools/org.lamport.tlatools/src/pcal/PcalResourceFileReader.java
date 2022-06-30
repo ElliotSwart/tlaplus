@@ -84,12 +84,12 @@ public class PcalResourceFileReader
       * returns that line and sets done to true.                           *
       *********************************************************************/
 
-    private BufferedReader inputReader ;
+    private final BufferedReader inputReader ;
       /*********************************************************************
       * The actual reader for the resource file.                           *
       *********************************************************************/
 
-    private String name ;
+    private final String name ;
       /*********************************************************************
       * A copy of the resource file name, kept for error messages.         *
       *********************************************************************/

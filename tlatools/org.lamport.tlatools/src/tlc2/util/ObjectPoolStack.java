@@ -28,12 +28,12 @@ public class ObjectPoolStack {
     this.writer.start();
   }
 
-  private String filePrefix;
+  private final String filePrefix;
   private Object[] buf;
   private int hiPool;
   private boolean isIdle;
-  private Reader reader;
-  private Writer writer;
+  private final Reader reader;
+  private final Writer writer;
   private File poolFile;
   
   public final Object[] write(final Object[] outBuf)

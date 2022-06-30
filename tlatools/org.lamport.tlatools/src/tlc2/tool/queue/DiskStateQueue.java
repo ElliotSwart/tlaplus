@@ -40,8 +40,8 @@ public class DiskStateQueue extends StateQueue {
 	private final String filePrefix;
 	protected TLCState[] deqBuf, enqBuf;
 	protected int deqIndex, enqIndex;
-	protected StatePoolReader reader;
-	protected StatePoolWriter writer;
+	protected final StatePoolReader reader;
+	protected final StatePoolWriter writer;
 	/**
 	 * The SPC takes care of deleting swap files on the lower end of the range
 	 * (loPool, hiPool). It terminates, when the first checkpoint is written at

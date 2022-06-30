@@ -47,7 +47,7 @@ public class SynchronousDiskIntStack implements IntStack {
 
 	private int hiPool = 0;
 	
-	private int[] buf;
+	private final int[] buf;
 
 	public SynchronousDiskIntStack(final String diskdir, final String name) {
 		this(diskdir, name, BufSize);

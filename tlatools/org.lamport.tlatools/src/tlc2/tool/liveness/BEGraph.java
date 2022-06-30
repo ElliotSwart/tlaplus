@@ -15,9 +15,9 @@ public class BEGraph {
 	/**
 	 * BEGraph represents the behaviour graph.
 	 */
-	public Vect<BEGraphNode> initNodes;
-	public String metadir;
-	public NodeTable allNodes;
+	public final Vect<BEGraphNode> initNodes;
+	public final String metadir;
+	public final NodeTable allNodes;
 
 	public BEGraph(final String metadir, final boolean isBT) {
 		this.initNodes = new Vect<>();
@@ -127,8 +127,8 @@ public class BEGraph {
 	}
 
 	private static class NodeAndParent {
-		BEGraphNode node;
-		BEGraphNode parent;
+		final BEGraphNode node;
+		final BEGraphNode parent;
 
 		NodeAndParent(final BEGraphNode node, final BEGraphNode parent) {
 			this.node = node;

@@ -13,14 +13,14 @@ import util.UniqueString;
     
 public abstract class OpDefOrDeclNode extends SymbolNode {
 
-  ModuleNode originallyDefinedInModule;
+  final ModuleNode originallyDefinedInModule;
      // The (external or inner) module in which this operator def or decl  
      // originally appears in (as opposed to having been inherited via
      // EXTENDS or INSTANCE-without-params).  A null in this field
      // means either that this is the OpDefNode for a built-in
      // operator, or that this is a nullODN node as declared in 
      // semantic.Generator.
-  SymbolTable st;
+     final SymbolTable st;
     /***********************************************************************
     * For an OpDeclNode, this seems to contain the SymbolTable under       *
     * which it was generated.  This SymbolTable does not appear to be      *

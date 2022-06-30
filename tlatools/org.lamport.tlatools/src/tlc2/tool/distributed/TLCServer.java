@@ -86,7 +86,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	/**
 	 * the port # for tlc server
 	 */
-	public static int Port = Integer.getInteger(TLCServer.class.getName() + ".port", 10997);
+	public static final int Port = Integer.getInteger(TLCServer.class.getName() + ".port", 10997);
 
 	/**
 	 * show statistics every 1 minutes

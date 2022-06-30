@@ -34,7 +34,7 @@ import util.UniqueString;
 public class CheckImplFile extends CheckImpl
 {
 
-    private static int WaitForTrace = 10000;
+    private static final int WaitForTrace = 10000;
 
     /**
      * @param fpMemSize : Parameter added 6 Apr 2010 by Yuan Yu because it was added
@@ -54,7 +54,7 @@ public class CheckImplFile extends CheckImpl
 
     private TLCState[] states;
     private int sidx;
-    private String traceFile;
+    private final String traceFile;
     private int ticnt;
     private int tocnt;
 

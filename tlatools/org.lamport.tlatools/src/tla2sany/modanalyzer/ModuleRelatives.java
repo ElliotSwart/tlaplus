@@ -10,7 +10,7 @@ import tla2sany.utilities.Vector;
  */
 public class ModuleRelatives {
 
-  ParseUnit     parseUnit;                              // The ParseUnit that THIS ModuleRelatives object is associated with
+  final ParseUnit     parseUnit;                              // The ParseUnit that THIS ModuleRelatives object is associated with
 
   ModulePointer currentModule                   = null; // The TreeNode where the name of the current module appears in
                                                         //   in the image field; using the tree node rather than the String
@@ -19,20 +19,20 @@ public class ModuleRelatives {
   ModulePointer outerModule                     = null; // TreeNode of the immediate outer (parent) module; 
                                                         //   null currentModule is the outermost in parseUnit
 
-  Vector<ModulePointer>        directInnerModules              = new Vector<ModulePointer>(); 
+  final Vector<ModulePointer>        directInnerModules              = new Vector<ModulePointer>();
                                                         // Vector of ModulePointers for immediate inner modules 
 
-  Vector<String>        directlyExtendedModuleNames     = new Vector<String>(); 
+  final Vector<String>        directlyExtendedModuleNames     = new Vector<String>();
                                                         // Vector of String names for modules mentioned in EXTENDS decls by 
                                                         //   currentModule, whether or not they are resolved within the 
                                                         //   current ParseUnit
 
-  Vector<String>        directlyInstantiatedModuleNames = new Vector<String>(); 
+  final Vector<String>        directlyInstantiatedModuleNames = new Vector<String>();
                                                         // Vector of String names for modules directly instantiated 
                                                         //   by currentModule, whether or not they are resolved within the
                                                         //   current ParseUnit
 
-  ModuleContext context = new ModuleContext();          // The context that maps module String names known in this module 
+  final ModuleContext context = new ModuleContext();          // The context that maps module String names known in this module
                                                         //   (whether or not they are referenced in it) to ModulePointers
 
 

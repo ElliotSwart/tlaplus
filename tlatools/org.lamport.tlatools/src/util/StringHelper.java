@@ -10,7 +10,7 @@ public class StringHelper {
      * The following defines newline to be a new-line character in whatever
      * system this is.
      */
-    public static String PLATFORM_NEWLINE = System.getProperty("line.separator");
+    public static final String PLATFORM_NEWLINE = System.getProperty("line.separator");
 
     /**
      * Returns the result of concatenating 'copies' copies of string str, 

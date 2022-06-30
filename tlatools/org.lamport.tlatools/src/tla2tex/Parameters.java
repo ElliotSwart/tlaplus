@@ -90,14 +90,14 @@ public final class Parameters
   * File parameters.                                                       *
   *************************************************************************/
 
-  public static String WordFile = "words.all" ;
+  public static final String WordFile = "words.all" ;
     /***********************************************************************
     * The name of the resource file containing the list of all common      *
     * English words.  This file must contain one word per line, with no    *
     * spaces.                                                              *
     ***********************************************************************/
     
-  public static String LaTeXStyleFile = "tlatex.sty" ;
+  public static final String LaTeXStyleFile = "tlatex.sty" ;
     /***********************************************************************
     * The style file that defines the commands used in the LaTeX output    *
     * files.  It is read in and added to the output files, so it           *

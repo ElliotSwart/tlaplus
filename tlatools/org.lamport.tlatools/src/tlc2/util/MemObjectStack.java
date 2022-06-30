@@ -24,7 +24,7 @@ public final class MemObjectStack extends ObjectStack {
 
   /* Fields  */
   private Object[] states;
-  private String filename;
+  private final String filename;
     
   public MemObjectStack(final String metadir, final String name) {
     this.states = new Object[InitialSize];

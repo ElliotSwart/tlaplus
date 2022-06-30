@@ -96,7 +96,7 @@ import tlc2.util.Context;
 import tlc2.value.impl.Value;
 
 public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarget {
-	protected static Logger LOGGER = Logger.getLogger(TLCDebugger.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(TLCDebugger.class.getName());
 
 	protected PipedOutputStream pipedOutputStream;
 	protected Launcher<IDebugProtocolClient> launcher;

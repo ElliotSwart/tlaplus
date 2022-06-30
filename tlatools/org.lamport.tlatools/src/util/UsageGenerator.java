@@ -23,14 +23,14 @@ public class UsageGenerator {
 	private static final String OPTIONS = "OPTIONS";
 	private static final String TIPS = "TIPS";
 	
-	private static Comparator<Argument> NAME_COMPARATOR = new Comparator<Argument>() {
+	private static final Comparator<Argument> NAME_COMPARATOR = new Comparator<Argument>() {
 		@Override
 		public int compare(final Argument a, final Argument b) {
 			return a.getArgumentName().compareTo(b.getArgumentName());
 		}
 	};
 	
-	private static Comparator<Argument> NAME_DASH_COMPARATOR = new Comparator<Argument>() {
+	private static final Comparator<Argument> NAME_DASH_COMPARATOR = new Comparator<Argument>() {
 		@Override
 		public int compare(final Argument a, final Argument b) {
 			final boolean aDash = a.isDashArgument();

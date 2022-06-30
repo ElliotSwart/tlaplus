@@ -13,7 +13,7 @@ import util.Assert;
 
 public class UserValue extends Value {
   private static final long serialVersionUID = -6041715513566030525L;
-public UserObj userObj;
+public final UserObj userObj;
 
   public UserValue(final UserObj obj) { this.userObj = obj; }
 

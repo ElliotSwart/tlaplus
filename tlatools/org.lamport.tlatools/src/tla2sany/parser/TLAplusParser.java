@@ -46,14 +46,14 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
   private boolean numberFlag = false;
   private boolean decimalFlag = false;
 
-  private Operator FcnOp = Operators.getOperator( UniqueString.uniqueStringOf("[" ));
+  private final Operator FcnOp = Operators.getOperator( UniqueString.uniqueStringOf("[" ));
   private SyntaxTreeNode FairnessHook;
 
-  private UniqueString At = UniqueString.uniqueStringOf("@");
+  private final UniqueString At = UniqueString.uniqueStringOf("@");
 
   ParseErrors PErrors = new ParseErrors();
 
-  private tla2sany.parser.OperatorStack OperatorStack = new tla2sany.parser.OperatorStack( PErrors );
+  private final tla2sany.parser.OperatorStack OperatorStack = new tla2sany.parser.OperatorStack( PErrors );
 
   private BracketStack BStack;
     /***********************************************************************
@@ -714,7 +714,7 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); }
     return heirsTable[ --heirsIndex ] == null;
   }
 
-  private String emptyString = "";
+  private final String emptyString = "";
 
   private final void bpa(final String s) { // Beginning of Production Actions
     addHeir( null );
@@ -772,7 +772,7 @@ private int proofDepth = -1 ;
   *************************************************************************/
 
 private final int MaxProofDepth = 100 ;
-private int[] proofLevelStack = new int[MaxProofDepth] ;
+private final int[] proofLevelStack = new int[MaxProofDepth] ;
   /*************************************************************************
   * The level number of a proof with steps numbered <n>x is n.  The value  *
   * of proofLevelStack[proofDepth] is the level number of the current      *
@@ -11491,10 +11491,10 @@ final SyntaxTreeNode tn;
       return (jj_ntk = jj_nt.kind);
   }
 
-  private java.util.Vector<int[]> jj_expentries = new java.util.Vector<int[]>();
+  private final java.util.Vector<int[]> jj_expentries = new java.util.Vector<int[]>();
   private int[] jj_expentry;
   private int jj_kind = -1;
-  private int[] jj_lasttokens = new int[100];
+  private final int[] jj_lasttokens = new int[100];
   private int jj_endpos;
 
   private void jj_add_error_token(final int kind, final int pos) {

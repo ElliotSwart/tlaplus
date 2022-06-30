@@ -25,9 +25,9 @@ import util.UniqueString;
 ***************************************************************************/
 public class FormalParamNode extends SymbolNode {
 
-  private int          arity;
+  private final int          arity;
     // arity of the parameter; 0 for ordinary param; >0 for operator param
-  private ModuleNode   moduleNode;
+  private final ModuleNode   moduleNode;
     // the module in which this formal param was declared
 
   // Constructor

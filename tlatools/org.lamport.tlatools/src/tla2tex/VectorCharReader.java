@@ -10,7 +10,7 @@ package tla2tex;
 import java.util.Vector;
 
 public class VectorCharReader extends CharReader
-  { private Vector<String> vec ;
+  { private final Vector<String> vec ;
       /*********************************************************************
       * This is the vector providing the input characters.                 *
       *********************************************************************/

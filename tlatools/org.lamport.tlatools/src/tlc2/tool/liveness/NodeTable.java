@@ -9,7 +9,7 @@ public final class NodeTable {
 	private int length;
 	private int thresh;
 	private Object[] elems;
-	private boolean isBT;
+	private final boolean isBT;
 
 	public NodeTable(final int size, final boolean isBT) {
 		this.count = 0;

@@ -56,10 +56,10 @@ public class APSubstInNode extends LevelNode {
      // explicitly in the substitution list.
   private LevelNode body;
      // The expression that the substitutions apply to
-  private ModuleNode        instantiatingModule;
+  private final ModuleNode        instantiatingModule;
      // The module doing the instantiating that resulted in
      //   THIS APSubstInNode
-  private ModuleNode        instantiatedModule;
+  private final ModuleNode        instantiatedModule;
      // The module being instantiated
 
   public APSubstInNode(final TreeNode treeNode, final Subst[] subs, final LevelNode expr,

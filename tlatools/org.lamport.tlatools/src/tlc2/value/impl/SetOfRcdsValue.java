@@ -429,7 +429,7 @@ public final UniqueString[] names;      // The names of the fields.
 
   final class Enumerator implements ValueEnumeration {
     private ValueEnumeration[] enums;
-    private Value[] currentElems;
+    private final Value[] currentElems;
     private boolean isDone;
 
     public Enumerator() {

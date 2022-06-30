@@ -185,7 +185,7 @@ public class ModuleNode extends SymbolNode {
     * ModuleNode class.                                                    *
     ***********************************************************************/
 
-  private HashMap<Boolean, HashSet<ModuleNode>> depthAllExtendeesMap = new HashMap<>();
+  private final HashMap<Boolean, HashSet<ModuleNode>> depthAllExtendeesMap = new HashMap<>();
     /***********************************************************************
     * The set of all modules that are extended by this module--either      *
     * directly or indirectly, keyed a Boolean representing whether the     *
@@ -200,7 +200,7 @@ public class ModuleNode extends SymbolNode {
     // VARIABLEs declared in this module
 
 
-  private ArrayList<SemanticNode> definitions = new ArrayList<>();
+  private final ArrayList<SemanticNode> definitions = new ArrayList<>();
     // AssumeNodes, internal ModuleNodes, OpDefNodes, and TheoremNodes, in
     // the exact order they were defined in this module
     /***********************************************************************
@@ -225,13 +225,13 @@ public class ModuleNode extends SymbolNode {
     * MCParser though.                                                     *
     ***********************************************************************/
 
-  Vector<OpDefNode> recursiveDecls = new Vector<OpDefNode>(8);
+    final Vector<OpDefNode> recursiveDecls = new Vector<OpDefNode>(8);
     /***********************************************************************
     * Contains the list of OpDefNode objects created by processing         *
     * RECURSIVE statements, in the order in which they were created.       *
     ***********************************************************************/
 
-  Vector<OpDefNode> opDefsInRecursiveSection = new Vector<>(16);
+    final Vector<OpDefNode> opDefsInRecursiveSection = new Vector<>(16);
     /***********************************************************************
     * The list of all OpDefNode objects opd in this module, and in any     *
     * inner modules, with opd.recursiveSection >= 0.  (See the comments    *
@@ -307,18 +307,18 @@ public class ModuleNode extends SymbolNode {
   * uniquestr in ModuleNode mn, one calls                                  *
   * mn.getContext().getSymbol(uniquestr).                                  *
   *************************************************************************/
-  private Vector<AssumeNode> assumptionVec = new Vector<AssumeNode>();  // Vector of AssumeNodes
-  private Vector<TheoremNode> theoremVec    = new Vector<TheoremNode>();  // Vector of TheoremNodes
-  private Vector<InstanceNode> instanceVec   = new Vector<InstanceNode>();  // Vector of InstanceNodes
+  private final Vector<AssumeNode> assumptionVec = new Vector<AssumeNode>();  // Vector of AssumeNodes
+  private final Vector<TheoremNode> theoremVec    = new Vector<TheoremNode>();  // Vector of TheoremNodes
+  private final Vector<InstanceNode> instanceVec   = new Vector<InstanceNode>();  // Vector of InstanceNodes
 
-  private Vector<LevelNode> topLevelVec   = new Vector<LevelNode>();
+  private final Vector<LevelNode> topLevelVec   = new Vector<LevelNode>();
     /***********************************************************************
     * A vector containing all the entries in the preceding three vectors,  *
     * plus all top-level UseOrHideNode nodes, in the order in which they   *
     * appear in the module.                                                *
     ***********************************************************************/
 
-  Vector<OpDefNode> recursiveOpDefNodes = new Vector<OpDefNode>();
+    final Vector<OpDefNode> recursiveOpDefNodes = new Vector<OpDefNode>();
     /***********************************************************************
     * A vector of all OpDefNodes for operators declared in RECURSIVE       *
     * statements--even within LET expressions.                             *

@@ -36,7 +36,7 @@ class PcalCharReader
   { /***********************************************************************
     * The variables representing the state of the object.                  *
     ***********************************************************************/
-    private Vector<String> vec ;
+    private final Vector<String> vec ;
       /*********************************************************************
       * This is the vector providing the input characters.                 *
       *********************************************************************/

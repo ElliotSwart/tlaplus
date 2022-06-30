@@ -77,7 +77,7 @@ public class MappingObject implements Serializable {
     	 */
 		private static final long serialVersionUID = 5476753619018204229L;
 		//        private int column ;
-        private PCalLocation location ;
+        private final PCalLocation location ;
         public LeftParen(final PCalLocation location) {
            super(LEFT_PAREN) ;
 //           this.column = column;
@@ -135,7 +135,7 @@ public class MappingObject implements Serializable {
     	 */
 		private static final long serialVersionUID = 1313886393528667584L;
 		//        private int column ;
-        private PCalLocation location ;
+        private final PCalLocation location ;
         public RightParen(final PCalLocation location) {
            super(RIGHT_PAREN) ;
 //           this.column = column;
@@ -294,7 +294,7 @@ public class MappingObject implements Serializable {
 		private static final long serialVersionUID = 6438346684127312114L;
 		private int beginColumn ;
         private int endColumn ;
-        private Region origin ;
+        private final Region origin ;
         
         public int getBeginColumn() {
             return beginColumn;
@@ -377,7 +377,7 @@ public class MappingObject implements Serializable {
     	 * @see TLAtoPCalMapping#serialVersionUID
     	 */
 		private static final long serialVersionUID = 3197403974334483558L;
-		private int depth ;
+		private final int depth ;
 
         public int getDepth() {
             return depth;

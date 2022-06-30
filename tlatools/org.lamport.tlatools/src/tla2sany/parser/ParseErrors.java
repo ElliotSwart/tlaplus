@@ -4,7 +4,7 @@ package tla2sany.parser;
 import java.util.Vector;
 
 public final class ParseErrors implements tla2sany.st.ParseErrors {
-  private Vector<ParseError> loe;
+  private final Vector<ParseError> loe;
 
   ParseErrors() { loe = new Vector<ParseError>(); }
 

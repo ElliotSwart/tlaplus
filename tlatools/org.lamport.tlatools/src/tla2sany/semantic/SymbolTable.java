@@ -20,22 +20,22 @@ import util.UniqueString;
 public class SymbolTable implements ASTConstants {
 
    
-  private Stack               contextStack;  
+  private final Stack               contextStack;
      // A SymbolTable is a stack of contexts.  New contexts are
      // pushed on the stack for LET, for formal param lists, 
      // for bound variables sets, and for inner modules
   private Context             topContext;    
      // The top context on the stack
-  private Context             baseContext;   
+  private final Context             baseContext;
     // The bottom context on the stack; holds builtin op symbols
     //   and also all top-level symbols of External module
-  private ExternalModuleTable mt;            
+  private final ExternalModuleTable mt;
     // The ExternalModuleTable for the spec to which THIS
     //   SymbolTable and its external module belongs
   private ModuleNode          modNode;       
     // The ModuleNode of the module (internal or external)
     //   with which THIS SymbolTable is associated
-  private Errors              errors;        
+  private final Errors              errors;
     // The Errors object to which error messages involving
     //   THIS SymbolTable should be appended.
 
@@ -257,7 +257,7 @@ public class SymbolTable implements ASTConstants {
   }
 
   static class ModuleName {
-    UniqueString name;
+    final UniqueString name;
 
     ModuleName(final UniqueString name) {
       this.name = name;

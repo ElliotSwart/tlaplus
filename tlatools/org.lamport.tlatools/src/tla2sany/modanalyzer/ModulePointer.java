@@ -15,9 +15,9 @@ import tla2sany.utilities.Vector;
  */
 public class ModulePointer {
 
-  private SpecObj    spec;        // The SpecObj for the whole spec
-  private ParseUnit  parseUnit;   // The ParseUnit (file) that the module is part of
-  private TreeNode   treeNode;    // Must point to the TreeNode in the parse tree that contains the
+  private final SpecObj    spec;        // The SpecObj for the whole spec
+  private final ParseUnit  parseUnit;   // The ParseUnit (file) that the module is part of
+  private final TreeNode   treeNode;    // Must point to the TreeNode in the parse tree that contains the
                                   //   N_Module node at the head of a module
   private ModuleRelatives moduleRelatives; // Contains info on related modules (parent, inner, extends, instantiates)
 

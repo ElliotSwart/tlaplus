@@ -12,9 +12,9 @@ import util.WrongInvocationException;
 
 public abstract class Sx {
 
-  public static SxNil nil = new SxNil();
+  public static final SxNil nil = new SxNil();
 
-  private static Hashtable<String, SxAtom> atomTbl = new Hashtable<String, SxAtom>();
+  private static final Hashtable<String, SxAtom> atomTbl = new Hashtable<String, SxAtom>();
   private static int symCount = 0;  // Number of symbols returned by genSym().
   
   public static Sx cons(final Sx a, final Sx b) {
@@ -86,7 +86,7 @@ public abstract class Sx {
   public abstract void print(PrintWriter pw);
   
   public static class SxAtom extends Sx {
-    public String st;
+    public final String st;
   
     private SxAtom(final String st) { this.st = st; }
 
@@ -95,7 +95,7 @@ public abstract class Sx {
   }
 
   public static class SxInt extends Sx {
-    public int val;
+    public final int val;
   
     public SxInt(final int k) { this.val = k; }
 
@@ -111,7 +111,8 @@ public abstract class Sx {
   }
   
   public static class SxPair extends Sx {
-    public Sx car, cdr;
+    public final Sx car;
+      public final Sx cdr;
   
     public SxPair(final Sx a, final Sx b) {
       this.car = a;

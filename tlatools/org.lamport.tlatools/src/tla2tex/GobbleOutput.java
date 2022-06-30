@@ -26,13 +26,13 @@ package tla2tex ;
 import java.io.InputStream;
 
 public class GobbleOutput extends Thread 
- { boolean stdOrError ;  
+ { final boolean stdOrError ;
      /**********************************************************************
      * True  if gobbling stdout                                            *
      * False if gobbling stderr                                            *
      **********************************************************************/
-   Process proc ;
-   String  cmd ;
+     final Process proc ;
+   final String  cmd ;
    GobbleOutput(final boolean stdOrError ,
                 final Process proc,
                 final String  cmd)

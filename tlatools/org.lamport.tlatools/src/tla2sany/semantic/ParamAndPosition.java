@@ -9,8 +9,8 @@ package tla2sany.semantic;
  */
 class ParamAndPosition {
 
-  SymbolNode param;  
-  int        position;
+  final SymbolNode param;
+  final int        position;
 
   ParamAndPosition(final SymbolNode param, final int pos) {
     this.param = param;

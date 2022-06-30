@@ -3,12 +3,12 @@ package tla2sany.utilities;
 import java.util.Enumeration;
 
 public class Vector<E> {
-  static int defaultSize = 10;
+  static final int defaultSize = 10;
   
   protected Object info[];
   protected int size = 0;
   protected int capacity;
-  protected int increment;
+  protected final int increment;
 
   public Vector() {
     info = new Object[ defaultSize ];

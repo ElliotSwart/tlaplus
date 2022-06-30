@@ -26,14 +26,14 @@ public final class DiskIntStack implements IntStack {
   private final static int BufSize = 16384;
 
   private long size;
-  private String filePrefix;
+  private final String filePrefix;
   private File poolFile;
   private int[] buf1, buf2, buf, rwbuf;
   private int index;
   private int hiPool;
   private boolean isIdle;
-  private Reader reader;
-  private Writer writer;
+  private final Reader reader;
+  private final Writer writer;
   
   public DiskIntStack(final String diskdir, final String name) {
     this.size = 0;

@@ -10,7 +10,7 @@ import util.UniqueString;
 
 public class OperatorStack implements tla2sany.st.SyntaxTreeConstants {
 
-  private Vector<Vector<OSelement>> StackOfStack = new Vector<Vector<OSelement>> (10);
+  private final Vector<Vector<OSelement>> StackOfStack = new Vector<Vector<OSelement>> (10);
     /***********************************************************************
     * The actual OperatorStack object.  It appears to be a vector of       *
     * vectors of OSElement objects.  A stack appears to be represented by  *
@@ -26,9 +26,9 @@ public class OperatorStack implements tla2sany.st.SyntaxTreeConstants {
     * equal null only if OperatorStack is empty?  J-Ch says yes.           *
     ***********************************************************************/
     
-  private ParseErrors PErrors;
+  private final ParseErrors PErrors;
 
-  private Operator fcnOp;
+  private final Operator fcnOp;
     /***********************************************************************
     * This is a constant set when the OperatorStack object is created to   *
     * the operator entry for "[", which apparently is a dummy operator     *

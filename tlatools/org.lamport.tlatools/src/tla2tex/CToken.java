@@ -38,13 +38,13 @@ public class CToken
   * is a subclass of Token.  Every token of type COMMENT should belong to  *
   * this class.                                                            *
   *************************************************************************/
-  { public String string;
+  { public final String string;
       /*********************************************************************
       * The string of the token.  This is usually what the user has        *
       * typed, but it may also be something else.                          *
       *********************************************************************/
 
-    public int column;
+    public final int column;
       /*********************************************************************
       * The column in which the first character of the token appears in    *
       * the input.                                                         *
@@ -154,7 +154,7 @@ public class CToken
         isTLA  = false ;
       }
 
-      public static CToken nullCToken = new CToken("", 0, NULL, false, false) ;
+      public static final CToken nullCToken = new CToken("", 0, NULL, false, false) ;
       /*********************************************************************
       * A special null CToken.                                             *
       *********************************************************************/

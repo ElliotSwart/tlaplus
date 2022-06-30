@@ -25,9 +25,9 @@ import tla2sany.xml.SymbolContext;
 ***************************************************************************/
 public class AssumeNode extends LevelNode {
 
-  ModuleNode  module;
-  ExprNode    assumeExpr;
-  private ThmOrAssumpDefNode   def;
+  final ModuleNode  module;
+  final ExprNode    assumeExpr;
+  private final ThmOrAssumpDefNode   def;
     /***********************************************************************
     * For a named assumption, that is one of the form                      *
     * "ASSUME foo == ...", this is the ThmOrAssumpDefNode for the          *

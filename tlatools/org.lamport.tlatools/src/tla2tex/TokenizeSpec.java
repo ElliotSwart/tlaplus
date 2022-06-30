@@ -474,7 +474,7 @@ import java.util.Vector;
  *
  */
 public class TokenizeSpec
-  { private static Hashtable<String, String> identHashTable  = new Hashtable<String, String>(1000);
+  { private static final Hashtable<String, String> identHashTable  = new Hashtable<String, String>(1000);
       /*********************************************************************
       * A hash table containing all the IDENT and STRING tokens found in   *
       * the spec.  It is used for formatting comments.                     *
@@ -491,7 +491,7 @@ public class TokenizeSpec
       { return null !=  identHashTable.get(str);
       }
 
-    private static Hashtable<String, String> usedBuiltinHashTable  = new Hashtable<String, String>(1000);
+    private static final Hashtable<String, String> usedBuiltinHashTable  = new Hashtable<String, String>(1000);
       /*********************************************************************
       * A hash table containing all the BUILTIN tokens found in the spec.  *
       * It is used for formatting comments.                                *
@@ -504,7 +504,7 @@ public class TokenizeSpec
       { return null !=  usedBuiltinHashTable.get(str);
       }
 
-    private static Hashtable<String, String> stringHashTable  = new Hashtable<String, String>(100);
+    private static final Hashtable<String, String> stringHashTable  = new Hashtable<String, String>(100);
       /*********************************************************************
       * A hash table containing all the STRING tokens found in the spec.   *
       * It is used for formatting comments.                                *
@@ -516,7 +516,7 @@ public class TokenizeSpec
       { return null !=  stringHashTable.get(str);
       }
 
-    private static String nullString = "" ;
+    private static final String nullString = "" ;
       /*********************************************************************
       * The hash tables above are used only to remember the keys; there    *
       * is no value attached to them.  However, the Hashtable class        *

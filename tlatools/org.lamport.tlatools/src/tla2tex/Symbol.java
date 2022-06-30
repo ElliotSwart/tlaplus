@@ -19,19 +19,19 @@
 package tla2tex;
 
 public class Symbol
-  { public String TLAString;
+  { public final String TLAString;
       /*********************************************************************
       * The TLA representation of the symbol.  There is a different        *
       * Symbol object for each way of writing the same symbol--for         *
       * example, there are separate symbol objects for "#" and "/=".       *
       *********************************************************************/
 
-    public String TeXString;
+    public final String TeXString;
       /*********************************************************************
       * The TeX input that prints the symbol.                              *
       *********************************************************************/
       
-    public int symbolType ;
+    public final int symbolType ;
       /*********************************************************************
       * The type of symbol it is.  Here are the possibilities:             *
       *********************************************************************/
@@ -54,7 +54,7 @@ public class Symbol
     public boolean pcal = false ;  
       // True iff this is a PlusCal symbol.
     
-    public int alignmentType ;
+    public final int alignmentType ;
       /*********************************************************************
       * Two symbols can be inner-aligned iff they have the same alignment  *
       * type.  However, an alignment type of 0 means that the symbol       *

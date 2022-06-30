@@ -8,7 +8,7 @@ package tla2tex;
 public class TLA2TexException extends RuntimeException
 {
 
-    private String error_message;
+    private final String error_message;
 
     /**
      * 

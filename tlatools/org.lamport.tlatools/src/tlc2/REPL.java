@@ -56,7 +56,7 @@ public class REPL {
     private final Writer replWriter = new PrintWriter(System.out);
     
     // A temporary directory to place auxiliary files needed for REPL evaluation.
-    Path replTempDir;
+    final Path replTempDir;
 
     public REPL(final Path tempDir) {
         replTempDir = tempDir;

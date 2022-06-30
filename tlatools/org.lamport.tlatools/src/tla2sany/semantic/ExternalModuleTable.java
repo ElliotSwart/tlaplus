@@ -21,8 +21,8 @@ public class ExternalModuleTable implements ExploreNode {
 
   public static class ExternalModuleTableEntry implements ExploreNode {
 
-    ModuleNode   moduleNode;  // the ModuleNode
-    Context      ctxt;        // and its full context, including all Builtin ops, ops from EXTENDS and INSTANCE,
+    final ModuleNode   moduleNode;  // the ModuleNode
+    final Context      ctxt;        // and its full context, including all Builtin ops, ops from EXTENDS and INSTANCE,
                               //   and module nodes for inner modules (but NOT its defined ops)
 
     ExternalModuleTableEntry (final Context ctxt, final ModuleNode modn) {
@@ -84,13 +84,13 @@ public class ExternalModuleTable implements ExploreNode {
   * moduleHashTable, and that each of its entries has a moduleName as the  *
   * key and a value that's an ExternalModuleTableEntry object.             *
   *************************************************************************/
-  public Hashtable<UniqueString, ExternalModuleTableEntry> moduleHashTable;
+  public final Hashtable<UniqueString, ExternalModuleTableEntry> moduleHashTable;
 
   // Vector moduleVector contains ModuleNodes (the same ones as
   // moduleHashTable), but preserves the order in which they were
   // inserted.  If module A depends on module B, then A has a HIGHER
   // index than B.
-  public Vector<ModuleNode>    moduleNodeVector;
+  public final Vector<ModuleNode>    moduleNodeVector;
 
   // The nodule node of the root module
   public ModuleNode rootModule;

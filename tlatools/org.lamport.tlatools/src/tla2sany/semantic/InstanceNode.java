@@ -47,24 +47,24 @@ public class InstanceNode extends LevelNode {
    *  return some fields.
    */
 
-  UniqueString      name;
+  final UniqueString      name;
      // The name of this instance, e.g. "I" in the example above;
      //   null if this is an unnamed instance.
 
   public UniqueString getName() {
       return name ;
   }
-  FormalParamNode[] params;
+  final FormalParamNode[] params;
      // The instance parameters, e.g. param[1]  ... param[n] in the
      // example above. Has length zero if there is no param.
-  ModuleNode        module;
+     final ModuleNode        module;
      // Reference to the module, M, being instantiated
 
   public ModuleNode getModule() {
       return module ;
   }
 
-  Subst[]           substs;
+  final Subst[]           substs;
      // The substitutions mparam[1] <- mexp[1], ... , mparam[r] <- mexp[r]
      // This includes substitutions not explicitly mentioned in the
      // surface syntax because they are of the form c <- c or x <- x
@@ -74,7 +74,7 @@ public class InstanceNode extends LevelNode {
   /*************************************************************************
   * The following field was added by LL on 29 Jul 2007.                    *
   *************************************************************************/
-  boolean local;
+  final boolean local;
     /***********************************************************************
     * True iff this is a LOCAL instance.                                   *
     ***********************************************************************/

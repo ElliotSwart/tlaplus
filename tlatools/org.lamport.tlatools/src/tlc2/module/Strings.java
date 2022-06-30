@@ -18,7 +18,7 @@ public class Strings extends UserObj
 {
 	public static final long serialVersionUID = 20160822L;
 
-    private static Value SetString = new UserValue(new Strings());
+    private static final Value SetString = new UserValue(new Strings());
 
     public static Value STRING()
     {

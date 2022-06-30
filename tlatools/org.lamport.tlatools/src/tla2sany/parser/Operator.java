@@ -11,11 +11,11 @@ import util.UniqueString;
 
 public class Operator implements tla2sany.st.SyntaxTreeConstants {
 
-  private UniqueString Id;
-  private int Low;
-  private int High;
-  public int Associativity;
-  public int Fix;
+  private final UniqueString Id;
+  private final int Low;
+  private final int High;
+  public final int Associativity;
+  public final int Fix;
 
   private static Operator voidOperator = null;
   

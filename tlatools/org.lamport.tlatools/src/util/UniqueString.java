@@ -69,12 +69,12 @@ public final class UniqueString implements Serializable
     /**
      * The string content
      */
-    private String s;
+    private final String s;
 
     /** 
      * The unique integer assigned to the string.
      */
-    private int tok;
+    private final int tok;
 
     /**
      * If this unique string is a state variable, this is the location of this

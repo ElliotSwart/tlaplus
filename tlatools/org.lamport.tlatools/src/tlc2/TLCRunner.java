@@ -30,7 +30,7 @@ import tlc2.tool.fp.FPSetFactory;
  * In light of that, i've written this class to spin off a new JVM for the model check.
  */
 public class TLCRunner {
-	public static List<String> JVM_ARGUMENTS;
+	public static final List<String> JVM_ARGUMENTS;
 	private static final String TLC_CLASS = TLC.class.getName();
 	
 	static {

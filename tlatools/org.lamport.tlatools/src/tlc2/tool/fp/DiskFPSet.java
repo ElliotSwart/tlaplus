@@ -126,12 +126,12 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	protected long[] index;
 	
 	// statistics
-	protected LongAdder memHitCnt = new LongAdder();
-	protected LongAdder diskHitCnt = new LongAdder();
-	private LongAdder diskLookupCnt = new LongAdder();
-	protected LongAdder diskWriteCnt = new LongAdder();
-	private LongAdder diskSeekCnt = new LongAdder();
-	private LongAdder diskSeekCache = new LongAdder();
+	protected final LongAdder memHitCnt = new LongAdder();
+	protected final LongAdder diskHitCnt = new LongAdder();
+	private final LongAdder diskLookupCnt = new LongAdder();
+	protected final LongAdder diskWriteCnt = new LongAdder();
+	private final LongAdder diskSeekCnt = new LongAdder();
+	private final LongAdder diskSeekCache = new LongAdder();
 	
 	// indicate how many cp or disk grow in put(long) has occurred
 	private int checkPointMark;

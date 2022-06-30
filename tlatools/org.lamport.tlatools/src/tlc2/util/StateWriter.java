@@ -15,7 +15,7 @@ public class StateWriter implements IStateWriter
 {
     protected final PrintWriter writer;
     protected int stateNum;
-    protected String fname;
+    protected final String fname;
 
     public StateWriter(final String fname) throws IOException
     {

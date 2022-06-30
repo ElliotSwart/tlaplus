@@ -44,7 +44,7 @@ import util.UniqueString;
 public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants, 
              ASTConstants {
 
-  private static SyntaxTreeNode[] nullArray   = new SyntaxTreeNode[0];
+  private static final SyntaxTreeNode[] nullArray   = new SyntaxTreeNode[0];
   protected SyntaxTreeNode[]      zero, one;
     /***********************************************************************
     * The arrays `zero' and `one' describe the sequence of heirs, which    *
@@ -93,7 +93,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
     * (Added by LL 13 Oct 2007.)                                           *
     ***********************************************************************/
 
-  int []                          location    = new int[4];
+    final int []                          location    = new int[4];
     /***********************************************************************
     *    location[0] = beginning line number                               *
     *    location[1] = beginning column number                             *
@@ -148,7 +148,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
     * post-comment.                                                        *
     ***********************************************************************/
 
-  public static SyntaxTreeNode nullSTN =
+  public static final SyntaxTreeNode nullSTN =
     new SyntaxTreeNode( UniqueString.uniqueStringOf("***I do not exist***") );
 
   public SyntaxTreeNode() {
@@ -314,7 +314,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   }
 
 
-  private static Token nullToken = new Token();
+  private static final Token nullToken = new Token();
 
 
   private final String[] comments(final Token t ) {

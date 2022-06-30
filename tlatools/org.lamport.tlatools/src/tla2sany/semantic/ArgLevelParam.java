@@ -13,9 +13,9 @@ class ArgLevelParam {
   * subexpression alp.op(...)  in which the alp.i-th argument's level      *
   * depends on the parameter alp.param of the current context.             *
   *************************************************************************/
-  SymbolNode op;
-  int        i;
-  SymbolNode param;
+  final SymbolNode op;
+  final int        i;
+  final SymbolNode param;
 
   /* Creates new ArgLevelParam */
   public ArgLevelParam(final SymbolNode op, final int i, final SymbolNode param) {

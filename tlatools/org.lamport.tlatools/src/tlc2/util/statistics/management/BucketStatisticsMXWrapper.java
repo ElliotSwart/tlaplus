@@ -33,7 +33,7 @@ import tlc2.util.statistics.IBucketStatistics;
 
 public class BucketStatisticsMXWrapper extends TLCStandardMBean implements BucketStatisticsMXBean {
 
-	private IBucketStatistics graphStats;
+	private final IBucketStatistics graphStats;
 
 	private final String objectName;
 

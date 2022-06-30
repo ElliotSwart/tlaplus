@@ -210,7 +210,7 @@ public final class PcalParams
   * The string identifying the end of the automatically generated part of  *
   * the .cfg file and the beginning of the user-added part.                *
   *************************************************************************/
-  public static String CfgFileDelimiter = 
+  public static final String CfgFileDelimiter =
             "\\* Add statements after this line." ;
 
 /************ Stuff for .pcal file ***************************************/  

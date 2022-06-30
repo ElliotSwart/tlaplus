@@ -11,7 +11,7 @@ import java.io.StringWriter;
 
 public class XMLExportingException extends Exception {
   private static final long serialVersionUID = -8894858605017149534L;
-private Exception nested;
+private final Exception nested;
   public XMLExportingException(final String str, final Exception n) {
     super(str);
     nested = n;

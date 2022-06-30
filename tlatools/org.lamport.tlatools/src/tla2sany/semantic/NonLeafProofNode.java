@@ -115,7 +115,7 @@ public class NonLeafProofNode extends ProofNode {
     * TheoremNode steps and, within the DEF clause of a USE or HIDE step   *
     * or BY proof, to a DefStepNode step.                                  *
     ***********************************************************************/
-  private InstanceNode[] insts ;
+  private final InstanceNode[] insts ;
     /***********************************************************************
     * These are the InstanceNodes from instantiation statements in the     *
     * module-definition steps (ones arising from steps of the form "Id ==  *
@@ -123,7 +123,7 @@ public class NonLeafProofNode extends ProofNode {
     * instantiations.                                                      *
     ***********************************************************************/
 
-  private Context context;
+  private final Context context;
     /***********************************************************************
     * This context contains entries for every step number and definition   *
     * made in a step at the level of this proof (that is, not in           *

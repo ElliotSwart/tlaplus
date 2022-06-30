@@ -71,10 +71,10 @@ import java.util.Vector;
 import pcal.exception.PcalSymTabException;
 
 public class PcalSymTab {
-    public Vector<SymTabEntry> symtab;             // Vector of SymTabEntry
-    public Vector<ProcedureEntry> procs;              // Vector of ProcedureEntry
-    public Vector<ProcessEntry> processes;          // Vector of ProcessEntry
-    public Vector<String> disambiguateReport; // Vector of String (comments)
+    public final Vector<SymTabEntry> symtab;             // Vector of SymTabEntry
+    public final Vector<ProcedureEntry> procs;              // Vector of ProcedureEntry
+    public final Vector<ProcessEntry> processes;          // Vector of ProcessEntry
+    public final Vector<String> disambiguateReport; // Vector of String (comments)
     public String errorReport;        // Accumulated errors
     public String iPC;                // initial pc value for unip algorithm
 
@@ -92,27 +92,27 @@ public class PcalSymTab {
     // The following two arrays need to be ordered wrt the constants above.
 
     // Prepend this type-specific string to name before disambiguation.
-    private static String typePrefix[ ] = { "", "", "", "", "", "", "" };
+    private static final String[] typePrefix = { "", "", "", "", "", "", "" };
 
     // For toString method.
-    public static String vtypeName[ ] = {
+    public static final String[] vtypeName = {
         "Global variable", "Label", "Procedure", "Process", 
         "Process variable", "Procedure variable", "Parameter"};
 
     /* NESTED CLASS: Symbol table entries */
     public static class SymTabEntry {
-        public int type;       // variable type
+        public final int type;       // variable type
                                // can be GLOBAL, LABEL, PROCEDURE, PROCESS, PROCESSVAR,
                                // PROCEDUREVAR, or PARAMETER, declared above.
-        public String id;      // original name
-        public String context; // where defined
+        public final String id;      // original name
+        public final String context; // where defined
                                // experimentation shows that context is:
                                //    "" if cType = ""
                                //    the name of a process if cType = "process"
                                //    the name of a procedure if cType = "procedure"
-        public String cType;   // procedure, process or empty
-        public int line;       // line where defined
-        public int col;        // column where defined
+        public final String cType;   // procedure, process or empty
+        public final int line;       // line where defined
+        public final int col;        // column where defined
         public String useThis; // Disambiguated name
 
         public SymTabEntry(final int type,
@@ -143,10 +143,10 @@ public class PcalSymTab {
     /* NESTED CLASS: Procedure table entries */
     public static class ProcedureEntry {
         public String name;    // Procedure name
-        public Vector<AST.PVarDecl> params;  // of PVarDecl
-        public Vector<AST.PVarDecl> decls;   // of PVarDecl
+        public final Vector<AST.PVarDecl> params;  // of PVarDecl
+        public final Vector<AST.PVarDecl> decls;   // of PVarDecl
         public String iPC;     // initial label of procedure
-        public AST.Procedure ast; // AST of the procedure
+        public final AST.Procedure ast; // AST of the procedure
                                   // Added 13 Jan 2011 by LL 
         
         public ProcedureEntry(final AST.Procedure p) {
@@ -165,11 +165,11 @@ public class PcalSymTab {
     /* NESTED CLASS: Process table entries */
     public static class ProcessEntry {
         public String name;      // Process name
-        public boolean isEq;     // true means "=", false means "\\in"
-        public TLAExpr id;       // set of identifiers or identifier
-        public Vector<?> decls;     // of ParDecl
+        public final boolean isEq;     // true means "=", false means "\\in"
+        public final TLAExpr id;       // set of identifiers or identifier
+        public final Vector<?> decls;     // of ParDecl
         public String iPC;       // Initial pc of this process
-        public AST.Process ast; // AST of the procedure
+        public final AST.Process ast; // AST of the procedure
         // Added 13 Jan 2011 by LL 
 
         public ProcessEntry(final AST.Process p) {

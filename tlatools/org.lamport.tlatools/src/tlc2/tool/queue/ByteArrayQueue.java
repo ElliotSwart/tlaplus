@@ -36,7 +36,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 	 * to notify (wake up) the checkpointing thread once the last worker is
 	 * done.
 	 */
-	private Object mu = new Object();
+	private final Object mu = new Object();
 	
 	
 	private final byte[] toBytes(final TLCState state) {

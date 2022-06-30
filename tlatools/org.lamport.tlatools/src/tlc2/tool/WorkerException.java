@@ -8,9 +8,9 @@ package tlc2.tool;
 @SuppressWarnings("serial")
 public class WorkerException extends Exception {
 
-	public TLCState state1;
-	public TLCState state2;
-	public boolean keepCallStack;
+	public final TLCState state1;
+	public final TLCState state2;
+	public final boolean keepCallStack;
 
 	public WorkerException(final String msg) {
 		this(msg, null, null, false);

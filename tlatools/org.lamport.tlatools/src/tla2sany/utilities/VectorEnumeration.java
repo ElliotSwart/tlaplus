@@ -4,7 +4,7 @@ import java.util.Enumeration;
 
 final class VectorEnumeration<E> implements Enumeration<E> {
   int index = 0;
-  Object data[];
+  final Object[] data;
 
   VectorEnumeration(final Object[] info, final int size ) {
     data = new Object[ size ];

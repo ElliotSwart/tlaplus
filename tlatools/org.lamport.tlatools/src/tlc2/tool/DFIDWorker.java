@@ -18,17 +18,17 @@ public class DFIDWorker extends IdThread implements IWorker {
    * single threaded.  We expect to get linear speedup with respect
    * to the number of processors.
    */
-  private DFIDModelChecker tlc;
-  private RandomGenerator rng;
-  private TLCState[] stateStack;
-  private long[] fpStack;
-  private StateVec[] succStateStack;
-  private LongVec[] succFPStack;
-  private FPIntSet theFPSet;
-  private TLCState[] theInitStates;
-  private long[] theInitFPs;
+  private final DFIDModelChecker tlc;
+  private final RandomGenerator rng;
+  private final TLCState[] stateStack;
+  private final long[] fpStack;
+  private final StateVec[] succStateStack;
+  private final LongVec[] succFPStack;
+  private final FPIntSet theFPSet;
+  private final TLCState[] theInitStates;
+  private final long[] theInitFPs;
   private int initLen;
-  private int toLevel;
+  private final int toLevel;
   private int curLevel;
   private int stopCode;
   private boolean moreLevel;

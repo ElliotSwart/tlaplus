@@ -17,7 +17,7 @@ import tlc2.tool.distributed.TLCWorker;
 @SuppressWarnings("serial")
 public class DynamicFPSetManager extends FPSetManager implements Serializable {
 
-	private int expectedNumOfServers;
+	private final int expectedNumOfServers;
 
 	public DynamicFPSetManager(int expectedNumOfServers) throws RemoteException {
 		super();

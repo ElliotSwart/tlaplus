@@ -16,8 +16,8 @@ import tla2sany.semantic.TheoremNode;
  * same def twice
  */
 public class SymbolContext {
-  private java.util.Map<Integer,Element> context;
-  private java.util.Set<Integer> keys; // we need this set since the generated element might spawn new keys
+  private final java.util.Map<Integer,Element> context;
+  private final java.util.Set<Integer> keys; // we need this set since the generated element might spawn new keys
   private boolean top_level_entry;  // used to detect if a symbol is exported twice.
                                     // only set in put() and reset in SymbolNode.getDefinitionElement
 
@@ -26,7 +26,7 @@ public class SymbolContext {
 
   // some semantic objects are represented using null. this flags array
   // is used to tell nodes to expect them so xml exporting will be done properly
-  private boolean[] flagArray;
+  private final boolean[] flagArray;
 
   public SymbolContext() {
     context = new java.util.HashMap<Integer,Element>();

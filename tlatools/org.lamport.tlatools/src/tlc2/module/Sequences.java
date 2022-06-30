@@ -31,8 +31,8 @@ public class Sequences extends UserObj implements ValueConstants
 {
 	public static final long serialVersionUID = 20160822L;
 	
-    private Value range;
-    private int size;
+    private final Value range;
+    private final int size;
 
     public Sequences(final Value range, final int size)
     {

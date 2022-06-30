@@ -35,7 +35,7 @@ import util.WrongInvocationException;
  */
 public final class TLCStateMut extends TLCState implements Cloneable, Serializable {
   private static final long serialVersionUID = 4041379887531543818L;
-private IValue values[];
+private final IValue[] values;
   private static ITool mytool = null;
 
   /**

@@ -76,11 +76,11 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	 * constructor. *
 	 ***********************************************************************/
 
-	private ExternalModuleTable moduleTable;
-	public Errors errors;
-	private Stack excStack; // Holds stack of OpApplNodes for $Except
+	private final ExternalModuleTable moduleTable;
+	public final Errors errors;
+	private final Stack excStack; // Holds stack of OpApplNodes for $Except
 							// operators; used for @
-	private Stack excSpecStack; // Holds stack of OpApplNode for @Pair
+	private final Stack excSpecStack; // Holds stack of OpApplNode for @Pair
 								// operators representing ExceptSpecs;
 								// also used for @
 
@@ -90,16 +90,16 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	// returning
 	// null values, and to allow semantic analysis to proceed when an error is
 	// detected
-	private FormalParamNode[] nullParam;
-	private OpDefNode nullODN;
-	protected OpApplNode nullOAN;
-	protected LabelNode nullLabelNode;
+	private final FormalParamNode[] nullParam;
+	private final OpDefNode nullODN;
+	protected final OpApplNode nullOAN;
+	protected final LabelNode nullLabelNode;
 	/***********************************************************************
 	 * This is a special OpApplNode that gets returned in various places * when an
 	 * error is detected. This allows semantic analysis to * continue, presumably by
 	 * preventing a NullPointerException. *
 	 ***********************************************************************/
-	protected OpArgNode nullOpArg;
+	protected final OpArgNode nullOpArg;
 
 	private final static UniqueString S_e = UniqueString.uniqueStringOf("\\E");
 	private final static UniqueString S_ex = UniqueString.uniqueStringOf("\\exists");
@@ -128,8 +128,8 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		 * `functions' object for the class's * explanation. *
 		 ***********************************************************************/
 		class pair {
-			UniqueString a;
-			OpApplNode b;
+			final UniqueString a;
+			final OpApplNode b;
 
 			pair(final UniqueString uniqueString, final OpApplNode oan) {
 				a = uniqueString;
@@ -145,7 +145,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			}
 		}
 
-		Stack funcStack = new Stack();
+		final Stack funcStack = new Stack();
 
 		void push(final UniqueString uniqueString, final OpApplNode oan) {
 			funcStack.push(new pair(uniqueString, oan));
@@ -172,7 +172,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 	// This is the only instance of class Function
 
-	Function functions = new Function();
+	final Function functions = new Function();
 
 	/***********************************************************************
 	 * This object is used to detect that a function definition is * recursive. It
@@ -202,11 +202,11 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	// args to the main operator, and not part of the GenID
 	private class GenID {
 
-		private TreeNode treeNode;
+		private final TreeNode treeNode;
 		// The syntax tree node holding this GenID
-		private StringBuffer compoundID;
+		private final StringBuffer compoundID;
 		// The string name of the compound op, with "!"'s, if any
-		private Vector<ExprOrOpArgNode> argsVector = new Vector<ExprOrOpArgNode>();
+		private final Vector<ExprOrOpArgNode> argsVector = new Vector<ExprOrOpArgNode>();
 		// Vector of arguments (ExprNodes and OpArgNodes)
 		// that are embedded in the generalized identifier
 
@@ -350,8 +350,8 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		/**********************************************************************
 		 * The fields modified by addSelector: *
 		 **********************************************************************/
-		private Vector<SyntaxTreeNode> opVec = new Vector<SyntaxTreeNode>(); // of SyntaxTreeNode ;
-		private Vector<SyntaxTreeNode> argVec = new Vector<SyntaxTreeNode>(); // of SyntaxTreeNode ;
+		private final Vector<SyntaxTreeNode> opVec = new Vector<SyntaxTreeNode>(); // of SyntaxTreeNode ;
+		private final Vector<SyntaxTreeNode> argVec = new Vector<SyntaxTreeNode>(); // of SyntaxTreeNode ;
 
 		/**********************************************************************
 		 * The fields set from opVec and argVec by finalize. *
@@ -3126,7 +3126,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	 * Maximum allowed nesting depth of ASSUME/PROVES. 100 ought to * suffice. *
 	 ***********************************************************************/
 
-	private boolean[] inScopeOfAPDecl = new boolean[maxAPDepth];
+	private final boolean[] inScopeOfAPDecl = new boolean[maxAPDepth];
 
 	/***********************************************************************
 	 * For all i \leq assumeProveDepth, inScopeOfAPDecl[i] = true iff the * node

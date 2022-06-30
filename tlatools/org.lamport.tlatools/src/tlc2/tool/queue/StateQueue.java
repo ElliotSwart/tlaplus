@@ -36,7 +36,7 @@ public abstract class StateQueue implements IStateQueue {
 	 * to notify (wake up) the checkpointing thread once the last worker is
 	 * done.
 	 */
-	private Object mu = new Object();
+	private final Object mu = new Object();
 
 	/* Enqueues the state. It is not thread-safe. */
 	/* (non-Javadoc)

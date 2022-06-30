@@ -35,7 +35,7 @@ import util.ToolIO;
 public class SpecObj
 {
 
-    String primaryFileName;
+    final String primaryFileName;
     // The raw file name for the root (top) module, unprocessed by adding
     // ".tla" or by prepending the full file system path to it)
 
@@ -44,17 +44,17 @@ public class SpecObj
     // it includes ModuleNode's for the root module, and for all modules
     // that it depends on directly or indirectly by EXTENDS or INSTANCE
 
-    public Vector<String> semanticAnalysisVector = new Vector<String>();
+    public final Vector<String> semanticAnalysisVector = new Vector<String>();
     // Stack of units parsed, in the order in which semantic analysis
     // must be done, i.e. if MODULE A references B, A is lower
     // on the stack. The same module name can occur multiple times.
 
-    public Hashtable<String, ParseUnit> parseUnitContext = new Hashtable<String, ParseUnit>();
+    public final Hashtable<String, ParseUnit> parseUnitContext = new Hashtable<String, ParseUnit>();
     // Holds all known ParseUnit objects, i.e external, top-level
     // modules that have so far been encountered, keyed by module
     // (parseUnit) string name
 
-    private ModuleRelationships moduleRelationshipsSpec = new ModuleRelationships();
+    private final ModuleRelationships moduleRelationshipsSpec = new ModuleRelationships();
     // Maps ModulePointers to ModuleRelatives objects for all modules
     // in the specification, including all inner modules and all top-level
     // external modules.
@@ -91,11 +91,11 @@ public class SpecObj
     // The String name of rootModule, unknown until rootParseUnit is parsed,
     // although it is supposed to be closely related to the file name
 
-    public Errors initErrors = new Errors();
+    public final Errors initErrors = new Errors();
     // The Errors object for reporting errors that happen at initialization
     // time.
 
-    public Errors parseErrors = new Errors();
+    public final Errors parseErrors = new Errors();
     // The Errors object for reporting errors that occur during parsing,
     // including the retrieval of files (ParseUnits) for extention and
     // instantiation or the root and their extentions and instantiations, etc.
@@ -104,7 +104,7 @@ public class SpecObj
     // The Errors object for reporting errors in creating the global
     // context from the file that stores it.
 
-    public Errors semanticErrors = new Errors();
+    public final Errors semanticErrors = new Errors();
     // The Errors object for reporting errors discovered during semantic
     // analysis, including level checking.
 

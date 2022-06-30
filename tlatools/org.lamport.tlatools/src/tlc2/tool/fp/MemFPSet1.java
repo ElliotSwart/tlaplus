@@ -28,7 +28,7 @@ public final class MemFPSet1 extends FPSet {
   private static final long serialVersionUID = -3147272113595828560L;
 private String metadir;
   private String filename;
-  private SetOfLong set;
+  private final SetOfLong set;
 
   public MemFPSet1(final FPSetConfiguration fpSetConfig) throws RemoteException {
     super(fpSetConfig);

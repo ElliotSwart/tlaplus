@@ -54,7 +54,7 @@ public abstract class FPSetManager implements IFPSetManager {
 	 * hostname. The name is cached locally to report it correctly in the error
 	 * case, where it's impossible to call {@link FPSetRMI#getHostname}.
 	 */
-	protected List<FPSets> fpSets;
+	protected final List<FPSets> fpSets;
 	
 	protected boolean managerIsBroken = false; 
 
@@ -622,9 +622,9 @@ public abstract class FPSetManager implements IFPSetManager {
 	}
 
 	final class Checkpoint extends Thread {
-		int hostIndex;
-		String filename;
-		boolean isChkpt;
+		final int hostIndex;
+		final String filename;
+		final boolean isChkpt;
 
 		public Checkpoint(final int index, final String fname, final boolean chkpt) {
 			this.hostIndex = index;

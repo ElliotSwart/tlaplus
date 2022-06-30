@@ -26,9 +26,9 @@ import util.WrongInvocationException;
  */
 public final class TLCStateFun extends TLCState {
   private static final long serialVersionUID = -357349115038775307L;
-private SymbolNode name;
-  private IValue value;
-  private TLCStateFun next;
+private final SymbolNode name;
+  private final IValue value;
+  private final TLCStateFun next;
 
   public final static TLCState Empty = new TLCStateFun(null, null, null);
   

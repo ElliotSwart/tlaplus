@@ -31,9 +31,9 @@ public final class SpecWriterUtilities {
      * Windows 7 machine.  So on 8 Dec 2010 I removed it from here, and added
      * a "\n" before it when writing a new file.
      */
-    public static String MODIFICATION_HISTORY = /* StringHelper.PLATFORM_NEWLINE + */ "\\* Modification History";
+    public static final String MODIFICATION_HISTORY = /* StringHelper.PLATFORM_NEWLINE + */ "\\* Modification History";
     public static String LAST_MODIFIED = StringHelper.PLATFORM_NEWLINE + "\\* Last modified ";
-    public static String MODIFIED_BY = " by ";
+    public static final String MODIFIED_BY = " by ";
 
     /**
      * @param rightMarginWidth the margin width of the output

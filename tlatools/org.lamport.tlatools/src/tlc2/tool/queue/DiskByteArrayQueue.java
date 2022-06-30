@@ -56,8 +56,8 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	private final String filePrefix;
 	protected byte[][] deqBuf, enqBuf;
 	protected int deqIndex, enqIndex;
-	protected ByteArrayPoolReader reader;
-	protected ByteArrayPoolWriter writer;
+	protected final ByteArrayPoolReader reader;
+	protected final ByteArrayPoolWriter writer;
 	
 	/**
 	 * The SPC takes care of deleting swap files on the lower end of the range

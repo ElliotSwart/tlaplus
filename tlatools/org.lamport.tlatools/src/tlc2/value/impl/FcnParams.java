@@ -12,9 +12,9 @@ import tlc2.value.IValue;
 import util.Assert;
 
 public class FcnParams implements IFcnParams {
-  public FormalParamNode[][] formals;  // array of formal params
-  public boolean[] isTuples;      // true iff tuple param
-  public Value[] domains;         // the bounds of the formals
+  public final FormalParamNode[][] formals;  // array of formal params
+  public final boolean[] isTuples;      // true iff tuple param
+  public final Value[] domains;         // the bounds of the formals
   public int argLen;              // the number of arguments
   
   public FcnParams(final FormalParamNode[][] formals, final boolean[] isTuples, final Value[] domains) {

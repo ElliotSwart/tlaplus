@@ -138,12 +138,12 @@ public class TLA
     ***********************************************************************/
     "last modified on Wed  12 Apr 2013 at 16:06:38 PST by lamport";
 
-    static String modDate = lastModified.substring(21, 33);
+    static final String modDate = lastModified.substring(21, 33);
     /***********************************************************************
     * The modification date.                                               *
     ***********************************************************************/
 
-    static String version = "tla2tex.TLA Version 1.0 created " + modDate;
+    static final String version = "tla2tex.TLA Version 1.0 created " + modDate;
 
     public static void main(final String[] args)
     {

@@ -16,7 +16,7 @@ public class BEGraphNode extends AbstractGraphNode {
 	 * of solution. For each arrow we must record the target node and the
 	 * checkActions along it.
 	 */
-	public long stateFP; // fingerprint of the state
+	public final long stateFP; // fingerprint of the state
 	private BEGraphNode[] nnodes; // outgoing links
 	private long number; // for DFS and SCC
 

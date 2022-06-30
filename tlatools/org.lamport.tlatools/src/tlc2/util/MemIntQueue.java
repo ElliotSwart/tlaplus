@@ -17,8 +17,8 @@ public final class MemIntQueue extends MemBasedSet {
 	private final static int InitialSize = 4096;
 
 	private int start;
-	private String diskdir;
-	private String filename;
+	private final String diskdir;
+	private final String filename;
 
 	public MemIntQueue(final String metadir, final String filename) {
 		this(metadir, filename, InitialSize);

@@ -25,7 +25,7 @@
 package tla2tex;
 
 public class CommentToken extends Token
-  { public int rsubtype ;
+  { public final int rsubtype ;
       /*********************************************************************
       * The "raw" subtype of the Token, set by the TokenizeSpec.Tokenize   *
       * method.  Below are its possible values, and their meanings.        *

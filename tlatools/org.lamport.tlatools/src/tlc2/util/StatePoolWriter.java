@@ -20,7 +20,7 @@ public class StatePoolWriter extends Thread {
 
     private TLCState[] buf;     
     private File poolFile;           // the file to be written
-    private StatePoolReader reader;  // the consumer if not null
+    private final StatePoolReader reader;  // the consumer if not null
 
     
   public StatePoolWriter(final int bufSize) {

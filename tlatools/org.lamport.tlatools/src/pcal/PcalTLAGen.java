@@ -50,7 +50,7 @@ public class PcalTLAGen
      *   GenVarsAndDefs
      *   GenVarDecl
      */
-    private Vector<String> tlacode = new Vector<String>(); /* of lines */
+    private final Vector<String> tlacode = new Vector<String>(); /* of lines */
     
     /**
      * The tlacodeNextLine field accumulates characters for the next
@@ -86,13 +86,13 @@ public class PcalTLAGen
     private boolean selfIsSelf = false; 
     
     private final Vector<String> vars = new Vector<String>(); /* list of all disambiguated vars */
-    private Vector<String> pcV = new Vector<String>(); /* sublist of vars of variables representing 
+    private final Vector<String> pcV = new Vector<String>(); /* sublist of vars of variables representing
                                           procedure parameters and procedure variables */
-    private Vector<String> psV = new Vector<String>(); /* sublist of vars local to a process set */
+    private final Vector<String> psV = new Vector<String>(); /* sublist of vars local to a process set */
     private PcalSymTab st = null; /* symbol table */
     private boolean mp = false; /* true if multiprocess, else unip */
-    private Vector<String> nextStep = new Vector<String>(); /* unparam actions */ // For multiprocess alg, these are the individual (=) processes
-    private Vector<String> nextStepSelf = new Vector<String>(); /* param actions */ // These are process sets (\in processes) and procedures
+    private final Vector<String> nextStep = new Vector<String>(); /* unparam actions */ // For multiprocess alg, these are the individual (=) processes
+    private final Vector<String> nextStepSelf = new Vector<String>(); /* param actions */ // These are process sets (\in processes) and procedures
     // Following added to keep track of the length of the "lbl... == /\ "
     // that precedes all the statements in the definition of a label's action
     // because Keith screwed up and handled the assignment to the pc different 

@@ -45,7 +45,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
    * a module's isStandard field depends on the path to the standard modules directory
    * being the last element of this array.
    */
-  private String[] libraryPaths;
+  private final String[] libraryPaths;
   private final Path tmpDir = FilenameToStream.getTempDirectory();
 
   public SimpleFilenameToStream() {

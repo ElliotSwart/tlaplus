@@ -344,7 +344,7 @@ public final Value set;
   }
 
   final class Enumerator implements ValueEnumeration {
-    ValueEnumeration Enum;
+    final ValueEnumeration Enum;
     Value elemSet;
     ValueEnumeration elemSetEnum;
 

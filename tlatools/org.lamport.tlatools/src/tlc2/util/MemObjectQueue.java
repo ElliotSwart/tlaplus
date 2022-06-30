@@ -26,7 +26,7 @@ public final class MemObjectQueue {
   private int len;
   private Object[] states;
   private int start = 0;
-  private String diskdir;
+  private final String diskdir;
     
   public MemObjectQueue(final String metadir) {
     this.states = new Object[InitialSize];

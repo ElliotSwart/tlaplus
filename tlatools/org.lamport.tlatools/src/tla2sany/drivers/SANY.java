@@ -47,16 +47,16 @@ public class SANY {
 //    ***********************************************************************/
 //    "last modified on Tue  10 February 2011 at 11:49:54 PST by lamport";
 
-  private static String modDate = "08 July 2020";
+  private static final String modDate = "08 July 2020";
 //                lastModified.substring(21, lastModified.indexOf(" at"));
     /***********************************************************************
     * The modification date.                                               *
     ***********************************************************************/
 
-  public static String version = 
+  public static final String version =
     "Version 2.2 created " + modDate ; 
 
-  private static boolean doParsing          = true;  
+  private static final boolean doParsing          = true;
     // true <=> parsing should be done
     //          currently there is no way to turn this off
 

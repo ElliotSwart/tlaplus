@@ -12,8 +12,8 @@ import java.rmi.RemoteException;
  */
 public class MultiFPIntSet extends FPIntSet {
 
-  private FPIntSet[] sets;
-  private int fpbits;
+  private final FPIntSet[] sets;
+  private final int fpbits;
 
   public MultiFPIntSet(final int bits) throws RemoteException {
     final int len = 1 << bits;

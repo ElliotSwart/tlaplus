@@ -26,9 +26,9 @@ public class NamedInputStream extends FileInputStream
 {
     private static int numberOfReferences = 0;  
     
-    private String fileName;
-    private String moduleName;
-    private File inputFile;
+    private final String fileName;
+    private final String moduleName;
+    private final File inputFile;
 
     public NamedInputStream(final String file, final String module, final File input) throws FileNotFoundException
     {

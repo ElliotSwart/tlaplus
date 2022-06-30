@@ -30,7 +30,7 @@ public class TLCGlobals
 	public static final int DEFAULT_CHECKPOINT_DURATION = (30 * 60 * 1000) + 42;
 
 	// The current version of TLC
-    public static String versionOfTLC = "Version 2.18 of Day Month 20??";
+    public static final String versionOfTLC = "Version 2.18 of Day Month 20??";
     
     // The bound for set enumeration, used for pretty printing
     public static int enumBound = 2000;
@@ -47,14 +47,14 @@ public class TLCGlobals
 	 */
     public static double livenessThreshold = 0.1d;
 
-    public static double livenessGraphSizeThreshold = 0.1d;
+    public static final double livenessGraphSizeThreshold = 0.1d;
 
 	/**
 	 * Ratio of runtime dedicated to safety checking (80%) and liveness checking
 	 * (20%). Some aspects of liveness are also checked during state insertion
 	 * (see ILiveCheck#addNextState) and thus part of safety checking..
 	 */
-	public static double livenessRatio = 0.2d;
+	public static final double livenessRatio = 0.2d;
 	
 	public static String lnCheck = "default";
 	

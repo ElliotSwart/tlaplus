@@ -119,11 +119,11 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     private OpDeclNode[] variablesNodes; // The state variables.
     private ExternalModuleTable moduleTbl; // The external modules reachable from root
     private ModuleNode rootModule; // The root module.
-    private Set<OpDefNode> processedDefs;
-    private SpecObj specObj;
-    private Defns snapshot;
+    private final Set<OpDefNode> processedDefs;
+    private final SpecObj specObj;
+    private final Defns snapshot;
 
-    private Vect<Action> initPredVec; // The initial state predicate.
+    private final Vect<Action> initPredVec; // The initial state predicate.
     private Action nextPred; // The next state predicate.
     private Action[] temporals; // Fairness specifications...
     private String[] temporalNames; // ... and their names
@@ -141,8 +141,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     private boolean[] assumptionIsAxiom; // assumptionIsAxiom[i] is true iff assumptions[i]
                                            // is an AXIOM.  Added 26 May 2010 by LL
     
-    private Vect<Action> invVec = new Vect<>();
-    private Vect<String> invNameVec = new Vect<>();
+    private final Vect<Action> invVec = new Vect<>();
+    private final Vect<String> invNameVec = new Vect<>();
     private Vect<Action> impliedInitVec = new Vect<>();
     private Vect<String> impliedInitNameVec = new Vect<>();
     private Vect<Action> impliedActionVec = new Vect<>();
@@ -1220,7 +1220,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                              * of this specification object -- otherwise TLC's
                              * analysis is incorrect.
                              **/
-                            Vect<SymbolNode> components;
+                            final Vect<SymbolNode> components;
 
                             SubscriptCollector()
                             {

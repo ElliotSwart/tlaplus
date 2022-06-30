@@ -22,7 +22,7 @@ public class PCalLocation implements Serializable {
 
 	private int line;
 	
-	private int column;
+	private final int column;
 	
 	public PCalLocation(final int line, final int column) {
 		this.line = line;

@@ -43,7 +43,7 @@ public class UseOrHideNode extends LevelNode {
     * ModuleInstanceKind OpDefNode or a ThmOrAssumpDefNode                 *
     ***********************************************************************/
 
-  public boolean isOnly ;
+  public final boolean isOnly ;
     /***********************************************************************
     * True iff this node was formed from an "ONLY" step.  This is          *
     * possible only if the node is of kind UseKind or if it was            *

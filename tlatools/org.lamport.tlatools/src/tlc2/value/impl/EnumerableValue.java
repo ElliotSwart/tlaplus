@@ -202,7 +202,7 @@ public abstract class EnumerableValue extends Value implements Enumerable {
 	
 	// Consider bootstrapping the parameters for the upper range of Integers (where
 	// prime factorization becomes more expensive)?
-	private static Map<Integer, int[]> MULTIPLIERS = new ConcurrentHashMap<>();
+	private static final Map<Integer, int[]> MULTIPLIERS = new ConcurrentHashMap<>();
 
 	// https://en.wikipedia.org/wiki/Linear_congruential_generator#c_%E2%89%A0_0
 	// When c # 0, correctly chosen parameters allow a period equal to m, for all seed values. This will occur iff:

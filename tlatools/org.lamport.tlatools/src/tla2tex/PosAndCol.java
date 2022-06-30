@@ -14,7 +14,7 @@ package tla2tex;
 // import tlatex.Position;
 //import java.util.Comparator;
 public class PosAndCol extends Position implements Comparable<PosAndCol>
- { public int column ;
+ { public final int column ;
 
    public PosAndCol(final int l, final int i, final int c)
     { item = i ;

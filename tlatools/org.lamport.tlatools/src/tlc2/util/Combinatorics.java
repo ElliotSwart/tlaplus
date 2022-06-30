@@ -11,8 +11,8 @@ public class Combinatorics {
 
   public static final int MAXCHOOSENUM = 62;
 	public static final int CHOOSETABLESIZE = (MAXCHOOSENUM - 3) * (MAXCHOOSENUM - 4) / 2 + MAXCHOOSENUM - 3;
-	public static long[] CHOOSETABLE = new long[CHOOSETABLESIZE];
-  private static long[] SUMCHOOSETABLE = new long[CHOOSETABLESIZE];
+	public static final long[] CHOOSETABLE = new long[CHOOSETABLESIZE];
+  private static final long[] SUMCHOOSETABLE = new long[CHOOSETABLESIZE];
 
   public static long choose(final int n, final int m) {
 		if (n < 0 || m < 0) {

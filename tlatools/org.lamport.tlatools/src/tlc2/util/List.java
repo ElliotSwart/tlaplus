@@ -8,7 +8,7 @@ package tlc2.util;
 
 public class List {
   public static class ConsCell {
-    protected Object value;
+    protected final Object value;
     protected ConsCell next;
 
     ConsCell(final Object value, final ConsCell next) {
@@ -17,7 +17,7 @@ public class List {
     }
   }
   
-  public static List Empty = new List();
+  public static final List Empty = new List();
   protected ConsCell first;
   protected ConsCell last;
 

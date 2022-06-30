@@ -33,7 +33,7 @@ public class DecimalNode extends ExprNode {
   private long       mantissa;
   private int        exponent;
   private BigDecimal bigVal = null;
-  private String     image;
+  private final String     image;
 
   // Bug: should remove trailing 0's from b ?
   public DecimalNode(final String a, final String b, final TreeNode stn) {

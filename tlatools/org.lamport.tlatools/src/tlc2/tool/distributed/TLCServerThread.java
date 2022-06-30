@@ -116,7 +116,7 @@ public class TLCServerThread extends IdThread {
 	/**
 	 * Remote worker's address used to label local threads.
 	 */
-	private URI uri;
+	private final URI uri;
 
 	public TLCServerThread(final TLCWorkerRMI worker, final URI aURI, final TLCServer tlc, final ExecutorService es, final IBlockSelector aSelector) {
 		super(COUNT++);

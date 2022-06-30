@@ -30,9 +30,9 @@ public class OpArgNode extends ExprOrOpArgNode {
   private SymbolNode   op;      // The OpDefNode, OpDeclNode, or
                                 // FormalParamNode corresponding to
                                 // THIS OpArgNode
-  private UniqueString name;    // The string name of the full compound
+  private final UniqueString name;    // The string name of the full compound
                                 // name of this operator
-  private int          arity;   // The correct arity for this operator
+  private final int          arity;   // The correct arity for this operator
   private ModuleNode   mn;      // the Module in which THIS OpArgNode appears
 
   /* Used only for construction of a "null" OpArg */

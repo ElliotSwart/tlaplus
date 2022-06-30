@@ -66,7 +66,7 @@ public class Set implements Cloneable, java.io.Serializable {
     private int threshold;
 
     /* The load factor for the set.    */
-    private float loadFactor;
+    private final float loadFactor;
 
     /* use serialVersionUID from JDK 1.0.2 for interoperability */
     private static final long serialVersionUID = 1421746759512286392L;
@@ -483,7 +483,7 @@ public class Set implements Cloneable, java.io.Serializable {
  */
 class SetEnumerator implements Enumeration<Object> {
   int index;
-  SetEntry set[];
+  final SetEntry[] set;
   SetEntry entry;
 
   SetEnumerator(final SetEntry[] set) {

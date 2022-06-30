@@ -21,10 +21,10 @@ public class BuiltInLevel implements LevelConstants {
    * at the top parenthetical level.
    */
   static class Data {
-    int arity;
-    int opLevel;
-    int[] argMaxLevels;
-    int[] argWeights;
+    final int arity;
+    final int opLevel;
+    final int[] argMaxLevels;
+    final int[] argWeights;
 
     Data(final int arity, final int opLevel, final int[] argMaxLevels, final int[] argWeights) {
       this.arity = arity;
@@ -34,7 +34,7 @@ public class BuiltInLevel implements LevelConstants {
     }
   }
     
-  private static HashMap<String, Data> LevelData = new HashMap<String, Data>();
+  private static final HashMap<String, Data> LevelData = new HashMap<String, Data>();
 
   static int[] make() { return new int[0]; }
 

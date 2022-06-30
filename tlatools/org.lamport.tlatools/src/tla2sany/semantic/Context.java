@@ -43,7 +43,7 @@ public class Context implements ExploreNode {
 
   class Pair {
     Pair       link;
-    SymbolNode info;
+    final SymbolNode info;
 
     // Note: Does not set lastPair
     Pair(final Pair lnk, final SymbolNode inf) {
@@ -89,7 +89,7 @@ public class Context implements ExploreNode {
 
   public class InitialSymbolEnumeration {
 
-    Enumeration<Pair> e = initialContext.content();
+    final Enumeration<Pair> e = initialContext.content();
 
     public boolean hasMoreElements() { return e.hasMoreElements(); }
 
@@ -100,7 +100,7 @@ public class Context implements ExploreNode {
 
   public class ContextSymbolEnumeration {
 
-    Enumeration<Pair> e = Context.this.content();
+    final Enumeration<Pair> e = Context.this.content();
 
     public boolean hasMoreElements() { return e.hasMoreElements(); }
 
@@ -127,11 +127,11 @@ public class Context implements ExploreNode {
                                       // the one, static unique Context with builtin operators
                                       // null ModuleTable arg because this is shared by all modules
 
-  private ExternalModuleTable exMT;   // The external ModuleTable that this context's SymbolTable
+  private final ExternalModuleTable exMT;   // The external ModuleTable that this context's SymbolTable
                                       // belongs to is null for global contex shared by all modules.
 
-  private Errors         errors;      // Object in which to register errors
-  private Hashtable<Object, Pair>      table;       // Mapping from symbol name to Pair's that include SymbolNode's
+  private final Errors         errors;      // Object in which to register errors
+  private final Hashtable<Object, Pair>      table;       // Mapping from symbol name to Pair's that include SymbolNode's
   private Pair           lastPair;    // Pair added last to the this.table
 
   /**

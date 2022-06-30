@@ -47,7 +47,7 @@ import util.ToolIO;
  */
 public class ParseUnit {
 
-  private SpecObj            spec;                   
+  private final SpecObj            spec;
     // Back-reference to the SpecObj that this ParseUnit is part of
   private NamedInputStream   nis        = null;      
     // nis contains the file name, top-level module name, and 
@@ -68,9 +68,9 @@ public class ParseUnit {
     // time stamp of the source file last parsed.
   private ModulePointer      rootModule = null;      
     // The ModulePointer for the top level module of this ParseUnit 
-  private String             rootModuleName;         
+  private final String             rootModuleName;
     // The String name of the ParseUnit, and also of its root module
-  private ParseUnitRelatives parseUnitRelatives = new ParseUnitRelatives();
+  private final ParseUnitRelatives parseUnitRelatives = new ParseUnitRelatives();
     // The ParseUnits this one is related to by EXTENTION and INSTANCE
   // Constructor
   public ParseUnit(final SpecObj spec, final NamedInputStream source ) {

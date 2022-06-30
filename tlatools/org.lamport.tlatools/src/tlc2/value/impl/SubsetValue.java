@@ -755,7 +755,7 @@ public Value  set;           // SUBSET set
   }
 
   final class Enumerator implements ValueEnumeration {
-    private ValueVec elems;
+    private final ValueVec elems;
     private BitSet descriptor;
 
     public Enumerator() {
@@ -924,7 +924,7 @@ public Value  set;           // SUBSET set
 		private final int k;
 		private final Random random;
 		private final SetEnumValue s;
-		private int n;
+		private final int n;
 
 		public RandomSubsetGenerator(final int k) {
 			this.k = k;

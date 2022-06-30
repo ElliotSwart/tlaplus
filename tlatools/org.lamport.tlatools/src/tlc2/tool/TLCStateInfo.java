@@ -20,7 +20,7 @@ public class TLCStateInfo {
   
   public TLCStateInfo predecessorState;
   public long stateNumber;
-  public Object info;
+  public final Object info;
   public final TLCState state;
   public Long fp;
 

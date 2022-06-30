@@ -29,7 +29,7 @@ import tlc2.pprint.PrettyPrint;
 
 public abstract class Values {
 
-	private static int WIDTH = Integer.getInteger(Values.class.getName() + ".width", 80);
+	private static final int WIDTH = Integer.getInteger(Values.class.getName() + ".width", 80);
 	
 	public static String ppr(final String s) {
 	    return PrettyPrint.mypp(s, WIDTH) ;

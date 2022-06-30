@@ -3,8 +3,8 @@ package tla2sany.parser;
 
 
 public class ParseError implements tla2sany.st.ParseError {
-  private String custom;
-  private String backup;
+  private final String custom;
+  private final String backup;
   ParseError(final String a, final String b) {
     custom = a;
     backup = b;

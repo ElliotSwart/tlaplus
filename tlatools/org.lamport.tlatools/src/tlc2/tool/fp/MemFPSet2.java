@@ -45,7 +45,7 @@ public final class MemFPSet2 extends FPSet {
     private String filename;
   
     /* The hash table used to represent the set. */
-    private byte[][] table;
+    private final byte[][] table;
     //@ invariant table.length > 0
     /*@ invariant (forall int i; 0 <= i & i < table.length ==>
             table[i] == null | (table[i].length / 5) * 5 ==  table[i].length) */
@@ -60,10 +60,10 @@ public final class MemFPSet2 extends FPSet {
             makes a good hash function.
        </OL>
      */
-    private int mask;
+    private final int mask;
     //@ invariant mask == table.length - 1
 
-    private int LogSpineSize = 24;
+    private final int LogSpineSize = 24;
   
   /* Constructs a new, empty FPSet. */
   public MemFPSet2(final FPSetConfiguration fpSetConfig) throws RemoteException {

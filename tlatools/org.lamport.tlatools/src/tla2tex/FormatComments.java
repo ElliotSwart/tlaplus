@@ -168,7 +168,7 @@ public final class FormatComments
     }
 
 
-  private static String nullString = ""; 
+  private static final String nullString = "";
     /***********************************************************************
     * Often, we want a hashtable that just keeps a bunch of keys, without  *
     * associating a value to the key.  But a Java hashtable entry needs a  *
@@ -181,7 +181,7 @@ public final class FormatComments
 
   /* ---------------------- THE word HASH TABLE ------------------------- */
 
-  private static Hashtable<String, String> wordHashTable  = new Hashtable<String, String>(100000);
+  private static final Hashtable<String, String> wordHashTable  = new Hashtable<String, String>(100000);
     /***********************************************************************
     * A hashtable of all common English words.                             *
     ***********************************************************************/
@@ -214,7 +214,7 @@ public final class FormatComments
 
     /* -------------------- THE ambiguous HASH TABLE ---------------------- */
 
-  private static Hashtable<String,String> ambiguousHashTable  = new Hashtable<String,String>(100);
+  private static final Hashtable<String,String> ambiguousHashTable  = new Hashtable<String,String>(100);
     /***********************************************************************
     * A hashtable of all built-in symbols that can appear as ordinary      *
     * punctuation.  The entry for a symbol is the TeX string that          *
@@ -276,7 +276,7 @@ public final class FormatComments
 
   /* -------------------- THE repeatChar HASH TABLE --------------------- */
 
-  private static Hashtable<String,Symbol> repeatCharHashTable  = new Hashtable<String,Symbol>(100);
+  private static final Hashtable<String,Symbol> repeatCharHashTable  = new Hashtable<String,Symbol>(100);
     /***********************************************************************
     * A hashtable of all characters that can be repeated to make some      *
     * sort of "dash", for example writing "==========".  We should define  *
@@ -341,7 +341,7 @@ public final class FormatComments
 
     /* -------------------- THE alignToken HASH TABLE --------------------- */
 
-  private static Hashtable<String,String> alignTokenHashTable  = new Hashtable<>(100);
+  private static final Hashtable<String,String> alignTokenHashTable  = new Hashtable<>(100);
     /***********************************************************************
     * A hashtable of all alignment tokens.  An alignment token t is one    *
     * such that, if two successive lines in a comment have t in the same   *

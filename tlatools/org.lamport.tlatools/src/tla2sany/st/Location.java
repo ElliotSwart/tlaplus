@@ -90,8 +90,11 @@ public final class Location implements Comparable<Location>
     public static final Pattern[] ALL_PATTERNS = new Pattern[] { LOCATION_MATCHER, LOCATION_MATCHER2,
             LOCATION_MATCHER3, LOCATION_MATCHER4 };
 
-    protected UniqueString name;
-    protected int bLine, bColumn, eLine, eColumn;
+    protected final UniqueString name;
+    protected final int bLine;
+    protected final int bColumn;
+    protected final int eLine;
+    protected final int eColumn;
 
 	public Location(final String fName, final String bl, final String bc, final String el, final String ec) {
 		this(UniqueString.uniqueStringOf(fName), Integer.valueOf(bl), Integer.valueOf(bc), Integer.valueOf(el),

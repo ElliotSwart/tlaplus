@@ -77,9 +77,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
 
   protected FormalParamNode[]      unboundedBoundSymbols;
      // bound symbols introduced without restricted range
-  protected FormalParamNode[][]    boundedBoundSymbols;
+  protected final FormalParamNode[][]    boundedBoundSymbols;
      // bound symbols introduced with a restricted range
-  protected ExprNode[]        ranges;
+  protected final ExprNode[]        ranges;
      // ranges of bounded bound symbols
      /**********************************************************************
      * I believe that this is never null.  It is set to an array of        *
@@ -93,7 +93,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
      * However, there is one place in the code where it is checked to see  *
      * if it equals null.                                                  *
      **********************************************************************/
-  protected boolean[]         tupleOrs;
+  protected final boolean[]         tupleOrs;
      // true if bound variable is in a tuple
      // T.L. it is not clear to me if this array ranges over either of the
      // sets or over both of them. There can be a mixed set of bound variables.

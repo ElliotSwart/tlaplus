@@ -178,8 +178,8 @@ public class MailSender {
 	}
 	
 	private static class MXRecord implements Comparable<MXRecord> {
-		public Integer weight;
-		public String hostname;
+		public final Integer weight;
+		public final String hostname;
 		
 		public MXRecord(final int aWeight, final String aHostname) {
 			weight = aWeight;

@@ -14,9 +14,9 @@ import tla2sany.xml.SymbolContext;
 
 public class AtNode extends ExprNode {
 
-  private OpApplNode exceptRef;           // reference to OpApplNode for the innermost
+  private final OpApplNode exceptRef;           // reference to OpApplNode for the innermost
                                           //   enclosing $Except operator
-  private OpApplNode exceptComponentRef;  // reference to OpApplNode for the innermost
+  private final OpApplNode exceptComponentRef;  // reference to OpApplNode for the innermost
                                           //   enclosing $Pair operator that represents the
                                           //   ExceptComponent in which this occurrence of @ is used
 

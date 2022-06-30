@@ -391,7 +391,7 @@ public final Value[] sets;
 
   final class Enumerator implements ValueEnumeration {
     private ValueEnumeration[] enums;
-    private Value[] currentElems;
+    private final Value[] currentElems;
     private boolean isDone;
 
     public Enumerator() {

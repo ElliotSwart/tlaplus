@@ -177,7 +177,7 @@ public class TLC {
     /**
      * Fingerprint set configuration.
      */
-    private FPSetConfiguration fpSetConfiguration;
+    private final FPSetConfiguration fpSetConfiguration;
     
     private final Map<String, Object> params;
     

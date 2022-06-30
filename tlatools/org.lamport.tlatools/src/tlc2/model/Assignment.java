@@ -33,7 +33,7 @@ public class Assignment extends Formula {
     public static final String SYMMETRICAL = " <symmetrical> ";
 
     
-    private String label;
+    private final String label;
     private String[] params = new String[0];
     private boolean modelValue = false;
     private boolean symmetry = false;

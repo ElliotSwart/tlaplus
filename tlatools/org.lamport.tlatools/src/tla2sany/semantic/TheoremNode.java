@@ -37,12 +37,12 @@ import util.UniqueString;
 
 public class TheoremNode extends LevelNode {
 
-  ModuleNode  module;
-  LevelNode  theoremExprOrAssumeProve;
+  final ModuleNode  module;
+  final LevelNode  theoremExprOrAssumeProve;
     /***********************************************************************
     * This can be either an ExprNode or an AssumeProveNode object.         *
     ***********************************************************************/
-  private ThmOrAssumpDefNode   def;
+  private final ThmOrAssumpDefNode   def;
     /***********************************************************************
     * For a named theorem, that is one of the form                         *
     * "THEOREM foo == ...", this is the ThmOrAssumpDefNode for the         *
@@ -55,7 +55,7 @@ public class TheoremNode extends LevelNode {
      **********************************************************************/
 
 
-   ProofNode proof;
+     final ProofNode proof;
      /**********************************************************************
      * The proof, if there is one; else null.                              *
      **********************************************************************/

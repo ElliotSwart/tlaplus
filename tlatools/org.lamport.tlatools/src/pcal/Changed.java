@@ -21,8 +21,8 @@ public class Changed {
 	 *   count: an array whose i-th element is the number of times the
 	 *          i-th variable in vars has been changed.
 	 */
-    public int[] count; /* number times variable set */
-    public Vector<String> vars; /* list of variables */
+    public final int[] count; /* number times variable set */
+    public final Vector<String> vars; /* list of variables */
 
     public Changed (final Vector<String> vars) {
 	count = new int[vars.size()];

@@ -41,13 +41,13 @@ public class LeafProofNode extends ProofNode {
     * For each i, defs[i] should be a UserDefinedOpDefKind or              *
     * ModuleInstanceKind OpDefNode or a ThmOrAssumpDefNode                 *
     ***********************************************************************/
-  boolean omitted ;
+    final boolean omitted ;
     /***********************************************************************
     * True iff this is a "[PROOF] OMITTED" statement.  In this case, the   *
     * facts and defs field will be null.  But that is also the case for    *
     * an "OBVIOUS" proof.                                                  *
     ***********************************************************************/
-  boolean isOnly ;
+    final boolean isOnly ;
     /***********************************************************************
     * True iff this is a "BY ONLY" proof.                                  *
     ***********************************************************************/

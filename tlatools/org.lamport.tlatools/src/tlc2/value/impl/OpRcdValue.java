@@ -18,8 +18,8 @@ public class OpRcdValue extends OpValue implements Applicable {
 
   private static final long serialVersionUID = 6268427410634909269L;
 
-  public Vect<Value[]> domain;
-  public Vect<Value> values;
+  public final Vect<Value[]> domain;
+  public final Vect<Value> values;
 
   /* Constructor */
   public OpRcdValue() {

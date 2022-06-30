@@ -54,8 +54,8 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 
 	private static volatile CountDownLatch cdl;
 	
-	private DistApp work;
-	private IFPSetManager fpSetManager;
+	private final DistApp work;
+	private final IFPSetManager fpSetManager;
 	private final URI uri;
 	/**
 	 * Indicate whether the worker is busy computing states

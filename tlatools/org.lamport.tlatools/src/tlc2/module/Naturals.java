@@ -43,7 +43,7 @@ public class Naturals extends UserObj implements ValueConstants
         TLARegistry.put("Expt", "^");
     }
 
-    private static Value SetNat = new UserValue(new Naturals());
+    private static final Value SetNat = new UserValue(new Naturals());
 
     public static Value Nat()
     {

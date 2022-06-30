@@ -26,7 +26,7 @@ import util.ToolIO;
  **/
 public abstract class CheckImpl extends ModelChecker {
   
-  private static int TraceDuration = 30000;
+  private static final int TraceDuration = 30000;
 
   /**
    * @param fpMemSize : This parameter added by Yuan Yu on 6 Apr 2010 
@@ -50,9 +50,9 @@ public abstract class CheckImpl extends ModelChecker {
    * getState.  trace is the union of theFPSet and coverSet. An uncovered
    * state is a state that is in theFPSet-coverSet.
    */
-  private int depth;                      // the depth of the state space
+  private final int depth;                      // the depth of the state space
   //private long stateCnt;                  // the number of states // SZ: never
-  private FPSet coverSet;                 // the set of covered states
+  private final FPSet coverSet;                 // the set of covered states
   private TLCState curState;              // the current state
   private TLCTrace.Enumerator stateEnum;  // the enumerator for reachable state
   private long lastTraceTime;             // the time the last trace was generated

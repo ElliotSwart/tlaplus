@@ -60,12 +60,12 @@ public class LabelNode extends ExprNode
   /*************************************************************************
   * The fields.                                                            *
   *************************************************************************/
-  UniqueString name ;
+  final UniqueString name ;
     /***********************************************************************
     * The name of the label                                                *
     ***********************************************************************/
 
-  int arity;
+    final int arity;
     /***********************************************************************
     * The same as for an OpDefOrDeclNode--the number of arguments to the   *
     * label.                                                               *
@@ -115,7 +115,7 @@ public class LabelNode extends ExprNode
     * label appears within an inner ASSUME/PROOF.                          *
     ***********************************************************************/
 
-  public SymbolNode subExpressionOf = null ;
+  public final SymbolNode subExpressionOf = null ;
     /***********************************************************************
     * For an expression that is constructed as a subexpression of a        *
     * UserDefinedOpNode or ThmOrAssumpDefNode, this field equals that      *

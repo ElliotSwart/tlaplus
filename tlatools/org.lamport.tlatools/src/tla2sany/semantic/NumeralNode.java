@@ -29,7 +29,7 @@ public class NumeralNode extends ExprNode {
 
   private int value;
   private BigInteger bigValue = null;
-  private String image;
+  private final String image;
 
   /**
    * The following method was modified by LL on 20 Jul 2011 to handle

@@ -27,7 +27,7 @@ public class SimpleCharStream
   protected char[] buffer;
   protected int maxNextCharInd = 0;
   protected int inBuf = 0;
-  protected int tabSize = 8;
+  protected final int tabSize = 8;
 
   
   

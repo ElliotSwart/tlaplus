@@ -59,10 +59,10 @@ public class SubstInNode extends ExprNode {
      // explicitly in the substitution list.
   private ExprNode          body;
      // The expression that the substitutions apply to
-  private ModuleNode        instantiatingModule;
+  private final ModuleNode        instantiatingModule;
      // The module doing the instantiating that resulted in
      //   THIS SubstInNode
-  private ModuleNode        instantiatedModule;
+  private final ModuleNode        instantiatedModule;
      // The module being instantiated
 
   public SubstInNode(final TreeNode treeNode, final Subst[] subs, final ExprNode expr,

@@ -24,13 +24,13 @@ public class DefStepNode extends LevelNode {
   /*************************************************************************
   * The fields.                                                            *
   *************************************************************************/
-  private UniqueString stepNumber ;
+  private final UniqueString stepNumber ;
     /***********************************************************************
     * The step number of the step if it has one, otherwise null if it's    *
     * not a numbered step.                                                 *
     ***********************************************************************/
 
-  private OpDefNode[] defs ;
+  private final OpDefNode[] defs ;
     /***********************************************************************
     * The sequence of definitions.                                         *
     ***********************************************************************/

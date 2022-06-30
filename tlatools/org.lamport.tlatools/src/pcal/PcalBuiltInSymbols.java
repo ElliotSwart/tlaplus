@@ -44,25 +44,25 @@ public final class PcalBuiltInSymbols
     /***********************************************************************
     * The following three hash tables are built by the Initialize method.  *
     ***********************************************************************/
-    private static Hashtable<String, Symbol> builtInHashTable = new Hashtable<>(200);
+    private static final Hashtable<String, Symbol> builtInHashTable = new Hashtable<>(200);
       /*********************************************************************
       * Maps built-in symbols (which are strings) to their Symbol          *
       * objects.                                                           *
       *********************************************************************/
 
-    private static Hashtable<String, String> prefixHashTable  = new Hashtable<>(700);
+    private static final Hashtable<String, String> prefixHashTable  = new Hashtable<>(700);
       /*********************************************************************
       * A table containing the prefixes of all built-in symbols.  (It      *
       * holds only their keys.)                                            *
       *********************************************************************/
 
-    private static Hashtable<String, String> stringCharTable  = new Hashtable<>(100);
+    private static final Hashtable<String, String> stringCharTable  = new Hashtable<>(100);
       /*********************************************************************
       * A table of all the characters that may appear in a TLA+ string     *
       * token.                                                             *
       *********************************************************************/
 
-    private static String nullString = "" ;
+    private static final String nullString = "" ;
       /*********************************************************************
       * Some hash tables are used only to remember the keys; there is no   *
       * value attached to them.  However, the Hashtable class stores a     *

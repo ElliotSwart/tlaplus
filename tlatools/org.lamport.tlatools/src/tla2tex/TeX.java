@@ -107,12 +107,12 @@ class TeX
     ***********************************************************************/
     "last modified on Wed 12 Apr 2013 at 16:08:49 PST by lamport";
 
-  static String modDate = lastModified.substring(21, 33) ;
+  static final String modDate = lastModified.substring(21, 33) ;
     /***********************************************************************
     * The modification date.                                               *
     ***********************************************************************/
 
-  static String version = 
+  static final String version =
     "tla2tex.TeX Version 1.0 created " + modDate ;
 
     public static void main(final String[] args)

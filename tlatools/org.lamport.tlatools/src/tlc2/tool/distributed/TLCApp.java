@@ -32,7 +32,7 @@ import util.UniqueString;
 
 public class TLCApp extends DistApp {
 
-	private String config;
+	private final String config;
 
 	/* Constructors */
 	public TLCApp(final String specFile, final String configFile, final boolean deadlock,
@@ -78,11 +78,11 @@ public class TLCApp extends DistApp {
 
 	/* Fields */
 	public ITool tool;
-	public Action[] invariants; // the invariants to be checked
-	public Action[] impliedInits; // the implied-inits to be checked
-	public Action[] impliedActions; // the implied-actions to be checked
-	public Action[] actions; // the subactions
-	private boolean checkDeadlock; // check deadlock?
+	public final Action[] invariants; // the invariants to be checked
+	public final Action[] impliedInits; // the implied-inits to be checked
+	public final Action[] impliedActions; // the implied-actions to be checked
+	public final Action[] actions; // the subactions
+	private final boolean checkDeadlock; // check deadlock?
 	private final boolean preprocess; // preprocess?
 	private String fromChkpt = null; // recover from this checkpoint
 	private String metadir = null; // the directory pathname for metadata

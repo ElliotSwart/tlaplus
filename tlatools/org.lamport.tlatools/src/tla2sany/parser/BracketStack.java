@@ -21,8 +21,8 @@ public class BracketStack implements //LogCategories,
 * and an Offset field, which are of type int.  The constructor is          *
 * StackElement(int Offset, int Kind)                                       *
 ***************************************************************************/
-  private Stack<StackElement> stack = new Stack<StackElement>( );
-  private int [] classes = new int[ NULL_ID ];
+  private final Stack<StackElement> stack = new Stack<StackElement>( );
+  private final int [] classes = new int[ NULL_ID ];
     /***********************************************************************
     * This is an array of length NULL_ID = 227.  Apparently, NULL_ID is    *
     * an integer greater than the maximum `kind' field of any token, so    *

@@ -28,7 +28,7 @@ import java.io.OutputStream;
  */
 public class TeeOutputStream extends FilterOutputStream {
     /** the second OutputStream to write to */
-    protected OutputStream branch; //TODO consider making this private
+    protected final OutputStream branch; //TODO consider making this private
 
     /**
      * Constructs a TeeOutputStream.

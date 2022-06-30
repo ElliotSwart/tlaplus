@@ -27,8 +27,8 @@ implements ExploreNode, LevelConstants {
    * IN body
    */
 
-  private SymbolNode[] opDefs;
-  public Context context;
+  private final SymbolNode[] opDefs;
+  public final Context context;
     /***********************************************************************
     * opDefs is an array of the OpDefNode and ThmOrAssumpDefNode objects   *
     * defined in the LET. For TLA+1, these LET definitions were never      *
@@ -41,12 +41,12 @@ implements ExploreNode, LevelConstants {
     * the possibility that allows for errors, the opDefs field has been    *
     * maintained.                                                          *
     ***********************************************************************/
-  private InstanceNode[] insts;
+  private final InstanceNode[] insts;
     /***********************************************************************
     * Like opDefs, except for the OpDef nodes of kind ModuleInstanceKind.  *
     * Used only for level checking.                                        *
     ***********************************************************************/
-  private ExprNode body;
+  private final ExprNode body;
 
   /* Constructor */
   public LetInNode(final TreeNode             treeNode,
