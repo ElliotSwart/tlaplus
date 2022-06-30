@@ -134,7 +134,7 @@ public class BitVector implements Serializable {
 	 * @see java.lang.Object#toString()
 	 */
   public String toString() {
-	  final StringBuffer buf = new StringBuffer(this.word.length * 64);
+	  final StringBuilder buf = new StringBuilder(this.word.length * 64);
 	  for (int i = this.word.length * 64; i >= 0; i--) {
 		  if (get(i)) {
 			  buf.append("1");
@@ -150,7 +150,7 @@ public class BitVector implements Serializable {
   }
   
   public String toString(final int start, final int length, final char one, final char zero) {
-	  final StringBuffer buf = new StringBuffer(length);
+	  final StringBuilder buf = new StringBuilder(length);
 	  for (int i = 0; i < length; i++) {
 		  if (get(start + i)) {
 			  buf.append(one);

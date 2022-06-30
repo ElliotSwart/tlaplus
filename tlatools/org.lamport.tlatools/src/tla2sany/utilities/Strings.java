@@ -26,7 +26,7 @@ public class Strings {
   // Should be much faster for very large strings
   public static String indentSB(int n, final String ss) {
 
-    final StringBuffer sb = new StringBuffer(ss.length()*2);
+    final StringBuilder sb = new StringBuilder(ss.length()*2);
 
     if (n>=blanks.length) n = blanks.length-1;
 

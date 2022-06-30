@@ -102,7 +102,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
    */
   @Override
   public String getFullPath() {
-    final StringBuffer buf = new StringBuffer();
+    final StringBuilder buf = new StringBuilder();
     final String[] ar = libraryPaths;
     for (int i=0; i<ar.length; i++)
     {
@@ -124,7 +124,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
     String path = null;
     if (libraries == null) path = System.getProperty(TLA_LIBRARY);
     else {
-      final StringBuffer buf = new StringBuffer();
+      final StringBuilder buf = new StringBuilder();
       for (int i=0; i<libraries.length; i++) {
         buf.append(libraries[i]);
         if (i < libraries.length-1) {

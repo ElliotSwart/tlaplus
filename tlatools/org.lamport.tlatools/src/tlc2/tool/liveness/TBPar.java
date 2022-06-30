@@ -396,7 +396,7 @@ public class TBPar extends Vect<LiveExprNode> {
 	}
 
 	public String toDotViz() {
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("{");
 		if (this.size() != 0) {
 			final LiveExprNode liveExprNode = this.elementAt(0);

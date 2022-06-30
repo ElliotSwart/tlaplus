@@ -84,7 +84,7 @@ public abstract class OpDefOrDeclNode extends SymbolNode {
   }
 
 	public String getComment() {
-		final StringBuffer buf = new StringBuffer();
+		final StringBuilder buf = new StringBuilder();
 		
 		//TODO Support in-line comments found in the standard modules.
 		final String[] preComments = getPreComments();

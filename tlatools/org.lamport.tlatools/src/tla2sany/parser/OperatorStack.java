@@ -434,7 +434,7 @@ What do left and right mean?????? What does shift mean????????
     if ( isWellReduced() )
       return CurrentTop.elementAt(0).getNode();
     else {
-      final StringBuffer msg = new StringBuffer("Couldn't properly parse expression");
+      final StringBuilder msg = new StringBuilder("Couldn't properly parse expression");
       do {
 //((OSelement)CurrentTop.elementAt(n)).getNode().printTree(new java.io.PrintWriter(System.out));  n++;
         msg.append("-- incomplete expression at ");

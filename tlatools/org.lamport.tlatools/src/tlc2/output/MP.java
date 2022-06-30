@@ -263,7 +263,7 @@ public class MP
             DebugPrinter.print("param " + i + ": '" + parameters[i] + "'"); //$NON-NLS-1$
         }
 
-        final StringBuffer b = new StringBuffer();
+        final StringBuilder b = new StringBuilder();
 
         if (TLCGlobals.tool && tool)
         {

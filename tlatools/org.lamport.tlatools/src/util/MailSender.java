@@ -277,7 +277,7 @@ public class MailSender {
 	 * @return The human readable lines in the log file. 
 	 */
 	private String extractBody(final File out) {
-		final StringBuffer result = new StringBuffer();
+		final StringBuilder result = new StringBuilder();
 		try {
 			final Scanner scanner = new Scanner(out);
 			while (scanner.hasNext()) {

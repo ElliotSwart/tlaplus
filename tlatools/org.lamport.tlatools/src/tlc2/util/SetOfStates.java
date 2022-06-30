@@ -185,7 +185,7 @@ public final class SetOfStates {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		final StringBuffer buf = new StringBuffer("{");
+		final StringBuilder buf = new StringBuilder("{");
 		for (int i = 0; i < states.length; i++) {
 			final TLCState tlcState = states[i];
 			if (tlcState != null) {

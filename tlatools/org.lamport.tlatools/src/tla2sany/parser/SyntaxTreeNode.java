@@ -423,7 +423,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
 	@Override
     public String getHumanReadableImage() {
 		if (zero != null && zero.length > 0) {
-			final StringBuffer buf = new StringBuffer(zero.length);
+			final StringBuilder buf = new StringBuilder(zero.length);
 			for (final SyntaxTreeNode z : zero) {
 				buf.append(z.getHumanReadableImage());
 			}

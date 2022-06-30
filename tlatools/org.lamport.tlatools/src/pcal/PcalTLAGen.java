@@ -244,8 +244,7 @@ public class PcalTLAGen
     /*********************************************/
     private static void AddSpaces(final StringBuffer sb, final int num)
     {
-        for (int i = 0; i < num; i++)
-            sb.append(" ");
+        sb.append(" ".repeat(Math.max(0, num)));
     }
 
     /****************************************/
@@ -345,7 +344,7 @@ public class PcalTLAGen
          */
         addLeftParen(ast.getOrigin());
         final String argument = (mp) ? "(self)" : "";
-        final StringBuffer buf = new StringBuffer(ast.name + argument + " == ");
+        final StringBuilder buf = new StringBuilder(ast.name + argument + " == ");
         addOneTokenToTLA(buf.toString());
         final String indentSpaces = NSpaces(buf.length() + 2);
         for (int i = 0; i < ast.body.size(); i++) {
@@ -475,7 +474,7 @@ public class PcalTLAGen
       if (! ParseAlgorithm.omitPC) {
         addLeftParen(ast.getOrigin());
         final String argument = (isSet) ? "(self)" : "";
-        final StringBuffer buf = new StringBuffer(ast.name + argument + " == ");
+        final StringBuilder buf = new StringBuilder(ast.name + argument + " == ");
         addOneTokenToTLA(buf.toString());
         final String indentSpaces = NSpaces(buf.length() + 2);
         for (int i = 0; i < ast.body.size(); i++) {
@@ -582,7 +581,7 @@ public class PcalTLAGen
         if (ParseAlgorithm.omitPC) {
             actionName = currentProcName;
         }
-        StringBuffer sb = new StringBuffer(actionName);
+        StringBuilder sb = new StringBuilder(actionName);
         /* c is used to determine which vars are in UNCHANGED. */
         final Changed c = new Changed(vars);
         if (mp && (context.equals("procedure") || selfIsSelf)) { // self.equals("self")))
@@ -653,7 +652,7 @@ public class PcalTLAGen
         for (int i = 0; i < ast.stmts.size(); i++)
         {
             GenStmt((AST) ast.stmts.elementAt(i), c, context, sb.toString(), sb.length());
-            sb = new StringBuffer(NSpaces(col));
+            sb = new StringBuilder(NSpaces(col));
             sb.append("/\\ ");
         }
         
@@ -667,7 +666,7 @@ public class PcalTLAGen
         final Vector<String> unc = c.Unchanged(wrapColumn - col - "/\\ UNCHANGED << ".length());
         if (c.NumUnchanged() > 1)
         {
-            sb = new StringBuffer(NSpaces(col));
+            sb = new StringBuilder(NSpaces(col));
             sb.append("/\\ UNCHANGED << ");
             final int here = sb.length();
             sb.append(unc.elementAt(0));
@@ -675,7 +674,7 @@ public class PcalTLAGen
             {
 //                tlacode.addElement(sb.toString());
                 addOneLineOfTLA(sb.toString());
-                sb = new StringBuffer(NSpaces(here));
+                sb = new StringBuilder(NSpaces(here));
                 sb.append(unc.elementAt(i));
             }
             sb.append(" >>");

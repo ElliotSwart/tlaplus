@@ -283,7 +283,7 @@ public class Set implements Cloneable, java.io.Serializable {
      */
     public synchronized String toString() {
 	final int max = size() - 1;
-	final StringBuffer buf = new StringBuffer();
+	final StringBuilder buf = new StringBuilder();
 	final Enumeration<Object> e = elements();
 	buf.append("{");
 

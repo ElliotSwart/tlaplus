@@ -129,7 +129,7 @@ public class TBGraph extends Vect<TBGraphNode> {
 	 * @see AbstractDiskGraph#toDotViz()
 	 */
 	public String toDotViz() {
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("digraph TableauGraph {\n");
 		sb.append("nodesep = 0.7\n");
 		sb.append("rankdir=LR;\n"); // Left to right rather than top to bottom

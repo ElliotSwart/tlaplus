@@ -158,7 +158,7 @@ public class Combinatorics {
   }
 
   public static String print (final BigInteger[] A) {
-    final StringBuffer sb = new StringBuffer();
+    final StringBuilder sb = new StringBuilder();
     for (int i=0; i<A.length; i++) {
       sb.append(A[i].toString());
       sb.append(", ");

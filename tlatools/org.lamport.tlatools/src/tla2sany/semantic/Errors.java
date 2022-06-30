@@ -135,7 +135,7 @@ public class Errors {
   public final int     getNumMessages()        { return numAborts + numErrors + numWarnings; }
 
   public final String  toString()  { 
-    final StringBuffer ret = new StringBuffer("");
+    final StringBuilder ret = new StringBuilder("");
 
     ret.append((numAborts > 0) ? "*** Abort messages: " + numAborts + "\n\n" : "");
     for (int i = 0; i < aborts.size(); i++)   {

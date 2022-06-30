@@ -489,7 +489,7 @@ public class TokenizeComment
                       }
                       break;
                   case CToken.VERB :
-                    if (token.indexOf("\\end{verbatim}") != -1)
+                    if (token.contains("\\end{verbatim}"))
                       /*****************************************************
                       * This is highly unlikely, but I discovered the      *
                       * problem when testing, so ...                       *

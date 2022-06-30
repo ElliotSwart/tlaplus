@@ -60,7 +60,7 @@ public class Assignment extends Formula {
 
     public String getFormula(final String tab)
     {
-        final StringBuffer buffer = new StringBuffer(getLeft());
+        final StringBuilder buffer = new StringBuilder(getLeft());
         buffer.append(tab);
         buffer.append(ASSIGNMENT_SIGN);
         
@@ -299,7 +299,7 @@ public class Assignment extends Formula {
     }
     
     public String prettyPrint(final String delim) {
-    	final StringBuffer buf = new StringBuffer();
+    	final StringBuilder buf = new StringBuilder();
     	if (!isModelValue()) {
     		return getFormula(delim);
     	} else if (isSetOfModelValues()) {

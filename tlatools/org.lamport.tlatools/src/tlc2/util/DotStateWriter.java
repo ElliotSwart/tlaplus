@@ -365,7 +365,7 @@ public class DotStateWriter extends StateWriter {
 		final String snapshot = fname.replace(".dot", "_snapshot" + ".dot");
 		FileUtil.copyFile(this.fname, snapshot);
 
-		final StringBuffer buf = new StringBuffer();
+		final StringBuilder buf = new StringBuilder();
 		for (final Set<Long> entry : rankToNodes.values()) {
 			buf.append("{rank = same; ");
 			for (final Long l : entry) {

@@ -59,7 +59,7 @@ public class CallStack {
      */
     if (this.index > 0)
     {
-      final StringBuffer sb = new StringBuffer();
+      final StringBuilder sb = new StringBuilder();
       SemanticNode expr = null;
       int stackDepth = 0;
       for (int i = 0; i < this.index; i++) {

@@ -396,7 +396,7 @@ public class GraphNode extends AbstractGraphNode {
 	}
 
 	public final String toString(final int alen) {
-		final StringBuffer buf = new StringBuffer();
+		final StringBuilder buf = new StringBuilder();
 		buf.append("<" + this.stateFP + "," + this.tindex + "> --> ");
 		for (int i = 0; i < succSize(); i++) {
 			// action checks
@@ -445,7 +445,7 @@ public class GraphNode extends AbstractGraphNode {
 				}
 			}
 		}
-		final StringBuffer buf = new StringBuffer();
+		final StringBuilder buf = new StringBuilder();
 		if (isInitState) {
 			buf.append("\"" + id + "\" [style = filled][label = \"" + label + "\"]\n"); // node's label
 		} else {

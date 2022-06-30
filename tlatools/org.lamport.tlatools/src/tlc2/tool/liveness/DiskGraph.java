@@ -154,7 +154,7 @@ public class DiskGraph extends AbstractDiskGraph {
 			return "";
 		}
 		
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		try {
 			final long nodePtr = this.nodeRAF.getFilePointer();
 			final long nodePtrPtr = this.nodePtrRAF.getFilePointer();
@@ -199,7 +199,7 @@ public class DiskGraph extends AbstractDiskGraph {
 			return "";
 		}
 
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		try {
 			sb.append("digraph DiskGraph {\n");
 			sb.append("nodesep = 0.7\n");

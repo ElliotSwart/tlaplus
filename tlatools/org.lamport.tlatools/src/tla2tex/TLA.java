@@ -426,7 +426,7 @@ public class TLA
                     CommandLineError("No input file specified");
                 }
                 Parameters.TLAOutFile = args[nextArg];
-                if (Parameters.TLAOutFile.indexOf(".") == -1)
+                if (!Parameters.TLAOutFile.contains("."))
                 {
                     Parameters.TLAOutFile = Parameters.TLAOutFile + TLAConstants.Files.TLA_EXTENSION;
                 }
@@ -608,7 +608,7 @@ public class TLA
         * Set Parameters.TLAInputFile to the last argument, adding ".tla"   *
         * if it has no extension already.                                   *
         ********************************************************************/
-        if (args[maxArg].indexOf(".") == -1)
+        if (!args[maxArg].contains("."))
         {
             Parameters.TLAInputFile = args[maxArg] + TLAConstants.Files.TLA_EXTENSION;
         } else
@@ -674,7 +674,7 @@ public class TLA
     * The string fileName with any extensions removed.                   *
     *********************************************************************/
     {
-        if (fileName.indexOf(".") == -1)
+        if (!fileName.contains("."))
         {
             return fileName;
         } else
@@ -691,15 +691,15 @@ public class TLA
     ***********************************************************************/
     {
         String result = str;
-        if (result.indexOf(":") != -1)
+        if (result.contains(":"))
         {
             result = result.substring(result.lastIndexOf(":") + 1);
         }
-        if (result.indexOf("/") != -1)
+        if (result.contains("/"))
         {
             result = result.substring(result.lastIndexOf("/") + 1);
         }
-        if (result.indexOf("\\") != -1)
+        if (result.contains("\\"))
         {
             result = result.substring(result.lastIndexOf("\\") + 1);
         }
@@ -712,7 +712,7 @@ public class TLA
     * a ":", "/" or "\".                                                   *
     ***********************************************************************/
     {
-        return (str.indexOf(":") != -1) || (str.indexOf("/") != -1) || (str.indexOf("\\") != -1);
+        return (str.contains(":")) || (str.contains("/")) || (str.contains("\\"));
     }
 
     private static void CommandLineError(final String msg)

@@ -441,7 +441,7 @@ public abstract class AbstractDiskGraph {
 	public abstract String toDotViz(final OrderOfSolution oos);
 
 	protected String toDotVizLegend(final OrderOfSolution oos) {
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("subgraph cluster_legend {");
 		sb.append("graph[style=bold];");
 		sb.append("label = \"PossibleErrorModel\" style=\"solid\"\n");

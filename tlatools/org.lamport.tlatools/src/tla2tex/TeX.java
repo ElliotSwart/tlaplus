@@ -178,7 +178,7 @@ class TeX
       try
        { line = infile.readLine();
          while (   (line != null)
-                && (line.indexOf("\\begin{document}") == -1))
+                && (!line.contains("\\begin{document}")))
           { lineNum = lineNum + 1 ;
             outfile.putLine(line) ;
             preamble.addElement(line);
@@ -230,15 +230,15 @@ class TeX
             */
            int mode = -1 ;
            String envName = "" ;
-           if (line.indexOf("\\begin{tla}") != -1) {
+           if (line.contains("\\begin{tla}")) {
                mode = TokenizeSpec.TLA ;
                envName = "tla" ;
            }
-           else if (line.indexOf("\\begin{pcal}") != -1) {
+           else if (line.contains("\\begin{pcal}")) {
                mode = TokenizeSpec.PLUSCAL ;
                envName = "pcal" ;
            }
-           else if (line.indexOf("\\begin{ppcal}") != -1) {
+           else if (line.contains("\\begin{ppcal}")) {
                mode = TokenizeSpec.P_PLUSCAL ;
                envName = "ppcal" ;
            }       
@@ -261,7 +261,7 @@ class TeX
              final int tlaLineNum = lineNum ;
              line = infile.readLine();
              while (   (line != null) 
-                    && (line.indexOf("\\end{" + envName + "}") == -1))
+                    && (!line.contains("\\end{" + envName + "}")))
               { lineNum = lineNum + 1 ;
                 outfile.putLine(line) ;
                 tla.addElement(line);
@@ -290,11 +290,11 @@ class TeX
              * If next line begins a tlatex environment, then skip over    *
              * that environment and read the line beyond it.               *
              **************************************************************/
-             if (line.indexOf("\\begin{tlatex}") != -1)
+             if (line.contains("\\begin{tlatex}"))
               { lineNum = lineNum + 1 ;
                 line = infile.readLine();
                 while (   (line != null) 
-                       && (line.indexOf("\\end{tlatex}") == -1))
+                       && (!line.contains("\\end{tlatex}")))
                  { lineNum = lineNum + 1 ;
                    line = infile.readLine();
                  }
@@ -540,7 +540,7 @@ class TeX
        * Set Parameters.TLAInputFile to the last argument, adding ".tex"   *
        * if it has no extension already.                                   *
        ********************************************************************/
-       if (args[maxArg].indexOf(".") == -1)
+       if (!args[maxArg].contains("."))
          { Parameters.TLAInputFile = args[maxArg] + ".tex";}
        else       
          { Parameters.TLAInputFile = args[maxArg];}
@@ -577,7 +577,7 @@ class TeX
       /*********************************************************************
       * The string fileName with any extensions removed.                   *
       *********************************************************************/
-      { if (fileName.indexOf(".") == -1)
+      { if (!fileName.contains("."))
           { return fileName ;}
         else
           { return fileName.substring(0, fileName.indexOf(".")); }
@@ -590,11 +590,11 @@ class TeX
     * will return "name.txt".                                              *
     ***********************************************************************/
     { String result = str;
-      if (result.indexOf(":") != -1)
+      if (result.contains(":"))
         { result = result.substring(result.lastIndexOf(":")+1) ; }
-        if (result.indexOf("/") != -1)
+        if (result.contains("/"))
         { result = result.substring(result.lastIndexOf("/")+1) ; }
-        if (result.indexOf("\\") != -1)
+        if (result.contains("\\"))
         { result = result.substring(result.lastIndexOf("\\")+1) ; }
         return result;
     }    
@@ -604,9 +604,9 @@ class TeX
     * True iff str has a leading path specifier--that is, if it contains   *
     * a ":", "/" or "\".                                                   *
     ***********************************************************************/
-    { return    (str.indexOf(":") != -1)
-             || (str.indexOf("/") != -1)
-             || (str.indexOf("\\") != -1) ;
+    { return    (str.contains(":"))
+             || (str.contains("/"))
+             || (str.contains("\\")) ;
     }    
 
     private static void CommandLineError(final String msg)

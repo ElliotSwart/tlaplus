@@ -123,7 +123,7 @@ class LNDisj extends LiveExprNode {
 	@Override
     public String toDotViz() {
 		final int len = this.getCount();
-		final StringBuffer sb = new StringBuffer(len);
+		final StringBuilder sb = new StringBuilder(len);
 		for (int i = 0; i < len; i++) {
 			sb.append("\\/ (");
 			sb.append(this.getBody(i).toDotViz());

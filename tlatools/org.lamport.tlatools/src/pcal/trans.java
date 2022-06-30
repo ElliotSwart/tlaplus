@@ -484,7 +484,7 @@ class trans {
             boolean done = false;
             while ((!done) && (cfg.size() > j))
             {
-                if (((String) cfg.get(j)).indexOf(PcalParams.CfgFileDelimiter) == -1)
+                if (!((String) cfg.get(j)).contains(PcalParams.CfgFileDelimiter))
                 {
                     j = j + 1;
                 } else
@@ -536,8 +536,8 @@ class trans {
             ******************************************************************/
             boolean hasSpec = false;
             for (final String thisLine : cfg) {
-                if ((thisLine.indexOf(TLAConstants.KeyWords.SPECIFICATION) != -1)
-                        && ((thisLine.indexOf("\\*") == -1) || (thisLine.indexOf("\\*") > thisLine
+                if ((thisLine.contains(TLAConstants.KeyWords.SPECIFICATION))
+                        && ((!thisLine.contains("\\*")) || (thisLine.indexOf("\\*") > thisLine
                                 .indexOf(TLAConstants.KeyWords.SPECIFICATION)))) {
                     hasSpec = true;
                     break;
@@ -1161,7 +1161,7 @@ class trans {
             // TLC has been changed to put its output on stdout.
             final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(rt.exec(
                     javaInvocation + PcalParams.SpecFile).getInputStream()));
-            while (tlcOut.indexOf("<<") == -1)
+            while (!tlcOut.contains("<<"))
             {
                 tlcOut = bufferedReader.readLine();
             }
@@ -1177,7 +1177,7 @@ class trans {
         * report the error and halt.  If not, set tlcOut to the value of     *
         * Translation(ast) with the outermost "<<" and ">>" removed.         *
         *********************************************************************/
-        if (tlcOut.indexOf("@Error@") != -1)
+        if (tlcOut.contains("@Error@"))
         {
             throw new TLCTranslationException("TLC's translation of the parsed algorithm failed with\n  Error: "
                     + tlcOut.substring(tlcOut.indexOf("@Error@") + 7, tlcOut.indexOf("@EndError@")));
@@ -1970,7 +1970,7 @@ class trans {
     {
         int i = 0;
         int ccol = 1;
-        final StringBuffer sb = new StringBuffer();
+        final StringBuilder sb = new StringBuilder();
         while (i < inString.length())
         {
             if (inString.charAt(i) == ' ') // An initial space or a space

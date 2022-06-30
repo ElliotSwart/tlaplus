@@ -99,7 +99,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
       final int bl = jj_input_stream.getBeginLine() + 1;
       final int el = jj_input_stream.getEndLine() + 1;
       // lexical error.
-      if ( (msg.indexOf("EOF") != -1) && (bl != el) )  {
+      if ( (msg.contains("EOF")) && (bl != el) )  {
         PErrors.push(new ParseError(
                   "Lexical {error: EOF reached, " +
                   "possibly open comment starting around line " +
@@ -602,9 +602,9 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); }
     ***********************************************************************/
 
   private final String msgStackToString(final ParseException e) {
-    final StringBuffer msg;
+    final StringBuilder msg;
 
-    msg = new StringBuffer("***Parse Error***\n");
+    msg = new StringBuilder("***Parse Error***\n");
     if ( !expecting.equals(emptyString) ) {
       msg.append("Was expecting \"");
       msg.append( expecting );
@@ -742,7 +742,7 @@ if (System.getProperty("TLA-StackTrace", "off").equals("on")) ToolIO.out.println
 
   private final UniqueString reduceString(final String s ) {
     final int l = s.length();
-    final StringBuffer copy = new StringBuffer( l );
+    final StringBuilder copy = new StringBuilder( l );
     int i = 0;
     int j = 0;
     while ( i!= l ) {

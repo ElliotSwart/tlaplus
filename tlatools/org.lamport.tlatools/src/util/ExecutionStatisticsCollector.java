@@ -230,7 +230,7 @@ public class ExecutionStatisticsCollector {
 	}	
 	
 	private static String encode(final Map<String, String> parameters) throws UnsupportedEncodingException {
-		final StringBuffer buf = new StringBuffer();
+		final StringBuilder buf = new StringBuilder();
 
 		for (final String key : parameters.keySet()) {
 			final String value = parameters.get(key);

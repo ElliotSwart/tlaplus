@@ -95,7 +95,7 @@ public class StringNode extends ExprNode implements ExploreNode {
   }
 
   final String PrintVersion(final String str) {
-    final StringBuffer buf = new StringBuffer(str.length()) ;
+    final StringBuilder buf = new StringBuilder(str.length()) ;
     for (int i = 0 ; i < str.length() ; i++) {
       switch (str.charAt(i)) {
         case '\"' :
