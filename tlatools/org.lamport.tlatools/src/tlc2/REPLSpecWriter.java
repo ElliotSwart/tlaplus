@@ -43,7 +43,7 @@ class REPLSpecWriter extends AbstractSpecWriter {
 		
 		// Being wrapped in a Buffer invokes this method, we sub-optimally pass it off to our real digestion below
 		@Override
-		public void write(final byte b[], final int off, final int len) {
+		public void write(final byte[] b, final int off, final int len) {
 			for (int i = off; i < (off + len); i++) {
 				write(b[i]);
 			}

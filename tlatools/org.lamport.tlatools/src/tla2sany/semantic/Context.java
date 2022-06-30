@@ -480,7 +480,7 @@ public<T> Vector<T> getByClass(final Class<T> template ) {
 		 !naturalsContext.table.containsKey(key)))) {
         final SymbolNode symbNode  = (table.get(key)).info;
 	ctxtEntries.addElement("\nContext Entry: " + key.toString() + "  "
-                    + String.valueOf(symbNode.myUID) + " "
+                    + symbNode.myUID + " "
                     + Strings.indentSB(2,(symbNode.toString(depth-1))));
       }
       p = p.link;

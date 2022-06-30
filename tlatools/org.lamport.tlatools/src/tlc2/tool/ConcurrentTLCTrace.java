@@ -51,7 +51,7 @@ import tlc2.value.RandomEnumerableValues;
  */
 public class ConcurrentTLCTrace extends TLCTrace {
 	
-	private final Worker workers[];
+	private final Worker[] workers;
 
 	public ConcurrentTLCTrace(final String metadir, final String specFile, final TraceApp tool) throws IOException {
 		super(metadir, specFile, tool);

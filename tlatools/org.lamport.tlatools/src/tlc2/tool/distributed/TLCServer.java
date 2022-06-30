@@ -834,7 +834,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 
 		Throwable pending = null;
 		FileInputStream in = null;
-		final byte buffer[] = new byte[(int) file.length()];
+		final byte[] buffer = new byte[(int) file.length()];
 		try {
 			in = new FileInputStream(file);
 			in.read(buffer);

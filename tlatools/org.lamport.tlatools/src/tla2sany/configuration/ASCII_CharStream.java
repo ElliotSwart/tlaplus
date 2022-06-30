@@ -14,8 +14,8 @@ public final class ASCII_CharStream
   static int available;
   static int tokenBegin;
   static public int bufpos = -1;
-  static private int bufline[];
-  static private int bufcolumn[];
+  static private int[] bufline;
+  static private int[] bufcolumn;
 
   static private int column = 0;
   static private int line = 1;

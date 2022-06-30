@@ -21,7 +21,7 @@ public interface IStateQueue {
     void sEnqueue(final TLCState state);
 
 	/* Enqueues a list of states. Wake up any waiting thread. */
-    void sEnqueue(final TLCState states[]);
+    void sEnqueue(final TLCState[] states);
 	void sEnqueue(final StateVec stateVec);
 	
 	/* Return the first element in the queue. Wait if empty. */

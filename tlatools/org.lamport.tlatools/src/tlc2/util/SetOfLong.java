@@ -14,7 +14,7 @@ public final class SetOfLong {
   private int count;
   private int length;
   private int thresh;
-  private long table[];
+  private long[] table;
   private boolean hasZero;
 
   public SetOfLong(final int size) {

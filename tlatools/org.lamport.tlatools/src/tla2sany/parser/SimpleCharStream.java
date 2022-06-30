@@ -13,8 +13,8 @@ public class SimpleCharStream
   int available;
   int tokenBegin;
   public int bufpos = -1;
-  protected int bufline[];
-  protected int bufcolumn[];
+  protected int[] bufline;
+  protected int[] bufcolumn;
 
   protected int column = 0;
   protected int line = 1;

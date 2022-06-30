@@ -5,7 +5,7 @@ import java.util.Enumeration;
 public class Vector<E> {
   static final int defaultSize = 10;
   
-  protected Object info[];
+  protected Object[] info;
   protected int size = 0;
   protected int capacity;
   protected final int increment;

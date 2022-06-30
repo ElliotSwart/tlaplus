@@ -79,7 +79,7 @@ public abstract class StateQueue implements IStateQueue {
 	 * @see tlc2.tool.queue.IStateQueue#sEnqueue(tlc2.tool.TLCState[])
 	 */
 	@Override
-    public final synchronized void sEnqueue(final TLCState states[]) {
+    public final synchronized void sEnqueue(final TLCState[] states) {
         for (TLCState state : states) {
             this.enqueueInner(state);
         }
@@ -141,7 +141,7 @@ public abstract class StateQueue implements IStateQueue {
 				// in this case, casting len to int is safe 
 				cnt = (int) len;
 			}
-			final TLCState states[] = new TLCState[cnt];
+			final TLCState[] states = new TLCState[cnt];
 			int idx;
 			for (idx = 0; idx < cnt && this.len > 0; idx++) {
 				states[idx] = this.dequeueInner();
@@ -153,7 +153,7 @@ public abstract class StateQueue implements IStateQueue {
 
 			// cnt >= index, shrink resulting array
 			// dead code due to resetting cnt == len if cnt > len
-			final TLCState res[] = new TLCState[idx];
+			final TLCState[] res = new TLCState[idx];
             System.arraycopy(states, 0, res, 0, idx);
 			return res;
 		}

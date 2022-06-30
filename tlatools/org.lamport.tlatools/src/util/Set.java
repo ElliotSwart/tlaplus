@@ -57,7 +57,7 @@ public class Set implements Cloneable, java.io.Serializable {
     /*
      * A set of objects.
      */
-    private transient SetEntry set[];
+    private transient SetEntry[] set;
 
     /* The total number of elements in the set.  */
     private transient int count;

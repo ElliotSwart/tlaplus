@@ -526,7 +526,7 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); }
       return false;
   }
 
-Object msgStack[] = new Object[ 512 ];
+Object[] msgStack = new Object[ 512 ];
   int msgStackMaxSize = 512;
   int msgStackCurrentSize = 0;
 
@@ -599,7 +599,7 @@ Object msgStack[] = new Object[ 512 ];
   * after popping a sequence off the top of the stack; it removes the      *
   * null element.                                                          *
   *************************************************************************/
-  private SyntaxTreeNode heirsTable[] = new SyntaxTreeNode[ 512 ];
+  private SyntaxTreeNode[] heirsTable = new SyntaxTreeNode[ 512 ];
   private int heirsSize = 512;
   private int heirsIndex = 0;
 
@@ -2000,7 +2000,7 @@ expecting = "Expression";
 
   final public SyntaxTreeNode IdentifierTuple() throws ParseException {
   SyntaxTreeNode tn;
-  SyntaxTreeNode hn[];
+  SyntaxTreeNode[] hn;
   Token t;
   bpa("Identifier tuple");
     t = jj_consume_token(LAB);
@@ -2211,7 +2211,7 @@ expecting = "COMMA or )";
   final public SyntaxTreeNode SomeFixDecl() throws ParseException {
   final SyntaxTreeNode localASTN = null;
   final SyntaxTreeNode tn;
-  SyntaxTreeNode sn[] = null;
+  SyntaxTreeNode[] sn = null;
   final int kind;
   Token t;
   final UniqueString n;
@@ -2718,7 +2718,7 @@ expecting = "Expression";
   *************************************************************************/
   SyntaxTreeNode tn;
   Token t;
-  SyntaxTreeNode sn[] ;
+  SyntaxTreeNode[] sn;
   bpa("Assume-Prove");
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case IDENTIFIER:
@@ -2908,7 +2908,7 @@ expecting = "Expression";
                       if (hasArgs) {
                         {if (true) throw new ParseException(
                           "declared symbol with arguments before \\in at "
-                           + tn.getLocation().toString());}
+                           + tn.getLocation());}
                         }
           addHeir(new SyntaxTreeNode(mn, t) );
                       expecting = "Expression";
@@ -3067,7 +3067,7 @@ expecting = "Expression";
 //     return new SyntaxTreeNode( mn, N_AssumeDecl, zn );  }
 // }
   final public SyntaxTreeNode MaybeBound() throws ParseException {
-  SyntaxTreeNode zn[] = null;
+  SyntaxTreeNode[] zn = null;
   SyntaxTreeNode tn;
   final Token t;
   bpa("Domain binding");
@@ -4508,7 +4508,7 @@ expecting = "==";
   final public SyntaxTreeNode Extension() throws ParseException {
   SyntaxTreeNode last = null, tid, top = null;
   Token t = null;
-  SyntaxTreeNode heirs[];
+  SyntaxTreeNode[] heirs;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case op_26:
     case op_29:
@@ -4950,7 +4950,7 @@ final int kind ;
          if (   (tn.image == UniqueString.uniqueStringOf("\\X"))
              || (tn.image == UniqueString.uniqueStringOf("\\times"))){
             {if (true) throw new ParseException(
-                        tn.getLocation().toString() +
+                        tn.getLocation() +
                         ": \\X may not be used as an infix operator.");}
            }
         break;
@@ -5276,7 +5276,7 @@ final SyntaxTreeNode tn;
 // This is in case it isn't a N_SubsetOf
       expecting = "':', ',' or '}'";
       final SyntaxTreeNode[] zn = new SyntaxTreeNode[3];
-      SyntaxTreeNode wn[]= new SyntaxTreeNode[2];
+      SyntaxTreeNode[] wn = new SyntaxTreeNode[2];
       wn[0] = new SyntaxTreeNode(mn, N_IdPrefix, new SyntaxTreeNode[0]);
       wn[1] = tn_0;
       zn[0] = new SyntaxTreeNode(mn, N_GeneralId, wn);
@@ -5387,7 +5387,7 @@ final SyntaxTreeNode tn;
         * mistaken belief that {x \in S : x \in T} is illegal, when it's   *
         * actually an expression of type N_SubsetOf.                       *
         *******************************************************************/
-        SyntaxTreeNode Hone[] = (SyntaxTreeNode[])tn.heirs();
+        SyntaxTreeNode[] Hone = (SyntaxTreeNode[])tn.heirs();
         if (Hone.length>1) { // better make sure it's long enough.
           Hone = (SyntaxTreeNode[])Hone[1].heirs(); // second heir of second heir
           if ( tn.isKind( N_InfixExpr ) && Hone[1].getImage().equals("\\in") ) {
@@ -6746,7 +6746,7 @@ final SyntaxTreeNode tn;
       SyntaxTreeNode tn1;
       SyntaxTreeNode tn2;
       SyntaxTreeNode tnOpArgs = null ;
-  SyntaxTreeNode tnBangs[] = null ;
+  SyntaxTreeNode[] tnBangs = null ;
   SyntaxTreeNode[] heirs ;
   final Token t;
   bpa("Primitive expression") ;
@@ -6897,11 +6897,11 @@ final SyntaxTreeNode tn;
                   tn0 = new SyntaxTreeNode(mn, t);
                   if ((getProofLevel() < 0) && (proofDepth <= 0)) {
                     {if (true) throw new
-                      ParseException(tn0.getLocation().toString() +
+                      ParseException(tn0.getLocation() +
                            ": Step number used outside proof.");}
                     }
           if (t.image.charAt(1) == '+') {
-                    {if (true) throw new ParseException(tn0.getLocation().toString() +
+                    {if (true) throw new ParseException(tn0.getLocation() +
                            ": <+> step number used in an expression.");}
                     }
           if (t.kind == ProofImplicitStepLexeme) {

@@ -167,7 +167,7 @@ public class ParseException extends Exception {
     } else {
       retval.append("Was expecting one of:").append(eol).append("    ");
     }
-    retval.append(expected.toString());
+    retval.append(expected);
     return retval.toString();
   }
 

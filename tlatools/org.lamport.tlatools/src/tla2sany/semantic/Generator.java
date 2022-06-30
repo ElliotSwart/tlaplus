@@ -288,7 +288,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 		@SuppressWarnings("unused")
 		public final String toString(final int n) {
-			StringBuilder ret = new StringBuilder("compound ID: " + compoundID.toString() + "\nargs: " + args.length + "\n");
+			StringBuilder ret = new StringBuilder("compound ID: " + compoundID + "\nargs: " + args.length + "\n");
             for (ExprOrOpArgNode arg : args) {
                 ret.append(Strings.indent(2, arg.toString(n)));
             }

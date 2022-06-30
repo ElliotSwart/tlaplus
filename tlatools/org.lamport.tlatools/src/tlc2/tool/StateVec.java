@@ -20,7 +20,7 @@ import util.Assert;
  * allocation.
  */
 public final class StateVec implements IStateFunctor, INextStateFunctor {
-  private TLCState v[];
+  private TLCState[] v;
   private int size;
 
   private static final TLCState[] emptyStateArr = new TLCState[0];

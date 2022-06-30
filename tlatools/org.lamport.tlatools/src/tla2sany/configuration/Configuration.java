@@ -241,7 +241,7 @@ public static void load (final Errors errs ) throws AbortException {
     case NUMBER:
       t = jj_consume_token(NUMBER);
       final int n = Integer.parseInt( t.image );
-      FormalParamNode fpn[] = null;
+      FormalParamNode[] fpn = null;
       if ( n != -1 ) fpn = new FormalParamNode[ n ];
       Context.addGlobalSymbol( us, 
                         new OpDefNode( us, tla2sany.semantic.ASTConstants.BuiltInKind, n,
