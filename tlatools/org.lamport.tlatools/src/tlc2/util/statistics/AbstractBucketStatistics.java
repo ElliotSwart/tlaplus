@@ -211,7 +211,7 @@ public abstract class AbstractBucketStatistics implements IBucketStatistics {
 	    }
 	    
 	    // advance to the bucket at position
-	    long cnt = 0l;
+	    long cnt = 0L;
 		final Iterator<Entry<Integer, Long>> iterator = samples.entrySet().iterator();
 		while(iterator.hasNext()) {
 			final Entry<Integer, Long> next = iterator.next();

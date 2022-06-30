@@ -129,7 +129,7 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
     public long sizeof() {
 		long size = 44; // approx size of this DiskFPSet object
 		rwLock.acquireAllLocks();
-		size += 16 + (this.tbl.length * 4); // for this.tbl
+		size += 16 + (this.tbl.length * 4L); // for this.tbl
 		for (int i = 0; i < this.tbl.length; i++) {
 			if (this.tbl[i] != null) {
 				// 16 bytes overhead for each row in tbl!

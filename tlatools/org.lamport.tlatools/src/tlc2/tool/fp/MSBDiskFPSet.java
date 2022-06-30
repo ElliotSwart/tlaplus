@@ -40,7 +40,7 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 		// bits starting from the second most significant bit.
 		Assert.check(fpSetConfig.getFpBits() > 0, EC.GENERAL);
 		this.moveBy = (32 - fpSetConfig.getFpBits()) - (logMaxMemCnt - LogMaxLoad);
-		this.mask = (capacity - 1) << moveBy;
+		this.mask = (long) (capacity - 1) << moveBy;
 		
 		this.flusher = new MSBFlusher();
 	}
@@ -203,7 +203,7 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 		 * Used to verify that the elements we hand out are strictly monotonic
 		 * increasing.
 		 */
-		private long previous = -1l;
+		private long previous = -1L;
 		/**
 		 * Number of elements read with next()
 		 */
@@ -252,7 +252,7 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 	     * @exception NoSuchElementException iteration has no more elements.
 	     */
 		public long next() {
-			long result = -1l;
+			long result = -1L;
 			
 			// at least one more element in current bucket
 			if (firstIdx < buff.length) {

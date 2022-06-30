@@ -84,7 +84,7 @@ public final class SetOfLong {
 
   public final int size() { return this.count; }
 
-  public final long sizeof() { return 20 + (8 * this.length); }
+  public final long sizeof() { return 20 + (8L * this.length); }
 
   public final long checkFPs() {
     int cnt = 0;

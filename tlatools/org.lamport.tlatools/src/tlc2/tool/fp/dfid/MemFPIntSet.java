@@ -65,7 +65,7 @@ public class MemFPIntSet extends FPIntSet {
   public MemFPIntSet(final int logInitialCapacity, final int maxLoad) throws RemoteException {
     final int initialCapacity = 1 << logInitialCapacity;
     this.count = 0;
-    this.threshold = (initialCapacity * maxLoad);
+    this.threshold = ((long) initialCapacity * maxLoad);
     this.table = new int[initialCapacity][];
     this.mask = initialCapacity - 1;
   }
@@ -85,10 +85,10 @@ public class MemFPIntSet extends FPIntSet {
 
   public final synchronized long sizeof() {
     long size = 28; // 8 (ptr table) + 8 (long count) + 8 (long threshold) + 4 (int mask)
-    size += 16 + (this.table.length * 8); // for this.table
+    size += 16 + (this.table.length * 8L); // for this.table
     for (int i = 0; i < this.table.length; i++) {
       if (this.table[i] != null) {
-	size += 16 + (this.table[i].length * 4);
+	size += 16 + (this.table[i].length * 4L);
       }
     }
     return size;

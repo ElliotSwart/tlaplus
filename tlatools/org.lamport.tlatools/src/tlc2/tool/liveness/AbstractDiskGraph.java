@@ -602,7 +602,7 @@ public abstract class AbstractDiskGraph {
 				// Skip checks
 				// (we don't care for the checks) 
 				final int checksLen = nodeRAF.readNat();
-				nodeRAF.seek(nodeRAF.getFilePointer() + (checksLen * 8)); // 8 bytes is long
+				nodeRAF.seek(nodeRAF.getFilePointer() + (checksLen * 8L)); // 8 bytes is long
 			}
 		} catch (final IOException e) {
 			MP.printError(EC.SYSTEM_DISKGRAPH_ACCESS, e);

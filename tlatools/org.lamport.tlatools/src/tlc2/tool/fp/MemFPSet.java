@@ -81,10 +81,10 @@ private String metadir;
 
   public final synchronized long sizeof() {
     long size = 28; // 8 (ptr table) + 8 (long count) + 8 (long threshold) + 4 (int mask)
-    size += 16 + (this.table.length * 8); // for this.table
+    size += 16 + (this.table.length * 8L); // for this.table
     for (int i = 0; i < this.table.length; i++) {
       if (this.table[i] != null) {
-	size += 16 + (this.table[i].length * 8);
+	size += 16 + (this.table[i].length * 8L);
       }
     }
     return size;

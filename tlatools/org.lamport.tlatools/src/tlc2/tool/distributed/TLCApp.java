@@ -337,7 +337,7 @@ public class TLCApp extends DistApp {
 				index++;
                 if (index < args.length) {
 					try {
-						TLCGlobals.chkptDuration = Integer.parseInt(args[index]) * 1000 * 60;
+						TLCGlobals.chkptDuration = (long) Integer.parseInt(args[index]) * 1000 * 60;
 						if (TLCGlobals.chkptDuration < 0) {
 							printErrorMsg("Error: expect a nonnegative integer for -checkpoint option.");
 						}
