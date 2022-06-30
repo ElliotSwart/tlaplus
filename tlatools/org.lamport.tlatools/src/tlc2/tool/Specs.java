@@ -50,24 +50,18 @@ public abstract class Specs {
 	        return expr.getLevel();
 	
 	    int level = expr.getLevel();
-	    final Iterator<SymbolNode> iter = lpSet.iterator();
-	    while (iter.hasNext())
-	    {
-	        final SymbolNode param = (SymbolNode) iter.next();
-	        final Object res = c.lookup(param, true);
-	        if (res != null)
-	        {
-	            if (res instanceof final LazyValue lv)
-	            {
+        for (SymbolNode param : lpSet) {
+            final Object res = c.lookup(param, true);
+            if (res != null) {
+                if (res instanceof final LazyValue lv) {
                     final int plevel = getLevel((LevelNode) lv.expr, lv.con);
-	                level = (plevel > level) ? plevel : level;
-	            } else if (res instanceof OpDefNode)
-	            {
-	                final int plevel = getLevel((LevelNode) res, c);
-	                level = (plevel > level) ? plevel : level;
-	            }
-	        }
-	    }
+                    level = (plevel > level) ? plevel : level;
+                } else if (res instanceof OpDefNode) {
+                    final int plevel = getLevel((LevelNode) res, c);
+                    level = (plevel > level) ? plevel : level;
+                }
+            }
+        }
 	    return level;
 	}
 

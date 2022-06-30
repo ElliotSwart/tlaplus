@@ -325,14 +325,17 @@ public class SubstInNode extends ExprNode {
     }
 
 //    this.levelParams = new HashSet();
-    final Iterator<SymbolNode> iter = lpSet.iterator();
-    while (iter.hasNext()) {
-      this.levelParams.addAll(Subst.paramSet(iter.next(), this.substs));
-        /*******************************************************************
-        * At this point, levelCheck(itr) has been invoked on              *
-        * this.substs[i].getExpr() (which equals this.getSubWith(i)).      *
-        *******************************************************************/
-    }
+      /*******************************************************************
+       * At this point, levelCheck(itr) has been invoked on              *
+       * this.substs[i].getExpr() (which equals this.getSubWith(i)).      *
+       *******************************************************************/
+      for (SymbolNode symbolNode : lpSet) {
+          this.levelParams.addAll(Subst.paramSet(symbolNode, this.substs));
+          /*******************************************************************
+           * At this point, levelCheck(itr) has been invoked on              *
+           * this.substs[i].getExpr() (which equals this.getSubWith(i)).      *
+           *******************************************************************/
+      }
 
     /***********************************************************************
     * The following code was added 22 May 2008 by LL. I had apparently     *

@@ -94,12 +94,11 @@ public abstract class FPSetManager implements IFPSetManager {
 		
 		int aliveServer = 0;
 
-		final Iterator<FPSets> itr = s.iterator();
-		while (itr.hasNext()) {
-			if (itr.next().isAvailable()) {
-				aliveServer++;
-			}
-		}
+        for (FPSets sets : s) {
+            if (sets.isAvailable()) {
+                aliveServer++;
+            }
+        }
 		return aliveServer;
 	}
 
