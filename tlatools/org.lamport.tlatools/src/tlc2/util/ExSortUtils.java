@@ -76,7 +76,7 @@ public class ExSortUtils
             throws IOException
     {
 
-        final Vector<BigInt> A = new Vector<BigInt>();
+        final Vector<BigInt> A = new Vector<>();
         int i = 0;
 
         try

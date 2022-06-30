@@ -517,15 +517,15 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 		checkForInterrupt();
 
 		// Check if the current trace satisfies liveness properties.
-		liveCheck.checkTrace(tool.getLiveness(), new Supplier<StateVec>() {
-			@Override
-			public StateVec get() {
-				// Pass a supplier instead of the trace directly to convert
-				// the linked list TLCStateMutExt <- TLCStateMutExt to an array
-				// iff liveness checking is enabled.
-				return getTrace();
-			}
-		});
+		liveCheck.checkTrace(tool.getLiveness(), new Supplier<>() {
+            @Override
+            public StateVec get() {
+                // Pass a supplier instead of the trace directly to convert
+                // the linked list TLCStateMutExt <- TLCStateMutExt to an array
+                // iff liveness checking is enabled.
+                return getTrace();
+            }
+        });
 		
 		// Take the minimum of maxTraceDepth and getLevel here because - historically -
 		// the for loop above would add the chosen next-state from loop N in loop N+1.

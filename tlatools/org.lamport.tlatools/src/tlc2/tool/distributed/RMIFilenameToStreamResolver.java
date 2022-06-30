@@ -30,7 +30,7 @@ public class RMIFilenameToStreamResolver implements FilenameToStream {
 
 	private TLCServerRMI server;
 
-	private final Map<String, File> fileCache = new HashMap<String, File>();
+	private final Map<String, File> fileCache = new HashMap<>();
 	private final String rndPrefix;
 
 	public RMIFilenameToStreamResolver() {

@@ -181,7 +181,7 @@ public class CToken
     static void FindPfStepCTokens(final CToken[][] toks) {
       for (int k = 0 ; k < toks.length ; k++) 
         { final CToken[] input = toks[k] ;
-          final Vector<CToken> outputVec = new Vector<CToken>(input.length) ;
+          final Vector<CToken> outputVec = new Vector<>(input.length) ;
           int i = 0 ;
           while (i < input.length)
            { if (   (i < input.length - 2)

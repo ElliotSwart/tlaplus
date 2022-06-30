@@ -121,7 +121,7 @@ public class APSubstInNode extends LevelNode {
   final void constructSubst(final Vector<OpDeclNode> instanceeDecls, final SymbolTable instancerST,
                             final TreeNode treeNode)
   throws AbortException {
-    final Vector<Subst> vtemp = new Vector<Subst>();
+    final Vector<Subst> vtemp = new Vector<>();
 
     // for each CONSTANT or VARIABLE declared in module being
     // instantiated (the instancee)

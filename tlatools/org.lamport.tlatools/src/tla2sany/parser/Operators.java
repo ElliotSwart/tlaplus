@@ -30,12 +30,12 @@ public class Operators {
     /***********************************************************************
     * The only operator of class nfix seems to be \X (aka \times).         *
     ***********************************************************************/
-  static final Hashtable<UniqueString, Operator> DefinitionTable = new Hashtable<UniqueString, Operator>();
+  static final Hashtable<UniqueString, Operator> DefinitionTable = new Hashtable<>();
     /***********************************************************************
     * Contains the Operator objects for all operators.  It is constructed  *
     * from the data in ConfigConstants.defaultConfig.                      *
     ***********************************************************************/
-  static final Hashtable<UniqueString, UniqueString> BuiltinTable = new Hashtable<UniqueString, UniqueString>();
+  static final Hashtable<UniqueString, UniqueString> BuiltinTable = new Hashtable<>();
     /***********************************************************************
     * It appears that this is not used.                                    *
     ***********************************************************************/

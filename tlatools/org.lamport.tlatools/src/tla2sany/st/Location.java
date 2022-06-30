@@ -237,7 +237,7 @@ public final class Location implements Comparable<Location>
          * The Toolbox does not support generics,
          * so generics cannot be used here.
          */
-        final List<Location> locations = new ArrayList<Location>();
+        final List<Location> locations = new ArrayList<>();
         /*
          * For each Pattern defined in this class, we find
          * all matches of the pattern and add this to the list

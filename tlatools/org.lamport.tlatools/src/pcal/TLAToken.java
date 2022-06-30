@@ -146,8 +146,8 @@ public class TLAToken
      * remove redundant pairs of matching parens (the ones for "b" in the example), and
      * perhaps I'll do that.
      */
-    private Vector<PCalLocation> beginSubst = new Vector<PCalLocation>(2) ; // of PCalLocation
-    private Vector<PCalLocation> endSubst = new Vector<PCalLocation>(2);    // of PCalLocation
+    private Vector<PCalLocation> beginSubst = new Vector<>(2) ; // of PCalLocation
+    private Vector<PCalLocation> endSubst = new Vector<>(2);    // of PCalLocation
     public Vector<PCalLocation> getBeginSubst() {
         return beginSubst;
     }

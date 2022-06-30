@@ -118,7 +118,7 @@ public class Vector<E> {
   }
 
   public final Enumeration<E> elements() {
-    return new VectorEnumeration<E>( info, size );
+    return new VectorEnumeration<>(info, size);
   }
 
   public final void append(final Vector<E> v ) {

@@ -107,7 +107,7 @@ public class REPL {
             cfgWriter.close();
 
             // Create the spec file lines.
-            final ArrayList<String> lines = new ArrayList<String>();
+            final ArrayList<String> lines = new ArrayList<>();
             final String replValueVarName = "replvalue";
             lines.add("---- MODULE tlarepl ----");
             lines.add("EXTENDS " + moduleExtends);

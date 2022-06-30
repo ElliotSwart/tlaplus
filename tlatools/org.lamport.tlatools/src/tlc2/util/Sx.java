@@ -14,7 +14,7 @@ public abstract class Sx {
 
   public static final SxNil nil = new SxNil();
 
-  private static final Hashtable<String, SxAtom> atomTbl = new Hashtable<String, SxAtom>();
+  private static final Hashtable<String, SxAtom> atomTbl = new Hashtable<>();
   private static int symCount = 0;  // Number of symbols returned by genSym().
   
   public static Sx cons(final Sx a, final Sx b) {

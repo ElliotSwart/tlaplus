@@ -438,7 +438,7 @@ public class Tokenize
           * constructed.  At the end, it is turned into an array.          *
           *****************************************************************/
 
-    private static Vector<TLAToken> linev = new Vector<TLAToken>(30, 30) ;
+    private static Vector<TLAToken> linev = new Vector<>(30, 30) ;
           /*****************************************************************
           * Vector linev contains the tokens found so far on the current   *
           * line.                                                          *
@@ -834,7 +834,7 @@ public class Tokenize
       * whenever a \n character is removed from the input stream.          *
       *********************************************************************/
       { vspec.addElement(linev)    ;
-        linev = new Vector<TLAToken>(30, 30) ;
+        linev = new Vector<>(30, 30) ;
         col = 0 ;
       }
 
@@ -875,7 +875,7 @@ public class Tokenize
         col  = ncol ;
         parseExpression = isExpr ;
         prevToken = " ";
-        vspec = new Vector<Vector<TLAToken>>(4) ;
+        vspec = new Vector<>(4) ;
           // Changed by LL on 13 Dec 2011 from new Vector(1000, 1000) ;
           // I don't know why such a large vector was being used
         reader = charReader ;
@@ -884,7 +884,7 @@ public class Tokenize
            * (private) methods.                                            *
            ****************************************************************/
 
-        linev = new Vector<TLAToken>() ;
+        linev = new Vector<>() ;
           /*****************************************************************
           * I don't know where linev is initialized, but adding this       *
           * initialization doesn't seem to make any difference.            *

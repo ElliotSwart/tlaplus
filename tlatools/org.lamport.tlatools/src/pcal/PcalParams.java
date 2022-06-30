@@ -167,11 +167,11 @@ public final class PcalParams
       * Default initial value changed to "defaultInitValue"                *
       * by LL on 22 Aug 2007                                               *
       *********************************************************************/
-      { final Vector<TLAToken> line = new Vector<TLAToken>() ;
+      { final Vector<TLAToken> line = new Vector<>() ;
 //        line.addElement(new TLAToken("{", 0, 0)) ;
 //        line.addElement(new TLAToken("}", 0, 0)) ;
         line.addElement(new TLAToken("defaultInitValue", 0, 0));
-        final Vector<Vector<TLAToken>> vec = new Vector<Vector<TLAToken>>() ;
+        final Vector<Vector<TLAToken>> vec = new Vector<>() ;
         vec.addElement(line) ;
         final TLAExpr exp = new TLAExpr(vec) ;
         exp.normalize() ;

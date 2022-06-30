@@ -251,15 +251,15 @@ public class ParseAlgorithm
    public static void Init(final PcalCharReader charR)
    { 
     // initialization moved 
-    addedLabels = new Vector<String>(); 
-    addedLabelsLocs = new Vector<String>();
+    addedLabels = new Vector<>();
+    addedLabelsLocs = new Vector<>();
     nextLabelNum = 1;
     charReader = charR;
-    allLabels = new Hashtable<String, String>();       
+    allLabels = new Hashtable<>();
     hasLabel = false;
     hasDefaultInitialization = false;
     currentProcedure = null;
-    procedures = new Vector<Procedure>();
+    procedures = new Vector<>();
     
     pSyntax = false;
     cSyntax = false; 
@@ -268,9 +268,9 @@ public class ParseAlgorithm
     // never hurt.
     // The following initializations are redundant, but a little redundancy
     // never hurt.
-    plusLabels = new Vector<String>(0);
-    minusLabels = new Vector<String>(0);
-    proceduresCalled = new Vector<String>(0);
+    plusLabels = new Vector<>(0);
+    minusLabels = new Vector<>(0);
+    proceduresCalled = new Vector<>(0);
     
     gotoUsed = false;
     gotoDoneUsed = false;
@@ -336,7 +336,7 @@ public class ParseAlgorithm
          { cSyntax = true ;
            MustGobbleThis("{") ; } 
        else {pSyntax = true ; }
-         Vector<VarDecl> vdecls = new Vector<VarDecl>() ;
+         Vector<VarDecl> vdecls = new Vector<>() ;
        if ( PeekAtAlgToken(1).equals("variable")
            || PeekAtAlgToken(1).equals("variables"))
          { vdecls = GetVarDecls() ; }
@@ -352,7 +352,7 @@ public class ParseAlgorithm
              { GobbleThis("}") ; }
              GobbleThis(";") ;
          }
-       final Vector<Macro> macros = new Vector<Macro>() ;
+       final Vector<Macro> macros = new Vector<>() ;
        while (PeekAtAlgToken(1).equals("macro"))
          { macros.addElement(GetMacro(macros)) ; }
          while (PeekAtAlgToken(1).equals("procedure"))
@@ -377,7 +377,7 @@ public class ParseAlgorithm
            multiproc.defs   = defs ;
            multiproc.macros = macros ;
            multiproc.prcds  = procedures ;
-           multiproc.procs  = new Vector<Process>() ;
+           multiproc.procs  = new Vector<>() ;
            while (PeekAtAlgToken(1).equals("fair") ||
         		   PeekAtAlgToken(1).equals("process"))
              { int fairness = AST.UNFAIR_PROC;
@@ -695,11 +695,11 @@ public class ParseAlgorithm
        result.line = lastTokLine ;
        result.name = GetAlgToken() ;
        currentProcedure = result.name ;
-       plusLabels = new Vector<String>(0);
-       minusLabels = new Vector<String>(0);
-       proceduresCalled = new Vector<String>(0);
+       plusLabels = new Vector<>(0);
+       minusLabels = new Vector<>(0);
+       proceduresCalled = new Vector<>(0);
        GobbleThis("(") ;
-       result.params = new Vector<PVarDecl>() ;
+       result.params = new Vector<>() ;
        boolean lookForComma = false ;
        while (! PeekAtAlgToken(1).equals(")"))
          { if (lookForComma)
@@ -710,7 +710,7 @@ public class ParseAlgorithm
        MustGobbleThis(")") ;
        if (   PeekAtAlgToken(1).equals("begin")
            || PeekAtAlgToken(1).equals("{"))
-         { result.decls = new Vector<PVarDecl>(1) ; }
+         { result.decls = new Vector<>(1) ; }
        else
          { result.decls = GetPVarDecls() ; }
          GobbleBeginOrLeftBrace() ;
@@ -738,15 +738,15 @@ public class ParseAlgorithm
          result.name = GetAlgToken() ;
        result.isEq = GobbleEqualOrIf() ;
        result.id   = GetExpr() ; 
-       plusLabels = new Vector<String>(0);
-       minusLabels = new Vector<String>(0);
-       proceduresCalled = new Vector<String>(0);
+       plusLabels = new Vector<>(0);
+       minusLabels = new Vector<>(0);
+       proceduresCalled = new Vector<>(0);
        if (cSyntax) { GobbleThis(")") ; }
          if (result.id.tokens.size()==0)
          { ParsingError("Empty process id at ") ;}
        if (   PeekAtAlgToken(1).equals("begin")
            || PeekAtAlgToken(1).equals("{"))
-         { result.decls = new Vector<VarDecl>(1) ; }
+         { result.decls = new Vector<>(1) ; }
        else
          { result.decls = GetVarDecls() ; }
          GobbleBeginOrLeftBrace() ;
@@ -772,7 +772,7 @@ public class ParseAlgorithm
          { MustGobbleThis("variables") ; } 
        else 
          { GobbleThis("variable") ; }
-         final Vector<PVarDecl> result = new Vector<PVarDecl>() ;
+         final Vector<PVarDecl> result = new Vector<>() ;
 
        /********************************************************************
        * The <PVarDecls> nonterminal is terminated by a "begin"            *
@@ -818,7 +818,7 @@ public class ParseAlgorithm
          { MustGobbleThis("variables") ; } 
        else 
          { GobbleThis("variable") ; }
-         final Vector<VarDecl> result = new Vector<VarDecl>() ;
+         final Vector<VarDecl> result = new Vector<>() ;
 
        /********************************************************************
        * The <VarDecls> nonterminal appears in two places:                 *
@@ -922,7 +922,7 @@ public class ParseAlgorithm
          { ParsingError("Cannot use `Error' as a label.") ; }
          result.col  = lastTokCol ;
        result.line = lastTokLine ;
-       result.stmts = new Vector<AST>() ;
+       result.stmts = new Vector<>() ;
        GobbleThis(":") ;
        if (PeekAtAlgToken(1).equals("while"))
          { result.stmts.addElement(GetWhile()) ; }
@@ -960,7 +960,7 @@ public class ParseAlgorithm
          { result.unlabDo = GetCStmt() ; }
          if (result.unlabDo.size() == 0)
          { ParsingError("Missing body of while statement at"); }
-       result.labDo = new Vector<AST>() ;
+       result.labDo = new Vector<>() ;
          /******************************************************************
          * For historical reasons, some methods expect a labDo field to    *
          * contain a vector, even though they are called before the real   *
@@ -1035,7 +1035,7 @@ public class ParseAlgorithm
      *                                                                     *
      * in the p-syntax or "}" in the c-syntax.                             *
      **********************************************************************/
-     { final Vector<AST> result = new Vector<AST>() ;
+     { final Vector<AST> result = new Vector<>() ;
        String tok = PeekAtAlgToken(1) ;
        while (! (    (    pSyntax
                       && (   tok.equals("end")
@@ -1135,7 +1135,7 @@ public class ParseAlgorithm
          final AST stmt = GetStmt() ;
        stmt.lbl = label ;
        stmt.lblLocation = labelLocation ;
-       final Vector<AST> result = new Vector<AST>() ;
+       final Vector<AST> result = new Vector<>() ;
        result.addElement(stmt) ;       
        return result ;
      }     
@@ -1229,11 +1229,11 @@ public class ParseAlgorithm
             }
            else if (nextTok.equals("elsif"))
                  { final AST.LabelIf innerIf = GetIf(depth + 1) ;
-                   result.unlabElse = new Vector<AST>() ;
+                   result.unlabElse = new Vector<>() ;
                    result.unlabElse.addElement(innerIf) ;
                  }
            else if (nextTok.equals("end")) 
-                 { result.unlabElse = new Vector<AST>() ; 
+                 { result.unlabElse = new Vector<>() ;
                  }
             else { ParsingError(
                      "Expecting \"else\", \"elsif\", or \"end\"")  ; }
@@ -1249,10 +1249,10 @@ public class ParseAlgorithm
               result.unlabElse = GetCStmt() ;
             } 
            else
-            { result.unlabElse = new Vector<AST>() ; }
+            { result.unlabElse = new Vector<>() ; }
          }
-         result.labThen = new Vector<AST>() ;
-       result.labElse = new Vector<AST>() ; 
+         result.labThen = new Vector<>() ;
+       result.labElse = new Vector<>() ;
 
        /**
         * Set lastStmt to the AST node of the last statement in the
@@ -1281,12 +1281,12 @@ public class ParseAlgorithm
        final AST.LabelEither result = new AST.LabelEither() ;
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
-       result.clauses = new Vector<Clause>() ;
+       result.clauses = new Vector<>() ;
        boolean done = false ;
        boolean hasOr = false ;
        while (! done)
         { final AST.Clause nextClause = new AST.Clause() ;
-          nextClause.labOr = new Vector<AST>() ;
+          nextClause.labOr = new Vector<>() ;
           if (pSyntax)
             { nextClause.unlabOr = GetStmtSeq() ; }
           else
@@ -1388,7 +1388,7 @@ public class ParseAlgorithm
            result.Do = GetCStmt() ;
          }
        else 
-         { result.Do = new Vector<AST>() ;
+         { result.Do = new Vector<>() ;
            result.Do.addElement(InnerGetWith(depth+1, begLoc)) ;
          }
          try {
@@ -1408,7 +1408,7 @@ public class ParseAlgorithm
          * We use the fact here that this method is called after           *
          * PeekAtAlgToken(1), so LAT[0] contains the next token.           *
          ******************************************************************/
-       result.ass = new Vector<AST.SingleAssign>() ;
+       result.ass = new Vector<>() ;
        result.ass.addElement(GetSingleAssign()) ;
        while (PeekAtAlgToken(1).equals("||"))
          { @SuppressWarnings("unused") final String throwAway = GetAlgToken() ;
@@ -1544,7 +1544,7 @@ public class ParseAlgorithm
        result.line = lastTokLine ;
        result.to = GetAlgToken() ;
        GobbleThis("(") ;
-       result.args = new Vector<TLAExpr>() ;
+       result.args = new Vector<>() ;
        boolean moreArgs = (PeekPastAlgToken(0).charAt(0) != ')') ;
        while (moreArgs)
          { result.args.addElement(GetExpr()) ;
@@ -1715,7 +1715,7 @@ public class ParseAlgorithm
      result.line = lastTokLine ;
      result.name = GetAlgToken() ;
      GobbleThis("(") ;
-     result.params = new Vector<String>() ;
+     result.params = new Vector<>() ;
      boolean lookForComma = false ;
      while (! PeekAtAlgToken(1).equals(")"))
        { if (lookForComma)
@@ -1744,7 +1744,7 @@ public class ParseAlgorithm
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
        MustGobbleThis("(") ;
-       result.args = new Vector<TLAExpr>() ;
+       result.args = new Vector<>() ;
        boolean moreArgs = (PeekPastAlgToken(0).charAt(0) != ')') ;
        while (moreArgs)
          { result.args.addElement(GetExpr()) ;
@@ -1770,8 +1770,8 @@ public class ParseAlgorithm
      { InnerAddLabels(stmtseq,
                       true,            // firstLabeled
                       false,           // inWith
-                      new Vector<String>(),    // inAssigned = {}
-                      new Vector<String>() );  // outAssigned
+             new Vector<>(),    // inAssigned = {}
+             new Vector<>() );  // outAssigned
        return ;
      }
 
@@ -1873,8 +1873,8 @@ public class ParseAlgorithm
                  /******************************************************
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
-               final Vector<String> thenAssigned     = new Vector<String>() ;
-               final Vector<String> elseAssigned     = new Vector<String>() ;
+               final Vector<String> thenAssigned     = new Vector<>() ;
+               final Vector<String> elseAssigned     = new Vector<>() ;
 // System.out.println("If at " + stmt.location()) ;
 // PcalDebug.printVector(outAssigned, "pre outAssigned") ;
 // PcalDebug.printVector(inAssigned, "pre inAssigned") ;
@@ -1906,10 +1906,10 @@ public class ParseAlgorithm
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
                int j = 0 ;
-               final Vector<String> newOutAssigned = new Vector<String>() ;
+               final Vector<String> newOutAssigned = new Vector<>() ;
                while (j < obj.clauses.size())
                  { final AST.Clause clause = (AST.Clause) obj.clauses.elementAt(j) ;
-                   final Vector<String> orAssigned     = new Vector<String>() ;
+                   final Vector<String> orAssigned     = new Vector<>() ;
                    nextStepNeedsLabel =
                      InnerAddLabels(clause.unlabOr,  
                                     false,             // firstLabeled
@@ -1939,7 +1939,7 @@ public class ParseAlgorithm
                  NeedsLabel(stmt) ;
                hadOrAddedLabel = true ;
                outAssigned.removeAllElements() ;
-               final Vector<String> newOutAssigned = new Vector<String>() ;
+               final Vector<String> newOutAssigned = new Vector<>() ;
                InnerAddLabels(obj.unlabDo,  
                               false,             // firstLabeled
                               false,             // inWith
@@ -1965,9 +1965,9 @@ public class ParseAlgorithm
                  /******************************************************
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
-               final Vector<String> newInAssigned  = new Vector<String>() ;
+               final Vector<String> newInAssigned  = new Vector<>() ;
                if (inWith) {Copy(inAssigned, newInAssigned) ;}
-                 final Vector<String> newOutAssigned = new Vector<String>() ;
+                 final Vector<String> newOutAssigned = new Vector<>() ;
                nextStepNeedsLabel =
                   InnerAddLabels(obj.Do,  
                                  false,             // firstLabeled
@@ -2007,7 +2007,7 @@ public class ParseAlgorithm
                /************************************************************
                * assignedVbls := the set of variables being assigned.      *
                ************************************************************/
-               final Vector<String> assignedVbls = new Vector<String>() ;
+               final Vector<String> assignedVbls = new Vector<>() ;
                int j = 0 ;
                while (j < obj.ass.size())
                  { final AST.SingleAssign assgn =
@@ -2044,7 +2044,7 @@ public class ParseAlgorithm
                * a call, return, callReturn, or callGoto.                  *
                ************************************************************/
                nextStepNeedsLabel = false ;
-               final Vector<String> assignedVbls = new Vector<String>() ;
+               final Vector<String> assignedVbls = new Vector<>() ;
 
                /************************************************************
                * Set isCallOrReturn true iff this is a call, return,       *
@@ -2237,7 +2237,7 @@ public class ParseAlgorithm
      * separate procedure to avoid calling ClassifyStmtSeq with every      *
      * recursive call.                                                     *
      **********************************************************************/
-     { final Vector<AST> result = new Vector<AST>() ;
+     { final Vector<AST> result = new Vector<>() ;
        int nextStmt = 0 ;
        while (nextStmt < stmtseq.size())
          { final AST.LabeledStmt lstmt = new AST.LabeledStmt() ;
@@ -2267,7 +2267,7 @@ public class ParseAlgorithm
 	           "ParseAlgorithmInnerMakeLabeledStmtSeq found null label starting labeled stmt seq");
            }
            
-           lstmt.stmts = new Vector<AST>() ;
+           lstmt.stmts = new Vector<>() ;
            PCalLocation lstmtBegin = null ;
            if (!stmt.lbl.equals("")) {
                lstmtBegin = stmt.lblLocation ;
@@ -2332,7 +2332,7 @@ public class ParseAlgorithm
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
                Vector<AST> curr = obj.unlabThen ;
-               obj.unlabThen = new Vector<AST>() ;
+               obj.unlabThen = new Vector<>() ;
                while (    (curr.size() > 0)
                        && ((AST) curr.elementAt(0)).lbl.equals("") )
                 { obj.unlabThen.addElement(curr.elementAt(0)) ;
@@ -2345,7 +2345,7 @@ public class ParseAlgorithm
                 * fashion.                                              *
                 ********************************************************/
                curr = obj.unlabElse ;
-               obj.unlabElse = new Vector<AST>() ;
+               obj.unlabElse = new Vector<>() ;
                while (    (curr.size() > 0)
                        && ((AST) curr.elementAt(0)).lbl.equals("") )
                 { obj.unlabElse.addElement(curr.elementAt(0)) ;
@@ -2368,7 +2368,7 @@ public class ParseAlgorithm
                while (j < obj.clauses.size())
                  { final AST.Clause clause = (AST.Clause) obj.clauses.elementAt(j) ;
                    final Vector<AST> curr = clause.unlabOr ;
-                   clause.unlabOr = new Vector<AST>() ;
+                   clause.unlabOr = new Vector<>() ;
                    while (    (curr.size() > 0)
                            && ((AST) curr.elementAt(0)).lbl.equals("") )
                     { clause.unlabOr.addElement(curr.elementAt(0)) ;
@@ -2394,7 +2394,7 @@ public class ParseAlgorithm
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
                final Vector<AST> curr = obj.unlabDo ;
-               obj.unlabDo = new Vector<AST>() ;
+               obj.unlabDo = new Vector<>() ;
                while (    (curr.size() > 0)
                        && ((AST) curr.elementAt(0)).lbl.equals("") )
                 { obj.unlabDo.addElement(curr.elementAt(0)) ;
@@ -2466,7 +2466,7 @@ public class ParseAlgorithm
                  result = ClassifyEither(eitherNode) ;
                  if (result < 2)
                    { final AST.Either newEither = new AST.Either() ;
-                     newEither.ors = new Vector<Object>() ;
+                     newEither.ors = new Vector<>() ;
                      int j = 0 ;
                      while (j < eitherNode.clauses.size())
                        { newEither.ors.addElement(

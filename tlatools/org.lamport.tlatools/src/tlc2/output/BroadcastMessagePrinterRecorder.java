@@ -11,7 +11,7 @@ public class BroadcastMessagePrinterRecorder implements IMessagePrinterRecorder 
 	/**
 	 * The list of recorders subscribed to this broadcaster.
 	 */
-	private final Set<IMessagePrinterRecorder> subscribers = new HashSet<IMessagePrinterRecorder>();
+	private final Set<IMessagePrinterRecorder> subscribers = new HashSet<>();
 	
 	@Override
 	public void record(final int code, final Object... objects) {

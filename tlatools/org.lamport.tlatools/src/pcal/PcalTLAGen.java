@@ -50,7 +50,7 @@ public class PcalTLAGen
      *   GenVarsAndDefs
      *   GenVarDecl
      */
-    private final Vector<String> tlacode = new Vector<String>(); /* of lines */
+    private final Vector<String> tlacode = new Vector<>(); /* of lines */
     
     /**
      * The tlacodeNextLine field accumulates characters for the next
@@ -73,7 +73,7 @@ public class PcalTLAGen
      * mappingVectorNextLine contains the sequence of MappingObject objects
      * that correspond to the strings added to tlacodeNextLine.
      */
-    private Vector<MappingObject> mappingVectorNextLine = new Vector<MappingObject>() ;
+    private Vector<MappingObject> mappingVectorNextLine = new Vector<>() ;
     
     /**
      * The self field is set to "self" by GenProcess when called for a single process
@@ -85,14 +85,14 @@ public class PcalTLAGen
     private TLAExpr self = null; // changed by LL on 22 jan 2011 from: private String self = null; /* for current process */
     private boolean selfIsSelf = false; 
     
-    private final Vector<String> vars = new Vector<String>(); /* list of all disambiguated vars */
-    private final Vector<String> pcV = new Vector<String>(); /* sublist of vars of variables representing
+    private final Vector<String> vars = new Vector<>(); /* list of all disambiguated vars */
+    private final Vector<String> pcV = new Vector<>(); /* sublist of vars of variables representing
                                           procedure parameters and procedure variables */
-    private final Vector<String> psV = new Vector<String>(); /* sublist of vars local to a process set */
+    private final Vector<String> psV = new Vector<>(); /* sublist of vars local to a process set */
     private PcalSymTab st = null; /* symbol table */
     private boolean mp = false; /* true if multiprocess, else unip */
-    private final Vector<String> nextStep = new Vector<String>(); /* unparam actions */ // For multiprocess alg, these are the individual (=) processes
-    private final Vector<String> nextStepSelf = new Vector<String>(); /* param actions */ // These are process sets (\in processes) and procedures
+    private final Vector<String> nextStep = new Vector<>(); /* unparam actions */ // For multiprocess alg, these are the individual (=) processes
+    private final Vector<String> nextStepSelf = new Vector<>(); /* param actions */ // These are process sets (\in processes) and procedures
     // Following added to keep track of the length of the "lbl... == /\ "
     // that precedes all the statements in the definition of a label's action
     // because Keith screwed up and handled the assignment to the pc different 

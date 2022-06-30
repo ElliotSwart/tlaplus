@@ -126,18 +126,18 @@ public abstract class FPSetFactory {
 	public static Future<FPSet> getFPSetInitialized(final FPSetConfiguration fpSetConfiguration, final String metadir,
 			final String mainFile) {
 		final ExecutorService es = Executors.newSingleThreadExecutor();
-		return es.submit(new Callable<FPSet>() {
-			@Override
-			public FPSet call() throws Exception {
-				try {
-					final FPSet fpSet = FPSetFactory.getFPSet(fpSetConfiguration);
-					fpSet.init(TLCGlobals.getNumWorkers(), metadir, mainFile);
-					return fpSet;
-				} finally {
-					es.shutdown();
-				}
-			}
-		});
+		return es.submit(new Callable<>() {
+            @Override
+            public FPSet call() throws Exception {
+                try {
+                    final FPSet fpSet = FPSetFactory.getFPSet(fpSetConfiguration);
+                    fpSet.init(TLCGlobals.getNumWorkers(), metadir, mainFile);
+                    return fpSet;
+                } finally {
+                    es.shutdown();
+                }
+            }
+        });
 	}
 
 	/**
@@ -145,7 +145,7 @@ public abstract class FPSetFactory {
 	 *         list should be constructed dynamically during runtime.
 	 */
 	public static String[] getImplementations() {
-		final List<String> l = new ArrayList<String>();
+		final List<String> l = new ArrayList<>();
 		
 		l.add(MSBDiskFPSet.class.getName());
 		l.add(LSBDiskFPSet.class.getName());

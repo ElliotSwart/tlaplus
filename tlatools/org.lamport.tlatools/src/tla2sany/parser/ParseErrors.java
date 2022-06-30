@@ -6,7 +6,7 @@ import java.util.Vector;
 public final class ParseErrors implements tla2sany.st.ParseErrors {
   private final Vector<ParseError> loe;
 
-  ParseErrors() { loe = new Vector<ParseError>(); }
+  ParseErrors() { loe = new Vector<>(); }
 
     final boolean empty() { return loe.isEmpty(); }
 

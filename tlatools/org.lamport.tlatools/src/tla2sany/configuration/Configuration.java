@@ -392,7 +392,7 @@ public static void load (final Errors errs ) throws AbortException {
       return (jj_ntk = jj_nt.kind);
   }
 
-  static private final java.util.Vector<int[]> jj_expentries = new java.util.Vector<int[]>();
+  static private final java.util.Vector<int[]> jj_expentries = new java.util.Vector<>();
   static private int[] jj_expentry;
   static private int jj_kind = -1;
 

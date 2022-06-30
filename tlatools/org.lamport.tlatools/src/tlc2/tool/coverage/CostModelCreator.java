@@ -431,12 +431,12 @@ public class CostModelCreator extends ExplorerVisitor {
     	// producing bogus results (see CostModelCreator.preVisit(ExploreNode) above).
     	final Action[] actions = tool.getActions();
         final Set<CostModel> reported = new HashSet<>();
-        final Set<Action> sortedActions = new TreeSet<>(new Comparator<Action>() {
-			@Override
-			public int compare(final Action o1, final Action o2) {
-				return o1.pred.getLocation().compareTo(o2.pred.getLocation());
-			}
-		});
+        final Set<Action> sortedActions = new TreeSet<>(new Comparator<>() {
+            @Override
+            public int compare(final Action o1, final Action o2) {
+                return o1.pred.getLocation().compareTo(o2.pred.getLocation());
+            }
+        });
         sortedActions.addAll(Arrays.asList(actions));
         for (final Action action : sortedActions) {
         	if (!reported.contains(action.cm)) {

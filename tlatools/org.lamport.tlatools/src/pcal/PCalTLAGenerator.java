@@ -66,7 +66,7 @@ public class PCalTLAGenerator
      ********************************************************************/
     public Vector<String> translate() throws RemoveNameConflictsException
     {
-        Vector<String> result = new Vector<String>();
+        Vector<String> result = new Vector<>();
         AST xast = null;  // Set to the exploded AST
 
         for (int i = 0; i < st.disambiguateReport.size(); i++)

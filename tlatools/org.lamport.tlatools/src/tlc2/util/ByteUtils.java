@@ -361,7 +361,7 @@ public class ByteUtils {
   public static BigInt[] readArrayOfSizeBigInts(final InputStream in)
   throws IOException{
   
-    final Vector<BigInt> A = new Vector<BigInt>();
+    final Vector<BigInt> A = new Vector<>();
     int i = 0;
 
     try {

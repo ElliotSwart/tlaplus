@@ -36,7 +36,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     * The root node.                                                       *
     ***********************************************************************/
 
-  public Vector<UniqueString> dependencyList = new Vector<UniqueString>( 20 );
+  public Vector<UniqueString> dependencyList = new Vector<>(20);
 
   private UniqueString mn = null;
      /**********************************************************************
@@ -11491,7 +11491,7 @@ final SyntaxTreeNode tn;
       return (jj_ntk = jj_nt.kind);
   }
 
-  private final java.util.Vector<int[]> jj_expentries = new java.util.Vector<int[]>();
+  private final java.util.Vector<int[]> jj_expentries = new java.util.Vector<>();
   private int[] jj_expentry;
   private int jj_kind = -1;
   private final int[] jj_lasttokens = new int[100];

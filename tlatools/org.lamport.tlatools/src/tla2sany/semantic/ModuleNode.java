@@ -225,7 +225,7 @@ public class ModuleNode extends SymbolNode {
     * MCParser though.                                                     *
     ***********************************************************************/
 
-    final Vector<OpDefNode> recursiveDecls = new Vector<OpDefNode>(8);
+    final Vector<OpDefNode> recursiveDecls = new Vector<>(8);
     /***********************************************************************
     * Contains the list of OpDefNode objects created by processing         *
     * RECURSIVE statements, in the order in which they were created.       *
@@ -307,18 +307,18 @@ public class ModuleNode extends SymbolNode {
   * uniquestr in ModuleNode mn, one calls                                  *
   * mn.getContext().getSymbol(uniquestr).                                  *
   *************************************************************************/
-  private final Vector<AssumeNode> assumptionVec = new Vector<AssumeNode>();  // Vector of AssumeNodes
-  private final Vector<TheoremNode> theoremVec    = new Vector<TheoremNode>();  // Vector of TheoremNodes
-  private final Vector<InstanceNode> instanceVec   = new Vector<InstanceNode>();  // Vector of InstanceNodes
+  private final Vector<AssumeNode> assumptionVec = new Vector<>();  // Vector of AssumeNodes
+  private final Vector<TheoremNode> theoremVec    = new Vector<>();  // Vector of TheoremNodes
+  private final Vector<InstanceNode> instanceVec   = new Vector<>();  // Vector of InstanceNodes
 
-  private final Vector<LevelNode> topLevelVec   = new Vector<LevelNode>();
+  private final Vector<LevelNode> topLevelVec   = new Vector<>();
     /***********************************************************************
     * A vector containing all the entries in the preceding three vectors,  *
     * plus all top-level UseOrHideNode nodes, in the order in which they   *
     * appear in the module.                                                *
     ***********************************************************************/
 
-    final Vector<OpDefNode> recursiveOpDefNodes = new Vector<OpDefNode>();
+    final Vector<OpDefNode> recursiveOpDefNodes = new Vector<>();
     /***********************************************************************
     * A vector of all OpDefNodes for operators declared in RECURSIVE       *
     * statements--even within LET expressions.                             *

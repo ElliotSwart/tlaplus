@@ -118,7 +118,7 @@ public class TLAExpr
      * a vector of vectors of TLAToken objects.  Each 
      * subvector contains the tokens in one line of the expression.
      */
-    public Vector<Vector<TLAToken>> tokens       = new Vector<Vector<TLAToken>>(4);
+    public Vector<Vector<TLAToken>> tokens       = new Vector<>(4);
     public TLAToken[] anchorTokens = null;
     public int[]      anchorTokCol = null;
     
@@ -196,7 +196,7 @@ public class TLAExpr
       { /*******************************************************************
         * The new line is set to an empty vector.                          *
         *******************************************************************/
-        tokens.addElement(new Vector<TLAToken>()) ;
+        tokens.addElement(new Vector<>()) ;
       }
 
     public void normalize() 
@@ -339,7 +339,7 @@ public class TLAExpr
       }
       
     public Vector<String> toStringVector()
-      { final Vector<String> result = new Vector<String>(tokens.size()) ;
+      { final Vector<String> result = new Vector<>(tokens.size()) ;
         int i = 0 ;
         while (i < tokens.size())
           { final Vector<TLAToken> curTokLine = tokens.elementAt(i) ;
@@ -388,9 +388,9 @@ public class TLAExpr
      * @return
      */
     public Vector<Vector<MappingObject>> toMappingVector () {
-        final Vector<Vector<MappingObject>> result = new Vector<Vector<MappingObject>>(4) ;
+        final Vector<Vector<MappingObject>> result = new Vector<>(4) ;
         for (int i = 0; i < this.tokens.size(); i++) {
-            final Vector<MappingObject> mapLine = new Vector<MappingObject>() ;
+            final Vector<MappingObject> mapLine = new Vector<>() ;
             final Vector<TLAToken> expLine = this.tokens.elementAt(i);
             MappingObject.SourceToken sourceTok = null ;
             for (int j = 0; j < expLine.size(); j ++) {
@@ -490,10 +490,10 @@ public class TLAExpr
       * original.                                                          *
       *********************************************************************/
       { final TLAExpr result = new TLAExpr() ;
-        result.tokens = new Vector<Vector<TLAToken>>() ;
+        result.tokens = new Vector<>() ;
         int i = 0 ;
         while (i < this.tokens.size() )
-          { final Vector<TLAToken> newline = new Vector<TLAToken>() ;
+          { final Vector<TLAToken> newline = new Vector<>() ;
             final Vector<TLAToken> line = this.tokens.elementAt(i) ;
             int j = 0 ;
             while (j < line.size())
@@ -624,7 +624,7 @@ public class TLAExpr
       * expression in expVec and then applying substituteForAll(exprs,     *
       * strs) to the clone.                                                *
       *********************************************************************/
-      { final Vector<TLAExpr> result = new Vector<TLAExpr>() ;
+      { final Vector<TLAExpr> result = new Vector<>() ;
         int i = 0 ;
         while (i < expVec.size())
           { final TLAExpr e = expVec.elementAt(i).cloneAndNormalize() ;
@@ -912,7 +912,7 @@ public class TLAExpr
           { final TLAToken nextTok = tokLine.elementAt(coord.two + 1) ;
             spaces = nextTok.column - (tok.column + tok.getWidth()) ;
           }
-          final Vector<TLAToken> restOfLine = new Vector<TLAToken>() ;
+          final Vector<TLAToken> restOfLine = new Vector<>() ;
         
         while (coord.two + 1 < tokLine.size())
           { restOfLine.add(tokLine.elementAt(coord.two + 1)) ;
@@ -1043,7 +1043,7 @@ public class TLAExpr
                     *******************************************************/
                     indent = 0 ;
                     curLine = curLine + 1 ;
-                    this.tokens.insertElementAt(new Vector<TLAToken>() , curLine) ;
+                    this.tokens.insertElementAt(new Vector<>() , curLine) ;
                     line = this.tokens.elementAt(curLine) ;
                     final TLAToken[] aTok  = new TLAToken[this.tokens.size()] ;
                     final int[]      aTCol = new int[this.tokens.size()] ;
@@ -1085,7 +1085,7 @@ public class TLAExpr
                 /*
                  * Can now reset tok.endSubst.
                  */
-                tok.setEndSubst(new Vector<PCalLocation>(2)); 
+                tok.setEndSubst(new Vector<>(2));
                 line.add(rParen) ;
             }
             

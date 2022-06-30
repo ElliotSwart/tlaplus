@@ -130,7 +130,7 @@ public class TLCRunner {
 								+ File.separator
 								+ "java"
 								+ (isWindows ? ".exe" : "");
-		final List<String> command = new ArrayList<String>();
+		final List<String> command = new ArrayList<>();
 		command.add(jvm);
 		command.addAll(JVM_ARGUMENTS);
 		command.add(TLC_CLASS);

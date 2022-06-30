@@ -1345,7 +1345,7 @@ public class TLC {
     }
     
 	public List<File> getModuleFiles() {
-    	final List<File> result = new ArrayList<File>();
+    	final List<File> result = new ArrayList<>();
     	
     	if (TLCGlobals.mainChecker instanceof final ModelChecker mc) {
             result.addAll(mc.getModuleFiles(resolver));
@@ -1630,7 +1630,7 @@ public class TLC {
     	commandVariants.add(simulateVariant);
 
     	
-    	final List<String> tips = new ArrayList<String>();
+    	final List<String> tips = new ArrayList<>();
     	tips.add("When using the  '-generateSpecTE' you can version the generated specification by doing:\n\t"
     				+ "./tla2tools.jar -generateSpecTE MySpec.tla && NAME=\"SpecTE-$(date +%s)\" && sed -e \"s/MODULE"
     				+ " SpecTE/MODULE $NAME/g\" SpecTE.tla > $NAME.tla");

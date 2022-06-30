@@ -365,7 +365,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 		final String module = args.getSource().getName().replaceFirst(".tla$", "");
 		
 		if (args.getBreakpoints() != null && args.getBreakpoints().length > 0) {
-			breakpoints.computeIfAbsent(module, key -> new ArrayList<TLCSourceBreakpoint>()).clear();
+			breakpoints.computeIfAbsent(module, key -> new ArrayList<>()).clear();
 			
 			final ModuleNode moduleNode = tool.getModule(module);
 			

@@ -17,7 +17,7 @@ public interface ValueEnumeration {
   Value nextElement();
   
 	default List<Value> all() {
-		final List<Value> values = new ArrayList<Value>();
+		final List<Value> values = new ArrayList<>();
 		Value elem;
 		while ((elem = nextElement()) != null) {
 			values.add(elem);

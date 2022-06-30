@@ -19,15 +19,15 @@ public class ModuleRelatives {
   ModulePointer outerModule                     = null; // TreeNode of the immediate outer (parent) module; 
                                                         //   null currentModule is the outermost in parseUnit
 
-  final Vector<ModulePointer>        directInnerModules              = new Vector<ModulePointer>();
+  final Vector<ModulePointer>        directInnerModules              = new Vector<>();
                                                         // Vector of ModulePointers for immediate inner modules 
 
-  final Vector<String>        directlyExtendedModuleNames     = new Vector<String>();
+  final Vector<String>        directlyExtendedModuleNames     = new Vector<>();
                                                         // Vector of String names for modules mentioned in EXTENDS decls by 
                                                         //   currentModule, whether or not they are resolved within the 
                                                         //   current ParseUnit
 
-  final Vector<String>        directlyInstantiatedModuleNames = new Vector<String>();
+  final Vector<String>        directlyInstantiatedModuleNames = new Vector<>();
                                                         // Vector of String names for modules directly instantiated 
                                                         //   by currentModule, whether or not they are resolved within the
                                                         //   current ParseUnit

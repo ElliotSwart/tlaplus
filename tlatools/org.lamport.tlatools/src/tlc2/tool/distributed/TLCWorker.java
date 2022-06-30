@@ -80,9 +80,9 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 	//TODO Remove once performance tests show superiority of TreeSet
 	private Set<Holder> getSet() {
 		if (unsorted) {
-			return new HashSet<Holder>();
+			return new HashSet<>();
 		} else {
-			return new TreeSet<Holder>();
+			return new TreeSet<>();
 		}
 	}
 

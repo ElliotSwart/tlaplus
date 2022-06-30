@@ -197,11 +197,11 @@ public class PcalSymTab {
      */
     public PcalSymTab (final AST ast) throws PcalSymTabException {
 
-        symtab = new Vector<SymTabEntry>();
+        symtab = new Vector<>();
         iPC = null;
-        disambiguateReport = new Vector<String>();
-        procs = new Vector<ProcedureEntry>();
-        processes = new Vector<ProcessEntry>();
+        disambiguateReport = new Vector<>();
+        procs = new Vector<>();
+        processes = new Vector<>();
         errorReport = "";
 // Following line removed by LL on 3 Feb 2006
 //        InsertSym(LABEL, "Done", "", "", 0, 0);

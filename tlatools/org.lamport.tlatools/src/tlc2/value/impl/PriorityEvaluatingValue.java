@@ -42,12 +42,12 @@ public class PriorityEvaluatingValue extends EvaluatingValue {
 
 	private static final long serialVersionUID = 6911089129982560105L;
 
-	private static final Comparator<EvaluatingValue> comparator = new Comparator<EvaluatingValue>() {
-		@Override
-		public int compare(final EvaluatingValue o1, final EvaluatingValue o2) {
-			return Integer.compare(o1.priority, o2.priority);
-		}
-	};
+	private static final Comparator<EvaluatingValue> comparator = new Comparator<>() {
+        @Override
+        public int compare(final EvaluatingValue o1, final EvaluatingValue o2) {
+            return Integer.compare(o1.priority, o2.priority);
+        }
+    };
 
 	private final ArrayList<EvaluatingValue> handles = new ArrayList<>();
 

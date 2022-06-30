@@ -109,7 +109,7 @@ public short workerId = Short.MAX_VALUE; // Must be set to a non-negative number
    * Returns a mapping of variable names to their assigned values in this state.
    */ 
   public final Map<UniqueString, IValue> getVals() {
-	final Map<UniqueString, IValue> valMap = new HashMap<UniqueString, IValue>();
+	final Map<UniqueString, IValue> valMap = new HashMap<>();
 	for(int i = 0; i < vars.length; i++) {
         final UniqueString key = vars[i].getName();
         final IValue val = this.lookup(key);

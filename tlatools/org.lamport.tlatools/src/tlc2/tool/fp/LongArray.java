@@ -157,26 +157,26 @@ public final class LongArray {
 			final Collection<Callable<Boolean>> tasks = new ArrayList<Callable<Boolean>>(numThreads);
 			for (int i = 0; i < numThreads; i++) {
 				final int offset = i;
-				tasks.add(new Callable<Boolean>() {
+				tasks.add(new Callable<>() {
 
-					@Override
+                    @Override
                     public Boolean call() throws Exception {
-						// Null memory (done in parallel on segments).
-						// This is essential as allocateMemory returns
-						// uninitialized memory and
-						// memInsert/memLockup utilize 0L as a mark for an
-						// unused fingerprint position.
-						// Otherwise memory garbage wouldn't be distinguishable
-						// from a true fp.
-						final long lowerBound = segmentSize * offset;
-						// The last threads zeros up to the end.
-						final long upperBound = offset == numThreads - 1 ? length : (1 + offset) * segmentSize;
-						for (long pos = lowerBound; pos < upperBound; pos++) {
-							set(pos, 0L);
-						}
-						return true;
-					}
-				});
+                        // Null memory (done in parallel on segments).
+                        // This is essential as allocateMemory returns
+                        // uninitialized memory and
+                        // memInsert/memLockup utilize 0L as a mark for an
+                        // unused fingerprint position.
+                        // Otherwise memory garbage wouldn't be distinguishable
+                        // from a true fp.
+                        final long lowerBound = segmentSize * offset;
+                        // The last threads zeros up to the end.
+                        final long upperBound = offset == numThreads - 1 ? length : (1 + offset) * segmentSize;
+                        for (long pos = lowerBound; pos < upperBound; pos++) {
+                            set(pos, 0L);
+                        }
+                        return true;
+                    }
+                });
 			}
 			final List<Future<Boolean>> invokeAll = es.invokeAll(tasks);
 			Assert.check(!invokeAll.isEmpty(), EC.GENERAL);

@@ -244,7 +244,7 @@ package tla2tex;
 import java.util.Vector;
 
 public class TokenizeComment
-  { private static Vector<Vector<CToken>> vspec = new Vector<Vector<CToken>>(50, 50) ;
+  { private static Vector<Vector<CToken>> vspec = new Vector<>(50, 50) ;
       /*********************************************************************
       * The vector that will eventually be turned into the array returned  *
       * by the Tokenize method.                                            *
@@ -257,7 +257,7 @@ public class TokenizeComment
     * (which are defined as private class methods).                        *
     ***********************************************************************/
 
-    private static Vector<CToken> linev = new Vector<CToken>(40, 40) ;
+    private static Vector<CToken> linev = new Vector<>(40, 40) ;
           /*****************************************************************
           * Vector linev contains the tokens found so far on the current   *
           * line.                                                          *
@@ -526,7 +526,7 @@ public class TokenizeComment
       * removed from the input stream.                                     *
       *********************************************************************/
       { vspec.addElement(linev)    ;
-        linev = new Vector<CToken>(30, 30) ;
+        linev = new Vector<>(30, 30) ;
         col = 0 ;
         ncol = 0 ;
       }
@@ -548,7 +548,7 @@ public class TokenizeComment
               }
               n = n+1 ;
           }
-          vspec = new Vector<Vector<CToken>>(50, 50) ;
+          vspec = new Vector<>(50, 50) ;
         return aspec;
       }
 

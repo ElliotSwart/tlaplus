@@ -53,7 +53,7 @@ public class PcalResourceFileReader
     * Reads file fileName into a StringVector, a vector in which each      *
     * element is a line of the file.                                       *
     ***********************************************************************/
-    { final Vector<String> inputVec = new Vector<String>(100) ;
+    { final Vector<String> inputVec = new Vector<>(100) ;
        final PcalResourceFileReader wordFileReader
                      = new PcalResourceFileReader(fileName);
 

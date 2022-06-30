@@ -153,7 +153,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	 * {@link TLCServer#registerWorker(TLCWorkerRMI)} - which would cause a
 	 * {@link ConcurrentModificationException}.
 	 */
-	private final Map<TLCServerThread, TLCWorkerRMI> threadsToWorkers = new ConcurrentHashMap<TLCServerThread, TLCWorkerRMI>();
+	private final Map<TLCServerThread, TLCWorkerRMI> threadsToWorkers = new ConcurrentHashMap<>();
 	
 	private final IBlockSelector blockSelector;
 	
@@ -756,7 +756,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 			tlcServerMXWrapper.unregister();
 			// When creation of TLCApp fails, we get here as well.
 			if (mail != null) {
-				List<File> files = new ArrayList<File>();
+				List<File> files = new ArrayList<>();
 				if (app != null) {
 					files = app.getModuleFiles();
 				}

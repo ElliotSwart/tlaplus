@@ -152,7 +152,7 @@ public class MailSender {
 				new String[] { "MX" });
 		final Attribute attr = attributes.get("MX");
 
-		final List<MXRecord> list = new ArrayList<MXRecord>();
+		final List<MXRecord> list = new ArrayList<>();
 		
 		// RFC 974
 		if (attr == null) {
@@ -243,7 +243,7 @@ public class MailSender {
 	}
 
 	public boolean send() {
-		return send(new ArrayList<File>());
+		return send(new ArrayList<>());
 	}
 
 	public boolean send(final List<File> files) {

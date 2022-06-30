@@ -127,7 +127,7 @@ public class TraceExplorationSpec {
 		// field ModelValue.mvs.
 		ModelValue.setValues();
 		final Set<String> declaredConstantNames = constants.stream().map(l -> l.get(0)).collect(Collectors.toSet());
-		final Set<ModelValue> reifiedConstants = new HashSet<ModelValue>();
+		final Set<ModelValue> reifiedConstants = new HashSet<>();
 		reifiedConstants.addAll(Arrays.asList(ModelValue.mvs));
 		reifiedConstants.stream().filter(m -> !declaredConstantNames.contains(m.toString()))
 				.collect(Collectors.toSet());
@@ -144,7 +144,7 @@ public class TraceExplorationSpec {
 		 * TraceExplorerDelegate#writeModelInfo)
 		 */
 
-		final List<String> indentedConstants = new ArrayList<String>();
+		final List<String> indentedConstants = new ArrayList<>();
 		// Ordinary constants:
 		for (final List<String> keyValuePair : constants) {
 			if (keyValuePair.size() > 1) {
@@ -179,7 +179,7 @@ public class TraceExplorationSpec {
 		// So we add these remaining constants to `mvsStr` so they are added to the
 		// `TE` spec.
 		final Defns defns = specInfo.getSpecProcessor().getDefns();
-		final ArrayList<String> modConstants = new ArrayList<String>();
+		final ArrayList<String> modConstants = new ArrayList<>();
 		for (final ModelValue mv : ModelValue.mvs) {
 			if (defns.get(mv.toString()) == null) {
 				modConstants.add(mv.toString());

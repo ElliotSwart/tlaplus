@@ -40,37 +40,37 @@ public final class BuiltInSymbols
     /***********************************************************************
     * The following six hash tables are built by the Initialize method.  *
     ***********************************************************************/
-    private static final Hashtable<String, Symbol> builtInHashTable = new Hashtable<String, Symbol>(200);
+    private static final Hashtable<String, Symbol> builtInHashTable = new Hashtable<>(200);
       /*********************************************************************
       * Maps built-in symbols (which are strings) to their Symbol          *
       * objects.  Does not contain PlusCal symbols.                        *
       *********************************************************************/
 
-    private static final Hashtable<String, String> prefixHashTable  = new Hashtable<String, String>(700);
+    private static final Hashtable<String, String> prefixHashTable  = new Hashtable<>(700);
       /*********************************************************************
       * A table containing the prefixes of all built-in symbols in         *
       * builtInHashTable.  (It holds only their keys.)                     *
       *********************************************************************/
 
-    private static final Hashtable<String, Symbol> pcalBuiltInHashTable = new Hashtable<String, Symbol>(200);
+    private static final Hashtable<String, Symbol> pcalBuiltInHashTable = new Hashtable<>(200);
       /*********************************************************************
       * Maps built-in symbols (which are strings) to their Symbol          *
       * objects.  It includes the PlusCal symbols.                         *
       *********************************************************************/
 
-    private static final Hashtable<String, String> pcalPrefixHashTable  = new Hashtable<String, String>(700);
+    private static final Hashtable<String, String> pcalPrefixHashTable  = new Hashtable<>(700);
       /*********************************************************************
       * A table containing the prefixes of all built-in symbols in         *
       * pcalBuiltInHashTable.  (It holds only their keys.)                 *
       *********************************************************************/
 
-    private static final Hashtable<String, String> stringCharTable  = new Hashtable<String, String>(100);
+    private static final Hashtable<String, String> stringCharTable  = new Hashtable<>(100);
       /*********************************************************************
       * A table of all the characters that may appear in a TLA+ string     *
       * token.                                                             *
       *********************************************************************/
 
-    private static final Hashtable<String, String> canPrecedeLabelTable = new Hashtable<String, String>(15);
+    private static final Hashtable<String, String> canPrecedeLabelTable = new Hashtable<>(15);
       /*********************************************************************
       * A table of all the tokens (strings) that can precede a labeled     *
       * statement.                                                         *

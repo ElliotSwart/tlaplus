@@ -15,7 +15,7 @@ import java.util.Hashtable;
 class ParseUnitsTable {
 
   // Maps ParseUnit string names to their respective ParseUnit objects
-  final Hashtable<ParseUnit, ParseUnit> parseUnitTable = new Hashtable<ParseUnit, ParseUnit>();
+  final Hashtable<ParseUnit, ParseUnit> parseUnitTable = new Hashtable<>();
 
   ParseUnit get(final ParseUnit parseUnitName) {
     return parseUnitTable.get(parseUnitName); 

@@ -44,12 +44,12 @@ public class SpecObj
     // it includes ModuleNode's for the root module, and for all modules
     // that it depends on directly or indirectly by EXTENDS or INSTANCE
 
-    public final Vector<String> semanticAnalysisVector = new Vector<String>();
+    public final Vector<String> semanticAnalysisVector = new Vector<>();
     // Stack of units parsed, in the order in which semantic analysis
     // must be done, i.e. if MODULE A references B, A is lower
     // on the stack. The same module name can occur multiple times.
 
-    public final Hashtable<String, ParseUnit> parseUnitContext = new Hashtable<String, ParseUnit>();
+    public final Hashtable<String, ParseUnit> parseUnitContext = new Hashtable<>();
     // Holds all known ParseUnit objects, i.e external, top-level
     // modules that have so far been encountered, keyed by module
     // (parseUnit) string name
@@ -377,8 +377,8 @@ public class SpecObj
     // parseUnitName. If there is, cause an abort; otherwise return.
     private void nonCircularityTest(final ParseUnit parseUnit, final Errors errors) throws AbortException
     {
-        final Set<ParseUnit> alreadyVisited = new HashSet<ParseUnit>();
-        final Vector<ParseUnit> circularPath = new Vector<ParseUnit>();
+        final Set<ParseUnit> alreadyVisited = new HashSet<>();
+        final Vector<ParseUnit> circularPath = new Vector<>();
 
         circularPath.addElement(parseUnit);
         nonCircularityBody(parseUnit, parseUnit, errors, alreadyVisited, circularPath);
@@ -448,7 +448,7 @@ public class SpecObj
     // table calling the recursive method below
     private boolean findNextUnresolvedExtention(final ModulePointer currentModule)
     {
-        final HashSet<ModulePointer> alreadyVisited = new HashSet<ModulePointer>();
+        final HashSet<ModulePointer> alreadyVisited = new HashSet<>();
         return findNextUnresolvedExtentionBody(currentModule, alreadyVisited);
     }
 
@@ -536,7 +536,7 @@ public class SpecObj
     // table calling the recursive method below
     private boolean findNextUnresolvedInstantiation(final ModulePointer currentModule)
     {
-        final HashSet<ModulePointer> alreadyVisited = new HashSet<ModulePointer>();
+        final HashSet<ModulePointer> alreadyVisited = new HashSet<>();
         return findNextUnresolvedInstantiationBody(currentModule, alreadyVisited);
     }
 
@@ -553,7 +553,7 @@ public class SpecObj
 
         // We will be accumulating the set of names of internal modules
         // defined before the INSTANCE declaration.
-        final HashSet<String> internalModulesSeen = new HashSet<String>();
+        final HashSet<String> internalModulesSeen = new HashSet<>();
 
         // loop through the top level definitions in the body of the
         // module looking for embedded modules instantiations, and module
@@ -746,7 +746,7 @@ public class SpecObj
     {
         // The Vector of Modules that equals, or directly or indirectly
         // extends, "module"
-        final Vector<ModulePointer> extenders = new Vector<ModulePointer>();
+        final Vector<ModulePointer> extenders = new Vector<>();
         extenders.addElement(module);
 
         // initializations for the following nested loop

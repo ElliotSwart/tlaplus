@@ -29,8 +29,8 @@ public class SymbolContext {
   private final boolean[] flagArray;
 
   public SymbolContext() {
-    context = new java.util.HashMap<Integer,Element>();
-    keys = new java.util.HashSet<Integer>();
+    context = new java.util.HashMap<>();
+    keys = new java.util.HashSet<>();
     flagArray = new boolean[1];
     top_level_entry = false;
   }

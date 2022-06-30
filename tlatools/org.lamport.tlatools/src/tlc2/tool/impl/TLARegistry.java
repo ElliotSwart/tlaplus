@@ -16,7 +16,7 @@ import java.util.Hashtable;
  */
 public class TLARegistry {
 
-  private static final Hashtable<String, String> javaToTLA = new Hashtable<String, String>();
+  private static final Hashtable<String, String> javaToTLA = new Hashtable<>();
 
   public static String get(final String name) {
     return javaToTLA.get(name);

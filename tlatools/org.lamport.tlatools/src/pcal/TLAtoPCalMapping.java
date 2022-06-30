@@ -834,8 +834,8 @@ public class TLAtoPCalMapping implements Serializable {
    * @return
    */
   public static Vector<Vector<MappingObject>> RemoveRedundantParens(final Vector<Vector<MappingObject>> mappingVec) {
-      final Vector<Vector<MappingObject>> out = new Vector<Vector<MappingObject>>(); // Vector of Vectors of MappingObjects
-      final Vector<PCalLocation> unmatchedLeft = new Vector<PCalLocation>();
+      final Vector<Vector<MappingObject>> out = new Vector<>(); // Vector of Vectors of MappingObjects
+      final Vector<PCalLocation> unmatchedLeft = new Vector<>();
          // Vector of PCalLocations in out of unmatched LeftParen objects
       PCalLocation lastMatchedLeft = null;
         // position in out of last LeftParen object that was matched by
@@ -844,7 +844,7 @@ public class TLAtoPCalMapping implements Serializable {
       int i = 0 ;
       while (i < mappingVec.size()) {
           final Vector<MappingObject> inLine = mappingVec.elementAt(i);
-          final Vector<MappingObject> outLine = new Vector<MappingObject>();
+          final Vector<MappingObject> outLine = new Vector<>();
           out.addElement(outLine);
           int j = 0 ;
           while (j < inLine.size()) {

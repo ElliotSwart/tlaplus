@@ -181,7 +181,7 @@ public final class FormatComments
 
   /* ---------------------- THE word HASH TABLE ------------------------- */
 
-  private static final Hashtable<String, String> wordHashTable  = new Hashtable<String, String>(100000);
+  private static final Hashtable<String, String> wordHashTable  = new Hashtable<>(100000);
     /***********************************************************************
     * A hashtable of all common English words.                             *
     ***********************************************************************/
@@ -214,7 +214,7 @@ public final class FormatComments
 
     /* -------------------- THE ambiguous HASH TABLE ---------------------- */
 
-  private static final Hashtable<String,String> ambiguousHashTable  = new Hashtable<String,String>(100);
+  private static final Hashtable<String,String> ambiguousHashTable  = new Hashtable<>(100);
     /***********************************************************************
     * A hashtable of all built-in symbols that can appear as ordinary      *
     * punctuation.  The entry for a symbol is the TeX string that          *
@@ -276,7 +276,7 @@ public final class FormatComments
 
   /* -------------------- THE repeatChar HASH TABLE --------------------- */
 
-  private static final Hashtable<String,Symbol> repeatCharHashTable  = new Hashtable<String,Symbol>(100);
+  private static final Hashtable<String,Symbol> repeatCharHashTable  = new Hashtable<>(100);
     /***********************************************************************
     * A hashtable of all characters that can be repeated to make some      *
     * sort of "dash", for example writing "==========".  We should define  *
@@ -881,7 +881,7 @@ public final class FormatComments
      /**********************************************************************
      * Set thisCommentTLA to be a hash table of all TLA IDENT tokens.      *
      **********************************************************************/
-     final Hashtable<String, String> thisCommentTLA  = new Hashtable<String, String>(100);
+     final Hashtable<String, String> thisCommentTLA  = new Hashtable<>(100);
      line = 0 ;
      while (line < com.length)
       {item = 0 ;

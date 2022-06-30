@@ -50,12 +50,12 @@ public class BucketStatistics extends AbstractBucketStatistics implements IBucke
 
 	public BucketStatistics(final String aTitle) {
 		super(aTitle);
-		this.buckets = new HashMap<Integer, Long>();
+		this.buckets = new HashMap<>();
 	}
 
 	public BucketStatistics(final String aTitle, final String pkg, final String name) {
 		super(aTitle, pkg, name);
-		this.buckets = new HashMap<Integer, Long>();
+		this.buckets = new HashMap<>();
 	}
 
 	/* (non-Javadoc)
@@ -89,7 +89,7 @@ public class BucketStatistics extends AbstractBucketStatistics implements IBucke
 	 */
 	@Override
     public NavigableMap<Integer, Long> getSamples() {
-		final NavigableMap<Integer, Long> res = new TreeMap<Integer, Long>();
+		final NavigableMap<Integer, Long> res = new TreeMap<>();
 		for (final Entry<Integer, Long> entry : this.buckets.entrySet()) {
 			res.put(entry.getKey(), entry.getValue());
 		}

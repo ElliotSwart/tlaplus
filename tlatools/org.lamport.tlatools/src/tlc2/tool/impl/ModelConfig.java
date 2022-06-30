@@ -171,7 +171,7 @@ public class ModelConfig implements ValueConstants, Serializable {
             final SimpleCharStream scs = new SimpleCharStream(fis, 1, 1);
             final TLAplusParserTokenManager tmgr = new TLAplusParserTokenManager(scs, 2);
 
-        	final List<StringBuffer> rawConstants = new ArrayList<StringBuffer>();
+        	final List<StringBuffer> rawConstants = new ArrayList<>();
             Token tt = getNextToken(tmgr);
             while (tt.kind != TLAplusParserConstants.EOF)
             {
@@ -297,7 +297,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                             lhs = lhs + "!" + tt.image;
                             tt = getNextToken(tmgr, buf);
                         }
-                        final Vect<Comparable<?>> line = new Vect<Comparable<?>>();
+                        final Vect<Comparable<?>> line = new Vect<>();
                         line.addElement(lhs);
                         // Following code replaced on 30 July 2009.
                         // line.addElement(tt.image);
@@ -330,7 +330,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                                 Hashtable<Comparable<?>, Object> defs = this.modOverrides.get(modName);
                                 if (defs == null)
                                 {
-                                    defs = new Hashtable<Comparable<?>, Object>();
+                                    defs = new Hashtable<>();
                                     this.modOverrides.put(modName, defs);
                                 }
                                 defs.put(line.elementAt(0), tt.image);
@@ -392,7 +392,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                                 Vect<Vect<Comparable<?>>> mConsts = (Vect<Vect<Comparable<?>>>) this.modConstants.get(modName);
                                 if (mConsts == null)
                                 {
-                                    mConsts = new Vect<Vect<Comparable<?>>>();
+                                    mConsts = new Vect<>();
                                     this.modConstants.put(modName, mConsts);
                                 }
                                 mConsts.addElement(line);

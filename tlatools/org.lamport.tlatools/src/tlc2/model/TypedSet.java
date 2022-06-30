@@ -170,7 +170,7 @@ public class TypedSet {
             return Arrays.asList(values);
         } else
         {
-            final List<String> typedList = new ArrayList<String>(values.length);
+            final List<String> typedList = new ArrayList<>(values.length);
             // add type to the list
             for (int i = 0; i < values.length; i++)
             {

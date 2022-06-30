@@ -12,7 +12,7 @@ class Test
       /*********************************************************************
       * If we think of a vector as a sequence, then this returns <<obj>>.  *
       *********************************************************************/
-      { final Vector<T> result = new Vector<T>() ;
+      { final Vector<T> result = new Vector<>() ;
         result.addElement(obj) ;
         return result; 
       }
@@ -73,7 +73,7 @@ class Test
       * a TLAExpr describing a one-line expression composed of clones of   *
       * the tokens in vec separated by `spaces' spaces.                    *
       *********************************************************************/
-      { final Vector<TLAToken> firstLine = new Vector<TLAToken>() ;
+      { final Vector<TLAToken> firstLine = new Vector<>() ;
         int nextCol = 0 ;
         int i = 0 ;
         while (i < vec.size())
@@ -93,7 +93,7 @@ class Test
       *********************************************************************/
       { final AST.SingleAssign sAss = new AST.SingleAssign() ;
         sAss.lhs.var = id ;
-        sAss.lhs.sub = MakeExpr(new Vector<Vector<TLAToken>>()) ;
+        sAss.lhs.sub = MakeExpr(new Vector<>()) ;
         sAss.rhs = exp ;
         final AST.Assign result = new AST.Assign() ;
         result.ass = Singleton(sAss) ;

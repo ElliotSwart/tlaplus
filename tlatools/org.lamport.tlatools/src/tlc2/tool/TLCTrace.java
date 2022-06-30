@@ -197,7 +197,7 @@ public class TLCTrace {
 	 * @throws IOException
 	 */
 	public final TLCStateInfo[] getTrace() throws IOException {
-		final Map<Long, TLCStateInfo> locToState = new HashMap<Long, TLCStateInfo>();
+		final Map<Long, TLCStateInfo> locToState = new HashMap<>();
 
 		synchronized (this) {
 			final long curLoc = this.raf.getFilePointer();

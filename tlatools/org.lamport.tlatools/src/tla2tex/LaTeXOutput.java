@@ -272,7 +272,7 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
                       { outLine = outLine + "%";
                         Misc.WriteIfNonNull(writer, outLine);
                         outLine = "" ;
-                        final Vector<String> vec = new Vector<String>(2);
+                        final Vector<String> vec = new Vector<>(2);
                         vec.addElement(tok.string) ;
                         FormatComments.WriteComment
                          (writer, vec, FormatComments.ONE_LINE, 0, tlaMode) ;
@@ -804,7 +804,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
   * and with it false by WriteTLATeXEnvironment.                           *
   *************************************************************************/
  { // BEGIN  InnerWriteLaTeXFile(Token[][] spec)
-  final Vector<String> commentVec = new Vector<String>(150);
+  final Vector<String> commentVec = new Vector<>(150);
     /***********************************************************************
     * Used to hold the vector argument to FormatComments.WriteComment.     *
     ***********************************************************************/
@@ -1202,7 +1202,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                     Misc.BreakStringOut(writer, outLine + "}%" ) ;
   
   
-                    final Vector<String> vec = new Vector<String>(2);
+                    final Vector<String> vec = new Vector<>(2);
                     vec.addElement(tok.string) ;
                     if (   (item == 0)
                         && (spec[line].length > 1))
@@ -1248,7 +1248,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                     * line.  (A multi-line need not be ended by a NULL     *
                     * line.)                                               *
                     *******************************************************/
-                    final Vector<String> mlineVector = new Vector<String>();
+                    final Vector<String> mlineVector = new Vector<>();
                     Position nextPos = ctok.belowAlign;
                     boolean more = true;
                     Token ntok = null;
@@ -1354,7 +1354,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                     Debug.Assert(outLine.equals(""),
                       "Non-empty outLine at beginning of PAR comment");
   
-                    final Vector<String> lineVector = new Vector<String>();
+                    final Vector<String> lineVector = new Vector<>();
 
                     /*******************************************************
                     * Add tok.column + 2 spaces to beginning of first      *
@@ -1472,7 +1472,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                    /********************************************************
                    * Print the epilog like a PAR comment.                  *
                    ********************************************************/
-                   final Vector<String> lineVector = new Vector<String>() ;
+                   final Vector<String> lineVector = new Vector<>() ;
                    while (line < spec.length)
                     { if (spec[line].length == 0)
                        { lineVector.addElement(""); }

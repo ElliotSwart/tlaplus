@@ -15,7 +15,7 @@ import java.util.Hashtable;
 class ModuleRelationships {
 
   // Maps ModulePointer objects to ModuleRelatives objects
-  private final Hashtable<ModulePointer, ModuleRelatives> modRelHashtable = new Hashtable<ModulePointer, ModuleRelatives>();
+  private final Hashtable<ModulePointer, ModuleRelatives> modRelHashtable = new Hashtable<>();
 
 /*
   ModuleRelatives getRelatives(ModulePointer modulePointer) { 

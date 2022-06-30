@@ -866,7 +866,7 @@ public boolean addLabel(final LabelNode odn) {
     * as odn, then odn is added to the set and true is return; else the    *
     * set is unchanged and false is returned.                              *
     ***********************************************************************/
-    if (labels == null) {labels = new Hashtable<UniqueString, LabelNode>(); }
+    if (labels == null) {labels = new Hashtable<>(); }
       if (labels.containsKey(odn)) {return false ;}
       labels.put(odn.getName(), odn) ;
     return true;
@@ -879,7 +879,7 @@ public boolean addLabel(final LabelNode odn) {
     * `labels'.                                                            *
     ***********************************************************************/
     if (labels == null) {return new LabelNode[0];}
-      final Vector<LabelNode> v = new Vector<LabelNode>() ;
+      final Vector<LabelNode> v = new Vector<>() ;
     final Enumeration<LabelNode> e = labels.elements() ;
     while (e.hasMoreElements()) { v.addElement(e.nextElement()); }
       final LabelNode[] retVal = new LabelNode[v.size()] ;

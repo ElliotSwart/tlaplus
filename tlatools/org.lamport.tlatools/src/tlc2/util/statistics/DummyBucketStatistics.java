@@ -104,7 +104,7 @@ public class DummyBucketStatistics implements IBucketStatistics {
 	 */
 	@Override
     public NavigableMap<Integer, Long> getSamples() {
-		return new TreeMap<Integer, Long>();
+		return new TreeMap<>();
 	}
 
 	/* (non-Javadoc)

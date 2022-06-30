@@ -133,7 +133,7 @@ public class InstanceNode extends LevelNode {
     levelChecked = itr ;
 
 
-    levelParams = new HashSet<SymbolNode>() ;
+    levelParams = new HashSet<>() ;
       /*********************************************************************
       * Added in SANY2.                                                    *
       *********************************************************************/

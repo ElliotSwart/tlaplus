@@ -266,7 +266,7 @@ public class GraphNode extends AbstractGraphNode {
 	}
 
 	public boolean checkInvariants(final int slen, final int alen) {
-		final Set<Transition> transitions = new HashSet<Transition>();
+		final Set<Transition> transitions = new HashSet<>();
 		for (int i = 0; i < succSize(); i++) {
 			final Transition t = new Transition(getStateFP(i), getTidx(i), getCheckAction(slen, alen, i));
 			transitions.add(t);
@@ -279,7 +279,7 @@ public class GraphNode extends AbstractGraphNode {
 	}
 	
 	public Set<Transition> getTransition(final int slen, final int alen) {
-		final Set<Transition> transitions = new HashSet<Transition>();
+		final Set<Transition> transitions = new HashSet<>();
 		for (int i = 0; i < succSize(); i++) {
 			final BitVector bv = new BitVector(alen);
 			for (int j = 0; j < alen; j++) {

@@ -235,54 +235,54 @@ public abstract class SemanticNode
 	 */
 	public LinkedList<SemanticNode> pathTo(final Location location) {
 		final ChildrenVisitor<LinkedList<SemanticNode>> visitor = walkChildren(
-				new ChildrenVisitor<LinkedList<SemanticNode>>() {
-					LinkedList<SemanticNode> pathToLoc;
+                new ChildrenVisitor<>() {
+                    LinkedList<SemanticNode> pathToLoc;
 
-					@Override
-					public LinkedList<SemanticNode> get() {
-						if (pathToLoc == null) {
-							return new LinkedList<SemanticNode>();
-						}
-						return pathToLoc;
-					}
+                    @Override
+                    public LinkedList<SemanticNode> get() {
+                        if (pathToLoc == null) {
+                            return new LinkedList<>();
+                        }
+                        return pathToLoc;
+                    }
 
-					@Override
-					public void preVisit(final SemanticNode node) {
-						if (location.equals(node.getLocation())) {
-							// node will be added to pathToLoc in postVisit!
-							pathToLoc = new LinkedList<>();
-						} else if (node instanceof final OpDefNode odn) {
+                    @Override
+                    public void preVisit(final SemanticNode node) {
+                        if (location.equals(node.getLocation())) {
+                            // node will be added to pathToLoc in postVisit!
+                            pathToLoc = new LinkedList<>();
+                        } else if (node instanceof final OpDefNode odn) {
                             for (final SemanticNode param : odn.getParams()) {
-								if (location.equals(param.getLocation())) {
-									pathToLoc = new LinkedList<>();
-									pathToLoc.add(param);
-								}
-							}
-						} else if (node instanceof final OpApplNode oan) {
+                                if (location.equals(param.getLocation())) {
+                                    pathToLoc = new LinkedList<>();
+                                    pathToLoc.add(param);
+                                }
+                            }
+                        } else if (node instanceof final OpApplNode oan) {
                             // TODO Include oan#range aka oan#getBded... in getQuantSymbolLists?
-							for (final FormalParamNode fpn : oan.getQuantSymbolLists()) {
-								if (location.equals(fpn.getLocation())) {
-									pathToLoc = new LinkedList<>();
-									pathToLoc.add(fpn);
-								}
-							}
-						}
-					}
+                            for (final FormalParamNode fpn : oan.getQuantSymbolLists()) {
+                                if (location.equals(fpn.getLocation())) {
+                                    pathToLoc = new LinkedList<>();
+                                    pathToLoc.add(fpn);
+                                }
+                            }
+                        }
+                    }
 
-					@Override
-					public boolean preempt(final SemanticNode node) {
-						return pathToLoc != null
-								|| !node.getLocation().includes(location);
-					}
+                    @Override
+                    public boolean preempt(final SemanticNode node) {
+                        return pathToLoc != null
+                                || !node.getLocation().includes(location);
+                    }
 
-					@Override
-					public ChildrenVisitor<LinkedList<SemanticNode>> postVisit(final SemanticNode node) {
-						if (pathToLoc != null) {
-							pathToLoc.add(node);
-						}
-						return this;
-					}
-				});
+                    @Override
+                    public ChildrenVisitor<LinkedList<SemanticNode>> postVisit(final SemanticNode node) {
+                        if (pathToLoc != null) {
+                            pathToLoc.add(node);
+                        }
+                        return this;
+                    }
+                });
 		return visitor.get();
 	}
 

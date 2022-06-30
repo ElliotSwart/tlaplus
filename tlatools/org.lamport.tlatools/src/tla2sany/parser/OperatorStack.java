@@ -10,7 +10,7 @@ import util.UniqueString;
 
 public class OperatorStack implements tla2sany.st.SyntaxTreeConstants {
 
-  private final Vector<Vector<OSelement>> StackOfStack = new Vector<Vector<OSelement>> (10);
+  private final Vector<Vector<OSelement>> StackOfStack = new Vector<>(10);
     /***********************************************************************
     * The actual OperatorStack object.  It appears to be a vector of       *
     * vectors of OSElement objects.  A stack appears to be represented by  *
@@ -44,7 +44,7 @@ public class OperatorStack implements tla2sany.st.SyntaxTreeConstants {
     /***********************************************************************
     * Adds an empty stack to the top of the OperatorStack.                 *
     ***********************************************************************/
-    CurrentTop = new Vector<OSelement>( 20 );
+    CurrentTop = new Vector<>(20);
     StackOfStack.addElement( CurrentTop );
   }
 

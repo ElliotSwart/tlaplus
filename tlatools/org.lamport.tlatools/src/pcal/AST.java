@@ -325,9 +325,9 @@ public class AST
      */
     public static class Procedure extends AST
       { public String name   = "" ;
-        public Vector<String> minusLabels = new Vector<String>();
-        public Vector<String> plusLabels = new Vector<String>();
-        public Vector<String> proceduresCalled = new Vector<String>();
+        public Vector<String> minusLabels = new Vector<>();
+        public Vector<String> plusLabels = new Vector<>();
+        public Vector<String> proceduresCalled = new Vector<>();
         public Vector<AST.PVarDecl> params = null ; // of PVarDecl
         public Vector<AST.PVarDecl> decls  = null ; // of PVarDecl 
         public Vector<AST> body   = null ; // of LabeledStmt
@@ -394,9 +394,9 @@ public class AST
     public static class Process extends AST
       { public String    name  = "" ;
         public int fairness = UNFAIR_PROC ;
-        public Vector<String>  minusLabels = new Vector<String>();
-        public Vector<String>  plusLabels = new Vector<String>();
-        public Vector<String>  proceduresCalled = new Vector<String>();
+        public Vector<String>  minusLabels = new Vector<>();
+        public Vector<String>  plusLabels = new Vector<>();
+        public Vector<String>  proceduresCalled = new Vector<>();
         public boolean   isEq  = true ; // true means "=", false means "\\in"
         public TLAExpr   id    = null ;
         public Vector<AST.VarDecl>    decls = null ; // of VarDecl

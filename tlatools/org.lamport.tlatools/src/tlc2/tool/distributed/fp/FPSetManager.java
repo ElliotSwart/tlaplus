@@ -62,7 +62,7 @@ public abstract class FPSetManager implements IFPSetManager {
 	public static int Port = 10998; // port # for fpset server
 
 	public FPSetManager() {
-		 this(new ArrayList<FPSets>());
+		 this(new ArrayList<>());
 	}
 	
 	public FPSetManager(final List<FPSets> fpSets) {
@@ -89,7 +89,7 @@ public abstract class FPSetManager implements IFPSetManager {
     public int numOfAliveServers() {
 		// Add all fpsets to a set to remove the duplicates. The duplicates stem
 		// from reassigning alive fpsets to the slot of a dead one.
-		final Set<FPSets> s = new HashSet<FPSets>();
+		final Set<FPSets> s = new HashSet<>();
 		s.addAll(this.fpSets);
 		
 		int aliveServer = 0;
@@ -298,7 +298,7 @@ public abstract class FPSetManager implements IFPSetManager {
     public BitVector[] putBlock(final LongVec[] fps, final ExecutorService executorService) {
 		// Create a Callable for each fingerprint set
 		final int len = this.fpSets.size();
-		final List<Callable<BitVectorWrapper>> solvers = new ArrayList<Callable<BitVectorWrapper>>();
+		final List<Callable<BitVectorWrapper>> solvers = new ArrayList<>();
 		for (int i = 0; i < len; i++) {
 			solvers.add(new PutBlockCallable(this, fpSets, fps, i));
 		}
@@ -343,7 +343,7 @@ public abstract class FPSetManager implements IFPSetManager {
     public BitVector[] containsBlock(final LongVec[] fps, final ExecutorService executorService) {
 		// Create a Callable for each fingerprint set
 		final int len = this.fpSets.size();
-		final List<Callable<BitVectorWrapper>> solvers = new ArrayList<Callable<BitVectorWrapper>>();
+		final List<Callable<BitVectorWrapper>> solvers = new ArrayList<>();
 		for (int i = 0; i < len; i++) {
 			solvers.add(new ContainsBlockCallable(this, fpSets, fps, i));
 		}
@@ -359,7 +359,7 @@ public abstract class FPSetManager implements IFPSetManager {
 			final List<Callable<BitVectorWrapper>> solvers) {
 		// Have the callables executed by the executor service
 		int retry = 0;
-		final CompletionService<BitVectorWrapper> ecs = new ExecutorCompletionService<BitVectorWrapper>(executorService);
+		final CompletionService<BitVectorWrapper> ecs = new ExecutorCompletionService<>(executorService);
 		for (int i = 0; i < solvers.size(); i++) {
 			final Callable<BitVectorWrapper> s = solvers.get(i);
 			try {
@@ -438,7 +438,7 @@ public abstract class FPSetManager implements IFPSetManager {
 		try {
 			// Start checkFP on all FPSets concurrently
 			// (checkFPs scans the full set sequentially!)
-			final CompletionService<Long> ecs = new ExecutorCompletionService<Long>(executorService);
+			final CompletionService<Long> ecs = new ExecutorCompletionService<>(executorService);
 			for (int i = 0; i < len; i++) {
 				ecs.submit(new CheckFPsCallable(fpSets.get(i).getFpset()));
 			}

@@ -61,7 +61,7 @@ public class ModelValue extends Value implements IModelValue {
     public static void init()
     {
        count = 0;
-       mvTable = new Hashtable<String, ModelValue>();
+       mvTable = new Hashtable<>();
        mvs = null;
     }
 

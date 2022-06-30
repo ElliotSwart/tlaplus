@@ -206,7 +206,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		// The syntax tree node holding this GenID
 		private final StringBuffer compoundID;
 		// The string name of the compound op, with "!"'s, if any
-		private final Vector<ExprOrOpArgNode> argsVector = new Vector<ExprOrOpArgNode>();
+		private final Vector<ExprOrOpArgNode> argsVector = new Vector<>();
 		// Vector of arguments (ExprNodes and OpArgNodes)
 		// that are embedded in the generalized identifier
 
@@ -350,8 +350,8 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		/**********************************************************************
 		 * The fields modified by addSelector: *
 		 **********************************************************************/
-		private final Vector<SyntaxTreeNode> opVec = new Vector<SyntaxTreeNode>(); // of SyntaxTreeNode ;
-		private final Vector<SyntaxTreeNode> argVec = new Vector<SyntaxTreeNode>(); // of SyntaxTreeNode ;
+		private final Vector<SyntaxTreeNode> opVec = new Vector<>(); // of SyntaxTreeNode ;
+		private final Vector<SyntaxTreeNode> argVec = new Vector<>(); // of SyntaxTreeNode ;
 
 		/**********************************************************************
 		 * The fields set from opVec and argVec by finalize. *
@@ -620,9 +620,9 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		 * figuring out whether * this is actually a bug in selectorToNode. Instead, I
 		 * just kludged * something to handle that case. *
 		 ***********************************************************************/
-		final Vector<SemanticNode> substInPrefix = new Vector<SemanticNode>(); // of SubstInNode
-		final Vector<FormalParamNode> params = new Vector<FormalParamNode>(); // of FormalParamNode
-		final Vector<ExprOrOpArgNode> allArgs = new Vector<ExprOrOpArgNode>(); // of ExprOrOpArgNode
+		final Vector<SemanticNode> substInPrefix = new Vector<>(); // of SubstInNode
+		final Vector<FormalParamNode> params = new Vector<>(); // of FormalParamNode
+		final Vector<ExprOrOpArgNode> allArgs = new Vector<>(); // of ExprOrOpArgNode
 
 		/***********************************************************************
 		 * Local algorithm variables. *
@@ -656,7 +656,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		 * algorithm's curContext * variable. *
 		 *********************************************************************/
 		int opDefArityFound = 0;
-		Vector<ExprOrOpArgNode> opDefArgs = new Vector<ExprOrOpArgNode>(); // of ExprOrOpArgNode objects
+		Vector<ExprOrOpArgNode> opDefArgs = new Vector<>(); // of ExprOrOpArgNode objects
 		boolean firstFindingOpName = true;
 		SymbolNode subExprOf = null;
 

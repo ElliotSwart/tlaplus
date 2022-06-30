@@ -65,21 +65,21 @@ public class StateMonitor {
 		JMXServiceURL url = null;
 		try {
 			final List<VirtualMachineDescriptor> vmds = com.sun.tools.attach.VirtualMachine.list();
-			vmds.sort(new Comparator<VirtualMachineDescriptor>() {
-				@Override
-				public int compare(final VirtualMachineDescriptor o1, final VirtualMachineDescriptor o2) {
-					// Sort those vms higher whose display name contains TLC.
-					final boolean c1 = o1.displayName().contains("TLC");
-					final boolean c2 = o2.displayName().contains("TLC");
-					if (c1 ^ c2) {
-						if (c1) {
-							return -1;
-						}
-						return 1;
-					}
-					return 0;
-				}
-			});
+			vmds.sort(new Comparator<>() {
+                @Override
+                public int compare(final VirtualMachineDescriptor o1, final VirtualMachineDescriptor o2) {
+                    // Sort those vms higher whose display name contains TLC.
+                    final boolean c1 = o1.displayName().contains("TLC");
+                    final boolean c2 = o2.displayName().contains("TLC");
+                    if (c1 ^ c2) {
+                        if (c1) {
+                            return -1;
+                        }
+                        return 1;
+                    }
+                    return 0;
+                }
+            });
 			
 			int index = 1;
 			try (final Scanner scanner = new Scanner(System.in)) {

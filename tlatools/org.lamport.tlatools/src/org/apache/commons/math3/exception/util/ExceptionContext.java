@@ -62,9 +62,9 @@ public class ExceptionContext implements Serializable {
      */
     public ExceptionContext(final Throwable throwable) {
         this.throwable = throwable;
-        msgPatterns    = new ArrayList<Localizable>();
-        msgArguments   = new ArrayList<Object[]>();
-        context        = new HashMap<String, Object>();
+        msgPatterns    = new ArrayList<>();
+        msgArguments   = new ArrayList<>();
+        context        = new HashMap<>();
     }
 
     /** Get a reference to the exception to which the context relates.

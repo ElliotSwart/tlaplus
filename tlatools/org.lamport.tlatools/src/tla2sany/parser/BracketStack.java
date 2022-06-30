@@ -21,7 +21,7 @@ public class BracketStack implements //LogCategories,
 * and an Offset field, which are of type int.  The constructor is          *
 * StackElement(int Offset, int Kind)                                       *
 ***************************************************************************/
-  private final Stack<StackElement> stack = new Stack<StackElement>( );
+  private final Stack<StackElement> stack = new Stack<>();
   private final int [] classes = new int[ NULL_ID ];
     /***********************************************************************
     * This is an array of length NULL_ID = 227.  Apparently, NULL_ID is    *

@@ -169,7 +169,7 @@ public class MCState {
 		this.stateNumber = (int)tlcState.stateNumber;
 
 		final Map<UniqueString, IValue> variableMap = tlcState.getOriginalState().getVals();
-		final List<MCVariable> variableList = new ArrayList<MCVariable>();
+		final List<MCVariable> variableList = new ArrayList<>();
 		for (final UniqueString key : variableMap.keySet()) {
 			final IValue value = variableMap.get(key);
 			// value is null if the successor state is not completely specified by the

@@ -374,16 +374,16 @@ public class TLCStackFrame extends StackFrame {
 	protected Variable[] toSortedDistinctArray(final List<Variable> vars) {
 		// Its nicer if variables/constants are sorted lexicographically, and
 		// duplicates removed.
-		final Set<Variable> s = new TreeSet<>(new Comparator<Variable>() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public int compare(final Variable o1, final Variable o2) {
-				if (o1 instanceof Comparable && o2 instanceof Comparable) {
-					return ((Comparable<Variable>) o1).compareTo(o2);
-				}
-				return o1.getName().compareTo(o2.getName());
-			}
-		});
+		final Set<Variable> s = new TreeSet<>(new Comparator<>() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public int compare(final Variable o1, final Variable o2) {
+                if (o1 instanceof Comparable && o2 instanceof Comparable) {
+                    return ((Comparable<Variable>) o1).compareTo(o2);
+                }
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
 		s.addAll(vars);
 		return s.toArray(Variable[]::new);
 	}

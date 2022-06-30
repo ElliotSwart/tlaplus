@@ -23,8 +23,8 @@ public class OpRcdValue extends OpValue implements Applicable {
 
   /* Constructor */
   public OpRcdValue() {
-    this.domain = new Vect<Value[]>();
-    this.values = new Vect<Value>();
+    this.domain = new Vect<>();
+    this.values = new Vect<>();
   }
 
   public OpRcdValue(final Vect<Value[]> domain, final Vect<Value> values) {

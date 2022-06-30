@@ -102,7 +102,7 @@ public class Changed {
     /* This method is called only once, from             */
     /* GenLabeledStmt.                                   */
     public Vector<String> Unchanged (final int ch) {
-	final Vector<String> sv = new Vector<String>();
+	final Vector<String> sv = new Vector<>();
 	String s = "";
 	boolean haveOne = false;
 	for (int i = 0; i < count.length; i++)
@@ -124,7 +124,7 @@ public class Changed {
     /* Each string is no longer than ch characters           */
     /* (except for vars whose length is over ch-1)           */
     public Vector<String> Unchanged (final Changed c, final int ch) {
-	final Vector<String> sv = new Vector<String>();
+	final Vector<String> sv = new Vector<>();
 	String s = "";
 	boolean haveOne = false;
 	for (int i = 0; i < count.length; i++)

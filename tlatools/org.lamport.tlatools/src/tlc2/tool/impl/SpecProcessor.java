@@ -349,8 +349,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
 	public static final String LAZY_CONSTANT_OPERATORS = SpecProcessor.class.getName() + ".vetoed";
 
-	private static final Set<String> vetos = new HashSet<String>(
-			Arrays.asList(System.getProperty(LAZY_CONSTANT_OPERATORS, "")));
+	private static final Set<String> vetos = new HashSet<>(
+            Arrays.asList(System.getProperty(LAZY_CONSTANT_OPERATORS, "")));
 
 	private boolean isVetoed(final UniqueString us) {
 		return vetos.contains(us.toString());
@@ -476,7 +476,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         // here since we use defns. Things added into defns later will make it
         // wrong to use it in the method processConstants.
         final ModuleNode[] mods = this.moduleTbl.getModuleNodes();
-        final Map<String, ModuleNode> modSet = new HashMap<String, ModuleNode>();
+        final Map<String, ModuleNode> modSet = new HashMap<>();
         for (int i = 0; i < mods.length; i++)
         {
             this.processConstants(mods[i]);
@@ -761,7 +761,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 		}
         
 
-        final Set<String> overriden = new HashSet<String>();
+        final Set<String> overriden = new HashSet<>();
         // Apply config file overrides to constants:
         for (int i = 0; i < rootConsts.length; i++)
         {

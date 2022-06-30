@@ -154,7 +154,7 @@ public class DotStateWriter extends StateWriter {
 	}
 	
 	protected void maintainRanks(final TLCState state) {
-		rankToNodes.computeIfAbsent(state.getLevel(), k -> new HashSet<Long>()).add(state.fingerPrint());
+		rankToNodes.computeIfAbsent(state.getLevel(), k -> new HashSet<>()).add(state.fingerPrint());
 	}
 
 	/* (non-Javadoc)

@@ -89,7 +89,7 @@ abstract class Spec
         this.rootFile = specFile;
         this.defns = new Defns();
         this.tlaClass = new TLAClass("tlc2.module", resolver);
-        this.processedDefs = new HashSet<OpDefNode>();
+        this.processedDefs = new HashSet<>();
         this.resolver = resolver;
         
         // SZ Mar 9, 2009: added initialization of the modelValue class
@@ -438,7 +438,7 @@ abstract class Spec
      */
     public final ObjLongTable<SemanticNode> getPrimedLocs()
     {
-        final ObjLongTable<SemanticNode> tbl = new ObjLongTable<SemanticNode>(10);
+        final ObjLongTable<SemanticNode> tbl = new ObjLongTable<>(10);
         final Action act = this.getNextStateSpec();
 		if (act == null) {
 			// MAK 10/17/2018: If spec defines no next-state action (see e.g.
@@ -669,7 +669,7 @@ abstract class Spec
 	}
 
 	public List<File> getModuleFiles(final FilenameToStream resolver) {
-		final List<File> result = new ArrayList<File>();
+		final List<File> result = new ArrayList<>();
 	
 		final Enumeration<ParseUnit> parseUnitContext = specProcessor.getSpecObj().parseUnitContext.elements();
 		while (parseUnitContext.hasMoreElements()) {

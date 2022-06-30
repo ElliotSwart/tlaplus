@@ -48,7 +48,7 @@ public class ConcurrentBucketStatistics extends AbstractBucketStatistics impleme
 	 * seen two times.
 	 * The map is thread safe, so are the values.
 	 */
-	private final ConcurrentNavigableMap<Integer, AtomicLong> buckets = new ConcurrentSkipListMap<Integer, AtomicLong>();
+	private final ConcurrentNavigableMap<Integer, AtomicLong> buckets = new ConcurrentSkipListMap<>();
 	
 	ConcurrentBucketStatistics() {
 		super("Concurrent Historgram");
@@ -99,7 +99,7 @@ public class ConcurrentBucketStatistics extends AbstractBucketStatistics impleme
 	 */
 	@Override
     public NavigableMap<Integer, Long> getSamples() {
-		final NavigableMap<Integer, Long> res = new TreeMap<Integer, Long>();
+		final NavigableMap<Integer, Long> res = new TreeMap<>();
 		for (final Entry<Integer, AtomicLong> entry : buckets.entrySet()) {
 			res.put(entry.getKey(), entry.getValue().get());
 		}

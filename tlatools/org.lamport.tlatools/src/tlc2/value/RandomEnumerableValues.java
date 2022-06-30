@@ -74,38 +74,38 @@ public abstract class RandomEnumerableValues {
 		return RANDOMS.get();
 	}
 	
-	private static final ThreadLocal<Random> RANDOMS = new ThreadLocal<Random>() {
-		@Override
-		protected Random initialValue() {
-			if (TLCGlobals.mainChecker != null && ModelChecker.class.equals(TLCGlobals.mainChecker.getClass())) {
-				// In order to recreate the error trace in BFS mode - which essentially
-				// corresponds to rerunning state exploration following a given path - we have
-				// to recreate the same random values too. Otherwise, TLC will fail to recreate
-				// the trace because the recreated TLCState does not match the fingerprint in
-				// the error trace/path. Therefore, we maintain one RNG per IdThread (IWorker)
-				// which - for the initial states - is seeded with enumFractionSeed and - in the
-				// scope of next-state - gets seeded with the fingerprint of the predecessor
-				// state.
-				return new TLCStateRandom(randomSeed);
-			} else {
-				// DFS or Simulation need no special handling because:
-				// - DFS does not re-create the error trace (just prints the current trace).
-				// - Simulation mode is intended to allow users to gather statistics on
-				// behaviors generated with specified probabilities of different transitions.
-				// (For example, to find the expected time for a message to be delivered with
-				// retransmission as a function of the probability of message loss). For this,
-				// it's important that the random choice have no correlation with the state in
-				// which the choice is made.
-				return new DefaultRandom(randomSeed);
-			}
-		}
+	private static final ThreadLocal<Random> RANDOMS = new ThreadLocal<>() {
+        @Override
+        protected Random initialValue() {
+            if (TLCGlobals.mainChecker != null && ModelChecker.class.equals(TLCGlobals.mainChecker.getClass())) {
+                // In order to recreate the error trace in BFS mode - which essentially
+                // corresponds to rerunning state exploration following a given path - we have
+                // to recreate the same random values too. Otherwise, TLC will fail to recreate
+                // the trace because the recreated TLCState does not match the fingerprint in
+                // the error trace/path. Therefore, we maintain one RNG per IdThread (IWorker)
+                // which - for the initial states - is seeded with enumFractionSeed and - in the
+                // scope of next-state - gets seeded with the fingerprint of the predecessor
+                // state.
+                return new TLCStateRandom(randomSeed);
+            } else {
+                // DFS or Simulation need no special handling because:
+                // - DFS does not re-create the error trace (just prints the current trace).
+                // - Simulation mode is intended to allow users to gather statistics on
+                // behaviors generated with specified probabilities of different transitions.
+                // (For example, to find the expected time for a message to be delivered with
+                // retransmission as a function of the probability of message loss). For this,
+                // it's important that the random choice have no correlation with the state in
+                // which the choice is made.
+                return new DefaultRandom(randomSeed);
+            }
+        }
 
-		@Override
-		public Random get() {
-			// Hook to re-initialize random (no-op for DFS and simulation).
-			return ((EnumerableValueRandom) super.get()).initialize();
-		}
-	};
+        @Override
+        public Random get() {
+            // Hook to re-initialize random (no-op for DFS and simulation).
+            return ((EnumerableValueRandom) super.get()).initialize();
+        }
+    };
 		
 	private interface EnumerableValueRandom {
 		Random initialize();

@@ -1056,7 +1056,7 @@ class trans {
     /********************** Writing the AST ************************************/
     private static boolean WriteAST(final AST ast)
     {
-        final Vector<String> astFile = new Vector<String>();
+        final Vector<String> astFile = new Vector<>();
         astFile.addElement("------ MODULE AST -------");
         astFile.addElement("EXTENDS TLC");
         astFile.addElement("fairness == \"" + PcalParams.FairnessOption + "\"");
@@ -1264,7 +1264,7 @@ class trans {
          * Wrap the translated string into approximately 80 character lines *
          *******************************************************************/
         transl = WrapString(transl, 78);
-        final Vector<String> result = new Vector<String>();
+        final Vector<String> result = new Vector<>();
         result.addElement(transl);
         return result;
     }

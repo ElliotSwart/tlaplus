@@ -22,7 +22,7 @@ import java.util.Hashtable;
  */
 public class ModuleContext {
 
-  final Hashtable<String, ModulePointer> context = new Hashtable<String, ModulePointer>();
+  final Hashtable<String, ModulePointer> context = new Hashtable<>();
 
   /** 
    * Find the ModulePointer that the String modName resolves to;
