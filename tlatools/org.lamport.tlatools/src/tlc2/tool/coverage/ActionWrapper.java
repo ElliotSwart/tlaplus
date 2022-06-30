@@ -136,7 +136,8 @@ public final class ActionWrapper extends CostModelNode {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.coverage.CostModel#report()
 	 */
-	public CostModel report() {
+	@Override
+    public CostModel report() {
 		// Report count for action itself.
 		if (relation == Relation.PROP) {
 			assert getEvalCount() == 0L && this.secondary.getCount() == 0L;

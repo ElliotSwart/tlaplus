@@ -460,15 +460,18 @@ public abstract class ByteArrayQueue implements IStateQueue {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#beginChkpt()
 	 */
-	public abstract void beginChkpt() throws IOException;
+	@Override
+    public abstract void beginChkpt() throws IOException;
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#commitChkpt()
 	 */
-	public abstract void commitChkpt() throws IOException;
+	@Override
+    public abstract void commitChkpt() throws IOException;
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#recover()
 	 */
-	public abstract void recover() throws IOException;
+	@Override
+    public abstract void recover() throws IOException;
 }

@@ -38,7 +38,8 @@ import tlc2.output.EC;
 public class TestMPRecorder implements tlc2.output.IMessagePrinterRecorder {
 	private final Map<Integer, List<Object>> records = new HashMap<Integer, List<Object>>();
 	
-	public void record(final int code, final Object... objects) {
+	@Override
+    public void record(final int code, final Object... objects) {
 		if(!records.containsKey(code)) {
 			records.put(code, new ArrayList<Object>());
 		}

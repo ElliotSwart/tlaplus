@@ -186,7 +186,8 @@ public class MailSender {
 			hostname = aHostname;
 		}
 
-		public int compareTo(final MXRecord o) {
+		@Override
+        public int compareTo(final MXRecord o) {
 			return weight.compareTo(o.weight);
 		}
 	}
@@ -307,7 +308,8 @@ public class MailSender {
     	/* (non-Javadoc)
     	 * @see java.io.PrintStream#println(java.lang.String)
     	 */
-    	public void println(final String str) {
+    	@Override
+        public void println(final String str) {
     		System.out.println(str);
     		super.println(str);
     	}
@@ -321,7 +323,8 @@ public class MailSender {
     	/* (non-Javadoc)
     	 * @see java.io.PrintStream#println(java.lang.String)
     	 */
-    	public void println(final String str) {
+    	@Override
+        public void println(final String str) {
     		System.err.println(str);
     		super.println(str);
     	}

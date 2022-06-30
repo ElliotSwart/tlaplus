@@ -126,6 +126,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
    */
   private ThmOrAssumpDefNode source = null;
 
+  @Override
   public ThmOrAssumpDefNode getSource() {
       if (source == null) {
           return this;
@@ -246,6 +247,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
   *************************************************************************/
   public final ProofNode getProof() {return this.proof;}
 
+  @Override
   public final FormalParamNode[] getParams() { return this.params; }
 
   public final boolean isExpr() { return this.body instanceof ExprNode; }
@@ -258,6 +260,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
   /*************************************************************************
   * Implementations of the abstract methods of the SymbolNode superclass.  *
   *************************************************************************/
+  @Override
   public final int getArity() { return this.arity;}
     /***********************************************************************
     * The name of a theorem or assumption has no parameters.               *
@@ -266,6 +269,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
   // Modified by LL on 30 Oct 2012 to handle locally instantiated theorems
   // and assumptions.
   private boolean local = false ;
+  @Override
   public final boolean isLocal() { return local; }
     /***********************************************************************
     * Theorem and assumption definitions are local iff imported with a     *
@@ -277,6 +281,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
 
 //  public final ModuleNode getModuleNode() { return this.moduleNode; }
 
+  @Override
   public final boolean match(final OpApplNode test, final ModuleNode mn ) {
     /***********************************************************************
     * True iff the current object has the same arity as the node operator  *
@@ -294,11 +299,13 @@ public class ThmOrAssumpDefNode extends SymbolNode
   * There doesn't seem to be any easy way to write these methods only      *
   * once.                                                                  *
   *************************************************************************/
+  @Override
   public void setLabels(final Hashtable<UniqueString, LabelNode> ht) {labels = ht; }
     /***********************************************************************
     * Sets the set of labels.                                              *
     ***********************************************************************/
 
+  @Override
   public LabelNode getLabel(final UniqueString us) {
     /***********************************************************************
     * If the hashtable `labels' contains a LabelNode with name `us',       *
@@ -308,6 +315,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
     return (LabelNode) labels.get(us) ;
    }
 
+  @Override
   public boolean addLabel(final LabelNode odn) {
     /***********************************************************************
     * If the hashtable `labels' contains no OpDefNode with the same name   *
@@ -320,6 +328,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
     return true;
    }
 
+  @Override
   public LabelNode[] getLabels() {
     /***********************************************************************
     * Returns an array containing the Label objects in the hashtable       *
@@ -404,9 +413,11 @@ public class ThmOrAssumpDefNode extends SymbolNode
     * isLeibnizArg[i] is true iff the i-th argument of op is Leibniz, and  *
     * isLeibniz = \A i : isLeibnizArg[i]                                   *
     ***********************************************************************/
+  @Override
   public boolean[] getIsLeibnizArg() {
       return isLeibnizArg;
   }
+  @Override
   public boolean getIsLeibniz() {
       return isLeibniz;
   }
@@ -531,6 +542,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
   /***************************************************************************
   * The following Asserts can be removed after debugging.                    *
   ***************************************************************************/
+    @Override
     public final int getMaxLevel(final int i) {
       if (this.levelChecked == 0)
         {throw new WrongInvocationException("getMaxLevel called before levelCheck");};
@@ -538,6 +550,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
       return this.maxLevels[idx];
     }
 
+    @Override
     public final int getWeight(final int i) {
       if (this.levelChecked == 0)
         {throw new WrongInvocationException("getWeight called before levelCheck");};
@@ -545,6 +558,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
       return this.weights[idx];
     }
 
+    @Override
     public final int getMinMaxLevel(final int i, final int j) {
       if (this.levelChecked == 0)
         {throw new WrongInvocationException("getMinMaxLevel called before levelCheck");};
@@ -554,6 +568,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
       return this.minMaxLevel[i][j];
     }
 
+    @Override
     public final boolean getOpLevelCond(final int i, final int j, final int k) {
       if (this.levelChecked == 0)
         {throw new WrongInvocationException("getOpLevelCond called before levelCheck");};
@@ -638,6 +653,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
   /**
    *
    */
+  @Override
   protected String getNodeRef() {
     if (theorem) {
       assert(thmOrAssump instanceof TheoremNode);
@@ -649,6 +665,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
     }
   }
 
+  @Override
   protected Element getSymbolElement(final Document doc, final tla2sany.xml.SymbolContext context) {
     assert(this.body != null); //A theorem or assumption definition without a body does not make sense.
     Element e = null;

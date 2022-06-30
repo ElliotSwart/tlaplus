@@ -238,8 +238,10 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
     return res;
   }
 
+  @Override
   public final String levelDataToString() { return "Dummy level string"; }
 
+  @Override
   public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
 	visitor.preVisit(this);
     if (op != null) op.walkGraph(semNodesTable, visitor);
@@ -247,12 +249,14 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
     visitor.postVisit(this);
   }
 
+  @Override
   public final String toString(final int depth) {
     return "\nOp: " + Strings.indent(2,(op!=null ? op.toString(depth-1) :
                                            "<null>" )) +
            "\nExpr: " + Strings.indent(2,(expr!=null ? expr.toString(depth-1) : "<null>"));
   }
 
+  @Override
   public Element export(final Document doc, final SymbolContext context) {
       final Element ret = doc.createElement("Subst");
       ret.appendChild(op.export(doc,context));

@@ -18,7 +18,8 @@ public class CheckInvariantCallable implements Callable<Boolean> {
 	/* (non-Javadoc)
 	 * @see java.util.concurrent.Callable#call()
 	 */
-	public Boolean call() throws Exception {
+	@Override
+    public Boolean call() throws Exception {
 		try {
 			return fpSetRMI.checkInvariant();
 		} catch (final IOException e) {

@@ -70,7 +70,8 @@ public class PrintTraceRaceTest_TTraceTest extends TTraceModelCheckerTestCase {
 		assertEquals(2, objs.length);
 	}
 	
-	protected int getNumberOfThreads() {
+	@Override
+    protected int getNumberOfThreads() {
 		// This bug only shows up with multiple threads.
 		return 4;
 	}

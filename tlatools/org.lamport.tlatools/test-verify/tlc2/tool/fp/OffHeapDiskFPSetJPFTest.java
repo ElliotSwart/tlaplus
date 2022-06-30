@@ -49,7 +49,8 @@ public class OffHeapDiskFPSetJPFTest extends TestJPF {
 			// Two concurrent writers.
 			for (int i = 0; i < 2; i++) {
 				final Thread worker = new Thread(new Runnable() {
-					public void run() {
+					@Override
+                    public void run() {
 						for (long i = 1; i <= max; i++) {
 							fpSet.memInsert(i);
 						}

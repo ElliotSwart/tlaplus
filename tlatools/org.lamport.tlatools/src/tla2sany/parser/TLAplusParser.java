@@ -14,6 +14,7 @@ import util.UniqueString;
 @SuppressWarnings("unused")
 public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree, TLAplusParserConstants {
 
+  @Override
   public String[] dependencies() {
     /***********************************************************************
     * This method is used in modanalyzer/{SyntaxTreePrinter,ParserUnit}.   *
@@ -23,7 +24,9 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
       deps[lvi] = dependencyList.elementAt(lvi).toString();
     return deps;
   }
+  @Override
   public TreeNode rootNode() { return ParseTree; }
+  @Override
   public String moduleName() { return mn.toString(); }
 //  public tla2sany.st.ParseErrors getErrors() { return PErrors; } Unused, apparently
 // The front end can simply read the public PErrors.
@@ -58,6 +61,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     * bulleted list within which the parser is currently grabbing tokens.  *
     ***********************************************************************/
 
+  @Override
   public boolean parse() {
     /***********************************************************************
     * This is a wrapper for actual parsing procedure CompilationUnit().    *

@@ -39,7 +39,8 @@ public class Github648Test extends ModelCheckerTestCase {
 		super("Github648", ExitStatus.SUCCESS);
 	}
 
-	protected boolean doDump() {
+	@Override
+    protected boolean doDump() {
 		return false;
 	}
 

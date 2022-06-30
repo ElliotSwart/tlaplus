@@ -204,7 +204,8 @@ public class ConcurrentTLCTrace extends TLCTrace {
 	 * @throws IOException
 	 * @throws WorkerException
 	 */
-	public void printTrace(final TLCState s1, final TLCState s2) throws IOException, WorkerException {
+	@Override
+    public void printTrace(final TLCState s1, final TLCState s2) throws IOException, WorkerException {
 		if (s1.isInitial()) {
 			printTrace(s1, s2, new TLCStateInfo[0]);
 		} else {
@@ -214,13 +215,15 @@ public class ConcurrentTLCTrace extends TLCTrace {
 
 	/* Checkpoint. */
 	
-	public synchronized void beginChkpt() throws IOException {
+	@Override
+    public synchronized void beginChkpt() throws IOException {
 		for (final Worker worker : workers) {
 			worker.beginChkpt();
 		}
 	}
 
-	public void commitChkpt() throws IOException {
+	@Override
+    public void commitChkpt() throws IOException {
 		for (final Worker worker : workers) {
 			worker.commitChkpt();
 		}
@@ -243,7 +246,8 @@ public class ConcurrentTLCTrace extends TLCTrace {
 		new File(filename + ".chkpt").createNewFile();
 	}
 
-	public void recover() throws IOException { 
+	@Override
+    public void recover() throws IOException {
 		// TODO Check that the number of disk .st files is >= workers.length. If it is
 		// lower, TLC runs with fewer workers than when the checkpoint was taken. Take
 		// this case into account.
@@ -255,7 +259,8 @@ public class ConcurrentTLCTrace extends TLCTrace {
 	
 	/* Enumerator */
 	
-	public synchronized Enumerator elements() throws IOException {
+	@Override
+    public synchronized Enumerator elements() throws IOException {
 		final Worker.Enumerator[] enums = new Worker.Enumerator[workers.length];
 		for (int j = 0; j < workers.length; j++) {
 			enums[j] = workers[j].elements();

@@ -29,6 +29,7 @@ public class VectorCharReader extends CharReader
         this.vec = vector ;
       } ;
 
+    @Override
     public String innerGetNextLine()
       /*********************************************************************
       * The abstract innerGetNextLine method of CharReader is implemented  *
@@ -41,6 +42,7 @@ public class VectorCharReader extends CharReader
         return vec.elementAt(nextLine - 1);
       } ;
 
+    @Override
     public void close()
       /*********************************************************************
       * Implements CharReader's abstract close() method.                   *

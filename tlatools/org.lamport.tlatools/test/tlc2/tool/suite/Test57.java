@@ -42,7 +42,8 @@ public class Test57 extends SuiteTestCase {
 		setExitStatus(ExitStatus.VIOLATION_SAFETY);
 	}
 
-	@Test
+	@Override
+    @Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states
 		assertTrue(recorder.recorded(EC.TLC_MODE_MC));

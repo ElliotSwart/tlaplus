@@ -24,10 +24,12 @@ public class Vect<E> implements Cloneable, Serializable {
   final class Enumerator implements Enumeration<E> {
     int index = 0;
 
+    @Override
     public final boolean hasMoreElements () {
       return (this.index < elementCount);
     }
 
+    @Override
     public final E nextElement() {
       return (E) elementData[index++];
     }
@@ -81,6 +83,7 @@ public class Vect<E> implements Cloneable, Serializable {
 
   public int capacity() { return this.elementData.length; }
 
+  @Override
   public Object clone() {
     final Vect<E> v = new Vect<>(this.elementData.length);
     System.arraycopy(this.elementData, 0, v.elementData, 0, this.elementCount);

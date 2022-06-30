@@ -34,7 +34,8 @@ import org.junit.Test;
 public class GrowingLongVecTest extends LongVecTest {
 
 	// A capacity that means the LongVec has to grow
-	protected LongVec getLongVec() {
+	@Override
+    protected LongVec getLongVec() {
 		return new LongVec(0);
 	}
 	

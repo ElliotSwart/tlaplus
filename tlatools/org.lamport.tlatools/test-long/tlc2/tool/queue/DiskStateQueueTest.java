@@ -17,7 +17,8 @@ public class DiskStateQueueTest extends StateQueueTest {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.StateQueueTest#setUp()
 	 */
-	@Before
+	@Override
+    @Before
 	public void setUp() throws Exception {
 		// create a temp folder in java.io.tmpdir and have it deleted on VM exit
 		final String diskdir = System.getProperty("java.io.tmpdir") + File.separator + "MultiDiskStateQueueTest_"

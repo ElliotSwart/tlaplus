@@ -28,91 +28,104 @@ public class DummyTLCState extends TLCState {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#bind(util.UniqueString, tlc2.value.Value, tla2sany.semantic.SemanticNode)
 	 */
-	public TLCState bind(final UniqueString name, final IValue value) {
+	@Override
+    public TLCState bind(final UniqueString name, final IValue value) {
 		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#bind(tla2sany.semantic.SymbolNode, tlc2.value.Value, tla2sany.semantic.SemanticNode)
 	 */
-	public TLCState bind(final SymbolNode id, final IValue value) {
+	@Override
+    public TLCState bind(final SymbolNode id, final IValue value) {
 		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#unbind(util.UniqueString)
 	 */
-	public TLCState unbind(final UniqueString name) {
+	@Override
+    public TLCState unbind(final UniqueString name) {
 		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#lookup(util.UniqueString)
 	 */
-	public IValue lookup(final UniqueString var) {
+	@Override
+    public IValue lookup(final UniqueString var) {
 		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#containsKey(util.UniqueString)
 	 */
-	public boolean containsKey(final UniqueString var) {
+	@Override
+    public boolean containsKey(final UniqueString var) {
 		return false;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#copy()
 	 */
-	public TLCState copy() {
+	@Override
+    public TLCState copy() {
 		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#deepCopy()
 	 */
-	public TLCState deepCopy() {
+	@Override
+    public TLCState deepCopy() {
 		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#addToVec(tlc2.tool.StateVec)
 	 */
-	public StateVec addToVec(final StateVec states) {
+	@Override
+    public StateVec addToVec(final StateVec states) {
 		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#deepNormalize()
 	 */
-	public void deepNormalize() {
+	@Override
+    public void deepNormalize() {
 		
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#fingerPrint()
 	 */
-	public long fingerPrint() {
+	@Override
+    public long fingerPrint() {
 		return this.fp;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#allAssigned()
 	 */
-	public boolean allAssigned() {
+	@Override
+    public boolean allAssigned() {
 		return false;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#getUnassigned()
 	 */
-	public final Set<OpDeclNode> getUnassigned() {
+	@Override
+    public final Set<OpDeclNode> getUnassigned() {
 		return new HashSet<OpDeclNode>();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#createEmpty()
 	 */
-	public TLCState createEmpty() {
+	@Override
+    public TLCState createEmpty() {
 		return this;
 	}
 
@@ -126,7 +139,8 @@ public class DummyTLCState extends TLCState {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#toString(tlc2.tool.TLCState)
 	 */
-	public String toString(final TLCState lastState) {
+	@Override
+    public String toString(final TLCState lastState) {
 		return null;
 	}
 }

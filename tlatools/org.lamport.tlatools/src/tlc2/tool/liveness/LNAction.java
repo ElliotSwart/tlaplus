@@ -52,7 +52,8 @@ public class LNAction extends LiveExprNode {
 		this.tag = t;
 	}
 
-	public final int getLevel() {
+	@Override
+    public final int getLevel() {
 		return LevelConstants.ActionLevel;
 	}
 
@@ -61,7 +62,8 @@ public class LNAction extends LiveExprNode {
 		return true;
 	}
 
-	public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
+	@Override
+    public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
 		if (this.subscript != null) {
 			final IValue v1 = tool.eval(this.subscript, con, s1, TLCState.Empty, EvalControl.Clear);
 			final IValue v2 = tool.eval(this.subscript, con, s2, null, EvalControl.Clear);
@@ -83,7 +85,8 @@ public class LNAction extends LiveExprNode {
 		return ((IBoolValue) val).getVal();
 	}
 
-	public final void toString(final StringBuffer sb, final String padding) {
+	@Override
+    public final void toString(final StringBuffer sb, final String padding) {
 		if (this.subscript == null) {
 			this.body.toString(sb, padding);
 		} else {
@@ -93,17 +96,20 @@ public class LNAction extends LiveExprNode {
 		}
 	}
 
-	public int tagExpr(final int tag) {
+	@Override
+    public int tagExpr(final int tag) {
 		setTag(tag);
 		return tag + 1;
 	}
 
-	public LiveExprNode makeBinary() {
+	@Override
+    public LiveExprNode makeBinary() {
 		// We do not deal with actions:
 		throw new WrongInvocationException("LiveExprNode.makeBinary: TLC encounters actions.");
 	}
 
-	public boolean equals(final LiveExprNode exp) {
+	@Override
+    public boolean equals(final LiveExprNode exp) {
 		if (exp instanceof LNAction) {
 			return getTag() == ((LNAction) exp).getTag();
 		}

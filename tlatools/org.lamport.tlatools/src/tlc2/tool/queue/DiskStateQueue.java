@@ -80,7 +80,8 @@ public class DiskStateQueue extends StateQueue {
 		this.cleaner.start();
 	}
 
-	final void enqueueInner(final TLCState state) {
+	@Override
+    final void enqueueInner(final TLCState state) {
 		if (this.enqIndex == this.enqBuf.length) {
 			// enqBuf is full; flush it to disk
 			try {
@@ -97,7 +98,8 @@ public class DiskStateQueue extends StateQueue {
 		this.enqBuf[this.enqIndex++] = state;
 	}
 
-	final TLCState dequeueInner() {
+	@Override
+    final TLCState dequeueInner() {
 		if (this.deqIndex == this.deqBuf.length) {
 			this.fillDeqBuffer();
 		}
@@ -107,7 +109,8 @@ public class DiskStateQueue extends StateQueue {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.StateQueue#peekInner()
 	 */
-	TLCState peekInner() {
+    @Override
+    TLCState peekInner() {
 		if (this.deqIndex == this.deqBuf.length) {
 			this.fillDeqBuffer();
 		}
@@ -159,7 +162,8 @@ public class DiskStateQueue extends StateQueue {
 	}
 
 	/* Checkpoint. */
-	public final void beginChkpt() throws IOException {
+	@Override
+    public final void beginChkpt() throws IOException {
 		synchronized (this.cleaner) {
 			// Checkpointing takes precedence over periodic cleaning
 			// (cleaner would otherwise delete checkpoint files as it know
@@ -185,7 +189,8 @@ public class DiskStateQueue extends StateQueue {
 		this.newLastLoPool = this.loPool - 1;
 	}
 
-	public final void commitChkpt() throws IOException {
+	@Override
+    public final void commitChkpt() throws IOException {
 		for (int i = this.lastLoPool; i < this.newLastLoPool; i++) {
 			final String pstr = Integer.toString(i);
 			final File oldPool = new File(this.filePrefix + pstr);
@@ -203,7 +208,8 @@ public class DiskStateQueue extends StateQueue {
 		}
 	}
 
-	public final void recover() throws IOException {
+	@Override
+    public final void recover() throws IOException {
 		final String filename = this.filePrefix + "queue.chkpt";
 		final ValueInputStream vis = new ValueInputStream(filename);
 		this.len = vis.readInt();
@@ -229,7 +235,8 @@ public class DiskStateQueue extends StateQueue {
 		this.loFile = new File(this.filePrefix + pstr);
 	}
 
-	public void finishAll() {
+	@Override
+    public void finishAll() {
 		super.finishAll();
 		synchronized (this.writer) {
 			this.writer.notifyAll();
@@ -256,7 +263,8 @@ public class DiskStateQueue extends StateQueue {
 		/* (non-Javadoc)
 		 * @see java.lang.Thread#run()
 		 */
-		public void run() {
+		@Override
+        public void run() {
 			try {
 				synchronized (this) {
 					while (!this.finished) {

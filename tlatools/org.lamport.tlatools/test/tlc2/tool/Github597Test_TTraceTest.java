@@ -42,15 +42,18 @@ public class Github597Test_TTraceTest extends TTraceModelCheckerTestCase {
 		super(Github597Test.class, EC.ExitStatus.VIOLATION_LIVENESS);
 	}
 	
-	protected boolean noRandomFPandSeed() {
+	@Override
+    protected boolean noRandomFPandSeed() {
 		return false;
 	}
 	
-	protected boolean doCoverage() {
+	@Override
+    protected boolean doCoverage() {
 		return false;
 	}
 	
-	protected boolean doDump() {
+	@Override
+    protected boolean doDump() {
 		return false;
 	}
 

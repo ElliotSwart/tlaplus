@@ -74,14 +74,17 @@ public final class MemFPSet2 extends FPSet {
     this.mask = spineSize - 1;
   }
   
+  @Override
   public FPSet init(final int numThreads, final String metadir, final String fname) {
     this.metadir = metadir;
     this.filename = metadir + FileUtil.separator + fname;
 	return this;
   }
 
+  @Override
   public synchronized final long size() { return this.count; }
     
+  @Override
   public synchronized final boolean put(final long fp) {
         final int index = (int)(fp & this.mask);
         final byte[] bucket = this.table[index];
@@ -112,6 +115,7 @@ public final class MemFPSet2 extends FPSet {
         return false;
   }
 
+  @Override
   public synchronized final boolean contains(final long fp) {
     final int index = (int)(fp & this.mask);
     final byte[] bucket = this.table[index];
@@ -132,6 +136,7 @@ public final class MemFPSet2 extends FPSet {
     return false;
   }
 
+  @Override
   public final void exit(final boolean cleanup) throws IOException {
 	super.exit(cleanup);
     if (cleanup) {
@@ -143,6 +148,7 @@ public final class MemFPSet2 extends FPSet {
     System.exit(0);    
   }
 
+  @Override
   public final long checkFPs() {
     long dis = Long.MAX_VALUE;
     for (int i = 0; i < this.table.length; i++) {
@@ -195,6 +201,7 @@ public final class MemFPSet2 extends FPSet {
     return dis;
   }
 
+  @Override
   public final void beginChkpt(final String fname) throws IOException {
     final BufferedDataOutputStream dos =
       new BufferedDataOutputStream(this.chkptName(fname, "tmp"));
@@ -217,6 +224,7 @@ public final class MemFPSet2 extends FPSet {
     dos.close();
   }
 
+  @Override
   final public void commitChkpt(final String fname) throws IOException {
     final File oldChkpt = new File(this.chkptName(fname, "chkpt"));
     final File newChkpt = new File(this.chkptName(fname, "tmp"));
@@ -227,6 +235,7 @@ public final class MemFPSet2 extends FPSet {
     }
   }
     
+  @Override
   public final void recover(final String fname) throws IOException {
     final BufferedDataInputStream dis =
       new BufferedDataInputStream(this.chkptName(fname, "chkpt"));
@@ -242,18 +251,22 @@ public final class MemFPSet2 extends FPSet {
     dis.close();
   }
 
+  @Override
   public final void beginChkpt() throws IOException {
     this.beginChkpt(this.filename);
   }
 
+  @Override
   public final void commitChkpt() throws IOException {
     this.commitChkpt(this.filename);
   }
 
+  @Override
   public final void recover(final TLCTrace trace) throws IOException {
     this.recover(this.filename);
   }
 
+  @Override
   public final void recoverFP(final long fp) throws IOException {
     Assert.check(!this.put(fp), EC.TLC_FP_NOT_IN_SET);
   }

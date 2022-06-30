@@ -80,7 +80,8 @@ public class LiveCheck implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#addInitState(tlc2.tool.TLCState, long)
 	 */
-	public void addInitState(final ITool tool, final TLCState state, final long stateFP) {
+	@Override
+    public void addInitState(final ITool tool, final TLCState state, final long stateFP) {
 		for (int i = 0; i < checker.length; i++) {
 			checker[i].addInitState(tool, state, stateFP);
 		}
@@ -89,7 +90,8 @@ public class LiveCheck implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#addNextState(tlc2.tool.TLCState, long, tlc2.util.SetOfStates)
 	 */
-	public void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) throws IOException {
+	@Override
+    public void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) throws IOException {
 		for (int i = 0; i < checker.length; i++) {
 			final ILiveChecker check = checker[i];
 			final OrderOfSolution oos = check.getSolution();
@@ -133,7 +135,8 @@ public class LiveCheck implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#doLiveCheck()
 	 */
-	public boolean doLiveCheck() {
+	@Override
+    public boolean doLiveCheck() {
 		for (int i = 0; i < checker.length; i++) {
 			// If one of the disk graph's size has increased by the given
 			// percentage, run liveness checking.
@@ -296,7 +299,8 @@ public class LiveCheck implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#checkTrace(tlc2.tool.StateVec)
 	 */
-	public void checkTrace(final ITool tool, final Supplier<StateVec> traceSupplier) throws InterruptedException, IOException {
+	@Override
+    public void checkTrace(final ITool tool, final Supplier<StateVec> traceSupplier) throws InterruptedException, IOException {
 		final StateVec stateTrace = traceSupplier.get();
 		// Add the first state to the LiveCheck as the current init state
 		addInitState(tool, stateTrace.elementAt(0), stateTrace.elementAt(0).fingerPrint());
@@ -341,28 +345,32 @@ public class LiveCheck implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#getMetaDir()
 	 */
-	public String getMetaDir() {
+	@Override
+    public String getMetaDir() {
 		return metadir;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#getOutDegreeStatistics()
 	 */
-	public IBucketStatistics getOutDegreeStatistics() {
+	@Override
+    public IBucketStatistics getOutDegreeStatistics() {
 		return outDegreeGraphStats;
 	}
 	
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#getChecker(int)
 	 */
-	public ILiveChecker getChecker(final int idx) {
+	@Override
+    public ILiveChecker getChecker(final int idx) {
 		return checker[idx];
 	}
 	
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#getNumChecker()
 	 */
-	public int getNumChecker() {
+	@Override
+    public int getNumChecker() {
 		return checker.length;
 	}
 
@@ -370,7 +378,8 @@ public class LiveCheck implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#close()
 	 */
-	public void close() throws IOException {
+	@Override
+    public void close() throws IOException {
 		for (int i = 0; i < checker.length; i++) {
 			checker[i].close();
 		}
@@ -380,7 +389,8 @@ public class LiveCheck implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#beginChkpt()
 	 */
-	public synchronized void beginChkpt() throws IOException {
+	@Override
+    public synchronized void beginChkpt() throws IOException {
 		for (int i = 0; i < checker.length; i++) {
 			checker[i].getDiskGraph().beginChkpt();
 		}
@@ -389,7 +399,8 @@ public class LiveCheck implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#commitChkpt()
 	 */
-	public void commitChkpt() throws IOException {
+	@Override
+    public void commitChkpt() throws IOException {
 		for (int i = 0; i < checker.length; i++) {
 			checker[i].getDiskGraph().commitChkpt();
 		}
@@ -398,7 +409,8 @@ public class LiveCheck implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#recover()
 	 */
-	public void recover() throws IOException {
+	@Override
+    public void recover() throws IOException {
 		for (int i = 0; i < checker.length; i++) {
 			MP.printMessage(EC.TLC_AAAAAAA);
 			checker[i].getDiskGraph().recover();
@@ -408,7 +420,8 @@ public class LiveCheck implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#reset()
 	 */
-	public void reset() throws IOException {
+	@Override
+    public void reset() throws IOException {
 		for (int i = 0; i < checker.length; i++) {
 			checker[i].getDiskGraph().reset();
 		}
@@ -417,7 +430,8 @@ public class LiveCheck implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#calculateInDegreeDiskGraphs(tlc2.util.statistics.IBucketStatistics)
 	 */
-	public IBucketStatistics calculateInDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
+	@Override
+    public IBucketStatistics calculateInDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
 		for (int i = 0; i < checker.length; i++) {
 			final AbstractDiskGraph diskGraph = checker[i].getDiskGraph();
 			diskGraph.calculateInDegreeDiskGraph(aGraphStats);
@@ -428,7 +442,8 @@ public class LiveCheck implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#calculateOutDegreeDiskGraphs(tlc2.util.statistics.IBucketStatistics)
 	 */
-	public IBucketStatistics calculateOutDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
+	@Override
+    public IBucketStatistics calculateOutDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
 		for (int i = 0; i < checker.length; i++) {
 			final AbstractDiskGraph diskGraph = checker[i].getDiskGraph();
 			diskGraph.calculateOutDegreeDiskGraph(aGraphStats);
@@ -450,14 +465,16 @@ public class LiveCheck implements ILiveCheck {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.liveness.ILiveChecker#getSolution()
 		 */
-		public OrderOfSolution getSolution() {
+		@Override
+        public OrderOfSolution getSolution() {
 			return oos;
 		}
 
 		/* (non-Javadoc)
 		 * @see tlc2.tool.liveness.ILiveChecker#close()
 		 */
-		public void close() throws IOException {
+		@Override
+        public void close() throws IOException {
 			if (!ModelChecker.VETO_CLEANUP) {
 				this.getDiskGraph().close();
 			}
@@ -478,7 +495,8 @@ public class LiveCheck implements ILiveCheck {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.liveness.LiveCheck.ILiveChecker#addInitState(tlc2.tool.TLCState, long)
 		 */
-		public void addInitState(final ITool tool, final TLCState state, final long stateFP) {
+		@Override
+        public void addInitState(final ITool tool, final TLCState state, final long stateFP) {
 			dgraph.addInitNode(stateFP, -1);
 			writer.writeState(state);
 		}
@@ -486,7 +504,8 @@ public class LiveCheck implements ILiveCheck {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.liveness.ILiveChecker#addNextState(tlc2.tool.TLCState, long, tlc2.util.SetOfStates, tlc2.util.BitVector, boolean[])
 		 */
-		public void addNextState(final ITool tool, final TLCState s0, final long fp0,
+		@Override
+        public void addNextState(final ITool tool, final TLCState s0, final long fp0,
                                  final SetOfStates nextStates, final BitVector checkActionResults, final boolean[] checkStateResults) throws IOException {
 			int cnt = 0;
 			// if there is no tableau ...
@@ -554,7 +573,8 @@ public class LiveCheck implements ILiveCheck {
 			}
 		}
 
-		public DiskGraph getDiskGraph() {
+		@Override
+        public DiskGraph getDiskGraph() {
 			return dgraph;
 		}
 	}
@@ -572,7 +592,8 @@ public class LiveCheck implements ILiveCheck {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.liveness.LiveChecker#addInitState(tlc2.tool.TLCState, long)
 		 */
-		public void addInitState(final ITool tool, final TLCState state, final long stateFP) {
+		@Override
+        public void addInitState(final ITool tool, final TLCState state, final long stateFP) {
 			// (state, tnode) is a root node if tnode is an initial tableau
 			// node and tnode is consistent with state.
 			final int initCnt = oos.getTableau().getInitCnt();
@@ -589,8 +610,9 @@ public class LiveCheck implements ILiveCheck {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.liveness.ILiveChecker#addNextState(tlc2.tool.TLCState, long, tlc2.util.SetOfStates, tlc2.util.BitVector, boolean[])
 		 */
-		public void addNextState(final ITool tool, final TLCState s0, final long fp0,
-				final SetOfStates nextStates, final BitVector checkActionResults, final boolean[] checkStateResults) throws IOException {
+		@Override
+        public void addNextState(final ITool tool, final TLCState s0, final long fp0,
+                                 final SetOfStates nextStates, final BitVector checkActionResults, final boolean[] checkStateResults) throws IOException {
 			int cnt = 0;
 			final int succCnt = nextStates.size();
 			
@@ -880,7 +902,8 @@ public class LiveCheck implements ILiveCheck {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.liveness.LiveCheck.AbstractLiveChecker#getDiskGraph()
 		 */
-		public AbstractDiskGraph getDiskGraph() {
+		@Override
+        public AbstractDiskGraph getDiskGraph() {
 			return dgraph;
 		}
 	}

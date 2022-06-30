@@ -49,6 +49,7 @@ class ActionItemList implements IActionItemList {
 
   public ActionItemList cdr() { return this.next; }
 
+  @Override
   public IActionItemList cons(final SemanticNode pred,
                               final Context con, final CostModel cm, final int kind) {
     return new ActionItemList(pred, con, kind, this, coverage ? cm.get(pred) : cm);

@@ -53,6 +53,7 @@ public class Assignment extends Formula {
         }
     }
 
+    @Override
     public String getFormula() {
     	return getFormula("");
     }
@@ -127,6 +128,7 @@ public class Assignment extends Formula {
         return buffer.toString();
     }
 
+    @Override
     public void setFormula(final String formula)
     {
         throw new UnsupportedOperationException("Not implemented yet");

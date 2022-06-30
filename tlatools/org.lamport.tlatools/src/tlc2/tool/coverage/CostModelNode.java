@@ -93,7 +93,8 @@ public abstract class CostModelNode implements CostModel {
 		return this;
 	}
 
-	public final CostModel incSecondary() {
+	@Override
+    public final CostModel incSecondary() {
 		this.secondary.increment();
 		return this;
 	}

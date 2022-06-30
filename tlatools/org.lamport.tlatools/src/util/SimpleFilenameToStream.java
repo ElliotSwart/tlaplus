@@ -100,6 +100,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
    * August 2014 - TL
    * added an informative method for returning the actual path used by this resolver
    */
+  @Override
   public String getFullPath() {
     final StringBuffer buf = new StringBuffer();
     final String[] ar = libraryPaths;
@@ -264,6 +265,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
    *
    * Returns null if the file does not exist
    */
+  @Override
   public File resolve(String name, final boolean isModule)
   {
       // Strip off one NEWLINE and anything after it, if it is there
@@ -314,7 +316,8 @@ public class SimpleFilenameToStream implements FilenameToStream {
 	 * @see tla2sany.modanalyzer.ParseUnit.isLibraryModule()
 	 * @see StandardModules.isDefinedInStandardModule()
 	 */
-	public boolean isStandardModule(final String moduleName) {
+	@Override
+    public boolean isStandardModule(final String moduleName) {
 		 final File file = this.resolve(moduleName, true) ;
 		 if (file == null) {
 			 return false ;

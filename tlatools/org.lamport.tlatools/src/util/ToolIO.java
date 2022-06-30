@@ -257,6 +257,7 @@ class ToolPrintStream extends PrintStream
      * Prints a string in to the ToolIO buffer in a separate line
      * @param str String to be printed
      */
+    @Override
     public void println(final String str)
     {
         // SZ February 20 2009:
@@ -312,6 +313,7 @@ class ToolPrintStream extends PrintStream
      *
      * @param str The <code>String</code> to be printed
      */
+    @Override
     public synchronized void print(final String str)
     {
         // SZ February 20 2009:

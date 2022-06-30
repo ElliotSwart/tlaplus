@@ -41,7 +41,8 @@ class LNStateEnabled extends LNState {
 		this.isBox = isBox;
 	}
 
-	public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
+	@Override
+    public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
 		// Note that s2 is useless.
 		if (this.isBox && this.subscript != null) {
 			return true;
@@ -57,7 +58,8 @@ class LNStateEnabled extends LNState {
 		return sfun != null;
 	}
 
-	public final void toString(final StringBuffer sb, final String padding) {
+	@Override
+    public final void toString(final StringBuffer sb, final String padding) {
 		sb.append("ENABLED ");
 		if (this.subscript == null) {
 			this.pred.toString(sb, padding + "        ");
@@ -71,7 +73,8 @@ class LNStateEnabled extends LNState {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.LiveExprNode#toDotViz()
 	 */
-	public String toDotViz() {
+	@Override
+    public String toDotViz() {
 		final StringBuffer sb = new StringBuffer();
 		if (this.pred instanceof OpApplNode) {
 			final OpApplNode oan = (OpApplNode) this.pred;

@@ -7,7 +7,8 @@ public class DummyFPSetConfiguration extends FPSetConfiguration {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSetConfiguration#getMemoryInBytes()
 	 */
-	public long getMemoryInBytes() {
+	@Override
+    public long getMemoryInBytes() {
 		// Override super.getMemoryInBytes() to allow unit tests to pass an
 		// explicit value by bypassing util.TLCRuntime.getFPMemSize(double).
 		// getFPMemSize(double) sets a lower limit for the DiskFPSet size, 

@@ -38,7 +38,8 @@ public class SimulationTestAssumption extends SuccessfulSimulationTestCase {
 		super("Test4", "/", new String[] { "-simulate", "num=1" }, EC.ExitStatus.VIOLATION_ASSUMPTION);
 	}
 	
-	@Test
+	@Override
+    @Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_ASSUMPTION_FALSE));
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

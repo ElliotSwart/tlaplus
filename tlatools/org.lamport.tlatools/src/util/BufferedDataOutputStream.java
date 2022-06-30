@@ -83,6 +83,7 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
 
     /** Flush all bytes written to this stream to the underlying
         output stream. */
+    @Override
     public final void flush() throws IOException {
         this.out.write(this.buff, 0, this.len);
         this.out.flush();
@@ -91,6 +92,7 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
 
     /** Closes this stream and its underlying stream, after first
         flushing any buffered data. */
+    @Override
     public final void close() throws IOException {
         this.flush();
         this.out.close();
@@ -104,12 +106,14 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
     
     /** Write the <code>b.length</code> bytes of <code>b</code> to 
         this stream. */
+    @Override
     public final void write(final byte[] b) throws IOException {
         this.write(b, 0, b.length);
     }
     
     /** Write <code>n</code> bytes of <code>b</code> starting
         at position <code>off</code> to this stream. */
+    @Override
     public final void write(final byte[] b, int off, int n) throws IOException {
         while (n > 0) {
             final int toCopy = Math.min(n, this.buff.length - this.len);
@@ -150,6 +154,7 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
     
     /** Write the integer value <code>i</code> to this stream as
         four bytes. */
+    @Override
     public final void writeInt(final int i) throws IOException {
         this.temp[0] = (byte) ((i >>> 24) & 0xff);
         this.temp[1] = (byte) ((i >>> 16) & 0xff);
@@ -186,6 +191,7 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
 
     /** Write the characters of the string <code>s</code> to this
         stream as a sequence of bytes. */
+    @Override
     public final void writeString(final String s) throws IOException {
         int n = s.length();
         int off = 0;

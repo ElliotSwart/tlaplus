@@ -506,7 +506,8 @@ public class TLCTrace {
 			this.enumRaf = new BufferedRandomAccessFile(filename, "r");
 		}
 
-		public final void reset(long pos) throws IOException {
+		@Override
+        public final void reset(long pos) throws IOException {
 			this.len = raf.length();
 			if (pos == -1) {
 				pos = this.enumRaf.getFilePointer();
@@ -515,7 +516,8 @@ public class TLCTrace {
 			this.enumRaf.seek(pos);
 		}
 
-		public final long nextPos() {
+		@Override
+        public final long nextPos() {
 			final long fpos = this.enumRaf.getFilePointer();
 			if (fpos < this.len) {
 				return fpos;
@@ -523,12 +525,14 @@ public class TLCTrace {
 			return -1L;
 		}
 
-		public final long nextFP() throws IOException {
+		@Override
+        public final long nextFP() throws IOException {
 			this.enumRaf.readLongNat(); /* drop */
 			return this.enumRaf.readLong();
 		}
 		
-		public final void close() throws IOException {
+		@Override
+        public final void close() throws IOException {
 			this.enumRaf.close();
 		}
 	}

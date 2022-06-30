@@ -57,7 +57,8 @@ public class PartitionedFingerPrintGenerator extends FingerPrintGenerator {
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
-	public void run() {
+	@Override
+    public void run() {
 		waitForAllThreadsStarted();
 		
 		long insertions = 0L;

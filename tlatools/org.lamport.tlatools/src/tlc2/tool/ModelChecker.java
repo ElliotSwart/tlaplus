@@ -797,7 +797,8 @@ public class ModelChecker extends AbstractChecker
 				// liveness checking" at
 				// https://github.com/tlaplus/tlaplus/issues/22
             	this.tool.getInitStates(new IStateFunctor() {
-					public Object addElement(final TLCState state) {
+					@Override
+                    public Object addElement(final TLCState state) {
 						liveCheck.addInitState(tool, state, state.fingerPrint());
 						return true;
 					}
@@ -927,6 +928,7 @@ public class ModelChecker extends AbstractChecker
     /**
      * Spawn the worker threads
      */
+    @Override
     protected IWorker[] startWorkers(final AbstractChecker checker, final int checkIndex)
     {
 		// Generation of initial states is done at this point. Thus set the
@@ -958,6 +960,7 @@ public class ModelChecker extends AbstractChecker
      * @param depth
      * @throws Exception
      */
+    @Override
     protected void runTLCContinueDoing(final int count, final int depth) throws Exception
     {
         final int level = this.trace.getLevel();
@@ -1044,14 +1047,16 @@ public class ModelChecker extends AbstractChecker
 		}
 	}
 	
-	public void suspend() {
+	@Override
+    public void suspend() {
 		synchronized (this) {
 			this.theStateQueue.suspendAll();
 			this.notifyAll();
 		}
 	}
 
-	public void resume() {
+	@Override
+    public void resume() {
 		synchronized (this) {
 			this.theStateQueue.resumeAll();
 			this.notifyAll();
@@ -1122,7 +1127,8 @@ public class ModelChecker extends AbstractChecker
 		/* (non-Javadoc)
 		 * @see tlc2.tool.IStateFunctor#addElement(tlc2.tool.TLCState)
 		 */
-		public Object addElement(final TLCState curState) {
+		@Override
+        public Object addElement(final TLCState curState) {
 			if (Long.bitCount(numberOfInitialStates) == 1 && numberOfInitialStates > 1) {
 				MP.printMessage(EC.TLC_COMPUTING_INIT_PROGRESS, Long.toString(numberOfInitialStates));
 			}

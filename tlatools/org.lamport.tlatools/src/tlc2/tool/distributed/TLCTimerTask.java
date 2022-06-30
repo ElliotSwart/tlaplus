@@ -38,7 +38,8 @@ public class TLCTimerTask extends TimerTask {
 	/* (non-Javadoc)
 	 * @see java.util.TimerTask#run()
 	 */
-	public void run() {
+	@Override
+    public void run() {
 		if(noActivityWithin(TIMEOUT)) {
 			// If we haven't seen any activity within the timeout, we
 			// actively call the server to find out if it is still alive and

@@ -35,10 +35,12 @@ public final static BigInt BigZero = new BigInt("0");
     return ((x instanceof BigInt) && super.equals(x));
   }
 
+  @Override
   public final void write(final OutputStream out) throws IOException {
     ByteUtils.writeSizeBigInt(out, this);
   }
     
+  @Override
   public final BigInt read(final InputStream in) throws IOException {
     return ByteUtils.readSizeBigInt(in);
   }

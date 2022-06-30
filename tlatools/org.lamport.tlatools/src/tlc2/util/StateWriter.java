@@ -27,6 +27,7 @@ public class StateWriter implements IStateWriter
     /* (non-Javadoc)
      * @see tlc2.util.IStateWriter#getDumpFileName()
      */
+    @Override
     public String getDumpFileName() {
     	return this.fname;
     }
@@ -34,7 +35,8 @@ public class StateWriter implements IStateWriter
 	/* (non-Javadoc)
 	 * @see tlc2.util.IStateWriter#isNoop()
 	 */
-	public boolean isNoop() {
+	@Override
+    public boolean isNoop() {
 		return false;
 	}
 	
@@ -49,6 +51,7 @@ public class StateWriter implements IStateWriter
 	/* (non-Javadoc)
 	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState)
 	 */
+    @Override
     public synchronized void writeState(final TLCState state)
     {
         this.writer.println("State " + this.stateNum + ":");
@@ -59,6 +62,7 @@ public class StateWriter implements IStateWriter
     /* (non-Javadoc)
 	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, boolean)
 	 */
+    @Override
     public synchronized void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew)
     {
     	if (successorStateIsNew) {
@@ -66,6 +70,7 @@ public class StateWriter implements IStateWriter
     	}
     }
 
+    @Override
     public synchronized void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew, final Action action)
     {
     	if (successorStateIsNew) {
@@ -76,6 +81,7 @@ public class StateWriter implements IStateWriter
     /* (non-Javadoc)
      * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, boolean, tlc2.util.IStateWriter.Visualization)
      */
+    @Override
     public void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew, final Visualization visualization) {
     	if (successorStateIsNew) {
     		this.writeState(successor);
@@ -85,6 +91,7 @@ public class StateWriter implements IStateWriter
     /* (non-Javadoc)
      * @see tlc2.util.IStateWriter#close()
      */
+    @Override
     public void close()
     {
         this.writer.close();
@@ -93,7 +100,8 @@ public class StateWriter implements IStateWriter
 	/* (non-Javadoc)
 	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitVector, int, int, boolean)
 	 */
-	public void writeState(final TLCState state, final TLCState successor, final BitVector actionChecks, final int from, final int to, final boolean successorStateIsNew) {
+	@Override
+    public void writeState(final TLCState state, final TLCState successor, final BitVector actionChecks, final int from, final int to, final boolean successorStateIsNew) {
     	if (successorStateIsNew) {
     		this.writeState(state);
     	}
@@ -102,7 +110,8 @@ public class StateWriter implements IStateWriter
 	/* (non-Javadoc)
 	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitVector, int, int, boolean, tlc2.util.IStateWriter.Visualization)
 	 */
-	public void writeState(final TLCState state, final TLCState successor, final BitVector actionChecks, final int from, final int to, final boolean successorStateIsNew,
+	@Override
+    public void writeState(final TLCState state, final TLCState successor, final BitVector actionChecks, final int from, final int to, final boolean successorStateIsNew,
                            final Visualization visualization) {
     	if (successorStateIsNew) {
     		this.writeState(state);

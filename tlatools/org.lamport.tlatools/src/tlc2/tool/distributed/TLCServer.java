@@ -208,35 +208,40 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCServerRMI#getCheckDeadlock()
 	 */
-	public final Boolean getCheckDeadlock() {
+	@Override
+    public final Boolean getCheckDeadlock() {
 		return this.work.getCheckDeadlock();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCServerRMI#getPreprocess()
 	 */
-	public final Boolean getPreprocess() {
+	@Override
+    public final Boolean getPreprocess() {
 		return this.work.getPreprocess();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCServerRMI#getFPSetManager()
 	 */
-	public IFPSetManager getFPSetManager() {
+	@Override
+    public IFPSetManager getFPSetManager() {
 		return this.fpSetManager;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCServerRMI#getIrredPolyForFP()
 	 */
-	public final long getIrredPolyForFP() {
+	@Override
+    public final long getIrredPolyForFP() {
 		return FP64.getIrredPoly();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.InternRMI#intern(java.lang.String)
 	 */
-	public final UniqueString intern(final String str) {
+	@Override
+    public final UniqueString intern(final String str) {
 		// SZ 11.04.2009: changed access method
 		return UniqueString.uniqueStringOf(str);
 	}
@@ -244,7 +249,8 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCServerRMI#registerWorker(tlc2.tool.distributed.TLCWorkerRMI)
 	 */
-	public synchronized final void registerWorker(final TLCWorkerRMI worker
+	@Override
+    public synchronized final void registerWorker(final TLCWorkerRMI worker
 			) throws IOException {
 		
 		// Wake up potentially stuck TLCServerThreads (in
@@ -264,7 +270,8 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCServerRMI#registerFPSet(tlc2.tool.distributed.fp.FPSetRMI, java.lang.String)
 	 */
-	public synchronized void registerFPSet(final FPSetRMI fpSet, final String hostname) throws RemoteException {
+	@Override
+    public synchronized void registerFPSet(final FPSetRMI fpSet, final String hostname) throws RemoteException {
 		throw new UnsupportedOperationException("Not applicable for non-distributed TLCServer");
 	}
 
@@ -791,28 +798,32 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCServerRMI#isDone()
 	 */
-	public boolean isDone() throws RemoteException {
+	@Override
+    public boolean isDone() throws RemoteException {
 		return done;
 	}
 	
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCServerRMI#getSpec()
 	 */
-	public String getSpecFileName() throws RemoteException {
+	@Override
+    public String getSpecFileName() throws RemoteException {
 		return this.work.getFileName();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCServerRMI#getConfig()
 	 */
-	public String getConfigFileName() throws RemoteException {
+	@Override
+    public String getConfigFileName() throws RemoteException {
 		return this.work.getConfigName();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCServerRMI#getFile(java.lang.String)
 	 */
-	public byte[] getFile(final String file) throws RemoteException {
+	@Override
+    public byte[] getFile(final String file) throws RemoteException {
 		// sanitize file to only last part of the path
 		// to make sure to not load files outside of spec dir
 		final String name = new File(file).getName();
@@ -865,7 +876,8 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 		/* (non-Javadoc)
 		 * @see tlc2.tool.IStateFunctor#addElement(tlc2.tool.TLCState)
 		 */
-		public Object addElement(final TLCState curState) {
+		@Override
+        public Object addElement(final TLCState curState) {
 			if (e != null) {
 				return curState;
 			}
@@ -908,7 +920,8 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 		/* (non-Javadoc)
 		 * @see java.lang.Runnable#run()
 		 */
-		public void run() {
+		@Override
+        public void run() {
 			if (server.threadsToWorkers.isEmpty()) {
 				// Nothing to be done here.
 				return;

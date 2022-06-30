@@ -58,21 +58,25 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#size()
      */
+    @Override
     public abstract long size();
 
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#put(long)
      */
+    @Override
     public abstract boolean put(long fp) throws IOException;
 
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#contains(long)
      */
+    @Override
     public abstract boolean contains(long fp) throws IOException;
 
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#close()
      */
+    @Override
     public void close()
     { /*SKIP*/
     }
@@ -80,6 +84,7 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#addThread()
      */
+    @Override
     public void addThread() throws IOException
     { /*SKIP*/
     }
@@ -87,6 +92,7 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#exit(boolean)
      */
+    @Override
     public void exit(final boolean cleanup) throws IOException {
 		// If DistributedFPSet is running, signal termination and wake it up.
 		// This is necessary when a SecurityManager intercepts System.exit(int)
@@ -101,21 +107,25 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#checkFPs()
      */
+    @Override
     public abstract long checkFPs() throws IOException;
 
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#beginChkpt()
      */
+    @Override
     public abstract void beginChkpt() throws IOException;
 
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#commitChkpt()
      */
+    @Override
     public abstract void commitChkpt() throws IOException;
 
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#recover()
      */
+    @Override
     public abstract void recover(TLCTrace trace) throws IOException;
 
     public abstract void recoverFP(long fp) throws IOException;
@@ -124,23 +134,27 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#beginChkpt(java.lang.String)
      */
+    @Override
     public abstract void beginChkpt(String filename) throws IOException;
 
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#commitChkpt(java.lang.String)
      */
+    @Override
     public abstract void commitChkpt(String filename) throws IOException;
 
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#recover(java.lang.String)
      */
+    @Override
     public abstract void recover(String filename) throws IOException;
     
 	/**
 	 * @return true iff no invaritant is violated.
 	 * @throws IOException
 	 */
-	public boolean checkInvariant() throws IOException {
+	@Override
+    public boolean checkInvariant() throws IOException {
 		return true;
 	}
 	
@@ -159,6 +173,7 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#putBlock(tlc2.util.LongVec)
      */
+    @Override
     public BitVector putBlock(final LongVec fpv) throws IOException
     {
         final int size = fpv.size();
@@ -178,6 +193,7 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#containsBlock(tlc2.util.LongVec)
      */
+    @Override
     public BitVector containsBlock(final LongVec fpv) throws IOException
     {
     	statesSeen += fpv.size();
@@ -197,6 +213,7 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#getStatesSeen()
      */
+    @Override
     public long getStatesSeen() throws RemoteException {
     	return statesSeen;
     }

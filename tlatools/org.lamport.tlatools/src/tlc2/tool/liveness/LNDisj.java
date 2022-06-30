@@ -68,11 +68,13 @@ class LNDisj extends LiveExprNode {
 		this.info = hasAct ? level + 8 : level;
 	}
 
-	public final int getLevel() {
+	@Override
+    public final int getLevel() {
 		return (this.info & 7);
 	}
 
-	public final boolean containAction() {
+	@Override
+    public final boolean containAction() {
 		return (this.info & 8) > 0;
 	}
 	
@@ -87,7 +89,8 @@ class LNDisj extends LiveExprNode {
 		return true;
 	}
 
-	public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
+	@Override
+    public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
 		final int sz = disjs.size();
 		for (int i = 0; i < sz; i++) {
 			final LiveExprNode item = disjs.elementAt(i);
@@ -98,7 +101,8 @@ class LNDisj extends LiveExprNode {
 		return false;
 	}
 
-	public final void toString(final StringBuffer sb, final String padding) {
+	@Override
+    public final void toString(final StringBuffer sb, final String padding) {
 		final int len = this.getCount();
 		final String padding1 = padding + "    ";
 		for (int i = 0; i < len; i++) {
@@ -117,7 +121,8 @@ class LNDisj extends LiveExprNode {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.LiveExprNode#toDotViz()
 	 */
-	public String toDotViz() {
+	@Override
+    public String toDotViz() {
 		final int len = this.getCount();
 		final StringBuffer sb = new StringBuffer(len);
 		for (int i = 0; i < len; i++) {
@@ -130,19 +135,22 @@ class LNDisj extends LiveExprNode {
 		}
 		return sb.toString();
 	}
-	public void extractPromises(final TBPar promises) {
+	@Override
+    public void extractPromises(final TBPar promises) {
 		getBody(0).extractPromises(promises);
 		getBody(1).extractPromises(promises);
 	}
 
-	public int tagExpr(int tag) {
+	@Override
+    public int tagExpr(int tag) {
 		for (int i = 0; i < getCount(); i++) {
 			tag = getBody(i).tagExpr(tag);
 		}
 		return tag;
 	}
 
-	public final LiveExprNode makeBinary() {
+	@Override
+    public final LiveExprNode makeBinary() {
 		if (getCount() == 1) {
 			return getBody(0).makeBinary();
 		}
@@ -159,7 +167,8 @@ class LNDisj extends LiveExprNode {
 		return new LNDisj(left.makeBinary(), right.makeBinary());
 	}
 
-	public LiveExprNode flattenSingleJunctions() {
+	@Override
+    public LiveExprNode flattenSingleJunctions() {
 		if (getCount() == 1) {
 			return getBody(0).flattenSingleJunctions();
 		}
@@ -171,7 +180,8 @@ class LNDisj extends LiveExprNode {
 	}
 
 	// Apply []<>A1 \/ []<>A2 = []<>(A1 \/ A2) when possible.
-	public final LiveExprNode toDNF() {
+	@Override
+    public final LiveExprNode toDNF() {
 		final LNDisj aeRes = new LNDisj(0);
 		final LNDisj res = new LNDisj(0);
 		for (int i = 0; i < getCount(); i++) {
@@ -205,7 +215,8 @@ class LNDisj extends LiveExprNode {
 		return res;
 	}
 
-	public LiveExprNode simplify() {
+	@Override
+    public LiveExprNode simplify() {
 		final LNDisj lnd1 = new LNDisj(getCount());
 		for (int i = 0; i < getCount(); i++) {
 			final LiveExprNode elem = getBody(i).simplify();
@@ -226,7 +237,8 @@ class LNDisj extends LiveExprNode {
 		return lnd1;
 	}
 
-	public boolean isGeneralTF() {
+	@Override
+    public boolean isGeneralTF() {
 		for (int i = 0; i < getCount(); i++) {
 			if (!getBody(i).isGeneralTF()) {
 				return false;
@@ -235,7 +247,8 @@ class LNDisj extends LiveExprNode {
 		return super.isGeneralTF();
 	}
 
-	public LiveExprNode pushNeg() {
+	@Override
+    public LiveExprNode pushNeg() {
 		final LNConj lnc = new LNConj(getCount());
 		for (int i = 0; i < getCount(); i++) {
 			lnc.addConj(getBody(i).pushNeg());
@@ -243,7 +256,8 @@ class LNDisj extends LiveExprNode {
 		return lnc;
 	}
 
-	public LiveExprNode pushNeg(final boolean hasNeg) {
+	@Override
+    public LiveExprNode pushNeg(final boolean hasNeg) {
 		if (hasNeg) {
 			final LNConj lnc = new LNConj(getCount());
 			for (int i = 0; i < getCount(); i++) {
@@ -263,7 +277,8 @@ class LNDisj extends LiveExprNode {
 	 * This method returns true or false for whether two LiveExprNodes are
 	 * syntactically equal.
 	 */
-	public boolean equals(final LiveExprNode exp) {
+	@Override
+    public boolean equals(final LiveExprNode exp) {
 		if (exp instanceof LNDisj) {
 			final LNDisj exp2 = (LNDisj) exp;
 			if (getCount() != exp2.getCount()) {

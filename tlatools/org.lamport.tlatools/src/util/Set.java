@@ -20,6 +20,7 @@ class SetEntry {
   Object key;
   SetEntry next;
 
+  @Override
   protected Object clone() {
     final SetEntry entry = new SetEntry();
     entry.hash = hash;
@@ -260,6 +261,7 @@ public class Set implements Cloneable, java.io.Serializable {
      *
      * @return  a clone of the set.
      */
+    @Override
     public synchronized Object clone() {
       try { 
 	final Set t = (Set)super.clone();
@@ -489,6 +491,7 @@ class SetEnumerator implements Enumeration<Object> {
     this.index = set.length;
   }
 	
+  @Override
   public boolean hasMoreElements() {
     if (entry != null) {
       return true;
@@ -501,6 +504,7 @@ class SetEnumerator implements Enumeration<Object> {
     return false;
   }
 
+  @Override
   public Object nextElement() {
     if (entry == null) {
       while ((index-- > 0) && ((entry = set[index]) == null));

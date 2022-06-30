@@ -18,11 +18,13 @@ abstract class LNState extends LiveExprNode {
 		this.con = con;
 	}
 
-	public final int getLevel() {
+	@Override
+    public final int getLevel() {
 		return LevelConstants.VariableLevel;
 	}
 
-	public final boolean containAction() {
+	@Override
+    public final boolean containAction() {
 		return false;
 	}
 
@@ -42,12 +44,14 @@ abstract class LNState extends LiveExprNode {
 		this.tag = t;
 	}
 
-	public int tagExpr(final int tag) {
+	@Override
+    public int tagExpr(final int tag) {
 		setTag(tag);
 		return tag + 1;
 	}
 
-	public boolean equals(final LiveExprNode exp) {
+	@Override
+    public boolean equals(final LiveExprNode exp) {
 		if (exp instanceof LNState) {
 			return getTag() == ((LNState) exp).getTag();
 		}

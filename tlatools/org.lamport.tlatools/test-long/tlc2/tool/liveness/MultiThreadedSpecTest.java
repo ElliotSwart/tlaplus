@@ -135,7 +135,8 @@ public abstract class MultiThreadedSpecTest extends ModelCheckerTestCase {
 		}
 	}
 	
-	@Before
+	@Override
+    @Before
 	public void setUp() {
 		// Set the threshold before TLC (periodically) checks liveness to
 		// the largest possible value. This essentially stops TLC from checking
@@ -155,7 +156,8 @@ public abstract class MultiThreadedSpecTest extends ModelCheckerTestCase {
 		// finished has the potential that the JVM deletes the worker threads
 		// before this test gets a chance to collect statistics.
 		WorkerMonitor.addThreadListener(new WorkerMonitor.ThreadListener() {
-			public synchronized void terminated(final Thread thread, final long runningTime) {
+			@Override
+            public synchronized void terminated(final Thread thread, final long runningTime) {
 				final ThreadInfo threadInfo = threadBean.getThreadInfo(thread.getId());
 				final double d = threadInfo.getBlockedTime() / (runningTime * 1.0d);
 				final double d2 = threadInfo.getWaitedTime() / (runningTime * 1.0d);
@@ -165,7 +167,8 @@ public abstract class MultiThreadedSpecTest extends ModelCheckerTestCase {
 		});
 	}
 	
-	protected int getNumberOfThreads() {
+	@Override
+    protected int getNumberOfThreads() {
 		// Run this test with as many threads possible to hopefully spot concurrency issues.
 		return Runtime.getRuntime().availableProcessors();
 	}

@@ -134,7 +134,8 @@ public interface ITool extends TraceApp {
 	boolean isValid(ExprNode expr);
 
 	/* Reconstruct the initial state whose fingerprint is fp. */
-	TLCStateInfo getState(long fp);
+    @Override
+    TLCStateInfo getState(long fp);
 
 	/**
 		 * Reconstruct the next state of state s whose fingerprint is fp.
@@ -146,10 +147,12 @@ public interface ITool extends TraceApp {
 	TLCStateInfo getState(long fp, TLCStateInfo sinfo);
 
 	/* Reconstruct the next state of state s whose fingerprint is fp. */
-	TLCStateInfo getState(long fp, TLCState s);
+    @Override
+    TLCStateInfo getState(long fp, TLCState s);
 
 	/* Reconstruct the info for s1.   */
-	TLCStateInfo getState(TLCState s1, TLCState s);
+    @Override
+    TLCStateInfo getState(TLCState s1, TLCState s);
 
 	/* Return the set of all permutations under the symmetry assumption. */
 	IMVPerm[] getSymmetryPerms();

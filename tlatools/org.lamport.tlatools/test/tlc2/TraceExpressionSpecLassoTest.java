@@ -58,7 +58,8 @@ public class TraceExpressionSpecLassoTest extends TraceExpressionSpecTest {
 		super(TE_SPEC_TEST, "TESpecLassoTest.cfg", "-modelcheck", EC.ExitStatus.VIOLATION_LIVENESS);
 	}
 
-	protected double getLivenessThreshold() {
+	@Override
+    protected double getLivenessThreshold() {
 		return TLCGlobals.livenessThreshold; // don't change the default
 	}
 

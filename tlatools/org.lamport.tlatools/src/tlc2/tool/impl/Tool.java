@@ -865,6 +865,7 @@ public abstract class Tool
 		return false;
   }
 
+  @Override
   public boolean getNextStates(final INextStateFunctor functor, final TLCState state, final Action action) {
 		this.getNextStates(action, action.pred, ActionItemList.Empty, action.con, state,
 				TLCState.Empty.createEmpty().setPredecessor(state).setAction(action), functor, action.cm);
@@ -1546,6 +1547,7 @@ public abstract class Tool
   }
     
   /* eval */
+  @Override
   public TLCState evalAlias(final TLCState current, final TLCState successor) {
 		if ("".equals(this.config.getAlias())) {
 			return current;
@@ -1573,6 +1575,7 @@ public abstract class Tool
 		return current;
   }
 
+  @Override
   public TLCStateInfo evalAlias(final TLCStateInfo current, final TLCState successor) {
 		if ("".equals(this.config.getAlias())) {
 			return current;
@@ -1645,8 +1648,9 @@ public abstract class Tool
    * This method evaluates the expression expr in the given context,
    * current state, and partial next state.
    */
+  @Override
   public abstract Value eval(SemanticNode expr, Context c, TLCState s0,
-                          TLCState s1, final int control, final CostModel cm);
+                             TLCState s1, final int control, final CostModel cm);
   
   @ExpectInlined
   protected Value evalImpl(final SemanticNode expr, final Context c, final TLCState s0,

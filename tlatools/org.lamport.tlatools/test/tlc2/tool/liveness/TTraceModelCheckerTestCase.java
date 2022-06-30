@@ -80,7 +80,8 @@ public abstract class TTraceModelCheckerTestCase extends ModelCheckerTestCase {
 		this.specPath = BASE_PATH;
 	}
 	
-	@Before
+	@Override
+    @Before
 	public void setUp() {
 		beforeSetUp();
 

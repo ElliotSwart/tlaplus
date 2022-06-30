@@ -35,7 +35,8 @@ class LNStateAST extends LNState {
 		return this.body;
 	}
 
-	public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
+	@Override
+    public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
 		final IValue val = tool.eval(this.body, getContext(), s1);
 		if (!(val instanceof IBoolValue)) {
 			Assert.fail(EC.TLC_LIVE_STATE_PREDICATE_NON_BOOL);
@@ -43,14 +44,16 @@ class LNStateAST extends LNState {
 		return ((IBoolValue) val).getVal();
 	}
 
-	public final void toString(final StringBuffer sb, final String padding) {
+	@Override
+    public final void toString(final StringBuffer sb, final String padding) {
 		sb.append(this.body);
 	}
 	
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.LiveExprNode#toDotViz()
 	 */
-	public String toDotViz() {
+	@Override
+    public String toDotViz() {
 		final StringBuffer sb = new StringBuffer();
 		if (this.body instanceof OpApplNode) {
 			final OpApplNode oan = (OpApplNode) this.body;

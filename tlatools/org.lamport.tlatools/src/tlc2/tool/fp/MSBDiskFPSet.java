@@ -74,7 +74,8 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.fp.DiskFPSet.Flusher#preFlushTable()
 		 */
-		protected void prepareTable() {
+		@Override
+        protected void prepareTable() {
 			
 			// copy table contents into a buffer array buff; do not erase tbl, but 1
 			// msb of each fp to indicate it has been flushed to disk
@@ -101,7 +102,8 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.fp.DiskFPSet#mergeNewEntries(long[], int, java.io.RandomAccessFile, java.io.RandomAccessFile)
 		 */
-		protected void mergeNewEntries(final BufferedRandomAccessFile[] inRAFs, final RandomAccessFile outRAF) throws IOException {
+		@Override
+        protected void mergeNewEntries(final BufferedRandomAccessFile[] inRAFs, final RandomAccessFile outRAF) throws IOException {
 			final long buffLen = getTblCnt();
 			final TLCIterator itr = new TLCIterator(tbl);
 

@@ -69,7 +69,8 @@ public class DistributedTrace extends ModelCheckerTestCase {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ModelCheckerTestCase#getNumberOfThreads()
 	 */
-	protected int getNumberOfThreads() {
+	@Override
+    protected int getNumberOfThreads() {
 		return 4;
 	}
 }

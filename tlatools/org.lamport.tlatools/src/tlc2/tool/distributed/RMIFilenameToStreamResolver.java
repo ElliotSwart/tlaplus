@@ -48,7 +48,8 @@ public class RMIFilenameToStreamResolver implements FilenameToStream {
 	/* (non-Javadoc)
 	 * @see util.FilenameToStream#resolve(java.lang.String, boolean)
 	 */
-	public File resolve(final String filename, final boolean isModule) {
+	@Override
+    public File resolve(final String filename, final boolean isModule) {
 
 		// read the file from the server
 		// strip off path
@@ -84,7 +85,8 @@ public class RMIFilenameToStreamResolver implements FilenameToStream {
 	 *
 	 * Added by LL on 24 July 2013.
 	 */
-	public boolean isStandardModule(final String moduleName) {
+	@Override
+    public boolean isStandardModule(final String moduleName) {
 		// The following error message code should be uncommented
 		// if the parser should not be called with an object of
 		// this class.
@@ -125,7 +127,8 @@ public class RMIFilenameToStreamResolver implements FilenameToStream {
 		return f;
 	}
 
-	public String getFullPath() {
+	@Override
+    public String getFullPath() {
 		final StringBuffer buf = new StringBuffer();
 
 		final String[] strings = fileCache.keySet().toArray(new String[fileCache.size()]);

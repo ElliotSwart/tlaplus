@@ -354,14 +354,16 @@ public abstract class AbstractDiskGraph {
 				/* (non-Javadoc)
 				 * @see java.util.Iterator#hasNext()
 				 */
-				public boolean hasNext() {
+				@Override
+                public boolean hasNext() {
 					return nodePtrRAF.getFilePointer() < length;
 				}
 
 				/* (non-Javadoc)
 				 * @see java.util.Iterator#next()
 				 */
-				public GraphNode next() {
+				@Override
+                public GraphNode next() {
 					try {
 						final long fp = nodePtrRAF.readLong();
 						final int tidx = nodePtrRAF.readInt();
@@ -375,7 +377,8 @@ public abstract class AbstractDiskGraph {
 				/* (non-Javadoc)
 				 * @see java.util.Iterator#remove()
 				 */
-				public void remove() {
+				@Override
+                public void remove() {
 					throw new UnsupportedOperationException("Not supported!");
 				}
 			};

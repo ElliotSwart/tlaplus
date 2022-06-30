@@ -125,7 +125,8 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#sizeof()
 	 */
-	public long sizeof() {
+	@Override
+    public long sizeof() {
 		long size = 44; // approx size of this DiskFPSet object
 		rwLock.acquireAllLocks();
 		size += 16 + (this.tbl.length * 4); // for this.tbl
@@ -144,14 +145,16 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#getLockCnt()
 	 */
-	public int getLockCnt() {
+	@Override
+    public int getLockCnt() {
 		return this.rwLock.size();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#getTblCapacity()
 	 */
-	public long getTblCapacity() {
+	@Override
+    public long getTblCapacity() {
 		return tbl.length;
 	}
 
@@ -180,7 +183,8 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 	 * 
      * 0 and {@link Long#MIN_VALUE} always return false
 	 */
-	public final boolean contains(long fp) throws IOException {
+	@Override
+    public final boolean contains(long fp) throws IOException {
 		fp = checkValid(fp);
 		// zeros the msb
 		final long fp0 = fp & 0x7FFFFFFFFFFFFFFFL;
@@ -209,7 +213,8 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#memLookup(long)
 	 */
-	boolean memLookup(final long fp) {
+    @Override
+    boolean memLookup(final long fp) {
 		final long[] bucket = this.tbl[getIndex(fp)];
 		if (bucket == null)
 			return false;
@@ -248,7 +253,8 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
      * - Exclusive access to disk and memory for a writer
      * 
 	 */
-	public final boolean put(long fp) throws IOException {
+	@Override
+    public final boolean put(long fp) throws IOException {
 		fp = checkValid(fp);
 		// zeros the msb
 		final long fp0 = fp & 0x7FFFFFFFFFFFFFFFL;
@@ -329,7 +335,8 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#memInsert(long)
 	 */
-	boolean memInsert(final long fp) {
+    @Override
+    boolean memInsert(final long fp) {
 		final int index = getIndex(fp);
 		
 		// try finding an existing bucket 
@@ -386,14 +393,16 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#acquireTblWriteLock()
 	 */
-	void acquireTblWriteLock() {
+    @Override
+    void acquireTblWriteLock() {
 		rwLock.acquireAllLocks();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#releaseTblWriteLock()
 	 */
-	void releaseTblWriteLock() {
+    @Override
+    void releaseTblWriteLock() {
 		rwLock.releaseAllLocks();
 	}
 }

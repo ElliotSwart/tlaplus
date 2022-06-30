@@ -60,7 +60,8 @@ public abstract class SuiteTestCase extends ModelCheckerTestCase {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ModelCheckerTestCase#setUp()
 	 */
-	public void setUp() {
+	@Override
+    public void setUp() {
 		// Set spec name to the name of the unit tests
 		spec = getClass().getSimpleName().toLowerCase();
 		

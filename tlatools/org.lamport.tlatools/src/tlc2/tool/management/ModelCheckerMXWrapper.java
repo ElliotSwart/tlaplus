@@ -33,14 +33,16 @@ public class ModelCheckerMXWrapper extends TLCStandardMBean implements TLCStatis
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getStatesGenerated()
 	 */
-	public long getStatesGenerated() {
+	@Override
+    public long getStatesGenerated() {
 		return modelChecker.getStatesGenerated();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getDistinctStatesGenerated()
 	 */
-	public long getDistinctStatesGenerated() {
+	@Override
+    public long getDistinctStatesGenerated() {
 		// if impl is DiskFPSet we don't want to add to the lock contention on
 		// the RWLock in DiskFPSet and thus compromise on reading dirty values
 		// (acceptable for statistics/metrics)
@@ -54,49 +56,56 @@ public class ModelCheckerMXWrapper extends TLCStandardMBean implements TLCStatis
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getStateQueueSize()
 	 */
-	public long getStateQueueSize() {
+	@Override
+    public long getStateQueueSize() {
 		return modelChecker.getStateQueueSize();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getStatesGeneratedPerMinute()
 	 */
-	public long getStatesGeneratedPerMinute() {
+	@Override
+    public long getStatesGeneratedPerMinute() {
 		return modelChecker.statesPerMinute;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getDistinctStatesGeneratedPerMinute()
 	 */
-	public long getDistinctStatesGeneratedPerMinute() {
+	@Override
+    public long getDistinctStatesGeneratedPerMinute() {
 		return modelChecker.distinctStatesPerMinute;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getProgress()
 	 */
-	public int getProgress() {
+	@Override
+    public int getProgress() {
 		return modelChecker.getProgress();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getWorkerCount()
 	 */
-	public int getWorkerCount() {
+	@Override
+    public int getWorkerCount() {
 		return TLCGlobals.getNumWorkers();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#checkpoint()
 	 */
-	public void checkpoint() {
+	@Override
+    public void checkpoint() {
 		TLCGlobals.forceChkpt();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getAverageBlockCnt()
 	 */
-	public long getAverageBlockCnt() {
+	@Override
+    public long getAverageBlockCnt() {
 		//TODO adapt once Workers can support units of work greater than 1 
 		return 1;
 	}
@@ -104,21 +113,24 @@ public class ModelCheckerMXWrapper extends TLCStandardMBean implements TLCStatis
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getRuntimeRatio()
 	 */
-	public double getRuntimeRatio() {
+	@Override
+    public double getRuntimeRatio() {
 		return modelChecker.getRuntimeRatio();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#liveCheck()
 	 */
-	public void liveCheck() {
+	@Override
+    public void liveCheck() {
 		modelChecker.forceLiveCheck();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getCurrentState()
 	 */
-	public String getCurrentState() {
+	@Override
+    public String getCurrentState() {
 		final TLCState state = modelChecker.theStateQueue.sPeek();
 		if (state != null) {
 			return state.toString();
@@ -129,35 +141,40 @@ public class ModelCheckerMXWrapper extends TLCStandardMBean implements TLCStatis
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getSpecName()
 	 */
-	public String getSpecName() {
+	@Override
+    public String getSpecName() {
 		return tlc.getSpecName();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getModelName()
 	 */
-	public String getModelName() {
+	@Override
+    public String getModelName() {
 		return tlc.getModelName();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#stop()
 	 */
-	public void stop() {
+	@Override
+    public void stop() {
 		modelChecker.stop();
 	}
 	
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#suspend()
 	 */
-	public void suspend() {
+	@Override
+    public void suspend() {
 		modelChecker.suspend();
 	}
 	
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#resume()
 	 */
-	public void resume() {
+	@Override
+    public void resume() {
 		modelChecker.resume();
 	}
 }

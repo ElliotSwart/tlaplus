@@ -46,7 +46,8 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 		this.nodePtrTbl = new TableauNodePtrTable(255);
 	}
 	
-	public final long getPtr(final long fp, final int tidx) {
+	@Override
+    public final long getPtr(final long fp, final int tidx) {
 		return this.nodePtrTbl.get(fp, tidx);
 	}
 	
@@ -115,14 +116,16 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#putNode(tlc2.tool.liveness.GraphNode, long)
 	 */
-	protected void putNode(final GraphNode node, final long ptr) {
+	@Override
+    protected void putNode(final GraphNode node, final long ptr) {
 		this.nodePtrTbl.put(node.stateFP, node.tindex, ptr);
 	}
 	
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#checkDuplicate(tlc2.tool.liveness.GraphNode)
 	 */
-	protected boolean checkDuplicate(final GraphNode node) {
+	@Override
+    protected boolean checkDuplicate(final GraphNode node) {
 		return this.nodePtrTbl.get(node.stateFP, node.tindex) != -1;
 	}
 
@@ -151,7 +154,8 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 	 * 
 	 * @throws IOException
 	 */
-	public final GraphNode getNode(final long fp, final int tidx) throws IOException {
+	@Override
+    public final GraphNode getNode(final long fp, final int tidx) throws IOException {
 		final long ptr = this.nodePtrTbl.get(fp, tidx);
 		if (ptr < 0) {
 			return new GraphNode(fp, tidx);
@@ -166,14 +170,16 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#getLink(long, int)
 	 */
-	public long getLink(final long state, final int tidx) {
+	@Override
+    public long getLink(final long state, final int tidx) {
 		return this.nodePtrTbl.get(state, tidx);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#putLink(long, int, long)
 	 */
-	public long putLink(final long state, final int tidx, final long link) {
+	@Override
+    public long putLink(final long state, final int tidx, final long link) {
 		assert MAX_PTR <= link && link < MAX_LINK; 
 		final int[] node = this.nodePtrTbl.getNodes(state);
 		final int cloc = this.nodePtrTbl.getIdx(node, tidx);
@@ -188,11 +194,13 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#setMaxLink(long, int)
 	 */
-	public void setMaxLink(final long state, final int tidx) {
+	@Override
+    public void setMaxLink(final long state, final int tidx) {
 		this.nodePtrTbl.put(state, tidx, MAX_LINK);
 	}
 
-	public final void reset() throws IOException {
+	@Override
+    public final void reset() throws IOException {
 		this.nodePtrRAF.setLength(0);
 		this.nodeRAF.setLength(0);
 		this.nodePtrTbl = new TableauNodePtrTable(255);
@@ -201,14 +209,16 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#size()
 	 */
-	public long size() {
+	@Override
+    public long size() {
 		return this.nodePtrTbl.size();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#makeNodePtrTbl(long)
 	 */
-	protected void makeNodePtrTbl(final long ptr) throws IOException  {
+	@Override
+    protected void makeNodePtrTbl(final long ptr) throws IOException  {
 		makeNodePtrTbl(ptr, nodePtrTbl);
 	}
 	
@@ -267,7 +277,8 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#toDotViz(tlc2.tool.liveness.OrderOfSolution)
 	 */
-	public final String toDotViz(final OrderOfSolution oos) {
+	@Override
+    public final String toDotViz(final OrderOfSolution oos) {
 		final int slen = oos.getCheckState().length;
 		final int alen = oos.getCheckAction().length;
 
@@ -314,7 +325,8 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#getPath(long, int)
 	 */
-	public final LongVec getPath(final long state, final int tidx) throws IOException {
+	@Override
+    public final LongVec getPath(final long state, final int tidx) throws IOException {
 		// If path requested just consists of an init node, return the single
 		// init node. This is the trivial case.
 		final int numOfInits = this.initNodes.size();
@@ -546,14 +558,16 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.liveness.TableauNodePtrTable#getElemTidx(int[], int)
 		 */
-		public int getElemTidx(final int[] node, final int loc) {
+		@Override
+        public int getElemTidx(final int[] node, final int loc) {
 			return node[loc + 3];
 		}
 
 		/* (non-Javadoc)
 		 * @see tlc2.tool.liveness.TableauNodePtrTable#putElem(int[], long, int, int)
 		 */
-		public void putElem(final int[] node, final long elem, final int tableauIdx, final int loc) {
+		@Override
+        public void putElem(final int[] node, final long elem, final int tableauIdx, final int loc) {
 			super.putElem(node, elem, tableauIdx, loc);
 			node[loc + 3] = tableauIdx;
 		}
@@ -561,7 +575,8 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.liveness.TableauNodePtrTable#getElemLength()
 		 */
-		public int getElemLength() {
+		@Override
+        public int getElemLength() {
 			// This implementation stores the predecessor's tableau index
 			// additionally to its location in this ptr table.
 			return super.getElemLength() + 1;
@@ -570,7 +585,8 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.liveness.TableauNodePtrTable#addElem(long, int, long)
 		 */
-		protected int[] addElem(final long key, final int tidx, final long elem) {
+		@Override
+        protected int[] addElem(final long key, final int tidx, final long elem) {
 			final int[] node = super.addElem(key, tidx, elem);
 			node[5] = -1; // later updated to store predecessor's tidx
 			return node;
@@ -579,7 +595,8 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.liveness.TableauNodePtrTable#appendElem(int[], int, long)
 		 */
-		protected int[] appendElem(final int[] node, final int tidx, final long elem) {
+		@Override
+        protected int[] appendElem(final int[] node, final int tidx, final long elem) {
 			final int len = node.length;
 			final int[] newNode = new int[len + getElemLength()];
 			System.arraycopy(node, 0, newNode, 0, len);

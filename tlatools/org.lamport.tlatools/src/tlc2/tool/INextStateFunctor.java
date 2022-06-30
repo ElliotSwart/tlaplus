@@ -36,7 +36,8 @@ public interface INextStateFunctor extends IStateFunctor {
 
 	Object addElement(final TLCState s, final Action a, final TLCState t);
 
-	default Object addElement(final TLCState state) {
+	@Override
+    default Object addElement(final TLCState state) {
 		throw new UnsupportedOperationException();
 	}
 	

@@ -24,7 +24,8 @@ public class StatisticalBlockSelector extends LimitingBlockSelector {
 	 *            The current size of the state queue.
 	 * @return The intended block size
 	 */
-	protected long getBlockSize(final long size, final TLCWorkerRMI aWorker) {
+	@Override
+    protected long getBlockSize(final long size, final TLCWorkerRMI aWorker) {
 		// has to be correct type and statistics have to be available
 		if(aWorker instanceof TLCWorkerSmartProxy) {
 			final TLCWorkerSmartProxy proxy = (TLCWorkerSmartProxy) aWorker;

@@ -612,7 +612,8 @@ public final Value domain;        /* Function domain  */
 			return new FcnRcdValue(domSet.elems, range, true);
 		}
 	}
-	public TLCVariable toTLCVariable(final TLCVariable variable, final Random rnd) {
+	@Override
+    public TLCVariable toTLCVariable(final TLCVariable variable, final Random rnd) {
 		return super.toTLCVariable(variable, rnd);
 	}
 }

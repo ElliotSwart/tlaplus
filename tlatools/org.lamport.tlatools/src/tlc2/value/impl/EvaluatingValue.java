@@ -95,8 +95,10 @@ protected final MethodHandle mh;
 		}
 	}
 
+  @Override
   public final byte getKind() { return METHODVALUE; }
 
+  @Override
   public final int compareTo(final Object obj) {
     try {
       Assert.fail("Attempted to compare operator " + this.toString() +
@@ -121,6 +123,7 @@ protected final MethodHandle mh;
     }
   }
 
+  @Override
   public final boolean member(final Value elem) {
     try {
       Assert.fail("Attempted to check if the value:\n" + elem == null ? "null" : Values.ppr(elem.toString()) +
@@ -133,6 +136,7 @@ protected final MethodHandle mh;
     }
   }
 
+  @Override
   public final boolean isFinite() {
     try {
       Assert.fail("Attempted to check if the operator " + this.toString() +
@@ -145,6 +149,7 @@ protected final MethodHandle mh;
     }
   }
 
+  @Override
   public final Value apply(final Value arg, final int control) {
     try {
       throw new WrongInvocationException("It is a TLC bug: Should use the other apply method.");
@@ -155,6 +160,7 @@ protected final MethodHandle mh;
     }
   }
 
+  @Override
   public final Value apply(final Value[] args, final int control) {
 	    try {
 	        throw new WrongInvocationException("It is a TLC bug: Should use the other apply method.");
@@ -165,6 +171,7 @@ protected final MethodHandle mh;
 	      }
   }
 
+  @Override
   public final Value select(final Value arg) {
     try {
       throw new WrongInvocationException("It is a TLC bug: Attempted to call MethodValue.select().");
@@ -175,6 +182,7 @@ protected final MethodHandle mh;
     }
   }
 
+  @Override
   public final Value takeExcept(final ValueExcept ex) {
     try {
       Assert.fail("Attempted to appy EXCEPT construct to the operator " +
@@ -187,6 +195,7 @@ protected final MethodHandle mh;
     }
   }
 
+  @Override
   public final Value takeExcept(final ValueExcept[] exs) {
     try {
       Assert.fail("Attempted to apply EXCEPT construct to the operator " +
@@ -199,6 +208,7 @@ protected final MethodHandle mh;
     }
   }
 
+  @Override
   public final Value getDomain() {
     try {
       Assert.fail("Attempted to compute the domain of the operator " +
@@ -211,6 +221,7 @@ protected final MethodHandle mh;
     }
   }
 
+  @Override
   public final int size() {
     try {
       Assert.fail("Attempted to compute the number of elements in the operator " +
@@ -224,6 +235,7 @@ protected final MethodHandle mh;
   }
 
   /* Should never normalize an operator. */
+  @Override
   public final boolean isNormalized() {
     try {
       throw new WrongInvocationException("It is a TLC bug: Attempted to normalize an operator.");
@@ -234,6 +246,7 @@ protected final MethodHandle mh;
     }
   }
 
+  @Override
   public final Value normalize() {
     try {
       throw new WrongInvocationException("It is a TLC bug: Attempted to normalize an operator.");
@@ -244,10 +257,13 @@ protected final MethodHandle mh;
     }
   }
 
+  @Override
   public final boolean isDefined() { return true; }
 
+  @Override
   public final IValue deepCopy() { return this; }
 
+  @Override
   public final boolean assignable(final Value val) {
     try {
       throw new WrongInvocationException("It is a TLC bug: Attempted to initialize an operator.");
@@ -259,6 +275,7 @@ protected final MethodHandle mh;
   }
 
   /* String representation of the value.  */
+  @Override
   public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean ignored) {
     try {
       return sb.append("<Java Method: " + this.md + ">");

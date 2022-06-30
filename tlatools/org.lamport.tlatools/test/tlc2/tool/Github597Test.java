@@ -42,15 +42,18 @@ public class Github597Test extends ModelCheckerTestCase {
 		super("dekker", new String[] { "-config", "dekker.tla" }, EC.ExitStatus.VIOLATION_LIVENESS);
 	}
 
-	protected boolean noRandomFPandSeed() {
+	@Override
+    protected boolean noRandomFPandSeed() {
 		return false;
 	}
 	
-	protected boolean doCoverage() {
+	@Override
+    protected boolean doCoverage() {
 		return false;
 	}
 	
-	protected boolean doDump() {
+	@Override
+    protected boolean doDump() {
 		return false;
 	}
 

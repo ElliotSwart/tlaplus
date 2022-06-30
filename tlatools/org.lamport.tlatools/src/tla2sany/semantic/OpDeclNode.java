@@ -69,10 +69,13 @@ public class OpDeclNode extends OpDefOrDeclNode {
    * Their scope may *be* local (as with LET, or bound variables, or
    * in inner modules), but the LOCAL modifier is not used.
    */
+  @Override
   public final boolean isLocal() { return false; }
 
+  @Override
   public final int getArity() { return this.arity; }
 
+  @Override
   public final boolean match(final OpApplNode oa, final ModuleNode mn) {
     final ExprOrOpArgNode[] args = oa.getArgs();
 
@@ -170,10 +173,12 @@ public class OpDeclNode extends OpDefOrDeclNode {
   }
 
 
+  @Override
   protected String getNodeRef() {
     return "OpDeclNodeRef";
   }
 
+  @Override
   protected Element getSymbolElement(final Document doc, final SymbolContext context) {
     final Element e = doc.createElement("OpDeclNode");
     e.appendChild(appendText(doc,"uniquename",getName().toString()));

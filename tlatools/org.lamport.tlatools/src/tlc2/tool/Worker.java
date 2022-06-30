@@ -83,7 +83,8 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
    * possible next states of the state, checks the invariants, and
    * updates the state set and state queue.
 	 */
-	public void run() {
+	@Override
+    public void run() {
 		TLCState curState = null;
 		try {
 			while (true) {

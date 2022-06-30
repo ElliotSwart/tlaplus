@@ -44,7 +44,8 @@ public class Github648wNTest extends ModelCheckerTestCase {
 		return 10;
 	}
 
-	protected boolean doDump() {
+	@Override
+    protected boolean doDump() {
 		return false;
 	}
 

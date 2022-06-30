@@ -732,7 +732,8 @@ public class LongArraysTest {
 
 	private static LongComparator getComparator(final Indexer indexer) {
 		return new LongComparator() {
-			public int compare(final long fpA, final long posA, final long fpB, final long posB) {
+			@Override
+            public int compare(final long fpA, final long posA, final long fpB, final long posB) {
 				// Elements not in Nat \ {0} remain at their current
 				// position.
 				if (fpA <= EMPTY || fpB <= EMPTY) {

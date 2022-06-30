@@ -97,7 +97,8 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		this.cleaner.start();
 	}
 
-	final void enqueueInner(final byte[] state) {
+	@Override
+    final void enqueueInner(final byte[] state) {
 		if (this.enqIndex == this.enqBuf.length) {
 			// enqBuf is full; flush it to disk
 			try {
@@ -114,14 +115,16 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		this.enqBuf[this.enqIndex++] = state;
 	}
 
-	final byte[] dequeueInner() {
+	@Override
+    final byte[] dequeueInner() {
 		if (this.deqIndex == this.deqBuf.length) {
 			this.fillDeqBuffer();
 		}
 		return this.deqBuf[this.deqIndex++];
 	}
 	
-	byte[] peekInner() {
+	@Override
+    byte[] peekInner() {
 		if (this.deqIndex == this.deqBuf.length) {
 			this.fillDeqBuffer();
 		}
@@ -173,7 +176,8 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	}
 
 	/* Checkpoint. */
-	public final void beginChkpt() throws IOException {
+	@Override
+    public final void beginChkpt() throws IOException {
 		synchronized (this.cleaner) {
 			// Checkpointing takes precedence over periodic cleaning
 			// (cleaner would otherwise delete checkpoint files as it know
@@ -201,7 +205,8 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		this.newLastLoPool = this.loPool - 1;
 	}
 
-	public final void commitChkpt() throws IOException {
+	@Override
+    public final void commitChkpt() throws IOException {
 		for (int i = this.lastLoPool; i < this.newLastLoPool; i++) {
 			final String pstr = Integer.toString(i);
 			final File oldPool = new File(this.filePrefix + pstr);
@@ -219,7 +224,8 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		}
 	}
 
-	public final void recover() throws IOException {
+	@Override
+    public final void recover() throws IOException {
 		final String filename = this.filePrefix + "queue.chkpt";
 	  	final BufferedDataInputStream vis = new BufferedDataInputStream(filename);
 		this.len = vis.readLong();
@@ -245,7 +251,8 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		this.loFile = new File(this.filePrefix + pstr);
 	}
 
-	public void finishAll() {
+	@Override
+    public void finishAll() {
 		super.finishAll();
 		synchronized (this.writer) {
 			this.writer.notifyAll();
@@ -272,7 +279,8 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		/* (non-Javadoc)
 		 * @see java.lang.Thread#run()
 		 */
-		public void run() {
+		@Override
+        public void run() {
 			try {
 				synchronized (this) {
 					while (!this.finished) {
@@ -351,7 +359,8 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	   * Write "buf" to "poolFile". The objects in the queue are written
 	   * using Java's object serialization facilities.
 	   */
-	  public void run() {
+	  @Override
+      public void run() {
 	    try {
 	      synchronized(this) {
 		while (true) {
@@ -484,7 +493,8 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		   * Read the contents of "poolFile" into "buf". The objects in the
 		   * file are read using Java's object serialization facilities.
 		   */
-		  public void run() {
+		  @Override
+          public void run() {
 		    try {
 		      synchronized(this) {
 			while (true) {

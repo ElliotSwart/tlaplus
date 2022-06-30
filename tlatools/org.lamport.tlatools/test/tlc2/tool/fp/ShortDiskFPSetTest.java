@@ -29,7 +29,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.AbstractFPSetTest#getFPSet(FPSetConfiguration)
 	 */
-	protected FPSet getFPSet(final FPSetConfiguration fpSetConfig) throws IOException {
+	@Override
+    protected FPSet getFPSet(final FPSetConfiguration fpSetConfig) throws IOException {
 		final DiskFPSet fpSet = new DummyDiskFPSet(fpSetConfig);
 		fpSet.init(1, tmpdir, filename + CNT++);
 		return fpSet;

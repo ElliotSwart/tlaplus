@@ -41,7 +41,8 @@ public class BlockSelector implements IBlockSelector {
 	 * @param worker {@link TLCWorker} requesting work units ({@link TLCState})
 	 * @return The states that will be assigned to the given remote {@link TLCWorker} or null if no work is available
 	 */
-	public TLCState[] getBlocks(final IStateQueue stateQueue, final TLCWorkerRMI worker) {
+	@Override
+    public TLCState[] getBlocks(final IStateQueue stateQueue, final TLCWorkerRMI worker) {
 		// current size of new states
 		final long amountOfStates = stateQueue.size();
 		// the amount of blocks that will be assigned to the work
@@ -73,7 +74,8 @@ public class BlockSelector implements IBlockSelector {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.selector.IBlockSelector#setMaxTXSize(int)
 	 */
-	public void setMaxTXSize(final int aMaximum) {
+	@Override
+    public void setMaxTXSize(final int aMaximum) {
 		// nop
 	}
 	
@@ -89,7 +91,8 @@ public class BlockSelector implements IBlockSelector {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.selector.IBlockSelector#getAverageBlockCnt()
 	 */
-	public long getAverageBlockCnt() {
+	@Override
+    public long getAverageBlockCnt() {
 		return averageBlockCnt;
 	}
 }

@@ -566,7 +566,8 @@ public class Simulator {
 
 		volatile boolean isRunning = true;
 
-		public void run() {
+		@Override
+        public void run() {
 			int count = TLCGlobals.coverageInterval / TLCGlobals.progressInterval;
 			try {
 				while (isRunning) {

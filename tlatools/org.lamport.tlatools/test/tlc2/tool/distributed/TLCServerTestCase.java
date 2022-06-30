@@ -57,7 +57,8 @@ public abstract class TLCServerTestCase extends ModelCheckerTestCase {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ModelCheckerTestCase#setUp()
 	 */
-	@Before
+	@Override
+    @Before
 	public void setUp() {
 		try {
 			MP.setRecorder(recorder);
@@ -85,7 +86,8 @@ public abstract class TLCServerTestCase extends ModelCheckerTestCase {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.fp.FPSetConfiguration#getImplementation()
 		 */
-		public String getImplementation() {
+		@Override
+        public String getImplementation() {
 			return DummyFPSet.class.getName();
 		}
 	}
@@ -100,7 +102,8 @@ public abstract class TLCServerTestCase extends ModelCheckerTestCase {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.fp.DiskFPSet#exit(boolean)
 		 */
-		public void exit(final boolean cleanup) throws IOException {
+		@Override
+        public void exit(final boolean cleanup) throws IOException {
 			//ignore because superclass calls System.exit(0) but we want to check our assertions first.
 		}
 	}

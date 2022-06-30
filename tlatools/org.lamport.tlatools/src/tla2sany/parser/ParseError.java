@@ -15,7 +15,9 @@ public class ParseError implements tla2sany.st.ParseError {
     backup = "";
   }
 
+  @Override
   public final String reportedError() { return custom; };
+  @Override
   public final String defaultError() { return backup; };
 }
 

@@ -95,6 +95,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
   /* (non-Javadoc)
    * @see tlc2.tool.IStateFunction#addElement(tlc2.tool.TLCState)
    */
+  @Override
   public final StateVec addElement(final TLCState state) {
     if (this.size >= this.v.length) { grow(1); }
     this.v[this.size++] = state;
@@ -212,6 +213,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
     return res.toArray(new Value[res.size()]);
   }
   
+  @Override
   public final boolean hasStates() {
 	  return !isEmpty();
   }

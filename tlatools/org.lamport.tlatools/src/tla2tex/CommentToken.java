@@ -126,6 +126,7 @@ public class CommentToken extends Token
 
      };     
 
+   @Override
    public int getWidth()
      /**********************************************************************
      * Returns the number of columns occupied by the token in the input.   *

@@ -294,6 +294,7 @@ public abstract class SemanticNode
    * of walkgraph is to find all reachable nodes in the semantic graph
    * and insert them in a Hashtable for use by the Explorer tool.
    */
+  @Override
   public void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
     final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
@@ -307,6 +308,7 @@ public abstract class SemanticNode
    * of SemanticNode for implementing ExploreNode interface; the depth
    * parameter is a bound on the depth of the tree that is converted to String.
    */
+  @Override
   public String toString(final int depth) {
     if (depth <= 0) return "";
     return ("  uid: " + myUID +
@@ -346,6 +348,7 @@ public abstract class SemanticNode
    * @param s2
    * @return
    */
+  @Override
   public int compareTo(final SemanticNode s) {
        final Location loc1 = this.stn.getLocation();
        final Location loc2 = s.stn.getLocation();
@@ -490,6 +493,7 @@ public abstract class SemanticNode
     /** August 2014 - TL
      * A location element is prepannded to an implementing element
      */
+  @Override
   public Element export(final Document doc, final tla2sany.xml.SymbolContext context) {
       try {
         final Element e = getSemanticElement(doc, context);

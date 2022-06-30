@@ -92,7 +92,8 @@ public class LiveCheck1 implements ILiveCheck {
 	/**
 	 * This method resets the behavior graph so that we can recompute the SCCs.
 	 */
-	public void reset() {
+	@Override
+    public void reset() {
 		for (int i = 0; i < bgraphs.length; i++) {
 			bgraphs[i].resetNumberField();
 		}
@@ -232,7 +233,8 @@ public class LiveCheck1 implements ILiveCheck {
 	 * This method adds new nodes into the behavior graph when a new initial
 	 * state is generated.
 	 */
-	public void addInitState(final ITool tool, final TLCState state, final long stateFP) {
+	@Override
+    public void addInitState(final ITool tool, final TLCState state, final long stateFP) {
 		for (int soln = 0; soln < solutions.length; soln++) {
 			final OrderOfSolution os = solutions[soln];
 			final BEGraph bgraph = bgraphs[soln];
@@ -272,7 +274,8 @@ public class LiveCheck1 implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#addNextState(tlc2.tool.TLCState, long, tlc2.util.SetOfStates)
 	 */
-	public void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) throws IOException {
+	@Override
+    public void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) throws IOException {
 		for (int i = 0; i < nextStates.size(); i++) {
 			final TLCState s2 = nextStates.next();
 			final long fp2 = s2.fingerPrint();
@@ -441,7 +444,8 @@ public class LiveCheck1 implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#doLiveCheck()
 	 */
-	public boolean doLiveCheck() {
+	@Override
+    public boolean doLiveCheck() {
 		return true;
 	}
 
@@ -485,7 +489,8 @@ public class LiveCheck1 implements ILiveCheck {
 	 * Checks if the behavior graph constructed from a state trace contains any
 	 * "bad" cycle.
 	 */
-	public synchronized void checkTrace(final ITool tool, final Supplier<StateVec> trace) {
+	@Override
+    public synchronized void checkTrace(final ITool tool, final Supplier<StateVec> trace) {
 		stateTrace = trace.get();
 		for (int soln = 0; soln < solutions.length; soln++) {
 			final OrderOfSolution os = solutions[soln];
@@ -923,7 +928,8 @@ public class LiveCheck1 implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#getMetaDir()
 	 */
-	public String getMetaDir() {
+	@Override
+    public String getMetaDir() {
 		return metadir;
 	}
 
@@ -937,63 +943,72 @@ public class LiveCheck1 implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#getOutDegreeStatistics()
 	 */
-	public IBucketStatistics getOutDegreeStatistics() {
+	@Override
+    public IBucketStatistics getOutDegreeStatistics() {
 		return new DummyBucketStatistics();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#getChecker(int)
 	 */
-	public ILiveChecker getChecker(final int idx) {
+	@Override
+    public ILiveChecker getChecker(final int idx) {
 		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#getNumChecker()
 	 */
-	public int getNumChecker() {
+	@Override
+    public int getNumChecker() {
 		return 0;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#close()
 	 */
-	public void close() throws IOException {
+	@Override
+    public void close() throws IOException {
 		// Intentional no op - LiveCheck1 has no disk files.
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#beginChkpt()
 	 */
-	public void beginChkpt() throws IOException {
+	@Override
+    public void beginChkpt() throws IOException {
 		// Intentional no op - LiveCheck1 has no disk files.
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#commitChkpt()
 	 */
-	public void commitChkpt() throws IOException {
+	@Override
+    public void commitChkpt() throws IOException {
 		// Intentional no op - LiveCheck1 has no disk files.
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#recover()
 	 */
-	public void recover() throws IOException {
+	@Override
+    public void recover() throws IOException {
 		// Intentional no op - LiveCheck1 has no disk files.
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#calculateInDegreeDiskGraphs(tlc2.util.statistics.IBucketStatistics)
 	 */
-	public IBucketStatistics calculateInDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
+	@Override
+    public IBucketStatistics calculateInDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
 		return new DummyBucketStatistics();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#calculateOutDegreeDiskGraphs(tlc2.util.statistics.IBucketStatistics)
 	 */
-	public IBucketStatistics calculateOutDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
+	@Override
+    public IBucketStatistics calculateOutDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
 		return new DummyBucketStatistics();
 	}
 

@@ -16,6 +16,7 @@ int    severity;      // 0 == warning; 1 == error; 2 == abort
   }
 
   public int    getSeverity() { return severity; }
+  @Override
   public String getMessage()  { return message; }
 
 }

@@ -331,6 +331,7 @@ public class ModuleNode extends SymbolNode {
   }
 
   // Required for SymbolNode interface.
+  @Override
   public final int getArity() { return -2; }
 
   /**
@@ -342,6 +343,7 @@ public class ModuleNode extends SymbolNode {
   public final Context getContext() { return this.ctxt; }
 
   // Meaningless--just here for compatibility with SymbolNode interface
+  @Override
   public final boolean isLocal() { return false; }
 
   // Returns true iff this module has no parmeters, i.e. CONSTANT or
@@ -659,6 +661,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
    * Just a stub method; one cannot resolve against a ModuleNode.
    * This method is here only to satisfy the SymbolNode interface.
    */
+  @Override
   public final boolean match(final OpApplNode sn, final ModuleNode mn ) { return false; }
 
   /**
@@ -1206,10 +1209,12 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     return ret;
   }
 
+  @Override
   protected String getNodeRef() {
     return "ModuleNodeRef";
   }
 
+  @Override
   protected Element getSymbolElement(final Document doc, final SymbolContext context) {
     final Element ret = doc.createElement("ModuleNode");
     ret.appendChild(appendText(doc, "uniquename", getName().toString()));

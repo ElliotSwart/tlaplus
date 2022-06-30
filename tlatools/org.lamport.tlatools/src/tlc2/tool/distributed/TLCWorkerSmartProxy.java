@@ -27,7 +27,8 @@ public class TLCWorkerSmartProxy implements TLCWorkerRMI {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCWorkerRMI#getNextStates(tlc2.tool.TLCState[])
 	 */
-	public NextStateResult getNextStates(final TLCState[] states) throws RemoteException, WorkerException {
+	@Override
+    public NextStateResult getNextStates(final TLCState[] states) throws RemoteException, WorkerException {
 		// Prefer currentTimeMillis over nanoTime as it uses less CPU cycles to read
 		final long start = System.currentTimeMillis();
 		
@@ -65,28 +66,32 @@ public class TLCWorkerSmartProxy implements TLCWorkerRMI {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCWorkerRMI#exit()
 	 */
-	public void exit() throws RemoteException {
+	@Override
+    public void exit() throws RemoteException {
 		worker.exit();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCWorkerRMI#getURI()
 	 */
-	public URI getURI() throws RemoteException {
+	@Override
+    public URI getURI() throws RemoteException {
 		return worker.getURI();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCWorkerRMI#isAlive()
 	 */
-	public boolean isAlive() throws RemoteException {
+	@Override
+    public boolean isAlive() throws RemoteException {
 		return worker.isAlive();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCWorkerRMI#getCacheRateRatio()
 	 */
-	public double getCacheRateRatio() throws RemoteException {
+	@Override
+    public double getCacheRateRatio() throws RemoteException {
 		return worker.getCacheRateRatio();
 	}
 }

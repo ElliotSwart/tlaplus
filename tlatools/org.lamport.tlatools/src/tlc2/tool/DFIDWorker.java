@@ -171,6 +171,7 @@ public class DFIDWorker extends IdThread implements IWorker {
   }
 
   /* This method does a depth-first search up to the depth of toLevel. */
+  @Override
   public final void run() {
     TLCState curState = null;
 

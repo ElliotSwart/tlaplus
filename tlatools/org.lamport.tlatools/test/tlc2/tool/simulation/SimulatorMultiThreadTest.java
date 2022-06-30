@@ -9,7 +9,8 @@ package tlc2.tool.simulation;
  */
 public class SimulatorMultiThreadTest extends SimulatorTest {
 
-	public int numWorkers() {
+	@Override
+    public int numWorkers() {
 		// A somewhat arbitrary value, but 4 threads seems like a reasonable amount of
 		// parallelism.
 		return 4;

@@ -24,7 +24,8 @@ public class LongVecFingerPrintGenerator extends FingerPrintGenerator {
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
-	public void run() {
+	@Override
+    public void run() {
 		waitForAllThreadsStarted();
 		
 		final TestLongVec predecessors = new TestLongVec(batch);

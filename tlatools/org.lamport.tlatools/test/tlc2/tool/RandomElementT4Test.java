@@ -74,7 +74,8 @@ public class RandomElementT4Test extends ModelCheckerTestCase {
 		}
 	}
 	
-	protected int getNumberOfThreads() {
+	@Override
+    protected int getNumberOfThreads() {
 		// With 4 threads the counter-examples is not predictable anymore because it
 		// depends on thread scheduling.
 		return 4;

@@ -24,6 +24,7 @@ public class MultiFPIntSet extends FPIntSet {
     this.fpbits = 64 - bits;
   }
 
+  @Override
   public final void init(final int numThreads, final String metadir, final String filename)
   throws IOException {
     for (int i = 0; i < this.sets.length; i++) {
@@ -35,6 +36,7 @@ public class MultiFPIntSet extends FPIntSet {
    * Returns the number of fingerprints in this set.
    * Warning: The size is only accurate in single-threaded mode.
    */
+  @Override
   public final long size() {
     int sum = 0;
     for (int i = 0; i < this.sets.length; i++) {
@@ -43,22 +45,26 @@ public class MultiFPIntSet extends FPIntSet {
     return sum;
   }
 
+  @Override
   public final void setLeveled(final long fp) {
     final int idx = (int)(fp >>> this.fpbits);
     this.sets[idx].setLeveled(fp);
   }
   
+  @Override
   public final int setStatus(final long fp, final int status) {
     final int idx = (int)(fp >>> this.fpbits);
     return this.sets[idx].setStatus(fp, status);
   }
 
   /* Returns the status of fp. */
+  @Override
   public final int getStatus(final long fp) {
     final int idx = (int)(fp >>> this.fpbits);
     return this.sets[idx].getStatus(fp);
   }
 
+  @Override
   public final boolean allLeveled() {
     for (int i = 0; i < this.sets.length; i++) {
       if (!this.sets[i].allLeveled()) return false;
@@ -66,6 +72,7 @@ public class MultiFPIntSet extends FPIntSet {
     return true;
   }
 
+  @Override
   public final void close() {
     for (int i = 0; i < this.sets.length; i++) {
       this.sets[i].close();
@@ -73,6 +80,7 @@ public class MultiFPIntSet extends FPIntSet {
   }
 
   /* This is not quite correct. */
+  @Override
   public final long checkFPs() throws IOException {
     long res = Long.MIN_VALUE;
     for (int i = 0; i < this.sets.length; i++) {
@@ -81,42 +89,49 @@ public class MultiFPIntSet extends FPIntSet {
     return res;
   }
 
+  @Override
   public final void exit(final boolean cleanup) throws IOException {
     for (int i = 0; i < this.sets.length; i++) {
       this.sets[i].exit(cleanup);
     }
   }
   
+  @Override
   public final void beginChkpt() throws IOException {
     for (int i = 0; i < this.sets.length; i++) {
       this.sets[i].beginChkpt();
     }
   }
   
+  @Override
   public final void commitChkpt() throws IOException {
     for (int i = 0; i < this.sets.length; i++) {
       this.sets[i].commitChkpt();
     }
   }
        
+  @Override
   public final void recover() throws IOException {
     for (int i = 0; i < this.sets.length; i++) {
       this.sets[i].recover();
     }
   }
 
+  @Override
   public final void beginChkpt(final String filename) throws IOException {
     for (int i = 0; i < this.sets.length; i++) {
       this.sets[i].beginChkpt(filename);
     }
   }
   
+  @Override
   public final void commitChkpt(final String filename) throws IOException {
     for (int i = 0; i < this.sets.length; i++) {
       this.sets[i].commitChkpt(filename);
     }
   }
   
+  @Override
   public final void recover(final String filename) throws IOException {
     for (int i = 0; i < this.sets.length; i++) {
       this.sets[i].recover(filename);

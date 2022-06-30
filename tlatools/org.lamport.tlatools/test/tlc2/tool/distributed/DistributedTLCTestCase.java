@@ -85,7 +85,8 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 		
 		// Workers
 		new Thread(new Runnable() {
-			public void run() {
+			@Override
+            public void run() {
 				try {
 					TLCWorker.main(new String[] { "localhost" });
 				} catch (final Exception e) {
@@ -98,7 +99,8 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 
 		// master
 		new Thread(new Runnable() {
-			public void run() {
+			@Override
+            public void run() {
 				try {
 					System.setProperty(TLCServer.class.getName() + ".expectedFPSetCount", Integer.toString(fpSets));
 					TLCServer.main(arguments);
@@ -113,7 +115,8 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 		// FPSet
 		if (fpSets > 0) {
 			new Thread(new Runnable() {
-				public void run() {
+				@Override
+                public void run() {
 					try {
 						DistributedFPSet.main(new String[] { "localhost" });
 					} catch (final Exception e) {
@@ -141,14 +144,16 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 		/* (non-Javadoc)
 		 * @see java.lang.SecurityManager#checkPermission(java.security.Permission)
 		 */
-		public void checkPermission(final Permission perm) {
+		@Override
+        public void checkPermission(final Permission perm) {
 			// allow anything.
 		}
 
 		/* (non-Javadoc)
 		 * @see java.lang.SecurityManager#checkPermission(java.security.Permission, java.lang.Object)
 		 */
-		public void checkPermission(final Permission perm, final Object context) {
+		@Override
+        public void checkPermission(final Permission perm, final Object context) {
 			// allow anything.
 		}
 
@@ -156,7 +161,8 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 		 * @see java.lang.SecurityManager#checkExit(int)
 		 */
 		
-		public void checkExit(final int status) {
+		@Override
+        public void checkExit(final int status) {
 			super.checkExit(status);
 			throw new NoExitException();
 		}
@@ -171,7 +177,8 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 		/* (non-Javadoc)
 		 * @see tlc2.TestMPRecorder#record(int, java.lang.Object[])
 		 */
-		public void record(final int code, final Object... objects) {
+		@Override
+        public void record(final int code, final Object... objects) {
 			if (EC.GENERAL == code && objects instanceof String[]) {
 				// GENERAL errors contain the exceptions thrown because of the
 				// intercepted System.exit(int) calls. Remove them so that 

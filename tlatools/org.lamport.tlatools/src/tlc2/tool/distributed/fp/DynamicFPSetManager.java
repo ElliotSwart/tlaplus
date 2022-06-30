@@ -50,7 +50,8 @@ public class DynamicFPSetManager extends FPSetManager implements Serializable {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.IFPSetManager#register(tlc2.tool.distributed.FPSetRMI)
 	 */
-	public synchronized void register(final FPSetRMI aFPSet, final String hostname) throws FPSetManagerException {
+	@Override
+    public synchronized void register(final FPSetRMI aFPSet, final String hostname) throws FPSetManagerException {
 		// Only accept additional FPSets as long as we haven't reached the
 		// expected number of FPSets. Adding more FPSets to the set than
 		// expected, would screw up the fail over code in reassign() as workers

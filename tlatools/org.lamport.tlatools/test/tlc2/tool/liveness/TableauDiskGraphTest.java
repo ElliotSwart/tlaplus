@@ -52,7 +52,8 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.DiskGraphTest#getDiskGraph()
 	 */
-	protected AbstractDiskGraph getDiskGraph() throws IOException {
+	@Override
+    protected AbstractDiskGraph getDiskGraph() throws IOException {
 		return new TableauDiskGraph(createTempDirectory().getAbsolutePath(), NUMBER_OF_SOLUTIONS, GRAPH_STATS);
 	}
 

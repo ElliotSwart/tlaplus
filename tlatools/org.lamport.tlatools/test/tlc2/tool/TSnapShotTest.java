@@ -53,7 +53,8 @@ public class TSnapShotTest extends ModelCheckerTestCase {
 		assertTrue(recorder.recorded(EC.TLC_BEHAVIOR_UP_TO_THIS_POINT));
 	}
 	
-	protected int getNumberOfThreads() {
+	@Override
+    protected int getNumberOfThreads() {
 		// This bug only shows up with multiple threads.
 		return 4;
 	}

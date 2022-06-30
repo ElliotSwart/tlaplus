@@ -78,8 +78,9 @@ public final class CallStackTool extends Tool {
 		}
 	}
 
-	protected void getInitStatesAppl(final OpApplNode init, final ActionItemList acts, final Context c,
-			final TLCState ps, final IStateFunctor states, final CostModel cm) {
+	@Override
+    protected void getInitStatesAppl(final OpApplNode init, final ActionItemList acts, final Context c,
+                                     final TLCState ps, final IStateFunctor states, final CostModel cm) {
 		this.callStack.push(init);
 		try {
 			super.getInitStatesAppl(init, acts, c, ps, states, cm);

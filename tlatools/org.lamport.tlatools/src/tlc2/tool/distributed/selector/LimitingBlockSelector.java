@@ -24,7 +24,8 @@ public class LimitingBlockSelector extends BlockSelector {
 	 * Limits the block size to a defined maximum if the dynamically calculated
 	 * block size exceeds it
 	 */
-	protected long getBlockSize(final long size, final TLCWorkerRMI aWorker) {
+	@Override
+    protected long getBlockSize(final long size, final TLCWorkerRMI aWorker) {
 		final long blockSize = super.getBlockSize(size, aWorker);
 		if(blockSize > maximum) {
 			return maximum;
@@ -35,7 +36,8 @@ public class LimitingBlockSelector extends BlockSelector {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.selector.IBlockSelector#setMaxTXSize(int)
 	 */
-	public void setMaxTXSize(final int aMaximum) {
+	@Override
+    public void setMaxTXSize(final int aMaximum) {
 		maximum = aMaximum;
 	}
 	

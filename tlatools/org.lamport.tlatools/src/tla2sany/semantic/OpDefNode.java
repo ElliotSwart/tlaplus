@@ -599,6 +599,7 @@ public class OpDefNode extends OpDefOrDeclNode
    *
    * When applied to a builtin op with a variable number of args, returns null.
    */
+  @Override
   public final FormalParamNode[] getParams() { return this.params; }
 
   /*************************************************************************
@@ -644,6 +645,7 @@ public class OpDefNode extends OpDefOrDeclNode
   * came.  It is different from this node iff the node was created by a    *
   * chain of instantiations.                                               *
   *************************************************************************/
+  @Override
   public final OpDefNode getSource() {
     return (this.source == null)? this : this.source ;
     }
@@ -658,12 +660,14 @@ public class OpDefNode extends OpDefOrDeclNode
    * get declared so using the LOCAL modifier are NOT
    * local for this purpose.
    */
+  @Override
   public final boolean isLocal() { return this.local; }
 
   /**
    * Returns the arity of this operator, or -1 in the case of an operator
    * that takes a variable number of args.
    */
+  @Override
   public final int getArity() { return this.arity; }
 
   public final LevelNode getStepNode() {return this.stepNode ;}
@@ -733,6 +737,7 @@ public class OpDefNode extends OpDefOrDeclNode
    * to oan (i.e args[]) match the argument pattern required by THIS
    * OpDefNode in terms of arity, etc.
    */
+  @Override
   public final boolean match(final OpApplNode oanParent, final ModuleNode mn) throws AbortException {
     final ExprOrOpArgNode[] args       = oanParent.getArgs();  // arg expr's that THIS operator is being applied to
     boolean           result     = true;                 // Remains true unless an error is detected
@@ -838,11 +843,13 @@ public class OpDefNode extends OpDefOrDeclNode
   * There doesn't seem to be any easy way to write these methods only      *
   * once.                                                                  *
   *************************************************************************/
+  @Override
   public void setLabels(final Hashtable<UniqueString, LabelNode> ht) {labels = ht; }
     /***********************************************************************
     * Sets the set of labels.                                              *
     ***********************************************************************/
 
+  @Override
   public LabelNode getLabel(final UniqueString us) {
     /***********************************************************************
     * If the hashtable `labels' contains a LabelNode with name `us',       *
@@ -852,6 +859,7 @@ public class OpDefNode extends OpDefOrDeclNode
     return (LabelNode) labels.get(us) ;
    }
 
+  @Override
   @SuppressWarnings("unlikely-arg-type")
 public boolean addLabel(final LabelNode odn) {
     /***********************************************************************
@@ -865,6 +873,7 @@ public boolean addLabel(final LabelNode odn) {
     return true;
    }
 
+  @Override
   public LabelNode[] getLabels() {
     /***********************************************************************
     * Returns an array containing the Label objects in the hashtable       *
@@ -923,9 +932,11 @@ public boolean addLabel(final LabelNode odn) {
    * This "getters" for isLeibnizArg and isLeibniz were added by LL on 24 Oct 2012.
    *  See the comments in AnyDefNode.java for an explanation of why.
    */
+  @Override
   public boolean[] getIsLeibnizArg() {
       return isLeibnizArg;
   }
+  @Override
   public boolean getIsLeibniz() {
       return isLeibniz;
   }
@@ -1152,6 +1163,7 @@ public boolean addLabel(final LabelNode odn) {
 /***************************************************************************
 * The following Asserts can be removed after debugging.                    *
 ***************************************************************************/
+  @Override
   public final int getMaxLevel(final int i) {
     if (this.levelChecked == 0)
       {throw new WrongInvocationException("getMaxLevel called before levelCheck");};
@@ -1159,6 +1171,7 @@ public boolean addLabel(final LabelNode odn) {
     return this.maxLevels[idx];
   }
 
+  @Override
   public final int getWeight(final int i) {
     if (this.levelChecked == 0)
       {throw new WrongInvocationException("getWeight called before levelCheck");};
@@ -1166,6 +1179,7 @@ public boolean addLabel(final LabelNode odn) {
     return this.weights[idx];
   }
 
+  @Override
   public final int getMinMaxLevel(final int i, final int j) {
     if (this.levelChecked == 0)
       {throw new WrongInvocationException("getMinMaxLevel called before levelCheck");};
@@ -1175,6 +1189,7 @@ public boolean addLabel(final LabelNode odn) {
     return this.minMaxLevel[i][j];
   }
 
+  @Override
   public final boolean getOpLevelCond(final int i, final int j, final int k) {
     if (this.levelChecked == 0)
       {throw new WrongInvocationException("getOpLevelCond called before levelCheck");};
@@ -1414,6 +1429,7 @@ public boolean addLabel(final LabelNode odn) {
 		return buf.toString().trim();
 	}
   
+  @Override
   protected String getNodeRef() {
     switch (getKind()) {
       case UserDefinedOpKind:
@@ -1426,6 +1442,7 @@ public boolean addLabel(final LabelNode odn) {
     }
   }
 
+  @Override
   protected Element getSymbolElement(final Document doc, final SymbolContext context) {
     Element ret = null;
     switch (getKind()) {

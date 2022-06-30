@@ -62,6 +62,7 @@ public class CheckImplFile extends CheckImpl
      * This method gets a new state from the external world via files.
      * It returns null if there is nothing available.
      */
+    @Override
     public final TLCState getState()
     {
         if (this.sidx < this.states.length)
@@ -72,6 +73,7 @@ public class CheckImplFile extends CheckImpl
     }
 
     /* This method exports a trace by writing it into a file.  */
+    @Override
     public final void exportTrace(final TLCStateInfo[] trace) throws IOException
     {
         final String fname = this.traceFile + "_out_" + this.tocnt;

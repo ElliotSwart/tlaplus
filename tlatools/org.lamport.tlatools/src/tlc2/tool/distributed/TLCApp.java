@@ -91,49 +91,56 @@ public class TLCApp extends DistApp {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#getCheckDeadlock()
 	 */
-	public final Boolean getCheckDeadlock() {
+	@Override
+    public final Boolean getCheckDeadlock() {
 		return Boolean.valueOf(this.checkDeadlock);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#getPreprocess()
 	 */
-	public final Boolean getPreprocess() {
+	@Override
+    public final Boolean getPreprocess() {
 		return Boolean.valueOf(this.preprocess);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#getFileName()
 	 */
-	public final String getFileName() {
+	@Override
+    public final String getFileName() {
 		return this.tool.getRootFile();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#getSpecDir()
 	 */
-	public String getSpecDir() {
+	@Override
+    public String getSpecDir() {
 		return this.tool.getSpecDir();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#getConfigName()
 	 */
-	public String getConfigName() {
+	@Override
+    public String getConfigName() {
 		return this.config;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#getMetadir()
 	 */
-	public final String getMetadir() {
+	@Override
+    public final String getMetadir() {
 		return this.metadir;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#canRecover()
 	 */
-	public final boolean canRecover() {
+	@Override
+    public final boolean canRecover() {
 		return this.fromChkpt != null;
 	}
 	
@@ -144,14 +151,16 @@ public class TLCApp extends DistApp {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#getInitStates(tlc2.tool.IStateFunctor)
 	 */
-	public final void getInitStates(final IStateFunctor functor) {
+	@Override
+    public final void getInitStates(final IStateFunctor functor) {
 		this.tool.getInitStates(functor);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#getNextStates(tlc2.tool.TLCState)
 	 */
-	public final TLCState[] getNextStates(final TLCState curState)
+	@Override
+    public final TLCState[] getNextStates(final TLCState curState)
 			throws WorkerException {
 		StateVec nextStates = new StateVec(10);
 		for (int i = 0; i < this.actions.length; i++) {
@@ -185,7 +194,8 @@ public class TLCApp extends DistApp {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#checkState(tlc2.tool.TLCState, tlc2.tool.TLCState)
 	 */
-	public final void checkState(final TLCState s1, final TLCState s2)
+	@Override
+    public final void checkState(final TLCState s1, final TLCState s2)
 			throws WorkerException {
 		final TLCState ts2 = (TLCState) s2;
 		for (int i = 0; i < this.invariants.length; i++) {
@@ -223,14 +233,16 @@ public class TLCApp extends DistApp {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#isInModel(tlc2.tool.TLCState)
 	 */
-	public final boolean isInModel(final TLCState s) {
+	@Override
+    public final boolean isInModel(final TLCState s) {
 		return this.tool.isInModel((TLCState) s);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#isInActions(tlc2.tool.TLCState, tlc2.tool.TLCState)
 	 */
-	public final boolean isInActions(final TLCState s1, final TLCState s2) {
+	@Override
+    public final boolean isInActions(final TLCState s1, final TLCState s2) {
 		return this.tool.isInActions((TLCState) s1, (TLCState) s2);
 	}
 
@@ -238,7 +250,8 @@ public class TLCApp extends DistApp {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#getState(long)
 	 */
-	public final TLCStateInfo getState(final long fp) {
+	@Override
+    public final TLCStateInfo getState(final long fp) {
 		return this.tool.getState(fp);
 	}
 
@@ -246,7 +259,8 @@ public class TLCApp extends DistApp {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#getState(long, tlc2.tool.TLCState)
 	 */
-	public final TLCStateInfo getState(final long fp, final TLCState s) {
+	@Override
+    public final TLCStateInfo getState(final long fp, final TLCState s) {
 		return this.tool.getState(fp, s);
 	}
 
@@ -254,25 +268,29 @@ public class TLCApp extends DistApp {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#getState(tlc2.tool.TLCState, tlc2.tool.TLCState)
 	 */
-	public TLCStateInfo getState(final TLCState s1, final TLCState s) {
+	@Override
+    public TLCStateInfo getState(final TLCState s1, final TLCState s) {
 		return this.tool.getState(s1, s);
 	}
 	
-	public TLCStateInfo evalAlias(final TLCStateInfo current, final TLCState successor) {
+	@Override
+    public TLCStateInfo evalAlias(final TLCStateInfo current, final TLCState successor) {
 		return this.tool.evalAlias(current, successor);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#setCallStack()
 	 */
-	public final void setCallStack() {
+	@Override
+    public final void setCallStack() {
 		this.tool = new CallStackTool(this.tool);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#printCallStack()
 	 */
-	public final String printCallStack() {
+	@Override
+    public final String printCallStack() {
 		return this.tool.toString();
 	}
 

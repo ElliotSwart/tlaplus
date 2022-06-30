@@ -70,6 +70,7 @@ public class MemFPIntSet extends FPIntSet {
     this.mask = initialCapacity - 1;
   }
 
+  @Override
   public final void init(final int numThreads, final String metadir, final String filename) {
     this.metadir = metadir;
     this.filename = filename;
@@ -79,6 +80,7 @@ public class MemFPIntSet extends FPIntSet {
    * Returns the number of fingerprints in this set.
    * @return  the number of fingerprints in this set.
    */
+  @Override
   public final synchronized long size() { return this.count; }
 
   public final synchronized long sizeof() {
@@ -92,6 +94,7 @@ public class MemFPIntSet extends FPIntSet {
     return size;
   }
 
+  @Override
   public synchronized final void setLeveled(final long fp) {
     final int index = (int)(fp & this.mask);
     final int[] list = this.table[index];
@@ -111,6 +114,7 @@ public class MemFPIntSet extends FPIntSet {
     throw new WrongInvocationException("MemFPIntSet.setLeveled: The fp must have been in the set.");
   }
   
+  @Override
   public synchronized final int setStatus(final long fp, final int status) {
     int index = (int)(fp & this.mask);
     int[] list = this.table[index];
@@ -150,6 +154,7 @@ public class MemFPIntSet extends FPIntSet {
     return NEW;
   }
 
+  @Override
   public synchronized final int getStatus(final long fp) {
     final int index = (int)(fp & this.mask);
     final int[] list = this.table[index];
@@ -167,6 +172,7 @@ public class MemFPIntSet extends FPIntSet {
     return NEW;
   }
 
+  @Override
   public final boolean allLeveled() {
     for (int i = 0; i < this.table.length; i++) {
       final int[] bucket = this.table[i];
@@ -251,6 +257,7 @@ public class MemFPIntSet extends FPIntSet {
     this.mask = newTable.length - 1;
   }
 
+  @Override
   public final void exit(final boolean cleanup) throws IOException {
     if (cleanup) {
       // Delete the metadata directory:
@@ -262,6 +269,7 @@ public class MemFPIntSet extends FPIntSet {
     System.exit(0);    
   }
 
+  @Override
   public final long checkFPs() {
     long dis = Long.MAX_VALUE;
     for (int i = 0; i < this.table.length; i++) {
@@ -293,6 +301,7 @@ public class MemFPIntSet extends FPIntSet {
   }
 
   // Checkpoint.
+  @Override
   public final void beginChkpt(final String fname) throws IOException {
     final BufferedDataOutputStream dos =
       new BufferedDataOutputStream(this.chkptName(fname, "tmp"));
@@ -307,10 +316,12 @@ public class MemFPIntSet extends FPIntSet {
     dos.close();
   }
       
+  @Override
   final public void beginChkpt() throws IOException {
     this.beginChkpt(this.filename);
   }
 
+  @Override
   final public void commitChkpt(final String fname) throws IOException {
     final File oldChkpt = new File(this.chkptName(fname, "chkpt"));
     final File newChkpt = new File(this.chkptName(fname, "tmp"));
@@ -320,10 +331,12 @@ public class MemFPIntSet extends FPIntSet {
     }
   }
   
+  @Override
   final public void commitChkpt() throws IOException {
     this.commitChkpt(this.filename);
   }
     
+  @Override
   public final void recover(final String fname) throws IOException {
     final BufferedDataInputStream dis =
       new BufferedDataInputStream(this.chkptName(fname, "chkpt"));
@@ -354,6 +367,7 @@ public class MemFPIntSet extends FPIntSet {
     dis.close();
   }
   
+  @Override
   final public void recover() throws IOException {
     this.recover(this.filename);
   }

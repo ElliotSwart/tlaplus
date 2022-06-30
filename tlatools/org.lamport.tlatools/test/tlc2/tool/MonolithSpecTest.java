@@ -46,6 +46,7 @@ public class MonolithSpecTest extends ModelCheckerTestCase {
 		super("MonolithSpec", new String[] { "-config", "MonolithSpec.tla" /* note the extension */ });
 	}
 
+        @Override
         @Before
         public void beforeSetUp() {
             ToolIO.err = testPrintStreamErr;

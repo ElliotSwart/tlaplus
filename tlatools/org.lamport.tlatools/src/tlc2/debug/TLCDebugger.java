@@ -396,7 +396,8 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 						moduleNode == null || moduleNode.walkChildren(new SemanticNode.ChildrenVisitor<Boolean>() {
 							private boolean verified = false;
 
-							public void preVisit(final SemanticNode node) {
+							@Override
+                            public void preVisit(final SemanticNode node) {
 								final Location location = node.getLocation();
 								// TODO: Include beginColumn/column here and where we handle breakpoints.
 								if (location.beginLine() == sbp.getLine() && location.endLine() == sbp.getLine()) {
@@ -404,11 +405,13 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 								}
 							}
 
-							public boolean preempt(final SemanticNode node) {
+							@Override
+                            public boolean preempt(final SemanticNode node) {
 								return verified || !node.getLocation().includes(sbp.getLocation());
 							}
 
-							public Boolean get() {
+							@Override
+                            public Boolean get() {
 								return verified;
 							}
 						}).get());

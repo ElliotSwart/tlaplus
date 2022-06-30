@@ -22,21 +22,24 @@ class MultiFPSetConfiguration extends FPSetConfiguration {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSetConfiguration#allowsNesting()
 	 */
-	public boolean allowsNesting() {
+	@Override
+    public boolean allowsNesting() {
 		return false;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSetConfiguration#getMemoryInBytes()
 	 */
-	public long getMemoryInBytes() {
+	@Override
+    public long getMemoryInBytes() {
 		return super.getMemoryInBytes() / getMultiFPSetCnt();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSetConfiguration#getMemoryInFingerprintCnt()
 	 */
-	public long getMemoryInFingerprintCnt() {
+	@Override
+    public long getMemoryInFingerprintCnt() {
 		// No need to divide by getMultiFPSetCnt because calls to
 		// super.getMemoryInFingerprintCnt eventually calls getMemoryInBytes above.
 		// Dividing by getMultiFPSetCnt here again will waste half the

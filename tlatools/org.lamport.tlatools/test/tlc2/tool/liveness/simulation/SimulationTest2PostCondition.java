@@ -39,7 +39,8 @@ public class SimulationTest2PostCondition extends SuccessfulSimulationTestCase {
 		super("Test2", "/", new String[] { "-config", "Test2PostCondition.cfg", "-simulate", "-depth", "6" });
 		TLC.setTraceNum(1);
 	}
-	@Test
+	@Override
+    @Test
 	public void testSpec() {
 		super.testSpec();
 		assertTrue(recorder.recorded(EC.TLC_ASSUMPTION_FALSE));

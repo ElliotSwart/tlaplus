@@ -27,7 +27,8 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.IFPSetManager#register(tlc2.tool.distributed.fp.FPSetRMI, java.lang.String)
 	 */
-	public void register(final FPSetRMI fpSet, final String hostname)
+	@Override
+    public void register(final FPSetRMI fpSet, final String hostname)
 			throws FPSetManagerException {
 		throw new UnsupportedOperationException("Not applicable for non-distributed FPSetManager");
 	}
@@ -35,14 +36,16 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#numOfServers()
 	 */
-	public int numOfServers() {
+	@Override
+    public int numOfServers() {
 		return 1;
 	}
 	
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.IFPSetManager#numOfAliveServers()
 	 */
-	public int numOfAliveServers() {
+	@Override
+    public int numOfAliveServers() {
 		return numOfServers();
 	}
 
@@ -56,7 +59,8 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#put(long)
 	 */
-	public boolean put(final long fp) {
+	@Override
+    public boolean put(final long fp) {
 		try {
 			return this.fpSet.put(fp);
 		} catch (final IOException e) {
@@ -69,7 +73,8 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#contains(long)
 	 */
-	public boolean contains(final long fp) {
+	@Override
+    public boolean contains(final long fp) {
 		try {
 			return this.fpSet.contains(fp);
 		} catch (final IOException e) {
@@ -82,14 +87,16 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.IFPSetManager#getFPSetIndex(long)
 	 */
-	public int getFPSetIndex(final long fp) {
+	@Override
+    public int getFPSetIndex(final long fp) {
 		return 0;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#putBlock(tlc2.util.LongVec[])
 	 */
-	public BitVector[] putBlock(final LongVec[] fps) {
+	@Override
+    public BitVector[] putBlock(final LongVec[] fps) {
 		final BitVector[] res = new BitVector[fps.length];
 		for (int i = 0; i < fps.length; i++) {
 			final LongVec longVec = fps[i];
@@ -107,14 +114,16 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#putBlock(tlc2.util.LongVec[], java.util.concurrent.ExecutorService)
 	 */
-	public BitVector[] putBlock(final LongVec[] fps, final ExecutorService executorService) {
+	@Override
+    public BitVector[] putBlock(final LongVec[] fps, final ExecutorService executorService) {
 		return putBlock(fps);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#containsBlock(tlc2.util.LongVec[])
 	 */
-	public BitVector[] containsBlock(final LongVec[] fps) {
+	@Override
+    public BitVector[] containsBlock(final LongVec[] fps) {
 		final BitVector[] res = new BitVector[fps.length];
 		for (int i = 0; i < fps.length; i++) {
 			final LongVec longVec = fps[i];
@@ -132,7 +141,8 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#containsBlock(tlc2.util.LongVec[], java.util.concurrent.ExecutorService)
 	 */
-	public BitVector[] containsBlock(final LongVec[] fps,
+	@Override
+    public BitVector[] containsBlock(final LongVec[] fps,
                                      final ExecutorService executorService) {
 		return containsBlock(fps);
 	}
@@ -140,7 +150,8 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#checkFPs()
 	 */
-	public long checkFPs() {
+	@Override
+    public long checkFPs() {
 		try {
 			return this.fpSet.checkFPs();
 		} catch (final IOException e) {
@@ -153,7 +164,8 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.IFPSetManager#checkInvariant()
 	 */
-	public boolean checkInvariant() {
+	@Override
+    public boolean checkInvariant() {
 		try {
 			return this.fpSet.checkInvariant();
 		} catch (final IOException e) {
@@ -166,7 +178,8 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#size()
 	 */
-	public long size() {
+	@Override
+    public long size() {
 		try {
 			return this.fpSet.size();
 		} catch (final IOException e) {
@@ -179,7 +192,8 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#getStatesSeen()
 	 */
-	public long getStatesSeen() {
+	@Override
+    public long getStatesSeen() {
 		try {
 			return this.fpSet.size();
 		} catch (final IOException e) {
@@ -199,28 +213,32 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#checkpoint(java.lang.String)
 	 */
-	public void checkpoint(final String fname) throws InterruptedException, IOException {
+	@Override
+    public void checkpoint(final String fname) throws InterruptedException, IOException {
 		this.fpSet.beginChkpt();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.IFPSetManager#commitChkpt()
 	 */
-	public void commitChkpt() throws IOException {
+	@Override
+    public void commitChkpt() throws IOException {
 		this.fpSet.commitChkpt();
 	}
 	
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#recover(java.lang.String)
 	 */
-	public void recover(final String fname) throws InterruptedException, IOException {
+	@Override
+    public void recover(final String fname) throws InterruptedException, IOException {
 		this.fpSet.recover(trace);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#close(boolean)
 	 */
-	public void close(final boolean cleanup) throws IOException {
+	@Override
+    public void close(final boolean cleanup) throws IOException {
 		this.fpSet.close();
 		// Correspond with the existing impl in FPSetManager#exit(boolean) and
 		// exit the FPSet

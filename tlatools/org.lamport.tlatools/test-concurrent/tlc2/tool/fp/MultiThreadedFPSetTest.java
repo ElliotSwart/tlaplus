@@ -115,12 +115,14 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 
 		final Timer timer = new Timer();
 		final CyclicBarrier barrier = new CyclicBarrier(NUM_THREADS, new Runnable() {
-			public void run() {
+			@Override
+            public void run() {
 				// Start a periodic task to report progress. Do not do it as part of the
 				// FPGs below. It can drastically slow down an FPG selected to be the
 				// reporter.
 				final TimerTask reporter = new TimerTask() {
-					public void run() {
+					@Override
+                    public void run() {
 						final long currentSize = fpSet.size();
 						final long insertions = currentSize - previousSize;
 						if (fpSet instanceof FPSetStatistic) {

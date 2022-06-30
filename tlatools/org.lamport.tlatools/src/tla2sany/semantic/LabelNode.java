@@ -165,11 +165,13 @@ public class LabelNode extends ExprNode
   * There doesn't seem to be any easy way to write these methods only      *
   * once.                                                                  *
   *************************************************************************/
+  @Override
   public void setLabels(final Hashtable<UniqueString, LabelNode> ht) {labels = ht; }
     /***********************************************************************
     * Sets the set of labels.                                              *
     ***********************************************************************/
 
+  @Override
   public LabelNode getLabel(final UniqueString us) {
     /***********************************************************************
     * If the hashtable `labels' contains a LabelNode with name `us',       *
@@ -179,6 +181,7 @@ public class LabelNode extends ExprNode
     return (LabelNode) labels.get(us) ;
    }
 
+  @Override
   @SuppressWarnings("unlikely-arg-type")
 public boolean addLabel(final LabelNode odn) {
     /***********************************************************************
@@ -192,6 +195,7 @@ public boolean addLabel(final LabelNode odn) {
     return true;
    }
 
+  @Override
   public LabelNode[] getLabels() {
     /***********************************************************************
     * Returns an array containing the Label objects in the hashtable       *
@@ -207,6 +211,7 @@ public boolean addLabel(final LabelNode odn) {
     return retVal ;
    }
 
+  @Override
   public int getArity() {return arity; }
 
   public /* ExprNode */ LevelNode getBody() {return body; }

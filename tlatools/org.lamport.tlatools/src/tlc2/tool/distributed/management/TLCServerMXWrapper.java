@@ -32,7 +32,8 @@ public class TLCServerMXWrapper extends TLCStandardMBean implements TLCStatistic
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getStatesGenerated()
 	 */
-	public long getStatesGenerated() {
+	@Override
+    public long getStatesGenerated() {
 		if (tlcServer.isRunning()) {
 			return tlcServer.getStatesGenerated();
 		}
@@ -42,7 +43,8 @@ public class TLCServerMXWrapper extends TLCStandardMBean implements TLCStatistic
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getDistinctStatesGenerated()
 	 */
-	public long getDistinctStatesGenerated() {
+	@Override
+    public long getDistinctStatesGenerated() {
 		if (tlcServer.isRunning()) {
 			final IFPSetManager fpSetManager = tlcServer.getFPSetManager();
 			if (fpSetManager != null) {
@@ -55,28 +57,32 @@ public class TLCServerMXWrapper extends TLCStandardMBean implements TLCStatistic
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getStateQueueSize()
 	 */
-	public long getStateQueueSize() {
+	@Override
+    public long getStateQueueSize() {
 		return tlcServer.getNewStates();
 	}
 	
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getStatesGeneratedPerMinute()
 	 */
-	public long getStatesGeneratedPerMinute() {
+	@Override
+    public long getStatesGeneratedPerMinute() {
 		return tlcServer.getStatesGeneratedPerMinute();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getDistinctStatesGeneratedPerMinute()
 	 */
-	public long getDistinctStatesGeneratedPerMinute() {
+	@Override
+    public long getDistinctStatesGeneratedPerMinute() {
 		return tlcServer.getDistinctStatesGeneratedPerMinute();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getProgress()
 	 */
-	public int getProgress() {
+	@Override
+    public int getProgress() {
 		if (tlcServer.isRunning()) {
 			try {
 					return tlcServer.trace.getLevelForReporting();
@@ -90,28 +96,32 @@ public class TLCServerMXWrapper extends TLCStandardMBean implements TLCStatistic
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getWorkerCount()
 	 */
-	public int getWorkerCount() {
+	@Override
+    public int getWorkerCount() {
 		return tlcServer.getWorkerCount();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#checkpoint()
 	 */
-	public void checkpoint() {
+	@Override
+    public void checkpoint() {
 		TLCGlobals.forceChkpt();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getAverageBlockCnt()
 	 */
-	public long getAverageBlockCnt() {
+	@Override
+    public long getAverageBlockCnt() {
 		return tlcServer.getAverageBlockCnt();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getRuntimeRatio()
 	 */
-	public double getRuntimeRatio() {
+	@Override
+    public double getRuntimeRatio() {
 		// Distributed TLC does not support liveness checking
 		return 0d;
 	}
@@ -119,14 +129,16 @@ public class TLCServerMXWrapper extends TLCStandardMBean implements TLCStatistic
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#liveCheck()
 	 */
-	public void liveCheck() {
+	@Override
+    public void liveCheck() {
 		// Distributed TLC does not support liveness checking
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getCurrentState()
 	 */
-	public String getCurrentState() {
+	@Override
+    public String getCurrentState() {
 		final TLCState state = tlcServer.stateQueue.sPeek();
 		if (state != null) {
 			return state.toString();
@@ -137,7 +149,8 @@ public class TLCServerMXWrapper extends TLCStandardMBean implements TLCStatistic
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getSpecName()
 	 */
-	public String getSpecName() {
+	@Override
+    public String getSpecName() {
 		if (tlcServer.isRunning()) {
 			try {
 				return tlcServer.getSpecFileName();
@@ -151,7 +164,8 @@ public class TLCServerMXWrapper extends TLCStandardMBean implements TLCStatistic
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#getModelName()
 	 */
-	public String getModelName() {
+	@Override
+    public String getModelName() {
 		if (tlcServer.isRunning()) {
 			try {
 				return tlcServer.getConfigFileName();
@@ -165,7 +179,8 @@ public class TLCServerMXWrapper extends TLCStandardMBean implements TLCStatistic
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#stop()
 	 */
-	public void stop() {
+	@Override
+    public void stop() {
 		synchronized (tlcServer) {
 			tlcServer.setDone();
 			tlcServer.stateQueue.finishAll();

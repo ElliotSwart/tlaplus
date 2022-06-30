@@ -45,7 +45,8 @@ public class TestPrintStream extends PrintStream {
 	/* (non-Javadoc)
 	 * @see java.io.PrintStream#println(java.lang.String)
 	 */
-	public void println(final String x) {
+	@Override
+    public void println(final String x) {
 		strings.add(x);
 		buf.append(x + "\n");
 		super.println(x);

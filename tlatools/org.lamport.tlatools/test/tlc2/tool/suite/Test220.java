@@ -34,6 +34,7 @@ public class Test220 extends SuiteETestCase {
     /* (non-Javadoc)
      * @see tlc2.tool.liveness.ModelCheckerTestCase#checkDeadLock()
      */
+    @Override
     protected boolean checkDeadLock() {
         // Disable command-line parameter "-deadlock" to let configuration file take control.
         return true;

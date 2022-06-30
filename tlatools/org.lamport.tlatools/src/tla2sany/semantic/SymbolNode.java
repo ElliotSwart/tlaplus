@@ -164,6 +164,7 @@ public abstract class SymbolNode extends LevelNode {
   /** TL
    * we also override getLevelElement as it should never be called
    */
+  @Override
   protected Element getLevelElement(final Document doc, final tla2sany.xml.SymbolContext context) {
     throw new UnsupportedOperationException("implementation Error: A symbol node may not be called for its level element.");
   }
@@ -172,6 +173,7 @@ public abstract class SymbolNode extends LevelNode {
    * We override export in order not to export location and level.
    * We only export names.
    */
+  @Override
   public Element export(final Document doc, final tla2sany.xml.SymbolContext context) {
     // first add symbol to context
     context.put(this, doc);

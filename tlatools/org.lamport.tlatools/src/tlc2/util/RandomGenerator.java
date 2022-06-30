@@ -171,42 +171,50 @@ private long aril;
     this.aril = 0;
   }
 
+  @Override
   public synchronized void setSeed(final long seed) {
     super.setSeed(seed);
     this.aril = 0;
   }
 
+  @Override
   protected synchronized int next(final int bits) {
     // this.aril++;
     return super.next(bits);    
   }
 
+  @Override
   public void nextBytes(final byte[] bytes) {
     // this.aril++;
     super.nextBytes(bytes);
   }
 
+  @Override
   public int nextInt() {
     // this.aril++;
     return super.nextInt();
 
   }
 
+  @Override
   public long nextLong() {
     // this.aril++;
     return super.nextLong();
   }
 
+  @Override
   public float nextFloat() {
     // this.aril++;
     return super.nextFloat();
   }
 
+  @Override
   public double nextDouble() {
     this.aril++;
     return super.nextDouble();
   }
 
+  @Override
   public synchronized double nextGaussian() {
     // this.aril++;
     return super.nextGaussian();

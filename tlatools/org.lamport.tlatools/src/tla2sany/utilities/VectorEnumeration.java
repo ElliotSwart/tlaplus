@@ -11,10 +11,12 @@ final class VectorEnumeration<E> implements Enumeration<E> {
     System.arraycopy( info, 0, data, 0, size );
   }
 
+  @Override
   public final boolean hasMoreElements() {
     return index < data.length;
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public final E nextElement() {
     if (index < data.length)

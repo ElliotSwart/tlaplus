@@ -73,7 +73,8 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#init(int, java.lang.String, java.lang.String)
 	 */
-	public final FPSet init(final int numThreads, final String metadir, final String filename) throws IOException {
+	@Override
+    public final FPSet init(final int numThreads, final String metadir, final String filename) throws IOException {
 		IntStream.range(0, this.sets.size()).parallel().forEach(i -> {
 			try {
 				sets.get(i).init(numThreads, metadir, filename + "_" + i);
@@ -93,7 +94,8 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#size()
 	 */
-	public final long size() {
+	@Override
+    public final long size() {
 		/* Returns the number of fingerprints in this set. */
 		return sets.parallelStream().mapToLong(FPSet::size).sum();
 	}
@@ -117,7 +119,8 @@ public class MultiFPSet extends FPSet {
 	 * 
 	 * @see tlc2.tool.fp.FPSet#put(long)
 	 */
-	public final boolean put(final long fp) throws IOException {
+	@Override
+    public final boolean put(final long fp) throws IOException {
 		return getFPSet(fp).put(fp);
 	}
 
@@ -127,14 +130,16 @@ public class MultiFPSet extends FPSet {
 	 * 
 	 * @see tlc2.tool.fp.FPSet#contains(long)
 	 */
-	public final boolean contains(final long fp) throws IOException {
+	@Override
+    public final boolean contains(final long fp) throws IOException {
 		return getFPSet(fp).contains(fp);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#close()
 	 */
-	public final void close() {
+	@Override
+    public final void close() {
 		for (final FPSet fpSet : sets) {
 			fpSet.close();
 		}
@@ -143,7 +148,8 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#unexportObject(boolean)
 	 */
-	public void unexportObject(final boolean force) throws NoSuchObjectException {
+	@Override
+    public void unexportObject(final boolean force) throws NoSuchObjectException {
 		for (final FPSet fpSet : sets) {
 			fpSet.unexportObject(force);
 		}
@@ -153,7 +159,8 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#checkFPs()
 	 */
-	public final long checkFPs() throws IOException {
+	@Override
+    public final long checkFPs() throws IOException {
 		return sets.parallelStream().mapToLong(s -> {
 			try {
 				return s.checkFPs();
@@ -166,7 +173,8 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#checkInvariant()
 	 */
-	public boolean checkInvariant() throws IOException {
+	@Override
+    public boolean checkInvariant() throws IOException {
 		return sets.parallelStream().allMatch(s -> {
 			try {
 				return s.checkInvariant();
@@ -179,7 +187,8 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#exit(boolean)
 	 */
-	public final void exit(final boolean cleanup) throws IOException {
+	@Override
+    public final void exit(final boolean cleanup) throws IOException {
 	    super.exit(cleanup);
 		for (final FPSet fpSet : sets) {
 			fpSet.exit(cleanup);
@@ -189,7 +198,8 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#beginChkpt()
 	 */
-	public final void beginChkpt() throws IOException {
+	@Override
+    public final void beginChkpt() throws IOException {
 		for (final FPSet fpSet : sets) {
 			fpSet.beginChkpt();
 		}
@@ -198,7 +208,8 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#commitChkpt()
 	 */
-	public final void commitChkpt() throws IOException {
+	@Override
+    public final void commitChkpt() throws IOException {
 		for (final FPSet fpSet : sets) {
 			fpSet.commitChkpt();
 		}
@@ -207,7 +218,8 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#recover()
 	 */
-	public final void recover(final TLCTrace trace) throws IOException {
+	@Override
+    public final void recover(final TLCTrace trace) throws IOException {
 		final Enumerator elements = trace.elements();
 		while (elements.nextPos() != -1) {
 			final long fp = elements.nextFP();
@@ -219,14 +231,16 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#recoverFP(long)
 	 */
-	public final void recoverFP(final long fp) throws IOException {
+	@Override
+    public final void recoverFP(final long fp) throws IOException {
 		Assert.check(!this.put(fp), EC.TLC_FP_NOT_IN_SET);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#beginChkpt(java.lang.String)
 	 */
-	public final void beginChkpt(final String filename) throws IOException {
+	@Override
+    public final void beginChkpt(final String filename) throws IOException {
 		IntStream.range(0, this.sets.size()).parallel().forEach(i -> {
 			try {
 				sets.get(i).beginChkpt(filename + "_" + i);
@@ -239,7 +253,8 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#commitChkpt(java.lang.String)
 	 */
-	public final void commitChkpt(final String filename) throws IOException {
+	@Override
+    public final void commitChkpt(final String filename) throws IOException {
 		IntStream.range(0, this.sets.size()).parallel().forEach(i -> {
 			try {
 				sets.get(i).commitChkpt(filename + "_" + i);
@@ -252,7 +267,8 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#recover(java.lang.String)
 	 */
-	public final void recover(final String filename) throws IOException {
+	@Override
+    public final void recover(final String filename) throws IOException {
 		IntStream.range(0, this.sets.size()).parallel().forEach(i -> {
 			try {
 				sets.get(i).recover(filename + "_" + i);

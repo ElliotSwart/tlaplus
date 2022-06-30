@@ -65,6 +65,7 @@ private String metadir;
     this.mask = initialCapacity - 1;
   }
 
+  @Override
   public final FPSet init(final int numThreads, final String metadir, final String filename) {
     this.metadir = metadir;
     this.filename = filename;
@@ -75,6 +76,7 @@ private String metadir;
    * Returns the number of fingerprints in this set.
    * @return  the number of fingerprints in this set.
    */
+  @Override
   public final synchronized long size() { return this.count; }
 
   public final synchronized long sizeof() {
@@ -97,6 +99,7 @@ private String metadir;
    in this set; <code>false</code> otherwise.
    * <p>
    */
+  @Override
   public synchronized boolean put(final long fp) {
     int index = (int)(fp & this.mask);
     long[] list = this.table[index];
@@ -128,6 +131,7 @@ private String metadir;
     return false;
   }
 
+  @Override
   public synchronized boolean contains(final long fp) {
     final int index = (int)(fp & this.mask);
     final long[] list = this.table[index];
@@ -204,6 +208,7 @@ private String metadir;
     this.mask = newTable.length - 1;
   }
 
+  @Override
   public final void exit(final boolean cleanup) throws IOException {
 	super.exit(cleanup);
     if (cleanup) {
@@ -216,6 +221,7 @@ private String metadir;
     System.exit(0);    
   }
 
+  @Override
   public final long checkFPs() {
     long dis = Long.MAX_VALUE;
     for (int i = 0; i < this.table.length; i++) {
@@ -245,6 +251,7 @@ private String metadir;
   }
 
   // Checkpoint.
+  @Override
   public final void beginChkpt(final String fname) throws IOException {
     final BufferedDataOutputStream dos =
       new BufferedDataOutputStream(this.chkptName(fname, "tmp"));
@@ -259,6 +266,7 @@ private String metadir;
     dos.close();
   }
       
+  @Override
   final public void commitChkpt(final String fname) throws IOException {
     final File oldChkpt = new File(this.chkptName(fname, "chkpt"));
     final File newChkpt = new File(this.chkptName(fname, "tmp"));
@@ -268,6 +276,7 @@ private String metadir;
     }
   }
   
+  @Override
   public final void recover(final String fname) throws IOException {
     final BufferedDataInputStream dis =
       new BufferedDataInputStream(this.chkptName(fname, "chkpt"));
@@ -282,18 +291,22 @@ private String metadir;
     dis.close();
   }
   
+  @Override
   final public void beginChkpt() throws IOException {
     this.beginChkpt(this.filename);
   }
 
+  @Override
   final public void commitChkpt() throws IOException {
     this.commitChkpt(this.filename);
   }
     
+  @Override
   final public void recover(final TLCTrace trace) throws IOException {
     this.recover(this.filename);
   }
 
+  @Override
   public final void recoverFP(final long fp) throws IOException {
     Assert.check(!this.put(fp), EC.TLC_FP_NOT_IN_SET);
   }

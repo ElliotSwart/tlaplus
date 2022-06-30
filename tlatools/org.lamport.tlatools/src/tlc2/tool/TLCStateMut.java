@@ -75,6 +75,7 @@ private IValue values[];
     perms = tool.getSymmetryPerms();
   }
 
+  @Override
   public final TLCState createEmpty() {
 	  final IValue[] vals = new IValue[vars.length];
     return new TLCStateMut(vals);
@@ -98,6 +99,7 @@ private IValue values[];
     return false;
   }
   
+  @Override
   public final TLCState bind(final UniqueString name, final IValue value) {
 	  // Note, tla2sany.semantic.OpApplNode.toString(Value) relies on this ordering.
     final int loc = name.getVarLoc();
@@ -105,26 +107,31 @@ private IValue values[];
     return this;
   }
 
+  @Override
   public final TLCState bind(final SymbolNode id, final IValue value) {
     throw new WrongInvocationException("TLCStateMut.bind: This is a TLC bug.");
   }
   
+  @Override
   public final TLCState unbind(final UniqueString name) {
     final int loc = name.getVarLoc();
     this.values[loc] = null;
     return this;
   }
 
+  @Override
   public final IValue lookup(final UniqueString var) {
     final int loc = var.getVarLoc();
     if (loc < 0) return null;
     return this.values[loc];
   }
 
+  @Override
   public final boolean containsKey(final UniqueString var) {
     return (this.lookup(var) != null);
   }
 
+  @Override
   public final TLCState copy() {
     final int len = this.values.length;
     final IValue[] vals = new IValue[len];
@@ -134,6 +141,7 @@ private IValue values[];
     return copy(new TLCStateMut(vals));
   }
 
+  @Override
   public final TLCState deepCopy() {
     final int len = this.values.length;
     final IValue[] vals = new IValue[len];
@@ -146,10 +154,12 @@ private IValue values[];
 	return deepCopy(new TLCStateMut(vals));
   }
 
+  @Override
   public final StateVec addToVec(final StateVec states) {
     return states.addElement(this.copy());
   }
   
+  @Override
   public final void deepNormalize() {
     for (int i = 0; i < this.values.length; i++) {
       final IValue val = this.values[i];
@@ -168,7 +178,8 @@ private IValue values[];
    * via the state queue. They have to be normalized before adding to
    * the state queue.  We do that here.
    */
-	public final long fingerPrint() {
+	@Override
+    public final long fingerPrint() {
 		final int sz = this.values.length;
 
 		// TLC supports symmetry reduction. Symmetry reduction works by defining classes
@@ -271,6 +282,7 @@ private IValue values[];
 		return fp;
 	}
 
+  @Override
   public final boolean allAssigned() {
     final int len = this.values.length;
     for (int i = 0; i < len; i++) {
@@ -308,6 +320,7 @@ private IValue values[];
 		return unassignedVars;
 	}
 
+  @Override
   public final void read(final IValueInputStream vis) throws IOException {
     super.read(vis);
     final int len = this.values.length;
@@ -316,6 +329,7 @@ private IValue values[];
     }
   }
 
+  @Override
   public final void write(final IValueOutputStream vos) throws IOException {
     super.write(vos);
     final int len = this.values.length;
@@ -355,6 +369,7 @@ private IValue values[];
   }
   
   /* Returns a string representation of this state.  */
+  @Override
   public final String toString(final TLCState lastState) {
     final StringBuffer result = new StringBuffer();
     final TLCStateMut lstate = (TLCStateMut)lastState;

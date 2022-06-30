@@ -44,7 +44,8 @@ public class FingerPrintGenerator implements Runnable {
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
-	public void run() {
+	@Override
+    public void run() {
 		waitForAllThreadsStarted();
 		
 		long predecessor = 0L;

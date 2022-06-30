@@ -13,6 +13,7 @@ public final class ParseErrors implements tla2sany.st.ParseErrors {
     loe.addElement( pe );
   }
 
+  @Override
   public final tla2sany.st.ParseError[] errors() {
     final tla2sany.st.ParseError[] pes = new tla2sany.st.ParseError[ loe.size() ];
     for (int lvi = 0; lvi < pes.length; lvi++ )

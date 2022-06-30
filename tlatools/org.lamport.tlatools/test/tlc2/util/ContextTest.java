@@ -176,23 +176,28 @@ public class ContextTest {
 			super(-1, new SyntaxTreeNode(), UniqueString.uniqueStringOf(name));
 		}
 
-		public int getArity() {
+		@Override
+        public int getArity() {
 			return 0;
 		}
 
-		public boolean isLocal() {
+		@Override
+        public boolean isLocal() {
 			return false;
 		}
 		
-		public boolean match(final OpApplNode test, final ModuleNode mn) throws AbortException {
+		@Override
+        public boolean match(final OpApplNode test, final ModuleNode mn) throws AbortException {
 			return false;
 		}
 
-		protected Element getSymbolElement(final Document doc, final SymbolContext context) {
+		@Override
+        protected Element getSymbolElement(final Document doc, final SymbolContext context) {
 			return null;
 		}
 
-		protected String getNodeRef() {
+		@Override
+        protected String getNodeRef() {
 			return null;
 		}
 	}

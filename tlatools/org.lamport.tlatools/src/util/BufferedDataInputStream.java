@@ -92,6 +92,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
 
     /** REQUIRES LL = SELF */
     /** Closes this stream and its underlying stream. */
+    @Override
     public void close() throws IOException {
         this.in.close();
         this.in = null;
@@ -107,6 +108,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     /** Reads up to <code>b.length</code> bytes into <code>b</code>, 
         and returns the number of bytes read, or -1 if the stream is 
         exhausted on entry. */
+    @Override
     public final int read(final byte[] b) throws IOException {
         return this.read(b, 0, b.length);
     }
@@ -115,6 +117,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     /** Reads up to <code>n</code> bytes into <code>b</code> starting
         at position <code>off</code>, and returns the number of bytes
         read, or -1 if the stream is exhausted on entry. */
+    @Override
     public final int read(final byte[] b, int off, int n) throws IOException {
         if (this.len < 0) return -1;
         final int offInit = off;
@@ -192,6 +195,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         encoded in the next four bytes of this stream, or
         throws <code>EOFException</code> if the stream contains
         fewer than four bytes. */
+    @Override
     public final int readInt() throws IOException, EOFException {
         this.readFully(this.temp, 0, 4);
         int res = temp[0];
@@ -262,6 +266,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         return res;
     }
 
+    @Override
     public final String readString(int n) throws IOException {
       final char[] b = new char[n];
       int off = 0;

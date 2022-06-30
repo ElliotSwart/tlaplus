@@ -459,8 +459,10 @@ public<T> Vector<T> getByClass(final Class<T> template ) {
    * toString, levelDataToString, and walkGraph methods to implement
    * ExploreNode interface
    */
+  @Override
   public String levelDataToString() { return "Dummy level string"; }
 
+  @Override
   public String toString(final int depth) {
     return "Please use Context.getContextEntryStringVector()" +
       " instead of Context.toString()";
@@ -509,6 +511,7 @@ public<T> Vector<T> getByClass(final Class<T> template ) {
     return ctxtEntries;
   }
 
+  @Override
   public void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
 	  visitor.preVisit(this);
     UniqueString key;

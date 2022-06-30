@@ -149,7 +149,8 @@ public class TLCServerThread extends IdThread {
 	 * states of the state, checks the invariants, and updates the state set and
 	 * state queue.
 	 */
-	public void run() {
+	@Override
+    public void run() {
 		TLCGlobals.incNumWorkers();
 		TLCStateVec[] newStates = null;
 		LongVec[] newFps = null;
@@ -409,7 +410,8 @@ public class TLCServerThread extends IdThread {
 		/* (non-Javadoc)
 		 * @see java.util.TimerTask#run()
 		 */
-		public void run() {
+		@Override
+        public void run() {
 			// Check if the last invocation happened within the last minute. If
 			// not, check the worker's aliveness and dispose of it if indeed
 			// lost.

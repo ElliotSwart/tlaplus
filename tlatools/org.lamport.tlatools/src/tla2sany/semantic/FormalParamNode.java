@@ -44,13 +44,16 @@ public class FormalParamNode extends SymbolNode {
    * Returns the number of arguments this paramter takes when used in
    * an expression.
    */
+  @Override
   public final int getArity() { return this.arity; }
 
   /* Returns true always.  */
+  @Override
   public final boolean isLocal() { return true; }
 
   public final ModuleNode getModuleNode() { return this.moduleNode; }
 
+  @Override
   public final boolean match(final OpApplNode test, final ModuleNode mn ) {
     /***********************************************************************
     * True iff the current object has the same arity as the node operator  *
@@ -127,10 +130,12 @@ public class FormalParamNode extends SymbolNode {
 	    "  " + super.toString(depth) + "  arity: " + arity);
   }
 
+  @Override
   protected String getNodeRef() {
     return "FormalParamNodeRef";
   }
 
+  @Override
   protected Element getSymbolElement(final Document doc, final SymbolContext context) {
     final Element e = doc.createElement("FormalParamNode");
     e.appendChild(appendText(doc,"uniquename",getName().toString()));

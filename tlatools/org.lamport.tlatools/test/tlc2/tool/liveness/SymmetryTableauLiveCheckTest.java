@@ -291,7 +291,8 @@ public class SymmetryTableauLiveCheckTest {
 		// consistency
 		final Capture<TLCState> capture = new Capture<TLCState>();
 		EasyMock.expect(node2.isConsistent(EasyMock.capture(capture), (ITool) EasyMock.anyObject())).andAnswer(new IAnswer<Boolean>() {
-			public Boolean answer() throws Throwable {
+			@Override
+            public Boolean answer() throws Throwable {
 				final TLCState value = capture.getValue();
 				if (value == s) {
 					return false;
@@ -311,7 +312,8 @@ public class SymmetryTableauLiveCheckTest {
 		// consistency
 		final Capture<TLCState> capture1 = new Capture<TLCState>();
 		EasyMock.expect(node1.isConsistent(EasyMock.capture(capture1), (ITool) EasyMock.anyObject())).andAnswer(new IAnswer<Boolean>() {
-			public Boolean answer() throws Throwable {
+			@Override
+            public Boolean answer() throws Throwable {
 				final TLCState value = capture1.getValue();
 				if (value == sSymmetric) {
 					return false;
@@ -361,7 +363,8 @@ public class SymmetryTableauLiveCheckTest {
 		EasyMock.expect(tool.hasSymmetry()).andReturn(true);
 		final Capture<TLCState> nextStates = new Capture<TLCState>();
 		EasyMock.expect(tool.getNextStates((Action) EasyMock.anyObject(), EasyMock.capture(nextStates))).andAnswer(new IAnswer<StateVec>() {
-			public StateVec answer() throws Throwable {
+			@Override
+            public StateVec answer() throws Throwable {
 			    final StateVec nss = new StateVec(0);
 			    // s > t for sSymmetric
 			    final TLCState state = nextStates.getValue();

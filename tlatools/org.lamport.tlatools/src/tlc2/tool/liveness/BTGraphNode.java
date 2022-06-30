@@ -85,11 +85,13 @@ public class BTGraphNode extends BEGraphNode {
 		return true;
 	}
 
-	public final TBGraphNode getTNode(final TBGraph tableau) {
+	@Override
+    public final TBGraphNode getTNode(final TBGraph tableau) {
 		return tableau.getNode(this.getIndex());
 	}
 
-	public final String nodeInfo() {
+	@Override
+    public final String nodeInfo() {
 		return "<" + this.stateFP + "," + this.getIndex() + ">";
 	}
 
@@ -98,7 +100,8 @@ public class BTGraphNode extends BEGraphNode {
 	 * same value. It flips the visited field. We use the high-order bit of
 	 * this.number as the visited bit.
 	 */
-	protected final void toString(final StringBuffer buf, final boolean unseen) {
+	@Override
+    protected final void toString(final StringBuffer buf, final boolean unseen) {
 		if (this.getVisited() == unseen) {
 			this.flipVisited();
 			buf.append("(" + this.stateFP + "," + this.getIndex() + ") --> ");

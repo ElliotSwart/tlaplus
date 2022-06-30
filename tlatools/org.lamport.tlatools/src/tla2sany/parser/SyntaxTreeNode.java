@@ -271,15 +271,18 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   }
 
 
+  @Override
   public final int       getKind()         { return kind; }
 
 
          final void      setKind(final int k )  { kind = k ; }
 
 
+  @Override
   public final boolean   isKind(final int k )   { return kind == k; }
 
 
+  @Override
   public final String [] getPreComments()  { return preComment; }
 
    /***********************************************************************
@@ -371,6 +374,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
     }
   }
   
+  @Override
   public final TreeNode[] heirs() {
     if ( zero == null && one == null ) {
       return nullArray;
@@ -394,17 +398,21 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   }
   
 
+  @Override
   public final String         getFilename() {return fileName.toString(); }
 
   public final UniqueString   getFN() { return fileName; }
 
+  @Override
   public final Location       getLocation( ) {
     return new Location( fileName, location[0], location[1], location[2], 
                          location[3] );
    }
 
+  @Override
   public final String         getImage() { return image.toString(); }
 
+  @Override
   public final UniqueString   getUS() { return image; }
 
   public final SyntaxTreeNode first() {
@@ -412,7 +420,8 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
     if (zero != null) return zero[0]; else return one[0]; 
   }
   
-	public String getHumanReadableImage() {
+	@Override
+    public String getHumanReadableImage() {
 		if (zero != null && zero.length > 0) {
 			final StringBuffer buf = new StringBuffer(zero.length);
 			for (final SyntaxTreeNode z : zero) {
@@ -533,8 +542,10 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
     }
 
 
+  @Override
   public final tla2sany.st.TreeNode[] one() { return one; }
 
+  @Override
   public final tla2sany.st.TreeNode[] zero() { return zero; }
 
   /*************************************************************************
@@ -542,8 +553,10 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   * the "LOCAL" token is put in the array zero and the rest of the tokens  *
   * are put in the array one.                                              *
   *************************************************************************/
+  @Override
   public final boolean local() { return zero!= null; }
 
+  @Override
   public void printST(final int indentLevel) {
 
     String      operator = "";

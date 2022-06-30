@@ -89,7 +89,8 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCWorkerRMI#getNextStates(tlc2.tool.TLCState[])
 	 */
-	public synchronized NextStateResult getNextStates(final TLCState[] states)
+	@Override
+    public synchronized NextStateResult getNextStates(final TLCState[] states)
 			throws WorkerException, RemoteException {
 		
 		computing = true;
@@ -202,7 +203,8 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCWorkerRMI#exit()
 	 */
-	public void exit() throws NoSuchObjectException {
+	@Override
+    public void exit() throws NoSuchObjectException {
 		ToolIO.out.println(uri.getHost() + ", work completed at: " + new Date() + " Computed: "
 				+ overallStatesComputed
 				+ " and a cache hit ratio of " + this.cache.getHitRatioAsString()
@@ -220,21 +222,24 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCWorkerRMI#isAlive()
 	 */
-	public boolean isAlive() {
+	@Override
+    public boolean isAlive() {
 		return true;
 	}
 	
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCWorkerRMI#getURI()
 	 */
-	public URI getURI() throws RemoteException {
+	@Override
+    public URI getURI() throws RemoteException {
 		return uri;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCWorkerRMI#getCacheRateRatio()
 	 */
-	public double getCacheRateRatio() throws RemoteException {
+	@Override
+    public double getCacheRateRatio() throws RemoteException {
 		return this.cache.getHitRatio();
 	}
 	
@@ -464,7 +469,8 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 		/* (non-Javadoc)
 		 * @see java.lang.Runnable#run()
 		 */
-		public void run() {
+		@Override
+        public void run() {
 			try {
 				worker = new TLCWorker(threadId, aWork, anFpSetManager, InetAddress
 						.getLocalHost().getCanonicalHostName());
@@ -519,7 +525,8 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 		/* (non-Javadoc)
 		 * @see java.lang.Comparable#compareTo(java.lang.Object)
 		 */
-		public int compareTo(final Holder o) {
+		@Override
+        public int compareTo(final Holder o) {
 			return (fp < o.fp) ? -1 : ((fp == o.fp) ? 0 : 1);
 		}
 	}

@@ -756,7 +756,8 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 		return res;
 	}
 
-	public TLCState toState() {
+	@Override
+    public TLCState toState() {
 			final TLCState state = TLCState.Empty.createEmpty();
 			final OpDeclNode[] vars = state.getVars();
 			for (int i = 0; i < vars.length; i++) {

@@ -73,7 +73,8 @@ public class PrintTraceRaceTest extends ModelCheckerTestCase {
 		assertUncovered("line 15, col 12 to line 15, col 28 of module PrintTraceRace: 0");
 	}
 	
-	protected int getNumberOfThreads() {
+	@Override
+    protected int getNumberOfThreads() {
 		// This bug only shows up with multiple threads.
 		return 4;
 	}

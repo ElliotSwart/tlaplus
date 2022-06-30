@@ -20,6 +20,7 @@ public class TLA2TexException extends RuntimeException
         error_message = message;
     }
 
+    @Override
     public String getMessage()
     {
         return error_message;

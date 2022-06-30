@@ -36,6 +36,7 @@ public class FileCharReader extends CharReader
            } ;
       } ;
 
+    @Override
     public String innerGetNextLine()
       /*********************************************************************
       * The abstract innerGetNextLine method of CharReader is implemented  *
@@ -56,6 +57,7 @@ public class FileCharReader extends CharReader
 
       } ;
 
+    @Override
     public void close()
       /*********************************************************************
       * Implements CharReader's abstract close() method.                   *

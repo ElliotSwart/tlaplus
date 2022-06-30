@@ -38,20 +38,25 @@ private SymbolNode name;
     this.next = state;
   }
 
+  @Override
   public final TLCState createEmpty() { return Empty; }
 
+  @Override
   public final TLCState bind(final UniqueString name, final IValue value) {
       throw new WrongInvocationException("TLCStateFun.bind: This is a TLC bug.");
   }
 
+  @Override
   public final TLCState bind(final SymbolNode id, final IValue value) {
     return new TLCStateFun(id, value, this);
   }
   
+  @Override
   public final TLCState unbind(final UniqueString name) {
       throw new WrongInvocationException("TLCStateFun.unbind: This is a TLC bug.");
   }
   
+  @Override
   public final IValue lookup(final UniqueString var) {
     for (TLCStateFun cur = this; cur != Empty; cur = cur.next) {
       if (var == cur.name.getName()) return cur.value;
@@ -59,10 +64,12 @@ private SymbolNode name;
     return null;
   }
   
+  @Override
   public final boolean containsKey(final UniqueString var) {
     return this.lookup(var) != null;
   }
   
+  @Override
   public final TLCState copy() {
       // The following code added blindly by LL on 28 May 2010
       // to fix a bug.  I have no idea what's going on here.
@@ -70,32 +77,40 @@ private SymbolNode name;
       // throw new WrongInvocationException("TLCStateFun.copy: This is a TLC bug.");
   }
   
+  @Override
   public final TLCState deepCopy() {
       throw new WrongInvocationException("TLCStateFun.deepCopy: This is a TLC bug.");
   }
   
+  @Override
   public final void deepNormalize() {
       throw new WrongInvocationException("TLCStateFun.normalizeFcns: This is a TLC bug.");
   }
   
+  @Override
   public final long fingerPrint() {
       throw new WrongInvocationException("TLCStateFun.fingerPrint: This is a TLC bug.");
   }
 
-  public final boolean allAssigned() { return true; }  
+  @Override
+  public final boolean allAssigned() { return true; }
   
+  @Override
   public final Set<OpDeclNode> getUnassigned() { return new HashSet<OpDeclNode>(); }
 
   
 
+  @Override
   public final StateVec addToVec(final StateVec states) {
     return states.addElement(this);
   }
   
+  @Override
   public final void read(final IValueInputStream vis) throws IOException {
       throw new WrongInvocationException("TLCStateFun.read: This is a TLC bug.");
   }
 
+  @Override
   public final void write(final IValueOutputStream vos) throws IOException {
       throw new WrongInvocationException("TLCStateFun.write: This is a TLC bug.");
   }
@@ -119,6 +134,7 @@ private SymbolNode name;
     return sb.toString();
   }
   
+  @Override
   public final String toString(final TLCState lastState) {
       throw new WrongInvocationException("TLCStateFun.toString: This is a TLC bug.");
   }

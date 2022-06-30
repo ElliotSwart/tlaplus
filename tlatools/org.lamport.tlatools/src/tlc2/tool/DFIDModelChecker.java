@@ -42,7 +42,8 @@ public class DFIDModelChecker extends AbstractChecker
     private final AtomicLong numOfGenStates;
 
 	protected final ThreadLocal<Integer> threadLocal = new ThreadLocal<Integer>() {
-		protected Integer initialValue() {
+		@Override
+        protected Integer initialValue() {
 			return 1;
 		}
 	};
@@ -266,6 +267,7 @@ public class DFIDModelChecker extends AbstractChecker
 
     /* Compute the set of initial states.  */
     // SZ Feb 23, 2009: added ignore cancel flag
+    @Override
     public final int doInit(final boolean ignoreCancel) throws Throwable {
     	return doInit(this.tool, ignoreCancel);
     }
@@ -641,6 +643,7 @@ public class DFIDModelChecker extends AbstractChecker
      * Set the error state. 
      * <strong>Note:</note> this method must be protected by lock 
      */
+    @Override
     public boolean setErrState(final TLCState curState, final TLCState succState, final boolean keep, final int errorCode)
     {
         final boolean result = super.setErrState(curState, succState, keep, errorCode);
@@ -768,6 +771,7 @@ public class DFIDModelChecker extends AbstractChecker
     /**
      * Create workers
      */
+    @Override
     protected IWorker[] startWorkers(final AbstractChecker checker, final int checkIndex)
     {
         for (int i = 0; i < this.workers.length; i++)
@@ -790,6 +794,7 @@ public class DFIDModelChecker extends AbstractChecker
      * @param depth
      * @throws Exception
      */
+    @Override
     protected void runTLCContinueDoing(int count, final int depth) throws Exception
     {
         MP.printMessage(EC.TLC_PROGRESS_STATS_DFID, new String[] { String.valueOf(this.numOfGenStates),

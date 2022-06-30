@@ -129,11 +129,13 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 		return this.node != null ? this.node.getLocation() : Location.nullLoc;
 	}
 
-	public OpApplNode getNode() {
+	@Override
+    public OpApplNode getNode() {
 		return this.node;
 	}
 	
-	public boolean isRoot() {
+	@Override
+    public boolean isRoot() {
 		return this.node == null;
 	}
 
@@ -194,7 +196,8 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 
 	// ---------------- Level ---------------- //
 
-	public int getLevel() {
+	@Override
+    public int getLevel() {
 		return this.level;
 	}
 
@@ -233,7 +236,8 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 		}
 	}
 
-	public CostModel report() {
+	@Override
+    public CostModel report() {
 		print(0, Calculate.FRESH);
 		return this;
 	}

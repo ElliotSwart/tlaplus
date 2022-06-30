@@ -73,6 +73,7 @@ public abstract class OpDefOrDeclNode extends SymbolNode {
    * toString() method; part of implementation of ExploreNode
    * interface
    */
+  @Override
   public String toString(final int depth) {
     if (depth <= 0) return "";
     return super.toString(depth) 

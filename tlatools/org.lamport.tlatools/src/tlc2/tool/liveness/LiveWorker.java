@@ -834,7 +834,8 @@ public class LiveWorker implements Callable<Boolean> {
 			/* (non-Javadoc)
 			 * @see java.util.concurrent.Callable#call()
 			 */
-			public List<TLCStateInfo> call() throws Exception {
+			@Override
+            public List<TLCStateInfo> call() throws Exception {
 				// Print the error trace. We first construct the prefix that
 				// led to the bad cycle. The nodes on prefix and cycleStack then
 				// form the complete counter example.
@@ -1253,7 +1254,8 @@ public class LiveWorker implements Callable<Boolean> {
 		return curNode;
 	}
 
-	public final Boolean call() throws IOException, InterruptedException, ExecutionException {
+	@Override
+    public final Boolean call() throws IOException, InterruptedException, ExecutionException {
 		while (true) {
 			// Use poll() to get the next checker from the queue or null if
 			// there is none. Do *not* block when there are no more checkers

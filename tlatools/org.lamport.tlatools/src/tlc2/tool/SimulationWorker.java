@@ -264,7 +264,8 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 	 * running thread then periodically checks via calls to Thread.interrupted(). We could
 	 * implement this manually but it's simpler to use the built-in mechanism.
 	 */
-	public final void run() {
+	@Override
+    public final void run() {
 		boolean run = true;
 		while(run) {
 			run = simulateAndReport();

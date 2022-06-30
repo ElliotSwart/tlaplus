@@ -163,7 +163,8 @@ public class TLCRunner {
 	        this.shouldStop = false;
 	    }
 
-		public void run() {
+		@Override
+        public void run() {
 			try {
 				while (!shouldStop) {
 					while ((inputStream.available() > 0) && !shouldStop) {

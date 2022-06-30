@@ -325,6 +325,7 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
 	  return null;
   }
   
+  @Override
   public TLCState toState() {
 	  return null;
   }
@@ -367,7 +368,8 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
       }
   }
   
-	public TLCVariable toTLCVariable(final TLCVariable variable, final Random rnd) {
+	@Override
+    public TLCVariable toTLCVariable(final TLCVariable variable, final Random rnd) {
 		variable.setInstance(this);
 		// TODO: Use Value#getKindString instead?
 //		if (hasSource()) {

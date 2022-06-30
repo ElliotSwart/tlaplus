@@ -20,7 +20,8 @@ public class FaultyFPSet extends MemFPSet implements FPSetRMI {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.MemFPSet#put(long)
 	 */
-	public synchronized boolean put(final long fp) {
+	@Override
+    public synchronized boolean put(final long fp) {
 		// Simulate network error after a single successful invocation
 		if (putInvocations++ > 0) {
 			throw new RuntimeException("Test FPSet");
@@ -31,7 +32,8 @@ public class FaultyFPSet extends MemFPSet implements FPSetRMI {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.MemFPSet#contains(long)
 	 */
-	public synchronized boolean contains(final long fp) {
+	@Override
+    public synchronized boolean contains(final long fp) {
 		// Simulate network error after a single successful invocation
 		if (containsInvocations++ > 0) {
 			throw new RuntimeException("Test FPSet");

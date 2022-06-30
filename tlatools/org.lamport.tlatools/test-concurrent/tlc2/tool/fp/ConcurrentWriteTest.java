@@ -155,7 +155,8 @@ public class ConcurrentWriteTest {
 		for (long i = 0L; i < writers; i++) {
 			final long id = i;
 			tasks.add(new Callable<Void>() {
-				public Void call() throws Exception {
+				@Override
+                public Void call() throws Exception {
 					final RandomAccessFile tmpRAF = new BufferedRandomAccessFile(tempFile, "rw");
 					tmpRAF.setLength(limit * Long.BYTES);
 					tmpRAF.seek(id * partition * Long.BYTES);
@@ -195,7 +196,8 @@ public class ConcurrentWriteTest {
 		for (long i = 0L; i < writers; i++) {
 			final long id = i;
 			tasks.add(new Callable<Void>() {
-				public Void call() throws Exception {
+				@Override
+                public Void call() throws Exception {
 					final long position = id * partition * Long.BYTES;
 					final ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES/* * 1024*/);
 					for (long j = (id * partition); j < ((id + 1) * partition); j++/*j+=1024L*/) {

@@ -42,7 +42,8 @@ public class ETest3 extends SuiteETestCase {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ModelCheckerTestCase#checkDeadLock()
 	 */
-	protected boolean checkDeadLock() {
+	@Override
+    protected boolean checkDeadLock() {
 		return true;
 	}
 

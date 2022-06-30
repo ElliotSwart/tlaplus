@@ -42,7 +42,8 @@ public abstract class StateQueue implements IStateQueue {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#enqueue(tlc2.tool.TLCState)
 	 */
-	public final void enqueue(final TLCState state) {
+	@Override
+    public final void enqueue(final TLCState state) {
 		this.enqueueInner(state);
 		this.len++;
 	}
@@ -50,7 +51,8 @@ public abstract class StateQueue implements IStateQueue {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#dequeue()
 	 */
-	public final TLCState dequeue() {
+	@Override
+    public final TLCState dequeue() {
 		if (isEmpty()) {
 			return null;
 		}
@@ -63,7 +65,8 @@ public abstract class StateQueue implements IStateQueue {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#sEnqueue(tlc2.tool.TLCState)
 	 */
-	public final synchronized void sEnqueue(final TLCState state) {
+	@Override
+    public final synchronized void sEnqueue(final TLCState state) {
 		this.enqueueInner(state);
 		this.len++;
 		if (this.numWaiting > 0 && !this.stop) {
@@ -75,7 +78,8 @@ public abstract class StateQueue implements IStateQueue {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#sEnqueue(tlc2.tool.TLCState[])
 	 */
-	public final synchronized void sEnqueue(final TLCState states[]) {
+	@Override
+    public final synchronized void sEnqueue(final TLCState states[]) {
 		for (int i = 0; i < states.length; i++) {
 			this.enqueueInner(states[i]);
 		}
@@ -85,7 +89,8 @@ public abstract class StateQueue implements IStateQueue {
 		}
 	}
 	
-	public final synchronized void sEnqueue(final StateVec stateVec) {
+	@Override
+    public final synchronized void sEnqueue(final StateVec stateVec) {
 		int cnt = 0;
 		for (int j = 0; j < stateVec.size(); j++) {
 			final TLCState state = stateVec.elementAt(j);
@@ -101,7 +106,8 @@ public abstract class StateQueue implements IStateQueue {
 	}
 
 
-	public final synchronized TLCState sPeek() {
+	@Override
+    public final synchronized TLCState sPeek() {
 		if (this.isAvail()) {
 			return this.peekInner();
 		}
@@ -112,7 +118,8 @@ public abstract class StateQueue implements IStateQueue {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#sDequeue()
 	 */
-	public final synchronized TLCState sDequeue() {
+	@Override
+    public final synchronized TLCState sDequeue() {
 		if (this.isAvail()) {
 			final TLCState state = this.dequeueInner();
 			// LL modified error message on 7 April 2012
@@ -126,7 +133,8 @@ public abstract class StateQueue implements IStateQueue {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#sDequeue(int)
 	 */
-	public final synchronized TLCState[] sDequeue(int cnt) {
+	@Override
+    public final synchronized TLCState[] sDequeue(int cnt) {
 		assert cnt > 0 : "Nonpositive number of states requested.";
 		if (this.isAvail()) {
 			if (cnt > len) {
@@ -205,7 +213,8 @@ public abstract class StateQueue implements IStateQueue {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#finishAll()
 	 */
-	public synchronized void finishAll() {
+	@Override
+    public synchronized void finishAll() {
 		this.finish = true;
 		// Notify all other worker threads.
 		this.notifyAll();
@@ -228,7 +237,8 @@ public abstract class StateQueue implements IStateQueue {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#suspendAll()
 	 */
-	public final boolean suspendAll() {
+	@Override
+    public final boolean suspendAll() {
 		boolean needWait = false;
 		synchronized (this) {
 			if (this.finish) {
@@ -304,7 +314,8 @@ public abstract class StateQueue implements IStateQueue {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#resumeAll()
 	 */
-	public final synchronized void resumeAll() {
+	@Override
+    public final synchronized void resumeAll() {
 		this.stop = false;
 		this.notifyAll();
 	}
@@ -312,7 +323,8 @@ public abstract class StateQueue implements IStateQueue {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#resumeAllStuck()
 	 */
-	public void resumeAllStuck() {
+	@Override
+    public void resumeAllStuck() {
 		// needsWaiting() read might have been incorrect if a TLCWorkerRMI dies
 		// unexpectedly, thus this recovers a potentially stuck checkpointing
 		// run.
@@ -333,14 +345,16 @@ public abstract class StateQueue implements IStateQueue {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#size()
 	 */
-	public final long size() {
+	@Override
+    public final long size() {
 		return this.len;
 	}
 
 	/**
 	 * @return true iff the inner queue does not contain states
 	 */
-	public boolean isEmpty() {
+	@Override
+    public boolean isEmpty() {
 		return len < 1;
 	}
 
@@ -357,17 +371,20 @@ public abstract class StateQueue implements IStateQueue {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#beginChkpt()
 	 */
-	public abstract void beginChkpt() throws IOException;
+	@Override
+    public abstract void beginChkpt() throws IOException;
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#commitChkpt()
 	 */
-	public abstract void commitChkpt() throws IOException;
+	@Override
+    public abstract void commitChkpt() throws IOException;
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.queue.IStateQueue#recover()
 	 */
-	public abstract void recover() throws IOException;
+	@Override
+    public abstract void recover() throws IOException;
 	
 	@Override
 	public void delete() throws IOException {

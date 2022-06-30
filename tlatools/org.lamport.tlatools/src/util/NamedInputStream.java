@@ -85,6 +85,7 @@ public class NamedInputStream extends FileInputStream
     /**
      * Sanity method
      */
+    @Override
     public void close() throws IOException
     {
         synchronized (NamedInputStream.class) 

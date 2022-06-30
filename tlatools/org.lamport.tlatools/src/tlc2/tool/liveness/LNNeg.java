@@ -19,11 +19,13 @@ public class LNNeg extends LiveExprNode {
 		return this.body;
 	}
 
-	public final int getLevel() {
+	@Override
+    public final int getLevel() {
 		return this.body.getLevel();
 	}
 
-	public final boolean containAction() {
+	@Override
+    public final boolean containAction() {
 		return this.body.containAction();
 	}
 	
@@ -35,28 +37,34 @@ public class LNNeg extends LiveExprNode {
 		return false;
 	}
 
-	public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
+	@Override
+    public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
 		return !this.body.eval(tool, s1, s2);
 	}
 
-	public final void toString(final StringBuffer sb, final String padding) {
+	@Override
+    public final void toString(final StringBuffer sb, final String padding) {
 		sb.append("-");
 		this.getBody().toString(sb, padding + " ");
 	}
 
-	public void extractPromises(final TBPar promises) {
+	@Override
+    public void extractPromises(final TBPar promises) {
 		getBody().extractPromises(promises);
 	}
 
-	public int tagExpr(final int tag) {
+	@Override
+    public int tagExpr(final int tag) {
 		return getBody().tagExpr(tag);
 	}
 
-	public final LiveExprNode makeBinary() {
+	@Override
+    public final LiveExprNode makeBinary() {
 		return new LNNeg(getBody().makeBinary());
 	}
 
-	public LiveExprNode flattenSingleJunctions() {
+	@Override
+    public LiveExprNode flattenSingleJunctions() {
 		final LiveExprNode ln1 = getBody();
 		if (ln1 instanceof LNNeg) {
 			return ((LNNeg) ln1).getBody().flattenSingleJunctions();
@@ -64,7 +72,8 @@ public class LNNeg extends LiveExprNode {
 		return new LNNeg(ln1.flattenSingleJunctions());
 	}
 
-	public final LiveExprNode toDNF() {
+	@Override
+    public final LiveExprNode toDNF() {
 		final LiveExprNode body = getBody();
 		if ((body instanceof LNState) || (body instanceof LNAction)) {
 			return this;
@@ -72,7 +81,8 @@ public class LNNeg extends LiveExprNode {
 		return body.pushNeg().toDNF();
 	}
 
-	public LiveExprNode simplify() {
+	@Override
+    public LiveExprNode simplify() {
 		final LiveExprNode body1 = getBody().simplify();
 		if (body1 instanceof LNBool) {
 			return new LNBool(!((LNBool) body1).b);
@@ -80,15 +90,18 @@ public class LNNeg extends LiveExprNode {
 		return new LNNeg(body1);
 	}
 
-	public boolean isGeneralTF() {
+	@Override
+    public boolean isGeneralTF() {
 		return getBody().isGeneralTF();
 	}
 
-	public LiveExprNode pushNeg() {
+	@Override
+    public LiveExprNode pushNeg() {
 		return getBody();
 	}
 
-	public LiveExprNode pushNeg(final boolean hasNeg) {
+	@Override
+    public LiveExprNode pushNeg(final boolean hasNeg) {
 		final LiveExprNode lexpr = getBody();
 		return lexpr.pushNeg(!hasNeg);
 	}
@@ -97,7 +110,8 @@ public class LNNeg extends LiveExprNode {
 	 * This method returns true or false for whether two LiveExprNodes are
 	 * syntactically equal.
 	 */
-	public boolean equals(final LiveExprNode exp) {
+	@Override
+    public boolean equals(final LiveExprNode exp) {
 		if (exp instanceof LNNeg) {
 			return getBody().equals(((LNNeg) exp).getBody());
 		}
@@ -107,7 +121,8 @@ public class LNNeg extends LiveExprNode {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.LiveExprNode#toDotViz()
 	 */
-	public String toDotViz() {
+	@Override
+    public String toDotViz() {
 		return "-" + getBody().toDotViz();
 	}
 }

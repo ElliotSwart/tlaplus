@@ -175,7 +175,8 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#incWorkers(int)
 	 */
-	public void incWorkers(final int numWorkers) {
+	@Override
+    public void incWorkers(final int numWorkers) {
 		assert numWorkers == this.numThreads;
 		SYNC.incWorkers(numWorkers);
 	}
@@ -237,7 +238,8 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#sizeof()
 	 */
-	public long sizeof() {
+	@Override
+    public long sizeof() {
 		long size = 44; // approx size of this DiskFPSet object
 		size += maxTblCnt * LongSize;
 		size += getIndexCapacity() * 4;
@@ -271,7 +273,8 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#memLookup(long)
 	 */
-	final boolean memLookup(final long fp0) {
+	@Override
+    final boolean memLookup(final long fp0) {
 		return memLookup0(fp0) == FOUND;
 	}
 
@@ -296,7 +299,8 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#memInsert(long)
 	 */
-	final boolean memInsert(final long fp0) throws IOException {
+	@Override
+    final boolean memInsert(final long fp0) throws IOException {
 		return memInsert0(fp0, 0);
 	}
 
@@ -343,7 +347,8 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#put(long)
 	 */
-	public final boolean put(final long fp) throws IOException {
+	@Override
+    public final boolean put(final long fp) throws IOException {
 		if (checkEvictPending()) {
 			return put(fp);
 		}
@@ -375,7 +380,8 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#contains(long)
 	 */
-	public final boolean contains(final long fp) throws IOException {
+	@Override
+    public final boolean contains(final long fp) throws IOException {
 		// maintains happen-before with regards to successful put
 		
 		if (checkEvictPending()) {
@@ -402,49 +408,56 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#forceFlush()
 	 */
-	public void forceFlush() {
+	@Override
+    public void forceFlush() {
 		SYNC.evict();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#acquireTblWriteLock()
 	 */
-	void acquireTblWriteLock() {
+    @Override
+    void acquireTblWriteLock() {
 		// no-op for now
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#releaseTblWriteLock()
 	 */
-	void releaseTblWriteLock() {
+    @Override
+    void releaseTblWriteLock() {
 		// no-op for now
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#getTblCapacity()
 	 */
-	public long getTblCapacity() {
+	@Override
+    public long getTblCapacity() {
 		return maxTblCnt;
 	}
 	
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#getTblLoad()
 	 */
-	public long getTblLoad() {
+	@Override
+    public long getTblLoad() {
 		return getTblCnt();
 	}
 	
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#getOverallCapacity()
 	 */
-	public long getOverallCapacity() {
+	@Override
+    public long getOverallCapacity() {
 		return array.size();
 	}
 	
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#getBucketCapacity()
 	 */
-	public long getBucketCapacity() {
+	@Override
+    public long getBucketCapacity() {
 		// A misnomer, but bucketCapacity is obviously not applicable with open
 		// addressing.
 		return PROBE_LIMIT;
@@ -544,7 +557,8 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		final ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
 		try {
 			final long distance = executorService.invokeAll(tasks).stream().min(new Comparator<Future<Long>>() {
-				public int compare(final Future<Long> o1, final Future<Long> o2) {
+				@Override
+                public int compare(final Future<Long> o1, final Future<Long> o2) {
 					try {
 						return Long.compare(o1.get(), o2.get());
 					} catch (final InterruptedException e) {
@@ -924,12 +938,14 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		protected void mergeNewEntries(final BufferedRandomAccessFile[] inRAFs, final RandomAccessFile outRAF, final Iterator ignored) throws IOException {
 			final long now = System.currentTimeMillis();
 			assert offsets.stream().mapToLong(new ToLongFunction<Result>() {
-				public long applyAsLong(final Result result) {
+				@Override
+                public long applyAsLong(final Result result) {
 					return result.getTable();
 				}
 			}).sum() == insertions : "Missing inserted elements during eviction.";
 			assert offsets.stream().mapToLong(new ToLongFunction<Result>() {
-				public long applyAsLong(final Result result) {
+				@Override
+                public long applyAsLong(final Result result) {
 					return result.getDisk();
 				}
 			}).sum() == fileCnt : "Missing disk elements during eviction.";
@@ -975,7 +991,8 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 				final long diskReads = id == numThreads - 1 ? fileCnt - result.getInOffset() : result.getDisk();
 				
 				tasks.add(new Callable<Void>() {
-					public Void call() throws Exception {
+					@Override
+                    public Void call() throws Exception {
 						ConcurrentOffHeapMSBFlusher.super.mergeNewEntries(inRAF, tmpRAFs[id], itr, diskReads);
 						assert tmpRAFs[id].getFilePointer() == (result.getOutOffset() + result.getTotal()) * FPSet.LongSize : id
 								+ " writer did not write expected amount of fingerprints to disk.";

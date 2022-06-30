@@ -30,7 +30,8 @@ public class DiskGraph extends AbstractDiskGraph {
 		nodePtrTbl = new NodePtrTable(255);
 	}
 
-	public final GraphNode getNode(final long fp, final int tidx) throws IOException {
+	@Override
+    public final GraphNode getNode(final long fp, final int tidx) throws IOException {
 		return getNode(fp);
 	}
 	
@@ -50,7 +51,8 @@ public class DiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#getPtr(long, int)
 	 */
-	public final long getPtr(final long fp, final int tidx) {
+	@Override
+    public final long getPtr(final long fp, final int tidx) {
 		return getPtr(fp);
 	}
 
@@ -58,7 +60,8 @@ public class DiskGraph extends AbstractDiskGraph {
 		return this.nodePtrTbl.get(fp);
 	}
 
-	public void reset() throws IOException {
+	@Override
+    public void reset() throws IOException {
 		this.nodePtrRAF.reset();
 		this.nodeRAF.reset();
 		this.nodePtrTbl = new NodePtrTable(255);
@@ -67,28 +70,32 @@ public class DiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#putNode(tlc2.tool.liveness.GraphNode, long)
 	 */
-	protected void putNode(final GraphNode node, final long ptr) {
+	@Override
+    protected void putNode(final GraphNode node, final long ptr) {
 		this.nodePtrTbl.put(node.stateFP, ptr);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#checkDuplicate(tlc2.tool.liveness.GraphNode)
 	 */
-	protected boolean checkDuplicate(final GraphNode node) {
+	@Override
+    protected boolean checkDuplicate(final GraphNode node) {
 		return this.nodePtrTbl.get(node.stateFP) != -1;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#getLink(long, int)
 	 */
-	public long getLink(final long state, final int tidx) {
+	@Override
+    public long getLink(final long state, final int tidx) {
 		return this.nodePtrTbl.get(state);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#putLink(long, int, long)
 	 */
-	public long putLink(final long state, final int tidx, final long link) {
+	@Override
+    public long putLink(final long state, final int tidx, final long link) {
 		assert MAX_PTR <= link && link < MAX_LINK; 
 		final int loc = this.nodePtrTbl.getLoc(state);
 		final long oldLink = this.nodePtrTbl.getByLoc(loc);
@@ -102,14 +109,16 @@ public class DiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.DiskGraph#setMaxLink(long, int)
 	 */
-	public void setMaxLink(final long state, final int tidx) {
+	@Override
+    public void setMaxLink(final long state, final int tidx) {
 		this.nodePtrTbl.put(state, MAX_LINK);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.DiskGraph#makeNodePtrTbl(long)
 	 */
-	protected void makeNodePtrTbl(final long ptr) throws IOException {
+	@Override
+    protected void makeNodePtrTbl(final long ptr) throws IOException {
 		this.nodePtrRAF.seek(0);
 		while (this.nodePtrRAF.getFilePointer() < ptr) {
 			final long fp = this.nodePtrRAF.readLong();
@@ -123,7 +132,8 @@ public class DiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#size()
 	 */
-	public long size() {
+	@Override
+    public long size() {
 		return this.nodePtrTbl.size();
 	}
 
@@ -176,7 +186,8 @@ public class DiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#toDotViz(tlc2.tool.liveness.OrderOfSolution)
 	 */
-	public final String toDotViz(final OrderOfSolution oos) {
+	@Override
+    public final String toDotViz(final OrderOfSolution oos) {
 		final int slen = oos.getCheckState().length;
 		final int alen = oos.getCheckAction().length;
 		// The following code relies on gnodes not being null, thus safeguard
@@ -221,7 +232,8 @@ public class DiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#getPath(long, int)
 	 */
-	public final LongVec getPath(final long state, final int tidxIgnored) throws IOException {
+	@Override
+    public final LongVec getPath(final long state, final int tidxIgnored) throws IOException {
 		// If path requested just consists of an init node, return the single
 		// init node. This is the trivial case.
 		final int numOfInits = this.initNodes.size();

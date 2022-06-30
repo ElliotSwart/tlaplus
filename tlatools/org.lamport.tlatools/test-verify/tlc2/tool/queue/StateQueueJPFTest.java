@@ -47,7 +47,8 @@ public class StateQueueJPFTest extends TestJPF {
 			queue.enqueue(tlcState);
 			
 			final Thread main = new Thread(new Runnable() {
-				public void run() {
+				@Override
+                public void run() {
 					queue.suspendAll();
 					// critical section (taking a checkpoint)
 					queue.resumeAll();
@@ -57,7 +58,8 @@ public class StateQueueJPFTest extends TestJPF {
 
 			for (int i = 0; i < 3; i++) {
 				final Thread worker = new Thread(new Runnable() {
-					public void run() {
+					@Override
+                    public void run() {
 						for (int i = 0; i < 3; i++) {
 							final TLCState state = queue.dequeue();
 							if (state == null) {
@@ -83,27 +85,33 @@ public class StateQueueJPFTest extends TestJPF {
 
 		private TLCState state;
 
-		void enqueueInner(final TLCState state) {
+		@Override
+        void enqueueInner(final TLCState state) {
 			this.state = state;
 		}
 
-		TLCState dequeueInner() {
+		@Override
+        TLCState dequeueInner() {
 			return state;
 		}
 
-		TLCState peekInner() {
+		@Override
+        TLCState peekInner() {
 			return state;
 		}
 
-		public void beginChkpt() throws IOException {
+		@Override
+        public void beginChkpt() throws IOException {
 			// checkpointing not being verified
 		}
 
-		public void commitChkpt() throws IOException {
+		@Override
+        public void commitChkpt() throws IOException {
 			// checkpointing not being verified
 		}
 
-		public void recover() throws IOException {
+		@Override
+        public void recover() throws IOException {
 			// checkpointing not being verified
 		}
 	}

@@ -41,6 +41,7 @@ public class FileClassLoader extends ClassLoader {
     return bytes;
   }
 
+  @Override
   public synchronized Class loadClass(final String name, final boolean resolve) {
     Class c = null;
     final byte[] data = loadClassData(name);

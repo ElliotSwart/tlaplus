@@ -124,6 +124,7 @@ public class InstanceNode extends LevelNode {
 //  private SetOfArgLevelConstraints argLevelConstraints;
 //  private HashSet argLevelParams;
 
+  @Override
   public final boolean levelCheck(final int itr) {
     /***********************************************************************
     * I believe this should only be called once, with itr = 1.            *
@@ -352,6 +353,7 @@ public class InstanceNode extends LevelNode {
     return this.levelCorrect;
   }
 
+  @Override
   public final int getLevel() {
     /***********************************************************************
     * In SANY1, this was never called.  In SANY2 it is called for          *
@@ -363,6 +365,7 @@ public class InstanceNode extends LevelNode {
     return 0;    // make compiler happy
   }
 
+  @Override
   public final HashSet<SymbolNode> getLevelParams() {
     /***********************************************************************
     * In SANY1, this was never called.  However, in SANY2 it is called     *
@@ -372,6 +375,7 @@ public class InstanceNode extends LevelNode {
     return levelParams ; // make compiler happy
   }
 
+  @Override
   public final SetOfLevelConstraints getLevelConstraints() {
     return this.levelConstraints;
   }
@@ -382,6 +386,7 @@ public class InstanceNode extends LevelNode {
 //
 //  public final HashSet getArgLevelParams() { return this.argLevelParams; }
 
+  @Override
   public final String levelDataToString() {
     return "LevelConstraints: "    + this.levelConstraints    + "\n" +
            "ArgLevelConstraints: " + this.argLevelConstraints + "\n" +
@@ -391,6 +396,7 @@ public class InstanceNode extends LevelNode {
    * The children of an instance are the expressions beings
    * substituted for parameters.
    */
+  @Override
   public SemanticNode[] getChildren() {
       final SemanticNode[] res = new SemanticNode[substs.length];
       for (int i = 0; i < substs.length; i++) {
@@ -401,6 +407,7 @@ public class InstanceNode extends LevelNode {
 
   
 
+  @Override
   public final String toString(final int depth) {
     if (depth <= 0) return "";
 
@@ -428,6 +435,7 @@ public class InstanceNode extends LevelNode {
     return ret;
   }
 
+  @Override
   protected Element getLevelElement(final Document doc, final tla2sany.xml.SymbolContext context) {
 
       final Element sbts = doc.createElement("substs");

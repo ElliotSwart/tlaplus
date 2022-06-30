@@ -23,7 +23,8 @@ public class LSBDiskFPSet extends HeapBasedDiskFPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#getAuxiliaryStorageRequirement()
 	 */
-	protected double getAuxiliaryStorageRequirement() {
+	@Override
+    protected double getAuxiliaryStorageRequirement() {
 		return 2.5d;
 	}
 	
