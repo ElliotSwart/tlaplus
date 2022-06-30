@@ -488,7 +488,7 @@ public class TableauNodePtrTable {
 	 */
   	public static class DetailedFormatter {
   		public static String toString(final TableauNodePtrTable table) {
-  			final StringBuffer buf = new StringBuffer(table.count);
+  			final StringBuilder buf = new StringBuilder(table.count);
   			for (int i = 0; i < table.nodes.length; i++) {
   				if (table.nodes[i] != null) {
   					final int[] node = table.nodes[i];

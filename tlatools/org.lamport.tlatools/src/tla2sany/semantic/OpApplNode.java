@@ -1260,7 +1260,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     @Override
 	public String toString(final IValue aValue) {
 		if (aValue instanceof ITupleValue && allParams.size() == aValue.size()) {
-			final StringBuffer result = new StringBuffer();
+			final StringBuilder result = new StringBuilder();
 			
 			// The values in aValue are ordered by the varloc of the variable names (see
 			// tlc2.tool.TLCStateMut.bind(UniqueString, Value, SemanticNode). Thus, sort

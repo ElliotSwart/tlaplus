@@ -339,7 +339,7 @@ private final IValue[] values;
       final IValue val = mytool.eval(viewMap, Context.Empty, this);
       return viewMap.toString(val);
     }
-    final StringBuffer result = new StringBuffer();
+    final StringBuilder result = new StringBuilder();
     final int vlen = vars.length;
     if (vlen == 1) {
       final UniqueString key = vars[0].getName();
@@ -366,7 +366,7 @@ private final IValue[] values;
   /* Returns a string representation of this state.  */
   @Override
   public final String toString(final TLCState lastState) {
-    final StringBuffer result = new StringBuffer();
+    final StringBuilder result = new StringBuilder();
     final TLCStateMutExt lstate = (TLCStateMutExt)lastState;
 
     final int vlen = vars.length;

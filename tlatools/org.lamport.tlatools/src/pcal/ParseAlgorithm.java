@@ -3708,8 +3708,8 @@ public class ParseAlgorithm
        int col  = begCol ;
        boolean notDone = true ;
        int commentDepth = 0 ;
-       StringBuffer newLine = 
-           new StringBuffer(inp.elementAt(line).substring(0, col)) ;
+       StringBuilder newLine =
+           new StringBuilder(inp.elementAt(line).substring(0, col)) ;
        while(notDone && line < inp.size())
          { final String oldLine = inp.elementAt(line);
            boolean inString = false ;
@@ -3786,7 +3786,7 @@ public class ParseAlgorithm
                                         (line+1) ) ;
             }
            inp.set(line, newLine.toString()) ;           
-           newLine = new StringBuffer() ;
+           newLine = new StringBuilder() ;
            col  = 0 ;
            line = line + 1 ;
          }

@@ -46,7 +46,7 @@ class SetOfLevelConstraints extends HashMap<SymbolNode, Integer> implements Leve
   
   @Override
   public final String toString() {
-    final StringBuffer sb = new StringBuffer("{ ");
+    final StringBuilder sb = new StringBuilder("{ ");
     for (final Iterator<SymbolNode> iter = this.keySet().iterator(); iter.hasNext(); ) {
       final SymbolNode param = iter.next();
       sb.append(param.getName()).append(" -> ").append(this.get(param));

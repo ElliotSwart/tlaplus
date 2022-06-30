@@ -783,7 +783,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 
 			@Override
 			public String toString() {
-				final StringBuffer result = new StringBuffer();
+				final StringBuilder result = new StringBuilder();
 				final int vlen = rcd.names.length;
 				if (vlen == 1) {
 					result.append(rcd.names[0].toString());

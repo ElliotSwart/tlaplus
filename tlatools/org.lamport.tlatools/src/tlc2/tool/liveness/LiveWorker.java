@@ -1291,7 +1291,7 @@ public class LiveWorker implements Callable<Boolean> {
 	}
 
 	public String toDotViz(final long state, final int tidx, final TableauNodePtrTable tnpt) throws IOException {
-		final StringBuffer sb = new StringBuffer(tnpt.size() * 10);
+		final StringBuilder sb = new StringBuilder(tnpt.size() * 10);
 		sb.append("digraph TableauNodePtrTable {\n");
 		sb.append("nodesep = 0.7\n");
 		sb.append("rankdir=LR;\n"); // Left to right rather than top to bottom
@@ -1356,7 +1356,7 @@ public class LiveWorker implements Callable<Boolean> {
   	public static class DetailedFormatter {
   		public static String toString(final MemIntStack comStack) {
   			final int size = (int) comStack.size();
-			final StringBuffer buf = new StringBuffer(size / 5);
+			final StringBuilder buf = new StringBuilder(size / 5);
   			for (int i = 0; i < comStack.size(); i+=5) {
   				final long loc = comStack.peakLong(size - i - 5);
   				final int tidx = comStack.peakInt(size - i - 3);
@@ -1387,7 +1387,7 @@ public class LiveWorker implements Callable<Boolean> {
   	public static class DFSStackDetailedFormatter {
   		public static String toString(final MemIntStack dfsStack) {
   			final int size = (int) dfsStack.size();
-			final StringBuffer buf = new StringBuffer(size / 7); // approximate the size needed (buf will grow or shrink if needed)
+			final StringBuilder buf = new StringBuilder(size / 7); // approximate the size needed (buf will grow or shrink if needed)
   			int i = 0;
   			for (; i < dfsStack.size();) {
   				// Peak element to see if it's a marker or not

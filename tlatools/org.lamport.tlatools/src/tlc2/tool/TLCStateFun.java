@@ -117,7 +117,7 @@ private final SymbolNode name;
   
   /* Returns a string representation of this state.  */
   public final String toString() {
-    final StringBuffer sb = new StringBuffer("[");
+    final StringBuilder sb = new StringBuilder("[");
     if (this != Empty) {
       sb.append(this.name.getName().toString());
       sb.append(" -> ");

@@ -55,7 +55,7 @@ public class FcnParams implements IFcnParams {
   }
 
   public final String toString() {
-    final StringBuffer sb = new StringBuffer();
+    final StringBuilder sb = new StringBuilder();
     if (this.domains.length != 0) {
       final FormalParamNode[] ids = this.formals[0];
       if (this.isTuples[0]) {

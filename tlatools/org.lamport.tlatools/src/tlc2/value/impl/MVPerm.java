@@ -114,7 +114,7 @@ public final class MVPerm implements IMVPerm {
   }
 
   public final String toString() {
-    final StringBuffer sb = new StringBuffer("[");
+    final StringBuilder sb = new StringBuilder("[");
     int i = 0;
     for (i = 0; i < this.elems.length; i++) {
       if (this.elems[i] != null) {

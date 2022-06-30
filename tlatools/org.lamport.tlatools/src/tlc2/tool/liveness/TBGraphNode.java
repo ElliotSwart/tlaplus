@@ -143,7 +143,7 @@ public class TBGraphNode {
 	public String toDotViz(final boolean isInitNode) {
 		final String label = "\"Id: " + this.index + "\n" + par.toDotViz() + "\"";
 		
-		final StringBuffer buf = new StringBuffer(nextSize());
+		final StringBuilder buf = new StringBuilder(nextSize());
 		buf.append(this.index).append(" [label=").append(label).append("]\n"); // nodes label
 		if (isInitNode) {
 			buf.append("[style = filled]\n");

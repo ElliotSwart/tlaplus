@@ -278,7 +278,7 @@ public class TypedSet {
      */
     public String toString()
     {
-        final StringBuffer buffer = new StringBuffer("{");
+        final StringBuilder buffer = new StringBuilder("{");
         for (int i = 0; i < this.values.length; i++)
         {
             if (this.type != null)

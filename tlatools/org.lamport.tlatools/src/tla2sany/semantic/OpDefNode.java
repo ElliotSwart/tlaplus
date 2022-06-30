@@ -1303,7 +1303,7 @@ public boolean addLabel(final LabelNode odn) {
 
 	@Override
 	public String getSignature() {
-		final StringBuffer buf = new StringBuffer();
+		final StringBuilder buf = new StringBuilder();
 		buf.append(getName().toString());
 		if (getArity() > 0 && getKind() != ASTConstants.BuiltInKind) {
 			buf.append("(");
@@ -1413,7 +1413,7 @@ public boolean addLabel(final LabelNode odn) {
 		// In-line comments - e.g. found in the standard modules - are not pre-comments.
 		final String comment = getComment();
 		
-		final StringBuffer buf = new StringBuffer(comment);
+		final StringBuilder buf = new StringBuilder(comment);
 		buf.append("\n");
 		
 		final TreeNode[] ones = getTreeNode().one();

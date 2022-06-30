@@ -135,7 +135,7 @@ public class ParseException extends Exception {
     if (!specialConstructor) {
       return super.getMessage();
     }
-    final StringBuffer expected = new StringBuffer();
+    final StringBuilder expected = new StringBuilder();
     int maxSize = 0;
     for (int i = 0; i < expectedTokenSequences.length; i++) {
       if (maxSize < expectedTokenSequences[i].length) {
@@ -182,7 +182,7 @@ public class ParseException extends Exception {
    * string literal.
    */
   protected String add_escapes(final String str) {
-      final StringBuffer retval = new StringBuffer();
+      final StringBuilder retval = new StringBuilder();
       char ch;
       for (int i = 0; i < str.length(); i++) {
         switch (str.charAt(i))
