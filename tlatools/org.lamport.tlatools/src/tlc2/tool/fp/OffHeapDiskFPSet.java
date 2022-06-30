@@ -760,8 +760,8 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		// Lookup the corresponding disk page in index.
 		final double dfp = (double) fp;
 		while (loPage < hiPage - 1) {
-			final double dhi = (double) hiPage;
-			final double dlo = (double) loPage;
+			final double dhi = hiPage;
+			final double dlo = loPage;
 			final double dhiVal = (double) hiVal;
 			final double dloVal = (double) loVal;
 			int midPage = (loPage + 1) + (int) ((dhi - dlo - 1.0) * (dfp - dloVal) / (dhiVal - dloVal));

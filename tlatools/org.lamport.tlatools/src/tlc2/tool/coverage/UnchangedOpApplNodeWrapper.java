@@ -48,8 +48,7 @@ public class UnchangedOpApplNodeWrapper extends OpApplNodeWrapper {
 		collectedEvalCounts.remove(new Pair(0,0)); 
 		if (collectedEvalCounts.isEmpty()) {
 			printSelf(level++);
-			return;
-		} else {
+        } else {
 			printSelf(level, Math.max(getEvalCount(), collectedEvalCounts.iterator().next().primary));
 		}
 	}

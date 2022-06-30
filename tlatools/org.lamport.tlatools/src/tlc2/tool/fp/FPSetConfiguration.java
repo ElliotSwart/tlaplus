@@ -86,7 +86,8 @@ public class FPSetConfiguration implements Serializable {
 			//
 			// TODO Respect ratio once other TLC data structures start using
 			// non-heap memory
-			return (long) (instance.getNonHeapPhysicalMemory()/* *ratio */);
+            /* *ratio */
+            return instance.getNonHeapPhysicalMemory();
 		}
 	}
 	

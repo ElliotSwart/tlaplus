@@ -44,7 +44,7 @@ public class Randomization implements ValueConstants {
 			throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR,
 					new String[] { "first", "RandomSubset", "nonnegative integer", Values.ppr(v1.toString()) });
 		}
-        if (!(v2 instanceof EnumerableValue) || !((EnumerableValue) v2).isFinite()) {
+        if (!(v2 instanceof EnumerableValue) || !v2.isFinite()) {
         	// v2 has to be enumerable (infinite sets are not enumerable and impossible to draw from uniformly anyway).
 			throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR,
 					new String[] { "second", "RandomSubset", "a finite set", Values.ppr(v2.toString()) });
@@ -74,7 +74,7 @@ public class Randomization implements ValueConstants {
 					new String[] { "second", "RandomSetOfSubsets", "nonnegative integer", Values.ppr(v2.toString()) });
 		}
 		// third parameter	
-        if (!(v3 instanceof final EnumerableValue ev) || !((EnumerableValue) v3).isFinite()) {
+        if (!(v3 instanceof final EnumerableValue ev) || !v3.isFinite()) {
 			throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR,
 					new String[] { "third", "RandomSetOfSubsets", "finite set", Values.ppr(v3.toString()) });
         }
@@ -128,7 +128,7 @@ public class Randomization implements ValueConstants {
 					new String[] { "second", "RandomSubsetSetProbability", "string literal does not represent a parsable probability", Values.ppr(v2.toString()) });
 		}
 		// third parameter	
-        if (!(v3 instanceof final EnumerableValue ev) || !((EnumerableValue) v3).isFinite()) {
+        if (!(v3 instanceof final EnumerableValue ev) || !v3.isFinite()) {
 			throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR,
 					new String[] { "third", "RandomSubsetSetProbability", "finite set", Values.ppr(v3.toString()) });
         }

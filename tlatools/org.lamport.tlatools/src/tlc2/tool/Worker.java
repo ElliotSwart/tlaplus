@@ -153,8 +153,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 				this.squeue.finishAll();
 				this.tlc.notify();
 			}
-			return;
-		}
+        }
 	}
 	
 	/* Liveness */

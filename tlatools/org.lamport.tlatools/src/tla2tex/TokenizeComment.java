@@ -380,7 +380,7 @@ public class TokenizeComment
         else
           { line = line + 1;
             if (line < argVec.size())
-              { curString = (String) argVec.elementAt(line); 
+              { curString = argVec.elementAt(line);
                 if (curString == null) {curString = "";}
               }
             else
@@ -542,8 +542,8 @@ public class TokenizeComment
                new CToken [ vspec.elementAt(n) . size() ] ;     
             int m = 0 ;                                                   
             while (m < aspec[n].length)                                    
-              {aspec[n][m] =                                               
-                (CToken) vspec.elementAt(n) . elementAt(m);     
+              {aspec[n][m] =
+                      vspec.elementAt(n) . elementAt(m);
                m = m+1;                                                   
               }
               n = n+1 ;
@@ -579,7 +579,7 @@ public class TokenizeComment
           { curString = "" ;
           }
         else 
-          { curString = (String) argVec.elementAt(line) ;
+          { curString = argVec.elementAt(line);
           }
           if (curString.equals(""))
           { nextChar  = '\n';}

@@ -700,7 +700,7 @@ class TeX
        {String inputLine = logfile.readLine();
         while (inputLine != null)
          { if (   (inputLine.length() > 2)
-               && (inputLine.substring(0,3).equals("\\%{")))
+               && (inputLine.startsWith("\\%{")))
             { final int start = 3 ;
               final int after = inputLine.indexOf("}",start)-2 ;
               resultVec.addElement(inputLine.substring(start, after));
@@ -718,7 +718,7 @@ class TeX
       final float[] result = new float[resultVec.size()];
       int i = 0;
       while (i < result.length)
-       { result[i] = Misc.stringToFloat((String) resultVec.elementAt(i));
+       { result[i] = Misc.stringToFloat(resultVec.elementAt(i));
         i = i+1;
        }
       return result ;

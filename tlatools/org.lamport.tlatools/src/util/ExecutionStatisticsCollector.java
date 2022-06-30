@@ -176,7 +176,7 @@ public class ExecutionStatisticsCollector {
 	
 	public Selection get() {
 		if (isEnabled()) {
-			try (final BufferedReader br = new BufferedReader(new FileReader(new File(pathname)))) {
+			try (final BufferedReader br = new BufferedReader(new FileReader(pathname))) {
 				final String line = br.readLine();
 				if (RND_ID_STR.equals(line)) {
 					return Selection.RANDOM_IDENTIFIER;

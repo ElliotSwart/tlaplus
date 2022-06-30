@@ -349,7 +349,7 @@ public interface TLAplusParserConstants {
     "<STRING_LITERAL>",
     "<BAND>",
     "<BOR>",
-    "\"\\\'\"",
+          "\"\\'\"",
     "\"^+\"",
     "\"^*\"",
     "\"^#\"",

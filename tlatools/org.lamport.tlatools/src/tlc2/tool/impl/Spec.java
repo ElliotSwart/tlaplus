@@ -636,7 +636,6 @@ abstract class Spec
                 }
             }
         }
-        return;
     }
 
     public FilenameToStream getResolver()

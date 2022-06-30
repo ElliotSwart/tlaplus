@@ -143,7 +143,7 @@ public final Value[] elems;          // the elements of this tuple.
         Assert.fail("Attempted to access index " + idx + " of tuple\n"
             + Values.ppr(this.toString()) + "\nwhich is out of bounds.", getSource());
       }
-      return (Value) this.elems[idx-1];
+      return this.elems[idx-1];
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
@@ -173,7 +173,7 @@ public final Value[] elems;          // the elements of this tuple.
       }
       final int idx = ((IntValue)arg).val;
       if (idx > 0 && idx <= this.elems.length) {
-        return (Value) this.elems[idx-1];
+        return this.elems[idx-1];
       }
       return null;
     }

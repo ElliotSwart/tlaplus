@@ -419,7 +419,7 @@ public class ParseAlgorithm
            boolean omitStutteringWhenDoneValue = false;
            while (i < multiproc.procs.size())
              { final AST.Process proc =
-                   (AST.Process) multiproc.procs.elementAt(i);
+                     multiproc.procs.elementAt(i);
                ExpandMacrosInStmtSeq(proc.body, multiproc.macros) ;
                AddLabelsToStmtSeq(proc.body) ;
                proc.body = MakeLabeledStmtSeq(proc.body);
@@ -435,7 +435,7 @@ public class ParseAlgorithm
            i = 0 ;
            while (i < multiproc.prcds.size())
              { final AST.Procedure prcd =
-                  (AST.Procedure) multiproc.prcds.elementAt(i) ;
+                     multiproc.prcds.elementAt(i);
                currentProcedure = prcd.name ;
                ExpandMacrosInStmtSeq(prcd.body, multiproc.macros);
                AddLabelsToStmtSeq(prcd.body);
@@ -511,7 +511,7 @@ public class ParseAlgorithm
            int i = 0 ;
            while (i < uniproc.prcds.size())
              {  final AST.Procedure prcd =
-                  (AST.Procedure) uniproc.prcds.elementAt(i) ;
+                     uniproc.prcds.elementAt(i);
                currentProcedure = prcd.name ;
                ExpandMacrosInStmtSeq(prcd.body, uniproc.macros);
                AddLabelsToStmtSeq(prcd.body);
@@ -654,7 +654,6 @@ public class ParseAlgorithm
                return;
            }
        }
-       return;
    }
    
    public static void AddedMessagesError() throws ParseAlgorithmException 
@@ -685,7 +684,7 @@ public class ParseAlgorithm
               + addedLabelsLocs.elementAt(i));
           i = i + 1 ;
         }
-         return ; }
+     }
 
    public static AST.Procedure GetProcedure() throws ParseAlgorithmException
      { final AST.Procedure result = new AST.Procedure() ;
@@ -893,8 +892,8 @@ public class ParseAlgorithm
             final PCalLocation begin = ((TLAToken) ((Vector<?>)
                                 result.tokens.elementAt(0))
                                 .elementAt(0)).source.getBegin();
-            final Vector<?> lastLineOfTokens = (Vector<?>) result.tokens.elementAt(
-                                           result.tokens.size()-1) ;
+            final Vector<?> lastLineOfTokens = result.tokens.elementAt(
+                                           result.tokens.size()-1);
            if (lastLineOfTokens.size()==0) {
                Debug.ReportBug("Unexpected Event in ParseAlgorithm.GetExpr");
            }
@@ -967,7 +966,7 @@ public class ParseAlgorithm
          * labDo field is created.                                         *
          ******************************************************************/
        result.setOrigin(new Region(beginLoc,
-             ((AST) result.unlabDo.elementAt(result.unlabDo.size()-1))
+             result.unlabDo.elementAt(result.unlabDo.size()-1)
                 .getOrigin().getEnd())) ;
        return result ; }
 
@@ -1113,10 +1112,10 @@ public class ParseAlgorithm
          { /********************************************************
            * There entire StmtSeq is labeled.                      *
            ********************************************************/
-           if ( ! ((AST) sseq.elementAt(0)).lbl.equals(""))
+           if ( ! sseq.elementAt(0).lbl.equals(""))
              { throw new ParseAlgorithmException("Duplicate labeling of statement",
-                                        (AST) sseq.elementAt(0)) ; }
-             final AST firstStmt = (AST) sseq.elementAt(0) ;
+                     sseq.elementAt(0)) ; }
+             final AST firstStmt = sseq.elementAt(0);
             firstStmt.lbl = lbl ;
             firstStmt.lblLocation = lblLocation ;
         }
@@ -1262,10 +1261,10 @@ public class ParseAlgorithm
         */
        AST lastStmt = null ;
        if (result.unlabElse.size() != 0) {
-    	   lastStmt = (AST) result.unlabElse.elementAt(result.unlabElse.size()-1) ;
+    	   lastStmt = result.unlabElse.elementAt(result.unlabElse.size()-1);
        }
        else {
-    	   lastStmt = (AST) result.unlabThen.elementAt(result.unlabThen.size()-1);
+    	   lastStmt = result.unlabThen.elementAt(result.unlabThen.size()-1);
        }
        
        /**
@@ -1296,8 +1295,8 @@ public class ParseAlgorithm
             {throw new ParseAlgorithmException(
                 "`either' statement with empty `or' clause", result) ; }
             nextClause.setOrigin(new Region(
-                  ((AST) nextClause.unlabOr.elementAt(0)).getOrigin().getBegin(), 
-                  ((AST) nextClause.unlabOr.elementAt(nextClause.unlabOr.size()-1))
+                  nextClause.unlabOr.elementAt(0).getOrigin().getBegin(),
+                  nextClause.unlabOr.elementAt(nextClause.unlabOr.size()-1)
                          .getOrigin().getEnd())) ; 
           result.clauses.addElement(nextClause) ;
           final String nextTok = PeekAtAlgToken(1) ;
@@ -1317,7 +1316,7 @@ public class ParseAlgorithm
           { throw new ParseAlgorithmException("`either' statement has no `or'", result) ;
           }
          result.setOrigin(new Region(beginLoc,
-                  ((AST) result.clauses.elementAt(result.clauses.size()-1))
+                  result.clauses.elementAt(result.clauses.size()-1)
                      .getOrigin().getEnd())) ;
         return result ;
      }
@@ -1394,7 +1393,7 @@ public class ParseAlgorithm
          }
          try {
 		       result.setOrigin(new Region(begLoc, 
-		               ((AST) result.Do.elementAt(result.Do.size()-1)).getOrigin().getEnd())) ;
+		               result.Do.elementAt(result.Do.size()-1).getOrigin().getEnd())) ;
 		} catch (final ArrayIndexOutOfBoundsException e) {
 			throw new ParseAlgorithmException("Missing body of with statement", result);
 		}
@@ -1420,8 +1419,8 @@ public class ParseAlgorithm
         }
          }
          GobbleThis(";") ;
-       final AST firstAssign = (AST) result.ass.elementAt(0) ;
-       final AST lastAssign = (AST) result.ass.elementAt(result.ass.size()-1) ;
+       final AST firstAssign = result.ass.elementAt(0);
+       final AST lastAssign = result.ass.elementAt(result.ass.size()-1);
        result.setOrigin(new Region(firstAssign.getOrigin().getBegin(), 
                                    lastAssign.getOrigin().getEnd()));
        return result ;
@@ -1549,7 +1548,7 @@ public class ParseAlgorithm
        boolean moreArgs = (PeekPastAlgToken(0).charAt(0) != ')') ;
        while (moreArgs)
          { result.args.addElement(GetExpr()) ;
-           if ( ((TLAExpr) result.args.lastElement()).tokens.size() == 0)
+           if ( result.args.lastElement().tokens.size() == 0)
               { ParsingError("Empty argument in call statement at ") ;}
              if ( ! PeekAtAlgToken(1).equals(")") )
               { GobbleThis(",") ; } 
@@ -1749,7 +1748,7 @@ public class ParseAlgorithm
        boolean moreArgs = (PeekPastAlgToken(0).charAt(0) != ')') ;
        while (moreArgs)
          { result.args.addElement(GetExpr()) ;
-           if ( ((TLAExpr) result.args.lastElement()).tokens.size() == 0)
+           if ( result.args.lastElement().tokens.size() == 0)
               { ParsingError("Empty argument in call statement at ") ;}
              if ( ! PeekAtAlgToken(1).equals(")") )
               { GobbleThis(",") ; } 
@@ -1773,7 +1772,6 @@ public class ParseAlgorithm
                       false,           // inWith
              new Vector<>(),    // inAssigned = {}
              new Vector<>() );  // outAssigned
-       return ;
      }
 
 /***************************************************************************
@@ -1835,7 +1833,7 @@ public class ParseAlgorithm
          ******************************************************************/
          
        while (i < stmtseq.size())
-         { final AST stmt = (AST) stmtseq.elementAt(i) ;
+         { final AST stmt = stmtseq.elementAt(i);
            if (! stmt.lbl.equals(""))
              { hadOrAddedLabel = true ;
                outAssigned.removeAllElements() ;
@@ -1852,7 +1850,7 @@ public class ParseAlgorithm
                      stmt) ;
                 }
 
-                NeedsLabel((AST) stmtseq.elementAt(i)) ;
+                NeedsLabel(stmtseq.elementAt(i)) ;
                   nextStepNeedsLabel = false ;
               hadOrAddedLabel = true   ;
               outAssigned.removeAllElements() ;
@@ -1909,7 +1907,7 @@ public class ParseAlgorithm
                int j = 0 ;
                final Vector<String> newOutAssigned = new Vector<>() ;
                while (j < obj.clauses.size())
-                 { final AST.Clause clause = (AST.Clause) obj.clauses.elementAt(j) ;
+                 { final AST.Clause clause = obj.clauses.elementAt(j);
                    final Vector<String> orAssigned     = new Vector<>() ;
                    nextStepNeedsLabel =
                      InnerAddLabels(clause.unlabOr,  
@@ -2012,7 +2010,7 @@ public class ParseAlgorithm
                int j = 0 ;
                while (j < obj.ass.size())
                  { final AST.SingleAssign assgn =
-                     (AST.SingleAssign) obj.ass.elementAt(j) ;
+                         obj.ass.elementAt(j);
                    final String vbl = assgn.lhs.var ;
                    if (! IsIn(vbl, assignedVbls))
                      { assignedVbls.addElement(vbl) ; }
@@ -2095,14 +2093,14 @@ public class ParseAlgorithm
                           int k = 0 ;
                           while (k < prcd.params.size())
                             { final AST.PVarDecl decl =
-                                (AST.PVarDecl) prcd.params.elementAt(k) ;
+                                    prcd.params.elementAt(k);
                               assignedVbls.addElement(decl.var) ;
                               k = k + 1;
                             }
                             k = 0 ;
                           while (k < prcd.decls.size())
                             { final AST.PVarDecl decl =
-                                (AST.PVarDecl) prcd.decls.elementAt(k) ;
+                                    prcd.decls.elementAt(k);
                               assignedVbls.addElement(decl.var) ;
                               k = k + 1;
                             }
@@ -2150,7 +2148,6 @@ public class ParseAlgorithm
            addedLabels.addElement(lbl) ;
            addedLabelsLocs.addElement(stmt.location()) ;
          }
-       return ;
      }
        
 /***************************************************************************
@@ -2167,7 +2164,7 @@ public class ParseAlgorithm
      { int i = 0 ;
        boolean result = false ;
        while (i < set.size())
-        { result = result || elt.equals((String) set.elementAt(i)) ;
+        { result = result || elt.equals(set.elementAt(i)) ;
           i = i+1 ;
         }
          return result ;
@@ -2182,7 +2179,7 @@ public class ParseAlgorithm
      { boolean negResult = false ;
        int i = 0 ;
        while (i < T.size())
-         { negResult = negResult ||  IsIn((String) T.elementAt(i), S) ;
+         { negResult = negResult ||  IsIn(T.elementAt(i), S) ;
            i = i+1;
          }
          return ! negResult ;
@@ -2196,7 +2193,7 @@ public class ParseAlgorithm
      { @SuppressWarnings("unchecked") final Vector<String> result = (Vector<String>) S.clone() ;
        int i = 0 ;
        while (i < T.size())
-         { final String str = (String) T.elementAt(i) ;
+         { final String str = T.elementAt(i);
            if (! IsIn(str, result))
              { result.addElement(str) ; }
              i = i+1 ;
@@ -2217,7 +2214,6 @@ public class ParseAlgorithm
         { out.addElement(in.elementAt(i)) ; 
           i = i+1 ;
         }
-         return ;
      }
 
 
@@ -2242,7 +2238,7 @@ public class ParseAlgorithm
        int nextStmt = 0 ;
        while (nextStmt < stmtseq.size())
          { final AST.LabeledStmt lstmt = new AST.LabeledStmt() ;
-           AST stmt = (AST) stmtseq.elementAt(nextStmt) ;
+           AST stmt = stmtseq.elementAt(nextStmt);
              /**************************************************************
              * lstmt is the current <LabeledStmt> being constructed, and   *
              * stmt is the next <Stmt> in stmtseq.                         *
@@ -2287,7 +2283,7 @@ public class ParseAlgorithm
                 lstmt.stmts.addElement(stmt) ;
                nextStmt = nextStmt + 1;
                if  (nextStmt < stmtseq.size())
-                  {stmt = (AST) stmtseq.elementAt(nextStmt) ;}
+                  {stmt = stmtseq.elementAt(nextStmt);}
              }
              FixStmtSeq(lstmt.stmts) ;
           final int numberOfStmts = lstmt.stmts.size() ;
@@ -2297,9 +2293,9 @@ public class ParseAlgorithm
           }
           
           if (lstmtBegin == null) {
-              lstmtBegin = ((AST) lstmt.stmts.elementAt(0)) .getOrigin().getBegin();
+              lstmtBegin = lstmt.stmts.elementAt(0).getOrigin().getBegin();
           }
-          final PCalLocation lstmtEnd = ((AST) lstmt.stmts.elementAt(numberOfStmts-1))
+          final PCalLocation lstmtEnd = lstmt.stmts.elementAt(numberOfStmts-1)
         		                     .getOrigin().getEnd();
           lstmt.setOrigin(new Region (lstmtBegin, lstmtEnd));
           result.addElement(lstmt) ;
@@ -2318,7 +2314,7 @@ public class ParseAlgorithm
      **********************************************************************/
      { int i = 0 ;
        while (i < stmtseq.size())
-        { final AST stmt = (AST) stmtseq.elementAt(i) ;
+        { final AST stmt = stmtseq.elementAt(i);
           if (stmt.getClass().equals(AST.LabelIfObj.getClass()))
              { /************************************************************
                * This is an if statement.  Set the unlabThen field to the  *
@@ -2335,7 +2331,7 @@ public class ParseAlgorithm
                Vector<AST> curr = obj.unlabThen ;
                obj.unlabThen = new Vector<>() ;
                while (    (curr.size() > 0)
-                       && ((AST) curr.elementAt(0)).lbl.equals("") )
+                       && curr.elementAt(0).lbl.equals("") )
                 { obj.unlabThen.addElement(curr.elementAt(0)) ;
                   curr.removeElementAt(0) ;
                 }
@@ -2348,7 +2344,7 @@ public class ParseAlgorithm
                curr = obj.unlabElse ;
                obj.unlabElse = new Vector<>() ;
                while (    (curr.size() > 0)
-                       && ((AST) curr.elementAt(0)).lbl.equals("") )
+                       && curr.elementAt(0).lbl.equals("") )
                 { obj.unlabElse.addElement(curr.elementAt(0)) ;
                   curr.removeElementAt(0) ;
                 }
@@ -2367,11 +2363,11 @@ public class ParseAlgorithm
                  ******************************************************/
                int j = 0 ;
                while (j < obj.clauses.size())
-                 { final AST.Clause clause = (AST.Clause) obj.clauses.elementAt(j) ;
+                 { final AST.Clause clause = obj.clauses.elementAt(j);
                    final Vector<AST> curr = clause.unlabOr ;
                    clause.unlabOr = new Vector<>() ;
                    while (    (curr.size() > 0)
-                           && ((AST) curr.elementAt(0)).lbl.equals("") )
+                           && curr.elementAt(0).lbl.equals("") )
                     { clause.unlabOr.addElement(curr.elementAt(0)) ;
                       curr.removeElementAt(0) ;
                     }
@@ -2397,7 +2393,7 @@ public class ParseAlgorithm
                final Vector<AST> curr = obj.unlabDo ;
                obj.unlabDo = new Vector<>() ;
                while (    (curr.size() > 0)
-                       && ((AST) curr.elementAt(0)).lbl.equals("") )
+                       && curr.elementAt(0).lbl.equals("") )
                 { obj.unlabDo.addElement(curr.elementAt(0)) ;
                   curr.removeElementAt(0) ;
                 }
@@ -2406,7 +2402,6 @@ public class ParseAlgorithm
              }
             i = i + 1 ;
         }
-         return ;
      }
 
 
@@ -2447,7 +2442,7 @@ public class ParseAlgorithm
      { int i = 0 ;
        int result = 0 ;
        while (i < stmtseq.size())
-         { AST node = (AST) stmtseq.elementAt(i) ;
+         { AST node = stmtseq.elementAt(i);
              if (node.getClass().equals(
                            AST.LabelIfObj.getClass()))
                { final AST.LabelIf ifNode = (AST.LabelIf) node;
@@ -2471,8 +2466,7 @@ public class ParseAlgorithm
                      int j = 0 ;
                      while (j < eitherNode.clauses.size())
                        { newEither.ors.addElement(
-                          ((AST.Clause)  
-                            eitherNode.clauses.elementAt(j)).unlabOr ) ;
+                          eitherNode.clauses.elementAt(j).unlabOr ) ;
                          j = j + 1;
                        }
                        newEither.setOrigin(eitherNode.getOrigin()) ;

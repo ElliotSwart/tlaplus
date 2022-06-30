@@ -766,7 +766,7 @@ class trans {
             int ecCol  = algCol ;
             boolean notFound = true ;
             while (notFound && ecLine < untabInputVec.size()) {
-            	final char[] line = ((String) untabInputVec.elementAt(ecLine)).toCharArray();
+            	final char[] line = untabInputVec.elementAt(ecLine).toCharArray();
             	
                 // check current line 
                 while (notFound && ecCol < line.length-1)	 {
@@ -834,7 +834,7 @@ class trans {
             
             // Report an error  if there's something else on the line that doesn't begin with "\*".  This is probably
             
-            final String endStuff = ((String) untabInputVec.elementAt(ecLine)).substring(ecCol).trim() ;
+            final String endStuff = untabInputVec.elementAt(ecLine).substring(ecCol).trim() ;
             
             if (!endStuff.equals("") && !endStuff.startsWith("\\*")) {
             	PcalDebug.reportError("Text on same line following `*)' that ends the \n   comment containing the algorithm.");
@@ -1226,7 +1226,7 @@ class trans {
                             i = i + 2;
                         } else
                         {
-                            transl = transl + tlcOut.substring(i, i + 1);
+                            transl = transl + tlcOut.charAt(i);
                             i = i + 1;
                         }
                     }
@@ -1240,7 +1240,7 @@ class trans {
                         {
                             i = i + 1;
                         }
-                        transl = transl + tlcOut.substring(i, i + 1);
+                        transl = transl + tlcOut.charAt(i);
                         i = i + 1;
                     }
                     i = i + 1;
@@ -1255,7 +1255,7 @@ class trans {
                 {
                     throw new TLCTranslationException("Expected space but found `" + tlcOut.charAt(i) + "'");
                 }
-                transl = transl + tlcOut.substring(i, i + 1);
+                transl = transl + tlcOut.charAt(i);
                 i = i + 1;
             }
         }
@@ -1834,7 +1834,7 @@ class trans {
         int i = 0;
         while (i < helpVec.size())
         {
-            ToolIO.out.println((String) helpVec.elementAt(i));
+            ToolIO.out.println(helpVec.elementAt(i));
             i = i + 1;
         }
 
@@ -1921,7 +1921,7 @@ class trans {
                         toAdd = toAdd - 1;
                     }
                 } else {
-                    newLine = newLine + oldLine.substring(next, next + 1);
+                    newLine = newLine + oldLine.charAt(next);
                 }
                 next = next + 1;
             }

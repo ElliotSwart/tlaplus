@@ -356,7 +356,6 @@ public class SpecObj
         {
             semanticAnalysisVector.addElement(currentParseUnit.getName());
         }
-        return;
     }
 
     // Converts a Vector of ParseUnits to a string representing a
@@ -425,7 +424,6 @@ public class SpecObj
             } // end if
         } // end for
 
-        return;
     }
 
     // The next two methods and the variables declared before them
@@ -769,7 +767,7 @@ public class SpecObj
                 final Enumeration<ModulePointer> enumModules = getModules();
                 while (enumModules.hasMoreElements())
                 {
-                    final ModulePointer modPointer = (ModulePointer) enumModules.nextElement();
+                    final ModulePointer modPointer = enumModules.nextElement();
 
                     if (directlyExtends(modPointer, extenders.elementAt(i)))
                     {

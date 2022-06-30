@@ -211,7 +211,7 @@ public class PcalTranslate {
             if (i == 0 || i == expr.tokens.size() - 1) nextCol = 1;
             else nextCol = 6;
             for (int j = 0; j < line.size(); j++) {
-                final TLAToken tok = ((TLAToken) line.elementAt(j));
+                final TLAToken tok = line.elementAt(j);
                 tok.column = nextCol;
                 nextCol = nextCol + tok.getWidth();
                 if (tok.type == TLAToken.BUILTIN && tok.string == "|->") {
@@ -265,13 +265,13 @@ public class PcalTranslate {
         if (tokens.size() > 1) return false;
         final Vector<TLAToken> line = tokens.elementAt(0);
         if (line.size() == 1) {
-            final TLAToken tok = (TLAToken) line.elementAt(0);
+            final TLAToken tok = line.elementAt(0);
             return (tok.string.equals("TRUE")) ? true : false;
         }
         else if (line.size() == 3) {
-            final TLAToken tok1 = (TLAToken) line.elementAt(0);
-            final TLAToken tok2 = (TLAToken) line.elementAt(1);
-            final TLAToken tok3 = (TLAToken) line.elementAt(2);
+            final TLAToken tok1 = line.elementAt(0);
+            final TLAToken tok2 = line.elementAt(1);
+            final TLAToken tok3 = line.elementAt(2);
             return (tok1.string.equals("(")
                     && tok2.string.equals("TRUE")
                     && tok3.string.equals(")")) ? true : false;
@@ -338,8 +338,7 @@ public class PcalTranslate {
         i = 0;
         while (i < ast.prcds.size()) {
             newast.prcds.addElement(
-                                    ExplodeProcedure((AST.Procedure)
-                                                     ast.prcds.elementAt(i)));
+                                    ExplodeProcedure(ast.prcds.elementAt(i)));
             i = i + 1;
         }
         i = 0;
@@ -379,15 +378,13 @@ public class PcalTranslate {
         newast.defs = ast.defs ;  // added 25 Jan 2006 by LL
         newast.setOrigin(ast.getOrigin()) ;
         while (i < ast.prcds.size()) {
-            newast.prcds.addElement(ExplodeProcedure((AST.Procedure)
-                                                     ast.prcds.elementAt(i)));
+            newast.prcds.addElement(ExplodeProcedure(ast.prcds.elementAt(i)));
             i = i + 1;
         }
         i = 0;
         newast.procs = new Vector<>(ast.procs.size(), 10);
         while (i < ast.procs.size()) {
-            newast.procs.addElement( ExplodeProcess((AST.Process)
-                                                   ast.procs.elementAt(i)));
+            newast.procs.addElement( ExplodeProcess(ast.procs.elementAt(i)));
             i = i + 1;
         }
         return newast;
@@ -746,7 +743,7 @@ public class PcalTranslate {
         final PCalLocation whileBeginLoc = w.getOrigin().getBegin() ;
         final PCalLocation whileEndUnlabDoLoc =
           (w.unlabDo.size() != 0) ? 
-            ((AST) w.unlabDo.elementAt(w.unlabDo.size()-1)).getOrigin().getEnd() :
+            w.unlabDo.elementAt(w.unlabDo.size()-1).getOrigin().getEnd() :
             w.test.getOrigin().getEnd();
         final PCalLocation whileEndLoc =
            // The original code contained
@@ -924,7 +921,7 @@ public class PcalTranslate {
         newEither.setOrigin(ast.getOrigin()) ;
         newEither.ors = new Vector<>() ;
         for (int i = 0; i < ast.clauses.size(); i++) {
-          final AST.Clause clause = (AST.Clause) ast.clauses.elementAt(i) ;
+          final AST.Clause clause = ast.clauses.elementAt(i);
           final Vector<Object> res =
              CopyAndExplodeLastStmtWithGoto(
                clause.unlabOr,
@@ -938,7 +935,7 @@ public class PcalTranslate {
          if (clause.labOr.size() != 0 || ((Vector) res.elementAt(1)).size() != 0) {
              clause.setBroken(true) ;
          }         
-         newEither.ors.addElement((Vector) res.elementAt(0)) ;
+         newEither.ors.addElement(res.elementAt(0)) ;
          result2.addAll((Vector) res.elementAt(1)) ;
          result2.addAll(ExplodeLabeledStmtSeq(clause.labOr, next)) ;
         }
@@ -1002,7 +999,7 @@ public class PcalTranslate {
         expr.addToken(StringToken(next));       
         for (int i = 0; i < pe.decls.size(); i++) {
             final AST.PVarDecl decl =
-                (AST.PVarDecl) pe.decls.elementAt(i);
+                    pe.decls.elementAt(i);
             expr.addToken(BuiltInToken(","));
             expr.addLine();
             expr.addToken(IdentToken(decl.var));
@@ -1011,7 +1008,7 @@ public class PcalTranslate {
         }
         for (int i = 0; i < pe.params.size(); i++) {
             final AST.PVarDecl decl =
-                (AST.PVarDecl) pe.params.elementAt(i);
+                    pe.params.elementAt(i);
             expr.addToken(BuiltInToken(","));
             expr.addLine();
             expr.addToken(IdentToken(decl.var));
@@ -1054,7 +1051,7 @@ public class PcalTranslate {
         PCalLocation endLoc = null ;
         for (int i = 0; i < pe.params.size(); i++) {
             final AST.PVarDecl decl =
-                (AST.PVarDecl) pe.params.elementAt(i);
+                    pe.params.elementAt(i);
             if (i == 0) {
                 beginLoc = decl.getOrigin().getBegin();
             }
@@ -1067,7 +1064,7 @@ public class PcalTranslate {
             sass.setOrigin(decl.getOrigin()) ;
             sass.lhs.var = decl.var;
             sass.lhs.sub = MakeExpr(new Vector<>());
-            sass.rhs = (TLAExpr) ast.args.elementAt(i);
+            sass.rhs = ast.args.elementAt(i);
             ass.ass.addElement(sass);
         }
         if (beginLoc != null) {
@@ -1085,14 +1082,14 @@ public class PcalTranslate {
             ass.line = ast.line ;
             ass.col  = ast.col ;
             final AST.PVarDecl decl =
-                (AST.PVarDecl) pe.decls.elementAt(i);
+                    pe.decls.elementAt(i);
             sass = new AST.SingleAssign();
             sass.line = ast.line ;
             sass.col  = ast.col ;
             sass.setOrigin(decl.getOrigin()) ;
             sass.lhs.var = decl.var;
             sass.lhs.sub = MakeExpr(new Vector<>());
-            sass.rhs = (TLAExpr) decl.val;
+            sass.rhs = decl.val;
             ass.setOrigin(decl.getOrigin()) ;
             ass.ass.addElement(sass);
             result.addElement(ass) ;
@@ -1173,7 +1170,7 @@ public class PcalTranslate {
         result.addElement(ass);
         for (int i = 0; i < pe.decls.size(); i++) {
             final AST.PVarDecl decl =
-                (AST.PVarDecl) pe.decls.elementAt(i);
+                    pe.decls.elementAt(i);
             ass = new AST.Assign();
             ass.line = ast.line ;
             ass.col  = ast.col ;
@@ -1203,7 +1200,7 @@ public class PcalTranslate {
         }
         for (int i = 0; i < pe.params.size(); i++) {
             final AST.PVarDecl decl =
-                (AST.PVarDecl) pe.params.elementAt(i);
+                    pe.params.elementAt(i);
             ass = new AST.Assign();
             ass.line = ast.line ;
             ass.col  = ast.col ;
@@ -1318,7 +1315,7 @@ public class PcalTranslate {
         if (! ast.from.equals(ast.to)) {
             for (int i = 0; i < peFrom.decls.size(); i++) {
                 final AST.PVarDecl decl =
-                    (AST.PVarDecl) peFrom.decls.elementAt(i);
+                        peFrom.decls.elementAt(i);
                 sass = new AST.SingleAssign();
                 sass.line = ast.line ;
                 sass.col  = ast.col ;
@@ -1367,7 +1364,7 @@ public class PcalTranslate {
             expr.addToken(IdentToken("pc"));
             for (int i = 0; i < peTo.decls.size(); i++) {
                 final AST.PVarDecl decl =
-                    (AST.PVarDecl) peTo.decls.elementAt(i);
+                        peTo.decls.elementAt(i);
                 expr.addToken(BuiltInToken(","));
                 expr.addLine();
                 expr.addToken(IdentToken(decl.var));
@@ -1376,7 +1373,7 @@ public class PcalTranslate {
             }
             for (int i = 0; i < peTo.params.size(); i++) {
                 final AST.PVarDecl decl =
-                    (AST.PVarDecl) peTo.params.elementAt(i);
+                        peTo.params.elementAt(i);
                 expr.addToken(BuiltInToken(","));
                 expr.addLine();
                 expr.addToken(IdentToken(decl.var));
@@ -1416,7 +1413,7 @@ public class PcalTranslate {
         PCalLocation endLoc = null ;
         for (int i = 0; i < peTo.params.size(); i++) {
             final AST.PVarDecl decl =
-                (AST.PVarDecl) peTo.params.elementAt(i);
+                    peTo.params.elementAt(i);
             if (i == 0) {
                 beginLoc = decl.getOrigin().getBegin();
             }
@@ -1428,7 +1425,7 @@ public class PcalTranslate {
             sass.col  = ast.col ;
             sass.lhs.var = decl.var;
             sass.lhs.sub = MakeExpr(new Vector<>());
-            sass.rhs = (TLAExpr) ast.args.elementAt(i);
+            sass.rhs = ast.args.elementAt(i);
             ass.ass.addElement(sass);
         }
         if (beginLoc != null) {
@@ -1446,14 +1443,14 @@ public class PcalTranslate {
             ass.col  = ast.col ;
             ass.ass = new Vector<>() ;
             final AST.PVarDecl decl =
-                (AST.PVarDecl) peTo.decls.elementAt(i);
+                    peTo.decls.elementAt(i);
             sass = new AST.SingleAssign();
             sass.line = ast.line ;
             sass.col  = ast.col ;
             sass.setOrigin(decl.getOrigin()) ;
             sass.lhs.var = decl.var;
             sass.lhs.sub = MakeExpr(new Vector<>());
-            sass.rhs = (TLAExpr) decl.val;
+            sass.rhs = decl.val;
             ass.setOrigin(decl.getOrigin()) ;
             ass.ass.addElement(sass);
             result.addElement(ass) ;

@@ -117,7 +117,6 @@ public class SimpleCharStream
         }
         else
            maxNextCharInd += i;
-        return;
      }
      catch(final java.io.IOException e) {
         --bufpos;

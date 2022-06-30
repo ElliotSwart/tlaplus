@@ -39,7 +39,7 @@ public class TBPar extends Vect<LiveExprNode> {
 	}
 
 	public final LiveExprNode exprAt(final int i) {
-		return (LiveExprNode) elementAt(i);
+		return elementAt(i);
 	}
 
 	/* This method returns true iff this particle is equal to another particle */

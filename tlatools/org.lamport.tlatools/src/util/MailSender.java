@@ -113,9 +113,9 @@ public class MailSender {
 			} catch (final SendFailedException e) {
 				final Exception next = e.getNextException();
 				if (next != null && next.getMessage() != null && next.getMessage().toLowerCase().contains("greylist")
-						&& !properties.containsKey((String) properties.get("mail.smtp.host") + ".greylisted")) {
+						&& !properties.containsKey(properties.get("mail.smtp.host") + ".greylisted")) {
 					// mark receiver as greylisted to not retry over and over again.
-					properties.put((String) properties.get("mail.smtp.host") + ".greylisted", "true");
+					properties.put(properties.get("mail.smtp.host") + ".greylisted", "true");
 					throttleRetry(String.format(
 							"%s EMail Report: Detected greylisting when sending to %s at %s, will retry in %s minutes...",
 							new Date(), to.getAddress(), mxRecord.hostname, 10L), 10L);
@@ -157,7 +157,7 @@ public class MailSender {
 			// split pref from hostname
 			for (int i = 0; i < attr.size(); i++) {
 				final Object object = attr.get(i);
-				if (object != null && object instanceof String) {
+				if (object instanceof String) {
 					final String[] split = ((String) object).split("\\s+");
 					if (split != null && split.length == 2) {
 						final Integer weight = Integer.parseInt(split[0]);

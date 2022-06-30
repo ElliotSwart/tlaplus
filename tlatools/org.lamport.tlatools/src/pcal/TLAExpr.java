@@ -232,7 +232,7 @@ public class TLAExpr
         while (i < tokens.size())
           { if ( tokens.elementAt(i).size() > 0 )
               { final TLAToken tok =
-                   (TLAToken) tokens.elementAt(i).elementAt(0);
+                      tokens.elementAt(i).elementAt(0);
                 if (tok.column < minCol) {minCol = tok.column;}
               }
             i = i + 1;
@@ -573,7 +573,6 @@ public class TLAExpr
         this.anchorTokCol = newATCol ;
         
         this.renormalize() ;
-        return ;
       }
     
       /*
@@ -775,8 +774,7 @@ public class TLAExpr
                 }
             }
         }
-        return ;
-    }                              
+    }
                                 
 //      /*********************************************************************
 //      * Substitute each of the expressions in exprs for the corresponding  *
@@ -1002,7 +1000,7 @@ public class TLAExpr
                 int j = 0 ;
                 while (j < eline.size())
                   { final TLAToken nextTok =
-                               (TLAToken) eline.elementAt(j) ;
+                          eline.elementAt(j);
                     nextTok.column = nextTok.column + indent ;
                     if (doInsert) {
                         tok.string = nextTok.string ;
@@ -1226,8 +1224,7 @@ public class TLAExpr
      * exp.tokenAt(coord) is the TLAToken in TLAExpr exp with Java         *
      * coordinates coord.                                                  *
      **********************************************************************/
-     { return  (TLAToken) 
-                 this.tokens.elementAt(coord.one).elementAt(coord.two) ;
+     { return this.tokens.elementAt(coord.one).elementAt(coord.two);
      }
 
    public IntPair stepCoord(final IntPair coord, final int incr)

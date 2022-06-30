@@ -37,7 +37,7 @@ public class FormalParamNode extends SymbolNode {
     this.arity      = ar;
     this.moduleNode = mn;
     if (symbolTable != null)     // null for fake formal params of built-in operators
-       symbolTable.addSymbol(us, (SymbolNode)this );
+       symbolTable.addSymbol(us, this);
   }
 
   /**

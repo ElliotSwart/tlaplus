@@ -207,11 +207,11 @@ public class ModelChecker extends AbstractChecker
             final String plural = (statesGenerated == 1) ? "" : "s";
             if (statesGenerated == this.theFPSet.size())
             {
-                MP.printMessage(EC.TLC_INIT_GENERATED1, new String[] { String.valueOf(statesGenerated), plural });
+                MP.printMessage(EC.TLC_INIT_GENERATED1, String.valueOf(statesGenerated), plural);
             } else
             {
-                MP.printMessage(EC.TLC_INIT_GENERATED2, new String[] { String.valueOf(statesGenerated), plural,
-                        String.valueOf(this.theFPSet.size()) });
+                MP.printMessage(EC.TLC_INIT_GENERATED2, String.valueOf(statesGenerated), plural,
+                        String.valueOf(this.theFPSet.size()));
             }
         }
 
@@ -250,11 +250,10 @@ public class ModelChecker extends AbstractChecker
 					// Liveness checking can take a substantial amount of time
 					// and thus give the user some clues at what stage safety
 					// checking is.
-            		MP.printMessage(EC.TLC_PROGRESS_STATS, new String[] {
-                            String.valueOf(this.trace.getLevelForReporting()),
+            		MP.printMessage(EC.TLC_PROGRESS_STATS, String.valueOf(this.trace.getLevelForReporting()),
                             MP.format(getStatesGenerated()),
                             MP.format(theFPSet.size()),
-                            MP.format(this.theStateQueue.size()) });
+                            MP.format(this.theStateQueue.size()));
                 	
                     report("checking liveness");
                     result = liveCheck.finalCheck(tool.getLiveness());
@@ -806,8 +805,8 @@ public class ModelChecker extends AbstractChecker
 				});
                 liveCheck.recover();
             }
-            MP.printMessage(EC.TLC_CHECKPOINT_RECOVER_END, new String[] { String.valueOf(this.theFPSet.size()),
-                    String.valueOf(this.theStateQueue.size()) });
+            MP.printMessage(EC.TLC_CHECKPOINT_RECOVER_END, String.valueOf(this.theFPSet.size()),
+                    String.valueOf(this.theStateQueue.size()));
             recovered = true;
             // Not all states are true initial states, but who cares at this point?
             numberOfInitialStates = this.theFPSet.size();
@@ -857,8 +856,8 @@ public class ModelChecker extends AbstractChecker
         	printProgresStats(startTime, true);
         }
 
-        MP.printMessage(EC.TLC_STATS, new String[] { String.valueOf(getStatesGenerated()),
-                String.valueOf(this.theFPSet.size()), String.valueOf(this.theStateQueue.size()) });
+        MP.printMessage(EC.TLC_STATS, String.valueOf(getStatesGenerated()),
+                String.valueOf(this.theFPSet.size()), String.valueOf(this.theStateQueue.size()));
         // The depth used to only be reported on success, but this seems bogus since TLC reports
         // the number states above.
 		MP.printMessage(EC.TLC_SEARCH_DEPTH,
@@ -874,10 +873,10 @@ public class ModelChecker extends AbstractChecker
         	// Print graph statistics iff data points were actually collected.
         	if (aggOutDegree.getObservations() > 0) {
 				MP.printMessage(EC.TLC_STATE_GRAPH_OUTDEGREE,
-						new String[] { Integer.toString(aggOutDegree.getMin()),
-								Long.toString(Math.round(aggOutDegree.getMean())),
-								Long.toString(Math.round(aggOutDegree.getPercentile(.95))),
-								Integer.toString(aggOutDegree.getMax()) });
+                        Integer.toString(aggOutDegree.getMin()),
+                        Long.toString(Math.round(aggOutDegree.getMean())),
+                        Long.toString(Math.round(aggOutDegree.getPercentile(.95))),
+                        Integer.toString(aggOutDegree.getMax()));
         	}
         }
     }
@@ -901,13 +900,12 @@ public class ModelChecker extends AbstractChecker
         distinctStatesPerMinute = (long) ((fpSetSize - oldFPSetSize) / factor);
         oldFPSetSize = fpSetSize;
         
-		MP.printMessage(EC.TLC_PROGRESS_STATS, new String[] {
-                String.valueOf(this.trace.getLevelForReporting()),
+		MP.printMessage(EC.TLC_PROGRESS_STATS, String.valueOf(this.trace.getLevelForReporting()),
                 MP.format(l),
                 MP.format(fpSetSize),
                 MP.format(this.theStateQueue.size()),
                 MP.format(statesPerMinute),
-                MP.format(distinctStatesPerMinute) });
+                MP.format(distinctStatesPerMinute));
 		
 		TLAFlightRecorder.progress(isFinal, this.trace.getLevelForReporting(), l, fpSetSize, this.theStateQueue.size(),
 				statesPerMinute, distinctStatesPerMinute);

@@ -705,7 +705,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 									if (jev.warn()) MP.printMessage(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_IDENTIFIER_MISMATCH,
 											jev.module() + "!" + jev.definition(),
 											c.getResource(c.getSimpleName() + ".class").toExternalForm(), "<Java Method: " + m + ">");
-									continue LOOP;
+									continue;
 								}
 								
 								final Value val = new CallableValue(m, jev.minLevel(), opDef);
@@ -728,7 +728,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 								if (moduleNode == null) {
 									if (opOverrideCandidate.warn()) MP.printWarning(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_MODULE_MISMATCH,
 											opOverrideCandidate.identifier(), opOverrideCandidate.module(), m.toString());
-									continue LOOP;
+									continue;
 								}
 								final OpDefNode opDef = moduleNode.getOpDef(opOverrideCandidate.identifier());
 								if (opDef == null) {
@@ -888,7 +888,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         while (modKeys.hasMoreElements())
         {
             final Object modName = modKeys.nextElement();
-            if (!modSet.keySet().contains(modName))
+            if (!modSet.containsKey(modName))
             {
                 Assert.fail(EC.TLC_NO_MODULES, modName.toString());
             }
@@ -959,7 +959,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         for (int i = 0; i < this.invVec.size(); i++)
         {
             this.invariants[i] = this.invVec.elementAt(i);
-            this.invNames[i] = (String) this.invNameVec.elementAt(i);
+            this.invNames[i] = this.invNameVec.elementAt(i);
         }
 
         this.impliedInits = new Action[this.impliedInitVec.size()];
@@ -967,7 +967,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         for (int i = 0; i < this.impliedInits.length; i++)
         {
             this.impliedInits[i] = this.impliedInitVec.elementAt(i);
-            this.impliedInitNames[i] = (String) this.impliedInitNameVec.elementAt(i);
+            this.impliedInitNames[i] = this.impliedInitNameVec.elementAt(i);
         }
         this.impliedInitVec = null;
         this.impliedInitNameVec = null;
@@ -977,7 +977,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         for (int i = 0; i < this.impliedActions.length; i++)
         {
             this.impliedActions[i] = this.impliedActionVec.elementAt(i);
-            this.impliedActNames[i] = (String) this.impliedActNameVec.elementAt(i);
+            this.impliedActNames[i] = this.impliedActNameVec.elementAt(i);
         }
         this.impliedActionVec = null;
         this.impliedActNameVec = null;
@@ -987,7 +987,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         for (int i = 0; i < this.temporals.length; i++)
         {
             this.temporals[i] = this.temporalVec.elementAt(i);
-            this.temporalNames[i] = (String) this.temporalNameVec.elementAt(i);
+            this.temporalNames[i] = this.temporalNameVec.elementAt(i);
         }
         this.temporalVec = null;
         this.temporalNameVec = null;
@@ -997,7 +997,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         for (int i = 0; i < this.impliedTemporals.length; i++)
         {
             this.impliedTemporals[i] = this.impliedTemporalVec.elementAt(i);
-            this.impliedTemporalNames[i] = (String) this.impliedTemporalNameVec.elementAt(i);
+            this.impliedTemporalNames[i] = this.impliedTemporalNameVec.elementAt(i);
         }
         this.impliedTemporalVec = null;
         this.impliedTemporalNameVec = null;
@@ -1025,7 +1025,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         this.invariants = a.toArray(Action[]::new);
 
         final ArrayList<String> b = new ArrayList<>(Arrays.asList(this.invNames));
-        b.addAll(overrides.stream().map(Action::getNameOfDefault).collect(Collectors.toList()));
+        b.addAll(overrides.stream().map(Action::getNameOfDefault).toList());
         this.invNames = b.toArray(String[]::new);
         
 		// Process the model constraints in the config. It's done after all
@@ -1763,7 +1763,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                 } else
                 {
                     final OpRcdValue opVal = (OpRcdValue) val;
-                    final int arity = ((IValue[]) opVal.domain.elementAt(0)).length;
+                    final int arity = opVal.domain.elementAt(0).length;
                     if (len != arity + 2)
                     {
                         Assert.fail(EC.TLC_CONFIG_OP_ARITY_INCONSISTENT, name);

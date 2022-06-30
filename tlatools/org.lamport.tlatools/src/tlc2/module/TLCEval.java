@@ -125,7 +125,7 @@ public class TLCEval implements ValueConstants {
 			if (demuxed instanceof Value) {
 				eval = (Value) demuxed;
 			} else {
-				eval = (Value) WorkerValue.mux((WorkerValue) demuxed);
+				eval = (Value) WorkerValue.mux(demuxed);
 			}
 			eval = convert(eval);
 			arg.setToolObject(tool.getId(), eval);

@@ -68,7 +68,7 @@ public class DistributedFPSetTLCServer extends TLCServer {
 		
 		final long diff = this.expectedFPSetCount - latch.getCount();
 		MP.printMessage(EC.TLC_DISTRIBUTED_SERVER_FPSET_REGISTERED,
-				new String[] { Long.toString(diff),
-				Integer.toString(this.expectedFPSetCount)});
+                Long.toString(diff),
+                Integer.toString(this.expectedFPSetCount));
 	}
 }

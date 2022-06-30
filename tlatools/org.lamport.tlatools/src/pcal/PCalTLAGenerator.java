@@ -70,7 +70,7 @@ public class PCalTLAGenerator
         AST xast = null;  // Set to the exploded AST
 
         for (int i = 0; i < st.disambiguateReport.size(); i++)
-            result.addElement((String) st.disambiguateReport.elementAt(i));
+            result.addElement(st.disambiguateReport.elementAt(i));
         // System.out.println("Before: " + ast.toString());
         // System.out.println("After renaming: " + ast.toString());
         try

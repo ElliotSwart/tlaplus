@@ -217,12 +217,11 @@ public final class SpecWriterUtilities {
 		
         final String identifier = isScheme ? SpecWriterUtilities.getValidIdentifier(identifierOrLabelingScheme)
         								   : identifierOrLabelingScheme;
-        final StringBuilder buffer = new StringBuilder();
 
-        buffer.append(identifier).append(TLAConstants.DEFINES_CR);
-        buffer.append(value);
+        String buffer = identifier + TLAConstants.DEFINES_CR +
+                value;
 
-        result.add(new String[] { identifier, buffer.toString() });
+        result.add(new String[] { identifier, buffer});
         return result;
 	}
 

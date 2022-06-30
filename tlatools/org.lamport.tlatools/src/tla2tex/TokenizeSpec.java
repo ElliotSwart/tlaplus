@@ -828,8 +828,8 @@ public class TokenizeSpec
                new Token [ vspec.elementAt(n) . size() ] ;     
             int m = 0 ;                                                   
             while (m < aspec[n].length)                                    
-              {aspec[n][m] =                                               
-                (Token) vspec.elementAt(n) . elementAt(m);     
+              {aspec[n][m] =
+                      vspec.elementAt(n) . elementAt(m);
                m = m+1;                                                   
               }
               n = n+1 ;

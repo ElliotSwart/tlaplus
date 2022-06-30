@@ -67,7 +67,7 @@ public class StringHelper {
                 Character.isWhitespace(str.charAt(position))) {
           position++;
         }
-        return str.substring(position, str.length());
+        return str.substring(position);
         
         // Alternatively
         //return s.replaceAll("^\\s+", "");

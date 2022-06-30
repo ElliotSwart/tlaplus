@@ -348,7 +348,7 @@ public class MemFPIntSet extends FPIntSet {
 
 	if (count >= threshold) this.rehash();
 
-	final int index = (int)(flo & this.mask);
+	final int index = flo & this.mask;
 	final int[] list = this.table[index];
 	final int len = (list == null ? 0 : list.length);
 	final int[] newList = new int[len+3];

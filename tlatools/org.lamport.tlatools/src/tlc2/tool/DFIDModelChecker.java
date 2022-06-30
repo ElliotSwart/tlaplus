@@ -119,12 +119,12 @@ public class DFIDModelChecker extends AbstractChecker
 
         if (recovered)
         {
-            MP.printMessage(EC.TLC_INIT_GENERATED3, new String[] { String.valueOf(this.numOfGenStates),
-                    String.valueOf(this.theInitStates.length) });
+            MP.printMessage(EC.TLC_INIT_GENERATED3, String.valueOf(this.numOfGenStates),
+                    String.valueOf(this.theInitStates.length));
         } else
         {
-            MP.printMessage(EC.TLC_INIT_GENERATED4, new String[] { String.valueOf(this.numOfGenStates),
-                    String.valueOf(this.theInitStates.length) });
+            MP.printMessage(EC.TLC_INIT_GENERATED4, String.valueOf(this.numOfGenStates),
+                    String.valueOf(this.theInitStates.length));
         }
 
         // Return if there is no next state predicate:
@@ -154,8 +154,7 @@ public class DFIDModelChecker extends AbstractChecker
         					// Liveness checking can take a substantial amount of time
         					// and thus give the user some clues at what stage safety
         					// checking is.
-							MP.printMessage(EC.TLC_PROGRESS_STATS_DFID, new String[] {
-									String.valueOf(this.numOfGenStates), String.valueOf(theFPSet.size()) });
+							MP.printMessage(EC.TLC_PROGRESS_STATS_DFID, String.valueOf(this.numOfGenStates), String.valueOf(theFPSet.size()));
                             // SZ Jul 10, 2009: what for?
                             // ToolIO.out.flush();
                             result = liveCheck.finalCheck(tool);
@@ -183,8 +182,8 @@ public class DFIDModelChecker extends AbstractChecker
                 }
 
                 // Start working on this level:
-                MP.printMessage(EC.TLC_PROGRESS_START_STATS_DFID, new String[] { String.valueOf(level),
-                        String.valueOf(this.numOfGenStates), String.valueOf(this.theFPSet.size()) });
+                MP.printMessage(EC.TLC_PROGRESS_START_STATS_DFID, String.valueOf(level),
+                        String.valueOf(this.numOfGenStates), String.valueOf(this.theFPSet.size()));
 
                 FPIntSet.incLevel();
                 result = this.runTLC(level);

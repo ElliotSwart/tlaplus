@@ -167,7 +167,7 @@ public class TLCStackFrame extends StackFrame {
 		// resolve(..) triggers a file-system round-trip (IO), which is obviously too
 		// expensive!!! Thus, cache the result.
 		source.setPath(PATH_CACHE.computeIfAbsent(node,
-				n -> tool.getResolver().resolve(n.getTreeNode().getFilename(), true).getAbsolutePath().toString()));
+				n -> tool.getResolver().resolve(n.getTreeNode().getFilename(), true).getAbsolutePath()));
 		setSource(source);
 		
 		this.ctxtId = rnd.nextInt(Integer.MAX_VALUE - 1) + 1;
@@ -211,7 +211,7 @@ public class TLCStackFrame extends StackFrame {
 	
 	protected List<Variable> getStackVariables(final List<Variable> vars) {
 		if (this.v != null) {
-			final Variable variable = getVariable(v, ((SyntaxTreeNode) node.getTreeNode()).getHumanReadableImage());
+			final Variable variable = getVariable(v, node.getTreeNode().getHumanReadableImage());
 			// TODO Somehow attach the variable's location too? getHumanReadableImage
 			// doesn't correctly create whitespaces, which might be confusing. However, the
 			// Toolbox's hover help also shows getHumanReadableImage, which is why fixing it
@@ -249,7 +249,7 @@ public class TLCStackFrame extends StackFrame {
 	Variable[] getExceptionAsVariable() {
 		final Variable variable = new Variable();
 		variable.setName(getNode().getHumanReadableImage());
-		final RuntimeException re = (RuntimeException) exception;
+		final RuntimeException re = exception;
 		variable.setValue(re.getMessage());
 		variable.setType(re.getClass().getSimpleName()); //TODO Is this useful?
 		return new Variable[]{variable};

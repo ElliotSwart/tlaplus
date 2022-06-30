@@ -148,11 +148,11 @@ public class TraceExplorationSpec {
 		// Ordinary constants:
 		for (final List<String> keyValuePair : constants) {
 			if (keyValuePair.size() > 1) {
-				final String key = keyValuePair.get(0).toString();
-				final String value = keyValuePair.get(1).toString();
+				final String key = keyValuePair.get(0);
+				final String value = keyValuePair.get(1);
 				indentedConstants.add(SpecTraceExpressionWriter.indentString(String.format("%s = %s", key, value), 1));
 			} else {
-				final String line = keyValuePair.get(0).toString();
+				final String line = keyValuePair.get(0);
 				indentedConstants.add(SpecTraceExpressionWriter.indentString(line, 1));
 			}
 		}

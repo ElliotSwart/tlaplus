@@ -565,18 +565,15 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
     if (image != null && image.toString().equals("N_OperatorDefinition")) {
        if (((SyntaxTreeNode)(heirs()[0])).image.toString().equals(
                                               "N_IdentLHS")) {
-          operator = "*" + ((SyntaxTreeNode)(((SyntaxTreeNode)(
-                              heirs()[0])).heirs()[0])).image.toString();
+          operator = "*" + ((SyntaxTreeNode)(heirs()[0].heirs()[0])).image.toString();
        }
        if (((SyntaxTreeNode)(heirs()[1])).image.toString().equals(
                                                     "N_IdentLHS")) {
-          operator = ((SyntaxTreeNode)(((SyntaxTreeNode)(
-                              heirs()[1])).heirs()[0])).image.toString();
+          operator = ((SyntaxTreeNode)(heirs()[1].heirs()[0])).image.toString();
        }
        if (((SyntaxTreeNode)(heirs()[0])).image.toString().equals(
                                                     "N_InfixLHS")) {
-          operator = ((SyntaxTreeNode)(((SyntaxTreeNode)(
-                            heirs()[0])).heirs()[1])).image.toString();
+          operator = ((SyntaxTreeNode)(heirs()[0].heirs()[1])).image.toString();
        }
     }
 

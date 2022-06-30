@@ -171,7 +171,7 @@ public abstract class AbstractSpecWriter {
 	 */
 	public void addPrimer(final String moduleFilename, final String extendedModuleName) {
 		tlaBuffer.append(SpecWriterUtilities.getExtendingModuleContent(moduleFilename,
-																	   new String[] { extendedModuleName, "TLC" }));
+                extendedModuleName, "TLC"));
 	}
 
 	/**

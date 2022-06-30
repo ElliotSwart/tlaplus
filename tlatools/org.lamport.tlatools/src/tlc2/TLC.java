@@ -787,7 +787,7 @@ public class TLC {
                     try {
 						// Most problems will only show when TLC eventually tries
 						// to write to the file.
-						tlc2.module.TLC.OUTPUT = new BufferedWriter(new FileWriter(new File(args[index++])));
+						tlc2.module.TLC.OUTPUT = new BufferedWriter(new FileWriter(args[index++]));
         			} catch (final IOException e) {
                         printErrorMsg("Error: Failed to create user output log file.");
                         return false;
@@ -804,7 +804,7 @@ public class TLC {
                 {
                     try
                     {
-                        final int num = args[index].trim().toLowerCase().equals("auto")
+                        final int num = args[index].trim().equalsIgnoreCase("auto")
                                 ? Runtime.getRuntime().availableProcessors()
                                 : Integer.parseInt(args[index]);
                         if (num < 1)

@@ -5,6 +5,7 @@
 
 package pcal;
 
+import java.util.Arrays;
 import java.util.Vector;
 
 public class Changed {
@@ -27,8 +28,7 @@ public class Changed {
     public Changed (final Vector<String> vars) {
 	count = new int[vars.size()];
 	this.vars = vars;
-	for (int i = 0; i < count.length; i++)
-	    count[i] = 0;
+		Arrays.fill(count, 0);
     }
 
     public Changed (final Changed c) {
@@ -43,7 +43,7 @@ public class Changed {
 	for (int i = 0; i < count.length; i++)
 	    s = s
 		+ ((i == 0) ? "" : ", ")
-		+ ((String) vars.elementAt(i))
+		+ vars.elementAt(i)
 		+ " "
 		+ count[i];
 	s = s + "]";
@@ -56,7 +56,7 @@ public class Changed {
 
     public boolean IsChanged(final String s) {
 	for (int i = 0; i < count.length; i++)
-	    if (s.equals((String) vars.elementAt(i)))
+	    if (s.equals(vars.elementAt(i)))
 		return (count[i] > 0);
 	return false;
     }
@@ -64,12 +64,12 @@ public class Changed {
     public void Merge (final Changed  c) {
 	PcalDebug.Assert(count.length == c.count.length);
 	for (int i = 0; i < count.length; i++)
-	    count[i] = (count[i] > c.count[i]) ? count[i] : c.count[i];
+	    count[i] = Math.max(count[i], c.count[i]);
     }
 
     public int Set (final String v) {
 	for (int i = 0; i < count.length; i++)
-	    if (v.equals((String) vars.elementAt(i)))
+	    if (v.equals(vars.elementAt(i)))
 		return ++count[i];
 	return 0;
     }
@@ -81,7 +81,7 @@ public class Changed {
 	    if (count[i] == 0)
 		s = s
 		    + ((s.length() == 0) ? "" : ", ")
-		    + (String) vars.elementAt(i);
+		    + vars.elementAt(i);
 	return s;
     }
 
@@ -92,7 +92,7 @@ public class Changed {
 	    if ((count[i] == 0) && c.count[i] > 0)
 		s = s
 		    + ((s.length() == 0) ? "" : ", ")
-		    + (String) vars.elementAt(i);
+		    + vars.elementAt(i);
 	return s;
     }
   
@@ -107,7 +107,7 @@ public class Changed {
 	boolean haveOne = false;
 	for (int i = 0; i < count.length; i++)
 	    if (count[i] == 0) {
-		final String one = (String) vars.elementAt(i);
+		final String one = vars.elementAt(i);
 		if (haveOne) s = s + ", ";
 		else haveOne = true;
 		if (s.length() + one.length() > ch) {
@@ -129,7 +129,7 @@ public class Changed {
 	boolean haveOne = false;
 	for (int i = 0; i < count.length; i++)
 	    if ((count[i] == 0) && c.count[i] > 0) {
-		final String one = (String) vars.elementAt(i);
+		final String one = vars.elementAt(i);
 		if (haveOne) s = s + ", ";
 		else haveOne = true;
 		if (s.length() + one.length() > ch) {

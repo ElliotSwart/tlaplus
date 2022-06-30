@@ -19,9 +19,9 @@ public class Combinatorics {
     Assert.check(((m >= 0) && (n >= 0) && (n >= m)), EC.TLC_CHOOSE_ARGUMENTS_WRONG, "choose");
 		}
 		if (m == 0 || m == n) {
-      return (long)1;
+      return 1;
 		} else if (m == 1 || m == n - 1) {
-      return (long)n;
+      return n;
 		} else if (n == 0 || m > n) {
 			// Cannot choose from zero elements or more elements than present.
 			return 0;
@@ -37,11 +37,11 @@ public class Combinatorics {
 	public static long sumChoose(final int n, final int m) {
       Assert.check(((m>=0) && (n>=0) && (n>=m)), EC.TLC_CHOOSE_ARGUMENTS_WRONG, "sumChoose");
 		if (m == 0) {
-          return (long)1;
+          return 1;
 		} else if (m == n) {
           return ((long)1 << n);
 		} else if (m == 1) {
-          return (long)n;
+          return n;
 		} else if (m == n - 1) {
           return ((long)2 << n) - n;
 		} else {

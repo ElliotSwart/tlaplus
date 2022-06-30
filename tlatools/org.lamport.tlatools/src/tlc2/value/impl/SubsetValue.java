@@ -452,9 +452,9 @@ public Value  set;           // SUBSET set
 
 		protected long memoizedBinomial(final int n, final int k) {
 			if (k == 0 || k == n) {
-				return (long) 1;
+				return 1;
 			} else if (k == 1 || k == n - 1) {
-				return (long) n;
+				return n;
 			} else if (n == 0 || k > n) {
 				// Cannot choose from zero elements or more elements than present.
 				return 0;

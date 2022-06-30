@@ -249,7 +249,7 @@ public class SymbolTable implements ASTConstants {
       final Vector<String> v = ct.getContextEntryStringVector(1,true);
 
       for (int i = 0; i < v.size(); i++) {
-        ret += (String)v.elementAt(i);
+        ret += v.elementAt(i);
       }
       ret += "\n\n*** next context\n";
     }

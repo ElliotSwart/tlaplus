@@ -106,7 +106,7 @@ public class StatePrinter
 			//which is why I decided not to touch this. 
 			MP.printState(EC.TLC_BACK_TO_STATE, new String[] { Integer.toString(stateNum), currentStateInfo.info.toString() }, (TLCState)null, stateNum);
 		} else {
-			MP.printMessage(EC.TLC_BACK_TO_STATE, new String[] {Integer.toString(stateNum), currentStateInfo.info.toString()});
+			MP.printMessage(EC.TLC_BACK_TO_STATE, Integer.toString(stateNum), currentStateInfo.info.toString());
 		}
 	}
 }

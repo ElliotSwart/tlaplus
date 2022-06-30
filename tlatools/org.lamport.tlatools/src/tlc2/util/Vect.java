@@ -31,7 +31,7 @@ public class Vect<E> implements Cloneable, Serializable {
 
     @Override
     public final E nextElement() {
-      return (E) elementData[index++];
+      return elementData[index++];
     }
   }
 

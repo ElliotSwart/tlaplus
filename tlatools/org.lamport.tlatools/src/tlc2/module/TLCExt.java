@@ -139,7 +139,7 @@ public class TLCExt {
 				final StateVec nextStates = tool.getNextStates(act, s0);
 				if (nextStates.contains(s1)) {
 					action = act;
-					break LOOP;
+					break;
 				}
 			}
 		}

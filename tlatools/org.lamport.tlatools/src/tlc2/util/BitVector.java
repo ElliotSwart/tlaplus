@@ -17,6 +17,7 @@ package tlc2.util;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class BitVector implements Serializable {
 
@@ -84,9 +85,7 @@ public class BitVector implements Serializable {
 
   /** Reset all of this bit vector's bits. */
   public void clear() {
-    for (int i = 0; i < this.word.length; i++) {
-      this.word[i] = 0L;
-    }
+      Arrays.fill(this.word, 0L);
   }
     
   /** Return the bit at index <code>i</code>. */

@@ -74,16 +74,16 @@ public class UsageGenerator {
 			final StringBuilder sb = new StringBuilder();
 			
 			if (m.start() > 0) {
-				sb.append(commandDescription.substring(0, m.start()));
+				sb.append(commandDescription, 0, m.start());
 			}
 			sb.append(boldName).append(m.group(1));
 			
 			int lastEnd = m.end();
 			while (m.find()) {
-				sb.append(commandDescription.substring(lastEnd, m.start())).append(boldName).append(m.group(1));
+				sb.append(commandDescription, lastEnd, m.start()).append(boldName).append(m.group(1));
 				lastEnd = m.end();
 			}
-			sb.append(commandDescription.substring(lastEnd, commandDescription.length()));
+			sb.append(commandDescription.substring(lastEnd));
 			
 			markedUpDescription = sb.toString();
 		} else {
@@ -228,22 +228,16 @@ public class UsageGenerator {
 	}
 		
 	private static String generateSectionHeader(final String title) {
-		final StringBuilder sb = new StringBuilder(markupWord(title, true));
-		
-		sb.append('\n');
-		
-		return sb.toString();
+
+		return markupWord(title, true) + '\n';
 	}
 	
 	/**
 	 * @param bold if true, the word will be bolded; false, the word will be italicized
 	 */
 	private static String markupWord(final String word, final boolean bold) {
-		final StringBuilder sb = new StringBuilder(bold ? TLAConstants.ANSI.BOLD_CODE : TLAConstants.ANSI.ITALIC_CODE);
-		
-		sb.append(word).append(TLAConstants.ANSI.RESET_CODE);
-		
-		return sb.toString();
+
+		return (bold ? TLAConstants.ANSI.BOLD_CODE : TLAConstants.ANSI.ITALIC_CODE) + word + TLAConstants.ANSI.RESET_CODE;
 	}
 	
 	

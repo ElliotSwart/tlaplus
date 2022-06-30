@@ -110,7 +110,7 @@ public class Json {
   @TLAPlusOperator(identifier = "ndJsonDeserialize", module = "Json", warn = false)
   public static IValue ndDeserialize(final StringValue path) throws IOException {
     final List<Value> values = new ArrayList<>();
-    try (final BufferedReader reader = new BufferedReader(new FileReader(new File(path.val.toString())))) {
+    try (final BufferedReader reader = new BufferedReader(new FileReader(path.val.toString()))) {
       String line = reader.readLine();
       while (line != null) {
         final JsonElement node = JsonParser.parseString(line);
@@ -129,7 +129,7 @@ public class Json {
    */
   @TLAPlusOperator(identifier = "JsonDeserialize", module = "Json", warn = false)
   public static IValue deserialize(final StringValue path) throws IOException {
-    final JsonElement node = JsonParser.parseReader(new FileReader(new File(path.val.toString())));
+    final JsonElement node = JsonParser.parseReader(new FileReader(path.val.toString()));
     return getValue(node);
   }
 
@@ -145,7 +145,7 @@ public class Json {
 	final TupleValue value = (TupleValue) v.toTuple();
     final File file = new File(path.val.toString());
     if (file.getParentFile() != null) {file.getParentFile().mkdirs();} // Cannot create parent dir for relative path.
-    try (final BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path.val.toString())))) {
+    try (final BufferedWriter writer = new BufferedWriter(new FileWriter(path.val.toString()))) {
         for (int i = 0; i < value.elems.length; i++) {
             writer.write(getNode(value.elems[i]).toString() + "\n");
           }
@@ -165,7 +165,7 @@ public class Json {
 	final TupleValue value = (TupleValue) v.toTuple();
     final File file = new File(path.val.toString());
     if (file.getParentFile() != null) {file.getParentFile().mkdirs();} // Cannot create parent dir for relative path.
-    try (final BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path.val.toString())))) {
+    try (final BufferedWriter writer = new BufferedWriter(new FileWriter(path.val.toString()))) {
     	writer.write("[\n");
 		for (int i = 0; i < value.elems.length; i++) {
 			writer.write(getNode(value.elems[i]).toString());

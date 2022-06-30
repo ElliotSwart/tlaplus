@@ -18,11 +18,11 @@ public class Debug
       /*********************************************************************
       * This method is called to report an error and abort.                *
       *********************************************************************/
-      { ToolIO.out.println("");
+      { ToolIO.out.println();
         ToolIO.out.println("TLATeX unrecoverable error:");
-        ToolIO.out.println("");
+        ToolIO.out.println();
         ToolIO.out.println(" -- " + msg + ".");
-        ToolIO.out.println("");
+        ToolIO.out.println();
         throw new TLA2TexException("TLATeX unrecoverable error:" + " -- " + msg + ".");
       }
 
@@ -44,13 +44,13 @@ public class Debug
       /*********************************************************************
       * This method is called to report a bug in the program and abort.    *
       *********************************************************************/
-      { ToolIO.out.println("");
+      { ToolIO.out.println();
         ToolIO.out.println("You have discovered a bug in TLATeX.");
         ToolIO.out.println("Send the following information and the");
         ToolIO.out.println("input file to the current maintainer(s).");
-        ToolIO.out.println("");
+        ToolIO.out.println();
         ToolIO.out.println(" -- " + msg + ".");
-        ToolIO.out.println("");
+        ToolIO.out.println();
         throw new Error() ;
       }
 

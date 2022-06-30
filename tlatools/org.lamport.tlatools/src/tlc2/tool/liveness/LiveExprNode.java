@@ -194,8 +194,7 @@ public abstract class LiveExprNode {
 		// Finally, for the remaining kinds, there is nothing to do.
 		// Except for LNEven, all LiveExprNode sub-classes have either trivial overrides
 		// or none at all.
-		return;
-	}
+    }
 
 	public String toDotViz() {
 		// By default just return the regular toString rep.

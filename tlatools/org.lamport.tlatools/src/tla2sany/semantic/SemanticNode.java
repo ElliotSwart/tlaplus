@@ -190,7 +190,7 @@ public abstract class SemanticNode
 		//
 		// We filter null values here instead of in OpDefNode#getChildren because I
 		// don't know if some functionality relies on getChildren to return null values.
-		return Arrays.asList(children).stream().filter(Objects::nonNull).collect(Collectors.toList());
+		return Arrays.stream(children).filter(Objects::nonNull).collect(Collectors.toList());
 	}
   
 	public <T> ChildrenVisitor<T> walkChildren(final ChildrenVisitor<T> visitor) {

@@ -178,7 +178,7 @@ public class LabelNode extends ExprNode
     * then that LabelNode is returned; otherwise null is returned.         *
     ***********************************************************************/
     if (labels == null) {return null;}
-      return (LabelNode) labels.get(us) ;
+      return labels.get(us);
    }
 
   @Override
@@ -207,7 +207,7 @@ public boolean addLabel(final LabelNode odn) {
     while (e.hasMoreElements()) { v.addElement(e.nextElement()); }
       final LabelNode[] retVal = new LabelNode[v.size()] ;
     for (int i = 0 ; i < v.size() ; i++)
-      {retVal[i] = (LabelNode) v.elementAt(i); }
+      {retVal[i] = v.elementAt(i); }
       return retVal ;
    }
 

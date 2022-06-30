@@ -218,7 +218,7 @@ public abstract class AbstractChecker
 		if (numOfDistinctStates == numOfGenStates && numOfGenStates == 0) {
 			// When the number of states is zero, printing a collision probability is
 			// useless anyway. But the Toolbox will probably crash if omitted.
-			MP.printMessage(EC.TLC_SUCCESS, new String[] { "val = 0.0", "val = 0.0" });
+			MP.printMessage(EC.TLC_SUCCESS, "val = 0.0", "val = 0.0");
 			return;
 		}
 		// shown as 'calculated' in Toolbox
@@ -229,7 +229,7 @@ public abstract class AbstractChecker
 		final BigDecimal actualProb = BigDecimal.valueOf(1d).divide(BigDecimal.valueOf(actualDistance),
 				new MathContext(2));
 		final String actualProbStr = "val = " + ProbabilityToString(actualProb.doubleValue(), 2);
-		MP.printMessage(EC.TLC_SUCCESS, new String[] { optimisticProbStr, actualProbStr });
+		MP.printMessage(EC.TLC_SUCCESS, optimisticProbStr, actualProbStr);
 	}
     
     /**

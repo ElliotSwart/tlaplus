@@ -88,7 +88,7 @@ public class MultiFPSet extends FPSet {
 	
 	@Override
 	public void incWorkers(final int num) {
-		sets.stream().forEach(s -> s.incWorkers(num) );
+		sets.forEach(s -> s.incWorkers(num) );
 	}
 
 	/* (non-Javadoc)

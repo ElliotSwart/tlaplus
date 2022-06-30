@@ -136,7 +136,7 @@ public class PcalTLAGen
          * Add the reports of renaming to the output.
          */
         for (int i = 0; i < report.size(); i++) {
-            addOneLineOfTLA((String) report.elementAt(i));
+            addOneLineOfTLA(report.elementAt(i));
         }
         
         st = symtab;
@@ -633,7 +633,7 @@ public class PcalTLAGen
         PCalLocation macroEndRight = null;
         boolean nonNullNotFound = true;
         for (int i = 0 ; i < ast.stmts.size(); i++) {
-           final AST stmt = (AST) ast.stmts.elementAt(i);
+           final AST stmt = ast.stmts.elementAt(i);
            if (stmt.getOrigin() != null) {
                if (nonNullNotFound) {
                    nonNullNotFound = false;
@@ -651,7 +651,7 @@ public class PcalTLAGen
         addLeftParenV(ast, macroBeginLeft);
         for (int i = 0; i < ast.stmts.size(); i++)
         {
-            GenStmt((AST) ast.stmts.elementAt(i), c, context, sb.toString(), sb.length());
+            GenStmt(ast.stmts.elementAt(i), c, context, sb.toString(), sb.length());
             sb = new StringBuilder(NSpaces(col));
             sb.append("/\\ ");
         }
@@ -705,7 +705,7 @@ public class PcalTLAGen
                   if (i == defStartLine) {
                      // remove the "/\ " added                      
                      tlacode.setElementAt(line.substring(0, colAfterAnd-3) +
-                                          line.substring(colAfterAnd, line.length()) , i);
+                                          line.substring(colAfterAnd) , i);
                      shiftMappingVectorTokensLeft(i, colAfterAnd, 3);
                     
                   } else {
@@ -713,7 +713,7 @@ public class PcalTLAGen
                      // of the line just in case one or more short (hopefully blank) lines 
                      // have been added.
                       if (line.length() > 3) {
-                          tlacode.setElementAt(line.substring(3, line.length()) , i);
+                          tlacode.setElementAt(line.substring(3) , i);
                           shiftMappingVectorTokensLeft(i, colAfterAnd, 3);
                       }
                   }

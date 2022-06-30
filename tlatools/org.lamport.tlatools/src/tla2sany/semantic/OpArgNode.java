@@ -139,7 +139,7 @@ public class OpArgNode extends ExprOrOpArgNode {
     return "\n*OpArgNode: " + ( name != null ? name.toString() : "null") +
       "  " + super.toString(depth) +
       "  arity: " + arity +
-      "  op: " + (op != null ? "" + ((SemanticNode)op).getUid() : "null" );
+      "  op: " + (op != null ? "" + op.getUid() : "null" );
   }
 
   @Override

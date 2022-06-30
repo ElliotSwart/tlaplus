@@ -66,14 +66,13 @@ public class PrettyPrint {
     for (int i = 0; i < width; i++) {
         ToolIO.out.print("*");
     }
-    ToolIO.out.println("");
+    ToolIO.out.println();
     ToolIO.out.println(pp(value,width,padding));
     for (int i = 0; i < width; i++) {
         ToolIO.out.print("*");
     }
-    ToolIO.out.println("");
+    ToolIO.out.println();
 
-    return;
   }
 
 }

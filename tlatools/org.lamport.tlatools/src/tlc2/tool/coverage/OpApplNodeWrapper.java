@@ -189,7 +189,7 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 		// engineering effort though.
 		if (seen.add(eon.myUID)) {
 			//...only report it once to not spam the Toolbox console.
-			MP.printMessage(EC.TLC_COVERAGE_MISMATCH, new String[] { eon.toString(), this.toString() });
+			MP.printMessage(EC.TLC_COVERAGE_MISMATCH, eon.toString(), this.toString());
 		}
 		return this;
 	}
@@ -314,14 +314,13 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 	}
 
 	protected void printSelf(final int level, final long count) {
-		MP.printMessage(EC.TLC_COVERAGE_VALUE, new String[] {
-				indentBegin(level, TLCGlobals.coverageIndent, getLocation().toString()), String.valueOf(count) });
+		MP.printMessage(EC.TLC_COVERAGE_VALUE, indentBegin(level, TLCGlobals.coverageIndent, getLocation().toString()), String.valueOf(count));
 	}
 	
 	protected void printSelf(final int level, final long count, final long cost) {
 		MP.printMessage(EC.TLC_COVERAGE_VALUE_COST,
-				new String[] { indentBegin(level, TLCGlobals.coverageIndent, getLocation().toString()),
-						String.valueOf(count), String.valueOf(cost) });
+                indentBegin(level, TLCGlobals.coverageIndent, getLocation().toString()),
+                String.valueOf(count), String.valueOf(cost));
 	}
 
 	protected void printSelf(final int level) {

@@ -416,7 +416,7 @@ public abstract class Tool
       // doesn't get added to acts at all).
 	  for (int i = (init.size() - 1); i > 0; i--) {
 		  final Action elem = init.elementAt(i);
-		  acts = (ActionItemList) acts.cons(elem, IActionItemList.PRED);
+		  acts = acts.cons(elem, IActionItemList.PRED);
 	  }
 	  if (init.size() != 0) {
 		  final Action elem = init.elementAt(0);
@@ -1530,7 +1530,7 @@ public abstract class Tool
               }
           }
           else {
-        	  MP.printWarning(EC.TLC_UNCHANGED_VARIABLE_CHANGED, new String[]{varName.toString(), expr.toString()});
+        	  MP.printWarning(EC.TLC_UNCHANGED_VARIABLE_CHANGED, varName.toString(), expr.toString());
           }
           return resState;
   }
@@ -3283,7 +3283,7 @@ public abstract class Tool
           if (v1.equals(v0)) {
             return this.enabled(acts, s0, s1, cm);
           }
-          MP.printWarning(EC.TLC_UNCHANGED_VARIABLE_CHANGED, new String[]{varName.toString() , expr.toString()});
+          MP.printWarning(EC.TLC_UNCHANGED_VARIABLE_CHANGED, varName.toString(), expr.toString());
           return null;
         }
 
@@ -3589,7 +3589,7 @@ public abstract class Tool
     // This calls tlc2.module.TLC.Permutations(Value) and returns a Value of |fcns|
     // = n! where n is the capacity of the symmetry set.
     final IValue fcns = this.eval(opDef.getBody(), Context.Empty, TLCState.Empty, CostModel.DO_NOT_RECORD);
-    if (!(fcns instanceof Enumerable) || !(fcns instanceof SetEnumValue)) {
+    if (!(fcns instanceof SetEnumValue)) {
       Assert.fail("The symmetry operator must specify a set of functions.", opDef.getBody());
     }
     final List<Value> values = ((SetEnumValue)fcns).elements().all();
@@ -3652,7 +3652,7 @@ public abstract class Tool
       final String toHaveConjugation = (offenderCount > 1) ? "have" : "has";
       
       MP.printWarning(EC.TLC_SYMMETRY_SET_TOO_SMALL,
-    		  	  	  new String[] { plurality, cardinalityOneSetList.toString(), toHaveConjugation, antiPlurality });
+              plurality, cardinalityOneSetList.toString(), toHaveConjugation, antiPlurality);
     }
     
     return subgroup;
@@ -3695,7 +3695,7 @@ public abstract class Tool
 				  if ((operands.length == 1)
 						  && (operands[0] instanceof OpApplNode)
 						  && (((OpApplNode)operands[0]).getOperator() instanceof OpDefOrDeclNode)) {
-					  final Object o = ((OpDefOrDeclNode)((OpApplNode)operands[0]).getOperator()).getToolObject(toolId);
+					  final Object o = ((OpApplNode)operands[0]).getOperator().getToolObject(toolId);
 					  
 					  if (o instanceof SetEnumValue) {
 						  return (SetEnumValue)o;

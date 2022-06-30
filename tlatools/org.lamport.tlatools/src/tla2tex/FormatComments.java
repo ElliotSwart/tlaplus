@@ -205,7 +205,7 @@ public final class FormatComments
       while (word != null)
         { wordHashTable.put(word, nullString);
           wordHashTable.put(word.substring(0,1).toUpperCase() 
-                                + word.substring(1), new String());
+                                + word.substring(1), "");
           word = wordFileReader.getLine() ;
         }
         wordFileReader.close();
@@ -233,7 +233,7 @@ public final class FormatComments
     /***********************************************************************
     * Returns the true non-TLA TeX string for an ambiguous symbol.         *
     ***********************************************************************/
-      { return (String) ambiguousHashTable.get(str);
+      { return ambiguousHashTable.get(str);
       }
 
     private static void add(final String tla, final String tex)
@@ -1912,7 +1912,9 @@ public final class FormatComments
                    break ;
 
                case CToken.NUMBER :
-                 curOutput = curOutput + Misc.TeXify(tok.string);
+
+                  case CToken.OTHER :
+                      curOutput = curOutput + Misc.TeXify(tok.string);
                                 /*******************************************
                                 * Need to TeXify because of numbers like   *
                                 * "\O777".                                 *
@@ -1932,11 +1934,7 @@ public final class FormatComments
                  curOutput = curOutput + Misc.TeXifyIdent(tok.string);
                  break ;
 
-               case CToken.OTHER :
-                 curOutput = curOutput + Misc.TeXify(tok.string);
-                 break ;
-
-               case CToken.REP_CHAR :
+                  case CToken.REP_CHAR :
                  /**********************************************************
                  * Set outS to the command to produce the token.           *
                  **********************************************************/

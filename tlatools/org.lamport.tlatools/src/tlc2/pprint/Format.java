@@ -314,7 +314,6 @@ public class Format {
 					     columnwidth-divpad.length(),
 					     trailerwidth,
 					     leftpad+divpad);
-	continue;
       }
       return pp;
     }

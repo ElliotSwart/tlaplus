@@ -855,7 +855,7 @@ public class OpDefNode extends OpDefOrDeclNode
     * then that LabelNode is returned; otherwise null is returned.         *
     ***********************************************************************/
     if (labels == null) {return null;}
-      return (LabelNode) labels.get(us) ;
+      return labels.get(us);
    }
 
   @Override
@@ -884,7 +884,7 @@ public boolean addLabel(final LabelNode odn) {
     while (e.hasMoreElements()) { v.addElement(e.nextElement()); }
       final LabelNode[] retVal = new LabelNode[v.size()] ;
     for (int i = 0 ; i < v.size() ; i++)
-      {retVal[i] = (LabelNode) v.elementAt(i); }
+      {retVal[i] = v.elementAt(i); }
       return retVal ;
    }
 
@@ -1035,10 +1035,10 @@ public boolean addLabel(final LabelNode odn) {
       /*********************************************************************
       * Modified to never increase maxLevels[i].                           *
       *********************************************************************/
-      final Object plevel = lcSet.get(params[i]);
+      final Integer plevel = lcSet.get(params[i]);
       if (plevel != null) {
         this.maxLevels[i] = Math.min(this.maxLevels[i],
-                                     ((Integer)plevel).intValue());
+                                     plevel.intValue());
       }
     }
 
@@ -1060,12 +1060,12 @@ public boolean addLabel(final LabelNode odn) {
       final int alen = this.params[i].getArity();
       this.minMaxLevel[i] = new int[alen];
       for (int j = 0; j < alen; j++) {
-        final Object alevel = alcSet.get(new ParamAndPosition(this.params[i], j));
+        final Integer alevel = alcSet.get(new ParamAndPosition(this.params[i], j));
         if (alevel == null) {
           this.minMaxLevel[i][j] = MinLevel;
         }
         else {
-          this.minMaxLevel[i][j] = ((Integer)alevel).intValue();
+          this.minMaxLevel[i][j] = alevel.intValue();
         }
       }
     }

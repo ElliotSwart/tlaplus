@@ -40,7 +40,7 @@ class ModuleRelationships {
     final Enumeration<ModulePointer> otherKeys = otherMR.getKeys();
 
     while ( otherKeys.hasMoreElements() ) {
-      final ModulePointer key = (ModulePointer)otherKeys.nextElement();
+      final ModulePointer key = otherKeys.nextElement();
 
       if (key.getRelatives() == null ) { 
         this.putRelatives( key, key.getRelatives() );

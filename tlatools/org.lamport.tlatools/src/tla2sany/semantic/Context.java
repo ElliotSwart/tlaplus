@@ -185,7 +185,6 @@ public class Context implements ExploreNode {
     }
     else {
       initialContext.addSymbolToContext( name, sn );
-      return;
     }
   }
 
@@ -260,8 +259,8 @@ public<T> Vector<T> getByClass(final Class<T> template ) {
     final Vector<OpDefNode> result = new Vector<>();
     while (nextPair != null) {
       if ( nextPair.info instanceof OpDefNode &&     // true for superclasses too.
-           ((OpDefNode)nextPair.info).getKind() != ASTConstants.ModuleInstanceKind &&
-           ((OpDefNode)nextPair.info).getKind() != ASTConstants.BuiltInKind  )
+           nextPair.info.getKind() != ASTConstants.ModuleInstanceKind &&
+           nextPair.info.getKind() != ASTConstants.BuiltInKind  )
         result.addElement( (OpDefNode)(nextPair.info) );
       nextPair = nextPair.link;
     }
@@ -298,8 +297,8 @@ public<T> Vector<T> getByClass(final Class<T> template ) {
     while (list.hasMoreElements()) {
       final Pair elt = list.nextElement();
       if (templateClass.isInstance(elt.info) &&     // true for superclasses too.
-         ((OpDeclNode)elt.info).getKind() == ASTConstants.ConstantDeclKind  )
-        result.addElement( (SemanticNode)(elt.info) );
+         elt.info.getKind() == ASTConstants.ConstantDeclKind  )
+        result.addElement(elt.info);
 
     }
     return result;
@@ -314,8 +313,8 @@ public<T> Vector<T> getByClass(final Class<T> template ) {
     while (list.hasMoreElements()) {
       final Pair elt = list.nextElement();
       if (templateClass.isInstance(elt.info) &&     // true for superclasses too.
-           ((OpDeclNode)elt.info).getKind() == ASTConstants.VariableDeclKind  )
-        result.addElement( (SemanticNode)(elt.info) );
+           elt.info.getKind() == ASTConstants.VariableDeclKind  )
+        result.addElement(elt.info);
     }
     return result;
   }
@@ -332,7 +331,7 @@ public<T> Vector<T> getByClass(final Class<T> template ) {
     while (list.hasMoreElements()) {
       final Pair elt = list.nextElement();
       if (template.isInstance(elt.info))    // true for superclasses too.
-        result.addElement( (SemanticNode)(elt.info) );
+        result.addElement(elt.info);
     }
     return result;
   }
@@ -494,7 +493,7 @@ public<T> Vector<T> getByClass(final Class<T> template ) {
 		 !naturalsContext.table.containsKey(key)))) {
         final SymbolNode symbNode  = (table.get(key)).info;
 	ctxtEntries.addElement("\nContext Entry: " + key.toString() + "  "
-                    + String.valueOf(((SemanticNode)symbNode).myUID).toString() + " "
+                    + String.valueOf(symbNode.myUID).toString() + " "
                     + Strings.indentSB(2,(symbNode.toString(depth-1))));
       }
       p = p.link;

@@ -129,7 +129,7 @@ public class TLCStateStackFrame extends TLCStackFrame {
 			return tool.eval(() -> new Variable[] { toVariable() });
 		}
 		if (vr == stateId + 1) {
-			return ((DebugTool) tool).eval(() -> {
+			return tool.eval(() -> {
 				try {
 					// A) Last state of the trace s_f.
 					final TLCState t = getT();

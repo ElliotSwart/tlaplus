@@ -143,15 +143,15 @@ public final class ActionWrapper extends CostModelNode {
 		} else if (relation == Relation.INIT) {
 			// TODO Eventually coverage for init and next should consistently report states
 			// found and distinct states into the same counters.
-			MP.printMessage(EC.TLC_COVERAGE_INIT, new String[] { printLocation(), String.valueOf(getEvalCount()),
-					String.valueOf(getEvalCount() + this.secondary.getCount()) });
+			MP.printMessage(EC.TLC_COVERAGE_INIT, printLocation(), String.valueOf(getEvalCount()),
+                    String.valueOf(getEvalCount() + this.secondary.getCount()));
 		} else if (relation == Relation.CONSTRAINT) {
 			MP.printMessage(EC.TLC_COVERAGE_CONSTRAINT,
-					new String[] { printLocation(), String.valueOf(this.secondary.getCount()),
-							String.valueOf(getEvalCount() + this.secondary.getCount()) });
+                    printLocation(), String.valueOf(this.secondary.getCount()),
+                    String.valueOf(getEvalCount() + this.secondary.getCount()));
 		} else {
-			MP.printMessage(EC.TLC_COVERAGE_NEXT, new String[] { printLocation(),
-					String.valueOf(this.secondary.getCount()), String.valueOf(getEvalCount()) });
+			MP.printMessage(EC.TLC_COVERAGE_NEXT, printLocation(),
+                    String.valueOf(this.secondary.getCount()), String.valueOf(getEvalCount()));
 		}
 
 		// An action has single child which is the OpApplNodeWrapper with the OpApplNode

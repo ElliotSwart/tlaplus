@@ -417,7 +417,7 @@ public class ModuleNode extends SymbolNode {
     final Vector<OpDefNode> contextVec = ctxt.getOpDefs();
     opDefs = new OpDefNode[contextVec.size()];
     for (int i = 0, j = opDefs.length - 1; i < opDefs.length; i++) {
-        opDefs[j--] = (OpDefNode)contextVec.elementAt(i);
+        opDefs[j--] = contextVec.elementAt(i);
     }
     return opDefs;
   }
@@ -442,7 +442,7 @@ public class ModuleNode extends SymbolNode {
     thmOrAssDefs = new ThmOrAssumpDefNode[contextVec.size()];
     for (int i = 0, j = thmOrAssDefs.length - 1;
                            i < thmOrAssDefs.length; i++) {
-        thmOrAssDefs[j--] = (ThmOrAssumpDefNode) contextVec.elementAt(i);
+        thmOrAssDefs[j--] = contextVec.elementAt(i);
     }
     return thmOrAssDefs;
   }

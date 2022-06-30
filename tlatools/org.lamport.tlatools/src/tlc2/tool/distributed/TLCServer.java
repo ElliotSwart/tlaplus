@@ -424,8 +424,8 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 		if (work.canRecover()) {
             MP.printMessage(EC.TLC_CHECKPOINT_RECOVER_START, metadir);
 			recover();
-			MP.printMessage(EC.TLC_CHECKPOINT_RECOVER_END, new String[] { String.valueOf(fpSetManager.size()),
-                    String.valueOf(stateQueue.size())});
+			MP.printMessage(EC.TLC_CHECKPOINT_RECOVER_END, String.valueOf(fpSetManager.size()),
+                    String.valueOf(stateQueue.size()));
 			recovered = true;
 		}
 
@@ -450,7 +450,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
                 MP.printMessage(EC.TLC_COMPUTING_INIT);
                 doInit();
 				MP.printMessage(EC.TLC_INIT_GENERATED1,
-						new String[] { String.valueOf(stateQueue.size()), "(s)" });
+                        String.valueOf(stateQueue.size()), "(s)");
 			} catch (final Throwable e) {
 				// Assert.printStack(e);
 				done = true;
@@ -460,8 +460,8 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 				// workers. In distributed mode, it is of limited use anyway. 
 				if (e instanceof EvalException
 						&& ((EvalException) e).getErrorCode() == EC.TLC_MODULE_TLCGET_UNDEFINED
-						&& (((EvalException) e).getMessage().contains("TLCSet")
-								|| ((EvalException) e).getMessage().contains("TLCGet"))
+						&& (e.getMessage().contains("TLCSet")
+								|| e.getMessage().contains("TLCGet"))
 						|| (e instanceof TLCRuntimeException && ((TLCRuntimeException) e).errorCode == EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE)) {
 					MP.printError(EC.TLC_FEATURE_UNSUPPORTED,
 							"TLCSet & TLCGet operators not supported by distributed TLC.");
@@ -537,13 +537,12 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 					distinctStatesPerMinute = (long) ((fpSetSize - oldFPSetSize) / factor);
 			        
 					// print to system.out
-					MP.printMessage(EC.TLC_PROGRESS_STATS, new String[] {
-							String.valueOf(trace.getLevelForReporting()),
-							MP.format(numOfGenStates),
-							MP.format(fpSetSize),
-							MP.format(getNewStates()),
-							MP.format(statesPerMinute),
-							MP.format(distinctStatesPerMinute) });
+					MP.printMessage(EC.TLC_PROGRESS_STATS, String.valueOf(trace.getLevelForReporting()),
+                            MP.format(numOfGenStates),
+                            MP.format(fpSetSize),
+                            MP.format(getNewStates()),
+                            MP.format(statesPerMinute),
+                            MP.format(distinctStatesPerMinute));
 					
 					// Make the TLCServer main thread sleep for one report interval
 					wait(REPORT_INTERVAL);
@@ -580,8 +579,8 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 			final double cacheHitRatio = thread.getCacheRateRatio();
 			final URI name = thread.getUri();
 			MP.printMessage(EC.TLC_DISTRIBUTED_WORKER_STATS,
-					new String[] { name.toString(), Integer.toString(sentStates), Integer.toString(receivedStates),
-					cacheHitRatio < 0 ? "n/a" : String.format("%1$,.2f", cacheHitRatio) });
+                    name.toString(), Integer.toString(sentStates), Integer.toString(receivedStates),
+                    cacheHitRatio < 0 ? "n/a" : String.format("%1$,.2f", cacheHitRatio));
 
 			try {
 				worker.exit();

@@ -222,7 +222,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		// Constructor
 		public GenID(final TreeNode node) {
 			treeNode = node;
-			compoundID = new StringBuffer("");
+			compoundID = new StringBuffer();
 			compoundIDUS = null;
 			fullyQualifiedOp = null;
 			args = null;

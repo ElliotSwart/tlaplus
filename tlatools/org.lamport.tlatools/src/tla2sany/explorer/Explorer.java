@@ -99,10 +99,10 @@ public class Explorer {
 	private void printNode(final int depth) {
 
 		// See if the object requested is already in the table
-		if ((obj = (ExploreNode) semNodesTable.get(icmd)) != null) {
+		if ((obj = semNodesTable.get(icmd)) != null) {
 			// Print tree to depth of icmd2
-			System.out.println(((ExploreNode) obj).toString(depth));
-			System.out.print("\n" + ((ExploreNode) obj).levelDataToString());
+			System.out.println(obj.toString(depth));
+			System.out.print("\n" + obj.levelDataToString());
 		} else {
 			// object requested is not in semNodesTable
 			System.out.println("No such node encountered yet");
@@ -130,8 +130,8 @@ public class Explorer {
 
 		// Print them all
 		for (int i = 0; i < symbolVect.size(); i++) {
-			final SymbolNode sym = (SymbolNode) (symbolVect.elementAt(i));
-			((SemanticNode) (sym)).getTreeNode().printST(0);
+			final SymbolNode sym = symbolVect.elementAt(i);
+			sym.getTreeNode().printST(0);
 			System.out.println();
 		}
 
@@ -158,7 +158,7 @@ public class Explorer {
 
 		// Print them all
 		for (int i = 0; i < symbolVect.size(); i++) {
-			final SymbolNode sym = (SymbolNode) (symbolVect.elementAt(i));
+			final SymbolNode sym = symbolVect.elementAt(i);
 			if (sym instanceof OpDefOrDeclNode) {
 				if (((OpDefOrDeclNode) sym).getOriginallyDefinedInModuleNode() != null) {
 					System.out.print(
@@ -196,7 +196,7 @@ public class Explorer {
 
 		// Print them all
 		for (int i = 0; i < symbolVect.size(); i++) {
-			final SymbolNode sym = (SymbolNode) (symbolVect.elementAt(i));
+			final SymbolNode sym = symbolVect.elementAt(i);
 			if (sym instanceof OpDefOrDeclNode) {
 				if (((OpDefOrDeclNode) sym).getOriginallyDefinedInModuleNode() != null) {
 					System.out.print(
@@ -232,7 +232,7 @@ public class Explorer {
 				// "quit" command
 				throw new ExplorerQuitException();
 
-			} else if (firstToken.toLowerCase().equals("mt")) {
+			} else if (firstToken.equalsIgnoreCase("mt")) {
 
 				// Print the semantic graph, rooted in the Module Table
 				// excluding built-ins and ops defined in module Naturals
@@ -242,7 +242,7 @@ public class Explorer {
 					mt.printExternalModuleTable(2, false);
 				}
 
-			} else if (firstToken.toLowerCase().equals("mt*")) {
+			} else if (firstToken.equalsIgnoreCase("mt*")) {
 
 				// Print the semantic graph, rooted in the Module Table
 				// including builtins and ops defined in Naturals

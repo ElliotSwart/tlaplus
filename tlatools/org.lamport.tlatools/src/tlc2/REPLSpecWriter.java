@@ -52,8 +52,7 @@ class REPLSpecWriter extends AbstractSpecWriter {
 		@Override
 		public void write(final int b) {
 			if (haveCollected) {
-				return;
-			} else {
+            } else {
 				if (b == '\n') {
 					if (inResponse) {
 						if (EXPRESSION_CLOSE.equals(currentLine.toString())) {

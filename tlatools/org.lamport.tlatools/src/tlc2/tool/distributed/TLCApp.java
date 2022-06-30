@@ -197,7 +197,7 @@ public class TLCApp extends DistApp {
 	@Override
     public final void checkState(final TLCState s1, final TLCState s2)
 			throws WorkerException {
-		final TLCState ts2 = (TLCState) s2;
+		final TLCState ts2 = s2;
 		for (int i = 0; i < this.invariants.length; i++) {
 			if (!tool.isValid(this.invariants[i], ts2)) {
 				// We get here because of invariant violation:
@@ -217,7 +217,7 @@ public class TLCApp extends DistApp {
 				}
 			}
 		} else {
-			final TLCState ts1 = (TLCState) s1;
+			final TLCState ts1 = s1;
 			for (int i = 0; i < this.impliedActions.length; i++) {
 				if (!tool.isValid(this.impliedActions[i], ts1, ts2)) {
 					// We get here because of implied-action violation:
@@ -235,7 +235,7 @@ public class TLCApp extends DistApp {
 	 */
 	@Override
     public final boolean isInModel(final TLCState s) {
-		return this.tool.isInModel((TLCState) s);
+		return this.tool.isInModel(s);
 	}
 
 	/* (non-Javadoc)
@@ -243,7 +243,7 @@ public class TLCApp extends DistApp {
 	 */
 	@Override
     public final boolean isInActions(final TLCState s1, final TLCState s2) {
-		return this.tool.isInActions((TLCState) s1, (TLCState) s2);
+		return this.tool.isInActions(s1, s2);
 	}
 
 	/* Reconstruct the initial state whose fingerprint is fp. */

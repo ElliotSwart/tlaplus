@@ -40,7 +40,7 @@ public final class ObjLongTable<T> {
 
   public final int put(final T k, final long elem) {
     if (count >= thresh) this.grow();
-    int loc = ((int)k.hashCode() & 0x7FFFFFFF) % this.length;
+    int loc = (k.hashCode() & 0x7FFFFFFF) % this.length;
     while (true) {
       final Object key = this.keys[loc];
       if (key == null) {
@@ -59,7 +59,7 @@ public final class ObjLongTable<T> {
 
   public final int add(final T k, final long elem) {
     if (count >= thresh) this.grow();
-    int loc = ((int)k.hashCode() & 0x7FFFFFFF) % this.length;
+    int loc = (k.hashCode() & 0x7FFFFFFF) % this.length;
     while (true) {
       final Object key = this.keys[loc];
       if (key == null) {
@@ -77,7 +77,7 @@ public final class ObjLongTable<T> {
   }
   
   public final long get(final Object k) {
-    int loc = ((int)k.hashCode() & 0x7FFFFFFF) % length;
+    int loc = (k.hashCode() & 0x7FFFFFFF) % length;
     while (true) {
       final Object key = this.keys[loc];
       if (key == null) return 0;

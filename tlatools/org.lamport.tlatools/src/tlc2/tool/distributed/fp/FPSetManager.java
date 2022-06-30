@@ -390,7 +390,6 @@ public abstract class FPSetManager implements IFPSetManager {
 					// rewind for loop by one to have it schedule the same
 					// callable again
 					i -= 1;
-					continue;
 				} else {
 					// If ExecutorService has been shut down or REE has been
 					// caused for some other reason, re-throw to escalate to

@@ -40,7 +40,7 @@ public class PcalDebug
      */
     public static void reportWarning(final String warningText)
     {
-        ToolIO.out.println(new StringBuffer(WARNING).append(warningText));
+        ToolIO.out.println(WARNING + warningText);
     }
 
     /**
@@ -58,7 +58,7 @@ public class PcalDebug
      */
     public static void reportError(final String message)
     {
-        ToolIO.out.println(new StringBuffer(UNRECOVERABLE_ERROR).append(message).append(ERROR_POSTFIX).toString());
+        ToolIO.out.println(UNRECOVERABLE_ERROR + message + ERROR_POSTFIX);
     }
 
     /**

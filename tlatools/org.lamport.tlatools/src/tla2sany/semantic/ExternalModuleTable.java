@@ -126,7 +126,7 @@ public class ExternalModuleTable implements ExploreNode {
   public ModuleNode[] getModuleNodes() {
     final ModuleNode [] mods = new ModuleNode[moduleNodeVector.size()];
     for (int i = 0; i < mods.length; i++) {
-      mods[i] = (ModuleNode)moduleNodeVector.elementAt(i);
+      mods[i] = moduleNodeVector.elementAt(i);
     }
     return mods;
   }
@@ -190,7 +190,7 @@ public class ExternalModuleTable implements ExploreNode {
 
     String ret = "";
     for (int i = 0; i < moduleNodeVector.size(); i++) {
-      final ModuleNode mn = (ModuleNode)moduleNodeVector.elementAt(i);
+      final ModuleNode mn = moduleNodeVector.elementAt(i);
       if (mn != null) {
         ret += Strings.indent(2, "\nModule: " + Strings.indent(2, mn.toString(depth)) );
       } else {

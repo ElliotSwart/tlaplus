@@ -199,7 +199,7 @@ public abstract class FPSetFactory {
 //			}
 
 			final Constructor<?> constructor = factoryClass
-					.getDeclaredConstructor(new Class[] { FPSetConfiguration.class });
+					.getDeclaredConstructor(FPSetConfiguration.class);
 			final Object instance = constructor.newInstance(
 					fpSetConfig);
 			// sanity check if given class from string implements FPSet

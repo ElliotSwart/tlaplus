@@ -55,10 +55,10 @@ public abstract class Specs {
             if (res != null) {
                 if (res instanceof final LazyValue lv) {
                     final int plevel = getLevel((LevelNode) lv.expr, lv.con);
-                    level = (plevel > level) ? plevel : level;
+                    level = Math.max(plevel, level);
                 } else if (res instanceof OpDefNode) {
                     final int plevel = getLevel((LevelNode) res, c);
-                    level = (plevel > level) ? plevel : level;
+                    level = Math.max(plevel, level);
                 }
             }
         }

@@ -16,7 +16,7 @@ public class TBParVec extends Vect<TBPar> {
 	}
 
 	public final TBPar parAt(final int i) {
-		return (TBPar) elementAt(i);
+		return elementAt(i);
 	}
 
 	/* This method tests whether a particle is in a list of other particles */

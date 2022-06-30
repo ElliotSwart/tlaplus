@@ -75,7 +75,7 @@ public class ByteUtils {
     final long i4 = (long) (b[4] & 0xFF) << 24;
     final long i5 = (long) (b[5] & 0xFF) << 16;
     final long i6 = (long) (b[6] & 0xFF) << 8;
-    final long i7 = (long) (b[7] & 0xFF);
+    final long i7 = b[7] & 0xFF;
     return (i0 | i1 | i2 | i3 | i4 | i5 | i6 | i7);
   }
 

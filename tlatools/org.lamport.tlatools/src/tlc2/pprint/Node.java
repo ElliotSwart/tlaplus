@@ -74,31 +74,24 @@ public class Node {
 
   public void type(final int t) {
     type = t;
-    return;
   }
   public void first(final int s) {
     first = s;
-    return;
   }
   public void last(final int e) {
     last = e;
-    return;
   }
   public void children(final Node c) {
     children = c;
-    return;
   }
   public void next(final Node n) {
     next = n;
-    return;
   }
   public void string(final String s) {
     string = s;
-    return;
   }
   public void formatted(final String s) {
     formatted = s;
-    return;
   }
 
 /***************************************************************************/
@@ -122,7 +115,6 @@ public class Node {
       ch = ch.next();
     }
     ch.next(n);
-    return;
   }
 
   public String toString() {

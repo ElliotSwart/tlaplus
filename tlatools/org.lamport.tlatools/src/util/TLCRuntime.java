@@ -96,7 +96,7 @@ public class TLCRuntime {
 					l = l << 10;
 					break;
 				} else {
-					l = Long.parseLong(mem.substring(0, mem.length()));
+					l = Long.parseLong(mem);
 					break;
 				}
 			}

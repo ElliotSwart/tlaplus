@@ -786,8 +786,8 @@ private int levelOfProofStepLexeme(final Token tok){
   * for "*" and -2 for "*".                                                *
   *************************************************************************/
   final String im = tok.image ;
-  if (im.substring(1,2).equals("*")) {return -1;}
-  if (im.substring(1,2).equals("+")) {return -2;}
+  if (im.charAt(1) == '*') {return -1;}
+  if (im.charAt(1) == '+') {return -2;}
   return Integer.valueOf(im.substring(1, im.indexOf('>'))).intValue() ;
     /***********************************************************************
     * The ".intValue()" added by SZ because Java 1.4 doesn't support       *
@@ -803,8 +803,8 @@ private int levelOfProofStepLexeme(final Token tok){
 ***************************************************************************/
 private UniqueString correctedStepNum(final Token t) {
   String str = t.image ;
-  if (   str.substring(1,2).equals("*")
-      || str.substring(1,2).equals("+") ) {
+  if (   str.charAt(1) == '*'
+      || str.charAt(1) == '+') {
     int level = getProofLevel() ;
     if ((level < 0) && (proofDepth > 0)) {
       /*********************************************************************
@@ -865,9 +865,9 @@ private boolean beginsProof(final Token tok) {
     /***********************************************************************
     * This can happen if the user makes a weird error.                     *
     ***********************************************************************/
-  if (im.substring(1,2).equals("*")) {return (proofDepth < 0);}
+  if (im.charAt(1) == '*') {return (proofDepth < 0);}
 
-  if (im.substring(1,2).equals("+")) {return true ;}
+  if (im.charAt(1) == '+') {return true ;}
   switch (tok.kind) {
     case ProofStepLexeme :
     case BareLevelLexeme :
@@ -1523,7 +1523,7 @@ final Token t;
     while (true) {
       if (jj_2_1(1)) {
       } else {
-        break label_3;
+        break;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case SEPARATOR:
@@ -3314,7 +3314,7 @@ expecting = "==";
       while (true) {
         if (getToken(2).kind != QED) {
         } else {
-          break label_14;
+          break;
         }
         tn = Step();
                    addHeir(tn);
@@ -3704,7 +3704,7 @@ expecting = "==";
                                            addHeir(tn) ;
       if (jj_2_35(2)) {
       } else {
-        break label_17;
+        break;
       }
     }
      final SyntaxTreeNode[] sn = getLastHeirs();
@@ -4140,7 +4140,7 @@ expecting = "==";
     while (true) {
       if (jj_2_39(2147483647)) {
       } else {
-        break label_23;
+        break;
       }
       tn = IdPrefixElement();
                             addHeir( tn );
@@ -6092,7 +6092,7 @@ final SyntaxTreeNode tn;
     while (true) {
       if (caseSep() && (getToken(2).kind != OTHER)) {
       } else {
-        break label_44;
+        break;
       }
       t = jj_consume_token(CASESEP);
                     addHeir( new SyntaxTreeNode(mn, t) );
@@ -6227,7 +6227,7 @@ final SyntaxTreeNode tn;
     while (true) {
       if (BStack.onReference( getToken(1).endColumn, getToken(1).kind )) {
       } else {
-        break label_46;
+        break;
       }
       tn = JuncItem(N_DisjItem);
                                  addHeir(tn);
@@ -6242,7 +6242,7 @@ final SyntaxTreeNode tn;
     while (true) {
       if (BStack.onReference( getToken(1).endColumn, getToken(1).kind )) {
       } else {
-        break label_47;
+        break;
       }
       tn = JuncItem(N_ConjItem);
                                  addHeir( tn );
@@ -6366,7 +6366,7 @@ final SyntaxTreeNode tn;
     while (true) {
       if (jj_2_57(2147483647) && (BStack.aboveReference( getToken(1).beginColumn))) {
       } else {
-        break label_49;
+        break;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case op_26:
@@ -6570,7 +6570,7 @@ final SyntaxTreeNode tn;
     while (true) {
       if (jj_2_61(1)) {
       } else {
-        break label_50;
+        break;
       }
       if (jj_2_62(2147483647) && (BStack.aboveReference( getToken(1).beginColumn))) {
         tn = PostfixOp();
@@ -6627,7 +6627,7 @@ final SyntaxTreeNode tn;
         while (true) {
           if (jj_2_65(2147483647) && (BStack.aboveReference( getToken(1).beginColumn))) {
           } else {
-            break label_51;
+            break;
           }
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case op_26:

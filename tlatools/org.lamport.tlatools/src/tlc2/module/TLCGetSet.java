@@ -315,23 +315,23 @@ public class TLCGetSet implements ValueConstants {
 			// Actions as found by spec processing. For a sub-action with non-zero arity,
 			// TLC has multiple copies.
 			n[1] = SPEC_ACTIONS;
-			v[1] = new SetEnumValue(new ValueVec(Arrays.asList(tool.getActions()).stream()
+			v[1] = new SetEnumValue(new ValueVec(Arrays.stream(tool.getActions())
 					.map(RecordValue::new).collect(Collectors.toList())), false);
 
 			n[2] = SPEC_TERMPORALS;
-			v[2] = new SetEnumValue(new ValueVec(Arrays.asList(tool.getTemporals()).stream()
+			v[2] = new SetEnumValue(new ValueVec(Arrays.stream(tool.getTemporals())
 					.map(RecordValue::new).collect(Collectors.toList())), false);
 			
 			n[3] = SPEC_INVARIANTS;
-			v[3] = new SetEnumValue(new ValueVec(Arrays.asList(tool.getInvariants()).stream()
+			v[3] = new SetEnumValue(new ValueVec(Arrays.stream(tool.getInvariants())
 					.filter(a -> !a.isInternal()).map(RecordValue::new).collect(Collectors.toList())), false);
 			
 			n[4] = SPEC_IMPLIEDINITS;
-			v[4] = new SetEnumValue(new ValueVec(Arrays.asList(tool.getImpliedInits()).stream()
+			v[4] = new SetEnumValue(new ValueVec(Arrays.stream(tool.getImpliedInits())
 					.map(RecordValue::new).collect(Collectors.toList())), false);
 			
 			n[5] = SPEC_IMPLIEDTEMPORALS;
-			v[5] = new SetEnumValue(new ValueVec(Arrays.asList(tool.getImpliedTemporals()).stream()
+			v[5] = new SetEnumValue(new ValueVec(Arrays.stream(tool.getImpliedTemporals())
 					.map(RecordValue::new).collect(Collectors.toList())), false);
 			
 			return new RecordValue(n, v, false);

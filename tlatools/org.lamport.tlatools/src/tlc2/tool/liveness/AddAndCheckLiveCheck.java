@@ -50,7 +50,7 @@ public class AddAndCheckLiveCheck extends LiveCheck {
 
 	public AddAndCheckLiveCheck(final ITool tool, final String metadir, final IBucketStatistics stats) throws IOException {
 		super(tool.getLiveness(), metadir, stats);
-		MP.printWarning(EC.UNIT_TEST, new String[]{ "!!!WARNING: TLC is running in inefficient unit testing mode!!!", ""} );
+		MP.printWarning(EC.UNIT_TEST, "!!!WARNING: TLC is running in inefficient unit testing mode!!!", "");
 	}
 
 	/* (non-Javadoc)

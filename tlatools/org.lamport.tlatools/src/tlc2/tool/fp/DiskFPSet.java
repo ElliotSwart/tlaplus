@@ -408,8 +408,8 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 			 * 
 			 * loVal <= fp < hiVal exists x: loPage < x < hiPage
 			 */
-			final double dhi = (double) hiPage;
-			final double dlo = (double) loPage;
+			final double dhi = hiPage;
+			final double dlo = loPage;
 			final double dhiVal = (double) hiVal;
 			final double dloVal = (double) loVal;
 			

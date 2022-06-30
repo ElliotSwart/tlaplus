@@ -193,7 +193,6 @@ public class SANY {
       spec.errorLevel = 1;  
       throw new InitException();
     }
-    return;
   } // frontEndInitialize
 
   // Parse all of the files referred to by the top-level file in specification
@@ -248,7 +247,6 @@ public class SANY {
 
           throw new ParseException();
       }
-      return;
   } //
 
   public static void frontEndSemanticAnalysis(final SpecObj spec,
@@ -273,11 +271,11 @@ public class SANY {
       // so that is A depends on B, then B has a lower index in the
       // Vector than A.
       for (int i = 0; i < spec.semanticAnalysisVector.size(); i++) {
-        moduleStringName = (String)spec.semanticAnalysisVector.elementAt(i);  
+        moduleStringName = spec.semanticAnalysisVector.elementAt(i);
 
         // if semantic analysis has not already been done on this module
         if (externalModuleTable.getContext( UniqueString.uniqueStringOf( moduleStringName)) == null ) {
-          parseUnit = (ParseUnit)spec.parseUnitContext.get(moduleStringName);
+          parseUnit = spec.parseUnitContext.get(moduleStringName);
 
             // get reference to the syntax tree for the module
           syntaxTreeRoot = parseUnit.getParseTree();
@@ -382,7 +380,6 @@ public class SANY {
       }
       throw new SemanticException();
     }
-    return;
   }
 
   /** 
@@ -415,7 +412,7 @@ public class SANY {
            doDebugging        = !doDebugging;
       else if (args[i].equals("-STAT") || args[i].equals("-stat")) 
            doStats      = !doStats;      
-      else if (args[i].toLowerCase().equals("-error-codes"))
+      else if (args[i].equalsIgnoreCase("-error-codes"))
            doStrictErrorCodes = true;
       else {
         ToolIO.out.println("Illegal switch: " + args[i]);

@@ -125,7 +125,7 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
             final FormalParamNode[] ids = (FormalParamNode[])this.vars;
             final TupleValue tv = (TupleValue) elem.toTuple();
             if ((tv != null) && (tv.elems.length == ids.length)) {
-              final Value [] vals = ((TupleValue)tv).elems;
+              final Value [] vals = tv.elems;
               for (int i = 0; i < ids.length; i++) {
                 con1 = con1.cons(ids[i], vals[i]);
               }
@@ -308,7 +308,7 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
   @Override
   public Value toSetEnum() {
       if (this.converted) {
-    	  return (SetEnumValue) this.inVal;
+    	  return this.inVal;
       }
       final ValueVec vals = new ValueVec();
       final ValueEnumeration Enum = this.elements();
@@ -399,8 +399,8 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
           final FormalParamNode[] ids = (FormalParamNode[])vars;
           final TupleValue tv = (TupleValue) elem.toTuple();
           if ((tv != null) &&
-              (((TupleValue)tv).elems.length == ids.length)) {
-            final Value [] vals = ((TupleValue)tv).elems;
+              (tv.elems.length == ids.length)) {
+            final Value [] vals = tv.elems;
             for (int i = 0; i < ids.length; i++) {
               con1 = con1.cons(ids[i], vals[i]);
             }

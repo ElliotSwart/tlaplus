@@ -53,7 +53,6 @@ public static void WriteAlignmentFile(final Token[][] spec)
   { final OutputFileWriter writer =
          StartLaTeXOutput(Parameters.LaTeXAlignmentFile);
     InnerWriteAlignmentFile(spec, writer, true);
-    return;
   }
 
 public static void WriteTeXAlignmentFile(final Token[][] spec,
@@ -517,7 +516,7 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
 
       while (inputLine != null)
        { if (   (inputLine.length() > 2)
-             && (inputLine.substring(0,3).equals("\\%{")))
+             && (inputLine.startsWith("\\%{")))
           { int start = 3 ;
             int after = inputLine.indexOf("}",start) ;
             final int line  = Integer.parseInt(inputLine.substring(start, after));
@@ -782,8 +781,7 @@ public static void WriteLaTeXFile(final Token[][] spec)
          StartLaTeXOutput(Parameters.LaTeXOutputFile);
   InnerWriteLaTeXFile(spec, writer, true);
   writer.putLine("\\end{document}");
-  writer.close(); 
-  return ;
+  writer.close();
  }
 
 public static void WriteTLATeXEnvironment(final Token[][] spec,

@@ -66,7 +66,7 @@ public class Validator {
 	public static Set<ValidationResult> validate(final ParseUnit parseUnit, final InputStream inputStream)
 			throws IOException {
 		final BufferedReader reader = new BufferedReader(
-				new InputStreamReader((inputStream instanceof BufferedInputStream) ? (BufferedInputStream) inputStream
+				new InputStreamReader((inputStream instanceof BufferedInputStream) ? inputStream
 						: new BufferedInputStream(inputStream)));
 		return validate(parseUnit, reader);
 	}
