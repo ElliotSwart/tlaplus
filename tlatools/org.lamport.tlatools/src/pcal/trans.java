@@ -1682,7 +1682,7 @@ class trans {
                     {
                         throw new NumberFormatException();
                     }
-                    final int a = Integer.valueOf(args[nextArg]).intValue();
+                    final int a = Integer.valueOf(args[nextArg]);
                     if (a < 60)
                     {
                         throw new NumberFormatException();

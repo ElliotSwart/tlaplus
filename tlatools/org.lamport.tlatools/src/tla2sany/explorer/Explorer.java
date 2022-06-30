@@ -223,7 +223,7 @@ public class Explorer {
 
 		if (icmd != null) { // first token is an integer
 
-			printNode(icmd2.intValue());
+			printNode(icmd2);
 
 		} else { // the first token is not an integer
 
@@ -237,7 +237,7 @@ public class Explorer {
 				// Print the semantic graph, rooted in the Module Table
 				// excluding built-ins and ops defined in module Naturals
 				if (icmd2 != null) {
-					mt.printExternalModuleTable(icmd2.intValue(), false);
+					mt.printExternalModuleTable(icmd2, false);
 				} else {
 					mt.printExternalModuleTable(2, false);
 				}
@@ -247,7 +247,7 @@ public class Explorer {
 				// Print the semantic graph, rooted in the Module Table
 				// including builtins and ops defined in Naturals
 				if (icmd2 != null) {
-					mt.printExternalModuleTable(icmd2.intValue(), true);
+					mt.printExternalModuleTable(icmd2, true);
 				} else {
 					mt.printExternalModuleTable(2, true);
 				}
@@ -321,11 +321,11 @@ public class Explorer {
 
 		// A single token command defaults the depth to 20, except for
 		// "mt" command, which defaults to 2
-		if (ntokens < 2 || (icmd2 != null && icmd2.intValue() < 0)) {
+		if (ntokens < 2 || (icmd2 != null && icmd2 < 0)) {
 			if (firstToken.toLowerCase().startsWith("mt")) {
-				icmd2 = Integer.valueOf(2);
+				icmd2 = 2;
 			} else {
-				icmd2 = Integer.valueOf(4);
+				icmd2 = 4;
 			}
 		}
 

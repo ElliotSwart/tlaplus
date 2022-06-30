@@ -1039,7 +1039,7 @@ public boolean addLabel(final LabelNode odn) {
       final Integer plevel = lcSet.get(params[i]);
       if (plevel != null) {
         this.maxLevels[i] = Math.min(this.maxLevels[i],
-                                     plevel.intValue());
+                plevel);
       }
     }
 
@@ -1066,7 +1066,7 @@ public boolean addLabel(final LabelNode odn) {
           this.minMaxLevel[i][j] = MinLevel;
         }
         else {
-          this.minMaxLevel[i][j] = alevel.intValue();
+          this.minMaxLevel[i][j] = alevel;
         }
       }
     }
@@ -1287,7 +1287,7 @@ public boolean addLabel(final LabelNode odn) {
    */
   @Override
   public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
-    final Integer uid = Integer.valueOf(myUID);
+    final Integer uid = myUID;
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);

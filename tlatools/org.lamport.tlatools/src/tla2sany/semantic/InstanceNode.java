@@ -206,7 +206,7 @@ public class InstanceNode extends LevelNode {
         *******************************************************************/
       final Integer plevel = lcSet.get(mparam);
       if (plevel != null &&
-          mexp.getLevel() > plevel.intValue()) {
+          mexp.getLevel() > plevel) {
         if (mexp.levelCheck(itr)) {
           errors.addError(this.stn.getLocation(),
             "Level error in instantiating module '" + module.getName() +
@@ -227,7 +227,7 @@ public class InstanceNode extends LevelNode {
             * opDef.getMaxLevel.                                           *
             ***************************************************************/
           if (alevel != null &&
-              opDef.getMaxLevel(j) < alevel.intValue()) {
+              opDef.getMaxLevel(j) < alevel) {
             if (opDefLevelCheck) {
               /*************************************************************
               * Apparently, we only bother reporting this error if level   *

@@ -56,7 +56,7 @@ public class TransitiveClosure implements ValueConstants
                 cnt++;
             } else
             {
-                num1 = num.intValue();
+                num1 = num;
             }
             int num2 = cnt;
             num = fps.get(elem2);
@@ -67,7 +67,7 @@ public class TransitiveClosure implements ValueConstants
                 cnt++;
             } else
             {
-                num2 = num.intValue();
+                num2 = num;
             }
             matrix[num1][num2] = true;
         }

@@ -788,7 +788,7 @@ private int levelOfProofStepLexeme(final Token tok){
   final String im = tok.image ;
   if (im.charAt(1) == '*') {return -1;}
   if (im.charAt(1) == '+') {return -2;}
-  return Integer.valueOf(im.substring(1, im.indexOf('>'))).intValue() ;
+  return Integer.valueOf(im.substring(1, im.indexOf('>')));
     /***********************************************************************
     * The ".intValue()" added by SZ because Java 1.4 doesn't support       *
     * auto-boxing.                                                         *

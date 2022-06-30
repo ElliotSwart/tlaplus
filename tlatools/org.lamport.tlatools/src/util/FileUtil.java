@@ -244,7 +244,7 @@ public class FileUtil
 		// scripts or e.g. bash while loops.
         final SimpleDateFormat sdf;
         final String highres = System.getProperty(FileUtil.class.getName() + ".milliseconds", "true");
-        if (Boolean.valueOf(highres)) {
+        if (Boolean.parseBoolean(highres)) {
         	sdf = new SimpleDateFormat("yy-MM-dd-HH-mm-ss.SSS");
         } else {
         	// -Dutil.FileUtil.milliseconds=false

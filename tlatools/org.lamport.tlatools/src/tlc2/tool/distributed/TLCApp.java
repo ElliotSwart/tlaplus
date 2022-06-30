@@ -66,7 +66,7 @@ public class TLCApp extends DistApp {
 		this.config = configFile;
 		
 		
-		this.checkDeadlock = deadlock.booleanValue();
+		this.checkDeadlock = deadlock;
 		this.preprocess = true;
 		this.tool = new FastTool(specDir, specFile, configFile, fts, new HashMap<>());
 

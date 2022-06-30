@@ -353,7 +353,7 @@ public class AssumeProveNode extends LevelNode {
 
   @Override
   public final void walkGraph(final Hashtable<Integer, ExploreNode> h, final ExplorerVisitor visitor) {
-    final Integer uid = Integer.valueOf(myUID);
+    final Integer uid = myUID;
     if (h.get(uid) != null) return;
     h.put(uid, this);
     visitor.preVisit(this);

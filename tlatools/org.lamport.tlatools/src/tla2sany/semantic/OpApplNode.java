@@ -690,7 +690,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
         this.levelConstraints.putAll(this.ranges[i].getLevelConstraints());
       }
       for (int i = 0; i < this.operands.length; i++) {
-        final Integer mlevel = Integer.valueOf(opDef.getMaxLevel(i));
+        final Integer mlevel = opDef.getMaxLevel(i);
         if (this.operands[i] != null) {
           final Iterator<SymbolNode> iter = this.operands[i].getLevelParams().iterator();
           while (iter.hasNext()) {
@@ -719,7 +719,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
           for (int j = 0; j < this.operands.length; j++) {
             for (int k = 0; k < alen; k++) {
               if (opDef.getOpLevelCond(i, j, k)) {
-                final Integer mlevel = Integer.valueOf(argDef.getMaxLevel(k));
+                final Integer mlevel = argDef.getMaxLevel(k);
                 final Iterator<SymbolNode> iter = this.operands[j].getLevelParams().iterator();
                 while (iter.hasNext()) {
                   this.levelConstraints.put(iter.next(), mlevel);
@@ -762,7 +762,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
             /***************************************************************
             * Need to invoke levelCheck before invoking getMaxLevel.       *
             ***************************************************************/
-          final Integer mlevel = Integer.valueOf(argDef.getMaxLevel(alp.i));
+          final Integer mlevel = argDef.getMaxLevel(alp.i);
           this.levelConstraints.put(alp.param, mlevel);
         }
       } // while
@@ -789,14 +789,14 @@ public class OpApplNode extends ExprNode implements ExploreNode {
           final int alen = opArg.getArity();
           for (int j = 0; j < alen; j++) {
             final ParamAndPosition pap = new ParamAndPosition(opArg, j);
-            final Integer mlevel = Integer.valueOf(opDef.getMinMaxLevel(i, j));
+            final Integer mlevel = opDef.getMinMaxLevel(i, j);
             this.argLevelConstraints.put(pap, mlevel);
           }
           for (int j = 0; j < this.operands.length; j++) {
             for (int k = 0; k < alen; k++) {
               if (opDef.getOpLevelCond(i, j, k)) {
                 final ParamAndPosition pap = new ParamAndPosition(opArg, k);
-                final Integer mlevel = Integer.valueOf(this.operands[j].getLevel());
+                final Integer mlevel = this.operands[j].getLevel();
                 this.argLevelConstraints.put(pap, mlevel);
               }
             }
@@ -813,7 +813,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
             * Have to invoke levelCheck before invoking getLevel.          *
             ***************************************************************/
           final ParamAndPosition pap = new ParamAndPosition(alp.op, alp.i);
-          this.argLevelConstraints.put(pap, Integer.valueOf(arg.getLevel()));
+          this.argLevelConstraints.put(pap, arg.getLevel());
         }
       }
 
@@ -1140,7 +1140,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
    */
   @Override
   public void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
-    final Integer uid = Integer.valueOf(myUID);
+    final Integer uid = myUID;
     if (semNodesTable.get(uid) != null) return;
 
     semNodesTable.put(uid, this);

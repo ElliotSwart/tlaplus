@@ -154,7 +154,7 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
           * check it first, which is why we need the iteration number      *
           * argument of this method.                                       *
           *****************************************************************/
-	final Integer mlevel = Integer.valueOf(subDef.getMaxLevel(alp.i));
+	final Integer mlevel = subDef.getMaxLevel(alp.i);
 	final Iterator<SymbolNode> iter1 = paramSet(alp.param, subs).iterator();
 	while (iter1.hasNext()) {
 	  res.put(iter1.next(), mlevel);
@@ -202,7 +202,7 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
             /***************************************************************
             * Must invoke levelCheck before invoking getLevel              *
             ***************************************************************/
-	  final Integer subLevel = Integer.valueOf(subParam.getLevel());
+	  final Integer subLevel = subParam.getLevel();
 	  res.put(pap, subLevel);
 	}
       }

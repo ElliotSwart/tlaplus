@@ -75,7 +75,7 @@ public class TLCStateInfo {
 	  if (fp == null) {
 		  fp = this.state.fingerPrint();
 	  }
-	  return fp.longValue();
+	  return fp;
   }
 
   public final String toString() {

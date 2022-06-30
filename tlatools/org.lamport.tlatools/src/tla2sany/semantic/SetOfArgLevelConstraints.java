@@ -27,10 +27,10 @@ class SetOfArgLevelConstraints extends HashMap<ParamAndPosition, Integer> implem
    */
   @Override
   public final Integer put(final ParamAndPosition pap, final Integer level) {
-    final int newLevel = level.intValue();
+    final int newLevel = level;
     final Integer old = this.get(pap);
 
-    final int oldLevel = (old == null) ? MinLevel : old.intValue();
+    final int oldLevel = (old == null) ? MinLevel : old;
     super.put(pap, Math.max(newLevel, oldLevel));
     return old;
   }
