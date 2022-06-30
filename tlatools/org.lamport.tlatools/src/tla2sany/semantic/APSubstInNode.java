@@ -273,12 +273,6 @@ public class APSubstInNode extends LevelNode {
 
   /* Level check */
 // These nodes are now part of all LevelNode subclasses.
-//  private boolean levelCorrect;
-//  private int level;
-//  private HashSet levelParams;
-//  private SetOfLevelConstraints levelConstraints;
-//  private SetOfArgLevelConstraints argLevelConstraints;
-//  private HashSet argLevelParams;
 
   @Override
   public final boolean levelCheck(final int itr) {
@@ -355,33 +349,10 @@ public class APSubstInNode extends LevelNode {
     return this.levelCorrect;
   }
 
-//  public final int getLevel() { return this.level; }
-//
-//  public final HashSet getLevelParams() { return this.levelParams; }
-//
-//  public final SetOfLevelConstraints getLevelConstraints() {
-//    return this.levelConstraints;
-//  }
-//
-//  public final SetOfArgLevelConstraints getArgLevelConstraints() {
-//    return this.argLevelConstraints;
-//  }
-//
-//  public final HashSet getArgLevelParams() {
-//    return this.argLevelParams;
-//  }
-
   /**
    * toString, levelDataToString, & walkGraph methods to implement
    * ExploreNode interface
    */
-//  public final String levelDataToString() {
-//    return "Level: "               + this.level               + "\n" +
-//           "LevelParameters: "     + this.levelParams         + "\n" +
-//           "LevelConstraints: "    + this.levelConstraints    + "\n" +
-//           "ArgLevelConstraints: " + this.argLevelConstraints + "\n" +
-//           "ArgLevelParams: "      + this.argLevelParams      + "\n" ;
-//  }
 
   @Override
   public final String toString(final int depth) {

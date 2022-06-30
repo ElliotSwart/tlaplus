@@ -500,11 +500,8 @@ public class FindAlignments
                                 * Possible InfixArg alignment.             *
                                 *******************************************/
                              // This can happen and seems harmless.
-                             //   Debug.Assert(ctoken.belowAlign.line == -1,
-                             //       "Trying to InfixArg align with token "
-                             //   + "that is not aligned with token below it");
 
-                                 final Token lTok = spec[line][item-1] ;
+                                  final Token lTok = spec[line][item-1] ;
                                    /****************************************
                                    * The token to the left of the current  *
                                    * token.                                *

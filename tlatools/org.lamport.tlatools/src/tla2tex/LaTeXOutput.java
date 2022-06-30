@@ -938,18 +938,12 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
          { blankLines = blankLines + 1;
            line = line + 1;
          }
-//       if (pcalLine) {
-//           writer.putLine("\\begin{ppar}%") ;
-//       }
-       writer.putLine(
+         writer.putLine(
          //(  pcalLine2 ? "\\setlength{\\pcalvspace}{" :
         // "\\par\\vspace{" )
          "\\@pvspace{"
          + Misc.floatToString(Parameters.LaTeXVSpace(blankLines), 2) 
          + "pt}%" );
-//       if (pcalLine) {
-//           writer.putLine("\\end{ppar}%") ;
-//       }
 
 
      }                   //  END then OF if (spec[line].length == 0)
@@ -960,11 +954,8 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
       /*
        * Write "\begin{ppar}%" if this is a PlusCal Line.
        */
-//      if (pcalLine) {
-//          writer.putLine("\\begin{ppar}%") ;
-//      }
-      
-      /********************************************************************
+
+         /********************************************************************
       * Write out the current line.                                       *
       ********************************************************************/
        Debug.Assert(spec[line].length != 0,
@@ -1055,10 +1046,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
         * Start the output line with a LaTeXStartLine command.               *
         *********************************************************************/
         outLine = new StringBuilder(Parameters.LaTeXStartLine + "{");
-//        if (pcalLine2) {
-//            outLine = "\\xtest{" ;
-//        }
-        openLine = true ;
+           openLine = true ;
 
         /*******************************************************************
         * If numbering, then write the line number.                        *
@@ -1498,11 +1486,8 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
          /*
         * Write "\end{ppar}%" if this is a PlusCal Line.
         */
-//       if (pcalLine) {
-//           writer.putLine("\\end{ppar}%") ;
-//       }
 
-      outLine = new StringBuilder();
+         outLine = new StringBuilder();
       item = 0 ;
       line = line + 1;
      }                 // END else OF if (spec[line].length == 0)

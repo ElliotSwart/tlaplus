@@ -8,10 +8,6 @@
 //  ........ Added processing for \exists
 
 // XXXXXXXXXXXXXX THINGS TO DO: see file tla/inria/bugs.txt
-////   Fix Bug  9 in tla/inria/bugs.txt
-////   Fix Bug 10 in tla/inria/bugs.txt  (this looks easy)
-////   
-////   Test the implementation of labeling of ASSUME/PROVE nodes.
 
 package tla2sany.semantic;
 
@@ -471,24 +467,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 	} // class Selector
 
-//  private ExprOrOpArgNode[] opArgsToArray(SyntaxTreeNode opArgNode) 
-//    /***********************************************************************
-//    * Converts an OpArgs node to the array of ExprOrOpArgNodes that it     *
-//    * specifies.                                                           *
-//    *                                                                      *
-//    * opArgNode should be of kind N_OpArgs.                                *
-//    ***********************************************************************/
-//    throws AbortException {
-//      SyntaxTreeNode[] heirs = opArgNode.heirs() ;
-//      int arity = (heirs.length - 1) / 2 ;
-//      ExprOrOpArgNode[] retval = new ExprOrOpArgNode[arity] ;
-//      for (i = 0 ; i < arity ; i++) {
-//        retval[i] = generateExprOrOpArg(
-//                     ) ;
-//       } // for      
-//   } //  opArgsToArray
-
-	private Selector genIdToSelector(final SyntaxTreeNode genId) throws AbortException {
+    private Selector genIdToSelector(final SyntaxTreeNode genId) throws AbortException {
 		/***********************************************************************
 		 * Constructs a selector in which all the addSelector calls to * translate the
 		 * GeneralId node genId have been made and finish has * been called. * * See the
@@ -1886,12 +1865,8 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		/*************************************************************************
 		 * This is the method called to generate the semantic graph for a module. *
 		 *************************************************************************/
-//System.out.println("TRUE = " + symbolTable.resolveSymbol(
-//                      UniqueString.uniqueStringOf("TRUE"))) ;
-//System.out.println("$SetEnumerate = " + symbolTable.resolveSymbol(
-//                      UniqueString.uniqueStringOf("$SetEnumerate"))) ;
 
-		if (treeNode.isKind(N_Module)) {
+        if (treeNode.isKind(N_Module)) {
 			this.context = symbolTable.getContext();
 			return this.generateModule(treeNode, null);
 		}
@@ -4122,21 +4097,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			argPos = argPos + 2;
 		} // for
 
-//    /***********************************************************************
-//    * Convert the FormalParamNode array params to the OpDeclNode array     *
-//    * odn.                                                                 *
-//    ***********************************************************************/
-//    OpDeclNode[] odn = new OpDeclNode[params.length] ;
-//    for (int i = 0; i < params.length; i++) {
-//      odn[i] = new OpDeclNode(params[i].getName(),
-//                              BoundSymbolKind,
-//                              ConstantLevel,
-//                              params.length,  // arity
-//                              cm,             // ModuleNode                     
-//                              null,           // SymbolTable
-//                              params[i].stn); // TreeNode
-//      }; // for
-		pushFormalParams(params);
+        pushFormalParams(params);
 		/*******************************************************************
 		 * Push formal parameters on Last(LS).paramSeq for processing the * body
 		 *******************************************************************/
@@ -6669,16 +6630,8 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 // Was put into the ModuleNode object, since otherwise it would contain
 // nodes from all inner modules.
-//  Vector recursiveDecls = new Vector(100) ;
-//    /***********************************************************************
-//    * The set of OpDefNode objects that originally appeared in a           *
-//    * RECURSIVE declaration.  For now, it is used only to find operators   *
-//    * that were declared in a RECURSIVE declaration but never defined.     *
-//    * Perhaps some other use will be found for it, in which case it        *
-//    * should be put into the module's ModuleNode object.                   *
-//    ***********************************************************************/
 
-	int max_dfs = 0;
+    int max_dfs = 0;
 	/***********************************************************************
 	 * A variable used in the Tarjan algorithm. *
 	 ***********************************************************************/
@@ -6712,10 +6665,8 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		final OpDefNode odn = new OpDefNode(us, UserDefinedOpKind, params, localness, null, // the expression
 				oModNode, st, tn, false, null);
 //  was incrementing it twice
-//    unresolvedCnt[curLevel] ++ ;
-//    unresolvedSum = unresolvedSum ++ ;
 
-		oModNode.recursiveDecls.addElement(odn);
+        oModNode.recursiveDecls.addElement(odn);
 
 		odn.letInLevel = curLevel;
 		odn.inRecursive = true;
@@ -6728,11 +6679,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 //    odn.nbrs               = new Vector(10);
 
 //  Code to construct dependence graph removed by LL on 7 Apr 2007
-//      if (! recursive) {
-//        defStack[defStackLen] = odn ;
-//        defStackLen ++ ;
-//       } ;
-		return odn;
+        return odn;
 	}
 
 	void endOpDefNode(final OpDefNode nd, final ExprNode exp, final TreeNode stn) {
@@ -6753,25 +6700,12 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		nd.stn = stn;
 
 //  Code to construct dependence graph removed by LL on 7 Apr 2007
-//    if (unresolvedSum > 0) {
-//      /*********************************************************************
-//      * Pop OpDefNode off defStack.                                        *
-//      *********************************************************************/
-//      defStackLen -- ;
-//     } ;
 
-		if (nd.inRecursive) {
+        if (nd.inRecursive) {
 			unresolvedCnt[curLevel]--;
 			unresolvedSum--;
 //  Code to construct dependence graph removed by LL on 7 Apr 2007
-//      if (unresolvedSum == 0) {
-//        tarjan() ; 
-//        for (int i = 0 ; i < participants.size(); i++) {        
-//          ((OpDefNode) participants.elementAt(i)).participating = false ;
-//         } ; // for
-//        participants = new Vector(100) ;
-//       } // if (unresolvedSum == 0)
-			if (unresolvedSum < 0) {
+            if (unresolvedSum < 0) {
 				throw new WrongInvocationException(
 						"Defined more recursive operators than were declared " + "in RECURSIVE statements.");
 			}
@@ -6798,26 +6732,8 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 //   }
 
 //  Code to construct dependence graph removed by LL on 7 Apr 2007
-//  SymbolNode findSymbol(UniqueString name) {
-//    /***********************************************************************
-//    * To gather the data needed to compute the dependence graph, when      *
-//    * processing a definition, the operator being defined is put into the  *
-//    * symbol table before the body of the definition is processed.         *
-//    * However, if the operator is not declared in a RECURSIVE statement,   *
-//    * a use of it in the body must be reported as an error.  To do this,   *
-//    * calls that of symbolTable.resolveSymbol have been replaced by calls  *
-//    * to findSymbol, which checks if the found symbol is not defined or    *
-//    * declared at this point, and returns null if that is the case.        *
-//    ***********************************************************************/
-//    SymbolNode nd = symbolTable.resolveSymbol(name) ;
-//    if ((nd != null) && (nd instanceof OpDefNode)) {
-//      OpDefNode ond = (OpDefNode) nd ;
-//      if ((!ond.isDefined) && (!ond.inRecursive)) { nd = null; } ;
-//     };
-//    return nd ;
-//   } // findSymbol
 
-	void setOpDefNodeRecursionFields(final OpDefNode odn, final ModuleNode cm) {
+    void setOpDefNodeRecursionFields(final OpDefNode odn, final ModuleNode cm) {
 		/***********************************************************************
 		 * Called to set the field odn.letInLevel and the fields * odn.recursiveSection
 		 * and odn.inRecursiveSection if they need * non-default values, and to add odn
@@ -6874,16 +6790,6 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		}
         // if (unresolvedCnt[curLevel] > 0)
 	}
-
-//  void tarjan() {
-//    /***********************************************************************
-//    * This is the Java version of the algorithm in the file Tarjan.tla, a  *
-//    * copy of which appears below.                                         *
-//    ***********************************************************************/
-///***************************************************************************
-//* XXXXXX: Not yet implemented.                                             *
-//***************************************************************************/
-//   }
 
 }
 

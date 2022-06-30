@@ -175,34 +175,9 @@ public class SymbolTable implements ASTConstants {
     // If the two decls or defs of the same name originate in the same
     // original, parameter-free external module, then they are clearly
     // "the same" and no error or warning is necessary.
-//     if (symbol instanceof OpDefOrDeclNode &&
-//         ((OpDefOrDeclNode)symbol).getOriginallyDefinedInModuleNode() == 
-// 	((OpDefOrDeclNode)currentBinding).getOriginallyDefinedInModuleNode() &&
-// 	((OpDefOrDeclNode)currentBinding).getOriginallyDefinedInModuleNode().isParameterFree()) {
-//       return true;
-//     }
 
-// System.out.println("*** Not legitimate duplicate " + symbol.getKind());
-    /*
-    // Debug
-    System.out.println("\nsymbol '" + symbol.getName() + "' originally defined in: " + 
-                       ((OpDefOrDeclNode)symbol).getOriginallyDefinedInModuleNode().getName() +
-                       "\ncurrentBinding '" + currentBinding.getName() + "' originally defined in: " +
-                       ((OpDefOrDeclNode)currentBinding).getOriginallyDefinedInModuleNode().getName() );
-    System.out.println("Module '" +
-		       ((OpDefOrDeclNode)currentBinding).getOriginallyDefinedInModuleNode().getName() +
-		       "' parameter free?  " +
-		       ((OpDefOrDeclNode)currentBinding).getOriginallyDefinedInModuleNode().isParameterFree());
-    */
-    
 
-    // If we survive the above tests, however, then this is a case of
-    // multiple definitions.  We report this as a warning unless both definitions
-    // come from the same module.  
-    // Test for same module added by LL on 31 Oct 2012 to fix problem caused by
-    // the same module being both EXTENDed and imported with a LOCAL INSTANCE.  
-    // Previously, it always added the warning.
-    if (symbol.sameOriginallyDefinedInModule(currentBinding)) {
+      if (symbol.sameOriginallyDefinedInModule(currentBinding)) {
         return true ;
     }
     errors.addWarning(symbol.getTreeNode().getLocation(), 

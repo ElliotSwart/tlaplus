@@ -137,9 +137,7 @@ public class XMLExporter {
 
       //Export all the external modules
       final ExternalModuleTable table = spec.getExternalModuleTable();
-      //Element e = table.getRootModule().exportDefinition(doc,context);
-      //rootElement.appendChild(e);
-      final ModuleNode[] externalModules = table.getModuleNodes();
+        final ModuleNode[] externalModules = table.getModuleNodes();
         for (ModuleNode externalModule : externalModules) {
             //Element ext_e = externalModules[j].exportDefinition(doc, context);
             final Element ext_e = externalModule.export(doc, context);

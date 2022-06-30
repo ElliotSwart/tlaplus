@@ -28,14 +28,7 @@ public class SyntaxTreePrinter {
     printSubTree(output, "", pt.rootNode() );
   }
 
-  /*
-  static public final void print( TreeNode tn, java.io.PrintWriter output ) {
-    output.println("%% Output of syntax tree" ); 
-    printSubTree(output, "", tn);
-  }
-  */
-   
-  private static void printSubTree(final java.io.PrintWriter o, final String offset, final TreeNode node ) {
+    private static void printSubTree(final java.io.PrintWriter o, final String offset, final TreeNode node ) {
     final StringBuffer outS = new StringBuffer( offset );
     final Location l = node.getLocation();
     final String image = node.getImage();
@@ -56,8 +49,6 @@ public class SyntaxTreePrinter {
         final int length = node.getPreComments().length;
         outS.append(length); outS.append(" pre-comments ");
 // Commented out on 21 Aug 2007 by LL
-//        length = node.getPostComments().length;
-//        outS.append(length); outS.append(" post-comments ");
       }
       outS.append(" {");
       o.println(outS);

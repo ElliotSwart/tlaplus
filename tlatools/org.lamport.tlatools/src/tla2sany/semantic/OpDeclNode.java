@@ -96,54 +96,16 @@ public class OpDeclNode extends OpDefOrDeclNode {
     /***********************************************************************
     * Level information set by constructor.                                *
     ***********************************************************************/
-//    if (levelChecked > 0) { return true ;} ;
-//    levelChecked = iter;
-//    /***********************************************************************
-//    * Note: level set by constructor.                                      *
-//    ***********************************************************************/
-//    if (this.getKind() == ConstantDeclKind) {this.levelParams.add(this);} ;
-    return true;
+      return true;
    }
 
 
-//  public final int getLevel() { return this.level; }
-//
-//  public final HashSet getLevelParams() {
-//    if (this.levelParams == null) {
-//      if (this.getKind() == ConstantDeclKind) {
-//	this.levelParams = new HashSet();
-//	this.levelParams.add(this);
-//      }
-//      else {
-//	this.levelParams = EmptySet;
-//      }
-//    }
-//    return this.levelParams;
-//  }
-//
-//  public final SetOfLevelConstraints getLevelConstraints() {
-//    return EmptyLC;
-//  }
-//
-//  public final SetOfArgLevelConstraints getArgLevelConstraints() {
-//    return EmptyALC;
-//  }
-//
-//  public final HashSet getArgLevelParams() { return EmptySet; }
-
-  /**
+    /**
    * walkGraph, levelDataToString, and toString methods to implement
    * ExploreNode interface
    */
-//  public final String levelDataToString() {
-//    return "Level: "               + this.level                    + "\n" +
-//           "LevelParameters: "     + this.getLevelParams()         + "\n" +
-//           "LevelConstraints: "    + this.getLevelConstraints()    + "\n" +
-//           "ArgLevelConstraints: " + this.getArgLevelConstraints() + "\n" +
-//           "ArgLevelParams: "      + this.getArgLevelParams()      + "\n";
-//  }
 
-  @Override
+    @Override
   public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
     final Integer uid = myUID;
     if (semNodesTable.get(uid) != null) return;

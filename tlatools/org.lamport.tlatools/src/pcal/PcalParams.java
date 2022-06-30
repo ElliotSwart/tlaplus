@@ -168,9 +168,7 @@ public final class PcalParams
       * by LL on 22 Aug 2007                                               *
       *********************************************************************/
       { final Vector<TLAToken> line = new Vector<>() ;
-//        line.addElement(new TLAToken("{", 0, 0)) ;
-//        line.addElement(new TLAToken("}", 0, 0)) ;
-        line.addElement(new TLAToken("defaultInitValue", 0, 0));
+          line.addElement(new TLAToken("defaultInitValue", 0, 0));
         final Vector<Vector<TLAToken>> vec = new Vector<>() ;
         vec.addElement(line) ;
         final TLAExpr exp = new TLAExpr(vec) ;
@@ -213,29 +211,9 @@ public final class PcalParams
   public static final String CfgFileDelimiter =
             "\\* Add statements after this line." ;
 
-/************ Stuff for .pcal file ***************************************/  
-  
-//  /***********************************************************************
-//  * The string identifying the beginning of the algorithm in the .pcal   *
-//  * file.                                                                *
-//  ***********************************************************************/
-//  public static final String PcalBeginAlg = "algorithm";
-//   
-//  /**
-//   * The <row, col> (in Java coordinates) of the beginning of the
-//   * "algorithm" token in the .pcal file.
-//   */
-//  public static IntPair endOfPreamble = null;
-//
-//  /**
-//   * The <row, col> (in Java coordinates) of the beginning of the TLA+ 
-//   * "code" that follows the algorithm in the input (.pcal) and output 
-//   * (.tla) files.  For outputSuffixLoc, the column always equals 0.
-//   */
-//  public static IntPair inputSuffixLoc = null;
-//  public static IntPair outputSuffixLoc = null;
-//  
-  /*************************************************************************
+/************ Stuff for .pcal file ***************************************/
+
+    /*************************************************************************
   * File parameters.                                                       *
   *************************************************************************/
   public static String TLAInputFile = "" ;

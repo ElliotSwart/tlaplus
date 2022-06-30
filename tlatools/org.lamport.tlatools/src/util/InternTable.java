@@ -101,12 +101,8 @@ public final class InternTable implements Serializable
     /**
      * Create the unique string based on the token
      */
-//    private UniqueString create(String str)
-//    {
-//        return new UniqueString(str, ++tokenCnt);
-//    }
 
-	private UniqueString create(final String str) {
+    private UniqueString create(final String str) {
 		if (this.internSource == null) {
 			return new UniqueString(str, ++tokenCnt);
 		}

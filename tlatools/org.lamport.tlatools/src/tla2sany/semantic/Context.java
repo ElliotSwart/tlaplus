@@ -108,19 +108,6 @@ public class Context implements ExploreNode {
       return e.nextElement().getSymbol();
     }
 
-   /* public Element export(Document doc) {
-      Element ret = doc.createElement("context");
-      while (hasMoreElements()) {
-        SymbolNode sn = nextElement();
-        Element en = doc.createElement("entry");
-        Element nm = doc.createElement("uniquename");
-        nm.appendChild(doc.createTextNode(sn.getName().toString()));
-        en.appendChild(nm);
-        en.appendChild(sn.exportDefinition(doc));
-        ret.appendChild(en);
-      }
-      return ret;
-    }*/
   }
 
   private static Context initialContext = new Context(null, new Errors());
@@ -546,7 +533,4 @@ public<T> Vector<T> getByClass(final Class<T> template ) {
 
   }
 
-  /*public Element export(Document doc) {
-    return getContextSymbolEnumeration().export(doc);
-  }*/
 }

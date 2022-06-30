@@ -104,14 +104,8 @@ implements ExploreNode, LevelConstants {
 
   /* Level checking */
 // These fields are now part of all LevelNode subclasses.
-//  private boolean levelCorrect;
-//  private int level;
-//  private HashSet levelParams;
-//  private SetOfLevelConstraints levelConstraints;
-//  private SetOfArgLevelConstraints argLevelConstraints;
-//  private HashSet argLevelParams;
 
-  @Override
+    @Override
   @SuppressWarnings("unchecked")
   public final boolean levelCheck(final int itr) {
     if (this.levelChecked >= itr) return this.levelCorrect;
@@ -213,35 +207,12 @@ implements ExploreNode, LevelConstants {
     return this.levelCorrect;
   }
 
-//  public final int getLevel() { return this.level; }
-//
-//  public final HashSet getLevelParams() { return this.levelParams; }
-//
-//  public final SetOfLevelConstraints getLevelConstraints() {
-//    return this.levelConstraints;
-//  }
-//
-//  public final SetOfArgLevelConstraints getArgLevelConstraints() {
-//    return this.argLevelConstraints;
-//  }
-//
-//  public final HashSet getArgLevelParams() {
-//    return this.argLevelParams;
-//  }
-
-  /**
+    /**
    * toString, levelDataToString, and walkGraph methods to implement
    * ExploreNode interface
    */
-//  public final String levelDataToString() {
-//    return "Level: "               + this.level               + "\n" +
-//           "LevelParameters: "     + this.levelParams         + "\n" +
-//           "LevelConstraints: "    + this.levelConstraints    + "\n" +
-//           "ArgLevelConstraints: " + this.argLevelConstraints + "\n" +
-//           "ArgLevelParams: "      + this.argLevelParams      + "\n" ;
-//  }
 
-  @Override
+    @Override
   public SemanticNode[] getChildren() {
       final SemanticNode[] res =
          new SemanticNode[this.opDefs.length + this.insts.length + 1];
@@ -268,12 +239,7 @@ implements ExploreNode, LevelConstants {
     * (which is incomplete).                                               *
     ***********************************************************************/
     if (context != null){context.walkGraph(semNodesTable, visitor);}
-//    if (opDefs != null) {
-//      for (int i = 0; i < opDefs.length; i++) {
-//        if (opDefs[i] != null) opDefs[i].walkGraph(semNodesTable);
-//      }
-//    }
-    if (body != null) body.walkGraph(semNodesTable, visitor);
+      if (body != null) body.walkGraph(semNodesTable, visitor);
     visitor.postVisit(this);
   }
 
@@ -304,10 +270,7 @@ implements ExploreNode, LevelConstants {
       /***********************************************************************
     * We no longer print opDefs because the information is in the context. *
     ***********************************************************************/
-//    for (int i = 0; i < opDefs.length; i++) {
-//      ret += Strings.indent(2,"\nDef:" + Strings.indent(2, opDefs[i].toString(depth-1)));
-//    }
-    ret.append(Strings.indent(2, "\nBody:" + Strings.indent(2, body.toString(depth - 1))));
+      ret.append(Strings.indent(2, "\nBody:" + Strings.indent(2, body.toString(depth - 1))));
     return ret.toString();
   }
 

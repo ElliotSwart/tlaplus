@@ -580,43 +580,8 @@ public class TLAExpr
        * The following method does not seem to be called from anywhere, so LL
        * deleted it on 6 Dec 2011.
        */
-//    public void insertNewToken(String str, IntPair coord) throws TLAExprException
-//      /*********************************************************************
-//      * Inserts a new token into expr right after the token with Java      *
-//      * coordinates coord.  The token has string str and some type other   *
-//      * than STRING.                                                       *
-//      *********************************************************************/
-//      { int lineNum = coord.one ;
-//        int tokNum  = coord.two ;
-//        if (lineNum >= tokens.size())
-//          { PcalDebug.ReportBug("insertNewToken called with lineNum too big");}
-//        Vector curLine = (Vector) tokens.elementAt(lineNum) ;
-//
-//        if (tokNum >= curLine.size())
-//          { PcalDebug.ReportBug("insertNewToken called with tokNum too big"); }
-//    
-//        TLAToken curTok = ((TLAToken) curLine.elementAt(tokNum)) ;
-//
-//        curLine.insertElementAt(new 
-//                                  TLAToken(str, 
-//                                           curTok.column + curTok.getWidth(), 
-//                                           TLAToken.BUILTIN),
-//                                tokNum + 1);
-//
-//        /*******************************************************************
-//        * Increment the columns of later tokens in the line by the length  *
-//        * of str.                                                          *
-//        *******************************************************************/
-//        int i = tokNum + 2;
-//        while (i < curLine.size())
-//          { ((TLAToken) curLine.elementAt(i)).column =
-//              ((TLAToken) curLine.elementAt(i)).column + str.length() ;
-//            i = i + 1;
-//          };
-//        this.renormalize() ;
-//      }  
 
-    public static Vector<TLAExpr> SeqSubstituteForAll(final Vector<TLAExpr> expVec, // of TLAExpr
+      public static Vector<TLAExpr> SeqSubstituteForAll(final Vector<TLAExpr> expVec, // of TLAExpr
                                                       final Vector<TLAExpr> exprs,  // of TLAExpr
                                                       final Vector<String> strs) throws TLAExprException   // of String
       /*********************************************************************
@@ -776,26 +741,8 @@ public class TLAExpr
             }
         }
     }
-                                
-//      /*********************************************************************
-//      * Substitute each of the expressions in exprs for the corresponding  *
-//      * string in strs.  (The vectors must have the same lengths.)         *
-//      * If parenthesize = true, then parentheses are put around the        *
-//      * substituted string unless it or the current expression consists    *
-//      * of just one token.                                                 *
-//      *********************************************************************/
-//      { 
-//        int i = 0 ;
-//        while (i < exprs.size())
-//          { TLAExpr exp = (TLAExpr) exprs.elementAt(i) ;
-//            String  st  = (String)  strs.elementAt(i) ;
-//            substituteFor(exp, st, parenthesize) ;
-//            i = i + 1;
-//          };
-//        return;
-//      }      
 
-     public void substituteFor(final TLAExpr expr, final String id, final boolean parenthesize) throws TLAExprException
+      public void substituteFor(final TLAExpr expr, final String id, final boolean parenthesize) throws TLAExprException
       /*********************************************************************
       * Substitutes expression expr for all tokens in the current          *
       * expression representing the identifier id -- that is, instances    *
@@ -876,23 +823,8 @@ public class TLAExpr
 // than risking any further bugs appearing because of it, I'm backing out
 // of that and doing something else that cannot make any changes to the
 // existing translation.
-//
-//            /**
-//             * Insert BEGIN/END_REPLACEMENT tokens
-//             */
-//            Region tokSource = tok.source ;
-//            if (tokSource != null) {
-//                Vector line = (Vector) this.tokens.elementAt(0) ;
-//                line.insertElementAt(new TLAToken("", tok.column, TLAToken.BEGIN_REPLACEMENT, 
-//                          new Region (tokSource.getBegin(), 
-//                                      tokSource.getBegin())), 0) ;
-//                line.add(new TLAToken("", tok.column, TLAToken.END_REPLACEMENT, 
-//                          new Region (tokSource.getEnd(), 
-//                                      tokSource.getEnd()))) ;
-//                
-//            }
 
-            return null ;
+              return null ;
           }
 
           /*******************************************************************
@@ -1098,20 +1030,7 @@ public class TLAExpr
              * expression rather than inserted by calling insertNewToken.
              * I think this is safe to do for a zero-width token.
              */
-//            if (tok.source != null) {
-//              line.add(new TLAToken("", tok.column, TLAToken.END_REPLACEMENT, 
-//        		      new Region (tok.source.getEnd(), tok.source.getEnd()))) ;
-//            }
-//            /*
-//             * Add a BEGIN_REPLACEMENT token.
-//             */
-//            if (tok.source != null) {
-//               ((Vector) this.tokens.elementAt(coord.one)).insertElementAt(
-//            		new TLAToken("", tok.column, TLAToken.BEGIN_REPLACEMENT, 
-//              		      new Region (tok.source.getBegin(), 
-//              		    		      tok.source.getBegin())), coord.two) ;
-//            }
-          } 
+          }
 
         final IntPair result = new IntPair(curLine, line.size()-1);
         /*******************************************************************
@@ -1130,26 +1049,13 @@ public class TLAExpr
 // tokens with new ones.  This was wrong because any anchorToken that
 // pointed to one of those tokens was now pointing to the wrong
 // TLAToken object.  Here's the bad code:
-//
-//                TLAToken newTok = new TLAToken(oldTok.string,
-//                                               oldTok.column + indent ,
-//                                               oldTok.type) ;
-//                line.add(newTok) ;
-                oldTok.column = oldTok.column + indent ;
+                  oldTok.column = oldTok.column + indent ;
                 line.add(oldTok) ;
                 i = i + 1 ;
               }
           }
           this.renormalize() ;
-//System.out.println("Begin to Return") ;
-//System.out.println(this.toString());
-//for (int i = 0; i < this.tokens.size(); i++) {
-//	System.out.println("line " + i + ":") ;
-//	Debug.printVector((Vector) this.tokens.elementAt(i), "theline") ;
-//}
-//Debug.printVector(this.tokens, "foo");
-//System.out.println("Return");
-        return this.stepCoord(result, 1);
+          return this.stepCoord(result, 1);
       }     
 
     public IntPair findNextInstanceIn(final String  id,

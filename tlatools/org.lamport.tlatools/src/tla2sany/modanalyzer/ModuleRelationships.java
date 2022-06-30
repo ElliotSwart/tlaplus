@@ -17,13 +17,7 @@ class ModuleRelationships {
   // Maps ModulePointer objects to ModuleRelatives objects
   private final Hashtable<ModulePointer, ModuleRelatives> modRelHashtable = new Hashtable<>();
 
-/*
-  ModuleRelatives getRelatives(ModulePointer modulePointer) { 
-    return modulePointer.getRelatives(); //(ModuleRelatives)modRelHashtable.get(modulePointer); 
-  }
-*/
-
-  void putRelatives (final ModulePointer modulePointer, final ModuleRelatives relatives) {
+    void putRelatives (final ModulePointer modulePointer, final ModuleRelatives relatives) {
     modRelHashtable.put(modulePointer, relatives);
   } // end putRelatives()
 

@@ -88,10 +88,6 @@ public class MappingObject implements Serializable {
             return "((-" + this.location.toString();
         }
 
-//        public int getColumn() {
-//            return column;
-//        }
-
         public PCalLocation getLocation() {
             return location;
         }
@@ -145,10 +141,6 @@ public class MappingObject implements Serializable {
         public String toString() {
             return this.location.toString() + "-))";
         }
-
-//        public int getColumn() {
-//            return column;
-//        }
 
         public PCalLocation getLocation() {
             return location;
@@ -315,10 +307,6 @@ public class MappingObject implements Serializable {
         public Region getOrigin() {
             return origin;
         }
-
-//        public void setOrigin(Region origin) {
-//            this.origin = origin;
-//        }
 
         public SourceToken(final int beginCol, final int endCol, final Region origin) {
             super(SOURCE_TOKEN) ;

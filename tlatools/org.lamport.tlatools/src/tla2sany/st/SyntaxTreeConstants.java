@@ -33,9 +33,7 @@ public interface SyntaxTreeConstants {
   int  N_BoundQuant  =  335 ;
   int  N_Case  =  336 ;
   int  N_CaseArm  =  337 ;
-//  int  N_CaseStatement  =  338 ;    // Removed by LL 25 Jul 2007
-//  int  N_ChooseStatement  =  339 ;  // Removed by LL 25 Jul 2007
-  int  N_ConjItem  =  340 ;
+int  N_ConjItem  =  340 ;
   int  N_ConjList  =  341 ;
   int  N_ConsDecl  =  342 ;
   int  N_DisjItem  =  343 ;
@@ -98,10 +96,7 @@ public interface SyntaxTreeConstants {
   int  N_PrefixLHS  =  400 ;
   int  N_PrefixOp  =  401 ;
   int  N_Proof  =  402 ;
-//  int  N_ProofLet  =  403 ;         // Removed by LL 25 Jul 2007
-//  int  N_ProofName  =  404 ;        // Removed by LL 25 Jul 2007
-//  int  N_ProofStatement  =  405 ;   // Removed by LL 25 Jul 2007
-  int  N_ProofStep  =  406 ;        
+int  N_ProofStep  =  406 ;
   int  N_QEDStep  =  407 ;
   int  N_QuantBound  =  408 ;
   int  N_RcdConstructor  =  409 ;

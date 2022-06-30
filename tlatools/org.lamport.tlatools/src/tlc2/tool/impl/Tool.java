@@ -1898,9 +1898,6 @@ public abstract class Tool
           * imported with parameterized instantiation.                         *
           *********************************************************************/
           else if (val instanceof final ThmOrAssumpDefNode opDef) {
-//            Assert.fail("Trying to evaluate the theorem or assumption name `"
-//                         + opNode.getName() + "'. \nUse `" + opNode.getName()
-//                         + "!:' instead.\n" +expr);
               final Context c1 = this.getOpContext(opDef, args, c, true);
             return this.eval(opDef.getBody(), c1, s0, s1, control, cm);
           }

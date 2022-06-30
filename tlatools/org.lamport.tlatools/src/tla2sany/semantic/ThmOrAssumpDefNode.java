@@ -353,50 +353,13 @@ public class ThmOrAssumpDefNode extends SymbolNode
 // He also made the ThmOrAssumpDefNode implement the AnyNode interface.
 // See the comments in AnyDefNode.java for an explanation of why.
 
-//  /*************************************************************************
-//  * Level checking.                                                        *
-//  *************************************************************************/
-//  public boolean levelCheck(int iter) {
-//    if (levelChecked >= iter) {return levelCorrect;} ;
-//    levelChecked = iter ;
-//    levelCorrect        = this.body.levelCheck(iter) ;
-//    level               = this.body.level ;
-//    levelParams         = this.body.levelParams ;
-//    allParams           = this.body.allParams ;
-//    levelConstraints    = this.body.levelConstraints ;
-//    argLevelConstraints = this.body.argLevelConstraints ;
-//    argLevelParams      = this.body.argLevelParams ;
-//    return levelCorrect ;
-//   }
-//
-////  /*************************************************************************
-////  * The implementation of the LevelNode abstract methods.  They simply     *
-////  * return the corresponding values for the body.                          *
-////  *************************************************************************/
-////  public final LevelNode getBody()  {return this.body;}
-////  public boolean levelCheck()       {return this.body.levelCheck();}
-////  public int getLevel()             {return this.body.getLevel();}
-////  public HashSet getLevelParams()   {return this.body.getLevelParams();}
-////  public SetOfLevelConstraints getLevelConstraints()
-////    {return this.body.getLevelConstraints() ;}
-////  public SetOfArgLevelConstraints getArgLevelConstraints()
-////    {return this.body.getArgLevelConstraints() ; }
-////  public HashSet getArgLevelParams()
-////    {return this.body.getArgLevelParams() ; }
-
-  /*************************************************************************
+    /*************************************************************************
   * The fields used for level checking.                                    *
   *************************************************************************/
 // These fields are now present in all LevelNode subclasses
-//  private boolean levelCorrect;
-//  private int level;
-//  private HashSet levelParams;
-//  private SetOfLevelConstraints levelConstraints;
-//  private SetOfArgLevelConstraints argLevelConstraints;
-//  private HashSet argLevelParams;
 
 
-  int[] maxLevels;
+    int[] maxLevels;
   int[] weights;
   int[][] minMaxLevel;
     /***********************************************************************
@@ -582,13 +545,9 @@ public class ThmOrAssumpDefNode extends SymbolNode
    * toString, levelDataToString and walkGraph methods to implement
    * ExploreNode interface
    */
-//  public final String levelDataToString() {
-//    return this.body.levelDataToString();
-//   }
 
 
-
-  /**
+    /**
    *  The body is the node's only child.
    */
   @Override

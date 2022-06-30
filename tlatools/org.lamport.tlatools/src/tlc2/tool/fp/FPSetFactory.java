@@ -186,16 +186,8 @@ public abstract class FPSetFactory {
 			// poor mans version of modularity, booh!
 			final ClassLoader classLoader = FPSet.class.getClassLoader();
 			final Class<?> factoryClass = classLoader.loadClass(clazz);
-			
-//			// HACK class loading to pass _non heap_ memory into subclasses of
-//			// OffHeapFPSet.
-//			if (!allocatesOnHeap(clazz)) {
-//				long l = TLCRuntime.getInstance().getNonHeapPhysicalMemory() / (long) LongSize;
-//				// divide l among all FPSet instances
-//				fpMemSizeInFPs = l >> fpBits; 
-//			}
 
-			final Constructor<?> constructor = factoryClass
+            final Constructor<?> constructor = factoryClass
 					.getDeclaredConstructor(FPSetConfiguration.class);
 			final Object instance = constructor.newInstance(
 					fpSetConfig);

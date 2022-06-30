@@ -11,8 +11,6 @@
 *      Sorts the array first by column and, within column, by line.        *
 ***************************************************************************/
 package tla2tex;
-// import tlatex.Position;
-//import java.util.Comparator;
 public class PosAndCol extends Position implements Comparable<PosAndCol>
  { public final int column ;
 

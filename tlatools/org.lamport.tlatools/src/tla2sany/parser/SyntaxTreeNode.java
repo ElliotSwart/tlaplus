@@ -299,9 +299,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
       * appears that this method was never used until printing of 
       * comments in debug mode was added in Jul 2009.
       */
-//      String[] res = new String[1] ;
-//      res[0] = "No left-most token node???" ;
-      return res ; }
+          return res ; }
       return ((SyntaxTreeNode) this.heirs()[0]).getAttachedComments() ;
    }
 
@@ -453,41 +451,8 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   /******************
  * Bogus old version
  */
-//  private void updateLocation() {
-//    int lvi = 0;
-//    location[0] = java.lang.Integer.MAX_VALUE;
-//    location[1] = java.lang.Integer.MAX_VALUE;
-//    location[2] = java.lang.Integer.MIN_VALUE;
-//    location[3] = java.lang.Integer.MIN_VALUE;
-//
-//    if ( zero != null) {
-//      for ( lvi = 0; lvi < zero.length; lvi++ ) {
-//        if ( zero[lvi].location[0] != java.lang.Integer.MAX_VALUE ) {
-//          location[0] = Math.min ( location[0], zero[lvi].location[0] );
-//          if ( location[0] == zero[lvi].location[0] )
-//            location[1] = Math.min ( location[1], zero[lvi].location[1]) ;
-//          location[2] = Math.max ( location[2], zero[lvi].location[2]);
-//          if ( location[2] == zero[lvi].location[2] )
-//            location[3] = Math.max ( location[3], zero[lvi].location[3]);
-//        }
-//      }
-//    }
-//
-//    if ( one != null) {
-//      for ( lvi=0; lvi < one.length; lvi++ ) {
-//        if ( one[lvi].location[0] != java.lang.Integer.MAX_VALUE ) {
-//          location[0] = Math.min ( location[0], one[lvi].location[0] );
-//          if ( location[0] == one[lvi].location[0] )
-//            location[1] = Math.min ( location[1], one[lvi].location[1]) ;
-//          location[2] = Math.max ( location[2], one[lvi].location[2]);
-//          if ( location[2] == one[lvi].location[2] )
-//            location[3] = Math.max ( location[3], one[lvi].location[3]);
-//        }
-//      }
-//    }
-//  }
 
-  /**
+    /**
    * updateLocation() computes the location field from the location fields
    * of the heirs (descendants).  This would seem to be a matter of just
    * copying the location fields of the first and last heirs, in the 

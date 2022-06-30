@@ -506,9 +506,7 @@ public class ParseAlgorithm
 // I moved the following to after processing the procedures
 // so added labels are printed in correct order-- e.g., with 
 // -reportLabels option 
-//           AddLabelsToStmtSeq(uniproc.body) ;
-//           uniproc.body = MakeLabeledStmtSeq(uniproc.body);
-           int i = 0 ;
+             int i = 0 ;
            while (i < uniproc.prcds.size())
              {  final AST.Procedure prcd =
                      uniproc.prcds.elementAt(i);
@@ -1655,45 +1653,7 @@ public class ParseAlgorithm
        return result ;
      }
 
-//   public static AST.Macro ObsoleteGetMacro() throws ParseAlgorithmException 
-//     /**********************************************************************
-//     * This method was largely copied from GetProcedure.                   *
-//     **********************************************************************/
-//     { AST.Macro result = new AST.Macro() ;
-//       inGetMacro = true ;
-//       MustGobbleThis("macro") ;
-//       result.col  = lastTokCol ;
-//       result.line = lastTokLine ;
-//       result.name = GetAlgToken() ;
-//       GobbleThis("(") ;
-//       result.params = new Vector() ;
-//       boolean lookForComma = false ;
-//       while (! PeekAtAlgToken(1).equals(")"))
-//         { if (lookForComma)
-//             { GobbleThis(",") ; } ;
-//           result.params.addElement(GetAlgToken()) ;
-//           lookForComma = true ;
-//         }
-//       MustGobbleThis(")") ;
-//       GobbleBeginOrLeftBrace() ; ;
-//       result.body = GetStmtSeq() ;
-//       GobbleEndOrRightBrace("macro") ;
-//       if (PeekAtAlgToken(1).equals(";"))
-//         { String tok = GetAlgToken() ; } ;
-//
-//       ExpandMacrosInStmtSeq(result.body, new Vector()) ;
-//         /******************************************************************
-//         * This is a quick and dirty way to produce an error if the macro  *
-//         * body contains a macro call.  It's a trifle inelegant to         *
-//         * produce the same error message for a call of a nonexistent      *
-//         * macro as for a macro call within a macro, but the user will     *
-//         * have no problem figuring out which it is.                       *
-//         ******************************************************************/
-//       inGetMacro = false ;
-//       return result ;
-//     }
-
-   /**
+    /**
     *  GetMacro changed by LL on 14 July 2011 to take the vector of macros
     *  as an argument that it passes to ExpandMacrosInStmtSeq.  (Previously,
     *  it had passed an empty vector.)  This allows macros to be called inside
@@ -1876,10 +1836,7 @@ public class ParseAlgorithm
                  ******************************************************/
                final Vector<String> thenAssigned     = new Vector<>() ;
                final Vector<String> elseAssigned     = new Vector<>() ;
-// System.out.println("If at " + stmt.location()) ;
-// PcalDebug.printVector(outAssigned, "pre outAssigned") ;
-// PcalDebug.printVector(inAssigned, "pre inAssigned") ;
-               nextStepNeedsLabel =
+                 nextStepNeedsLabel =
                  InnerAddLabels(obj.unlabThen,  
                                 false,             // firstLabeled
                                 inWith,            // inWith
@@ -2003,9 +1960,7 @@ public class ParseAlgorithm
                  /******************************************************
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
-// System.out.println("Assgn at " + stmt.location() ) ;
-// PcalDebug.printVector(outAssigned, "out") ;
-               /************************************************************
+/************************************************************
                * assignedVbls := the set of variables being assigned.      *
                ************************************************************/
                final Vector<String> assignedVbls = new Vector<>() ;
@@ -3982,35 +3937,10 @@ public class ParseAlgorithm
                         ! (Character.isLetter(curLine.charAt(endLoc)) ||
                            (curLine.charAt(endLoc) == '_'))) {                
                    found = true;
-//                   if (outputVec != null && curLoc.two != 0) {
-//                      outputVec.addElement(curLine.substring(0, curLoc.two));
-//                   }
-                   curLoc.two = endLoc;
+                     curLoc.two = endLoc;
                  }                
               }
              curLoc.two = NextSpaceCol(curLine, curLoc.two);
-             
-            // if ((!found) && (curLoc.two < curLine.length()))
-            //
-            // {
-            // char c = curLine.charAt(curLoc.two);
-            // if ((c == '(') && (curLoc.two + 1 < curLine.length()) && (curLine.charAt(curLoc.two + 1) == '*'))
-            // {
-            // ParseAlgorithm.gotoEndOfComment(inputVec, curLoc);
-            // curLine = GotoNextNonSpace(inputVec, curLoc);
-            // } else if ((c == '\\') && (curLoc.two + 1 < curLine.length())
-            // && (curLine.charAt(curLoc.two + 1) == '*'))
-            // {
-            // // if (replace) {
-            // // inputVec.setElementAt(
-            // // curLine.substring(0, curLoc.two), curLoc.one);
-            // // }
-            // curLoc.two = curLine.length();
-            // } else if (c == '"')
-            // {
-            // curLoc.two = ParseAlgorithm.findEndOfString(curLine, curLoc.two, curLoc.one);
-            // }
-            // }
 
        } // end of while, either found beginning or at end of file
        if (!found) {
@@ -4032,31 +3962,12 @@ public class ParseAlgorithm
     * commented-out method NextCharOf to reimplement these methods, but I  *
     * decided not to bother.  Beware.                                      *
     ***********************************************************************/
-//    static int NextCharOf(String str, int col, char[] chs) {
-//       int curcol = col;
-//       boolean found = false;
-//       while ((!found) && (curcol < str.length())) {
-//           char c = str.charAt(curcol);
-//           for(int i = 0; i < chs.length; i++) {
-//               if (c == chs[i]) {
-//                   found = true;
-//               }
-//           }
-//           curcol++;
-//       }
-//       return curcol;
-//   }
-   /**
+/**
     * Returns the position of the first space at or after position col
     * in str, or str.size() if there is none.
     */
-//   private static int NextSpaceCol(String str, int col) {
-//      int res = str.indexOf(' ', col);
-//      if (res == -1) { return str.length(); };
-//      return res;
-//   }
-   
-   /**
+
+    /**
     * Returns the position of the first space , ",", or ")" at or after position col
     * in str, or str.size() if there is none.
     */
@@ -4138,9 +4049,6 @@ public class ParseAlgorithm
               }
          }
          if (!found) {
-//             if (outputVec != null) {
-//                 outputVec.addElement(inputVec.elementAt(curLoc.one));
-//             }
              curLoc.one++;
              curLoc.two = 0;
          }
@@ -4161,40 +4069,9 @@ public class ParseAlgorithm
     * @param replace
     * @return
     */
-//   public static String GotoNextNonSpaceOrComment(
-//                Vector inputVec, Vector outputVec, IntPair curLoc, 
-//                boolean replace)
-//            throws ParseAlgorithmException {
-//       boolean found = false;
-//       while ((!found) && curLoc.one < inputVec.size()) {
-//         String curLine = GotoNextNonSpace(inputVec, outputVec, curLoc);
-//         char c = curLine.charAt(curLoc.two);
-//
-//         if (   (c == '(') 
-//                    && (curLoc.two + 1 < curLine.length())
-//                    && (curLine.charAt(curLoc.two+1) == '*')) {
-//             ParseAlgorithm.gotoEndOfComment(inputVec, outputVec, curLoc, replace);
-//             curLine = GotoNextNonSpace(inputVec, outputVec, curLoc);
-//         } else if (   (c == '\\') 
-//                 && (curLoc.two + 1 < curLine.length())
-//                 && (curLine.charAt(curLoc.two+1) == '*')) {
-//             if (replace) {
-//                 inputVec.setElementAt(
-//                      curLine.substring(0, curLoc.two), curLoc.one);
-//             }
-//             curLoc.two = curLine.length();
-//         } else {
-//             found = true;
-//         }
-//       }
-//       if (curLoc.one < inputVec.size()) {
-//           return (String) inputVec.elementAt(curLoc.one);}
-//       return "";
-//   }
 
-   
-   
-   /**
+
+    /**
     * This method assumes that str is a string whose character at
     * position loc is a quote (").  It returns the position immediately after
     * the matching quote that ends a TLA+ string.  If there is no matching
@@ -4250,43 +4127,20 @@ public class ParseAlgorithm
                     && (curLine.charAt(curLoc.two+1) == '*')) {
                    // this character begins an inner comment.
                    // must set inputVec to correct value if replacing
-//                   if (replace) {
-//                      inputVec.setElementAt(
-//                        newLine.append(curLine.substring(curLoc.two)).toString(),
-//                                       curLoc.one);
-//                   }
                    gotoEndOfComment(inputVec, curLoc);
                    // must reset curLine and newLine
                    curLine = (String) inputVec.elementAt(curLoc.one);
-//                   if (replace) {
-//                       newLine = new StringBuffer(curLine.substring(0, curLoc.two));
-//                   }
-               } else if (    (c == '*') 
+               } else if (    (c == '*')
                           && (curLoc.two + 1 < curLine.length())
                           && (curLine.charAt(curLoc.two+1) == ')')) {
                    // this character begins the comment-ending "*)"
-//                   if (replace) {
-//                       newLine.append("  ");
-//                   }
                    curLoc.two = curLoc.two + 2;
                    found = true;
                } else {
-//                   if (replace) {
-//                       newLine.append(" ");
-//                   }
                    curLoc.two++;
                }
            } // end of loop over characters in curLine
             if (!found) {
-//                if (replace)
-//                {
-//                    inputVec.setElementAt(newLine.toString(), curLoc.one);
-//                    newLine = new StringBuffer();
-//                }
-//                if (outputVec != null)
-//                {
-//                    outputVec.addElement(inputVec.elementAt(curLoc.one));
-//                }
                 curLoc.one++;
                 curLoc.two = 0;
                 if (curLoc.one < inputVec.size()) {
@@ -4294,11 +4148,7 @@ public class ParseAlgorithm
                 }
             }
        } // end of while loop over lines.
-//      if (found && replace) {
-//          newLine.append(curLine.substring(curLoc.two));
-//          inputVec.setElementAt(newLine.toString(), curLoc.one);
-//      }
-      if (!found) {
+       if (!found) {
           throw new ParseAlgorithmException("Unterminated comment begun at line " 
                   + "\n    line " + (curLoc.one+1) + ", column " + (curLoc.two+1)  ) ;
       }

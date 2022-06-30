@@ -728,13 +728,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 				final TBGraph tbg = new TBGraph(tf1);
 				
 // Uncomment to write the tableau in dot format to disk.				
-//				try {
-//					Files.write(Paths.get("./TBGraph.dot"), tbg.toDotViz().getBytes());
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-				oss[i] = new OrderOfSolution(tbg, tf1.extractPromises());
+                oss[i] = new OrderOfSolution(tbg, tf1.extractPromises());
 			}
 
 			// VII:

@@ -48,9 +48,7 @@ public class Bags implements ValueConstants
         if (fcn == null)
         {
         	// MAK 02/23/2018 Changed to return ValFalse instead of exception when Value is not a bag.
-            //throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[] { "IsBag",
-            //        "a function with a finite domain", Value.ppr(b.toString()) });
-        	return BoolValue.ValFalse;
+            return BoolValue.ValFalse;
         }
         final Value[] vals = fcn.values;
         for (Value val : vals) {

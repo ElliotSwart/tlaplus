@@ -292,8 +292,6 @@ public class ModelConfig implements ValueConstants, Serializable {
                             final Vect<Comparable<?>> line = new Vect<>();
                             line.addElement(lhs.toString());
                             // Following code replaced on 30 July 2009.
-                            // line.addElement(tt.image);
-                            // tt = getNextToken(tmgr);
                             if (tt.image.equals("<-")) {
                                 tt = getNextToken(tmgr, buf);
                                 if (tt.image.equals("[")) {

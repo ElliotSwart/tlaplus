@@ -155,12 +155,6 @@ public class ToolIO
     public static synchronized String[] getAllMessages()
     {
 
-        // System.out.println("getAllMessages called with length = " + length) ;
-        // for (int i = 0 ; i < messages.length; i++) {
-        // System.out.println("GetAllMessages: "+ i + ":") ;
-        // System.out.println(messages[i]) ;
-        // };
-
         int retLen = length;
         if (!nextMessage.equals(""))
         {
@@ -268,8 +262,6 @@ class ToolPrintStream extends PrintStream
         // performed on the static class object
         synchronized (ToolPrintStream.class)
         {
-            // System.out.println("Println called with string:") ;
-            // System.out.println(str) ;
             final String thisMessage = ToolIO.nextMessage + str;
             ToolIO.nextMessage = "";
             /*****************************************************************
@@ -293,13 +285,6 @@ class ToolPrintStream extends PrintStream
             // is executed on another object.
             // In order to avoid this kind of bugs in future
             // just changed to another way of doing this
-            // try { Class.forName("ToolOutput").notifyAll(); }
-            // catch (Exception e) {
-            // /*******************************************************************
-            // * I have no idea why this exception could be thrown, or what to do *
-            // * with it if it is. *
-            // *******************************************************************/
-            // } ; // catch
 
             /* **********************************************************************
              * Notify anyone who's waiting for a message.                           *
@@ -333,14 +318,6 @@ class ToolPrintStream extends PrintStream
             // since the class has been renamed
             // this method throws an exception on every invocation
             // and has an empty catch this is a performance killer
-            //
-            // try { Class.forName("ToolOutput").notifyAll(); }
-            // catch (Exception e) {
-            // /******************************************************************
-            // * I have no idea why this exception could be thrown, or what to *
-            // * do with it if it is. *
-            // ******************************************************************/
-            // } ;
 
             /* *********************************************************************
              * Notify anyone who's waiting for a message.                          *

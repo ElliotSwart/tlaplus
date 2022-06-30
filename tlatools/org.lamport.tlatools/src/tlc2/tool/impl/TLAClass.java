@@ -102,15 +102,5 @@ public class TLAClass
         }
         return cl;
     }
-    
-//
-//    public static void main(String argv[])
-//    {
-//        TLAClass tc = new TLAClass("tlc2.module");
-//        Class c = tc.loadClass("Strings"); // must set CLASSPATH correctly
-//        System.err.println("c = " + c);
-//        // Class c1 = tc.loadClass("Class");
-//        // System.err.println("c1 = " + c1);
-//    }
-//
+
 }

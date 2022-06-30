@@ -300,13 +300,6 @@ public abstract class AbstractSpecWriter {
                     cfgBuffer.append(TLAConstants.EQ).append(constant.getRight()).append(TLAConstants.CR);
                 }
             } else {
-//                // simple constant value assignment
-//                cfgBuffer.append(COMMENT).append("CONSTANT definitions").append(CR);
-//
-//                tlaBuffer.append(COMMENT).append("CONSTANT definitions ").append(ATTRIBUTE).append(attributeConstants)
-//                        .append(INDEX).append(i).append(constant.getLeft()).append(CR);
-//                addArrowAssignment(constant, CONSTANT_SCHEME);
-//                tlaBuffer.append(SEP).append(CR).append(CR);
             }
         }
 

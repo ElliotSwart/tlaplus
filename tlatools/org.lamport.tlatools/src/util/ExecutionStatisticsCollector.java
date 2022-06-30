@@ -201,9 +201,7 @@ public class ExecutionStatisticsCollector {
 		// conservative because we don't identify Microsoft employees but corporate
 		// Microsoft computers. We don't set ESC to opt-out for Microsoft machines yet
 		// but might in the future.
-//		final String userDNSDomain = System.getenv("USERDNSDOMAIN");
-//		return userDNSDomain != null && userDNSDomain.toUpperCase().endsWith(".CORP.MICROSOFT.COM");
-	}
+    }
 
 	// Send the request.
 	private static void submit(final Map<String, String> parameters, final boolean dontWaitForCompletion) {

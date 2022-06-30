@@ -109,9 +109,5 @@ public class Operators {
   }
 
 // shouldn't be necessary
-//  static public Operator operatorFromASTNode ( ASTNode tn ) {
-//     Operator n = (Operator) DefinitionTable.get( tn.getToken().image );
-//        return n;
-//  }
 
 }

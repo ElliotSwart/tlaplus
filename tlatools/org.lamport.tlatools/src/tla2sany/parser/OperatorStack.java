@@ -155,22 +155,13 @@ What do left and right mean?????? What does shift mean????????
     *        lSTN is a node of kind N_PrefixExpr with heirs                *
     *             third, next.                                             *
     ***********************************************************************/
-// Log.log(evalStackLog, "--- reduce prefix");
-// System.out.print("prefix reduction ");
-    final int n = CurrentTop.size()-1;
+      final int n = CurrentTop.size()-1;
 //    SyntaxTreeNode localTN = new PrefixExprNode();
     if (n>=2) {
-      // System.out.println( op.getIdentifier() );
-//      if ( op.isInfix() )
-//        ((GenOpNode)opNode).register( op.getIdentifier() + ".", STable);
-//      else
-//        ((GenOpNode)opNode).register( op.getIdentifier(), STable);
         final SyntaxTreeNode lSTN = new SyntaxTreeNode(N_PrefixExpr,
           CurrentTop.elementAt( n-2).getNode(),
           CurrentTop.elementAt( n-1).getNode());
-//      localTN.addChild( ((OSelement) CurrentTop.elementAt( n-2)).getNode() ) ;
-//      localTN.addChild( ((OSelement) CurrentTop.elementAt( n-1)).getNode() ) ;
-      CurrentTop.removeElementAt(n-1);
+        CurrentTop.removeElementAt(n-1);
       CurrentTop.setElementAt(new OSelement(lSTN) , n-2);
     }
   }
@@ -189,9 +180,7 @@ What do left and right mean?????? What does shift mean????????
     *                 ELSE a node of kind N_PostfixExpr with heirs         *
     *                      third.node, opNode.                             *
     ***********************************************************************/
-// Log.log(evalStackLog, "--- reduce postfix");
-// System.out.println("postfix reduction");
-    final int n = CurrentTop.size()-1;
+      final int n = CurrentTop.size()-1;
     final SyntaxTreeNode lSTN;
 //    SyntaxTreeNode localTN = new PostfixExprNode();
     if (n>=2) {
@@ -202,8 +191,6 @@ What do left and right mean?????? What does shift mean????????
         lSTN = new SyntaxTreeNode(N_PostfixExpr,
           CurrentTop.elementAt( n-2).getNode(),
           opNode);
-//      localTN.addChild( ((OSelement) CurrentTop.elementAt( n-2)).getNode() ) ;
-//      localTN.addChild( opNode ) ;
       } else {
 // System.out.println("postfix reduction : FcnOp");
         final SyntaxTreeNode eSTN = CurrentTop.elementAt( n-2).getNode();
@@ -457,13 +444,7 @@ What do left and right mean?????? What does shift mean????????
     * Apparently, the operator argument o is null if this is not an        *
     * in/pre/postfix operator.                                             *
     ***********************************************************************/
-// System.out.print("pushing");
-// if ( n != null )
-// System.out.print( " " + n.getImage() );
-// if ( o != null )
-// System.out.print(" " + o.toString() );
-// System.out.println();
-    CurrentTop.addElement( new OSelement( n, o) );
+      CurrentTop.addElement( new OSelement( n, o) );
 //    System.out.println(printStack());
   }
 

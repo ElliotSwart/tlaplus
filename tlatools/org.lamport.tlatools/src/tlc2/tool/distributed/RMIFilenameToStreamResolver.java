@@ -90,10 +90,7 @@ public class RMIFilenameToStreamResolver implements FilenameToStream {
 		// The following error message code should be uncommented
 		// if the parser should not be called with an object of
 		// this class.
-//		 String[] foo = new String[] {
-//	       "Parsing called with unexpected FileNameToString implementation."} ;
-//		 MP.printTLCBug(42, foo) ;
-		 return false ;
+        return false ;
 	}
 
 	private String getRandomStoragePrefix() {

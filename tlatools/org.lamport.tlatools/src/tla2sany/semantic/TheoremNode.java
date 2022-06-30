@@ -167,23 +167,8 @@ public class TheoremNode extends LevelNode {
     * the levelCheck method of the LeafProofNode so it set's that node's   *
     * level to zero.                                                       *
     ***********************************************************************/
-//    if (   (this.proof != null)
-//           /****************************************************************
-//           * Must not check if this is a QED or CASE.                      *
-//           ****************************************************************/
-//        && ! (   (oanOp != null)
-//              && (   (oanOp.getName() == OP_qed)
-//                  || (oanOp.getName() == OP_pfcase)))) {
-//      if(   (this.proof.level == TemporalLevel)
-//         && (this.theoremExprOrAssumeProve.level < TemporalLevel)) {
-//          errors.addError(
-//            stn.getLocation(),
-//            "Non-temporal theorem has temporal-level proof.");
-//          return false;
-//        };
-//     };
 
-   /************************************************************************
+      /************************************************************************
    * The following code checks that a PICK step whose body is a            *
    * temporal formula can have only constant bounds--for example,          *
    * in                                                                    *
@@ -287,38 +272,7 @@ public class TheoremNode extends LevelNode {
      } // for i
   } // LevelCheckTemporal
 
-//  public final int getLevel() {
-//    if (levelChecked == 0)
-//      {Assert.fail("getLevel called for TheoremNode before levelCheck");};
-//    return this.theoremExprOrAssumeProve.getLevel();
-//  }
-//
-//  public final HashSet getLevelParams() {
-//    if (levelChecked == 0)
-//      {Assert.fail("getLevelParams called for ThmNode before levelCheck");};
-//    return this.theoremExprOrAssumeProve.getLevelParams();
-//  }
-//
-//  public final SetOfLevelConstraints getLevelConstraints() {
-//    if (levelChecked == 0)
-//     {Assert.fail("getLevelConstraints called for ThmNode before levelCheck");};
-//    return this.theoremExprOrAssumeProve.getLevelConstraints();
-//  }
-//
-//  public final SetOfArgLevelConstraints getArgLevelConstraints() {
-//    if (levelChecked == 0)
-//      {Assert.fail(
-//        "getArgLevelConstraints called for ThmNode before levelCheck");};
-//    return this.theoremExprOrAssumeProve.getArgLevelConstraints();
-//  }
-//
-//  public final HashSet getArgLevelParams() {
-//    if (levelChecked == 0)
-//      {Assert.fail("getArgLevelParams called for ThmNode before levelCheck");};
-//    return this.theoremExprOrAssumeProve.getArgLevelParams();
-//  }
-
-  /**
+    /**
    * toString, levelDataToString, and walkGraph methods to implement
    * ExploreNode interface
    */

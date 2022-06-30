@@ -89,10 +89,8 @@ public class TLAToken
         * beginning and end of the region of the END_REPLACEMENT token
         * both equal the end region of the replaced token.
         */
-//       public static final int BEGIN_REPLACEMENT = 6 ;
-//       public static final int END_REPLACEMENT = 7 ;
-      
-    /**
+
+      /**
      * The beginSubst and endSubst fields represent sequences of Paren objects in a TPMap, 
      * as described in module TLAtoPCal.  This means that they indicate the beginning
      * and ending of substitutions that created the expression containing the token.
@@ -176,12 +174,8 @@ public class TLAToken
         return isAppended;
     }
 
-//    public void setAppended(boolean isAppended) {
-//        this.isAppended = isAppended;
-//    }
 
-
-    /***********************************************************************
+      /***********************************************************************
     * Below are the methods for this object class, including the           *
     * constructors.                                                        *
     ***********************************************************************/
@@ -292,8 +286,6 @@ public class TLAToken
             case NUMBER     : typeName = "NUMBER"     ; break ;
             case STRING     : typeName = "STRING"     ; break ;
             case IDENT      : typeName = "IDENT"      ; break ;
-//            case BEGIN_REPLACEMENT : typeName = "(map"  ; break ;
-//            case END_REPLACEMENT   : typeName = "map)"  ; break ;    
           }
           String str = "\"" + string + "\"" ;
         if (string == null) {str = "null";}
@@ -305,13 +297,8 @@ public class TLAToken
             ((source == null) ? "null" : source.toString())
                          + ", beginSub |-> " + beginSubst.toString()
                          + ", endSub |-> " + endSubst.toString() + "]";
-//                         + ", width |-> " + getWidth() 
-//                         + ", string |-> " + string ;
-        
-//        if (source != null) {
-//        	result = result + ", " + source.toString();
-//        }
-        return result; 
+
+          return result;
       }
 
 

@@ -107,46 +107,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   @Override
   public final byte getKind() { return FCNRCDVALUE; }
 
-//  /* We create an index only when the domain is not very small. */
-//  private final void createIndex() {
-//    if (this.domain != null && this.domain.length > 10) {
-//      int len = this.domain.length * 2 + 1;
-//
-//      int[] tbl = new int[len];
-//      Arrays.fill(tbl, -1);
-//
-//      synchronized(this) {
-//        for (int i = 0; i < this.domain.length; i++) {
-//          int loc = (this.domain[i].hashCode() & 0x7FFFFFFF) % len;
-//          while (tbl[loc] != -1) {
-//            loc = (loc + 1) % len;
-//          }
-//          tbl[loc] = i;
-//        }
-//      }
-//
-//      synchronized(this) { this.indexTbl = tbl; }
-//    }
-//  }
-//
-//  private final int lookupIndex(Value arg) {
-//    int len = this.indexTbl.length;
-//    int loc = (arg.hashCode() & 0x7FFFFFFF) % len;
-//    while (true) {
-//      int idx = this.indexTbl[loc];
-//      if (idx == -1) {
-//        Assert.fail("Attempted to apply function:\n" + Values.ppr(this.toString()) +
-//              "\nto argument " + Values.ppr(arg.toString()) +
-//              ", which is not in the domain of the function.", getSource());
-//      }
-//      if (this.domain[idx].equals(arg)) {
-//        return idx;
-//      }
-//      loc = (loc + 1) % len;
-//    }
-//  }
-
-  @Override
+    @Override
   public final int compareTo(final Object obj) {
     try {
 
@@ -404,23 +365,8 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   }
   
   // This implementation has a concurrency bug: https://github.com/tlaplus/tlaplus/issues/439
-//  final Value selectIndexTable(final Value arg) {
-//    // domain is represented as an array of values:
-//    if (this.indexTbl != null) {
-//      return this.values[this.lookupIndex(arg)];
-//    }
-//    if (this.isNorm) {
-//    	this.createIndex();
-//    }
-//    if (this.indexTbl != null) {
-//      return this.values[this.lookupIndex(arg)];
-//    }
-//    else {
-//	  return selectLinearSearch(arg);
-//    }
-//  }
 
-  final Value selectLinearSearch(final Value arg) {
+    final Value selectLinearSearch(final Value arg) {
       // domain is represented as an array of values:
       final int len = this.domain.length;
       for (int i = 0; i < len; i++) {
@@ -450,53 +396,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 	  }
   }
 
-//  public final boolean assign(Value[] args, Value val) {
-//    try {
-//
-//      if (this.intv != null) {
-//        // domain is represented as an integer interval:
-//        if (args.length != 1) {
-//          Assert.fail("Wrong number of function arguments.", getSource());
-//        }
-//        if (args[0] instanceof IntValue) {
-//          int idx = ((IntValue)args[0]).val;
-//          if ((idx >= this.intv.low) && (idx <= this.intv.high)) {
-//            int vIdx = idx - this.intv.low;
-//            if (this.values[vIdx] == UndefValue.ValUndef ||
-//                this.values[vIdx].equals(val)) {
-//              this.values[vIdx] = val;
-//              return true;
-//            }
-//            return false;
-//          }
-//        }
-//      }
-//      else {
-//        // domain is represented as an array of values:
-//        Value argv = new TupleValue(args);
-//        int len = this.domain.length;
-//        for (int i = 0; i < len; i++) {
-//          if (this.domain[i].equals(argv)) {
-//            if (this.values[i] == UndefValue.ValUndef ||
-//                this.values[i].equals(val)) {
-//              this.values[i] = val;
-//              return true;
-//            }
-//            return false;
-//          }
-//        }
-//      }
-//      Assert.fail("Function initialization out of domain.", getSource());
-//      return false;    // make compiler happy
-//
-//    }
-//    catch (RuntimeException | OutOfMemoryError e) {
-//      if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
-//      else { throw e; }
-//    }
-//  }
-
-  @Override
+    @Override
   public final Value takeExcept(final ValueExcept ex) {
     try {
 

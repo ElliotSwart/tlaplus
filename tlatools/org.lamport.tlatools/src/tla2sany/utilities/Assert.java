@@ -18,10 +18,6 @@ public class Assert
      */
     public final static void assertion(final boolean b)
     {
-        // if (!b) {
-        // ToolIO.err.println("assertion failed:");
-        // System.exit(1);
-        // }
     }
 
     // SZ Jul 13, 2009: method not used
@@ -30,8 +26,6 @@ public class Assert
      */
     public final static void fail(final String msg)
     {
-        // ToolIO.err.println("Error: " + msg);
-        // System.exit(1);
     }
 
 }

@@ -119,12 +119,8 @@ public class InstanceNode extends LevelNode {
 
   /* Level checking */
 // These fields are now declared in all LevelNode subclasses
-//  private boolean levelCorrect;
-//  private SetOfLevelConstraints levelConstraints;
-//  private SetOfArgLevelConstraints argLevelConstraints;
-//  private HashSet argLevelParams;
 
-  @Override
+    @Override
   public final boolean levelCheck(final int itr) {
     /***********************************************************************
     * I believe this should only be called once, with itr = 1.            *
@@ -405,13 +401,7 @@ public class InstanceNode extends LevelNode {
     return this.levelConstraints;
   }
 
-//  public final SetOfArgLevelConstraints getArgLevelConstraints() {
-//    return this.argLevelConstraints;
-//  }
-//
-//  public final HashSet getArgLevelParams() { return this.argLevelParams; }
-
-  @Override
+    @Override
   public final String levelDataToString() {
     return "LevelConstraints: "    + this.levelConstraints    + "\n" +
            "ArgLevelConstraints: " + this.argLevelConstraints + "\n" +

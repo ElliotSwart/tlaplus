@@ -140,15 +140,8 @@ public abstract class SemanticNode
    * arbitrary node n in the semantic tree, n.getContext() is likely
    * to be just a wrapper for a pointer to n.
    */
-  /*
-  public Context getContext() throws AbortException {
-    errors.addAbort(Location.nullLoc,
-                    "Internal error: method getContext in SemanticNode not supported",true);
-    return null;
-  }
-  */
 
-  /**
+    /**
    *  Returns the children of this node in the semantic tree.  For a
    *  node that normally has no children, it should return null.  In
    *  general, a child of a semantic node is a SemanticNode that describes

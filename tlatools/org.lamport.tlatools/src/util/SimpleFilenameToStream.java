@@ -171,15 +171,8 @@ public class SimpleFilenameToStream implements FilenameToStream {
     // not have to do anything special and the standard modules are automatically accessible
 
     // Debug
-    /*
-    System.err.println("Installation base path = " + installationBasePath);
-    for (int i=0;i<libraryPaths.length;i++)
-    {
-        System.err.println("libraryPaths = '" + libraryPaths[i] + "'");
-    }
-    */
 
-    // This code ALWAYS looks in the current directory first for a file (and its capitalization
+      // This code ALWAYS looks in the current directory first for a file (and its capitalization
     // variants), regardless of what the TLA-Library property says the search path should be.
     /***********************************************************************
     * This was modified by LL on 14 May 2008 to change the way sourceFile  *

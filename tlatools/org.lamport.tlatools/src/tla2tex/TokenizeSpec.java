@@ -977,8 +977,6 @@ public class TokenizeSpec
                       else {
                           state = BUILT_IN ;
                       }
-                      // old: addNextChar();
-                      // old: state = BUILT_IN ;
                     }
                   else if (nextChar == '\t')
                     { if (mode == MODULE) 
@@ -1449,8 +1447,6 @@ public class TokenizeSpec
                          // didn't do that.
                          token = token1 + token ;
                          col = col1;
-                        // addNextChar();
-                        // state = COMMENT;
                         state = ORCom ? OR_COMMENT : COMMENT ;
                     }
                   break ;
@@ -1787,10 +1783,7 @@ public class TokenizeSpec
      * @param isTeX  true for tla2tex.TeX, false for tla2tex.TLA
      */
     public static void FixPlusCal(final Token[][] spec, final boolean isTeX) {
-//        if ((!hasPcal) || (!isCSyntax)) {
-//            return ;
-//        }
-       
+
         if (!hasPcal) {
             return ;
         }

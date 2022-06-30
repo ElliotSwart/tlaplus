@@ -288,14 +288,8 @@ public class SubstInNode extends ExprNode {
 
   /* Level check */
 // These nodes are now part of all LevelNode subclasses.
-//  private boolean levelCorrect;
-//  private int level;
-//  private HashSet levelParams;
-//  private SetOfLevelConstraints levelConstraints;
-//  private SetOfArgLevelConstraints argLevelConstraints;
-//  private HashSet argLevelParams;
 
-  @Override
+    @Override
   @SuppressWarnings("unchecked")
   public final boolean levelCheck(final int itr) {
     if (this.levelChecked >= itr) return this.levelCorrect;
@@ -400,36 +394,7 @@ public class SubstInNode extends ExprNode {
       }// for
 
 
-//    /***********************************************************************
-//    * For Leibniz checking, we now repeat everything done to compute       *
-//    * this.levelParams to compute this.allParams, except using             *
-//    * Subst.allParamSet instead of Subst.paramSet.                         *
-//    ***********************************************************************/
-//    HashSet apSet = this.body.getAllParams();
-//    iter = apSet.iterator();
-//    while (iter.hasNext()) {
-//      Object param = iter.next();
-//System.out.println("iter.hasNext() = " + param.toString()) ;
-//
-//      this.allParams.addAll(Subst.allParamSet(param, this.substs));
-//        /*******************************************************************
-//        * At this point, levelCheck(itr) has been invoked on               *
-//        * this.substs[i].getExpr() (which equals this.getSubWith(i)).      *
-//        *******************************************************************/
-//      if (this.body.getNonLeibnizParams().contains(param)) {
-//        /*******************************************************************
-//        * If this param is non-Leibniz in the substitution body, then add  *
-//        * the substution's parameters to this.nonLeibnizParams             *
-//        *******************************************************************/
-//System.out.println("parameter is non-Leibniz") ;
-//        this.nonLeibnizParams.addAll(Subst.allParamSet(param, this.substs));
-//System.out.println("added: " +
-//HashSetToString(Subst.allParamSet(param, this.substs))) ;
-//       } // if
-//
-//    } // while
-
-    final boolean isConstant = this.instantiatedModule.isConstant();
+        final boolean isConstant = this.instantiatedModule.isConstant();
       /*********************************************************************
       * It is not necessary to invoke levelCheck before invoking           *
       * isConstant.                                                        *
@@ -450,35 +415,12 @@ public class SubstInNode extends ExprNode {
     return this.levelCorrect;
   }
 
-//  public final int getLevel() { return this.level; }
-//
-//  public final HashSet getLevelParams() { return this.levelParams; }
-//
-//  public final SetOfLevelConstraints getLevelConstraints() {
-//    return this.levelConstraints;
-//  }
-//
-//  public final SetOfArgLevelConstraints getArgLevelConstraints() {
-//    return this.argLevelConstraints;
-//  }
-//
-//  public final HashSet getArgLevelParams() {
-//    return this.argLevelParams;
-//  }
-
-  /**
+    /**
    * toString, levelDataToString, & walkGraph methods to implement
    * ExploreNode interface
    */
-//  public final String levelDataToString() {
-//    return "Level: "               + this.level               + "\n" +
-//           "LevelParameters: "     + this.levelParams         + "\n" +
-//           "LevelConstraints: "    + this.levelConstraints    + "\n" +
-//           "ArgLevelConstraints: " + this.argLevelConstraints + "\n" +
-//           "ArgLevelParams: "      + this.argLevelParams      + "\n" ;
-//  }
 
-  @Override
+    @Override
   public final String toString(final int depth) {
     if (depth <= 0) return "";
 

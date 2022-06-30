@@ -128,10 +128,7 @@ public final class TLCStepActionStackFrame extends TLCActionStackFrame {
 			if (loc.includes(bp.getLocation())) {
 				// We do not support hit count with state-level stepping because stepping back
 				// to level/diameter < bp.getHits() does not work.
-//				if (bp.getHits() > 0) {
-//					return getT().getLevel() >= bp.getHits(); 
-//				}
-				return true;
+                return true;
 			}
 		}
 		return false;

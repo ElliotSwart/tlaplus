@@ -312,22 +312,8 @@ public class DotStateWriter extends StateWriter {
 	/**
 	 * Given a TLC state, generate a string representation suitable for a HTML DOT graph label.
 	 */
-	//TODO This cannot handle states with variables such as "active = (0 :> TRUE @@ 1 :> FALSE)". 
-//	protected static String state2html(final TLCState state) {		
-//		final StringBuilder sb = new StringBuilder();
-//		final Map<UniqueString, Value> valMap = state.getVals();
-//
-//		// Generate a string representation of state.
-//		for (UniqueString key : valMap.keySet()) {
-//			final String valString = (key.toString() + " = " + valMap.get(key).toString());
-//			sb.append(valString);
-//			// New line between variables.
-//			sb.append("<br/>");
-//		}
-//		return sb.toString();
-//	}
-
-	protected static String states2dot(final TLCState state) {
+	//TODO This cannot handle states with variables such as "active = (0 :> TRUE @@ 1 :> FALSE)".
+    protected static String states2dot(final TLCState state) {
 		// Replace "\" with "\\" and """ with "\"".	
 		return state.toString().replace("\\", "\\\\").replace("\"", "\\\"").trim()
 				.replace("\n", "\\n"); // Do not remove remaining (i.e. no danling/leading) "\n". 

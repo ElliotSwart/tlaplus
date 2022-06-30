@@ -341,12 +341,6 @@ public class ParseUnit {
         // Determine which modules extend or include which others
         determineModuleRelationships(rootModule, /* parent */null);
 
-        /*
-        // Debugging
-        ToolIO.err.println("ModuleRelationships for ParseUnit " + this.getName() + "\n" +  
-                           spec.getModuleRelationships().toString() ); 
-        */
-
         // Make sure file contains module of the same name
         verifyEquivalenceOfFileAndModuleNames(errors);
 
@@ -361,16 +355,8 @@ public class ParseUnit {
     }
 
   private void handleExtensions(final ModulePointer currentModule, final ModulePointer otherModule) {
-    /*
-    // Debugging
-    System.err.println("Entering HandleExtensions for (" + 
-                       currentModule.getName() + ", " + 
-                       ( otherModule.getName() != null ? otherModule.getName() : "null" ) + 
-                       ")");
-    System.err.println(currentModule.getContext().toString());
-    */
 
-    if (otherModule == null) {
+      if (otherModule == null) {
       // System.err.println("Leaving handleExtensions because otherModule == null");
       return;
     }
@@ -397,13 +383,6 @@ public class ParseUnit {
       }
     }
 
-    /*
-    // Debugging
-    if ( currentModule.getName().equals("BB") ) {
-      System.err.println("Leaving HandleExtensions for " + currentModule.getName() + "; context is:");
-      System.err.println(currentModule.getContext().toString());
-    }
-    */
   }
 
   /**

@@ -39,13 +39,6 @@ public class SANY {
 //  The following method for automatically inserting the version date was
 //  removed on 20 Jul 2011 by LL because Emacs is no longer being used to
 //  edit the source files.
-//
-//  private static String lastModified = 
-//    /***********************************************************************
-//    * The following string is inserted by an Emacs macro when a new        *
-//    * version is saved.                                                    *
-//    ***********************************************************************/
-//    "last modified on Tue  10 February 2011 at 11:49:54 PST by lamport";
 
   private static final String modDate = "08 July 2020";
 //                lastModified.substring(21, lastModified.indexOf(" at"));
@@ -183,9 +176,7 @@ public class SANY {
     catch (final Exception e) {
       syserr.println("Unexpected exception during SANY initialization " +
                      fileName + "\n" + e);
-      // syserr.println("\nStack trace for exception:\n"); 
-      // e.printStackTrace(syserr);
-      syserr.println("Initialization errors detected before " + 
+        syserr.println("Initialization errors detected before " +
                      "the unexpected exception:\n");
       syserr.print( initErrors );
 
@@ -213,11 +204,6 @@ public class SANY {
           if (!spec.loadSpec(spec.getFileName(), spec.parseErrors, validatePCalTranslation)) 
           {
               // dead code SZ 02. Aug 2009
-              /*
-        spec.parseErrors.addError(
-            Location.nullLoc,
-            "Parsing failed; semantic analysis not started");
-               */
           }
 
           if (!spec.parseErrors.isSuccess()) 
@@ -280,22 +266,7 @@ public class SANY {
             // get reference to the syntax tree for the module
           syntaxTreeRoot = parseUnit.getParseTree();
 
-          /*
-          // Debugging
-          // Print the concrete syntax tree for this ExternalModuleTableEntry
-          // Printing is done without the user's request, because if 
-          // an abort occurs during semantic processing, we want to be able
-          // to look at the syntax tree for a clue.
-          if (syserr != null) {
-            syserr.println("\n*** Concrete Syntax Tree for Module " + moduleStringName);
-          }
-          syntaxTreeRoot.printST(0);   // Use zero indentation
-          if (syserr != null) {
-            syserr.println("\n*** End of concrete syntax tree for Module " + moduleStringName);
-          }
-          */
- 
-          // Generate semantic graph for the entire external module
+            // Generate semantic graph for the entire external module
           syserr.println("Semantic processing of module " + moduleStringName);
           // create new Generator object
           final Generator gen = new Generator(externalModuleTable, semanticErrors);

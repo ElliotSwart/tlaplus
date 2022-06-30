@@ -388,47 +388,14 @@ public class OpApplNode extends ExprNode implements ExploreNode {
 
   /* Level Checking */
 // These nodes are now part of all LevelNode subclasses.
-//  private boolean levelCorrect;
-//  private int level;
-//  private HashSet levelParams;
-//  private SetOfLevelConstraints levelConstraints;
-//  private SetOfArgLevelConstraints argLevelConstraints;
-//  private HashSet argLevelParams;
 
 
-/***************************************************************************
+    /***************************************************************************
 * The following was used for debugging.  It might be useful again, so I'm  *
 * keeping it here in as a comment.                                         *
 ***************************************************************************/
-// public static void PrintDebugNode(String str) {
-//    System.out.print(str + " ");
-//    if (debugNode == null) {
-//       System.out.println("null node");
-//     }
-//    else{
-//       int savedlevel = debugNode.levelChecked;
-//       debugNode.levelChecked = 1;
-//       if (debugNode.getAllParams()==null) {
-//          System.out.println("allParams null");
-//          }
-//       else {
-//          System.out.println(HashSetToString(debugNode.getAllParams()));
-//          };
-//    if (debugNode.getAllParams() != debugParams) {
-//       System.out.print("allParams changed, old value: ");
-//       if (debugParams == null) {
-//         System.out.println("null");
-//         }
-//       else {
-//         System.out.println(HashSetToString(debugParams));
-//        };
-//       debugParams = debugNode.getAllParams();
-//        };
-//    debugNode.levelChecked = savedlevel;
-//    }
-// }
 
-  @Override
+    @Override
   public final boolean levelCheck(final int itr) {
     if (this.levelChecked >= itr) return this.levelCorrect;
     this.levelChecked = itr ;
@@ -1100,34 +1067,13 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     return this.levelCorrect;
   }
 
-//  public final int getLevel() { return this.level; }
-//
-//  public final HashSet getLevelParams() { return this.levelParams; }
-//
-//  public final SetOfLevelConstraints getLevelConstraints() {
-//    return this.levelConstraints;
-//  }
-//
-//  public final SetOfArgLevelConstraints getArgLevelConstraints() {
-//    return this.argLevelConstraints;
-//  }
-//
-//  public final HashSet getArgLevelParams() { return this.argLevelParams; }
-
-  /**
+    /**
    * toString, levelDataToString, and walkGraph methods to implement
    * ExploreNode interface
    */
-//  public final String levelDataToString() {
-//    return "Level: "               + this.level               + "\n" +
-//           "LevelParams: "         + this.levelParams         + "\n" +
-//           "LevelConstraints: "    + this.levelConstraints    + "\n" +
-//           "ArgLevelConstraints: " + this.argLevelConstraints + "\n" +
-//           "ArgLevelParams: "      + this.argLevelParams      + "\n" ;
-//  }
 
 
-  public boolean hasOpcode(final int opCode) {
+    public boolean hasOpcode(final int opCode) {
       return opCode == BuiltInOPs.getOpCode(getOperator().getName());
   }
 

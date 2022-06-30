@@ -742,11 +742,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 			// could derive the variable's name via ((SyntaxTreeNode) v.getSource().getTreeNode()).getHumanReadableImage(),
 			// which - in turn - would allow to attach values even to nodes where peeked.node.myUID != expr.myUID.
 			// Not sure, if this is ever necessary though.
-//			if (!v.hasSource()) {
-//				// TLC's test suite doesn't produce an error/failure with v.setSource(expr).
-//				v.setSource(expr);
-//			}
-			stack.peek().setValue(v);
+            stack.peek().setValue(v);
 		}
 		return this;
 	}

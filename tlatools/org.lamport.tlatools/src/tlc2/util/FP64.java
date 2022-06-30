@@ -202,18 +202,6 @@ public class FP64 {
 
 	return fp;
     }
-/*
-    public static long Extend(long fp, long fp1)
-    {
-        long[] mod = ByteModTable_7;
-	for (int i = 0; i < 8; i++) {
-	  byte b = (byte)(fp1 & 0xFF);
-	  fp = ((fp >>> 8) ^ (mod[(b ^ ((int)fp)) & 0xFF]));
-	  fp1 = fp1 >>> 8;
-	}
-	return fp;
-    }
-*/
 
     /** Return a hash value of the fingerprint <code>fp</code>. */
     public static int Hash(final long fp)

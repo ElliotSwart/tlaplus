@@ -176,13 +176,7 @@ public class TLA
         Starting("TokenizeSpec.Tokenize");
         final Token[][] spec = TokenizeSpec.Tokenize(testlr, TokenizeSpec.MODULE);
 
-//System.out.println(TokenizeSpec.skipToUnmatchedEnd(new Position(5, 1), 
-//                 spec, false).toString()) ;
-//System.out.println(TokenizeSpec.skipToUnmatchedEnd(new Position(5, 1), 
-//        spec, true).toString()) ;
-//        System.out.println("pcalStart = " + TokenizeSpec.pcalStart.toString());
-//        System.out.println("pcalEnd = " + TokenizeSpec.pcalEnd.toString());
-        /*********************************************************************
+/*********************************************************************
         * Finish the tokenization by converting sequences of tokens that     *
         * represent proof-step numbers to PF_STEP tokens.                    *
         *********************************************************************/
@@ -446,16 +440,6 @@ public class TLA
                         Parameters.TLACommentOption = true;
 
                 // else if (option.equals("-notlaComment"))
-                // /***************************************************************
-                // * The FormatComments.adjustIsTLA method normally sets an *
-                // * ambiguous Identifier to a TLA token if it appears somewhere *
-                // * in the current comment as a TLA token. This option causes *
-                // * the method to do this only if the Identifier is not an *
-                // * English word. This option has no effect if the -tlaComment *
-                // * option is chosen. *
-                // ***************************************************************/
-                // { Parameters.NoTLACommentOption = true;
-                // }
                 case "-shade" -> Parameters.CommentShading = true;
                 case "-noPcalShade" -> Parameters.NoPlusCalShading = true;
                 case "-noProlog" -> Parameters.PrintProlog = false;

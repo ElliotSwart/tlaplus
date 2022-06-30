@@ -231,16 +231,7 @@ public AssumeNode(final TreeNode stn, final ExprNode expr, final ModuleNode mn,
     return "AssumeNodeRef";
   }
 
-//  public Element export(Document doc, tla2sany.xml.SymbolContext context) {
-//    if (getDef() == null)
-//      // we export the definition of the assumption
-//      return super.export(doc,context);
-//    else
-//      // we export its name only, named assumptions will be exported through the ThmOrAss..
-//      return getDef().export(doc,context);
-//  }
-
-  @Override
+    @Override
   protected Element getLevelElement(final Document doc, final SymbolContext context) {
     final Element e = doc.createElement("AssumeNode");
     if (def != null) {

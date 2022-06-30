@@ -736,23 +736,17 @@ public class LiveWorker implements Callable<Boolean> {
 		// or promiseRes booleans is false.
 		for (int i = 0; i < aeslen; i++) {
 			if (!AEStateRes[i]) {
-//				writeDotViz(state, tidx, com, new java.io.File(liveCheck.getMetaDir() + java.io.File.separator
-//						+ "pValidSCC" + System.currentTimeMillis() + ".dot"));
-				return true;
+                return true;
 			}
 		}
 		for (int i = 0; i < aealen; i++) {
 			if (!AEActionRes[i]) {
-//				writeDotViz(state, tidx, com, new java.io.File(liveCheck.getMetaDir() + java.io.File.separator
-//						+ "pValidSCC" + System.currentTimeMillis() + ".dot"));
-				return true;
+                return true;
 			}
 		}
 		for (int i = 0; i < plen; i++) {
 			if (!promiseRes[i]) {
-//				writeDotViz(state, tidx, com, new java.io.File(liveCheck.getMetaDir() + java.io.File.separator
-//						+ "pValidSCC" + System.currentTimeMillis() + ".dot"));
-				return true;
+                return true;
 			}
 		}
 		// This component must contain a counter-example because all three
@@ -819,10 +813,8 @@ public class LiveWorker implements Callable<Boolean> {
 	 * @throws InterruptedException 
 	 */
 	private void printTrace(final ITool tool, final long state, final int tidx, final TableauNodePtrTable nodeTbl) throws IOException, InterruptedException, ExecutionException {
-//		writeDotViz(state, tidx, nodeTbl, new java.io.File(liveCheck.getMetaDir() + java.io.File.separator
-//				+ "pSatisfiableSCC_" + System.currentTimeMillis() + ".dot"));
 
-		MP.printError(EC.TLC_TEMPORAL_PROPERTY_VIOLATED);
+        MP.printError(EC.TLC_TEMPORAL_PROPERTY_VIOLATED);
 		MP.printError(EC.TLC_COUNTER_EXAMPLE);
 		
 		/*

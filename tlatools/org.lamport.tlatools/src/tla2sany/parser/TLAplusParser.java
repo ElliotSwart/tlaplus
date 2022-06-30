@@ -398,43 +398,7 @@ Operator lastOp;
       return false;
   }
 
-//  boolean IsNotExpression () {
-//    /***********************************************************************
-//    * This method is called only in NumberedAssumeProve.                   *
-//    ***********************************************************************/
-//    Token t = initPreviewToken();
-//          t = getNextPreviewToken(t);
-//      /*********************************************************************
-//      * Previous statement added on 1 Mar 2007 by J-Ch and LL to fix bug.  *
-//      *********************************************************************/
-//    int k = t.kind;
-//    if ( k == US || k == LOCAL || k == VARIABLE || k == PARAMETER || k == INSTANCE || k == CONSTANT || k == STATE || k == ACTION || k == TEMPORAL ) return true;
-//    else {
-//      t = getNextPreviewToken(t); k = t.kind;
-//      if ( k == US || k == DEF || k  == LSB )
-//        return true;
-//      else if (k == LBR) {
-//        int depth = 1;
-//        Token nt = getNextPreviewToken(t);
-//        while (true) {
-//          t = nt; nt = getNextPreviewToken(t); k = t.kind;
-//          if ( k == RBR ) {
-//             if ( depth == 1 )
-//               if ( nt.kind == DEF ) return true;
-//               else return false;
-//             else
-//                depth--;
-//          } else
-//          if ( k == LBR ) { depth++;
-//          } else
-//          if ( k == EOF ) return false;
-//        }
-//      }
-//    }
-//    return false;
-//  }
-//
-  boolean isFieldNameToken(final Token t ) {
+boolean isFieldNameToken(final Token t ) {
     /***********************************************************************
     * Modified by LL on 10 Oct 2007 because of new keywords added and      *
     * obsolete ones removed.                                               *
@@ -569,12 +533,7 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); }
       return false;
   }
 
-//  int numberFromStep( String step ) {
-//    int top = step.indexOf('>');
-//    return Integer.parseInt( step.substring( 1, top ) );
-//  }
-//
-  Object msgStack[] = new Object[ 512 ];
+Object msgStack[] = new Object[ 512 ];
   int msgStackMaxSize = 512;
   int msgStackCurrentSize = 0;
 
@@ -612,10 +571,6 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); }
     }
 
     msg.append(e.getShortMessage());
-//    msg.append(" while parsing ");
-//    msg.append(name);
-//
-//    msg.append(".\nResidual stack trace follows:\n");
 
     msg.append("\n\nResidual stack trace follows:\n");
     int last = msgStackCurrentSize - 10;
@@ -6040,10 +5995,6 @@ final SyntaxTreeNode tn;
         {if (true) return expr;}
       }
 // left for level checking.
-//      if ( expr.isKind( N_ActionExpr ) ) {
-//        PErrors.push( new ParseError("Error in fairness expression at " + zn[0].location[0] + ": " + zn[0].location[1] + ": use of an action form\n", "-- --") );
-//        return expr;
-//      }
     } else { // reattach FairnessHook ! unless it is tuple
 // "GeneralId", "RecordComponent", "FcnAppl",
       if ( zn[1].isKind( N_GeneralId ) &&  FairnessHook != null ) {

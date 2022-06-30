@@ -225,13 +225,8 @@ public class OpDefNode extends OpDefOrDeclNode
    * it was decided that the Toolbox would regard warnings as errors.)
    *
    */
-//  private ModuleNode sourceModule = null ;
-//
-//  public ModuleNode getSourceModule() {
-//      return sourceModule ;
-//  }
 
-  /*************************************************************************
+      /*************************************************************************
   * The following fields state if an operator is recursively defined, and  *
   * give some potentially useful information having to do with recursive   *
   * operator definitions.                                                  *
@@ -373,10 +368,7 @@ public class OpDefNode extends OpDefOrDeclNode
     * already there.                                                       *
     ***********************************************************************/
 
-//  int lowlink      = -1 ;
-//  int dfs          = -1 ;
-//  boolean examined = false;
-    /***********************************************************************
+/***********************************************************************
     * These fields are used in Tarjan's algorithm.  See the file           *
     * Tarjan.tla for a +Cal version of the algorithm and an explanation    *
     * of what these fields are used for.                                   *
@@ -718,8 +710,6 @@ public class OpDefNode extends OpDefOrDeclNode
       return result ;
 	  	           
    // Code before 22 July 2017 change.
-   //    return ((arg instanceof OpArgNode) &&
-   //              params[i].getArity() == ((OpArgNode)arg).getArity());
   }
 
   /**
@@ -902,12 +892,6 @@ public boolean addLabel(final LabelNode odn) {
   *************************************************************************/
 
 // These fields are now present in all LevelNode subclasses
-//  private boolean levelCorrect;
-//  private int level;
-//  private HashSet levelParams;
-//  private SetOfLevelConstraints levelConstraints;
-//  private SetOfArgLevelConstraints argLevelConstraints;
-//  private HashSet argLevelParams;
 
   int[] maxLevels;
   int[] weights;
@@ -992,11 +976,6 @@ public boolean addLabel(final LabelNode odn) {
       * Never need to level-check a built-in operator.                     *
       *********************************************************************/
 // These are now the default values
-//    this.levelCorrect        = true;
-//    this.levelParams         = EmptySet;
-//    this.levelConstraints    = EmptyLC;
-//    this.argLevelConstraints = EmptyALC;
-//    this.argLevelParams      = EmptySet;
   }
 
   @Override
@@ -1132,33 +1111,8 @@ public boolean addLabel(final LabelNode odn) {
 
 // These get... methods now use the default ones defined in
 // the superclass LevelNode
-//
-//  public final int getLevel() {
-//    this.levelCheck();
-//    return this.level;
-//  }
-//
-//  public final HashSet getLevelParams() {
-//    this.levelCheck();
-//    return this.levelParams;
-//  }
-//
-//  public final SetOfLevelConstraints getLevelConstraints() {
-//    this.levelCheck();
-//    return this.levelConstraints;
-//  }
-//
-//  public final SetOfArgLevelConstraints getArgLevelConstraints() {
-//    this.levelCheck();
-//    return this.argLevelConstraints;
-//  }
-//
-//  public final HashSet getArgLevelParams() {
-//    this.levelCheck();
-//    return this.argLevelParams;
-//  }
 
-/***************************************************************************
+      /***************************************************************************
 * The following Asserts can be removed after debugging.                    *
 ***************************************************************************/
   @Override
@@ -1358,10 +1312,7 @@ public boolean addLabel(final LabelNode odn) {
                                                    ;
 
 //  nextDependency has been removed.
-//                + "\n  nextDependency: " ;
-//    if(nextDependency == null) {ret = ret + "null";}
-//     else {ret = ret + nextDependency.getName().toString();} ;
-    if (params != null) {
+      if (params != null) {
       StringBuilder tempString = new StringBuilder("\n  Formal params: " + params.length);
         for (FormalParamNode param : params) {
             tempString.append(Strings.indent(4, ((param != null)

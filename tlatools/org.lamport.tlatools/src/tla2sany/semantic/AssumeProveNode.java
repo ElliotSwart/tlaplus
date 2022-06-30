@@ -182,14 +182,8 @@ public class AssumeProveNode extends LevelNode {
   * The fields are all set by the levelCheck  method.                      *
   *************************************************************************/
 // These fields are now part of all LevelNode subclasses.
-//  private boolean levelCorrect;
-//  private int level;
-//  private HashSet levelParams;
-//  private SetOfLevelConstraints levelConstraints;
-//  private SetOfArgLevelConstraints argLevelConstraints;
-//  private HashSet argLevelParams;
 
-  /*************************************************************************
+    /*************************************************************************
   * I implemented the levelCheck  method by copying from the method of     *
   * the same name in the OpApplNode class, using the assumptions and       *
   * prove expression the same way the ranges expressions are used to       *
@@ -287,65 +281,16 @@ public class AssumeProveNode extends LevelNode {
    } // end levelCheck
 
 
-//  public int getLevel() {
-//     return level ;
-//   }
-//
-//
-//  public HashSet getLevelParams() {
-//     return levelParams ;
-//   }
-//    /***********************************************************************
-//    * Seems to return a HashSet of OpDeclNode objects.  Presumably, these  *
-//    * are the parameters from the local context that contribute to the     *
-//    * level of the object.                                                 *
-//    ***********************************************************************/
-//
-//  public SetOfLevelConstraints getLevelConstraints() {
-//     return levelConstraints;
-//   }
-//    /***********************************************************************
-//    * This is a HashMap of elements whose key is a SymbolNode and whose    *
-//    * value is an int.  An entry in this table means that the              *
-//    * key/parameter must have a level <= the value/int.                    *
-//    ***********************************************************************/
-//
-//  public SetOfArgLevelConstraints getArgLevelConstraints() {
-//     return argLevelConstraints ;
-//    }
-//    /***********************************************************************
-//    * An element in this HashMap has key that is a ParamAndPosition and    *
-//    * value that is an int.  Such an element with key k and value v means  *
-//    * that the operator parameter described by the SymbolNode k.param      *
-//    * must be able to accept an argument of level v in its argument        *
-//    * number k.position.                                                   *
-//    ***********************************************************************/
-//
-//
-//  public  HashSet getArgLevelParams() {
-//     return argLevelParams;
-//    }
-//    /***********************************************************************
-//    * Seems to return a HashSet of ArgLevelParam objects.  (See            *
-//    * ArgLevelParam.java for an explanation of those objects.)             *
-//    ***********************************************************************/
-  /*************************************************************************
+/*************************************************************************
   * End fields and methods implementing the LevelNode interface:           *
   *************************************************************************/
 
   /*************************************************************************
   * Fields and methods implementing the ExplorerNode  interface:           *
   *************************************************************************/
-//  public final String levelDataToString() {
-//    return "Level: "               + this.getLevel()               + "\n" +
-//           "LevelParameters: "     + this.getLevelParams()         + "\n" +
-//           "LevelConstraints: "    + this.getLevelConstraints()    + "\n" +
-//           "ArgLevelConstraints: " + this.getArgLevelConstraints() + "\n" +
-//           "ArgLevelParams: "      + this.getArgLevelParams()      + "\n";
-//  }
 
 
-  /**
+    /**
    * The children of this node are the assumes and prove expressions.
    */
   @Override

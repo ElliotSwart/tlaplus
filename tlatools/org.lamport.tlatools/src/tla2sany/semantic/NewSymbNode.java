@@ -53,13 +53,8 @@ public class NewSymbNode extends LevelNode {
 //    ***********************************************************************/
 
 // Role subsumed by this.levelCorrect
-//  private boolean  theLevelCheck = true ;
-//    /***********************************************************************
-//    * Set by this.levelCheck to the value to be returned on subsequent     *
-//    * calls.                                                               *
-//    ***********************************************************************/
 
-  /*************************************************************************
+    /*************************************************************************
   * The Constructor.                                                       *
   *************************************************************************/
   public NewSymbNode(
@@ -123,41 +118,12 @@ public class NewSymbNode extends LevelNode {
     return levelCorrect;
    }
 
-//  public int getLevel()             {return this.level; }
-//
-//  public HashSet getLevelParams()   {
-//    if (set == null) {return EmptySet;}
-//    else return set.getLevelParams();
-//   }
-//
-//  public SetOfLevelConstraints getLevelConstraints() {
-//    if (set == null) {return EmptyLC;}
-//    else return set.getLevelConstraints();
-//   }
-//
-//  public SetOfArgLevelConstraints getArgLevelConstraints() {
-//    if (set == null) {return EmptyALC;}
-//    else return set.getArgLevelConstraints();
-//   }
-//
-//  public HashSet getArgLevelParams() {
-//    if (set == null) {return EmptySet;}
-//    else return set.getArgLevelParams();
-//   }
-
-  /**
+/**
    * toString, levelDataToString and walkGraph methods to implement
    * ExploreNode interface
    */
-//  public final String levelDataToString() {
-//    return "Level: "               + this.level                    + "\n" +
-//           "LevelParameters: "     + this.getLevelParams()         + "\n" +
-//           "LevelConstraints: "    + this.getLevelConstraints()    + "\n" +
-//           "ArgLevelConstraints: " + this.getArgLevelConstraints() + "\n" +
-//           "ArgLevelParams: "      + this.getArgLevelParams()      + "\n";
-//  }
 
-  /**
+    /**
    * The body is the node's only child.
    */
 

@@ -71,8 +71,6 @@ public class PCalTLAGenerator
 
         for (int i = 0; i < st.disambiguateReport.size(); i++)
             result.addElement(st.disambiguateReport.elementAt(i));
-        // System.out.println("Before: " + ast.toString());
-        // System.out.println("After renaming: " + ast.toString());
         try
         {
             xast = PcalTranslate.Explode(ast, st);
@@ -92,9 +90,7 @@ public class PCalTLAGenerator
         }
 
 // tla-pcal debugging
-//System.out.println("After Translation:");
-//System.out.println(xast.toString());
-        /*******************************************************************
+/*******************************************************************
         * Following test added by LL on 31 Aug 2007.                       *
         *******************************************************************/
         try

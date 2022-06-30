@@ -92,9 +92,7 @@ public class BracketStack implements //LogCategories,
     * classes[kind] = null.                                                *
     ***********************************************************************/
     final StackElement se = stack.peek();
-// Log.log(bracketStackLog, "--- onReference, " + o + " " + classes [ kind ] + 
-//                          "  " + se.Kind + " " + se.Offset);
-     /************************************************************************
+/************************************************************************
      * A use of a class from tla2sany/error eliminated by LL on 2 Mar 2007   *
      ************************************************************************/
     return

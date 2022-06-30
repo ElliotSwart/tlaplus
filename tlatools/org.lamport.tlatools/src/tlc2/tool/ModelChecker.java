@@ -979,9 +979,6 @@ public class ModelChecker extends AbstractChecker
                 super.reportCoverage(this.workers);
                 // count = TLCGlobals.coverageInterval / TLCGlobals.progressInterval;
             } // else
-            // {
-            // count--;
-            // }
             this.wait(TLCGlobals.progressInterval);
         }
     }

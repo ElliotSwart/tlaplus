@@ -92,9 +92,7 @@ public class AttachingDebugger extends TLCDebugger {
 					// Don't parse the strings here!!! Instead, BroadcastMessagePrinterRecorder
 					// provides first-class access to the log output without parsing.
 					// When launched from the debugger (VScode), TLC does not run in -tool mode.
-					//oea.setGroup(OutputEventArgumentsGroup.START_COLLAPSED);
-					//oea.setCategory("Progress");
-					oea.setOutput(str);
+                    oea.setOutput(str);
 					launcher.getRemoteProxy().output(oea);
 				} else {
 					buffer += str;

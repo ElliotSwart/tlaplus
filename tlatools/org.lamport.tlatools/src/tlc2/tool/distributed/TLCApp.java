@@ -365,12 +365,6 @@ public class TLCApp extends DistApp {
                             ToolIO.out.println(
                                     "Warning: coverage reporting not supported in distributed TLC, ignoring -coverage "
                                             + args[index] + " parameter.");
-//						TLCGlobals.coverageInterval = Integer
-//						.parseInt(args[index]) * 1000;
-//						if (TLCGlobals.coverageInterval < 0) {
-//							printErrorMsg("Error: expect a nonnegative integer for -coverage option.");
-//							return null;
-//						}
                             index++;
                         } catch (final Exception e) {
                             printErrorMsg("Error: An integer for coverage report interval required."

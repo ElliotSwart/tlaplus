@@ -321,8 +321,6 @@ class trans {
         /*********************************************************************
         * Get and print version number.                                      *
         *********************************************************************/
-        // String lastModified =
-        // "last modified on Wed 11 March 2009 at 14:52:58 PST by lamport";
         /*******************************************************************
         * This string is inserted by an Emacs macro when a new version is  *
         * saved.  Unfortunately, Eclipse isn't Emacs, so the modification  *
@@ -408,27 +406,6 @@ class trans {
         * For .pcal input, set outputSuffixLoc and add the rest of the       *
         * input file to the output.                                          *
         *********************************************************************/
-        // if (PcalParams.fromPcalFile)
-        // {
-        // PcalParams.outputSuffixLoc = new IntPair(outputVec.size(), 0);
-        // // if there's stuff in the suffix on the same line with the
-        // // end of the algorithm, write it on a separate line.
-        // IntPair curLoc = new IntPair(PcalParams.inputSuffixLoc.one, PcalParams.inputSuffixLoc.two);
-        // if (curLoc.one < untabInputVec.size())
-        // {
-        // String lastLine = (String) untabInputVec.elementAt(curLoc.one);
-        // if (curLoc.two < lastLine.length())
-        // {
-        // outputVec.addElement(lastLine.substring(curLoc.two));
-        // }
-        // curLoc.one++;
-        // }
-        // // Copy the rest of the input file into the output file.
-        // for (int ii = curLoc.one; ii < untabInputVec.size(); ii++)
-        // {
-        // outputVec.addElement((String) untabInputVec.elementAt(ii));
-        // }
-        // }
         /*********************************************************************
         * Write the output file.                                             *
         *********************************************************************/
@@ -775,33 +752,7 @@ class trans {
                 	
 // The following code isn't needed because the algorithm is inside a comment, and 
 // quotes and \* have no effect in determining where the comment ends.
-//
-//                	if (ch == '"') {
-//                		// gobble string
-//                		ch = ch2 ;
-//                		ecCol++ ;
-//                		while (ch != '"') {
-//                			if (ch == '\\') {
-//                				ecCol = ecCol + 2;
-//                			} 
-//                			else {
-//                				ecCol++ ;
-//                			} ;
-//                			if (ecCol < line.length - 1) {
-//                			   ch = line[ecCol] ;
-//                			}
-//                			else {
-//                				ch = '"' ;
-//                			}
-//                		} ;
-//                		ecCol++ ;
-//                	} 
-//                        	
-//                	if (ch == '\\' && ch2 == '*' ) {
-//                		// end of line comment, skip to end of line
-//                		ecCol = 214748364;  // a very large int
-//                	}
-                	if (ch == '(' && ch2 == '*') {
+                    if (ch == '(' && ch2 == '*') {
                 		// left comment delimiter
                     	depth++;
                     	ecCol = ecCol + 2;
@@ -848,8 +799,6 @@ class trans {
             untabInputVec.insertElementAt(TLA_TRANSLATION_COMMENT_LINE_PREFIX, (ecLine + 2));
 
             translationLine = ecLine + 1;
-//System.out.println(ecLine + ", " + ecCol);
-//Debug.printVector(inputVec, "foo");
         }
         else {			
 			// Check if the existing TLA+ translation has been modified by the user and
@@ -907,10 +856,6 @@ class trans {
 // System.out.println(ast.toString());
 // For testing, we print out when the new code for eliminating the 
 // suttering-on-done and pc is used.
-// if (ParseAlgorithm.omitPC || ParseAlgorithm.omitStutteringWhenDone) {
-//  System.out.println("omit pc = " + ParseAlgorithm.omitPC + 
-//          ", omitStutteringWhenDone = " + ParseAlgorithm.omitStutteringWhenDone);
-// }
 
         } catch (final ParseAlgorithmException e)
         {
@@ -921,9 +866,7 @@ class trans {
         PcalDebug.reportInfo("Parsing completed.");
         
 // tla-pcal debugging
-//System.out.println("Translation Output:");
-//System.out.println(ast.toString());
-        /*********************************************************************
+/*********************************************************************
         * For -writeAST option, just write the file AST.tla and halt.        *
         *********************************************************************/
         if (PcalParams.WriteASTFlag)
@@ -1289,12 +1232,7 @@ class trans {
             // is to copy the file, delete the old version, and rename the copy.
             // But the File method's documentation actually says that delete may or
             // may not delete the read-only file, depending on the OS.
-            //
-            // File file = new File(fileName);
-            // if (! file.canWrite()) {
-            // file.setWritable(true);
-            // }
-        	for (final String line : inputVec) {
+            for (final String line : inputVec) {
                 fileW.write(line);
                 fileW.newLine();
             }
@@ -1741,21 +1679,6 @@ class trans {
         * Set PcalParams.TLAInputFile to the last argument, removing a      *
         * "tla" extension if it has one.                                    *
         ********************************************************************/
-        /*
-        int dotIndex = args[maxArg].lastIndexOf(".") ;
-        if (dotIndex == -1) 
-        { 
-          PcalParams.TLAInputFile = args[maxArg]; 
-        } 
-        else if (args[maxArg].substring(dotIndex).equals(TLAConstants.FILE_TLA_EXTENSION))
-        { 
-          PcalParams.TLAInputFile = args[maxArg].substring(0, dotIndex); 
-        }
-        else 
-        {  
-          return CommandLineError("Input file has extension other than tla"); 
-        }
-        */
 
         // SZ 02.16.2009: check for correct file extension (ignoring case)
         // and file existence. also handles dots in the pathname
@@ -1807,11 +1730,6 @@ class trans {
             }
             // }
         }
-        // file = new File(PcalParams.TLAInputFile + (PcalParams.fromPcalFile?".pcal":TLAConstants.FILE_TLA_EXTENSION));
-        // if (!file.exists())
-        // {
-        // return CommandLineError("Input file " + file.getPath() + " not found");
-        // }
 
         return STATUS_OK;
     }
@@ -1863,8 +1781,6 @@ class trans {
     *********************************************************************/
     {
           PcalDebug.reportError("Command-line error: " + msg + ".");
-//        ToolIO.out.println("Command-line error: " + msg + ".");
-//        ToolIO.out.println("Use -help option for more information.");
         return STATUS_EXIT_WITH_ERRORS;
     }
 

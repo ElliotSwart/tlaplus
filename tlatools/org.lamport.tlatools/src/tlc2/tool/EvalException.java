@@ -14,10 +14,7 @@ import tlc2.output.MP;
  */
 public class EvalException extends StatefulRuntimeException
 {
-// SZ Jul 14, 2009: not used since error codes are in the {@link EC} class    
-//    public final static int ERROR = 0;
-//    public final static int ASSERT = 1;
-//    private int type;
+// SZ Jul 14, 2009: not used since error codes are in the {@link EC} class
 
 
     private static final long serialVersionUID = -7401139507774908329L;
@@ -71,8 +68,5 @@ public class EvalException extends StatefulRuntimeException
     // }
 
     // SZ Jul 14, 2009: not used
-    // public final EvalException addMessage(String msg) {
-    //      return new EvalException(this.errno, this.getMessage() + "\n" + msg);
-    // }
 
 }

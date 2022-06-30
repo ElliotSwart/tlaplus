@@ -390,18 +390,6 @@ public abstract class AbstractChecker
     }
 
 // The following method used for testing ProbabilityToString
-//
-//    public static void main(String[] args) {
-//        double[] test = new double[] {.5, .0995, .00000001, 001.000, .0022341, 
-//                                      .0022351, 3.14159E-12, 
-//                                      00.999, .002351111, 22.8E-14, 0.000E-12,
-//                                      37, 0033D, 04.85, -35.3};
-//        int i = 0;
-//        while (i < test.length) {
-//            System.out.println("" + i + ": " + Double.toString(test[i]) + " -> " + ProbabilityToString(test[i],2));
-//            i++;
-//        }    
-//    }
 
     /**
      * Initialize the model checker

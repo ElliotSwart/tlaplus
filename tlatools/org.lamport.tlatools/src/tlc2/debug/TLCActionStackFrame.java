@@ -65,9 +65,7 @@ public class TLCActionStackFrame extends TLCStateStackFrame {
 		// either ps is a stuttering state or has a predecessor.
 		assert predecessor.getLevel() == ps.getLevel() || ps.getPredecessor() != null;
 		// We *cannot* assert allAssigned here cause the check if ps is a good state (Tool#isGoodState) happens later.
-//		assert predecessor.allAssigned();
-//		assert ps.getPredecessor().allAssigned();
-	}
+    }
 	
 	@Override
 	protected TLCState getS() {

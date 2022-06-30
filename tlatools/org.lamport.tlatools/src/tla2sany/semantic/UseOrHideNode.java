@@ -179,11 +179,7 @@ public class UseOrHideNode extends LevelNode {
     if(getKind() == HideKind) e.appendChild(doc.createElement("hide"));
 
 
-/*    if (stepName != null)
-      e.setAttribute("step_name", stepName.toString());
-*/
-
-    // at the end, we append the context of the symbols used in this node
+// at the end, we append the context of the symbols used in this node
     //e.appendChild(context.getContextElement(doc));
 
     return e;

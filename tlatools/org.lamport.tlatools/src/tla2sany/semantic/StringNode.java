@@ -58,33 +58,12 @@ public class StringNode extends ExprNode implements ExploreNode {
     return true;
   }
 
-//  public final int getLevel() { return ConstantLevel; }
-//
-//  public final HashSet getLevelParams() { return EmptySet; }
-//
-//  public final SetOfLevelConstraints getLevelConstraints() {
-//    return EmptyLC;
-//  }
-//
-//  public final SetOfArgLevelConstraints getArgLevelConstraints() {
-//    return EmptyALC;
-//  }
-//
-//  public final HashSet getArgLevelParams() { return EmptySet; }
-
-  /**
+    /**
    * toString, levelDataToString, & walkGraph methods to implement
    * ExploreNode interface
    */
-//  public final String levelDataToString() {
-//    return "Level: "               + this.getLevel()               + "\n" +
-//           "LevelParameters: "     + this.getLevelParams()         + "\n" +
-//           "LevelConstraints: "    + this.getLevelConstraints()    + "\n" +
-//           "ArgLevelConstraints: " + this.getArgLevelConstraints() + "\n" +
-//           "ArgLevelParams: "      + this.getArgLevelParams()      + "\n" ;
-//  }
 
-  @Override
+    @Override
   public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
     final Integer uid = myUID;
     if (semNodesTable.get(uid) != null) return;

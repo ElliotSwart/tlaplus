@@ -212,37 +212,5 @@ public class Combinatorics {
 
 
 // SZ Jul 14, 2009: Dead code. not used.
-//  public static void main(String argv[]) {
-//    int i,j;
-//    BigInteger b;
-//    // Date d1,d2;
-//    // SZ Feb 24, 2009: not used
-//    BigInteger [] A = new BigInteger[16];
-//    BigInteger [] B = new BigInteger[16];
-//    BigInteger [] C;
-//    Random r = new Random();
-//
-//    
-//    for (i=0; i<8; i++) {
-//      B[2*i] = BigInteger.valueOf(1048576);
-//      B[2*i+1] = BigInteger.valueOf(1024);
-//    }
-//
-//    
-//    for (j = 0; j < 200; j++) {
-//      for (i = 0; i < 8; i++) {
-//	A[2*i] = new BigInteger(20, r);
-//	A[2*i+1] = new BigInteger(10, r);
-//      }
-//      ToolIO.out.println("A is "+print(A));
-//      b = toNum(B, A);
-//      C = toSeq(B, b);
-//      ToolIO.out.println("C is "+print(C));
-//      for (i = 0; i < 16; i++)
-//	if (!C[i].equals(A[i]))
-//	    ToolIO.out.println("***********Error***********");
-//      ToolIO.out.println("b is " + b);
-//    }      
-//  }
 
 }

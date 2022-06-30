@@ -57,13 +57,7 @@ private final IValue[] values;
 
       // SZ 10.04.2009: since this method is called exactly one from Spec#processSpec
       // moved the call of UniqueString#setVariables to that place
-      
-      // UniqueString[] varNames = new UniqueString[variables.length];
-      // for (int i = 0; i < varNames.length; i++)
-      // {
-      //  varNames[i] = variables[i].getName();
-      //}
-      //UniqueString.setVariables(varNames);
+
   }
 
   public static void setTool(final ITool tool) {

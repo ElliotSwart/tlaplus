@@ -473,11 +473,6 @@ class TeX
 //            { nopsOption = true ;
 //            }
 //          else if (option.equals("-psCommand"))
-//            { nextArg = nextArg + 1;
-//              if (nextArg >= args.length)
-//                {CommandLineError("No input file specified") ;} ;
-//              Parameters.PSCommand = args[nextArg];
-//            }
                 case "-latexCommand" -> {
                     nextArg = nextArg + 1;
                     if (nextArg >= args.length) {
@@ -522,8 +517,6 @@ class TeX
 // of tlatex.TeX can get lines numbered.
 //
 //          else if (option.equals("-number"))
-//            { Parameters.PrintLineNumbers = true;
-//            }
                 default -> CommandLineError("Unknown option: " + option);
             }
             nextArg = nextArg + 1;
@@ -651,30 +644,7 @@ class TeX
          }
      }
 
-/*
-   private static void MakePSFile()
-    { int errorCode = -77;
-      String Command =     Parameters.PSCommand + " " 
-                         + Parameters.LaTeXOutputFile + ".dvi" ; 
-      try { Runtime rt = Runtime.getRuntime() ;
-            Process proc = null ;
-            proc = rt.exec(Command);
-            errorCode = proc.waitFor();
-          }
-      catch (Exception e)
-       { Debug.ReportError(
-              "Trying to run the command `" + Command
-            + "' produced the following error\n    " + e.getMessage());
-       } ;
-      if (errorCode < 0)
-        { Debug.ReportError(
-            "Running the command `" + Command 
-          + "' produced an error");
-        }
-    }    
-*/
-
-   private static float[] ReadLogFile()
+     private static float[] ReadLogFile()
     /***********************************************************************
     * Reads the log file to obtain the linewidths for the tla              *
     * environments, and returns them as an array of floats.  Each          *

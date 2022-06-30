@@ -82,37 +82,12 @@ public class OpArgNode extends ExprOrOpArgNode {
     return levelCorrect ;
   }
 
-//  public final int getLevel() { return this.op.getLevel(); }
-//
-//  public final HashSet getLevelParams() {
-//    return this.op.getLevelParams();
-//  }
-//
-//  public final SetOfLevelConstraints getLevelConstraints() {
-//    return this.op.getLevelConstraints();
-//  }
-//
-//  public final SetOfArgLevelConstraints getArgLevelConstraints() {
-//    return this.op.getArgLevelConstraints();
-//  }
-//
-//  public final HashSet getArgLevelParams() {
-//    return this.op.getArgLevelParams();
-//  }
-
-  /**
+    /**
    * walkGraph, levelDataToString, and toString methods to implement
    * ExploreNode interface
    */
-//  public final String levelDataToString() {
-//    return "Level: "               + this.getLevel()               + "\n" +
-//           "LevelParameters: "     + this.getLevelParams()         + "\n" +
-//           "LevelConstraints: "    + this.getLevelConstraints()    + "\n" +
-//           "ArgLevelConstraints: " + this.getArgLevelConstraints() + "\n" +
-//           "ArgLevelParams: "      + this.getArgLevelParams()      + "\n" ;
-//  }
 
-  @Override
+    @Override
   public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
     final Integer uid = myUID;
     if (semNodesTable.get(uid) != null) return;
@@ -151,9 +126,6 @@ public class OpArgNode extends ExprOrOpArgNode {
     n.appendChild(ope);
     e.appendChild(n);
 
-    //e.appendChild(appendText(doc,"uniquename",getName().toString()));
-    //e.appendChild(appendText(doc,"arity", Integer.toString(getArity())));
-
-    return e;
+      return e;
   }
 }

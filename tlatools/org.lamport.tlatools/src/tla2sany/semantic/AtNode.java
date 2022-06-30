@@ -69,13 +69,8 @@ public class AtNode extends ExprNode {
 
   /* Level check */
 // These nodes are now part of all LevelNode subclasses.
-//  private int level;
-//  private HashSet levelParams;
-//  private SetOfLevelConstraints levelConstraints;
-//  private SetOfArgLevelConstraints argLevelConstraints;
-//  private HashSet argLevelParams;
 
-  @Override
+    @Override
   public final boolean levelCheck(final int iter) {
     if (this.levelChecked >= iter) return true;
     this.levelChecked = iter;
@@ -121,33 +116,12 @@ public class AtNode extends ExprNode {
     return true;
   }
 
-//  public final int getLevel() { return this.level; }
-//
-//  public final HashSet getLevelParams() { return this.levelParams; }
-//
-//  public final SetOfLevelConstraints getLevelConstraints() {
-//    return this.levelConstraints;
-//  }
-//
-//  public final SetOfArgLevelConstraints getArgLevelConstraints() {
-//    return this.argLevelConstraints;
-//  }
-//
-//  public final HashSet getArgLevelParams() { return this.argLevelParams; }
-
-  /**
+    /**
    * toString, levelDataToString, & walkGraph methods needed to
    * implement ExploreNode interface
    */
-//  public final String levelDataToString() {
-//    return "Level: "               + this.getLevel()               + "\n" +
-//           "LevelParameters: "     + this.getLevelParams()         + "\n" +
-//           "LevelConstraints: "    + this.getLevelConstraints()    + "\n" +
-//           "ArgLevelConstraints: " + this.getArgLevelConstraints() + "\n" +
-//           "ArgLevelParams: "      + this.getArgLevelParams()      + "\n";
-//  }
 
-  /*
+    /*
    * walkGraph finds all reachable nodes in the semantic graph
    * and inserts them in the Hashtable semNodesTable for use by the Explorer tool.
    */

@@ -463,12 +463,8 @@ public class GraphNode extends AbstractGraphNode {
 			}
 			
 			final String fp = Long.toString(stateFP);
-//			if (fp == this.stateFP) {
-//				// skip self loops if edge count to large for dotViz to handle.
-//				continue;
-//			}
-			
-			buf.append("\"").append(id).append("\" -> ");
+
+            buf.append("\"").append(id).append("\" -> ");
 			if (hasTableau) {
 				buf.append("\"").append(fp).append(".").append(tidx).append("\"");
 			} else {

@@ -83,33 +83,12 @@ public class DecimalNode extends ExprNode {
     return true;
   }
 
-//  public final int getLevel() { return ConstantLevel; }
-//
-//  public final HashSet getLevelParams() { return EmptySet; }
-//
-//  public final SetOfLevelConstraints getLevelConstraints() {
-//    return EmptyLC;
-//  }
-//
-//  public final SetOfArgLevelConstraints getArgLevelConstraints() {
-//    return EmptyALC;
-//  }
-//
-//  public final HashSet getArgLevelParams() { return EmptySet; }
-
-  /**
+/**
    *  toString, levelDataToString(), and walkGraph methods to implement
    *  ExploreNode interface
    */
-//  public final String levelDataToString() {
-//    return "Level: "               + this.getLevel()               + "\n" +
-//           "LevelParameters: "     + this.getLevelParams()         + "\n" +
-//           "LevelConstraints: "    + this.getLevelConstraints()    + "\n" +
-//           "ArgLevelConstraints: " + this.getArgLevelConstraints() + "\n" +
-//           "ArgLevelParams: "      + this.getArgLevelParams()      + "\n" ;
-//  }
 
-  /**
+    /**
    * walkGraph finds all reachable nodes in the semantic graph and
    * inserts them in the Hashtable semNodesTable for use by the
    * Explorer tool.

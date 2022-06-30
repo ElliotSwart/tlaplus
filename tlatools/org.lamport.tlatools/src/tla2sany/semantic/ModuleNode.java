@@ -713,13 +713,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
 //  Old level parameter fields removed and replace by subfields
 //  of levelData.
 
-//   private boolean levelCorrect;
-//  private HashSet levelParams;
-//  private SetOfLevelConstraints levelConstraints;
-//  private SetOfArgLevelConstraints argLevelConstraints;
-//  private HashSet argLevelParams;
-
-  @Override
+    @Override
   public final boolean levelCheck(final int itr) {
 
     if (levelChecked >= itr) return this.levelCorrect;
@@ -748,17 +742,6 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
 // };
 
 // XXXXXXX Testing
-// System.out.println("theoremVec: ") ;
-// for (int i = 0 ; i < theoremVec.size(); i++) {
-// System.out.println("Theorem at " +
-//     ((SemanticNode) theoremVec.elementAt(i)).stn.getLocation().toString());
-// } ;
-//
-// System.out.println("instanceVec: ") ;
-// for (int i = 0 ; i < instanceVec.size(); i++) {
-// System.out.println("Instance at " +
-//   ((SemanticNode) instanceVec.elementAt(i)).stn.getLocation().toString());
-// } ;
 
 /***************************************************************************
 * Perform level checking for all operator definitions in recursive         *
@@ -938,10 +921,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
           this.allParams.add(opDeclNode);
       }
 
-//    this.levelConstraints = new SetOfLevelConstraints();
-//    this.argLevelConstraints = new SetOfArgLevelConstraints();
-//    this.argLevelParams = new HashSet();
-    if (!this.isConstant()) {
+        if (!this.isConstant()) {
         for (OpDeclNode decl : decls) {
             this.levelConstraints.put(decl, Levels[ConstantLevel]);
         }
@@ -966,22 +946,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
           this.argLevelParams.addAll(levelNode.getArgLevelParams());
       }
 
-//    for (int i = 0; i < thms.length; i++) {
-//      this.levelConstraints.putAll(thms[i].getLevelConstraints());
-//      this.argLevelConstraints.putAll(thms[i].getArgLevelConstraints());
-//      this.argLevelParams.addAll(thms[i].getArgLevelParams());
-//    }
-//    for (int i = 0; i < insts.length; i++) {
-//      this.levelConstraints.putAll(insts[i].getLevelConstraints());
-//      this.argLevelConstraints.putAll(insts[i].getArgLevelConstraints());
-//      this.argLevelParams.addAll(insts[i].getArgLevelParams());
-//    }
-//    for (int i = 0; i < assumps.length; i++) {
-//      this.levelConstraints.putAll(assumps[i].getLevelConstraints());
-//      this.argLevelConstraints.putAll(assumps[i].getArgLevelConstraints());
-//      this.argLevelParams.addAll(assumps[i].getArgLevelParams());
-//    }
-    return this.levelCorrect;
+        return this.levelCorrect;
   }
 
   @Override
@@ -990,19 +955,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
   }
 
 
-//  public final HashSet getLevelParams() { return this.levelParams; }
-//
-//  public final SetOfLevelConstraints getLevelConstraints() {
-//    return this.levelConstraints;
-//  }
-//
-//  public final SetOfArgLevelConstraints getArgLevelConstraints() {
-//    return this.argLevelConstraints;
-//  }
-//
-//  public final HashSet getArgLevelParams() { return this.argLevelParams; }
-
-  /**
+    /**
    * Returns true iff the module is a constant module. See the
    * discussion of constant modules in the ExprNode interface.
    *
@@ -1115,16 +1068,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     for (int i = 0; i < topLevelVec.size(); i++) {
       (topLevelVec.elementAt(i)).walkGraph(semNodesTable, visitor);
     }
-//     for (int i = 0; i < instanceVec.size(); i++) {
-//       ((InstanceNode)(instanceVec.elementAt(i))).walkGraph(semNodesTable);
-//     }
-//     for (int i = 0; i < theoremVec.size(); i++) {
-//       ((TheoremNode)(theoremVec.elementAt(i))).walkGraph(semNodesTable);
-//     }
-//     for (int i = 0; i < assumptionVec.size(); i++) {
-//       ((AssumeNode)(assumptionVec.elementAt(i))).walkGraph(semNodesTable);
-//     }
-    visitor.postVisit(this);
+      visitor.postVisit(this);
   }
 
   public final void print(final int indent, final int depth, final boolean b) {
@@ -1238,25 +1182,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
       }
     //ret.appendChild(operators);
 
-    /*
-    //assumptions
-    Element assums = doc.createElement("assumptions");
-    nodes = getAssumptions();
-    for (int i=0; i<nodes.length; i++) {
-      assums.appendChild(nodes[i].export(doc,context));
-    }
-    ret.appendChild(assums);
-
-    //theorems
-    Element thms = doc.createElement("theorems");
-    nodes = getTheorems();
-    for (int i=0; i<nodes.length; i++) {
-      thms.appendChild(nodes[i].export(doc,context));
-    }
-    ret.appendChild(thms);
-  */
-
-    nodes = getTopLevel();
+      nodes = getTopLevel();
       for (SemanticNode node : nodes) {
           ret.appendChild(node.export(doc, context));
       }

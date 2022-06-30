@@ -215,10 +215,8 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 					// I don't expect equals to do the right thing(tm) for EvalException and/or
 					// TLCRuntimeException. We effectively expect the same exception gets
 					// throw by calling addNextState again.
-					//assert origExp.getClass().isAssignableFrom(rerunExp.getClass());
-					//assert origException.equals(rerunException);
-					
-					if (cTool.hasCallStack()) {
+
+                    if (cTool.hasCallStack()) {
 						// Tell ModelChecker.java not to re-run model-checking to re-create the error
 						// stack because it was already re-created here.
 						this.tlc.keepCallStack = false;
@@ -314,11 +312,8 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		sucState.setPredecessor(curState);
 		
     	unseenSuccessorStates++;
-		
-//		System.err.println(String.format("<<%s, %s>>: pred=<<%s, %s>>, %s -> %s", myGetId(), this.lastPtr, 
-//				curState.uid, curState.workerId,
-//				curState.fingerPrint(), sucStateFp));
-	}
+
+    }
 
 	// Read from previously written (see writeState) trace file.
 	public final synchronized ConcurrentTLCTrace.Record readStateRecord(final long ptr) throws IOException {
