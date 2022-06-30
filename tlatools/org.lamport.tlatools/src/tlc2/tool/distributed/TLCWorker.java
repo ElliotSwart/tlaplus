@@ -516,7 +516,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 		 */
 		@Override
         public int compareTo(final Holder o) {
-			return (fp < o.fp) ? -1 : ((fp == o.fp) ? 0 : 1);
+			return Long.compare(fp, o.fp);
 		}
 	}
 }
