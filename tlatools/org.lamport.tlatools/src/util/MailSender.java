@@ -159,7 +159,7 @@ public class MailSender {
 				final Object object = attr.get(i);
 				if (object instanceof String) {
 					final String[] split = ((String) object).split("\\s+");
-					if (split != null && split.length == 2) {
+					if (split.length == 2) {
 						final int weight = Integer.parseInt(split[0]);
 						list.add(new MXRecord(weight, split[1]));
 					}

@@ -719,11 +719,9 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 				server = new TLCServer(app);
 			}
 			tlcServerMXWrapper = new TLCServerMXWrapper(server);
-			if(server != null) {
-				Runtime.getRuntime().addShutdownHook(new Thread(new WorkerShutdownHook(server)));
-				server.modelCheck();
-			}
-		} catch (final Throwable e) {
+            Runtime.getRuntime().addShutdownHook(new Thread(new WorkerShutdownHook(server)));
+            server.modelCheck();
+        } catch (final Throwable e) {
 			System.gc();
 			// Assert.printStack(e);
 			if (e instanceof StackOverflowError) {

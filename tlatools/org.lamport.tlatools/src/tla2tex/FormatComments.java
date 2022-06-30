@@ -762,8 +762,6 @@ public final class FormatComments
      line = 0 ;
      while (line < com.length)
       {item = 0 ;
-       if (com.length == 0) 
-        { parenLevel = 0 ; }
           while (item < com[line].length)
         {
          tok  = com[line][item] ;

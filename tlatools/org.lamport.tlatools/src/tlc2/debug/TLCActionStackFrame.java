@@ -61,8 +61,7 @@ public class TLCActionStackFrame extends TLCStateStackFrame {
 		super(parent, expr, c, tool, ps /* super calls ps.deepCopy() */, e);
 		assert predecessor != null;
 		assert a != null;
-		assert ps != null;
-		// either ps is a stuttering state or has a predecessor.
+        // either ps is a stuttering state or has a predecessor.
 		assert predecessor.getLevel() == ps.getLevel() || ps.getPredecessor() != null;
 		// We *cannot* assert allAssigned here cause the check if ps is a good state (Tool#isGoodState) happens later.
     }

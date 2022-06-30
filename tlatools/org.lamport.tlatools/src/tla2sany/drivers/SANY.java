@@ -281,7 +281,7 @@ public class SANY {
                                   moduleNode);
   
           // Level check if semantic analysis succeeded and levelCheck is true.
-          if (moduleNode != null && semanticErrors.isSuccess() && levelCheck ) {
+          if (semanticErrors.isSuccess() && levelCheck) {
             moduleNode.levelCheck(1);
           }
 
@@ -318,29 +318,23 @@ public class SANY {
       } // end while
     }
     catch (final AbortException e) {
-      if ( syserr != null) {
-        syserr.println("Fatal errors in semantic processing of TLA spec " +
-                       spec.getFileName() + "\n" + e.getMessage() +
-                       "\nStack trace for exception:\n"); 
-        e.printStackTrace(syserr);
-      }
-  
+      syserr.println("Fatal errors in semantic processing of TLA spec " +
+                     spec.getFileName() + "\n" + e.getMessage() +
+                     "\nStack trace for exception:\n");
+      e.printStackTrace(syserr);
+
       if (globalContextErrors.getNumMessages() > 0) {
-        if (syserr != null) {
-          syserr.println("Semantic errors in global context detected before the unexpected exception:\n");
-          syserr.print("\n" + globalContextErrors);
-        }
+        syserr.println("Semantic errors in global context detected before the unexpected exception:\n");
+        syserr.print("\n" + globalContextErrors);
 
         // indicate fatal error parsing builtin operator tables
         spec.errorLevel = 3;
       }
     
       if (semanticErrors.getNumMessages() > 0) {
-        if ( syserr != null ) {
-          syserr.println("Semantic errors detected before the unexpected exception:\n");
-          syserr.print("\n" + semanticErrors);
-        }
-        
+        syserr.println("Semantic errors detected before the unexpected exception:\n");
+        syserr.print("\n" + semanticErrors);
+
         // indicate fatal error during semantic analysis or level-checking
         if ( semanticErrors.getNumAbortsAndErrors() > 0 ) { 
           spec.errorLevel = 4;

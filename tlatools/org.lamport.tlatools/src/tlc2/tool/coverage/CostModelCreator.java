@@ -284,8 +284,7 @@ public class CostModelCreator extends ExplorerVisitor {
 			// 
 			// if-branches 1., 2., and 3. below are evaluated in three distinct
 			// invocation of outer preVisit for different ExploreNodes.
-			if (tool != null && operator instanceof final OpDefNode odn && opApplNode.hasOpcode(0)
-					&& opApplNode.argsContainOpArgNodes()) {
+			if (operator instanceof final OpDefNode odn && opApplNode.hasOpcode(0) && opApplNode.argsContainOpArgNodes()) {
 				// 1) Maintain Context for all OpApplNode iff one or more of its args are of
 				// type OpArgNode. This is more restrictive than Tool.
                 if (odn.hasOpcode(0) && !odn.isStandardModule()) {

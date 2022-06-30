@@ -103,7 +103,7 @@ public class ConcurrentTLCTrace extends TLCTrace {
 			}
 			// The fp of the final initial state.
 			records.add(record);
-			assert 0 <= records.size() && records.size() <= getLevel();
+			assert records.size() <= getLevel();
 			return getTrace(null, records);
 		}
 	}
@@ -128,7 +128,7 @@ public class ConcurrentTLCTrace extends TLCTrace {
 			}
 			// The fp of the final initial state.
 			records.add(record);
-			assert 0 <= records.size() && records.size() <= getLevel();
+			assert records.size() <= getLevel();
 
 			return getTrace(new TLCStateInfo(from), records);
 		}

@@ -46,41 +46,39 @@ public class BuiltInModuleHelper {
 			// built-in module. Thus, the name alone does not uniquely identify
 			// a built-in class.
 			final Field field = clazz.getField("serialVersionUID");
-			if (field != null) {
-				final long value = field.getLong(null);
-				if (clazz == AnySet.class && value == AnySet.serialVersionUID) {
-					return true;
-				} else if (clazz == Bags.class && value == Bags.serialVersionUID) {
-					return true;
-				} else if (clazz == FiniteSets.class && value == FiniteSets.serialVersionUID) {
-					return true;
-				} else if (clazz == Integers.class && value == Integers.serialVersionUID) {
-					return true;
-				} else if (clazz == Naturals.class && value == Naturals.serialVersionUID) {
-					return true;
-				} else if (clazz == Sequences.class && value == Sequences.serialVersionUID) {
-					return true;
-				} else if (clazz == Strings.class && value == Strings.serialVersionUID) {
-					return true;
-				} else if (clazz == TLC.class && value == TLC.serialVersionUID) {
-					return true;
-				} else if (clazz == TransitiveClosure.class && value == TransitiveClosure.serialVersionUID) {
-					return true;
-				} else if (clazz == Randomization.class && value == Randomization.serialVersionUID) {
-					return true;
-				} else if (clazz == Json.class && value == Json.serialVersionUID) {
-					return true;
-				} else if (clazz == TLCExt.class && value == TLCExt.serialVersionUID) {
-					return true;
-				} else if (clazz == TLCGetSet.class && value == TLCGetSet.serialVersionUID) {
-					return true;
-				} else if (clazz == TLCEval.class && value == TLCEval.serialVersionUID) {
-					return true;
-				}
-				// TODO Add Toolbox.class here too should Toolbox.tla module ever get a module
-				// override.
-			}
-		} catch (final SecurityException | IllegalAccessException | IllegalArgumentException | NoSuchFieldException e) {
+            final long value = field.getLong(null);
+            if (clazz == AnySet.class && value == AnySet.serialVersionUID) {
+                return true;
+            } else if (clazz == Bags.class && value == Bags.serialVersionUID) {
+                return true;
+            } else if (clazz == FiniteSets.class && value == FiniteSets.serialVersionUID) {
+                return true;
+            } else if (clazz == Integers.class && value == Integers.serialVersionUID) {
+                return true;
+            } else if (clazz == Naturals.class && value == Naturals.serialVersionUID) {
+                return true;
+            } else if (clazz == Sequences.class && value == Sequences.serialVersionUID) {
+                return true;
+            } else if (clazz == Strings.class && value == Strings.serialVersionUID) {
+                return true;
+            } else if (clazz == TLC.class && value == TLC.serialVersionUID) {
+                return true;
+            } else if (clazz == TransitiveClosure.class && value == TransitiveClosure.serialVersionUID) {
+                return true;
+            } else if (clazz == Randomization.class && value == Randomization.serialVersionUID) {
+                return true;
+            } else if (clazz == Json.class && value == Json.serialVersionUID) {
+                return true;
+            } else if (clazz == TLCExt.class && value == TLCExt.serialVersionUID) {
+                return true;
+            } else if (clazz == TLCGetSet.class && value == TLCGetSet.serialVersionUID) {
+                return true;
+            } else if (clazz == TLCEval.class && value == TLCEval.serialVersionUID) {
+                return true;
+            }
+            // TODO Add Toolbox.class here too should Toolbox.tla module ever get a module
+            // override.
+        } catch (final SecurityException | IllegalAccessException | IllegalArgumentException | NoSuchFieldException e) {
 			return false;
 		}
         return false;

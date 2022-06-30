@@ -411,76 +411,71 @@ public class Simulator {
 	}
 	
 	private final void printBehavior(final TLCState state, final StateVec stateTrace) {
-		if (this.traceDepth == Long.MAX_VALUE) {
-			MP.printMessage(EC.TLC_ERROR_STATE);
-			StatePrinter.printStandaloneErrorState(state);
-		} else {
-			if (!stateTrace.isLastElement(state)) {
-				// MAK 09/24/2019: this method is called with state being the stateTrace's
-				// last element or not.
-				stateTrace.addElement(state);
-			}
-			
-			MP.printError(EC.TLC_BEHAVIOR_UP_TO_THIS_POINT);
-			// MAK 09/24/2019: For space reasons, TLCState does not store the state's action.
-			// This is why the loop below creates TLCStateInfo instances out of the pair cur
-			// -> last to print the action's name as part of the error trace. This is
-			// especially useful for Error-Trace Explorer in the Toolbox.
-			TLCState lastState = null;
-			TLCStateInfo sinfo;
-			int omitted = 0;
-			for (int i = 0; i < stateTrace.size(); i++) {
-				final TLCState curState = stateTrace.elementAt(i);
-				// Last state's successor is itself.
-				final TLCState sucState = stateTrace.elementAt(Math.min(i + 1, stateTrace.size() - 1));
-				if (lastState != null) {
-					// Contrary to BFS/ModelChecker, simulation remembers the action (its id) during
-					// trace exploration to print the error-trace without re-evaluating the
-					// next-state relation for lastStates -> cusState (tool.getState(curState,
-					// lastState)) to determine the action.  This would fail for specs whose next-state
-					// relation is probabilistic (ie. TLC!RandomElement or Randomization.tla). In other
-					// words, tool.getState(curState,lastState) would return for some pairs of states.
-					sinfo = new TLCStateInfo(curState);
-				} else {
-					sinfo = new TLCStateInfo(curState);
-					StatePrinter.printInvariantViolationStateTraceState(tool.evalAlias(sinfo, sucState), lastState,
-							curState.getLevel());
-					lastState = curState;
-					continue;
-				}
-				
-				// MAK 09/25/2019: It is possible for
-				// tlc2.tool.SimulationWorker.simulateRandomTrace() to produce traces with
-				// *non-terminal* stuttering steps, i.e. it might produce traces such
-				// as s0,s1,s1,s2,s3,s3,s3,...sN* (where sN* represents an infinite suffix of
-				// "terminal" stuttering steps). In other words, it produces traces s.t.
-				// a trace has finite (sub-)sequence of stuttering steps.
-				// The reason is that simulateRandomTrace, with non-zero probability, selects
-				// a stuttering step as the current state's successor. Guarding against it
-				// would require to fingerprint states (i.e. check equality) for each selected
-				// successor state (which is considered too expensive).
-				// A trace with finite stuttering can be reduced to a shorter - hence
-				// better readable - trace with only infinite stuttering at the end. This
-				// takes mostly care of the confusing Toolbox behavior where a trace with
-				// finite stuttering is silently reduced by breadth-first-search when trace
-				// expressions are evaluated (see https://github.com/tlaplus/tlaplus/issues/400#issuecomment-650418597).
-				if (TLCGlobals.printDiffsOnly && curState.fingerPrint() == lastState.fingerPrint()) {
-					omitted++;
-				} else {
-					// print the state's actual level and not a monotonically increasing state
-					// number => Numbering will have gaps with difftrace.
-					StatePrinter.printInvariantViolationStateTraceState(tool.evalAlias(sinfo, sucState), lastState, curState.getLevel());
-				}
-				lastState = curState;
-			}
-			if (omitted > 0) {
-				assert TLCGlobals.printDiffsOnly;
-				MP.printMessage(EC.GENERAL, String.format(
-						"difftrace requested: Shortened behavior by omitting finite stuttering (%s states), which is an artifact of simulation mode.\n",
-						omitted));
-			}
-		}
-	}
+        if (!stateTrace.isLastElement(state)) {
+            // MAK 09/24/2019: this method is called with state being the stateTrace's
+            // last element or not.
+            stateTrace.addElement(state);
+        }
+
+        MP.printError(EC.TLC_BEHAVIOR_UP_TO_THIS_POINT);
+        // MAK 09/24/2019: For space reasons, TLCState does not store the state's action.
+        // This is why the loop below creates TLCStateInfo instances out of the pair cur
+        // -> last to print the action's name as part of the error trace. This is
+        // especially useful for Error-Trace Explorer in the Toolbox.
+        TLCState lastState = null;
+        TLCStateInfo sinfo;
+        int omitted = 0;
+        for (int i = 0; i < stateTrace.size(); i++) {
+            final TLCState curState = stateTrace.elementAt(i);
+            // Last state's successor is itself.
+            final TLCState sucState = stateTrace.elementAt(Math.min(i + 1, stateTrace.size() - 1));
+            if (lastState != null) {
+                // Contrary to BFS/ModelChecker, simulation remembers the action (its id) during
+                // trace exploration to print the error-trace without re-evaluating the
+                // next-state relation for lastStates -> cusState (tool.getState(curState,
+                // lastState)) to determine the action.  This would fail for specs whose next-state
+                // relation is probabilistic (ie. TLC!RandomElement or Randomization.tla). In other
+                // words, tool.getState(curState,lastState) would return for some pairs of states.
+                sinfo = new TLCStateInfo(curState);
+            } else {
+                sinfo = new TLCStateInfo(curState);
+                StatePrinter.printInvariantViolationStateTraceState(tool.evalAlias(sinfo, sucState), lastState,
+                        curState.getLevel());
+                lastState = curState;
+                continue;
+            }
+
+            // MAK 09/25/2019: It is possible for
+            // tlc2.tool.SimulationWorker.simulateRandomTrace() to produce traces with
+            // *non-terminal* stuttering steps, i.e. it might produce traces such
+            // as s0,s1,s1,s2,s3,s3,s3,...sN* (where sN* represents an infinite suffix of
+            // "terminal" stuttering steps). In other words, it produces traces s.t.
+            // a trace has finite (sub-)sequence of stuttering steps.
+            // The reason is that simulateRandomTrace, with non-zero probability, selects
+            // a stuttering step as the current state's successor. Guarding against it
+            // would require to fingerprint states (i.e. check equality) for each selected
+            // successor state (which is considered too expensive).
+            // A trace with finite stuttering can be reduced to a shorter - hence
+            // better readable - trace with only infinite stuttering at the end. This
+            // takes mostly care of the confusing Toolbox behavior where a trace with
+            // finite stuttering is silently reduced by breadth-first-search when trace
+            // expressions are evaluated (see https://github.com/tlaplus/tlaplus/issues/400#issuecomment-650418597).
+            if (TLCGlobals.printDiffsOnly && curState.fingerPrint() == lastState.fingerPrint()) {
+                omitted++;
+            } else {
+                // print the state's actual level and not a monotonically increasing state
+                // number => Numbering will have gaps with difftrace.
+                StatePrinter.printInvariantViolationStateTraceState(tool.evalAlias(sinfo, sucState), lastState, curState.getLevel());
+            }
+            lastState = curState;
+        }
+        if (omitted > 0) {
+            assert TLCGlobals.printDiffsOnly;
+            MP.printMessage(EC.GENERAL, String.format(
+                    "difftrace requested: Shortened behavior by omitting finite stuttering (%s states), which is an artifact of simulation mode.\n",
+                    omitted));
+        }
+    }
 
 	public IValue getLocalValue(final int idx) {
 		for (final SimulationWorker w : workers) {

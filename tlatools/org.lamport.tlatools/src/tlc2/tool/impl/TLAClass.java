@@ -64,11 +64,12 @@ public class TLAClass
         	try {
         		if (resolver != null) {
         			final File module = resolver.resolve(name + ".class", false);
-        			if (module != null && module.getAbsoluteFile() != null) {
-        				final URL url = module.getAbsoluteFile().getParentFile().toURI().toURL();
-        				classLoader = new URLClassLoader(new URL[] {url});
-        				cl = classLoader.loadClass(name);
-        			}
+        			if (module != null) {
+                        module.getAbsoluteFile();
+                        final URL url = module.getAbsoluteFile().getParentFile().toURI().toURL();
+                        classLoader = new URLClassLoader(new URL[]{url});
+                        cl = classLoader.loadClass(name);
+                    }
         		}
         	} catch (final Exception ignored1) {
         		/*SKIP*/

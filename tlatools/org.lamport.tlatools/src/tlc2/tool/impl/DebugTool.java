@@ -208,7 +208,7 @@ public class DebugTool extends Tool {
 				mode = EvalMode.Const;
 				return evalImpl(expr, c, s0, s1, control, cm);
 			}
-			if (mode == EvalMode.State && s1 != null && s1.noneAssigned()) {
+			if (mode == EvalMode.State && s1.noneAssigned()) {
 				return evalImpl(expr, c, s0, s1, control, cm);
 			}
 			if (mode == EvalMode.Const && s0.noneAssigned() && s1.noneAssigned()) {

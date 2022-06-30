@@ -1742,7 +1742,7 @@ public class PcalTLAGen
      */
     public void GenProcSet()
     {
-        if (st.processes == null || st.processes.size() == 0)
+        if (st.processes.size() == 0)
             return;
 //        ps.append("ProcSet == ");
         addOneTokenToTLA("ProcSet == ");

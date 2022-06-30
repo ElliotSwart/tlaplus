@@ -173,15 +173,13 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 				return child;
 			}
 		}
-		
-		if (lets != null) {
-			child = lets.get(eon);
-			if (child != null) {
-				return child;
-			}
-		}
-		
-		// TODO Not all places in Tool lookup the correct CM yet. This should only be an
+
+        child = lets.get(eon);
+        if (child != null) {
+            return child;
+        }
+
+        // TODO Not all places in Tool lookup the correct CM yet. This should only be an
 		// engineering effort though.
 		if (seen.add(eon.myUID)) {
 			//...only report it once to not spam the Toolbox console.
@@ -258,7 +256,7 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 			// collapse subtrees into this node under the following cases.
 			final Pair consistentChildren = getCount(collectedEvalCounts);
 
-			if (consistentChildren.primary < node.primary || consistentChildren.secondary < consistentChildren.secondary) {
+			if (consistentChildren.primary < node.primary) {
 				// Cannot collapse subtree because inconsistent with this node.
 				printSelf(level++);
 				printChildren(level);

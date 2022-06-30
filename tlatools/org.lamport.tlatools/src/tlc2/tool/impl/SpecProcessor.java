@@ -644,13 +644,11 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 									final Value val = new PriorityEvaluatingValue(m, evaluation.minLevel(), evaluation.priority(), opDef, (EvaluatingValue) toolObject);
 									opDef.getBody().setToolObject(toolId, val);
 				                    this.defns.put(evaluation.definition(), val);
-								} else if (toolObject instanceof final PriorityEvaluatingValue mev) {
-                                    mev.add(new EvaluatingValue(m, evaluation.minLevel(), evaluation.priority(), opDef));
 								} else {
-									final Value val = new EvaluatingValue(m, evaluation.minLevel(), evaluation.priority(), opDef);
-									opDef.getBody().setToolObject(toolId, val);
-				                    this.defns.put(evaluation.definition(), val);
-								}
+                                    final Value val = new EvaluatingValue(m, evaluation.minLevel(), evaluation.priority(), opDef);
+                                    opDef.getBody().setToolObject(toolId, val);
+                                    this.defns.put(evaluation.definition(), val);
+                                }
 			                    
 								// Print success of loading the module override.
 			                    if (!evaluation.silent()) {

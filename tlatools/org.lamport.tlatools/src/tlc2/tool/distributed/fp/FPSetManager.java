@@ -186,16 +186,14 @@ public abstract class FPSetManager implements IFPSetManager {
 				curr = next;
 			}
 		}
-		if (curr != null) {
-			try {
-				curr.exit(cleanup);
-			} catch (final UnmarshalException e) {
-				// happens when the DiskFPSet closes it calls System.exit
-			} catch (final Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+        try {
+            curr.exit(cleanup);
+        } catch (final UnmarshalException e) {
+            // happens when the DiskFPSet closes it calls System.exit
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 	public String getHostName() {
 		String hostname = "Unknown";

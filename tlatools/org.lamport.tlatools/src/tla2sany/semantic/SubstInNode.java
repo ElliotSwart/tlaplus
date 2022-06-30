@@ -238,7 +238,6 @@ public class SubstInNode extends ExprNode {
       // append it to the substitutions array (which requires a new
       // array allocation and full copy, unfortunately (should fix
       // this at some point)
-      if (lhsSymbol != null) {
         final int newlength = this.substs.length + 1;
         final Subst[] newSubsts = new Subst[ newlength ];
         final Subst   newSubst = new Subst((OpDeclNode)lhsSymbol, sub, stn, false);
@@ -246,13 +245,8 @@ public class SubstInNode extends ExprNode {
         System.arraycopy(this.substs, 0, newSubsts, 0, newlength-1);
         newSubsts[newlength-1] = newSubst;
 
-	// replace the old array with the new one
+        // replace the old array with the new one
         this.substs = newSubsts;
-      }
-      else {
-        errors.addError(stn.getLocation(),
-			"Illegal identifier '" + lhs + "' in LHS of substitution." );
-      }
     }
   }
 

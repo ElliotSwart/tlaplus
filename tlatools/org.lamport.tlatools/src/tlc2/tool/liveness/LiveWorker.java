@@ -456,7 +456,7 @@ public class LiveWorker implements Callable<Boolean> {
 					} else {
 						// link above wasn't "-1", thus it has to be a valid
 						// link in the known interval.
-						assert AbstractDiskGraph.MAX_PTR <= link && link <= AbstractDiskGraph.MAX_LINK; 
+						assert AbstractDiskGraph.MAX_PTR <= link;
 						// Push the minimum of the two links onto the stack. If
 						// link == DiskGraph.MAX_PTR lowLink will always be the
 						// minimum (unless this graph has a gigantic amount of
@@ -1179,7 +1179,7 @@ public class LiveWorker implements Callable<Boolean> {
 						break _next;
 					}
 
-					if (nodes != null && tloc != -1 && !TableauNodePtrTable.isSeen(nodes, tloc)) {
+					if (nodes != null && !TableauNodePtrTable.isSeen(nodes, tloc)) {
 						// <nextState, nextTidx> is an unvisited successor of
 						// curNode:
 						hasUnvisitedSucc = true;

@@ -312,9 +312,6 @@ public class SimpleFilenameToStream implements FilenameToStream {
 			 return false ;
 			 }
 		 final String path = file.getAbsolutePath() ;
-		 if (path == null) {
-			 return false ;
-		 }
-	     return path.startsWith(this.libraryPaths[this.libraryPaths.length - 1] ) ;
+        return path.startsWith(this.libraryPaths[this.libraryPaths.length - 1] ) ;
 	}
 } // end class

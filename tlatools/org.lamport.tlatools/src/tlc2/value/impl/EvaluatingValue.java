@@ -101,8 +101,7 @@ protected final MethodHandle mh;
   @Override
   public final int compareTo(final Object obj) {
     try {
-      Assert.fail("Attempted to compare operator " + this +
-      " with value:\n" + obj == null ? "null" : Values.ppr(obj.toString()), getSource());
+      Assert.fail(Values.ppr(obj.toString()), getSource());
       return 0;       // make compiler happy
     }
     catch (final RuntimeException | OutOfMemoryError e) {
@@ -113,8 +112,7 @@ protected final MethodHandle mh;
 
   public final boolean equals(final Object obj) {
     try {
-      Assert.fail("Attempted to check equality of operator " + this +
-      " with value:\n" + obj == null ? "null" : Values.ppr(obj.toString()), getSource());
+      Assert.fail(Values.ppr(obj.toString()), getSource());
       return false;   // make compiler happy
     }
     catch (final RuntimeException | OutOfMemoryError e) {
@@ -126,8 +124,8 @@ protected final MethodHandle mh;
   @Override
   public final boolean member(final Value elem) {
     try {
-      Assert.fail("Attempted to check if the value:\n" + elem == null ? "null" : Values.ppr(elem.toString()) +
-      "\nis an element of operator " + this, getSource());
+      Assert.fail(Values.ppr(elem.toString()) +
+            "\nis an element of operator " + this, getSource());
       return false;   // make compiler happy
     }
     catch (final RuntimeException | OutOfMemoryError e) {
