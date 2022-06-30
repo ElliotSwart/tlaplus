@@ -35,6 +35,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class MonolithSpecExtractor {
 
@@ -69,7 +70,7 @@ public class MonolithSpecExtractor {
 					config.append(line).append("\n");
 				}
 			}
-			return new ByteArrayInputStream(config.toString().trim().getBytes(Charset.forName("UTF-8")));
+			return new ByteArrayInputStream(config.toString().trim().getBytes(StandardCharsets.UTF_8));
 		}
 	}
 	

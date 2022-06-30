@@ -35,6 +35,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -229,9 +230,9 @@ public class ExecutionStatisticsCollector {
 
 		for (final String key : parameters.keySet()) {
 			final String value = parameters.get(key);
-			buf.append(URLEncoder.encode(key, "UTF-8"));
+			buf.append(URLEncoder.encode(key, StandardCharsets.UTF_8));
 			buf.append("=");
-			buf.append(URLEncoder.encode(value, "UTF-8"));
+			buf.append(URLEncoder.encode(value, StandardCharsets.UTF_8));
 			buf.append(",");
 		}
 		
