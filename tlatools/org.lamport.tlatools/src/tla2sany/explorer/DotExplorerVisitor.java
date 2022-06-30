@@ -164,9 +164,8 @@ public class DotExplorerVisitor extends ExplorerVisitor {
 			// multiple OpApplNodes. However, stop endless recursion if D is a RECURSIVE
 			// operator.
 			final V v = super.get(key);
-			if (v instanceof OpDefNode) {
-				final OpDefNode odn = (OpDefNode) v;
-				if (odn.getInRecursive()) {
+			if (v instanceof final OpDefNode odn) {
+                if (odn.getInRecursive()) {
 					if (stack.contains(odn)) {
 						// RECURSIVE operators
 						return v;

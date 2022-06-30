@@ -55,9 +55,8 @@ public class BitVector implements Serializable {
   }
 
   public boolean equals(final Object o) {
-    if (!(o instanceof BitVector)) return false;
-    final BitVector other = (BitVector)o;
-    final int minLen = Math.min(this.word.length, other.word.length);
+    if (!(o instanceof final BitVector other)) return false;
+      final int minLen = Math.min(this.word.length, other.word.length);
     for (int i = 0; i < minLen; i++) {
       if (this.word[i] != other.word[i]) return false;
     }

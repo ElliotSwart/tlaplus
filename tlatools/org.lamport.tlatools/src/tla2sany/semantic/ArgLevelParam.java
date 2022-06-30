@@ -35,8 +35,7 @@ class ArgLevelParam {
   }
 
   public final boolean equals(final Object obj) {
-    if (obj instanceof ArgLevelParam) {
-      final ArgLevelParam alp = (ArgLevelParam)obj;
+    if (obj instanceof final ArgLevelParam alp) {
       return ((this.op == alp.op) &&
 	      (this.i == alp.i) &&
 	      (this.param == alp.param));

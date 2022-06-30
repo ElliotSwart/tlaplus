@@ -55,9 +55,8 @@ class LNDisj extends LiveExprNode {
 	}
 
 	public final void addDisj(final LiveExprNode elem) {
-		if (elem instanceof LNDisj) {
-			final LNDisj elem1 = (LNDisj) elem;
-			for (int i = 0; i < elem1.getCount(); i++) {
+		if (elem instanceof final LNDisj elem1) {
+            for (int i = 0; i < elem1.getCount(); i++) {
 				this.addDisj(elem1.getBody(i));
 			}
 		} else {
@@ -186,9 +185,8 @@ class LNDisj extends LiveExprNode {
 		final LNDisj res = new LNDisj(0);
 		for (int i = 0; i < getCount(); i++) {
 			final LiveExprNode elem = getBody(i).toDNF();
-			if (elem instanceof LNDisj) {
-				final LNDisj disj1 = (LNDisj) elem;
-				for (int j = 0; j < disj1.getCount(); j++) {
+			if (elem instanceof final LNDisj disj1) {
+                for (int j = 0; j < disj1.getCount(); j++) {
 					final LiveExprNode elem1 = disj1.getBody(j);
 					final LiveExprNode elemBody = elem1.getAEBody();
 					if (elemBody == null) {
@@ -279,9 +277,8 @@ class LNDisj extends LiveExprNode {
 	 */
 	@Override
     public boolean equals(final LiveExprNode exp) {
-		if (exp instanceof LNDisj) {
-			final LNDisj exp2 = (LNDisj) exp;
-			if (getCount() != exp2.getCount()) {
+		if (exp instanceof final LNDisj exp2) {
+            if (getCount() != exp2.getCount()) {
 				return false;
 			}
 			for (int i = 0; i < getCount(); i++) {

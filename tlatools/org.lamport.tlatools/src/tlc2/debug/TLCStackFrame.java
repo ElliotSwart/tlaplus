@@ -124,9 +124,8 @@ public class TLCStackFrame extends StackFrame {
 		this.tool = tool;
 		Assert.check(this.tool != null, EC.GENERAL);
 		
-		if (e instanceof TLCDetailedRuntimeException) {
-			final TLCDetailedRuntimeException dre = (TLCDetailedRuntimeException) e;
-			this.node = dre.expr;
+		if (e instanceof final TLCDetailedRuntimeException dre) {
+            this.node = dre.expr;
 			this.ctxt = dre.ctxt;
 		} else {
 			this.node = node;
@@ -297,12 +296,11 @@ public class TLCStackFrame extends StackFrame {
 						variable.setName(c.getName().getSignature());
 						variable.setValue(((SemanticNode) val).getHumanReadableImage());
 						vars.add(variable);
-					} else if (val instanceof RuntimeException) {
+					} else if (val instanceof final RuntimeException re) {
 						final Variable variable = new Variable();
 						variable.setName(c.getName().getName().toString());
 						variable.setValue(c.getValue().toString());
-						final RuntimeException re = (RuntimeException) val;
-						variable.setType(re.getMessage());
+                        variable.setType(re.getMessage());
 						vars.add(variable);
 					} else if (val == null && c.getName() == null) {
 						// When evaluating e.g. ENABLED, the context contains
@@ -359,9 +357,8 @@ public class TLCStackFrame extends StackFrame {
 					for (final Entry<OpDefOrDeclNode, Object> entry : entrySet) {
 						final OpDefOrDeclNode oddn = entry.getKey();
 						final Object value = entry.getValue();
-						if (oddn instanceof OpDefNode) {
-							final OpDefNode odn = (OpDefNode) oddn;
-							l.add((DebugTLCVariable) ((Value) value)
+						if (oddn instanceof final OpDefNode odn) {
+                            l.add((DebugTLCVariable) ((Value) value)
 									.toTLCVariable(new DebugTLCVariable(odn.getLocalName()), rnd));
 						} else {
 							final OpDeclNode odn = (OpDeclNode) oddn;

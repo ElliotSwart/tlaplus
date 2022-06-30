@@ -237,9 +237,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
           constantDefns.computeIfAbsent(mod, key -> new HashMap<OpDefOrDeclNode, Object>()).put(consts[i], val);
           // System.err.println(consts[i].getName() + ": " + val);
         } // The following else clause was added by LL on 17 March 2012.
-        else if (val != null && val instanceof OpDefNode) {
-          final OpDefNode opDef = (OpDefNode) val;
-          // The following check logically belongs in Spec.processSpec, but it's not there.
+        else if (val != null && val instanceof final OpDefNode opDef) {
+            // The following check logically belongs in Spec.processSpec, but it's not there.
           // So, LL just added it here.  This error cannot occur when running TLC from
           // the Toolbox.
           Assert.check(opDef.getArity() == consts[i].getArity(),
@@ -672,9 +671,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 									final Value val = new PriorityEvaluatingValue(m, evaluation.minLevel(), evaluation.priority(), opDef, (EvaluatingValue) toolObject);
 									opDef.getBody().setToolObject(toolId, val);
 				                    this.defns.put(evaluation.definition(), val);
-								} else if (toolObject instanceof PriorityEvaluatingValue) {
-									final PriorityEvaluatingValue mev = (PriorityEvaluatingValue) toolObject;
-									mev.add(new EvaluatingValue(m, evaluation.minLevel(), evaluation.priority(), opDef));
+								} else if (toolObject instanceof final PriorityEvaluatingValue mev) {
+                                    mev.add(new EvaluatingValue(m, evaluation.minLevel(), evaluation.priority(), opDef));
 								} else {
 									final Value val = new EvaluatingValue(m, evaluation.minLevel(), evaluation.priority(), opDef);
 									opDef.getBody().setToolObject(toolId, val);
@@ -917,9 +915,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                 Assert.fail(EC.TLC_CONFIG_NOT_BOTH_SPEC_AND_INIT);
             }
             final Object spec = this.defns.get(specName);
-            if (spec instanceof OpDefNode)
+            if (spec instanceof final OpDefNode opDef)
             {
-                final OpDefNode opDef = (OpDefNode) spec;
                 if (opDef.getArity() != 0)
                 {
                     Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { specName });
@@ -940,9 +937,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         {
             final String propName = (String) propNames.elementAt(i);
             final Object prop = this.defns.get(propName);
-            if (prop instanceof OpDefNode)
+            if (prop instanceof final OpDefNode opDef)
             {
-                final OpDefNode opDef = (OpDefNode) prop;
                 if (opDef.getArity() != 0)
                 {
                     Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { propName });
@@ -1098,9 +1094,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         {
             final String name = (String) invs.elementAt(i);
             final Object inv = this.defns.get(name);
-            if (inv instanceof OpDefNode)
+            if (inv instanceof final OpDefNode def)
             {
-                final OpDefNode def = (OpDefNode) inv;
                 if (def.getArity() != 0)
                 {
                     Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { "invariant", name });
@@ -1134,16 +1129,14 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     /* Process the SPECIFICATION field of the config file.  */
     private final void processConfigSpec(final ExprNode pred, final Context c, final List subs)
     {
-        if (pred instanceof SubstInNode)
+        if (pred instanceof final SubstInNode pred1)
         {
-            final SubstInNode pred1 = (SubstInNode) pred;
             this.processConfigSpec(pred1.getBody(), c, subs.cons(pred1));
             return;
         }
         
-        if (pred instanceof OpApplNode)
+        if (pred instanceof final OpApplNode pred1)
         {
-            final OpApplNode pred1 = (OpApplNode) pred;
             final ExprOrOpArgNode[] args = pred1.getArgs();
 
             if (args.length == 0)
@@ -1259,15 +1252,13 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                                     }
                                     // user-defined operator: look up its definition
                                     final Object opDef = symbolNodeValueLookupProvider.lookup(opNode, c, false, toolId);
-                                    if (opDef instanceof OpDefNode)
+                                    if (opDef instanceof final OpDefNode opDef1)
                                     {
-                                        final OpDefNode opDef1 = (OpDefNode) opDef;
                                         this.enter(opDef1.getBody(), symbolNodeValueLookupProvider.getOpContext(opDef1, args, c, false, toolId));
                                         return;
                                     }
-                                    if (opDef instanceof LazyValue)
+                                    if (opDef instanceof final LazyValue lv)
                                     {
-                                        final LazyValue lv = (LazyValue) opDef;
                                         this.enter((ExprNode) lv.expr, lv.con);
                                         return;
                                     }
@@ -1391,15 +1382,13 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     /* Process the PROPERTIES field of the config file. */
     private final void processConfigProps(String name, final ExprNode pred, final Context c, final List subs)
     {
-        if (pred instanceof SubstInNode)
+        if (pred instanceof final SubstInNode pred1)
         {
-            final SubstInNode pred1 = (SubstInNode) pred;
             this.processConfigProps(name, pred1.getBody(), c, subs.cons(pred1));
             return;
         }
-        if (pred instanceof OpApplNode)
+        if (pred instanceof final OpApplNode pred1)
         {
-            final OpApplNode pred1 = (OpApplNode) pred;
             final ExprOrOpArgNode[] args = pred1.getArgs();
             if (args.length == 0)
             {
@@ -1442,10 +1431,9 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             if (opcode == OPCODE_box)
             {
                 final ExprNode boxArg = (ExprNode) args[0];
-                if ((boxArg instanceof OpApplNode)
+                if ((boxArg instanceof final OpApplNode boxArg1)
                         && BuiltInOPs.getOpCode(((OpApplNode) boxArg).getOperator().getName()) == OPCODE_sa)
                 {
-                    final OpApplNode boxArg1 = (OpApplNode) boxArg;
                     if (boxArg1.getArgs().length == 0)
                     {
                         name = boxArg1.getOperator().getName().toString();
@@ -1497,10 +1485,9 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 	    {
 	        final String name = (String) names.elementAt(i);
 	        final Object constr = this.defns.get(name);
-	        if (constr instanceof OpDefNode)
+	        if (constr instanceof final OpDefNode def)
 	        {
-	            final OpDefNode def = (OpDefNode) constr;
-	            if (def.getArity() != 0)
+                if (def.getArity() != 0)
 	            {
 	                Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { "action constraint", name });
 	            }
@@ -1543,10 +1530,9 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 	    {
 	        final String name = (String) names.elementAt(i);
 	        final Object constr = this.defns.get(name);
-	        if (constr instanceof OpDefNode)
+	        if (constr instanceof final OpDefNode def)
 	        {
-	            final OpDefNode def = (OpDefNode) constr;
-	            if (def.getArity() != 0)
+                if (def.getArity() != 0)
 	            {
 	                Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { "constraint", name });
 	            }

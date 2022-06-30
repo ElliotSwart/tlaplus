@@ -309,11 +309,10 @@ public class TLCExt {
 
 	@TLAPlusOperator(identifier = "TLCModelValue", module = "TLCExt", warn = false)
 	public static synchronized Value tlcModelValue(final Value val) {
-		if (!(val instanceof StringValue)) {
+		if (!(val instanceof final StringValue str)) {
 			throw new EvalException(EC.TLC_MODULE_ONE_ARGUMENT_ERROR,
 					new String[] { "ModelValue", "string", Values.ppr(val.toString()) });
 		}
-		final StringValue str = (StringValue) val;
-		return ModelValue.add(str.val.toString());
+        return ModelValue.add(str.val.toString());
 	}
 }

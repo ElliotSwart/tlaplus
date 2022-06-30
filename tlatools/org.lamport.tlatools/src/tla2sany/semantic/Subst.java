@@ -144,9 +144,8 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
       final ArgLevelParam alp = alpIter.next();
       final OpArgNode sub = (OpArgNode)getSub(alp.op, subs);
       if (sub != null &&
-	  sub.getOp() instanceof OpDefNode) {
-	final OpDefNode subDef = (OpDefNode)sub.getOp();
-        subDef.levelCheck(itr);
+              sub.getOp() instanceof final OpDefNode subDef) {
+          subDef.levelCheck(itr);
           /*****************************************************************
           * The call of getMaxLevel should be made only to a node that     *
           * has been level checked.  But this node has come from looking   *

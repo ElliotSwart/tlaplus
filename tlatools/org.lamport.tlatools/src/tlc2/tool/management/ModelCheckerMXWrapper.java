@@ -46,9 +46,8 @@ public class ModelCheckerMXWrapper extends TLCStandardMBean implements TLCStatis
 		// if impl is DiskFPSet we don't want to add to the lock contention on
 		// the RWLock in DiskFPSet and thus compromise on reading dirty values
 		// (acceptable for statistics/metrics)
-		if(modelChecker.theFPSet instanceof DiskFPSet) {
-			final DiskFPSet diskFPSet = (DiskFPSet) modelChecker.theFPSet;
-			return diskFPSet.getFileCnt() + diskFPSet.getTblCnt();
+		if(modelChecker.theFPSet instanceof final DiskFPSet diskFPSet) {
+            return diskFPSet.getFileCnt() + diskFPSet.getTblCnt();
 		}
 		return modelChecker.theFPSet.size();
 	}

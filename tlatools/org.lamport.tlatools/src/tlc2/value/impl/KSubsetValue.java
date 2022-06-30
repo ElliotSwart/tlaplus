@@ -69,9 +69,8 @@ public class KSubsetValue extends SubsetValue {
 	  @Override
 	  public final int compareTo(final Object obj) {
 	    try {
-	      if (obj instanceof KSubsetValue) {
-	    	  final KSubsetValue other = (KSubsetValue) obj;
-	    	  if (this.k == other.k) {
+	      if (obj instanceof final KSubsetValue other) {
+              if (this.k == other.k) {
 	    		  return this.set.compareTo(other.set);
 	    	  }
 	    	  return Integer.compare(other.k, this.k); // order of parameters matters!

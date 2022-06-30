@@ -57,10 +57,9 @@ public abstract class Specs {
 	        final Object res = c.lookup(param, true);
 	        if (res != null)
 	        {
-	            if (res instanceof LazyValue)
+	            if (res instanceof final LazyValue lv)
 	            {
-	                final LazyValue lv = (LazyValue) res;
-	                final int plevel = getLevel((LevelNode) lv.expr, lv.con);
+                    final int plevel = getLevel((LevelNode) lv.expr, lv.con);
 	                level = (plevel > level) ? plevel : level;
 	            } else if (res instanceof OpDefNode)
 	            {

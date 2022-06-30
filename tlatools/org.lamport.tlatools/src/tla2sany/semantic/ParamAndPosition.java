@@ -22,9 +22,8 @@ class ParamAndPosition {
   }
 
   public final boolean equals(final Object obj) {
-    if (obj instanceof ParamAndPosition) {
-      final ParamAndPosition pap = (ParamAndPosition)obj;
-      return (this.param == pap.param) && (this.position == pap.position);
+    if (obj instanceof final ParamAndPosition pap) {
+        return (this.param == pap.param) && (this.position == pap.position);
     }
     return false;
   }

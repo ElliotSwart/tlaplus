@@ -98,9 +98,8 @@ public final class NodeTable {
 				this.elems[loc] = node;
 				this.count++;
 				return loc;
-			} else if (elem instanceof BTGraphNode) {
-				final BTGraphNode btnode = (BTGraphNode) elem;
-				if (btnode.stateFP == k1) {
+			} else if (elem instanceof final BTGraphNode btnode) {
+                if (btnode.stateFP == k1) {
 					if (btnode.isDummy()) {
 						this.elems[loc] = node;
 						// this.count++;
@@ -143,9 +142,8 @@ public final class NodeTable {
 			if (elem == null) {
 				return null;
 			}
-			if (elem instanceof BTGraphNode) {
-				final BTGraphNode btnode = (BTGraphNode) elem;
-				if (btnode.stateFP == k) {
+			if (elem instanceof final BTGraphNode btnode) {
+                if (btnode.stateFP == k) {
 					if (btnode.isDummy()) {
 						return null;
 					}
@@ -176,9 +174,8 @@ public final class NodeTable {
 			if (elem == null) {
 				return null;
 			}
-			if (elem instanceof BTGraphNode) {
-				final BTGraphNode node = (BTGraphNode) elem;
-				if (node.stateFP == k1) {
+			if (elem instanceof final BTGraphNode node) {
+                if (node.stateFP == k1) {
 					if (node.isDummy() || node.getIndex() != k2) {
 						return null;
 					}
@@ -231,9 +228,8 @@ public final class NodeTable {
 				this.count++;
 				return;
 			}
-			if (elem instanceof BTGraphNode) {
-				final BTGraphNode node = (BTGraphNode) elem;
-				if (node.stateFP == k) {
+			if (elem instanceof final BTGraphNode node) {
+                if (node.stateFP == k) {
 					node.setDone();
 					return;
 				}

@@ -99,9 +99,8 @@ public class SingleThreadedSimulator extends Simulator {
 						// the behavior since the liveness checker should take care of that itself.
 						this.printSummary();
 						errorCode = ((LiveException) error.exception).errorCode;
-					} else if (error.exception instanceof TLCRuntimeException) {
-						final TLCRuntimeException exception = (TLCRuntimeException) error.exception;
-						printBehavior(exception, error.state, error.stateTrace);
+					} else if (error.exception instanceof final TLCRuntimeException exception) {
+                        printBehavior(exception, error.state, error.stateTrace);
 						errorCode = exception.errorCode;
 					} else {
 						printBehavior(EC.GENERAL, new String[] { MP.ECGeneralMsg("", error.exception) }, error.state,

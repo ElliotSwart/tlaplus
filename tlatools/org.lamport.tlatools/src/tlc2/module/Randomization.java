@@ -74,12 +74,11 @@ public class Randomization implements ValueConstants {
 					new String[] { "second", "RandomSetOfSubsets", "nonnegative integer", Values.ppr(v2.toString()) });
 		}
 		// third parameter	
-        if (!(v3 instanceof EnumerableValue) || !((EnumerableValue) v3).isFinite()) {
+        if (!(v3 instanceof final EnumerableValue ev) || !((EnumerableValue) v3).isFinite()) {
 			throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR,
 					new String[] { "third", "RandomSetOfSubsets", "finite set", Values.ppr(v3.toString()) });
         }
-        final EnumerableValue ev = (EnumerableValue) v3;
-		if (31 - Integer.numberOfLeadingZeros(numberOfPicks) + 1 > ev.size() && numberOfPicks > (1 << ev.size())) {
+        if (31 - Integer.numberOfLeadingZeros(numberOfPicks) + 1 > ev.size() && numberOfPicks > (1 << ev.size())) {
 			// First compare exponents before explicit calculating size of subset. The
 			// calculated value which is the subset's size then won't overflow.
 			throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR,
@@ -129,12 +128,11 @@ public class Randomization implements ValueConstants {
 					new String[] { "second", "RandomSubsetSetProbability", "string literal does not represent a parsable probability", Values.ppr(v2.toString()) });
 		}
 		// third parameter	
-        if (!(v3 instanceof EnumerableValue) || !((EnumerableValue) v3).isFinite()) {
+        if (!(v3 instanceof final EnumerableValue ev) || !((EnumerableValue) v3).isFinite()) {
 			throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR,
 					new String[] { "third", "RandomSubsetSetProbability", "finite set", Values.ppr(v3.toString()) });
         }
-        final EnumerableValue ev = (EnumerableValue) v3;
-		if (31 - Integer.numberOfLeadingZeros(numberOfPicks) + 1 > ev.size() && numberOfPicks > (1 << ev.size())) {
+        if (31 - Integer.numberOfLeadingZeros(numberOfPicks) + 1 > ev.size() && numberOfPicks > (1 << ev.size())) {
 			// First compare exponents before explicit calculating size of subset. The
 			// calculated value which is the subset's size then won't overflow.
 			throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR,

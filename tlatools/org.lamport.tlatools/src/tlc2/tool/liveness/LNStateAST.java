@@ -55,9 +55,8 @@ class LNStateAST extends LNState {
 	@Override
     public String toDotViz() {
 		final StringBuffer sb = new StringBuffer();
-		if (this.body instanceof OpApplNode) {
-			final OpApplNode oan = (OpApplNode) this.body;
-			sb.append("(");
+		if (this.body instanceof final OpApplNode oan) {
+            sb.append("(");
 			// Zeros
 			final TreeNode[] zero = oan.getTreeNode().zero();
 			for (final TreeNode treeNode : zero) {

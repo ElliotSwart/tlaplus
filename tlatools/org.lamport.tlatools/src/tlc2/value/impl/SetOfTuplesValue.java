@@ -61,10 +61,9 @@ public final Value[] sets;
 
   public final boolean equals(final Object obj) {
     try {
-      if (obj instanceof SetOfTuplesValue) {
-        final SetOfTuplesValue tvs = (SetOfTuplesValue)obj;
+      if (obj instanceof final SetOfTuplesValue tvs) {
 
-        final boolean isEmpty1 = this.isEmpty();
+          final boolean isEmpty1 = this.isEmpty();
         if (isEmpty1) return tvs.isEmpty();
         if (tvs.isEmpty()) return isEmpty1;
 

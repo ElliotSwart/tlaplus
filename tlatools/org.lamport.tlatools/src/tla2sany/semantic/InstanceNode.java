@@ -217,9 +217,8 @@ public class InstanceNode extends LevelNode {
       }
 
       final int alen = mparam.getArity();
-      if (alen > 0 && ((OpArgNode)mexp).getOp() instanceof OpDefNode) {
-        final OpDefNode opDef = (OpDefNode)((OpArgNode)mexp).getOp();
-        for (int j = 0; j < alen; j++) {
+      if (alen > 0 && ((OpArgNode) mexp).getOp() instanceof final OpDefNode opDef) {
+          for (int j = 0; j < alen; j++) {
           final ParamAndPosition pap = new ParamAndPosition(mparam, j);
           final Integer alevel = (Integer)alcSet.get(pap);
           final boolean opDefLevelCheck = opDef.levelCheck(itr) ;

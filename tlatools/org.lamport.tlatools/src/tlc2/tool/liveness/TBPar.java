@@ -222,9 +222,8 @@ public class TBPar extends Vect<LiveExprNode> {
 			final LiveExprNode ln = this.exprAt(i);
 			if (ln instanceof LNAll) {
 				ts.addElement(new TBTriple(ln, ((LNAll) ln).getBody(), new LNNext(ln)));
-			} else if (ln instanceof LNConj) {
-				final LNConj lnc = (LNConj) ln;
-				ts.addElement(new TBTriple(lnc, lnc.getBody(0), lnc.getBody(1)));
+			} else if (ln instanceof final LNConj lnc) {
+                ts.addElement(new TBTriple(lnc, lnc.getBody(0), lnc.getBody(1)));
 			}
 		}
 		return ts;
@@ -236,9 +235,8 @@ public class TBPar extends Vect<LiveExprNode> {
 			final LiveExprNode ln = this.exprAt(i);
 			if (ln instanceof LNEven) {
 				ts.addElement(new TBTriple(ln, ((LNEven) ln).getBody(), new LNNext(ln)));
-			} else if (ln instanceof LNDisj) {
-				final LNDisj lnd = (LNDisj) ln;
-				ts.addElement(new TBTriple(lnd, lnd.getBody(0), lnd.getBody(1)));
+			} else if (ln instanceof final LNDisj lnd) {
+                ts.addElement(new TBTriple(lnd, lnd.getBody(0), lnd.getBody(1)));
 			}
 		}
 		return ts;
@@ -327,15 +325,13 @@ public class TBPar extends Vect<LiveExprNode> {
 				// See page 452, Closure and Particles, 3. item
 				result.addElement(new LNNext(ln));
 				tps.addElement(((LNAll) ln).getBody());
-			} else if (ln instanceof LNConj) {
-				final LNConj lnc = (LNConj) ln;
-				for (int i = 0; i < lnc.getCount(); i++) {
+			} else if (ln instanceof final LNConj lnc) {
+                for (int i = 0; i < lnc.getCount(); i++) {
 					tps.addElement(lnc.getBody(i));
 				}
 				result.addElement(ln);
-			} else if (ln instanceof LNDisj) {
-				final LNDisj lnd = (LNDisj) ln;
-				for (int i = 0; i < lnd.getCount(); i++) {
+			} else if (ln instanceof final LNDisj lnd) {
+                for (int i = 0; i < lnd.getCount(); i++) {
 					tps.addElement(lnd.getBody(i));
 				}
 				result.addElement(ln);

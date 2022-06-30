@@ -190,9 +190,8 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			// by checking if the lookup returns a OpDef with opcode = 0.
 			final Object val = tool.lookup(opNode, con, false);
 
-			if (val instanceof OpDefNode) {
-				final OpDefNode opDef = (OpDefNode) val;
-				opcode = BuiltInOPs.getOpCode(opDef.getName());
+			if (val instanceof final OpDefNode opDef) {
+                opcode = BuiltInOPs.getOpCode(opDef.getName());
 				if (opcode == 0) {
 					try {
 						final FormalParamNode[] formals = opDef.getParams();
@@ -310,9 +309,8 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		{
 			try {
 				final IValue fval = tool.eval(args[0], con, TLCState.Empty);
-				if (fval instanceof IFcnLambdaValue) {
-					final IFcnLambdaValue fcn = (IFcnLambdaValue) fval;
-					if (!fcn.hasRcd()) {
+				if (fval instanceof final IFcnLambdaValue fcn) {
+                    if (!fcn.hasRcd()) {
 						// this could be a bug, since con1 is created but not
 						// used
 						// SZ Jul 13, 2009: removed to kill the warning
@@ -601,9 +599,8 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			final LiveExprNode ln = dnf.getBody(i).flattenSingleJunctions();
 			final OSExprPem pem = new OSExprPem();
 			pems[i] = pem;
-			if (ln instanceof LNConj) {
-				final LNConj lnc2 = (LNConj) ln;
-				for (int j = 0; j < lnc2.getCount(); j++) {
+			if (ln instanceof final LNConj lnc2) {
+                for (int j = 0; j < lnc2.getCount(); j++) {
 					classifyExpr(lnc2.getBody(j), pem);
 				}
 			} else {

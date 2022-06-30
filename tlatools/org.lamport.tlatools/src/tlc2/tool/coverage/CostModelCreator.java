@@ -200,9 +200,8 @@ public class CostModelCreator extends ExplorerVisitor {
 
 	@Override
 	public void preVisit(final ExploreNode exploreNode) {
-		if (exploreNode instanceof OpApplNode) {
-			final OpApplNode opApplNode = (OpApplNode) exploreNode;
-			if (opApplNode.isStandardModule()) {
+		if (exploreNode instanceof final OpApplNode opApplNode) {
+            if (opApplNode.isStandardModule()) {
 				return;
 			}
 			
@@ -241,9 +240,8 @@ public class CostModelCreator extends ExplorerVisitor {
 			// CONSTANT operators (including definition overrides...)
 			final SymbolNode operator = opApplNode.getOperator();
 			final Object val = tool.lookup(operator);
-			if (val instanceof OpDefNode && operator != val) { // second conjunct bc lookup returns operator when nothing else found.
-				final OpDefNode odn = (OpDefNode) val;
-				final ExprNode body = odn.getBody();
+			if (val instanceof final OpDefNode odn && operator != val) { // second conjunct bc lookup returns operator when nothing else found.
+                final ExprNode body = odn.getBody();
 				if (body instanceof OpApplNode) {
 					final CostModelCreator substitution = new CostModelCreator(body, tool);
 					oan.addChild((OpApplNodeWrapper) substitution.getModel());
@@ -251,9 +249,8 @@ public class CostModelCreator extends ExplorerVisitor {
 			}			
 			
 			// RECURSIVE
-			if (operator instanceof OpDefNode) {
-				final OpDefNode odn = (OpDefNode) operator;
-				if (odn.getInRecursive()) {
+			if (operator instanceof final OpDefNode odn) {
+                if (odn.getInRecursive()) {
 					stack.stream()
 							.filter(w -> w.getNode() != null && w.getNode() instanceof OpApplNode
 									&& ((OpApplNode) w.getNode()).getOperator() == odn)
@@ -288,12 +285,11 @@ public class CostModelCreator extends ExplorerVisitor {
 			// 
 			// if-branches 1., 2., and 3. below are evaluated in three distinct
 			// invocation of outer preVisit for different ExploreNodes.
-			if (tool != null && operator instanceof OpDefNode && opApplNode.hasOpcode(0)
+			if (tool != null && operator instanceof final OpDefNode odn && opApplNode.hasOpcode(0)
 					&& opApplNode.argsContainOpArgNodes()) {
 				// 1) Maintain Context for all OpApplNode iff one or more of its args are of
 				// type OpArgNode. This is more restrictive than Tool.
-				final OpDefNode odn = (OpDefNode) operator;
-				if (odn.hasOpcode(0) && !odn.isStandardModule()) {
+                if (odn.hasOpcode(0) && !odn.isStandardModule()) {
 					this.ctx = tool.getOpContext(odn, opApplNode.getArgs(), ctx, false);
 				}
 			}
@@ -328,15 +324,13 @@ public class CostModelCreator extends ExplorerVisitor {
 			final CostModelNode parent = stack.peek();
 			parent.addChild(oan.setLevel(parent.getLevel() + 1));
 			stack.push(oan);
-		} else if (exploreNode instanceof SubstInNode) {
-			final SubstInNode sin = (SubstInNode) exploreNode;
-			final Subst[] substs = sin.getSubsts();
+		} else if (exploreNode instanceof final SubstInNode sin) {
+            final Subst[] substs = sin.getSubsts();
 			for (final Subst subst : substs) {
 				this.substs.put(subst.getExpr(), subst);
 			}
-		} else if (exploreNode instanceof LetInNode) {
-			final LetInNode lin = (LetInNode) exploreNode;
-			for (final OpDefNode opDefNode : lin.getLets()) {
+		} else if (exploreNode instanceof final LetInNode lin) {
+            for (final OpDefNode opDefNode : lin.getLets()) {
 				letIns.put(opDefNode.getBody(), lin.getBody());
 			}
 		} else if (exploreNode instanceof OpDefNode) {

@@ -252,12 +252,11 @@ public class TLC implements ValueConstants
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "first", "SortSeq", "natural number",
                     Values.ppr(s.toString()) });
         }
-        if (!(cmp instanceof Applicable))
+        if (!(cmp instanceof final Applicable fcmp))
         {
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "second", "SortSeq", "function",
                     Values.ppr(cmp.toString()) });
         }
-        final Applicable fcmp = (Applicable) cmp;
         final Value [] elems = seq.elems;
         final int len = elems.length;
         if (len == 0)

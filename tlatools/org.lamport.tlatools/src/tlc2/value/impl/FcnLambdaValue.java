@@ -613,9 +613,8 @@ public final FcnParams params;       // the function formals
       if (this.params.length() != 1) return null;
       final Value  dom = this.params.domains[0];
       final SymbolNode var = this.params.formals[0][0];
-      if (dom instanceof IntervalValue) {
-        final IntervalValue intv = (IntervalValue)dom;
-        if (intv.low != 1) return null;
+      if (dom instanceof final IntervalValue intv) {
+          if (intv.low != 1) return null;
         final Value [] elems = new Value [intv.high];
         for (int i = 1; i <= intv.high; i++) {
           final Context c1 = this.con.cons(var, IntValue.gen(i));
@@ -690,9 +689,8 @@ public final FcnParams params;       // the function formals
             }
             values[idx++] = (Value) this.tool.eval(this.body, c1, this.state, this.pstate, this.control);
           }
-	      if (this.params.domains[0] instanceof IntervalValue) {
-	      	final IntervalValue iv = (IntervalValue) this.params.domains[0];
-	      	this.fcnRcd = new FcnRcdValue(iv, values, cm);
+	      if (this.params.domains[0] instanceof final IntervalValue iv) {
+              this.fcnRcd = new FcnRcdValue(iv, values, cm);
 	      } else {
 	        this.fcnRcd = new FcnRcdValue(domain, values, false, cm);
 	      }

@@ -110,9 +110,8 @@ public Value  set;           // SUBSET set
       // exponential blowup inherent in generating the power set.
 	  // For KSubsetValue, delegate to the naive implementation that enumerates the
 	  // elements. In other words, don't rewrite if a KSubsetValue is involved.
-	  if (other instanceof SubsetValue && !(other instanceof KSubsetValue) && this.set instanceof Enumerable) {
-        final SubsetValue sv = (SubsetValue) other;
-        return ((Enumerable) this.set).isSubsetEq(sv.set);
+	  if (other instanceof final SubsetValue sv && !(other instanceof KSubsetValue) && this.set instanceof Enumerable) {
+          return ((Enumerable) this.set).isSubsetEq(sv.set);
       }
       return super.isSubsetEq(other);
     }

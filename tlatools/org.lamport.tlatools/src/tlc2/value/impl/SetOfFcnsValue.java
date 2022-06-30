@@ -55,9 +55,8 @@ public final Value domain;        /* Function domain  */
 
   public final boolean equals(final Object obj) {
     try {
-      if (obj instanceof SetOfFcnsValue) {
-        final SetOfFcnsValue fcns = (SetOfFcnsValue)obj;
-        return (this.domain.equals(fcns.domain) &&
+      if (obj instanceof final SetOfFcnsValue fcns) {
+          return (this.domain.equals(fcns.domain) &&
           this.range.equals(fcns.range));
       }
       this.convertAndCache();

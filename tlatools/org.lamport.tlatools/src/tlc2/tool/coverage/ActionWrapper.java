@@ -107,11 +107,9 @@ public final class ActionWrapper extends CostModelNode {
 	public final CostModel get(final SemanticNode eon) {
 		// returns this instance in case no match is found in children. As a result, the
 		// CostModel will be incorrect which is not as severe as running into an NPE.
-		if (eon instanceof SubstInNode) {
-			final SubstInNode sin = (SubstInNode) eon;
+		if (eon instanceof final SubstInNode sin) {
 			return this.children.getOrDefault(sin.getBody(), this);
-		} else if (eon instanceof LetInNode) {
-			final LetInNode lin = (LetInNode) eon;
+		} else if (eon instanceof final LetInNode lin) {
 			return this.children.getOrDefault(lin.getBody(), this);
 		}
 		return this.children.getOrDefault(eon, this);

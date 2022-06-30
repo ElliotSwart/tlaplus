@@ -163,9 +163,8 @@ public class ModelValue extends Value implements IModelValue {
 				return -1;
 			}
 		}
-		if (obj instanceof ModelValue) {
-			final ModelValue mobj = (ModelValue) obj;
-			if ((mobj.type == this.type) || (mobj.type == 0)) {
+		if (obj instanceof final ModelValue mobj) {
+            if ((mobj.type == this.type) || (mobj.type == 0)) {
 				return this.val.compareTo(((ModelValue) obj).val);
 			} else {
 				Assert.fail("Attempted to compare the differently-typed model values "
@@ -188,9 +187,8 @@ public class ModelValue extends Value implements IModelValue {
         return (obj instanceof ModelValue &&
           this.val.equals(((ModelValue)obj).val));
        }
-      if (obj instanceof ModelValue) {
-        final ModelValue mobj = (ModelValue) obj ;
-        if (   (mobj.type == this.type)
+      if (obj instanceof final ModelValue mobj) {
+          if (   (mobj.type == this.type)
             || (mobj.type == 0) ) {
           return mobj.val == this.val ;
           }

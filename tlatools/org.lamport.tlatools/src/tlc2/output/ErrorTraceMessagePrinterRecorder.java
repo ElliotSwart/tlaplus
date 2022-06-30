@@ -54,11 +54,9 @@ public class ErrorTraceMessagePrinterRecorder implements IMessagePrinterRecorder
 			switch (code) {
 				case EC.TLC_STATE_PRINT2:
 					if (objects.length >= 2
-						&& objects[0] instanceof TLCStateInfo
-						&& objects[1] instanceof Integer) {
-						final TLCStateInfo stateInfo = (TLCStateInfo)objects[0];
-						final Integer stateOrdinal = (Integer)objects[1];
-						stateInfo.stateNumber = stateOrdinal;
+						&& objects[0] instanceof final TLCStateInfo stateInfo
+						&& objects[1] instanceof final Integer stateOrdinal) {
+                        stateInfo.stateNumber = stateOrdinal;
 
 						// Idempotent transition from no trace to safety trace
 						this.errorTrace = Optional.of(this.errorTrace.orElse(new MCError()));

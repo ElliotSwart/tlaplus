@@ -473,7 +473,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     // On 24 Oct 2012, LL Changed OpDefNode -> AnyDefNode so this
     // handles ThmnOrAssumpDefNodes as well as OpDefNodes.  See the
     // comments in AnyDefNode.java for an explanation.
-    if (this.operator instanceof AnyDefNode) {
+    if (this.operator instanceof final AnyDefNode opDef) {
       // Application of a builtin or user defined operator
       // Level correctness conditions
       /*********************************************************************
@@ -504,8 +504,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
       *    point to this because an ArgLevelConstraint with a level <=     *
       *    VariableLevel seems to have no practical effect.                *
       *********************************************************************/
-      final AnyDefNode opDef = (AnyDefNode)this.operator;
-      final boolean opDefLevelCheck = opDef.levelCheck(itr) ;
+        final boolean opDefLevelCheck = opDef.levelCheck(itr) ;
         /*******************************************************************
         * Need to call levelCheck before obtaining its level params.       *
         *******************************************************************/
@@ -530,9 +529,8 @@ public class OpApplNode extends ExprNode implements ExploreNode {
           // most bizarre cases that opd.getOp() would be a
           // ThmOrAssumpDefNode.
           if (opd instanceof OpArgNode &&
-              ((OpArgNode)opd).getOp() instanceof AnyDefNode) {
-            final AnyDefNode opdDef = (AnyDefNode)((OpArgNode)opd).getOp();
-            @SuppressWarnings("unused") final  // See below comment block
+                  ((OpArgNode) opd).getOp() instanceof final AnyDefNode opdDef) {
+              @SuppressWarnings("unused") final  // See below comment block
             boolean opdDefLevelCheck = opdDef.levelCheck(itr) ;
               /*************************************************************
               * Need to call opdDef.levelCheck before using its level      *
@@ -726,9 +724,8 @@ public class OpApplNode extends ExprNode implements ExploreNode {
         // ThmOrAssumpDefNode.
         if (opdi != null &&
             opdi instanceof OpArgNode &&
-            ((OpArgNode)opdi).getOp() instanceof AnyDefNode) {
-          final AnyDefNode argDef = (AnyDefNode)((OpArgNode)opdi).getOp();
-          argDef.levelCheck(itr) ;
+                ((OpArgNode) opdi).getOp() instanceof final AnyDefNode argDef) {
+            argDef.levelCheck(itr) ;
             /***************************************************************
             * Need to invoke levelCheck before invoking getMaxLevel.       *
             ***************************************************************/
@@ -775,9 +772,8 @@ public class OpApplNode extends ExprNode implements ExploreNode {
         // ThmOrAssumpDefNode.
         if (arg != null &&
             arg instanceof OpArgNode &&
-            ((OpArgNode)arg).getOp() instanceof AnyDefNode) {
-          final AnyDefNode argDef = (AnyDefNode)((OpArgNode)arg).getOp();
-          argDef.levelCheck(itr) ;
+                ((OpArgNode) arg).getOp() instanceof final AnyDefNode argDef) {
+            argDef.levelCheck(itr) ;
             /***************************************************************
             * Need to invoke levelCheck before invoking getMaxLevel.       *
             ***************************************************************/
@@ -1321,9 +1317,8 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     if (operator.getName().toString().equals("$Case") && operands.length > 1 /* OTHER cannot occur alone in a CASE */) {
       // OTHER should be last operand
        final ExprOrOpArgNode lastOperand = operands[operands.length-1];
-       if (lastOperand instanceof tla2sany.semantic.OpApplNode) {
-          final OpApplNode other = (OpApplNode)lastOperand;
-          // indeed the OTHER case
+       if (lastOperand instanceof final OpApplNode other) {
+           // indeed the OTHER case
           if (other.getOperator().getName().toString().equals("$Pair") && other.getArgs()[0] == null) {
             // we pass a flag that tells any future OpApplNode that a null operand in 0 position should be replaced by the string $Other
             context = new SymbolContext(context);

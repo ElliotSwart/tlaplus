@@ -1347,9 +1347,8 @@ public class TLC {
 	public List<File> getModuleFiles() {
     	final List<File> result = new ArrayList<File>();
     	
-    	if (TLCGlobals.mainChecker instanceof ModelChecker) {
-    		final ModelChecker mc = (ModelChecker) TLCGlobals.mainChecker;
-    		result.addAll(mc.getModuleFiles(resolver));
+    	if (TLCGlobals.mainChecker instanceof final ModelChecker mc) {
+            result.addAll(mc.getModuleFiles(resolver));
     		if (ModelInJar.hasCfg()) {
     			result.add(ModelInJar.getCfg());
     		}

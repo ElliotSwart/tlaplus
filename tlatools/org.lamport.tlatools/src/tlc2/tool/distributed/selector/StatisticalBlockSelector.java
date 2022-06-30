@@ -27,9 +27,8 @@ public class StatisticalBlockSelector extends LimitingBlockSelector {
 	@Override
     protected long getBlockSize(final long size, final TLCWorkerRMI aWorker) {
 		// has to be correct type and statistics have to be available
-		if(aWorker instanceof TLCWorkerSmartProxy) {
-			final TLCWorkerSmartProxy proxy = (TLCWorkerSmartProxy) aWorker;
-			final int blockSize = (int) Math.min(Math.max(
+		if(aWorker instanceof final TLCWorkerSmartProxy proxy) {
+            final int blockSize = (int) Math.min(Math.max(
 					Math.abs(Math.ceil(size * (proxy.getNetworkOverhead() / networkOverheadLimit))), 1), getMaximum());
 			return blockSize;
 		}

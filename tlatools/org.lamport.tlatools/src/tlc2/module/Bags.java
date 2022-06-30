@@ -355,7 +355,7 @@ public class Bags implements ValueConstants
 
     public static Value BagOfAll(final Value f, final Value b)
     {
-        if (!(f instanceof Applicable))
+        if (!(f instanceof final Applicable ff))
         {
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR_AN, new String[] { "first", "BagOfAll", "operator",
                     Values.ppr(f.toString()) });
@@ -366,7 +366,6 @@ public class Bags implements ValueConstants
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "second", "BagOfAll",
                     "function with a finite domain", Values.ppr(b.toString()) });
         }
-        final Applicable ff = (Applicable) f;
         final ValueVec dVec = new ValueVec();
         final ValueVec vVec = new ValueVec();
         final Value[] domain = fcn.getDomainAsValues();

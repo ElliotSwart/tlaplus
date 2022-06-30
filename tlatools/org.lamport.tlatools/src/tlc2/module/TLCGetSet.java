@@ -177,10 +177,9 @@ public class TLCGetSet implements ValueConstants {
 				if (TLCGlobals.mainChecker != null) {
 					return IntValue.gen(TLCGlobals.mainChecker.getProgress());
 				} else if (TLCGlobals.simulator != null) {
-					if (Thread.currentThread() instanceof SimulationWorker) {
+					if (Thread.currentThread() instanceof final SimulationWorker sw) {
 						// non-initial states.
-						final SimulationWorker sw = (SimulationWorker) Thread.currentThread();
-						final long traceCnt = sw.getTraceCnt();
+                        final long traceCnt = sw.getTraceCnt();
 						if (traceCnt > Integer.MAX_VALUE) {
 							return IntValue.gen(Integer.MAX_VALUE);
 						}
@@ -429,9 +428,8 @@ public class TLCGetSet implements ValueConstants {
 				}
 				return BoolValue.ValTrue;
 			}
-		} else if (vidx instanceof StringValue) {
-			final StringValue sv = (StringValue) vidx;
-			if (EXIT == sv.val) {
+		} else if (vidx instanceof final StringValue sv) {
+            if (EXIT == sv.val) {
 				if (val == BoolValue.ValTrue) {
 					if (TLCGlobals.mainChecker != null) {
 						TLCGlobals.mainChecker.stop();
@@ -447,9 +445,8 @@ public class TLCGetSet implements ValueConstants {
 				// TLCSet("pause", guard)
 				// but it might be better guarded by IfThenElse for performance reasons:
 				// IF guard THEN TLCSet("pause", TRUE) ELSE TRUE
-				if (val == BoolValue.ValTrue && TLCGlobals.mainChecker instanceof ModelChecker) {
-					final ModelChecker mc = (ModelChecker) TLCGlobals.mainChecker;
-					synchronized (mc.theStateQueue) {
+				if (val == BoolValue.ValTrue && TLCGlobals.mainChecker instanceof final ModelChecker mc) {
+                    synchronized (mc.theStateQueue) {
 						ToolIO.out.println("Press enter to resume model checking.");
 						ToolIO.out.flush();
 						try {

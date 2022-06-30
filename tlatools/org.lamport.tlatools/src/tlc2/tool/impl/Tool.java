@@ -315,9 +315,8 @@ public abstract class Tool
     if (opcode == 0) {
       final Object val = this.lookup(opNode, con, false);
 
-      if (val instanceof OpDefNode) {
-        final OpDefNode opDef = (OpDefNode)val;
-        opcode = BuiltInOPs.getOpCode(opDef.getName());
+      if (val instanceof final OpDefNode opDef) {
+          opcode = BuiltInOPs.getOpCode(opDef.getName());
         if (opcode == 0) {
           try {
             final FormalParamNode[] formals = opDef.getParams();
@@ -558,9 +557,8 @@ public abstract class Tool
           // when the lookup returns an OpDef with opcode # 0.
           Object val = this.lookup(opNode, c, ps, false);
 
-          if (val instanceof OpDefNode) {
-            final OpDefNode opDef = (OpDefNode)val;
-            opcode = BuiltInOPs.getOpCode(opDef.getName());
+          if (val instanceof final OpDefNode opDef) {
+              opcode = BuiltInOPs.getOpCode(opDef.getName());
             if (opcode == 0) {
               // Context c1 = this.getOpContext(opDef, args, c, false);
               final Context c1 = this.getOpContext(opDef, args, c, true, cm, toolId);
@@ -573,17 +571,15 @@ public abstract class Tool
           * Modified on 23 October 2012 by LL to work if ThmOrAssumpDefNode    *
           * imported with parameterized instantiation.                         *
           *********************************************************************/
-          if (val instanceof ThmOrAssumpDefNode) {
-            final ThmOrAssumpDefNode opDef = (ThmOrAssumpDefNode)val;
-            opcode = BuiltInOPs.getOpCode(opDef.getName());
+          if (val instanceof final ThmOrAssumpDefNode opDef) {
+              opcode = BuiltInOPs.getOpCode(opDef.getName());
             final Context c1 = this.getOpContext(opDef, args, c, true);
             this.getInitStates(opDef.getBody(), acts, c1, ps, states, cm);
             return;
           }
 
-          if (val instanceof LazyValue) {
-            final LazyValue lv = (LazyValue)val;
-            if (lv.getValue() == null || lv.isUncachable()) {
+          if (val instanceof final LazyValue lv) {
+              if (lv.getValue() == null || lv.isUncachable()) {
               this.getInitStates(lv.expr, acts, lv.con, ps, states, cm);
               return;
             }
@@ -710,9 +706,8 @@ public abstract class Tool
         case OPCODE_fa:     // FcnApply
           {
             Value fval = this.eval(args[0], c, ps, TLCState.Empty, EvalControl.Init, cm);
-            if (fval instanceof FcnLambdaValue) {
-              final FcnLambdaValue fcn = (FcnLambdaValue)fval;
-              if (fcn.fcnRcd == null) {
+            if (fval instanceof final FcnLambdaValue fcn) {
+                if (fcn.fcnRcd == null) {
                 final Context c1 = this.getFcnContext(fcn, args, c, ps, TLCState.Empty, EvalControl.Init, cm);
                 this.getInitStates(fcn.body, acts, c1, ps, states, cm);
                 return;
@@ -1052,9 +1047,8 @@ public abstract class Tool
           // when the lookup returns an OpDef with opcode # 0.
           Object val = this.lookup(opNode, c, s0, false);
 
-          if (val instanceof OpDefNode) {
-				final OpDefNode opDef = (OpDefNode) val;
-				opcode = BuiltInOPs.getOpCode(opDef.getName());
+          if (val instanceof final OpDefNode opDef) {
+              opcode = BuiltInOPs.getOpCode(opDef.getName());
 				if (opcode == 0) {
 					return this.getNextStates(action, opDef.getBody(), acts, this.getOpContext(opDef, args, c, true, cm, toolId), s0, s1, nss, cm);
 	            }
@@ -1065,14 +1059,12 @@ public abstract class Tool
            * Modified on 23 October 2012 by LL to work if ThmOrAssumpDefNode    *
            * imported with parameterized instantiation.                         *
            *********************************************************************/
-          if (val instanceof ThmOrAssumpDefNode) {
-            final ThmOrAssumpDefNode opDef = (ThmOrAssumpDefNode)val;
-            return this.getNextStates(action, opDef.getBody(), acts, this.getOpContext(opDef, args, c, true), s0, s1, nss, cm);
+          if (val instanceof final ThmOrAssumpDefNode opDef) {
+              return this.getNextStates(action, opDef.getBody(), acts, this.getOpContext(opDef, args, c, true), s0, s1, nss, cm);
           }
 
-          if (val instanceof LazyValue) {
-            final LazyValue lv = (LazyValue)val;
-            if (lv.getValue() == null || lv.isUncachable()) {
+          if (val instanceof final LazyValue lv) {
+              if (lv.getValue() == null || lv.isUncachable()) {
               return this.getNextStates(action, lv.expr, acts, lv.con, s0, s1, nss, lv.cm);
             }
             val = lv.getValue();
@@ -1211,9 +1203,8 @@ public abstract class Tool
 	case OPCODE_fa:     // FcnApply
 	  {
 	    Value fval = this.eval(args[0], c, s0, s1, EvalControl.KeepLazy, cm);
-	    if (fval instanceof FcnLambdaValue) {
-	      final FcnLambdaValue fcn = (FcnLambdaValue)fval;
-	      if (fcn.fcnRcd == null) {
+	    if (fval instanceof final FcnLambdaValue fcn) {
+            if (fcn.fcnRcd == null) {
 	        final Context c1 = this.getFcnContext(fcn, args, c, s0, s1, EvalControl.Clear, cm);
 	        return this.getNextStates(action, fcn.body, acts, c1, s0, s1, nss, fcn.cm);
 	      }
@@ -1441,9 +1432,8 @@ public abstract class Tool
             return processUnchangedImplVar(action, expr, acts, s0, s1, nss, var, cm);
         }
 
-        if (expr instanceof OpApplNode) {
-          final OpApplNode expr1 = (OpApplNode)expr;
-          final ExprOrOpArgNode[] args = expr1.getArgs();
+        if (expr instanceof final OpApplNode expr1) {
+            final ExprOrOpArgNode[] args = expr1.getArgs();
           final int alen = args.length;
           final SymbolNode opNode = expr1.getOperator();
           final UniqueString opName = opNode.getName();
@@ -1476,9 +1466,8 @@ public abstract class Tool
 		if (val instanceof OpDefNode) {
 		  return this.processUnchanged(action, ((OpDefNode)val).getBody(), acts, c, s0, s1, nss, cm);
 		}
-		else if (val instanceof LazyValue) {
-		  final LazyValue lv = (LazyValue)val;
-		  return this.processUnchanged(action, lv.expr, acts, lv.con, s0, s1, nss, cm);
+		else if (val instanceof final LazyValue lv) {
+            return this.processUnchanged(action, lv.expr, acts, lv.con, s0, s1, nss, cm);
 		}
 		else {
 		  Assert.fail("In computing next states, TLC found the identifier\n" +
@@ -1778,9 +1767,8 @@ public abstract class Tool
 
           // First, unlazy if it is a lazy value. We cannot use the cached
           // value when s1 == null or isEnabled(control).
-			if (val instanceof LazyValue) {
-				final LazyValue lv = (LazyValue) val;
-				if (s1 == null) {
+			if (val instanceof final LazyValue lv) {
+                if (s1 == null) {
 					val = this.eval(lv.expr, lv.con, s0, TLCState.Null, control, lv.getCostModel());
 			    } else if (lv.isUncachable() || EvalControl.isEnabled(control)) {
 					// Never use cached LazyValues in an ENABLED expression. This is why all
@@ -1885,9 +1873,8 @@ public abstract class Tool
 			}
 
 			Value res = null;
-          if (val instanceof OpDefNode) {
-            final OpDefNode opDef = (OpDefNode)val;
-            opcode = BuiltInOPs.getOpCode(opDef.getName());
+          if (val instanceof final OpDefNode opDef) {
+              opcode = BuiltInOPs.getOpCode(opDef.getName());
             if (opcode == 0) {
               final Context c1 = this.getOpContext(opDef, args, c, true, cm, toolId);
               res = this.eval(opDef.getBody(), c1, s0, s1, control, cm);
@@ -1917,12 +1904,11 @@ public abstract class Tool
           * Modified on 23 October 2012 by LL to work if ThmOrAssumpDefNode    *
           * imported with parameterized instantiation.                         *
           *********************************************************************/
-          else if (val instanceof ThmOrAssumpDefNode) {
+          else if (val instanceof final ThmOrAssumpDefNode opDef) {
 //            Assert.fail("Trying to evaluate the theorem or assumption name `"
 //                         + opNode.getName() + "'. \nUse `" + opNode.getName()
 //                         + "!:' instead.\n" +expr);
-            final ThmOrAssumpDefNode opDef = (ThmOrAssumpDefNode) val ;
-            final Context c1 = this.getOpContext(opDef, args, c, true);
+              final Context c1 = this.getOpContext(opDef, args, c, true);
             return this.eval(opDef.getBody(), c1, s0, s1, control, cm);
           }
           else {
@@ -2899,10 +2885,9 @@ public abstract class Tool
           // when the lookup returns an OpDef with opcode # 0.
           final Object val = this.lookup(opNode, c, s0, false);
 
-          if (val instanceof OpDefNode)
+          if (val instanceof final OpDefNode opDef)
           {
-            final OpDefNode opDef = (OpDefNode) val;
-            opcode = BuiltInOPs.getOpCode(opDef.getName());
+              opcode = BuiltInOPs.getOpCode(opDef.getName());
             if (opcode == 0)
             {
               // Context c1 = this.getOpContext(opDef, args, c, false);
@@ -2917,18 +2902,16 @@ public abstract class Tool
           * Modified on 23 October 2012 by LL to work if ThmOrAssumpDefNode    *
           * imported with parameterized instantiation.                         *
           *********************************************************************/
-          if (val instanceof ThmOrAssumpDefNode)
+          if (val instanceof final ThmOrAssumpDefNode opDef)
           {
-            final ThmOrAssumpDefNode opDef = (ThmOrAssumpDefNode) val;
-            final Context c1 = this.getOpContext(opDef, args, c, true);
+              final Context c1 = this.getOpContext(opDef, args, c, true);
             return this.enabled(opDef.getBody(), acts, c1, s0, s1, cm);
           }
 
 
-          if (val instanceof LazyValue)
+          if (val instanceof final LazyValue lv)
           {
-            final LazyValue lv = (LazyValue) val;
-            return this.enabled(lv.expr, acts, lv.con, s0, s1, lv.cm);
+              return this.enabled(lv.expr, acts, lv.con, s0, s1, lv.cm);
           }
 
           Object bval = val;
@@ -3055,20 +3038,18 @@ public abstract class Tool
         case OPCODE_fa: // FcnApply
           {
             Value fval = this.eval(args[0], c, s0, s1, EvalControl.setKeepLazy(EvalControl.Enabled), cm); // KeepLazy does not interfere with EvalControl.Enabled in this.evalAppl
-            if (fval instanceof FcnLambdaValue)
+            if (fval instanceof final FcnLambdaValue fcn)
             {
-              final FcnLambdaValue fcn = (FcnLambdaValue) fval;
-              if (fcn.fcnRcd == null)
+                if (fcn.fcnRcd == null)
               {
                 final Context c1 = this.getFcnContext(fcn, args, c, s0, s1, EvalControl.Enabled, cm); // EvalControl.Enabled passed on to nested this.evalAppl
                 return this.enabled(fcn.body, acts, c1, s0, s1, cm);
               }
               fval = fcn.fcnRcd;
             }
-            if (fval instanceof Applicable)
+            if (fval instanceof final Applicable fcn)
             {
-              final Applicable fcn = (Applicable) fval;
-              final Value argVal = this.eval(args[1], c, s0, s1, EvalControl.Enabled, cm);
+                final Value argVal = this.eval(args[1], c, s0, s1, EvalControl.Enabled, cm);
               final Value bval = fcn.apply(argVal, EvalControl.Enabled); // EvalControl.Enabled not taken into account by any subclass of Applicable
               if (!(bval instanceof BoolValue))
               {
@@ -3306,9 +3287,8 @@ public abstract class Tool
           return null;
         }
 
-        if (expr instanceof OpApplNode) {
-          final OpApplNode expr1 = (OpApplNode)expr;
-          final ExprOrOpArgNode[] args = expr1.getArgs();
+        if (expr instanceof final OpApplNode expr1) {
+            final ExprOrOpArgNode[] args = expr1.getArgs();
           final int alen = args.length;
           final SymbolNode opNode = expr1.getOperator();
           final UniqueString opName = opNode.getName();
@@ -3330,9 +3310,8 @@ public abstract class Tool
             // a 0-arity operator:
             final Object val = this.lookup(opNode, c, false);
 
-            if (val instanceof LazyValue) {
-              final LazyValue lv = (LazyValue)val;
-              return this.enabledUnchanged(lv.expr, acts, lv.con, s0, s1, cm);
+            if (val instanceof final LazyValue lv) {
+                return this.enabledUnchanged(lv.expr, acts, lv.con, s0, s1, cm);
             }
             else if (val instanceof OpDefNode) {
               return this.enabledUnchanged(((OpDefNode)val).getBody(), acts, c, s0, s1, cm);
@@ -3709,11 +3688,9 @@ public abstract class Tool
    * 					model values
    */
   private SetEnumValue getSetEnumValueFromArgumentNode(final ExprOrOpArgNode node) {
-	  if (node instanceof OpApplNode) {
-		  final OpApplNode permutationNode = (OpApplNode)node;
-		  if (permutationNode.getOperator() instanceof OpDefNode) {
-			  final OpDefNode operator = (OpDefNode)permutationNode.getOperator();
-			  if (TLAConstants.BuiltInOperators.PERMUTATIONS.equals(operator.getName().toString())) {
+	  if (node instanceof final OpApplNode permutationNode) {
+          if (permutationNode.getOperator() instanceof final OpDefNode operator) {
+              if (TLAConstants.BuiltInOperators.PERMUTATIONS.equals(operator.getName().toString())) {
 				  final ExprOrOpArgNode[] operands = permutationNode.getArgs();
 				  if ((operands.length == 1)
 						  && (operands[0] instanceof OpApplNode)
@@ -3722,10 +3699,9 @@ public abstract class Tool
 					  
 					  if (o instanceof SetEnumValue) {
 						  return (SetEnumValue)o;
-					  } else if (o instanceof WorkerValue) {
+					  } else if (o instanceof final WorkerValue wv) {
 						  // If TLC was started with a -workers N specification, N > 1, o will be a WorkerValue instance
-						  final WorkerValue wv = (WorkerValue)o;
-						  final Object unwrapped = WorkerValue.mux(wv);
+                          final Object unwrapped = WorkerValue.mux(wv);
 						  
 						  if (unwrapped instanceof SetEnumValue) {
 							  return (SetEnumValue)unwrapped;

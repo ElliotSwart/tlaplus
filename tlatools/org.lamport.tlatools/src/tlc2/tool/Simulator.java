@@ -342,9 +342,8 @@ public class Simulator {
 						// the behavior since the liveness checker should take care of that itself.
 						this.printSummary();
 						errorCode = ((LiveException)error.exception).errorCode;
-					} else if (error.exception instanceof TLCRuntimeException) {
-						final TLCRuntimeException exception = (TLCRuntimeException)error.exception;
-						printBehavior(exception, error.state, error.stateTrace);
+					} else if (error.exception instanceof final TLCRuntimeException exception) {
+                        printBehavior(exception, error.state, error.stateTrace);
 						errorCode = exception.errorCode;
 					} else {
 						printBehavior(EC.GENERAL, new String[] { MP.ECGeneralMsg("", error.exception) }, error.state,
@@ -763,9 +762,8 @@ public class Simulator {
 	}
 
 	public final StateVec getTrace(final TLCState s) {
-		if (Thread.currentThread() instanceof SimulationWorker) {
-			final SimulationWorker w = (SimulationWorker) Thread.currentThread();
-			return w.getTrace(s);
+		if (Thread.currentThread() instanceof final SimulationWorker w) {
+            return w.getTrace(s);
 		} else {
 			assert numWorkers == 1 && workers.size() == numWorkers;
 			return workers.get(0).getTrace(s);
@@ -773,9 +771,8 @@ public class Simulator {
 	}
 
 	public final StateVec getTrace() {
-		if (Thread.currentThread() instanceof SimulationWorker) {
-			final SimulationWorker w = (SimulationWorker) Thread.currentThread();
-			return w.getTrace();
+		if (Thread.currentThread() instanceof final SimulationWorker w) {
+            return w.getTrace();
 		} else {
 			assert numWorkers == 1 && workers.size() == numWorkers;
 			return workers.get(0).getTrace();
@@ -783,9 +780,8 @@ public class Simulator {
 	}
 
 	public TLCStateInfo[] getTraceInfo(final int level) {
-		if (Thread.currentThread() instanceof SimulationWorker) {
-			final SimulationWorker w = (SimulationWorker) Thread.currentThread();
-			return w.getTraceInfo(level);
+		if (Thread.currentThread() instanceof final SimulationWorker w) {
+            return w.getTraceInfo(level);
 		} else {
 			assert numWorkers == 1 && workers.size() == numWorkers;
 			return workers.get(0).getTraceInfo(level);
@@ -800,9 +796,8 @@ public class Simulator {
 	}
 
 	public RandomGenerator getRNG() {
-		if (Thread.currentThread() instanceof SimulationWorker) {
-			final SimulationWorker w = (SimulationWorker) Thread.currentThread();
-			return w.getRNG();
+		if (Thread.currentThread() instanceof final SimulationWorker w) {
+            return w.getRNG();
 		} else {
 			return this.rng;
 		}
@@ -813,9 +808,8 @@ public class Simulator {
 	}
 
 	public final Value getWorkerStatistics() {
-		if (Thread.currentThread() instanceof SimulationWorker) {
-			final SimulationWorker w = (SimulationWorker) Thread.currentThread();
-			return w.getWorkerStatistics();
+		if (Thread.currentThread() instanceof final SimulationWorker w) {
+            return w.getWorkerStatistics();
 		} else {
 			assert numWorkers == 1 && workers.size() == numWorkers;
 			return workers.get(0).getWorkerStatistics();

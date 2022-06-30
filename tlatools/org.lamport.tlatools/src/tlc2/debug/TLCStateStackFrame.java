@@ -257,9 +257,8 @@ public class TLCStateStackFrame extends TLCStackFrame {
 	
 	protected boolean isPrimeScope(final LinkedList<SemanticNode> path) {
 		for (final SemanticNode semanticNode : path) {
-			if (semanticNode instanceof OpApplNode) {
-				final OpApplNode oan = (OpApplNode) semanticNode;
-				if (ASTConstants.OP_prime == oan.getOperator().getName()) {
+			if (semanticNode instanceof final OpApplNode oan) {
+                if (ASTConstants.OP_prime == oan.getOperator().getName()) {
 					return true;
 				}
 			}

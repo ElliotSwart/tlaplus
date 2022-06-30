@@ -251,17 +251,15 @@ public abstract class SemanticNode
 						if (location.equals(node.getLocation())) {
 							// node will be added to pathToLoc in postVisit!
 							pathToLoc = new LinkedList<>();
-						} else if (node instanceof OpDefNode) {
-							final OpDefNode odn = (OpDefNode) node;
-							for (final SemanticNode param : odn.getParams()) {
+						} else if (node instanceof final OpDefNode odn) {
+                            for (final SemanticNode param : odn.getParams()) {
 								if (location.equals(param.getLocation())) {
 									pathToLoc = new LinkedList<>();
 									pathToLoc.add(param);
 								}
 							}
-						} else if (node instanceof OpApplNode) {
-							final OpApplNode oan = (OpApplNode) node;
-							// TODO Include oan#range aka oan#getBded... in getQuantSymbolLists?
+						} else if (node instanceof final OpApplNode oan) {
+                            // TODO Include oan#range aka oan#getBded... in getQuantSymbolLists?
 							for (final FormalParamNode fpn : oan.getQuantSymbolLists()) {
 								if (location.equals(fpn.getLocation())) {
 									pathToLoc = new LinkedList<>();
@@ -401,10 +399,9 @@ public abstract class SemanticNode
 ***************************************************************************/
   public final void toString(final StringBuffer sb, final String padding) {
 	  final TreeNode treeNode = getTreeNode();
-		if (treeNode instanceof SyntaxTreeNode
+		if (treeNode instanceof final SyntaxTreeNode stn
 				&& System.getProperty(SemanticNode.class.getName() + ".showPlainFormulae") != null) {
-		  final SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
-		  sb.append(stn.getHumanReadableImage());
+            sb.append(stn.getHumanReadableImage());
 	  } else {
 		  sb.append(this.getLocation());
 	  }
@@ -413,10 +410,9 @@ public abstract class SemanticNode
   @Override
   public String toString() {
 	  final TreeNode treeNode = getTreeNode();
-		if (treeNode instanceof SyntaxTreeNode
+		if (treeNode instanceof final SyntaxTreeNode stn
 				&& System.getProperty(SemanticNode.class.getName() + ".showPlainFormulae") != null) {
-			  final SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
-		  return stn.getHumanReadableImage();
+            return stn.getHumanReadableImage();
 	  }
     return this.getLocation().toString();
   }

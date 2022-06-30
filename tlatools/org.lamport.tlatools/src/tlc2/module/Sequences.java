@@ -199,13 +199,12 @@ public class Sequences extends UserObj implements ValueConstants
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "first", "SelectInSeq", "sequence",
                     Values.ppr(s.toString()) });
         }
-        if (!(test instanceof Applicable))
+        if (!(test instanceof final Applicable ftest))
         {
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "second", "SelectInSeq", "function",
                     Values.ppr(test.toString()) });
         }
         final int len = seq.size();
-        final Applicable ftest = (Applicable) test;
         final Value[] args = new Value[1];
         for (int i = 0; i < len; i++)
         {
@@ -368,9 +367,8 @@ public class Sequences extends UserObj implements ValueConstants
     @Override
     public final int compareTo(final Value s)
     {
-        if ((s instanceof UserValue) && (((UserValue) s).userObj instanceof Sequences))
+        if ((s instanceof UserValue) && (((UserValue) s).userObj instanceof final Sequences seq))
         {
-            final Sequences seq = (Sequences) ((UserValue) s).userObj;
             int cmp = this.size - seq.size;
             if (cmp == 0)
             {
@@ -443,13 +441,12 @@ public class Sequences extends UserObj implements ValueConstants
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "first", "Insert", "sequence",
                     Values.ppr(s.toString()) });
         }
-        if (!(test instanceof Applicable))
+        if (!(test instanceof final Applicable ftest))
         {
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "second", "SubSeq", "function",
                     Values.ppr(test.toString()) });
         }
         final int len = seq.size();
-        final Applicable ftest = (Applicable) test;
         final Value[] args = new Value[2];
         args[0] = v;
         final Value[] values = new Value[len + 1];

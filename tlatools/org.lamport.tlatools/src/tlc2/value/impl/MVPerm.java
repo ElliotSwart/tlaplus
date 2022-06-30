@@ -22,9 +22,8 @@ public final class MVPerm implements IMVPerm {
   }
 
   public final boolean equals(final Object obj) {
-    if (obj instanceof MVPerm) {
-      final MVPerm perm = (MVPerm)obj;
-      for (int i = 0; i < this.elems.length; i++) {
+    if (obj instanceof final MVPerm perm) {
+        for (int i = 0; i < this.elems.length; i++) {
 	if (this.elems[i] == null) {
 	  if (perm.elems[i] != null) {
 	    return false;

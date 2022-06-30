@@ -348,9 +348,8 @@ public final class Location implements Comparable<Location>
      */
     public boolean equals(final Object object)
     {
-        if (object instanceof Location)
+        if (object instanceof final Location loc)
         {
-            final Location loc = (Location) object;
             return loc.bLine == bLine && loc.bColumn == bColumn && loc.eLine == eLine && loc.eColumn == eColumn
                     && loc.source().equals(source());
         }

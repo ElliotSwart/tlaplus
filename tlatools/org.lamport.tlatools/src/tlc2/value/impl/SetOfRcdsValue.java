@@ -60,10 +60,9 @@ public final UniqueString[] names;      // The names of the fields.
 
   public final boolean equals(final Object obj) {
     try {
-      if (obj instanceof SetOfRcdsValue) {
-        final SetOfRcdsValue rcds = (SetOfRcdsValue)obj;
+      if (obj instanceof final SetOfRcdsValue rcds) {
 
-        final boolean isEmpty1 = this.isEmpty();
+          final boolean isEmpty1 = this.isEmpty();
         if (isEmpty1) { return rcds.isEmpty(); }
         if (rcds.isEmpty()) { return isEmpty1; }
 

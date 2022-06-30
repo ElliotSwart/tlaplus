@@ -36,9 +36,8 @@ public final int low;
   @Override
   public final int compareTo(final Object obj) {
     try {
-        if (obj instanceof IntervalValue) {
-				final IntervalValue intv = (IntervalValue) obj;
-		        final int cmp = this.size() - intv.size();
+        if (obj instanceof final IntervalValue intv) {
+            final int cmp = this.size() - intv.size();
 		        if (cmp != 0) {
 					return cmp;
 				}
@@ -59,9 +58,8 @@ public final int low;
 
   public final boolean equals(final Object obj) {
     try {
-      if (obj instanceof IntervalValue) {
-        final IntervalValue intv = (IntervalValue)obj;
-        if (this.size() == 0) return intv.size() == 0;
+      if (obj instanceof final IntervalValue intv) {
+          if (this.size() == 0) return intv.size() == 0;
         return (this.low == intv.low) && (this.high == intv.high);
       }
       // Well, we have to convert them to sets and compare.
@@ -97,9 +95,8 @@ public final int low;
   @Override
   public Value isSubsetEq(final Value other) {
     try {
-      if (other instanceof IntervalValue) {
-        final IntervalValue iv = (IntervalValue) other;
-        if (iv.low <= low && iv.high >= high) {
+      if (other instanceof final IntervalValue iv) {
+          if (iv.low <= low && iv.high >= high) {
           return BoolValue.ValTrue;
         }
       }

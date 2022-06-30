@@ -136,9 +136,8 @@ abstract class Spec
     /* Return the variable if expr is a primed state variable. Otherwise, null. */
     public final SymbolNode getPrimedVar(final SemanticNode expr, final Context c, final boolean cutoff)
     {
-        if (expr instanceof OpApplNode)
+        if (expr instanceof final OpApplNode expr1)
         {
-            final OpApplNode expr1 = (OpApplNode) expr;
             final SymbolNode opNode = expr1.getOperator();
 
             if (BuiltInOPs.getOpCode(opNode.getName()) == OPCODE_prime)
@@ -151,9 +150,8 @@ abstract class Spec
                 final boolean isVarDecl = (opNode.getKind() == VariableDeclKind);
                 final Object val = this.lookup(opNode, c, cutoff && isVarDecl, toolId);
 
-                if (val instanceof LazyValue)
+                if (val instanceof final LazyValue lval)
                 {
-                    final LazyValue lval = (LazyValue) val;
                     return this.getPrimedVar(lval.expr, lval.con, cutoff);
                 }
                 if (val instanceof OpDefNode)
@@ -576,19 +574,17 @@ abstract class Spec
             {
                 final Object val = this.lookup(opNode, c, false, toolId);
 
-                if (val instanceof OpDefNode)
+                if (val instanceof final OpDefNode opDef)
                 {
-                    final OpDefNode opDef = (OpDefNode) val;
-                    // Following added by LL on 10 Apr 2010 to avoid infinite 
+                    // Following added by LL on 10 Apr 2010 to avoid infinite
                     // recursion for recursive operator definitions
                     if (opDef.getInRecursive()) {
                         return ;
                     }
                     final Context c1 = this.getOpContext(opDef, args, c, true, toolId);
                     this.collectPrimedLocs(opDef.getBody(), c1, tbl);
-                } else if (val instanceof LazyValue)
+                } else if (val instanceof final LazyValue lv)
                 {
-                    final LazyValue lv = (LazyValue) val;
                     this.collectPrimedLocs(lv.expr, lv.con, tbl);
                 }
             }
@@ -598,9 +594,8 @@ abstract class Spec
 
 	private final void collectUnchangedLocs(final SemanticNode expr, final Context c,
 			final ObjLongTable<SemanticNode> tbl) {
-        if (expr instanceof OpApplNode)
+        if (expr instanceof final OpApplNode expr1)
         {
-            final OpApplNode expr1 = (OpApplNode) expr;
             final SymbolNode opNode = expr1.getOperator();
             final UniqueString opName = opNode.getName();
             final int opcode = BuiltInOPs.getOpCode(opName);

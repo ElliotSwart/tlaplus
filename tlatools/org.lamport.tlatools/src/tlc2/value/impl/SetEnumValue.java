@@ -71,10 +71,9 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       final int len = this.elems.size();
       for (int i = 0; i < len; i++) {
     	  final Value v = this.elems.elementAt(i);
-    	  if (v instanceof SetEnumValue) {
+    	  if (v instanceof final SetEnumValue sev) {
     		  // Sets of sets of sets... of atoms.
-    		  final SetEnumValue sev = (SetEnumValue) v;
-    		  if (!sev.isSetOfAtoms()) {
+              if (!sev.isSetOfAtoms()) {
     			  return false;
     		  }
     	  } else if (!v.isAtom()) {

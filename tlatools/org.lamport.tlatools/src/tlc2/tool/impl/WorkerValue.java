@@ -135,15 +135,13 @@ public class WorkerValue {
     }
     
 	public static Object mux(final Object result) {
-		if (!(result instanceof WorkerValue)) {
+		if (!(result instanceof final WorkerValue vp)) {
 			return result;
 		}
-		
-		final WorkerValue vp = (WorkerValue) result;
-		final Thread t = Thread.currentThread();
-		if (t instanceof IdThread) {
-			final IdThread w = (IdThread) t;
-			return vp.values[w.myGetId()];
+
+        final Thread t = Thread.currentThread();
+		if (t instanceof final IdThread w) {
+            return vp.values[w.myGetId()];
 		} else {
 			return vp.values[0];
 		}

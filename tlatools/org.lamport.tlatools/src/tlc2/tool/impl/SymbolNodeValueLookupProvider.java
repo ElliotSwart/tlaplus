@@ -34,9 +34,8 @@ public interface SymbolNodeValueLookupProvider {
 				final boolean isVarDecl = (opNode.getKind() == ASTConstants.VariableDeclKind);
 				final Object val = lookup(opNode, c, cutoff && isVarDecl, forToolId);
 
-				if (val instanceof LazyValue) {
-					final LazyValue lval = (LazyValue) val;
-					return getVar(lval.expr, lval.con, cutoff, forToolId);
+				if (val instanceof final LazyValue lval) {
+                    return getVar(lval.expr, lval.con, cutoff, forToolId);
 				}
 				if (val instanceof OpDefNode) {
 					return getVar(((OpDefNode) val).getBody(), c, cutoff, forToolId);
@@ -224,19 +223,15 @@ public interface SymbolNodeValueLookupProvider {
 				return 1;
 
 			final Object val = lookup(opNode, c, false, forToolId);
-			if (val instanceof OpDefNode) {
-				final OpDefNode opDef = (OpDefNode) val;
-				c = c.cons(opNode, IntValue.ValOne);
+			if (val instanceof final OpDefNode opDef) {
+                c = c.cons(opNode, IntValue.ValOne);
 				level = Math.max(level, getLevelBound(opDef.getBody(), c, forToolId));
-			} else if (val instanceof LazyValue) {
-				final LazyValue lv = (LazyValue) val;
-				level = Math.max(level, getLevelBound(lv.expr, lv.con, forToolId));
-            } else if (val instanceof EvaluatingValue) {
-            	final EvaluatingValue ev = (EvaluatingValue) val;
-            	level = Math.max(level, ev.getMinLevel());
-            } else if (val instanceof MethodValue) {
-            	final MethodValue mv = (MethodValue) val;
-            	level = Math.max(level, mv.getMinLevel());
+			} else if (val instanceof final LazyValue lv) {
+                level = Math.max(level, getLevelBound(lv.expr, lv.con, forToolId));
+            } else if (val instanceof final EvaluatingValue ev) {
+                level = Math.max(level, ev.getMinLevel());
+            } else if (val instanceof final MethodValue mv) {
+                level = Math.max(level, mv.getMinLevel());
 			}
 		}
 		return level;
