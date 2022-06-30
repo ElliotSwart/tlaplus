@@ -447,12 +447,10 @@ public class Json {
   private static RecordValue getRecordValue(final JsonElement node) throws IOException {
     final List<UniqueString> keys = new ArrayList<>();
     final List<Value> values = new ArrayList<>();
-    final Iterator<Map.Entry<String, JsonElement>> iterator = node.getAsJsonObject().entrySet().iterator();
-    while (iterator.hasNext()) {
-      final Map.Entry<String, JsonElement> entry = iterator.next();
-      keys.add(UniqueString.uniqueStringOf(entry.getKey()));
-      values.add(getValue(entry.getValue()));
-    }
+      for (Map.Entry<String, JsonElement> entry : node.getAsJsonObject().entrySet()) {
+          keys.add(UniqueString.uniqueStringOf(entry.getKey()));
+          values.add(getValue(entry.getValue()));
+      }
     return new RecordValue(keys.toArray(new UniqueString[0]), values.toArray(new Value[0]), false);
   }
 }

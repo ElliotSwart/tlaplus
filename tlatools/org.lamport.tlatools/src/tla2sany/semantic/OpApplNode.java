@@ -645,13 +645,11 @@ public class OpApplNode extends ExprNode implements ExploreNode {
       * Remove bound identifiers from levelParams, allParams, and          *
       * nonLeibnizParams.                                                  *
       *********************************************************************/
-      final Iterator<FormalParamNode> absIter = allBoundSymbols.iterator() ;
-      while (absIter.hasNext()) {
-    	  	final FormalParamNode nextBoundSymbol = absIter.next() ;
-        this.levelParams.remove(nextBoundSymbol) ;
-        this.allParams.remove(nextBoundSymbol) ;
-        this.nonLeibnizParams.remove(nextBoundSymbol) ;
-       }
+        for (FormalParamNode nextBoundSymbol : allBoundSymbols) {
+            this.levelParams.remove(nextBoundSymbol);
+            this.allParams.remove(nextBoundSymbol);
+            this.nonLeibnizParams.remove(nextBoundSymbol);
+        }
 
 
         /*********************************************************************
@@ -676,13 +674,11 @@ public class OpApplNode extends ExprNode implements ExploreNode {
             ***************************************************************/
             final SetOfLevelConstraints lcons =
                this.operands[i].getLevelConstraints() ;
-            final Iterator<SymbolNode> iter = lcons.keySet().iterator();
-            while (iter.hasNext()) {
-              final SymbolNode param = iter.next() ;
-              if (! allBoundSymbols.contains(param)) {
-                this.levelConstraints.put(param, lcons.get(param)) ;
-                }
-             } // while
+              for (SymbolNode param : lcons.keySet()) {
+                  if (!allBoundSymbols.contains(param)) {
+                      this.levelConstraints.put(param, lcons.get(param));
+                  }
+              } // while
            } // else
         } // if (this.operands[i] != null)
       } // for i
@@ -692,10 +688,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
       for (int i = 0; i < this.operands.length; i++) {
         final Integer mlevel = opDef.getMaxLevel(i);
         if (this.operands[i] != null) {
-          final Iterator<SymbolNode> iter = this.operands[i].getLevelParams().iterator();
-          while (iter.hasNext()) {
-            this.levelConstraints.put(iter.next(), mlevel);
-          }
+            for (SymbolNode symbolNode : this.operands[i].getLevelParams()) {
+                this.levelConstraints.put(symbolNode, mlevel);
+            }
         }
       }
 
@@ -720,10 +715,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
             for (int k = 0; k < alen; k++) {
               if (opDef.getOpLevelCond(i, j, k)) {
                 final Integer mlevel = argDef.getMaxLevel(k);
-                final Iterator<SymbolNode> iter = this.operands[j].getLevelParams().iterator();
-                while (iter.hasNext()) {
-                  this.levelConstraints.put(iter.next(), mlevel);
-                }
+                  for (SymbolNode symbolNode : this.operands[j].getLevelParams()) {
+                      this.levelConstraints.put(symbolNode, mlevel);
+                  }
               }
             }
           }// forj
@@ -834,13 +828,11 @@ public class OpApplNode extends ExprNode implements ExploreNode {
             * argLevelConstraints the element implied as described above   *
             * if alp.param IS a bound identifier.                          *
             ***************************************************************/
-            final Iterator<ArgLevelParam> alpIter = this.operands[i].getArgLevelParams().iterator();
-            while (alpIter.hasNext()) {
-              final ArgLevelParam alp = alpIter.next() ;
-              if (!allBoundSymbols.contains(alp.param)) {
-                this.argLevelParams.add(alp) ;
-               }
-             }
+              for (ArgLevelParam alp : this.operands[i].getArgLevelParams()) {
+                  if (!allBoundSymbols.contains(alp.param)) {
+                      this.argLevelParams.add(alp);
+                  }
+              }
           }
         }
       }
@@ -861,11 +853,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
               /*************************************************************
               * Need to invoke levelCheck before invoking getLevelParams.  *
               *************************************************************/
-            final Iterator<SymbolNode> iter1 = arg.getLevelParams().iterator();
-            while (iter1.hasNext()) {
-              final SymbolNode param = iter1.next();
-              this.argLevelParams.add(new ArgLevelParam(alp.op, alp.i, param));
-            }
+              for (SymbolNode param : arg.getLevelParams()) {
+                  this.argLevelParams.add(new ArgLevelParam(alp.op, alp.i, param));
+              }
           }
         }
         else {
@@ -889,11 +879,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
           for (int j = 0; j < this.operands.length; j++) {
             for (int k = 0; k < alen; k++) {
               if (opDef.getOpLevelCond(i, j, k)) {
-                final Iterator<SymbolNode> iter1 = this.operands[j].getLevelParams().iterator();
-                while (iter1.hasNext()) {
-                  final SymbolNode param = iter1.next();
-                  this.argLevelParams.add(new ArgLevelParam(opArg, k, param));
-                }
+                  for (SymbolNode param : this.operands[j].getLevelParams()) {
+                      this.argLevelParams.add(new ArgLevelParam(opArg, k, param));
+                  }
               }
             }
           }
@@ -964,12 +952,10 @@ public class OpApplNode extends ExprNode implements ExploreNode {
         * operand of this.operator.                                        *
         *******************************************************************/
         final HashSet<SymbolNode> lpSet = this.operands[i].getLevelParams();
-        final Iterator<SymbolNode> iter = lpSet.iterator();
-        while (iter.hasNext()) {
-          final SymbolNode param = iter.next();
-          this.argLevelParams.add(
-             new ArgLevelParam(this.operator, i, param));
-         }// end while
+          for (SymbolNode param : lpSet) {
+              this.argLevelParams.add(
+                      new ArgLevelParam(this.operator, i, param));
+          }// end while
 
         /*******************************************************************
         * Add to argLevelParams all the argLevelParams entry for the i-th  *

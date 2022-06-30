@@ -181,12 +181,10 @@ public int levelChecked   = 0 ;
   static void addTemporalLevelConstraintToConstants(
           final HashSet<SymbolNode> params,
           final SetOfLevelConstraints constrs ) {
-      final Iterator<SymbolNode> iter = params.iterator();
-      while (iter.hasNext()) {
-        final SymbolNode node = iter.next() ;
-        if (node.getKind() == ConstantDeclKind) {
-          constrs.put(node, Levels[ActionLevel]);
-         }
+      for (SymbolNode node : params) {
+          if (node.getKind() == ConstantDeclKind) {
+              constrs.put(node, Levels[ActionLevel]);
+          }
       }
    }
 /***************************************************************************
@@ -289,13 +287,13 @@ public int levelChecked   = 0 ;
     ***********************************************************************/
     StringBuilder rval = new StringBuilder("{");
     boolean first = true ;
-    final Iterator<? extends SymbolNode> iter = hs.iterator();
-    while (iter.hasNext()) {
-      if (! first) {
-          rval.append(", ");}
-        rval.append(iter.next().getName());
-      first = false ;
-     }
+      for (SymbolNode h : hs) {
+          if (!first) {
+              rval.append(", ");
+          }
+          rval.append(h.getName());
+          first = false;
+      }
       rval.append("}");
     return rval.toString();
    }
@@ -306,14 +304,14 @@ public int levelChecked   = 0 ;
     ***********************************************************************/
     StringBuilder rval = new StringBuilder("{");
     boolean first = true ;
-    final Iterator<ArgLevelParam> iter = hs.iterator();
-    while (iter.hasNext()) {
-      if (! first) {
-          rval.append(", ");}
-        final ArgLevelParam alp = iter.next();
-      rval.append("<").append(alp.op.getName()).append(", ").append(alp.i).append(", ").append(alp.param.getName()).append(">");
-      first = false;
-     }
+      for (ArgLevelParam h : hs) {
+          if (!first) {
+              rval.append(", ");
+          }
+          final ArgLevelParam alp = h;
+          rval.append("<").append(alp.op.getName()).append(", ").append(alp.i).append(", ").append(alp.param.getName()).append(">");
+          first = false;
+      }
       rval.append("}");
     return rval.toString();
    }

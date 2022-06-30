@@ -529,13 +529,11 @@ public class ThmOrAssumpDefNode extends SymbolNode
         }
       }
 
-      final Iterator<ArgLevelParam> iter = alpSet.iterator();
-      while (iter.hasNext()) {
-        final ArgLevelParam alp = iter.next();
-        if (!alp.op.occur(this.params) ||
-            !alp.param.occur(this.params)) {
-          this.argLevelParams.add(alp);
-        }
+      for (ArgLevelParam alp : alpSet) {
+          if (!alp.op.occur(this.params) ||
+                  !alp.param.occur(this.params)) {
+              this.argLevelParams.add(alp);
+          }
       }
 
       return levelCorrect ;

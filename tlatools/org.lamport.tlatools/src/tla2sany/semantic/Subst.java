@@ -121,46 +121,47 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
     ***********************************************************************/
     final SetOfLevelConstraints res = new SetOfLevelConstraints();
     final SetOfLevelConstraints lcSet = body.getLevelConstraints();
-    final Iterator<SymbolNode> iter = lcSet.keySet().iterator();
-    while (iter.hasNext()) {
-      final SymbolNode param = iter.next();
-      Integer plevel = lcSet.get(param);
-      if (!isConstant) {
-	if (param.getKind() == ConstantDeclKind) {
-	  plevel = Levels[ConstantLevel];
-	}
-	else if (param.getKind() == VariableDeclKind) {
-	  plevel = Levels[VariableLevel];
-	}
+      for (SymbolNode param : lcSet.keySet()) {
+          Integer plevel = lcSet.get(param);
+          if (!isConstant) {
+              if (param.getKind() == ConstantDeclKind) {
+                  plevel = Levels[ConstantLevel];
+              } else if (param.getKind() == VariableDeclKind) {
+                  plevel = Levels[VariableLevel];
+              }
+          }
+          for (SymbolNode symbolNode : paramSet(param, subs)) {
+              res.put(symbolNode, plevel);
+          }
       }
-      final Iterator<SymbolNode> iter1 = paramSet(param, subs).iterator();
-      while (iter1.hasNext()) {
-	res.put(iter1.next(), plevel);
-      }
-    }
     final HashSet<ArgLevelParam> alpSet = body.getArgLevelParams();
-    final Iterator<ArgLevelParam> alpIter = alpSet.iterator();
-    while (alpIter.hasNext()) {
-      final ArgLevelParam alp = alpIter.next();
-      final OpArgNode sub = (OpArgNode)getSub(alp.op, subs);
-      if (sub != null &&
-              sub.getOp() instanceof final OpDefNode subDef) {
-          subDef.levelCheck(itr);
-          /*****************************************************************
-          * The call of getMaxLevel should be made only to a node that     *
-          * has been level checked.  But this node has come from looking   *
-          * up an operator in some hash table, and there's no way of       *
-          * knowing if it's been level checked.  So, we have to level      *
-          * check it first, which is why we need the iteration number      *
-          * argument of this method.                                       *
-          *****************************************************************/
-	final Integer mlevel = subDef.getMaxLevel(alp.i);
-	final Iterator<SymbolNode> iter1 = paramSet(alp.param, subs).iterator();
-	while (iter1.hasNext()) {
-	  res.put(iter1.next(), mlevel);
-	}
+      /*****************************************************************
+       * The call of getMaxLevel should be made only to a node that     *
+       * has been level checked.  But this node has come from looking   *
+       * up an operator in some hash table, and there's no way of       *
+       * knowing if it's been level checked.  So, we have to level      *
+       * check it first, which is why we need the iteration number      *
+       * argument of this method.                                       *
+       *****************************************************************/
+      for (ArgLevelParam alp : alpSet) {
+          final OpArgNode sub = (OpArgNode) getSub(alp.op, subs);
+          if (sub != null &&
+                  sub.getOp() instanceof final OpDefNode subDef) {
+              subDef.levelCheck(itr);
+              /*****************************************************************
+               * The call of getMaxLevel should be made only to a node that     *
+               * has been level checked.  But this node has come from looking   *
+               * up an operator in some hash table, and there's no way of       *
+               * knowing if it's been level checked.  So, we have to level      *
+               * check it first, which is why we need the iteration number      *
+               * argument of this method.                                       *
+               *****************************************************************/
+              final Integer mlevel = subDef.getMaxLevel(alp.i);
+              for (SymbolNode symbolNode : paramSet(alp.param, subs)) {
+                  res.put(symbolNode, mlevel);
+              }
+          }
       }
-    }
     return res;
   }
 
@@ -172,41 +173,39 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
     ***********************************************************************/
     final SetOfArgLevelConstraints res = new SetOfArgLevelConstraints();
     final SetOfArgLevelConstraints alcSet = body.getArgLevelConstraints();
-    final Iterator<ParamAndPosition> iter = alcSet.keySet().iterator();
-    while (iter.hasNext()) {
-      ParamAndPosition pap = iter.next();
-      final Integer plevel = alcSet.get(pap);
-      final ExprOrOpArgNode sub = getSub(pap.param, subs);
-      if (sub == null) {
-	res.put(pap, plevel);
+      for (ParamAndPosition pap : alcSet.keySet()) {
+          final Integer plevel = alcSet.get(pap);
+          final ExprOrOpArgNode sub = getSub(pap.param, subs);
+          if (sub == null) {
+              res.put(pap, plevel);
+          } else {
+              final SymbolNode subOp = ((OpArgNode) sub).getOp();
+              if (subOp.isParam()) {
+                  pap = new ParamAndPosition(subOp, pap.position);
+                  res.put(pap, plevel);
+              }
+          }
       }
-      else {
-	final SymbolNode subOp = ((OpArgNode)sub).getOp();
-	if (subOp.isParam()) {
-	  pap = new ParamAndPosition(subOp, pap.position);
-	  res.put(pap, plevel);
-	}
-      }
-    }
     final HashSet<ArgLevelParam> alpSet = body.getArgLevelParams();
-    final Iterator<ArgLevelParam> alpIter = alpSet.iterator();
-    while (alpIter.hasNext()) {
-      final ArgLevelParam alp = alpIter.next();
-      final ExprOrOpArgNode subParam = getSub(alp.param, subs);
-      if (subParam != null) {
-	final ExprOrOpArgNode subOp = getSub(alp.op, subs);
-	final SymbolNode op = (subOp == null) ? alp.op : ((OpArgNode)subOp).getOp();
-	if (op.isParam()) {
-	  final ParamAndPosition pap = new ParamAndPosition(op, alp.i);
-          subParam.levelCheck(itr) ;
-            /***************************************************************
-            * Must invoke levelCheck before invoking getLevel              *
-            ***************************************************************/
-	  final Integer subLevel = subParam.getLevel();
-	  res.put(pap, subLevel);
-	}
+      /***************************************************************
+       * Must invoke levelCheck before invoking getLevel              *
+       ***************************************************************/
+      for (ArgLevelParam alp : alpSet) {
+          final ExprOrOpArgNode subParam = getSub(alp.param, subs);
+          if (subParam != null) {
+              final ExprOrOpArgNode subOp = getSub(alp.op, subs);
+              final SymbolNode op = (subOp == null) ? alp.op : ((OpArgNode) subOp).getOp();
+              if (op.isParam()) {
+                  final ParamAndPosition pap = new ParamAndPosition(op, alp.i);
+                  subParam.levelCheck(itr);
+                  /***************************************************************
+                   * Must invoke levelCheck before invoking getLevel              *
+                   ***************************************************************/
+                  final Integer subLevel = subParam.getLevel();
+                  res.put(pap, subLevel);
+              }
+          }
       }
-    }
     return res;
   }
 
@@ -217,23 +216,19 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
     ***********************************************************************/
     final HashSet<ArgLevelParam> res = new HashSet<>();
     final HashSet<ArgLevelParam> alpSet = body.getArgLevelParams();
-    final Iterator<ArgLevelParam> iter = alpSet.iterator();
-    while (iter.hasNext()) {
-      final ArgLevelParam alp = iter.next();
-      final ExprOrOpArgNode sub = getSub(alp.op, subs);
-      if (sub == null) {
-	res.add(alp);
+      for (ArgLevelParam alp : alpSet) {
+          final ExprOrOpArgNode sub = getSub(alp.op, subs);
+          if (sub == null) {
+              res.add(alp);
+          } else {
+              final SymbolNode subOp = ((OpArgNode) sub).getOp();
+              if (subOp.isParam()) {
+                  for (SymbolNode symbolNode : paramSet(alp.param, subs)) {
+                      res.add(new ArgLevelParam(subOp, alp.i, symbolNode));
+                  }
+              }
+          }
       }
-      else {
-	final SymbolNode subOp = ((OpArgNode)sub).getOp();
-	if (subOp.isParam()) {
-	  final Iterator<SymbolNode> iter1 = paramSet(alp.param, subs).iterator();
-	  while (iter1.hasNext()) {
-	    res.add(new ArgLevelParam(subOp, alp.i, iter1.next()));
-	  }
-	}
-      }
-    }
     return res;
   }
 

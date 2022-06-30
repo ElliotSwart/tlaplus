@@ -949,13 +949,11 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     for (int i = 0; i < opDefs.length; i++) {
       this.levelConstraints.putAll(opDefs[i].getLevelConstraints());
       this.argLevelConstraints.putAll(opDefs[i].getArgLevelConstraints());
-      final Iterator<ArgLevelParam> iter = opDefs[i].getArgLevelParams().iterator();
-      while (iter.hasNext()) {
-        final ArgLevelParam alp = iter.next();
-        if (!alp.occur(opDefs[i].getParams())) {
-          this.argLevelParams.add(alp);
+        for (ArgLevelParam alp : opDefs[i].getArgLevelParams()) {
+            if (!alp.occur(opDefs[i].getParams())) {
+                this.argLevelParams.add(alp);
+            }
         }
-      }
     }
 
     /***********************************************************************

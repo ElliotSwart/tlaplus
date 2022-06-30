@@ -245,38 +245,39 @@ public class InstanceNode extends LevelNode {
       }
     }
 
-    final Iterator<ArgLevelParam> argIter = this.module.getArgLevelParams().iterator();
-    while (argIter.hasNext()) {
-      final ArgLevelParam alp = argIter.next();
-      for (int i = 0; i < this.substs.length; i++) {
-        final SymbolNode pi = this.substs[i].getOp();
-        for (int j = 0; j < this.substs.length; j++) {
-          if (alp.op == pi &&
-              alp.param == this.substs[j].getOp()) {
-            final SymbolNode op = ((OpArgNode)this.substs[i].getExpr()).getOp();
-            final boolean opLevelCheck = op.levelCheck(itr) ;
-               /************************************************************
-               * Need to level check before calling op.getMaxLevel.        *
-               ************************************************************/
-            if (op instanceof OpDefNode &&
-                this.substs[j].getExpr().getLevel() >
-                   ((OpDefNode)op).getMaxLevel(alp.i)) {
-              if (opLevelCheck &&
-                  this.substs[j].getExpr().levelCheck(itr)) {
-                errors.addError(
-                   this.stn.getLocation(),
-                   "Level error when instantiating module '" +
-                      module.getName() + "':\nThe level of the argument " +
-                      alp.i + " of the operator " +
-                      pi.getName() + "' \nmust be at most " +
-                      ((OpDefNode)op).getMaxLevel(alp.i) + ".");
-              }
-              this.levelCorrect = false;
-            }
-          }
-        } // for f
-      } // for i
-    } // while (iter.hasNext())
+      /************************************************************
+       * Need to level check before calling op.getMaxLevel.        *
+       ************************************************************/
+      for (ArgLevelParam alp : this.module.getArgLevelParams()) {
+          for (int i = 0; i < this.substs.length; i++) {
+              final SymbolNode pi = this.substs[i].getOp();
+              for (int j = 0; j < this.substs.length; j++) {
+                  if (alp.op == pi &&
+                          alp.param == this.substs[j].getOp()) {
+                      final SymbolNode op = ((OpArgNode) this.substs[i].getExpr()).getOp();
+                      final boolean opLevelCheck = op.levelCheck(itr);
+                      /************************************************************
+                       * Need to level check before calling op.getMaxLevel.        *
+                       ************************************************************/
+                      if (op instanceof OpDefNode &&
+                              this.substs[j].getExpr().getLevel() >
+                                      ((OpDefNode) op).getMaxLevel(alp.i)) {
+                          if (opLevelCheck &&
+                                  this.substs[j].getExpr().levelCheck(itr)) {
+                              errors.addError(
+                                      this.stn.getLocation(),
+                                      "Level error when instantiating module '" +
+                                              module.getName() + "':\nThe level of the argument " +
+                                              alp.i + " of the operator " +
+                                              pi.getName() + "' \nmust be at most " +
+                                              ((OpDefNode) op).getMaxLevel(alp.i) + ".");
+                          }
+                          this.levelCorrect = false;
+                      }
+                  }
+              } // for f
+          } // for i
+      } // while (iter.hasNext())
 
     // Calculate level information.
 //    this.levelConstraints = new SetOfLevelConstraints();
@@ -287,16 +288,14 @@ public class InstanceNode extends LevelNode {
       * on all nodes substs[i].getExpr(), which is a precondition for      *
       * calling getSubLCSet.                                               *
       *********************************************************************/
-    Iterator<SymbolNode> lcIter = lcSet.keySet().iterator();
-    while (lcIter.hasNext()) {
-      final SymbolNode param = lcIter.next();
-      if (!param.occur(this.params)) {
-        this.levelConstraints.put(param, lcSet.get(param));
+      for (SymbolNode param : lcSet.keySet()) {
+          if (!param.occur(this.params)) {
+              this.levelConstraints.put(param, lcSet.get(param));
+          }
       }
-    }
     for (int i = 0; i < this.substs.length; i++) {
       lcSet = this.substs[i].getExpr().getLevelConstraints();
-      lcIter = lcSet.keySet().iterator();
+        Iterator<SymbolNode> lcIter = lcSet.keySet().iterator();
       while (lcIter.hasNext()) {
         final SymbolNode param = lcIter.next();
         if (!param.occur(this.params)) {
@@ -307,16 +306,14 @@ public class InstanceNode extends LevelNode {
 
 //    this.argLevelConstraints = new SetOfArgLevelConstraints();
     alcSet = Subst.getSubALCSet(this.module, this.substs, itr);
-    Iterator<ParamAndPosition> alcIter = alcSet.keySet().iterator();
-    while (alcIter.hasNext()) {
-      final ParamAndPosition pap = alcIter.next();
-      if (!pap.param.occur(this.params)) {
-        this.argLevelConstraints.put(pap, alcSet.get(pap));
+      for (ParamAndPosition pap : alcSet.keySet()) {
+          if (!pap.param.occur(this.params)) {
+              this.argLevelConstraints.put(pap, alcSet.get(pap));
+          }
       }
-    }
     for (int i = 0; i < this.substs.length; i++) {
       alcSet = this.substs[i].getExpr().getArgLevelConstraints();
-      alcIter = alcSet.keySet().iterator();
+        Iterator<ParamAndPosition> alcIter = alcSet.keySet().iterator();
       while (alcIter.hasNext()) {
         final ParamAndPosition pap = alcIter.next();
         if (!pap.param.occur(this.params)) {
@@ -332,16 +329,14 @@ public class InstanceNode extends LevelNode {
       * and all nodes substs[i].getExpr(), which is a precondition for     *
       * calling getSubALPSet.                                              *
       *********************************************************************/
-    Iterator<ArgLevelParam> alpIter = alpSet.iterator();
-    while (alpIter.hasNext()) {
-      final ArgLevelParam alp = alpIter.next();
-      if (!alp.occur(this.params)) {
-        this.argLevelParams.add(alp);
+      for (ArgLevelParam alp : alpSet) {
+          if (!alp.occur(this.params)) {
+              this.argLevelParams.add(alp);
+          }
       }
-    }
     for (int i = 0; i < this.substs.length; i++) {
       alpSet = this.substs[i].getExpr().getArgLevelParams();
-      alpIter = alpSet.iterator();
+        Iterator<ArgLevelParam> alpIter = alpSet.iterator();
       while (alpIter.hasNext()) {
         final ArgLevelParam alp = alpIter.next();
         if (!alp.occur(this.params)) {

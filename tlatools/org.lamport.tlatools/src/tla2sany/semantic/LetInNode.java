@@ -177,13 +177,11 @@ implements ExploreNode, LevelConstants {
         if (this.opDefs[i].getKind() != ThmOrAssumpDefKind){
           params = ((OpDefNode) this.opDefs[i]).getParams();
           }
-          final Iterator<ArgLevelParam> iter = this.opDefs[i].getArgLevelParams().iterator();
-        while (iter.hasNext()) {
-          final ArgLevelParam alp = iter.next();
-          if (!alp.occur(params)) {
-            this.argLevelParams.add(alp);
+          for (ArgLevelParam alp : this.opDefs[i].getArgLevelParams()) {
+              if (!alp.occur(params)) {
+                  this.argLevelParams.add(alp);
+              }
           }
-         }
        }
     }
     for (int i = 0; i < this.insts.length; i++) {
