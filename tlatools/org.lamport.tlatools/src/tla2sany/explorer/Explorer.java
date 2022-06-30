@@ -374,8 +374,10 @@ public class Explorer {
 
 					System.out.println("\n*** End of concrete syntax tree for Module " + key);
 				} else {
-					System.out.println("\n*** Null ExternalModuleTableEntry.  "
-							+ "\n*** Next module did not parse, and cannot be printed.");
+					System.out.println("""
+
+                            *** Null ExternalModuleTableEntry. \s
+                            *** Next module did not parse, and cannot be printed.""");
 				}
 			} else {
 				System.out.println("*** Null SemanticNode in ExternalModuleTableEntry.  "

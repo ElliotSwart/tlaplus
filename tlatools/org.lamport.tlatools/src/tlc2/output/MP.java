@@ -333,20 +333,23 @@ public class MP
             b.append("[%1%][%2%]");
             break;
         case EC.SYSTEM_STACK_OVERFLOW:
-            b.append("This was a Java StackOverflowError. It was probably the result\n"
-                    + "of an incorrect recursive function definition that caused TLC to enter\n"
-                    + "an infinite loop when trying to compute the function or its application\n"
-                    + "to an element in its putative domain.");
+            b.append("""
+                    This was a Java StackOverflowError. It was probably the result
+                    of an incorrect recursive function definition that caused TLC to enter
+                    an infinite loop when trying to compute the function or its application
+                    to an element in its putative domain.""");
             break;
         case EC.SYSTEM_OUT_OF_MEMORY:
-            b.append("Java ran out of memory.  Running Java with a larger memory allocation\n"
-                    + "pool (heap) may fix this.  But it won't help if some state has an enormous\n"
-                    + "number of successor states, or if TLC must compute the value of a huge set.");
+            b.append("""
+                    Java ran out of memory.  Running Java with a larger memory allocation
+                    pool (heap) may fix this.  But it won't help if some state has an enormous
+                    number of successor states, or if TLC must compute the value of a huge set.""");
             break;
         case EC.SYSTEM_OUT_OF_MEMORY_LIVENESS:
-            b.append("Java ran out of memory during liveness checking.  Running Java with a larger memory\n"
-                    + "allocation pool (heap) may fix this.  But it won't help if paths in the liveness graph\n"
-                    + "have an enormous number of states.");
+            b.append("""
+                    Java ran out of memory during liveness checking.  Running Java with a larger memory
+                    allocation pool (heap) may fix this.  But it won't help if paths in the liveness graph
+                    have an enormous number of states.""");
             break;
         case EC.SYSTEM_OUT_OF_MEMORY_TOO_MANY_INIT:
             b.append("Out Of Memory. There are probably too many initial states.");
@@ -356,8 +359,10 @@ public class MP
             break;
 
         case EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT:
-            b.append("TLC encountered the following error while restarting from a "
-                    + "checkpoint;\n the checkpoint file is probably corrupted.\n%1%");
+            b.append("""
+                    TLC encountered the following error while restarting from a checkpoint;
+                     the checkpoint file is probably corrupted.
+                    %1%""");
             break;
         case EC.SYSTEM_ERROR_READING_STATES:
             b.append("TLC encountered the following error reading the %1% of unexplored states:\n%2%");
@@ -407,9 +412,10 @@ public class MP
             break;
 
         case EC.SYSTEM_METADIR_EXISTS:
-            b.append("TLC writes its files to a directory whose name is generated from the current "
-                    + "time.\nThis directory should be %1%, but that directory already exists.\n"
-                    + "Trying to run TLC again will probably fix this problem.");
+            b.append("""
+                    TLC writes its files to a directory whose name is generated from the current time.
+                    This directory should be %1%, but that directory already exists.
+                    Trying to run TLC again will probably fix this problem.""");
             break;
 
         case EC.SYSTEM_METADIR_CREATION_ERROR:
@@ -436,10 +442,11 @@ public class MP
             break;
 
         case EC.TLC_METADIR_EXISTS:
-            b.append("TLC writes its files to a directory which name is generated"
-                    + " from the current time.\nThis directory should be %1%"
-                    + ", but that directory already exists.\n"
-                    + "Trying to run TLC again will probably fix this problem.\n");
+            b.append("""
+                    TLC writes its files to a directory which name is generated from the current time.
+                    This directory should be %1%, but that directory already exists.
+                    Trying to run TLC again will probably fix this problem.
+                    """);
             break;
         case EC.TLC_METADIR_CAN_NOT_BE_CREATED:
             b.append("TLC could not make a directory for the disk files" + " it needs to write.\n");
@@ -450,8 +457,10 @@ public class MP
             break;
 
         case EC.TLC_NESTED_EXPRESSION:
-            b.append("The error occurred when TLC was evaluating the nested"
-                    + "\nexpressions at the following positions:\n%1%");
+            b.append("""
+                    The error occurred when TLC was evaluating the nested
+                    expressions at the following positions:
+                    %1%""");
             break;
 
         case EC.TLC_ASSUMPTION_FALSE:
@@ -496,9 +505,11 @@ public class MP
         case EC.TLC_INVARIANT_VIOLATED_LEVEL:
         	b.append("The invariant %1% is not a state predicate (one with no primes or temporal operators).");
         	if (parameters.length > 1) {
-        		b.append("\nNote that a bug can cause TLC to incorrectly report this error.\n"
-        				+ "If you believe your TLA+ or PlusCal specification to be correct,\n"
-        				+ "please check if this bug described in LevelNode.java starting at line 590ff affects you.");
+        		b.append("""
+
+                        Note that a bug can cause TLC to incorrectly report this error.
+                        If you believe your TLA+ or PlusCal specification to be correct,
+                        please check if this bug described in LevelNode.java starting at line 590ff affects you.""");
         	}
             break;
 
@@ -551,12 +562,13 @@ public class MP
             break;
 
         case EC.TLC_FINGERPRINT_EXCEPTION:
-            b.append("TLC was unable to fingerprint."
-                + "\n"
-                + "\nFingerprint Stack Trace:"
-                + "\n%1%"
-                + "\nReason:"
-                + "\n%2%"); // reason must come last, with nothing following, because Tool cannot parse the embedded error otherwise
+            b.append("""
+                    TLC was unable to fingerprint.
+
+                    Fingerprint Stack Trace:
+                    %1%
+                    Reason:
+                    %2%"""); // reason must come last, with nothing following, because Tool cannot parse the embedded error otherwise
 
             break;
 
@@ -758,8 +770,11 @@ public class MP
             break;
 
         case EC.TLC_MODULE_ARGUMENT_NOT_IN_DOMAIN:
-            b.append("The %1% argument of %2% must be in the domain of its %3% argument:\n%4%\n, but"
-                    + " instead it is\n%5%");
+            b.append("""
+                    The %1% argument of %2% must be in the domain of its %3% argument:
+                    %4%
+                    , but instead it is
+                    %5%""");
             break;
 
         case EC.TLC_MODULE_DIVISION_BY_ZERO:
@@ -802,8 +817,11 @@ public class MP
             break;
 
         case EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE:
-            b.append("Attempted to apply the operator overridden by the Java method"
-                    + "\n%1%,\nbut it produced the following error:\n%2%");
+            b.append("""
+                    Attempted to apply the operator overridden by the Java method
+                    %1%,
+                    but it produced the following error:
+                    %2%""");
             break;
         case EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_LOADED:
             b.append("Loading %1% operator override from %2% with signature: %3%.");
@@ -877,10 +895,16 @@ public class MP
             b.append("TLC expected a %1% expression, but did not find one.\n%2%");
             break;
         case EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING:
-            b.append("In computing %1%, TLC expected a %2% expression," + "\nbut instead found %3%.\n%4%");
+            b.append("""
+                    In computing %1%, TLC expected a %2% expression,
+                    but instead found %3%.
+                    %4%""");
             break;
         case EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING2:
-            b.append("In computing %1%, TLC expected a %2% expression," + "\nbut didn't find one.\n%3%");
+            b.append("""
+                    In computing %1%, TLC expected a %2% expression,
+                    but didn't find one.
+                    %3%""");
             break;
 
         case EC.TLC_CHOOSE_ARGUMENTS_WRONG:
@@ -1034,13 +1058,17 @@ public class MP
 			b.append("Finished checking temporal properties in %1% at ").append(now());
 	        break;
         case EC.TLC_SUCCESS:
-            b.append("Model checking completed. No error has been found.\n"
-                    + "  Estimates of the probability that TLC did not check all reachable states\n");
+            b.append("""
+                    Model checking completed. No error has been found.
+                      Estimates of the probability that TLC did not check all reachable states
+                    """);
             if (parameters.length == 1) {
             	b.append("  because two distinct states had the same fingerprint:\n" + "  calculated (optimistic):  %1%");
             } else {
-            	b.append("  because two distinct states had the same fingerprint:\n"
-            			+ "  calculated (optimistic):  %1%\n" + "  based on the actual fingerprints:  %2%");
+            	b.append("""
+                        because two distinct states had the same fingerprint:
+                        calculated (optimistic):  %1%
+                        based on the actual fingerprints:  %2%""".indent(2));
             }
             break;
         case EC.TLC_SEARCH_DEPTH:
@@ -1144,8 +1172,10 @@ public class MP
             b.append("The constant parameter %1% is not assigned a value by the configuration file.");
             break;
         case EC.TLC_CONFIG_RHS_ID_APPEARED_AFTER_LHS_ID:
-            b.append("In the configuration file, the identifier %1% appears\n"
-                    + "on the right-hand side of a <- after already appearing on the\n" + "left-hand side of one.");
+            b.append("""
+                    In the configuration file, the identifier %1% appears
+                    on the right-hand side of a <- after already appearing on the
+                    left-hand side of one.""");
             break;
         case EC.TLC_CONFIG_WRONG_SUBSTITUTION:
             b.append("The configuration file substitutes for %1% with the undefined identifier %2%.");
@@ -1180,16 +1210,17 @@ public class MP
             b.append("The %1% of %2% is equal to %3%");
             break;
         case EC.TLC_CONFIG_MISSING_INIT:
-            b.append("The configuration file did not specify the initial state predicate." +
-                     // The below part of the error message was added by LL on 15 Nov 2012
-            		 //
-            		 //	ldq, 13 Feb 2020: I don't think this is semantically correct; I receive
-                     //			no errors when defining a specification that references
-            		 //			a formula which is a parameterized INSTANCE. I *do* receive
-                     //			such an error when that formula is being constrained via
-            		 //			the temporal existential qualifier.
-                     "\nCan also be caused by trying to run TLC on a specification from" +
-                     "\na module imported with a parameterized INSTANCE statement.");
+            // The below part of the error message was added by LL on 15 Nov 2012
+            //
+            //	ldq, 13 Feb 2020: I don't think this is semantically correct; I receive
+            //			no errors when defining a specification that references
+            //			a formula which is a parameterized INSTANCE. I *do* receive
+            //			such an error when that formula is being constrained via
+            //			the temporal existential qualifier.
+            b.append("""
+                    The configuration file did not specify the initial state predicate.
+                    Can also be caused by trying to run TLC on a specification from
+                    a module imported with a parameterized INSTANCE statement.""");
             break;
         case EC.TLC_CONFIG_MISSING_NEXT:
             b.append("The configuration file did not specify the next state predicate.");
@@ -1220,9 +1251,11 @@ public class MP
                     + "\nbut TLC can handle only specifications with one next-state relation.");
             break;
         case EC.TLC_TRACE_TOO_LONG:
-            b.append("The specification contains one or more behaviors with 65536 or more states,"
-                    + "\nbut TLC can only handle behaviors of length up to 65535 states. The last\n"
-                    + "state in the behavior is:\n%1%");
+            b.append("""
+                    The specification contains one or more behaviors with 65536 or more states,
+                    but TLC can only handle behaviors of length up to 65535 states. The last
+                    state in the behavior is:
+                    %1%""");
         	break;
         case EC.TLC_CONFIG_PROPERTY_NOT_CORRECTLY_DEFINED:
             b.append("The property %1% is not correctly defined.");
