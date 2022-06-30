@@ -80,9 +80,8 @@ private final IValue[] values;
 
   //TODO equals without hashcode!
   public final boolean equals(final Object obj) {
-    if (obj instanceof TLCStateMutExt) {
-      final TLCStateMutExt state = (TLCStateMutExt)obj;
-      for (int i = 0; i < this.values.length; i++) {
+    if (obj instanceof final TLCStateMutExt state) {
+        for (int i = 0; i < this.values.length; i++) {
 	if (this.values[i] == null) {
 	  if (state.values[i] != null) return false;
 	}
