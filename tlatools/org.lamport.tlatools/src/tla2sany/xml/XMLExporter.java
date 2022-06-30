@@ -178,10 +178,8 @@ public class XMLExporter {
       final StreamResult result = new StreamResult(out);
 
       transformer.transform(source, result);
-    } catch (final ParserConfigurationException pce) {
+    } catch (final ParserConfigurationException | TransformerException pce) {
       throw new XMLExportingException("failed to write XML", pce);
-    } catch (final TransformerException tfe) {
-      throw new XMLExportingException("failed to write XML", tfe);
     } catch (final SAXException se) {
       throw new XMLExportingException("failed to validate XML", se);
     }

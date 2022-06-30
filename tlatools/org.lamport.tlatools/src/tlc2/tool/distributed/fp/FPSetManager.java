@@ -442,11 +442,7 @@ public abstract class FPSetManager implements IFPSetManager {
 			for (int i = 0; i < len; i++) {
 				try {
 					res = Math.min(res, ecs.take().get());
-				} catch (final InterruptedException e) {
-					// not expected to happen, could return an approximation
-					// if happens (but fail fast for the moment).
-					e.printStackTrace();
-				} catch (final ExecutionException e) {
+				} catch (final InterruptedException | ExecutionException e) {
 					// not expected to happen, could return an approximation
 					// if happens (but fail fast for the moment).
 					e.printStackTrace();
@@ -480,11 +476,7 @@ public abstract class FPSetManager implements IFPSetManager {
 					if(!ecs.take().get()) {
 						return false;
 					}
-				} catch (final InterruptedException e) {
-					// not expected to happen, could return an approximation
-					// if happens (but fail fast for the moment).
-					e.printStackTrace();
-				} catch (final ExecutionException e) {
+				} catch (final InterruptedException | ExecutionException e) {
 					// not expected to happen, could return an approximation
 					// if happens (but fail fast for the moment).
 					e.printStackTrace();
