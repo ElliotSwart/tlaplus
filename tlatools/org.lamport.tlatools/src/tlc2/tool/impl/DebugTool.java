@@ -585,74 +585,61 @@ public class DebugTool extends Tool {
 			}
 		}
 	}
-	
-	private static class WrapperStateFunctor implements IStateFunctor {
-		protected final IStateFunctor functor;
-		protected final IDebugTarget target;
 
-		WrapperStateFunctor(final IStateFunctor functor, final IDebugTarget target) {
-			this.functor = functor;
-			this.target = target;
-		}
-		
-		@Override
-		public Object addElement(final TLCState state) {
-			try {
-				target.pushFrame(state);
-				return functor.addElement(state);
-			} finally {
-				target.popFrame(state);
-			}
-		}
-	}
-
-	private static class WrapperNextStateFunctor implements INextStateFunctor {
-		protected final INextStateFunctor functor;
-		protected final IDebugTarget target;
-
-		WrapperNextStateFunctor(final INextStateFunctor functor, final IDebugTarget target) {
-			this.functor = functor;
-			this.target = target;
-		}
+	private record WrapperStateFunctor(IStateFunctor functor, IDebugTarget target) implements IStateFunctor {
 
 		@Override
-		public Object addElement(final TLCState predecessor, final Action a, final TLCState state) {
-			try {
-				final StepDirection dt = target.pushFrame(predecessor, a, state);
-				if (dt == StepDirection.Out) {
-					if (predecessor.isInitial()) {
-						// Stepping out into a predecessor is effectively a no-op. It would have been
-						// better to disable the step out button in the UI, but it doesn't seem
-						// possible.
-						functor.setElement(predecessor);
-						throw new AbortEvalException();
-					}
-					assert predecessor.getPredecessor() != null;
-					functor.setElement(predecessor.getPredecessor());
-					throw new AbortEvalException();
-				} else if (dt == StepDirection.In) {
-					// First, do the usual checks on the *new* state, and then make it the only
-					// successor state to explore further.
-					functor.addElement(predecessor, a, state);
-					functor.setElement(state);
-					throw new AbortEvalException();
-				} else if (dt == StepDirection.Over) {
-					// Nothing to be done...
-					return functor;
-				} else {
-					assert dt == StepDirection.Continue;
-					return functor.addElement(predecessor, a, state);
+			public Object addElement(final TLCState state) {
+				try {
+					target.pushFrame(state);
+					return functor.addElement(state);
+				} finally {
+					target.popFrame(state);
 				}
-			} finally {
-				target.popFrame(predecessor, state);
 			}
 		}
 
+	private record WrapperNextStateFunctor(INextStateFunctor functor,
+										   IDebugTarget target) implements INextStateFunctor {
+
 		@Override
-		public SetOfStates getStates() {
-			return functor.getStates();
+			public Object addElement(final TLCState predecessor, final Action a, final TLCState state) {
+				try {
+					final StepDirection dt = target.pushFrame(predecessor, a, state);
+					if (dt == StepDirection.Out) {
+						if (predecessor.isInitial()) {
+							// Stepping out into a predecessor is effectively a no-op. It would have been
+							// better to disable the step out button in the UI, but it doesn't seem
+							// possible.
+							functor.setElement(predecessor);
+							throw new AbortEvalException();
+						}
+						assert predecessor.getPredecessor() != null;
+						functor.setElement(predecessor.getPredecessor());
+						throw new AbortEvalException();
+					} else if (dt == StepDirection.In) {
+						// First, do the usual checks on the *new* state, and then make it the only
+						// successor state to explore further.
+						functor.addElement(predecessor, a, state);
+						functor.setElement(state);
+						throw new AbortEvalException();
+					} else if (dt == StepDirection.Over) {
+						// Nothing to be done...
+						return functor;
+					} else {
+						assert dt == StepDirection.Continue;
+						return functor.addElement(predecessor, a, state);
+					}
+				} finally {
+					target.popFrame(predecessor, state);
+				}
+			}
+
+			@Override
+			public SetOfStates getStates() {
+				return functor.getStates();
+			}
 		}
-	}
 
 	@Override
 	public final <T> T eval(final Supplier<T> supplier) {

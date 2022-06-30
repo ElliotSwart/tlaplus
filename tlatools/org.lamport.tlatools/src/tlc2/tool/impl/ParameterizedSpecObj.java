@@ -131,16 +131,8 @@ public class ParameterizedSpecObj extends SpecObj {
 		}
 	}
 
-	public static class Invariant {
-		public final String module;
-		public final String operator;
-		
-		public Invariant(final String module, final String operator) {
-			super();
-			this.module = module;
-			this.operator = operator;
-		}
-	}
+    public record Invariant(String module, String operator) {
+    }
 
 	@Override
 	public List<Action> getInvariants() {
