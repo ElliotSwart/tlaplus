@@ -32,16 +32,7 @@ public class Defns implements ToolGlobals, Serializable
 	private int defnIdx;
     private Object[] table;
 
-    /**
-     * Constructs the storage of initial size + 32
-     */
-    // SZ 10.04.2009: changed constructor to accept the initial 
-    // value explicit during the object creation
-    public Defns(int initialSize)
-    {
-        this.defnIdx = initialSize;
-        this.table = new Object[defnIdx + 32];
-    }
+    
 
     public Defns()
     {

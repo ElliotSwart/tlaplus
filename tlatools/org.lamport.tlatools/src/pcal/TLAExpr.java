@@ -468,11 +468,7 @@ public class TLAExpr
         return result + " >>" ;
       }
 
-   public void appendExpr(Vector<TLAExpr> expr, int spaces) throws UnrecoverableException
-     { 
-       // DEADCODE
-       throw new UnrecoverableException("appendExpr not yet implemented");
-     }
+   
 
 
 /***************************************************************************

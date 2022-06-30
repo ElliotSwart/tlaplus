@@ -190,23 +190,9 @@ public final class ASCII_CharStream
      return (c);
   }
 
-  /**
-   * @deprecated 
-   * @see #getEndColumn
-   */
+  
 
-  static public final int getColumn() {
-     return bufcolumn[bufpos];
-  }
-
-  /**
-   * @deprecated 
-   * @see #getEndLine
-   */
-
-  static public final int getLine() {
-     return bufline[bufpos];
-  }
+  
 
   static public final int getEndColumn() {
      return bufcolumn[bufpos];
@@ -314,75 +300,10 @@ public final class ASCII_CharStream
                               new String(buffer, 0, bufpos + 1);
   }
 
-  static public final char[] GetSuffix(int len)
-  {
-     char[] ret = new char[len];
+  
 
-     if ((bufpos + 1) >= len)
-        System.arraycopy(buffer, bufpos - len + 1, ret, 0, len);
-     else
-     {
-        System.arraycopy(buffer, bufsize - (len - bufpos - 1), ret, 0,
-                                                          len - bufpos - 1);
-        System.arraycopy(buffer, 0, ret, len - bufpos - 1, bufpos + 1);
-     }
+  
 
-     return ret;
-  }
-
-  static public void Done()
-  {
-     buffer = null;
-     bufline = null;
-     bufcolumn = null;
-  }
-
-  /**
-   * Method to adjust line and column numbers for the start of a token.<BR>
-   */
-  static public void adjustBeginLineColumn(int newLine, int newCol)
-  {
-     int start = tokenBegin;
-     int len;
-
-     if (bufpos >= tokenBegin)
-     {
-        len = bufpos - tokenBegin + inBuf + 1;
-     }
-     else
-     {
-        len = bufsize - tokenBegin + bufpos + 1 + inBuf;
-     }
-
-     int i = 0, j = 0, k = 0;
-     int nextColDiff = 0, columnDiff = 0;
-
-     while (i < len &&
-            bufline[j = start % bufsize] == bufline[k = ++start % bufsize])
-     {
-        bufline[j] = newLine;
-        nextColDiff = columnDiff + bufcolumn[k] - bufcolumn[j];
-        bufcolumn[j] = newCol + columnDiff;
-        columnDiff = nextColDiff;
-        i++;
-     } 
-
-     if (i < len)
-     {
-        bufline[j] = newLine++;
-        bufcolumn[j] = newCol + columnDiff;
-
-        while (i++ < len)
-        {
-           if (bufline[j = start % bufsize] != bufline[++start % bufsize])
-              bufline[j] = newLine++;
-           else
-              bufline[j] = newLine;
-        }
-     }
-
-     line = bufline[j];
-     column = bufcolumn[j];
-  }
+  
 
 }

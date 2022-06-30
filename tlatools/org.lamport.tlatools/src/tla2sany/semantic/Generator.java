@@ -6749,52 +6749,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		lastFormalParams.removeElementAt(size - 1);
 	}
 
-	boolean formalParamsEqual(LabelNode ln) {
-		/***********************************************************************
-		 * Returns LET odns == ln.params * IN /\ \A i, j \in DOMAIN odns : * (i # j) =>
-		 * odns[i] # odns[j] * /\ {odns[i] : i \in DOMAINE odns} = * UNION
-		 * {Last(LS).parmSeq[i] : * i \in DOMAIN Last(LS).parmSeq} * That is, it returns
-		 * true iff all the FormalParamNode objects in * odns are distinct and the set
-		 * of all thos objects equals the union * of all the sets in the sequence
-		 * Last(LS).paramSeq. * * If this returns false, then an error message explains
-		 * why. *
-		 ***********************************************************************/
-		boolean retVal = true;
-		HashSet<FormalParamNode> opParams = new HashSet<FormalParamNode>();
-		FormalParamNode[] odns = ln.params;
-		for (int i = 0; i < odns.length; i++) {
-			if (!opParams.add(odns[i])) {
-				retVal = false;
-				errors.addError(ln.stn.getLocation(), "Repeated formal parameter " + odns[i].getName().toString()
-						+ " \nin label `" + ln.getName().toString() + "'.");
-			}
-			;
-		} // for ;
-		Vector<FormalParamNode[]> lastFormalParams = LSparamSeq.elementAt(LSparamSeq.size() - 1);
-		int size = lastFormalParams.size();
-		for (int i = 0; i < size; i++) {
-			FormalParamNode[] ops = lastFormalParams.elementAt(i);
-			for (int j = 0; j < ops.length; j++) {
-				if (!opParams.remove(ops[j])) {
-					retVal = false;
-					errors.addError(ln.stn.getLocation(), "Label " + ln.getName().toString()
-							+ " must contain formal parameter `" + ops[j].getName().toString() + "'.");
-				}
-				;
-			} // for j;
-		} // for i;
-		if (!opParams.isEmpty()) {
-			retVal = false;
-			Iterator<FormalParamNode> iter = opParams.iterator();
-			String res = "Label " + ln.getName().toString() + " declares extra parameter(s)  ";
-			while (iter.hasNext()) {
-				FormalParamNode nd = iter.next();
-				res = res + nd.getName().toString() + "  ";
-			} // while
-			errors.addError(ln.stn.getLocation(), res);
-		} // if
-		return retVal;
-	}
+	
 
 	boolean inOpDefNode() {
 		return LSlabels.size() > 0;

@@ -142,45 +142,16 @@ public class TypedSet {
         return type;
     }
 
-    // If id is a "typed" identifier, then it returns
-    // the (one-character) type as a string. Else, it
-    // returns null. Note that getTypeOfId("1_xyz") = "1",
-    // and getTypteOfId("__z") = "z".
-    public static String getTypeOfId(String id)
-    {
-        if (id == null || id.length() < 2 || !id.substring(1, 2).equals("_"))
-        {
-            return null;
-        }
-        return id.substring(0, 1);
-    }
+    
 
     public void setType(String type)
     {
         this.type = type;
     }
     
-    public void unsetType() {
-    	setType(null);
-    }
     
-    /**
-     * Not remotely efficient.
-     * 
-     * @param value
-     * @return true if the parameter value is one of this set's values.
-     */
-    public boolean contains(final String value) {
-    	if (value != null) {
-    		for (final String aValue : values) {
-    			if (value.equals(aValue)) {
-    				return true;
-    			}
-    		}
-    	}
-    	
-    	return false;
-    }
+    
+    
 
     public String[] getValues()
     {

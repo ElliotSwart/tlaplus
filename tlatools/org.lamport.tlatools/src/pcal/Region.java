@@ -95,8 +95,5 @@ public class Region implements Serializable {
 		return true;
 	}
 
-	public Location toLocation() {
-		return new Location(begin.getLine() + 1, begin.getColumn() + 1,
-				end.getLine() + 1, end.getColumn() + 1);
-	}
+	
 }

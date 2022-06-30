@@ -61,7 +61,5 @@ public class StandardModules {
 		return STANDARD_MODULES.contains(moduleName);
 	}
 	
-	public static void filterNonStandardModulesFromSet(final Set<String> listOfModules) {
-		listOfModules.retainAll(STANDARD_MODULES);
-	}
+	
 }

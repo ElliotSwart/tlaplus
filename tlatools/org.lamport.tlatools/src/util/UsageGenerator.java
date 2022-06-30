@@ -268,12 +268,7 @@ public class UsageGenerator {
 			this(key, null, optionDescription, isOptional);
 		}
 		
-		/**
-		 * This calls {@code this(key, exampleValue, optionDescription, false);}
-		 */
-		public Argument(final String key, final String exampleValue, final String optionDescription) {
-			this(key, exampleValue, optionDescription, false);
-		}
+		
 		
 		public Argument(final String key, final String exampleValue, final String optionDescription,
 						final boolean isOptional) {

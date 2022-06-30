@@ -652,13 +652,7 @@ final void addAssumption(TreeNode stn, ExprNode ass, SymbolTable st,
 	  return extendeesSet;
   }
 
-  public boolean extendsModule(ModuleNode mod) {
-    /************************************************************************
-    * Returns True iff this module extends module mod--either directly or   *
-    * indirectly.                                                           *
-    ************************************************************************/
-    return this.getExtendedModuleSet().contains(mod) ;
-  } ;
+   ;
 
 
   /**

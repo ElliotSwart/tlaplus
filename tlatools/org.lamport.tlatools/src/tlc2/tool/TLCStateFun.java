@@ -86,13 +86,7 @@ private SymbolNode name;
   
   public final Set<OpDeclNode> getUnassigned() { return new HashSet<OpDeclNode>(); }
 
-  public final Context addToContext(Context c) {
-    Context c1 = c;
-    for (TLCStateFun cur = this; cur != Empty; cur = cur.next) {
-      c1 = c1.cons(cur.name, cur.value);
-    }
-    return c1;
-  }
+  
 
   public final StateVec addToVec(StateVec states) {
     return states.addElement(this);

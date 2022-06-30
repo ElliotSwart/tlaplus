@@ -86,15 +86,7 @@ public class TBGraphNode {
 		return this.nexts.elementAt(i);
 	}
 
-	public final boolean hasLink(TBGraphNode target) {
-		int sz = this.nexts.size();
-		for (int i = 0; i < sz; i++) {
-			if (this.nexts.elementAt(i) == target) {
-				return true;
-			}
-		}
-		return false;
-	}
+	
 
 	/**
 	 * Checks if this particle node is consistent with the given

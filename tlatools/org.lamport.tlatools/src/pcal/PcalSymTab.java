@@ -333,10 +333,7 @@ public class PcalSymTab {
         else return symtab.elementAt(i).useThis;
     }
 
-    /* Return the disambiguated name for a label in a context */
-    public String UseThisLab(String id, String context) {
-        return UseThis(LABEL, id, context);
-    }
+    
 
     /*********************************************************
      * Given a variable referenced in a context. First get   *
@@ -358,21 +355,7 @@ public class PcalSymTab {
         return id;
     }
 
-    /*********************************************************
-     * Return first variable in this context.                *
-     *********************************************************/
-    public String UseThis (String id, String context) {
-        int i = 0;
-        while (i < symtab.size()) {
-            SymTabEntry se = symtab.elementAt(i);
-            if (se.id.equals(id) && se.context.equals(context)
-                && (se.type == GLOBAL || se.type == PROCESSVAR 
-                    || se.type == PROCEDUREVAR || se.type == PARAMETER)) break;
-            i = i + 1;
-        }
-        if (i == symtab.size()) return id;
-        else return symtab.elementAt(i).useThis;
-    }
+    
 
     /*********************************************************
      * TRUE if id is ambiguous.                              *

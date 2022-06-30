@@ -114,11 +114,11 @@ public class ParseUnit {
 
   final        Vector<ParseUnit>        getExtendees()   { return parseUnitRelatives.extendees; }
 
-  final        Vector<ParseUnit>        getExtendedBy()  { return parseUnitRelatives.extendedBy; }
+  
 
   final        Vector<ParseUnit>        getInstancees()  { return parseUnitRelatives.instancees; }
              
-  final        Vector<ParseUnit>        getInstancedBy() { return parseUnitRelatives.instancedBy; }
+  
 
   // Add-methods
   final        void          addExtendee(ParseUnit pu)    { parseUnitRelatives.extendees.addElement(pu); }
@@ -129,15 +129,11 @@ public class ParseUnit {
 
   final        void          addInstancedBy(ParseUnit pu) { parseUnitRelatives.instancedBy.addElement(pu); }
 
-  final ModuleRelatives getRelatives(ModulePointer module) {
-    return module.getRelatives();
-  }
+  
 
-  final ParseUnitRelatives getRelatives() { return parseUnitRelatives; }
+  
 
-  final ModuleContext getContext(ModuleRelatives relatives) {
-    return relatives.context;
-  }
+  
 
   final ModuleContext getContext(ModulePointer module) {
     return module.getRelatives().context;

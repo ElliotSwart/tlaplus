@@ -31,8 +31,7 @@ public class ModulePointer {
   // Returns the ParseUnit that this module is part of
   final ParseUnit getParseUnit() { return parseUnit; }
 
-  // Returns the TreeNode containing the module name
-  final TreeNode getTreeNode() { return treeNode; }
+  
 
   // Returns the String name of this module
   final String getName() { 

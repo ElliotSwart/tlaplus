@@ -124,30 +124,7 @@ public final class Location implements Comparable<Location>
 	}
 
 	
-	/**
-	 * @param coordinates
-	 *            An int array of size 4 with 0-based coordinates: 0=beginLine,
-	 *            1=beginColum, 2=endLine, 3=endColumn. 2 & 3 may be smaller
-	 *            than 1 & 2, in which case they get set to 1 & 2.
-	 */
-	public Location(final int[] coordinates) {
-	    // LL modified error message on 7 April 2012
-		Assert.check(coordinates != null && coordinates.length == 4, "Illegal coordinates found.");
-
-        bLine = coordinates[0];
-        bColumn = coordinates[1];
-
-        eLine = coordinates[2];
-		eColumn = coordinates[3];
-		
-		if (eLine < bLine) {
-			eLine = bLine;
-		}
-		
-		if (eColumn < bColumn) {
-			eColumn = bColumn;
-		}
-	}
+	
 
 	/**
      * Factory method to create unknown locations in a given module

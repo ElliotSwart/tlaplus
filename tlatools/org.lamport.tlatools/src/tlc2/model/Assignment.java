@@ -287,36 +287,10 @@ public class Assignment extends Formula {
         this.modelValue = modelValue;
     }
 
-    public static String[] getArrayOfEmptyStrings(int number)
-    {
-        String[] array = new String[number];
-        String EMPTY = new String("");
-        for (int i = 0; i < number; i++)
-        {
-            array[i] = EMPTY;
-        }
-        return array;
-    }
+    
 
 
-    /** 
-     * compares if the signature (label and the number of parameters matches)
-     */
-    public boolean equalSignature(Assignment obj)
-    {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (label == null)
-        {
-            if (obj.label != null)
-                return false;
-        } else if (!label.equals(obj.label))
-            return false;
-
-        return (params.length == obj.params.length);
-    }
+    
     
     public String prettyPrint() {
     	return prettyPrint("");

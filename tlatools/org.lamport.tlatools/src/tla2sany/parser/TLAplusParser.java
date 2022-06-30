@@ -133,7 +133,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
 */
   private SyntaxTreeNode local;
 
-  void registerTN( SyntaxTreeNode some) { local = some ; }
+  
 
   boolean testTN() {
     /***********************************************************************
@@ -356,37 +356,9 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     currentT.next = nextT;
   }
 
-//
-  void skipOver( int l ) {
-    while ( true ) {
-      Token t = getToken(1);
-      int k = t.kind;
-      if ( (k == EOF) || (t.beginColumn < l ) ) return;
-      t = getNextToken();
-    }
-  }
 
-/***************************************************************************
-* Note: the non-terminal ClosedStart was commented out, apparently to be   *
-* replaced by this boolean-valued method.                                  *
-***************************************************************************/
-boolean
-ClosedStart( Token t ) {
-  return   t.kind == IDENTIFIER
-        || (t.kind >= op_57 && t.kind <= op_119)
-           /****************************************************************
-           * These are all prefix, infix, and postfix operators.           *
-           ****************************************************************/
-        || t.kind == NUMBER_LITERAL
-        || t.kind == LBR
-        || t.kind == LSB
-        || t.kind == LAB
-        || t.kind == LBC
-        || t.kind == LWB
-        || t.kind == STRING_LITERAL
-        || t.kind == WF
-        || t.kind == SF;
-}
+
+
 
 boolean
 isOp( Token t ) {
@@ -401,9 +373,7 @@ boolean isPostfixOp( Token t ) {
   return t.kind >= op_57 && t.kind <= op_70;
 }
 
-boolean isPrefixOp( Token t ) {
-  return t.kind >= op_26 && t.kind <= op_116;
-}
+
 
 // global variable follows !!! Make sure it is set everywhere as required
 Operator lastOp;
@@ -553,16 +523,7 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
      } ;
     }
 
-// predicate used in lookahead to discriminate between the Case Separator and
-// the box operator. Returns true if it is most likely not the separator.
-// This is a weak mechanism.
-  boolean boxDisc() {
-    Token t = getToken(1);
-    if ( t.kind == CASESEP )
-      return OperatorStack.preInEmptyTop();
-    else
-      return true;
-  }
+
 
   boolean caseSep() {
     Token t = getToken(1);
@@ -2696,205 +2657,7 @@ expecting = "Expression or Op. Symbol";
     throw new Error("Missing return statement in function");
   }
 
-/***************************************************************************
-* Substitution ::=                                                         *
-*     ( Identifier | NonExpPrefixOp | InfixOp | PostfixOp)                 *
-*     <SUBSTITUTE> ( <op_76> | Lambda | Expression )                       *
-*                                                                          *
-* Note: <op_76> is "-.", the prefix - operator.                            *
-*       <SUBSTITUTE> is "<-"                                               *
-*                                                                          *
-* Modified 27 March 2007 by LL to allow Lambda substitutions.              *
-***************************************************************************/
-  final public SyntaxTreeNode OldSubstitution() throws ParseException {
-  SyntaxTreeNode zn[] = new SyntaxTreeNode[3];
-  SyntaxTreeNode tn = null;
-  Token t;
-  anchor = null;
-    /***********************************************************************
-    * See the comments for the declaration of anchor to see what this is   *
-    * being used for.                                                      *
-    ***********************************************************************/
-  String n;
-  bpa("Substitution");
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case IDENTIFIER:
-      tn = Identifier();
-                        zn[0] = tn;
-      break;
-    case op_76:
-    case op_26:
-    case op_29:
-    case op_58:
-    case CASESEP:
-    case op_61:
-    case op_112:
-    case op_113:
-    case op_114:
-    case op_115:
-    case op_116:
-      tn = NonExpPrefixOp();
-                            zn[0] = tn;
-      break;
-    case op_1:
-    case AND:
-    case op_3:
-    case op_4:
-    case OR:
-    case op_6:
-    case op_7:
-    case op_8:
-    case op_9:
-    case op_10:
-    case op_11:
-    case op_12:
-    case op_13:
-    case op_14:
-    case op_15:
-    case op_16:
-    case op_17:
-    case op_18:
-    case op_19:
-    case IN:
-    case op_21:
-    case op_22:
-    case op_23:
-    case op_24:
-    case op_25:
-    case op_27:
-    case op_30:
-    case op_31:
-    case op_32:
-    case op_33:
-    case op_34:
-    case op_35:
-    case op_36:
-    case op_37:
-    case op_38:
-    case op_39:
-    case op_40:
-    case op_41:
-    case op_42:
-    case op_43:
-    case op_44:
-    case op_45:
-    case op_46:
-    case op_47:
-    case op_48:
-    case op_49:
-    case op_50:
-    case op_51:
-    case op_52:
-    case op_53:
-    case op_54:
-    case op_55:
-    case op_56:
-    case op_59:
-    case op_62:
-    case op_63:
-    case op_64:
-    case EQUALS:
-    case op_66:
-    case op_67:
-    case op_71:
-    case op_72:
-    case op_73:
-    case op_74:
-    case op_75:
-    case op_77:
-    case op_78:
-    case op_79:
-    case op_80:
-    case op_81:
-    case op_82:
-    case op_83:
-    case op_84:
-    case op_85:
-    case op_86:
-    case op_87:
-    case op_88:
-    case op_89:
-    case op_90:
-    case op_91:
-    case op_92:
-    case op_93:
-    case op_94:
-    case op_95:
-    case op_96:
-    case op_97:
-    case op_98:
-    case op_100:
-    case op_101:
-    case op_102:
-    case op_103:
-    case op_104:
-    case op_105:
-    case op_106:
-    case op_107:
-    case op_108:
-    case op_109:
-    case op_110:
-    case op_111:
-    case op_117:
-    case op_118:
-    case op_119:
-      tn = InfixOp();
-                     zn[0] = tn;
-      break;
-    case op_57:
-    case op_68:
-    case op_69:
-    case op_70:
-      tn = PostfixOp();
-                       zn[0] = tn;
-      break;
-    default:
-      jj_la1[36] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
-  expecting = "<-";
-    t = jj_consume_token(SUBSTITUTE);
-                     n = tn.getImage();
-     zn[1] = new SyntaxTreeNode(mn, t);
-expecting = "Expression or Op. Symbol";
-    try {
-      if (jj_2_13(2147483647)) {
-        t = jj_consume_token(op_76);
-      SyntaxTreeNode zzn[] = new SyntaxTreeNode[2];
-      zzn[0] = new SyntaxTreeNode( mn, N_IdPrefix, new SyntaxTreeNode[0] );
-      zzn[1] =  new SyntaxTreeNode( mn, N_NonExpPrefixOp, t );
-      tn = new SyntaxTreeNode( mn, N_GenNonExpPrefixOp, zzn );
-      } else if (jj_2_14(1)) {
-        tn = Expression();
-      } else {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case LAMBDA:
-          tn = Lambda();
-          break;
-        default:
-          jj_la1[37] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
-        }
-      }
-    } catch (ParseException e) {
-// first things first - restore evaluation stack
-    if ( OperatorStack.isWellReduced() )
-      OperatorStack.popStack();
-    else
-      {if (true) throw e;}
-// check the nature of the node returned. It can only be a GenOp. */
-// should be reviewed - N_GenNonExpPrefixOp may be unnecessary because -. has been checked.
-    if ( ( anchor != null )
-       &&( anchor.isKind( N_GenPrefixOp ) || anchor.isKind( N_GenInfixOp ) || anchor.isKind( N_GenPostfixOp ) || anchor.isKind( N_GenNonExpPrefixOp ) ) ) {
-       tn = anchor; anchor = null;
-    } else
-       {if (true) throw e;}
-    }
-    epa(); zn[2] = tn; {if (true) return new SyntaxTreeNode(mn, N_Substitution, zn );}
-    throw new Error("Missing return statement in function");
-  }
+
 
   final public SyntaxTreeNode PrefixOp() throws ParseException {
   Token t;
@@ -4408,20 +4171,7 @@ expecting = "==";
 
 
 
-/***************************************************************************
-* The GeneralId() production is not used and can be deleted.  The parser   *
-* uses Java code to construct N_GeneralId nodes inside Extension(),        *
-* NoOpExtension(), and BraceCases()                                        *
-***************************************************************************/
-  final public SyntaxTreeNode GeneralId() throws ParseException {
-  SyntaxTreeNode zn[] = new SyntaxTreeNode[2];
-  Token t;
-  bpa("General ID");
-    zn[0] = IdPrefix();
-    zn[1] = Identifier();
-    epa(); {if (true) return new SyntaxTreeNode( mn, N_GeneralId, zn);}
-    throw new Error("Missing return statement in function");
-  }
+
 
   final public SyntaxTreeNode IdPrefix() throws ParseException {
   SyntaxTreeNode tn;
@@ -4637,16 +4387,7 @@ expecting = "==";
     throw new Error("Missing return statement in function");
   }
 
-/***************************************************************************
-* The following does not seem to be used anywhere.                         *
-***************************************************************************/
-  final public SyntaxTreeNode ClosedExpressionOnly() throws ParseException {
-  SyntaxTreeNode tn;
-    tn = ClosedExpressionOrOp();
-    if ( isGenOp( tn ) ) {if (true) throw new ParseException( "Encountered unexpected Operator" );}
-    else {if (true) return tn;}
-    throw new Error("Missing return statement in function");
-  }
+
 
   final public SyntaxTreeNode OpenExpression() throws ParseException {
   SyntaxTreeNode tn;
@@ -7859,45 +7600,7 @@ SyntaxTreeNode tn;
 //    return tn; }
 // } // Expression()
 
-/* Obsolete
-void
-ClosedStart() : {
-}{
-  <IDENTIFIER> | <STRING_LITERAL> | <NUMBER_LITERAL> | <LBR> | <LSB> | <LAB> | <LBC> | <LWB> | <OpSymbol> | <OR> | <AND> | <WF> | <SF>
-}
-*/
-  final public void OpenStart() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case CASE:
-      jj_consume_token(CASE);
-      break;
-    case CHOOSE:
-      jj_consume_token(CHOOSE);
-      break;
-    case EXISTS:
-      jj_consume_token(EXISTS);
-      break;
-    case FORALL:
-      jj_consume_token(FORALL);
-      break;
-    case IF:
-      jj_consume_token(IF);
-      break;
-    case LET:
-      jj_consume_token(LET);
-      break;
-    case T_EXISTS:
-      jj_consume_token(T_EXISTS);
-      break;
-    case T_FORALL:
-      jj_consume_token(T_FORALL);
-      break;
-    default:
-      jj_la1[139] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
-  }
+
 
   final private boolean jj_2_1(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
@@ -11743,9 +11446,7 @@ ClosedStart() : {
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
-  public void ReInit(java.io.InputStream stream) {
-     ReInit(stream, null);
-  }
+  
   public void ReInit(java.io.InputStream stream, String encoding) {
     try { jj_input_stream.ReInit(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
     token_source.ReInit(jj_input_stream);
@@ -11756,15 +11457,7 @@ ClosedStart() : {
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
-  public TLAplusParser(java.io.Reader stream) {
-    jj_input_stream = new SimpleCharStream(stream, 1, 1);
-    token_source = new TLAplusParserTokenManager(jj_input_stream);
-    token = new Token();
-    jj_ntk = -1;
-    jj_gen = 0;
-    for (int i = 0; i < 140; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
-  }
+  
 
   public void ReInit(java.io.Reader stream) {
     jj_input_stream.ReInit(stream, 1, 1);

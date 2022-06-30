@@ -531,12 +531,7 @@ public class OpDefNode extends OpDefOrDeclNode
 		   return getName();
 	}
 	
-	public final boolean hasPath() {
-		   if (compoundID != null) {
-			   return compoundID.length > 1;
-		   }
-		   return false;
-	}
+	
 
 	public final UniqueString getPathName() {
 		   if (compoundID != null) {

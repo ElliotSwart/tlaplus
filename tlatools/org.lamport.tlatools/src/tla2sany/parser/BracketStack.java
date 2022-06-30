@@ -101,21 +101,7 @@ public class BracketStack implements //LogCategories,
       classes[ kind ] == se.Kind && se.Offset == o;
   }
 
-  boolean belowReference( int o ) {
-    /***********************************************************************
-    * Returns true iff the Offset field of the top element on the stack    *
-    * is greater than o.                                                   *
-    *                                                                      *
-    * THIS METHOD IS APPARENTLY NOT USED.                                  *
-    ***********************************************************************/
-    StackElement se = stack.peek();
-// Log.log(bracketStackLog, "--- belowReference, " + o + " " + se.Offset);
-     /************************************************************************
-     * A use of a class from tla2sany/error eliminated by LL on 2 Mar 2007   *
-     ************************************************************************/
-    return
-      se.Offset > o;
-  }
+  
 
   boolean aboveReference( int o ) {
     StackElement se = stack.peek();

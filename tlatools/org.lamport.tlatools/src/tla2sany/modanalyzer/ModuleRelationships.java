@@ -28,9 +28,7 @@ class ModuleRelationships {
   } // end putRelatives()
 
 
-  ModuleContext getContext(ModulePointer module) {
-    return module.getRelatives().context;
-  } // end getContext()
+  
 
 
   Enumeration<ModulePointer> getKeys() { return modRelHashtable.keys(); }  

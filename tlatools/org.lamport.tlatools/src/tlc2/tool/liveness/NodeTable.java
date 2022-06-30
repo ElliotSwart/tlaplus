@@ -38,9 +38,7 @@ public final class NodeTable {
 		}
 	}
 
-	public final int size() {
-		return this.count;
-	}
+	
 
 	public final int putBENode(BEGraphNode node) {
 		if (count >= thresh) {
@@ -165,28 +163,7 @@ public final class NodeTable {
 		}
 	}
 
-	public final BTGraphNode[] getBTNodeWithHint(long k, int hintLoc) {
-		Object elem = this.elems[hintLoc];
-		if (elem != null) {
-			if (elem instanceof BTGraphNode) {
-				BTGraphNode btnode = (BTGraphNode) elem;
-				if (btnode.stateFP == k) {
-					if (btnode.isDummy()) {
-						return null;
-					}
-					BTGraphNode[] nodes = new BTGraphNode[1];
-					nodes[0] = btnode;
-					return nodes;
-				}
-			} else {
-				BTGraphNode[] nodes = (BTGraphNode[]) elem;
-				if (nodes[0].stateFP == k) {
-					return nodes;
-				}
-			}
-		}
-		return getBTNode(k);
-	}
+	
 
 	/**
 	 * This method gets the node with state fingerprint k1 and tableau node

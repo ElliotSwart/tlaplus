@@ -34,13 +34,7 @@ public class ModuleContext {
     return context.get(modName);
   }
 
-  /**
-   * Bind a module name to a particular ModulePointer, replacing any binding
-   * that is already there to the same modName.
-   */
-  void bind( String modName, ModulePointer modPointer) {
-    context.put(modName,modPointer);
-  }
+  
 
  /**
    * Bind a module name to a particular ModulePointer iff that name is not

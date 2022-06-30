@@ -60,12 +60,7 @@ public class FormalParamNode extends SymbolNode {
     return odn.getArity() == this.arity;
   }
 
-  public final boolean match(SemanticNode test) {
-    /***********************************************************************
-    * This weird method does not seem to be used.                          *
-    ***********************************************************************/
-    return ( this.arity == 0 );
-  }
+  
 
   /* Level checking */
 //  private HashSet levelParams;

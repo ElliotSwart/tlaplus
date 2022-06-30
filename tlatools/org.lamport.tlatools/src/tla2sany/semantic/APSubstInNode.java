@@ -75,19 +75,7 @@ public class APSubstInNode extends LevelNode {
     }
   }
 
-  /**
-   * Special constructor for use when an array of default
-   * substitutions is to be produced.
-   */
-  public APSubstInNode(TreeNode treeNode, SymbolTable instancerST,
-		     Vector<OpDeclNode> instanceeDecls, ModuleNode ingmn, ModuleNode edmn)
-  throws AbortException {
-    super(APSubstInKind, treeNode);
-    this.instantiatingModule = ingmn;
-    this.instantiatedModule = edmn;
-    constructSubst(instanceeDecls, instancerST, treeNode);
-    this.body = null;
-  }
+  
 
   public final Subst[] getSubsts() { return this.substs; }
 

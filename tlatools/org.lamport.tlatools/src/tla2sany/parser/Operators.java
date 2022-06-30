@@ -56,9 +56,7 @@ public class Operators {
      }
   }
   
-  static public boolean existsOperator( UniqueString name ) {
-    return ( DefinitionTable.get( name ) != null );
-  }
+  
 
   static public void addSynonym( UniqueString template, UniqueString match ) {
     /*
@@ -87,9 +85,7 @@ public class Operators {
     else return n.getIdentifier();
   }
 
-  static public void addBuiltinAssoc( UniqueString symbol, UniqueString builtin ) {
-    BuiltinTable.put( symbol, builtin );
-  }
+  
 
   /*************************************************************************
   * It appears that the following method is not used.                      *

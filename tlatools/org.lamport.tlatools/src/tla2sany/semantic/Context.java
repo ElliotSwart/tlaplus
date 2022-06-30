@@ -212,14 +212,7 @@ public class Context implements ExploreNode {
   }
 
 
-  /**
-   * Tests whether a name is present in this context
-   * @param name the UniqueString representing the string, see {@link UniqueString#uniqueStringOf(String)}
-   * @return true iff the UniqueString provided occurs as a key in the symbol table
-   */
-  public boolean occurSymbol(Object name) {
-    return table.containsKey(name);
-  }
+  
 
   /**
    * Returns Enumeration of the elements of the Hashtable "Table",

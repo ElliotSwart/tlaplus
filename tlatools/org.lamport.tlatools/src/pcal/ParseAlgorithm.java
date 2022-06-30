@@ -910,18 +910,7 @@ public class ParseAlgorithm
         return result ;
      }
 
-   /* OBSOLETE */ public static Vector<LabeledStmt> ObsoleteGetLabeledStmtSeq() throws ParseAlgorithmException
-     /**********************************************************************
-     * Returns a (possibly null) sequence of LabeledStmt elements.  This   *
-     * is the obvious iterative call of GetLabeledStmt that stops when     *
-     * it's not at a label.                                                *
-     **********************************************************************/
-     { Vector<LabeledStmt> result = new Vector<LabeledStmt>();
-       while (IsLabelNext())
-         { result.addElement(ObsoleteGetLabeledStmt()) ;
-         } ;
-       return result ; 
-     }
+   
 
    /* OBSOLETE */ public static AST.LabeledStmt ObsoleteGetLabeledStmt() throws ParseAlgorithmException
      { if (! IsLabelNext())
@@ -2676,19 +2665,7 @@ public class ParseAlgorithm
          }
      }     
 
-   public static void ObsoleteExpandMacrosInLabeledStmtSeq(
-                        Vector<?> stmtseq, // of LabeledStmt
-                        Vector<Macro> macros) throws ParseAlgorithmException  // of Macro
-     /**********************************************************************
-     * Expands macro calls.                                                *
-     **********************************************************************/
-     { int i = 0 ;
-       while (i < stmtseq.size())
-         { AST.LabeledStmt stmt = (AST.LabeledStmt) stmtseq.elementAt(i) ;
-           ExpandMacrosInStmtSeq(stmt.stmts, macros) ;
-           i = i + 1 ;
-         }
-     }
+   
 
    public static void ExpandMacrosInStmtSeq(Vector<AST> stmtseq, Vector<Macro> macros) throws ParseAlgorithmException
      /**********************************************************************
@@ -4060,81 +4037,7 @@ public class ParseAlgorithm
 
    }
    
-   /**
-    * Assumes that curLoc points to a left brace ("{") in the String 
-    * Vector inputVec, and it searches for the matching right brace.
-    * It updates curLoc to the position immediately after the token if 
-    * it's found.  Otherwise, it raises a ParseAlgorithmException.
-    * 
-    * See the comments above for an explanation of the arguments.
-    * The PlusCal code currently calls this only with replace = true and 
-    * outputVec = null.
-    * 
-    * @param inputVec        Input String Vector 
-    * @param outputVec       Output String Vector, or null
-    * @param curLoc          <row, column> (Java coordinates) of beginning of search.
-    * @param replace         True iff replacing comments by spaces.
-    * @throws ParseAlgorithmException
-    */
-   public static void FindMatchingBrace(
-           Vector<?> inputVec,  // Vector of strings
-//           Vector outputVec, // null or Vector of strings
-           IntPair curLoc,   // <row, column> in Java coordinates of
-                              // "(*" that begins a comment.
-//           boolean replace, // true iff comment should
-//                           // be replaced by spaces.
-           String errorMsg  // The error message if the brace isn't found
-          )
-             throws ParseAlgorithmException {
-
-       curLoc.two++;
-       while (curLoc.one < inputVec.size()) {
-           String curLine = (String) inputVec.elementAt(curLoc.one);
-           while (curLoc.two < curLine.length()) {
-             curLoc.two = NextBraceQuoteOrCommentCol(curLine, curLoc.two);
-                if (curLoc.two < curLine.length())
-                {
-                    char c = curLine.charAt(curLoc.two);
-                    if (c == '}')
-                    {
-                        curLoc.two++;
-                        // if (outputVec != null) {
-                        // outputVec.addElement(curLine.substring(0, curLoc.two));
-                        // }
-                        return;
-                    } else if (c == '{')
-                    {
-                        FindMatchingBrace(inputVec, curLoc, errorMsg);
-                        curLine = (String) inputVec.elementAt(curLoc.one);
-                    } else if ((c == '(') && (curLoc.two + 1 < curLine.length())
-                            && (curLine.charAt(curLoc.two + 1) == '*'))
-                    {
-                        ParseAlgorithm.gotoEndOfComment(inputVec, curLoc);
-                        curLine = (String) inputVec.elementAt(curLoc.one);
-                    } else if ((c == '\\') && (curLoc.two + 1 < curLine.length())
-                            && (curLine.charAt(curLoc.two + 1) == '*'))
-                    {
-                        // if (replace) {
-                        // inputVec.setElementAt(
-                        // curLine.substring(0, curLoc.two), curLoc.one);
-                        // }
-                        curLoc.two = curLine.length();
-                    } else if (c == '"')
-                    {
-                        curLoc.two = ParseAlgorithm.findEndOfString(curLine, curLoc.two, curLoc.one);
-                    }
-                }
-
-         }// end of while, either at end of line or found matching brace
-         curLoc.one ++;
-         curLoc.two = 0;
-       } // end of while, either found beginning or at end of file
-
-           throw new ParseAlgorithmException(errorMsg) ;
-
-
-   }
-   /*********************** Helpful Methods for Parsing StringVectors ************/
+   
    
    /***********************************************************************
     * Below are a bunch of methods called Next...  that are implemented    *

@@ -104,42 +104,7 @@ public class TLAtoPCalMapping implements Serializable {
       return ;
   }
 
-	/**
-	 * Calls {@link TLAtoPCalMapping#ApplyMapping(TLAtoPCalMapping, Region)} to
-	 * find the PCal {@link Region}, using the {@link Region} tlaRegion obtained
-	 * by adjusting the line numbers of the selected region by
-	 * currentAlgorithmLine.
-	 * 
-	 * @param tlaRegion
-	 *            The TLA {@link Region} for which the PCal {@link Region} is to
-	 *            be returned
-	 * @param currentAlgorithmLine
-	 *            The current line of the "--algorithm" or "--fair" keyword in
-	 *            the module (in Java coordinates)
-	 * @return The {@link Region} of the PCal counterpart
-	 * @see TLAtoPCalMapping#ApplyMapping(TLAtoPCalMapping, Region)
-	 */
-	public Region mapTLAtoPCalRegion(final Region tlaRegion, int currentAlgorithmLine) {
-		final int delta = currentAlgorithmLine - algLine;
-
-		// a) Adjust TLA region with the current line of the algorithm. This is
-		// necessary because the mapping bases its calculation on the original
-		// line of the algorithm which has moved by now.
-		tlaRegion.getBegin().adjustLineBy(tlaStartLine + delta);
-		tlaRegion.getEnd().adjustLineBy(tlaStartLine + delta);
-		
-		// b) Actually map TLA to PCal based on the translation
-		final Region pcalRegion = ApplyMapping(this, tlaRegion);
-		
-		// c) Translate the pcalRegion back to the current algorithm location to reverse
-		// step a) if not null (null means there is no valid mapping)
-		if (pcalRegion != null) {
-			pcalRegion.getBegin().adjustLineBy(delta);
-			pcalRegion.getEnd().adjustLineBy(delta);
-		}
-		
-		return pcalRegion;
-	}
+	
   
 	  /* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -207,30 +172,7 @@ public class TLAtoPCalMapping implements Serializable {
 
 	}
 	
-    /**
-     * Returns the line number (zero based) of the line containing the first
-     * "--algorithm" or "--fair algorithm" token(s) that begin(s) a PlusCal algorithm. 
-     * Returns -1 if there is none.
-     */
-	public static int GetLineOfPCalAlgorithm(String moduleAsString) {
-		final int algorithmStringLocation = moduleAsString.indexOf(PcalParams.BeginAlg);
-		final int fairStringLocation = moduleAsString.indexOf(PcalParams.BeginFairAlg);
-		if (fairStringLocation == -1
-				|| ((algorithmStringLocation != -1) && (algorithmStringLocation < fairStringLocation))) {
-			return algorithmStringLocation;
-		}
-		int i = fairStringLocation + PcalParams.BeginFairAlg.length();
-		while (Character.isWhitespace(moduleAsString.charAt(i))) {
-			i++;
-		}
-		if ((i != fairStringLocation + PcalParams.BeginFairAlg.length())
-				&& (moduleAsString.startsWith(PcalParams.BeginFairAlg2, i))
-				&& !Character.isLetterOrDigit(moduleAsString.charAt(i + PcalParams.BeginFairAlg2.length()))) {
-			return fairStringLocation;
-		} else {
-			return algorithmStringLocation;
-		}
-	}
+    
 
 /**
    * Returns the PCal code location to which `mapping' maps the tpregion Region in the

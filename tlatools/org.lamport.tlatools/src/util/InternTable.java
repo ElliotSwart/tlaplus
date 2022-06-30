@@ -199,17 +199,7 @@ public final class InternTable implements Serializable
 		this.internSource = source;
 	}
 
-	public UniqueString find(final String str) {
-        for (int i = 0; i < this.table.length; i++)
-        {
-            UniqueString var = this.table[i];
-            if (var != null && str.equals(var.toString()))
-            {
-                return var;
-            }
-        }
-        return null;
-	}
+	
 
 	public final Map<String, UniqueString> toMap() {
 		final Map<String, UniqueString> map = new HashMap<String, UniqueString>();

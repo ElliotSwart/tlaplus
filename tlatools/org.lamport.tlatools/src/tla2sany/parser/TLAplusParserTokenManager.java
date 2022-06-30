@@ -4321,11 +4321,7 @@ private final void ReInitRounds()
    for (i = 227; i-- > 0;)
       jjrounds[i] = 0x80000000;
 }
-public void ReInit(SimpleCharStream stream, int lexState)
-{
-   ReInit(stream);
-   SwitchTo(lexState);
-}
+
 public void SwitchTo(int lexState)
 {
    if (lexState >= 6 || lexState < 0)

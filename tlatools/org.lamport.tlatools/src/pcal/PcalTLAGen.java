@@ -3556,33 +3556,7 @@ public class PcalTLAGen
         expr.normalize();
         return expr ;
     }
-    /***********************************************************************
-    * Comment added by LL: MakeExprPretty should never be called on an     *
-    * expression any part of which was an expression in the input.         *
-    * Fortunately, it is now called only for the expression "[self]", so   *
-    * it is effectively a no-op.                                           *
-    * Comment added 15 Dec 2011: In fact, it's not called at all.          *
-    ***********************************************************************/
-    public static void ObsoleteMakeExprPretty(TLAExpr expr)
-    {
-        /*********************************************************************
-         * Sets columns so this expr looks nice and tight.                   *
-         *********************************************************************/
-        Vector<TLAToken> line; /* Vector of TLAToken */
-        boolean spread;
-        int nextCol = 1;
-        for (int i = 0; i < expr.tokens.size(); i++)
-        {
-            line = expr.tokens.elementAt(i);
-            for (int j = 0; j < line.size(); j++)
-            {
-                TLAToken tok = ((TLAToken) line.elementAt(j));
-                spread = tok.string.equals("=");
-                tok.column = nextCol + ((spread) ? 1 : 0);
-                nextCol = nextCol + tok.getWidth() + ((spread) ? 2 : 0);
-            }
-        }
-    }
+    
 
     /***********************************************************/
     /* v is a sequence of SingleAssign. Return a vector of the */

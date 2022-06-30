@@ -6,7 +6,7 @@ Stack extends tla2sany.utilities.Vector<Object> {
 
   public Stack() { super(); }
 
-  public Stack( int size ) { super( size ); }
+  
 
   public final boolean empty() {
     return size==0;

@@ -399,19 +399,7 @@ public class InstanceNode extends LevelNode {
       return res;
    }
 
-  public final void walkGaph(Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
-    if (semNodesTable.get(uid) != null) return;
-
-    semNodesTable.put(myUID, this);
-    visitor.preVisit(this);
-
-    for (int i = 0; i < params.length; i++) {
-      params[i].walkGraph(semNodesTable, visitor);
-    }
-    module.walkGraph(semNodesTable, visitor);
-    visitor.postVisit(this);
-  }
+  
 
   public final String toString(int depth) {
     if (depth <= 0) return "";

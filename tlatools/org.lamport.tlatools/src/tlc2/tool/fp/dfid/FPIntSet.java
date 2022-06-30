@@ -111,7 +111,7 @@ public abstract class FPIntSet
 
   public void close() { /*SKIP*/ }
 
-  public void addThread() throws IOException { /*SKIP*/ }
+  
   
   public abstract void exit(boolean cleanup) throws IOException;
 
