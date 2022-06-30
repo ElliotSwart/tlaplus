@@ -1144,7 +1144,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
 
     final Vector<String> contextEntries = ctxt.getContextEntryStringVector(depth-1, b);
     for (int i = 0; i < contextEntries.size(); i++) {
-      System.out.print(Strings.indent(2+indent, (String)contextEntries.elementAt(i)) );
+      System.out.print(Strings.indent(2+indent, contextEntries.elementAt(i)) );
     }
   }
 
@@ -1165,7 +1165,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     if (contextEntries != null) {
       for (int i = 0; i < contextEntries.size(); i++) {
         if (contextEntries.elementAt(i) != null) {
-          ret += Strings.indent(2, (String)contextEntries.elementAt(i));
+          ret += Strings.indent(2, contextEntries.elementAt(i));
         }
         else {
           ret += "*** null ***";

@@ -6966,7 +6966,7 @@ final SyntaxTreeNode tn;
                       ParseException(tn0.getLocation().toString() +
                            ": Step number used outside proof.");}
                     }
-          if (t.image.substring(1,2).equals("+")) {
+          if (t.image.charAt(1) == '+') {
                     {if (true) throw new ParseException(tn0.getLocation().toString() +
                            ": <+> step number used in an expression.");}
                     }

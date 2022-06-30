@@ -280,8 +280,7 @@ public class Explorer {
 
 			} else {
 				// unknown command
-				System.out.println("Unknown command: " + firstToken.toString());
-				return;
+				System.out.println("Unknown command: " + firstToken);
 			}
 
 		} // end else

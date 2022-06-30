@@ -193,7 +193,7 @@ public final class SetOfStates {
 				buf.append(tlcState.fingerPrint());
 				buf.append(",");
 				final String toStr = tlcState.toString();
-				buf.append(toStr.substring(0, toStr.length() - 1)); // chop off "\n"
+				buf.append(toStr, 0, toStr.length() - 1); // chop off "\n"
 				buf.append(">>,\n");
 			}
 		}

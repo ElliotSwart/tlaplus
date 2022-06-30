@@ -229,7 +229,7 @@ public class WriteTLAFile
       StringBuilder start = new StringBuilder();
       int nextDel = rest.indexOf("`^") ;
       while ( nextDel != -1 )
-       { start.append(rest.substring(0, nextDel));
+       { start.append(rest, 0, nextDel);
          rest = rest.substring(nextDel) ;
          final int nextEnd = rest.indexOf("^'") ;
          if (nextEnd == -1)

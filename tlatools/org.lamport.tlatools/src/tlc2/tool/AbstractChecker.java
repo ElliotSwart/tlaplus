@@ -511,7 +511,7 @@ public abstract class AbstractChecker
 	}
 
 	public final List<IValue> getAllValue(final int idx) {
-		return Arrays.asList(workers).stream().map(w -> w.getLocalValue(idx)).collect(Collectors.toList());
+		return Arrays.stream(workers).map(w -> w.getLocalValue(idx)).collect(Collectors.toList());
 	}
 
 	public final IValue getValue(final int i, final int idx) {

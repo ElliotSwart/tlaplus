@@ -491,9 +491,9 @@ public class PcalSymTab {
 // detected.
         if (ast.prcds.size() > 0) InsertSym(GLOBAL, "stack", "", "", 0, 0);
         for (int i = 0; i < ast.decls.size(); i++)
-            ExtractVarDecl((AST.VarDecl) ast.decls.elementAt(i), "");
+            ExtractVarDecl(ast.decls.elementAt(i), "");
         for (int i = 0; i < ast.prcds.size(); i++)
-            ExtractProcedure((AST.Procedure) ast.prcds.elementAt(i), "");
+            ExtractProcedure(ast.prcds.elementAt(i), "");
         if (ast.body.size() > 0) {
             final AST.LabeledStmt ls = (AST.LabeledStmt) ast.body.elementAt(0);
             iPC = ls.label;
@@ -509,11 +509,11 @@ public class PcalSymTab {
 // detected.
         if (ast.prcds.size() > 0) InsertSym(GLOBAL, "stack", "", "", 0, 0);
         for (int i = 0; i < ast.decls.size(); i++)
-            ExtractVarDecl((AST.VarDecl) ast.decls.elementAt(i), "");
+            ExtractVarDecl(ast.decls.elementAt(i), "");
         for (int  i = 0; i < ast.prcds.size(); i++)
-            ExtractProcedure((AST.Procedure) ast.prcds.elementAt(i), "");
+            ExtractProcedure(ast.prcds.elementAt(i), "");
         for (int i = 0; i < ast.procs.size(); i++)
-            ExtractProcess((AST.Process) ast.procs.elementAt(i), "");
+            ExtractProcess(ast.procs.elementAt(i), "");
     }
 
     private void ExtractProcedure (final AST.Procedure ast, final String context) {
@@ -528,9 +528,9 @@ public class PcalSymTab {
                       ast.line,
                       ast.col);
         for (int i = 0; i < ast.decls.size(); i++)
-            ExtractPVarDecl((AST.PVarDecl) ast.decls.elementAt(i), ast.name);
+            ExtractPVarDecl(ast.decls.elementAt(i), ast.name);
         for (int i = 0; i < ast.params.size(); i++)
-            ExtractParamDecl((AST.PVarDecl) ast.params.elementAt(i), ast.name);
+            ExtractParamDecl(ast.params.elementAt(i), ast.name);
         for (int i = 0; i < ast.body.size(); i++)
             ExtractLabeledStmt((AST.LabeledStmt) ast.body.elementAt(i),
                                ast.name,
@@ -544,7 +544,7 @@ public class PcalSymTab {
             		" redefined at line " + ast.line + ", column " + ast.col;
         b = InsertSym(PROCESS, ast.name, context, "process", ast.line, ast.col);
         for (int i = 0; i < ast.decls.size(); i++)
-            ExtractVarDecl((AST.VarDecl) ast.decls.elementAt(i), ast.name);
+            ExtractVarDecl(ast.decls.elementAt(i), ast.name);
         for (int i = 0; i < ast.body.size(); i++)
             ExtractLabeledStmt((AST.LabeledStmt) ast.body.elementAt(i),
                                ast.name,
@@ -587,12 +587,12 @@ public class PcalSymTab {
             errorReport = errorReport + "\nLabel " + ast.label +
                 " redefined at line " + ast.line + ", column " + ast.col;
         for (int i = 0; i < ast.stmts.size(); i++)
-            ExtractStmt((AST) ast.stmts.elementAt(i), context, cType);
+            ExtractStmt(ast.stmts.elementAt(i), context, cType);
     }
 
     private void ExtractWhile(final AST.While ast, final String context, final String cType) {
         for (int i = 0; i < ast.unlabDo.size(); i++)
-            ExtractStmt((AST) ast.unlabDo.elementAt(i), context, cType);
+            ExtractStmt(ast.unlabDo.elementAt(i), context, cType);
         for (int  i = 0; i < ast.labDo.size(); i++)
             ExtractLabeledStmt((AST.LabeledStmt) ast.labDo.elementAt(i),
                                context,
@@ -604,14 +604,14 @@ public class PcalSymTab {
 
     private void ExtractIf(final AST.If ast, final String context, final String cType) {
         for (int i = 0; i < ast.Then.size(); i++)
-            ExtractStmt((AST) ast.Then.elementAt(i), context, cType);
+            ExtractStmt(ast.Then.elementAt(i), context, cType);
         for (int i = 0; i < ast.Else.size(); i++)
-            ExtractStmt((AST) ast.Else.elementAt(i), context, cType);
+            ExtractStmt(ast.Else.elementAt(i), context, cType);
     }
 
     private void ExtractWith(final AST.With ast, final String context, final String cType) {
         for (int i = 0; i < ast.Do.size(); i++)
-            ExtractStmt((AST) ast.Do.elementAt(i), context, cType);
+            ExtractStmt(ast.Do.elementAt(i), context, cType);
     }
 
     private void ExtractWhen(final AST.When ast, final String context, final String cType) {
@@ -628,13 +628,13 @@ public class PcalSymTab {
 
     private void ExtractLabelIf(final AST.LabelIf ast, final String context, final String cType) {
         for (int i = 0; i < ast.unlabThen.size(); i++) 
-            ExtractStmt((AST) ast.unlabThen.elementAt(i), context, cType);
+            ExtractStmt(ast.unlabThen.elementAt(i), context, cType);
         for (int i = 0; i < ast.labThen.size(); i++)
             ExtractLabeledStmt((AST.LabeledStmt) ast.labThen.elementAt(i),
                                context,
                                cType);
         for (int i = 0;  i < ast.unlabElse.size(); i++)
-            ExtractStmt((AST) ast.unlabElse.elementAt(i), context, cType);
+            ExtractStmt(ast.unlabElse.elementAt(i), context, cType);
         for (int i = 0; i < ast.labElse.size(); i++)
             ExtractLabeledStmt((AST.LabeledStmt) ast.labElse.elementAt(i),
                                context,
@@ -667,16 +667,16 @@ public class PcalSymTab {
         for (int i = 0; i < ast.ors.size(); i++)
               { @SuppressWarnings("unchecked") final Vector<AST> orClause = (Vector<AST>) ast.ors.elementAt(i) ;
                 for (int j = 0; j < orClause.size(); j++)
-                  ExtractStmt((AST) orClause.elementAt(j), context, cType);
+                  ExtractStmt(orClause.elementAt(j), context, cType);
                }
     }
 
     private void ExtractLabelEither(final AST.LabelEither ast, final String context,
                                     final String cType) {
         for (int i = 0; i < ast.clauses.size(); i++)
-              { final AST.Clause orClause = (AST.Clause) ast.clauses.elementAt(i) ;
+              { final AST.Clause orClause = ast.clauses.elementAt(i);
                 for (int j = 0; j < orClause.unlabOr.size(); j++)
-                  ExtractStmt((AST) orClause.unlabOr.elementAt(j), 
+                  ExtractStmt(orClause.unlabOr.elementAt(j),
                                  context, cType);
                  for (int j = 0; j < orClause.labOr.size(); j++)
                    ExtractLabeledStmt((AST.LabeledStmt) 
@@ -702,7 +702,6 @@ public class PcalSymTab {
        }
        if (! errors.equals(""))
        { throw new PcalSymTabException(errors) ; }
-       return ;
-    }
+   }
 
 }

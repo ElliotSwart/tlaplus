@@ -86,8 +86,7 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 					// for all bucket positions and non-null values
 					int k = 0;
 					for (; k < blen && bucket[k] > 0; k++) {
-						continue;
-					}
+                    }
 					// * Postconditions:
 					// * - Zero/0 Element(s) remains at the end
 					// * - Negative elements maintain their position (remain untouched) 

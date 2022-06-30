@@ -104,14 +104,14 @@ public abstract class SymbolNode extends LevelNode {
               if (thisSrc != ((OpDefNode) otherNode).getSource()) {
                   return false;
               }
-              thisModule  = ((OpDefNode) thisSrc).getOriginallyDefinedInModuleNode();
+              thisModule  = thisSrc.getOriginallyDefinedInModuleNode();
           }
           else if (this instanceof ThmOrAssumpDefNode) {
               final ThmOrAssumpDefNode thisSrc = ((ThmOrAssumpDefNode) this).getSource() ;
               if (thisSrc != ((ThmOrAssumpDefNode) otherNode).getSource()) {
                   return false;
               }
-              thisModule  = ((ThmOrAssumpDefNode) thisSrc).getOriginallyDefinedInModuleNode();
+              thisModule  = thisSrc.getOriginallyDefinedInModuleNode();
           }
           else {
               return false;

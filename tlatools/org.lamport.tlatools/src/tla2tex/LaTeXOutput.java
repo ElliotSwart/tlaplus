@@ -507,8 +507,7 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
     { String inputLine = bufferedReader.readLine();
 
       while (inputLine != null)
-       { if (   (inputLine.length() > 2)
-             && (inputLine.startsWith("\\%{")))
+       { if ((inputLine.startsWith("\\%{")))
           { int start = 3 ;
             int after = inputLine.indexOf("}",start) ;
             final int line  = Integer.parseInt(inputLine.substring(start, after));

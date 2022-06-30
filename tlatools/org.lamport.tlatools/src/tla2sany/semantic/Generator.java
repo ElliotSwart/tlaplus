@@ -2796,7 +2796,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			 *********************************************************************/
 			final SyntaxTreeNode sTreeNode = (SyntaxTreeNode) treeNode;
 			if ((sTreeNode.heirs()[1].getKind() == IDENTIFIER) && (sTreeNode.heirs()[1].getUS() == AtUS)
-					&& (((SyntaxTreeNode) sTreeNode.heirs()[0]).heirs().length == 0)) {
+					&& (sTreeNode.heirs()[0].heirs().length == 0)) {
 				if (excStack.empty() || excSpecStack.empty()) {
 					// if either stack is empty, then @ used in improper EXCEPT context
 					errors.addError(sTreeNode.getLocation(), "@ used where its meaning is not defined.");
@@ -4463,7 +4463,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		// or if it does not correspond to a declaration, then it is an
 		// illegal substitution target
 
-		if (targetSymbol == null || !(targetSymbol instanceof OpDeclNode)) {
+		if (!(targetSymbol instanceof OpDeclNode)) {
 			errors.addError(substTarget.getLocation(), "Identifier '" + substTarget.getUS() + "' is not a legal"
 					+ " target of a substitution. \nA legal target must be a declared"
 					+ " CONSTANT or VARIABLE in the module being instantiated."
@@ -5068,7 +5068,6 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			cm.appendDef(tadn);
 		}
         cm.addAssumption(stn, expr, symbolTable, tadn);
-		return;
 	} // processAssumption
 
 	private final ProofNode generateProof(final TreeNode stn, final ModuleNode cm)
@@ -5422,7 +5421,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 							 * out-of-bounds array index exception. Note * that curLHS.heirs() should never
 							 * be null, * because the heirs() method can never return * null. *
 							 ***************************************************/
-									&& (((SyntaxTreeNode) curLHS.heirs()[0]).heirs().length == 0)
+									&& (curLHS.heirs()[0].heirs().length == 0)
 									&& (curLHS.heirs()).length > 1
 									/***************************************************
 									 * This test added 2 Mar 2009 to fix following * bug. When we are here and the

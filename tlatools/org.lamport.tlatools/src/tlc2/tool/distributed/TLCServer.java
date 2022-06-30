@@ -683,16 +683,15 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
     public static final void printSummary(final int level, final long statesGenerated, final long statesLeftInQueue, final long distinctStates, final boolean success) throws IOException
     {
 		if (TLCGlobals.tool) {
-            MP.printMessage(EC.TLC_PROGRESS_STATS, new String[] {
-                    String.valueOf(level),
+            MP.printMessage(EC.TLC_PROGRESS_STATS, String.valueOf(level),
                     MP.format(statesGenerated),
                     MP.format(distinctStates),
                     MP.format(statesLeftInQueue),
-                    "0", "0" });
+                    "0", "0");
         }
 
-        MP.printMessage(EC.TLC_STATS, new String[] { String.valueOf(statesGenerated),
-                String.valueOf(distinctStates), String.valueOf(statesLeftInQueue) });
+        MP.printMessage(EC.TLC_STATS, String.valueOf(statesGenerated),
+                String.valueOf(distinctStates), String.valueOf(statesLeftInQueue));
         if (success) {
             MP.printMessage(EC.TLC_SEARCH_DEPTH, String.valueOf(level));
         }

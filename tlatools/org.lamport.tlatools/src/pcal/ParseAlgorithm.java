@@ -2544,7 +2544,7 @@ public class ParseAlgorithm
              { if (i == stmtseq.size() - 1)
                  { return result ;}
                else
-                  { node = (AST) stmtseq.elementAt(i+1) ;
+                  { node = stmtseq.elementAt(i+1);
                     PcalDebug.ReportBug(
                       "Translator discovered later than it should have " +
                        " that\n  " +
@@ -2614,7 +2614,7 @@ public class ParseAlgorithm
        int theClass = 0 ;
        int i = 0 ;
        while (i < node.clauses.size())
-         { final AST.Clause currClause = (AST.Clause) node.clauses.elementAt(i) ;
+         { final AST.Clause currClause = node.clauses.elementAt(i);
            final int unlabClass = ClassifyStmtSeq(currClause.unlabOr) ;
            if (unlabClass > theClass)
              { theClass = unlabClass ; }
@@ -2666,7 +2666,7 @@ public class ParseAlgorithm
      **********************************************************************/
      { int i = 0 ;
        while (i < stmtseq.size())
-         { final AST node = (AST) stmtseq.elementAt(i) ;
+         { final AST node = stmtseq.elementAt(i);
              if (node.getClass().equals(
                            AST.LabelIfObj.getClass()))
                { ExpandMacrosInStmtSeq(((AST.LabelIf) node).unlabThen, 
@@ -2680,7 +2680,7 @@ public class ParseAlgorithm
                  int j = 0 ;
                  while (j < eNode.clauses.size())
                    { ExpandMacrosInStmtSeq(
-                       ((AST.Clause) eNode.clauses.elementAt(j)).unlabOr, 
+                       eNode.clauses.elementAt(j).unlabOr,
                        macros);
                      j = j + 1;
                    }
@@ -2708,8 +2708,7 @@ public class ParseAlgorithm
                }
            i = i + 1 ;
          }
-         return ;
-     }     
+     }
 
    public static Vector<AST> ExpandMacroCall(final AST.MacroCall call, final Vector<Macro> macros) throws ParseAlgorithmException
      { // Set macroDef to the Macro object
@@ -2754,13 +2753,13 @@ public class ParseAlgorithm
        * of macros calling macros.
        */
       if (result.size() > 0) 
-        { final AST first = (AST) result.elementAt(0) ;
+        { final AST first = result.elementAt(0);
           first.lbl = call.lbl ;
           first.lblLocation = call.lblLocation ;
           final Region callOrigin = call.getOrigin();
           if (callOrigin != null) {
               first.macroOriginBegin = callOrigin.getBegin();
-              final AST last = (AST) result.elementAt(result.size() - 1) ;
+              final AST last = result.elementAt(result.size() - 1);
               last.macroOriginEnd = callOrigin.getEnd();
           }
         }
@@ -2821,7 +2820,7 @@ public class ParseAlgorithm
       { final Vector<AST> result = new Vector<AST>() ;
         int i = 0 ;
         while (i < stmts.size())
-          {  result.addElement( SubstituteInStmt( (AST) stmts.elementAt(i),
+          {  result.addElement( SubstituteInStmt(stmts.elementAt(i),
                                 args,
                                 params,
                                 macroLine,
@@ -2870,7 +2869,7 @@ public class ParseAlgorithm
             while (i < tstmt.ass.size())
               { result.ass.addElement(
                   SubstituteInSingleAssign(
-                    (AST.SingleAssign) tstmt.ass.elementAt(i),
+                          tstmt.ass.elementAt(i),
                     args, params, macroLine, macroCol) ) ;
                 i = i + 1 ;
               }
@@ -3103,7 +3102,7 @@ public class ParseAlgorithm
             int i = 0 ;
             while (i < tstmt.clauses.size())
              { final AST.Clause oldClause =
-                    (AST.Clause) tstmt.clauses.elementAt(i);
+                     tstmt.clauses.elementAt(i);
                final AST.Clause newClause = new AST.Clause() ;
                newClause.setOrigin(oldClause.getOrigin()) ;
                newClause.labOr = SubstituteInLabeledStmtSeq(
@@ -3279,7 +3278,7 @@ public class ParseAlgorithm
         boolean found = false ;
         while (   (i < params.size())
                && ! found )
-          { if (result.lhs.var.equals((String) params.elementAt(i)))
+          { if (result.lhs.var.equals(params.elementAt(i)))
               { found = true ;}
             else {i = i + 1 ;}
           }
@@ -3306,7 +3305,7 @@ public class ParseAlgorithm
                 * the assignment variable) removed.                        *
                 ***********************************************************/
                 final TLAExpr exprCopy = subForVar.cloneAndNormalize() ;
-                final Vector<?> firstLine = (Vector<?>) exprCopy.tokens.elementAt(0) ;
+                final Vector<?> firstLine = exprCopy.tokens.elementAt(0);
                 firstLine.removeElementAt(0) ;
                 exprCopy.normalize() ; 
                   /*********************************************************
@@ -3362,7 +3361,6 @@ public class ParseAlgorithm
      { final String nxt = PeekAtAlgToken(1) ;
        if (nxt.equals(",")) { GobbleThis(",") ;}
        else {GobbleThis(";");}
-         return ;
      }
           
    public static void GobbleBeginOrLeftBrace() throws ParseAlgorithmException
@@ -3375,7 +3373,6 @@ public class ParseAlgorithm
        else if (cSyntax)
          { GobbleThis("{") ;}
        else {PcalDebug.ReportBug("Syntax not initialized.") ;}
-         return ;
      }
 
    public static void GobbleEndOrRightBrace(final String str) throws ParseAlgorithmException
@@ -3390,7 +3387,6 @@ public class ParseAlgorithm
          { GobbleThis("}") ;}
        else
          { PcalDebug.ReportBug("Bad call of GobbleEndRightBrace") ; }
-         return ;
      }
 
    public static void GobbleThis(final String str) throws ParseAlgorithmException
@@ -3713,10 +3709,9 @@ public class ParseAlgorithm
        boolean notDone = true ;
        int commentDepth = 0 ;
        StringBuffer newLine = 
-           new StringBuffer(((String) 
-                               inp.elementAt(line)).substring(0, col)) ;
+           new StringBuffer(inp.elementAt(line).substring(0, col)) ;
        while(notDone && line < inp.size())
-         { final String oldLine = (String) inp.elementAt(line) ;
+         { final String oldLine = inp.elementAt(line);
            boolean inString = false ;
            while (notDone && col < oldLine.length())
              { final char inChar = oldLine.charAt(col) ;
@@ -3795,7 +3790,6 @@ public class ParseAlgorithm
            col  = 0 ;
            line = line + 1 ;
          }
-       return;
      }
    
    /**************** CODE ADDED FOR HANDLING A .pcal FILE **********************/
@@ -3946,7 +3940,7 @@ public class ParseAlgorithm
             final String[] argsArray = new String[argsVec.size()];
             for (int i = 0; i < argsArray.length; i++)
             {
-                argsArray[i] = (String) argsVec.elementAt(i);
+                argsArray[i] = argsVec.elementAt(i);
             }
 // printArray(argsArray);           
             final int status = trans.parseAndProcessArguments(argsArray);
@@ -4022,8 +4016,6 @@ public class ParseAlgorithm
        if (!found) {
            throw new ParseAlgorithmException(errorMsg) ;
          }
-
-       return ;
 
    }
    
@@ -4310,7 +4302,6 @@ public class ParseAlgorithm
           throw new ParseAlgorithmException("Unterminated comment begun at line " 
                   + "\n    line " + (curLoc.one+1) + ", column " + (curLoc.two+1)  ) ;
       }
-      return;
    }
    
    // Copied from StringHelper

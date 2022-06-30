@@ -1174,7 +1174,7 @@ public class ModelChecker extends AbstractChecker
 						if (!tool.isValid(tool.getInvariants()[j], curState)) {
 							// We get here because of invariant violation:
 							MP.printError(EC.TLC_INVARIANT_VIOLATED_INITIAL,
-									new String[] { tool.getInvNames()[j].toString(), curState.toString() });
+									new String[] {tool.getInvNames()[j], curState.toString() });
 							if (!TLCGlobals.continuation) {
 								this.errState = curState;
 								returnValue = EC.TLC_INVARIANT_VIOLATED_INITIAL;

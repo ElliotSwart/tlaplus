@@ -507,8 +507,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 			final List<MCState> input, final String id, final String configId) {
 		// Filter stuttering or back2state instances from trace.
 		final List<MCState> trace = input.stream()
-				.filter(state -> !state.isBackToState() && !state.isStuttering())
-				.collect(Collectors.toList());
+				.filter(state -> !state.isBackToState() && !state.isStuttering()).toList();
 		
 		if (trace.isEmpty()) {
 			return addArrowAssignmentIdToBuffers(tlaBuffer, cfgBuffer,
@@ -893,17 +892,16 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	    
 		tlaBuffer.append(TLAConstants.CR).append(id).append(TLAConstants.DEFINES_CR);
 
-		final StringBuilder localBuffer = new StringBuilder();
-	    localBuffer.append(TLAConstants.TLA_NOT).append(TLAConstants.L_PAREN).append(TLAConstants.L_PAREN);
-	    localBuffer.append(TLAConstants.TLA_INF_OFTEN).append(TLAConstants.L_PAREN).append(TLAConstants.CR);
-	    localBuffer.append(getStateConjunction(finalState)).append(TLAConstants.CR).append(TLAConstants.R_PAREN);
-	    localBuffer.append(TLAConstants.R_PAREN).append(TLAConstants.TLA_AND).append(TLAConstants.L_PAREN);
-	    localBuffer.append(TLAConstants.TLA_INF_OFTEN).append(TLAConstants.L_PAREN).append(TLAConstants.CR);
-	    localBuffer.append(getStateConjunction(backToState)).append(TLAConstants.CR).append(TLAConstants.R_PAREN);
-	    localBuffer.append(TLAConstants.R_PAREN).append(TLAConstants.R_PAREN);
+		String localBuffer = TLAConstants.TLA_NOT + TLAConstants.L_PAREN + TLAConstants.L_PAREN +
+				TLAConstants.TLA_INF_OFTEN + TLAConstants.L_PAREN + TLAConstants.CR +
+				getStateConjunction(finalState) + TLAConstants.CR + TLAConstants.R_PAREN +
+				TLAConstants.R_PAREN + TLAConstants.TLA_AND + TLAConstants.L_PAREN +
+				TLAConstants.TLA_INF_OFTEN + TLAConstants.L_PAREN + TLAConstants.CR +
+				getStateConjunction(backToState) + TLAConstants.CR + TLAConstants.R_PAREN +
+				TLAConstants.R_PAREN + TLAConstants.R_PAREN;
 
 		// Writes local buffer back to tla buffer with some iation.
-		tlaBuffer.append(indentString(localBuffer.toString(), 1));
+		tlaBuffer.append(indentString(localBuffer, 1));
 	}
 
 	/**

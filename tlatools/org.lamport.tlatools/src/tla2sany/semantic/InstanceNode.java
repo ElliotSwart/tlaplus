@@ -204,7 +204,7 @@ public class InstanceNode extends LevelNode {
         /*******************************************************************
         * mexp was level-checked above.                                    *
         *******************************************************************/
-      final Integer plevel = (Integer)lcSet.get(mparam);
+      final Integer plevel = lcSet.get(mparam);
       if (plevel != null &&
           mexp.getLevel() > plevel.intValue()) {
         if (mexp.levelCheck(itr)) {
@@ -220,7 +220,7 @@ public class InstanceNode extends LevelNode {
       if (alen > 0 && ((OpArgNode) mexp).getOp() instanceof final OpDefNode opDef) {
           for (int j = 0; j < alen; j++) {
           final ParamAndPosition pap = new ParamAndPosition(mparam, j);
-          final Integer alevel = (Integer)alcSet.get(pap);
+          final Integer alevel = alcSet.get(pap);
           final boolean opDefLevelCheck = opDef.levelCheck(itr) ;
             /***************************************************************
             * Need to call opDef.levelCheck before calling                 *

@@ -240,7 +240,6 @@ public class DFIDWorker extends IdThread implements IWorker {
 	this.tlc.setDone();
 	this.tlc.notifyAll();
       }
-      return;
     }
   }
 

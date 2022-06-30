@@ -107,9 +107,9 @@ public class PcalDebug
         sb.append("Send the following information and the\ninput file to the current maintainer(s).\n\n -- ");
         sb.append(msg).append(".");
     	
-        ToolIO.out.println("");
+        ToolIO.out.println();
         ToolIO.out.println(sb.toString());
-        ToolIO.out.println("");
+        ToolIO.out.println();
         
         throw new Error(sb.toString());
     }

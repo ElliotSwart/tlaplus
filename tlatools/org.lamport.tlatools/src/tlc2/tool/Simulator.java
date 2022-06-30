@@ -541,8 +541,8 @@ public class Simulator {
 					String.valueOf(numOfGenTraces.longValue()));
 		}
 
-		MP.printMessage(EC.TLC_STATS_SIMU, new String[] { String.valueOf(numOfGenStates.longValue()),
-				String.valueOf(this.seed), String.valueOf(this.aril) });
+		MP.printMessage(EC.TLC_STATS_SIMU, String.valueOf(numOfGenStates.longValue()),
+				String.valueOf(this.seed), String.valueOf(this.aril));
 	}
 
 	/**
@@ -634,7 +634,7 @@ public class Simulator {
 		for (final Entry<String, Set<Integer>> cluster : clusters.entrySet()) {
 			// key is a unique set of chars accepted/valid as a graphviz cluster id.
 			final String key = Integer.toString(Math.abs(cluster.getKey().hashCode()));
-			dotActionWriter.writeSubGraphStart(key, cluster.getKey().toString());
+			dotActionWriter.writeSubGraphStart(key, cluster.getKey());
 			
 			final Set<Integer> ids = cluster.getValue();
 			for (final Integer id : ids) {

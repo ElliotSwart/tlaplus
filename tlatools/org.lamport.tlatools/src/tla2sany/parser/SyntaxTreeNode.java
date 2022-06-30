@@ -589,7 +589,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
 
     for (int i=0; i<heirs.length; i++) {
       if (heirs[i] != null)
-        ((SyntaxTreeNode)heirs[i]).printST(indentLevel+1);  
+        heirs[i].printST(indentLevel+1);
                 // Indent 1 more level
       else {
         for (int j = 0; j <= indentLevel; j++) {

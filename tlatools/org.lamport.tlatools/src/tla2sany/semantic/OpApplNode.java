@@ -713,8 +713,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
         // See comments in AnyDefNode.java.  (It is only in the
         // most bizarre cases that opdi.getOp() would be a
         // ThmOrAssumpDefNode.
-        if (opdi != null &&
-            opdi instanceof OpArgNode &&
+        if (opdi instanceof OpArgNode &&
                 ((OpArgNode) opdi).getOp() instanceof final AnyDefNode argDef) {
             argDef.levelCheck(itr) ;
             /***************************************************************
@@ -761,8 +760,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
         // See comments in AnyDefNode.java.  (It is only in the
         // most bizarre cases that arg.getOp() would be a
         // ThmOrAssumpDefNode.
-        if (arg != null &&
-            arg instanceof OpArgNode &&
+        if (arg instanceof OpArgNode &&
                 ((OpArgNode) arg).getOp() instanceof final AnyDefNode argDef) {
             argDef.levelCheck(itr) ;
             /***************************************************************
@@ -789,9 +787,8 @@ public class OpApplNode extends ExprNode implements ExploreNode {
       }
       for (int i = 0; i < this.operands.length; i++) {
         final ExprOrOpArgNode opdi = this.operands[i];
-        if (opdi != null &&
-            opdi instanceof OpArgNode &&
-            ((OpArgNode)opdi).getOp().isParam()) {
+        if (opdi instanceof OpArgNode &&
+                ((OpArgNode) opdi).getOp().isParam()) {
           final SymbolNode opArg = ((OpArgNode)opdi).getOp();
           final int alen = opArg.getArity();
           for (int j = 0; j < alen; j++) {
@@ -889,9 +886,8 @@ public class OpApplNode extends ExprNode implements ExploreNode {
       *********************************************************************/
       for (int i = 0; i < this.operands.length; i++) {
         final ExprOrOpArgNode opdi = this.operands[i];
-        if (opdi != null &&
-            opdi instanceof OpArgNode &&
-            ((OpArgNode)opdi).getOp().isParam()) {
+        if (opdi instanceof OpArgNode &&
+                ((OpArgNode) opdi).getOp().isParam()) {
           final SymbolNode opArg = ((OpArgNode)opdi).getOp();
           final int alen = opArg.getArity();
           for (int j = 0; j < this.operands.length; j++) {
@@ -1269,7 +1265,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
 
     @Override
 	public String toString(final IValue aValue) {
-		if (aValue instanceof ITupleValue && allParams.size() == ((ITupleValue) aValue).size()) {
+		if (aValue instanceof ITupleValue && allParams.size() == aValue.size()) {
 			final StringBuffer result = new StringBuffer();
 			
 			// The values in aValue are ordered by the varloc of the variable names (see

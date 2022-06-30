@@ -361,7 +361,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                                     }
                                     tt = getNextToken(tmgr, buf);
                                     line.addElement(this.parseValue(tt, scs, tmgr, buf));
-                                    Vect<Vect<Comparable<?>>> mConsts = (Vect<Vect<Comparable<?>>>) this.modConstants.get(modName);
+                                    Vect<Vect<Comparable<?>>> mConsts = this.modConstants.get(modName);
                                     if (mConsts == null) {
                                         mConsts = new Vect<>();
                                         this.modConstants.put(modName, mConsts);

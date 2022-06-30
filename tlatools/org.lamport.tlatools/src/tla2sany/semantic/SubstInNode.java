@@ -523,7 +523,6 @@ public class SubstInNode extends ExprNode {
     }
     if (this.body != null) this.body.walkGraph(semNodesTable, visitor);
     visitor.postVisit(this);
-    return;
   }
 
   @Override

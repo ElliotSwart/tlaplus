@@ -484,7 +484,7 @@ class trans {
             boolean done = false;
             while ((!done) && (cfg.size() > j))
             {
-                if (!((String) cfg.get(j)).contains(PcalParams.CfgFileDelimiter))
+                if (!cfg.get(j).contains(PcalParams.CfgFileDelimiter))
                 {
                     j = j + 1;
                 } else
@@ -1222,7 +1222,7 @@ class trans {
                             /***********************************************
                             * Get special character.                       *
                             ***********************************************/
-                            transl.append(tlcOut.substring(i, i + 2));
+                            transl.append(tlcOut, i, i + 2);
                             i = i + 2;
                         } else
                         {

@@ -133,7 +133,7 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 		for (int i = 0; i < this.tbl.length; i++) {
 			if (this.tbl[i] != null) {
 				// 16 bytes overhead for each row in tbl!
-				size += 16 + (this.tbl[i].length * (long) LongSize);
+				size += 16 + (this.tbl[i].length * LongSize);
 			}
 		}
 		// size of index array if non-null

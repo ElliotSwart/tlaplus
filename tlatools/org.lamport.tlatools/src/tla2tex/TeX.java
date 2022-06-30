@@ -699,8 +699,7 @@ class TeX
       try
        {String inputLine = logfile.readLine();
         while (inputLine != null)
-         { if (   (inputLine.length() > 2)
-               && (inputLine.startsWith("\\%{")))
+         { if ((inputLine.startsWith("\\%{")))
             { final int start = 3 ;
               final int after = inputLine.indexOf("}",start)-2 ;
               resultVec.addElement(inputLine.substring(start, after));

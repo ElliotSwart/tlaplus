@@ -388,7 +388,6 @@ public abstract class Tool
         // We handle all the other builtin operators here.
         final Action action = new Action(next, con, actionName);
         this.actionVec.addElement(action);
-        return;
       }
     }
   }
@@ -828,7 +827,6 @@ public abstract class Tool
             if (((BoolValue)bval).val) {
               this.getInitStates(acts, ps, states, cm);
             }
-            return;
           }
         }
   }
@@ -2027,7 +2025,7 @@ public abstract class Tool
                   Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, pred, c1);
                 }
                 if (((BoolValue)bval).val) {
-                  return (Value) val;
+                  return val;
                 }
               }
             }
@@ -2042,7 +2040,7 @@ public abstract class Tool
                   Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, pred, c1);
                 }
                 if (((BoolValue)bval).val) {
-                  return (Value) val;
+                  return val;
                 }
               }
             }
@@ -2171,7 +2169,7 @@ public abstract class Tool
                 final Context c1 = c.cons(EXCEPT_AT, atVal);
                 final Value rhs = this.eval(pairArgs[1], c1, s0, s1, control,  coverage ? cm.get(pairNode) : cm);
                 final ValueExcept vex = new ValueExcept(lhs, rhs);
-                result = (Value) result.takeExcept(vex);
+                result = result.takeExcept(vex);
               }
             }
             return result;
@@ -2226,7 +2224,7 @@ public abstract class Tool
               isFcnRcd = false;
             }
             if (isFcnRcd && !EvalControl.isKeepLazy(control)) {
-              return (Value) fval.toFcnRcd();
+              return fval.toFcnRcd();
             }
             return fval;
           }
@@ -2260,7 +2258,7 @@ public abstract class Tool
             final Value rval = this.eval(args[0], c, s0, s1, control, cm);
             final Value sval = (Value) WorkerValue.mux(args[1].getToolObject(toolId));
             if (rval instanceof RecordValue) {
-              final Value result = (Value) ((RecordValue)rval).select(sval);
+              final Value result = ((RecordValue)rval).select(sval);
               if (result == null) {
                 Assert.fail("Attempted to select nonexistent field " + sval + " from the" +
                             " record\n" + Values.ppr(rval.toString()) + "\n" + expr, expr, c);

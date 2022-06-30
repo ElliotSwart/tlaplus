@@ -524,8 +524,8 @@ public class DFIDModelChecker extends AbstractChecker
                                 }
                             }
                         }
-                        if (k < len)
-                            continue;
+                        if (k < len) {
+                        }
                     } catch (final Exception e)
                     {
                     	synchronized (this) {
@@ -749,12 +749,12 @@ public class DFIDModelChecker extends AbstractChecker
          */
         if (TLCGlobals.tool)
         {
-            MP.printMessage(EC.TLC_PROGRESS_STATS_DFID, new String[] { String.valueOf(this.numOfGenStates),
-                    String.valueOf(this.theFPSet.size()) });
+            MP.printMessage(EC.TLC_PROGRESS_STATS_DFID, String.valueOf(this.numOfGenStates),
+                    String.valueOf(this.theFPSet.size()));
         }
 
-        MP.printMessage(EC.TLC_STATS_DFID, new String[] { String.valueOf(this.numOfGenStates),
-                String.valueOf(this.theFPSet.size()) });
+        MP.printMessage(EC.TLC_STATS_DFID, String.valueOf(this.numOfGenStates),
+                String.valueOf(this.theFPSet.size()));
     }
 
     private final void reportSuccess() throws IOException
@@ -791,8 +791,8 @@ public class DFIDModelChecker extends AbstractChecker
     @Override
     protected void runTLCContinueDoing(int count, final int depth) throws Exception
     {
-        MP.printMessage(EC.TLC_PROGRESS_STATS_DFID, new String[] { String.valueOf(this.numOfGenStates),
-                String.valueOf(this.theFPSet.size()) });
+        MP.printMessage(EC.TLC_PROGRESS_STATS_DFID, String.valueOf(this.numOfGenStates),
+                String.valueOf(this.theFPSet.size()));
         if (count == 0)
         {
             this.reportCoverage(this.workers);

@@ -278,7 +278,7 @@ implements ExploreNode, LevelConstants {
     if (contextEntries != null) {
       for (int i = 0; i < contextEntries.size(); i++) {
         if (contextEntries.elementAt(i) != null) {
-          ret += Strings.indent(2, (String)contextEntries.elementAt(i));
+          ret += Strings.indent(2, contextEntries.elementAt(i));
         }
         else {
           ret += "*** null ***"; }

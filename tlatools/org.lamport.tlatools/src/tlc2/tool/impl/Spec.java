@@ -498,7 +498,6 @@ abstract class Spec
         case LabelKind: {
             final LabelNode pred1 = (LabelNode) pred;
             this.collectPrimedLocs(pred1.getBody(), c, tbl);
-            return;
         }
         }
     }
@@ -511,7 +510,8 @@ abstract class Spec
 
         switch (opcode) {
         case OPCODE_fa: // FcnApply
-        {
+            case OPCODE_aa: // AngleAct <A>_e
+            {
             this.collectPrimedLocs(args[0], c, tbl);
             break;
         }
@@ -558,12 +558,7 @@ abstract class Spec
             this.collectUnchangedLocs(args[0], c, tbl);
             break;
         }
-        case OPCODE_aa: // AngleAct <A>_e
-        {
-            this.collectPrimedLocs(args[0], c, tbl);
-            break;
-        }
-        case OPCODE_sa: // [A]_e
+            case OPCODE_sa: // [A]_e
         {
             this.collectPrimedLocs(args[0], c, tbl);
             tbl.put(args[1], 0);
@@ -632,7 +627,6 @@ abstract class Spec
                 if (val instanceof OpDefNode)
                 {
                     this.collectUnchangedLocs(((OpDefNode) val).getBody(), c, tbl);
-                    return;
                 }
             }
         }

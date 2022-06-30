@@ -438,7 +438,6 @@ public class APSubstInNode extends LevelNode {
     }
     if (this.body != null) this.body.walkGraph(semNodesTable, visitor);
     visitor.postVisit(this);
-    return;
   }
 
   @Override

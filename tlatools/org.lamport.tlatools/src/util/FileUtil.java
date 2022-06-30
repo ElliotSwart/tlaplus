@@ -389,7 +389,7 @@ public class FileUtil
     {
         try
         {
-            return new FileOutputStream(new File(name));
+            return new FileOutputStream(name);
         } catch (final FileNotFoundException e)
         {
             ToolIO.out.println("Error: Unable to write to file " + name);
@@ -496,7 +496,7 @@ public class FileUtil
      */
     public static DataInputStream newDFIS(final String filename) throws FileNotFoundException
     {
-        return new DataInputStream(new FileInputStream(new File(filename)));
+        return new DataInputStream(new FileInputStream(filename));
     }
 
     /**
@@ -506,7 +506,7 @@ public class FileUtil
      */
     public static DataOutputStream newDFOS(final String filename) throws FileNotFoundException
     {
-        return new DataOutputStream(new FileOutputStream(new File(filename)));
+        return new DataOutputStream(new FileOutputStream(filename));
     }
 
 	public static File createTempFile(final String fileName) {

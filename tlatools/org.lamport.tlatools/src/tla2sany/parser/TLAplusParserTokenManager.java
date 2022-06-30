@@ -4272,7 +4272,8 @@ void SkipLexicalActions(final Token matchedToken)
    switch(jjmatchedKind)
    {
       case 28 :
-         if (image == null)
+       case 31 :
+           if (image == null)
             image = new StringBuffer();
          image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
                      bracketCount++;
@@ -4283,13 +4284,7 @@ void SkipLexicalActions(final Token matchedToken)
          image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
             bracketCount--; if (bracketCount == 0) SwitchTo( IN_COMMENT );
          break;
-      case 31 :
-         if (image == null)
-            image = new StringBuffer();
-         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-                     bracketCount++;
-         break;
-      default :
+       default :
          break;
    }
 }
