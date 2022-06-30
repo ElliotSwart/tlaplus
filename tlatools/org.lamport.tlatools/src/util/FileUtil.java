@@ -258,6 +258,15 @@ public class FileUtil
         return metadir;
     }
 
+    public static boolean namedInputStreamCanBeCreated(final String name, final FilenameToStream resolver){
+        try(NamedInputStream is = FileUtil.createNamedInputStream(name, resolver)){
+            return (is != null);
+        }
+        catch(Exception e) {
+            return false;
+        }
+    }
+
     public static NamedInputStream createNamedInputStream(final String name, final FilenameToStream resolver)
     {
         return FileUtil.createNamedInputStream(name, resolver, null);

@@ -405,7 +405,7 @@ public class SANY {
       // spec.
       final SpecObj spec = new SpecObj(args[i], null);
       // check if file exists
-      if (FileUtil.createNamedInputStream(args[i], spec.getResolver()) != null) 
+      if (FileUtil.namedInputStreamCanBeCreated(args[i], spec.getResolver()))
       {
           try {
               final int ret = frontEndMain(spec, args[i], ToolIO.out);

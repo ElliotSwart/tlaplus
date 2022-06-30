@@ -101,7 +101,7 @@ public class XMLExporter {
     // spec.
     // check if file exists
     //ToolIO.out.println("Processing: "+tlas[i]+"\n"+(tlas[i] == null));
-    if (FileUtil.createNamedInputStream(tla_name, spec.getResolver()) != null) {
+    if (FileUtil.namedInputStreamCanBeCreated(tla_name, spec.getResolver())) {
       try {
         SANY.frontEndMain(spec, tla_name, System.err);
         if (spec.getExternalModuleTable() == null)
