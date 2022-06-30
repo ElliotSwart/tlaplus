@@ -126,13 +126,6 @@ public class BEGraph {
 		return buf.toString();
 	}
 
-	private static class NodeAndParent {
-		final BEGraphNode node;
-		final BEGraphNode parent;
-
-		NodeAndParent(final BEGraphNode node, final BEGraphNode parent) {
-			this.node = node;
-			this.parent = parent;
-		}
-	}
+    private record NodeAndParent(BEGraphNode node, BEGraphNode parent) {
+    }
 }
