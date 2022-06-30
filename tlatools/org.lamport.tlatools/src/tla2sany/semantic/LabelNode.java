@@ -179,7 +179,8 @@ public class LabelNode extends ExprNode
     return (LabelNode) labels.get(us) ;
    }
 
-  public boolean addLabel(LabelNode odn) {
+  @SuppressWarnings("unlikely-arg-type")
+public boolean addLabel(LabelNode odn) {
     /***********************************************************************
     * If the hashtable `labels' contains no OpDefNode with the same name   *
     * as odn, then odn is added to the set and true is return; else the    *

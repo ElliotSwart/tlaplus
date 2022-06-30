@@ -397,7 +397,8 @@ public class FileUtil
         }
     }
 
-    public static BufferedDataInputStream newBdFIS(boolean useGZIP, File file) throws IOException
+    @SuppressWarnings("resource")
+	public static BufferedDataInputStream newBdFIS(boolean useGZIP, File file) throws IOException
     {
         if (useGZIP)
         {
@@ -425,7 +426,8 @@ public class FileUtil
      * @throws IOException
      * @throws FileNotFoundException
      */
-    public static BufferedDataOutputStream newBdFOS(boolean useGZIP, File file) throws FileNotFoundException, IOException
+    @SuppressWarnings("resource")
+	public static BufferedDataOutputStream newBdFOS(boolean useGZIP, File file) throws FileNotFoundException, IOException
     {
         if (useGZIP)
         {
