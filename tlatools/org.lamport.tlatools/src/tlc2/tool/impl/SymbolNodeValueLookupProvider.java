@@ -130,11 +130,10 @@ public interface SymbolNodeValueLookupProvider {
 				final int letLen = letDefs.length;
 				Context c1 = c;
 				int level = 0;
-				for (int i = 0; i < letLen; i++) {
-					final OpDefNode opDef = letDefs[i];
-					level = Math.max(level, getLevelBound(opDef.getBody(), c1, forToolId));
-					c1 = c1.cons(opDef, IntValue.ValOne);
-				}
+                for (final OpDefNode opDef : letDefs) {
+                    level = Math.max(level, getLevelBound(opDef.getBody(), c1, forToolId));
+                    c1 = c1.cons(opDef, IntValue.ValOne);
+                }
 				return Math.max(level, getLevelBound(expr1.getBody(), c1, forToolId));
 			}
 			case ASTConstants.SubstInKind: {
@@ -142,10 +141,9 @@ public interface SymbolNodeValueLookupProvider {
 				final Subst[] subs = expr1.getSubsts();
 				final int slen = subs.length;
 				Context c1 = c;
-				for (int i = 0; i < slen; i++) {
-					final Subst sub = subs[i];
-					c1 = c1.cons(sub.getOp(), getVal(sub.getExpr(), c, true, forToolId));
-				}
+                for (final Subst sub : subs) {
+                    c1 = c1.cons(sub.getOp(), getVal(sub.getExpr(), c, true, forToolId));
+                }
 				return getLevelBound(expr1.getBody(), c1, forToolId);
 			}
 
@@ -155,10 +153,9 @@ public interface SymbolNodeValueLookupProvider {
 				final Subst[] subs = expr1.getSubsts();
 				final int slen = subs.length;
 				Context c1 = c;
-				for (int i = 0; i < slen; i++) {
-					final Subst sub = subs[i];
-					c1 = c1.cons(sub.getOp(), getVal(sub.getExpr(), c, true, forToolId));
-				}
+                for (final Subst sub : subs) {
+                    c1 = c1.cons(sub.getOp(), getVal(sub.getExpr(), c, true, forToolId));
+                }
 				return getLevelBound(expr1.getBody(), c1, forToolId);
 			}
 

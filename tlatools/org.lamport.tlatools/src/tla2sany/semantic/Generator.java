@@ -903,8 +903,8 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 								opParams = ((ThmOrAssumpDefNode) curNode).getParams();
 								newNode = ((ThmOrAssumpDefNode) curNode).getBody();
 							}
-                            for (int i = 0; i < opParams.length; i++) {
-								params.addElement(opParams[i]);
+							for (FormalParamNode opParam : opParams) {
+								params.addElement(opParam);
 							}
                             // for
 							curName = null;
@@ -1165,18 +1165,18 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 									if (curOpApplNode.getNumberOfBoundedBoundSymbols() > 0) {
 										final FormalParamNode[][] symbs = curOpApplNode.getBdedQuantSymbolLists();
 										int numSymbs = 0;
-										for (int i = 0; i < symbs.length; i++) {
-											numSymbs = numSymbs + symbs[i].length;
+										for (FormalParamNode[] formalParamNodes : symbs) {
+											numSymbs = numSymbs + formalParamNodes.length;
 										}
                                         // for
 										temp = new FormalParamNode[numSymbs];
 										int k = 0;
-										for (int i = 0; i < symbs.length; i++) {
-											for (int j = 0; j < symbs[i].length; j++) {
-												temp[k] = symbs[i][j];
+										for (FormalParamNode[] symb : symbs) {
+											for (int j = 0; j < symb.length; j++) {
+												temp[k] = symb[j];
 												k++;
 											}
-                                            // for j
+											// for j
 										}
                                         // for i
 									} // if (curOpApplNode.getNumberOf... > 0)
@@ -1188,8 +1188,8 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 									/*******************************************************
 									 * Add the elements of temp to the params vector. *
 									 *******************************************************/
-									for (int i = 0; i < temp.length; i++) {
-										params.addElement(temp[i]);
+									for (FormalParamNode formalParamNode : temp) {
+										params.addElement(formalParamNode);
 									}
                                     // for i
 
@@ -6524,10 +6524,10 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
         final FormalParamNode[] res = new FormalParamNode[size];
 		int k = 0;
         for (FormalParamNode[] formalParamNodes : array) {
-            for (int j = 0; j < formalParamNodes.length; j++) {
-                res[k] = formalParamNodes[j];
-                k++;
-            }
+			for (FormalParamNode formalParamNode : formalParamNodes) {
+				res[k] = formalParamNode;
+				k++;
+			}
             // for j
         }
         // for i

@@ -468,9 +468,7 @@ abstract class Spec
             final SubstInNode pred1 = (SubstInNode) pred;
             final Subst[] subs = pred1.getSubsts();
             Context c1 = c;
-            for (int i = 0; i < subs.length; i++)
-            {
-                final Subst sub = subs[i];
+            for (final Subst sub : subs) {
                 c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, toolId));
             }
             this.collectPrimedLocs(pred1.getBody(), c, tbl);
@@ -482,9 +480,7 @@ abstract class Spec
             final APSubstInNode pred1 = (APSubstInNode) pred;
             final Subst[] subs = pred1.getSubsts();
             Context c1 = c;
-            for (int i = 0; i < subs.length; i++)
-            {
-                final Subst sub = subs[i];
+            for (final Subst sub : subs) {
                 c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, toolId));
             }
             this.collectPrimedLocs(pred1.getBody(), c, tbl);
@@ -523,9 +519,8 @@ abstract class Spec
         }
         case OPCODE_case: // Case
         {
-            for (int i = 0; i < args.length; i++)
-            {
-                final OpApplNode pair = (OpApplNode) args[i];
+            for (ExprOrOpArgNode arg : args) {
+                final OpApplNode pair = (OpApplNode) arg;
                 this.collectPrimedLocs(pair.getArgs()[1], c, tbl);
             }
             break;
@@ -548,10 +543,9 @@ abstract class Spec
         case OPCODE_implies:
         case OPCODE_nop: // This case added 13 Nov 2009 by LL to handle subexpression names.
           {
-            for (int i = 0; i < args.length; i++)
-            {
-                this.collectPrimedLocs(args[i], c, tbl);
-            }
+              for (ExprOrOpArgNode arg : args) {
+                  this.collectPrimedLocs(arg, c, tbl);
+              }
             break;
         }
         case OPCODE_unchanged: {

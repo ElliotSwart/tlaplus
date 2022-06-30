@@ -153,10 +153,9 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			final Subst[] subs = expr1.getSubsts();
 			final int slen = subs.length;
 			Context con1 = con;
-			for (int i = 0; i < slen; i++) {
-				final Subst sub = subs[i];
-				con1 = con1.cons(sub.getOp(), tool.getVal(sub.getExpr(), con, false));
-			}
+            for (final Subst sub : subs) {
+                con1 = con1.cons(sub.getOp(), tool.getVal(sub.getExpr(), con, false));
+            }
 			return astToLive(tool, expr1.getBody(), con1);
 		}
 		case LabelKind: {
@@ -282,10 +281,10 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		case OPCODE_cl: // ConjList
 		case OPCODE_land: {
 			final LNConj lnConj = new LNConj(alen);
-			for (int i = 0; i < alen; i++) {
-				final LiveExprNode kid = astToLive(tool, (ExprNode) args[i], con);
-				lnConj.addConj(kid);
-			}
+            for (ExprOrOpArgNode arg : args) {
+                final LiveExprNode kid = astToLive(tool, (ExprNode) arg, con);
+                lnConj.addConj(kid);
+            }
 			final int level = lnConj.getLevel();
 			if (level > LevelConstants.ActionLevel) {
 				return lnConj;
@@ -295,10 +294,10 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		case OPCODE_dl: // DisjList
 		case OPCODE_lor: {
 			final LNDisj lnDisj = new LNDisj(alen);
-			for (int i = 0; i < alen; i++) {
-				final LiveExprNode kid = astToLive(tool, (ExprNode) args[i], con);
-				lnDisj.addDisj(kid);
-			}
+            for (ExprOrOpArgNode arg : args) {
+                final LiveExprNode kid = astToLive(tool, (ExprNode) arg, con);
+                lnDisj.addDisj(kid);
+            }
 			final int level = lnDisj.getLevel();
 			if (level > LevelConstants.ActionLevel) {
 				return lnDisj;

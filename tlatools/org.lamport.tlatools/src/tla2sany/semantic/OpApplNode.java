@@ -1122,9 +1122,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     if (boundedBoundSymbols != null && boundedBoundSymbols.length > 0) {
         for (FormalParamNode[] boundedBoundSymbol : boundedBoundSymbols) {
             if (boundedBoundSymbol != null && boundedBoundSymbol.length > 0) {
-                for (int j = 0; j < boundedBoundSymbol.length; j++) {
-                    if (boundedBoundSymbol[j] != null)
-                        boundedBoundSymbol[j].walkGraph(semNodesTable, visitor);
+                for (FormalParamNode formalParamNode : boundedBoundSymbol) {
+                    if (formalParamNode != null)
+                        formalParamNode.walkGraph(semNodesTable, visitor);
                 }
             }
         }

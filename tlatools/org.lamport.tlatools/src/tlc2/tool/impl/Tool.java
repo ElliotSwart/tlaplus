@@ -378,9 +378,9 @@ public abstract class Tool
     case OPCODE_dl:     // DisjList
     case OPCODE_lor:
       {
-        for (int i = 0; i < args.length; i++) {
-          this.getActions(args[i], con, actionName, cm);
-        }
+          for (ExprOrOpArgNode arg : args) {
+              this.getActions(arg, con, actionName, cm);
+          }
         return;
       }
     default:
@@ -464,10 +464,9 @@ public abstract class Tool
             final SubstInNode init1 = (SubstInNode)init;
             final Subst[] subs = init1.getSubsts();
             Context c1 = c;
-            for (int i = 0; i < subs.length; i++) {
-              final Subst sub = subs[i];
-              c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, coverage ? sub.getCM() : cm, toolId));
-            }
+              for (final Subst sub : subs) {
+                  c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, coverage ? sub.getCM() : cm, toolId));
+              }
             this.getInitStates(init1.getBody(), acts, c1, ps, states, cm);
             return;
           }
@@ -477,10 +476,9 @@ public abstract class Tool
             final APSubstInNode init1 = (APSubstInNode)init;
             final Subst[] subs = init1.getSubsts();
             Context c1 = c;
-            for (int i = 0; i < subs.length; i++) {
-              final Subst sub = subs[i];
-              c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, cm, toolId));
-            }
+              for (final Subst sub : subs) {
+                  c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, cm, toolId));
+              }
             this.getInitStates(init1.getBody(), acts, c1, ps, states, cm);
             return;
           }
@@ -619,9 +617,9 @@ public abstract class Tool
         case OPCODE_dl:     // DisjList
         case OPCODE_lor:
           {
-            for (int i = 0; i < alen; i++) {
-              this.getInitStates(args[i], acts, c, ps, states, cm);
-            }
+              for (ExprOrOpArgNode arg : args) {
+                  this.getInitStates(arg, acts, c, ps, states, cm);
+              }
             return;
           }
         case OPCODE_cl:     // ConjList
@@ -676,25 +674,24 @@ public abstract class Tool
         case OPCODE_case:   // Case
           {
             SemanticNode other = null;
-            for (int i = 0; i < alen; i++) {
-              final OpApplNode pair = (OpApplNode)args[i];
-              final ExprOrOpArgNode[] pairArgs = pair.getArgs();
-              if (pairArgs[0] == null) {
-                other = pairArgs[1];
+              for (ExprOrOpArgNode arg : args) {
+                  final OpApplNode pair = (OpApplNode) arg;
+                  final ExprOrOpArgNode[] pairArgs = pair.getArgs();
+                  if (pairArgs[0] == null) {
+                      other = pairArgs[1];
+                  } else {
+                      final Value bval = this.eval(pairArgs[0], c, ps, TLCState.Empty, EvalControl.Init, cm);
+                      if (!(bval instanceof BoolValue)) {
+                          Assert.fail("In computing initial states, a non-boolean expression (" +
+                                  bval.getKindString() + ") was used as a guard condition" +
+                                  " of a CASE.\n" + pairArgs[1], pairArgs[1], c);
+                      }
+                      if (((BoolValue) bval).val) {
+                          this.getInitStates(pairArgs[1], acts, c, ps, states, cm);
+                          return;
+                      }
+                  }
               }
-              else {
-                final Value bval = this.eval(pairArgs[0], c, ps, TLCState.Empty, EvalControl.Init, cm);
-                if (!(bval instanceof BoolValue)) {
-                  Assert.fail("In computing initial states, a non-boolean expression (" +
-                              bval.getKindString() + ") was used as a guard condition" +
-                              " of a CASE.\n" + pairArgs[1], pairArgs[1], c);
-                }
-                if (((BoolValue)bval).val) {
-                  this.getInitStates(pairArgs[1], acts, c, ps, states, cm);
-                  return;
-                }
-              }
-            }
             if (other == null) {
               Assert.fail("In computing initial states, TLC encountered a CASE with no" +
                           " conditions true.\n" + init, init, c);
@@ -2074,24 +2071,25 @@ public abstract class Tool
           {
             final int alen = args.length;
             SemanticNode other = null;
-            for (int i = 0; i < alen; i++) {
-              final OpApplNode pairNode = (OpApplNode)args[i];
-              final ExprOrOpArgNode[] pairArgs = pairNode.getArgs();
-              if (pairArgs[0] == null) {
-                other = pairArgs[1];
-                if (coverage) { cm = cm.get(pairNode); }
-               }
-              else {
-                final Value bval = this.eval(pairArgs[0], c, s0, s1, control, coverage ? cm.get(pairNode) : cm);
-                if (!(bval instanceof BoolValue)) {
-                  Assert.fail("A non-boolean expression (" + bval.getKindString() +
-                              ") was used as a condition of a CASE. " + pairArgs[0], pairArgs[0], c);
-                }
-                if (((BoolValue)bval).val) {
-                  return this.eval(pairArgs[1], c, s0, s1, control, coverage ? cm.get(pairNode) : cm);
-                }
+              for (ExprOrOpArgNode arg : args) {
+                  final OpApplNode pairNode = (OpApplNode) arg;
+                  final ExprOrOpArgNode[] pairArgs = pairNode.getArgs();
+                  if (pairArgs[0] == null) {
+                      other = pairArgs[1];
+                      if (coverage) {
+                          cm = cm.get(pairNode);
+                      }
+                  } else {
+                      final Value bval = this.eval(pairArgs[0], c, s0, s1, control, coverage ? cm.get(pairNode) : cm);
+                      if (!(bval instanceof BoolValue)) {
+                          Assert.fail("A non-boolean expression (" + bval.getKindString() +
+                                  ") was used as a condition of a CASE. " + pairArgs[0], pairArgs[0], c);
+                      }
+                      if (((BoolValue) bval).val) {
+                          return this.eval(pairArgs[1], c, s0, s1, control, coverage ? cm.get(pairNode) : cm);
+                      }
+                  }
               }
-            }
             if (other == null) {
               Assert.fail("Attempted to evaluate a CASE with no conditions true.\n" + expr, expr, c);
             }
@@ -2109,31 +2107,31 @@ public abstract class Tool
         case OPCODE_cl:     // ConjList
           {
             final int alen = args.length;
-            for (int i = 0; i < alen; i++) {
-              final Value bval = this.eval(args[i], c, s0, s1, control, cm);
-              if (!(bval instanceof BoolValue)) {
-                Assert.fail("A non-boolean expression (" + bval.getKindString() +
-                            ") was used as a formula in a conjunction.\n" + args[i], args[i], c);
+              for (ExprOrOpArgNode arg : args) {
+                  final Value bval = this.eval(arg, c, s0, s1, control, cm);
+                  if (!(bval instanceof BoolValue)) {
+                      Assert.fail("A non-boolean expression (" + bval.getKindString() +
+                              ") was used as a formula in a conjunction.\n" + arg, arg, c);
+                  }
+                  if (!((BoolValue) bval).val) {
+                      return BoolValue.ValFalse;
+                  }
               }
-              if (!((BoolValue)bval).val) {
-                return BoolValue.ValFalse;
-              }
-            }
             return BoolValue.ValTrue;
           }
         case OPCODE_dl:     // DisjList
           {
             final int alen = args.length;
-            for (int i = 0; i < alen; i++) {
-              final Value bval = this.eval(args[i], c, s0, s1, control, cm);
-              if (!(bval instanceof BoolValue)) {
-                Assert.fail("A non-boolean expression (" + bval.getKindString() +
-                            ") was used as a formula in a disjunction.\n" + args[i], args[i], c);
+              for (ExprOrOpArgNode arg : args) {
+                  final Value bval = this.eval(arg, c, s0, s1, control, cm);
+                  if (!(bval instanceof BoolValue)) {
+                      Assert.fail("A non-boolean expression (" + bval.getKindString() +
+                              ") was used as a formula in a disjunction.\n" + arg, arg, c);
+                  }
+                  if (((BoolValue) bval).val) {
+                      return BoolValue.ValTrue;
+                  }
               }
-              if (((BoolValue)bval).val) {
-                return BoolValue.ValTrue;
-              }
-            }
             return BoolValue.ValFalse;
           }
         case OPCODE_exc:    // Except
@@ -2268,9 +2266,9 @@ public abstract class Tool
           {
             final int alen = args.length;
             final ValueVec vals = new ValueVec(alen);
-            for (int i = 0; i < alen; i++) {
-              vals.addElement(this.eval(args[i], c, s0, s1, control, cm));
-            }
+              for (ExprOrOpArgNode arg : args) {
+                  vals.addElement(this.eval(arg, c, s0, s1, control, cm));
+              }
             return setSource(expr, new SetEnumValue(vals, false, cm));
           }
         case OPCODE_soa:    // SetOfAll: {e(x) : x \in S}
@@ -2771,13 +2769,12 @@ public abstract class Tool
             final LetInNode pred1 = (LetInNode)pred;
             final OpDefNode[] letDefs = pred1.getLets();
             Context c1 = c;
-            for (int i = 0; i < letDefs.length; i++) {
-              final OpDefNode opDef = letDefs[i];
-              if (opDef.getArity() == 0) {
-                final Value rhs = new LazyValue(opDef.getBody(), c1, cm);
-                c1 = c1.cons(opDef, rhs);
+              for (final OpDefNode opDef : letDefs) {
+                  if (opDef.getArity() == 0) {
+                      final Value rhs = new LazyValue(opDef.getBody(), c1, cm);
+                      c1 = c1.cons(opDef, rhs);
+                  }
               }
-            }
             return this.enabled(pred1.getBody(), acts, c1, s0, s1, cm);
           }
         case SubstInKind:
@@ -2786,10 +2783,9 @@ public abstract class Tool
             final Subst[] subs = pred1.getSubsts();
             final int slen = subs.length;
             Context c1 = c;
-            for (int i = 0; i < slen; i++) {
-              final Subst sub = subs[i];
-              c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, coverage ? sub.getCM() : cm, toolId));
-            }
+              for (final Subst sub : subs) {
+                  c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, coverage ? sub.getCM() : cm, toolId));
+              }
             return this.enabled(pred1.getBody(), acts, c1, s0, s1, cm);
           }
         // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
@@ -2799,10 +2795,9 @@ public abstract class Tool
             final Subst[] subs = pred1.getSubsts();
             final int slen = subs.length;
             Context c1 = c;
-            for (int i = 0; i < slen; i++) {
-              final Subst sub = subs[i];
-              c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, cm, toolId));
-            }
+              for (final Subst sub : subs) {
+                  c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, cm, toolId));
+              }
             return this.enabled(pred1.getBody(), acts, c1, s0, s1, cm);
           }
         // LabelKind class added by LL on 13 Jun 2007
@@ -2970,27 +2965,22 @@ public abstract class Tool
         case OPCODE_case: // Case
           {
             SemanticNode other = null;
-            for (int i = 0; i < alen; i++)
-            {
-              final OpApplNode pair = (OpApplNode) args[i];
-              final ExprOrOpArgNode[] pairArgs = pair.getArgs();
-              if (pairArgs[0] == null)
-              {
-                other = pairArgs[1];
-              } else
-              {
-                final Value bval = this.eval(pairArgs[0], c, s0, s1, EvalControl.Enabled, cm);
-                if (!(bval instanceof BoolValue))
-                {
-                  Assert.fail("In computing ENABLED, a non-boolean expression(" + bval.getKindString()
-                          + ") was used as a guard condition" + " of a CASE.\n" + pairArgs[1], pairArgs[1], c);
-                }
-                if (((BoolValue) bval).val)
-                {
-                  return this.enabled(pairArgs[1], acts, c, s0, s1, cm);
-                }
+              for (ExprOrOpArgNode arg : args) {
+                  final OpApplNode pair = (OpApplNode) arg;
+                  final ExprOrOpArgNode[] pairArgs = pair.getArgs();
+                  if (pairArgs[0] == null) {
+                      other = pairArgs[1];
+                  } else {
+                      final Value bval = this.eval(pairArgs[0], c, s0, s1, EvalControl.Enabled, cm);
+                      if (!(bval instanceof BoolValue)) {
+                          Assert.fail("In computing ENABLED, a non-boolean expression(" + bval.getKindString()
+                                  + ") was used as a guard condition" + " of a CASE.\n" + pairArgs[1], pairArgs[1], c);
+                      }
+                      if (((BoolValue) bval).val) {
+                          return this.enabled(pairArgs[1], acts, c, s0, s1, cm);
+                      }
+                  }
               }
-            }
             if (other == null)
             {
               Assert.fail("In computing ENABLED, TLC encountered a CASE with no" + " conditions true.\n" + pred, pred, c);
@@ -3010,13 +3000,12 @@ public abstract class Tool
         case OPCODE_dl: // DisjList
         case OPCODE_lor:
           {
-            for (int i = 0; i < alen; i++)
-            {
-              final TLCState s2 = this.enabled(args[i], acts, c, s0, s1, cm);
-              if (s2 != null) {
-                return s2;
+              for (ExprOrOpArgNode arg : args) {
+                  final TLCState s2 = this.enabled(arg, acts, c, s0, s1, cm);
+                  if (s2 != null) {
+                      return s2;
+                  }
               }
-            }
             return null;
           }
         case OPCODE_fa: // FcnApply

@@ -136,8 +136,7 @@ public class Changed {
     /* Number of vars whose change count is 0 */
     public int NumUnchanged () {
 	int ct = 0;
-	for (int i = 0; i < count.length; i++)
-	    if (count[i] == 0) ct = ct + 1;
+		for (int j : count) if (j == 0) ct = ct + 1;
 	return ct;
     }
 

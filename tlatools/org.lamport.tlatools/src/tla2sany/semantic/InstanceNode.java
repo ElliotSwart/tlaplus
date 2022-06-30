@@ -316,9 +316,7 @@ public class InstanceNode extends LevelNode {
       }
       for (Subst item : this.substs) {
           lcSet = item.getExpr().getLevelConstraints();
-          Iterator<SymbolNode> lcIter = lcSet.keySet().iterator();
-          while (lcIter.hasNext()) {
-              final SymbolNode param = lcIter.next();
+          for (SymbolNode param : lcSet.keySet()) {
               if (!param.occur(this.params)) {
                   this.levelConstraints.put(param, lcSet.get(param));
               }
@@ -334,9 +332,7 @@ public class InstanceNode extends LevelNode {
       }
       for (Subst value : this.substs) {
           alcSet = value.getExpr().getArgLevelConstraints();
-          Iterator<ParamAndPosition> alcIter = alcSet.keySet().iterator();
-          while (alcIter.hasNext()) {
-              final ParamAndPosition pap = alcIter.next();
+          for (ParamAndPosition pap : alcSet.keySet()) {
               if (!pap.param.occur(this.params)) {
                   this.argLevelConstraints.put(pap, alcSet.get(pap));
               }
@@ -357,9 +353,7 @@ public class InstanceNode extends LevelNode {
       }
       for (Subst subst : this.substs) {
           alpSet = subst.getExpr().getArgLevelParams();
-          Iterator<ArgLevelParam> alpIter = alpSet.iterator();
-          while (alpIter.hasNext()) {
-              final ArgLevelParam alp = alpIter.next();
+          for (ArgLevelParam alp : alpSet) {
               if (!alp.occur(this.params)) {
                   this.argLevelParams.add(alp);
               }

@@ -1193,9 +1193,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                                     // if it's a tuple, recurse with its members
                                     if (opCode == OPCODE_tup)
                                     {
-                                        for (int i = 0; i < args.length; i++)
-                                        {
-                                            this.enter((ExprNode) args[i], c);
+                                        for (ExprOrOpArgNode exprOrOpArgNode : args) {
+                                            this.enter((ExprNode) exprOrOpArgNode, c);
                                         }
                                         return;
                                     }
@@ -1223,9 +1222,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                                     final SubstInNode subscript1 = (SubstInNode) subscript;
                                     final Subst[] subs = subscript1.getSubsts();
                                     Context c1 = c;
-                                    for (int i = 0; i < subs.length; i++)
-                                    {
-                                        c1 = c1.cons(subs[i].getOp(), symbolNodeValueLookupProvider.getVal(subs[i].getExpr(), c, false, toolId));
+                                    for (Subst sub : subs) {
+                                        c1 = c1.cons(sub.getOp(), symbolNodeValueLookupProvider.getVal(sub.getExpr(), c, false, toolId));
                                     }
                                     this.enter(subscript1.getBody(), c1);
                                     return;
@@ -1526,27 +1524,23 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             final ModuleNode expr1 = (ModuleNode) expr;
             // Process operator definitions:
             final OpDefNode[] opDefs = expr1.getOpDefs();
-            for (int i = 0; i < opDefs.length; i++)
-            {
-                final Object def = opDefs[i].getToolObject(toolId);
-                if (def instanceof OpDefNode)
-                {
-                	this.processedDefs.add((OpDefNode) def);
+            for (OpDefNode opDef : opDefs) {
+                final Object def = opDef.getToolObject(toolId);
+                if (def instanceof OpDefNode) {
+                    this.processedDefs.add((OpDefNode) def);
                     this.processConstants(((OpDefNode) def).getBody());
                 }
-                this.processConstants(opDefs[i].getBody());
+                this.processConstants(opDef.getBody());
             }
             // Process all the inner modules:
             final ModuleNode[] imods = expr1.getInnerModules();
-            for (int i = 0; i < imods.length; i++)
-            {
-                this.processConstants(imods[i]);
+            for (ModuleNode imod : imods) {
+                this.processConstants(imod);
             }
             // Process all the assumptions:
             final AssumeNode[] assumps = expr1.getAssumptions();
-            for (int i = 0; i < assumps.length; i++)
-            {
-                this.processConstants(assumps[i]);
+            for (AssumeNode assump : assumps) {
+                this.processConstants(assump);
             }
             // On 13 Nov 2009, Yuan Yu added the following
             // processing of all TheoremNodes, which was needed to
@@ -1554,8 +1548,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             //
             // Process all the theorems:
             final TheoremNode[] thms = expr1.getTheorems();
-            for (int i = 0; i < thms.length; i++) {
-              this.processConstants(thms[i]);
+            for (TheoremNode thm : thms) {
+                this.processConstants(thm);
             }
 
             return;
@@ -1570,17 +1564,14 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             } else
             {
                 final SemanticNode[] args = expr1.getArgs();
-                for (int i = 0; i < args.length; i++)
-                {
-                    if (args[i] != null)
-                    {
-                        this.processConstants(args[i]);
+                for (SemanticNode arg : args) {
+                    if (arg != null) {
+                        this.processConstants(arg);
                     }
                 }
                 final ExprNode[] bnds = expr1.getBdedQuantBounds();
-                for (int i = 0; i < bnds.length; i++)
-                {
-                    this.processConstants(bnds[i]);
+                for (ExprNode bnd : bnds) {
+                    this.processConstants(bnd);
                 }
             }
             return;
@@ -1588,9 +1579,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         case LetInKind: {
             final LetInNode expr1 = (LetInNode) expr;
             final OpDefNode[] letDefs = expr1.getLets();
-            for (int i = 0; i < letDefs.length; i++)
-            {
-                this.processConstants(letDefs[i].getBody());
+            for (OpDefNode letDef : letDefs) {
+                this.processConstants(letDef.getBody());
             }
             this.processConstants(expr1.getBody());
             return;
@@ -1598,9 +1588,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         case SubstInKind: {
             final SubstInNode expr1 = (SubstInNode) expr;
             final Subst[] subs = expr1.getSubsts();
-            for (int i = 0; i < subs.length; i++)
-            {
-                this.processConstants(subs[i].getExpr());
+            for (Subst sub : subs) {
+                this.processConstants(sub.getExpr());
             }
             this.processConstants(expr1.getBody());
             return;
@@ -1610,9 +1599,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         case APSubstInKind: {
             final APSubstInNode expr1 = (APSubstInNode) expr;
             final Subst[] subs = expr1.getSubsts();
-            for (int i = 0; i < subs.length; i++)
-            {
-                this.processConstants(subs[i].getExpr());
+            for (Subst sub : subs) {
+                this.processConstants(sub.getExpr());
             }
             this.processConstants(expr1.getBody());
             return;

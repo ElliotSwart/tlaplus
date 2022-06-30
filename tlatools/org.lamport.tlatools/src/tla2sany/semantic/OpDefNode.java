@@ -1189,14 +1189,14 @@ public boolean addLabel(final LabelNode odn) {
         opLevelCondStr = new StringBuilder("[");
           for (boolean[][] booleans : opLevelCond) {
               opLevelCondStr.append(" [");
-              for (int j = 0; j < booleans.length; j++) {
+              for (boolean[] aBoolean : booleans) {
                   opLevelCondStr.append(" [");
-                  for (int k = 0; k < booleans[j].length; k++) {
+                  for (int k = 0; k < aBoolean.length; k++) {
                       String foo = " ";
                       if (k == 0) {
                           foo = "";
                       }
-                      opLevelCondStr.append(foo).append(booleans[j][k]);
+                      opLevelCondStr.append(foo).append(aBoolean[k]);
                   } // for k
                   opLevelCondStr.append("]");
               } // for j
