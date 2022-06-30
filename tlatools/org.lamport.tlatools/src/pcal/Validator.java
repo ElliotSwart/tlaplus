@@ -56,10 +56,10 @@ public class Validator {
 	static final String CHECKSUM_TEMPLATE = "(chksum(pcal) = \"%s\" /\\ chksum(tla) = \"%s\")";
 	
 	static final Pattern CHECKSUM_PATTERN = Pattern
-			.compile("\\\\\\* BEGIN TRANSLATION\\s+\\(\\s*((?i)ch(ec)?ksum\\(p(lus)?cal\\)(?-i))\\s*(=\\s*\\\"(?<"
-					+ PCAL_CHECKSUM + ">[0-9A-Fa-f]*)\\\"|\\\\in\\s*"
-					+ "STRING)\\s*\\/\\\\\\s*((?i)ch(ec)?ksum\\(tla\\+?\\)(?-i))\\s*(=\\s*\\\"(?<" + TLA_CHECKSUM
-					+ ">[0-9A-Fa-f]*)\\\"|\\\\in\\s*STRING)\\s*\\)");
+			.compile("\\\\\\* BEGIN TRANSLATION\\s+\\(\\s*((?i)ch(ec)?ksum\\(p(lus)?cal\\)(?-i))\\s*(=\\s*\"(?<"
+					+ PCAL_CHECKSUM + ">[\\dA-Fa-f]*)\"|\\\\in\\s*"
+					+ "STRING)\\s*/\\\\\\s*((?i)ch(ec)?ksum\\(tla\\+?\\)(?-i))\\s*(=\\s*\"(?<" + TLA_CHECKSUM
+					+ ">[\\dA-Fa-f]*)\"|\\\\in\\s*STRING)\\s*\\)");
 
 	private static final Pattern MODULE_CLOSING_PATTERN = Pattern.compile(TLAConstants.MODULE_CLOSING_REGEX);
 

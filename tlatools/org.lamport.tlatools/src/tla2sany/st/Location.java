@@ -32,10 +32,10 @@ public final class Location implements Comparable<Location>
     private static final String IN_MODULE = "In module ";
     private static final String IN = " in ";
     private static final String UNKNOWN_LOCATION = "Unknown location";
-    private static final String NATURAL = "([0-9]+)";
-    private static final String MODULE_ID = "([A-Za-z_0-9]+)";
+    private static final String NATURAL = "(\\d+)";
+    private static final String MODULE_ID = "(\\w+)";
     private static final String CLOSE_ACTION = ">";
-    private static final String OPEN_ACTION = "<[A-Za-z_0-9]+ "; // The regex used to just be "Action" but the most recent TLC prints the name of the action instead of just the location.
+    private static final String OPEN_ACTION = "<\\w+ "; // The regex used to just be "Action" but the most recent TLC prints the name of the action instead of just the location.
 
     private static final UniqueString unknown = UniqueString.uniqueStringOf("--unknown--");
 

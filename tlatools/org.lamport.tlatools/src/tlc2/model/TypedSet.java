@@ -26,7 +26,7 @@ public class TypedSet {
 	public static final TypedSet EMPTY_SET = new TypedSet();
 	
     private static final String SEPARATOR = "_";
-    private static final String PATTERN = "[\\s]*,[\\s]*";
+    private static final String PATTERN = "\\s*,\\s*";
 
     
     private String[] values = new String[0];
@@ -320,7 +320,7 @@ public class TypedSet {
         {
             for (int i = 0; i < values.length; i++)
             {
-                if (values[i].matches("[0-9]*"))
+                if (values[i].matches("\\d*"))
                 {
                     // a digit sequence found
                     return true;
@@ -334,7 +334,7 @@ public class TypedSet {
     {
         if (type != null)
         {
-            if (!type.matches("[A-Za-z]{1}[A-Za-z0-9]*"))
+            if (!type.matches("[A-Za-z][A-Za-z\\d]*"))
             {
                 // the type must be a valid identifier
                 return false;

@@ -74,7 +74,7 @@ public final class SpecWriterUtilities {
     						  + TLAConstants.Schemes.CONSTRAINT_SCHEME + "|"
     						  + TLAConstants.Schemes.ACTIONCONSTRAINT_SCHEME + "|"
     						  + TLAConstants.Schemes.INVARIANT_SCHEME + "|"
-    						  + TLAConstants.Schemes.PROP_SCHEME + ")_[0-9]{17,}");
+    						  + TLAConstants.Schemes.PROP_SCHEME + ")_\\d{17,}");
 
     /**
      * Creates a new valid unqiue identifier with timestamp from given scheme.

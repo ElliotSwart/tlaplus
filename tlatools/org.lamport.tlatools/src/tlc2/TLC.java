@@ -490,7 +490,7 @@ public class TLC {
 					suspend = !args[index].toLowerCase().contains("nosuspend");
 					halt = !args[index].toLowerCase().contains("nohalt");
 
-					final Matcher matcher = Pattern.compile(".*port=([0-9]{1,5}).*").matcher(args[index]);
+					final Matcher matcher = Pattern.compile(".*port=(\\d{1,5}).*").matcher(args[index]);
 					if (matcher.find()) {
 						debugPort = Integer.parseInt(matcher.group(1));
 					}

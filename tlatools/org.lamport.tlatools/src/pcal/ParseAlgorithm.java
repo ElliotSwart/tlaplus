@@ -4072,7 +4072,7 @@ public class ParseAlgorithm
     * in str, or str.size() if there is none.
     */
    private static int NextDelimiterCol(final String str, final int col) {
-       final String[] splitStr = str.substring(col).split(" |,|\\)");
+       final String[] splitStr = str.substring(col).split("[ ,)]");
        if (splitStr.length == 0) { return col ; }
        return col + splitStr[0].length();
    }
@@ -4100,7 +4100,7 @@ public class ParseAlgorithm
     */
    private static int NextBraceQuoteOrCommentCol(final String str, final int col) {
        final String[] splitStr =
-           str.substring(col).split("\\{|\\}|\"|\\(\\*|\\\\\\*");
+           str.substring(col).split("\\{|}|\"|\\(\\*|\\\\\\*");
        if (splitStr.length == 0) { return col ; }
        return col + splitStr[0].length();
    }

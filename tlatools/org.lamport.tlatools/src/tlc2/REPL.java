@@ -164,7 +164,7 @@ public class REPL {
             		// Attempted to compute the value of an expression of form CHOOSE x \in S: P, but S was not enumerable.
 					String msg = exc.getMessage().trim();
 					// Strip meaningless location from error message.
-					msg = msg.replaceFirst("\\nline [0-9]+, col [0-9]+ to line [0-9]+, col [0-9]+ of module tlarepl$", "");
+					msg = msg.replaceFirst("\\nline \\d+, col \\d+ to line \\d+, col \\d+ of module tlarepl$", "");
 					// Replace any newlines with whitespaces.
 					msg = msg.replaceAll("\\n", " ").trim();
 					System.out.printf("Error evaluating expression: '%s'%n%s%n", evalExpr, msg);
