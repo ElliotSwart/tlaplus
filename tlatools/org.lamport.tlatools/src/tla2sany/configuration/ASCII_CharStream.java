@@ -221,9 +221,11 @@ public final class ASCII_CharStream
                           final int startcolumn, final int buffersize)
   {
     if (inputStream != null)
-       throw new Error("\n   ERROR: Second call to the constructor of a static ASCII_CharStream.  You must\n" +
-       "       either use ReInit() or set the JavaCC option STATIC to false\n" +
-       "       during the generation of this class.");
+       throw new Error("""
+
+               ERROR: Second call to the constructor of a static ASCII_CharStream.  You must
+                   either use ReInit() or set the JavaCC option STATIC to false
+                   during the generation of this class.""".indent(3));
     inputStream = dstream;
     line = startline;
     column = startcolumn - 1;

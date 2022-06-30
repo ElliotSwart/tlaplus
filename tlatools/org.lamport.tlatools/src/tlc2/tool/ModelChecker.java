@@ -166,10 +166,11 @@ public class ModelChecker extends AbstractChecker
                  * error message.  Changed by LL on 12 Mar 2010
                  */
                 if (e instanceof StackOverflowError) {
-                    msg = "This was a Java StackOverflowError. It was probably the result\n"
-                        + "of an incorrect recursive function definition that caused TLC to enter\n"
-                        + "an infinite loop when trying to compute the function or its application\n"
-                        + "to an element in its putative domain." ;
+                    msg = """
+                            This was a Java StackOverflowError. It was probably the result
+                            of an incorrect recursive function definition that caused TLC to enter
+                            an infinite loop when trying to compute the function or its application
+                            to an element in its putative domain.""";
                 }
                 if (msg == null) {
                     msg = e.toString();

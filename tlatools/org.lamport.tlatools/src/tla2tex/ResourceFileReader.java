@@ -29,10 +29,11 @@ public class ResourceFileReader
        Class<?> cl = null ;
        try { cl = Class.forName("tla2tex.Token"); }
        catch (final ClassNotFoundException e)
-           { Debug.ReportError( 
-               "Java could not find class tla2tex.Token.  There \n"
-             + "    is probably something wrong with the way\n"
-             + "    TLA2TeX is installed");
+           { Debug.ReportError(
+                   """
+                           Java could not find class tla2tex.Token.  There\s
+                               is probably something wrong with the way
+                               TLA2TeX is installed""");
            }
          final InputStream input = cl.getResourceAsStream(fileName) ;
        if (input == null)

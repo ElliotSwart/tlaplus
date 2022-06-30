@@ -1483,36 +1483,41 @@ public class TLC {
 														"interval between the collection of coverage information;\n"
     														+ "if not specified, no coverage will be collected", true));
     	sharedArguments.add(new UsageGenerator.Argument("-deadlock",
-														"if specified DO NOT CHECK FOR DEADLOCK. Setting the flag is\n"
-															+ "the same as setting CHECK_DEADLOCK to FALSE in config\n"
-															+ "file. When -deadlock is specified, config entry is\n"
-															+ "ignored; default behavior is to check for deadlocks",
+                """
+                        if specified DO NOT CHECK FOR DEADLOCK. Setting the flag is
+                        the same as setting CHECK_DEADLOCK to FALSE in config
+                        file. When -deadlock is specified, config entry is
+                        ignored; default behavior is to check for deadlocks""",
 														true));
     	sharedArguments.add(new UsageGenerator.Argument("-postCondition", "mod!oper",
 														"evaluate the given (constant-level) operator oper in the TLA+\n"
     													+ "module mod at the end of model-checking.", true));
     	sharedArguments.add(new UsageGenerator.Argument("-difftrace",
-														"show only the differences between successive states when\n"
-															+ "printing trace information; defaults to printing\n"
-															+ "full state descriptions", true));
+                """
+                        show only the differences between successive states when
+                        printing trace information; defaults to printing
+                        full state descriptions""", true));
     	sharedArguments.add(new UsageGenerator.Argument("-dumpTrace", "format file",
-														"in case of a property violation, formats the TLA+ error trace\n"
-    													+ "as the given format and dumps the output to the specified\n"
-														+ "file.  The file is relative to the same directory as the\n"
-														+ "main spec. At the time of writing, TLC supports the \"tla\"\n"
-														+ "and the \"json\" formats.  To dump to multiple formats, the\n"
-														+ "-dumpTrace parameter may appear multiple times.\n"
-														+ "The git commits 1eb815620 and 386eaa19f show that adding new\n"
-														+ "formats is easy.\n", true));
+                """
+                        in case of a property violation, formats the TLA+ error trace
+                        as the given format and dumps the output to the specified
+                        file.  The file is relative to the same directory as the
+                        main spec. At the time of writing, TLC supports the "tla"
+                        and the "json" formats.  To dump to multiple formats, the
+                        -dumpTrace parameter may appear multiple times.
+                        The git commits 1eb815620 and 386eaa19f show that adding new
+                        formats is easy.
+                        """, true));
     	sharedArguments.add(new UsageGenerator.Argument("-debug",
 														"print various debugging information - not for production use\n",
 														true));
     	sharedArguments.add(new UsageGenerator.Argument("-dump", "file",
-    													"dump all states into the specified file; this parameter takes\n"
-    														+ "optional parameters for dot graph generation. Specifying\n"
-    														+ "'dot' allows further options, comma delimited, of zero\n"
-    														+ "or more of 'actionlabels', 'colorize', 'snapshot' to be\n"
-    														+ "specified before the '.dot'-suffixed filename", true,
+                """
+                        dump all states into the specified file; this parameter takes
+                        optional parameters for dot graph generation. Specifying
+                        'dot' allows further options, comma delimited, of zero
+                        or more of 'actionlabels', 'colorize', 'snapshot' to be
+                        specified before the '.dot'-suffixed filename""", true,
     													"dot actionlabels,colorize,snapshot"));
     	sharedArguments.add(new UsageGenerator.Argument("-fp", "N",
     													"use the Nth irreducible polynomial from the list stored\n"
@@ -1521,19 +1526,22 @@ public class TLC {
 														"the number of MSB used by MultiFPSet to create nested\n"
     														+ "FPSets; defaults to 1", true));
     	sharedArguments.add(new UsageGenerator.Argument("-fpmem", "num",
-														"a value in (0.0,1.0) representing the ratio of total\n"
-															+ "physical memory to devote to storing the fingerprints\n"
-															+ "of found states; defaults to 0.25", true));
+                """
+                        a value in (0.0,1.0) representing the ratio of total
+                        physical memory to devote to storing the fingerprints
+                        of found states; defaults to 0.25""", true));
     	sharedArguments.add(new UsageGenerator.Argument("-noGenerateSpecTE",
-														"Whether to skip generating a trace exploration (TE) spec in\n"
-															+ "the event of TLC finding a state or behavior that does\n"
-															+ "not satisfy the invariants; TLC's default behavior is to\n"
-															+ "generate this spec.", true));
+                """
+                        Whether to skip generating a trace exploration (TE) spec in
+                        the event of TLC finding a state or behavior that does
+                        not satisfy the invariants; TLC's default behavior is to
+                        generate this spec.""", true));
 		sharedArguments.add(new UsageGenerator.Argument("-teSpecOutDir", "some-dir-name",
-														"Directory to which to output the TE spec if TLC generates\n"
-															+ "an error trace. Can be a relative (to root spec dir)\n"
-															+ "or absolute path. By default the TE spec is output\n"
-															+ "to the same directory as the main spec.", true));
+                """
+                        Directory to which to output the TE spec if TLC generates
+                        an error trace. Can be a relative (to root spec dir)
+                        or absolute path. By default the TE spec is output
+                        to the same directory as the main spec.""", true));
     	sharedArguments.add(new UsageGenerator.Argument("-gzip",
 														"control if gzip is applied to value input/output streams;\n"
 															+ "defaults to 'off'", true));
@@ -1552,37 +1560,39 @@ public class TLC {
 														"do not expand values in Print statements; defaults to\n"
 															+ "expanding values", true));
     	sharedArguments.add(new UsageGenerator.Argument("-tool",
-														"run in 'tool' mode, surrounding output with message codes;\n"
-															+ "if '-generateSpecTE' is specified, this is enabled\n"
-															+ "automatically", true));
+                """
+                        run in 'tool' mode, surrounding output with message codes;
+                        if '-generateSpecTE' is specified, this is enabled
+                        automatically""", true));
     	sharedArguments.add(new UsageGenerator.Argument("-userFile", "file",
 														"an absolute path to a file in which to log user output (for\n"
     														+ "example, that which is produced by Print)", true));
     	sharedArguments.add(new UsageGenerator.Argument("-workers", "num",
-														"the number of TLC worker threads; defaults to 1. Use 'auto'\n"
-    														+ "to automatically select the number of threads based on the\n"
-    														+ "number of available cores.", true));
+                """
+                        the number of TLC worker threads; defaults to 1. Use 'auto'
+                        to automatically select the number of threads based on the
+                        number of available cores.""", true));
     	sharedArguments.add(new UsageGenerator.Argument("-debugger", "nosuspend",
-				"run simulation or model-checking in debug mode such that TLC's\n"
-    				+ "state-space exploration can be temporarily halted and variables\n"
-					+ "be inspected. The only debug front-end so far is the TLA+\n"
-    				+ "VSCode extension, which has to be downloaded and configured\n"
-					+ "separately, though other front-ends could be implemeted via the\n"
-    				+ "debug-adapter-protocol.\n"
-					+ "Specifying the optional parameter 'nosuspend' causes\n"
-					+ "TLC to start state-space exploration without waiting for a\n"
-					+ "debugger front-end to connect. Without 'nosuspend', TLC\n"
-					+ "suspends state-space exploration before the first ASSUME is\n"
-					+ "evaluated (but after constants are processed). With 'nohalt',\n"
-					+ "TLC does not halt state-space exploration when an evaluation\n"
-					+ "or runtime error is caught. Without 'nohalt', evaluation or\n"
-					+ "runtime errors can be inspected in the debugger before TLC\n"
-					+ "terminates. The optional parameter 'port=1274' makes the\n"
-					+ "debugger listen on port 1274 instead of on the standard\n"
-					+ "port 4712, and 'port=0' lets the debugger choose a port.\n"
-					+ "Multiple optional parameters must be comma-separated.\n"
-					+ "Specifying '-debugger' implies '-workers 1'."
-					+ "", false,
+                """
+                        run simulation or model-checking in debug mode such that TLC's
+                        state-space exploration can be temporarily halted and variables
+                        be inspected. The only debug front-end so far is the TLA+
+                        VSCode extension, which has to be downloaded and configured
+                        separately, though other front-ends could be implemeted via the
+                        debug-adapter-protocol.
+                        Specifying the optional parameter 'nosuspend' causes
+                        TLC to start state-space exploration without waiting for a
+                        debugger front-end to connect. Without 'nosuspend', TLC
+                        suspends state-space exploration before the first ASSUME is
+                        evaluated (but after constants are processed). With 'nohalt',
+                        TLC does not halt state-space exploration when an evaluation
+                        or runtime error is caught. Without 'nohalt', evaluation or
+                        runtime errors can be inspected in the debugger before TLC
+                        terminates. The optional parameter 'port=1274' makes the
+                        debugger listen on port 1274 instead of on the standard
+                        port 4712, and 'port=0' lets the debugger choose a port.
+                        Multiple optional parameters must be comma-separated.
+                        Specifying '-debugger' implies '-workers 1'.""", false,
 				"nosuspend"));
   	
     	sharedArguments.add(new UsageGenerator.Argument("SPEC", null));
@@ -1607,12 +1617,13 @@ public class TLC {
     	simulateVariant.add(new UsageGenerator.Argument("-aril", "num",
 														"adjust the seed for random simulation; defaults to 0", true));
     	simulateVariant.add(new UsageGenerator.Argument("-simulate", null,
-													  	"run in simulation mode; optional parameters may be specified\n"
-	    													+ "comma delimited: 'num=X' where X is the maximum number of\n"
-	    													+ "total traces to generate and/or 'file=Y' where Y is the\n"
-	    													+ "absolute-pathed prefix for trace file modules to be written\n"
-	    													+ "by the simulation workers; for example Y='/a/b/c/tr' would\n"
-	    													+ "produce, e.g, '/a/b/c/tr_1_15'", false,
+                """
+                        run in simulation mode; optional parameters may be specified
+                        comma delimited: 'num=X' where X is the maximum number of
+                        total traces to generate and/or 'file=Y' where Y is the
+                        absolute-pathed prefix for trace file modules to be written
+                        by the simulation workers; for example Y='/a/b/c/tr' would
+                        produce, e.g, '/a/b/c/tr_1_15'""", false,
 	    												"file=X,num=Y"));
     	// implies workers 1
     	// bfs and simulation only (no iddfs)
@@ -1623,13 +1634,15 @@ public class TLC {
     	tips.add("When using the  '-generateSpecTE' you can version the generated specification by doing:\n\t"
     				+ "./tla2tools.jar -generateSpecTE MySpec.tla && NAME=\"SpecTE-$(date +%s)\" && sed -e \"s/MODULE"
     				+ " SpecTE/MODULE $NAME/g\" SpecTE.tla > $NAME.tla");
-    	tips.add("If, while checking a SpecTE created via '-generateSpecTE', you get an error message concerning\n"
-    				+ "CONSTANT declaration and you've previous used 'integers' as model values, rename your\n"
-    				+ "model values to start with a non-numeral and rerun the model check to generate a new SpecTE.");
-    	tips.add("If, while checking a SpecTE created via '-generateSpecTE', you get a warning concerning\n"
-					+ "duplicate operator definitions, this is likely due to the 'monolith' specification\n"
-					+ "creation. Try re-running TLC adding the 'nomonolith' option to the '-generateSpecTE'\n"
-					+ "parameter.");
+    	tips.add("""
+                If, while checking a SpecTE created via '-generateSpecTE', you get an error message concerning
+                CONSTANT declaration and you've previous used 'integers' as model values, rename your
+                model values to start with a non-numeral and rerun the model check to generate a new SpecTE.""");
+    	tips.add("""
+                If, while checking a SpecTE created via '-generateSpecTE', you get a warning concerning
+                duplicate operator definitions, this is likely due to the 'monolith' specification
+                creation. Try re-running TLC adding the 'nomonolith' option to the '-generateSpecTE'
+                parameter.""");
     	
     	UsageGenerator.displayUsage(ToolIO.out, "TLC", TLCGlobals.versionOfTLC,
     								"provides model checking and simulation of TLA+ specifications",

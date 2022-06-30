@@ -621,8 +621,10 @@ public class TLA
         ********************************************************************/
         if (Parameters.TLAOutFile.equals(Parameters.TLAInputFile))
         {
-            CommandLineError("\n  -tlaOut file the same as the tla input file.\n"
-                    + "  This would overwrite your input file, so I won't do it");
+            CommandLineError("""
+
+                    -tlaOut file the same as the tla input file.
+                    This would overwrite your input file, so I won't do it""".indent(2));
         }
 
         /********************************************************************

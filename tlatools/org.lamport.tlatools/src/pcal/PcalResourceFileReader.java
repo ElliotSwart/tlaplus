@@ -32,10 +32,11 @@ public class PcalResourceFileReader
        // TODO fix this!
        try { cl = Class.forName("pcal.AST"); }
        catch (final ClassNotFoundException e)
-           { throw new PcalResourceFileReaderException( 
-               "Java could not find class pcal.AST.  There \n"
-             + "    is probably something wrong with the way\n"
-             + "    the +cal translator is installed");
+           { throw new PcalResourceFileReaderException(
+                   """
+                           Java could not find class pcal.AST.  There\s
+                               is probably something wrong with the way
+                               the +cal translator is installed""");
            }
          final InputStream input = cl.getResourceAsStream(fileName) ;
        if (input == null)

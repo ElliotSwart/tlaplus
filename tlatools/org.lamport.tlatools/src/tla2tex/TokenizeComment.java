@@ -495,9 +495,12 @@ public class TokenizeComment
                       * problem when testing, so ...                       *
                       *****************************************************/
                      { Debug.ReportError(
-                        "Sorry, but you can't put the string\n\n" +
-                        "       \\end{verbatim}\n\n" +
-                        "    between `. and .' ");
+                             """
+                                     Sorry, but you can't put the string
+
+                                            \\end{verbatim}
+
+                                         between `. and .'\s""");
                      }
                       break;
                   case CToken.OTHER :
