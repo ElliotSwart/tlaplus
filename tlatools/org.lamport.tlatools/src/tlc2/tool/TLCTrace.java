@@ -20,11 +20,6 @@ import tlc2.output.StatePrinter;
 import tlc2.util.BufferedRandomAccessFile;
 import tlc2.util.LongVec;
 import tlc2.value.RandomEnumerableValues;
-import tlc2.value.ValueOutputStream;
-import tlc2.value.impl.RecordValue;
-import tlc2.value.impl.TupleValue;
-import tlc2.value.impl.Value;
-import util.Assert;
 import util.FileUtil;
 
 public class TLCTrace {

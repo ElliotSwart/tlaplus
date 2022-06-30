@@ -12,9 +12,7 @@
 package tla2sany.semantic;
 
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.stream.Stream;
 
 import tla2sany.parser.Operators;

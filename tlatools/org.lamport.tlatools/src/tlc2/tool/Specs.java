@@ -26,7 +26,6 @@
 package tlc2.tool;
 
 import java.util.HashSet;
-import java.util.Iterator;
 
 import tla2sany.semantic.ExprNode;
 import tla2sany.semantic.LevelNode;

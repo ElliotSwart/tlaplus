@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 import pcal.PCalLocation;
 import pcal.Region;
-import util.Assert;
 import util.TLAConstants;
 import util.UniqueString;
 

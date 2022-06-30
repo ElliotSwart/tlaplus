@@ -1,7 +1,6 @@
 package tlc2.tool.distributed;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.rmi.RemoteException;

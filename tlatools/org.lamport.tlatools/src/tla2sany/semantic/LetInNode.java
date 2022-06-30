@@ -4,7 +4,6 @@ package tla2sany.semantic;
 
 import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Iterator;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

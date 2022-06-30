@@ -11,7 +11,6 @@ import java.util.Set;
 
 import tla2sany.semantic.OpDeclNode;
 import tla2sany.semantic.SymbolNode;
-import tlc2.util.Context;
 import tlc2.value.IValue;
 import tlc2.value.IValueInputStream;
 import tlc2.value.IValueOutputStream;

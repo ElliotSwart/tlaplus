@@ -29,7 +29,6 @@ import java.util.Vector;
 import pcal.AST.Either;
 import pcal.AST.If;
 import pcal.AST.LabeledStmt;
-import pcal.AST.SingleAssign;
 import pcal.exception.PcalTranslateException;
 
 // Using untyped objects is part of architecture

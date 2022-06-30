@@ -7,7 +7,6 @@ package tlc2.tool;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 

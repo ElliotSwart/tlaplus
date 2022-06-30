@@ -7,7 +7,6 @@ import java.io.RandomAccessFile;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -21,7 +20,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.ToLongFunction;
 import java.util.logging.Level;
 
 import tlc2.TLCGlobals;

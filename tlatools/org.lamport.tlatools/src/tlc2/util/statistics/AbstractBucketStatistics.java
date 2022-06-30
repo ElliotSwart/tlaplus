@@ -25,7 +25,6 @@
  ******************************************************************************/
 package tlc2.util.statistics;
 
-import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
 

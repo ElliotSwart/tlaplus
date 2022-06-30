@@ -32,7 +32,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import tla2sany.drivers.FrontEndException;
 import tla2sany.drivers.SANY;

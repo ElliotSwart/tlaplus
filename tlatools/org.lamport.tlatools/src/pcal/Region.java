@@ -7,8 +7,6 @@ package pcal;
 
 import java.io.Serializable;
 
-import tla2sany.st.Location;
-
 public class Region implements Serializable {
 
     /**

@@ -109,12 +109,9 @@ package pcal;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import pcal.AST.Clause;
-import pcal.AST.LabeledStmt;
 import pcal.AST.Macro;
 import pcal.AST.PVarDecl;
 import pcal.AST.Procedure;
-import pcal.AST.Process;
 import pcal.AST.VarDecl;
 import pcal.exception.ParseAlgorithmException;
 import pcal.exception.TLAExprException;

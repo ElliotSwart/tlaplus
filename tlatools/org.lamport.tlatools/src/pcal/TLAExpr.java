@@ -107,7 +107,6 @@ package pcal;
 import java.util.Vector;
 
 import pcal.exception.TLAExprException;
-import pcal.exception.UnrecoverableException;
 import tla2tex.Debug;
 
 public class TLAExpr

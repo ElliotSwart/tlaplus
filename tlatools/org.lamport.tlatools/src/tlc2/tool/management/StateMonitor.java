@@ -27,7 +27,6 @@ package tlc2.tool.management;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
