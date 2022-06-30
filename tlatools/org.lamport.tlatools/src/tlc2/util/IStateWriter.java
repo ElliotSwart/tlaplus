@@ -45,8 +45,8 @@ public interface IStateWriter {
 		/**
 		 * A dotted line.
 		 */
-		DOTTED;
-	}
+		DOTTED
+    }
 
 	void writeState(TLCState state);
 

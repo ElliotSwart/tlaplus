@@ -177,8 +177,8 @@ public class LabelNode extends ExprNode
     * If the hashtable `labels' contains a LabelNode with name `us',       *
     * then that LabelNode is returned; otherwise null is returned.         *
     ***********************************************************************/
-    if (labels == null) {return null;} ;
-    return (LabelNode) labels.get(us) ;
+    if (labels == null) {return null;}
+      return (LabelNode) labels.get(us) ;
    }
 
   @Override
@@ -189,9 +189,9 @@ public boolean addLabel(final LabelNode odn) {
     * as odn, then odn is added to the set and true is return; else the    *
     * set is unchanged and false is returned.                              *
     ***********************************************************************/
-    if (labels == null) {labels = new Hashtable<UniqueString, LabelNode>(); } ;
-    if (labels.containsKey(odn)) {return false ;} ;
-    labels.put(odn.getName(), odn) ;
+    if (labels == null) {labels = new Hashtable<UniqueString, LabelNode>(); }
+      if (labels.containsKey(odn)) {return false ;}
+      labels.put(odn.getName(), odn) ;
     return true;
    }
 
@@ -201,14 +201,14 @@ public boolean addLabel(final LabelNode odn) {
     * Returns an array containing the Label objects in the hashtable       *
     * `labels'.                                                            *
     ***********************************************************************/
-    if (labels == null) {return new LabelNode[0];} ;
-    final Vector<LabelNode> v = new Vector<LabelNode>() ;
+    if (labels == null) {return new LabelNode[0];}
+      final Vector<LabelNode> v = new Vector<LabelNode>() ;
     final Enumeration<LabelNode> e = labels.elements() ;
-    while (e.hasMoreElements()) { v.addElement(e.nextElement()); } ;
-    final LabelNode[] retVal = new LabelNode[v.size()] ;
+    while (e.hasMoreElements()) { v.addElement(e.nextElement()); }
+      final LabelNode[] retVal = new LabelNode[v.size()] ;
     for (int i = 0 ; i < v.size() ; i++)
-      {retVal[i] = (LabelNode) v.elementAt(i); } ;
-    return retVal ;
+      {retVal[i] = (LabelNode) v.elementAt(i); }
+      return retVal ;
    }
 
   @Override
@@ -224,55 +224,55 @@ public boolean addLabel(final LabelNode odn) {
   *************************************************************************/
   @Override
   public final boolean levelCheck(final int iter) {
-    if (levelChecked >= iter) {return true ;} ;
-    levelChecked = iter;
+    if (levelChecked >= iter) {return true ;}
+      levelChecked = iter;
     final boolean retVal = true ;
     for (int i=0; i < params.length; i++) {
-      if (params[i] != null) {params[i].levelCheck(iter);} ;
-     } ;
-    return this.body.levelCheck(iter) && retVal ;
+      if (params[i] != null) {params[i].levelCheck(iter);}
+    }
+      return this.body.levelCheck(iter) && retVal ;
   }
 
   @Override
   public final int getLevel() {
     if (levelChecked == 0)
-      {throw new WrongInvocationException("getLevel called for TheoremNode before levelCheck");};
-    return this.body.getLevel();
+      {throw new WrongInvocationException("getLevel called for TheoremNode before levelCheck");}
+      return this.body.getLevel();
   }
 
   @Override
   public final HashSet<SymbolNode> getLevelParams() {
     if (levelChecked == 0)
-      {throw new WrongInvocationException("getLevelParams called for ThmNode before levelCheck");};
-    return this.body.getLevelParams();
+      {throw new WrongInvocationException("getLevelParams called for ThmNode before levelCheck");}
+      return this.body.getLevelParams();
   }
 
   @Override
   public final HashSet<SymbolNode> getAllParams() {
     if (levelChecked == 0)
-      {throw new WrongInvocationException("getAllParams called for ThmNode before levelCheck");};
-    return this.body.getAllParams();
+      {throw new WrongInvocationException("getAllParams called for ThmNode before levelCheck");}
+      return this.body.getAllParams();
   }
 
   @Override
   public final SetOfLevelConstraints getLevelConstraints() {
     if (levelChecked == 0)
-       {throw new WrongInvocationException("getLevelConstraints called for ThmNode before levelCheck");};
-    return this.body.getLevelConstraints();
+       {throw new WrongInvocationException("getLevelConstraints called for ThmNode before levelCheck");}
+      return this.body.getLevelConstraints();
   }
 
   @Override
   public final SetOfArgLevelConstraints getArgLevelConstraints() {
     if (levelChecked == 0)
-      {throw new WrongInvocationException("getArgLevelConstraints called for ThmNode before levelCheck");};
-    return this.body.getArgLevelConstraints();
+      {throw new WrongInvocationException("getArgLevelConstraints called for ThmNode before levelCheck");}
+      return this.body.getArgLevelConstraints();
   }
 
   @Override
   public final HashSet<ArgLevelParam> getArgLevelParams() {
     if (levelChecked == 0)
-      {throw new WrongInvocationException("getArgLevelParams called for ThmNode before levelCheck");};
-    return this.body.getArgLevelParams();
+      {throw new WrongInvocationException("getArgLevelParams called for ThmNode before levelCheck");}
+      return this.body.getArgLevelParams();
   }
 
   /*
@@ -297,8 +297,8 @@ public boolean addLabel(final LabelNode odn) {
     if (body != null) body.walkGraph(semNodesTable, visitor);
     for (int i = 0 ; i < params.length; i++) {
       params[i].walkGraph(semNodesTable, visitor);
-     } ;
-     visitor.postVisit(this);
+     }
+      visitor.postVisit(this);
   }
 
   @Override
@@ -311,8 +311,8 @@ public boolean addLabel(final LabelNode odn) {
                             "\nparam[" + i + "]:" +
                                  Strings.indent(2,
                                                 params[i].toString(depth-1)));
-     } ;
-    ret += Strings.indent(2, "\nisAssumeProve: " + isAssumeProve) ;
+     }
+      ret += Strings.indent(2, "\nisAssumeProve: " + isAssumeProve) ;
     ret += Strings.indent(2, "\nBody:" +
                                Strings.indent(2, body.toString(depth-1)));
 
@@ -325,18 +325,18 @@ public boolean addLabel(final LabelNode odn) {
        final Enumeration<UniqueString> list = labels.keys() ;
        while (list.hasMoreElements()) {
           ret += list.nextElement().toString() + "  " ;
-         } ;
-      }
-    else {ret += "\n  Labels: null";} ;
-    if (this.subExpressionOf != null) {
+         }
+    }
+    else {ret += "\n  Labels: null";}
+      if (this.subExpressionOf != null) {
        ret += Strings.indent(2, "\nsubExpressionOf: " +
-                  Strings.indent(2, this.subExpressionOf.toString(1))) ;} ;
+                  Strings.indent(2, this.subExpressionOf.toString(1))) ;}
 
-    if (goal != null) {
+      if (goal != null) {
       ret += "\n goal: " + Strings.indent(4, this.goal.toString(1)) +
              "\n goalClause: " + goalClause ;
-     } ;
-    return ret;
+     }
+      return ret;
   }
 
   @Override

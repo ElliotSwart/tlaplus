@@ -380,8 +380,8 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 	// ---------------- Child counts ---------------- //
 	
 	protected enum Calculate {
-		FRESH, CACHED;
-	}
+		FRESH, CACHED
+    }
 
 	protected void collectChildren(final Set<Pair> result, final Calculate c) {
 		for (final CostModelNode cmn : children.values()) {

@@ -206,9 +206,9 @@ public class Token
       { string = "" ;
         column = 0 ;
         type   = 0 ;
-      } ;
+      }
 
-    public int getWidth() 
+      public int getWidth()
       /*********************************************************************
       * Returns a width, which is the number of columns the token spans    *
       * in the original input stream.                                      *
@@ -222,9 +222,9 @@ public class Token
             return string.length() + 2;}
         else
           {return string.length();}
-      };      
+      }
 
-    /***********************************************************************
+      /***********************************************************************
     * The method FindPfStepTokens replaces each sequence of three to five  *
     * tokens created by TokenizeSpec for something like "<42>" or          *
     * "<42>1a." into a single token of type PF_STEP.                       *
@@ -257,10 +257,10 @@ public class Token
                          && (input[i+4].string.equals(".")))
                        { str = str + "." ;
                          numOfToks = 5;
-                       } ;
-                   };
+                       }
+                   }
 
-                 if (   (i < input.length - numOfToks)
+                   if (   (i < input.length - numOfToks)
                      && (input[i + numOfToks].type == BUILTIN)
                      && (   (BuiltInSymbols.GetBuiltInSymbol(
                                  input[i + numOfToks].string, true).symbolType
@@ -268,8 +268,8 @@ public class Token
                          ||  (BuiltInSymbols.GetBuiltInSymbol(
                                  input[i + numOfToks].string, true).symbolType
                               == Symbol.PUNCTUATION)))
-                   { needsSpace = false ; } ;
-                 outputVec.addElement(new Token.PfStepToken
+                   { needsSpace = false ; }
+                   outputVec.addElement(new Token.PfStepToken
                                         (str,
                                          input[i].column,
                                          needsSpace) );
@@ -278,12 +278,12 @@ public class Token
              else { outputVec.addElement(input[i]) ;
                     i = i+1 ;
                   } // else
-           } ; // while
+           } // while
           if (outputVec.size() != input.length)
             { toks[k] = new Token[outputVec.size()] ;
               for (i = 0; i < outputVec.size(); i++) 
                  { toks[k][i] = outputVec.elementAt(i) ;
-                 } ;
+                 }
             }
         } // for k
       } 
@@ -312,38 +312,38 @@ public class Token
             case PROLOG     : typeName = "PROLOG"     ; break ;
             case EPILOG     : typeName = "EPILOG"     ; break ;
             case PCAL_LABEL : typeName = "PCAL_LABEL" ; break ;
-          } ;
-        String str = "\"" + string + "\"" ;
-        if (string == null) {str = "null";};
+          }
+          String str = "\"" + string + "\"" ;
+        if (string == null) {str = "null";}
 
-        String result =    "[str |-> "    + str
+          String result =    "[str |-> "    + str
                          + ",\t type |-> "  + typeName
                          + ",\t col |-> "   + column
                          + ",\t width |-> " + getWidth() ;
         if (aboveAlign.line != -1)
-             {result = result + ",\t above |-> " + aboveAlign.toString();} ;
-        if (belowAlign.line  != -1)
-             {result = result + ",\t below |-> " + belowAlign.toString();} ;
-        if (preSpace != 0)
-             {result = result + ", space |-> " + preSpace; } ;
-        if (isAlignmentPoint)
-             {result = result + ", align |-> true"; } ;
-        if (distFromMargin != 0)
-             {result = result + ", dist |-> " + distFromMargin; } ;
-        if (subscript) 
-             {result = result + ", sub |-> true";};
-        return result; 
-      };
-      
+             {result = result + ",\t above |-> " + aboveAlign.toString();}
+          if (belowAlign.line  != -1)
+             {result = result + ",\t below |-> " + belowAlign.toString();}
+          if (preSpace != 0)
+             {result = result + ", space |-> " + preSpace; }
+          if (isAlignmentPoint)
+             {result = result + ", align |-> true"; }
+          if (distFromMargin != 0)
+             {result = result + ", dist |-> " + distFromMargin; }
+          if (subscript)
+             {result = result + ", sub |-> true";}
+          return result;
+      }
 
-    public String toString()
+
+      public String toString()
       /*********************************************************************
       * For debugging.                                                     *
       *********************************************************************/
-      {  return Misc.BreakLine(mostOfString() + "]") ; };  
+      {  return Misc.BreakLine(mostOfString() + "]") ; }
 
 
-    /***********************************************************************
+      /***********************************************************************
     * We define a subclass to add a needsSpace field to PF_STEP tokens.    *
     ***********************************************************************/
     public static class PfStepToken extends Token { 

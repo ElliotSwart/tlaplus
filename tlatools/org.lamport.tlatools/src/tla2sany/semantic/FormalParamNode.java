@@ -77,8 +77,8 @@ public class FormalParamNode extends SymbolNode {
       levelChecked = iter;
       this.levelParams.add(this);
       this.allParams.add(this);
-     } ;
-    return true;
+     }
+      return true;
    }
 
 //  public final int getLevel() { return ConstantLevel; }

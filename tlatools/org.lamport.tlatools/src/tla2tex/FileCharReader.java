@@ -33,10 +33,10 @@ public class FileCharReader extends CharReader
              * File fileName could not be found.                           *
              **************************************************************/
              Debug.ReportError("Input file " + fileName + " not found.");
-           } ;
-      } ;
+           }
+      }
 
-    @Override
+      @Override
     public String innerGetNextLine()
       /*********************************************************************
       * The abstract innerGetNextLine method of CharReader is implemented  *
@@ -46,18 +46,18 @@ public class FileCharReader extends CharReader
       { try {return bufferedReader.readLine();}
         catch (final IOException e)
           { Debug.ReportError("Error reading file: " + e.getMessage());
-          };
+          }
 
-        /*******************************************************************
+          /*******************************************************************
         * The following return statement is silly, since it is never       *
         * reached.  But the compiler isn't clever enough to notice that    *
         * it's not needed.                                                 *
         *******************************************************************/
         return null ;
 
-      } ;
+      }
 
-    @Override
+      @Override
     public void close()
       /*********************************************************************
       * Implements CharReader's abstract close() method.                   *
@@ -65,6 +65,6 @@ public class FileCharReader extends CharReader
       { try {bufferedReader.close();}
         catch (final IOException e)
           { Debug.ReportError("Error trying to close file: " + e.getMessage());
-          };
-      };
+          }
+      }
   }

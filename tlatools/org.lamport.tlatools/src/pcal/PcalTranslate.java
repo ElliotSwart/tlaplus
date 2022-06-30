@@ -191,10 +191,10 @@ public class PcalTranslate {
             firstLine.addElement(tok) ;
             nextCol = nextCol + tok.getWidth() + spaces ;
             i = i + 1 ;
-          } ;
-        
-        return MakeExpr(Singleton(firstLine)) ;
-      } ;
+          }
+
+          return MakeExpr(Singleton(firstLine)) ;
+      }
 
     public static void MakeNewStackTopExprPretty(final TLAExpr expr) {
         /*********************************************************************
@@ -561,10 +561,10 @@ public class PcalTranslate {
                   if (! needsGoto){
                     if (thenNeedsGoto) {
                        If.Then.addElement(UpdatePC(next));
-                      } ;                
-                    if (elseNeedsGoto) {
+                      }
+                      if (elseNeedsGoto) {
                        If.Else.addElement(UpdatePC(next));
-                     } ;                
+                     }
                   }
                 }
             }
@@ -581,7 +581,7 @@ public class PcalTranslate {
                   result2.addAll((Vector) thisP.elementAt(1));
                   needsGoto = needsGoto && ((BoolObj) thisP.elementAt(2)).val ;
                   needsGotoVec.addElement(thisP.elementAt(2)) ;
-                } ;
+                }
                 if (! ParseAlgorithm.omitPC) {
                   if (! needsGoto) {
                     /* Each `or' clause needs a goto. */
@@ -593,7 +593,7 @@ public class PcalTranslate {
                       }
                      }
                   }
-                };
+                }
             }
             else if (last.getClass().equals(AST.WithObj.getClass())) {
                 final AST.With with = (AST.With) last;
@@ -612,7 +612,7 @@ public class PcalTranslate {
         else { 
           /* This is an empty sequence of statements.  */
           needsGoto = true ;
-        }  ;
+        }
 //        else  result1.addElement(UpdatePC(next));
         if (ParseAlgorithm.omitPC) {
             needsGoto = false;
@@ -634,8 +634,8 @@ public class PcalTranslate {
       *********************************************************************/
       final Vector<Object> res = CopyAndExplodeLastStmt(stmts, next) ;
         if (((BoolObj) res.elementAt(2)).val) {
-          ((Vector) res.elementAt(0)).addElement(UpdatePC(next)); } ;    
-      return Pair(res.elementAt(0), res.elementAt(1)) ;
+          ((Vector) res.elementAt(0)).addElement(UpdatePC(next)); }
+        return Pair(res.elementAt(0), res.elementAt(1)) ;
     }
 
 
@@ -698,8 +698,8 @@ public class PcalTranslate {
        final String nxt = (i < seq.size() - 1) ?
                       ((AST.LabeledStmt) seq.elementAt(i+1)).label : next ;
        result.addAll(ExplodeLabeledStmt(stmt, nxt)) ;
-      };
-     return result ;
+      }
+        return result ;
      }
 
     /*
@@ -941,7 +941,7 @@ public class PcalTranslate {
          newEither.ors.addElement((Vector) res.elementAt(0)) ;
          result2.addAll((Vector) res.elementAt(1)) ;
          result2.addAll(ExplodeLabeledStmtSeq(clause.labOr, next)) ;
-        } ;
+        }
         result1.addElement(newEither);
         return Pair(result1, result2);
     }
@@ -966,7 +966,7 @@ public class PcalTranslate {
         *******************************************************************/
         if (to == st.procs.size())
           { throw new PcalTranslateException("Call of non-existent procedure " + ast.to,
-                                    ast);  } ;
+                                    ast);  }
         final PcalSymTab.ProcedureEntry pe =
             st.procs.elementAt(to);
         /*******************************************************************
@@ -1137,7 +1137,6 @@ public class PcalTranslate {
         {
             throw new PcalTranslateException("`return' statement not in procedure", ast);
         }
-        ;
 
         final int from = st.FindProc(ast.from);
         // The following added by LL on 13 Jan 2011.
@@ -1284,7 +1283,7 @@ public class PcalTranslate {
           { throw new PcalTranslateException(
               "`return' statement following `call' at " +
                ast.location() + " not in a procedure");
-          } ;
+          }
         final int from = st.FindProc(ast.from);
         final PcalSymTab.ProcedureEntry peFrom =
             st.procs.elementAt(from);
@@ -1295,7 +1294,7 @@ public class PcalTranslate {
         *******************************************************************/
         if (to == st.procs.size())
           { throw new PcalTranslateException("Call of non-existent procedure " + ast.to,
-                                    ast);  } ;
+                                    ast);  }
         final PcalSymTab.ProcedureEntry peTo =
             st.procs.elementAt(to);
         PcalDebug.Assert(from < st.procs.size());

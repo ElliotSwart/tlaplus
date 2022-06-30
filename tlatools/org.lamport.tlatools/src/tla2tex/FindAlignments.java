@@ -246,9 +246,9 @@ public class FindAlignments
            { inProlog = false;}
          else
            { line = line + 1;}
-       };
-      
-      /*********************************************************************
+       }
+
+        /*********************************************************************
       * Set aboveAlign and belowAlign "pointers".                          *
       *********************************************************************/
       while (line < spec.length)
@@ -283,9 +283,9 @@ public class FindAlignments
                 ***********************************************************/
                 final Position bpos   = blockingPosition(spec, pos);
                 Token    btoken =  null ;
-                if (bpos.line != -1) {btoken = bpos.toToken(spec);};
-                
-                /***********************************************************
+                if (bpos.line != -1) {btoken = bpos.toToken(spec);}
+
+                  /***********************************************************
                 * Set ctok to be a CommentToken alias for token.           *
                 ***********************************************************/
                 final CommentToken ctok = (CommentToken) token ;
@@ -306,9 +306,9 @@ public class FindAlignments
                             == CommentToken.BEGIN_MULTI)
                      { token.aboveAlign = bpos ; }
                    else
-                     { token.aboveAlign = btoken.aboveAlign ; };
+                     { token.aboveAlign = btoken.aboveAlign ; }
 
-                   /********************************************************
+                     /********************************************************
                    * Make the blocking token's belowAlign pointer point    *
                    * to token.                                             *
                    ********************************************************/
@@ -343,7 +343,7 @@ public class FindAlignments
                        if (btoken.aboveAlign.line == -1)
                          { token.aboveAlign = bpos; }
                        else
-                         { token.aboveAlign = btoken.aboveAlign ;};
+                         { token.aboveAlign = btoken.aboveAlign ;}
                      }  // END then OF if ((bpos.line != -1)...)
                    else
                      { /*******************************************************
@@ -355,8 +355,8 @@ public class FindAlignments
                                && (spec[line][0].type == Token.COMMENT)))
                          { pos.toToken(spec).aboveAlign = 
                              coveringPosition(spec, pos, true) ;
-                         } ;
-                     }; // END else OF if ((bpos.line != -1)...)
+                         }
+                     }// END else OF if ((bpos.line != -1)...)
 
 
                  } // END else OF if  if ((ctok.subtype == .. ))
@@ -397,7 +397,7 @@ public class FindAlignments
                           * AfterInfixInner aligned.                       *
                           *************************************************/
                            token.aboveAlign = aPos;
-                        } ;
+                        }
                     } // END if (alPos.item + 1 < spec[alPos.line].length)
                    prevInfixInner = false;
                  } // END then OF if (prevInfixInner)
@@ -438,19 +438,19 @@ public class FindAlignments
                             * and covering token of the current token.     *
                             ***********************************************/
                           if (cpos.line != -1)
-                            { ctoken = cpos.toToken(spec);};
-                          int alignClass = 0 ;  // The alignment classes
+                            { ctoken = cpos.toToken(spec);}
+                            int alignClass = 0 ;  // The alignment classes
                           int calignClass = 0;  //   of pos and cpos.
                           if (token.type == Token.BUILTIN)
                            { alignClass = 
                                 BuiltInSymbols.GetBuiltInSymbol(
-                                   token.string, true).alignmentType ; } ;
-                          if (   (ctoken != null)
+                                   token.string, true).alignmentType ; }
+                            if (   (ctoken != null)
                               && (ctoken.type == Token.BUILTIN))
                            { calignClass = 
                                 BuiltInSymbols.GetBuiltInSymbol(
-                                   ctoken.string, true).alignmentType ; } ;
-                          if (   (ctoken != null)
+                                   ctoken.string, true).alignmentType ; }
+                            if (   (ctoken != null)
                               && (token.column == ctoken.column)
                               && (alignClass != 0)
                               && (alignClass == calignClass))
@@ -461,8 +461,8 @@ public class FindAlignments
                              if (ctoken.aboveAlign.line == -1)
                               {token.aboveAlign = cpos ; }
                              else
-                              { token.aboveAlign = ctoken.aboveAlign ; };
-                             prevInfixInner = true;
+                              { token.aboveAlign = ctoken.aboveAlign ; }
+                               prevInfixInner = true;
                            }  // END then OF if ((token.column == ...))
                           else
                            { /**********************************************
@@ -558,14 +558,14 @@ public class FindAlignments
                                       *****************************************/
                                       token.aboveAlign = cpos;           
                                       ctoken.belowAlign = pos ;
-                                    } ;
+                                    }
                                  }
-                              };
-                           };// END else OF if ((token.column == ...))
-                        }; // END else of if (isLeftComment(spec, pos))
-                    }; // END else OF if (   ((item == 0) && ... ))
-                 }; // END else OF if (prevInfixInner)
-              }; // END else OF (isRightComment(spec, pos))                   
+                              }
+                           }// END else OF if ((token.column == ...))
+                        }// END else of if (isLeftComment(spec, pos))
+                    }// END else OF if (   ((item == 0) && ... ))
+                 }// END else OF if (prevInfixInner)
+              }// END else OF (isRightComment(spec, pos))
              }   // END then OF if (! token.subscript)
             else
              { prevInfixInner = false ;
@@ -573,9 +573,9 @@ public class FindAlignments
                  * Need to reset prevInfixInner for the tokens following   *
                  * a ^ or _.                                               *
                  **********************************************************/
-             } ;  
-           item = item + 1 ;
-          } ; // END while (item < spec[line].length)
+             }
+              item = item + 1 ;
+          } // END while (item < spec[line].length)
 
          line = line + 1;
          /******************************************************************
@@ -584,8 +584,8 @@ public class FindAlignments
          if (    (line < spec.length) 
               && (spec[line].length > 0)
               && (spec[line][0].type == Token.EPILOG))
-           { line = spec.length ;} ;
-       }; // END while (line < spec.length)
+           { line = spec.length ;}
+       }// END while (line < spec.length)
 
        // Add the AfterLabel alignments.
        FindLabelAlignments(spec) ;
@@ -603,35 +603,35 @@ public class FindAlignments
             if (token.aboveAlign.line != -1)
               { if (item > 0)
                   {token.isAlignmentPoint = true ;
-                  };
-                if (token.aboveAlign.item != 0)
+                  }
+                  if (token.aboveAlign.item != 0)
                    /********************************************************
                    * Corrected apparent bug on 16 Jan 00: This if          *
                    * condition was: token.aboveAlign.line != 0.            *
                    ********************************************************/
                   { token.aboveAlign.toToken(spec).isAlignmentPoint 
                             = true; 
-                  };
-              } ;
+                  }
+              }
 
-            if (token.belowAlign.line != -1)
+              if (token.belowAlign.line != -1)
               { if (item > 0)
                   {token.isAlignmentPoint = true ;
-                  };
-                if (token.belowAlign.line != 0)
+                  }
+                  if (token.belowAlign.line != 0)
                   { token.belowAlign.toToken(spec).isAlignmentPoint 
                             = true; 
-                  };
-              } ;
+                  }
+              }
 
-            item = item + 1 ;
-          } ; // END while (item < spec[line].length)
+              item = item + 1 ;
+          } // END while (item < spec[line].length)
 
          line = line + 1;
-       }; // END while (line < spec.length)
-    } ;
+       }// END while (line < spec.length)
+    }
 
-  /**
+    /**
    * Adds AfterLabel alignments to spec.  More precisely, for something like
    * 
    *  if (x) { stmt
@@ -874,9 +874,9 @@ public class FindAlignments
     { return    (p.item == 0)
              && (spec[p.line][p.item].type == Token.COMMENT) 
              && (spec[p.line].length > 1) ;
-    } ;
+    }
 
-  private static boolean isRightComment(final Token[][] spec, final Position p)
+    private static boolean isRightComment(final Token[][] spec, final Position p)
     /***********************************************************************
     * A right-comment is a comment token that is the last token on its     *
     * line.  This method returns true iff the token at position p in spec  *
@@ -884,9 +884,9 @@ public class FindAlignments
     ***********************************************************************/
     { return    (p.item == spec[p.line].length - 1)
              && (spec[p.line][p.item].type == Token.COMMENT) ;
-    } ;
+    }
 
-  private static Position coveringPosition(
+    private static Position coveringPosition(
           final Token[][] spec, final Position p, final boolean ignore)
     /***********************************************************************
     * A token t1 COVERS a token t2 if t1 lies on an earlier line than t2   *
@@ -913,18 +913,18 @@ public class FindAlignments
                  if (ignore && isLeftComment(spec, new Position(line, 0)))
                    { item = 1 ; }
                  if (spec[line][item].column <= tok.column)
-                   { notDone = false ;} ;
+                   { notDone = false ;}
                }
-           }; // END if (spec[line].length > 0)
-         if (notDone) {line = line - 1 ;};
+           }// END if (spec[line].length > 0)
+         if (notDone) {line = line - 1 ;}
        } // END while ((line >= 0) && notDone)
 
      /**********************************************************************
      * If no covering line, return (-1, 0).                                *
      **********************************************************************/
-     if (line == -1) {return new Position(-1, 0);} ;
+     if (line == -1) {return new Position(-1, 0);}
 
-     /**********************************************************************
+        /**********************************************************************
      *      Find covering item.                                            *
      **********************************************************************/
      int item = 0;
@@ -935,25 +935,25 @@ public class FindAlignments
        ********************************************************************/
      boolean dashFound = false ;
      if (spec[line][0].type == Token.DASHES)
-      { dashFound = true;} ;
-     while (    (! dashFound)
+      { dashFound = true;}
+        while (    (! dashFound)
              && (item + 1 < spec[line].length)
              && (spec[line][item + 1].column <= tok.column))
           { if (spec[line][item+1].type == Token.DASHES)
-             {dashFound = true;} ;
-            item = item + 1;
+             {dashFound = true;}
+              item = item + 1;
             if (!spec[line][item].subscript)
-                {nsItem = item;};
-          };
-     if (dashFound) {return new Position(-1, 0);} ;
+                {nsItem = item;}
+          }
+        if (dashFound) {return new Position(-1, 0);}
 
-     /**********************************************************************
+        /**********************************************************************
      * Return (line, nsItem).                                              *
      **********************************************************************/
      return new Position(line, nsItem);
-    } ;
+    }
 
-  private static Position blockingPosition(final Token[][] spec, final Position p)
+    private static Position blockingPosition(final Token[][] spec, final Position p)
     /***********************************************************************
     * Searches upwards from position p to find the first token at the      *
     * same column or to the right of the token at p that is not            *
@@ -972,31 +972,31 @@ public class FindAlignments
              else
                { item = 0 ;
                  if (isLeftComment(spec, new Position(line, 0)))
-                   { item = 1 ; } ;
-                 while (notDone && (item < spec[line].length))
+                   { item = 1 ; }
+                   while (notDone && (item < spec[line].length))
                   { if (   (spec[line][item].column >= tok.column)
                         && (! spec[line][item].subscript))
                       { notDone = false ; }
                     else 
-                      { item = item+1; };
-                  } ;
-               } ;
-           }; // END if (spec[line].length > 0)
-         if (notDone) {line = line - 1 ;} ;
+                      { item = item+1; }
+                  }
+               }
+           }// END if (spec[line].length > 0)
+         if (notDone) {line = line - 1 ;}
        } // END while ((line >= 0) && notDone)
 
      /**********************************************************************
      * If no token found, return (-1, 0).                                  *
      **********************************************************************/
-     if (line == -1) {return new Position(-1, 0);} ;
+     if (line == -1) {return new Position(-1, 0);}
 
-     /**********************************************************************
+        /**********************************************************************
      * Return (line, item).                                                *
      **********************************************************************/
      return new Position(line, item);
-    } ;
+    }
 
-  private static void setSubscriptField(final Token[][] spec)
+    private static void setSubscriptField(final Token[][] spec)
     /***********************************************************************
     * Sets the subscript field of the tokens.  (This field is true iff     *
     * the token is part of a sub- or superscript.)  Upon encountering a    *
@@ -1041,7 +1041,7 @@ public class FindAlignments
                 { /*********************************************************
                   * Do nothing.                                            *
                   *********************************************************/
-                }; // END else OF if ((tok.type = Token.BUILTIN) ...)
+                }// END else OF if ((tok.type = Token.BUILTIN) ...)
 
              }  // END then OF if (startSub == -1)
             else
@@ -1056,9 +1056,9 @@ public class FindAlignments
                  { symType = 
                       BuiltInSymbols.GetBuiltInSymbol(
                          tok.string, true).symbolType ;
-                 };
+                 }
 
-               if (   (   (nestingDepth == 0) 
+                 if (   (   (nestingDepth == 0)
                        && (symType != Symbol.LEFT_PAREN))
                    || (   (nestingDepth == 1) 
                        && (symType == Symbol.RIGHT_PAREN)))
@@ -1081,22 +1081,22 @@ public class FindAlignments
                     { nestingDepth = nestingDepth + 1; }
                   else
                     { if (symType == Symbol.RIGHT_PAREN)
-                        { nestingDepth = nestingDepth - 1; };
-                    };
-                }; // END else OF if (((nestingDepth == 0)... ))
+                        { nestingDepth = nestingDepth - 1; }
+                    }
+                }// END else OF if (((nestingDepth == 0)... ))
 
-             }; // END else OF if (startSub == -1)
+             }// END else OF if (startSub == -1)
 
            item = item + 1 ;
-          } ; // END while (item < spec[line].length)
+          } // END while (item < spec[line].length)
 
 
          line = line + 1;
        } // END while (line < spec.length)
       
-    } ;
-    
-    
+    }
+
+
 }
 
 /* last modified on Sun  5 August 2012 at 17:07:48 PST by lamport */

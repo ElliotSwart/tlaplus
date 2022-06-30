@@ -57,8 +57,8 @@ public class OpDeclNode extends OpDefOrDeclNode {
     this.level = level;
     if (this.getKind() == ConstantDeclKind) {
       this.levelParams.add(this);
-      this.allParams.add(this);} ;
-    this.levelChecked = 1;
+      this.allParams.add(this);}
+      this.levelChecked = 1;
     if (st != null) {
       st.addSymbol(us, this);
     }

@@ -670,8 +670,8 @@ public class PcalSymTab {
               { @SuppressWarnings("unchecked") final Vector<AST> orClause = (Vector<AST>) ast.ors.elementAt(i) ;
                 for (int j = 0; j < orClause.size(); j++)
                   ExtractStmt((AST) orClause.elementAt(j), context, cType);
-               } ;
-   }
+               }
+    }
 
     private void ExtractLabelEither(final AST.LabelEither ast, final String context,
                                     final String cType) {
@@ -684,7 +684,7 @@ public class PcalSymTab {
                    ExtractLabeledStmt((AST.LabeledStmt) 
                                           orClause.labOr.elementAt(j), 
                                        context, cType);
-               } ;
+               }
     }
 
    /************************************************************************
@@ -698,13 +698,13 @@ public class PcalSymTab {
          if (se.id.equals("defaultInitValue")) 
            { if (errors.equals(""))
                { errors = "Cannot use `defaultInitValue' as " ;}
-             else {errors = errors + " or " ;} ;
-             errors = errors + vtypeName[se.type] + " name";
-           } ;
-       } ;
-     if (! errors.equals(""))
-       { throw new PcalSymTabException(errors) ; } ;
-     return ;
+             else {errors = errors + " or " ;}
+               errors = errors + vtypeName[se.type] + " name";
+           }
+       }
+       if (! errors.equals(""))
+       { throw new PcalSymTabException(errors) ; }
+       return ;
     }
 
 }

@@ -71,18 +71,18 @@ public abstract class CharReader
       * getNextChar.  Following Java conventions, the first line is        *
       * numbered 0.                                                        *
       *********************************************************************/
-      { return line ; } ;
+      { return line ; }
 
 
-    public int getColumnNumber() 
+      public int getColumnNumber()
       /*********************************************************************
       * Returns the virtual column number of the next character to be      *
       * returned by getNextChar.  Following Java conventions, the first    *
       * column is numbered 0.                                              *
       *********************************************************************/
-      { return vcolumn ; } ;
+      { return vcolumn ; }
 
-    private boolean tabToSpaces = false ;
+      private boolean tabToSpaces = false ;
       /*********************************************************************
       * Equals true when a tab has been encountered in the input stream,   *
       * and the next getNextChar should return a space generated from      *
@@ -102,21 +102,21 @@ public abstract class CharReader
       * the first call returns '\t'.                                       *
       *********************************************************************/
       { if (uninitialized) {currentLine   = innerGetNextLine();
-                            uninitialized = false; } ;
-  
-        /*******************************************************************
+                            uninitialized = false; }
+
+          /*******************************************************************
         * If currentLine is null, then we must have reached the end of the *
         * input.                                                           *
         *******************************************************************/
-        if (currentLine == null) { return '\t' ;} ;
-  
-        /*******************************************************************
+        if (currentLine == null) { return '\t' ;}
+
+          /*******************************************************************
         * If we are converting a tab to spaces, return a space.            *
         *******************************************************************/
         if (tabToSpaces)
           { vcolumn = vcolumn + 1;
-            if ((vcolumn % 8) == 0) {tabToSpaces = false;};
-            return ' ';
+            if ((vcolumn % 8) == 0) {tabToSpaces = false;}
+              return ' ';
           }
 
         /*******************************************************************
@@ -130,9 +130,9 @@ public abstract class CharReader
             vcolumn     = 0 ;
             currentLine = innerGetNextLine();
             return '\n' ;
-           } ;
-  
-        /*******************************************************************
+           }
+
+          /*******************************************************************
         * We are not at the end of the input or of the line and are not    *
         * converting a tab to space.  Update column and vcolumn, and       *
         * return the next character.                                       *
@@ -141,13 +141,13 @@ public abstract class CharReader
         column = column + 1;
         vcolumn = vcolumn + 1;
         if (readChar == '\t')
-          { if ((vcolumn % 8) != 0) {tabToSpaces = true;} ;
-            return ' ';
+          { if ((vcolumn % 8) != 0) {tabToSpaces = true;}
+              return ' ';
           }
         return readChar ;
-      } ;
+      }
 
-    public void backspace()
+      public void backspace()
       /*********************************************************************
       * Backspaces the output stream.  That is, a sequence of n            *
       * backspaces without a getNextChar makes the next getNextChar        *
@@ -160,12 +160,12 @@ public abstract class CharReader
       { if (column == 0)
          { Debug.ReportBug(
             "CharReader.backspace trying to move past beginning of line");
-         };
-        column = column - 1;
+         }
+          column = column - 1;
         vcolumn = vcolumn - 1;
-      } ;
+      }
 
-    public abstract String innerGetNextLine() ;
+      public abstract String innerGetNextLine() ;
       /*********************************************************************
       * The method innerGetNextLine is a method constructed from some      *
       * underlying reader class that returns the next line as a string,    *

@@ -281,8 +281,8 @@ public<T> Vector<T> getByClass(final Class<T> template ) {
     final Vector<ThmOrAssumpDefNode> result = new Vector<>();
     while (nextPair != null) {
       if ( nextPair.info instanceof ThmOrAssumpDefNode)
-        { result.addElement( (ThmOrAssumpDefNode)(nextPair.info) );} ;
-      nextPair = nextPair.link;
+        { result.addElement( (ThmOrAssumpDefNode)(nextPair.info) );}
+        nextPair = nextPair.link;
     }
     return result;
   }
@@ -541,8 +541,8 @@ public<T> Vector<T> getByClass(final Class<T> template ) {
       else {
         key = (UniqueString) next;
         table.get(key).info.walkGraph(semNodesTable, visitor);
-       } ;
-       visitor.postVisit(this);
+       }
+        visitor.postVisit(this);
     }
 
   }

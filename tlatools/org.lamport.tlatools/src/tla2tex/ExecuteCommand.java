@@ -34,8 +34,8 @@ public class ExecuteCommand
        { Debug.ReportError(
               "Trying to run the command `" + cmd
             + "' produced the following error\n    " + e.getMessage());
-       } ;
-      if (errorCode < 0)
+       }
+       if (errorCode < 0)
         { Debug.ReportError(
             "Running the command `" + cmd 
           + "' produced an error");

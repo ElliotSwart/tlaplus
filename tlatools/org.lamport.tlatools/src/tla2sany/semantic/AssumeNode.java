@@ -75,7 +75,7 @@ public AssumeNode(final TreeNode stn, final ExprNode expr, final ModuleNode mn,
   * Returns the definition, which is non-null iff this is a named          *
   * theorem.                                                               *
   *************************************************************************/
-  public final ThmOrAssumpDefNode getDef() {return this.def;};
+  public final ThmOrAssumpDefNode getDef() {return this.def;}
 
 //  public final boolean isLocal() { return false; }
 
@@ -84,12 +84,12 @@ public AssumeNode(final TreeNode stn, final ExprNode expr, final ModuleNode mn,
   int levelChecked = 0 ;
   @Override
   public final boolean levelCheck(final int iter) {
-    if (levelChecked >= iter) {return true ;} ;
-    levelChecked = iter;
+    if (levelChecked >= iter) {return true ;}
+      levelChecked = iter;
     boolean res = this.assumeExpr.levelCheck(iter);
-    if (this.def != null) {res = this.def.levelCheck(iter) && res;};
+    if (this.def != null) {res = this.def.levelCheck(iter) && res;}
 
-    // Verify that the assumption is constant level
+      // Verify that the assumption is constant level
     if (this.assumeExpr.getLevel() != ConstantLevel) {
       errors.addError(getTreeNode().getLocation(),
                       "Level error: assumptions must be level 0 (Constant), " +
@@ -101,8 +101,8 @@ public AssumeNode(final TreeNode stn, final ExprNode expr, final ModuleNode mn,
     ***********************************************************************/
     if (res) { addTemporalLevelConstraintToConstants(this.levelParams,
                                                      this.levelConstraints);
-     };
-    return res;
+     }
+      return res;
   }
 
   @Override
@@ -167,8 +167,8 @@ public AssumeNode(final TreeNode stn, final ExprNode expr, final ModuleNode mn,
                       4,
                       "\n def: " +
                       Strings.indent(2, this.def.toString(depth-1)));
-     } ;
-    return res ;
+     }
+      return res ;
   }
 
   /**
@@ -193,8 +193,8 @@ public AssumeNode(final TreeNode stn, final ExprNode expr, final ModuleNode mn,
 
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
-    if (assumeExpr != null) {assumeExpr.walkGraph(semNodesTable, visitor);} ;
-    visitor.postVisit(this);
+    if (assumeExpr != null) {assumeExpr.walkGraph(semNodesTable, visitor);}
+      visitor.postVisit(this);
   }
 
   /* MR: This is the same as SymbolNode.exportDefinition. Exports the actual theorem content, not only a reference.

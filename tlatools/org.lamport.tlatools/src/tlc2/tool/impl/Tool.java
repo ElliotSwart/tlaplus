@@ -137,7 +137,7 @@ public abstract class Tool
   private static final boolean PROBABLISTIC = Boolean.getBoolean(PROBABLISTIC_KEY);
 
   public enum Mode {
-	  Simulation, MC, MC_DEBUG, Executor;
+	  Simulation, MC, MC_DEBUG, Executor
   }
 	
   public static final Value[] EmptyArgs = new Value[0];

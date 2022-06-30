@@ -53,7 +53,8 @@ public class ParseUnit {
     // nis contains the file name, top-level module name, and 
     //   source File object for a module
 
-  public NamedInputStream   getNis() {return this.nis; } ;
+  public NamedInputStream   getNis() {return this.nis; }
+
     /***********************************************************************
     * Added by LL on 12 May 2008 because the gui might want to get hold    *
     * of it here.                                                          *
@@ -589,7 +590,7 @@ public class ParseUnit {
 	this.getInstanceInLet(def, currentRelatives);
       }
 ************ end code eliminated by LL on 6 Aug 2007 ******/
-      else { this.getInstances(def, currentRelatives); } ;
+      else { this.getInstances(def, currentRelatives); }
     } // end for
 
     /***
@@ -625,11 +626,11 @@ public class ParseUnit {
          children[1].getImage() );
          // System.err.println("Found Instance: " + children[1].getImage()) ;
       i = 2 ;
-     }; 
+     }
 
-    for (int j = i ; j < children.length ; j++) {
+      for (int j = i ; j < children.length ; j++) {
       getInstances(children[j], currentRelatives) ;
-     } ;      
+     }
   } // getInstances
 
 }

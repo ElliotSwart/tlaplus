@@ -654,10 +654,8 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
 	  return extendeesSet;
   }
 
-   ;
 
-
-  /**
+    /**
    * Just a stub method; one cannot resolve against a ModuleNode.
    * This method is here only to satisfy the SymbolNode interface.
    */
@@ -796,14 +794,14 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
              curNode.weights[i] = 1 ;
             } // for;
           } // if (curNode.inRecursive)
-         else {curNode.levelChecked = 0 ;};
-        curNodeIdx++ ;
+         else {curNode.levelChecked = 0 ;}
+          curNodeIdx++ ;
         if (curNodeIdx < opDefsInRecursiveSection.size()) {
           curNode = opDefsInRecursiveSection.elementAt(curNodeIdx);
           notDone = (curNode.recursiveSection == curSection) ;
          }
-        else {notDone = false ;} ;
-       }; // while (notDone)
+        else {notDone = false ;}
+      }// while (notDone)
 
 
       /*********************************************************************
@@ -818,8 +816,8 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
       final HashSet<SymbolNode> recursiveAllParams = new HashSet<>() ;
       for (int i = firstInSectIdx ; i < curNodeIdx ; i++) {
         curNode = opDefsInRecursiveSection.elementAt(i) ;
-        if (curNode.inRecursive) {curNode.levelChecked = 0 ;} ;
-        curNode.levelCheck(1) ;
+        if (curNode.inRecursive) {curNode.levelChecked = 0 ;}
+          curNode.levelCheck(1) ;
 
         if (curNode.inRecursive) {
           /*****************************************************************
@@ -832,13 +830,13 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
                errors.addError(curNode.getTreeNode().getLocation(),
                              "Argument " + (j+1) + " of recursive operator "
                                + curNode.getName() + " is primed") ;
-            } ; // if
-           } ; // for j
+            } // if
+           } // for j
           maxRecursiveLevel = Math.max(maxRecursiveLevel, curNode.level) ;
           recursiveLevelParams.addAll(curNode.levelParams) ;
           recursiveAllParams.addAll(curNode.allParams) ;
-         }; // if (curNode.inRecursive)
-       }; // for i
+         }// if (curNode.inRecursive)
+       }// for i
 
       /*********************************************************************
       * Reset the level, levelParams, allParams, and levelChecked fields   *
@@ -846,11 +844,11 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
       *********************************************************************/
       for (int i = firstInSectIdx ; i < curNodeIdx ; i++) {
         curNode = opDefsInRecursiveSection.elementAt(i) ;
-        if (curNode.inRecursive) {curNode.levelChecked = 2;} ;
-        curNode.level = Math.max(curNode.level, maxRecursiveLevel) ;
+        if (curNode.inRecursive) {curNode.levelChecked = 2;}
+          curNode.level = Math.max(curNode.level, maxRecursiveLevel) ;
         curNode.levelParams.addAll(recursiveLevelParams) ;
         curNode.allParams.addAll(recursiveAllParams) ;
-       }; // for i
+       }// for i
 
       /*********************************************************************
       * Perform the level checking again on the operators in the           *
@@ -858,9 +856,9 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
       *********************************************************************/
       for (int i = firstInSectIdx ; i < curNodeIdx ; i++) {
         curNode = opDefsInRecursiveSection.elementAt(i) ;
-        if (curNode.inRecursive) {curNode.levelChecked = 1;} ;
-        curNode.levelCheck(2) ;
-       }; // for i
+        if (curNode.inRecursive) {curNode.levelChecked = 1;}
+          curNode.levelCheck(2) ;
+       }// for i
 
       firstInSectIdx = curNodeIdx ;
      } // while (firstInSectIdx < ...)
@@ -909,7 +907,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
       if (!tpLev[i].levelCheck(1)) {
         this.levelCorrect = false;
       }
-    } ;
+    }
 //    TheoremNode[] thms = this.getTheorems();
 //    for (int i = 0; i < thms.length; i++) {
 //// System.out.println("theorem " + i + " from module " + this.getName());
@@ -1205,8 +1203,8 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
       for (int i = 0; i < topLevelVec.size(); i++) {
         ret += Strings.indent(4, topLevelVec.elementAt(i).toString(1));
         }
-      };
-    return ret;
+      }
+      return ret;
   }
 
   @Override

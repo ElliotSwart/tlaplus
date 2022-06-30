@@ -33,18 +33,18 @@ public class ResourceFileReader
                "Java could not find class tla2tex.Token.  There \n"
              + "    is probably something wrong with the way\n"
              + "    TLA2TeX is installed");
-           } ;             
-       final InputStream input = cl.getResourceAsStream(fileName) ;
+           }
+         final InputStream input = cl.getResourceAsStream(fileName) ;
        if (input == null)
          { Debug.ReportError( 
                "TLATeX could not find its resource file " + fileName + ".\n"
              + "    There is probably something wrong with the way\n"
              + "    TLA2TeX is installed");
-         } ;  
-       inputReader = new BufferedReader(new InputStreamReader(input)) ;
-      };
+         }
+         inputReader = new BufferedReader(new InputStreamReader(input)) ;
+      }
 
-    public String getLine()
+      public String getLine()
       /*********************************************************************
       * Returns the next line of input.  After it returns the last line    *
       * of input, it returns null.                                         *
@@ -55,8 +55,8 @@ public class ResourceFileReader
           { Debug.ReportError( 
                    "Error reading the TLATeX resource file " + name + ".\n"
                  + "    You may be having file system problems");
-          } ; 
-        return null ;
+          }
+          return null ;
       }
     /*********************************************************************
       * If the last line of input doesn't end with a '\n', then getLine()  *
@@ -79,8 +79,8 @@ public class ResourceFileReader
           { Debug.ReportError( 
                "Error trying to close the TLATeX resource file " + name + ".\n"
              + "    You may be having file system problems");
-          } ;
-      } ;
+          }
+      }
 
 
   }      

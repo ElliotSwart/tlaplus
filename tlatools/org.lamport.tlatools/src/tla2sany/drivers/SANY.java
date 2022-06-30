@@ -131,7 +131,7 @@ public class SANY {
     
       // **** Semantic analysis and level checking
       if (doSemanticAnalysis) 
-            {frontEndSemanticAnalysis(spec, syserr, doLevelChecking);} ;
+            {frontEndSemanticAnalysis(spec, syserr, doLevelChecking);}
     }
     catch (final InitException ie) {
       return -1;
@@ -284,9 +284,9 @@ public class SANY {
 
         // if semantic analysis has not already been done on this module
         if (externalModuleTable.getContext( UniqueString.uniqueStringOf( moduleStringName)) == null ) {
-          parseUnit = (ParseUnit)spec.parseUnitContext.get(moduleStringName);;
-      
-          // get reference to the syntax tree for the module
+          parseUnit = (ParseUnit)spec.parseUnitContext.get(moduleStringName);
+
+            // get reference to the syntax tree for the module
           syntaxTreeRoot = parseUnit.getParseTree();
 
           /*

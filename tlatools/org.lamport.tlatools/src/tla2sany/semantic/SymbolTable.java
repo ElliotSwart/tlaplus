@@ -49,9 +49,9 @@ public class SymbolTable implements ASTConstants {
     contextStack = new Stack();
     contextStack.push( topContext );
     this.mt = mt;
-  };
+  }
 
-  // This form for internal modules
+    // This form for internal modules
   public SymbolTable(final ExternalModuleTable mt, final Errors errs, final SymbolTable st) {
     modNode = st.modNode;
     errors = errs;

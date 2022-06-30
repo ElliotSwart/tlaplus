@@ -382,9 +382,9 @@ public class SubstInNode extends ExprNode {
           this.nonLeibnizParams.remove(param) ;
           this.nonLeibnizParams.addAll(substs[i].getExpr().getAllParams()) ;
 
-         }; // if
-       }; // if (bodyParams.contains(param))
-     }; // for
+         }// if
+       }// if (bodyParams.contains(param))
+     }// for
 
 
 //    /***********************************************************************

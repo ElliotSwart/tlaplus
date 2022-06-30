@@ -36,18 +36,18 @@ public class PcalResourceFileReader
                "Java could not find class pcal.AST.  There \n"
              + "    is probably something wrong with the way\n"
              + "    the +cal translator is installed");
-           } ;             
-       final InputStream input = cl.getResourceAsStream(fileName) ;
+           }
+         final InputStream input = cl.getResourceAsStream(fileName) ;
        if (input == null)
          { throw new PcalResourceFileReaderException( 
                "Could not find resource file " + fileName + ".\n"
              + "    There is probably something wrong with the way\n"
              + "    the +cal translator is installed");
-         } ;  
-       inputReader = new BufferedReader(new InputStreamReader(input)) ;
-      };
+         }
+         inputReader = new BufferedReader(new InputStreamReader(input)) ;
+      }
 
-  public static Vector<String> ResourceFileToStringVector(final String fileName) throws PcalResourceFileReaderException
+      public static Vector<String> ResourceFileToStringVector(final String fileName) throws PcalResourceFileReaderException
     /***********************************************************************
     * Reads file fileName into a StringVector, a vector in which each      *
     * element is a line of the file.                                       *
@@ -60,8 +60,8 @@ public class PcalResourceFileReader
        while (word != null)
          { inputVec.addElement(word) ;
            word = wordFileReader.getLine() ;
-         } ;
-       wordFileReader.close();
+         }
+        wordFileReader.close();
        return inputVec ;
      }
 
@@ -101,8 +101,8 @@ public class PcalResourceFileReader
                "Error trying to close the +cal translator resource file " 
             + name + ".\n"
              + "    You may be having file system problems");
-          } ;
-      } ;
+          }
+      }
 
 
   }      

@@ -158,10 +158,10 @@ public class TLAExpr
 
     public void addToken(final TLAToken tok)
       { tokens.elementAt(tokens.size()-1).addElement(tok) ;
-      } ;
+      }
 
 
-    /***********************************************************************
+      /***********************************************************************
     * The addTokenOffset method was added by LL on 30 Aug 2007 to fix the  *
     * following bug.  When a prime or "[self]" is appended to a variable   *
     * v, the sustituteForAll() method is called to replace the token "v"   *
@@ -187,8 +187,8 @@ public class TLAExpr
            { final TLAToken lastTok =
                 lastLine.elementAt(lastLine.size()-1) ;
             newCol = newCol + lastTok.column + lastTok.string.length() ;
-           } ;
-         tok.column = newCol ;
+           }
+          tok.column = newCol ;
          lastLine.addElement(tok) ;
       }
 
@@ -211,9 +211,9 @@ public class TLAExpr
                 && (tokens.elementAt(0).size() == 0 )
               )
           { tokens.removeElementAt(0) ;
-          } ;
+          }
 
-        while (    (tokens.size() > 0)
+          while (    (tokens.size() > 0)
                    /********************************************************
                    * I don't think we should ever get an empty             *
                    * expression, but we'll check just in case.             *
@@ -221,9 +221,9 @@ public class TLAExpr
                 && (tokens.elementAt(tokens.size()-1).size() == 0)
               )
           { tokens.removeElementAt(tokens.size()-1) ;
-          } ;
+          }
 
-        /*******************************************************************
+          /*******************************************************************
         * Set minCol to minimum column number.                             *
         *******************************************************************/
         int minCol = 999999 ;
@@ -233,12 +233,12 @@ public class TLAExpr
           { if ( tokens.elementAt(i).size() > 0 )
               { final TLAToken tok =
                    (TLAToken) tokens.elementAt(i).elementAt(0);
-                if (tok.column < minCol) {minCol = tok.column;} ;
+                if (tok.column < minCol) {minCol = tok.column;}
               }
             i = i + 1;
-          };
+          }
 
-        /*******************************************************************
+          /*******************************************************************
         * Subtract minCol from tok.column for all tokens tok.              *
         *******************************************************************/
         i = 0;
@@ -249,11 +249,11 @@ public class TLAExpr
               { final TLAToken tok = curLine.elementAt(j) ;
                 tok.column = tok.column - minCol ;
                 j = j + 1;
-              };
-            i = i + 1;
-          } ;
+              }
+              i = i + 1;
+          }
 
-        /*******************************************************************
+          /*******************************************************************
         * Compute anchorTokens and anchorTokCol.                           *
         *                                                                  *
         * Loop with index i through all lines.                             *
@@ -293,17 +293,17 @@ public class TLAExpr
                                && ( ancLine.elementAt(k+1).column
                                          <= curLineFirstCol)
                               )
-                          { k = k+1 ;} ;
+                          { k = k+1 ;}
 
-                        final TLAToken tok = ancLine.elementAt(k) ;
+                          final TLAToken tok = ancLine.elementAt(k) ;
                         anchorTokens[i] = tok ;
                         anchorTokCol[i] = tok.column ;
-                       }; //END if
+                       }//END if
                     j = j - 1;
-                  }; //END while j
-              };
-            i = i + 1;
-          }; //END while i      
+                  }//END while j
+              }
+              i = i + 1;
+          }//END while i
       } //END normalize
 
     public void renormalize() throws TLAExprException
@@ -326,15 +326,15 @@ public class TLAExpr
                 if (k < 0)
                   { throw new TLAExprException(
                      "TLAExpr.renormalize() found anchor has moved to left.");
-                  } ;
-                int j = 0 ;
+                  }
+                  int j = 0 ;
                 while (j < line.size())
                   { final TLAToken tok = line.elementAt(j) ;
                     tok.column = tok.column + k ;
                     j = j + 1;
-                  } ;
-               } ;
-            i = i + 1;
+                  }
+              }
+              i = i + 1;
           }
       }
       
@@ -366,8 +366,8 @@ public class TLAExpr
                 ***********************************************************/
                 if (curTok.type == TLAToken.STRING)
                      {curString = curString + "\"" + curTok.string + "\""; }
-                else { curString = curString + curTok.string ; };
-                lastTok = curTok ;
+                else { curString = curString + curTok.string ; }
+                  lastTok = curTok ;
                 j = j + 1;
               }
             result.addElement(curString) ;
@@ -434,13 +434,13 @@ public class TLAExpr
         boolean nonempty = false ;
         while (i < tokens.size() )
          { if (i > 0)
-             { result = result + "\n" ; } ;
-           final Vector<TLAToken> curLine = tokens.elementAt(i);
+             { result = result + "\n" ; }
+             final Vector<TLAToken> curLine = tokens.elementAt(i);
            int j = 0 ;
            while (j < curLine.size())
              { if (nonempty)
-                 { result = result + ", " ; } ;
-               nonempty = true ;
+                 { result = result + ", " ; }
+                 nonempty = true ;
                final TLAToken tok = curLine.elementAt(j) ;
                
                if (tok.type == TLAToken.STRING)
@@ -499,11 +499,11 @@ public class TLAExpr
             while (j < line.size())
               { newline.add(line.elementAt(j).Clone()) ;
                 j = j + 1 ;
-              } ;
-            result.tokens.add(newline) ;
+              }
+              result.tokens.add(newline) ;
             i = i + 1 ;
-          } ;
-        result.setOrigin(this.getOrigin()) ;
+          }
+          result.setOrigin(this.getOrigin()) ;
         result.normalize() ;
         return result ;
       }
@@ -521,8 +521,8 @@ public class TLAExpr
         while (i < expr.tokens.size()-1)
           { this.tokens.add(i, expr.tokens.elementAt(i)) ;
             i = i + 1 ;
-          } ;
-        /*******************************************************************
+          }
+          /*******************************************************************
         * Set exprLine to the last line of expr and thisLine to what was   *
         * the first line of the current expression.                        *
         *******************************************************************/
@@ -539,9 +539,9 @@ public class TLAExpr
           { tok = thisLine.elementAt(j) ;
             tok.column = tok.column + incr ;
             j = j + 1 ;
-          } ;
+          }
 
-        /*******************************************************************
+          /*******************************************************************
         * Prepend the last line of expr to the first line of this          *
         * expression.                                                      *
         *******************************************************************/
@@ -549,9 +549,9 @@ public class TLAExpr
         while (j < exprLine.size())
           { thisLine.add(j, exprLine.elementAt(j)) ;
             j = j + 1 ;
-          } ;        
+          }
 
-        /*******************************************************************
+          /*******************************************************************
         * Modify anchorTokens and anchorTokCol.                            *
         *******************************************************************/
         final TLAToken[] newAToks = new TLAToken[this.tokens.size()] ;
@@ -562,14 +562,14 @@ public class TLAExpr
           { newAToks[j] = expr.anchorTokens[j] ;
             newATCol[j] = expr.anchorTokCol[j] ;
             j = j + 1 ;
-          } ;
+          }
 
-        while (j < this.tokens.size())
+          while (j < this.tokens.size())
            { newAToks[j] = this.anchorTokens[j - expr.tokens.size() + 1] ;
              newATCol[j] = this.anchorTokCol[j - expr.tokens.size() + 1] ;
              j = j + 1 ;
-          } ;
-        this.anchorTokens = newAToks ;
+          }
+          this.anchorTokens = newAToks ;
         this.anchorTokCol = newATCol ;
         
         this.renormalize() ;
@@ -631,8 +631,8 @@ public class TLAExpr
             e.substituteForAll(exprs, strs) ;
             result.add(e) ;
             i = i + 1 ;
-          } ;
-        return result ;
+          }
+          return result ;
       }      
 
     /**
@@ -894,9 +894,9 @@ public class TLAExpr
 //            }
 
             return null ;
-          } ;
+          }
 
-        /*******************************************************************
+          /*******************************************************************
         * Set                                                              *
         *                                                                  *
         *    tok = the token being substituted for,                        *
@@ -911,8 +911,8 @@ public class TLAExpr
         if (coord.two + 1 < tokLine.size())
           { final TLAToken nextTok = tokLine.elementAt(coord.two + 1) ;
             spaces = nextTok.column - (tok.column + tok.getWidth()) ;
-          } ;
-        final Vector<TLAToken> restOfLine = new Vector<TLAToken>() ;
+          }
+          final Vector<TLAToken> restOfLine = new Vector<TLAToken>() ;
         
         while (coord.two + 1 < tokLine.size())
           { restOfLine.add(tokLine.elementAt(coord.two + 1)) ;
@@ -1062,12 +1062,12 @@ public class TLAExpr
                             aTCol[k] = this.anchorTokCol[k-1];
                           }
                         k = k + 1;
-                      } ;
-                     this.anchorTokens = aTok ;
+                      }
+                      this.anchorTokens = aTok ;
                      this.anchorTokCol = aTCol ;
-                  } ;
-              } ;
-            final TLAToken lastTok = line.elementAt(line.size() - 1) ;
+                  }
+              }
+              final TLAToken lastTok = line.elementAt(line.size() - 1) ;
             if (par) {
                 /**
                  * Create the new ")" token, and add if the replaced token's
@@ -1140,8 +1140,8 @@ public class TLAExpr
                 line.add(oldTok) ;
                 i = i + 1 ;
               }
-          } ;
-        this.renormalize() ;
+          }
+          this.renormalize() ;
 //System.out.println("Begin to Return") ;
 //System.out.println(this.toString());
 //for (int i = 0; i < this.tokens.size(); i++) {
@@ -1191,8 +1191,8 @@ public class TLAExpr
       *    \E x, id : ...                                                  *
       *********************************************************************/
       { IntPair result = new IntPair(start.one, start.two) ;
-        if (this.isEmpty()) { result = null ; } ;
-        while (result != null)
+        if (this.isEmpty()) { result = null ; }
+          while (result != null)
           { final TLAToken tok = this.tokenAt(result) ;
             if (tok.type == TLAToken.STRING)
               { result = this.stepCoord(result, 1) ;
@@ -1242,13 +1242,13 @@ public class TLAExpr
        ********************************************************************/
        if (tokens.size() <= coord.one)
          { PcalDebug.ReportBug(
-                "TLAExpr.StepCoord called with line too big") ; } ;
-       Vector<TLAToken> line = tokens.elementAt(coord.one) ;
+                "TLAExpr.StepCoord called with line too big") ; }
+         Vector<TLAToken> line = tokens.elementAt(coord.one) ;
        if (line.size() <= coord.two)
          {PcalDebug.ReportBug(
-                 "TLAExpr.StepCoord called with col too big") ; } ;
+                 "TLAExpr.StepCoord called with col too big") ; }
 
-       final IntPair result = new IntPair(coord.one, coord.two) ;
+         final IntPair result = new IntPair(coord.one, coord.two) ;
        int i = 0 ;
        while (i < incr)
          { result.two = result.two + 1 ;
@@ -1259,14 +1259,14 @@ public class TLAExpr
                       && ( tokens.elementAt(result.one ).size()
                               == 0) )
                  { result.one = result.one + 1 ;
-                 } ;
-               if (result.one == tokens.size())
-                 { return null ; } ;
-               line = tokens.elementAt(result.one) ;
+                 }
+                 if (result.one == tokens.size())
+                 { return null ; }
+                 line = tokens.elementAt(result.one) ;
              }
            i = i + 1;
-         } ;
-       return result ;
+         }
+         return result ;
      }
 
    public boolean isEmpty()

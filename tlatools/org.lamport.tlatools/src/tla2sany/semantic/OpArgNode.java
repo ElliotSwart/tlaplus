@@ -70,8 +70,8 @@ public class OpArgNode extends ExprOrOpArgNode {
   /* Level check */
   @Override
   public final boolean levelCheck(final int iter) {
-    if (levelChecked >= iter) {return this.levelCorrect; } ;
-    levelChecked = iter ;
+    if (levelChecked >= iter) {return this.levelCorrect; }
+      levelChecked = iter ;
     levelCorrect        = op.levelCheck(iter) ;
     level               = op.getLevel();
     levelParams         = op.getLevelParams();
@@ -128,8 +128,8 @@ public class OpArgNode extends ExprOrOpArgNode {
     * walking the node representing the declaration or definition of the   *
     * operator.                                                            *
     ***********************************************************************/
-    if (op != null) {op.walkGraph(semNodesTable, visitor) ;} ;
-    visitor.postVisit(this);
+    if (op != null) {op.walkGraph(semNodesTable, visitor) ;}
+      visitor.postVisit(this);
   }
 
   @Override

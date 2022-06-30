@@ -80,9 +80,9 @@ public class UseOrHideNode extends LevelNode {
     this.facts = theFacts ;
     this.defs = theDefs ;
     this.isOnly = only ;
-  } ;
+  }
 
-  /*************************************************************************
+    /*************************************************************************
   * The following method was added 4 Mar 2009 to check the restriction     *
   * that only the names of facts (and of modules) can be used as facts in  *
   * a USE or HIDE.                                                         *
@@ -91,8 +91,8 @@ public class UseOrHideNode extends LevelNode {
   * facts in a USE.                                                        *
   *************************************************************************/
   public void factCheck() {
-    if (this.facts == null || this.getKind() == UseKind) { return; };
-    for (int i = 0; i < this.facts.length; i++) {
+    if (this.facts == null || this.getKind() == UseKind) { return; }
+      for (int i = 0; i < this.facts.length; i++) {
       if (    (this.facts[i].getKind() == OpApplKind)
            && (((OpApplNode) this.facts[i]).operator.getKind()
                    != ThmOrAssumpDefKind)) {
@@ -100,8 +100,8 @@ public class UseOrHideNode extends LevelNode {
              this.facts[i].stn.getLocation(),
                "The only expression allowed as a fact in a HIDE " +
                "is \nthe name of a theorem, assumption, or step.");
-      } ;
-    } // for
+      }
+      } // for
   }
 
   @Override
@@ -123,8 +123,8 @@ public class UseOrHideNode extends LevelNode {
     visitor.preVisit(this);
     for (int  i = 0; i < facts.length; i++) {
       facts[i].walkGraph(semNodesTable, visitor);
-      } ;
-    /***********************************************************************
+      }
+      /***********************************************************************
     * Note: there's no need to walk the defs array because all the nodes   *
     * on it are walked from the nodes under which they appear.             *
     ***********************************************************************/
@@ -156,12 +156,12 @@ public class UseOrHideNode extends LevelNode {
                   + Strings.indent(2, "\nfacts:") ;
     for (int i = 0 ; i < this.facts.length; i++) {
         ret += Strings.indent(4, this.facts[i].toString(1)) ;
-      } ;
-    ret += Strings.indent(2, "\ndefs:") ;
+      }
+      ret += Strings.indent(2, "\ndefs:") ;
     for (int i = 0 ; i < this.defs.length; i++) {
         ret += Strings.indent(4, this.defs[i].toString(1)) ;
-      } ;
-    return ret;
+      }
+      return ret;
    }
 
   @Override

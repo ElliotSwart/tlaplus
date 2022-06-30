@@ -86,7 +86,7 @@ public class TLC {
      * Possible TLC run modes: either model checking or simulation.
      */
     public enum RunMode {
-    	MODEL_CHECK, SIMULATE;
+    	MODEL_CHECK, SIMULATE
     }
     
 

@@ -31,8 +31,8 @@ class Test
       *********************************************************************/
       { final TLAToken result = new TLAToken() ;
         result.string = str ;
-        result.type   = TLAToken.STRING ;;
-        return result ;
+        result.type   = TLAToken.STRING ;
+          return result ;
       }
 
     public static TLAToken BuiltinToken(final String str)
@@ -44,8 +44,8 @@ class Test
       *********************************************************************/
       { final TLAToken result = new TLAToken() ;
         result.string = str ;
-        result.type   = TLAToken.BUILTIN ;;
-        return result ;
+        result.type   = TLAToken.BUILTIN ;
+          return result ;
       }
 
     public static TLAToken IdentToken(final String str)
@@ -82,12 +82,12 @@ class Test
             firstLine.addElement(tok) ;
             nextCol = nextCol + tok.getWidth() + spaces ;
             i = i + 1 ;
-          } ;
-        
-        return MakeExpr(Singleton(firstLine)) ;
-      } ;
+          }
 
-    public static AST.Assign MakeAssign(final String id, final TLAExpr exp)
+          return MakeExpr(Singleton(firstLine)) ;
+      }
+
+      public static AST.Assign MakeAssign(final String id, final TLAExpr exp)
       /*********************************************************************
       * Makes the assignment statement id := exp.                          *
       *********************************************************************/

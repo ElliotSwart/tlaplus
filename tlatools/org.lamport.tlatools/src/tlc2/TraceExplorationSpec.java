@@ -88,7 +88,7 @@ public class TraceExplorationSpec {
 		this.outputPath.toFile().mkdirs();
 
 		final Path teSpecPath = this.outputPath.resolve(teSpecModuleName + TLAConstants.Files.TLA_EXTENSION);
-		try (final OutputStream tlaStream = new FileOutputStream(teSpecPath.toFile());) {
+		try (final OutputStream tlaStream = new FileOutputStream(teSpecPath.toFile())) {
 			writeSpecTEStreams(teSpecModuleName, originalModuleName, specInfo.getModelConfig(), variables, errorTrace,
 					specInfo, tlaStream);
 			MP.printMessage(EC.TLC_TE_SPEC_GENERATION_COMPLETE, teSpecPath.toString());

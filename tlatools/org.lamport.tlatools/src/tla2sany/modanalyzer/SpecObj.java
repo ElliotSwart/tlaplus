@@ -734,7 +734,6 @@ public class SpecObj
             if (mod1Context.resolve(extendees.elementAt(i)) == mod2)
                 return true;
         }
-        ;
         return false;
     }
 

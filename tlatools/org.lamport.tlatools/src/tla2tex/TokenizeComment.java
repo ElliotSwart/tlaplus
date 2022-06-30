@@ -361,13 +361,13 @@ public class TokenizeComment
       { int i = 0 ;
         boolean result = true ;
         while ( result && (i < token.length()))
-         { if (token.charAt(i) != '_') { result = false;} ;
-           i=i+1;
-         };
-        return result;
-      } ;
+         { if (token.charAt(i) != '_') { result = false;}
+             i=i+1;
+         }
+          return result;
+      }
 
-    private static void skipNextChar()
+      private static void skipNextChar()
       /*********************************************************************
       * Sets nextChar to the next character in the input stream, and sets  *
       * ncol to its column.                                                *
@@ -384,31 +384,31 @@ public class TokenizeComment
                 if (curString == null) {curString = "";}
               }
             else
-             { curString = "\t"; } ;
-            ncol = 0 ;
+             { curString = "\t"; }
+              ncol = 0 ;
             if (curString.length() == 0)
              { nextChar = '\n';}
             else
-             { nextChar = curString.charAt(0);} ;
-          };
-      } ;
+             { nextChar = curString.charAt(0);}
+          }
+      }
 
-    private static void addNextChar()
+      private static void addNextChar()
       /*********************************************************************
       * Appends nextChar to token, sets nextChar to the next character in  *
       * the input stream, and sets ncol to its column.                     *
       *********************************************************************/
       { token = token + nextChar ;
         skipNextChar() ;
-      } ;
+      }
 
-    private static void Backspace(final int n)
+      private static void Backspace(final int n)
       /*********************************************************************
       * Decrements ncol by n.  (The result should be non-negative.)        *
       *********************************************************************/
       { ncol = ncol - n ;
         if (ncol < 0) 
-          { Debug.ReportBug("TokenizeComment: Backspacing off end of line"); };
+          { Debug.ReportBug("TokenizeComment: Backspacing off end of line"); }
       }
 
     private static void gotoStart()
@@ -454,7 +454,7 @@ public class TokenizeComment
                         * be TLA symbols.  That table include "#".         *
                         ***************************************************/
                         if (TokenizeSpec.isUsedBuiltin(token))
-                          {amb = true;};
+                          {amb = true;}
                       }
                     else
                       { tla = true; }
@@ -471,7 +471,7 @@ public class TokenizeComment
                   case CToken.IDENT :
                     if (FormatComments.IsWord(token))
                       { if (TokenizeSpec.isIdent(token))
-                         { amb = true ;} ;
+                         { amb = true ;}
                       }
                     else
                       { if (TokenizeSpec.isIdent(token))
@@ -486,8 +486,8 @@ public class TokenizeComment
                         else
                          { amb = true;
                          }
-                      } ;
-                    break;
+                      }
+                      break;
                   case CToken.VERB :
                     if (token.indexOf("\\end{verbatim}") != -1)
                       /*****************************************************
@@ -498,8 +498,8 @@ public class TokenizeComment
                         "Sorry, but you can't put the string\n\n" +
                         "       \\end{verbatim}\n\n" +
                         "    between `. and .' ");
-                     };
-                    break;
+                     }
+                      break;
                   case CToken.OTHER :
                   case CToken.REP_CHAR :
                   case CToken.LEFT_DQUOTE :
@@ -512,11 +512,11 @@ public class TokenizeComment
                 }
              }
             linev.addElement(new CToken(token, col, type, tla, amb)); 
-          } ;
-        token = "" ;
-      } ;
+          }
+          token = "" ;
+      }
 
-    private static void startNewLine()
+      private static void startNewLine()
       /*********************************************************************
       * Append linev to vspec, reset linev, and set curString to the next  *
       * line of input.  This should be called whenever a \n character is   *
@@ -526,9 +526,9 @@ public class TokenizeComment
         linev = new Vector<CToken>(30, 30) ;
         col = 0 ;
         ncol = 0 ;
-      } ;
+      }
 
-    private static CToken[][] vspecToArray() 
+      private static CToken[][] vspecToArray()
       /*********************************************************************
       * Turns vspec into an array, and re-initializes it.                  *
       *********************************************************************/
@@ -542,19 +542,19 @@ public class TokenizeComment
               {aspec[n][m] =                                               
                 (CToken) vspec.elementAt(n) . elementAt(m);     
                m = m+1;                                                   
-              };                                                          
-            n = n+1 ;                                                     
-          };                                                              
-        vspec = new Vector<Vector<CToken>>(50, 50) ;
+              }
+              n = n+1 ;
+          }
+          vspec = new Vector<Vector<CToken>>(50, 50) ;
         return aspec;
-      } ;
+      }
 
-    public static CToken[][] Tokenize(final Vector<String> vec)
+      public static CToken[][] Tokenize(final Vector<String> vec)
       /*********************************************************************
       * Tokenize the comment represented by vec, which must be a vector    *
       * of strings.                                                        *
       *********************************************************************/
-      { if ((vec == null) || (vec.size() == 0)) {return null ;} ;
+      { if ((vec == null) || (vec.size() == 0)) {return null ;}
           /*****************************************************************
           * A zero-length or null vector returns null.  Any caller who     *
           * provides such an argument had better be ready to deal with     *
@@ -577,12 +577,12 @@ public class TokenizeComment
           }
         else 
           { curString = (String) argVec.elementAt(line) ;
-          } ;
-        if (curString.equals(""))
+          }
+          if (curString.equals(""))
           { nextChar  = '\n';}
         else
-          { nextChar = curString.charAt(0) ;};
-        col = 0 ;
+          { nextChar = curString.charAt(0) ;}
+          col = 0 ;
         ncol = 0;
 
         char repChar = ' ';
@@ -637,7 +637,7 @@ public class TokenizeComment
                           state = RIGHT_DQUOTE;}
                       else
                         { skipNextChar();
-                          state = STRING;};
+                          state = STRING;}
                     }
                   else if (nextChar == '`')
                     { addNextChar();
@@ -652,7 +652,7 @@ public class TokenizeComment
                       else
                         { addNextChar();
                           state = RIGHT_SQUOTE; 
-                        } ;
+                        }
                     }                              
                   else if (BuiltInSymbols.IsBuiltInPrefix("" + nextChar))
                     { addNextChar();
@@ -665,7 +665,7 @@ public class TokenizeComment
                     { addNextChar();
                       CTokenOut(CToken.OTHER);
                       gotoStart() ;
-                    } ;
+                    }
                   break;
 
                 case ID :
@@ -687,10 +687,10 @@ public class TokenizeComment
                     { if (isAllUnderscores())
                         { CTokenOut(CToken.REP_CHAR); }
                       else 
-                        { CTokenOut(CToken.IDENT) ; };
-                      gotoStart();
-                    };
-                  break;          
+                        { CTokenOut(CToken.IDENT) ; }
+                        gotoStart();
+                    }
+                    break;
 
                 case NUM_OR_ID :
                   if (Misc.IsDigit(nextChar))
@@ -731,8 +731,8 @@ public class TokenizeComment
                     }
                   else 
                     { state = BSBUILT_IN;
-                    };
-                  break;
+                    }
+                    break;
 
                 case NUM :
                   if (Misc.IsDigit(nextChar))
@@ -762,8 +762,8 @@ public class TokenizeComment
                   else 
                     { CTokenOut(CToken.OTHER) ;
                       gotoStart();
-                    } ;
-                   break;
+                    }
+                    break;
 
                 case BUILT_IN :
                   if (BuiltInSymbols.IsBuiltInPrefix(token + nextChar))
@@ -781,12 +781,12 @@ public class TokenizeComment
                           if (token.length() == 0)
                             { Debug.ReportBug(
                                  "Error tokenizing built-in symbol");
-                            };
-                          token = token.substring(0, token.length()-1);
-                        } ;
-                        nextChar = curString.charAt(ncol); 
-                      } ;
-                      CTokenOut(CToken.BUILTIN) ;
+                            }
+                            token = token.substring(0, token.length()-1);
+                        }
+                          nextChar = curString.charAt(ncol);
+                      }
+                        CTokenOut(CToken.BUILTIN) ;
                       gotoStart();
                     }
                    break;
@@ -840,8 +840,8 @@ public class TokenizeComment
                     }
                   else
                     { state = LEFT_DQUOTE;
-                    };
-                  break;
+                    }
+                    break;
 
                 case LEFT_DQUOTE :
                   Backspace(token.length()+1);
@@ -914,8 +914,8 @@ public class TokenizeComment
                    }
                   else if (nextChar == '\t' )
                    { if (! Misc.isBlank(token))
-                       {CTokenOut(CToken.TEX);} ;
-                     token = "";
+                       {CTokenOut(CToken.TEX);}
+                       token = "";
                      state = DONE ;
                    }
                   else 
@@ -928,8 +928,8 @@ public class TokenizeComment
                   if (nextChar == '\'')
                    { skipNextChar();
                      if (! Misc.isBlank(token))
-                       {CTokenOut(CToken.TEX);} ;
-                     token = "";
+                       {CTokenOut(CToken.TEX);}
+                       token = "";
                      gotoStart();
                    }
                    else 
@@ -984,15 +984,15 @@ public class TokenizeComment
                   else if (nextChar == '\n' )
                    { skipNextChar();
                      if (! Misc.isBlank(token))
-                       {CTokenOut(CToken.VERB);} ;
-                     token = "";
+                       {CTokenOut(CToken.VERB);}
+                       token = "";
                      startNewLine();
                      // state = VERB ;
                    }
                   else if (nextChar == '\t' )
                    { if (! Misc.isBlank(token))
-                       {CTokenOut(CToken.VERB);} ;
-                     state = DONE ;
+                       {CTokenOut(CToken.VERB);}
+                       state = DONE ;
                    }
                   else 
                    { addNextChar();
@@ -1017,8 +1017,8 @@ public class TokenizeComment
                     "Unexpected state in comment-parsing algorithm");
                   // break;
 
-              } ;  // END switch (state)
-         } ; // END while (state != DONE)
+              } // END switch (state)
+         } // END while (state != DONE)
 
         /*******************************************************************
         * Return the contents of vspec, converted to an array.             *
@@ -1031,7 +1031,7 @@ public class TokenizeComment
       * Tokenize the comment represented by vec, which must be a vector of *
       * strings, turning each line into a TeX token.                       *
       *********************************************************************/
-      { if ((vec == null) || (vec.size() == 0)) {return null ;} ;
+      { if ((vec == null) || (vec.size() == 0)) {return null ;}
           /*****************************************************************
           * A zero-length or null vector returns null.  Any caller who     *
           * provides such an argument had better be ready to deal with     *
@@ -1043,12 +1043,12 @@ public class TokenizeComment
          {String curString = "" ;
           if (vec.elementAt(line) != null)
            {curString = vec.elementAt(line) ;
-           } ;
-          result[line] = new CToken[1];
+           }
+             result[line] = new CToken[1];
           result[line][0] = new CToken(curString,0,CToken.TEX, false, false);
           line = line + 1;
-         } ;
-        return result ;
+         }
+          return result ;
       }
  }
 

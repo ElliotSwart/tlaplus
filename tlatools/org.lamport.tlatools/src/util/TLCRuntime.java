@@ -148,8 +148,8 @@ public class TLCRuntime {
 
 	public enum ARCH {
 		x86,
-		x86_64;
-	}
+		x86_64
+    }
 	
 	public ARCH getArchitecture() {
 		if (System.getProperty("sun.arch.data.model") != null

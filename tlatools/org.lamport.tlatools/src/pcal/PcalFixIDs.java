@@ -425,7 +425,7 @@ public class PcalFixIDs {
               { final Vector<AST> orClause = (Vector) ast.ors.elementAt(i) ;
                 for (int j = 0; j < orClause.size(); j++)
                   FixSym((AST) orClause.elementAt(j), context);
-               } ;
+               }
     }
 
     private static void FixLabelEither(final AST.LabelEither ast, final String context) throws PcalFixIDException {
@@ -437,7 +437,7 @@ public class PcalFixIDs {
                   FixLabeledStmt((AST.LabeledStmt) 
                                    orClause.labOr.elementAt(j), 
                                   context);
-               } ;
+               }
 
     }
 

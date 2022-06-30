@@ -335,33 +335,33 @@ public class ParseAlgorithm
        if (PeekAtAlgToken(1).equals("{"))
          { cSyntax = true ;
            MustGobbleThis("{") ; } 
-       else {pSyntax = true ; } ;
-       Vector<VarDecl> vdecls = new Vector<VarDecl>() ;
+       else {pSyntax = true ; }
+         Vector<VarDecl> vdecls = new Vector<VarDecl>() ;
        if ( PeekAtAlgToken(1).equals("variable")
            || PeekAtAlgToken(1).equals("variables"))
-         { vdecls = GetVarDecls() ; } ;
-       TLAExpr defs = new TLAExpr() ;
+         { vdecls = GetVarDecls() ; }
+         TLAExpr defs = new TLAExpr() ;
        if (PeekAtAlgToken(1).equals("define"))
          { MustGobbleThis("define") ;
-           if (cSyntax) {GobbleThis("{") ;} ;
-           defs = GetExpr() ;
+           if (cSyntax) {GobbleThis("{") ;}
+             defs = GetExpr() ;
            if (pSyntax) 
              { GobbleThis("end") ;
                GobbleThis("define") ; }
            else
-             { GobbleThis("}") ; } ;
-           GobbleThis(";") ; 
+             { GobbleThis("}") ; }
+             GobbleThis(";") ;
          }
        final Vector<Macro> macros = new Vector<Macro>() ;
        while (PeekAtAlgToken(1).equals("macro"))
-         { macros.addElement(GetMacro(macros)) ; } ;
-       while (PeekAtAlgToken(1).equals("procedure"))
+         { macros.addElement(GetMacro(macros)) ; }
+         while (PeekAtAlgToken(1).equals("procedure"))
          { procedures.addElement(GetProcedure()) ;
            // if there's a procedure, we assume that it's
            // called, so we must not omit the pc variable.
            omitPC = false;
-         } ;
-       if (     (   PeekAtAlgToken(1).equals("fair") 
+         }
+         if (     (   PeekAtAlgToken(1).equals("fair")
                  && (   PeekAtAlgToken(2).equals("process")
                      || (   PeekAtAlgToken(2).equals("+")
                          && PeekAtAlgToken(3).equals("process")
@@ -395,16 +395,16 @@ public class ParseAlgorithm
                     } else if (PcalParams.FairnessOption.equals("sf")) {
                     	fairness = AST.SF_PROC;
                     }
-                };        	   
-        	   final AST.Process proc =  GetProcess() ;
+                }
+                 final AST.Process proc =  GetProcess() ;
         	   proc.fairness = fairness ;
         	   multiproc.procs.addElement(proc) ; 
-             } ;
-           if (pSyntax)
+             }
+             if (pSyntax)
              { GobbleThis("end") ;
                GobbleThis("algorithm") ; }
-           else { GobbleThis("}") ; } ;
-           CheckForDuplicateMacros(multiproc.macros) ;
+           else { GobbleThis("}") ; }
+             CheckForDuplicateMacros(multiproc.macros) ;
            int i = 0 ;
 // LL comment added 11 Mar 2006
 // It should be possible to exchange the order of the next
@@ -430,8 +430,8 @@ public class ParseAlgorithm
                   omitStutteringWhenDoneValue || omitStutteringWhenDone;
                
                i = i + 1 ;
-             } ;
-           omitStutteringWhenDone = omitStutteringWhenDoneValue;
+             }
+             omitStutteringWhenDone = omitStutteringWhenDoneValue;
            i = 0 ;
            while (i < multiproc.prcds.size())
              { final AST.Procedure prcd =
@@ -448,13 +448,13 @@ public class ParseAlgorithm
            * specified.                                                    *
            ****************************************************************/
            if (addedLabels.size() > 0)
-             { if (! PcalParams.LabelFlag) { AddedMessagesError() ; } ;
-               if (PcalParams.ReportLabelsFlag) { ReportLabels() ; } 
+             { if (! PcalParams.LabelFlag) { AddedMessagesError() ; }
+                 if (PcalParams.ReportLabelsFlag) { ReportLabels() ; }
                else
                    // SZ March 11, 2009: info reporting using PcalDebug added
-                { PcalDebug.reportInfo("Labels added.") ; } ;
-              } ;
-           if (gotoDoneUsed) {
+                { PcalDebug.reportInfo("Labels added.") ; }
+             }
+             if (gotoDoneUsed) {
                   omitPC = false;
                   omitStutteringWhenDone = false;
               }
@@ -496,9 +496,9 @@ public class ParseAlgorithm
         		  PcalDebug.reportWarning("Option `" + PcalParams.FairnessOption + "' specified for --fair algorithm.");
         	   }
         	   PcalParams.FairnessOption = "wf";
-           } ;
-           
-           GobbleBeginOrLeftBrace() ;
+           }
+
+             GobbleBeginOrLeftBrace() ;
            uniproc.body = GetStmtSeq() ;
            CheckForDuplicateMacros(uniproc.macros) ;
            ExpandMacrosInStmtSeq(uniproc.body, uniproc.macros) ;
@@ -523,8 +523,8 @@ public class ParseAlgorithm
                GobbleThis("}") ; } 
            else 
              { GobbleThis("end") ;
-               GobbleThis("algorithm") ;} ;
-           AddLabelsToStmtSeq(uniproc.body) ;
+               GobbleThis("algorithm") ;}
+             AddLabelsToStmtSeq(uniproc.body) ;
            uniproc.body = MakeLabeledStmtSeq(uniproc.body);
            /****************************************************************
            * Check for added labels, report an error if there shouldn't    *
@@ -533,14 +533,14 @@ public class ParseAlgorithm
            ****************************************************************/
            if (addedLabels.size() > 0)
              { if (hasLabel && ! PcalParams.LabelFlag) 
-                        { AddedMessagesError() ; } ;
-               if (PcalParams.ReportLabelsFlag) { ReportLabels() ; } 
+                        { AddedMessagesError() ; }
+                 if (PcalParams.ReportLabelsFlag) { ReportLabels() ; }
                else
                    // SZ March 11, 2009: info reporting using PcalDebug added
-                { PcalDebug.reportInfo("Labels added.") ; } ;
-              } ;
-           
-           if (gotoUsed) {
+                { PcalDebug.reportInfo("Labels added.") ; }
+             }
+
+             if (gotoUsed) {
                   omitPC = false;
               }
            if (gotoDoneUsed) {
@@ -600,7 +600,7 @@ public class ParseAlgorithm
            omitPC = false;
            omitStutteringWhenDone = false;
            return;
-       } ;
+       }
        final AST.LabeledStmt lblStmt = (AST.LabeledStmt) body.elementAt(0);
        if ( (lblStmt.stmts == null) || (lblStmt.stmts.size() == 0)) {
            // Again, this shouldn't happen.
@@ -611,8 +611,8 @@ public class ParseAlgorithm
            omitPC = false;
            omitStutteringWhenDone = false;
            return;
-       } ;
-       
+       }
+
        final AST.While whileStmt = (AST.While) lblStmt.stmts.elementAt(0);
        final Vector<?> tokens = whileStmt.test.tokens;
        if (tokens.size() != 1) {
@@ -662,13 +662,13 @@ public class ParseAlgorithm
        if (addedLabels.size() > 1)
          {msg = "Missing labels at the following locations:" ;}
        else 
-         {msg = "Missing label at the following location:" ;} ;
-       int i = 0 ;
+         {msg = "Missing label at the following location:" ;}
+         int i = 0 ;
        while (i < addedLabels.size() )
         { msg = msg + "\n     " + addedLabelsLocs.elementAt(i) ;
           i = i + 1 ;
-        } ;
-       throw new ParseAlgorithmException(msg) ;
+        }
+         throw new ParseAlgorithmException(msg) ;
        }
 
    public static void ReportLabels() 
@@ -676,16 +676,16 @@ public class ParseAlgorithm
      { if (addedLabels.size() > 1)
          {PcalDebug.reportInfo("The following labels were added:") ;}
        else          
-         {PcalDebug.reportInfo("The following label was added:") ;} ;
-       int i = 0 ;
+         {PcalDebug.reportInfo("The following label was added:") ;}
+         int i = 0 ;
        while (i < addedLabels.size() )
         { PcalDebug.reportInfo("  " 
               + addedLabels.elementAt(i) 
               + " at "
               + addedLabelsLocs.elementAt(i));
           i = i + 1 ;
-        } ;
-       return ; }
+        }
+         return ; }
 
    public static AST.Procedure GetProcedure() throws ParseAlgorithmException
      { final AST.Procedure result = new AST.Procedure() ;
@@ -703,8 +703,8 @@ public class ParseAlgorithm
        boolean lookForComma = false ;
        while (! PeekAtAlgToken(1).equals(")"))
          { if (lookForComma)
-             { GobbleThis(",") ; } ;
-           result.params.addElement(GetPVarDecl()) ;
+             { GobbleThis(",") ; }
+             result.params.addElement(GetPVarDecl()) ;
            lookForComma = true ;
          }
        MustGobbleThis(")") ;
@@ -712,13 +712,13 @@ public class ParseAlgorithm
            || PeekAtAlgToken(1).equals("{"))
          { result.decls = new Vector<PVarDecl>(1) ; }
        else
-         { result.decls = GetPVarDecls() ; } ;
-       GobbleBeginOrLeftBrace() ;
+         { result.decls = GetPVarDecls() ; }
+         GobbleBeginOrLeftBrace() ;
        result.body = GetStmtSeq() ;
        GobbleEndOrRightBrace("procedure") ;  
        final PCalLocation endLoc = GetLastLocationEnd() ;
        if (PeekAtAlgToken(1).equals(";"))
-         { @SuppressWarnings("unused") final String tok = GetAlgToken() ; } ;
+         { @SuppressWarnings("unused") final String tok = GetAlgToken() ; }
 //       CheckLabeledStmtSeq(result.body) ;
        currentProcedure = null ;
        result.plusLabels = plusLabels;
@@ -734,27 +734,27 @@ public class ParseAlgorithm
        final PCalLocation beginLoc = GetLastLocationStart() ;
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
-       if (cSyntax) { GobbleThis("(") ; } ;
-       result.name = GetAlgToken() ;
+       if (cSyntax) { GobbleThis("(") ; }
+         result.name = GetAlgToken() ;
        result.isEq = GobbleEqualOrIf() ;
        result.id   = GetExpr() ; 
        plusLabels = new Vector<String>(0);
        minusLabels = new Vector<String>(0);
        proceduresCalled = new Vector<String>(0);
-       if (cSyntax) { GobbleThis(")") ; } ;
-       if (result.id.tokens.size()==0)
+       if (cSyntax) { GobbleThis(")") ; }
+         if (result.id.tokens.size()==0)
          { ParsingError("Empty process id at ") ;}
        if (   PeekAtAlgToken(1).equals("begin")
            || PeekAtAlgToken(1).equals("{"))
          { result.decls = new Vector<VarDecl>(1) ; }
        else
-         { result.decls = GetVarDecls() ; } ;
-       GobbleBeginOrLeftBrace() ;
+         { result.decls = GetVarDecls() ; }
+         GobbleBeginOrLeftBrace() ;
        result.body = GetStmtSeq() ;
        GobbleEndOrRightBrace("process") ;
        final PCalLocation endLoc = GetLastLocationEnd() ;
        if (PeekAtAlgToken(1).equals(";"))
-         { @SuppressWarnings("unused") final String tok = GetAlgToken() ; } ;
+         { @SuppressWarnings("unused") final String tok = GetAlgToken() ; }
 //       CheckLabeledStmtSeq(result.body) ;
        result.plusLabels = plusLabels;
        result.minusLabels = minusLabels;
@@ -771,8 +771,8 @@ public class ParseAlgorithm
        if ( tok.equals("variables"))
          { MustGobbleThis("variables") ; } 
        else 
-         { GobbleThis("variable") ; } ;
-       final Vector<PVarDecl> result = new Vector<PVarDecl>() ;
+         { GobbleThis("variable") ; }
+         final Vector<PVarDecl> result = new Vector<PVarDecl>() ;
 
        /********************************************************************
        * The <PVarDecls> nonterminal is terminated by a "begin"            *
@@ -786,8 +786,8 @@ public class ParseAlgorithm
              * Changed on 24 Mar 2006 from GobbleThis(";") to allow        *
              * declarations to be separated by commas.                     *
              **************************************************************/
-          } ;
-        return result ;
+          }
+         return result ;
      }
 
    public static AST.PVarDecl GetPVarDecl() throws ParseAlgorithmException 
@@ -802,10 +802,10 @@ public class ParseAlgorithm
            pv.val = GetExpr() ; 
            endLoc = pv.val.getOrigin().getEnd() ;
            if (pv.val.tokens.size()==0)
-             { ParsingError("Missing expression at ") ;} ;
-          } 
-       else {hasDefaultInitialization = true ;} ; 
-       pv.setOrigin(new Region(beginLoc, endLoc));
+             { ParsingError("Missing expression at ") ;}
+         }
+       else {hasDefaultInitialization = true ;}
+         pv.setOrigin(new Region(beginLoc, endLoc));
        return pv ;
      }
 
@@ -817,8 +817,8 @@ public class ParseAlgorithm
        if ( tok.equals("variables"))
          { MustGobbleThis("variables") ; } 
        else 
-         { GobbleThis("variable") ; } ;
-       final Vector<VarDecl> result = new Vector<VarDecl>() ;
+         { GobbleThis("variable") ; }
+         final Vector<VarDecl> result = new Vector<VarDecl>() ;
 
        /********************************************************************
        * The <VarDecls> nonterminal appears in two places:                 *
@@ -837,8 +837,8 @@ public class ParseAlgorithm
                  || PeekAtAlgToken(1).equals("define")  
                  || PeekAtAlgToken(1).equals("macro")   ) )
          { result.addElement(GetVarDecl());
-          } ;
-        return result ;
+          }
+         return result ;
      }
 
    public static AST.VarDecl GetVarDecl() throws ParseAlgorithmException 
@@ -854,11 +854,11 @@ public class ParseAlgorithm
            pv.val = GetExpr() ; 
            endLoc = pv.val.getOrigin().getEnd() ;
            if (pv.val.tokens.size()==0)
-             { ParsingError("Missing expression at ") ;} ;
+             { ParsingError("Missing expression at ") ;}
          } 
-       else {hasDefaultInitialization = true ;} ;
+       else {hasDefaultInitialization = true ;}
 
-       GobbleCommaOrSemicolon();
+         GobbleCommaOrSemicolon();
          /******************************************************************
          * Changed on 24 Mar 2006 from GobbleThis(";") to allow            *
          * declarations to be separated by commas.                         *
@@ -871,8 +871,8 @@ public class ParseAlgorithm
      { if (LATsize != 0)
          {PcalDebug.ReportBug(
                "ParseAlgorithm: GetExpr called after lookahead");
-         } ;
-        final TLAExpr result;
+         }
+         final TLAExpr result;
         try
         {
             result = Tokenize.TokenizeExpr(charReader);
@@ -913,14 +913,14 @@ public class ParseAlgorithm
    /* OBSOLETE */ public static AST.LabeledStmt ObsoleteGetLabeledStmt() throws ParseAlgorithmException
      { if (! IsLabelNext())
          { ParsingError("Was expecting a label"); 
-         } ;
-       final AST.LabeledStmt result = new AST.LabeledStmt() ;
+         }
+         final AST.LabeledStmt result = new AST.LabeledStmt() ;
        result.label = GetAlgToken() ;
        if (result.label.equals("Done"))
-         { ParsingError("Cannot use `Done' as a label.") ; } ;
-       if (result.label.equals("Error"))
-         { ParsingError("Cannot use `Error' as a label.") ; } ;
-       result.col  = lastTokCol ;
+         { ParsingError("Cannot use `Done' as a label.") ; }
+         if (result.label.equals("Error"))
+         { ParsingError("Cannot use `Error' as a label.") ; }
+         result.col  = lastTokCol ;
        result.line = lastTokLine ;
        result.stmts = new Vector<AST>() ;
        GobbleThis(":") ;
@@ -931,8 +931,8 @@ public class ParseAlgorithm
        while (i < stmtSeq.size())
          { result.stmts.addElement(stmtSeq.elementAt(i)) ;
            i = i + 1;
-         } ;
-      if (result.stmts.size() == 0)
+         }
+         if (result.stmts.size() == 0)
         { ParsingError("Label with no following statement") ; }
       return result ; 
      }
@@ -944,12 +944,12 @@ public class ParseAlgorithm
        final AST.While result = new AST.While() ;
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
-       if (cSyntax) { GobbleThis("(") ; } ;
-       result.test = GetExpr();
-       if (cSyntax) { GobbleThis(")") ; } ;
-       if (result.test.tokens.size()==0)
-         { ParsingError("Empty while test at ") ;} ;
-       if (pSyntax)
+       if (cSyntax) { GobbleThis("(") ; }
+         result.test = GetExpr();
+       if (cSyntax) { GobbleThis(")") ; }
+         if (result.test.tokens.size()==0)
+         { ParsingError("Empty while test at ") ;}
+         if (pSyntax)
          { GobbleThis("do") ;
            result.unlabDo = GetStmtSeq() ;
            GobbleThis("end") ;
@@ -957,8 +957,8 @@ public class ParseAlgorithm
            GobbleThis(";") ;
          }
        else
-         { result.unlabDo = GetCStmt() ; } ;
-       if (result.unlabDo.size() == 0)
+         { result.unlabDo = GetCStmt() ; }
+         if (result.unlabDo.size() == 0)
          { ParsingError("Missing body of while statement at"); }
        result.labDo = new Vector<AST>() ;
          /******************************************************************
@@ -996,12 +996,12 @@ public class ParseAlgorithm
          { nextLabel = GetAlgToken() ;
            getLabelLocation = new PCalLocation(lastTokLine-1, lastTokCol-1);
            if (inGetMacro)
-                 { ParsingError("A label may not appear in a macro.") ; } ;
-           if (nextLabel.equals("Done"))
-                 { ParsingError("Cannot use `Done' as a label.") ; } ;
-           if (nextLabel.equals("Error"))
-                 { ParsingError("Cannot use `Error' as a label.") ; } ;
-           GobbleThis(":") ;
+                 { ParsingError("A label may not appear in a macro.") ; }
+             if (nextLabel.equals("Done"))
+                 { ParsingError("Cannot use `Done' as a label.") ; }
+             if (nextLabel.equals("Error"))
+                 { ParsingError("Cannot use `Error' as a label.") ; }
+             GobbleThis(":") ;
            hasLabel = true ;
            allLabels.put(nextLabel, "") ;
            // The following code added by LL on 12 Jan 2011 as part of
@@ -1021,8 +1021,8 @@ public class ParseAlgorithm
                   omitPC = false;
         	  }
            }
-         } ;
-       return nextLabel;
+         }
+         return nextLabel;
      }     
 
    public static Vector<AST> GetStmtSeq() throws ParseAlgorithmException 
@@ -1060,10 +1060,10 @@ public class ParseAlgorithm
                stmt.lbl = nextLabel ;
                stmt.lblLocation = labelLoc ;
                result.addElement(stmt) ;
-             } ;
-           tok = PeekAtAlgToken(1) ;
-         } ;
-        if (cSyntax && (result.size() == 0))
+             }
+             tok = PeekAtAlgToken(1) ;
+         }
+         if (cSyntax && (result.size() == 0))
           /*****************************************************************
           * I'm not sure if GetStmtSeq should be able to return an empty   *
           * sequence in p-syntax, but it definitely shouldn't in c-syntax  *
@@ -1076,19 +1076,19 @@ public class ParseAlgorithm
 
    public static AST GetStmt() throws ParseAlgorithmException
      { final String nextTok = PeekAtAlgToken(1) ;
-       if (nextTok.equals("if"))     { return GetIf(0) ; }     ;
-       if (nextTok.equals("either")) { return GetEither() ; }     ;
-       if (nextTok.equals("with"))   { return GetWith(0) ; }   ;
-       if (nextTok.equals("when"))   { return GetWhen(true) ; }   ;
-       if (nextTok.equals("await"))  { return GetWhen(false) ; }   ;
-       if (nextTok.equals("print"))  { return GetPrintS() ; } ;
-       if (nextTok.equals("assert")) { return GetAssert() ; } ;
-       if (nextTok.equals("skip"))   { return GetSkip() ; }   ;
-       if (nextTok.equals("call"))   { return GetCallOrCallReturnOrCallGoto() ; }   ;
-       if (nextTok.equals("return")) { return GetReturn() ; }   ;
-       if (nextTok.equals("goto"))   { return GetGoto() ; }   ;
-       if (nextTok.equals("while"))  { return GetWhile() ; } ;
-       if (PeekPastAlgToken(1).charAt(0)=='(')
+       if (nextTok.equals("if"))     { return GetIf(0) ; }
+         if (nextTok.equals("either")) { return GetEither() ; }
+         if (nextTok.equals("with"))   { return GetWith(0) ; }
+         if (nextTok.equals("when"))   { return GetWhen(true) ; }
+         if (nextTok.equals("await"))  { return GetWhen(false) ; }
+         if (nextTok.equals("print"))  { return GetPrintS() ; }
+         if (nextTok.equals("assert")) { return GetAssert() ; }
+         if (nextTok.equals("skip"))   { return GetSkip() ; }
+         if (nextTok.equals("call"))   { return GetCallOrCallReturnOrCallGoto() ; }
+         if (nextTok.equals("return")) { return GetReturn() ; }
+         if (nextTok.equals("goto"))   { return GetGoto() ; }
+         if (nextTok.equals("while"))  { return GetWhile() ; }
+         if (PeekPastAlgToken(1).charAt(0)=='(')
          { return GetMacroCall() ; }
        return GetAssign() ;
      }
@@ -1115,12 +1115,12 @@ public class ParseAlgorithm
            ********************************************************/
            if ( ! ((AST) sseq.elementAt(0)).lbl.equals(""))
              { throw new ParseAlgorithmException("Duplicate labeling of statement",
-                                        (AST) sseq.elementAt(0)) ; };
-            final AST firstStmt = (AST) sseq.elementAt(0) ;
+                                        (AST) sseq.elementAt(0)) ; }
+             final AST firstStmt = (AST) sseq.elementAt(0) ;
             firstStmt.lbl = lbl ;
             firstStmt.lblLocation = lblLocation ;
-        } ;
-      return sseq ;
+        }
+         return sseq ;
      }     
 
    public static Vector<AST> GetCStmt() throws ParseAlgorithmException
@@ -1131,8 +1131,8 @@ public class ParseAlgorithm
      { final String label = GetLabel() ;
        final PCalLocation labelLocation = getLabelLocation ;
        if (PeekAtAlgToken(1).equals("{"))
-         { return GetCStmtSeq(label) ; } ;
-       final AST stmt = GetStmt() ;
+         { return GetCStmtSeq(label) ; }
+         final AST stmt = GetStmt() ;
        stmt.lbl = label ;
        stmt.lblLocation = labelLocation ;
        final Vector<AST> result = new Vector<AST>() ;
@@ -1170,15 +1170,15 @@ public class ParseAlgorithm
            || (tok.equals("return"))
            || (tok.equals("goto"))
           )
-         {return false ;} ;
-        tok = charReader.peek() ;
+         {return false ;}
+         tok = charReader.peek() ;
         if (   (tok.length() == 0) // I don't think this can happen.
             || (tok.charAt(0) != ':')
             || (   (tok.length() > 1)
                 && (tok.charAt(1) == '='))
            )
-          {return false ;} ;
-        return true;
+          {return false ;}
+         return true;
      }
 
 
@@ -1206,22 +1206,22 @@ public class ParseAlgorithm
      { if (depth == 0)
          { MustGobbleThis("if") ; }
        else 
-         { MustGobbleThis("elsif") ; } ;
-       final PCalLocation beginLoc = GetLastLocationStart() ;
+         { MustGobbleThis("elsif") ; }
+         final PCalLocation beginLoc = GetLastLocationStart() ;
        final AST.LabelIf result = new AST.LabelIf() ;
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
-       if (cSyntax) { GobbleThis("(") ; } ; 
-       result.test = GetExpr() ;
-       if (cSyntax) { GobbleThis(")") ; } ; 
-       if (result.test.tokens.size() == 0)
-         { ParsingError("Empty if test at ") ;} ;
-       if (pSyntax)
+       if (cSyntax) { GobbleThis("(") ; }
+         result.test = GetExpr() ;
+       if (cSyntax) { GobbleThis(")") ; }
+         if (result.test.tokens.size() == 0)
+         { ParsingError("Empty if test at ") ;}
+         if (pSyntax)
          { GobbleThis("then") ;
            result.unlabThen = GetStmtSeq() ;}
        else
-         { result.unlabThen = GetCStmt() ; } ;
-       final String nextTok = PeekAtAlgToken(1) ;
+         { result.unlabThen = GetCStmt() ; }
+         final String nextTok = PeekAtAlgToken(1) ;
        if (pSyntax)
          { if (nextTok.equals("else"))
             { MustGobbleThis("else") ;
@@ -1236,12 +1236,12 @@ public class ParseAlgorithm
                  { result.unlabElse = new Vector<AST>() ; 
                  }
             else { ParsingError(
-                     "Expecting \"else\", \"elsif\", or \"end\"")  ; } ;
-            if (depth == 0)
+                     "Expecting \"else\", \"elsif\", or \"end\"")  ; }
+             if (depth == 0)
               { GobbleThis("end") ; 
                 GobbleThis("if") ; 
-                GobbleThis(";");  ;
-              } ;
+                GobbleThis(";");
+              }
          }         
        else /* c syntax */
          { if (nextTok.equals("else"))
@@ -1250,8 +1250,8 @@ public class ParseAlgorithm
             } 
            else
             { result.unlabElse = new Vector<AST>() ; }
-         } ;
-       result.labThen = new Vector<AST>() ; 
+         }
+         result.labThen = new Vector<AST>() ;
        result.labElse = new Vector<AST>() ; 
 
        /**
@@ -1293,8 +1293,8 @@ public class ParseAlgorithm
             { nextClause.unlabOr = GetCStmt() ; }
           if (nextClause.unlabOr.size() == 0)
             {throw new ParseAlgorithmException(
-                "`either' statement with empty `or' clause", result) ; } ;
-          nextClause.setOrigin(new Region(
+                "`either' statement with empty `or' clause", result) ; }
+            nextClause.setOrigin(new Region(
                   ((AST) nextClause.unlabOr.elementAt(0)).getOrigin().getBegin(), 
                   ((AST) nextClause.unlabOr.elementAt(nextClause.unlabOr.size()-1))
                          .getOrigin().getEnd())) ; 
@@ -1306,16 +1306,16 @@ public class ParseAlgorithm
             }
           else
             { done = true ; }
-        } ;
-        if (pSyntax)
+        }
+         if (pSyntax)
           { MustGobbleThis("end") ;
             GobbleThis("either") ;
             GobbleThis(";") ;
-          } ;
-        if (! hasOr) 
+          }
+         if (! hasOr)
           { throw new ParseAlgorithmException("`either' statement has no `or'", result) ;
-          } ;
-        result.setOrigin(new Region(beginLoc,
+          }
+         result.setOrigin(new Region(beginLoc,
                   ((AST) result.clauses.elementAt(result.clauses.size()-1))
                      .getOrigin().getEnd())) ;
         return result ;
@@ -1359,9 +1359,9 @@ public class ParseAlgorithm
        if (depth == 0)
          { GobbleThis("with") ;
            begLoc = GetLastLocationStart() ;
-           if (cSyntax) { GobbleThis("(") ; } ;
-         } ;
-       final AST.With result = new AST.With() ;
+           if (cSyntax) { GobbleThis("(") ; }
+         }
+         final AST.With result = new AST.With() ;
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
        result.var  = GetAlgToken() ;
@@ -1373,10 +1373,10 @@ public class ParseAlgorithm
              * Gobble the ";" or "," ending the <VarEqOrIn>, which may be  *
              * eliminated before a ")" or "do".                            *
              **************************************************************/
-         } ;
-       if (result.exp.tokens.size() == 0)
-         { ParsingError("Empty with expression at ") ;} ;
-       if (pSyntax && PeekAtAlgToken(1).equals("do"))
+         }
+         if (result.exp.tokens.size() == 0)
+         { ParsingError("Empty with expression at ") ;}
+         if (pSyntax && PeekAtAlgToken(1).equals("do"))
          { GobbleThis("do") ;
            result.Do   = GetStmtSeq() ;
            GobbleThis("end") ;
@@ -1390,8 +1390,8 @@ public class ParseAlgorithm
        else 
          { result.Do = new Vector<AST>() ;
            result.Do.addElement(InnerGetWith(depth+1, begLoc)) ;
-         };
-		try {
+         }
+         try {
 		       result.setOrigin(new Region(begLoc, 
 		               ((AST) result.Do.elementAt(result.Do.size()-1)).getOrigin().getEnd())) ;
 		} catch (final ArrayIndexOutOfBoundsException e) {
@@ -1417,8 +1417,8 @@ public class ParseAlgorithm
            } catch (final ParseAlgorithmException e) {
            ParsingError("Bad assignment statement at ") ;
         }
-         } ;
-       GobbleThis(";") ; 
+         }
+         GobbleThis(";") ;
        final AST firstAssign = (AST) result.ass.elementAt(0) ;
        final AST lastAssign = (AST) result.ass.elementAt(result.ass.size()-1) ;
        result.setOrigin(new Region(firstAssign.getOrigin().getBegin(), 
@@ -1438,8 +1438,8 @@ public class ParseAlgorithm
        GobbleThis(":=") ; 
        result.rhs = GetExpr() ;
        if (result.rhs.tokens.size() == 0)
-         { ParsingError("Empty right-hand side of assignment at ") ;} ;
-       result.setOrigin(new Region(result.lhs.getOrigin().getBegin(), 
+         { ParsingError("Empty right-hand side of assignment at ") ;}
+         result.setOrigin(new Region(result.lhs.getOrigin().getBegin(),
                result.rhs.getOrigin().getEnd()));
        return result ;
      }
@@ -1486,8 +1486,8 @@ public class ParseAlgorithm
        result.line = lastTokLine ;
        result.exp = GetExpr() ; 
        if (result.exp.tokens.size() == 0)
-         { ParsingError("Empty expression in print statement at ") ;} ;
-       result.setOrigin(new Region(beginLoc, result.exp.getOrigin().getEnd())) ;
+         { ParsingError("Empty expression in print statement at ") ;}
+         result.setOrigin(new Region(beginLoc, result.exp.getOrigin().getEnd())) ;
        GobbleThis(";") ;
        return result ;
      }
@@ -1499,8 +1499,8 @@ public class ParseAlgorithm
        result.line = lastTokLine ;
        result.exp = GetExpr() ; 
        if (result.exp.tokens.size() == 0)
-         { ParsingError("Empty expression in assert statement at ") ;} ;
-       GobbleThis(";") ;
+         { ParsingError("Empty expression in assert statement at ") ;}
+         GobbleThis(";") ;
        result.setOrigin(new Region(new PCalLocation(
     		   result.line-1, result.col-1),
     		   result.exp.getOrigin().getEnd())) ;
@@ -1524,16 +1524,16 @@ public class ParseAlgorithm
      **********************************************************************/
      { final AST.When result = new AST.When() ;
        if (isWhen) {MustGobbleThis("when") ;} 
-        else {MustGobbleThis("await") ;} ;
-       result.col  = lastTokCol ;
+        else {MustGobbleThis("await") ;}
+         result.col  = lastTokCol ;
        result.line = lastTokLine ;       
        result.exp = GetExpr() ; 
        result.setOrigin(new Region(new PCalLocation(
     		   result.line-1, result.col-1),
     		   result.exp.getOrigin().getEnd())) ;
        if (result.exp.tokens.size() == 0)
-         { ParsingError("Empty expression in when statement at ") ;} ;
-       GobbleThis(";") ; 
+         { ParsingError("Empty expression in when statement at ") ;}
+         GobbleThis(";") ;
        return result ;
      }
 
@@ -1549,13 +1549,13 @@ public class ParseAlgorithm
        while (moreArgs)
          { result.args.addElement(GetExpr()) ;
            if ( ((TLAExpr) result.args.lastElement()).tokens.size() == 0)
-              { ParsingError("Empty argument in call statement at ") ;} ;
-           if ( ! PeekAtAlgToken(1).equals(")") )
+              { ParsingError("Empty argument in call statement at ") ;}
+             if ( ! PeekAtAlgToken(1).equals(")") )
               { GobbleThis(",") ; } 
            else
-              { moreArgs = false ; } ;
-          } ;
-       GobbleThis(")") ;
+              { moreArgs = false ; }
+         }
+         GobbleThis(")") ;
        result.setOrigin(new Region(new PCalLocation(result.line-1, result.col-1),
     		   new PCalLocation(lastTokLine-1, lastTokCol))) ;
                            // token ")" has width 1.
@@ -1568,8 +1568,8 @@ public class ParseAlgorithm
        while (    (i < proceduresCalled.size()) 
     		   && ! result.to.equals(proceduresCalled.elementAt(i))) {
     	   i++ ;
-       };
-       if (i == proceduresCalled.size()) {
+       }
+         if (i == proceduresCalled.size()) {
     	   proceduresCalled.addElement(result.to);
        }
        return result ;
@@ -1719,19 +1719,19 @@ public class ParseAlgorithm
      boolean lookForComma = false ;
      while (! PeekAtAlgToken(1).equals(")"))
        { if (lookForComma)
-           { GobbleThis(",") ; } ;
-         result.params.addElement(GetAlgToken()) ;
+           { GobbleThis(",") ; }
+           result.params.addElement(GetAlgToken()) ;
          lookForComma = true ;
        }
      MustGobbleThis(")") ;
-     GobbleBeginOrLeftBrace() ; ;
-     result.body = GetStmtSeq() ;
+     GobbleBeginOrLeftBrace() ;
+       result.body = GetStmtSeq() ;
      GobbleEndOrRightBrace("macro") ;
      result.setOrigin(new Region(beginLoc, GetLastLocationEnd())) ;
      if (PeekAtAlgToken(1).equals(";"))
-       { @SuppressWarnings("unused") final String tok = GetAlgToken() ; } ;
+       { @SuppressWarnings("unused") final String tok = GetAlgToken() ; }
 
-     ExpandMacrosInStmtSeq(result.body, macros) ;
+       ExpandMacrosInStmtSeq(result.body, macros) ;
      
      inGetMacro = false ;
      return result ;
@@ -1749,13 +1749,13 @@ public class ParseAlgorithm
        while (moreArgs)
          { result.args.addElement(GetExpr()) ;
            if ( ((TLAExpr) result.args.lastElement()).tokens.size() == 0)
-              { ParsingError("Empty argument in call statement at ") ;} ;
-           if ( ! PeekAtAlgToken(1).equals(")") )
+              { ParsingError("Empty argument in call statement at ") ;}
+             if ( ! PeekAtAlgToken(1).equals(")") )
               { GobbleThis(",") ; } 
            else
-              { moreArgs = false ; } ;
-          } ;
-       GobbleThis(")") ;
+              { moreArgs = false ; }
+         }
+         GobbleThis(")") ;
        result.setOrigin(new Region(beginLoc, GetLastLocationEnd())) ;
        GobbleThis(";") ;
        return result ;
@@ -1841,25 +1841,25 @@ public class ParseAlgorithm
                if (inWith) 
                  { throw new ParseAlgorithmException("Label in `with' statement", 
                                            stmt) ;
-                 } ;
-             } ;
-           if (nextStepNeedsLabel)
+                 }
+             }
+             if (nextStepNeedsLabel)
             { if (inWith) 
                 { throw new ParseAlgorithmException(
                     "Statement follows `call' or `return' inside a " +
                       "`with' statement.",
                      stmt) ;
-                } ;
+                }
 
-              NeedsLabel((AST) stmtseq.elementAt(i)) ;
+                NeedsLabel((AST) stmtseq.elementAt(i)) ;
                   nextStepNeedsLabel = false ;
               hadOrAddedLabel = true   ;
               outAssigned.removeAllElements() ;
                 /***********************************************************
                 * outAssigned := {}                                        *
                 ***********************************************************/
-            } ; 
-          if (stmt.getClass().equals(AST.LabelIfObj.getClass()))
+            }
+             if (stmt.getClass().equals(AST.LabelIfObj.getClass()))
              { /************************************************************
                * This is an if statement.                                  *
                *   - Call InnerAddLabels on the the unlabThen and          *
@@ -1919,8 +1919,8 @@ public class ParseAlgorithm
                      || nextStepNeedsLabel ;
                    Copy(Union(orAssigned, newOutAssigned), newOutAssigned) ;
                    j = j+1 ;
-                 };               
-               Copy(newOutAssigned, outAssigned) ;
+                 }
+                 Copy(newOutAssigned, outAssigned) ;
              }
            else if (stmt.getClass().equals(AST.WhileObj.getClass()))
              { /************************************************************
@@ -1935,8 +1935,8 @@ public class ParseAlgorithm
                  ******************************************************/
                if (inWith) 
                  {throw new ParseAlgorithmException(
-                   "`while' inside a `with' statement", stmt) ; };
-               NeedsLabel(stmt) ;
+                   "`while' inside a `with' statement", stmt) ; }
+                 NeedsLabel(stmt) ;
                hadOrAddedLabel = true ;
                outAssigned.removeAllElements() ;
                final Vector<String> newOutAssigned = new Vector<String>() ;
@@ -1966,8 +1966,8 @@ public class ParseAlgorithm
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
                final Vector<String> newInAssigned  = new Vector<String>() ;
-               if (inWith) {Copy(inAssigned, newInAssigned) ;} ;
-               final Vector<String> newOutAssigned = new Vector<String>() ;
+               if (inWith) {Copy(inAssigned, newInAssigned) ;}
+                 final Vector<String> newOutAssigned = new Vector<String>() ;
                nextStepNeedsLabel =
                   InnerAddLabels(obj.Do,  
                                  false,             // firstLabeled
@@ -1986,8 +1986,8 @@ public class ParseAlgorithm
                        NeedsLabel(stmt) ;
                        hadOrAddedLabel = true ;
                        outAssigned.removeAllElements() ;
-                     } ;
-                 } ;
+                     }
+                 }
              } 
            else if (stmt.getClass().equals(AST.AssignObj.getClass()))
              { /************************************************************
@@ -2014,10 +2014,10 @@ public class ParseAlgorithm
                      (AST.SingleAssign) obj.ass.elementAt(j) ;
                    final String vbl = assgn.lhs.var ;
                    if (! IsIn(vbl, assignedVbls))
-                     { assignedVbls.addElement(vbl) ; } ;
-                   j = j + 1 ;
-                 } ;
-               if (HasEmptyIntersection(outAssigned, assignedVbls))
+                     { assignedVbls.addElement(vbl) ; }
+                     j = j + 1 ;
+                 }
+                 if (HasEmptyIntersection(outAssigned, assignedVbls))
                  { Copy(Union(outAssigned, assignedVbls), outAssigned) ;} 
                else
                  { /********************************************************
@@ -2026,14 +2026,14 @@ public class ParseAlgorithm
                    if (inWith) {throw new ParseAlgorithmException(
                                  "Second assignment to same variable " +
                                      "inside a `with' statement",
-                                 stmt) ; } ;
-                   
-                   NeedsLabel(stmt);
+                                 stmt) ; }
+
+                     NeedsLabel(stmt);
                    hadOrAddedLabel = true ;
                    Copy(assignedVbls, outAssigned) ;
-                 } ;
+                 }
 
-               nextStepNeedsLabel = false ;
+                 nextStepNeedsLabel = false ;
              }
            else 
              { /************************************************************
@@ -2061,13 +2061,13 @@ public class ParseAlgorithm
                      ******************************************************/
                    isCallOrReturn = true ;
                    if (obj.to.equals(currentProcedure))
-                     { setsPrcdVbls = true ; } ;
+                     { setsPrcdVbls = true ; }
                  }
                else if (stmt.getClass().equals(AST.CallGotoObj.getClass()))
                  { final AST.CallGoto obj = (AST.CallGoto) stmt ;
                    isCallOrReturn = true ;
                    if (obj.to.equals(currentProcedure))
-                     { setsPrcdVbls = true ; } ;
+                     { setsPrcdVbls = true ; }
                  }
                else if (   stmt.getClass().equals(AST.ReturnObj.getClass())
                         || stmt.getClass().equals(AST.CallReturnObj.getClass())
@@ -2079,8 +2079,8 @@ public class ParseAlgorithm
                // It was added on 15 May 2006.
                else if (stmt.getClass().equals(AST.GotoObj.getClass()))
                  { nextStepNeedsLabel = true;
-                 } ;
-              if (isCallOrReturn)
+                 }
+                 if (isCallOrReturn)
                 { nextStepNeedsLabel = true ;
                   assignedVbls.addElement("stack") ;
                     /*******************************************************
@@ -2097,17 +2097,17 @@ public class ParseAlgorithm
                                 (AST.PVarDecl) prcd.params.elementAt(k) ;
                               assignedVbls.addElement(decl.var) ;
                               k = k + 1;
-                            } ;
-                          k = 0 ;
+                            }
+                            k = 0 ;
                           while (k < prcd.decls.size())
                             { final AST.PVarDecl decl =
                                 (AST.PVarDecl) prcd.decls.elementAt(k) ;
                               assignedVbls.addElement(decl.var) ;
                               k = k + 1;
-                            } ;
-                          j = j + 1;
+                            }
+                            j = j + 1;
                         }
-                    } ;
+                    }
                 }
                if (HasEmptyIntersection(outAssigned, assignedVbls))
                  { Copy(Union(outAssigned, assignedVbls), outAssigned) ;} 
@@ -2118,15 +2118,15 @@ public class ParseAlgorithm
                    if (inWith) {throw new ParseAlgorithmException(
                                  "Call or return makes second assignment " +
                                      "to a variable inside a `with' statement",
-                                 stmt) ; } ;
-                   NeedsLabel(stmt);
+                                 stmt) ; }
+                     NeedsLabel(stmt);
                    hadOrAddedLabel = true ;
                    Copy(assignedVbls, outAssigned) ;
-                 } ;
+                 }
 
-             } ;
+             }
 
-           i = i + 1 ;
+             i = i + 1 ;
          }        
        return hadOrAddedLabel || nextStepNeedsLabel ;
      }
@@ -2144,8 +2144,8 @@ public class ParseAlgorithm
            while (allLabels.containsKey(lbl))
              { lbl = PcalParams.LabelRoot + nextLabelNum ;
                nextLabelNum = nextLabelNum + 1 ;
-             } ;
-           stmt.lbl = lbl ;
+             }
+             stmt.lbl = lbl ;
            addedLabels.addElement(lbl) ;
            addedLabelsLocs.addElement(stmt.location()) ;
          }
@@ -2168,8 +2168,8 @@ public class ParseAlgorithm
        while (i < set.size())
         { result = result || elt.equals((String) set.elementAt(i)) ;
           i = i+1 ;
-        } ;
-       return result ;
+        }
+         return result ;
      }
 
 
@@ -2183,8 +2183,8 @@ public class ParseAlgorithm
        while (i < T.size())
          { negResult = negResult ||  IsIn((String) T.elementAt(i), S) ;
            i = i+1;
-         } ;
-       return ! negResult ;
+         }
+         return ! negResult ;
      }
 
 
@@ -2197,10 +2197,10 @@ public class ParseAlgorithm
        while (i < T.size())
          { final String str = (String) T.elementAt(i) ;
            if (! IsIn(str, result))
-             { result.addElement(str) ; } ;
-           i = i+1 ;
-         } ;
-       return result ;
+             { result.addElement(str) ; }
+             i = i+1 ;
+         }
+         return result ;
      }
 
      
@@ -2215,8 +2215,8 @@ public class ParseAlgorithm
        while (i < in.size())
         { out.addElement(in.elementAt(i)) ; 
           i = i+1 ;
-        } ;
-       return ;
+        }
+         return ;
      }
 
 
@@ -2286,9 +2286,9 @@ public class ParseAlgorithm
                 lstmt.stmts.addElement(stmt) ;
                nextStmt = nextStmt + 1;
                if  (nextStmt < stmtseq.size())
-                  {stmt = (AST) stmtseq.elementAt(nextStmt) ;} ;
-             } ;         
-          FixStmtSeq(lstmt.stmts) ;
+                  {stmt = (AST) stmtseq.elementAt(nextStmt) ;}
+             }
+             FixStmtSeq(lstmt.stmts) ;
           final int numberOfStmts = lstmt.stmts.size() ;
           if (numberOfStmts == 0) {
         	  Debug.ReportBug(
@@ -2337,8 +2337,8 @@ public class ParseAlgorithm
                        && ((AST) curr.elementAt(0)).lbl.equals("") )
                 { obj.unlabThen.addElement(curr.elementAt(0)) ;
                   curr.removeElementAt(0) ;
-                } ;
-               FixStmtSeq(obj.unlabThen) ;
+                }
+                 FixStmtSeq(obj.unlabThen) ;
                obj.labThen = InnerMakeLabeledStmtSeq(curr) ;
                 /********************************************************
                 * Set the unlabElse and labElse fields in an analogous  *
@@ -2350,8 +2350,8 @@ public class ParseAlgorithm
                        && ((AST) curr.elementAt(0)).lbl.equals("") )
                 { obj.unlabElse.addElement(curr.elementAt(0)) ;
                   curr.removeElementAt(0) ;
-                } ;
-               FixStmtSeq(obj.unlabElse) ;
+                }
+                 FixStmtSeq(obj.unlabElse) ;
                obj.labElse = InnerMakeLabeledStmtSeq(curr) ;
               }
            else if (stmt.getClass().equals(AST.LabelEitherObj.getClass()))
@@ -2373,11 +2373,11 @@ public class ParseAlgorithm
                            && ((AST) curr.elementAt(0)).lbl.equals("") )
                     { clause.unlabOr.addElement(curr.elementAt(0)) ;
                       curr.removeElementAt(0) ;
-                    } ;
-                   FixStmtSeq(clause.unlabOr) ;
+                    }
+                     FixStmtSeq(clause.unlabOr) ;
                    clause.labOr = InnerMakeLabeledStmtSeq(curr) ;
                    j = j+1 ;
-                 };               
+                 }
 
              }
            else if (stmt.getClass().equals(AST.WhileObj.getClass()))
@@ -2399,13 +2399,13 @@ public class ParseAlgorithm
                        && ((AST) curr.elementAt(0)).lbl.equals("") )
                 { obj.unlabDo.addElement(curr.elementAt(0)) ;
                   curr.removeElementAt(0) ;
-                } ;
-               FixStmtSeq(obj.unlabDo) ;
+                }
+                 FixStmtSeq(obj.unlabDo) ;
                obj.labDo = InnerMakeLabeledStmtSeq(curr) ;
-             } ;
-          i = i + 1 ;
-        } ;
-       return ;
+             }
+            i = i + 1 ;
+        }
+         return ;
      }
 
 
@@ -2424,7 +2424,7 @@ public class ParseAlgorithm
          { final AST.LabeledStmt stmt = (AST.LabeledStmt) stmtseq.elementAt(i) ;
            @SuppressWarnings("unused") final int ignore = ClassifyStmtSeq(stmt.stmts) ;
            i = i + 1 ;
-         } ;
+         }
      }
 
    public static int ClassifyStmtSeq(final Vector<AST> stmtseq) throws ParseAlgorithmException
@@ -2458,7 +2458,7 @@ public class ParseAlgorithm
                      newIf.Else = ifNode.unlabElse ;
                      newIf.setOrigin(ifNode.getOrigin()) ;
                      stmtseq.setElementAt(newIf, i) ;
-                   } ;
+                   }
                }
              else if (node.getClass().equals(
                            AST.LabelEitherObj.getClass()))
@@ -2473,10 +2473,10 @@ public class ParseAlgorithm
                           ((AST.Clause)  
                             eitherNode.clauses.elementAt(j)).unlabOr ) ;
                          j = j + 1;
-                       } ;
-                     newEither.setOrigin(eitherNode.getOrigin()) ;
+                       }
+                       newEither.setOrigin(eitherNode.getOrigin()) ;
                      stmtseq.setElementAt(newEither, i) ;
-                   } ;
+                   }
                }
              else if (node.getClass().equals(
                            AST.WithObj.getClass()))
@@ -2493,8 +2493,8 @@ public class ParseAlgorithm
                    { PcalDebug.ReportBug(
                        "ParseAlgorithm.ClassifyStmtSeq encountered `while'" +
                        " not at beginning of StmtSeq.") ;
-                   } ;
-                 @SuppressWarnings("unused") final int ignore = ClassifyStmtSeq(((AST.While) node).unlabDo) ;
+                   }
+                   @SuppressWarnings("unused") final int ignore = ClassifyStmtSeq(((AST.While) node).unlabDo) ;
                  CheckLabeledStmtSeq(((AST.While) node).labDo) ;
                }
              else if (node.getClass().equals(
@@ -2506,7 +2506,7 @@ public class ParseAlgorithm
                        )
                     )                    
                    { result = 1 ;
-                   } ;
+                   }
                }
              else if (   (node.getClass().equals(
                            AST.ReturnObj.getClass())  )
@@ -2517,8 +2517,8 @@ public class ParseAlgorithm
                    { throw new ParseAlgorithmException(
                       "return statement not in a procedure at "
                         + node.location() ) ;
-                   } ;
-                 result = 1 ;
+                   }
+                   result = 1 ;
                }
              else if (   node.getClass().equals(
                            AST.GotoObj.getClass())
@@ -2553,11 +2553,11 @@ public class ParseAlgorithm
                        " that\n  " +
                       "Statement at " + node.location() + 
                       " must have a label");
-                  } ;
-              }
+                  }
+             }
            i = i + 1 ;
-         } ;
-      return result ;
+         }
+         return result ;
      }     
 
    public static int ClassifyIf(final AST.LabelIf node) throws ParseAlgorithmException
@@ -2582,19 +2582,19 @@ public class ParseAlgorithm
        if (node.labThen.size() > 0)
          { isLabeled = true ;
            CheckLabeledStmtSeq(node.labThen) ;
-         } ;
-       final int elseClass = ClassifyStmtSeq(node.unlabElse) ;
+         }
+         final int elseClass = ClassifyStmtSeq(node.unlabElse) ;
        if (node.labElse.size() > 0)
          { isLabeled = true ;
            CheckLabeledStmtSeq(node.labElse) ;
-         } ;
-       if (   isLabeled
+         }
+         if (   isLabeled
            || (thenClass == 2)
            || (elseClass == 2))
-         { return 2 ; } ;
-       if (thenClass + elseClass > 0)
-         { return 1 ; } ;
-       return 0 ;
+         { return 2 ; }
+         if (thenClass + elseClass > 0)
+         { return 1 ; }
+         return 0 ;
      }
 
    public static int ClassifyEither(final AST.LabelEither node) throws ParseAlgorithmException
@@ -2624,10 +2624,10 @@ public class ParseAlgorithm
            if (currClause.labOr.size() > 0)
              { theClass = 2 ;
                CheckLabeledStmtSeq(currClause.labOr) ;
-             } ;
-           i = i + 1;
-         } ;
-       return theClass ;
+             }
+             i = i + 1;
+         }
+         return theClass ;
      }
 
 
@@ -2686,7 +2686,7 @@ public class ParseAlgorithm
                        ((AST.Clause) eNode.clauses.elementAt(j)).unlabOr, 
                        macros);
                      j = j + 1;
-                   } ;
+                   }
                }
              else if (node.getClass().equals(
                            AST.WithObj.getClass()))
@@ -2706,12 +2706,12 @@ public class ParseAlgorithm
                  while (j > 0)
                    { stmtseq.insertElementAt(expansion.elementAt(j-1), i) ;
                      j = j - 1 ;
-                   } ;
-                 i = i + expansion.size() - 1 ;
+                   }
+                   i = i + expansion.size() - 1 ;
                }
            i = i + 1 ;
-         } ;
-      return ;
+         }
+         return ;
      }     
 
    public static Vector<AST> ExpandMacroCall(final AST.MacroCall call, final Vector<Macro> macros) throws ParseAlgorithmException
@@ -2721,11 +2721,11 @@ public class ParseAlgorithm
        while (i < macros.size() )
          { final AST.Macro md = macros.elementAt(i) ;
            if (md.name.equals(call.name))
-             { macroDef = md ; } ;
-           i = i + 1 ;
-         } ;
+             { macroDef = md ; }
+             i = i + 1 ;
+         }
 
-       if (macroDef == null)
+         if (macroDef == null)
          { throw new ParseAlgorithmException("Macro " + call.name + 
            // This error message changed by LL on 14 July 2011 when GetMacro was 
            // changed to allow macros to call other macros.  Change back the message
@@ -2733,15 +2733,15 @@ public class ParseAlgorithm
            //
            //  " undefined or called inside a macro definition,\n    at "
             " undefined,\n    at " + call.location() ) ; 
-         } ;
+         }
 
-       final int numOfArgs = call.args.size() ;
+         final int numOfArgs = call.args.size() ;
        if (macroDef.params.size() != numOfArgs)
          { throw new ParseAlgorithmException("Macro " + call.name + 
                                  " called with wrong number of arguments at "
                                    + "\n    " + call.location()) ; 
-         } ;
-      final Vector<AST> result = SubstituteInStmtSeq(macroDef.body,
+         }
+         final Vector<AST> result = SubstituteInStmtSeq(macroDef.body,
                                           call.args,
                                           macroDef.params,
                                           call.line,
@@ -2766,9 +2766,9 @@ public class ParseAlgorithm
               final AST last = (AST) result.elementAt(result.size() - 1) ;
               last.macroOriginEnd = callOrigin.getEnd();
           }
-        } ;
+        }
 
-      return result ;
+         return result ;
      }
 
 
@@ -2785,9 +2785,9 @@ public class ParseAlgorithm
                                 args,
                                 params) );
            i = i + 1 ;
-          } ;
+          }
 
-        return result ;
+          return result ;
       }
 
    public static AST.LabeledStmt SubstituteInLabeledStmt(
@@ -2830,9 +2830,9 @@ public class ParseAlgorithm
                                 macroLine,
                                 macroCol   ) );
            i = i + 1 ;
-          } ;
+          }
 
-        return result ;
+          return result ;
       }
 
     @SuppressWarnings("unchecked")
@@ -2867,8 +2867,8 @@ public class ParseAlgorithm
             if (macroLine > 0)
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
-              } ; 
-            int i = 0 ;
+              }
+              int i = 0 ;
             result.ass = new Vector<AST.SingleAssign>() ;
             while (i < tstmt.ass.size())
               { result.ass.addElement(
@@ -2876,8 +2876,8 @@ public class ParseAlgorithm
                     (AST.SingleAssign) tstmt.ass.elementAt(i),
                     args, params, macroLine, macroCol) ) ;
                 i = i + 1 ;
-              } ;
-           return result ;
+              }
+              return result ;
           }
 
         if (stmt.getClass().equals( AST.IfObj.getClass()))
@@ -2891,9 +2891,9 @@ public class ParseAlgorithm
             if (macroLine > 0)
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
-              } ; 
+              }
 
-            result.test  = tstmt.test.cloneAndNormalize() ;
+              result.test  = tstmt.test.cloneAndNormalize() ;
             result.test.substituteForAll(args, params) ;
 
             result.Then = SubstituteInStmtSeq(
@@ -2903,9 +2903,9 @@ public class ParseAlgorithm
                             tstmt.Else, args, params, macroLine, macroCol );
             
             return result;
-          } ;
+          }
 
-        if (stmt.getClass().equals( AST.EitherObj.getClass()))
+          if (stmt.getClass().equals( AST.EitherObj.getClass()))
           { final AST.Either tstmt = (AST.Either) stmt ;
             final AST.Either result = new AST.Either() ;
             result.col  = tstmt.col ;
@@ -2916,8 +2916,8 @@ public class ParseAlgorithm
             if (macroLine > 0)
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
-              } ; 
-            result.ors = new Vector<Object>() ;
+              }
+              result.ors = new Vector<Object>() ;
             int i = 0 ;
             while (i < tstmt.ors.size())
               { result.ors.addElement(
@@ -2925,12 +2925,12 @@ public class ParseAlgorithm
                         (Vector<AST>) tstmt.ors.elementAt(i), 
                           args, params, macroLine, macroCol ) ) ;
                 i = i + 1 ;
-              } ;
-              
-            return result;
-          } ;
+              }
 
-        if (stmt.getClass().equals( AST.WithObj.getClass()))
+              return result;
+          }
+
+          if (stmt.getClass().equals( AST.WithObj.getClass()))
           { final AST.With tstmt = (AST.With) stmt ;
             final AST.With result = new AST.With() ;
             result.col  = tstmt.col ;
@@ -2941,18 +2941,18 @@ public class ParseAlgorithm
             if (macroLine > 0)
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
-              } ; 
+              }
 
-            result.var  = tstmt.var ;
+              result.var  = tstmt.var ;
             result.isEq = tstmt.isEq ;
             result.exp  = tstmt.exp.cloneAndNormalize() ;
             result.exp.substituteForAll(args, params) ;
             result.Do = SubstituteInStmtSeq(
                             tstmt.Do, args, params, macroLine, macroCol);
             return result;
-          } ;
+          }
 
-        if (stmt.getClass().equals( AST.WhenObj.getClass()))
+          if (stmt.getClass().equals( AST.WhenObj.getClass()))
           { final AST.When tstmt = (AST.When) stmt ;
             final AST.When result = new AST.When() ;
             result.col  = tstmt.col ;
@@ -2963,14 +2963,14 @@ public class ParseAlgorithm
             if (macroLine > 0)
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
-              } ; 
+              }
 
-            result.exp  = tstmt.exp.cloneAndNormalize() ;
+              result.exp  = tstmt.exp.cloneAndNormalize() ;
             result.exp.substituteForAll(args, params) ;
             return result;
-          } ;
+          }
 
-        if (stmt.getClass().equals( AST.AssertObj.getClass()))
+          if (stmt.getClass().equals( AST.AssertObj.getClass()))
           { final AST.Assert tstmt = (AST.Assert) stmt ;
             final AST.Assert result = new AST.Assert() ;
             result.col  = tstmt.col ;
@@ -2981,15 +2981,15 @@ public class ParseAlgorithm
             if (macroLine > 0)
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
-              } ; 
+              }
 
-            result.exp  = tstmt.exp.cloneAndNormalize() ;
+              result.exp  = tstmt.exp.cloneAndNormalize() ;
             result.exp.substituteForAll(args, params) ;
             return result;
-          } ;
+          }
 
 
-        if (stmt.getClass().equals( AST.SkipObj.getClass()))
+          if (stmt.getClass().equals( AST.SkipObj.getClass()))
           { final AST.Skip tstmt = (AST.Skip) stmt ;
             final AST.Skip result = new AST.Skip() ;
             result.col  = tstmt.col ;
@@ -2998,12 +2998,12 @@ public class ParseAlgorithm
             if (macroLine > 0)
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
-              } ; 
-            return result;
-          } ;
+              }
+              return result;
+          }
 
 
-        if (stmt.getClass().equals( AST.PrintSObj.getClass()))
+          if (stmt.getClass().equals( AST.PrintSObj.getClass()))
           { final AST.PrintS tstmt = (AST.PrintS) stmt ;
             final AST.PrintS result = new AST.PrintS() ;
             result.col  = tstmt.col ;
@@ -3014,13 +3014,13 @@ public class ParseAlgorithm
             if (macroLine > 0)
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
-              } ; 
-            result.exp  = tstmt.exp.cloneAndNormalize() ;
+              }
+              result.exp  = tstmt.exp.cloneAndNormalize() ;
             result.exp.substituteForAll(args, params) ;
             return result;
-          } ;
-       
-        /*******************************************************************
+          }
+
+          /*******************************************************************
         * The following statements are ones that may not appear in a macro *
         * definition body.                                                 *
         *******************************************************************/
@@ -3035,8 +3035,8 @@ public class ParseAlgorithm
             if (macroLine > 0)
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
-              } ; 
-            result.test  = tstmt.test.cloneAndNormalize() ;
+              }
+              result.test  = tstmt.test.cloneAndNormalize() ;
             result.test.substituteForAll(args, params) ;
             result.unlabDo = 
               SubstituteInStmtSeq(tstmt.unlabDo, 
@@ -3050,9 +3050,9 @@ public class ParseAlgorithm
                                           params) ;
 
             return result;
-          } ;
+          }
 
-        if (stmt.getClass().equals( AST.LabelIfObj.getClass()))
+          if (stmt.getClass().equals( AST.LabelIfObj.getClass()))
           { final AST.LabelIf tstmt = (AST.LabelIf) stmt ;
             final AST.LabelIf result = new AST.LabelIf() ;
             result.col  = tstmt.col ;
@@ -3063,8 +3063,8 @@ public class ParseAlgorithm
             if (macroLine > 0)
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
-              } ; 
-            result.test  = tstmt.test.cloneAndNormalize() ;
+              }
+              result.test  = tstmt.test.cloneAndNormalize() ;
             result.test.substituteForAll(args, params) ;
             result.unlabThen = 
               SubstituteInStmtSeq(tstmt.unlabThen, 
@@ -3088,9 +3088,9 @@ public class ParseAlgorithm
                                           params) ;
 
             return result;
-          } ;
+          }
 
-        if (stmt.getClass().equals( AST.LabelEitherObj.getClass()))
+          if (stmt.getClass().equals( AST.LabelEitherObj.getClass()))
           { final AST.LabelEither tstmt = (AST.LabelEither) stmt ;
             final AST.LabelEither result = new AST.LabelEither() ;
             result.col  = tstmt.col ;
@@ -3101,8 +3101,8 @@ public class ParseAlgorithm
             if (macroLine > 0)
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
-              } ; 
-            result.clauses = new Vector<Clause>() ;
+              }
+              result.clauses = new Vector<Clause>() ;
             int i = 0 ;
             while (i < tstmt.clauses.size())
              { final AST.Clause oldClause =
@@ -3121,11 +3121,11 @@ public class ParseAlgorithm
                                      macroCol) ;
                result.clauses.addElement(newClause) ;
                i = i + 1 ;
-             } ;
-            return result ;
-          } ;
+             }
+              return result ;
+          }
 
-        if (stmt.getClass().equals( AST.CallObj.getClass()))
+          if (stmt.getClass().equals( AST.CallObj.getClass()))
           { final AST.Call tstmt = (AST.Call) stmt ;
             final AST.Call result = new AST.Call() ;
             result.col  = tstmt.col ;
@@ -3136,15 +3136,15 @@ public class ParseAlgorithm
             if (macroLine > 0)
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
-              } ; 
-            result.to        = tstmt.to ;
+              }
+              result.to        = tstmt.to ;
             result.returnTo  = tstmt.returnTo ;
             result.args = 
                TLAExpr.SeqSubstituteForAll(tstmt.args, args, params) ;
             return result;
-          } ;
+          }
 
-        if (stmt.getClass().equals( AST.ReturnObj.getClass()))
+          if (stmt.getClass().equals( AST.ReturnObj.getClass()))
           { final AST.Return tstmt = (AST.Return) stmt ;
             final AST.Return result = new AST.Return() ;
             result.col  = tstmt.col ;
@@ -3155,12 +3155,12 @@ public class ParseAlgorithm
             if (macroLine > 0)
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
-              } ; 
-            result.from = tstmt.from ;
+              }
+              result.from = tstmt.from ;
             return result;
-          } ;
+          }
 
-        if (stmt.getClass().equals( AST.CallReturnObj.getClass()))
+          if (stmt.getClass().equals( AST.CallReturnObj.getClass()))
           { final AST.CallReturn tstmt = (AST.CallReturn) stmt ;
             final AST.CallReturn result = new AST.CallReturn() ;
             result.col  = tstmt.col ;
@@ -3171,15 +3171,15 @@ public class ParseAlgorithm
             if (macroLine > 0)
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
-              } ; 
-            result.to   = tstmt.to ;
+              }
+              result.to   = tstmt.to ;
             result.from = tstmt.from ;
             result.args = 
                TLAExpr.SeqSubstituteForAll(tstmt.args, args, params) ;
             return result;
-          } ;
+          }
 
-        if (stmt.getClass().equals( AST.CallGotoObj.getClass()))
+          if (stmt.getClass().equals( AST.CallGotoObj.getClass()))
           { final AST.CallGoto tstmt = (AST.CallGoto) stmt ;
             final AST.CallGoto result = new AST.CallGoto() ;
             result.col  = tstmt.col ;
@@ -3190,15 +3190,15 @@ public class ParseAlgorithm
             if (macroLine > 0)
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
-              } ; 
-            result.to    = tstmt.to ;
+              }
+              result.to    = tstmt.to ;
             result.after = tstmt.after ;
             result.args  = 
                TLAExpr.SeqSubstituteForAll(tstmt.args, args, params) ;
             return result;
-          } ;
+          }
 
-        if (stmt.getClass().equals( AST.GotoObj.getClass()))
+          if (stmt.getClass().equals( AST.GotoObj.getClass()))
           { final AST.Goto tstmt = (AST.Goto) stmt ;
             final AST.Goto result = new AST.Goto() ;
             result.col  = tstmt.col ;
@@ -3209,12 +3209,12 @@ public class ParseAlgorithm
             if (macroLine > 0)
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
-              } ; 
-            result.to = tstmt.to ;
+              }
+              result.to = tstmt.to ;
             return result;
-          } ;
+          }
 
-        PcalDebug.ReportBug(
+          PcalDebug.ReportBug(
            "Found unexpected statement type in macro at" +
              stmt.location() ); 
         return new AST(); // Needed to keep Java from complaining.
@@ -3248,8 +3248,8 @@ public class ParseAlgorithm
         if (macroLine > 0)
           { result.macroLine = macroLine ;
             result.macroCol  = macroCol ;
-          } ; 
-        /*******************************************************************
+          }
+            /*******************************************************************
         * Do substitution in right-hand-side expression.                   *
         *******************************************************************/
         result.rhs = assgn.rhs.cloneAndNormalize() ;
@@ -3271,9 +3271,9 @@ public class ParseAlgorithm
             ***************************************************************/
           { result.lhs.sub = assgn.lhs.sub.cloneAndNormalize() ;
             result.lhs.sub.substituteForAll(args, params) ;
-          } ;
+          }
 
-        /*******************************************************************
+            /*******************************************************************
         * Do substitution for the variable if necessary.                   *
         *******************************************************************/
         result.lhs.var = assgn.lhs.var ;
@@ -3285,17 +3285,17 @@ public class ParseAlgorithm
           { if (result.lhs.var.equals((String) params.elementAt(i)))
               { found = true ;}
             else {i = i + 1 ;}
-          } ;
+          }
 
-        if (found)
+            if (found)
           { final TLAExpr subForVar = args.elementAt(i) ;
             final TLAToken varToken = subForVar.tokenAt(new IntPair(0,0)) ;
             if (varToken.type != TLAToken.IDENT)
               { throw new ParseAlgorithmException(
                  "Macro expansion substitutes `" + varToken.string +
                  "' for assignment variable\n    at " + result.location());
-              } ;
-            result.lhs.var = varToken.string ;
+              }
+              result.lhs.var = varToken.string ;
 
             if (subForVar.stepCoord(new IntPair(0,0), 1) != null)
               { /***********************************************************
@@ -3364,8 +3364,8 @@ public class ParseAlgorithm
      **********************************************************************/
      { final String nxt = PeekAtAlgToken(1) ;
        if (nxt.equals(",")) { GobbleThis(",") ;}
-       else {GobbleThis(";");};
-       return ;
+       else {GobbleThis(";");}
+         return ;
      }
           
    public static void GobbleBeginOrLeftBrace() throws ParseAlgorithmException
@@ -3377,8 +3377,8 @@ public class ParseAlgorithm
          { GobbleThis("begin") ;}
        else if (cSyntax)
          { GobbleThis("{") ;}
-       else {PcalDebug.ReportBug("Syntax not initialized.") ;} ;
-       return ;
+       else {PcalDebug.ReportBug("Syntax not initialized.") ;}
+         return ;
      }
 
    public static void GobbleEndOrRightBrace(final String str) throws ParseAlgorithmException
@@ -3392,8 +3392,8 @@ public class ParseAlgorithm
        else if (cSyntax)
          { GobbleThis("}") ;}
        else
-         { PcalDebug.ReportBug("Bad call of GobbleEndRightBrace") ; } ;
-       return ;
+         { PcalDebug.ReportBug("Bad call of GobbleEndRightBrace") ; }
+         return ;
      }
 
    public static void GobbleThis(final String str) throws ParseAlgorithmException
@@ -3442,8 +3442,8 @@ public class ParseAlgorithm
                 || nxt.equals("{")
               )
              { return ;
-             };                   
-          if (     nxt.equals("if")
+             }
+             if (     nxt.equals("if")
                 || nxt.equals("either")
                 || nxt.equals("while")
                 || nxt.equals("with")
@@ -3463,12 +3463,12 @@ public class ParseAlgorithm
                                    (curTokLine[0] + 1) +
                                    ", column " +
                                    (curTokCol[0] + 1) );
-             };                   
-         } ;
-       final String tok = GetAlgToken();
+             }
+         }
+         final String tok = GetAlgToken();
        if (! tok.equals(str) )
          { ParsingError("Expected \"" + str + "\" but found \""
-                            + tok + "\"") ; } ;
+                            + tok + "\"") ; }
      }
 
 	public static void MustGobbleThis(final String str) throws ParseAlgorithmException {
@@ -3490,8 +3490,8 @@ public class ParseAlgorithm
      **********************************************************************/
      { final String tok = GetAlgToken() ;
        if (tok.equals("="))
-         { return true ; } ;
-       if (tok.equals("\\in"))
+         { return true ; }
+         if (tok.equals("\\in"))
          { return false ; }
        ParsingError("Expected \"=\" or \"\\in\"  but found \""
                                  + tok + "\"") ; 
@@ -3594,8 +3594,8 @@ public class ParseAlgorithm
         } 
            lastTokString = tok ;
            return tok ; 
-         } ;
-       lastTokCol  = curTokCol[0] + 1 ;
+         }
+         lastTokCol  = curTokCol[0] + 1 ;
        lastTokLine = curTokLine[0] + 1 ;
        final String result = LAT[0] ;
        int i = 1 ;
@@ -3604,8 +3604,8 @@ public class ParseAlgorithm
            curTokCol[i-1]  = curTokCol[i] ;
            curTokLine[i-1] = curTokLine[i] ;
            i = i + 1;
-         } ;
-       LATsize = LATsize - 1 ;
+         }
+         LATsize = LATsize - 1 ;
        lastTokString = result ;
        return result;
      }   
@@ -3633,8 +3633,8 @@ public class ParseAlgorithm
                  "unclosed comment, near\n" + 
                  "    line " + (curTokLine[LATsize]+1) +
                  ", column " + (curTokCol[LATsize]+1)); 
-             };
-           curTokCol[LATsize]  = charReader.getColumnNumber();
+             }
+             curTokCol[LATsize]  = charReader.getColumnNumber();
            curTokLine[LATsize] = charReader.getLineNumber();
            try
         {
@@ -3644,8 +3644,8 @@ public class ParseAlgorithm
             throw new ParseAlgorithmException(e.getMessage());
         }
            LATsize = LATsize + 1 ;
-         } ;
-       return LAT[tokNum - 1] ;
+         }
+         return LAT[tokNum - 1] ;
      }          
 
    public static String PeekPastAlgToken(final int tokNum) throws ParseAlgorithmException
@@ -3662,8 +3662,8 @@ public class ParseAlgorithm
          { PcalDebug.ReportBug ("ParseAlgorithm.PeekPastAlgToken called " +
                                  "to peek after a token" +
                                  "\n    it has already peeked at") ; 
-         } ;
-       while (tokNum > LATsize)
+         }
+         while (tokNum > LATsize)
          { try
         {
             LAT[LATsize] = Tokenize.GetAlgorithmToken(charReader);
@@ -3672,12 +3672,12 @@ public class ParseAlgorithm
             throw new ParseAlgorithmException(e.getMessage());
         }
            LATsize = LATsize + 1 ;
-         } ;
-       return charReader.peek() ;
-     } ;
+         }
+         return charReader.peek() ;
+     }
 
 
-/***************************************************************************
+    /***************************************************************************
 *                    The Uncomment Method                                  *
 *                                                                          *
 * Several parsing bugs arose because the peek-ahead kludgery was confused  *
@@ -3750,7 +3750,7 @@ public class ParseAlgorithm
                       outChar = ' ' ;
                       col = col + 1 ;
                       newLine.append(outChar) ;
-                    };
+                    }
                  } 
                else if (commentDepth == 0)
                  { /********************************************************
@@ -3765,7 +3765,7 @@ public class ParseAlgorithm
                         { newLine.append(inChar) ;
                           outChar = oldLine.charAt(col+1)  ;
                           col = col + 1 ;
-                        } ;
+                        }
                     } 
                   else // Not in a string.
                    { if (   (inChar == '\\')
@@ -3778,18 +3778,18 @@ public class ParseAlgorithm
                      else if (inChar == '"')
                       { inString = true ;
                       }
-                   } ;
-                  }
+                   }
+                 }
                else
                  { /********************************************************
                    * In a comment.                                         *
                    ********************************************************/
                    outChar = ' ' ;
-                 } ;
-               newLine.append(outChar) ;
+                 }
+                 newLine.append(outChar) ;
                col = col + 1;
-             } ;
-           if (inString)
+             }
+             if (inString)
             { throw new ParseAlgorithmException("Unterminated string in line " + 
                                         (line+1) ) ;
             }
@@ -4024,7 +4024,7 @@ public class ParseAlgorithm
        } // end of while, either found beginning or at end of file
        if (!found) {
            throw new ParseAlgorithmException(errorMsg) ;
-         } ;
+         }
 
        return ;
 

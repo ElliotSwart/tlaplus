@@ -82,15 +82,15 @@ implements ExploreNode, LevelConstants {
       *********************************************************************/
       int cnt = 0 ;
       for (int i = 0 ; i < opDefs.length ; i++) {
-        if (opDefs[i].getKind() == UserDefinedOpKind) {cnt++;} ;
-       }
+        if (opDefs[i].getKind() == UserDefinedOpKind) {cnt++;}
+      }
       gottenLets = new OpDefNode[cnt] ;
       cnt = 0 ;
       for (int i = 0 ; i < opDefs.length ; i++) {
         if (opDefs[i].getKind() == UserDefinedOpKind) {
           gottenLets [cnt] = (OpDefNode) opDefs[i] ;
-          cnt++;} ;
-       }
+          cnt++;}
+      }
 
      }
     return this.gottenLets;
@@ -152,7 +152,7 @@ implements ExploreNode, LevelConstants {
     this.levelConstraints.putAll(this.body.getLevelConstraints());
     for (int i = 0; i < this.opDefs.length; i++) {
       if (this.opDefs[i].getKind() != ModuleInstanceKind) {
-         this.levelConstraints.putAll(opDefs[i].getLevelConstraints());} ;
+         this.levelConstraints.putAll(opDefs[i].getLevelConstraints());}
         /*******************************************************************
         * opDefs[i] is level checked above.                                *
         *******************************************************************/
@@ -162,7 +162,7 @@ implements ExploreNode, LevelConstants {
     this.argLevelConstraints.putAll(this.body.getArgLevelConstraints());
     for (int i = 0; i < this.opDefs.length; i++) {
       if (this.opDefs[i].getKind() != ModuleInstanceKind) {
-        this.argLevelConstraints.putAll(opDefs[i].getArgLevelConstraints());} ;
+        this.argLevelConstraints.putAll(opDefs[i].getArgLevelConstraints());}
     }
 
 //    this.argLevelParams = new HashSet();
@@ -176,8 +176,8 @@ implements ExploreNode, LevelConstants {
         FormalParamNode[] params = new FormalParamNode[0] ;
         if (this.opDefs[i].getKind() != ThmOrAssumpDefKind){
           params = ((OpDefNode) this.opDefs[i]).getParams();
-          } ;
-        final Iterator<ArgLevelParam> iter = this.opDefs[i].getArgLevelParams().iterator();
+          }
+          final Iterator<ArgLevelParam> iter = this.opDefs[i].getArgLevelParams().iterator();
         while (iter.hasNext()) {
           final ArgLevelParam alp = iter.next();
           if (!alp.occur(params)) {
@@ -251,7 +251,7 @@ implements ExploreNode, LevelConstants {
     * Can now walk LET nodes from context, don't need to use opDefs        *
     * (which is incomplete).                                               *
     ***********************************************************************/
-    if (context != null){context.walkGraph(semNodesTable, visitor);} ;
+    if (context != null){context.walkGraph(semNodesTable, visitor);}
 //    if (opDefs != null) {
 //      for (int i = 0; i < opDefs.length; i++) {
 //        if (opDefs[i] != null) opDefs[i].walkGraph(semNodesTable);
@@ -281,11 +281,11 @@ implements ExploreNode, LevelConstants {
           ret += Strings.indent(2, (String)contextEntries.elementAt(i));
         }
         else {
-          ret += "*** null ***"; };
-        } ;
-      } ;
+          ret += "*** null ***"; }
+      }
+    }
 
-    /***********************************************************************
+      /***********************************************************************
     * We no longer print opDefs because the information is in the context. *
     ***********************************************************************/
 //    for (int i = 0; i < opDefs.length; i++) {

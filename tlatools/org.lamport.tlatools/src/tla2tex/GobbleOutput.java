@@ -56,6 +56,6 @@ public class GobbleOutput extends Thread
        { Debug.ReportError(
               "Trying to read output for command\n " + cmd +
                "\n produced the following error\n    " + e.getMessage());
-       } ;
+       }
     }
  }

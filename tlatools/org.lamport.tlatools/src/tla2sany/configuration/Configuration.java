@@ -81,8 +81,7 @@ public static void load (final Errors errs ) throws AbortException {
       case OPERATOR:
       case SYNONYM:
       case BUILTIN:
-        ;
-        break;
+          break;
       default:
         jj_la1[0] = jj_gen;
         break label_1;
@@ -182,7 +181,6 @@ public static void load (final Errors errs ) throws AbortException {
       break;
     default:
       jj_la1[5] = jj_gen;
-      ;
     }
    final Operator op;
    if ( t == null ) {

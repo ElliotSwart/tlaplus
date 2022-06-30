@@ -53,18 +53,18 @@ public interface IDebugTarget {
 		/**
 		 * Ignore the current state and continue with other successor states (if any).
 		 */
-		Over;
-	}
+		Over
+    }
 
 	public enum Granularity {
 		State, Formula
-	};
+	}
 
-	public enum Step {
+    public enum Step {
 		In, Out, Over, Continue, Reset, Reset_Start
-	};
+	}
 
-	@SuppressWarnings("serial")
+    @SuppressWarnings("serial")
 	class ResetEvalException extends RuntimeException {
 	
 		public final TLCStackFrame frame;

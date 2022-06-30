@@ -67,7 +67,7 @@ public class DefStepNode extends LevelNode {
     visitor.preVisit(this);
     for (int  i = 0; i < defs.length; i++) {
       defs[i].walkGraph(semNodesTable, visitor);
-      } ;
+      }
       visitor.postVisit(this);
    }
 
@@ -88,8 +88,8 @@ public class DefStepNode extends LevelNode {
                   + Strings.indent(2, "\ndefs:") ;
     for (int i = 0 ; i < this.defs.length; i++) {
         ret += Strings.indent(4, this.defs[i].toString(depth-1)) ;
-      } ;
-    return ret;
+      }
+      return ret;
    }
 
   @Override

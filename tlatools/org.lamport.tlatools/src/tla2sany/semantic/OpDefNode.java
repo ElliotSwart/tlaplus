@@ -494,9 +494,9 @@ public class OpDefNode extends OpDefOrDeclNode
       this.maxLevels[i] = MaxLevel ;
       this.weights[i] = 0 ;
       this.isLeibnizArg[i] = true ;
-      } ;
+      }
 
-    if (st != null) {
+       if (st != null) {
       st.addSymbol(us, this);
     }
   }
@@ -855,8 +855,8 @@ public class OpDefNode extends OpDefOrDeclNode
     * If the hashtable `labels' contains a LabelNode with name `us',       *
     * then that LabelNode is returned; otherwise null is returned.         *
     ***********************************************************************/
-    if (labels == null) {return null;} ;
-    return (LabelNode) labels.get(us) ;
+    if (labels == null) {return null;}
+      return (LabelNode) labels.get(us) ;
    }
 
   @Override
@@ -867,9 +867,9 @@ public boolean addLabel(final LabelNode odn) {
     * as odn, then odn is added to the set and true is return; else the    *
     * set is unchanged and false is returned.                              *
     ***********************************************************************/
-    if (labels == null) {labels = new Hashtable<UniqueString, LabelNode>(); } ;
-    if (labels.containsKey(odn)) {return false ;} ;
-    labels.put(odn.getName(), odn) ;
+    if (labels == null) {labels = new Hashtable<UniqueString, LabelNode>(); }
+      if (labels.containsKey(odn)) {return false ;}
+      labels.put(odn.getName(), odn) ;
     return true;
    }
 
@@ -879,14 +879,14 @@ public boolean addLabel(final LabelNode odn) {
     * Returns an array containing the Label objects in the hashtable       *
     * `labels'.                                                            *
     ***********************************************************************/
-    if (labels == null) {return new LabelNode[0];} ;
-    final Vector<LabelNode> v = new Vector<LabelNode>() ;
+    if (labels == null) {return new LabelNode[0];}
+      final Vector<LabelNode> v = new Vector<LabelNode>() ;
     final Enumeration<LabelNode> e = labels.elements() ;
-    while (e.hasMoreElements()) { v.addElement(e.nextElement()); } ;
-    final LabelNode[] retVal = new LabelNode[v.size()] ;
+    while (e.hasMoreElements()) { v.addElement(e.nextElement()); }
+      final LabelNode[] retVal = new LabelNode[v.size()] ;
     for (int i = 0 ; i < v.size() ; i++)
-      {retVal[i] = (LabelNode) v.elementAt(i); } ;
-    return retVal ;
+      {retVal[i] = (LabelNode) v.elementAt(i); }
+      return retVal ;
    }
 
   public Hashtable<UniqueString, LabelNode>  getLabelsHT() {
@@ -974,9 +974,9 @@ public boolean addLabel(final LabelNode odn) {
     else {
       this.maxLevels = d.argMaxLevels;
       this.weights = d.argWeights;
-    };
+    }
 
-    /***********************************************************************
+      /***********************************************************************
     * Set Leibniz fields.                                                  *
     ***********************************************************************/
     this.isLeibniz = true;
@@ -984,9 +984,9 @@ public boolean addLabel(final LabelNode odn) {
     for (int i = 0 ; i < d.argWeights.length ; i++) {
       this.isLeibnizArg[i] = (d.argWeights[i] > 0) ;
       this.isLeibniz = this.isLeibniz && isLeibnizArg[i] ;
-     } ;
+     }
 
-    this.level              = d.opLevel;
+      this.level              = d.opLevel;
     this.levelChecked       = 99 ;
       /*********************************************************************
       * Never need to level-check a built-in operator.                     *
@@ -1104,7 +1104,7 @@ public boolean addLabel(final LabelNode odn) {
         this.nonLeibnizParams.remove(this.params[i]) ;
         this.isLeibnizArg[i] = false ;
         this.isLeibniz = false ;
-       } ;
+       }
     }
 
     this.levelConstraints = (SetOfLevelConstraints)lcSet.clone();
@@ -1166,24 +1166,24 @@ public boolean addLabel(final LabelNode odn) {
   @Override
   public final int getMaxLevel(final int i) {
     if (this.levelChecked == 0)
-      {throw new WrongInvocationException("getMaxLevel called before levelCheck");};
-    final int idx = (this.getArity() == -1) ? 0 : i;
+      {throw new WrongInvocationException("getMaxLevel called before levelCheck");}
+      final int idx = (this.getArity() == -1) ? 0 : i;
     return this.maxLevels[idx];
   }
 
   @Override
   public final int getWeight(final int i) {
     if (this.levelChecked == 0)
-      {throw new WrongInvocationException("getWeight called before levelCheck");};
-    final int idx = (this.getArity() == -1) ? 0 : i;
+      {throw new WrongInvocationException("getWeight called before levelCheck");}
+      final int idx = (this.getArity() == -1) ? 0 : i;
     return this.weights[idx];
   }
 
   @Override
   public final int getMinMaxLevel(final int i, final int j) {
     if (this.levelChecked == 0)
-      {throw new WrongInvocationException("getMinMaxLevel called before levelCheck");};
-    if (this.minMaxLevel == null) {
+      {throw new WrongInvocationException("getMinMaxLevel called before levelCheck");}
+      if (this.minMaxLevel == null) {
       return ConstantLevel;
     }
     return this.minMaxLevel[i][j];
@@ -1192,8 +1192,8 @@ public boolean addLabel(final LabelNode odn) {
   @Override
   public final boolean getOpLevelCond(final int i, final int j, final int k) {
     if (this.levelChecked == 0)
-      {throw new WrongInvocationException("getOpLevelCond called before levelCheck");};
-    if (this.opLevelCond == null) {
+      {throw new WrongInvocationException("getOpLevelCond called before levelCheck");}
+      if (this.opLevelCond == null) {
       return false;
     }
     return this.opLevelCond[i][j][k];
@@ -1206,8 +1206,8 @@ public boolean addLabel(final LabelNode odn) {
   @Override
   public final String levelDataToString() {
     if (   (this.getKind() == ModuleInstanceKind)
-        || (this.getKind() == NumberedProofStepKind)) {return "";} ;
-        /*******************************************************************
+        || (this.getKind() == NumberedProofStepKind)) {return "";}
+      /*******************************************************************
         * A ModuleInstanceKind node is never level checked, and I don't    *
         * think a NumberedProofStepKind is either.                         *
         *******************************************************************/
@@ -1223,15 +1223,15 @@ public boolean addLabel(final LabelNode odn) {
       *********************************************************************/
       String maxLevelStr = "" ;
         for (int i = 0; i < this.maxLevels.length; i++) {
-           if (i > 0) {maxLevelStr = maxLevelStr + ", ";};
-           maxLevelStr = maxLevelStr + this.maxLevels[i];
-           } ;
-      String isLeibnizArgStr = "" ;
+           if (i > 0) {maxLevelStr = maxLevelStr + ", ";}
+            maxLevelStr = maxLevelStr + this.maxLevels[i];
+           }
+        String isLeibnizArgStr = "" ;
         for (int i = 0; i < this.isLeibnizArg.length; i++) {
-           if (i > 0) {isLeibnizArgStr = isLeibnizArgStr + ", ";};
-           isLeibnizArgStr = isLeibnizArgStr + this.isLeibnizArg[i];
-           } ;
-      String opLevelCondStr = "" ;
+           if (i > 0) {isLeibnizArgStr = isLeibnizArgStr + ", ";}
+            isLeibnizArgStr = isLeibnizArgStr + this.isLeibnizArg[i];
+           }
+        String opLevelCondStr = "" ;
       if (opLevelCond != null) {
         opLevelCondStr = "[" ;
         for (int i = 0; i < opLevelCond.length; i++) {
@@ -1247,9 +1247,9 @@ public boolean addLabel(final LabelNode odn) {
             opLevelCondStr = opLevelCondStr + "]" ;
            } // for j
           opLevelCondStr = opLevelCondStr + "]" ;
-         } ; // for i
+         } // for i
         opLevelCondStr = opLevelCondStr + "]" ;
-       } ; // if (opLevelCond != null)
+       } // if (opLevelCond != null)
       return "Arity: "               + this.arity                    + "\n" +
              "Level: "               + this.getLevel()               + "\n" +
              "LevelParams: "         + this.getLevelParams()         + "\n" +
@@ -1398,11 +1398,11 @@ public boolean addLabel(final LabelNode odn) {
        final Enumeration<UniqueString> list = labels.keys() ;
        while (list.hasMoreElements()) {
           ret += list.nextElement().toString() + "  " ;
-         } ;
-      }
-    else {ret += "\n  Labels: null";};
+         }
+    }
+    else {ret += "\n  Labels: null";}
 
-    return ret;
+      return ret;
   }
 
 	@Override

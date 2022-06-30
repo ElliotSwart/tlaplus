@@ -231,7 +231,6 @@ public class TLA
             WriteTLAFile.Write(spec, Parameters.TLAOutFile);
             ToolIO.out.println("Wrote -tlaOut file " + Parameters.TLAOutFile);
         }
-        ;
 
         /*********************************************************************
         * Write the alignment file, run it through LaTeX, and set the        *
@@ -328,7 +327,6 @@ public class TLA
         {
             CommandLineError("No arguments specified");
         }
-        ;
 
         if ((args[maxArg].length() != 0) && (args[maxArg].charAt(0) == '-'))
         /******************************************************************
@@ -339,7 +337,6 @@ public class TLA
         {
             maxArg = maxArg + 1;
         }
-        ;
 
         while (nextArg < maxArg)
         /*******************************************************************
@@ -363,7 +360,6 @@ public class TLA
                 {
                     CommandLineError("No input file specified");
                 }
-                ;
                 try
                 {
                     Parameters.PSGrayLevel = Misc.stringToFloat(args[nextArg]);
@@ -371,7 +367,6 @@ public class TLA
                 {
                     CommandLineError("Bad -grayLevel value " + args[nextArg]);
                 }
-                ;
                 // bug found by Yuan Yu in following if statement
                 // corrected 9 May 2001
                 if ((Parameters.PSGrayLevel > 1) || (Parameters.PSGrayLevel < 0))
@@ -392,7 +387,6 @@ public class TLA
                 {
                     CommandLineError("No input file specified");
                 }
-                ;
                 Parameters.PSCommand = args[nextArg];
             } else if (option.equals("-latexCommand"))
             {
@@ -401,7 +395,6 @@ public class TLA
                 {
                     CommandLineError("No input file specified");
                 }
-                ;
                 Parameters.LaTeXCommand = args[nextArg];
             } else if (option.equals("-out"))
             {
@@ -414,14 +407,12 @@ public class TLA
                 {
                     CommandLineError("No input file specified");
                 }
-                ;
                 Parameters.LaTeXOutputFile = RemoveExtension(args[nextArg]);
                 if (HasPathPrefix(Parameters.LaTeXOutputFile))
                 {
                     CommandLineError("-out file contains a path specifier.\n"
                             + "It must be a file in the current directory.");
                 }
-                ;
             } else if (option.equals("-tlaOut"))
             {
                 /*************************************************************
@@ -434,7 +425,6 @@ public class TLA
                 {
                     CommandLineError("No input file specified");
                 }
-                ;
                 Parameters.TLAOutFile = args[nextArg];
                 if (Parameters.TLAOutFile.indexOf(".") == -1)
                 {
@@ -445,7 +435,6 @@ public class TLA
                     CommandLineError("-tlaOut file contains a path specifier.\n"
                             + "It must be a file in the current directory.");
                 }
-                ;
             } else if (option.equals("-alignOut"))
             {
                 /*************************************************************
@@ -457,14 +446,12 @@ public class TLA
                 {
                     CommandLineError("No input file specified");
                 }
-                ;
                 Parameters.LaTeXAlignmentFile = RemoveExtension(args[nextArg]);
                 if (HasPathPrefix(Parameters.LaTeXAlignmentFile))
                 {
                     CommandLineError("-alignOut file contains a path specifier.\n"
                             + "It must be a file in the current directory.");
                 }
-                ;
             } else if (option.equals("-debug"))
             {
                 Parameters.Debug = true;
@@ -513,7 +500,6 @@ public class TLA
                 {
                     CommandLineError("No input file specified");
                 }
-                ;
                 Parameters.UserStyleFile = RemoveExtension(args[nextArg]);
                 if ((!Parameters.UserStyleFile.equals(args[nextArg]))
                         && (args[nextArg].indexOf(".sty") != args[nextArg].length() - 4))
@@ -527,13 +513,11 @@ public class TLA
                 {
                     CommandLineError("No input file specified");
                 }
-                ;
                 Parameters.LaTeXptSize = GetIntArg(args[nextArg], option);
                 if ((Parameters.LaTeXptSize < 10) || (Parameters.LaTeXptSize > 12))
                 {
                     CommandLineError("-ptSize option must be 10, 11, or 12");
                 }
-                ;
             } else if (option.equals("-textwidth"))
             {
                 nextArg = nextArg + 1;
@@ -541,13 +525,11 @@ public class TLA
                 {
                     CommandLineError("No input file specified");
                 }
-                ;
                 Parameters.LaTeXtextwidth = GetIntArg(args[nextArg], option);
                 if ((Parameters.LaTeXtextwidth < 100) || (Parameters.LaTeXtextwidth > 1000))
                 {
                     CommandLineError("-textwidth value of " + Parameters.LaTeXtextwidth + " points is implausible");
                 }
-                ;
             } else if (option.equals("-textheight"))
             {
                 nextArg = nextArg + 1;
@@ -555,13 +537,11 @@ public class TLA
                 {
                     CommandLineError("No input file specified");
                 }
-                ;
                 Parameters.LaTeXtextheight = GetIntArg(args[nextArg], option);
                 if ((Parameters.LaTeXtextheight < 75) || (Parameters.LaTeXtextheight > 1500))
                 {
                     CommandLineError("-textheight value of " + Parameters.LaTeXtextheight + " points is implausible");
                 }
-                ;
             } else if (option.equals("-hoffset"))
             {
                 nextArg = nextArg + 1;
@@ -569,13 +549,11 @@ public class TLA
                 {
                     CommandLineError("No input file specified");
                 }
-                ;
                 Parameters.LaTeXhoffset = GetIntArg(args[nextArg], option);
                 if ((Parameters.LaTeXhoffset < -250) || (Parameters.LaTeXhoffset > 250))
                 {
                     CommandLineError("-hoffset value of " + Parameters.LaTeXhoffset + " points is implausible");
                 }
-                ;
             } else if (option.equals("-voffset"))
             {
                 nextArg = nextArg + 1;
@@ -583,13 +561,11 @@ public class TLA
                 {
                     CommandLineError("No input file specified");
                 }
-                ;
                 Parameters.LaTeXvoffset = GetIntArg(args[nextArg], option);
                 if ((Parameters.LaTeXvoffset < -250) || (Parameters.LaTeXvoffset > 250))
                 {
                     CommandLineError("-voffset value of " + Parameters.LaTeXvoffset + " points is implausible");
                 }
-                ;
             } else if (option.equals("-metadir"))
             {
                 nextArg = nextArg + 1;
@@ -597,7 +573,6 @@ public class TLA
                 {
                     CommandLineError("No input file specified");
                 }
-                ;
                 Parameters.MetaDir = args[nextArg];
                 Parameters.ParentDir = new File(Parameters.MetaDir);
                 if (! Parameters.ParentDir.exists()) {
@@ -617,7 +592,6 @@ public class TLA
             {
                 CommandLineError("Unknown option: " + option);
             }
-            ;
             nextArg = nextArg + 1;
         } // END while (nextArg < maxArg)
 
@@ -629,7 +603,6 @@ public class TLA
         {
             CommandLineError("No input file specified");
         }
-        ;
 
         /********************************************************************
         * Set Parameters.TLAInputFile to the last argument, adding ".tla"   *
@@ -642,7 +615,6 @@ public class TLA
         {
             Parameters.TLAInputFile = args[maxArg];
         }
-        ;
 
         /********************************************************************
         * Report an error if TLAInputFile = TLAOutFile.                     *
@@ -652,7 +624,6 @@ public class TLA
             CommandLineError("\n  -tlaOut file the same as the tla input file.\n"
                     + "  This would overwrite your input file, so I won't do it");
         }
-        ;
 
         /********************************************************************
         * Set default options.                                              *
@@ -661,12 +632,10 @@ public class TLA
         {
             Parameters.LaTeXOutputFile = RemoveExtension(RemovePathPrefix(Parameters.TLAInputFile));
         }
-        ;
         if (!alignOutOption)
         {
             Parameters.LaTeXAlignmentFile = Parameters.LaTeXOutputFile;
         }
-        ;
 
         /********************************************************************
         * Produce Postscript output if either                               *
@@ -695,7 +664,6 @@ public class TLA
         {
             CommandLineError(option + " option must specify an integer value");
         }
-        ;
         return val;
     }
 
@@ -725,17 +693,14 @@ public class TLA
         {
             result = result.substring(result.lastIndexOf(":") + 1);
         }
-        ;
         if (result.indexOf("/") != -1)
         {
             result = result.substring(result.lastIndexOf("/") + 1);
         }
-        ;
         if (result.indexOf("\\") != -1)
         {
             result = result.substring(result.lastIndexOf("\\") + 1);
         }
-        ;
         return result;
     }
 
@@ -772,9 +737,8 @@ public class TLA
             ToolIO.out.println(line);
             line = input.getLine();
         }
-        ;
         input.close();
-    };
+    }
 
     private static long start = Debug.now();
 

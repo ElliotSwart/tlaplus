@@ -20,10 +20,10 @@ public class PosAndCol extends Position implements Comparable<PosAndCol>
     { item = i ;
       line = l ;
       column = c ;
-    } ;
-   
- 
-   public String toString()
+    }
+
+
+     public String toString()
     { return   "[line |-> " + line + ", item |-> " + item 
              + ", col |-> " + column + "]";
     }

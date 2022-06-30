@@ -124,9 +124,11 @@ public class AssumeProveNode extends LevelNode {
   * This field is used only in Generator.selectorToNode.                   *
   *************************************************************************/
   protected boolean suffices = false ;
-  protected boolean isSuffices()  {return this.suffices ;};
-            void    setSuffices() {this.suffices = true;};
-  public boolean getSuffices() {
+  protected boolean isSuffices()  {return this.suffices ;}
+
+    void    setSuffices() {this.suffices = true;}
+
+    public boolean getSuffices() {
       return suffices;
   }
 
@@ -210,8 +212,8 @@ public class AssumeProveNode extends LevelNode {
     ***********************************************************************/
     for (int i = 0; i < this.assumes.length; i++) {
       if (this.assumes[i] != null && !this.assumes[i].levelCheck(iter))
-       {this.levelCorrect = false;};
-      }; // end for
+       {this.levelCorrect = false;}
+    }// end for
 
     /***********************************************************************
     * Level check prove expression                                         *
@@ -228,10 +230,10 @@ public class AssumeProveNode extends LevelNode {
         * Must call levelCheck before calling getLevel.                    *
         *******************************************************************/
       if (this.assumes[i].getLevel() > level)
-        { level = this.assumes[i].getLevel() ;} ;
-     } ;
+        { level = this.assumes[i].getLevel() ;}
+    }
 
-    /***********************************************************************
+      /***********************************************************************
     * Calculate levelParams and allParams.                                 *
     ***********************************************************************/
 //    this.levelParams = new HashSet();
@@ -240,7 +242,7 @@ public class AssumeProveNode extends LevelNode {
     for (int i = 0; i < this.assumes.length; i++) {
       this.levelParams.addAll(this.assumes[i].getLevelParams());
       this.allParams.addAll(this.assumes[i].getAllParams());
-     }; // for i
+     }// for i
 
     /***********************************************************************
     * Calculate levelConstraints.                                          *
@@ -249,34 +251,34 @@ public class AssumeProveNode extends LevelNode {
     this.levelConstraints.putAll(this.prove.getLevelConstraints());
     for (int i = 0; i < this.assumes.length; i++)
       { this.levelConstraints.putAll(this.assumes[i].getLevelConstraints());
-      } ;
+      }
 
-    /***********************************************************************
+      /***********************************************************************
     * Calculate argLevelConstraints.                                       *
     ***********************************************************************/
 //    this.argLevelConstraints = new SetOfArgLevelConstraints();
     this.argLevelConstraints.putAll(this.prove.getArgLevelConstraints());
     for (int i = 0; i < this.assumes.length; i++) {
        this.argLevelConstraints.putAll(this.assumes[i].getArgLevelConstraints());
-     } ;
+     }
 
-    /***********************************************************************
+      /***********************************************************************
     * Calculate argLevelParamams.                                          *
     ***********************************************************************/
 //    this.argLevelParams = new HashSet();
     this.argLevelParams.addAll(this.prove.getArgLevelParams()) ;
     for (int i = 0; i < this.assumes.length; i++) {
        this.argLevelParams.addAll(this.assumes[i].getArgLevelParams());
-      };
-    /***********************************************************************
+      }
+      /***********************************************************************
     * The following added on 1 Mar 2009.  See                              *
     * LevelNode.addTemporalLevelConstraintToConstants.                     *
     ***********************************************************************/
     if (this.levelCorrect) {
       addTemporalLevelConstraintToConstants(this.levelParams,
                                             this.levelConstraints);
-     };
-    return this.levelCorrect ;
+     }
+      return this.levelCorrect ;
    } // end levelCheck
 
 
@@ -361,8 +363,8 @@ public class AssumeProveNode extends LevelNode {
     while (i <  assumes.length) {
       assumes[i].walkGraph(h, visitor) ;
       i = i+1;
-     } ;
-    prove.walkGraph(h, visitor) ;
+     }
+      prove.walkGraph(h, visitor) ;
     visitor.postVisit(this);
   } // end walkGraph()
 
@@ -379,10 +381,10 @@ public class AssumeProveNode extends LevelNode {
     while (i < assumes.length) {
       assumeStr = assumeStr + Strings.indent(4, assumes[i].toString(depth-1)) ;
       i = i+1;
-     } ;
-    String goalStr = "null" ;
-    if (goal != null) {goalStr = Strings.indent(4, goal.toString(1));};
-    return "\n*AssumeProveNode: "
+     }
+      String goalStr = "null" ;
+    if (goal != null) {goalStr = Strings.indent(4, goal.toString(1));}
+      return "\n*AssumeProveNode: "
              + super.toString(depth)  // Seems to print stn.getLocation() where stn is the
                                       // corresponding syntax tree node.
              + "\n  " + (isBoxAssumeProve ? "[]" : "") + "Assumes: " + assumeStr

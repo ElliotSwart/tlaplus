@@ -127,9 +127,9 @@ public final class FormatComments
         }
       else
         { tokens = TokenizeComment.TeXTokenize(vec);
-        } ;
+        }
 
-      if (tokens == null) { return; };
+        if (tokens == null) { return; }
         /*******************************************************************
         * Return if called with a null comment (one having no lines).      *
         * This can happen if the input contains a (*******) not followed   *
@@ -146,9 +146,9 @@ public final class FormatComments
       *********************************************************************/
       if(tlaMode)
         { adjustIsTLA(tokens) ;
-        } ;
+        }
 
-      /*********************************************************************
+        /*********************************************************************
       * Write out the comment.                                             *
       *********************************************************************/
       InnerWriteComment(writer, tokens, commentType, indentOrWidth);
@@ -191,9 +191,9 @@ public final class FormatComments
       * Returns true iff str is a common English word.                     *
       *********************************************************************/
       { return null !=  wordHashTable.get(str);
-      } ;   
+      }
 
-  private static void ReadWordFile()
+    private static void ReadWordFile()
     /***********************************************************************
     * Reads in the WordFile and puts its contents in wordHashTable.        *
     ***********************************************************************/
@@ -207,12 +207,12 @@ public final class FormatComments
           wordHashTable.put(word.substring(0,1).toUpperCase() 
                                 + word.substring(1), new String());
           word = wordFileReader.getLine() ;
-        } ;
-      wordFileReader.close();
-    } ;
+        }
+        wordFileReader.close();
+    }
 
 
-  /* -------------------- THE ambiguous HASH TABLE ---------------------- */
+    /* -------------------- THE ambiguous HASH TABLE ---------------------- */
 
   private static Hashtable<String,String> ambiguousHashTable  = new Hashtable<String,String>(100);
     /***********************************************************************
@@ -227,23 +227,23 @@ public final class FormatComments
     * ordinary punctuation.                                                *
     ***********************************************************************/
       { return null !=  ambiguousHashTable.get(str);
-      } ;   
+      }
 
-  private static String getAmbiguous(final String str)
+    private static String getAmbiguous(final String str)
     /***********************************************************************
     * Returns the true non-TLA TeX string for an ambiguous symbol.         *
     ***********************************************************************/
       { return (String) ambiguousHashTable.get(str);
-      } ;   
+      }
 
-  private static void add(final String tla, final String tex)
+    private static void add(final String tla, final String tex)
     /***********************************************************************
     * Adds an entry to the ambiguousHashTable.                             *
     ***********************************************************************/
-    { ambiguousHashTable.put(tla, tex); } ;
+    { ambiguousHashTable.put(tla, tex); }
 
 
-  private static void InitializeAmbiguousHashtable()
+    private static void InitializeAmbiguousHashtable()
     /***********************************************************************
     * Initializes the hash-table of ambiguous built-in symbols.            *
     ***********************************************************************/
@@ -298,34 +298,34 @@ public final class FormatComments
     * Returns true iff ch is a repeatable char.                            *
     ***********************************************************************/
       { return null !=  repeatCharHashTable.get("" + ch);
-      } ;   
+      }
 
-  private static String getRepeatCharCommand(final char ch)
+    private static String getRepeatCharCommand(final char ch)
     /***********************************************************************
     * Returns the command \foo such that \foo{n} produces the output for   *
     * a string of n ch characters, or "" if Misc.TeXify(the string of n    *
     * ch's) should be output.                                              *
     ***********************************************************************/
       { return repeatCharHashTable.get("" + ch).TeXString ;
-      } ;   
+      }
 
-  public static int getRepeatCharMin(final char ch)
+    public static int getRepeatCharMin(final char ch)
     /***********************************************************************
     * Returns the minimum number of ch characters that constitutes a       *
     * REPEATED_CHAR CToken.                                                *
     ***********************************************************************/
       { return repeatCharHashTable.get("" + ch).symbolType ;
-      } ;   
+      }
 
-  private static void addRepeatChar(final char ch, final String tex, final int min)
+    private static void addRepeatChar(final char ch, final String tex, final int min)
     /***********************************************************************
     * Adds an entry to the RepeatCharHashTable.                             *
     ***********************************************************************/
     { repeatCharHashTable.put("" + ch, 
                               new Symbol("", tex, min, 0));
-    } ;
+    }
 
-  private static void InitializeRepeatCharHashtable()
+    private static void InitializeRepeatCharHashtable()
     { 
       addRepeatChar('-', "\\cdash", 3);
       addRepeatChar('=', "\\ceqdash", 3) ;
@@ -336,10 +336,10 @@ public final class FormatComments
       addRepeatChar('*', "", 3) ;
       addRepeatChar('.', "", 4) ;
       addRepeatChar('+', "", 3) ;
-    } ;
+    }
 
 
-  /* -------------------- THE alignToken HASH TABLE --------------------- */
+    /* -------------------- THE alignToken HASH TABLE --------------------- */
 
   private static Hashtable<String,String> alignTokenHashTable  = new Hashtable<>(100);
     /***********************************************************************
@@ -355,16 +355,16 @@ public final class FormatComments
     * comment token.                                                       *
     ***********************************************************************/
       { return null !=  alignTokenHashTable.get(str);
-      } ;   
+      }
 
-  private static void addAlignToken(final String str)
+    private static void addAlignToken(final String str)
     /***********************************************************************
     * Adds an entry to the alignTokenHashTable.                             *
     ***********************************************************************/
     { alignTokenHashTable.put(str, nullString);
-    } ;
+    }
 
-  private static void InitializeAlignTokenHashtable()
+    private static void InitializeAlignTokenHashtable()
     /***********************************************************************
     * Sets the AlignToken hash table.  The idea is to consider a built-in  *
     * symbol to be an alignment token unless it seems likely that it will  *
@@ -477,10 +477,10 @@ public final class FormatComments
         addAlignToken("-.");
         addAlignToken("@");
 
-    } ;
+    }
 
 
-/* ---------------------- MISCELLANEOUS METHODS ------------------------- */
+    /* ---------------------- MISCELLANEOUS METHODS ------------------------- */
 
   private static boolean 
       PossibleAlignment(final CToken[][] com, final int line, final int itemNo)
@@ -517,8 +517,8 @@ public final class FormatComments
        { if (   (line + 1 < com.length)
              && (com[line + 1].length != 0)) 
            {return com[line + 1][0];}
-       } ;
-      return CToken.nullCToken ;
+       }
+        return CToken.nullCToken ;
     }     
 
 
@@ -536,8 +536,8 @@ public final class FormatComments
        { if (   (line > 0)
              && (com[line - 1].length != 0))
            {return com[line - 1][com[line - 1].length - 1];}
-       } ;
-      return CToken.nullCToken ;
+       }
+        return CToken.nullCToken ;
     }     
 
   private static boolean isPreviousAdjacent(final CToken[][] com, final int line, final int item)
@@ -604,26 +604,26 @@ public final class FormatComments
                  { tok.isAmbiguous = false ;
                    ntok.isAmbiguous = false ;
                    ntok.isTLA = false ; 
-                 };
-             } ;
+                 }
+             }
 
-            if(tok.string.equals("-"))
+              if(tok.string.equals("-"))
              { if(isPreviousAdjacent(com, line, item))
                 { if (   (item == com[line].length - 1)
                       && (ptok.type == CToken.IDENT)
                       && (! ptok.isTLA) )
                     { tok.isAmbiguous = false ;
                       ptok.isAmbiguous = false ;
-                    };
-                  
-                  if (   (isNextAdjacent(com, line, item))
+                    }
+
+                    if (   (isNextAdjacent(com, line, item))
                       && (ntok.type == CToken.IDENT)
                       && (  (! ntok.isTLA) 
                           ||(! ptok.isTLA) ))
                     { tok.isAmbiguous = false ;
                       ptok.isAmbiguous = false ;
                       ntok.isAmbiguous = false ;
-                    };
+                    }
                 } 
              }
 
@@ -632,12 +632,12 @@ public final class FormatComments
                && ptok.string.equals("TLA"))
              { tok.isAmbiguous = false ;
                ptok.isAmbiguous = false ;
-             };
-           };
-         item = item + 1;
-        };                   // END while (item < ...)
+             }
+          }
+            item = item + 1;
+        }// END while (item < ...)
        line = line + 1;
-      } ;                    // END while (line < ...)
+      } // END while (line < ...)
 
 
      /**********************************************************************
@@ -673,11 +673,11 @@ public final class FormatComments
               { tok.isTLA = true ;
                 com[line][item - 1].isTLA = true ;
               }
-           } ;
-         item = item + 1;
+           }
+            item = item + 1;
         }
        line = line + 1;
-      } ;    // END while
+      } // END while
 
 
      /**********************************************************************
@@ -718,7 +718,7 @@ public final class FormatComments
          item = item + 1;
         }
        line = line + 1;
-      } ;    // END while
+      } // END while
 
      /**********************************************************************
      * We now catch anomalies like "CONSTANT DECLARATIONS", to turn the    *
@@ -743,14 +743,14 @@ public final class FormatComments
                       && Misc.IsUpperCase(com[line][item+1].string))))
             { tok.type = CToken.IDENT;
               tok.isTLA = false;
-            } ;
-  
-          item = item + 1;
+            }
+
+            item = item + 1;
         }
        line = line + 1;
-      } ;      
-       
-     /**********************************************************************
+      }
+
+        /**********************************************************************
      * For each built-in symbol of type LEFT_PAREN whose isTLA field is    *
      * true, set the isTLA field true of every token through the next      *
      * matching RIGHT_PAREN, "]_", or next blank line.                     *
@@ -764,14 +764,14 @@ public final class FormatComments
      while (line < com.length)
       {item = 0 ;
        if (com.length == 0) 
-        { parenLevel = 0 ; } ;
-       while (item < com[line].length)
+        { parenLevel = 0 ; }
+          while (item < com[line].length)
         {
          tok  = com[line][item] ;
          if (parenLevel > 0)
-          { tok.isTLA = true; } ;
+          { tok.isTLA = true; }
 
-         if (   (tok.type == CToken.BUILTIN)
+            if (   (tok.type == CToken.BUILTIN)
              && (BuiltInSymbols.GetBuiltInSymbol(tok.string, true).symbolType
                    == Symbol.LEFT_PAREN)
              && (   (parenLevel > 0)
@@ -784,9 +784,9 @@ public final class FormatComments
                          == Symbol.RIGHT_PAREN)
                     || tok.string.equals("]_"))
                 && (parenLevel > 0) )
-             { parenLevel = parenLevel - 1; };
-          };
-         item = item + 1;
+             { parenLevel = parenLevel - 1; }
+          }
+            item = item + 1;
         }
 
        line = line + 1;
@@ -832,9 +832,9 @@ public final class FormatComments
                        { tok.isTLA = true ;
                          ptok.isTLA = true ;
                        }
-                    } ;
-                  } ;
-                if (ntok.type == CToken.BUILTIN)
+                    }
+                 }
+                  if (ntok.type == CToken.BUILTIN)
                  {
                      final int stype =
                    BuiltInSymbols.GetBuiltInSymbol(ntok.string, true).symbolType;
@@ -844,8 +844,8 @@ public final class FormatComments
                     { tok.isTLA = true ;
                       ntok.isTLA = true ;
                     }
-                 } ;
-                break;
+                 }
+                  break;
               case CToken.BUILTIN  :
                 final int stype =
                      BuiltInSymbols.GetBuiltInSymbol(tok.string, true).symbolType;
@@ -854,14 +854,14 @@ public final class FormatComments
                     && ( ntok.isTLA || ntok.isAmbiguous))
                  { tok.isTLA = true ;
                    ntok.isTLA = true ;
-                 } ;
-                if (   (   (stype == Symbol.INFIX) 
+                 }
+                  if (   (   (stype == Symbol.INFIX)
                         || (stype == Symbol.POSTFIX))
                     && ( ptok.isTLA || ptok.isAmbiguous))
                  { tok.isTLA = true ;
                    ptok.isTLA = true ;
-                 } ;
-                break;
+                 }
+                  break;
               default :
                 Debug.ReportBug("FormatComments.adjustIsTLA: "
                   + "ambiguous CToken of wrong type");
@@ -947,8 +947,8 @@ public final class FormatComments
       while ( result && (i < tokLine.length))
         { result = tokLine[i].isTLA ;
           i = i + 1;
-        } ;
-      return result ;
+        }
+        return result ;
     } 
     
   private static void InnerWriteComment(final OutputFileWriter writer,
@@ -1104,14 +1104,14 @@ public final class FormatComments
                      && ! (   isPreviousAdjacent(com, line+1, n)
                            && isNextAdjacent(com, line+1, n)))
                   { thisAligned = true;
-                  } ;
-                 n = n+1 ;
-                } ;              
+                  }
+                    n = n+1 ;
+                }
                }
                m = m + 1;
              }
-           };
-         oneLine[line] =    thisAligned 
+           }
+           oneLine[line] =    thisAligned
                          || IsTLALine(com[line])
                          || (   prevAligned
                              && (line + 1 < com.length)
@@ -1121,13 +1121,13 @@ public final class FormatComments
          if (   (thisAligned)
              && (   (line + 2 == com.length)
                  || (com[line + 2].length == 0)))
-          { oneLine[line + 1] = true ; } ;
+          { oneLine[line + 1] = true ; }
 
-         prevAligned = thisAligned ;
+           prevAligned = thisAligned ;
          line = line + 1;
-       } ;
+       }
 
-    /***********************************************************************
+       /***********************************************************************
     * Now we look for successive lines that begin with the same token.     *
     * If there are n successive lines beginning with the same token that   *
     * is not a short (fewer than 4-character) or unambiguous lower-case    *
@@ -1154,12 +1154,12 @@ public final class FormatComments
                if (   (line + 2 == com.length)
                    || (com[line + 2].length == 0))
                  { oneLine[line + 1] = true ; }
-             } ;
-         };
-       line = line + 1;
-     } ;
+             }
+         }
+         line = line + 1;
+     }
 
-    /***********************************************************************
+       /***********************************************************************
     * Now we look for successive lines that begin with a number.  If       *
     * there are n successive lines beginning with a number, we make the    *
     * first n-1 of them one-line paragraphs.  If the n-th is the end of a  *
@@ -1175,12 +1175,12 @@ public final class FormatComments
            if (   (line + 2 == com.length)
                || (com[line + 2].length == 0))
              { oneLine[line + 1] = true ; }
-         };
-       line = line + 1;
-     } ;
+         }
+         line = line + 1;
+     }
 
 
-    /***********************************************************************
+       /***********************************************************************
     * We next look for alignments of arbitrary words that suggest some     *
     * sort of table--for example                                           *
     *                                                                      *
@@ -1222,8 +1222,8 @@ public final class FormatComments
               { nextLine = nextLine + 1;}
              if (nextLine > maxUnalignedLine)
                {maxUnalignedLine = nextLine ;}
-           } ;
-          itemNo = itemNo + 1;
+           }
+            itemNo = itemNo + 1;
         }
        if (maxUnalignedLine - line >= 3)
          { int kk = line;
@@ -1234,11 +1234,11 @@ public final class FormatComments
           if (    (maxUnalignedLine == com.length)
                || (com[maxUnalignedLine].length == 0))
              { oneLine[maxUnalignedLine - 1] = true ; }
-         };
-       line = line + 1;
-     } ;
+         }
+         line = line + 1;
+     }
 
-    /***********************************************************************
+       /***********************************************************************
     * We also turn any line consisting only of REP_CHAR tokens into a      *
     * one-line paragraph.                                                  *
     ***********************************************************************/
@@ -1253,10 +1253,10 @@ public final class FormatComments
              { oneLine[line] = true ; } 
          }
        line = line + 1;
-     } ;
-      
-    
-    /***********************************************************************
+     }
+
+
+       /***********************************************************************
     * Compute lineType and parStart.                                       *
     ***********************************************************************/
     int marginDepth = 0 ;
@@ -1279,9 +1279,9 @@ public final class FormatComments
             && (com[line][0].column < margin[0]))
           {margin[0] = com[line][0].column ;}
         line = line + 1;
-      };
+      }
 
-    if (IsParType(commentType))
+       if (IsParType(commentType))
      {                           // BEGIN then OF if (IsParType(commentType))
       line = 0 ;
       while (line < com.length)
@@ -1375,14 +1375,14 @@ public final class FormatComments
                 ***********************************************************/
                 dim1Cols = com[line][0].column - margin[marginDepth];
             
-              } ;
-            /***************************************************************
+              }
+               /***************************************************************
             * All immediately following VERB/TEX lines get lineType = -1.  *
             ***************************************************************/
             while (   (nextParLine < com.length)
                    && (com[nextParLine].length > 0)
                    && (com[nextParLine][0].type == tokType))
-             { nextParLine = nextParLine + 1; } ;
+             { nextParLine = nextParLine + 1; }
            }      // END then OF ((com[line][0].type == CToken.VERB)...)
           else
            {     // BEGIN else OF if ((com[line][0].type == CToken.VERB)...)
@@ -1411,10 +1411,10 @@ public final class FormatComments
                        && (com[nextParLine].length != 0)
                        && ! oneLine[nextParLine]
                        && (com[nextParLine][0].column == newMargin))
-                 { nextParLine = nextParLine + 1; } ;
-              };           
-  
-            /***************************************************************
+                 { nextParLine = nextParLine + 1; }
+              }
+
+               /***************************************************************
             * Set leftMargin to the left margin of the paragraph, which    *
             * is the leftmost of the first two lines.                      *
             ***************************************************************/
@@ -1440,23 +1440,23 @@ public final class FormatComments
             * Set nest and nestArg.                                         *
             ****************************************************************/
             nest = (margin[marginDepth] != newMargin);
-            if (nest) {nestArg = "T";};
-  
-            /****************************************************************
+            if (nest) {nestArg = "T";}
+
+               /****************************************************************
             * Determine if this is a labeled paragraph.                     *
             ****************************************************************/
             if (com[line][0].column < newMargin)
               { int i = 0 ;
                 while (   (i+1 < com[line].length)
                        && (com[line][i+1].column <= newMargin))
-                 {i = i+1;};
-                isLabel = (com[line][i].column == newMargin) ;
+                 {i = i+1;}
+                  isLabel = (com[line][i].column == newMargin) ;
                 if (isLabel) {labelItem = i;
                               isLabelArg = "T";
-                             };
-              };
-  
-            /*****************************************************************
+                             }
+              }
+
+               /*****************************************************************
             * Determine dim2Cols.                                            *
             *****************************************************************/
             if (isLabel)
@@ -1466,15 +1466,15 @@ public final class FormatComments
               }
             else
               { dim2Cols = newMargin - com[line][0].column;
-              } ;
-  
-            /*****************************************************************
+              }
+
+               /*****************************************************************
             * Update marginDepth and margin, if necessary.                   *
             *****************************************************************/
             if (nest){ marginDepth = marginDepth + 1;
                        margin[marginDepth] = newMargin ;
-                     } ;
-           };    // END else OF if ((com[line][0].type == CToken.VERB)...)
+                     }
+           }// END else OF if ((com[line][0].type == CToken.VERB)...)
   
           /*****************************************************************
           * Set lineType[line] and parStart[line].                         *
@@ -1490,9 +1490,9 @@ public final class FormatComments
           if (isLabel)
            { parStart[line] = temp + "%"; }
           else
-           { parStart[line] = temp + "}%"; };
-            
-          /*****************************************************************
+           { parStart[line] = temp + "}%"; }
+
+             /*****************************************************************
           * Set lineType for the rest of the lines of the paragraph, and   *
           * set line to nextParLine.                                       *
           *****************************************************************/
@@ -1500,15 +1500,15 @@ public final class FormatComments
           while (line < nextParLine)
            { lineType[line] = -1 ;
              line = line + 1;
-           } ;
-        };                    // END else OF if (com[line].length == 0);
+           }
+         }// END else OF if (com[line].length == 0);
       }                      // END while (line < com.length)
      }                          // END then OF if (IsParType(commentType))
     else
      {                           // BEGIN else OF if (IsParType(commentType))
       if (com.length != 0)
         { lineType[0]   = -1;
-        } ;
+        }
      }                           // END else OF if (IsParType(commentType))
 
 
@@ -1520,9 +1520,9 @@ public final class FormatComments
     while (   (line < com.length)
            && (lineType[line] == -2))
      { line = line + 1;
-     };
+     }
 
-    /***********************************************************************
+       /***********************************************************************
     * Set endLine to the line after the last non-null line, or to (or to   *
     * com.length if there is none).                                        *
     ***********************************************************************/
@@ -1533,9 +1533,9 @@ public final class FormatComments
     while (   (endLine > line)
            && (lineType[endLine - 1] == -2))
      { endLine = endLine - 1;
-     };
+     }
 
-    if (   (line == endLine)
+       if (   (line == endLine)
         || (   !IsParType(commentType)
             && (com[0].length == 0)))
      /**********************************************************************
@@ -1543,8 +1543,8 @@ public final class FormatComments
      * ONE_LINE, in which case we write a null comment.                    *
      **********************************************************************/
      { if (commentType == ONE_LINE)
-         { writer.putLine(Parameters.LaTeXOneLineCommentCommand + "{}%");};
-       return ;
+         { writer.putLine(Parameters.LaTeXOneLineCommentCommand + "{}%");}
+         return ;
      }     
 
     /***********************************************************************
@@ -1562,8 +1562,8 @@ public final class FormatComments
                 + Misc.floatToString(Parameters.LaTeXCommentLeftSpace(
                    com[0][0].column - 1), 2)
                 + "}" ;
-           } ;
-         writer.putLine(tempStr + "%");
+           }
+           writer.putLine(tempStr + "%");
          break ;
 
        case ZERO_WIDTH :
@@ -1575,8 +1575,8 @@ public final class FormatComments
                 + Misc.floatToString(Parameters.LaTeXCommentLeftSpace(
                    com[0][0].column - 1), 2)
                 + "}" ;
-           } ;
-         writer.putLine(tempStr + "%");
+           }
+           writer.putLine(tempStr + "%");
          break ;
 
        case PAR :
@@ -1584,8 +1584,8 @@ public final class FormatComments
 
          if (indent < -1)
            { indent = Parameters.LaTeXCommentLeftSpace(margin[0]);
-           } ;
-         writer.putLine("\\begin{" 
+           }
+           writer.putLine("\\begin{"
                              + Parameters.LaTeXLeftMultiLineComment
                              + "}{" + Misc.floatToString(indent,2) 
                              + "}%");
@@ -1656,9 +1656,9 @@ public final class FormatComments
             openMath  = false ;
             openVerb  = false ;
             curOutput = "" ;
-          } ;
+          }
 
-         /******************************************************************
+           /******************************************************************
          * Set numOfBlankLines to the number of blank lines before the     *
          * next paragraph, and increment line by numOfBlankLines - 1.      *
          ******************************************************************/
@@ -1698,9 +1698,9 @@ public final class FormatComments
               openMath  = false ;
               openVerb  = false ;
               curOutput = "" ;
-            } ;
+            }
 
-           writer.putLine(parStart[line]);
+              writer.putLine(parStart[line]);
            openPar = true ;
            Debug.Assert(!(openVerb || openMath),
              "FormatComments.InnerWriteComment: Invariant "
@@ -1734,8 +1734,8 @@ public final class FormatComments
                  **********************************************************/
                  curOutput = curOutput + "}";
                  openMath = false;
-               } ;
-             Misc.BreakStringOut (writer, curOutput + "}%") ;
+               }
+               Misc.BreakStringOut (writer, curOutput + "}%") ;
              curOutput = "";
              openLabel = false;
            }
@@ -1746,9 +1746,9 @@ public final class FormatComments
              **************************************************************/
              if (openMath)
               { curOutput = curOutput + "}" ;
-                openMath = false; } ;
+                openMath = false; }
 
-             if (IsParType(commentType) && (! openLabel) && (item == 0))
+               if (IsParType(commentType) && (! openLabel) && (item == 0))
               /*************************************************************
               * We write a verbatim command only if this is not a          *
               * one-line comment, we're not inside a label, and this is    *
@@ -1779,9 +1779,9 @@ public final class FormatComments
                     { curOutput = curOutput + " ";
                       w = w - 1;
                     }
-                  } ;
+                  }
 
-                writer.putLine(curOutput + com[line][0].string) ;
+                  writer.putLine(curOutput + com[line][0].string) ;
                 curOutput = "";
               }
              else
@@ -1799,9 +1799,9 @@ public final class FormatComments
               { writer.putLine("\\end{verbatim}%") ;
                 writer.putLine("\\end{minipage}");
                 openVerb = false;
-              } ;
+              }
 
-             final CToken tok  = com[line][item] ;
+               final CToken tok  = com[line][item] ;
              final CToken ptok = previousCToken(com, line, item) ;
                /************************************************************
                * tok is the current token, and ptok is the preceding one.  *
@@ -1878,10 +1878,10 @@ public final class FormatComments
                    }
                   else
                    { curOutput = curOutput + " "; 
-                   } ;
+                   }
                  }
-               } ;
-             /**************************************************************
+               }
+               /**************************************************************
              * Check if need to start an \ensuremath argument.             *
              **************************************************************/
              if ( (!openMath) && tok.isTLA)
@@ -1903,13 +1903,13 @@ public final class FormatComments
                    ********************************************************/
                    if (   (tok.string.charAt(tok.string.length()-1) == '_')      
                        && (tok.string.length() != 1))
-                    { curOutput = curOutput + "\\_"; } ;
+                    { curOutput = curOutput + "\\_"; }
                   }
                  else
                   { curOutput = curOutput + 
                       getAmbiguous(tok.string);
-                  } ;
-                 break ;
+                  }
+                   break ;
 
                case CToken.NUMBER :
                  curOutput = curOutput + Misc.TeXify(tok.string);
@@ -1946,8 +1946,8 @@ public final class FormatComments
                   }
                  else
                   { outS = outS + "{" + tok.getWidth() + "}";
-                  } ;
-                 /**********************************************************
+                  }
+                   /**********************************************************
                  * If this token is on a line by itself, then typeset it   *
                  * on a line by itself.                                    *
                  **********************************************************/
@@ -1958,17 +1958,17 @@ public final class FormatComments
                       * must output a \par command first.                  *
                       *****************************************************/
                       { outS = "{\\par}" + outS ;
-                      } ;
-                   if (   (line + 1 < lineType.length)
+                      }
+                      if (   (line + 1 < lineType.length)
                        && (lineType[line + 1] == -1) )
                       /*****************************************************
                       * If this isn't the last line of the paragraph,      *
                       * must output a \par command afterwards.             *
                       *****************************************************/
                       { outS = outS + "{\\par}" ; 
-                      } ;
-                  } ;
-                 curOutput = curOutput + outS ;
+                      }
+                  }
+                   curOutput = curOutput + outS ;
                 break ;
 
                case CToken.LEFT_DQUOTE :
@@ -1999,12 +1999,12 @@ public final class FormatComments
 
           item = item + 1;
          }                        // END while (item < com[item].length)
-       };                      // END else OF if ((lineType[line] == -2)...)
+       }// END else OF if ((lineType[line] == -2)...)
      
       Misc.WriteIfNonNull(writer, curOutput);
       curOutput = "" ;
       line = line + 1;
-     }; // END while (line < endLine)
+     }// END while (line < endLine)
 
     /***********************************************************************
     * Write out the end of the comment.                                    *
@@ -2018,9 +2018,9 @@ public final class FormatComments
     else
       { if (openMath)
           { curOutput = curOutput + "}" ; 
-          } ;
-      } ;
-    switch (commentType)
+          }
+      }
+       switch (commentType)
       {
        case ONE_LINE :
        case ZERO_WIDTH :
@@ -2038,8 +2038,8 @@ public final class FormatComments
        default :
          Debug.ReportBug(
            "The impossible happened in FormatComments.InnerWriteComment");
-      };
-      
+      }
+
    } // END InnerWriteComment(...)
 
   public static final int ONE_LINE    = 1;
@@ -2073,8 +2073,8 @@ public final class FormatComments
     ***********************************************************************/
     { String curOut = curOutput ;
       if (openMath)
-       { curOut = curOut + "}%" ; } ;
-      if (openVerb)
+       { curOut = curOut + "}%" ; }
+        if (openVerb)
        { Misc.WriteIfNonNull(writer, curOut);
          curOut = "" ;
          writer.putLine("\\end{verbatim}");
@@ -2083,8 +2083,8 @@ public final class FormatComments
            * Note: a verbatim environment is put inside a minipage         *
            * environment so it won't be broken across pages.               *
            ****************************************************************/
-       } ; 
-      Misc.WriteIfNonNull(writer, curOut);
+       }
+        Misc.WriteIfNonNull(writer, curOut);
       writer.putLine("\\end{" + Parameters.LaTeXCommentPar + "}%");
     }
 

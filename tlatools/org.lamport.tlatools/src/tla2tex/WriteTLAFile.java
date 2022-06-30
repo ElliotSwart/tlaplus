@@ -52,8 +52,8 @@ public class WriteTLAFile
            } 
           else
            { outLine = outLine + SpacesString(tok.column);
-           } ;
-          switch (tok.type)
+           }
+             switch (tok.type)
            {case Token.BUILTIN    : 
             case Token.NUMBER     : 
             case Token.IDENT      : 
@@ -81,9 +81,9 @@ public class WriteTLAFile
                 ***********************************************************/
                 { deleting = false ;
                   multiBelow = 0 ;
-                } ;
+                }
 
-              String commentString = "" ;
+                String commentString = "" ;
                 /***********************************************************
                 * Will set commentString to the current comment line       *
                 * minus the deleted characters.                            *
@@ -108,10 +108,10 @@ public class WriteTLAFile
                             if (   (bctok.subtype == CommentToken.MULTI)
                                 || (bctok.subtype == CommentToken.NULL))
                               { ctok = bctok ;
-                              } ;
+                              }
                           }
-                      } ;
-                     i = i+1;
+                      }
+                       i = i+1;
                    }
 
                   if (ctok != null)
@@ -138,15 +138,15 @@ public class WriteTLAFile
                                      UnmatchedDelete("`^" + commentString) ;
                                   commentString = 
                                     RemoveDeletions("`^" + commentString) ;
-                                } ;
+                                }
                           }
-                        } ;
+                        }
                      } // END while ( deleting ... )
                    }  
                  if (   (ctok != null)
                      && Misc.isBlank(commentString))
                    { commentString = SpacesString(ctok.string.length()) ;
-                   } ;
+                   }
                 }
               else
                 { /*********************************************************
@@ -183,19 +183,19 @@ public class WriteTLAFile
                }
               else
                { nullComment = true ;
-               } ;
-              break ;
+               }
+                break ;
 
             default :
               Debug.ReportBug("Bad token type found.");
             break ;
            }
           item = item + 1;
-         };        
-        if ( ! (   nullComment
+         }
+           if ( ! (   nullComment
                 && (spec[line].length == 1)))
-          { writer.putLine(outLine) ; } ;
-        line = line + 1;
+          { writer.putLine(outLine) ; }
+           line = line + 1;
        }
       writer.close() ;
     }
@@ -239,8 +239,8 @@ public class WriteTLAFile
            { rest = rest.substring(nextEnd + 2) ; 
              nextDel = rest.indexOf("`^") ;
            }
-       } ;
-      return start + rest ;
+       }
+        return start + rest ;
     }
   private static String ReplaceQuoteTildes(final String str)
     /***********************************************************************
@@ -253,25 +253,25 @@ public class WriteTLAFile
        { result = result.substring(0, nextRepl) 
                   + "  " + result.substring(nextRepl+2);
          nextRepl = result.indexOf("`~") ;
-       } ;
-     nextRepl = result.indexOf("~'") ;
+       }
+        nextRepl = result.indexOf("~'") ;
       while ( nextRepl != -1 )
        { result = result.substring(0, nextRepl) 
                   + "  " + result.substring(nextRepl+2);
          nextRepl = result.indexOf("~'") ;
-       } ;
-      nextRepl = result.indexOf("`.") ;
+       }
+        nextRepl = result.indexOf("`.") ;
       while ( nextRepl != -1 )
        { result = result.substring(0, nextRepl) 
                   + "  " + result.substring(nextRepl+2);
          nextRepl = result.indexOf("`.") ;
-       } ;
-     nextRepl = result.indexOf(".'") ;
+       }
+        nextRepl = result.indexOf(".'") ;
       while ( nextRepl != -1 )
        { result = result.substring(0, nextRepl) 
                   + "  " + result.substring(nextRepl+2);
          nextRepl = result.indexOf(".'") ;
-       } ;
-     return result ;
+       }
+        return result ;
     }
  }  

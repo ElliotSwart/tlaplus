@@ -586,18 +586,18 @@ public class Tokenize
         else {
             getLineCorrection = 0 ;
         }
-      } ;
+      }
 
-    private static void addNextChar()
+      private static void addNextChar()
       /*********************************************************************
       * Appends nextChar to token, sets nextChar to the next character in  *
       * the input stream, and sets ncol to its column.                     *
       *********************************************************************/
       { token = token + nextChar ;
         skipNextChar() ;
-      } ;
+      }
 
-    private static void gotoStart()
+      private static void gotoStart()
       /*********************************************************************
       * Set the state to START. Since this means that we are at or before  *
       * the beginning of the next token, we set col equal to ncol.         *
@@ -677,20 +677,20 @@ public class Tokenize
                       {TokenizingError(
                          "Expression with an unmatched (, [, {, or << " +
                          "followed by");
-                      } ;
-                    if (inQuantifier)
+                      }
+                      if (inQuantifier)
                       {TokenizingError(
                          "Expression with \\A or \\E" +
                          " but no following `:` followed by");
-                      } ;
-                    exprEnd = true ;
+                      }
+                      exprEnd = true ;
                     Delimiter = token ;
                     DelimiterCol = col ;
                     DelimiterLine = reader.getLineNumber();
                     if (nextChar == '\n') 
-                      {DelimiterLine = DelimiterLine - 1 ; } ;
-    
-                    /*******************************************************
+                      {DelimiterLine = DelimiterLine - 1 ; }
+
+                      /*******************************************************
                     * If current line is non-empty, add it to vspec.       *
                     *******************************************************/
                     if (linev.size() > 0)
@@ -703,15 +703,15 @@ public class Tokenize
                    if (type == Token.BUILTIN)
                      { final Symbol sym = PcalBuiltInSymbols.GetBuiltInSymbol(token);
                        if (sym.symbolType == Symbol.LEFT_PAREN)
-                         { parenDepth = parenDepth + 1; } ;
-                       if (sym.symbolType == Symbol.RIGHT_PAREN)
+                         { parenDepth = parenDepth + 1; }
+                         if (sym.symbolType == Symbol.RIGHT_PAREN)
                          { parenDepth = parenDepth - 1; 
                            if (parenDepth < 0)
-                             { TokenizingError("Extra (unmatching)"); };
+                             { TokenizingError("Extra (unmatching)"); }
                          }
-                     };
-    
-                   /********************************************************
+                     }
+
+                     /********************************************************
                    * Set prevToken.  We set it to " " if the current       *
                    * token is a string so that, for example, the `end' in  *
                    * `"[" end' is recognized as the +cal reserved word     *
@@ -720,21 +720,21 @@ public class Tokenize
                    if (type == Token.STRING)
                      { prevToken = " " ; }
                    else 
-                     { prevToken = token ; } ;
+                     { prevToken = token ; }
 
-                   /********************************************************
+                     /********************************************************
                    * Set inQuantifier if necessary.                        *
                    ********************************************************/
                    if (    (   token.equals("\\A")
                             || token.equals("\\E"))
                         && (parenDepth == 0))
-                     { inQuantifier = true ;} ;
-                   if (    inQuantifier
+                     { inQuantifier = true ;}
+                     if (    inQuantifier
                         && token.equals(":")
                         && (parenDepth == 0))
-                     { inQuantifier = false ;} ;
+                     { inQuantifier = false ;}
 
-                   /********************************************************
+                     /********************************************************
                    * Add the token to the expression.                      *
                    ********************************************************/
                    if (   (! token.equals(""))
@@ -753,8 +753,8 @@ public class Tokenize
                 	    * of its use.
                 	    */
                      { linev.addElement(new TLAToken(token, col, type, 
-                             reader.getLineNumber() + getLineCorrection )); } ;   
-                   /********************************************************
+                             reader.getLineNumber() + getLineCorrection )); }
+                     /********************************************************
                    * Reset token.                                          *
                    ********************************************************/
                    token = "" ;
@@ -765,7 +765,6 @@ public class Tokenize
                 * This is a token type that does not belong in an expression. *
                 ***********************************************************/
                 TokenizingError("Illegal token in an expression");
-                   ;
               }
           }
         else
@@ -776,8 +775,8 @@ public class Tokenize
             Delimiter = token ;
             DelimiterCol = col ;
             DelimiterLine = reader.getLineNumber();
-            if (nextChar == '\n') {DelimiterLine = DelimiterLine - 1 ; } ;
-            token = "" ;
+            if (nextChar == '\n') {DelimiterLine = DelimiterLine - 1 ; }
+              token = "" ;
           }
       }
 
@@ -912,9 +911,9 @@ public class Tokenize
             case TLA    : state = START  ; break ;
             default     : PcalDebug.ReportBug(
                            "TokenizeSpec.Tokenize called with illegal mode") ;
-          } ;
+          }
 
-        exprEnd = false ;
+          exprEnd = false ;
 
         while ((state != DONE) &&  ! exprEnd)
           { /***************************************************************
@@ -971,13 +970,13 @@ public class Tokenize
                     { if (mode == MODULE) 
                         { throw new TokenizerException(
                             "Input ended before end of module");
-                        } ;
-                      state = DONE ;
+                        }
+                        state = DONE ;
                     }
                   else 
                     { addNextChar();
                       TokenizingError("Illegal lexeme");
-                    } ;
+                    }
                   break;
 
                 case ID :
@@ -1000,8 +999,8 @@ public class Tokenize
                   else 
                     { TokenOut(Token.IDENT) ;
                       gotoStart();
-                    };
-                  break;          
+                    }
+                    break;
 
                 case NUM_OR_ID :
                   if (Misc.IsDigit(nextChar))
@@ -1047,8 +1046,8 @@ public class Tokenize
                     }
                   else 
                     { state = BSBUILT_IN;
-                    };
-                  break;
+                    }
+                    break;
 
                 case NUM :
                   if (Misc.IsDigit(nextChar))
@@ -1062,7 +1061,7 @@ public class Tokenize
                        }
                       else
                        { state = ID;
-                       };
+                       }
                     }
                   else 
                     { TokenOut(Token.NUMBER) ;
@@ -1083,8 +1082,8 @@ public class Tokenize
                     }
                   else 
                     { TokenizingError("Illegal lexeme ");
-                    } ;
-                   break;
+                    }
+                    break;
 
                 case BUILT_IN :
                   if (PcalBuiltInSymbols.IsBuiltInPrefix(token + nextChar))
@@ -1100,10 +1099,10 @@ public class Tokenize
                         { reader.backspace();
                           if (token.length() == 0)
                             { TokenizingError("Illegal lexeme");
-                            };
-                          token = token.substring(0, token.length()-1);
-                        } ;
-                        // On 11 Jan 2011, LL changed
+                            }
+                            token = token.substring(0, token.length()-1);
+                        }
+                          // On 11 Jan 2011, LL changed
                         //
                         //     nextChar = reader.getNextChar();
                         //
@@ -1114,8 +1113,8 @@ public class Tokenize
                         // as "( \Ex...)".
                         skipNextChar();
                        
-                      } ;
-                      TokenOut(Token.BUILTIN) ;
+                      }
+                        TokenOut(Token.BUILTIN) ;
                       gotoStart();
                     }
                    break;
@@ -1279,8 +1278,8 @@ public class Tokenize
                     }
                   else
                     { if (cdepth == 0) {addNextChar();}
-                        else {skipNextChar();} ;
-                      state = LINE_COMMENT;
+                        else {skipNextChar();}
+                        state = LINE_COMMENT;
                     }
                   break;
 
@@ -1291,8 +1290,8 @@ public class Tokenize
                       state = LINE_COMMENT;
                     }
                   else
-                    { if (cdepth == 0) {token = token + "(";} ;
-                      state = LINE_COMMENT;
+                    { if (cdepth == 0) {token = token + "(";}
+                        state = LINE_COMMENT;
                     }
                   break;
 
@@ -1305,8 +1304,8 @@ public class Tokenize
                       state = LINE_COMMENT;
                     }
                   else
-                    { if (cdepth == 0) {token = token + "*";} ;
-                      state = LINE_COMMENT;
+                    { if (cdepth == 0) {token = token + "*";}
+                        state = LINE_COMMENT;
                     }
                   break;
 
@@ -1331,8 +1330,8 @@ public class Tokenize
                     }
                   else
                     { if (cdepth == 1) {addNextChar();}
-                        else {skipNextChar();};
-                      // state = COMMENT ;
+                        else {skipNextChar();}
+                        // state = COMMENT ;
                     }
 
                   break;
@@ -1350,8 +1349,8 @@ public class Tokenize
                         }
                     }
                   else
-                    { if (cdepth == 1) {token = token + "*";};
-                      state = COMMENT;
+                    { if (cdepth == 1) {token = token + "*";}
+                        state = COMMENT;
                     }
                   break;
 
@@ -1362,8 +1361,8 @@ public class Tokenize
                       state = COMMENT;
                     }
                   else
-                    { if (cdepth == 1) {token = token + "(";};
-                      state = COMMENT;
+                    { if (cdepth == 1) {token = token + "(";}
+                        state = COMMENT;
                     }
                   break;
 
@@ -1388,8 +1387,8 @@ public class Tokenize
                     }
                   else
                     { if (cdepth == 1) {addNextChar();}
-                        else {skipNextChar();};
-                      // state = OR_COMMENT ;
+                        else {skipNextChar();}
+                        // state = OR_COMMENT ;
                     }
                   break;
 
@@ -1407,8 +1406,8 @@ public class Tokenize
                         }
                     }
                   else
-                    { if (cdepth == 1) {token = token + "*";};
-                      state = OR_COMMENT;
+                    { if (cdepth == 1) {token = token + "*";}
+                        state = OR_COMMENT;
                     }
                   break;
 
@@ -1419,8 +1418,8 @@ public class Tokenize
                       state = OR_COMMENT;
                     }
                   else
-                    { if (cdepth == 1) {token = token + "(";};
-                      state = OR_COMMENT;
+                    { if (cdepth == 1) {token = token + "(";}
+                        state = OR_COMMENT;
                     }
                   break;
 
@@ -1458,7 +1457,7 @@ public class Tokenize
                         }
                       else
                         { // state = PROLOG_DASH
-                        } ;
+                        }
                     }
                   else 
                     { token = token1 + token ;
@@ -1547,8 +1546,8 @@ public class Tokenize
                     "Illegal state in TokenizeSpec.Tokenize");
                   // break;
 
-              } ;  // ends switch
-         } ; // ends while
+              } // ends switch
+         } // ends while
 
         /*******************************************************************
         * Need to backspace one character because it has already read one  *
@@ -1556,9 +1555,9 @@ public class Tokenize
         * therefore at the beginning of the next line).                    *
         *******************************************************************/
         if (nextChar != '\n')
-          { reader.backspace(); } ;
+          { reader.backspace(); }
 
-        /*******************************************************************
+          /*******************************************************************
         * Returns a normalized TLAExpr made from vspec.                    *
         *******************************************************************/
         final TLAExpr rval = new TLAExpr(vspec) ;

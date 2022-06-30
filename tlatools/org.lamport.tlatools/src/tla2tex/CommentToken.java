@@ -122,17 +122,17 @@ public class CommentToken extends Token
            default : Debug.ReportBug(
                       "CommentToken constructor called with illegal subtype"
                       );
-         } ;
+         }
 
-     };     
+     }
 
-   @Override
+      @Override
    public int getWidth()
      /**********************************************************************
      * Returns the number of columns occupied by the token in the input.   *
      **********************************************************************/
-     { if (string == null) {return 0;} ;
-       return string.length() + delimiters ;
+     { if (string == null) {return 0;}
+         return string.length() + delimiters ;
      }
 
    public static void ProcessComments(final Token[][] spec)
@@ -230,15 +230,15 @@ public class CommentToken extends Token
                             * A "\*" or "(**)" comment is not considered   *
                             * a star line.                                 *
                             ***********************************************/
-                       { starLine = false; } ;
-                     int ch = 0;
+                       { starLine = false; }
+                       int ch = 0;
                      while (   starLine
                             && (ch < tok.string.length())
                             && (ch <= 3) )
                       { if (   (tok.string.charAt(ch) != '*')
                             && (tok.string.charAt(ch) != '-'))
-                          { starLine = false; } ;
-                        ch = ch+1 ;
+                          { starLine = false; }
+                          ch = ch+1 ;
                       } // end while
                      ch = 4;
                      while (   starLine
@@ -246,8 +246,8 @@ public class CommentToken extends Token
                       { if (   (tok.string.charAt(ch) != '*')
                             && (tok.string.charAt(ch) != '-')
                             && (tok.string.charAt(ch) != ' '))
-                          { starLine = false; };
-                        ch = ch+1 ;
+                          { starLine = false; }
+                          ch = ch+1 ;
                       } // end while
 
                      /******************************************************
@@ -274,7 +274,7 @@ public class CommentToken extends Token
                         * Note: A non-aligned star line both ends and      *
                         * begins a multi-line comment.                     *
                         ***************************************************/
-                        { beginMultiLine = true;} ;
+                        { beginMultiLine = true;}
 
                    }  // END then OF if (item == spec[line].length - 1)
                  else 
@@ -282,7 +282,7 @@ public class CommentToken extends Token
                      * This is not the last token on the line .            *
                      ******************************************************/
                      
-                   }; // END else OF if (item == spec[line].length - 1)
+                   }// END else OF if (item == spec[line].length - 1)
                  /**********************************************************
                  * Set the subtype of the COMMENT token.                   *
                  **********************************************************/
@@ -297,31 +297,31 @@ public class CommentToken extends Token
                               if (starLine)
                                 { tok.subtype = NULL ; }
                               else 
-                                { tok.subtype = ONE_LINE ;} ; 
+                                { tok.subtype = ONE_LINE ;}
                             }
                           else
                             { if (   (beginLine != -1)
                                   && (item == spec[line].length - 1))
                                 { tok.subtype = MULTI ;}
                               else
-                                { tok.subtype = ONE_LINE ;} ; 
+                                { tok.subtype = ONE_LINE ;}
                             }
-                         };
-                       break ;
+                         }
+                         break ;
 
                      case BEGIN_OVERRUN :
                        if (item == 0)
                          { tok.subtype = PAR ;}
                        else
-                         { tok.subtype = ONE_LINE ;} ;
-                       break ;
+                         { tok.subtype = ONE_LINE ;}
+                         break ;
 
                      case END_OVERRUN   :
                        if (item == spec[line].length - 1)
                          { tok.subtype = PAR ;}
                        else
-                         { tok.subtype = ONE_LINE ;} ;
-                       break ;
+                         { tok.subtype = ONE_LINE ;}
+                         break ;
 
                      case OVERRUN :
                        tok.subtype = PAR ;
@@ -330,7 +330,7 @@ public class CommentToken extends Token
                      default :
                        Debug.ReportBug(
                         "Bad token rsubtype in CommentToken.ProcessComments");
-                   } ; // END switch (tok.rsubtype)                 
+                   } // END switch (tok.rsubtype)
 
                  /**********************************************************
                  * Set aboveAlign for NULL or MULTI comments.              *
@@ -339,7 +339,7 @@ public class CommentToken extends Token
                      || (tok.subtype == NULL))
                    { tok.aboveAlign = 
                        new Position(beginLine, spec[beginLine].length - 1);
-                   } ;
+                   }
 
 
                } // END then OF if (spec[line][item].type == COMMENT)
@@ -354,21 +354,21 @@ public class CommentToken extends Token
                      && (item == spec[line].length - 1))
                    { endMultiLine = true ;}
 
-               } ;  // END else OF if (spec[line][item].type == COMMENT)
+               } // END else OF if (spec[line][item].type == COMMENT)
 
              item = item + 1 ;
-           }; // END while (item < spec[line].length)
+           }// END while (item < spec[line].length)
 
           /**************************************************************
           * Set or reset beginLine if necessary.                        *
           **************************************************************/
           if (endMultiLine || (spec[line].length == 0))
-            {beginLine = -1;} ;
-          if (beginMultiLine) {beginLine = line;} ;
+            {beginLine = -1;}
+            if (beginMultiLine) {beginLine = line;}
 
-          line = line + 1 ;
-        }; // END while (line < spec.length)
-     }; // END ProcessComments(Token[][] spec)
+            line = line + 1 ;
+        }// END while (line < spec.length)
+     } // END ProcessComments(Token[][] spec)
 
 
    public String toString()
@@ -383,19 +383,19 @@ public class CommentToken extends Token
             case BEGIN_OVERRUN : rstypeName = "BEGIN_OVERRUN" ; break ;
             case END_OVERRUN   : rstypeName = "END_OVERRUN"   ; break ;
             case OVERRUN       : rstypeName = "OVERRUN"       ; break ;
-          } ;
-        switch (subtype) 
+          }
+          switch (subtype)
           { case ONE_LINE      : stypeName = "ONE_LINE"      ; break ;
             case BEGIN_MULTI   : stypeName = "BEGIN_MULTI"   ; break ;
             case MULTI         : stypeName = "MULTI"         ; break ;
             case NULL          : stypeName = "NULL"          ; break ;
             case PAR           : stypeName = "PAR"           ; break ;
-          } ;
-        return Misc.BreakLine( mostOfString() + 
+          }
+          return Misc.BreakLine( mostOfString() +
                           ",\t subtype |-> " + stypeName + 
                           ",\t rsubtype |-> " + rstypeName + 
                           ",\t delim |-> " + delimiters + "]");
-      };  
+      }
 
   }
 

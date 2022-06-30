@@ -615,18 +615,18 @@ public class OpApplNode extends ExprNode implements ExploreNode {
         if (this.operands[i] != null &&
             opDef.getWeight(i) == 1) {
           this.levelParams.addAll(this.operands[i].getLevelParams());
-        } ;
-        if (this.operands[i] != null) {
+        }
+          if (this.operands[i] != null) {
           /*****************************************************************
           * I'm copying this test from the one for levelParams.  I expect  *
           * it's there in case a null operand was created by an error.     *
           *****************************************************************/
           this.allParams.addAll(this.operands[i].getAllParams());
           this.nonLeibnizParams.addAll(this.operands[i].getNonLeibnizParams());
-         };
-        int ii = i ;
-        if (ar == -1) {ii = 0;} ;
-        if (! opDef.getIsLeibnizArg()[ii]) {
+         }
+          int ii = i ;
+        if (ar == -1) {ii = 0;}
+          if (! opDef.getIsLeibnizArg()[ii]) {
           this.nonLeibnizParams.addAll(this.operands[i].getAllParams());
          }
       }
@@ -645,8 +645,8 @@ public class OpApplNode extends ExprNode implements ExploreNode {
         for (int i = 0 ; i < this.unboundedBoundSymbols.length; i++){
           allBoundSymbols.add(this.unboundedBoundSymbols[i]);
          }
-       } ;
-      if (this.boundedBoundSymbols != null) {
+       }
+        if (this.boundedBoundSymbols != null) {
         for (int i = 0 ; i < this.boundedBoundSymbols.length; i++){
           if (this.boundedBoundSymbols[i] != null) {
             for (int j = 0 ; j < this.boundedBoundSymbols[i].length; j++){
@@ -654,9 +654,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
              }
            }
          }
-       } ;
+       }
 
-      /*********************************************************************
+        /*********************************************************************
       * Remove bound identifiers from levelParams, allParams, and          *
       * nonLeibnizParams.                                                  *
       *********************************************************************/
@@ -666,10 +666,10 @@ public class OpApplNode extends ExprNode implements ExploreNode {
         this.levelParams.remove(nextBoundSymbol) ;
         this.allParams.remove(nextBoundSymbol) ;
         this.nonLeibnizParams.remove(nextBoundSymbol) ;
-       } ;
+       }
 
 
-      /*********************************************************************
+        /*********************************************************************
       * Compute this.levelConstraints.                                     *
       *********************************************************************/
       this.levelConstraints.putAll(opDef.getLevelConstraints());
@@ -743,7 +743,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
                 }
               }
             }
-          }; // forj
+          }// forj
           /*****************************************************************
           * If argDef (the i-th operand, which is an OpDefNode) is not     *
           * Leibniz, then for each j and k for which opLevelCond[i][j][k]  *
@@ -760,8 +760,8 @@ public class OpApplNode extends ExprNode implements ExploreNode {
                   this.nonLeibnizParams.addAll(this.operands[j].getAllParams()) ;
                 } // if (opDef.getOpLevelCond(i, j, k))
                } // for k
-             }; // forj
-           } ; // if (! argDef.isLeibniz)
+             }// forj
+           } // if (! argDef.isLeibniz)
         } // if (opdi != null && ...)
       } // for i
       final HashSet<ArgLevelParam> alpSet = opDef.getArgLevelParams();
@@ -860,14 +860,14 @@ public class OpApplNode extends ExprNode implements ExploreNode {
               if (!allBoundSymbols.contains(alp.param)) {
                 this.argLevelParams.add(alp) ;
                }
-             } ;
-           }
+             }
+          }
         }
-      } ;
-      for (int i = 0; i < this.ranges.length; i++) {
+      }
+        for (int i = 0; i < this.ranges.length; i++) {
         this.argLevelParams.addAll(this.ranges[i].getArgLevelParams());
-      } ;
-      iter = alpSet.iterator();
+      }
+        iter = alpSet.iterator();
       while (iter.hasNext()) {
         final ArgLevelParam alp = iter.next();
         ExprOrOpArgNode arg = this.getArg(alp.op);
@@ -990,15 +990,15 @@ public class OpApplNode extends ExprNode implements ExploreNode {
           final SymbolNode param = iter.next();
           this.argLevelParams.add(
              new ArgLevelParam(this.operator, i, param));
-         }; // end while
+         }// end while
 
         /*******************************************************************
         * Add to argLevelParams all the argLevelParams entry for the i-th  *
         * operand.                                                         *
         *******************************************************************/
         this.argLevelParams.addAll(this.operands[i].getArgLevelParams());
-       }; // end for
-    }; // end else !(this.operator instanceof OpDefNode)
+       }// end for
+    }// end else !(this.operator instanceof OpDefNode)
 
     /***********************************************************************
     * Check for the following illegal uses of temporal operators, where A  *
@@ -1032,9 +1032,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
             "[] followed by action not of form [A]_v.");
         }
       }
-    };
+    }
 
-    /***********************************************************************
+      /***********************************************************************
     * Check for <>A.                                                       *
     ***********************************************************************/
     if (opName.equals("<>")) {
@@ -1048,9 +1048,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
               "<> followed by action not of form <<A>>_v.");
           }
         }
-      };
+      }
 
-    /***********************************************************************
+      /***********************************************************************
     * Check of ~> and -+->                                                 *
     ***********************************************************************/
     if (opName.equals("~>") || opName.equals("-+->")) {
@@ -1061,9 +1061,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
              "Action used where only temporal formula or " +
              "state predicate allowed.");
       }
-    };
+    }
 
-    /*
+      /*
      * Check of logical operators /\ , \/ , => , <=>, and dis/conjunction
      * lists.  Added by LL 25 Oct 2013
      */
@@ -1274,8 +1274,8 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     if (this.subExpressionOf != null) {
      sEO = Strings.indent(2,
               "\nsubExpressionOf: " +
-              Strings.indent(2, this.subExpressionOf.toString(1))) ;} ;
-    return "\n*OpApplNode: " + operator.getName() + "  " + super.toString(depth+1)
+              Strings.indent(2, this.subExpressionOf.toString(1))) ;}
+      return "\n*OpApplNode: " + operator.getName() + "  " + super.toString(depth+1)
            + "  errors: " + (errors != null ? "non-null" : "null")
            + toStringBody(depth) + sEO ;
   }

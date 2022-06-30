@@ -36,8 +36,8 @@ import tlc2.tool.Action;
 public final class ActionWrapper extends CostModelNode {
 
 	public enum Relation {
-		INIT, NEXT, PROP, CONSTRAINT;
-	}
+		INIT, NEXT, PROP, CONSTRAINT
+    }
 	
 	private final Action action;
 	private final Relation relation;

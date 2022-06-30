@@ -713,18 +713,18 @@ public class TokenizeSpec
       *********************************************************************/
       { ncol = reader.getColumnNumber();
         nextChar = reader.getNextChar();
-      } ;
+      }
 
-    private static void addNextChar()
+      private static void addNextChar()
       /*********************************************************************
       * Appends nextChar to token, sets nextChar to the next character in  *
       * the input stream, and sets ncol to its column.                     *
       *********************************************************************/
       { token = token + nextChar ;
         skipNextChar() ;
-      } ;
+      }
 
-    private static void gotoStart()
+      private static void gotoStart()
       /*********************************************************************
       * Set the state to START. Since this means that we are at or before  *
       * the beginning of the next token, we set col equal to ncol.         *
@@ -747,8 +747,8 @@ public class TokenizeSpec
         * no other cases of non-comment tokens with empty strings, so the  *
         * test seems harmless.                                             *
         *******************************************************************/
-          { linev.addElement(new Token(token, col, type )); } ;
-        if (type == Token.IDENT)
+          { linev.addElement(new Token(token, col, type )); }
+          if (type == Token.IDENT)
          { identHashTable.put(token, nullString);
          }
         else 
@@ -759,21 +759,21 @@ public class TokenizeSpec
            else if (type == Token.BUILTIN)
             { usedBuiltinHashTable.put(token, nullString);
             }
-         };
-        token = "" ;
+         }
+          token = "" ;
         canBeLabel = false ;
-      } ;
+      }
 
-    private static void CommentTokenOut(final int subtype)
+      private static void CommentTokenOut(final int subtype)
       /*********************************************************************
       * Add the token to linev and reset token to the empty string.        *
       *********************************************************************/
       { linev.addElement(new CommentToken(token, col, subtype, pseudoCom)); 
         pseudoCom = false;
         token = "" ;
-      } ;
+      }
 
-    private static void startNewLine()
+      private static void startNewLine()
       /*********************************************************************
       * Append linev to vspec and reset linev.  This should be called      *
       * whenever a \n character is removed from the input stream.          *
@@ -781,9 +781,9 @@ public class TokenizeSpec
       { vspec.addElement(linev)    ;
         linev = new Vector<Token>(30, 30) ;
         col = 0 ;
-      } ;
+      }
 
-    private static void SkipSpaceAndNewlines() {
+      private static void SkipSpaceAndNewlines() {
         boolean notDone = true ;
         while (notDone) {
             while (Misc.IsSpace(nextChar)) {
@@ -831,13 +831,13 @@ public class TokenizeSpec
               {aspec[n][m] =                                               
                 (Token) vspec.elementAt(n) . elementAt(m);     
                m = m+1;                                                   
-              };                                                          
-            n = n+1 ;                                                     
-          };                                                              
-        return aspec;
-      } ;
+              }
+              n = n+1 ;
+          }
+          return aspec;
+      }
 
-    public static Token[][] Tokenize(final CharReader charReader, final int mode)
+      public static Token[][] Tokenize(final CharReader charReader, final int mode)
       /*********************************************************************
       * Tokenize the input from the CharReader.                            *
       *********************************************************************/
@@ -888,8 +888,8 @@ public class TokenizeSpec
                              break ;
             default       : Debug.ReportBug(
                              "TokenizeSpec.Tokenize called with illegal mode") ;
-          } ;
-        while (state != DONE)
+          }
+          while (state != DONE)
           { /***************************************************************
             * Set linev to the vector of tokens in the current line.       *
             ***************************************************************/
@@ -984,13 +984,13 @@ public class TokenizeSpec
                     { if (mode == MODULE) 
                         { Debug.ReportError(
                             "Input ended before end of module");
-                        } ;
-                      state = DONE ;
+                        }
+                        state = DONE ;
                     }
                   else 
                     { addNextChar();
                       TokenizingError("Illegal lexeme");
-                    } ;
+                    }
                   break;
 
                 case ID :
@@ -1034,8 +1034,8 @@ public class TokenizeSpec
                   else 
                     { TokenOut(Token.IDENT) ;
                       gotoStart();
-                    };
-                  break;          
+                    }
+                    break;
                 case ID_OR_PCAL_LABEL :
                     while (Misc.IsSpace(nextChar)) {
                         addNextChar();
@@ -1122,8 +1122,8 @@ public class TokenizeSpec
                     }
                   else 
                     { state = BSBUILT_IN;
-                    };
-                  break;
+                    }
+                    break;
 
                 case NUM :
                   if (Misc.IsDigit(nextChar))
@@ -1137,7 +1137,7 @@ public class TokenizeSpec
                        }
                       else
                        { state = ID;
-                       };
+                       }
                     }
                   else 
                     { TokenOut(Token.NUMBER) ;
@@ -1159,8 +1159,8 @@ public class TokenizeSpec
                     }
                   else 
                     { TokenizingError("Illegal lexeme ");
-                    } ;
-                   break;
+                    }
+                    break;
 
                 case BUILT_IN :
                   if (BuiltInSymbols.IsBuiltInPrefix(token + nextChar, inPcal))
@@ -1176,12 +1176,12 @@ public class TokenizeSpec
                         { reader.backspace();
                           if (token.length() == 0)
                             { TokenizingError("Illegal lexeme");
-                            };
-                          token = token.substring(0, token.length()-1);
-                        } ;
-                        nextChar = reader.getNextChar();
-                      } ;
-                      final boolean saved = BuiltInSymbols.CanPrecedeLabel(token) ;
+                            }
+                            token = token.substring(0, token.length()-1);
+                        }
+                          nextChar = reader.getNextChar();
+                      }
+                        final boolean saved = BuiltInSymbols.CanPrecedeLabel(token) ;
                       TokenOut(Token.BUILTIN) ;
                       canBeLabel = saved ;
                       gotoStart();
@@ -1347,8 +1347,8 @@ public class TokenizeSpec
                     }
                   else
                     { if (cdepth == 0) {addNextChar();}
-                        else {skipNextChar();} ;
-                      state = LINE_COMMENT;
+                        else {skipNextChar();}
+                        state = LINE_COMMENT;
                     }
                   break;
 
@@ -1359,8 +1359,8 @@ public class TokenizeSpec
                       state = LINE_COMMENT;
                     }
                   else
-                    { if (cdepth == 0) {token = token + "(";} ;
-                      state = LINE_COMMENT;
+                    { if (cdepth == 0) {token = token + "(";}
+                        state = LINE_COMMENT;
                     }
                   break;
 
@@ -1373,8 +1373,8 @@ public class TokenizeSpec
                       state = LINE_COMMENT;
                     }
                   else
-                    { if (cdepth == 0) {token = token + "*";} ;
-                      state = LINE_COMMENT;
+                    { if (cdepth == 0) {token = token + "*";}
+                        state = LINE_COMMENT;
                     }
                   break;
 
@@ -1409,8 +1409,8 @@ public class TokenizeSpec
                     }
                   else
                     { if (cdepth == 1) {addNextChar();}
-                        else {skipNextChar();};
-                      // state = COMMENT ;
+                        else {skipNextChar();}
+                        // state = COMMENT ;
                     }
                   break;
 
@@ -1427,8 +1427,8 @@ public class TokenizeSpec
                         }
                     }
                   else
-                    { if (cdepth == 1) {token = token + "*";};
-                      state = COMMENT;
+                    { if (cdepth == 1) {token = token + "*";}
+                        state = COMMENT;
                     }
                   break;
 
@@ -1533,8 +1533,8 @@ public class TokenizeSpec
                       state = COMMENT;
                     }
                   else
-                    { if (cdepth == 1) {token = token + "(";};
-                      state = COMMENT;
+                    { if (cdepth == 1) {token = token + "(";}
+                        state = COMMENT;
                     }
                   break;
 
@@ -1569,8 +1569,8 @@ public class TokenizeSpec
                     }
                   else
                     { if (cdepth == 1) {addNextChar();}
-                        else {skipNextChar();};
-                      // state = OR_COMMENT ;
+                        else {skipNextChar();}
+                        // state = OR_COMMENT ;
                     }
                   break;
 
@@ -1588,8 +1588,8 @@ public class TokenizeSpec
                         }
                     }
                   else
-                    { if (cdepth == 1) {token = token + "*";};
-                      state = OR_COMMENT;
+                    { if (cdepth == 1) {token = token + "*";}
+                        state = OR_COMMENT;
                     }
                   break;
 
@@ -1600,8 +1600,8 @@ public class TokenizeSpec
                       state = OR_COMMENT;
                     }
                   else
-                    { if (cdepth == 1) {token = token + "(";};
-                      state = OR_COMMENT;
+                    { if (cdepth == 1) {token = token + "(";}
+                        state = OR_COMMENT;
                     }
                   break;
 
@@ -1639,7 +1639,7 @@ public class TokenizeSpec
                         }
                       else
                         { // state = PROLOG_DASH
-                        } ;
+                        }
                     }
                   else 
                     { token = token1 + token ;
@@ -1728,8 +1728,8 @@ public class TokenizeSpec
                     "Illegal state in TokenizeSpec.Tokenize");
                   // break;
 
-              } ;  // ends switch
-         } ; // ends while
+              } // ends switch
+         } // ends while
 
         /*
          * Prevent null pointer exception in PlusCal algorithm that was

@@ -29,22 +29,22 @@ public class Position
   { public int line = -1 ;
     public int item = 0  ;
 
-    Position() { } ;
+    Position() { }
 
-    Position(final int line, final int item)
+      Position(final int line, final int item)
       {this.line = line ;
        this.item = item ;
-      };
+      }
 
-    public Token toToken(final Token[][] spec)
+      public Token toToken(final Token[][] spec)
       { Debug.Assert(   (line < spec.length) 
                      && (line >= 0) 
                      && (item < spec[line].length),
                      "toToken method of Position called with bad object");
         return spec[line][item];
-      };
+      }
 
-    public boolean equals(final Position pos) {
+      public boolean equals(final Position pos) {
           return (this.line == pos.line) && (this.item == pos.item) ; 
       }
 
@@ -56,7 +56,7 @@ public class Position
       { if (line == -1) 
           { return "nil" ;}
         return "(" + line + ", " + item +")" ;
-      } ;
+      }
   }
 
 /* last modified on Thu 18 Aug 2005 at 22:12:43 UT by lamport */

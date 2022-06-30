@@ -62,18 +62,21 @@ public class LeafProofNode extends ProofNode {
     this.defs    = theDefs ;
     this.omitted = omit ;
     this.isOnly = only ;
-   } ;
+   }
 
 
-  /*************************************************************************
+    /*************************************************************************
   * Methods that return the values of the fields.                          *
   *************************************************************************/
-  public LevelNode[]  getFacts() {return facts ; } ;
-  public SymbolNode[] getDefs() {return defs ;} ;
-  public boolean getOmitted() {return omitted ;} ;
-  public boolean getOnlyFlag() {return isOnly ;} ;
+  public LevelNode[]  getFacts() {return facts ; }
 
-  @Override
+    public SymbolNode[] getDefs() {return defs ;}
+
+    public boolean getOmitted() {return omitted ;}
+
+    public boolean getOnlyFlag() {return isOnly ;}
+
+    @Override
   public boolean levelCheck(final int iter) {
     /***********************************************************************
     * Level checking is performed by level-checking the facts.  Since the  *
@@ -108,8 +111,8 @@ public class LeafProofNode extends ProofNode {
     visitor.preVisit(this);
     for (int  i = 0; i < facts.length; i++) {
       facts[i].walkGraph(semNodesTable, visitor);
-      } ;
-    /***********************************************************************
+      }
+      /***********************************************************************
     * Note: there's no need to walk the defs array because all the nodes   *
     * on it are walked from the nodes under which they appear.             *
     ***********************************************************************/
@@ -124,12 +127,12 @@ public class LeafProofNode extends ProofNode {
                   + Strings.indent(2, "\nfacts:") ;
     for (int i = 0 ; i < this.facts.length; i++) {
         ret += Strings.indent(4, this.facts[i].toString(depth-1)) ;
-      } ;
-    ret += Strings.indent(2, "\ndefs:") ;
+      }
+      ret += Strings.indent(2, "\ndefs:") ;
     for (int i = 0 ; i < this.defs.length; i++) {
         ret += Strings.indent(4, this.defs[i].toString(depth-1)) ;
-      } ;
-    ret += Strings.indent(2, "\nomitted: " + this.omitted)
+      }
+      ret += Strings.indent(2, "\nomitted: " + this.omitted)
             + Strings.indent(2, "\nonlyFlag: " + this.isOnly);
     return ret;
    }

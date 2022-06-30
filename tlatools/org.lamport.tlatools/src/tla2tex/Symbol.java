@@ -71,9 +71,9 @@ public class Symbol
         symbolType    = stype ;
         alignmentType = atype ;
         pcal          = false ;
-      };
+      }
 
-    public Symbol(final String tla, final String tex, final int stype, final int atype, final boolean plusCal)
+      public Symbol(final String tla, final String tex, final int stype, final int atype, final boolean plusCal)
       /*********************************************************************
       * The constructor used for a PlusCal Symbol object.                  *
       *********************************************************************/
@@ -82,7 +82,7 @@ public class Symbol
         symbolType    = stype ;
         alignmentType = atype ;
         pcal          = plusCal ;
-      };
+      }
 
       public String toString() 
       /*********************************************************************
@@ -92,7 +92,7 @@ public class Symbol
                  + ", TeXString |-> " + TeXString
                  + ", symbolType |-> " + symbolType
                  + ", alignmentType |-> " + alignmentType + "]";
-      };  
+      }
 
   }
 

@@ -66,27 +66,27 @@ public final class Misc
                 while (exponent > 0)
                  { multiplier = multiplier * 10 ;
                    exponent = exponent - 1;
-                 } ;
-                return ((float) Long.parseLong(substr)) * multiplier ;
-              } ;
-            return (float) Long.parseLong(str); 
-         } ;
-       String strMinusPoint 
+                 }
+                  return ((float) Long.parseLong(substr)) * multiplier ;
+              }
+             return (float) Long.parseLong(str);
+         }
+         String strMinusPoint
          = str.substring(0,pointPos) + str.substring(pointPos + 1) ;
        Debug.Assert(strMinusPoint.length() > 0, 
                   "stringToFloat called with the string \".\"");
        if (strMinusPoint.length() > 18)
-         { strMinusPoint = strMinusPoint.substring(0,18);};
-       long divisor = 1;
+         { strMinusPoint = strMinusPoint.substring(0,18);}
+         long divisor = 1;
        long exponent = strMinusPoint.length() - pointPos;
        while (exponent > 0)
         { divisor = divisor * 10 ;
           exponent = exponent - 1;
-        } ;
-      return ((float) Long.parseLong(strMinusPoint)) / divisor ;
-     } ;
+        }
+         return ((float) Long.parseLong(strMinusPoint)) / divisor ;
+     }
 
-  public static String floatToString(final float f, final int d)
+    public static String floatToString(final float f, final int d)
     /***********************************************************************
     * Converts the float f to a string of the form "xxx.yyyyy", where the  *
     * number of digits in yyyyy is at most d.                              *
@@ -100,9 +100,9 @@ public final class Misc
       while (i > 0)
        { tenToTheMinusD = tenToTheMinusD / 10 ;
          i = i-1 ;
-       } ;
-      if (f <= tenToTheMinusD) {return "0";} ;
-      if (ePos != -1)
+       }
+        if (f <= tenToTheMinusD) {return "0";}
+        if (ePos != -1)
         { shiftRight = Integer.parseInt(fStr.substring(ePos + 1));
           fStr = fStr.substring(0, ePos);
           ptPos = fStr.indexOf(".") ;
@@ -111,14 +111,14 @@ public final class Misc
           while (ptPos < 0)
            { fStr = "0" + fStr;
              ptPos = ptPos + 1;
-           } ;
-          while (ptPos > fStr.length())
+           }
+            while (ptPos > fStr.length())
            { fStr = fStr + "0" ;
-           } ;
-          if (ptPos != fStr.length())
+           }
+            if (ptPos != fStr.length())
            { fStr = fStr.substring(0, ptPos) + "." + fStr.substring(ptPos);
            }
-        } ; // END if (ePos != -1)
+        } // END if (ePos != -1)
       ptPos = fStr.indexOf(".") ;
       if (ptPos == -1) {return fStr;}
       while (fStr.length() - ptPos > d+1)
@@ -157,9 +157,9 @@ public final class Misc
 
        if (lastSpace == -1)
         { lastSpace = restOfString.indexOf(' ');
-        };
+        }
 
-       if (lastSpace <= Parameters.MaxOutputLineLength / 4)
+         if (lastSpace <= Parameters.MaxOutputLineLength / 4)
         { done = true ; 
         }
        else
@@ -173,17 +173,17 @@ public final class Misc
           restOfString = restOfString.substring(lastSpace);
           if (! outputLine.equals(""))
             { output.putLine(" " + outputLine);
-            } ;
-        } ;
-     };
-    if (cut)
+            }
+        }
+     }
+      if (cut)
       { restOfString = EliminateLeadingBlanks(restOfString) ;
         if (! restOfString.equals(""))
-         { output.putLine(" " + restOfString); };
+         { output.putLine(" " + restOfString); }
       } 
     else
      { output.putLine(restOfString); 
-     };
+     }
   }  
 
   public static String EliminateLeadingBlanks(final String str)
@@ -193,8 +193,8 @@ public final class Misc
     { int firstNonBlank = 0 ;
       while (   (firstNonBlank < str.length())
              && (str.charAt(firstNonBlank) == ' '))
-        { firstNonBlank = firstNonBlank + 1; } ;
-      return str.substring(firstNonBlank) ;
+        { firstNonBlank = firstNonBlank + 1; }
+        return str.substring(firstNonBlank) ;
     }
     
   public static String TeXify(final String str)
@@ -247,10 +247,10 @@ public final class Misc
                break ;
              default :
                result = result + str.charAt(pos) ;
-            } ;
-        pos = pos + 1 ;
-       } ;
-      return result ;
+            }
+           pos = pos + 1 ;
+       }
+        return result ;
     }    
 
   public static String TeXifyIdent(final String str)
@@ -266,10 +266,10 @@ public final class Misc
           }
          else
           { out = out.substring(0, nextUS) + "\\_" + out.substring(nextUS+1);
-          } ;
-         nextUS = out.indexOf("_", nextUS + 2) ;
-       };
-      return out ;
+          }
+           nextUS = out.indexOf("_", nextUS + 2) ;
+       }
+        return out ;
     }
 
   /**
@@ -349,11 +349,11 @@ public final class Misc
         else
           { newStr = newStr + ch;
             lineLen = lineLen + 1;
-          } ;
-        nextChar = nextChar + 1 ;
-      };
-    return newStr ;
-   } ;
+          }
+          nextChar = nextChar + 1 ;
+      }
+      return newStr ;
+   }
 
     public static boolean IsLetter(final char c)
       /*********************************************************************
@@ -361,9 +361,9 @@ public final class Misc
       *********************************************************************/
       { return      ( ('a' <= c ) && (c <= 'z') )
                  || ( ('A' <= c ) && (c <= 'Z') )
-                 || ( c == '_' ) ;} ;
+                 || ( c == '_' ) ;}
 
-                 
+
     public static boolean hasLetter(final String str) {
        boolean notFound = true ;
        int i = 0 ;
@@ -380,17 +380,17 @@ public final class Misc
       /*********************************************************************
       * True iff c is a digit.                                             *
       *********************************************************************/
-      { return ('0' <= c ) && (c <= '9'); } ;
+      { return ('0' <= c ) && (c <= '9'); }
 
     public static boolean IsSpace(final char c)
       /*********************************************************************
       * True iff c is a space character--that is, one of the following:    *
       * \f, \r, or ' '.  A \n is not considered a space character.         *
       *********************************************************************/
-      { return  (c == ' ')  | (c == '\f') | (c == '\r') ; } ;
+      { return  (c == ' ')  | (c == '\f') | (c == '\r') ; }
 
 
-  public static boolean isBlank(final String str)
+    public static boolean isBlank(final String str)
     /***********************************************************************
     * True iff str has nothing but space characters.                       *
     ***********************************************************************/
@@ -407,8 +407,8 @@ public final class Misc
              && result)
        { final char c = str.charAt(i);
          if (('a' >  c ) || ( c > 'z'))
-           { result = false ; };
-         i = i+1;
+           { result = false ; }
+           i = i+1;
        }
       return result;
     }
@@ -423,8 +423,8 @@ public final class Misc
              && result)
        { final char c = str.charAt(i);
          if (('A' >  c ) || ( c > 'Z'))
-           { result = false ; };
-         i = i+1;
+           { result = false ; }
+           i = i+1;
        }
       return result;
     }
@@ -437,8 +437,8 @@ public final class Misc
     { if (str.length() > 0)
        { final char c = str.charAt(0);
          return  ('A' <= c ) && (c <= 'Z') && IsLowerCase(str.substring(1));
-       } ;
-      return false;
+       }
+        return false;
     }
 
 }

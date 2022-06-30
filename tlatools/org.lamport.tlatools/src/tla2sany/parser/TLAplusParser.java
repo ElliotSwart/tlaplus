@@ -333,7 +333,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
           i.endColumn = t.endColumn;
           i.next = t.next;
           t.next = i;
-         } ;
+         }
         break;  /* EXIT while */
       } else {
         /*******************************************************************
@@ -459,14 +459,14 @@ Operator lastOp;
     * arguments is an OpArgs node whose child is a GeneralId node with an  *
     * empty IdPrefix.                                                      *
     ***********************************************************************/
-    if (node == null) {return false;} ;
+    if (node == null) {return false;}
     if (node.isKind(N_GeneralId)) {
         return (node.heirs()[0].heirs().length == 0) ;
-       } ;
-    if (! node.isKind(N_OpApplication)) {return false;} ;
+       }
+    if (! node.isKind(N_OpApplication)) {return false;}
     final SyntaxTreeNode opArgs = (SyntaxTreeNode) node.heirs()[1] ;
-if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
-        /*******************************************************************
+if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); }
+    /*******************************************************************
         * Sanity check--can be removed after debugging.                    *
         *******************************************************************/
     for (int i = 1; i < opArgs.heirs().length; i = i+2) {
@@ -476,7 +476,7 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
       *     "("   arg_1   ","  ...  ","   arg_N   ")"                      *
       *********************************************************************/
       final SyntaxTreeNode genId = (SyntaxTreeNode) opArgs.heirs()[i] ;
-      if (genId.kind != N_GeneralId) {return false;} ;
+      if (genId.kind != N_GeneralId) {return false;}
       if (genId.heirs()[0].heirs().length != 0){return false;}
      } // for
     return true;
@@ -494,10 +494,10 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
     *   /\ it is not the case that stackOp \prec labelOp.                  *
     ***********************************************************************/
     if ( ! (   labeledExpr.isKind(N_InfixExpr)
-            || labeledExpr.isKind(N_PostfixExpr) ) ) {return true;} ;
+            || labeledExpr.isKind(N_PostfixExpr) ) ) {return true;}
 
     final OSelement topNode = OperatorStack.topOfStack();
-    if (topNode == null) {return true;} ;
+    if (topNode == null) {return true;}
     final Operator stackOp = topNode.getOperator() ;
     return (stackOp == null) || Operator.prec(stackOp, labelOp) ;
   }
@@ -521,11 +521,11 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
               "Item at " + child.getLocation().toString() +
               " is not properly indented inside conjunction or " +
               " disjunction list item at " + junct.getLocation().toString()) ;
-          } ;
-         checkIndentation(child, junct) ;
-       } ;
-     } ;
+          }
+        checkIndentation(child, junct) ;
+       }
     }
+  }
 
 
 
@@ -786,8 +786,8 @@ private int levelOfProofStepLexeme(final Token tok){
   * for "*" and -2 for "*".                                                *
   *************************************************************************/
   final String im = tok.image ;
-  if (im.substring(1,2).equals("*")) {return -1;} ;
-  if (im.substring(1,2).equals("+")) {return -2;} ;
+  if (im.substring(1,2).equals("*")) {return -1;}
+  if (im.substring(1,2).equals("+")) {return -2;}
   return Integer.valueOf(im.substring(1, im.indexOf('>'))).intValue() ;
     /***********************************************************************
     * The ".intValue()" added by SZ because Java 1.4 doesn't support       *
@@ -819,11 +819,11 @@ private UniqueString correctedStepNum(final Token t) {
     str = "<" + level + str.substring(2) ;
    }
   else {str = "<" + levelOfProofStepLexeme(t) + str.substring(str.indexOf('>'));
-   } ;
+   }
   return UniqueString.uniqueStringOf(str) ;
-  } ;
+  }
 
-private void pushProofLevel() throws ParseException {
+  private void pushProofLevel() throws ParseException {
   /*************************************************************************
   * Called to begin the processing of a new proof level.  It increments    *
   * proofDepth and sets the proofLevelStack entry to -1.                   *
@@ -832,26 +832,26 @@ private void pushProofLevel() throws ParseException {
   if (proofDepth >= MaxProofDepth) {
     throw new ParseException("Proofs nested more than " +
                              MaxProofDepth + "deep.") ;
-   } ;
-  proofLevelStack[proofDepth] = -1 ;
+   }
+    proofLevelStack[proofDepth] = -1 ;
  }
 
 private void popProofLevel() throws ParseException {
   if (proofDepth < 0) {
     throw new ParseException("Parser bug: an extra QED step found." ) ;
-   } ;
+   }
   proofDepth-- ;
  }
 
 private void setProofLevel(final int val) throws ParseException {
   if (proofDepth < 0) {
     throw new ParseException("Parser bug: proof step found outside proof." ) ;
-   } ;
+   }
   proofLevelStack[proofDepth] = val;
  }
 
 private int getProofLevel() {
-  if (proofDepth < 0) { return proofDepth; } ;
+  if (proofDepth < 0) { return proofDepth; }
   return proofLevelStack[proofDepth]; }
 
 private boolean beginsProof(final Token tok) {
@@ -865,15 +865,15 @@ private boolean beginsProof(final Token tok) {
     /***********************************************************************
     * This can happen if the user makes a weird error.                     *
     ***********************************************************************/
-  if (im.substring(1,2).equals("*")) {return (proofDepth < 0);} ;
+  if (im.substring(1,2).equals("*")) {return (proofDepth < 0);}
 
-  if (im.substring(1,2).equals("+")) {return true ;} ;
+  if (im.substring(1,2).equals("+")) {return true ;}
   switch (tok.kind) {
     case ProofStepLexeme :
     case BareLevelLexeme :
     case UnnumberedStepLexeme :
     case ProofStepDotLexeme :
-      if (proofDepth < 0) {return true ;} ;
+      if (proofDepth < 0) {return true ;}
       final int tokLevel = levelOfProofStepLexeme(tok) ;
       return    (proofLevelStack[proofDepth] >= 0)
              && (tokLevel > proofLevelStack[proofDepth]) ;
@@ -882,7 +882,7 @@ private boolean beginsProof(final Token tok) {
     case OBVIOUS :
     case OMITTED :
       return true ;
-   }; // switch
+   }// switch
   return false ;
  }
 
@@ -910,7 +910,7 @@ private boolean correctLevel(final Token tok) {
       *********************************************************************/
       if (proofLevelStack[proofDepth] < 0) {
         proofLevelStack[proofDepth] = lastLevel + 1 ;
-       } ;
+       }
       return true ;
 
     case -2 :
@@ -1375,7 +1375,6 @@ final Token t;
       break;
     default:
       jj_la1[4] = jj_gen;
-      ;
     }
     tempASTN = Module();
                         token_source.SwitchTo(0);
@@ -1391,7 +1390,6 @@ final Token t;
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case NUMBER:
       case IDENTIFIER:
-        ;
         break;
       default:
         jj_la1[5] = jj_gen;
@@ -1492,7 +1490,6 @@ final Token t;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[8] = jj_gen;
@@ -1509,7 +1506,6 @@ final Token t;
       break;
     default:
       jj_la1[9] = jj_gen;
-      ;
     }
     final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_Extends, sn );}
@@ -1526,7 +1522,6 @@ final Token t;
     label_3:
     while (true) {
       if (jj_2_1(1)) {
-        ;
       } else {
         break label_3;
       }
@@ -1603,7 +1598,6 @@ final Token t;
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case COMMA:
-        ;
         break;
       default:
         jj_la1[13] = jj_gen;
@@ -1636,7 +1630,6 @@ final Token t;
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case COMMA:
-        ;
         break;
       default:
         jj_la1[14] = jj_gen;
@@ -1692,7 +1685,6 @@ final Token t;
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case COMMA:
-        ;
         break;
       default:
         jj_la1[15] = jj_gen;
@@ -1744,7 +1736,6 @@ expecting = "comma or )";
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case COMMA:
-            ;
             break;
           default:
             jj_la1[16] = jj_gen;
@@ -1760,7 +1751,6 @@ expecting = "comma or )";
         t = jj_consume_token(RBR);
                   addHeir( new SyntaxTreeNode( mn, t) ) ;
       } else {
-        ;
       }
       break;
     case op_76:
@@ -1944,7 +1934,6 @@ expecting = "_";
       break;
     default:
       jj_la1[19] = jj_gen;
-      ;
     }
     t = jj_consume_token(DEFBREAK);
   expecting = "LOCAL, Identifier or Operator Symbol";
@@ -1963,7 +1952,6 @@ expecting = "COMMA or ]";
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[20] = jj_gen;
@@ -2079,7 +2067,6 @@ expecting = "COMMA or >>";
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[23] = jj_gen;
@@ -2095,7 +2082,6 @@ expecting = "COMMA or >>";
       break;
     default:
       jj_la1[24] = jj_gen;
-      ;
     }
     t = jj_consume_token(RAB);
                addHeir( new SyntaxTreeNode(mn, t) );
@@ -2145,7 +2131,6 @@ expecting = "COMMA or )";
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[26] = jj_gen;
@@ -2185,7 +2170,6 @@ expecting = "COMMA or )";
       break;
     default:
       jj_la1[28] = jj_gen;
-      ;
     }
     final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_IdentLHS, sn);}
@@ -2253,7 +2237,6 @@ expecting = "COMMA or )";
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[29] = jj_gen;
@@ -2271,7 +2254,6 @@ expecting = "COMMA or )";
       break;
     default:
       jj_la1[30] = jj_gen;
-      ;
     }
     final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_IdentDecl, sn);}
@@ -2457,7 +2439,6 @@ expecting = "LOCAL or instance";
       break;
     default:
       jj_la1[33] = jj_gen;
-      ;
     }
     tn = Instantiation();
                          addHeir( tn );
@@ -2490,7 +2471,6 @@ expecting = emptyString;
       label_12:
       while (true) {
         if (jj_2_12(3)) {
-          ;
         } else {
           break label_12;
         }
@@ -2504,7 +2484,6 @@ expecting = emptyString;
       break;
     default:
       jj_la1[34] = jj_gen;
-      ;
     }
     final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_NonLocalInstance, sn);}
@@ -2742,7 +2721,6 @@ expecting = "ASSUM...";
         break;
       default:
         jj_la1[39] = jj_gen;
-        ;
       }
       /* A DEFBREAK might get added here by belchDEF */
           tn = Identifier();
@@ -2753,7 +2731,6 @@ expecting = "==";
                        // an extra <DEFBREAK> to be inserted, producing an error.
                        addHeir( new SyntaxTreeNode(mn, t) );
     } else {
-      ;
     }
      belchDEF();
 expecting = "Expression";
@@ -2823,7 +2800,6 @@ expecting = "Expression";
       break;
     default:
       jj_la1[40] = jj_gen;
-      ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case ASSUME:
@@ -2873,7 +2849,6 @@ expecting = "PROVE or `,'";
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case COMMA:
-        ;
         break;
       default:
         jj_la1[43] = jj_gen;
@@ -2986,15 +2961,14 @@ expecting = "Expression";
                         {if (true) throw new ParseException(
                           "declared symbol with arguments before \\in at "
                            + tn.getLocation().toString());}
-                        } ;
-                      addHeir(new SyntaxTreeNode(mn, t) );
+                        }
+          addHeir(new SyntaxTreeNode(mn, t) );
                       expecting = "Expression";
           tn = Expression();
                                addHeir (tn) ;
           break;
         default:
           jj_la1[47] = jj_gen;
-          ;
         }
       } else {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -3027,7 +3001,6 @@ expecting = "Expression";
         break;
       default:
         jj_la1[49] = jj_gen;
-        ;
       }
       t = jj_consume_token(VARIABLE);
                       addHeir(new SyntaxTreeNode(mn, t) );
@@ -3049,7 +3022,6 @@ expecting = "Expression";
         break;
       default:
         jj_la1[50] = jj_gen;
-        ;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case STATE:
@@ -3162,7 +3134,6 @@ expecting = "Expression";
       break;
     default:
       jj_la1[53] = jj_gen;
-      ;
     }
     epa(); {if (true) return new SyntaxTreeNode( mn, N_MaybeBound, zn);}
     throw new Error("Missing return statement in function");
@@ -3203,7 +3174,6 @@ expecting = "==";
                        // an extra <DEFBREAK> to be inserted, producing an error.
                        addHeir( new SyntaxTreeNode(mn, t) );
     } else {
-      ;
     }
     belchDEF();
     if (jj_2_24(3)) {
@@ -3225,7 +3195,6 @@ expecting = "==";
       tn = Proof();
        addHeir(tn) ;
     } else {
-      ;
     }
    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_Theorem, sn);}
@@ -3311,7 +3280,6 @@ expecting = "==";
         break;
       default:
         jj_la1[55] = jj_gen;
-        ;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case OBVIOUS:
@@ -3334,19 +3302,17 @@ expecting = "==";
      else {
        sn = new SyntaxTreeNode[1];
        sn[0] = new SyntaxTreeNode(mn, t);
-      };
-     tn = new SyntaxTreeNode(mn, N_TerminalProof, sn );
+      }
+      tn = new SyntaxTreeNode(mn, N_TerminalProof, sn );
     } else if (jj_2_28(1)) {
       if (jj_2_26(2)) {
         t = jj_consume_token(PROOF);
                   addHeir(new SyntaxTreeNode(mn, t));
       } else {
-        ;
       }
       label_14:
       while (true) {
         if (getToken(2).kind != QED) {
-          ;
         } else {
           break label_14;
         }
@@ -3393,7 +3359,6 @@ expecting = "==";
         break;
       default:
         jj_la1[57] = jj_gen;
-        ;
       }
       t = jj_consume_token(BY);
                  kind = N_TerminalProof;
@@ -3405,7 +3370,6 @@ expecting = "==";
         break;
       default:
         jj_la1[58] = jj_gen;
-        ;
       }
       break;
     case USE:
@@ -3418,7 +3382,6 @@ expecting = "==";
         break;
       default:
         jj_la1[59] = jj_gen;
-        ;
       }
       break;
     case HIDE:
@@ -3454,7 +3417,6 @@ expecting = "==";
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[62] = jj_gen;
@@ -3482,10 +3444,9 @@ expecting = "==";
           }
         }
          if (kind == N_TerminalProof) { expecting = "comma, DEF, or [.]"; }
-         else {expecting = "comma, DEF, or proof step";};
+         else {expecting = "comma, DEF, or proof step";}
       }
     } else {
-      ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case DF:
@@ -3514,7 +3475,6 @@ expecting = "==";
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[65] = jj_gen;
@@ -3542,14 +3502,13 @@ expecting = "==";
           }
         }
           if (kind == N_TerminalProof) { expecting = "comma or [.]"; }
-         else {expecting = "comma or proof step" ; };
+         else {expecting = "comma or proof step" ; }
       }
       break;
     default:
       jj_la1[67] = jj_gen;
-      ;
     }
-    if (kind == N_TerminalProof) {expecting = "[.]";};
+    if (kind == N_TerminalProof) {expecting = "[.]";}
     final SyntaxTreeNode[] sn = getLastHeirs();
     epa();
     {if (true) return new SyntaxTreeNode(mn, kind, sn );}
@@ -3598,14 +3557,14 @@ expecting = "==";
       if (!correctLevel(t)) {
          {if (true) throw new ParseException(tn.getLocation().toString() +
              ": QED step's number has bad level." );}
-       };
-      if (   (t.kind == ProofImplicitStepLexeme)
+       }
+    if (   (t.kind == ProofImplicitStepLexeme)
           || (t.kind == ProofStepLexeme)
           || (t.kind == ProofStepDotLexeme)) {
         tn.originalImage = tn.image ;
         tn.image = correctedStepNum(t) ;
 // ToolIO.out.println("correcting " + tn.originalImage) ;
-       } ;
+       }
 // ToolIO.out.println("xyz: t.image = " + t.image + ", correctedImage = " 
 // + tn.image + ", t.kind = " + t.kind ) ;
 
@@ -3619,7 +3578,6 @@ expecting = "==";
       tn = Proof();
        addHeir(tn) ;
     } else {
-      ;
     }
      sn = getLastHeirs();
      epa();
@@ -3654,13 +3612,13 @@ expecting = "==";
       if (!correctLevel(t)) {
          {if (true) throw new ParseException(tn.getLocation().toString() +
              ": step's number has bad level." );}
-        };
-      if (   (t.kind == ProofImplicitStepLexeme)
+        }
+    if (   (t.kind == ProofImplicitStepLexeme)
           || (t.kind == ProofStepLexeme)
           || (t.kind == ProofStepDotLexeme)) {
         tn.originalImage = tn.image ;
         tn.image = correctedStepNum(t) ;
-       } ;
+       }
 // ToolIO.out.println("xyz2: t.image = " + t.image + ", correctedImage = " 
 // + tn.image + ", t.kind = " + t.kind ) ;
       addHeir(tn) ;
@@ -3712,11 +3670,10 @@ expecting = "==";
       if (! mayHaveProof) {
          {if (true) throw new ParseException(tn.getLocation().toString() +
              ": proof of step that does not take a proof." );}
-        } ;
+        }
       tn = Proof();
                     addHeir(tn) ;
     } else {
-      ;
     }
     final SyntaxTreeNode[] sn = getLastHeirs();
      epa();
@@ -3740,14 +3697,12 @@ expecting = "==";
       break;
     default:
       jj_la1[70] = jj_gen;
-      ;
     }
     label_17:
     while (true) {
       tn = OperatorOrFunctionDefinition();
                                            addHeir(tn) ;
       if (jj_2_35(2)) {
-        ;
       } else {
         break label_17;
       }
@@ -3797,7 +3752,6 @@ expecting = "==";
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[71] = jj_gen;
@@ -3820,7 +3774,6 @@ expecting = "==";
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case COMMA:
-            ;
             break;
           default:
             jj_la1[72] = jj_gen;
@@ -3865,7 +3818,6 @@ expecting = "==";
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case COMMA:
-        ;
         break;
       default:
         jj_la1[74] = jj_gen;
@@ -3904,7 +3856,6 @@ expecting = "==";
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[75] = jj_gen;
@@ -3928,7 +3879,6 @@ expecting = "==";
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case COMMA:
-            ;
             break;
           default:
             jj_la1[76] = jj_gen;
@@ -3994,7 +3944,6 @@ expecting = "==";
       break;
     default:
       jj_la1[78] = jj_gen;
-      ;
     }
     if (jj_2_38(1)) {
       tn = Expression();
@@ -4190,7 +4139,6 @@ expecting = "==";
     label_23:
     while (true) {
       if (jj_2_39(2147483647)) {
-        ;
       } else {
         break label_23;
       }
@@ -4215,7 +4163,6 @@ expecting = "==";
       break;
     default:
       jj_la1[79] = jj_gen;
-      ;
     }
     t = jj_consume_token(BANG);
                addHeir( new SyntaxTreeNode(mn, t) );
@@ -4604,7 +4551,6 @@ expecting = "==";
       t1 = jj_consume_token(NUMBER_LITERAL);
      sn[2] = new SyntaxTreeNode(mn,t1);
     } else {
-      ;
     }
     if (sn == null) {
       numberFlag = true;
@@ -4769,7 +4715,6 @@ expecting = "==";
         break;
       default:
         jj_la1[84] = jj_gen;
-        ;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case BANG:
@@ -4789,7 +4734,6 @@ expecting = "==";
         break;
       default:
         jj_la1[85] = jj_gen;
-        ;
       }
       if ( last == null ) {
          if ( top == null ) {
@@ -4836,7 +4780,6 @@ expecting = "==";
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case COMMA:
-        ;
         break;
       default:
         jj_la1[87] = jj_gen;
@@ -5066,7 +5009,7 @@ final int kind ;
             {if (true) throw new ParseException(
                         tn.getLocation().toString() +
                         ": \\X may not be used as an infix operator.");}
-           };
+           }
         break;
       case op_57:
       case op_68:
@@ -5204,7 +5147,6 @@ final SyntaxTreeNode tn;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[90] = jj_gen;
@@ -5226,7 +5168,6 @@ final SyntaxTreeNode tn;
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case COMMA:
-            ;
             break;
           default:
             jj_la1[91] = jj_gen;
@@ -5276,7 +5217,6 @@ final SyntaxTreeNode tn;
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case COMMA:
-        ;
         break;
       default:
         jj_la1[94] = jj_gen;
@@ -5312,7 +5252,6 @@ final SyntaxTreeNode tn;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[95] = jj_gen;
@@ -5431,7 +5370,6 @@ final SyntaxTreeNode tn;
                             addHeir( tn );
               switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
               case COMMA:
-                ;
                 break;
               default:
                 jj_la1[98] = jj_gen;
@@ -5447,7 +5385,6 @@ final SyntaxTreeNode tn;
           break;
         default:
           jj_la1[100] = jj_gen;
-          ;
         }
       } else if (jj_2_45(2147483647)) {
         tn = Expression();
@@ -5457,7 +5394,6 @@ final SyntaxTreeNode tn;
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case COMMA:
-            ;
             break;
           default:
             jj_la1[101] = jj_gen;
@@ -5480,7 +5416,6 @@ final SyntaxTreeNode tn;
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case COMMA:
-            ;
             break;
           default:
             jj_la1[102] = jj_gen;
@@ -5524,7 +5459,6 @@ final SyntaxTreeNode tn;
             while (true) {
               switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
               case COMMA:
-                ;
                 break;
               default:
                 jj_la1[103] = jj_gen;
@@ -5546,7 +5480,6 @@ final SyntaxTreeNode tn;
                             addHeir( tn );
               switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
               case COMMA:
-                ;
                 break;
               default:
                 jj_la1[104] = jj_gen;
@@ -5562,14 +5495,12 @@ final SyntaxTreeNode tn;
           break;
         default:
           jj_la1[106] = jj_gen;
-          ;
         }
       } else {
         jj_consume_token(-1);
         throw new ParseException();
       }
     } else {
-      ;
     }
     t = jj_consume_token(RBC);
     if (htn!=null) addHeir(htn);
@@ -5595,7 +5526,6 @@ final SyntaxTreeNode tn;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[107] = jj_gen;
@@ -5621,7 +5551,6 @@ final SyntaxTreeNode tn;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[108] = jj_gen;
@@ -5643,7 +5572,6 @@ final SyntaxTreeNode tn;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[109] = jj_gen;
@@ -5665,7 +5593,6 @@ final SyntaxTreeNode tn;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[110] = jj_gen;
@@ -5688,7 +5615,6 @@ final SyntaxTreeNode tn;
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case COMMA:
-            ;
             break;
           default:
             jj_la1[111] = jj_gen;
@@ -5725,7 +5651,6 @@ final SyntaxTreeNode tn;
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case COMMA:
-            ;
             break;
           default:
             jj_la1[112] = jj_gen;
@@ -5801,7 +5726,6 @@ final SyntaxTreeNode tn;
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case DOT:
       case LSB:
-        ;
         break;
       default:
         jj_la1[114] = jj_gen;
@@ -5848,7 +5772,6 @@ final SyntaxTreeNode tn;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[115] = jj_gen;
@@ -5892,7 +5815,6 @@ final SyntaxTreeNode tn;
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case COMMA:
-        ;
         break;
       default:
         jj_la1[117] = jj_gen;
@@ -5952,7 +5874,6 @@ final SyntaxTreeNode tn;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
           break;
         default:
           jj_la1[119] = jj_gen;
@@ -5964,7 +5885,6 @@ final SyntaxTreeNode tn;
                             addHeir( tn );
       }
     } else {
-      ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case RAB:
@@ -5998,7 +5918,6 @@ final SyntaxTreeNode tn;
     if (jj_2_53(2)) {
       top = OpArgs();
     } else {
-      ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case BANG:
@@ -6019,7 +5938,6 @@ final SyntaxTreeNode tn;
       break;
     default:
       jj_la1[121] = jj_gen;
-      ;
     }
       if ( last == null ) { // means no bang, bottom of recursion
          if ( top != null )
@@ -6104,7 +6022,6 @@ final SyntaxTreeNode tn;
       t = jj_consume_token(RBR);
                 zn[4] = new SyntaxTreeNode(mn, t);
     } else {
-      ;
     }
     epa();
     if ( expr != null ) {  // no extra (), FairnessHook can't be null ** Add check.
@@ -6174,7 +6091,6 @@ final SyntaxTreeNode tn;
     label_44:
     while (true) {
       if (caseSep() && (getToken(2).kind != OTHER)) {
-        ;
       } else {
         break label_44;
       }
@@ -6189,7 +6105,6 @@ final SyntaxTreeNode tn;
       tn = OtherArm();
                       addHeir( tn );
     } else {
-      ;
     }
     final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode(mn, N_Case, sn);}
@@ -6268,7 +6183,6 @@ final SyntaxTreeNode tn;
       case LOCAL:
       case RECURSIVE:
       case DEFBREAK:
-        ;
         break;
       default:
         jj_la1[125] = jj_gen;
@@ -6312,7 +6226,6 @@ final SyntaxTreeNode tn;
     label_46:
     while (true) {
       if (BStack.onReference( getToken(1).endColumn, getToken(1).kind )) {
-        ;
       } else {
         break label_46;
       }
@@ -6328,7 +6241,6 @@ final SyntaxTreeNode tn;
     label_47:
     while (true) {
       if (BStack.onReference( getToken(1).endColumn, getToken(1).kind )) {
-        ;
       } else {
         break label_47;
       }
@@ -6364,7 +6276,7 @@ final SyntaxTreeNode tn;
     final TreeNode[] children = tn.heirs() ;
     for (int i = 1; i < children.length; i++) {
       checkIndentation((SyntaxTreeNode) children[i], tn) ;
-     };
+     }
     {if (true) return tn ;}
     throw new Error("Missing return statement in function");
   }
@@ -6419,7 +6331,6 @@ final SyntaxTreeNode tn;
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case COMMA:
-        ;
         break;
       default:
         jj_la1[128] = jj_gen;
@@ -6454,7 +6365,6 @@ final SyntaxTreeNode tn;
     label_49:
     while (true) {
       if (jj_2_57(2147483647) && (BStack.aboveReference( getToken(1).beginColumn))) {
-        ;
       } else {
         break label_49;
       }
@@ -6586,8 +6496,8 @@ final SyntaxTreeNode tn;
      heirs[0] = new SyntaxTreeNode( mn, N_IdPrefix, (SyntaxTreeNode []) null);
      heirs[1] = tn ;
      OperatorStack.pushOnStack(new SyntaxTreeNode(mn, kind, heirs), lastOp);
-     if (OperatorStack.size() != 1) {OperatorStack.reduceStack();} ;
-          /*****************************************************************
+     if (OperatorStack.size() != 1) {OperatorStack.reduceStack();}
+      /*****************************************************************
           * This is probably a no-op since we can't reduce the stack at    *
           * this point.                                                    *
           *****************************************************************/
@@ -6606,8 +6516,8 @@ final SyntaxTreeNode tn;
   tn = OperatorStack.finalReduce();
    if (tn==null) {
      {if (true) throw new ParseException(" Couldn't reduce expression stack.");}
-    } ;
-   OperatorStack.popStack();
+    }
+    OperatorStack.popStack();
    {if (true) return tn ;}
     throw new Error("Missing return statement in function");
   }
@@ -6659,7 +6569,6 @@ final SyntaxTreeNode tn;
     label_50:
     while (true) {
       if (jj_2_61(1)) {
-        ;
       } else {
         break label_50;
       }
@@ -6671,7 +6580,7 @@ final SyntaxTreeNode tn;
        heirs[1] = tn ;
        OperatorStack.pushOnStack(new SyntaxTreeNode(mn, N_GenPostfixOp, heirs),
                                  lastOp);
-       if (OperatorStack.size() != 1) {OperatorStack.reduceStack();} ;
+       if (OperatorStack.size() != 1) {OperatorStack.reduceStack();}
       } else if (jj_2_63(2147483647) && (BStack.aboveReference( getToken(1).beginColumn))) {
         t = jj_consume_token(DOT);
        final Token next = getToken(1);
@@ -6697,9 +6606,9 @@ final SyntaxTreeNode tn;
         * infix operator.                                                  *
         *******************************************************************/
         OperatorStack.pushOnStack( tn, lastOp );
-        if (OperatorStack.size() != 1) {OperatorStack.reduceStack();} ;
-       }
-      else {OperatorStack.pushOnStack( tn, null );};
+        if (OperatorStack.size() != 1) {OperatorStack.reduceStack();}
+      }
+      else {OperatorStack.pushOnStack( tn, null );}
       } else {
         jj_consume_token(-1);
         throw new ParseException();
@@ -6713,11 +6622,10 @@ final SyntaxTreeNode tn;
      heirs[1] = tn ;
      OperatorStack.pushOnStack(new SyntaxTreeNode(mn, N_GenInfixOp, heirs),
                                lastOp);
-     if (OperatorStack.size() != 1) {OperatorStack.reduceStack();} ;
+     if (OperatorStack.size() != 1) {OperatorStack.reduceStack();}
         label_51:
         while (true) {
           if (jj_2_65(2147483647) && (BStack.aboveReference( getToken(1).beginColumn))) {
-            ;
           } else {
             break label_51;
           }
@@ -6849,7 +6757,7 @@ final SyntaxTreeNode tn;
       heirs[0] = new SyntaxTreeNode( mn, N_IdPrefix, (SyntaxTreeNode []) null);
       heirs[1] = tn ;
       OperatorStack.pushOnStack(new SyntaxTreeNode(mn, kind, heirs), lastOp);
-      if (OperatorStack.size() != 1) {OperatorStack.reduceStack();} ;
+      if (OperatorStack.size() != 1) {OperatorStack.reduceStack();}
           /*****************************************************************
           * This is probably a no-op since we can't reduce the stack at    *
           * this point.                                                    *
@@ -6872,8 +6780,8 @@ final SyntaxTreeNode tn;
      if (! isLabel(tn0)) {
        {if (true) throw new ParseException("`::' at " + tn1.getLocation().toString()
                                  + " does not follow a label.") ;}
-      } ;
-     OperatorStack.popCurrentTop() ;
+      }
+        OperatorStack.popCurrentTop() ;
         // t = <COLONCOLON>
           tn2 = Expression();
       if (! labelDoesNotChangeParse(tn2, lastOp)) {
@@ -6884,8 +6792,8 @@ final SyntaxTreeNode tn;
         {if (true) throw new ParseException(
           "Removing label at " + tn0.getLocation().toString() +
           " would change expression parsing.") ;}
-       } ;
-      final SyntaxTreeNode[] labelHeirs = {tn0, tn1, tn2} ;
+       }
+        final SyntaxTreeNode[] labelHeirs = {tn0, tn1, tn2} ;
       tn = new SyntaxTreeNode(N_Label, labelHeirs) ;
       OperatorStack.pushOnStack( tn, null );
       } else {
@@ -6893,7 +6801,6 @@ final SyntaxTreeNode tn;
         throw new ParseException();
       }
     } else {
-      ;
     }
    epa() ;
   }
@@ -7058,15 +6965,15 @@ final SyntaxTreeNode tn;
                     {if (true) throw new
                       ParseException(tn0.getLocation().toString() +
                            ": Step number used outside proof.");}
-                    } ;
-                  if (t.image.substring(1,2).equals("+")) {
+                    }
+          if (t.image.substring(1,2).equals("+")) {
                     {if (true) throw new ParseException(tn0.getLocation().toString() +
                            ": <+> step number used in an expression.");}
-                    } ;
-                  if (t.kind == ProofImplicitStepLexeme) {
+                    }
+          if (t.kind == ProofImplicitStepLexeme) {
                     tn0.originalImage = tn0.image ;
                     tn0.image = correctedStepNum(t) ;
-                   } ;
+                   }
 
 // ToolIO.out.println("xyz-expr: t.image = " + t.image + 
 // ", correctedImage = " + tn0.image) ;
@@ -7194,13 +7101,11 @@ final SyntaxTreeNode tn;
         if (jj_2_71(2)) {
           tnOpArgs = OpArgs();
         } else {
-          ;
         }
         label_52:
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case BANG:
-            ;
             break;
           default:
             jj_la1[134] = jj_gen;
@@ -7269,15 +7174,15 @@ final SyntaxTreeNode tn;
             eltHeirs[0] = tn0 ;
             eltHeirs[1] = tnOpArgs;
             eltHeirs[2] = (SyntaxTreeNode) tnBangs[0].heirs()[0] ;
-          } ;
-         heirs[0] =
+          }
+          heirs[0] =
            new SyntaxTreeNode(mn, N_IdPrefixElement, eltHeirs);
          for (int i = 0; i < tnBangs.length - 1; i++) {
            eltHeirs =
               new SyntaxTreeNode[tnBangs[i].heirs().length] ;
            for (int j = 0 ; j < eltHeirs.length-1; j++) {
              eltHeirs[j] = (SyntaxTreeNode) tnBangs[i].heirs()[j+1];
-             } ;
+             }
            eltHeirs[eltHeirs.length-1] = (SyntaxTreeNode)
                                             tnBangs[i+1].heirs()[0];
            heirs[i+1] = new SyntaxTreeNode(mn, N_IdPrefixElement, eltHeirs);
@@ -7463,7 +7368,6 @@ final SyntaxTreeNode tn;
         tn = OpArgs();
                       addHeir(tn) ;
       } else {
-        ;
       }
     } else {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -7522,10 +7426,10 @@ final SyntaxTreeNode tn;
               {if (true) throw new ParseException(
                          "Illegal structural term at " +
                           tn.getLocation().toString());}
-             };
-           final SyntaxTreeNode[] heirs = new SyntaxTreeNode[1] ;
+             }
+     final SyntaxTreeNode[] heirs = new SyntaxTreeNode[1] ;
            heirs[0] = tn;
-           {if (true) return new SyntaxTreeNode(mn, N_StructOp, heirs) ;} } ;
+           {if (true) return new SyntaxTreeNode(mn, N_StructOp, heirs) ;} }
     throw new Error("Missing return statement in function");
   }
 

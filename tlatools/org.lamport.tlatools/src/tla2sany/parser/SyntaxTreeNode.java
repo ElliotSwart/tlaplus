@@ -291,8 +291,8 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
    * this node.                                                           *
    ***********************************************************************/
   public final String [] getAttachedComments() {
-    if (this.kind < SyntaxTreeConstants.NULL_ID) { return preComment; } ;
-    if (this.heirs().length == 0) {
+    if (this.kind < SyntaxTreeConstants.NULL_ID) { return preComment; }
+      if (this.heirs().length == 0) {
         final String[] res = new String[0] ;
      /** 
       * On 3 Jul 2009 LL replaced the following code with this.  It
@@ -301,8 +301,8 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
       */
 //      String[] res = new String[1] ;
 //      res[0] = "No left-most token node???" ;
-      return res ; } ;
-    return ((SyntaxTreeNode) this.heirs()[0]).getAttachedComments() ;
+      return res ; }
+      return ((SyntaxTreeNode) this.heirs()[0]).getAttachedComments() ;
    }
 
   public boolean isGenOp() {
@@ -322,23 +322,23 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
      int cPre = 0;
 
      if (t.specialToken == null) {
-       return ns; } ;
+       return ns; }
 
-     Token tmp_t = t.specialToken;
+      Token tmp_t = t.specialToken;
      while (tmp_t != null) {
          cPre++;
          tmp_t.next = nextPre;
          nextPre = tmp_t;
-         tmp_t = tmp_t.specialToken; } ;
+         tmp_t = tmp_t.specialToken; }
 
-     final String []aPre = new String[ cPre ];
+      final String []aPre = new String[ cPre ];
      tmp_t = nextPre; 
      cPre = 0;
      while (tmp_t != nullToken) { 
        aPre[ cPre ] = tmp_t.image; 
        cPre++; 
-       tmp_t = tmp_t.next; } ; 
-     return aPre;
+       tmp_t = tmp_t.next; }
+      return aPre;
   }
 
   /**
@@ -596,19 +596,19 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
                 // Indent 1 more level
       else {
         for (int j = 0; j <= indentLevel; j++) {
-            System.out.print(Strings.blanks[2]);} ;
-        System.out.println("<null>");
+            System.out.print(Strings.blanks[2]);}
+          System.out.println("<null>");
       } // end else
     } // end for
     
   } // end method
  
   public static String PreCommentToString(final String[] pcarray) {
-    if (pcarray == null || pcarray.length == 0) {return "";};
-    String res = "\n preComment: ";
+    if (pcarray == null || pcarray.length == 0) {return "";}
+      String res = "\n preComment: ";
     for (int i = 0; i < pcarray.length; i++) {
       res = res +  ((i==0)?"":"\n             ") + i + " " + pcarray[i];
-    };
-    return res ;
+    }
+      return res ;
   }
   }

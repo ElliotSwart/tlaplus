@@ -120,7 +120,7 @@ public class StringNode extends ExprNode implements ExploreNode {
           buf.append(str.charAt(i)) ;
           break ;
        } // switch
-     }; // for
+     }// for
     return buf.toString();
    }
 

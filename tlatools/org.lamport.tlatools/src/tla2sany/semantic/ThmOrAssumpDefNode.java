@@ -165,7 +165,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
     this.instantiatedFrom = iFrom ;
     this.source = src;
 
-    if (st != null) {st.addSymbol(name, this);} ;
+    if (st != null) {st.addSymbol(name, this);}
       /*********************************************************************
       * By some magic, this eventually puts the name into the current      *
       * module's context.                                                  *
@@ -173,7 +173,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
     if (parms != null) {
       this.params = parms;
       this.arity = parms.length;
-     } ;
+     }
   }
 
   /*************************************************************************
@@ -198,7 +198,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
     this.theorem    = thm;
     this.body       = exp;
     this.originallyDefinedInModule = oModNode;
-    if (st != null) {st.addSymbol(name, this);} ;
+    if (st != null) {st.addSymbol(name, this);}
       /*********************************************************************
       * By some magic, this eventually puts the name into the current      *
       * module's context.                                                  *
@@ -206,13 +206,14 @@ public class ThmOrAssumpDefNode extends SymbolNode
     if (parms != null) {
       this.params = parms;
       this.arity = parms.length;
-     } ;
+     }
   }
 
   /*************************************************************************
   * The methods.                                                           *
   *************************************************************************/
-  public LevelNode getBody() {return this.body; } ;
+  public LevelNode getBody() {return this.body; }
+
     /***********************************************************************
     * Note: this is a LevelNode rather than an ExprNode because it could   *
     * be either an ExprNode, AssumeProve node, or an APSubstInNode whose   *
@@ -238,10 +239,11 @@ public class ThmOrAssumpDefNode extends SymbolNode
     ***********************************************************************/
 
   public boolean  isTheorem()  {return this.theorem ;}
-  public boolean isSuffices()  {return this.suffices ;};
-         void    setSuffices() {this.suffices = true;};
+  public boolean isSuffices()  {return this.suffices ;}
 
-  /*************************************************************************
+    void    setSuffices() {this.suffices = true;}
+
+    /*************************************************************************
   * Return the proof of the theorem, which is null unless this is a        *
   * theorem and it has a proof.                                            *
   *************************************************************************/
@@ -311,8 +313,8 @@ public class ThmOrAssumpDefNode extends SymbolNode
     * If the hashtable `labels' contains a LabelNode with name `us',       *
     * then that LabelNode is returned; otherwise null is returned.         *
     ***********************************************************************/
-    if (labels == null) {return null;} ;
-    return (LabelNode) labels.get(us) ;
+    if (labels == null) {return null;}
+      return (LabelNode) labels.get(us) ;
    }
 
   @Override
@@ -322,9 +324,9 @@ public class ThmOrAssumpDefNode extends SymbolNode
     * as odn, then odn is added to the set and true is return; else the    *
     * set is unchanged and false is returned.                              *
     ***********************************************************************/
-    if (labels == null) {labels = new Hashtable<>(); } ;
-    if (labels.containsKey(odn.getName())) {return false ;} ;
-    labels.put(odn.getName(), odn) ;
+    if (labels == null) {labels = new Hashtable<>(); }
+      if (labels.containsKey(odn.getName())) {return false ;}
+      labels.put(odn.getName(), odn) ;
     return true;
    }
 
@@ -334,14 +336,14 @@ public class ThmOrAssumpDefNode extends SymbolNode
     * Returns an array containing the Label objects in the hashtable       *
     * `labels'.                                                            *
     ***********************************************************************/
-    if (labels == null) {return new LabelNode[0];} ;
-    final Vector<LabelNode> v = new Vector<>() ;
+    if (labels == null) {return new LabelNode[0];}
+      final Vector<LabelNode> v = new Vector<>() ;
     final Enumeration<LabelNode> e = labels.elements() ;
-    while (e.hasMoreElements()) { v.addElement(e.nextElement()); } ;
-    final LabelNode[] retVal = new LabelNode[v.size()] ;
+    while (e.hasMoreElements()) { v.addElement(e.nextElement()); }
+      final LabelNode[] retVal = new LabelNode[v.size()] ;
     for (int i = 0 ; i < v.size() ; i++)
-      {retVal[i] = v.elementAt(i); } ;
-    return retVal ;
+      {retVal[i] = v.elementAt(i); }
+      return retVal ;
    }
 
 // On 24 Oct 2012 replaced the following levelCheck method with the current
@@ -447,10 +449,10 @@ public class ThmOrAssumpDefNode extends SymbolNode
           this.isLeibniz    = true;
           this.isLeibnizArg = new boolean[this.params.length];
           this.isLeibnizArg[i] = true ;
-        } ;
+        }
 
 
-   // Level check the body:
+      // Level check the body:
       this.levelCorrect = this.body.levelCheck(itr);
       this.level = this.body.getLevel();
 
@@ -511,7 +513,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
           this.nonLeibnizParams.remove(this.params[i]) ;
           this.isLeibnizArg[i] = false ;
           this.isLeibniz = false ;
-         } ;
+         }
       }
 
       this.levelConstraints = (SetOfLevelConstraints)lcSet.clone();
@@ -545,24 +547,24 @@ public class ThmOrAssumpDefNode extends SymbolNode
     @Override
     public final int getMaxLevel(final int i) {
       if (this.levelChecked == 0)
-        {throw new WrongInvocationException("getMaxLevel called before levelCheck");};
-      final int idx = (this.getArity() == -1) ? 0 : i;
+        {throw new WrongInvocationException("getMaxLevel called before levelCheck");}
+        final int idx = (this.getArity() == -1) ? 0 : i;
       return this.maxLevels[idx];
     }
 
     @Override
     public final int getWeight(final int i) {
       if (this.levelChecked == 0)
-        {throw new WrongInvocationException("getWeight called before levelCheck");};
-      final int idx = (this.getArity() == -1) ? 0 : i;
+        {throw new WrongInvocationException("getWeight called before levelCheck");}
+        final int idx = (this.getArity() == -1) ? 0 : i;
       return this.weights[idx];
     }
 
     @Override
     public final int getMinMaxLevel(final int i, final int j) {
       if (this.levelChecked == 0)
-        {throw new WrongInvocationException("getMinMaxLevel called before levelCheck");};
-      if (this.minMaxLevel == null) {
+        {throw new WrongInvocationException("getMinMaxLevel called before levelCheck");}
+        if (this.minMaxLevel == null) {
         return ConstantLevel;
       }
       return this.minMaxLevel[i][j];
@@ -571,8 +573,8 @@ public class ThmOrAssumpDefNode extends SymbolNode
     @Override
     public final boolean getOpLevelCond(final int i, final int j, final int k) {
       if (this.levelChecked == 0)
-        {throw new WrongInvocationException("getOpLevelCond called before levelCheck");};
-      if (this.opLevelCond == null) {
+        {throw new WrongInvocationException("getOpLevelCond called before levelCheck");}
+        if (this.opLevelCond == null) {
         return false;
       }
       return this.opLevelCond[i][j][k];
@@ -602,8 +604,8 @@ public class ThmOrAssumpDefNode extends SymbolNode
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
-    if(this.body != null) {this.body.walkGraph(semNodesTable, visitor) ;} ;
-    visitor.postVisit(this);
+    if(this.body != null) {this.body.walkGraph(semNodesTable, visitor) ;}
+      visitor.postVisit(this);
    }
 
   @Override
@@ -617,17 +619,17 @@ public class ThmOrAssumpDefNode extends SymbolNode
                              ? originallyDefinedInModule.getName().toString()
                              : "<null>" ) ;
     if (instantiatedFrom != null) {ret += " instantiatedFrom: " +
-                                          instantiatedFrom.getName() ; } ;
-    if (params != null) {
+                                          instantiatedFrom.getName() ; }
+      if (params != null) {
       String tempString = "\nFormal params: " + params.length;
       for (int i = 0; i < params.length; i++) {
         tempString += Strings.indent(2, ((params[i] != null)
                                         ? params[i].toString(depth-1)
                                          : "\nnull"));
-        } ;
-      ret += Strings.indent(2,tempString);
-     } ;
-    if (body != null) {
+        }
+          ret += Strings.indent(2,tempString);
+     }
+      if (body != null) {
         ret += Strings.indent(2,
                              "\nisTheorem(): " + theorem +
                              "\nBody:" +
@@ -643,11 +645,11 @@ public class ThmOrAssumpDefNode extends SymbolNode
        final Enumeration<UniqueString> list = labels.keys() ;
        while (list.hasMoreElements()) {
           ret += list.nextElement().toString() + "  " ;
-         } ;
-      }
-    else {ret += "\n  Labels: null";};
+         }
+    }
+    else {ret += "\n  Labels: null";}
 
-    return ret ;
+      return ret ;
    }
 
   /**

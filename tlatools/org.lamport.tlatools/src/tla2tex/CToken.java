@@ -152,9 +152,9 @@ public class CToken
         column = 0 ;
         type   = 0 ;
         isTLA  = false ;
-      } ;
+      }
 
-    public static CToken nullCToken = new CToken("", 0, NULL, false, false) ;
+      public static CToken nullCToken = new CToken("", 0, NULL, false, false) ;
       /*********************************************************************
       * A special null CToken.                                             *
       *********************************************************************/
@@ -171,9 +171,9 @@ public class CToken
               { return string.length() + 2; }
           }
        return string.length();
-      };      
+      }
 
-    /***********************************************************************
+      /***********************************************************************
     * The method FindPfStepCTokens replaces each sequence of three to five *
     * tokens created by a TokenizeComment method for something like        *
     * "<42>" or "<42>1a." into a single token of type PF_STEP.             *
@@ -205,9 +205,9 @@ public class CToken
                          && (input[i+4].string.equals(".")))
                        { str = str + "." ;
                          numOfToks = 5;
-                       } ;
-                   };
-                 outputVec.addElement(new CToken(str,
+                       }
+                   }
+                   outputVec.addElement(new CToken(str,
                                                 input[i].column,
                                                 PF_STEP,
                                                 input[i].isTLA,
@@ -217,12 +217,12 @@ public class CToken
              else { outputVec.addElement(input[i]) ;
                     i = i+1 ;
                   } // else
-           } ; // while
+           } // while
           if (outputVec.size() != input.length)
             { toks[k] = new CToken[outputVec.size()] ;
               for (i = 0; i < outputVec.size(); i++) 
                  { toks[k][i] = outputVec.elementAt(i) ;
-                 } ;
+                 }
             }
         } // for k
       } 
@@ -249,26 +249,26 @@ public class CToken
             case RIGHT_DQUOTE : typeName = "RIGHT_DQUOTE"  ; break ;
             case VERB         : typeName = "VERB"          ; break ;
             case TEX          : typeName = "TEX"           ; break ;
-          } ;
-        String str = "\"" + string + "\"";
-        if (string == null) {str = "null";};
+          }
+          String str = "\"" + string + "\"";
+        if (string == null) {str = "null";}
 
-        String result =    "[str |-> "    + str
+          String result =    "[str |-> "    + str
                          + ",\t type |-> "  + typeName
                          + ",\t col |-> "   + column
                          + ",\t width |-> " + getWidth() ;
         if (isTLA) 
-          {result = result + ",\t isTLA |-> true";};
-        if (isAmbiguous)
-          {result = result + ",\t isAmbig |-> true";};
-        return result; 
-      };
-      
+          {result = result + ",\t isTLA |-> true";}
+          if (isAmbiguous)
+          {result = result + ",\t isAmbig |-> true";}
+          return result;
+      }
 
-    public String toString()
+
+      public String toString()
       /*********************************************************************
       * For debugging.                                                     *
       *********************************************************************/
-      {  return Misc.BreakLine(mostOfString() + "]") ; };  
+      {  return Misc.BreakLine(mostOfString() + "]") ; }
 
   }

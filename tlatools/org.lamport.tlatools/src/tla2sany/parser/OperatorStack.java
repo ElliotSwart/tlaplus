@@ -504,10 +504,10 @@ What do left and right mean?????? What does shift mean????????
     * Returns the top element of the top stack, or null if that stack is   *
     * empty.                                                               *
     ***********************************************************************/
-    if (CurrentTop == null) {return null;} ;
-    final int n = CurrentTop.size() ;
-    if (n == 0) {return null;} ;
-    return CurrentTop.elementAt(n-1) ;
+    if (CurrentTop == null) {return null;}
+      final int n = CurrentTop.size() ;
+    if (n == 0) {return null;}
+      return CurrentTop.elementAt(n-1) ;
    }
 
   final public void popCurrentTop() {

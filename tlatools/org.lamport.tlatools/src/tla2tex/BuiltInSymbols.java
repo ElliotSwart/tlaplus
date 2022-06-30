@@ -88,11 +88,11 @@ public final class BuiltInSymbols
         buildPrefixHashTable(); 
         buildStringCharTable();
         buildCanPrecedeLabelTable();
-      } ;
+      }
 
     public static boolean IsBuiltInSymbol(final String str)
       { return (null != GetBuiltInSymbol(str)) ;
-      } ;
+      }
 
     /**
      * Returns true iff str is a built-in symbol--either a TLA+ or
@@ -105,9 +105,9 @@ public final class BuiltInSymbols
      */
     public static boolean IsBuiltInSymbol(final String str, final boolean pcalMode)
       { return null != GetBuiltInSymbol(str, pcalMode)  ;
-      } ;
-    
-      /**
+      }
+
+    /**
        * Returns the built-in symbol with string str.  If pcalMode = false,
        * just return a TLA+ symbol; if pcalMode = true, return either a TLA+
        * or a PlusCal symbol.
@@ -128,27 +128,27 @@ public final class BuiltInSymbols
             return null ;
         }
         return sym;
-      } ;
+      }
 
 
     public static Symbol GetBuiltInSymbol(final String str)
       { return builtInHashTable.get(str);
-      } ;
+      }
 
     public static boolean IsBuiltInPrefix(final String str)
       { return prefixHashTable.containsKey(str) ;
-      } ;
+      }
 
     public static boolean IsBuiltInPrefix(final String str, final boolean pcal)
       { if (pcal) {
           return pcalPrefixHashTable.containsKey(str);
       }
         return prefixHashTable.containsKey(str) ;
-      } ;
+      }
 
     public static boolean IsStringChar(final char ch)
       { return stringCharTable.containsKey(String.valueOf(ch)) ;
-      } ;
+      }
 
     public static boolean CanPrecedeLabel(final String str) {
         return canPrecedeLabelTable.containsKey(str) ;
@@ -169,7 +169,7 @@ public final class BuiltInSymbols
           { stringCharTable.put(String.valueOf(legalChars.charAt(n)), nullString);
             n = n + 1 ;
           }
-      } ;
+      }
 
     private static void buildCanPrecedeLabelTable() {
         final String[] canPrecedeLabel =
@@ -184,14 +184,14 @@ public final class BuiltInSymbols
       * pcalBuiltInHashTable.                                              *
       *********************************************************************/
       { builtInHashTable.put(tla, new Symbol(tla, tex, stype, atype) ) ; 
-        pcalBuiltInHashTable.put(tla, new Symbol(tla, tex, stype, atype) ) ;   } ;
+        pcalBuiltInHashTable.put(tla, new Symbol(tla, tex, stype, atype) ) ;   }
 
 
     private static void pcaladd(final String tla, final String tex, final int stype, final int atype)
       /*********************************************************************
       * Adds a PlusCal entry to the pcalBuiltInHashTable.                  *
       *********************************************************************/
-      { pcalBuiltInHashTable.put(tla, new Symbol(tla, tex, stype, atype, true) ) ; } ;
+      { pcalBuiltInHashTable.put(tla, new Symbol(tla, tex, stype, atype, true) ) ; }
 
     /*
      * The following special 1-character strings are for defining dummy
@@ -502,7 +502,7 @@ public final class BuiltInSymbols
         pcaladd(pcalLeftBrace,  "{\\p@lbrace}",   Symbol.LEFT_PAREN,  0);
         pcaladd(pcalRightBrace, "{\\p@rbrace}",  Symbol.RIGHT_PAREN, 0);
 
-      } ;      
+      }
 
 
     private static void buildPrefixHashTable() 
@@ -529,8 +529,8 @@ public final class BuiltInSymbols
                 while (symbol.length() > 0)                              
                  { prefixHashTable.put(symbol, nullString);             
                    symbol = symbol.substring(0, symbol.length() - 1);   
-                 } ;                                                    
-              } ;
+                 }
+              }
           }
         builtInEnum = pcalBuiltInHashTable.keys();
         while (builtInEnum.hasMoreElements())
@@ -551,8 +551,8 @@ public final class BuiltInSymbols
                 while (symbol.length() > 0)                              
                  { pcalPrefixHashTable.put(symbol, nullString);             
                    symbol = symbol.substring(0, symbol.length() - 1);   
-                 } ;                                                    
-              } ;
+                 }
+              }
           }
       }
 

@@ -181,8 +181,8 @@ public class NonLeafProofNode extends ProofNode {
     visitor.preVisit(this);
     for (int  i = 0; i < steps.length; i++) {
       steps[i].walkGraph(semNodesTable, visitor);
-      } ;
-    /***********************************************************************
+      }
+      /***********************************************************************
     * Note: there's no need to walk the defs array because all the nodes   *
     * on it are walked from the nodes under which they appear.             *
     ***********************************************************************/
@@ -202,9 +202,9 @@ public class NonLeafProofNode extends ProofNode {
                   + Strings.indent(2, "\nsteps:") ;
     for (int i = 0 ; i < this.steps.length; i++) {
         ret += Strings.indent(4, this.steps[i].toString(depth-1)) ;
-      } ;
+      }
 
-    /***********************************************************************
+      /***********************************************************************
     * The following code for printing the context field copied without     *
     * understanding from ModuleNode.java.                                  *
     ***********************************************************************/
@@ -214,9 +214,9 @@ public class NonLeafProofNode extends ProofNode {
         if (contextEntries.elementAt(i) != null) {
           ret += Strings.indent(2, (String)contextEntries.elementAt(i));
          }
-        else { ret += "*** null ***"; } ;
-         }
-       } ; // for i
+        else { ret += "*** null ***"; }
+      }
+       } // for i
     return ret;
    }
 

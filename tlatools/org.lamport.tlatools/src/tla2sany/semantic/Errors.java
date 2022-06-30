@@ -49,8 +49,8 @@ public class Errors {
     final String[] retVal = new String[vec.size()] ;
     for (int i = 0 ; i < retVal.length; i++) {
       retVal[i] = vec.elementAt(i) ;
-     } ;
-    return retVal;
+     }
+      return retVal;
    }
 
   public final void addWarning(Location loc, final String str ) {

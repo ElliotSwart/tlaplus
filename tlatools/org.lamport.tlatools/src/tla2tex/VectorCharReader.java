@@ -27,9 +27,9 @@ public class VectorCharReader extends CharReader
       *********************************************************************/
       { this.line = firstLine ;
         this.vec = vector ;
-      } ;
+      }
 
-    @Override
+      @Override
     public String innerGetNextLine()
       /*********************************************************************
       * The abstract innerGetNextLine method of CharReader is implemented  *
@@ -37,16 +37,16 @@ public class VectorCharReader extends CharReader
       * TLATeX if there is an IOException.                                 *
       *********************************************************************/
       { if (nextLine == vec.size())
-         { return null ; } ;
-        nextLine = nextLine + 1;
+         { return null ; }
+          nextLine = nextLine + 1;
         return vec.elementAt(nextLine - 1);
-      } ;
+      }
 
-    @Override
+      @Override
     public void close()
       /*********************************************************************
       * Implements CharReader's abstract close() method.                   *
       *********************************************************************/
       { 
-      };
+      }
   }

@@ -230,8 +230,9 @@ public class AST
         public Vector<Macro>  macros = null ; // of Macro
         public Vector<AST.Procedure>  prcds  = null ; // of Procedure
         public Vector<AST>  body   = null ; // of LabeledStmt
-        public Uniprocess() {};
-        public String toString() 
+        public Uniprocess() {}
+
+          public String toString()
           { return
              Indent(lineCol()) +  
                "[type     |-> \"uniprocess\", " + NewLine() +
@@ -268,8 +269,9 @@ public class AST
         public Vector<Macro>  macros = null ; // of Macro
         public Vector<AST.Procedure>  prcds  = null ; // of Procedure
         public Vector<AST.Process>  procs  = null ; // of Process
-        public Multiprocess() {} ;
-        public String  toString() 
+        public Multiprocess() {}
+
+          public String  toString()
           { return
              Indent(lineCol()) +
                "[type    |-> \"multiprocess\", " + NewLine() +
@@ -329,8 +331,9 @@ public class AST
         public Vector<AST.PVarDecl> params = null ; // of PVarDecl
         public Vector<AST.PVarDecl> decls  = null ; // of PVarDecl 
         public Vector<AST> body   = null ; // of LabeledStmt
-        public Procedure() {} ;
-        public String toString() 
+        public Procedure() {}
+
+          public String toString()
           { 
             // For versions earlier than 1.5 need to return those versions'
             // value since toString() is used to generate the AST module
@@ -398,8 +401,9 @@ public class AST
         public TLAExpr   id    = null ;
         public Vector<AST.VarDecl>    decls = null ; // of VarDecl
         public Vector<AST>    body  = null ; // of LabeledStmt
-        public Process() { };
-        public String toString() 
+        public Process() { }
+
+          public String toString()
           { 
             // For versions earlier than 1.5 need to return those versions'
             // value since toString() is used to generate the AST module
@@ -445,8 +449,9 @@ public class AST
       { public String    var  = null ;
         public boolean   isEq = true ; // true means "=", false means "\\in"
         public TLAExpr   val  = PcalParams.DefaultVarInit();
-        public VarDecl() {};
-        public String toString() 
+        public VarDecl() {}
+
+          public String toString()
           { return 
              Indent(lineCol()) + 
                     "[var |-> \"" + var + "\", " + 
@@ -460,9 +465,9 @@ public class AST
       { public final boolean isEq = true    ;  // true means "="
         public String        var  = null ;
         public TLAExpr       val  = PcalParams.DefaultVarInit();
-        public PVarDecl() {};
-        
-        /**
+        public PVarDecl() {}
+
+          /**
          * Converts the PVarDecl object to an equivalent VarDecl
          * object.  (I don't know why I bothered introducing a separate
          * PVarDecl object in the first place.)
@@ -494,8 +499,9 @@ public class AST
           * An optional While prepended to a LabelSeq.                     *
           *****************************************************************/
 
-        public LabeledStmt() { } ;
-        public String toString() 
+        public LabeledStmt() { }
+
+          public String toString()
           {return 
              Indent(lineCol()) + 
                     "[label |-> \"" + label + "\"," + NewLine() +
@@ -511,8 +517,9 @@ public class AST
       { public TLAExpr   test    = null ;
         public Vector<AST>    unlabDo = null ; // a LabelSeq
         public Vector<AST>    labDo   = null ; // of LabeledStmt 
-        public While() { };
-        public String toString() 
+        public While() { }
+
+          public String toString()
           { return 
              Indent(lineCol()) + 
                 "[type    |-> \"while\", " + NewLine() +
@@ -531,8 +538,9 @@ public class AST
 
     public static class Assign extends AST
       { public Vector<AST.SingleAssign>    ass  = null ; // of SingleAssign
-        public Assign() { } ;
-        public String toString()
+        public Assign() { }
+
+          public String toString()
           { return 
               Indent(lineCol()) +
                 "[type |-> \"assignment\"," + NewLine() +
@@ -546,8 +554,9 @@ public class AST
     public static class SingleAssign extends AST
       { public Lhs       lhs  = new Lhs() ; 
         public TLAExpr   rhs  = null ; 
-        public SingleAssign() { };
-        public String toString()
+        public SingleAssign() { }
+
+          public String toString()
           { return 
             Indent(lineCol()) + 
               "[lhs |-> " + lhs.toString() + "," + NewLine() +
@@ -563,8 +572,9 @@ public class AST
       *********************************************************************/
       { public String    var  = "" ;
         public TLAExpr   sub  = null ; 
-        public Lhs() { };
-        public String toString()
+        public Lhs() { }
+
+          public String toString()
           { return lineCol() + 
                    "[var |-> \"" + var + "\", sub |-> " 
                     + sub.toString() + "]"; }
@@ -618,8 +628,9 @@ public class AST
             this.source = source;
         }
 
-        public If() { };
-        public String toString()
+        public If() { }
+
+          public String toString()
           { return 
              Indent(lineCol()) + 
                 "[type    |-> \"if\", " + NewLine() +  
@@ -635,8 +646,9 @@ public class AST
 
     public static class Either extends AST
       { public Vector<Object> ors = null ; // of Seq(SimpleStmt)
-        public Either() { };
-        public String toString()
+        public Either() { }
+
+          public String toString()
           { return 
              Indent(lineCol()) + 
                 "[type |-> \"either\", " + NewLine() +  
@@ -654,8 +666,9 @@ public class AST
           /*****************************************************************
           * Can't use "do" because that's a Java keyword.                  *
           *****************************************************************/
-        public With() { };
-        public String toString()
+        public With() { }
+
+          public String toString()
           { return
              Indent(lineCol()) + 
                "[type   |-> \"with\", " + NewLine() + 
@@ -670,8 +683,9 @@ public class AST
 
     public static class When extends AST
       { public TLAExpr   exp  = null ;
-        public When() {};
-        public String toString()
+        public When() {}
+
+          public String toString()
           { return 
              Indent(lineCol()) + 
               "[type |-> \"when\", " + NewLine() + 
@@ -682,8 +696,9 @@ public class AST
 
     public static class PrintS extends AST
       { public TLAExpr   exp  = null ;
-        public PrintS() { };
-        public String toString()
+        public PrintS() { }
+
+          public String toString()
           { return 
              Indent(lineCol()) + 
               "[type |-> \"print\", " + NewLine() + 
@@ -694,8 +709,9 @@ public class AST
 
     public static class Assert extends AST
       { public TLAExpr   exp  = null ;
-        public Assert() {};
-        public String toString()
+        public Assert() {}
+
+          public String toString()
           { return 
              Indent(lineCol()) + 
               "[type |-> \"assert\", " + NewLine() + 
@@ -706,8 +722,9 @@ public class AST
 
     public static class Skip extends AST
       { 
-        public Skip() {};
-        public String toString()
+        public Skip() {}
+
+          public String toString()
           { return lineCol() + "[type |-> \"skip\"]";
           }
       }
@@ -726,8 +743,9 @@ public class AST
         public Vector<AST>    labThen   = null ; // of LabeledStmt 
         public Vector<AST>    unlabElse = null ; // a LabelSeq
         public Vector<AST>    labElse   = null ; // of LabeledStmt 
-        public LabelIf() { };
-        public String toString()
+        public LabelIf() { }
+
+          public String toString()
           { return 
              Indent(lineCol()) + 
                "[type      |-> \"labelIf\"," + NewLine() +
@@ -750,8 +768,9 @@ public class AST
 
     public static class LabelEither extends AST
       { public Vector<AST.Clause>    clauses = null ; // of Clause
-        public LabelEither() { };
-        public String toString()
+        public LabelEither() { }
+
+          public String toString()
           { return 
              Indent(lineCol()) + 
                "[type    |-> \"labelEither\"," + NewLine() +
@@ -800,8 +819,9 @@ public class AST
       { public String    returnTo = "" ;
         public String    to       = "" ;
         public Vector<TLAExpr>    args     = null ; // of TLAExpr
-        public Call() {};
-        public String toString()
+        public Call() {}
+
+          public String toString()
           { return 
              Indent(lineCol()) + 
                "[type     |-> \"call\"," + NewLine() +
@@ -815,8 +835,9 @@ public class AST
 
     public static class Return extends AST
       { public String    from = "" ;
-        public Return() {};
-        public String toString()
+        public Return() {}
+
+          public String toString()
           { return 
               lineCol() + 
                "[type |-> \"return\", from |-> \"" + from + "\"]" ;
@@ -834,8 +855,9 @@ public class AST
       { public String    from = "" ;
         public String    to       = "" ;
         public Vector<TLAExpr>    args     = null ; // of TLAExpr
-        public CallReturn() { };
-        public String toString()
+        public CallReturn() { }
+
+          public String toString()
           { return 
              Indent(lineCol()) + 
                "[type     |-> \"callReturn\"," + NewLine() +
@@ -852,8 +874,9 @@ public class AST
       { public String    after = "" ;
         public String    to       = "" ;
         public Vector<TLAExpr>    args     = null ; // of TLAExpr
-        public CallGoto() { };
-        public String toString()
+        public CallGoto() { }
+
+          public String toString()
           { return 
              Indent(lineCol()) + 
                "[type     |-> \"callGoto\"," + NewLine() +
@@ -868,8 +891,9 @@ public class AST
 
     public static class Goto extends AST
       { public String    to       = "" ;
-        public Goto() {};
-        public String toString()
+        public Goto() {}
+
+          public String toString()
           { return 
              lineCol() + 
                "[type |-> \"goto\", " + 
@@ -881,8 +905,9 @@ public class AST
       { public String name   = "" ;
         public Vector<String> params = null ; // of Strings
         public Vector<AST> body   = null ; // of Stmt
-        public Macro() {};
-        public String toString()
+        public Macro() {}
+
+          public String toString()
           { return 
              Indent(lineCol()) +
                "[name   |-> \"" + name + "\", " + NewLine() +
@@ -897,8 +922,9 @@ public class AST
     public static class MacroCall extends AST
       { public String name   = "" ;
         public Vector<TLAExpr> args     = null ; // of TLAExpr
-        public MacroCall() {};
-        public String toString()
+        public MacroCall() {}
+
+          public String toString()
           { return 
              Indent(lineCol()) + 
                "[type |-> \"macrocall\"," + NewLine() +
@@ -987,8 +1013,8 @@ public class AST
        while (i < curIndent[indentDepth])
          { result = result + " " ;
            i = i + 1 ;
-         } ;
-       return result ;
+         }
+         return result ;
      }     
 
      
@@ -998,16 +1024,16 @@ public class AST
      * elements, where toString() is used to produce the elements'         *
      * representation.                                                     *
      **********************************************************************/
-     { if (vec == null) {return "null" ;} ;
-       String result = Indent("<<") ;
+     { if (vec == null) {return "null" ;}
+         String result = Indent("<<") ;
        int i = 0 ;
        while (i < vec.size())
          { if (i > 0)
-             { result = result + ", " + NewLine() ; } ;
-           result = result + vec.elementAt(i).toString() ;
+             { result = result + ", " + NewLine() ; }
+             result = result + vec.elementAt(i).toString() ;
            i = i + 1 ;
-         } ;
-       return result + ">>" + EndIndent();
+         }
+         return result + ">>" + EndIndent();
      }
    
    public static String VectorToSeqQuotedString(final Vector<?> vec)
@@ -1016,16 +1042,16 @@ public class AST
    * elements, where toString() is used to produce the elements'         *
    * representation to be quoted.                                        *
    **********************************************************************/
-   { if (vec == null) {return "null" ;} ;
-     String result = Indent("<<") ;
+   { if (vec == null) {return "null" ;}
+       String result = Indent("<<") ;
      int i = 0 ;
      while (i < vec.size())
        { if (i > 0)
-           { result = result + ", " /* + NewLine() */ ; } ;
-         result = result + "\"" + vec.elementAt(i).toString() + "\"" ;
+           { result = result + ", " /* + NewLine() */ ; }
+           result = result + "\"" + vec.elementAt(i).toString() + "\"" ;
          i = i + 1 ;
-       } ;
-     return result + ">>" + EndIndent();
+       }
+       return result + ">>" + EndIndent();
    }
 
 
@@ -1039,11 +1065,11 @@ public static String VectorOfVectorsToSeqString(final Vector<?> vecvec)
        int i = 0 ;
        while (i < vecvec.size())
          { if (i > 0)
-             { result = result + ", " + NewLine() ; } ;
-           result = result + VectorToSeqString((Vector<?>)vecvec.elementAt(i));
+             { result = result + ", " + NewLine() ; }
+             result = result + VectorToSeqString((Vector<?>)vecvec.elementAt(i));
            i = i + 1 ;
-         } ;
-       return result + " >>" + EndIndent();
+         }
+         return result + " >>" + EndIndent();
      }
 
  }

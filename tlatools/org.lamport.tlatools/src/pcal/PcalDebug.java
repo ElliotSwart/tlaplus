@@ -32,7 +32,7 @@ public class PcalDebug
         {
             reportError(e.getMessage());
         }
-    };
+    }
 
     /**
      * Reports a warning 
@@ -85,8 +85,7 @@ public class PcalDebug
         {
             ReportBug("Assertion failure");
         }
-        ;
-    };
+    }
 
     public static void Assert(final boolean val, final String msg)
     /*********************************************************************
@@ -97,8 +96,7 @@ public class PcalDebug
         {
             ReportBug("Failure of assertion: " + msg);
         }
-        ;
-    };
+    }
 
     public static void ReportBug(final String msg)
     /*********************************************************************
@@ -114,7 +112,7 @@ public class PcalDebug
         ToolIO.out.println("");
         
         throw new Error(sb.toString());
-    };
+    }
 
     public static void printObjectArray(final Object[] array, final String name)
     /*********************************************************************
@@ -127,7 +125,6 @@ public class PcalDebug
             ToolIO.out.println(name + " == null");
             return;
         }
-        ;
         int i = 0;
         while (i < array.length)
         {
@@ -140,13 +137,11 @@ public class PcalDebug
             }
             i = i + 1;
         }
-        ;
         if (array.length == 0)
         {
             ToolIO.out.println(name + " = zero-length array");
         }
-        ;
-    };
+    }
 
     public static void printIntArray(final int[] array, final String name)
     /*********************************************************************
@@ -159,20 +154,17 @@ public class PcalDebug
             ToolIO.out.println(name + " == null");
             return;
         }
-        ;
         int i = 0;
         while (i < array.length)
         {
             ToolIO.out.println(name + "[" + i + "] = " + array[i]);
             i = i + 1;
         }
-        ;
         if (array.length == 0)
         {
             ToolIO.out.println(name + " = zero-length array");
         }
-        ;
-    };
+    }
 
     public static void print2DArray(final Object[][] array, final String name)
     /*********************************************************************
@@ -185,7 +177,6 @@ public class PcalDebug
             ToolIO.out.println(name + " == null");
             return;
         }
-        ;
         int i = 0;
         while (i < array.length)
         {
@@ -195,21 +186,17 @@ public class PcalDebug
                 ToolIO.out.println(name + "[" + i + "][" + j + "] = " + array[i][j].toString());
                 j = j + 1;
             }
-            ;
             if (array[i].length == 0)
             {
                 ToolIO.out.println(name + "[" + i + "] = null");
             }
-            ;
             i = i + 1;
         }
-        ;
         if (array.length == 0)
         {
             ToolIO.out.println(name + " = zero-length array");
         }
-        ;
-    };
+    }
 
     public static void printVector(final Vector<?> vec, final String name)
     /*********************************************************************
@@ -222,7 +209,6 @@ public class PcalDebug
             ToolIO.out.println(name + " == null");
             return;
         }
-        ;
         int i = 0;
         while (i < vec.size())
         {
@@ -235,13 +221,11 @@ public class PcalDebug
             }
             i = i + 1;
         }
-        ;
         if (vec.size() == 0)
         {
             ToolIO.out.println(name + " = zero-length vec");
         }
-        ;
-    };
+    }
 
     public static void print2DVector(final Vector<?> vec, final String name)
     /*********************************************************************
@@ -255,7 +239,6 @@ public class PcalDebug
             ToolIO.out.println(name + " == null");
             return;
         }
-        ;
         int i = 0;
         while (i < vec.size())
         {
@@ -266,16 +249,13 @@ public class PcalDebug
             {
                 printVector((Vector<?>)vec.elementAt(i), name + "[" + i + "]");
             }
-            ;
             i = i + 1;
         }
-        ;
         if (vec.size() == 0)
         {
             ToolIO.out.println(name + " = zero-length vec");
         }
-        ;
-    };
+    }
 
     public static String pair(final int i, final int j)
     /*********************************************************************
@@ -283,7 +263,7 @@ public class PcalDebug
     *********************************************************************/
     {
         return "(" + i + ", " + j + ")";
-    };
+    }
 
     public static void printPair(final int i, final int j)
     /*********************************************************************

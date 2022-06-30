@@ -73,23 +73,23 @@ public final class PcalBuiltInSymbols
       { buildHashTable(); 
         buildPrefixHashTable(); 
         buildStringCharTable();
-      } ;
+      }
 
     public static boolean IsBuiltInSymbol(final String str)
       { return (null != GetBuiltInSymbol(str)) ;
-      } ;
+      }
 
     public static Symbol GetBuiltInSymbol(final String str)
       { return builtInHashTable.get(str);
-      } ;
+      }
 
     public static boolean IsBuiltInPrefix(final String str)
       { return prefixHashTable.containsKey(str) ;
-      } ;
+      }
 
     public static boolean IsStringChar(final char ch)
       { return stringCharTable.containsKey("" + ch) ;
-      } ;
+      }
 
     private static void buildStringCharTable() 
       { final String legalChars =
@@ -106,13 +106,13 @@ public final class PcalBuiltInSymbols
           { stringCharTable.put("" + legalChars.charAt(n), nullString);
             n = n + 1 ;
           }
-      } ;
+      }
 
     private static void add(final String tla, final String tex, final int stype, final int atype)
       /*********************************************************************
       * Adds an entry to the builtInHashTable.                             *
       *********************************************************************/
-      { builtInHashTable.put(tla, new Symbol(tla, tex, stype, atype) ) ; } ;
+      { builtInHashTable.put(tla, new Symbol(tla, tex, stype, atype) ) ; }
 
 
     private static void buildHashTable() 
@@ -333,7 +333,7 @@ public final class PcalBuiltInSymbols
         add("-.",  "\\.{-\\!.\\,}",    Symbol.MISC, 0);
         add("@",  "@",      Symbol.MISC, 0);
 
-      } ;      
+      }
 
 
     private static void buildPrefixHashTable() 
@@ -360,8 +360,8 @@ public final class PcalBuiltInSymbols
                 while (symbol.length() > 0)                              
                  { prefixHashTable.put(symbol, nullString);             
                    symbol = symbol.substring(0, symbol.length() - 1);   
-                 } ;                                                    
-              } ;
+                 }
+              }
           }
       }
 

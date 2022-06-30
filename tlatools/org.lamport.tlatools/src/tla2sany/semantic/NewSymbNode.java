@@ -110,16 +110,16 @@ public class NewSymbNode extends LevelNode {
                           "Level error:\n" +
                           "Temporal formula used as set.");
           }
-       }  ;
-      levelCorrect = levelCorrect && opDeclLevelCheck;
+       }
+        levelCorrect = levelCorrect && opDeclLevelCheck;
       if (set != null) {
         levelParams = set.getLevelParams();
         allParams = set.getAllParams();
         levelConstraints = set.getLevelConstraints();
         argLevelConstraints = set.getArgLevelConstraints();
         argLevelParams      = set.getArgLevelParams();
-       }; // if (set != null)
-      }; // if (levelChecked < iter)
+       }// if (set != null)
+      }// if (levelChecked < iter)
     return levelCorrect;
    }
 
@@ -176,8 +176,8 @@ public class NewSymbNode extends LevelNode {
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
-    if (set != null) { set.walkGraph(semNodesTable, visitor); } ;
-    visitor.postVisit(this);
+    if (set != null) { set.walkGraph(semNodesTable, visitor); }
+      visitor.postVisit(this);
    }
 
   @Override

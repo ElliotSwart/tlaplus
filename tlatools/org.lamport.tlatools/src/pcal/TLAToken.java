@@ -264,9 +264,9 @@ public class TLAToken
       { string = "" ;
         column = 0 ;
         type   = 0 ;
-      } ;
+      }
 
-    public int getWidth() 
+      public int getWidth()
       /*********************************************************************
       * Returns a width, which is the number of columns the token spans    *
       * in the original input stream.                                      *
@@ -280,9 +280,9 @@ public class TLAToken
             return string.length() + 2;}
         else
           {return string.length();}
-      };      
+      }
 
-   public String toString()
+      public String toString()
       /*********************************************************************
       * This is used to print a TLAToken for debugging.                    *
       *********************************************************************/
@@ -294,11 +294,11 @@ public class TLAToken
             case IDENT      : typeName = "IDENT"      ; break ;
 //            case BEGIN_REPLACEMENT : typeName = "(map"  ; break ;
 //            case END_REPLACEMENT   : typeName = "map)"  ; break ;    
-          } ;
-        String str = "\"" + string + "\"" ;
-        if (string == null) {str = "null";};
+          }
+          String str = "\"" + string + "\"" ;
+        if (string == null) {str = "null";}
 
-        final String result =    "[str |-> "    + str
+          final String result =    "[str |-> "    + str
                          + ", type |-> "  + typeName
                          + ", col |-> "   + column
                          + ", source |->" + 
@@ -312,10 +312,10 @@ public class TLAToken
 //        	result = result + ", " + source.toString();
 //        }
         return result; 
-      };
- 
+      }
 
-   /**
+
+      /**
     * Modified by LL on 6 Dec 2011 to set the source field too.
     * And on 14 Dec 2011 to set the beginSubst and endSubst fields.
     * 

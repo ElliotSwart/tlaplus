@@ -109,8 +109,8 @@ public class DebugTool extends Tool {
 	 * (EvalControl.Clear).
 	 */
 	public enum EvalMode {
-		Const, State, Action, Debugger;
-	}
+		Const, State, Action, Debugger
+    }
 	
 	public DebugTool(final String mainFile, final String configFile, final FilenameToStream resolver, final Map<String, Object> params, final IDebugTarget target) {
 		this(mainFile, configFile, resolver, Mode.MC_DEBUG, params, target);

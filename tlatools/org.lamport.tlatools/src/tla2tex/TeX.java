@@ -389,8 +389,8 @@ class TeX
            { ToolIO.out.println(
                "Fewer tla/pcal/ppcal environments than the last time file\n"
                     + "    run through LaTeX");
-           };
-        /*******************************************************************
+           }
+           /*******************************************************************
         * Close and rename the files.                                      *
         *******************************************************************/
         infile.close() ;
@@ -436,9 +436,9 @@ class TeX
          ******************************************************************/
        if (maxArg < 0)
         { CommandLineError("No arguments specified");
-        } ;
+        }
 
-       if (   (args[maxArg].length() != 0)
+         if (   (args[maxArg].length() != 0)
            && (args[maxArg].charAt(0) == '-'))
          /******************************************************************
          * If the last argument begins with "-", then no file has been     *
@@ -446,9 +446,9 @@ class TeX
          * or "-info", but it could be another mistake.                    *
          ******************************************************************/
          { maxArg = maxArg + 1 ;
-         } ;
+         }
 
-       while (nextArg < maxArg)
+         while (nextArg < maxArg)
         /*******************************************************************
         * Process all the arguments, except for the last (unless it's a    *
         * "-" argument).                                                   *
@@ -479,8 +479,8 @@ class TeX
           else if (option.equals("-latexCommand"))
             { nextArg = nextArg + 1;
               if (nextArg >= args.length) 
-                {CommandLineError("No input file specified") ;} ;
-              Parameters.LaTeXCommand = args[nextArg];
+                {CommandLineError("No input file specified") ;}
+                Parameters.LaTeXCommand = args[nextArg];
             }
           else if (option.equals("-out"))
             { /*************************************************************
@@ -489,13 +489,13 @@ class TeX
               outOption = true ;
               nextArg = nextArg + 1;
               if (nextArg >= args.length) 
-                {CommandLineError("No input file specified") ;} ;
-              Parameters.LaTeXOutputFile = RemoveExtension(args[nextArg]);
+                {CommandLineError("No input file specified") ;}
+                Parameters.LaTeXOutputFile = RemoveExtension(args[nextArg]);
               if (HasPathPrefix(Parameters.LaTeXOutputFile))
                { CommandLineError(
                     "-out file contains a path specifier.\n"
                   + "It must be a file in the current directory.");
-               };
+               }
             }
           else if (option.equals("-alignOut"))
             { /*************************************************************
@@ -504,13 +504,13 @@ class TeX
               alignOutOption = true ;
               nextArg = nextArg + 1;
               if (nextArg >= args.length) 
-                {CommandLineError("No input file specified") ;} ;
-              Parameters.LaTeXAlignmentFile = RemoveExtension(args[nextArg]);
+                {CommandLineError("No input file specified") ;}
+                Parameters.LaTeXAlignmentFile = RemoveExtension(args[nextArg]);
               if (HasPathPrefix(Parameters.LaTeXAlignmentFile))
                { CommandLineError(
                     "-alignOut file contains a path specifier.\n"
                   + "It must be a file in the current directory.") ;
-               };
+               }
             } 
           else if (option.equals("-debug"))
             { Parameters.Debug = true;
@@ -524,8 +524,8 @@ class TeX
 //            }
           else 
             { CommandLineError("Unknown option: " + option);
-            } ;
-          nextArg = nextArg + 1;
+            }
+            nextArg = nextArg + 1;
         }                      // END while (nextArg < maxArg)
 
        if (nextArg > maxArg)
@@ -534,18 +534,18 @@ class TeX
          * command-line argument.                                          *
          ******************************************************************/
          { CommandLineError("No input file specified") ;
-         } ;
+         }
 
-       /********************************************************************
+         /********************************************************************
        * Set Parameters.TLAInputFile to the last argument, adding ".tex"   *
        * if it has no extension already.                                   *
        ********************************************************************/
        if (args[maxArg].indexOf(".") == -1)
          { Parameters.TLAInputFile = args[maxArg] + ".tex";}
        else       
-         { Parameters.TLAInputFile = args[maxArg];};
+         { Parameters.TLAInputFile = args[maxArg];}
 
-       /********************************************************************
+         /********************************************************************
        * Set default options.                                              *
        ********************************************************************/
        if (! outOption)
@@ -555,12 +555,12 @@ class TeX
              ToolIO.out.println(
               "Warning: Output file being written to a different directory\n"
             + "         than input file.");
-         } ;
-       if (! alignOutOption)
+         }
+         if (! alignOutOption)
          { Parameters.LaTeXAlignmentFile = "tlatex" ;
-         } ;
+         }
 
-       /********************************************************************
+         /********************************************************************
        * Produce Postscript output if either                               *
        *   (i) -ps, or                                                     *
        *  (ii) -shade but not -nops                                        *
@@ -591,12 +591,12 @@ class TeX
     ***********************************************************************/
     { String result = str;
       if (result.indexOf(":") != -1)
-        { result = result.substring(result.lastIndexOf(":")+1) ; } ;
-      if (result.indexOf("/") != -1)
-        { result = result.substring(result.lastIndexOf("/")+1) ; } ;
-      if (result.indexOf("\\") != -1)
-        { result = result.substring(result.lastIndexOf("\\")+1) ; } ;
-      return result;
+        { result = result.substring(result.lastIndexOf(":")+1) ; }
+        if (result.indexOf("/") != -1)
+        { result = result.substring(result.lastIndexOf("/")+1) ; }
+        if (result.indexOf("\\") != -1)
+        { result = result.substring(result.lastIndexOf("\\")+1) ; }
+        return result;
     }    
 
    private static boolean HasPathPrefix(final String str)
@@ -629,11 +629,11 @@ class TeX
        while (line != null)
          { ToolIO.out.println(line) ;
            line = input.getLine() ;
-         } ;
-      input.close();
-     } ;
+         }
+         input.close();
+     }
 
-    private static long start = Debug.now() ;
+     private static long start = Debug.now() ;
 
     /***********************************************************************
     * Starting / Finished used to print debugging information.            *
@@ -703,8 +703,8 @@ class TeX
             { final int start = 3 ;
               final int after = inputLine.indexOf("}",start)-2 ;
               resultVec.addElement(inputLine.substring(start, after));
-            }; 
-           inputLine = logfile.readLine();
+            }
+             inputLine = logfile.readLine();
          }
         
         logfile.close();

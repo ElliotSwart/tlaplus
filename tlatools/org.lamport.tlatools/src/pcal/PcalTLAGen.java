@@ -1035,7 +1035,7 @@ public class PcalTLAGen
 //                            sb.append((String) sv.elementAt(v));
 //                        }
                     }
-                    addOneTokenToTLA(" = ");;
+                    addOneTokenToTLA(" = ");
                     addLeftParen(rhs.getOrigin());
                     addExprToTLA(rhs);
                     addRightParen(rhs.getOrigin());
@@ -1537,7 +1537,6 @@ public class PcalTLAGen
             {
                 sb = new StringBuffer(NSpaces(prefixIndent) + "\\/ ");
             }
-            ;
             sb.append("/\\ ");
             final Vector orClause = (Vector) ast.ors.elementAt(i);
             final Changed cC = new Changed(c);
@@ -1559,14 +1558,13 @@ public class PcalTLAGen
                 GenStmt((AST) orClause.elementAt(j), cC, context, sb.toString(), here + 3); 
                 sb = new StringBuffer(NSpaces(here) + "/\\ ");
             }
-            ;
             cOrs[i] = cC;
             allC.Merge(cC);
             ucLocs[i] = tlacode.size();
 //            tlacode.addElement("Replace by UNCHANGED"); // 
             addOneLineOfTLA("Replace by UNCHANGED");
         }
-        ; // End of for i
+        // End of for i
 
         /**********************************************************************
         * Insert real UNCHANGED clauses.  Note that we have to go through     *
@@ -1609,7 +1607,6 @@ public class PcalTLAGen
             	}
             } 
         }
-        ;
         /*
          * Add the right paren for the entire statement.
          */
@@ -1923,7 +1920,6 @@ public class PcalTLAGen
         {
             addOneLineOfTLA("CONSTANT defaultInitValue");
         }
-        ;
 
         if (EmptyExpr(defs))
         {
@@ -1951,13 +1947,11 @@ public class PcalTLAGen
 //            {
 //                tlacode.addElement((String) sv.elementAt(i));
 //            }
-            ;
             addOneLineOfTLA("");
             GenVarDecl(lVars, lVarsSource); // to be fixed
             gVars.addAll(lVars);
             gVarsSource.addAll(lVarsSource);
         }
-        ;
         addOneLineOfTLA("");
 
         /*
@@ -1984,7 +1978,6 @@ public class PcalTLAGen
 //                tlacodeNextLine = tlacodeNextLine + ", ";
                 addOneTokenToTLA(", ");
             }
-            ;
             final String vbl = gVars.elementAt(i);
             final AST.VarDecl vblDecl = gVarsSource.elementAt(i);
             final Region vblOrigin = vblDecl.getOrigin();
@@ -2007,8 +2000,7 @@ public class PcalTLAGen
             endCurrentLineOfTLA() ;
             tlacodeNextLine = NSpaces("vars ==".length());
         }
-        ;
-//        var.append(" >>");
+        //        var.append(" >>");
 //        tlacodeNextLine = tlacodeNextLine + " >>";
         addOneTokenToTLA(" >>");
 //        tlacode.addElement(var.toString());
@@ -2039,7 +2031,6 @@ public class PcalTLAGen
         {
             return;
         }
-        ;
         if (varVec.size() > 1)
         {
 //            res.append("VARIABLES ");
@@ -2049,7 +2040,6 @@ public class PcalTLAGen
 //            res.append("VARIABLE ");
             addOneTokenToTLA(TLAConstants.KeyWords.VARIABLE + " ");
         }
-        ;
         for (int i = 0; i < varVec.size(); i++)
         {
             if (i > 0)
@@ -2058,7 +2048,6 @@ public class PcalTLAGen
 //                curLine.append(", ");
                 addOneTokenToTLA(", ");
             }
-            ;
             final String vbl = varVec.elementAt(i);
             final AST vblsource = varVecSource.elementAt(i);
 //            if (curLine.length() + vbl.length() + 1 > wrapColumn)
@@ -2075,15 +2064,12 @@ public class PcalTLAGen
 //                    res.append(NSpaces("VARIABLE ".length()));
                     tlacodeNextLine = tlacodeNextLine + NSpaces("VARIABLE ".length());
                 }
-                ;
             }
-            ;
-//            res.append(vbl);
+            //            res.append(vbl);
 //            curLine.append(vbl);
             addOneSourceTokenToTLA(vbl, vblsource.getOrigin());
         }
-        ;
-//        tlacode.addElement(res.toString());
+        //        tlacode.addElement(res.toString());
         endCurrentLineOfTLA();
     }
 
@@ -2774,7 +2760,7 @@ public class PcalTLAGen
           }
           addOneLineOfTLA(sb.toString());
           addOneLineOfTLA("");
-        } ;
+        }
         sb = new StringBuffer();
         		
         // Steps with no parameter
@@ -3640,11 +3626,9 @@ public class PcalTLAGen
             {
                 vec.setElementAt(" " + vec.elementAt(i), i);
             }
-            ;
             final int curLineNum = vec.size() - 1;
             vec.setElementAt(vec.elementAt(curLineNum) + ")", curLineNum);
         }
-        ;
         return vec;
     }
     
@@ -3659,7 +3643,6 @@ public class PcalTLAGen
         {
             return false;
         }
-        ;
         /*******************************************************************
         * vec shouldn't be empty, but let's not worry about what to do if  *
         * it is.                                                           *
@@ -3686,7 +3669,7 @@ public class PcalTLAGen
                         curCharNum++;
                         break;
                     }
-                    ; // end switch
+                    // end switch
                 } // end if (inString)
                 else
                 {
@@ -3721,7 +3704,6 @@ public class PcalTLAGen
                         {
                             mayNeedParen = true;
                         }
-                        ;
                         break;
                     case '>':
                         if (nextChar == '>')
@@ -3732,28 +3714,24 @@ public class PcalTLAGen
                         {
                             mayNeedParen = true;
                         }
-                        ;
                         break;
                     case '|':
                         if ((nextChar == '-') || ((curCharNum > 0) && (curLine.charAt(curCharNum - 1) == '-')))
                         {
                             mayNeedParen = true;
                         }
-                        ;
                         break;
                     case '\\':
                         if (!((nextChar == ' ') || (nextChar == 'o') || (nextChar == 'X')))
                         {
                             mayNeedParen = true;
                         }
-                        ;
                         break;
                     case '/':
                         if (nextChar == '\\')
                         {
                             mayNeedParen = true;
                         }
-                        ;
                         break;
                     case '(':
                     case '[':
@@ -3766,37 +3744,32 @@ public class PcalTLAGen
                         rightParen = true;
                         break;
                     }
-                    ;
                     if (mayNeedParen && (parenDepth == 0))
                     {
                         needParen = true;
                     }
-                    ;
                     if (leftParen)
                     {
                         parenDepth++;
                     }
-                    ;
                     if (rightParen)
                     {
                         if (parenDepth == 0)
                         {
                             needParen = true;
                         }
-                        ;
                         parenDepth--;
                     }
                 }
-                ; // end else ! inString
+                // end else ! inString
                 curCharNum++;
             }
-            ; // end while (curCharNum < curLine.length())
+            // end while (curCharNum < curLine.length())
 
             if (inString)
             {
                 needParen = true;
             }
-            ;
             /*****************************************************************
             * If there is an unmatched quote, we might as well stop here.    *
             *****************************************************************/

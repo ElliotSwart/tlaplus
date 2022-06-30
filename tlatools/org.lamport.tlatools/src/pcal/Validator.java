@@ -44,8 +44,8 @@ public class Validator {
 		ERROR_ENCOUNTERED,
 		
 		/** Everything checks out. */
-		NO_DIVERGENCE;
-	}
+		NO_DIVERGENCE
+    }
 	
 	static final String PCAL_CHECKSUM = "pcalchecksum";
 	static final String TLA_CHECKSUM = "tlachecksum";

@@ -157,16 +157,16 @@ public int levelChecked   = 0 ;
         *    level-checking a proof.                                       *
         *******************************************************************/
         this.levelCorrect = sub[i].levelCheck(iter) && this.levelCorrect ;
-        if (this.level < sub[i].getLevel()) {this.level = sub[i].getLevel();};
-        this.levelParams.addAll(sub[i].getLevelParams());
+        if (this.level < sub[i].getLevel()) {this.level = sub[i].getLevel();}
+          this.levelParams.addAll(sub[i].getLevelParams());
         this.levelConstraints.putAll(sub[i].getLevelConstraints());
         this.argLevelConstraints.putAll(sub[i].getArgLevelConstraints());
         this.argLevelParams.addAll(sub[i].getArgLevelParams());
         this.allParams.addAll(sub[i].getAllParams());
         this.nonLeibnizParams.addAll(sub[i].getNonLeibnizParams());
-       } ;
-     } ;
-    return this.levelCorrect ;
+       }
+    }
+      return this.levelCorrect ;
    }
 
   /*************************************************************************
@@ -186,8 +186,8 @@ public int levelChecked   = 0 ;
         final SymbolNode node = iter.next() ;
         if (node.getKind() == ConstantDeclKind) {
           constrs.put(node, Levels[ActionLevel]);
-         };
-       }
+         }
+      }
    }
 /***************************************************************************
 * The checks in the following methods should probably be eliminated after  *
@@ -199,8 +199,8 @@ public int levelChecked   = 0 ;
 ***************************************************************************/
   public int getLevel(){
     if (this.levelChecked == 0)
-      {throw new WrongInvocationException("getLevel called before levelCheck");};
-    return this.level;
+      {throw new WrongInvocationException("getLevel called before levelCheck");}
+      return this.level;
   }
 
   public HashSet<SymbolNode> getLevelParams(){
@@ -210,8 +210,8 @@ public int levelChecked   = 0 ;
     * level of the object.                                                 *
     ***********************************************************************/
     if (this.levelChecked == 0)
-       {throw new WrongInvocationException("getLevelParams called before levelCheck");};
-    return this.levelParams;
+       {throw new WrongInvocationException("getLevelParams called before levelCheck");}
+      return this.levelParams;
    }
 
   public HashSet<SymbolNode> getAllParams(){
@@ -220,8 +220,8 @@ public int levelChecked   = 0 ;
     * from the local context that appear within the object.                *
     ***********************************************************************/
     if (this.levelChecked == 0)
-       {throw new WrongInvocationException("getAllParams called before levelCheck");};
-    return this.allParams;
+       {throw new WrongInvocationException("getAllParams called before levelCheck");}
+      return this.allParams;
    }
 
   public HashSet<SymbolNode> getNonLeibnizParams(){
@@ -231,8 +231,8 @@ public int levelChecked   = 0 ;
     * nonLeibniz argument.                                                 *
     ***********************************************************************/
     if (this.levelChecked == 0)
-       {throw new WrongInvocationException("getAllParams called before levelCheck");};
-    return this.nonLeibnizParams;
+       {throw new WrongInvocationException("getAllParams called before levelCheck");}
+      return this.nonLeibnizParams;
    }
 
   public SetOfLevelConstraints getLevelConstraints(){
@@ -242,8 +242,8 @@ public int levelChecked   = 0 ;
     * key/parameter must have a level <= the value/int.                    *
     ***********************************************************************/
     if (this.levelChecked == 0)
-       {throw new WrongInvocationException("getLevelConstraints called before levelCheck");};
-    return this.levelConstraints;
+       {throw new WrongInvocationException("getLevelConstraints called before levelCheck");}
+      return this.levelConstraints;
    }
 
   public SetOfArgLevelConstraints getArgLevelConstraints() {
@@ -255,8 +255,8 @@ public int levelChecked   = 0 ;
     * number k.position.                                                   *
     ***********************************************************************/
     if (this.levelChecked == 0)
-       {throw new WrongInvocationException("getArgLevelConstraints called before levelCheck");};
-    return this.argLevelConstraints;
+       {throw new WrongInvocationException("getArgLevelConstraints called before levelCheck");}
+      return this.argLevelConstraints;
    }
 
   public HashSet<ArgLevelParam> getArgLevelParams(){
@@ -265,8 +265,8 @@ public int levelChecked   = 0 ;
     * ArgLevelParam.java for an explanation of those objects.)             *
     ***********************************************************************/
     if (this.levelChecked == 0)
-       {throw new WrongInvocationException("getArgLevelParams called before levelCheck");};
-    return this.argLevelParams;}
+       {throw new WrongInvocationException("getArgLevelParams called before levelCheck");}
+      return this.argLevelParams;}
 
   public String defaultLevelDataToString() {
     /***********************************************************************
@@ -291,11 +291,11 @@ public int levelChecked   = 0 ;
     boolean first = true ;
     final Iterator<? extends SymbolNode> iter = hs.iterator();
     while (iter.hasNext()) {
-      if (! first) {rval = rval + ", ";} ;
-      rval = rval + iter.next().getName() ;
+      if (! first) {rval = rval + ", ";}
+        rval = rval + iter.next().getName() ;
       first = false ;
-     } ;
-    rval = rval + "}" ;
+     }
+      rval = rval + "}" ;
     return rval ;
    }
 
@@ -307,13 +307,13 @@ public int levelChecked   = 0 ;
     boolean first = true ;
     final Iterator<ArgLevelParam> iter = hs.iterator();
     while (iter.hasNext()) {
-      if (! first) {rval = rval + ", ";} ;
-      final ArgLevelParam alp = iter.next();
+      if (! first) {rval = rval + ", ";}
+        final ArgLevelParam alp = iter.next();
       rval = rval + "<" + alp.op.getName() + ", " + alp.i + ", " +
                      alp.param.getName() + ">" ;
       first = false;
-     } ;
-    rval = rval + "}" ;
+     }
+      rval = rval + "}" ;
     return rval ;
    }
   @Override
@@ -324,8 +324,8 @@ public int levelChecked   = 0 ;
     * some nodes need to print additional level information.               *
     ***********************************************************************/
     if (this.levelChecked == 0)
-       {throw new WrongInvocationException("levelDataToString called before levelCheck");};
-    return this.defaultLevelDataToString() ;}
+       {throw new WrongInvocationException("levelDataToString called before levelCheck");}
+      return this.defaultLevelDataToString() ;}
 
 
   @Override

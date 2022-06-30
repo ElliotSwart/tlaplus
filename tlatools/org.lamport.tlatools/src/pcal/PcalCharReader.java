@@ -82,17 +82,17 @@ class PcalCharReader
       * getNextChar.  Following Java conventions, the first line is        *
       * numbered 0.                                                        *
       *********************************************************************/
-      { return line ; } ;
+      { return line ; }
 
-    public int getColumnNumber() 
+      public int getColumnNumber()
       /*********************************************************************
       * Returns the virtual column number of the next character to be      *
       * returned by getNextChar.  Following Java conventions, the first    *
       * column is numbered 0.                                              *
       *********************************************************************/
-      { return vcolumn ; } ;
+      { return vcolumn ; }
 
-    public char getNextChar()
+      public char getNextChar()
       /*********************************************************************
       * Returns the next character in the input stream and updates the     *
       * line and column numbers.  However, it replaces each '\t' (tab) in  *
@@ -108,15 +108,15 @@ class PcalCharReader
         * If currentLine is null, then we must have reached the end of the *
         * input.                                                           *
         *******************************************************************/
-        if (currentLine == null) { return '\t' ;} ;
-  
-        /*******************************************************************
+        if (currentLine == null) { return '\t' ;}
+
+          /*******************************************************************
         * If we are converting a tab to spaces, return a space.            *
         *******************************************************************/
         if (tabToSpaces)
           { vcolumn = vcolumn + 1;
-            if ((vcolumn % 8) == 0) {tabToSpaces = false;};
-            return ' ';
+            if ((vcolumn % 8) == 0) {tabToSpaces = false;}
+              return ' ';
           }
 
        /********************************************************************
@@ -137,11 +137,11 @@ class PcalCharReader
             vcolumn     = 0 ;
             if (line >= vec.size())
                  {currentLine = null ;}
-            else {currentLine = vec.elementAt(line) ;} ;
-            return '\n' ;
-           } ;
-  
-        /*******************************************************************
+            else {currentLine = vec.elementAt(line) ;}
+              return '\n' ;
+           }
+
+          /*******************************************************************
         * We are not at the end of the input or of the line and are not    *
         * converting a tab to space.  Update column and vcolumn, and       *
         * return the next character.                                       *
@@ -150,13 +150,13 @@ class PcalCharReader
         column = column + 1;
         vcolumn = vcolumn + 1;
         if (readChar == '\t')
-          { if ((vcolumn % 8) != 0) {tabToSpaces = true;} ;
-            return ' ';
+          { if ((vcolumn % 8) != 0) {tabToSpaces = true;}
+              return ' ';
           }
         return readChar ;
-      } ;
+      }
 
-    public void backspace()
+      public void backspace()
       /*********************************************************************
       * Backspaces the output stream.  That is, a sequence of n            *
       * backspaces without a getNextChar makes the next getNextChar        *
@@ -176,8 +176,8 @@ class PcalCharReader
              { PcalDebug.ReportBug(
                   "PcalCharReader.backspace trying to " +
                   "move past beginning of reader");
-             } ;
-           line = line - 1 ;
+             }
+             line = line - 1 ;
            currentLine = vec.elementAt(line) ;
            column = 0 ;
            vcolumn = 0 ;
@@ -193,9 +193,9 @@ class PcalCharReader
          { column = column - 1;
            vcolumn = vcolumn - 1;
          }
-      } ;
+      }
 
-    public String peek()
+      public String peek()
       /***************************************************************
       * Moves the input stream to the next non-space character,      *
       * then returns the string from that character to the end of    *
@@ -208,10 +208,10 @@ class PcalCharReader
         char next = getNextChar() ;
         while (   (next == ' ')
                || (next == '\n'))
-           { next = getNextChar() ;} ;
-        if (next == '\t')
-          { return "\t" ;} ;
-        backspace() ;
+           { next = getNextChar() ;}
+          if (next == '\t')
+          { return "\t" ;}
+          backspace() ;
 // System.out.println("Peek returns `" +  currentLine.substring(column) + "' at line = " + line + ", col = " + column);
         return currentLine.substring(column) + "\n" ;
       }
@@ -237,15 +237,15 @@ class PcalCharReader
             while (i < firstCol)
              { if (ln.charAt(i) == '\t')
                  { this.vcolumn = ((this.vcolumn / 8) + 1) * 8 ;}
-               else {this.vcolumn = this.vcolumn + 1 ; } ;
-               i = i + 1;
+               else {this.vcolumn = this.vcolumn + 1 ; }
+                 i = i + 1;
              }
-          } ;
+          }
 
-        /*******************************************************************
+          /*******************************************************************
         * Set currentLine.                                                 *
         *******************************************************************/
         if (firstLine < vector.size())
-          { this.currentLine = vector.elementAt(firstLine) ; } ;
-      } ;
+          { this.currentLine = vector.elementAt(firstLine) ; }
+      }
   }     

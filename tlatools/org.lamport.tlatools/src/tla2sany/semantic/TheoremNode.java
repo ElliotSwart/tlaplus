@@ -105,8 +105,8 @@ public class TheoremNode extends LevelNode {
   * null.                                                                  *
   *************************************************************************/
   public final UniqueString getName() {
-    if (def == null) {return null;} ;
-    return def.getName() ;
+    if (def == null) {return null;}
+      return def.getName() ;
     }
 
   /* Level checking */
@@ -117,19 +117,19 @@ public class TheoremNode extends LevelNode {
  */
   @Override
   public final boolean levelCheck(final int iter) {
-    if (levelChecked >= iter) {return true ;} ;
-    levelChecked = iter;
+    if (levelChecked >= iter) {return true ;}
+      levelChecked = iter;
     final LevelNode[] sub;
     if (this.proof != null) {
       sub = new LevelNode[2];
       sub[1] = proof;
      }
-    else { sub = new LevelNode[1];} ;
-    if (this.def != null) {sub[0] = this.def;}
-    else {sub[0] = this.theoremExprOrAssumeProve;} ;
-    final boolean retVal = levelCheckSubnodes(iter, sub);
+    else { sub = new LevelNode[1];}
+      if (this.def != null) {sub[0] = this.def;}
+    else {sub[0] = this.theoremExprOrAssumeProve;}
+      final boolean retVal = levelCheckSubnodes(iter, sub);
 
-    if  (this.theoremExprOrAssumeProve == null) { return retVal; } ;
+    if  (this.theoremExprOrAssumeProve == null) { return retVal; }
       /*********************************************************************
       * I don't know if the theoremExprOrAssumeProve node can be null,     *
       * but if it is, there's no more level checking to do.                *
@@ -143,9 +143,9 @@ public class TheoremNode extends LevelNode {
     if (this.theoremExprOrAssumeProve instanceof OpApplNode) {
        oan   = (OpApplNode) this.theoremExprOrAssumeProve ;
        oanOp = oan.operator ;
-    } ;
+    }
 
-    /***********************************************************************
+      /***********************************************************************
     * Check that only a non-temporal theorem cannot have a temporal-level  *
     * formula in its proof.                                                *
     * Modified 3 Mar 2009:                                                 *
@@ -204,15 +204,15 @@ public class TheoremNode extends LevelNode {
                    "Non-constant bound of temporal PICK.");
        }
      }
-   };
-   /************************************************************************
+   }
+      /************************************************************************
    * Finish the level checking for a temporal-level node.                  *
    * Added 3 Mar 2009.                                                     *
    ************************************************************************/
    if (this.theoremExprOrAssumeProve.level == TemporalLevel){
        LevelCheckTemporal(this.proof);
-   };
-   return retVal;
+   }
+      return retVal;
   }
 
   /*************************************************************************
@@ -236,8 +236,8 @@ public class TheoremNode extends LevelNode {
      **********************************************************************/
      if ((pn == null) || (pn.getKind() != NonLeafProofKind)){
         return;
-      };
-     final NonLeafProofNode pnode = (NonLeafProofNode) pn ;
+      }
+      final NonLeafProofNode pnode = (NonLeafProofNode) pn ;
      for (int i = 0; i < pnode.getSteps().length; i++) {
        /********************************************************************
        * Process the i-th proof step.                                      *
@@ -254,8 +254,8 @@ public class TheoremNode extends LevelNode {
           if (tnode.theoremExprOrAssumeProve instanceof OpApplNode) {
             oanode = (OpApplNode) tnode.theoremExprOrAssumeProve;
           }
-       };
-       if (oanode != null) {
+       }
+         if (oanode != null) {
          final UniqueString name = oanode.operator.getName();
 
          if (   (   (name == OP_take)
@@ -276,13 +276,13 @@ public class TheoremNode extends LevelNode {
                errors.addError(
                  oanode.stn.getLocation(),
                  "Non-constant CASE for temporal goal.") ;
-             };
-           LevelCheckTemporal(tnode.getProof()) ;
+             }
+             LevelCheckTemporal(tnode.getProof()) ;
          } else
          if (name == OP_qed) {
            LevelCheckTemporal(tnode.getProof()) ;
          }
-       }; // if (oanode != null)
+       }// if (oanode != null)
 
      } // for i
   } // LevelCheckTemporal
@@ -344,20 +344,20 @@ public class TheoremNode extends LevelNode {
                       2,
                       "\n def: " +
                       Strings.indent(2, this.def.toString(depth-1)));
-     } ;
-    if (suffices) {
+     }
+      if (suffices) {
       res = res + Strings.indent(
                       2,
                       "\n SUFFICES step");
-     } ;
+     }
 
-    if (proof != null) {
+      if (proof != null) {
       res = res + Strings.indent(
                       2,
                       "\n proof: " +
                       Strings.indent(2, this.proof.toString(depth-1)));
-     } ;
-    return res ;
+     }
+      return res ;
   }
 
   /**
@@ -380,9 +380,9 @@ public class TheoremNode extends LevelNode {
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
     if (theoremExprOrAssumeProve != null)
-      {theoremExprOrAssumeProve.walkGraph(semNodesTable, visitor);} ;
-    if (proof != null) {proof.walkGraph(semNodesTable, visitor);} ;
-    visitor.postVisit(this);
+      {theoremExprOrAssumeProve.walkGraph(semNodesTable, visitor);}
+      if (proof != null) {proof.walkGraph(semNodesTable, visitor);}
+      visitor.postVisit(this);
   }
 
   /* MR: this does not do anything

@@ -25,7 +25,7 @@ public class OutputFileWriter
        { Debug.ReportError( 
            "TLATeX cannot open output file " + name + ".\n"
          + "    Perhaps the file is write-protected");
-       };
+       }
     }
 
    public void putLine(final String out)
@@ -39,7 +39,7 @@ public class OutputFileWriter
        { Debug.ReportError( 
            "Error trying to write to output file " + name + ".\n"
          + "    Perhaps there is a file-system problem.");
-       };
+       }
     }
      
    public void close()
@@ -48,7 +48,7 @@ public class OutputFileWriter
        { Debug.ReportError( 
            "Error trying to close output file " + name + ".\n"
          + "    Perhaps there is a file-system problem.");
-       };
+       }
     }
 
 

@@ -392,8 +392,7 @@ class trans {
         		{
         			file.delete();
         		}
-        		;
-        		file = new File(PcalParams.TLAInputFile + TLAConstants.Files.TLA_EXTENSION);
+                file = new File(PcalParams.TLAInputFile + TLAConstants.Files.TLA_EXTENSION);
         		file.renameTo(new File(PcalParams.TLAInputFile + ".old"));
         	} catch (final Exception e)
         	{
@@ -738,16 +737,13 @@ class trans {
             		algLine = algLine + 1;
             	} 
             }
-            ;
         }
-        ;
         if (!foundBegin)
         {
             PcalDebug.reportError("Beginning of algorithm string " + PcalParams.BeginAlg + " not found.");
             return null;
         }
-        ;
-        
+
         /*
          * Set the algColumn and algLine fields of the mapping object.
          */
@@ -843,9 +839,9 @@ class trans {
             if (!endStuff.equals("") && !endStuff.startsWith("\\*")) {
             	PcalDebug.reportError("Text on same line following `*)' that ends the \n   comment containing the algorithm.");
                 return null ;
-            } ;
-            
-			output.add((ecLine + 1), (PCAL_TRANSLATION_COMMENT_LINE_PREFIX + " "
+            }
+
+            output.add((ecLine + 1), (PCAL_TRANSLATION_COMMENT_LINE_PREFIX + " "
 					+ String.format(Validator.CHECKSUM_TEMPLATE, "ffffffff", "ffffffff")));
             untabInputVec.insertElementAt(PCAL_TRANSLATION_COMMENT_LINE_PREFIX, (ecLine + 1));
             output.add((ecLine + 2), (TLA_TRANSLATION_COMMENT_LINE_PREFIX + " "));
@@ -936,7 +932,6 @@ class trans {
 //            return exitWithStatus(STATUS_EXIT_WITHOUT_ERROR);
             return null ; // added for testing
         }
-        ;
 
         /*********************************************************************
         * Rename algorithm variables to eliminate name conflicts--for        *
@@ -1141,7 +1136,6 @@ class trans {
             }
 
         }
-        ;
         /*********************************************************************
         * Run TLC on the specification file and set tlcOut to TLC's output.  *
         *********************************************************************/
@@ -1157,7 +1151,6 @@ class trans {
             PcalDebug.reportInfo("Running TLC2.");
             javaInvocation = "java -Xss1m tlc2.TLC ";
         }
-        ;
         String tlcOut = "      ";
         final Runtime rt = Runtime.getRuntime();
         try
@@ -1172,13 +1165,11 @@ class trans {
             {
                 tlcOut = bufferedReader.readLine();
             }
-            ;
             bufferedReader.close();
         } catch (final Exception e)
         {
             throw new TLCTranslationException("Error reading output of TLC");
         }
-        ;
 
         /*********************************************************************
         * Test if the translation failed and reported an error message,      *
@@ -1191,7 +1182,6 @@ class trans {
             throw new TLCTranslationException("TLC's translation of the parsed algorithm failed with\n  Error: "
                     + tlcOut.substring(tlcOut.indexOf("@Error@") + 7, tlcOut.indexOf("@EndError@")));
         }
-        ;
         tlcOut = tlcOut.substring(2, tlcOut.lastIndexOf(">>")) + "  ";
         PcalDebug.reportInfo("Read TLC output.");
 
@@ -1218,7 +1208,6 @@ class trans {
                         throw new TLCTranslationException("I'm confused");
 
                     }
-                    ;
                     i = i + 3;
                     while (tlcOut.charAt(i) != '"')
                     {
@@ -1240,9 +1229,7 @@ class trans {
                             transl = transl + tlcOut.substring(i, i + 1);
                             i = i + 1;
                         }
-                        ;
                     }
-                    ;
                     i = i + 8;
                     transl = transl + "\"";
                 } else
@@ -1253,14 +1240,11 @@ class trans {
                         {
                             i = i + 1;
                         }
-                        ;
                         transl = transl + tlcOut.substring(i, i + 1);
                         i = i + 1;
                     }
-                    ;
                     i = i + 1;
                 }
-                ;
             } // END if (tlcOut.charAt(i) == '"')
             else if (tlcOut.charAt(i) == ',')
             {
@@ -1271,13 +1255,11 @@ class trans {
                 {
                     throw new TLCTranslationException("Expected space but found `" + tlcOut.charAt(i) + "'");
                 }
-                ;
                 transl = transl + tlcOut.substring(i, i + 1);
                 i = i + 1;
             }
-            ;
         }
-        ; // END while
+        // END while
         /* ******************************************************************
          * Wrap the translated string into approximately 80 character lines *
          *******************************************************************/
@@ -1571,7 +1553,6 @@ class trans {
                 {
                     return STATUS_EXIT_WITH_ERRORS;
                 }
-                ;
                 nextArg = nextArg + 1;
                 if (nextArg == maxArg)
                 {
@@ -1585,7 +1566,6 @@ class trans {
                 {
                     return STATUS_EXIT_WITH_ERRORS;
                 }
-                ;
                 nextArg = nextArg + 1;
                 if (nextArg == maxArg)
                 {
@@ -1724,7 +1704,6 @@ class trans {
                     return CommandLineError("Unknown or illegal option in options statement: " + option);
                 }
             }
-            ;
             nextArg = nextArg + 1;
         } // END while (nextArg < maxArg)
 
@@ -1874,7 +1853,6 @@ class trans {
             CommandLineError("\nCan have at most one of the options " + "-spec, -myspec, -spec2, -myspec2, writeAST");
             return true;
         }
-        ;
         return false;
     }
 
@@ -1909,16 +1887,13 @@ class trans {
                 {
                     nextcol = nextcol + 1;
                 }
-                ;
                 if ((nextcol < line.length()) && (nextcol == line.indexOf(tok2)))
                 {
                     return i;
                 }
             }
-            ;
             i = i + 1;
         }
-        ;
         return -1;
     }
 

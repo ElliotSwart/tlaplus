@@ -1203,8 +1203,8 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	public static class Iterator {
 
 		private enum WRAP {
-			ALLOWED, FORBIDDEN;
-		}
+			ALLOWED, FORBIDDEN
+        }
 
 		private final long elements;
 		private final LongArray array;
