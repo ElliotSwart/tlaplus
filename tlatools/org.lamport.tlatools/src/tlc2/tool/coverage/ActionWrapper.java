@@ -162,7 +162,7 @@ public final class ActionWrapper extends CostModelNode {
 		// Let children report.
 		// Could disable here if decided to implement action-only coverage at the TLC
 		// level (see org.lamport.tla.toolbox.tool.tlc.model.Model.Coverage).
-		this.children.values().forEach(c -> c.report());
+		this.children.values().forEach(CostModel::report);
 		return this;
 	}
 

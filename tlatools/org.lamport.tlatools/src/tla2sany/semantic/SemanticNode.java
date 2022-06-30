@@ -4,11 +4,7 @@
 // last modified on Fri 16 Mar 2007 at 17:22:54 PST by lamport
 package tla2sany.semantic;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -194,7 +190,7 @@ public abstract class SemanticNode
 		//
 		// We filter null values here instead of in OpDefNode#getChildren because I
 		// don't know if some functionality relies on getChildren to return null values.
-		return Arrays.asList(children).stream().filter(c -> c != null).collect(Collectors.toList());
+		return Arrays.asList(children).stream().filter(Objects::nonNull).collect(Collectors.toList());
 	}
   
 	public <T> ChildrenVisitor<T> walkChildren(final ChildrenVisitor<T> visitor) {

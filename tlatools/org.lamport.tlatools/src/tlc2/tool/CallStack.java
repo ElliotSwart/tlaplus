@@ -39,7 +39,7 @@ public class CallStack {
 		  return;
 	  }
 	  this.frozen = true;
-	  e.asTrace().forEach(sm -> push(sm));
+	  e.asTrace().forEach(this::push);
   }
  
   public final int size() { return this.index; }

@@ -150,7 +150,7 @@ public abstract class EnumerableValue extends Value implements Enumerable {
 			// Calculating optimal parameters for the given n is expensive! We assume that
 			// we will only have to calculate parameters for a small number of ns per
 			// model-checker run.
-			final int[] vals = MULTIPLIERS.computeIfAbsent(n, j -> computeOptimalMandA(j));
+			final int[] vals = MULTIPLIERS.computeIfAbsent(n, EnumerableValue::computeOptimalMandA);
 			this.m = vals[0];
 			this.a = vals[1];
 			

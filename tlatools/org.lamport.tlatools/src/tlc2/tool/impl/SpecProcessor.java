@@ -1025,7 +1025,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         this.invariants = a.toArray(Action[]::new);
 
         final ArrayList<String> b = new ArrayList<>(Arrays.asList(this.invNames));
-        b.addAll(overrides.stream().map(act -> act.getNameOfDefault()).collect(Collectors.toList()));
+        b.addAll(overrides.stream().map(Action::getNameOfDefault).collect(Collectors.toList()));
         this.invNames = b.toArray(String[]::new);
         
 		// Process the model constraints in the config. It's done after all

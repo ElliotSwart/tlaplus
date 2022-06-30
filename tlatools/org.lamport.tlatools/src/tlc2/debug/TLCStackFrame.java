@@ -336,7 +336,7 @@ public class TLCStackFrame extends StackFrame {
 					// view by modules. In other words, constants get moved up by one level in the
 					// variable view iff there is only one module.
 					e.getValue().entrySet().stream().map(c -> getVariable((Value) c.getValue(), c.getKey().getName()))
-							.forEach(var -> vars.add(var));
+							.forEach(vars::add);
 				} else {
 					final ModuleNode module = e.getKey();
 					
@@ -499,9 +499,7 @@ public class TLCStackFrame extends StackFrame {
 
 	protected Object unlazy(final LazyValue lv, final Object fallback) {
 		try {
-			return tool.eval(() -> {
-				return lv.eval(tool);
-			});
+			return tool.eval(() -> lv.eval(tool));
 		} catch (final TLCRuntimeException | EvalException | FingerprintException e) {
 			return fallback == null ? e : fallback;
 		}

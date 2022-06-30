@@ -316,23 +316,23 @@ public class TLCGetSet implements ValueConstants {
 			// TLC has multiple copies.
 			n[1] = SPEC_ACTIONS;
 			v[1] = new SetEnumValue(new ValueVec(Arrays.asList(tool.getActions()).stream()
-					.map(a -> new RecordValue(a)).collect(Collectors.toList())), false);
+					.map(RecordValue::new).collect(Collectors.toList())), false);
 
 			n[2] = SPEC_TERMPORALS;
 			v[2] = new SetEnumValue(new ValueVec(Arrays.asList(tool.getTemporals()).stream()
-					.map(a -> new RecordValue(a)).collect(Collectors.toList())), false);
+					.map(RecordValue::new).collect(Collectors.toList())), false);
 			
 			n[3] = SPEC_INVARIANTS;
 			v[3] = new SetEnumValue(new ValueVec(Arrays.asList(tool.getInvariants()).stream()
-					.filter(a -> !a.isInternal()).map(a -> new RecordValue(a)).collect(Collectors.toList())), false);
+					.filter(a -> !a.isInternal()).map(RecordValue::new).collect(Collectors.toList())), false);
 			
 			n[4] = SPEC_IMPLIEDINITS;
 			v[4] = new SetEnumValue(new ValueVec(Arrays.asList(tool.getImpliedInits()).stream()
-					.map(a -> new RecordValue(a)).collect(Collectors.toList())), false);
+					.map(RecordValue::new).collect(Collectors.toList())), false);
 			
 			n[5] = SPEC_IMPLIEDTEMPORALS;
 			v[5] = new SetEnumValue(new ValueVec(Arrays.asList(tool.getImpliedTemporals()).stream()
-					.map(a -> new RecordValue(a)).collect(Collectors.toList())), false);
+					.map(RecordValue::new).collect(Collectors.toList())), false);
 			
 			return new RecordValue(n, v, false);
 		} else if (LEVEL == sv.val) {

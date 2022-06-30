@@ -991,9 +991,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 		// simple compare the two location instances.
 		// If no breakpoints are set, stream over an empty list.
 		return breakpoints.getOrDefault(frame.getNode().getLocation().source(), new ArrayList<>()).stream()
-				.anyMatch(b -> {
-					return frame.matches(b);
-				});
+				.anyMatch(frame::matches);
 	}
 	
 	public static class Factory {

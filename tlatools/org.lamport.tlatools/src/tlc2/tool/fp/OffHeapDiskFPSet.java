@@ -937,18 +937,8 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		@Override
 		protected void mergeNewEntries(final BufferedRandomAccessFile[] inRAFs, final RandomAccessFile outRAF, final Iterator ignored) throws IOException {
 			final long now = System.currentTimeMillis();
-			assert offsets.stream().mapToLong(new ToLongFunction<>() {
-                @Override
-                public long applyAsLong(final Result result) {
-                    return result.getTable();
-                }
-            }).sum() == insertions : "Missing inserted elements during eviction.";
-			assert offsets.stream().mapToLong(new ToLongFunction<>() {
-                @Override
-                public long applyAsLong(final Result result) {
-                    return result.getDisk();
-                }
-            }).sum() == fileCnt : "Missing disk elements during eviction.";
+			assert offsets.stream().mapToLong(Result::getTable).sum() == insertions : "Missing inserted elements during eviction.";
+			assert offsets.stream().mapToLong(Result::getDisk).sum() == fileCnt : "Missing disk elements during eviction.";
 
 			// Calculate offsets for in and the out file, i.e. sum up the
 			// combined number of elements in lower partitions.

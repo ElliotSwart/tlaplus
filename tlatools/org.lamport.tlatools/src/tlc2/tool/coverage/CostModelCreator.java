@@ -254,7 +254,7 @@ public class CostModelCreator extends ExplorerVisitor {
 					stack.stream()
 							.filter(w -> w.getNode() != null && w.getNode() instanceof OpApplNode
 									&& ((OpApplNode) w.getNode()).getOperator() == odn)
-							.findFirst().ifPresent(cmn -> oan.setRecursive(cmn));
+							.findFirst().ifPresent(oan::setRecursive);
 				}
 			}
 

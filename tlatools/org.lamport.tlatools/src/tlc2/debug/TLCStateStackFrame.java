@@ -126,9 +126,7 @@ public class TLCStateStackFrame extends TLCStackFrame {
 	@Override
 	public Variable[] getVariables(final int vr) {
 		if (vr == stateId) {
-			return tool.eval(() -> {
-				return new Variable[] { toVariable() };
-			});
+			return tool.eval(() -> new Variable[] { toVariable() });
 		}
 		if (vr == stateId + 1) {
 			return ((DebugTool) tool).eval(() -> {
@@ -311,9 +309,7 @@ public class TLCStateStackFrame extends TLCStackFrame {
 	@Override
 	protected Object unlazy(final LazyValue lv, final Object fallback) {
 		try {
-			return tool.eval(() -> {
-				return lv.eval(tool, getS());
-			});
+			return tool.eval(() -> lv.eval(tool, getS()));
 		} catch (final TLCRuntimeException | EvalException | FingerprintException e) {
 			return fallback == null ? e : fallback;
 		}

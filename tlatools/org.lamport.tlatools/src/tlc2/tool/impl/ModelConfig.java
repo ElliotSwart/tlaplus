@@ -462,7 +462,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                             String.valueOf(scs.getBeginLine()), "a keyword" });
                 }
             }
-            this.rawConstants = rawConstants.stream().map(buf -> buf.toString()).collect(Collectors.toList());
+            this.rawConstants = rawConstants.stream().map(StringBuffer::toString).collect(Collectors.toList());
         } catch (final IOException e)
         {
             throw new ConfigFileException(EC.CFG_ERROR_READING_FILE,
@@ -605,7 +605,7 @@ public class ModelConfig implements ValueConstants, Serializable {
             /**
              * Then we trim just to make sure we don't have whitespaces surrounding any element.
              */
-            .map(s -> s.trim())
+            .map(String::trim)
             /**
              * Ignore `CONSTANT` or `CONSTANTS`:
              *
