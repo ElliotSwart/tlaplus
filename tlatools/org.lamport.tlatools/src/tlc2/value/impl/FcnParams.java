@@ -62,14 +62,14 @@ public class FcnParams implements IFcnParams {
 	sb.append("<<");
 	if (ids.length != 0) sb.append(ids[0].getName());
 	for (int j = 1; j < ids.length; j++) {
-	  sb.append(", " + ids[j].getName());
+	  sb.append(", ").append(ids[j].getName());
 	}
 	sb.append(">>");	
       }
       else {
 	sb.append(ids[0].getName());
       }
-      sb.append(" \\in " + this.domains[0].toString());
+      sb.append(" \\in ").append(this.domains[0].toString());
     }
     for (int i = 1; i < this.domains.length; i++) {
       sb.append(", ");
@@ -78,14 +78,14 @@ public class FcnParams implements IFcnParams {
 	sb.append("<<");
 	if (ids.length != 0) sb.append(ids[0].getName());
 	for (int j = 1; j < ids.length; j++) {
-	  sb.append(", " + ids[j].getName());
+	  sb.append(", ").append(ids[j].getName());
 	}
 	sb.append(">>");	
       }
       else {
 	sb.append(ids[0].getName());
       }	
-      sb.append(" \\in " + this.domains[i].toString());
+      sb.append(" \\in ").append(this.domains[i].toString());
     }
     return sb.toString();
   }
@@ -151,9 +151,7 @@ public class FcnParams implements IFcnParams {
     public final Value nextElement() {
       if (this.enums == null) return null;
       final Value[] elems = new Value[argLen];
-      for (int i = 0; i < argLen; i++) {
-	elems[i] = this.currentElems[i];
-      }
+        System.arraycopy(this.currentElems, 0, elems, 0, argLen);
       for (int i = 0; i < argLen; i++) {
 	this.currentElems[i] = this.enums[i].nextElement();
 	if (this.currentElems[i] != null) break;

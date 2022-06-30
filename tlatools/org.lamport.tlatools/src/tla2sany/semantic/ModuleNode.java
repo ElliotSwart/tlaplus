@@ -1099,9 +1099,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
       for (i = 0; i < this.opDefs.length; i++) {
           children[i] = this.opDefs[i];
       }
-      for (int j = 0; j < this.topLevel.length; j++) {
-          children[i+j] = this.topLevel[j];
-      }
+      System.arraycopy(this.topLevel, 0, children, i + 0, this.topLevel.length);
       return children;
    }
 
@@ -1152,59 +1150,59 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
   public final String toString(final int depth) {
     if (depth <= 0) return "";
 
-    String ret =
-      "\n*ModuleNode: " + name + "  " + super.toString(depth) +
-      "  constant module: " + this.isConstant() +
-      "  errors: " + (errors == null
-                        ? "null"
-                        : (errors.getNumErrors() == 0
-                              ? "none"
-                              : "" + errors.getNumErrors()));
+    StringBuilder ret =
+            new StringBuilder("\n*ModuleNode: " + name + "  " + super.toString(depth) +
+                    "  constant module: " + this.isConstant() +
+                    "  errors: " + (errors == null
+                    ? "null"
+                    : (errors.getNumErrors() == 0
+                    ? "none"
+                    : "" + errors.getNumErrors())));
 
     final Vector<String> contextEntries = ctxt.getContextEntryStringVector(depth-1,false);
     if (contextEntries != null) {
       for (int i = 0; i < contextEntries.size(); i++) {
         if (contextEntries.elementAt(i) != null) {
-          ret += Strings.indent(2, contextEntries.elementAt(i));
+          ret.append(Strings.indent(2, contextEntries.elementAt(i)));
         }
         else {
-          ret += "*** null ***";
+          ret.append("*** null ***");
         }
       }
     }
-    ret += Strings.indent(2,
-                          "\nAllExtended: " +
-                          LevelNode.HashSetToString(
-                             this.getExtendedModuleSet()));
+    ret.append(Strings.indent(2,
+            "\nAllExtended: " +
+                    LevelNode.HashSetToString(
+                            this.getExtendedModuleSet())));
 
     if ( instanceVec.size() > 0 ) {
-      ret += Strings.indent(2, "\nInstantiations:");
+      ret.append(Strings.indent(2, "\nInstantiations:"));
       for (int i = 0; i < instanceVec.size(); i++) {
-        ret += Strings.indent(4, (instanceVec.elementAt(i)).toString(1));
+        ret.append(Strings.indent(4, (instanceVec.elementAt(i)).toString(1)));
       }
     }
 
     if ( assumptionVec.size() > 0 ) {
-      ret += Strings.indent(2, "\nAssumptions:");
+      ret.append(Strings.indent(2, "\nAssumptions:"));
       for (int i = 0; i < assumptionVec.size(); i++) {
-        ret += Strings.indent(4, (assumptionVec.elementAt(i)).toString(1));
+        ret.append(Strings.indent(4, (assumptionVec.elementAt(i)).toString(1)));
       }
     }
 
     if ( theoremVec.size() > 0 ) {
-      ret += Strings.indent(2, "\nTheorems:");
+      ret.append(Strings.indent(2, "\nTheorems:"));
       for (int i = 0; i < theoremVec.size(); i++) {
-        ret += Strings.indent(4, (theoremVec.elementAt(i)).toString(1));
+        ret.append(Strings.indent(4, (theoremVec.elementAt(i)).toString(1)));
       }
     }
 
     if ( topLevelVec.size() > 0 ) {
-      ret += Strings.indent(2, "\ntopLevelVec: ");
+      ret.append(Strings.indent(2, "\ntopLevelVec: "));
       for (int i = 0; i < topLevelVec.size(); i++) {
-        ret += Strings.indent(4, topLevelVec.elementAt(i).toString(1));
+        ret.append(Strings.indent(4, topLevelVec.elementAt(i).toString(1)));
         }
       }
-      return ret;
+      return ret.toString();
   }
 
   @Override

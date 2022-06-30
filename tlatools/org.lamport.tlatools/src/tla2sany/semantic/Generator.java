@@ -294,11 +294,11 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 		@SuppressWarnings("unused")
 		public final String toString(final int n) {
-			String ret = "compound ID: " + compoundID.toString() + "\nargs: " + args.length + "\n";
+			StringBuilder ret = new StringBuilder("compound ID: " + compoundID.toString() + "\nargs: " + args.length + "\n");
 			for (int i = 0; i < args.length; i++) {
-				ret += Strings.indent(2, args[i].toString(n));
+				ret.append(Strings.indent(2, args[i].toString(n)));
 			}
-			return ret;
+			return ret.toString();
 		}
 
 	} // end GenID

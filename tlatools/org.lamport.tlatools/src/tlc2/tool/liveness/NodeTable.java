@@ -121,9 +121,7 @@ public final class NodeTable {
 						}
 					}
 					final BTGraphNode[] newElem = new BTGraphNode[nodes.length + 1];
-					for (int i = 0; i < nodes.length; i++) {
-						newElem[i] = nodes[i];
-					}
+                    System.arraycopy(nodes, 0, newElem, 0, nodes.length);
 					newElem[nodes.length] = node;
 					this.elems[loc] = newElem;
 					// this.count++;

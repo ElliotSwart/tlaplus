@@ -684,12 +684,12 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 
       sb.append("[");
       if (len > 0) {
-        sb.append(this.names[0] + TLAConstants.RECORD_ARROW);
+        sb.append(this.names[0]).append(TLAConstants.RECORD_ARROW);
         sb = this.values[0].toString(sb, offset, swallow);
       }
       for (int i = 1; i < len; i++) {
         sb.append(", ");
-        sb.append(this.names[i] + TLAConstants.RECORD_ARROW);
+        sb.append(this.names[i]).append(TLAConstants.RECORD_ARROW);
         sb = this.values[i].toString(sb, offset, swallow);
       }
       return sb.append("]");

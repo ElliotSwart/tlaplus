@@ -690,18 +690,19 @@ public class PcalSymTab {
    * Added by LL on 31 Aug 2007.                                           *
    ************************************************************************/
    public void CheckForDefaultInitValue() throws PcalSymTabException {
-     String errors = "" ;
+     StringBuilder errors = new StringBuilder();
      for (int i = 0 ; i < symtab.size() ; i++) 
        { final SymTabEntry se = symtab.elementAt(i);
          if (se.id.equals("defaultInitValue")) 
-           { if (errors.equals(""))
-               { errors = "Cannot use `defaultInitValue' as " ;}
-             else {errors = errors + " or " ;}
-               errors = errors + vtypeName[se.type] + " name";
+           { if (errors.toString().equals(""))
+               { errors = new StringBuilder("Cannot use `defaultInitValue' as ");}
+             else {
+               errors.append(" or ");}
+               errors.append(vtypeName[se.type]).append(" name");
            }
        }
-       if (! errors.equals(""))
-       { throw new PcalSymTabException(errors) ; }
+       if (! errors.toString().equals(""))
+       { throw new PcalSymTabException(errors.toString()) ; }
    }
 
 }

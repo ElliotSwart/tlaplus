@@ -287,34 +287,35 @@ public int levelChecked   = 0 ;
     /***********************************************************************
     * Converts a HashSet of SymbolNodes to a printable string.             *
     ***********************************************************************/
-    String rval = "{" ;
+    StringBuilder rval = new StringBuilder("{");
     boolean first = true ;
     final Iterator<? extends SymbolNode> iter = hs.iterator();
     while (iter.hasNext()) {
-      if (! first) {rval = rval + ", ";}
-        rval = rval + iter.next().getName() ;
+      if (! first) {
+          rval.append(", ");}
+        rval.append(iter.next().getName());
       first = false ;
      }
-      rval = rval + "}" ;
-    return rval ;
+      rval.append("}");
+    return rval.toString();
    }
 
   public static String ALPHashSetToString(final HashSet<ArgLevelParam> hs) {
     /***********************************************************************
     * Converts a HashSet of ArgLevelParam objects to a printable string.   *
     ***********************************************************************/
-    String rval = "{" ;
+    StringBuilder rval = new StringBuilder("{");
     boolean first = true ;
     final Iterator<ArgLevelParam> iter = hs.iterator();
     while (iter.hasNext()) {
-      if (! first) {rval = rval + ", ";}
+      if (! first) {
+          rval.append(", ");}
         final ArgLevelParam alp = iter.next();
-      rval = rval + "<" + alp.op.getName() + ", " + alp.i + ", " +
-                     alp.param.getName() + ">" ;
+      rval.append("<").append(alp.op.getName()).append(", ").append(alp.i).append(", ").append(alp.param.getName()).append(">");
       first = false;
      }
-      rval = rval + "}" ;
-    return rval ;
+      rval.append("}");
+    return rval.toString();
    }
   @Override
   public String levelDataToString() {

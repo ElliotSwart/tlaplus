@@ -304,39 +304,39 @@ public boolean addLabel(final LabelNode odn) {
   @Override
   public final String toString(final int depth) {
     if (depth <= 0) return "";
-    String ret = "\n*LabelNode: " + super.toString(depth);
-    ret += Strings.indent(2, "\nname: " + name.toString()) ;
+    StringBuilder ret = new StringBuilder("\n*LabelNode: " + super.toString(depth));
+    ret.append(Strings.indent(2, "\nname: " + name.toString()));
     for (int i = 0; i < params.length; i++) {
-      ret += Strings.indent(2,
-                            "\nparam[" + i + "]:" +
-                                 Strings.indent(2,
-                                                params[i].toString(depth-1)));
+      ret.append(Strings.indent(2,
+              "\nparam[" + i + "]:" +
+                      Strings.indent(2,
+                              params[i].toString(depth - 1))));
      }
-      ret += Strings.indent(2, "\nisAssumeProve: " + isAssumeProve) ;
-    ret += Strings.indent(2, "\nBody:" +
-                               Strings.indent(2, body.toString(depth-1)));
+      ret.append(Strings.indent(2, "\nisAssumeProve: " + isAssumeProve));
+    ret.append(Strings.indent(2, "\nBody:" +
+            Strings.indent(2, body.toString(depth - 1))));
 
     /***********************************************************************
     * The following is the same for all classes that implement the         *
     * OpDefOrLabelNode interface.                                          *
     ***********************************************************************/
     if (labels != null) {
-       ret += "\n  Labels: " ;
+       ret.append("\n  Labels: ");
        final Enumeration<UniqueString> list = labels.keys() ;
        while (list.hasMoreElements()) {
-          ret += list.nextElement().toString() + "  " ;
+          ret.append(list.nextElement().toString()).append("  ");
          }
     }
-    else {ret += "\n  Labels: null";}
+    else {
+        ret.append("\n  Labels: null");}
       if (this.subExpressionOf != null) {
-       ret += Strings.indent(2, "\nsubExpressionOf: " +
-                  Strings.indent(2, this.subExpressionOf.toString(1))) ;}
+       ret.append(Strings.indent(2, "\nsubExpressionOf: " +
+               Strings.indent(2, this.subExpressionOf.toString(1))));}
 
       if (goal != null) {
-      ret += "\n goal: " + Strings.indent(4, this.goal.toString(1)) +
-             "\n goalClause: " + goalClause ;
+      ret.append("\n goal: ").append(Strings.indent(4, this.goal.toString(1))).append("\n goalClause: ").append(goalClause);
      }
-      return ret;
+      return ret.toString();
   }
 
   @Override

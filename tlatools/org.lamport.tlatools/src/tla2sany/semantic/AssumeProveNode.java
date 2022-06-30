@@ -347,9 +347,7 @@ public class AssumeProveNode extends LevelNode {
   public SemanticNode[] getChildren() {
      final SemanticNode[] res = new SemanticNode[this.assumes.length + 1];
      res[assumes.length] = this.prove;
-     for (int i = 0; i < assumes.length; i++) {
-         res[i] = assumes[i];
-     }
+      System.arraycopy(assumes, 0, res, 0, assumes.length);
      return res;
   }
 
@@ -376,10 +374,10 @@ public class AssumeProveNode extends LevelNode {
   @Override
   public final String toString(final int depth) {
     if (depth <= 0) return "";
-    String assumeStr = "" ;
+    StringBuilder assumeStr = new StringBuilder();
     int i = 0 ;
     while (i < assumes.length) {
-      assumeStr = assumeStr + Strings.indent(4, assumes[i].toString(depth-1)) ;
+      assumeStr.append(Strings.indent(4, assumes[i].toString(depth - 1)));
       i = i+1;
      }
       String goalStr = "null" ;

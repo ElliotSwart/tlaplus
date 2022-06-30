@@ -942,12 +942,12 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       }
       else if (this.isRcd()) {
         sb.append("[");
-        sb.append(((StringValue)this.domain[0]).val + TLAConstants.RECORD_ARROW);
+        sb.append(((StringValue) this.domain[0]).val).append(TLAConstants.RECORD_ARROW);
         sb = this.values[0].toString(sb, offset, swallow);
 
         for (int i = 1; i < len; i++) {
           sb.append(", ");
-          sb.append(((StringValue)this.domain[i]).val + TLAConstants.RECORD_ARROW);
+          sb.append(((StringValue) this.domain[i]).val).append(TLAConstants.RECORD_ARROW);
           sb = this.values[i].toString(sb, offset, swallow);
         }
         sb.append("]");

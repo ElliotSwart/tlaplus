@@ -1379,9 +1379,9 @@ public class PcalTLAGen
             // sb.append("UNCHANGED " + cElse.Unchanged(cThen));
         	final String uc = cElse.Unchanged(cThen);
         	if (uc.length() > 5) {
-        		sb.append("UNCHANGED " + uc);
+        		sb.append("UNCHANGED ").append(uc);
         	} else {
-        		sb.append(uc + "' = " + uc);
+        		sb.append(uc).append("' = ").append(uc);
         	}
 //            tlacode.addElement(sb.toString());
             addOneTokenToTLA(sb.toString());
@@ -1439,9 +1439,9 @@ public class PcalTLAGen
             // sb.append(cThen.Unchanged(cElse));
         	final String uc = cThen.Unchanged(cElse);
         	if (uc.length() > 5) {
-        		sb.append("UNCHANGED " + uc);
+        		sb.append("UNCHANGED ").append(uc);
         	} else {
-        		sb.append(uc + "' = " + uc);
+        		sb.append(uc).append("' = ").append(uc);
         	}
             tlacode.insertElementAt(sb.toString(), lineUncThen);
             final Vector<MappingObject> vec =  stringToTLATokens(sb.toString());
@@ -2669,7 +2669,7 @@ public class PcalTLAGen
                             is.append("\"");
                     } // end if (useCase)
                     else {
-                        is.append("\"" + pe.iPC + "\"]");
+                        is.append("\"").append(pe.iPC).append("\"]");
                     }
 //                  tlacode.addElement(is.toString());
                   addOneTokenToTLA(is.toString());
@@ -2680,7 +2680,7 @@ public class PcalTLAGen
              }
           } else
           {
-              is.append("/\\ pc = \"" + st.iPC + "\"");
+              is.append("/\\ pc = \"").append(st.iPC).append("\"");
 //              tlacode.addElement(is.toString());
               addOneLineOfTLA(is.toString());
           }
@@ -3177,7 +3177,7 @@ public class PcalTLAGen
                                }
                                sfPrcSB.append("SF_vars(");
                                sfPrcSB.append(prcAst.plusLabels.elementAt(j));
-                               sfPrcSB.append("(" + qSelf + ")") ;
+                               sfPrcSB.append("(").append(qSelf).append(")");
                                sfPrcSB.append(")");
                            }
                        }
@@ -4269,7 +4269,7 @@ public class PcalTLAGen
     		final int curCol = col + prefixWidth;
     		String line = this.bodyFormulas.singleLine();
     		if (curCol + line.length() + 3 <= PcalTLAGen.wrapColumn) {
-    		   val.append("/\\ " + line);
+    		   val.append("/\\ ").append(line);
     		} else {
     			val.append(this.bodyFormulas.multiLine(curCol));
     		}
@@ -4297,7 +4297,7 @@ public class PcalTLAGen
     		    }
     		    val.append(NSpaces(curCol));
     		    if (curCol + line.length() + 3 <= PcalTLAGen.wrapColumn) {
-    	    		   val.append("/\\ " + line + "\n");
+    	    		   val.append("/\\ ").append(line).append("\n");
     	    		} else {
     	    			val.append(form.multiLine(curCol));
     	    		}

@@ -128,7 +128,7 @@ public class TBGraphNode {
 		if (!visited.put(this.index)) {
 			buf.append(this.par.toString());
 			for (int i = 0; i < this.nexts.size(); i++) {
-				buf.append(this.nextAt(i).index + " ");
+				buf.append(this.nextAt(i).index).append(" ");
 			}
 			buf.append("\n");
 			for (int i = 0; i < this.nexts.size(); i++) {
@@ -144,13 +144,13 @@ public class TBGraphNode {
 		final String label = "\"Id: " + this.index + "\n" + par.toDotViz() + "\"";
 		
 		final StringBuffer buf = new StringBuffer(nextSize());
-		buf.append(this.index + " [label=" + label + "]\n"); // nodes label
+		buf.append(this.index).append(" [label=").append(label).append("]\n"); // nodes label
 		if (isInitNode) {
 			buf.append("[style = filled]\n");
 		}
 		for (int i = 0; i < nextSize(); i++) {
 			final TBGraphNode successor = nextAt(i);
-			buf.append(this.index + " -> " + successor.index);
+			buf.append(this.index).append(" -> ").append(successor.index);
 			buf.append("\n");
 		}
 		return buf.toString();

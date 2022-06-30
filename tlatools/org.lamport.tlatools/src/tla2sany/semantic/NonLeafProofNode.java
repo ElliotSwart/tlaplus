@@ -195,11 +195,11 @@ public class NonLeafProofNode extends ProofNode {
   @Override
   public String toString(final int depth) {
     if (depth <= 0) return "";
-    String ret = "\n*ProofNode:\n"
-                  + super.toString(depth)
-                  + Strings.indent(2, "\nsteps:") ;
+    StringBuilder ret = new StringBuilder("\n*ProofNode:\n"
+            + super.toString(depth)
+            + Strings.indent(2, "\nsteps:"));
     for (int i = 0 ; i < this.steps.length; i++) {
-        ret += Strings.indent(4, this.steps[i].toString(depth-1)) ;
+        ret.append(Strings.indent(4, this.steps[i].toString(depth - 1)));
       }
 
       /***********************************************************************
@@ -210,12 +210,12 @@ public class NonLeafProofNode extends ProofNode {
     if (contextEntries != null) {
       for (int i = 0; i < contextEntries.size(); i++) {
         if (contextEntries.elementAt(i) != null) {
-          ret += Strings.indent(2, contextEntries.elementAt(i));
+          ret.append(Strings.indent(2, contextEntries.elementAt(i)));
          }
-        else { ret += "*** null ***"; }
+        else { ret.append("*** null ***"); }
       }
        } // for i
-    return ret;
+    return ret.toString();
    }
 
   @Override

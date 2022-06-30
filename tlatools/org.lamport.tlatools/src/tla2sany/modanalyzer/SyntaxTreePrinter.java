@@ -48,7 +48,7 @@ public class SyntaxTreePrinter {
     final TreeNode[] h = node.heirs();
 // ADDED BY LL
 // if (h == null) {
-  outS.append(" (kind: " + node.getKind() + ") ");
+  outS.append(" (kind: ").append(node.getKind()).append(") ");
 // } ;
 // END ADDED BY LL
     if (h != null) {

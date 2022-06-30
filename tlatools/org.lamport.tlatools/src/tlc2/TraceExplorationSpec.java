@@ -324,8 +324,7 @@ public class TraceExplorationSpec {
 		/**
 		 * Write definition of trace def into new module.
 		 */
-		final Set<String> teTraceExtendedModules = new HashSet<>();
-		teTraceExtendedModules.addAll(teConstantModuleHashSet);
+        final Set<String> teTraceExtendedModules = new HashSet<>(teConstantModuleHashSet);
 		writer.addPrimer(teTraceName, originalSpecName, teTraceExtendedModules);
 
 		writer.addTraceFunction(trace, TLAConstants.TraceExplore.SPEC_TETRACE_TRACE_DEF,

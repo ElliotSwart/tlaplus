@@ -232,9 +232,7 @@ implements ExploreNode, LevelConstants {
       for (i = 0; i < this.opDefs.length; i++) {
           res[i] = this.opDefs[i];
       }
-      for (int j = 0; j < this.insts.length; j++) {
-          res[i+j] = this.insts[j];
-      }
+      System.arraycopy(this.insts, 0, res, i + 0, this.insts.length);
       return res;
    }
 
@@ -265,7 +263,7 @@ implements ExploreNode, LevelConstants {
   public final String toString(final int depth) {
     if (depth <= 0) return "";
 
-    String ret = "\n*LetInNode: " + super.toString(depth);
+    StringBuilder ret = new StringBuilder("\n*LetInNode: " + super.toString(depth));
     /***********************************************************************
     * Print context.                                                       *
     ***********************************************************************/
@@ -278,10 +276,10 @@ implements ExploreNode, LevelConstants {
     if (contextEntries != null) {
       for (int i = 0; i < contextEntries.size(); i++) {
         if (contextEntries.elementAt(i) != null) {
-          ret += Strings.indent(2, contextEntries.elementAt(i));
+          ret.append(Strings.indent(2, contextEntries.elementAt(i)));
         }
         else {
-          ret += "*** null ***"; }
+          ret.append("*** null ***"); }
       }
     }
 
@@ -291,8 +289,8 @@ implements ExploreNode, LevelConstants {
 //    for (int i = 0; i < opDefs.length; i++) {
 //      ret += Strings.indent(2,"\nDef:" + Strings.indent(2, opDefs[i].toString(depth-1)));
 //    }
-    ret += Strings.indent(2, "\nBody:" + Strings.indent(2, body.toString(depth-1)));
-    return ret;
+    ret.append(Strings.indent(2, "\nBody:" + Strings.indent(2, body.toString(depth - 1))));
+    return ret.toString();
   }
 
   @Override

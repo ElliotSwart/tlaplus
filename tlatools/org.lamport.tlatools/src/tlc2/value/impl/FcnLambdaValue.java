@@ -409,9 +409,7 @@ public final FcnParams params;       // the function formals
       else {
         final int exlen = this.excepts.length;
         fcn.excepts = new ValueExcept[exlen+1];
-        for (int i = 0; i < exlen; i++) {
-          fcn.excepts[i] = this.excepts[i];
-        }
+          System.arraycopy(this.excepts, 0, fcn.excepts, 0, exlen);
         fcn.excepts[exlen] = ex;
       }
       return fcn;
@@ -788,8 +786,8 @@ public final FcnParams params;       // the function formals
         }
         catch (final Throwable e) { /*SKIP*/ }
       }
-      sb.append("[" + this.params.toString());
-      sb.append(" |-> <expression " + this.body + ">]");
+      sb.append("[").append(this.params.toString());
+      sb.append(" |-> <expression ").append(this.body).append(">]");
       return sb;
     }
     catch (final RuntimeException | OutOfMemoryError e) {

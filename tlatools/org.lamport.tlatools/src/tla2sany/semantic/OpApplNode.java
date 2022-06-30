@@ -631,16 +631,12 @@ public class OpApplNode extends ExprNode implements ExploreNode {
       *********************************************************************/
       final HashSet<FormalParamNode> allBoundSymbols = new HashSet<>() ;
       if (this.unboundedBoundSymbols != null) {
-        for (int i = 0 ; i < this.unboundedBoundSymbols.length; i++){
-          allBoundSymbols.add(this.unboundedBoundSymbols[i]);
-         }
+        allBoundSymbols.addAll(Arrays.asList(this.unboundedBoundSymbols));
        }
         if (this.boundedBoundSymbols != null) {
         for (int i = 0 ; i < this.boundedBoundSymbols.length; i++){
           if (this.boundedBoundSymbols[i] != null) {
-            for (int j = 0 ; j < this.boundedBoundSymbols[i].length; j++){
-              allBoundSymbols.add(this.boundedBoundSymbols[i][j]);
-             }
+            allBoundSymbols.addAll(Arrays.asList(this.boundedBoundSymbols[i]));
            }
          }
        }
@@ -1134,9 +1130,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
       for (i = 0; i < this.ranges.length; i++) {
           res[i] = this.ranges[i];
       }
-      for (int j = 0; j < this.operands.length; j++) {
-          res[i+j] = this.operands[j];
-      }
+    System.arraycopy(this.operands, 0, res, i + 0, this.operands.length);
       return res;
    }
 
@@ -1189,61 +1183,61 @@ public class OpApplNode extends ExprNode implements ExploreNode {
   private String toStringBody(final int depth) {
     if (depth <= 1) return "";
 
-    String ret;
+    StringBuilder ret;
     if (operator == null) {
-      ret = "\nOperator: null";
+      ret = new StringBuilder("\nOperator: null");
     }
     else {
-      ret = "\nOperator: " + operator.getName().toString() + "  "
-            + operator.getUid() + "  ";
+      ret = new StringBuilder("\nOperator: " + operator.getName().toString() + "  "
+              + operator.getUid() + "  ");
     }
 
     if (unboundedBoundSymbols!=null && unboundedBoundSymbols.length > 0) {
-      ret += "\nUnbounded bound symbols:  ";
+      ret.append("\nUnbounded bound symbols:  ");
       for (int i = 0; i < unboundedBoundSymbols.length; i++) {
-        ret += Strings.indent(2,unboundedBoundSymbols[i].toString(depth-1));
+        ret.append(Strings.indent(2, unboundedBoundSymbols[i].toString(depth - 1)));
       }
     }
 
     if (boundedBoundSymbols != null && boundedBoundSymbols.length > 0) {
-      ret += "\nBounded bound symbols: " + getNumberOfBoundedBoundSymbols();
+      ret.append("\nBounded bound symbols: ").append(getNumberOfBoundedBoundSymbols());
       for (int i = 0; i < boundedBoundSymbols.length; i++) {
         if (boundedBoundSymbols[i] != null && boundedBoundSymbols[i].length > 0) {
           for (int j = 0; j < boundedBoundSymbols[i].length; j++) {
-            ret += Strings.indent(2, "\n[" + i + "," + j + "]" +
-                      Strings.indent(2,boundedBoundSymbols[i][j].toString(depth-1)));
+            ret.append(Strings.indent(2, "\n[" + i + "," + j + "]" +
+                    Strings.indent(2, boundedBoundSymbols[i][j].toString(depth - 1))));
           }
         }
       }
     }
 
     if (ranges.length > 0) {
-      ret += "\nRanges: ";
+      ret.append("\nRanges: ");
       for (int i = 0; i < ranges.length; i++)
-        ret += Strings.indent(2,(ranges[i] != null ?
-                                     ranges[i].toString(depth-1) : "null" ));
+        ret.append(Strings.indent(2, (ranges[i] != null ?
+                ranges[i].toString(depth - 1) : "null")));
     }
 
     if (tupleOrs != null && tupleOrs.length > 0 /* && tupleOrs[0] */) {
-      ret += "\nTupleOrs:   ";
+      ret.append("\nTupleOrs:   ");
       for (int i = 0; i < tupleOrs.length; i++) {
-        ret += Strings.indent(2, (tupleOrs[i] ? "\ntrue" : "\nfalse"));
+        ret.append(Strings.indent(2, (tupleOrs[i] ? "\ntrue" : "\nfalse")));
       }
     }
 
     if (operands != null) {
       if (operands.length > 0) {
-        ret += "\nOperands: " + operands.length;
+        ret.append("\nOperands: ").append(operands.length);
         for (int i = 0; i < operands.length; i++) {
-          ret += Strings.indent(2,
-                    (operands[i] == null ? "\nnull" : operands[i].toString(depth-1)));
+          ret.append(Strings.indent(2,
+                  (operands[i] == null ? "\nnull" : operands[i].toString(depth - 1))));
         }
       }
     }
     else {
-      ret += "\nOperands: null";
+      ret.append("\nOperands: null");
     }
-    return Strings.indent(2, ret);
+    return Strings.indent(2, ret.toString());
   }
 
   /**

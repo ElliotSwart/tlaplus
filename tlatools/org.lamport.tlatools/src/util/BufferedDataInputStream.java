@@ -231,7 +231,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         character (<code>'\n'</code>), a carriage return immediately 
         followed by a newline, or by the end of the stream. */
     public final String readLine() throws IOException {
-        String res = null;
+        StringBuilder res = null;
         while (this.len > 0) {
             for (int i = this.curr; i < this.len; i++) {
                 if (this.buff[i] == (byte)'\n' || this.buff[i] == (byte)'\r') {
@@ -241,7 +241,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
                     // create new substring
                     final String s = new String(this.buff, /*offset=*/ this.curr,
 					  /*count=*/ i - this.curr);
-                    if (res == null) res = s; else res += s;
+                    if (res == null) res = new StringBuilder(s); else res.append(s);
                     
                     // skip over bytes in stream
                     this.skip(i + 1 - this.curr);
@@ -251,19 +251,19 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
                         && this.buff[this.curr] == (byte)'\n') {
                         this.readByte();
                     }
-                    return res;
+                    return res.toString();
                 }
             }
             // hit end of buffer -- append rest of buffer to "res"
             final String s = new String(this.buff, /*offset=*/ this.curr,
 				  /*count=*/ this.len - this.curr);
-            if (res == null) res = s; else res += s;
+            if (res == null) res = new StringBuilder(s); else res.append(s);
             
             // skip over bytes in stream
             this.skip(this.len - this.curr);
         }
         // hit EOF without seeing EOL chars
-        return res;
+        return res.toString();
     }
 
     @Override

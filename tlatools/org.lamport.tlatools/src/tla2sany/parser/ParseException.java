@@ -103,22 +103,21 @@ public class ParseException extends Exception {
         maxSize = expectedTokenSequences[i].length;
       }
     }
-    String retval = "Encountered \"";
+    StringBuilder retval = new StringBuilder("Encountered \"");
     Token tok = currentToken.next;
 
     for (int i = 0; i < maxSize; i++) {
-      if (i != 0) retval += " ";
+      if (i != 0) retval.append(" ");
       if (tok.kind == 0) {
-        retval += tokenImage[0];
+        retval.append(tokenImage[0]);
         break;
       }
-      retval += tok.image;
+      retval.append(tok.image);
       //      retval += add_escapes(tok.image);
       tok = tok.next;
     }
-		retval += "\" at line " + currentToken.next.beginLine + ", column " + currentToken.next.beginColumn
-				+ " and token \"" + add_escapes(currentToken.image != null ? currentToken.image : "") + "\" ";
-	    return retval;
+		retval.append("\" at line ").append(currentToken.next.beginLine).append(", column ").append(currentToken.next.beginColumn).append(" and token \"").append(add_escapes(currentToken.image != null ? currentToken.image : "")).append("\" ");
+	    return retval.toString();
   }
 
   /**
@@ -150,26 +149,26 @@ public class ParseException extends Exception {
       }
       expected.append(eol).append("    ");
     }
-    String retval = "Encountered \"";
+    StringBuilder retval = new StringBuilder("Encountered \"");
     Token tok = currentToken.next;
     for (int i = 0; i < maxSize; i++) {
-      if (i != 0) retval += " ";
+      if (i != 0) retval.append(" ");
       if (tok.kind == 0) {
-        retval += tokenImage[0];
+        retval.append(tokenImage[0]);
         break;
       }
-      retval += add_escapes(tok.image);
+      retval.append(add_escapes(tok.image));
       tok = tok.next; 
     }
-    retval += "\" at line " + currentToken.next.beginLine + ", column " + currentToken.next.beginColumn;
-    retval += "." + eol;
+    retval.append("\" at line ").append(currentToken.next.beginLine).append(", column ").append(currentToken.next.beginColumn);
+    retval.append(".").append(eol);
     if (expectedTokenSequences.length == 1) {
-      retval += "Was expecting:" + eol + "    ";
+      retval.append("Was expecting:").append(eol).append("    ");
     } else {
-      retval += "Was expecting one of:" + eol + "    ";
+      retval.append("Was expecting one of:").append(eol).append("    ");
     }
-    retval += expected.toString();
-    return retval;
+    retval.append(expected.toString());
+    return retval.toString();
   }
 
   /**
@@ -217,7 +216,7 @@ public class ParseException extends Exception {
            default:
               if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
                  final String s = "0000" + Integer.toString(ch, 16);
-                 retval.append("\\u" + s.substring(s.length() - 4));
+                 retval.append("\\u").append(s.substring(s.length() - 4));
               } else {
                  retval.append(ch);
               }

@@ -58,7 +58,7 @@ class SetOfArgLevelConstraints extends HashMap<ParamAndPosition, Integer> implem
     final StringBuffer sb = new StringBuffer("{ ");
     for (final Iterator<ParamAndPosition> iter = this.keySet().iterator(); iter.hasNext(); ) {
       final ParamAndPosition pap = iter.next();
-      sb.append(pap.toString() + " -> " + this.get(pap));
+      sb.append(pap.toString()).append(" -> ").append(this.get(pap));
       if (iter.hasNext()) sb.append(", ");
     }
     sb.append("}");

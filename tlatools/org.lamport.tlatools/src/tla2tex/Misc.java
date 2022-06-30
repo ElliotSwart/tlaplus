@@ -202,55 +202,55 @@ public final class Misc
     * Result is str with each of TeX's special characters replaced by the  *
     * command to produce it.                                               *
     ***********************************************************************/
-    { String result = "" ;
+    { StringBuilder result = new StringBuilder();
       int pos = 0 ;
       while (pos < str.length())
        { switch (str.charAt(pos))
            { case '_' :
-               result = result + "\\_" ;
+               result.append("\\_");
                break ;
              case '{' :
-               result = result + "\\{" ;
+               result.append("\\{");
                break ;
              case '}' :
-               result = result + "\\}" ;
+               result.append("\\}");
                break ;
              case '\\' :          
-               result = result + "\\ensuremath{\\backslash}" ;
+               result.append("\\ensuremath{\\backslash}");
                break ;
              case '&' :
-               result = result + "\\&" ;
+               result.append("\\&");
                break ;
              case '%' :
-               result = result + "\\%" ;
+               result.append("\\%");
                break ;
              case '$' :
-               result = result + "\\$" ;
+               result.append("\\$");
                break ;
              case '#' :
-               result = result + "\\#" ;
+               result.append("\\#");
                break ;
              case '~' : 
-               result = result + "\\ensuremath{\\sim}" ;
+               result.append("\\ensuremath{\\sim}");
                break ;
              case '^' :
-               result = result + "\\ensuremath{\\ct}" ;
+               result.append("\\ensuremath{\\ct}");
                break ;
              case '<' :
-               result = result + "\\ensuremath{<}" ;
+               result.append("\\ensuremath{<}");
                break ;
              case '>' :
-               result = result + "\\ensuremath{>}" ;
+               result.append("\\ensuremath{>}");
                break ;
              case '|' :          
-               result = result + "\\ensuremath{|}" ;
+               result.append("\\ensuremath{|}");
                break ;
              default :
-               result = result + str.charAt(pos) ;
+               result.append(str.charAt(pos));
             }
            pos = pos + 1 ;
        }
-        return result ;
+        return result.toString();
     }    
 
   public static String TeXifyIdent(final String str)

@@ -430,9 +430,7 @@ public final Value[] sets;
       if (this.isDone) return null;
       final Value[] elems = new Value[this.currentElems.length];
 	  if (coverage) { cm.incSecondary(elems.length); }
-      for (int i = 0; i < elems.length; i++) {
-        elems[i] = this.currentElems[i];
-      }
+        System.arraycopy(this.currentElems, 0, elems, 0, elems.length);
       for (int i = elems.length-1; i >= 0; i--) {
         this.currentElems[i] = this.enums[i].nextElement();
         if (this.currentElems[i] != null) break;

@@ -412,7 +412,7 @@ public class MCState {
 			vars.add(var);
 		}
 
-		return vars.toArray(new MCVariable[vars.size()]);
+		return vars.toArray(new MCVariable[0]);
 	}
 
 	public Value getRecord() {

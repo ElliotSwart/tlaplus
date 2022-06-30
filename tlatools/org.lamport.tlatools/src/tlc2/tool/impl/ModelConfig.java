@@ -282,15 +282,15 @@ public class ModelConfig implements ValueConstants, Serializable {
                              * token tt.  The following code was modified on 30 July 2009
                              * to allow id to be something like frob!bar!glitch, fixing Bug44.
                              */
-                            String lhs = tt.image;
+                            StringBuilder lhs = new StringBuilder(tt.image);
                             tt = getNextToken(tmgr, buf);
                             while (tt.image.equals("!")) {
                                 tt = getNextToken(tmgr, buf);
-                                lhs = lhs + "!" + tt.image;
+                                lhs.append("!").append(tt.image);
                                 tt = getNextToken(tmgr, buf);
                             }
                             final Vect<Comparable<?>> line = new Vect<>();
-                            line.addElement(lhs);
+                            line.addElement(lhs.toString());
                             // Following code replaced on 30 July 2009.
                             // line.addElement(tt.image);
                             // tt = getNextToken(tmgr);

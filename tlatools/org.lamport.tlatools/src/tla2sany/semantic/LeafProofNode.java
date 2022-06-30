@@ -120,19 +120,18 @@ public class LeafProofNode extends ProofNode {
   @Override
   public String toString(final int depth) {
     if (depth <= 0) return "";
-    String ret = "\n*LeafProofNode:\n"
-                  + super.toString(depth)
-                  + Strings.indent(2, "\nfacts:") ;
+    StringBuilder ret = new StringBuilder("\n*LeafProofNode:\n"
+            + super.toString(depth)
+            + Strings.indent(2, "\nfacts:"));
     for (int i = 0 ; i < this.facts.length; i++) {
-        ret += Strings.indent(4, this.facts[i].toString(depth-1)) ;
+        ret.append(Strings.indent(4, this.facts[i].toString(depth - 1)));
       }
-      ret += Strings.indent(2, "\ndefs:") ;
+      ret.append(Strings.indent(2, "\ndefs:"));
     for (int i = 0 ; i < this.defs.length; i++) {
-        ret += Strings.indent(4, this.defs[i].toString(depth-1)) ;
+        ret.append(Strings.indent(4, this.defs[i].toString(depth - 1)));
       }
-      ret += Strings.indent(2, "\nomitted: " + this.omitted)
-            + Strings.indent(2, "\nonlyFlag: " + this.isOnly);
-    return ret;
+      ret.append(Strings.indent(2, "\nomitted: " + this.omitted)).append(Strings.indent(2, "\nonlyFlag: " + this.isOnly));
+    return ret.toString();
    }
 
   @Override

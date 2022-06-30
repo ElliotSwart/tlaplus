@@ -495,9 +495,9 @@ public class TableauNodePtrTable {
   					
   					// fingerprint
   					final long fp = ((long) node[0] << 32) | ((long) node[1] & 0xFFFFFFFFL);
-  					buf.append("fp (key): " + fp);
-  					buf.append(" (idx: " + i + ")");
-  					buf.append(" isDone: " + (node.length == 2 || (node.length > 2 && node[3] != -2)));
+  					buf.append("fp (key): ").append(fp);
+  					buf.append(" (idx: ").append(i).append(")");
+  					buf.append(" isDone: ").append(node.length == 2 || (node.length > 2 && node[3] != -2));
   					buf.append("\n");
   					
 					// A node maintains n records. Each record logically
@@ -510,12 +510,12 @@ public class TableauNodePtrTable {
   						buf.append("\t");
   						// tableau index
   						final int tidx = node[j];
-  						buf.append(" tidx: " + tidx);
+  						buf.append(" tidx: ").append(tidx);
   						// element
   						final long elem = getElem(node, j);
   						if (AbstractDiskGraph.isFilePointer(elem)) {
   							if (table.isDone(fp)) {
-  								buf.append("  ptr: " + elem);
+  								buf.append("  ptr: ").append(elem);
   							} else {
   								buf.append("  ptr: undone");
   							}
@@ -523,13 +523,13 @@ public class TableauNodePtrTable {
   							buf.append(" elem: Init State");
   						} else {
   							final long offset = AbstractDiskGraph.MAX_PTR + 1;
-  							buf.append(" pred: " + (elem - offset));
+  							buf.append(" pred: ").append(elem - offset);
   						}
   						final int predTidx = table.getElemTidx(node, j);
   						if (predTidx != -1) {
-  							buf.append(" predtidx: " + predTidx);
+  							buf.append(" predtidx: ").append(predTidx);
   						}
-  						buf.append(", isSeen: " + isSeen(node, j));
+  						buf.append(", isSeen: ").append(isSeen(node, j));
   						buf.append("\n");
   					}
   				}

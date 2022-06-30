@@ -61,9 +61,7 @@ public abstract class ObjectStack {
     if (idx == cnt) return states;
       
     final Object[] res = new Object[idx];
-    for (int i = 0; i < idx; i++) {
-      res[i] = states[i];
-    }
+      System.arraycopy(states, 0, res, 0, idx);
     return res;
   }
 

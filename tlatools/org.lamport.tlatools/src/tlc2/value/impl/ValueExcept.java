@@ -54,7 +54,7 @@ public class ValueExcept {
   public final String toString() {
     final StringBuilder sb = new StringBuilder();
     for (int i = 0; i < path.length; i++) {
-      sb.append(".(" + this.idx + ")");
+      sb.append(".(").append(this.idx).append(")");
       sb.append(path[i]);
     }
     sb.append(" = ");

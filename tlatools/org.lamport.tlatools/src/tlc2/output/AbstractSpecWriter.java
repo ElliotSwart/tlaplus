@@ -281,7 +281,7 @@ public abstract class AbstractSpecWriter {
 					if (cfgBuffer != null) {
 						cfgBuffer.append(TLAConstants.COMMENT).append("MV CONSTANT definitions").append(TLAConstants.CR);
 					}
-                    tlaBuffer.append(TLAConstants.COMMENT).append("MV CONSTANT definitions " + constant.getLeft());
+                    tlaBuffer.append(TLAConstants.COMMENT).append("MV CONSTANT definitions ").append(constant.getLeft());
                     tlaBuffer.append(TLAConstants.CR);
 
                     final String id = addArrowAssignment(constant, TLAConstants.Schemes.CONSTANT_SCHEME);
@@ -449,7 +449,7 @@ public abstract class AbstractSpecWriter {
 		}
 		
 		if (cfgBuffer != null) {
-			cfgBuffer.append(TLAConstants.COMMENT).append(keyword + " definition").append(TLAConstants.CR);
+			cfgBuffer.append(TLAConstants.COMMENT).append(keyword).append(" definition").append(TLAConstants.CR);
 			cfgBuffer.append(keyword).append(TLAConstants.CR);
 		}
 
@@ -463,7 +463,7 @@ public abstract class AbstractSpecWriter {
 			// when a definition in the root module is overridden as a model value
 			// there is nothing to add to the MC.tla file so, we do not do the following
 			if (!element[1].equals(TLAConstants.EMPTY_STRING)) {
-				tlaBuffer.append(TLAConstants.COMMENT).append(keyword + " definition ").append(TLAConstants.ATTRIBUTE);
+				tlaBuffer.append(TLAConstants.COMMENT).append(keyword).append(" definition ").append(TLAConstants.ATTRIBUTE);
 				tlaBuffer.append(attributeName).append(TLAConstants.COLON).append(element.length > 2 ? element[2] : i);
 				tlaBuffer.append(TLAConstants.CR).append(element[1]).append(CLOSING_SEP);
 			}

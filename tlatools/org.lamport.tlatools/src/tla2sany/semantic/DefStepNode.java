@@ -74,22 +74,20 @@ public class DefStepNode extends LevelNode {
   @Override
   public SemanticNode[] getChildren() {
       final SemanticNode[] res = new SemanticNode[defs.length];
-      for (int i = 0; i < defs.length; i++) {
-          res[i] = defs[i];
-      }
+      System.arraycopy(defs, 0, res, 0, defs.length);
       return res;
    }
   
   @Override
   public String toString(final int depth) {
     if (depth <= 0) return "";
-    String ret = "\n*DefStepNode:\n"
-                  + super.toString(depth)
-                  + Strings.indent(2, "\ndefs:") ;
+    StringBuilder ret = new StringBuilder("\n*DefStepNode:\n"
+            + super.toString(depth)
+            + Strings.indent(2, "\ndefs:"));
     for (int i = 0 ; i < this.defs.length; i++) {
-        ret += Strings.indent(4, this.defs[i].toString(depth-1)) ;
+        ret.append(Strings.indent(4, this.defs[i].toString(depth - 1)));
       }
-      return ret;
+      return ret.toString();
    }
 
   @Override

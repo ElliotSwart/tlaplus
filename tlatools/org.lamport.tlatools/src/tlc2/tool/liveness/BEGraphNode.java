@@ -156,7 +156,7 @@ public class BEGraphNode extends AbstractGraphNode {
 	protected void toString(final StringBuffer buf, final boolean unseen) {
 		if (this.getVisited() == unseen) {
 			this.flipVisited();
-			buf.append(this.stateFP + " --> ");
+			buf.append(this.stateFP).append(" --> ");
 			final int size = this.nnodes.length;
 			if (size != 0) {
 				buf.append(this.nextAt(0).stateFP);

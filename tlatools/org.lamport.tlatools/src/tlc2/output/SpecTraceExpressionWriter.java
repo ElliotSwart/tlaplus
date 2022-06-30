@@ -594,7 +594,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 		}
 		
 		tlaBuffer.append(SpecWriterUtilities.getExtendingModuleContent(moduleFilename,
-				extraExtendedModules.toArray(new String[extraExtendedModules.size()])));
+				extraExtendedModules.toArray(new String[0])));
 	}
 	
 	/**
@@ -607,7 +607,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	 * @param variables Spec variables; transformed by identity.
 	 */
 	public void addTraceExpressionStub(final String moduleName, final String teName, final List<String> variables) {
-		this.tlaBuffer.append(teName + TLAConstants.DEFINES + TLAConstants.CR);
+		this.tlaBuffer.append(teName).append(TLAConstants.DEFINES).append(TLAConstants.CR);
 		this.tlaBuffer
 				.append(TLAConstants.INDENT + TLAConstants.L_SQUARE_BRACKET + TLAConstants.CR);
 
@@ -664,9 +664,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 		addViewConfig(TLAConstants.TraceExplore.VIEW);
 		
 		tlaBuffer.append(TLAConstants.CR).append(TLAConstants.TraceExplore.VIEW).append(TLAConstants.DEFINES_CR);
-		tlaBuffer.append(TLAConstants.INDENT).append(TLAConstants.BEGIN_TUPLE)
-				.append(vars + ", IF TLCGet(\"level\") = " + TLAConstants.TraceExplore.SPEC_TETRACE_LASSO_END
-						+ " + 1 THEN " + TLAConstants.TraceExplore.SPEC_TETRACE_LASSO_START + " ELSE TLCGet(\"level\")")
+		tlaBuffer.append(TLAConstants.INDENT).append(TLAConstants.BEGIN_TUPLE).append(vars).append(", IF TLCGet(\"level\") = ").append(TLAConstants.TraceExplore.SPEC_TETRACE_LASSO_END).append(" + 1 THEN ").append(TLAConstants.TraceExplore.SPEC_TETRACE_LASSO_START).append(" ELSE TLCGet(\"level\")")
 				.append(TLAConstants.END_TUPLE);
 		tlaBuffer.append(TLAConstants.CR);
 	}
@@ -1043,8 +1041,8 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 		tlaBuffer.append(TLAConstants.COMMENT).append("to the given file in Json format. Note that you can pass any tuple").append(TLAConstants.CR);
 		tlaBuffer.append(TLAConstants.COMMENT).append("to `JsonSerialize`. For example, a sub-sequence of _TETrace.").append(TLAConstants.CR);
 		tlaBuffer.append(jsonComment).append(TLAConstants.KeyWords.ASSUME).append(TLAConstants.CR);
-		tlaBuffer.append(jsonComment + TLAConstants.INDENT).append("LET J == INSTANCE Json").append(TLAConstants.CR);
-		tlaBuffer.append(jsonComment + TLAConstants.INDENT + TLAConstants.INDENT)
+		tlaBuffer.append(jsonComment).append(TLAConstants.INDENT).append("LET J == INSTANCE Json").append(TLAConstants.CR);
+		tlaBuffer.append(jsonComment).append(TLAConstants.INDENT).append(TLAConstants.INDENT)
 			.append(String.format("IN J!JsonSerialize(\"%s.json\", _TETrace)", teSpecModuleName)).append(TLAConstants.CR);		
 
 		tlaBuffer.append(TLAConstants.CR);

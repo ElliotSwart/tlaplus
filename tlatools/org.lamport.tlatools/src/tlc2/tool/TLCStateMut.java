@@ -135,9 +135,7 @@ private final IValue[] values;
   public final TLCState copy() {
     final int len = this.values.length;
     final IValue[] vals = new IValue[len];
-    for (int i = 0; i < len; i++) {
-      vals[i] = this.values[i];
-    }
+      System.arraycopy(this.values, 0, vals, 0, len);
     return copy(new TLCStateMut(vals));
   }
 
@@ -381,7 +379,7 @@ private final IValue[] values;
       final IValue lstateVal = lstate.lookup(key);
       if (!lstateVal.equals(val)) {
 	result.append(key.toString());
-	result.append(" = " + Values.ppr(val) + "\n");
+	result.append(" = ").append(Values.ppr(val)).append("\n");
       }
     }
     else {
@@ -392,7 +390,7 @@ private final IValue[] values;
 	if (!lstateVal.equals(val)) {
 	  result.append("/\\ ");
 	  result.append(key.toString());
-	  result.append(" = " + Values.ppr(val) + "\n");
+	  result.append(" = ").append(Values.ppr(val)).append("\n");
 	}
       }
     }

@@ -1221,34 +1221,35 @@ public boolean addLabel(final LabelNode odn) {
       * Modified by LL on 24 Mar 2007 to print the maxLevels array         *
       * properly.                                                          *
       *********************************************************************/
-      String maxLevelStr = "" ;
+      StringBuilder maxLevelStr = new StringBuilder();
         for (int i = 0; i < this.maxLevels.length; i++) {
-           if (i > 0) {maxLevelStr = maxLevelStr + ", ";}
-            maxLevelStr = maxLevelStr + this.maxLevels[i];
+           if (i > 0) {
+               maxLevelStr.append(", ");}
+            maxLevelStr.append(this.maxLevels[i]);
            }
-        String isLeibnizArgStr = "" ;
+        StringBuilder isLeibnizArgStr = new StringBuilder();
         for (int i = 0; i < this.isLeibnizArg.length; i++) {
-           if (i > 0) {isLeibnizArgStr = isLeibnizArgStr + ", ";}
-            isLeibnizArgStr = isLeibnizArgStr + this.isLeibnizArg[i];
+           if (i > 0) {
+               isLeibnizArgStr.append(", ");}
+            isLeibnizArgStr.append(this.isLeibnizArg[i]);
            }
-        String opLevelCondStr = "" ;
+        StringBuilder opLevelCondStr = new StringBuilder();
       if (opLevelCond != null) {
-        opLevelCondStr = "[" ;
+        opLevelCondStr = new StringBuilder("[");
         for (int i = 0; i < opLevelCond.length; i++) {
-          opLevelCondStr = opLevelCondStr + " [" ;
+          opLevelCondStr.append(" [");
           for (int j = 0; j < opLevelCond[i].length; j++) {
-            opLevelCondStr = opLevelCondStr + " [" ;
+            opLevelCondStr.append(" [");
             for (int k = 0; k < opLevelCond[i][j].length; k++) {
                String foo = " " ;
                if (k==0) {foo = "";}
-               opLevelCondStr = opLevelCondStr + foo +
-                   this.opLevelCond[i][j][k] ;
+               opLevelCondStr.append(foo).append(this.opLevelCond[i][j][k]);
              } // for k
-            opLevelCondStr = opLevelCondStr + "]" ;
+            opLevelCondStr.append("]");
            } // for j
-          opLevelCondStr = opLevelCondStr + "]" ;
+          opLevelCondStr.append("]");
          } // for i
-        opLevelCondStr = opLevelCondStr + "]" ;
+        opLevelCondStr.append("]");
        } // if (opLevelCond != null)
       return "Arity: "               + this.arity                    + "\n" +
              "Level: "               + this.getLevel()               + "\n" +
@@ -1334,26 +1335,26 @@ public boolean addLabel(final LabelNode odn) {
   public final String toString(final int depth) {
     if (depth <= 0) return "";
 
-    String ret = "\n*OpDefNode: " + this.getName().toString()
-                + "\n  "
-                + super.toString(depth)
-                + "\n  local: " + local
-                + "\n  letInLevel: " + letInLevel
-                + "\n  inRecursive: " + inRecursive
-                + "\n  inRecursiveSection: " + inRecursiveSection
-                + "\n  recursiveSection: " + recursiveSection
-                + "\n  local: " + local
-                + "\n  source: " +
-                  ((source == null) ? "this" :
-                       (source.getName().toString() +
+    StringBuilder ret = new StringBuilder("\n*OpDefNode: " + this.getName().toString()
+            + "\n  "
+            + super.toString(depth)
+            + "\n  local: " + local
+            + "\n  letInLevel: " + letInLevel
+            + "\n  inRecursive: " + inRecursive
+            + "\n  inRecursiveSection: " + inRecursiveSection
+            + "\n  recursiveSection: " + recursiveSection
+            + "\n  local: " + local
+            + "\n  source: " +
+            ((source == null) ? "this" :
+                    (source.getName().toString() +
                             " (uid: " + source.myUID + ")"))
-                + "\n  originallyDefinedInModule: " +
-                     ((originallyDefinedInModule == null) ? "null" :
-                       (originallyDefinedInModule.getName().toString() +
-                          " (uid: " + originallyDefinedInModule.myUID + ")"))
-                + ((stepNode == null) ? "" :
-                        ("\n  stepNode: " +
-                          Strings.indent(4,stepNode.toString(depth-3))))
+            + "\n  originallyDefinedInModule: " +
+            ((originallyDefinedInModule == null) ? "null" :
+                    (originallyDefinedInModule.getName().toString() +
+                            " (uid: " + originallyDefinedInModule.myUID + ")"))
+            + ((stepNode == null) ? "" :
+            ("\n  stepNode: " +
+                    Strings.indent(4, stepNode.toString(depth - 3)))))
                                                    ;
 
 //  nextDependency has been removed.
@@ -1361,32 +1362,32 @@ public boolean addLabel(final LabelNode odn) {
 //    if(nextDependency == null) {ret = ret + "null";}
 //     else {ret = ret + nextDependency.getName().toString();} ;
     if (params != null) {
-      String tempString = "\n  Formal params: " + params.length;
+      StringBuilder tempString = new StringBuilder("\n  Formal params: " + params.length);
       for (int i = 0; i < params.length; i++) {
-        tempString += Strings.indent(4, ((params[i] != null)
-                                         ? params[i].toString(depth-1)
-                                         : "\nnull"));
+        tempString.append(Strings.indent(4, ((params[i] != null)
+                ? params[i].toString(depth - 1)
+                : "\nnull")));
       }
-      ret += tempString;
+      ret.append(tempString);
     }
     else {
-      ret += Strings.indent(2, "\nFormal params: null");
+      ret.append(Strings.indent(2, "\nFormal params: null"));
     }
 
     // Only print this stuff if user asks for a larger than necessary depth
     if (depth > 1) {
       if (st != null) {
-        ret += "\n  SymbolTable: non-null";
+        ret.append("\n  SymbolTable: non-null");
       }
       else {
-        ret += "\n  SymbolTable: null";
+        ret.append("\n  SymbolTable: null");
       }
     }
     if (body != null) {
-      ret += Strings.indent(2,"\nBody:" + Strings.indent(2,body.toString(depth-1)));
+      ret.append(Strings.indent(2, "\nBody:" + Strings.indent(2, body.toString(depth - 1))));
     }
     else {
-      ret += Strings.indent(2,"\nBody: null");
+      ret.append(Strings.indent(2, "\nBody: null"));
     }
 
     /***********************************************************************
@@ -1394,15 +1395,16 @@ public boolean addLabel(final LabelNode odn) {
     * OpDefOrLabelNode interface.                                          *
     ***********************************************************************/
     if (labels != null) {
-       ret += "\n  Labels: " ;
+       ret.append("\n  Labels: ");
        final Enumeration<UniqueString> list = labels.keys() ;
        while (list.hasMoreElements()) {
-          ret += list.nextElement().toString() + "  " ;
+          ret.append(list.nextElement().toString()).append("  ");
          }
     }
-    else {ret += "\n  Labels: null";}
+    else {
+        ret.append("\n  Labels: null");}
 
-      return ret;
+      return ret.toString();
   }
 
 	@Override

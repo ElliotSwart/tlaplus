@@ -141,27 +141,25 @@ public class UseOrHideNode extends LevelNode {
           return null;
       }
       final SemanticNode[] res = new SemanticNode[this.facts.length];
-      for (int i = 0; i < facts.length; i++) {
-          res[i] = facts[i];
-      }
+      System.arraycopy(facts, 0, res, 0, facts.length);
       return res;
    }
 
   @Override
   public String toString(final int depth) {
     if (depth <= 0) return "";
-    String ret = "\n*UseOrHideNode:\n"
-                  + super.toString(depth)
-                  + Strings.indent(2, "\nisOnly: " + this.isOnly)
-                  + Strings.indent(2, "\nfacts:") ;
+    StringBuilder ret = new StringBuilder("\n*UseOrHideNode:\n"
+            + super.toString(depth)
+            + Strings.indent(2, "\nisOnly: " + this.isOnly)
+            + Strings.indent(2, "\nfacts:"));
     for (int i = 0 ; i < this.facts.length; i++) {
-        ret += Strings.indent(4, this.facts[i].toString(1)) ;
+        ret.append(Strings.indent(4, this.facts[i].toString(1)));
       }
-      ret += Strings.indent(2, "\ndefs:") ;
+      ret.append(Strings.indent(2, "\ndefs:"));
     for (int i = 0 ; i < this.defs.length; i++) {
-        ret += Strings.indent(4, this.defs[i].toString(1)) ;
+        ret.append(Strings.indent(4, this.defs[i].toString(1)));
       }
-      return ret;
+      return ret.toString();
    }
 
   @Override

@@ -472,26 +472,26 @@ public class SubstInNode extends ExprNode {
   public final String toString(final int depth) {
     if (depth <= 0) return "";
 
-    String ret = "\n*SubstInNode: "
-                 + super.toString(depth)
-	         + "\n  instantiating module: " + instantiatingModule.getName()
-                 + ", instantiated module: " + instantiatedModule.getName()
-                 + Strings.indent(2, "\nSubstitutions:");
+    StringBuilder ret = new StringBuilder("\n*SubstInNode: "
+            + super.toString(depth)
+            + "\n  instantiating module: " + instantiatingModule.getName()
+            + ", instantiated module: " + instantiatedModule.getName()
+            + Strings.indent(2, "\nSubstitutions:"));
     if (this.substs != null) {
       for (int i = 0; i < this.substs.length; i++) {
-        ret += Strings.indent(2,
-                      Strings.indent(2, "\nSubst:" +
+        ret.append(Strings.indent(2,
+                Strings.indent(2, "\nSubst:" +
                         (this.substs[i] != null ?
-                         Strings.indent(2, this.substs[i].toString(depth-1)) :
-                         "<null>")));
+                                Strings.indent(2, this.substs[i].toString(depth - 1)) :
+                                "<null>"))));
       }
     }
     else {
-      ret += Strings.indent(2, "<null>");
+      ret.append(Strings.indent(2, "<null>"));
     }
-    ret += Strings.indent(2, "\nBody:"
-			  + Strings.indent(2, (body == null ? "<null>" : body.toString(depth-1))));
-    return ret;
+    ret.append(Strings.indent(2, "\nBody:"
+            + Strings.indent(2, (body == null ? "<null>" : body.toString(depth - 1)))));
+    return ret.toString();
   }
 
   /**

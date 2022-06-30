@@ -1031,7 +1031,7 @@ public class MP
 					.append(now()).append(")");
             break;
 		case EC.TLC_CHECKING_TEMPORAL_PROPS_END:
-			b.append("Finished checking temporal properties in %1% at " + now());
+			b.append("Finished checking temporal properties in %1% at ").append(now());
 	        break;
         case EC.TLC_SUCCESS:
             b.append("Model checking completed. No error has been found.\n"
@@ -1076,11 +1076,9 @@ public class MP
             break;
         case EC.TLC_PROGRESS_STATS:
         	if (parameters.length == 4) {
-				b.append("Progress(%1%) at " + now() + ": %2% states generated, "
-						+ "%3% distinct states found, " + "%4% states left on queue.");
+				b.append("Progress(%1%) at ").append(now()).append(": %2% states generated, ").append("%3% distinct states found, ").append("%4% states left on queue.");
         	} else if (parameters.length == 6) {
-        		b.append("Progress(%1%) at " + now() + ": %2% states generated ("
-        				+ "%5% s/min), %3% distinct states found (%6% ds/min), %4% states left on queue.");
+        		b.append("Progress(%1%) at ").append(now()).append(": %2% states generated (").append("%5% s/min), %3% distinct states found (%6% ds/min), %4% states left on queue.");
         	}
             break;
         case EC.TLC_PROGRESS_START_STATS_DFID:
@@ -1090,9 +1088,7 @@ public class MP
             if (TLCGlobals.tool)
             {
                 // same format as model checking progress reporting for easier parsing by the toolbox
-                b.append("Progress(" + NOT_APPLICABLE_VAL + ") at " + now()
-                        + ": %1% states generated, %2% distinct states found, " + NOT_APPLICABLE_VAL
-                        + " states left on queue.");
+                b.append("Progress(" + NOT_APPLICABLE_VAL + ") at ").append(now()).append(": %1% states generated, %2% distinct states found, ").append(NOT_APPLICABLE_VAL).append(" states left on queue.");
             } else
             {
                 b.append("Progress: %1% states generated, %2% distinct states found.");
@@ -1102,9 +1098,7 @@ public class MP
             if (TLCGlobals.tool)
             {
                 // same format as model checking progress reporting for easier parsing by the toolbox
-                b.append("Progress(%2%) at " + now()
-                        + ": %1% states generated, " + NOT_APPLICABLE_VAL + " distinct states found, "
-                        + NOT_APPLICABLE_VAL + " states left on queue.");
+                b.append("Progress(%2%) at ").append(now()).append(": %1% states generated, ").append(NOT_APPLICABLE_VAL).append(" distinct states found, ").append(NOT_APPLICABLE_VAL).append(" states left on queue.");
             } else
             {
                 b.append("Progress: %1% states checked, %2% traces generated (trace length: mean=%3%, var(x)=%4%, sd=%5%)");
@@ -1112,7 +1106,7 @@ public class MP
             break;
 
         case EC.TLC_COVERAGE_START:
-            b.append("The coverage statistics at " + now());
+            b.append("The coverage statistics at ").append(now());
             break;
         case EC.TLC_COVERAGE_VALUE:
             b.append("  %1%: %2%");
@@ -1319,7 +1313,7 @@ public class MP
             // the general error adapts to the number of parameters that are passed
             for (int i = 0; i < parameters.length; i++)
             {
-                b.append("%" + (i + 1) + "%"); //$NON-NLS-1$ //$NON-NLS-2$
+                b.append("%").append(i + 1).append("%"); //$NON-NLS-1$ //$NON-NLS-2$
             }
             break;
         /* 
@@ -1734,8 +1728,8 @@ public class MP
 
 		// SCC size and count
 		ToolIO.out.println(LiveWorker.STATS.toString());
-		ToolIO.out.println(String.format("%s SCC%s found during liveness checking.",
-				LiveWorker.STATS.getObservations(), LiveWorker.STATS.getObservations() > 1 ? "s" : ""));
+		ToolIO.out.printf("%s SCC%s found during liveness checking.%n",
+				LiveWorker.STATS.getObservations(), LiveWorker.STATS.getObservations() > 1 ? "s" : "");
     }
 
     /**

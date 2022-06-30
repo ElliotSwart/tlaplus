@@ -410,28 +410,28 @@ public class InstanceNode extends LevelNode {
   public final String toString(final int depth) {
     if (depth <= 0) return "";
 
-    String ret = "\n*InstanceNode " + super.toString(depth) +
-                 "  InstanceName = " + (name == null ? "(none)" : name.toString()) +
-                 Strings.indent(2, "\nModule: " + module.getName())
-   +             Strings.indent(2, "\nlocal: " + this.local);
+    StringBuilder ret = new StringBuilder("\n*InstanceNode " + super.toString(depth) +
+            "  InstanceName = " + (name == null ? "(none)" : name.toString()) +
+            Strings.indent(2, "\nModule: " + module.getName())
+            + Strings.indent(2, "\nlocal: " + this.local));
     if (params.length > 0) {
-      ret += Strings.indent(2,"\nInstance parameters:");
+      ret.append(Strings.indent(2, "\nInstance parameters:"));
       for ( int i = 0; i < params.length; i++ ) {
-        ret += Strings.indent(4,params[i].toString(depth-1));
+        ret.append(Strings.indent(4, params[i].toString(depth - 1)));
       }
     }
 
     if (substs.length > 0) {
-      ret += Strings.indent(2, "\nSubstitutions:");
+      ret.append(Strings.indent(2, "\nSubstitutions:"));
       for (int i = 0; i < substs.length; i++) {
-        ret += Strings.indent(2,
-                              Strings.indent(2, "\nSubst:" +
-                                             (substs[i] != null ?
-                                              Strings.indent(2, substs[i].toString(depth-1)) :
-                                              "<null>")));
+        ret.append(Strings.indent(2,
+                Strings.indent(2, "\nSubst:" +
+                        (substs[i] != null ?
+                                Strings.indent(2, substs[i].toString(depth - 1)) :
+                                "<null>"))));
       }
     }
-    return ret;
+    return ret.toString();
   }
 
   @Override

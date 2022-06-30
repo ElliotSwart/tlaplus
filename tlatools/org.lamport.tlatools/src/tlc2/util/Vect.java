@@ -165,9 +165,8 @@ public class Vect<E> implements Cloneable, Serializable {
   }
 
   public final void removeElementAt(final int index) {
-    for (int i = index+1; i < this.elementCount; i++) {
-      this.elementData[i-1] = this.elementData[i];
-    }
+      if (this.elementCount - (index + 1) >= 0)
+          System.arraycopy(this.elementData, index + 1, this.elementData, index + 1 - 1, this.elementCount - (index + 1));
     this.elementCount--;
     this.elementData[this.elementCount] = null;
   }

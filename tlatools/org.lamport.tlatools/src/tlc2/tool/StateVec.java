@@ -70,9 +70,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
     final int newLen = Math.min(Math.max(oldLen+add, 2*oldLen), TLCGlobals.setBound);
     final TLCState[] oldv = this.v;
     this.v = new TLCState[newLen];
-    for (int i = 0; i < this.size; i++) {
-      this.v[i] = oldv[i];
-    }
+    if (this.size >= 0) System.arraycopy(oldv, 0, this.v, 0, this.size);
   }
 
   public final TLCState elementAt(final int i) { return this.v[i]; }
@@ -124,9 +122,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
       s0.grow(size1);
       v0 = s0.v;
     }
-    for (int i = 0; i < size1; i++) {
-      v0[size0+i] = v1[i];
-    }
+    if (size1 >= 0) System.arraycopy(v1, 0, v0, size0 + 0, size1);
     s0.size = size0 + size1;
     return s0;
   }
@@ -210,7 +206,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
 			break;			
 		}
 	}
-    return res.toArray(new Value[res.size()]);
+    return res.toArray(new Value[0]);
   }
   
   @Override

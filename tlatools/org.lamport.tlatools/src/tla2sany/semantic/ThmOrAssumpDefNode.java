@@ -611,45 +611,46 @@ public class ThmOrAssumpDefNode extends SymbolNode
   @Override
   public final String toString(final int depth) {
     if (depth <= 0) return "";
-    String ret =
-          "\n*ThmOrAssumpDefNode: " + this.getName().toString() +
-            "  " + super.toString(depth) +
-            " arity: " + this.arity +
-            " module: " + (originallyDefinedInModule != null
-                             ? originallyDefinedInModule.getName().toString()
-                             : "<null>" ) ;
-    if (instantiatedFrom != null) {ret += " instantiatedFrom: " +
-                                          instantiatedFrom.getName() ; }
+    StringBuilder ret =
+            new StringBuilder("\n*ThmOrAssumpDefNode: " + this.getName().toString() +
+                    "  " + super.toString(depth) +
+                    " arity: " + this.arity +
+                    " module: " + (originallyDefinedInModule != null
+                    ? originallyDefinedInModule.getName().toString()
+                    : "<null>"));
+    if (instantiatedFrom != null) {
+        ret.append(" instantiatedFrom: ").append(instantiatedFrom.getName()); }
       if (params != null) {
-      String tempString = "\nFormal params: " + params.length;
+      StringBuilder tempString = new StringBuilder("\nFormal params: " + params.length);
       for (int i = 0; i < params.length; i++) {
-        tempString += Strings.indent(2, ((params[i] != null)
-                                        ? params[i].toString(depth-1)
-                                         : "\nnull"));
+        tempString.append(Strings.indent(2, ((params[i] != null)
+                ? params[i].toString(depth - 1)
+                : "\nnull")));
         }
-          ret += Strings.indent(2,tempString);
+          ret.append(Strings.indent(2, tempString.toString()));
      }
       if (body != null) {
-        ret += Strings.indent(2,
-                             "\nisTheorem(): " + theorem +
-                             "\nBody:" +
-                              Strings.indent(2, this.body.toString(depth-1)) +
-                             "\nsuffices: " + this.isSuffices());
+        ret.append(Strings.indent(2,
+                "\nisTheorem(): " + theorem +
+                        "\nBody:" +
+                        Strings.indent(2, this.body.toString(depth - 1)) +
+                        "\nsuffices: " + this.isSuffices()));
       } // if
     /***********************************************************************
     * The following is the same for all classes that implement the         *
     * OpDefOrLabelNode interface.                                          *
     ***********************************************************************/
     if (labels != null) {
-       ret += "\n  Labels: " ;
+       ret.append("\n  Labels: ");
        final Enumeration<UniqueString> list = labels.keys() ;
        while (list.hasMoreElements()) {
-          ret += list.nextElement().toString() + "  " ;
+          ret.append(list.nextElement().toString()).append("  ");
          }
     }
-    else {ret += "\n  Labels: null";}
+    else {
+        ret.append("\n  Labels: null");}
 
-      return ret ;
+      return ret.toString();
    }
 
   /**

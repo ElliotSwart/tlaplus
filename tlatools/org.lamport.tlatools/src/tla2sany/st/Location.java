@@ -261,7 +261,7 @@ public final class Location implements Comparable<Location>
             }
         }
 
-        return locations.toArray(new Location[locations.size()]);
+        return locations.toArray(new Location[0]);
     }
 
     /** 

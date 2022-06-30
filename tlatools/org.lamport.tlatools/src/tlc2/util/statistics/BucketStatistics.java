@@ -89,8 +89,7 @@ public class BucketStatistics extends AbstractBucketStatistics implements IBucke
 	 */
 	@Override
     public NavigableMap<Integer, Long> getSamples() {
-		final NavigableMap<Integer, Long> res = new TreeMap<>();
-		res.putAll(this.buckets);
+        final NavigableMap<Integer, Long> res = new TreeMap<>(this.buckets);
 		return res;
 	}
 

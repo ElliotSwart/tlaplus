@@ -394,12 +394,12 @@ public final UniqueString[] names;      // The names of the fields.
         sb.append("[");
         final int len = this.names.length;
         if (len != 0) {
-          sb.append(names[0] + ": ");
+          sb.append(names[0]).append(": ");
           this.values[0].toString(sb, offset, swallow);
         }
         for (int i = 1; i < len; i++) {
           sb.append(", ");
-          sb.append(names[i] + ": ");
+          sb.append(names[i]).append(": ");
           this.values[i].toString(sb, offset, swallow);
         }
         sb.append("]");
@@ -469,9 +469,7 @@ public final UniqueString[] names;      // The names of the fields.
       if (this.isDone) return null;
       final Value[] elems = new Value[this.currentElems.length];
      if (coverage) { cm.incSecondary(elems.length); }
-      for (int i = 0; i < elems.length; i++) {
-        elems[i] = this.currentElems[i];
-      }
+        System.arraycopy(this.currentElems, 0, elems, 0, elems.length);
       for (int i = elems.length-1; i >= 0; i--) {
         this.currentElems[i] = this.enums[i].nextElement();
         if (this.currentElems[i] != null) break;

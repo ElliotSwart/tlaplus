@@ -154,9 +154,7 @@ public abstract class StateQueue implements IStateQueue {
 			// cnt >= index, shrink resulting array
 			// dead code due to resetting cnt == len if cnt > len
 			final TLCState res[] = new TLCState[idx];
-			for (int i = 0; i < idx; i++) {
-				res[i] = states[i];
-			}
+            System.arraycopy(states, 0, res, 0, idx);
 			return res;
 		}
 		return null;

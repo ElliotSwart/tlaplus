@@ -272,7 +272,7 @@ public final UniqueString val;
   @Override
   public StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow) {
     try {
-      return sb.append("\"" + PrintVersion(this.val.toString()) + "\"");
+      return sb.append("\"").append(PrintVersion(this.val.toString())).append("\"");
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
