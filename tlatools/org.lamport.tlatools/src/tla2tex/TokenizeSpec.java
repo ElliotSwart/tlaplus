@@ -1627,9 +1627,8 @@ public class TokenizeSpec
                       if (token.length() == 4)
                         { state = PROLOG_DASHES;
                         }
-                      else
-                        { // state = PROLOG_DASH
-                        }
+                      // state = PROLOG_DASH
+
                     }
                   else 
                     { token = token1 + token ;

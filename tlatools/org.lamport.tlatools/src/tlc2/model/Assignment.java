@@ -77,10 +77,9 @@ public class Assignment extends Formula {
                     // print out the set
                     buffer.append(getFormattedRight());                    
                 }
-            } else 
-            {
-                // a single value, nothing to print
             }
+            // a single value, nothing to print
+
         } else
         {
             buffer.append(getFormattedRight());

@@ -849,15 +849,13 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					 * +cal: else if expectedArity > 0) *
 					 **************************************************************/
 					else {
-						if (expectedArity > 0) {
-							/**********************************************************
-							 * Subexpression.tla has a test to report an error if a * higher-order operator
-							 * is specified, since such an * operator can't be used as an operator argument.
-							 * That * test is eliminated here because this error should be * caught by the
-							 * caller of the selectorToNode method. *
-							 **********************************************************/
-						}
-					}
+                        /**********************************************************
+                         * Subexpression.tla has a test to report an error if a * higher-order operator
+                         * is specified, since such an * operator can't be used as an operator argument.
+                         * That * test is eliminated here because this error should be * caught by the
+                         * caller of the selectorToNode method. *
+                         **********************************************************/
+                    }
                     // else [expectedArity != 0]
 					opDefArityFound = nodeArity;
 
@@ -5969,11 +5967,9 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		/***********************************************************************
 		 * Complete the ThmOrOpDefNode, if there is one. *
 		 ***********************************************************************/
-		if (stepNum != null) {
-			// SZA: the next line commented, to prevent a NullPointerException
-			// The method is not executed anyways.
-			// tadn.construct(true, body, cm, symbolTable, null) ;
-		}
+        // SZA: the next line commented, to prevent a NullPointerException
+        // The method is not executed anyways.
+        // tadn.construct(true, body, cm, symbolTable, null) ;
 
         /***********************************************************************
 		 * Restore heirs and nextTok if the statement's tokens were inside a *
@@ -6392,8 +6388,6 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			} // for
 		}
         // else
-		if (assumeProveDepth > 0) {
-		}
         final LabelNode retVal = new LabelNode(stn, name, params, currentGoal, currentGoalClause, body, isAssumeProve);
 		retVal.setLabels(ht);
 		/*********************************************************************

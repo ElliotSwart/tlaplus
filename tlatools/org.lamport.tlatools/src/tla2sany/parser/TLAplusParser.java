@@ -1698,7 +1698,6 @@ expecting = "comma or )";
         }
         t = jj_consume_token(RBR);
                   addHeir( new SyntaxTreeNode( mn, t) ) ;
-      } else {
       }
       break;
     case op_76:
@@ -2678,9 +2677,8 @@ expecting = "==";
                        // belchDEF(); extra belchDEF removed 15 Mar 2007 by LL because it caused
                        // an extra <DEFBREAK> to be inserted, producing an error.
                        addHeir( new SyntaxTreeNode(mn, t) );
-    } else {
     }
-     belchDEF();
+    belchDEF();
 expecting = "Expression";
     tn = Expression();
     addHeir(tn);
@@ -3121,7 +3119,6 @@ expecting = "==";
                        // belchDEF(); extra belchDEF removed 15 Mar 2007 by LL because it caused
                        // an extra <DEFBREAK> to be inserted, producing an error.
                        addHeir( new SyntaxTreeNode(mn, t) );
-    } else {
     }
     belchDEF();
     if (jj_2_24(3)) {
@@ -3142,9 +3139,8 @@ expecting = "==";
     if (beginsProof(getToken(1))) {
       tn = Proof();
        addHeir(tn) ;
-    } else {
     }
-   final SyntaxTreeNode[] sn = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_Theorem, sn);}
     throw new Error("Missing return statement in function");
   }
@@ -3256,7 +3252,6 @@ expecting = "==";
       if (jj_2_26(2)) {
         t = jj_consume_token(PROOF);
                   addHeir(new SyntaxTreeNode(mn, t));
-      } else {
       }
       label_14:
       while (true) {
@@ -3394,7 +3389,6 @@ expecting = "==";
          if (kind == N_TerminalProof) { expecting = "comma, DEF, or [.]"; }
          else {expecting = "comma, DEF, or proof step";}
       }
-    } else {
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case DF:
@@ -3523,9 +3517,8 @@ expecting = "==";
     if (beginsProof(getToken(1))) {
       tn = Proof();
        addHeir(tn) ;
-    } else {
     }
-     sn = getLastHeirs();
+    sn = getLastHeirs();
      epa();
      {if (true) return new SyntaxTreeNode(mn, N_ProofStep, sn);}
     throw new Error("Missing return statement in function");
@@ -3617,7 +3610,6 @@ expecting = "==";
         }
       tn = Proof();
                     addHeir(tn) ;
-    } else {
     }
     final SyntaxTreeNode[] sn = getLastHeirs();
      epa();
@@ -4494,7 +4486,6 @@ expecting = "==";
      sn[1] = new SyntaxTreeNode(mn, t2);
       t1 = jj_consume_token(NUMBER_LITERAL);
      sn[2] = new SyntaxTreeNode(mn,t1);
-    } else {
     }
     if (sn == null) {
       numberFlag = true;
@@ -5441,7 +5432,6 @@ final SyntaxTreeNode tn;
         jj_consume_token(-1);
         throw new ParseException();
       }
-    } else {
     }
     t = jj_consume_token(RBC);
     if (htn!=null) addHeir(htn);
@@ -5825,7 +5815,6 @@ final SyntaxTreeNode tn;
         tn = Expression();
                             addHeir( tn );
       }
-    } else {
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case RAB:
@@ -5858,7 +5847,6 @@ final SyntaxTreeNode tn;
     tid = Identifier();
     if (jj_2_53(2)) {
       top = OpArgs();
-    } else {
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case BANG:
@@ -5959,7 +5947,6 @@ final SyntaxTreeNode tn;
       zn[3] = Expression();
       t = jj_consume_token(RBR);
                 zn[4] = new SyntaxTreeNode(mn, t);
-    } else {
     }
     epa();
     if ( expr != null ) {  // no extra (), FairnessHook can't be null ** Add check.
@@ -6038,7 +6025,6 @@ final SyntaxTreeNode tn;
                     addHeir( new SyntaxTreeNode(mn, t) );
       tn = OtherArm();
                       addHeir( tn );
-    } else {
     }
     final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode(mn, N_Case, sn);}
@@ -6734,9 +6720,8 @@ final SyntaxTreeNode tn;
         jj_consume_token(-1);
         throw new ParseException();
       }
-    } else {
     }
-   epa() ;
+    epa() ;
   }
 
   // ExtendableExpr
@@ -7031,7 +7016,6 @@ final SyntaxTreeNode tn;
         }
         if (jj_2_71(2)) {
           tnOpArgs = OpArgs();
-        } else {
         }
         label_52:
         while (true) {
@@ -7298,7 +7282,6 @@ final SyntaxTreeNode tn;
       if (jj_2_75(2)) {
         tn = OpArgs();
                       addHeir(tn) ;
-      } else {
       }
     } else {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {

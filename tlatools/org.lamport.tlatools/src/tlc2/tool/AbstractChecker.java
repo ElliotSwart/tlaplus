@@ -351,9 +351,8 @@ public abstract class AbstractChecker
                                 done = true;
                             }
                             
-                        } else {
-                            // prevChar must be '.', so just continue
-                        }
+                        }  // prevChar must be '.', so just continue
+
                     }
                     prev--;
                 }

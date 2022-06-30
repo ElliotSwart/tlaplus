@@ -746,9 +746,8 @@ public class FindAlignments
                               shouldSkip = true ;
                           }
                       }
-                      else {
-                          // line doesn't begin with label
-                      }
+                      // line doesn't begin with label
+
                       if (!shouldSkip) {
                           if (spec[curLine][curItem].column < alignCol) {
                               notDone = false ;
@@ -1032,11 +1031,11 @@ public class FindAlignments
                 { 
                   startSub = item + 1 ;
                 } // END then OF if ((tok.type == Token.BUILTIN) ...)
-               else 
-                { /*********************************************************
-                  * Do nothing.                                            *
-                  *********************************************************/
-                }// END else OF if ((tok.type = Token.BUILTIN) ...)
+               /*********************************************************
+                * Do nothing.                                            *
+                *********************************************************/
+               // END else OF if ((tok.type = Token.BUILTIN) ...)
+
 
              }  // END then OF if (startSub == -1)
             else

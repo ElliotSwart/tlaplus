@@ -277,13 +277,12 @@ public class CommentToken extends Token
                         { beginMultiLine = true;}
 
                    }  // END then OF if (item == spec[line].length - 1)
-                 else 
-                   { /******************************************************
-                     * This is not the last token on the line .            *
-                     ******************************************************/
-                     
-                   }// END else OF if (item == spec[line].length - 1)
-                 /**********************************************************
+                 /******************************************************
+                  * This is not the last token on the line .            *
+                  ******************************************************/
+                 // END else OF if (item == spec[line].length - 1)
+
+                   /**********************************************************
                  * Set the subtype of the COMMENT token.                   *
                  **********************************************************/
                  switch (tok.rsubtype)

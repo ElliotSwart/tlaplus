@@ -299,9 +299,8 @@ public abstract class AbstractSpecWriter {
                     cfgBuffer.append(TLAConstants.KeyWords.CONSTANT).append(TLAConstants.SPACE).append(constant.getLabel());
                     cfgBuffer.append(TLAConstants.EQ).append(constant.getRight()).append(TLAConstants.CR);
                 }
-            } else {
             }
-        }
+		}
 
         // symmetry
 		if (!symmetrySets.isEmpty()) {

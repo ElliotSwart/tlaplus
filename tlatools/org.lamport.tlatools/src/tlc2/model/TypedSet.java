@@ -125,10 +125,9 @@ public class TypedSet {
                 }
             }
 
-        } else
-        {
-            // no values in the set...
         }
+        // no values in the set...
+
 
         return result;
     }
