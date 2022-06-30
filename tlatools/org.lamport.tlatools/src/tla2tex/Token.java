@@ -347,7 +347,7 @@ public class Token
     * We define a subclass to add a needsSpace field to PF_STEP tokens.    *
     ***********************************************************************/
     public static class PfStepToken extends Token { 
-      public boolean needsSpace ;
+      public final boolean needsSpace ;
         /*******************************************************************
         * This will be false iff the token is immediately followed by an   *
         * infix operator.                                                  *

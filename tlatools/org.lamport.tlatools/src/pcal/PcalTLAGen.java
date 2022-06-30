@@ -3623,8 +3623,8 @@ public class PcalTLAGen
      * A FormulaPair should never have wf = null, but might have sf = null.
      */
     public static class FormulaPair {
-    	public String wf ;
-    	public String sf ;
+    	public final String wf ;
+    	public final String sf ;
     	
     	public FormulaPair(final String wfVal, final String sfVal) {
     		this.wf = wfVal;
@@ -3678,12 +3678,12 @@ public class PcalTLAGen
      *
      */
     public static class ProcessFairness {
-    	public String xf ; // either "WF" or "SF"
-    	public Vector<String>  prefix ; 
+    	public final String xf ; // either "WF" or "SF"
+    	public final Vector<String>  prefix ;
     	    // StringVector either "\A self \in exp : " or
     	    // "LET self == exp \n IN " (note the ending space) or ""
     	public FormulaPair bodyFormulas ; // fairness conditions for the proc's body
-    	public Vector<FormulaPair> prcdFormulas ; // fairness conditions for the procedure
+    	public final Vector<FormulaPair> prcdFormulas ; // fairness conditions for the procedure
 
     	/** 
     	 * The constructor

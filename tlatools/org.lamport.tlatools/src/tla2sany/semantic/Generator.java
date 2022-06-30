@@ -6406,14 +6406,14 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
         return retVal;
 	} // generateLabel
 
-	Vector<Hashtable<UniqueString, LabelNode>> LSlabels = new Vector<>();
+	final Vector<Hashtable<UniqueString, LabelNode>> LSlabels = new Vector<>();
 	/***********************************************************************
 	 * LSlabels.elementAt(i) is a HashTable that represents * LS.labels[i+1]. The
 	 * values in the Hashtable are LabelNode objects, * where ln.getName() is the
 	 * key of object ln. The empty set is * represented by null. *
 	 ***********************************************************************/
 
-	Vector<Vector<FormalParamNode[]>> LSparamSeq = new Vector<>();
+	final Vector<Vector<FormalParamNode[]>> LSparamSeq = new Vector<>();
 
 	/***********************************************************************
 	 * LsparamSeq.elementAt(i) is a Vector whose elements are of type *
@@ -6573,7 +6573,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	 * within which the nodes we are currently processing lie. *
 	 ***********************************************************************/
 
-	int[] unresolvedCnt = new int[MaxLetInLevel];
+	final int[] unresolvedCnt = new int[MaxLetInLevel];
 	/***********************************************************************
 	 * For i \in 0..curLevel, the value of unresolvedCnt[i] is the number * of
 	 * operators declared in RECURSIVE statements at let/in level i that * have not

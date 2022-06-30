@@ -3438,7 +3438,7 @@ public class ParseAlgorithm
      }
      
 
-   public static String[] LAT = new String[10] ;
+   public static final String[] LAT = new String[10] ;
    public static int LATsize = 0; 
      /**********************************************************************
      * LAT[0], LAT[1], ...  , LAT[LATsize-1] contain tokens that have      *
@@ -3447,8 +3447,8 @@ public class ParseAlgorithm
      * an Expr.                                                            *
      **********************************************************************/
 
-   public static int[] curTokCol  = new int[10];
-   public static int[] curTokLine = new int[10];
+   public static final int[] curTokCol  = new int[10];
+   public static final int[] curTokLine = new int[10];
      /**********************************************************************
      * curTokCol[i] and curTokLine[i] are the result of calling            *
      * PcalCharReader.getLineNumber() and                                  *
