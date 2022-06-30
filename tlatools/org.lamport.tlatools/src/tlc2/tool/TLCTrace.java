@@ -320,7 +320,7 @@ public class TLCTrace {
 					 * error trace. LL 7 Mar 2012
 					 */
 					MP.printError(EC.TLC_FAILED_TO_RECOVER_INIT);
-					MP.printError(EC.TLC_BUG, "2 " + Long.toString(fp));
+					MP.printError(EC.TLC_BUG, "2 " + fp);
 					System.exit(1);
 				}
 				res[stateNum++] = sinfo;

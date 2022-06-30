@@ -67,10 +67,10 @@ public class DiskStateQueue extends StateQueue {
 		this.hiPool = 0;
 		this.lastLoPool = 0;
 		this.filePrefix = diskdir + FileUtil.separator;
-		final File rFile = new File(this.filePrefix + Integer.toString(0));
+		final File rFile = new File(this.filePrefix + 0);
 		this.reader = new StatePoolReader(BufSize, rFile);
 		this.reader.setDaemon(true);
-		this.loFile = new File(this.filePrefix + Integer.toString(this.loPool));
+		this.loFile = new File(this.filePrefix + this.loPool);
 		this.reader.start();
 		this.writer = new StatePoolWriter(BufSize, this.reader);
 		this.writer.setDaemon(true);
@@ -228,7 +228,7 @@ public class DiskStateQueue extends StateQueue {
 			this.deqBuf[i].read(vis);
 		}
 		vis.close();
-		final File file = new File(this.filePrefix + Integer.toString(this.lastLoPool));
+		final File file = new File(this.filePrefix + this.lastLoPool);
 		final boolean canRead = (this.lastLoPool < this.hiPool);
 		this.reader.restart(file, canRead);
 		final String pstr = Integer.toString(this.loPool);
@@ -274,7 +274,7 @@ public class DiskStateQueue extends StateQueue {
 						}
 						
 						for (int i = lastLoPool; i < deleteUpTo; i++) {
-							final File oldPoolFile = new File(filePrefix + Integer.toString(i));
+							final File oldPoolFile = new File(filePrefix + i);
 							if (!oldPoolFile.delete()) {
 								// No reason to terminate/kill TLC when the cleanup fails.
 								// Contrary to StatePoolReader/Write, cleanup is optional

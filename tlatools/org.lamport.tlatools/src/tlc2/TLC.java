@@ -1239,7 +1239,7 @@ public class TLC {
 					// report overall runtime in a machine-readable format (milliseconds)
 					// instead of in a human-readable one.
 					TLCGlobals.tool || Boolean.getBoolean(TLC.class.getName() + ".asMilliSeconds")
-							? Long.toString(runtime) + "ms"
+							? runtime + "ms"
 							: convertRuntimeToHumanReadable(runtime));
 
 			// Generate trace exploration spec if error occurred.

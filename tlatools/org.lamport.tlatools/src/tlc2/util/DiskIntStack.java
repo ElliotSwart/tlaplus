@@ -65,7 +65,7 @@ public final class DiskIntStack implements IntStack {
 	while (!this.isIdle) this.wait();
 	this.buf = this.rwbuf;
 	this.rwbuf = this.buf1;
-	this.poolFile = new File(this.filePrefix + Integer.toString(this.hiPool++));
+	this.poolFile = new File(this.filePrefix + this.hiPool++);
 	this.isIdle = false;
 	this.writer.notify();
 	this.buf1 = this.buf2;
@@ -98,7 +98,7 @@ public final class DiskIntStack implements IntStack {
 	this.rwbuf = this.buf2;
 	this.hiPool--;
 	if (this.hiPool > 0) {
-	  this.poolFile = new File(this.filePrefix + Integer.toString(this.hiPool-1));
+	  this.poolFile = new File(this.filePrefix + (this.hiPool - 1));
 	  this.isIdle = false;
 	  this.reader.notify();
 	}

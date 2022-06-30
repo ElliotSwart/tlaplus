@@ -43,7 +43,7 @@ public class ObjectPoolStack {
     }
     final Object[] res = this.buf;
     this.buf = outBuf;
-    this.poolFile = new File(this.filePrefix + Integer.toString(this.hiPool++));
+    this.poolFile = new File(this.filePrefix + this.hiPool++);
     this.isIdle = false;
     this.writer.notify();
     return res;
@@ -59,7 +59,7 @@ public class ObjectPoolStack {
     this.buf = inBuf;
     this.hiPool--;
     if (this.hiPool > 0) {
-      this.poolFile = new File(this.filePrefix + Integer.toString(this.hiPool-1));
+      this.poolFile = new File(this.filePrefix + (this.hiPool - 1));
       this.isIdle = false;
       this.reader.notify();
     }
@@ -75,7 +75,7 @@ public class ObjectPoolStack {
   public final void recover(final ObjectInputStream ois) throws IOException {
     this.hiPool = ois.readInt();
     if (this.hiPool > 0) {
-      this.poolFile = new File(this.filePrefix + Integer.toString(this.hiPool-1));
+      this.poolFile = new File(this.filePrefix + (this.hiPool - 1));
       this.isIdle = false;
       this.reader.notify();
     }

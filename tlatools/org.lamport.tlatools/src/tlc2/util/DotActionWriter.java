@@ -113,7 +113,7 @@ public class DotActionWriter {
 		} else {
 			// TODO don't increase penwidth (contributes to a spaghetti ball of lines) but
 			// use heatmap approach like in ModuleCoverageInformation.
-			this.writer.append(String.format("[penwidth=%s]", Double.toString(weight)));
+			this.writer.append(String.format("[penwidth=%s]", weight));
 		}
 		this.writer.append(";\n");
 	}

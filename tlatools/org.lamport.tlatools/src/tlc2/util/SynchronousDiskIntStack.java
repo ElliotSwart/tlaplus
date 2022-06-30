@@ -77,7 +77,7 @@ public class SynchronousDiskIntStack implements IntStack {
 		if (this.index == bufSize) {
 			// flush to disk
 			try {
-				final File poolFile = new File(this.filePrefix + Integer.toString(this.hiPool));
+				final File poolFile = new File(this.filePrefix + this.hiPool);
 				poolFile.deleteOnExit();
 				final BufferedDataOutputStream bdos = FileUtil.newBdFOS(false, poolFile);
 				final int len = buf.length;
@@ -112,7 +112,7 @@ public class SynchronousDiskIntStack implements IntStack {
 		if (this.index == 0 && hasPool()) {
 			// fill buffer
 			try {
-				final File poolFile = new File(this.filePrefix + Integer.toString(this.hiPool - 1));
+				final File poolFile = new File(this.filePrefix + (this.hiPool - 1));
 				final BufferedDataInputStream bdis = FileUtil.newBdFIS(false, poolFile);
 				final int len = buf.length;
 				for (int i = 0; i < len; i++) {

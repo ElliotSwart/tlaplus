@@ -543,7 +543,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 		// format of TLA module, so that it can be read by TLC again.
 		if (traceFile != null) {
 			// Make sure each worker outputs to its own set of trace files.
-			final String fileName = traceFile + "_" + String.valueOf(this.myGetId()) + "_" + this.traceCnt;
+			final String fileName = traceFile + "_" + this.myGetId() + "_" + this.traceCnt;
 			// TODO is it ok here?
 			final PrintWriter pw = new PrintWriter(FileUtil.newBFOS(fileName));
 			pw.println("---------------- MODULE " + fileName + " -----------------");

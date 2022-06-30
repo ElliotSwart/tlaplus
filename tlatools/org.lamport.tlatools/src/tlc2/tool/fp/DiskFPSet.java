@@ -496,7 +496,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 			 // LL modified error message on 7 April 2012
 				MP.printError(EC.GENERAL, new String[]{"looking up a fingerprint, and" + 
 			            "\nmidEntry turned negative (loEntry, midEntry, hiEntry, loVal, hiVal): ",
-						Long.toString(loEntry) +" ", Long.toString(midEntry) +" ", Long.toString(hiEntry) +" ", Long.toString(loVal) +" ", Long.toString(hiVal)}, e);
+                        loEntry +" ", midEntry +" ", hiEntry +" ", loVal +" ", Long.toString(hiVal)}, e);
 			}
 			MP.printError(EC.SYSTEM_DISKGRAPH_ACCESS, e);
 			throw e;
