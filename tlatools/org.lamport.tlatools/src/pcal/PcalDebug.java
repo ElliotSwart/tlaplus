@@ -108,7 +108,7 @@ public class PcalDebug
         sb.append(msg).append(".");
     	
         ToolIO.out.println();
-        ToolIO.out.println(sb.toString());
+        ToolIO.out.println(sb);
         ToolIO.out.println();
         
         throw new Error(sb.toString());

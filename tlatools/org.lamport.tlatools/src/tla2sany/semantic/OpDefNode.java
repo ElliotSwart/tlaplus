@@ -1377,7 +1377,7 @@ public boolean addLabel(final LabelNode odn) {
 			}
 		} else {
 			// In most cases, toString will print the nodes location.
-			buf.append(toString());
+			buf.append(this);
 		}
 		return buf.toString().trim();
 	}

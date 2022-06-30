@@ -321,9 +321,9 @@ public class Token
                          + ",\t col |-> "   + column
                          + ",\t width |-> " + getWidth() ;
         if (aboveAlign.line != -1)
-             {result = result + ",\t above |-> " + aboveAlign.toString();}
+             {result = result + ",\t above |-> " + aboveAlign;}
           if (belowAlign.line  != -1)
-             {result = result + ",\t below |-> " + belowAlign.toString();}
+             {result = result + ",\t below |-> " + belowAlign;}
           if (preSpace != 0)
              {result = result + ", space |-> " + preSpace; }
           if (isAlignmentPoint)

@@ -41,14 +41,14 @@ public class FcnParams implements IFcnParams {
 	  sz *= sz1;
 	  if (sz < -2147483648 || sz > 2147483647) {
 	    Assert.fail(EC.TLC_MODULE_OVERFLOW, "the number of elements in:\n" +
-			this.toString());
+                this);
 	  }
 	}
       }
       sz *= sz1;
       if (sz < -2147483648 || sz > 2147483647) {
 	Assert.fail(EC.TLC_MODULE_OVERFLOW, "the number of elements in:\n" +
-		    this.toString());
+            this);
       }
     }
     return (int)sz;

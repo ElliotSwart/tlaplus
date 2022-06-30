@@ -58,11 +58,11 @@ public class Errors {
 
     int i;
     for (i = warnings.size()-1; i >= 0; i--) {
-      if ( (loc.toString() + "\n\n" + str).equals( warnings.elementAt(i) ) ) break;
+      if ( (loc + "\n\n" + str).equals( warnings.elementAt(i) ) ) break;
     }
 
     if ( i < 0) {
-      warnings.addElement( loc.toString() + "\n\n"+ str );
+      warnings.addElement( loc + "\n\n"+ str );
       numWarnings++;
     }
   }
@@ -73,11 +73,11 @@ public class Errors {
 
     int i;
     for (i = errors.size()-1; i >= 0; i--) {
-      if ( (loc.toString() + "\n\n" + str).equals( errors.elementAt(i) ) )  break;
+      if ( (loc + "\n\n" + str).equals( errors.elementAt(i) ) )  break;
     }
 
     if ( i < 0) {
-      errors.addElement( loc.toString() + "\n\n"+ str );
+      errors.addElement( loc + "\n\n"+ str );
       numErrors++;
     }
     succeed = false;

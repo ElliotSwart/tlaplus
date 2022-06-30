@@ -2490,7 +2490,7 @@ public class ParseAlgorithm
                      )
                { PcalDebug.ReportBug(
                   "ParseAlgorithm.ClassifyStmtSeq encountered the unexpected" +
-                  " statement type " + node.getClass().toString()) ;
+                  " statement type " + node.getClass()) ;
              }
            if (result > 0)
              { if (i == stmtseq.size() - 1)

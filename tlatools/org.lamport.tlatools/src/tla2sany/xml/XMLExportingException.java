@@ -26,7 +26,7 @@ private final Exception nested;
     else {
       final StringWriter sw = new StringWriter();
       nested.printStackTrace(new PrintWriter(sw));
-      return super.toString() + "\n" + sw.toString();
+      return super.toString() + "\n" + sw;
     }
   }
 }

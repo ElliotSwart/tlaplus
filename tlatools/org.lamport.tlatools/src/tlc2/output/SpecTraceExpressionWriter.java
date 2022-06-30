@@ -471,7 +471,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	
 	        initAndNext.append(TLAConstants.COMMENT).append("TRACE NEXT definition ");
 	        initAndNext.append(TLAConstants.TraceExplore.TRACE_EXPLORE_NEXT).append(TLAConstants.CR);
-	        initAndNext.append(nextDisjunctBuffer.toString());
+	        initAndNext.append(nextDisjunctBuffer);
 			
 			if (leaveStubsForTraceExpression) {
 				initAndNext.append(TLAConstants.COMMENT).append(TLAConstants.TLA_AND).append(' ');
@@ -487,7 +487,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 			 */
 			subActionsAndConstraint.append(TLAConstants.COMMENT).append("TRACE Action Constraint definition ");
 			subActionsAndConstraint.append(TLAConstants.TraceExplore.TRACE_EXPLORE_ACTION_CONSTRAINT);
-			subActionsAndConstraint.append(TLAConstants.CR).append(actionConstraintBuffer.toString());
+			subActionsAndConstraint.append(TLAConstants.CR).append(actionConstraintBuffer);
 			subActionsAndConstraint.append(TLAConstants.END_TUPLE).append("[TLCGet(\"level\")]");
 
 			subActionsAndConstraint.append(CLOSING_SEP).append(TLAConstants.CR);
@@ -729,11 +729,11 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	    // variable declaration
 	    tlaBuffer.append(TLAConstants.COMMENT).append("TRACE EXPLORER variable declaration ");
 	    tlaBuffer.append(TLAConstants.ATTRIBUTE).append(attributeName).append(TLAConstants.CR);
-	    tlaBuffer.append("VARIABLES ").append(variableDecls.toString()).append(CLOSING_SEP).append(TLAConstants.CR);
+	    tlaBuffer.append("VARIABLES ").append(variableDecls).append(CLOSING_SEP).append(TLAConstants.CR);
 	
 		if (addDefinitions) {
 	        // append the expression definitions
-	        tlaBuffer.append(definitions.toString());
+	        tlaBuffer.append(definitions);
 	    }
 	}
 

@@ -152,7 +152,7 @@ public abstract class SymbolNode extends LevelNode {
       }
       return e;
     } catch (final RuntimeException ee) {
-      System.err.println("failed for node.toString(): " + toString() + "\n with error ");
+      System.err.println("failed for node.toString(): " + this + "\n with error ");
       ee.printStackTrace();
       throw ee;
     }

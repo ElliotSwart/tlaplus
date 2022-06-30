@@ -64,7 +64,7 @@ public class ModuleRelatives {
       ret.append(directlyInstantiatedModuleNames.elementAt(i)).append(" ");
     }
 
-    ret.append("\n").append(context.toString());
+    ret.append("\n").append(context);
     return ret.toString();
   }
 

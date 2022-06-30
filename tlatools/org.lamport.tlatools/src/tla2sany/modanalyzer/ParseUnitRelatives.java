@@ -15,10 +15,10 @@ class ParseUnitRelatives {
   final Vector<ParseUnit> instancedBy = new Vector<>();  // vector of ParseUnit objects
 
   public final String toString() {
-    return "[ extendees = "   + extendees.toString() +
-           ", extendedBy = "  + extendedBy.toString() +
-           ", instancees = "  + instancees.toString() +
-           ", instancedBy = " + instancedBy.toString() +
+    return "[ extendees = "   + extendees +
+           ", extendedBy = "  + extendedBy +
+           ", instancees = "  + instancees +
+           ", instancedBy = " + instancedBy +
            " ]";
   }
 

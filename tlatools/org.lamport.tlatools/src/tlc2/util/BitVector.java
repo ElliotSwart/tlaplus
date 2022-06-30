@@ -156,7 +156,7 @@ public class BitVector implements Serializable {
 			  buf.append(zero);
 		  }
 	  }
-	  return "[" + buf.reverse().toString() + "]";
+	  return "[" + buf.reverse() + "]";
   }
   
 	/**

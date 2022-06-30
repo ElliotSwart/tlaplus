@@ -475,9 +475,9 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); }
               || child.isKind(N_DisjList))) {
         if (!BStack.aboveReference(child.location[1])) {
           throw new ParseException(
-                  "Item at " + child.getLocation().toString() +
+                  "Item at " + child.getLocation() +
                           " is not properly indented inside conjunction or " +
-                          " disjunction list item at " + junct.getLocation().toString());
+                          " disjunction list item at " + junct.getLocation());
         }
         checkIndentation(child, junct);
       }
@@ -3503,7 +3503,7 @@ expecting = "==";
     t = StepStartToken();
       tn = new SyntaxTreeNode(mn, t) ;
       if (!correctLevel(t)) {
-         {if (true) throw new ParseException(tn.getLocation().toString() +
+         {if (true) throw new ParseException(tn.getLocation() +
              ": QED step's number has bad level." );}
        }
     if (   (t.kind == ProofImplicitStepLexeme)
@@ -3558,7 +3558,7 @@ expecting = "==";
     t = StepStartToken();
       tn = new SyntaxTreeNode(mn, t);
       if (!correctLevel(t)) {
-         {if (true) throw new ParseException(tn.getLocation().toString() +
+         {if (true) throw new ParseException(tn.getLocation() +
              ": step's number has bad level." );}
         }
     if (   (t.kind == ProofImplicitStepLexeme)
@@ -3616,7 +3616,7 @@ expecting = "==";
     }
     if (beginsProof(getToken(1))) {
       if (! mayHaveProof) {
-         {if (true) throw new ParseException(tn.getLocation().toString() +
+         {if (true) throw new ParseException(tn.getLocation() +
              ": proof of step that does not take a proof." );}
         }
       tn = Proof();
@@ -6719,7 +6719,7 @@ final SyntaxTreeNode tn;
      tn1 = new SyntaxTreeNode(mn, t) ;
      tn0 = OperatorStack.topOfStack().getNode();
      if (! isLabel(tn0)) {
-       {if (true) throw new ParseException("`::' at " + tn1.getLocation().toString()
+       {if (true) throw new ParseException("`::' at " + tn1.getLocation()
                                  + " does not follow a label.") ;}
       }
         OperatorStack.popCurrentTop() ;
@@ -6731,7 +6731,7 @@ final SyntaxTreeNode tn;
         * I believe (perhaps naively) that lastOp will be its operator.  *
         *****************************************************************/
         {if (true) throw new ParseException(
-          "Removing label at " + tn0.getLocation().toString() +
+          "Removing label at " + tn0.getLocation() +
           " would change expression parsing.") ;}
        }
         final SyntaxTreeNode[] labelHeirs = {tn0, tn1, tn2} ;
@@ -7366,7 +7366,7 @@ final SyntaxTreeNode tn;
      else { if (tn.getKind() == N_Real) {
               {if (true) throw new ParseException(
                          "Illegal structural term at " +
-                          tn.getLocation().toString());}
+                                 tn.getLocation());}
              }
      final SyntaxTreeNode[] heirs = new SyntaxTreeNode[1] ;
            heirs[0] = tn;

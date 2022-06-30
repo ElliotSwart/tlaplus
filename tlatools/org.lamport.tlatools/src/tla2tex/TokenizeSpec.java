@@ -2049,14 +2049,14 @@ public class TokenizeSpec
                         }
                         else {
                             // The PlusCal code is bad.  We ignore it.
-System.out.println("Error SEEKING_LPAREN at " + curPos.toString());
+System.out.println("Error SEEKING_LPAREN at " + curPos);
                         }
                     }
                     pstate = CAN_BE_LBRACE ;
                 }
                 else {
                     // Bad PlusCal code. Ignore it.
-System.out.println("Error SEEKING_LPAREN(2) at " + curPos.toString());
+System.out.println("Error SEEKING_LPAREN(2) at " + curPos);
                     pstate = NOT_LBRACE ;
                 }
                 curPos = nextNonComment(curPos, spec);
@@ -2068,7 +2068,7 @@ System.out.println("Error SEEKING_LPAREN(2) at " + curPos.toString());
                 } 
                 else {
                     // The PlusCal code is bad.  We ignore it.
-System.out.println("Error SEEKING_IDENT_LPAREN at " + curPos.toString());
+System.out.println("Error SEEKING_IDENT_LPAREN at " + curPos);
                     pstate = NOT_LBRACE ;
                 }
                 curPos = nextNonComment(curPos, spec); 

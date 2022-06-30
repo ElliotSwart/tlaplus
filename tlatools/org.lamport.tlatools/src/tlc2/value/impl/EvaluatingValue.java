@@ -101,7 +101,7 @@ protected final MethodHandle mh;
   @Override
   public final int compareTo(final Object obj) {
     try {
-      Assert.fail("Attempted to compare operator " + this.toString() +
+      Assert.fail("Attempted to compare operator " + this +
       " with value:\n" + obj == null ? "null" : Values.ppr(obj.toString()), getSource());
       return 0;       // make compiler happy
     }
@@ -113,7 +113,7 @@ protected final MethodHandle mh;
 
   public final boolean equals(final Object obj) {
     try {
-      Assert.fail("Attempted to check equality of operator " + this.toString() +
+      Assert.fail("Attempted to check equality of operator " + this +
       " with value:\n" + obj == null ? "null" : Values.ppr(obj.toString()), getSource());
       return false;   // make compiler happy
     }
@@ -127,7 +127,7 @@ protected final MethodHandle mh;
   public final boolean member(final Value elem) {
     try {
       Assert.fail("Attempted to check if the value:\n" + elem == null ? "null" : Values.ppr(elem.toString()) +
-      "\nis an element of operator " + this.toString(), getSource());
+      "\nis an element of operator " + this, getSource());
       return false;   // make compiler happy
     }
     catch (final RuntimeException | OutOfMemoryError e) {
@@ -139,7 +139,7 @@ protected final MethodHandle mh;
   @Override
   public final boolean isFinite() {
     try {
-      Assert.fail("Attempted to check if the operator " + this.toString() +
+      Assert.fail("Attempted to check if the operator " + this +
       " is a finite set.", getSource());
       return false;   // make compiler happy
     }
@@ -186,7 +186,7 @@ protected final MethodHandle mh;
   public final Value takeExcept(final ValueExcept ex) {
     try {
       Assert.fail("Attempted to appy EXCEPT construct to the operator " +
-      this.toString() + ".", getSource());
+              this + ".", getSource());
       return null;   // make compiler happy
     }
     catch (final RuntimeException | OutOfMemoryError e) {
@@ -199,7 +199,7 @@ protected final MethodHandle mh;
   public final Value takeExcept(final ValueExcept[] exs) {
     try {
       Assert.fail("Attempted to apply EXCEPT construct to the operator " +
-      this.toString() + ".", getSource());
+              this + ".", getSource());
       return null;   // make compiler happy
     }
     catch (final RuntimeException | OutOfMemoryError e) {
@@ -212,7 +212,7 @@ protected final MethodHandle mh;
   public final Value getDomain() {
     try {
       Assert.fail("Attempted to compute the domain of the operator " +
-      this.toString() + ".", getSource());
+              this + ".", getSource());
       return SetEnumValue.EmptySet;   // make compiler happy
     }
     catch (final RuntimeException | OutOfMemoryError e) {
@@ -225,7 +225,7 @@ protected final MethodHandle mh;
   public final int size() {
     try {
       Assert.fail("Attempted to compute the number of elements in the operator " +
-      this.toString() + ".", getSource());
+              this + ".", getSource());
       return 0;   // make compiler happy
     }
     catch (final RuntimeException | OutOfMemoryError e) {

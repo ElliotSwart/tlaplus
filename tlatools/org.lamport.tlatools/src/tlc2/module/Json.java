@@ -420,7 +420,7 @@ public class Json {
     else if (node.isJsonNull()) {
       return null;
     }
-    throw new IOException("Cannot convert value: unsupported JSON value " + node.toString());
+    throw new IOException("Cannot convert value: unsupported JSON value " + node);
   }
 
   /**

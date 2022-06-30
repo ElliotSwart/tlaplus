@@ -720,7 +720,7 @@ public class PcalTLAGen
         else if (ast.getClass().equals(AST.SkipObj.getClass()))
             GenSkip((AST.Skip) ast, c, context, prefix, col);
         else
-            PcalDebug.ReportBug("Unexpected AST type " + ast.toString());
+            PcalDebug.ReportBug("Unexpected AST type " + ast);
     }
 
     /*****************************************************************/
@@ -1460,12 +1460,12 @@ public class PcalTLAGen
         // ast.line and ast.col
         sc.append(".\")");
         if (tlacodeNextLine.length() + sb.length() + sc.length() < wrapColumn) {
-            addOneTokenToTLA(sb.toString() + sc.toString());
+            addOneTokenToTLA(sb.toString() + sc);
         } else
         {
             addOneTokenToTLA(sb.toString());
             endCurrentLineOfTLA();
-            addOneTokenToTLA(NSpaces(here) + sc.toString());
+            addOneTokenToTLA(NSpaces(here) + sc);
         }
         addRightParen(ast.getOrigin());
         endCurrentLineOfTLA();
@@ -2405,7 +2405,7 @@ public class PcalTLAGen
                 sb.append("(self)");
             }
             if (sb.length() > 0)
-                nextSS.addElement(sb.toString() + ")");
+                nextSS.addElement(sb + ")");
         }
 
         // Steps with (self) from a set

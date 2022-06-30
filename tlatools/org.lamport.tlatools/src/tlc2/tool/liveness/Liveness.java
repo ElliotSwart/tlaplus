@@ -853,7 +853,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		if (tableau == null) {
 			ToolIO.out.println("No tableau.");
 		} else {
-			ToolIO.out.println(tableau.toString());
+			ToolIO.out.println(tableau);
 		}
 	}
 

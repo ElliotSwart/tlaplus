@@ -95,7 +95,7 @@ final public IValue value;
           return next.getTraceImpl(traceIndexLabel, lastSemanticNodeUid);
       }
       else{ // different SemanticNode compared to current top of stack
-        final String description = traceIndexLabel + ") " + semanticNode.toString() + "\n";
+        final String description = traceIndexLabel + ") " + semanticNode + "\n";
         if(next == null)
           return description;
         else

@@ -130,7 +130,7 @@ public class SANY {
       return -1;
     } catch (final Exception e) {
       // e.printStackTrace(syserr);
-      syserr.println(e.toString());
+      syserr.println(e);
       throw new FrontEndException(e);
     }
     if (doStrictErrorCodes) {
@@ -227,7 +227,7 @@ public class SANY {
           syserr.println("\nFatal errors while parsing TLA+ spec in file " + 
                   spec.getFileName() + "\n"); 
 
-          syserr.println(e.toString()); 
+          syserr.println(e);
           // syserr.println("Parsing errors detected before unexpected exception:\n");
           syserr.print( spec.parseErrors );
 

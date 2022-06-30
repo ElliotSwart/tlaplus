@@ -85,7 +85,7 @@ public class PcalFixIDs {
             FixEither((AST.Either) ast, context);
         else if (ast.getClass().equals(AST.LabelEitherObj.getClass()))
             FixLabelEither((AST.LabelEither) ast, context);
-        else PcalDebug.ReportBug("Unexpected AST type" + ast.toString());
+        else PcalDebug.ReportBug("Unexpected AST type" + ast);
     }
 
     private static void FixUniprocess (final AST.Uniprocess ast, final String context) throws PcalFixIDException {

@@ -476,7 +476,7 @@ public class PcalSymTab {
             ExtractEither((AST.Either) ast, context, cType);
         else if (ast.getClass().equals(AST.LabelEitherObj.getClass()))
             ExtractLabelEither((AST.LabelEither) ast, context, cType);
-        else PcalDebug.ReportBug("Unexpected AST type " + ast.toString());
+        else PcalDebug.ReportBug("Unexpected AST type " + ast);
     }
 
 

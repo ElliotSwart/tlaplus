@@ -108,7 +108,7 @@ public class NumeralNode extends ExprNode {
     if (depth <= 0) return "";
 
     return("\n*NumeralNode: " + super.toString(depth) + " Value: " + value +
-	   (bigValue != null ? ("; big value: " + bigValue.toString()) : "") +
+	   (bigValue != null ? ("; big value: " + bigValue) : "") +
 	   "; image: " + image);
   }
 

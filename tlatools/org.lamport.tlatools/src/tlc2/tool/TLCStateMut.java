@@ -335,7 +335,7 @@ private final IValue[] values;
     if (vlen == 1) {
       final UniqueString key = vars[0].getName();
       final IValue val = this.lookup(key);
-      result.append(key.toString());
+      result.append(key);
       result.append(" = ");
       result.append(Values.ppr(val));
       result.append("\n");
@@ -345,7 +345,7 @@ private final IValue[] values;
             final UniqueString key = var.getName();
             final IValue val = this.lookup(key);
             result.append("/\\ ");
-            result.append(key.toString());
+            result.append(key);
             result.append(" = ");
             result.append(Values.ppr(val));
             result.append("\n");
@@ -366,7 +366,7 @@ private final IValue[] values;
       final IValue val = this.lookup(key);
       final IValue lstateVal = lstate.lookup(key);
       if (!lstateVal.equals(val)) {
-	result.append(key.toString());
+	result.append(key);
 	result.append(" = ").append(Values.ppr(val)).append("\n");
       }
     }
@@ -377,7 +377,7 @@ private final IValue[] values;
             final IValue lstateVal = lstate.lookup(key);
             if (!lstateVal.equals(val)) {
                 result.append("/\\ ");
-                result.append(key.toString());
+                result.append(key);
                 result.append(" = ").append(Values.ppr(val)).append("\n");
             }
         }

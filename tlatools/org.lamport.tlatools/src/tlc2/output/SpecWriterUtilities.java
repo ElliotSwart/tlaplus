@@ -332,7 +332,7 @@ public final class SpecWriterUtilities {
                         content = new String[]{
                                 source.getName().toString() + TLAConstants.ARROW + "["
                                         + source.getOriginallyDefinedInModuleNode().getName().toString() + "]" + id
-                                        + " " + id + TLAConstants.EQ + source.getName().toString(), "CONSTANT " + id};
+                                        + " " + id + TLAConstants.EQ + source.getName(), "CONSTANT " + id};
                     } else {
                         // not a model value
                         content = new String[]{

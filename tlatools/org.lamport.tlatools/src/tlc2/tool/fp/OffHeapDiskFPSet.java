@@ -196,7 +196,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		// Check that the table adheres to our invariant. Otherwise, we
 		// can't hope to successfully evict it.
 		assert checkInput(array, indexer, PROBE_LIMIT) : "Table violates invariants prior to eviction: "
-				+ array.toString();
+				+ array;
 		
 		// Only pay the price of creating threads when array is
 		// sufficiently large and the array size is large enough to
@@ -1058,7 +1058,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 			LongArrays.sort(a, 0, a.size() - 1L + r, getLongComparator());
 
 			assert checkSorted(a, indexer, r) == -1L : String.format(
-					"Array %s not fully sorted at index %s and reprobe %s.", a.toString(),
+					"Array %s not fully sorted at index %s and reprobe %s.", a,
 					checkSorted(array, indexer, r), r);
 		}
 

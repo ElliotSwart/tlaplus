@@ -1760,7 +1760,7 @@ public class MP
 		ToolIO.out.println(inDegree);
 
 		// SCC size and count
-		ToolIO.out.println(LiveWorker.STATS.toString());
+		ToolIO.out.println(LiveWorker.STATS);
 		ToolIO.out.printf("%s SCC%s found during liveness checking.%n",
 				LiveWorker.STATS.getObservations(), LiveWorker.STATS.getObservations() > 1 ? "s" : "");
     }

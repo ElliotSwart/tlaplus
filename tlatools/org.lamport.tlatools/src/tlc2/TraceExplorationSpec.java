@@ -293,7 +293,7 @@ public class TraceExplorationSpec {
 		te.addPrimer(teModuleName, originalSpecName, specTEExtendedModules);
 		te.addTraceExpressionStub(originalSpecName, TLAConstants.TraceExplore.SPEC_TE_TRACE_EXPRESSION, variables);
 		te.addFooter();
-		writer.append(TLAConstants.CR + te.toString() + TLAConstants.CR + TLAConstants.CR);
+		writer.append(TLAConstants.CR + te + TLAConstants.CR + TLAConstants.CR);
 
 		/**
 		 * Write commented definition of trace def override into new module. A user
