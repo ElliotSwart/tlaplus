@@ -25,6 +25,7 @@ package tla2sany.semantic;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Objects;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -439,12 +440,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
         this.minMaxLevel[i] = new int[alen];
         for (int j = 0; j < alen; j++) {
           final Integer alevel = alcSet.get(new ParamAndPosition(this.params[i], j));
-          if (alevel == null) {
-            this.minMaxLevel[i][j] = MinLevel;
-          }
-          else {
-            this.minMaxLevel[i][j] = alevel;
-          }
+            this.minMaxLevel[i][j] = Objects.requireNonNullElse(alevel, MinLevel);
         }
       }
 

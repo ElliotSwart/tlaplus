@@ -9,12 +9,7 @@ package tla2sany.explorer;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import tla2sany.semantic.ExternalModuleTable;
 import tla2sany.semantic.FormalParamNode;
@@ -235,21 +230,13 @@ public class Explorer {
 
 				// Print the semantic graph, rooted in the Module Table
 				// excluding built-ins and ops defined in module Naturals
-				if (icmd2 != null) {
-					mt.printExternalModuleTable(icmd2, false);
-				} else {
-					mt.printExternalModuleTable(2, false);
-				}
+				mt.printExternalModuleTable(Objects.requireNonNullElse(icmd2, 2), false);
 
 			} else if (firstToken.equalsIgnoreCase("mt*")) {
 
 				// Print the semantic graph, rooted in the Module Table
 				// including builtins and ops defined in Naturals
-				if (icmd2 != null) {
-					mt.printExternalModuleTable(icmd2, true);
-				} else {
-					mt.printExternalModuleTable(2, true);
-				}
+				mt.printExternalModuleTable(Objects.requireNonNullElse(icmd2, 2), true);
 
 			} else if (firstToken.equalsIgnoreCase("dot")) {
 				dotSemanticGraph();

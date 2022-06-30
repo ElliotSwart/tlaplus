@@ -3,6 +3,7 @@ package tlc2.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Representation of a typed set.
@@ -213,13 +214,7 @@ public class TypedSet {
 
     public void setValues(final String[] values)
     {
-        if (values == null)
-        {
-            this.values = new String[0];
-        } else
-        {
-            this.values = values;
-        }
+        this.values = Objects.requireNonNullElseGet(values, () -> new String[0]);
     }
 
     public int hashCode()

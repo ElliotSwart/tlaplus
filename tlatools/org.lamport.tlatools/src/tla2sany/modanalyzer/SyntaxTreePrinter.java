@@ -6,6 +6,8 @@ import tla2sany.st.Location;
 import tla2sany.st.ParseTree;
 import tla2sany.st.TreeNode;
 
+import java.util.Objects;
+
 public class SyntaxTreePrinter {
 
   /** 
@@ -31,11 +33,7 @@ public class SyntaxTreePrinter {
     final StringBuffer outS = new StringBuffer( offset );
     final Location l = node.getLocation();
     final String image = node.getImage();
-    if (image != null ) {
-      outS.append(image);
-    } else {
-      outS.append("-- no name --");
-    }
+        outS.append(Objects.requireNonNullElse(image, "-- no name --"));
     outS.append(" [" ).append(l.beginLine()).append(" ").append(l.beginColumn()).append("] ");  
     final TreeNode[] h = node.heirs();
 // ADDED BY LL

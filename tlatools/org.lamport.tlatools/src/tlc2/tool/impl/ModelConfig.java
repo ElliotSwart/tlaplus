@@ -9,10 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -99,14 +96,8 @@ public class ModelConfig implements ValueConstants, Serializable {
     public ModelConfig(final String configFileName, final FilenameToStream resolver)
     {
         // SZ Feb 20, 2009: added name resolver support, to be able to run from a toolbox
-        if (resolver != null)
-        {
-            this.resolver = resolver;
-        } else
-        {
-            // standard resolver
-            this.resolver = new SimpleFilenameToStream();
-        }
+        // standard resolver
+        this.resolver = Objects.requireNonNullElseGet(resolver, SimpleFilenameToStream::new);
         // SZ Mar 12, 2009: reset the model values
         ModelValue.init();
 

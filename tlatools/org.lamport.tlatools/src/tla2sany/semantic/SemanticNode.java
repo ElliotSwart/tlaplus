@@ -229,10 +229,7 @@ public abstract class SemanticNode
 
                     @Override
                     public LinkedList<SemanticNode> get() {
-                        if (pathToLoc == null) {
-                            return new LinkedList<>();
-                        }
-                        return pathToLoc;
+                        return Objects.requireNonNullElseGet(pathToLoc, LinkedList::new);
                     }
 
                     @Override
