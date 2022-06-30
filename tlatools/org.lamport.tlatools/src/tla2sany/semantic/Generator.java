@@ -121,7 +121,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		 * by that name in the * Generator class. * * See the comments attached to the
 		 * `functions' object for the class's * explanation. *
 		 ***********************************************************************/
-		class pair {
+		static class pair {
 			final UniqueString a;
 			final OpApplNode b;
 
