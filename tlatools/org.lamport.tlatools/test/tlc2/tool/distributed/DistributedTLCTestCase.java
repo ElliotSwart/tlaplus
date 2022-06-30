@@ -39,6 +39,8 @@ import tlc2.output.MP;
 import tlc2.tool.CommonTestCase;
 import tlc2.tool.distributed.fp.DistributedFPSet;
 
+// TODO: Handle Distributed TLC without deprecated SecurityManager
+@SuppressWarnings({"deprecation", "removal"})
 public abstract class DistributedTLCTestCase extends CommonTestCase {
 	
 	protected final String[] arguments;
@@ -153,6 +155,7 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 		/* (non-Javadoc)
 		 * @see java.lang.SecurityManager#checkExit(int)
 		 */
+		
 		public void checkExit(int status) {
 			super.checkExit(status);
 			throw new NoExitException();

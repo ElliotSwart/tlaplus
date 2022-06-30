@@ -49,7 +49,6 @@ import tlc2.tool.impl.Tool;
 import tlc2.tool.liveness.ModelCheckerTestCase;
 import tlc2.util.ExpectInlined;
 
-@SuppressWarnings("restriction")
 public class InliningTest extends ModelCheckerTestCase {
 
 	/*
