@@ -816,9 +816,8 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
     public boolean checkInvariant() throws IOException {
 		acquireTblWriteLock();
 		flusher.flushTable(); // No need for any lock here
-		final RandomAccessFile braf = new BufferedRandomAccessFile(
-				this.fpFilename, "r");
-		try {
+		try (RandomAccessFile braf = new BufferedRandomAccessFile(
+				this.fpFilename, "r")) {
 			final long fileLen = braf.length();
 			long predecessor = Long.MIN_VALUE;
 			if (fileLen > 0) {
@@ -831,7 +830,6 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 				}
 			}
 		} finally {
-			braf.close();
 			releaseTblWriteLock();
 		}
 		return true;

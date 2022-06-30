@@ -80,17 +80,13 @@ public final class MemObjectStack extends ObjectStack {
   public final void recover() throws IOException {
     final String chkptfile = this.filename + ".chkpt";
     final ObjectInputStream ois = FileUtil.newOBFIS(chkptfile);
-    this.len = ois.readInt();
-    try {
+    try (ois) {
+      this.len = ois.readInt();
       for (int i = 0; i < this.len; i++) {
-	this.states[i] = ois.readObject();
+        this.states[i] = ois.readObject();
       }
-    }
-    catch (final ClassNotFoundException e) {
+    } catch (final ClassNotFoundException e) {
       Assert.fail(EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT, e.getMessage());
-    }
-    finally {
-      ois.close();
     }
   }
 
