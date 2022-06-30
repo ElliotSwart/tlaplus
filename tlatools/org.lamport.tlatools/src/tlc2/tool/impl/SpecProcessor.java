@@ -569,11 +569,11 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                             final Integer arity = opname2arity.get(uname);
                             if (arity == null || arity != acnt) {
                                 MP.printWarning(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_MISMATCH, uname.toString(),
-                                        resource.toExternalForm(), val.toString());
+                                        Objects.requireNonNull(resource).toExternalForm(), val.toString());
                             } else {
                                 javaDefs.put(uname, val);
                                 MP.printMessage(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_LOADED, uname.toString(),
-                                        resource.toExternalForm(), val.toString());
+                                        Objects.requireNonNull(resource).toExternalForm(), val.toString());
                             }
                         } else {
                             javaDefs.put(uname, val);
@@ -625,14 +625,14 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 								if (moduleNode == null) {
 									if (evaluation.warn()) MP.printMessage(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_MODULE_MISMATCH,
 											evaluation.module() + "!" + evaluation.definition(),
-											c.getResource(c.getSimpleName() + ".class").toExternalForm(), "<Java Method: " + m + ">");
+											Objects.requireNonNull(c.getResource(c.getSimpleName() + ".class")).toExternalForm(), "<Java Method: " + m + ">");
 									continue;
 								}
 								final OpDefNode opDef = moduleNode.getOpDef(evaluation.definition());
 								if (opDef == null) {
 									if (evaluation.warn()) MP.printMessage(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_IDENTIFIER_MISMATCH,
 											evaluation.module() + "!" + evaluation.definition(),
-											c.getResource(c.getSimpleName() + ".class").toExternalForm(), "<Java Method: " + m + ">");
+											Objects.requireNonNull(c.getResource(c.getSimpleName() + ".class")).toExternalForm(), "<Java Method: " + m + ">");
 									continue;
 								}
 								
@@ -654,7 +654,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 			                    if (!evaluation.silent()) {
 			                    	MP.printMessage(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_LOADED,
 			                    			evaluation.module() + "!" + evaluation.definition(),
-			                    			c.getResource(c.getSimpleName() + ".class").toExternalForm(), "<Java Method: " + m + ">");
+			                    			Objects.requireNonNull(c.getResource(c.getSimpleName() + ".class")).toExternalForm(), "<Java Method: " + m + ">");
 			                    }
 			                    
 			                    // continue with next method (don't try to also load Execution annotation below).
@@ -668,14 +668,14 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 								if (moduleNode == null) {
 									if (jev.warn()) MP.printMessage(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_MODULE_MISMATCH,
 											jev.module() + "!" + jev.definition(),
-											c.getResource(c.getSimpleName() + ".class").toExternalForm(), "<Java Method: " + m + ">");
+											Objects.requireNonNull(c.getResource(c.getSimpleName() + ".class")).toExternalForm(), "<Java Method: " + m + ">");
 									continue;
 								}
 								final OpDefNode opDef = moduleNode.getOpDef(jev.definition());
 								if (opDef == null) {
 									if (jev.warn()) MP.printMessage(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_IDENTIFIER_MISMATCH,
 											jev.module() + "!" + jev.definition(),
-											c.getResource(c.getSimpleName() + ".class").toExternalForm(), "<Java Method: " + m + ">");
+											Objects.requireNonNull(c.getResource(c.getSimpleName() + ".class")).toExternalForm(), "<Java Method: " + m + ">");
 									continue;
 								}
 								
@@ -687,7 +687,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 								// Print success of loading the module override.
 								MP.printMessage(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_LOADED,
 										jev.module() + "!" + jev.definition(),
-										c.getResource(c.getSimpleName() + ".class").toExternalForm(), val.toString());
+										Objects.requireNonNull(c.getResource(c.getSimpleName() + ".class")).toExternalForm(), val.toString());
 			                    
 			                    // continue with next method (don't try to also load Execution annotation below).
 			                    continue;

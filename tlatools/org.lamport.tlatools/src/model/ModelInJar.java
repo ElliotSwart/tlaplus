@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Enumeration;
+import java.util.Objects;
 import java.util.Properties;
 
 import util.TLAConstants;
@@ -26,7 +27,7 @@ public abstract class ModelInJar {
 		try {
 			final InputStream source = ModelInJar.class.getResourceAsStream(PATH + TLAConstants.Files.MODEL_CHECK_CONFIG_FILE);
 			final Path target = Files.createTempFile(TLAConstants.Files.MODEL_CHECK_FILE_BASENAME, TLAConstants.Files.CONFIG_EXTENSION);
-			Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(Objects.requireNonNull(source), target, StandardCopyOption.REPLACE_EXISTING);
 			return target.toFile();
 		} catch (final IOException notExpectedToHappen) {
 			return new File("");

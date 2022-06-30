@@ -175,7 +175,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                             throw new ConfigFileException(EC.CFG_MISSING_ID, new String[]{String.valueOf(loc), Init});
                         }
                         final String old = (String) this.configTbl.put(Init, tt.image);
-                        if (old.length() != 0) {
+                        if (Objects.requireNonNull(old).length() != 0) {
                             throw new ConfigFileException(EC.CFG_TWICE_KEYWORD, new String[]{String.valueOf(loc), Init});
                         }
                         tt = getNextToken(tmgr);
@@ -187,7 +187,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                             throw new ConfigFileException(EC.CFG_MISSING_ID, new String[]{String.valueOf(loc), Next});
                         }
                         final String old = (String) this.configTbl.put(Next, tt.image);
-                        if (old.length() != 0) {
+                        if (Objects.requireNonNull(old).length() != 0) {
                             throw new ConfigFileException(EC.CFG_TWICE_KEYWORD, new String[]{String.valueOf(loc), Next});
                         }
                         tt = getNextToken(tmgr);
@@ -199,7 +199,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                             throw new ConfigFileException(EC.CFG_MISSING_ID, new String[]{String.valueOf(loc), Spec});
                         }
                         final String old = (String) this.configTbl.put(Spec, tt.image);
-                        if (old.length() != 0) {
+                        if (Objects.requireNonNull(old).length() != 0) {
                             throw new ConfigFileException(EC.CFG_TWICE_KEYWORD, new String[]{String.valueOf(loc), Spec});
                         }
                         tt = getNextToken(tmgr);
@@ -211,7 +211,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                             throw new ConfigFileException(EC.CFG_MISSING_ID, new String[]{String.valueOf(loc), View});
                         }
                         final String old = (String) this.configTbl.put(View, tt.image);
-                        if (old.length() != 0) {
+                        if (Objects.requireNonNull(old).length() != 0) {
                             throw new ConfigFileException(EC.CFG_TWICE_KEYWORD, new String[]{String.valueOf(loc), View});
                         }
                         tt = getNextToken(tmgr);
@@ -223,7 +223,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                             throw new ConfigFileException(EC.CFG_MISSING_ID, new String[]{String.valueOf(loc), Symmetry});
                         }
                         final String old = (String) this.configTbl.put(Symmetry, tt.image);
-                        if (old.length() != 0) {
+                        if (Objects.requireNonNull(old).length() != 0) {
                             throw new ConfigFileException(EC.CFG_TWICE_KEYWORD, new String[]{String.valueOf(loc),
                                     Symmetry});
                         }
@@ -236,7 +236,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                             throw new ConfigFileException(EC.CFG_MISSING_ID, new String[]{String.valueOf(loc), Alias});
                         }
                         final String old = (String) this.configTbl.put(Alias, tt.image);
-                        if (old.length() != 0) {
+                        if (Objects.requireNonNull(old).length() != 0) {
                             throw new ConfigFileException(EC.CFG_TWICE_KEYWORD, new String[]{String.valueOf(loc), Alias});
                         }
                         tt = getNextToken(tmgr);
@@ -249,7 +249,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                                     PostCondition});
                         }
                         final String old = (String) this.configTbl.put(PostCondition, tt.image);
-                        if (old.length() != 0) {
+                        if (Objects.requireNonNull(old).length() != 0) {
                             throw new ConfigFileException(EC.CFG_TWICE_KEYWORD, new String[]{String.valueOf(loc),
                                     PostCondition});
                         }

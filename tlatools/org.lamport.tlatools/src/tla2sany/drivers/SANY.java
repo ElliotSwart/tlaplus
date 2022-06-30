@@ -4,6 +4,7 @@
 package tla2sany.drivers;
 
 import java.io.PrintStream;
+import java.util.Objects;
 
 import tla2sany.configuration.Configuration;
 import tla2sany.explorer.Explorer;
@@ -221,7 +222,7 @@ public class SANY {
       catch (final Exception e)
       {
           // Assert.printStack(e);
-          syserr.println("\nFatal errors while parsing TLA+ spec in file " + 
+          Objects.requireNonNull(syserr).println("\nFatal errors while parsing TLA+ spec in file " +
                   spec.getFileName() + "\n"); 
 
           syserr.println(e);
@@ -269,11 +270,11 @@ public class SANY {
           final Generator gen = new Generator(externalModuleTable, semanticErrors);
     
           // Perform semantic analysis and create semantic graph for one external module here
-          moduleNode = gen.generate(syntaxTreeRoot);    
+          moduleNode = gen.generate(Objects.requireNonNull(syntaxTreeRoot));
                       
           // Set the isStandard field of the moduleNode.
           // Added by LL on 24 July 2013
-          moduleNode.setStandard(spec.getResolver().isStandardModule(moduleStringName)) ;
+          Objects.requireNonNull(moduleNode).setStandard(spec.getResolver().isStandardModule(moduleStringName)) ;
           
           // Put the semantic graph and related info for moduleNode into the module table
           externalModuleTable.put(UniqueString.uniqueStringOf(moduleStringName), 

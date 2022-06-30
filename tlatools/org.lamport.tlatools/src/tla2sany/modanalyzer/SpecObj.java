@@ -5,12 +5,7 @@ package tla2sany.modanalyzer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import pcal.Validator;
 import pcal.Validator.ValidationResult;
@@ -322,7 +317,7 @@ public class SpecObj
 
         // Actually parse the file named in "parseUnit" (or no-op if it
         // has already been parsed)
-        parseUnit.parseFile(errors, firstCall, name, rootParseUnit);
+        Objects.requireNonNull(parseUnit).parseFile(errors, firstCall, name, rootParseUnit);
 
         return parseUnit;
         // return a non-null "parseUnit" iff named module has been found,

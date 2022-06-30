@@ -11,6 +11,8 @@ import tlc2.util.MemObjectQueue;
 import tlc2.util.MemObjectStack;
 import tlc2.util.Vect;
 
+import java.util.Objects;
+
 public class BEGraph {
 	/**
 	 * BEGraph represents the behaviour graph.
@@ -39,7 +41,7 @@ public class BEGraph {
 		}
 		while (stack.size() != 0) {
 			final BEGraphNode node = (BEGraphNode) stack.pop();
-			for (int i = 0; i < node.nextSize(); i++) {
+			for (int i = 0; i < Objects.requireNonNull(node).nextSize(); i++) {
 				final BEGraphNode node1 = node.nextAt(i);
 				if (node1.resetNumberField() != 0) {
 					stack.push(node1);

@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Objects;
 
 import tla2sany.drivers.SANY;
 import tla2sany.modanalyzer.SpecObj;
@@ -121,7 +122,7 @@ public class CheckImplFile extends CheckImpl
         final ModuleNode module = mt.getModuleNode(UniqueString.uniqueStringOf(rfname));
 
         // Put the sequence of states in the trace into this.states:
-        final OpDefNode[] opDefs = module.getOpDefs();
+        final OpDefNode[] opDefs = Objects.requireNonNull(module).getOpDefs();
         final int len = opDefs.length;
         this.states = new TLCState[len];
         for (int i = 0; i < len; i++)

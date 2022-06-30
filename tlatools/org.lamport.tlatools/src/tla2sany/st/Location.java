@@ -3,6 +3,7 @@ package tla2sany.st;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -347,7 +348,7 @@ public final class Location implements Comparable<Location>
         if (object instanceof final Location loc)
         {
             return loc.bLine == bLine && loc.bColumn == bColumn && loc.eLine == eLine && loc.eColumn == eColumn
-                    && loc.source().equals(source());
+                    && Objects.requireNonNull(loc.source()).equals(source());
         }
 
         return false;

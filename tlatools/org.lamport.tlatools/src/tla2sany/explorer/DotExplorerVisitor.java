@@ -27,11 +27,7 @@ package tla2sany.explorer;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
+import java.util.*;
 
 import tla2sany.semantic.Context;
 import tla2sany.semantic.FormalParamNode;
@@ -109,7 +105,7 @@ public class DotExplorerVisitor extends ExplorerVisitor {
 			this.writer.append("\"]");
 			this.writer.append(";\n");
 
-			this.writer.append(Integer.toString(parent.hashCode()));
+			this.writer.append(Integer.toString(Objects.requireNonNull(parent).hashCode()));
 			this.writer.append(" -> ");
 			this.writer.append(Integer.toString(sn.hashCode()));
 			this.writer.append("\n");

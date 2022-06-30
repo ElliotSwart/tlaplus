@@ -42,6 +42,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Vector;
 
 import util.ToolIO;
@@ -182,8 +183,8 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
               }
             switch (tok.type)
            { case Token.BUILTIN :
-               final int symType = BuiltInSymbols.GetBuiltInSymbol(
-                                       spec[line][item].string, true).symbolType ;
+               final int symType = Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(
+                       spec[line][item].string, true)).symbolType ;
                  /**********************************************************
                  * Check if we should start a sub/superscript.             *
                  **********************************************************/
@@ -205,8 +206,8 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
                      { /****************************************************
                        * It's a subscript.                                 *
                        ****************************************************/
-                       outLine.append(" ").append(BuiltInSymbols.GetBuiltInSymbol(
-                               tok.string, true).TeXString).append("_{");
+                       outLine.append(" ").append(Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(
+                               tok.string, true)).TeXString).append("_{");
                      }    
                     else
                      { /****************************************************
@@ -222,7 +223,7 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
                     * specification line, since it's typeset in math       *
                     * mode.                                                *
                     *******************************************************/
-                    outLine.append(" ").append(BuiltInSymbols.GetBuiltInSymbol(tok.string, true).TeXString);
+                    outLine.append(" ").append(Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(tok.string, true)).TeXString);
                   }// END else OF if if (   (! inSub) ... )
                break ;
 
@@ -504,7 +505,7 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
    * Next, read log file.                                                  *
    ************************************************************************/
    try 
-    { String inputLine = bufferedReader.readLine();
+    { String inputLine = Objects.requireNonNull(bufferedReader).readLine();
 
       while (inputLine != null)
        { if ((inputLine.startsWith("\\%{")))
@@ -1004,7 +1005,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
           if (spec[i][0].belowAlign.line != -1)
             { bATok = spec[i][0].belowAlign.toToken(spec) ; }
              if (   (spec[i][0].belowAlign.line == -1)
-              || (bATok.type != Token.COMMENT)
+              || (Objects.requireNonNull(bATok).type != Token.COMMENT)
                    /****************************************************
                    * I think this disjunct should never be true.       *
                    ****************************************************/
@@ -1094,8 +1095,8 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
              switch (tok.type)
            { // BEGIN switch (tok.type)
              case Token.BUILTIN :
-               final int symType = BuiltInSymbols.GetBuiltInSymbol(
-                                       spec[line][item].string, true).symbolType ;
+               final int symType = Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(
+                       spec[line][item].string, true)).symbolType ;
                  if (   (! inSub)
                      && (   (symType == Symbol.SUBSCRIPTED)
                          || tok.string.equals("^"))
@@ -1109,8 +1110,8 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                      { /****************************************************
                        * It's a subscript.                                 *
                        ****************************************************/
-                       outLine.append(" ").append(BuiltInSymbols.GetBuiltInSymbol(
-                               tok.string, true).TeXString).append("_{");
+                       outLine.append(" ").append(Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(
+                               tok.string, true)).TeXString).append("_{");
                      }    
                     else
                      { /****************************************************
@@ -1120,7 +1121,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                      }    
                   } // END then OF if (   (! inSub) ... )
                  else
-                  { outLine.append(" ").append(BuiltInSymbols.GetBuiltInSymbol(tok.string, true).TeXString);
+                  { outLine.append(" ").append(Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(tok.string, true)).TeXString);
                   }// END else OF if (   (! inSub) ... )
                break ;
   
@@ -1470,7 +1471,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
          *****************************************************************/
          Debug.Assert(outLine != null,
                          "Unclosed sub/superscript command at end of line") ;
-         outLine.append("}");
+         Objects.requireNonNull(outLine).append("}");
          inSub = false ;
        }
 

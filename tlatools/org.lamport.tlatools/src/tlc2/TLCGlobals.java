@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
@@ -224,7 +225,7 @@ public class TLCGlobals
 
 	public static int getSCMCommits() {
 		try {
-			return Integer.parseInt(getManifestValue("X-Git-Commits-Count"));
+			return Integer.parseInt(Objects.requireNonNull(getManifestValue("X-Git-Commits-Count")));
 		} catch (final NullPointerException | NumberFormatException nfe) {
 			// Not mapping to -1 so that at the level of TLA+ it is \in Nat.
 			return 0;

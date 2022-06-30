@@ -7,6 +7,7 @@ package tlc2.tool.liveness;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -1094,7 +1095,7 @@ public class LiveWorker implements Callable<Boolean> {
 
 		// Mark state as visited:
 		int[] nodes = nodeTbl.getNodes(state);
-		int tloc = nodeTbl.getIdx(nodes, tidx);
+		int tloc = nodeTbl.getIdx(Objects.requireNonNull(nodes), tidx);
 		final long ptr = TableauNodePtrTable.getElem(nodes, tloc);
 		TableauNodePtrTable.setSeen(nodes, tloc);
 
@@ -1173,7 +1174,7 @@ public class LiveWorker implements Callable<Boolean> {
 						// Take curNode -> <nextState, nextTidx>:
 						cycleStack.pushInt(curNode.tindex);
 						cycleStack.pushLong(curNode.stateFP);
-						final long nextPtr = TableauNodePtrTable.getPtr(TableauNodePtrTable.getElem(nodes, tloc));
+						final long nextPtr = TableauNodePtrTable.getPtr(TableauNodePtrTable.getElem(Objects.requireNonNull(nodes), tloc));
 						curNode = this.dg.getNode(nextState, nextTidx, nextPtr);
 						nodeTbl.resetElems();
 						break _next;

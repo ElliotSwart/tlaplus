@@ -6,6 +6,8 @@ import tla2sany.utilities.Stack;
 import tla2sany.utilities.Vector;
 import util.UniqueString;
 
+import java.util.Objects;
+
 // The Symbol Table builds the stack of context tables.  The stack
 // model for symbol resolution is straightforward, but not
 // necessarily very efficient as we may create and push a lot of
@@ -157,7 +159,7 @@ public class SymbolTable implements ASTConstants {
 // System.out.println("*** Was found in symbol table " + symbol.getKind());
  
     // If the symbol being redefined is a built-in symbol, this is definitely an error
-    if (currentBinding.getTreeNode().getLocation().source().equals("--TLA+ BUILTINS--")) {
+    if (Objects.requireNonNull(currentBinding.getTreeNode().getLocation().source()).equals("--TLA+ BUILTINS--")) {
       errors.addError(symbol.getTreeNode().getLocation(),
 		      "Symbol " + name + " is a built-in operator, and cannot be redefined.");  
       return false;

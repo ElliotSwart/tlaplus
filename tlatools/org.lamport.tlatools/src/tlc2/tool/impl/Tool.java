@@ -7,10 +7,7 @@
 package tlc2.tool.impl;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import tla2sany.parser.SyntaxTreeNode;
 import tla2sany.semantic.APSubstInNode;
@@ -1212,7 +1209,7 @@ public abstract class Tool
 	    final Value bval = fcn.apply(argVal, EvalControl.Clear);
 	    if (!(bval instanceof BoolValue)) {
 	      Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING2, new String[] { "next states", "boolean",
-	              pred.toString() }, args[1], c);
+	              Objects.requireNonNull(pred).toString() }, args[1], c);
 	    }
 	    if (((BoolValue)bval).val) {
 	      return this.getNextStates(action, acts, s0, s1, nss, cm);
@@ -2236,7 +2233,7 @@ public abstract class Tool
             for (int i = 0; i < alen; i++) {
               final OpApplNode pairNode = (OpApplNode)args[i];
               final ExprOrOpArgNode[] pair = pairNode.getArgs();
-              names[i] = ((StringValue)pair[0].getToolObject(toolId)).getVal();
+              names[i] = ((StringValue) Objects.requireNonNull(pair[0].getToolObject(toolId))).getVal();
               vals[i] = this.eval(pair[1], c, s0, s1, control, coverage ? cm.get(pairNode) : cm);
             }
             return setSource(expr, new RecordValue(names, vals, false, cm));
@@ -2292,7 +2289,7 @@ public abstract class Tool
             for (int i = 0; i < alen; i++) {
               final OpApplNode pairNode = (OpApplNode)args[i];
               final ExprOrOpArgNode[] pair = pairNode.getArgs();
-              names[i] = ((StringValue)pair[0].getToolObject(toolId)).getVal();
+              names[i] = ((StringValue) Objects.requireNonNull(pair[0].getToolObject(toolId))).getVal();
               vals[i] = this.eval(pair[1], c, s0, s1, control, coverage ? cm.get(pairNode) : cm);
             }
             return setSource(expr, new SetOfRcdsValue(names, vals, false, cm));
@@ -2683,7 +2680,7 @@ public abstract class Tool
   public final boolean isInModel(final TLCState state) throws EvalException {
     final ExprNode[] constrs = this.getModelConstraints();
       for (ExprNode constr : constrs) {
-          final CostModel cm = coverage ? ((Action) constr.getToolObject(toolId)).cm : CostModel.DO_NOT_RECORD;
+          final CostModel cm = coverage ? ((Action) Objects.requireNonNull(constr.getToolObject(toolId))).cm : CostModel.DO_NOT_RECORD;
           final IValue bval = this.eval(constr, Context.Empty, state, cm);
           if (!(bval instanceof BoolValue)) {
               Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", constr.toString()}, constr);
@@ -2707,7 +2704,7 @@ public abstract class Tool
   public final boolean isInActions(final TLCState s1, final TLCState s2) throws EvalException {
     final ExprNode[] constrs = this.getActionConstraints();
       for (ExprNode constr : constrs) {
-          final CostModel cm = coverage ? ((Action) constr.getToolObject(toolId)).cm : CostModel.DO_NOT_RECORD;
+          final CostModel cm = coverage ? ((Action) Objects.requireNonNull(constr.getToolObject(toolId))).cm : CostModel.DO_NOT_RECORD;
           final Value bval = this.eval(constr, Context.Empty, s1, s2, EvalControl.Clear, cm);
           if (!(bval instanceof BoolValue)) {
               Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", constr.toString()}, constr);
@@ -3725,7 +3722,7 @@ public abstract class Tool
                       ",\nthe argument is:\n" + Values.ppr(argVal.toString()) +
                       "which does not match its formal parameter.\n" + args[0], args[0], c);
         }
-        final Value[] elems = tv.elems;
+        final Value[] elems = Objects.requireNonNull(tv).elems;
         for (int i = 0; i < ids.length; i++) {
           fcon = fcon.cons(ids[i], elems[i]);
         }
@@ -3741,7 +3738,7 @@ public abstract class Tool
                     " domain.\n" + args[0], args[0], c);
       }
       int argn = 0;
-      final Value[] elems = tv.elems;
+      final Value[] elems = Objects.requireNonNull(tv).elems;
       for (int i = 0; i < formals.length; i++) {
         final FormalParamNode[] ids = formals[i];
         final Value domain = domains[i];
@@ -3759,7 +3756,7 @@ public abstract class Tool
                         Values.ppr(elems[argn-1].toString()) +
                         "which does not match its formal parameter.\n" + args[0], args[0], c);
           }
-          final Value[] avals = tv1.elems;
+          final Value[] avals = Objects.requireNonNull(tv1).elems;
           for (int j = 0; j < ids.length; j++) {
             fcon = fcon.cons(ids[j], avals[j]);
           }

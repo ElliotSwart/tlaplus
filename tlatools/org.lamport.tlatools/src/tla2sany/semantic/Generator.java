@@ -13,6 +13,7 @@ package tla2sany.semantic;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import tla2sany.parser.Operators;
@@ -2060,7 +2061,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 				}
 
 				// copy nonlocal Assumes and Theorems
-				cm.copyAssumes(extendee);
+				cm.copyAssumes(Objects.requireNonNull(extendee));
 				cm.copyTheorems(extendee);
 				cm.copyTopLevel(extendee);
 			}
@@ -2281,7 +2282,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					 * Check that the parameters of the definition match the ones in * the RECURSIVE
 					 * declaration. *
 					 *****************************************************************/
-					boolean paramsMatch = (odn.getParams().length == params.length);
+					boolean paramsMatch = (odn.getParams().length == Objects.requireNonNull(params).length);
 					if (paramsMatch) {
                         for (FormalParamNode param : params) {
                             paramsMatch = (param.getArity() == 0);
@@ -2301,13 +2302,13 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 				} // if (odn.letInLevel == curLevel)
 				else {
 					errors.addError(treeNode.getLocation(),
-							"Recursive operator " + name.toString() + " defined at wrong LET/IN level.");
+							"Recursive operator " + Objects.requireNonNull(name).toString() + " defined at wrong LET/IN level.");
 					odn = null;
 				} // else
 			} // if (odn != null) ...
 			else {
 				errors.addError(treeNode.getLocation(),
-						"Operator " + name.toString() + " already defined or declared.");
+						"Operator " + Objects.requireNonNull(name).toString() + " already defined or declared.");
 			}
 		} // if (symbolNode != null)
 
@@ -2732,7 +2733,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		case N_PrefixExpr:
 			genID = generateGenID(children[0], cm, true);
 			sns = new ExprOrOpArgNode[1];
-			opn = symbolTable.resolveSymbol(Operators.resolveSynonym(genID.getCompoundIDUS()));
+			opn = symbolTable.resolveSymbol(Operators.resolveSynonym(Objects.requireNonNull(genID).getCompoundIDUS()));
 
 			if (opn == null) {
 				errors.addError(treeNode.getLocation(),
@@ -4698,13 +4699,13 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		/*
 		 * Set isInstantiated field of instancee. Added by LL 23 July 2013
 		 */
-		instanceeModuleNode.setInstantiated(true);
+		Objects.requireNonNull(instanceeModuleNode).setInstantiated(true);
 
 		// Create the SubstInNode that will act as a template "wrapper"
 		// for each definition in the module being instantiated; this
 		// SubstInNode itself gets discarded after being used as template
 		// however many times is necessary
-		final SubstInNode subst = processSubst(treeNode, children, symbolTable, instanceeCtxt, instanceeModuleNode, cm);
+		final SubstInNode subst = processSubst(treeNode, children, symbolTable, Objects.requireNonNull(instanceeCtxt), instanceeModuleNode, cm);
 
 		// Create a vector of all of the OpDefNodes in the module being
 		// instantiated

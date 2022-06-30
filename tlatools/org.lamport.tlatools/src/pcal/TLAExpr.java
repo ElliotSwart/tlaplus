@@ -104,6 +104,7 @@
 * IN EXPRESSIONS" to find them.                                            *
 ***************************************************************************/
 package pcal;
+import java.util.Objects;
 import java.util.Vector;
 
 import pcal.exception.TLAExprException;
@@ -708,7 +709,7 @@ public class TLAExpr
                     if ((i != nextIdx) && (nextArray[i] != null)) {
                         Debug.Assert(newPos != null , "Doing substitutions in wrong order.") ;
                                                 
-                        if (afterNextPos.one == newPos.one) {
+                        if (afterNextPos.one == Objects.requireNonNull(newPos).one) {
                             // The substituted expression occupies a single line.
                             // Must move nextArray[i] to the right iff it is on the
                             // same line as nextPos

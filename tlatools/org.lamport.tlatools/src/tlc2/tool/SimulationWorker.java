@@ -26,12 +26,7 @@
 package tlc2.tool;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.LongAdder;
@@ -500,7 +495,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 			
 			// Execute callable on the state that was selected from the set of successor
 			// states.  See TLCExt!TLCDefer operator for context.
-			s1.execCallable();
+			Objects.requireNonNull(s1).execCallable();
 			//System.out.printf("%s\n", tool.evalAlias(curState, s1));
 			
 			// In case actionStats are off, we waste a few cycles to increment this counter

@@ -5,12 +5,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.CRC32;
@@ -74,7 +69,7 @@ public class Validator {
 	public static Set<ValidationResult> validate(final ParseUnit parseUnit, final BufferedReader reader) throws IOException {
 		// Instead of matching the module start and end markers, whe while loop use SANY's
 		// parse tree that has the location of the start and end markers.
-		final Location loc = parseUnit.getParseTree().getLocation();
+		final Location loc = Objects.requireNonNull(parseUnit.getParseTree()).getLocation();
 		
 		// Pre-allocate the number of lines we will read below.
 		final List<String> lines = new ArrayList<>(loc.endLine() - loc.beginLine());
@@ -255,7 +250,7 @@ public class Validator {
 	    	if (m.find()) {
 	    		if (m.group(Validator.PCAL_CHECKSUM) != null) {
 
-	    			final String chksumPCalAST = Validator.checksum(foundFairBegin ? FAIR : "" + ast.toString());
+	    			final String chksumPCalAST = Validator.checksum(foundFairBegin ? FAIR : "" + Objects.requireNonNull(ast).toString());
 	    			if (!m.group(Validator.PCAL_CHECKSUM).equals(chksumPCalAST)) {
 	    				// Mismatch between the PlusCal algorithm and its checksum.
 	    				res.add(ValidationResult.PCAL_DIVERGENCE_EXISTS);

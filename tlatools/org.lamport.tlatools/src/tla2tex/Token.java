@@ -32,6 +32,7 @@
 * Every token of type COMMENT should belong to the subclass CommentToken.  *
 ***************************************************************************/
 package tla2tex;
+import java.util.Objects;
 import java.util.Vector;
 
 public class Token
@@ -262,11 +263,11 @@ public class Token
 
                    if (   (i < input.length - numOfToks)
                      && (input[i + numOfToks].type == BUILTIN)
-                     && (   (BuiltInSymbols.GetBuiltInSymbol(
-                                 input[i + numOfToks].string, true).symbolType
+                     && (   (Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(
+                           input[i + numOfToks].string, true)).symbolType
                               == Symbol.INFIX)
-                         ||  (BuiltInSymbols.GetBuiltInSymbol(
-                                 input[i + numOfToks].string, true).symbolType
+                         ||  (Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(
+                           input[i + numOfToks].string, true)).symbolType
                               == Symbol.PUNCTUATION)))
                    { needsSpace = false ; }
                    outputVec.addElement(new Token.PfStepToken

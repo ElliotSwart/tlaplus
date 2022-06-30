@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Vector;
 import java.util.regex.Matcher;
 
@@ -871,7 +872,7 @@ class trans {
         *********************************************************************/
         if (PcalParams.WriteASTFlag)
         {
-            WriteAST(ast);
+            WriteAST(Objects.requireNonNull(ast));
 //            return exitWithStatus(STATUS_EXIT_WITHOUT_ERROR);
             return null ; // added for testing
         }
@@ -950,14 +951,14 @@ class trans {
 						new StringBuilder(output.get(mapping.tlaStartLine - 1))
 						.replace(m.start(Validator.PCAL_CHECKSUM), m.end(Validator.PCAL_CHECKSUM),
 								// --fair algorithm is not reflected in the AST, which is why we prepend it here.
-								Validator.checksum(foundFairBegin ? Validator.FAIR : "" + ast.toString()))
+								Validator.checksum(foundFairBegin ? Validator.FAIR : "" + Objects.requireNonNull(ast).toString()))
 						.toString());
 			}
 		} else if ((g = cb.shouldGenerate()) != Generate.NOT_NOW) {
 			if (g == Generate.DO_IT) {
 				output.set(mapping.tlaStartLine - 1,
 						output.get(mapping.tlaStartLine - 1) + " " + String.format(Validator.CHECKSUM_TEMPLATE,
-								Validator.checksum(foundFairBegin ? Validator.FAIR : "" + ast.toString()), Validator.checksum(translation)));
+								Validator.checksum(foundFairBegin ? Validator.FAIR : "" + Objects.requireNonNull(ast).toString()), Validator.checksum(translation)));
 			} else {
 				output.set(mapping.tlaStartLine - 1,
 						output.get(mapping.tlaStartLine - 1) + " " + Validator.CHECKSUM_TEMPLATE_IGNORE);

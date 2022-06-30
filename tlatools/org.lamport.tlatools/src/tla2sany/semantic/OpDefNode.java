@@ -412,7 +412,7 @@ public class OpDefNode extends OpDefOrDeclNode
 
     // Create phony FormalParamNodes for built-in operators
     if ( arity >= 0 ) {
-      for (int i = 0; i < params.length; i++ ) {
+      for (int i = 0; i < Objects.requireNonNull(params).length; i++ ) {
         params[i] = new FormalParamNode(UniqueString.uniqueStringOf("Formal_" + i),
                                         0, null, symbolTable, oModNode);
       }
@@ -753,14 +753,14 @@ public class OpDefNode extends OpDefOrDeclNode
         }
       }
       else  {// null arg vector; supposedly cannot happen
-        errors.addAbort(loc, "Internal error: null args vector for operator '" +
+        errors.addAbort(Objects.requireNonNull(loc), "Internal error: null args vector for operator '" +
                         this.getName() + "' that should take variable number of args.",true);
       }
     }
     else {
       // It is an operator with a fixed number of params (possibly zero)
       if (args == null | params == null) { // args vector should never be null
-        errors.addAbort(loc, "Internal error: Null args or params vector for operator '" +
+        errors.addAbort(Objects.requireNonNull(loc), "Internal error: Null args or params vector for operator '" +
                         this.getName() + "'.", true);
       }
       else { // Normal case: params != null & args != null

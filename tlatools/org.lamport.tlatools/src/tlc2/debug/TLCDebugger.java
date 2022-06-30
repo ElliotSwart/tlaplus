@@ -27,12 +27,7 @@ package tlc2.debug;
 
 import java.io.IOException;
 import java.io.PipedOutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -530,7 +525,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 		LOGGER.finer("continue_");
 		
 		if (!stack.isEmpty() && stack.peek().handle(this)) {
-			return this.stack.peek().continue_(this);
+			return Objects.requireNonNull(this.stack.peek()).continue_(this);
 		}
 
 		targetLevel = -1;
@@ -544,7 +539,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 		LOGGER.finer("next/stepOver");
 		
 		if (!stack.isEmpty() && stack.peek().handle(this)) {
-			return this.stack.peek().stepOver(this);
+			return Objects.requireNonNull(this.stack.peek()).stepOver(this);
 		}
 
 		targetLevel = this.stack.size();
@@ -558,7 +553,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 		LOGGER.finer("stepIn");
 		
 		if (!stack.isEmpty() && stack.peek().handle(this)) {
-			return this.stack.peek().stepIn(this);
+			return Objects.requireNonNull(this.stack.peek()).stepIn(this);
 		}
 		// matches(..) below does not take targetLevel into account, thus not changing
 		// it here. The reason is that it is surprising if step.in on a leaf-frame
@@ -573,7 +568,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 		LOGGER.finer("stepOut");
 
 		if (!stack.isEmpty() && stack.peek().handle(this)) {
-			return this.stack.peek().stepOut(this);
+			return Objects.requireNonNull(this.stack.peek()).stepOut(this);
 		}
 		
 		targetLevel = this.stack.size();
@@ -600,7 +595,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 		LOGGER.finer("stepBack");
 
 		if (!stack.isEmpty() && stack.peek().handle(this)) {
-			return this.stack.peek().stepBack(this);
+			return Objects.requireNonNull(this.stack.peek()).stepBack(this);
 		}
 
 		step = Step.Reset;
@@ -614,7 +609,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 		LOGGER.finer("reverseContinue");
 		
 		if (!stack.isEmpty() && stack.peek().handle(this)) {
-			return this.stack.peek().reverseContinue(this);
+			return Objects.requireNonNull(this.stack.peek()).reverseContinue(this);
 		}
 		
 		step = Step.Reset_Start;
@@ -691,7 +686,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 	@Override
 	public synchronized IDebugTarget pushFrame(final TLCState s) {
 		final TLCStackFrame f = this.stack.peek();
-		pushFrame(f.getTool(), f.getNode(), f.getContext(), s);
+		pushFrame(Objects.requireNonNull(f).getTool(), f.getNode(), f.getContext(), s);
 		return this;
 	}
 
@@ -706,7 +701,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 	@Override
 	public synchronized IDebugTarget popFrame(final TLCState state) {
 		final TLCStackFrame f = this.stack.peek();
-		return popFrame(f.getTool(), f.getNode(), f.getContext(), state);
+		return popFrame(Objects.requireNonNull(f).getTool(), f.getNode(), f.getContext(), state);
 	}
 
 	@Override

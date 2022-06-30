@@ -9,6 +9,7 @@ package tlc2.value.impl;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Objects;
 
 import tla2sany.semantic.FormalParamNode;
 import tla2sany.semantic.SemanticNode;
@@ -198,7 +199,7 @@ public final FcnParams params;       // the function formals
               ",\nthe first argument is:\n" + Values.ppr(args.toString()) +
               "\nwhich does not match its formal parameter.\n", getSource());
             }
-            if (argVal.size() != ids.length) return null;
+            if (Objects.requireNonNull(argVal).size() != ids.length) return null;
             final Value [] elems = argVal.elems;
             for (int i = 0; i < ids.length; i++) {
               c1 = c1.cons(ids[i], elems[i]);
@@ -215,7 +216,7 @@ public final FcnParams params;       // the function formals
                   ",\nthe argument list is:\n" + Values.ppr(args.toString()) +
                   "\nwhich does not match its formal parameter.\n", getSource());
           }
-          final Value[] elems = tv.elems;
+          final Value[] elems = Objects.requireNonNull(tv).elems;
           int argn = 0;
           for (int i = 0; i < formals.length; i++) {
             final FormalParamNode[] ids = formals[i];
@@ -234,7 +235,7 @@ public final FcnParams params;       // the function formals
                 Values.ppr(elems[argn-1].toString()) +
                 "\nwhich does not match its formal parameter.\n", getSource());
               }
-              final Value [] avals = tv1.elems;
+              final Value [] avals = Objects.requireNonNull(tv1).elems;
               for (int j = 0; j < ids.length; j++) {
                 c1 = c1.cons(ids[j], avals[j]);
               }
@@ -328,7 +329,7 @@ public final FcnParams params;       // the function formals
               ",\nthe first argument is:\n" + Values.ppr(arg.toString()) +
               "\nwhich does not match its formal parameter.\n", getSource());
             }
-            if (argVal.size() != ids.length) return null;
+            if (Objects.requireNonNull(argVal).size() != ids.length) return null;
             final Value [] elems = argVal.elems;
             for (int i = 0; i < ids.length; i++) {
               c1 = c1.cons(ids[i], elems[i]);
@@ -345,7 +346,7 @@ public final FcnParams params;       // the function formals
                   ",\nthe argument list is:\n" + Values.ppr(arg.toString()) +
                   "\nwhich does not match its formal parameter.\n", getSource());
           }
-          final Value[] elems = tv.elems;
+          final Value[] elems = Objects.requireNonNull(tv).elems;
           int argn = 0;
           for (int i = 0; i < formals.length; i++) {
             final FormalParamNode[] ids = formals[i];
@@ -359,7 +360,7 @@ public final FcnParams params;       // the function formals
                 Values.ppr(elems[argn-1].toString()) +
                 "\nwhich does not match its formal parameter.\n", getSource());
               }
-              if (tv1.size() != ids.length) return null;
+              if (Objects.requireNonNull(tv1).size() != ids.length) return null;
               final Value [] avals = tv1.elems;
               for (int j = 0; j < ids.length; j++) {
                 c1 = c1.cons(ids[j], avals[j]);
@@ -626,7 +627,7 @@ public final FcnParams params;       // the function formals
         if (eSet == null)
           Assert.fail("To convert a function of form [x \\in S |-> f(x)] " +
                 "to a tuple, the set S must be enumerable.", getSource());
-        eSet.normalize();
+        Objects.requireNonNull(eSet).normalize();
         final int len = eSet.size();
         final Value [] elems = new Value [len];
         for (int i = 0; i < len; i++) {
@@ -786,7 +787,7 @@ public final FcnParams params;       // the function formals
         }
         catch (final Throwable e) { /*SKIP*/ }
       }
-      sb.append("[").append(this.params.toString());
+      sb.append("[").append(Objects.requireNonNull(this.params).toString());
       sb.append(" |-> <expression ").append(this.body).append(">]");
       return sb;
     }

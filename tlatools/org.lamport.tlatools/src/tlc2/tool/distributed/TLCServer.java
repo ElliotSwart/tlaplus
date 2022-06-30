@@ -18,10 +18,7 @@ import java.rmi.ServerException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -710,7 +707,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 			mail = new MailSender();
 
 			app = TLCApp.create(argv);
-			mail.setModelName(System.getProperty(MailSender.MODEL_NAME, app.getFileName()));
+			mail.setModelName(System.getProperty(MailSender.MODEL_NAME, Objects.requireNonNull(app).getFileName()));
 			mail.setSpecName(System.getProperty(MailSender.SPEC_NAME, app.getFileName()));
 			
 			if (expectedFPSetCount > 0) {
@@ -739,7 +736,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 				}
 			}
 		} finally {
-			if (!server.es.isShutdown()) {
+			if (!Objects.requireNonNull(server).es.isShutdown()) {
 				server.es.shutdownNow();
 			}
 			tlcServerMXWrapper.unregister();

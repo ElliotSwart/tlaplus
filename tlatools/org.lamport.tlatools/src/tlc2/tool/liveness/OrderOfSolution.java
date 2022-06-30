@@ -6,6 +6,7 @@
 package tlc2.tool.liveness;
 
 import java.io.PrintStream;
+import java.util.Objects;
 
 import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
@@ -94,11 +95,11 @@ public class OrderOfSolution {
 
 		if (this.hasTableau()) {
 			if (plen == 1 && this.getPems()[0].isEmpty()) {
-				this.getTableau().tf.toString(sb, "   ");
+				Objects.requireNonNull(this.getTableau().tf).toString(sb, "   ");
 				return;
 			} else {
 				sb.append("/\\ ");
-				this.getTableau().tf.toString(sb, "   ");
+				Objects.requireNonNull(this.getTableau().tf).toString(sb, "   ");
 				sb.append("\n/\\ ");
 				padding = "   ";
 			}

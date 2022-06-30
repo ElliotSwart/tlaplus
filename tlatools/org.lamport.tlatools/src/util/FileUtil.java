@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -88,7 +89,7 @@ public class FileUtil
             // must be a directory:
             final String[] fnames = file.list();
             File child = null;
-            for (String fname : fnames) {
+            for (String fname : Objects.requireNonNull(fnames)) {
                 child = new File(file, fname);
 
                 if (!doDeleteDir(child, recurse)) {

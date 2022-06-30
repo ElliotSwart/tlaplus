@@ -11,6 +11,8 @@ import util.TLAConstants;
 import util.ToolIO;
 import util.UniqueString;
 
+import java.util.Objects;
+
 @SuppressWarnings("unused")
 public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree, TLAplusParserConstants {
 
@@ -6696,7 +6698,7 @@ final SyntaxTreeNode tn;
       } else if (jj_2_68(2147483647) && (BStack.aboveReference( getToken(1).beginColumn))) {
         t = jj_consume_token(COLONCOLON);
      tn1 = new SyntaxTreeNode(mn, t) ;
-     tn0 = OperatorStack.topOfStack().getNode();
+     tn0 = Objects.requireNonNull(OperatorStack.topOfStack()).getNode();
      if (! isLabel(tn0)) {
        {if (true) throw new ParseException("`::' at " + tn1.getLocation()
                                  + " does not follow a label.") ;}

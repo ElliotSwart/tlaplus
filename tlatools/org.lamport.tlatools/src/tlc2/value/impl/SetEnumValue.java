@@ -7,10 +7,7 @@
 package tlc2.value.impl;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import tlc2.tool.FingerprintException;
 import tlc2.tool.coverage.CostModel;
@@ -98,7 +95,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
         " with the value:\n" + Values.ppr(obj.toString()), getSource());
       }
       this.normalize();
-      set.normalize();
+      Objects.requireNonNull(set).normalize();
       final int sz = this.elems.size();
       int cmp = sz - set.elems.size();
       if (cmp != 0) return cmp;
@@ -124,7 +121,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
         " with the value:\n" + Values.ppr(obj.toString()), getSource());
       }
       this.normalize();
-      set.normalize();
+      Objects.requireNonNull(set).normalize();
       final int sz = this.elems.size();
       if (sz != set.elems.size()) {
         return false;

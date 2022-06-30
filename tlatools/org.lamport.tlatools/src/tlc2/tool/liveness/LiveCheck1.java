@@ -6,6 +6,7 @@
 package tlc2.tool.liveness;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 import tlc2.output.EC;
@@ -303,10 +304,10 @@ public class LiveCheck1 implements ILiveCheck {
 				if (node2 == null) {
 					node2 = new BEGraphNode(fp2);
 					node2.setCheckState(os.checkState(tool, s2));
-					node1.addTransition(node2, slen, alen, os.checkAction(tool, s1, s2));
+					Objects.requireNonNull(node1).addTransition(node2, slen, alen, os.checkAction(tool, s1, s2));
 					node2.addTransition(node2, slen, alen, os.checkAction(tool, s2, s2));
 					bgraph.allNodes.putBENode(node2);
-				} else if (!node1.transExists(node2)) {
+				} else if (!Objects.requireNonNull(node1).transExists(node2)) {
 					final boolean[] checkActionRes = os.checkAction(tool, s1, s2);
 					node1.addTransition(node2, slen, alen, checkActionRes);
 				}
@@ -715,11 +716,11 @@ public class LiveCheck1 implements ILiveCheck {
 			for (int i = 0; i < currentPEM.AEState.length; i++) {
 				if (!AEStateRes[i]) {
 					final int idx = currentPEM.AEState[i];
-					AEStateRes[i] = curNode.getCheckState(idx);
+					AEStateRes[i] = Objects.requireNonNull(curNode).getCheckState(idx);
 				}
 			}
 			// Check AEAction:
-			final int nsz = curNode.nextSize();
+			final int nsz = Objects.requireNonNull(curNode).nextSize();
 			for (int i = 0; i < nsz; i++) {
 				final BEGraphNode node1 = curNode.nextAt(i);
 				final long num = node1.getNumber();
@@ -857,11 +858,11 @@ public class LiveCheck1 implements ILiveCheck {
 		final Vect<BEGraphNode> nodes = new Vect<>();
 		numFirstCom = secondNum++;
 		numSecondCom = thirdNum;
-		node1.setNumber(numFirstCom);
+		Objects.requireNonNull(node1).setNumber(numFirstCom);
 		nodes.addElement(node1);
 		while (node != node1) {
 			node1 = (BEGraphNode) comStack.pop();
-			node1.setNumber(numFirstCom);
+			Objects.requireNonNull(node1).setNumber(numFirstCom);
 			nodes.addElement(node1);
 		}
 		return nodes;
@@ -902,10 +903,10 @@ public class LiveCheck1 implements ILiveCheck {
 			node.setNumber(thirdNum++);
 			return false;
 		}
-		node1.setNumber(thirdNum);
+		Objects.requireNonNull(node1).setNumber(thirdNum);
 		while (node != node1) {
 			node1 = (BEGraphNode) comStack.pop();
-			node1.setNumber(thirdNum);
+			Objects.requireNonNull(node1).setNumber(thirdNum);
 		}
 		return true;
 	}

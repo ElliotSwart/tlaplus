@@ -27,14 +27,7 @@ package tlc2.tool.coverage;
 
 import static tlc2.tool.ToolGlobals.OPCODE_unchanged;
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import tla2sany.explorer.ExploreNode;
 import tla2sany.explorer.ExplorerVisitor;
@@ -193,8 +186,8 @@ public class CostModelCreator extends ExplorerVisitor {
 		this.stack.push(root);
 		act.pred.walkGraph(new CoverageHashTable(opDefNodes), this);
 		
-		assert this.stack.peek().isRoot();
-		return this.stack.peek().getRoot();
+		assert Objects.requireNonNull(this.stack.peek()).isRoot();
+		return Objects.requireNonNull(this.stack.peek()).getRoot();
 	}
 
 	@Override
@@ -320,7 +313,7 @@ public class CostModelCreator extends ExplorerVisitor {
 			}
 			
 			final CostModelNode parent = stack.peek();
-			parent.addChild(oan.setLevel(parent.getLevel() + 1));
+			Objects.requireNonNull(parent).addChild(oan.setLevel(parent.getLevel() + 1));
 			stack.push(oan);
 		} else if (exploreNode instanceof final SubstInNode sin) {
             final Subst[] substs = sin.getSubsts();
@@ -352,8 +345,8 @@ public class CostModelCreator extends ExplorerVisitor {
 	}
 
 	private CostModel getModel() {
-		assert this.stack.peek().isRoot();
-		return this.stack.peek().getRoot();
+		assert Objects.requireNonNull(this.stack.peek()).isRoot();
+		return Objects.requireNonNull(this.stack.peek()).getRoot();
 	}
 	
 	public static final void create(final ITool tool) {
@@ -449,13 +442,13 @@ public class CostModelCreator extends ExplorerVisitor {
 		final ExprNode[] actionConstraints = tool.getActionConstraints();
 		for (final ExprNode exprNode : actionConstraints) {
 			final Action act = (Action) exprNode.getToolObject(tool.getId());
-			act.cm.report();
+			Objects.requireNonNull(act).cm.report();
 		}
 		// state constraints
 		final ExprNode[] modelConstraints = tool.getModelConstraints();
 		for (final ExprNode exprNode : modelConstraints) {
 			final Action act = (Action) exprNode.getToolObject(tool.getId());
-			act.cm.report();
+			Objects.requireNonNull(act).cm.report();
 		}
         
         // https://github.com/tlaplus/tlaplus/issues/413#issuecomment-577304602

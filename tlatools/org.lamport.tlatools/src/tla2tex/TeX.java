@@ -93,6 +93,7 @@ package tla2tex ;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.Objects;
 import java.util.Vector;
 
 import util.ToolIO;
@@ -176,11 +177,11 @@ class TeX
       final Vector<String> preamble = new Vector<>(200);
       String line = "" ;
       try
-       { line = infile.readLine();
+       { line = Objects.requireNonNull(infile).readLine();
          while (   (line != null)
                 && (!line.contains("\\begin{document}")))
           { lineNum = lineNum + 1 ;
-            outfile.putLine(line) ;
+            Objects.requireNonNull(outfile).putLine(line) ;
             preamble.addElement(line);
             line = infile.readLine();
           }
@@ -195,14 +196,14 @@ class TeX
       /*********************************************************************
       * Write out the \begin{document} line                                *
       *********************************************************************/
-      outfile.putLine(line) ;
+      Objects.requireNonNull(outfile).putLine(line) ;
 
 
       /*********************************************************************
       * If there's something before the \begin{document} on the line, add  *
       * it to preamble.                                                    *
       *********************************************************************/
-      final int begindocPos = line.indexOf("\\begin{document}") ;
+      final int begindocPos = Objects.requireNonNull(line).indexOf("\\begin{document}") ;
       if (begindocPos != 0)
        { preamble.addElement(line.substring(0, begindocPos));
        }
@@ -290,7 +291,7 @@ class TeX
              * If next line begins a tlatex environment, then skip over    *
              * that environment and read the line beyond it.               *
              **************************************************************/
-             if (line.contains("\\begin{tlatex}"))
+             if (Objects.requireNonNull(line).contains("\\begin{tlatex}"))
               { lineNum = lineNum + 1 ;
                 line = infile.readLine();
                 while (   (line != null) 

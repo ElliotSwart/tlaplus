@@ -9,6 +9,7 @@ package tlc2.value.impl;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Objects;
 import java.util.Random;
 
 import tlc2.TLCGlobals;
@@ -78,7 +79,7 @@ public final Value domain;        /* Function domain  */
         Assert.fail("Attempted to check if \n" + elem + "\nwhich is not a TLC function" +
         " value, is in the set of functions:\n" + Values.ppr(this.toString()), getSource());
       }
-      if (fcn.intv == null) {
+      if (Objects.requireNonNull(fcn).intv == null) {
         fcn.normalize();
         final Value fdom = new SetEnumValue(fcn.domain, true);
         if (this.domain.equals(fdom)) {
@@ -461,7 +462,7 @@ public final Value domain;        /* Function domain  */
         Assert.fail("Attempted to enumerate a set of the form [D -> R]," +
               "but the domain D:\n" + Values.ppr(domain.toString()) +
               "\ncannot be enumerated.", getSource());
-      domSet.normalize();
+      Objects.requireNonNull(domSet).normalize();
       final ValueVec elems = domSet.elems;
       final int sz = elems.size();
       if (range instanceof Enumerable) {

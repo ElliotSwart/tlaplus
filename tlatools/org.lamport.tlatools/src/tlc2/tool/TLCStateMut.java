@@ -7,6 +7,7 @@ package tlc2.tool;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -364,7 +365,7 @@ private final IValue[] values;
       final UniqueString key = vars[0].getName();
       final IValue val = this.lookup(key);
       final IValue lstateVal = lstate.lookup(key);
-      if (!lstateVal.equals(val)) {
+      if (!Objects.requireNonNull(lstateVal).equals(val)) {
 	result.append(key);
 	result.append(" = ").append(Values.ppr(val)).append("\n");
       }
@@ -374,7 +375,7 @@ private final IValue[] values;
             final UniqueString key = var.getName();
             final IValue val = this.lookup(key);
             final IValue lstateVal = lstate.lookup(key);
-            if (!lstateVal.equals(val)) {
+            if (!Objects.requireNonNull(lstateVal).equals(val)) {
                 result.append("/\\ ");
                 result.append(key);
                 result.append(" = ").append(Values.ppr(val)).append("\n");

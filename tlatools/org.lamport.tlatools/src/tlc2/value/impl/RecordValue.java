@@ -8,12 +8,7 @@ package tlc2.value.impl;
 
 import java.io.EOFException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 import tla2sany.semantic.OpDeclNode;
 import tla2sany.semantic.SymbolNode;
@@ -238,7 +233,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
         "\nwith non-record\n" + Values.ppr(obj.toString()), getSource());
       }
       this.normalize();
-      rcd.normalize();
+      Objects.requireNonNull(rcd).normalize();
       final int len = this.names.length;
       int cmp = len - rcd.names.length;
       if (cmp == 0) {
@@ -271,7 +266,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
         "\nwith non-record\n" + Values.ppr(obj.toString()), getSource());
       }
       this.normalize();
-      rcd.normalize();
+      Objects.requireNonNull(rcd).normalize();
       final int len = this.names.length;
       if (len != rcd.names.length) return false;
   	  // First, compare the (equicardinal) domains.

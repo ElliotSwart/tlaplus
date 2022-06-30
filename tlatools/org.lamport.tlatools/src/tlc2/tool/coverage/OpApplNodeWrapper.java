@@ -256,7 +256,7 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 			// collapse subtrees into this node under the following cases.
 			final Pair consistentChildren = getCount(collectedEvalCounts);
 
-			if (consistentChildren.primary < node.primary) {
+			if (Objects.requireNonNull(consistentChildren).primary < node.primary) {
 				// Cannot collapse subtree because inconsistent with this node.
 				printSelf(level++);
 				printChildren(level);

@@ -28,11 +28,7 @@ package tlc2.module;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import tla2sany.semantic.ExprOrOpArgNode;
@@ -192,7 +188,7 @@ public class TLCGetSet implements ValueConstants {
 					throw new EvalException(EC.TLC_MODULE_TLCGET_UNDEFINED, String.valueOf(sv.val));
 				}
 			} catch (final ArithmeticException e) {
-				throw new EvalException(EC.TLC_MODULE_OVERFLOW, Long.toString(TLCGlobals.mainChecker.getProgress()));
+				throw new EvalException(EC.TLC_MODULE_OVERFLOW, Long.toString(Objects.requireNonNull(TLCGlobals.mainChecker).getProgress()));
 			} catch (final NullPointerException npe) {
 				// TLCGlobals.mainChecker is null while the spec is parsed. A constant
 				// expression referencing one of the named values here would thus result in an

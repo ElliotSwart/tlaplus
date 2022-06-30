@@ -4,6 +4,7 @@ package pcal;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Vector;
 
 /**
@@ -255,7 +256,7 @@ public class TLAtoPCalMapping implements Serializable {
           rtokDepth = -1;
       }
       PCalLocation i = NextLocOf(ltok, tpMap);
-      while (LTEq(i, rtok)) {
+      while (LTEq(Objects.requireNonNull(i), rtok)) {
           final int newDepth = ModifiedDepth(rtokDepth, i, true, tpMap);
           if (newDepth < minDepth) {
               /*
@@ -310,7 +311,7 @@ public class TLAtoPCalMapping implements Serializable {
               curDepth = -1;
           }
           i = PrevLocOf(ltok, tpMap);
-          while (! (   (ObjectAt(i, tpMap).getType() == MappingObject.LEFT_PAREN)
+          while (! (   (ObjectAt(Objects.requireNonNull(i), tpMap).getType() == MappingObject.LEFT_PAREN)
                     && (curDepth == minDepth))){
               curDepth = ModifiedDepth(curDepth, i, false, tpMap);
               i = PrevLocOf(i, tpMap);
@@ -333,7 +334,7 @@ public class TLAtoPCalMapping implements Serializable {
               curDepth--;
           }
           i = NextLocOf(rtok, tpMap);
-          while (! (   (ObjectAt(i, tpMap).getType() == MappingObject.RIGHT_PAREN)
+          while (! (   (ObjectAt(Objects.requireNonNull(i), tpMap).getType() == MappingObject.RIGHT_PAREN)
                     && (curDepth == minDepth))){
               curDepth = ModifiedDepth(curDepth, i, true, tpMap);
               i = NextLocOf(i, tpMap);
@@ -673,7 +674,7 @@ public class TLAtoPCalMapping implements Serializable {
                  while (notDone) {
                     // leftBegin should never equal null;  we'll get
                     // an exception if it is.
-                    final int type = ObjectAt(leftBegin, spec).getType() ;
+                    final int type = ObjectAt(Objects.requireNonNull(leftBegin), spec).getType() ;
                     if (   (type == MappingObject.BEGIN_TLATOKEN)
                         || (type == MappingObject.SOURCE_TOKEN)) {
                         notDone = false; 

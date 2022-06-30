@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import tlc2.output.EC;
 import tlc2.output.TeeOutputStream;
@@ -88,7 +89,7 @@ public class TLCRunner {
 				logfileOutputStream = new BufferedOutputStream(outputOutputStream);
 			}
 		} else {
-			final FileOutputStream fos = new FileOutputStream(outputLogfile);
+			final FileOutputStream fos = new FileOutputStream(Objects.requireNonNull(outputLogfile));
 			logfileOutputStream = new BufferedOutputStream(fos);
 		}
 		final OutputStream stdOutPumpOutput;

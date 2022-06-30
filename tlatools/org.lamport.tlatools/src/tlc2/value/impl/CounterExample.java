@@ -28,6 +28,7 @@ package tlc2.value.impl;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import tlc2.tool.Action;
 import tlc2.tool.TLCStateInfo;
@@ -87,7 +88,7 @@ public class CounterExample extends RecordValue {
 
 	public Value toTrace() {
 		final SetEnumValue set = (SetEnumValue) this.select(new StringValue(STATES));
-		final Value[] v = new Value[set.elems.size()];
+		final Value[] v = new Value[Objects.requireNonNull(set).elems.size()];
 		for (int i = 0; i < v.length; i++) {
 			final TupleValue tv = (TupleValue) set.elems.elementAt(i);
 			v[((IntValue) tv.getElem(0)).val - 1] = (Value) tv.getElem(1);

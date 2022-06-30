@@ -24,6 +24,7 @@
 ****************************************************************************/
 
 package pcal;
+import java.util.Objects;
 import java.util.Vector;
 
 import pcal.AST.Either;
@@ -353,7 +354,7 @@ public class PcalTranslate {
 //                ? st.UseThis(PcalSymTab.LABEL, "Done", "")
                 ? "Done"
                 : nextLS.label;
-            newast.body.addAll(ExplodeLabeledStmt(thisLS, next));
+            newast.body.addAll(ExplodeLabeledStmt(Objects.requireNonNull(thisLS), next));
             i = i + 1;
             thisLS = nextLS;
             nextLS = (ast.body.size() > i + 1)
@@ -410,7 +411,7 @@ public class PcalTranslate {
             final String next = (nextLS == null)
                 ? st.UseThis(PcalSymTab.LABEL, "Error", "")
                 : nextLS.label;
-            newast.body.addAll(ExplodeLabeledStmt(thisLS, next));
+            newast.body.addAll(ExplodeLabeledStmt(Objects.requireNonNull(thisLS), next));
             i = i + 1;
             thisLS = nextLS;
             nextLS = (ast.body.size() > i + 1)
@@ -446,7 +447,7 @@ public class PcalTranslate {
 //                ? st.UseThis(PcalSymTab.LABEL, "Done", "")
                 ? "Done"
                 : nextLS.label;
-            newast.body.addAll(ExplodeLabeledStmt(thisLS, next));
+            newast.body.addAll(ExplodeLabeledStmt(Objects.requireNonNull(thisLS), next));
             i = i + 1;
             thisLS = nextLS;
             nextLS = (ast.body.size() > i + 1)
@@ -792,7 +793,7 @@ public class PcalTranslate {
             final AST.LabeledStmt nextLS = (w.labDo.size() > i + 1)
             ? (AST.LabeledStmt) w.labDo.elementAt(i + 1) : null;
             final String nextLSL = (nextLS == null) ? ast.label : nextLS.label;
-            result.addAll(ExplodeLabeledStmt(firstLS, nextLSL));
+            result.addAll(ExplodeLabeledStmt(Objects.requireNonNull(firstLS), nextLSL));
             firstLS = nextLS;
         }
 
@@ -872,7 +873,7 @@ public class PcalTranslate {
             ? (AST.LabeledStmt) ast.labThen.elementAt(1) : null;
         while (i < ast.labThen.size()) {
             final String nextThenLabel = (nextThen == null) ? next : nextThen.label;
-            result2.addAll(ExplodeLabeledStmt(firstThen, nextThenLabel));
+            result2.addAll(ExplodeLabeledStmt(Objects.requireNonNull(firstThen), nextThenLabel));
             i = i + 1;
             firstThen = nextThen;
             nextThen = (ast.labThen.size() > i + 1)
@@ -884,7 +885,7 @@ public class PcalTranslate {
         i = 0;
         while (i < ast.labElse.size()) {
             final String nextElseLabel = (nextElse == null) ? next : nextElse.label;
-            result2.addAll(ExplodeLabeledStmt(firstElse, nextElseLabel));
+            result2.addAll(ExplodeLabeledStmt(Objects.requireNonNull(firstElse), nextElseLabel));
             i = i + 1;
             firstElse = nextElse;
             nextElse = (ast.labElse.size() > i + 1)

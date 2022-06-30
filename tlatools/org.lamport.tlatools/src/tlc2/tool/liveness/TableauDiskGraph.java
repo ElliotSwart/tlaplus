@@ -27,6 +27,7 @@
 package tlc2.tool.liveness;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import tlc2.output.EC;
 import tlc2.output.MP;
@@ -182,7 +183,7 @@ public class TableauDiskGraph extends AbstractDiskGraph {
     public long putLink(final long state, final int tidx, final long link) {
 		assert MAX_PTR <= link && link < MAX_LINK; 
 		final int[] node = this.nodePtrTbl.getNodes(state);
-		final int cloc = this.nodePtrTbl.getIdx(node, tidx);
+		final int cloc = this.nodePtrTbl.getIdx(Objects.requireNonNull(node), tidx);
 		final long oldLink = TableauNodePtrTable.getElem(node, cloc);
 		if (!isFilePointer(oldLink)) {
 			return oldLink;

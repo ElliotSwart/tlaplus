@@ -18,6 +18,7 @@ package tla2tex;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 public class ResourceFileReader
   { public ResourceFileReader(final String fileName)
@@ -35,14 +36,14 @@ public class ResourceFileReader
                                is probably something wrong with the way
                                TLA2TeX is installed""");
            }
-         final InputStream input = cl.getResourceAsStream(fileName) ;
+         final InputStream input = Objects.requireNonNull(cl).getResourceAsStream(fileName) ;
        if (input == null)
          { Debug.ReportError( 
                "TLATeX could not find its resource file " + fileName + ".\n"
              + "    There is probably something wrong with the way\n"
              + "    TLA2TeX is installed");
          }
-         inputReader = new BufferedReader(new InputStreamReader(input)) ;
+         inputReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(input))) ;
       }
 
       public String getLine()

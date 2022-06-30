@@ -12,6 +12,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.Objects;
 
 
 /**
@@ -77,7 +78,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
     final URL         url = cl.getResource("tla2sany");
 
     // jar expanded to the fs (make sure to handle whitespaces correctly
-    final String path = url.toString();
+    final String path = Objects.requireNonNull(url).toString();
 	try {
     	// convert to URI which handles paths correctly (even OS dependently)
     	if(!FilenameToStream.isInJar(path)) {
@@ -205,7 +206,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
         }
         // Debug
         // System.out.println("Looking for file " + sourceFile);
-        if ( sourceFile.exists() )  break;
+        if ( Objects.requireNonNull(sourceFile).exists() )  break;
         if (idx >= libraryPaths.length) {
 			// As a last resort, try to load resource from the Java classpath. Give up, if it
 			// fails.
@@ -227,7 +228,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
   } // end locate()
 
   private File read(final String name, final URL location, final InputStream is) {
-    final File sourceFile = new TLAFile(tmpDir.resolve(name), location, true, this);
+    final File sourceFile = new TLAFile(Objects.requireNonNull(tmpDir).resolve(name), location, true, this);
 	sourceFile.deleteOnExit();
 	try {
 

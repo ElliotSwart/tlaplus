@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 import tlc2.output.EC;
 
@@ -263,7 +264,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
             this.skip(this.len - this.curr);
         }
         // hit EOF without seeing EOL chars
-        return res.toString();
+        return Objects.requireNonNull(res).toString();
     }
 
     @Override

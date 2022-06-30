@@ -226,6 +226,8 @@
 ***************************************************************************/
 package tla2tex;
 
+import java.util.Objects;
+
 public class FindAlignments
 { public static void FindAlignments(final Token[][] spec)
     { setSubscriptField(spec) ;
@@ -302,7 +304,7 @@ public class FindAlignments
                    * Set token's aboveAlign to point to the BEGIN_MULTI    *
                    * token beginning the commnet.                          *
                    ********************************************************/
-                   if ( ((CommentToken) btoken).subtype 
+                   if ( ((CommentToken) Objects.requireNonNull(btoken)).subtype
                             == CommentToken.BEGIN_MULTI)
                      { token.aboveAlign = bpos ; }
                    else
@@ -443,13 +445,13 @@ public class FindAlignments
                           int calignClass = 0;  //   of pos and cpos.
                           if (token.type == Token.BUILTIN)
                            { alignClass = 
-                                BuiltInSymbols.GetBuiltInSymbol(
-                                   token.string, true).alignmentType ; }
+                                Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(
+                                        token.string, true)).alignmentType ; }
                             if (   (ctoken != null)
                               && (ctoken.type == Token.BUILTIN))
                            { calignClass = 
-                                BuiltInSymbols.GetBuiltInSymbol(
-                                   ctoken.string, true).alignmentType ; }
+                                Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(
+                                        ctoken.string, true)).alignmentType ; }
                             if (   (ctoken != null)
                               && (token.column == ctoken.column)
                               && (alignClass != 0)
@@ -474,8 +476,8 @@ public class FindAlignments
                                          && (spec[line][0].type == 
                                                Token.COMMENT)))
                                  && (spec[line][item-1].type == Token.BUILTIN)
-                                 && (BuiltInSymbols.GetBuiltInSymbol(
-                                       spec[line][item-1].string, true).symbolType
+                                 && (Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(
+                                     spec[line][item - 1].string, true)).symbolType
                                       == Symbol.INFIX)
                                  /******************************************
                                  * Correction made 7 Nov 2001.             *
@@ -1024,8 +1026,8 @@ public class FindAlignments
                * A subscript has not yet begun.                            *
                ************************************************************/
                if (   (tok.type == Token.BUILTIN)
-                   && (   (BuiltInSymbols.GetBuiltInSymbol(
-                                                    tok.string, true).symbolType 
+                   && (   (Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(
+                       tok.string, true)).symbolType
                             == Symbol.SUBSCRIPTED)
                        || (tok.string.equals("^"))))
                 { 
@@ -1048,8 +1050,8 @@ public class FindAlignments
                int symType = Symbol.NOT_A_SYMBOL ;
                if (tok.type == Token.BUILTIN)
                  { symType = 
-                      BuiltInSymbols.GetBuiltInSymbol(
-                         tok.string, true).symbolType ;
+                      Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(
+                              tok.string, true)).symbolType ;
                  }
 
                  if (   (   (nestingDepth == 0)

@@ -12,11 +12,7 @@ import static java.math.BigDecimal.ROUND_HALF_DOWN;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.BitSet;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.TreeMap;
+import java.util.*;
 
 import tlc2.TLCGlobals;
 import tlc2.output.EC;
@@ -549,7 +545,7 @@ public Value  set;           // SUBSET set
             Assert.fail("Attempted to compute the value of an expression of form\n" +
                     "SUBSET S, but S is a non-enumerable value:\n" + Values.ppr(this.set), getSource());
 		}
-		final ValueVec elems = ((SetEnumValue) setEnum.normalize()).elems;
+		final ValueVec elems = ((SetEnumValue) Objects.requireNonNull(setEnum).normalize()).elems;
 		return new ValueEnumeration() {
 
 			private int k = 0;

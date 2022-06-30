@@ -26,11 +26,7 @@
 package tlc2.module;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import tla2sany.semantic.ExprOrOpArgNode;
@@ -151,7 +147,7 @@ public class TLCExt {
 			MP.printMessage(EC.TLC_MODULE_OVERRIDE_STDOUT,
 					String.format(
 							"Extend behavior of length %s with a \"%s\" step [%s]? (Yes/no/explored/states/diff):",
-							s0.getLevel(), action.getName(), action));
+							s0.getLevel(), Objects.requireNonNull(action).getName(), action));
 
 			final String nextLine = scanner.nextLine();
 			if (nextLine.trim().isEmpty() || nextLine.toLowerCase().startsWith("y")) {

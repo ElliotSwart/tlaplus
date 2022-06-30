@@ -7,11 +7,7 @@
 package tlc2.value.impl;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import tlc2.tool.EvalControl;
 import tlc2.tool.FingerprintException;
@@ -120,7 +116,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 						+ Values.ppr(obj.toString()), getSource());
 			}
 			this.normalize();
-			fcn.normalize();
+			Objects.requireNonNull(fcn).normalize();
 
 			final int result = this.values.length - fcn.values.length;
 			if (result != 0) {
@@ -223,7 +219,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
         " with the value:\n" + Values.ppr(obj.toString()), getSource());
       }
       this.normalize();
-      fcn.normalize();
+      Objects.requireNonNull(fcn).normalize();
 
       if (this.intv != null) {
         if (fcn.intv != null) {
