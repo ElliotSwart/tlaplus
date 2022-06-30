@@ -154,7 +154,7 @@ public class MethodValue extends OpValue implements Applicable {
     	  if (args.length == 0) {
     		  res = (Value) this.mh.invokeExact();
     	  } else {
-    		  res = (Value) this.mh.invoke(args);
+    		  res = (Value) this.mh.invoke((Object) args);
     	  }
       } catch (final Throwable e)
       {

@@ -56,7 +56,7 @@ public class CallableValue extends EvaluatingValue {
 			argVals[i] = tool.eval(args[i], c, s0, s1, control, cm);
 		}
 		try {
-			final Callable<?> cl = (Callable<?>) this.mh.invoke(argVals);
+			final Callable<?> cl = (Callable<?>) this.mh.invoke((Object) argVals);
 			s1.setCallable(cl);
 		} catch (final Throwable e) {
 			Assert.fail(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE, new String[] { this.md.toString(), e.getMessage() });
