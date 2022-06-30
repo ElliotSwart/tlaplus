@@ -96,7 +96,7 @@ public class UsageGenerator {
 		
 		
 		final List<Argument> orderedArguments = new ArrayList<>(arguments);
-		Collections.sort(orderedArguments, NAME_COMPARATOR);
+		orderedArguments.sort(NAME_COMPARATOR);
 		ps.println(generateSectionHeader(OPTIONS));
 		for (final Argument arg : orderedArguments) {
 			if (arg.expectsValue() || arg.isOptional() || (!arg.expectsValue() && arg.isDashArgument())) {
@@ -143,11 +143,11 @@ public class UsageGenerator {
 			}
 		}
 
-		Collections.sort(optionalSingleDashValueless, NAME_COMPARATOR);
-		Collections.sort(optionalDoubleDashValueless, NAME_COMPARATOR);
-		Collections.sort(optionalValued, NAME_COMPARATOR);
-		Collections.sort(requiredValued, NAME_COMPARATOR);
-		Collections.sort(requiredValueless, NAME_DASH_COMPARATOR);
+		optionalSingleDashValueless.sort(NAME_COMPARATOR);
+		optionalDoubleDashValueless.sort(NAME_COMPARATOR);
+		optionalValued.sort(NAME_COMPARATOR);
+		requiredValued.sort(NAME_COMPARATOR);
+		requiredValueless.sort(NAME_DASH_COMPARATOR);
 
 		final StringBuilder sb = new StringBuilder(boldedCommandName);
 		

@@ -41,7 +41,7 @@ public class ModuleContext {
    * already bound; otherwise no-op.
    */
   void bindIfNotBound(final String modName, final ModulePointer modPointer) {
-    if (context.get(modName) == null) context.put(modName,modPointer);
+      context.putIfAbsent(modName, modPointer);
   }
 
   /**

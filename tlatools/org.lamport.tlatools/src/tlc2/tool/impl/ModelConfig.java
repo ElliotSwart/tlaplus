@@ -327,12 +327,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                                     throw new ConfigFileException(EC.CFG_EXPECT_ID, new String[] {
                                             String.valueOf(scs.getBeginLine()), "<-[mod]" });
                                 }
-                                Hashtable<Comparable<?>, Object> defs = this.modOverrides.get(modName);
-                                if (defs == null)
-                                {
-                                    defs = new Hashtable<>();
-                                    this.modOverrides.put(modName, defs);
-                                }
+                                Hashtable<Comparable<?>, Object> defs = this.modOverrides.computeIfAbsent(modName, k -> new Hashtable<>());
                                 defs.put(line.elementAt(0), tt.image);
                             } else
                             {
