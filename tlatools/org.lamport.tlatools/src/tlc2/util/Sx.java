@@ -8,7 +8,6 @@ package tlc2.util;
 import java.io.PrintWriter;
 import java.util.Hashtable;
 
-import tlc2.util.Sx.SxAtom;
 import util.WrongInvocationException;
 
 public abstract class Sx {

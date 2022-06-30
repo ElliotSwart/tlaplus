@@ -64,7 +64,6 @@
 package pcal;
 import java.util.Vector;
 
-import pcal.AST.Macro;
 
 public class AST
   { public static AST.Uniprocess   UniprocessObj   ;

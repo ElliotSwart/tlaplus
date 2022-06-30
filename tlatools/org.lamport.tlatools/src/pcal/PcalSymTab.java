@@ -68,9 +68,6 @@ package pcal;
 
 import java.util.Vector;
 
-import pcal.PcalSymTab.ProcedureEntry;
-import pcal.PcalSymTab.ProcessEntry;
-import pcal.PcalSymTab.SymTabEntry;
 import pcal.exception.PcalSymTabException;
 
 public class PcalSymTab {
