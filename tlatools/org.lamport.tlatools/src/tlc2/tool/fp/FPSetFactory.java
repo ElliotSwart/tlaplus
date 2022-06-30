@@ -206,22 +206,11 @@ public abstract class FPSetFactory {
 			if (instance instanceof FPSet) {
 				return (FPSet) instance;
 			}
-		} catch (final ClassNotFoundException e) {
-			exp = e;
-		} catch (final InstantiationException e) {
-			exp = e;
-		} catch (final IllegalAccessException e) {
-			exp = e;
-		} catch (final SecurityException e) {
-			exp = e;
-		} catch (final NoSuchMethodException e) {
-			exp = e;
-		} catch (final IllegalArgumentException e) {
-			exp = e;
-		} catch (final InvocationTargetException e) {
+		} catch (final ClassNotFoundException | InvocationTargetException | IllegalArgumentException |
+                       NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException e) {
 			exp = e;
 		}
-		// LL modified error message on 7 April 2012
+        // LL modified error message on 7 April 2012
 		MP.printWarning(EC.GENERAL, "unsuccessfully trying to load custom FPSet class: " + clazz, exp);
 		return null;
 	}

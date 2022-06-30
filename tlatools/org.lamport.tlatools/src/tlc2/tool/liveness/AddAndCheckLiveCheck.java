@@ -61,9 +61,7 @@ public class AddAndCheckLiveCheck extends LiveCheck {
 		super.addInitState(tool, state, stateFP);
 		try {
 			check0(tool, false);
-		} catch (final InterruptedException e) {
-			e.printStackTrace();
-		} catch (final IOException e) {
+		} catch (final InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
 	}

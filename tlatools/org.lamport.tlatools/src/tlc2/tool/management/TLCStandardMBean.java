@@ -54,23 +54,12 @@ public abstract class TLCStandardMBean extends StandardMBean {
 		try {
 			mxbeanName = new ObjectName(objectName);
 			mbs.registerMBean(this, mxbeanName);
-		} catch (final MalformedObjectNameException e1) {
+		} catch (final MalformedObjectNameException | NotCompliantMBeanException | MBeanRegistrationException |
+                       InstanceAlreadyExistsException | NullPointerException e1) {
 			e1.printStackTrace();
-			return false;
-		} catch (final NullPointerException e1) {
-			e1.printStackTrace();
-			return false;
-		} catch (final InstanceAlreadyExistsException e) {
-			e.printStackTrace();
-			return false;
-		} catch (final MBeanRegistrationException e) {
-			e.printStackTrace();
-			return false;
-		} catch (final NotCompliantMBeanException e) {
-			e.printStackTrace();
 			return false;
 		}
-		return true;
+        return true;
 	}
 
 	/**
@@ -82,14 +71,11 @@ public abstract class TLCStandardMBean extends StandardMBean {
 			if (mbs.isRegistered(mxbeanName)) {
 				mbs.unregisterMBean(mxbeanName);
 			}
-		} catch (final MBeanRegistrationException e) {
-			e.printStackTrace();
-			return false;
-		} catch (final InstanceNotFoundException e) {
+		} catch (final MBeanRegistrationException | InstanceNotFoundException e) {
 			e.printStackTrace();
 			return false;
 		}
-		return true;
+        return true;
 	}
 	
 	/**

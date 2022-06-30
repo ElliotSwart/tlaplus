@@ -585,13 +585,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 
 			try {
 				worker.exit();
-			} catch (final NoSuchObjectException e) {
-				// worker might have been lost in the meantime
-				MP.printWarning(EC.GENERAL, "Ignoring attempt to exit dead worker");
-			} catch (final ConnectException e) {
-				// worker might have been lost in the meantime
-				MP.printWarning(EC.GENERAL, "Ignoring attempt to exit dead worker");
-			} catch (final ServerException e) {
+			} catch (final NoSuchObjectException | ServerException | ConnectException e) {
 				// worker might have been lost in the meantime
 				MP.printWarning(EC.GENERAL, "Ignoring attempt to exit dead worker");
 			} finally {
@@ -932,20 +926,14 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 				// isn't registered any longer. It won't be able to connect to
 				// workers anyway.
 				LocateRegistry.getRegistry(Port).lookup(SERVER_NAME);
-			} catch (final AccessException e1) {
-				return;
-			} catch (final RemoteException e1) {
-				return;
-			} catch (final NotBoundException e1) {
+			} catch (final NotBoundException | RemoteException e1) {
 				return;
 			}
 
-			for (final TLCWorkerRMI worker : server.threadsToWorkers.values()) {
+            for (final TLCWorkerRMI worker : server.threadsToWorkers.values()) {
 				try {
 					worker.exit();
-				} catch (final java.rmi.ConnectException e)  {
-					// happens if worker has exited already
-				} catch (final java.rmi.NoSuchObjectException e) {
+				} catch (final ConnectException | NoSuchObjectException e)  {
 					// happens if worker has exited already
 				} catch (final IOException e) {
 					//TODO handle more gracefully

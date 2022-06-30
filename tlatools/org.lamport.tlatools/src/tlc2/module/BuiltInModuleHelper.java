@@ -80,13 +80,7 @@ public class BuiltInModuleHelper {
 				// TODO Add Toolbox.class here too should Toolbox.tla module ever get a module
 				// override.
 			}
-		} catch (final SecurityException e) {
-			return false;
-		} catch (final NoSuchFieldException e) {
-			return false;
-		} catch (final IllegalArgumentException e) {
-			return false;
-		} catch (final IllegalAccessException e) {
+		} catch (final SecurityException | IllegalAccessException | IllegalArgumentException | NoSuchFieldException e) {
 			return false;
 		}
         return false;

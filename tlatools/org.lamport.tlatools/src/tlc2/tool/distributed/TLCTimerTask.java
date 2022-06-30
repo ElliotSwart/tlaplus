@@ -55,12 +55,10 @@ public class TLCTimerTask extends TimerTask {
 			} catch (final MalformedURLException e) {
 				// not expected to happen
 				LOGGER.log(Level.FINEST, "Failed to exit worker", e);
-			} catch (final RemoteException e) {
-				exitWorker(e);
-			} catch (final NotBoundException e) {
+			} catch (final RemoteException | NotBoundException e) {
 				exitWorker(e);
 			}
-		}
+        }
 	}
 	
 	private boolean noActivityWithin(final int timeout) {

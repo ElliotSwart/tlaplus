@@ -84,16 +84,12 @@ public class SimpleFilenameToStream implements FilenameToStream {
     	final URI uri = new URI(path);
     		return new File(uri).getAbsolutePath();
     	}
-    } catch (final URISyntaxException e) {
-    	System.err.println(path);
-    	// may never happen
-    	e.printStackTrace();
-    } catch (final IllegalArgumentException e) {
+    } catch (final URISyntaxException | IllegalArgumentException e) {
     	System.err.println(path);
     	// may never happen
     	e.printStackTrace();
     }
-    return path;
+      return path;
    }
 
   /**

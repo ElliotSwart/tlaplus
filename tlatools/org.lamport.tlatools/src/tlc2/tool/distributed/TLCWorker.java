@@ -265,22 +265,13 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 			method = liveRefClass.getMethod(
 					"getPort", (Class[]) null);
 			return (Integer) method.invoke(liveRef, (Object[]) null);
-		} catch (final SecurityException e) {
+		} catch (final SecurityException | ClassCastException | IllegalArgumentException e) {
 			MP.printError(EC.GENERAL, "trying to get a port for a worker", e); // LL changed call on 7 April 2012
-		} catch (final IllegalArgumentException e) {
-			MP.printError(EC.GENERAL, "trying to get a port for a worker",e);  // LL changed call on 7 April 2012
-		} catch (final ClassCastException e) {
-			MP.printError(EC.GENERAL, "trying to get a port for a worker",e);  // LL changed call on 7 April 2012
-		} catch (final NoSuchMethodException e) {
-			MP.printError(EC.TLC_DISTRIBUTED_VM_VERSION, e);
-		} catch (final IllegalAccessException e) {
-			MP.printError(EC.TLC_DISTRIBUTED_VM_VERSION, e);
-		} catch (final InvocationTargetException e) {
-			MP.printError(EC.TLC_DISTRIBUTED_VM_VERSION, e);
-		} catch (final ClassNotFoundException e) {
+		} catch (final NoSuchMethodException | ClassNotFoundException | InvocationTargetException |
+                       IllegalAccessException e) {
 			MP.printError(EC.TLC_DISTRIBUTED_VM_VERSION, e);
 		}
-		return 0;
+        return 0;
 	}
 
 	long getLastInvocation() {
@@ -475,14 +466,12 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 				worker = new TLCWorker(threadId, aWork, anFpSetManager, InetAddress
 						.getLocalHost().getCanonicalHostName());
 				aServer.registerWorker(worker);
-			} catch (final RemoteException e) {
-				throw new RuntimeException(e);
 			} catch (final UnknownHostException e) {
 				throw new RuntimeException(e);
 			} catch (final IOException e) {
 				throw new RuntimeException(e);
 			}
-		}
+        }
 		
 		public TLCWorker getTLCWorker() {
 			return worker;

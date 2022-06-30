@@ -416,14 +416,11 @@ public abstract class FPSetManager implements IFPSetManager {
 				// Only one result for a given LongVec[i] is correct
 				Assert.check(res[index] == null, EC.GENERAL);
 				res[index] = indexBitVector.getBitVector();
-			} catch (final InterruptedException e) {
-				// not expected to happen
-				e.printStackTrace();
-			} catch (final ExecutionException e) {
+			} catch (final InterruptedException | ExecutionException e) {
 				// not expected to happen
 				e.printStackTrace();
 			}
-		}
+        }
 		return res;
 	}
 

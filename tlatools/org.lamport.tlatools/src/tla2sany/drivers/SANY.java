@@ -133,16 +133,9 @@ public class SANY {
       if (doSemanticAnalysis) 
             {frontEndSemanticAnalysis(spec, syserr, doLevelChecking);}
     }
-    catch (final InitException ie) {
+    catch (final InitException | SemanticException | ParseException ie) {
       return -1;
-    }
-    catch (final ParseException pe) {
-      return -1;
-    }
-    catch (final SemanticException se) {
-      return -1;
-    }
-    catch (final Exception e) {
+    } catch (final Exception e) {
       // e.printStackTrace(syserr);
       syserr.println(e.toString());
       throw new FrontEndException(e);

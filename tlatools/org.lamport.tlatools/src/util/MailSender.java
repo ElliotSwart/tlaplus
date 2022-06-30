@@ -125,14 +125,10 @@ public class MailSender {
 							"%s EMail Report: Slowing down due to errors when sending to %s at %s, will continue in %d minute...",
 							new Date(), to.getAddress(), mxRecord.hostname, 1L), 1L);
 				}
-			} catch (final AddressException e) {
-				e.printStackTrace();
-			} catch (final MessagingException e) {
-				e.printStackTrace();
-			} catch (final IOException e) {
+			} catch (final IOException | MessagingException e) {
 				e.printStackTrace();
 			}
-		}
+        }
 		return false;
 	}
 	

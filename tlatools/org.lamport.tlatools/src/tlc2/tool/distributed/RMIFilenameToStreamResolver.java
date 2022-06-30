@@ -111,8 +111,6 @@ public class RMIFilenameToStreamResolver implements FilenameToStream {
 		try {
 			outputStream = new FileOutputStream(f);
 			outputStream.write(bs);
-		} catch (final FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (final IOException e) {
 			e.printStackTrace();
 		} finally {

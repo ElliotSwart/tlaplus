@@ -53,19 +53,8 @@ public class BlockSelectorFactory {
 			if (instance instanceof BlockSelectorFactory) {
 				bsf = (BlockSelectorFactory) instance;
 			}
-		} catch (final ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (final InstantiationException e) {
-			e.printStackTrace();
-		} catch (final IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (final IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (final InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (final NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (final SecurityException e) {
+		} catch (final ClassNotFoundException | SecurityException | NoSuchMethodException | InvocationTargetException |
+					   IllegalArgumentException | IllegalAccessException | InstantiationException e) {
 			e.printStackTrace();
 		}
 		return bsf;
