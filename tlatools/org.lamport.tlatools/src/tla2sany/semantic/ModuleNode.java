@@ -1059,7 +1059,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
 	// TODO Change to take an action/operation that is to be executed on matching
 	// symbols. That way, clients don't have to iterate the result set again.
 	public Collection<SymbolNode> getSymbols(final SymbolMatcher symbolMatcher) {
-		final List<SymbolNode> result = new ArrayList<SymbolNode>(); // TreeSet to order result.
+		final List<SymbolNode> result = new ArrayList<>(); // TreeSet to order result.
 		
 		final Enumeration<Pair> content = this.ctxt.content();
 		while (content.hasMoreElements()) {

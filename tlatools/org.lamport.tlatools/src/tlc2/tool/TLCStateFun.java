@@ -96,7 +96,7 @@ private final SymbolNode name;
   public final boolean allAssigned() { return true; }
   
   @Override
-  public final Set<OpDeclNode> getUnassigned() { return new HashSet<OpDeclNode>(); }
+  public final Set<OpDeclNode> getUnassigned() { return new HashSet<>(); }
 
   
 

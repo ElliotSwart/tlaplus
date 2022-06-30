@@ -470,7 +470,7 @@ public abstract class FPSetManager implements IFPSetManager {
 		try {
 			// Start checkFP on all FPSets concurrently
 			// (checkFPs scans the full set sequentially!)
-			final CompletionService<Boolean> ecs = new ExecutorCompletionService<Boolean>(executorService);
+			final CompletionService<Boolean> ecs = new ExecutorCompletionService<>(executorService);
 			for (int i = 0; i < len; i++) {
 				ecs.submit(new CheckInvariantCallable(fpSets.get(i).getFpset()));
 			}

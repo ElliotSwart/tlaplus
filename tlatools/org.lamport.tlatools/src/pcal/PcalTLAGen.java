@@ -1466,7 +1466,7 @@ public class PcalTLAGen
      * @return
      */
     private Vector<MappingObject> stringToTLATokens(final String token) {
-        final Vector<MappingObject> result = new Vector<MappingObject>(3);
+        final Vector<MappingObject> result = new Vector<>(3);
         
         String trimmedToken = token.trim() ;
 
@@ -1820,16 +1820,16 @@ public class PcalTLAGen
         * variable name.  They hold the local and global variables,        *
         * respectively.                                                    *
         *******************************************************************/
-        final Vector<String> lVars = new Vector<String>();
-        final Vector<String> gVars = new Vector<String>();
+        final Vector<String> lVars = new Vector<>();
+        final Vector<String> gVars = new Vector<>();
         
         /**
          * lVarsSource and gVarsSource are vectors of AST.VarDecl objects that 
          * generated the elements of lVars and gVars, where PVarDecl objects
          * are converted to VarDecl objects.
          */
-        final Vector<VarDecl> lVarsSource = new Vector<VarDecl>();
-        final Vector<VarDecl> gVarsSource = new Vector<VarDecl>();
+        final Vector<VarDecl> lVarsSource = new Vector<>();
+        final Vector<VarDecl> gVarsSource = new Vector<>();
 
         /*******************************************************************
         * Set gVars to the global variables, including pc and `stack' if   *
@@ -2210,7 +2210,7 @@ public class PcalTLAGen
                         addExprToTLA(
                           AddSubscriptsToExpr(decl.val, 
                                               SubExpr(Self("procedure")), 
-                                              new Changed(new Vector<String>())));
+                                              new Changed(new Vector<>())));
                         addRightParen(decl.val.getOrigin());
                         addOneTokenToTLA("]");
                         addRightParen(decl.getOrigin());
@@ -2281,7 +2281,7 @@ public class PcalTLAGen
                         addExprToTLA(AddSubscriptsToExpr(
                                         decl.val, 
                                         SubExpr(Self("procedure")), 
-                                        new Changed(new Vector<String>())));
+                                        new Changed(new Vector<>())));
                         addRightParen(decl.val.getOrigin());
                         addOneTokenToTLA("]");
                         addRightParen(decl.getOrigin());
@@ -2380,7 +2380,7 @@ public class PcalTLAGen
                             addExprToTLA(AddSubscriptsToExpr(
                                            decl.val,
                                            SubExpr(Self("procedure")), 
-                                           new Changed(new Vector<String>())));
+                                           new Changed(new Vector<>())));
                             addRightParen(decl.val.getOrigin());
                             addOneTokenToTLA("]");
                             
@@ -2438,7 +2438,7 @@ public class PcalTLAGen
                             addOneTokenToTLA(" -> " );
                             addLeftParen(decl.val.getOrigin());
                             addExprToTLA(AddSubscriptsToExpr(
-                                          decl.val, expr, new Changed(new Vector<String>())) );
+                                          decl.val, expr, new Changed(new Vector<>())) );
                             addRightParen(decl.val.getOrigin());
                             addOneTokenToTLA("]");
                         }
@@ -2700,7 +2700,7 @@ public class PcalTLAGen
         if (ParseAlgorithm.omitPC && !mp) {
             return;
         }
-        final Vector<String> nextS = new Vector<String>();
+        final Vector<String> nextS = new Vector<>();
         StringBuilder sb = new StringBuilder();
         int max, col;
         
@@ -2781,7 +2781,7 @@ public class PcalTLAGen
 
         // Steps with (self) from ProcSet
         // These are procedures in a multiprocess algorithm
-        final Vector<String> nextSS = new Vector<String>();
+        final Vector<String> nextSS = new Vector<>();
         final String nextSSstart = "(\\E self \\in ProcSet: ";
         sb = new StringBuilder();
         max = wrapColumn - ("Next == \\/ (\\E self \\in ProcSet: \\/ ".length());
@@ -2806,14 +2806,14 @@ public class PcalTLAGen
 
         // Steps with (self) from a set
         // These are process sets
-        final Vector<Vector<String>> nextSSP = new Vector<Vector<String>>(); // of Vector
+        final Vector<Vector<String>> nextSSP = new Vector<>(); // of Vector
         if (mp && st.processes.size() > 0)
             for (int i = 0; i < st.processes.size(); i++)
             {
                 final PcalSymTab.ProcessEntry p = st.processes.elementAt(i);
                 if (p.isEq)
                     continue;
-                final Vector<String> vec = new Vector<String>();
+                final Vector<String> vec = new Vector<>();
                 sb = new StringBuilder();
                 sb.append("(\\E self \\in ");
                 final Vector<String> sv = p.id.toStringVector();
@@ -3030,7 +3030,7 @@ public class PcalTLAGen
     	
     	// Now compute procFairnessFormulas to equal the processes' fairness 
     	// formulas, which is never null but may have zero length.
-    	final Vector<ProcessFairness> procFairnessFormulas = new Vector<ProcessFairness>() ;
+    	final Vector<ProcessFairness> procFairnessFormulas = new Vector<>() ;
         if (mp) {
            for (int i = 0; i < st.processes.size(); i++) {
         	   final PcalSymTab.ProcessEntry p = st.processes.elementAt(i);
@@ -3053,7 +3053,7 @@ public class PcalTLAGen
                        }  
                    }
                    
-                   final Vector<String> prefix = new Vector<String>();
+                   final Vector<String> prefix = new Vector<>();
         		   if (makeLetIn || !p.isEq) {
                        final int prefixSize = pSelf.size();
                        final String prefixBegin;
@@ -3130,7 +3130,7 @@ public class PcalTLAGen
         		       }
         		   }
         	   
-        	       final Vector<FormulaPair>  prcdFormulas = new Vector<FormulaPair>();
+        	       final Vector<FormulaPair>  prcdFormulas = new Vector<>();
         	       final Vector<String>  procedures = pAst.proceduresCalled;
                    for (int k = 0; k < procedures.size(); k++) {
                        final String originalName = procedures.elementAt(k);
@@ -3307,8 +3307,8 @@ public class PcalTLAGen
          * We now set stringVec to the sequence of identifiers that occur in exprn
          * for which we need to add a subscript or a prime.
          */
-        final Vector<TLAExpr> exprVec = new Vector<TLAExpr>(); // the substituting exprs
-        final Vector<String> stringVec = new Vector<String>(); // the substituted ids
+        final Vector<TLAExpr> exprVec = new Vector<>(); // the substituting exprs
+        final Vector<String> stringVec = new Vector<>(); // the substituted ids
         final TLAExpr expr = exprn.cloneAndNormalize();  // the expression to be returned
 
        for (int i = 0; i < expr.tokens.size(); i++)
@@ -3337,8 +3337,8 @@ public class PcalTLAGen
                      * The new token should inherit nothing from the baggage of tok, whose
                      * only function is to provide the name
                      */
-                    newTok.setBeginSubst(new Vector<PCalLocation>(2));
-                    newTok.setEndSubst(new Vector<PCalLocation>(2));
+                    newTok.setBeginSubst(new Vector<>(2));
+                    newTok.setEndSubst(new Vector<>(2));
                     newTok.source = null;
                     newTok.column = 0;
                     exp.addToken(newTok) ;
@@ -3528,9 +3528,9 @@ public class PcalTLAGen
          * as a subscript to a variable.
          */
         final TLAToken selfToken = new TLAToken("self", 0, TLAToken.IDENT, true);
-        final Vector<TLAToken> tokenVec = new Vector<TLAToken>();
+        final Vector<TLAToken> tokenVec = new Vector<>();
         tokenVec.addElement(selfToken);
-        final Vector<Vector<TLAToken>> tokens = new Vector<Vector<TLAToken>>();
+        final Vector<Vector<TLAToken>> tokens = new Vector<>();
         tokens.addElement(tokenVec);
         final TLAExpr expr = new TLAExpr(tokens);
 //        expr.anchorTokens = new TLAToken[1];
@@ -3549,7 +3549,7 @@ public class PcalTLAGen
     private static Vector<SingleAssign> SortSass(final Vector<AST.SingleAssign> vec)
     {
         final Vector<AST.SingleAssign> v = (Vector<SingleAssign>) vec.clone();
-        final Vector<SingleAssign> r = new Vector<SingleAssign>(); // The sorted version of v.
+        final Vector<SingleAssign> r = new Vector<>(); // The sorted version of v.
         while (v.size() > 0)
         { // Good old n^2 insertion sort.
             AST.SingleAssign candidate = v.elementAt(0);
@@ -3868,7 +3868,7 @@ public class PcalTLAGen
             tlacode.addElement(tlacodeNextLine) ;
             mappingVector.addElement(mappingVectorNextLine) ;
             tlacodeNextLine = "";
-            mappingVectorNextLine = new Vector<MappingObject>() ;
+            mappingVectorNextLine = new Vector<>() ;
         } 
         else {
             if (mappingVectorNextLine.size() != 0) {
@@ -3890,7 +3890,7 @@ public class PcalTLAGen
                     else {
                         PcalDebug.ReportBug("PcalTLAGen.endCurrentLineOfTLA found problem.");
                     }
-                    mappingVectorNextLine = new Vector<MappingObject>() ;
+                    mappingVectorNextLine = new Vector<>() ;
                 }
             }
         }

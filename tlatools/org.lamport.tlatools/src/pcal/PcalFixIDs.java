@@ -104,8 +104,8 @@ public class PcalFixIDs {
         // procedureNames and proceduresCalled represents the mapping
         // from procedure Names to the set of names of procedures that
         // they call.
-        final Vector<String>  procedureNames = new Vector<String>();   // Vector of Strings
-        final Vector<Vector<String>>  proceduresCalled = new Vector<Vector<String>>(); // Vector of Vectors of Strings
+        final Vector<String>  procedureNames = new Vector<>();   // Vector of Strings
+        final Vector<Vector<String>>  proceduresCalled = new Vector<>(); // Vector of Vectors of Strings
         for (int i = 0; i < ast.prcds.size(); i++) {
             final AST.Procedure prcd = ast.prcds.elementAt(i);
             FixProcedure(prcd, "");
@@ -157,7 +157,7 @@ public class PcalFixIDs {
         // unnecessary, and should be commented out.
         for (int i = 0; i < ast.prcds.size(); i++) {
             final AST.Procedure prcd = ast.prcds.elementAt(i);
-            final Vector<String> pCalled = new Vector<String>();
+            final Vector<String> pCalled = new Vector<>();
             for (int j = 0; j < n; j++) {
                 if (path[i][j]) {
                     pCalled.addElement(procedureNames.elementAt(j));
@@ -448,8 +448,8 @@ public class PcalFixIDs {
          * contains a single token whose string is the identifier substituted for the
          * corresponding identifier of stringVec.
         */
-        final Vector<TLAExpr> exprVec = new Vector<TLAExpr>();   // the substituting exprs
-        final Vector<String> stringVec = new Vector<String>(); // the substituted  ids
+        final Vector<TLAExpr> exprVec = new Vector<>();   // the substituting exprs
+        final Vector<String> stringVec = new Vector<>(); // the substituted  ids
         for (int i = 0; i < expr.tokens.size(); i++) {
             final Vector<TLAToken> tv = expr.tokens.elementAt(i);
             String useMe = null;

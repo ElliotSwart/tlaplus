@@ -154,7 +154,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 		this.defns = defns;
 		this.config = config;
 		this.tlaClass = tlaClass;
-		this.processedDefs = new HashSet<OpDefNode>();
+		this.processedDefs = new HashSet<>();
         this.initPredVec = new Vect<>(5);
         this.specObj = obj;
         
@@ -227,7 +227,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
           // that val is either an atom (IValue#isAtom) or a set (of sets) of atoms (primarily
           // ModelValues).
 	      ((IValue)val).initialize();
-          constantDefns.computeIfAbsent(mod, key -> new HashMap<OpDefOrDeclNode, Object>()).put(consts[i], val);
+          constantDefns.computeIfAbsent(mod, key -> new HashMap<>()).put(consts[i], val);
           // System.err.println(consts[i].getName() + ": " + val);
         } // The following else clause was added by LL on 17 March 2012.
         else if (val instanceof final OpDefNode opDef) {
@@ -276,7 +276,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             	// 
 //            	consts[i].setToolObject(toolId, defVal);
 
-            	constantDefns.computeIfAbsent(mod, key -> new HashMap<OpDefOrDeclNode, Object>()).put(opDef, defVal);
+            	constantDefns.computeIfAbsent(mod, key -> new HashMap<>()).put(opDef, defVal);
             } catch (final Assert.TLCRuntimeException | EvalException e) {
               final String addendum = (e instanceof EvalException) ? "" : (" - specifically: " + e.getMessage());
               Assert.fail(EC.TLC_CONFIG_SUBSTITUTION_NON_CONSTANT,
@@ -318,7 +318,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 					this.defns.put(opName, val);
 					constantDefns.computeIfAbsent(
 							opDef.hasSource() ? opDef.getSource().getOriginallyDefinedInModuleNode() : moduleNode,
-							key -> new HashMap<OpDefOrDeclNode, Object>()).put(opDef, val);
+							key -> new HashMap<>()).put(opDef, val);
                 }
               }
               catch (final Throwable swallow) {
@@ -563,7 +563,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             	}
                 // Override with a user defined Java class for the TLA+ module.
                 // Collects new definitions:
-                final Hashtable<UniqueString, IValue> javaDefs = new Hashtable<UniqueString, IValue>();
+                final Hashtable<UniqueString, IValue> javaDefs = new Hashtable<>();
                 final Method[] mds = userModule.getDeclaredMethods();
                 for (int j = 0; j < mds.length; j++)
                 {

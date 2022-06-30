@@ -202,7 +202,7 @@ public final class InternTable implements Serializable
 	
 
 	public final Map<String, UniqueString> toMap() {
-		final Map<String, UniqueString> map = new HashMap<String, UniqueString>();
+		final Map<String, UniqueString> map = new HashMap<>();
 		for (int i = 0; i < this.table.length; i++) {
 			final UniqueString var = this.table[i];
 			if (var != null) {

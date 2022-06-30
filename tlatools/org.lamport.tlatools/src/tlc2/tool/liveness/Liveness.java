@@ -664,7 +664,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			if (found == -1) {
 				found = tfbin.size();
 				tfbin.addElement(tf);
-				pembin.addElement(new Vect<OSExprPem>());
+				pembin.addElement(new Vect<>());
 			}
 			pembin.elementAt(found).addElement(pems[i]);
 		}

@@ -508,7 +508,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		// 2) A task finds the pair with the minimum distance in an ordered
 		// subrange of array. Each task is assigned an id. This id determines
 		// which subrange of array (partition) it searches.
-		final Collection<Callable<Long>> tasks = new ArrayList<Callable<Long>>(numThreads);
+		final Collection<Callable<Long>> tasks = new ArrayList<>(numThreads);
 		final long length = (long) Math.floor(array.size() / (double) numThreads);
 		for (int i = 0; i < numThreads; i++) {
 			final int id = i;

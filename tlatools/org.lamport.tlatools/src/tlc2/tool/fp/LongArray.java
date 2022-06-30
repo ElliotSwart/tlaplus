@@ -154,7 +154,7 @@ public final class LongArray {
 		
 		final ExecutorService es = Executors.newFixedThreadPool(numThreads);
 		try {
-			final Collection<Callable<Boolean>> tasks = new ArrayList<Callable<Boolean>>(numThreads);
+			final Collection<Callable<Boolean>> tasks = new ArrayList<>(numThreads);
 			for (int i = 0; i < numThreads; i++) {
 				final int offset = i;
 				tasks.add(new Callable<>() {

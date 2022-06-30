@@ -2773,7 +2773,7 @@ public class ParseAlgorithm
             final Vector<AST> stmts,  // of AST.LabeledStmt
             final Vector<TLAExpr> args,   // of TLAExpr
             final Vector<String> params) throws ParseAlgorithmException // of String
-      { final Vector<AST> result = new Vector<AST>() ;
+      { final Vector<AST> result = new Vector<>() ;
         int i = 0 ;
         while (i < stmts.size())
           {  result.addElement( SubstituteInLabeledStmt( 
@@ -2817,7 +2817,7 @@ public class ParseAlgorithm
       * macroLine, column macroCol, where macroLine = -1 if this is not    *
       * being called because of a macro expansion.                         *
       *********************************************************************/
-      { final Vector<AST> result = new Vector<AST>() ;
+      { final Vector<AST> result = new Vector<>() ;
         int i = 0 ;
         while (i < stmts.size())
           {  result.addElement( SubstituteInStmt(stmts.elementAt(i),
@@ -2865,7 +2865,7 @@ public class ParseAlgorithm
                 result.macroCol  = macroCol ;
               }
               int i = 0 ;
-            result.ass = new Vector<AST.SingleAssign>() ;
+            result.ass = new Vector<>() ;
             while (i < tstmt.ass.size())
               { result.ass.addElement(
                   SubstituteInSingleAssign(
@@ -2913,7 +2913,7 @@ public class ParseAlgorithm
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
               }
-              result.ors = new Vector<Object>() ;
+              result.ors = new Vector<>() ;
             int i = 0 ;
             while (i < tstmt.ors.size())
               { result.ors.addElement(
@@ -3098,7 +3098,7 @@ public class ParseAlgorithm
               { result.macroLine = macroLine ;
                 result.macroCol  = macroCol ;
               }
-              result.clauses = new Vector<Clause>() ;
+              result.clauses = new Vector<>() ;
             int i = 0 ;
             while (i < tstmt.clauses.size())
              { final AST.Clause oldClause =
@@ -3910,7 +3910,7 @@ public class ParseAlgorithm
             curLoc.two++;
             curLine = GotoNextNonSpace(untabInputVec, curLoc);
 
-            final Vector<String> argsVec = new Vector<String>();
+            final Vector<String> argsVec = new Vector<>();
             // the vector of option arguments
 
             while (curLoc.one < untabInputVec.size() && (curLine.charAt(curLoc.two) != ')'))

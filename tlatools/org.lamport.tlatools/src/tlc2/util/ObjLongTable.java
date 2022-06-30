@@ -111,7 +111,7 @@ public final class ObjLongTable<T> {
 		return a;
 	}
   
-  public final Enumerator<T> keys() { return new Enumerator<T>(); }
+  public final Enumerator<T> keys() { return new Enumerator<>(); }
 
   @SuppressWarnings("hiding")
   public final class Enumerator<T> {

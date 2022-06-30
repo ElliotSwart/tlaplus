@@ -571,7 +571,7 @@ public abstract class AbstractDiskGraph {
 	public void calculateInDegreeDiskGraph(final IBucketStatistics inDegreeGraphStats) throws IOException {
 		//TODO This only supports 2^31 map elements and thus less of what TLC can handle. A
 		// longlong FPSet with a user defined mask could be used to store 2^63.
-		final Map<NodeRAFRecord, Integer> nodes2count = new HashMap<NodeRAFRecord, Integer>();
+		final Map<NodeRAFRecord, Integer> nodes2count = new HashMap<>();
 		
 		// One-pass (start to end) through the nodeRAF file reading all "records".
 		// A record is a combination of a state's fingerprint and a tableau id.

@@ -229,7 +229,7 @@ public class LiveCheck implements ILiveCheck {
 		// LiveChecker a-priori and assign one partition to each thread.
 		// However, that assumes the work in all partitions is evenly
 		// distributed, which is not necessarily true.
-		final BlockingQueue<ILiveChecker> queue = new ArrayBlockingQueue<ILiveChecker>(checker.length);
+		final BlockingQueue<ILiveChecker> queue = new ArrayBlockingQueue<>(checker.length);
 		queue.addAll(Arrays.asList(checker));
 
 		
@@ -246,7 +246,7 @@ public class LiveCheck implements ILiveCheck {
 		final ExecutorService pool = Executors.newFixedThreadPool(wNum);
 		// CS is really just a container around the set of Futures returned by the pool. It saves us from
 		// creating a low-level array.
-		final CompletionService<Boolean> completionService = new ExecutorCompletionService<Boolean>(pool);
+		final CompletionService<Boolean> completionService = new ExecutorCompletionService<>(pool);
 
 		for (int i = 0; i < wNum; i++) {
 			completionService.submit(new LiveWorker(tool, i, wNum, this, queue, finalCheck));
@@ -740,7 +740,7 @@ public class LiveCheck implements ILiveCheck {
 						dgraph.destroyCache();
 
 						final int plen = prefix.size();
-						final List<TLCStateInfo> states = new ArrayList<TLCStateInfo>(plen);
+						final List<TLCStateInfo> states = new ArrayList<>(plen);
 
 						long fp = prefix.elementAt(plen - 1);
 						TLCStateInfo sinfo = tool.getState(fp);
