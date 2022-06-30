@@ -896,7 +896,6 @@ private static void InnerWriteLaTeXFile(Token[][] spec,
     * True while putting out sub/superscript tokens.                       *
     ***********************************************************************/
  
-  boolean hasPcal = TokenizeSpec.hasPcal ;
   int pcalStartLine ;
   int pcalEndLine ;
   if (TokenizeSpec.hasPcal) {

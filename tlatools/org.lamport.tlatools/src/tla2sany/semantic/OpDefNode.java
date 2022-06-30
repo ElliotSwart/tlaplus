@@ -741,8 +741,6 @@ public class OpDefNode extends OpDefOrDeclNode
   public final boolean match(OpApplNode oanParent, ModuleNode mn) throws AbortException {
     ExprOrOpArgNode[] args       = oanParent.getArgs();  // arg expr's that THIS operator is being applied to
     boolean           result     = true;                 // Remains true unless an error is detected
-    boolean           tempResult = true;
-
     Location loc = (oanParent.getTreeNode() != null
                     ? oanParent.getTreeNode().getLocation()
                     : null);

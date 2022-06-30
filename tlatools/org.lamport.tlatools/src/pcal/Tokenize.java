@@ -852,7 +852,8 @@ public class Tokenize
         return exp ; }
 
     public static String GetAlgorithmToken(PcalCharReader charReader) throws TokenizerException
-      { TLAExpr exp = InnerTokenize(charReader, false) ;
+      { @SuppressWarnings("unused")
+	TLAExpr exp = InnerTokenize(charReader, false) ;
         return Delimiter ; }
 
     public static TLAExpr InnerTokenize(PcalCharReader charReader, 

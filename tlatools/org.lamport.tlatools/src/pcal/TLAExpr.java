@@ -1072,7 +1072,6 @@ public class TLAExpr
                   } ;
               } ;
             TLAToken lastTok = line.elementAt(line.size() - 1) ;
-            int nextTokColumn = lastTok.column + lastTok.getWidth();
             if (par) {
                 /**
                  * Create the new ")" token, and add if the replaced token's
@@ -1092,7 +1091,6 @@ public class TLAExpr
                  */
                 tok.setEndSubst(new Vector<PCalLocation>(2)); 
                 line.add(rParen) ;
-                nextTokColumn++;
             }
             
 // Removing the replacement tokens because putting them in was apparently

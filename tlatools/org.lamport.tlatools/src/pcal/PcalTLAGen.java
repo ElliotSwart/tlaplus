@@ -953,8 +953,6 @@ public class PcalTLAGen
                 throw new PcalTLAGenException("Multiple assignment to " + sF.lhs.var, ast /* sF */);
             }
             numAssigns = numAssigns + 1;
-            Vector<String> lines = new Vector<String>(); // For collecting generated lines
-
             if (hasMultipleVars) {
                 sb.append("/\\ ");
             }
@@ -1725,7 +1723,6 @@ public class PcalTLAGen
     private void GenPrintS(AST.PrintS ast, Changed c, String context, String prefix, int col)
             throws PcalTLAGenException
     {
-        StringBuffer sb = new StringBuffer(prefix);
         TLAExpr exp = AddSubscriptsToExpr(ast.exp, SubExpr(Self(context)), c);
         addLeftParen(ast.getOrigin());
         addOneTokenToTLA(prefix + "PrintT(");
@@ -2099,7 +2096,6 @@ public class PcalTLAGen
      */
     public void GenProcSet()
     {
-        StringBuffer ps = new StringBuffer();
         if (st.processes == null || st.processes.size() == 0)
             return;
 //        ps.append("ProcSet == ");
@@ -2121,8 +2117,7 @@ public class PcalTLAGen
 //                ps.append("(");
                 addOneTokenToTLA("(");
             }
-            int col = ps.length();
-//            ps.append((String) sv.elementAt(0));
+            //            ps.append((String) sv.elementAt(0));
 //            for (int v = 1; v < sv.size(); v++)
 //            {
 //                tlacode.addElement(ps.toString());
@@ -3036,9 +3031,6 @@ public class PcalTLAGen
 //PcalSymTab.ProcedureEntry pe =
 //    (PcalSymTab.ProcedureEntry) st.procs.elementAt(to);
 //AST.Procedure procAst = pe.ast;
-
-    	StringBuffer sb = new StringBuffer("Spec == ");
-        // Generate the requested fairness conjuncts
 
     	// wfNextConj is either null or  " /\ WF_(Next)" 
     	String wfNextConj = null; 
@@ -4017,7 +4009,6 @@ public class PcalTLAGen
      * @param is
      */
     private void addVarDeclToTLA(VarDecl decl, StringBuffer is) {
-        Region origin = decl.getOrigin();
         is.append("/\\ ");
         addOneTokenToTLA(is.toString());
         addLeftParen(decl.getOrigin());
@@ -4322,7 +4313,6 @@ public class PcalTLAGen
     	 * @return
     	 */
     	public StringBuffer format(int col) {
-    		int singleLineWidth = this.singleLineWidth();
     		/*
     		 * Return the single-line form if either it fits on the
     		 * line or if it consists of only the wf formula (so it can't

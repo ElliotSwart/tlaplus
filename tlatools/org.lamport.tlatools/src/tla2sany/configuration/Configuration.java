@@ -200,19 +200,17 @@ public final class Configuration implements ConfigConstants {
   }
 
   static final public void OpNull(String s) throws ParseException {
-    Token t;
     jj_consume_token(NOTOP);
   }
 
   static final public void OpBuiltin() throws ParseException, AbortException {
   Token t;
-  String external, internal;
+  String external;
   UniqueString us;
     jj_consume_token(BUILTIN);
     t = jj_consume_token(OPID);
     external = t.image; us = UniqueString.uniqueStringOf( external );
     t = jj_consume_token(RESTRICTED);
-    internal = t.image;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case INFIX:
       jj_consume_token(INFIX);

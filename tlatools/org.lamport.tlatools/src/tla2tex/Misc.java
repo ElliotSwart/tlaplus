@@ -142,7 +142,6 @@ public final class Misc
   * breaking the string at spaces into separate lines.                     *
   *************************************************************************/
   { String restOfString = str ;
-    String nextLine = "" ;
     boolean done = false ;
     boolean cut = false ;
     while (   (!done) 

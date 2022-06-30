@@ -179,7 +179,6 @@ public class CToken
     * "<42>" or "<42>1a." into a single token of type PF_STEP.             *
     ***********************************************************************/
     static void FindPfStepCTokens(CToken[][] toks) {
-      boolean lastIsTLA = false ;
       for (int k = 0 ; k < toks.length ; k++) 
         { CToken[] input = toks[k] ;
           Vector<CToken> outputVec = new Vector<CToken>(input.length) ;

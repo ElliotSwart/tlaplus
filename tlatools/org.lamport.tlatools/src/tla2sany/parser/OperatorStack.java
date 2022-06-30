@@ -18,7 +18,6 @@ public class OperatorStack implements tla2sany.st.SyntaxTreeConstants {
     * stack.                                                               *
     ***********************************************************************/
 
-  private SyntaxTreeNode VoidSTNode = new SyntaxTreeNode( );
 
   private Vector<OSelement> CurrentTop = null;
     /***********************************************************************
@@ -161,12 +160,7 @@ What do left and right mean?????? What does shift mean????????
     int n = CurrentTop.size()-1;
 //    SyntaxTreeNode localTN = new PrefixExprNode();
     if (n>=2) {
-      Operator op = CurrentTop.elementAt( n-2).getOperator();
-        /*******************************************************************
-        * It appears that op is no longer used.                            *
-        *******************************************************************/
-      SyntaxTreeNode opNode = CurrentTop.elementAt( n-2).getNode();
-// System.out.println( op.getIdentifier() );
+      // System.out.println( op.getIdentifier() );
 //      if ( op.isInfix() )
 //        ((GenOpNode)opNode).register( op.getIdentifier() + ".", STable);
 //      else
@@ -229,9 +223,7 @@ What do left and right mean?????? What does shift mean????????
       * I presume java initializes n to 0                                  *
       *********************************************************************/
     Operator oR, oL;    // left and right operator
-    Operator LastOp = null; // used to remember what we last reduced
     OSelement tm0, tm1, tm2;
-    int a1, a2;
 
     do { // until (n != CurrentTop.size()-1);
       n = CurrentTop.size()-1; 
@@ -443,7 +435,6 @@ What do left and right mean?????? What does shift mean????????
       return CurrentTop.elementAt(0).getNode();
     else {
       StringBuffer msg = new StringBuffer("Couldn't properly parse expression");
-      int l[];
       do {
 //((OSelement)CurrentTop.elementAt(n)).getNode().printTree(new java.io.PrintWriter(System.out));  n++;
         msg.append("-- incomplete expression at ");
@@ -483,7 +474,6 @@ What do left and right mean?????? What does shift mean????????
   public final void reduceRecord( SyntaxTreeNode middle, SyntaxTreeNode right ) throws ParseException {
     int index;
     OSelement oselt;
-    int a1, a2;
 
     index = CurrentTop.size()-1;
     if (index < 0)

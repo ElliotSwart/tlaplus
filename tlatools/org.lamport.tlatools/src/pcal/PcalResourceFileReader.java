@@ -79,8 +79,7 @@ public class PcalResourceFileReader
                  + "    You may be having file system problems");
           }
       }
-    private boolean done = false;
-      /*********************************************************************
+    /*********************************************************************
       * If the last line of input doesn't end with a '\n', then getLine()  *
       * returns that line and sets done to true.                           *
       *********************************************************************/

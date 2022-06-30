@@ -187,7 +187,8 @@ class PcalCharReader
            * case there are tabs.                                          *
            ****************************************************************/
            while (column < currentLine.length() - 1)
-             { char c = getNextChar() ; }
+             { @SuppressWarnings("unused")
+			char c = getNextChar() ; }
          }
         else
          { column = column - 1;

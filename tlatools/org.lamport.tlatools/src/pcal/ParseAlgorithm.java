@@ -718,7 +718,8 @@ public class ParseAlgorithm
        GobbleEndOrRightBrace("procedure") ;  
        PCalLocation endLoc = GetLastLocationEnd() ;
        if (PeekAtAlgToken(1).equals(";"))
-         { String tok = GetAlgToken() ; } ;
+         { @SuppressWarnings("unused")
+		String tok = GetAlgToken() ; } ;
 //       CheckLabeledStmtSeq(result.body) ;
        currentProcedure = null ;
        result.plusLabels = plusLabels;
@@ -754,7 +755,8 @@ public class ParseAlgorithm
        GobbleEndOrRightBrace("process") ;
        PCalLocation endLoc = GetLastLocationEnd() ;
        if (PeekAtAlgToken(1).equals(";"))
-         { String tok = GetAlgToken() ; } ;
+         { @SuppressWarnings("unused")
+		String tok = GetAlgToken() ; } ;
 //       CheckLabeledStmtSeq(result.body) ;
        result.plusLabels = plusLabels;
        result.minusLabels = minusLabels;
@@ -935,7 +937,6 @@ public class ParseAlgorithm
        result.line = lastTokLine ;
        result.stmts = new Vector<AST>() ;
        GobbleThis(":") ;
-       AST.While whileStmt = null ;
        if (PeekAtAlgToken(1).equals("while"))
          { result.stmts.addElement(GetWhile()) ; }
        Vector<AST> stmtSeq = GetStmtSeq() ;
@@ -1423,7 +1424,8 @@ public class ParseAlgorithm
        result.ass = new Vector<AST.SingleAssign>() ;
        result.ass.addElement(GetSingleAssign()) ;
        while (PeekAtAlgToken(1).equals("||"))
-         { String throwAway = GetAlgToken() ;
+         { @SuppressWarnings("unused")
+		String throwAway = GetAlgToken() ;
            try {
            result.ass.addElement(GetSingleAssign()) ;
            } catch (ParseAlgorithmException e) {
@@ -1741,7 +1743,8 @@ public class ParseAlgorithm
      GobbleEndOrRightBrace("macro") ;
      result.setOrigin(new Region(beginLoc, GetLastLocationEnd())) ;
      if (PeekAtAlgToken(1).equals(";"))
-       { String tok = GetAlgToken() ; } ;
+       { @SuppressWarnings("unused")
+	String tok = GetAlgToken() ; } ;
 
      ExpandMacrosInStmtSeq(result.body, macros) ;
      
@@ -1919,12 +1922,9 @@ public class ParseAlgorithm
                  ******************************************************/
                int j = 0 ;
                Vector<String> newOutAssigned = new Vector<String>() ;
-               Vector<?> newOutWithAssigned = new Vector<Object>() ;
-
                while (j < obj.clauses.size())
                  { AST.Clause clause = (AST.Clause) obj.clauses.elementAt(j) ;
                    Vector<String> orAssigned     = new Vector<String>() ;
-                   Vector<?> orWithAssigned = new Vector<Object>() ;
                    nextStepNeedsLabel =
                      InnerAddLabels(clause.unlabOr,  
                                     false,             // firstLabeled
@@ -2331,8 +2331,7 @@ public class ParseAlgorithm
      * this removes the labeled statements from the unlabThen and          *
      * unlabElse sequences and puts them in labThen and labElse.           *
      **********************************************************************/
-     { Vector<?> result = new Vector<Object>() ;
-       int i = 0 ;
+     { int i = 0 ;
        while (i < stmtseq.size())
         { AST stmt = (AST) stmtseq.elementAt(i) ;
           if (stmt.getClass().equals(AST.LabelIfObj.getClass()))
@@ -2439,7 +2438,8 @@ public class ParseAlgorithm
      { int i = 0 ;
        while (i < stmtseq.size())
          { AST.LabeledStmt stmt = (AST.LabeledStmt) stmtseq.elementAt(i) ;
-           int ignore = ClassifyStmtSeq(stmt.stmts) ;
+           @SuppressWarnings("unused")
+		int ignore = ClassifyStmtSeq(stmt.stmts) ;
            i = i + 1 ;
          } ;
      }
@@ -2511,7 +2511,8 @@ public class ParseAlgorithm
                        "ParseAlgorithm.ClassifyStmtSeq encountered `while'" +
                        " not at beginning of StmtSeq.") ;
                    } ;
-                 int ignore = ClassifyStmtSeq(((AST.While) node).unlabDo) ;
+                 @SuppressWarnings("unused")
+				int ignore = ClassifyStmtSeq(((AST.While) node).unlabDo) ;
                  CheckLabeledStmtSeq(((AST.While) node).labDo) ;
                }
              else if (node.getClass().equals(
@@ -3750,8 +3751,6 @@ public class ParseAlgorithm
        while(notDone && line < inp.size())
          { String oldLine = (String) inp.elementAt(line) ;
            boolean inString = false ;
-           boolean afterBackslash   = false ;
-           boolean afterAsterisk    = false ;
            while (notDone && col < oldLine.length())
              { char inChar = oldLine.charAt(col) ;
                char outChar = inChar ;
@@ -4353,14 +4352,8 @@ public class ParseAlgorithm
                                                        // be replaced by spaces.
                                       )
                         throws ParseAlgorithmException {
-       IntPair originalLoc = curLoc ; // value saved for error reporting;
        boolean found = false;
        String curLine = (String) inputVec.elementAt(curLoc.one);
-
-       StringBuffer newLine = new StringBuffer(curLine.substring(0, curLoc.two));
-//       if (replace) {
-//           newLine.append("  ");
-//       }
 
        curLoc.two = curLoc.two + 2; // skip over "(*"
        

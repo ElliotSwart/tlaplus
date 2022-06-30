@@ -744,10 +744,6 @@ public class PcalTranslate {
          */
         PCalLocation newastBeginLoc = ast.getOrigin().getBegin() ;
         PCalLocation whileBeginLoc = w.getOrigin().getBegin() ;
-        PCalLocation whileBeginUnlabDoLoc = 
-          (w.unlabDo.size() != 0) ? 
-           ((AST) w.unlabDo.elementAt(0)).getOrigin().getBegin() :
-            w.test.getOrigin().getEnd();
         PCalLocation whileEndUnlabDoLoc =
           (w.unlabDo.size() != 0) ? 
             ((AST) w.unlabDo.elementAt(w.unlabDo.size()-1)).getOrigin().getEnd() :

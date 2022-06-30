@@ -58,8 +58,7 @@ public class ResourceFileReader
           } ; 
         return null ;
       }
-    private boolean done = false;
-      /*********************************************************************
+    /*********************************************************************
       * If the last line of input doesn't end with a '\n', then getLine()  *
       * returns that line and sets done to true.                           *
       *********************************************************************/

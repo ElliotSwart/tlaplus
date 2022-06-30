@@ -543,7 +543,8 @@ public class PcalSymTab {
         if (! InsertProc(ast))
             errorReport = errorReport + "\nProcedure " + ast.name +
             		" redefined at line " + ast.line + ", column " + ast.col;
-        boolean b = InsertSym(PROCEDURE,
+        @SuppressWarnings("unused")
+		boolean b = InsertSym(PROCEDURE,
                       ast.name,
                       context,
                       "procedure",
@@ -560,7 +561,8 @@ public class PcalSymTab {
     }
         
     private void ExtractProcess(AST.Process ast, String context) {
-        boolean b;
+        @SuppressWarnings("unused")
+		boolean b;
         if (! InsertProcess(ast))
             errorReport = errorReport + "\nProcess " + ast.name +
             		" redefined at line " + ast.line + ", column " + ast.col;

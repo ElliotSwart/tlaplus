@@ -450,8 +450,6 @@ public class PcalFixIDs {
         */
         Vector<TLAExpr> exprVec = new Vector<TLAExpr>();   // the substituting exprs
         Vector<String> stringVec = new Vector<String>(); // the substituted  ids
-        Vector<TLAToken> tokenVec = new Vector<TLAToken>();  // the 
-
         for (int i = 0; i < expr.tokens.size(); i++) {
             Vector<TLAToken> tv = expr.tokens.elementAt(i);
             String useMe = null;

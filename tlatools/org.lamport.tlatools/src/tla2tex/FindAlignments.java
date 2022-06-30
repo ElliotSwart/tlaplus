@@ -384,7 +384,6 @@ public class FindAlignments
                    Debug.Assert(lPos.toToken(spec).aboveAlign.line != -1,
                      "prevInfixInner true, but token to left not aligned");
                    Position alPos = lPos.toToken(spec).aboveAlign ;
-                   Token alToken = alPos.toToken(spec);
                    if (alPos.item + 1 < spec[alPos.line].length)
                     { Position aPos   = 
                           new Position(alPos.line, alPos.item + 1) ;
@@ -511,8 +510,7 @@ public class FindAlignments
                                    * token.                                *
                                    ****************************************/
                                 Position alPos = lTok.aboveAlign ;
-                                Token alTok = alPos.toToken(spec);
-                                  /*****************************************
+                                /*****************************************
                                   * The token with which lTok is aligned   *
                                   * above.                                 *
                                   *****************************************/

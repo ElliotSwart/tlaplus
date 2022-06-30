@@ -1277,14 +1277,8 @@ public final class FormatComments
         line = line + 1;
       };
 
-    /***********************************************************************
-    * startNewPar is true if the next non-blank line starts a new          *
-    * paragraph.                                                           *
-    ***********************************************************************/
-    boolean startNewPar = false ;
     if (IsParType(commentType))
      {                           // BEGIN then OF if (IsParType(commentType))
-      startNewPar = true ; 
       line = 0 ;
       while (line < com.length)
        {                // BEGIN while (line < com.length)
