@@ -303,12 +303,7 @@ private final IValue[] values;
     @Override
 	public final Set<OpDeclNode> getUnassigned() {
 		// Return sorted set (lexicographical).
-		final Set<OpDeclNode> unassignedVars = new TreeSet<>(new Comparator<>() {
-            @Override
-            public int compare(final OpDeclNode o1, final OpDeclNode o2) {
-                return o1.getName().toString().compareTo(o2.getName().toString());
-            }
-        });
+		final Set<OpDeclNode> unassignedVars = new TreeSet<>((o1, o2) -> o1.getName().toString().compareTo(o2.getName().toString()));
 		final int len = this.values.length;
 		for (int i = 0; i < len; i++) {
 			if (values[i] == null) {

@@ -23,25 +23,17 @@ public class UsageGenerator {
 	private static final String OPTIONS = "OPTIONS";
 	private static final String TIPS = "TIPS";
 	
-	private static final Comparator<Argument> NAME_COMPARATOR = new Comparator<>() {
-        @Override
-        public int compare(final Argument a, final Argument b) {
-            return a.getArgumentName().compareTo(b.getArgumentName());
-        }
-    };
+	private static final Comparator<Argument> NAME_COMPARATOR = (a, b) -> a.getArgumentName().compareTo(b.getArgumentName());
 	
-	private static final Comparator<Argument> NAME_DASH_COMPARATOR = new Comparator<>() {
-        @Override
-        public int compare(final Argument a, final Argument b) {
-            final boolean aDash = a.isDashArgument();
-            final boolean bDash = b.isDashArgument();
+	private static final Comparator<Argument> NAME_DASH_COMPARATOR = (a, b) -> {
+        final boolean aDash = a.isDashArgument();
+        final boolean bDash = b.isDashArgument();
 
-            if (aDash != bDash) {
-                return aDash ? -1 : 1;
-            }
-
-            return a.getArgumentName().compareTo(b.getArgumentName());
+        if (aDash != bDash) {
+            return aDash ? -1 : 1;
         }
+
+        return a.getArgumentName().compareTo(b.getArgumentName());
     };
 	
 	

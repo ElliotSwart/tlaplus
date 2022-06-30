@@ -830,53 +830,50 @@ public class LiveWorker implements Callable<Boolean> {
 		 * initial node to the state identified by <<state, tidx>>.
 		 */
 		final ExecutorService executor = Executors.newFixedThreadPool(1);
-		final Future<List<TLCStateInfo>> future = executor.submit(new Callable<>() {
-            /* (non-Javadoc)
-             * @see java.util.concurrent.Callable#call()
-             */
-            @Override
-            public List<TLCStateInfo> call() throws Exception {
-                // Print the error trace. We first construct the prefix that
-                // led to the bad cycle. The nodes on prefix and cycleStack then
-                // form the complete counter example.
-                final LongVec prefix = LiveWorker.this.dg.getPath(state, tidx);
-                final int plen = prefix.size();
-                final List<TLCStateInfo> states = new ArrayList<>(plen);
+        /* (non-Javadoc)
+         * @see java.util.concurrent.Callable#call()
+         */
+        final Future<List<TLCStateInfo>> future = executor.submit(() -> {
+            // Print the error trace. We first construct the prefix that
+            // led to the bad cycle. The nodes on prefix and cycleStack then
+            // form the complete counter example.
+            final LongVec prefix = LiveWorker.this.dg.getPath(state, tidx);
+            final int plen = prefix.size();
+            final List<TLCStateInfo> states = new ArrayList<>(plen);
 
-                // Recover the initial state:
-                //TODO This throws an ArrayIndexOutOfBounds if getPath returned a
-                // LongVec with just a single element. This happens when the parameter
-                // state is one of the init states already.
-                long fp = prefix.elementAt(plen - 1);
-                TLCStateInfo sinfo = tool.getState(fp);
-                if (sinfo == null) {
-                    throw new EvalException(EC.TLC_FAILED_TO_RECOVER_INIT);
-                }
-                states.add(sinfo);
-
-                // Recover the successor states:
-                for (int i = plen - 2; i >= 0; i--) {
-                    final long curFP = prefix.elementAt(i);
-                    // The prefix might contain duplicates if the path happens to walk
-                    // along two (or more distinct states which differ in the tableau
-                    // idx only (same fingerprint). From the counterexample perspective,
-                    // this is irrelevant iff the identical fingerprints are contiguous.
-                    // It won't be correct to shorten a path <<fp1,fp2,fp1>> to
-                    // <<fp2,fp1>> though.
-                    if (curFP != fp) {
-                        sinfo = tool.getState(curFP, sinfo);
-                        states.add(sinfo);
-                        fp = curFP;
-                    }
-                }
-
-                // Print the prefix in reverse order of previous loop:
-                for (int i = 0; i < states.size() - 1; i++) {
-                    StatePrinter.printInvariantViolationStateTraceState(
-                            tool.getDebugger().evalAlias(states.get(i), states.get(i + 1).state));
-                }
-                return states;
+            // Recover the initial state:
+            //TODO This throws an ArrayIndexOutOfBounds if getPath returned a
+            // LongVec with just a single element. This happens when the parameter
+            // state is one of the init states already.
+            long fp = prefix.elementAt(plen - 1);
+            TLCStateInfo sinfo = tool.getState(fp);
+            if (sinfo == null) {
+                throw new EvalException(EC.TLC_FAILED_TO_RECOVER_INIT);
             }
+            states.add(sinfo);
+
+            // Recover the successor states:
+            for (int i = plen - 2; i >= 0; i--) {
+                final long curFP = prefix.elementAt(i);
+                // The prefix might contain duplicates if the path happens to walk
+                // along two (or more distinct states which differ in the tableau
+                // idx only (same fingerprint). From the counterexample perspective,
+                // this is irrelevant iff the identical fingerprints are contiguous.
+                // It won't be correct to shorten a path <<fp1,fp2,fp1>> to
+                // <<fp2,fp1>> though.
+                if (curFP != fp) {
+                    sinfo = tool.getState(curFP, sinfo);
+                    states.add(sinfo);
+                    fp = curFP;
+                }
+            }
+
+            // Print the prefix in reverse order of previous loop:
+            for (int i = 0; i < states.size() - 1; i++) {
+                StatePrinter.printInvariantViolationStateTraceState(
+                        tool.getDebugger().evalAlias(states.get(i), states.get(i + 1).state));
+            }
+            return states;
         });
 
 		/*

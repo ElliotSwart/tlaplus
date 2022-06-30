@@ -796,13 +796,10 @@ public class ModelChecker extends AbstractChecker
 				// See bug #22 "Recovering from a checkpoint silently breaks
 				// liveness checking" at
 				// https://github.com/tlaplus/tlaplus/issues/22
-            	this.tool.getInitStates(new IStateFunctor() {
-					@Override
-                    public Object addElement(final TLCState state) {
-						liveCheck.addInitState(tool, state, state.fingerPrint());
-						return true;
-					}
-				});
+            	this.tool.getInitStates(state -> {
+                    liveCheck.addInitState(tool, state, state.fingerPrint());
+                    return true;
+                });
                 liveCheck.recover();
             }
             MP.printMessage(EC.TLC_CHECKPOINT_RECOVER_END, String.valueOf(this.theFPSet.size()),

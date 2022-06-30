@@ -87,16 +87,13 @@ public class ExecutionStatisticsCollector {
 		// Do not block TLC startup but send this to the background immediately. If
 		// dontWaitForCompletion is true, the VM will terminate this thread regardless
 		// of its state if the VM decides to shutdown (e.g. because TLC is done).
-		final Thread thread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				if (isEnabled()) {
-					// Include identifier to track individual installations (not users!).
-					parameters.put("id", getIdentifier());
-					submit(parameters, dontWaitForCompletion);
-				}
-			}
-		}, "TLC Execution Statistics Collector");
+		final Thread thread = new Thread(() -> {
+            if (isEnabled()) {
+                // Include identifier to track individual installations (not users!).
+                parameters.put("id", getIdentifier());
+                submit(parameters, dontWaitForCompletion);
+            }
+        }, "TLC Execution Statistics Collector");
 		thread.setDaemon(dontWaitForCompletion);
 		thread.start();
 	}

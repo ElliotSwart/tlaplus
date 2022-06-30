@@ -512,42 +512,39 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		final long length = (long) Math.floor(array.size() / (double) numThreads);
 		for (int i = 0; i < numThreads; i++) {
 			final int id = i;
-			tasks.add(new Callable<>() {
-                @Override
-                public Long call() throws Exception {
-                    final boolean isLast = id == numThreads - 1;
-                    final long start = id * length;
-                    // Partitions overlap in case the two fingerprints with
-                    // minimum distance are in two adjacent partitions.
-                    final long end = (isLast ? array.size() - 1L : start + length) + 1L;
+			tasks.add(() -> {
+                final boolean isLast = id == numThreads - 1;
+                final long start = id * length;
+                // Partitions overlap in case the two fingerprints with
+                // minimum distance are in two adjacent partitions.
+                final long end = (isLast ? array.size() - 1L : start + length) + 1L;
 
-                    long distance = Long.MAX_VALUE;
+                long distance = Long.MAX_VALUE;
 
-                    // Reuse Iterator implementation which already handles the
-                    // various cases related to the cyclic table layout. Pass it
-                    // getTblCnt to make sure next does not keep going forever
-                    // if the array is empty. Instead, check the itr's position.
-                    final Iterator itr = new Iterator(array, getTblCnt(), start, indexer,
-                            isLast && id != 0 ? Iterator.WRAP.FORBIDDEN : Iterator.WRAP.ALLOWED);
-                    try {
-                        // If the partition is empty, next throws a NSEE.
-                        long x = itr.next();
-                        long y = 0;
-                        while ((y = itr.next(end)) != EMPTY) {
-                            final long d = y - x;
-                            // d < 0 indicates that the array is not sorted.
-                            // d == 0 indicates two identical elements in the
-                            // fingerprint set. Iff this is the last partition,
-                            // itr.next might have returned the first element of the
-                            // first partition.
-                            assert d > 0 ^ (d < 0 && itr.getPos() > end && isLast);
-                            distance = Math.min(distance, d);
-                            x = y;
-                        }
-                        return distance;
-                    } catch (final NoSuchElementException e) {
-                        return distance;
+                // Reuse Iterator implementation which already handles the
+                // various cases related to the cyclic table layout. Pass it
+                // getTblCnt to make sure next does not keep going forever
+                // if the array is empty. Instead, check the itr's position.
+                final Iterator itr = new Iterator(array, getTblCnt(), start, indexer,
+                        isLast && id != 0 ? Iterator.WRAP.FORBIDDEN : Iterator.WRAP.ALLOWED);
+                try {
+                    // If the partition is empty, next throws a NSEE.
+                    long x = itr.next();
+                    long y = 0;
+                    while ((y = itr.next(end)) != EMPTY) {
+                        final long d = y - x;
+                        // d < 0 indicates that the array is not sorted.
+                        // d == 0 indicates two identical elements in the
+                        // fingerprint set. Iff this is the last partition,
+                        // itr.next might have returned the first element of the
+                        // first partition.
+                        assert d > 0 ^ (d < 0 && itr.getPos() > end && isLast);
+                        distance = Math.min(distance, d);
+                        x = y;
                     }
+                    return distance;
+                } catch (final NoSuchElementException e) {
+                    return distance;
                 }
             });
 		}
@@ -556,17 +553,14 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		// minimum distance out of the set of results provided by the workers.
 		final ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
 		try {
-			final long distance = executorService.invokeAll(tasks).stream().min(new Comparator<>() {
-                @Override
-                public int compare(final Future<Long> o1, final Future<Long> o2) {
-                    try {
-                        return Long.compare(o1.get(), o2.get());
-                    } catch (final InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        throw new OffHeapRuntimeException(e);
-                    } catch (final ExecutionException e) {
-                        throw new OffHeapRuntimeException(e);
-                    }
+			final long distance = executorService.invokeAll(tasks).stream().min((o1, o2) -> {
+                try {
+                    return Long.compare(o1.get(), o2.get());
+                } catch (final InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    throw new OffHeapRuntimeException(e);
+                } catch (final ExecutionException e) {
+                    throw new OffHeapRuntimeException(e);
                 }
             }).get().get();
 			return distance;
@@ -853,59 +847,56 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 			final Collection<Callable<Result>> tasks = new ArrayList<>(numThreads);
 			for (int i = 0; i < numThreads; i++) {
 				final int id = i;
-				tasks.add(new Callable<>() {
-                    @Override
-                    public Result call() throws Exception {
-                        final boolean isFirst = id == 0;
-                        final boolean isLast = id == numThreads - 1;
-                        final long start = id * length;
-                        final long end = isLast ? a.size() - 1L : start + length;
+				tasks.add(() -> {
+                    final boolean isFirst = id == 0;
+                    final boolean isLast = id == numThreads - 1;
+                    final long start = id * length;
+                    final long end = isLast ? a.size() - 1L : start + length;
 
-                        // Sort partition p_n. We have exclusive access.
-                        LongArrays.sort(a, isFirst ? 0L : start + 1L, end, getLongComparator());
-                        assert checkSorted(a, indexer, r, isFirst ? 0L : start + 1L, end) == -1L : String.format(
-                                "Array %s not fully sorted at index %s and reprobe %s in range [%s,%s].", a.toString(),
-                                checkSorted(array, indexer, r, start, end), r, start, end);
+                    // Sort partition p_n. We have exclusive access.
+                    LongArrays.sort(a, isFirst ? 0L : start + 1L, end, getLongComparator());
+                    assert checkSorted(a, indexer, r, isFirst ? 0L : start + 1L, end) == -1L : String.format(
+                            "Array %s not fully sorted at index %s and reprobe %s in range [%s,%s].", a.toString(),
+                            checkSorted(array, indexer, r, start, end), r, start, end);
 
-                        // Wait for the other threads sorting p_n+1 to be done
-                        // before we stitch together p_n and p_n+1.
-                        phase.await();
+                    // Wait for the other threads sorting p_n+1 to be done
+                    // before we stitch together p_n and p_n+1.
+                    phase.await();
 
-                        // Sort the range between partition p_n and
-                        // p_n+1 bounded by reprobe.
-                        LongArrays.sort(a, end - r + 1L, end + r + 1L, getLongComparator());
+                    // Sort the range between partition p_n and
+                    // p_n+1 bounded by reprobe.
+                    LongArrays.sort(a, end - r + 1L, end + r + 1L, getLongComparator());
 
-                        // Wait for table to be fully sorted before we calculate
-                        // the offsets. Offsets can only be correctly calculated
-                        // on a sorted table.
-                        phase.await();
+                    // Wait for table to be fully sorted before we calculate
+                    // the offsets. Offsets can only be correctly calculated
+                    // on a sorted table.
+                    phase.await();
 
-                        // Count the occupied positions for this
-                        // partition. Occupied positions are those which
-                        // get evicted (written to disk).
-                        // This could be done as part of (insertion) sort
-                        // above at the price of higher complexity. Thus,
-                        // it's done here until it becomes a bottleneck.
-                        final long limit = isLast ? a.size() + r : end;
-                        final long occupied = getTableOffset(a, r, indexer, start, limit);
-                        assert occupied <= limit - start;
+                    // Count the occupied positions for this
+                    // partition. Occupied positions are those which
+                    // get evicted (written to disk).
+                    // This could be done as part of (insertion) sort
+                    // above at the price of higher complexity. Thus,
+                    // it's done here until it becomes a bottleneck.
+                    final long limit = isLast ? a.size() + r : end;
+                    final long occupied = getTableOffset(a, r, indexer, start, limit);
+                    assert occupied <= limit - start;
 
-                        if (index == null) {
-                            // No index, no need to calculate a disk offset.
-                            return new Result(occupied, 0L);
-                        }
+                    if (index == null) {
+                        // No index, no need to calculate a disk offset.
+                        return new Result(occupied, 0L);
+                    }
 
-                        // Determine number of elements in the old/current file.
-                        if (isFirst && isLast) {
-                            return new Result(occupied, fileCnt);
-                        } else if (isFirst) {
-                            return new Result(occupied, getDiskOffset(id, getNextLower(end)));
-                        } else if (isLast) {
-                            return new Result(occupied, fileCnt - getDiskOffset(id, getNextLower(start)));
-                        } else {
-                            return new Result(occupied,
-                                    getDiskOffset(id, getNextLower(end)) - getDiskOffset(id, getNextLower(start)));
-                        }
+                    // Determine number of elements in the old/current file.
+                    if (isFirst && isLast) {
+                        return new Result(occupied, fileCnt);
+                    } else if (isFirst) {
+                        return new Result(occupied, getDiskOffset(id, getNextLower(end)));
+                    } else if (isLast) {
+                        return new Result(occupied, fileCnt - getDiskOffset(id, getNextLower(start)));
+                    } else {
+                        return new Result(occupied,
+                                getDiskOffset(id, getNextLower(end)) - getDiskOffset(id, getNextLower(start)));
                     }
                 });
 			}
@@ -980,14 +971,11 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 				// nothing can be read from disk.
 				final long diskReads = id == numThreads - 1 ? fileCnt - result.getInOffset() : result.getDisk();
 				
-				tasks.add(new Callable<>() {
-                    @Override
-                    public Void call() throws Exception {
-                        ConcurrentOffHeapMSBFlusher.super.mergeNewEntries(inRAF, tmpRAFs[id], itr, diskReads);
-                        assert tmpRAFs[id].getFilePointer() == (result.getOutOffset() + result.getTotal()) * FPSet.LongSize : id
-                                + " writer did not write expected amount of fingerprints to disk.";
-                        return null;
-                    }
+				tasks.add(() -> {
+                    ConcurrentOffHeapMSBFlusher.super.mergeNewEntries(inRAF, tmpRAFs[id], itr, diskReads);
+                    assert tmpRAFs[id].getFilePointer() == (result.getOutOffset() + result.getTotal()) * FPSet.LongSize : id
+                            + " writer did not write expected amount of fingerprints to disk.";
+                    return null;
                 });
 			}
 			// Combine the callable results.
