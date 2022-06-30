@@ -84,7 +84,7 @@ public abstract class SetOfFcnsOrRcdsValue extends EnumerableValue {
 		protected abstract Value elementAt(int nextIndex);
 	}
 
-	abstract class BigIntegerSubsetEnumerator implements ValueEnumeration {
+	abstract static class BigIntegerSubsetEnumerator implements ValueEnumeration {
 
 		protected final BigInteger x;
 		protected final BigInteger a;

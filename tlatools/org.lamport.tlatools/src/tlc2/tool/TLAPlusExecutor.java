@@ -39,7 +39,7 @@ import util.SimpleFilenameToStream;
 
 public class TLAPlusExecutor {
 
-	public class Mapping {
+	public static class Mapping {
 		private final Action action;
 		private final Map<SymbolNode, IValue> params;
 		private final Map<String, SymbolNode> symbol2node;

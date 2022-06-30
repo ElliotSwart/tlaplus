@@ -4,22 +4,22 @@ package util;
  * A class of bits of keywords, operators, and bears.
  */
 public final class TLAConstants {
-	public final class ANSI {
+	public static final class ANSI {
 		public static final String BOLD_CODE = "\033[1m";
 		public static final String ITALIC_CODE = "\033[3m";
 		public static final String RESET_CODE = "\033[0m";
 	}
 	
-	public final class BuiltInModules {
+	public static final class BuiltInModules {
 		public static final String TLC = "TLC";
 		public static final String TRACE_EXPRESSIONS = "Toolbox";
 	}
 	
-	public final class BuiltInOperators {
+	public static final class BuiltInOperators {
 		public static final String PERMUTATIONS = "Permutations";
 	}
 	
-	public final class Files {
+	public static final class Files {
 	    public static final String CONFIG_EXTENSION = ".cfg";
 	    public static final String ERROR_EXTENSION = ".err";
 	    public static final String OUTPUT_EXTENSION = ".out";
@@ -32,7 +32,7 @@ public final class TLAConstants {
 		public static final String MODEL_CHECK_TLA_FILE = MODEL_CHECK_FILE_BASENAME + TLA_EXTENSION;
 	}
 	
-	public final class KeyWords {
+	public static final class KeyWords {
 		public static final String ACTION_CONSTRAINT = "ACTION_CONSTRAINT";
 		public static final String ASSUME = "ASSUME";
 	    public static final String CONSTANT = "CONSTANT";
@@ -52,11 +52,11 @@ public final class TLAConstants {
 	    public static final String VIEW = "VIEW";
 	}
 	
-	public final class LoggingAtoms {
+	public static final class LoggingAtoms {
 		public static final String PARSING_FILE = "Parsing file";
 	}
     
-	public final class Schemes {
+	public static final class Schemes {
 		public static final String SPEC_SCHEME = "spec";
 		public static final String INIT_SCHEME = "init";
 		public static final String NEXT_SCHEME = "next";
@@ -75,7 +75,7 @@ public final class TLAConstants {
 		public static final String TRACE_EXPR_DEF_SCHEME = "trace_def";
 	}
 	
-	public final class TraceExplore {
+	public static final class TraceExplore {
 	    public static final String TRACE_EXPRESSION_MODULE_NAME = "TTrace";
 	    public static final String ERROR_STATES_MODULE_NAME = "TraceDef";
 	    public static final String EXPLORATION_MODULE_NAME = "TEExpression";

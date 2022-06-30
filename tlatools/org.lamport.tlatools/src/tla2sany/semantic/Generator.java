@@ -117,7 +117,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	@SuppressWarnings("unused")
 	private final static UniqueString S_subexpression = UniqueString.uniqueStringOf("$Subexpression");
 
-	class Function {
+	static class Function {
 		/***********************************************************************
 		 * The only object of this class ever created is `functions', declared * right
 		 * after the class definition. So, I don't know why this * class's methods

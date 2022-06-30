@@ -549,7 +549,7 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 	 * the {@link ReverseTraversableTableauNodePtrTable} backwards once a error
 	 * trace path has been created.
 	 */
-	private class ReverseTraversableTableauNodePtrTable extends TableauNodePtrTable {
+	private static class ReverseTraversableTableauNodePtrTable extends TableauNodePtrTable {
 
 		public ReverseTraversableTableauNodePtrTable(final int size) {
 			super(size);

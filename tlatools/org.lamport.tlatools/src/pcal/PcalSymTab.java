@@ -100,7 +100,7 @@ public class PcalSymTab {
         "Process variable", "Procedure variable", "Parameter"};
 
     /* NESTED CLASS: Symbol table entries */
-    public class SymTabEntry {
+    public static class SymTabEntry {
         public int type;       // variable type
                                // can be GLOBAL, LABEL, PROCEDURE, PROCESS, PROCESSVAR,
                                // PROCEDUREVAR, or PARAMETER, declared above.
@@ -141,7 +141,7 @@ public class PcalSymTab {
     } /* End of SymTabEntry */
 
     /* NESTED CLASS: Procedure table entries */
-    public class ProcedureEntry {
+    public static class ProcedureEntry {
         public String name;    // Procedure name
         public Vector<AST.PVarDecl> params;  // of PVarDecl
         public Vector<AST.PVarDecl> decls;   // of PVarDecl
@@ -163,7 +163,7 @@ public class PcalSymTab {
     } /* End of ProcedureEntry */
 
     /* NESTED CLASS: Process table entries */
-    public class ProcessEntry {
+    public static class ProcessEntry {
         public String name;      // Process name
         public boolean isEq;     // true means "=", false means "\\in"
         public TLAExpr id;       // set of identifiers or identifier

@@ -19,7 +19,7 @@ import util.UniqueString;
 
 public class ExternalModuleTable implements ExploreNode {
 
-  public class ExternalModuleTableEntry implements ExploreNode {
+  public static class ExternalModuleTableEntry implements ExploreNode {
 
     ModuleNode   moduleNode;  // the ModuleNode
     Context      ctxt;        // and its full context, including all Builtin ops, ops from EXTENDS and INSTANCE,
@@ -144,7 +144,7 @@ public class ExternalModuleTable implements ExploreNode {
   public final void put(final UniqueString key, final Context ctxt, final ModuleNode moduleNode ) {
     final ExternalModuleTableEntry c = moduleHashTable.get( key );
     if (c == null) {
-      moduleHashTable.put( key, new ExternalModuleTableEntry(ctxt, moduleNode) );
+      moduleHashTable.put( key, new ExternalModuleTableEntry(ctxt, moduleNode));
       moduleNodeVector.addElement(moduleNode);
     }
   }

@@ -7,7 +7,7 @@ package tlc2.util;
 
 
 public class List {
-  public class ConsCell {
+  public static class ConsCell {
     protected Object value;
     protected ConsCell next;
 
