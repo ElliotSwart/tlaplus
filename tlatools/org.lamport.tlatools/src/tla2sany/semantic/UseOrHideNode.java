@@ -59,7 +59,7 @@ public class UseOrHideNode extends LevelNode {
    */
   private UniqueString stepName = null;
 
-    public void setStepName(UniqueString stepName)
+    public void setStepName(final UniqueString stepName)
     {
         this.stepName = stepName;
     }
@@ -74,8 +74,8 @@ public class UseOrHideNode extends LevelNode {
   /*************************************************************************
   * The constructor.                                                       *
   *************************************************************************/
-  public UseOrHideNode(int kind, TreeNode stn, LevelNode[] theFacts,
-                   SymbolNode[] theDefs, boolean only) {
+  public UseOrHideNode(final int kind, final TreeNode stn, final LevelNode[] theFacts,
+                       final SymbolNode[] theDefs, final boolean only) {
     super(kind, stn) ;
     this.facts = theFacts ;
     this.defs = theDefs ;
@@ -105,7 +105,7 @@ public class UseOrHideNode extends LevelNode {
   }
 
   @Override
-  public boolean levelCheck(int iter) {
+  public boolean levelCheck(final int iter) {
     /***********************************************************************
     * Level checking is performed by level-checking the facts.  Since the  *
     * defs should be defined operators, they have already been level       *
@@ -116,8 +116,8 @@ public class UseOrHideNode extends LevelNode {
    }
 
   @Override
-  public void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
@@ -140,7 +140,7 @@ public class UseOrHideNode extends LevelNode {
       if (this.facts == null || this.facts.length == 0) {
           return null;
       }
-      SemanticNode[] res = new SemanticNode[this.facts.length];
+      final SemanticNode[] res = new SemanticNode[this.facts.length];
       for (int i = 0; i < facts.length; i++) {
           res[i] = facts[i];
       }
@@ -148,7 +148,7 @@ public class UseOrHideNode extends LevelNode {
    }
 
   @Override
-  public String toString(int depth) {
+  public String toString(final int depth) {
     if (depth <= 0) return "";
     String ret = "\n*UseOrHideNode:\n"
                   + super.toString(depth)
@@ -165,12 +165,12 @@ public class UseOrHideNode extends LevelNode {
    }
 
   @Override
-  protected Element getLevelElement(Document doc, SymbolContext context) {
+  protected Element getLevelElement(final Document doc, final SymbolContext context) {
     //SemanticNode.SymbolContext context = new SemanticNode.SymbolContext(context2);
-    Element e = doc.createElement("UseOrHideNode");
+    final Element e = doc.createElement("UseOrHideNode");
 
-    Element factse = doc.createElement("facts");
-    Element definitions = doc.createElement("defs");
+    final Element factse = doc.createElement("facts");
+    final Element definitions = doc.createElement("defs");
 
     for (int i=0; i<facts.length; i++) factse.appendChild(facts[i].export(doc,context));
     for (int i=0; i<defs.length; i++) definitions.appendChild(defs[i].export(doc,context));

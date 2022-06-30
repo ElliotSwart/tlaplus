@@ -183,7 +183,7 @@ public class SymmetryTableauLiveCheckTest {
 		nexts.put(s);
 		lc.addNextState(null, v, v.fingerPrint(), nexts);
 		
-		GraphNode vgn = diskGraph.getNode(v.fingerPrint(), 0);
+		final GraphNode vgn = diskGraph.getNode(v.fingerPrint(), 0);
 		assertEquals(2, vgn.succSize()); // s is consistent with tidx0 and tidx1, but not with tidx2
 		final Set<Transition> tvgn = vgn.getTransition();
 		assertTrue(tvgn.contains(new Transition(s.fingerPrint(), 0, new BitVector(0))));
@@ -364,7 +364,7 @@ public class SymmetryTableauLiveCheckTest {
 			public StateVec answer() throws Throwable {
 			    final StateVec nss = new StateVec(0);
 			    // s > t for sSymmetric
-			    TLCState state = nextStates.getValue();
+			    final TLCState state = nextStates.getValue();
 			    if (state == sSymmetric) {
 			    	nss.addElement(t);
 			    }

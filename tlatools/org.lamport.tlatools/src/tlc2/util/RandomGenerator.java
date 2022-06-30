@@ -166,22 +166,22 @@ private long aril;
 
   public RandomGenerator() { this.aril = 0; }
   
-  public RandomGenerator(long seed) {
+  public RandomGenerator(final long seed) {
     super(seed);
     this.aril = 0;
   }
 
-  public synchronized void setSeed(long seed) {
+  public synchronized void setSeed(final long seed) {
     super.setSeed(seed);
     this.aril = 0;
   }
 
-  protected synchronized int next(int bits) {
+  protected synchronized int next(final int bits) {
     // this.aril++;
     return super.next(bits);    
   }
 
-  public void nextBytes(byte bytes[]) {
+  public void nextBytes(final byte[] bytes) {
     // this.aril++;
     super.nextBytes(bytes);
   }
@@ -214,7 +214,7 @@ private long aril;
 
   public long getAril() { return this.aril; }
 
-  public void setSeed(long seed, long cnt) {
+  public void setSeed(final long seed, long cnt) {
     this.setSeed(seed);
     while (cnt-- > 0) {
       this.nextDouble();
@@ -229,7 +229,7 @@ private long aril;
     return primes[index];
   }
 
-	public static int nextPrime(Random r) {
+	public static int nextPrime(final Random r) {
 		int index = primes.length;
 		while (index == primes.length) {
 			index = (int) Math.floor(r.nextDouble() * index);

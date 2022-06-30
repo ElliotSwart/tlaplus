@@ -49,16 +49,16 @@ import util.ToolIO;
 
 public final class LaTeXOutput
 {   
-public static void WriteAlignmentFile(Token[][] spec)
-  { OutputFileWriter writer = 
+public static void WriteAlignmentFile(final Token[][] spec)
+  { final OutputFileWriter writer =
          StartLaTeXOutput(Parameters.LaTeXAlignmentFile);
     InnerWriteAlignmentFile(spec, writer, true);
     return;
   }
 
-public static void WriteTeXAlignmentFile(Token[][] spec, 
-                                         Vector<?> preamble,
-                                         float  linewidth)
+public static void WriteTeXAlignmentFile(final Token[][] spec,
+                                         final Vector<?> preamble,
+                                         final float  linewidth)
   /*************************************************************************
   * Called to write the alignment file for a tlatex environment, where     *
   * preamble is a vector of strings that form the preamble.  The           *
@@ -66,7 +66,8 @@ public static void WriteTeXAlignmentFile(Token[][] spec,
   * linewidth <= 0, in which case it uses whatever value the preamble      *
   * sets \textwidth to.                                                    *
   *************************************************************************/
- {OutputFileWriter writer = 
+ {
+     final OutputFileWriter writer =
     new OutputFileWriter(Parameters.LaTeXAlignmentFile + ".tex");
 
   /*************************************************************************
@@ -103,9 +104,9 @@ public static void WriteTeXAlignmentFile(Token[][] spec,
   InnerWriteAlignmentFile(spec, writer, false) ;
  }
 
-private static void InnerWriteAlignmentFile(Token[][] spec, 
-                                            OutputFileWriter writer,
-                                            boolean tlaMode)
+private static void InnerWriteAlignmentFile(final Token[][] spec,
+                                            final OutputFileWriter writer,
+                                            final boolean tlaMode)
   /*************************************************************************
   * Writes the body of the file (everything between the \begin{document}   *
   * and \end{document}), plus the \end{document}, for the                  *
@@ -164,7 +165,7 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
         * skip them.                                                       *
         *******************************************************************/
         { 
-          Token tok = spec[line][item] ;
+          final Token tok = spec[line][item] ;
             /***************************************************************
             * The current token.                                           *
             ***************************************************************/
@@ -183,7 +184,7 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
               };
           switch (tok.type)
            { case Token.BUILTIN :
-               int symType = BuiltInSymbols.GetBuiltInSymbol(
+               final int symType = BuiltInSymbols.GetBuiltInSymbol(
                                        spec[line][item].string, true).symbolType ;
                  /**********************************************************
                  * Check if we should start a sub/superscript.             *
@@ -255,7 +256,7 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
                break ;
 
              case Token.COMMENT :
-               CommentToken ctok = (CommentToken) tok ;
+               final CommentToken ctok = (CommentToken) tok ;
                switch (ctok.subtype)
                 { case CommentToken.ONE_LINE :
                     if (item != 0)
@@ -271,7 +272,7 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
                       { outLine = outLine + "%";
                         Misc.WriteIfNonNull(writer, outLine);
                         outLine = "" ;
-                        Vector<String> vec = new Vector<String>(2);
+                        final Vector<String> vec = new Vector<String>(2);
                         vec.addElement(tok.string) ;
                         FormatComments.WriteComment
                          (writer, vec, FormatComments.ONE_LINE, 0, tlaMode) ;
@@ -375,7 +376,7 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
 /* ----------------------------------------------------------------------- */
 
 
-  private static OutputFileWriter StartLaTeXOutput(String fileName)
+  private static OutputFileWriter StartLaTeXOutput(final String fileName)
   /*************************************************************************
   * Opens writer on the file fileName.tex and writes the beginning of the  *
   * file, through the \begin{document}.                                    *
@@ -384,7 +385,7 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
     /***********************************************************************
     * Open the OutputFileWriter.                                           *
     ***********************************************************************/
-    OutputFileWriter writer = 
+    final OutputFileWriter writer =
         new OutputFileWriter(prependMetaDirToFileName(fileName) + ".tex");
 
     /***********************************************************************
@@ -434,7 +435,7 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
     * package.                                                             *
     ***********************************************************************/
     if (Parameters.UserStyleFile.equals(""))
-      { ResourceFileReader latexStyleReader 
+      { final ResourceFileReader latexStyleReader
                      = new ResourceFileReader(Parameters.LaTeXStyleFile);
         CopyResourceFile(latexStyleReader, writer);
       }
@@ -455,8 +456,8 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
   }
 
 
-  private static void CopyResourceFile(ResourceFileReader input, 
-                                OutputFileWriter output)
+  private static void CopyResourceFile(final ResourceFileReader input,
+                                       final OutputFileWriter output)
   /*************************************************************************
   * Copies the complete input file to the output file, but does not close  *
   * the output file.                                                       *
@@ -474,12 +475,12 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
 /* ----------------------------------------------------------------------- */
 
 
-  public static void RunLaTeX(String fileName)
+  public static void RunLaTeX(final String fileName)
     /***********************************************************************
     * Runs LaTeX on the file fileName.tex.                                 *
     * Modified on 11 November 2001 to call ExecuteCommand.                 *
     ***********************************************************************/
-    { String latexCmd = Parameters.LaTeXCommand + " " + fileName + ".tex";
+    { final String latexCmd = Parameters.LaTeXCommand + " " + fileName + ".tex";
       ExecuteCommand.executeCommand(latexCmd);
     }    
 
@@ -487,7 +488,7 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
 /* ----------------------------------------------------------------------- */
 
 
-  public static void SetDimensions(Token[][] spec)
+  public static void SetDimensions(final Token[][] spec)
   { /***********************************************************************
     * Read the log file and set the distFromMargin fields.                 *
     *                                                                      *
@@ -499,7 +500,7 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
          new BufferedReader(new InputStreamReader(
            new FileInputStream(prependMetaDirToFileName(Parameters.LaTeXAlignmentFile + ".log")))) ;
      }
-    catch (FileNotFoundException e)
+    catch (final FileNotFoundException e)
      { /**************************************************************
        * File fileName could not be found.                           *
        **************************************************************/
@@ -519,19 +520,19 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
              && (inputLine.substring(0,3).equals("\\%{")))
           { int start = 3 ;
             int after = inputLine.indexOf("}",start) ;
-            int line  = Integer.parseInt(inputLine.substring(start, after));
+            final int line  = Integer.parseInt(inputLine.substring(start, after));
             start = after + 2;
             after = inputLine.indexOf("}",start) ;
-            int item = Integer.parseInt(inputLine.substring(start, after));
+            final int item = Integer.parseInt(inputLine.substring(start, after));
             start = after + 2;
             after = inputLine.indexOf("p",start) ;
-            float dist = Misc.stringToFloat(inputLine.substring(start, after));
+            final float dist = Misc.stringToFloat(inputLine.substring(start, after));
             spec[line][item].distFromMargin = dist;
           }; // END if (   (inputLine.length() > 2) ... )
          inputLine = bufferedReader.readLine();
        } // END while (inputLine != null)
     }
-   catch (IOException e)
+   catch (final IOException e)
     { Debug.ReportError(
          "Error reading file: "  + Parameters.LaTeXAlignmentFile + ".log\n"
        + "    written by LaTeX");
@@ -553,7 +554,7 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
    /************************************************************************
    * Next add all PosAndCol objects to the array and sort it.              *
    ************************************************************************/
-   PosAndCol[] posCols = new PosAndCol[arrayLen] ;
+   final PosAndCol[] posCols = new PosAndCol[arrayLen] ;
    int arrayItem = 0 ;
    line = 0 ;
    while (line < spec.length)
@@ -585,8 +586,8 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
     */
    int nextPos = 0 ;
    while (nextPos < posCols.length)
-    { PosAndCol pc = posCols[nextPos] ;
-      Token tok = pc.toToken(spec) ;
+    { final PosAndCol pc = posCols[nextPos] ;
+      final Token tok = pc.toToken(spec) ;
       Debug.Assert(tok.preSpace == 0,
            "preSpace already computed when it shouldn't have been");
       if (tok.belowAlign.line != -1)
@@ -598,12 +599,12 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
              * Set maxIndent to the maximum of the current indentation of  *
              * all tokens in the alignment.                                *
              **************************************************************/
-             float tokIndent = 
+             final float tokIndent =
                   TotalIndent(spec, new Position(pc.line, pc.item));
              float maxIndent = tokIndent ;
              Position alPos = tok.belowAlign ;
              while (alPos.line != -1)
-              { float f = TotalIndent(spec, alPos);
+              { final float f = TotalIndent(spec, alPos);
                 if (f > maxIndent) { maxIndent = f; } ;
                 alPos = alPos.toToken(spec).belowAlign ;
               } ;
@@ -642,7 +643,7 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
                     || (   (alPos.item == 1)
                         && (spec[alPos.line][0].type != Token.COMMENT)))
                   { ltok = spec[alPos.line][alPos.item - 1] ;
-                    int sp = alPos.toToken(spec).column 
+                    final int sp = alPos.toToken(spec).column
                                    - (ltok.column + ltok.getWidth());
                     if (sp <  extraSpace) { extraSpace = sp ;};
                   };
@@ -661,7 +662,7 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
            { /**************************************************************
              * tok not aligned.                                            *
              **************************************************************/
-             float savedPreSpace = tok.preSpace;
+             final float savedPreSpace = tok.preSpace;
              if (pc.item == 0)
                { /**********************************************************
                  * Left-most token on the line.                            *
@@ -682,8 +683,8 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
                      * Add extra space for each extra space between this   *
                      * token and the one to its left.                      *
                      ******************************************************/
-                     Token ltok = spec[pc.line][pc.item - 1] ;
-                     int extraSpace = 
+                     final Token ltok = spec[pc.line][pc.item - 1] ;
+                     final int extraSpace =
                           tok.column - (ltok.column + ltok.getWidth()) - 1;
                      if (extraSpace > 0)
                       { tok.preSpace = 
@@ -698,7 +699,7 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
        { /******************************************************************
          * tok aligned with a previous token.                              *
          ******************************************************************/
-         float savedPreSpace = tok.preSpace;
+         final float savedPreSpace = tok.preSpace;
                tok.preSpace = 0;  // needed to keep TotalIndent from getting confused
          tok.preSpace =  
                 TotalIndent(spec, tok.aboveAlign)
@@ -722,7 +723,7 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
   }; // END public static void SetDimensions
 
 
-  private static float TotalIndent(Token[][] spec, Position pos)
+  private static float TotalIndent(final Token[][] spec, final Position pos)
     /***********************************************************************
     * The total indentation of the token tok at pos, according to the      *
     * current values of the preSpace and distFromMargin fields.  That      *
@@ -738,16 +739,16 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
       return val + pos.toToken(spec).distFromMargin;
     }
 
-  private static String FixString(String inputStr)
+  private static String FixString(final String inputStr)
     /***********************************************************************
     * Result is Misc.TeXify(str) with spaces replaced by "\ " and "-"      *
     * replaced by {-}.                                                     *
     ***********************************************************************/
     { String result = "" ;
-      String str = Misc.TeXify(inputStr);
+      final String str = Misc.TeXify(inputStr);
       int pos = 0 ;
       while (pos < str.length())
-       { char ch = str.charAt(pos) ;
+       { final char ch = str.charAt(pos) ;
          if (ch == ' ')
            { result = result + "\\ " ; }
          else 
@@ -761,11 +762,11 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
       return result ;
     }    
 
-  static String PfStepString(String str) 
+  static String PfStepString(final String str)
     /***********************************************************************
     * Converts the string "<42>ab." to "\@pfstepnum{42}{ab.}"              *
     ***********************************************************************/
-    { int leftAnglePos = str.indexOf('>') ;
+    { final int leftAnglePos = str.indexOf('>') ;
       return Parameters.LaTeXPfStepNumCommand + "{" +
              str.substring(1, leftAnglePos) + "}{" +
              str.substring(leftAnglePos+1) + "}" ;
@@ -775,9 +776,9 @@ private static void InnerWriteAlignmentFile(Token[][] spec,
 /* ----------------------------------------------------------------------- */
 
 
-public static void WriteLaTeXFile(Token[][] spec)
+public static void WriteLaTeXFile(final Token[][] spec)
  { // BEGIN  WriteLaTeXFile(Token[][] spec)
-  OutputFileWriter writer = 
+  final OutputFileWriter writer =
          StartLaTeXOutput(Parameters.LaTeXOutputFile);
   InnerWriteLaTeXFile(spec, writer, true);
   writer.putLine("\\end{document}");
@@ -785,16 +786,16 @@ public static void WriteLaTeXFile(Token[][] spec)
   return ;
  }
 
-public static void WriteTLATeXEnvironment(Token[][] spec, 
-                                          OutputFileWriter writer)
+public static void WriteTLATeXEnvironment(final Token[][] spec,
+                                          final OutputFileWriter writer)
  { writer.putLine("\\begin{tlatex}");
    InnerWriteLaTeXFile(spec, writer, false);
    writer.putLine("\\end{tlatex}");
  }
 
-private static void InnerWriteLaTeXFile(Token[][] spec, 
-                                        OutputFileWriter writer,
-                                        boolean tlaMode)
+private static void InnerWriteLaTeXFile(final Token[][] spec,
+                                        final OutputFileWriter writer,
+                                        final boolean tlaMode)
   /*************************************************************************
   * Writes the body of the file (everything between the \begin{document}   *
   * and \end{document} for the WriteLaTeXFile method.  Also used to write  *
@@ -803,7 +804,7 @@ private static void InnerWriteLaTeXFile(Token[][] spec,
   * and with it false by WriteTLATeXEnvironment.                           *
   *************************************************************************/
  { // BEGIN  InnerWriteLaTeXFile(Token[][] spec)
-  Vector<String> commentVec = new Vector<String>(150);
+  final Vector<String> commentVec = new Vector<String>(150);
     /***********************************************************************
     * Used to hold the vector argument to FormatComments.WriteComment.     *
     ***********************************************************************/
@@ -896,8 +897,8 @@ private static void InnerWriteLaTeXFile(Token[][] spec,
     * True while putting out sub/superscript tokens.                       *
     ***********************************************************************/
  
-  int pcalStartLine ;
-  int pcalEndLine ;
+  final int pcalStartLine ;
+  final int pcalEndLine ;
   if (TokenizeSpec.hasPcal) {
     pcalStartLine = TokenizeSpec.pcalStart.line;
     pcalEndLine   = TokenizeSpec.pcalEnd.line;
@@ -918,7 +919,7 @@ private static void InnerWriteLaTeXFile(Token[][] spec,
    { // BEGIN while (line < spec.length)
 
     if (tlaMode && TokenizeSpec.hasPcal) {
-      boolean pcalLineNext = ( pcalStartLine <= line && line <= pcalEndLine) ;
+      final boolean pcalLineNext = ( pcalStartLine <= line && line <= pcalEndLine) ;
       if (pcalLineNext && !pcalLine) {
           writer.putLine("\\pcalsymbolstrue") ;
           if (Parameters.CommentShading && ! Parameters.NoPlusCalShading) {
@@ -1049,7 +1050,7 @@ private static void InnerWriteLaTeXFile(Token[][] spec,
           * LaTeXEndMultiLineVSpace command whose argument is the number   *
           * of lines above line in the same comment.                       *
           *****************************************************************/
-          int count = line - spec[line][0].aboveAlign.line ;
+          final int count = line - spec[line][0].aboveAlign.line ;
           writer.putLine(Parameters.LaTeXEndMultiLineVSpace + "{" 
                       + count + "}%");
           line = i ;
@@ -1095,8 +1096,8 @@ private static void InnerWriteLaTeXFile(Token[][] spec,
           /*****************************************************************
           * Process the current item.                                      *
           *****************************************************************/
-          Token tok = spec[line][item] ;
-          Position pos = new Position(line, item);
+          final Token tok = spec[line][item] ;
+          final Position pos = new Position(line, item);
             /***************************************************************
             * The current token and its position.                          *
             ***************************************************************/
@@ -1120,7 +1121,7 @@ private static void InnerWriteLaTeXFile(Token[][] spec,
           switch (tok.type)
            { // BEGIN switch (tok.type)
              case Token.BUILTIN :
-               int symType = BuiltInSymbols.GetBuiltInSymbol(
+               final int symType = BuiltInSymbols.GetBuiltInSymbol(
                                        spec[line][item].string, true).symbolType ;
                  if (   (! inSub)
                      && (   (symType == Symbol.SUBSCRIPTED)
@@ -1181,7 +1182,7 @@ private static void InnerWriteLaTeXFile(Token[][] spec,
                break ;
 
              case Token.COMMENT :
-               CommentToken ctok = (CommentToken) tok ;
+               final CommentToken ctok = (CommentToken) tok ;
   
                switch (ctok.subtype)
                 { case CommentToken.ONE_LINE :
@@ -1201,7 +1202,7 @@ private static void InnerWriteLaTeXFile(Token[][] spec,
                     Misc.BreakStringOut(writer, outLine + "}%" ) ;
   
   
-                    Vector<String> vec = new Vector<String>(2);
+                    final Vector<String> vec = new Vector<String>(2);
                     vec.addElement(tok.string) ;
                     if (   (item == 0)
                         && (spec[line].length > 1))
@@ -1237,7 +1238,7 @@ private static void InnerWriteLaTeXFile(Token[][] spec,
                     * right margin.  Set commentWidth to its width, in       *
                     * points.                                                *
                     *********************************************************/
-                    float commentWidth = Parameters.LaTeXtextwidth  
+                    final float commentWidth = Parameters.LaTeXtextwidth
                                            - TotalIndent(spec, pos); 
   
                     /*******************************************************
@@ -1247,7 +1248,7 @@ private static void InnerWriteLaTeXFile(Token[][] spec,
                     * line.  (A multi-line need not be ended by a NULL     *
                     * line.)                                               *
                     *******************************************************/
-                    Vector<String> mlineVector = new Vector<String>();
+                    final Vector<String> mlineVector = new Vector<String>();
                     Position nextPos = ctok.belowAlign;
                     boolean more = true;
                     Token ntok = null;
@@ -1353,7 +1354,7 @@ private static void InnerWriteLaTeXFile(Token[][] spec,
                     Debug.Assert(outLine.equals(""),
                       "Non-empty outLine at beginning of PAR comment");
   
-                    Vector<String> lineVector = new Vector<String>();
+                    final Vector<String> lineVector = new Vector<String>();
 
                     /*******************************************************
                     * Add tok.column + 2 spaces to beginning of first      *
@@ -1471,7 +1472,7 @@ private static void InnerWriteLaTeXFile(Token[][] spec,
                    /********************************************************
                    * Print the epilog like a PAR comment.                  *
                    ********************************************************/
-                   Vector<String> lineVector = new Vector<String>() ;
+                   final Vector<String> lineVector = new Vector<String>() ;
                    while (line < spec.length)
                     { if (spec[line].length == 0)
                        { lineVector.addElement(""); }
@@ -1530,7 +1531,7 @@ private static void InnerWriteLaTeXFile(Token[][] spec,
    };                // END while (line < spec.length)
 } ;
 
-protected static String prependMetaDirToFileName(String fileName) {
+protected static String prependMetaDirToFileName(final String fileName) {
     String outputFileName = fileName;
     if (! Parameters.MetaDir.equals("")) {
         outputFileName = Parameters.MetaDir + File.separator + outputFileName;

@@ -62,7 +62,7 @@ public class RMIFilenameToStreamResolver implements FilenameToStream {
 			byte[] bs = new byte[0];
 			try {
 				bs = server.getFile(name);
-			} catch (RemoteException e) {
+			} catch (final RemoteException e) {
 				e.printStackTrace();
 			}
 
@@ -84,7 +84,7 @@ public class RMIFilenameToStreamResolver implements FilenameToStream {
 	 *
 	 * Added by LL on 24 July 2013.
 	 */
-	public boolean isStandardModule(String moduleName) {
+	public boolean isStandardModule(final String moduleName) {
 		// The following error message code should be uncommented
 		// if the parser should not be called with an object of
 		// this class.
@@ -101,7 +101,7 @@ public class RMIFilenameToStreamResolver implements FilenameToStream {
 		return file.getAbsolutePath();
 	}
 
-	private File writeToNewTempFile(String name, byte[] bs) {
+	private File writeToNewTempFile(final String name, final byte[] bs) {
 		final File f = new TLAFile(rndPrefix + File.separator + name, this);
 		f.deleteOnExit();
 
@@ -109,15 +109,15 @@ public class RMIFilenameToStreamResolver implements FilenameToStream {
 		try {
 			outputStream = new FileOutputStream(f);
 			outputStream.write(bs);
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		} finally {
 			if(outputStream != null) {
 				try {
 					outputStream.close();
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -126,11 +126,11 @@ public class RMIFilenameToStreamResolver implements FilenameToStream {
 	}
 
 	public String getFullPath() {
-		StringBuffer buf = new StringBuffer();
+		final StringBuffer buf = new StringBuffer();
 
-		String[] strings = fileCache.keySet().toArray(new String[fileCache.size()]);
+		final String[] strings = fileCache.keySet().toArray(new String[fileCache.size()]);
 		for (int i = 0; i < strings.length; i++) {
-			String string = strings[i];
+			final String string = strings[i];
 			buf.append(string);
 			if (i < string.length() - 1) {
 				buf.append(", ");

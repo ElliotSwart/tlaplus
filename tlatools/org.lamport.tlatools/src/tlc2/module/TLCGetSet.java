@@ -146,9 +146,9 @@ public class TLCGetSet implements ValueConstants {
 
 		final Value vidx = tool.eval(args[0], c, s0, s1, control, cm);
 		if (vidx instanceof IntValue) {
-			int idx = ((IntValue) vidx).val;
+			final int idx = ((IntValue) vidx).val;
 			if (idx >= 0) {
-				Thread th = Thread.currentThread();
+				final Thread th = Thread.currentThread();
 				Value res = null;
 				if (th instanceof IdThread) {
 					res = (Value) ((IdThread) th).getLocalValue(idx);
@@ -192,9 +192,9 @@ public class TLCGetSet implements ValueConstants {
 				} else {
 					throw new EvalException(EC.TLC_MODULE_TLCGET_UNDEFINED, String.valueOf(sv.val));
 				}
-			} catch (ArithmeticException e) {
+			} catch (final ArithmeticException e) {
 				throw new EvalException(EC.TLC_MODULE_OVERFLOW, Long.toString(TLCGlobals.mainChecker.getProgress()));
-			} catch (NullPointerException npe) {
+			} catch (final NullPointerException npe) {
 				// TLCGlobals.mainChecker is null while the spec is parsed. A constant
 				// expression referencing one of the named values here would thus result in an
 				// NPE.
@@ -203,35 +203,35 @@ public class TLCGetSet implements ValueConstants {
 		} else if (GENERATED == sv.val) {
 			try {
 				return IntValue.gen(Math.toIntExact(TLCGlobals.mainChecker.getStatesGenerated()));
-			} catch (ArithmeticException e) {
+			} catch (final ArithmeticException e) {
 				throw new EvalException(EC.TLC_MODULE_OVERFLOW,
 						Long.toString(TLCGlobals.mainChecker.getStatesGenerated()));
-			} catch (NullPointerException npe) {
+			} catch (final NullPointerException npe) {
 				throw new EvalException(EC.TLC_MODULE_TLCGET_UNDEFINED, String.valueOf(sv.val));
 			}
 		} else if (DISTINCT == sv.val) {
 			try {
 				return IntValue.gen(Math.toIntExact(TLCGlobals.mainChecker.getDistinctStatesGenerated()));
-			} catch (ArithmeticException e) {
+			} catch (final ArithmeticException e) {
 				throw new EvalException(EC.TLC_MODULE_OVERFLOW,
 						Long.toString(TLCGlobals.mainChecker.getDistinctStatesGenerated()));
-			} catch (NullPointerException npe) {
+			} catch (final NullPointerException npe) {
 				throw new EvalException(EC.TLC_MODULE_TLCGET_UNDEFINED, String.valueOf(sv.val));
 			}
 		} else if (QUEUE == sv.val) {
 			try {
 				return IntValue.gen(Math.toIntExact(TLCGlobals.mainChecker.getStateQueueSize()));
-			} catch (ArithmeticException e) {
+			} catch (final ArithmeticException e) {
 				throw new EvalException(EC.TLC_MODULE_OVERFLOW,
 						Long.toString(TLCGlobals.mainChecker.getStateQueueSize()));
-			} catch (NullPointerException npe) {
+			} catch (final NullPointerException npe) {
 				throw new EvalException(EC.TLC_MODULE_TLCGET_UNDEFINED, String.valueOf(sv.val));
 			}
 		} else if (DURATION == sv.val) {
 			try {
 				final int duration = (int) ((System.currentTimeMillis() - startTime) / 1000L);
 				return IntValue.gen(Math.toIntExact(duration));
-			} catch (ArithmeticException e) {
+			} catch (final ArithmeticException e) {
 				throw new EvalException(EC.TLC_MODULE_OVERFLOW,
 						Long.toString(((System.currentTimeMillis() - startTime) / 1000L)));
 			}
@@ -242,7 +242,7 @@ public class TLCGetSet implements ValueConstants {
 				} else if (TLCGlobals.simulator != null) {
 					return TLCGlobals.simulator.getStatistics();
 				}
-			} catch (NullPointerException npe) {
+			} catch (final NullPointerException npe) {
 				throw new EvalException(EC.TLC_MODULE_TLCGET_UNDEFINED, String.valueOf(sv.val));
 			}
 		} else if (CONFIG == sv.val) {
@@ -268,7 +268,7 @@ public class TLCGetSet implements ValueConstants {
 				} else if (TLCGlobals.simulator != null) {
 					return TLCGlobals.simulator.getConfig();
 				}
-			} catch (NullPointerException npe) {
+			} catch (final NullPointerException npe) {
 				throw new EvalException(EC.TLC_MODULE_TLCGET_UNDEFINED, String.valueOf(sv.val));
 			}
 		} else if (REVISION == sv.val) {
@@ -415,11 +415,11 @@ public class TLCGetSet implements ValueConstants {
 	}
 
 	@TLAPlusOperator(identifier = "TLCSet", module = "TLC", warn = false)
-	public static Value TLCSet(Value vidx, Value val) {
+	public static Value TLCSet(final Value vidx, final Value val) {
 		if (vidx instanceof IntValue) {
-			int idx = ((IntValue) vidx).val;
+			final int idx = ((IntValue) vidx).val;
 			if (idx >= 0) {
-				Thread th = Thread.currentThread();
+				final Thread th = Thread.currentThread();
 				if (th instanceof IdThread) {
 					((IdThread) th).setLocalValue(idx, val);
 				} else if (TLCGlobals.mainChecker != null) {
@@ -454,7 +454,7 @@ public class TLCGetSet implements ValueConstants {
 						ToolIO.out.flush();
 						try {
 							System.in.read();
-						} catch (IOException e) {
+						} catch (final IOException e) {
 							throw new EvalException(EC.GENERAL, e.getMessage());
 						}
 					}

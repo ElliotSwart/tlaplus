@@ -43,8 +43,8 @@ public class FileUtil
      * Parses the directory path from a filename. If the filename
      * is already a basename, returns the empty string.
      */
-    public static String parseDirname(String filename) {
-        int lastSep = filename.lastIndexOf(separatorChar);
+    public static String parseDirname(final String filename) {
+        final int lastSep = filename.lastIndexOf(separatorChar);
         if (lastSep == -1) {
             // No parent directory.
             return "";
@@ -57,7 +57,7 @@ public class FileUtil
      * succeeds. The argument recurse forces the deletion of non-empty
      * directory.
      */
-    public static boolean deleteDir(File file, boolean recurse)
+    public static boolean deleteDir(final File file, final boolean recurse)
     {
         return doDeleteDir(file, recurse);
     }
@@ -65,7 +65,7 @@ public class FileUtil
     /**
      * Convenience method
      */
-    public static boolean deleteDir(String filename, boolean recurse)
+    public static boolean deleteDir(final String filename, final boolean recurse)
     {
         return doDeleteDir(new File(filename), recurse);
     }
@@ -77,7 +77,7 @@ public class FileUtil
      * @param resolver
      * @return
      */
-    private static boolean doDeleteDir(File file, boolean recurse)
+    private static boolean doDeleteDir(final File file, final boolean recurse)
     {
         if (file !=null && file.exists())
         {
@@ -86,7 +86,7 @@ public class FileUtil
                 return file.delete();
             }
             // must be a directory:
-            String[] fnames = file.list();
+            final String[] fnames = file.list();
             File child = null;
             for (int i = 0; i < fnames.length; i++)
             {
@@ -112,7 +112,7 @@ public class FileUtil
      * @throws IOException
      * SZ Feb 20, 2009: FileNotFoundException removed
      */
-    public static InputStream newBZFileInputStream(String file, boolean useGzip, boolean useIBuffers, int buffersize)
+    public static InputStream newBZFileInputStream(final String file, final boolean useGzip, final boolean useIBuffers, final int buffersize)
             throws IOException
     {
         if (useGzip)
@@ -127,7 +127,7 @@ public class FileUtil
         }
     }
 
-    public static InputStream newZFileInputStream(String file) throws FileNotFoundException, IOException
+    public static InputStream newZFileInputStream(final String file) throws FileNotFoundException, IOException
     {
         return new GZIPInputStream(new FileInputStream(file));
     }
@@ -141,7 +141,7 @@ public class FileUtil
      * @return
      * @throws IOException
      */
-    public static OutputStream newBZFileOutputStream(String file, boolean useGzip, boolean useOBuffers, int buffersize)
+    public static OutputStream newBZFileOutputStream(final String file, final boolean useGzip, final boolean useOBuffers, final int buffersize)
             throws IOException
     {
         return newBZFileOutputStream(file, useGzip, useOBuffers, buffersize, false);
@@ -158,8 +158,8 @@ public class FileUtil
      * @return
      * @throws IOException
      */
-    public static OutputStream newBZFileOutputStream(String file, boolean useGzip, boolean useOBuffers, int buffersize,
-            boolean app) throws IOException
+    public static OutputStream newBZFileOutputStream(final String file, final boolean useGzip, final boolean useOBuffers, final int buffersize,
+                                                     final boolean app) throws IOException
     {
         if (useGzip)
         {
@@ -178,17 +178,17 @@ public class FileUtil
      * @param in
      * @throws IOException
      */
-    public static void printArrayOfBigInts(InputStream in) throws IOException
+    public static void printArrayOfBigInts(final InputStream in) throws IOException
     {
-        BigInt[] A = ByteUtils.readSizeArrayOfSizeBigInts(in);
+        final BigInt[] A = ByteUtils.readSizeArrayOfSizeBigInts(in);
         for (int i = 0; i < A.length; i++)
         {
             ToolIO.out.println(A[i]);
         }
     }
 
-    public static void printSizeArrayOfSizeBigIntegers(InputStream in) throws IOException {
-        BigInteger[] A = ByteUtils.readSizeArrayOfSizeBigInts(in);
+    public static void printSizeArrayOfSizeBigIntegers(final InputStream in) throws IOException {
+        final BigInteger[] A = ByteUtils.readSizeArrayOfSizeBigInts(in);
         for (int i = 0; i < A.length; i++)
         {
             ToolIO.out.println(A[i]);
@@ -210,7 +210,7 @@ public class FileUtil
 	 * @param targetName
 	 * @throws IOException
 	 */
-	public static void replaceFile(String sourceName, String targetName) throws IOException {
+	public static void replaceFile(final String sourceName, final String targetName) throws IOException {
 		Files.move(new File(sourceName).toPath(), new File(targetName).toPath(), StandardCopyOption.REPLACE_EXISTING);
 	}
 
@@ -221,12 +221,12 @@ public class FileUtil
      * @param fromChkpt, path of the checkpoints if recovering, or <code>null</code>
      *
      */
-    public static String makeMetaDir(String specDir, String fromChkpt)
+    public static String makeMetaDir(final String specDir, final String fromChkpt)
     {
     	return makeMetaDir(new Date(), specDir, fromChkpt);
     }
     
-    public static String makeMetaDir(Date date, String specDir, String fromChkpt)
+    public static String makeMetaDir(final Date date, final String specDir, final String fromChkpt)
     {
         if (fromChkpt != null)
         {
@@ -242,8 +242,8 @@ public class FileUtil
 		// MAK 07/2021: Flip the default from low-res time-stamp to high-res time-stamp.
 		// The old default causes problems when TLC is invoked on a small spec in
 		// scripts or e.g. bash while loops.
-        SimpleDateFormat sdf;
-        String highres = System.getProperty(FileUtil.class.getName() + ".milliseconds", "true");
+        final SimpleDateFormat sdf;
+        final String highres = System.getProperty(FileUtil.class.getName() + ".milliseconds", "true");
         if (Boolean.valueOf(highres)) {
         	sdf = new SimpleDateFormat("yy-MM-dd-HH-mm-ss.SSS");
         } else {
@@ -251,7 +251,7 @@ public class FileUtil
         	sdf = new SimpleDateFormat("yy-MM-dd-HH-mm-ss");
         }
         metadir += sdf.format(date);
-        File filedir = new File(metadir);
+        final File filedir = new File(metadir);
 
         // ensure the non-existence
         Assert.check(!filedir.exists(), EC.SYSTEM_METADIR_EXISTS, filedir.getAbsolutePath());
@@ -262,15 +262,15 @@ public class FileUtil
         return metadir;
     }
 
-    public static NamedInputStream createNamedInputStream(String name, FilenameToStream resolver)
+    public static NamedInputStream createNamedInputStream(final String name, final FilenameToStream resolver)
     {
         return FileUtil.createNamedInputStream(name, resolver, null);
     }
 
-    public static NamedInputStream createNamedInputStream(String name, FilenameToStream resolver, NamedInputStream rootFileNis)
+    public static NamedInputStream createNamedInputStream(String name, final FilenameToStream resolver, final NamedInputStream rootFileNis)
     {
         // Strip off one NEWLINE and anything after it, if it is there
-        int n;
+        final int n;
         n = name.indexOf( '\n' );
         if ( n >= 0 ) {
             // SZ Feb 20, 2009: the message adjusted to what is actually done
@@ -280,8 +280,8 @@ public class FileUtil
         }
 
 
-        String sourceFileName;
-        String sourceModuleName;
+        final String sourceFileName;
+        final String sourceModuleName;
 
 
         // consider name=/frob/bar/somemod.tla
@@ -302,14 +302,14 @@ public class FileUtil
         // module name is =somemod
         sourceModuleName = name.substring(name.lastIndexOf(FileUtil.separator) + 1);
 
-        File sourceFile = resolver.resolve(sourceFileName, true);
+        final File sourceFile = resolver.resolve(sourceFileName, true);
         if (sourceFile != null && sourceFile.exists())
         {
             try
             {
-                NamedInputStream nis = new NamedInputStream(sourceFileName, sourceModuleName, sourceFile);
+                final NamedInputStream nis = new NamedInputStream(sourceFileName, sourceModuleName, sourceFile);
                 return nis;
-            } catch (FileNotFoundException e)
+            } catch (final FileNotFoundException e)
             {
                 ToolIO.out.println("***Internal error: Unable to create NamedInputStream in toIStream method");
             }
@@ -318,12 +318,12 @@ public class FileUtil
         // Fall back and try loading the module from a monolithic spec (one big .tla
         // file consisting of multiple TLA+ modules and TLC configs).
         if (rootFileNis != null) {
-            File rootSourceFile = rootFileNis.sourceFile();
+            final File rootSourceFile = rootFileNis.sourceFile();
             if (rootSourceFile != null) {
                 try {
-                    NamedInputStream nis = MonolithSpecExtractor.module(rootSourceFile, name);
+                    final NamedInputStream nis = MonolithSpecExtractor.module(rootSourceFile, name);
                     return nis;
-                } catch (IOException e) {
+                } catch (final IOException e) {
                 }
             }
         }
@@ -347,30 +347,30 @@ public class FileUtil
         return null;
     }
 
-    public static FileInputStream newFIS(File file)
+    public static FileInputStream newFIS(final File file)
     {
         if (file != null && file.exists())
         {
             try
             {
-                FileInputStream fis = new FileInputStream(file);
+                final FileInputStream fis = new FileInputStream(file);
                 return fis;
-            } catch (FileNotFoundException e)
+            } catch (final FileNotFoundException e)
             {
                 ToolIO.out.println("***Internal error: Unable to create FileInputStream");
             }
         }
         return null;
     }
-    public static FileOutputStream newFOS(File file)
+    public static FileOutputStream newFOS(final File file)
     {
         if (file != null && file.exists())
         {
             try
             {
-                FileOutputStream fos = new FileOutputStream(file);
+                final FileOutputStream fos = new FileOutputStream(file);
                 return fos;
-            } catch (FileNotFoundException e)
+            } catch (final FileNotFoundException e)
             {
                 ToolIO.out.println("***Internal error: Unable to create FileOutStream");
             }
@@ -385,12 +385,12 @@ public class FileUtil
      * @return
      * @throws FileNotFoundException 
      */
-    public static OutputStream newBFOS(String name) throws FileNotFoundException
+    public static OutputStream newBFOS(final String name) throws FileNotFoundException
     {
         try
         {
             return new FileOutputStream(new File(name));
-        } catch (FileNotFoundException e)
+        } catch (final FileNotFoundException e)
         {
             ToolIO.out.println("Error: Unable to write to file " + name);
             throw e;
@@ -398,7 +398,7 @@ public class FileUtil
     }
 
     @SuppressWarnings("resource")
-	public static BufferedDataInputStream newBdFIS(boolean useGZIP, File file) throws IOException
+	public static BufferedDataInputStream newBdFIS(final boolean useGZIP, final File file) throws IOException
     {
         if (useGZIP)
         {
@@ -414,7 +414,7 @@ public class FileUtil
      * @return
      * @throws IOException
      */
-    public static BufferedDataInputStream newBdFIS(boolean useGZIP, String filename) throws IOException
+    public static BufferedDataInputStream newBdFIS(final boolean useGZIP, final String filename) throws IOException
     {
         return newBdFIS(useGZIP, new File(filename));
     }
@@ -427,7 +427,7 @@ public class FileUtil
      * @throws FileNotFoundException
      */
     @SuppressWarnings("resource")
-	public static BufferedDataOutputStream newBdFOS(boolean useGZIP, File file) throws FileNotFoundException, IOException
+	public static BufferedDataOutputStream newBdFOS(final boolean useGZIP, final File file) throws FileNotFoundException, IOException
     {
         if (useGZIP)
         {
@@ -443,13 +443,13 @@ public class FileUtil
      * @return
      * @throws IOException
      */
-    public static BufferedDataOutputStream newBdFOS(boolean useGZIP, String filename) throws IOException
+    public static BufferedDataOutputStream newBdFOS(final boolean useGZIP, final String filename) throws IOException
     {
         return newBdFOS(useGZIP, new File(filename));
     }
 
 
-    public static ObjectInputStream newOBFIS(File file) throws FileNotFoundException, IOException
+    public static ObjectInputStream newOBFIS(final File file) throws FileNotFoundException, IOException
     {
         return new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)));
     }
@@ -460,7 +460,7 @@ public class FileUtil
      * @throws IOException
      * @throws FileNotFoundException
      */
-    public static ObjectInputStream newOBFIS(String filename) throws FileNotFoundException, IOException
+    public static ObjectInputStream newOBFIS(final String filename) throws FileNotFoundException, IOException
     {
         return newOBFIS(new File(filename));
     }
@@ -472,7 +472,7 @@ public class FileUtil
      * @throws IOException
      * @throws FileNotFoundException
      */
-    public static ObjectOutputStream newOBFOS(File file) throws FileNotFoundException, IOException
+    public static ObjectOutputStream newOBFOS(final File file) throws FileNotFoundException, IOException
     {
         return new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
     }
@@ -483,7 +483,7 @@ public class FileUtil
      * @throws IOException
      * @throws FileNotFoundException
      */
-    public static ObjectOutputStream newOBFOS(String filename) throws FileNotFoundException, IOException
+    public static ObjectOutputStream newOBFOS(final String filename) throws FileNotFoundException, IOException
     {
         return newOBFOS(new File(filename));
     }
@@ -494,7 +494,7 @@ public class FileUtil
      * @return
      * @throws FileNotFoundException
      */
-    public static DataInputStream newDFIS(String filename) throws FileNotFoundException
+    public static DataInputStream newDFIS(final String filename) throws FileNotFoundException
     {
         return new DataInputStream(new FileInputStream(new File(filename)));
     }
@@ -504,7 +504,7 @@ public class FileUtil
      * @return
      * @throws FileNotFoundException
      */
-    public static DataOutputStream newDFOS(String filename) throws FileNotFoundException
+    public static DataOutputStream newDFOS(final String filename) throws FileNotFoundException
     {
         return new DataOutputStream(new FileOutputStream(new File(filename)));
     }

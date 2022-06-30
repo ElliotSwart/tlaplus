@@ -26,7 +26,7 @@ import util.Assert;
 class LNStateAST extends LNState {
 	private final ExprNode body;
 
-	public LNStateAST(ExprNode body, Context con) {
+	public LNStateAST(final ExprNode body, final Context con) {
 		super(con);
 		this.body = body;
 	}
@@ -35,15 +35,15 @@ class LNStateAST extends LNState {
 		return this.body;
 	}
 
-	public final boolean eval(ITool tool, TLCState s1, TLCState s2) {
-		IValue val = tool.eval(this.body, getContext(), s1);
+	public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
+		final IValue val = tool.eval(this.body, getContext(), s1);
 		if (!(val instanceof IBoolValue)) {
 			Assert.fail(EC.TLC_LIVE_STATE_PREDICATE_NON_BOOL);
 		}
 		return ((IBoolValue) val).getVal();
 	}
 
-	public final void toString(StringBuffer sb, String padding) {
+	public final void toString(final StringBuffer sb, final String padding) {
 		sb.append(this.body);
 	}
 	
@@ -57,17 +57,17 @@ class LNStateAST extends LNState {
 			sb.append("(");
 			// Zeros
 			final TreeNode[] zero = oan.getTreeNode().zero();
-			for (TreeNode treeNode : zero) {
+			for (final TreeNode treeNode : zero) {
 				// TreeNode is interface with only STN being impl => unchecked
 				// cast is safe.
-				SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
+				final SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
 				sb.append(stn.getHumanReadableImage());
 			}
 			// Ones
 			final TreeNode[] one = oan.getTreeNode().one();
 			if (one != null) {
-				for (TreeNode treeNode : one) {
-					SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
+				for (final TreeNode treeNode : one) {
+					final SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
 					sb.append(stn.getHumanReadableImage());
 				}
 			}

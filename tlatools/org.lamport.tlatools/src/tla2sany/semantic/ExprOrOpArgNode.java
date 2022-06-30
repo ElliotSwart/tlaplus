@@ -19,6 +19,6 @@ import tla2sany.st.TreeNode;
  */
 public abstract class ExprOrOpArgNode extends LevelNode {
 
-  ExprOrOpArgNode(int kind, TreeNode stn) { super(kind, stn); }
+  ExprOrOpArgNode(final int kind, final TreeNode stn) { super(kind, stn); }
   
 }

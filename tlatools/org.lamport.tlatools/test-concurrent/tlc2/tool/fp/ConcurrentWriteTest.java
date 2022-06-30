@@ -23,7 +23,7 @@ public class ConcurrentWriteTest {
 	public void test() throws IOException {
 		final File tempFile = File.createTempFile("ConcurrentWriteTest_test", ".bin");
 		
-		RandomAccessFile tmpRAF0 = new BufferedRandomAccessFile(tempFile, "rw");
+		final RandomAccessFile tmpRAF0 = new BufferedRandomAccessFile(tempFile, "rw");
 		tmpRAF0.setLength(4000L * Long.BYTES);
 		for(long i = 0L; i < 1000; i++) {
 			tmpRAF0.writeLong(i);
@@ -196,7 +196,7 @@ public class ConcurrentWriteTest {
 			final long id = i;
 			tasks.add(new Callable<Void>() {
 				public Void call() throws Exception {
-					long position = id * partition * Long.BYTES;
+					final long position = id * partition * Long.BYTES;
 					final ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES/* * 1024*/);
 					for (long j = (id * partition); j < ((id + 1) * partition); j++/*j+=1024L*/) {
 //						for (int i = 0; i < buffer.capacity(); i++) {

@@ -625,7 +625,7 @@ public class Tokenize
      * @throws TokenizerException *
       *********************************************************************/
       
-    private static void TokenOut(int type) throws TokenizerException
+    private static void TokenOut(final int type) throws TokenizerException
       /*********************************************************************
       * If parseExpression is true, then add the token to linev and reset  *
       * token to the empty string unless it is the token following the     *
@@ -701,7 +701,7 @@ public class Tokenize
                    * Adjust parenDepth if necessary.                       *
                    ********************************************************/
                    if (type == Token.BUILTIN)
-                     { Symbol sym = PcalBuiltInSymbols.GetBuiltInSymbol(token);
+                     { final Symbol sym = PcalBuiltInSymbols.GetBuiltInSymbol(token);
                        if (sym.symbolType == Symbol.LEFT_PAREN)
                          { parenDepth = parenDepth + 1; } ;
                        if (sym.symbolType == Symbol.RIGHT_PAREN)
@@ -781,7 +781,7 @@ public class Tokenize
           }
       }
 
-    private static boolean IsDelimiter(String tok)
+    private static boolean IsDelimiter(final String tok)
       /*********************************************************************
       * True iff tok is a token that does not belong to the expression,    *
       * and hence must be the next token after the expression.             *
@@ -839,7 +839,7 @@ public class Tokenize
         col = 0 ;
       }
 
-    private static void TokenizingError(String msg) throws TokenizerException 
+    private static void TokenizingError(final String msg) throws TokenizerException
       { throw new TokenizerException(
            msg + " `" + token + "' found at\n" + 
           "    line " + (reader.getLineNumber() + 1) + ", column " + 
@@ -847,17 +847,16 @@ public class Tokenize
       }
 
 
-    public static TLAExpr TokenizeExpr(PcalCharReader charReader) throws TokenizerException
-      { TLAExpr exp = InnerTokenize(charReader, true) ;
+    public static TLAExpr TokenizeExpr(final PcalCharReader charReader) throws TokenizerException
+      { final TLAExpr exp = InnerTokenize(charReader, true) ;
         return exp ; }
 
-    public static String GetAlgorithmToken(PcalCharReader charReader) throws TokenizerException
-      { @SuppressWarnings("unused")
-	TLAExpr exp = InnerTokenize(charReader, false) ;
+    public static String GetAlgorithmToken(final PcalCharReader charReader) throws TokenizerException
+      { @SuppressWarnings("unused") final TLAExpr exp = InnerTokenize(charReader, false) ;
         return Delimiter ; }
 
-    public static TLAExpr InnerTokenize(PcalCharReader charReader, 
-                                    boolean isExpr) throws TokenizerException 
+    public static TLAExpr InnerTokenize(final PcalCharReader charReader,
+                                        final boolean isExpr) throws TokenizerException
       /*********************************************************************
       * Tokenize the input from the CharReader.  If isExpr is true, then   *
       * an expression from the input is tokenized and Delimiter is set to  *
@@ -865,7 +864,7 @@ public class Tokenize
       * non-comment token is tokenized, Delimiter is set to that token,    *
       * and a null TLAExpr is returned.                                    *
       *********************************************************************/
-      { int mode = TLA ;
+      { final int mode = TLA ;
         /*******************************************************************
         * Modified by LL on 1 Feb 2006 to initialize ncol and col.  This   *
         * is needed because the use of PcalCharReader.peek() between       *
@@ -1562,7 +1561,7 @@ public class Tokenize
         /*******************************************************************
         * Returns a normalized TLAExpr made from vspec.                    *
         *******************************************************************/
-        TLAExpr rval = new TLAExpr(vspec) ;
+        final TLAExpr rval = new TLAExpr(vspec) ;
         rval.normalize() ;
         return rval;
       }

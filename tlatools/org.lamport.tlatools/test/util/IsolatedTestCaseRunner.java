@@ -67,7 +67,7 @@ public class IsolatedTestCaseRunner extends Runner {
 	}
 
 	@Override
-	public void run(RunNotifier notifier) {
+	public void run(final RunNotifier notifier) {
 		delegate.run(notifier);
 	}
 	
@@ -76,7 +76,7 @@ public class IsolatedTestCaseRunner extends Runner {
 		private final Map<String, Class<?>> cache = new HashMap<>();
 		private final Set<String> packages = new HashSet<>();
 		
-		public IsolatedTestCaseClassLoader(URLClassLoader classLoader) {
+		public IsolatedTestCaseClassLoader(final URLClassLoader classLoader) {
 			super(classLoader.getURLs());
 			
 			// All of TLC's java packages. 
@@ -88,7 +88,7 @@ public class IsolatedTestCaseRunner extends Runner {
 		}
 
 		@Override
-		public Class<?> loadClass(String name) throws ClassNotFoundException {
+		public Class<?> loadClass(final String name) throws ClassNotFoundException {
 			if (cache.containsKey(name)) {
 				// Cache to not load classes twice for a single test case which results in a
 				// LinkageError.

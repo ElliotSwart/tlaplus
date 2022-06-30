@@ -15,7 +15,7 @@ public class TBTriple {
 	private final LiveExprNode fb;
 	private final LiveExprNode fc;
 
-	public TBTriple(LiveExprNode a, LiveExprNode b, LiveExprNode c) {
+	public TBTriple(final LiveExprNode a, final LiveExprNode b, final LiveExprNode c) {
 		this.fa = a;
 		this.fb = b;
 		this.fc = c;

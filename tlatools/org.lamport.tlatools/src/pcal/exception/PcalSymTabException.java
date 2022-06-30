@@ -15,7 +15,7 @@ public class PcalSymTabException extends UnrecoverableException
 	/**
      * @param message
      */
-    public PcalSymTabException(String message)
+    public PcalSymTabException(final String message)
     {
         super(message);
     }

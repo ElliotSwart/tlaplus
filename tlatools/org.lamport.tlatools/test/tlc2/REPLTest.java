@@ -12,7 +12,7 @@ public class REPLTest {
 
     @Test
     public void testProcessInput() throws IOException {
-        Path tempDir = Files.createTempDirectory("repltest");
+        final Path tempDir = Files.createTempDirectory("repltest");
         final REPL repl = new REPL(tempDir);
         String res;
 

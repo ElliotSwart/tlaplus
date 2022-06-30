@@ -15,8 +15,8 @@ public class MultiFPIntSet extends FPIntSet {
   private FPIntSet[] sets;
   private int fpbits;
 
-  public MultiFPIntSet(int bits) throws RemoteException {
-    int len = 1 << bits;
+  public MultiFPIntSet(final int bits) throws RemoteException {
+    final int len = 1 << bits;
     this.sets = new FPIntSet[len];
     for (int i = 0; i < len; i++) {
       this.sets[i] = new MemFPIntSet();
@@ -24,7 +24,7 @@ public class MultiFPIntSet extends FPIntSet {
     this.fpbits = 64 - bits;
   }
 
-  public final void init(int numThreads, String metadir, String filename)
+  public final void init(final int numThreads, final String metadir, final String filename)
   throws IOException {
     for (int i = 0; i < this.sets.length; i++) {
       this.sets[i].init(numThreads, metadir, filename+"_"+i);
@@ -43,19 +43,19 @@ public class MultiFPIntSet extends FPIntSet {
     return sum;
   }
 
-  public final void setLeveled(long fp) {
-    int idx = (int)(fp >>> this.fpbits);
+  public final void setLeveled(final long fp) {
+    final int idx = (int)(fp >>> this.fpbits);
     this.sets[idx].setLeveled(fp);
   }
   
-  public final int setStatus(long fp, int status) {
-    int idx = (int)(fp >>> this.fpbits);
+  public final int setStatus(final long fp, final int status) {
+    final int idx = (int)(fp >>> this.fpbits);
     return this.sets[idx].setStatus(fp, status);
   }
 
   /* Returns the status of fp. */
-  public final int getStatus(long fp) {
-    int idx = (int)(fp >>> this.fpbits);
+  public final int getStatus(final long fp) {
+    final int idx = (int)(fp >>> this.fpbits);
     return this.sets[idx].getStatus(fp);
   }
 
@@ -81,7 +81,7 @@ public class MultiFPIntSet extends FPIntSet {
     return res;
   }
 
-  public final void exit(boolean cleanup) throws IOException {
+  public final void exit(final boolean cleanup) throws IOException {
     for (int i = 0; i < this.sets.length; i++) {
       this.sets[i].exit(cleanup);
     }
@@ -105,19 +105,19 @@ public class MultiFPIntSet extends FPIntSet {
     }
   }
 
-  public final void beginChkpt(String filename) throws IOException {
+  public final void beginChkpt(final String filename) throws IOException {
     for (int i = 0; i < this.sets.length; i++) {
       this.sets[i].beginChkpt(filename);
     }
   }
   
-  public final void commitChkpt(String filename) throws IOException {
+  public final void commitChkpt(final String filename) throws IOException {
     for (int i = 0; i < this.sets.length; i++) {
       this.sets[i].commitChkpt(filename);
     }
   }
   
-  public final void recover(String filename) throws IOException {
+  public final void recover(final String filename) throws IOException {
     for (int i = 0; i < this.sets.length; i++) {
       this.sets[i].recover(filename);
     }

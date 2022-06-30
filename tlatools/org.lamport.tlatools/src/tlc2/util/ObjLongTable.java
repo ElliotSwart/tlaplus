@@ -13,7 +13,7 @@ public final class ObjLongTable<T> {
   private long[] elems;
 
   @SuppressWarnings("unchecked")
-  public ObjLongTable(int size) {
+  public ObjLongTable(final int size) {
     this.keys = (T[]) new Object[size];
     this.elems = new long[size];
     this.count = 0;
@@ -23,26 +23,26 @@ public final class ObjLongTable<T> {
 
   @SuppressWarnings("unchecked")
   private final void grow() {
-    Object[] oldKeys = this.keys;
-    long[] oldElems = this.elems;
+    final Object[] oldKeys = this.keys;
+    final long[] oldElems = this.elems;
     this.count = 0;
     this.length = 2 * this.length + 1;
     this.thresh = this.length / 2;
     this.keys = (T[]) new Object[this.length];
     this.elems = new long[this.length];
     for (int i = 0; i < oldKeys.length; i++) {
-      T key = (T) oldKeys[i];
+      final T key = (T) oldKeys[i];
       if (key != null) this.put(key, oldElems[i]);
     }
   }
 
   public final int size() { return this.count; }
 
-  public final int put(T k, long elem) {
+  public final int put(final T k, final long elem) {
     if (count >= thresh) this.grow();
     int loc = ((int)k.hashCode() & 0x7FFFFFFF) % this.length;
     while (true) {
-      Object key = this.keys[loc];
+      final Object key = this.keys[loc];
       if (key == null) {
 	this.keys[loc] = k;
 	this.elems[loc] = elem;
@@ -57,11 +57,11 @@ public final class ObjLongTable<T> {
     }
   }
 
-  public final int add(T k, long elem) {
+  public final int add(final T k, final long elem) {
     if (count >= thresh) this.grow();
     int loc = ((int)k.hashCode() & 0x7FFFFFFF) % this.length;
     while (true) {
-      Object key = this.keys[loc];
+      final Object key = this.keys[loc];
       if (key == null) {
 	this.keys[loc] = k;
 	this.elems[loc] = elem;
@@ -76,10 +76,10 @@ public final class ObjLongTable<T> {
     }
   }
   
-  public final long get(Object k) {
+  public final long get(final Object k) {
     int loc = ((int)k.hashCode() & 0x7FFFFFFF) % length;
     while (true) {
-      Object key = this.keys[loc];
+      final Object key = this.keys[loc];
       if (key == null) return 0;
       if (key.equals(k)) return this.elems[loc];
       loc = (loc + 1) % length;
@@ -102,7 +102,7 @@ public final class ObjLongTable<T> {
 	@SuppressWarnings("unchecked")
 	public T[] toArray(T[] a) {
 		a = (T[]) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), count);
-		ObjLongTable<T>.Enumerator<T> keys2 = keys();
+		final ObjLongTable<T>.Enumerator<T> keys2 = keys();
 		T e = null;
 		int i = 0;
 		while((e = keys2.nextElement()) != null) {

@@ -212,10 +212,10 @@ public class EWD840DebuggerSimTest extends TLCDebuggerTestCase {
 		stackFrames = debugger.stepIn(13);
 		assertEquals(12, stackFrames.length);
 		assertTLCStateFrame(stackFrames[0], 16, 54, 16, 64, MDL, Context.Empty.cons(null, IntValue.ValZero));
-		Variable[] contextVariables = ((TLCStateStackFrame) stackFrames[0]).getVariables();
+		final Variable[] contextVariables = ((TLCStateStackFrame) stackFrames[0]).getVariables();
 		assertNotNull(contextVariables);
 		assertEquals(1, contextVariables.length);
-		Variable variable = contextVariables[0];
+		final Variable variable = contextVariables[0];
 		assertEquals("node", variable.getName());
 		assertEquals(IntValue.ValZero.getTypeString(), variable.getType());
 		assertEquals("0", variable.getValue());
@@ -241,7 +241,7 @@ public class EWD840DebuggerSimTest extends TLCDebuggerTestCase {
 		stackFrames = debugger.continue_();
 		assertEquals(11, stackFrames.length);
 		assertTLCActionFrame(stackFrames[0], 41, 18, 41, 23, RM, (Context) null);
-		TLCActionStackFrame actionStackFrame = (TLCActionStackFrame) stackFrames[0];
+		final TLCActionStackFrame actionStackFrame = (TLCActionStackFrame) stackFrames[0];
 		assertTrue(actionStackFrame.exception instanceof InvariantViolatedException);
 		assertEquals("Invariant Stop is violated.", actionStackFrame.exception.getMessage());
 		

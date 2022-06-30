@@ -49,7 +49,7 @@ public class GraphNodeTest {
 		node.addTransition(4, -1, -1, -1, null, 0, sizeHint--);
 		node.addTransition(5, -1, -1, -1, null, 0, sizeHint--);
 
-		int overallocated = node.realign();
+		final int overallocated = node.realign();
 		assertTrue("Allocation overallocated", overallocated == 0);
 
 		assertTrue("Lost a transition during the allocation business", node.transExists(1, -1));
@@ -84,12 +84,12 @@ public class GraphNodeTest {
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 10; j++) {
 				for (int k = 0; k < 15; k++) {
-					int l = (5 * 10 * 15);
+					final int l = (5 * 10 * 15);
 					node.addTransition(cnt, -1, -1, -1, null, 0, l - cnt++);
 				}
 			}
 		}
-		int overallocated = node.realign();
+		final int overallocated = node.realign();
 		assertTrue("Nested allocation overallocated", overallocated == 0);
 
 		for (int i = 0; i < cnt; i++) {
@@ -107,19 +107,19 @@ public class GraphNodeTest {
 		
 		int cnt = 0;
 		for (int i = 0; i < 5; i++) {
-			int x = rnd.nextInt(10);
+			final int x = rnd.nextInt(10);
 			for (int j = 0; j < x; j++) {
-				int y = rnd.nextInt(15);
+				final int y = rnd.nextInt(15);
 				for (int k = 0; k < y; k++) {
-					int l = (5 * x * y);
-					int allocationHint = l - cnt++;
+					final int l = (5 * x * y);
+					final int allocationHint = l - cnt++;
 					node.addTransition(cnt, -1, -1, -1, null, 0, allocationHint);
 					verificationSet.add(cnt);
 				}
 			}
 		}
 
-		for (Integer i : verificationSet) {
+		for (final Integer i : verificationSet) {
 			assertTrue("Lost a transition during this allocation business", node.transExists(i, -1));
 		}
 	}

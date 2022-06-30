@@ -40,45 +40,45 @@ public class EvalControl {
 	  return (control & constant) > 0;
   }
   
-  public static boolean isKeepLazy(int control) {
+  public static boolean isKeepLazy(final int control) {
     return isSet(control, KeepLazy);
   }
 
-  public static int setKeepLazy(int control) {
+  public static int setKeepLazy(final int control) {
     return control | KeepLazy;
   }
 
-  public static boolean isPrimed(int control) {
+  public static boolean isPrimed(final int control) {
     return isSet(control, Primed);
   }
     
-  public static int setPrimed(int control) {
+  public static int setPrimed(final int control) {
     return control | Primed;
   }
     
   /**
    * Sets {@link EvalControl#Primed} iff {@link EvalControl#Enabled} is already set.
    */
-  public static int setPrimedIfEnabled(int control) {
+  public static int setPrimedIfEnabled(final int control) {
 	  if (isEnabled(control)) {
 		  return setPrimed(control);
 	  }
 	  return control;
   }
   
-  public static boolean isEnabled(int control) {
+  public static boolean isEnabled(final int control) {
     return isSet(control, Enabled);
   }
 
-  public static int setEnabled(int control) {
+  public static int setEnabled(final int control) {
 	return  control | Enabled;
   }
 
-  public static boolean isInit(int control) {
+  public static boolean isInit(final int control) {
 	return isSet(control, Init);
   }
 	
-	public static boolean isConst(int control) {
+	public static boolean isConst(final int control) {
 		return isSet(control, Const);
 	}
 }

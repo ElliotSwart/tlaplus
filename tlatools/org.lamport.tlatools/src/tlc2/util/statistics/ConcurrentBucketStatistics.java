@@ -97,7 +97,7 @@ public class ConcurrentBucketStatistics extends AbstractBucketStatistics impleme
 	 */
 	public NavigableMap<Integer, Long> getSamples() {
 		final NavigableMap<Integer, Long> res = new TreeMap<Integer, Long>();
-		for (Entry<Integer, AtomicLong> entry : buckets.entrySet()) {
+		for (final Entry<Integer, AtomicLong> entry : buckets.entrySet()) {
 			res.put(entry.getKey(), entry.getValue().get());
 		}
 		return res;

@@ -65,27 +65,27 @@ public class TraceExpressionInformationHolder {
      */
     private int level;
 
-    public void setExpression(String expression)
+    public void setExpression(final String expression)
     {
         this.expression = expression;
     }
 
-    public void setIdentifier(String identifier)
+    public void setIdentifier(final String identifier)
     {
         this.identifier = identifier;
     }
 
-    public void setVariableName(String variableName)
+    public void setVariableName(final String variableName)
     {
         this.variableName = variableName;
     }
 
-    public void setLevel(int level)
+    public void setLevel(final int level)
     {
         this.level = level;
     }
 
-    public TraceExpressionInformationHolder(String expression, String identifier, String variableName)
+    public TraceExpressionInformationHolder(final String expression, final String identifier, final String variableName)
     {
         this.expression = expression;
         this.identifier = identifier;

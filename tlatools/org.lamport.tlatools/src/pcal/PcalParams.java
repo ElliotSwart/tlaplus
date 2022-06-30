@@ -167,13 +167,13 @@ public final class PcalParams
       * Default initial value changed to "defaultInitValue"                *
       * by LL on 22 Aug 2007                                               *
       *********************************************************************/
-      { Vector<TLAToken> line = new Vector<TLAToken>() ;
+      { final Vector<TLAToken> line = new Vector<TLAToken>() ;
 //        line.addElement(new TLAToken("{", 0, 0)) ;
 //        line.addElement(new TLAToken("}", 0, 0)) ;
         line.addElement(new TLAToken("defaultInitValue", 0, 0));
-        Vector<Vector<TLAToken>> vec = new Vector<Vector<TLAToken>>() ;
+        final Vector<Vector<TLAToken>> vec = new Vector<Vector<TLAToken>>() ;
         vec.addElement(line) ;
-        TLAExpr exp = new TLAExpr(vec) ;
+        final TLAExpr exp = new TLAExpr(vec) ;
         exp.normalize() ;
         return exp ;
       }
@@ -279,14 +279,14 @@ public final class PcalParams
    * its numeric value--e.g., 3170.  Otherwise, it returns -1.
    * 
    */
-  public static int VersionToNumber(String str) {
+  public static int VersionToNumber(final String str) {
     boolean error = false ;
     int i = 0;
     int result = 0;
     int digitsAfterDecimal = 0;
     boolean afterDecimal = false;
     while ((!error) && i < str.length()) {
-        char c = str.charAt(i);
+        final char c = str.charAt(i);
         if (('0' <= c) && (c <= '9')) {
             result = 10 * result  +  (c - '0');
             if (afterDecimal) {
@@ -315,8 +315,8 @@ public final class PcalParams
    * and returns true if it is a legal version number; otherwise,
    * it reports the error with PcalDebug.reportError and returns false.
    */
-  static boolean ProcessVersion(String ver) {
-      int vnum = VersionToNumber(ver);
+  static boolean ProcessVersion(final String ver) {
+      final int vnum = VersionToNumber(ver);
       if (vnum < 0) {
           PcalDebug.reportError("Illegal version " + ver + " specified."); 
           return false;

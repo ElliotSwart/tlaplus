@@ -25,7 +25,7 @@ public class FPSetConfiguration implements Serializable {
 		this(.25d);
 	}
 	
-	public FPSetConfiguration(Double aRatio) {
+	public FPSetConfiguration(final Double aRatio) {
 		// Read the implementation class from the System properties instead of
 		// the cmd line. Right now I'm reluctant to expose the impl class as a 
 		// cmd line parameter and carry it forth forever.
@@ -33,7 +33,7 @@ public class FPSetConfiguration implements Serializable {
 				FPSetFactory.getImplementationDefault()));
 	}
 	
-	public FPSetConfiguration(Double aRatio, String implementation) {
+	public FPSetConfiguration(final Double aRatio, final String implementation) {
 		this.ratio = aRatio;
 		this.implementation = implementation;
 	}
@@ -60,7 +60,7 @@ public class FPSetConfiguration implements Serializable {
 		return fpBits;
 	}
 
-	public void setFpBits(int fpBits) {
+	public void setFpBits(final int fpBits) {
 		Assert.check(FPSet.isValid(fpBits), EC.GENERAL);
 		this.fpBits = fpBits;
 	}
@@ -101,7 +101,7 @@ public class FPSetConfiguration implements Serializable {
 		return 1 << getFpBits();
 	}
 	
-	public void setRatio(double aRatio) {
+	public void setRatio(final double aRatio) {
 		// Allowing aRatio to be 0.0 makes little sense semantically, but we
 		// accept it anyway and let TLCRuntime deal with it.
 		Assert.check(aRatio >= 0 && aRatio <= 1, EC.GENERAL);
@@ -117,7 +117,7 @@ public class FPSetConfiguration implements Serializable {
 	 *             only accepts a ratio rather than an absolute memory value
 	 * @param fpMemSize
 	 */
-	public void setMemory(long fpMemSize) {
+	public void setMemory(final long fpMemSize) {
 		Assert.check(fpMemSize >= 0, EC.GENERAL);
 		this.memoryInBytes = fpMemSize;
 	}

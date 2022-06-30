@@ -13,33 +13,33 @@ class LNConj extends LiveExprNode {
 	private final Vect<LiveExprNode> conjs; // The conjuncts
 	private int info;
 
-	public LNConj(int size) {
+	public LNConj(final int size) {
 		this.conjs = new Vect<>(size);
 		this.info = 0;
 	}
 
-	public LNConj(LiveExprNode n) {
+	public LNConj(final LiveExprNode n) {
 		this.conjs = new Vect<>(1);
 		this.conjs.addElement(n);
-		int level = n.getLevel();
+		final int level = n.getLevel();
 		this.info = n.containAction() ? level + 8 : level;
 	}
 
-	public LNConj(LiveExprNode n1, LiveExprNode n2) {
+	public LNConj(final LiveExprNode n1, final LiveExprNode n2) {
 		this.conjs = new Vect<>(2);
 		this.conjs.addElement(n1);
 		this.conjs.addElement(n2);
-		boolean hasAct = n1.containAction() || n2.containAction();
-		int level = Math.max(n1.getLevel(), n2.getLevel());
+		final boolean hasAct = n1.containAction() || n2.containAction();
+		final int level = Math.max(n1.getLevel(), n2.getLevel());
 		this.info = hasAct ? level + 8 : level;
 	}
 
-	public LNConj(Vect<LiveExprNode> conjs) {
+	public LNConj(final Vect<LiveExprNode> conjs) {
 		this.conjs = conjs;
 		boolean hasAct = false;
 		int level = 0;
 		for (int i = 0; i < conjs.size(); i++) {
-			LiveExprNode lexpr = conjs.elementAt(i);
+			final LiveExprNode lexpr = conjs.elementAt(i);
 			level = Math.max(level, lexpr.getLevel());
 			hasAct = hasAct || lexpr.containAction();
 		}
@@ -50,21 +50,21 @@ class LNConj extends LiveExprNode {
 		return this.conjs.size();
 	}
 
-	public final LiveExprNode getBody(int i) {
+	public final LiveExprNode getBody(final int i) {
 		return this.conjs.elementAt(i);
 	}
 
-	public final void addConj(LiveExprNode elem) {
+	public final void addConj(final LiveExprNode elem) {
 		if (elem instanceof LNConj) {
-			LNConj elem1 = (LNConj) elem;
+			final LNConj elem1 = (LNConj) elem;
 			for (int i = 0; i < elem1.getCount(); i++) {
 				this.addConj(elem1.getBody(i));
 			}
 		} else {
 			this.conjs.addElement(elem);
 		}
-		int level = Math.max(this.getLevel(), elem.getLevel());
-		boolean hasAct = this.containAction() || elem.containAction();
+		final int level = Math.max(this.getLevel(), elem.getLevel());
+		final boolean hasAct = this.containAction() || elem.containAction();
 		this.info = hasAct ? level + 8 : level;
 	}
 
@@ -79,7 +79,7 @@ class LNConj extends LiveExprNode {
 	@Override
 	public final boolean isPositiveForm() {
 		for (int i = 0; i < conjs.size(); i++) {
-			LiveExprNode lexpr = conjs.elementAt(i);
+			final LiveExprNode lexpr = conjs.elementAt(i);
 			if (!lexpr.isPositiveForm()) {
 				return false;
 			}
@@ -87,10 +87,10 @@ class LNConj extends LiveExprNode {
 		return true;
 	}
 
-	public final boolean eval(ITool tool, TLCState s1, TLCState s2) {
-		int sz = this.conjs.size();
+	public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
+		final int sz = this.conjs.size();
 		for (int i = 0; i < sz; i++) {
-			LiveExprNode item = this.conjs.elementAt(i);
+			final LiveExprNode item = this.conjs.elementAt(i);
 			if (!item.eval(tool, s1, s2)) {
 				return false;
 			}
@@ -98,9 +98,9 @@ class LNConj extends LiveExprNode {
 		return true;
 	}
 
-	public final void toString(StringBuffer sb, String padding) {
-		int len = this.getCount();
-		String padding1 = padding + "    ";
+	public final void toString(final StringBuffer sb, final String padding) {
+		final int len = this.getCount();
+		final String padding1 = padding + "    ";
 		for (int i = 0; i < len; i++) {
 			if (i != 0) {
 				sb.append(padding);
@@ -118,7 +118,7 @@ class LNConj extends LiveExprNode {
 	 * @see tlc2.tool.liveness.LiveExprNode#toDotViz()
 	 */
 	public String toDotViz() {
-		int len = this.getCount();
+		final int len = this.getCount();
 		final StringBuffer sb = new StringBuffer(len);
 		for (int i = 0; i < len; i++) {
 			sb.append("/\\ (");
@@ -131,7 +131,7 @@ class LNConj extends LiveExprNode {
 		return sb.toString();
 	}
 
-	public void extractPromises(TBPar promises) {
+	public void extractPromises(final TBPar promises) {
 		getBody(0).extractPromises(promises);
 		getBody(1).extractPromises(promises);
 	}
@@ -147,9 +147,9 @@ class LNConj extends LiveExprNode {
 		if (getCount() == 1) {
 			return getBody(0).makeBinary();
 		}
-		int mid = getCount() / 2;
-		LNConj left = new LNConj(0);
-		LNConj right = new LNConj(0);
+		final int mid = getCount() / 2;
+		final LNConj left = new LNConj(0);
+		final LNConj right = new LNConj(0);
 		for (int i = 0; i < getCount(); i++) {
 			if (i < mid) {
 				left.addConj(getBody(i));
@@ -164,7 +164,7 @@ class LNConj extends LiveExprNode {
 		if (getCount() == 1) {
 			return getBody(0).flattenSingleJunctions();
 		}
-		LNConj lnc2 = new LNConj(getCount());
+		final LNConj lnc2 = new LNConj(getCount());
 		for (int i = 0; i < getCount(); i++) {
 			lnc2.addConj(getBody(i).flattenSingleJunctions());
 		}
@@ -175,24 +175,24 @@ class LNConj extends LiveExprNode {
 	 * The method toDNF turns a LiveExprNode into disjunctive normal form.
 	 */
 	public final LiveExprNode toDNF() {
-		int count = getCount();
-		LiveExprNode[] temp = new LiveExprNode[count];
+		final int count = getCount();
+		final LiveExprNode[] temp = new LiveExprNode[count];
 		for (int i = 0; i < count; i++) {
 			temp[i] = getBody(i).toDNF();
 		}
 
 		// We now construct the cross product:
-		Vect<LiveExprNode> nes = new Vect<>(count);
+		final Vect<LiveExprNode> nes = new Vect<>(count);
 		int total = 1;
 		for (int i = 0; i < count; i++) {
-			LiveExprNode elem = temp[i];
+			final LiveExprNode elem = temp[i];
 			if (elem instanceof LNDisj) {
 				nes.addElement(elem);
 				total *= ((LNDisj) elem).getCount();
 			} else if (elem instanceof LNConj) {
 				// Flatten when elem is also a LNConj:
-				LNConj elem1 = (LNConj) elem;
-				int count1 = elem1.getCount();
+				final LNConj elem1 = (LNConj) elem;
+				final int count1 = elem1.getCount();
 				for (int j = 0; j < count1; j++) {
 					nes.addElement(elem1.getBody(j));
 				}
@@ -204,22 +204,22 @@ class LNConj extends LiveExprNode {
 		if (total == 1) {
 			return new LNConj(nes);
 		}
-		int nesSize = nes.size();
-		Vect<LiveExprNode> res = new Vect<>(total);
+		final int nesSize = nes.size();
+		final Vect<LiveExprNode> res = new Vect<>(total);
 		for (int i = 0; i < total; i++) {
 			res.addElement(new LNConj(nesSize));
 		}
 		int num = 1;
 		int rCount = total;
 		for (int i = 0; i < nesSize; i++) {
-			LiveExprNode ln = nes.elementAt(i);
+			final LiveExprNode ln = nes.elementAt(i);
 			if (ln instanceof LNDisj) {
-				LNDisj disj = (LNDisj) ln;
+				final LNDisj disj = (LNDisj) ln;
 				rCount = rCount / disj.getCount();
 				int idx = 0;
 				for (int j = 0; j < num; j++) {
 					for (int k = 0; k < disj.getCount(); k++) {
-						LiveExprNode elem = disj.getBody(k);
+						final LiveExprNode elem = disj.getBody(k);
 						for (int l = 0; l < rCount; l++) {
 							((LNConj) res.elementAt(idx++)).addConj(elem);
 						}
@@ -236,9 +236,9 @@ class LNConj extends LiveExprNode {
 	}
 
 	public LiveExprNode simplify() {
-		LNConj lnc1 = new LNConj(getCount());
+		final LNConj lnc1 = new LNConj(getCount());
 		for (int i = 0; i < getCount(); i++) {
-			LiveExprNode elem = getBody(i).simplify();
+			final LiveExprNode elem = getBody(i).simplify();
 			if (elem instanceof LNBool) {
 				if (!((LNBool) elem).b) {
 					return LNBool.FALSE;
@@ -266,22 +266,22 @@ class LNConj extends LiveExprNode {
 	}
 
 	public LiveExprNode pushNeg() {
-		LNDisj lnd = new LNDisj(getCount());
+		final LNDisj lnd = new LNDisj(getCount());
 		for (int i = 0; i < getCount(); i++) {
 			lnd.addDisj(getBody(i).pushNeg());
 		}
 		return lnd;
 	}
 
-	public LiveExprNode pushNeg(boolean hasNeg) {
+	public LiveExprNode pushNeg(final boolean hasNeg) {
 		if (hasNeg) {
-			LNDisj lnd = new LNDisj(getCount());
+			final LNDisj lnd = new LNDisj(getCount());
 			for (int i = 0; i < getCount(); i++) {
 				lnd.addDisj(getBody(i).pushNeg(true));
 			}
 			return lnd;
 		} else {
-			LNConj lnc1 = new LNConj(getCount());
+			final LNConj lnc1 = new LNConj(getCount());
 			for (int i = 0; i < getCount(); i++) {
 				lnc1.addConj(getBody(i).pushNeg(false));
 			}
@@ -289,9 +289,9 @@ class LNConj extends LiveExprNode {
 		}
 	}
 
-	public boolean equals(LiveExprNode exp) {
+	public boolean equals(final LiveExprNode exp) {
 		if (exp instanceof LNConj) {
-			LNConj exp2 = (LNConj) exp;
+			final LNConj exp2 = (LNConj) exp;
 			if (getCount() != exp2.getCount()) {
 				return false;
 			}

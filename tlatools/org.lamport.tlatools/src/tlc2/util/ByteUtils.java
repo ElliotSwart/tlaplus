@@ -22,8 +22,8 @@ public class ByteUtils {
    * is all that's needed for a Java integer) that when converted to
    * a BigInt equals the BigInt corresponding to x.
    */
-  public static byte[] intToByteArray(int x) {
-    byte[] b = new byte[4];
+  public static byte[] intToByteArray(final int x) {
+    final byte[] b = new byte[4];
     b[0] = (byte) (x >>> 24);
     b[1] = (byte) (x >>> 16);
     b[2] = (byte) (x >>>  8);
@@ -36,8 +36,8 @@ public class ByteUtils {
    * is all that's needed for a Java long) that when converted to
    * a BigInt equals the BigInt corresponding to x.
    */
-  public static byte[] longToByteArray(long x) {
-    byte[] b = new byte[8];
+  public static byte[] longToByteArray(final long x) {
+    final byte[] b = new byte[8];
     b[0] = (byte) (x >>> 56);
     b[1] = (byte) (x >>> 48);
     b[2] = (byte) (x >>> 40);
@@ -54,11 +54,11 @@ public class ByteUtils {
    * and returns it. Standard narrowing primitive conversion as per
    * The Java Language Specification.
    */
-  public static int byteArrayToInt(byte[] b) {
-    int i0 = (b[0] & 0xFF) << 24;
-    int i1 = (b[1] & 0xFF) << 16;
-    int i2 = (b[2] & 0xFF) << 8;
-    int i3 = (b[3] & 0xFF);
+  public static int byteArrayToInt(final byte[] b) {
+    final int i0 = (b[0] & 0xFF) << 24;
+    final int i1 = (b[1] & 0xFF) << 16;
+    final int i2 = (b[2] & 0xFF) << 8;
+    final int i3 = (b[3] & 0xFF);
     return (i0 | i1 | i2 | i3);
   }
 
@@ -67,15 +67,15 @@ public class ByteUtils {
    * and returns it. Standard narrowing primitive conversion as per
    * The Java Language Specification.
    */
-  public static long byteArrayToLong(byte[] b) {
-    long i0 = (long) (b[0] & 0xFF) << 56;
-    long i1 = (long) (b[1] & 0xFF) << 48;
-    long i2 = (long) (b[2] & 0xFF) << 40;
-    long i3 = (long) (b[3] & 0xFF) << 32;
-    long i4 = (long) (b[4] & 0xFF) << 24;
-    long i5 = (long) (b[5] & 0xFF) << 16;
-    long i6 = (long) (b[6] & 0xFF) << 8;
-    long i7 = (long) (b[7] & 0xFF);
+  public static long byteArrayToLong(final byte[] b) {
+    final long i0 = (long) (b[0] & 0xFF) << 56;
+    final long i1 = (long) (b[1] & 0xFF) << 48;
+    final long i2 = (long) (b[2] & 0xFF) << 40;
+    final long i3 = (long) (b[3] & 0xFF) << 32;
+    final long i4 = (long) (b[4] & 0xFF) << 24;
+    final long i5 = (long) (b[5] & 0xFF) << 16;
+    final long i6 = (long) (b[6] & 0xFF) << 8;
+    final long i7 = (long) (b[7] & 0xFF);
     return (i0 | i1 | i2 | i3 | i4 | i5 | i6 | i7);
   }
 
@@ -85,8 +85,8 @@ public class ByteUtils {
    * BigInt equals b.  If b requires a byte array of size greater
    * than length, a runtime error is thrown.
    */
-  public static byte[] bigIntToByteArray(BigInt b, int len) throws IOException{
-    byte[] bA = b.toByteArray();
+  public static byte[] bigIntToByteArray(final BigInt b, final int len) throws IOException{
+    final byte[] bA = b.toByteArray();
     return byteArrayToByteArray(bA, len);
   }
 
@@ -95,13 +95,13 @@ public class ByteUtils {
    * of size length that when converted to a BigInt equals bA
    * If the length of bA > length, a runtime error is thrown.
    */
-  public static byte[] byteArrayToByteArray(byte[] bA, int length) throws IOException{
+  public static byte[] byteArrayToByteArray(final byte[] bA, final int length) throws IOException{
     if (bA.length > length) {
         throw new IOException("byteArrayToByteArray: b needs more than length bytes.");
     }
     
     int bi, li;  // counters for bA, lA
-    byte[] lA = new byte[length];
+    final byte[] lA = new byte[length];
     
     // The byte array corresponding to a BigInt is big endian,
     // i.e. the zeroth byte is the most significant, therefore, we pad
@@ -128,7 +128,7 @@ public class ByteUtils {
    * Converts i to a byte array and writes the result to out.
    * @see intToByteArray
    */
-  public static void writeInt(OutputStream out, int i)
+  public static void writeInt(final OutputStream out, final int i)
   throws IOException {
     out.write(intToByteArray(i));
   }
@@ -137,7 +137,7 @@ public class ByteUtils {
    * Converts l to a byte array and writes the result to out.
    * @see longToByteArray
    */
-  public static void writeLong(OutputStream out, long l)
+  public static void writeLong(final OutputStream out, final long l)
   throws IOException {
     out.write(longToByteArray(l));
   }
@@ -146,15 +146,15 @@ public class ByteUtils {
    * Writes the size of bA (using four bytes) and bA to out. The size
    * of bA should be expressible as an integer.
    */
-  public static void writeSizeByteArray(OutputStream out, byte[] bA)
+  public static void writeSizeByteArray(final OutputStream out, final byte[] bA)
   throws IOException {
-    int len = bA.length;
+    final int len = bA.length;
     writeInt(out, len);
     out.write(bA);
   }
 
   /* Converts b to a byte array and calls writeSizeByteArray. */
-  public static void writeSizeBigInt(OutputStream out, BigInt b)
+  public static void writeSizeBigInt(final OutputStream out, final BigInt b)
   throws IOException {
     writeSizeByteArray(out, b.toByteArray());
   }
@@ -163,9 +163,9 @@ public class ByteUtils {
    * Writes bA to out, using length bytes.  Input: the length of bA
    * should be <= length, otherwise, a runtime error is thrown.
    */
-  public static void writeByteArray(OutputStream out, byte[] bA, int len)
+  public static void writeByteArray(final OutputStream out, final byte[] bA, final int len)
   throws IOException {
-    int bAlen = bA.length;
+    final int bAlen = bA.length;
 
     if (bAlen > len) {
         throw new IOException("writeByteArray: the byte array too large");
@@ -174,7 +174,7 @@ public class ByteUtils {
   }
 
   /* Converts b to a byte array and calls writeByteArray. */
-  public static void writeBigInt(OutputStream out, BigInt b, int len)
+  public static void writeBigInt(final OutputStream out, final BigInt b, final int len)
   throws IOException {
     
     writeByteArray(out, b.toByteArray(), len);
@@ -188,7 +188,7 @@ public class ByteUtils {
    * is the size of byte[]
    */
   public static void writeSizeArrayOfSizeBigInts 
-  (BigInt[] A, int start, int finish, OutputStream out) 
+  (final BigInt[] A, final int start, final int finish, final OutputStream out)
   throws IOException {
     writeInt(out, finish-start+1);
     writeArrayOfSizeBigInts(A,start,finish,out);
@@ -201,7 +201,7 @@ public class ByteUtils {
    * BigInt, and length is the size of byte[].
    */
   public static void writeArrayOfSizeBigInts
-  (BigInt[] A, int start, int finish, OutputStream out) 
+  (final BigInt[] A, final int start, final int finish, final OutputStream out)
   throws IOException {
     for (int i = start; i <= finish; i++) 
       writeSizeByteArray(out, A[i].toByteArray());
@@ -223,18 +223,18 @@ public class ByteUtils {
       x bytes, but the buffer has some, but not enough bytes, then you
       don't get them all; you just get what the buffer has. This
       version fixes that problem. */
-  public static int read(InputStream in, byte[] b, int off, int len) 
+  public static int read(final InputStream in, final byte[] b, final int off, final int len)
   throws IOException { 
     int cnt = 0;
     while (cnt < len) {
-      int readOnce = in.read(b, off+cnt, len-cnt);
+      final int readOnce = in.read(b, off+cnt, len-cnt);
       if (readOnce <= 0) break;
       cnt += readOnce;
     }
     return cnt;
   }
   
-  public static int read(InputStream in, byte[] b) 
+  public static int read(final InputStream in, final byte[] b)
   throws IOException {
     return read(in, b, 0, b.length);
   }
@@ -246,9 +246,9 @@ public class ByteUtils {
    * enough bytes, a runtime error is thrown.  Output: The integer
    * corresponding to the next four bytes.  
    */
-  public static int readInt(InputStream in) throws IOException {
-    byte[] b = new byte[4];
-    int cnt = read(in, b);
+  public static int readInt(final InputStream in) throws IOException {
+    final byte[] b = new byte[4];
+    final int cnt = read(in, b);
 
     if (cnt < 4) {
       if (cnt <= 0) {
@@ -267,9 +267,9 @@ public class ByteUtils {
       enough bytes, a runtime error is thrown.  Output: The long
       corresponding to the next eight bytes.  
       @see byteArrayToLong */
-  public static long readLong(InputStream in) throws IOException {
-    byte b[] = new byte[8];
-    int cnt = read(in, b);
+  public static long readLong(final InputStream in) throws IOException {
+    final byte[] b = new byte[8];
+    final int cnt = read(in, b);
 
     if (cnt < 8) {
       if (cnt <= 0) {
@@ -289,10 +289,10 @@ public class ByteUtils {
    * IOException is thrown, but if there are not enough bytes, a
    * RuntimeException is thrown.
    */
-  public static byte[] readSizeByteArray(InputStream in) throws IOException {
-    int len = readInt(in);
-    byte[] bA = new byte[len];    
-    int cnt = read(in, bA);
+  public static byte[] readSizeByteArray(final InputStream in) throws IOException {
+    final int len = readInt(in);
+    final byte[] bA = new byte[len];
+    final int cnt = read(in, bA);
 
     if (cnt != len) {
         throw new IOException("readSizeByteArray: not enough bytes.");
@@ -307,11 +307,11 @@ public class ByteUtils {
    * empty, an IOException is thrown, but if there are not enough
    * bytes, a RuntimeException is thrown.
    */
-  public static BigInt readSizeBigInt(InputStream in) 
+  public static BigInt readSizeBigInt(final InputStream in)
   throws IOException {
-    int len = readInt(in);
-    byte[] bA = new byte[len];    
-    int cnt = read(in, bA);
+    final int len = readInt(in);
+    final byte[] bA = new byte[len];
+    final int cnt = read(in, bA);
 
     if (cnt != len) {
         throw new IOException("readSizeBigInt: not enough bytes.");
@@ -328,15 +328,15 @@ public class ByteUtils {
    * read.  Input: there must at least len (size byte[]) pairs, where
    * len, size are four bytes.
    */
-  public static BigInt[] readSizeArrayOfSizeBigInts(InputStream in) 
+  public static BigInt[] readSizeArrayOfSizeBigInts(final InputStream in)
   throws IOException  {
-    int len;
-    BigInt[] A;
+    final int len;
+    final BigInt[] A;
 
     try {
       len = readInt(in);
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       throw new IOException("Can't read an array of BigInts from the input stream; it's empty.");
     }
     
@@ -346,7 +346,7 @@ public class ByteUtils {
     for (int i = 0; i<len; i++)
       A[i] = readSizeBigInt(in);
     }
-    catch (IOException e) 
+    catch (final IOException e)
     {
         throw new IOException("Can't read an array of BigInts from the input stream; not enough bytes, but not empty.");
     }
@@ -358,10 +358,10 @@ public class ByteUtils {
       should contain some sequence of (size byte[]) pairs that are
       consistent, i.e. there really are size bytes in the stream,
       otherwise a RuntimeException is thrown */
-  public static BigInt[] readArrayOfSizeBigInts(InputStream in) 
+  public static BigInt[] readArrayOfSizeBigInts(final InputStream in)
   throws IOException{
   
-    Vector<BigInt> A = new Vector<BigInt>();
+    final Vector<BigInt> A = new Vector<BigInt>();
     int i = 0;
 
     try {
@@ -370,9 +370,9 @@ public class ByteUtils {
 	i++;
       } while (true);
     }
-    catch (IOException e) {}
+    catch (final IOException e) {}
     
-    BigInt[] bA = new BigInt[i];
+    final BigInt[] bA = new BigInt[i];
     
     for (int j=0; j<i; j++)
       bA[j] = A.elementAt(j);
@@ -385,21 +385,21 @@ public class ByteUtils {
    * out.  Input: If in is empty, an IOException is thrown; if it
    * doesn't have enough bytes, a RuntimeException is throw.
    */
-  public static void appendByteArray(InputStream in, OutputStream out)
+  public static void appendByteArray(final InputStream in, final OutputStream out)
   throws  IOException {
-    int i;
+    final int i;
     
     try {
       i = readInt(in);
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       throw new IOException("Can't append in to out; in is empty.");
     }
     try {
       for (int j = 0; j < i; j++)
 	writeSizeByteArray(out, readSizeByteArray(in));
     }
-    catch (IOException e) {
+    catch (final IOException e) {
         throw new IOException("Can't append in to out; not enough bytes, but not empty.");
     }
   }
@@ -409,14 +409,14 @@ public class ByteUtils {
    * bytes arrays to out.  Input: If in is empty, an IOException is thrown;
    * if it doesn't have enough bytes, a RuntimeException is throw.
    */
-  public static void appendSizeByteArray(InputStream in, OutputStream out)
+  public static void appendSizeByteArray(final InputStream in, final OutputStream out)
   throws  IOException {
-    int i;
+    final int i;
     
     try {
       i = readInt(in);
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       throw new IOException("Can't append in to out; in is empty.");
     }
     writeInt(out,i);
@@ -424,7 +424,7 @@ public class ByteUtils {
       for (int j=0; j<i; j++)
 	writeSizeByteArray(out, readSizeByteArray(in));
     }
-    catch (IOException e) {
+    catch (final IOException e) {
         throw new IOException("Can't append in to out; not enough bytes, but not empty.");
     }
   }
@@ -433,8 +433,8 @@ public class ByteUtils {
   /* *************************************************************************** 
      Pretty printing code.
      ***************************************************************************  */
-  public static String printHex(byte[] b) {
-    StringBuffer res = new StringBuffer();
+  public static String printHex(final byte[] b) {
+    final StringBuffer res = new StringBuffer();
     StringBuffer t, t1;
 
     for (int i = 0; i < b.length; i++) {

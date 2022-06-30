@@ -20,7 +20,7 @@ private Value [] elementData;
 
   public ValueVec() { this(10); }
 
-  public ValueVec(int initialCapacity) {
+  public ValueVec(final int initialCapacity) {
     this.elementCount = 0;
     if (initialCapacity == 0) {
       this.elementData = empty;
@@ -30,35 +30,35 @@ private Value [] elementData;
     }
   }
 
-  public ValueVec(Value [] elems) {
+  public ValueVec(final Value [] elems) {
     this.elementData = elems;
     this.elementCount = elems.length;
   }
 
-    public ValueVec(Collection<Value > elems) {
+    public ValueVec(final Collection<Value > elems) {
     	this(elems.size());
-    	for (Value  value : elems) {
+    	for (final Value  value : elems) {
 			addElement(value);
 		}
     }
-    public final void addElementAt(Value  val, int index) {
+    public final void addElementAt(final Value  val, final int index) {
         this.elementData[index] = val;
         this.elementCount++;
     }
 
-  public final void addElement(Value val) {
+  public final void addElement(final Value val) {
     if (this.elementCount == this.elementData.length) {
       ensureCapacity(this.elementCount+1);
     }
     this.elementData[this.elementCount++] = val;
   }
 
-  public final void addElement1(Value  val) {
+  public final void addElement1(final Value  val) {
     if (this.elementCount == this.elementData.length) {
       ensureCapacity(this.elementCount+1);
     }
     for (int i = 0; i < this.elementCount; i++) {
-      int cmp = this.elementData[i].compareTo(val);
+      final int cmp = this.elementData[i].compareTo(val);
       if (cmp == 0) return;
       if (cmp > 0) {
 	for (int j = this.elementCount-1; j >= i; j--) {
@@ -76,27 +76,27 @@ private Value [] elementData;
 
   @Override
   public final Object clone() {
-    ValueVec v = new ValueVec(this.elementData.length);
+    final ValueVec v = new ValueVec(this.elementData.length);
 	
     System.arraycopy(elementData, 0, v.elementData, 0, elementCount);
     v.elementCount = elementCount;
     return v;
   }
 
-  public final boolean contains(Value  elem) {
+  public final boolean contains(final Value  elem) {
     return (indexOf(elem) != -1);
   }
 
-  public final void copyInto(Value  anArray[]) {
+  public final void copyInto(final Value[] anArray) {
     System.arraycopy(elementData, 0, anArray, 0, elementCount);
   }
 
-  public final Value  elementAt(int index) {
+  public final Value  elementAt(final int index) {
     // Assert.check(index < this.elementCount);
     return this.elementData[index];
   }
 
-  public final void ensureCapacity(int minCapacity) {
+  public final void ensureCapacity(final int minCapacity) {
     if (elementData.length >= TLCGlobals.setBound) {
       throw new WrongInvocationException("Attempted to construct a set with too many elements (>" +
 		  TLCGlobals.setBound + ").");
@@ -109,7 +109,7 @@ private Value [] elementData;
       if (newCapacity > TLCGlobals.setBound) {
 	newCapacity = TLCGlobals.setBound;
       }
-      Value  oldData[] = this.elementData;
+      final Value[] oldData = this.elementData;
       this.elementData = new Value [newCapacity];
 
       System.arraycopy(oldData, 0, elementData, 0, elementCount);
@@ -118,16 +118,16 @@ private Value [] elementData;
 
   public final Value  firstElement() { return this.elementData[0]; }
 
-  public final int indexOf(Value  elem) { return indexOf(elem, 0); }
+  public final int indexOf(final Value  elem) { return indexOf(elem, 0); }
 
-  public final int indexOf(Value  elem, int index) {
+  public final int indexOf(final Value  elem, final int index) {
     for (int pos = index; pos < elementCount; pos++) {
       if (elem.equals(elementData[pos])) return pos;
     }
     return -1;
   }
 
-  public final void insertElementAt(Value  obj, int index) {
+  public final void insertElementAt(final Value  obj, final int index) {
     if (elementCount == elementData.length) {
       this.ensureCapacity(elementCount+1);
     }
@@ -142,14 +142,14 @@ private Value [] elementData;
     return this.elementData[this.elementCount-1];
   }
 
-  public final void setElementAt(Value  obj, int index)	{
+  public final void setElementAt(final Value  obj, final int index)	{
     this.elementData[index] = obj;
   }
 
   public final int size() { return this.elementCount; }
 
   /* Assume that the elements are sorted. */
-  public final boolean search(Value  elem, boolean sorted) {
+  public final boolean search(final Value  elem, final boolean sorted) {
     if (sorted) {
       int cmp = 0, mid = 0, low = 0, high = this.elementCount;
       while (low < high) {
@@ -174,10 +174,10 @@ private Value [] elementData;
     return false;
   }
 
-  public final ValueVec sort(boolean noDup) {
+  public final ValueVec sort(final boolean noDup) {
     int newCount = (this.elementCount == 0) ? 0 : 1;
     for (int i = 1; i < this.elementCount; i++) {
-      Value  elem = this.elementData[i];
+      final Value  elem = this.elementData[i];
       int cmp = 0, idx = 0, low = 0, high = newCount;
       while (low < high) {
 	idx = (low + high) >> 1;

@@ -91,7 +91,7 @@ public class InstanceNode extends LevelNode {
    * Added by LL on 6 June 2010.
    */
   private UniqueString stepName = null;
-  public void setStepName(UniqueString stepName)
+  public void setStepName(final UniqueString stepName)
    {
     this.stepName = stepName;
    }
@@ -104,9 +104,9 @@ public class InstanceNode extends LevelNode {
     return stepName;
    }
 
-  public InstanceNode(UniqueString name, boolean localness,
-                      FormalParamNode[] params,
-                      ModuleNode module, Subst[] substs, TreeNode stn) {
+  public InstanceNode(final UniqueString name, final boolean localness,
+                      final FormalParamNode[] params,
+                      final ModuleNode module, final Subst[] substs, final TreeNode stn) {
     super(InstanceKind, stn);
     this.name = name;
     this.local = localness;
@@ -124,7 +124,7 @@ public class InstanceNode extends LevelNode {
 //  private SetOfArgLevelConstraints argLevelConstraints;
 //  private HashSet argLevelParams;
 
-  public final boolean levelCheck(int itr) {
+  public final boolean levelCheck(final int itr) {
     /***********************************************************************
     * I believe this should only be called once, with itr = 1.            *
     ***********************************************************************/
@@ -152,8 +152,8 @@ public class InstanceNode extends LevelNode {
 
     // Check constraints on the substitution.
     for (int i = 0; i < this.substs.length; i++ ) {
-      SymbolNode mparam = substs[i].getOp();
-      ExprOrOpArgNode mexp = substs[i].getExpr();
+      final SymbolNode mparam = substs[i].getOp();
+      final ExprOrOpArgNode mexp = substs[i].getExpr();
       mexp.levelCheck(itr) ;
       mparam.levelCheck(itr);
         /*****************************************************************
@@ -182,7 +182,7 @@ public class InstanceNode extends LevelNode {
         * Leibniz.                                                         *
         *******************************************************************/
       if (mexp.getKind() == OpArgKind) {
-        SymbolNode op = ((OpArgNode) mexp).getOp() ;
+        final SymbolNode op = ((OpArgNode) mexp).getOp() ;
         if (   (   (op.getKind() == UserDefinedOpKind)
                 || (op.getKind() == BuiltInKind))
             && ( ! ((OpDefNode) op).isLeibniz)) {
@@ -198,12 +198,12 @@ public class InstanceNode extends LevelNode {
     SetOfLevelConstraints lcSet = this.module.getLevelConstraints();
     SetOfArgLevelConstraints alcSet = this.module.getArgLevelConstraints();
     for (int i = 0; i < this.substs.length; i++ ) {
-      SymbolNode mparam = substs[i].getOp();
-      ExprOrOpArgNode mexp = substs[i].getExpr();
+      final SymbolNode mparam = substs[i].getOp();
+      final ExprOrOpArgNode mexp = substs[i].getExpr();
         /*******************************************************************
         * mexp was level-checked above.                                    *
         *******************************************************************/
-      Integer plevel = (Integer)lcSet.get(mparam);
+      final Integer plevel = (Integer)lcSet.get(mparam);
       if (plevel != null &&
           mexp.getLevel() > plevel.intValue()) {
         if (mexp.levelCheck(itr)) {
@@ -215,13 +215,13 @@ public class InstanceNode extends LevelNode {
         this.levelCorrect = false;
       }
 
-      int alen = mparam.getArity();
+      final int alen = mparam.getArity();
       if (alen > 0 && ((OpArgNode)mexp).getOp() instanceof OpDefNode) {
-        OpDefNode opDef = (OpDefNode)((OpArgNode)mexp).getOp();
+        final OpDefNode opDef = (OpDefNode)((OpArgNode)mexp).getOp();
         for (int j = 0; j < alen; j++) {
-          ParamAndPosition pap = new ParamAndPosition(mparam, j);
-          Integer alevel = (Integer)alcSet.get(pap);
-          boolean opDefLevelCheck = opDef.levelCheck(itr) ;
+          final ParamAndPosition pap = new ParamAndPosition(mparam, j);
+          final Integer alevel = (Integer)alcSet.get(pap);
+          final boolean opDefLevelCheck = opDef.levelCheck(itr) ;
             /***************************************************************
             * Need to call opDef.levelCheck before calling                 *
             * opDef.getMaxLevel.                                           *
@@ -245,16 +245,16 @@ public class InstanceNode extends LevelNode {
       }
     }
 
-    Iterator<ArgLevelParam> argIter = this.module.getArgLevelParams().iterator();
+    final Iterator<ArgLevelParam> argIter = this.module.getArgLevelParams().iterator();
     while (argIter.hasNext()) {
-      ArgLevelParam alp = argIter.next();
+      final ArgLevelParam alp = argIter.next();
       for (int i = 0; i < this.substs.length; i++) {
-        SymbolNode pi = this.substs[i].getOp();
+        final SymbolNode pi = this.substs[i].getOp();
         for (int j = 0; j < this.substs.length; j++) {
           if (alp.op == pi &&
               alp.param == this.substs[j].getOp()) {
-            SymbolNode op = ((OpArgNode)this.substs[i].getExpr()).getOp();
-            boolean opLevelCheck = op.levelCheck(itr) ;
+            final SymbolNode op = ((OpArgNode)this.substs[i].getExpr()).getOp();
+            final boolean opLevelCheck = op.levelCheck(itr) ;
                /************************************************************
                * Need to level check before calling op.getMaxLevel.        *
                ************************************************************/
@@ -289,7 +289,7 @@ public class InstanceNode extends LevelNode {
       *********************************************************************/
     Iterator<SymbolNode> lcIter = lcSet.keySet().iterator();
     while (lcIter.hasNext()) {
-      SymbolNode param = lcIter.next();
+      final SymbolNode param = lcIter.next();
       if (!param.occur(this.params)) {
         this.levelConstraints.put(param, lcSet.get(param));
       }
@@ -298,7 +298,7 @@ public class InstanceNode extends LevelNode {
       lcSet = this.substs[i].getExpr().getLevelConstraints();
       lcIter = lcSet.keySet().iterator();
       while (lcIter.hasNext()) {
-        SymbolNode param = lcIter.next();
+        final SymbolNode param = lcIter.next();
         if (!param.occur(this.params)) {
           this.levelConstraints.put(param, lcSet.get(param));
         }
@@ -309,7 +309,7 @@ public class InstanceNode extends LevelNode {
     alcSet = Subst.getSubALCSet(this.module, this.substs, itr);
     Iterator<ParamAndPosition> alcIter = alcSet.keySet().iterator();
     while (alcIter.hasNext()) {
-      ParamAndPosition pap = alcIter.next();
+      final ParamAndPosition pap = alcIter.next();
       if (!pap.param.occur(this.params)) {
         this.argLevelConstraints.put(pap, alcSet.get(pap));
       }
@@ -318,7 +318,7 @@ public class InstanceNode extends LevelNode {
       alcSet = this.substs[i].getExpr().getArgLevelConstraints();
       alcIter = alcSet.keySet().iterator();
       while (alcIter.hasNext()) {
-        ParamAndPosition pap = alcIter.next();
+        final ParamAndPosition pap = alcIter.next();
         if (!pap.param.occur(this.params)) {
           this.argLevelConstraints.put(pap, alcSet.get(pap));
         }
@@ -334,7 +334,7 @@ public class InstanceNode extends LevelNode {
       *********************************************************************/
     Iterator<ArgLevelParam> alpIter = alpSet.iterator();
     while (alpIter.hasNext()) {
-      ArgLevelParam alp = alpIter.next();
+      final ArgLevelParam alp = alpIter.next();
       if (!alp.occur(this.params)) {
         this.argLevelParams.add(alp);
       }
@@ -343,7 +343,7 @@ public class InstanceNode extends LevelNode {
       alpSet = this.substs[i].getExpr().getArgLevelParams();
       alpIter = alpSet.iterator();
       while (alpIter.hasNext()) {
-        ArgLevelParam alp = alpIter.next();
+        final ArgLevelParam alp = alpIter.next();
         if (!alp.occur(this.params)) {
           this.argLevelParams.add(alp);
         }
@@ -392,7 +392,7 @@ public class InstanceNode extends LevelNode {
    * substituted for parameters.
    */
   public SemanticNode[] getChildren() {
-      SemanticNode[] res = new SemanticNode[substs.length];
+      final SemanticNode[] res = new SemanticNode[substs.length];
       for (int i = 0; i < substs.length; i++) {
           res[i] = substs[i].getExpr();
       }
@@ -401,7 +401,7 @@ public class InstanceNode extends LevelNode {
 
   
 
-  public final String toString(int depth) {
+  public final String toString(final int depth) {
     if (depth <= 0) return "";
 
     String ret = "\n*InstanceNode " + super.toString(depth) +
@@ -428,19 +428,19 @@ public class InstanceNode extends LevelNode {
     return ret;
   }
 
-  protected Element getLevelElement(Document doc, tla2sany.xml.SymbolContext context) {
+  protected Element getLevelElement(final Document doc, final tla2sany.xml.SymbolContext context) {
 
-      Element sbts = doc.createElement("substs");
+      final Element sbts = doc.createElement("substs");
       for (int i=0; i<substs.length; i++) {
         sbts.appendChild(substs[i].export(doc,context));
       }
 
-      Element prms = doc.createElement("params");
+      final Element prms = doc.createElement("params");
       for (int i=0; i<params.length; i++) {
         prms.appendChild(params[i].export(doc,context));
       }
 
-      Element ret = doc.createElement("InstanceNode");
+      final Element ret = doc.createElement("InstanceNode");
       if (name != null) ret.appendChild(appendText(doc,"uniquename",name.toString()));
       ret.appendChild(appendText(doc, "module", module.getName().toString() ));
       ret.appendChild(sbts);

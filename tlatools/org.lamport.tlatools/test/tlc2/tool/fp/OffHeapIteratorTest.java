@@ -28,7 +28,7 @@ public class OffHeapIteratorTest {
 
 		long actual = 1L;
 		while (itr.hasNext()) {
-			long next = itr.next();
+			final long next = itr.next();
 			assertEquals(actual, next);
 			actual++;
 		}
@@ -52,7 +52,7 @@ public class OffHeapIteratorTest {
 
 		long actual = 1L;
 		while (itr.hasNext()) {
-			long next = itr.markNext();
+			final long next = itr.markNext();
 			assertEquals(actual, next);
 			actual++;
 		}
@@ -62,7 +62,7 @@ public class OffHeapIteratorTest {
 			assertEquals(elements + 1, array.get(elements));
 		}
 		for (int i = 0; i < elements; i++) {
-			long expected = i + 1 | 0x8000000000000000L;
+			final long expected = i + 1 | 0x8000000000000000L;
 			actual = array.get(i);
 			assertEquals(expected, actual);
 		}

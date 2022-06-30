@@ -178,7 +178,7 @@ public class TBParTest {
 	
 	public static class DummyOpApplNode extends OpApplNode {
 
-		public DummyOpApplNode(String name) {
+		public DummyOpApplNode(final String name) {
 			super(new DummySymbolNode(name));
 		}
 
@@ -189,7 +189,7 @@ public class TBParTest {
 		
 		private static class DummySymbolNode extends SymbolNode {
 			
-			protected DummySymbolNode(String name) {
+			protected DummySymbolNode(final String name) {
 				super(1, SyntaxTreeNode.nullSTN, UniqueString.uniqueStringOf(name));
 			}
 			
@@ -204,12 +204,12 @@ public class TBParTest {
 			}
 			
 			@Override
-			public boolean match(OpApplNode test, ModuleNode mn) throws AbortException {
+			public boolean match(final OpApplNode test, final ModuleNode mn) throws AbortException {
 				throw new UnsupportedOperationException("not implemented");
 			}
 			
 			@Override
-			protected Element getSymbolElement(Document doc, SymbolContext context) {
+			protected Element getSymbolElement(final Document doc, final SymbolContext context) {
 				throw new UnsupportedOperationException("not implemented");
 			}
 			

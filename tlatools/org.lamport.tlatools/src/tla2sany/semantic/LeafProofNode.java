@@ -55,8 +55,8 @@ public class LeafProofNode extends ProofNode {
   /*************************************************************************
   * The constructor.                                                       *
   *************************************************************************/
-  public LeafProofNode(TreeNode stn, LevelNode[] theFacts,
-                   SymbolNode[] theDefs, boolean omit, boolean only) {
+  public LeafProofNode(final TreeNode stn, final LevelNode[] theFacts,
+                       final SymbolNode[] theDefs, final boolean omit, final boolean only) {
     super(LeafProofKind, stn) ;
     this.facts   = theFacts ;
     this.defs    = theDefs ;
@@ -74,7 +74,7 @@ public class LeafProofNode extends ProofNode {
   public boolean getOnlyFlag() {return isOnly ;} ;
 
   @Override
-  public boolean levelCheck(int iter) {
+  public boolean levelCheck(final int iter) {
     /***********************************************************************
     * Level checking is performed by level-checking the facts.  Since the  *
     * defs should be defined operators, they have already been level       *
@@ -93,7 +93,7 @@ public class LeafProofNode extends ProofNode {
       if (this.facts == null || this.facts.length == 0) {
           return null;
       }
-      SemanticNode[] res = new SemanticNode[this.facts.length];
+      final SemanticNode[] res = new SemanticNode[this.facts.length];
       for (int i = 0; i < facts.length; i++) {
           res[i] = facts[i];
       }
@@ -101,8 +101,8 @@ public class LeafProofNode extends ProofNode {
    }
 
   @Override
-  public void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
@@ -117,7 +117,7 @@ public class LeafProofNode extends ProofNode {
    }
 
   @Override
-  public String toString(int depth) {
+  public String toString(final int depth) {
     if (depth <= 0) return "";
     String ret = "\n*LeafProofNode:\n"
                   + super.toString(depth)
@@ -135,8 +135,8 @@ public class LeafProofNode extends ProofNode {
    }
 
   @Override
-  protected Element getLevelElement(Document doc, SymbolContext context) {
-    Element e;
+  protected Element getLevelElement(final Document doc, final SymbolContext context) {
+    final Element e;
 
     if (getOmitted()) {
       e = doc.createElement("omitted");
@@ -148,8 +148,8 @@ public class LeafProofNode extends ProofNode {
       //SemanticNode.SymbolContext context = new SemanticNode.SymbolContext(context2);
       e = doc.createElement("by");
 
-      Element factse = doc.createElement("facts");
-      Element definitions = doc.createElement("defs");
+      final Element factse = doc.createElement("facts");
+      final Element definitions = doc.createElement("defs");
 
       for (int i=0; i<facts.length; i++) factse.appendChild(facts[i].export(doc,context));
       for (int i=0; i<defs.length; i++) definitions.appendChild(defs[i].export(doc,context));

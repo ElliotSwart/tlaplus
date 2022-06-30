@@ -34,21 +34,21 @@ public static final SetEnumValue EmptySet = new SetEnumValue(new ValueVec(0), tr
 public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, true);
 
   /* Constructor */
-  public SetEnumValue(Value[] elems, boolean isNorm) {
+  public SetEnumValue(final Value[] elems, final boolean isNorm) {
 	  this(new ValueVec(elems), isNorm);
   }
 
-  public SetEnumValue(Value[] vals, boolean isNorm, CostModel cm) {
+  public SetEnumValue(final Value[] vals, final boolean isNorm, final CostModel cm) {
 	  this(vals, isNorm);
 	  this.cm = cm;
   }
 
-  public SetEnumValue(ValueVec elems, boolean isNorm) {
+  public SetEnumValue(final ValueVec elems, final boolean isNorm) {
     this.elems = elems;
     this.isNorm = isNorm;
   }
 
-  public SetEnumValue(ValueVec elems, boolean isNorm, final CostModel cm) {
+  public SetEnumValue(final ValueVec elems, final boolean isNorm, final CostModel cm) {
 	  this(elems, isNorm);
 	  this.cm = cm;
   }
@@ -61,7 +61,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
 	  this(new Value[] {elem}, true); // single element is normalized by definition.
   }
   
-  public SetEnumValue(CostModel cm) {
+  public SetEnumValue(final CostModel cm) {
 	  this();
 	  this.cm = cm;
   }
@@ -88,9 +88,9 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
   public final byte getKind() { return SETENUMVALUE; }
 
   @Override
-  public final int compareTo(Object obj) {
+  public final int compareTo(final Object obj) {
     try {
-      SetEnumValue set = obj instanceof Value ? (SetEnumValue) ((Value)obj).toSetEnum() : null;
+      final SetEnumValue set = obj instanceof Value ? (SetEnumValue) ((Value)obj).toSetEnum() : null;
       if (set == null) {
         if (obj instanceof ModelValue) {
             return ((ModelValue) obj).modelValueCompareTo(this);
@@ -100,7 +100,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       }
       this.normalize();
       set.normalize();
-      int sz = this.elems.size();
+      final int sz = this.elems.size();
       int cmp = sz - set.elems.size();
       if (cmp != 0) return cmp;
       for (int i = 0; i < sz; i++) {
@@ -109,15 +109,15 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       }
       return 0;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     try {
-      SetEnumValue set = obj instanceof Value ? (SetEnumValue) ((Value)obj).toSetEnum() : null;
+      final SetEnumValue set = obj instanceof Value ? (SetEnumValue) ((Value)obj).toSetEnum() : null;
       if (set == null) {
         if (obj instanceof ModelValue)
            return ((ModelValue) obj).modelValueEquals(this) ;
@@ -126,7 +126,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       }
       this.normalize();
       set.normalize();
-      int sz = this.elems.size();
+      final int sz = this.elems.size();
       if (sz != set.elems.size()) {
         return false;
       }
@@ -137,18 +137,18 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       }
       return true;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean member(Value elem) {
+  public final boolean member(final Value elem) {
     try {
       return this.elems.search(elem, this.isNorm);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -158,56 +158,56 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
   public final boolean isFinite() { return true; }
 
   @Override
-  public final Value diff(Value val) {
+  public final Value diff(final Value val) {
     try {
-      int sz = this.elems.size();
-      ValueVec diffElems = new ValueVec();
+      final int sz = this.elems.size();
+      final ValueVec diffElems = new ValueVec();
       for (int i = 0; i < sz; i++) {
-    	  Value elem = this.elems.elementAt(i);
+    	  final Value elem = this.elems.elementAt(i);
         if (!val.member(elem)) {
           diffElems.addElement(elem);
         }
       }
       return new SetEnumValue(diffElems, this.isNormalized(), cm);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value cap(Value val) {
+  public final Value cap(final Value val) {
     try {
-      int sz = this.elems.size();
-      ValueVec capElems = new ValueVec();
+      final int sz = this.elems.size();
+      final ValueVec capElems = new ValueVec();
       for (int i = 0; i < sz; i++) {
-    	  Value elem = this.elems.elementAt(i);
+    	  final Value elem = this.elems.elementAt(i);
         if (val.member(elem)) {
           capElems.addElement(elem);
         }
       }
       return new SetEnumValue(capElems, this.isNormalized(), cm);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value cup(Value set) {
+  public final Value cup(final Value set) {
     try {
-      int sz = this.elems.size();
+      final int sz = this.elems.size();
       if (sz == 0) return set;
 
       if (set instanceof Reducible) {
-        ValueVec cupElems = new ValueVec();
+        final ValueVec cupElems = new ValueVec();
         for (int i = 0; i < sz; i++) {
-        	Value elem = this.elems.elementAt(i);
+        	final Value elem = this.elems.elementAt(i);
           cupElems.addElement(elem);
         }
-        ValueEnumeration Enum = ((Enumerable)set).elements();
+        final ValueEnumeration Enum = ((Enumerable)set).elements();
         Value elem;
         while ((elem = Enum.nextElement()) != null) {
           if (!this.member(elem)) cupElems.addElement(elem);
@@ -216,35 +216,35 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       }
       return new SetCupValue(this, set, cm);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
       if (ex.idx < ex.path.length) {
         Assert.fail("Attempted to apply EXCEPT to the set " + Values.ppr(this.toString()) + ".", getSource());
       }
       return ex.value;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       if (exs.length != 0) {
         Assert.fail("Attempted to apply EXCEPT to the set " + Values.ppr(this.toString()) + ".", getSource());
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -256,7 +256,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       this.normalize();
       return this.elems.size();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -275,7 +275,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -289,7 +289,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
         }
         normalize();
 	    }
-	    catch (RuntimeException | OutOfMemoryError e) {
+	    catch (final RuntimeException | OutOfMemoryError e) {
 	      if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
 	      else { throw e; }
 	    }
@@ -313,13 +313,13 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
   public final boolean isDefined() {
     try {
       boolean defined = true;
-      int sz = this.elems.size();
+      final int sz = this.elems.size();
       for (int i = 0; i < sz; i++) {
         defined = defined && this.elems.elementAt(i).isDefined();
       }
       return defined;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -329,18 +329,18 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
   public final IValue deepCopy() { return this; }
 
   @Override
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       return this.equals(val);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
 	@Override
-	public final void write(IValueOutputStream vos) throws IOException {
+	public final void write(final IValueOutputStream vos) throws IOException {
 		final int index = vos.put(this);
 		if (index == -1) {
 			vos.writeByte(SETENUMVALUE);
@@ -360,26 +360,26 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
   public final long fingerPrint(long fp) {
     try {
       this.normalize();
-      int sz = this.elems.size();
+      final int sz = this.elems.size();
       fp = FP64.Extend(fp, SETENUMVALUE);
       fp = FP64.Extend(fp, sz);
       for (int i = 0; i < sz; i++) {
-        Value elem = this.elems.elementAt(i);
+        final Value elem = this.elems.elementAt(i);
         fp = elem.fingerPrint(fp);
       }
       return fp;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final IValue permute(IMVPerm perm) {
+  public final IValue permute(final IMVPerm perm) {
     try {
-      int sz = this.elems.size();
-      Value[] vals = new Value[sz];
+      final int sz = this.elems.size();
+      final Value[] vals = new Value[sz];
       boolean changed = false;
       for (int i = 0; i < sz; i++) {
         vals[i] = (Value) this.elems.elementAt(i).permute(perm);
@@ -390,7 +390,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -398,7 +398,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
 
   /* The string representation */
   @Override
-  public final StringBuffer toString(StringBuffer sb, int offset, boolean swallow) {
+  public final StringBuffer toString(StringBuffer sb, final int offset, final boolean swallow) {
     try {
       // If this SetEnumValue object is created by a union, at least one of
       // whose elements is a Cartesian product, then this can be an unnormalized
@@ -418,7 +418,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
           this.normalize();
       }
 
-      int len = this.elems.size();
+      final int len = this.elems.size();
       sb = sb.append("{");
       if (len > 0) {
         this.elems.elementAt(0).toString(sb, offset, swallow);
@@ -430,15 +430,15 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       sb.append("}");
       return sb;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   public final Value randomElement() {
-     int sz = size();
-     int index = (int) Math.floor(RandomEnumerableValues.get().nextDouble() * sz);
+     final int sz = size();
+     final int index = (int) Math.floor(RandomEnumerableValues.get().nextDouble() * sz);
      return this.elems.elementAt(index);
   }
 
@@ -447,7 +447,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
     try {
       return new Enumerator();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -487,7 +487,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
 	}
 
 	@Override
-	public ValueEnumeration elements(Ordering ordering) {
+	public ValueEnumeration elements(final Ordering ordering) {
 		if (ordering == Ordering.RANDOMIZED) {
 			return elements(size());
 		}
@@ -543,9 +543,9 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
 	}
 
 	@Override
-	public List<TLCVariable> getTLCVariables(final TLCVariable prototype, Random rnd) {
+	public List<TLCVariable> getTLCVariables(final TLCVariable prototype, final Random rnd) {
 		final List<TLCVariable> nestedVars = new ArrayList<>(this.size());
-		ValueEnumeration elements = this.elements();
+		final ValueEnumeration elements = this.elements();
 		Value value;
 		while ((value = elements.nextElement()) != null) {
 			final TLCVariable nested = prototype.newInstance(value.toString(), value, rnd);

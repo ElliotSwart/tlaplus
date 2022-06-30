@@ -44,39 +44,39 @@ public final class FastTool extends Tool {
 
 	private static final long serialVersionUID = -2731198442040450257L;
 
-	public FastTool(String mainFile, String configFile) {
+	public FastTool(final String mainFile, final String configFile) {
 		super(mainFile, configFile);
 	}
 
-	public FastTool(String mainFile, String configFile, FilenameToStream resolver) {
+	public FastTool(final String mainFile, final String configFile, final FilenameToStream resolver) {
 		super(mainFile, configFile, resolver, new HashMap<>());
 	}
 
-	public FastTool(String mainFile, String configFile, FilenameToStream resolver, Map<String, Object> params) {
+	public FastTool(final String mainFile, final String configFile, final FilenameToStream resolver, final Map<String, Object> params) {
 		super(mainFile, configFile, resolver, params);
 	}
 
-	public FastTool(String mainFile, String configFile, FilenameToStream resolver, Mode mode) {
+	public FastTool(final String mainFile, final String configFile, final FilenameToStream resolver, final Mode mode) {
 		super(mainFile, configFile, resolver, mode, new HashMap<>());
 	}
 
-	public FastTool(String mainFile, String configFile, FilenameToStream resolver, Mode mode, Map<String, Object> params) {
+	public FastTool(final String mainFile, final String configFile, final FilenameToStream resolver, final Mode mode, final Map<String, Object> params) {
 		super(mainFile, configFile, resolver, mode, params);
 	}
 	
-	public FastTool(String specDir, String specFile, String configFile, FilenameToStream fts) {
+	public FastTool(final String specDir, final String specFile, final String configFile, final FilenameToStream fts) {
 		super(specDir, specFile, configFile, fts, new HashMap<>());
 	}
 	
-	public FastTool(String specDir, String specFile, String configFile, FilenameToStream fts, Map<String, Object> params) {
+	public FastTool(final String specDir, final String specFile, final String configFile, final FilenameToStream fts, final Map<String, Object> params) {
 		super(specDir, specFile, configFile, fts, params);
 	}
 
-	public FastTool(String specDir, String specFile, String configFile, FilenameToStream fts, Mode mode) {
+	public FastTool(final String specDir, final String specFile, final String configFile, final FilenameToStream fts, final Mode mode) {
 		super(specDir, specFile, configFile, fts, mode, new HashMap<>());
 	}
 
-	public FastTool(Tool tool) {
+	public FastTool(final Tool tool) {
 		super(tool);
 	}
 

@@ -56,7 +56,7 @@ public class ExecutionStatisticsCollectorTest {
 
 	@Test
 	public void testOptOutUnreadableFile() throws IOException {
-		File tempFile = File.createTempFile("esc", "txt");
+		final File tempFile = File.createTempFile("esc", "txt");
 		tempFile.setReadable(false);
 		tempFile.deleteOnExit();
 		
@@ -67,7 +67,7 @@ public class ExecutionStatisticsCollectorTest {
 
 	@Test
 	public void testOptOutEmptyFile() throws IOException {
-		File tempFile = File.createTempFile("esc", "txt");
+		final File tempFile = File.createTempFile("esc", "txt");
 		tempFile.deleteOnExit();
 		
 		final ExecutionStatisticsCollector esc = new ExecutionStatisticsCollector(true, tempFile.getAbsolutePath());
@@ -77,7 +77,7 @@ public class ExecutionStatisticsCollectorTest {
 
 	@Test
 	public void testOptOutNoESCFile() throws IOException {
-		File tempFile = File.createTempFile("esc", "txt");
+		final File tempFile = File.createTempFile("esc", "txt");
 		Files.write(tempFile.toPath(), ("   " + ExecutionStatisticsCollector.Selection.NO_ESC.toString() + "   ").getBytes());
 		tempFile.deleteOnExit();
 		
@@ -88,7 +88,7 @@ public class ExecutionStatisticsCollectorTest {
 
 	@Test
 	public void testOptOutRandomIdFile() throws IOException {
-		File tempFile = File.createTempFile("esc", "txt");
+		final File tempFile = File.createTempFile("esc", "txt");
 		Files.write(tempFile.toPath(), ("   " + ExecutionStatisticsCollector.Selection.RANDOM_IDENTIFIER.toString() + "   ").getBytes());
 		tempFile.deleteOnExit();
 		
@@ -103,7 +103,7 @@ public class ExecutionStatisticsCollectorTest {
 
 	@Test
 	public void testOptOutUserDefinedIdFile() throws IOException {
-		File tempFile = File.createTempFile("esc", "txt");
+		final File tempFile = File.createTempFile("esc", "txt");
 		Files.write(tempFile.toPath(), "   123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ   ".getBytes());
 		tempFile.deleteOnExit();
 		
@@ -121,7 +121,7 @@ public class ExecutionStatisticsCollectorTest {
 
 	@Test
 	public void testUnreadableFile() throws IOException {
-		File tempFile = File.createTempFile("esc", "txt");
+		final File tempFile = File.createTempFile("esc", "txt");
 		tempFile.setReadable(false);
 		tempFile.deleteOnExit();
 		
@@ -130,7 +130,7 @@ public class ExecutionStatisticsCollectorTest {
 
 	@Test
 	public void testEmptyFile() throws IOException {
-		File tempFile = File.createTempFile("esc", "txt");
+		final File tempFile = File.createTempFile("esc", "txt");
 		tempFile.deleteOnExit();
 		
 		assertNull(new ExecutionStatisticsCollector(tempFile.getAbsolutePath()).getIdentifier());
@@ -138,7 +138,7 @@ public class ExecutionStatisticsCollectorTest {
 
 	@Test
 	public void testNoESCFile() throws IOException {
-		File tempFile = File.createTempFile("esc", "txt");
+		final File tempFile = File.createTempFile("esc", "txt");
 		Files.write(tempFile.toPath(), ("   " + ExecutionStatisticsCollector.Selection.NO_ESC.toString() + "   ").getBytes());
 		tempFile.deleteOnExit();
 		
@@ -147,11 +147,11 @@ public class ExecutionStatisticsCollectorTest {
 
 	@Test
 	public void testRandomIdFile() throws IOException {
-		File tempFile = File.createTempFile("esc", "txt");
+		final File tempFile = File.createTempFile("esc", "txt");
 		Files.write(tempFile.toPath(), ("   " + ExecutionStatisticsCollector.Selection.RANDOM_IDENTIFIER.toString() + "   ").getBytes());
 		tempFile.deleteOnExit();
 		
-		ExecutionStatisticsCollector esc = new ExecutionStatisticsCollector(tempFile.getAbsolutePath());
+		final ExecutionStatisticsCollector esc = new ExecutionStatisticsCollector(tempFile.getAbsolutePath());
 		
 		final String identifierA = esc.getIdentifier();
 		assertNotNull(identifierA);
@@ -162,7 +162,7 @@ public class ExecutionStatisticsCollectorTest {
 
 	@Test
 	public void testUserDefinedIdFile() throws IOException {
-		File tempFile = File.createTempFile("esc", "txt");
+		final File tempFile = File.createTempFile("esc", "txt");
 		Files.write(tempFile.toPath(), "   123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ   ".getBytes());
 		tempFile.deleteOnExit();
 		

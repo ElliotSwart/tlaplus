@@ -110,7 +110,7 @@ public final class UniqueString implements Serializable
      * @param str a string to be saved 
      * @param tok the unique integer for this string (position in the InternalTable)
      */
-    protected UniqueString(String str, int tok)
+    protected UniqueString(final String str, final int tok)
     {
         this.s = str;
         this.tok = tok;
@@ -122,7 +122,7 @@ public final class UniqueString implements Serializable
      * @param tok the unique integer for this string (position in the InternalTable)
      * @param loc location inside of the state/definition table
      */
-    private UniqueString(String str, int tok, int loc)
+    private UniqueString(final String str, final int tok, final int loc)
     {
         this(str, tok);
         this.loc = loc;
@@ -132,7 +132,7 @@ public final class UniqueString implements Serializable
      * Sets the number of variables in the spec
      * @param varCount number of variables defined
      */
-    public static void setVariableCount(int varCount)
+    public static void setVariableCount(final int varCount)
     {
         UniqueString.varCount = varCount;
         // SZ 10.04.2009: changed the method signature from setVariables(UniqueString[])
@@ -169,7 +169,7 @@ public final class UniqueString implements Serializable
      * @see {@link TLCState}
      * @see {@link Defns}
      */
-    public void setLoc(int loc)
+    public void setLoc(final int loc)
     {
         this.loc = loc;
     }
@@ -186,12 +186,12 @@ public final class UniqueString implements Serializable
     /**
      * Concatenates two unique strings
      */
-    public UniqueString concat(UniqueString uniqueString)
+    public UniqueString concat(final UniqueString uniqueString)
     {
         return uniqueStringOf(this.toString() + uniqueString.toString());
     }
     
-    public UniqueString concat(String string)
+    public UniqueString concat(final String string)
     {
         return uniqueStringOf(this.toString() + string);
     }
@@ -225,7 +225,7 @@ public final class UniqueString implements Serializable
      * @param uniqueString
      * @return
      */
-    public int compareTo(UniqueString uniqueString)
+    public int compareTo(final UniqueString uniqueString)
     {
         // SZ 10.04.2009: very strange way to compare strings
         // return this.s.compareTo(t.s);
@@ -235,7 +235,7 @@ public final class UniqueString implements Serializable
     /**
      * Since uniqueness is guaranteed, the equals is a high performance reference comparison 
      */
-    public boolean equals(UniqueString t)
+    public boolean equals(final UniqueString t)
     {
         return this.tok == t.tok;
     }
@@ -243,13 +243,13 @@ public final class UniqueString implements Serializable
     /**
      * There is no performance gain to compare with a string.
      */
-    public boolean equals(String t)
+    public boolean equals(final String t)
     {
         return this.s.equals(t);
     }
 
     
-    public long fingerPrint(long fp)
+    public long fingerPrint(final long fp)
     {
         return FP64.Extend(fp, this.tok);
     }
@@ -262,20 +262,20 @@ public final class UniqueString implements Serializable
      * 
      * This is a convenience method for a table put.
      */
-    public static UniqueString uniqueStringOf(String str)
+    public static UniqueString uniqueStringOf(final String str)
     {
         return internTbl.put(str);
     }
 
-	public static UniqueString of(String str) {
+	public static UniqueString of(final String str) {
 		return uniqueStringOf(str);
 	}
 
-	public static UniqueString join(String delim, UniqueString... us) {
+	public static UniqueString join(final String delim, final UniqueString... us) {
 		return join(delim, us.length, us);
 	}
 
-	public static UniqueString join(String delim, int n, UniqueString... us) {
+	public static UniqueString join(final String delim, final int n, final UniqueString... us) {
 		assert 0 < n && n <= us.length;
 		UniqueString out = null;
 		for (int i = 0; i < n; i++) {
@@ -296,7 +296,7 @@ public final class UniqueString implements Serializable
      * 
      * This is a convenience method for a table lookup. 
      */
-    public static UniqueString uidToUniqueString(int tok)
+    public static UniqueString uidToUniqueString(final int tok)
     {
         return internTbl.get(tok);
     }
@@ -308,7 +308,7 @@ public final class UniqueString implements Serializable
      * @return
      * @throws IOException
      */
-    public final void write(IDataOutputStream dos) throws IOException
+    public final void write(final IDataOutputStream dos) throws IOException
     {
         dos.writeInt(this.tok);
         dos.writeInt(this. getVarLoc()); 
@@ -325,16 +325,16 @@ public final class UniqueString implements Serializable
      * 
      * The method does not change member/class variables
      */
-    public static UniqueString read(IDataInputStream dis) throws IOException
+    public static UniqueString read(final IDataInputStream dis) throws IOException
     {
-        int tok1 = dis.readInt();
-        int loc1 = dis.readInt();
-        int slen = dis.readInt();
-        String str = dis.readString(slen);
+        final int tok1 = dis.readInt();
+        final int loc1 = dis.readInt();
+        final int slen = dis.readInt();
+        final String str = dis.readString(slen);
         return new UniqueString(str, tok1, loc1);
     }
     
-    public static UniqueString read(IDataInputStream dis, final Map<String, UniqueString> tbl) throws IOException
+    public static UniqueString read(final IDataInputStream dis, final Map<String, UniqueString> tbl) throws IOException
     {
         dis.readInt(); // skip, because invalid for the given internTbl
         dis.readInt(); // skip, because invalid for the given internTbl
@@ -348,7 +348,7 @@ public final class UniqueString implements Serializable
      * Sets the source 
      * @param source
      */
-    public static void setSource(InternRMI source)
+    public static void setSource(final InternRMI source)
     {
         internTbl.setSource(source);
     }

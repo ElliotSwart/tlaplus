@@ -38,18 +38,18 @@ import tlc2.output.EC;
 public class TestMPRecorder implements tlc2.output.IMessagePrinterRecorder {
 	private final Map<Integer, List<Object>> records = new HashMap<Integer, List<Object>>();
 	
-	public void record(int code, Object... objects) {
+	public void record(final int code, final Object... objects) {
 		if(!records.containsKey(code)) {
 			records.put(code, new ArrayList<Object>());
 		}
 		records.get(code).add(objects);
 	}
 
-	public boolean recorded(int code) {
+	public boolean recorded(final int code) {
 		return records.containsKey(code);
 	}
 
-	public List<Object> getRecords(int code) {
+	public List<Object> getRecords(final int code) {
 		return records.get(code);
 	}
 	
@@ -57,15 +57,15 @@ public class TestMPRecorder implements tlc2.output.IMessagePrinterRecorder {
 		return records.getOrDefault(code, defaultValue);
 	}
 
-	public int getRecordAsInt(int code) {
+	public int getRecordAsInt(final int code) {
 		return Integer.parseInt(((String[]) records.get(code).get(0))[0]);
 	}
 
-	public List<String[]> getRecordAsStringArray(int code) {
+	public List<String[]> getRecordAsStringArray(final int code) {
 		final List<Object> l = records.getOrDefault(code, new ArrayList<>());
 		
 		final List<String[]> strs = new ArrayList<>(l.size());
-		for (Object o : l) {
+		for (final Object o : l) {
 			strs.add((String[]) o);
 		}
 		return strs;
@@ -73,24 +73,24 @@ public class TestMPRecorder implements tlc2.output.IMessagePrinterRecorder {
 	
 	// This is a best effort implementation that only checks the first
 	// elements of the nested records and contained arrays
-	public boolean recordedWithStringValue(int code, String str) {
+	public boolean recordedWithStringValue(final int code, final String str) {
 		try {
 			return recordedWithStringValueAt(code, str, 0);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			return false;
 		}
 	}
 
-	public boolean recordedWithSubStringValue(int code, String substring) {
+	public boolean recordedWithSubStringValue(final int code, final String substring) {
 		return recordedWithSubStringValue(code, substring, 0);
 	}
 	
-	public boolean recordedWithSubStringValue(int code, String substring, int idx) {
+	public boolean recordedWithSubStringValue(final int code, final String substring, final int idx) {
 		try {
-			Object object = records.get(code).get(0);
+			final Object object = records.get(code).get(0);
 			if (object instanceof String[]) {
-				String[] strs = (String[]) object;
-				for (String string : strs) {
+				final String[] strs = (String[]) object;
+				for (final String string : strs) {
 					if (string.contains(substring)) {
 						return true;
 					}
@@ -100,29 +100,29 @@ public class TestMPRecorder implements tlc2.output.IMessagePrinterRecorder {
 				return ((String) object).contains(substring);
 			}
 			return false;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			return false;
 		}
 	}
 
-	public boolean recordedWithStringValueAt(int code, String str, int idx) {
+	public boolean recordedWithStringValueAt(final int code, final String str, final int idx) {
 		try {
-			Object object = records.get(code).get(0);
+			final Object object = records.get(code).get(0);
 			if (object instanceof String[]) {
-				String[] strs = (String[]) object;
+				final String[] strs = (String[]) object;
 				return strs[idx].equals(str);
 			} else if (object instanceof String) {
 				return object.equals(str);
 			}
 			return false;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			return false;
 		}
 	}
 
-	public boolean recordedWithStringValues(int code, String... strings) {
+	public boolean recordedWithStringValues(final int code, final String... strings) {
 		int i = 0;
-		for (String string : strings) {
+		for (final String string : strings) {
 			if (!recordedWithStringValueAt(code, string, i++)) {
 				return false;
 			}
@@ -168,7 +168,7 @@ public class TestMPRecorder implements tlc2.output.IMessagePrinterRecorder {
 		return getCoverage(EC.TLC_COVERAGE_VALUE_COST, (Predicate<? super Coverage>) o -> !o.isZero());
 	}
 
-	private List<Coverage> getCoverage(final int code, Predicate<? super Coverage> p) {
+	private List<Coverage> getCoverage(final int code, final Predicate<? super Coverage> p) {
 		final List<Object> coverages = getRecordsOrDefault(code, new ArrayList<>(0));
 		return coverages.stream().map(o -> (String[]) o).map(a -> new Coverage(a)).filter(p)
 				.collect(Collectors.toList());
@@ -182,7 +182,7 @@ public class TestMPRecorder implements tlc2.output.IMessagePrinterRecorder {
 		private final int level;
 		private final boolean isAction;
 		
-		public Coverage(String[] line) {
+		public Coverage(final String[] line) {
 			this.isAction = line[0].startsWith("<");
 			this.line = line[0].replace("|", "").trim();
 			this.level = line[0].length() - this.line.length();
@@ -244,14 +244,14 @@ public class TestMPRecorder implements tlc2.output.IMessagePrinterRecorder {
 		}
 
 		@Override
-		public boolean equals(Object obj) {
+		public boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (obj == null)
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			Coverage other = (Coverage) obj;
+			final Coverage other = (Coverage) obj;
 			if (count != other.count)
 				return false;
 			if (cost != other.cost)
@@ -270,12 +270,12 @@ public class TestMPRecorder implements tlc2.output.IMessagePrinterRecorder {
 	 */
 	public String toString() {
 		final StringBuffer buf = new StringBuffer(records.size());
-		for(Integer key : records.keySet()) {
+		for(final Integer key : records.keySet()) {
 			final List<Object> list = records.get(key);
-			for (Object elem : list) {
+			for (final Object elem : list) {
 				if (elem instanceof String[]) {
-					String[] strs = (String[]) elem;
-					for (String s : strs) {
+					final String[] strs = (String[]) elem;
+					for (final String s : strs) {
 						buf.append(key);
 						buf.append(" -> ");
 						buf.append(s);

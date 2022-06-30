@@ -170,7 +170,7 @@ public class AST
         return origin;
     }
 
-    public void setOrigin(Region origin) {
+    public void setOrigin(final Region origin) {
         this.origin = origin;
     }
 
@@ -469,7 +469,7 @@ public class AST
          * @return
          */
         public VarDecl toVarDecl() {
-            VarDecl result = new VarDecl() ;
+            final VarDecl result = new VarDecl() ;
             result.var = this.var ;
             result.val = this.val ;
             result.setOrigin(this.getOrigin());
@@ -614,7 +614,7 @@ public class AST
         public int getSource() {
             return source;
         }
-        public void setSource(int source) {
+        public void setSource(final int source) {
             this.source = source;
         }
 
@@ -779,7 +779,7 @@ public class AST
             return broken;
         }
 
-        public void setBroken(boolean broken) {
+        public void setBroken(final boolean broken) {
             this.broken = broken;
         }
 
@@ -911,7 +911,7 @@ public class AST
 
 /***************************** UTILITY METHODS ****************************/
 
-   public String boolToEqOrIn(boolean iseq)
+   public String boolToEqOrIn(final boolean iseq)
      { if (iseq)
          { return "\"=\"" ;}
        else
@@ -969,7 +969,7 @@ public class AST
      * There must be an easier way.                                        *
      **********************************************************************/
      
-   public static String Indent(String str)
+   public static String Indent(final String str)
      { curIndent[indentDepth + 1] = curIndent[indentDepth] + str.length() ;
        indentDepth = indentDepth + 1 ;
        return str ;
@@ -992,7 +992,7 @@ public class AST
      }     
 
      
-   public static String VectorToSeqString(Vector<?> vec)
+   public static String VectorToSeqString(final Vector<?> vec)
      /**********************************************************************
      * Returns the TLA+ representation of vec as a sequence of its         *
      * elements, where toString() is used to produce the elements'         *
@@ -1010,7 +1010,7 @@ public class AST
        return result + ">>" + EndIndent();
      }
    
-   public static String VectorToSeqQuotedString(Vector<?> vec)
+   public static String VectorToSeqQuotedString(final Vector<?> vec)
    /**********************************************************************
    * Returns the TLA+ representation of vec as a sequence of quoted      *
    * elements, where toString() is used to produce the elements'         *
@@ -1029,7 +1029,7 @@ public class AST
    }
 
 
-public static String VectorOfVectorsToSeqString(Vector<?> vecvec)
+public static String VectorOfVectorsToSeqString(final Vector<?> vecvec)
      /**********************************************************************
      * Returns the TLA+ representation of vec as a sequence of its         *
      * elements, where each of its elements is a vector of objects whose   *

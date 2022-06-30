@@ -38,7 +38,7 @@ public class DiskObjectStack extends ObjectStack {
   protected ObjectPoolStack diskStack;
   
   /* Constructors */
-  public DiskObjectStack(String diskdir, String name) {
+  public DiskObjectStack(final String diskdir, final String name) {
     this.buf1 = new Object[BufSize];
     this.buf2 = new Object[BufSize];
     this.buf = this.buf1;
@@ -47,7 +47,7 @@ public class DiskObjectStack extends ObjectStack {
     this.diskStack = new ObjectPoolStack(BufSize, this.filePrefix);
   }
   
-  final void enqueueInner(Object state) {
+  final void enqueueInner(final Object state) {
     if (this.index == BufSize && this.buf == this.buf2) {
       // need to flush buf1 to disk      
       try {
@@ -56,7 +56,7 @@ public class DiskObjectStack extends ObjectStack {
 	this.buf2 = this.buf;
 	this.index = 0;
       }
-      catch (Exception e) {
+      catch (final Exception e) {
           Assert.fail(EC.SYSTEM_ERROR_WRITING_STATES, new String[]{"stack", e.getMessage()});      
       }
     }
@@ -67,14 +67,14 @@ public class DiskObjectStack extends ObjectStack {
     if (this.buf == this.buf1 && this.index < BufSize/2) {
       // need to fill buffers
       try {
-	Object[] tempBuf = this.diskStack.read(this.buf);
+	final Object[] tempBuf = this.diskStack.read(this.buf);
 	if (tempBuf != null) {
 	  this.buf2 = this.buf1;
 	  this.buf1 = tempBuf;
 	  this.buf = this.buf2;
 	}
       }
-      catch (Exception e) {
+      catch (final Exception e) {
 	Assert.fail(EC.SYSTEM_ERROR_READING_STATES, new String[]{"stack", e.getMessage()});
       }
     }
@@ -83,11 +83,11 @@ public class DiskObjectStack extends ObjectStack {
 
   /* Checkpoint.  */
   public final void beginChkpt() throws IOException {
-    String filename = this.filePrefix + ".tmp";
-    ObjectOutputStream oos = FileUtil.newOBFOS(filename);
+    final String filename = this.filePrefix + ".tmp";
+    final ObjectOutputStream oos = FileUtil.newOBFOS(filename);
     oos.writeInt(this.len);
-    int index1 = (this.buf == this.buf1) ? this.index : BufSize;
-    int index2 = (this.buf == this.buf1) ? 0 : this.index;
+    final int index1 = (this.buf == this.buf1) ? this.index : BufSize;
+    final int index2 = (this.buf == this.buf1) ? 0 : this.index;
     oos.writeInt(index1);
     oos.writeInt(index2);
     for (int i = 0; i < index1; i++) {
@@ -102,22 +102,22 @@ public class DiskObjectStack extends ObjectStack {
   public final void commitChkpt() throws IOException {
     // SZ 23.02.2009: filename is not used  
     // String filename = this.filePrefix + ".chkpt"; 
-    File oldChkpt = new File(this.filePrefix + ".chkpt");
-    File newChkpt = new File(this.filePrefix + ".tmp");
+    final File oldChkpt = new File(this.filePrefix + ".chkpt");
+    final File newChkpt = new File(this.filePrefix + ".tmp");
     if ((oldChkpt.exists() && !oldChkpt.delete()) ||
 	!newChkpt.renameTo(oldChkpt)) {
-      String msg = "DiskObjectStack.commitChkpt: cannot delete " + oldChkpt;
+      final String msg = "DiskObjectStack.commitChkpt: cannot delete " + oldChkpt;
       throw new IOException(msg);
     }
   }
 
   public final void recover() throws IOException {
-    String filename = this.filePrefix + ".chkpt";
+    final String filename = this.filePrefix + ".chkpt";
     
-    ObjectInputStream ois = FileUtil.newOBFIS(filename);
+    final ObjectInputStream ois = FileUtil.newOBFIS(filename);
     this.len = ois.readInt();
-    int index1 = ois.readInt();
-    int index2 = ois.readInt();
+    final int index1 = ois.readInt();
+    final int index2 = ois.readInt();
     try {
       for (int i = 0; i < index1; i++) {
 	this.buf1[i] = ois.readObject();
@@ -126,7 +126,7 @@ public class DiskObjectStack extends ObjectStack {
 	this.buf2[i] = ois.readObject();
       }
     }
-    catch (ClassNotFoundException e) {
+    catch (final ClassNotFoundException e) {
         Assert.fail(EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT, e.getMessage());
     }
     finally {

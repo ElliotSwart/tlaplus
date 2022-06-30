@@ -24,7 +24,7 @@ public class DistributedFPSet  {
 
 	private static volatile boolean running = true;
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		ToolIO.out.println("TLC Distributed FP Server " + TLCGlobals.versionOfTLC);
 
         // Must have exactly one arg: a hostname (spec is read from the server
@@ -40,7 +40,7 @@ public class DistributedFPSet  {
 
 		try {
 			// Lookup FPSetManager
-			TLCServerRMI tlcServer = lookupTLCServer(serverName);
+			final TLCServerRMI tlcServer = lookupTLCServer(serverName);
 			
 			// Create metadata directory
 			final String metadir = System.getProperty("java.io.tmpdir") + File.separator + "FPSet"
@@ -71,7 +71,7 @@ public class DistributedFPSet  {
 			final String hostname = InetAddress.getLocalHost().getHostName();
 			try {
 				tlcServer.registerFPSet(fpSet, hostname);
-			} catch (FPSetManagerException e) {
+			} catch (final FPSetManagerException e) {
 				// Registration as an FPSet has failed, un-export local FPSet and
 				// exit main thread. Do not System.exit(int) as worker thread might 
 				// run in this VM instance.
@@ -95,7 +95,7 @@ public class DistributedFPSet  {
 				fpSet.unexportObject(false);
 				ToolIO.out.println("Exiting TLC Distributed FP Server");
 			}
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			// Assert.printStack(e);
 			MP.printError(EC.GENERAL, e);
 			ToolIO.out.println("Error: Failed to start FPSet "
@@ -114,7 +114,7 @@ public class DistributedFPSet  {
 	}
 	
 	private static TLCServerRMI lookupTLCServer(final String serverName) throws MalformedURLException, RemoteException, NotBoundException, InterruptedException {
-		String url = "//" + serverName + ":" + TLCServer.Port
+		final String url = "//" + serverName + ":" + TLCServer.Port
 				+ "/" + TLCServer.SERVER_NAME;
 
 		// try to repeatedly connect to the server until it becomes available.
@@ -124,12 +124,12 @@ public class DistributedFPSet  {
 		while(true) {
 			try {
 				return (TLCServerRMI) Naming.lookup(url);
-			} catch (ConnectException e) {
+			} catch (final ConnectException e) {
 				// if the cause if a java.NET.ConnectException the server is
 				// simply not ready yet
 				final Throwable cause = e.getCause();
 				if(cause instanceof java.net.ConnectException) {
-					long sleep = (long) Math.sqrt(i);
+					final long sleep = (long) Math.sqrt(i);
 					ToolIO.out.println("Server " + serverName
 							+ " unreachable, sleeping " + sleep
 							+ "s for server to come online...");
@@ -140,11 +140,11 @@ public class DistributedFPSet  {
 					// how to handle
 					throw e;
 				}
-			} catch (NotBoundException e) {
+			} catch (final NotBoundException e) {
 				// Registry is available but no object by "TLCServer". This
 				// happens when TLCServer makes it registry available but
 				// has't registered itself yet.
-				long sleep = (long) Math.sqrt(i);
+				final long sleep = (long) Math.sqrt(i);
 				ToolIO.out.println("Server " + serverName + " reachable but not ready yet, sleeping " + sleep
 						+ "s for server to come online...");
 				Thread.sleep(sleep * 1000);
@@ -153,7 +153,7 @@ public class DistributedFPSet  {
 		}
 	}
 	
-	private static void printErrorMsg(String msg) {
+	private static void printErrorMsg(final String msg) {
 		ToolIO.out.println(msg);
 		ToolIO.out
 				.println("Usage: java " + DistributedFPSet.class.getName() + " host");

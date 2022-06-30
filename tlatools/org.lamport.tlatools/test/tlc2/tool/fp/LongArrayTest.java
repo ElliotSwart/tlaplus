@@ -89,7 +89,7 @@ public class LongArrayTest {
 		final LongArray array = new LongArray(1);
 		try {
 			array.get(1);
-		} catch (AssertionError e) {
+		} catch (final AssertionError e) {
 			return;
 		}
 		fail();
@@ -100,7 +100,7 @@ public class LongArrayTest {
 		final LongArray array = new LongArray(1);
 		try {
 			array.get(-1);
-		} catch (AssertionError e) {
+		} catch (final AssertionError e) {
 			return;
 		}
 		fail();
@@ -150,10 +150,10 @@ public class LongArrayTest {
 			for (int i = 1; i < 128; i++) {
 				final LongArray array = new LongArray(i);
 				array.zeroMemory(k);
-				for (int j = 0; i < j; i++) {
+				for (final int j = 0; i < j; i++) {
 					assertEquals(0L, array.get(j));
 				}
-				for (int j = 0; i < j; i++) {
+				for (final int j = 0; i < j; i++) {
 					array.set(j, -1L);
 				}
 			}
@@ -168,7 +168,7 @@ public class LongArrayTest {
 		array.zeroMemory();
 		
 		for (long i = 0L; i < elements; i++) {
-			long value = Long.MAX_VALUE - i;
+			final long value = Long.MAX_VALUE - i;
 			array.set(i, value);
 		}
 		

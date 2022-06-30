@@ -31,12 +31,12 @@ public class Position
 
     Position() { } ;
 
-    Position(int line, int item) 
+    Position(final int line, final int item)
       {this.line = line ;
        this.item = item ;
       };
 
-    public Token toToken(Token[][] spec)
+    public Token toToken(final Token[][] spec)
       { Debug.Assert(   (line < spec.length) 
                      && (line >= 0) 
                      && (item < spec[line].length),
@@ -44,7 +44,7 @@ public class Position
         return spec[line][item];
       };
 
-    public boolean equals(Position pos) {
+    public boolean equals(final Position pos) {
           return (this.line == pos.line) && (this.item == pos.item) ; 
       }
 

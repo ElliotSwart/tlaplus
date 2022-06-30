@@ -49,8 +49,8 @@ public class TLCRuntime {
 		try {
 			return (Long) mBeanServer.getAttribute(new ObjectName("java.lang", "type", "OperatingSystem"),
 					"TotalPhysicalMemorySize");
-		} catch (InstanceNotFoundException | AttributeNotFoundException | MalformedObjectNameException
-				| ReflectionException | MBeanException | ClassCastException e) {
+		} catch (final InstanceNotFoundException | AttributeNotFoundException | MalformedObjectNameException
+                       | ReflectionException | MBeanException | ClassCastException e) {
 			// as a safeguard default to the total memory available to this JVM
 			return Runtime.getRuntime().totalMemory();
 		}
@@ -61,7 +61,7 @@ public class TLCRuntime {
 	 *            The percentage of physical memory required
 	 * @return the absolute amount of physical memory in MB
 	 */
-	public long getAbsolutePhysicalSystemMemory(double fraction) {
+	public long getAbsolutePhysicalSystemMemory(final double fraction) {
 		if (physicalSystemMemory == -1) {
 			physicalSystemMemory = getPhysicalSystemMemory();
 		}
@@ -79,10 +79,10 @@ public class TLCRuntime {
 		
 		final RuntimeMXBean RuntimemxBean = ManagementFactory.getRuntimeMXBean();
 		final List<String> arguments = RuntimemxBean.getInputArguments();
-		for (String arg : arguments) {
+		for (final String arg : arguments) {
 			if (arg.toLowerCase().startsWith("-xx:maxdirectmemorysize")) {
-				String[] strings = arg.split("=");
-				String mem = strings[1].toLowerCase();
+				final String[] strings = arg.split("=");
+				final String mem = strings[1].toLowerCase();
 				if (mem.endsWith("g")) {
 					l = Long.parseLong(mem.substring(0, mem.length() -1));
 					l = l << 30;
@@ -180,14 +180,14 @@ public class TLCRuntime {
 	        final Object o = aClass.getMethod("current").invoke(null, (Object[]) null);
 	        // Execute instance method pid()
 	        return (long) aClass.getMethod("pid").invoke(o, (Object[]) null);
-	    } catch (Exception e) {
+	    } catch (final Exception e) {
 			return -1;
 		}
 	}
 
 	public boolean isThroughputOptimizedGC() {
 		final List<GarbageCollectorMXBean> gcs = ManagementFactory.getGarbageCollectorMXBeans();
-		for (GarbageCollectorMXBean gc : gcs) {
+		for (final GarbageCollectorMXBean gc : gcs) {
 			// This might not be a reliable way to identify the currently active GC.
 			if ("PS Scavenge".equals(gc.getName())) {
 				return true;

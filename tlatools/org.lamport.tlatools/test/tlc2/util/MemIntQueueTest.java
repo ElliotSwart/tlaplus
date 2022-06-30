@@ -43,7 +43,7 @@ public class MemIntQueueTest {
 		assertEquals(1, queue.dequeueInt());
 		try {
 			queue.dequeueInt();
-		} catch (NoSuchElementException e) {
+		} catch (final NoSuchElementException e) {
 			return;
 		}
 		fail("Returned element where there should be none.");
@@ -64,7 +64,7 @@ public class MemIntQueueTest {
 		
 		try {
 			queue.dequeueInt();
-		} catch (NoSuchElementException e) {
+		} catch (final NoSuchElementException e) {
 			return;
 		}
 		fail("Returned element where there should be none.");
@@ -80,7 +80,7 @@ public class MemIntQueueTest {
 
 		try {
 			queue.dequeueInt();
-		} catch (NoSuchElementException e) {
+		} catch (final NoSuchElementException e) {
 			return;
 		}
 		fail("Returned element where there should be none.");
@@ -95,7 +95,7 @@ public class MemIntQueueTest {
 
 		try {
 			queue.dequeueLong();
-		} catch (NoSuchElementException e) {
+		} catch (final NoSuchElementException e) {
 			return;
 		}
 		fail("Returned element where there should be none.");

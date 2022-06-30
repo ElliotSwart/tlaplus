@@ -20,7 +20,7 @@ public class VectorCharReader extends CharReader
       * The next element of vec to be returned by innerGetNextLine.        *
       *********************************************************************/
       
-    public VectorCharReader(Vector<String> vector, int firstLine) 
+    public VectorCharReader(final Vector<String> vector, final int firstLine)
       /*********************************************************************
       * The class constructor.  The fileName argument is the name of the   *
       * file.  It exits TLATeX if the file cannot be found.                *

@@ -24,7 +24,7 @@ class LNAll extends LiveExprNode {
 	private static final String ALWAYS = "[]";
 	private final LiveExprNode body;
 
-	public LNAll(LiveExprNode body) {
+	public LNAll(final LiveExprNode body) {
 		this.body = body;
 	}
 
@@ -46,30 +46,30 @@ class LNAll extends LiveExprNode {
 		return this.body.isPositiveForm();
 	}
 
-	public final boolean eval(ITool tool, TLCState s1, TLCState s2) {
+	public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
 		Assert.fail(EC.TLC_LIVE_CANNOT_EVAL_FORMULA, ALWAYS);
 		return false; // make compiler happy
 	}
 
-	public final void toString(StringBuffer sb, String padding) {
+	public final void toString(final StringBuffer sb, final String padding) {
 		sb.append(ALWAYS);
 		this.getBody().toString(sb, padding + "  ");
 	}
 	
 	/* Return A if this expression is of form []<>A. */
 	public LiveExprNode getAEBody() {
-		LiveExprNode allBody = getBody();
+		final LiveExprNode allBody = getBody();
 		if (allBody instanceof LNEven) {
 			return ((LNEven) allBody).getBody();
 		}
 		return super.getAEBody();
 	}
 
-	public void extractPromises(TBPar promises) {
+	public void extractPromises(final TBPar promises) {
 		getBody().extractPromises(promises);
 	}
 
-	public int tagExpr(int tag) {
+	public int tagExpr(final int tag) {
 		return getBody().tagExpr(tag);
 	}
 
@@ -90,7 +90,7 @@ class LNAll extends LiveExprNode {
 	}
 
 	public boolean isGeneralTF() {
-		LiveExprNode allBody = getBody();
+		final LiveExprNode allBody = getBody();
 		if (allBody instanceof LNEven) {
 			return false;
 		}
@@ -101,7 +101,7 @@ class LNAll extends LiveExprNode {
 		return new LNEven(getBody().pushNeg());
 	}
 
-	public LiveExprNode pushNeg(boolean hasNeg) {
+	public LiveExprNode pushNeg(final boolean hasNeg) {
 		if (hasNeg) {
 			return new LNEven(getBody().pushNeg(true));
 		} else {
@@ -109,7 +109,7 @@ class LNAll extends LiveExprNode {
 		}
 	}
 
-	public boolean equals(LiveExprNode exp) {
+	public boolean equals(final LiveExprNode exp) {
 		if (exp instanceof LNAll) {
 			return getBody().equals(((LNAll) exp).getBody());
 		}

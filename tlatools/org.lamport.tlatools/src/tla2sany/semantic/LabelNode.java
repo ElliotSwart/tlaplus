@@ -125,13 +125,13 @@ public class LabelNode extends ExprNode
   /*************************************************************************
   * The constructor.                                                       *
   *************************************************************************/
-  LabelNode(TreeNode tn,           // the syntax tree node
-            UniqueString nm,       // name
-            FormalParamNode[] pms, // params
-            ThmOrAssumpDefNode gl, // goal
-            int  clause,           // goalClause
-            /* ExprNode */ LevelNode    bdy, // body
-            boolean isAP           // isAssumeProve value
+  LabelNode(final TreeNode tn,           // the syntax tree node
+            final UniqueString nm,       // name
+            final FormalParamNode[] pms, // params
+            final ThmOrAssumpDefNode gl, // goal
+            final int  clause,           // goalClause
+            /* ExprNode */ final LevelNode    bdy, // body
+            final boolean isAP           // isAssumeProve value
 ) {
     super(LabelKind, tn);
     this.name          = nm;
@@ -146,7 +146,7 @@ public class LabelNode extends ExprNode
   /*************************************************************************
   * A constructor just used to construct nullLabelNode.                    *
   *************************************************************************/
-  LabelNode(LevelNode /* ExprNode */ bdy) {
+  LabelNode(final LevelNode /* ExprNode */ bdy) {
     super(LabelKind, SyntaxTreeNode.nullSTN);
     this.name   = UniqueString.uniqueStringOf("nullLabelNode");
     this.params = new FormalParamNode[0] ;
@@ -165,12 +165,12 @@ public class LabelNode extends ExprNode
   * There doesn't seem to be any easy way to write these methods only      *
   * once.                                                                  *
   *************************************************************************/
-  public void setLabels(Hashtable<UniqueString, LabelNode> ht) {labels = ht; }
+  public void setLabels(final Hashtable<UniqueString, LabelNode> ht) {labels = ht; }
     /***********************************************************************
     * Sets the set of labels.                                              *
     ***********************************************************************/
 
-  public LabelNode getLabel(UniqueString us) {
+  public LabelNode getLabel(final UniqueString us) {
     /***********************************************************************
     * If the hashtable `labels' contains a LabelNode with name `us',       *
     * then that LabelNode is returned; otherwise null is returned.         *
@@ -180,7 +180,7 @@ public class LabelNode extends ExprNode
    }
 
   @SuppressWarnings("unlikely-arg-type")
-public boolean addLabel(LabelNode odn) {
+public boolean addLabel(final LabelNode odn) {
     /***********************************************************************
     * If the hashtable `labels' contains no OpDefNode with the same name   *
     * as odn, then odn is added to the set and true is return; else the    *
@@ -198,10 +198,10 @@ public boolean addLabel(LabelNode odn) {
     * `labels'.                                                            *
     ***********************************************************************/
     if (labels == null) {return new LabelNode[0];} ;
-    Vector<LabelNode> v = new Vector<LabelNode>() ;
-    Enumeration<LabelNode> e = labels.elements() ;
+    final Vector<LabelNode> v = new Vector<LabelNode>() ;
+    final Enumeration<LabelNode> e = labels.elements() ;
     while (e.hasMoreElements()) { v.addElement(e.nextElement()); } ;
-    LabelNode[] retVal = new LabelNode[v.size()] ;
+    final LabelNode[] retVal = new LabelNode[v.size()] ;
     for (int i = 0 ; i < v.size() ; i++)
       {retVal[i] = (LabelNode) v.elementAt(i); } ;
     return retVal ;
@@ -218,10 +218,10 @@ public boolean addLabel(LabelNode odn) {
   * Level-Checking.                                                        *
   *************************************************************************/
   @Override
-  public final boolean levelCheck(int iter) {
+  public final boolean levelCheck(final int iter) {
     if (levelChecked >= iter) {return true ;} ;
     levelChecked = iter;
-    boolean retVal = true ;
+    final boolean retVal = true ;
     for (int i=0; i < params.length; i++) {
       if (params[i] != null) {params[i].levelCheck(iter);} ;
      } ;
@@ -284,8 +284,8 @@ public boolean addLabel(LabelNode odn) {
   * The methods for implementing the ExploreNode interface.                *
   *************************************************************************/
   @Override
-  public final void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
@@ -297,7 +297,7 @@ public boolean addLabel(LabelNode odn) {
   }
 
   @Override
-  public final String toString(int depth) {
+  public final String toString(final int depth) {
     if (depth <= 0) return "";
     String ret = "\n*LabelNode: " + super.toString(depth);
     ret += Strings.indent(2, "\nname: " + name.toString()) ;
@@ -317,7 +317,7 @@ public boolean addLabel(LabelNode odn) {
     ***********************************************************************/
     if (labels != null) {
        ret += "\n  Labels: " ;
-       Enumeration<UniqueString> list = labels.keys() ;
+       final Enumeration<UniqueString> list = labels.keys() ;
        while (list.hasMoreElements()) {
           ret += list.nextElement().toString() + "  " ;
          } ;
@@ -335,12 +335,12 @@ public boolean addLabel(LabelNode odn) {
   }
 
   @Override
-  protected Element getLevelElement(Document doc, SymbolContext context) {
-      Element ret = doc.createElement("LabelNode");
+  protected Element getLevelElement(final Document doc, final SymbolContext context) {
+      final Element ret = doc.createElement("LabelNode");
       ret.appendChild(appendText(doc,"uniquename",getName().toString()));
       ret.appendChild(appendText(doc,"arity",Integer.toString(getArity())));
       ret.appendChild(appendElement(doc,"body",body.export(doc,context)));
-      Element arguments = doc.createElement("params");
+      final Element arguments = doc.createElement("params");
       for (int i=0; i<params.length; i++) arguments.appendChild(params[i].export(doc,context));
       ret.appendChild(arguments);
       return ret;

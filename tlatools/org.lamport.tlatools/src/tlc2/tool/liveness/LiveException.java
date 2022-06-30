@@ -10,12 +10,12 @@ public class LiveException extends RuntimeException {
 	private static final long serialVersionUID = 8031014064543953310L;
 	public final int errorCode;
 
-	public LiveException(int errorCode) {
+	public LiveException(final int errorCode) {
 		super();
 		this.errorCode = errorCode;
 	}
 
-	public LiveException(int errorCode, String msg) {
+	public LiveException(final int errorCode, final String msg) {
 		super(msg);
 		this.errorCode = errorCode;
 	}

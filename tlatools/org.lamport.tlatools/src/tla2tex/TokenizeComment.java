@@ -402,7 +402,7 @@ public class TokenizeComment
         skipNextChar() ;
       } ;
 
-    private static void Backspace(int n) 
+    private static void Backspace(final int n)
       /*********************************************************************
       * Decrements ncol by n.  (The result should be non-negative.)        *
       *********************************************************************/
@@ -420,7 +420,7 @@ public class TokenizeComment
         col = ncol ;
       }
 
-    private static void CTokenOut(int type)
+    private static void CTokenOut(final int type)
       /*********************************************************************
       * Add the token to linev and reset token to the empty string.        *
       *********************************************************************/
@@ -532,7 +532,7 @@ public class TokenizeComment
       /*********************************************************************
       * Turns vspec into an array, and re-initializes it.                  *
       *********************************************************************/
-      { CToken[][] aspec = new CToken[vspec.size()][] ;
+      { final CToken[][] aspec = new CToken[vspec.size()][] ;
         int n = 0 ;                                                       
         while (n < vspec.size())                                          
           { aspec[n] =                                                     
@@ -549,7 +549,7 @@ public class TokenizeComment
         return aspec;
       } ;
 
-    public static CToken[][] Tokenize(Vector<String> vec)
+    public static CToken[][] Tokenize(final Vector<String> vec)
       /*********************************************************************
       * Tokenize the comment represented by vec, which must be a vector    *
       * of strings.                                                        *
@@ -1026,7 +1026,7 @@ public class TokenizeComment
         return vspecToArray();
       }
 
-    public static CToken[][] TeXTokenize(Vector<String> vec)
+    public static CToken[][] TeXTokenize(final Vector<String> vec)
       /*********************************************************************
       * Tokenize the comment represented by vec, which must be a vector of *
       * strings, turning each line into a TeX token.                       *
@@ -1037,7 +1037,7 @@ public class TokenizeComment
           * provides such an argument had better be ready to deal with     *
           * the null result.                                               *
           *****************************************************************/
-        CToken[][] result = new CToken[vec.size()][];
+        final CToken[][] result = new CToken[vec.size()][];
         line = 0 ;
         while (line < vec.size())
          {String curString = "" ;

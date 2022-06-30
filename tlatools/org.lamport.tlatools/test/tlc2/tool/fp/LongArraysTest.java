@@ -726,7 +726,7 @@ public class LongArraysTest {
 		verify(expected, reprobe, indexer, array);
 	}
 
-	private long getEnd(final long partitions, final LongArray array, final long length, long idx) {
+	private long getEnd(final long partitions, final LongArray array, final long length, final long idx) {
 		return idx + 1L == partitions ? array.size() - 1L: (idx + 1L) * length;
 	}
 
@@ -803,7 +803,7 @@ public class LongArraysTest {
 		long pos = 0;
 		final List<Long> seen = new ArrayList<Long>(expected.size());
 		while (pos < array.size()) {
-			long e = array.get(pos);
+			final long e = array.get(pos);
 			if (e <= EMPTY || indexer.getIdx(e) > pos) {
 				// Either sentinel or wrapped.
 				pos++;
@@ -816,7 +816,7 @@ public class LongArraysTest {
 		// B) Collect all elements into seen but skip those at the beginning that
 		// wrapped, and those that didn't wrap at the end (array.size + reprobe).
 		for (; pos < array.size() + reprobe; pos++) {
-			long actual = array.get(pos % array.size());
+			final long actual = array.get(pos % array.size());
 			if (actual <= EMPTY) {
 				continue;
 			}
@@ -864,7 +864,7 @@ public class LongArraysTest {
 		assertFalse(isInRange(3, 2, 2, 4));
 	}
 
-	private static boolean isInRange(long idx, int reprobe, int pos, long size) {
+	private static boolean isInRange(final long idx, final int reprobe, final int pos, final long size) {
 		if (idx + reprobe >= size && pos < idx) {
 			return pos <= (idx + reprobe) % size;
 		} else {

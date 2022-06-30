@@ -18,7 +18,7 @@ public class CallStack {
   private int index;               // pointer to the empty slot
   private boolean frozen;
 
-  public final void push(SemanticNode expr) {
+  public final void push(final SemanticNode expr) {
     if (this.index == this.stack.length) {
       this.resize();
     }
@@ -34,7 +34,7 @@ public class CallStack {
 	  this.frozen = true;
   }
   
-  public void freeze(FingerprintException e) {
+  public void freeze(final FingerprintException e) {
 	  if (this.frozen) {
 		  return;
 	  }
@@ -45,8 +45,8 @@ public class CallStack {
   public final int size() { return this.index; }
 
   private final void resize() {
-    int len = 2 * this.stack.length;
-    SemanticNode[] stack1 = new SemanticNode[len];
+    final int len = 2 * this.stack.length;
+    final SemanticNode[] stack1 = new SemanticNode[len];
     System.arraycopy(this.stack, 0, stack1, 0, this.stack.length);
     this.stack = stack1;
   }
@@ -68,7 +68,7 @@ public class CallStack {
         	continue;
         }
         expr = this.stack[i];
-        Location loc = expr.getTreeNode().getLocation();
+        final Location loc = expr.getTreeNode().getLocation();
         sb.append(stackDepth + ". ");
         sb.append("Line ");
         sb.append(loc.beginLine());

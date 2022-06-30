@@ -43,11 +43,11 @@ public abstract class TTraceModelCheckerTestCase extends ModelCheckerTestCase {
 	// Make the generated stuff go into the target/ folder of the org.lamport.tlatools folder.
 	private static final String GEN_SPEC_PATH = ".." + File.separator + "target" + File.separator + "GeneratedTESpecs";
 
-	public static String getPath(Class<? extends ModelCheckerTestCase> clazz) {
+	public static String getPath(final Class<? extends ModelCheckerTestCase> clazz) {
 		return BASE_PATH + GEN_SPEC_PATH + File.separator + getSpecFileName(clazz);
 	}
 
-	private static String getSpecFileName(Class<?> clazz) {
+	private static String getSpecFileName(final Class<?> clazz) {
 		return clazz.getSimpleName() + TLAConstants.TraceExplore.TRACE_EXPRESSION_MODULE_NAME
 				+ TLAConstants.Files.TLA_EXTENSION;
 	}
@@ -85,7 +85,7 @@ public abstract class TTraceModelCheckerTestCase extends ModelCheckerTestCase {
 		beforeSetUp();
 
 		//TODO Assume that the generated file exist.
-		Path sourcePath = Paths
+		final Path sourcePath = Paths
 				.get(BASE_PATH + path + File.separator + spec);
 		Assume.assumeTrue("No TE spec was generated, please run test with original spec", sourcePath.toFile().isFile());
 

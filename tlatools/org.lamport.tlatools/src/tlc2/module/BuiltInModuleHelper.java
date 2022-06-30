@@ -40,7 +40,7 @@ public class BuiltInModuleHelper {
 		// no instantiation
 	}
 	
-	public static boolean isBuiltInModule(Class<?> clazz) {
+	public static boolean isBuiltInModule(final Class<?> clazz) {
         try {
 			// Compare serialVersionUID because a user is allowed to override a
 			// built-in module. Thus, the name alone does not uniquely identify
@@ -80,13 +80,13 @@ public class BuiltInModuleHelper {
 				// TODO Add Toolbox.class here too should Toolbox.tla module ever get a module
 				// override.
 			}
-		} catch (SecurityException e) {
+		} catch (final SecurityException e) {
 			return false;
-		} catch (NoSuchFieldException e) {
+		} catch (final NoSuchFieldException e) {
 			return false;
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return false;
-		} catch (IllegalAccessException e) {
+		} catch (final IllegalAccessException e) {
 			return false;
 		}
         return false;

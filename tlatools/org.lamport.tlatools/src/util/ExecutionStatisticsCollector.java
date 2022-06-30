@@ -70,7 +70,7 @@ public class ExecutionStatisticsCollector {
 		this(isOptOut(), PATH);
 	}
 	
-	ExecutionStatisticsCollector(String path) {
+	ExecutionStatisticsCollector(final String path) {
 		this(false, path);
 	}
 	
@@ -122,9 +122,9 @@ public class ExecutionStatisticsCollector {
 
 		final File udcFile = new File(pathname);
 		if (!udcFile.exists() && isOptOut) {
-			try (BufferedWriter br = new BufferedWriter(new FileWriter(udcFile))) {
+			try (final BufferedWriter br = new BufferedWriter(new FileWriter(udcFile))) {
 				br.write(getRandomIdentifier());
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				// Something went wrong writing to file ~/.tlaplus/esc.txt. Consider ESC failed.
 				return null;
 			}
@@ -133,9 +133,9 @@ public class ExecutionStatisticsCollector {
 			// No file ~/.tlaplus/esc.txt.
 			return null;
 		}
-		try (BufferedReader br = new BufferedReader(new FileReader(udcFile))) {
+		try (final BufferedReader br = new BufferedReader(new FileReader(udcFile))) {
 			identifier = br.readLine();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			// Something went wrong reading file ~/.tlaplus/esc.txt
 			return null;
 		}
@@ -167,23 +167,23 @@ public class ExecutionStatisticsCollector {
 		udcFile.getParentFile().mkdirs();
 		udcFile.createNewFile();
 		
-		try (BufferedWriter br = new BufferedWriter(new FileWriter(udcFile))) {
+		try (final BufferedWriter br = new BufferedWriter(new FileWriter(udcFile))) {
 			br.write(c.toString() + "\n");
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw e;
 		}
 	}
 	
 	public Selection get() {
 		if (isEnabled()) {
-			try (BufferedReader br = new BufferedReader(new FileReader(new File(pathname)))) {
-				String line = br.readLine();
+			try (final BufferedReader br = new BufferedReader(new FileReader(new File(pathname)))) {
+				final String line = br.readLine();
 				if (RND_ID_STR.equals(line)) {
 					return Selection.RANDOM_IDENTIFIER;
 				} else {
 					return Selection.ON;
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 			}
 		}
 		return Selection.NO_ESC;
@@ -224,7 +224,7 @@ public class ExecutionStatisticsCollector {
 			con.setRequestMethod("HEAD");
 			con.getResponseMessage();
 			con.disconnect();
-		} catch (Exception ignoreCompletely) {
+		} catch (final Exception ignoreCompletely) {
 			// A TLC user doesn't care if execution statistics collection doesn't work.
 		}
 	}	
@@ -232,8 +232,8 @@ public class ExecutionStatisticsCollector {
 	private static String encode(final Map<String, String> parameters) throws UnsupportedEncodingException {
 		final StringBuffer buf = new StringBuffer();
 
-		for (String key : parameters.keySet()) {
-			String value = parameters.get(key);
+		for (final String key : parameters.keySet()) {
+			final String value = parameters.get(key);
 			buf.append(URLEncoder.encode(key, "UTF-8"));
 			buf.append("=");
 			buf.append(URLEncoder.encode(value, "UTF-8"));
@@ -245,7 +245,7 @@ public class ExecutionStatisticsCollector {
 
 	// for manual testing //
 	
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		new ExecutionStatisticsCollector().collect(new HashMap<>(), false);
 	}
 }

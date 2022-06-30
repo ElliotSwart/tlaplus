@@ -87,8 +87,8 @@ public abstract class AbstractChecker
      * @param resolver
      * @param spec - pre-built specification object (e.G. from calling SANY from the tool previously)
      */
-	public AbstractChecker(ITool tool, String metadir, final IStateWriter stateWriter,
-			boolean deadlock, String fromChkpt, final long startTime) throws EvalException, IOException {
+	public AbstractChecker(final ITool tool, final String metadir, final IStateWriter stateWriter,
+                           final boolean deadlock, final String fromChkpt, final long startTime) throws EvalException, IOException {
         this.tool = tool;
 		
 		this.checkDeadlock = deadlock;
@@ -157,7 +157,7 @@ public abstract class AbstractChecker
 
     public final boolean setDone()
     {
-    	boolean old = this.done;
+    	final boolean old = this.done;
         this.done = true;
         return old;
     }
@@ -166,7 +166,7 @@ public abstract class AbstractChecker
      * Set the error state. 
      * <strong>Note:</note> this method must be protected by lock 
      */
-    public boolean setErrState(TLCState curState, TLCState succState, boolean keepCallStack, int errorCode)
+    public boolean setErrState(final TLCState curState, final TLCState succState, final boolean keepCallStack, final int errorCode)
     {
        assert Thread.holdsLock(this) : "Caller thread has to hold monitor!";
        if (!TLCGlobals.continuation && this.done)
@@ -180,7 +180,7 @@ public abstract class AbstractChecker
         return true;
     }
 
-	public void setError(boolean keepCallStack, int errorCode) {
+	public void setError(final boolean keepCallStack, final int errorCode) {
 		assert Thread.holdsLock(this) : "Caller thread has to hold monitor!";
 		IdThread.resetCurrentState();
 		this.errorCode = errorCode;
@@ -192,7 +192,7 @@ public abstract class AbstractChecker
      * Responsible for printing the coverage information
      * @param workers
      */
-    protected void reportCoverage(IWorker[] workers)
+    protected void reportCoverage(final IWorker[] workers)
     {
 		// Without actions (empty spec) there won't be any statistics anyway.
 		if (TLCGlobals.isCoverageEnabled() && this.tool.getActions().length > 0)
@@ -253,7 +253,7 @@ public abstract class AbstractChecker
      * @param significantDigits  - the number of significant digits to include; must be > 0.
      * @return
      */
-    private static final String ProbabilityToString(double val, int significantDigits) {
+    private static final String ProbabilityToString(final double val, final int significantDigits) {
         /*
          * If val = 0 (which shouldn't happen), return "0.0"
          */
@@ -261,8 +261,8 @@ public abstract class AbstractChecker
             return "0.0";
         }
                 
-        String valString = Double.toString(val) ;
-        int valStringLen = valString.length();
+        final String valString = Double.toString(val) ;
+        final int valStringLen = valString.length();
         
         String result = "";
         int next = 0; // pointer to the next character in valString to examine.
@@ -344,9 +344,9 @@ public abstract class AbstractChecker
                         result = "1" + result;
                         done = true;
                     } else {
-                        char prevChar = result.charAt(prev);
-                        String front = result.substring(0, prev);
-                        String back = result.substring(prev+1);
+                        final char prevChar = result.charAt(prev);
+                        final String front = result.substring(0, prev);
+                        final String back = result.substring(prev+1);
                         if (Character.isDigit(prevChar)) {
                             if (prevChar == '9') {
                                 result = front + '0' + back;
@@ -417,7 +417,7 @@ public abstract class AbstractChecker
      * Create the partial state space for given starting state up
      * to the given depth or the number of states.
      */
-    public final int runTLC(int depth) throws Exception
+    public final int runTLC(final int depth) throws Exception
     {
         if (depth < 2)
         {
@@ -504,7 +504,7 @@ public abstract class AbstractChecker
 		return EC.NO_ERROR;
     }
     
-	public final void setAllValues(int idx, IValue val) {
+	public final void setAllValues(final int idx, final IValue val) {
 		for (int i = 0; i < this.workers.length; i++) {
 			workers[i].setLocalValue(idx, val);
 		}
@@ -514,7 +514,7 @@ public abstract class AbstractChecker
 		return Arrays.asList(workers).stream().map(w -> w.getLocalValue(idx)).collect(Collectors.toList());
 	}
 
-	public final IValue getValue(int i, int idx) {
+	public final IValue getValue(final int i, final int idx) {
 		return workers[i].getLocalValue(idx);
 	}
 	
@@ -540,7 +540,7 @@ public abstract class AbstractChecker
      * Debugging support
      * @param message
      */
-    protected void report(String message)
+    protected void report(final String message)
     {
         DebugPrinter.print(message);
     }

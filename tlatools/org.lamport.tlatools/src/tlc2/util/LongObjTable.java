@@ -12,7 +12,7 @@ public final class LongObjTable {
   private long[] keys;
   private Object[] elems;
 
-  public LongObjTable(int size) {
+  public LongObjTable(final int size) {
     this.keys = new long[size];
     this.elems = new Object[size];
     this.count = 0;
@@ -21,22 +21,22 @@ public final class LongObjTable {
   }
 
   private final void grow() {
-    long[] oldKeys = this.keys;
-    Object[] oldElems = this.elems;
+    final long[] oldKeys = this.keys;
+    final Object[] oldElems = this.elems;
     this.count = 0;
     this.length = 2 * this.length + 1;
     this.thresh = this.length / 2;
     this.keys = new long[length];
     this.elems = new Object[length];
     for (int i = 0; i < oldKeys.length; i++) {
-      Object elem = oldElems[i];
+      final Object elem = oldElems[i];
       if (elem != null) this.put(oldKeys[i], elem);
     }
   }
 
   public final int size() { return this.count; }
 
-  public final int put(long k, Object elem) {
+  public final int put(final long k, final Object elem) {
     if (count >= thresh) this.grow();
     int loc = ((int)k & 0x7FFFFFFF) % length ;
     while (true) {
@@ -54,10 +54,10 @@ public final class LongObjTable {
     }
   }
 
-  public final Object get(long k) {
+  public final Object get(final long k) {
     int loc = ((int)k & 0x7FFFFFFF) % length ;
     while (true) {
-      Object elem = this.elems[loc];
+      final Object elem = this.elems[loc];
       if (elem == null) return null;
       if (this.keys[loc] == k) return elem;
       loc = (loc + 1) % length;

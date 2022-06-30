@@ -43,7 +43,7 @@ public class LongVecTest {
 		final LongVec vec = getLongVec();
 		try {
 			vec.elementAt(0);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (final IndexOutOfBoundsException e) {
 			return;
 		}
 		fail("Read beyond capacity");
@@ -56,7 +56,7 @@ public class LongVecTest {
 		assertEquals(1L, vec.elementAt(0));
 		try {
 			vec.elementAt(1);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (final IndexOutOfBoundsException e) {
 			return;
 		}
 		fail("Read beyond capacity");
@@ -68,7 +68,7 @@ public class LongVecTest {
 		for (int i = -1; i <= 10; i++) {
 			try {
 				vec.removeElement(0);
-			} catch (IndexOutOfBoundsException e) {
+			} catch (final IndexOutOfBoundsException e) {
 				continue;
 			}
 			fail("Read beyond capacity");
@@ -82,7 +82,7 @@ public class LongVecTest {
 		vec.removeElement(0);
 		try {
 			vec.removeElement(1);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (final IndexOutOfBoundsException e) {
 			return;
 		}
 		fail("Read beyond capacity");
@@ -105,7 +105,7 @@ public class LongVecTest {
 		// There must not be an element at idx 2 anymore!
 		try {
 			vec.elementAt(2);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (final IndexOutOfBoundsException e) {
 			return;
 		}
 		fail("A new elements magically appeared in LongVec");
@@ -123,7 +123,7 @@ public class LongVecTest {
 		vec.removeElement(0);
 		try {
 			vec.removeElement(1);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (final IndexOutOfBoundsException e) {
 			return;
 		}
 		fail("Removed non-existing element");
@@ -134,7 +134,7 @@ public class LongVecTest {
 		final LongVec vec = getLongVec();
 		try {
 			vec.elementAt(-1);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (final IndexOutOfBoundsException e) {
 			return;
 		}
 		fail("Read negative");
@@ -145,7 +145,7 @@ public class LongVecTest {
 		final LongVec vec = getLongVec();
 		try {
 			vec.removeElement(-1);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (final IndexOutOfBoundsException e) {
 			return;
 		}
 		fail("Removed negative");

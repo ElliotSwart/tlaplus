@@ -64,7 +64,7 @@ public abstract class MultiThreadedSpecTest extends ModelCheckerTestCase {
 	private final double waitedRatio;
 	private final double blockedRatio;
 	
-	public MultiThreadedSpecTest(String spec, String path, String statesGenerated, String distinctStatesGenerated, double blockedRatio, double waitedRatio) {
+	public MultiThreadedSpecTest(final String spec, final String path, final String statesGenerated, final String distinctStatesGenerated, final double blockedRatio, final double waitedRatio) {
 		super(spec, path);
 		this.statesGenerated = statesGenerated;
 		this.distinctStatesGenerated = distinctStatesGenerated;
@@ -72,7 +72,7 @@ public abstract class MultiThreadedSpecTest extends ModelCheckerTestCase {
 		this.waitedRatio = waitedRatio;
 	}
 
-	public MultiThreadedSpecTest(String spec, String path, String[] extraArguments, String statesGenerated, String distinctStatesGenerated, double blockedRatio, double waitedRatio) {
+	public MultiThreadedSpecTest(final String spec, final String path, final String[] extraArguments, final String statesGenerated, final String distinctStatesGenerated, final double blockedRatio, final double waitedRatio) {
 		super(spec, path, extraArguments);
 		this.statesGenerated = statesGenerated;
 		this.distinctStatesGenerated = distinctStatesGenerated;
@@ -127,7 +127,7 @@ public abstract class MultiThreadedSpecTest extends ModelCheckerTestCase {
 		
 		// None of the workers threads should have been blocked or waiting for
 		// more than 25%
-		for (PerformanceResult result : performanceResults) {
+		for (final PerformanceResult result : performanceResults) {
 			assertTrue(String.format("Blocked(%s): %.3f", result.getThreadName(), result.getBlockedRatio()),
 					result.getBlockedRatio() < blockedRatio);
 			assertTrue(String.format("Waiting(%s): %.3f", result.getThreadName(), result.getWaitedRatio()),
@@ -157,8 +157,8 @@ public abstract class MultiThreadedSpecTest extends ModelCheckerTestCase {
 		WorkerMonitor.addThreadListener(new WorkerMonitor.ThreadListener() {
 			public synchronized void terminated(final Thread thread, final long runningTime) {
 				final ThreadInfo threadInfo = threadBean.getThreadInfo(thread.getId());
-				double d = threadInfo.getBlockedTime() / (runningTime * 1.0d);
-				double d2 = threadInfo.getWaitedTime() / (runningTime * 1.0d);
+				final double d = threadInfo.getBlockedTime() / (runningTime * 1.0d);
+				final double d2 = threadInfo.getWaitedTime() / (runningTime * 1.0d);
 				performanceResults.add(new PerformanceResult(thread.getName(), d, d2));
 				latch.countDown();
 			}
@@ -176,7 +176,7 @@ public abstract class MultiThreadedSpecTest extends ModelCheckerTestCase {
 		private final double waitedRatio;
 		private final String threadName;
 
-		public PerformanceResult(String threadName, double blockedRatio, double waitedRatio) {
+		public PerformanceResult(final String threadName, final double blockedRatio, final double waitedRatio) {
 			this.threadName = threadName;
 			this.blockedRatio = blockedRatio;
 			this.waitedRatio = waitedRatio;

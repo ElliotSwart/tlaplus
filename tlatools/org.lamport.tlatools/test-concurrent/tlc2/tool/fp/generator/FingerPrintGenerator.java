@@ -27,8 +27,8 @@ public class FingerPrintGenerator implements Runnable {
 	protected long puts = 0L;
 	protected long collisions = 0L;
 
-	public FingerPrintGenerator(MultiThreadedFPSetTest test, int id, int numThreads, FPSet fpSet, CountDownLatch latch,
-			long seed, long totalInsertions, final CyclicBarrier barrier) {
+	public FingerPrintGenerator(final MultiThreadedFPSetTest test, final int id, final int numThreads, final FPSet fpSet, final CountDownLatch latch,
+                                final long seed, final long totalInsertions, final CyclicBarrier barrier) {
 		this.test = test;
 		this.id = id;
 		this.numThreads = numThreads;
@@ -71,13 +71,13 @@ public class FingerPrintGenerator implements Runnable {
 //					}
 //				}
 //				
-				boolean put = fpSet.put(predecessor);
+				final boolean put = fpSet.put(predecessor);
 				if (put == false) {
 					puts++;
 				} else {
 					collisions++;
 				}
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				e.printStackTrace();
 				Assert.fail("Unexpected");
 			}
@@ -106,9 +106,9 @@ public class FingerPrintGenerator implements Runnable {
 	protected void waitForAllThreadsStarted() {
 		try {
 			barrier.await();
-		} catch (InterruptedException e1) {
+		} catch (final InterruptedException e1) {
 			e1.printStackTrace();
-		} catch (BrokenBarrierException e1) {
+		} catch (final BrokenBarrierException e1) {
 			e1.printStackTrace();
 		}
 	}

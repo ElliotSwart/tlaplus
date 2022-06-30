@@ -14,7 +14,7 @@ public class UnrecoverablePositionedException extends UnrecoverableException
 	private static final long serialVersionUID = 6824546728023633260L;
 	private AST position;
     
-    public UnrecoverablePositionedException(String message)
+    public UnrecoverablePositionedException(final String message)
     {
         super(message);
     }
@@ -23,7 +23,7 @@ public class UnrecoverablePositionedException extends UnrecoverableException
      * @param message
      * @param position
      */
-    public UnrecoverablePositionedException(String message, AST position)
+    public UnrecoverablePositionedException(final String message, final AST position)
     {
         super(message);
         this.position = position;

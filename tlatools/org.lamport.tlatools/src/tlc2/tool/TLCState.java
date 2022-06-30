@@ -45,14 +45,14 @@ public short workerId = Short.MAX_VALUE; // Must be set to a non-negative number
   // The state variables.
   protected static OpDeclNode[] vars = null;
 
-  public void read(IValueInputStream vis) throws IOException {
+  public void read(final IValueInputStream vis) throws IOException {
 	this.workerId = vis.readShortNat();
 	this.uid = vis.readLongNat();
     this.level = vis.readShortNat();
     assert this.level >= 0; // Should never overflow.
   }
   
-	public void write(IValueOutputStream vos) throws IOException {
+	public void write(final IValueOutputStream vos) throws IOException {
 		if (this.level > Short.MAX_VALUE) {
 			// The on-disk representation of TLCState limits the diameter/level to
 			// Short.MAX_VALUE whereas the in-memory rep supports int. The underlying
@@ -73,7 +73,7 @@ public short workerId = Short.MAX_VALUE; // Must be set to a non-negative number
   /**
    * Convenience method when performance doesn't matter.
    */
-  public IValue lookup(String var) {
+  public IValue lookup(final String var) {
 	  return lookup(UniqueString.uniqueStringOf(var));
   }
   public abstract IValue lookup(UniqueString var);
@@ -87,12 +87,12 @@ public short workerId = Short.MAX_VALUE; // Must be set to a non-negative number
   public abstract Set<OpDeclNode> getUnassigned();
   public abstract TLCState createEmpty();
 
-  protected TLCState copy(TLCState copy) {
+  protected TLCState copy(final TLCState copy) {
 	  copy.level = this.level;
 	  return copy;
   }
   
-  protected TLCState deepCopy(TLCState copy) {
+  protected TLCState deepCopy(final TLCState copy) {
 	  copy.level = this.level;
 	  copy.workerId = this.workerId;
 	  copy.uid = this.uid;
@@ -111,8 +111,8 @@ public short workerId = Short.MAX_VALUE; // Must be set to a non-negative number
   public final Map<UniqueString, IValue> getVals() {
 	final Map<UniqueString, IValue> valMap = new HashMap<UniqueString, IValue>();
 	for(int i = 0; i < vars.length; i++) {
-        UniqueString key = vars[i].getName();
-        IValue val = this.lookup(key);
+        final UniqueString key = vars[i].getName();
+        final IValue val = this.lookup(key);
         valMap.put(key, val);
     }
     return valMap;
@@ -123,7 +123,7 @@ public short workerId = Short.MAX_VALUE; // Must be set to a non-negative number
   }
   
   public final String[] getVarsAsStrings() {
-	  String[] res = new String[vars.length];
+	  final String[] res = new String[vars.length];
 	  for (int i = 0; i < vars.length; i++) {
 		res[i] = vars[i].getName().toString();
 	  }
@@ -170,7 +170,7 @@ public short workerId = Short.MAX_VALUE; // Must be set to a non-negative number
 	  return null;
   }
   
-  public void setCallable(Callable<?> cl) {
+  public void setCallable(final Callable<?> cl) {
 	  // no-op - see TLAPlusExecutorState
   }
 
@@ -179,7 +179,7 @@ public short workerId = Short.MAX_VALUE; // Must be set to a non-negative number
 		return null;
 	}
 
-	public TLCState setAction(Action action) {
+	public TLCState setAction(final Action action) {
 		  // no-op - see TLCStateMutExt
 		return this;
 	}

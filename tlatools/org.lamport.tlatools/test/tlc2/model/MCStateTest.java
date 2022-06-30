@@ -36,7 +36,7 @@ public class MCStateTest {
 		};
 
 		String remaining = actual.trim();
-		for (String expectedToken : expectedTokens)
+		for (final String expectedToken : expectedTokens)
 		{
 			if (remaining.startsWith(expectedToken))
 			{
@@ -50,10 +50,10 @@ public class MCStateTest {
 	}
 	
 	private static void testParseRoundTrip(
-			int ordinal,
-			String name,
-			String location,
-			String ...assignments)
+            final int ordinal,
+            final String name,
+            final String location,
+            final String ...assignments)
 	{
 		final MCState expected = Utils.buildState(ordinal, name, location, assignments);
 		final List<String> inputLines = Utils.toTlcOutputFormat(expected);
@@ -71,8 +71,8 @@ public class MCStateTest {
 		assertEquals(expected.isBackToState(), actual.isBackToState());
 		assertEquals(expected.getStateNumber(), actual.getStateNumber());
 		
-		MCVariable[] expectedVars = expected.getVariables();
-		MCVariable[] actualVars = actual.getVariables();
+		final MCVariable[] expectedVars = expected.getVariables();
+		final MCVariable[] actualVars = actual.getVariables();
 		assertEquals(expectedVars.length, actualVars.length);
 		for (int i = 0; i < expectedVars.length; i++)
 		{

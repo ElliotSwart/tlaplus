@@ -77,7 +77,7 @@ public class TLCExt {
 
 		try {
 			tool.eval(args[1], c, s0, s1, control, cm);
-		} catch (EvalException | TLCRuntimeException e) {
+		} catch (final EvalException | TLCRuntimeException e) {
 			final StringValue err = (StringValue) tool.eval(args[0], c, s0);
 			if (err.val.equals(e.getMessage())) {
 				return BoolValue.ValTrue;
@@ -102,7 +102,7 @@ public class TLCExt {
 				// If it is a seen state it is by definition in the model.
 				return BoolValue.ValTrue;
 			}
-		} catch (IOException notExpectedToHappen) {
+		} catch (final IOException notExpectedToHappen) {
 			notExpectedToHappen.printStackTrace();
 			return BoolValue.ValTrue;
 		}
@@ -135,8 +135,8 @@ public class TLCExt {
 			// TODO: This is clumsy (we regenerate all next-states again) and incorrect if
 			// two actions generate the same successor states. It's good enough for now
 			// until the Action instance was passed down the call-stack.
-			LOOP: for (Action act : tool.getActions()) {
-				StateVec nextStates = tool.getNextStates(act, s0);
+			LOOP: for (final Action act : tool.getActions()) {
+				final StateVec nextStates = tool.getNextStates(act, s0);
 				if (nextStates.contains(s1)) {
 					action = act;
 					break LOOP;
@@ -165,7 +165,7 @@ public class TLCExt {
 				if (TLCGlobals.mainChecker != null) {
 					try {
 						((ModelChecker) TLCGlobals.mainChecker).theFPSet.put(s1.fingerPrint());
-					} catch (IOException notExpectedToHappen) {
+					} catch (final IOException notExpectedToHappen) {
 						notExpectedToHappen.printStackTrace();
 					}
 					return BoolValue.ValTrue;
@@ -296,7 +296,7 @@ public class TLCExt {
 				}
 				return null;
 			});
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			Assert.fail(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE, new String[] { "TLCDefer", e.getMessage() });
 		}
 		return BoolValue.ValTrue;

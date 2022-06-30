@@ -6,6 +6,6 @@ class LevelException extends Exception {
 
   private static final long serialVersionUID = -877141057145413215L;
 
-LevelException(String s) { super(s); }
+LevelException(final String s) { super(s); }
 
 }

@@ -15,7 +15,7 @@ public class RemoveNameConflictsException extends UnrecoverablePositionedExcepti
 	/**
      * @param message
      */
-    public RemoveNameConflictsException(String message)
+    public RemoveNameConflictsException(final String message)
     {
         super(message);
     }
@@ -23,7 +23,7 @@ public class RemoveNameConflictsException extends UnrecoverablePositionedExcepti
     /**
      * @param e2
      */
-    public RemoveNameConflictsException(UnrecoverablePositionedException e2)
+    public RemoveNameConflictsException(final UnrecoverablePositionedException e2)
     {
         super(e2.getMessage(), e2.getPosition());
     }

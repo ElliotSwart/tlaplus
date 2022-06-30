@@ -24,7 +24,7 @@ implements Enumerable, Reducible {
 public int low, high;   // the integer interval [low, high]
 
   /* Constructor */
-  public IntervalValue(int low, int high) {
+  public IntervalValue(final int low, final int high) {
     this.low = low;
     this.high = high;
   }
@@ -33,11 +33,11 @@ public int low, high;   // the integer interval [low, high]
   public final byte getKind() { return INTERVALVALUE; }
 
   @Override
-  public final int compareTo(Object obj) {
+  public final int compareTo(final Object obj) {
     try {
         if (obj instanceof IntervalValue) {
-				IntervalValue intv = (IntervalValue) obj;
-		        int cmp = this.size() - intv.size();
+				final IntervalValue intv = (IntervalValue) obj;
+		        final int cmp = this.size() - intv.size();
 		        if (cmp != 0) {
 					return cmp;
 				}
@@ -50,33 +50,33 @@ public int low, high;   // the integer interval [low, high]
       // Well, we have to convert them to sets and compare.
       return this.toSetEnum().compareTo(obj);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     try {
       if (obj instanceof IntervalValue) {
-        IntervalValue intv = (IntervalValue)obj;
+        final IntervalValue intv = (IntervalValue)obj;
         if (this.size() == 0) return intv.size() == 0;
         return (this.low == intv.low) && (this.high == intv.high);
       }
       // Well, we have to convert them to sets and compare.
       return this.toSetEnum().equals(obj);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean member(Value elem) {
+  public final boolean member(final Value elem) {
     try {
       if (elem instanceof IntValue) {
-        int x = ((IntValue)elem).val;
+        final int x = ((IntValue)elem).val;
         return (x >= low) && (x <= high);
       }
       if (   (this.low <= this.high)
@@ -87,14 +87,14 @@ public int low, high;   // the integer interval [low, high]
       }
       return false;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public Value isSubsetEq(Value other) {
+  public Value isSubsetEq(final Value other) {
     try {
       if (other instanceof IntervalValue) {
         final IntervalValue iv = (IntervalValue) other;
@@ -104,7 +104,7 @@ public int low, high;   // the integer interval [low, high]
       }
       return super.isSubsetEq(other);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -121,13 +121,13 @@ public int low, high;   // the integer interval [low, high]
 		}
 		try {
 			return Math.addExact(Math.subtractExact(this.high, this.low), 1);
-		} catch (ArithmeticException e) {
+		} catch (final ArithmeticException e) {
 			Assert.fail("Size of interval value exceeds the maximum representable size (32bits): "
 			      + Values.ppr(this.toString()) + ".", getSource());
 			return 0; // unreachable, but it satisfies the compiler
 		}
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -148,16 +148,16 @@ public int low, high;   // the integer interval [low, high]
   
   /* Return this - val.  */
   @Override
-  public final Value diff(Value val) {
+  public final Value diff(final Value val) {
     try {
-      ValueVec diffElems = new ValueVec();
+      final ValueVec diffElems = new ValueVec();
       for (int i = this.low; i <= this.high; i++) {
-    	  Value elem = IntValue.gen(i);
+    	  final Value elem = IntValue.gen(i);
         if (!val.member(elem)) diffElems.addElement(elem);
       }
       return new SetEnumValue(diffElems, true, cm);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -165,16 +165,16 @@ public int low, high;   // the integer interval [low, high]
 
   /* Return this \cap val. */
   @Override
-  public final Value cap(Value val) {
+  public final Value cap(final Value val) {
     try {
-      ValueVec capElems = new ValueVec();
+      final ValueVec capElems = new ValueVec();
       for (int i = this.low; i <= this.high; i++) {
-    	  Value elem = IntValue.gen(i);
+    	  final Value elem = IntValue.gen(i);
         if (val.member(elem)) capElems.addElement(elem);
       }
       return new SetEnumValue(capElems, true, cm);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -182,16 +182,16 @@ public int low, high;   // the integer interval [low, high]
 
   /* Return this \cup val.  */
   @Override
-  public final Value cup(Value set) {
+  public final Value cup(final Value set) {
     try {
       if (this.size() == 0) return set;
 
       if (set instanceof Reducible) {
-        ValueVec cupElems = new ValueVec();
+        final ValueVec cupElems = new ValueVec();
         for (int i = this.low; i <= this.high; i++) {
           cupElems.addElement(IntValue.gen(i));
         }
-        ValueEnumeration Enum = ((Enumerable)set).elements();
+        final ValueEnumeration Enum = ((Enumerable)set).elements();
         Value elem;
         while ((elem = Enum.nextElement()) != null) {
           if (!this.member(elem)) cupElems.addElement(elem);
@@ -200,14 +200,14 @@ public int low, high;   // the integer interval [low, high]
       }
       return new SetCupValue(this, set, cm);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
       if (ex.idx < ex.path.length) {
         Assert.fail("Attempted to apply EXCEPT construct to the interval value " +
@@ -215,14 +215,14 @@ public int low, high;   // the integer interval [low, high]
       }
       return ex.value;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       if (exs.length != 0) {
         Assert.fail("Attempted to apply EXCEPT construct to the interval value " +
@@ -230,7 +230,7 @@ public int low, high;   // the integer interval [low, high]
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -249,13 +249,13 @@ public int low, high;   // the integer interval [low, high]
   public final IValue deepCopy() { return this; }
 
   @Override
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       return ((val instanceof IntervalValue) &&
         this.high == ((IntervalValue)val).high &&
         this.low == ((IntervalValue)val).low);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -280,7 +280,7 @@ public int low, high;   // the integer interval [low, high]
       }
       return fp;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -292,13 +292,13 @@ public int low, high;   // the integer interval [low, high]
   }
   
   @Override
-  public final IValue permute(IMVPerm perm) {
+  public final IValue permute(final IMVPerm perm) {
     return this;
   }
 
   @Override
   public Value toSetEnum() {
-	  Value[] vals = new Value[size()];
+	  final Value[] vals = new Value[size()];
       for (int i = 0; i < vals.length; i++) {
         vals[i] = IntValue.gen(i + this.low);
       }
@@ -308,14 +308,14 @@ public int low, high;   // the integer interval [low, high]
 
   /* The string representation */
   @Override
-  public final StringBuffer toString(StringBuffer sb, int offset, final boolean ignored) {
+  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean ignored) {
     try {
       if (this.low <= this.high) {
         return sb.append(this.low).append("..").append(this.high);
       }
       return sb.append("{").append("}");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -348,7 +348,7 @@ public int low, high;   // the integer interval [low, high]
     try {
       return new Enumerator();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -385,13 +385,13 @@ public int low, high;   // the integer interval [low, high]
 	}
 
 	public Value randomElement() {
-	     int sz = size();
-	     int index = (int) Math.floor(RandomEnumerableValues.get().nextDouble() * sz);
+	     final int sz = size();
+	     final int index = (int) Math.floor(RandomEnumerableValues.get().nextDouble() * sz);
 	     return elementAt(index);
 	}
 
 	@Override
-	public TLCVariable toTLCVariable(final TLCVariable variable, Random rnd) {
+	public TLCVariable toTLCVariable(final TLCVariable variable, final Random rnd) {
 		// TODO: This call is expensive for a large interval (it gets enumerated) but I don't
 		// expect this to be a problem initially.
 		return this.toSetEnum().toTLCVariable(variable, rnd);

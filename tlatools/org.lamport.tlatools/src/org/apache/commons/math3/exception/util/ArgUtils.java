@@ -37,12 +37,12 @@ public class ArgUtils {
      * @return a list of all the {@code Object} instances contained in
      * {@code array}.
      */
-    public static Object[] flatten(Object[] array) {
+    public static Object[] flatten(final Object[] array) {
         final List<Object> list = new ArrayList<Object>();
         if (array != null) {
-            for (Object o : array) {
+            for (final Object o : array) {
                 if (o instanceof Object[]) {
-                    for (Object oR : flatten((Object[]) o)) {
+                    for (final Object oR : flatten((Object[]) o)) {
                         list.add(oR);
                     }
                 } else {

@@ -28,7 +28,7 @@ public final UniqueString[] names;      // The names of the fields.
   protected SetEnumValue rcdSet;
 
   /* Constructor */
-  public SetOfRcdsValue(UniqueString[] names, Value[] values, boolean isNorm) {
+  public SetOfRcdsValue(final UniqueString[] names, final Value[] values, final boolean isNorm) {
 	  assert names.length == values.length; // see tlc2.tool.Tool.evalAppl(OpApplNode, Context, TLCState, TLCState, int) case for OPCODE_sor
     this.names = names;
     this.values = values;
@@ -38,7 +38,7 @@ public final UniqueString[] names;      // The names of the fields.
     }
   }
 
-  public SetOfRcdsValue(UniqueString[] names, Value[] values, boolean isNorm, CostModel cm) {
+  public SetOfRcdsValue(final UniqueString[] names, final Value[] values, final boolean isNorm, final CostModel cm) {
 	  this(names, values, isNorm);
 	  this.cm = cm;
   }
@@ -47,23 +47,23 @@ public final UniqueString[] names;      // The names of the fields.
   public final byte getKind() { return SETOFRCDSVALUE; }
 
   @Override
-  public final int compareTo(Object obj) {
+  public final int compareTo(final Object obj) {
     try {
       this.convertAndCache();
       return this.rcdSet.compareTo(obj);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     try {
       if (obj instanceof SetOfRcdsValue) {
-        SetOfRcdsValue rcds = (SetOfRcdsValue)obj;
+        final SetOfRcdsValue rcds = (SetOfRcdsValue)obj;
 
-        boolean isEmpty1 = this.isEmpty();
+        final boolean isEmpty1 = this.isEmpty();
         if (isEmpty1) { return rcds.isEmpty(); }
         if (rcds.isEmpty()) { return isEmpty1; }
 
@@ -81,16 +81,16 @@ public final UniqueString[] names;      // The names of the fields.
       this.convertAndCache();
       return this.rcdSet.equals(obj);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean member(Value elem) {
+  public final boolean member(final Value elem) {
     try {
-      RecordValue rcd = (RecordValue) elem.toRcd();
+      final RecordValue rcd = (RecordValue) elem.toRcd();
       if (rcd == null) {
         if (elem instanceof ModelValue)
            return ((ModelValue) elem).modelValueMember(this) ;
@@ -109,7 +109,7 @@ public final UniqueString[] names;      // The names of the fields.
       }
       return true;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -123,14 +123,14 @@ public final UniqueString[] names;      // The names of the fields.
       }
       return true;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
       if (ex.idx < ex.path.length) {
         Assert.fail("Attempted to apply EXCEPT to the set of records:\n" +
@@ -138,14 +138,14 @@ public final UniqueString[] names;      // The names of the fields.
       }
       return ex.value;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       if (exs.length != 0) {
         Assert.fail("Attempted to apply EXCEPT to the set of records:\n" +
@@ -153,7 +153,7 @@ public final UniqueString[] names;      // The names of the fields.
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -172,7 +172,7 @@ public final UniqueString[] names;      // The names of the fields.
       }
       return (int)sz;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -203,7 +203,7 @@ public final UniqueString[] names;      // The names of the fields.
       }
       return this.rcdSet.isNormalized();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -222,7 +222,7 @@ public final UniqueString[] names;      // The names of the fields.
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -241,7 +241,7 @@ public final UniqueString[] names;      // The names of the fields.
           rcdSet.deepNormalize();
         }
 	    }
-	    catch (RuntimeException | OutOfMemoryError e) {
+	    catch (final RuntimeException | OutOfMemoryError e) {
 	      if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
 	      else { throw e; }
 	    }
@@ -249,24 +249,24 @@ public final UniqueString[] names;      // The names of the fields.
 
   private final void sortByNames() {
     for (int i = 1; i < this.names.length; i++) {
-      int cmp = this.names[0].compareTo(this.names[i]);
+      final int cmp = this.names[0].compareTo(this.names[i]);
       if (cmp == 0) {
         Assert.fail("Field name " + this.names[0] + " occurs multiple times" +
               " in set of records.", getSource());
       }
       else if (cmp > 0) {
-        UniqueString ts = this.names[0];
+        final UniqueString ts = this.names[0];
         this.names[0] = this.names[i];
         this.names[i] = ts;
-        Value tv = this.values[0];
+        final Value tv = this.values[0];
         this.values[0] = this.values[i];
         this.values[i] = tv;
       }
     }
     for (int i = 2; i < this.names.length; i++) {
       int j = i;
-      UniqueString st = this.names[i];
-      Value val = this.values[i];
+      final UniqueString st = this.names[i];
+      final Value val = this.values[i];
       int cmp;
       while ((cmp = st.compareTo(this.names[j-1])) < 0) {
         this.names[j] = this.names[j-1];
@@ -291,7 +291,7 @@ public final UniqueString[] names;      // The names of the fields.
       }
       return isDefined;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -301,11 +301,11 @@ public final UniqueString[] names;      // The names of the fields.
   public final IValue deepCopy() { return this; }
 
   @Override
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       return this.equals(val);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -313,24 +313,24 @@ public final UniqueString[] names;      // The names of the fields.
 
   /* The fingerprint  */
   @Override
-  public final long fingerPrint(long fp) {
+  public final long fingerPrint(final long fp) {
     try {
       this.convertAndCache();
       return this.rcdSet.fingerPrint(fp);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final IValue permute(IMVPerm perm) {
+  public final IValue permute(final IMVPerm perm) {
     try {
       this.convertAndCache();
       return this.rcdSet.permute(perm);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -341,7 +341,7 @@ public final UniqueString[] names;      // The names of the fields.
       this.rcdSet = (SetEnumValue) this.toSetEnum();
     }
     else if (this.rcdSet == SetEnumValue.DummyEnum) {
-      SetEnumValue val = (SetEnumValue) this.toSetEnum();
+      final SetEnumValue val = (SetEnumValue) this.toSetEnum();
       val.deepNormalize();
       this.rcdSet = val;
     }
@@ -352,8 +352,8 @@ public final UniqueString[] names;      // The names of the fields.
       if (this.rcdSet != null && this.rcdSet != SetEnumValue.DummyEnum) {
         return this.rcdSet;
       }
-      ValueVec vals = new ValueVec();
-      ValueEnumeration Enum = this.elements();
+      final ValueVec vals = new ValueVec();
+      final ValueEnumeration Enum = this.elements();
       Value elem;
       while ((elem = Enum.nextElement()) != null) {
         vals.addElement(elem);
@@ -369,7 +369,7 @@ public final UniqueString[] names;      // The names of the fields.
 
   /* The string representation of the value. */
   @Override
-  public final StringBuffer toString(StringBuffer sb, int offset, boolean swallow) {
+  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow) {
     try {
       boolean unlazy = TLCGlobals.expand;
       try {
@@ -385,15 +385,15 @@ public final UniqueString[] names;      // The names of the fields.
           unlazy = sz < TLCGlobals.enumBound;
         }
       }
-      catch (Throwable e) { if (swallow) unlazy = false; else throw e; }
+      catch (final Throwable e) { if (swallow) unlazy = false; else throw e; }
 
       if (unlazy) {
-        Value val = this.toSetEnum();
+        final Value val = this.toSetEnum();
         return val.toString(sb, offset, swallow);
       }
       else {
         sb.append("[");
-        int len = this.names.length;
+        final int len = this.names.length;
         if (len != 0) {
           sb.append(names[0] + ": ");
           this.values[0].toString(sb, offset, swallow);
@@ -407,7 +407,7 @@ public final UniqueString[] names;      // The names of the fields.
         return sb;
       }
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -421,7 +421,7 @@ public final UniqueString[] names;      // The names of the fields.
       }
       return this.rcdSet.elements();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -468,7 +468,7 @@ public final UniqueString[] names;      // The names of the fields.
     @Override
     public final Value nextElement() {
       if (this.isDone) return null;
-      Value[] elems = new Value[this.currentElems.length];
+      final Value[] elems = new Value[this.currentElems.length];
      if (coverage) { cm.incSecondary(elems.length); }
       for (int i = 0; i < elems.length; i++) {
         elems[i] = this.currentElems[i];
@@ -489,7 +489,7 @@ public final UniqueString[] names;      // The names of the fields.
   }
 
 	@Override
-	protected tlc2.value.impl.SetOfFcnsOrRcdsValue.SubsetEnumerator getSubsetEnumerator(int k, int n) {
+	protected tlc2.value.impl.SetOfFcnsOrRcdsValue.SubsetEnumerator getSubsetEnumerator(final int k, final int n) {
 		return new SubsetEnumerator(k, n);
 	}
 	
@@ -531,7 +531,7 @@ public final UniqueString[] names;      // The names of the fields.
 	}
 	
 	@Override
-	protected BigIntegerSubsetEnumerator getBigSubsetEnumerator(int k) {
+	protected BigIntegerSubsetEnumerator getBigSubsetEnumerator(final int k) {
 		return new BigIntegerSubsetEnumerator(k);
 	}
 	

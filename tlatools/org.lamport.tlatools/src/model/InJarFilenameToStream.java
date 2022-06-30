@@ -14,21 +14,21 @@ public class InJarFilenameToStream extends SimpleFilenameToStream implements
 
 	private final String prefix;
 
-	public InJarFilenameToStream(String prefix) {
+	public InJarFilenameToStream(final String prefix) {
 		this.prefix = prefix;
 	}
 
 	@Override
-	public File resolve(String name, boolean isModule) {
-		InputStream is = InJarFilenameToStream.class.getResourceAsStream(prefix + name);
+	public File resolve(final String name, final boolean isModule) {
+		final InputStream is = InJarFilenameToStream.class.getResourceAsStream(prefix + name);
 		if(is != null) {
 			try {
-				File sourceFile = new TLAFile(TMPDIR + File.separator + name, InJarFilenameToStream.class.getResource(prefix + name), false, this);				
+				final File sourceFile = new TLAFile(TMPDIR + File.separator + name, InJarFilenameToStream.class.getResource(prefix + name), false, this);
 				sourceFile.deleteOnExit();
 				
-				FileOutputStream fos = new FileOutputStream(sourceFile);
+				final FileOutputStream fos = new FileOutputStream(sourceFile);
 				
-				byte buf[] = new byte[1024];
+				final byte[] buf = new byte[1024];
 				int len;
 				while ((len = is.read(buf)) > 0) {
 					fos.write(buf, 0, len);
@@ -36,7 +36,7 @@ public class InJarFilenameToStream extends SimpleFilenameToStream implements
 				fos.close();
 				is.close();
 				return sourceFile;
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				// must not happen
 				e.printStackTrace();
 			}
@@ -45,7 +45,7 @@ public class InJarFilenameToStream extends SimpleFilenameToStream implements
 	}
 
 	@Override
-	public File resolve(String name) {
+	public File resolve(final String name) {
 		return super.resolve(name);
 	}
 }

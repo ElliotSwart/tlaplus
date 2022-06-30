@@ -25,18 +25,18 @@ public class DiskGraph extends AbstractDiskGraph {
 
 	private NodePtrTable nodePtrTbl;
 	
-	public DiskGraph(String metadir, int soln, IBucketStatistics graphStats) throws IOException {
+	public DiskGraph(final String metadir, final int soln, final IBucketStatistics graphStats) throws IOException {
 		super(metadir, soln, graphStats);
 		nodePtrTbl = new NodePtrTable(255);
 	}
 
-	public final GraphNode getNode(long fp, int tidx) throws IOException {
+	public final GraphNode getNode(final long fp, final int tidx) throws IOException {
 		return getNode(fp);
 	}
 	
 	/* Get the graph node. Return null if the node is not in this. */
-	public final GraphNode getNode(long stateFP) throws IOException {
-		long ptr = this.nodePtrTbl.get(stateFP);
+	public final GraphNode getNode(final long stateFP) throws IOException {
+		final long ptr = this.nodePtrTbl.get(stateFP);
 		if (ptr < 0) {
 			return  new GraphNode(stateFP, -1);
 		}
@@ -50,11 +50,11 @@ public class DiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#getPtr(long, int)
 	 */
-	public final long getPtr(long fp, int tidx) {
+	public final long getPtr(final long fp, final int tidx) {
 		return getPtr(fp);
 	}
 
-	public final long getPtr(long fp) {
+	public final long getPtr(final long fp) {
 		return this.nodePtrTbl.get(fp);
 	}
 
@@ -67,7 +67,7 @@ public class DiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#putNode(tlc2.tool.liveness.GraphNode, long)
 	 */
-	protected void putNode(GraphNode node, long ptr) {
+	protected void putNode(final GraphNode node, final long ptr) {
 		this.nodePtrTbl.put(node.stateFP, ptr);
 	}
 
@@ -81,17 +81,17 @@ public class DiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#getLink(long, int)
 	 */
-	public long getLink(long state, int tidx) {
+	public long getLink(final long state, final int tidx) {
 		return this.nodePtrTbl.get(state);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#putLink(long, int, long)
 	 */
-	public long putLink(long state, int tidx, long link) {
+	public long putLink(final long state, final int tidx, final long link) {
 		assert MAX_PTR <= link && link < MAX_LINK; 
-		int loc = this.nodePtrTbl.getLoc(state);
-		long oldLink = this.nodePtrTbl.getByLoc(loc);
+		final int loc = this.nodePtrTbl.getLoc(state);
+		final long oldLink = this.nodePtrTbl.getByLoc(loc);
 		if (!isFilePointer(oldLink)) {
 			return oldLink;
 		}
@@ -102,20 +102,20 @@ public class DiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.DiskGraph#setMaxLink(long, int)
 	 */
-	public void setMaxLink(long state, int tidx) {
+	public void setMaxLink(final long state, final int tidx) {
 		this.nodePtrTbl.put(state, MAX_LINK);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.DiskGraph#makeNodePtrTbl(long)
 	 */
-	protected void makeNodePtrTbl(long ptr) throws IOException {
+	protected void makeNodePtrTbl(final long ptr) throws IOException {
 		this.nodePtrRAF.seek(0);
 		while (this.nodePtrRAF.getFilePointer() < ptr) {
-			long fp = this.nodePtrRAF.readLong();
+			final long fp = this.nodePtrRAF.readLong();
 			// skip the tableau idx that is not used by DiskGraph.
 			this.nodePtrRAF.readInt();
-			long loc = this.nodePtrRAF.readLongNat();
+			final long loc = this.nodePtrRAF.readLongNat();
 			this.nodePtrTbl.put(fp, loc);
 		}
 	}
@@ -144,19 +144,19 @@ public class DiskGraph extends AbstractDiskGraph {
 			return "";
 		}
 		
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		try {
-			long nodePtr = this.nodeRAF.getFilePointer();
-			long nodePtrPtr = this.nodePtrRAF.getFilePointer();
-			long len = this.nodePtrRAF.length();
+			final long nodePtr = this.nodeRAF.getFilePointer();
+			final long nodePtrPtr = this.nodePtrRAF.getFilePointer();
+			final long len = this.nodePtrRAF.length();
 			this.nodePtrRAF.seek(0);
 			while (this.nodePtrRAF.getFilePointer() < len) {
-				long fp = nodePtrRAF.readLong();
-				int tidx = nodePtrRAF.readInt();
-				long loc = nodePtrRAF.readLongNat();
+				final long fp = nodePtrRAF.readLong();
+				final int tidx = nodePtrRAF.readInt();
+				final long loc = nodePtrRAF.readLongNat();
 				sb.append(fp + " -> ");
-				GraphNode gnode = this.getNode(fp, tidx, loc);
-				int sz = gnode.succSize();
+				final GraphNode gnode = this.getNode(fp, tidx, loc);
+				final int sz = gnode.succSize();
 				for (int i = 0; i < sz; i++) {
 					sb.append(gnode.getStateFP(i) + " ");
 				}
@@ -164,7 +164,7 @@ public class DiskGraph extends AbstractDiskGraph {
 			}
 			this.nodeRAF.seek(nodePtr);
 			this.nodePtrRAF.seek(nodePtrPtr);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			MP.printError(EC.SYSTEM_DISKGRAPH_ACCESS, e);
 
 			System.exit(1);
@@ -188,7 +188,7 @@ public class DiskGraph extends AbstractDiskGraph {
 			return "";
 		}
 
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		try {
 			sb.append("digraph DiskGraph {\n");
 			sb.append("nodesep = 0.7\n");
@@ -196,21 +196,21 @@ public class DiskGraph extends AbstractDiskGraph {
 			sb.append(toDotVizLegend(oos));
 			sb.append("subgraph cluster_graph {\n"); 
 	        sb.append("color=\"white\";\n"); // no border.
-			long nodePtr = this.nodeRAF.getFilePointer();
-			long nodePtrPtr = this.nodePtrRAF.getFilePointer();
-			long len = this.nodePtrRAF.length();
+			final long nodePtr = this.nodeRAF.getFilePointer();
+			final long nodePtrPtr = this.nodePtrRAF.getFilePointer();
+			final long len = this.nodePtrRAF.length();
 			this.nodePtrRAF.seek(0);
 			while (this.nodePtrRAF.getFilePointer() < len) {
-				long fp = nodePtrRAF.readLong();
-				int tidx = nodePtrRAF.readInt();
-				long loc = nodePtrRAF.readLongNat();
-				GraphNode gnode = this.getNode(fp, tidx, loc);
+				final long fp = nodePtrRAF.readLong();
+				final int tidx = nodePtrRAF.readInt();
+				final long loc = nodePtrRAF.readLongNat();
+				final GraphNode gnode = this.getNode(fp, tidx, loc);
 				sb.append(gnode.toDotViz(isInitState(gnode), false, slen, alen));
 			}
 			sb.append("}}");
 			this.nodeRAF.seek(nodePtr);
 			this.nodePtrRAF.seek(nodePtrPtr);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			MP.printError(EC.SYSTEM_DISKGRAPH_ACCESS, e);
 
 			System.exit(1);
@@ -245,7 +245,7 @@ public class DiskGraph extends AbstractDiskGraph {
 		// Initialize queue with initial states:
 		for (int i = 0; i < numOfInits; i += 2) {
 			final long state0 = this.initNodes.elementAt(i);
-			long ptr = this.nodePtrTbl.get(state0);
+			final long ptr = this.nodePtrTbl.get(state0);
 			// Skip initial states without successors:
 			// An initial state with a -1 (disk) pointer means that is has *no*
 			// successors. Thus, it can safely be omitted from the path search

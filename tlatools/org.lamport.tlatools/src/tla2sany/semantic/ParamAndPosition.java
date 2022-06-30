@@ -12,7 +12,7 @@ class ParamAndPosition {
   SymbolNode param;  
   int        position;
 
-  ParamAndPosition(SymbolNode param, int pos) {
+  ParamAndPosition(final SymbolNode param, final int pos) {
     this.param = param;
     this.position = pos;
   }
@@ -21,9 +21,9 @@ class ParamAndPosition {
     return this.param.hashCode() + this.position;
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     if (obj instanceof ParamAndPosition) {
-      ParamAndPosition pap = (ParamAndPosition)obj;
+      final ParamAndPosition pap = (ParamAndPosition)obj;
       return (this.param == pap.param) && (this.position == pap.position);
     }
     return false;

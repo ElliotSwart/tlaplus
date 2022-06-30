@@ -54,11 +54,11 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		private final Phaser phaser = new Phaser(1) {
 
 			@Override
-			protected boolean onAdvance(int phase, int registeredParties) {
+			protected boolean onAdvance(final int phase, final int registeredParties) {
 				// Atomically evict and reset flusherChosen to make sure no
 				// thread re-read flusherChosen=true after an eviction and
 				// waits again.
-				for (OffHeapDiskFPSet set : sets) {
+				for (final OffHeapDiskFPSet set : sets) {
 					set.evict();
 				}
 
@@ -163,7 +163,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	 * @see tlc2.tool.fp.DiskFPSet#init(int, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public FPSet init(final int numThreads, String aMetadir, String filename)
+	public FPSet init(final int numThreads, final String aMetadir, final String filename)
 			throws IOException {
 		super.init(numThreads, aMetadir, filename);
 		this.numThreads = numThreads;
@@ -175,7 +175,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#incWorkers(int)
 	 */
-	public void incWorkers(int numWorkers) {
+	public void incWorkers(final int numWorkers) {
 		assert numWorkers == this.numThreads;
 		SYNC.incWorkers(numWorkers);
 	}
@@ -204,7 +204,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		
 		try {
 			flusher.flushTable(); // Evict()
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// wrap in unchecked.
 			throw new OffHeapRuntimeException(e);
 		}
@@ -521,7 +521,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 						long x = itr.next();
 						long y = 0;
 						while ((y = itr.next(end)) != EMPTY) {
-							long d = y - x;
+							final long d = y - x;
 							// d < 0 indicates that the array is not sorted.
 							// d == 0 indicates two identical elements in the
 							// fingerprint set. Iff this is the last partition,
@@ -532,7 +532,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 							x = y;
 						}
 						return distance;
-					} catch (NoSuchElementException e) {
+					} catch (final NoSuchElementException e) {
 						return distance;
 					}
 				}
@@ -544,22 +544,22 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		final ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
 		try {
 			final long distance = executorService.invokeAll(tasks).stream().min(new Comparator<Future<Long>>() {
-				public int compare(Future<Long> o1, Future<Long> o2) {
+				public int compare(final Future<Long> o1, final Future<Long> o2) {
 					try {
 						return Long.compare(o1.get(), o2.get());
-					} catch (InterruptedException e) {
+					} catch (final InterruptedException e) {
 						Thread.currentThread().interrupt();
 						throw new OffHeapRuntimeException(e);
-					} catch (ExecutionException e) {
+					} catch (final ExecutionException e) {
 						throw new OffHeapRuntimeException(e);
 					}
 				}
 			}).get().get();
 			return distance;
-		} catch (InterruptedException ie) {
+		} catch (final InterruptedException ie) {
 			Thread.currentThread().interrupt();
 			throw new OffHeapRuntimeException(ie);
-		} catch (ExecutionException e) {
+		} catch (final ExecutionException e) {
 			throw new OffHeapRuntimeException(e);
 		} finally {
 			executorService.shutdown();
@@ -618,7 +618,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		}
 		
 		protected long getIdx(final long fp, final int probe) {
-			long idx = Math.round(tblScalingFactor * (fp - minFingerprint)) + probe;
+			final long idx = Math.round(tblScalingFactor * (fp - minFingerprint)) + probe;
 			return idx % positions;
 		}
 	}
@@ -647,7 +647,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		}
 		
 		@Override
-		protected long getIdx(final long fp, int probe) {
+		protected long getIdx(final long fp, final int probe) {
 			// Have to mod positions because probe might cause us to overshoot.
 			return (((fp & prefixMask) >>> rShift) + probe) % positions; 
 		}
@@ -658,7 +658,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	private LongComparator getLongComparator() {
 		return new LongComparator() {
 			@Override
-			public int compare(long fpA, long posA, long fpB, long posB) {
+			public int compare(final long fpA, final long posA, final long fpB, final long posB) {
 				
 				// Elements not in Nat \ {0} remain at their current
 				// position.
@@ -796,7 +796,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		return midEntry;
 	}
 
-	public boolean isHigher(long midEntry, long fp, BufferedRandomAccessFile raf) throws IOException {
+	public boolean isHigher(final long midEntry, final long fp, final BufferedRandomAccessFile raf) throws IOException {
 		raf.seek((midEntry - 1L) * LongSize);
 		final long low = raf.readLong();
 		final long high = raf.readLong();
@@ -897,10 +897,10 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 			}
 			try {
 				offsets = futuresToResults(executorService.invokeAll(tasks));
-			} catch (InterruptedException ie) {
+			} catch (final InterruptedException ie) {
 				Thread.currentThread().interrupt();
 				throw new OffHeapRuntimeException(ie);
-			} catch (ExecutionException notExpectedToHappen) {
+			} catch (final ExecutionException notExpectedToHappen) {
 				throw new OffHeapRuntimeException(notExpectedToHappen);
 			}
 
@@ -912,9 +912,9 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 					new Object[] { numThreads, r, System.currentTimeMillis() - now });
 		}
 		
-		private List<Result> futuresToResults(List<Future<Result>> futures) throws InterruptedException, ExecutionException {
+		private List<Result> futuresToResults(final List<Future<Result>> futures) throws InterruptedException, ExecutionException {
 			final List<Result> res = new ArrayList<Result>(futures.size());
-			for (Future<Result> future : futures) {
+			for (final Future<Result> future : futures) {
 				res.add(future.get());
 			}
 			return res;
@@ -924,12 +924,12 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		protected void mergeNewEntries(final BufferedRandomAccessFile[] inRAFs, final RandomAccessFile outRAF, final Iterator ignored) throws IOException {
 			final long now = System.currentTimeMillis();
 			assert offsets.stream().mapToLong(new ToLongFunction<Result>() {
-				public long applyAsLong(Result result) {
+				public long applyAsLong(final Result result) {
 					return result.getTable();
 				}
 			}).sum() == insertions : "Missing inserted elements during eviction.";
 			assert offsets.stream().mapToLong(new ToLongFunction<Result>() {
-				public long applyAsLong(Result result) {
+				public long applyAsLong(final Result result) {
 					return result.getDisk();
 				}
 			}).sum() == fileCnt : "Missing disk elements during eviction.";
@@ -989,7 +989,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 				executorService.shutdown();
 				executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
 				assert checkRAFs(tmpRAFs);
-			} catch (InterruptedException ie) {
+			} catch (final InterruptedException ie) {
 				Thread.currentThread().interrupt();
 				throw new OffHeapRuntimeException(ie);
 			} finally {
@@ -1016,7 +1016,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 			private long outOffset;
 			private long inOffset;
 			
-			public Result(long occupiedTable, long occupiedDisk) {
+			public Result(final long occupiedTable, final long occupiedDisk) {
 				this.occupiedTable = occupiedTable;
 				this.occupiedDisk = occupiedDisk;
 			}
@@ -1029,10 +1029,10 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 			public long getTotal() {
 				return occupiedDisk + occupiedTable;
 			}
-			public void setOutOffSet(long offset) {
+			public void setOutOffSet(final long offset) {
 				this.outOffset = offset;
 			}
-			public void setInOffset(long offset) {
+			public void setInOffset(final long offset) {
 				this.inOffset = offset;
 			}
 			public long getInOffset() {
@@ -1048,7 +1048,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		
 		protected final LongArray a;
 
-		public OffHeapMSBFlusher(LongArray array) {
+		public OffHeapMSBFlusher(final LongArray array) {
 			a = array;
 		}
 
@@ -1074,7 +1074,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		 * @see tlc2.tool.fp.MSBDiskFPSet#mergeNewEntries(java.io.RandomAccessFile, java.io.RandomAccessFile)
 		 */
 		@Override
-		protected void mergeNewEntries(BufferedRandomAccessFile[] inRAFs, RandomAccessFile outRAF) throws IOException {
+		protected void mergeNewEntries(final BufferedRandomAccessFile[] inRAFs, final RandomAccessFile outRAF) throws IOException {
 			final long buffLen = tblCnt.sum();
 			final Iterator itr = new Iterator(array, buffLen, indexer);
 
@@ -1091,7 +1091,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 			fileCnt += buffLen;
 		}
 
-		protected void mergeNewEntries(BufferedRandomAccessFile[] inRAFs, RandomAccessFile outRAF, Iterator itr)
+		protected void mergeNewEntries(final BufferedRandomAccessFile[] inRAFs, final RandomAccessFile outRAF, final Iterator itr)
 				throws IOException {
 			inRAFs[0].seek(0);
 			mergeNewEntries(inRAFs[0], outRAF, itr, inRAFs[0].length() / FPSet.LongSize);
@@ -1100,8 +1100,8 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		/*
 		 * See PlusCal spec OpenAddressing.ConcurrentFlusher.tla which has been checked for Nat == 0..6.
 		 */
-		protected void mergeNewEntries(BufferedRandomAccessFile inRAF, RandomAccessFile outRAF, final Iterator itr,
-				long diskReads) throws IOException {
+		protected void mergeNewEntries(final BufferedRandomAccessFile inRAF, final RandomAccessFile outRAF, final Iterator itr,
+                                       long diskReads) throws IOException {
 			
 			// Disk might be empty.
 			long value = 0L;
@@ -1170,9 +1170,9 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		return indexLen;
 	}
 
-	protected void writeIndex(long[] index, final RandomAccessFile raf, long length) throws IOException {
+	protected void writeIndex(final long[] index, final RandomAccessFile raf, final long length) throws IOException {
 		for (int i = 0; i < index.length; i++) {
-			long pos = Math.min(((long) i) * NumEntriesPerPage, length);
+			final long pos = Math.min(((long) i) * NumEntriesPerPage, length);
 			raf.seek(pos * LongSize);
 			final long value = raf.readLong();
 			index[i] = value;
@@ -1231,7 +1231,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 			return next0(false, Long.MAX_VALUE);
 		}
 		
-		long next(long maxPos) {
+		long next(final long maxPos) {
 			if (pos >= maxPos) {
 				return EMPTY;
 			}
@@ -1300,7 +1300,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 
 	public static class OffHeapRuntimeException extends RuntimeException {
 
-		public OffHeapRuntimeException(Exception ie) {
+		public OffHeapRuntimeException(final Exception ie) {
 			super(ie);
 		}
 	}
@@ -1340,7 +1340,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	/**
 	 * @return -1L iff array is sorted, index/position of the element that violates otherwise in the range [start, end].
 	 */
-	private static long checkSorted(final LongArray array, final Indexer indexer, int reprobe, long start, long end) {
+	private static long checkSorted(final LongArray array, final Indexer indexer, int reprobe, final long start, final long end) {
 		if (reprobe >= array.size()) {
 			// When the array is smaller than the number of positions/slots, the
 			// loop below will run past its bounds. If this happens, it compares
@@ -1393,9 +1393,9 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		return true;
 	}
 	
-	private static boolean checkTable(LongArray array) {
+	private static boolean checkTable(final LongArray array) {
 		for (long i = 0L; i < array.size(); i++) {
-			long elem = array.get(i);
+			final long elem = array.get(i);
 			if (elem > EMPTY) {
 				System.err.println(String.format("%s elem at pos %s.", elem, i));
 				return false;

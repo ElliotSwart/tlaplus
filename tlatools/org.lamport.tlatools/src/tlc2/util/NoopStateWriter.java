@@ -49,7 +49,7 @@ public final class NoopStateWriter implements IStateWriter {
 	/* (non-Javadoc)
 	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, boolean, tlc2.util.IStateWriter.Visualization)
 	 */
-	public void writeState(TLCState state, TLCState successor, boolean successorStateIsNew, Visualization visualization) {
+	public void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew, final Visualization visualization) {
 		// noop
 	}
 
@@ -63,22 +63,22 @@ public final class NoopStateWriter implements IStateWriter {
 	/* (non-Javadoc)
 	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitVector, int, int, boolean)
 	 */
-	public void writeState(TLCState state, TLCState successor, BitVector actionChecks, int from, int to, boolean successorStateIsNew) {
+	public void writeState(final TLCState state, final TLCState successor, final BitVector actionChecks, final int from, final int to, final boolean successorStateIsNew) {
 		// noop
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitVector, int, int, boolean, tlc2.util.IStateWriter.Visualization)
 	 */
-	public void writeState(TLCState state, TLCState successor, BitVector actionChecks, int from, int to, boolean successorStateIsNew,
-			Visualization visualization) {
+	public void writeState(final TLCState state, final TLCState successor, final BitVector actionChecks, final int from, final int to, final boolean successorStateIsNew,
+                           final Visualization visualization) {
 		// noop
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, boolean, tlc2.tool.Action)
 	 */
-	public void writeState(TLCState state, TLCState successor, boolean successorStateIsNew, Action action) {
+	public void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew, final Action action) {
 		// noop
 	}
 

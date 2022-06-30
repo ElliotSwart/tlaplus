@@ -8,16 +8,16 @@ import java.util.Vector;
 import util.ToolIO;
 
 class Test
-  { public static <T> Vector<T> Singleton(T obj) 
+  { public static <T> Vector<T> Singleton(final T obj)
       /*********************************************************************
       * If we think of a vector as a sequence, then this returns <<obj>>.  *
       *********************************************************************/
-      { Vector<T> result = new Vector<T>() ;
+      { final Vector<T> result = new Vector<T>() ;
         result.addElement(obj) ;
         return result; 
       }
  
-    public static <T> Vector<Vector<T>> Singleton2(T obj)
+    public static <T> Vector<Vector<T>> Singleton2(final T obj)
       /*********************************************************************
       * If we think of a vector as a sequence, then this returns           *
       * << <<obj>> >>.                                                     *
@@ -25,59 +25,59 @@ class Test
       { return Singleton(Singleton(obj));
       } 
 
-    public static TLAToken StringToken(String str)
+    public static TLAToken StringToken(final String str)
       /*********************************************************************
       * Returns a new STRING token with string str.                        *
       *********************************************************************/
-      { TLAToken result = new TLAToken() ;
+      { final TLAToken result = new TLAToken() ;
         result.string = str ;
         result.type   = TLAToken.STRING ;;
         return result ;
       }
 
-    public static TLAToken BuiltinToken(String str)
+    public static TLAToken BuiltinToken(final String str)
       /*********************************************************************
       * Returns a new BUILTIN token with string str.  (A token like "="    *
       * has type BUILTIN, though in the translation phase, there will      *
       * probably be no difference in how BUILTIN and IDENT tokens are      *
       * handled.)                                                          *
       *********************************************************************/
-      { TLAToken result = new TLAToken() ;
+      { final TLAToken result = new TLAToken() ;
         result.string = str ;
         result.type   = TLAToken.BUILTIN ;;
         return result ;
       }
 
-    public static TLAToken IdentToken(String str)
+    public static TLAToken IdentToken(final String str)
       /*********************************************************************
       * Returns a new IDENT token for identifier str.                      *
       *********************************************************************/
-      { TLAToken result = new TLAToken() ;
+      { final TLAToken result = new TLAToken() ;
         result.string = str ;
         result.type   = TLAToken.IDENT ;
         return result ;
       }
 
-    public static TLAExpr MakeExpr(Vector<Vector<TLAToken>> vec)
+    public static TLAExpr MakeExpr(final Vector<Vector<TLAToken>> vec)
       /*********************************************************************
       * Makes a normalized expression exp with exp.tokens = vec.           *
       *********************************************************************/
-      { TLAExpr result = new TLAExpr(vec) ;
+      { final TLAExpr result = new TLAExpr(vec) ;
         result.normalize() ;
         return result ;
       }
 
-    public static TLAExpr TokVectorToExpr(Vector<TLAToken> vec, int spaces)
+    public static TLAExpr TokVectorToExpr(final Vector<TLAToken> vec, final int spaces)
       /*********************************************************************
       * If vec is a vector of TLAToken objects, then this method returns   *
       * a TLAExpr describing a one-line expression composed of clones of   *
       * the tokens in vec separated by `spaces' spaces.                    *
       *********************************************************************/
-      { Vector<TLAToken> firstLine = new Vector<TLAToken>() ;
+      { final Vector<TLAToken> firstLine = new Vector<TLAToken>() ;
         int nextCol = 0 ;
         int i = 0 ;
         while (i < vec.size())
-          { TLAToken tok = ((TLAToken) vec.elementAt(i)).Clone() ;
+          { final TLAToken tok = ((TLAToken) vec.elementAt(i)).Clone() ;
             tok.column = nextCol ;
             firstLine.addElement(tok) ;
             nextCol = nextCol + tok.getWidth() + spaces ;
@@ -87,15 +87,15 @@ class Test
         return MakeExpr(Singleton(firstLine)) ;
       } ;
 
-    public static AST.Assign MakeAssign(String id, TLAExpr exp)
+    public static AST.Assign MakeAssign(final String id, final TLAExpr exp)
       /*********************************************************************
       * Makes the assignment statement id := exp.                          *
       *********************************************************************/
-      { AST.SingleAssign sAss = new AST.SingleAssign() ;
+      { final AST.SingleAssign sAss = new AST.SingleAssign() ;
         sAss.lhs.var = id ;
         sAss.lhs.sub = MakeExpr(new Vector<Vector<TLAToken>>()) ;
         sAss.rhs = exp ;
-        AST.Assign result = new AST.Assign() ;
+        final AST.Assign result = new AST.Assign() ;
         result.ass = Singleton(sAss) ;
         return result ;
       }
@@ -112,7 +112,7 @@ class Test
 *     node.exp = TokVectorToExpr(toks) ;                                   *
 *                                                                          *
 ***************************************************************************/
-   public static void main(String[] args) 
+   public static void main(final String[] args)
      { File f = new File("no-file.cfg") ;
        ToolIO.out.println("no-file.canRead() = " + f.canRead()) ;
        ToolIO.out.println("no-file.canWrite() = " + f.canWrite()) ;

@@ -44,7 +44,7 @@ public abstract class EnumerableValue extends Value implements Enumerable {
   private static final long serialVersionUID = -7395685156018142895L;
 
 @Override
-  public Value isSubsetEq(Value other) {
+  public Value isSubsetEq(final Value other) {
     try {
       final ValueEnumeration Enum = this.elements();
       Value elem;
@@ -55,7 +55,7 @@ public abstract class EnumerableValue extends Value implements Enumerable {
       }
       return BoolValue.ValTrue;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -150,7 +150,7 @@ public abstract class EnumerableValue extends Value implements Enumerable {
 			// Calculating optimal parameters for the given n is expensive! We assume that
 			// we will only have to calculate parameters for a small number of ns per
 			// model-checker run.
-			int[] vals = MULTIPLIERS.computeIfAbsent(n, j -> computeOptimalMandA(j));
+			final int[] vals = MULTIPLIERS.computeIfAbsent(n, j -> computeOptimalMandA(j));
 			this.m = vals[0];
 			this.a = vals[1];
 			
@@ -227,7 +227,7 @@ public abstract class EnumerableValue extends Value implements Enumerable {
 		}
 
 		int a = 1;
-		for (Integer prime : new HashSet<>(primeFactors)) {
+		for (final Integer prime : new HashSet<>(primeFactors)) {
 			a *= prime;
 		}
 		a += 1;

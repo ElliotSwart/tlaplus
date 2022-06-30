@@ -36,7 +36,7 @@ import tlc2.tool.TLCTrace;
 @SuppressWarnings("serial")
 public class NoopFPSet extends FPSet {
 
-	protected NoopFPSet(FPSetConfiguration fpSetConfig) throws RemoteException {
+	protected NoopFPSet(final FPSetConfiguration fpSetConfig) throws RemoteException {
 		super(fpSetConfig);
 	}
 
@@ -44,7 +44,7 @@ public class NoopFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#init(int, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public FPSet init(int numThreads, String metadir, String filename) throws IOException {
+	public FPSet init(final int numThreads, final String metadir, final String filename) throws IOException {
 		return this;
 	}
 
@@ -60,7 +60,7 @@ public class NoopFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#put(long)
 	 */
 	@Override
-	public boolean put(long fp) throws IOException {
+	public boolean put(final long fp) throws IOException {
 		return false;
 	}
 
@@ -68,7 +68,7 @@ public class NoopFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#contains(long)
 	 */
 	@Override
-	public boolean contains(long fp) throws IOException {
+	public boolean contains(final long fp) throws IOException {
 		return false;
 	}
 
@@ -98,34 +98,34 @@ public class NoopFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#recover()
 	 */
 	@Override
-	public void recover(TLCTrace trace) throws IOException {
+	public void recover(final TLCTrace trace) throws IOException {
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#recoverFP(long)
 	 */
 	@Override
-	public void recoverFP(long fp) throws IOException {
+	public void recoverFP(final long fp) throws IOException {
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#beginChkpt(java.lang.String)
 	 */
 	@Override
-	public void beginChkpt(String filename) throws IOException {
+	public void beginChkpt(final String filename) throws IOException {
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#commitChkpt(java.lang.String)
 	 */
 	@Override
-	public void commitChkpt(String filename) throws IOException {
+	public void commitChkpt(final String filename) throws IOException {
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#recover(java.lang.String)
 	 */
 	@Override
-	public void recover(String filename) throws IOException {
+	public void recover(final String filename) throws IOException {
 	}
 }

@@ -13,7 +13,7 @@ public abstract class ObjectStack {
   protected int len = 0;            // the queue length
 
   /* Enqueues the state. It is not thread-safe. */
-  public final void push(Object state) {
+  public final void push(final Object state) {
     this.enqueueInner(state);
     this.len++;
   }
@@ -24,19 +24,19 @@ public abstract class ObjectStack {
    */
   public final Object pop() {
     if (this.len == 0) return null;
-    Object state = this.dequeueInner();
+    final Object state = this.dequeueInner();
     this.len--;
     return state;
   }
 
   /* Enqueues a state. Wake up any waiting thread. */
-  public final synchronized void spush(Object state) {
+  public final synchronized void spush(final Object state) {
     this.enqueueInner(state);
     this.len++;
   }
 
   /* Enqueues a list of states. Wake up any waiting thread. */
-  public final synchronized void spush(Object states[]) {
+  public final synchronized void spush(final Object[] states) {
     for (int i = 0; i < states.length; i++) {
       this.enqueueInner(states[i]);
     }
@@ -45,14 +45,14 @@ public abstract class ObjectStack {
 
   /* Return the first element in the queue.  Wait if empty. */
   public final synchronized Object spop() {
-    Object state = this.dequeueInner();
+    final Object state = this.dequeueInner();
     this.len--;
     return state;
   }
 
   /* Return (up to) the first cnt elements in the queue. Wait if empty. */  
-  public final synchronized Object[] spop(int cnt) {
-    Object states[] = new Object[cnt];
+  public final synchronized Object[] spop(final int cnt) {
+    final Object[] states = new Object[cnt];
     int idx;
     for (idx = 0; idx < cnt && this.len > 0; idx++) {
       states[idx] = this.dequeueInner();
@@ -60,7 +60,7 @@ public abstract class ObjectStack {
     }
     if (idx == cnt) return states;
       
-    Object res[] = new Object[idx];
+    final Object[] res = new Object[idx];
     for (int i = 0; i < idx; i++) {
       res[i] = states[i];
     }

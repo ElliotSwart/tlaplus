@@ -69,12 +69,12 @@ public interface IDebugTarget {
 	
 		public final TLCStackFrame frame;
 		
-		public ResetEvalException(TLCStackFrame frame) {
+		public ResetEvalException(final TLCStackFrame frame) {
 			assert frame != null;
 			this.frame = frame;
 		}
 
-		public boolean isTarget(SemanticNode expr) {
+		public boolean isTarget(final SemanticNode expr) {
 			return frame.isTarget(expr);
 		}
 	}

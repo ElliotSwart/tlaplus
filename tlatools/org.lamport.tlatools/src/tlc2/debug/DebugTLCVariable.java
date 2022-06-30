@@ -42,32 +42,32 @@ public class DebugTLCVariable extends Variable implements tlc2.value.impl.TLCVar
 	
 	private transient Value tlcValue;
 	
-	public DebugTLCVariable(UniqueString lhs) {
+	public DebugTLCVariable(final UniqueString lhs) {
 		this.setName(lhs.toString());
 	}
 	
-	public DebugTLCVariable(String lhs) {
+	public DebugTLCVariable(final String lhs) {
 		this.setName(lhs);
 	}
 	
-	public DebugTLCVariable(Value value) {
+	public DebugTLCVariable(final Value value) {
 		this.setName(value.toString());
 	}
 
 	@Override
-	public List<TLCVariable> getNested(Random rnd) {
+	public List<TLCVariable> getNested(final Random rnd) {
 		return this.tlcValue.getTLCVariables(this, rnd);
 	}
 
 	@Override
-	public DebugTLCVariable setInstance(Value v) {
+	public DebugTLCVariable setInstance(final Value v) {
 		this.tlcValue = v;
 		return this;
 	}
 
 	@Override
-	public TLCVariable newInstance(final String name, Value v, Random rnd) {
-		DebugTLCVariable variable = new DebugTLCVariable(name);
+	public TLCVariable newInstance(final String name, final Value v, final Random rnd) {
+		final DebugTLCVariable variable = new DebugTLCVariable(name);
 		variable.setInstance(v);
 		if (v instanceof Enumerable || v instanceof FcnRcdValue || v instanceof RecordValue || v instanceof TupleValue) {
 			variable.setVariablesReference(rnd.nextInt(Integer.MAX_VALUE-1)+ 1);
@@ -76,7 +76,7 @@ public class DebugTLCVariable extends Variable implements tlc2.value.impl.TLCVar
 	}
 
 	@Override
-	public TLCVariable newInstance(Value value, Random rnd) {
+	public TLCVariable newInstance(final Value value, final Random rnd) {
 		return newInstance(value.toString(), value, rnd);
 	}
 	
@@ -86,7 +86,7 @@ public class DebugTLCVariable extends Variable implements tlc2.value.impl.TLCVar
 	}
 
 	@Override
-	public int compareTo(DebugTLCVariable other) {
+	public int compareTo(final DebugTLCVariable other) {
 		if (getName().compareTo(other.getName()) != 0) {
 			return getName().compareTo(other.getName());
 		}

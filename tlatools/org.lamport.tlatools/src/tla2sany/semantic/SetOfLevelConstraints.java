@@ -22,11 +22,11 @@ class SetOfLevelConstraints extends HashMap<SymbolNode, Integer> implements Leve
    * any existing one. 
    */
   @Override
-  public final Integer put(SymbolNode param, Integer level) {
-    int newLevel = level.intValue();
-    Integer old = this.get(param);
+  public final Integer put(final SymbolNode param, final Integer level) {
+    final int newLevel = level.intValue();
+    final Integer old = this.get(param);
 
-    int oldLevel = (old == null) ? MaxLevel : old.intValue();
+    final int oldLevel = (old == null) ? MaxLevel : old.intValue();
     super.put(param, Integer.valueOf(Math.min(newLevel, oldLevel)));
     return old;
   }
@@ -37,18 +37,18 @@ class SetOfLevelConstraints extends HashMap<SymbolNode, Integer> implements Leve
    * present for the same parameter if one is there.
    */
   @Override
-  public final void putAll(Map<? extends SymbolNode, ? extends Integer> s) {
-    for (Iterator<? extends SymbolNode> iter = s.keySet().iterator(); iter.hasNext(); ) {
-      SymbolNode key = iter.next();
+  public final void putAll(final Map<? extends SymbolNode, ? extends Integer> s) {
+    for (final Iterator<? extends SymbolNode> iter = s.keySet().iterator(); iter.hasNext(); ) {
+      final SymbolNode key = iter.next();
       this.put(key, s.get(key));
     }
   }
   
   @Override
   public final String toString() {
-    StringBuffer sb = new StringBuffer("{ ");
-    for (Iterator<SymbolNode> iter = this.keySet().iterator(); iter.hasNext(); ) {
-      SymbolNode param = iter.next();
+    final StringBuffer sb = new StringBuffer("{ ");
+    for (final Iterator<SymbolNode> iter = this.keySet().iterator(); iter.hasNext(); ) {
+      final SymbolNode param = iter.next();
       sb.append(param.getName() + " -> " + this.get(param));
       if (iter.hasNext()) sb.append(", ");
     }

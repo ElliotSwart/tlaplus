@@ -55,8 +55,8 @@ public class SingleThreadedSimulator extends Simulator {
 	 * workers without complex concurrency primitives such as a TransferQueue,
 	 * Phaser, ...
 	 */
-	public SingleThreadedSimulator(ITool tool, String metadir, String traceFile, boolean deadlock, int traceDepth,
-			long traceNum, String traceActions, RandomGenerator rng, long seed, FilenameToStream resolver) throws IOException {
+	public SingleThreadedSimulator(final ITool tool, final String metadir, final String traceFile, final boolean deadlock, final int traceDepth,
+                                   final long traceNum, final String traceActions, final RandomGenerator rng, final long seed, final FilenameToStream resolver) throws IOException {
 		super(tool, metadir, traceFile, deadlock, traceDepth, traceNum, traceActions, rng, seed, resolver, 1);
 	}
 
@@ -88,7 +88,7 @@ public class SingleThreadedSimulator extends Simulator {
 
 			// If the result is an error, print it.
 			if (result.isError()) {
-				SimulationWorkerError error = result.error();
+				final SimulationWorkerError error = result.error();
 
 				// We assume that if a worker threw an unexpected exception, there is a bug
 				// somewhere, so we print out the exception and terminate. In the case of a

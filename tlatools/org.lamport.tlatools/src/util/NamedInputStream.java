@@ -30,7 +30,7 @@ public class NamedInputStream extends FileInputStream
     private String moduleName;
     private File inputFile;
 
-    public NamedInputStream(String file, String module, File input) throws FileNotFoundException
+    public NamedInputStream(final String file, final String module, final File input) throws FileNotFoundException
     {
         super(input);
         fileName = file;

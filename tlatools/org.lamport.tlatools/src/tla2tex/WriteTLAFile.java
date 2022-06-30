@@ -10,8 +10,8 @@
 package tla2tex ;
 
 public class WriteTLAFile
- { public static void Write(Token[][] spec , String fileName)
-    { OutputFileWriter writer = new OutputFileWriter(fileName) ;
+ { public static void Write(final Token[][] spec , final String fileName)
+    { final OutputFileWriter writer = new OutputFileWriter(fileName) ;
       int line = 0 ;
 
       boolean deleting = false ;
@@ -42,7 +42,8 @@ public class WriteTLAFile
           * because of deletions.                                          *
           *****************************************************************/
         while (item < spec[line].length)
-         {Token tok = spec[line][item] ;
+         {
+             final Token tok = spec[line][item] ;
           if (item > 0)
            { outLine = 
                 outLine + SpacesString(tok.column 
@@ -98,12 +99,12 @@ public class WriteTLAFile
                 { int i = 0 ;
                   while (   (ctok != null)
                          && (i < multiBelow))
-                   { Position bpos = ctok.belowAlign;
+                   { final Position bpos = ctok.belowAlign;
                      ctok = null ;
                      if (bpos.line != -1)
-                      { Token btok = bpos.toToken(spec) ;
+                      { final Token btok = bpos.toToken(spec) ;
                         if (btok.type == Token.COMMENT)
-                          { CommentToken bctok = (CommentToken) btok ;
+                          { final CommentToken bctok = (CommentToken) btok ;
                             if (   (bctok.subtype == CommentToken.MULTI)
                                 || (bctok.subtype == CommentToken.NULL))
                               { ctok = bctok ;
@@ -122,12 +123,12 @@ public class WriteTLAFile
                      while (    deleting
                             &&  (ctok != null)
                             &&  Misc.isBlank(commentString))
-                     { Position bpos = ctok.belowAlign;
+                     { final Position bpos = ctok.belowAlign;
                        ctok = null ;
                        if (bpos.line != -1)
-                        { Token btok = bpos.toToken(spec) ;
+                        { final Token btok = bpos.toToken(spec) ;
                           if (btok.type == Token.COMMENT)
-                          { CommentToken bctok = (CommentToken) btok ;
+                          { final CommentToken bctok = (CommentToken) btok ;
                               if (   (bctok.subtype == CommentToken.MULTI)
                                   || (bctok.subtype == CommentToken.NULL))
                                 { ctok = bctok ;
@@ -199,7 +200,7 @@ public class WriteTLAFile
       writer.close() ;
     }
 
-   private static String SpacesString(int n)
+   private static String SpacesString(final int n)
     /***********************************************************************
     * A string of n spaces.                                                *
     ***********************************************************************/
@@ -212,14 +213,14 @@ public class WriteTLAFile
       return result;
     }
 
-  private static boolean UnmatchedDelete(String str)
+  private static boolean UnmatchedDelete(final String str)
     /***********************************************************************
     * True iff the last "`^" string comes after the last "^'" string.      *
     ***********************************************************************/
     { return (str.lastIndexOf("^'") < str.lastIndexOf("`^")) ;
     }
 
-  private static String RemoveDeletions(String str)
+  private static String RemoveDeletions(final String str)
     /***********************************************************************
     * The string obtained by removing everything from each "`^" through    *
     * the next "^'" (if there is one).                                     *
@@ -230,7 +231,7 @@ public class WriteTLAFile
       while ( nextDel != -1 )
        { start = start + rest.substring(0, nextDel) ;
          rest = rest.substring(nextDel) ;
-         int nextEnd = rest.indexOf("^'") ;
+         final int nextEnd = rest.indexOf("^'") ;
          if (nextEnd == -1)
            { nextDel = -1 ;
              rest = "" ; }
@@ -241,7 +242,7 @@ public class WriteTLAFile
        } ;
       return start + rest ;
     }
-  private static String ReplaceQuoteTildes(String str)
+  private static String ReplaceQuoteTildes(final String str)
     /***********************************************************************
     * The string obtained by replacing each "`~", "~'", "`.", and ".'" by  *
     * spaces.                                                              *

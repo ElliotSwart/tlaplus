@@ -89,11 +89,11 @@ public class TBGraph extends Vect<TBGraphNode> {
 		return gn;
 	}
 
-	public TBGraphNode getNode(int idx) {
+	public TBGraphNode getNode(final int idx) {
 		return this.elementAt(idx);
 	}
 
-	public final void setInitCnt(int n) {
+	public final void setInitCnt(final int n) {
 		this.initCnt = n;
 	}
 
@@ -101,13 +101,13 @@ public class TBGraph extends Vect<TBGraphNode> {
 		return this.initCnt;
 	}
 	
-	private boolean isInitNode(TBGraphNode aNode) {
+	private boolean isInitNode(final TBGraphNode aNode) {
 		return aNode.getIndex() < getInitCnt();
 	}
 
-	public final void toString(StringBuffer sb, String padding) {
+	public final void toString(final StringBuffer sb, final String padding) {
 		for (int i = 0; i < this.size(); i++) {
-			TBGraphNode tnode = this.getNode(i);
+			final TBGraphNode tnode = this.getNode(i);
 			sb.append(padding);
 			sb.append("Node " + i + ".\n");
 			tnode.getPar().toString(sb, padding);
@@ -120,7 +120,7 @@ public class TBGraph extends Vect<TBGraphNode> {
 	}
 
 	public final String toString() {
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		this.toString(sb, "");
 		return sb.toString();
 	}

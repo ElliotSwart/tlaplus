@@ -25,13 +25,13 @@ public class TBGraphNode {
 	private final LiveExprNode[] statePreds; // state predicates in the particle
 
 
-	public TBGraphNode(TBPar par) {
+	public TBGraphNode(final TBPar par) {
 		this.par = par;
 		this.index = 0;
 		this.nexts = new Vect<>();
-		TBPar preds = new TBPar(par.size());
+		final TBPar preds = new TBPar(par.size());
 		for (int i = 0; i < par.size(); i++) {
-			LiveExprNode ln = par.exprAt(i);
+			final LiveExprNode ln = par.exprAt(i);
 			// MAK 04/15/2021: See MAK 04/15/2021 notes in comment of
 			// tlc2.tool.liveness.LiveExprNode.simplify().
 			// The conditional below has been changed in two dimension:
@@ -82,7 +82,7 @@ public class TBGraphNode {
 		return this.nexts.size();
 	}
 
-	public TBGraphNode nextAt(int i) {
+	public TBGraphNode nextAt(final int i) {
 		return this.nexts.elementAt(i);
 	}
 
@@ -94,7 +94,7 @@ public class TBGraphNode {
 	 * values according to all state predicates of the tableau node. The state
 	 * predicates are deduced from the particles during tableau construction.
 	 */
-	public boolean isConsistent(TLCState state, ITool tool) {
+	public boolean isConsistent(final TLCState state, final ITool tool) {
 		for (int j = 0; j < this.statePreds.length; j++) {
 			if (!this.statePreds[j].eval(tool, state, null)) {
 				return false;
@@ -118,13 +118,13 @@ public class TBGraphNode {
 	}
 
 	public final String toString() {
-		StringBuffer buf = new StringBuffer();
-		SetOfLong visited = new SetOfLong(16);
+		final StringBuffer buf = new StringBuffer();
+		final SetOfLong visited = new SetOfLong(16);
 		this.toString(buf, visited);
 		return buf.toString();
 	}
 
-	private final void toString(StringBuffer buf, SetOfLong visited) {
+	private final void toString(final StringBuffer buf, final SetOfLong visited) {
 		if (!visited.put(this.index)) {
 			buf.append(this.par.toString());
 			for (int i = 0; i < this.nexts.size(); i++) {

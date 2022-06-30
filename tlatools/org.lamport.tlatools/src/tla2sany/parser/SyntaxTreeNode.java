@@ -155,7 +155,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
     zero = nullArray; one = nullArray;
   }
 
-  public SyntaxTreeNode( UniqueString fn ) {
+  public SyntaxTreeNode(final UniqueString fn ) {
     kind = 0; 
     image = fn;
     zero = nullArray;
@@ -165,7 +165,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   }
 
 
-  public SyntaxTreeNode(UniqueString fn, Token t) {
+  public SyntaxTreeNode(final UniqueString fn, final Token t) {
     this.kind = t.kind; 
     this.image = UniqueString.uniqueStringOf( t.image );
     zero = nullArray; 
@@ -179,7 +179,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   }
 
 
-  public SyntaxTreeNode(UniqueString fn, int kind, Token t) {
+  public SyntaxTreeNode(final UniqueString fn, final int kind, final Token t) {
     this.kind = kind;
 //  this.image = SyntaxNodeImage[ kind ];
     /***********************************************************************
@@ -197,7 +197,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   }
 
 
-  public SyntaxTreeNode(UniqueString fn, int kind, SyntaxTreeNode a[]) {
+  public SyntaxTreeNode(final UniqueString fn, final int kind, final SyntaxTreeNode[] a) {
     this.kind = kind;
     image = SyntaxNodeImage[ kind ];
     zero = a;
@@ -206,7 +206,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   }
 
 
-  public SyntaxTreeNode( int kind, SyntaxTreeNode a[]) {
+  public SyntaxTreeNode(final int kind, final SyntaxTreeNode[] a) {
     this.kind = kind;
     image = SyntaxNodeImage[ kind ];
     zero = a;
@@ -216,14 +216,14 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
 
   // This constructor used only in Generator class for handling @  in 
   // EXCEPT construct
-  public SyntaxTreeNode( int kind, SyntaxTreeNode a[], boolean ignored) {
+  public SyntaxTreeNode(final int kind, final SyntaxTreeNode[] a, final boolean ignored) {
     this.kind = kind;
     zero = a;
   }
 
 
-  public SyntaxTreeNode(UniqueString fn, int kind, SyntaxTreeNode a, 
-                        SyntaxTreeNode b[]) {
+  public SyntaxTreeNode(final UniqueString fn, final int kind, final SyntaxTreeNode a,
+                        final SyntaxTreeNode[] b) {
     this.kind = kind;
     image = SyntaxNodeImage[ kind ];
     if (a != null) {
@@ -236,8 +236,8 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   }
 
 
-  public SyntaxTreeNode(UniqueString fn, int kind, SyntaxTreeNode a[], 
-                        SyntaxTreeNode b[]) {
+  public SyntaxTreeNode(final UniqueString fn, final int kind, final SyntaxTreeNode[] a,
+                        final SyntaxTreeNode[] b) {
     this.kind = kind;
     image = SyntaxNodeImage[ kind ];
     zero = a;
@@ -247,7 +247,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   }
 
 
-  public SyntaxTreeNode(int kind, SyntaxTreeNode a, SyntaxTreeNode b) {
+  public SyntaxTreeNode(final int kind, final SyntaxTreeNode a, final SyntaxTreeNode b) {
     this.kind = kind;
     image = SyntaxNodeImage[ kind ];
     fileName = a.fileName;
@@ -258,8 +258,8 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   }
 
 
-  public SyntaxTreeNode(int kind, SyntaxTreeNode a, SyntaxTreeNode b, 
-                        SyntaxTreeNode c) {
+  public SyntaxTreeNode(final int kind, final SyntaxTreeNode a, final SyntaxTreeNode b,
+                        final SyntaxTreeNode c) {
     this.kind = kind;
     image = SyntaxNodeImage[ kind ];
     fileName = a.fileName;
@@ -274,10 +274,10 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   public final int       getKind()         { return kind; }
 
 
-         final void      setKind( int k )  { kind = k ; }
+         final void      setKind(final int k )  { kind = k ; }
 
 
-  public final boolean   isKind( int k )   { return kind == k; }
+  public final boolean   isKind(final int k )   { return kind == k; }
 
 
   public final String [] getPreComments()  { return preComment; }
@@ -290,7 +290,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   public final String [] getAttachedComments() {
     if (this.kind < SyntaxTreeConstants.NULL_ID) { return preComment; } ;
     if (this.heirs().length == 0) {
-        String[] res = new String[0] ;
+        final String[] res = new String[0] ;
      /** 
       * On 3 Jul 2009 LL replaced the following code with this.  It
       * appears that this method was never used until printing of 
@@ -314,7 +314,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   private static Token nullToken = new Token();
 
 
-  private final String[] comments( Token t ) {
+  private final String[] comments(final Token t ) {
      Token nextPre  = nullToken;
      int cPre = 0;
 
@@ -328,7 +328,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
          nextPre = tmp_t;
          tmp_t = tmp_t.specialToken; } ;
 
-     String []aPre = new String[ cPre ];
+     final String []aPre = new String[ cPre ];
      tmp_t = nextPre; 
      cPre = 0;
      while (tmp_t != nullToken) { 
@@ -353,7 +353,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
     if ( zero == null && one == null ) {
       return nullArray;
     } else {
-      SyntaxTreeNode result[];
+      final SyntaxTreeNode[] result;
       if ( zero != null ) {
         if ( one != null ) {
           result = new SyntaxTreeNode[ zero.length + one.length ];
@@ -375,7 +375,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
     if ( zero == null && one == null ) {
       return nullArray;
     } else {
-      SyntaxTreeNode result[];
+      final SyntaxTreeNode[] result;
       if ( zero != null ) {
         if ( one != null ) {
           result = new SyntaxTreeNode[ zero.length + one.length ];
@@ -415,11 +415,11 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
 	public String getHumanReadableImage() {
 		if (zero != null && zero.length > 0) {
 			final StringBuffer buf = new StringBuffer(zero.length);
-			for (SyntaxTreeNode z : zero) {
+			for (final SyntaxTreeNode z : zero) {
 				buf.append(z.getHumanReadableImage());
 			}
 			if (one != null && one.length > 0) {
-				for (SyntaxTreeNode o : one) {
+				for (final SyntaxTreeNode o : one) {
 					buf.append(o.getHumanReadableImage());
 				}
 			}
@@ -544,10 +544,10 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   *************************************************************************/
   public final boolean local() { return zero!= null; }
 
-  public void printST(int indentLevel) {
+  public void printST(final int indentLevel) {
 
     String      operator = "";
-    TreeNode [] heirs    = this.heirs();
+    final TreeNode [] heirs    = this.heirs();
 
     if (image != null && image.toString().equals("N_OperatorDefinition")) {
        if (((SyntaxTreeNode)(heirs()[0])).image.toString().equals(
@@ -590,7 +590,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
     
   } // end method
  
-  public static String PreCommentToString(String[] pcarray) {
+  public static String PreCommentToString(final String[] pcarray) {
     if (pcarray == null || pcarray.length == 0) {return "";};
     String res = "\n preComment: ";
     for (int i = 0; i < pcarray.length; i++) {

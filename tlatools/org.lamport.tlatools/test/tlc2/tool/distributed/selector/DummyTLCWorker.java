@@ -14,7 +14,7 @@ public class DummyTLCWorker extends TLCWorkerSmartProxy implements TLCWorkerRMI 
 
 	private long duration;
 
-	public DummyTLCWorker(long duration) {
+	public DummyTLCWorker(final long duration) {
 		super(null);
 		this.duration = duration;
 	}
@@ -22,7 +22,7 @@ public class DummyTLCWorker extends TLCWorkerSmartProxy implements TLCWorkerRMI 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCWorkerSmartProxy#getNextStates(tlc2.tool.TLCState[])
 	 */
-	public NextStateResult getNextStates(TLCState[] states) throws RemoteException, WorkerException {
+	public NextStateResult getNextStates(final TLCState[] states) throws RemoteException, WorkerException {
 		return new NextStateResult((TLCStateVec[]) null, (LongVec[]) null, duration, -1L);
 	}
 }

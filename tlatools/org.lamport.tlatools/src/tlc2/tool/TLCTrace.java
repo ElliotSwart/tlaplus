@@ -35,7 +35,7 @@ public class TLCTrace {
 	private long lastPtr;
 	protected TraceApp tool;
 
-	public TLCTrace(String metadir, String specFile, TraceApp tool) throws IOException {
+	public TLCTrace(final String metadir, final String specFile, final TraceApp tool) throws IOException {
 		filename = metadir + FileUtil.separator + specFile + EXT;
 		this.raf = new BufferedRandomAccessFile(filename, "rw");
 		this.lastPtr = 1L;
@@ -72,7 +72,7 @@ public class TLCTrace {
 	 * @return The new location (pointer) for the given finger print (state)
 	 * @throws IOException
 	 */
-	private final synchronized long writeState(long predecessorLoc, long fp) throws IOException {
+	private final synchronized long writeState(final long predecessorLoc, final long fp) throws IOException {
 		this.lastPtr = this.raf.getFilePointer();
 		this.raf.writeLongNat(predecessorLoc);
 		this.raf.writeLong(fp);
@@ -83,12 +83,12 @@ public class TLCTrace {
 		this.raf.close();
 	}
 
-	private synchronized long getPrev(long loc) throws IOException {
+	private synchronized long getPrev(final long loc) throws IOException {
 		this.raf.seek(loc);
 		return this.raf.readLongNat();
 	}
 
-	private synchronized long getFP(long loc) throws IOException {
+	private synchronized long getFP(final long loc) throws IOException {
 		this.raf.seek(loc);
 		this.raf.readLongNat(); /* drop */
 		return this.raf.readLong();
@@ -176,9 +176,9 @@ public class TLCTrace {
 	 *         starting at startLoc.
 	 * @throws IOException
 	 */
-	public synchronized final int getLevel(long startLoc) throws IOException {
+	public synchronized final int getLevel(final long startLoc) throws IOException {
 		// keep current location
-		long currentFilePointer = this.raf.getFilePointer();
+		final long currentFilePointer = this.raf.getFilePointer();
 
 		// calculate level/depth based on start location
 		int level = 0;
@@ -202,7 +202,7 @@ public class TLCTrace {
 		synchronized (this) {
 			final long curLoc = this.raf.getFilePointer();
 			try {
-				long length = this.raf.length();
+				final long length = this.raf.length();
 				// go to first byte
 				this.raf.seek(0);
 
@@ -247,16 +247,16 @@ public class TLCTrace {
 	 * @return An array of predecessor states
 	 * @throws IOException
 	 */
-	protected TLCStateInfo[] getTrace(long loc, boolean included) throws IOException {
-		LongVec fps = new LongVec();
+	protected TLCStateInfo[] getTrace(final long loc, final boolean included) throws IOException {
+		final LongVec fps = new LongVec();
 
 		// Starting at the given start fingerprint (which is the end of the
 		// trace from the point of the initial states), the chain of
 		// predecessors fingerprints are reconstructed from the trace file up to
 		// the initial state.
 		synchronized (this) {
-			long curLoc = this.raf.getFilePointer();
-			long loc1 = (included) ? loc : this.getPrev(loc);
+			final long curLoc = this.raf.getFilePointer();
+			final long loc1 = (included) ? loc : this.getPrev(loc);
 			for (long ploc = loc1; ploc != 1; ploc = this.getPrev(ploc)) {
 				fps.addElement(this.getFP(ploc));
 			}
@@ -311,7 +311,7 @@ public class TLCTrace {
 			// Recover successor states from its predecessor and its fingerprint.
 			res[stateNum++] = sinfo;
 			for (int i = len - 2; i >= 0; i--) {
-				long fp = fps.elementAt(i);
+				final long fp = fps.elementAt(i);
 				sinfo = this.tool.getState(fp, sinfo.state);
 				if (sinfo == null) {
 					/*
@@ -359,7 +359,7 @@ public class TLCTrace {
 				StatePrinter.printInvariantViolationStateTraceState(this.tool.evalAlias(new TLCStateInfo(s1), s2), s1, 1);
 				
 				// Create TLCStateInfo instance to include corresponding action in output.
-				TLCStateInfo state = this.tool.getState(s2, s1);
+				final TLCStateInfo state = this.tool.getState(s2, s1);
 				
 				// Print successor state.
 				StatePrinter.printInvariantViolationStateTraceState(this.tool.evalAlias(state, s2), s1, 2);
@@ -391,7 +391,7 @@ public class TLCTrace {
 				System.exit(1);
 			}
 		} else {
-			TLCStateInfo s0 = prefix[prefix.length - 1];
+			final TLCStateInfo s0 = prefix[prefix.length - 1];
 			StatePrinter.printInvariantViolationStateTraceState(this.tool.evalAlias(s0, s1), lastState, ++idx);
 			
 			sinfo = this.tool.getState(s1.fingerPrint(), s0.state);
@@ -429,7 +429,7 @@ public class TLCTrace {
 	 * fingerprint fp.
 	 */
 	@SuppressWarnings("unused")
-	private final TLCStateInfo[] printPrefix(long fp) throws IOException {
+	private final TLCStateInfo[] printPrefix(final long fp) throws IOException {
 		// First, find the location for fp:
 		this.raf.seek(0);
 		this.raf.readLongNat(); /* drop */
@@ -440,7 +440,7 @@ public class TLCTrace {
 
 		// Print the states corresponding to the fps:
 		TLCState lastState = null;
-		TLCStateInfo[] prefix = this.getTrace(this.lastPtr, false);
+		final TLCStateInfo[] prefix = this.getTrace(this.lastPtr, false);
 		int idx = 0;
 		while (idx < prefix.length) {
 			StatePrinter.printInvariantViolationStateTraceState(prefix[idx], lastState, idx + 1);
@@ -454,15 +454,15 @@ public class TLCTrace {
 	public synchronized void beginChkpt() throws IOException {
 		this.raf.flush();
 		// SZ Feb 24, 2009: FileUtil introduced
-		DataOutputStream dos = FileUtil.newDFOS(filename + ".tmp");
+		final DataOutputStream dos = FileUtil.newDFOS(filename + ".tmp");
 		dos.writeLong(this.raf.getFilePointer());
 		dos.writeLong(this.lastPtr);
 		dos.close();
 	}
 
 	public void commitChkpt() throws IOException {
-		File oldChkpt = new File(filename + ".chkpt");
-		File newChkpt = new File(filename + ".tmp");
+		final File oldChkpt = new File(filename + ".chkpt");
+		final File newChkpt = new File(filename + ".tmp");
 		if ((oldChkpt.exists() && !oldChkpt.delete()) || !newChkpt.renameTo(oldChkpt)) {
 			throw new IOException("Trace.commitChkpt: cannot delete " + oldChkpt);
 		}
@@ -470,15 +470,15 @@ public class TLCTrace {
 
 	public void recover() throws IOException {
 		// SZ Feb 24, 2009: FileUtil introduced
-		DataInputStream dis = FileUtil.newDFIS(filename + ".chkpt");
-		long filePos = dis.readLong();
+		final DataInputStream dis = FileUtil.newDFIS(filename + ".chkpt");
+		final long filePos = dis.readLong();
 		this.lastPtr = dis.readLong();
 		dis.close();
 		this.raf.seek(filePos);
 	}
 
 	@SuppressWarnings("unused")
-	private long[] addBlock(long fp[], long prev[]) throws IOException {
+	private long[] addBlock(final long[] fp, final long[] prev) throws IOException {
 		// Reuse prev.
 		for (int i = 0; i < fp.length; i++) {
 			prev[i] = this.writeState(prev[i], fp[i]);
@@ -516,7 +516,7 @@ public class TLCTrace {
 		}
 
 		public final long nextPos() {
-			long fpos = this.enumRaf.getFilePointer();
+			final long fpos = this.enumRaf.getFilePointer();
 			if (fpos < this.len) {
 				return fpos;
 			}

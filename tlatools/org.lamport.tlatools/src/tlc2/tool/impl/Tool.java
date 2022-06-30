@@ -149,43 +149,43 @@ public abstract class Tool
   /**
    * Creates a new tool handle
    */
-  public Tool(String specFile, String configFile) {
+  public Tool(final String specFile, final String configFile) {
 	  this(new File(specFile), specFile, configFile, null);
   }
   
-  public Tool(String specFile, String configFile, FilenameToStream resolver) {
+  public Tool(final String specFile, final String configFile, final FilenameToStream resolver) {
 	  this(new File(specFile), specFile, configFile, resolver);
   }
   
-  public Tool(String specFile, String configFile, FilenameToStream resolver, final Map<String, Object> params) {
+  public Tool(final String specFile, final String configFile, final FilenameToStream resolver, final Map<String, Object> params) {
 	  this(new File(specFile), specFile, configFile, resolver, params);
   }
 
-  public Tool(String specFile, String configFile, FilenameToStream resolver, Mode mode, final Map<String, Object> params) {
+  public Tool(final String specFile, final String configFile, final FilenameToStream resolver, final Mode mode, final Map<String, Object> params) {
 	  this(new File(specFile), specFile, configFile, resolver, mode, params);
   }
   
-  private Tool(File specDir, String specFile, String configFile, FilenameToStream resolver)
+  private Tool(final File specDir, final String specFile, final String configFile, final FilenameToStream resolver)
   {
 	  this(specDir.isAbsolute() ? specDir.getParent() : "", specFile, configFile, resolver, new HashMap<>());
   }
   
-  private Tool(File specDir, String specFile, String configFile, FilenameToStream resolver, final Map<String, Object> params)
+  private Tool(final File specDir, final String specFile, final String configFile, final FilenameToStream resolver, final Map<String, Object> params)
   {
 	  this(specDir.isAbsolute() ? specDir.getParent() : "", specFile, configFile, resolver, params);
   }
   
-  private Tool(File specDir, String specFile, String configFile, FilenameToStream resolver, Mode mode, final Map<String, Object> params)
+  private Tool(final File specDir, final String specFile, final String configFile, final FilenameToStream resolver, final Mode mode, final Map<String, Object> params)
   {
 	  this(specDir.isAbsolute() ? specDir.getParent() : "", specFile, configFile, resolver, mode, params);
   }
   
-  public Tool(String specDir, String specFile, String configFile, FilenameToStream resolver, final Map<String, Object> params)
+  public Tool(final String specDir, final String specFile, final String configFile, final FilenameToStream resolver, final Map<String, Object> params)
   {
 	  this(specDir, specFile, configFile, resolver, Mode.MC, params);
   }
   
-  public Tool(String specDir, String specFile, String configFile, FilenameToStream resolver, Mode mode, final Map<String, Object> params)
+  public Tool(final String specDir, final String specFile, final String configFile, final FilenameToStream resolver, final Mode mode, final Map<String, Object> params)
   {
       super(specDir, specFile, configFile, resolver, mode, params);
 
@@ -200,12 +200,12 @@ public abstract class Tool
 			TLCStateMut.setTool(this);
 		}
       
-		Action next = this.getNextStateSpec();
+		final Action next = this.getNextStateSpec();
 		if (next == null) {
 			this.actions = new Action[0];
 		} else {
 			this.getActions(next);
-			int sz = this.actionVec.size();
+			final int sz = this.actionVec.size();
 			this.actions = new Action[sz];
 			for (int i = 0; i < sz; i++) {
 				this.actions[i] = this.actionVec.elementAt(i);
@@ -219,7 +219,7 @@ public abstract class Tool
 		}
   }
 
-  Tool(Tool other) {
+  Tool(final Tool other) {
 	  super(other);
 	  this.actions = other.actions;
 	  this.actionVec = other.actionVec;
@@ -248,29 +248,29 @@ public abstract class Tool
 		this.getActions(next.pred, next.con, next.getOpDef(), next.cm);
 	}
 
-  private final void getActions(SemanticNode next, Context con, final OpDefNode opDefNode, CostModel cm) {
+  private final void getActions(final SemanticNode next, final Context con, final OpDefNode opDefNode, final CostModel cm) {
     switch (next.getKind()) {
     case OpApplKind:
       {
-        OpApplNode next1 = (OpApplNode)next;
+        final OpApplNode next1 = (OpApplNode)next;
         this.getActionsAppl(next1, con, opDefNode, cm);
         return;
       }
     case LetInKind:
       {
-        LetInNode next1 = (LetInNode)next;
+        final LetInNode next1 = (LetInNode)next;
         this.getActions(next1.getBody(), con, opDefNode, cm);
         return;
       }
     case SubstInKind:
       {
-        SubstInNode next1 = (SubstInNode)next;
-        Subst[] substs = next1.getSubsts();
+        final SubstInNode next1 = (SubstInNode)next;
+        final Subst[] substs = next1.getSubsts();
         if (substs.length == 0) {
           this.getActions(next1.getBody(), con, opDefNode, cm);
         }
         else {
-          Action action = new Action(next1, con, opDefNode);
+          final Action action = new Action(next1, con, opDefNode);
           this.actionVec.addElement(action);
         }
         return;
@@ -279,13 +279,13 @@ public abstract class Tool
       // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
       case APSubstInKind:
         {
-          APSubstInNode next1 = (APSubstInNode)next;
-          Subst[] substs = next1.getSubsts();
+          final APSubstInNode next1 = (APSubstInNode)next;
+          final Subst[] substs = next1.getSubsts();
           if (substs.length == 0) {
             this.getActions(next1.getBody(), con, opDefNode, cm);
           }
           else {
-            Action action = new Action(next1, con, opDefNode);
+            final Action action = new Action(next1, con, opDefNode);
             this.actionVec.addElement(action);
           }
           return;
@@ -296,7 +296,7 @@ public abstract class Tool
     ***********************************************************************/
     case LabelKind:
       {
-        LabelNode next1 = (LabelNode)next;
+        final LabelNode next1 = (LabelNode)next;
         this.getActions(next1.getBody(), con, opDefNode, cm);
         return;
       }
@@ -307,21 +307,21 @@ public abstract class Tool
     }
   }
 
-  private final void getActionsAppl(OpApplNode next, Context con, final OpDefNode actionName, CostModel cm) {
-    ExprOrOpArgNode[] args = next.getArgs();
-    SymbolNode opNode = next.getOperator();
+  private final void getActionsAppl(final OpApplNode next, final Context con, final OpDefNode actionName, final CostModel cm) {
+    final ExprOrOpArgNode[] args = next.getArgs();
+    final SymbolNode opNode = next.getOperator();
     int opcode = BuiltInOPs.getOpCode(opNode.getName());
 
     if (opcode == 0) {
-      Object val = this.lookup(opNode, con, false);
+      final Object val = this.lookup(opNode, con, false);
 
       if (val instanceof OpDefNode) {
-        OpDefNode opDef = (OpDefNode)val;
+        final OpDefNode opDef = (OpDefNode)val;
         opcode = BuiltInOPs.getOpCode(opDef.getName());
         if (opcode == 0) {
           try {
-            FormalParamNode[] formals = opDef.getParams();
-            int alen = args.length;
+            final FormalParamNode[] formals = opDef.getParams();
+            final int alen = args.length;
             int argLevel = 0;
             for (int i = 0; i < alen; i++) {
               argLevel = args[i].getLevel();
@@ -330,18 +330,18 @@ public abstract class Tool
             if (argLevel == 0) {
               Context con1 = con;
               for (int i = 0; i < alen; i++) {
-                IValue aval = this.eval(args[i], con, TLCState.Empty, cm);
+                final IValue aval = this.eval(args[i], con, TLCState.Empty, cm);
                 con1 = con1.cons(formals[i], aval);
               }
               this.getActions(opDef.getBody(), con1, opDef, cm);
               return;
             }
           }
-          catch (Throwable e) { /*SKIP*/ }
+          catch (final Throwable e) { /*SKIP*/ }
         }
       }
       if (opcode == 0) {
-        Action action = new Action(next, con, (OpDefNode) opNode);
+        final Action action = new Action(next, con, (OpDefNode) opNode);
         this.actionVec.addElement(action);
         return;
       }
@@ -352,7 +352,7 @@ public abstract class Tool
       {
         final int cnt = this.actionVec.size();
         try {
-          ContextEnumerator Enum =
+          final ContextEnumerator Enum =
             this.contexts(next, con, TLCState.Empty, TLCState.Empty, EvalControl.Clear, cm);
           if (Enum.isDone()) {
         	  // No exception and no actions created implies Enum was empty:
@@ -369,8 +369,8 @@ public abstract class Tool
 			assert (cnt < this.actionVec.size())
 					: "AssertionError when creating Actions. This case should have been handled by Enum.isDone conditional above!";
         }
-        catch (Throwable e) {
-          Action action = new Action(next, con, actionName);
+        catch (final Throwable e) {
+          final Action action = new Action(next, con, actionName);
           this.actionVec.removeAll(cnt);
           this.actionVec.addElement(action);
         }
@@ -387,7 +387,7 @@ public abstract class Tool
     default:
       {
         // We handle all the other builtin operators here.
-        Action action = new Action(next, con, actionName);
+        final Action action = new Action(next, con, actionName);
         this.actionVec.addElement(action);
         return;
       }
@@ -408,20 +408,20 @@ public abstract class Tool
   }
 
   @Override
-  public final void getInitStates(IStateFunctor functor) {
-	  Vect<Action> init = this.getInitStateSpec();
+  public final void getInitStates(final IStateFunctor functor) {
+	  final Vect<Action> init = this.getInitStateSpec();
 	  ActionItemList acts = ActionItemListExt.Empty;
       // MAK 09/11/2018: Tail to head iteration order cause the first elem added with
       // acts.cons to be acts tail. This fixes the bug/funny behavior that the init
       // predicate Init == A /\ B /\ C /\ D was evaluated in the order A, D, C, B (A
       // doesn't get added to acts at all).
 	  for (int i = (init.size() - 1); i > 0; i--) {
-		  Action elem = init.elementAt(i);
+		  final Action elem = init.elementAt(i);
 		  acts = (ActionItemList) acts.cons(elem, IActionItemList.PRED);
 	  }
 	  if (init.size() != 0) {
-		  Action elem = init.elementAt(0);
-		  TLCState ps = TLCState.Empty.createEmpty();
+		  final Action elem = init.elementAt(0);
+		  final TLCState ps = TLCState.Empty.createEmpty();
 		  if (acts.isEmpty()) {
 			  acts.setAction(elem);
 		  }
@@ -431,43 +431,43 @@ public abstract class Tool
 
   /* Create the state specified by pred.  */
   @Override
-  public final TLCState makeState(SemanticNode pred) {
-    ActionItemList acts = ActionItemList.Empty;
-    TLCState ps = TLCState.Empty.createEmpty();
-    StateVec states = new StateVec(0);
+  public final TLCState makeState(final SemanticNode pred) {
+    final ActionItemList acts = ActionItemList.Empty;
+    final TLCState ps = TLCState.Empty.createEmpty();
+    final StateVec states = new StateVec(0);
     this.getInitStates(pred, acts, Context.Empty, ps, states, acts.cm);
     if (states.size() != 1) {
       Assert.fail("The predicate does not specify a unique state." + pred, pred);
     }
-    TLCState state = states.elementAt(0);
+    final TLCState state = states.elementAt(0);
     if (!this.isGoodState(state)) {
       Assert.fail("The state specified by the predicate is not complete." + pred, pred);
     }
     return state;
   }
 
-  protected void getInitStates(SemanticNode init, ActionItemList acts,
-                                   Context c, TLCState ps, IStateFunctor states, CostModel cm) {
+  protected void getInitStates(final SemanticNode init, final ActionItemList acts,
+                               final Context c, final TLCState ps, final IStateFunctor states, final CostModel cm) {
         switch (init.getKind()) {
         case OpApplKind:
           {
-            OpApplNode init1 = (OpApplNode)init;
+            final OpApplNode init1 = (OpApplNode)init;
             this.getInitStatesAppl(init1, acts, c, ps, states, cm);
             return;
           }
         case LetInKind:
           {
-            LetInNode init1 = (LetInNode)init;
+            final LetInNode init1 = (LetInNode)init;
             this.getInitStates(init1.getBody(), acts, c, ps, states, cm);
             return;
           }
         case SubstInKind:
           {
-            SubstInNode init1 = (SubstInNode)init;
-            Subst[] subs = init1.getSubsts();
+            final SubstInNode init1 = (SubstInNode)init;
+            final Subst[] subs = init1.getSubsts();
             Context c1 = c;
             for (int i = 0; i < subs.length; i++) {
-              Subst sub = subs[i];
+              final Subst sub = subs[i];
               c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, coverage ? sub.getCM() : cm, toolId));
             }
             this.getInitStates(init1.getBody(), acts, c1, ps, states, cm);
@@ -476,11 +476,11 @@ public abstract class Tool
         // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
         case APSubstInKind:
           {
-            APSubstInNode init1 = (APSubstInNode)init;
-            Subst[] subs = init1.getSubsts();
+            final APSubstInNode init1 = (APSubstInNode)init;
+            final Subst[] subs = init1.getSubsts();
             Context c1 = c;
             for (int i = 0; i < subs.length; i++) {
-              Subst sub = subs[i];
+              final Subst sub = subs[i];
               c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, cm, toolId));
             }
             this.getInitStates(init1.getBody(), acts, c1, ps, states, cm);
@@ -489,7 +489,7 @@ public abstract class Tool
         // LabelKind class added by LL on 13 Jun 2007
         case LabelKind:
           {
-            LabelNode init1 = (LabelNode)init;
+            final LabelNode init1 = (LabelNode)init;
             this.getInitStates(init1.getBody(), acts, c, ps, states, cm);
             return;
           }
@@ -500,7 +500,7 @@ public abstract class Tool
         }
   }
 
-  protected void getInitStates(ActionItemList acts, TLCState ps, IStateFunctor states, CostModel cm) {
+  protected void getInitStates(ActionItemList acts, final TLCState ps, final IStateFunctor states, final CostModel cm) {
 		if (acts.isEmpty()) {
 			if (coverage) {
 				cm.incInvocations();
@@ -540,16 +540,16 @@ public abstract class Tool
 			return;
 		}
 		// Assert.check(act.kind > 0 || act.kind == -1);
-		ActionItemList acts1 = acts.cdr();
+		final ActionItemList acts1 = acts.cdr();
 		this.getInitStates(acts.carPred(), acts1, acts.carContext(), ps, states, acts.cm);
 	  }
 
-  protected void getInitStatesAppl(OpApplNode init, ActionItemList acts,
-                                       Context c, TLCState ps, IStateFunctor states, CostModel cm) {
+  protected void getInitStatesAppl(final OpApplNode init, ActionItemList acts,
+                                   final Context c, TLCState ps, final IStateFunctor states, CostModel cm) {
     if (coverage) {cm = cm.get(init);}
-        ExprOrOpArgNode[] args = init.getArgs();
-        int alen = args.length;
-        SymbolNode opNode = init.getOperator();
+        final ExprOrOpArgNode[] args = init.getArgs();
+        final int alen = args.length;
+        final SymbolNode opNode = init.getOperator();
         int opcode = BuiltInOPs.getOpCode(opNode.getName());
 
         if (opcode == 0) {
@@ -559,11 +559,11 @@ public abstract class Tool
           Object val = this.lookup(opNode, c, ps, false);
 
           if (val instanceof OpDefNode) {
-            OpDefNode opDef = (OpDefNode)val;
+            final OpDefNode opDef = (OpDefNode)val;
             opcode = BuiltInOPs.getOpCode(opDef.getName());
             if (opcode == 0) {
               // Context c1 = this.getOpContext(opDef, args, c, false);
-              Context c1 = this.getOpContext(opDef, args, c, true, cm, toolId);
+              final Context c1 = this.getOpContext(opDef, args, c, true, cm, toolId);
               this.getInitStates(opDef.getBody(), acts, c1, ps, states, cm);
               return;
             }
@@ -574,15 +574,15 @@ public abstract class Tool
           * imported with parameterized instantiation.                         *
           *********************************************************************/
           if (val instanceof ThmOrAssumpDefNode) {
-            ThmOrAssumpDefNode opDef = (ThmOrAssumpDefNode)val;
+            final ThmOrAssumpDefNode opDef = (ThmOrAssumpDefNode)val;
             opcode = BuiltInOPs.getOpCode(opDef.getName());
-            Context c1 = this.getOpContext(opDef, args, c, true);
+            final Context c1 = this.getOpContext(opDef, args, c, true);
             this.getInitStates(opDef.getBody(), acts, c1, ps, states, cm);
             return;
           }
 
           if (val instanceof LazyValue) {
-            LazyValue lv = (LazyValue)val;
+            final LazyValue lv = (LazyValue)val;
             if (lv.getValue() == null || lv.isUncachable()) {
               this.getInitStates(lv.expr, acts, lv.con, ps, states, cm);
               return;
@@ -640,8 +640,8 @@ public abstract class Tool
           }
         case OPCODE_be:     // BoundedExists
           {
-            SemanticNode body = args[0];
-            ContextEnumerator Enum = this.contexts(init, c, ps, TLCState.Empty, EvalControl.Init, cm);
+            final SemanticNode body = args[0];
+            final ContextEnumerator Enum = this.contexts(init, c, ps, TLCState.Empty, EvalControl.Init, cm);
             Context c1;
             while ((c1 = Enum.nextElement()) != null) {
               this.getInitStates(body, acts, c1, ps, states, cm);
@@ -650,9 +650,9 @@ public abstract class Tool
           }
         case OPCODE_bf:     // BoundedForall
           {
-            SemanticNode body = args[0];
-            ContextEnumerator Enum = this.contexts(init, c, ps, TLCState.Empty, EvalControl.Init, cm);
-            Context c1 = Enum.nextElement();
+            final SemanticNode body = args[0];
+            final ContextEnumerator Enum = this.contexts(init, c, ps, TLCState.Empty, EvalControl.Init, cm);
+            final Context c1 = Enum.nextElement();
             if (c1 == null) {
               this.getInitStates(acts, ps, states, cm);
             }
@@ -668,13 +668,13 @@ public abstract class Tool
           }
         case OPCODE_ite:    // IfThenElse
           {
-            Value guard = this.eval(args[0], c, ps, TLCState.Empty, EvalControl.Init, cm);
+            final Value guard = this.eval(args[0], c, ps, TLCState.Empty, EvalControl.Init, cm);
             if (!(guard instanceof BoolValue)) {
               Assert.fail("In computing initial states, a non-boolean expression (" +
                           guard.getKindString() + ") was used as the condition " +
                           "of an IF.\n" + init, init, c);
             }
-            int idx = (((BoolValue)guard).val) ? 1 : 2;
+            final int idx = (((BoolValue)guard).val) ? 1 : 2;
             this.getInitStates(args[idx], acts, c, ps, states, cm);
             return;
           }
@@ -682,13 +682,13 @@ public abstract class Tool
           {
             SemanticNode other = null;
             for (int i = 0; i < alen; i++) {
-              OpApplNode pair = (OpApplNode)args[i];
-              ExprOrOpArgNode[] pairArgs = pair.getArgs();
+              final OpApplNode pair = (OpApplNode)args[i];
+              final ExprOrOpArgNode[] pairArgs = pair.getArgs();
               if (pairArgs[0] == null) {
                 other = pairArgs[1];
               }
               else {
-                Value bval = this.eval(pairArgs[0], c, ps, TLCState.Empty, EvalControl.Init, cm);
+                final Value bval = this.eval(pairArgs[0], c, ps, TLCState.Empty, EvalControl.Init, cm);
                 if (!(bval instanceof BoolValue)) {
                   Assert.fail("In computing initial states, a non-boolean expression (" +
                               bval.getKindString() + ") was used as a guard condition" +
@@ -711,9 +711,9 @@ public abstract class Tool
           {
             Value fval = this.eval(args[0], c, ps, TLCState.Empty, EvalControl.Init, cm);
             if (fval instanceof FcnLambdaValue) {
-              FcnLambdaValue fcn = (FcnLambdaValue)fval;
+              final FcnLambdaValue fcn = (FcnLambdaValue)fval;
               if (fcn.fcnRcd == null) {
-                Context c1 = this.getFcnContext(fcn, args, c, ps, TLCState.Empty, EvalControl.Init, cm);
+                final Context c1 = this.getFcnContext(fcn, args, c, ps, TLCState.Empty, EvalControl.Init, cm);
                 this.getInitStates(fcn.body, acts, c1, ps, states, cm);
                 return;
               }
@@ -723,9 +723,9 @@ public abstract class Tool
               Assert.fail("In computing initial states, a non-function (" +
                           fval.getKindString() + ") was applied as a function.\n" + init, init, c);
             }
-            Applicable fcn = (Applicable) fval;
-            Value argVal = this.eval(args[1], c, ps, TLCState.Empty, EvalControl.Init, cm);
-            Value bval = fcn.apply(argVal, EvalControl.Init);
+            final Applicable fcn = (Applicable) fval;
+            final Value argVal = this.eval(args[1], c, ps, TLCState.Empty, EvalControl.Init, cm);
+            final Value bval = fcn.apply(argVal, EvalControl.Init);
             if (!(bval instanceof BoolValue))
             {
               Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING2, new String[] { "initial states", "boolean",
@@ -738,17 +738,17 @@ public abstract class Tool
           }
         case OPCODE_eq:
           {
-            SymbolNode var = this.getVar(args[0], c, false, toolId);
+            final SymbolNode var = this.getVar(args[0], c, false, toolId);
             if (var == null || var.getName().getVarLoc() < 0) {
-              Value bval = this.eval(init, c, ps, TLCState.Empty, EvalControl.Init, cm);
+              final Value bval = this.eval(init, c, ps, TLCState.Empty, EvalControl.Init, cm);
               if (!((BoolValue)bval).val) {
                 return;
               }
             }
             else {
-              UniqueString varName = var.getName();
-              IValue lval = ps.lookup(varName);
-              Value rval = this.eval(args[1], c, ps, TLCState.Empty, EvalControl.Init, cm);
+              final UniqueString varName = var.getName();
+              final IValue lval = ps.lookup(varName);
+              final Value rval = this.eval(args[1], c, ps, TLCState.Empty, EvalControl.Init, cm);
               if (lval == null) {
                 ps = ps.bind(varName, rval);
                 this.getInitStates(acts, ps, states, cm);
@@ -766,23 +766,23 @@ public abstract class Tool
           }
         case OPCODE_in:
           {
-            SymbolNode var = this.getVar(args[0], c, false, toolId);
+            final SymbolNode var = this.getVar(args[0], c, false, toolId);
             if (var == null || var.getName().getVarLoc() < 0) {
-              Value bval = this.eval(init, c, ps, TLCState.Empty, EvalControl.Init, cm);
+              final Value bval = this.eval(init, c, ps, TLCState.Empty, EvalControl.Init, cm);
               if (!((BoolValue)bval).val) {
                 return;
               }
             }
             else {
-              UniqueString varName = var.getName();
-              Value lval = (Value) ps.lookup(varName);
-              Value rval = this.eval(args[1], c, ps, TLCState.Empty, EvalControl.Init, cm);
+              final UniqueString varName = var.getName();
+              final Value lval = (Value) ps.lookup(varName);
+              final Value rval = this.eval(args[1], c, ps, TLCState.Empty, EvalControl.Init, cm);
               if (lval == null) {
                 if (!(rval instanceof Enumerable)) {
                   Assert.fail("In computing initial states, the right side of \\IN" +
                               " is not enumerable.\n" + init, init, c);
                 }
-                ValueEnumeration Enum = ((Enumerable)rval).elements();
+                final ValueEnumeration Enum = ((Enumerable)rval).elements();
                 Value elem;
                 while ((elem = Enum.nextElement()) != null) {
                   ps.bind(varName, elem);
@@ -802,7 +802,7 @@ public abstract class Tool
           }
         case OPCODE_implies:
           {
-            Value lval = this.eval(args[0], c, ps, TLCState.Empty, EvalControl.Init, cm);
+            final Value lval = this.eval(args[0], c, ps, TLCState.Empty, EvalControl.Init, cm);
             if (!(lval instanceof BoolValue)) {
               Assert.fail("In computing initial states of a predicate of form" +
                           " P => Q, P was " + lval.getKindString() + "\n." + init, init, c);
@@ -824,7 +824,7 @@ public abstract class Tool
         default:
           {
             // For all the other builtin operators, simply evaluate:
-            Value bval = this.eval(init, c, ps, TLCState.Empty, EvalControl.Init, cm);
+            final Value bval = this.eval(init, c, ps, TLCState.Empty, EvalControl.Init, cm);
             if (!(bval instanceof BoolValue)) {
 
               Assert.fail("In computing initial states, TLC expected a boolean expression," +
@@ -843,14 +843,14 @@ public abstract class Tool
    * in the given state.
    */
   @Override
-  public final StateVec getNextStates(Action action, TLCState state) {
+  public final StateVec getNextStates(final Action action, final TLCState state) {
 	  return getNextStates(action, action.con, state);
   }
   
   public final StateVec getNextStates(final Action action, final Context ctx, final TLCState state) {
-    ActionItemList acts = ActionItemList.Empty;
-    TLCState s1 = TLCState.Empty.createEmpty();
-    StateVec nss = new StateVec(0);
+    final ActionItemList acts = ActionItemList.Empty;
+    final TLCState s1 = TLCState.Empty.createEmpty();
+    final StateVec nss = new StateVec(0);
     this.getNextStates(action, action.pred, acts, ctx, state, s1.setPredecessor(state).setAction(action), nss, action.cm);
     if (coverage) { action.cm.incInvocations(nss.size()); }
     if (PROBABLISTIC && nss.size() > 1) {System.err.println("Simulator generated more than one next state");}
@@ -874,18 +874,18 @@ public abstract class Tool
   protected abstract TLCState getNextStates(final Action action, SemanticNode pred, ActionItemList acts, Context c,
                                        TLCState s0, TLCState s1, INextStateFunctor nss, CostModel cm);
   
-  protected final TLCState getNextStatesImpl(final Action action, SemanticNode pred, ActionItemList acts, Context c,
-              TLCState s0, TLCState s1, INextStateFunctor nss, CostModel cm) {
+  protected final TLCState getNextStatesImpl(final Action action, final SemanticNode pred, final ActionItemList acts, final Context c,
+                                             final TLCState s0, final TLCState s1, final INextStateFunctor nss, CostModel cm) {
         switch (pred.getKind()) {
         case OpApplKind:
           {
-            OpApplNode pred1 = (OpApplNode)pred;
+            final OpApplNode pred1 = (OpApplNode)pred;
             if (coverage) {cm = cm.get(pred);}
             return this.getNextStatesAppl(action, pred1, acts, c, s0, s1, nss, cm);
           }
         case LetInKind:
           {
-            LetInNode pred1 = (LetInNode)pred;
+            final LetInNode pred1 = (LetInNode)pred;
             return this.getNextStates(action, pred1.getBody(), acts, c, s0, s1, nss, cm);
           }
         case SubstInKind:
@@ -900,7 +900,7 @@ public abstract class Tool
         // LabelKind class added by LL on 13 Jun 2007
         case LabelKind:
           {
-            LabelNode pred1 = (LabelNode)pred;
+            final LabelNode pred1 = (LabelNode)pred;
             return this.getNextStates(action, pred1.getBody(), acts, c, s0, s1, nss, cm);
           }
         default:
@@ -912,32 +912,32 @@ public abstract class Tool
   }
 
   @ExpectInlined
-  private final TLCState getNextStatesImplSubstInKind(final Action action, SubstInNode pred1, ActionItemList acts, Context c, TLCState s0, TLCState s1, INextStateFunctor nss, final CostModel cm) {
-  	Subst[] subs = pred1.getSubsts();
-  	int slen = subs.length;
+  private final TLCState getNextStatesImplSubstInKind(final Action action, final SubstInNode pred1, final ActionItemList acts, final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm) {
+  	final Subst[] subs = pred1.getSubsts();
+  	final int slen = subs.length;
   	Context c1 = c;
   	for (int i = 0; i < slen; i++) {
-  	  Subst sub = subs[i];
+  	  final Subst sub = subs[i];
   	  c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, coverage ? sub.getCM() : cm, toolId));
   	}
   	return this.getNextStates(action, pred1.getBody(), acts, c1, s0, s1, nss, cm);
   }
   
   @ExpectInlined
-  private final TLCState getNextStatesImplApSubstInKind(final Action action, APSubstInNode pred1, ActionItemList acts, Context c, TLCState s0, TLCState s1, INextStateFunctor nss, final CostModel cm) {
-  	Subst[] subs = pred1.getSubsts();
-  	int slen = subs.length;
+  private final TLCState getNextStatesImplApSubstInKind(final Action action, final APSubstInNode pred1, final ActionItemList acts, final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm) {
+  	final Subst[] subs = pred1.getSubsts();
+  	final int slen = subs.length;
   	Context c1 = c;
   	for (int i = 0; i < slen; i++) {
-  	  Subst sub = subs[i];
+  	  final Subst sub = subs[i];
   	  c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, cm, toolId));
   	}
   	return this.getNextStates(action, pred1.getBody(), acts, c1, s0, s1, nss, cm);
   }
   
   @ExpectInlined
-  private final TLCState getNextStates(final Action action, ActionItemList acts, final TLCState s0, final TLCState s1,
-          final INextStateFunctor nss, CostModel cm) {
+  private final TLCState getNextStates(final Action action, final ActionItemList acts, final TLCState s0, final TLCState s1,
+                                       final INextStateFunctor nss, final CostModel cm) {
 	  final TLCState copy = getNextStates0(action, acts, s0, s1, nss, cm);
 	  if (coverage && copy != s1) {
 		  cm.incInvocations();
@@ -947,8 +947,8 @@ public abstract class Tool
 
   
   @ExpectInlined
-  private final TLCState getNextStates0(final Action action, ActionItemList acts, final TLCState s0, final TLCState s1,
-                                       final INextStateFunctor nss, CostModel cm) {
+  private final TLCState getNextStates0(final Action action, final ActionItemList acts, final TLCState s0, final TLCState s1,
+                                        final INextStateFunctor nss, CostModel cm) {
     if (acts.isEmpty()) {
       nss.addElement(s0, action, s1);
       return s1.copy();
@@ -966,9 +966,9 @@ public abstract class Tool
     }
 
     final int kind = acts.carKind();
-    SemanticNode pred = acts.carPred();
-    Context c = acts.carContext();
-    ActionItemList acts1 = acts.cdr();
+    final SemanticNode pred = acts.carPred();
+    final Context c = acts.carContext();
+    final ActionItemList acts1 = acts.cdr();
     cm = acts.cm;
     if (kind > 0) {
       return this.getNextStates(action, pred, acts1, c, s0, s1, nss, cm);
@@ -980,8 +980,8 @@ public abstract class Tool
       return this.processUnchanged(action, pred, acts1, c, s0, s1, nss, cm);
     }
     else {
-      IValue v1 = this.eval(pred, c, s0, cm);
-      IValue v2 = this.eval(pred, c, s1, cm);
+      final IValue v1 = this.eval(pred, c, s0, cm);
+      final IValue v2 = this.eval(pred, c, s1, cm);
       if (!v1.equals(v2)) {
     	  if (coverage) {
     		  return this.getNextStates(action, acts1, s0, s1, nss, cm);
@@ -1166,7 +1166,7 @@ public abstract class Tool
 	  }
 	case OPCODE_be:     // BoundedExists
 	  {
-	    SemanticNode body = args[0];
+	    final SemanticNode body = args[0];
 	    
 	    if (PROBABLISTIC) {
 		    // probabilistic (return after a state has been generated, ordered is randomized)
@@ -1180,7 +1180,7 @@ public abstract class Tool
 		    }
 	    } else {
 	    	// non-deterministically generate successor states (potentially many)
-	    	ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Clear, cm);
+	    	final ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Clear, cm);
 	    	Context c1;
 	    	while ((c1 = Enum.nextElement()) != null) {
 	    		resState = this.getNextStates(action, body, acts, c1, s0, resState, nss, cm);
@@ -1191,9 +1191,9 @@ public abstract class Tool
 	  }
 	case OPCODE_bf:     // BoundedForall
 	  {
-	    SemanticNode body = args[0];
-	    ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Clear, cm);
-	    Context c1 = Enum.nextElement();
+	    final SemanticNode body = args[0];
+	    final ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Clear, cm);
+	    final Context c1 = Enum.nextElement();
 	    if (c1 == null) {
 	      resState = this.getNextStates(action, acts, s0, s1, nss, cm);
 	    }
@@ -1211,9 +1211,9 @@ public abstract class Tool
 	  {
 	    Value fval = this.eval(args[0], c, s0, s1, EvalControl.KeepLazy, cm);
 	    if (fval instanceof FcnLambdaValue) {
-	      FcnLambdaValue fcn = (FcnLambdaValue)fval;
+	      final FcnLambdaValue fcn = (FcnLambdaValue)fval;
 	      if (fcn.fcnRcd == null) {
-	        Context c1 = this.getFcnContext(fcn, args, c, s0, s1, EvalControl.Clear, cm);
+	        final Context c1 = this.getFcnContext(fcn, args, c, s0, s1, EvalControl.Clear, cm);
 	        return this.getNextStates(action, fcn.body, acts, c1, s0, s1, nss, fcn.cm);
 	      }
 	      fval = fcn.fcnRcd;
@@ -1222,9 +1222,9 @@ public abstract class Tool
 	      Assert.fail("In computing next states, a non-function (" +
 	                  fval.getKindString() + ") was applied as a function.\n" + pred, pred, c);
 	    }
-	    Applicable fcn = (Applicable)fval;
-	    Value argVal = this.eval(args[1], c, s0, s1, EvalControl.Clear, cm);
-	    Value bval = fcn.apply(argVal, EvalControl.Clear);
+	    final Applicable fcn = (Applicable)fval;
+	    final Value argVal = this.eval(args[1], c, s0, s1, EvalControl.Clear, cm);
+	    final Value bval = fcn.apply(argVal, EvalControl.Clear);
 	    if (!(bval instanceof BoolValue)) {
 	      Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING2, new String[] { "next states", "boolean",
 	              pred.toString() }, args[1], c);
@@ -1236,7 +1236,7 @@ public abstract class Tool
 	  }
 	case OPCODE_aa:     // AngleAct <A>_e
 	  {
-	    ActionItemList acts1 = (ActionItemList) acts.cons(args[1], c, cm, IActionItemList.CHANGED);
+	    final ActionItemList acts1 = (ActionItemList) acts.cons(args[1], c, cm, IActionItemList.CHANGED);
 	    return this.getNextStates(action, args[0], acts1, c, s0, s1, nss, cm);
 	  }
 	case OPCODE_sa:     // [A]_e
@@ -1252,7 +1252,7 @@ public abstract class Tool
 	  }
 	case OPCODE_ite:    // IfThenElse
 	  {
-	    Value guard = this.eval(args[0], c, s0, s1, EvalControl.Clear, cm);
+	    final Value guard = this.eval(args[0], c, s0, s1, EvalControl.Clear, cm);
 	    if (!(guard instanceof BoolValue)) {
 	      Assert.fail("In computing next states, a non-boolean expression (" +
 	                  guard.getKindString() + ") was used as the condition of" +
@@ -1274,13 +1274,13 @@ public abstract class Tool
 							"Probabilistic evaluation of next-state relation not implemented for CASE yet.");
 		}
 	    for (int i = 0; i < alen; i++) {
-	      OpApplNode pair = (OpApplNode)args[i];
-	      ExprOrOpArgNode[] pairArgs = pair.getArgs();
+	      final OpApplNode pair = (OpApplNode)args[i];
+	      final ExprOrOpArgNode[] pairArgs = pair.getArgs();
 	      if (pairArgs[0] == null) {
 	        other = pairArgs[1];
 	      }
 	      else {
-	        Value bval = this.eval(pairArgs[0], c, s0, s1, EvalControl.Clear, coverage ? cm.get(args[i]) : cm);
+	        final Value bval = this.eval(pairArgs[0], c, s0, s1, EvalControl.Clear, coverage ? cm.get(args[i]) : cm);
 	        if (!(bval instanceof BoolValue)) {
 	          Assert.fail("In computing next states, a non-boolean expression (" +
 	                      bval.getKindString() + ") was used as a guard condition" +
@@ -1299,18 +1299,18 @@ public abstract class Tool
 	  }
 	case OPCODE_eq:
 	  {
-	    SymbolNode var = this.getPrimedVar(args[0], c, false);
+	    final SymbolNode var = this.getPrimedVar(args[0], c, false);
 	    // Assert.check(var.getName().getVarLoc() >= 0);
 	    if (var == null) {
-	      Value bval = this.eval(pred, c, s0, s1, EvalControl.Clear, cm);
+	      final Value bval = this.eval(pred, c, s0, s1, EvalControl.Clear, cm);
 	      if (!((BoolValue)bval).val) {
 	        return resState;
 	      }
 	    }
 	    else {
-	      UniqueString varName = var.getName();
-	      IValue lval = s1.lookup(varName);
-	      Value rval = this.eval(args[1], c, s0, s1, EvalControl.Clear, cm);
+	      final UniqueString varName = var.getName();
+	      final IValue lval = s1.lookup(varName);
+	      final Value rval = this.eval(args[1], c, s0, s1, EvalControl.Clear, cm);
 	      if (lval == null) {
 	        resState.bind(varName, rval);
 	        resState = this.getNextStates(action, acts, s0, resState, nss, cm);
@@ -1325,18 +1325,18 @@ public abstract class Tool
 	  }
 	case OPCODE_in:
 	  {
-	    SymbolNode var = this.getPrimedVar(args[0], c, false);
+	    final SymbolNode var = this.getPrimedVar(args[0], c, false);
 	    // Assert.check(var.getName().getVarLoc() >= 0);
 	    if (var == null) {
-	      Value bval = this.eval(pred, c, s0, s1, EvalControl.Clear, cm);
+	      final Value bval = this.eval(pred, c, s0, s1, EvalControl.Clear, cm);
 	      if (!((BoolValue)bval).val) {
 	        return resState;
 	      }
 	    }
 	    else {
-	      UniqueString varName = var.getName();
-	      Value lval = (Value) s1.lookup(varName);
-	      Value rval = this.eval(args[1], c, s0, s1, EvalControl.Clear, cm);
+	      final UniqueString varName = var.getName();
+	      final Value lval = (Value) s1.lookup(varName);
+	      final Value rval = this.eval(args[1], c, s0, s1, EvalControl.Clear, cm);
 	      if (lval == null) {
 	        if (!(rval instanceof Enumerable)) {
 	          Assert.fail("In computing next states, the right side of \\IN" +
@@ -1356,7 +1356,7 @@ public abstract class Tool
 			    }
 			}
 
-	        ValueEnumeration Enum = ((Enumerable)rval).elements();
+	        final ValueEnumeration Enum = ((Enumerable)rval).elements();
 	        Value elem;
 	        while ((elem = Enum.nextElement()) != null) {
 	          resState.bind(varName, elem);
@@ -1373,7 +1373,7 @@ public abstract class Tool
 	  }
 	case OPCODE_implies:
 	  {
-	    Value bval = this.eval(args[0], c, s0, s1, EvalControl.Clear, cm);
+	    final Value bval = this.eval(args[0], c, s0, s1, EvalControl.Clear, cm);
 	    if (!(bval instanceof BoolValue)) {
 	      Assert.fail("In computing next states of a predicate of the form" +
 	                  " P => Q, P was\n" + bval.getKindString() + ".\n" + pred, pred, c);
@@ -1412,7 +1412,7 @@ public abstract class Tool
 	default:
 	  {
 	    // We handle all the other builtin operators here.
-	    Value bval = this.eval(pred, c, s0, s1, EvalControl.Clear, cm);
+	    final Value bval = this.eval(pred, c, s0, s1, EvalControl.Clear, cm);
 	    if (!(bval instanceof BoolValue)) {
 	      Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING, new String[] { "next states", "boolean",
 	              bval.toString(), pred.toString() }, pred, c);
@@ -1431,22 +1431,22 @@ public abstract class Tool
   protected abstract TLCState processUnchanged(final Action action, SemanticNode expr, ActionItemList acts, Context c,
                                           TLCState s0, TLCState s1, INextStateFunctor nss, CostModel cm);
   
-  protected final TLCState processUnchangedImpl(final Action action, SemanticNode expr, ActionItemList acts, Context c,
-          TLCState s0, TLCState s1, INextStateFunctor nss, CostModel cm) {
+  protected final TLCState processUnchangedImpl(final Action action, final SemanticNode expr, final ActionItemList acts, final Context c,
+                                                final TLCState s0, final TLCState s1, final INextStateFunctor nss, CostModel cm) {
     if (coverage){cm = cm.get(expr);}
-        SymbolNode var = this.getVar(expr, c, false, toolId);
+        final SymbolNode var = this.getVar(expr, c, false, toolId);
         TLCState resState = s1;
         if (var != null) {
             return processUnchangedImplVar(action, expr, acts, s0, s1, nss, var, cm);
         }
 
         if (expr instanceof OpApplNode) {
-          OpApplNode expr1 = (OpApplNode)expr;
-          ExprOrOpArgNode[] args = expr1.getArgs();
-          int alen = args.length;
-          SymbolNode opNode = expr1.getOperator();
-          UniqueString opName = opNode.getName();
-          int opcode = BuiltInOPs.getOpCode(opName);
+          final OpApplNode expr1 = (OpApplNode)expr;
+          final ExprOrOpArgNode[] args = expr1.getArgs();
+          final int alen = args.length;
+          final SymbolNode opNode = expr1.getOperator();
+          final UniqueString opName = opNode.getName();
+          final int opcode = BuiltInOPs.getOpCode(opName);
 
           if (opcode == OPCODE_tup) {
             return processUnchangedImplTuple(action, acts, c, s0, s1, nss, args, alen, cm, coverage ? cm.get(expr1) : cm);
@@ -1458,8 +1458,8 @@ public abstract class Tool
           }
         }
 
-        IValue v0 = this.eval(expr, c, s0, cm);
-        Value v1 = this.eval(expr, c, s1, TLCState.Null, EvalControl.Clear, cm);
+        final IValue v0 = this.eval(expr, c, s0, cm);
+        final Value v1 = this.eval(expr, c, s1, TLCState.Null, EvalControl.Clear, cm);
         if (v0.equals(v1)) {
           resState = this.getNextStates(action, acts, s0, s1, nss, cm);
         }
@@ -1487,23 +1487,23 @@ public abstract class Tool
   }
 
   @Override
-  public IValue eval(SemanticNode expr, Context c, TLCState s0) {
+  public IValue eval(final SemanticNode expr, final Context c, final TLCState s0) {
 	    return this.eval(expr, c, s0, TLCState.Empty, EvalControl.Clear, CostModel.DO_NOT_RECORD);
 	  }
 
   @Override
-  public IValue eval(SemanticNode expr, Context c) {
+  public IValue eval(final SemanticNode expr, final Context c) {
 	    return this.eval(expr, c, TLCState.Empty);
 	  }
 
   @Override
-  public IValue eval(SemanticNode expr) {
+  public IValue eval(final SemanticNode expr) {
 	    return this.eval(expr, Context.Empty);
 	  }
 
   @ExpectInlined
-  private final TLCState processUnchangedImplTuple(final Action action, ActionItemList acts, Context c, TLCState s0, TLCState s1, INextStateFunctor nss,
-  		ExprOrOpArgNode[] args, int alen, CostModel cm, CostModel cmNested) {
+  private final TLCState processUnchangedImplTuple(final Action action, final ActionItemList acts, final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss,
+                                                   final ExprOrOpArgNode[] args, final int alen, final CostModel cm, final CostModel cmNested) {
   	// a tuple:
   	if (alen != 0) {
   	  ActionItemList acts1 = acts;
@@ -1516,8 +1516,8 @@ public abstract class Tool
   }
   
   @ExpectInlined
-  private final TLCState processUnchangedImplVar(final Action action, SemanticNode expr, ActionItemList acts, TLCState s0, TLCState s1, INextStateFunctor nss,
-  		SymbolNode var, final CostModel cm) {
+  private final TLCState processUnchangedImplVar(final Action action, final SemanticNode expr, final ActionItemList acts, final TLCState s0, final TLCState s1, final INextStateFunctor nss,
+                                                 final SymbolNode var, final CostModel cm) {
           TLCState resState = s1;
           // expr is a state variable:
           final UniqueString varName = var.getName();
@@ -1546,7 +1546,7 @@ public abstract class Tool
   }
     
   /* eval */
-  public TLCState evalAlias(TLCState current, TLCState successor) {
+  public TLCState evalAlias(final TLCState current, final TLCState successor) {
 		if ("".equals(this.config.getAlias())) {
 			return current;
 		}
@@ -1565,7 +1565,7 @@ public abstract class Tool
 			if (alias != null) {
 				return alias;
 			}
-		} catch (EvalException | TLCRuntimeException e) {
+		} catch (final EvalException | TLCRuntimeException e) {
 			// Fall back to original state if eval fails.
 			return current;
 		}
@@ -1573,7 +1573,7 @@ public abstract class Tool
 		return current;
   }
 
-  public TLCStateInfo evalAlias(TLCStateInfo current, TLCState successor) {
+  public TLCStateInfo evalAlias(final TLCStateInfo current, final TLCState successor) {
 		if ("".equals(this.config.getAlias())) {
 			return current;
 		}
@@ -1595,7 +1595,7 @@ public abstract class Tool
 			if (alias != null) {
 				return new AliasTLCStateInfo(alias, current);
 			}
-		} catch (EvalException | TLCRuntimeException e) {
+		} catch (final EvalException | TLCRuntimeException e) {
 			// Fall back to original state if eval fails.
 			return current;
 			// TODO We have to somehow communicate this exception back to the user.
@@ -1625,13 +1625,13 @@ public abstract class Tool
   
   /* Special version of eval for state expressions. */
   @Override
-  public IValue eval(SemanticNode expr, Context c, TLCState s0, CostModel cm) {
+  public IValue eval(final SemanticNode expr, final Context c, final TLCState s0, final CostModel cm) {
     return this.eval(expr, c, s0, TLCState.Empty, EvalControl.Clear, cm);
   }
   
 	  @Override
-	public final IValue eval(SemanticNode expr, Context c, TLCState s0,
-              TLCState s1, final int control) {
+	public final IValue eval(final SemanticNode expr, final Context c, final TLCState s0,
+                             final TLCState s1, final int control) {
 		  return eval(expr, c, s0, s1, control, CostModel.DO_NOT_RECORD);
 	  }
 	  
@@ -1657,12 +1657,12 @@ public abstract class Tool
         ***********************************************************************/
         case LabelKind:
           {
-            LabelNode expr1 = (LabelNode) expr;
+            final LabelNode expr1 = (LabelNode) expr;
             return this.eval(expr1.getBody(), c, s0, s1, control, cm);
           }
         case OpApplKind:
           {
-            OpApplNode expr1 = (OpApplNode)expr;
+            final OpApplNode expr1 = (OpApplNode)expr;
             if (coverage) {cm = cm.get(expr);}
             return this.evalAppl(expr1, c, s0, s1, control, cm);
           }
@@ -1703,14 +1703,14 @@ public abstract class Tool
   }
 
   @ExpectInlined
-  private final Value evalImplLetInKind(LetInNode expr1, Context c, TLCState s0, TLCState s1, final int control, final CostModel cm) {
-	OpDefNode[] letDefs = expr1.getLets();
-	int letLen = letDefs.length;
+  private final Value evalImplLetInKind(final LetInNode expr1, final Context c, final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
+	final OpDefNode[] letDefs = expr1.getLets();
+	final int letLen = letDefs.length;
 	Context c1 = c;
 	for (int i = 0; i < letLen; i++) {
-	  OpDefNode opDef = letDefs[i];
+	  final OpDefNode opDef = letDefs[i];
 	  if (opDef.getArity() == 0) {
-	    Value rhs = new LazyValue(opDef.getBody(), c1, cm);
+	    final Value rhs = new LazyValue(opDef.getBody(), c1, cm);
 	    c1 = c1.cons(opDef, rhs);
 	  }
 	}
@@ -1718,33 +1718,33 @@ public abstract class Tool
   }
 
   @ExpectInlined
-  private final Value evalImplSubstInKind(SubstInNode expr1, Context c, TLCState s0, TLCState s1, final int control, final CostModel cm) {
-  	Subst[] subs = expr1.getSubsts();
-  	int slen = subs.length;
+  private final Value evalImplSubstInKind(final SubstInNode expr1, final Context c, final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
+  	final Subst[] subs = expr1.getSubsts();
+  	final int slen = subs.length;
   	Context c1 = c;
   	for (int i = 0; i < slen; i++) {
-  	  Subst sub = subs[i];
+  	  final Subst sub = subs[i];
   	  c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, coverage ? sub.getCM() : cm, toolId));
   	}
   	return this.eval(expr1.getBody(), c1, s0, s1, control, cm);
   }
     
   @ExpectInlined
-  private final Value evalImplApSubstInKind(APSubstInNode expr1, Context c, TLCState s0, TLCState s1, final int control, final CostModel cm) {
-  	Subst[] subs = expr1.getSubsts();
-  	int slen = subs.length;
+  private final Value evalImplApSubstInKind(final APSubstInNode expr1, final Context c, final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
+  	final Subst[] subs = expr1.getSubsts();
+  	final int slen = subs.length;
   	Context c1 = c;
   	for (int i = 0; i < slen; i++) {
-  	  Subst sub = subs[i];
+  	  final Subst sub = subs[i];
   	  c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, cm, toolId));
   	}
   	return this.eval(expr1.getBody(), c1, s0, s1, control, cm);
   }
   
   @ExpectInlined
-  private final Value evalImplOpArgKind(OpArgNode expr1, Context c, TLCState s0, TLCState s1, final CostModel cm) {
-  	SymbolNode opNode = expr1.getOp();
-  	Object val = this.lookup(opNode, c, false);
+  private final Value evalImplOpArgKind(final OpArgNode expr1, final Context c, final TLCState s0, final TLCState s1, final CostModel cm) {
+  	final SymbolNode opNode = expr1.getOp();
+  	final Object val = this.lookup(opNode, c, false);
   	if (val instanceof OpDefNode) {
   	  return setSource(expr1, new OpLambdaValue((OpDefNode)val, this, c, s0, s1, cm));
   	}
@@ -1757,13 +1757,13 @@ public abstract class Tool
   protected abstract Value evalAppl(final OpApplNode expr, Context c, TLCState s0,
           TLCState s1, final int control, final CostModel cm);
 
-  protected final Value evalApplImpl(final OpApplNode expr, Context c, TLCState s0,
-                              TLCState s1, final int control, CostModel cm) {
+  protected final Value evalApplImpl(final OpApplNode expr, final Context c, final TLCState s0,
+                                     final TLCState s1, final int control, CostModel cm) {
     if (coverage){
     	cm = cm.getAndIncrement(expr);
     }
-        ExprOrOpArgNode[] args = expr.getArgs();
-        SymbolNode opNode = expr.getOperator();
+        final ExprOrOpArgNode[] args = expr.getArgs();
+        final SymbolNode opNode = expr.getOperator();
         int opcode = BuiltInOPs.getOpCode(opNode.getName());
 
         if (opcode == 0) {
@@ -1882,16 +1882,16 @@ public abstract class Tool
 
 			Value res = null;
           if (val instanceof OpDefNode) {
-            OpDefNode opDef = (OpDefNode)val;
+            final OpDefNode opDef = (OpDefNode)val;
             opcode = BuiltInOPs.getOpCode(opDef.getName());
             if (opcode == 0) {
-              Context c1 = this.getOpContext(opDef, args, c, true, cm, toolId);
+              final Context c1 = this.getOpContext(opDef, args, c, true, cm, toolId);
               res = this.eval(opDef.getBody(), c1, s0, s1, control, cm);
             }
           }
           else if (val instanceof Value) {
             res = (Value)val;
-            int alen = args.length;
+            final int alen = args.length;
             if (alen == 0) {
               if (val instanceof MethodValue) {
                 res = ((MethodValue)val).apply(EmptyArgs, EvalControl.Clear);
@@ -1917,8 +1917,8 @@ public abstract class Tool
 //            Assert.fail("Trying to evaluate the theorem or assumption name `"
 //                         + opNode.getName() + "'. \nUse `" + opNode.getName()
 //                         + "!:' instead.\n" +expr);
-            ThmOrAssumpDefNode opDef = (ThmOrAssumpDefNode) val ;
-            Context c1 = this.getOpContext(opDef, args, c, true);
+            final ThmOrAssumpDefNode opDef = (ThmOrAssumpDefNode) val ;
+            final Context c1 = this.getOpContext(opDef, args, c, true);
             return this.eval(opDef.getBody(), c1, s0, s1, control, cm);
           }
           else {
@@ -1975,9 +1975,9 @@ public abstract class Tool
         switch (opcode) {
         case OPCODE_bc:     // BoundedChoose
           {
-            SemanticNode pred = args[0];
-            SemanticNode inExpr = expr.getBdedQuantBounds()[0];
-            Value inVal = this.eval(inExpr, c, s0, s1, control, cm);
+            final SemanticNode pred = args[0];
+            final SemanticNode inExpr = expr.getBdedQuantBounds()[0];
+            final Value inVal = this.eval(inExpr, c, s0, s1, control, cm);
             if (!(inVal instanceof Enumerable)) {
               Assert.fail("Attempted to compute the value of an expression of\n" +
                           "form CHOOSE x \\in S: P, but S was not enumerable.\n" + expr, expr, c);
@@ -2014,15 +2014,15 @@ public abstract class Tool
             
             inVal.normalize();
 
-            ValueEnumeration enumSet = ((Enumerable)inVal).elements(Enumerable.Ordering.NORMALIZED);
-            FormalParamNode[] bvars = expr.getBdedQuantSymbolLists()[0];
-            boolean isTuple = expr.isBdedQuantATuple()[0];
+            final ValueEnumeration enumSet = ((Enumerable)inVal).elements(Enumerable.Ordering.NORMALIZED);
+            final FormalParamNode[] bvars = expr.getBdedQuantSymbolLists()[0];
+            final boolean isTuple = expr.isBdedQuantATuple()[0];
             if (isTuple) {
               // Identifier tuple case:
-              int cnt = bvars.length;
+              final int cnt = bvars.length;
               Value val;
               while ((val = enumSet.nextElement()) != null) {
-                TupleValue tv = (TupleValue) val.toTuple();
+                final TupleValue tv = (TupleValue) val.toTuple();
                 if (tv == null || tv.size() != cnt) {
                   Assert.fail("Attempted to compute the value of an expression of form\n" +
                               "CHOOSE <<x1, ... , xN>> \\in S: P, but S was not a set\n" +
@@ -2032,7 +2032,7 @@ public abstract class Tool
                 for (int i = 0; i < cnt; i++) {
                   c1 = c1.cons(bvars[i], tv.elems[i]);
                 }
-                Value bval = this.eval(pred, c1, s0, s1, control, cm);
+                final Value bval = this.eval(pred, c1, s0, s1, control, cm);
                 if (!(bval instanceof BoolValue)) {
                   Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, pred, c1);
                 }
@@ -2043,11 +2043,11 @@ public abstract class Tool
             }
             else {
               // Simple identifier case:
-              SymbolNode name = bvars[0];
+              final SymbolNode name = bvars[0];
               Value val;
               while ((val = enumSet.nextElement()) != null) {
-                Context c1 = c.cons(name, val);
-                Value bval = this.eval(pred, c1, s0, s1, control, cm);
+                final Context c1 = c.cons(name, val);
+                final Value bval = this.eval(pred, c1, s0, s1, control, cm);
                 if (!(bval instanceof BoolValue)) {
                   Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, pred, c1);
                 }
@@ -2062,11 +2062,11 @@ public abstract class Tool
           }
         case OPCODE_be:     // BoundedExists
           {
-            ContextEnumerator Enum = this.contexts(expr, c, s0, s1, control, cm);
-            SemanticNode body = args[0];
+            final ContextEnumerator Enum = this.contexts(expr, c, s0, s1, control, cm);
+            final SemanticNode body = args[0];
             Context c1;
             while ((c1 = Enum.nextElement()) != null) {
-              Value bval = this.eval(body, c1, s0, s1, control, cm);
+              final Value bval = this.eval(body, c1, s0, s1, control, cm);
               if (!(bval instanceof BoolValue)) {
                 Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, body, c1);
               }
@@ -2078,11 +2078,11 @@ public abstract class Tool
           }
         case OPCODE_bf:     // BoundedForall
           {
-            ContextEnumerator Enum = this.contexts(expr, c, s0, s1, control, cm);
-            SemanticNode body = args[0];
+            final ContextEnumerator Enum = this.contexts(expr, c, s0, s1, control, cm);
+            final SemanticNode body = args[0];
             Context c1;
             while ((c1 = Enum.nextElement()) != null) {
-              Value bval = this.eval(body, c1, s0, s1, control, cm);
+              final Value bval = this.eval(body, c1, s0, s1, control, cm);
               if (!(bval instanceof BoolValue)) {
                 Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, body, c1);
               }
@@ -2094,17 +2094,17 @@ public abstract class Tool
           }
         case OPCODE_case:   // Case
           {
-            int alen = args.length;
+            final int alen = args.length;
             SemanticNode other = null;
             for (int i = 0; i < alen; i++) {
-              OpApplNode pairNode = (OpApplNode)args[i];
-              ExprOrOpArgNode[] pairArgs = pairNode.getArgs();
+              final OpApplNode pairNode = (OpApplNode)args[i];
+              final ExprOrOpArgNode[] pairArgs = pairNode.getArgs();
               if (pairArgs[0] == null) {
                 other = pairArgs[1];
                 if (coverage) { cm = cm.get(pairNode); }
                }
               else {
-                Value bval = this.eval(pairArgs[0], c, s0, s1, control, coverage ? cm.get(pairNode) : cm);
+                final Value bval = this.eval(pairArgs[0], c, s0, s1, control, coverage ? cm.get(pairNode) : cm);
                 if (!(bval instanceof BoolValue)) {
                   Assert.fail("A non-boolean expression (" + bval.getKindString() +
                               ") was used as a condition of a CASE. " + pairArgs[0], pairArgs[0], c);
@@ -2121,8 +2121,8 @@ public abstract class Tool
           }
         case OPCODE_cp:     // CartesianProd
           {
-            int alen = args.length;
-            Value[] sets = new Value[alen];
+            final int alen = args.length;
+            final Value[] sets = new Value[alen];
             for (int i = 0; i < alen; i++) {
               sets[i] = this.eval(args[i], c, s0, s1, control, cm);
             }
@@ -2130,9 +2130,9 @@ public abstract class Tool
           }
         case OPCODE_cl:     // ConjList
           {
-            int alen = args.length;
+            final int alen = args.length;
             for (int i = 0; i < alen; i++) {
-              Value bval = this.eval(args[i], c, s0, s1, control, cm);
+              final Value bval = this.eval(args[i], c, s0, s1, control, cm);
               if (!(bval instanceof BoolValue)) {
                 Assert.fail("A non-boolean expression (" + bval.getKindString() +
                             ") was used as a formula in a conjunction.\n" + args[i], args[i], c);
@@ -2145,9 +2145,9 @@ public abstract class Tool
           }
         case OPCODE_dl:     // DisjList
           {
-            int alen = args.length;
+            final int alen = args.length;
             for (int i = 0; i < alen; i++) {
-              Value bval = this.eval(args[i], c, s0, s1, control, cm);
+              final Value bval = this.eval(args[i], c, s0, s1, control, cm);
               if (!(bval instanceof BoolValue)) {
                 Assert.fail("A non-boolean expression (" + bval.getKindString() +
                             ") was used as a formula in a disjunction.\n" + args[i], args[i], c);
@@ -2160,27 +2160,27 @@ public abstract class Tool
           }
         case OPCODE_exc:    // Except
           {
-            int alen = args.length;
+            final int alen = args.length;
             Value result = this.eval(args[0], c, s0, s1, control, cm);
             // SZ: variable not used ValueExcept[] expts = new ValueExcept[alen-1];
             for (int i = 1; i < alen; i++) {
-              OpApplNode pairNode = (OpApplNode)args[i];
-              ExprOrOpArgNode[] pairArgs = pairNode.getArgs();
-              SemanticNode[] cmpts = ((OpApplNode)pairArgs[0]).getArgs();
+              final OpApplNode pairNode = (OpApplNode)args[i];
+              final ExprOrOpArgNode[] pairArgs = pairNode.getArgs();
+              final SemanticNode[] cmpts = ((OpApplNode)pairArgs[0]).getArgs();
 
-              Value[] lhs = new Value[cmpts.length];
+              final Value[] lhs = new Value[cmpts.length];
               for (int j = 0; j < lhs.length; j++) {
                 lhs[j] = this.eval(cmpts[j], c, s0, s1, control,  coverage ? cm.get(pairNode).get(pairArgs[0]) : cm);
               }
-              Value atVal = result.select(lhs);
+              final Value atVal = result.select(lhs);
               if (atVal == null) {
                 // Do nothing but warn:
                   MP.printWarning(EC.TLC_EXCEPT_APPLIED_TO_UNKNOWN_FIELD, new String[]{args[0].toString()});
               }
               else {
-                Context c1 = c.cons(EXCEPT_AT, atVal);
-                Value rhs = this.eval(pairArgs[1], c1, s0, s1, control,  coverage ? cm.get(pairNode) : cm);
-                ValueExcept vex = new ValueExcept(lhs, rhs);
+                final Context c1 = c.cons(EXCEPT_AT, atVal);
+                final Value rhs = this.eval(pairArgs[1], c1, s0, s1, control,  coverage ? cm.get(pairNode) : cm);
+                final ValueExcept vex = new ValueExcept(lhs, rhs);
                 result = (Value) result.takeExcept(vex);
               }
             }
@@ -2189,21 +2189,21 @@ public abstract class Tool
         case OPCODE_fa:     // FcnApply
           {
             Value result = null;
-            Value fval = this.eval(args[0], c, s0, s1, EvalControl.setKeepLazy(control), cm);
+            final Value fval = this.eval(args[0], c, s0, s1, EvalControl.setKeepLazy(control), cm);
             if ((fval instanceof FcnRcdValue) ||
                 (fval instanceof FcnLambdaValue)) {
-              Applicable fcn = (Applicable)fval;
-              Value argVal = this.eval(args[1], c, s0, s1, control, cm);
+              final Applicable fcn = (Applicable)fval;
+              final Value argVal = this.eval(args[1], c, s0, s1, control, cm);
               result = fcn.apply(argVal, control);
             }
             else if ((fval instanceof TupleValue) ||
                      (fval instanceof RecordValue)) {
-              Applicable fcn = (Applicable)fval;
+              final Applicable fcn = (Applicable)fval;
               if (args.length != 2) {
                 Assert.fail("Attempted to evaluate an expression of form f[e1, ... , eN]" +
                             "\nwith f a tuple or record and N > 1.\n" + expr, expr, c);
               }
-              Value aval = this.eval(args[1], c, s0, s1, control, cm);
+              final Value aval = this.eval(args[1], c, s0, s1, control, cm);
               result = fcn.apply(aval, control);
             }
             else {
@@ -2216,22 +2216,22 @@ public abstract class Tool
         case OPCODE_nrfs:   // NonRecursiveFcnSpec
         case OPCODE_rfs:    // RecursiveFcnSpec
           {
-            FormalParamNode[][] formals = expr.getBdedQuantSymbolLists();
-            boolean[] isTuples = expr.isBdedQuantATuple();
-            ExprNode[] domains = expr.getBdedQuantBounds();
+            final FormalParamNode[][] formals = expr.getBdedQuantSymbolLists();
+            final boolean[] isTuples = expr.isBdedQuantATuple();
+            final ExprNode[] domains = expr.getBdedQuantBounds();
 
-            Value[] dvals = new Value[domains.length];
+            final Value[] dvals = new Value[domains.length];
             boolean isFcnRcd = true;
             for (int i = 0; i < dvals.length; i++) {
               dvals[i] = this.eval(domains[i], c, s0, s1, control, cm);
               isFcnRcd = isFcnRcd && (dvals[i] instanceof Reducible);
             }
-            FcnParams params = new FcnParams(formals, isTuples, dvals);
+            final FcnParams params = new FcnParams(formals, isTuples, dvals);
 
-            SemanticNode fbody = args[0];
-            FcnLambdaValue fval = (FcnLambdaValue) setSource(expr, new FcnLambdaValue(params, fbody, this, c, s0, s1, control, cm));
+            final SemanticNode fbody = args[0];
+            final FcnLambdaValue fval = (FcnLambdaValue) setSource(expr, new FcnLambdaValue(params, fbody, this, c, s0, s1, control, cm));
             if (opcode == OPCODE_rfs) {
-              SymbolNode fname = expr.getUnbdedQuantSymbols()[0];
+              final SymbolNode fname = expr.getUnbdedQuantSymbols()[0];
               fval.makeRecursive(fname);
               isFcnRcd = false;
             }
@@ -2242,7 +2242,7 @@ public abstract class Tool
           }
         case OPCODE_ite:    // IfThenElse
           {
-            Value bval = this.eval(args[0], c, s0, s1, control, cm);
+            final Value bval = this.eval(args[0], c, s0, s1, control, cm);
             if (!(bval instanceof BoolValue)) {
               Assert.fail("A non-boolean expression (" + bval.getKindString() +
                           ") was used as the condition of an IF.\n" + expr, expr, c);
@@ -2254,12 +2254,12 @@ public abstract class Tool
           }
         case OPCODE_rc:     // RcdConstructor
           {
-            int alen = args.length;
-            UniqueString[] names = new UniqueString[alen];
-            Value[] vals = new Value[alen];
+            final int alen = args.length;
+            final UniqueString[] names = new UniqueString[alen];
+            final Value[] vals = new Value[alen];
             for (int i = 0; i < alen; i++) {
-              OpApplNode pairNode = (OpApplNode)args[i];
-              ExprOrOpArgNode[] pair = pairNode.getArgs();
+              final OpApplNode pairNode = (OpApplNode)args[i];
+              final ExprOrOpArgNode[] pair = pairNode.getArgs();
               names[i] = ((StringValue)pair[0].getToolObject(toolId)).getVal();
               vals[i] = this.eval(pair[1], c, s0, s1, control, coverage ? cm.get(pairNode) : cm);
             }
@@ -2267,10 +2267,10 @@ public abstract class Tool
           }
         case OPCODE_rs:     // RcdSelect
           {
-            Value rval = this.eval(args[0], c, s0, s1, control, cm);
-            Value sval = (Value) WorkerValue.mux(args[1].getToolObject(toolId));
+            final Value rval = this.eval(args[0], c, s0, s1, control, cm);
+            final Value sval = (Value) WorkerValue.mux(args[1].getToolObject(toolId));
             if (rval instanceof RecordValue) {
-              Value result = (Value) ((RecordValue)rval).select(sval);
+              final Value result = (Value) ((RecordValue)rval).select(sval);
               if (result == null) {
                 Assert.fail("Attempted to select nonexistent field " + sval + " from the" +
                             " record\n" + Values.ppr(rval.toString()) + "\n" + expr, expr, c);
@@ -2278,7 +2278,7 @@ public abstract class Tool
               return result;
             }
             else {
-              FcnRcdValue fcn = (FcnRcdValue) rval.toFcnRcd();
+              final FcnRcdValue fcn = (FcnRcdValue) rval.toFcnRcd();
               if (fcn == null) {
                 Assert.fail("Attempted to select field " + sval + " from a non-record" +
                             " value " + Values.ppr(rval.toString()) + "\n" + expr, expr, c);
@@ -2288,8 +2288,8 @@ public abstract class Tool
           }
         case OPCODE_se:     // SetEnumerate
           {
-            int alen = args.length;
-            ValueVec vals = new ValueVec(alen);
+            final int alen = args.length;
+            final ValueVec vals = new ValueVec(alen);
             for (int i = 0; i < alen; i++) {
               vals.addElement(this.eval(args[i], c, s0, s1, control, cm));
             }
@@ -2297,12 +2297,12 @@ public abstract class Tool
           }
         case OPCODE_soa:    // SetOfAll: {e(x) : x \in S}
           {
-            ValueVec vals = new ValueVec();
-            ContextEnumerator Enum = this.contexts(expr, c, s0, s1, control, cm);
-            SemanticNode body = args[0];
+            final ValueVec vals = new ValueVec();
+            final ContextEnumerator Enum = this.contexts(expr, c, s0, s1, control, cm);
+            final SemanticNode body = args[0];
             Context c1;
             while ((c1 = Enum.nextElement()) != null) {
-              Value val = this.eval(body, c1, s0, s1, control, cm);
+              final Value val = this.eval(body, c1, s0, s1, control, cm);
               vals.addElement(val);
               // vals.addElement1(val);
             }
@@ -2310,12 +2310,12 @@ public abstract class Tool
           }
         case OPCODE_sor:    // SetOfRcds
           {
-            int alen = args.length;
-            UniqueString names[] = new UniqueString[alen];
-            Value vals[] = new Value[alen];
+            final int alen = args.length;
+            final UniqueString[] names = new UniqueString[alen];
+            final Value[] vals = new Value[alen];
             for (int i = 0; i < alen; i++) {
-              OpApplNode pairNode = (OpApplNode)args[i];
-              ExprOrOpArgNode[] pair = pairNode.getArgs();
+              final OpApplNode pairNode = (OpApplNode)args[i];
+              final ExprOrOpArgNode[] pair = pairNode.getArgs();
               names[i] = ((StringValue)pair[0].getToolObject(toolId)).getVal();
               vals[i] = this.eval(pair[1], c, s0, s1, control, coverage ? cm.get(pairNode) : cm);
             }
@@ -2323,29 +2323,29 @@ public abstract class Tool
           }
         case OPCODE_sof:    // SetOfFcns
           {
-            Value lhs = this.eval(args[0], c, s0, s1, control, cm);
-            Value rhs = this.eval(args[1], c, s0, s1, control, cm);
+            final Value lhs = this.eval(args[0], c, s0, s1, control, cm);
+            final Value rhs = this.eval(args[1], c, s0, s1, control, cm);
             return setSource(expr, new SetOfFcnsValue(lhs, rhs, cm));
           }
         case OPCODE_sso:    // SubsetOf
           {
-            SemanticNode pred = args[0];
-            SemanticNode inExpr = expr.getBdedQuantBounds()[0];
-            Value inVal = this.eval(inExpr, c, s0, s1, control, cm);
-            boolean isTuple = expr.isBdedQuantATuple()[0];
-            FormalParamNode[] bvars = expr.getBdedQuantSymbolLists()[0];
+            final SemanticNode pred = args[0];
+            final SemanticNode inExpr = expr.getBdedQuantBounds()[0];
+            final Value inVal = this.eval(inExpr, c, s0, s1, control, cm);
+            final boolean isTuple = expr.isBdedQuantATuple()[0];
+            final FormalParamNode[] bvars = expr.getBdedQuantSymbolLists()[0];
             if (inVal instanceof Reducible) {
-              ValueVec vals = new ValueVec();
-              ValueEnumeration enumSet = ((Enumerable)inVal).elements();
+              final ValueVec vals = new ValueVec();
+              final ValueEnumeration enumSet = ((Enumerable)inVal).elements();
               Value elem;
               if (isTuple) {
                 while ((elem = enumSet.nextElement()) != null) {
                   Context c1 = c;
-                  Value[] tuple = ((TupleValue)elem).elems;
+                  final Value[] tuple = ((TupleValue)elem).elems;
                   for (int i = 0; i < bvars.length; i++) {
                     c1 = c1.cons(bvars[i], tuple[i]);
                   }
-                  Value bval = this.eval(pred, c1, s0, s1, control, cm);
+                  final Value bval = this.eval(pred, c1, s0, s1, control, cm);
                   if (!(bval instanceof BoolValue)) {
                     Assert.fail("Attempted to evaluate an expression of form {x \\in S : P(x)}" +
                                 " when P was " + bval.getKindString() + ".\n" + pred, pred, c1);
@@ -2356,10 +2356,10 @@ public abstract class Tool
                 }
               }
               else {
-                SymbolNode idName = bvars[0];
+                final SymbolNode idName = bvars[0];
                 while ((elem = enumSet.nextElement()) != null) {
-                  Context c1 = c.cons(idName, elem);
-                  Value bval = this.eval(pred, c1, s0, s1, control, cm);
+                  final Context c1 = c.cons(idName, elem);
+                  final Value bval = this.eval(pred, c1, s0, s1, control, cm);
                   if (!(bval instanceof BoolValue)) {
                     Assert.fail("Attempted to evaluate an expression of form {x \\in S : P(x)}" +
                                 " when P was " + bval.getKindString() + ".\n" + pred, pred, c1);
@@ -2380,8 +2380,8 @@ public abstract class Tool
           }
         case OPCODE_tup:    // Tuple
           {
-            int alen = args.length;
-            Value[] vals = new Value[alen];
+            final int alen = args.length;
+            final Value[] vals = new Value[alen];
             for (int i = 0; i < alen; i++) {
               vals[i] = this.eval(args[i], c, s0, s1, control, cm);
             }
@@ -2410,7 +2410,7 @@ public abstract class Tool
           }
         case OPCODE_lnot:
           {
-            Value arg = this.eval(args[0], c, s0, s1, control, cm);
+            final Value arg = this.eval(args[0], c, s0, s1, control, cm);
             if (!(arg instanceof BoolValue)) {
               Assert.fail("Attempted to apply the operator ~ to a non-boolean\n(" +
                           arg.getKindString() + ")\n" + expr, args[0], c);
@@ -2419,17 +2419,17 @@ public abstract class Tool
           }
         case OPCODE_subset:
           {
-            Value arg = this.eval(args[0], c, s0, s1, control, cm);
+            final Value arg = this.eval(args[0], c, s0, s1, control, cm);
 			return setSource(expr, new SubsetValue(arg, cm));
           }
         case OPCODE_union:
           {
-            Value arg = this.eval(args[0], c, s0, s1, control, cm);
+            final Value arg = this.eval(args[0], c, s0, s1, control, cm);
             return setSource(expr, UnionValue.union(arg));
           }
         case OPCODE_domain:
           {
-            Value arg = this.eval(args[0], c, s0, s1, control, cm);
+            final Value arg = this.eval(args[0], c, s0, s1, control, cm);
             if (!(arg instanceof Applicable)) {
               Assert.fail("Attempted to apply the operator DOMAIN to a non-function\n(" +
                           arg.getKindString() + ")\n" + expr, expr, c);
@@ -2439,25 +2439,25 @@ public abstract class Tool
         case OPCODE_enabled:
           {
             TLCState sfun = TLCStateFun.Empty;
-            Context c1 = Context.branch(c);
+            final Context c1 = Context.branch(c);
             sfun = this.enabled(args[0], ActionItemList.Empty, c1, s0, sfun, cm);
             return (sfun != null) ? BoolValue.ValTrue : BoolValue.ValFalse;
           }
         case OPCODE_eq:
           {
-            Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
             return (arg1.equals(arg2)) ? BoolValue.ValTrue : BoolValue.ValFalse;
           }
         case OPCODE_land:
           {
-            Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
             if (!(arg1 instanceof BoolValue)) {
               Assert.fail("Attempted to evaluate an expression of form P /\\ Q" +
                           " when P was\n" + arg1.getKindString() + ".\n" + expr, expr, c);
             }
             if (((BoolValue)arg1).val) {
-              Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+              final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
               if (!(arg2 instanceof BoolValue)) {
                 Assert.fail("Attempted to evaluate an expression of form P /\\ Q" +
                             " when Q was\n" + arg2.getKindString() + ".\n" + expr, expr, c);
@@ -2468,7 +2468,7 @@ public abstract class Tool
           }
         case OPCODE_lor:
           {
-            Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
             if (!(arg1 instanceof BoolValue)) {
               Assert.fail("Attempted to evaluate an expression of form P \\/ Q" +
                           " when P was\n" + arg1.getKindString() + ".\n" + expr, expr, c);
@@ -2476,7 +2476,7 @@ public abstract class Tool
             if (((BoolValue)arg1).val) {
               return BoolValue.ValTrue;
             }
-            Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
             if (!(arg2 instanceof BoolValue)) {
               Assert.fail("Attempted to evaluate an expression of form P \\/ Q" +
                           " when Q was\n" + arg2.getKindString() + ".\n" + expr, expr, c);
@@ -2485,13 +2485,13 @@ public abstract class Tool
           }
         case OPCODE_implies:
           {
-            Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
             if (!(arg1 instanceof BoolValue)) {
               Assert.fail("Attempted to evaluate an expression of form P => Q" +
                           " when P was\n" + arg1.getKindString() + ".\n" + expr, expr, c);
             }
             if (((BoolValue)arg1).val) {
-              Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+              final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
               if (!(arg2 instanceof BoolValue)) {
                 Assert.fail("Attempted to evaluate an expression of form P => Q" +
                             " when Q was\n" + arg2.getKindString() + ".\n" + expr, expr, c);
@@ -2502,26 +2502,26 @@ public abstract class Tool
           }
         case OPCODE_equiv:
           {
-            Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
             if (!(arg1 instanceof BoolValue) || !(arg2 instanceof BoolValue)) {
               Assert.fail("Attempted to evaluate an expression of form P <=> Q" +
                           " when P or Q was not a boolean.\n" + expr, expr, c);
             }
-            BoolValue bval1 = (BoolValue)arg1;
-            BoolValue bval2 = (BoolValue)arg2;
+            final BoolValue bval1 = (BoolValue)arg1;
+            final BoolValue bval2 = (BoolValue)arg2;
             return (bval1.val == bval2.val) ? BoolValue.ValTrue : BoolValue.ValFalse;
           }
         case OPCODE_noteq:
           {
-            Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
             return arg1.equals(arg2) ? BoolValue.ValFalse : BoolValue.ValTrue;
           }
         case OPCODE_subseteq:
           {
-            Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
             if (!(arg1 instanceof Enumerable)) {
               Assert.fail("Attempted to evaluate an expression of form S \\subseteq T," +
                           " but S was not enumerable.\n" + expr, expr, c);
@@ -2530,20 +2530,20 @@ public abstract class Tool
           }
         case OPCODE_in:
           {
-            Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
             return (arg2.member(arg1)) ? BoolValue.ValTrue : BoolValue.ValFalse;
           }
         case OPCODE_notin:
           {
-            Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
             return (arg2.member(arg1)) ? BoolValue.ValFalse : BoolValue.ValTrue;
           }
         case OPCODE_setdiff:
           {
-            Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
             if (arg1 instanceof Reducible) {
               return setSource(expr, ((Reducible)arg1).diff(arg2));
             }
@@ -2551,8 +2551,8 @@ public abstract class Tool
           }
         case OPCODE_cap:
           {
-            Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
             if (arg1 instanceof Reducible) {
               return setSource(expr, ((Reducible)arg1).cap(arg2));
             }
@@ -2568,8 +2568,8 @@ public abstract class Tool
           }
         case OPCODE_cup:
           {
-            Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
             if (arg1 instanceof Reducible) {
               return setSource(expr, ((Reducible)arg1).cup(arg2));
             }
@@ -2598,13 +2598,13 @@ public abstract class Tool
           }
         case OPCODE_unchanged:
           {
-            Value v0 = this.eval(args[0], c, s0, TLCState.Empty, control, cm);
-            Value v1 = this.eval(args[0], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
+            final Value v0 = this.eval(args[0], c, s0, TLCState.Empty, control, cm);
+            final Value v1 = this.eval(args[0], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
             return (v0.equals(v1)) ? BoolValue.ValTrue : BoolValue.ValFalse;
           }
         case OPCODE_aa:     // <A>_e
           {
-            Value res = this.eval(args[0], c, s0, s1, control, cm);
+            final Value res = this.eval(args[0], c, s0, s1, control, cm);
             if (!(res instanceof BoolValue)) {
               Assert.fail("Attempted to evaluate an expression of form <A>_e," +
                           " but A was not a boolean.\n" + expr, expr, c);
@@ -2612,13 +2612,13 @@ public abstract class Tool
             if (!((BoolValue)res).val) {
               return BoolValue.ValFalse;
             }
-            Value v0 = this.eval(args[1], c, s0, TLCState.Empty, control, cm);
-            Value v1 = this.eval(args[1], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
+            final Value v0 = this.eval(args[1], c, s0, TLCState.Empty, control, cm);
+            final Value v1 = this.eval(args[1], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
             return v0.equals(v1) ? BoolValue.ValFalse : BoolValue.ValTrue;
           }
         case OPCODE_sa:     // [A]_e
           {
-            Value res = this.eval(args[0], c, s0, s1, control, cm);
+            final Value res = this.eval(args[0], c, s0, s1, control, cm);
             if (!(res instanceof BoolValue)) {
               Assert.fail("Attempted to evaluate an expression of form [A]_e," +
                           " but A was not a boolean.\n" + expr, expr, c);
@@ -2626,8 +2626,8 @@ public abstract class Tool
             if (((BoolValue)res).val) {
               return BoolValue.ValTrue;
             }
-            Value v0 = this.eval(args[1], c, s0, TLCState.Empty, control, cm);
-            Value v1 = this.eval(args[1], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
+            final Value v0 = this.eval(args[1], c, s0, TLCState.Empty, control, cm);
+            final Value v1 = this.eval(args[1], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
             return (v0.equals(v1)) ? BoolValue.ValTrue : BoolValue.ValFalse;
           }
         case OPCODE_cdot:
@@ -2702,17 +2702,17 @@ public abstract class Tool
    * state variables.
    */
   @Override
-  public final boolean isGoodState(TLCState state) {
+  public final boolean isGoodState(final TLCState state) {
     return state.allAssigned();
   }
 
   /* This method determines if a state satisfies the model constraints. */
   @Override
-  public final boolean isInModel(TLCState state) throws EvalException {
-    ExprNode[] constrs = this.getModelConstraints();
+  public final boolean isInModel(final TLCState state) throws EvalException {
+    final ExprNode[] constrs = this.getModelConstraints();
     for (int i = 0; i < constrs.length; i++) {
       final CostModel cm = coverage ? ((Action) constrs[i].getToolObject(toolId)).cm : CostModel.DO_NOT_RECORD;
-      IValue bval = this.eval(constrs[i], Context.Empty, state, cm);
+      final IValue bval = this.eval(constrs[i], Context.Empty, state, cm);
       if (!(bval instanceof BoolValue)) {
         Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", constrs[i].toString()}, constrs[i]);
       }
@@ -2732,11 +2732,11 @@ public abstract class Tool
 
   /* This method determines if a pair of states satisfy the action constraints. */
   @Override
-  public final boolean isInActions(TLCState s1, TLCState s2) throws EvalException {
-    ExprNode[] constrs = this.getActionConstraints();
+  public final boolean isInActions(final TLCState s1, final TLCState s2) throws EvalException {
+    final ExprNode[] constrs = this.getActionConstraints();
     for (int i = 0; i < constrs.length; i++) {
       final CostModel cm = coverage ? ((Action) constrs[i].getToolObject(toolId)).cm : CostModel.DO_NOT_RECORD;
-      Value bval = this.eval(constrs[i], Context.Empty, s1, s2, EvalControl.Clear, cm);
+      final Value bval = this.eval(constrs[i], Context.Empty, s1, s2, EvalControl.Clear, cm);
       if (!(bval instanceof BoolValue)) {
         Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", constrs[i].toString()}, constrs[i]);
       }
@@ -2760,18 +2760,18 @@ public abstract class Tool
   }
   
   @Override
-  public final TLCState enabled(SemanticNode pred, Context c, TLCState s0, TLCState s1) {
+  public final TLCState enabled(final SemanticNode pred, final Context c, final TLCState s0, final TLCState s1) {
 		  return enabled(pred, ActionItemList.Empty, c, s0, s1, CostModel.DO_NOT_RECORD);
   }
   
   @Override
-  public final TLCState enabled(SemanticNode pred, Context c, TLCState s0, TLCState s1, ExprNode subscript, final int ail) {
-      ActionItemList acts = (ActionItemList) ActionItemList.Empty.cons(subscript, c, CostModel.DO_NOT_RECORD, ail);
+  public final TLCState enabled(final SemanticNode pred, final Context c, final TLCState s0, final TLCState s1, final ExprNode subscript, final int ail) {
+      final ActionItemList acts = (ActionItemList) ActionItemList.Empty.cons(subscript, c, CostModel.DO_NOT_RECORD, ail);
 	  return enabled(pred, acts, c, s0, s1, CostModel.DO_NOT_RECORD);
   }
   
   @Override
-  public final TLCState enabled(SemanticNode pred, IActionItemList acts, Context c, TLCState s0, TLCState s1) {
+  public final TLCState enabled(final SemanticNode pred, final IActionItemList acts, final Context c, final TLCState s0, final TLCState s1) {
 		  return enabled(pred, acts, c, s0, s1, CostModel.DO_NOT_RECORD);
   }
 
@@ -2784,23 +2784,23 @@ public abstract class Tool
   public abstract TLCState enabled(SemanticNode pred, IActionItemList acts,
                                 Context c, TLCState s0, TLCState s1, CostModel cm);
 
-  protected final TLCState enabledImpl(SemanticNode pred, ActionItemList acts,
-          Context c, TLCState s0, TLCState s1, CostModel cm) {
+  protected final TLCState enabledImpl(final SemanticNode pred, final ActionItemList acts,
+                                       final Context c, final TLCState s0, final TLCState s1, final CostModel cm) {
         switch (pred.getKind()) {
         case OpApplKind:
           {
-            OpApplNode pred1 = (OpApplNode)pred;
+            final OpApplNode pred1 = (OpApplNode)pred;
             return this.enabledAppl(pred1, acts, c, s0, s1, cm);
           }
         case LetInKind:
           {
-            LetInNode pred1 = (LetInNode)pred;
-            OpDefNode[] letDefs = pred1.getLets();
+            final LetInNode pred1 = (LetInNode)pred;
+            final OpDefNode[] letDefs = pred1.getLets();
             Context c1 = c;
             for (int i = 0; i < letDefs.length; i++) {
-              OpDefNode opDef = letDefs[i];
+              final OpDefNode opDef = letDefs[i];
               if (opDef.getArity() == 0) {
-                Value rhs = new LazyValue(opDef.getBody(), c1, cm);
+                final Value rhs = new LazyValue(opDef.getBody(), c1, cm);
                 c1 = c1.cons(opDef, rhs);
               }
             }
@@ -2808,12 +2808,12 @@ public abstract class Tool
           }
         case SubstInKind:
           {
-            SubstInNode pred1 = (SubstInNode)pred;
-            Subst[] subs = pred1.getSubsts();
-            int slen = subs.length;
+            final SubstInNode pred1 = (SubstInNode)pred;
+            final Subst[] subs = pred1.getSubsts();
+            final int slen = subs.length;
             Context c1 = c;
             for (int i = 0; i < slen; i++) {
-              Subst sub = subs[i];
+              final Subst sub = subs[i];
               c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, coverage ? sub.getCM() : cm, toolId));
             }
             return this.enabled(pred1.getBody(), acts, c1, s0, s1, cm);
@@ -2821,12 +2821,12 @@ public abstract class Tool
         // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
         case APSubstInKind:
           {
-            APSubstInNode pred1 = (APSubstInNode)pred;
-            Subst[] subs = pred1.getSubsts();
-            int slen = subs.length;
+            final APSubstInNode pred1 = (APSubstInNode)pred;
+            final Subst[] subs = pred1.getSubsts();
+            final int slen = subs.length;
             Context c1 = c;
             for (int i = 0; i < slen; i++) {
-              Subst sub = subs[i];
+              final Subst sub = subs[i];
               c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, cm, toolId));
             }
             return this.enabled(pred1.getBody(), acts, c1, s0, s1, cm);
@@ -2834,7 +2834,7 @@ public abstract class Tool
         // LabelKind class added by LL on 13 Jun 2007
         case LabelKind:
           {
-            LabelNode pred1 = (LabelNode)pred;
+            final LabelNode pred1 = (LabelNode)pred;
             return this.enabled(pred1.getBody(), acts, c, s0, s1, cm);
           }
         default:
@@ -2846,46 +2846,46 @@ public abstract class Tool
         }
   }
 
-  private final TLCState enabled(ActionItemList acts, TLCState s0, TLCState s1, CostModel cm) {
+  private final TLCState enabled(final ActionItemList acts, final TLCState s0, final TLCState s1, CostModel cm) {
     if (acts.isEmpty()) return s1;
 
     final int kind = acts.carKind();
-    SemanticNode pred = acts.carPred();
-    Context c = acts.carContext();
+    final SemanticNode pred = acts.carPred();
+    final Context c = acts.carContext();
     cm = acts.cm;
-    ActionItemList acts1 = acts.cdr();
+    final ActionItemList acts1 = acts.cdr();
     if (kind > IActionItemList.CONJUNCT) {
-      TLCState res = this.enabled(pred, acts1, c, s0, s1, cm);
+      final TLCState res = this.enabled(pred, acts1, c, s0, s1, cm);
       return res;
     }
     else if (kind == IActionItemList.PRED) {
-      TLCState res = this.enabled(pred, acts1, c, s0, s1, cm);
+      final TLCState res = this.enabled(pred, acts1, c, s0, s1, cm);
       return res;
     }
     if (kind == IActionItemList.UNCHANGED) {
-      TLCState res = this.enabledUnchanged(pred, acts1, c, s0, s1, cm);
+      final TLCState res = this.enabledUnchanged(pred, acts1, c, s0, s1, cm);
       return res;
     }
 
-    Value v1 = this.eval(pred, c, s0, TLCState.Empty, EvalControl.Enabled, cm);
+    final Value v1 = this.eval(pred, c, s0, TLCState.Empty, EvalControl.Enabled, cm);
 	// We are now in ENABLED and primed state. Second TLCState parameter being null
 	// effectively disables LazyValue in evalAppl (same effect as
 	// EvalControl.setPrimed(EvalControl.Enabled)).
-    Value v2 = this.eval(pred, c, s1, TLCState.Null, EvalControl.Primed, cm);
+    final Value v2 = this.eval(pred, c, s1, TLCState.Null, EvalControl.Primed, cm);
 
     if (v1.equals(v2)) return null;
-    TLCState res = this.enabled(acts1, s0, s1, cm);
+    final TLCState res = this.enabled(acts1, s0, s1, cm);
     return res;
   }
 
   protected abstract TLCState enabledAppl(OpApplNode pred, ActionItemList acts, Context c, TLCState s0, TLCState s1, CostModel cm);
 
-  protected final TLCState enabledApplImpl(OpApplNode pred, ActionItemList acts, Context c, TLCState s0, TLCState s1, CostModel cm)
+  protected final TLCState enabledApplImpl(final OpApplNode pred, final ActionItemList acts, final Context c, final TLCState s0, final TLCState s1, CostModel cm)
   {
     if (coverage) {cm = cm.get(pred);}
-        ExprOrOpArgNode[] args = pred.getArgs();
-        int alen = args.length;
-        SymbolNode opNode = pred.getOperator();
+        final ExprOrOpArgNode[] args = pred.getArgs();
+        final int alen = args.length;
+        final SymbolNode opNode = pred.getOperator();
         int opcode = BuiltInOPs.getOpCode(opNode.getName());
 
         if (opcode == 0)
@@ -2893,16 +2893,16 @@ public abstract class Tool
           // This is a user-defined operator with one exception: it may
           // be substed by a builtin operator. This special case occurs
           // when the lookup returns an OpDef with opcode # 0.
-          Object val = this.lookup(opNode, c, s0, false);
+          final Object val = this.lookup(opNode, c, s0, false);
 
           if (val instanceof OpDefNode)
           {
-            OpDefNode opDef = (OpDefNode) val;
+            final OpDefNode opDef = (OpDefNode) val;
             opcode = BuiltInOPs.getOpCode(opDef.getName());
             if (opcode == 0)
             {
               // Context c1 = this.getOpContext(opDef, args, c, false);
-              Context c1 = this.getOpContext(opDef, args, c, true, cm, toolId);
+              final Context c1 = this.getOpContext(opDef, args, c, true, cm, toolId);
               return this.enabled(opDef.getBody(), acts, c1, s0, s1, cm);
             }
           }
@@ -2915,15 +2915,15 @@ public abstract class Tool
           *********************************************************************/
           if (val instanceof ThmOrAssumpDefNode)
           {
-            ThmOrAssumpDefNode opDef = (ThmOrAssumpDefNode) val;
-            Context c1 = this.getOpContext(opDef, args, c, true);
+            final ThmOrAssumpDefNode opDef = (ThmOrAssumpDefNode) val;
+            final Context c1 = this.getOpContext(opDef, args, c, true);
             return this.enabled(opDef.getBody(), acts, c1, s0, s1, cm);
           }
 
 
           if (val instanceof LazyValue)
           {
-            LazyValue lv = (LazyValue) val;
+            final LazyValue lv = (LazyValue) val;
             return this.enabled(lv.expr, acts, lv.con, s0, s1, lv.cm);
           }
 
@@ -2962,17 +2962,17 @@ public abstract class Tool
         switch (opcode) {
         case OPCODE_aa: // AngleAct <A>_e
           {
-        	  ActionItemList acts1 = (ActionItemList) acts.cons(args[1], c, cm, IActionItemList.CHANGED);
+        	  final ActionItemList acts1 = (ActionItemList) acts.cons(args[1], c, cm, IActionItemList.CHANGED);
             return this.enabled(args[0], acts1, c, s0, s1, cm);
           }
         case OPCODE_be: // BoundedExists
           {
-            SemanticNode body = args[0];
-            ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Enabled, cm);
+            final SemanticNode body = args[0];
+            final ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Enabled, cm);
             Context c1;
             while ((c1 = Enum.nextElement()) != null)
             {
-              TLCState s2 = this.enabled(body, acts, c1, s0, s1, cm);
+              final TLCState s2 = this.enabled(body, acts, c1, s0, s1, cm);
               if (s2 != null) {
                 return s2;
               }
@@ -2981,9 +2981,9 @@ public abstract class Tool
           }
         case OPCODE_bf: // BoundedForall
           {
-            SemanticNode body = args[0];
-            ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Enabled, cm);
-            Context c1 = Enum.nextElement();
+            final SemanticNode body = args[0];
+            final ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Enabled, cm);
+            final Context c1 = Enum.nextElement();
             if (c1 == null)
             {
               return this.enabled(acts, s0, s1, cm);
@@ -3001,14 +3001,14 @@ public abstract class Tool
             SemanticNode other = null;
             for (int i = 0; i < alen; i++)
             {
-              OpApplNode pair = (OpApplNode) args[i];
-              ExprOrOpArgNode[] pairArgs = pair.getArgs();
+              final OpApplNode pair = (OpApplNode) args[i];
+              final ExprOrOpArgNode[] pairArgs = pair.getArgs();
               if (pairArgs[0] == null)
               {
                 other = pairArgs[1];
               } else
               {
-                Value bval = this.eval(pairArgs[0], c, s0, s1, EvalControl.Enabled, cm);
+                final Value bval = this.eval(pairArgs[0], c, s0, s1, EvalControl.Enabled, cm);
                 if (!(bval instanceof BoolValue))
                 {
                   Assert.fail("In computing ENABLED, a non-boolean expression(" + bval.getKindString()
@@ -3041,7 +3041,7 @@ public abstract class Tool
           {
             for (int i = 0; i < alen; i++)
             {
-              TLCState s2 = this.enabled(args[i], acts, c, s0, s1, cm);
+              final TLCState s2 = this.enabled(args[i], acts, c, s0, s1, cm);
               if (s2 != null) {
                 return s2;
               }
@@ -3053,19 +3053,19 @@ public abstract class Tool
             Value fval = this.eval(args[0], c, s0, s1, EvalControl.setKeepLazy(EvalControl.Enabled), cm); // KeepLazy does not interfere with EvalControl.Enabled in this.evalAppl
             if (fval instanceof FcnLambdaValue)
             {
-              FcnLambdaValue fcn = (FcnLambdaValue) fval;
+              final FcnLambdaValue fcn = (FcnLambdaValue) fval;
               if (fcn.fcnRcd == null)
               {
-                Context c1 = this.getFcnContext(fcn, args, c, s0, s1, EvalControl.Enabled, cm); // EvalControl.Enabled passed on to nested this.evalAppl
+                final Context c1 = this.getFcnContext(fcn, args, c, s0, s1, EvalControl.Enabled, cm); // EvalControl.Enabled passed on to nested this.evalAppl
                 return this.enabled(fcn.body, acts, c1, s0, s1, cm);
               }
               fval = fcn.fcnRcd;
             }
             if (fval instanceof Applicable)
             {
-              Applicable fcn = (Applicable) fval;
-              Value argVal = this.eval(args[1], c, s0, s1, EvalControl.Enabled, cm);
-              Value bval = fcn.apply(argVal, EvalControl.Enabled); // EvalControl.Enabled not taken into account by any subclass of Applicable
+              final Applicable fcn = (Applicable) fval;
+              final Value argVal = this.eval(args[1], c, s0, s1, EvalControl.Enabled, cm);
+              final Value bval = fcn.apply(argVal, EvalControl.Enabled); // EvalControl.Enabled not taken into account by any subclass of Applicable
               if (!(bval instanceof BoolValue))
               {
                 Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING2, new String[] { "ENABLED", "boolean",
@@ -3083,18 +3083,18 @@ public abstract class Tool
           }
         case OPCODE_ite: // IfThenElse
           {
-            Value guard = this.eval(args[0], c, s0, s1, EvalControl.Enabled, cm);
+            final Value guard = this.eval(args[0], c, s0, s1, EvalControl.Enabled, cm);
             if (!(guard instanceof BoolValue))
             {
               Assert.fail("In computing ENABLED, a non-boolean expression(" + guard.getKindString()
                       + ") was used as the guard condition" + " of an IF.\n" + pred, pred, c);
             }
-            int idx = (((BoolValue) guard).val) ? 1 : 2;
+            final int idx = (((BoolValue) guard).val) ? 1 : 2;
             return this.enabled(args[idx], acts, c, s0, s1, cm);
           }
         case OPCODE_sa: // SquareAct [A]_e
           {
-            TLCState s2 = this.enabled(args[0], acts, c, s0, s1, cm);
+            final TLCState s2 = this.enabled(args[0], acts, c, s0, s1, cm);
             if (s2 != null) {
               return s2;
             }
@@ -3150,21 +3150,21 @@ public abstract class Tool
           }
         case OPCODE_eq:
           {
-            SymbolNode var = this.getPrimedVar(args[0], c, true);
+            final SymbolNode var = this.getPrimedVar(args[0], c, true);
             if (var == null)
             {
-              Value bval = this.eval(pred, c, s0, s1, EvalControl.Enabled, cm);
+              final Value bval = this.eval(pred, c, s0, s1, EvalControl.Enabled, cm);
               if (!((BoolValue) bval).val) {
                 return null;
               }
             } else
             {
-              UniqueString varName = var.getName();
-              IValue lval = s1.lookup(varName);
-              Value rval = this.eval(args[1], c, s0, s1, EvalControl.Enabled, cm);
+              final UniqueString varName = var.getName();
+              final IValue lval = s1.lookup(varName);
+              final Value rval = this.eval(args[1], c, s0, s1, EvalControl.Enabled, cm);
               if (lval == null)
               {
-                TLCState s2 = s1.bind(var, rval);
+                final TLCState s2 = s1.bind(var, rval);
                 return this.enabled(acts, s0, s2, cm);
               } else
               {
@@ -3177,7 +3177,7 @@ public abstract class Tool
           }
         case OPCODE_implies:
           {
-            Value bval = this.eval(args[0], c, s0, s1, EvalControl.Enabled, cm);
+            final Value bval = this.eval(args[0], c, s0, s1, EvalControl.Enabled, cm);
             if (!(bval instanceof BoolValue))
             {
               Assert.fail("While computing ENABLED of an expression of the form" + " P => Q, P was "
@@ -3217,25 +3217,25 @@ public abstract class Tool
           }
         case OPCODE_in:
           {
-            SymbolNode var = this.getPrimedVar(args[0], c, true);
+            final SymbolNode var = this.getPrimedVar(args[0], c, true);
             if (var == null)
             {
-                Value bval = this.eval(pred, c, s0, s1, EvalControl.Enabled, cm);
+                final Value bval = this.eval(pred, c, s0, s1, EvalControl.Enabled, cm);
                 if (!((BoolValue) bval).val) {
                   return null;
                 }
             } else
             {
-              UniqueString varName = var.getName();
-              Value lval = (Value) s1.lookup(varName);
-              Value rval = this.eval(args[1], c, s0, s1, EvalControl.Enabled, cm);
+              final UniqueString varName = var.getName();
+              final Value lval = (Value) s1.lookup(varName);
+              final Value rval = this.eval(args[1], c, s0, s1, EvalControl.Enabled, cm);
               if (lval == null)
               {
                 if (!(rval instanceof Enumerable))
                 {
                   Assert.fail("The right side of \\IN is not enumerable.\n" + pred, pred, c);
                 }
-                ValueEnumeration Enum = ((Enumerable) rval).elements();
+                final ValueEnumeration Enum = ((Enumerable) rval).elements();
                 Value val;
                 while ((val = Enum.nextElement()) != null)
                 {
@@ -3264,7 +3264,7 @@ public abstract class Tool
         default:
           {
             // We handle all the other builtin operators here.
-            Value bval = this.eval(pred, c, s0, s1, EvalControl.Enabled, cm);
+            final Value bval = this.eval(pred, c, s0, s1, EvalControl.Enabled, cm);
             if (!(bval instanceof BoolValue))
             {
               Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING, new String[] { "ENABLED", "boolean",
@@ -3282,15 +3282,15 @@ public abstract class Tool
   protected abstract TLCState enabledUnchanged(SemanticNode expr, ActionItemList acts,
                                           Context c, TLCState s0, TLCState s1, CostModel cm);
   
-  protected final TLCState enabledUnchangedImpl(SemanticNode expr, ActionItemList acts,
-            Context c, TLCState s0, TLCState s1, CostModel cm) {
+  protected final TLCState enabledUnchangedImpl(final SemanticNode expr, final ActionItemList acts,
+                                                final Context c, final TLCState s0, TLCState s1, CostModel cm) {
 	    if (coverage) {cm = cm.get(expr);}
-        SymbolNode var = this.getVar(expr, c, true, toolId);
+        final SymbolNode var = this.getVar(expr, c, true, toolId);
         if (var != null) {
           // a state variable, e.g. UNCHANGED var1
-          UniqueString varName = var.getName();
-          Value v0 = this.eval(expr, c, s0, s1, EvalControl.Enabled, cm);
-          IValue v1 = s1.lookup(varName);
+          final UniqueString varName = var.getName();
+          final Value v0 = this.eval(expr, c, s0, s1, EvalControl.Enabled, cm);
+          final IValue v1 = s1.lookup(varName);
           if (v1 == null) {
             s1 = s1.bind(var, v0);
             return this.enabled(acts, s0, s1, cm);
@@ -3303,12 +3303,12 @@ public abstract class Tool
         }
 
         if (expr instanceof OpApplNode) {
-          OpApplNode expr1 = (OpApplNode)expr;
-          ExprOrOpArgNode[] args = expr1.getArgs();
-          int alen = args.length;
-          SymbolNode opNode = expr1.getOperator();
-          UniqueString opName = opNode.getName();
-          int opcode = BuiltInOPs.getOpCode(opName);
+          final OpApplNode expr1 = (OpApplNode)expr;
+          final ExprOrOpArgNode[] args = expr1.getArgs();
+          final int alen = args.length;
+          final SymbolNode opNode = expr1.getOperator();
+          final UniqueString opName = opNode.getName();
+          final int opcode = BuiltInOPs.getOpCode(opName);
 
           if (opcode == OPCODE_tup) {
             // a tuple, e.g. UNCHANGED <<var1, var2>>
@@ -3324,10 +3324,10 @@ public abstract class Tool
 
           if (opcode == 0 && alen == 0) {
             // a 0-arity operator:
-            Object val = this.lookup(opNode, c, false);
+            final Object val = this.lookup(opNode, c, false);
 
             if (val instanceof LazyValue) {
-              LazyValue lv = (LazyValue)val;
+              final LazyValue lv = (LazyValue)val;
               return this.enabledUnchanged(lv.expr, acts, lv.con, s0, s1, cm);
             }
             else if (val instanceof OpDefNode) {
@@ -3378,8 +3378,8 @@ public abstract class Tool
 
   /* This method determines if the action predicate is valid in (s0, s1). */
   @Override
-  public final boolean isValid(Action act, TLCState s0, TLCState s1) {
-    Value val = this.eval(act.pred, act.con, s0, s1, EvalControl.Clear, act.cm);
+  public final boolean isValid(final Action act, final TLCState s0, final TLCState s1) {
+    final Value val = this.eval(act.pred, act.con, s0, s1, EvalControl.Clear, act.cm);
     if (!(val instanceof BoolValue)) {
       Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", act.pred.toString()}, act.pred, act.con);
     }
@@ -3388,19 +3388,19 @@ public abstract class Tool
 
   /* Returns true iff the predicate is valid in the state. */
   @Override
-  public boolean isValid(Action act, TLCState state) {
+  public boolean isValid(final Action act, final TLCState state) {
     return this.isValid(act, state, TLCState.Empty);
   }
 
   /* Returns true iff the predicate is valid in the state. */
   @Override
-  public final boolean isValid(Action act) {
+  public final boolean isValid(final Action act) {
     return this.isValid(act, TLCState.Empty, TLCState.Empty);
   }
 
     @Override
-	public boolean isValid(ExprNode expr, Context ctxt) {
-	    IValue val = this.eval(expr, ctxt, TLCState.Empty, TLCState.Empty, 
+	public boolean isValid(final ExprNode expr, final Context ctxt) {
+	    final IValue val = this.eval(expr, ctxt, TLCState.Empty, TLCState.Empty,
 	    		EvalControl.Const, CostModel.DO_NOT_RECORD);
 	    if (!(val instanceof BoolValue)) {
 	      Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, expr);
@@ -3409,11 +3409,11 @@ public abstract class Tool
 	}
 
   @Override
-  public final boolean isValid(ExprNode expr) {
+  public final boolean isValid(final ExprNode expr) {
 	  return isValid(expr, Context.Empty);
   }
 
-  public boolean isValidAssumption(ExprNode assumption) {
+  public boolean isValidAssumption(final ExprNode assumption) {
 	  return isValid(assumption);
   }
   
@@ -3466,7 +3466,7 @@ public abstract class Tool
 					// an ASSUME, but good enough for this prototype.
 					return MP.printError(EC.TLC_ASSUMPTION_FALSE, en.toString());
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				// tool.isValid(sn) failed to evaluate...
 				return MP.printError(EC.TLC_ASSUMPTION_EVALUATION_ERROR,
 						new String[] { en.toString(), e.getMessage() });
@@ -3490,11 +3490,11 @@ public abstract class Tool
 		class InitStateSelectorFunctor implements IStateFunctor {
 			private final long fp;
 			public TLCState state;
-			public InitStateSelectorFunctor(long fp) {
+			public InitStateSelectorFunctor(final long fp) {
 				this.fp = fp;
 			}
 			@Override
-			public Object addElement(TLCState state) {
+			public Object addElement(final TLCState state) {
 				if (state == null) {
 					return null;
 				} else if (this.state != null) {
@@ -3540,7 +3540,7 @@ public abstract class Tool
 	 *         the predecessor.
 	 */
   @Override
-  public final TLCStateInfo getState(long fp, TLCStateInfo sinfo) {
+  public final TLCStateInfo getState(final long fp, final TLCStateInfo sinfo) {
     final TLCStateInfo tlcStateInfo = getState(fp, sinfo.state);
     if (tlcStateInfo == null) {
       throw new EvalException(EC.TLC_FAILED_TO_RECOVER_NEXT);
@@ -3553,14 +3553,14 @@ public abstract class Tool
 
   /* Reconstruct the next state of state s whose fingerprint is fp. */
   @Override
-  public final TLCStateInfo getState(long fp, TLCState s) {
+  public final TLCStateInfo getState(final long fp, final TLCState s) {
 	  IdThread.setCurrentState(s);
     for (int i = 0; i < this.actions.length; i++) {
-      Action curAction = this.actions[i];
-      StateVec nextStates = this.getNextStates(curAction, s);
+      final Action curAction = this.actions[i];
+      final StateVec nextStates = this.getNextStates(curAction, s);
       for (int j = 0; j < nextStates.size(); j++) {
-        TLCState state = nextStates.elementAt(j);
-        long nfp = state.fingerPrint();
+        final TLCState state = nextStates.elementAt(j);
+        final long nfp = state.fingerPrint();
         if (fp == nfp) {
         	state.setPredecessor(s);
         	assert !state.isInitial();
@@ -3573,13 +3573,13 @@ public abstract class Tool
 
   /* Reconstruct the info for s1.   */
   @Override
-  public final TLCStateInfo getState(TLCState s1, TLCState s) {
+  public final TLCStateInfo getState(final TLCState s1, final TLCState s) {
 	  IdThread.setCurrentState(s);
     for (int i = 0; i < this.actions.length; i++) {
-      Action curAction = this.actions[i];
-      StateVec nextStates = this.getNextStates(curAction, s);
+      final Action curAction = this.actions[i];
+      final StateVec nextStates = this.getNextStates(curAction, s);
       for (int j = 0; j < nextStates.size(); j++) {
-        TLCState state = nextStates.elementAt(j);
+        final TLCState state = nextStates.elementAt(j);
         if (s1.equals(state)) {
         	state.setPredecessor(s);
         	assert !state.isInitial();
@@ -3744,22 +3744,22 @@ public abstract class Tool
     return name.length() > 0;
   }
   @Override
-  public final Context getFcnContext(IFcnLambdaValue fcn, ExprOrOpArgNode[] args,
-          Context c, TLCState s0, TLCState s1,
-          final int control) {
+  public final Context getFcnContext(final IFcnLambdaValue fcn, final ExprOrOpArgNode[] args,
+                                     final Context c, final TLCState s0, final TLCState s1,
+                                     final int control) {
 	  return getFcnContext(fcn, args, c, s0, s1, control, CostModel.DO_NOT_RECORD);
   }
 
   @Override
-  public final Context getFcnContext(IFcnLambdaValue fcn, ExprOrOpArgNode[] args,
-                                     Context c, TLCState s0, TLCState s1,
-                                     final int control, CostModel cm) {
+  public final Context getFcnContext(final IFcnLambdaValue fcn, final ExprOrOpArgNode[] args,
+                                     final Context c, final TLCState s0, final TLCState s1,
+                                     final int control, final CostModel cm) {
     Context fcon = fcn.getCon();
-    int plen = fcn.getParams().length();
-    FormalParamNode[][] formals = fcn.getParams().getFormals();
-    Value[] domains = (Value[]) fcn.getParams().getDomains();
-    boolean[] isTuples = fcn.getParams().isTuples();
-    Value argVal = this.eval(args[1], c, s0, s1, control, cm);
+    final int plen = fcn.getParams().length();
+    final FormalParamNode[][] formals = fcn.getParams().getFormals();
+    final Value[] domains = (Value[]) fcn.getParams().getDomains();
+    final boolean[] isTuples = fcn.getParams().isTuples();
+    final Value argVal = this.eval(args[1], c, s0, s1, control, cm);
 
     if (plen == 1) {
       if (!domains[0].member(argVal)) {
@@ -3768,14 +3768,14 @@ public abstract class Tool
                     "which is not in its domain.\n" + args[0], args[0], c);
       }
       if (isTuples[0]) {
-        FormalParamNode[] ids = formals[0];
-        TupleValue tv = (TupleValue) argVal.toTuple();
+        final FormalParamNode[] ids = formals[0];
+        final TupleValue tv = (TupleValue) argVal.toTuple();
         if (tv == null || argVal.size() != ids.length) {
           Assert.fail("In applying the function\n" + Values.ppr(this.toString()) +
                       ",\nthe argument is:\n" + Values.ppr(argVal.toString()) +
                       "which does not match its formal parameter.\n" + args[0], args[0], c);
         }
-        Value[] elems = tv.elems;
+        final Value[] elems = tv.elems;
         for (int i = 0; i < ids.length; i++) {
           fcon = fcon.cons(ids[i], elems[i]);
         }
@@ -3785,16 +3785,16 @@ public abstract class Tool
       }
     }
     else {
-      TupleValue tv = (TupleValue) argVal.toTuple();
+      final TupleValue tv = (TupleValue) argVal.toTuple();
       if (tv == null) {
         Assert.fail("Attempted to apply a function to an argument not in its" +
                     " domain.\n" + args[0], args[0], c);
       }
       int argn = 0;
-      Value[] elems = tv.elems;
+      final Value[] elems = tv.elems;
       for (int i = 0; i < formals.length; i++) {
-        FormalParamNode[] ids = formals[i];
-        Value domain = domains[i];
+        final FormalParamNode[] ids = formals[i];
+        final Value domain = domains[i];
         if (isTuples[i]) {
           if (!domain.member(elems[argn])) {
             Assert.fail("In applying the function\n" + Values.ppr(fcn.toString()) +
@@ -3802,14 +3802,14 @@ public abstract class Tool
                         Values.ppr(elems[argn].toString()) +
                         "\nwhich is not in its domain.\n" + args[0], args[0], c);
           }
-          TupleValue tv1 = (TupleValue) elems[argn++].toTuple();
+          final TupleValue tv1 = (TupleValue) elems[argn++].toTuple();
           if (tv1 == null || tv1.size() != ids.length) {
             Assert.fail("In applying the function\n" + Values.ppr(fcn.toString()) +
                         ",\nthe argument number " + argn + " is:\n" +
                         Values.ppr(elems[argn-1].toString()) +
                         "which does not match its formal parameter.\n" + args[0], args[0], c);
           }
-          Value[] avals = tv1.elems;
+          final Value[] avals = tv1.elems;
           for (int j = 0; j < ids.length; j++) {
             fcon = fcon.cons(ids[j], avals[j]);
           }
@@ -3831,38 +3831,38 @@ public abstract class Tool
   }
 
   @Override
-  public final IContextEnumerator contexts(OpApplNode appl, Context c, TLCState s0,
-          TLCState s1, final int control) {
+  public final IContextEnumerator contexts(final OpApplNode appl, final Context c, final TLCState s0,
+                                           final TLCState s1, final int control) {
 	  return contexts(appl, c, s0, s1, control, CostModel.DO_NOT_RECORD);
   }
 
   /* A context enumerator for an operator application. */
-  public final ContextEnumerator contexts(OpApplNode appl, Context c, TLCState s0,
-                                          TLCState s1, final int control, CostModel cm) {
+  public final ContextEnumerator contexts(final OpApplNode appl, final Context c, final TLCState s0,
+                                          final TLCState s1, final int control, final CostModel cm) {
     return contexts(Ordering.NORMALIZED, appl, c, s0, s1, control, cm);
   }
 
-	private final ContextEnumerator contexts(Ordering ordering, OpApplNode appl, Context c, TLCState s0, TLCState s1, final int control,
-			CostModel cm) {
-		FormalParamNode[][] formals = appl.getBdedQuantSymbolLists();
-	    boolean[] isTuples = appl.isBdedQuantATuple();
-	    ExprNode[] domains = appl.getBdedQuantBounds();
+	private final ContextEnumerator contexts(final Ordering ordering, final OpApplNode appl, final Context c, final TLCState s0, final TLCState s1, final int control,
+                                             final CostModel cm) {
+		final FormalParamNode[][] formals = appl.getBdedQuantSymbolLists();
+	    final boolean[] isTuples = appl.isBdedQuantATuple();
+	    final ExprNode[] domains = appl.getBdedQuantBounds();
 	
-	    int flen = formals.length;
+	    final int flen = formals.length;
 	    int alen = 0;
 	    for (int i = 0; i < flen; i++) {
 	      alen += (isTuples[i]) ? 1 : formals[i].length;
 	    }
-	    Object[] vars = new Object[alen];
-	    ValueEnumeration[] enums = new ValueEnumeration[alen];
+	    final Object[] vars = new Object[alen];
+	    final ValueEnumeration[] enums = new ValueEnumeration[alen];
 	    int idx = 0;
 	    for (int i = 0; i < flen; i++) {
-	      Value boundSet = this.eval(domains[i], c, s0, s1, control, cm);
+	      final Value boundSet = this.eval(domains[i], c, s0, s1, control, cm);
 	      if (!(boundSet instanceof Enumerable)) {
 	        Assert.fail("TLC encountered a non-enumerable quantifier bound\n" +
 	                    Values.ppr(boundSet.toString()) + ".\n" + domains[i], domains[i], c);
 	      }
-	      FormalParamNode[] farg = formals[i];
+	      final FormalParamNode[] farg = formals[i];
 	      if (isTuples[i]) {
 	        vars[idx] = farg;
 	        enums[idx++] = ((Enumerable)boundSet).elements(ordering);
@@ -3882,17 +3882,17 @@ public abstract class Tool
     //		however those methods have changed signature with refactoring done for 
     //		Issue #393
 	@Override
-	public Context getOpContext(OpDefNode odn, ExprOrOpArgNode[] args, Context ctx, boolean b) {
+	public Context getOpContext(final OpDefNode odn, final ExprOrOpArgNode[] args, final Context ctx, final boolean b) {
 		return getOpContext(odn, args, ctx, b, toolId);
 	}
 	
 	@Override
-	public Object lookup(SymbolNode opNode, Context con, boolean b) {
+	public Object lookup(final SymbolNode opNode, final Context con, final boolean b) {
 		return lookup(opNode, con, b, toolId);
 	}
 	
 	@Override
-	public Object getVal(ExprOrOpArgNode expr, Context con, boolean b) {
+	public Object getVal(final ExprOrOpArgNode expr, final Context con, final boolean b) {
 		return getVal(expr, con, b, toolId);
 	}
 

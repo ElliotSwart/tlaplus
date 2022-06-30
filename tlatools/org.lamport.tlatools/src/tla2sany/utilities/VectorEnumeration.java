@@ -6,7 +6,7 @@ final class VectorEnumeration<E> implements Enumeration<E> {
   int index = 0;
   Object data[];
 
-  VectorEnumeration( Object info[], int size ) {
+  VectorEnumeration(final Object[] info, final int size ) {
     data = new Object[ size ];
     System.arraycopy( info, 0, data, 0, size );
   }

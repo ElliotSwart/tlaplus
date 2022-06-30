@@ -83,11 +83,11 @@ public class BuiltInOPs implements ToolGlobals {
     put(OP_prime,    OPCODE_prime);
   }
 
-  private static void put(UniqueString op, int opcode) {
-    int loc = op.getTok();
+  private static void put(final UniqueString op, final int opcode) {
+    final int loc = op.getTok();
     if (loc >= OpCodeTable.length) {
-      int len1 = loc + 20;
-      int[] OpCodeTable1 = new int[len1];
+      final int len1 = loc + 20;
+      final int[] OpCodeTable1 = new int[len1];
       for (int i = 0; i < OpCodeTable.length; i++) {
 	OpCodeTable1[i] = OpCodeTable[i];
       }
@@ -97,20 +97,20 @@ public class BuiltInOPs implements ToolGlobals {
   }
 	
   /* Return the opcode for op. If it is not builtin, return 0. */
-  public static int getOpCode(UniqueString op) {
-    int loc = op.getTok();
+  public static int getOpCode(final UniqueString op) {
+    final int loc = op.getTok();
     return (loc < OpCodeTable.length) ? OpCodeTable[loc] : 0;
   }
 
-  public static int getOpCode(int loc) {
+  public static int getOpCode(final int loc) {
     return (loc < OpCodeTable.length) ? OpCodeTable[loc] : 0;
   }
 
-  public static boolean isTemporal(int opcode) {
+  public static boolean isTemporal(final int opcode) {
     return OPCODE_sf <= opcode && opcode <= OPCODE_diamond;
   }
 
-  public static boolean isAction(int opcode) {
+  public static boolean isAction(final int opcode) {
     return OPCODE_prime <= opcode && opcode <= OPCODE_cdot;
   }
 

@@ -49,7 +49,7 @@ import util.WrongInvocationException;
 
 public class LevelNode extends SemanticNode {
 
-  LevelNode(int kind, TreeNode stn) {
+  LevelNode(final int kind, final TreeNode stn) {
     super(kind, stn);
    }
 
@@ -102,7 +102,7 @@ public int levelChecked   = 0 ;
    * calculates the level information for the expression. Returns
    * true iff this is level correct.
    */
-  public boolean levelCheck(int iter) {
+  public boolean levelCheck(final int iter) {
     /***********************************************************************
     * This is called for a node n to calculate the level information for   *
     * n and all its descendants.  It should be overridden by each          *
@@ -129,7 +129,7 @@ public int levelChecked   = 0 ;
                  " node not implemented.");
    }
 
-  public boolean levelCheckSubnodes(int iter, LevelNode[] sub) {
+  public boolean levelCheckSubnodes(final int iter, final LevelNode[] sub) {
     /***********************************************************************
     * Performs levelCheck(iter) for a node whose level information is      *
     * computed by combining the level information from the array sub of    *
@@ -179,11 +179,11 @@ public int levelChecked   = 0 ;
   * instantiated by a temporal formula.  Added by LL on 1 Mar 2009         *
   *************************************************************************/
   static void addTemporalLevelConstraintToConstants(
-                 HashSet<SymbolNode> params,
-                 SetOfLevelConstraints constrs ) {
-      Iterator<SymbolNode> iter = params.iterator();
+          final HashSet<SymbolNode> params,
+          final SetOfLevelConstraints constrs ) {
+      final Iterator<SymbolNode> iter = params.iterator();
       while (iter.hasNext()) {
-        SymbolNode node = iter.next() ;
+        final SymbolNode node = iter.next() ;
         if (node.getKind() == ConstantDeclKind) {
           constrs.put(node, Levels[ActionLevel]);
          };
@@ -283,7 +283,7 @@ public int levelChecked   = 0 ;
        "NonLeibnizParams: "    + HashSetToString(this.getNonLeibnizParams()) ;
     }
 
-  public static String HashSetToString(HashSet<? extends SymbolNode> hs) {
+  public static String HashSetToString(final HashSet<? extends SymbolNode> hs) {
     /***********************************************************************
     * Converts a HashSet of SymbolNodes to a printable string.             *
     ***********************************************************************/
@@ -299,16 +299,16 @@ public int levelChecked   = 0 ;
     return rval ;
    }
 
-  public static String ALPHashSetToString(HashSet<ArgLevelParam> hs) {
+  public static String ALPHashSetToString(final HashSet<ArgLevelParam> hs) {
     /***********************************************************************
     * Converts a HashSet of ArgLevelParam objects to a printable string.   *
     ***********************************************************************/
     String rval = "{" ;
     boolean first = true ;
-    Iterator<ArgLevelParam> iter = hs.iterator();
+    final Iterator<ArgLevelParam> iter = hs.iterator();
     while (iter.hasNext()) {
       if (! first) {rval = rval + ", ";} ;
-      ArgLevelParam alp = iter.next();
+      final ArgLevelParam alp = iter.next();
       rval = rval + "<" + alp.op.getName() + ", " + alp.i + ", " +
                      alp.param.getName() + ">" ;
       first = false;
@@ -328,13 +328,13 @@ public int levelChecked   = 0 ;
 
 
   @Override
-  protected Element getSemanticElement(Document doc, SymbolContext context) {
+  protected Element getSemanticElement(final Document doc, final SymbolContext context) {
       // T.L. abstract method used to add data from subclasses
-      Element e = getLevelElement(doc, context); //SymbolElement.getLevelElement is not supposed to be called
+      final Element e = getLevelElement(doc, context); //SymbolElement.getLevelElement is not supposed to be called
       try {
-        Element l = appendText(doc,"level",Integer.toString(getLevel()));
+        final Element l = appendText(doc,"level",Integer.toString(getLevel()));
         e.insertBefore(l,e.getFirstChild());
-      } catch (RuntimeException ee) {
+      } catch (final RuntimeException ee) {
         // not sure it is legal for a LevelNode not to have level, debug it!
       }
       return e;
@@ -344,7 +344,7 @@ public int levelChecked   = 0 ;
      * T.L. October 2014
      * Abstract method for subclasses of LevelNode to add their information
      * */
-  protected Element getLevelElement(Document doc, SymbolContext context) {
+  protected Element getLevelElement(final Document doc, final SymbolContext context) {
       throw new UnsupportedOperationException("xml export is not yet supported for: " + getClass() + " with toString: " + toString(100));
     }
 

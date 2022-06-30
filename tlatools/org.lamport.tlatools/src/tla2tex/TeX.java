@@ -115,11 +115,11 @@ class TeX
   static String version = 
     "tla2tex.TeX Version 1.0 created " + modDate ;
 
-    public static void main(String[] args) 
+    public static void main(final String[] args)
     { /*********************************************************************
       * Get the command-line arguments.                                    *
       *********************************************************************/
-      long startTime = Debug.now();
+      final long startTime = Debug.now();
       ToolIO.out.println(version) ;
       GetArguments(args);
 
@@ -140,7 +140,7 @@ class TeX
       /*********************************************************************
       * Obtain the linewidths from the log file.                           *
       *********************************************************************/
-      float[] lineWidths = ReadLogFile();
+      final float[] lineWidths = ReadLogFile();
 
       /*********************************************************************
       * Open the input and output files.                                   *
@@ -149,7 +149,7 @@ class TeX
       try 
        { infile = new BufferedReader(new FileReader(Parameters.TLAInputFile));
        }
-      catch (Exception e)
+      catch (final Exception e)
        { Debug.ReportError(
           "Can't open input file " + Parameters.TLAInputFile);
        }
@@ -158,7 +158,7 @@ class TeX
       try      
        { outfile = new OutputFileWriter(Parameters.LaTeXOutputFile + ".new");
        }
-      catch (Exception e)
+      catch (final Exception e)
        { Debug.ReportError(
           "Can't open output file " + Parameters.LaTeXOutputFile + ".new");
        }
@@ -173,7 +173,7 @@ class TeX
       * \begin{document}, and save everything except the                   *
       * \begin{document} in the Vector preamble.                           *
       *********************************************************************/
-      Vector<String> preamble = new Vector<String>(200);
+      final Vector<String> preamble = new Vector<String>(200);
       String line = "" ;
       try
        { line = infile.readLine();
@@ -185,7 +185,7 @@ class TeX
             line = infile.readLine();
           }
        }
-      catch (Exception e)
+      catch (final Exception e)
        { Debug.ReportError("I/O error: " + e.getMessage());
        }
       if (line == null)
@@ -202,7 +202,7 @@ class TeX
       * If there's something before the \begin{document} on the line, add  *
       * it to preamble.                                                    *
       *********************************************************************/
-      int begindocPos = line.indexOf("\\begin{document}") ;
+      final int begindocPos = line.indexOf("\\begin{document}") ;
       if (begindocPos != 0)
        { preamble.addElement(line.substring(0, begindocPos));
        }
@@ -257,8 +257,8 @@ class TeX
              **************************************************************/
              Starting(envName + " environment number " + (envNum + 1) 
                          + " on line " + (lineNum + 1));
-             Vector<String> tla = new Vector<String>(100);
-             int tlaLineNum = lineNum ;
+             final Vector<String> tla = new Vector<String>(100);
+             final int tlaLineNum = lineNum ;
              line = infile.readLine();
              while (   (line != null) 
                     && (line.indexOf("\\end{" + envName + "}") == -1))
@@ -310,8 +310,8 @@ class TeX
             /***************************************************************
             * Tokenize the spec.                                           *
             ***************************************************************/
-            CharReader tlaRdr = new VectorCharReader(tla, tlaLineNum);
-            Token[][] spec = TokenizeSpec.Tokenize(tlaRdr, mode);
+            final CharReader tlaRdr = new VectorCharReader(tla, tlaLineNum);
+            final Token[][] spec = TokenizeSpec.Tokenize(tlaRdr, mode);
 
             /***************************************************************
             * Finish the tokenization by converting sequences of tokens    *
@@ -395,8 +395,8 @@ class TeX
         *******************************************************************/
         infile.close() ;
         outfile.close() ;
-        File iFile = new File(Parameters.LaTeXOutputFile + ".tex") ;
-        File oFile = new File(Parameters.LaTeXOutputFile + ".new") ;
+        final File iFile = new File(Parameters.LaTeXOutputFile + ".tex") ;
+        final File oFile = new File(Parameters.LaTeXOutputFile + ".new") ;
 
         /*******************************************************************
         * Delete the old version of the .old file, if there is one.        *
@@ -407,7 +407,7 @@ class TeX
             || !oFile.renameTo(new File(Parameters.LaTeXOutputFile + ".tex")))
          { Debug.ReportError("Error while renaming files"); }
        }
-      catch (Exception e)
+      catch (final Exception e)
        { Debug.ReportError("I/O error: " + e.getMessage());
        }
       
@@ -415,7 +415,7 @@ class TeX
     }  // END main
 
 
-  private static void GetArguments(String[] args)
+  private static void GetArguments(final String[] args)
      /**********************************************************************
      * Get the command-line arguments and set the appropriate parameters.  *
      **********************************************************************/
@@ -424,8 +424,8 @@ class TeX
        ********************************************************************/
        boolean outOption = false;
        boolean alignOutOption = false;
-       boolean psOption = false ;
-       boolean nopsOption = false ;
+       final boolean psOption = false ;
+       final boolean nopsOption = false ;
        int nextArg = 0 ;
          /******************************************************************
          * The number of the argument being processed.                     *
@@ -453,7 +453,7 @@ class TeX
         * Process all the arguments, except for the last (unless it's a    *
         * "-" argument).                                                   *
         *******************************************************************/
-        { String option = args[nextArg] ;
+        { final String option = args[nextArg] ;
           if (option.equals("-help"))
             { OutputMessageFile(Parameters.TeXHelpFile) ;
               System.exit(0);
@@ -573,7 +573,7 @@ class TeX
         }
      }   
 
-    private static String RemoveExtension(String fileName)
+    private static String RemoveExtension(final String fileName)
       /*********************************************************************
       * The string fileName with any extensions removed.                   *
       *********************************************************************/
@@ -583,7 +583,7 @@ class TeX
           { return fileName.substring(0, fileName.indexOf(".")); }
       }      
 
-   private static String RemovePathPrefix(String str)
+   private static String RemovePathPrefix(final String str)
     /***********************************************************************
     * Returns str with all any leading path specifiers removed.  For       *
     * example, calling it on "c:frob\bar\name.txt" or "~/frob/bar/name.txt"  *
@@ -599,7 +599,7 @@ class TeX
       return result;
     }    
 
-   private static boolean HasPathPrefix(String str)
+   private static boolean HasPathPrefix(final String str)
     /***********************************************************************
     * True iff str has a leading path specifier--that is, if it contains   *
     * a ":", "/" or "\".                                                   *
@@ -609,7 +609,7 @@ class TeX
              || (str.indexOf("\\") != -1) ;
     }    
 
-    private static void CommandLineError(String msg)
+    private static void CommandLineError(final String msg)
       /*********************************************************************
       * Announce a command line error with the string indicating the       *
       * explanation, write the help message, and halt.                     *
@@ -620,11 +620,11 @@ class TeX
         throw new TLA2TexException("TLATeX command-line error: " + msg + "." + "Use -help option for more information.");
       }
 
-    private static void OutputMessageFile(String fileName)
+    private static void OutputMessageFile(final String fileName)
      /**********************************************************************
      * Write the resource file named fileName to stdout.                   *
      **********************************************************************/
-     { ResourceFileReader input = new ResourceFileReader(fileName) ;
+     { final ResourceFileReader input = new ResourceFileReader(fileName) ;
        String line = input.getLine();
        while (line != null)
          { ToolIO.out.println(line) ;
@@ -638,13 +638,13 @@ class TeX
     /***********************************************************************
     * Starting / Finished used to print debugging information.            *
     ***********************************************************************/
-    private static void Starting(String name)
+    private static void Starting(final String name)
      { if (Parameters.Debug)
          { start = Debug.now() ;
            ToolIO.out.println("Starting " + name);
          }
      }
-    private static void Finished(String name)
+    private static void Finished(final String name)
      { if (Parameters.Debug)
          { Debug.printElapsedTime(start, name + " finished in");
          }
@@ -685,12 +685,12 @@ class TeX
        { logfile = new BufferedReader(
                     new FileReader(Parameters.LaTeXOutputFile + ".log"));
        }
-      catch (Exception e)
+      catch (final Exception e)
        { ToolIO.out.println(
                "No file " + Parameters.LaTeXOutputFile + ".log");
          return new float[0];
        }
-      Vector<String> resultVec = new Vector<String>(50);
+      final Vector<String> resultVec = new Vector<String>(50);
         /*******************************************************************
         * A vector of the strings representing the linewidths.             *
         *******************************************************************/
@@ -700,8 +700,8 @@ class TeX
         while (inputLine != null)
          { if (   (inputLine.length() > 2)
                && (inputLine.substring(0,3).equals("\\%{")))
-            { int start = 3 ;
-              int after = inputLine.indexOf("}",start)-2 ;
+            { final int start = 3 ;
+              final int after = inputLine.indexOf("}",start)-2 ;
               resultVec.addElement(inputLine.substring(start, after));
             }; 
            inputLine = logfile.readLine();
@@ -709,12 +709,12 @@ class TeX
         
         logfile.close();
        }
-      catch (Exception e)
+      catch (final Exception e)
        { Debug.ReportError(
            "Error reading file " + Parameters.LaTeXOutputFile + ".log");
        }
 
-      float[] result = new float[resultVec.size()];
+      final float[] result = new float[resultVec.size()];
       int i = 0;
       while (i < result.length)
        { result[i] = Misc.stringToFloat((String) resultVec.elementAt(i));

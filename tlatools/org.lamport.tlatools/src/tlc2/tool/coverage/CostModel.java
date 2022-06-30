@@ -66,13 +66,13 @@ public interface CostModel {
 		}
 
 		@Override
-		public final CostModel incSecondary(long value) {
+		public final CostModel incSecondary(final long value) {
 			// no-op
 			return null;
 		}
 
 		@Override
-		public final CostModel getAndIncrement(SemanticNode eon) {
+		public final CostModel getAndIncrement(final SemanticNode eon) {
 			// no-op
 			return this;
 		}

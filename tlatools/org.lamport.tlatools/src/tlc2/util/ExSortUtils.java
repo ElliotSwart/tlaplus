@@ -18,7 +18,7 @@ public class ExSortUtils
     /** Writes the length of the sub array and then each element of A in
         the appropriate range to out.  The subarray starts at A[start]
         and finishes at A[finish].  */
-    public static void writeSizeArrayOfExternalSortable(ExternalSortable[] A, int start, int finish, OutputStream out)
+    public static void writeSizeArrayOfExternalSortable(final ExternalSortable[] A, final int start, final int finish, final OutputStream out)
             throws IOException
     {
         ByteUtils.writeInt(out, finish - start + 1);
@@ -27,7 +27,7 @@ public class ExSortUtils
 
     /** Writes each element of A in the appropriate range to out.  The
         subarray starts at A[start] and finishes at A[finish].  */
-    public static void writeArrayOfExternalSortable(ExternalSortable[] A, int start, int finish, OutputStream out)
+    public static void writeArrayOfExternalSortable(final ExternalSortable[] A, final int start, final int finish, final OutputStream out)
             throws IOException
     {
         for (int i = start; i <= finish; i++)
@@ -39,20 +39,20 @@ public class ExSortUtils
         If the stream is empty when reading len, an IOException is
         thrown; if at any other time, an IO error occurs, a
         RuntimeException is thrown. */
-    public static ExternalSortable[] readSizeArrayOfExternalSortable(InputStream in, ExternalSortable ex)
+    public static ExternalSortable[] readSizeArrayOfExternalSortable(final InputStream in, final ExternalSortable ex)
             throws IOException
     {
-        int len;
+        final int len;
 
         try
         {
             len = ByteUtils.readInt(in);
-        } catch (IOException e)
+        } catch (final IOException e)
         {
             throw new IOException("Can't read an array of ExternalSortables from the input stream; it's empty.");
         }
 
-        ExternalSortable[] A = new ExternalSortable[len];
+        final ExternalSortable[] A = new ExternalSortable[len];
 
         try
         {
@@ -60,7 +60,7 @@ public class ExSortUtils
             {
                 A[i] = ex.read(in);
             }
-        } catch (IOException e)
+        } catch (final IOException e)
         {
             throw new IOException(
                     "Can't read an array of ExternalSortables from the input stream; not enough bytes, but not empty.");
@@ -72,11 +72,11 @@ public class ExSortUtils
         array corresponding to the ExternalSortables.  Input: in should
         contain some sequence of ExternalSortables, otherwise a
         RuntimeException is thrown */
-    public static ExternalSortable[] readArrayOfExternalSortable(InputStream in, ExternalSortable ex)
+    public static ExternalSortable[] readArrayOfExternalSortable(final InputStream in, final ExternalSortable ex)
             throws IOException
     {
 
-        Vector<BigInt> A = new Vector<BigInt>();
+        final Vector<BigInt> A = new Vector<BigInt>();
         int i = 0;
 
         try
@@ -86,11 +86,11 @@ public class ExSortUtils
                 A.addElement(ex.read(in));
                 i++;
             } while (true);
-        } catch (IOException e)
+        } catch (final IOException e)
         {
         }
 
-        ExternalSortable[] eA = new ExternalSortable[i];
+        final ExternalSortable[] eA = new ExternalSortable[i];
 
         for (int j = 0; j < i; j++)
             eA[j] = A.elementAt(j);
@@ -101,16 +101,16 @@ public class ExSortUtils
     /** Reads an integer from in, and appends that integer and that many
         objects to out.  Input: If in is empty, an IOException is thrown;
         if it doesn't have enough bytes, a RuntimeException is throw. */
-    public static void appendSizeExternalSortableArraySizeArray(InputStream in, OutputStream out, ExternalSortable ex)
+    public static void appendSizeExternalSortableArraySizeArray(final InputStream in, final OutputStream out, final ExternalSortable ex)
             throws IOException
     {
-        int i;
+        final int i;
         ExternalSortable a;
 
         try
         {
             i = ByteUtils.readInt(in);
-        } catch (IOException e)
+        } catch (final IOException e)
         {
             throw new IOException("Can't append in to out; in is empty.");
         }
@@ -122,7 +122,7 @@ public class ExSortUtils
                 a = ex.read(in);
                 a.write(out);
             }
-        } catch (IOException e)
+        } catch (final IOException e)
         {
             throw new IOException("Can't append in to out; not enough bytes, but not empty.");
         }
@@ -131,16 +131,16 @@ public class ExSortUtils
     /** Reads an integer from in, and appends that many objects to out.
         Input: If in is empty, an IOException is thrown; if it doesn't
         have enough bytes, a RuntimeException is throw. */
-    public static void appendSizeExternalSortableArrayArray(InputStream in, OutputStream out, ExternalSortable ex)
+    public static void appendSizeExternalSortableArrayArray(final InputStream in, final OutputStream out, final ExternalSortable ex)
             throws IOException
     {
-        int i;
+        final int i;
         ExternalSortable a;
 
         try
         {
             i = ByteUtils.readInt(in);
-        } catch (IOException e)
+        } catch (final IOException e)
         {
             throw new IOException("Can't append in to out; in is empty.");
         }
@@ -151,7 +151,7 @@ public class ExSortUtils
                 a = ex.read(in);
                 a.write(out);
             }
-        } catch (IOException e)
+        } catch (final IOException e)
         {
             throw new IOException("Can't append in to out; not enough bytes, but not empty.");
         }

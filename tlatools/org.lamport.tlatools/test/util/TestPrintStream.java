@@ -45,7 +45,7 @@ public class TestPrintStream extends PrintStream {
 	/* (non-Javadoc)
 	 * @see java.io.PrintStream#println(java.lang.String)
 	 */
-	public void println(String x) {
+	public void println(final String x) {
 		strings.add(x);
 		buf.append(x + "\n");
 		super.println(x);
@@ -59,8 +59,8 @@ public class TestPrintStream extends PrintStream {
 		assertTrue(buf.toString().contains(seq));
 	}
 	
-	public void assertSubstring(String substring) {
-		for (String string : strings) {
+	public void assertSubstring(final String substring) {
+		for (final String string : strings) {
 			if (string.contains(substring)) {
 				return;
 			}
@@ -68,9 +68,9 @@ public class TestPrintStream extends PrintStream {
 		fail("Substring not found");
 	}
 
-	public void assertRegex(String regex) {
-		Pattern pattern = Pattern.compile(regex);
-		for (String string : strings) {			
+	public void assertRegex(final String regex) {
+		final Pattern pattern = Pattern.compile(regex);
+		for (final String string : strings) {
 			if (pattern.matcher(string).find()) {
 				return;
 			}
@@ -78,8 +78,8 @@ public class TestPrintStream extends PrintStream {
 		fail("Match not found for regex \"" + pattern.toString() + "\"");		
 	}
 	
-	public void assertNoSubstring(String substring) {
-		for (String string : strings) {
+	public void assertNoSubstring(final String substring) {
+		for (final String string : strings) {
 			if (string.contains(substring)) {
 				fail("Substring was found");
 			}

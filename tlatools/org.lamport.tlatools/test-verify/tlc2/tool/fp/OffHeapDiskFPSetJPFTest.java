@@ -48,7 +48,7 @@ public class OffHeapDiskFPSetJPFTest extends TestJPF {
 
 			// Two concurrent writers.
 			for (int i = 0; i < 2; i++) {
-				Thread worker = new Thread(new Runnable() {
+				final Thread worker = new Thread(new Runnable() {
 					public void run() {
 						for (long i = 1; i <= max; i++) {
 							fpSet.memInsert(i);
@@ -71,7 +71,7 @@ public class OffHeapDiskFPSetJPFTest extends TestJPF {
 		// internal bug.
 		private final AtomicInteger tblCnt;
 
-		public DummyOffHeapDiskFPSet(int positions, long max) {
+		public DummyOffHeapDiskFPSet(final int positions, final long max) {
 			this.tblCnt = new AtomicInteger(0);
 			this.array = new DummyLongArray(positions);
 			this.indexer = new OffHeapDiskFPSet.Indexer(positions, 1, max);
@@ -103,15 +103,15 @@ public class OffHeapDiskFPSetJPFTest extends TestJPF {
 		private static class DummyLongArray {
 			private final long[] array;
 			
-			public DummyLongArray(int positions) {
+			public DummyLongArray(final int positions) {
 				this.array = new long[positions];
 			}
 
-			public long get(int position) {
+			public long get(final int position) {
 				return this.array[position];
 			}
 
-			public synchronized boolean trySet(int position, long expected, long l) {
+			public synchronized boolean trySet(final int position, final long expected, final long l) {
 				if (this.array[position] == expected) {
 					this.array[position] = l;
 					return true;

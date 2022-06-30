@@ -34,7 +34,7 @@ public final class InternTable implements Serializable
 
      private InternRMI internSource = null;
 
-    public InternTable(int size)
+    public InternTable(final int size)
     {
         this.table = new UniqueString[size];
         this.count = 0;
@@ -44,20 +44,20 @@ public final class InternTable implements Serializable
     
     private void grow()
     {
-        UniqueString[] old = this.table;
+        final UniqueString[] old = this.table;
         this.count = 0;
         this.length = 2 * this.length + 1;
         this.thresh = this.length / 2;
         this.table = new UniqueString[this.length];
         for (int i = 0; i < old.length; i++)
         {
-            UniqueString var = old[i];
+            final UniqueString var = old[i];
             if (var != null)
                 this.put(var);
         }
     }
 
-    private void put(UniqueString var)
+    private void put(final UniqueString var)
     {
         // The following statement was added on 14 Feb 2012 by M.K.  
         // It calls the grow() method to enlarge the hash table storing
@@ -75,7 +75,7 @@ public final class InternTable implements Serializable
         int loc = (var.hashCode() & 0x7FFFFFFF) % length;
         while (true)
         {
-            UniqueString ent = this.table[loc];
+            final UniqueString ent = this.table[loc];
             if (ent == null)
             {
                 this.table[loc] = var;
@@ -90,11 +90,11 @@ public final class InternTable implements Serializable
      * If there exists a UniqueString object obj such that obj.getTok()
      * equals id, then get(id) returns obj; otherwise, it returns null.
      */
-    public UniqueString get(int id)
+    public UniqueString get(final int id)
     {
         for (int i = 0; i < this.table.length; i++)
         {
-            UniqueString var = this.table[i];
+            final UniqueString var = this.table[i];
             if (var != null && var.getTok() == id)
             {
                 return var;
@@ -111,19 +111,19 @@ public final class InternTable implements Serializable
 //        return new UniqueString(str, ++tokenCnt);
 //    }
 
-	private UniqueString create(String str) {
+	private UniqueString create(final String str) {
 		if (this.internSource == null) {
 			return new UniqueString(str, ++tokenCnt);
 		}
 		try {
 			return this.internSource.intern(str);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			Assert.fail("Failed to intern " + str + ".");
 		}
 		return null; // make compiler happy
 	}
 
-    public UniqueString put(String str)
+    public UniqueString put(final String str)
     {
         synchronized (InternTable.class)
         {
@@ -132,10 +132,10 @@ public final class InternTable implements Serializable
             int loc = (str.hashCode() & 0x7FFFFFFF) % length;
             while (true)
             {
-                UniqueString ent = this.table[loc];
+                final UniqueString ent = this.table[loc];
                 if (ent == null)
                 {
-                    UniqueString var = this.create(str);
+                    final UniqueString var = this.create(str);
                     this.table[loc] = var;
                     this.count++;
                     return var;
@@ -149,53 +149,53 @@ public final class InternTable implements Serializable
         }
     }
 
-    public void beginChkpt(String filename) throws IOException
+    public void beginChkpt(final String filename) throws IOException
     {
-        BufferedDataOutputStream dos = new BufferedDataOutputStream(this.chkptName(filename, "tmp"));
+        final BufferedDataOutputStream dos = new BufferedDataOutputStream(this.chkptName(filename, "tmp"));
         dos.writeInt(tokenCnt);
         for (int i = 0; i < this.table.length; i++)
         {
-            UniqueString var = this.table[i];
+            final UniqueString var = this.table[i];
             if (var != null)
                 var.write(dos);
         }
         dos.close();
     }
 
-    public void commitChkpt(String filename) throws IOException
+    public void commitChkpt(final String filename) throws IOException
     {
-        File oldChkpt = new File(this.chkptName(filename, "chkpt"));
-        File newChkpt = new File(this.chkptName(filename, "tmp"));
+        final File oldChkpt = new File(this.chkptName(filename, "chkpt"));
+        final File newChkpt = new File(this.chkptName(filename, "tmp"));
         if ((oldChkpt.exists() && !oldChkpt.delete()) || !newChkpt.renameTo(oldChkpt))
         {
             throw new IOException("InternTable.commitChkpt: cannot delete " + oldChkpt);
         }
     }
 
-    public synchronized void recover(String filename) throws IOException
+    public synchronized void recover(final String filename) throws IOException
     {
-        BufferedDataInputStream dis = new BufferedDataInputStream(this.chkptName(filename, "chkpt"));
+        final BufferedDataInputStream dis = new BufferedDataInputStream(this.chkptName(filename, "chkpt"));
         tokenCnt = dis.readInt();
         try
         {
             while (!dis.atEOF())
             {
-                UniqueString var = UniqueString.read(dis);
+                final UniqueString var = UniqueString.read(dis);
                 this.put(var);
             }
-        } catch (EOFException e)
+        } catch (final EOFException e)
         {
             Assert.fail(EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT, e.getMessage());
         }
         dis.close();
     }
 
-    private String chkptName(String filename, String ext)
+    private String chkptName(final String filename, final String ext)
     {
         return filename + FileUtil.separator + "vars." + ext;
     }
 
-	public void setSource(InternRMI source) {
+	public void setSource(final InternRMI source) {
 		this.internSource = source;
 	}
 
@@ -204,7 +204,7 @@ public final class InternTable implements Serializable
 	public final Map<String, UniqueString> toMap() {
 		final Map<String, UniqueString> map = new HashMap<String, UniqueString>();
 		for (int i = 0; i < this.table.length; i++) {
-			UniqueString var = this.table[i];
+			final UniqueString var = this.table[i];
 			if (var != null) {
 				map.put(var.toString(), var);
 			}

@@ -36,7 +36,7 @@ public class OpArgNode extends ExprOrOpArgNode {
   private ModuleNode   mn;      // the Module in which THIS OpArgNode appears
 
   /* Used only for construction of a "null" OpArg */
-  public OpArgNode(UniqueString name) {
+  public OpArgNode(final UniqueString name) {
     super(OpArgKind, SyntaxTreeNode.nullSTN);
     this.name = name;
     this.arity = -2;
@@ -48,7 +48,7 @@ public class OpArgNode extends ExprOrOpArgNode {
    * (unresolved symbol) we want to be able to continue semantic
    * analysis.
    */
-  public OpArgNode(SymbolNode op, TreeNode stn, ModuleNode mn)
+  public OpArgNode(final SymbolNode op, final TreeNode stn, final ModuleNode mn)
   throws AbortException {
     super(OpArgKind, stn);
 
@@ -69,7 +69,7 @@ public class OpArgNode extends ExprOrOpArgNode {
 
   /* Level check */
   @Override
-  public final boolean levelCheck(int iter) {
+  public final boolean levelCheck(final int iter) {
     if (levelChecked >= iter) {return this.levelCorrect; } ;
     levelChecked = iter ;
     levelCorrect        = op.levelCheck(iter) ;
@@ -113,8 +113,8 @@ public class OpArgNode extends ExprOrOpArgNode {
 //  }
 
   @Override
-  public final void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
 
     semNodesTable.put(uid, this);
@@ -133,7 +133,7 @@ public class OpArgNode extends ExprOrOpArgNode {
   }
 
   @Override
-  public final String toString(int depth) {
+  public final String toString(final int depth) {
     if (depth <= 0) return "";
 
     return "\n*OpArgNode: " + ( name != null ? name.toString() : "null") +
@@ -143,11 +143,11 @@ public class OpArgNode extends ExprOrOpArgNode {
   }
 
   @Override
-  protected Element getLevelElement(Document doc, SymbolContext context) {
-    Element e = doc.createElement("OpArgNode");
-    Element n = doc.createElement("argument");
+  protected Element getLevelElement(final Document doc, final SymbolContext context) {
+    final Element e = doc.createElement("OpArgNode");
+    final Element n = doc.createElement("argument");
     //Element ope = op.getSymbolElement(doc, context);
-    Element ope = op.export(doc, context);
+    final Element ope = op.export(doc, context);
     n.appendChild(ope);
     e.appendChild(n);
 

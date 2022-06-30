@@ -73,13 +73,13 @@ public abstract class AbstractFPSetTest {
 		return getFPSetInitialized(1);
 	}
 	
-	protected FPSet getFPSetInitialized(int numThreads) throws IOException {
+	protected FPSet getFPSetInitialized(final int numThreads) throws IOException {
 		final FPSet fpSet = getFPSet(new FPSetConfiguration());
 		fpSet.init(numThreads, tmpdir, filename);
 
 		if (fpSet instanceof FPSetStatistic) {
-			FPSetStatistic fpSetStats = (FPSetStatistic) fpSet;
-			long maxTblCnt = fpSetStats.getMaxTblCnt();
+			final FPSetStatistic fpSetStats = (FPSetStatistic) fpSet;
+			final long maxTblCnt = fpSetStats.getMaxTblCnt();
 			System.out.println("Maximum FPSet table count is: "
 					+ df.format(maxTblCnt) + " (approx: "
 					+ df.format(maxTblCnt * FPSet.LongSize >> 20) + " GiB)");
@@ -94,13 +94,13 @@ public abstract class AbstractFPSetTest {
 	// insertion speed
 	public void printInsertionSpeed(final FPSet fpSet) {
 		// print every minute
-		long now = System.currentTimeMillis();
+		final long now = System.currentTimeMillis();
 		final double factor = (now - previousTimestamp) / 60000d;
 		if (factor >= 1d) {
 			final long currentSize = fpSet.size();
-			long insertions = (long) ((currentSize - previousSize) * factor);
+			final long insertions = (long) ((currentSize - previousSize) * factor);
 			if (fpSet instanceof FPSetStatistic) {
-				FPSetStatistic fpSetStatistics = (FPSetStatistic) fpSet;
+				final FPSetStatistic fpSetStatistics = (FPSetStatistic) fpSet;
 				System.out.println(System.currentTimeMillis() + " s (epoch); " + df.format(insertions) + " insertions/min; " + pf.format(fpSetStatistics.getLoadFactor()) + " load factor");
 			} else {
 				System.out.println(System.currentTimeMillis() + " s (epoch); " + df.format(insertions) + " insertions/min");
@@ -110,13 +110,13 @@ public abstract class AbstractFPSetTest {
 		}
 	}
 	
-	public void printInsertionSpeed(final FPSet fpSet, long start, long end) {
+	public void printInsertionSpeed(final FPSet fpSet, final long start, final long end) {
 		final long size = fpSet.size();
 		// Normalize insertions to minutes.
 		final long duration = Math.max(end - start, 1); //ms (avoid div-by-zero)
 		final long insertions = (long) ((size / duration) * 60000L);
 		if (fpSet instanceof FPSetStatistic) {
-			FPSetStatistic fpSetStatistics = (FPSetStatistic) fpSet;
+			final FPSetStatistic fpSetStatistics = (FPSetStatistic) fpSet;
 			System.out.println(System.currentTimeMillis() + " s; " + df.format(insertions) + " insertions/min; " + pf.format(fpSetStatistics.getLoadFactor()) + " load factor");
 		} else {
 			System.out.println(System.currentTimeMillis() + " s (epoch); " + df.format(insertions) + " insertions/min");

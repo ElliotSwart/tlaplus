@@ -60,7 +60,7 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 	 * @see tlc2.tool.fp.DiskFPSet#index(long, int)
 	 */
 	@Override
-	protected long index(long fp, long aMask) {
+	protected long index(final long fp, final long aMask) {
 		// calculate hash value (just n most significant bits of fp) which is
 		// used as an index address
 		// 1) Right shift by 32 bits and cast to int (upper 32 bits are zeroed)
@@ -79,9 +79,9 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 			// copy table contents into a buffer array buff; do not erase tbl, but 1
 			// msb of each fp to indicate it has been flushed to disk
 			for (int j = 0; j < tbl.length; j++) {
-				long[] bucket = tbl[j];
+				final long[] bucket = tbl[j];
 				if (bucket != null) {
-					int blen = bucket.length;
+					final int blen = bucket.length;
 					// for all bucket positions and non-null values
 					int k = 0;
 					for (; k < blen && bucket[k] > 0; k++) {
@@ -101,7 +101,7 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.fp.DiskFPSet#mergeNewEntries(long[], int, java.io.RandomAccessFile, java.io.RandomAccessFile)
 		 */
-		protected void mergeNewEntries(BufferedRandomAccessFile[] inRAFs, RandomAccessFile outRAF) throws IOException {
+		protected void mergeNewEntries(final BufferedRandomAccessFile[] inRAFs, final RandomAccessFile outRAF) throws IOException {
 			final long buffLen = getTblCnt();
 			final TLCIterator itr = new TLCIterator(tbl);
 
@@ -115,7 +115,7 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 				maxVal = Math.max(maxVal, index[index.length - 1]);
 			}
 	
-			int indexLen = calculateIndexLen(buffLen);
+			final int indexLen = calculateIndexLen(buffLen);
 			index = new long[indexLen];
 			index[indexLen - 1] = maxVal;
 			currIndex = 0;
@@ -127,7 +127,7 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 			if (fileCnt > 0) {
 				try {
 					value = inRAFs[0].readLong();
-				} catch (EOFException e) {
+				} catch (final EOFException e) {
 					eof = true;
 				}
 			} else {
@@ -142,7 +142,7 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 					writeFP(outRAF, value);
 					try {
 						value = inRAFs[0].readLong();
-					} catch (EOFException e) {
+					} catch (final EOFException e) {
 						eof = true;
 					}
 				} else {
@@ -156,7 +156,7 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 					// we used one fp up, thus move to next one
 					try {
 						fp = itr.next();
-					} catch (NoSuchElementException e) {
+					} catch (final NoSuchElementException e) {
 						// has read all elements?
 						Assert.check(!itr.hasNext(), EC.GENERAL);
 						Assert.check(itr.reads() == buffLen, EC.GENERAL);
@@ -226,7 +226,7 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 			
 			// firstIdx within buff[].length
 			if (firstIdx < buff.length) {
-				long[] bucket = buff[firstIdx];
+				final long[] bucket = buff[firstIdx];
 				// secondIdx within bucket[].length and with valid elements in current bucket 
 				if (bucket != null && secondIdx < bucket.length && bucket[secondIdx] > 0) {
 					return true;
@@ -254,7 +254,7 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 			
 			// at least one more element in current bucket
 			if (firstIdx < buff.length) {
-				long[] bucket = buff[firstIdx];
+				final long[] bucket = buff[firstIdx];
 				if (bucket != null && secondIdx < bucket.length && bucket[secondIdx] > 0) {
 					result = bucket[secondIdx];
 					bucket[secondIdx] |= 0x8000000000000000L;
@@ -308,7 +308,7 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 			// indicates an unoccupied slot, while a negative one corresponds to
 			// a fp that has already been flushed to disk.
 			while (len > 0) {
-				long[] bucket = buff[--len];
+				final long[] bucket = buff[--len];
 
 				// Find last element > 0 in bucket (negative elements have already
 				// been flushed to disk, zero indicates an unoccupied slot).

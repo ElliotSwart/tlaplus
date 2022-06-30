@@ -51,7 +51,7 @@ public class BucketStatisticsTest {
 	private final IBucketStatistics bucketStatistic;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public BucketStatisticsTest(Class bucketStatistic) throws InstantiationException, IllegalAccessException,
+	public BucketStatisticsTest(final Class bucketStatistic) throws InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		this.bucketStatistic = (IBucketStatistics) bucketStatistic.getConstructor(String.class)
 				.newInstance("BucketStatisticsTest");
@@ -61,7 +61,7 @@ public class BucketStatisticsTest {
 	public void testInvalidArgument() {
 		try {
 			bucketStatistic.addSample(-1);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return;
 		}
 		fail();
@@ -168,7 +168,7 @@ public class BucketStatisticsTest {
 			bucketStatistic.addSample(1); // <- first element
 			bucketStatistic.getPercentile(1.1);
 			bucketStatistic.getPercentile(-0.1);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			fail(e.getMessage());
 		}
 
@@ -189,7 +189,7 @@ public class BucketStatisticsTest {
 	public void testGetPercentileNaN() {
 		try {
 			bucketStatistic.getPercentile(Double.NaN);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return;
 		}
 		fail("Parameter not a number");
@@ -212,7 +212,7 @@ public class BucketStatisticsTest {
 			bucketStatistic.addSample(2);
 			bucketStatistic.addSample(3);
 			bucketStatistic.toString();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			fail(e.getMessage());
 		}
 	}

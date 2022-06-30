@@ -43,7 +43,7 @@ public abstract class AbstractBucketStatistics implements IBucketStatistics {
 	 */
 	protected final String title;
 
-	public AbstractBucketStatistics(String aTitle) {
+	public AbstractBucketStatistics(final String aTitle) {
 		super();
 		this.title = aTitle;
 	}
@@ -62,7 +62,7 @@ public abstract class AbstractBucketStatistics implements IBucketStatistics {
 		try {
 			//TODO unregister somehow
 			new BucketStatisticsMXWrapper(this, name, pkg);
-		} catch (NotCompliantMBeanException e) {
+		} catch (final NotCompliantMBeanException e) {
 			// not expected to happen would cause JMX to be broken, hence just log and
 			// continue
 			MP.printWarning(
@@ -93,9 +93,9 @@ public abstract class AbstractBucketStatistics implements IBucketStatistics {
 		buf.append("--------------------------------%n");
 		final Iterator<Entry<Integer, Long>> iterator = getSamples().entrySet().iterator();
 		while(iterator.hasNext()) {
-			Entry<Integer, Long> next = iterator.next();
-			long amount = next.getValue();
-			int i = next.getKey();
+			final Entry<Integer, Long> next = iterator.next();
+			final long amount = next.getValue();
+			final int i = next.getKey();
 			buf.append(String.format("%02d", i));
 			buf.append(":");
 			buf.append(String.format("%02d", amount));
@@ -110,7 +110,7 @@ public abstract class AbstractBucketStatistics implements IBucketStatistics {
 	}
 
 	public int getMedian() {
-		long l = getObservations();
+		final long l = getObservations();
 		if (l <= 0) {
 			return -1;
 		}
@@ -170,13 +170,13 @@ public abstract class AbstractBucketStatistics implements IBucketStatistics {
 		double sum = 0.0d;
 		final Iterator<Entry<Integer, Long>> iterator = getSamples().entrySet().iterator();
 		while(iterator.hasNext()) {
-			Entry<Integer, Long> next = iterator.next();
-			double Xi = next.getKey() * 1.0d;
-			double diff = Xi - mean;
+			final Entry<Integer, Long> next = iterator.next();
+			final double Xi = next.getKey() * 1.0d;
+			final double diff = Xi - mean;
 			sum += (diff * diff) * ((next.getValue() * 1.0d)); // diff^2
 		}
-		double variance = sum / (N * 1.0d);
-		double stdDev = Math.sqrt(variance);
+		final double variance = sum / (N * 1.0d);
+		final double stdDev = Math.sqrt(variance);
 		return stdDev;
 	}
 
@@ -208,8 +208,8 @@ public abstract class AbstractBucketStatistics implements IBucketStatistics {
 	    long cnt = 0l;
 		final Iterator<Entry<Integer, Long>> iterator = samples.entrySet().iterator();
 		while(iterator.hasNext()) {
-			Entry<Integer, Long> next = iterator.next();
-			int i  = next.getKey();
+			final Entry<Integer, Long> next = iterator.next();
+			final int i  = next.getKey();
 			cnt += next.getValue();
 			if (cnt > pos) {
 				return i;

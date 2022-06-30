@@ -31,7 +31,7 @@ public abstract class SymbolNode extends LevelNode {
 
   protected final UniqueString name;    // the name of this symbol
 
-  protected SymbolNode(int kind, TreeNode stn, UniqueString name) {
+  protected SymbolNode(final int kind, final TreeNode stn, final UniqueString name) {
     super(kind, stn);
     this.name = name;
   }
@@ -62,7 +62,7 @@ public abstract class SymbolNode extends LevelNode {
    */
   public abstract boolean match(OpApplNode test, ModuleNode mn) throws AbortException ;
 
-  public final boolean occur(SymbolNode[] params) {
+  public final boolean occur(final SymbolNode[] params) {
     for (int i = 0; i < params.length; i++) {
       if (this == params[i]) return true;
     }
@@ -96,18 +96,18 @@ public abstract class SymbolNode extends LevelNode {
    * @param otherNode
    * @return
    */
-  public final boolean sameOriginallyDefinedInModule(SymbolNode otherNode) {
+  public final boolean sameOriginallyDefinedInModule(final SymbolNode otherNode) {
       if (this.getClass() == otherNode.getClass()) {
           ModuleNode thisModule = null ;
           if (this instanceof OpDefNode) {
-              OpDefNode thisSrc = ((OpDefNode) this).getSource() ;
+              final OpDefNode thisSrc = ((OpDefNode) this).getSource() ;
               if (thisSrc != ((OpDefNode) otherNode).getSource()) {
                   return false;
               }
               thisModule  = ((OpDefNode) thisSrc).getOriginallyDefinedInModuleNode();
           }
           else if (this instanceof ThmOrAssumpDefNode) {
-              ThmOrAssumpDefNode thisSrc = ((ThmOrAssumpDefNode) this).getSource() ;
+              final ThmOrAssumpDefNode thisSrc = ((ThmOrAssumpDefNode) this).getSource() ;
               if (thisSrc != ((ThmOrAssumpDefNode) otherNode).getSource()) {
                   return false;
               }
@@ -130,28 +130,28 @@ public abstract class SymbolNode extends LevelNode {
    * we want to expand their whole definitions and are using this method
    * we need to add location and level information here.
    */
-  public Element exportDefinition(Document doc, tla2sany.xml.SymbolContext context) {
+  public Element exportDefinition(final Document doc, final tla2sany.xml.SymbolContext context) {
     if (!context.isTop_level_entry())
       throw new IllegalArgumentException("Exporting definition "+getName()+" ref "+getNodeRef()+" twice!");
     context.resetTop_level_entry();
     try {
-      Element e = getSymbolElement(doc, context);
+      final Element e = getSymbolElement(doc, context);
       // level
       try {
-        Element l = appendText(doc,"level",Integer.toString(getLevel()));
+        final Element l = appendText(doc,"level",Integer.toString(getLevel()));
         e.insertBefore(l,e.getFirstChild());
-      } catch (RuntimeException ee) {
+      } catch (final RuntimeException ee) {
         // not sure it is legal for a LevelNode not to have level, debug it!
       }
       //location
       try {
-        Element loc = getLocationElement(doc);
+        final Element loc = getLocationElement(doc);
         e.insertBefore(loc,e.getFirstChild());
-      } catch (RuntimeException ee) {
+      } catch (final RuntimeException ee) {
         // do nothing if no location
       }
       return e;
-    } catch (RuntimeException ee) {
+    } catch (final RuntimeException ee) {
       System.err.println("failed for node.toString(): " + toString() + "\n with error ");
       ee.printStackTrace();
       throw ee;
@@ -164,7 +164,7 @@ public abstract class SymbolNode extends LevelNode {
   /** TL
    * we also override getLevelElement as it should never be called
    */
-  protected Element getLevelElement(Document doc, tla2sany.xml.SymbolContext context) {
+  protected Element getLevelElement(final Document doc, final tla2sany.xml.SymbolContext context) {
     throw new UnsupportedOperationException("implementation Error: A symbol node may not be called for its level element.");
   }
 
@@ -172,10 +172,10 @@ public abstract class SymbolNode extends LevelNode {
    * We override export in order not to export location and level.
    * We only export names.
    */
-  public Element export(Document doc, tla2sany.xml.SymbolContext context) {
+  public Element export(final Document doc, final tla2sany.xml.SymbolContext context) {
     // first add symbol to context
     context.put(this, doc);
-    Element e = doc.createElement(getNodeRef());
+    final Element e = doc.createElement(getNodeRef());
     e.appendChild(appendText(doc,"UID",Integer.toString(myUID)));
     return e;
   }

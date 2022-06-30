@@ -59,7 +59,7 @@ public class FixedSizedBucketStatistics extends AbstractBucketStatistics impleme
 	/* (non-Javadoc)
 	 * @see tlc2.util.statistics.IBucketStatistics#addSample(int)
 	 */
-	public void addSample(int amount) {
+	public void addSample(final int amount) {
 		if (amount < 0) {
 			throw new IllegalArgumentException("Negative amount invalid");
 		}
@@ -85,7 +85,7 @@ public class FixedSizedBucketStatistics extends AbstractBucketStatistics impleme
 	public NavigableMap<Integer, Long> getSamples() {
 		final NavigableMap<Integer, Long> res = new TreeMap<Integer, Long>();
 		for (int i = 0; i < this.buckets.length; i++) {
-			long value = this.buckets[i];
+			final long value = this.buckets[i];
 			if (value > 0) {
 				res.put(i, value);
 			}

@@ -97,7 +97,7 @@ public class CommentToken extends Token
      * the string.  It is 4 for a "(* ... *)" comment, etc.                *
      **********************************************************************/
      
-   public CommentToken(String str, int col, int sub, boolean pseudo)
+   public CommentToken(final String str, final int col, final int sub, final boolean pseudo)
      /**********************************************************************
      * The constructor for this class.  The third argument specifies the   *
      * rsubtype.  The fourth argument is true iff this comment is ended    *
@@ -134,7 +134,7 @@ public class CommentToken extends Token
        return string.length() + delimiters ;
      }
 
-   public static void ProcessComments(Token[][] spec)
+   public static void ProcessComments(final Token[][] spec)
       /*********************************************************************
       * This computes the subtype of each token, based on the rsubtypes.   *
       *                                                                    *
@@ -212,7 +212,7 @@ public class CommentToken extends Token
                    * For the last token on the line, this is set false     *
                    * iff this is not a star comment.                       *
                    ********************************************************/
-                 CommentToken tok = (CommentToken) spec[line][item] ;
+                 final CommentToken tok = (CommentToken) spec[line][item] ;
                  if (item == spec[line].length - 1)
                    { /******************************************************
                      * This is the last token on the line.                 *

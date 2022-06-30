@@ -9,7 +9,7 @@ public class FormatException extends Exception {
 
   private static final long serialVersionUID = 2695283309065188474L;
 
-FormatException(String s) {
+FormatException(final String s) {
     super(s);
   }
 

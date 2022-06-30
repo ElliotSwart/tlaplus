@@ -43,7 +43,7 @@ public class CallableValue extends EvaluatingValue {
 
 	private static final long serialVersionUID = 3406961825539255119L;
 
-	public CallableValue(Method md, int minLevel, OpDefNode opDef) throws IllegalAccessException {
+	public CallableValue(final Method md, final int minLevel, final OpDefNode opDef) throws IllegalAccessException {
 		super(MethodHandles.publicLookup().unreflect(md).asSpreader(IValue[].class, md.getParameterCount()), md, minLevel, 100, opDef);
 	}
 
@@ -58,7 +58,7 @@ public class CallableValue extends EvaluatingValue {
 		try {
 			final Callable<?> cl = (Callable<?>) this.mh.invoke(argVals);
 			s1.setCallable(cl);
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			Assert.fail(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE, new String[] { this.md.toString(), e.getMessage() });
 		}
 		return BoolValue.ValTrue;

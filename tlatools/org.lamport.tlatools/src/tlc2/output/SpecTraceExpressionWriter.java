@@ -607,13 +607,13 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	 * @param teName Name of trace expression.
 	 * @param variables Spec variables; transformed by identity.
 	 */
-	public void addTraceExpressionStub(String moduleName, String teName, final List<String> variables) {
+	public void addTraceExpressionStub(final String moduleName, final String teName, final List<String> variables) {
 		this.tlaBuffer.append(teName + TLAConstants.DEFINES + TLAConstants.CR);
 		this.tlaBuffer
 				.append(TLAConstants.INDENT + TLAConstants.L_SQUARE_BRACKET + TLAConstants.CR);
 
 		// Create local string build for expression and comments so we can indent everything together in the end.
-		StringBuilder localBuffer = new StringBuilder();
+		final StringBuilder localBuffer = new StringBuilder();
 
 		localBuffer.append(TLAConstants.COMMENT).append(String.format("To hide variables of the `%s` spec from the error trace,", moduleName)).append(TLAConstants.CR);
 		localBuffer.append(TLAConstants.COMMENT).append("remove the variables below.  The trace will be written in the order").append(TLAConstants.CR);
@@ -629,7 +629,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 		if (variables.size() > 0) {
 			// Check that exists at least one variable so we can use
 			// in the commented trace expressions.
-			String someVar = variables.get(0);
+			final String someVar = variables.get(0);
 			
 			localBuffer.append(TLAConstants.COMMENT).append(String.format(",_%sUnchanged |-> %s = %s'", someVar, someVar, someVar)).append(TLAConstants.CR).append(TLAConstants.CR);
 			localBuffer.append(TLAConstants.COMMENT).append(String.format("Format the `%s` variable as Json value.", someVar)).append(TLAConstants.CR);
@@ -661,7 +661,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 		cfgBuffer.append(TLAConstants.INDENT).append(view).append(TLAConstants.CR);
 	}
 	
-	public void addView(String vars) {
+	public void addView(final String vars) {
 		addViewConfig(TLAConstants.TraceExplore.VIEW);
 		
 		tlaBuffer.append(TLAConstants.CR).append(TLAConstants.TraceExplore.VIEW).append(TLAConstants.DEFINES_CR);
@@ -799,10 +799,10 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 		addProperties(trace, null);
 	}
 
-	public void addProperties(final List<MCState> trace, String specName) {
-        MCState finalState = trace.get(trace.size() - 1);
-        boolean isBackToState = finalState.isBackToState();
-        boolean isStuttering = finalState.isStuttering();
+	public void addProperties(final List<MCState> trace, final String specName) {
+        final MCState finalState = trace.get(trace.size() - 1);
+        final boolean isBackToState = finalState.isBackToState();
+        final boolean isStuttering = finalState.isStuttering();
 
         // add temporal property or invariant depending on type of trace
         // read the method comments to see the form of the invariant or property
@@ -861,7 +861,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	 * @param finalState
 	 */
 	private void addStutteringProperty(final MCState finalState) {
-	    String id = SpecWriterUtilities.getValidIdentifierNoTimestamp(TLAConstants.Schemes.PROP_SCHEME);
+	    final String id = SpecWriterUtilities.getValidIdentifierNoTimestamp(TLAConstants.Schemes.PROP_SCHEME);
 	    cfgBuffer.append(TLAConstants.CR).append(TLAConstants.KeyWords.PROPERTY).append(TLAConstants.CR);
 	    cfgBuffer.append(TLAConstants.INDENT).append(id).append(TLAConstants.CR);
 	
@@ -893,7 +893,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	    
 		tlaBuffer.append(TLAConstants.CR).append(id).append(TLAConstants.DEFINES_CR);
 
-		StringBuilder localBuffer = new StringBuilder();
+		final StringBuilder localBuffer = new StringBuilder();
 	    localBuffer.append(TLAConstants.TLA_NOT).append(TLAConstants.L_PAREN).append(TLAConstants.L_PAREN);
 	    localBuffer.append(TLAConstants.TLA_INF_OFTEN).append(TLAConstants.L_PAREN).append(TLAConstants.CR);
 	    localBuffer.append(getStateConjunction(finalState)).append(TLAConstants.CR).append(TLAConstants.R_PAREN);
@@ -936,7 +936,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	 * @see #addInitNextToBuffers(StringBuilder, StringBuilder, List, TraceExpressionInformationHolder[], String, String, String)
 	 */
 	public void addInitNext(final List<MCState> trace, final TraceExpressionInformationHolder[] expressionData,
-							final String initId, String nextId, final String actionConstraintId) {
+                            final String initId, final String nextId, final String actionConstraintId) {
 		addInitNextToBuffers(tlaBuffer, cfgBuffer, trace, expressionData, initId, nextId, actionConstraintId);
 	}
 
@@ -944,18 +944,18 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	 * @see #addInitNextToBuffers(StringBuilder, StringBuilder, List, TraceExpressionInformationHolder[], String, String, String, String, boolean)
 	 */
 	public void addInitNext(final List<MCState> trace, final TraceExpressionInformationHolder[] expressionData,
-							final String initId, String nextId, final String actionConstraintId,
-							final String nextSubActionBasename) {
+                            final String initId, final String nextId, final String actionConstraintId,
+                            final String nextSubActionBasename) {
 		addInitNextToBuffers(tlaBuffer, cfgBuffer, trace, expressionData, initId, nextId, actionConstraintId,
 							 nextSubActionBasename, true);
 	}
 	
-	public void addInitNext(final List<MCState> trace, final String initId, String nextId,
-			final String actionConstraintId, final String nextSubActionBasename) {
+	public void addInitNext(final List<MCState> trace, final String initId, final String nextId,
+                            final String actionConstraintId, final String nextSubActionBasename) {
 		addInitNext(trace, null, initId, nextId, actionConstraintId, nextSubActionBasename);
 	}
 
-	public void addInitNextTraceFunction(final List<MCState> trace, final String teSpecModuleName, final List<String> vars, ModelConfig modelConfig) {
+	public void addInitNextTraceFunction(final List<MCState> trace, final String teSpecModuleName, final List<String> vars, final ModelConfig modelConfig) {
 		/*******************************************************
          * Add the init definition.                            *
          *******************************************************/
@@ -968,7 +968,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 		tlaBuffer.append(TLAConstants.TraceExplore.SPEC_TE_INIT).append(TLAConstants.DEFINES_CR);
 		
         // variables from spec
-		for (String var : vars) {
+		for (final String var : vars) {
             tlaBuffer.append(TLAConstants.INDENTED_CONJUNCTIVE);
             tlaBuffer.append(var).append(TLAConstants.EQ).append("_TETrace[1].").append(var);
             tlaBuffer.append(TLAConstants.CR);
@@ -1018,7 +1018,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 						.append(TLAConstants.INDENTED_CONJUNCTIVE).append("j = ").append(TLAConstants.TraceExplore.SPEC_TETRACE_LASSO_START)
 						.append(TLAConstants.CR);
 			}
-			for (String var : vars) {
+			for (final String var : vars) {
 	            // x = _TETrace[_TEPosition].x
 				tlaBuffer.append(TLAConstants.INDENT).append(TLAConstants.INDENTED_CONJUNCTIVE);
 				tlaBuffer.append(var).append(" ").append(TLAConstants.EQ).append("_TETrace[i].")
@@ -1177,7 +1177,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
         }
     }
 
-	public StringBuilder append(String str) {
+	public StringBuilder append(final String str) {
 		return tlaBuffer.append(str);
 	}
 	
@@ -1192,12 +1192,12 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	/**
 	 * Indent n times a entire multiline string.
 	 */
-	static public String indentString(String s, int n) {
+	static public String indentString(final String s, final int n) {
 		final String idnt = new String(new char[n]).replace("\0", TLAConstants.INDENT);
 		return idnt + String.join(TLAConstants.CR + idnt, s.split(TLAConstants.CR));
 	}
 
-	public void wrapConfig(String moduleFilename) {
+	public void wrapConfig(final String moduleFilename) {
 		// Header
 		final StringBuilder buffer = new StringBuilder();
 		buffer.append("\n").append(TLAConstants.SEP).append(' ').append("CONFIG").append(' ');

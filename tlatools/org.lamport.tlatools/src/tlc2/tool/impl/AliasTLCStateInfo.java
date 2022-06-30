@@ -32,7 +32,7 @@ public class AliasTLCStateInfo extends TLCStateInfo {
 
 	private final TLCState originalState;
 
-	public AliasTLCStateInfo(TLCState alias, TLCStateInfo current) {
+	public AliasTLCStateInfo(final TLCState alias, final TLCStateInfo current) {
 		super(alias, current);
 		originalState = current.state;
 	}

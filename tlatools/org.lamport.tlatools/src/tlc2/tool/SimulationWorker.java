@@ -131,12 +131,12 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 	 public static class SimulationWorkerError extends InvariantViolatedException  {
 		private static final long serialVersionUID = -5450381609419573305L;
 
-		public SimulationWorkerError(int errorCode, String[] parameters, TLCState state, StateVec stateTrace) {
+		public SimulationWorkerError(final int errorCode, final String[] parameters, final TLCState state, final StateVec stateTrace) {
 			this(errorCode, parameters, state, stateTrace, null);
 		}
 		
-		public SimulationWorkerError(int errorCode, String[] parameters, TLCState state, StateVec stateTrace,
-				Exception e) {
+		public SimulationWorkerError(final int errorCode, final String[] parameters, final TLCState state, final StateVec stateTrace,
+                                     final Exception e) {
 			this.errorCode = errorCode;
 			this.parameters = parameters;
 			this.state = state;
@@ -177,8 +177,8 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 		/**
 		 * Constructs an OK result.
 		 */
-		static SimulationWorkerResult OK(int workerId) {
-			SimulationWorkerResult res = new SimulationWorkerResult();
+		static SimulationWorkerResult OK(final int workerId) {
+			final SimulationWorkerResult res = new SimulationWorkerResult();
 			res.workerId = workerId;
 			return res;
 		}
@@ -186,8 +186,8 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 		/**
 		 * Constructs an error result.
 		 */
-		static SimulationWorkerResult Error(int workerId, SimulationWorkerError err) {
-			SimulationWorkerResult res = new SimulationWorkerResult();
+		static SimulationWorkerResult Error(final int workerId, final SimulationWorkerError err) {
+			final SimulationWorkerResult res = new SimulationWorkerResult();
 			res.error = Optional.of(err);
 			res.workerId = workerId;
 			return res;
@@ -216,16 +216,16 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 
 	}
 	
-	public SimulationWorker(int id, ITool tool, BlockingQueue<SimulationWorkerResult> resultQueue,
-			long seed, int maxTraceDepth, long maxTraceNum, boolean checkDeadlock, String traceFile,
-			ILiveCheck liveCheck) {
+	public SimulationWorker(final int id, final ITool tool, final BlockingQueue<SimulationWorkerResult> resultQueue,
+                            final long seed, final int maxTraceDepth, final long maxTraceNum, final boolean checkDeadlock, final String traceFile,
+                            final ILiveCheck liveCheck) {
 		this(id, tool, resultQueue, seed, maxTraceDepth, maxTraceNum, null, checkDeadlock, traceFile, liveCheck,
 				new LongAdder(), new LongAdder(), new AtomicLong());
 	}
 
-	public SimulationWorker(int id, ITool tool, BlockingQueue<SimulationWorkerResult> resultQueue,
-			long seed, int maxTraceDepth, long maxTraceNum, String traceActions, boolean checkDeadlock, String traceFile,
-			ILiveCheck liveCheck, LongAdder numOfGenStates, LongAdder numOfGenTraces, AtomicLong m2AndMean) {
+	public SimulationWorker(final int id, final ITool tool, final BlockingQueue<SimulationWorkerResult> resultQueue,
+                            final long seed, final int maxTraceDepth, final long maxTraceNum, final String traceActions, final boolean checkDeadlock, final String traceFile,
+                            final ILiveCheck liveCheck, final LongAdder numOfGenStates, final LongAdder numOfGenTraces, final AtomicLong m2AndMean) {
 		super(id);
 		this.traceActions = traceActions;
 		this.localRng = new RandomGenerator(seed);
@@ -334,7 +334,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 	 * This method returns a state that is randomly chosen from the set of states.
 	 * It returns null if the set of states is empty.
 	 */
-	private final TLCState randomState(RandomGenerator rng, StateVec states) {
+	private final TLCState randomState(final RandomGenerator rng, final StateVec states) {
 		final int len = states.size();
 		if (len > 0) {
 			final int index = (int) Math.floor(rng.nextDouble() * len);
@@ -473,7 +473,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 			for (int i = 0; i < len; i++) {
 				try {
 					this.tool.getNextStates(this, curState, actions[index]);
-				} catch (SimulationWorkerError swe) {
+				} catch (final SimulationWorkerError swe) {
 					// getNextState doesn't throw SWE unless SimulationWorker#addElement above throws it.
 					return Optional.of(swe);
 				}
@@ -605,11 +605,11 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 		return trace;
 	}
 
-	public void setInitialStates(StateVec initStates) {
+	public void setInitialStates(final StateVec initStates) {
 		this.initStates = initStates;
 	}
 	
-	public void start(StateVec initStates) {
+	public void start(final StateVec initStates) {
 		setInitialStates(initStates);
 		this.start();
 	}
@@ -631,8 +631,8 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 	private static RecordValue toRecordValue(final Map<UniqueString, Integer> m) {
 		final List<Map.Entry<UniqueString, Integer>> entries = new ArrayList<>(m.entrySet());
 
-		UniqueString[] names = new UniqueString[entries.size()];
-		Value[] values = new Value[entries.size()];
+		final UniqueString[] names = new UniqueString[entries.size()];
+		final Value[] values = new Value[entries.size()];
 
 		for (int i = 0; i < entries.size(); i++) {
 			names[i] = entries.get(i).getKey();

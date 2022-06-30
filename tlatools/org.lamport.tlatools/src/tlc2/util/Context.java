@@ -45,7 +45,7 @@ public final class Context implements Iterator<Context> {
 	
 	private final static Context BaseBranch = new Context(null, null, Empty);
 	
-	private Context(SymbolNode name, Object value, final Context next) {
+	private Context(final SymbolNode name, final Object value, final Context next) {
 		this.name = name;
 		this.value = value;
 		this.next = next;
@@ -54,7 +54,7 @@ public final class Context implements Iterator<Context> {
 	// This method is only called within the context of the ENABLED (temporal)
 	// operator. A branching context is specially handled during lookup below
 	// if cutoff is true.
-	public static Context branch(Context base) {
+	public static Context branch(final Context base) {
 		if (base == Empty) {
 			// Avoid new instance if the next context in the chain is the Empty
 			// one (Branch -> Empty).
@@ -63,7 +63,7 @@ public final class Context implements Iterator<Context> {
 		return new Context(null, null, base);
 	}
 
-	public final Context cons(SymbolNode name, Object value) {
+	public final Context cons(final SymbolNode name, final Object value) {
 		return new Context(name, value, this);
 	}
 
@@ -71,7 +71,7 @@ public final class Context implements Iterator<Context> {
 	 * This method returns the value for the name var. It returns null if this
 	 * context does not contain var.
 	 */
-	public final Object lookup(SymbolNode var) {
+	public final Object lookup(final SymbolNode var) {
 		Context cur = this;
 		// Follow the linked list of Contexts (chain) starting at this context
 		// until a Context has been reached whose name (SymbolNode) is identical
@@ -163,7 +163,7 @@ public final class Context implements Iterator<Context> {
 		return res;
 	}
 	
-	public final StringBuffer toString(StringBuffer sb) {
+	public final StringBuffer toString(final StringBuffer sb) {
 		if (this.name == null) {
 			if (this == Empty) {
 				return sb;

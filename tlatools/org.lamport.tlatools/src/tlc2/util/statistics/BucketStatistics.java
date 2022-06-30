@@ -48,12 +48,12 @@ public class BucketStatistics extends AbstractBucketStatistics implements IBucke
 	 */
 	private final Map<Integer, Long> buckets;
 
-	public BucketStatistics(String aTitle) {
+	public BucketStatistics(final String aTitle) {
 		super(aTitle);
 		this.buckets = new HashMap<Integer, Long>();
 	}
 
-	public BucketStatistics(String aTitle, final String pkg, final String name) {
+	public BucketStatistics(final String aTitle, final String pkg, final String name) {
 		super(aTitle, pkg, name);
 		this.buckets = new HashMap<Integer, Long>();
 	}
@@ -61,7 +61,7 @@ public class BucketStatistics extends AbstractBucketStatistics implements IBucke
 	/* (non-Javadoc)
 	 * @see tlc2.util.statistics.IBucketStatistics#addSample(int)
 	 */
-	public void addSample(int amount) {
+	public void addSample(final int amount) {
 		if (amount < 0) {
 			throw new IllegalArgumentException("Negative amount invalid");
 		}
@@ -87,7 +87,7 @@ public class BucketStatistics extends AbstractBucketStatistics implements IBucke
 	 */
 	public NavigableMap<Integer, Long> getSamples() {
 		final NavigableMap<Integer, Long> res = new TreeMap<Integer, Long>();
-		for (Entry<Integer, Long> entry : this.buckets.entrySet()) {
+		for (final Entry<Integer, Long> entry : this.buckets.entrySet()) {
 			res.put(entry.getKey(), entry.getValue());
 		}
 		return res;
@@ -99,7 +99,7 @@ public class BucketStatistics extends AbstractBucketStatistics implements IBucke
 	public void add(final IBucketStatistics stat) {
 		this.observations += stat.getObservations();
 		
-		for (Entry<Integer, Long> entry : stat.getSamples().entrySet()) {
+		for (final Entry<Integer, Long> entry : stat.getSamples().entrySet()) {
 			final Long l = this.buckets.get(entry.getKey());
 			if (l == null) {
 				this.buckets.put(entry.getKey(), entry.getValue());

@@ -40,30 +40,30 @@ public class Operators {
     * It appears that this is not used.                                    *
     ***********************************************************************/
     
-  static public void addOperator( UniqueString name, Operator op ) {
+  static public void addOperator(final UniqueString name, final Operator op ) {
     DefinitionTable.put(name, op);
   }
 
-  static public Operator getOperator( UniqueString name ) {
+  static public Operator getOperator(final UniqueString name ) {
     return DefinitionTable.get( name );
   }
 
-  static public Operator getMixfix( Operator op ) {
+  static public Operator getMixfix(final Operator op ) {
      if (op.isPrefix()) return op;
      else {
-       UniqueString id = UniqueString.uniqueStringOf( op.getIdentifier().toString() + ".");
+       final UniqueString id = UniqueString.uniqueStringOf( op.getIdentifier().toString() + ".");
        return DefinitionTable.get( id );
      }
   }
   
   
 
-  static public void addSynonym( UniqueString template, UniqueString match ) {
+  static public void addSynonym(final UniqueString template, final UniqueString match ) {
     /*
        do make sure that the operator already exists.
        We make the new definition point to the other one.
     */
-    Operator n = DefinitionTable.get( match );
+    final Operator n = DefinitionTable.get( match );
     if (n != null) {
       DefinitionTable.put(template, n);
     } /* else {
@@ -79,8 +79,8 @@ public class Operators {
   * iff either a = b or a and b are synonyms (like (+) and \oplus).  If a  *
   * has no synonmys, then resolveSynonym(a) = a.                           *
   *************************************************************************/
-  static public UniqueString resolveSynonym( UniqueString name ) {
-    Operator n = DefinitionTable.get( name );
+  static public UniqueString resolveSynonym(final UniqueString name ) {
+    final Operator n = DefinitionTable.get( name );
     if ( n == null ) return name;
     else return n.getIdentifier();
   }
@@ -90,11 +90,11 @@ public class Operators {
   /*************************************************************************
   * It appears that the following method is not used.                      *
   *************************************************************************/
-  static public UniqueString getBuiltinAssoc( UniqueString symbol ) {
+  static public UniqueString getBuiltinAssoc(final UniqueString symbol ) {
     /* first, resolve synonyms */
-    Operator n = DefinitionTable.get(symbol);
+    final Operator n = DefinitionTable.get(symbol);
     if (n != null) {
-      UniqueString name = n.getIdentifier(); /* can't be null */
+      final UniqueString name = n.getIdentifier(); /* can't be null */
       /* then lookup solution */
       return (BuiltinTable.get(name));
     } else
@@ -104,7 +104,7 @@ public class Operators {
 /* debugging help */
   static public void printTable() {
     System.out.println("printing Operators table");
-    Enumeration<UniqueString> Enum = DefinitionTable.keys();
+    final Enumeration<UniqueString> Enum = DefinitionTable.keys();
     while( Enum.hasMoreElements() ) { System.out.println("-> " + Enum.nextElement().toString() ); }
   }
 

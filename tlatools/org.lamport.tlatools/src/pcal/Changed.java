@@ -24,14 +24,14 @@ public class Changed {
     public int[] count; /* number times variable set */
     public Vector<String> vars; /* list of variables */
 
-    public Changed (Vector<String> vars) {
+    public Changed (final Vector<String> vars) {
 	count = new int[vars.size()];
 	this.vars = vars;
 	for (int i = 0; i < count.length; i++)
 	    count[i] = 0;
     }
 
-    public Changed (Changed c) {
+    public Changed (final Changed c) {
 	vars = c.vars;
 	count = new int[vars.size()];
 	for (int i = 0; i < count.length; i++)
@@ -54,20 +54,20 @@ public class Changed {
 	return count.length;
     }
 
-    public boolean IsChanged(String s) {
+    public boolean IsChanged(final String s) {
 	for (int i = 0; i < count.length; i++)
 	    if (s.equals((String) vars.elementAt(i)))
 		return (count[i] > 0);
 	return false;
     }
 
-    public void Merge (Changed  c) {
+    public void Merge (final Changed  c) {
 	PcalDebug.Assert(count.length == c.count.length);
 	for (int i = 0; i < count.length; i++)
 	    count[i] = (count[i] > c.count[i]) ? count[i] : c.count[i];
     }
 
-    public int Set (String v) {
+    public int Set (final String v) {
 	for (int i = 0; i < count.length; i++)
 	    if (v.equals((String) vars.elementAt(i)))
 		return ++count[i];
@@ -86,7 +86,7 @@ public class Changed {
     }
 
     /* String of vars that were changed in c but not in this */
-    public String Unchanged (Changed c) {
+    public String Unchanged (final Changed c) {
 	String s = "";
 	for (int i = 0; i < count.length; i++)
 	    if ((count[i] == 0) && c.count[i] > 0)
@@ -101,13 +101,13 @@ public class Changed {
     /* (except for vars whose length is over ch-1)       */
     /* This method is called only once, from             */
     /* GenLabeledStmt.                                   */
-    public Vector<String> Unchanged (int ch) {
-	Vector<String> sv = new Vector<String>();
+    public Vector<String> Unchanged (final int ch) {
+	final Vector<String> sv = new Vector<String>();
 	String s = "";
 	boolean haveOne = false;
 	for (int i = 0; i < count.length; i++)
 	    if (count[i] == 0) {
-		String one = (String) vars.elementAt(i);
+		final String one = (String) vars.elementAt(i);
 		if (haveOne) s = s + ", ";
 		else haveOne = true;
 		if (s.length() + one.length() > ch) {
@@ -123,13 +123,13 @@ public class Changed {
     /* String of vars that were changed in c but not in this */
     /* Each string is no longer than ch characters           */
     /* (except for vars whose length is over ch-1)           */
-    public Vector<String> Unchanged (Changed c, int ch) {
-	Vector<String> sv = new Vector<String>();
+    public Vector<String> Unchanged (final Changed c, final int ch) {
+	final Vector<String> sv = new Vector<String>();
 	String s = "";
 	boolean haveOne = false;
 	for (int i = 0; i < count.length; i++)
 	    if ((count[i] == 0) && c.count[i] > 0) {
-		String one = (String) vars.elementAt(i);
+		final String one = (String) vars.elementAt(i);
 		if (haveOne) s = s + ", ";
 		else haveOne = true;
 		if (s.length() + one.length() > ch) {
@@ -151,7 +151,7 @@ public class Changed {
     }
 
     /* Number of vars that were changed in c but not in this */
-    public int NumUnchanged (Changed c) {
+    public int NumUnchanged (final Changed c) {
 	int ct = 0;
 
 	for (int i = 0; i < count.length; i++)

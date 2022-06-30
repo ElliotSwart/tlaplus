@@ -38,7 +38,7 @@ public abstract class FPSetTest extends AbstractFPSetTest {
 	 */
 	@Test
 	public void testMaxFPSetSizeRnd() throws IOException {
-		Random rnd = new Random(RNG_SEED);
+		final Random rnd = new Random(RNG_SEED);
 		
 		final FPSet fpSet = getFPSetInitialized();
 
@@ -55,7 +55,7 @@ public abstract class FPSetTest extends AbstractFPSetTest {
 			
 			predecessor = rnd.nextLong();
 			assertFalse(fpSet.put(predecessor));
-			long currentSize = fpSet.size();
+			final long currentSize = fpSet.size();
 			assertTrue(i == currentSize);
 
 			printInsertionSpeed(fpSet);
@@ -98,7 +98,7 @@ public abstract class FPSetTest extends AbstractFPSetTest {
 			}
 			
 			assertFalse(fpSet.put(value));
-			long currentSize = fpSet.size();
+			final long currentSize = fpSet.size();
 			assertTrue(++counter == currentSize);
 			
 			printInsertionSpeed(fpSet);

@@ -19,7 +19,7 @@ public class FileCharReader extends CharReader
       * This is the BufferedReader object providing the input characters.  *
       *********************************************************************/
 
-    public FileCharReader(String fileName) 
+    public FileCharReader(final String fileName)
       /*********************************************************************
       * The class constructor.  The fileName argument is the name of the   *
       * file.  It exits TLATeX if the file cannot be found.                *
@@ -28,7 +28,7 @@ public class FileCharReader extends CharReader
                   new BufferedReader(new InputStreamReader(
                                           new FileInputStream(fileName))) ;
             }
-        catch (FileNotFoundException e)
+        catch (final FileNotFoundException e)
            { /**************************************************************
              * File fileName could not be found.                           *
              **************************************************************/
@@ -43,7 +43,7 @@ public class FileCharReader extends CharReader
       * TLATeX if there is an IOException.                                 *
       *********************************************************************/
       { try {return bufferedReader.readLine();}
-        catch (IOException e)
+        catch (final IOException e)
           { Debug.ReportError("Error reading file: " + e.getMessage());
           };
 
@@ -61,7 +61,7 @@ public class FileCharReader extends CharReader
       * Implements CharReader's abstract close() method.                   *
       *********************************************************************/
       { try {bufferedReader.close();}
-        catch (IOException e)
+        catch (final IOException e)
           { Debug.ReportError("Error trying to close file: " + e.getMessage());
           };
       };

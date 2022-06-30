@@ -63,10 +63,10 @@ public class MailSender {
 			properties.put("mail.smtp.starttls.enable", "true");
 		}
 		
-		List<MXRecord> mailhosts;
+		final List<MXRecord> mailhosts;
 		try {
 			mailhosts = getMXForDomain(to.getAddress().split("@")[1]);
-		} catch (NamingException e) {
+		} catch (final NamingException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -96,7 +96,7 @@ public class MailSender {
 				multipart.addBodyPart(messageBodyPart);
 	
 				// attach file(s)
-				for (File file : files) {
+				for (final File file : files) {
 					if (file == null) {
 						continue;
 					}
@@ -110,7 +110,7 @@ public class MailSender {
 				
 		        Transport.send(msg);
 				return true;
-			} catch (SendFailedException e) {
+			} catch (final SendFailedException e) {
 				final Exception next = e.getNextException();
 				if (next != null && next.getMessage() != null && next.getMessage().toLowerCase().contains("greylist")
 						&& !properties.containsKey((String) properties.get("mail.smtp.host") + ".greylisted")) {
@@ -125,28 +125,28 @@ public class MailSender {
 							"%s EMail Report: Slowing down due to errors when sending to %s at %s, will continue in %d minute...",
 							new Date(), to.getAddress(), mxRecord.hostname, 1L), 1L);
 				}
-			} catch (AddressException e) {
+			} catch (final AddressException e) {
 				e.printStackTrace();
-			} catch (MessagingException e) {
+			} catch (final MessagingException e) {
 				e.printStackTrace();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				e.printStackTrace();
 			}
 		}
 		return false;
 	}
 	
-	private static void throttleRetry(final String msg, long minutes) {
+	private static void throttleRetry(final String msg, final long minutes) {
 		try {
 			System.err.println(msg);
 			System.out.println(msg);
 			Thread.sleep(minutes * 60L * 1000L);
-		} catch (InterruptedException e1) {
+		} catch (final InterruptedException e1) {
 			e1.printStackTrace();
 		}
 	}
 
-	private static List<MXRecord> getMXForDomain(String aDomain) throws NamingException {
+	private static List<MXRecord> getMXForDomain(final String aDomain) throws NamingException {
 		final InitialDirContext ctx = new InitialDirContext();
 		final Attributes attributes = ctx.getAttributes("dns:/" + aDomain,
 				new String[] { "MX" });
@@ -160,11 +160,11 @@ public class MailSender {
 		} else {
 			// split pref from hostname
 			for (int i = 0; i < attr.size(); i++) {
-				Object object = attr.get(i);
+				final Object object = attr.get(i);
 				if (object != null && object instanceof String) {
-					String[] split = ((String) object).split("\\s+");
+					final String[] split = ((String) object).split("\\s+");
 					if (split != null && split.length == 2) {
-						Integer weight = Integer.parseInt(split[0]);
+						final Integer weight = Integer.parseInt(split[0]);
 						list.add(new MXRecord(weight, split[1]));
 					}
 				}
@@ -181,19 +181,19 @@ public class MailSender {
 		public Integer weight;
 		public String hostname;
 		
-		public MXRecord(int aWeight, String aHostname) {
+		public MXRecord(final int aWeight, final String aHostname) {
 			weight = aWeight;
 			hostname = aHostname;
 		}
 
-		public int compareTo(MXRecord o) {
+		public int compareTo(final MXRecord o) {
 			return weight.compareTo(o.weight);
 		}
 	}
 	
 	// For testing only.
-	public static void main(String[] args) throws AddressException, FileNotFoundException, UnknownHostException {
-		MailSender mailSender = new MailSender();
+	public static void main(final String[] args) throws AddressException, FileNotFoundException, UnknownHostException {
+		final MailSender mailSender = new MailSender();
 		mailSender.send();
 	}
 
@@ -228,16 +228,16 @@ public class MailSender {
 		}
 	}
 	
-	public MailSender(String mainFile) throws FileNotFoundException, UnknownHostException, AddressException {
+	public MailSender(final String mainFile) throws FileNotFoundException, UnknownHostException, AddressException {
 		this();
 		setModelName(mainFile);
 	}
 	
-	public void setModelName(String modelName) {
+	public void setModelName(final String modelName) {
 		this.modelName = modelName;
 	}
 
-	public void setSpecName(String specName) {
+	public void setSpecName(final String specName) {
 		this.specName = specName;
 	}
 
@@ -245,7 +245,7 @@ public class MailSender {
 		return send(new ArrayList<File>());
 	}
 
-	public boolean send(List<File> files) {
+	public boolean send(final List<File> files) {
 		if (toAddresses != null) {
 			files.add(0, out);
 			// Only add the err file if there is actually content 
@@ -275,8 +275,8 @@ public class MailSender {
 	/**
 	 * @return The human readable lines in the log file. 
 	 */
-	private String extractBody(File out) {
-		StringBuffer result = new StringBuffer();
+	private String extractBody(final File out) {
+		final StringBuffer result = new StringBuffer();
 		try {
 			final Scanner scanner = new Scanner(out);
 			while (scanner.hasNext()) {
@@ -287,7 +287,7 @@ public class MailSender {
 				}
 			}
 			scanner.close();
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
 			result.append("Failed to find file " + out.getAbsolutePath()); 
 		}
@@ -300,28 +300,28 @@ public class MailSender {
 	 */
     private static class LogPrintStream extends PrintStream {
 
-    	public LogPrintStream(File file) throws FileNotFoundException  {
+    	public LogPrintStream(final File file) throws FileNotFoundException  {
     		super(new FileOutputStream(file));
 		}
 
     	/* (non-Javadoc)
     	 * @see java.io.PrintStream#println(java.lang.String)
     	 */
-    	public void println(String str) {
+    	public void println(final String str) {
     		System.out.println(str);
     		super.println(str);
     	}
     }
     
     private static class ErrLogPrintStream extends PrintStream {
-    	public ErrLogPrintStream(File file) throws FileNotFoundException  {
+    	public ErrLogPrintStream(final File file) throws FileNotFoundException  {
     		super(new FileOutputStream(file));
 		}
 
     	/* (non-Javadoc)
     	 * @see java.io.PrintStream#println(java.lang.String)
     	 */
-    	public void println(String str) {
+    	public void println(final String str) {
     		System.err.println(str);
     		super.println(str);
     	}

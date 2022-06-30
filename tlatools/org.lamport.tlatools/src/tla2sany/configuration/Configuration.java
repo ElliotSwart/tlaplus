@@ -39,15 +39,15 @@ public final class Configuration implements ConfigConstants {
   }
 
   @SuppressWarnings("unused")
-public static void load (Errors errs ) throws AbortException {
+public static void load (final Errors errs ) throws AbortException {
     /***********************************************************************
     * Called from drivers/SANY.java                                        *
     ***********************************************************************/
-    Configuration Parser;
+    final Configuration Parser;
     try {
       errors = errs;
-      File source = new File( "config.src" );
-      String origin;
+      final File source = new File( "config.src" );
+      final String origin;
 
       if ( source.exists() ) {
 //      java.io.OutputStream output;
@@ -62,12 +62,12 @@ public static void load (Errors errs ) throws AbortException {
       try {
         Configuration.ConfigurationUnit();
 //      Operators.printTable();
-      } catch (ParseException e) {
+      } catch (final ParseException e) {
         errors.addAbort(Location.nullLoc,"\nConfiguration Parser:  Encountered errors during parse.  " 
                         + e.getMessage(),true );
       }
 
-    } catch (java.io.FileNotFoundException e) {
+    } catch (final java.io.FileNotFoundException e) {
       errors.addAbort(Location.nullLoc,"File not found.\n" + e,true);
     }
   } // end load()
@@ -93,7 +93,7 @@ public static void load (Errors errs ) throws AbortException {
 
 
   static final public void OpDefinition() throws ParseException, AbortException {
-  Token t;
+  final Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case OPERATOR:
       jj_consume_token(OPERATOR);
@@ -125,11 +125,13 @@ public static void load (Errors errs ) throws AbortException {
     }
   }
 
- static final public void OpBody(String s) throws ParseException {
+ static final public void OpBody(final String s) throws ParseException {
  Token t;
- int kind, assoc;
- int low, high;
-    t = jj_consume_token(NUMBER);
+ final int kind;
+     final int assoc;
+     final int low;
+     final int high;
+     t = jj_consume_token(NUMBER);
                 low = Integer.parseInt( t.image );
     t = jj_consume_token(NUMBER);
                 high = Integer.parseInt( t.image );
@@ -182,7 +184,7 @@ public static void load (Errors errs ) throws AbortException {
       jj_la1[5] = jj_gen;
       ;
     }
-   Operator op;
+   final Operator op;
    if ( t == null ) {
      op = new Operator( UniqueString.uniqueStringOf(s), low, high, assoc, kind );
    } else {
@@ -192,22 +194,23 @@ public static void load (Errors errs ) throws AbortException {
   }
 
   static final public void OpSynonym() throws ParseException {
-  Token t1, t2;
-    jj_consume_token(SYNONYM);
+  final Token t1;
+      final Token t2;
+      jj_consume_token(SYNONYM);
     t1 = jj_consume_token(OPID);
     t2 = jj_consume_token(OPID);
     Operators.addSynonym( UniqueString.uniqueStringOf(t1.image), 
                           UniqueString.uniqueStringOf(t2.image) );
   }
 
-  static final public void OpNull(String s) throws ParseException {
+  static final public void OpNull(final String s) throws ParseException {
     jj_consume_token(NOTOP);
   }
 
   static final public void OpBuiltin() throws ParseException, AbortException {
   Token t;
-  String external;
-  UniqueString us;
+  final String external;
+  final UniqueString us;
     jj_consume_token(BUILTIN);
     t = jj_consume_token(OPID);
     external = t.image; us = UniqueString.uniqueStringOf( external );
@@ -239,7 +242,7 @@ public static void load (Errors errs ) throws AbortException {
       break;
     case NUMBER:
       t = jj_consume_token(NUMBER);
-      int n = Integer.parseInt( t.image );
+      final int n = Integer.parseInt( t.image );
       FormalParamNode fpn[] = null;
       if ( n != -1 ) fpn = new FormalParamNode[ n ];
       Context.addGlobalSymbol( us, 
@@ -266,7 +269,7 @@ public static void load (Errors errs ) throws AbortException {
                                             {0x44100,0x402000,0x44100,0x38000,
                                              0x1e00,0x200000,0x400e80,};
 
-  public Configuration(java.io.InputStream stream) {
+  public Configuration(final java.io.InputStream stream) {
     if (jj_initialized_once) {
       ToolIO.out.println("ERROR: Second call to constructor of static parser.  You must");
       ToolIO.out.println("       either use ReInit() or set the JavaCC option STATIC to false");
@@ -282,7 +285,7 @@ public static void load (Errors errs ) throws AbortException {
     for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
-  static public void ReInit(java.io.InputStream stream) {
+  static public void ReInit(final java.io.InputStream stream) {
     jj_initialized_once = false;
     ASCII_CharStream.ReInit(stream, 1, 1);
     ConfigurationTokenManager.ReInit(jj_input_stream);
@@ -292,7 +295,7 @@ public static void load (Errors errs ) throws AbortException {
     for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
-  public Configuration(java.io.Reader stream) {
+  public Configuration(final java.io.Reader stream) {
     if (jj_initialized_once) {
       ToolIO.out.println("ERROR: Second call to constructor of static parser.  You must");
       ToolIO.out.println("       either use ReInit() or set the JavaCC option STATIC to false");
@@ -308,7 +311,7 @@ public static void load (Errors errs ) throws AbortException {
     for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
-  static public void ReInit(java.io.Reader stream) {
+  static public void ReInit(final java.io.Reader stream) {
     jj_initialized_once = false;
     ASCII_CharStream.ReInit(stream, 1, 1);
     ConfigurationTokenManager.ReInit(jj_input_stream);
@@ -330,7 +333,7 @@ public static void load (Errors errs ) throws AbortException {
   }
 
 
-  public Configuration(ConfigurationTokenManager tm) {
+  public Configuration(final ConfigurationTokenManager tm) {
     if (jj_initialized_once) {
       ToolIO.out.println("ERROR: Second call to constructor of static parser.  You must");
       ToolIO.out.println("       either use ReInit() or set the JavaCC option STATIC to false");
@@ -345,7 +348,7 @@ public static void load (Errors errs ) throws AbortException {
     for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
-  public void ReInit(ConfigurationTokenManager tm) {
+  public void ReInit(final ConfigurationTokenManager tm) {
     token_source = tm;
     token = new Token();
     jj_ntk = -1;
@@ -353,8 +356,8 @@ public static void load (Errors errs ) throws AbortException {
     for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
-  static final private Token jj_consume_token(int kind) throws ParseException {
-    Token oldToken;
+  static final private Token jj_consume_token(final int kind) throws ParseException {
+    final Token oldToken;
     if ((oldToken = token).next != null) token = token.next;
     else token = token.next = ConfigurationTokenManager.getNextToken();
     jj_ntk = -1;
@@ -375,7 +378,7 @@ public static void load (Errors errs ) throws AbortException {
     return token;
   }
 
-  static final public Token getToken(int index) {
+  static final public Token getToken(final int index) {
     Token t = token;
     for (int i = 0; i < index; i++) {
       if (t.next != null) t = t.next;
@@ -397,7 +400,7 @@ public static void load (Errors errs ) throws AbortException {
 
   static final public ParseException generateParseException() {
     jj_expentries.removeAllElements();
-    boolean[] la1tokens = new boolean[24];
+    final boolean[] la1tokens = new boolean[24];
     for (int i = 0; i < 24; i++) {
       la1tokens[i] = false;
     }
@@ -421,7 +424,7 @@ public static void load (Errors errs ) throws AbortException {
         jj_expentries.addElement(jj_expentry);
       }
     }
-    int[][] exptokseq = new int[jj_expentries.size()][];
+    final int[][] exptokseq = new int[jj_expentries.size()][];
     for (int i = 0; i < jj_expentries.size(); i++) {
       exptokseq[i] = jj_expentries.elementAt(i);
     }

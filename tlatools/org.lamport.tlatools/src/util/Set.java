@@ -21,7 +21,7 @@ class SetEntry {
   SetEntry next;
 
   protected Object clone() {
-    SetEntry entry = new SetEntry();
+    final SetEntry entry = new SetEntry();
     entry.hash = hash;
     entry.key = key;
     entry.next = (next != null) ? (SetEntry)next.clone() : null;
@@ -81,7 +81,7 @@ public class Set implements Cloneable, java.io.Serializable {
      *               or equal to zero.
      * @since      JDK1.0
      */
-    public Set(int initialCapacity, float loadFactor) {
+    public Set(final int initialCapacity, final float loadFactor) {
       if ((initialCapacity <= 0) || (loadFactor <= 0.0)) {
 	throw new IllegalArgumentException();
       }
@@ -96,7 +96,7 @@ public class Set implements Cloneable, java.io.Serializable {
      *
      * @param   initialCapacity   the initial capacity of the set.
      */
-    public Set(int initialCapacity) {
+    public Set(final int initialCapacity) {
       this(initialCapacity, 0.75f);
     }
 
@@ -139,10 +139,10 @@ public class Set implements Cloneable, java.io.Serializable {
      * @return  <code>true</code> if the specified object is an element
      *          in this set; <code>false</code> otherwise.
      */
-    public synchronized boolean contains(Object key) {
-      SetEntry tab[] = set;
-      int hash = key.hashCode();
-      int index = (hash & 0x7FFFFFFF) % tab.length;
+    public synchronized boolean contains(final Object key) {
+      final SetEntry[] tab = set;
+      final int hash = key.hashCode();
+      final int index = (hash & 0x7FFFFFFF) % tab.length;
       for (SetEntry e = tab[index] ; e != null ; e = e.next) {
 	if ((e.hash == hash) && e.key.equals(key)) {
 	  return true;
@@ -157,21 +157,21 @@ public class Set implements Cloneable, java.io.Serializable {
      * set exceeds this set's capacity and load factor. 
      */
     protected void rehash() {
-      int oldCapacity = set.length;
-      SetEntry oldSet[] = set;
+      final int oldCapacity = set.length;
+      final SetEntry[] oldSet = set;
 	
-      int newCapacity = oldCapacity * 2 + 1;
-      SetEntry newSet[] = new SetEntry[newCapacity];
+      final int newCapacity = oldCapacity * 2 + 1;
+      final SetEntry[] newSet = new SetEntry[newCapacity];
 
       threshold = (int)(newCapacity * loadFactor);
       set = newSet;
 
       for (int i = oldCapacity ; i-- > 0 ;) {
 	for (SetEntry old = oldSet[i] ; old != null ; ) {
-	  SetEntry e = old;
+	  final SetEntry e = old;
 	  old = old.next;
 
-	  int index = (e.hash & 0x7FFFFFFF) % newCapacity;
+	  final int index = (e.hash & 0x7FFFFFFF) % newCapacity;
 	  e.next = newSet[index];
 	  newSet[index] = e;
 	}
@@ -188,14 +188,14 @@ public class Set implements Cloneable, java.io.Serializable {
      * @exception  NullPointerException  if the element is <code>null</code>.
      * @see     java.lang.Object#equals(java.lang.Object)
      */
-    public synchronized Object put(Object key) {
+    public synchronized Object put(final Object key) {
       // Makes sure the key is not already in the set.
-      SetEntry tab[] = set;
-      int hash = key.hashCode();
-      int index = (hash & 0x7FFFFFFF) % tab.length;
+      final SetEntry[] tab = set;
+      final int hash = key.hashCode();
+      final int index = (hash & 0x7FFFFFFF) % tab.length;
       for (SetEntry e = tab[index] ; e != null ; e = e.next) {
 	if ((e.hash == hash) && e.key.equals(key)) {
-	  Object old = e.key;
+	  final Object old = e.key;
 	  e.key = key;
 	  return old;
 	}
@@ -208,7 +208,7 @@ public class Set implements Cloneable, java.io.Serializable {
       } 
 
       // Creates the new entry.
-      SetEntry e = new SetEntry();
+      final SetEntry e = new SetEntry();
       e.hash = hash;
       e.key = key;
       e.next = tab[index];
@@ -225,10 +225,10 @@ public class Set implements Cloneable, java.io.Serializable {
      * @return  the element in this set, or <code>null</code> if the key
      *          is not in the set.
      */
-    public synchronized Object remove(Object key) {
-      SetEntry tab[] = set;
-      int hash = key.hashCode();
-      int index = (hash & 0x7FFFFFFF) % tab.length;
+    public synchronized Object remove(final Object key) {
+      final SetEntry[] tab = set;
+      final int hash = key.hashCode();
+      final int index = (hash & 0x7FFFFFFF) % tab.length;
       for (SetEntry e = tab[index], prev = null ; e != null ; prev = e, e = e.next) {
 	if ((e.hash == hash) && e.key.equals(key)) {
 	  if (prev != null) {
@@ -247,7 +247,7 @@ public class Set implements Cloneable, java.io.Serializable {
      * Empty this set.
      */
     public synchronized void clear() {
-      SetEntry tab[] = set;
+      final SetEntry[] tab = set;
       for (int index = tab.length; --index >= 0; )
 	tab[index] = null;
       count = 0;
@@ -262,13 +262,13 @@ public class Set implements Cloneable, java.io.Serializable {
      */
     public synchronized Object clone() {
       try { 
-	Set t = (Set)super.clone();
+	final Set t = (Set)super.clone();
 	t.set = new SetEntry[set.length];
 	for (int i = set.length ; i-- > 0 ; ) {
 	  t.set[i] = (set[i] != null) ? (SetEntry)set[i].clone() : null;
 	}
 	return t;
-      } catch (CloneNotSupportedException e) { 
+      } catch (final CloneNotSupportedException e) {
 	// this shouldn't happen, since we are Cloneable
 	throw new InternalError();
       }
@@ -280,13 +280,13 @@ public class Set implements Cloneable, java.io.Serializable {
      * @return a string representation of this set.
      */
     public synchronized String toString() {
-	int max = size() - 1;
-	StringBuffer buf = new StringBuffer();
-	Enumeration<Object> e = elements();
+	final int max = size() - 1;
+	final StringBuffer buf = new StringBuffer();
+	final Enumeration<Object> e = elements();
 	buf.append("{");
 
 	for (int i = 0; i <= max; i++) {
-	    String s1 = e.nextElement().toString();
+	    final String s1 = e.nextElement().toString();
 	    buf.append(s1);
 	    if (i < max) buf.append(", ");
 	}
@@ -300,7 +300,7 @@ public class Set implements Cloneable, java.io.Serializable {
      * different when the contents are restored.
      * iterate over the contents and write out the elements.
      */
-    private synchronized void writeObject(java.io.ObjectOutputStream s)
+    private synchronized void writeObject(final java.io.ObjectOutputStream s)
     throws IOException {
       // Write out the length, threshold, loadfactor
       s.defaultWriteObject();
@@ -324,13 +324,13 @@ public class Set implements Cloneable, java.io.Serializable {
      * hash values may be different when the contents are restored.
      * Read count elements and insert into the set.
      */
-    private synchronized void readObject(java.io.ObjectInputStream s)
+    private synchronized void readObject(final java.io.ObjectInputStream s)
     throws IOException, ClassNotFoundException {
 	// Read in the length, threshold, and loadfactor
 	s.defaultReadObject();
 
 	// Read the original length of the array and number of elements
-	int origlength = s.readInt();
+	final int origlength = s.readInt();
 	int elements = s.readInt();
 
 	// Compute new size with a bit of room 5% to grow but
@@ -346,7 +346,7 @@ public class Set implements Cloneable, java.io.Serializable {
 
 	// Read the number of elements and then all the key/value objects
 	for (; elements > 0; elements--) {
-	    Object key = s.readObject();
+	    final Object key = s.readObject();
 	    put(key);
 	}
     }
@@ -355,7 +355,7 @@ public class Set implements Cloneable, java.io.Serializable {
    * Checks for set containment, ie. is x in this? It is just another
    * way to write the hashtable containsKey.
    */
-  public synchronized boolean in(Object x) {
+  public synchronized boolean in(final Object x) {
     return contains(x);
   }
 
@@ -364,8 +364,8 @@ public class Set implements Cloneable, java.io.Serializable {
    * itself with x.  We iterate over the elements in this and remove any
    * that are not also in x.
    */
-  public void intersection (Set x) { 
-    Enumeration<Object> elements = elements();
+  public void intersection (final Set x) {
+    final Enumeration<Object> elements = elements();
     Object a;
     while (elements.hasMoreElements()) {
       a = elements.nextElement();
@@ -379,7 +379,7 @@ public class Set implements Cloneable, java.io.Serializable {
    * the smaller (set size) of x, y because that's what intersection
    * iterates on.
    */
-  public static Set intersection(Set x, Set y) {
+  public static Set intersection(final Set x, final Set y) {
     Set result = new Set();
     if (x.size() < y.size()) {
       result = (Set) x.clone();
@@ -397,8 +397,8 @@ public class Set implements Cloneable, java.io.Serializable {
    * with x.  We iterate over the elements in x, adding to this any that
    * are not in x.
    */
-  public void union(Set x) { 
-    Enumeration<Object> elements = x.elements();
+  public void union(final Set x) {
+    final Enumeration<Object> elements = x.elements();
     while (elements.hasMoreElements()) 
       put(elements.nextElement());
   }
@@ -408,7 +408,7 @@ public class Set implements Cloneable, java.io.Serializable {
    * larger (set size) of x, y because union iterates on the one not
    * cloned.
    */
-  public static Set union(Set x, Set y) {
+  public static Set union(final Set x, final Set y) {
     Set result = new Set();
     if (x.size() > y.size()) {
       result = (Set) x.clone();
@@ -427,14 +427,14 @@ public class Set implements Cloneable, java.io.Serializable {
    * from this.  Otherwise, we iterate over the elements in this, removing
    * any that are in x.
    */
-  public void minus(Set x) { 
+  public void minus(final Set x) {
     if (size() > x.size()) {
-      Enumeration<Object> elements = x.elements();
+      final Enumeration<Object> elements = x.elements();
       while (elements.hasMoreElements()) 
 	remove(elements.nextElement());
     }
     else {
-      Enumeration<Object> elements = elements();
+      final Enumeration<Object> elements = elements();
       Object a;
       while (elements.hasMoreElements()) {
 	a = elements.nextElement();
@@ -445,18 +445,18 @@ public class Set implements Cloneable, java.io.Serializable {
   }
 
   /* Create a new set which equals x - y.  */
-  public static Set minus(Set x, Set y) {
-    Set result = (Set) x.clone();
+  public static Set minus(final Set x, final Set y) {
+    final Set result = (Set) x.clone();
     result.minus(y);
     return result;
   }
 
   /* Complementation with respect to universe u. */
-  public static Set complement (Set x, Set u) { return minus(u, x); }
+  public static Set complement (final Set x, final Set u) { return minus(u, x); }
 
   /* Is this a subset of x. */  
-  public boolean subset (Set x) {
-    Enumeration<Object> elements = elements();
+  public boolean subset (final Set x) {
+    final Enumeration<Object> elements = elements();
     while (elements.hasMoreElements()) 
       if (! x.in(elements.nextElement()))
 	return false;
@@ -464,15 +464,15 @@ public class Set implements Cloneable, java.io.Serializable {
   }
  
   /* Is x a subset of y?  */
-  public static boolean subset (Set x, Set y) { return x.subset(y); }
+  public static boolean subset (final Set x, final Set y) { return x.subset(y); }
 
   /* Is this equal (as a set) to x?   */
-  public boolean equal (Set x) {
+  public boolean equal (final Set x) {
     return (subset(x) && x.subset(this));
   }
  
   /* Is x equal (as a set) to y? */
-  public static boolean equal (Set x, Set y) { return x.equal(y); }
+  public static boolean equal (final Set x, final Set y) { return x.equal(y); }
 }
 
 /*
@@ -484,7 +484,7 @@ class SetEnumerator implements Enumeration<Object> {
   SetEntry set[];
   SetEntry entry;
 
-  SetEnumerator(SetEntry set[]) {
+  SetEnumerator(final SetEntry[] set) {
     this.set = set;
     this.index = set.length;
   }
@@ -506,7 +506,7 @@ class SetEnumerator implements Enumeration<Object> {
       while ((index-- > 0) && ((entry = set[index]) == null));
     }
     if (entry != null) {
-      SetEntry e = entry;
+      final SetEntry e = entry;
       entry = e.next;
       return e.key;
     }

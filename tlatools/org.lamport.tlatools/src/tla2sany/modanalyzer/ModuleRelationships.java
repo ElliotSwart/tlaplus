@@ -23,7 +23,7 @@ class ModuleRelationships {
   }
 */
 
-  void putRelatives (ModulePointer modulePointer, ModuleRelatives relatives) {
+  void putRelatives (final ModulePointer modulePointer, final ModuleRelatives relatives) {
     modRelHashtable.put(modulePointer, relatives);
   } // end putRelatives()
 
@@ -35,12 +35,12 @@ class ModuleRelationships {
 
 
   // Add the entries from otherMR into THIS; they are assumed not to overlap.
-  void union(ModuleRelationships otherMR) {
+  void union(final ModuleRelationships otherMR) {
 
-    Enumeration<ModulePointer> otherKeys = otherMR.getKeys();
+    final Enumeration<ModulePointer> otherKeys = otherMR.getKeys();
 
     while ( otherKeys.hasMoreElements() ) {
-      ModulePointer key = (ModulePointer)otherKeys.nextElement();
+      final ModulePointer key = (ModulePointer)otherKeys.nextElement();
 
       if (key.getRelatives() == null ) { 
         this.putRelatives( key, key.getRelatives() );
@@ -54,10 +54,10 @@ class ModuleRelationships {
 
     String ret = "";
 
-    Enumeration<ModulePointer> e = modRelHashtable.keys();
+    final Enumeration<ModulePointer> e = modRelHashtable.keys();
     while ( e.hasMoreElements()) {
 
-      ModulePointer   modPtr    = e.nextElement();
+      final ModulePointer   modPtr    = e.nextElement();
 
       ret = ret + "\n----------- Module '" + modPtr.getName() + "'\n";
       ret = ret + modPtr.getRelatives().toString(); 

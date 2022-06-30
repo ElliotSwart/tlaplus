@@ -66,21 +66,21 @@ public class Simulator {
 	/* Constructors */
 
 	// SZ Feb 20, 2009: added the possibility to pass the SpecObject
-	public Simulator(String specFile, String configFile, String traceFile, boolean deadlock, int traceDepth,
-			long traceNum, RandomGenerator rng, long seed, FilenameToStream resolver,
-			int numWorkers) throws IOException {
+	public Simulator(final String specFile, final String configFile, final String traceFile, final boolean deadlock, final int traceDepth,
+                     final long traceNum, final RandomGenerator rng, final long seed, final FilenameToStream resolver,
+                     final int numWorkers) throws IOException {
 		this(new FastTool(extracted(specFile), configFile, resolver, Tool.Mode.Simulation, new HashMap<>()), "", traceFile, deadlock,
 				traceDepth, traceNum, null, rng, seed, resolver, numWorkers);
 	}
 
-	private static String extracted(String specFile) {
-		int lastSep = specFile.lastIndexOf(FileUtil.separatorChar);
+	private static String extracted(final String specFile) {
+		final int lastSep = specFile.lastIndexOf(FileUtil.separatorChar);
 		return specFile.substring(lastSep + 1);
 	}
 
-	public Simulator(ITool tool, String metadir, String traceFile, boolean deadlock, int traceDepth,
-				long traceNum, String traceActions, RandomGenerator rng, long seed, FilenameToStream resolver,
-				int numWorkers) throws IOException {
+	public Simulator(final ITool tool, final String metadir, final String traceFile, final boolean deadlock, final int traceDepth,
+                     final long traceNum, final String traceActions, final RandomGenerator rng, final long seed, final FilenameToStream resolver,
+                     final int numWorkers) throws IOException {
 		this.tool = tool;
 
 		this.checkDeadlock = deadlock && tool.getModelConfig().getCheckDeadlock();
@@ -183,7 +183,7 @@ public class Simulator {
 	 * simulator. These errors are considered "fatal" since they most likely
 	 * indicate an error in the way the spec is written.
 	 */
-	protected boolean isNonContinuableError(int ec) {
+	protected boolean isNonContinuableError(final int ec) {
 		return ec == EC.TLC_INVARIANT_EVALUATION_FAILED || 
 			   ec == EC.TLC_ACTION_PROPERTY_EVALUATION_FAILED ||
 			   ec == EC.TLC_STATE_NOT_COMPLETELY_SPECIFIED_NEXT;
@@ -193,7 +193,7 @@ public class Simulator {
 	 * Shut down all of the given workers and make sure they have stopped.
 	 */
 	private void shutdownAndJoinWorkers(final List<SimulationWorker> workers) throws InterruptedException {
-		for (SimulationWorker worker : workers) {
+		for (final SimulationWorker worker : workers) {
 			worker.interrupt();
 			worker.join();
 		}
@@ -250,7 +250,7 @@ public class Simulator {
 					initStates.addElement(curState);
 				}
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			final int errorCode;
 			if (curState != null) {
 				errorCode = MP.printError(EC.TLC_INITIAL_STATE,
@@ -282,7 +282,7 @@ public class Simulator {
 		//
 		this.aril = rng.getAril();
 		
-		int errorCode = simulate(initStates);
+		final int errorCode = simulate(initStates);
 		
 		// see tlc2.tool.Worker.doPostCheckAssumption()
 		final ExprNode[] postConditions = this.tool.getPostConditionSpecs();
@@ -292,7 +292,7 @@ public class Simulator {
 				if (!this.tool.isValid(sn)) {
 					MP.printError(EC.TLC_ASSUMPTION_FALSE, sn.toString());
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				// tool.isValid(sn) failed to evaluate...
 				MP.printError(EC.TLC_ASSUMPTION_EVALUATION_ERROR, new String[] { sn.toString(), e.getMessage() });
 			}
@@ -318,7 +318,7 @@ public class Simulator {
 		// Start up multiple simulation worker threads, each with their own unique seed.
 		final Set<Integer> runningWorkers = new HashSet<>();
 		for (int i = 0; i < this.workers.size(); i++) {
-			SimulationWorker worker = workers.get(i);
+			final SimulationWorker worker = workers.get(i);
 			worker.start(initStates);
 			runningWorkers.add(i);
 		}
@@ -331,7 +331,7 @@ public class Simulator {
 
 			// If the result is an error, print it.
 			if (result.isError()) {
-				SimulationWorkerError error = result.error();
+				final SimulationWorkerError error = result.error();
 				
 				// We assume that if a worker threw an unexpected exception, there is a bug
 				// somewhere, so we print out the exception and terminate. In the case of a
@@ -398,7 +398,7 @@ public class Simulator {
 		printBehavior(state, stateTrace);
 	}
 
-	protected final void printBehavior(SimulationWorkerError error) {
+	protected final void printBehavior(final SimulationWorkerError error) {
 		printBehavior(error.errorCode, error.parameters, error.state, error.stateTrace);
 	}
 
@@ -484,20 +484,20 @@ public class Simulator {
 		}
 	}
 
-	public IValue getLocalValue(int idx) {
-		for (SimulationWorker w : workers) {
+	public IValue getLocalValue(final int idx) {
+		for (final SimulationWorker w : workers) {
 			return w.getLocalValue(idx);
 		}
 		return null;
 	}
 
-	public void setAllValues(int idx, IValue val) {
-		for (SimulationWorker w : workers) {
+	public void setAllValues(final int idx, final IValue val) {
+		for (final SimulationWorker w : workers) {
 			w.setLocalValue(idx, val);
 		}
 	}
 
-	public List<IValue> getAllValues(int idx) {
+	public List<IValue> getAllValues(final int idx) {
 		return workers.stream().map(w -> w.getLocalValue(idx)).collect(Collectors.toList());
 	}
 	
@@ -528,7 +528,7 @@ public class Simulator {
 
 		try {
 			this.writeActionFlowGraph();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			// SZ Jul 10, 2009: changed from error to bug
 			MP.printTLCBug(EC.TLC_REPORTER_DIED, null);
 		}
@@ -592,7 +592,7 @@ public class Simulator {
 					
 					writeActionFlowGraph();
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				// SZ Jul 10, 2009: changed from error to bug
 				MP.printTLCBug(EC.TLC_REPORTER_DIED, null);
 			}
@@ -631,22 +631,22 @@ public class Simulator {
 		// Write clusters to dot file (override previous file).
 		final DotActionWriter dotActionWriter = new DotActionWriter(
 				Simulator.this.tool.getRootName() + "_actions.dot", "");
-		for (Entry<String, Set<Integer>> cluster : clusters.entrySet()) {
+		for (final Entry<String, Set<Integer>> cluster : clusters.entrySet()) {
 			// key is a unique set of chars accepted/valid as a graphviz cluster id.
 			final String key = Integer.toString(Math.abs(cluster.getKey().hashCode()));
 			dotActionWriter.writeSubGraphStart(key, cluster.getKey().toString());
 			
 			final Set<Integer> ids = cluster.getValue();
-			for (Integer id : ids) {
+			for (final Integer id : ids) {
 				dotActionWriter.write(initAndNext.elementAt(id), id);
 			}
 			dotActionWriter.writeSubGraphEnd();
 		}					
 		
 		// Element-wise sum the statistics from all workers.
-		long[][] aggregateActionStats = new long[len][len];
+		final long[][] aggregateActionStats = new long[len][len];
 		final List<SimulationWorker> workers = Simulator.this.workers;
-		for (SimulationWorker sw : workers) {
+		for (final SimulationWorker sw : workers) {
 			final long[][] s = sw.actionStats;
 			for (int i = 0; i < len; i++) {
 				for (int j = 0; j < len; j++) {
@@ -658,14 +658,14 @@ public class Simulator {
 		// Create a map from id to action name.
 		final Map<Integer, Action> idToActionName = new HashMap<>();
 		for (int i = 0; i < initAndNext.size(); i++) {
-			Action action = initAndNext.elementAt(i);
+			final Action action = initAndNext.elementAt(i);
 			idToActionName.put(action.getId(), action);
 		}
 
 		// Write stats to dot file as edges between the action vertices.
 		for (int i = 0; i < len; i++) {
 			for (int j = 0; j < len; j++) {
-				long l = aggregateActionStats[i][j];
+				final long l = aggregateActionStats[i][j];
 				if (l > 0L) {
 					// LogLog l (to keep the graph readable) and round to two decimal places (to not
 					// write a gazillion decimal places truncated by graphviz anyway).
@@ -691,9 +691,9 @@ public class Simulator {
 		final int len = initAndNext.size();
 		
 		// Element-wise sum the statistics from all workers.
-		long[][] aggregateActionStats = new long[len][len];
+		final long[][] aggregateActionStats = new long[len][len];
 		final List<SimulationWorker> workers = Simulator.this.workers;
-		for (SimulationWorker sw : workers) {
+		for (final SimulationWorker sw : workers) {
 			final long[][] s = sw.actionStats;
 			for (int i = 0; i < len; i++) {
 				for (int j = 0; j < len; j++) {
@@ -709,7 +709,7 @@ public class Simulator {
 			final Action action = initAndNext.elementAt(i);
 			
 			if (!actionToId.containsKey(action.getDefinition())) {
-				int id = idToAction.size();
+				final int id = idToAction.size();
 				idToAction.put(id, action);
 				actionToId.put(action.getDefinition(), id);
 			}
@@ -729,7 +729,7 @@ public class Simulator {
 		
 		// Having the aggregated action stats, reduce it to account for only
 		// the distinct action names.
-		long[][] reducedAggregateActionStats = new long[idToAction.size()][idToAction.size()];
+		final long[][] reducedAggregateActionStats = new long[idToAction.size()][idToAction.size()];
 		for (int i = 0; i < len; i++) {
 			// Find origin id.
 			final int originActionId = actionsToDistinctActions.get(i);
@@ -743,7 +743,7 @@ public class Simulator {
 		// Write stats to dot file as edges between the action vertices.
 		for (int i = 0; i < idToAction.size(); i++) {
 			for (int j = 0; j < idToAction.size(); j++) {
-				long l = reducedAggregateActionStats[i][j];
+				final long l = reducedAggregateActionStats[i][j];
 				if (l > 0L) {
 					// LogLog l (to keep the graph readable) and round to two decimal places (to not
 					// write a gazillion decimal places truncated by graphviz anyway).
@@ -792,7 +792,7 @@ public class Simulator {
 	}
 	
 	public void stop() {
-		for (SimulationWorker worker : workers) {
+		for (final SimulationWorker worker : workers) {
 			worker.setStopped();
 			worker.interrupt();
 		}

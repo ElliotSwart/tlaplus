@@ -59,7 +59,7 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 	private CostModelNode recursive;
 	protected final Map<SemanticNode, CostModelNode> lets = new LinkedHashMap<>();
 
-	OpApplNodeWrapper(OpApplNode node, CostModelNode root) {
+	OpApplNodeWrapper(final OpApplNode node, final CostModelNode root) {
 		super();
 		this.node = node;
 		this.root = root;
@@ -72,7 +72,7 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 	}
 
 	// For unit testing only.
-	OpApplNodeWrapper(OpApplNode node, long samples) {
+	OpApplNodeWrapper(final OpApplNode node, final long samples) {
 		this(node, null);
 		this.incInvocations(samples);
 	}
@@ -80,7 +80,7 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 	// ---------------- Identity... ---------------- //
 	
 	@Override
-	public int compareTo(OpApplNodeWrapper arg0) {
+	public int compareTo(final OpApplNodeWrapper arg0) {
 		return this.getLocation().compareTo(arg0.getLocation());
 	}
 
@@ -93,7 +93,7 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -103,7 +103,7 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		OpApplNodeWrapper other = (OpApplNodeWrapper) obj;
+		final OpApplNodeWrapper other = (OpApplNodeWrapper) obj;
 		if (node.getLocation() == null) {
 			if (other.node.getLocation() != null)
 				return false;
@@ -139,12 +139,12 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 
 	// ---------------- Parent <> Child ---------------- //
 	
-	public OpApplNodeWrapper addLets(OpApplNodeWrapper lets) {
+	public OpApplNodeWrapper addLets(final OpApplNodeWrapper lets) {
 		this.lets.put(lets.getNode(), lets);
 		return this;
 	}
 
-	public OpApplNodeWrapper setRecursive(CostModelNode recursive) {
+	public OpApplNodeWrapper setRecursive(final CostModelNode recursive) {
 		assert this.recursive == null;
 		this.recursive = recursive;
 		return this;
@@ -198,7 +198,7 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 		return this.level;
 	}
 
-	public OpApplNodeWrapper setLevel(int level) {
+	public OpApplNodeWrapper setLevel(final int level) {
 		this.level = level;
 		return this;
 	}
@@ -217,7 +217,7 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 	
 	// ---------------- Print ---------------- //
 
-	protected long getEvalCount(Calculate fresh) {
+	protected long getEvalCount(final Calculate fresh) {
 		if (fresh == Calculate.FRESH) {
 			return super.getEvalCount();
 		} else {
@@ -225,7 +225,7 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 		}
 	}
 
-	protected long getSecondCount(Calculate fresh) {
+	protected long getSecondCount(final Calculate fresh) {
 		if (fresh == Calculate.FRESH) {
 			return super.getSecondary();
 		} else {
@@ -295,16 +295,16 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 		printChildren(level);
 	}
 
-	private Pair getCount(Set<Pair> collectWeights) {
+	private Pair getCount(final Set<Pair> collectWeights) {
 		assert collectWeights.size() == 1;
-		for (Pair l : collectWeights) {
+		for (final Pair l : collectWeights) {
 			return l;
 		}
 		return null; // make compiler happy
 	}
 	
 	protected void printChildren(final int level) {
-		for (CostModelNode cmn : children.values()) {
+		for (final CostModelNode cmn : children.values()) {
 			((OpApplNodeWrapper) cmn).print(level, Calculate.CACHED);
 		}
 	}
@@ -338,7 +338,7 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 		public final long primary;
 		public final long secondary;
 
-		public Pair(long primary, long secondary) {
+		public Pair(final long primary, final long secondary) {
 			this.primary = primary;
 			this.secondary = secondary;
 		}
@@ -356,14 +356,14 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 		}
 
 		@Override
-		public boolean equals(Object obj) {
+		public boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (obj == null)
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			Pair other = (Pair) obj;
+			final Pair other = (Pair) obj;
 			return primary == other.primary && secondary == other.secondary;
 		}
 
@@ -379,8 +379,8 @@ public class OpApplNodeWrapper extends CostModelNode implements Comparable<OpApp
 		FRESH, CACHED;
 	}
 
-	protected void collectChildren(final Set<Pair> result, Calculate c) {
-		for (CostModelNode cmn : children.values()) {
+	protected void collectChildren(final Set<Pair> result, final Calculate c) {
+		for (final CostModelNode cmn : children.values()) {
 			((OpApplNodeWrapper) cmn).collectAndFreezeEvalCounts(result, c);
 		}
 	}

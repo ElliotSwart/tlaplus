@@ -58,14 +58,14 @@ private String metadir;
   /* Constructs a new, empty FPSet.  */
   public MemFPSet(final FPSetConfiguration fpSetConfig) throws RemoteException {
 	super(fpSetConfig);
-    int initialCapacity = 1 << LogInitialCapacity;
+    final int initialCapacity = 1 << LogInitialCapacity;
     this.count = 0;
     this.threshold = (initialCapacity * MaxLoad);
     this.table = new long[initialCapacity][];
     this.mask = initialCapacity - 1;
   }
 
-  public final FPSet init(int numThreads, String metadir, String filename) {
+  public final FPSet init(final int numThreads, final String metadir, final String filename) {
     this.metadir = metadir;
     this.filename = filename;
 	return this;
@@ -97,13 +97,13 @@ private String metadir;
    in this set; <code>false</code> otherwise.
    * <p>
    */
-  public synchronized boolean put(long fp) {
+  public synchronized boolean put(final long fp) {
     int index = (int)(fp & this.mask);
     long[] list = this.table[index];
 
     // Test if the fingerprint is already in the hashtable.
     if (list != null) {
-      int listlen = list.length;
+      final int listlen = list.length;
       for (int i = 0; i < listlen; i++) {
 	if (list[i] == fp) return true;
       }
@@ -118,8 +118,8 @@ private String metadir;
     } 
 
     // Creates the new entry.
-    int len = (list == null ? 0 : list.length);
-    long[] newList = new long[len+1];
+    final int len = (list == null ? 0 : list.length);
+    final long[] newList = new long[len+1];
     if (list != null) System.arraycopy(list, 0, newList, 0, len);
     newList[len] = fp;
     this.table[index] = newList;
@@ -128,13 +128,13 @@ private String metadir;
     return false;
   }
 
-  public synchronized boolean contains(long fp) {
-    int index = (int)(fp & this.mask);
-    long[] list = this.table[index];
+  public synchronized boolean contains(final long fp) {
+    final int index = (int)(fp & this.mask);
+    final long[] list = this.table[index];
 
     // Test if the fingerprint is already in the hashtable.
     if (list != null) {
-      int listlen = list.length;
+      final int listlen = list.length;
       for (int i = 0; i < listlen; i++) {
 	if (list[i] == fp) return true;
       }
@@ -150,20 +150,20 @@ private String metadir;
    */
   private final void rehash() {
     long min = this.count, max = 0;
-    long[][] oldTable = this.table;
-    int oldCapacity = oldTable.length;
-    long[][] newTable = new long[oldCapacity * 2][];
+    final long[][] oldTable = this.table;
+    final int oldCapacity = oldTable.length;
+    final long[][] newTable = new long[oldCapacity * 2][];
     final int onebitmask = oldCapacity;
 
     for (int i = 0; i < oldCapacity; i++) {
-      long[] list = oldTable[i];
+      final long[] list = oldTable[i];
       if (list != null) {
 	// The entries in list will be distributed over two arrays in
 	// the new hash table.
 	// count how big each list will be
 	int cnt0 = 0;
 	int cnt1 = 0;
-	int listlen = list.length;
+	final int listlen = list.length;
 	if (listlen < min) min = listlen;
 	if (listlen > max) max = listlen;
 	for (int j = 0; j < listlen; j++) {
@@ -182,8 +182,8 @@ private String metadir;
 	}
 	else {
 	  // allocate two new arrays
-	  long[] list0 = new long[cnt0]; 
-	  long[] list1 = new long[cnt1]; 
+	  final long[] list0 = new long[cnt0];
+	  final long[] list1 = new long[cnt1];
             	  
 	  // copy the entries from the old list into the two new ones
 	  for (int j = 0; j < listlen; j++) {
@@ -204,14 +204,14 @@ private String metadir;
     this.mask = newTable.length - 1;
   }
 
-  public final void exit(boolean cleanup) throws IOException {
+  public final void exit(final boolean cleanup) throws IOException {
 	super.exit(cleanup);
     if (cleanup) {
       // Delete the metadata directory:
-      File file = new File(this.metadir);
+      final File file = new File(this.metadir);
       FileUtil.deleteDir(file, true);
     }
-    String hostname = InetAddress.getLocalHost().getHostName();    
+    final String hostname = InetAddress.getLocalHost().getHostName();
     MP.printMessage(EC.TLC_FP_COMPLETED, hostname);
     System.exit(0);    
   }
@@ -219,19 +219,19 @@ private String metadir;
   public final long checkFPs() {
     long dis = Long.MAX_VALUE;
     for (int i = 0; i < this.table.length; i++) {
-      long[] bucket = this.table[i];
+      final long[] bucket = this.table[i];
       if (bucket != null) {
 	for (int j = 0; j < bucket.length; j++) {
 	  for (int k = j+1; k < bucket.length; k++) {
 	    dis = Math.min(dis, Math.abs(bucket[j]-bucket[k]));
 	  }
 	  for (int k = i+1; k < this.table.length; k++) {
-	    long[] bucket1 = this.table[k];
+	    final long[] bucket1 = this.table[k];
 	    if (bucket1 != null) {
 	      for (int m = 0; m < bucket1.length; m++) {
-		long x = bucket[j];
-		long y = bucket1[m];
-		long dis1 = (x > y) ? x-y : y-x;
+		final long x = bucket[j];
+		final long y = bucket1[m];
+		final long dis1 = (x > y) ? x-y : y-x;
 		if (dis1 >= 0) {
 		  dis = Math.min(dis, dis1);
 		}
@@ -245,11 +245,11 @@ private String metadir;
   }
 
   // Checkpoint.
-  public final void beginChkpt(String fname) throws IOException {
-    BufferedDataOutputStream dos =
+  public final void beginChkpt(final String fname) throws IOException {
+    final BufferedDataOutputStream dos =
       new BufferedDataOutputStream(this.chkptName(fname, "tmp"));
     for (int i = 0; i < this.table.length; i++) {
-      long[] bucket = this.table[i];
+      final long[] bucket = this.table[i];
       if (bucket != null) {
 	for (int j = 0; j < bucket.length; j++) {
 	  dos.writeLong(bucket[j]);
@@ -259,24 +259,24 @@ private String metadir;
     dos.close();
   }
       
-  final public void commitChkpt(String fname) throws IOException {
-    File oldChkpt = new File(this.chkptName(fname, "chkpt"));
-    File newChkpt = new File(this.chkptName(fname, "tmp"));
+  final public void commitChkpt(final String fname) throws IOException {
+    final File oldChkpt = new File(this.chkptName(fname, "chkpt"));
+    final File newChkpt = new File(this.chkptName(fname, "tmp"));
     if ((oldChkpt.exists() && !oldChkpt.delete()) ||
 	!newChkpt.renameTo(oldChkpt)) {
       throw new IOException("MemFPSet.commitChkpt: cannot delete " + oldChkpt);
     }
   }
   
-  public final void recover(String fname) throws IOException {
-    BufferedDataInputStream dis = 
+  public final void recover(final String fname) throws IOException {
+    final BufferedDataInputStream dis =
       new BufferedDataInputStream(this.chkptName(fname, "chkpt"));
     try {
       while (!dis.atEOF()) {
           Assert.check(!this.put(dis.readLong()), EC.TLC_FP_NOT_IN_SET);
       }
     }
-    catch (EOFException e) {
+    catch (final EOFException e) {
       Assert.fail(EC.SYSTEM_DISK_IO_ERROR_FOR_FILE, "checkpoints");
     }
     dis.close();
@@ -290,15 +290,15 @@ private String metadir;
     this.commitChkpt(this.filename);
   }
     
-  final public void recover(TLCTrace trace) throws IOException {
+  final public void recover(final TLCTrace trace) throws IOException {
     this.recover(this.filename);
   }
 
-  public final void recoverFP(long fp) throws IOException {
+  public final void recoverFP(final long fp) throws IOException {
     Assert.check(!this.put(fp), EC.TLC_FP_NOT_IN_SET);
   }
   
-  final private String chkptName(String fname, String ext) {
+  final private String chkptName(final String fname, final String ext) {
     return this.metadir + FileUtil.separator + fname + ".fp." + ext;
   }
 

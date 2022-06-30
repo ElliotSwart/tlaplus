@@ -46,22 +46,22 @@ public interface FilenameToStream
 		// may be null.
 		private final URI libraryPath;
 
-		public TLAFile(String pathname, FilenameToStream fts) {
+		public TLAFile(final String pathname, final FilenameToStream fts) {
 			this(pathname, false, fts);
 		}
 
-		public TLAFile(String pathname, boolean isLibraryModule, FilenameToStream fts) {
+		public TLAFile(final String pathname, final boolean isLibraryModule, final FilenameToStream fts) {
 			super(pathname);
 			this.isLibraryModule = isLibraryModule;
 			this.libraryPath = this.exists() ? this.toURI() : null;
 			this.resolver = fts;
 		}
 
-		public TLAFile(Path path, boolean isLibraryModule, FilenameToStream fts) {
+		public TLAFile(final Path path, final boolean isLibraryModule, final FilenameToStream fts) {
 			this(path.toFile().toString(), isLibraryModule, fts);
 		}
 
-		public TLAFile(String parent, String child, FilenameToStream fts) {
+		public TLAFile(final String parent, final String child, final FilenameToStream fts) {
 			super(parent,
 				  ((ROOT_PATH_PATTERN.matcher(parent).find() && child.startsWith(parent))
 						  ? child.substring(parent.length())
@@ -71,7 +71,7 @@ public interface FilenameToStream
 			this.resolver = fts;
 		}
 
-		public TLAFile(String pathname, URL location, boolean isLibraryModule, FilenameToStream fts) {
+		public TLAFile(final String pathname, final URL location, final boolean isLibraryModule, final FilenameToStream fts) {
 			super(pathname);
 			// Do not check exists here like in the other ctors because it returns false
 			// before the file is actually read in util.SimpleFilenameToStream.read(String,
@@ -84,14 +84,14 @@ public interface FilenameToStream
 			this.resolver = fts;
 		}
 
-		public TLAFile(Path path, URL location, boolean isLibraryModule, FilenameToStream fts) {
+		public TLAFile(final Path path, final URL location, final boolean isLibraryModule, final FilenameToStream fts) {
 			this(path.toFile().toString(), location, isLibraryModule, fts);
 		}
 
-		private static URI toNullOrURI(URL location) {
+		private static URI toNullOrURI(final URL location) {
 	  		try {
 	  			return location.toURI();
-	  		} catch (URISyntaxException e) {
+	  		} catch (final URISyntaxException e) {
 	  			return null;
 	        }
 		}
@@ -150,7 +150,7 @@ public interface FilenameToStream
      */
     public boolean isStandardModule(String moduleName) ;
 
-	default boolean isLibraryModule(String moduleName) {
+	default boolean isLibraryModule(final String moduleName) {
 		return isStandardModule(moduleName);
 	}
  	
@@ -158,14 +158,14 @@ public interface FilenameToStream
 		return aString.startsWith("jar:") || aString.endsWith(".jar");
 	}
 
-	static boolean isArchive(String aString) {
+	static boolean isArchive(final String aString) {
 		return isInJar(aString) || aString.endsWith(".zip");
 	}
 	
 	static Path getTempDirectory() {
   		try {
 			return Files.createTempDirectory("tlc-");
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// This is unfortunately how we handle things over here. :-(
 			e.printStackTrace();
 		}

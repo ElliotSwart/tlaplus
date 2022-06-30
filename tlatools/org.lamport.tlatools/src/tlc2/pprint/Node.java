@@ -26,7 +26,7 @@ public class Node {
 
 /***************************************************************************/
 
-  Node(String str, int s, int t) {
+  Node(final String str, final int s, final int t) {
     string = str;
     type = t;
     first = s;
@@ -36,7 +36,7 @@ public class Node {
     formatted =null;
   }
 
-  Node(String str, int s, int e, int t) {
+  Node(final String str, final int s, final int e, final int t) {
     string = str;
     type = t;
     first = s;
@@ -72,31 +72,31 @@ public class Node {
 
 /***************************************************************************/
 
-  public void type(int t) {
+  public void type(final int t) {
     type = t;
     return;
   }
-  public void first(int s) {
+  public void first(final int s) {
     first = s;
     return;
   }
-  public void last(int e) {
+  public void last(final int e) {
     last = e;
     return;
   }
-  public void children(Node c) {
+  public void children(final Node c) {
     children = c;
     return;
   }
-  public void next(Node n) {
+  public void next(final Node n) {
     next = n;
     return;
   }
-  public void string(String s) {
+  public void string(final String s) {
     string = s;
     return;
   }
-  public void formatted(String s) {
+  public void formatted(final String s) {
     formatted = s;
     return;
   }
@@ -110,7 +110,7 @@ public class Node {
     return last-first+1;
   }
 
-  public void appendChild(Node n) {
+  public void appendChild(final Node n) {
     Node ch = this.children();
     
     if (ch == null) {

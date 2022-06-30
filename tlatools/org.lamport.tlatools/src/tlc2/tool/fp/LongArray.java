@@ -84,7 +84,7 @@ public final class LongArray {
 		final Iterator<Long> itr = from.iterator();
 		long i = 0L;
 		while(itr.hasNext()) {
-			Long next = itr.next();
+			final Long next = itr.next();
 			set(i++, next);
 		}
 	}
@@ -103,7 +103,7 @@ public final class LongArray {
 				return true;
 			}
 			return false;
-		} catch (RuntimeException e) {
+		} catch (final RuntimeException e) {
 			return false;
 		}
 	}
@@ -118,7 +118,7 @@ public final class LongArray {
 			final Field f = sun.misc.Unsafe.class.getDeclaredField("theUnsafe");
 			f.setAccessible(true);
 			return (sun.misc.Unsafe) f.get(null);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new RuntimeException(
 					"Trying to use Sun VM specific sun.misc.Unsafe implementation but no Sun based VM detected.",
 					e);
@@ -179,7 +179,7 @@ public final class LongArray {
 			}
 			final List<Future<Boolean>> invokeAll = es.invokeAll(tasks);
 			Assert.check(!invokeAll.isEmpty(), EC.GENERAL);
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			// not expected to happen
 			e.printStackTrace();
 		} finally {
@@ -194,7 +194,7 @@ public final class LongArray {
 	 * @param logical position (zero indexed)
 	 * @return The physical address of the fp slot
 	 */
-	private final long log2phy(long logicalAddress) {
+	private final long log2phy(final long logicalAddress) {
 		return baseAddress + (logicalAddress << logAddressSize);
 	}
 	
@@ -280,8 +280,8 @@ public final class LongArray {
 		return toString(0L, length - 1L);
 	}
 
-	public String toString(long start, long end) {
-        long iMax = end;
+	public String toString(final long start, final long end) {
+        final long iMax = end;
         if (iMax == -1L) {
         	return "[]";
         }

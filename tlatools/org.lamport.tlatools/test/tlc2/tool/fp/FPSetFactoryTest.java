@@ -79,7 +79,7 @@ public class FPSetFactoryTest {
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
 		fpSetConfiguration.setMemory(MEMORY);
 		fpSetConfiguration.setRatio(1.0d);
-		FPSet fpSet = doTestGetFPSet(MSBDiskFPSet.class, fpSetConfiguration);
+		final FPSet fpSet = doTestGetFPSet(MSBDiskFPSet.class, fpSetConfiguration);
 		assertEquals(MEMORY, fpSet.getConfiguration().getMemoryInBytes());
 
 		doTestNested(MSBDiskFPSet.class, fpSetConfiguration, (MultiFPSet) fpSet);
@@ -91,7 +91,7 @@ public class FPSetFactoryTest {
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
 		fpSetConfiguration.setMemory(MEMORY);
 		fpSetConfiguration.setRatio(1.0d);
-		FPSet fpSet = doTestGetFPSet(LSBDiskFPSet.class, fpSetConfiguration);
+		final FPSet fpSet = doTestGetFPSet(LSBDiskFPSet.class, fpSetConfiguration);
 		assertEquals(MEMORY, fpSet.getConfiguration().getMemoryInBytes());
 
 		doTestNested(LSBDiskFPSet.class, fpSetConfiguration, (MultiFPSet) fpSet);
@@ -106,7 +106,7 @@ public class FPSetFactoryTest {
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
 		fpSetConfiguration.setMemory(MEMORY);
 		fpSetConfiguration.setRatio(.5d);
-		FPSet fpSet = doTestGetFPSet(MSBDiskFPSet.class, fpSetConfiguration);
+		final FPSet fpSet = doTestGetFPSet(MSBDiskFPSet.class, fpSetConfiguration);
 		assertEquals(MEMORY / 2, fpSet.getConfiguration().getMemoryInBytes());
 
 		doTestNested(MSBDiskFPSet.class, fpSetConfiguration, (MultiFPSet) fpSet);
@@ -118,7 +118,7 @@ public class FPSetFactoryTest {
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
 		fpSetConfiguration.setMemory(MEMORY);
 		fpSetConfiguration.setRatio(.5d);
-		FPSet fpSet = doTestGetFPSet(LSBDiskFPSet.class, fpSetConfiguration);
+		final FPSet fpSet = doTestGetFPSet(LSBDiskFPSet.class, fpSetConfiguration);
 		assertEquals(MEMORY / 2, fpSet.getConfiguration().getMemoryInBytes());
 
 
@@ -221,7 +221,7 @@ public class FPSetFactoryTest {
 		final FPSet[] fpSets = mFPSet.getFPSets();
 		assertEquals(2, fpSets.length);
 		
-		for (FPSet fpSet : fpSets) {
+		for (final FPSet fpSet : fpSets) {
 			final OffHeapDiskFPSet offFPset = (OffHeapDiskFPSet) fpSet;
 			final FPSetConfiguration offConfig = offFPset.getConfiguration();
 			assertEquals(OffHeapDiskFPSet.class.getName(), offConfig.getImplementation());
@@ -252,7 +252,7 @@ public class FPSetFactoryTest {
 		assertEquals(fpSetConfiguration.getMultiFPSetCnt(), fpSets.length);
 		
 		long memoryInBytes = 0L;
-		for (FPSet fpSet : fpSets) {
+		for (final FPSet fpSet : fpSets) {
 			// Check if all nested FPSets have proper type
 			assertTrue(clazz.isAssignableFrom(fpSet.getClass()));
 			
@@ -261,7 +261,7 @@ public class FPSetFactoryTest {
 			
 			// Check correct memory again (this time via DiskFPSet stats)
 			if (fpSet instanceof FPSetStatistic) {
-				long maxTblCnt = ((FPSetStatistic) fpSet).getMaxTblCnt();
+				final long maxTblCnt = ((FPSetStatistic) fpSet).getMaxTblCnt();
 				// make sure nested FPSets don't overallocate memory
 				assertTrue("Nested FPSet has over-allocated memory.", fpSet.getConfiguration()
 						.getMemoryInFingerprintCnt() >= maxTblCnt);

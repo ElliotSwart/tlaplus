@@ -80,7 +80,7 @@ public class TLCServerMXWrapper extends TLCStandardMBean implements TLCStatistic
 		if (tlcServer.isRunning()) {
 			try {
 					return tlcServer.trace.getLevelForReporting();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -141,7 +141,7 @@ public class TLCServerMXWrapper extends TLCStandardMBean implements TLCStatistic
 		if (tlcServer.isRunning()) {
 			try {
 				return tlcServer.getSpecFileName();
-			} catch (RemoteException e) {
+			} catch (final RemoteException e) {
 				e.printStackTrace();
 			}
 		}
@@ -155,7 +155,7 @@ public class TLCServerMXWrapper extends TLCStandardMBean implements TLCStatistic
 		if (tlcServer.isRunning()) {
 			try {
 				return tlcServer.getConfigFileName();
-			} catch (RemoteException e) {
+			} catch (final RemoteException e) {
 				e.printStackTrace();
 			}
 		}

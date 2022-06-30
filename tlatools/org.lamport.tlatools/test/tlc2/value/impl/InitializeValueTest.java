@@ -74,7 +74,7 @@ public class InitializeValueTest {
 		vec.addElement(IntValue.gen(4711));
 		vec.addElement(IntValue.gen(1));
 		
-		SetCapValue scv = new SetCapValue(new SetEnumValue(vec, false), new SetEnumValue(vec, false));
+		final SetCapValue scv = new SetCapValue(new SetEnumValue(vec, false), new SetEnumValue(vec, false));
 		assertFalse(scv.isNormalized());
 		assertFalse(scv.set1.isNormalized());
 		assertFalse(scv.set2.isNormalized());
@@ -94,7 +94,7 @@ public class InitializeValueTest {
 		vec.addElement(IntValue.gen(4711));
 		vec.addElement(IntValue.gen(1));
 		
-		SetCupValue scv = new SetCupValue(new SetEnumValue(vec, false), new SetEnumValue(vec, false));
+		final SetCupValue scv = new SetCupValue(new SetEnumValue(vec, false), new SetEnumValue(vec, false));
 		assertFalse(scv.isNormalized());
 		assertFalse(scv.set1.isNormalized());
 		assertFalse(scv.set2.isNormalized());
@@ -114,7 +114,7 @@ public class InitializeValueTest {
 		vec.addElement(IntValue.gen(4711));
 		vec.addElement(IntValue.gen(1));
 		
-		SetDiffValue sdv = new SetDiffValue(new SetEnumValue(vec, false), new SetEnumValue(vec, false));
+		final SetDiffValue sdv = new SetDiffValue(new SetEnumValue(vec, false), new SetEnumValue(vec, false));
 		assertFalse(sdv.isNormalized());
 		assertFalse(sdv.set1.isNormalized());
 		assertFalse(sdv.set2.isNormalized());
@@ -134,7 +134,7 @@ public class InitializeValueTest {
 		vec.addElement(IntValue.gen(4711));
 		vec.addElement(IntValue.gen(1));
 		
-		SubsetValue sub = new SubsetValue(new SetEnumValue(vec, false));
+		final SubsetValue sub = new SubsetValue(new SetEnumValue(vec, false));
 		assertFalse(sub.isNormalized());
 		assertFalse(sub.set.isNormalized());
 		
@@ -161,13 +161,13 @@ public class InitializeValueTest {
 		final RecordValue rcdv = new RecordValue(new UniqueString[] {b, a}, new Value[] {bVal, aVal}, false);
 
 		assertFalse(rcdv.isNormalized());
-		for (Value v : rcdv.values) {
+		for (final Value v : rcdv.values) {
 			assertFalse(v.isNormalized());
 		}
 		
 		rcdv.initialize();
 		
-		for (Value v : rcdv.values) {
+		for (final Value v : rcdv.values) {
 			assertTrue(v.isNormalized());
 		}
 		assertTrue(rcdv.isNormalized());
@@ -187,13 +187,13 @@ public class InitializeValueTest {
 				new Value[] { bVal, aVal }, false);
 
 		assertFalse(rcdv.isNormalized());
-		for (Value v : rcdv.values) {
+		for (final Value v : rcdv.values) {
 			assertFalse(v.isNormalized());
 		}
 		
 		rcdv.initialize();
 		
-		for (Value v : rcdv.values) {
+		for (final Value v : rcdv.values) {
 			assertTrue(v.isNormalized());
 		}
 		assertTrue(rcdv.isNormalized());
@@ -218,7 +218,7 @@ public class InitializeValueTest {
 		tuple.initialize();
 		
 		assertTrue(tuple.isNormalized());
-		for (Value v : tuple.elems) {
+		for (final Value v : tuple.elems) {
 			assertTrue(v.isNormalized());
 		}
 	}
@@ -237,7 +237,7 @@ public class InitializeValueTest {
 		tuples.initialize();
 		
 		assertTrue(tuples.isNormalized());
-		for (Value v : tuples.sets) {
+		for (final Value v : tuples.sets) {
 			assertTrue(v.isNormalized());
 		}
 	}
@@ -260,12 +260,12 @@ public class InitializeValueTest {
 		setOfRcrds.initialize();
 
 		assertTrue(setOfRcrds.isNormalized());
-		for (Value v : setOfRcrds.values) {
+		for (final Value v : setOfRcrds.values) {
 			assertTrue(v.isNormalized());
 		}
 	}
 
-	private static final Value[] getValue(final int n, String str) {
+	private static final Value[] getValue(final int n, final String str) {
 		final Value[] values = new Value[n];
 		for (int i = 0; i < n; i++) {
 			values[i] = new StringValue(str + i);

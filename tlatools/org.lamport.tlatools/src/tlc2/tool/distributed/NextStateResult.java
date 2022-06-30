@@ -14,8 +14,8 @@ public class NextStateResult implements Serializable {
 	private final TLCStateVec[] nextStates;
 	private final LongVec[] nextFingerprints;
 	
-	public NextStateResult(TLCStateVec[] nextStates, LongVec[] nextFingerprints, 
-			long computationTime, long statesComputed) {
+	public NextStateResult(final TLCStateVec[] nextStates, final LongVec[] nextFingerprints,
+                           final long computationTime, final long statesComputed) {
 		this.nextStates = nextStates;
 		this.nextFingerprints = nextFingerprints;
 		this.computationTime = computationTime;

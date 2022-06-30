@@ -36,7 +36,7 @@ public class MethodValue extends OpValue implements Applicable {
 		return get(md, 0);
 	}
 	
-	public static Value get(final Method md, int minLevel) {
+	public static Value get(final Method md, final int minLevel) {
 		final MethodValue mv = new MethodValue(md, minLevel);
 		// Eagerly evaluate the constant operator if possible (zero arity) to only
 		// evaluate once at startup and not during state exploration.
@@ -67,7 +67,7 @@ public class MethodValue extends OpValue implements Applicable {
 			} else {
 				this.mh = MethodHandles.publicLookup().unreflect(md); 
 			}
-		} catch (IllegalAccessException e) {
+		} catch (final IllegalAccessException e) {
 			throw new TLCRuntimeException(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE, MP.getMessage(
 					EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE, new String[] { md.toString(), e.getMessage() }));
 		}
@@ -84,38 +84,38 @@ public class MethodValue extends OpValue implements Applicable {
   }
   
   @Override
-  public final int compareTo(Object obj) {
+  public final int compareTo(final Object obj) {
     try {
       Assert.fail("Attempted to compare operator " + this.toString() +
       " with value:\n" + obj == null ? "null" : Values.ppr(obj.toString()), getSource());
       return 0;       // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     try {
       Assert.fail("Attempted to check equality of operator " + this.toString() +
       " with value:\n" + obj == null ? "null" : Values.ppr(obj.toString()), getSource());
       return false;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean member(Value elem) {
+  public final boolean member(final Value elem) {
     try {
       Assert.fail("Attempted to check if the value:\n" + elem == null ? "null" : Values.ppr(elem.toString()) +
       "\nis an element of operator " + this.toString(), getSource());
       return false;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -128,25 +128,25 @@ public class MethodValue extends OpValue implements Applicable {
       " is a finite set.", getSource());
       return false;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value apply(Value arg, int control) {
+  public final Value apply(final Value arg, final int control) {
     try {
       throw new WrongInvocationException("It is a TLC bug: Should use the other apply method.");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value apply(Value[] args, int control) {
+  public final Value apply(final Value[] args, final int control) {
     try {
       Value res = null;
       try
@@ -156,11 +156,11 @@ public class MethodValue extends OpValue implements Applicable {
     	  } else {
     		  res = (Value) this.mh.invoke(args);
     	  }
-      } catch (Throwable e)
+      } catch (final Throwable e)
       {
           if (e instanceof InvocationTargetException)
           {
-              Throwable targetException = ((InvocationTargetException)e).getTargetException();
+              final Throwable targetException = ((InvocationTargetException)e).getTargetException();
               throw new EvalException(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE, new String[]{this.md.toString(), targetException.getMessage()});
           } else if (e instanceof NullPointerException) {
               throw new EvalException(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE, new String[]{this.md.toString(), e.getMessage()});
@@ -182,44 +182,44 @@ public class MethodValue extends OpValue implements Applicable {
       }
       return res;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value select(Value arg) {
+  public final Value select(final Value arg) {
     try {
       throw new WrongInvocationException("It is a TLC bug: Attempted to call MethodValue.select().");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
       Assert.fail("Attempted to appy EXCEPT construct to the operator " +
       this.toString() + ".", getSource());
       return null;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       Assert.fail("Attempted to apply EXCEPT construct to the operator " +
       this.toString() + ".", getSource());
       return null;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -232,7 +232,7 @@ public class MethodValue extends OpValue implements Applicable {
       this.toString() + ".", getSource());
       return SetEnumValue.EmptySet;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -245,7 +245,7 @@ public class MethodValue extends OpValue implements Applicable {
       this.toString() + ".", getSource());
       return 0;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -257,7 +257,7 @@ public class MethodValue extends OpValue implements Applicable {
     try {
       throw new WrongInvocationException("It is a TLC bug: Attempted to normalize an operator.");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -268,7 +268,7 @@ public class MethodValue extends OpValue implements Applicable {
     try {
       throw new WrongInvocationException("It is a TLC bug: Attempted to normalize an operator.");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -281,11 +281,11 @@ public class MethodValue extends OpValue implements Applicable {
   public final IValue deepCopy() { return this; }
 
   @Override
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       throw new WrongInvocationException("It is a TLC bug: Attempted to initialize an operator.");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -293,11 +293,11 @@ public class MethodValue extends OpValue implements Applicable {
 
   /* String representation of the value.  */
   @Override
-  public final StringBuffer toString(StringBuffer sb, int offset, boolean ignored) {
+  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean ignored) {
     try {
       return sb.append("<Java Method: " + this.md + ">");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }

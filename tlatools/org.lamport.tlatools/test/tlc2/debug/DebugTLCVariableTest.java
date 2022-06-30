@@ -48,7 +48,7 @@ public class DebugTLCVariableTest {
 
 	@Test
 	public void testFiniteSetValue() {
-		List<TLCVariable> outer = new DebugTLCVariable("4711").setInstance(new SetEnumValue(new SetEnumValue()))
+		final List<TLCVariable> outer = new DebugTLCVariable("4711").setInstance(new SetEnumValue(new SetEnumValue()))
 				.getNested(rnd);
 		assertEquals(1, outer.size());
 		assertEquals(0, outer.get(0).getNested(rnd).size());
@@ -67,7 +67,7 @@ public class DebugTLCVariableTest {
 		vars = vars.get(0).getNested(rnd);
 		assertEquals(2, vars.size());
 
-		for (TLCVariable var : vars) {
+		for (final TLCVariable var : vars) {
 			assertEquals(0, var.getNested(rnd).size());
 		}
 	}

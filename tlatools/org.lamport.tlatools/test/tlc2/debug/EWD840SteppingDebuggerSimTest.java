@@ -120,7 +120,7 @@ public class EWD840SteppingDebuggerSimTest extends TLCDebuggerTestCase {
 		assertEquals(6, f.getT().getLevel());
 
 		stackFrames = debugger.reverseContinue();
-		TLCSuccessorsStackFrame g = (TLCSuccessorsStackFrame) stackFrames[0];		
+		final TLCSuccessorsStackFrame g = (TLCSuccessorsStackFrame) stackFrames[0];
 		assertEquals(g.getS(), g.getT());
 		assertTrue(g.getS().allAssigned());
 		assertEquals(5, g.getT().getLevel());

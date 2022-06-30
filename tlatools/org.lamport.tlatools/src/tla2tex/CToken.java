@@ -133,7 +133,7 @@ public class CToken
     * Below are the methods for this object class, including the           *
     * constructor.                                                         *
     ***********************************************************************/
-    public CToken(String str, int col, int typ, boolean tla, boolean amb)
+    public CToken(final String str, final int col, final int typ, final boolean tla, final boolean amb)
       /*********************************************************************
       * A CToken constructor.                                              *
       *********************************************************************/
@@ -178,10 +178,10 @@ public class CToken
     * tokens created by a TokenizeComment method for something like        *
     * "<42>" or "<42>1a." into a single token of type PF_STEP.             *
     ***********************************************************************/
-    static void FindPfStepCTokens(CToken[][] toks) {
+    static void FindPfStepCTokens(final CToken[][] toks) {
       for (int k = 0 ; k < toks.length ; k++) 
-        { CToken[] input = toks[k] ;
-          Vector<CToken> outputVec = new Vector<CToken>(input.length) ;
+        { final CToken[] input = toks[k] ;
+          final Vector<CToken> outputVec = new Vector<CToken>(input.length) ;
           int i = 0 ;
           while (i < input.length)
            { if (   (i < input.length - 2)

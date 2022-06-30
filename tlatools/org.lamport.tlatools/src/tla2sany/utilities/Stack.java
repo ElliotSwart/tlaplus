@@ -26,12 +26,12 @@ Stack extends tla2sany.utilities.Vector<Object> {
       return info[ size-- -1 ];
   }
 
-  public final Object push( Object obj) {
+  public final Object push(final Object obj) {
     super.addElement( obj );
     return obj;
   }
 
-  public final int search( Object obj ){
+  public final int search(final Object obj ){
    for (int lvi = size-1; lvi >= 0; lvi-- )
      if ( obj == info[ lvi ] ) return lvi;
    return -1;

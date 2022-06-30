@@ -96,7 +96,7 @@ public class April29Test extends ModelCheckerTestCase {
 		// Remove self loop from init's transitions. The remaining transitions are
 		// the true successors (here just a single).
 		final List<Transition> outs = new ArrayList<Transition>();
-		for (Transition t : transitions) {
+		for (final Transition t : transitions) {
 			if (t.getFP() != init.stateFP) {
 				outs.add(t);
 			}
@@ -110,7 +110,7 @@ public class April29Test extends ModelCheckerTestCase {
 		// Verify both outgoing transitions are self loops with the expected
 		// action predicates. transitions is a Set and thus adding equal
 		// instance does not increase the set's size.
-		BitVector bv = new BitVector(alen + slen);
+		final BitVector bv = new BitVector(alen + slen);
 		bv.set(0);
 		bv.set(2);
 		transitions.add(new Transition(successor.stateFP, -1, bv));

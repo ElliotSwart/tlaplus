@@ -55,13 +55,13 @@ public class SimulatorBenchmark {
 		seed = 0;
     }
     
-    public void simulatorBenchmark(int nWorkers) {
+    public void simulatorBenchmark(final int nWorkers) {
 		try {
-			int maxTraceDepth = 20;
-			Simulator simulator = new Simulator("BenchmarkSpec", "MCInv", null, false, maxTraceDepth, Long.MAX_VALUE, rng, 0,
+			final int maxTraceDepth = 20;
+			final Simulator simulator = new Simulator("BenchmarkSpec", "MCInv", null, false, maxTraceDepth, Long.MAX_VALUE, rng, 0,
 					new SimpleFilenameToStream(), nWorkers);
 			simulator.simulate();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			System.out.println(e.getMessage());
 		}    
     }

@@ -32,8 +32,8 @@ public abstract class CheckImpl extends ModelChecker {
    * @param fpMemSize : This parameter added by Yuan Yu on 6 Apr 2010 
    * because same parameter was added to the ModelChecker constructor. 
    */
-  public CheckImpl(ITool tool, String metadir, boolean deadlock,
-		   int depth, String fromChkpt, final FPSetConfiguration fpSetConfig)
+  public CheckImpl(final ITool tool, final String metadir, final boolean deadlock,
+                   final int depth, final String fromChkpt, final FPSetConfiguration fpSetConfig)
   throws IOException {
     // SZ Feb 20, 2009: patched due to changes to ModelCheker
     super(tool, metadir, new NoopStateWriter(), deadlock, fromChkpt, fpSetConfig, System.currentTimeMillis()); // no name resolver and no specobj
@@ -63,7 +63,7 @@ public abstract class CheckImpl extends ModelChecker {
    * depth of the (partial) state space we want to create. 
    */
   public final void init() throws Throwable {
-    boolean recovered = this.recover();
+    final boolean recovered = this.recover();
     if (!recovered) {
       this.checkAssumptions();
       // SZ Feb 23, 2009: added ignore cancel flag
@@ -91,8 +91,8 @@ public abstract class CheckImpl extends ModelChecker {
    * Creates a (partial) state space with the state st as the root and
    * depth as the depth.
    */
-  public final void makeStateSpace(TLCState st, int depth) throws Exception {
-    int depth1= this.trace.getLevel(st.uid) + depth;
+  public final void makeStateSpace(final TLCState st, final int depth) throws Exception {
+    final int depth1= this.trace.getLevel(st.uid) + depth;
     this.theStateQueue = new DiskStateQueue(this.metadir);
     this.theStateQueue.enqueue(st);
     final int result = this.runTLC(depth1);
@@ -111,15 +111,15 @@ public abstract class CheckImpl extends ModelChecker {
   public abstract void exportTrace(TLCStateInfo[] trace) throws IOException;
   
   /* Returns true iff s1 is reachable from s0 (s0 -+-> s1). */
-  public final boolean checkReachability(TLCState s0, TLCState s1) {
-    Action next = this.tool.getNextStateSpec();    
+  public final boolean checkReachability(final TLCState s0, final TLCState s1) {
+    final Action next = this.tool.getNextStateSpec();
     if (!this.tool.isValid(next, s0, s1)) {
       ToolIO.out.println("The following transition is illegal: ");
       StatePrinter.printStandaloneErrorState(s0);
       StatePrinter.printStandaloneErrorState(s1);
       return false;
     }
-    int cnt = this.tool.getImpliedActions().length;
+    final int cnt = this.tool.getImpliedActions().length;
     for (int i = 0; i < cnt; i++) {
       if (!this.tool.isValid(this.tool.getImpliedActions()[i], s0, s1)) {
 	ToolIO.out.println("Error: Action property " + this.tool.getImpliedActNames()[i] +
@@ -136,15 +136,15 @@ public abstract class CheckImpl extends ModelChecker {
    * Returns true iff the state satisfies all the invariant properties.
    * It also records the state if it is not seen before.
    */
-  public final boolean checkState(TLCState state) throws IOException {
+  public final boolean checkState(final TLCState state) throws IOException {
     // Record the state in coverSet and theFPSet:
-    long fp = state.fingerPrint();
-    boolean seen = this.coverSet.put(fp);
+    final long fp = state.fingerPrint();
+    final boolean seen = this.coverSet.put(fp);
     if (!seen) {
       if (!this.theFPSet.contains(fp)) {
       state.uid = this.trace.writeState(this.curState, fp);
 	// Check invariant properties of the state:
-	int cnt = this.tool.getInvariants().length;
+	final int cnt = this.tool.getInvariants().length;
 	for (int j = 0; j < cnt; j++) {
 	  if (!this.tool.isValid(this.tool.getInvariants()[j], state)) {
 	    // We get here because of invariant violation:
@@ -166,7 +166,7 @@ public abstract class CheckImpl extends ModelChecker {
   public final TLCStateInfo[] generateNewTrace() throws IOException {
     long pos = -1;
     while ((pos = this.stateEnum.nextPos()) != -1) {
-      long fp = this.stateEnum.nextFP();
+      final long fp = this.stateEnum.nextFP();
       if (!this.coverSet.contains(fp)) {
 	return this.trace.getTrace(pos, true);
       }
@@ -187,7 +187,7 @@ public abstract class CheckImpl extends ModelChecker {
     
     while (true) {
       // Get the next state:
-      TLCState state = this.getState();
+      final TLCState state = this.getState();
       if (state == null) break;
       this.checkState(state);
       this.checkReachability(this.curState, state);
@@ -197,9 +197,9 @@ public abstract class CheckImpl extends ModelChecker {
 
   public final void export() throws IOException {
     // Check if we need a trace:
-    long curTime = System.currentTimeMillis();
+    final long curTime = System.currentTimeMillis();
     if (curTime - this.lastTraceTime > TraceDuration) {
-      TLCStateInfo[] states = this.generateNewTrace();
+      final TLCStateInfo[] states = this.generateNewTrace();
       if (states != null) {
 	this.exportTrace(states);
       }

@@ -56,22 +56,22 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
   public static final RecordValue EmptyRcd = new RecordValue(new UniqueString[0], new Value[0], true);
 
   /* Constructor */
-  public RecordValue(UniqueString[] names, Value[] values, boolean isNorm) {
+  public RecordValue(final UniqueString[] names, final Value[] values, final boolean isNorm) {
     this.names = names;
     this.values = values;
     this.isNorm = isNorm;
   }
 
-  public RecordValue(UniqueString[] names, Value[] values, boolean isNorm, CostModel cm) {
+  public RecordValue(final UniqueString[] names, final Value[] values, final boolean isNorm, final CostModel cm) {
 	  this(names, values, isNorm);
 	  this.cm = cm;
   }
   
-  public RecordValue(UniqueString name, Value v, boolean isNorm) {
+  public RecordValue(final UniqueString name, final Value v, final boolean isNorm) {
 	  this(new UniqueString[] {name}, new Value[] {v}, isNorm);
   }
   
-  public RecordValue(UniqueString name, Value v) {
+  public RecordValue(final UniqueString name, final Value v) {
 	  this(new UniqueString[] {name}, new Value[] {v}, false);
   }
 
@@ -227,9 +227,9 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
   public final byte getKind() { return RECORDVALUE; }
 
   @Override
-  public final int compareTo(Object obj) {
+  public final int compareTo(final Object obj) {
     try {
-      RecordValue rcd = obj instanceof Value ? (RecordValue) ((Value)obj).toRcd() : null;
+      final RecordValue rcd = obj instanceof Value ? (RecordValue) ((Value)obj).toRcd() : null;
       if (rcd == null) {
         if (obj instanceof ModelValue) {
             return ((ModelValue) obj).modelValueCompareTo(this);
@@ -239,7 +239,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
       }
       this.normalize();
       rcd.normalize();
-      int len = this.names.length;
+      final int len = this.names.length;
       int cmp = len - rcd.names.length;
       if (cmp == 0) {
     	// First, compare the (equicardinal) domains.
@@ -255,15 +255,15 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
       }
       return cmp;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     try {
-      RecordValue rcd = obj instanceof Value ? (RecordValue) ((Value)obj).toRcd() : null;
+      final RecordValue rcd = obj instanceof Value ? (RecordValue) ((Value)obj).toRcd() : null;
       if (rcd == null) {
         if (obj instanceof ModelValue)
            return ((ModelValue) obj).modelValueEquals(this) ;
@@ -272,7 +272,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
       }
       this.normalize();
       rcd.normalize();
-      int len = this.names.length;
+      final int len = this.names.length;
       if (len != rcd.names.length) return false;
   	  // First, compare the (equicardinal) domains.
       for (int i = 0; i < len; i++) {
@@ -288,20 +288,20 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
       }
       return true;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean member(Value elem) {
+  public final boolean member(final Value elem) {
     try {
       Assert.fail("Attempted to check if element:\n" + Values.ppr(elem.toString()) +
                   "\nis in the record:\n" + Values.ppr(this.toString()), getSource());
       return false;    // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -311,14 +311,14 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
   public final boolean isFinite() { return true; }
 
   @Override
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
       if (ex.idx < ex.path.length) {
-        int rlen = this.names.length;
-        Value[] newValues = new Value[rlen];
-        Value arcVal = ex.path[ex.idx];
+        final int rlen = this.names.length;
+        final Value[] newValues = new Value[rlen];
+        final Value arcVal = ex.path[ex.idx];
         if (arcVal instanceof StringValue) {
-          UniqueString arc = ((StringValue)arcVal).val;
+          final UniqueString arc = ((StringValue)arcVal).val;
           for (int i = 0; i < rlen; i++) {
             if (this.names[i].equals(arc)) {
               ex.idx++;
@@ -343,14 +343,14 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
       }
       return ex.value;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       Value res = this;
       for (int i = 0; i < exs.length; i++) {
@@ -358,7 +358,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
       }
       return res;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -377,7 +377,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
   @Override
 	public final Value toFcnRcd() {
         this.normalize();
-        Value[] dom = new Value[this.names.length];
+        final Value[] dom = new Value[this.names.length];
         for (int i = 0; i < this.names.length; i++) {
           dom[i] = new StringValue(this.names[i], cm);
         }
@@ -390,20 +390,20 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
     try {
       return this.names.length;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value apply(Value arg, int control) {
+  public final Value apply(final Value arg, final int control) {
     try {
       if (!(arg instanceof StringValue)) {
         Assert.fail("Attempted to access record by a non-string argument: " + Values.ppr(arg.toString()), getSource());
       }
-      UniqueString name = ((StringValue)arg).getVal();
-      int rlen = this.names.length;
+      final UniqueString name = ((StringValue)arg).getVal();
+      final int rlen = this.names.length;
       for (int i = 0; i < rlen; i++) {
         if (name.equals(this.names[i])) {
           return this.values[i];
@@ -413,21 +413,21 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
           "' of record\n" + Values.ppr(this.toString()), getSource());
       return null;    // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value apply(Value[] args, int control) {
+  public final Value apply(final Value[] args, final int control) {
     try {
       if (args.length != 1) {
         Assert.fail("Attempted to apply record to more than one arguments.", getSource());
       }
       return this.apply(args[0], control);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -435,13 +435,13 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 
   /* This method returns the named component of the record. */
   @Override
-  public final Value select(Value arg) {
+  public final Value select(final Value arg) {
     try {
       if (!(arg instanceof StringValue)) {
         Assert.fail("Attempted to access record by a non-string argument: " + Values.ppr(arg.toString()), getSource());
       }
-      UniqueString name = ((StringValue)arg).getVal();
-      int rlen = this.names.length;
+      final UniqueString name = ((StringValue)arg).getVal();
+      final int rlen = this.names.length;
       for (int i = 0; i < rlen; i++) {
         if (name.equals(this.names[i])) {
           return this.values[i];
@@ -449,7 +449,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
       }
       return null;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -458,13 +458,13 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
   @Override
   public final Value getDomain() {
     try {
-    	Value[] dElems = new Value[this.names.length];
+    	final Value[] dElems = new Value[this.names.length];
       for (int i = 0; i < this.names.length; i++) {
         dElems[i] = new StringValue(this.names[i]);
       }
       return new SetEnumValue(dElems, this.isNormalized());
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -498,25 +498,25 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
   public final Value normalize() {
     try {
       if (!this.isNorm) {
-        int len = this.names.length;
+        final int len = this.names.length;
         for (int i = 1; i < len; i++) {
-          int cmp = this.names[0].compareTo(this.names[i]);
+          final int cmp = this.names[0].compareTo(this.names[i]);
           if (cmp == 0) {
             Assert.fail("Field name " + this.names[i] + " occurs multiple times in record.", getSource());
           }
           else if (cmp > 0) {
-            UniqueString ts = this.names[0];
+            final UniqueString ts = this.names[0];
             this.names[0] = this.names[i];
             this.names[i] = ts;
-            Value tv = this.values[0];
+            final Value tv = this.values[0];
             this.values[0] = this.values[i];
             this.values[i] = tv;
           }
         }
         for (int i = 2; i < len; i++) {
           int j = i;
-          UniqueString st = this.names[i];
-          Value val = this.values[i];
+          final UniqueString st = this.names[i];
+          final Value val = this.values[i];
           int cmp;
           while ((cmp = st.compareTo(this.names[j-1])) < 0) {
             this.names[j] = this.names[j-1];
@@ -533,7 +533,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -547,7 +547,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
         }
         normalize();
 	    }
-	    catch (RuntimeException | OutOfMemoryError e) {
+	    catch (final RuntimeException | OutOfMemoryError e) {
 	      if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
 	      else { throw e; }
 	    }
@@ -562,7 +562,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
       }
       return defined;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -571,7 +571,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
   @Override
   public final IValue deepCopy() {
     try {
-    	Value[] vals = new Value[this.values.length];
+    	final Value[] vals = new Value[this.values.length];
       for (int i = 0; i < this.values.length; i++) {
         vals[i] = (Value) this.values[i].deepCopy();
       }
@@ -584,14 +584,14 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
       // original to appear in the deepCopy.
       return new RecordValue(Arrays.copyOf(this.names, this.names.length), vals, this.isNorm);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       boolean canAssign = ((val instanceof RecordValue) &&
         this.names.length == ((RecordValue)val).names.length);
@@ -603,7 +603,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
       }
       return canAssign;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -638,11 +638,11 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
   public final long fingerPrint(long fp) {
     try {
       this.normalize();
-      int rlen = this.names.length;
+      final int rlen = this.names.length;
       fp = FP64.Extend(fp, FCNRCDVALUE);
       fp = FP64.Extend(fp, rlen);
       for (int i = 0; i < rlen; i++) {
-        String str = this.names[i].toString();
+        final String str = this.names[i].toString();
         fp = FP64.Extend(fp, STRINGVALUE);
         fp = FP64.Extend(fp, str.length());
         fp = FP64.Extend(fp, str);
@@ -650,18 +650,18 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
       }
       return fp;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final IValue permute(IMVPerm perm) {
+  public final IValue permute(final IMVPerm perm) {
     try {
       this.normalize();
-      int rlen = this.names.length;
-      Value[] vals = new Value[rlen];
+      final int rlen = this.names.length;
+      final Value[] vals = new Value[rlen];
       boolean changed = false;
       for (int i = 0; i < rlen; i++) {
         vals[i] = (Value) this.values[i].permute(perm);
@@ -672,7 +672,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -680,9 +680,9 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 
   /* The string representation */
   @Override
-  public final StringBuffer toString(StringBuffer sb, int offset, boolean swallow) {
+  public final StringBuffer toString(StringBuffer sb, final int offset, final boolean swallow) {
     try {
-      int len = this.names.length;
+      final int len = this.names.length;
 
       sb.append("[");
       if (len > 0) {
@@ -696,7 +696,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
       }
       return sb.append("]");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -761,7 +761,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 			final OpDeclNode[] vars = state.getVars();
 			for (int i = 0; i < vars.length; i++) {
 				final UniqueString name = vars[i].getName();
-				int rlen = this.names.length;
+				final int rlen = this.names.length;
 				for (int j = 0; j < rlen; j++) {
 					if (name.equals(this.names[j])) {
 						state.bind(name, this.values[j]);
@@ -777,7 +777,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 			private final RecordValue rcd;
 			private final TLCState state;
 
-			public PrintTLCState(RecordValue recordValue, final TLCState state) {
+			public PrintTLCState(final RecordValue recordValue, final TLCState state) {
 				this.rcd = recordValue;
 				this.state = state;
 			}
@@ -785,7 +785,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 			@Override
 			public String toString() {
 				final StringBuffer result = new StringBuffer();
-				int vlen = rcd.names.length;
+				final int vlen = rcd.names.length;
 				if (vlen == 1) {
 					result.append(rcd.names[0].toString());
 					result.append(" = ");
@@ -793,7 +793,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 					result.append("\n");
 				} else {
 					for (int i = 0; i < vlen; i++) {
-						UniqueString key = rcd.names[i];
+						final UniqueString key = rcd.names[i];
 						result.append("/\\ ");
 						result.append(key.toString());
 						result.append(" = ");
@@ -810,7 +810,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 			}
 
 			@Override
-			public boolean equals(Object obj) {
+			public boolean equals(final Object obj) {
 				return this.state.equals(obj);
 			}
 
@@ -825,32 +825,32 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 			}
 
 			@Override
-			public String toString(TLCState lastState) {
+			public String toString(final TLCState lastState) {
 				return this.state.toString(lastState);
 			}
 
 			@Override
-			public TLCState bind(UniqueString name, IValue value) {
+			public TLCState bind(final UniqueString name, final IValue value) {
 				return this.state.bind(name, value);
 			}
 
 			@Override
-			public TLCState bind(SymbolNode id, IValue value) {
+			public TLCState bind(final SymbolNode id, final IValue value) {
 				return this.state.bind(id, value);
 			}
 
 			@Override
-			public TLCState unbind(UniqueString name) {
+			public TLCState unbind(final UniqueString name) {
 				return this.state.unbind(name);
 			}
 
 			@Override
-			public IValue lookup(UniqueString var) {
+			public IValue lookup(final UniqueString var) {
 				return this.state.lookup(var);
 			}
 
 			@Override
-			public boolean containsKey(UniqueString var) {
+			public boolean containsKey(final UniqueString var) {
 				return this.state.containsKey(var);
 			}
 
@@ -865,7 +865,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 			}
 
 			@Override
-			public StateVec addToVec(StateVec states) {
+			public StateVec addToVec(final StateVec states) {
 				return this.state.addToVec(states);
 			}
 
@@ -886,7 +886,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 		}
 
 		@Override
-		public List<TLCVariable> getTLCVariables(final TLCVariable prototype, Random rnd) {
+		public List<TLCVariable> getTLCVariables(final TLCVariable prototype, final Random rnd) {
 			final List<TLCVariable> nestedVars = new ArrayList<>(values.length);
 			for (int i = 0; i < names.length; i++) {
 				final UniqueString uniqueString = names[i];

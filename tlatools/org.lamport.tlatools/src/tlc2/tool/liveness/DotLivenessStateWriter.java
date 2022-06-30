@@ -34,14 +34,14 @@ import tlc2.util.IStateWriter;
 
 public class DotLivenessStateWriter extends DotStateWriter implements ILivenessStateWriter {
 	
-	public DotLivenessStateWriter(IStateWriter aStateWriter) throws IOException {
+	public DotLivenessStateWriter(final IStateWriter aStateWriter) throws IOException {
 		super(aStateWriter.getDumpFileName().replace(".dot", "_liveness.dot"), "");
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILivenessStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.liveness.TBGraphNode)
 	 */
-	public void writeState(TLCState state, TBGraphNode tableauNode) {
+	public void writeState(final TLCState state, final TBGraphNode tableauNode) {
 		
 		// Marker the state as an initial state by using a filled style.
 		this.writer.append("\"");
@@ -61,16 +61,16 @@ public class DotLivenessStateWriter extends DotStateWriter implements ILivenessS
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILivenessStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.liveness.TBGraphNode, tlc2.tool.TLCState, tlc2.tool.liveness.TBGraphNode, boolean)
 	 */
-	public void writeState(TLCState state, TBGraphNode tableauNode, TLCState successor,
-			TBGraphNode tableauNodeSuccessor, BitVector actionChecks, int from, int length, boolean successorStateIsNew) {
+	public void writeState(final TLCState state, final TBGraphNode tableauNode, final TLCState successor,
+                           final TBGraphNode tableauNodeSuccessor, final BitVector actionChecks, final int from, final int length, final boolean successorStateIsNew) {
 		writeState(state, tableauNode, successor, tableauNodeSuccessor, actionChecks, from, length, successorStateIsNew, Visualization.DEFAULT);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILivenessStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.liveness.TBGraphNode, tlc2.tool.TLCState, tlc2.tool.liveness.TBGraphNode, boolean, tlc2.util.IStateWriter.Visualization)
 	 */
-	public void writeState(TLCState state, TBGraphNode tableauNode, TLCState successor,
-			TBGraphNode tableauNodeSuccessor, BitVector actionChecks, int from, int length, boolean successorStateIsNew, Visualization visualization) {
+	public void writeState(final TLCState state, final TBGraphNode tableauNode, final TLCState successor,
+                           final TBGraphNode tableauNodeSuccessor, final BitVector actionChecks, final int from, final int length, final boolean successorStateIsNew, final Visualization visualization) {
 
 		final String successorsFP = Long.toString(successor.fingerPrint());
 

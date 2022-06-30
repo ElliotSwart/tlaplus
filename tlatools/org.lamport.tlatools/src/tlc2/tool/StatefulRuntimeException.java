@@ -9,16 +9,16 @@ public class StatefulRuntimeException extends RuntimeException {
 		super();
 	}
 
-	public StatefulRuntimeException(String message) {
+	public StatefulRuntimeException(final String message) {
 		super(message);
 	}
 
-	public StatefulRuntimeException(String message, Throwable cause) {
+	public StatefulRuntimeException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 
 	public boolean setKnown() {
-		boolean old = isKnown;
+		final boolean old = isKnown;
 		isKnown = true;
 		return old;
 	}

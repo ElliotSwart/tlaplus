@@ -68,13 +68,13 @@ public final class MemFPSet2 extends FPSet {
   /* Constructs a new, empty FPSet. */
   public MemFPSet2(final FPSetConfiguration fpSetConfig) throws RemoteException {
 	super(fpSetConfig);
-    int spineSize = 1 << LogSpineSize;
+    final int spineSize = 1 << LogSpineSize;
     this.count = 0;
     this.table = new byte[spineSize][];
     this.mask = spineSize - 1;
   }
   
-  public FPSet init(int numThreads, String metadir, String fname) {
+  public FPSet init(final int numThreads, final String metadir, final String fname) {
     this.metadir = metadir;
     this.filename = metadir + FileUtil.separator + fname;
 	return this;
@@ -82,16 +82,16 @@ public final class MemFPSet2 extends FPSet {
 
   public synchronized final long size() { return this.count; }
     
-  public synchronized final boolean put(long fp) {
-        int index = (int)(fp & this.mask);
-        byte[] bucket = this.table[index];
-        byte b1 = (byte)((fp >>> 24) & 0xffL);
-        byte b2 = (byte)((fp >>> 32) & 0xffL);
-        byte b3 = (byte)((fp >>> 40) & 0xffL);
-        byte b4 = (byte)((fp >>> 48) & 0xffL);
-        byte b5 = (byte)((fp >>> 56) & 0xffL);
+  public synchronized final boolean put(final long fp) {
+        final int index = (int)(fp & this.mask);
+        final byte[] bucket = this.table[index];
+        final byte b1 = (byte)((fp >>> 24) & 0xffL);
+        final byte b2 = (byte)((fp >>> 32) & 0xffL);
+        final byte b3 = (byte)((fp >>> 40) & 0xffL);
+        final byte b4 = (byte)((fp >>> 48) & 0xffL);
+        final byte b5 = (byte)((fp >>> 56) & 0xffL);
         // Test if the fingerprint is already in the hashtable.
-        int len = bucket == null ? 0 : bucket.length;
+        final int len = bucket == null ? 0 : bucket.length;
         for (int i = 0; i < len; i += 5) {
             if (bucket[i  ] == b1 && 
                 bucket[i+1] == b2 && 
@@ -100,7 +100,7 @@ public final class MemFPSet2 extends FPSet {
                 bucket[i+4] == b5) return true;
         }
         // bucket is full 
-        byte[] newBucket = new byte[len + 5];
+        final byte[] newBucket = new byte[len + 5];
         if (bucket != null) System.arraycopy(bucket, 0, newBucket, 0, len);
         this.table[index] = newBucket;
         newBucket[len  ] = b1;
@@ -112,16 +112,16 @@ public final class MemFPSet2 extends FPSet {
         return false;
   }
 
-  public synchronized final boolean contains(long fp) {
-    int index = (int)(fp & this.mask);
-    byte[] bucket = this.table[index];
-    byte b1 = (byte)((fp >>> 24) & 0xffL);
-    byte b2 = (byte)((fp >>> 32) & 0xffL);
-    byte b3 = (byte)((fp >>> 40) & 0xffL);
-    byte b4 = (byte)((fp >>> 48) & 0xffL);
-    byte b5 = (byte)((fp >>> 56) & 0xffL);
+  public synchronized final boolean contains(final long fp) {
+    final int index = (int)(fp & this.mask);
+    final byte[] bucket = this.table[index];
+    final byte b1 = (byte)((fp >>> 24) & 0xffL);
+    final byte b2 = (byte)((fp >>> 32) & 0xffL);
+    final byte b3 = (byte)((fp >>> 40) & 0xffL);
+    final byte b4 = (byte)((fp >>> 48) & 0xffL);
+    final byte b5 = (byte)((fp >>> 56) & 0xffL);
     // Test if the fingerprint is already in the hashtable.
-    int len = bucket == null ? 0 : bucket.length;
+    final int len = bucket == null ? 0 : bucket.length;
     for (int i = 0; i < len; i += 5) {
       if (bucket[i  ] == b1 && 
 	  bucket[i+1] == b2 && 
@@ -132,13 +132,13 @@ public final class MemFPSet2 extends FPSet {
     return false;
   }
 
-  public final void exit(boolean cleanup) throws IOException {
+  public final void exit(final boolean cleanup) throws IOException {
 	super.exit(cleanup);
     if (cleanup) {
       // Delete the metadata directory:
       FileUtil.deleteDir(this.metadir, true);
     }
-    String hostname = InetAddress.getLocalHost().getHostName();    
+    final String hostname = InetAddress.getLocalHost().getHostName();
     MP.printMessage(EC.TLC_FP_COMPLETED, hostname);
     System.exit(0);    
   }
@@ -146,8 +146,8 @@ public final class MemFPSet2 extends FPSet {
   public final long checkFPs() {
     long dis = Long.MAX_VALUE;
     for (int i = 0; i < this.table.length; i++) {
-      long low = i & 0xffffffL;	
-      byte[] bucket = this.table[i];
+      final long low = i & 0xffffffL;
+      final byte[] bucket = this.table[i];
       if (bucket != null) {
 	int j = 0;
 	while (j < bucket.length) {
@@ -156,7 +156,7 @@ public final class MemFPSet2 extends FPSet {
 	  long b3 = (bucket[j++] & 0xffL) << 40;
 	  long b4 = (bucket[j++] & 0xffL) << 48;
 	  long b5 = (bucket[j++] & 0xffL) << 56;
-	  long fp = b5 | b4 | b3 | b2 | b1 | low;
+	  final long fp = b5 | b4 | b3 | b2 | b1 | low;
 	  int k = j;
 	  while (k < bucket.length) {
 	    b1 = (bucket[k++] & 0xffL) << 24;
@@ -164,16 +164,16 @@ public final class MemFPSet2 extends FPSet {
 	    b3 = (bucket[k++] & 0xffL) << 40;
 	    b4 = (bucket[k++] & 0xffL) << 48;
 	    b5 = (bucket[k++] & 0xffL) << 56;
-	    long fp1 = b5 | b4 | b3 | b2 | b1 | low;
-	    long dis1 = (fp > fp1) ? fp-fp1 : fp1-fp;
+	    final long fp1 = b5 | b4 | b3 | b2 | b1 | low;
+	    final long dis1 = (fp > fp1) ? fp-fp1 : fp1-fp;
 	    if (dis1 >= 0) {
 	      dis = Math.min(dis, dis1);
 	    }
 	  }
 	  for (k = i+1; k < this.table.length; k++) {
-	    byte[] bucket1 = this.table[k];
+	    final byte[] bucket1 = this.table[k];
 	    if (bucket1 != null) {
-	      long low1 = k & 0xffffffL;
+	      final long low1 = k & 0xffffffL;
 	      int k1 = 0;
 	      while (k1 < bucket.length) {
 		b1 = (bucket[k1++] & 0xffL) << 24;
@@ -181,8 +181,8 @@ public final class MemFPSet2 extends FPSet {
 		b3 = (bucket[k1++] & 0xffL) << 40;
 		b4 = (bucket[k1++] & 0xffL) << 48;
 		b5 = (bucket[k1++] & 0xffL) << 56;
-		long fp1 = b5 | b4 | b3 | b2 | b1 | low1;
-		long dis1 = (fp > fp1) ? fp-fp1 : fp1-fp;
+		final long fp1 = b5 | b4 | b3 | b2 | b1 | low1;
+		final long dis1 = (fp > fp1) ? fp-fp1 : fp1-fp;
 		if (dis1 >= 0) {
 		  dis = Math.min(dis, dis1);
 		}
@@ -195,21 +195,21 @@ public final class MemFPSet2 extends FPSet {
     return dis;
   }
 
-  public final void beginChkpt(String fname) throws IOException {
-    BufferedDataOutputStream dos =
+  public final void beginChkpt(final String fname) throws IOException {
+    final BufferedDataOutputStream dos =
       new BufferedDataOutputStream(this.chkptName(fname, "tmp"));
     for (int i = 0; i < this.table.length; i++) {
-      long low = i & 0xffffffL;
-      byte[] bucket = this.table[i];
+      final long low = i & 0xffffffL;
+      final byte[] bucket = this.table[i];
       if (bucket != null) {
 	int j = 0;
 	while (j < bucket.length) {
-	  long b1 = (bucket[j++] & 0xffL) << 24;
-	  long b2 = (bucket[j++] & 0xffL) << 32;
-	  long b3 = (bucket[j++] & 0xffL) << 40;
-	  long b4 = (bucket[j++] & 0xffL) << 48;
-	  long b5 = (bucket[j++] & 0xffL) << 56;
-	  long fp = b5 | b4 | b3 | b2 | b1 | low;
+	  final long b1 = (bucket[j++] & 0xffL) << 24;
+	  final long b2 = (bucket[j++] & 0xffL) << 32;
+	  final long b3 = (bucket[j++] & 0xffL) << 40;
+	  final long b4 = (bucket[j++] & 0xffL) << 48;
+	  final long b5 = (bucket[j++] & 0xffL) << 56;
+	  final long fp = b5 | b4 | b3 | b2 | b1 | low;
 	  dos.writeLong(fp);
 	}
       }
@@ -217,9 +217,9 @@ public final class MemFPSet2 extends FPSet {
     dos.close();
   }
 
-  final public void commitChkpt(String fname) throws IOException {
-    File oldChkpt = new File(this.chkptName(fname, "chkpt"));
-    File newChkpt = new File(this.chkptName(fname, "tmp"));
+  final public void commitChkpt(final String fname) throws IOException {
+    final File oldChkpt = new File(this.chkptName(fname, "chkpt"));
+    final File newChkpt = new File(this.chkptName(fname, "tmp"));
     if ((oldChkpt.exists() && !oldChkpt.delete()) ||
 	!newChkpt.renameTo(oldChkpt)) 
     {
@@ -227,15 +227,15 @@ public final class MemFPSet2 extends FPSet {
     }
   }
     
-  public final void recover(String fname) throws IOException {
-    BufferedDataInputStream dis = 
+  public final void recover(final String fname) throws IOException {
+    final BufferedDataInputStream dis =
       new BufferedDataInputStream(this.chkptName(fname, "chkpt"));
     try {
       while (!dis.atEOF()) {
 	Assert.check(!this.put(dis.readLong()), EC.TLC_FP_NOT_IN_SET);
       }
     }
-    catch (EOFException e) 
+    catch (final EOFException e)
     {
         throw new IOException("MemFPSet2.recover: failed.");
     }
@@ -250,15 +250,15 @@ public final class MemFPSet2 extends FPSet {
     this.commitChkpt(this.filename);
   }
 
-  public final void recover(TLCTrace trace) throws IOException {
+  public final void recover(final TLCTrace trace) throws IOException {
     this.recover(this.filename);
   }
 
-  public final void recoverFP(long fp) throws IOException {
+  public final void recoverFP(final long fp) throws IOException {
     Assert.check(!this.put(fp), EC.TLC_FP_NOT_IN_SET);
   }
   
-  final private String chkptName(String fname, String ext) {
+  final private String chkptName(final String fname, final String ext) {
     return this.metadir + FileUtil.separator + fname + ".fp." + ext;
   }
     

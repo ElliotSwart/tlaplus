@@ -17,17 +17,17 @@ public final class ValueOutputStream implements IValueOutputStream {
   private final BufferedDataOutputStream dos;
   private final HandleTable handles;
 
-  public ValueOutputStream(File file) throws IOException {
+  public ValueOutputStream(final File file) throws IOException {
 	  this(file, TLCGlobals.useGZIP);
   }
 
-  public ValueOutputStream(File file, final boolean compress) throws IOException {
+  public ValueOutputStream(final File file, final boolean compress) throws IOException {
 	  this(new FileOutputStream(file), compress);
   }
   
   public ValueOutputStream(final OutputStream out, final boolean compress) throws IOException {
     if (compress) {
-      OutputStream os = new GZIPOutputStream(out);
+      final OutputStream os = new GZIPOutputStream(out);
       this.dos = new BufferedDataOutputStream(os);
     }
     else {
@@ -36,13 +36,13 @@ public final class ValueOutputStream implements IValueOutputStream {
     this.handles = new HandleTable();
   }
 
-  public ValueOutputStream(String fname) throws IOException {
+  public ValueOutputStream(final String fname) throws IOException {
 	  this(fname, TLCGlobals.useGZIP);
   }
   
-  public ValueOutputStream(String fname, boolean zip) throws IOException {
+  public ValueOutputStream(final String fname, final boolean zip) throws IOException {
 	    if (zip) {
-	      OutputStream os = new GZIPOutputStream(new FileOutputStream(fname));
+	      final OutputStream os = new GZIPOutputStream(new FileOutputStream(fname));
 	      this.dos = new BufferedDataOutputStream(os);
 	    }
 	    else {
@@ -52,17 +52,17 @@ public final class ValueOutputStream implements IValueOutputStream {
 	  }
 
   @Override
-  public final void writeShort(short x) throws IOException {
+  public final void writeShort(final short x) throws IOException {
 	  this.dos.writeShort(x);
   }
   
   @Override
-  public final void writeInt(int x) throws IOException {
+  public final void writeInt(final int x) throws IOException {
     this.dos.writeInt(x);
   }
 
   @Override
-  public final void writeLong(long x) throws IOException {
+  public final void writeLong(final long x) throws IOException {
     this.dos.writeLong(x);
   }
   
@@ -73,7 +73,7 @@ public final class ValueOutputStream implements IValueOutputStream {
   
   /* Precondition: x is a non-negative short. */
   @Override
-  public final void writeShortNat(short x) throws IOException {
+  public final void writeShortNat(final short x) throws IOException {
     if (x > 0x7f) {
       this.dos.writeShort((short) -x);
     }
@@ -84,7 +84,7 @@ public final class ValueOutputStream implements IValueOutputStream {
 
   /* Precondition: x is a non-negative int. */
   @Override
-  public final void writeNat(int x) throws IOException {
+  public final void writeNat(final int x) throws IOException {
     if (x > 0x7fff) {
       this.dos.writeInt(-x);
     }
@@ -95,7 +95,7 @@ public final class ValueOutputStream implements IValueOutputStream {
 
   /* Precondition: x is a non-negative long. */
   @Override
-  public final void writeLongNat(long x) throws IOException {
+  public final void writeLongNat(final long x) throws IOException {
     if (x <= 0x7fffffff) {
       this.dos.writeInt((int)x);
     }
@@ -170,7 +170,7 @@ public final class ValueOutputStream implements IValueOutputStream {
 // SZ Jul 13, 2009: not used
 //    final int size() { return this.size; }
     
-    final int put(Object val) {
+    final int put(final Object val) {
       int index = (System.identityHashCode(val) & 0x7FFFFFFF) % this.spine.length;
       // lookup:
       for (int i = spine[index]; i >= 0; i = next[i]) {
@@ -193,23 +193,23 @@ public final class ValueOutputStream implements IValueOutputStream {
     }
 
     private final void growEntries() {
-      int newLength = this.next.length * 2;
-      int[] newNext = new int[newLength];
+      final int newLength = this.next.length * 2;
+      final int[] newNext = new int[newLength];
       System.arraycopy(this.next, 0, newNext, 0, this.size);
       this.next = newNext;
 
-      Object[] newValues = new Object[newLength];
+      final Object[] newValues = new Object[newLength];
       System.arraycopy(this.values, 0, newValues, 0, this.size);
       this.values = newValues;
     }
 
     private final void growSpine() {
-      int len = (this.spine.length * 2) + 1;
+      final int len = (this.spine.length * 2) + 1;
       this.spine = new int[len];
       this.threshold = (int)(len * 0.75);
       Arrays.fill(this.spine, -1);
       for (int i = 0; i < this.size; i++) {
-	int index = (System.identityHashCode(this.values[i]) & 0x7FFFFFFF) % len;
+	final int index = (System.identityHashCode(this.values[i]) & 0x7FFFFFFF) % len;
 	this.next[i] = this.spine[index];
 	this.spine[index] = i;
       }

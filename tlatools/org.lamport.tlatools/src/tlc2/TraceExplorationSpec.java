@@ -51,23 +51,23 @@ public class TraceExplorationSpec {
 	 * @param recorder  Recorder to record TLC as it runs; assumed to already be
 	 *                  subscribed.
 	 */
-	public TraceExplorationSpec(Path output, Date timestamp, String originalModuleName,
-			ErrorTraceMessagePrinterRecorder recorder) {
+	public TraceExplorationSpec(final Path output, final Date timestamp, final String originalModuleName,
+                                final ErrorTraceMessagePrinterRecorder recorder) {
 		this.outputPath = output;
 		this.teSpecModuleName = deriveTESpecModuleName(originalModuleName, timestamp);
 		this.originalModuleName = originalModuleName;
 		this.recorder = recorder;
 	}
 
-	public TraceExplorationSpec(Path output, String teModuleName, String originalModuleName,
-			ErrorTraceMessagePrinterRecorder recorder) {
+	public TraceExplorationSpec(final Path output, final String teModuleName, final String originalModuleName,
+                                final ErrorTraceMessagePrinterRecorder recorder) {
 		this.outputPath = output;
 		this.teSpecModuleName = teModuleName;
 		this.originalModuleName = originalModuleName;
 		this.recorder = recorder;
 	}
 
-	public void generate(ITool specInfo) {
+	public void generate(final ITool specInfo) {
 		if (this.recorder.getMCErrorTrace().isEmpty()) {
 			return;
 		}
@@ -88,11 +88,11 @@ public class TraceExplorationSpec {
 		this.outputPath.toFile().mkdirs();
 
 		final Path teSpecPath = this.outputPath.resolve(teSpecModuleName + TLAConstants.Files.TLA_EXTENSION);
-		try (OutputStream tlaStream = new FileOutputStream(teSpecPath.toFile());) {
+		try (final OutputStream tlaStream = new FileOutputStream(teSpecPath.toFile());) {
 			writeSpecTEStreams(teSpecModuleName, originalModuleName, specInfo.getModelConfig(), variables, errorTrace,
 					specInfo, tlaStream);
 			MP.printMessage(EC.TLC_TE_SPEC_GENERATION_COMPLETE, teSpecPath.toString());
-		} catch (SecurityException | IOException e) {
+		} catch (final SecurityException | IOException e) {
 			MP.printMessage(EC.TLC_TE_SPEC_GENERATION_ERROR, e.getMessage());
 		}
 	}
@@ -144,21 +144,21 @@ public class TraceExplorationSpec {
 		 * TraceExplorerDelegate#writeModelInfo)
 		 */
 
-		List<String> indentedConstants = new ArrayList<String>();
+		final List<String> indentedConstants = new ArrayList<String>();
 		// Ordinary constants:
-		for (List<String> keyValuePair : constants) {
+		for (final List<String> keyValuePair : constants) {
 			if (keyValuePair.size() > 1) {
-				String key = keyValuePair.get(0).toString();
-				String value = keyValuePair.get(1).toString();
+				final String key = keyValuePair.get(0).toString();
+				final String value = keyValuePair.get(1).toString();
 				indentedConstants.add(SpecTraceExpressionWriter.indentString(String.format("%s = %s", key, value), 1));
 			} else {
-				String line = keyValuePair.get(0).toString();
+				final String line = keyValuePair.get(0).toString();
 				indentedConstants.add(SpecTraceExpressionWriter.indentString(line, 1));
 			}
 		}
 
 		// Reified model-values:
-		for (ModelValue mv : reifiedConstants) {
+		for (final ModelValue mv : reifiedConstants) {
 			indentedConstants.add(SpecTraceExpressionWriter.indentString(String.format("%s = %s", mv, mv), 1));
 		}
 
@@ -178,9 +178,9 @@ public class TraceExplorationSpec {
 		// config file, but I do not use it (through `CONSTANTS`) in the model spec.
 		// So we add these remaining constants to `mvsStr` so they are added to the
 		// `TE` spec.
-		Defns defns = specInfo.getSpecProcessor().getDefns();
-		ArrayList<String> modConstants = new ArrayList<String>();
-		for (ModelValue mv : ModelValue.mvs) {
+		final Defns defns = specInfo.getSpecProcessor().getDefns();
+		final ArrayList<String> modConstants = new ArrayList<String>();
+		for (final ModelValue mv : ModelValue.mvs) {
 			if (defns.get(mv.toString()) == null) {
 				modConstants.add(mv.toString());
 			}
@@ -198,7 +198,7 @@ public class TraceExplorationSpec {
 				TLAConstants.TraceExplore.SPEC_TECONSTANTS_NAME);
 		final Set<String> teConstantModuleHashSet = new HashSet<>();
 		teConstantModuleHashSet.add(TLAConstants.BuiltInModules.TLC);
-		String modelValuesAsConstants;
+		final String modelValuesAsConstants;
 		if (!modConstants.isEmpty()) {
 			teConstantModuleHashSet.add(teConstantSpecName);
 			modelValuesAsConstants = String.format("CONSTANTS %s\n", String.join(", ", modConstants));
@@ -352,7 +352,7 @@ public class TraceExplorationSpec {
 		writer.writeStreams(specTETLAOutStream, specTETLAOutStream);
 	}
 
-	public static String teModuleId(Date timestamp) {
+	public static String teModuleId(final Date timestamp) {
 		final long secondsSinceEpoch = timestamp.getTime() / 1_000L;
 		return Long.toString(secondsSinceEpoch);
 	}
@@ -363,7 +363,7 @@ public class TraceExplorationSpec {
 	 * @param ogModuleName Original module name.
 	 * @return The TE spec module name.
 	 */
-	public static String deriveTESpecModuleName(String ogModuleName, Date timestamp) {
+	public static String deriveTESpecModuleName(final String ogModuleName, final Date timestamp) {
 		// millis to secondPaths
 		return String.format("%s_%s_%s", ogModuleName, TLAConstants.TraceExplore.TRACE_EXPRESSION_MODULE_NAME,
 				teModuleId(timestamp));
@@ -375,7 +375,7 @@ public class TraceExplorationSpec {
 	 * @param tlaFilePath Path to the TLA file.
 	 * @return Whether the given spec is a TE spec.
 	 */
-	public static boolean isTESpecFile(String tlaFilePath) {
+	public static boolean isTESpecFile(final String tlaFilePath) {
 		if (null == tlaFilePath) {
 			return false;
 		}
@@ -384,10 +384,10 @@ public class TraceExplorationSpec {
 			// TODO: branch based on something better than the filename such as the module
 			// name that we choose above, or check for special tokens/symbols generated in
 			// trace spec.
-			String filename = Paths.get(tlaFilePath).getFileName().toString();
+			final String filename = Paths.get(tlaFilePath).getFileName().toString();
 			// see tlc2.TraceExplorationSpec.deriveTESpecModuleName(String)
 			return filename.matches("^.*_" + TLAConstants.TraceExplore.TRACE_EXPRESSION_MODULE_NAME + ".*(.tla)?$");
-		} catch (InvalidPathException e) {
+		} catch (final InvalidPathException e) {
 			return false;
 		}
 	}

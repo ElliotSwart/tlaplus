@@ -8,14 +8,14 @@ package tlc2.util;
 public final class MemIntStack extends MemBasedSet implements IntStack {
 	private static final int MIN_CAPACITY = 1024;
 
-	public MemIntStack(String diskdir, String name) {
+	public MemIntStack(final String diskdir, final String name) {
 		super(MIN_CAPACITY);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.util.IntStack#pushInt(int)
 	 */
-	public final synchronized void pushInt(int x) {
+	public final synchronized void pushInt(final int x) {
 		if (this.size == this.elems.length) {
 			final int[] newElems = ensureCapacity(MIN_CAPACITY);
 			System.arraycopy(elems, 0, newElems, 0, this.size);
@@ -28,7 +28,7 @@ public final class MemIntStack extends MemBasedSet implements IntStack {
 	/* (non-Javadoc)
 	 * @see tlc2.util.IntStack#pushLong(long)
 	 */
-	public final synchronized void pushLong(long x) {
+	public final synchronized void pushLong(final long x) {
 		this.pushInt((int) (x & 0xFFFFFFFFL));
 		this.pushInt((int) (x >>> 32));
 	}
@@ -44,7 +44,7 @@ public final class MemIntStack extends MemBasedSet implements IntStack {
 		return peakInt(size - 1);
 	}
 
-	public final synchronized int peakInt(int pos) {
+	public final synchronized int peakInt(final int pos) {
 		return this.elems[pos];
 	}
 
@@ -52,20 +52,20 @@ public final class MemIntStack extends MemBasedSet implements IntStack {
 	 * @see tlc2.util.IntStack#popLong()
 	 */
 	public final synchronized long popLong() {
-		long high = this.popInt();
-		long low = this.popInt();
+		final long high = this.popInt();
+		final long low = this.popInt();
 		return (high << 32) | (low & 0xFFFFFFFFL);
 	}
 
 	public final synchronized long peakLong() {
-		long high = this.peakInt();
-		long low = this.peakInt();
+		final long high = this.peakInt();
+		final long low = this.peakInt();
 		return (high << 32) | (low & 0xFFFFFFFFL);
 	}
 
-	public final synchronized long peakLong(int pos) {
-		long high = this.peakInt(pos + 1);
-		long low = this.peakInt(pos);
+	public final synchronized long peakLong(final int pos) {
+		final long high = this.peakInt(pos + 1);
+		final long low = this.peakInt(pos);
 		return (high << 32) | (low & 0xFFFFFFFFL);
 	}
 

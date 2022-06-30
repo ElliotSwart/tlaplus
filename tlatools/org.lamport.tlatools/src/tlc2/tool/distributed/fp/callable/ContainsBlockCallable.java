@@ -10,7 +10,7 @@ import tlc2.util.LongVec;
 
 public class ContainsBlockCallable extends FPSetManagerCallable {
 	
-	public ContainsBlockCallable(FPSetManager fpSetManager, List<FPSets> fpSets, LongVec[] fps, int index) {
+	public ContainsBlockCallable(final FPSetManager fpSetManager, final List<FPSets> fpSets, final LongVec[] fps, final int index) {
 		super(fpSetManager, fpSets, fps, index);
 	}
 	
@@ -19,9 +19,9 @@ public class ContainsBlockCallable extends FPSetManagerCallable {
 	 */
 	public BitVectorWrapper call() throws Exception {
 		try {
-			BitVector bv = fpset.get(index).containsBlock(fps[index]);
+			final BitVector bv = fpset.get(index).containsBlock(fps[index]);
 			return new BitVectorWrapper(index, bv);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			return reassign(e);
 		}
 	}

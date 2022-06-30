@@ -17,7 +17,7 @@ public final class SetOfLong {
   private long table[];
   private boolean hasZero;
 
-  public SetOfLong(int size) {
+  public SetOfLong(final int size) {
     this.table = new long[size];
     this.count = 0;
     this.length = size;
@@ -25,16 +25,16 @@ public final class SetOfLong {
     this.hasZero = false;
   }
 
-  public SetOfLong(int size, float ignore) { this(size); }
+  public SetOfLong(final int size, final float ignore) { this(size); }
 
   private final void grow() {
-    long[] old = table;
+    final long[] old = table;
     this.count = 0;
     this.length = 2 * this.length + 1;
     this.thresh = this.length / 2;
     this.table = new long[this.length];
     for (int i = 0; i < old.length; i++) {
-      long k = old[i];
+      final long k = old[i];
       if (k != 0) this.put(k);
     }
   }
@@ -43,7 +43,7 @@ public final class SetOfLong {
    * Add k into the table. Return true iff the table has already
    * contained k.
    */
-  public final boolean put(long k) {
+  public final boolean put(final long k) {
     if (count >= thresh) this.grow();
     if (k == 0) {
       if (this.hasZero) return true;
@@ -54,7 +54,7 @@ public final class SetOfLong {
     else {
       int loc = ((int)k & 0x7FFFFFFF) % this.length;
       while (true) {
-	long ent = this.table[loc];
+	final long ent = this.table[loc];
 	if (ent == k) return true;
 	if (ent == 0) {
 	  table[loc] = k;
@@ -67,14 +67,14 @@ public final class SetOfLong {
   }
 
   /* Return true iff the table contains k. */
-  public final boolean contains(long k) {
+  public final boolean contains(final long k) {
     if (k == 0) {
       return this.hasZero;
     }
     else {
       int loc = ((int)k & 0x7FFFFFFF) % this.length;
       while (true) {
-	long ent = this.table[loc];
+	final long ent = this.table[loc];
 	if (ent == k) return true;
 	if (ent == 0) return false;
 	loc = (loc + 1) % this.length;
@@ -89,7 +89,7 @@ public final class SetOfLong {
   public final long checkFPs() {
     int cnt = 0;
     for (int i = 0; i < this.length; i++) {
-      long x = this.table[i];
+      final long x = this.table[i];
       if (x != 0) {
 	this.table[cnt++] = this.table[i];
       }
@@ -110,24 +110,24 @@ public final class SetOfLong {
     return dis;
   }
 
-  public final void beginChkpt(DataOutputStream dos) throws IOException {
+  public final void beginChkpt(final DataOutputStream dos) throws IOException {
     dos.writeInt(this.count);
     dos.writeInt(this.length);
     dos.writeInt(this.thresh);
     dos.writeBoolean(this.hasZero);
     for (int i = 0; i < this.length; i++) {
-      long k = this.table[i];
+      final long k = this.table[i];
       if (k != 0) dos.writeLong(k);
     }
   }
 
-  public final void recover(DataInputStream dis) throws IOException {
+  public final void recover(final DataInputStream dis) throws IOException {
     this.count = dis.readInt();
     this.length = dis.readInt();
     this.thresh = dis.readInt();
     this.hasZero = dis.readBoolean();
     this.table = new long[this.length];
-    int num = this.hasZero ? this.count-1 : this.count;
+    final int num = this.hasZero ? this.count-1 : this.count;
     for (int i = 0; i < num; i++) {
       this.put(dis.readLong());
     }

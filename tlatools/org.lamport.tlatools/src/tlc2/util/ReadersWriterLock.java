@@ -45,7 +45,7 @@ public class ReadersWriterLock implements Serializable {
         while (this.hasWriter || this.waitingWriters > 0) {
             try {
                 this.wait();
-            } catch (InterruptedException e) 
+            } catch (final InterruptedException e)
             {
                 Assert.fail(EC.SYSTEM_INTERRUPTED);
             }
@@ -72,7 +72,7 @@ public class ReadersWriterLock implements Serializable {
             this.waitingWriters++;
             try {
                 this.wait();
-            } catch (InterruptedException e) {
+            } catch (final InterruptedException e) {
                 Assert.fail(EC.SYSTEM_INTERRUPTED);
             }
             this.waitingWriters--;

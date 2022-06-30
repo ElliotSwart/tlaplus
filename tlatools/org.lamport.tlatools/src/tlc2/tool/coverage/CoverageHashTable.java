@@ -39,7 +39,7 @@ class CoverageHashTable extends java.util.Hashtable<Integer, ExploreNode> {
 	}
 
 	@Override
-	public ExploreNode get(Object key) {
+	public ExploreNode get(final Object key) {
 		// Return null here to visit an OpDefNode D multiple times if D is "called" from
 		// multiple OpApplNodes. However, stop endless recursion if D is a RECURSIVE
 		// operator.

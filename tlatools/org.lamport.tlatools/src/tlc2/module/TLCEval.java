@@ -90,7 +90,7 @@ public class TLCEval implements ValueConstants {
 		return tlcEvalConst(tool, arg, cm);
 	}
 
-	private static Value tlcEvalConst(Tool tool, ExprOrOpArgNode arg, CostModel cm) {
+	private static Value tlcEvalConst(final Tool tool, final ExprOrOpArgNode arg, final CostModel cm) {
 		assert arg.getLevel() == LevelConstants.ConstantLevel;
 		
 		lock.readLock().lock();

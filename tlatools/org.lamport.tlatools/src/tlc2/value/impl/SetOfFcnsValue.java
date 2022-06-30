@@ -27,13 +27,13 @@ public final Value domain;        /* Function domain  */
   protected SetEnumValue fcnSet;
 
   /* Constructor */
-  public SetOfFcnsValue(Value domain, Value range) {
+  public SetOfFcnsValue(final Value domain, final Value range) {
     this.domain = domain;
     this.range = range;
     this.fcnSet = null;
   }
 
-  public SetOfFcnsValue(Value domain, Value range, CostModel cm) {
+  public SetOfFcnsValue(final Value domain, final Value range, final CostModel cm) {
 	  this(domain, range);
 	  this.cm = cm;
   }
@@ -42,37 +42,37 @@ public final Value domain;        /* Function domain  */
   public final byte getKind() { return SETOFFCNSVALUE; }
 
   @Override
-  public final int compareTo(Object obj) {
+  public final int compareTo(final Object obj) {
     try {
       this.convertAndCache();
       return this.fcnSet.compareTo(obj);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     try {
       if (obj instanceof SetOfFcnsValue) {
-        SetOfFcnsValue fcns = (SetOfFcnsValue)obj;
+        final SetOfFcnsValue fcns = (SetOfFcnsValue)obj;
         return (this.domain.equals(fcns.domain) &&
           this.range.equals(fcns.range));
       }
       this.convertAndCache();
       return this.fcnSet.equals(obj);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean member(Value elem) {
+  public final boolean member(final Value elem) {
     try {
-      FcnRcdValue fcn = (FcnRcdValue) elem.toFcnRcd();
+      final FcnRcdValue fcn = (FcnRcdValue) elem.toFcnRcd();
       if (fcn == null) {
         if (elem instanceof ModelValue)
            return ((ModelValue) elem).modelValueMember(this) ;
@@ -81,7 +81,7 @@ public final Value domain;        /* Function domain  */
       }
       if (fcn.intv == null) {
         fcn.normalize();
-        Value fdom = new SetEnumValue(fcn.domain, true);
+        final Value fdom = new SetEnumValue(fcn.domain, true);
         if (this.domain.equals(fdom)) {
           for (int i = 0; i < fcn.values.length; i++) {
             if (!this.range.member(fcn.values[i])) {
@@ -101,7 +101,7 @@ public final Value domain;        /* Function domain  */
       }
       return false;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -112,14 +112,14 @@ public final Value domain;        /* Function domain  */
     try {
       return this.domain.isFinite() && this.range.isFinite();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
       if (ex.idx < ex.path.length) {
         Assert.fail("Attempted to apply EXCEPT to the set of functions:\n" +
@@ -127,14 +127,14 @@ public final Value domain;        /* Function domain  */
       }
       return ex.value;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       if (exs.length != 0) {
         Assert.fail("Attempted to apply EXCEPT to the set of functions:\n" +
@@ -142,7 +142,7 @@ public final Value domain;        /* Function domain  */
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -151,8 +151,8 @@ public final Value domain;        /* Function domain  */
   @Override
   public final int size() {
     try {
-      int dsz = this.domain.size();
-      int rsz = this.range.size();
+      final int dsz = this.domain.size();
+      final int rsz = this.range.size();
       long sz = 1;
       for (int i = 0; i < dsz; i++) {
         sz *= rsz;
@@ -163,7 +163,7 @@ public final Value domain;        /* Function domain  */
       }
       return (int)sz;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -191,7 +191,7 @@ public final Value domain;        /* Function domain  */
       }
       return this.fcnSet.isNormalized();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -209,7 +209,7 @@ public final Value domain;        /* Function domain  */
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -227,7 +227,7 @@ public final Value domain;        /* Function domain  */
         fcnSet.deepNormalize();
       }
 	    }
-	    catch (RuntimeException | OutOfMemoryError e) {
+	    catch (final RuntimeException | OutOfMemoryError e) {
 	      if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
 	      else { throw e; }
 	    }
@@ -238,7 +238,7 @@ public final Value domain;        /* Function domain  */
     try {
       return this.domain.isDefined() && this.range.isDefined();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -248,11 +248,11 @@ public final Value domain;        /* Function domain  */
   public final IValue deepCopy() { return this; }
 
   @Override
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       return this.equals(val);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -260,24 +260,24 @@ public final Value domain;        /* Function domain  */
 
   /* The fingerprint  */
   @Override
-  public final long fingerPrint(long fp) {
+  public final long fingerPrint(final long fp) {
     try {
       this.convertAndCache();
       return this.fcnSet.fingerPrint(fp);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final IValue permute(IMVPerm perm) {
+  public final IValue permute(final IMVPerm perm) {
     try {
       this.convertAndCache();
       return this.fcnSet.permute(perm);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -288,7 +288,7 @@ public final Value domain;        /* Function domain  */
       this.fcnSet = (SetEnumValue) this.toSetEnum();
     }
     else if (this.fcnSet == SetEnumValue.DummyEnum) {
-      SetEnumValue val = (SetEnumValue) this.toSetEnum();
+      final SetEnumValue val = (SetEnumValue) this.toSetEnum();
       val.deepNormalize();
       this.fcnSet = val;
     }
@@ -299,8 +299,8 @@ public final Value domain;        /* Function domain  */
       if (this.fcnSet != null && this.fcnSet != SetEnumValue.DummyEnum) {
         return this.fcnSet;
       }
-      ValueVec vals = new ValueVec();
-      ValueEnumeration Enum = this.elements();
+      final ValueVec vals = new ValueVec();
+      final ValueEnumeration Enum = this.elements();
       Value elem;
       while ((elem = Enum.nextElement()) != null) {
         vals.addElement(elem);
@@ -316,13 +316,13 @@ public final Value domain;        /* Function domain  */
 
   /* The string representation of the value. */
   @Override
-  public final StringBuffer toString(StringBuffer sb, int offset, boolean swallow) {
+  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow) {
     try {
       boolean unlazy = TLCGlobals.expand;
       try {
         if (unlazy) {
-          int dsz = this.domain.size();
-          int rsz = this.range.size();
+          final int dsz = this.domain.size();
+          final int rsz = this.range.size();
           long sz = 1;
           for (int i = 0; i < dsz; i++) {
             sz *= rsz;
@@ -334,10 +334,10 @@ public final Value domain;        /* Function domain  */
           unlazy = sz < TLCGlobals.enumBound;
         }
       }
-      catch (Throwable e) { if (swallow) unlazy = false; else throw e; }
+      catch (final Throwable e) { if (swallow) unlazy = false; else throw e; }
 
       if (unlazy) {
-        Value val = this.toSetEnum();
+        final Value val = this.toSetEnum();
         return val.toString(sb, offset, swallow);
       }
       else {
@@ -349,7 +349,7 @@ public final Value domain;        /* Function domain  */
         return sb;
       }
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -366,7 +366,7 @@ public final Value domain;        /* Function domain  */
       }
       return this.fcnSet.elements();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -379,7 +379,7 @@ public final Value domain;        /* Function domain  */
 
 	public DomIVEnumerator() {
       this.isDone = false;
-      int sz = domain.size();
+      final int sz = domain.size();
       if (range instanceof Enumerable) {
         this.enums = new ValueEnumeration[sz];
         this.currentElems = new Value[sz];
@@ -457,14 +457,14 @@ public final Value domain;        /* Function domain  */
 
     public Enumerator() {
       this.isDone = false;
-      SetEnumValue domSet = (SetEnumValue) domain.toSetEnum();
+      final SetEnumValue domSet = (SetEnumValue) domain.toSetEnum();
       if (domSet == null)
         Assert.fail("Attempted to enumerate a set of the form [D -> R]," +
               "but the domain D:\n" + Values.ppr(domain.toString()) +
               "\ncannot be enumerated.", getSource());
       domSet.normalize();
-      ValueVec elems = domSet.elems;
-      int sz = elems.size();
+      final ValueVec elems = domSet.elems;
+      final int sz = elems.size();
       if (range instanceof Enumerable) {
         this.dom = new Value[sz];
         this.enums = new ValueEnumeration[sz];
@@ -538,7 +538,7 @@ public final Value domain;        /* Function domain  */
   }
 	
 	@Override
-	protected tlc2.value.impl.SetOfFcnsOrRcdsValue.SubsetEnumerator getSubsetEnumerator(int k, int n) {
+	protected tlc2.value.impl.SetOfFcnsOrRcdsValue.SubsetEnumerator getSubsetEnumerator(final int k, final int n) {
 		return new SubsetEnumerator(k, n);
 	}
 
@@ -573,7 +573,7 @@ public final Value domain;        /* Function domain  */
 	}
 
 	@Override
-	protected tlc2.value.impl.SetOfFcnsOrRcdsValue.BigIntegerSubsetEnumerator getBigSubsetEnumerator(int k) {
+	protected tlc2.value.impl.SetOfFcnsOrRcdsValue.BigIntegerSubsetEnumerator getBigSubsetEnumerator(final int k) {
 		return new BigIntegerSubsetEnumerator(k);
 	}
 	
@@ -612,7 +612,7 @@ public final Value domain;        /* Function domain  */
 			return new FcnRcdValue(domSet.elems, range, true);
 		}
 	}
-	public TLCVariable toTLCVariable(final TLCVariable variable, Random rnd) {
+	public TLCVariable toTLCVariable(final TLCVariable variable, final Random rnd) {
 		return super.toTLCVariable(variable, rnd);
 	}
 }

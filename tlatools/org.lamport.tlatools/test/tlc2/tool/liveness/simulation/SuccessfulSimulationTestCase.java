@@ -36,19 +36,19 @@ import tlc2.tool.liveness.ModelCheckerTestCase;
 
 public abstract class SuccessfulSimulationTestCase extends ModelCheckerTestCase {
 
-	public SuccessfulSimulationTestCase(String spec) {
+	public SuccessfulSimulationTestCase(final String spec) {
 		super(spec);
 	}
 
-	public SuccessfulSimulationTestCase(String spec, String path) {
+	public SuccessfulSimulationTestCase(final String spec, final String path) {
 		super(spec, path);
 	}
 
-	public SuccessfulSimulationTestCase(String spec, String path, String[] extraArguments) {
+	public SuccessfulSimulationTestCase(final String spec, final String path, final String[] extraArguments) {
 		super(spec, path, extraArguments);
 	}
 	
-	public SuccessfulSimulationTestCase(String spec, String path, String[] extraArguments, int exitStatus) {
+	public SuccessfulSimulationTestCase(final String spec, final String path, final String[] extraArguments, final int exitStatus) {
 		super(spec, path, extraArguments, exitStatus);
 	}
 	

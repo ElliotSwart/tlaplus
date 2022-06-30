@@ -34,16 +34,16 @@ public class TBPar extends Vect<LiveExprNode> {
 		super(0);
 	}
 
-	public TBPar(int i) {
+	public TBPar(final int i) {
 		super(i);
 	}
 
-	public final LiveExprNode exprAt(int i) {
+	public final LiveExprNode exprAt(final int i) {
 		return (LiveExprNode) elementAt(i);
 	}
 
 	/* This method returns true iff this particle is equal to another particle */
-	public final boolean equals(TBPar par) {
+	public final boolean equals(final TBPar par) {
 		return (this.contains(par) && par.contains(this));
 	}
 
@@ -51,7 +51,7 @@ public class TBPar extends Vect<LiveExprNode> {
 	 * This method tests whether or not an expression is in a list of
 	 * expressions.
 	 */
-	final boolean member(LiveExprNode e) {
+	final boolean member(final LiveExprNode e) {
 		for (int i = 0; i < this.size(); i++) {
 			if (e.equals(this.exprAt(i))) {
 				return true;
@@ -63,7 +63,7 @@ public class TBPar extends Vect<LiveExprNode> {
 	/**
 	 * This method tests whether a particle par is a subset of this particle.
 	 */
-	private final boolean contains(TBPar par) {
+	private final boolean contains(final TBPar par) {
 		for (int i = 0; i < par.size(); i++) {
 			if (!this.member(par.exprAt(i))) {
 				return false;
@@ -74,8 +74,8 @@ public class TBPar extends Vect<LiveExprNode> {
 
 	/* This method returns the unions of two particles. */
 	@SuppressWarnings("unused")
-	private final TBPar union(TBPar par) {
-		TBPar res = new TBPar(this.size() + par.size());
+	private final TBPar union(final TBPar par) {
+		final TBPar res = new TBPar(this.size() + par.size());
 		for (int i = 0; i < this.size(); i++) {
 			if (!par.member(this.exprAt(i))) {
 				res.addElement(this.exprAt(i));
@@ -88,8 +88,8 @@ public class TBPar extends Vect<LiveExprNode> {
 	}
 
 	/* This method appends an expression to the tail of Par. */
-	private final TBPar append(LiveExprNode ln) {
-		TBPar res = new TBPar(this.size() + 1);
+	private final TBPar append(final LiveExprNode ln) {
+		final TBPar res = new TBPar(this.size() + 1);
 		for (int i = 0; i < this.size(); i++) {
 			res.addElement(this.exprAt(i));
 		}
@@ -98,8 +98,8 @@ public class TBPar extends Vect<LiveExprNode> {
 	}
 
 	/* This method appends two expressions to the tail of Par. */
-	private final TBPar append(LiveExprNode ln1, LiveExprNode ln2) {
-		TBPar res = new TBPar(this.size() + 2);
+	private final TBPar append(final LiveExprNode ln1, final LiveExprNode ln2) {
+		final TBPar res = new TBPar(this.size() + 2);
 		for (int i = 0; i < this.size(); i++) {
 			res.addElement(this.exprAt(i));
 		}
@@ -114,9 +114,9 @@ public class TBPar extends Vect<LiveExprNode> {
 	 * It's a recursive tree search.
 	 */
 	public TBParVec particleClosure() {
-		TBPar positive_closure = this.positiveClosure();
-		Vect<TBTriple> alphas = positive_closure.alphaTriples();
-		Vect<TBTriple> betas = positive_closure.betaTriples();
+		final TBPar positive_closure = this.positiveClosure();
+		final Vect<TBTriple> alphas = positive_closure.alphaTriples();
+		final Vect<TBTriple> betas = positive_closure.betaTriples();
 		return particleClosure(this, alphas, betas);
 	}
 
@@ -132,7 +132,7 @@ public class TBPar extends Vect<LiveExprNode> {
 		// figure 5.1. for alpha expansion rules.
 		TBPar terms1 = terms;
 		for (int i = 0; i < terms1.size(); i++) {
-			LiveExprNode ln = terms1.exprAt(i);
+			final LiveExprNode ln = terms1.exprAt(i);
 			LiveExprNode kappa1 = null, kappa2 = null;
 			if (ln instanceof LNAll) {
 				// Alpha-Expansion: []p expands to p, ()[]p
@@ -160,7 +160,7 @@ public class TBPar extends Vect<LiveExprNode> {
 		do {
 			done = true;
 			for (int i = 0; i < alphas.size(); i++) {
-				TBTriple alpha = alphas.elementAt(i);
+				final TBTriple alpha = alphas.elementAt(i);
 				if (terms1.member(alpha.getB()) && terms1.member(alpha.getC()) && !terms1.member(alpha.getA())) {
 					terms1.addElement(alpha.getA());
 					done = false;
@@ -178,7 +178,7 @@ public class TBPar extends Vect<LiveExprNode> {
 		// try a beta expansion. See MP page 403 
 		// figure 5.1. for beta expansion rules.
 		for (int i = 0; i < terms.size(); i++) {
-			LiveExprNode ln = terms.exprAt(i);
+			final LiveExprNode ln = terms.exprAt(i);
 			LiveExprNode kappa1 = null, kappa2 = null;
 			if (ln instanceof LNEven) {
 				// Beta-Expansion: <>p expands to p, ()<>p
@@ -190,21 +190,21 @@ public class TBPar extends Vect<LiveExprNode> {
 				kappa2 = ((LNDisj) ln).getBody(1);
 			}
 			if ((kappa1 != null) && !terms.member(kappa1) && !terms.member(kappa2)) {
-				TBParVec ps1 = particleClosure(terms.append(kappa1), alphas, betas);
-				TBParVec ps2 = particleClosure(terms.append(kappa2), alphas, betas);
+				final TBParVec ps1 = particleClosure(terms.append(kappa1), alphas, betas);
+				final TBParVec ps2 = particleClosure(terms.append(kappa2), alphas, betas);
 				return ps1.union(ps2);
 			}
 		}
 		// try a beta^-1 expansion
 		for (int i = 0; i < betas.size(); i++) {
-			TBTriple beta = betas.elementAt(i);
+			final TBTriple beta = betas.elementAt(i);
 			if ((terms.member(beta.getB()) || terms.member(beta.getC())) && !terms.member(beta.getA())) {
 				return particleClosure(terms.append(beta.getA()), alphas, betas);
 			}
 		}
 		// if there are not any more expansions to do, return the terms
 		// we've got as the only particle in a list of particles.
-		TBParVec res = new TBParVec(1);
+		final TBParVec res = new TBParVec(1);
 		res.addElement(terms);
 		return res;
 	}
@@ -217,13 +217,13 @@ public class TBPar extends Vect<LiveExprNode> {
 	 * makeBinary, otherwise it may give the wrong answer and crash.
 	 */
 	private final Vect<TBTriple> alphaTriples() {
-		Vect<TBTriple> ts = new Vect<>();
+		final Vect<TBTriple> ts = new Vect<>();
 		for (int i = 0; i < this.size(); i++) {
-			LiveExprNode ln = this.exprAt(i);
+			final LiveExprNode ln = this.exprAt(i);
 			if (ln instanceof LNAll) {
 				ts.addElement(new TBTriple(ln, ((LNAll) ln).getBody(), new LNNext(ln)));
 			} else if (ln instanceof LNConj) {
-				LNConj lnc = (LNConj) ln;
+				final LNConj lnc = (LNConj) ln;
 				ts.addElement(new TBTriple(lnc, lnc.getBody(0), lnc.getBody(1)));
 			}
 		}
@@ -231,13 +231,13 @@ public class TBPar extends Vect<LiveExprNode> {
 	}
 
 	private final Vect<TBTriple> betaTriples() {
-		Vect<TBTriple> ts = new Vect<>();
+		final Vect<TBTriple> ts = new Vect<>();
 		for (int i = 0; i < this.size(); i++) {
-			LiveExprNode ln = this.exprAt(i);
+			final LiveExprNode ln = this.exprAt(i);
 			if (ln instanceof LNEven) {
 				ts.addElement(new TBTriple(ln, ((LNEven) ln).getBody(), new LNNext(ln)));
 			} else if (ln instanceof LNDisj) {
-				LNDisj lnd = (LNDisj) ln;
+				final LNDisj lnd = (LNDisj) ln;
 				ts.addElement(new TBTriple(lnd, lnd.getBody(0), lnd.getBody(1)));
 			}
 		}
@@ -260,16 +260,16 @@ public class TBPar extends Vect<LiveExprNode> {
 		//assert !this.containsActions (no LNAction instances)
 		//assert this.isPositiveForm()
 		// First put the elements into positive or negative bin
-		TBPar pos = new TBPar(this.size());
-		TBPar neg = new TBPar(this.size());
+		final TBPar pos = new TBPar(this.size());
+		final TBPar neg = new TBPar(this.size());
 		for (int i = 0; i < this.size(); i++) {
-			LiveExprNode ln = this.exprAt(i);
+			final LiveExprNode ln = this.exprAt(i);
 			// Implementation not aligned with TBGraphNode::new because here we split into
 			// pos and neg bins.
 			if (ln instanceof LNState || ln instanceof LNBool) {
 				pos.addElement(ln);
 			} else if (ln instanceof LNNeg) {
-				LiveExprNode body = ((LNNeg) ln).getBody();
+				final LiveExprNode body = ((LNNeg) ln).getBody();
 				// Because tf has been brought into positive form by the nested pushNeg of
 				// toDNF, the sub-terms of LNNeg can only be LNState and LNBool, but not
 				// arbitrary terms such as ~[]p or []<>p.
@@ -303,13 +303,13 @@ public class TBPar extends Vect<LiveExprNode> {
 	 */
 	private final TBPar positiveClosure() {
 		// tps is the queue of terms to be processed.
-		TBPar tps = new TBPar(this.size() * 2);
+		final TBPar tps = new TBPar(this.size() * 2);
 		for (int i = 0; i < this.size(); i++) {
 			tps.addElement(this.elementAt(i));
 		}
-		TBPar result = new TBPar(this.size() * 2);
+		final TBPar result = new TBPar(this.size() * 2);
 		while (tps.size() > 0) {
-			LiveExprNode ln = tps.exprAt(tps.size() - 1);
+			final LiveExprNode ln = tps.exprAt(tps.size() - 1);
 			tps.removeLastElement();
 			if (ln instanceof LNNeg) {
 				// LNNeg is obviously not positive, but its subterms might.
@@ -328,13 +328,13 @@ public class TBPar extends Vect<LiveExprNode> {
 				result.addElement(new LNNext(ln));
 				tps.addElement(((LNAll) ln).getBody());
 			} else if (ln instanceof LNConj) {
-				LNConj lnc = (LNConj) ln;
+				final LNConj lnc = (LNConj) ln;
 				for (int i = 0; i < lnc.getCount(); i++) {
 					tps.addElement(lnc.getBody(i));
 				}
 				result.addElement(ln);
 			} else if (ln instanceof LNDisj) {
-				LNDisj lnd = (LNDisj) ln;
+				final LNDisj lnd = (LNDisj) ln;
 				for (int i = 0; i < lnd.getCount(); i++) {
 					tps.addElement(lnd.getBody(i));
 				}
@@ -355,9 +355,9 @@ public class TBPar extends Vect<LiveExprNode> {
 	 * PART-TAB particle tableau construction on page 456 in Manna & Pnueli.
 	 */
 	final TBPar impliedSuccessors() {
-		TBPar successors = new TBPar(this.size());
+		final TBPar successors = new TBPar(this.size());
 		for (int i = 0; i < this.size(); i++) {
-			LiveExprNode ln = this.exprAt(i);
+			final LiveExprNode ln = this.exprAt(i);
 			if (ln instanceof LNNext) {
 				successors.addElement(((LNNext) ln).getBody());
 			}
@@ -375,13 +375,13 @@ public class TBPar extends Vect<LiveExprNode> {
 	 * <li>r \in A</li>
 	 * </ul>
 	 */
-	final boolean isFulfilling(LNEven promise) {
+	final boolean isFulfilling(final LNEven promise) {
 		return !this.member(promise) || this.member(promise.getBody());
 	}
 
-	public final void toString(StringBuffer sb, String padding) {
+	public final void toString(final StringBuffer sb, final String padding) {
 		sb.append("{");
-		String padding1 = padding + " ";
+		final String padding1 = padding + " ";
 		if (this.size() != 0) {
 			this.elementAt(0).toString(sb, padding1);
 		}
@@ -394,7 +394,7 @@ public class TBPar extends Vect<LiveExprNode> {
 	}
 
 	public final String toString() {
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		this.toString(sb, "");
 		return sb.toString();
 	}
@@ -403,12 +403,12 @@ public class TBPar extends Vect<LiveExprNode> {
 		final StringBuffer sb = new StringBuffer();
 		sb.append("{");
 		if (this.size() != 0) {
-			LiveExprNode liveExprNode = this.elementAt(0);
+			final LiveExprNode liveExprNode = this.elementAt(0);
 			sb.append(liveExprNode.toDotViz());
 		}
 		for (int i = 1; i < this.size(); i++) {
 			sb.append(",\n");
-			LiveExprNode liveExprNode = this.elementAt(i);
+			final LiveExprNode liveExprNode = this.elementAt(i);
 			sb.append(liveExprNode.toDotViz());
 		}
 		sb.append("}");

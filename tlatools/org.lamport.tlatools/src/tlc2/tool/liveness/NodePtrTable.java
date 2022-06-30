@@ -21,7 +21,7 @@ public class NodePtrTable {
 	/**
 	 * @param size
 	 */
-	public NodePtrTable(int size) {
+	public NodePtrTable(final int size) {
 		this.count = 0;
 		this.length = size;
 		this.thresh = (int) (size * 0.75);
@@ -36,7 +36,7 @@ public class NodePtrTable {
 	 * Add <k, elem> into the table. If the table has already contained k,
 	 * overwrite the old value.
 	 */
-	public final void put(long k, long elem) {
+	public final void put(final long k, final long elem) {
 		if (this.count >= this.thresh) {
 			this.grow();
 		}
@@ -57,7 +57,7 @@ public class NodePtrTable {
 	}
 
 	/* Return k's location if the table contains k. Otherwise, return -1. */
-	public final int getLoc(long k) {
+	public final int getLoc(final long k) {
 		if (count >= thresh) {
 			this.grow();
 		}
@@ -74,7 +74,7 @@ public class NodePtrTable {
 	}
 
 	/* Return the value with key k. Otherwise, return -1. */
-	public final long get(long k) {
+	public final long get(final long k) {
 		if (count >= thresh) {
 			this.grow();
 		}
@@ -90,15 +90,15 @@ public class NodePtrTable {
 		}
 	}
 
-	public final long getByLoc(int loc) {
+	public final long getByLoc(final int loc) {
 		return this.elems[loc];
 	}
 
-	public final long getKeyByLoc(int loc) {
+	public final long getKeyByLoc(final int loc) {
 		return this.keys[loc];
 	}
 
-	public final void putByLoc(long k, long elem, int loc) {
+	public final void putByLoc(final long k, final long elem, final int loc) {
 		this.keys[loc] = k;
 		this.elems[loc] = elem;
 	}
@@ -146,7 +146,7 @@ public class NodePtrTable {
 			}
 			this.length = newLength;
 			this.thresh = (int) (newLength * 0.75);
-		} catch (OutOfMemoryError t) {
+		} catch (final OutOfMemoryError t) {
 			// Handle OOM error locally because grow is on the code path of safety checking
 			// (LiveCheck#addInit/addNext...).
 			System.gc();
@@ -158,7 +158,7 @@ public class NodePtrTable {
 				// It doesn't buy us much, but - as fallback - do not grow capacity
 				// exponentially.
 				grow(newLength - (newLength >> 2));
-			} catch (OutOfMemoryError inner) {
+			} catch (final OutOfMemoryError inner) {
 				MP.printError(EC.SYSTEM_OUT_OF_MEMORY, inner);
 				System.exit(1);
 			}

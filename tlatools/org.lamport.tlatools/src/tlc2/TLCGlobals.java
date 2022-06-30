@@ -66,7 +66,7 @@ public class TLCGlobals
 		return lnCheck.startsWith("seq");
 	}
 
-	public synchronized static void setNumWorkers(int n)
+	public synchronized static void setNumWorkers(final int n)
     {
         numWorkers = n;
     }
@@ -76,7 +76,7 @@ public class TLCGlobals
         return numWorkers;
     }
 
-    public synchronized static void incNumWorkers(int n)
+    public synchronized static void incNumWorkers(final int n)
     {
         numWorkers += n;
     }
@@ -162,7 +162,7 @@ public class TLCGlobals
     	}
     	
     	// 3. time between checkpoints is up?
-        long now = System.currentTimeMillis();
+        final long now = System.currentTimeMillis();
         if (now - lastChkpt >= TLCGlobals.chkptDuration) {
         	lastChkpt = now;
         	return true;
@@ -214,7 +214,7 @@ public class TLCGlobals
 			// TLC's Build-TimeStamp in the jar's Manifest is format according to ISO 8601
 			// (https://en.m.wikipedia.org/wiki/ISO_8601)
 			return df.parse(manifestValue);
-		} catch (NullPointerException | ParseException e) {
+		} catch (final NullPointerException | ParseException e) {
 			// There is no manifest or the manifest does not contain a build time stamp, in
 			// which case we return the current, syntactically equivalent time stamp.
 			// This is usually the case when running TLC from an IDE or the 'test' target of
@@ -228,7 +228,7 @@ public class TLCGlobals
 	public static int getSCMCommits() {
 		try {
 			return Integer.parseInt(getManifestValue("X-Git-Commits-Count"));
-		} catch (NullPointerException | NumberFormatException nfe) {
+		} catch (final NullPointerException | NumberFormatException nfe) {
 			// Not mapping to -1 so that at the level of TLA+ it is \in Nat.
 			return 0;
 		}
@@ -248,7 +248,7 @@ public class TLCGlobals
 					}
 				}
 			}
-		} catch (Exception ignore) {
+		} catch (final Exception ignore) {
 		}
 		return null;
 	}
@@ -256,7 +256,7 @@ public class TLCGlobals
 	public static String getInstallLocation() {
 		try {
 			return new File(TLC.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
-		} catch (URISyntaxException e) {
+		} catch (final URISyntaxException e) {
 			return "unknown";
 		}
 	}

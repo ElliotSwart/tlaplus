@@ -32,7 +32,7 @@ private SymbolNode name;
 
   public final static TLCState Empty = new TLCStateFun(null, null, null);
   
-  private TLCStateFun(SymbolNode name, IValue value, TLCStateFun state) {
+  private TLCStateFun(final SymbolNode name, final IValue value, final TLCStateFun state) {
     this.name = name;
     this.value = value;
     this.next = state;
@@ -40,26 +40,26 @@ private SymbolNode name;
 
   public final TLCState createEmpty() { return Empty; }
 
-  public final TLCState bind(UniqueString name, IValue value) {
+  public final TLCState bind(final UniqueString name, final IValue value) {
       throw new WrongInvocationException("TLCStateFun.bind: This is a TLC bug.");
   }
 
-  public final TLCState bind(SymbolNode id, IValue value) {
+  public final TLCState bind(final SymbolNode id, final IValue value) {
     return new TLCStateFun(id, value, this);
   }
   
-  public final TLCState unbind(UniqueString name) {
+  public final TLCState unbind(final UniqueString name) {
       throw new WrongInvocationException("TLCStateFun.unbind: This is a TLC bug.");
   }
   
-  public final IValue lookup(UniqueString var) {
+  public final IValue lookup(final UniqueString var) {
     for (TLCStateFun cur = this; cur != Empty; cur = cur.next) {
       if (var == cur.name.getName()) return cur.value;
     }
     return null;
   }
   
-  public final boolean containsKey(UniqueString var) {
+  public final boolean containsKey(final UniqueString var) {
     return this.lookup(var) != null;
   }
   
@@ -88,21 +88,21 @@ private SymbolNode name;
 
   
 
-  public final StateVec addToVec(StateVec states) {
+  public final StateVec addToVec(final StateVec states) {
     return states.addElement(this);
   }
   
-  public final void read(IValueInputStream vis) throws IOException {
+  public final void read(final IValueInputStream vis) throws IOException {
       throw new WrongInvocationException("TLCStateFun.read: This is a TLC bug.");
   }
 
-  public final void write(IValueOutputStream vos) throws IOException {
+  public final void write(final IValueOutputStream vos) throws IOException {
       throw new WrongInvocationException("TLCStateFun.write: This is a TLC bug.");
   }
   
   /* Returns a string representation of this state.  */
   public final String toString() {
-    StringBuffer sb = new StringBuffer("[");
+    final StringBuffer sb = new StringBuffer("[");
     if (this != Empty) {
       sb.append(this.name.getName().toString());
       sb.append(" -> ");
@@ -119,7 +119,7 @@ private SymbolNode name;
     return sb.toString();
   }
   
-  public final String toString(TLCState lastState) {
+  public final String toString(final TLCState lastState) {
       throw new WrongInvocationException("TLCStateFun.toString: This is a TLC bug.");
   }
   

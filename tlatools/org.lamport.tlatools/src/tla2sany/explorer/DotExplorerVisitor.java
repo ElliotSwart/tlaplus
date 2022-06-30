@@ -66,14 +66,14 @@ public class DotExplorerVisitor extends ExplorerVisitor {
 		this.table = new NoopTable<>();
 		try {
 			this.writer = new PrintWriter(FileUtil.newBFOS(rootModule.getName() + ".dot"));
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 		this.writer.append("strict digraph DiskGraph {\n"); // strict removes redundant edges
 	}
 	
 	@Override
-	public void preVisit(ExploreNode exploreNode) {
+	public void preVisit(final ExploreNode exploreNode) {
 		if (skipNode(exploreNode)) {
 			return;
 		}
@@ -159,7 +159,7 @@ public class DotExplorerVisitor extends ExplorerVisitor {
 	@SuppressWarnings("serial")
 	private class NoopTable<K, V> extends Hashtable<K, V> {
 		@Override
-		public V get(Object key) {
+		public V get(final Object key) {
 			// Return null here to visit an OpDefNode D multiple times if D is "called" from
 			// multiple OpApplNodes. However, stop endless recursion if D is a RECURSIVE
 			// operator.

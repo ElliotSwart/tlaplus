@@ -151,7 +151,7 @@ public class WorkerValue {
 	
 	private final IValue[] values;
 
-	private WorkerValue(IValue[] values) {
+	private WorkerValue(final IValue[] values) {
 		this.values = values;
 	}
 }

@@ -61,7 +61,7 @@ public class Explorer {
 	private ExternalModuleTable mt;
 
 	// Constructor
-	public Explorer(ExternalModuleTable mtarg) {
+	public Explorer(final ExternalModuleTable mtarg) {
 
 		mt = mtarg;
 
@@ -81,9 +81,9 @@ public class Explorer {
 				lineLength++;
 			} while (input.charAt(lineLength - 1) != '\n' & lineLength < inCapacity);
 			input.setLength(lineLength);
-		} catch (EOFException e) {
+		} catch (final EOFException e) {
 			return false;
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			System.out.println("***I/O exception on keyboard input; " + e);
 			System.exit(-1);
 		}
@@ -96,7 +96,7 @@ public class Explorer {
 	}
 
 	// Integer command
-	private void printNode(int depth) {
+	private void printNode(final int depth) {
 
 		// See if the object requested is already in the table
 		if ((obj = (ExploreNode) semNodesTable.get(icmd)) != null) {
@@ -109,16 +109,16 @@ public class Explorer {
 		}
 	} // end method
 
-	private void lookUpAndPrintSyntaxTree(String symbName) {
+	private void lookUpAndPrintSyntaxTree(final String symbName) {
 
-		Vector<SymbolNode> symbolVect = new Vector<>(8); // Initial room for 8 symbols with same name
+		final Vector<SymbolNode> symbolVect = new Vector<>(8); // Initial room for 8 symbols with same name
 
 		// Collect in Vector symbols all SymbolNodes in the semNodesTable whose name ==
 		// symbName
 
-		for (Enumeration<ExploreNode> Enum = semNodesTable.elements(); Enum.hasMoreElements();) {
+		for (final Enumeration<ExploreNode> Enum = semNodesTable.elements(); Enum.hasMoreElements();) {
 
-			ExploreNode semNode = Enum.nextElement();
+			final ExploreNode semNode = Enum.nextElement();
 
 			if (semNode instanceof SymbolNode
 					&& ((SymbolNode) semNode).getName() == UniqueString.uniqueStringOf(symbName)) {
@@ -130,23 +130,23 @@ public class Explorer {
 
 		// Print them all
 		for (int i = 0; i < symbolVect.size(); i++) {
-			SymbolNode sym = (SymbolNode) (symbolVect.elementAt(i));
+			final SymbolNode sym = (SymbolNode) (symbolVect.elementAt(i));
 			((SemanticNode) (sym)).getTreeNode().printST(0);
 			System.out.println();
 		}
 
 	}
 
-	private void lookUpAndPrintDef(String symbName) {
+	private void lookUpAndPrintDef(final String symbName) {
 
-		Vector<SymbolNode> symbolVect = new Vector<>(8); // Initial room for 8 symbols with same name
+		final Vector<SymbolNode> symbolVect = new Vector<>(8); // Initial room for 8 symbols with same name
 
 		// Collect in Vector symbols all SymbolNodes in the semNodesTable whose name ==
 		// symbName
 
-		for (Enumeration<ExploreNode> Enum = semNodesTable.elements(); Enum.hasMoreElements();) {
+		for (final Enumeration<ExploreNode> Enum = semNodesTable.elements(); Enum.hasMoreElements();) {
 
-			ExploreNode semNode = Enum.nextElement();
+			final ExploreNode semNode = Enum.nextElement();
 
 			if (semNode instanceof SymbolNode
 					&& ((SymbolNode) semNode).getName() == UniqueString.uniqueStringOf(symbName)) {
@@ -158,7 +158,7 @@ public class Explorer {
 
 		// Print them all
 		for (int i = 0; i < symbolVect.size(); i++) {
-			SymbolNode sym = (SymbolNode) (symbolVect.elementAt(i));
+			final SymbolNode sym = (SymbolNode) (symbolVect.elementAt(i));
 			if (sym instanceof OpDefOrDeclNode) {
 				if (((OpDefOrDeclNode) sym).getOriginallyDefinedInModuleNode() != null) {
 					System.out.print(
@@ -175,16 +175,16 @@ public class Explorer {
 
 	}
 
-	private void levelDataPrint(String symbName) {
+	private void levelDataPrint(final String symbName) {
 
-		Vector<SymbolNode> symbolVect = new Vector<>(8); // Initial room for 8 symbols with same name
+		final Vector<SymbolNode> symbolVect = new Vector<>(8); // Initial room for 8 symbols with same name
 
 		// Collect in Vector symbols all SymbolNodes in the semNodesTable whose name ==
 		// symbName
 
-		for (Enumeration<ExploreNode> Enum = semNodesTable.elements(); Enum.hasMoreElements();) {
+		for (final Enumeration<ExploreNode> Enum = semNodesTable.elements(); Enum.hasMoreElements();) {
 
-			ExploreNode semNode = Enum.nextElement();
+			final ExploreNode semNode = Enum.nextElement();
 
 			if (semNode instanceof SymbolNode
 					&& ((SymbolNode) semNode).getName() == UniqueString.uniqueStringOf(symbName)) {
@@ -196,7 +196,7 @@ public class Explorer {
 
 		// Print them all
 		for (int i = 0; i < symbolVect.size(); i++) {
-			SymbolNode sym = (SymbolNode) (symbolVect.elementAt(i));
+			final SymbolNode sym = (SymbolNode) (symbolVect.elementAt(i));
 			if (sym instanceof OpDefOrDeclNode) {
 				if (((OpDefOrDeclNode) sym).getOriginallyDefinedInModuleNode() != null) {
 					System.out.print(
@@ -305,7 +305,7 @@ public class Explorer {
 		// Try parsing first token as an Integer
 		try {
 			icmd = Integer.valueOf(firstToken);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 		}
 
 		// Process second token (if present)
@@ -316,7 +316,7 @@ public class Explorer {
 			// Try parsing second token as an Integer
 			try {
 				icmd2 = Integer.valueOf(secondToken);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 			}
 		}
 
@@ -350,7 +350,7 @@ public class Explorer {
 		int key;
 
 		// Prepare to iterate over ExternalModuleTable entries
-		Iterator<ExternalModuleTable.ExternalModuleTableEntry> modules = mt.moduleHashTable.values().iterator();
+		final Iterator<ExternalModuleTable.ExternalModuleTableEntry> modules = mt.moduleHashTable.values().iterator();
 		ExternalModuleTable.ExternalModuleTableEntry mte;
 
 		// For each entry ExternalModuleTableEntry mte in the ExternalModuleTable mt ...
@@ -370,7 +370,7 @@ public class Explorer {
 					// Print the concrete syntax tree for this ExternalModuleTableEntry
 					System.out.println("\n*** Concrete Syntax Tree for Module " + key);
 
-					tla2sany.st.TreeNode stn = mte.getModuleNode().getTreeNode();
+					final tla2sany.st.TreeNode stn = mte.getModuleNode().getTreeNode();
 					stn.printST(0); // Zero indentation level
 
 					System.out.println("\n*** End of concrete syntax tree for Module " + key);

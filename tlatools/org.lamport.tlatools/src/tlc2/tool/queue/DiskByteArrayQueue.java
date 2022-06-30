@@ -75,7 +75,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	}
 
 	/* Constructors */
-	public DiskByteArrayQueue(String diskdir) {
+	public DiskByteArrayQueue(final String diskdir) {
 		this.deqBuf = new byte[BufSize][];
 		this.enqBuf = new byte[BufSize][];
 		this.deqIndex = BufSize;
@@ -84,7 +84,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		this.hiPool = 0;
 		this.lastLoPool = 0;
 		this.filePrefix = diskdir + FileUtil.separator;
-		File rFile = new File(this.filePrefix + Integer.toString(0));
+		final File rFile = new File(this.filePrefix + Integer.toString(0));
 		this.reader = new ByteArrayPoolReader(BufSize, rFile);
 		this.reader.setDaemon(true);
 		this.loFile = new File(this.filePrefix + Integer.toString(this.loPool));
@@ -97,16 +97,16 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		this.cleaner.start();
 	}
 
-	final void enqueueInner(byte[] state) {
+	final void enqueueInner(final byte[] state) {
 		if (this.enqIndex == this.enqBuf.length) {
 			// enqBuf is full; flush it to disk
 			try {
-				String pstr = Integer.toString(this.hiPool);
-				File file = new File(this.filePrefix + pstr);
+				final String pstr = Integer.toString(this.hiPool);
+				final File file = new File(this.filePrefix + pstr);
 				this.enqBuf = this.writer.doWork(this.enqBuf, file);
 				this.hiPool++;
 				this.enqIndex = 0;
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				Assert.fail(EC.SYSTEM_ERROR_WRITING_STATES,
 						new String[] { "queue", (e.getMessage() == null) ? e.toString() : e.getMessage() });
 			}
@@ -139,17 +139,17 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 				this.deqBuf = this.reader.doWork(this.deqBuf, this.loFile);
 				this.deqIndex = 0;
 				this.loPool++;
-				String pstr = Integer.toString(this.loPool);
+				final String pstr = Integer.toString(this.loPool);
 				this.loFile = new File(this.filePrefix + pstr);
 			} else {
 				// We still need to check if a file is buffered.
 				this.writer.ensureWritten();
-				byte[][] buf = this.reader.getCache(this.deqBuf, this.loFile);
+				final byte[][] buf = this.reader.getCache(this.deqBuf, this.loFile);
 				if (buf != null) {
 					this.deqBuf = buf;
 					this.deqIndex = 0;
 					this.loPool++;
-					String pstr = Integer.toString(this.loPool);
+					final String pstr = Integer.toString(this.loPool);
 					this.loFile = new File(this.filePrefix + pstr);
 				} else {
 					// copy entries from enqBuf to deqBuf.
@@ -166,7 +166,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 					this.cleaner.notifyAll();
 				}
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			Assert.fail(EC.SYSTEM_ERROR_READING_STATES, new String[] { "queue",
 					(e.getMessage() == null) ? e.toString() : e.getMessage() });
 		}
@@ -182,7 +182,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 			this.cleaner.notifyAll();
 		}
 		
-		String filename = this.filePrefix + "queue.tmp";
+		final String filename = this.filePrefix + "queue.tmp";
 	  	final BufferedDataOutputStream vos = new BufferedDataOutputStream(filename);
 		vos.writeLong(this.len);
 		vos.writeInt(this.loPool);
@@ -203,24 +203,24 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 
 	public final void commitChkpt() throws IOException {
 		for (int i = this.lastLoPool; i < this.newLastLoPool; i++) {
-			String pstr = Integer.toString(i);
-			File oldPool = new File(this.filePrefix + pstr);
+			final String pstr = Integer.toString(i);
+			final File oldPool = new File(this.filePrefix + pstr);
 			if (!oldPool.delete()) {
-				String msg = "DiskStateQueue.commitChkpt: cannot delete " + oldPool;
+				final String msg = "DiskStateQueue.commitChkpt: cannot delete " + oldPool;
 				throw new IOException(msg);
 			}
 		}
 		this.lastLoPool = this.newLastLoPool;
-		File oldChkpt = new File(this.filePrefix + "queue.chkpt");
-		File newChkpt = new File(this.filePrefix + "queue.tmp");
+		final File oldChkpt = new File(this.filePrefix + "queue.chkpt");
+		final File newChkpt = new File(this.filePrefix + "queue.tmp");
 		if ((oldChkpt.exists() && !oldChkpt.delete()) || !newChkpt.renameTo(oldChkpt)) {
-			String msg = "DiskStateQueue.commitChkpt: cannot delete " + oldChkpt;
+			final String msg = "DiskStateQueue.commitChkpt: cannot delete " + oldChkpt;
 			throw new IOException(msg);
 		}
 	}
 
 	public final void recover() throws IOException {
-		String filename = this.filePrefix + "queue.chkpt";
+		final String filename = this.filePrefix + "queue.chkpt";
 	  	final BufferedDataInputStream vis = new BufferedDataInputStream(filename);
 		this.len = vis.readLong();
 		this.loPool = vis.readInt();
@@ -238,10 +238,10 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 			vis.read(this.deqBuf[i]);
 		}
 		vis.close();
-		File file = new File(this.filePrefix + Integer.toString(this.lastLoPool));
-		boolean canRead = (this.lastLoPool < this.hiPool);
+		final File file = new File(this.filePrefix + Integer.toString(this.lastLoPool));
+		final boolean canRead = (this.lastLoPool < this.hiPool);
 		this.reader.restart(file, canRead);
-		String pstr = Integer.toString(this.loPool);
+		final String pstr = Integer.toString(this.loPool);
 		this.loFile = new File(this.filePrefix + pstr);
 	}
 
@@ -295,7 +295,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 						lastLoPool = deleteUpTo;
 					}
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				// Assert.printStack(e);
 				MP.printError(EC.SYSTEM_ERROR_CLEANING_POOL, e.getMessage(), e);
 				System.exit(1);
@@ -309,7 +309,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	    private File poolFile;           // the file to be written
 	    private final ByteArrayPoolReader reader;  // the consumer if not null
 	    
-	  public ByteArrayPoolWriter(int bufSize, ByteArrayPoolReader reader) {
+	  public ByteArrayPoolWriter(final int bufSize, final ByteArrayPoolReader reader) {
 		  super("RawTLCStatePoolWriter");
 	    this.buf = new byte[bufSize][];
 	    this.poolFile = null;
@@ -321,7 +321,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	   * It then notifies this writer to flush enqBuf to file. In practice,
 	   * we expect the preceding write to have been completed. 
 	   */
-	  public final synchronized byte[][] doWork(byte[][] enqBuf, File file)
+	  public final synchronized byte[][] doWork(final byte[][] enqBuf, final File file)
 	  throws IOException {
 	    if (this.poolFile != null) {
 	  	  final BufferedDataOutputStream vos = new BufferedDataOutputStream(this.poolFile);
@@ -331,7 +331,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	  	  }
 	      vos.close();
 	    }
-	    byte[][] res = this.buf;
+	    final byte[][] res = this.buf;
 	    this.buf = enqBuf;
 	    this.poolFile = file;
 	    this.notify();
@@ -374,7 +374,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		}
 	      }
 	    }
-	    catch (Exception e) {
+	    catch (final Exception e) {
 	      // Assert.printStack(e);
 	        MP.printError(EC.SYSTEM_ERROR_WRITING_POOL, e.getMessage(), e);
 	      System.exit(1);
@@ -384,7 +384,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	
 	private static final class ByteArrayPoolReader extends Thread {
 
-		  public ByteArrayPoolReader(int bufSize, File file) {
+		  public ByteArrayPoolReader(final int bufSize, final File file) {
 			  super("RawTLCStatePoolReader");
 		    this.buf = new byte[bufSize][];
 		    this.poolFile = file;
@@ -403,7 +403,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		    this.notify();
 		  }
 
-		  public final synchronized void restart(File file, boolean canRead) {
+		  public final synchronized void restart(final File file, final boolean canRead) {
 		    this.poolFile = file;
 		    this.isFull = false;
 		    this.canRead = canRead;
@@ -415,11 +415,11 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		   * full, it returns its buffer and notifies this reader to read the
 		   * content of the file.
 		   */
-		  public final synchronized byte[][] doWork(byte[][] deqBuf, File file)
+		  public final synchronized byte[][] doWork(final byte[][] deqBuf, final File file)
 		  throws IOException, ClassNotFoundException {
 		    if (this.isFull) {
 		      assert this.poolFile == null : EC.SYSTEM_FILE_NULL;
-		      byte[][] res = this.buf;
+		      final byte[][] res = this.buf;
 		      this.buf = deqBuf;
 		      this.poolFile = file;
 		      this.isFull = false;      // <file, false>
@@ -453,11 +453,11 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		  /*
 		   * Returns the cached buffer if filled. Otherwise, returns null.
 		   */
-		  public final synchronized byte[][] getCache(byte[][] deqBuf, File file)
+		  public final synchronized byte[][] getCache(final byte[][] deqBuf, final File file)
 		  throws IOException, ClassNotFoundException {
 		    if (this.isFull) {
 		      assert this.poolFile == null : EC.SYSTEM_FILE_NULL;
-		      byte[][] res = this.buf;
+		      final byte[][] res = this.buf;
 		      this.buf = deqBuf;
 		      this.poolFile = file;
 		      this.isFull = false;      // <file, false>
@@ -505,7 +505,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 			}
 		      }
 		    }
-		    catch (Exception e) 
+		    catch (final Exception e)
 		    {
 		      // Assert.printStack(e);
 		      MP.printError(EC.SYSTEM_ERROR_READING_POOL, e.getMessage(), e);
@@ -529,9 +529,9 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 			this.idx = 0;
 		}
 		
-	    private void ensureCapacity(int minCap) {
+	    private void ensureCapacity(final int minCap) {
 	        if (minCap - bytes.length > 0) {
-	            int oldCap = bytes.length;
+	            final int oldCap = bytes.length;
 	            int newCap = oldCap << 1; // double size
 	            if (newCap - minCap < 0) {
 	            	newCap = minCap;
@@ -544,7 +544,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#writeShort(short)
 		 */
 		@Override
-		public final void writeShort(short s) throws IOException {
+		public final void writeShort(final short s) throws IOException {
 			ensureCapacity(idx + 2);
 	        this.bytes[idx++] = (byte) ((s >>> 8) & 0xff);
 	        this.bytes[idx++] = (byte) (s & 0xff);
@@ -554,7 +554,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#writeInt(int)
 		 */
 		@Override
-		public final void writeInt(int i) throws IOException {
+		public final void writeInt(final int i) throws IOException {
 			ensureCapacity(idx + 4);
 	        this.bytes[idx++] = (byte) ((i >>> 24) & 0xff);
 	        this.bytes[idx++] = (byte) ((i >>> 16) & 0xff);
@@ -566,7 +566,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#writeLong(long)
 		 */
 		@Override
-		public final void writeLong(long l) throws IOException {
+		public final void writeLong(final long l) throws IOException {
 			ensureCapacity(idx + 8);
 	        this.bytes[idx++] = (byte) ((l >>> 56) & 0xff);
 	        this.bytes[idx++] = (byte) ((l >>> 48) & 0xff);
@@ -590,7 +590,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#writeShortNat(short)
 		 */
 		@Override
-		public final void writeShortNat(short x) throws IOException {
+		public final void writeShortNat(final short x) throws IOException {
 			if (x > 0x7f) {
 				this.writeShort((short) -x);
 			} else {
@@ -602,7 +602,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#writeNat(int)
 		 */
 		@Override
-		public final void writeNat(int x) throws IOException {
+		public final void writeNat(final int x) throws IOException {
 			if (x > 0x7fff) {
 				this.writeInt(-x);
 			} else {
@@ -614,7 +614,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#writeLongNat(long)
 		 */
 		@Override
-		public final void writeLongNat(long x) throws IOException {
+		public final void writeLongNat(final long x) throws IOException {
 			if (x <= 0x7fffffff) {
 				this.writeInt((int) x);
 			} else {
@@ -626,7 +626,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#writeByte(byte)
 		 */
 		@Override
-		public final void writeByte(byte b) throws IOException {
+		public final void writeByte(final byte b) throws IOException {
 			ensureCapacity(idx + 1);
 			this.bytes[idx++] = b;
 		}
@@ -635,8 +635,8 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#writeBoolean(boolean)
 		 */
 		@Override
-		public final void writeBoolean(boolean bool) throws IOException {
-	        byte b = (bool ? (byte)1 : (byte)0);
+		public final void writeBoolean(final boolean bool) throws IOException {
+	        final byte b = (bool ? (byte)1 : (byte)0);
 	        this.writeByte(b);
 		}
 
@@ -652,7 +652,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#put(java.lang.Object)
 		 */
 		@Override
-		public final int put(Object obj) {
+		public final int put(final Object obj) {
 			return -1;
 		}
 
@@ -666,7 +666,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see util.IDataOutputStream#writeString(java.lang.String)
 		 */
 		@Override
-		public final void writeString(String str) throws IOException {
+		public final void writeString(final String str) throws IOException {
 			final int length = str.length();
 			ensureCapacity(idx + length);
 			
@@ -685,7 +685,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		
 		private int idx = 0;
 
-		public ByteValueInputStream(byte[] bytes) {
+		public ByteValueInputStream(final byte[] bytes) {
 			this.bytes = bytes;
 		}
 
@@ -794,7 +794,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 */
 		@Override
 		public final short readShortNat() throws IOException {
-			short res = this.readByte();
+			final short res = this.readByte();
 			if (res >= 0) return res;
 			return (short) -((res << 8) | (this.readByte() & 0xFF));
 		}
@@ -822,7 +822,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueInputStream#assign(java.lang.Object, int)
 		 */
 		@Override
-		public final void assign(Object obj, int idx) {
+		public final void assign(final Object obj, final int idx) {
 			// No-op
 		}
 
@@ -846,7 +846,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueInputStream#getValue(int)
 		 */
 		@Override
-		public final UniqueString getValue(int idx) {
+		public final UniqueString getValue(final int idx) {
 			throw new WrongInvocationException("Not supported");
 		}
 
@@ -854,7 +854,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see util.IDataInputStream#readString(int)
 		 */
 		@Override
-		public final String readString(int length) throws IOException {
+		public final String readString(final int length) throws IOException {
 			final char[] s = new char[length];
 			for (int i = 0; i < s.length; i++) {
 				s[i] = (char) this.bytes[idx++];

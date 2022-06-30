@@ -15,7 +15,7 @@ public class FileToStringVectorException extends UnrecoverableException
 	/**
      * @param string
      */
-    public FileToStringVectorException(String string)
+    public FileToStringVectorException(final String string)
     {
         super(string);
     }

@@ -38,15 +38,15 @@ public abstract class SuiteETestCase extends ModelCheckerTestCase {
 		this(ExitStatus.SUCCESS);
 	}
 
-	public SuiteETestCase(int exitStatus) {
+	public SuiteETestCase(final int exitStatus) {
 		super("setBySetUp", "suite", exitStatus);
 	}
 	
-	public SuiteETestCase(String[] params) {
+	public SuiteETestCase(final String[] params) {
 		this(params, ExitStatus.SUCCESS);
 	}
 
-	public SuiteETestCase(String[] params, int exitStatus) {
+	public SuiteETestCase(final String[] params, final int exitStatus) {
 		super("setBySetUp", "suite", params, exitStatus);
 	}
 
@@ -65,7 +65,7 @@ public abstract class SuiteETestCase extends ModelCheckerTestCase {
 	}
 	
 	
-	protected void assertSubstring(String substring) {
+	protected void assertSubstring(final String substring) {
 		testPrintStream.assertSubstring(substring);
 	}
 }

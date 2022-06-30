@@ -55,7 +55,7 @@ public class MSBDiskFPSetTest2 extends AbstractHeapBasedDiskFPSetTest {
 		new MSBDiskFPSet.TLCIterator(msbDiskFPSet.tbl);
 		try {
 			tlcIterator.getLast();
-		} catch (NoSuchElementException e) {
+		} catch (final NoSuchElementException e) {
 			// This exception is expected.
 			
 			// Now add the smallest possible element into the set. It will end
@@ -98,10 +98,10 @@ public class MSBDiskFPSetTest2 extends AbstractHeapBasedDiskFPSetTest {
 		final MSBDiskFPSet msbDiskFPSet = getMSBDiskFPSet();
 		
 
-		TLCIterator tlcIterator = new MSBDiskFPSet.TLCIterator(msbDiskFPSet.tbl);
+		final TLCIterator tlcIterator = new MSBDiskFPSet.TLCIterator(msbDiskFPSet.tbl);
 		try {
 			tlcIterator.getLast();
-		} catch (NoSuchElementException e) {
+		} catch (final NoSuchElementException e) {
 			return;
 		}
 		fail();

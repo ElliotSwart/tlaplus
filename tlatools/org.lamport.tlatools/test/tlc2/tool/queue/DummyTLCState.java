@@ -21,42 +21,42 @@ public class DummyTLCState extends TLCState {
 		this.fp = 0L;
 	}
 	
-	public DummyTLCState(long fp) {
+	public DummyTLCState(final long fp) {
 		this.fp = fp;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#bind(util.UniqueString, tlc2.value.Value, tla2sany.semantic.SemanticNode)
 	 */
-	public TLCState bind(UniqueString name, IValue value) {
+	public TLCState bind(final UniqueString name, final IValue value) {
 		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#bind(tla2sany.semantic.SymbolNode, tlc2.value.Value, tla2sany.semantic.SemanticNode)
 	 */
-	public TLCState bind(SymbolNode id, IValue value) {
+	public TLCState bind(final SymbolNode id, final IValue value) {
 		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#unbind(util.UniqueString)
 	 */
-	public TLCState unbind(UniqueString name) {
+	public TLCState unbind(final UniqueString name) {
 		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#lookup(util.UniqueString)
 	 */
-	public IValue lookup(UniqueString var) {
+	public IValue lookup(final UniqueString var) {
 		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#containsKey(util.UniqueString)
 	 */
-	public boolean containsKey(UniqueString var) {
+	public boolean containsKey(final UniqueString var) {
 		return false;
 	}
 
@@ -77,7 +77,7 @@ public class DummyTLCState extends TLCState {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#addToVec(tlc2.tool.StateVec)
 	 */
-	public StateVec addToVec(StateVec states) {
+	public StateVec addToVec(final StateVec states) {
 		return null;
 	}
 
@@ -126,7 +126,7 @@ public class DummyTLCState extends TLCState {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.TLCState#toString(tlc2.tool.TLCState)
 	 */
-	public String toString(TLCState lastState) {
+	public String toString(final TLCState lastState) {
 		return null;
 	}
 }

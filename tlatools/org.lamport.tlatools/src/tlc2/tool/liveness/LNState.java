@@ -14,7 +14,7 @@ abstract class LNState extends LiveExprNode {
 	private final Context con;
 	private int tag;
 
-	public LNState(Context con) {
+	public LNState(final Context con) {
 		this.con = con;
 	}
 
@@ -26,7 +26,7 @@ abstract class LNState extends LiveExprNode {
 		return false;
 	}
 
-	public final boolean eval(ITool tool, TLCState s) {
+	public final boolean eval(final ITool tool, final TLCState s) {
 		return this.eval(tool, s, TLCState.Empty);
 	}
 
@@ -38,16 +38,16 @@ abstract class LNState extends LiveExprNode {
 		return this.tag;
 	}
 
-	private final void setTag(int t) {
+	private final void setTag(final int t) {
 		this.tag = t;
 	}
 
-	public int tagExpr(int tag) {
+	public int tagExpr(final int tag) {
 		setTag(tag);
 		return tag + 1;
 	}
 
-	public boolean equals(LiveExprNode exp) {
+	public boolean equals(final LiveExprNode exp) {
 		if (exp instanceof LNState) {
 			return getTag() == ((LNState) exp).getTag();
 		}

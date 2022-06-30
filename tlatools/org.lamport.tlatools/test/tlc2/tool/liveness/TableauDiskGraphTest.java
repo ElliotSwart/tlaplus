@@ -81,18 +81,18 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 	public void testGetShortestPath() throws IOException {
 		final AbstractDiskGraph dg = getDiskGraph();
 
-		long initState = 1L;
-		int initTableauIdx = 0;
+		final long initState = 1L;
+		final int initTableauIdx = 0;
 		
-		long secondState = 2L;
+		final long secondState = 2L;
 		// Its tableau indices range from 0 to 2. Tableau idx
 		// 1 is an init state too.
 
-		long thirdState = 3L;
-		int thirdTableauIdx = 0;
+		final long thirdState = 3L;
+		final int thirdTableauIdx = 0;
 				
-		long finalState = 4L;
-		int finalTableauIdx = 0;
+		final long finalState = 4L;
+		final int finalTableauIdx = 0;
 		
 		// init#1
 		dg.addInitNode(initState, initTableauIdx);
@@ -169,17 +169,17 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 	public void testUnifyingNodeInPath() throws IOException {
 		final AbstractDiskGraph dg = getDiskGraph();
 
-		long initState = 1L;
-		int initTableauIdx = 0;
+		final long initState = 1L;
+		final int initTableauIdx = 0;
 		
-		long secondState = 2L;
-		int secondTableauIdx = 0;
+		final long secondState = 2L;
+		final int secondTableauIdx = 0;
 
-		long thirdState = 3L;
-		int thirdTableauIdx = 0;
+		final long thirdState = 3L;
+		final int thirdTableauIdx = 0;
 				
-		long finalState = 4L;
-		int finalTableauIdx = 0;
+		final long finalState = 4L;
+		final int finalTableauIdx = 0;
 		
 		// Init
 		dg.addInitNode(initState, initTableauIdx);
@@ -256,20 +256,20 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 	public void testUnifyingNodeShortestPath() throws IOException {
 		final AbstractDiskGraph dg = getDiskGraph();
 
-		long initState = 1L;
-		int initTableauIdx = 0;
+		final long initState = 1L;
+		final int initTableauIdx = 0;
 		
-		long frob = 5;
-		int frobTableauIdx = 0;
+		final long frob = 5;
+		final int frobTableauIdx = 0;
 		
-		long secondState = 2L;
-		int secondTableauIdx = 0;
+		final long secondState = 2L;
+		final int secondTableauIdx = 0;
 
-		long thirdState = 3L;
-		int thirdTableauIdx = 0;
+		final long thirdState = 3L;
+		final int thirdTableauIdx = 0;
 				
-		long finalState = 4L;
-		int finalTableauIdx = 0;
+		final long finalState = 4L;
+		final int finalTableauIdx = 0;
 		
 		// Init
 		dg.addInitNode(initState, initTableauIdx);
@@ -348,11 +348,11 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 	public void testPathWithTwoInitNodesWithTableau() throws IOException {
 		final AbstractDiskGraph dg = getDiskGraph();
 
-		long noSuccessorInitState = 1L;
+		final long noSuccessorInitState = 1L;
 
-		long regularInitState = 2L;
+		final long regularInitState = 2L;
 		
-		long finalState = 3L;
+		final long finalState = 3L;
 
 		// Init
 		dg.addInitNode(noSuccessorInitState, 0);
@@ -408,12 +408,12 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 			dg.createCache();
 			dg.getPath(fingerprint, 2);
 			dg.destroyCache();
-		} catch (RuntimeException e) {
+		} catch (final RuntimeException e) {
 			// Now that it has been added, it should be found.
 			dg.addInitNode(fingerprint, 2);
 			
 			dg.createCache();
-			LongVec path = dg.getPath(fingerprint, 2);
+			final LongVec path = dg.getPath(fingerprint, 2);
 			dg.destroyCache();
 			
 			assertEquals(1, path.size());
@@ -436,7 +436,7 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 		assertFalse(dg.isDone(fingerprint));
 
 		// Adding it with addNextState changes the done state to being done.
-		GraphNode node = new GraphNode(fingerprint, 0);
+		final GraphNode node = new GraphNode(fingerprint, 0);
 		node.addTransition(fingerprint, 1, NUMBER_OF_SOLUTIONS, NUMBER_OF_ACTIONS, NO_ACTIONS,
 				NUMBER_OF_ACTIONS, 0);
 		dg.addNode(node);

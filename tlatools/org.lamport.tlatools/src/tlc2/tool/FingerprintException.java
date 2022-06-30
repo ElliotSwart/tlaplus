@@ -38,13 +38,13 @@ public class FingerprintException extends RuntimeException {
 final public IValue value;
   final public FingerprintException next;
 
-  private FingerprintException(Throwable initCauseThrowable, IValue value, FingerprintException next) {
+  private FingerprintException(final Throwable initCauseThrowable, final IValue value, final FingerprintException next) {
     initCause(initCauseThrowable);
     this.value = value;
     this.next = next;
   }
 
-  public static FingerprintException getNewHead(IValue v, Throwable t){
+  public static FingerprintException getNewHead(final IValue v, final Throwable t){
     FingerprintException fpe = null;
     if(t instanceof FingerprintException)
       fpe = ((FingerprintException) t).prependNewHead(v);
@@ -53,14 +53,14 @@ final public IValue value;
     return fpe;
   }
 
-  private static FingerprintException createNewHead(IValue value, Throwable initCauseThrowable){
+  private static FingerprintException createNewHead(final IValue value, final Throwable initCauseThrowable){
     if(value == null || initCauseThrowable == null)
       return null;
     else
       return new FingerprintException(initCauseThrowable, value, null);
   }
 
-  private FingerprintException prependNewHead(IValue value){
+  private FingerprintException prependNewHead(final IValue value){
     if(value == null)
       return null;
     else
@@ -79,7 +79,7 @@ final public IValue value;
   }
 
   private String getTraceImpl(final int traceIndexLabel, final Integer lastSemanticNodeUid){
-    SemanticNode semanticNode = value.getSource();
+    final SemanticNode semanticNode = value.getSource();
     if(semanticNode == null){
       if(next == null)
         return "";
@@ -87,7 +87,7 @@ final public IValue value;
         return next.getTraceImpl(traceIndexLabel, lastSemanticNodeUid);
     }
     else{
-      Integer semanticNodeUid = semanticNode.getUid();
+      final Integer semanticNodeUid = semanticNode.getUid();
       if(semanticNodeUid.equals(lastSemanticNodeUid)){ // same SemanticNode compared to current top of stack
         if(next == null)
           return "";
@@ -95,7 +95,7 @@ final public IValue value;
           return next.getTraceImpl(traceIndexLabel, lastSemanticNodeUid);
       }
       else{ // different SemanticNode compared to current top of stack
-        String description = traceIndexLabel + ") " + semanticNode.toString() + "\n";
+        final String description = traceIndexLabel + ") " + semanticNode.toString() + "\n";
         if(next == null)
           return description;
         else

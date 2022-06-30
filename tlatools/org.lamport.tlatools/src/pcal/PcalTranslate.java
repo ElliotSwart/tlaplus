@@ -55,44 +55,44 @@ public class PcalTranslate {
      * Routines for constructing snippets of +cal code                       *
      *************************************************************************/
 
-    public static Vector<?> DiscardLastElement(Vector<?> v) {
+    public static Vector<?> DiscardLastElement(final Vector<?> v) {
         if (v.size() > 0) v.remove(v.size() - 1);
         return v;
     }
 
-    public static <T> Vector<T> Singleton(T obj) {
+    public static <T> Vector<T> Singleton(final T obj) {
         /*********************************************************************
          * If we think of a vector as a sequence, then this returns <<obj>>. *
          *********************************************************************/
-        Vector<T> result = new Vector<T>() ;
+        final Vector<T> result = new Vector<T>() ;
         result.addElement(obj) ;
         return result; 
     }
  
-    public static <T> Vector<T> Pair(T obj1, T obj2) {
+    public static <T> Vector<T> Pair(final T obj1, final T obj2) {
         /*********************************************************************
          * If we think of a vector as a sequence, then this returns          *
          * << obj1,  obj2 >>.                                                *
          *********************************************************************/
-        Vector<T> result = new Vector<T>() ;
+        final Vector<T> result = new Vector<T>() ;
         result.addElement(obj1) ;
         result.addElement(obj2) ;
         return result; 
     }
 
-    public static Vector<Object> Triple(Object obj1, Object obj2, Object obj3) {
+    public static Vector<Object> Triple(final Object obj1, final Object obj2, final Object obj3) {
         /*********************************************************************
          * If we think of a vector as a sequence, then this returns          *
          * << obj1,  obj2, obj3 >>.                                          *
          *********************************************************************/
-        Vector<Object> result = new Vector<Object>() ;
+        final Vector<Object> result = new Vector<Object>() ;
         result.addElement(obj1) ;
         result.addElement(obj2) ;
         result.addElement(obj3) ;
         return result; 
     }
 
-    public static <T> Vector<Vector<T>> Singleton2(T obj) {
+    public static <T> Vector<Vector<T>> Singleton2(final T obj) {
         /*********************************************************************
          * If we think of a vector as a sequence, then this returns          *
          * << <<obj>> >>.                                                    *
@@ -111,82 +111,82 @@ public class PcalTranslate {
       *********************************************************************/
       boolean val = true ; }
 
-    public static BoolObj BO(boolean v) {
+    public static BoolObj BO(final boolean v) {
       /*********************************************************************
       * What I want to do is define a constructor for the BoolObj class    *
       * with an argument that is the value of the val field.  But I don't  *
       * remember how to do that and don't have access to any Java          *
       * documentation, so I'm defining BO to be that constructor.          *
       *********************************************************************/
-      BoolObj res = new BoolObj() ;
+      final BoolObj res = new BoolObj() ;
       res.val = v ;
       return res ;
      }
 
-    public static TLAToken StringToken(String str) {
+    public static TLAToken StringToken(final String str) {
         /*********************************************************************
          * Returns a new STRING token with string str.                       *
          *********************************************************************/
-        TLAToken result = new TLAToken() ;
+        final TLAToken result = new TLAToken() ;
         result.string = str ;
         result.type   = TLAToken.STRING ;
         return result ;
       }
 
-    public static TLAToken AddedToken(String str) {
+    public static TLAToken AddedToken(final String str) {
         /*********************************************************************
          * Returns a new ADDED token with string str.                       *
          *********************************************************************/
-        TLAToken result = new TLAToken() ;
+        final TLAToken result = new TLAToken() ;
         result.string = str ;
         result.type   = TLAToken.ADDED ;
         return result ;
       }
 
-    public static TLAToken BuiltInToken(String str)
+    public static TLAToken BuiltInToken(final String str)
       /*********************************************************************
       * Returns a new BUILTIN token with string str.  (A token like "="    *
       * has type BUILTIN, though in the translation phase, there will      *
       * probably be no difference in how BUILTIN and IDENT tokens are      *
       * handled.)                                                          *
       *********************************************************************/
-      { TLAToken result = new TLAToken() ;
+      { final TLAToken result = new TLAToken() ;
         result.string = str ;
         result.type   = TLAToken.BUILTIN ;
         return result ;
       }
 
-    public static TLAToken IdentToken(String str) {
+    public static TLAToken IdentToken(final String str) {
         /*********************************************************************
          * Returns a new IDENT token for identifier str.                     *
          *********************************************************************/
-        TLAToken result = new TLAToken() ;
+        final TLAToken result = new TLAToken() ;
         result.string = str ;
         result.type   = TLAToken.IDENT ;
         return result ;
     }
 
-    public static TLAExpr MakeExpr(Vector<Vector<TLAToken>> vec) {
+    public static TLAExpr MakeExpr(final Vector<Vector<TLAToken>> vec) {
       /*********************************************************************
       * Makes a normalized expression exp with exp.tokens = vec.           *
       *********************************************************************/
-        TLAExpr result = new TLAExpr(vec) ;
+        final TLAExpr result = new TLAExpr(vec) ;
         result.normalize() ;
         return result ;
     }
 
-    public static TLAExpr TokVectorToExpr(Vector<TLAToken> vec, int spaces)
+    public static TLAExpr TokVectorToExpr(final Vector<TLAToken> vec, final int spaces)
       /*********************************************************************
       * If vec is a vector of TLAToken objects, then this method returns   *
       * a TLAExpr describing a one-line expression composed of clones of   *
       * the tokens in vec separated by `spaces' spaces.                    *
       * Called only by PcalTranslate.CheckPC.                              *
       *********************************************************************/
-      { Vector<TLAToken> firstLine = new Vector<TLAToken>() ;
+      { final Vector<TLAToken> firstLine = new Vector<TLAToken>() ;
         int nextCol = 0 ;
         int i = 0 ;
         while (i < vec.size())
-          { TLAToken tok = vec.elementAt(i).Clone() ;
+          { final TLAToken tok = vec.elementAt(i).Clone() ;
             tok.column = nextCol ;
             firstLine.addElement(tok) ;
             nextCol = nextCol + tok.getWidth() + spaces ;
@@ -196,7 +196,7 @@ public class PcalTranslate {
         return MakeExpr(Singleton(firstLine)) ;
       } ;
 
-    public static void MakeNewStackTopExprPretty(TLAExpr expr) {
+    public static void MakeNewStackTopExprPretty(final TLAExpr expr) {
         /*********************************************************************
          * Sets columns so this expr looks nice.                             *
          * Assumes exprs that this module generates for Call and CallReturn. *
@@ -211,7 +211,7 @@ public class PcalTranslate {
             if (i == 0 || i == expr.tokens.size() - 1) nextCol = 1;
             else nextCol = 6;
             for (int j = 0; j < line.size(); j++) {
-                TLAToken tok = ((TLAToken) line.elementAt(j));
+                final TLAToken tok = ((TLAToken) line.elementAt(j));
                 tok.column = nextCol;
                 nextCol = nextCol + tok.getWidth();
                 if (tok.type == TLAToken.BUILTIN && tok.string == "|->") {
@@ -242,17 +242,17 @@ public class PcalTranslate {
         }
     }
 
-    public static AST.Assign MakeAssign(String id, TLAExpr exp) {
+    public static AST.Assign MakeAssign(final String id, final TLAExpr exp) {
         /*********************************************************************
          * Makes the assignment statement id := exp.                         *
          *                                                                   *
          * It is called only by UpdatePC, with id = "pc".                    *
          *********************************************************************/
-        AST.SingleAssign sAss = new AST.SingleAssign() ;
+        final AST.SingleAssign sAss = new AST.SingleAssign() ;
         sAss.lhs.var = id ;
         sAss.lhs.sub = MakeExpr(new Vector<Vector<TLAToken>>()) ;
         sAss.rhs = exp ;
-        AST.Assign result = new AST.Assign() ;
+        final AST.Assign result = new AST.Assign() ;
         result.ass = Singleton(sAss) ;
         return result ;
       }
@@ -260,18 +260,18 @@ public class PcalTranslate {
         /*********************************************************************
         * true if expr is TRUE or ( TRUE )                                   *
         *********************************************************************/
-    public static boolean IsTRUE(TLAExpr expr) {
-        Vector<Vector<TLAToken>> tokens = expr.tokens;
+    public static boolean IsTRUE(final TLAExpr expr) {
+        final Vector<Vector<TLAToken>> tokens = expr.tokens;
         if (tokens.size() > 1) return false;
-        Vector<TLAToken> line = tokens.elementAt(0);
+        final Vector<TLAToken> line = tokens.elementAt(0);
         if (line.size() == 1) {
-            TLAToken tok = (TLAToken) line.elementAt(0);
+            final TLAToken tok = (TLAToken) line.elementAt(0);
             return (tok.string.equals("TRUE")) ? true : false;
         }
         else if (line.size() == 3) {
-            TLAToken tok1 = (TLAToken) line.elementAt(0);
-            TLAToken tok2 = (TLAToken) line.elementAt(1);
-            TLAToken tok3 = (TLAToken) line.elementAt(2);
+            final TLAToken tok1 = (TLAToken) line.elementAt(0);
+            final TLAToken tok2 = (TLAToken) line.elementAt(1);
+            final TLAToken tok3 = (TLAToken) line.elementAt(2);
             return (tok1.string.equals("(")
                     && tok2.string.equals("TRUE")
                     && tok3.string.equals(")")) ? true : false;
@@ -279,12 +279,12 @@ public class PcalTranslate {
         else return false;
     }
 
-    private static AST.When CheckPC (String label) {
+    private static AST.When CheckPC (final String label) {
         /*********************************************************************
         * Generate when pc = label ;                                         *
         *********************************************************************/
-        AST.When checkPC = new AST.When();
-        Vector<TLAToken> toks = new Vector<TLAToken>();
+        final AST.When checkPC = new AST.When();
+        final Vector<TLAToken> toks = new Vector<TLAToken>();
         toks.addElement(AddedToken("pc"));
         toks.addElement(BuiltInToken("="));
         toks.addElement(StringToken(label));
@@ -292,7 +292,7 @@ public class PcalTranslate {
         return checkPC;
     }
 
-    private static AST.Assign UpdatePC (String next) {
+    private static AST.Assign UpdatePC (final String next) {
         /*********************************************************************
         * Generate pc := next ;                                              *
         *********************************************************************/
@@ -304,7 +304,7 @@ public class PcalTranslate {
      **
      *************************************************************************/
 
-    public static AST Explode (AST ast, PcalSymTab symtab) throws PcalTranslateException {
+    public static AST Explode (final AST ast, final PcalSymTab symtab) throws PcalTranslateException {
         /*********************************************************************
         * Expand while, labeled if, and nexted labeled with a sequence of    *
         * of flat labeled statements. Control flow is added via assignments  *
@@ -322,12 +322,12 @@ public class PcalTranslate {
         }
     }
 
-    private static AST.Uniprocess ExplodeUniprocess (AST.Uniprocess ast) throws PcalTranslateException {
+    private static AST.Uniprocess ExplodeUniprocess (final AST.Uniprocess ast) throws PcalTranslateException {
         /*********************************************************************
         * Generate new AST.Uniprocess that has exploded labeled statements.  *
         *********************************************************************/
         int i = 0;
-        AST.Uniprocess newast = new AST.Uniprocess();
+        final AST.Uniprocess newast = new AST.Uniprocess();
         newast.col = ast.col;
         newast.line = ast.line;
         newast.name = ast.name;
@@ -349,7 +349,7 @@ public class PcalTranslate {
         AST.LabeledStmt nextLS = (ast.body.size() > 1)
             ? (AST.LabeledStmt) ast.body.elementAt(1) : null;
         while (i < ast.body.size()) {
-            String next = (nextLS == null)
+            final String next = (nextLS == null)
 // Replacement of following line by LL on 3 Feb 2006, since
 // label "Done" never has to be renamed, since "Done" is not
 // a legal user label.
@@ -365,12 +365,12 @@ public class PcalTranslate {
         return newast;
     }
         
-    private static AST.Multiprocess ExplodeMultiprocess (AST.Multiprocess ast) throws PcalTranslateException {
+    private static AST.Multiprocess ExplodeMultiprocess (final AST.Multiprocess ast) throws PcalTranslateException {
         /*********************************************************************
         * Generate new AST.Multiprocess with exploded labeled statements.    *
         *********************************************************************/
         int i = 0;
-        AST.Multiprocess newast = new AST.Multiprocess();
+        final AST.Multiprocess newast = new AST.Multiprocess();
         newast.col = ast.col;
         newast.line = ast.line;
         newast.name = ast.name;
@@ -393,12 +393,12 @@ public class PcalTranslate {
         return newast;
     }
 
-    private static AST.Procedure ExplodeProcedure (AST.Procedure ast) throws PcalTranslateException {
+    private static AST.Procedure ExplodeProcedure (final AST.Procedure ast) throws PcalTranslateException {
         /*********************************************************************
         * Generate new AST.Procedure with exploded labeled statements.       *
         *********************************************************************/
         int i = 0;
-        AST.Procedure newast = new AST.Procedure();
+        final AST.Procedure newast = new AST.Procedure();
         newast.setOrigin(ast.getOrigin()) ;
         newast.col = ast.col;
         newast.line = ast.line;
@@ -412,7 +412,7 @@ public class PcalTranslate {
         AST.LabeledStmt nextLS = (ast.body.size() > 1)
             ? (AST.LabeledStmt) ast.body.elementAt(1) : null;
         while (i < ast.body.size()) {
-            String next = (nextLS == null)
+            final String next = (nextLS == null)
                 ? st.UseThis(PcalSymTab.LABEL, "Error", "")
                 : nextLS.label;
             newast.body.addAll(ExplodeLabeledStmt(thisLS, next));
@@ -425,12 +425,12 @@ public class PcalTranslate {
         return newast;
     }
         
-    private static AST.Process ExplodeProcess(AST.Process ast) throws PcalTranslateException {
+    private static AST.Process ExplodeProcess(final AST.Process ast) throws PcalTranslateException {
         /*********************************************************************
         * Generate new AST.Process with exploded labeled statements.         *
         *********************************************************************/
         int i = 0;
-        AST.Process newast = new AST.Process();
+        final AST.Process newast = new AST.Process();
         newast.setOrigin(ast.getOrigin()) ;
         newast.col = ast.col;
         newast.line = ast.line;
@@ -444,7 +444,7 @@ public class PcalTranslate {
         AST.LabeledStmt nextLS = (ast.body.size() > 1)
             ? (AST.LabeledStmt) ast.body.elementAt(1) : null;
         while (i < ast.body.size()) {
-            String next = (nextLS == null)
+            final String next = (nextLS == null)
 // Replacement of following line by LL on 3 Feb 2006, since
 // label "Done" never has to be renamed, since "Done" is not
 // a legal user label.
@@ -460,7 +460,7 @@ public class PcalTranslate {
         return newast;
     }
 
-    private static Vector<Object> CopyAndExplodeLastStmt(Vector<AST> stmts, String next) throws PcalTranslateException {
+    private static Vector<Object> CopyAndExplodeLastStmt(final Vector<AST> stmts, final String next) throws PcalTranslateException {
         /**************************************************************
         * The arguments are:                                               *
         *                                                                  *
@@ -499,10 +499,10 @@ public class PcalTranslate {
         Vector<AST> result2 = new Vector<AST>(); /* a vector of labeled statements */
         boolean needsGoto = false ;
         if (stmts != null && stmts.size() > 0) {
-            AST last = stmts.elementAt(stmts.size() - 1);
+            final AST last = stmts.elementAt(stmts.size() - 1);
             result1 = stmts;
             if (last.getClass().equals(AST.LabelIfObj.getClass())) {
-                Vector<Object> pair = ExplodeLabelIf((AST.LabelIf) last, next);
+                final Vector<Object> pair = ExplodeLabelIf((AST.LabelIf) last, next);
                   /*********************************************************
                   * Because a LabelIf has a label in the `then' or `else'  *
                   * clause, ExplodeLabelIf always has to add the           *
@@ -514,7 +514,7 @@ public class PcalTranslate {
             }
             // LabelEither added by LL on 25 Jan 2006
             else if (last.getClass().equals(AST.LabelEitherObj.getClass())) {
-                Vector<Object> pair = ExplodeLabelEither((AST.LabelEither) last, next);
+                final Vector<Object> pair = ExplodeLabelEither((AST.LabelEither) last, next);
                   /*********************************************************
                   * Because a LabelEither has a label in some clause,      *
                   * ExplodeLabelEither always has to add the necessary     *
@@ -525,7 +525,7 @@ public class PcalTranslate {
                 result2 = (Vector) pair.elementAt(1);
             }
             else if (last.getClass().equals(AST.GotoObj.getClass())) {
-                AST.Goto g = (AST.Goto) last;
+                final AST.Goto g = (AST.Goto) last;
                 result1.removeElementAt(result1.size()-1);
                 // Note: if there's a GotoObj, then omitPC should be false.
                 result1.addElement(UpdatePC(g.to));
@@ -547,16 +547,16 @@ public class PcalTranslate {
                 result1.addAll(ExplodeCallGoto((AST.CallGoto) last, next));
             }
             else if (last.getClass().equals(AST.IfObj.getClass())) {
-                AST.If If = (AST.If) last;
-                Vector<?> p1 = CopyAndExplodeLastStmt(If.Then, next);
-                Vector<?> p2 = CopyAndExplodeLastStmt(If.Else, next);
+                final AST.If If = (AST.If) last;
+                final Vector<?> p1 = CopyAndExplodeLastStmt(If.Then, next);
+                final Vector<?> p2 = CopyAndExplodeLastStmt(If.Else, next);
                 result2.addAll((Vector) p1.elementAt(1));
                 result2.addAll((Vector) p2.elementAt(1));
                 If.Then = (Vector) p1.elementAt(0);
                 If.Else = (Vector) p2.elementAt(0);
                 if (! ParseAlgorithm.omitPC) {
-                  boolean thenNeedsGoto = ((BoolObj) p1.elementAt(2)).val ;
-                  boolean elseNeedsGoto = ((BoolObj) p2.elementAt(2)).val ;
+                  final boolean thenNeedsGoto = ((BoolObj) p1.elementAt(2)).val ;
+                  final boolean elseNeedsGoto = ((BoolObj) p2.elementAt(2)).val ;
                   needsGoto = thenNeedsGoto && elseNeedsGoto ;
                   if (! needsGoto){
                     if (thenNeedsGoto) {
@@ -571,10 +571,10 @@ public class PcalTranslate {
             // EitherObj added by LL on 25 Jan 2006
             else if (last.getClass().equals(AST.EitherObj.getClass())) {
                 needsGoto = true ;
-                Vector<Object> needsGotoVec = new Vector<Object>() ;
-                AST.Either Either = (AST.Either) last;
+                final Vector<Object> needsGotoVec = new Vector<Object>() ;
+                final AST.Either Either = (AST.Either) last;
                 for (int i = 0; i < Either.ors.size(); i++) {
-				Vector<Object> thisP = CopyAndExplodeLastStmt( 
+				final Vector<Object> thisP = CopyAndExplodeLastStmt(
                              (Vector) Either.ors.elementAt(i), next);
                   
                   Either.ors.setElementAt(thisP.elementAt(0), i) ;
@@ -596,8 +596,8 @@ public class PcalTranslate {
                 };
             }
             else if (last.getClass().equals(AST.WithObj.getClass())) {
-                AST.With with = (AST.With) last;
-                Vector<?> p = CopyAndExplodeLastStmt(with.Do, next);
+                final AST.With with = (AST.With) last;
+                final Vector<?> p = CopyAndExplodeLastStmt(with.Do, next);
                 with.Do = (Vector) p.elementAt(0);
                 result2.addAll((Vector) p.elementAt(1));
                   /*********************************************************
@@ -622,7 +622,7 @@ public class PcalTranslate {
 
 
     private static Vector<Object> 
-          CopyAndExplodeLastStmtWithGoto(Vector stmts, String next) throws PcalTranslateException {
+          CopyAndExplodeLastStmtWithGoto(final Vector stmts, final String next) throws PcalTranslateException {
       /*********************************************************************
       * Added by LL on 5 Feb 2011: The following comment seems to be       *
       * wrong, and the method adds a goto iff the 3rd element of the       *
@@ -632,15 +632,15 @@ public class PcalTranslate {
       * returns only a pair consisting of the first two elements of the    *
       * triple returned by CopyAndExplodeLastStmt.                         *
       *********************************************************************/
-      Vector<Object> res = CopyAndExplodeLastStmt(stmts, next) ;
+      final Vector<Object> res = CopyAndExplodeLastStmt(stmts, next) ;
         if (((BoolObj) res.elementAt(2)).val) {
           ((Vector) res.elementAt(0)).addElement(UpdatePC(next)); } ;    
       return Pair(res.elementAt(0), res.elementAt(1)) ;
     }
 
 
-    private static Vector<LabeledStmt> ExplodeLabeledStmt (AST.LabeledStmt ast,
-                                              String next) throws PcalTranslateException {
+    private static Vector<LabeledStmt> ExplodeLabeledStmt (final AST.LabeledStmt ast,
+                                                           final String next) throws PcalTranslateException {
          /******************************************************************
          * label SL -->                                                    *
          * label when pc = "label" ;                                       *
@@ -659,11 +659,11 @@ public class PcalTranslate {
             ast.stmts.elementAt(0).getClass().equals(AST.WhileObj.getClass())) {
             return ExplodeWhile(ast, next);
         }
-        AST.LabeledStmt newast = new AST.LabeledStmt();
-        Vector<Object> pair = 
+        final AST.LabeledStmt newast = new AST.LabeledStmt();
+        final Vector<Object> pair =
                 CopyAndExplodeLastStmtWithGoto((Vector) ast.stmts.clone(), 
                                                next);
-        Vector<LabeledStmt> result = new Vector<LabeledStmt>();
+        final Vector<LabeledStmt> result = new Vector<LabeledStmt>();
         newast.setOrigin(ast.getOrigin()) ;
         newast.col = ast.col;
         newast.line = ast.line;
@@ -680,8 +680,8 @@ public class PcalTranslate {
         return result;
     }
 
-    private static Vector<LabeledStmt> ExplodeLabeledStmtSeq (Vector seq,
-                                                 String next) throws PcalTranslateException {
+    private static Vector<LabeledStmt> ExplodeLabeledStmtSeq (final Vector seq,
+                                                              final String next) throws PcalTranslateException {
      /**********************************************************************
      * seq is a sequence of LabeledStmts, and `next' is the label that     *
      * follows them.  Returns the sequence of LabeledStmts obtained by     *
@@ -692,10 +692,10 @@ public class PcalTranslate {
      * already exist, since it must have been written in-line about 5      *
      * times in various other methods.                                     *
      **********************************************************************/
-     Vector<LabeledStmt> result = new Vector<LabeledStmt>() ;     
+     final Vector<LabeledStmt> result = new Vector<LabeledStmt>() ;
      for (int i = 0; i < seq.size(); i++) {
-       AST.LabeledStmt stmt = (AST.LabeledStmt) seq.elementAt(i) ;
-       String nxt = (i < seq.size() - 1) ?
+       final AST.LabeledStmt stmt = (AST.LabeledStmt) seq.elementAt(i) ;
+       final String nxt = (i < seq.size() - 1) ?
                       ((AST.LabeledStmt) seq.elementAt(i+1)).label : next ;
        result.addAll(ExplodeLabeledStmt(stmt, nxt)) ;
       };
@@ -708,8 +708,8 @@ public class PcalTranslate {
      * is an AST.While node, and the remaining elements are the unlabeled
      * statements following the source `while' statement.
      */
-    private static Vector<LabeledStmt> ExplodeWhile(AST.LabeledStmt ast,
-                                       String next) throws PcalTranslateException {
+    private static Vector<LabeledStmt> ExplodeWhile(final AST.LabeledStmt ast,
+                                                    final String next) throws PcalTranslateException {
         /*******************************************************************
         * label test unlabDo labDo next -->                                *
         * label when pc = "label" ;                                        *
@@ -729,10 +729,10 @@ public class PcalTranslate {
         * be executed in the "else" clause is discarded.  A warning        *
         * message is generated when the exploded code is simplified.       *
         *******************************************************************/
-        Vector<LabeledStmt> result = new Vector<LabeledStmt>();
-        AST.While w = (AST.While) ast.stmts.elementAt(0);
+        final Vector<LabeledStmt> result = new Vector<LabeledStmt>();
+        final AST.While w = (AST.While) ast.stmts.elementAt(0);
 
-        AST.LabeledStmt newast = new AST.LabeledStmt();
+        final AST.LabeledStmt newast = new AST.LabeledStmt();
         /*
          * We set the origin of the new LabeledStatement to that of
          * ast, if there is a statement that follows the While.  Otherwise,
@@ -742,13 +742,13 @@ public class PcalTranslate {
          * its unLabDo if there is a non-empty labDo, otherwise to the end
          * of the While. 
          */
-        PCalLocation newastBeginLoc = ast.getOrigin().getBegin() ;
-        PCalLocation whileBeginLoc = w.getOrigin().getBegin() ;
-        PCalLocation whileEndUnlabDoLoc =
+        final PCalLocation newastBeginLoc = ast.getOrigin().getBegin() ;
+        final PCalLocation whileBeginLoc = w.getOrigin().getBegin() ;
+        final PCalLocation whileEndUnlabDoLoc =
           (w.unlabDo.size() != 0) ? 
             ((AST) w.unlabDo.elementAt(w.unlabDo.size()-1)).getOrigin().getEnd() :
             w.test.getOrigin().getEnd();
-        PCalLocation whileEndLoc = 
+        final PCalLocation whileEndLoc =
            // The original code contained
            //
            //     (w.labDo.size() != 0) ? w.getOrigin().getEnd() : whileEndUnlabDoLoc ; 
@@ -769,21 +769,21 @@ public class PcalTranslate {
         AST.LabeledStmt firstLS = (w.labDo.size() == 0)
             ? null : (AST.LabeledStmt) w.labDo.elementAt(0);
         /* explode unlabDo */
-        String unlabDoNext = (firstLS == null) ? ast.label : firstLS.label ;
-        Vector<Object> pair1 = 
+        final String unlabDoNext = (firstLS == null) ? ast.label : firstLS.label ;
+        final Vector<Object> pair1 =
                 CopyAndExplodeLastStmtWithGoto((Vector) w.unlabDo.clone(),
                                                 unlabDoNext);
         /* explode the rest of the statements */
-        Vector<AST> rest = (Vector<AST>) ast.stmts.clone();
+        final Vector<AST> rest = (Vector<AST>) ast.stmts.clone();
            // Note: experimentation shows that clone() does a shallow copy, so
            // the elements of rest are == to the elements of ast.stmts.
         rest.remove(0);
-        Vector<Object> pair2 = CopyAndExplodeLastStmtWithGoto(rest, next);
+        final Vector<Object> pair2 = CopyAndExplodeLastStmtWithGoto(rest, next);
 
         if (IsTRUE(w.test)) // Optimized translation of while TRUE do
             newast.stmts.addAll((Vector) pair1.elementAt(0));
         else {
-            AST.If ifS = new AST.If();
+            final AST.If ifS = new AST.If();
             ifS.test = w.test;
             ifS.Then = (Vector) pair1.elementAt(0);
             ifS.Else = (Vector) pair2.elementAt(0);
@@ -794,9 +794,9 @@ public class PcalTranslate {
 
         /* explode the enclosed labeled statements and add to the result */
         for (int i = 0; i < w.labDo.size(); i++) {
-            AST.LabeledStmt nextLS = (w.labDo.size() > i + 1)
+            final AST.LabeledStmt nextLS = (w.labDo.size() > i + 1)
             ? (AST.LabeledStmt) w.labDo.elementAt(i + 1) : null;
-            String nextLSL = (nextLS == null) ? ast.label : nextLS.label;
+            final String nextLSL = (nextLS == null) ? ast.label : nextLS.label;
             result.addAll(ExplodeLabeledStmt(firstLS, nextLSL));
             firstLS = nextLS;
         }
@@ -812,7 +812,7 @@ public class PcalTranslate {
         return result;
     }
 
-    private static Vector<Object> ExplodeLabelIf(AST.LabelIf ast, String next) throws PcalTranslateException {
+    private static Vector<Object> ExplodeLabelIf(final AST.LabelIf ast, final String next) throws PcalTranslateException {
         /***************************************************************
          *       test unlabThen labThen unlabElse labElse next -->     *
          *       if test then                                          *
@@ -833,18 +833,18 @@ public class PcalTranslate {
          * is a vector of the remaining labeled statements.            *
          ***************************************************************/
         int i = 0;
-        Vector<If> result1 = new Vector<If>(); /* If for unlabeled statements */
-        Vector<LabeledStmt> result2 = new Vector<LabeledStmt>(); /* the labeled statements */
-        AST.If newif = new AST.If();
+        final Vector<If> result1 = new Vector<If>(); /* If for unlabeled statements */
+        final Vector<LabeledStmt> result2 = new Vector<LabeledStmt>(); /* the labeled statements */
+        final AST.If newif = new AST.If();
         AST.LabeledStmt firstThen = (ast.labThen.size() > 0)
             ? (AST.LabeledStmt) ast.labThen.elementAt(0) : null;
         AST.LabeledStmt firstElse = (ast.labElse.size() > 0)
             ? (AST.LabeledStmt) ast.labElse.elementAt(0) : null;
-        Vector<Object> explodedThen = 
+        final Vector<Object> explodedThen =
                  CopyAndExplodeLastStmtWithGoto(ast.unlabThen,
                                                 (firstThen == null)
                                                 ? next : firstThen.label);
-        Vector<Object> explodedElse = 
+        final Vector<Object> explodedElse =
                   CopyAndExplodeLastStmtWithGoto(ast.unlabElse,
                                                  (firstElse == null)
                                                  ? next : firstElse.label);
@@ -877,7 +877,7 @@ public class PcalTranslate {
             ? (AST.LabeledStmt) ast.labThen.elementAt(1) : null;
         i = 0;
         while (i < ast.labThen.size()) {
-            String nextThenLabel = (nextThen == null) ? next : nextThen.label;
+            final String nextThenLabel = (nextThen == null) ? next : nextThen.label;
             result2.addAll(ExplodeLabeledStmt(firstThen, nextThenLabel));
             i = i + 1;
             firstThen = nextThen;
@@ -889,7 +889,7 @@ public class PcalTranslate {
             ? (AST.LabeledStmt) ast.labElse.elementAt(1) : null;
         i = 0;
         while (i < ast.labElse.size()) {
-            String nextElseLabel = (nextElse == null) ? next : nextElse.label;
+            final String nextElseLabel = (nextElse == null) ? next : nextElse.label;
             result2.addAll(ExplodeLabeledStmt(firstElse, nextElseLabel));
             i = i + 1;
             firstElse = nextElse;
@@ -904,8 +904,8 @@ public class PcalTranslate {
         return Pair(result1, result2);
     }
 
-    private static Vector<Object> ExplodeLabelEither(AST.LabelEither ast, 
-                                             String next) throws PcalTranslateException {
+    private static Vector<Object> ExplodeLabelEither(final AST.LabelEither ast,
+                                                     final String next) throws PcalTranslateException {
         /*******************************************************************
         * Analogous to ExplodeLabelIf, except it hasa sequence of clauses  *
         * rather than just the then and else clauses.                      *
@@ -914,9 +914,9 @@ public class PcalTranslate {
         * corresponding to the block before lt1, and the second is         *
         * is a vector of the remaining labeled statements.                 *
         *******************************************************************/
-        Vector<Either> result1 = new Vector<Either>(); /* For the Either object.           */
-        Vector<LabeledStmt> result2 = new Vector<LabeledStmt>(); /* The internal labeled statements. */
-        AST.Either newEither = new AST.Either();
+        final Vector<Either> result1 = new Vector<Either>(); /* For the Either object.           */
+        final Vector<LabeledStmt> result2 = new Vector<LabeledStmt>(); /* The internal labeled statements. */
+        final AST.Either newEither = new AST.Either();
 
         /* Construct Either object */
         newEither.col = ast.col;
@@ -924,8 +924,8 @@ public class PcalTranslate {
         newEither.setOrigin(ast.getOrigin()) ;
         newEither.ors = new Vector<Object>() ;
         for (int i = 0; i < ast.clauses.size(); i++) {
-          AST.Clause clause = (AST.Clause) ast.clauses.elementAt(i) ;
-          Vector<Object> res = 
+          final AST.Clause clause = (AST.Clause) ast.clauses.elementAt(i) ;
+          final Vector<Object> res =
              CopyAndExplodeLastStmtWithGoto(
                clause.unlabOr,
                (clause.labOr.size() > 0) ?
@@ -958,16 +958,16 @@ public class PcalTranslate {
     * newly created statements for error reporting.                        
      **
     ***********************************************************************/
-    private static Vector<AST.Assign> ExplodeCall(AST.Call ast, String next) throws PcalTranslateException {
-        Vector<AST.Assign> result = new Vector<AST.Assign>();
-        int to = st.FindProc(ast.to);
+    private static Vector<AST.Assign> ExplodeCall(final AST.Call ast, final String next) throws PcalTranslateException {
+        final Vector<AST.Assign> result = new Vector<AST.Assign>();
+        final int to = st.FindProc(ast.to);
         /*******************************************************************
         * Error check added by LL on 30 Jan 2006 to fix bug_05_12_10.      *
         *******************************************************************/
         if (to == st.procs.size())
           { throw new PcalTranslateException("Call of non-existent procedure " + ast.to,
                                     ast);  } ;
-        PcalSymTab.ProcedureEntry pe =
+        final PcalSymTab.ProcedureEntry pe =
             st.procs.elementAt(to);
         /*******************************************************************
         * Set ass to a multiple assignment that pushes the call record on  *
@@ -988,7 +988,7 @@ public class PcalTranslate {
         sass.col  = ast.col ;
         sass.lhs.var = "stack";
         sass.lhs.sub = MakeExpr(new Vector<Vector<TLAToken>>());
-        TLAExpr expr = new TLAExpr();
+        final TLAExpr expr = new TLAExpr();
         expr.addLine();
         expr.addToken(BuiltInToken("<<"));
         expr.addToken(BuiltInToken("["));
@@ -1001,7 +1001,7 @@ public class PcalTranslate {
         expr.addToken(BuiltInToken("|->"));
         expr.addToken(StringToken(next));       
         for (int i = 0; i < pe.decls.size(); i++) {
-            AST.PVarDecl decl =
+            final AST.PVarDecl decl =
                 (AST.PVarDecl) pe.decls.elementAt(i);
             expr.addToken(BuiltInToken(","));
             expr.addLine();
@@ -1010,7 +1010,7 @@ public class PcalTranslate {
             expr.addToken(IdentToken(decl.var));
         }
         for (int i = 0; i < pe.params.size(); i++) {
-            AST.PVarDecl decl =
+            final AST.PVarDecl decl =
                 (AST.PVarDecl) pe.params.elementAt(i);
             expr.addToken(BuiltInToken(","));
             expr.addLine();
@@ -1053,7 +1053,7 @@ public class PcalTranslate {
         PCalLocation beginLoc = null ;
         PCalLocation endLoc = null ;
         for (int i = 0; i < pe.params.size(); i++) {
-            AST.PVarDecl decl =
+            final AST.PVarDecl decl =
                 (AST.PVarDecl) pe.params.elementAt(i);
             if (i == 0) {
                 beginLoc = decl.getOrigin().getBegin();
@@ -1084,7 +1084,7 @@ public class PcalTranslate {
             ass.ass = new Vector<SingleAssign>() ;
             ass.line = ast.line ;
             ass.col  = ast.col ;
-            AST.PVarDecl decl =
+            final AST.PVarDecl decl =
                 (AST.PVarDecl) pe.decls.elementAt(i);
             sass = new AST.SingleAssign();
             sass.line = ast.line ;
@@ -1113,8 +1113,8 @@ public class PcalTranslate {
     * newly created statements for error reporting.                        
      **
     ***********************************************************************/
-    private static Vector<AST.Assign> ExplodeReturn(AST.Return ast, String next) throws PcalTranslateException {
-        Vector<AST.Assign> result = new Vector<AST.Assign>();
+    private static Vector<AST.Assign> ExplodeReturn(final AST.Return ast, final String next) throws PcalTranslateException {
+        final Vector<AST.Assign> result = new Vector<AST.Assign>();
         /*******************************************************************
         * On 30 Mar 2006, added code to throw a PcalTranslateException     *
         * when ast.from equals null to raise an error if a return          *
@@ -1139,12 +1139,12 @@ public class PcalTranslate {
         }
         ;
 
-        int from = st.FindProc(ast.from);
+        final int from = st.FindProc(ast.from);
         // The following added by LL on 13 Jan 2011.
         if (!(from < st.procs.size())) {
         	throw new PcalTranslateException("Error in procedure (perhaps name used elsewhere)", ast);
         }
-        PcalSymTab.ProcedureEntry pe =
+        final PcalSymTab.ProcedureEntry pe =
             st.procs.elementAt(from);
         /*********************************************************
          * With h being the head of stack                        *
@@ -1173,7 +1173,7 @@ public class PcalTranslate {
         ass.ass = Singleton(sass);
         result.addElement(ass);
         for (int i = 0; i < pe.decls.size(); i++) {
-            AST.PVarDecl decl =
+            final AST.PVarDecl decl =
                 (AST.PVarDecl) pe.decls.elementAt(i);
             ass = new AST.Assign();
             ass.line = ast.line ;
@@ -1203,7 +1203,7 @@ public class PcalTranslate {
             result.addElement(ass);
         }
         for (int i = 0; i < pe.params.size(); i++) {
-            AST.PVarDecl decl =
+            final AST.PVarDecl decl =
                 (AST.PVarDecl) pe.params.elementAt(i);
             ass = new AST.Assign();
             ass.line = ast.line ;
@@ -1272,8 +1272,8 @@ public class PcalTranslate {
     * newly created statements for error reporting.                        
      **
     ***********************************************************************/
-    private static Vector<AST.Assign> ExplodeCallReturn(AST.CallReturn ast, String next) throws PcalTranslateException {
-    	Vector<AST.Assign> result = new Vector<AST.Assign>();
+    private static Vector<AST.Assign> ExplodeCallReturn(final AST.CallReturn ast, final String next) throws PcalTranslateException {
+    	final Vector<AST.Assign> result = new Vector<AST.Assign>();
         /*******************************************************************
         * The following test for a return not in a procedure was added by  *
         * LL on 30 Mar 2006.  This error isn't caught by the parsing       *
@@ -1285,10 +1285,10 @@ public class PcalTranslate {
               "`return' statement following `call' at " +
                ast.location() + " not in a procedure");
           } ;
-        int from = st.FindProc(ast.from);
-        PcalSymTab.ProcedureEntry peFrom =
+        final int from = st.FindProc(ast.from);
+        final PcalSymTab.ProcedureEntry peFrom =
             st.procs.elementAt(from);
-        int to = st.FindProc(ast.to);
+        final int to = st.FindProc(ast.to);
         /*******************************************************************
         * Assert changed to ReportErrorAt by LL on 30 Jan 2006, and moved  *
         * to where it belongs.                                             *
@@ -1296,7 +1296,7 @@ public class PcalTranslate {
         if (to == st.procs.size())
           { throw new PcalTranslateException("Call of non-existent procedure " + ast.to,
                                     ast);  } ;
-        PcalSymTab.ProcedureEntry peTo =
+        final PcalSymTab.ProcedureEntry peTo =
             st.procs.elementAt(to);
         PcalDebug.Assert(from < st.procs.size());
         AST.Assign ass = new AST.Assign();
@@ -1318,7 +1318,7 @@ public class PcalTranslate {
         *******************************************************************/
         if (! ast.from.equals(ast.to)) {
             for (int i = 0; i < peFrom.decls.size(); i++) {
-                AST.PVarDecl decl =
+                final AST.PVarDecl decl =
                     (AST.PVarDecl) peFrom.decls.elementAt(i);
                 sass = new AST.SingleAssign();
                 sass.line = ast.line ;
@@ -1367,7 +1367,7 @@ public class PcalTranslate {
             expr.addToken(BuiltInToken("."));
             expr.addToken(IdentToken("pc"));
             for (int i = 0; i < peTo.decls.size(); i++) {
-                AST.PVarDecl decl =
+                final AST.PVarDecl decl =
                     (AST.PVarDecl) peTo.decls.elementAt(i);
                 expr.addToken(BuiltInToken(","));
                 expr.addLine();
@@ -1376,7 +1376,7 @@ public class PcalTranslate {
                 expr.addToken(IdentToken(decl.var));
             }
             for (int i = 0; i < peTo.params.size(); i++) {
-                AST.PVarDecl decl =
+                final AST.PVarDecl decl =
                     (AST.PVarDecl) peTo.params.elementAt(i);
                 expr.addToken(BuiltInToken(","));
                 expr.addLine();
@@ -1416,7 +1416,7 @@ public class PcalTranslate {
         PCalLocation beginLoc = null ;
         PCalLocation endLoc = null ;
         for (int i = 0; i < peTo.params.size(); i++) {
-            AST.PVarDecl decl =
+            final AST.PVarDecl decl =
                 (AST.PVarDecl) peTo.params.elementAt(i);
             if (i == 0) {
                 beginLoc = decl.getOrigin().getBegin();
@@ -1446,7 +1446,7 @@ public class PcalTranslate {
             ass.line = ast.line ;
             ass.col  = ast.col ;
             ass.ass = new Vector<AST.SingleAssign>() ;
-            AST.PVarDecl decl =
+            final AST.PVarDecl decl =
                 (AST.PVarDecl) peTo.decls.elementAt(i);
             sass = new AST.SingleAssign();
             sass.line = ast.line ;
@@ -1470,8 +1470,8 @@ public class PcalTranslate {
     * Generate sequence of statements corresponding to call followed by a  *
     * goto.                                                                *
     ***********************************************************************/
-    private static Vector<AST.Assign> ExplodeCallGoto(AST.CallGoto ast, String next) throws PcalTranslateException {
-      AST.Call call = new AST.Call();
+    private static Vector<AST.Assign> ExplodeCallGoto(final AST.CallGoto ast, final String next) throws PcalTranslateException {
+      final AST.Call call = new AST.Call();
       call.to = ast.to;
       call.args = ast.args;
       call.line = ast.line;

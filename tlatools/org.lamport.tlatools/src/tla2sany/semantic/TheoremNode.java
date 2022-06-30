@@ -66,8 +66,8 @@ public class TheoremNode extends LevelNode {
    * Constructor -- expr is the statement (i.e. expression or assume/prove)
      of the theorem.
    */
-  public TheoremNode(TreeNode stn, LevelNode theorem, ModuleNode mn,
-                     ProofNode pf, ThmOrAssumpDefNode opd) {
+  public TheoremNode(final TreeNode stn, final LevelNode theorem, final ModuleNode mn,
+                     final ProofNode pf, final ThmOrAssumpDefNode opd) {
     super(TheoremKind, stn);
     this.theoremExprOrAssumeProve = theorem;
     this.module = mn;
@@ -116,10 +116,10 @@ public class TheoremNode extends LevelNode {
  * @see tla2sany.semantic.LevelNode#levelCheck(int)
  */
   @Override
-  public final boolean levelCheck(int iter) {
+  public final boolean levelCheck(final int iter) {
     if (levelChecked >= iter) {return true ;} ;
     levelChecked = iter;
-    LevelNode sub[] ;
+    final LevelNode[] sub;
     if (this.proof != null) {
       sub = new LevelNode[2];
       sub[1] = proof;
@@ -127,7 +127,7 @@ public class TheoremNode extends LevelNode {
     else { sub = new LevelNode[1];} ;
     if (this.def != null) {sub[0] = this.def;}
     else {sub[0] = this.theoremExprOrAssumeProve;} ;
-    boolean retVal = levelCheckSubnodes(iter, sub);
+    final boolean retVal = levelCheckSubnodes(iter, sub);
 
     if  (this.theoremExprOrAssumeProve == null) { return retVal; } ;
       /*********************************************************************
@@ -230,14 +230,14 @@ public class TheoremNode extends LevelNode {
   * the CASE statement.                                                    *
   * Added 4 Mar 2009.                                                      *
   *************************************************************************/
-  private final static void LevelCheckTemporal(ProofNode pn) {
+  private final static void LevelCheckTemporal(final ProofNode pn) {
      /**********************************************************************
      * Return if this is not a NonLeafProof.                               *
      **********************************************************************/
      if ((pn == null) || (pn.getKind() != NonLeafProofKind)){
         return;
       };
-     NonLeafProofNode pnode = (NonLeafProofNode) pn ;
+     final NonLeafProofNode pnode = (NonLeafProofNode) pn ;
      for (int i = 0; i < pnode.getSteps().length; i++) {
        /********************************************************************
        * Process the i-th proof step.                                      *
@@ -246,7 +246,7 @@ public class TheoremNode extends LevelNode {
        * then set tnode and oanode to those nodes, otherwise set them to   *
        * null.                                                             *
        ********************************************************************/
-       LevelNode node = pnode.getSteps()[i];
+       final LevelNode node = pnode.getSteps()[i];
        OpApplNode  oanode = null;
        TheoremNode tnode = null;
        if (node.getKind() == TheoremKind) {
@@ -256,7 +256,7 @@ public class TheoremNode extends LevelNode {
           }
        };
        if (oanode != null) {
-         UniqueString name = oanode.operator.getName();
+         final UniqueString name = oanode.operator.getName();
 
          if (   (   (name == OP_take)
                  || (name == OP_witness)
@@ -332,7 +332,7 @@ public class TheoremNode extends LevelNode {
   }
 
   @Override
-  public final String toString(int depth) {
+  public final String toString(final int depth) {
     if (depth <= 0) return "";
     String res =
              "\n*TheoremNode " + super.toString( depth ) +
@@ -374,8 +374,8 @@ public class TheoremNode extends LevelNode {
   }
 
   @Override
-  public final void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
@@ -394,30 +394,30 @@ public class TheoremNode extends LevelNode {
 
   /* MR: This is the same as SymbolNode.exportDefinition. Exports the actual theorem content, not only a reference.
    */
-  public Element exportDefinition(Document doc, SymbolContext context) {
+  public Element exportDefinition(final Document doc, final SymbolContext context) {
     //makes sure that the we are creating an entry in the database
     if (!context.isTop_level_entry())
       throw new IllegalArgumentException("Exporting theorem ref "+getNodeRef()+" twice!");
     context.resetTop_level_entry();
 
     try {
-      Element e = getLevelElement(doc, context);
+      final Element e = getLevelElement(doc, context);
       // level
       try {
-        Element l = appendText(doc,"level",Integer.toString(getLevel()));
+        final Element l = appendText(doc,"level",Integer.toString(getLevel()));
         e.insertBefore(l,e.getFirstChild());
-      } catch (RuntimeException ee) {
+      } catch (final RuntimeException ee) {
         // not sure it is legal for a LevelNode not to have level, debug it!
       }
       //location
       try {
-        Element loc = getLocationElement(doc);
+        final Element loc = getLocationElement(doc);
         e.insertBefore(loc,e.getFirstChild());
-      } catch (RuntimeException ee) {
+      } catch (final RuntimeException ee) {
         // do nothing if no location
       }
       return e;
-    } catch (RuntimeException ee) {
+    } catch (final RuntimeException ee) {
       System.err.println("failed for node.toString(): " + toString() + "\n with error ");
       ee.printStackTrace();
       throw ee;
@@ -428,14 +428,14 @@ public class TheoremNode extends LevelNode {
     return "TheoremNodeRef";
   }
 
-  protected Element getLevelElement(Document doc, tla2sany.xml.SymbolContext context) {
-    Element e = doc.createElement("TheoremNode");
+  protected Element getLevelElement(final Document doc, final tla2sany.xml.SymbolContext context) {
+    final Element e = doc.createElement("TheoremNode");
 
     //the theorem name is now contained in the definition, if it exists
-    Node n = doc.createElement("body");
+    final Node n = doc.createElement("body");
     if (def != null) {
       //if there is a definition, export it too
-      Node d = doc.createElement("definition");
+      final Node d = doc.createElement("definition");
       d.appendChild(def.export(doc, context));
       e.appendChild(d);
       assert( def.getBody() == getTheorem() ); //make sure theorem and definition body agree before export
@@ -451,10 +451,10 @@ public class TheoremNode extends LevelNode {
 
   /* overrides LevelNode.export and exports a UID reference instad of the full version*/
   @Override
-  public Element export(Document doc, SymbolContext context) {
+  public Element export(final Document doc, final SymbolContext context) {
     // first add symbol to context
     context.put(this, doc);
-    Element e = doc.createElement(getNodeRef());
+    final Element e = doc.createElement(getNodeRef());
     e.appendChild(appendText(doc,"UID",Integer.toString(myUID)));
     return e;
   }

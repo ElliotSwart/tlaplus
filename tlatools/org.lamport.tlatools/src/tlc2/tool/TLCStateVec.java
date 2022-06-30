@@ -17,38 +17,38 @@ private TLCState[] elementData;
          
   public TLCStateVec() { this(10); }
 
-  public TLCStateVec(int initialCapacity) {
+  public TLCStateVec(final int initialCapacity) {
     this.elementCount = 0;
     this.elementData = new TLCState[initialCapacity];
   }
 
-  public final void addElement(TLCState x) {
+  public final void addElement(final TLCState x) {
     if (this.elementCount == this.elementData.length) {
       ensureCapacity(this.elementCount+1);
     }
     this.elementData[this.elementCount++] = x;
   }
 
-  public final TLCState elementAt(int index) {
+  public final TLCState elementAt(final int index) {
     return this.elementData[index];
   }
 
   public final int size() { return this.elementCount; }
 
-  public final void ensureCapacity(int minCapacity) { 
+  public final void ensureCapacity(final int minCapacity) {
     if (elementData.length < minCapacity) {
       int newCapacity = elementData.length + elementData.length;
       if (newCapacity < minCapacity) {
 	newCapacity = minCapacity;
       }
-      TLCState oldBuffer[] = this.elementData;
+      final TLCState[] oldBuffer = this.elementData;
       this.elementData = new TLCState[newCapacity];
 
       System.arraycopy(oldBuffer, 0, elementData, 0, elementCount);
     }
   }
 
-  private void readObject(ObjectInputStream ois)
+  private void readObject(final ObjectInputStream ois)
   throws IOException, ClassNotFoundException {
     this.elementCount = ois.readInt();
     this.elementData = new TLCState[this.elementCount];
@@ -57,7 +57,7 @@ private TLCState[] elementData;
     }
   }
 
-  private void writeObject(ObjectOutputStream oos) throws IOException {
+  private void writeObject(final ObjectOutputStream oos) throws IOException {
     oos.writeInt(this.elementCount);
     for (int i = 0; i < this.elementCount; i++) {
       oos.writeObject(this.elementData[i]);

@@ -48,8 +48,8 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
   public final int control;
 
   /* Constructor */
-  public SetPredValue(Object vars, Value  inVal, SemanticNode pred, ITool tool,
-          Context con, TLCState s0, TLCState s1, int control) {
+  public SetPredValue(final Object vars, final Value  inVal, final SemanticNode pred, final ITool tool,
+                      final Context con, final TLCState s0, final TLCState s1, final int control) {
     this.vars = vars;
     this.inVal = inVal;
     this.pred = pred;
@@ -71,13 +71,13 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
     this.control = control;
   }
 
-  public SetPredValue(Object vars, Value  inVal, SemanticNode pred, ITool tool,
-          Context con, TLCState s0, TLCState s1, int control, CostModel cm) {
+  public SetPredValue(final Object vars, final Value  inVal, final SemanticNode pred, final ITool tool,
+                      final Context con, final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
 	  this(vars, inVal, pred, tool, con, s0, s1, control);
 	  this.cm = cm;
   }
   
-	public SetPredValue(SetPredValue other, ITool tool) {
+	public SetPredValue(final SetPredValue other, final ITool tool) {
 		this(other.vars, other.inVal, other.pred, tool, other.con, other.state, other.pstate, other.control, other.cm);
 	}
 
@@ -85,32 +85,32 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
   public final byte getKind() { return SETPREDVALUE; }
 
   @Override
-  public final int compareTo(Object obj) {
+  public final int compareTo(final Object obj) {
     try {
       this.inVal = this.toSetEnum();
       this.converted = true;
       return this.inVal.compareTo(obj);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     try {
       this.inVal = this.toSetEnum();
       this.converted = true;
       return this.inVal.equals(obj);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean member(Value elem) {
+  public final boolean member(final Value elem) {
     try {
       if (this.converted) {
         return this.inVal.member(elem);
@@ -122,10 +122,10 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
             con1 = con1.cons((FormalParamNode)this.vars, elem);
           }
           else {
-            FormalParamNode[] ids = (FormalParamNode[])this.vars;
-            TupleValue tv = (TupleValue) elem.toTuple();
+            final FormalParamNode[] ids = (FormalParamNode[])this.vars;
+            final TupleValue tv = (TupleValue) elem.toTuple();
             if ((tv != null) && (tv.elems.length == ids.length)) {
-              Value [] vals = ((TupleValue)tv).elems;
+              final Value [] vals = ((TupleValue)tv).elems;
               for (int i = 0; i < ids.length; i++) {
                 con1 = con1.cons(ids[i], vals[i]);
               }
@@ -135,7 +135,7 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
               "\nis an element of a set of " + ids.length + "-tuples.", getSource());
             }
           }
-          Value  res = (Value) this.tool.eval(this.pred, con1, this.state, this.pstate, this.control);
+          final Value  res = (Value) this.tool.eval(this.pred, con1, this.state, this.pstate, this.control);
           if (!(res instanceof IBoolValue)) {
             Assert.fail("The evaluation of predicate " + this.pred +
                   " yielded non-Boolean value.", getSource());
@@ -143,14 +143,14 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
           return ((BoolValue)res).val;
         }
       }
-      catch (EvalException e) {
+      catch (final EvalException e) {
         Assert.fail("Cannot decide if element:\n" + Values.ppr(elem.toString()) +
         "\n is element of:\n" + Values.ppr(this.inVal.toString()) +
         "\nand satisfies the predicate " + this.pred, getSource());
       }
       return false;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -166,35 +166,35 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
       }
       return true;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
       if (ex.idx < ex.path.length) {
         Assert.fail("Attempted to apply EXCEPT to the set " + Values.ppr(this.toString()) + ".", getSource());
       }
       return ex.value;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       if (exs.length != 0) {
         Assert.fail("Attempted to apply EXCEPT to the set " + Values.ppr(this.toString()) + ".", getSource());
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -207,18 +207,18 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
       this.converted = true;
       return this.inVal.size();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  private final void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+  private final void readObject(final ObjectInputStream ois) throws IOException, ClassNotFoundException {
     this.inVal = (Value )ois.readObject();
     this.converted = true;
   }
 
-  private final void writeObject(ObjectOutputStream oos) throws IOException {
+  private final void writeObject(final ObjectOutputStream oos) throws IOException {
     if (!this.converted) {
       this.inVal = this.toSetEnum();
       this.converted = true;
@@ -232,7 +232,7 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
     try {
       return this.inVal.isNormalized();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -244,7 +244,7 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
       this.inVal.normalize();
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -255,7 +255,7 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
 	  try {
       inVal.deepNormalize();
 	    }
-	    catch (RuntimeException | OutOfMemoryError e) {
+	    catch (final RuntimeException | OutOfMemoryError e) {
 	      if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
 	      else { throw e; }
 	    }
@@ -268,11 +268,11 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
   public final IValue deepCopy() { return this; }
 
   @Override
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       return this.equals(val);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -280,26 +280,26 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
 
   /* The fingerprint method */
   @Override
-  public final long fingerPrint(long fp) {
+  public final long fingerPrint(final long fp) {
     try {
       this.inVal = this.toSetEnum();
       this.converted = true;
       return this.inVal.fingerPrint(fp);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final IValue permute(IMVPerm perm) {
+  public final IValue permute(final IMVPerm perm) {
     try {
       this.inVal = this.toSetEnum();
       this.converted = true;
       return this.inVal.permute(perm);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -310,8 +310,8 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
       if (this.converted) {
     	  return (SetEnumValue) this.inVal;
       }
-      ValueVec vals = new ValueVec();
-      ValueEnumeration Enum = this.elements();
+      final ValueVec vals = new ValueVec();
+      final ValueEnumeration Enum = this.elements();
       Value  elem;
       while ((elem = Enum.nextElement()) != null) {
         vals.addElement(elem);
@@ -327,22 +327,22 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
 
   /* The string representation of the value. */
   @Override
-  public final StringBuffer toString(StringBuffer sb, int offset, boolean swallow) {
+  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow) {
     try {
       try {
         if (TLCGlobals.expand) {
-          Value  val = this.toSetEnum();
+          final Value  val = this.toSetEnum();
           return val.toString(sb, offset, swallow);
         }
       }
-      catch (Throwable e) { if (!swallow) throw e; }
+      catch (final Throwable e) { if (!swallow) throw e; }
 
       sb.append("{");
       if (this.vars instanceof FormalParamNode) {
         sb.append(((FormalParamNode)this.vars).getName());
       }
       else {
-        FormalParamNode[] ids = (FormalParamNode[])this.vars;
+        final FormalParamNode[] ids = (FormalParamNode[])this.vars;
         if (ids.length != 0) sb.append(ids[0].getName());
         for (int i = 1; i < ids.length; i++) {
           sb.append(", " + ids[i].getName());
@@ -352,7 +352,7 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
       sb.append(this.pred + "> }");
       return sb;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -366,7 +366,7 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
       }
       return new Enumerator();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -396,11 +396,11 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
           con1 = con1.cons((FormalParamNode)vars, elem);
         }
         else {
-          FormalParamNode[] ids = (FormalParamNode[])vars;
-          TupleValue tv = (TupleValue) elem.toTuple();
+          final FormalParamNode[] ids = (FormalParamNode[])vars;
+          final TupleValue tv = (TupleValue) elem.toTuple();
           if ((tv != null) &&
               (((TupleValue)tv).elems.length == ids.length)) {
-            Value [] vals = ((TupleValue)tv).elems;
+            final Value [] vals = ((TupleValue)tv).elems;
             for (int i = 0; i < ids.length; i++) {
               con1 = con1.cons(ids[i], vals[i]);
             }
@@ -410,7 +410,7 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
             "\nis an element of a set of " + ids.length + "-tuples.", getSource());
           }
         }
-        Value  res = (Value) tool.eval(pred, con1, state, pstate, control, cm);
+        final Value  res = (Value) tool.eval(pred, con1, state, pstate, control, cm);
         if (!(res instanceof IBoolValue)) {
           Assert.fail("Evaluating predicate " + pred + " yielded non-Boolean value.", getSource());
         }

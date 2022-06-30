@@ -52,7 +52,7 @@ import util.Assert;
 
 public class SubsetValueTest {
 
-	private static final Value[] getValue(String... strs) {
+	private static final Value[] getValue(final String... strs) {
 		final List<Value> values = new ArrayList<>(strs.length);
 		for (int i = 0; i < strs.length; i++) {
 			values.add(new StringValue(strs[i]));
@@ -75,13 +75,13 @@ public class SubsetValueTest {
 	}
 
 	private void doTest(final int expectedSize, final EnumerableValue innerSet,
-			int expectedElements) {
+                        final int expectedElements) {
 		final SubsetValue subsetValue = new SubsetValue(innerSet);
 		assertEquals(expectedSize, subsetValue.size());
 
 		final Set<Value> s = new TreeSet<>(new Comparator<Value>() {
 			@Override
-			public int compare(Value o1, Value o2) {
+			public int compare(final Value o1, final Value o2) {
 				// o1.normalize();
 				// ((SetEnumValue) o1).elems.sort(true);
 				//
@@ -157,7 +157,7 @@ public class SubsetValueTest {
 		final IntervalValue innerSet = new IntervalValue(1, 32);
 		final SubsetValue subsetValue = new SubsetValue(innerSet);
 
-		ValueEnumeration elements = subsetValue.elements(2342);
+		final ValueEnumeration elements = subsetValue.elements(2342);
 		assertTrue(elements instanceof CoinTossingSubsetEnumerator);
 
 		final Set<Value> s = new HashSet<>();
@@ -168,7 +168,7 @@ public class SubsetValueTest {
 			s.add(next);
 		}
 
-		CoinTossingSubsetEnumerator tossingEnumerator = (CoinTossingSubsetEnumerator) elements;
+		final CoinTossingSubsetEnumerator tossingEnumerator = (CoinTossingSubsetEnumerator) elements;
 		assertTrue(tossingEnumerator.getNumOfPicks() - 100 <= s.size() && s.size() <= tossingEnumerator.getNumOfPicks());
 	}
 
@@ -257,7 +257,7 @@ public class SubsetValueTest {
 
 		try {
 			subsetValue.size();
-		} catch (Assert.TLCRuntimeException e) {
+		} catch (final Assert.TLCRuntimeException e) {
 			final Set<Value> s = new HashSet<>();
 
 			final ValueEnumeration elements = subsetValue.elements(2148);
@@ -322,7 +322,7 @@ public class SubsetValueTest {
 		final SubsetValue subset = new SubsetValue(innerSet);
 		try {
 			subset.kElements(-1);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return;
 		}
 		fail();
@@ -334,7 +334,7 @@ public class SubsetValueTest {
 		final SubsetValue subset = new SubsetValue(innerSet);
 		try {
 			subset.kElements(innerSet.size() + 1);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return;
 		}
 		fail();
@@ -372,7 +372,7 @@ public class SubsetValueTest {
 
 		try {
 			subset.numberOfKElements(-1);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return;
 		}
 		fail();
@@ -385,7 +385,7 @@ public class SubsetValueTest {
 
 		try {
 			subset.numberOfKElements(innerSet.size() + 1);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return;
 		}
 		fail();
@@ -410,7 +410,7 @@ public class SubsetValueTest {
 		for (int i = 0; i <= innerSet.size(); i++) {
 			try {
 				subset.numberOfKElements(i);
-			} catch (IllegalArgumentException e) {
+			} catch (final IllegalArgumentException e) {
 				continue;
 			}
 			fail();
@@ -444,7 +444,7 @@ public class SubsetValueTest {
 		final IntervalValue innerSet = new IntervalValue(1, 16);
 		final SubsetValue subset = new SubsetValue(innerSet);
 		
-		int size = innerSet.size();
+		final int size = innerSet.size();
 		
 		final long sizeS = 1L << size; // 2^innerSet.size()
 		final Set<Value> unranked = new HashSet<>((int)sizeS);
@@ -526,7 +526,7 @@ public class SubsetValueTest {
 
 		final ValueVec vec = new ValueVec(subset.size());
 		for (int i = 0; i <= inner.size(); i++) {
-			List<Value> kElements = subset.kElements(i).all();
+			final List<Value> kElements = subset.kElements(i).all();
 			kElements.forEach(e -> vec.addElement(e));
 		}
         final Value unnormalized = new SetEnumValue(vec, false);
@@ -567,7 +567,7 @@ public class SubsetValueTest {
 	public void testRandomSubsetGeneratorKNegative() {
 		try {
 			new KSubsetValue(-1, new IntervalValue(1, 2)).elements(Ordering.RANDOMIZED);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return;
 		}
 		fail("Expected an IllegalArgumentException");
@@ -577,7 +577,7 @@ public class SubsetValueTest {
 	public void testRandomSubsetGeneratorKNplus1() {
 		try {
 			new KSubsetValue(3, new IntervalValue(1, 2)).elements(Ordering.RANDOMIZED);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return;
 		}
 		fail("Expected an IllegalArgumentException");

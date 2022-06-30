@@ -48,16 +48,16 @@ public abstract class SemanticNode
   private   int      kind;     // indicates what kind of semantic node this is;
                                //   strongly correlated with the Java type of the node
 
-  public SemanticNode(int kind, TreeNode stn) {
+  public SemanticNode(final int kind, final TreeNode stn) {
     myUID = uid.getAndIncrement();
     this.kind = kind;
     this.stn = stn;
     this.tools = EmptyArr;
   }
 
-  public static void setError(Errors errs) { errors = errs; }
+  public static void setError(final Errors errs) { errors = errs; }
 
-  public static String levelToString(int level) {
+  public static String levelToString(final int level) {
     switch (level) {
       case ConstantLevel: return level + " (Constant)";
       case VariableLevel: return level + " (Variable)";
@@ -82,15 +82,15 @@ public abstract class SemanticNode
    * calls these two methods with toolId = t to read and write this
    * information.
    */
-  public final Object getToolObject(int toolId) {
+  public final Object getToolObject(final int toolId) {
     if (this.tools.length <= toolId) return null;
     return this.tools[toolId];
   }
 
   /* Sets tool number toolId to obj.   */
-  public final void setToolObject(int toolId, Object obj) {
+  public final void setToolObject(final int toolId, final Object obj) {
     if (this.tools.length <= toolId) {
-      Object[] newTools = new Object[toolId+1];
+      final Object[] newTools = new Object[toolId+1];
       System.arraycopy(this.tools, 0, newTools, 0, this.tools.length);
       this.tools = newTools;
     }
@@ -111,7 +111,7 @@ public abstract class SemanticNode
   public final int getKind() { return this.kind; }
 
   /* Sets the kind field of this object to k.  */
-  public final void setKind(int k) { this.kind = k; }
+  public final void setKind(final int k) { this.kind = k; }
 
   /* Returns the same concrete syntax tree node. */
   public final TreeNode getTreeNode() { return this.stn; }
@@ -199,7 +199,7 @@ public abstract class SemanticNode
   
 	public <T> ChildrenVisitor<T> walkChildren(final ChildrenVisitor<T> visitor) {
 		visitor.preVisit(this);
-		for (SemanticNode c : getListOfChildren()) {
+		for (final SemanticNode c : getListOfChildren()) {
 			if (visitor.preempt(c)) {
 				continue;
 			}
@@ -212,7 +212,7 @@ public abstract class SemanticNode
 		public void preVisit(final SemanticNode node) {
 		}
 
-		public boolean preempt(SemanticNode node) {
+		public boolean preempt(final SemanticNode node) {
 			return true;
 		}
 
@@ -262,7 +262,7 @@ public abstract class SemanticNode
 						} else if (node instanceof OpApplNode) {
 							final OpApplNode oan = (OpApplNode) node;
 							// TODO Include oan#range aka oan#getBded... in getQuantSymbolLists?
-							for (FormalParamNode fpn : oan.getQuantSymbolLists()) {
+							for (final FormalParamNode fpn : oan.getQuantSymbolLists()) {
 								if (location.equals(fpn.getLocation())) {
 									pathToLoc = new LinkedList<>();
 									pathToLoc.add(fpn);
@@ -272,7 +272,7 @@ public abstract class SemanticNode
 					}
 
 					@Override
-					public boolean preempt(SemanticNode node) {
+					public boolean preempt(final SemanticNode node) {
 						return pathToLoc != null
 								|| !node.getLocation().includes(location);
 					}
@@ -294,8 +294,8 @@ public abstract class SemanticNode
    * of walkgraph is to find all reachable nodes in the semantic graph
    * and insert them in a Hashtable for use by the Explorer tool.
    */
-  public void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
@@ -307,7 +307,7 @@ public abstract class SemanticNode
    * of SemanticNode for implementing ExploreNode interface; the depth
    * parameter is a bound on the depth of the tree that is converted to String.
    */
-  public String toString(int depth) {
+  public String toString(final int depth) {
     if (depth <= 0) return "";
     return ("  uid: " + myUID +
 	    "  kind: " + (kind == -1 ? "<none>" : kinds[kind])
@@ -346,9 +346,9 @@ public abstract class SemanticNode
    * @param s2
    * @return
    */
-  public int compareTo(SemanticNode s) {
-       Location loc1 = this.stn.getLocation();
-       Location loc2 = s.stn.getLocation();
+  public int compareTo(final SemanticNode s) {
+       final Location loc1 = this.stn.getLocation();
+       final Location loc2 = s.stn.getLocation();
        if (loc1.beginLine() < loc2.beginLine())
         {
            return -1;
@@ -372,7 +372,7 @@ public abstract class SemanticNode
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -382,7 +382,7 @@ public abstract class SemanticNode
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		SemanticNode other = (SemanticNode) obj;
+		final SemanticNode other = (SemanticNode) obj;
 		if (kind != other.kind) {
 			return false;
 		}
@@ -396,11 +396,11 @@ public abstract class SemanticNode
 * XXXXX A test for getLocation() returning null should be added            *
 *       to the following two toString methods.                             *
 ***************************************************************************/
-  public final void toString(StringBuffer sb, String padding) {
-	  TreeNode treeNode = getTreeNode();
+  public final void toString(final StringBuffer sb, final String padding) {
+	  final TreeNode treeNode = getTreeNode();
 		if (treeNode instanceof SyntaxTreeNode
 				&& System.getProperty(SemanticNode.class.getName() + ".showPlainFormulae") != null) {
-		  SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
+		  final SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
 		  sb.append(stn.getHumanReadableImage());
 	  } else {
 		  sb.append(this.getLocation());
@@ -409,10 +409,10 @@ public abstract class SemanticNode
 
   @Override
   public String toString() {
-	  TreeNode treeNode = getTreeNode();
+	  final TreeNode treeNode = getTreeNode();
 		if (treeNode instanceof SyntaxTreeNode
 				&& System.getProperty(SemanticNode.class.getName() + ".showPlainFormulae") != null) {
-			  SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
+			  final SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
 		  return stn.getHumanReadableImage();
 	  }
     return this.getLocation().toString();
@@ -431,7 +431,7 @@ public abstract class SemanticNode
      * All nodes inherit from semantic node, which just attach location to the returned node
      */
 
-  protected Element getSemanticElement(Document doc, tla2sany.xml.SymbolContext context) {
+  protected Element getSemanticElement(final Document doc, final tla2sany.xml.SymbolContext context) {
       throw new UnsupportedOperationException("xml export is not yet supported for: " + getClass() + " with toString: " + toString(100));
     }
 
@@ -440,17 +440,17 @@ public abstract class SemanticNode
      * returns location information for XML exporting as attributes to
      * the element returned by getElement
      */
-    protected Element getLocationElement(Document doc) {
-      Location loc = getLocation();
-      Element e = doc.createElement("location");
-      Element ecol = doc.createElement("column");
-      Element eline = doc.createElement("line");
-      Element fname = doc.createElement("filename");
+    protected Element getLocationElement(final Document doc) {
+      final Location loc = getLocation();
+      final Element e = doc.createElement("location");
+      final Element ecol = doc.createElement("column");
+      final Element eline = doc.createElement("line");
+      final Element fname = doc.createElement("filename");
 
-      Element bl = doc.createElement("begin");
-      Element el = doc.createElement("end");
-      Element bc = doc.createElement("begin");
-      Element ec = doc.createElement("end");
+      final Element bl = doc.createElement("begin");
+      final Element el = doc.createElement("end");
+      final Element bc = doc.createElement("begin");
+      final Element ec = doc.createElement("end");
 
       bc.appendChild(doc.createTextNode(Integer.toString(loc.beginColumn())));
       ec.appendChild(doc.createTextNode(Integer.toString(loc.endColumn())));
@@ -474,14 +474,14 @@ public abstract class SemanticNode
     /**
      * TL - auxiliary functions
      */
-    protected Element appendElement(Document doc, String el, Element e2) {
-      Element e = doc.createElement(el);
+    protected Element appendElement(final Document doc, final String el, final Element e2) {
+      final Element e = doc.createElement(el);
       e.appendChild(e2);
       return e;
     }
-    protected Element appendText(Document doc, String el, String txt) {
-      Element e = doc.createElement(el);
-      Node n = doc.createTextNode(txt);
+    protected Element appendText(final Document doc, final String el, final String txt) {
+      final Element e = doc.createElement(el);
+      final Node n = doc.createTextNode(txt);
       e.appendChild(n);
       return e;
     }
@@ -490,20 +490,20 @@ public abstract class SemanticNode
     /** August 2014 - TL
      * A location element is prepannded to an implementing element
      */
-  public Element export(Document doc, tla2sany.xml.SymbolContext context) {
+  public Element export(final Document doc, final tla2sany.xml.SymbolContext context) {
       try {
-        Element e = getSemanticElement(doc, context);
+        final Element e = getSemanticElement(doc, context);
         try {
-          Element loc = getLocationElement(doc);
+          final Element loc = getLocationElement(doc);
           e.insertBefore(loc,e.getFirstChild());
-        } catch (UnsupportedOperationException uoe) {
+        } catch (final UnsupportedOperationException uoe) {
           uoe.printStackTrace();
           throw uoe;
-        } catch (RuntimeException ee) {
+        } catch (final RuntimeException ee) {
           // do nothing if no location
         }
         return e;
-      } catch (RuntimeException ee) {
+      } catch (final RuntimeException ee) {
         System.err.println("failed for node.toString(): " + toString() + "\n with error ");
         ee.printStackTrace();
         throw ee;

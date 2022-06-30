@@ -145,7 +145,7 @@ public class TLA
 
     static String version = "tla2tex.TLA Version 1.0 created " + modDate;
 
-    public static void main(String[] args)
+    public static void main(final String[] args)
     {
         runTranslation(args);
     }
@@ -153,12 +153,12 @@ public class TLA
     /**
      * @param args
      */
-    public static void runTranslation(String[] args)
+    public static void runTranslation(final String[] args)
     {  
         /*********************************************************************
         * Get the command-line arguments.                                    *
         *********************************************************************/
-        long startTime = Debug.now();
+        final long startTime = Debug.now();
         ToolIO.out.println(version);
         GetArguments(args);
 
@@ -172,9 +172,9 @@ public class TLA
         /*********************************************************************
         * Read and tokenize the spec.                                        *
         *********************************************************************/
-        FileCharReader testlr = new FileCharReader(Parameters.TLAInputFile);
+        final FileCharReader testlr = new FileCharReader(Parameters.TLAInputFile);
         Starting("TokenizeSpec.Tokenize");
-        Token[][] spec = TokenizeSpec.Tokenize(testlr, TokenizeSpec.MODULE);
+        final Token[][] spec = TokenizeSpec.Tokenize(testlr, TokenizeSpec.MODULE);
 
 //System.out.println(TokenizeSpec.skipToUnmatchedEnd(new Position(5, 1), 
 //                 spec, false).toString()) ;
@@ -287,7 +287,7 @@ public class TLA
                         .length()
                         - "tla".length())
                         + Parameters.LatexOutputExt);
-            } catch (IOException e)
+            } catch (final IOException e)
             {
                 Debug.ReportError("Trying to copy output from metadir produced the error:\n" + e.getMessage());
             }
@@ -296,7 +296,7 @@ public class TLA
         Debug.printElapsedTime(startTime, "Total execution time:");
     } // END main
 
-    private static void GetArguments(String[] args)
+    private static void GetArguments(final String[] args)
     /**********************************************************************
     * Get the command-line arguments and set the appropriate parameters.  *
     **********************************************************************/
@@ -347,7 +347,7 @@ public class TLA
         * "-" argument).                                                   *
         *******************************************************************/
         {
-            String option = args[nextArg];
+            final String option = args[nextArg];
             if (option.equals("-help"))
             {
                 OutputMessageFile(Parameters.HelpFile);
@@ -367,7 +367,7 @@ public class TLA
                 try
                 {
                     Parameters.PSGrayLevel = Misc.stringToFloat(args[nextArg]);
-                } catch (Exception e)
+                } catch (final Exception e)
                 {
                     CommandLineError("Bad -grayLevel value " + args[nextArg]);
                 }
@@ -681,7 +681,7 @@ public class TLA
         }
     }
 
-    private static int GetIntArg(String str, String option)
+    private static int GetIntArg(final String str, final String option)
     /*********************************************************************
     * Returns str interpreted as an integer, or generates an error       *
     * message for the indicated option.                                  *
@@ -691,7 +691,7 @@ public class TLA
         try
         {
             val = Integer.parseInt(str);
-        } catch (NumberFormatException e)
+        } catch (final NumberFormatException e)
         {
             CommandLineError(option + " option must specify an integer value");
         }
@@ -699,7 +699,7 @@ public class TLA
         return val;
     }
 
-    private static String RemoveExtension(String fileName)
+    private static String RemoveExtension(final String fileName)
     /*********************************************************************
     * The string fileName with any extensions removed.                   *
     *********************************************************************/
@@ -713,7 +713,7 @@ public class TLA
         }
     }
 
-    private static String RemovePathPrefix(String str)
+    private static String RemovePathPrefix(final String str)
     /***********************************************************************
     * Returns str with all any leading path specifiers removed.  For       *
     * example, calling it on "c:frob\bar\name.txt" or "~/frob/bar/name.txt"  *
@@ -739,7 +739,7 @@ public class TLA
         return result;
     }
 
-    private static boolean HasPathPrefix(String str)
+    private static boolean HasPathPrefix(final String str)
     /***********************************************************************
     * True iff str has a leading path specifier--that is, if it contains   *
     * a ":", "/" or "\".                                                   *
@@ -748,7 +748,7 @@ public class TLA
         return (str.indexOf(":") != -1) || (str.indexOf("/") != -1) || (str.indexOf("\\") != -1);
     }
 
-    private static void CommandLineError(String msg)
+    private static void CommandLineError(final String msg)
     /*********************************************************************
     * Announce a command line error with the string indicating the       *
     * explanation, write the help message, and halt.                     *
@@ -760,12 +760,12 @@ public class TLA
         throw new TLA2TexException("TLATeX command-line error: " + msg + "." + "Use -help option for more information.");
     }
 
-    private static void OutputMessageFile(String fileName)
+    private static void OutputMessageFile(final String fileName)
     /**********************************************************************
     * Write the resource file named fileName to stdout.                   *
     **********************************************************************/
     {
-        ResourceFileReader input = new ResourceFileReader(fileName);
+        final ResourceFileReader input = new ResourceFileReader(fileName);
         String line = input.getLine();
         while (line != null)
         {
@@ -781,7 +781,7 @@ public class TLA
     /***********************************************************************
     * Starting / Finished used to print debugging information.            *
     ***********************************************************************/
-    private static void Starting(String name)
+    private static void Starting(final String name)
     {
         if (Parameters.Debug)
         {
@@ -790,7 +790,7 @@ public class TLA
         }
     }
 
-    private static void Finished(String name)
+    private static void Finished(final String name)
     {
         if (Parameters.Debug)
         {
@@ -800,7 +800,7 @@ public class TLA
 
     private static void MakePSFile()
     {
-        String Command = Parameters.PSCommand + " " + Parameters.LaTeXOutputFile + ".dvi";
+        final String Command = Parameters.PSCommand + " " + Parameters.LaTeXOutputFile + ".dvi";
         ExecuteCommand.executeCommand(Command);
         /*******************************************************************
         * Modified on 11 November 2001 to call ExecuteCommand.             *

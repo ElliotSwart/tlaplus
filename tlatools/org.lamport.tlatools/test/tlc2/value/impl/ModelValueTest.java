@@ -39,8 +39,8 @@ public class ModelValueTest {
 
 	@Test
 	public void testEqualsUntyped() {
-		ModelValue u1 = (ModelValue) ModelValue.make("u1");
-		ModelValue u2 = (ModelValue) ModelValue.make("u2");
+		final ModelValue u1 = (ModelValue) ModelValue.make("u1");
+		final ModelValue u2 = (ModelValue) ModelValue.make("u2");
 		
 		assertNotEquals(u1, u2);
 		assertNotEquals(u2, u1);
@@ -87,8 +87,8 @@ public class ModelValueTest {
 
 	@Test
 	public void testCompareToUntyped() {
-		ModelValue u1 = (ModelValue) ModelValue.make("u1");
-		ModelValue u2 = (ModelValue) ModelValue.make("u2");
+		final ModelValue u1 = (ModelValue) ModelValue.make("u1");
+		final ModelValue u2 = (ModelValue) ModelValue.make("u2");
 		
 		assertEquals(-1, u1.compareTo(u2));
 		assertEquals(1, u2.compareTo(u1));
@@ -135,8 +135,8 @@ public class ModelValueTest {
 	
 	@Test
 	public void testEqualsTyped() {
-		ModelValue a = (ModelValue) ModelValue.make("A_a");
-		ModelValue b = (ModelValue) ModelValue.make("A_b");
+		final ModelValue a = (ModelValue) ModelValue.make("A_a");
+		final ModelValue b = (ModelValue) ModelValue.make("A_b");
 		
 		assertNotEquals(a,b);
 		assertNotEquals(b,a);
@@ -212,8 +212,8 @@ public class ModelValueTest {
 	
 	@Test
 	public void testCompareToTyped() {
-		ModelValue a = (ModelValue) ModelValue.make("A_a");
-		ModelValue b = (ModelValue) ModelValue.make("A_b");
+		final ModelValue a = (ModelValue) ModelValue.make("A_a");
+		final ModelValue b = (ModelValue) ModelValue.make("A_b");
 		
 		assertEquals(-1, a.compareTo(b));
 		assertEquals(1, b.compareTo(a));

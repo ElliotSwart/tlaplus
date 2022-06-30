@@ -139,7 +139,7 @@ public class AssumeProveNode extends LevelNode {
   public boolean getIsBoxAssumeProve() {
       return isBoxAssumeProve;
   }
-  protected void setIsBoxAssumeProve(boolean value) {
+  protected void setIsBoxAssumeProve(final boolean value) {
       isBoxAssumeProve = value;
   }
 
@@ -156,7 +156,7 @@ public class AssumeProveNode extends LevelNode {
   /*************************************************************************
   * The Constructor.                                                       *
   *************************************************************************/
-  public AssumeProveNode(TreeNode stn, ThmOrAssumpDefNode gl) {
+  public AssumeProveNode(final TreeNode stn, final ThmOrAssumpDefNode gl) {
     super(AssumeProveKind, stn);
     this.goal = gl ;
   }
@@ -195,7 +195,7 @@ public class AssumeProveNode extends LevelNode {
   * reasonable, but I don't know if it's really correct.  -   LL           *
   *************************************************************************/
   @Override
-  public boolean levelCheck(int iter) {
+  public boolean levelCheck(final int iter) {
     /***********************************************************************
     * Return immediately if this this.levelCheck(i) has already been       *
     * invoked for i >= iter.                                               *
@@ -343,7 +343,7 @@ public class AssumeProveNode extends LevelNode {
    */
   @Override
   public SemanticNode[] getChildren() {
-     SemanticNode[] res = new SemanticNode[this.assumes.length + 1];
+     final SemanticNode[] res = new SemanticNode[this.assumes.length + 1];
      res[assumes.length] = this.prove;
      for (int i = 0; i < assumes.length; i++) {
          res[i] = assumes[i];
@@ -352,8 +352,8 @@ public class AssumeProveNode extends LevelNode {
   }
 
   @Override
-  public final void walkGraph(Hashtable<Integer, ExploreNode> h, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public final void walkGraph(final Hashtable<Integer, ExploreNode> h, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (h.get(uid) != null) return;
     h.put(uid, this);
     visitor.preVisit(this);
@@ -372,7 +372,7 @@ public class AssumeProveNode extends LevelNode {
    * parameter is a bound on the depth of the portion of the tree that is displayed.
    */
   @Override
-  public final String toString(int depth) {
+  public final String toString(final int depth) {
     if (depth <= 0) return "";
     String assumeStr = "" ;
     int i = 0 ;
@@ -395,12 +395,12 @@ public class AssumeProveNode extends LevelNode {
   *************************************************************************/
 
   @Override
-  public Element getLevelElement(Document doc, SymbolContext context) {
-    Element e = doc.createElement("AssumeProveNode");
-    Element antecedent = doc.createElement("assumes");
-    Element succedent = doc.createElement("prove");
+  public Element getLevelElement(final Document doc, final SymbolContext context) {
+    final Element e = doc.createElement("AssumeProveNode");
+    final Element antecedent = doc.createElement("assumes");
+    final Element succedent = doc.createElement("prove");
 
-    SemanticNode[] assumes = getAssumes();
+    final SemanticNode[] assumes = getAssumes();
     for (int i=0; i<assumes.length; i++) antecedent.appendChild(assumes[i].export(doc,context));
 
     succedent.appendChild(getProve().export(doc,context));

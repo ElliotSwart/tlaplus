@@ -48,7 +48,7 @@ public class MultiFPSet extends FPSet {
 	public MultiFPSet(final FPSetConfiguration fpSetConfiguration) throws RemoteException {
 		super(fpSetConfiguration);
 
-		int bits = fpSetConfiguration.getFpBits();
+		final int bits = fpSetConfiguration.getFpBits();
 		long fpMemSize = fpSetConfiguration.getMemoryInBytes();
 		
 	    // LL modified error message on 7 April 2012
@@ -77,7 +77,7 @@ public class MultiFPSet extends FPSet {
 		IntStream.range(0, this.sets.size()).parallel().forEach(i -> {
 			try {
 				sets.get(i).init(numThreads, metadir, filename + "_" + i);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				throw new RuntimeException(e);
 			}
 		});
@@ -102,7 +102,7 @@ public class MultiFPSet extends FPSet {
 	 * @param fp
 	 * @return Partition given fp into the {@link FPSet} space 
 	 */
-	protected FPSet getFPSet(long fp) {
+	protected FPSet getFPSet(final long fp) {
 		// determine corresponding fpset (using unsigned right shift)
 		// shifts a zero into the leftmost (msb) position of the first operand for right operand times
 		// and cast it to int loosing the leftmost 32 bit
@@ -117,7 +117,7 @@ public class MultiFPSet extends FPSet {
 	 * 
 	 * @see tlc2.tool.fp.FPSet#put(long)
 	 */
-	public final boolean put(long fp) throws IOException {
+	public final boolean put(final long fp) throws IOException {
 		return getFPSet(fp).put(fp);
 	}
 
@@ -127,7 +127,7 @@ public class MultiFPSet extends FPSet {
 	 * 
 	 * @see tlc2.tool.fp.FPSet#contains(long)
 	 */
-	public final boolean contains(long fp) throws IOException {
+	public final boolean contains(final long fp) throws IOException {
 		return getFPSet(fp).contains(fp);
 	}
 
@@ -135,7 +135,7 @@ public class MultiFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#close()
 	 */
 	public final void close() {
-		for (FPSet fpSet : sets) {
+		for (final FPSet fpSet : sets) {
 			fpSet.close();
 		}
 	}
@@ -143,8 +143,8 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#unexportObject(boolean)
 	 */
-	public void unexportObject(boolean force) throws NoSuchObjectException {
-		for (FPSet fpSet : sets) {
+	public void unexportObject(final boolean force) throws NoSuchObjectException {
+		for (final FPSet fpSet : sets) {
 			fpSet.unexportObject(force);
 		}
 		UnicastRemoteObject.unexportObject(this, force);
@@ -157,7 +157,7 @@ public class MultiFPSet extends FPSet {
 		return sets.parallelStream().mapToLong(s -> {
 			try {
 				return s.checkFPs();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				throw new RuntimeException(e);
 			}
 		}).min().orElse(Long.MAX_VALUE);
@@ -170,7 +170,7 @@ public class MultiFPSet extends FPSet {
 		return sets.parallelStream().allMatch(s -> {
 			try {
 				return s.checkInvariant();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				throw new RuntimeException(e);
 			}
 		});
@@ -179,9 +179,9 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#exit(boolean)
 	 */
-	public final void exit(boolean cleanup) throws IOException {
+	public final void exit(final boolean cleanup) throws IOException {
 	    super.exit(cleanup);
-		for (FPSet fpSet : sets) {
+		for (final FPSet fpSet : sets) {
 			fpSet.exit(cleanup);
 		}
 	}
@@ -190,7 +190,7 @@ public class MultiFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#beginChkpt()
 	 */
 	public final void beginChkpt() throws IOException {
-		for (FPSet fpSet : sets) {
+		for (final FPSet fpSet : sets) {
 			fpSet.beginChkpt();
 		}
 	}
@@ -199,7 +199,7 @@ public class MultiFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#commitChkpt()
 	 */
 	public final void commitChkpt() throws IOException {
-		for (FPSet fpSet : sets) {
+		for (final FPSet fpSet : sets) {
 			fpSet.commitChkpt();
 		}
 	}
@@ -207,10 +207,10 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#recover()
 	 */
-	public final void recover(TLCTrace trace) throws IOException {
+	public final void recover(final TLCTrace trace) throws IOException {
 		final Enumerator elements = trace.elements();
 		while (elements.nextPos() != -1) {
-			long fp = elements.nextFP();
+			final long fp = elements.nextFP();
 			getFPSet(fp).recoverFP(fp);
 		}
 		elements.close();
@@ -219,18 +219,18 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#recoverFP(long)
 	 */
-	public final void recoverFP(long fp) throws IOException {
+	public final void recoverFP(final long fp) throws IOException {
 		Assert.check(!this.put(fp), EC.TLC_FP_NOT_IN_SET);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#beginChkpt(java.lang.String)
 	 */
-	public final void beginChkpt(String filename) throws IOException {
+	public final void beginChkpt(final String filename) throws IOException {
 		IntStream.range(0, this.sets.size()).parallel().forEach(i -> {
 			try {
 				sets.get(i).beginChkpt(filename + "_" + i);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				throw new RuntimeException(e);
 			}
 		});
@@ -239,11 +239,11 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#commitChkpt(java.lang.String)
 	 */
-	public final void commitChkpt(String filename) throws IOException {
+	public final void commitChkpt(final String filename) throws IOException {
 		IntStream.range(0, this.sets.size()).parallel().forEach(i -> {
 			try {
 				sets.get(i).commitChkpt(filename + "_" + i);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				throw new RuntimeException(e);
 			}
 		});
@@ -252,11 +252,11 @@ public class MultiFPSet extends FPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#recover(java.lang.String)
 	 */
-	public final void recover(String filename) throws IOException {
+	public final void recover(final String filename) throws IOException {
 		IntStream.range(0, this.sets.size()).parallel().forEach(i -> {
 			try {
 				sets.get(i).recover(filename + "_" + i);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				throw new RuntimeException(e);
 			}
 		});

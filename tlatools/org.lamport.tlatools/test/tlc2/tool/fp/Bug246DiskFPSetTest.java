@@ -25,11 +25,11 @@ public class Bug246DiskFPSetTest {
 	@SuppressWarnings("deprecation")
 	public void testLinearFillup() throws IOException {
 		final long vmMaxMemory = Runtime.getRuntime().maxMemory();
-		long maxMemoryInBytes = TLCRuntime.getInstance().getFPMemSize(0.5d);
+		final long maxMemoryInBytes = TLCRuntime.getInstance().getFPMemSize(0.5d);
 		assertTrue("Not enough memory dedicated to JVM, increase -Vmx value", vmMaxMemory > maxMemoryInBytes);
 
 		//TODO maxMemoryInBytes actually max amount of fingerprints which technically fit into memory?
-		FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
+		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
 		fpSetConfiguration.setMemory(maxMemoryInBytes);
 		fpSetConfiguration.setRatio(1.0d);
 		DummyDiskFPSet fpSet = new DummyDiskFPSet(fpSetConfiguration);
@@ -50,7 +50,7 @@ public class Bug246DiskFPSetTest {
 				// since n least significant bits are used for tbl addressing,
 				// make sure to add values that cause buckets to be filled up
 				// too. This is the case, if values start with Long.MAX_VALUE and decrease by one.
-				long fp = Long.MAX_VALUE - i;
+				final long fp = Long.MAX_VALUE - i;
 				
 				// make sure not to add duplicates
 				assertFalse("Unexpected duplicated: " + fp, fpSet.put(fp));
@@ -62,7 +62,7 @@ public class Bug246DiskFPSetTest {
 				
 				growDiskMark = fpSet.getGrowDiskMark();
 			}
-		} catch(OutOfMemoryError e) {
+		} catch(final OutOfMemoryError e) {
 			// null fpSet and run a System.gc() to reclaim its allocated memory.
 			// Afterwards we hope to gracefully report test outcome.
 			fpSet = null;
@@ -71,7 +71,7 @@ public class Bug246DiskFPSetTest {
 			assertTrue("Expect not to have flushed to disk", growDiskMark == 0);
 			
 			// stats
-			StringBuffer buf = new StringBuffer(100);
+			final StringBuffer buf = new StringBuffer(100);
 			buf.append("Bucket Capacity: " + bucketCapacity);
 			
 			buf.append("Tbl Capacity: " + tblCapacity);

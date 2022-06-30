@@ -6,8 +6,8 @@ final class OSelement {
   SyntaxTreeNode  node;
   int kind;
 
-  OSelement( SyntaxTreeNode n ) { node = n; op = null; }
-  OSelement( SyntaxTreeNode n, Operator o ) { node = n; op = o; }
+  OSelement(final SyntaxTreeNode n ) { node = n; op = null; }
+  OSelement(final SyntaxTreeNode n, final Operator o ) { node = n; op = o; }
 
   final Operator getOperator() { return op; }
   final SyntaxTreeNode  getNode() { return node; }

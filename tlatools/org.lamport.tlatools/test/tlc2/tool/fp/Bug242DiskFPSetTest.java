@@ -22,8 +22,8 @@ public class Bug242DiskFPSetTest extends AbstractFPSetTest {
 	}
 	
 	@SuppressWarnings("deprecation")
-	private FPSet getFPSet(int mem) throws IOException {
-		FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
+	private FPSet getFPSet(final int mem) throws IOException {
+		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
 		fpSetConfiguration.setMemory(mem);
 		fpSetConfiguration.setRatio(1.0d);
 		return getFPSet(fpSetConfiguration);
@@ -36,10 +36,10 @@ public class Bug242DiskFPSetTest extends AbstractFPSetTest {
 	public void testDiskFPSetWithHighMem() throws RemoteException {
 		try {
 			getFPSet(2097153638);
-		} catch (OutOfMemoryError e) {
+		} catch (final OutOfMemoryError e) {
 			// valid case
 			return;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			fail(e.getMessage());
 		}
 	}
@@ -47,10 +47,10 @@ public class Bug242DiskFPSetTest extends AbstractFPSetTest {
 	public void testDiskFPSetIntMaxValue() throws RemoteException {
 		try {
 			getFPSet(Integer.MAX_VALUE);
-		} catch (OutOfMemoryError e) {
+		} catch (final OutOfMemoryError e) {
 			// valid case
 			return;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			fail(e.getMessage());
 		}
 	}
@@ -58,7 +58,7 @@ public class Bug242DiskFPSetTest extends AbstractFPSetTest {
 	public void testDiskFPSetIntMinValue() throws RemoteException {
 		try {
 			getFPSet(Integer.MIN_VALUE);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			// expected to be invalid
 			return;
 		}
@@ -68,7 +68,7 @@ public class Bug242DiskFPSetTest extends AbstractFPSetTest {
 	public void testDiskFPSetZero() throws RemoteException {
 		try {
 			getFPSet(0);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			fail(e.getMessage());
 		}
 	}
@@ -76,7 +76,7 @@ public class Bug242DiskFPSetTest extends AbstractFPSetTest {
 	public void testDiskFPSetOne() throws RemoteException {
 		try {
 			getFPSet(1);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			fail(e.getMessage());
 		}
 	}

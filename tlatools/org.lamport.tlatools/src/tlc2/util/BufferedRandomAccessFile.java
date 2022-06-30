@@ -111,7 +111,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
         <code>file</code> in mode <code>mode</code>, which
         should be "r" for reading only, or "rw" for reading
         and writing. */
-    public BufferedRandomAccessFile(File file, String mode)
+    public BufferedRandomAccessFile(final File file, final String mode)
     throws IOException {
       super(file, mode);
       this.init();
@@ -123,7 +123,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
      * which should be "r" for reading only, or "rw" for reading
      * and writing.
      */
-    public BufferedRandomAccessFile(String name, String mode)
+    public BufferedRandomAccessFile(final String name, final String mode)
     throws IOException 
     {
         // Simon Z. replaced the original:
@@ -158,7 +158,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
         synchronized (mu) {
             // grow "availBuffs" array if necessary
             if (numAvailBuffs >= availBuffs.length) {
-                byte[][] newBuffs = new byte[numAvailBuffs + 10][];
+                final byte[][] newBuffs = new byte[numAvailBuffs + 10][];
                 System.arraycopy(availBuffs, 0, newBuffs, 0, numAvailBuffs);
                 availBuffs = newBuffs;
             }
@@ -180,7 +180,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
         if (this.dirty) {
             // Assert.check(this.curr > this.lo);
             if (this.diskPos != this.lo) super.seek(this.lo);
-            int len = (int)(this.curr - this.lo);
+            final int len = (int)(this.curr - this.lo);
             super.write(this.buff, 0, len); 
             this.diskPos = this.curr;
             this.dirty = false;
@@ -196,7 +196,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
         int cnt = 0;
         int rem = this.buff.length;
         while (rem > 0) {
-            int n = super.read(this.buff, cnt, rem); 
+            final int n = super.read(this.buff, cnt, rem);
             if (n < 0) break;
             cnt += n;
             rem -= n;
@@ -207,7 +207,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
     }
 
     /* overrides RandomAccessFile.seek(long) */
-    public void seek(long pos) throws IOException {
+    public void seek(final long pos) throws IOException {
         // Assert.check(!this.closed);
         if (pos >= this.hi || pos < this.lo) {
             // seeking outside of current buffer -- flush and read
@@ -218,7 +218,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
                 super.seek(this.lo); 
                 this.diskPos = this.lo;
             }
-            int n = this.fillBuffer();
+            final int n = this.fillBuffer();
             this.hi = this.lo + n;
         }
 	else {
@@ -233,7 +233,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
     
     /* extends this.seek(long) by return if a page has been read (used for statistics) */
     //TODO come up with better name for seeek %)
-    public boolean seeek(long pos) throws IOException {
+    public boolean seeek(final long pos) throws IOException {
 		boolean pageReadNeeded = true;
 		// Assert.check(!this.closed);
 		if (pos >= this.hi || pos < this.lo) {
@@ -245,7 +245,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
 				super.seek(this.lo);
 				this.diskPos = this.lo;
 			}
-			int n = this.fillBuffer();
+			final int n = this.fillBuffer();
 			this.hi = this.lo + n;
 		} else {
 			// seeking inside current buffer -- no read required
@@ -286,21 +286,21 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
         }
         // Assert.check(this.curr < this.hi);
         try {
-        	byte res = this.buff[(int)(this.curr - this.lo)];
+        	final byte res = this.buff[(int)(this.curr - this.lo)];
         	this.curr++;
         	return ((int)res) & 0xFF; // convert byte -> int
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (final ArrayIndexOutOfBoundsException e) {
         	throw new IOException("Read past end of file (increase with setLength)?", e);
         }
     }
     
     /* overrides RandomAccessFile.read(byte[]) */
-    public int read(byte[] b) throws IOException {
+    public int read(final byte[] b) throws IOException {
         return this.read(b, 0, b.length);
     }
     
     /* overrides RandomAccessFile.read(byte[], int, int) */
-    public int read(byte[] b, int off, int len) throws IOException {
+    public int read(final byte[] b, final int off, int len) throws IOException {
         // Assert.check(!this.closed);
         if (this.curr == this.hi) {
             // test for EOF
@@ -313,14 +313,14 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
         }
         // Assert.check(this.curr < this.hi);
         len = Math.min(len, (int)(this.hi - this.curr));
-        int buffOff = (int)(this.curr - this.lo);
+        final int buffOff = (int)(this.curr - this.lo);
         System.arraycopy(this.buff, buffOff, b, off, len);
         this.curr += len;        
         return len;
     }
 
-    public BigInteger readBigInteger(int size) throws IOException {
-      byte[] b = new byte[size];
+    public BigInteger readBigInteger(final int size) throws IOException {
+      final byte[] b = new byte[size];
       // Assert.check(this.read(b) == size);
       return new BigInteger(b);
     }
@@ -347,7 +347,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
   }
 
     /* overrides RandomAccessFile.write(int) */
-    public void write(int b) throws IOException {
+    public void write(final int b) throws IOException {
         // Assert.check(!this.closed);
         if (this.curr == this.hi) {
             if (this.hitEOF && this.hi < this.maxHi) {
@@ -369,35 +369,35 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
         	this.buff[(int)(this.curr - this.lo)] = (byte)b;
         	this.curr++;
         	this.dirty = true;
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (final ArrayIndexOutOfBoundsException e) {
         	throw new IOException("Wrote past end of file (increase with setLength)?", e);
         }
     }
     
     /* overrides RandomAccessFile.write(byte[]) */
-    public void write(byte[] b) throws IOException {
+    public void write(final byte[] b) throws IOException {
         this.write(b, 0, b.length);
     }
     
     /* overrides RandomAccessFile.write(byte[], int, int) */
-    public void write(byte[] b, int off, int len) throws IOException {
+    public void write(final byte[] b, int off, int len) throws IOException {
         // Assert.check(!this.closed);
         while (len > 0) {
-            int n = this.writeAtMost(b, off, len);
+            final int n = this.writeAtMost(b, off, len);
             off += n;
             len -= n;
         }
         this.dirty = true;
     }
 
-    public void writeBigInteger(BigInteger bi, int size) throws IOException {
-      byte[] b = bi.toByteArray();
+    public void writeBigInteger(final BigInteger bi, final int size) throws IOException {
+      final byte[] b = bi.toByteArray();
       // Assert.check(b.length <= size);
       this.write(b, 0, size);
     }
     
     /* Precondition: x is a non-negative short. */
-    public final void writeShortNat(int x) throws IOException {
+    public final void writeShortNat(final int x) throws IOException {
       if (x <= 0x7f) {
         this.writeByte((short)x);
       }
@@ -407,7 +407,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
     }
 
   /* Precondition: x is a non-negative int. */
-  public final void writeNat(int x) throws IOException {
+  public final void writeNat(final int x) throws IOException {
     if (x <= 0x7fff) {
       this.writeShort((short)x);
     }
@@ -417,7 +417,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
   }
 
   /* Precondition: x is a non-negative long. */
-  public final void writeLongNat(long x) throws IOException {
+  public final void writeLongNat(final long x) throws IOException {
     if (x <= 0x7fffffff) {
       this.writeInt((int)x);
     }
@@ -428,7 +428,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
 
     /* Write at most "len" bytes to "b" starting at position "off",
        and return the number of bytes written. */
-    private int writeAtMost(byte[] b, int off, int len)
+    private int writeAtMost(final byte[] b, final int off, int len)
       throws IOException {
         if (this.curr == this.hi) {
             if (this.hitEOF && this.hi < this.maxHi) {
@@ -446,7 +446,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
         }
         // Assert.check(this.curr < this.hi);
         len = Math.min(len, (int)(this.hi - this.curr));
-        int buffOff = (int)(this.curr - this.lo);
+        final int buffOff = (int)(this.curr - this.lo);
         System.arraycopy(b, off, this.buff, buffOff, len);
         this.curr += len;
         return len;
@@ -473,16 +473,16 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
     	return oldMark;
     }
     
-    public void seekAndMark(long pos) throws IOException {
+    public void seekAndMark(final long pos) throws IOException {
     	this.mark = pos;
     	this.seek(pos);
     }
 
-  public static void main(String[] args) throws IOException {
-    String name = "xxx";
-    String mode = "rw";
+  public static void main(final String[] args) throws IOException {
+    final String name = "xxx";
+    final String mode = "rw";
     BufferedRandomAccessFile braf = new BufferedRandomAccessFile(name, mode);
-    int x = 100;
+    final int x = 100;
     braf.writeLong(x); braf.writeLong(x); braf.writeLong(x);
     System.err.println("len = " + braf.length() + ", pos = " + braf.getFilePointer());
     braf.close();

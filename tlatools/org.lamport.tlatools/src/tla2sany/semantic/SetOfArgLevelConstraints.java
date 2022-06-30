@@ -26,17 +26,17 @@ class SetOfArgLevelConstraints extends HashMap<ParamAndPosition, Integer> implem
    * ignoring the constraint if it is vacuous.
    */
   @Override
-  public final Integer put(ParamAndPosition pap, Integer level) {
-    int newLevel = level.intValue();
-    Integer old = this.get(pap);
+  public final Integer put(final ParamAndPosition pap, final Integer level) {
+    final int newLevel = level.intValue();
+    final Integer old = this.get(pap);
 
-    int oldLevel = (old == null) ? MinLevel : old.intValue();
+    final int oldLevel = (old == null) ? MinLevel : old.intValue();
     super.put(pap, Integer.valueOf(Math.max(newLevel, oldLevel)));
     return old;
   }
 
-  public final Integer put(SymbolNode param, int position, int level) {
-    ParamAndPosition pap = new ParamAndPosition(param, position);
+  public final Integer put(final SymbolNode param, final int position, final int level) {
+    final ParamAndPosition pap = new ParamAndPosition(param, position);
     return this.put(pap, Integer.valueOf(level));
   }
 
@@ -46,18 +46,18 @@ class SetOfArgLevelConstraints extends HashMap<ParamAndPosition, Integer> implem
    * present for the same parameter if one is there.
    */
   @Override
-  public final void putAll(Map<? extends ParamAndPosition, ? extends Integer> s) {
-    for (Iterator<? extends ParamAndPosition> iter = s.keySet().iterator(); iter.hasNext(); ) {
-    	  ParamAndPosition key = iter.next();
+  public final void putAll(final Map<? extends ParamAndPosition, ? extends Integer> s) {
+    for (final Iterator<? extends ParamAndPosition> iter = s.keySet().iterator(); iter.hasNext(); ) {
+    	  final ParamAndPosition key = iter.next();
       this.put(key, s.get(key));
     }
   }
 
   @Override
   public final String toString() {
-    StringBuffer sb = new StringBuffer("{ ");
-    for (Iterator<ParamAndPosition> iter = this.keySet().iterator(); iter.hasNext(); ) {
-      ParamAndPosition pap = iter.next();
+    final StringBuffer sb = new StringBuffer("{ ");
+    for (final Iterator<ParamAndPosition> iter = this.keySet().iterator(); iter.hasNext(); ) {
+      final ParamAndPosition pap = iter.next();
       sb.append(pap.toString() + " -> " + this.get(pap));
       if (iter.hasNext()) sb.append(", ");
     }

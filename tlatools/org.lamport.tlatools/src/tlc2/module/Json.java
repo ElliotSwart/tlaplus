@@ -109,11 +109,11 @@ public class Json {
    */
   @TLAPlusOperator(identifier = "ndJsonDeserialize", module = "Json", warn = false)
   public static IValue ndDeserialize(final StringValue path) throws IOException {
-    List<Value> values = new ArrayList<>();
-    try (BufferedReader reader = new BufferedReader(new FileReader(new File(path.val.toString())))) {
+    final List<Value> values = new ArrayList<>();
+    try (final BufferedReader reader = new BufferedReader(new FileReader(new File(path.val.toString())))) {
       String line = reader.readLine();
       while (line != null) {
-        JsonElement node = JsonParser.parseString(line);
+        final JsonElement node = JsonParser.parseString(line);
         values.add(getValue(node));
         line = reader.readLine();
       }
@@ -129,7 +129,7 @@ public class Json {
    */
   @TLAPlusOperator(identifier = "JsonDeserialize", module = "Json", warn = false)
   public static IValue deserialize(final StringValue path) throws IOException {
-    JsonElement node = JsonParser.parseReader(new FileReader(new File(path.val.toString())));
+    final JsonElement node = JsonParser.parseReader(new FileReader(new File(path.val.toString())));
     return getValue(node);
   }
 
@@ -142,10 +142,10 @@ public class Json {
    */
   @TLAPlusOperator(identifier = "ndJsonSerialize", module = "Json", warn = false)
   public synchronized static BoolValue ndSerialize(final StringValue path, final Value v) throws IOException {
-	TupleValue value = (TupleValue) v.toTuple();
-    File file = new File(path.val.toString());
+	final TupleValue value = (TupleValue) v.toTuple();
+    final File file = new File(path.val.toString());
     if (file.getParentFile() != null) {file.getParentFile().mkdirs();} // Cannot create parent dir for relative path.
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path.val.toString())))) {
+    try (final BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path.val.toString())))) {
         for (int i = 0; i < value.elems.length; i++) {
             writer.write(getNode(value.elems[i]).toString() + "\n");
           }
@@ -162,10 +162,10 @@ public class Json {
    */
   @TLAPlusOperator(identifier = "JsonSerialize", module = "Json", warn = false)
   public synchronized static BoolValue serialize(final StringValue path, final Value v) throws IOException {
-	TupleValue value = (TupleValue) v.toTuple();
-    File file = new File(path.val.toString());
+	final TupleValue value = (TupleValue) v.toTuple();
+    final File file = new File(path.val.toString());
     if (file.getParentFile() != null) {file.getParentFile().mkdirs();} // Cannot create parent dir for relative path.
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path.val.toString())))) {
+    try (final BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path.val.toString())))) {
     	writer.write("[\n");
 		for (int i = 0; i < value.elems.length; i++) {
 			writer.write(getNode(value.elems[i]).toString());
@@ -185,7 +185,7 @@ public class Json {
    * @param value the value to convert
    * @return the converted {@code JsonElement}
    */
-  private static JsonElement getNode(IValue value) throws IOException {
+  private static JsonElement getNode(final IValue value) throws IOException {
     if (value instanceof RecordValue) {
       return getObjectNode((RecordValue) value);
     } else if (value instanceof TupleValue) {
@@ -225,9 +225,9 @@ public class Json {
    * @param value the value to check
    * @return indicates whether the value is a valid sequence
    */
-  private static boolean isValidSequence(FcnRcdValue value) {
+  private static boolean isValidSequence(final FcnRcdValue value) {
     final Value[] domain = value.getDomainAsValues();
-    for (Value d : domain) {
+    for (final Value d : domain) {
       if (!(d instanceof IntValue)) {
         return false;
       }
@@ -247,7 +247,7 @@ public class Json {
    * @param value the value to convert
    * @return the converted {@code JsonElement}
    */
-  private static JsonElement getObjectNode(IValue value) throws IOException {
+  private static JsonElement getObjectNode(final IValue value) throws IOException {
     if (value instanceof RecordValue) {
       return getObjectNode((RecordValue) value);
     } else if (value instanceof TupleValue) {
@@ -267,15 +267,15 @@ public class Json {
    * @param value the value to convert
    * @return the converted {@code JsonElement}
    */
-  private static JsonElement getObjectNode(FcnRcdValue value) throws IOException {
+  private static JsonElement getObjectNode(final FcnRcdValue value) throws IOException {
     if (isValidSequence(value)) {
       return getArrayNode(value);
     }
 
     final Value[] domain = value.getDomainAsValues();
-    JsonObject jsonObject = new JsonObject();
+    final JsonObject jsonObject = new JsonObject();
     for (int i = 0; i < domain.length; i++) {
-      Value domainValue = domain[i];
+      final Value domainValue = domain[i];
       if (domainValue instanceof StringValue) {
         jsonObject.add(((StringValue) domainValue).val.toString(), getNode(value.values[i]));
       } else {
@@ -291,8 +291,8 @@ public class Json {
    * @param value the value to convert
    * @return the converted {@code JsonElement}
    */
-  private static JsonElement getObjectNode(RecordValue value) throws IOException {
-    JsonObject jsonObject = new JsonObject();
+  private static JsonElement getObjectNode(final RecordValue value) throws IOException {
+    final JsonObject jsonObject = new JsonObject();
     for (int i = 0; i < value.names.length; i++) {
       jsonObject.add(value.names[i].toString(), getNode(value.values[i]));
     }
@@ -305,8 +305,8 @@ public class Json {
    * @param value the value to convert
    * @return the converted {@code JsonElement}
    */
-  private static JsonElement getObjectNode(TupleValue value) throws IOException {
-    JsonObject jsonObject = new JsonObject();
+  private static JsonElement getObjectNode(final TupleValue value) throws IOException {
+    final JsonObject jsonObject = new JsonObject();
     for (int i = 0; i < value.elems.length; i++) {
       jsonObject.add(String.valueOf(i), getNode(value.elems[i]));
     }
@@ -319,7 +319,7 @@ public class Json {
    * @param value the value to convert
    * @return the converted {@code JsonElement}
    */
-  private static JsonElement getArrayNode(IValue value) throws IOException {
+  private static JsonElement getArrayNode(final IValue value) throws IOException {
     if (value instanceof TupleValue) {
       return getArrayNode((TupleValue) value);
     } else if (value instanceof FcnRcdValue) {
@@ -349,8 +349,8 @@ public class Json {
    * @param value the value to convert
    * @return the converted {@code JsonElement}
    */
-  private static JsonElement getArrayNode(TupleValue value) throws IOException {
-    JsonArray jsonArray = new JsonArray(value.elems.length);
+  private static JsonElement getArrayNode(final TupleValue value) throws IOException {
+    final JsonArray jsonArray = new JsonArray(value.elems.length);
     for (int i = 0; i < value.elems.length; i++) {
       jsonArray.add(getNode(value.elems[i]));
     }
@@ -363,13 +363,13 @@ public class Json {
    * @param value the value to convert
    * @return the converted {@code JsonElement}
    */
-  private static JsonElement getArrayNode(FcnRcdValue value) throws IOException {
+  private static JsonElement getArrayNode(final FcnRcdValue value) throws IOException {
     if (!isValidSequence(value)) {
       return getObjectNode(value);
     }
 
     value.normalize();
-    JsonArray jsonArray = new JsonArray(value.values.length);
+    final JsonArray jsonArray = new JsonArray(value.values.length);
     for (int i = 0; i < value.values.length; i++) {
       jsonArray.add(getNode(value.values[i]));
     }
@@ -382,10 +382,10 @@ public class Json {
    * @param value the value to convert
    * @return the converted {@code JsonElement}
    */
-  private static JsonElement getArrayNode(SetEnumValue value) throws IOException {
+  private static JsonElement getArrayNode(final SetEnumValue value) throws IOException {
     value.normalize();
-    Value[] values = value.elems.toArray();
-    JsonArray jsonArray = new JsonArray(values.length);
+    final Value[] values = value.elems.toArray();
+    final JsonArray jsonArray = new JsonArray(values.length);
     for (int i = 0; i < values.length; i++) {
       jsonArray.add(getNode(values[i]));
     }
@@ -398,7 +398,7 @@ public class Json {
    * @param node the {@code JsonElement} to convert
    * @return the converted value
    */
-  private static Value getValue(JsonElement node) throws IOException {
+  private static Value getValue(final JsonElement node) throws IOException {
     if (node.isJsonArray()) {
       return getTupleValue(node);
     }
@@ -406,7 +406,7 @@ public class Json {
       return getRecordValue(node);
     }
     else if (node.isJsonPrimitive()) {
-      JsonPrimitive primitive = node.getAsJsonPrimitive();
+      final JsonPrimitive primitive = node.getAsJsonPrimitive();
       if (primitive.isNumber()) {
         return IntValue.gen(primitive.getAsInt());
       }
@@ -429,9 +429,9 @@ public class Json {
    * @param node the {@code JsonElement} to convert
    * @return the tuple value
    */
-  private static TupleValue getTupleValue(JsonElement node) throws IOException {
-    List<Value> values = new ArrayList<>();
-    JsonArray jsonArray = node.getAsJsonArray();
+  private static TupleValue getTupleValue(final JsonElement node) throws IOException {
+    final List<Value> values = new ArrayList<>();
+    final JsonArray jsonArray = node.getAsJsonArray();
     for (int i = 0; i < jsonArray.size(); i++) {
       values.add(getValue(jsonArray.get(i)));
     }
@@ -444,12 +444,12 @@ public class Json {
    * @param node the {@code JsonElement} to convert
    * @return the record value
    */
-  private static RecordValue getRecordValue(JsonElement node) throws IOException {
-    List<UniqueString> keys = new ArrayList<>();
-    List<Value> values = new ArrayList<>();
-    Iterator<Map.Entry<String, JsonElement>> iterator = node.getAsJsonObject().entrySet().iterator();
+  private static RecordValue getRecordValue(final JsonElement node) throws IOException {
+    final List<UniqueString> keys = new ArrayList<>();
+    final List<Value> values = new ArrayList<>();
+    final Iterator<Map.Entry<String, JsonElement>> iterator = node.getAsJsonObject().entrySet().iterator();
     while (iterator.hasNext()) {
-      Map.Entry<String, JsonElement> entry = iterator.next();
+      final Map.Entry<String, JsonElement> entry = iterator.next();
       keys.add(UniqueString.uniqueStringOf(entry.getKey()));
       values.add(getValue(entry.getValue()));
     }

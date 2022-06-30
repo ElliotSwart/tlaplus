@@ -34,21 +34,21 @@ class LNStateEnabled extends LNState {
 	private final ExprNode subscript;
 	private final boolean isBox;
 
-	public LNStateEnabled(ExprNode pred, Context con, ExprNode subscript, boolean isBox) {
+	public LNStateEnabled(final ExprNode pred, final Context con, final ExprNode subscript, final boolean isBox) {
 		super(con);
 		this.pred = pred;
 		this.subscript = subscript;
 		this.isBox = isBox;
 	}
 
-	public final boolean eval(ITool tool, TLCState s1, TLCState s2) {
+	public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
 		// Note that s2 is useless.
 		if (this.isBox && this.subscript != null) {
 			return true;
 		}
 
 		TLCState sfun = TLCStateFun.Empty;
-		Context c1 = Context.branch(getContext());
+		final Context c1 = Context.branch(getContext());
 		if (this.subscript != null) {
 			sfun = tool.enabled(this.pred, c1, s1, sfun, this.subscript, IActionItemList.CHANGED);
 		} else {
@@ -57,7 +57,7 @@ class LNStateEnabled extends LNState {
 		return sfun != null;
 	}
 
-	public final void toString(StringBuffer sb, String padding) {
+	public final void toString(final StringBuffer sb, final String padding) {
 		sb.append("ENABLED ");
 		if (this.subscript == null) {
 			this.pred.toString(sb, padding + "        ");
@@ -78,17 +78,17 @@ class LNStateEnabled extends LNState {
 			sb.append("(");
 			// Zeros
 			final TreeNode[] zero = oan.getTreeNode().zero();
-			for (TreeNode treeNode : zero) {
+			for (final TreeNode treeNode : zero) {
 				// TreeNode is interface with only STN being impl => unchecked
 				// cast is safe.
-				SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
+				final SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
 				sb.append(stn.getHumanReadableImage());
 			}
 			// Ones
 			final TreeNode[] one = oan.getTreeNode().one();
 			if (one != null) {
-				for (TreeNode treeNode : one) {
-					SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
+				for (final TreeNode treeNode : one) {
+					final SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
 					sb.append(stn.getHumanReadableImage());
 				}
 			}

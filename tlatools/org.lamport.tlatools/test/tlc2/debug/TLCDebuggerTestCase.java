@@ -87,7 +87,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 	protected final TestTLCDebugger debugger = new TestTLCDebugger();
 	protected final Phaser phase = new Phaser();
 
-	public TLCDebuggerTestCase(String spec, String path, String[] extraArgs, final int exitStatus) {
+	public TLCDebuggerTestCase(final String spec, final String path, final String[] extraArgs, final int exitStatus) {
 		super(spec, path, Stream.of(extraArgs, new String[] { "-debugger", "-noGenerateSpecTE" }).flatMap(Stream::of).toArray(String[]::new),
 				exitStatus);
 		// (i) This/current/control/test thread and (ii) executor thread that runs TLC
@@ -98,7 +98,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		TLCDebugger.Factory.OVERRIDE = debugger;
 	}
 
-	public TLCDebuggerTestCase(String spec, String path, final int exitStatus) {
+	public TLCDebuggerTestCase(final String spec, final String path, final int exitStatus) {
 		this(spec, path, new String[] {}, exitStatus);
 	}
 	
@@ -173,7 +173,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 	}
 
 	protected static TLCActionStackFrame assertTLCActionFrame(final StackFrame stackFrame, final int beginLine, final int beginColumn,
-			final int endLine, final int endColumn, String spec, final Context ctxt, final OpDeclNode... unassigned) {
+                                                              final int endLine, final int endColumn, final String spec, final Context ctxt, final OpDeclNode... unassigned) {
 		assertTLCActionFrame(stackFrame, beginLine, endLine, spec, ctxt, unassigned);
 		assertEquals(beginColumn, stackFrame.getColumn());
 		assertEquals(endColumn + 1, (int) stackFrame.getEndColumn());
@@ -181,27 +181,27 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 	}
 
 	protected static void assertTLCActionFrame(final StackFrame stackFrame, final int beginLine, final int beginColumn,
-			final int endLine, final int endColumn, String spec, final OpDeclNode... unassigned) {
+                                               final int endLine, final int endColumn, final String spec, final OpDeclNode... unassigned) {
 		assertTLCActionFrame(stackFrame, beginLine, endLine, spec, Context.Empty, unassigned);
 		assertEquals(beginColumn, stackFrame.getColumn());
 		assertEquals(endColumn + 1, (int) stackFrame.getEndColumn());
 	}
 
 	protected static void assertTLCActionFrame(final StackFrame stackFrame, final int beginLine, final int endLine,
-			String spec, final OpDeclNode... unassigned) {
+                                               final String spec, final OpDeclNode... unassigned) {
 		assertTLCActionFrame(stackFrame, beginLine, endLine, spec, Context.Empty, unassigned);
 	}
 
 	protected static void assertTLCActionFrame(final StackFrame stackFrame, final int beginLine, final int beginColumn,
-			final int endLine, final int endColumn, String spec, final Set<Variable> expected,
-			final OpDeclNode... unassigned) {
+                                               final int endLine, final int endColumn, final String spec, final Set<Variable> expected,
+                                               final OpDeclNode... unassigned) {
 		assertTLCActionFrame(stackFrame, beginLine, endLine, spec, expected, unassigned);
 		assertEquals(beginColumn, stackFrame.getColumn());
 		assertEquals(endColumn + 1, (int) stackFrame.getEndColumn());
 	}
 
 	protected static void assertTLCActionFrame(final StackFrame stackFrame, final int beginLine, final int endLine,
-			String spec, final Set<Variable> expected, final OpDeclNode... unassigned) {
+                                               final String spec, final Set<Variable> expected, final OpDeclNode... unassigned) {
 		assertTLCFrame0(stackFrame, beginLine, endLine, spec, null);
 		assertTrue(stackFrame instanceof TLCActionStackFrame);
 		final TLCActionStackFrame f = (TLCActionStackFrame) stackFrame;
@@ -211,7 +211,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		Context context = f.getContext();
 		while (context != null) {
 			if (context.getValue() instanceof LazyValue) {
-				LazyValue lv = (LazyValue) context.getValue();
+				final LazyValue lv = (LazyValue) context.getValue();
 				if (lv.getValue() == null) {
 					lazies.add(lv);
 				}
@@ -221,8 +221,8 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		
 		final List<Variable> variables = Arrays.asList(f.getVariables());
 		assertEquals(f.getContext().toMap().size(), variables.size());
-		NXT: for (Variable v : variables) {
-			for (Variable e : expected) {
+		NXT: for (final Variable v : variables) {
+			for (final Variable e : expected) {
 				if (e.getName().equals(v.getName()) && e.getValue().equals(v.getValue())
 						&& e.getType().equals(v.getType())) {
 					continue NXT;
@@ -234,7 +234,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 	}
 
 	protected static void assertTLCActionFrame(final StackFrame stackFrame, final int beginLine, final int endLine,
-			String spec, final Context expectedContext, final OpDeclNode... unassigned) {
+                                               final String spec, final Context expectedContext, final OpDeclNode... unassigned) {
 		assertTLCFrame0(stackFrame, beginLine, endLine, spec, expectedContext);
 
 		assertTrue(stackFrame instanceof TLCActionStackFrame);
@@ -278,7 +278,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		}
 	}
 
-	private static boolean isStuttering(TLCState s, TLCState t) {
+	private static boolean isStuttering(final TLCState s, final TLCState t) {
 		// Iff s and t have all variables assigned, i.e., are fully evaluated, best we
 		// can do is to compare all variable values.
 		if (s.allAssigned() && t.allAssigned()) {
@@ -290,7 +290,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 	}
 
 	protected static void assertTLCStateFrame(final StackFrame stackFrame, final int beginLine, final int endLine,
-			String spec, Map<String, String> expected) {
+                                              final String spec, final Map<String, String> expected) {
 		assertTLCFrame0(stackFrame, beginLine, endLine, spec, null);
 
 		assertTrue(stackFrame instanceof TLCStateStackFrame);
@@ -303,7 +303,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		Context context = f.getContext();
 		while (context != null) {
 			if (context.getValue() instanceof LazyValue) {
-				LazyValue lv = (LazyValue) context.getValue();
+				final LazyValue lv = (LazyValue) context.getValue();
 				if (lv.getValue() == null) {
 					lazies.add(lv);
 				}
@@ -313,7 +313,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		
 		final Variable[] variables = f.getVariables();
 		assertEquals(expected.size(), variables.length);
-		for (Variable variable : variables) {
+		for (final Variable variable : variables) {
 			assertEquals(expected.get(variable.getName()), variable.getValue());
 		}
 		
@@ -321,25 +321,25 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 	}
 
 	protected static void assertTLCStateFrame(final StackFrame stackFrame, final int beginLine, final int endLine,
-			String spec) {
+                                              final String spec) {
 		assertTLCStateFrame(stackFrame, beginLine, endLine, spec, new OpDeclNode[0]);
 	}
 
 	protected static void assertTLCStateFrame(final StackFrame stackFrame, final int beginLine, final int endLine,
-			String spec, final OpDeclNode... unassigned) {
+                                              final String spec, final OpDeclNode... unassigned) {
 		assertTLCStateFrame(stackFrame, beginLine, endLine, spec, Context.Empty, unassigned);
 	}
 
 	protected static void assertTLCStateFrame(final StackFrame stackFrame, final int beginLine, final int beginColumn,
-			final int endLine, final int endColumn, String spec, final Context expectedContext,
-			final OpDeclNode... unassigned) {
+                                              final int endLine, final int endColumn, final String spec, final Context expectedContext,
+                                              final OpDeclNode... unassigned) {
 		assertTLCStateFrame(stackFrame, beginLine, endLine, spec, expectedContext, unassigned);
 		assertEquals(beginColumn, stackFrame.getColumn());
 		assertEquals(endColumn + 1, (int) stackFrame.getEndColumn());
 	}
 
 	protected static void assertTLCStateFrame(final StackFrame stackFrame, final int beginLine, final int endLine,
-			String spec, final Context expectedContext, final OpDeclNode... unassigned) {
+                                              final String spec, final Context expectedContext, final OpDeclNode... unassigned) {
 		assertTLCFrame0(stackFrame, beginLine, endLine, spec, expectedContext);
 
 		assertTrue(stackFrame instanceof TLCStateStackFrame);
@@ -387,7 +387,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 				final Value tlcValue = trace.get(i).getTLCValue();
 				assertTrue(tlcValue instanceof RecordValue);
 				final RecordValue rv = (RecordValue) tlcValue;
-				for (Value val : rv.values) {
+				for (final Value val : rv.values) {
 					assertTrue(!(val instanceof StringValue) || !DebuggerValue.NOT_EVALUATED.equals(((StringValue) val).toString()));
 				}
 			}
@@ -400,8 +400,8 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 	}
 
 	protected static void assertTLCSuccessorFrame(final StackFrame stackFrame, final int beginLine, final int beginColumn,
-			final int endLine, final int endColumn, String spec, final Context expectedContext,
-			final int expectedSuccessors, final OpDeclNode... unassigned) {
+                                                  final int endLine, final int endColumn, final String spec, final Context expectedContext,
+                                                  final int expectedSuccessors, final OpDeclNode... unassigned) {
 		assertTLCStateFrame(stackFrame, beginLine, endLine, spec, expectedContext, unassigned);
 		assertEquals(beginColumn, stackFrame.getColumn());
 		assertEquals(endColumn + 1, (int) stackFrame.getEndColumn());
@@ -414,24 +414,24 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 					.reduce((a, b) -> a).get();
 			assertNotNull(succs);
 			
-			List<Variable> variables = Arrays.asList(succframe.getVariables(succs.getVariablesReference()));
+			final List<Variable> variables = Arrays.asList(succframe.getVariables(succs.getVariablesReference()));
 			assertEquals(expectedSuccessors, variables.size());
 			
 			final List<Value> stateRecords = variables.stream().map(v -> (DebugTLCVariable) v).map(d -> d.getTLCValue())
 					.collect(Collectors.toList());
 			final Set<RecordValue> successors = succframe.getSuccessors().stream().map(s -> new RecordValue(s))
 					.collect(Collectors.toSet());
-			for (Value s : stateRecords) {
+			for (final Value s : stateRecords) {
 				assertTrue(successors.contains(s));
 			}
 		} else {
-			Optional<Scope> o = Arrays.asList(succframe.getScopes()).stream().filter(s -> s.getName().equals("Successors"))
+			final Optional<Scope> o = Arrays.asList(succframe.getScopes()).stream().filter(s -> s.getName().equals("Successors"))
 					.reduce((a, b) -> a);
 			assertTrue(o.isEmpty());
 		}
 	}
 	
-	private static void assertStateVars(TLCStateStackFrame frame, final TLCState st) {
+	private static void assertStateVars(final TLCStateStackFrame frame, final TLCState st) {
 		final Map<Integer, DebugTLCVariable> old = new HashMap<>(frame.nestedVariables);
 		try {
 			final Variable[] svs = frame.getStateVariables();
@@ -447,7 +447,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		}
 	}
 	
-	private static void assertStateVars(TLCActionStackFrame frame, final TLCState s, final TLCState t) {
+	private static void assertStateVars(final TLCActionStackFrame frame, final TLCState s, final TLCState t) {
 		final Map<Integer, DebugTLCVariable> old = new HashMap<>(frame.nestedVariables);
 		try {
 			final Variable[] svs = frame.getStateVariables();
@@ -464,33 +464,33 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 	}
 
 	protected static void assertTLCFrame(final StackFrame stackFrame, final int beginLine, final int endLine,
-			String spec) {
+                                         final String spec) {
 		assertTLCFrame(stackFrame, beginLine, endLine, spec, Context.Empty);
 	}
 	
 	protected static void assertTLCFrame(final StackFrame stackFrame, final int beginLine, final int beginColumn,
-			final int endLine, final int endColumn, String spec) {
+                                         final int endLine, final int endColumn, final String spec) {
 		assertTLCFrame(stackFrame, beginLine, endLine, spec);
 		assertEquals(beginColumn, stackFrame.getColumn());
 		assertEquals(endColumn + 1, (int) stackFrame.getEndColumn());
 	}
 	
 	protected static void assertTLCFrame(final StackFrame stackFrame, final int beginLine, final int beginColumn,
-			final int endLine, final int endColumn, String spec, final Context expectedContext) {
+                                         final int endLine, final int endColumn, final String spec, final Context expectedContext) {
 		assertTLCFrame(stackFrame, beginLine, endLine, spec, expectedContext);
 		assertEquals(beginColumn, stackFrame.getColumn());
 		assertEquals(endColumn + 1, (int) stackFrame.getEndColumn());
 	}
 
 	protected static void assertTLCFrame(final StackFrame stackFrame, final int beginLine, final int endLine,
-			String spec, final Context expectedContext) {
+                                         final String spec, final Context expectedContext) {
 		assertTLCFrame0(stackFrame, beginLine, endLine, spec, expectedContext);
 		assertFalse(stackFrame instanceof TLCStateStackFrame);
 		assertFalse(stackFrame instanceof TLCActionStackFrame);
 	}
 
 	private static void assertTLCFrame0(final StackFrame stackFrame, final int beginLine, final int endLine,
-				String spec, final Context expectedContext) {
+                                        final String spec, final Context expectedContext) {
 		assertNotNull(stackFrame);
 		assertEquals(beginLine, stackFrame.getLine());
 		assertEquals(endLine, (int) stackFrame.getEndLine());
@@ -508,8 +508,8 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		}
 		assertTrue(scope.isPresent());
 		
-		Scope sp = scope.get();
-		Variable[] variables = f.getVariables(sp.getVariablesReference());
+		final Scope sp = scope.get();
+		final Variable[] variables = f.getVariables(sp.getVariablesReference());
 		assertNotNull(variables);
 		if (expectedContext!=null) {
 			assertEquals(0, new ContextComparator().compare(expectedContext, f.getContext()));
@@ -517,8 +517,8 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		}
 	}
 
-	protected static Variable createVariable(String name, String value, String type) {
-		Variable e = new Variable();
+	protected static Variable createVariable(final String name, final String value, final String type) {
+		final Variable e = new Variable();
 		e.setName(name);
 		e.setValue(value);
 		e.setType(type);
@@ -526,7 +526,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 	}
 
 	@Override
-	public void stopped(StoppedEventArguments args) {
+	public void stopped(final StoppedEventArguments args) {
 		// The executor/TLC thread calls this stop method.
 		phase.arriveAndAwaitAdvance();
 	}
@@ -552,12 +552,12 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 
 	protected class TestTLCDebugger extends TLCDebugger {
 
-		public Breakpoint[] replaceAllBreakpointsWithUnchecked(final String rootModule, int line) {
+		public Breakpoint[] replaceAllBreakpointsWithUnchecked(final String rootModule, final int line) {
 			unsetBreakpoints();
 			// Set new breakpoint.
 			try {
 				return setBreakpoints(rootModule, line);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				return new Breakpoint[0];
 			}
 		}
@@ -567,13 +567,13 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		 * to TLCDebugger.setBreakpoints(..), this does replace breakpoints even in
 		 * other modules.
 		 */
-		public Breakpoint[] replaceAllBreakpointsWith(final String rootModule, int line) throws Exception {
+		public Breakpoint[] replaceAllBreakpointsWith(final String rootModule, final int line) throws Exception {
 			unsetBreakpoints();
 			// Set new breakpoint.
 			return setBreakpoints(rootModule, line);
 		}
 		
-		public Breakpoint[] setBreakpoints(final String rootModule, int line) throws Exception {
+		public Breakpoint[] setBreakpoints(final String rootModule, final int line) throws Exception {
 			return setBreakpoints(createBreakpointArgument(rootModule, line)).get().getBreakpoints();
 		}
 

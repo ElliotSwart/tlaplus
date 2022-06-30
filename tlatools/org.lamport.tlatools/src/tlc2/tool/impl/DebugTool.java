@@ -75,7 +75,7 @@ public class DebugTool extends Tool {
 		forceViolation = true;
 	}
 
-	private static Map<String, Object> getParams(Map<String, Object> params) {
+	private static Map<String, Object> getParams(final Map<String, Object> params) {
 		@SuppressWarnings("unchecked")
 		final List<Invariant> invs = (List<Invariant>) params.computeIfAbsent(
 				ParameterizedSpecObj.INVARIANT, k -> new ArrayList<Invariant>());
@@ -112,11 +112,11 @@ public class DebugTool extends Tool {
 		Const, State, Action, Debugger;
 	}
 	
-	public DebugTool(String mainFile, String configFile, FilenameToStream resolver, final Map<String, Object> params, IDebugTarget target) {
+	public DebugTool(final String mainFile, final String configFile, final FilenameToStream resolver, final Map<String, Object> params, final IDebugTarget target) {
 		this(mainFile, configFile, resolver, Mode.MC_DEBUG, params, target);
 	}
 	
-	public DebugTool(String mainFile, String configFile, FilenameToStream resolver, Mode mode, final Map<String, Object> params, IDebugTarget target) {
+	public DebugTool(final String mainFile, final String configFile, final FilenameToStream resolver, final Mode mode, final Map<String, Object> params, final IDebugTarget target) {
 		super(mainFile, configFile, resolver, mode, getParams(params));
 		
 		// This and FastTool share state.  Do not evaluate things concurrently.
@@ -136,7 +136,7 @@ public class DebugTool extends Tool {
 	    if (!isValid) {
 	    	try {
 	    		target.markAssumptionViolatedFrame(this, assumption, Context.Empty);
-			} catch (ResetEvalException ree) {
+			} catch (final ResetEvalException ree) {
 				target.popFrame(this, assumption, Context.Empty);
 				return isValidAssumption(assumption);
 			}
@@ -145,7 +145,7 @@ public class DebugTool extends Tool {
 	}
 
 	@Override
-	public boolean isValid(Action act, TLCState state) {
+	public boolean isValid(final Action act, final TLCState state) {
 		if (act.isInternal()) {
 			mode = EvalMode.Debugger;
 			try {
@@ -157,25 +157,25 @@ public class DebugTool extends Tool {
 		mode = EvalMode.State;
 		try {
 			return this.isValid(act, state, TLCState.Empty);
-		} catch (ResetEvalException ree) {
+		} catch (final ResetEvalException ree) {
 			return this.isValid(act, state);
 		}
 	}
 
 	@Override
-	public final IValue eval(SemanticNode expr, Context ctxt) {
+	public final IValue eval(final SemanticNode expr, final Context ctxt) {
 		mode = EvalMode.Const;
 		return this.evalImpl(expr, Context.Empty, TLCState.Empty, TLCState.Empty, EvalControl.Clear,
 				CostModel.DO_NOT_RECORD);
 	}
 	
 	@Override
-	public final IValue eval(SemanticNode expr, Context c, TLCState s0) {
+	public final IValue eval(final SemanticNode expr, final Context c, final TLCState s0) {
 		return this.eval(expr, c, s0, CostModel.DO_NOT_RECORD);
 	}
 
 	@Override
-	public final IValue eval(SemanticNode expr, Context c, TLCState s0, CostModel cm) {
+	public final IValue eval(final SemanticNode expr, final Context c, final TLCState s0, final CostModel cm) {
 		mode = EvalMode.State;
 		return this.evalImpl(expr, c, s0, TLCState.Empty, EvalControl.Clear, cm);
 	}
@@ -216,7 +216,7 @@ public class DebugTool extends Tool {
 			}
 			mode = EvalMode.Action;
 			return evalImpl(expr, c, s0, s1, control, cm);
-		} catch (ResetEvalException ree) {
+		} catch (final ResetEvalException ree) {
 			if (ree.isTarget(expr)) {
 				return eval(expr, c, s0, s1, control, cm);
 			}
@@ -226,7 +226,7 @@ public class DebugTool extends Tool {
 
 	@Override
 	protected final Value evalImpl(final SemanticNode expr, final Context c, final TLCState s0, final TLCState s1,
-			final int control, CostModel cm) {
+                                   final int control, final CostModel cm) {
 		try {
 			if (isInitialize()) {
 				// Cannot delegate to fastTool that is null during initialization.
@@ -251,7 +251,7 @@ public class DebugTool extends Tool {
 			} else {
 				return actionLevelEval(expr, c, s0, s1, control, cm);
 			}
-		} catch (ResetEvalException ree) {
+		} catch (final ResetEvalException ree) {
 			if (ree.isTarget(expr)) {
 				return evalImpl(expr, c, s0, s1, control, cm);
 			}
@@ -259,7 +259,7 @@ public class DebugTool extends Tool {
 		}
 	}
 
-	private boolean isLeaf(SemanticNode expr) {
+	private boolean isLeaf(final SemanticNode expr) {
 		// These nodes don't seem interesting to users. They are leaves and we don't
 		// care to see how TLC figures out that then token 1 evaluates to the IntValue 1.
 		return KINDS.contains(expr.getKind());
@@ -272,7 +272,7 @@ public class DebugTool extends Tool {
 		return target == null || (TLCGlobals.mainChecker == null && TLCGlobals.simulator == null);
 	}
 
-	private boolean isLiveness(int control, TLCState s0, TLCState s1) {
+	private boolean isLiveness(final int control, final TLCState s0, final TLCState s1) {
 		if (EvalControl.isEnabled(control) || EvalControl.isPrimed(control)) {
 			// If EvalControl is set to primed or enabled, TLC is evaluating an ENABLED expr.
 			// TLCStateFun are passed in when enabled is evaluated. However, it is also
@@ -290,7 +290,7 @@ public class DebugTool extends Tool {
 		return false;
 	}
 
-	private boolean isBoring(final SemanticNode expr, Context c) {
+	private boolean isBoring(final SemanticNode expr, final Context c) {
 //		if (c.isEmpty()) {
 //		// It is tempting to ignore also frames with an empty Context. However, ASSUMES
 //		// for example don't have a Context. Perhaps, we should track the level here and
@@ -317,13 +317,13 @@ public class DebugTool extends Tool {
 		return false;
 	}
 
-	private Value actionLevelEval(SemanticNode expr, Context c, TLCState s0, TLCState s1, int control, CostModel cm) {
+	private Value actionLevelEval(final SemanticNode expr, final Context c, final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
 		Value v = null;
 		try {
 			target.pushFrame(this, expr, c, s0, s1.getAction(), s1);
 			v = super.evalImpl(expr, c, s0, s1, control, cm);
 			return v;
-		} catch (TLCRuntimeException | EvalException e) {
+		} catch (final TLCRuntimeException | EvalException e) {
 			if (e.isKnown()) {throw e;}
 			try {
 				target.pushExceptionFrame(this, expr, c, s0, s1.getAction(), s1, e);
@@ -336,13 +336,13 @@ public class DebugTool extends Tool {
 		}
 	}
 
-	private Value stateLevelEval(SemanticNode expr, Context c, TLCState s0, TLCState s1, int control, CostModel cm) {
+	private Value stateLevelEval(final SemanticNode expr, final Context c, final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
 		Value v = null;
 		try {
 			target.pushFrame(this, expr, c, s0);
 			v = super.evalImpl(expr, c, s0, s1, control, cm);
 			return v;
-		} catch (TLCRuntimeException | EvalException e) {
+		} catch (final TLCRuntimeException | EvalException e) {
 			if (e.isKnown()) {throw e;}
 			try {
 				target.pushExceptionFrame(this, expr, c, s0, e);
@@ -355,13 +355,13 @@ public class DebugTool extends Tool {
 		}
 	}
 
-	private Value constLevelEval(SemanticNode expr, Context c, TLCState s0, TLCState s1, int control, CostModel cm) {
+	private Value constLevelEval(final SemanticNode expr, final Context c, final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
 		Value v = null;
 		try {
 			target.pushFrame(this, expr, c);
 			v = super.evalImpl(expr, c, s0, s1, control, cm);
 			return v;
-		} catch (TLCRuntimeException | EvalException e) {
+		} catch (final TLCRuntimeException | EvalException e) {
 			if (e.isKnown()) {throw e;}
 			try {
 				target.pushExceptionFrame(this, expr, c, e);
@@ -421,7 +421,7 @@ public class DebugTool extends Tool {
 		// evaluated state.  Thus, we set action and predecessor eagerly.
 		try {
 			return getNextStatesImpl(action, expr, acts, c, s0, s1.setPredecessor(s0).setAction(action), nss, cm);
-		} catch (ResetEvalException ree) {
+		} catch (final ResetEvalException ree) {
 			if (ree.isTarget(expr)) {
 				return getNextStates(action, expr, acts, c, s0, s1, nss, cm);
 			}
@@ -440,7 +440,7 @@ public class DebugTool extends Tool {
 		try {
 			target.pushFrame(this, pred, c, s0, action, s1);
 			s = getNextStatesApplImpl(action, pred, acts, c, s0, s1, nss, cm);
-		} catch (TLCRuntimeException | EvalException e) {
+		} catch (final TLCRuntimeException | EvalException e) {
 			if (e.isKnown()) {throw e;}
 			try {
 				target.pushExceptionFrame(this, pred, c, e);
@@ -448,7 +448,7 @@ public class DebugTool extends Tool {
 				target.popExceptionFrame(this, pred, c, s0, action, s1, e);
 			}
 			throw e;
-		} catch (InvariantViolatedException e) {
+		} catch (final InvariantViolatedException e) {
 			if (e.isKnown()) {throw e;}
 			try {
 				target.markInvariantViolatedFrame(this, pred, c, s0, action, s1, e);
@@ -467,7 +467,7 @@ public class DebugTool extends Tool {
 			final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm) {
 		try {
 			return processUnchangedImpl(action, expr, acts, c, s0, s1, nss, cm);
-		} catch (TLCRuntimeException | EvalException e) {
+		} catch (final TLCRuntimeException | EvalException e) {
 			if (e.isKnown()) {throw e;}
 			try {
 				target.pushExceptionFrame(this, expr, c, s0, action, s1, e);
@@ -475,7 +475,7 @@ public class DebugTool extends Tool {
 				target.popExceptionFrame(this, expr, c, s0, action, s1, e);
 			}
 			throw e;
-		} catch (InvariantViolatedException e) {
+		} catch (final InvariantViolatedException e) {
 			if (e.isKnown()) {throw e;}
 			try {
 				target.markInvariantViolatedFrame(this, expr, c, s0, action, s1, e);
@@ -487,8 +487,8 @@ public class DebugTool extends Tool {
 	}
 	
     @Override
-	protected void getInitStates(SemanticNode init, ActionItemList acts, Context c, TLCState ps, IStateFunctor states,
-			CostModel cm) {
+	protected void getInitStates(final SemanticNode init, final ActionItemList acts, final Context c, final TLCState ps, final IStateFunctor states,
+                                 final CostModel cm) {
 		if (mode == EvalMode.Debugger) {
 			fastTool.getInitStates(init, acts, c, ps, states, cm);
 		} else {
@@ -502,7 +502,7 @@ public class DebugTool extends Tool {
 				} else {
 					super.getInitStates(init, acts, c, ps, new WrapperStateFunctor(states, target), cm);
 				}
-			} catch (ResetEvalException ree) {
+			} catch (final ResetEvalException ree) {
 				if (ree.isTarget(init)) {
 					getInitStates(init, acts, c, ps, states, cm);
 				}
@@ -512,8 +512,8 @@ public class DebugTool extends Tool {
 	}
 		
 	@Override
-	protected void getInitStatesAppl(OpApplNode init, ActionItemList acts, Context c, TLCState ps, IStateFunctor states,
-			CostModel cm) {
+	protected void getInitStatesAppl(final OpApplNode init, final ActionItemList acts, final Context c, final TLCState ps, final IStateFunctor states,
+                                     final CostModel cm) {
 		if (mode == EvalMode.Debugger) {
 			fastTool.getInitStatesAppl(init, acts, c, ps, states, cm);
 		} else {
@@ -572,7 +572,7 @@ public class DebugTool extends Tool {
 			// semantic graph.
 			assert ree.isTarget(action.getOpDef());
 			return getNextStates(functor, state, action);
-		} catch (AbortEvalException e) {
+		} catch (final AbortEvalException e) {
 			return false;
 		} finally {
 			// In getNextState above, the predecessor state is set eagerly for
@@ -590,13 +590,13 @@ public class DebugTool extends Tool {
 		protected final IStateFunctor functor;
 		protected final IDebugTarget target;
 
-		WrapperStateFunctor(IStateFunctor functor, IDebugTarget target) {
+		WrapperStateFunctor(final IStateFunctor functor, final IDebugTarget target) {
 			this.functor = functor;
 			this.target = target;
 		}
 		
 		@Override
-		public Object addElement(TLCState state) {
+		public Object addElement(final TLCState state) {
 			try {
 				target.pushFrame(state);
 				return functor.addElement(state);
@@ -610,13 +610,13 @@ public class DebugTool extends Tool {
 		protected final INextStateFunctor functor;
 		protected final IDebugTarget target;
 
-		WrapperNextStateFunctor(INextStateFunctor functor, IDebugTarget target) {
+		WrapperNextStateFunctor(final INextStateFunctor functor, final IDebugTarget target) {
 			this.functor = functor;
 			this.target = target;
 		}
 
 		@Override
-		public Object addElement(TLCState predecessor, Action a, TLCState state) {
+		public Object addElement(final TLCState predecessor, final Action a, final TLCState state) {
 			try {
 				final StepDirection dt = target.pushFrame(predecessor, a, state);
 				if (dt == StepDirection.Out) {

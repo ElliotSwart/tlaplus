@@ -32,15 +32,15 @@ public abstract class AbstractGraphNode {
 
 	protected BitVector checks; // truth values for state and action predicates
 
-	public AbstractGraphNode(BitVector bitVector) {
+	public AbstractGraphNode(final BitVector bitVector) {
 		checks = bitVector;
 	}
 
-	public boolean getCheckState(int i) {
+	public boolean getCheckState(final int i) {
 		return this.checks.get(i);
 	}
 
-	public BitVector getCheckAction(int slen, int alen, int nodeIdx) {
+	public BitVector getCheckAction(final int slen, final int alen, final int nodeIdx) {
 		final BitVector bv = new BitVector(alen);
 		for (int j = 0; j < alen; j++) {
 			bv.set(j, getCheckAction(slen, alen, nodeIdx, j));
@@ -48,15 +48,15 @@ public abstract class AbstractGraphNode {
 		return bv;
 	}
 
-	public boolean getCheckAction(int slen, int alen, int nodeIdx, int i) {
-		int pos = slen + alen * nodeIdx + i;
+	public boolean getCheckAction(final int slen, final int alen, final int nodeIdx, final int i) {
+		final int pos = slen + alen * nodeIdx + i;
 		return this.checks.get(pos);
 	}
 
-	public boolean getCheckAction(int slen, int alen, int nodeIdx, int[] is) {
-		int len = is.length;
+	public boolean getCheckAction(final int slen, final int alen, final int nodeIdx, final int[] is) {
+		final int len = is.length;
 		for (int i = 0; i < len; i++) {
-			int pos = slen + alen * nodeIdx + is[i];
+			final int pos = slen + alen * nodeIdx + is[i];
 			if (!this.checks.get(pos)) {
 				return false;
 			}
@@ -64,8 +64,8 @@ public abstract class AbstractGraphNode {
 		return true;
 	}
 
-	public void setCheckState(boolean[] vals) {
-		int len = vals.length;
+	public void setCheckState(final boolean[] vals) {
+		final int len = vals.length;
 		for (int i = 0; i < len; i++) {
 			if (vals[i]) {
 				this.checks.set(i);

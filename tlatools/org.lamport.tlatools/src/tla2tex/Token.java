@@ -190,7 +190,7 @@ public class Token
     * Below are the methods for this object class, including the           *
     * constructor.                                                         *
     ***********************************************************************/
-    public Token(String str, int col, int typ)
+    public Token(final String str, final int col, final int typ)
       /*********************************************************************
       * A Token constructor                                                *
       *********************************************************************/
@@ -229,10 +229,10 @@ public class Token
     * tokens created by TokenizeSpec for something like "<42>" or          *
     * "<42>1a." into a single token of type PF_STEP.                       *
     ***********************************************************************/
-    static void FindPfStepTokens(Token[][] toks) {
+    static void FindPfStepTokens(final Token[][] toks) {
       for (int k = 0 ; k < toks.length ; k++) 
-        { Token[] input = toks[k] ;
-          Vector<Token> outputVec = new Vector<Token>(input.length) ;
+        { final Token[] input = toks[k] ;
+          final Vector<Token> outputVec = new Vector<Token>(input.length) ;
           int i = 0 ;
           while (i < input.length)
            { if (   (i < input.length - 2)
@@ -356,7 +356,7 @@ public class Token
       /*********************************************************************
       * The constructor.                                                   *
       *********************************************************************/
-      public PfStepToken(String str, int col, boolean space) {
+      public PfStepToken(final String str, final int col, final boolean space) {
         super(str, col, PF_STEP) ;
         needsSpace = space ;
        }

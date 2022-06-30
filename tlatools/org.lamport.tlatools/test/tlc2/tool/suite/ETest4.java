@@ -42,7 +42,7 @@ public class ETest4 extends SuiteETestCase {
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "0", "0", "0"));
-		String s = "0. Line 13, column 9 to line 16, column 51 in etest4\n"
+		final String s = "0. Line 13, column 9 to line 16, column 51 in etest4\n"
 			+ "1. Line 13, column 12 to line 13, column 16 in etest4\n"
 			+ "2. Line 15, column 12 to line 15, column 26 in etest4\n"
 			+ "3. Line 15, column 12 to line 15, column 22 in etest4\n\n";

@@ -78,7 +78,7 @@ public class FPSetManagerTest {
 		doTest(8);
 	}
 
-	private void doTest(int expectedNumOfServers) throws RemoteException, IOException, FPSetManagerException {
+	private void doTest(final int expectedNumOfServers) throws RemoteException, IOException, FPSetManagerException {
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
 		fpSetConfiguration.setFpBits(1); // two nested FPSets
 
@@ -90,7 +90,7 @@ public class FPSetManagerTest {
 		}
 
 		final IFPSetManager manager = new DynamicFPSetManager(expectedNumOfServers);
-		for (FPSets fpSets : sets) {
+		for (final FPSets fpSets : sets) {
 			manager.register(fpSets.getFpset(), fpSets.getFpset().toString());
 		}
 
@@ -138,9 +138,9 @@ public class FPSetManagerTest {
 		fps.add((3L << 62) + 8L); // 11...1000
 
 		final Set<Long> unseen = new HashSet<Long>(fps);
-		for (Long fp : fps) {
+		for (final Long fp : fps) {
 			// Unseen fingerprints must not be in set.
-			for (Long unseenFP : unseen) {
+			for (final Long unseenFP : unseen) {
 				Assert.assertFalse(manager.contains(unseenFP));
 			}
 			Assert.assertTrue(unseen.remove(fp));

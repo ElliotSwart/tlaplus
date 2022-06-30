@@ -29,7 +29,7 @@ public class LongArrays {
 	}
 	
 	public static class LongComparator {
-		public int compare(long lo, long loPos, long hi, long hiPos) {
+		public int compare(final long lo, final long loPos, final long hi, final long hiPos) {
 			// The default comparator ignores the positions.
 			return Long.compare(lo, hi);
 		}
@@ -49,7 +49,7 @@ public class LongArrays {
 	public static long[] toArray(final LongArray array) {
 		final long[] res = new long[(int) array.size()];
 		for (int i = 0; i < array.size(); i++) {
-			long l = array.get(i);
+			final long l = array.get(i);
 			res[i] = l;
 		}
 		return res;

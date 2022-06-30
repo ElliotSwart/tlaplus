@@ -77,7 +77,7 @@ public class LiveCheckTest {
 		addIdenticalNodeTwice(true, 0);
 	}
 
-	public void addIdenticalNodeTwice(boolean withTablue, int tableauId) throws IOException {
+	public void addIdenticalNodeTwice(final boolean withTablue, final int tableauId) throws IOException {
 		final ILiveCheck liveCheck;
 		if (withTablue) {
 			liveCheck = getLiveCheckWithTableau();

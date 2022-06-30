@@ -82,12 +82,12 @@ public class TLCStateInfo {
     return this.state.toString();
   }
   
-  public boolean equals(Object other) {
+  public boolean equals(final Object other) {
 	  if (other instanceof TLCStateInfo) {
-		  TLCStateInfo sinfo = (TLCStateInfo) other;
+		  final TLCStateInfo sinfo = (TLCStateInfo) other;
 		  return this.state.equals(sinfo.state);
 	  } else if (other instanceof TLCState) {
-		  TLCState state = (TLCState) other;
+		  final TLCState state = (TLCState) other;
 		  return this.state.equals(state);
 	  }
 	  return false;

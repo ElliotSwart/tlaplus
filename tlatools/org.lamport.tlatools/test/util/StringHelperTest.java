@@ -40,7 +40,7 @@ public class StringHelperTest extends TestCase {
 		assertArrayEquals(new String[]{"Abc", "def", "ghi."}, words);
 	}
 	public void testGetWordsLeadingSpace() {
-		String[] words = StringHelper.getWords("     Abc def ghi.");
+		final String[] words = StringHelper.getWords("     Abc def ghi.");
 		assertArrayEquals(new String[]{"Abc", "def", "ghi."}, words);
 	}
 //TODO What is the intended behavior here?
@@ -51,30 +51,30 @@ public class StringHelperTest extends TestCase {
 	public void testGetWordsNull() {
 		try {
 			StringHelper.getWords(null);
-		} catch (NullPointerException e) {
+		} catch (final NullPointerException e) {
 			return;
 		}
 		fail("null should not be accepted!");
 	}
 	
 	public void testCopyString0() {
-		String copyString = StringHelper.copyString("abc", 0);
+		final String copyString = StringHelper.copyString("abc", 0);
 		assertEquals("", copyString);
 	}
 	public void testCopyStringPos1() {
-		String copyString = StringHelper.copyString("abc", 1);
+		final String copyString = StringHelper.copyString("abc", 1);
 		assertEquals("abc", copyString);
 	}
 	public void testCopyStringPos5() {
-		String copyString = StringHelper.copyString("abc", 5);
+		final String copyString = StringHelper.copyString("abc", 5);
 		assertEquals("abcabcabcabcabc", copyString);
 	}
 	public void testCopyStringNeg1() {
-		String copyString = StringHelper.copyString("abc", -1);
+		final String copyString = StringHelper.copyString("abc", -1);
 		assertEquals("", copyString);
 	}
 	public void testCopyStringNeg5() {
-		String copyString = StringHelper.copyString("abc", -5);
+		final String copyString = StringHelper.copyString("abc", -5);
 		assertEquals("", copyString);
 	}
 //TODO What is the intended behavior of passing a null string?
@@ -107,7 +107,7 @@ public class StringHelperTest extends TestCase {
 	public void testOnlySpacesNull() {
 		try {
 			StringHelper.onlySpaces(null);
-		} catch (NullPointerException e) {
+		} catch (final NullPointerException e) {
 			return;
 		}
 		fail("null should not be accepted!");
@@ -129,7 +129,7 @@ public class StringHelperTest extends TestCase {
 	public void testTrimFrontNull() {
 		try {
 			StringHelper.trimFront(null);
-		} catch (NullPointerException e) {
+		} catch (final NullPointerException e) {
 			return;
 		}
 		fail("null should not be accepted!");
@@ -150,7 +150,7 @@ public class StringHelperTest extends TestCase {
 	public void testTrimEndNull() {
 		try {
 			StringHelper.trimEnd(null);
-		} catch (NullPointerException e) {
+		} catch (final NullPointerException e) {
 			return;
 		}
 		fail("null should not be accepted!");
@@ -169,7 +169,7 @@ public class StringHelperTest extends TestCase {
 	public void testLeadingSpacesNull() {
 		try {
 			StringHelper.leadingSpaces(null);
-		} catch (NullPointerException e) {
+		} catch (final NullPointerException e) {
 			return;
 		}
 		fail("null should not be accepted!");
@@ -188,7 +188,7 @@ public class StringHelperTest extends TestCase {
 	public void testIsIdentifierNull() {
 		try {
 			StringHelper.isIdentifier(null);
-		} catch (NullPointerException e) {
+		} catch (final NullPointerException e) {
 			return;
 		}
 		fail("null should not be accepted!");

@@ -484,7 +484,7 @@ public class TokenizeSpec
       * add them to the identHashTable just like identifiers.              *
       *********************************************************************/
 
-    public static boolean isIdent(String str) 
+    public static boolean isIdent(final String str)
       /*********************************************************************
       * Returns true iff str is an IDENT token in the spec.                *
       *********************************************************************/
@@ -497,7 +497,7 @@ public class TokenizeSpec
       * It is used for formatting comments.                                *
       *********************************************************************/
 
-    public static boolean isUsedBuiltin(String str) 
+    public static boolean isUsedBuiltin(final String str)
       /*********************************************************************
       * Returns true iff str is a BUILTIN token in the spec.               *
       *********************************************************************/
@@ -509,7 +509,7 @@ public class TokenizeSpec
       * A hash table containing all the STRING tokens found in the spec.   *
       * It is used for formatting comments.                                *
       *********************************************************************/
-    public static boolean isString(String str) 
+    public static boolean isString(final String str)
       /*********************************************************************
       * Returns true iff str is a STRING token in the spec.                *
       *********************************************************************/
@@ -734,7 +734,7 @@ public class TokenizeSpec
       }
 
     
-    private static void TokenOut(int type)
+    private static void TokenOut(final int type)
       /*********************************************************************
       * Add the token to linev and reset token to the empty string.        *
       * Reset canBeLabel.                                                  *
@@ -764,7 +764,7 @@ public class TokenizeSpec
         canBeLabel = false ;
       } ;
 
-    private static void CommentTokenOut(int subtype)
+    private static void CommentTokenOut(final int subtype)
       /*********************************************************************
       * Add the token to linev and reset token to the empty string.        *
       *********************************************************************/
@@ -810,7 +810,7 @@ public class TokenizeSpec
     private static Position getNextTokenPosition() {
         return new Position(vspec.size(), linev.size());
     }
-    private static void TokenizingError(String msg) 
+    private static void TokenizingError(final String msg)
       { Debug.ReportError(
            msg + " `" + token + "' found at\n" + 
           "    line " + (reader.getLineNumber() + 1) + ", column " + 
@@ -821,7 +821,7 @@ public class TokenizeSpec
       /*********************************************************************
       * Turns vspec into an array.                                         *
       *********************************************************************/
-      { Token[][] aspec = new Token[vspec.size()][] ;
+      { final Token[][] aspec = new Token[vspec.size()][] ;
         int n = 0 ;                                                       
         while (n < vspec.size())                                          
           { aspec[n] =                                                     
@@ -837,7 +837,7 @@ public class TokenizeSpec
         return aspec;
       } ;
 
-    public static Token[][] Tokenize(CharReader charReader, int mode) 
+    public static Token[][] Tokenize(final CharReader charReader, final int mode)
       /*********************************************************************
       * Tokenize the input from the CharReader.                            *
       *********************************************************************/
@@ -1020,7 +1020,7 @@ public class TokenizeSpec
                           state = COMMENT ;
                       }
                       else {
-                          boolean cbl = inPcal && BuiltInSymbols.CanPrecedeLabel(token) ;
+                          final boolean cbl = inPcal && BuiltInSymbols.CanPrecedeLabel(token) ;
                           TokenOut(Token.BUILTIN) ;
                           canBeLabel = cbl ;
                           gotoStart();
@@ -1181,7 +1181,7 @@ public class TokenizeSpec
                         } ;
                         nextChar = reader.getNextChar();
                       } ;
-                      boolean saved = BuiltInSymbols.CanPrecedeLabel(token) ;
+                      final boolean saved = BuiltInSymbols.CanPrecedeLabel(token) ;
                       TokenOut(Token.BUILTIN) ;
                       canBeLabel = saved ;
                       gotoStart();
@@ -1459,7 +1459,7 @@ public class TokenizeSpec
                   while (Misc.IsLetter(nextChar)) {
                       addNextChar() ;
                   }
-                  boolean isAlgorithm = token.equals("--algorithm") ;
+                  final boolean isAlgorithm = token.equals("--algorithm") ;
                   if (isAlgorithm || token.equals("--fair")) {
                       if (! Misc.isBlank(token1)) {
                           pseudoCom = true;
@@ -1786,7 +1786,7 @@ public class TokenizeSpec
      * @param spec
      * @param isTeX  true for tla2tex.TeX, false for tla2tex.TLA
      */
-    public static void FixPlusCal(Token[][] spec, boolean isTeX) {
+    public static void FixPlusCal(final Token[][] spec, final boolean isTeX) {
 //        if ((!hasPcal) || (!isCSyntax)) {
 //            return ;
 //        }
@@ -1802,11 +1802,11 @@ public class TokenizeSpec
             && Parameters.NoPlusCalShading
             && (pcalEnd.line < spec.length)
             && (pcalEnd.item < spec[pcalEnd.line].length)) {
-            Token tok = pcalEnd.toToken(spec) ;
+            final Token tok = pcalEnd.toToken(spec) ;
             if (tok.type == Token.COMMENT) {
-                CommentToken ctok = (CommentToken) tok ;
+                final CommentToken ctok = (CommentToken) tok ;
                 if (ctok.string.trim().equals("") ) {
-                  int rsubtype = ctok.rsubtype ;
+                  final int rsubtype = ctok.rsubtype ;
                   
                   // Set newline to spec[pcalEnd.line] with element pcalEnd.item 
                   // removed.
@@ -1886,7 +1886,7 @@ public class TokenizeSpec
         Position pos = pcalStart ;
         boolean beginningOfAlgorithm = ! isTeX ;
         if (isTeX &&  pos != null) {
-            String firstString = pos.toToken(spec).string ;
+            final String firstString = pos.toToken(spec).string ;
             if (firstString.equals("--algorithm") || firstString.equals("--fair")) {
                 beginningOfAlgorithm = true ;
             }
@@ -1988,7 +1988,7 @@ public class TokenizeSpec
     private static final int AFTER_VAR_DECL        = 5 ;
     private static final int AFTER_COMMA           = 6 ;
     
-    public static Position ProcessPcalBrace(Position pos, Token[][] spec, boolean isTeX) {
+    public static Position ProcessPcalBrace(final Position pos, final Token[][] spec, final boolean isTeX) {
         Token tok = pos.toToken(spec) ;
         Position curPos = pos ;
         if (!isTeX) {
@@ -2138,11 +2138,11 @@ System.out.println("Error SEEKING_IDENT_LPAREN at " + curPos.toString());
      * @param spec
      * @return
      */
-   private static Position nextTokenPos(Position pos, Token[][] spec) {
+   private static Position nextTokenPos(final Position pos, final Token[][] spec) {
       if (pos == null) {
           return null ;
       }
-      int nextItem = pos.item + 1;
+      final int nextItem = pos.item + 1;
       if (   (nextItem < spec[pos.line].length)
           && (   (pos.line < pcalEnd.line)
               || (nextItem < pcalEnd.item))) {
@@ -2172,7 +2172,7 @@ System.out.println("Error SEEKING_IDENT_LPAREN at " + curPos.toString());
     * @return
     */
    
-   private static Position nextNonComment(Position pos, Token[][] spec) {
+   private static Position nextNonComment(final Position pos, final Token[][] spec) {
        Position nextPos = nextTokenPos(pos, spec) ;
        while (  (nextPos != null)
                && (nextPos.toToken(spec).type == Token.COMMENT)) {
@@ -2193,12 +2193,12 @@ System.out.println("Error SEEKING_IDENT_LPAREN at " + curPos.toString());
     * @return
     */
    public static Position skipToUnmatchedEnd(
-                             Position pos, Token[][] spec, boolean punct) {
+           final Position pos, final Token[][] spec, final boolean punct) {
        Position nextPos = pos ;
        while (nextPos != null) {
-           Token tok = nextPos.toToken(spec) ;
+           final Token tok = nextPos.toToken(spec) ;
            if (tok.type == Token.BUILTIN) {
-               int symType = BuiltInSymbols.GetBuiltInSymbol(
+               final int symType = BuiltInSymbols.GetBuiltInSymbol(
                                  tok.string, true).symbolType ;
                if (   (symType == Symbol.RIGHT_PAREN)
                    || (   punct

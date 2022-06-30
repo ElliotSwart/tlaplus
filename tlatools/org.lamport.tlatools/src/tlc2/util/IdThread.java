@@ -34,11 +34,11 @@ public class IdThread extends Thread {
 	private IValue[] localValues = new IValue[4];
    
     /** Create a new thread with ID <code>id</code>. */
-    public IdThread(int id) {
+    public IdThread(final int id) {
         this.id = id;
     }
    
-    public IdThread(Runnable runnable, String name, int id) {
+    public IdThread(final Runnable runnable, final String name, final int id) {
     	super(runnable, name);
     	this.id = id;
 	}
@@ -66,12 +66,12 @@ public class IdThread extends Thread {
 
     /** If the calling thread is of type <TT>IdThread</TT>,
         return its ID. Otherwise, return <TT>otherId</TT>. */
-    public static int GetId(int otherId) {
-        Thread th = Thread.currentThread();
+    public static int GetId(final int otherId) {
+        final Thread th = Thread.currentThread();
         return (th instanceof IdThread) ? ((IdThread)th).id : otherId;
     }
     
-	public IValue getLocalValue(int idx) {
+	public IValue getLocalValue(final int idx) {
 		if (idx < this.localValues.length) {
 			return this.localValues[idx];
 		}
@@ -82,9 +82,9 @@ public class IdThread extends Thread {
 		return this.localValues;
 	}
 
-	public void setLocalValue(int idx, IValue val) {
+	public void setLocalValue(final int idx, final IValue val) {
 		if (idx >= this.localValues.length) {
-			IValue[] vals = new IValue[idx + 1];
+			final IValue[] vals = new IValue[idx + 1];
 			System.arraycopy(this.localValues, 0, vals, 0, this.localValues.length);
 			this.localValues = vals;
 		}

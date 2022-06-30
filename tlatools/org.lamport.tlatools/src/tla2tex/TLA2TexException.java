@@ -15,7 +15,7 @@ public class TLA2TexException extends RuntimeException
      */
     private static final long serialVersionUID = 6158929578245645265L;
 
-    public TLA2TexException(String message)
+    public TLA2TexException(final String message)
     {
         error_message = message;
     }

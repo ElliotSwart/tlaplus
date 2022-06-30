@@ -39,11 +39,11 @@ public class GraphNode extends AbstractGraphNode {
 	private int[] nnodes; // outgoing links
 	final int tindex;
 
-	public GraphNode(long fp, int tindex) {
+	public GraphNode(final long fp, final int tindex) {
 		this(fp, tindex, emptyIntArr, new BitVector(0));
 	}
 
-	private GraphNode(long fp, int tindex, int[] nnodes, BitVector checks) {
+	private GraphNode(final long fp, final int tindex, final int[] nnodes, final BitVector checks) {
 		super(checks);
 		this.stateFP = fp;
 		this.tindex = tindex;
@@ -64,7 +64,7 @@ public class GraphNode extends AbstractGraphNode {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -74,7 +74,7 @@ public class GraphNode extends AbstractGraphNode {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		GraphNode other = (GraphNode) obj;
+		final GraphNode other = (GraphNode) obj;
 		if (stateFP != other.stateFP) {
 			return false;
 		}
@@ -84,13 +84,13 @@ public class GraphNode extends AbstractGraphNode {
 		return true;
 	}
 
-	public final long getStateFP(int i) {
-		long high = this.nnodes[NNODE_RECORD_SIZE * i];
-		long low = this.nnodes[NNODE_RECORD_SIZE * i + 1];
+	public final long getStateFP(final int i) {
+		final long high = this.nnodes[NNODE_RECORD_SIZE * i];
+		final long low = this.nnodes[NNODE_RECORD_SIZE * i + 1];
 		return (high << 32) | (low & 0xFFFFFFFFL);
 	}
 
-	public final int getTidx(int i) {
+	public final int getTidx(final int i) {
 		return this.nnodes[NNODE_RECORD_SIZE * i + 2];
 	}
 
@@ -145,7 +145,7 @@ public class GraphNode extends AbstractGraphNode {
 	 */
 	private final void allocate(final int transitions) {
 		final int len = this.nnodes.length;
-		int[] newNodes = new int[len + (NNODE_RECORD_SIZE * transitions)];
+		final int[] newNodes = new int[len + (NNODE_RECORD_SIZE * transitions)];
 		System.arraycopy(this.nnodes, 0, newNodes, 0, len);
 		this.nnodes = newNodes;
 
@@ -186,12 +186,12 @@ public class GraphNode extends AbstractGraphNode {
 	 *            of how many additions are made across all iterations).
 	 * @see GraphNode#allocate(int)
 	 */
-	public final void addTransition(long fp, int tidx, int slen, int alen, final BitVector acts, final int actsOffset,
-			final int allocationHint) {
+	public final void addTransition(final long fp, final int tidx, final int slen, final int alen, final BitVector acts, final int actsOffset,
+                                    final int allocationHint) {
 		// Grows BitVector "checks" and sets the corresponding field to true if
 		// acts is true (false is default and thus can be ignored).
 		if (acts != null) {
-			int pos = slen + alen * this.succSize();
+			final int pos = slen + alen * this.succSize();
 			for (int i = 0; i < alen; i++) {
 				if (acts.get(actsOffset + i)) {
 					this.checks.set(pos + i);
@@ -227,7 +227,7 @@ public class GraphNode extends AbstractGraphNode {
 		if (this.offset != NO_FREE_SLOTS) {
 			result = (this.nnodes.length - this.offset) / NNODE_RECORD_SIZE;
 			// shrink newNodes to correct size
-			int[] newNodes = new int[this.offset];
+			final int[] newNodes = new int[this.offset];
 			System.arraycopy(this.nnodes, 0, newNodes, 0, newNodes.length);
 			this.nnodes = newNodes;
 			this.offset = NO_FREE_SLOTS;
@@ -236,7 +236,7 @@ public class GraphNode extends AbstractGraphNode {
 	}
 
 	/* Return true iff there is an outgoing edge to target. */
-	public final boolean transExists(long fp, int tidx) {
+	public final boolean transExists(final long fp, final int tidx) {
 		// TODO Switch to a more efficient transExists implementation to handle
 		// large numbers of transitions. The current implementation below uses a
 		// linear search over all transitions.
@@ -255,8 +255,8 @@ public class GraphNode extends AbstractGraphNode {
 		if (this.offset != NO_FREE_SLOTS) {
 			len = offset;
 		}
-		int high = (int) (fp >>> 32);
-		int low = (int) (fp & 0xFFFFFFFFL);
+		final int high = (int) (fp >>> 32);
+		final int low = (int) (fp & 0xFFFFFFFFL);
 		for (int i = 0; i < len; i += NNODE_RECORD_SIZE) {
 			if (this.nnodes[i] == high && this.nnodes[i + 1] == low && this.nnodes[i + 2] == tidx) {
 				return true;
@@ -298,7 +298,7 @@ public class GraphNode extends AbstractGraphNode {
 		private final int tidx;
 		private final BitVector bv;
 
-		public Transition(long fp, int tidx, BitVector bv) {
+		public Transition(final long fp, final int tidx, final BitVector bv) {
 			this.fp = fp;
 			this.tidx = tidx;
 			this.bv = bv;
@@ -319,14 +319,14 @@ public class GraphNode extends AbstractGraphNode {
 		/* (non-Javadoc)
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
-		public boolean equals(Object obj) {
+		public boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (obj == null)
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			Transition other = (Transition) obj;
+			final Transition other = (Transition) obj;
 			if (bv == null) {
 				if (other.bv != null)
 					return false;
@@ -353,7 +353,7 @@ public class GraphNode extends AbstractGraphNode {
 	}
 
 	/* Return the tableau graph node used by this. */
-	public final TBGraphNode getTNode(TBGraph tableau) {
+	public final TBGraphNode getTNode(final TBGraph tableau) {
 		return tableau.getNode(this.tindex);
 	}
 
@@ -396,7 +396,7 @@ public class GraphNode extends AbstractGraphNode {
 	}
 
 	public final String toString(final int alen) {
-		StringBuffer buf = new StringBuffer();
+		final StringBuffer buf = new StringBuffer();
 		buf.append("<" + this.stateFP + "," + this.tindex + "> --> ");
 		for (int i = 0; i < succSize(); i++) {
 			// action checks
@@ -420,7 +420,7 @@ public class GraphNode extends AbstractGraphNode {
 		return toDotViz(isInitState, hasTableau, slen, alen, null);
 	}
 
-	public String toDotViz(final boolean isInitState, final boolean hasTableau, final int slen, final int alen, TableauNodePtrTable filter) {
+	public String toDotViz(final boolean isInitState, final boolean hasTableau, final int slen, final int alen, final TableauNodePtrTable filter) {
 		// The node's id including its tidx if any. It uses the complete
 		// fingerprint.
 		String id = Long.toString(this.stateFP);
@@ -462,7 +462,7 @@ public class GraphNode extends AbstractGraphNode {
 				continue;
 			}
 			
-			String fp = Long.toString(stateFP);
+			final String fp = Long.toString(stateFP);
 //			if (fp == this.stateFP) {
 //				// skip self loops if edge count to large for dotViz to handle.
 //				continue;

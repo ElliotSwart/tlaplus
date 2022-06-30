@@ -135,8 +135,8 @@ public class DiskQueueBenachmark {
     	this.dsq.sEnqueue(this.state);
     }
     
-    public static void main(String[] args) throws RunnerException {
-        Options opt = new OptionsBuilder()
+    public static void main(final String[] args) throws RunnerException {
+        final Options opt = new OptionsBuilder()
                 .include(DiskQueueBenachmark.class.getSimpleName())
                 .addProfiler(FlightRecorderProfiler.class)
                 .build();

@@ -27,31 +27,31 @@ public class StateQueueTest {
 	public void testEnqueue() {
 		final TLCState expected = new DummyTLCState();
 		sQueue.enqueue(expected);
-		TLCState actual = sQueue.sDequeue();
+		final TLCState actual = sQueue.sDequeue();
 		assertEquals("", expected, actual);
 	}
 
 	// dequeue from empty 
 	@Test
 	public void testsDequeueEmpty() {
-		TLCState state = sQueue.sDequeue();
+		final TLCState state = sQueue.sDequeue();
 		assertNull(state);
 	}
 	
 	// dequeue from empty 
 	@Test
 	public void testDequeueEmpty() {
-		TLCState state = sQueue.dequeue();
+		final TLCState state = sQueue.dequeue();
 		assertNull(state);
 	}
 	
 	// dequeue from not empty 
 	@Test
 	public void testsDequeueNotEmpty() {
-		DummyTLCState expected = new DummyTLCState();
+		final DummyTLCState expected = new DummyTLCState();
 		sQueue.sEnqueue(expected);
 		assertTrue(sQueue.size() == 1);
-		TLCState actual = sQueue.sDequeue();
+		final TLCState actual = sQueue.sDequeue();
 		assertTrue(sQueue.size() == 0);
 		assertEquals(expected, actual);
 	}
@@ -59,10 +59,10 @@ public class StateQueueTest {
 	// dequeue from not empty 
 	@Test
 	public void testDequeueNotEmpty() {
-		DummyTLCState expected = new DummyTLCState();
+		final DummyTLCState expected = new DummyTLCState();
 		sQueue.enqueue(expected);
 		assertTrue(sQueue.size() == 1);
-		TLCState actual = sQueue.dequeue();
+		final TLCState actual = sQueue.dequeue();
 		assertTrue(sQueue.size() == 0);
 		assertEquals(expected, actual);
 	}
@@ -110,10 +110,10 @@ public class StateQueueTest {
 		assertTrue(sQueue.sDequeue(Integer.MAX_VALUE).length == 1);
 	}
 	
-	private void expectRuntimeException(IStateQueue aQueue, int size)  {
+	private void expectRuntimeException(final IStateQueue aQueue, final int size)  {
 		try {
 			aQueue.sDequeue(size);
-		} catch(RuntimeException|AssertionError e) {
+		} catch(final RuntimeException | AssertionError e) {
 			return;
 		}
 		fail("expected to throw RuntimeException with <= input");

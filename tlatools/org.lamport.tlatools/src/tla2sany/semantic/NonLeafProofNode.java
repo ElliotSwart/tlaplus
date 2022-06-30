@@ -133,8 +133,8 @@ public class NonLeafProofNode extends ProofNode {
     * step numbers.                                                        *
     ***********************************************************************/
 
-  public NonLeafProofNode(TreeNode stn, LevelNode[] stps,
-                          InstanceNode[] inst, Context ctxt) {
+  public NonLeafProofNode(final TreeNode stn, final LevelNode[] stps,
+                          final InstanceNode[] inst, final Context ctxt) {
      super(NonLeafProofKind, stn);
      this.steps   = stps ;
      this.insts   = inst;
@@ -145,13 +145,13 @@ public class NonLeafProofNode extends ProofNode {
   public Context     getContext() {return context ;}
 
   @Override
-  public boolean levelCheck(int iter) {
+  public boolean levelCheck(final int iter) {
     /***********************************************************************
     * Level check the steps and the instantiated modules coming from       *
     * module definitions.                                                  *
     ***********************************************************************/
     if (this.levelChecked >= iter) return this.levelCorrect;
-    LevelNode[] ln = new LevelNode[steps.length + insts.length] ;
+    final LevelNode[] ln = new LevelNode[steps.length + insts.length] ;
     System.arraycopy(steps, 0, ln, 0, steps.length) ;
     System.arraycopy(insts, 0, ln, steps.length, insts.length) ;
     return this.levelCheckSubnodes(iter, ln) ;
@@ -166,7 +166,7 @@ public class NonLeafProofNode extends ProofNode {
       if (this.steps == null || this.steps.length == 0) {
           return null;
       }
-      SemanticNode[] res = new SemanticNode[this.steps.length];
+      final SemanticNode[] res = new SemanticNode[this.steps.length];
       for (int i = 0; i < steps.length; i++) {
           res[i] = steps[i];
       }
@@ -174,8 +174,8 @@ public class NonLeafProofNode extends ProofNode {
    }
 
   @Override
-  public void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
@@ -195,7 +195,7 @@ public class NonLeafProofNode extends ProofNode {
    }
 
   @Override
-  public String toString(int depth) {
+  public String toString(final int depth) {
     if (depth <= 0) return "";
     String ret = "\n*ProofNode:\n"
                   + super.toString(depth)
@@ -208,7 +208,7 @@ public class NonLeafProofNode extends ProofNode {
     * The following code for printing the context field copied without     *
     * understanding from ModuleNode.java.                                  *
     ***********************************************************************/
-    Vector<String> contextEntries = context.getContextEntryStringVector(depth-1,false);
+    final Vector<String> contextEntries = context.getContextEntryStringVector(depth-1,false);
     if (contextEntries != null) {
       for (int i = 0; i < contextEntries.size(); i++) {
         if (contextEntries.elementAt(i) != null) {
@@ -221,8 +221,8 @@ public class NonLeafProofNode extends ProofNode {
    }
 
   @Override
-  protected Element getLevelElement(Document doc, SymbolContext context) {
-    Element e = doc.createElement("steps");
+  protected Element getLevelElement(final Document doc, final SymbolContext context) {
+    final Element e = doc.createElement("steps");
 
     for (int i=0; i< steps.length; i++) {
       e.appendChild(steps[i].export(doc,context));

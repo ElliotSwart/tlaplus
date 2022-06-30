@@ -49,22 +49,22 @@ public class ErrorTraceMessagePrinterRecorder implements IMessagePrinterRecorder
 	}
 	
 	@Override
-	public void record(int code, Object... objects) {
+	public void record(final int code, final Object... objects) {
 		if (!traceFinished) {
 			switch (code) {
 				case EC.TLC_STATE_PRINT2:
 					if (objects.length >= 2
 						&& objects[0] instanceof TLCStateInfo
 						&& objects[1] instanceof Integer) {
-						TLCStateInfo stateInfo = (TLCStateInfo)objects[0];
-						Integer stateOrdinal = (Integer)objects[1];
+						final TLCStateInfo stateInfo = (TLCStateInfo)objects[0];
+						final Integer stateOrdinal = (Integer)objects[1];
 						stateInfo.stateNumber = stateOrdinal;
 
 						// Idempotent transition from no trace to safety trace
 						this.errorTrace = Optional.of(this.errorTrace.orElse(new MCError()));
 
 						// Add state to trace
-						MCState state = new MCState(stateInfo);
+						final MCState state = new MCState(stateInfo);
 						this.errorTrace.ifPresent(trace -> trace.addState(state));
 					}
 
@@ -73,10 +73,10 @@ public class ErrorTraceMessagePrinterRecorder implements IMessagePrinterRecorder
 					// Mark trace as ending in stuttering
 					this.traceFinished = true;
 					this.errorTrace.ifPresent(trace -> {
-						List<MCState> states = trace.getStates();
+						final List<MCState> states = trace.getStates();
 						if (states.size() > 0) {
-							MCState finalState = states.get(states.size() - 1);
-							MCState stutteringState = new MCState(finalState, true, false);
+							final MCState finalState = states.get(states.size() - 1);
+							final MCState stutteringState = new MCState(finalState, true, false);
 							trace.addState(stutteringState);
 						}
 					});
@@ -94,16 +94,16 @@ public class ErrorTraceMessagePrinterRecorder implements IMessagePrinterRecorder
 						&& objects[1] instanceof String) {
 						try {
 							stateOrdinal = Optional.of(Integer.parseInt((String)objects[0]));
-						} catch (NumberFormatException e) { }
+						} catch (final NumberFormatException e) { }
 					}
 
 					stateOrdinal.ifPresent(ord -> {
 						this.traceFinished = true;
 						this.errorTrace.ifPresent(trace -> {
-							List<MCState> states = trace.getStates();
+							final List<MCState> states = trace.getStates();
 							if (0 < ord && ord <= states.size()) {
-								MCState finalState = states.get(ord - 1);
-								MCState lassoState = new MCState(finalState, false, true);
+								final MCState finalState = states.get(ord - 1);
+								final MCState lassoState = new MCState(finalState, false, true);
 								trace.addState(lassoState);
 							}
 						});

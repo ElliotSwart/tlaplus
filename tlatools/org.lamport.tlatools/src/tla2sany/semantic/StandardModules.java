@@ -50,7 +50,7 @@ public class StandardModules {
 		// no instances
 	}
 	
-	public static boolean isDefinedInStandardModule(SemanticNode sn) {
+	public static boolean isDefinedInStandardModule(final SemanticNode sn) {
 		if ((sn != null) && (sn.getLocation() != null)) {
 			return isDefinedInStandardModule(sn.getLocation().source()); // source might be null
 		}

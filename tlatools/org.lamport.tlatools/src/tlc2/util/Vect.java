@@ -35,7 +35,7 @@ public class Vect<E> implements Cloneable, Serializable {
 
   public Vect() { this(10); }
 
-  public Vect(int initialCapacity) {
+  public Vect(final int initialCapacity) {
     this.elementCount = 0;
     if (initialCapacity == 0) {
       this.elementData = (E[]) new Object[0];
@@ -47,29 +47,29 @@ public class Vect<E> implements Cloneable, Serializable {
 
   public Vect(final E[] array) {
     this(array.length);
-    int sz = array.length;    
+    final int sz = array.length;
     for (int i = 0; i < sz; i++) {
       this.addElement(array[i]);
     }
   }
 
-  public Vect(Vector<E> v) {
+  public Vect(final Vector<E> v) {
     this(v.size());
-    int sz = v.size();    
+    final int sz = v.size();
     for (int i = 0; i < sz; i++) {
       this.addElement(v.elementAt(i));
     }
   }
 
-  public final void addElement(E obj) {
+  public final void addElement(final E obj) {
     if (this.elementCount == this.elementData.length) {
       this.ensureCapacity(this.elementCount+1);
     }
     this.elementData[this.elementCount++] = obj;
   }
 
-  public final Vect<E> concat(Vect<E> elems) {
-    Vect<E> v = new Vect<>();
+  public final Vect<E> concat(final Vect<E> elems) {
+    final Vect<E> v = new Vect<>();
     for (int i = 0; i < this.elementCount; i++) {
       v.addElement(this.elementData[i]);
     }
@@ -82,34 +82,34 @@ public class Vect<E> implements Cloneable, Serializable {
   public int capacity() { return this.elementData.length; }
 
   public Object clone() {
-    Vect<E> v = new Vect<>(this.elementData.length);
+    final Vect<E> v = new Vect<>(this.elementData.length);
     System.arraycopy(this.elementData, 0, v.elementData, 0, this.elementCount);
     v.elementCount = this.elementCount;
     return v;
   }
 
-  public final boolean contains(Object elem) {
+  public final boolean contains(final Object elem) {
     return (this.indexOf(elem) != -1);
   }
 
-  public final void copyInto(Object anArray[]) {
+  public final void copyInto(final Object[] anArray) {
     System.arraycopy(this.elementData, 0, anArray, 0, this.elementCount);
   }
 
-  public final E elementAt(int index) {
+  public final E elementAt(final int index) {
     return this.elementData[index];
   }
 
   @SuppressWarnings("rawtypes")
   public Enumeration<E> elements() { return new Vect.Enumerator(); }
 
-  public final void ensureCapacity(int minCapacity) { 
+  public final void ensureCapacity(final int minCapacity) {
     if (this.elementData.length < minCapacity) {
       int newCapacity = elementData.length + elementData.length;
       if (newCapacity < minCapacity) {
 	newCapacity = minCapacity;
       }
-      Object oldBuffer[] = elementData;
+      final Object[] oldBuffer = elementData;
       elementData = (E[]) new Object[newCapacity];
       System.arraycopy( oldBuffer, 0, elementData, 0, elementCount);
     }
@@ -119,16 +119,16 @@ public class Vect<E> implements Cloneable, Serializable {
     return this.elementData[0];
   }
 
-  public final int indexOf(Object elem) { return this.indexOf(elem, 0); }
+  public final int indexOf(final Object elem) { return this.indexOf(elem, 0); }
 
-  public final int indexOf(Object elem, int index) {
+  public final int indexOf(final Object elem, final int index) {
     for (int pos = index; pos < elementCount; pos++) {
       if (elem.equals(elementData[pos])) return pos;
     }
     return -1;
   }
 
-  public final void insertElementAt(E obj, int index) {
+  public final void insertElementAt(final E obj, final int index) {
     if (elementCount == elementData.length)
       ensureCapacity(elementCount+1);
 
@@ -157,11 +157,11 @@ public class Vect<E> implements Cloneable, Serializable {
     this.elementData[this.elementCount] = null;
   }
   
-  public final void setElementAt(E obj, int index)	{
+  public final void setElementAt(final E obj, final int index)	{
     this.elementData[index] = obj;
   }
 
-  public final void removeElementAt(int index) {
+  public final void removeElementAt(final int index) {
     for (int i = index+1; i < this.elementCount; i++) {
       this.elementData[i-1] = this.elementData[i];
     }
@@ -170,17 +170,17 @@ public class Vect<E> implements Cloneable, Serializable {
   }
 
   /* Remove all elements except the first cnt elements.  */
-  public final void removeAll(int cnt) {
+  public final void removeAll(final int cnt) {
     this.elementCount = cnt;
   }
   
   public final Object pop() {
-    Object elem = this.lastElement();
+    final Object elem = this.lastElement();
     this.removeLastElement();
     return elem;
   }
 
-  public final void push(E elem) {
+  public final void push(final E elem) {
     this.addElement(elem);
   }
   
@@ -194,9 +194,9 @@ public class Vect<E> implements Cloneable, Serializable {
     return code;
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     if (!(obj instanceof Vect)) return false;
-    Vect<E> v = (Vect<E>)obj;
+    final Vect<E> v = (Vect<E>)obj;
     if (v.size() != this.elementCount) return false;
     for (int i = 0; i < this.elementCount; i++) {
       if (!this.elementData[i].equals(v.elementAt(i))) return false;
@@ -205,7 +205,7 @@ public class Vect<E> implements Cloneable, Serializable {
   }
   
   public String toString() {  
-    StringBuffer buf = new StringBuffer("{");
+    final StringBuffer buf = new StringBuffer("{");
     if (this.size() != 0) {
       buf.append(this.elementAt(0).toString());
     }

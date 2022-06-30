@@ -117,10 +117,10 @@ public class Randomization implements ValueConstants {
 					new String[] { "second", "RandomSubsetSetProbability", "string literal representing a probability", Values.ppr(v2.toString()) });
 			
 		}
-		double probability;
+		final double probability;
 		try {
 			probability = Double.valueOf(((StringValue) v2).getVal().toString());			
-		} catch (NumberFormatException nfe) {
+		} catch (final NumberFormatException nfe) {
 			throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR,
 					new String[] { "second", "RandomSubsetSetProbability", "string literal does not represent a parsable probability", Values.ppr(v2.toString()) });
 		}

@@ -36,8 +36,8 @@ public class CombinatoricsTest {
 	public void testChoose() {
 		for (int n = 0; n < Combinatorics.MAXCHOOSENUM; n++) {
 			for (int k = 0; k < Combinatorics.MAXCHOOSENUM; k++) {
-				long choose = Combinatorics.choose(n, k);
-				long binomial = Combinatorics.binomial(n, k);
+				final long choose = Combinatorics.choose(n, k);
+				final long binomial = Combinatorics.binomial(n, k);
 				assertEquals(String.format("n=%s, k=%s", n, k), choose, binomial);
 			}
 		}
@@ -46,8 +46,8 @@ public class CombinatoricsTest {
 	public void testChooseBigChoose() {
 		for (int n = 0; n < Combinatorics.MAXCHOOSENUM + 1; n++) {
 			for (int k = 0; k < Combinatorics.MAXCHOOSENUM + 1; k++) {
-				long choose = Combinatorics.choose(n, k);
-				long bigChoose = Combinatorics.bigChoose(n, k).longValueExact();
+				final long choose = Combinatorics.choose(n, k);
+				final long bigChoose = Combinatorics.bigChoose(n, k).longValueExact();
 				assertEquals(String.format("n=%s, k=%s", n, k), choose, bigChoose);
 			}
 		}
@@ -56,8 +56,8 @@ public class CombinatoricsTest {
 	public void testSlowChooseBigChoose() {
 		for (int n = Combinatorics.MAXCHOOSENUM + 1; n < Combinatorics.MAXCHOOSENUM << 2; n++) {
 			for (int k = Combinatorics.MAXCHOOSENUM + 1; k < Combinatorics.MAXCHOOSENUM << 2; k++) {
-				BigInteger slowBigChoose = Combinatorics.slowBigChoose(n, k);
-				BigInteger bigChoose = Combinatorics.bigChoose(n, k);
+				final BigInteger slowBigChoose = Combinatorics.slowBigChoose(n, k);
+				final BigInteger bigChoose = Combinatorics.bigChoose(n, k);
 				assertEquals(String.format("n=%s, k=%s", n, k), slowBigChoose, bigChoose);
 			}
 		}

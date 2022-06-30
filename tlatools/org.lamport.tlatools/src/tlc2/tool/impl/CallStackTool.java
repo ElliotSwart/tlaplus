@@ -49,7 +49,7 @@ public final class CallStackTool extends Tool {
 	private static final long serialVersionUID = -8495648034821638082L;
 	private final CallStack callStack = new CallStack();
 
-	public CallStackTool(ITool other) {
+	public CallStackTool(final ITool other) {
 		super((Tool) other);
 	}
 
@@ -64,13 +64,13 @@ public final class CallStackTool extends Tool {
 		this.callStack.push(init);
 		try {
 			super.getInitStates(init, acts, c, ps, states, cm);
-		} catch (TLCRuntimeException | EvalException e) {
+		} catch (final TLCRuntimeException | EvalException e) {
 			// Freeze the callStack to ignore subsequent pop operations. This is
 			// necessary to ignore the callStack#pop calls in the finally blocks when the
 			// Java call stack gets unwounded.
 			this.callStack.freeze();
 			throw e;
-		} catch (FingerprintException e) {
+		} catch (final FingerprintException e) {
 			this.callStack.freeze(e);
 			throw e;
 		} finally {
@@ -83,12 +83,12 @@ public final class CallStackTool extends Tool {
 		this.callStack.push(init);
 		try {
 			super.getInitStatesAppl(init, acts, c, ps, states, cm);
-		} catch (TLCRuntimeException | EvalException e) {
+		} catch (final TLCRuntimeException | EvalException e) {
 			// see tlc2.tool.Tool.getInitStates(SemanticNode, ActionItemList, Context,
 			// TLCState, IStateFunctor)
 			this.callStack.freeze();
 			throw e;
-		} catch (FingerprintException e) {
+		} catch (final FingerprintException e) {
 			this.callStack.freeze(e);
 			throw e;
 		} finally {
@@ -102,12 +102,12 @@ public final class CallStackTool extends Tool {
 		this.callStack.push(pred);
 		try {
 			return getNextStatesImpl(action, pred, acts, c, s0, s1, nss, cm);
-		} catch (TLCRuntimeException | EvalException e) {
+		} catch (final TLCRuntimeException | EvalException e) {
 			// see tlc2.tool.Tool.getInitStates(SemanticNode, ActionItemList, Context,
 			// TLCState, IStateFunctor)
 			this.callStack.freeze();
 			throw e;
-		} catch (FingerprintException e) {
+		} catch (final FingerprintException e) {
 			this.callStack.freeze(e);
 			throw e;
 		} finally {
@@ -121,12 +121,12 @@ public final class CallStackTool extends Tool {
 		this.callStack.push(pred);
 		try {
 			return getNextStatesApplImpl(action, pred, acts, c, s0, s1, nss, cm);
-		} catch (TLCRuntimeException | EvalException e) {
+		} catch (final TLCRuntimeException | EvalException e) {
 			// see tlc2.tool.Tool.getInitStates(SemanticNode, ActionItemList, Context,
 			// TLCState, IStateFunctor)
 			this.callStack.freeze();
 			throw e;
-		} catch (FingerprintException e) {
+		} catch (final FingerprintException e) {
 			this.callStack.freeze(e);
 			throw e;
 		} finally {
@@ -149,12 +149,12 @@ public final class CallStackTool extends Tool {
 				return new OpLambdaValue((OpLambdaValue) value, this);
 			}
 			return value;
-		} catch (TLCRuntimeException | EvalException e) {
+		} catch (final TLCRuntimeException | EvalException e) {
 			// see tlc2.tool.Tool.getInitStates(SemanticNode, ActionItemList, Context,
 			// TLCState, IStateFunctor)
 			this.callStack.freeze();
 			throw e;
-		} catch (FingerprintException e) {
+		} catch (final FingerprintException e) {
 			this.callStack.freeze(e);
 			throw e;
 		} finally {
@@ -177,12 +177,12 @@ public final class CallStackTool extends Tool {
 				return new OpLambdaValue((OpLambdaValue) value, this);
 			}
 			return value;
-		} catch (TLCRuntimeException | EvalException e) {
+		} catch (final TLCRuntimeException | EvalException e) {
 			// see tlc2.tool.Tool.getInitStates(SemanticNode, ActionItemList, Context,
 			// TLCState, IStateFunctor)
 			this.callStack.freeze();
 			throw e;
-		} catch (FingerprintException e) {
+		} catch (final FingerprintException e) {
 			this.callStack.freeze(e);
 			throw e;
 		} finally {
@@ -196,12 +196,12 @@ public final class CallStackTool extends Tool {
 		this.callStack.push(pred);
 		try {
 			return enabledImpl(pred, (ActionItemList) acts, c, s0, s1, cm);
-		} catch (TLCRuntimeException | EvalException e) {
+		} catch (final TLCRuntimeException | EvalException e) {
 			// see tlc2.tool.Tool.getInitStates(SemanticNode, ActionItemList, Context,
 			// TLCState, IStateFunctor)
 			this.callStack.freeze();
 			throw e;
-		} catch (FingerprintException e) {
+		} catch (final FingerprintException e) {
 			this.callStack.freeze(e);
 			throw e;
 		} finally {
@@ -211,16 +211,16 @@ public final class CallStackTool extends Tool {
 
 	@Override
 	protected final TLCState enabledAppl(final OpApplNode pred, final ActionItemList acts, final Context c,
-			final TLCState s0, final TLCState s1, CostModel cm) {
+                                         final TLCState s0, final TLCState s1, final CostModel cm) {
 		this.callStack.push(pred);
 		try {
 			return enabledApplImpl(pred, acts, c, s0, s1, cm);
-		} catch (TLCRuntimeException | EvalException e) {
+		} catch (final TLCRuntimeException | EvalException e) {
 			// see tlc2.tool.Tool.getInitStates(SemanticNode, ActionItemList, Context,
 			// TLCState, IStateFunctor)
 			this.callStack.freeze();
 			throw e;
-		} catch (FingerprintException e) {
+		} catch (final FingerprintException e) {
 			this.callStack.freeze(e);
 			throw e;
 		} finally {
@@ -230,16 +230,16 @@ public final class CallStackTool extends Tool {
 
 	@Override
 	protected final TLCState processUnchanged(final Action action, final SemanticNode expr, final ActionItemList acts,
-			final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, CostModel cm) {
+                                              final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm) {
 		this.callStack.push(expr);
 		try {
 			return processUnchangedImpl(action, expr, acts, c, s0, s1, nss, cm);
-		} catch (TLCRuntimeException | EvalException e) {
+		} catch (final TLCRuntimeException | EvalException e) {
 			// see tlc2.tool.Tool.getInitStates(SemanticNode, ActionItemList, Context,
 			// TLCState, IStateFunctor)
 			this.callStack.freeze();
 			throw e;
-		} catch (FingerprintException e) {
+		} catch (final FingerprintException e) {
 			this.callStack.freeze(e);
 			throw e;
 		} finally {
@@ -253,12 +253,12 @@ public final class CallStackTool extends Tool {
 		this.callStack.push(expr);
 		try {
 			return enabledUnchangedImpl(expr, acts, c, s0, s1, cm);
-		} catch (TLCRuntimeException | EvalException e) {
+		} catch (final TLCRuntimeException | EvalException e) {
 			// see tlc2.tool.Tool.getInitStates(SemanticNode, ActionItemList, Context,
 			// TLCState, IStateFunctor)
 			this.callStack.freeze();
 			throw e;
-		} catch (FingerprintException e) {
+		} catch (final FingerprintException e) {
 			this.callStack.freeze(e);
 			throw e;
 		} finally {

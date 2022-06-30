@@ -21,7 +21,7 @@ import java.util.Vector;
 import pcal.exception.PcalResourceFileReaderException;
 
 public class PcalResourceFileReader
-  { public PcalResourceFileReader(String fileName) throws PcalResourceFileReaderException
+  { public PcalResourceFileReader(final String fileName) throws PcalResourceFileReaderException
       /*********************************************************************
       * The constructor, where fileName is the name of a file that's       *
       * in the same directory as pcal.AST.                             *
@@ -31,13 +31,13 @@ public class PcalResourceFileReader
        
        // TODO fix this!
        try { cl = Class.forName("pcal.AST"); }
-       catch (ClassNotFoundException e)
+       catch (final ClassNotFoundException e)
            { throw new PcalResourceFileReaderException( 
                "Java could not find class pcal.AST.  There \n"
              + "    is probably something wrong with the way\n"
              + "    the +cal translator is installed");
            } ;             
-       InputStream input = cl.getResourceAsStream(fileName) ; 
+       final InputStream input = cl.getResourceAsStream(fileName) ;
        if (input == null)
          { throw new PcalResourceFileReaderException( 
                "Could not find resource file " + fileName + ".\n"
@@ -47,13 +47,13 @@ public class PcalResourceFileReader
        inputReader = new BufferedReader(new InputStreamReader(input)) ;
       };
 
-  public static Vector<String> ResourceFileToStringVector(String fileName) throws PcalResourceFileReaderException
+  public static Vector<String> ResourceFileToStringVector(final String fileName) throws PcalResourceFileReaderException
     /***********************************************************************
     * Reads file fileName into a StringVector, a vector in which each      *
     * element is a line of the file.                                       *
     ***********************************************************************/
-    { Vector<String> inputVec = new Vector<String>(100) ;
-       PcalResourceFileReader wordFileReader
+    { final Vector<String> inputVec = new Vector<String>(100) ;
+       final PcalResourceFileReader wordFileReader
                      = new PcalResourceFileReader(fileName);
 
        String word = wordFileReader.getLine();
@@ -72,7 +72,7 @@ public class PcalResourceFileReader
       *********************************************************************/
       { try { return inputReader.readLine();
             }
-        catch (java.io.IOException e)
+        catch (final java.io.IOException e)
           { throw new PcalResourceFileReaderException( 
                    "Error reading the +cal translator resource file " 
                  + name + ".\n"
@@ -96,7 +96,7 @@ public class PcalResourceFileReader
       
     public void close() throws PcalResourceFileReaderException
       { try { inputReader.close(); }
-        catch (java.io.IOException e)
+        catch (final java.io.IOException e)
           { throw new PcalResourceFileReaderException( 
                "Error trying to close the +cal translator resource file " 
             + name + ".\n"

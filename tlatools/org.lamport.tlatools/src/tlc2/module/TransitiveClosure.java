@@ -24,29 +24,29 @@ public class TransitiveClosure implements ValueConstants
 	public static final long serialVersionUID = 20160822L;
 
     /* Implement the Warshall algorithm for transitive closure. */
-    public static Value Warshall(Value rel)
+    public static Value Warshall(final Value rel)
     {
         if (!(rel instanceof Enumerable))
         {
             throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[] { "TransitiveClosure",
                     "an enumerable set", Values.ppr(rel.toString()) });
         }
-        int maxLen = 2 * rel.size();
-        boolean[][] matrix = new boolean[maxLen][maxLen];
-        ValueEnumeration elems = ((Enumerable) rel).elements();
-        Vect<Value> elemList = new Vect<>();
-        Hashtable<Value, Integer> fps = new Hashtable<>();
+        final int maxLen = 2 * rel.size();
+        final boolean[][] matrix = new boolean[maxLen][maxLen];
+        final ValueEnumeration elems = ((Enumerable) rel).elements();
+        final Vect<Value> elemList = new Vect<>();
+        final Hashtable<Value, Integer> fps = new Hashtable<>();
         int cnt = 0;
         Value elem = null;
         while ((elem = elems.nextElement()) != null)
         {
-            TupleValue tv = (TupleValue) elem.toTuple();
+            final TupleValue tv = (TupleValue) elem.toTuple();
             if (tv == null || tv.size() != 2)
             {
                 throw new EvalException(EC.TLC_MODULE_TRANSITIVE_CLOSURE, Values.ppr(elem.toString()));
             }
-            Value elem1 = tv.elems[0];
-            Value elem2 = tv.elems[1];
+            final Value elem1 = tv.elems[0];
+            final Value elem2 = tv.elems[1];
             int num1 = cnt;
             Integer num = fps.get(elem1);
             if (num == null)
@@ -87,16 +87,16 @@ public class TransitiveClosure implements ValueConstants
             }
         }
 
-        ValueVec newElems = new ValueVec();
+        final ValueVec newElems = new ValueVec();
         for (int i = 0; i < cnt; i++)
         {
             for (int j = 0; j < cnt; j++)
             {
                 if (matrix[i][j])
                 {
-                	Value elem1 = elemList.elementAt(i);
-                	Value elem2 = elemList.elementAt(j);
-                	Value newElem = new TupleValue(elem1, elem2);
+                	final Value elem1 = elemList.elementAt(i);
+                	final Value elem2 = elemList.elementAt(j);
+                	final Value newElem = new TupleValue(elem1, elem2);
                     newElems.addElement(newElem);
                 }
             }

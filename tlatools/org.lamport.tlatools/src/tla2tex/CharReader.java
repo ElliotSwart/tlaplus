@@ -137,7 +137,7 @@ public abstract class CharReader
         * converting a tab to space.  Update column and vcolumn, and       *
         * return the next character.                                       *
         *******************************************************************/
-        char readChar = currentLine.charAt(column) ;
+        final char readChar = currentLine.charAt(column) ;
         column = column + 1;
         vcolumn = vcolumn + 1;
         if (readChar == '\t')

@@ -114,7 +114,7 @@ public class ByteUtilsTest
     {
         int i, j;
         byte[] b;
-        Random r = new Random();
+        final Random r = new Random();
 
         for (j = 0; j < 10000; j += 1)
         {
@@ -128,12 +128,12 @@ public class ByteUtilsTest
 
     private void mainTestWriteIntReadInt() throws IOException, FileNotFoundException
     {
-        FileOutputStream fout = new FileOutputStream(testFileA);
+        final FileOutputStream fout = new FileOutputStream(testFileA);
 
         int i, j;
-        int A[] = new int[10000];
+        final int[] A = new int[10000];
 
-        Random r = new Random();
+        final Random r = new Random();
 
         for (j = 0; j < 10000; j += 1)
         {
@@ -144,7 +144,7 @@ public class ByteUtilsTest
         fout.flush();
         fout.close();
 
-        FileInputStream fin = new FileInputStream(testFileA);
+        final FileInputStream fin = new FileInputStream(testFileA);
 
         for (j = 0; j < 10000; j += 1)
         {
@@ -158,7 +158,7 @@ public class ByteUtilsTest
     {
         long i, j;
         byte[] b;
-        Random r = new Random();
+        final Random r = new Random();
 
         for (j = 0; j < 10000; j += 1)
         {
@@ -172,13 +172,13 @@ public class ByteUtilsTest
 
     private void mainTestWriteLongReadLong() throws IOException, FileNotFoundException
     {
-        FileOutputStream fout = new FileOutputStream(testFileA);
+        final FileOutputStream fout = new FileOutputStream(testFileA);
 
         long i;
         int j;
-        long A[] = new long[10000];
+        final long[] A = new long[10000];
 
-        Random r = new Random();
+        final Random r = new Random();
 
         for (j = 0; j < 10000; j += 1)
         {
@@ -188,7 +188,7 @@ public class ByteUtilsTest
 
         fout.close();
 
-        FileInputStream fin = new FileInputStream(testFileA);
+        final FileInputStream fin = new FileInputStream(testFileA);
 
         for (j = 0; j < 10000; j += 1)
         {
@@ -200,15 +200,15 @@ public class ByteUtilsTest
 
     private void mainTestWriteReadSizeByteArray() throws IOException, FileNotFoundException
     {
-        FileOutputStream fout = new FileOutputStream(testFileA);
+        final FileOutputStream fout = new FileOutputStream(testFileA);
 
         int j;
-        BigInt[] A = new BigInt[ARRAYSIZE];
+        final BigInt[] A = new BigInt[ARRAYSIZE];
         BigInt[] B = new BigInt[ARRAYSIZE];
-        BigInt[] C;
+        final BigInt[] C;
 
         mainInitialize(A, B);
-        int half = (ARRAYSIZE - 1) / 2;
+        final int half = (ARRAYSIZE - 1) / 2;
 
         ByteUtils.writeSizeArrayOfSizeBigInts(A, 0, half - 1, fout);
         ByteUtils.writeSizeArrayOfSizeBigInts(A, half, ARRAYSIZE - 1, fout);
@@ -216,7 +216,7 @@ public class ByteUtilsTest
         fout.flush();
         fout.close();
 
-        FileInputStream fin = new FileInputStream(testFileA);
+        final FileInputStream fin = new FileInputStream(testFileA);
 
         B = ByteUtils.readSizeArrayOfSizeBigInts(fin);
         ByteUtils.readInt(fin);
@@ -240,12 +240,12 @@ public class ByteUtilsTest
         FileOutputStream fout = new FileOutputStream(testFileA);
 
         int j;
-        BigInt[] A = new BigInt[ARRAYSIZE];
+        final BigInt[] A = new BigInt[ARRAYSIZE];
         BigInt[] B = new BigInt[ARRAYSIZE];
-        BigInt[] C;
+        final BigInt[] C;
 
         mainInitialize(A, B);
-        int half = (ARRAYSIZE - 1) / 2;
+        final int half = (ARRAYSIZE - 1) / 2;
 
         ByteUtils.writeSizeArrayOfSizeBigInts(A, 0, half - 1, fout);
         ByteUtils.writeSizeArrayOfSizeBigInts(A, half, ARRAYSIZE - 1, fout);
@@ -261,7 +261,7 @@ public class ByteUtilsTest
             ByteUtils.appendSizeByteArray(fin, fout);
             ByteUtils.appendSizeByteArray(fin, fout);
             ByteUtils.appendSizeByteArray(fin, fout);
-        } catch (IOException e)
+        } catch (final IOException e)
         {
         }
 
@@ -288,9 +288,9 @@ public class ByteUtilsTest
         }
     }
 
-    private void mainInitialize(BigInt[] Arr, BigInt[] Arr2)
+    private void mainInitialize(final BigInt[] Arr, final BigInt[] Arr2)
     {
-        Random r = new Random();
+        final Random r = new Random();
 
         for (int i = 0; i < ARRAYSIZE; i++)
         {

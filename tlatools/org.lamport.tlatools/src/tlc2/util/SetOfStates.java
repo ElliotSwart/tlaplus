@@ -124,7 +124,7 @@ public final class SetOfStates {
 				if (aState.equals(ent)) {
 					return true;
 				}
-			} catch (TLCRuntimeException e) {
+			} catch (final TLCRuntimeException e) {
 				// Attempted to... appears in Value#equals and Value#compareTo.
 				assert e.getMessage() != null && (e.getMessage().startsWith("Attempted to check equality of")
 						|| e.getMessage().startsWith("Attempted to compare equality of"));

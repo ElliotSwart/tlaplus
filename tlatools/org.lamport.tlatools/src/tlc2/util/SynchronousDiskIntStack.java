@@ -49,11 +49,11 @@ public class SynchronousDiskIntStack implements IntStack {
 	
 	private int[] buf;
 
-	public SynchronousDiskIntStack(String diskdir, String name) {
+	public SynchronousDiskIntStack(final String diskdir, final String name) {
 		this(diskdir, name, BufSize);
 	}
 	
-	public SynchronousDiskIntStack(String diskdir, String name, int capacity) {
+	public SynchronousDiskIntStack(final String diskdir, final String name, int capacity) {
 		// Hard-limit capacity to 1gb per page file
 		capacity = Math.min(BufSizeMax, capacity);
 		this.filePrefix = diskdir + FileUtil.separator + name;
@@ -71,7 +71,7 @@ public class SynchronousDiskIntStack implements IntStack {
 	/* (non-Javadoc)
 	 * @see tlc2.util.IntStack#pushInt(int)
 	 */
-	public void pushInt(int x) {
+	public void pushInt(final int x) {
 		if (this.index == bufSize) {
 			// flush to disk
 			try {
@@ -85,7 +85,7 @@ public class SynchronousDiskIntStack implements IntStack {
 				bdos.close();
 				this.hiPool++;
 				this.index = 0;
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				Assert.fail(EC.SYSTEM_ERROR_WRITING_STATES, new String[] { "stack", e.getMessage() });
 			}
 		}
@@ -96,7 +96,7 @@ public class SynchronousDiskIntStack implements IntStack {
 	/* (non-Javadoc)
 	 * @see tlc2.util.IntStack#pushLong(long)
 	 */
-	public void pushLong(long x) {
+	public void pushLong(final long x) {
 		this.pushInt((int) (x & 0xFFFFFFFFL));
 		this.pushInt((int) (x >>> 32));
 	}
@@ -117,7 +117,7 @@ public class SynchronousDiskIntStack implements IntStack {
 				bdis.close();
 				this.hiPool--;
 				this.index = len;
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				Assert.fail(EC.SYSTEM_ERROR_WRITING_STATES, new String[] { "stack", e.getMessage() });
 			}
 		}
@@ -133,8 +133,8 @@ public class SynchronousDiskIntStack implements IntStack {
 	 * @see tlc2.util.IntStack#popLong()
 	 */
 	public long popLong() {
-		long high = this.popInt();
-		long low = this.popInt();
+		final long high = this.popInt();
+		final long low = this.popInt();
 		return (high << 32) | (low & 0xFFFFFFFFL);
 	}
 

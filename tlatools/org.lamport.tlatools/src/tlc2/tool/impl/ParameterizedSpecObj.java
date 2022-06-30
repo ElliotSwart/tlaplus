@@ -67,7 +67,7 @@ public class ParameterizedSpecObj extends SpecObj {
 			
 			@SuppressWarnings("unchecked")
 			final List<PostCondition> pcs = (List<PostCondition>) params.get(POST_CONDITIONS);
-			for (PostCondition pc : pcs) {
+			for (final PostCondition pc : pcs) {
 				rootModule.getRelatives().addExtendee(pc.module);
 			}
 		}
@@ -76,7 +76,7 @@ public class ParameterizedSpecObj extends SpecObj {
 			
 			@SuppressWarnings("unchecked")
 			final List<Invariant> invs = (List<Invariant>) params.get(INVARIANT);
-			for (Invariant inv : invs) {
+			for (final Invariant inv : invs) {
 				rootModule.getRelatives().addExtendee(inv.module);
 			}
 		}
@@ -89,13 +89,13 @@ public class ParameterizedSpecObj extends SpecObj {
 
 		@SuppressWarnings("unchecked")
 		final List<PostCondition> pcs = (List<PostCondition>) params.getOrDefault(POST_CONDITIONS, new ArrayList<>());
-		for (PostCondition pc : pcs) {
+		for (final PostCondition pc : pcs) {
 			
 			final ExternalModuleTable mt = getExternalModuleTable();
 			final ModuleNode moduleNode = mt.getModuleNode(pc.module);
 			final OpDefNode opDef = moduleNode.getOpDef(pc.operator);
 
-			for (Map.Entry<String, String> entry : pc.redefinitions.entrySet()) {
+			for (final Map.Entry<String, String> entry : pc.redefinitions.entrySet()) {
 				final OpDefNode redefined = moduleNode.getOpDef(entry.getKey());
 				redefined.setToolObject(spec.getId(), new StringValue(entry.getValue()));
 			}
@@ -110,11 +110,11 @@ public class ParameterizedSpecObj extends SpecObj {
 		public final String operator;
 		public final Map<String, String> redefinitions;
 
-		public PostCondition(String moduleBangOp) {
+		public PostCondition(final String moduleBangOp) {
 			this(moduleBangOp.split("!")[0], moduleBangOp.split("!")[1]);
 		}
 		
-		public PostCondition(String module, String operator) {
+		public PostCondition(final String module, final String operator) {
 			this(module, operator, new HashMap<>());
 		}
 		
@@ -123,7 +123,7 @@ public class ParameterizedSpecObj extends SpecObj {
 			this.redefinitions.put(def, redef);
 		}
 
-		public PostCondition(String module, String operator, Map<String, String> redefinitions) {
+		public PostCondition(final String module, final String operator, final Map<String, String> redefinitions) {
 			super();
 			this.module = module;
 			this.operator = operator;
@@ -135,7 +135,7 @@ public class ParameterizedSpecObj extends SpecObj {
 		public final String module;
 		public final String operator;
 		
-		public Invariant(String module, String operator) {
+		public Invariant(final String module, final String operator) {
 			super();
 			this.module = module;
 			this.operator = operator;
@@ -148,7 +148,7 @@ public class ParameterizedSpecObj extends SpecObj {
 
 		@SuppressWarnings("unchecked")
 		final List<Invariant> invs = (List<Invariant>) params.getOrDefault(INVARIANT, new ArrayList<>());
-		for (Invariant inv : invs) {
+		for (final Invariant inv : invs) {
 			
 			final ExternalModuleTable mt = getExternalModuleTable();
 			final ModuleNode moduleNode = mt.getModuleNode(inv.module);

@@ -13,7 +13,7 @@ import java.io.File;
  */
 public class CurrentDir
 {
-    public static void main(String args[])
+    public static void main(final String[] args)
     {
         for (int i = 0; i < args.length; i++)
         {
@@ -21,8 +21,8 @@ public class CurrentDir
         }
         ;
 
-        File dir1 = new File(".");
-        File dir2 = new File("..");
+        final File dir1 = new File(".");
+        final File dir2 = new File("..");
         try
         {
             System.out.println("Current dir : " + dir1.getCanonicalPath());
@@ -64,7 +64,7 @@ public class CurrentDir
             System.out.println("user.dir : " + System.getProperty("user.dir"));
             System.out.println("Current dir : " + dir1.getCanonicalPath());
 
-        } catch (Exception e)
+        } catch (final Exception e)
         {
             e.printStackTrace();
         }

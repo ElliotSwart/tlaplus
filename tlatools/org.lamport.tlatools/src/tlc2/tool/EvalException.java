@@ -24,19 +24,19 @@ public class EvalException extends StatefulRuntimeException
 	private final int errorCode;
     private final String[] parameters;
 
-	public EvalException(int errorCode, String[] parameters)
+	public EvalException(final int errorCode, final String[] parameters)
     {
         super(MP.getMessage(errorCode, parameters));
 		this.errorCode = errorCode;
 		this.parameters = parameters;
     }
 
-    public EvalException(int errorCode, String parameter)
+    public EvalException(final int errorCode, final String parameter)
     {
     	this(errorCode, new String[] {parameter});
     }
 
-    public EvalException(int errorCode)
+    public EvalException(final int errorCode)
     {
         super(MP.getMessage(errorCode));
 		this.errorCode = errorCode;

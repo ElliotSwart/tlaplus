@@ -160,18 +160,18 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 	 * @param fp
 	 * @return
 	 */
-	protected int getIndex(long fp) {
+	protected int getIndex(final long fp) {
 		return (int) index(fp, this.mask);
 		
 	}	
 	
-	protected int getLockIndex(long fp) {
+	protected int getLockIndex(final long fp) {
 		// In case of overflow, a NegativeArrayOffset will be thrown
 		// subsequently.
 		return (int) index(fp, this.lockMask);
 	}
 	
-	protected long index(long fp, long aMask) {
+	protected long index(final long fp, final long aMask) {
 		return fp & aMask;
 	}
 
@@ -183,7 +183,7 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 	public final boolean contains(long fp) throws IOException {
 		fp = checkValid(fp);
 		// zeros the msb
-		long fp0 = fp & 0x7FFFFFFFFFFFFFFFL;
+		final long fp0 = fp & 0x7FFFFFFFFFFFFFFFL;
 		final Lock readLock = this.rwLock.getAt(getLockIndex(fp0)).readLock();
 		readLock.lock();
 		// First, look in in-memory buffer
@@ -195,7 +195,7 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 
 		// block if disk is being re-written
 		// next, look on disk
-		boolean diskHit = this.diskLookup(fp0);
+		final boolean diskHit = this.diskLookup(fp0);
 		// increment while still locked
 		if(diskHit) {
 			diskHitCnt.increment();
@@ -209,12 +209,12 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#memLookup(long)
 	 */
-	boolean memLookup(long fp) {
-		long[] bucket = this.tbl[getIndex(fp)];
+	boolean memLookup(final long fp) {
+		final long[] bucket = this.tbl[getIndex(fp)];
 		if (bucket == null)
 			return false;
 
-		int bucketLen = bucket.length;
+		final int bucketLen = bucket.length;
 		// Linearly search the bucket; 0L is an invalid fp and marks the end of
 		// the allocated bucket
 		for (int i = 0; i < bucketLen && bucket[i] != 0L; i++) {
@@ -251,7 +251,7 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 	public final boolean put(long fp) throws IOException {
 		fp = checkValid(fp);
 		// zeros the msb
-		long fp0 = fp & 0x7FFFFFFFFFFFFFFFL;
+		final long fp0 = fp & 0x7FFFFFFFFFFFFFFFL;
 		
 		final Lock readLock = rwLock.getAt(getLockIndex(fp0)).readLock();
 		readLock.lock();
@@ -268,7 +268,7 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 		// => prevent deadlock by acquiring threads in same order? 
 		
 		// next, look on disk
-		boolean diskHit = this.diskLookup(fp0);
+		final boolean diskHit = this.diskLookup(fp0);
 		
 		// In event of disk hit, return
 		if (diskHit) {
@@ -316,7 +316,7 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 			// finish writing
 			this.flusherChosen.set(false);
 
-			long l = System.currentTimeMillis() - timestamp;
+			final long l = System.currentTimeMillis() - timestamp;
 			flushTime += l;
 			
 			LOGGER.log(Level.FINE, "Flushed disk {0} {1}. time, in {2} sec after {3} insertions.", new Object[] {
@@ -329,8 +329,8 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.DiskFPSet#memInsert(long)
 	 */
-	boolean memInsert(long fp) {
-		int index = getIndex(fp);
+	boolean memInsert(final long fp) {
+		final int index = getIndex(fp);
 		
 		// try finding an existing bucket 
 		long[] bucket = this.tbl[index];
@@ -344,13 +344,13 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 			this.tblLoad.increment();
 		} else {
 			// search for entry in existing bucket
-			int bucketLen = bucket.length;
+			final int bucketLen = bucket.length;
 			int i = -1;
 			int j = 0;
 			for (; j < bucketLen && bucket[j] != 0L; j++) {
-				long fp1 = bucket[j];
+				final long fp1 = bucket[j];
 				// zero the long msb
-				long l = fp1 & 0x7FFFFFFFFFFFFFFFL;
+				final long l = fp1 & 0x7FFFFFFFFFFFFFFFL;
 				if (fp == l) {
 					// found in existing bucket
 					return true;
@@ -364,7 +364,7 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 			if (i == -1) {
 				if (j == bucketLen) {
 					// bucket is full; grow the bucket by BucketSizeIncrement
-					long[] oldBucket = bucket;
+					final long[] oldBucket = bucket;
 					bucket = new long[bucketLen + BucketSizeIncrement];
 					System.arraycopy(oldBucket, 0, bucket, 0, bucketLen);
 					this.tbl[index] = bucket;

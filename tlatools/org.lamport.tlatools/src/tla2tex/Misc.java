@@ -49,18 +49,18 @@
 package tla2tex;
 
 public final class Misc
-{  public static float stringToFloat(String str)
+{  public static float stringToFloat(final String str)
      /**********************************************************************
      * Converts a string such as "123.456", ".123", "123.", or "123" to a  *
      * float.  (Lord knows why the standard Java libraries don't provide   *
      * such a method.)                                                     *
      **********************************************************************/
-     { int pointPos = str.indexOf(".");
+     { final int pointPos = str.indexOf(".");
        if (pointPos == -1)
          { Debug.Assert(str.length() > 0, 
                   "stringToFloat called with empty string");
            if (str.length() > 18)
-              { String substr = str.substring(0,18) ;
+              { final String substr = str.substring(0,18) ;
                 float multiplier = 1;
                 float exponent = str.length() - 18;
                 while (exponent > 0)
@@ -86,13 +86,13 @@ public final class Misc
       return ((float) Long.parseLong(strMinusPoint)) / divisor ;
      } ;
 
-  public static String floatToString(float f, int d)
+  public static String floatToString(final float f, final int d)
     /***********************************************************************
     * Converts the float f to a string of the form "xxx.yyyyy", where the  *
     * number of digits in yyyyy is at most d.                              *
     ***********************************************************************/
     { String fStr = "" + f;
-      int ePos = fStr.indexOf("E");
+      final int ePos = fStr.indexOf("E");
       int shiftRight = 0 ;
       int ptPos;
       float tenToTheMinusD = 1;
@@ -126,7 +126,7 @@ public final class Misc
       return fStr ;      
     }
 
-  public static void WriteIfNonNull(OutputFileWriter writer, String str)
+  public static void WriteIfNonNull(final OutputFileWriter writer, final String str)
     /***********************************************************************
     * If str is non-empty, write it to writer, breaking long lines.        *
     ***********************************************************************/
@@ -136,7 +136,7 @@ public final class Misc
 
 
 
-  public static void BreakStringOut(OutputFileWriter output, String str)
+  public static void BreakStringOut(final OutputFileWriter output, final String str)
   /*************************************************************************
   * Writes str to output, trying to limit the length of output lines by    *
   * breaking the string at spaces into separate lines.                     *
@@ -168,7 +168,7 @@ public final class Misc
           * to be output and restOfString to the rest.                     *
           *****************************************************************/
           cut = true ;
-          String outputLine = 
+          final String outputLine =
               EliminateLeadingBlanks(restOfString.substring(0, lastSpace)) ;
           restOfString = restOfString.substring(lastSpace);
           if (! outputLine.equals(""))
@@ -186,7 +186,7 @@ public final class Misc
      };
   }  
 
-  public static String EliminateLeadingBlanks(String str)
+  public static String EliminateLeadingBlanks(final String str)
     /***********************************************************************
     * Equals str with leading blanks removed.                              *
     ***********************************************************************/
@@ -197,7 +197,7 @@ public final class Misc
       return str.substring(firstNonBlank) ;
     }
     
-  public static String TeXify(String str)
+  public static String TeXify(final String str)
     /***********************************************************************
     * Result is str with each of TeX's special characters replaced by the  *
     * command to produce it.                                               *
@@ -253,7 +253,7 @@ public final class Misc
       return result ;
     }    
 
-  public static String TeXifyIdent(String str)
+  public static String TeXifyIdent(final String str)
     /***********************************************************************
     * Result is str with each occurrence of "_" replaced by a \\_ command. *
     ***********************************************************************/
@@ -286,13 +286,13 @@ public final class Misc
    * @param str
    * @return
    */
-  public static String TeXifyPcalLabel(String str) {
+  public static String TeXifyPcalLabel(final String str) {
       String out = "";
       int next = 0 ;
       while (    (next < str.length())
               && (   IsLetter(str.charAt(next))) 
                   || IsDigit(str.charAt(next))) {
-          char nextChar = str.charAt(next) ;
+          final char nextChar = str.charAt(next) ;
           next++ ;
           if (nextChar == '_') {
               out = out + "\\" ;
@@ -312,7 +312,7 @@ public final class Misc
       }
       out = out + "\\textrm{" ;
       while (next < str.length()) {
-          char nextChar = str.charAt(next) ;
+          final char nextChar = str.charAt(next) ;
           next++ ;
           if (! IsSpace(nextChar)) {
               out = out + nextChar ;
@@ -327,7 +327,7 @@ public final class Misc
     * The maximum output line length for the BreakLine method.             *
     ***********************************************************************/
     
-  public static String BreakLine(String str)
+  public static String BreakLine(final String str)
   /*************************************************************************
   * Used for printing output with reasonable line breaks.  The argument    *
   * str is a string with '\t' characters.  The method returns str with     *
@@ -355,7 +355,7 @@ public final class Misc
     return newStr ;
    } ;
 
-    public static boolean IsLetter(char c) 
+    public static boolean IsLetter(final char c)
       /*********************************************************************
       * True iff c is a letter or '_'.                                     *
       *********************************************************************/
@@ -364,7 +364,7 @@ public final class Misc
                  || ( c == '_' ) ;} ;
 
                  
-    public static boolean hasLetter(String str) {
+    public static boolean hasLetter(final String str) {
        boolean notFound = true ;
        int i = 0 ;
        while (notFound && (i < str.length())) {
@@ -376,13 +376,13 @@ public final class Misc
        return ! notFound ;
     }
     
-    public static boolean IsDigit(char c) 
+    public static boolean IsDigit(final char c)
       /*********************************************************************
       * True iff c is a digit.                                             *
       *********************************************************************/
       { return ('0' <= c ) && (c <= '9'); } ;
 
-    public static boolean IsSpace(char c) 
+    public static boolean IsSpace(final char c)
       /*********************************************************************
       * True iff c is a space character--that is, one of the following:    *
       * \f, \r, or ' '.  A \n is not considered a space character.         *
@@ -390,14 +390,14 @@ public final class Misc
       { return  (c == ' ')  | (c == '\f') | (c == '\r') ; } ;
 
 
-  public static boolean isBlank(String str) 
+  public static boolean isBlank(final String str)
     /***********************************************************************
     * True iff str has nothing but space characters.                       *
     ***********************************************************************/
    { return str.trim().equals("") ;
    }
 
-  public static boolean IsLowerCase(String str)
+  public static boolean IsLowerCase(final String str)
     /***********************************************************************
     * True iff str consists entirely of lower-case letters.                *
     ***********************************************************************/
@@ -405,7 +405,7 @@ public final class Misc
       boolean result = true ;
       while (   (i < str.length())
              && result)
-       { char c = str.charAt(i);
+       { final char c = str.charAt(i);
          if (('a' >  c ) || ( c > 'z'))
            { result = false ; };
          i = i+1;
@@ -413,7 +413,7 @@ public final class Misc
       return result;
     }
 
-  public static boolean IsUpperCase(String str)
+  public static boolean IsUpperCase(final String str)
     /***********************************************************************
     * True iff str consists entirely of upper-case letters.                *
     ***********************************************************************/
@@ -421,7 +421,7 @@ public final class Misc
       boolean result = true ;
       while (   (i < str.length())
              && result)
-       { char c = str.charAt(i);
+       { final char c = str.charAt(i);
          if (('A' >  c ) || ( c > 'Z'))
            { result = false ; };
          i = i+1;
@@ -429,13 +429,13 @@ public final class Misc
       return result;
     }
 
-  public static boolean IsCapitalized(String str)
+  public static boolean IsCapitalized(final String str)
     /***********************************************************************
     * True iff str consists of an upper-case letter followed by a          *
     * possibly null string of lower-case letters.                          *
     ***********************************************************************/
     { if (str.length() > 0)
-       { char c = str.charAt(0);
+       { final char c = str.charAt(0);
          return  ('A' <= c ) && (c <= 'Z') && IsLowerCase(str.substring(1));
        } ;
       return false;

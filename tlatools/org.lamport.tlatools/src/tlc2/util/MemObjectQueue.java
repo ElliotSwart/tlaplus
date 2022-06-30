@@ -28,31 +28,31 @@ public final class MemObjectQueue {
   private int start = 0;
   private String diskdir;
     
-  public MemObjectQueue(String metadir) {
+  public MemObjectQueue(final String metadir) {
     this.states = new Object[InitialSize];
     this.start = 0;
     this.diskdir = metadir;
   }
     
-  public final void enqueue(Object state) {
+  public final void enqueue(final Object state) {
     if (this.len == this.states.length) {
       // grow the array
-      int newLen = Math.max(1, this.len * GrowthFactor);
-      Object[] newStates = new Object[newLen];
-      int copyLen = this.states.length - this.start;
+      final int newLen = Math.max(1, this.len * GrowthFactor);
+      final Object[] newStates = new Object[newLen];
+      final int copyLen = this.states.length - this.start;
       System.arraycopy(this.states, this.start, newStates, 0, copyLen);
       System.arraycopy(this.states, 0, newStates, copyLen, this.start);
       this.states = newStates;
       this.start = 0;
     }
-    int last = (this.start + this.len) % this.states.length;
+    final int last = (this.start + this.len) % this.states.length;
     this.states[last] = state;
     this.len++;
   }
     
   public final Object dequeue() {
     if (this.len == 0) return null;
-    Object res = this.states[this.start];
+    final Object res = this.states[this.start];
     this.states[this.start] = null;
     this.start = (this.start + 1) % this.states.length;
     this.len--;
@@ -61,8 +61,8 @@ public final class MemObjectQueue {
 
   // Checkpoint.
   public final void beginChkpt() throws IOException {
-    String filename = this.diskdir + FileUtil.separator + "queue.tmp";
-    ObjectOutputStream oos = FileUtil.newOBFOS(filename);
+    final String filename = this.diskdir + FileUtil.separator + "queue.tmp";
+    final ObjectOutputStream oos = FileUtil.newOBFOS(filename);
     oos.writeInt(this.len);
     int index = this.start;
     for (int i = 0; i < this.len; i++) {
@@ -73,10 +73,10 @@ public final class MemObjectQueue {
   }
 
   public final void commitChkpt() throws IOException {
-    String oldName = this.diskdir + FileUtil.separator + "queue.chkpt";
-    File oldChkpt = new File(oldName);
-    String newName = this.diskdir + FileUtil.separator + "queue.tmp";
-    File newChkpt = new File(newName);
+    final String oldName = this.diskdir + FileUtil.separator + "queue.chkpt";
+    final File oldChkpt = new File(oldName);
+    final String newName = this.diskdir + FileUtil.separator + "queue.tmp";
+    final File newChkpt = new File(newName);
     if ((oldChkpt.exists() && !oldChkpt.delete()) ||
 	!newChkpt.renameTo(oldChkpt)) {
       throw new IOException("MemStateQueue.commitChkpt: cannot delete " + oldChkpt);
@@ -84,15 +84,15 @@ public final class MemObjectQueue {
   }
   
   public final void recover() throws IOException {
-    String filename = this.diskdir + FileUtil.separator + "queue.chkpt";
-    ObjectInputStream ois = FileUtil.newOBFIS(filename);
+    final String filename = this.diskdir + FileUtil.separator + "queue.chkpt";
+    final ObjectInputStream ois = FileUtil.newOBFIS(filename);
     this.len = ois.readInt();
     try {
       for (int i = 0; i < this.len; i++) {
 	this.states[i] = ois.readObject();
       }
     }
-    catch (ClassNotFoundException e) {
+    catch (final ClassNotFoundException e) {
         ois.close();
         Assert.fail(EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT, e.getMessage());
     } finally 

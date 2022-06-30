@@ -88,7 +88,7 @@ public abstract class StateQueue implements IStateQueue {
 	public final synchronized void sEnqueue(final StateVec stateVec) {
 		int cnt = 0;
 		for (int j = 0; j < stateVec.size(); j++) {
-			TLCState state = stateVec.elementAt(j);
+			final TLCState state = stateVec.elementAt(j);
 			if (state != null) {
 				this.enqueueInner(state);
 				cnt++;
@@ -190,7 +190,7 @@ public abstract class StateQueue implements IStateQueue {
 			}
 			try {
 				this.wait();
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				MP.printError(EC.GENERAL, "making a worker wait for a state from the queue", e);  // LL changed call 7 April 2012
 				System.exit(1);
 			}
@@ -271,7 +271,7 @@ public abstract class StateQueue implements IStateQueue {
 					// is going to wake us up by calling isAvail() or
 					// this.mu.notify*()
 					this.mu.wait();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					MP.printError(EC.GENERAL, "waiting for a worker to wake up", e);  // LL changed call 7 April 2012
 					System.exit(1);
 				}

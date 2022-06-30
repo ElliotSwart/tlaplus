@@ -50,7 +50,7 @@ public abstract class MVPerms {
       for (int i = 0; i < gsz; i++) {
 	final IMVPerm perm1 = permVec.elementAt(i);
 	for (int j = sz0; j < sz1; j++) {
-		IMVPerm perm = perm1.compose(permVec.elementAt(j));
+		final IMVPerm perm = perm1.compose(permVec.elementAt(j));
 	  if (perm.size() > 0 && perms.put(perm) == null) {
 	    permVec.addElement(perm);
 	  }

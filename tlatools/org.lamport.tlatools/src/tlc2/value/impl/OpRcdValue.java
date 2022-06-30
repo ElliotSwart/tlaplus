@@ -27,7 +27,7 @@ public class OpRcdValue extends OpValue implements Applicable {
     this.values = new Vect<Value>();
   }
 
-  public OpRcdValue(Vect<Value[]> domain, Vect<Value> values) {
+  public OpRcdValue(final Vect<Value[]> domain, final Vect<Value> values) {
     this.domain = domain;
     this.values = values;
   }
@@ -36,38 +36,38 @@ public class OpRcdValue extends OpValue implements Applicable {
   public final byte getKind() { return OPRCDVALUE; }
 
   @Override
-  public final int compareTo(Object obj) {
+  public final int compareTo(final Object obj) {
     try {
       Assert.fail("Attempted to compare operator " + Values.ppr(this.toString()) +
       " with value:\n" + Values.ppr(obj.toString()), getSource());
       return 0;         // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     try {
       Assert.fail("Attempted to check equality of operator " + Values.ppr(this.toString()) +
       " with value:\n" + Values.ppr(obj.toString()), getSource());
       return false;     // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean member(Value elem) {
+  public final boolean member(final Value elem) {
     try {
       Assert.fail("Attempted to check if the value:\n" + Values.ppr(elem.toString()) +
       "\nis an element of operator " + Values.ppr(this.toString()), getSource());
       return false;     // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -80,45 +80,45 @@ public class OpRcdValue extends OpValue implements Applicable {
       " is a finite set.", getSource());
       return false;     // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final void addLine(Vect<Value> vs) {
+  public final void addLine(final Vect<Value> vs) {
     try {
-      int len = vs.size();
-      Value[] args = new Value[len-2];
+      final int len = vs.size();
+      final Value[] args = new Value[len-2];
       for (int i = 0; i < len-2; i++) {
         args[i] = vs.elementAt(i+1);
       }
       this.domain.addElement(args);
       this.values.addElement(vs.elementAt(len-1));
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value apply(Value arg, int control) {
+  public final Value apply(final Value arg, final int control) {
     try {
       throw new WrongInvocationException("Should use the other apply method.");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value apply(Value[] args, int control) {
+  public final Value apply(final Value[] args, final int control) {
     try {
-      int sz = this.domain.size();
+      final int sz = this.domain.size();
       for (int i = 0; i < sz; i++) {
-        Value[] vals = this.domain.elementAt(i);
+        final Value[] vals = this.domain.elementAt(i);
         if (args.length != vals.length) {
           Assert.fail("Attempted to apply the operator " + Values.ppr(this.toString()) +
           "\nwith wrong number of arguments.", getSource());
@@ -142,45 +142,45 @@ public class OpRcdValue extends OpValue implements Applicable {
       Assert.fail(msg +  "), which is undefined.", getSource());
       return null;     // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value select(Value arg) {
+  public final Value select(final Value arg) {
     try {
       Assert.fail("Attempted to call OpRcdValue.select(). This is a TLC bug.", getSource());
       return null;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
       Assert.fail("Attempted to appy EXCEPT construct to the operator " +
       Values.ppr(this.toString()) + ".", getSource());
       return null;     // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       Assert.fail("Attempted to apply EXCEPT construct to the operator " +
       Values.ppr(this.toString()) + ".", getSource());
       return null;     // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -193,7 +193,7 @@ public class OpRcdValue extends OpValue implements Applicable {
       Values.ppr(this.toString()) + ".", getSource());
       return SetEnumValue.EmptySet;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -206,7 +206,7 @@ public class OpRcdValue extends OpValue implements Applicable {
       Values.ppr(this.toString()) + ".", getSource());
       return 0;         // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -218,7 +218,7 @@ public class OpRcdValue extends OpValue implements Applicable {
     try {
       throw new WrongInvocationException("Should not normalize an operator.");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -229,7 +229,7 @@ public class OpRcdValue extends OpValue implements Applicable {
     try {
       throw new WrongInvocationException("Should not normalize an operator.");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -244,7 +244,7 @@ public class OpRcdValue extends OpValue implements Applicable {
       }
       return defined;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -254,11 +254,11 @@ public class OpRcdValue extends OpValue implements Applicable {
   public final IValue deepCopy() { return this; }
 
   @Override
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       throw new WrongInvocationException("Should not initialize an operator.");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -266,12 +266,12 @@ public class OpRcdValue extends OpValue implements Applicable {
 
   /* Pretty-printing  */
   @Override
-  public final StringBuffer toString(StringBuffer sb, int offset, boolean swallow) {
+  public final StringBuffer toString(StringBuffer sb, final int offset, final boolean swallow) {
     try {
       sb.append("{ ");
       if (this.values.size() != 0) {
         sb.append("<");
-        Value[] args = this.domain.elementAt(0);
+        final Value[] args = this.domain.elementAt(0);
         for (int j = 0; j < args.length; j++) {
           sb = args[j].toString(sb, offset, swallow);
           sb.append(", ");
@@ -281,7 +281,7 @@ public class OpRcdValue extends OpValue implements Applicable {
       }
       for (int i = 1; i < this.values.size(); i++) {
         sb.append(", <");
-        Value[] args = this.domain.elementAt(i);
+        final Value[] args = this.domain.elementAt(i);
         for (int j = 0; j < args.length; j++) {
           sb = args[j].toString(sb, offset, swallow);
           sb.append(", ");
@@ -291,7 +291,7 @@ public class OpRcdValue extends OpValue implements Applicable {
       }
       return sb.append("}");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }

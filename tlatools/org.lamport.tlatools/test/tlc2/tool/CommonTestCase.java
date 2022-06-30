@@ -121,11 +121,11 @@ public abstract class CommonTestCase {
 	 * @param stateNum
 	 *            The number of the stuttering state
 	 */
-	protected void assertStuttering(int stateNum) {
+	protected void assertStuttering(final int stateNum) {
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT3));
-		List<Object> stutter = recorder.getRecords(EC.TLC_STATE_PRINT3);
+		final List<Object> stutter = recorder.getRecords(EC.TLC_STATE_PRINT3);
 		assertTrue(stutter.size() > 0);
-		Object[] object = (Object[]) stutter.get(0);
+		final Object[] object = (Object[]) stutter.get(0);
 		assertEquals(stateNum, object[1]);
 	}
 
@@ -144,11 +144,11 @@ public abstract class CommonTestCase {
 	 * 
 	 * @param i The loop back state number.
 	 */
-	protected void assertBackToState(int stateNum) {
+	protected void assertBackToState(final int stateNum) {
 		assertTrue(recorder.recorded(EC.TLC_BACK_TO_STATE));
-		List<Object> loop = recorder.getRecords(EC.TLC_BACK_TO_STATE);
+		final List<Object> loop = recorder.getRecords(EC.TLC_BACK_TO_STATE);
 		assertTrue(loop.size() > 0);
-		Object[] object = (Object[]) loop.get(0);
+		final Object[] object = (Object[]) loop.get(0);
 		assertEquals(Integer.toString(stateNum), object[0]);
 	}
 
@@ -159,11 +159,11 @@ public abstract class CommonTestCase {
 	 * @param i The loop back state number.
 	 * @param action The action label associated with the loop back marker
 	 */
-	protected void assertBackToState(int stateNum, final String action) {
+	protected void assertBackToState(final int stateNum, final String action) {
 		assertTrue(recorder.recorded(EC.TLC_BACK_TO_STATE));
-		List<Object> loop = recorder.getRecords(EC.TLC_BACK_TO_STATE);
+		final List<Object> loop = recorder.getRecords(EC.TLC_BACK_TO_STATE);
 		assertTrue(loop.size() > 0);
-		Object[] object = (Object[]) loop.get(0);
+		final Object[] object = (Object[]) loop.get(0);
 		assertTrue(object.length > 1);
 		assertEquals(Integer.toString(stateNum), object[0]);
 		assertEquals(action, object[1]);

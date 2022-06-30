@@ -24,7 +24,7 @@ public class PCalLocation implements Serializable {
 	
 	private int column;
 	
-	public PCalLocation(int line, int column) {
+	public PCalLocation(final int line, final int column) {
 		this.line = line;
 		this.column = column;
 	}
@@ -33,7 +33,7 @@ public class PCalLocation implements Serializable {
 		return line;
 	}
 	
-	public void adjustLineBy(int l) {
+	public void adjustLineBy(final int l) {
 		line -= l;
 	}
 
@@ -66,14 +66,14 @@ public class PCalLocation implements Serializable {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PCalLocation other = (PCalLocation) obj;
+		final PCalLocation other = (PCalLocation) obj;
 		if (column != other.column)
 			return false;
 		if (line != other.line)

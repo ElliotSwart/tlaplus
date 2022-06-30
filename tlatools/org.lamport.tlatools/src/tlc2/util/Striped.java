@@ -12,14 +12,14 @@ public final class Striped {
 
 	private final ReadWriteLock[] locks;
 
-	public Striped(int lockCnt) {
+	public Striped(final int lockCnt) {
 		this.locks = new ReadWriteLock[lockCnt];
 		for (int i = 0; i < locks.length; i++) {
 			locks[i] = new ReentrantReadWriteLock();
 		}
 	}
 
-	public final ReadWriteLock getAt(int lockIndex) {
+	public final ReadWriteLock getAt(final int lockIndex) {
 		return this.locks[lockIndex];
 	}
 

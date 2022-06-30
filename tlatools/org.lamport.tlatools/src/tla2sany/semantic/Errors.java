@@ -45,15 +45,15 @@ public class Errors {
   public String[] getErrors()   { return StringVectortoStringArray(errors) ; }
   public String[] getWarnings() { return StringVectortoStringArray(warnings) ; }
 
-  private String[] StringVectortoStringArray(Vector<String> vec) {
-    String[] retVal = new String[vec.size()] ;
+  private String[] StringVectortoStringArray(final Vector<String> vec) {
+    final String[] retVal = new String[vec.size()] ;
     for (int i = 0 ; i < retVal.length; i++) {
       retVal[i] = vec.elementAt(i) ;
      } ;
     return retVal;
    }
 
-  public final void addWarning( Location loc, String str ) { 
+  public final void addWarning(Location loc, final String str ) {
     if (loc == null) loc = Location.nullLoc;
 
     int i;
@@ -68,7 +68,7 @@ public class Errors {
   }
 
 
-  public final void addError(Location loc, String str) {
+  public final void addError(Location loc, final String str) {
     if (loc == null) loc = Location.nullLoc;
 
     int i;
@@ -92,8 +92,8 @@ public class Errors {
    * @param abort throw an abort exception iff true 
    * @throws AbortException
    */
-  public final void addAbort(Location loc, String str, boolean abort) throws AbortException {
-    String errMsg = loc.toString() + "\n\n" + str;
+  public final void addAbort(final Location loc, final String str, final boolean abort) throws AbortException {
+    final String errMsg = loc.toString() + "\n\n" + str;
     int i;
     for (i = aborts.size()-1; i >= 0; i--) {
       if (errMsg.equals(aborts.elementAt(i))) break;
@@ -110,17 +110,17 @@ public class Errors {
     }
   }
 
-  public final void addAbort(Location loc, String str ) throws AbortException {
+  public final void addAbort(final Location loc, final String str ) throws AbortException {
     addAbort(loc, str, true);
   }
 
 
-  public final void addAbort(String str, boolean abort) throws AbortException {
+  public final void addAbort(final String str, final boolean abort) throws AbortException {
     addAbort(Location.nullLoc, str, abort);
   }
 
 
-  public final void addAbort(String str) throws AbortException {
+  public final void addAbort(final String str) throws AbortException {
     addAbort(Location.nullLoc, str, true);
   }
 
@@ -135,7 +135,7 @@ public class Errors {
   public final int     getNumMessages()        { return numAborts + numErrors + numWarnings; }
 
   public final String  toString()  { 
-    StringBuffer ret = new StringBuffer("");
+    final StringBuffer ret = new StringBuffer("");
 
     ret.append((numAborts > 0) ? "*** Abort messages: " + numAborts + "\n\n" : "");
     for (int i = 0; i < aborts.size(); i++)   {

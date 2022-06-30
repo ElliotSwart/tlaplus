@@ -49,19 +49,19 @@ public class LiveCheck implements ILiveCheck {
 	private final IBucketStatistics outDegreeGraphStats;
 	private final ILiveChecker[] checker;
 	
-	public LiveCheck(ITool tool, String mdir, IBucketStatistics bucketStatistics) throws IOException {
+	public LiveCheck(final ITool tool, final String mdir, final IBucketStatistics bucketStatistics) throws IOException {
 		this(tool, Liveness.processLiveness(tool), mdir, bucketStatistics, new NoopStateWriter());
 	}
 	
-	public LiveCheck(ITool tool, String mdir, IBucketStatistics bucketStatistics, IStateWriter stateWriter) throws IOException {
+	public LiveCheck(final ITool tool, final String mdir, final IBucketStatistics bucketStatistics, final IStateWriter stateWriter) throws IOException {
 		this(tool, Liveness.processLiveness(tool), mdir, bucketStatistics, stateWriter);
 	}
 	
-	public LiveCheck(ITool tool, OrderOfSolution[] solutions, String mdir, IBucketStatistics bucketStatistics) throws IOException {
+	public LiveCheck(final ITool tool, final OrderOfSolution[] solutions, final String mdir, final IBucketStatistics bucketStatistics) throws IOException {
 		this(tool, solutions, mdir, bucketStatistics, new NoopLivenessStateWriter());
 	}
 
-	public LiveCheck(ITool tool, OrderOfSolution[] solutions, String mdir, IBucketStatistics bucketStatistics, IStateWriter stateWriter) throws IOException {
+	public LiveCheck(final ITool tool, final OrderOfSolution[] solutions, final String mdir, final IBucketStatistics bucketStatistics, final IStateWriter stateWriter) throws IOException {
 		metadir = mdir;
 		outDegreeGraphStats = bucketStatistics;
 		checker = new ILiveChecker[solutions.length];
@@ -80,7 +80,7 @@ public class LiveCheck implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#addInitState(tlc2.tool.TLCState, long)
 	 */
-	public void addInitState(ITool tool, TLCState state, long stateFP) {
+	public void addInitState(final ITool tool, final TLCState state, final long stateFP) {
 		for (int i = 0; i < checker.length; i++) {
 			checker[i].addInitState(tool, state, stateFP);
 		}
@@ -89,7 +89,7 @@ public class LiveCheck implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#addNextState(tlc2.tool.TLCState, long, tlc2.util.SetOfStates)
 	 */
-	public void addNextState(ITool tool, TLCState s0, long fp0, SetOfStates nextStates) throws IOException {
+	public void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) throws IOException {
 		for (int i = 0; i < checker.length; i++) {
 			final ILiveChecker check = checker[i];
 			final OrderOfSolution oos = check.getSolution();
@@ -165,7 +165,7 @@ public class LiveCheck implements ILiveCheck {
 	}
 	
 	@Override
-	public int check(ITool tool, boolean forceCheck) throws Exception {
+	public int check(final ITool tool, final boolean forceCheck) throws Exception {
 		if (forceCheck) {
 			return check0(tool, false);
 		}
@@ -188,7 +188,7 @@ public class LiveCheck implements ILiveCheck {
 	}
 	
 	@Override
-	public int finalCheck(ITool tool) throws InterruptedException, IOException {
+	public int finalCheck(final ITool tool) throws InterruptedException, IOException {
 		// Do *not* re-create the nodePtrTable after the check which takes a
 		// while for larger disk graphs.
 		return check0(tool, true);
@@ -296,7 +296,7 @@ public class LiveCheck implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#checkTrace(tlc2.tool.StateVec)
 	 */
-	public void checkTrace(ITool tool, final Supplier<StateVec> traceSupplier) throws InterruptedException, IOException {
+	public void checkTrace(final ITool tool, final Supplier<StateVec> traceSupplier) throws InterruptedException, IOException {
 		final StateVec stateTrace = traceSupplier.get();
 		// Add the first state to the LiveCheck as the current init state
 		addInitState(tool, stateTrace.elementAt(0), stateTrace.elementAt(0).fingerPrint());
@@ -442,7 +442,7 @@ public class LiveCheck implements ILiveCheck {
 		
 		protected final OrderOfSolution oos;
 
-		public AbstractLiveChecker(OrderOfSolution oos, ILivenessStateWriter writer) {
+		public AbstractLiveChecker(final OrderOfSolution oos, final ILivenessStateWriter writer) {
 			this.oos = oos;
 			this.writer = writer;
 		}
@@ -469,7 +469,7 @@ public class LiveCheck implements ILiveCheck {
 
 		private final DiskGraph dgraph;
 
-		public LiveChecker(OrderOfSolution oos, int soln, IBucketStatistics bucketStatistics, ILivenessStateWriter writer)
+		public LiveChecker(final OrderOfSolution oos, final int soln, final IBucketStatistics bucketStatistics, final ILivenessStateWriter writer)
 			throws IOException {
 			super(oos, writer);
 			this.dgraph = new DiskGraph(metadir, soln, bucketStatistics);
@@ -478,7 +478,7 @@ public class LiveCheck implements ILiveCheck {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.liveness.LiveCheck.ILiveChecker#addInitState(tlc2.tool.TLCState, long)
 		 */
-		public void addInitState(ITool tool, TLCState state, long stateFP) {
+		public void addInitState(final ITool tool, final TLCState state, final long stateFP) {
 			dgraph.addInitNode(stateFP, -1);
 			writer.writeState(state);
 		}
@@ -486,8 +486,8 @@ public class LiveCheck implements ILiveCheck {
 		/* (non-Javadoc)
 		 * @see tlc2.tool.liveness.ILiveChecker#addNextState(tlc2.tool.TLCState, long, tlc2.util.SetOfStates, tlc2.util.BitVector, boolean[])
 		 */
-		public void addNextState(ITool tool, final TLCState s0, final long fp0,
-				final SetOfStates nextStates, final BitVector checkActionResults, final boolean[] checkStateResults) throws IOException {
+		public void addNextState(final ITool tool, final TLCState s0, final long fp0,
+                                 final SetOfStates nextStates, final BitVector checkActionResults, final boolean[] checkStateResults) throws IOException {
 			int cnt = 0;
 			// if there is no tableau ...
 			final int succCnt = nextStates.size();
@@ -563,7 +563,7 @@ public class LiveCheck implements ILiveCheck {
 
 		private final TableauDiskGraph dgraph;
 
-		public TableauLiveChecker(OrderOfSolution oos, int soln, IBucketStatistics statistics, ILivenessStateWriter writer)
+		public TableauLiveChecker(final OrderOfSolution oos, final int soln, final IBucketStatistics statistics, final ILivenessStateWriter writer)
 				throws IOException {
 			super(oos, writer);
 			this.dgraph = new TableauDiskGraph(metadir, soln, statistics);
@@ -575,9 +575,9 @@ public class LiveCheck implements ILiveCheck {
 		public void addInitState(final ITool tool, final TLCState state, final long stateFP) {
 			// (state, tnode) is a root node if tnode is an initial tableau
 			// node and tnode is consistent with state.
-			int initCnt = oos.getTableau().getInitCnt();
+			final int initCnt = oos.getTableau().getInitCnt();
 			for (int i = 0; i < initCnt; i++) {
-				TBGraphNode tnode = oos.getTableau().getNode(i);
+				final TBGraphNode tnode = oos.getTableau().getNode(i);
 				if (tnode.isConsistent(state, tool)) {
 					dgraph.addInitNode(stateFP, tnode.getIndex());
 					dgraph.recordNode(stateFP, tnode.getIndex());
@@ -729,7 +729,7 @@ public class LiveCheck implements ILiveCheck {
 
 						// Drop finite stuttering from fingerprint path.
 						for (int i = plen - 2; i >= 0; i--) {
-							long curFP = prefix.elementAt(i);
+							final long curFP = prefix.elementAt(i);
 							if (curFP != fp) {
 								sinfo = tool.getState(curFP, sinfo);
 								states.add(sinfo);	
@@ -845,11 +845,11 @@ public class LiveCheck implements ILiveCheck {
 					if (tool.isInModel(s1) && tool.isInActions(s, s1)) {
 						final long fp1 = s1.fingerPrint();
 						final BitVector checkActionRes = oos.checkAction(tool, s, s1, new BitVector(alen), 0);
-						boolean isDone = dgraph.isDone(fp1);
+						final boolean isDone = dgraph.isDone(fp1);
 						for (int k = 0; k < tnode.nextSize(); k++) {
 							final TBGraphNode tnode1 = tnode.nextAt(k);
 							final int tidx1 = tnode1.getIndex();
-							long ptr1 = dgraph.getPtr(fp1, tidx1);
+							final long ptr1 = dgraph.getPtr(fp1, tidx1);
 							final int total = actions.length * nextCnt * tnode.nextSize();
 							if (tnode1.isConsistent(s1, tool) && (ptr1 == -1 || !node.transExists(fp1, tidx1))) {
 								node.addTransition(fp1, tidx1, slen, alen, checkActionRes, 0, (total - cnt));

@@ -27,7 +27,7 @@ public class StringNode extends ExprNode implements ExploreNode {
 
   private UniqueString value;
 
-  public StringNode(TreeNode stn, boolean strip) {
+  public StringNode(final TreeNode stn, final boolean strip) {
     super(StringKind, stn);
 
     this.value = stn.getUS();
@@ -50,7 +50,7 @@ public class StringNode extends ExprNode implements ExploreNode {
 
   /* Level Checking */
   @Override
-  public final boolean levelCheck(int iter) {
+  public final boolean levelCheck(final int iter) {
     levelChecked = iter;
       /*********************************************************************
       * Set it just to show that levelCHeck was called.                    *
@@ -85,8 +85,8 @@ public class StringNode extends ExprNode implements ExploreNode {
 //  }
 
   @Override
-  public final void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
 
     semNodesTable.put(uid, this);
@@ -94,8 +94,8 @@ public class StringNode extends ExprNode implements ExploreNode {
     visitor.postVisit(this);
   }
 
-  final String PrintVersion(String str) {
-    StringBuffer buf = new StringBuffer(str.length()) ;
+  final String PrintVersion(final String str) {
+    final StringBuffer buf = new StringBuffer(str.length()) ;
     for (int i = 0 ; i < str.length() ; i++) {
       switch (str.charAt(i)) {
         case '\"' :
@@ -125,7 +125,7 @@ public class StringNode extends ExprNode implements ExploreNode {
    }
 
   @Override
-  public final String toString(int depth) {
+  public final String toString(final int depth) {
     if (depth <= 0) return "";
     return "\n*StringNode: " + super.toString(depth)
                              + "Value: '" + PrintVersion(value.toString()) +
@@ -133,9 +133,9 @@ public class StringNode extends ExprNode implements ExploreNode {
   }
 
   @Override
-  protected Element getLevelElement(Document doc, SymbolContext context) {
-      Element e = doc.createElement("StringValue");
-      Node n = doc.createTextNode(value.toString());
+  protected Element getLevelElement(final Document doc, final SymbolContext context) {
+      final Element e = doc.createElement("StringValue");
+      final Node n = doc.createTextNode(value.toString());
       e.appendChild(n);
       return appendElement(doc, "StringNode", e);
    // return appendText(doc,"StringNode",value.toString());

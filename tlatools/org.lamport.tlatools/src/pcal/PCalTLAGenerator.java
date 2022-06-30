@@ -26,7 +26,7 @@ public class PCalTLAGenerator
      * Constructs a working copy 
      * @param ast
      */
-    public PCalTLAGenerator(AST ast)
+    public PCalTLAGenerator(final AST ast)
     {
         this.ast = ast;
     }
@@ -39,7 +39,7 @@ public class PCalTLAGenerator
         try
         {
             st = new PcalSymTab(ast);
-        } catch (PcalSymTabException e)
+        } catch (final PcalSymTabException e)
         {
             throw new RemoveNameConflictsException(e.getMessage());
         }
@@ -53,7 +53,7 @@ public class PCalTLAGenerator
         try
         {
             PcalFixIDs.Fix(ast, st);
-        } catch (PcalFixIDException e)
+        } catch (final PcalFixIDException e)
         {
             throw new RemoveNameConflictsException(e.getMessage());
         }
@@ -76,17 +76,17 @@ public class PCalTLAGenerator
         try
         {
             xast = PcalTranslate.Explode(ast, st);
-        } catch (PcalTranslateException e)
+        } catch (final PcalTranslateException e)
         {
             throw new RemoveNameConflictsException(e);
         }
         // System.out.println("After exploding: " + xast.toString());
         try
         {
-            PcalTLAGen tlaGenerator = new PcalTLAGen();
+            final PcalTLAGen tlaGenerator = new PcalTLAGen();
 //            result.addAll(tlaGenerator.generate(xast, st));
             result = tlaGenerator.generate(xast, st, result);
-        } catch (PcalTLAGenException e)
+        } catch (final PcalTLAGenException e)
         {
             throw new RemoveNameConflictsException(e);
         }
@@ -103,7 +103,7 @@ public class PCalTLAGenerator
             {
                 st.CheckForDefaultInitValue();
             }
-        } catch (PcalSymTabException e)
+        } catch (final PcalSymTabException e)
         {
             throw new RemoveNameConflictsException(e.getMessage());
         }

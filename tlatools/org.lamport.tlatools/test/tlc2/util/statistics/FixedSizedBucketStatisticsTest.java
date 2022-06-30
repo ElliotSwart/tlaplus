@@ -50,7 +50,7 @@ public class FixedSizedBucketStatisticsTest {
 	private final IBucketStatistics bucketStatistic;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public FixedSizedBucketStatisticsTest(Class bucketStatistic) throws InstantiationException, IllegalAccessException,
+	public FixedSizedBucketStatisticsTest(final Class bucketStatistic) throws InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		this.bucketStatistic = (IBucketStatistics) bucketStatistic.getConstructor(String.class, int.class)
 				.newInstance("FixedSizedBucketStatisticsTest", 8);
@@ -102,7 +102,7 @@ public class FixedSizedBucketStatisticsTest {
 	public void testInvalidArgument() {
 		try {
 			bucketStatistic.addSample(-1);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return;
 		}
 		fail();
@@ -113,7 +113,7 @@ public class FixedSizedBucketStatisticsTest {
 	public void testGetPercentileNaN() {
 		try {
 			bucketStatistic.getPercentile(Double.NaN);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return;
 		}
 		fail("Parameter not a number");

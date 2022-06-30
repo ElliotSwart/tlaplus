@@ -44,7 +44,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 			final DiskByteArrayQueue.ByteValueOutputStream vos = new DiskByteArrayQueue.ByteValueOutputStream();
 			state.write(vos);
 			return vos.toByteArray();
-		} catch (IOException notExpectedToHappen) {
+		} catch (final IOException notExpectedToHappen) {
 			// With ByteArrayOutputStream
 			notExpectedToHappen.printStackTrace();
 		}
@@ -55,7 +55,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 		try {
 			state.write(vos);
 			return vos.toByteArray();
-		} catch (IOException notExpectedToHappen) {
+		} catch (final IOException notExpectedToHappen) {
 			// With ByteArrayOutputStream
 			notExpectedToHappen.printStackTrace();
 		}
@@ -67,7 +67,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 			final TLCState state = TLCState.Empty.createEmpty();
 			state.read(new DiskByteArrayQueue.ByteValueInputStream(bytes));
 			return state;
-		} catch (IOException notExpectedToHappen) {
+		} catch (final IOException notExpectedToHappen) {
 			// With ByteValueInputStream
 			notExpectedToHappen.printStackTrace();
 		}
@@ -211,7 +211,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 	}
 	
 	@Override
-	public final TLCState[] sDequeue(int cnt) {
+	public final TLCState[] sDequeue(final int cnt) {
 		final byte[][] bytes = sDequeueRaw(cnt);
 		if (bytes != null) {
 			final TLCState[] array = new TLCState[cnt];
@@ -287,7 +287,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 			}
 			try {
 				this.wait();
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				MP.printError(EC.GENERAL, "making a worker wait for a state from the queue", e);  // LL changed call 7 April 2012
 				System.exit(1);
 			}
@@ -370,7 +370,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 					// is going to wake us up by calling isAvail() or
 					// this.mu.notify*()
 					this.mu.wait();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					MP.printError(EC.GENERAL, "waiting for a worker to wake up", e);  // LL changed call 7 April 2012
 					System.exit(1);
 				}

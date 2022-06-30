@@ -34,19 +34,19 @@ import tlc2.output.MP;
 @SuppressWarnings("serial")
 public abstract class NonCheckpointableDiskFPSet extends DiskFPSet {
 
-	protected NonCheckpointableDiskFPSet(FPSetConfiguration fpSetConfig) throws RemoteException {
+	protected NonCheckpointableDiskFPSet(final FPSetConfiguration fpSetConfig) throws RemoteException {
 		super(fpSetConfig);
 	}
 
-	public void beginChkpt(String fname) throws IOException {
+	public void beginChkpt(final String fname) throws IOException {
 		MP.printWarning(EC.GENERAL, "Checkpointing is not implemented for " + getClass().getCanonicalName());
 	}
 
-	public void commitChkpt(String fname) throws IOException {
+	public void commitChkpt(final String fname) throws IOException {
 		MP.printWarning(EC.GENERAL, "Checkpointing is not implemented for " + getClass().getCanonicalName());
 	}
 
-	public void recover(String fname) throws IOException {
+	public void recover(final String fname) throws IOException {
 		MP.printWarning(EC.GENERAL, "Checkpointing is not implemented for " + getClass().getCanonicalName());
 	}
 }

@@ -69,7 +69,7 @@ public class TLCStateStackFrame extends TLCStackFrame {
 		}
 
 		@Override
-		public StringBuffer toString(StringBuffer sb, int offset, boolean swallow) {
+		public StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow) {
 			return sb.append("?");
 		}
 		
@@ -96,12 +96,12 @@ public class TLCStateStackFrame extends TLCStackFrame {
 	protected transient final TLCState state;
 	protected transient final int stateId;
 
-	public TLCStateStackFrame(TLCStackFrame parent, SemanticNode node, Context ctxt, Tool tool, TLCState state) {
+	public TLCStateStackFrame(final TLCStackFrame parent, final SemanticNode node, final Context ctxt, final Tool tool, final TLCState state) {
 		this(parent, node, ctxt, tool, state, null);
 	}
 
-	public TLCStateStackFrame(TLCStackFrame parent, SemanticNode node, Context ctxt, Tool tool, TLCState state,
-			RuntimeException e) {
+	public TLCStateStackFrame(final TLCStackFrame parent, final SemanticNode node, final Context ctxt, final Tool tool, final TLCState state,
+                              final RuntimeException e) {
 		super(parent, node, ctxt, tool, e);
 		this.state = state.deepCopy();
 		assert this.state instanceof TLCStateMutExt;
@@ -124,7 +124,7 @@ public class TLCStateStackFrame extends TLCStackFrame {
 	}
 
 	@Override
-	public Variable[] getVariables(int vr) {
+	public Variable[] getVariables(final int vr) {
 		if (vr == stateId) {
 			return tool.eval(() -> {
 				return new Variable[] { toVariable() };
@@ -193,7 +193,7 @@ public class TLCStateStackFrame extends TLCStackFrame {
 					}
 					
 					return trace.toArray(new Variable[trace.size()]);
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					//TODO: Handle exception case.
 					return new Variable[0];
 				}
@@ -231,13 +231,13 @@ public class TLCStateStackFrame extends TLCStackFrame {
 		assert !path.isEmpty();
 		
 		if (!isPrimeScope(path)) {
-			SymbolNode var = tool.getVar(path.getFirst(), ctxt, false, tool.getId());
+			final SymbolNode var = tool.getVar(path.getFirst(), ctxt, false, tool.getId());
 			if (var != null) {
 				final IValue value = getS().lookup(var.getName());
 				if (value != null) {
 					return getVariable(value, var.getName());
 				} else {
-					Variable v = new Variable();
+					final Variable v = new Variable();
 					v.setName(var.getName().toString());
 					v.setValue(DebuggerValue.NOT_EVALUATED);
 					return v;
@@ -255,10 +255,10 @@ public class TLCStateStackFrame extends TLCStackFrame {
 		return super.getVariable(path);
 	}
 	
-	protected boolean isPrimeScope(LinkedList<SemanticNode> path) {
-		for (SemanticNode semanticNode : path) {
+	protected boolean isPrimeScope(final LinkedList<SemanticNode> path) {
+		for (final SemanticNode semanticNode : path) {
 			if (semanticNode instanceof OpApplNode) {
-				OpApplNode oan = (OpApplNode) semanticNode;
+				final OpApplNode oan = (OpApplNode) semanticNode;
 				if (ASTConstants.OP_prime == oan.getOperator().getName()) {
 					return true;
 				}
@@ -286,13 +286,13 @@ public class TLCStateStackFrame extends TLCStackFrame {
 		// tlc2.debug.TLCStackFrame.getStackVariables(List<Variable>). For simulation,
 		// we get the trace for free though.  There would be no need to cache it.
 		if (hasScope()) {
-			Scope scope = new Scope();
+			final Scope scope = new Scope();
 			scope.setName(getScope());
 			scope.setVariablesReference(stateId);
 			scopes.add(scope);
 		}
 		
-		Scope scope = new Scope();
+		final Scope scope = new Scope();
 		scope.setName(TRACE);
 		scope.setVariablesReference(stateId + 1);
 		scopes.add(scope);
@@ -305,7 +305,7 @@ public class TLCStateStackFrame extends TLCStackFrame {
 	}
 
 	@Override
-	protected Object unlazy(LazyValue lv) {
+	protected Object unlazy(final LazyValue lv) {
 		return unlazy(lv, null);
 	}
 	
@@ -315,7 +315,7 @@ public class TLCStateStackFrame extends TLCStackFrame {
 			return tool.eval(() -> {
 				return lv.eval(tool, getS());
 			});
-		} catch (TLCRuntimeException | EvalException | FingerprintException e) {
+		} catch (final TLCRuntimeException | EvalException | FingerprintException e) {
 			return fallback == null ? e : fallback;
 		}
 	}

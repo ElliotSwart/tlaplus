@@ -64,7 +64,7 @@ public abstract class RandomEnumerableValues {
 		return random;
 	}
 
-	public static Random set(Random random) {
+	public static Random set(final Random random) {
 		final Random old = get();
 		RANDOMS.set(random);
 		return old;
@@ -113,7 +113,7 @@ public abstract class RandomEnumerableValues {
 
 	@SuppressWarnings("serial")
 	private static final class DefaultRandom extends Random implements EnumerableValueRandom {
-		public DefaultRandom(long randomSeed) {
+		public DefaultRandom(final long randomSeed) {
 			super(randomSeed);
 		}
 
@@ -129,7 +129,7 @@ public abstract class RandomEnumerableValues {
 
 		private TLCState state;
 
-		public TLCStateRandom(long randomSeed) {
+		public TLCStateRandom(final long randomSeed) {
 			super(randomSeed);
 		}
 

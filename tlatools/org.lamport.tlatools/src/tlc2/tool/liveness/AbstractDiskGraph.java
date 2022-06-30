@@ -72,7 +72,7 @@ public abstract class AbstractDiskGraph {
 	/* Links are from MAX_PTR and MAX_LINK. */
 	public static final long MAX_LINK = 0x7FFFFFFFFFFFFFFFL;
 
-	public static boolean isFilePointer(long loc) {
+	public static boolean isFilePointer(final long loc) {
 		// TODO Does not check >= 0 and thus accepts TableauDiskGraph.UNDONE as
 		// ptr.
 		return loc < MAX_PTR;
@@ -95,19 +95,19 @@ public abstract class AbstractDiskGraph {
 
 	private long sizeAtCheck = 1; // initialize with 1 to avoid div by zero
 
-	public AbstractDiskGraph(String metadir, int soln, IBucketStatistics graphStats) throws IOException {
+	public AbstractDiskGraph(final String metadir, final int soln, final IBucketStatistics graphStats) throws IOException {
 		this.metadir = metadir;
 		this.outDegreeGraphStats = graphStats;
 		this.chkptName = metadir + FileUtil.separator + "dgraph_" + soln;
-		String fnameForNodes = metadir + FileUtil.separator + "nodes_" + soln;
+		final String fnameForNodes = metadir + FileUtil.separator + "nodes_" + soln;
 		this.nodeRAF = new BufferedRandomAccessFile(fnameForNodes, "rw");
-		String fnameForPtrs = metadir + FileUtil.separator + "ptrs_" + soln;
+		final String fnameForPtrs = metadir + FileUtil.separator + "ptrs_" + soln;
 		this.nodePtrRAF = new BufferedRandomAccessFile(fnameForPtrs, "rw");
 		this.initNodes = new LongVec(1);
 		this.gnodes = null;
 	}
 
-	public final void addInitNode(long node, int tidx) {
+	public final void addInitNode(final long node, final int tidx) {
 		this.initNodes.addElement(node);
 		this.initNodes.addElement(tidx);
 	}
@@ -166,10 +166,10 @@ public abstract class AbstractDiskGraph {
 	 * @see commented tlc2.tool.liveness.DiskGraphTest#
 	 *      testAddSameGraphN	odeTwiceCorrectSuccessors
 	 */
-	public final long addNode(GraphNode node) throws IOException {
+	public final long addNode(final GraphNode node) throws IOException {
 		outDegreeGraphStats.addSample(node.succSize());
 		
-		long ptr = this.nodeRAF.getFilePointer();
+		final long ptr = this.nodeRAF.getFilePointer();
 
 		// Write node to nodePtrTbl:
 		putNode(node, ptr);
@@ -216,13 +216,13 @@ public abstract class AbstractDiskGraph {
 	public synchronized final GraphNode getNode(final long stateFP, final int tidx, final long ptr) throws IOException {
 		// Get from memory cache if cached:
 		//TODO Adapt mask to array length iff array length is a func of available memory
-		int idx = (int) (stateFP + tidx) & 0xFFFF;
-		GraphNode gnode = this.gnodes[idx];
+		final int idx = (int) (stateFP + tidx) & 0xFFFF;
+		final GraphNode gnode = this.gnodes[idx];
 		if (gnode != null && gnode.stateFP == stateFP && gnode.tindex == tidx) {
 			return gnode;
 		}
 
-		GraphNode gnode1 = getNodeFromDisk(stateFP, tidx, ptr);
+		final GraphNode gnode1 = getNodeFromDisk(stateFP, tidx, ptr);
 		// Add to in-memory cache
 		if (gnode == null) {
 			this.gnodes[idx] = gnode1;
@@ -239,10 +239,10 @@ public abstract class AbstractDiskGraph {
 		}
 
 		// Have to get the node from disk:
-		long curPtr = this.nodeRAF.getFilePointer();
+		final long curPtr = this.nodeRAF.getFilePointer();
 		this.nodeRAF.seek(ptr);
 
-		GraphNode gnode1 = new GraphNode(stateFP, tidx);
+		final GraphNode gnode1 = new GraphNode(stateFP, tidx);
 		gnode1.read(this.nodeRAF);
 		
 		this.nodeRAF.seek(curPtr);
@@ -253,8 +253,8 @@ public abstract class AbstractDiskGraph {
 
 	/* Create the in-memory node-pointer table from the node-pointer file. */
 	public final void makeNodePtrTbl() throws IOException {
-		long ptr = this.nodePtrRAF.getFilePointer();
-		long len = this.nodePtrRAF.length();
+		final long ptr = this.nodePtrRAF.getFilePointer();
+		final long len = this.nodePtrRAF.length();
 		this.makeNodePtrTbl(len);
 		this.nodePtrRAF.seek(ptr);
 	}
@@ -363,11 +363,11 @@ public abstract class AbstractDiskGraph {
 				 */
 				public GraphNode next() {
 					try {
-						long fp = nodePtrRAF.readLong();
-						int tidx = nodePtrRAF.readInt();
-						long loc = nodePtrRAF.readLongNat();
+						final long fp = nodePtrRAF.readLong();
+						final int tidx = nodePtrRAF.readInt();
+						final long loc = nodePtrRAF.readLongNat();
 						return getNodeFromDisk(fp, tidx, loc);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						throw new RuntimeException(e);
 					}
 				}
@@ -379,7 +379,7 @@ public abstract class AbstractDiskGraph {
 					throw new UnsupportedOperationException("Not supported!");
 				}
 			};
-		} catch (IOException e1) {
+		} catch (final IOException e1) {
 			throw new RuntimeException(e1);
 		}
     }
@@ -447,14 +447,14 @@ public abstract class AbstractDiskGraph {
 		// State checks
 		int i = 1;
 		LiveExprNode[] checkState = oos.getCheckState();
-		for (LiveExprNode liveExprNode : checkState) {
+		for (final LiveExprNode liveExprNode : checkState) {
 			sb.append(String.format("S%s [label=\"S%s: %s\"]", i, i++, node2dot(liveExprNode)));
 			sb.append("\n");
 		}
 		// Actions checks
 		i = 1;
 		checkState = oos.getCheckAction();
-		for (LiveExprNode liveExprNode : checkState) {
+		for (final LiveExprNode liveExprNode : checkState) {
 			sb.append(String.format("A%s [label=\"A%s: %s\"]", i, i++, node2dot(liveExprNode)));
 			sb.append("\n");
 		}
@@ -501,7 +501,7 @@ public abstract class AbstractDiskGraph {
 
 			// close the stream
 			bwr.close();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 		this.destroyCache();
@@ -511,8 +511,8 @@ public abstract class AbstractDiskGraph {
 	public synchronized final void beginChkpt() throws IOException {
 		this.nodeRAF.flush();
 		this.nodePtrRAF.flush();
-		FileOutputStream fos = new FileOutputStream(this.chkptName + ".chkpt.tmp");
-		DataOutputStream dos = new DataOutputStream(fos);
+		final FileOutputStream fos = new FileOutputStream(this.chkptName + ".chkpt.tmp");
+		final DataOutputStream dos = new DataOutputStream(fos);
 		dos.writeLong(this.nodeRAF.getFilePointer());
 		dos.writeLong(this.nodePtrRAF.getFilePointer());
 		dos.close();
@@ -520,18 +520,18 @@ public abstract class AbstractDiskGraph {
 	}
 
 	public final void commitChkpt() throws IOException {
-		File oldChkpt = new File(this.chkptName + ".chkpt");
-		File newChkpt = new File(this.chkptName + ".chkpt.tmp");
+		final File oldChkpt = new File(this.chkptName + ".chkpt");
+		final File newChkpt = new File(this.chkptName + ".chkpt.tmp");
 		if ((oldChkpt.exists() && !oldChkpt.delete()) || !newChkpt.renameTo(oldChkpt)) {
 			throw new IOException("DiskGraph.commitChkpt: cannot delete " + oldChkpt);
 		}
 	}
 
 	public final void recover() throws IOException {
-		FileInputStream fis = new FileInputStream(chkptName + ".chkpt");
-		DataInputStream dis = new DataInputStream(fis);
-		long nodeRAFPos = dis.readLong();
-		long nodePtrRAFPos = dis.readLong();
+		final FileInputStream fis = new FileInputStream(chkptName + ".chkpt");
+		final DataInputStream dis = new DataInputStream(fis);
+		final long nodeRAFPos = dis.readLong();
+		final long nodePtrRAFPos = dis.readLong();
 		dis.close();
 		fis.close();
 
@@ -549,17 +549,17 @@ public abstract class AbstractDiskGraph {
 			this.nodePtrRAF.flush();
 			this.nodeRAF.flush();
 			this.nodePtrRAF.seek(0); // rewind to start
-			long len = this.nodePtrRAF.length();
+			final long len = this.nodePtrRAF.length();
 			while (this.nodePtrRAF.getFilePointer() < len) {
 				// skip fingerprint a tableaux id
 				nodePtrRAF.seek(nodePtrRAF.getFilePointer() + 8 + 4);
 
 				final long ptr = nodePtrRAF.readLongNat();
 				nodeRAF.seek(ptr);
-				int outArcCount = nodeRAF.readNat() / 3;
+				final int outArcCount = nodeRAF.readNat() / 3;
 				outDegreeGraphStats.addSample(outArcCount);
 			}
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			MP.printError(EC.SYSTEM_DISKGRAPH_ACCESS, e);
 			System.exit(1);
 		}
@@ -582,13 +582,13 @@ public abstract class AbstractDiskGraph {
 		try {
 			this.nodeRAF.flush();
 			this.nodeRAF.seek(0); // rewind to start
-			long len = this.nodeRAF.length();
+			final long len = this.nodeRAF.length();
 			while (this.nodeRAF.getFilePointer() < len) {
 				// Get the next cnt nodes from disk:
-				int cnt = nodeRAF.readNat() / 3;
+				final int cnt = nodeRAF.readNat() / 3;
 				// for each node increment the in arc counter
 				for (int i = 0; i < cnt; i++) {
-					NodeRAFRecord record = new NodeRAFRecord();
+					final NodeRAFRecord record = new NodeRAFRecord();
 					record.read(this.nodeRAF);
 					Integer inArcCounter = nodes2count.get(record);
 					if (inArcCounter == null) {
@@ -598,16 +598,16 @@ public abstract class AbstractDiskGraph {
 				}
 				// Skip checks
 				// (we don't care for the checks) 
-				int checksLen = nodeRAF.readNat();
+				final int checksLen = nodeRAF.readNat();
 				nodeRAF.seek(nodeRAF.getFilePointer() + (checksLen * 8)); // 8 bytes is long
 			}
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			MP.printError(EC.SYSTEM_DISKGRAPH_ACCESS, e);
 			System.exit(1);
 		}
 		
 		final Collection<Integer> values = nodes2count.values();
-		for (Integer integer : values) {
+		for (final Integer integer : values) {
 			inDegreeGraphStats.addSample(integer);
 		}
 	}
@@ -621,9 +621,9 @@ public abstract class AbstractDiskGraph {
 		private long fp;
 		private int tidx;
 
-		public void read(BufferedRandomAccessFile nodeRAF) throws IOException {
-			long high = nodeRAF.readInt();
-			long low = nodeRAF.readInt();
+		public void read(final BufferedRandomAccessFile nodeRAF) throws IOException {
+			final long high = nodeRAF.readInt();
+			final long low = nodeRAF.readInt();
 			fp = (high << 32) | (low & 0xFFFFFFFFL);
 			
 			tidx = nodeRAF.readInt();
@@ -642,14 +642,14 @@ public abstract class AbstractDiskGraph {
 			return result;
 		}
 
-		public boolean equals(Object obj) {
+		public boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (obj == null)
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			NodeRAFRecord other = (NodeRAFRecord) obj;
+			final NodeRAFRecord other = (NodeRAFRecord) obj;
 			if (!getOuterType().equals(other.getOuterType()))
 				return false;
 			if (fp != other.fp)

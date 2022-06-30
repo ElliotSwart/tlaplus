@@ -61,7 +61,7 @@ public class BracketStack implements //LogCategories,
   * BracketStack object and initialize its classes field.                  *
   *************************************************************************/
   public void newClass() { classIndex++; }
-  public void registerInCurrentClass( int k ) {
+  public void registerInCurrentClass(final int k ) {
     if ( classIndex == 0) classIndex++;
     classes[k] = classIndex;
   }
@@ -70,7 +70,7 @@ public class BracketStack implements //LogCategories,
     stack.push(new StackElement(0, -1 )) ;
   }
 
-  void newReference( int o, int kind ) {
+  void newReference(final int o, final int kind ) {
     /***********************************************************************
     * Puts on the top of a the stack a new StackElement object with        *
     * offset o and Kind classes[kind].                                     *
@@ -85,13 +85,13 @@ public class BracketStack implements //LogCategories,
      stack.pop();
   }
 
-  boolean onReference( int o, int kind ) {
+  boolean onReference(final int o, final int kind ) {
     /***********************************************************************
     * Returns true iff the top element se of the stack has se.Kind =       *
     * classes[kind] and se.Offset = o.  Throws an exception if             *
     * classes[kind] = null.                                                *
     ***********************************************************************/
-    StackElement se = stack.peek();
+    final StackElement se = stack.peek();
 // Log.log(bracketStackLog, "--- onReference, " + o + " " + classes [ kind ] + 
 //                          "  " + se.Kind + " " + se.Offset);
      /************************************************************************
@@ -103,8 +103,8 @@ public class BracketStack implements //LogCategories,
 
   
 
-  boolean aboveReference( int o ) {
-    StackElement se = stack.peek();
+  boolean aboveReference(final int o ) {
+    final StackElement se = stack.peek();
 // Log.log(bracketStackLog, "--- aboveReference, " + o + " " + se.Offset);
      /************************************************************************
      * A use of a class from tla2sany/error eliminated by LL on 2 Mar 2007   *

@@ -62,8 +62,8 @@ public class APSubstInNode extends LevelNode {
   private ModuleNode        instantiatedModule;
      // The module being instantiated
 
-  public APSubstInNode(TreeNode treeNode, Subst[] subs, LevelNode expr,
-		     ModuleNode ingmn, ModuleNode edmn) {
+  public APSubstInNode(final TreeNode treeNode, final Subst[] subs, final LevelNode expr,
+                       final ModuleNode ingmn, final ModuleNode edmn) {
     super(APSubstInKind, treeNode);
     this.substs = subs;
     this.body = expr;
@@ -81,7 +81,7 @@ public class APSubstInNode extends LevelNode {
 
   public final LevelNode getBody() { return this.body; }
 
-  public final void setBody(LevelNode expr) { this.body = expr; }
+  public final void setBody(final LevelNode expr) { this.body = expr; }
 
   public final ModuleNode getInstantiatingModule() {
     return this.instantiatingModule;
@@ -95,7 +95,7 @@ public class APSubstInNode extends LevelNode {
    * Returns the OpDeclNode of the ith element of the substitution
    * list.
    */
-  public final OpDeclNode getSubFor(int i) {
+  public final OpDeclNode getSubFor(final int i) {
     return this.substs[i].getOp();
   }
 
@@ -103,7 +103,7 @@ public class APSubstInNode extends LevelNode {
    * Returns the ExprOrOpArgNode of the ith element of the
    * substitution list.
    */
-  public final ExprOrOpArgNode getSubWith(int i) {
+  public final ExprOrOpArgNode getSubWith(final int i) {
     return this.substs[i].getExpr();
   }
 
@@ -118,22 +118,22 @@ public class APSubstInNode extends LevelNode {
    * OpApplNode or an OpArgNode substituted for each CONSTANT of
    * VARIABLE OpDeclNode in vector v.
    */
-  final void constructSubst(Vector<OpDeclNode> instanceeDecls, SymbolTable instancerST,
-			    TreeNode treeNode)
+  final void constructSubst(final Vector<OpDeclNode> instanceeDecls, final SymbolTable instancerST,
+                            final TreeNode treeNode)
   throws AbortException {
-    Vector<Subst> vtemp = new Vector<Subst>();
+    final Vector<Subst> vtemp = new Vector<Subst>();
 
     // for each CONSTANT or VARIABLE declared in module being
     // instantiated (the instancee)
     for ( int i = 0; i < instanceeDecls.size(); i++ ) {
       // Get the OpDeclNode for the CONSTANT or VARIABLE being
       // substituted for, i.e. "c" in" c <- e"
-      OpDeclNode decl = instanceeDecls.elementAt(i);
+      final OpDeclNode decl = instanceeDecls.elementAt(i);
 
       // Try to resolve the name in the instancer module so we can see
       // if it is recognized as an operator, and if so, what kind of
       // operator it is
-      SymbolNode symb = instancerST.resolveSymbol(decl.getName());
+      final SymbolNode symb = instancerST.resolveSymbol(decl.getName());
 
       // if the name could be resolved in the instancer module
       // (including parameters created on the LHS of the module
@@ -185,8 +185,8 @@ public class APSubstInNode extends LevelNode {
    * substitutions
    */
   @SuppressWarnings("unused")	// TODO final else block is dead code 
-  final void addExplicitSubstitute(Context instanceCtxt, UniqueString lhs,
-                                   TreeNode stn, ExprOrOpArgNode sub) {
+  final void addExplicitSubstitute(final Context instanceCtxt, final UniqueString lhs,
+                                   final TreeNode stn, final ExprOrOpArgNode sub) {
     int index;
     for (index = 0; index < this.substs.length; index++) {
       if (lhs == this.substs[index].getOp().getName()) break;
@@ -213,7 +213,7 @@ public class APSubstInNode extends LevelNode {
       // the instancee context
 
       // look up the lhs symbol in the instancee context
-      SymbolNode lhsSymbol = instanceCtxt.getSymbol(lhs);
+      final SymbolNode lhsSymbol = instanceCtxt.getSymbol(lhs);
 
       // lhs must be an OpDeclNode; if not just return, as this error
       // will have been earlier, though semantic analysis was allowed
@@ -225,9 +225,9 @@ public class APSubstInNode extends LevelNode {
       // array allocation and full copy, unfortunately (should fix
       // this at some point)
       if (lhsSymbol != null) {
-        int newlength = this.substs.length + 1;
-        Subst[] newSubsts = new Subst[ newlength ];
-        Subst   newSubst = new Subst((OpDeclNode)lhsSymbol, sub, stn, false);
+        final int newlength = this.substs.length + 1;
+        final Subst[] newSubsts = new Subst[ newlength ];
+        final Subst   newSubst = new Subst((OpDeclNode)lhsSymbol, sub, stn, false);
 
         System.arraycopy(this.substs, 0, newSubsts, 0, newlength-1);
         newSubsts[newlength-1] = newSubst;
@@ -250,10 +250,10 @@ public class APSubstInNode extends LevelNode {
    * possible, because X is not defined in the instantiating module,
    * then we have an error.
    */
-  final void matchAll(Vector<OpDeclNode> decls) {
+  final void matchAll(final Vector<OpDeclNode> decls) {
     for (int i = 0; i < decls.size(); i++) {
       // Get the name of the i'th operator that must be substituted for
-      UniqueString opName = decls.elementAt(i).getName();
+      final UniqueString opName = decls.elementAt(i).getName();
 
       // See if it is represented in the substitutions array
       int j;
@@ -281,7 +281,7 @@ public class APSubstInNode extends LevelNode {
 //  private HashSet argLevelParams;
 
   @Override
-  public final boolean levelCheck(int itr) {
+  public final boolean levelCheck(final int itr) {
     if (this.levelChecked >= itr) return this.levelCorrect;
     this.levelChecked = itr ;
 
@@ -301,7 +301,7 @@ public class APSubstInNode extends LevelNode {
 
     // Calculate the level information
     this.level = this.body.getLevel();
-    HashSet<SymbolNode> lpSet = this.body.getLevelParams();
+    final HashSet<SymbolNode> lpSet = this.body.getLevelParams();
     for (int i = 0; i < this.substs.length; i++) {
       if (lpSet.contains(this.getSubFor(i))) {
 	this.level = Math.max(level, this.getSubWith(i).getLevel());
@@ -323,7 +323,7 @@ public class APSubstInNode extends LevelNode {
     * this.levelParams to compute this.allParams, except using             *
     * Subst.allParamSet instead of Subst.paramSet.                         *
     ***********************************************************************/
-    HashSet<SymbolNode> apSet = this.body.getAllParams();
+    final HashSet<SymbolNode> apSet = this.body.getAllParams();
     iter = apSet.iterator();
     while (iter.hasNext()) {
       this.allParams.addAll(Subst.allParamSet(iter.next(), this.substs));
@@ -333,7 +333,7 @@ public class APSubstInNode extends LevelNode {
         *******************************************************************/
     }
 
-    boolean isConstant = this.instantiatedModule.isConstant();
+    final boolean isConstant = this.instantiatedModule.isConstant();
       /*********************************************************************
       * It is not necessary to invoke levelCheck before invoking           *
       * isConstant.                                                        *
@@ -384,7 +384,7 @@ public class APSubstInNode extends LevelNode {
 //  }
 
   @Override
-  public final String toString(int depth) {
+  public final String toString(final int depth) {
     if (depth <= 0) return "";
 
     String ret = "\n*APSubstInNode: "
@@ -415,7 +415,7 @@ public class APSubstInNode extends LevelNode {
    */
   @Override
   public SemanticNode[] getChildren() {
-     SemanticNode[] res = new SemanticNode[this.substs.length + 1];
+     final SemanticNode[] res = new SemanticNode[this.substs.length + 1];
      res[0] = this.body;
      for (int i = 0; i < substs.length; i++) {
          res[i+1] = substs[i].getExpr();
@@ -424,8 +424,8 @@ public class APSubstInNode extends LevelNode {
   }
 
   @Override
-  public final void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
 
     semNodesTable.put(uid, this);
@@ -442,24 +442,24 @@ public class APSubstInNode extends LevelNode {
   }
 
   @Override
-  protected Element getLevelElement(Document doc, SymbolContext context) {
-      Element sbts = doc.createElement("substs");
+  protected Element getLevelElement(final Document doc, final SymbolContext context) {
+      final Element sbts = doc.createElement("substs");
       for (int i=0; i<substs.length; i++) {
         sbts.appendChild(substs[i].export(doc, context));
       }
-      Element bdy = doc.createElement("body");
+      final Element bdy = doc.createElement("body");
       bdy.appendChild(body.export(doc,context));
 
-      Element from = doc.createElement("instFrom");
-      Element fromchild = this.instantiatingModule.export(doc, context);
+      final Element from = doc.createElement("instFrom");
+      final Element fromchild = this.instantiatingModule.export(doc, context);
       from.appendChild(fromchild);
 
-      Element to = doc.createElement("instTo");
-      Element tochild = instantiatedModule.export(doc,context);
+      final Element to = doc.createElement("instTo");
+      final Element tochild = instantiatedModule.export(doc,context);
       to.appendChild(tochild);
 
 
-      Element ret = doc.createElement("APSubstInNode");
+      final Element ret = doc.createElement("APSubstInNode");
       ret.appendChild(sbts);
       ret.appendChild(bdy);
       ret.appendChild(from);

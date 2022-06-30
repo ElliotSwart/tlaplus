@@ -37,7 +37,7 @@ public class ModuleRelatives {
 
 
   // constructor
-  public ModuleRelatives(ParseUnit pu, ModulePointer node) {
+  public ModuleRelatives(final ParseUnit pu, final ModulePointer node) {
     parseUnit     = pu;
     currentModule = node;
   }

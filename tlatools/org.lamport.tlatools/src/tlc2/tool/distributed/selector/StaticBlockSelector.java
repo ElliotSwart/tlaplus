@@ -23,14 +23,14 @@ public class StaticBlockSelector extends BlockSelector {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.BlockSelector#getBlocks(tlc2.tool.queue.StateQueue, tlc2.tool.distributed.TLCWorkerRMI)
 	 */
-	public TLCState[] getBlocks(IStateQueue stateQueue, TLCWorkerRMI worker) {
+	public TLCState[] getBlocks(final IStateQueue stateQueue, final TLCWorkerRMI worker) {
 		return stateQueue.sDequeue(BlockSize);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.selector.BlockSelector#setAverageBlockCnt(long)
 	 */
-	protected void setAverageBlockCnt(long blockCnt) {
+	protected void setAverageBlockCnt(final long blockCnt) {
 		// nop
 	}
 }

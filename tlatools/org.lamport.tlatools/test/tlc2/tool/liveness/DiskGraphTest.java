@@ -76,7 +76,7 @@ public class DiskGraphTest {
 		dg.createCache();
 		try {
 			dg.getPath(1L, -1);
-		} catch (RuntimeException e) {
+		} catch (final RuntimeException e) {
 			return;
 		}
 		fail("getPath() without init nodes has to throw a RuntimeException");
@@ -134,11 +134,11 @@ public class DiskGraphTest {
 	public void testPathWithTwoInitNodes() throws IOException {
 		final AbstractDiskGraph dg = getDiskGraph();
 
-		long noSuccessorInitState = 1L;
+		final long noSuccessorInitState = 1L;
 
-		long regularInitState = 2L;
+		final long regularInitState = 2L;
 		
-		long finalState = 3L;
+		final long finalState = 3L;
 
 		// Init
 		dg.addInitNode(noSuccessorInitState, NO_TABLEAU);
@@ -246,13 +246,13 @@ public class DiskGraphTest {
 		final GraphNode graphNode = dg.getNode(1, NO_TABLEAU);
 		graphNode.addTransition(2, NO_TABLEAU, NUMBER_OF_SOLUTIONS, NUMBER_OF_ACTIONS, NO_ACTIONS,
 				NUMBER_OF_ACTIONS, 0);
-		long firstPtr = dg.addNode(graphNode);
+		final long firstPtr = dg.addNode(graphNode);
 		
 		// Update the same graph node with another transition
 		final GraphNode graphNodeSecondInstance = dg.getNode(1, NO_TABLEAU);
 		graphNodeSecondInstance.addTransition(3, NO_TABLEAU, NUMBER_OF_SOLUTIONS, NUMBER_OF_ACTIONS, NO_ACTIONS,
 				NUMBER_OF_ACTIONS, 0);
-		long secondPtr = dg.addNode(graphNodeSecondInstance);
+		final long secondPtr = dg.addNode(graphNodeSecondInstance);
 		
 		assertEquals(1, dg.size());
 		
@@ -303,9 +303,9 @@ public class DiskGraphTest {
 		dg.createCache();
 		try {
 			dg.getPath(5L, NO_TABLEAU);
-		} catch (ArrayIndexOutOfBoundsException e) {
+		} catch (final ArrayIndexOutOfBoundsException e) {
 			fail(e.getMessage());
-		} catch (RuntimeException e) {
+		} catch (final RuntimeException e) {
 			// Make sure it is the correct RuntimeException
 			assertEquals("Couldn't re-create liveness trace (path) starting at: 5 and tidx: -1", e.getMessage());
 		}

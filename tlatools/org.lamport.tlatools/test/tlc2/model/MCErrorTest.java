@@ -14,15 +14,15 @@ public class MCErrorTest {
 	public void testGetErrorMessage()
 	{
 		final String expected = "this is an error message";
-		MCError actual = new MCError(expected);
+		final MCError actual = new MCError(expected);
 		assertEquals(expected, actual.getMessage());
 	}
 	
 	@Test
 	public void testUpdateStatesForTraceExpressions()
 	{
-		MCError error = new MCError();
-		MCState[] states = new MCState[] {
+		final MCError error = new MCError();
+		final MCState[] states = new MCState[] {
 				Utils.buildState(1, "init", "", "x = 1"),
 				Utils.buildState(2, "next", "", "x = 2"),
 				Utils.buildState(3, "next", "", "x = 3"),
@@ -30,22 +30,22 @@ public class MCErrorTest {
 				Utils.buildState(6, "next", "", "x = 5")
 		};
 		
-		for (MCState state : states)
+		for (final MCState state : states)
 		{
 			error.addState(state);
 		}
 		
-		Map<String, String> map = new HashMap<String, String>();
+		final Map<String, String> map = new HashMap<String, String>();
 		map.put("x", "y");
 		error.updateStatesForTraceExpression(map);
 		
-		List<MCState> actualStates = error.getStates();
+		final List<MCState> actualStates = error.getStates();
 		assertEquals(states.length, actualStates.size());
-		for (MCState actualState : actualStates)
+		for (final MCState actualState : actualStates)
 		{
-			MCVariable[] actualVariables = actualState.getVariables();
+			final MCVariable[] actualVariables = actualState.getVariables();
 			assertEquals(1, actualVariables.length);
-			for (MCVariable actualVariable : actualVariables)
+			for (final MCVariable actualVariable : actualVariables)
 			{
 				assertEquals("x", actualVariable.getName());
 				assertEquals("y", actualVariable.getSingleLineDisplayName());

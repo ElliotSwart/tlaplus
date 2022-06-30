@@ -64,20 +64,20 @@ public abstract class FPIntSet
     Leveled = 2 - Leveled;
   }
 
-  public static boolean isCompleted(int status) {
+  public static boolean isCompleted(final int status) {
     return (((status & LeveledMask) == Leveled) ||
 	    ((status & DoneMask) == DONE));
   }
 
-  public static boolean isDone(int status) {
+  public static boolean isDone(final int status) {
     return (status & DoneMask) == DONE;
   }
   
-  public static int getLevel(int status) {
+  public static int getLevel(final int status) {
     return status >>> SBits;
   }
 
-  public static boolean isLeaf(int status) {
+  public static boolean isLeaf(final int status) {
     return status == NEW || (status >>> SBits) == Level;
   }
   

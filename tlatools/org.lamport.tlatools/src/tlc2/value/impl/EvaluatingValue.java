@@ -73,7 +73,7 @@ protected final MethodHandle mh;
 		}
 		try {
 			this.mh = MethodHandles.publicLookup().unreflect(md).asFixedArity();
-		} catch (IllegalAccessException e) {
+		} catch (final IllegalAccessException e) {
 			throw new TLCRuntimeException(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE, MP.getMessage(
 					EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE, new String[] { md.toString(), e.getMessage() }));
 		}
@@ -89,7 +89,7 @@ protected final MethodHandle mh;
 				return tool.evalPure(opDef, args, c, s0, s1, control, cm);
 			}
 			return (Value) invoke;
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
             Assert.fail(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE, new String[]{this.md.toString(), e.getMessage()});
             return null; // make compiler happy
 		}
@@ -97,37 +97,37 @@ protected final MethodHandle mh;
 
   public final byte getKind() { return METHODVALUE; }
 
-  public final int compareTo(Object obj) {
+  public final int compareTo(final Object obj) {
     try {
       Assert.fail("Attempted to compare operator " + this.toString() +
       " with value:\n" + obj == null ? "null" : Values.ppr(obj.toString()), getSource());
       return 0;       // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     try {
       Assert.fail("Attempted to check equality of operator " + this.toString() +
       " with value:\n" + obj == null ? "null" : Values.ppr(obj.toString()), getSource());
       return false;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean member(Value elem) {
+  public final boolean member(final Value elem) {
     try {
       Assert.fail("Attempted to check if the value:\n" + elem == null ? "null" : Values.ppr(elem.toString()) +
       "\nis an element of operator " + this.toString(), getSource());
       return false;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -139,61 +139,61 @@ protected final MethodHandle mh;
       " is a finite set.", getSource());
       return false;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final Value apply(Value arg, int control) {
+  public final Value apply(final Value arg, final int control) {
     try {
       throw new WrongInvocationException("It is a TLC bug: Should use the other apply method.");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final Value apply(Value[] args, int control) {
+  public final Value apply(final Value[] args, final int control) {
 	    try {
 	        throw new WrongInvocationException("It is a TLC bug: Should use the other apply method.");
 	      }
-	      catch (RuntimeException | OutOfMemoryError e) {
+	      catch (final RuntimeException | OutOfMemoryError e) {
 	        if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
 	        else { throw e; }
 	      }
   }
 
-  public final Value select(Value arg) {
+  public final Value select(final Value arg) {
     try {
       throw new WrongInvocationException("It is a TLC bug: Attempted to call MethodValue.select().");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
       Assert.fail("Attempted to appy EXCEPT construct to the operator " +
       this.toString() + ".", getSource());
       return null;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       Assert.fail("Attempted to apply EXCEPT construct to the operator " +
       this.toString() + ".", getSource());
       return null;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -205,7 +205,7 @@ protected final MethodHandle mh;
       this.toString() + ".", getSource());
       return SetEnumValue.EmptySet;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -217,7 +217,7 @@ protected final MethodHandle mh;
       this.toString() + ".", getSource());
       return 0;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -228,7 +228,7 @@ protected final MethodHandle mh;
     try {
       throw new WrongInvocationException("It is a TLC bug: Attempted to normalize an operator.");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -238,7 +238,7 @@ protected final MethodHandle mh;
     try {
       throw new WrongInvocationException("It is a TLC bug: Attempted to normalize an operator.");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -248,22 +248,22 @@ protected final MethodHandle mh;
 
   public final IValue deepCopy() { return this; }
 
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       throw new WrongInvocationException("It is a TLC bug: Attempted to initialize an operator.");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   /* String representation of the value.  */
-  public final StringBuffer toString(StringBuffer sb, int offset, boolean ignored) {
+  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean ignored) {
     try {
       return sb.append("<Java Method: " + this.md + ">");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }

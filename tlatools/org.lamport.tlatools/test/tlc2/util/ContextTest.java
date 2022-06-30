@@ -159,9 +159,9 @@ public class ContextTest {
 		final Object value = new Object();
 
 		final Context ctx = Context.branch(Context.Empty);
-		Context cons = ctx.cons(name, value);
+		final Context cons = ctx.cons(name, value);
 		
-		Object lookup = cons.lookup(name);
+		final Object lookup = cons.lookup(name);
 		assertEquals(value, lookup);
 	}
 	
@@ -172,7 +172,7 @@ public class ContextTest {
 			this("Dummy");
 		}
 		
-		DummySymbolNode(String name) {
+		DummySymbolNode(final String name) {
 			super(-1, new SyntaxTreeNode(), UniqueString.uniqueStringOf(name));
 		}
 
@@ -184,11 +184,11 @@ public class ContextTest {
 			return false;
 		}
 		
-		public boolean match(OpApplNode test, ModuleNode mn) throws AbortException {
+		public boolean match(final OpApplNode test, final ModuleNode mn) throws AbortException {
 			return false;
 		}
 
-		protected Element getSymbolElement(Document doc, SymbolContext context) {
+		protected Element getSymbolElement(final Document doc, final SymbolContext context) {
 			return null;
 		}
 

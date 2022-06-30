@@ -16,7 +16,7 @@ public class Vector<E> {
     increment = defaultSize;
   }
 
-  public Vector(int initialSize ) {
+  public Vector(final int initialSize ) {
     info = new Object[ initialSize ];
     capacity = initialSize;
     increment = initialSize;
@@ -38,9 +38,9 @@ public class Vector<E> {
   }
   */
 
-  public final void addElement( E obj ) {
+  public final void addElement(final E obj ) {
     if (size == capacity) {
-      Object next[] = new Object[ capacity + increment ];
+      final Object[] next = new Object[ capacity + increment ];
       System.arraycopy( info, 0, next, 0, capacity );
       capacity+= increment;
       info = next;
@@ -60,7 +60,7 @@ public class Vector<E> {
   }
 
   @SuppressWarnings("unchecked")
-  public final E elementAt(int i) {
+  public final E elementAt(final int i) {
     if (i < 0 || i >= size )
       throw new ArrayIndexOutOfBoundsException();
     else
@@ -74,7 +74,7 @@ public class Vector<E> {
     size = 0;
   }
 
-  public final void removeElementAt( int i ) {
+  public final void removeElementAt(final int i ) {
     if (i < 0 || i >= size )
       throw new ArrayIndexOutOfBoundsException();
     else {
@@ -85,11 +85,11 @@ public class Vector<E> {
     }
   }
 
-  public final void insertElementAt( E obj, int i ) {
+  public final void insertElementAt(final E obj, final int i ) {
     if (i < 0 || i >= size )
       throw new ArrayIndexOutOfBoundsException();
     else if (size == capacity) {
-      Object next[] = new Object[ capacity + increment ];
+      final Object[] next = new Object[ capacity + increment ];
       System.arraycopy( info, 0, next, 0, i );
       next[i] = obj;
       System.arraycopy( info, i, next, i+1, capacity - i );
@@ -103,14 +103,14 @@ public class Vector<E> {
     size++;
   }
 
-  public final void setElementAt( E obj, int i ) {
+  public final void setElementAt(final E obj, final int i ) {
     if (i < 0 || i >= size )
       throw new ArrayIndexOutOfBoundsException();
     else 
       info[ i ] = obj;
   }
 
-  public final boolean contains (E obj) {
+  public final boolean contains (final E obj) {
     for (int i = 0; i < size; i++) {
       if ( info[ i ] == obj ) return true;
     }
@@ -121,9 +121,9 @@ public class Vector<E> {
     return new VectorEnumeration<E>( info, size );
   }
 
-  public final void append( Vector<E> v ) {
+  public final void append(final Vector<E> v ) {
     if ( v.size + size  > capacity ) {
-      Object neo[] = new Object[ capacity + v.capacity ];
+      final Object[] neo = new Object[ capacity + v.capacity ];
       capacity += v.capacity;
       System.arraycopy( info, 0, neo, 0, size );
       info = neo;
@@ -135,7 +135,7 @@ public class Vector<E> {
   // Like the append method above, but elements of v will not be added to THIS Vector 
   // if they are already present at least once; repeated elements already in 
   // THIS Vector, however, will not be removed.
-  public final void appendNoRepeats(Vector<E> v) {
+  public final void appendNoRepeats(final Vector<E> v) {
     for (int i = 0; i < v.size(); i++) {
       if ( ! this.contains(v.elementAt(i)) ) this.addElement(v.elementAt(i));
     }

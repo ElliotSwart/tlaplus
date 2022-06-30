@@ -42,8 +42,8 @@ public class PartitionedFingerPrintGenerator extends FingerPrintGenerator {
 	private final long numOfPerThreadBuckets;
 	private final long increment;
 
-	public PartitionedFingerPrintGenerator(MultiThreadedFPSetTest test, int id, int numThreads, FPSet fpSet, CountDownLatch latch,
-			long seed, long insertions, final CyclicBarrier barrier) {
+	public PartitionedFingerPrintGenerator(final MultiThreadedFPSetTest test, final int id, final int numThreads, final FPSet fpSet, final CountDownLatch latch,
+                                           final long seed, final long insertions, final CyclicBarrier barrier) {
 		super(test, id, numThreads, fpSet, latch, seed, insertions, barrier);
 		
 		final long numOfTotalBuckets = fpSet.getConfiguration().getMemoryInFingerprintCnt();
@@ -77,7 +77,7 @@ public class PartitionedFingerPrintGenerator extends FingerPrintGenerator {
 					puts++;
 				}
 				fp += increment;
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				e.printStackTrace();
 				Assert.fail("Unexpected");
 			}

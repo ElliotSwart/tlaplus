@@ -26,16 +26,16 @@ public final class MemObjectStack extends ObjectStack {
   private Object[] states;
   private String filename;
     
-  public MemObjectStack(String metadir, String name) {
+  public MemObjectStack(final String metadir, final String name) {
     this.states = new Object[InitialSize];
     this.filename = metadir +  FileUtil.separator + name;
   }
     
-  final void enqueueInner(Object state) {
+  final void enqueueInner(final Object state) {
     if (this.len == this.states.length) {
       // grow the array
-      int newLen = Math.max(1, this.len * GrowthFactor);
-      Object[] newStates = new Object[newLen];
+      final int newLen = Math.max(1, this.len * GrowthFactor);
+      final Object[] newStates = new Object[newLen];
       System.arraycopy(this.states, 0, newStates, 0, this.len);
       this.states = newStates;
     }
@@ -43,17 +43,17 @@ public final class MemObjectStack extends ObjectStack {
   }
     
   final Object dequeueInner() {
-    int head = this.len - 1;
-    Object res = this.states[head];
+    final int head = this.len - 1;
+    final Object res = this.states[head];
     this.states[head] = null;
     return res;
   }
 
   // Checkpoint.
   public final void beginChkpt() throws IOException {
-    String tmpfile = this.filename + ".tmp";
+    final String tmpfile = this.filename + ".tmp";
     
-    ObjectOutputStream oos = FileUtil.newOBFOS(tmpfile);
+    final ObjectOutputStream oos = FileUtil.newOBFOS(tmpfile);
     oos.writeInt(this.len);
     for (int i = 0; i < this.len; i++) {
       oos.writeObject(this.states[i++]);
@@ -63,25 +63,25 @@ public final class MemObjectStack extends ObjectStack {
   }
 
   public final void commitChkpt() throws IOException {
-    String oldName = this.filename + ".chkpt";
-    File oldChkpt = new File(oldName);
-    String newName = this.filename + ".tmp";
-    File newChkpt = new File(newName);
+    final String oldName = this.filename + ".chkpt";
+    final File oldChkpt = new File(oldName);
+    final String newName = this.filename + ".tmp";
+    final File newChkpt = new File(newName);
     if (!newChkpt.renameTo(oldChkpt)) {
       throw new IOException("MemObjectStack.commitChkpt: cannot delete " + oldChkpt);
     }
   }
   
   public final void recover() throws IOException {
-    String chkptfile = this.filename + ".chkpt";
-    ObjectInputStream ois = FileUtil.newOBFIS(chkptfile);
+    final String chkptfile = this.filename + ".chkpt";
+    final ObjectInputStream ois = FileUtil.newOBFIS(chkptfile);
     this.len = ois.readInt();
     try {
       for (int i = 0; i < this.len; i++) {
 	this.states[i] = ois.readObject();
       }
     }
-    catch (ClassNotFoundException e) {
+    catch (final ClassNotFoundException e) {
       Assert.fail(EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT, e.getMessage());
     }
     finally {

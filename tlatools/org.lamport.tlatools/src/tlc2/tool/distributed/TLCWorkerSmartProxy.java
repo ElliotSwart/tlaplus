@@ -38,9 +38,9 @@ public class TLCWorkerSmartProxy implements TLCWorkerRMI {
 		final long computationTime = sanitizeComputationTime(nextStates.getComputationTime());
 
 		// RTT has to be bigger than computation alone
-		double networkTime = Math.max(roundTripTime - computationTime, 0.00001d);
+		final double networkTime = Math.max(roundTripTime - computationTime, 0.00001d);
 
-		double percentageNetworkOverhead = networkTime / roundTripTime;
+		final double percentageNetworkOverhead = networkTime / roundTripTime;
 		
 		// network overhead per state
 		networkOverhead = percentageNetworkOverhead / states.length;
@@ -49,7 +49,7 @@ public class TLCWorkerSmartProxy implements TLCWorkerRMI {
 	}
 	
 	// handle illegal values from worker
-	private long sanitizeComputationTime(Long computationTime) {
+	private long sanitizeComputationTime(final Long computationTime) {
 		return Math.max(Math.abs(computationTime), 1);
 	}
 

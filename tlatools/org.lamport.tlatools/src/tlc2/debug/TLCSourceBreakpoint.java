@@ -51,7 +51,7 @@ public class TLCSourceBreakpoint extends SourceBreakpoint {
 		if (getHitCondition() != null) {
 			try {
 				h = Integer.parseInt(getHitCondition());
-			} catch (NumberFormatException nfe) {
+			} catch (final NumberFormatException nfe) {
 			}
 		}
 		hits = h;

@@ -21,9 +21,9 @@ public final class MVPerm implements IMVPerm {
     this.count = 0;
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     if (obj instanceof MVPerm) {
-      MVPerm perm = (MVPerm)obj;
+      final MVPerm perm = (MVPerm)obj;
       for (int i = 0; i < this.elems.length; i++) {
 	if (this.elems[i] == null) {
 	  if (perm.elems[i] != null) {
@@ -42,7 +42,7 @@ public final class MVPerm implements IMVPerm {
   public final int hashCode() {
     int res = 0;
     for (int i = 0; i < this.elems.length; i++) {
-      ModelValue mv = this.elems[i];
+      final ModelValue mv = this.elems[i];
       if (mv != null) {
 	res = 31*res + mv.val.hashCode();
       }
@@ -54,21 +54,21 @@ public final class MVPerm implements IMVPerm {
   public final int size() { return this.count; }
 
   @Override
-  public final IValue get(IValue k) {
+  public final IValue get(final IValue k) {
     return this.elems[((ModelValue) k).index];
   }
 
   @Override
-  public final void put(IModelValue m1, IModelValue m2) {
-	  ModelValue k = (ModelValue) m1;
-	  ModelValue elem = (ModelValue) m2;
+  public final void put(final IModelValue m1, final IModelValue m2) {
+	  final ModelValue k = (ModelValue) m1;
+	  final ModelValue elem = (ModelValue) m2;
     if (!k.equals(elem) && this.elems[k.index] == null) {
       this.elems[k.index] = elem;
       this.count++;
     }
   }
 
-  private final void put(int i, ModelValue elem) {
+  private final void put(final int i, final ModelValue elem) {
     if (this.elems[i] == null && elem != null) {
       this.elems[i] = elem;
       this.count++;
@@ -76,15 +76,15 @@ public final class MVPerm implements IMVPerm {
   }
   
   @Override
-  public final IMVPerm compose(IMVPerm perm) {
-	  MVPerm res = new MVPerm();
+  public final IMVPerm compose(final IMVPerm perm) {
+	  final MVPerm res = new MVPerm();
     for (int i = 0; i < this.elems.length; i++) {
-      ModelValue mv = this.elems[i];
+      final ModelValue mv = this.elems[i];
       if (mv == null) {
 	res.put(i, ((MVPerm) perm).elems[i]);
       }
       else {
-	ModelValue mv1 = ((MVPerm) perm).elems[mv.index];
+	final ModelValue mv1 = ((MVPerm) perm).elems[mv.index];
 	if (mv1 == null) {
 	  res.put(i, mv);
 	}
@@ -115,7 +115,7 @@ public final class MVPerm implements IMVPerm {
   }
 
   public final String toString() {
-    StringBuffer sb = new StringBuffer("[");
+    final StringBuffer sb = new StringBuffer("[");
     int i = 0;
     for (i = 0; i < this.elems.length; i++) {
       if (this.elems[i] != null) {

@@ -32,23 +32,21 @@ public abstract class FPSetFactory {
 	public static boolean allocatesOnHeap(final String clazz) {
 		try {
 			final ClassLoader classLoader = FPSet.class.getClassLoader();
-			@SuppressWarnings("unchecked")
-			Class<? extends FPSet> cls = (Class<? extends FPSet>) classLoader
+			@SuppressWarnings("unchecked") final Class<? extends FPSet> cls = (Class<? extends FPSet>) classLoader
 					.loadClass(clazz);
 			return allocatesOnHeap(cls);
-		} catch (ClassNotFoundException e) {
+		} catch (final ClassNotFoundException e) {
 			return false;
 		}
 	}
 
-	private static boolean supportsArchitecture(String clazz) {
+	private static boolean supportsArchitecture(final String clazz) {
 		try {
 			final ClassLoader classLoader = FPSet.class.getClassLoader();
-			@SuppressWarnings("unchecked")
-			Class<? extends FPSet> cls = (Class<? extends FPSet>) classLoader
+			@SuppressWarnings("unchecked") final Class<? extends FPSet> cls = (Class<? extends FPSet>) classLoader
 					.loadClass(clazz);
 			return supports32Bits(cls);
-		} catch (ClassNotFoundException e) {
+		} catch (final ClassNotFoundException e) {
 			return false;
 		}
 	}
@@ -61,18 +59,17 @@ public abstract class FPSetFactory {
 		return true;
 	}
 	
-	private static boolean isDiskFPSet(Class<? extends FPSet> cls) {
+	private static boolean isDiskFPSet(final Class<? extends FPSet> cls) {
 		return DiskFPSet.class.isAssignableFrom(cls);
 	}
 
 	static boolean isDiskFPSet(final String clazz) {
 		try {
 			final ClassLoader classLoader = FPSet.class.getClassLoader();
-			@SuppressWarnings("unchecked")
-			Class<? extends FPSet> cls = (Class<? extends FPSet>) classLoader
+			@SuppressWarnings("unchecked") final Class<? extends FPSet> cls = (Class<? extends FPSet>) classLoader
 					.loadClass(clazz);
 			return isDiskFPSet(cls);
-		} catch (ClassNotFoundException e) {
+		} catch (final ClassNotFoundException e) {
 			return false;
 		}
 	}
@@ -209,19 +206,19 @@ public abstract class FPSetFactory {
 			if (instance instanceof FPSet) {
 				return (FPSet) instance;
 			}
-		} catch (ClassNotFoundException e) {
+		} catch (final ClassNotFoundException e) {
 			exp = e;
-		} catch (InstantiationException e) {
+		} catch (final InstantiationException e) {
 			exp = e;
-		} catch (IllegalAccessException e) {
+		} catch (final IllegalAccessException e) {
 			exp = e;
-		} catch (SecurityException e) {
+		} catch (final SecurityException e) {
 			exp = e;
-		} catch (NoSuchMethodException e) {
+		} catch (final NoSuchMethodException e) {
 			exp = e;
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			exp = e;
-		} catch (InvocationTargetException e) {
+		} catch (final InvocationTargetException e) {
 			exp = e;
 		}
 		// LL modified error message on 7 April 2012

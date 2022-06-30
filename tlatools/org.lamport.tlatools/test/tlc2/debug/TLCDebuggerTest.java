@@ -132,7 +132,7 @@ public class TLCDebuggerTest {
 
 	@Test
 	public void testStackFramePaginationsStartFrame1() throws InterruptedException, ExecutionException {
-		List<StackFrame> frames = new TestTLCDebugger(20).getFrames(new TestStackTraceArguments(1, null));
+		final List<StackFrame> frames = new TestTLCDebugger(20).getFrames(new TestStackTraceArguments(1, null));
 		assertEquals(19, frames.size());
 
 		Collections.reverse(frames); // Re-reverse to make loop simpler.
@@ -143,8 +143,8 @@ public class TLCDebuggerTest {
 
 	@Test
 	public void testStackFramePaginationsStartFrameSubList() throws InterruptedException, ExecutionException {
-		int start = 5;
-		List<StackFrame> frames = new TestTLCDebugger(20).getFrames(new TestStackTraceArguments(start, 5));
+		final int start = 5;
+		final List<StackFrame> frames = new TestTLCDebugger(20).getFrames(new TestStackTraceArguments(start, 5));
 		assertEquals(5, frames.size());
 
 		assertEquals(14, frames.get(0).getId());
@@ -166,21 +166,21 @@ public class TLCDebuggerTest {
 			super(Step.In, true, true);
 		}
 
-		public TestTLCDebugger(TLCStackFrame tlcStackFrame) {
+		public TestTLCDebugger(final TLCStackFrame tlcStackFrame) {
 			super(Step.In, true, true);
 			this.stack.add(tlcStackFrame);
 		}
 
-		public TestTLCDebugger(List<TLCStackFrame> frames) {
+		public TestTLCDebugger(final List<TLCStackFrame> frames) {
 			super(Step.In, true, true);
 			this.stack.addAll(frames);
 		}
 
-		public TestTLCDebugger(int n) {
+		public TestTLCDebugger(final int n) {
 			this(n, true);
 		}
 		
-		public TestTLCDebugger(int n, boolean executionIsHalted) {
+		public TestTLCDebugger(final int n, final boolean executionIsHalted) {
 			super(Step.In, true, executionIsHalted);
 			this.stack.addAll(IntStream.range(0, n).boxed().sorted(Collections.reverseOrder())
 					.map(i -> new TestTLCStackFrame(i)).collect(Collectors.toList()));
@@ -190,14 +190,14 @@ public class TLCDebuggerTest {
 			return Arrays.asList(stackTrace(new TestStackTraceArguments()).get().getStackFrames());
 		}
 
-		public List<StackFrame> getFrames(StackTraceArguments sta) throws InterruptedException, ExecutionException {
+		public List<StackFrame> getFrames(final StackTraceArguments sta) throws InterruptedException, ExecutionException {
 			return Arrays.asList(stackTrace(sta).get().getStackFrames());
 		}
 	}
 
 	protected class TestTLCStackFrame extends TLCStackFrame {
 
-		public TestTLCStackFrame(int id) {
+		public TestTLCStackFrame(final int id) {
 			super(id);
 		}
 
@@ -212,7 +212,7 @@ public class TLCDebuggerTest {
 			super();
 		}
 
-		public TestStackTraceArguments(Integer start, Integer level) {
+		public TestStackTraceArguments(final Integer start, final Integer level) {
 			super();
 			setStartFrame(start);
 			setLevels(level);

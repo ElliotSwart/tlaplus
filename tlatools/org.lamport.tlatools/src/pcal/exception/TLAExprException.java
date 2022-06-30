@@ -15,7 +15,7 @@ public class TLAExprException extends UnrecoverableException
 	/**
      * @param message
      */
-    public TLAExprException(String message)
+    public TLAExprException(final String message)
     {
         super(message);
     }

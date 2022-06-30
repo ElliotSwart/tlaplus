@@ -19,7 +19,7 @@ public class LongVec implements Cloneable, Serializable {
 
 	public LongVec() { this(10); }
 
-	public LongVec(int initialCapacity) {
+	public LongVec(final int initialCapacity) {
 		this.elementCount = 0;
 		this.elementData = new long[initialCapacity];
 	}
@@ -29,14 +29,14 @@ public class LongVec implements Cloneable, Serializable {
 		this.elementData = Arrays.copyOfRange(other.elementData, 0, other.elementCount);
 	}
 
-	public final void addElement(long x) {
+	public final void addElement(final long x) {
 		if (this.elementCount == this.elementData.length) {
 			ensureCapacity(this.elementCount + 1);
 		}
 		this.elementData[this.elementCount++] = x;
 	}
 
-	public final long elementAt(int index) {
+	public final long elementAt(final int index) {
 		rangeCheck(index);
 		return this.elementData[index];
 	}
@@ -45,13 +45,13 @@ public class LongVec implements Cloneable, Serializable {
 		return this.elementData[elementCount - 1];
 	}
 
-	public final void removeElement(int index) {
+	public final void removeElement(final int index) {
 		rangeCheck(index);
 		this.elementData[index] = this.elementData[this.elementCount - 1];
 		this.elementCount--;
 	}
 
-	private void rangeCheck(int index) {
+	private void rangeCheck(final int index) {
 		if (index >= elementCount) {
 			throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
 		}
@@ -63,7 +63,7 @@ public class LongVec implements Cloneable, Serializable {
      * this "outlining" performs best with both server and client VMs.
      */
 	// Copied from java.util.ArrayList
-    private String outOfBoundsMsg(int index) {
+    private String outOfBoundsMsg(final int index) {
         return "Index: "+index+", Size: "+elementCount;
     }
 
@@ -75,13 +75,13 @@ public class LongVec implements Cloneable, Serializable {
 		return this.elementCount;
 	}
 
-	private final void ensureCapacity(int minCapacity) {
+	private final void ensureCapacity(final int minCapacity) {
 		if (elementData.length < minCapacity) {
 			int newCapacity = elementData.length + elementData.length;
 			if (newCapacity < minCapacity) {
 				newCapacity = minCapacity;
 			}
-			long oldBuffer[] = this.elementData;
+			final long[] oldBuffer = this.elementData;
 			this.elementData = new long[newCapacity];
 
 			System.arraycopy(oldBuffer, 0, elementData, 0, elementCount);
@@ -90,7 +90,7 @@ public class LongVec implements Cloneable, Serializable {
 
 	public final void reset() { this.elementCount = 0; }
 
-	private void readObject(ObjectInputStream ois)
+	private void readObject(final ObjectInputStream ois)
 			  throws IOException, ClassNotFoundException {
 		this.elementCount = ois.readInt();
 		this.elementData = new long[this.elementCount];
@@ -99,7 +99,7 @@ public class LongVec implements Cloneable, Serializable {
 		}
 	}
 
-	private void writeObject(ObjectOutputStream oos) throws IOException {
+	private void writeObject(final ObjectOutputStream oos) throws IOException {
 		oos.writeInt(this.elementCount);
 		for (int i = 0; i < this.elementCount; i++) {
 			oos.writeLong(this.elementData[i]);
@@ -107,7 +107,7 @@ public class LongVec implements Cloneable, Serializable {
 	}
 
 	public final String toString() {
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		sb.append("<");
 		if (this.elementCount != 0) {
 			sb.append(this.elementData[0]);
@@ -120,17 +120,17 @@ public class LongVec implements Cloneable, Serializable {
 		return sb.toString();
 	}
 
-	public static void main(String args[]) throws Exception {
-		LongVec vec = new LongVec(1000);
+	public static void main(final String[] args) throws Exception {
+		final LongVec vec = new LongVec(1000);
 		vec.addElement(1);
 		vec.addElement(3);
 		vec.addElement(5);
 		System.err.println(vec.size());
-		ObjectOutputStream oos = FileUtil.newOBFOS("XXX");
+		final ObjectOutputStream oos = FileUtil.newOBFOS("XXX");
 		oos.writeObject(vec);
 
-		ObjectInputStream ois = FileUtil.newOBFIS("XXX");
-		LongVec vec1 = (LongVec) ois.readObject();
+		final ObjectInputStream ois = FileUtil.newOBFIS("XXX");
+		final LongVec vec1 = (LongVec) ois.readObject();
 		System.err.println(vec1.size());
 		System.err.println(vec1.elementAt(0));
 		System.err.println(vec1.elementAt(1));
@@ -142,7 +142,7 @@ public class LongVec implements Cloneable, Serializable {
 		int right = elementData.length - 1;
 
 		while (left < right) {
-			long temp = elementData[left];
+			final long temp = elementData[left];
 			elementData[left] = elementData[right];
 			elementData[right] = temp;
 
@@ -155,7 +155,7 @@ public class LongVec implements Cloneable, Serializable {
 	public LongVec reverse() {
 		try {
 			return new LongVec(this).reverse0();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw e;
 		}
 	}
@@ -169,7 +169,7 @@ public class LongVec implements Cloneable, Serializable {
 		// performance critical. Once performance matters, we should do it in-place.
 		final LongVec filtered = new LongVec(size());
 		for (int i = 0; i < elementCount; i++) {
-			long x = elementData[i];
+			final long x = elementData[i];
 			if (filtered.elementCount == 0 || filtered.lastElement() != x) {
 				filtered.addElement(x);
 			}
@@ -179,7 +179,7 @@ public class LongVec implements Cloneable, Serializable {
 		return this;
 	}
 
-	public LongVec removeLastIf(long x) {
+	public LongVec removeLastIf(final long x) {
 		if (this.elementCount > 0 && this.lastElement() == x) {
 			this.elementCount = this.elementCount - 1;
 		}

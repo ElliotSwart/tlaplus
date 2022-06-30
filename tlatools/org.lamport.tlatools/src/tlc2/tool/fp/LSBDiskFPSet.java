@@ -37,7 +37,7 @@ public class LSBDiskFPSet extends HeapBasedDiskFPSet {
 		@Override
 		protected void prepareTable() {
 			// Verify tblCnt is still within positive Integer.MAX_VALUE bounds
-			int cnt = (int) getTblCnt();
+			final int cnt = (int) getTblCnt();
 			Assert.check(cnt > 0, EC.GENERAL);
 			
 			// Why not sort this.tbl in-place rather than doubling memory
@@ -57,9 +57,9 @@ public class LSBDiskFPSet extends HeapBasedDiskFPSet {
 			buff = new long[cnt];
 			int idx = 0;
 			for (int j = 0; j < tbl.length; j++) {
-				long[] bucket = tbl[j];
+				final long[] bucket = tbl[j];
 				if (bucket != null) {
-					int blen = bucket.length;
+					final int blen = bucket.length;
 					// for all bucket positions and non-null values
 					for (int k = 0; k < blen && bucket[k] > 0; k++) {
 						buff[idx++] = bucket[k];
@@ -77,7 +77,7 @@ public class LSBDiskFPSet extends HeapBasedDiskFPSet {
 		 * @see tlc2.tool.fp.DiskFPSet.Flusher#mergeNewEntries(java.io.RandomAccessFile, java.io.RandomAccessFile)
 		 */
 		@Override
-		protected void mergeNewEntries(BufferedRandomAccessFile[] inRAFs, RandomAccessFile outRAF) throws IOException {
+		protected void mergeNewEntries(final BufferedRandomAccessFile[] inRAFs, final RandomAccessFile outRAF) throws IOException {
 			final int buffLen = buff.length;
 
 			// Precompute the maximum value of the new file
@@ -86,7 +86,7 @@ public class LSBDiskFPSet extends HeapBasedDiskFPSet {
 				maxVal = Math.max(maxVal, index[index.length - 1]);
 			}
 
-			int indexLen = calculateIndexLen(buffLen);
+			final int indexLen = calculateIndexLen(buffLen);
 			index = new long[indexLen];
 			index[indexLen - 1] = maxVal;
 			currIndex = 0;
@@ -99,7 +99,7 @@ public class LSBDiskFPSet extends HeapBasedDiskFPSet {
 			if (fileCnt > 0) {
 				try {
 					value = inRAFs[0].readLong();
-				} catch (EOFException e) {
+				} catch (final EOFException e) {
 					eof = true;
 				}
 			} else {
@@ -112,7 +112,7 @@ public class LSBDiskFPSet extends HeapBasedDiskFPSet {
 					writeFP(outRAF, value);
 					try {
 						value = inRAFs[0].readLong();
-					} catch (EOFException e) {
+					} catch (final EOFException e) {
 						eof = true;
 					}
 				} else {
@@ -135,7 +135,7 @@ public class LSBDiskFPSet extends HeapBasedDiskFPSet {
 					writeFP(outRAF, value);
 					try {
 						value = inRAFs[0].readLong();
-					} catch (EOFException e) {
+					} catch (final EOFException e) {
 						eof = true;
 					}
 				} while (!eof);

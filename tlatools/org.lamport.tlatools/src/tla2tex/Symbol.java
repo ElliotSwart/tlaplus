@@ -62,7 +62,7 @@ public class Symbol
       * explanation of inner-alignment.                                    *
       *********************************************************************/
  
-    public Symbol(String tla, String tex, int stype, int atype)
+    public Symbol(final String tla, final String tex, final int stype, final int atype)
       /*********************************************************************
       * The constructor for a non-PlusCal Symbol object.                   *
       *********************************************************************/
@@ -73,7 +73,7 @@ public class Symbol
         pcal          = false ;
       };
 
-    public Symbol(String tla, String tex, int stype, int atype, boolean plusCal)
+    public Symbol(final String tla, final String tex, final int stype, final int atype, final boolean plusCal)
       /*********************************************************************
       * The constructor used for a PlusCal Symbol object.                  *
       *********************************************************************/

@@ -394,14 +394,14 @@ public enum LocalizedFormats implements Localizable {
     public String getLocalizedString(final Locale locale) {
         try {
             final String path = LocalizedFormats.class.getName().replaceAll("\\.", "/");
-            ResourceBundle bundle =
+            final ResourceBundle bundle =
                     ResourceBundle.getBundle("assets/" + path, locale);
             if (bundle.getLocale().getLanguage().equals(locale.getLanguage())) {
                 // the value of the resource is the translated format
                 return bundle.getString(toString());
             }
 
-        } catch (MissingResourceException mre) { // NOPMD
+        } catch (final MissingResourceException mre) { // NOPMD
             // do nothing here
         }
 

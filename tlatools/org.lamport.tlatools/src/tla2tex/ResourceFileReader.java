@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class ResourceFileReader
-  { public ResourceFileReader(String fileName)
+  { public ResourceFileReader(final String fileName)
       /*********************************************************************
       * The constructor, where fileName is the name of a file that's       *
       * in the same directory as tlatex.Token.                             *
@@ -28,13 +28,13 @@ public class ResourceFileReader
      { name = fileName ;
        Class<?> cl = null ;
        try { cl = Class.forName("tla2tex.Token"); }
-       catch (ClassNotFoundException e)
+       catch (final ClassNotFoundException e)
            { Debug.ReportError( 
                "Java could not find class tla2tex.Token.  There \n"
              + "    is probably something wrong with the way\n"
              + "    TLA2TeX is installed");
            } ;             
-       InputStream input = cl.getResourceAsStream(fileName) ; 
+       final InputStream input = cl.getResourceAsStream(fileName) ;
        if (input == null)
          { Debug.ReportError( 
                "TLATeX could not find its resource file " + fileName + ".\n"
@@ -51,7 +51,7 @@ public class ResourceFileReader
       *********************************************************************/
       { try { return inputReader.readLine();
             }
-        catch (java.io.IOException e)
+        catch (final java.io.IOException e)
           { Debug.ReportError( 
                    "Error reading the TLATeX resource file " + name + ".\n"
                  + "    You may be having file system problems");
@@ -75,7 +75,7 @@ public class ResourceFileReader
       
     public void close()
       { try { inputReader.close(); }
-        catch (java.io.IOException e)
+        catch (final java.io.IOException e)
           { Debug.ReportError( 
                "Error trying to close the TLATeX resource file " + name + ".\n"
              + "    You may be having file system problems");

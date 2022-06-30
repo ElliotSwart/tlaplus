@@ -53,8 +53,8 @@ public class AssumeNode extends LevelNode {
  * @param mn
  * @param opd
  */
-public AssumeNode(TreeNode stn, ExprNode expr, ModuleNode mn,
-                     ThmOrAssumpDefNode opd) {
+public AssumeNode(final TreeNode stn, final ExprNode expr, final ModuleNode mn,
+                  final ThmOrAssumpDefNode opd) {
     super(AssumeKind, stn);
     this.assumeExpr = expr;
 // Assumptions can no longer be local
@@ -83,7 +83,7 @@ public AssumeNode(TreeNode stn, ExprNode expr, ModuleNode mn,
   /* Level checking */
   int levelChecked = 0 ;
   @Override
-  public final boolean levelCheck(int iter) {
+  public final boolean levelCheck(final int iter) {
     if (levelChecked >= iter) {return true ;} ;
     levelChecked = iter;
     boolean res = this.assumeExpr.levelCheck(iter);
@@ -153,7 +153,7 @@ public AssumeNode(TreeNode stn, ExprNode expr, ModuleNode mn,
    * of the tree that is displayed.
    */
   @Override
-  public final String toString (int depth) {
+  public final String toString (final int depth) {
     if (depth <= 0) return "";
     String res =
        Strings.indent(
@@ -186,8 +186,8 @@ public AssumeNode(TreeNode stn, ExprNode expr, ModuleNode mn,
    * Explorer tool.
    */
   @Override
-  public final void walkGraph (Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public final void walkGraph (final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
 
     if (semNodesTable.get(uid) != null) return;
 
@@ -199,28 +199,28 @@ public AssumeNode(TreeNode stn, ExprNode expr, ModuleNode mn,
 
   /* MR: This is the same as SymbolNode.exportDefinition. Exports the actual theorem content, not only a reference.
    */
-  public Element exportDefinition(Document doc, SymbolContext context) {
+  public Element exportDefinition(final Document doc, final SymbolContext context) {
     if (!context.isTop_level_entry())
       throw new IllegalArgumentException("Exporting theorem ref "+getNodeRef()+" twice!");
     context.resetTop_level_entry();
     try {
-      Element e = getLevelElement(doc, context);
+      final Element e = getLevelElement(doc, context);
       // level
       try {
-        Element l = appendText(doc,"level",Integer.toString(getLevel()));
+        final Element l = appendText(doc,"level",Integer.toString(getLevel()));
         e.insertBefore(l,e.getFirstChild());
-      } catch (RuntimeException ee) {
+      } catch (final RuntimeException ee) {
         // not sure it is legal for a LevelNode not to have level, debug it!
       }
       //location
       try {
-        Element loc = getLocationElement(doc);
+        final Element loc = getLocationElement(doc);
         e.insertBefore(loc,e.getFirstChild());
-      } catch (RuntimeException ee) {
+      } catch (final RuntimeException ee) {
         // do nothing if no location
       }
       return e;
-    } catch (RuntimeException ee) {
+    } catch (final RuntimeException ee) {
       System.err.println("failed for node.toString(): " + toString() + "\n with error ");
       ee.printStackTrace();
       throw ee;
@@ -241,16 +241,16 @@ public AssumeNode(TreeNode stn, ExprNode expr, ModuleNode mn,
 //  }
 
   @Override
-  protected Element getLevelElement(Document doc, SymbolContext context) {
-    Element e = doc.createElement("AssumeNode");
+  protected Element getLevelElement(final Document doc, final SymbolContext context) {
+    final Element e = doc.createElement("AssumeNode");
     if (def != null) {
       //if there is a definition, export it too
-      Node d = doc.createElement("definition");
+      final Node d = doc.createElement("definition");
       d.appendChild(def.export(doc, context));
       e.appendChild(d);
       assert( def.getBody() == this.assumeExpr ); //make sure theorem and definition body agree before export
     }
-    Node n = doc.createElement("body");
+    final Node n = doc.createElement("body");
     n.appendChild(getAssume().export(doc,context));
     e.appendChild(n);
     return e;
@@ -258,10 +258,10 @@ public AssumeNode(TreeNode stn, ExprNode expr, ModuleNode mn,
 
   /* overrides LevelNode.export and exports a UID reference instad of the full version*/
   @Override
-  public Element export(Document doc, SymbolContext context) {
+  public Element export(final Document doc, final SymbolContext context) {
     // first add symbol to context
     context.put(this, doc);
-    Element e = doc.createElement(getNodeRef());
+    final Element e = doc.createElement(getNodeRef());
     e.appendChild(appendText(doc,"UID",Integer.toString(myUID)));
     return e;
   }

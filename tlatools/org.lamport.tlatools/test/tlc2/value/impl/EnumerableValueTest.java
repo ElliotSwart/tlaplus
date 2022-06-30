@@ -64,7 +64,7 @@ public class EnumerableValueTest {
 
 		private final int size;
 
-		public DummyValue(int size) {
+		public DummyValue(final int size) {
 			this.size = size;
 		}
 
@@ -94,22 +94,22 @@ public class EnumerableValueTest {
 		}
 
 		@Override
-		public int compareTo(Object val) {
+		public int compareTo(final Object val) {
 			return 0;
 		}
 
 		@Override
-		public boolean member(Value elem) {
+		public boolean member(final Value elem) {
 			return false;
 		}
 
 		@Override
-		public Value takeExcept(ValueExcept ex) {
+		public Value takeExcept(final ValueExcept ex) {
 			return null;
 		}
 
 		@Override
-		public Value takeExcept(ValueExcept[] exs) {
+		public Value takeExcept(final ValueExcept[] exs) {
 			return null;
 		}
 
@@ -139,12 +139,12 @@ public class EnumerableValueTest {
 		}
 
 		@Override
-		public boolean assignable(Value val) {
+		public boolean assignable(final Value val) {
 			return false;
 		}
 
 		@Override
-		public StringBuffer toString(StringBuffer sb, int offset, boolean swallow) {
+		public StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow) {
 			return toString(sb, offset, swallow);
 		}
 	}

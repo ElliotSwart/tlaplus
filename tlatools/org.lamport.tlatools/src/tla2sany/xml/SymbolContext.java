@@ -36,23 +36,23 @@ public class SymbolContext {
   }
 
   // copy concstructor
-  public SymbolContext(SymbolContext other) {
+  public SymbolContext(final SymbolContext other) {
     context = other.context;
     keys = other.keys;
     flagArray = other.flagArray;
     top_level_entry = other.top_level_entry;
   }
 
-  public void setFlag(int flag) {
+  public void setFlag(final int flag) {
     flagArray[flag] = true;
   }
 
-  public boolean hasFlag(int flag) {
+  public boolean hasFlag(final int flag) {
     return flagArray[flag];
   }
 
-  public void put(SymbolNode nd, Document doc) {
-    Integer k = Integer.valueOf(nd.myUID);
+  public void put(final SymbolNode nd, final Document doc) {
+    final Integer k = Integer.valueOf(nd.myUID);
     if (!keys.contains(k)) {
       // first add the key as it might be mentioned again inside the definition
       keys.add(k);
@@ -61,8 +61,8 @@ public class SymbolContext {
     }
   }
 
-  public void put(TheoremNode nd, Document doc) {
-    Integer k = Integer.valueOf(nd.myUID);
+  public void put(final TheoremNode nd, final Document doc) {
+    final Integer k = Integer.valueOf(nd.myUID);
     if (!keys.contains(k)) {
       // first add the key as it might be mentioned again inside the definition
       keys.add(k);
@@ -71,8 +71,8 @@ public class SymbolContext {
     }
   }
 
-  public void put(AssumeNode nd, Document doc) {
-    Integer k = Integer.valueOf(nd.myUID);
+  public void put(final AssumeNode nd, final Document doc) {
+    final Integer k = Integer.valueOf(nd.myUID);
     if (!keys.contains(k)) {
       // first add the key as it might be mentioned again inside the definition
       keys.add(k);
@@ -81,11 +81,11 @@ public class SymbolContext {
     }
   }
 
-  public Element getContextElement(Document doc) {
-    Element ret = doc.createElement("context");
-    for (java.util.Map.Entry<Integer, Element> entry : context.entrySet()) {
-      Element e = doc.createElement("entry");
-      Element id = doc.createElement("UID");
+  public Element getContextElement(final Document doc) {
+    final Element ret = doc.createElement("context");
+    for (final java.util.Map.Entry<Integer, Element> entry : context.entrySet()) {
+      final Element e = doc.createElement("entry");
+      final Element id = doc.createElement("UID");
       id.appendChild(doc.createTextNode(entry.getKey().toString()));
       e.appendChild(id);
       e.appendChild(entry.getValue());

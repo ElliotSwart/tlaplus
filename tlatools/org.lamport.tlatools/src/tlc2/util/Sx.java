@@ -17,39 +17,39 @@ public abstract class Sx {
   private static Hashtable<String, SxAtom> atomTbl = new Hashtable<String, SxAtom>();
   private static int symCount = 0;  // Number of symbols returned by genSym().
   
-  public static Sx cons(Sx a, Sx b) {
+  public static Sx cons(final Sx a, final Sx b) {
     return new SxPair(a, b);
   }
 
-  public static Sx car(Sx a) {
+  public static Sx car(final Sx a) {
     if (!(a instanceof SxPair)) {
         throw new WrongInvocationException("Car must be applied to cons.");
     }
     return ((SxPair)a).car;
   }
 
-  public static Sx cdr(Sx a) {
+  public static Sx cdr(final Sx a) {
     if (!(a instanceof SxPair)) {
         throw new WrongInvocationException("Cdr must be applied to cons.");
     }
     return ((SxPair)a).cdr;
   }
     
-  public static Sx List(Sx a) { return cons(a, nil); }
+  public static Sx List(final Sx a) { return cons(a, nil); }
 
-  public static Sx List(Sx a, Sx b) {
+  public static Sx List(final Sx a, final Sx b) {
     return cons(a, cons(b, nil));
   }
 
-  public static Sx List(Sx a, Sx b, Sx c) {
+  public static Sx List(final Sx a, final Sx b, final Sx c) {
     return cons(a, cons(b, cons(c, nil)));
   }
 
-  public static Sx List(Sx a, Sx b, Sx c, Sx d) {
+  public static Sx List(final Sx a, final Sx b, final Sx c, final Sx d) {
     return cons(a, cons(b, cons(c, cons(d, nil))));
   }
 
-  public static Sx Append(Sx a, Sx b) {
+  public static Sx Append(final Sx a, final Sx b) {
     if (a == nil) return b;
     return cons(car(a), Append(cdr(a), b));
   }
@@ -60,7 +60,7 @@ public abstract class Sx {
   }
   
   /* Returns true iff a is eq to an element of list p. */
-  public static boolean memq(SxAtom a, Sx p) {
+  public static boolean memq(final SxAtom a, Sx p) {
     while (p != nil) {
       if (a == car(p)) {
 	return true;
@@ -72,7 +72,7 @@ public abstract class Sx {
     return false;
   }
   
-  public static SxAtom Atom(String st) {
+  public static SxAtom Atom(final String st) {
     SxAtom res = atomTbl.get(st);
     if (res == null) {
       res = new SxAtom(st);
@@ -81,41 +81,41 @@ public abstract class Sx {
     return res;
   }
 
-  public static Sx FromInt(int k) { return new SxInt(k); }
+  public static Sx FromInt(final int k) { return new SxInt(k); }
   
   public abstract void print(PrintWriter pw);
   
   public static class SxAtom extends Sx {
     public String st;
   
-    private SxAtom(String st) { this.st = st; }
+    private SxAtom(final String st) { this.st = st; }
 
-    public void print(PrintWriter pw) { pw.print(this.st); }
+    public void print(final PrintWriter pw) { pw.print(this.st); }
   }
 
   public static class SxInt extends Sx {
     public int val;
   
-    public SxInt(int k) { this.val = k; }
+    public SxInt(final int k) { this.val = k; }
 
-    public void print(PrintWriter pw) { pw.print(this.val); }
+    public void print(final PrintWriter pw) { pw.print(this.val); }
   }
 
   public static class SxNil extends Sx {
     private SxNil() { /*SKIP*/ }
 
-    public void print(PrintWriter pw) { pw.print("nil"); }
+    public void print(final PrintWriter pw) { pw.print("nil"); }
   }
   
   public static class SxPair extends Sx {
     public Sx car, cdr;
   
-    public SxPair(Sx a, Sx b) {
+    public SxPair(final Sx a, final Sx b) {
       this.car = a;
       this.cdr = b;
     }
 
-    public void print(PrintWriter pw) {
+    public void print(final PrintWriter pw) {
       pw.print("(");
       this.car.print(pw);
       Sx next = this.cdr;

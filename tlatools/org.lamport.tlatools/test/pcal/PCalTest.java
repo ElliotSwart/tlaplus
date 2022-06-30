@@ -49,7 +49,7 @@ public abstract class PCalTest {
 		ToolIO.reset();
 	}
 
-	protected static String writeFile(String filename, String content) throws IOException {
+	protected static String writeFile(final String filename, final String content) throws IOException {
 		final Path path = Files.createFile(Paths.get(filename + TLAConstants.Files.TLA_EXTENSION));
 		Files.write(path, content.getBytes());
 		
@@ -58,7 +58,7 @@ public abstract class PCalTest {
 		return file.getAbsolutePath();
 	}
 	
-	protected static String writeTempFile(String filename, String content) throws IOException {
+	protected static String writeTempFile(final String filename, final String content) throws IOException {
 		final Path path = Files.createTempFile(filename, TLAConstants.Files.TLA_EXTENSION);
 		Files.write(path, content.getBytes());
 		

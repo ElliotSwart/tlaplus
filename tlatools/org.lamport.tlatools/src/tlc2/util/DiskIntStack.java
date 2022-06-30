@@ -35,7 +35,7 @@ public final class DiskIntStack implements IntStack {
   private Reader reader;
   private Writer writer;
   
-  public DiskIntStack(String diskdir, String name) {
+  public DiskIntStack(final String diskdir, final String name) {
     this.size = 0;
     this.buf1 = new int[BufSize];
     this.buf2 = new int[BufSize];
@@ -56,7 +56,7 @@ public final class DiskIntStack implements IntStack {
   public final long size() { return this.size; }
   
   /* Push an integer onto the stack.  */
-  public final synchronized void pushInt(int x) {
+  public final synchronized void pushInt(final int x) {
     if (this.index == BufSize && this.buf == this.buf2) {
       // need to flush buf1 to disk
       try {
@@ -70,7 +70,7 @@ public final class DiskIntStack implements IntStack {
 	this.buf2 = this.buf;
 	this.index = 0;
       }
-      catch (Exception e) {
+      catch (final Exception e) {
           Assert.fail(EC.SYSTEM_ERROR_WRITING_STATES, new String[]{"stack", e.getMessage()});          
       }
     }
@@ -79,7 +79,7 @@ public final class DiskIntStack implements IntStack {
   }
   
   /* Push a long integer onto the stack.  */
-  public final synchronized void pushLong(long x) {
+  public final synchronized void pushLong(final long x) {
     this.pushInt((int)(x & 0xFFFFFFFFL));
     this.pushInt((int)(x >>> 32));
   }
@@ -102,7 +102,7 @@ public final class DiskIntStack implements IntStack {
 	this.buf1 = this.buf;
 	this.buf = this.buf2;
       }
-      catch (Exception e) {
+      catch (final Exception e) {
           Assert.fail(EC.SYSTEM_ERROR_READING_STATES, new String[]{"stack", e.getMessage()});
       }
     }
@@ -112,8 +112,8 @@ public final class DiskIntStack implements IntStack {
 
   /* Pop the long integer on top of the stack.  */
   public final synchronized long popLong() {
-    long high = this.popInt();
-    long low = this.popInt();
+    final long high = this.popInt();
+    final long low = this.popInt();
     return (high << 32) | (low & 0xFFFFFFFFL);
   }
 
@@ -125,8 +125,8 @@ public final class DiskIntStack implements IntStack {
 	    while (DiskIntStack.this.poolFile == null) {
 	      this.wait();
 	    }
-	    BufferedDataInputStream bdis = FileUtil.newBdFIS(false, DiskIntStack.this.poolFile);
-	    int len = DiskIntStack.this.rwbuf.length;
+	    final BufferedDataInputStream bdis = FileUtil.newBdFIS(false, DiskIntStack.this.poolFile);
+	    final int len = DiskIntStack.this.rwbuf.length;
 	    for (int i = 0; i < len; i++) {
 	      DiskIntStack.this.rwbuf[i] = bdis.readInt();
 	    }
@@ -137,7 +137,7 @@ public final class DiskIntStack implements IntStack {
 	  }
 	}
       }
-      catch (Exception e) 
+      catch (final Exception e)
       {
           Assert.fail(EC.SYSTEM_DISK_IO_ERROR_FOR_FILE, e);
       }
@@ -152,8 +152,8 @@ public final class DiskIntStack implements IntStack {
 	    while (DiskIntStack.this.poolFile == null) {
 	      this.wait();
 	    }
-	    BufferedDataOutputStream bdos = FileUtil.newBdFOS(false, DiskIntStack.this.poolFile);
-	    int len = DiskIntStack.this.buf.length;
+	    final BufferedDataOutputStream bdos = FileUtil.newBdFOS(false, DiskIntStack.this.poolFile);
+	    final int len = DiskIntStack.this.buf.length;
 	    for (int i = 0; i < len; i++) {
 	      bdos.writeInt(DiskIntStack.this.buf[i]);
 	    }
@@ -164,7 +164,7 @@ public final class DiskIntStack implements IntStack {
 	  }
 	}
       }
-      catch (Exception e) 
+      catch (final Exception e)
       {
           Assert.fail(EC.SYSTEM_DISK_IO_ERROR_FOR_FILE, e);
       }

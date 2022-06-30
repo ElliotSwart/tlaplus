@@ -17,7 +17,7 @@ public class PcalTLAGenException extends UnrecoverablePositionedException
 	/**
      * @param message
      */
-    public PcalTLAGenException(String message)
+    public PcalTLAGenException(final String message)
     {
         super(message);
     }
@@ -26,7 +26,7 @@ public class PcalTLAGenException extends UnrecoverablePositionedException
      * @param message
      * @param elementAt2
      */
-    public PcalTLAGenException(String message, AST elementAt2)
+    public PcalTLAGenException(final String message, final AST elementAt2)
     {
         super(message, elementAt2);
     }

@@ -35,7 +35,7 @@ public class OperatorStack implements tla2sany.st.SyntaxTreeConstants {
     * representing function application.                                   *
     ***********************************************************************/
     
-  public OperatorStack( ParseErrors pe ) {
+  public OperatorStack(final ParseErrors pe ) {
     PErrors = pe;
     fcnOp = Operators.getOperator( UniqueString.uniqueStringOf("[") ); }
 
@@ -92,7 +92,7 @@ What do left and right mean?????? What does shift mean????????
     if (CurrentTop.size() == 0)
       return true;
     else {
-      Operator op  = CurrentTop.elementAt( CurrentTop.size()-1 ).getOperator();
+      final Operator op  = CurrentTop.elementAt( CurrentTop.size()-1 ).getOperator();
       if (op != null)
         return op.isPrefix() || op.isInfix();
       else
@@ -100,7 +100,7 @@ What do left and right mean?????? What does shift mean????????
     }
   }
 
-  final private void reduceInfix( Operator op ) {
+  final private void reduceInfix(final Operator op ) {
     /***********************************************************************
     * IF Len(CurrentTop) < 4                                               *
     *   THEN do nothing.                                                   *
@@ -119,19 +119,19 @@ What do left and right mean?????? What does shift mean????????
     *                      <<leftOp, opNode, rightOp>>                     *
     ***********************************************************************/
 // System.err.println("infix reduction on " + op.toString() );
-    int n = CurrentTop.size()-1;
+    final int n = CurrentTop.size()-1;
 //    SyntaxTreeNode localTN = new InfixExprNode();
     if (n>=3) {
-      SyntaxTreeNode opNode  = CurrentTop.elementAt( n-2).getNode();
-      SyntaxTreeNode leftOp  = CurrentTop.elementAt( n-3).getNode();
-      SyntaxTreeNode rightOp = CurrentTop.elementAt( n-1).getNode();
+      final SyntaxTreeNode opNode  = CurrentTop.elementAt( n-2).getNode();
+      final SyntaxTreeNode leftOp  = CurrentTop.elementAt( n-3).getNode();
+      final SyntaxTreeNode rightOp = CurrentTop.elementAt( n-1).getNode();
       CurrentTop.removeElementAt(n-1);
       CurrentTop.removeElementAt(n-2);
-      SyntaxTreeNode lSTN;
+      final SyntaxTreeNode lSTN;
 
       if (op.isNfix() && leftOp.isKind( N_Times ) ) {
-        SyntaxTreeNode children[] = (SyntaxTreeNode[])leftOp.heirs();
-        SyntaxTreeNode newC[] = new SyntaxTreeNode[ children.length + 2];
+        final SyntaxTreeNode[] children = (SyntaxTreeNode[])leftOp.heirs();
+        final SyntaxTreeNode[] newC = new SyntaxTreeNode[ children.length + 2];
         System.arraycopy(children, 0, newC, 0, children.length);
         newC[ newC.length-2 ] = opNode;
         newC[ newC.length-1 ] = rightOp;
@@ -157,7 +157,7 @@ What do left and right mean?????? What does shift mean????????
     ***********************************************************************/
 // Log.log(evalStackLog, "--- reduce prefix");
 // System.out.print("prefix reduction ");
-    int n = CurrentTop.size()-1;
+    final int n = CurrentTop.size()-1;
 //    SyntaxTreeNode localTN = new PrefixExprNode();
     if (n>=2) {
       // System.out.println( op.getIdentifier() );
@@ -165,7 +165,7 @@ What do left and right mean?????? What does shift mean????????
 //        ((GenOpNode)opNode).register( op.getIdentifier() + ".", STable);
 //      else
 //        ((GenOpNode)opNode).register( op.getIdentifier(), STable);
-        SyntaxTreeNode lSTN = new SyntaxTreeNode(N_PrefixExpr,
+        final SyntaxTreeNode lSTN = new SyntaxTreeNode(N_PrefixExpr,
           CurrentTop.elementAt( n-2).getNode(),
           CurrentTop.elementAt( n-1).getNode());
 //      localTN.addChild( ((OSelement) CurrentTop.elementAt( n-2)).getNode() ) ;
@@ -191,12 +191,12 @@ What do left and right mean?????? What does shift mean????????
     ***********************************************************************/
 // Log.log(evalStackLog, "--- reduce postfix");
 // System.out.println("postfix reduction");
-    int n = CurrentTop.size()-1;
-    SyntaxTreeNode lSTN;
+    final int n = CurrentTop.size()-1;
+    final SyntaxTreeNode lSTN;
 //    SyntaxTreeNode localTN = new PostfixExprNode();
     if (n>=2) {
-      Operator op = CurrentTop.elementAt( n-1).getOperator();
-      SyntaxTreeNode opNode = CurrentTop.elementAt( n-1).getNode();
+      final Operator op = CurrentTop.elementAt( n-1).getOperator();
+      final SyntaxTreeNode opNode = CurrentTop.elementAt( n-1).getNode();
       if (op != fcnOp ) {
 //      ((GenOpNode)opNode).register( op.getIdentifier(), STable);
         lSTN = new SyntaxTreeNode(N_PostfixExpr,
@@ -206,7 +206,7 @@ What do left and right mean?????? What does shift mean????????
 //      localTN.addChild( opNode ) ;
       } else {
 // System.out.println("postfix reduction : FcnOp");
-        SyntaxTreeNode eSTN = CurrentTop.elementAt( n-2).getNode();
+        final SyntaxTreeNode eSTN = CurrentTop.elementAt( n-2).getNode();
         lSTN = new SyntaxTreeNode( eSTN.getFN(), N_FcnAppl, eSTN, (SyntaxTreeNode[]) (opNode.heirs()) );
       }
       CurrentTop.removeElementAt(n-1);
@@ -303,7 +303,7 @@ What do left and right mean?????? What does shift mean????????
         }
       } else { // oR.isInfix()
         if ( n == 0 ) {
-            Operator mixR  = Operators.getMixfix( oR );
+            final Operator mixR  = Operators.getMixfix( oR );
             if ( mixR == null )
               throw new ParseException(
                           "\n  Encountered infix op " + oR.getIdentifier() + 
@@ -319,7 +319,7 @@ What do left and right mean?????? What does shift mean????????
             oL = tm1.getOperator();
             if ( oL.isInfix() || oL.isPrefix() ) { 
                     // new case for mixfix XXX this is not exhaustive.
-              Operator mixR  = Operators.getMixfix( oR );
+              final Operator mixR  = Operators.getMixfix( oR );
               if ( mixR == null ) { // is infix
                 if (oR == Operator.VoidOperator() )
                   throw new ParseException(
@@ -353,7 +353,7 @@ What do left and right mean?????? What does shift mean????????
               if ( tm2.isOperator() ) {
                 oL = tm2.getOperator();
 // System.out.println("tm2 is operator: " + oL.getIdentifier());
-                Operator mixL = Operators.getMixfix( oL );
+                final Operator mixL = Operators.getMixfix( oL );
                 if (  mixL != null && ((n==2) 
                     || 
                      CurrentTop.elementAt( n-3 ).isOperator())) {
@@ -434,7 +434,7 @@ What do left and right mean?????? What does shift mean????????
     if ( isWellReduced() )
       return CurrentTop.elementAt(0).getNode();
     else {
-      StringBuffer msg = new StringBuffer("Couldn't properly parse expression");
+      final StringBuffer msg = new StringBuffer("Couldn't properly parse expression");
       do {
 //((OSelement)CurrentTop.elementAt(n)).getNode().printTree(new java.io.PrintWriter(System.out));  n++;
         msg.append("-- incomplete expression at ");
@@ -451,7 +451,7 @@ What do left and right mean?????? What does shift mean????????
      return CurrentTop.size() == 2;
   }
 
-  final public void pushOnStack( SyntaxTreeNode n, Operator o ) {
+  final public void pushOnStack(final SyntaxTreeNode n, final Operator o ) {
     /* XXX could be optimized to reuse OSelements */
     /***********************************************************************
     * Apparently, the operator argument o is null if this is not an        *
@@ -471,7 +471,7 @@ What do left and right mean?????? What does shift mean????????
     return CurrentTop.elementAt(0).getNode();
   }
 
-  public final void reduceRecord( SyntaxTreeNode middle, SyntaxTreeNode right ) throws ParseException {
+  public final void reduceRecord(final SyntaxTreeNode middle, final SyntaxTreeNode right ) throws ParseException {
     int index;
     OSelement oselt;
 
@@ -481,7 +481,7 @@ What do left and right mean?????? What does shift mean????????
     oselt = CurrentTop.elementAt( index );
 
     if ( oselt.isOperator() ) {
-      OSelement ospelt = CurrentTop.elementAt( index - 1 );
+      final OSelement ospelt = CurrentTop.elementAt( index - 1 );
       if ( oselt.getOperator().isPostfix() && !ospelt.isOperator() ) {
         CurrentTop.addElement( null ); // humour reducePostfix
         reducePostfix();
@@ -492,8 +492,8 @@ What do left and right mean?????? What does shift mean????????
       } else
         throw new ParseException("\n    ``.'' follows operator " + oselt.getNode().getLocation().toString() + "." );
     } 
-    SyntaxTreeNode left = CurrentTop.elementAt(index ).getNode();
-    SyntaxTreeNode rcd = new SyntaxTreeNode(N_RecordComponent, left, middle, right);
+    final SyntaxTreeNode left = CurrentTop.elementAt(index ).getNode();
+    final SyntaxTreeNode rcd = new SyntaxTreeNode(N_RecordComponent, left, middle, right);
     CurrentTop.setElementAt(new OSelement(rcd) , index);
 }
 
@@ -505,7 +505,7 @@ What do left and right mean?????? What does shift mean????????
     * empty.                                                               *
     ***********************************************************************/
     if (CurrentTop == null) {return null;} ;
-    int n = CurrentTop.size() ;
+    final int n = CurrentTop.size() ;
     if (n == 0) {return null;} ;
     return CurrentTop.elementAt(n-1) ;
    }

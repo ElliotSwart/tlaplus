@@ -34,15 +34,15 @@ public final class Action implements ToolGlobals, Serializable {
   public CostModel cm = CostModel.DO_NOT_RECORD;
 
   /* Constructors */
-  public Action(SemanticNode pred, Context con) {
+  public Action(final SemanticNode pred, final Context con) {
 	  this(pred, con, false);
   }
   
-  public Action(SemanticNode pred, Context con, boolean isInitPred) {
+  public Action(final SemanticNode pred, final Context con, final boolean isInitPred) {
 	  this(pred, con, UNNAMED_ACTION, isInitPred, false);
   }
 
-  private Action(SemanticNode pred, Context con, UniqueString actionName, boolean isInitPred, final boolean isInternal) {
+  private Action(final SemanticNode pred, final Context con, final UniqueString actionName, final boolean isInitPred, final boolean isInternal) {
 	  this.pred = pred;
 	  this.con = con;
 	  this.actionName = actionName;
@@ -50,11 +50,11 @@ public final class Action implements ToolGlobals, Serializable {
 	  this.isInternal = isInternal;
   }
 
-  public Action(SemanticNode pred, Context con, OpDefNode opDef) {
+  public Action(final SemanticNode pred, final Context con, final OpDefNode opDef) {
 	  this(pred, con, opDef, false, false);
   }
 
-  public Action(SemanticNode pred, Context con, OpDefNode opDef, boolean isInitPred, final boolean isInternal) {
+  public Action(final SemanticNode pred, final Context con, final OpDefNode opDef, final boolean isInitPred, final boolean isInternal) {
 	  this(pred, con, opDef != null ? opDef.getName() : UNNAMED_ACTION, isInitPred, isInternal);
 	  // opDef null when action not declared, i.e. Spec == x = 0 /\ ...
 	  // See test64 and test64a and others.
@@ -135,7 +135,7 @@ public final class Action implements ToolGlobals, Serializable {
 	   return pred.getLocation();
 	}
 
-	public void setId(int id) {
+	public void setId(final int id) {
 		this.id = id;
 	}
 	public int getId() {

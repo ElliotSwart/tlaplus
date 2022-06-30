@@ -37,10 +37,10 @@ public class MultiFPSetTest {
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, MemFPSet.class.getName());
 		try {
 			System.setProperty(FPSetFactory.IMPL_PROPERTY, MemFPSet.class.getName());
-			FPSetConfiguration conf = new FPSetConfiguration();
+			final FPSetConfiguration conf = new FPSetConfiguration();
 			conf.setFpBits(0);
 			new MultiFPSet(conf);
-		} catch (RuntimeException e) {
+		} catch (final RuntimeException e) {
 			return;
 		}
 		fail("Negative fpbits must fail");
@@ -53,10 +53,10 @@ public class MultiFPSetTest {
 	@Test
 	public void testCTorMin() throws IOException {
 		try {
-			FPSetConfiguration conf = new FPSetConfiguration();
+			final FPSetConfiguration conf = new FPSetConfiguration();
 			conf.setFpBits(1);
 			new MultiFPSet(conf);
-		} catch (RuntimeException e) {
+		} catch (final RuntimeException e) {
 			fail();
 		}
 		return;
@@ -69,13 +69,13 @@ public class MultiFPSetTest {
 	@Test
 	public void testCTorMax() throws IOException {
 		try {
-			FPSetConfiguration conf = new FPSetConfiguration();
+			final FPSetConfiguration conf = new FPSetConfiguration();
 			conf.setFpBits(30);
 			new MultiFPSet(conf);
-		} catch (OutOfMemoryError e) {
+		} catch (final OutOfMemoryError e) {
 			// might happen depending on test machine setup
 			return;
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			// Happens when MultiFPSetConfiguration is invalid (too many fpsets
 			// leaving no room/memory for each individual fpset).
 			if (e.getMessage().equals("Given fpSetConfig results in zero or negative fp count.")) {
@@ -83,7 +83,7 @@ public class MultiFPSetTest {
 			}
 			// some other cause for the IAE
 			fail();
-		} catch (RuntimeException e) {
+		} catch (final RuntimeException e) {
 			fail();
 		}
 		return;
@@ -96,10 +96,10 @@ public class MultiFPSetTest {
 	@Test
 	public void testCTorHigherMax() throws IOException {
 		try {
-			FPSetConfiguration conf = new FPSetConfiguration();
+			final FPSetConfiguration conf = new FPSetConfiguration();
 			conf.setFpBits(31);
 			new MultiFPSet(conf);
-		} catch (RuntimeException e) {
+		} catch (final RuntimeException e) {
 			return;
 		}
 		fail();
@@ -111,14 +111,14 @@ public class MultiFPSetTest {
 	 */
 	@Test
 	public void testPutMax() throws IOException {
-		FPSetConfiguration conf = new FPSetConfiguration();
+		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
 		final MultiFPSet mfps = new MultiFPSet(conf);
 
 		// put a random fp value into set
 		try {
 			mfps.put(Long.MAX_VALUE);
-		} catch (ArrayIndexOutOfBoundsException e) {
+		} catch (final ArrayIndexOutOfBoundsException e) {
 			fail();
 		}
 	}
@@ -129,14 +129,14 @@ public class MultiFPSetTest {
 	 */
 	@Test
 	public void testPutMin() throws IOException {
-		FPSetConfiguration conf = new FPSetConfiguration();
+		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
 		final MultiFPSet mfps = new MultiFPSet(conf);
 
 		// put a random fp value into set
 		try {
 			mfps.put(Long.MIN_VALUE);
-		} catch (ArrayIndexOutOfBoundsException e) {
+		} catch (final ArrayIndexOutOfBoundsException e) {
 			fail();
 		}
 	}
@@ -147,14 +147,14 @@ public class MultiFPSetTest {
 	 */
 	@Test
 	public void testPutZero() throws IOException {
-		FPSetConfiguration conf = new FPSetConfiguration();
+		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
 		final MultiFPSet mfps = new MultiFPSet(conf);
 
 		// put a random fp value into set
 		try {
 			mfps.put(0);
-		} catch (ArrayIndexOutOfBoundsException e) {
+		} catch (final ArrayIndexOutOfBoundsException e) {
 			fail();
 		}
 	}
@@ -165,7 +165,7 @@ public class MultiFPSetTest {
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
 		
-		MultiFPSet mfps = new MultiFPSet(conf);
+		final MultiFPSet mfps = new MultiFPSet(conf);
 		mfps.init(1, tmpdir, "testGetFPSet");
 		
 		final long a = (1L << 62) + 1; // 01...0
@@ -173,7 +173,7 @@ public class MultiFPSetTest {
 		final long b = 1L; // 0...1
 		printBinaryString("b00...1", b);
 		
-		FPSet aFPSet = mfps.getFPSet(a);
+		final FPSet aFPSet = mfps.getFPSet(a);
 		Assert.assertTrue(aFPSet == mfps.getFPSet(b));
 		
 		// Initially neither a nor b are in the set.
@@ -199,13 +199,13 @@ public class MultiFPSetTest {
 		Assert.assertEquals(2, aFPSet.size());
 		
 		// Get the other FPSet
-		FPSet[] fpSets = mfps.getFPSets();
-		Set<FPSet> s = new HashSet<FPSet>();
+		final FPSet[] fpSets = mfps.getFPSets();
+		final Set<FPSet> s = new HashSet<FPSet>();
 		for (int i = 0; i < fpSets.length; i++) {
 			s.add(fpSets[i]);
 		}
 		s.remove(aFPSet);
-		FPSet bFPSet = (FPSet) s.toArray()[0];
+		final FPSet bFPSet = (FPSet) s.toArray()[0];
 		
 		Assert.assertFalse(bFPSet.contains(a));
 		Assert.assertFalse(bFPSet.contains(b));
@@ -220,7 +220,7 @@ public class MultiFPSetTest {
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
 		
-		MultiFPSet mfps = new MultiFPSet(conf);
+		final MultiFPSet mfps = new MultiFPSet(conf);
 		mfps.init(1, tmpdir, "testGetFPSet0");
 		
 		final long a = (1L << 63) + 1; // 10...1
@@ -232,8 +232,8 @@ public class MultiFPSetTest {
 		final long d = (3L << 62) + 1; // 11...1
 		printBinaryString("d0...1", d);
 		
-		FPSet aFPSet = mfps.getFPSet(a);
-		FPSet bFPSet = mfps.getFPSet(b);
+		final FPSet aFPSet = mfps.getFPSet(a);
+		final FPSet bFPSet = mfps.getFPSet(b);
 		Assert.assertTrue(aFPSet != bFPSet);
 		
 		// Initially neither a nor b are in the set.
@@ -273,7 +273,7 @@ public class MultiFPSetTest {
 		Assert.assertTrue(mfps.contains(c));
 		Assert.assertTrue(mfps.contains(d));
 		
-		for (FPSet fpSet : mfps.getFPSets()) {
+		for (final FPSet fpSet : mfps.getFPSets()) {
 			Assert.assertEquals(2, fpSet.size());
 			// Expect to have two buckets
 			Assert.assertEquals(2, ((FPSetStatistic) fpSet).getTblLoad());
@@ -339,7 +339,7 @@ public class MultiFPSetTest {
 		Assert.assertTrue(mfps.contains(c));
 		Assert.assertTrue(mfps.contains(d));
 		
-		for (FPSet fpSet : s) {
+		for (final FPSet fpSet : s) {
 			Assert.assertEquals(1, fpSet.size());
 			// Expect to have two buckets
 			Assert.assertEquals(1, ((FPSetStatistic) fpSet).getTblLoad());
@@ -375,7 +375,7 @@ public class MultiFPSetTest {
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
 		
-		MultiFPSet mfps = new MultiFPSet(conf);
+		final MultiFPSet mfps = new MultiFPSet(conf);
 		mfps.init(1, tmpdir, "testGetFPSetL");
 		
 		final long a = (1L << 62) + 1;
@@ -383,7 +383,7 @@ public class MultiFPSetTest {
 		final long b = 1L;
 		printBinaryString("b01", b);
 		
-		FPSet aFPSet = mfps.getFPSet(a);
+		final FPSet aFPSet = mfps.getFPSet(a);
 		Assert.assertTrue(aFPSet == mfps.getFPSet(b));
 		
 		// Initially neither a nor b are in the set.
@@ -409,13 +409,13 @@ public class MultiFPSetTest {
 		Assert.assertEquals(2, aFPSet.size());
 		
 		// Get the other FPSet
-		FPSet[] fpSets = mfps.getFPSets();
-		Set<FPSet> s = new HashSet<FPSet>();
+		final FPSet[] fpSets = mfps.getFPSets();
+		final Set<FPSet> s = new HashSet<FPSet>();
 		for (int i = 0; i < fpSets.length; i++) {
 			s.add(fpSets[i]);
 		}
 		s.remove(aFPSet);
-		FPSet bFPSet = (FPSet) s.toArray()[0];
+		final FPSet bFPSet = (FPSet) s.toArray()[0];
 		
 		Assert.assertFalse(bFPSet.contains(a));
 		Assert.assertFalse(bFPSet.contains(b));
@@ -430,7 +430,7 @@ public class MultiFPSetTest {
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
 		
-		MultiFPSet mfps = new MultiFPSet(conf);
+		final MultiFPSet mfps = new MultiFPSet(conf);
 		mfps.init(1, tmpdir, "testGetFPSet0L");
 		
 		final long a = (1L << 63) + 1;
@@ -438,8 +438,8 @@ public class MultiFPSetTest {
 		final long b = 1L;
 		printBinaryString("b01", b);
 		
-		FPSet aFPSet = mfps.getFPSet(a);
-		FPSet bFPSet = mfps.getFPSet(b);
+		final FPSet aFPSet = mfps.getFPSet(a);
+		final FPSet bFPSet = mfps.getFPSet(b);
 		Assert.assertTrue(aFPSet != bFPSet);
 		
 		// Initially neither a nor b are in the set.
@@ -521,7 +521,7 @@ public class MultiFPSetTest {
 		Assert.assertTrue(mfps.contains(c));
 		Assert.assertTrue(mfps.contains(d));
 		
-		for (FPSet fpSet : s) {
+		for (final FPSet fpSet : s) {
 			Assert.assertEquals(1, fpSet.size());
 		}
 		
@@ -560,7 +560,7 @@ public class MultiFPSetTest {
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
 		
-		MultiFPSet mfps = new MultiFPSet(conf);
+		final MultiFPSet mfps = new MultiFPSet(conf);
 		mfps.init(1, tmpdir, "testGetFPSetOffHeap");
 		
 		final long a = (1L << 62) + 1; // 01...0
@@ -568,7 +568,7 @@ public class MultiFPSetTest {
 		final long b = 1L; // 0...1
 		printBinaryString("b00...1", b);
 		
-		FPSet aFPSet = mfps.getFPSet(a);
+		final FPSet aFPSet = mfps.getFPSet(a);
 		Assert.assertTrue(aFPSet == mfps.getFPSet(b));
 		
 		// Initially neither a nor b are in the set.
@@ -594,13 +594,13 @@ public class MultiFPSetTest {
 		Assert.assertEquals(2, aFPSet.size());
 		
 		// Get the other FPSet
-		FPSet[] fpSets = mfps.getFPSets();
-		Set<FPSet> s = new HashSet<FPSet>();
+		final FPSet[] fpSets = mfps.getFPSets();
+		final Set<FPSet> s = new HashSet<FPSet>();
 		for (int i = 0; i < fpSets.length; i++) {
 			s.add(fpSets[i]);
 		}
 		s.remove(aFPSet);
-		FPSet bFPSet = (FPSet) s.toArray()[0];
+		final FPSet bFPSet = (FPSet) s.toArray()[0];
 		
 		Assert.assertFalse(bFPSet.contains(a));
 		Assert.assertFalse(bFPSet.contains(b));
@@ -620,7 +620,7 @@ public class MultiFPSetTest {
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
 		
-		MultiFPSet mfps = new MultiFPSet(conf);
+		final MultiFPSet mfps = new MultiFPSet(conf);
 		mfps.init(1, tmpdir, "testGetFPSetOffHeap0");
 		
 		final long a = (1L << 63) + 1; // 10...1
@@ -632,8 +632,8 @@ public class MultiFPSetTest {
 		final long d = (3L << 62) + 1; // 11...1
 		printBinaryString("d0...1", d);
 		
-		FPSet aFPSet = mfps.getFPSet(a);
-		FPSet bFPSet = mfps.getFPSet(b);
+		final FPSet aFPSet = mfps.getFPSet(a);
+		final FPSet bFPSet = mfps.getFPSet(b);
 		Assert.assertTrue(aFPSet != bFPSet);
 		
 		// Initially neither a nor b are in the set.
@@ -673,7 +673,7 @@ public class MultiFPSetTest {
 		Assert.assertTrue(mfps.contains(c));
 		Assert.assertTrue(mfps.contains(d));
 		
-		for (FPSet fpSet : mfps.getFPSets()) {
+		for (final FPSet fpSet : mfps.getFPSets()) {
 			Assert.assertEquals(2, fpSet.size());
 			// Expect to have two buckets
 			Assert.assertEquals(2, ((FPSetStatistic) fpSet).getTblLoad());
@@ -744,7 +744,7 @@ public class MultiFPSetTest {
 		Assert.assertTrue(mfps.contains(c));
 		Assert.assertTrue(mfps.contains(d));
 		
-		for (FPSet fpSet : s) {
+		for (final FPSet fpSet : s) {
 			Assert.assertEquals(1, fpSet.size());
 			// Expect to have two buckets
 			Assert.assertEquals(1, ((FPSetStatistic) fpSet).getTblLoad());

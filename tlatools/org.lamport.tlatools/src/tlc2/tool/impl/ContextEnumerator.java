@@ -21,7 +21,7 @@ public final class ContextEnumerator implements IContextEnumerator {
   private Value[] currentElems;
   private boolean isDone;
   
-  public ContextEnumerator(Object[] vars, ValueEnumeration[] enums, Context con) {
+  public ContextEnumerator(final Object[] vars, final ValueEnumeration[] enums, final Context con) {
     this.con = con;
     this.vars = vars;
     this.enums = enums;
@@ -45,12 +45,12 @@ public final class ContextEnumerator implements IContextEnumerator {
               con1 = con1.cons((SymbolNode)this.vars[i], this.currentElems[i]);
           }
           else {
-              SymbolNode[] varList = (SymbolNode[])this.vars[i];
-              Value argVal = this.currentElems[i];
+              final SymbolNode[] varList = (SymbolNode[])this.vars[i];
+              final Value argVal = this.currentElems[i];
               if (!(argVal instanceof TupleValue)) {
                   Assert.fail(EC.TLC_ARGUMENT_MISMATCH, varList[0].toString());
               }
-              Value[] valList = ((TupleValue)argVal).elems;
+              final Value[] valList = ((TupleValue)argVal).elems;
               if (varList.length != valList.length) {
                   Assert.fail(EC.TLC_ARGUMENT_MISMATCH, varList[0].toString());
               }

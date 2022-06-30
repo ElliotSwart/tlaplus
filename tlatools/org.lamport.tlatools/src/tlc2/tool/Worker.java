@@ -59,7 +59,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 	private volatile int maxLevel = 0;
 
 	// SZ Feb 20, 2009: changed due to super type introduction
-	public Worker(int id, AbstractChecker tlc, String metadir, String specFile) throws IOException {
+	public Worker(final int id, final AbstractChecker tlc, final String metadir, final String specFile) throws IOException {
 		super(id);
 		// SZ 12.04.2009: added thread name
 		this.setName("TLC Worker " + id);
@@ -141,7 +141,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 				this.outDegree.addSample(unseenSuccessorStates);
 				unseenSuccessorStates = 0;
 			}
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			// Something bad happened. Quit ...
 			// Assert.printStack(e);
 			resetCurrentState();
@@ -165,7 +165,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 	private final boolean checkLiveness;
 	private static boolean printedLivenessErrorStack = false;
 
-	private final void doNextCheckLiveness(TLCState curState, SetOfStates liveNextStates) throws IOException {
+	private final void doNextCheckLiveness(final TLCState curState, final SetOfStates liveNextStates) throws IOException {
 		final long curStateFP = curState.fingerPrint();
 
 		// Add the stuttering step:
@@ -184,7 +184,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		// originate, and c) there is no global exception handling.
 		try {
 			this.tlc.liveCheck.addNextState(tlc.tool.getLiveness(), curState, curStateFP, liveNextStates);
-		} catch (EvalException | TLCRuntimeException origExp) {
+		} catch (final EvalException | TLCRuntimeException origExp) {
 			synchronized (this.tlc) {
 				if (printedLivenessErrorStack) {
 					// Another worker beat us to printing an error trace.
@@ -206,7 +206,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 					// Regular evaluation with tlc.tool.getLiveness failed but CallStackTool
 					// succeeded. This should never happen!
 					Assert.fail(EC.GENERAL, origExp);
-				} catch (EvalException | TLCRuntimeException rerunExp) {
+				} catch (final EvalException | TLCRuntimeException rerunExp) {
 					// liveCheck#addNextState is not side-effect free. For example, the behavior
 					// (liveness) graph might have been changed and new GraphNodes been added. If
 					// that's the case, calling addNextStates with the same parameters again causes
@@ -249,7 +249,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 	
 	/* Statistics */
 
-	final void incrementStatesGenerated(long l) {
+	final void incrementStatesGenerated(final long l) {
 		this.statesGenerated += l;		
 	}
 	
@@ -265,7 +265,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		return maxLevel;
 	}
 
-	final void setLevel(int level) {
+	final void setLevel(final int level) {
 		maxLevel = level;
 	}
 
@@ -459,7 +459,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 				this.squeue.sEnqueue(succState);
 			}
 			return this;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			// We can't throw Exception here because it would violate the contract of
 			// tlc2.tool.INextStateFunctor.addElement(TLCState, Action, TLCState). Thus,
 			// wrap the exception regardless of whether it is a (unchecked) runtime
@@ -538,7 +538,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
                 	}
 				}
 			}
-        } catch (Exception e)
+        } catch (final Exception e)
         {
 			this.tlc.doNextEvalFailed(curState, succState, EC.TLC_INVARIANT_EVALUATION_FAILED,
 					this.tool.getInvNames()[k], e);
@@ -571,7 +571,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
                 	}
 				}
 			}
-        } catch (Exception e)
+        } catch (final Exception e)
         {
         	this.tlc.doNextEvalFailed(curState, succState, EC.TLC_ACTION_PROPERTY_EVALUATION_FAILED,
 					this.tool.getImpliedActNames()[k], e);
@@ -579,7 +579,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
         return false;
 	}
 	
-	private boolean doNextSetErr(TLCState curState, TLCState succState, boolean keep, int ec, String param) throws IOException, WorkerException {
+	private boolean doNextSetErr(final TLCState curState, final TLCState succState, final boolean keep, final int ec, final String param) throws IOException, WorkerException {
 		synchronized (this.tlc) {
 			final boolean doNextSetErr = this.tlc.doNextSetErr(curState, succState, keep, ec, param);
 
@@ -590,7 +590,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		}
 	}
 	
-	private boolean doNextSetErr(TLCState curState, TLCState succState, Action action) throws IOException, WorkerException {
+	private boolean doNextSetErr(final TLCState curState, final TLCState succState, final Action action) throws IOException, WorkerException {
 		synchronized (this.tlc) {
 			final boolean doNextSetErr = this.tlc.doNextSetErr(curState, succState, action);
 
@@ -601,7 +601,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		}
 	}
 	
-	private final void doPostCondition(TLCState curState, TLCState succState) throws IOException {
+	private final void doPostCondition(final TLCState curState, final TLCState succState) throws IOException {
 		final LinkedList<TLCStateInfo> trace = new LinkedList<>();
 		if (curState.isInitial()) {
 			trace.add(tool.getState(curState.fingerPrint()));

@@ -52,7 +52,7 @@ public class OffHeapDiskFPSetLongTest extends FPSetTest {
 		
 		// Divide the allocated memory to approximate how many fingerprints will
 		// have to inserted into the fpset before it starts flushing to disk.
-		long freeMemoryInFPs = TLCRuntime.getInstance()
+		final long freeMemoryInFPs = TLCRuntime.getInstance()
 				.getNonHeapPhysicalMemory() / (long) FPSet.LongSize;
 
 		// For n flushes, insert freeMemoryInFPs into the fp and check the

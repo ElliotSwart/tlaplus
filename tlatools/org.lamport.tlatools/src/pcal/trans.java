@@ -300,7 +300,7 @@ class trans {
      * Main function called from the command line
      * @param args, command line arguments
      */
-    public static void main(String[] args)
+    public static void main(final String[] args)
     {
         runMe(args);
     }
@@ -316,7 +316,7 @@ class trans {
      * value was not being used.)  If the translation fails, it returns
      * null.
      */
-    public static int runMe(String[] args)  
+    public static int runMe(final String[] args)
     {
         /*********************************************************************
         * Get and print version number.                                      *
@@ -344,7 +344,7 @@ class trans {
         /*********************************************************************
         * Get and process arguments.                                         
         *********************************************************************/
-        int status = parseAndProcessArguments(args);
+        final int status = parseAndProcessArguments(args);
 
         if (status != STATUS_OK)
         {
@@ -360,7 +360,7 @@ class trans {
         try
         {
             inputVec = fileToStringVector(PcalParams.TLAInputFile + /* (PcalParams.fromPcalFile ? ".pcal" : */TLAConstants.Files.TLA_EXTENSION /*)*/);
-        } catch (FileToStringVectorException e)
+        } catch (final FileToStringVectorException e)
         {
             PcalDebug.reportError(e);
             return exitWithStatus(STATUS_EXIT_WITH_ERRORS);
@@ -382,7 +382,7 @@ class trans {
         *********************************************************************/
         // if (!PcalParams.fromPcalFile)
         // {
-        boolean renameToOld = !PcalParams.NoOld;
+        final boolean renameToOld = !PcalParams.NoOld;
         if (renameToOld) {
         	File file;
         	try
@@ -395,7 +395,7 @@ class trans {
         		;
         		file = new File(PcalParams.TLAInputFile + TLAConstants.Files.TLA_EXTENSION);
         		file.renameTo(new File(PcalParams.TLAInputFile + ".old"));
-        	} catch (Exception e)
+        	} catch (final Exception e)
         	{
         		PcalDebug.reportError("Could not rename input file " + PcalParams.TLAInputFile + TLAConstants.Files.TLA_EXTENSION + " to "
         				+ PcalParams.TLAInputFile + ".old");
@@ -436,7 +436,7 @@ class trans {
         try
         {
             WriteStringVectorToFile(outputVec, PcalParams.TLAInputFile + TLAConstants.Files.TLA_EXTENSION);
-        } catch (StringVectorToFileException e)
+        } catch (final StringVectorToFileException e)
         {
             PcalDebug.reportError(e);
             return exitWithStatus(STATUS_EXIT_WITH_ERRORS);
@@ -457,7 +457,7 @@ class trans {
                 try
                 {
                     cfg = fileToStringVector(PcalParams.TLAInputFile + TLAConstants.Files.CONFIG_EXTENSION);
-                } catch (FileToStringVectorException e)
+                } catch (final FileToStringVectorException e)
                 {
                     PcalDebug.reportError(e);
                     return exitWithStatus(STATUS_EXIT_WITH_ERRORS);
@@ -558,7 +558,7 @@ class trans {
             try
             {
                 WriteStringVectorToFile(cfg, PcalParams.TLAInputFile + TLAConstants.Files.CONFIG_EXTENSION);
-            } catch (StringVectorToFileException e)
+            } catch (final StringVectorToFileException e)
             {
                 PcalDebug.reportError(e);
                 return exitWithStatus(STATUS_EXIT_WITH_ERRORS);
@@ -576,7 +576,7 @@ class trans {
     	return performTranslation(specificationText, new ValidationCallBack.Noop());
     }
     
-    public static List<String> performTranslation(final List<String> specificationText, ValidationCallBack cb) {
+    public static List<String> performTranslation(final List<String> specificationText, final ValidationCallBack cb) {
         /**
          * Create the new TLAtoPCalMapping object, call it mapping
          * here and set PcalParams.tlaPcalMapping to point to it.
@@ -613,15 +613,15 @@ class trans {
          *  where <options> has the same format as options on the command
          *  line.
          */
-        IntPair searchLoc = new IntPair(0, 0);
+        final IntPair searchLoc = new IntPair(0, 0);
         boolean notDone = true;
         while (notDone)
         {
             try
             {
                 ParseAlgorithm.FindToken("PlusCal", untabInputVec, searchLoc, "");
-                String line = ParseAlgorithm.GotoNextNonSpace(untabInputVec, searchLoc);
-                String restOfLine = line.substring(searchLoc.two);
+                final String line = ParseAlgorithm.GotoNextNonSpace(untabInputVec, searchLoc);
+                final String restOfLine = line.substring(searchLoc.two);
                 if (restOfLine.startsWith("options"))
                 {
                     // The first string after "PlusCal" not starting with a
@@ -634,7 +634,7 @@ class trans {
                         notDone = false;
                     }
                 }
-            } catch (ParseAlgorithmException e)
+            } catch (final ParseAlgorithmException e)
             {
                 // The token "PlusCal" not found.
                 notDone = false;
@@ -715,7 +715,7 @@ class trans {
         boolean foundFairBegin = false;
         while ((algLine < untabInputVec.size()) && !foundBegin)
         {
-            String line = untabInputVec.elementAt(algLine);
+            final String line = untabInputVec.elementAt(algLine);
             algCol = line.indexOf(PcalParams.BeginAlg);
             if (algCol != -1)
             {
@@ -770,12 +770,12 @@ class trans {
             int ecCol  = algCol ;
             boolean notFound = true ;
             while (notFound && ecLine < untabInputVec.size()) {
-            	char[] line = ((String) untabInputVec.elementAt(ecLine)).toCharArray();
+            	final char[] line = ((String) untabInputVec.elementAt(ecLine)).toCharArray();
             	
                 // check current line 
                 while (notFound && ecCol < line.length-1)	 {
-                	char ch = line[ecCol] ;
-                	char ch2 = line[ecCol+1] ;
+                	final char ch = line[ecCol] ;
+                	final char ch2 = line[ecCol+1] ;
                 	
 // The following code isn't needed because the algorithm is inside a comment, and 
 // quotes and \* have no effect in determining where the comment ends.
@@ -838,7 +838,7 @@ class trans {
             
             // Report an error  if there's something else on the line that doesn't begin with "\*".  This is probably
             
-            String endStuff = ((String) untabInputVec.elementAt(ecLine)).substring(ecCol).trim() ;
+            final String endStuff = ((String) untabInputVec.elementAt(ecLine)).substring(ecCol).trim() ;
             
             if (!endStuff.equals("") && !endStuff.startsWith("\\*")) {
             	PcalDebug.reportError("Text on same line following `*)' that ends the \n   comment containing the algorithm.");
@@ -885,7 +885,7 @@ class trans {
         try
         {
             ParseAlgorithm.uncomment(untabInputVec, algLine, algCol);
-        } catch (ParseAlgorithmException e)
+        } catch (final ParseAlgorithmException e)
         {
             PcalDebug.reportError(e);
 //            return exitWithStatus(STATUS_EXIT_WITH_ERRORS);
@@ -899,7 +899,7 @@ class trans {
         * the previous translation removed), starting right after the        *
         * PcalParams.BeginAlg string.                                        *
         *********************************************************************/
-        PcalCharReader reader = new PcalCharReader(untabInputVec, algLine, algCol, output.size(), 0);
+        final PcalCharReader reader = new PcalCharReader(untabInputVec, algLine, algCol, output.size(), 0);
 
         /*********************************************************************
         * Set ast to the AST node representing the entire algorithm.         *
@@ -916,7 +916,7 @@ class trans {
 //          ", omitStutteringWhenDone = " + ParseAlgorithm.omitStutteringWhenDone);
 // }
 
-        } catch (ParseAlgorithmException e)
+        } catch (final ParseAlgorithmException e)
         {
             PcalDebug.reportError(e);
 //            return exitWithStatus(STATUS_EXIT_WITH_ERRORS);
@@ -954,11 +954,11 @@ class trans {
         *********************************************************************/
 
         // SZ February.15 2009: made non-static to make PCal stateless for tool runs
-        PCalTLAGenerator pcalTLAGenerator = new PCalTLAGenerator(ast);
+        final PCalTLAGenerator pcalTLAGenerator = new PCalTLAGenerator(ast);
         try
         {
             pcalTLAGenerator.removeNameConflicts();
-        } catch (RemoveNameConflictsException e1)
+        } catch (final RemoveNameConflictsException e1)
         {
             PcalDebug.reportError(e1);
 //            return exitWithStatus(STATUS_EXIT_WITH_ERRORS);
@@ -978,7 +978,7 @@ class trans {
             try
             {
                 translation = TLCTranslate(ast);
-            } catch (TLCTranslationException e)
+            } catch (final TLCTranslationException e)
             {
                 PcalDebug.reportError(e);
 //                return exitWithStatus(STATUS_EXIT_WITH_ERRORS);
@@ -989,7 +989,7 @@ class trans {
             try
             {
                 translation = pcalTLAGenerator.translate();
-            } catch (RemoveNameConflictsException e)
+            } catch (final RemoveNameConflictsException e)
             {
                 PcalDebug.reportError(e);
 //                return exitWithStatus(STATUS_EXIT_WITH_ERRORS);
@@ -1046,7 +1046,7 @@ class trans {
      * If run in the system mode, exits the program, in tool mode returns the status
      * @param status
      */
-	private static int exitWithStatus(int status)
+	private static int exitWithStatus(final int status)
     {
         if (ToolIO.getMode() == ToolIO.SYSTEM)
         {
@@ -1059,9 +1059,9 @@ class trans {
     }
 
     /********************** Writing the AST ************************************/
-    private static boolean WriteAST(AST ast)
+    private static boolean WriteAST(final AST ast)
     {
-        Vector<String> astFile = new Vector<String>();
+        final Vector<String> astFile = new Vector<String>();
         astFile.addElement("------ MODULE AST -------");
         astFile.addElement("EXTENDS TLC");
         astFile.addElement("fairness == \"" + PcalParams.FairnessOption + "\"");
@@ -1072,7 +1072,7 @@ class trans {
         try
         {
             WriteStringVectorToFile(astFile, "AST.tla");
-        } catch (StringVectorToFileException e)
+        } catch (final StringVectorToFileException e)
         {
             PcalDebug.reportError(e);
             return false;
@@ -1083,7 +1083,7 @@ class trans {
 
     /************************* THE TLC TRANSLATION *****************************/
 
-    private static Vector<String> TLCTranslate(AST ast) throws TLCTranslationException
+    private static Vector<String> TLCTranslate(final AST ast) throws TLCTranslationException
     /***********************************************************************
     * The result is a translation of the algorithm represented by ast      *
     * obtained by using TLC to execute the definition of Translation(ast)  *
@@ -1135,7 +1135,7 @@ class trans {
 
 				PcalDebug.reportInfo("Wrote files " + PcalParams.SpecFile + TLAConstants.Files.TLA_EXTENSION + " and "
 						+ PcalParams.SpecFile + TLAConstants.Files.CONFIG_EXTENSION + ".");
-            } catch (UnrecoverableException e)
+            } catch (final UnrecoverableException e)
             {
                 throw new TLCTranslationException(e.getMessage());
             }
@@ -1145,7 +1145,7 @@ class trans {
         /*********************************************************************
         * Run TLC on the specification file and set tlcOut to TLC's output.  *
         *********************************************************************/
-        String javaInvocation;
+        final String javaInvocation;
         if (PcalParams.SpecOption || PcalParams.MyspecOption)
         {
             // Modified on 29 May 2010 by LL so tlc2 is run in
@@ -1159,14 +1159,14 @@ class trans {
         }
         ;
         String tlcOut = "      ";
-        Runtime rt = Runtime.getRuntime();
+        final Runtime rt = Runtime.getRuntime();
         try
         {
             // Modified on 29 May 2010 by LL to replace getErrorStream() with 
             // getInputStream(), which by Java logic gets standard out.  (And no,
             // getErrorStream() did not get standard non-error.)  Apparently,
             // TLC has been changed to put its output on stdout.
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(rt.exec(
+            final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(rt.exec(
                     javaInvocation + PcalParams.SpecFile).getInputStream()));
             while (tlcOut.indexOf("<<") == -1)
             {
@@ -1174,7 +1174,7 @@ class trans {
             }
             ;
             bufferedReader.close();
-        } catch (Exception e)
+        } catch (final Exception e)
         {
             throw new TLCTranslationException("Error reading output of TLC");
         }
@@ -1282,14 +1282,14 @@ class trans {
          * Wrap the translated string into approximately 80 character lines *
          *******************************************************************/
         transl = WrapString(transl, 78);
-        Vector<String> result = new Vector<String>();
+        final Vector<String> result = new Vector<String>();
         result.addElement(transl);
         return result;
     }
 
     /***************** METHODS FOR READING AND WRITING FILES *****************/
 
-    private static void WriteStringVectorToFile(final List<String> inputVec, String fileName) throws StringVectorToFileException
+    private static void WriteStringVectorToFile(final List<String> inputVec, final String fileName) throws StringVectorToFileException
     /***********************************************************************
     * Writes the List of strings inputVec to file named fileName, with     *
     * each element of inputVec written on a new line.                      *
@@ -1316,12 +1316,12 @@ class trans {
                 fileW.write(line);
                 fileW.newLine();
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new StringVectorToFileException("Could not write file " + fileName);
         }
     }
 
-    private static List<String> fileToStringVector(String fileName) throws FileToStringVectorException
+    private static List<String> fileToStringVector(final String fileName) throws FileToStringVectorException
     /***********************************************************************
     * Reads file fileName into a StringVector, a vector in which each      *
     * element is a line of the file.                                       *
@@ -1335,12 +1335,12 @@ class trans {
                 inputVec.add(nextLine);
                 nextLine = bufferedReader.readLine();
             }
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             /**************************************************************
             * Input file could not be found.                              *
             **************************************************************/
             throw new FileToStringVectorException("Input file " + fileName + " not found.");
-        } catch (IOException e) {
+        } catch (final IOException e) {
             /*********************************************************
             * Error while reading input file.                        *
             *********************************************************/
@@ -1375,7 +1375,7 @@ class trans {
      * kludgy mechanism was kept and used to indicate if the method is being called
      * for options specified inside the module. 
      */
-    static int parseAndProcessArguments(String[] args)
+    static int parseAndProcessArguments(final String[] args)
     {
 
         /** *******************************************************************
@@ -1467,8 +1467,8 @@ class trans {
          *              thing when the earlier version number is specified.    *                
          *</pre>
          ********************************************************************* */
-        boolean inFile = PcalParams.optionsInFile;
-        boolean notInFile = !inFile;
+        final boolean inFile = PcalParams.optionsInFile;
+        final boolean notInFile = !inFile;
         // Just convenient abbreviations
         boolean firstFairness = inFile;
         // Used to allow a fairness property specified by a command-line
@@ -1486,7 +1486,7 @@ class trans {
         /******************************************************************
         * The number of the argument being processed.                     *
         ******************************************************************/
-        int maxArg = args.length - 1;
+        final int maxArg = args.length - 1;
         /******************************************************************
         * The number of option arguments.  (For processing command-line   *
         * arguments, the last element of args is the input-file name.)    *
@@ -1519,7 +1519,7 @@ class trans {
         * Process all the arguments, except for the input-file name.       *
         *******************************************************************/
         {
-            String option = args[nextArg];
+            final String option = args[nextArg];
             if (notInFile && option.equals("-help"))
             {
                 if (OutputHelpMessage())
@@ -1702,14 +1702,14 @@ class trans {
                     {
                         throw new NumberFormatException();
                     }
-                    int a = Integer.valueOf(args[nextArg]).intValue();
+                    final int a = Integer.valueOf(args[nextArg]).intValue();
                     if (a < 60)
                     {
                         throw new NumberFormatException();
                     }
                     PcalTLAGen.wrapColumn = a;
                     PcalTLAGen.ssWrapColumn = a - 33;
-                } catch (Exception e)
+                } catch (final Exception e)
                 {
                     return CommandLineError("Integer value at least 60 must follow `-lineWidth' option");
                 }
@@ -1847,7 +1847,7 @@ class trans {
         try
         {
             helpVec = PcalResourceFileReader.ResourceFileToStringVector("help.txt");
-        } catch (PcalResourceFileReaderException e)
+        } catch (final PcalResourceFileReaderException e)
         {
             PcalDebug.reportError(e);
             return false;
@@ -1878,7 +1878,7 @@ class trans {
         return false;
     }
 
-    private static int CommandLineError(String msg)
+    private static int CommandLineError(final String msg)
     /*********************************************************************
     * Announce a command line error with the string indicating the       *
     * explanation and halt.                                              *
@@ -1890,7 +1890,7 @@ class trans {
         return STATUS_EXIT_WITH_ERRORS;
     }
 
-    static int findTokenPair(Vector<String> vec, int lineNum, String tok1, String tok2)
+    static int findTokenPair(final Vector<String> vec, final int lineNum, final String tok1, final String tok2)
     /*********************************************************************
     * Returns the number of the first line at or after lineNum in the    *
     * vector of strings vec containing tok1 followed by 1 or more        *
@@ -1900,8 +1900,8 @@ class trans {
         int i = lineNum;
         while (i < vec.size())
         {
-            String line = vec.elementAt(i);
-            int col = line.indexOf(tok1);
+            final String line = vec.elementAt(i);
+            final int col = line.indexOf(tok1);
             int nextcol = col + tok1.length();
             if (col != -1)
             {
@@ -1924,7 +1924,7 @@ class trans {
 
     /**************************  RemoveTabs  *********************************/
 
-    public static Vector<String> removeTabs(List<String> input) {
+    public static Vector<String> removeTabs(final List<String> input) {
         /********************************************************************
         * Returns a string vector obtained from the string vector vec by   *
         * replacing any evil tabs with the appropriate number of spaces,   *
@@ -1966,7 +1966,7 @@ class trans {
 
     /********************* STRING UTILITY FUNCTIONS ***********************/
 
-    private static int NextSpace(String s, int cur)
+    private static int NextSpace(final String s, final int cur)
     /********************************************************************
     * Returns the first space in s at or after col. If there is none,   *
     * return the index of the last character in s. Spaces in strings    *
@@ -1987,7 +1987,7 @@ class trans {
             return i;
     }
 
-    private static String WrapString(String inString, int col)
+    private static String WrapString(final String inString, final int col)
     /*********************************************************************
     * Returns the string inString with lines wrapped approximately at    *
     * col, taking care not to wrap in a string.                          *
@@ -1995,7 +1995,7 @@ class trans {
     {
         int i = 0;
         int ccol = 1;
-        StringBuffer sb = new StringBuffer();
+        final StringBuffer sb = new StringBuffer();
         while (i < inString.length())
         {
             if (inString.charAt(i) == ' ') // An initial space or a space
@@ -2006,7 +2006,7 @@ class trans {
             } else
             // Find next word, which starts at i.
             {
-                int j = NextSpace(inString, i);
+                final int j = NextSpace(inString, i);
                 if (ccol + (j - i + 1) > col)
                 {
                     sb.append('\n');

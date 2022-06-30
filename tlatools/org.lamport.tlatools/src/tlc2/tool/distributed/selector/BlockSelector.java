@@ -65,7 +65,7 @@ public class BlockSelector implements IBlockSelector {
 	 *            The current size of the state queue.
 	 * @return The intended block size.
 	 */
-	protected long getBlockSize(long size, final TLCWorkerRMI aWorker) {
+	protected long getBlockSize(final long size, final TLCWorkerRMI aWorker) {
 		final int workerCount = tlcServer.getWorkerCount();
 		return (long) Math.ceil(size * (1.0 / workerCount));
 	}
@@ -73,11 +73,11 @@ public class BlockSelector implements IBlockSelector {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.selector.IBlockSelector#setMaxTXSize(int)
 	 */
-	public void setMaxTXSize(int aMaximum) {
+	public void setMaxTXSize(final int aMaximum) {
 		// nop
 	}
 	
-	protected void setAverageBlockCnt(long blockCnt) {
+	protected void setAverageBlockCnt(final long blockCnt) {
 		// Get meaningful results right from the start
 		if (averageBlockCnt > 0L) {
 			averageBlockCnt = (blockCnt + averageBlockCnt) / 2L;

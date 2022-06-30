@@ -18,7 +18,7 @@ public class StatePrinter
 	 * @param currentState The single state in the trace.
 	 * @param num The index of the state in the trace, counting from one.
 	 */
-    public static void printRuntimeErrorStateTraceState(TLCState currentState, int num)
+    public static void printRuntimeErrorStateTraceState(final TLCState currentState, final int num)
     {
         MP.printState(EC.TLC_STATE_PRINT1, new String[] { String.valueOf(num), currentState.toString() }, currentState, num);
     }
@@ -29,7 +29,7 @@ public class StatePrinter
      * because an invariant has been violated.
      * @param currentState The state to print.
      */
-    public static void printStandaloneErrorState(TLCState currentState)
+    public static void printStandaloneErrorState(final TLCState currentState)
     {
         MP.printState(EC.TLC_STATE_PRINT1, new String[] { "", currentState.toString() }, currentState, -1);
     }
@@ -39,7 +39,7 @@ public class StatePrinter
      * invariant is violated.
      * @param currentStateInfo
      */
-    public static void printInvariantViolationStateTraceState(TLCStateInfo currentStateInfo) {
+    public static void printInvariantViolationStateTraceState(final TLCStateInfo currentStateInfo) {
     	if (currentStateInfo.predecessorState == null) {
     		// It's an initial state
 			StatePrinter.printInvariantViolationStateTraceState(currentStateInfo, null, (int) currentStateInfo.stateNumber);
@@ -57,7 +57,7 @@ public class StatePrinter
      * @param previousState The previous state in the trace for diff printing.
      * @param num The index of the state in the trace, counting from one.
      */
-    public static void printInvariantViolationStateTraceState(TLCStateInfo currentStateInfo, TLCState previousState, int num)
+    public static void printInvariantViolationStateTraceState(final TLCStateInfo currentStateInfo, final TLCState previousState, final int num)
     {
         final String stateString =
         		null != previousState && TLCGlobals.printDiffsOnly
@@ -87,7 +87,7 @@ public class StatePrinter
      * counterexample error trace.
      * @param num The index of the state in the trace, counting from one.
      */
-    public static void printStutteringState(int num)
+    public static void printStutteringState(final int num)
     {
         MP.printState(EC.TLC_STATE_PRINT3, new String[] { String.valueOf(num + 1) }, (TLCState) null, num + 1);
     }

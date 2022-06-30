@@ -39,8 +39,8 @@ public class MathIllegalArgumentException extends IllegalArgumentException
      * @param pattern Message pattern explaining the cause of the error.
      * @param args Arguments.
      */
-    public MathIllegalArgumentException(Localizable pattern,
-                                        Object ... args) {
+    public MathIllegalArgumentException(final Localizable pattern,
+                                        final Object ... args) {
         context = new ExceptionContext(this);
         context.addMessage(pattern, args);
     }

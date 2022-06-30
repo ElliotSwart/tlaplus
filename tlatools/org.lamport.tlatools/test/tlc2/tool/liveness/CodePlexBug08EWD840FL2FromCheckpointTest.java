@@ -66,26 +66,26 @@ public class CodePlexBug08EWD840FL2FromCheckpointTest extends ModelCheckerTestCa
 			 * 5) Replace the content of checkpoint.zip with the content of 4)
 			 * 6) Update the number below on states found...
 			 */
-			String prefix = BASE_DIR + TEST_MODEL + "CodePlexBug08" + File.separator;
-			ZipFile zipFile = new ZipFile(prefix + "checkpoint.zip");
-			Enumeration<?> enu = zipFile.entries();
+			final String prefix = BASE_DIR + TEST_MODEL + "CodePlexBug08" + File.separator;
+			final ZipFile zipFile = new ZipFile(prefix + "checkpoint.zip");
+			final Enumeration<?> enu = zipFile.entries();
 			while (enu.hasMoreElements()) {
-				ZipEntry zipEntry = (ZipEntry) enu.nextElement();
+				final ZipEntry zipEntry = (ZipEntry) enu.nextElement();
 
-				File file = new File(prefix + zipEntry.getName());
+				final File file = new File(prefix + zipEntry.getName());
 				if (zipEntry.getName().endsWith("/")) {
 					file.mkdirs();
 					continue;
 				}
 
-				File parent = file.getParentFile();
+				final File parent = file.getParentFile();
 				if (parent != null) {
 					parent.mkdirs();
 				}
 
-				InputStream is = zipFile.getInputStream(zipEntry);
-				FileOutputStream fos = new FileOutputStream(file);
-				byte[] bytes = new byte[1024];
+				final InputStream is = zipFile.getInputStream(zipEntry);
+				final FileOutputStream fos = new FileOutputStream(file);
+				final byte[] bytes = new byte[1024];
 				int length;
 				while ((length = is.read(bytes)) >= 0) {
 					fos.write(bytes, 0, length);
@@ -95,7 +95,7 @@ public class CodePlexBug08EWD840FL2FromCheckpointTest extends ModelCheckerTestCa
 
 			}
 			zipFile.close();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 		super.setUp();

@@ -54,7 +54,7 @@ public class StandaloneConstExpressionDebugger extends TLCDebugger {
 	// THIS SCED HASN'T BEEN UPDATED TO REFLECT WHAT IS GOING ON IN TLCDEBUGGER AND,
 	// THUS, PROBABLY DOESN'T WORK ANYMORE!!!
 	
-	public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
+	public static void main(final String[] args) throws IOException, InterruptedException, ExecutionException {
 		new StandaloneConstExpressionDebugger();
 	}
 
@@ -63,7 +63,7 @@ public class StandaloneConstExpressionDebugger extends TLCDebugger {
 	}
 
 	@Override
-	public CompletableFuture<Void> launch(Map<String, Object> args) {
+	public CompletableFuture<Void> launch(final Map<String, Object> args) {
 		LOGGER.finer("launch");
 
 		final Path p = Paths.get((String) args.get("program"));
@@ -80,18 +80,18 @@ public class StandaloneConstExpressionDebugger extends TLCDebugger {
 		ToolIO.out = new PrintStream(ToolIO.out) {
 			// See tlc2.debug.AttachingDebugger.AttachingDebugger(...).new PrintStream() {...}
 			@Override
-			public void println(String str) {
+			public void println(final String str) {
 				((PrintStream) out).println(str);
 				sendOutput(str + "\n");
 			}
 
 			@Override
-			public void print(String str) {
+			public void print(final String str) {
 				((PrintStream) out).print(str);
 				sendOutput(str);
 			}
 
-			private void sendOutput(String str) {
+			private void sendOutput(final String str) {
 				final OutputEventArguments oea = new OutputEventArguments();
 				oea.setOutput(str);
 				if (launcher != null) {

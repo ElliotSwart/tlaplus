@@ -19,7 +19,7 @@ public class BEGraph {
 	public String metadir;
 	public NodeTable allNodes;
 
-	public BEGraph(String metadir, boolean isBT) {
+	public BEGraph(final String metadir, final boolean isBT) {
 		this.initNodes = new Vect<>();
 		this.metadir = metadir;
 		this.allNodes = new NodeTable(127, isBT);
@@ -30,17 +30,17 @@ public class BEGraph {
 	 * to 0. Assume that all the nodes have non-zero number fields.
 	 */
 	public final void resetNumberField() {
-		MemObjectStack stack = new MemObjectStack(this.metadir, "resetstack");
+		final MemObjectStack stack = new MemObjectStack(this.metadir, "resetstack");
 		for (int i = 0; i < this.initNodes.size(); i++) {
-			BEGraphNode node = this.initNodes.elementAt(i);
+			final BEGraphNode node = this.initNodes.elementAt(i);
 			if (node.resetNumberField() != 0) {
 				stack.push(this.initNodes.elementAt(i));
 			}
 		}
 		while (stack.size() != 0) {
-			BEGraphNode node = (BEGraphNode) stack.pop();
+			final BEGraphNode node = (BEGraphNode) stack.pop();
 			for (int i = 0; i < node.nextSize(); i++) {
-				BEGraphNode node1 = node.nextAt(i);
+				final BEGraphNode node1 = node.nextAt(i);
 				if (node1.resetNumberField() != 0) {
 					stack.push(node1);
 				}
@@ -49,11 +49,11 @@ public class BEGraph {
 	}
 
 	/* Returns the ith initial node. */
-	public final BEGraphNode getInitNode(int i) {
+	public final BEGraphNode getInitNode(final int i) {
 		return this.initNodes.elementAt(i);
 	}
 
-	public final void addInitNode(BEGraphNode node) {
+	public final void addInitNode(final BEGraphNode node) {
 		this.initNodes.addElement(node);
 	}
 
@@ -63,24 +63,24 @@ public class BEGraph {
 	}
 
 	/* Returns the shortest path from start to end (inclusive). */
-	public static BEGraphNode[] getPath(BEGraphNode start, BEGraphNode end) {
+	public static BEGraphNode[] getPath(final BEGraphNode start, final BEGraphNode end) {
 		if (start.equals(end)) {
 			start.setParent(null);
 		} else {
-			boolean unseen = start.getVisited();
-			MemObjectQueue queue = new MemObjectQueue(null); // bomb if
+			final boolean unseen = start.getVisited();
+			final MemObjectQueue queue = new MemObjectQueue(null); // bomb if
 			// checkpoint
 			start.flipVisited();
 			queue.enqueue(new NodeAndParent(start, null));
 			boolean found = false;
 			while (!found) {
-				NodeAndParent np = (NodeAndParent) queue.dequeue();
+				final NodeAndParent np = (NodeAndParent) queue.dequeue();
 				if (np == null) {
 					throw new EvalException(EC.TLC_LIVE_BEGRAPH_FAILED_TO_CONSTRUCT);
 				}
-				BEGraphNode curNode = np.node;
+				final BEGraphNode curNode = np.node;
 				for (int i = 0; i < curNode.nextSize(); i++) {
-					BEGraphNode nextNode = curNode.nextAt(i);
+					final BEGraphNode nextNode = curNode.nextAt(i);
 					if (nextNode.getVisited() == unseen) {
 						if (nextNode.equals(end)) {
 							end.setParent(curNode);
@@ -95,14 +95,14 @@ public class BEGraph {
 			}
 		}
 		// Get the path following parent pointers:
-		Vect<BEGraphNode> path = new Vect<>();
+		final Vect<BEGraphNode> path = new Vect<>();
 		BEGraphNode curNode = end;
 		while (curNode != null) {
 			path.addElement(curNode);
 			curNode = curNode.getParent();
 		}
-		int sz = path.size();
-		BEGraphNode[] bpath = new BEGraphNode[sz];
+		final int sz = path.size();
+		final BEGraphNode[] bpath = new BEGraphNode[sz];
 		for (int i = 0; i < sz; i++) {
 			bpath[i] = path.elementAt(sz - i - 1);
 		}
@@ -114,12 +114,12 @@ public class BEGraph {
 	 * same value.
 	 */
 	public final String toString() {
-		StringBuffer buf = new StringBuffer();
-		int sz = this.initNodes.size();
+		final StringBuffer buf = new StringBuffer();
+		final int sz = this.initNodes.size();
 		if (sz != 0) {
-			boolean seen = this.getInitNode(0).getVisited();
+			final boolean seen = this.getInitNode(0).getVisited();
 			for (int i = 0; i < this.initNodes.size(); i++) {
-				BEGraphNode node = this.getInitNode(i);
+				final BEGraphNode node = this.getInitNode(i);
 				node.toString(buf, seen);
 			}
 		}
@@ -130,7 +130,7 @@ public class BEGraph {
 		BEGraphNode node;
 		BEGraphNode parent;
 
-		NodeAndParent(BEGraphNode node, BEGraphNode parent) {
+		NodeAndParent(final BEGraphNode node, final BEGraphNode parent) {
 			this.node = node;
 			this.parent = parent;
 		}

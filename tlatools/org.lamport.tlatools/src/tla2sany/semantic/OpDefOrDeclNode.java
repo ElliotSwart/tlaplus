@@ -31,8 +31,8 @@ public abstract class OpDefOrDeclNode extends SymbolNode {
 
   int arity;          // arity of -1 means no fixed arity, -2 is illegal
 
-  public OpDefOrDeclNode(UniqueString name, int kind, int ar, ModuleNode modNode,
-                         SymbolTable symbolTable, TreeNode stn ) {
+  public OpDefOrDeclNode(final UniqueString name, final int kind, final int ar, final ModuleNode modNode,
+                         final SymbolTable symbolTable, final TreeNode stn ) {
     super(kind, stn, name);
     this.originallyDefinedInModule = modNode;
     this.arity = ar;
@@ -61,7 +61,7 @@ public abstract class OpDefOrDeclNode extends SymbolNode {
    */
   public final int getNumberOfArgs() { return this.arity; }
 
-  public final void setNumberOfArgs(int a) { this.arity = a; }
+  public final void setNumberOfArgs(final int a) { this.arity = a; }
 
   public final ModuleNode getOriginallyDefinedInModuleNode() {
     return this.originallyDefinedInModule;
@@ -73,7 +73,7 @@ public abstract class OpDefOrDeclNode extends SymbolNode {
    * toString() method; part of implementation of ExploreNode
    * interface
    */
-  public String toString(int depth) {
+  public String toString(final int depth) {
     if (depth <= 0) return "";
     return super.toString(depth) 
            + "  arity: " + arity 
@@ -87,7 +87,7 @@ public abstract class OpDefOrDeclNode extends SymbolNode {
 		
 		//TODO Support in-line comments found in the standard modules.
 		final String[] preComments = getPreComments();
-		for (String string : preComments) {
+		for (final String string : preComments) {
 			buf.append(string);
 			buf.append("\n");
 		}

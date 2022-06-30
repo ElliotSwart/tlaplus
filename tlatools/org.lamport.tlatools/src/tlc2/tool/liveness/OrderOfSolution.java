@@ -73,7 +73,7 @@ public class OrderOfSolution {
 		promises = livenessEventually;
 	}
 
-	public final void printPromises(PrintStream ps) {
+	public final void printPromises(final PrintStream ps) {
 		for (int i = 0; i < this.getPromises().length; i++) {
 			ps.println(this.getPromises()[i].toString());
 		}
@@ -83,14 +83,14 @@ public class OrderOfSolution {
 		if (this.getPems().length == 0) {
 			return "";
 		}
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		this.toString(sb);
 		return sb.toString();
 	}
 
-	public final void toString(StringBuffer sb) {
+	public final void toString(final StringBuffer sb) {
 		String padding = "";
-		int plen = this.getPems().length;
+		final int plen = this.getPems().length;
 
 		if (this.hasTableau()) {
 			if (plen == 1 && this.getPems()[0].isEmpty()) {
@@ -108,7 +108,7 @@ public class OrderOfSolution {
 			this.getPems()[0].toString(sb, padding, checkState, this.getCheckAction());
 		} else {
 			sb.append("\\/ ");
-			String padding1 = padding + "   ";
+			final String padding1 = padding + "   ";
 			this.getPems()[0].toString(sb, padding1, checkState, this.getCheckAction());
 			for (int i = 1; i < plen; i++) {
 				sb.append(padding + "\\/ ");
@@ -133,7 +133,7 @@ public class OrderOfSolution {
 		return checkState;
 	}
 	
-	public boolean[] checkState(ITool tool, final TLCState state) {
+	public boolean[] checkState(final ITool tool, final TLCState state) {
 		final boolean[] result = new boolean[checkState.length];
 		for (int i = 0; i < checkState.length; i++) {
 			result[i] = checkState[i].eval(tool, state, null);
@@ -141,12 +141,12 @@ public class OrderOfSolution {
 		return result;
 	}
 
-	void setCheckState(LiveExprNode[] checkState) {
+	void setCheckState(final LiveExprNode[] checkState) {
 		this.checkState = checkState;
 	}
 
 	// legacy LiveCheck1
-	public boolean[] checkAction(ITool tool, final TLCState state0, final TLCState state1) {
+	public boolean[] checkAction(final ITool tool, final TLCState state0, final TLCState state1) {
 		final boolean[] result = new boolean[checkAction.length];
 		for (int i = 0; i < checkAction.length; i++) {
 			result[i] = checkAction[i].eval(tool, state0, state1);
@@ -154,7 +154,7 @@ public class OrderOfSolution {
 		return result;
 	}
 	
-	public BitVector checkAction(ITool tool, final TLCState state0, final TLCState state1, final BitVector result, final int offset) {
+	public BitVector checkAction(final ITool tool, final TLCState state0, final TLCState state1, final BitVector result, final int offset) {
 		for (int i = 0; i < checkAction.length; i++) {
 			if (checkAction[i].eval(tool, state0, state1)) {
 				result.set(offset + i);
@@ -167,7 +167,7 @@ public class OrderOfSolution {
 		return checkAction;
 	}
 
-	void setCheckAction(LiveExprNode[] checkAction) {
+	void setCheckAction(final LiveExprNode[] checkAction) {
 		this.checkAction = checkAction;
 	}
 
@@ -175,7 +175,7 @@ public class OrderOfSolution {
 		return pems;
 	}
 
-	void setPems(PossibleErrorModel[] pems) {
+	void setPems(final PossibleErrorModel[] pems) {
 		this.pems = pems;
 	}
 

@@ -59,31 +59,31 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 	protected int actualExitStatus = -1;
 	protected int expectedExitStatus = ExitStatus.SUCCESS;
 
-	public ModelCheckerTestCase(String spec) {
+	public ModelCheckerTestCase(final String spec) {
 		this(spec, ExitStatus.SUCCESS);
 	}
 
-	public ModelCheckerTestCase(String spec, final int exitStatus) {
+	public ModelCheckerTestCase(final String spec, final int exitStatus) {
 		this(spec, "", exitStatus);
 	}
 
-	public ModelCheckerTestCase(String spec, String path) {
+	public ModelCheckerTestCase(final String spec, final String path) {
 		this(spec, path, ExitStatus.SUCCESS);
 	}
 	
-	public ModelCheckerTestCase(String spec, String[] extraArguments) {
+	public ModelCheckerTestCase(final String spec, final String[] extraArguments) {
 		this(spec, "", extraArguments, ExitStatus.SUCCESS);
 	}
 	
-	public ModelCheckerTestCase(String spec, String[] extraArguments, final int exitStatus) {
+	public ModelCheckerTestCase(final String spec, final String[] extraArguments, final int exitStatus) {
 		this(spec, "", extraArguments, exitStatus);
 	}
 	
-	public ModelCheckerTestCase(String spec, String path, String[] extraArguments) {
+	public ModelCheckerTestCase(final String spec, final String path, final String[] extraArguments) {
 		this(spec, path, extraArguments, ExitStatus.SUCCESS);
 	}
 	
-	public ModelCheckerTestCase(String spec, String path, String[] extraArguments, final int exitStatus) {
+	public ModelCheckerTestCase(final String spec, final String path, final String[] extraArguments, final int exitStatus) {
 		this(spec, path, exitStatus);
 		this.extraArguments  = extraArguments; 
 	}
@@ -199,7 +199,7 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 			final int errorCode = tlc.process();
 			actualExitStatus = EC.ExitStatus.errorConstantToExitStatus(errorCode);
 			
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			fail(e.getMessage());
 		}
 	}
@@ -278,18 +278,18 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 	 * ILiveCheck liveCheck = (ILiveCheck) getField(AbstractChecker.class, "liveCheck",
 	 * 				getField(TLC.class, "instance", tlc));
 	 */
-	protected Object getField(Class<?> targetClass, String fieldName, Object instance) {
+	protected Object getField(final Class<?> targetClass, final String fieldName, final Object instance) {
 		try {
-			Field field = targetClass.getDeclaredField(fieldName);
+			final Field field = targetClass.getDeclaredField(fieldName);
 			field.setAccessible(true);
 			return field.get(instance);
-		} catch (NoSuchFieldException e) {
+		} catch (final NoSuchFieldException e) {
 			e.printStackTrace();
-		} catch (SecurityException e) {
+		} catch (final SecurityException e) {
 			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+		} catch (final IllegalAccessException e) {
 			e.printStackTrace();
 		}
 		return null;

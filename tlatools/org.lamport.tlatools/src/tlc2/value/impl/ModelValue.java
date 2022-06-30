@@ -83,7 +83,7 @@ public class ModelValue extends Value implements IModelValue {
   public char type;  // type = 0 means untyped.
 
   /* Constructor */
-  private ModelValue(String val) {
+  private ModelValue(final String val) {
     // SZ 11.04.2009: changed access method
     this.val = UniqueString.uniqueStringOf(val);
     this.index = count++;
@@ -95,7 +95,7 @@ public class ModelValue extends Value implements IModelValue {
   }
 
   /* Make str a new model value, if it is not one yet.  */
-  public static Value make(String str) {
+  public static Value make(final String str) {
     ModelValue mv = mvTable.get(str);
     if (mv != null) return mv;
     mv = new ModelValue(str);
@@ -103,7 +103,7 @@ public class ModelValue extends Value implements IModelValue {
     return mv;
   }
 
-  public static Value add(String str) {
+  public static Value add(final String str) {
 	    ModelValue mv = mvTable.get(str);
 	    if (mv != null) return mv;
 	    mv = new ModelValue(str);
@@ -123,9 +123,9 @@ public class ModelValue extends Value implements IModelValue {
   /* Collect all the model values defined thus far. */
   public static void setValues() {
     mvs = new ModelValue[mvTable.size()];
-    Enumeration<ModelValue> Enum = mvTable.elements();
+    final Enumeration<ModelValue> Enum = mvTable.elements();
     while (Enum.hasMoreElements()) {
-      ModelValue mv = Enum.nextElement();
+      final ModelValue mv = Enum.nextElement();
       mvs[mv.index] = mv;
     }
   }
@@ -154,7 +154,7 @@ public class ModelValue extends Value implements IModelValue {
 	 */
 
   @Override
-  public final int compareTo(Object obj) {
+  public final int compareTo(final Object obj) {
     try {
 		if (this.type == 0) {
 			if (obj instanceof ModelValue) {
@@ -164,7 +164,7 @@ public class ModelValue extends Value implements IModelValue {
 			}
 		}
 		if (obj instanceof ModelValue) {
-			ModelValue mobj = (ModelValue) obj;
+			final ModelValue mobj = (ModelValue) obj;
 			if ((mobj.type == this.type) || (mobj.type == 0)) {
 				return this.val.compareTo(((ModelValue) obj).val);
 			} else {
@@ -176,20 +176,20 @@ public class ModelValue extends Value implements IModelValue {
 				+ " and non-model value\n" + Values.ppr(obj.toString()), getSource());
 		return -1; // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     try {
       if (this.type == 0) {
         return (obj instanceof ModelValue &&
           this.val.equals(((ModelValue)obj).val));
        }
       if (obj instanceof ModelValue) {
-        ModelValue mobj = (ModelValue) obj ;
+        final ModelValue mobj = (ModelValue) obj ;
         if (   (mobj.type == this.type)
             || (mobj.type == 0) ) {
           return mobj.val == this.val ;
@@ -206,7 +206,7 @@ public class ModelValue extends Value implements IModelValue {
                    + Values.ppr(obj.toString()), getSource()) ;
       return false;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -222,7 +222,7 @@ public class ModelValue extends Value implements IModelValue {
 	       }
 	      return 1 ;
 	    }
-	    catch (RuntimeException | OutOfMemoryError e) {
+	    catch (final RuntimeException | OutOfMemoryError e) {
 	      if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
 	      else { throw e; }
 	    }
@@ -233,7 +233,7 @@ public class ModelValue extends Value implements IModelValue {
   * equal to or a member of non-model value obj.  They return false if     *
   * this model value is untyped and raise an exception if it is typed.     *
   *************************************************************************/
-  public final boolean modelValueEquals(Object obj){
+  public final boolean modelValueEquals(final Object obj){
     try {
       if (this.type != 0) {
       Assert.fail("Attempted to check equality of the typed model value "
@@ -243,13 +243,13 @@ public class ModelValue extends Value implements IModelValue {
        }
       return false ;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean modelValueMember(Object obj){
+  public final boolean modelValueMember(final Object obj){
     try {
       if (this.type != 0) {
       Assert.fail("Attempted to check if the typed model value "
@@ -260,20 +260,20 @@ public class ModelValue extends Value implements IModelValue {
        }
       return false ;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean member(Value elem) {
+  public final boolean member(final Value elem) {
     try {
       Assert.fail("Attempted to check if the value:\n" + Values.ppr(elem.toString()) +
       "\nis an element of the model value " + Values.ppr(this.toString()), getSource());
       return false;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -286,14 +286,14 @@ public class ModelValue extends Value implements IModelValue {
       " is a finite set.", getSource());
       return false;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
       if (ex.idx < ex.path.length) {
         Assert.fail("Attempted to apply EXCEPT construct to the model value " +
@@ -301,14 +301,14 @@ public class ModelValue extends Value implements IModelValue {
       }
       return ex.value;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       if (exs.length != 0) {
         Assert.fail("Attempted to apply EXCEPT construct to the model value " +
@@ -316,7 +316,7 @@ public class ModelValue extends Value implements IModelValue {
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -329,7 +329,7 @@ public class ModelValue extends Value implements IModelValue {
       Values.ppr(this.toString()) + ".", getSource());
       return 0;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -353,43 +353,43 @@ public class ModelValue extends Value implements IModelValue {
   public final IValue deepCopy() { return this; }
 
   @Override
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       return ((val instanceof ModelValue) &&
         this.val.equals(((ModelValue)val).val));
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
 	@Override
-	public void write(IValueOutputStream vos) throws IOException {
+	public void write(final IValueOutputStream vos) throws IOException {
 		vos.writeByte(MODELVALUE);
 		vos.writeShort((short) index);
 	}
 
   /* The fingerprint methods */
   @Override
-  public final long fingerPrint(long fp) {
+  public final long fingerPrint(final long fp) {
     try {
       return this.val.fingerPrint(FP64.Extend(fp, MODELVALUE));
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final IValue permute(IMVPerm perm) {
+  public final IValue permute(final IMVPerm perm) {
     try {
-      IValue res = perm.get(this);
+      final IValue res = perm.get(this);
       if (res == null) return this;
       return res;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -397,11 +397,11 @@ public class ModelValue extends Value implements IModelValue {
 
   /* The string representation. */
   @Override
-  public final StringBuffer toString(StringBuffer sb, int offset, boolean ignored) {
+  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean ignored) {
     try {
       return sb.append(this.val);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }

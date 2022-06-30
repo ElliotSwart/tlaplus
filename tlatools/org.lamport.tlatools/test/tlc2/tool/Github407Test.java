@@ -67,11 +67,11 @@ public class Github407Test extends ModelCheckerTestCase {
 			final InputStream expected = getClass().getResourceAsStream("Github407.dump");
 			final FileInputStream actual = new FileInputStream(Github407Test.dumpFilePath.toFile());
 			) {
-			BufferedReader expectedReader = new BufferedReader(new InputStreamReader(expected));
-			BufferedReader actualReader = new BufferedReader(new InputStreamReader(actual));
+			final BufferedReader expectedReader = new BufferedReader(new InputStreamReader(expected));
+			final BufferedReader actualReader = new BufferedReader(new InputStreamReader(actual));
 			while (expectedReader.ready() && actualReader.ready()) {
-				String expectedLine = expectedReader.readLine();
-				String actualLine = actualReader.readLine();
+				final String expectedLine = expectedReader.readLine();
+				final String actualLine = actualReader.readLine();
 				assertEquals(expectedLine, actualLine);
 			}
 

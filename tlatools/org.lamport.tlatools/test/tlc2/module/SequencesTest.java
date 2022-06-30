@@ -49,7 +49,7 @@ public class SequencesTest {
 	
 	@Test
 	public void testTailString() {
-		Value v = Sequences.Tail(new StringValue("abc"));
+		final Value v = Sequences.Tail(new StringValue("abc"));
 		assertTrue(v instanceof StringValue);
 		assertEquals(UniqueString.of("bc"), ((StringValue) v).val);
 	}
@@ -62,7 +62,7 @@ public class SequencesTest {
 	public void testHeadString() {
 		try {
 			Sequences.Head(new StringValue("a"));
-		} catch (EvalException e) {
+		} catch (final EvalException e) {
 			assertEquals(EC.TLC_MODULE_ONE_ARGUMENT_ERROR, e.getErrorCode());
 			return;
 		}
@@ -73,7 +73,7 @@ public class SequencesTest {
 	public void testHeadStringEmpty() {
 		try {
 			Sequences.Head(new StringValue(""));
-		} catch (EvalException e) {
+		} catch (final EvalException e) {
 			assertEquals(EC.TLC_MODULE_ONE_ARGUMENT_ERROR, e.getErrorCode());
 			return;
 		}
@@ -84,7 +84,7 @@ public class SequencesTest {
 	public void testAppendString() {
 		try {
 			Sequences.Append(new StringValue(""), new StringValue("a"));
-		} catch (EvalException e) {
+		} catch (final EvalException e) {
 			assertEquals(EC.TLC_MODULE_EVALUATING, e.getErrorCode());
 			return;
 		}
@@ -95,7 +95,7 @@ public class SequencesTest {
 	public void testAppendString2() {
 		try {
 			Sequences.Append(new StringValue("abc"), new StringValue("d"));
-		} catch (EvalException e) {
+		} catch (final EvalException e) {
 			assertEquals(EC.TLC_MODULE_EVALUATING, e.getErrorCode());
 			return;
 		}
@@ -105,7 +105,7 @@ public class SequencesTest {
 	public void testAppendStringNonString() {
 		try {
 			Sequences.Append(new StringValue(""), IntValue.ValZero);
-		} catch (EvalException e) {
+		} catch (final EvalException e) {
 			assertEquals(EC.TLC_MODULE_EVALUATING, e.getErrorCode());
 			return;
 		}
@@ -119,7 +119,7 @@ public class SequencesTest {
 	public void testConcatStringToSeq() {
 		try {
 			Sequences.Concat(new TupleValue(new StringValue("abc")), new StringValue("d"));
-		} catch (EvalException e) {
+		} catch (final EvalException e) {
 			assertEquals(EC.TLC_MODULE_EVALUATING, e.getErrorCode());
 			return;
 		}
@@ -130,7 +130,7 @@ public class SequencesTest {
 	public void testConcatSeqToString() {
 		try {
 			Sequences.Concat(new StringValue("abc"), new TupleValue(new StringValue("d")));
-		} catch (EvalException e) {
+		} catch (final EvalException e) {
 			assertEquals(EC.TLC_MODULE_EVALUATING, e.getErrorCode());
 			return;
 		}
@@ -141,7 +141,7 @@ public class SequencesTest {
 	
 	@Test
 	public void testConcatStringToString() {
-		Value v = Sequences.Concat(new StringValue("abc"), (new StringValue("d")));
+		final Value v = Sequences.Concat(new StringValue("abc"), (new StringValue("d")));
 		assertTrue(v instanceof StringValue);
 		assertEquals(UniqueString.of("abcd"), ((StringValue) v).val);
 	}
@@ -150,7 +150,7 @@ public class SequencesTest {
 	public void testConcatIntToSeq() {
 		try {
 			Sequences.Concat(new TupleValue(new StringValue("abc")), IntValue.ValOne);
-		} catch (EvalException e) {
+		} catch (final EvalException e) {
 			assertEquals(EC.TLC_MODULE_EVALUATING, e.getErrorCode());
 			return;
 		}
@@ -161,7 +161,7 @@ public class SequencesTest {
 	public void testConcatSeqToInt() {
 		try {
 			Sequences.Concat(IntValue.ValOne, new TupleValue(new StringValue("d")));
-		} catch (EvalException e) {
+		} catch (final EvalException e) {
 			assertEquals(EC.TLC_MODULE_EVALUATING, e.getErrorCode());
 			return;
 		}
@@ -174,7 +174,7 @@ public class SequencesTest {
 	public void testConcatIntToInt() {
 		try {
 			Sequences.Concat(IntValue.ValOne, IntValue.ValOne);
-		} catch (EvalException e) {
+		} catch (final EvalException e) {
 			assertEquals(EC.TLC_MODULE_EVALUATING, e.getErrorCode());
 			return;
 		}
@@ -185,7 +185,7 @@ public class SequencesTest {
 	
 	@Test
 	public void testSubseq() {
-		Value v = Sequences.SubSeq(new StringValue("abc"), IntValue.ValOne, IntValue.ValOne);
+		final Value v = Sequences.SubSeq(new StringValue("abc"), IntValue.ValOne, IntValue.ValOne);
 		assertTrue(v instanceof StringValue);
 		assertEquals(UniqueString.of("a"), ((StringValue) v).val);
 	}

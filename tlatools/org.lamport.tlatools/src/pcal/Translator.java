@@ -105,7 +105,7 @@ public class Translator
 		final String[] messages = ToolIO.getAllMessages();
 		final Vector<Error> errorMessages = new Vector<Error>();
 		for (int i = 0; i < messages.length; i++) {
-			int position = messages[i].indexOf(PcalDebug.UNRECOVERABLE_ERROR);
+			final int position = messages[i].indexOf(PcalDebug.UNRECOVERABLE_ERROR);
 			if (position != -1) {
 				errorMessages.add(new Error(messages[i].substring(position,
 						messages[i].length() - PcalDebug.ERROR_POSTFIX.length())));
@@ -121,7 +121,7 @@ public class Translator
 		
 		private final String error;
 
-		public Error(String anError) {
+		public Error(final String anError) {
 			this.error = anError;
 		}
 		

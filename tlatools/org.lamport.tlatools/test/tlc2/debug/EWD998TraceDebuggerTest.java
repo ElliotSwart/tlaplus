@@ -49,7 +49,7 @@ public class EWD998TraceDebuggerTest extends TLCDebuggerTestCase {
 		debugger.replaceAllBreakpointsWith(MDL, 67);
 		debugger.continue_();
 		
-		EvaluateResponse var = debugger.evaluate(MDL, "_TETrace", 66, 22, 66, 29);
+		final EvaluateResponse var = debugger.evaluate(MDL, "_TETrace", 66, 22, 66, 29);
 		assertEquals(TupleValue.EmptyTuple.getTypeString(), var.getType());
 		assertNotEquals(0, var.getVariablesReference());
 		assertEquals(

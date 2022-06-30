@@ -12,7 +12,7 @@ import java.io.StringWriter;
 public class XMLExportingException extends Exception {
   private static final long serialVersionUID = -8894858605017149534L;
 private Exception nested;
-  public XMLExportingException(String str, Exception n) {
+  public XMLExportingException(final String str, final Exception n) {
     super(str);
     nested = n;
   }
@@ -24,7 +24,7 @@ private Exception nested;
     if (nested == null)
       return super.toString();
     else {
-      StringWriter sw = new StringWriter();
+      final StringWriter sw = new StringWriter();
       nested.printStackTrace(new PrintWriter(sw));
       return super.toString() + "\n" + sw.toString();
     }

@@ -47,7 +47,7 @@ import tlc2.util.FP64;
 @RunWith(Parameterized.class)
 public class SubsetEnumeratorTest {
 
-	private static final Value[] getValue(String... strs) {
+	private static final Value[] getValue(final String... strs) {
 		final List<Value> values = new ArrayList<>(strs.length);
 		for (int i = 0; i < strs.length; i++) {
 			values.add(new StringValue(strs[i]));
@@ -121,7 +121,7 @@ public class SubsetEnumeratorTest {
 		// for various fractions...
 		DoubleStream.of(0, .1, .2, .3, .4, .55, .625, .775, .8, .9, 1).forEach(new DoubleConsumer() {
 			@Override
-			public void accept(double fraction) {
+			public void accept(final double fraction) {
 				final int k = (int) Math.ceil(enumerable.size() * fraction);
 				final List<Value> values = enumerable.elements(k).all();
 				
@@ -133,7 +133,7 @@ public class SubsetEnumeratorTest {
 						new HashSet<Value>(values).size());
 
 				// Each value is actually a member of enumerable.
-				for (Value v : values) {
+				for (final Value v : values) {
 					Assert.assertTrue(String.format("Failed for fraction: %s", fraction), enumerable.member(v));
 				}
 			}
@@ -155,7 +155,7 @@ public class SubsetEnumeratorTest {
 				final Set<Value> values = new HashSet<>(enumValue.size());
 				
 				// Each value is actually a member of enumerable.
-				ValueEnumeration elements = enumValue.elements();
+				final ValueEnumeration elements = enumValue.elements();
 				Value v = null;
 				while ((v = elements.nextElement()) != null) {
 					Assert.assertTrue(String.format("Failed for fraction: %s", fraction), enumerable.member(v));

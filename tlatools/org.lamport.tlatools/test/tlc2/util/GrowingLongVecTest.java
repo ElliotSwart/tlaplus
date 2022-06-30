@@ -55,7 +55,7 @@ public class GrowingLongVecTest extends LongVecTest {
 		
 		try {
 			vec.removeElement(0);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			return;
 		}
 		fail("Removed non-existing element");

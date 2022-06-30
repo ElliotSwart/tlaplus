@@ -24,12 +24,12 @@ public final Value set;
   protected SetEnumValue realSet;
 
   /* Constructor */
-  public UnionValue(Value set) {
+  public UnionValue(final Value set) {
     this.set = set;
     this.realSet = null;
   }
 
-  public UnionValue(Value val, CostModel cm) {
+  public UnionValue(final Value val, final CostModel cm) {
 	  this(val);
 	  this.cm = cm;
   }
@@ -38,44 +38,44 @@ public final Value set;
   public byte getKind() { return UNIONVALUE; }
 
   @Override
-  public final int compareTo(Object obj) {
+  public final int compareTo(final Object obj) {
     try {
       this.convertAndCache();
       return this.realSet.compareTo(obj);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     try {
       this.convertAndCache();
       return this.realSet.equals(obj);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean member(Value elem) {
+  public final boolean member(final Value elem) {
     try {
       if (!(this.set instanceof Enumerable)) {
         Assert.fail("Attempted to check if:\n " + Values.ppr(elem.toString()) +
         "\nis an element of the non-enumerable set:\n " +
         Values.ppr(this.toString()), getSource());
       }
-      ValueEnumeration Enum = ((Enumerable)this.set).elements();
+      final ValueEnumeration Enum = ((Enumerable)this.set).elements();
       Value val;
       while ((val = Enum.nextElement()) != null) {
         if (val.member(elem)) return true;
       }
       return false;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -88,42 +88,42 @@ public final Value set;
         Assert.fail("Attempted to check if the nonenumerable set:\n" + Values.ppr(this.toString()) +
         "\nis a finite set.", getSource());
       }
-      ValueEnumeration Enum = ((Enumerable)this.set).elements();
+      final ValueEnumeration Enum = ((Enumerable)this.set).elements();
       Value val;
       while ((val = Enum.nextElement()) != null) {
         if (!val.isFinite()) return false;
       }
       return true;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
       if (ex.idx < ex.path.length) {
         Assert.fail("Attempted to apply EXCEPT to the set:\n" + Values.ppr(this.toString()), getSource());
       }
       return ex.value;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       if (exs.length != 0) {
         Assert.fail("Attempted to apply EXCEPT to the set:\n " + Values.ppr(this.toString()) + ".", getSource());
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -135,7 +135,7 @@ public final Value set;
       this.convertAndCache();
       return this.realSet.size();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -148,7 +148,7 @@ public final Value set;
         this.realSet != SetEnumValue.DummyEnum &&
         this.realSet.isNormalized());
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -162,7 +162,7 @@ public final Value set;
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -195,7 +195,7 @@ public final Value set;
         realSet.deepNormalize();
       }
 	    }
-	    catch (RuntimeException | OutOfMemoryError e) {
+	    catch (final RuntimeException | OutOfMemoryError e) {
 	      if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
 	      else { throw e; }
 	    }
@@ -206,7 +206,7 @@ public final Value set;
     try {
       return this.set.isDefined();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -216,31 +216,31 @@ public final Value set;
   public final IValue deepCopy() { return this; }
 
   @Override
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       return this.equals(val);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public static Value union(Value val) {
+  public static Value union(final Value val) {
     boolean canCombine = (val instanceof SetEnumValue);
     if (canCombine) {
-      ValueVec elems = ((SetEnumValue)val).elems;
+      final ValueVec elems = ((SetEnumValue)val).elems;
       for (int i = 0; i < elems.size(); i++) {
         canCombine = (canCombine &&
                 (elems.elementAt(i) instanceof SetEnumValue));
       }
       if (canCombine) {
-        ValueVec resElems = new ValueVec();
-        Value result = new SetEnumValue(resElems, false, val.getCostModel());
+        final ValueVec resElems = new ValueVec();
+        final Value result = new SetEnumValue(resElems, false, val.getCostModel());
         for (int i = 0; i < elems.size(); i++) {
-          ValueVec elems1 = ((SetEnumValue)elems.elementAt(i)).elems;
+          final ValueVec elems1 = ((SetEnumValue)elems.elementAt(i)).elems;
           for (int j = 0; j < elems1.size(); j++) {
-        	  Value elem = elems1.elementAt(j);
+        	  final Value elem = elems1.elementAt(j);
             if (!result.member(elem)) {
             	resElems.addElement(elem);
             }
@@ -259,24 +259,24 @@ public final Value set;
 
   /* The fingerprint  */
   @Override
-  public final long fingerPrint(long fp) {
+  public final long fingerPrint(final long fp) {
     try {
       this.convertAndCache();
       return this.realSet.fingerPrint(fp);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final IValue permute(IMVPerm perm) {
+  public final IValue permute(final IMVPerm perm) {
     try {
       this.convertAndCache();
       return this.realSet.permute(perm);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -287,7 +287,7 @@ public final Value set;
       this.realSet = (SetEnumValue) this.toSetEnum();
     }
     else if (this.realSet == SetEnumValue.DummyEnum) {
-      SetEnumValue val = (SetEnumValue) this.toSetEnum();
+      final SetEnumValue val = (SetEnumValue) this.toSetEnum();
       val.deepNormalize();
       this.realSet = val;
     }
@@ -298,8 +298,8 @@ public final Value set;
       if (this.realSet != null && this.realSet != SetEnumValue.DummyEnum) {
         return this.realSet;
       }
-      ValueVec vals = new ValueVec();
-      ValueEnumeration Enum = this.elements();
+      final ValueVec vals = new ValueVec();
+      final ValueEnumeration Enum = this.elements();
       Value elem;
       while ((elem = Enum.nextElement()) != null) {
         vals.addElement(elem);
@@ -310,10 +310,10 @@ public final Value set;
 
   /* String representation of this value. */
   @Override
-  public final StringBuffer toString(StringBuffer sb, int offset, boolean swallow) {
+  public final StringBuffer toString(StringBuffer sb, final int offset, final boolean swallow) {
     try {
       if (TLCGlobals.expand) {
-        Value val = this.toSetEnum();
+        final Value val = this.toSetEnum();
         return val.toString(sb, offset, swallow);
       }
       else {
@@ -323,7 +323,7 @@ public final Value set;
         return sb;
       }
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -337,7 +337,7 @@ public final Value set;
       }
       return this.realSet.elements();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }

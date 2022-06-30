@@ -8,12 +8,12 @@ public class WorkerMonitor {
 	private static final Set<ThreadListener> listeners = new HashSet<ThreadListener>();
 	
 	public static void addPerformanceResult(final Thread thread, final long runningTime) {
-		for (ThreadListener threadListener : listeners) {
+		for (final ThreadListener threadListener : listeners) {
 			threadListener.terminated(thread, runningTime);
 		}
 	}
 
-	public static void addThreadListener(ThreadListener threadListener) {
+	public static void addThreadListener(final ThreadListener threadListener) {
 		listeners.add(threadListener);
 	}
 	

@@ -53,7 +53,7 @@ public class UserModuleOverrideTest extends ModelCheckerTestCase {
 		assertEquals(2, mismatches.size());
 		Collections.sort(mismatches, new Comparator<String[]>() {
 			@Override
-			public int compare(String[] o1, String[] o2) {
+			public int compare(final String[] o1, final String[] o2) {
 				return o1[0].compareTo(o2[0]);
 			}
 		});

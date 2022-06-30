@@ -58,7 +58,7 @@ public class RandomSubsetNextT4Test_TTraceTest extends TTraceModelCheckerTestCas
 		assertEquals(11, records.size());
 		
 		int cnt = 0;
-		for (Object r : records) {
+		for (final Object r : records) {
 			final Object[] objs = (Object[]) r;
 			final TLCStateInfo info = (TLCStateInfo) objs[0];
 			final Map<UniqueString, IValue> vals = info.state.getVals();

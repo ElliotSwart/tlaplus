@@ -26,7 +26,7 @@ public class Strings extends UserObj
     }
 
     @Override
-    public final int compareTo(Value val)
+    public final int compareTo(final Value val)
     {
         if ((val instanceof UserValue) && (((UserValue) val).userObj instanceof Strings))
         {
@@ -38,7 +38,7 @@ public class Strings extends UserObj
     }
 
     @Override
-    public final boolean member(Value val)
+    public final boolean member(final Value val)
     {
         if (val instanceof StringValue)
             return true;
@@ -54,7 +54,7 @@ public class Strings extends UserObj
     }
 
     @Override
-    public final StringBuffer toString(StringBuffer sb, int offset, boolean swallow)
+    public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow)
     {
         return sb.append("STRING");
     }

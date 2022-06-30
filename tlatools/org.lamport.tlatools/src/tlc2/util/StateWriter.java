@@ -17,7 +17,7 @@ public class StateWriter implements IStateWriter
     protected int stateNum;
     protected String fname;
 
-    public StateWriter(String fname) throws IOException
+    public StateWriter(final String fname) throws IOException
     {
         this.fname = fname;
         this.writer = new PrintWriter(FileUtil.newBFOS(fname));
@@ -49,7 +49,7 @@ public class StateWriter implements IStateWriter
 	/* (non-Javadoc)
 	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState)
 	 */
-    public synchronized void writeState(TLCState state)
+    public synchronized void writeState(final TLCState state)
     {
         this.writer.println("State " + this.stateNum + ":");
         this.writer.println(state.toString());
@@ -66,7 +66,7 @@ public class StateWriter implements IStateWriter
     	}
     }
 
-    public synchronized void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew, Action action)
+    public synchronized void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew, final Action action)
     {
     	if (successorStateIsNew) {
     		this.writeState(successor);
@@ -76,7 +76,7 @@ public class StateWriter implements IStateWriter
     /* (non-Javadoc)
      * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, boolean, tlc2.util.IStateWriter.Visualization)
      */
-    public void writeState(TLCState state, TLCState successor, final boolean successorStateIsNew, final Visualization visualization) {
+    public void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew, final Visualization visualization) {
     	if (successorStateIsNew) {
     		this.writeState(successor);
     	}
@@ -93,7 +93,7 @@ public class StateWriter implements IStateWriter
 	/* (non-Javadoc)
 	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitVector, int, int, boolean)
 	 */
-	public void writeState(TLCState state, TLCState successor, BitVector actionChecks, int from, int to, boolean successorStateIsNew) {
+	public void writeState(final TLCState state, final TLCState successor, final BitVector actionChecks, final int from, final int to, final boolean successorStateIsNew) {
     	if (successorStateIsNew) {
     		this.writeState(state);
     	}
@@ -102,8 +102,8 @@ public class StateWriter implements IStateWriter
 	/* (non-Javadoc)
 	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitVector, int, int, boolean, tlc2.util.IStateWriter.Visualization)
 	 */
-	public void writeState(TLCState state, TLCState successor, BitVector actionChecks, int from, int to, boolean successorStateIsNew,
-			Visualization visualization) {
+	public void writeState(final TLCState state, final TLCState successor, final BitVector actionChecks, final int from, final int to, final boolean successorStateIsNew,
+                           final Visualization visualization) {
     	if (successorStateIsNew) {
     		this.writeState(state);
     	}

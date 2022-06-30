@@ -53,12 +53,12 @@ public class ConcurrentTLCTrace extends TLCTrace {
 	
 	private final Worker workers[];
 
-	public ConcurrentTLCTrace(String metadir, String specFile, TraceApp tool) throws IOException {
+	public ConcurrentTLCTrace(final String metadir, final String specFile, final TraceApp tool) throws IOException {
 		super(metadir, specFile, tool);
 		this.workers = new Worker[TLCGlobals.getNumWorkers()];
 	}
 
-	public Worker addWorker(Worker worker) {
+	public Worker addWorker(final Worker worker) {
 		this.workers[worker.myGetId()] = worker;
 		return worker;
 	}
@@ -74,7 +74,7 @@ public class ConcurrentTLCTrace extends TLCTrace {
 	@Override
 	public synchronized final int getLevel() throws IOException {
 		int maxLevel = 1; // With a single, init state the level/progress/diameter is 1, not 0!
-		for (Worker worker : workers) {
+		for (final Worker worker : workers) {
 			maxLevel = Math.max(maxLevel, worker.getMaxLevel());
 		}
 		return maxLevel;
@@ -158,19 +158,19 @@ public class ConcurrentTLCTrace extends TLCTrace {
 		if (len > 0) {
 			if (sinfo == null) {
 				// Recreate initial state from its fingerprint.
-				Record record = records.get(len);
+				final Record record = records.get(len);
 				assert record.isInitial();
 				sinfo = this.tool.getState(record.fp);
 				
-				Record prev = records.get(len - 1);
+				final Record prev = records.get(len - 1);
 				sinfo.state.workerId = (short) prev.worker;
 				sinfo.state.uid = prev.ptr;
 			}
 			// Recover successor states from its predecessor and its fingerprint.
 			res[stateNum++] = sinfo;
 			for (int i = len-2; i >= 0; i--) {
-				Record record = records.get(i+1);
-				long fp = record.fp;
+				final Record record = records.get(i+1);
+				final long fp = record.fp;
 				sinfo = this.tool.getState(fp, sinfo.state);
 				if (sinfo == null) {
 					/*
@@ -182,7 +182,7 @@ public class ConcurrentTLCTrace extends TLCTrace {
 					MP.printError(EC.TLC_BUG, "2 " + Long.toString(fp));
 					System.exit(1);
 				}
-				Record prev = records.get(i);
+				final Record prev = records.get(i);
 				sinfo.state.workerId = (short) prev.worker;
 				sinfo.state.uid = prev.ptr;
 				
@@ -215,13 +215,13 @@ public class ConcurrentTLCTrace extends TLCTrace {
 	/* Checkpoint. */
 	
 	public synchronized void beginChkpt() throws IOException {
-		for (Worker worker : workers) {
+		for (final Worker worker : workers) {
 			worker.beginChkpt();
 		}
 	}
 
 	public void commitChkpt() throws IOException {
-		for (Worker worker : workers) {
+		for (final Worker worker : workers) {
 			worker.commitChkpt();
 		}
 		// MAK 06/08/2020:
@@ -248,7 +248,7 @@ public class ConcurrentTLCTrace extends TLCTrace {
 		// lower, TLC runs with fewer workers than when the checkpoint was taken. Take
 		// this case into account.
 		
-		for (Worker worker : workers) {
+		for (final Worker worker : workers) {
 			worker.recover();
 		}
 	}
@@ -288,13 +288,13 @@ public class ConcurrentTLCTrace extends TLCTrace {
 
 			@Override
 			public void close() throws IOException {
-				for (Worker.Enumerator enumerator : enums) {
+				for (final Worker.Enumerator enumerator : enums) {
 					enumerator.close();
 				}
 			}
 
 			@Override
-			public void reset(long i) throws IOException {
+			public void reset(final long i) throws IOException {
 				idx = 0;
 			}
 		};

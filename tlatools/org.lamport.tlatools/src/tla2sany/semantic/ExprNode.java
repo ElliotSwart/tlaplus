@@ -74,5 +74,5 @@ public abstract class ExprNode extends ExprOrOpArgNode {
       * node.                                                              *
       *********************************************************************/
 
-    ExprNode(int kind, TreeNode stn) { super(kind, stn); }
+    ExprNode(final int kind, final TreeNode stn) { super(kind, stn); }
 }

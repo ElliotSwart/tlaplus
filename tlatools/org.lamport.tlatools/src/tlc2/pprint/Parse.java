@@ -58,7 +58,7 @@ public class Parse {
 /* given by string.                                                        */
 /***************************************************************************/
 
-  static public Node parse(String string, int index) throws ParseException {
+  static public Node parse(final String string, int index) throws ParseException {
 
     if (string == null) {
       throw new ParseException("TLC Bug: while formating output," +
@@ -97,7 +97,7 @@ public class Parse {
       }
       return parseConstant(string,index);
     }
-    catch (ParseException e) {
+    catch (final ParseException e) {
       throw e;
     }
   }
@@ -108,15 +108,15 @@ public class Parse {
 /* Assume that index points to the setOpen character '{' in string.        */
 /***************************************************************************/
 
-  private static Node parseSet(String string, int index) 
+  private static Node parseSet(final String string, final int index)
     throws ParseException {
 
-    int first = index;
+    final int first = index;
     int last = index;
 
     try {
       // construct the parse tree node for this set
-      Node node = new Node(string,first,Node.SET);
+      final Node node = new Node(string,first,Node.SET);
 
       // initialize the list of parse tree nodes for the elements of this set
       Node firstelement = null;
@@ -130,7 +130,7 @@ public class Parse {
       while (string.charAt(last) != setClose) {
 
 	// construct parse tree node for this element
-	Node elt = parse(string,last);
+	final Node elt = parse(string,last);
 
 	// append node for this element to list of set elements
 	if (firstelement == null) {
@@ -155,7 +155,7 @@ public class Parse {
       
       return node;
     }
-    catch (StringIndexOutOfBoundsException e) {
+    catch (final StringIndexOutOfBoundsException e) {
       throw new ParseException("TLC Bug: while formating output," +
 			       " the formatter ran off the end of the" +
 			       " string while parsing a set starting at" +
@@ -163,7 +163,7 @@ public class Parse {
 			       string + "\n" +
 			       e.getMessage());
     }
-    catch (ParseException e) {
+    catch (final ParseException e) {
       throw e;
     }
   }
@@ -174,15 +174,15 @@ public class Parse {
 /* Assume that index points to the seqOpen character '<' in string.        */
 /***************************************************************************/
 
-  private static Node parseSequence(String string, int index) 
+  private static Node parseSequence(final String string, final int index)
     throws ParseException {
 
-    int first = index;
+    final int first = index;
     int last = index;
 
     try {
       // construct the parse tree node for this sequence
-      Node node = new Node(string,first,Node.SEQUENCE);
+      final Node node = new Node(string,first,Node.SEQUENCE);
 
       // initialize the list of parse tree nodes for the elements of sequence
       Node firstelement = null;
@@ -196,7 +196,7 @@ public class Parse {
       while (string.charAt(last) != seqClose) {
 
 	// construct parse tree node for this element
-	Node elt = parse(string,last);
+	final Node elt = parse(string,last);
 
 	// append node for this element to list of sequence elements
 	if (firstelement == null) {
@@ -224,14 +224,14 @@ public class Parse {
       
       return node;
     }
-    catch (StringIndexOutOfBoundsException e) {
+    catch (final StringIndexOutOfBoundsException e) {
       throw new ParseException("TLC Bug: while formating output," +
 			       " the formatter ran off the end of the string" +
 			       " while parsing a sequence starting at index " +
 			       index + " in the value " + string + "\n" +
 			       e.getMessage());
     }
-    catch (ParseException e) {
+    catch (final ParseException e) {
       throw e;
     }
   }
@@ -245,15 +245,15 @@ public class Parse {
 /* pairs.                                                                  */
 /***************************************************************************/
 
-  private static Node parseRecord(String string, int index) 
+  private static Node parseRecord(final String string, final int index)
     throws ParseException {
 
-    int first = index;
+    final int first = index;
     int last = index;
 
     try {
       // construct the parse tree node for this record
-      Node node = new Node(string,first,Node.RECORD);
+      final Node node = new Node(string,first,Node.RECORD);
 
       // initialize the list of parse tree nodes for the pairs of this record
       Node firstelement = null;
@@ -267,7 +267,7 @@ public class Parse {
       while (string.charAt(last) != recClose) {
 
 	// construct parse tree node for this element
-	Node elt = parseRecordPair(string,last);
+	final Node elt = parseRecordPair(string,last);
 
 	// append node for this element to list of record elements
 	if (firstelement == null) {
@@ -292,31 +292,31 @@ public class Parse {
       
       return node;
     }
-    catch (StringIndexOutOfBoundsException e) {
+    catch (final StringIndexOutOfBoundsException e) {
       throw new ParseException("TLC Bug: while formating output," +
 			       " the formatter ran off the end of the string" +
 			       " while parsing a record starting at index " +
 			       index + " in the value " + string + "\n" +
 			       e.getMessage());
     }
-    catch (ParseException e) {
+    catch (final ParseException e) {
       throw e;
     }
   }
 
 /***************************************************************************/
 
-  private static Node parseRecordPair(String string, int index) 
+  private static Node parseRecordPair(final String string, final int index)
     throws ParseException {
     // Assume that index points to the start of a "field|->value" 
     // record pair in string
 
-    int first = index;
+    final int first = index;
     int last = index;
 
     try {
       // construct the parse tree node for this record
-      Node node = new Node(string,first,Node.RECORDPAIR);
+      final Node node = new Node(string,first,Node.RECORDPAIR);
       Node field = null;
       Node value = null;
 
@@ -349,7 +349,7 @@ public class Parse {
       
       return node;
     }
-    catch (StringIndexOutOfBoundsException e) {
+    catch (final StringIndexOutOfBoundsException e) {
       throw new ParseException("TLC Bug: while formating output," +
 			       " the formatter ran off the end of the string" +
 			       " while parsing a record pair starting" +
@@ -357,7 +357,7 @@ public class Parse {
 			       " in the value " + string + "\n" 
 			       + e.getMessage());
     }
-    catch (ParseException e) {
+    catch (final ParseException e) {
       throw e;
     }
   }
@@ -370,15 +370,15 @@ public class Parse {
 /* This method uses an auxiliary method to parse these pairs.              */
 /***************************************************************************/
 
-  private static Node parseFunction(String string, int index) 
+  private static Node parseFunction(final String string, final int index)
     throws ParseException {
 
-    int first = index;
+    final int first = index;
     int last = index;
 
     try {
       // construct the parse tree node for this function
-      Node node = new Node(string,first,Node.FUNCTION);
+      final Node node = new Node(string,first,Node.FUNCTION);
 
       // initialize the list of parse tree nodes for the pairs of this function
       Node firstpair = null;
@@ -392,7 +392,7 @@ public class Parse {
       while (string.charAt(last) != funClose) {
 
 	// construct parse tree node for this pair
-	Node pair = parseFunctionPair(string,last);
+	final Node pair = parseFunctionPair(string,last);
 
 	// append node for this pair to list of function pairs
 	if (firstpair == null) {
@@ -419,7 +419,7 @@ public class Parse {
       
       return node;
     }
-    catch (StringIndexOutOfBoundsException e) {
+    catch (final StringIndexOutOfBoundsException e) {
       throw new ParseException("TLC Bug: while formating output," +
 			       " the formatter ran off the end of the string" +
 			       " while parsing a function starting" +
@@ -427,7 +427,7 @@ public class Parse {
 			       " in the value " + string + "\n" +
 			       e.getMessage());
     }
-    catch (ParseException e) {
+    catch (final ParseException e) {
       throw e;
     }
   }
@@ -437,49 +437,49 @@ public class Parse {
 /*                                                                         */
 /* Assume that index points to the start of the substring "SUBSET".        */
 /***************************************************************************/
-  private static Node parseSubset(String string, int index)
+  private static Node parseSubset(final String string, final int index)
     throws ParseException {
-    int first = index;
+    final int first = index;
     int last = index;
 
     try {
-      Node node = new Node(string, first, Node.SUBSET);
+      final Node node = new Node(string, first, Node.SUBSET);
 
       // skip the 'SUBSET' and following whitespace
       last += 6;
       last = skipWhitespace(string, last);
 
-      Node elt = parse(string, last);
+      final Node elt = parse(string, last);
       node.children(elt);
       node.last(elt.last());
 
       return node;
     }
-    catch (StringIndexOutOfBoundsException e) {
+    catch (final StringIndexOutOfBoundsException e) {
       throw new ParseException("TLC Bug: while formating output," +
 			       " the formatter ran off the end of the" +
 			       " string while parsing a SUBSET starting" +
 			       " at index " + index + " in the value " + 
 			       string + "\n" + e.getMessage());
     }
-    catch (ParseException e) {
+    catch (final ParseException e) {
       throw e;
     }
   }
 
 /***************************************************************************/
 
-  private static Node parseFunctionPair(String string, int index) 
+  private static Node parseFunctionPair(final String string, final int index)
     throws ParseException {
     // Assume that index points to the start of a "domain:>range" pair 
     // in the string defining a function.
 
-    int first = index;
+    final int first = index;
     int last = index;
 
     try {
       // construct the parse tree node for this function
-      Node node = new Node(string,first,Node.FUNCTIONPAIR);
+      final Node node = new Node(string,first,Node.FUNCTIONPAIR);
       Node domain = null;
       Node range = null;
 
@@ -512,14 +512,14 @@ public class Parse {
       
       return node;
     }
-    catch (StringIndexOutOfBoundsException e) {
+    catch (final StringIndexOutOfBoundsException e) {
       throw new ParseException("TLC Bug: while formating output," +
 			       " the formatter ran off the end of the string"+
 			       " while parsing a function pair starting at" +
 			       " index " + index + " in the value " + 
 			       string + "\n" + e.getMessage());
     }
-    catch (ParseException e) {
+    catch (final ParseException e) {
       throw e;
     }
   }
@@ -530,11 +530,11 @@ public class Parse {
 /* The only constants are strings, booleans, integers, and model values.   */
 /***************************************************************************/
 
-  private static Node parseConstant(String string, int index) 
+  private static Node parseConstant(final String string, final int index)
     throws ParseException {
     
     try {
-      int first = skipWhitespace(string,index);
+      final int first = skipWhitespace(string,index);
       int last = first;
     
       if (string.charAt(first) == '"') {
@@ -547,7 +547,7 @@ public class Parse {
 
       if (Character.isDigit(string.charAt(last))) {
 	// we might be parsing an constant inteval i..j
-	Node node = parseInterval(string,index);
+	final Node node = parseInterval(string,index);
 	if (node != null) return node;
       }
 
@@ -579,14 +579,14 @@ public class Parse {
 			       " starting at index " + first + 
 			       " in the value " + string);
     }
-    catch (StringIndexOutOfBoundsException e) {
+    catch (final StringIndexOutOfBoundsException e) {
       throw new ParseException("TLC Bug: while formating output," +
 			       " the formatter ran off the end of the string" +
 			       " while parsing a constant starting at index " +
 			       index + " in the value " + string + "\n" +
 			       e.getMessage());
     }
-    catch (ParseException e) {
+    catch (final ParseException e) {
       throw e;
     }
   }
@@ -599,10 +599,10 @@ public class Parse {
 /* other parsing routines do.                                              */
 /***************************************************************************/
 
-  private static Node parseInterval(String string, int index) {
+  private static Node parseInterval(final String string, final int index) {
     
     try {
-      int first = index;
+      final int first = index;
       int last = first;
     
       // parse the first integer i
@@ -625,7 +625,7 @@ public class Parse {
 					       
       return new Node(string,first,last,Node.CONSTANT);
     }
-    catch (StringIndexOutOfBoundsException e) {
+    catch (final StringIndexOutOfBoundsException e) {
       // bail if we run off the string during parsing
       return null;
     }
@@ -638,7 +638,7 @@ public class Parse {
 /* off the end of the string.                                              */
 /***************************************************************************/
 
-  public static int skipWhitespace(String string, int index) 
+  public static int skipWhitespace(final String string, final int index)
     throws ParseException{
 
     try {
@@ -648,7 +648,7 @@ public class Parse {
       }
       return i;
     }
-    catch (StringIndexOutOfBoundsException e) {
+    catch (final StringIndexOutOfBoundsException e) {
       throw new ParseException("TLC Bug: while formating output," +
 			       " the formatter ran off the end of the string" +
 			       " while skipping whitespace starting" +

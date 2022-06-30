@@ -33,7 +33,7 @@ public class SimpleCache implements Cache {
 	 */
 	public boolean hit(final long fp) {
 	    final int index = (int)(fp & this.mask);
-	    long hit = this.cache[index];
+	    final long hit = this.cache[index];
 	    if (hit == fp) {
 	    	cacheHit++;
 	    	return true;
@@ -55,7 +55,7 @@ public class SimpleCache implements Cache {
 	 * @see tlc2.tool.distributed.Cache#getHitRatioAsString()
 	 */
 	public String getHitRatioAsString() {
-		DecimalFormat df = new DecimalFormat("###,###.###");
+		final DecimalFormat df = new DecimalFormat("###,###.###");
 		return df.format(getHitRatio());
 	}
 

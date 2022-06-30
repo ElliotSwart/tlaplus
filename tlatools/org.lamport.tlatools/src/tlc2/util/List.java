@@ -11,7 +11,7 @@ public class List {
     protected Object value;
     protected ConsCell next;
 
-    ConsCell(Object value, ConsCell next) {
+    ConsCell(final Object value, final ConsCell next) {
       this.value = value;
       this.next = next;
     }
@@ -24,12 +24,12 @@ public class List {
   /* Constructors.  */
   public List() { this.first = null; this.last = null; }
 
-  public List(Object value) {
+  public List(final Object value) {
     this.first = new ConsCell(value, null);
     this.last = this.first;
   }
 
-  public List(List lst) {
+  public List(final List lst) {
     this.first = lst.first;
     this.last = lst.last;
   }
@@ -52,8 +52,8 @@ public class List {
    * This method adds (destructively) a new element in the front 
    * of the list.
    */
-  public final void push(Object value) {
-    ConsCell cell = new ConsCell(value, this.first);
+  public final void push(final Object value) {
+    final ConsCell cell = new ConsCell(value, this.first);
     this.first = cell;
     if (this.last == null) this.last = cell;
   }
@@ -64,7 +64,7 @@ public class List {
    */
   public final Object pop() {
     // Assert.check(this.first != null);
-    Object result = this.first.value;
+    final Object result = this.first.value;
     this.first = this.first.next;
     if (this.first == null) this.last = null;
     return result;
@@ -74,9 +74,9 @@ public class List {
    * This method is the cons equivalent. It returns a new list
    * of adding a new element in the front.
    */
-  public final List cons(Object value) {
-    ConsCell cell = new ConsCell(value, this.first);
-    List newList = new List();
+  public final List cons(final Object value) {
+    final ConsCell cell = new ConsCell(value, this.first);
+    final List newList = new List();
     newList.first = cell;
     newList.last = (this.last == null) ? cell : this.last;
     return newList;
@@ -97,7 +97,7 @@ public class List {
    */
   public final List cdr() {
     // Assert.check(this.first != null);
-    List newList = new List();
+    final List newList = new List();
     newList.first = this.first.next;
     newList.last = (newList.first == null) ? null : this.last;
     return newList;
@@ -107,7 +107,7 @@ public class List {
    * This method returns true iff the argument is a member of
    * the list. The equality check is on reference.
    */
-  public final boolean member(Object value) {
+  public final boolean member(final Object value) {
     ConsCell cell = this.first;
     boolean isMember = false;
     while (cell != null) {
@@ -124,40 +124,40 @@ public class List {
    * This method returns a new list that appends one element
    * at the end of this list.
    */
-  public final List append1(Object value) {
+  public final List append1(final Object value) {
     ConsCell cell = this.first;
     if (cell == null) return new List(value);
 
-    List newList = new List(cell.value);
+    final List newList = new List(cell.value);
     cell = cell.next;
     while (cell != null) {
-      ConsCell newCell = new ConsCell(cell.value, null);
+      final ConsCell newCell = new ConsCell(cell.value, null);
       newList.last.next = newCell;
       newList.last = newCell;
       cell = cell.next;
     }
-    ConsCell newCell = new ConsCell(value, null);
+    final ConsCell newCell = new ConsCell(value, null);
     newList.last.next = newCell;
     newList.last = newCell;
     return newList;
   }
 
   /* This method returns a new list that appends two lists. */
-  public final List append(List lst) {
+  public final List append(final List lst) {
     ConsCell cell = this.first;
     if (cell == null) return new List(lst);
 
-    List newList = new List(cell.value);
+    final List newList = new List(cell.value);
     cell = cell.next;
     while (cell != null) {
-      ConsCell newCell = new ConsCell(cell.value, null);
+      final ConsCell newCell = new ConsCell(cell.value, null);
       newList.last.next = newCell;
       newList.last = newCell;
       cell = cell.next;
     }
     cell = lst.first;
     while (cell != null) {
-      ConsCell newCell = new ConsCell(cell.value, null);
+      final ConsCell newCell = new ConsCell(cell.value, null);
       newList.last.next = newCell;
       newList.last = newCell;
       cell = cell.next;      
@@ -169,7 +169,7 @@ public class List {
    * This method appends (destructively) an element to the end
    * of this list.
    */
-  public final List append1D(Object value) {
+  public final List append1D(final Object value) {
     if (this.first == null) {
       this.first = new ConsCell(value, null);
       this.last = this.first;
@@ -185,7 +185,7 @@ public class List {
    * This method appends (destructively) a list to the end
    * of this list.
    */
-  public final List appendD(List lst) {
+  public final List appendD(final List lst) {
     if (this.first == null) {
       this.first = lst.first;
     }
@@ -200,7 +200,7 @@ public class List {
 
   /* The string representation. */
   public final String toString() {
-    StringBuffer sb = new StringBuffer("[");
+    final StringBuffer sb = new StringBuffer("[");
     ConsCell work = this.first;
     while (work != null) {
       sb.append(work.value.toString());

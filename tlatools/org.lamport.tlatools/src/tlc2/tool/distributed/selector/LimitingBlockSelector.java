@@ -35,7 +35,7 @@ public class LimitingBlockSelector extends BlockSelector {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.selector.IBlockSelector#setMaxTXSize(int)
 	 */
-	public void setMaxTXSize(int aMaximum) {
+	public void setMaxTXSize(final int aMaximum) {
 		maximum = aMaximum;
 	}
 	

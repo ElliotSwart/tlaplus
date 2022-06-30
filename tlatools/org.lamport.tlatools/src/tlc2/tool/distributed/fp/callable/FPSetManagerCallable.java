@@ -17,14 +17,14 @@ public abstract class FPSetManagerCallable implements Callable<BitVectorWrapper>
 	protected final LongVec[] fps;
 	protected final int index;
 	
-	public FPSetManagerCallable(FPSetManager fpSetManager, List<FPSets> fpSets, LongVec[] fps, int index) {
+	public FPSetManagerCallable(final FPSetManager fpSetManager, final List<FPSets> fpSets, final LongVec[] fps, final int index) {
 		this.fpSetManager = fpSetManager;
 		this.fpset = fpSets;
 		this.fps = fps;
 		this.index = index;
 	}
 	
-	protected BitVectorWrapper reassign(Exception e) throws Exception {
+	protected BitVectorWrapper reassign(final Exception e) throws Exception {
 		ToolIO.out.println("Warning: Failed to connect from "
 				+ fpSetManager.getHostName() + " to the fp server at "
 				+ fpset.get(index).getHostname() + ".\n" + e.getMessage());

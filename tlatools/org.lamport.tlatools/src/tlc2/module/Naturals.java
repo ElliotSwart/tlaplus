@@ -50,11 +50,11 @@ public class Naturals extends UserObj implements ValueConstants
         return SetNat;
     }
 
-    public static IntValue Plus(IntValue x, IntValue y)
+    public static IntValue Plus(final IntValue x, final IntValue y)
     {
-        int n1 = x.val;
-        int n2 = y.val;
-        int res = n1 + n2;
+        final int n1 = x.val;
+        final int n2 = y.val;
+        final int res = n1 + n2;
         if ((n1 < 0) == (n2 < 0) && (n2 < 0) != (res < 0))
         {
             throw new EvalException(EC.TLC_MODULE_OVERFLOW, n1 + "+" + n2);
@@ -62,11 +62,11 @@ public class Naturals extends UserObj implements ValueConstants
         return IntValue.gen(res);
     }
 
-    public static IntValue Minus(IntValue x, IntValue y)
+    public static IntValue Minus(final IntValue x, final IntValue y)
     {
-        int n1 = x.val;
-        int n2 = y.val;
-        int res = n1 - n2;
+        final int n1 = x.val;
+        final int n2 = y.val;
+        final int res = n1 - n2;
         if ((n1 < 0) != (n2 < 0) && (n1 < 0) != (res < 0))
         {
             throw new EvalException(EC.TLC_MODULE_OVERFLOW, n1 + "-" + n2);
@@ -74,17 +74,17 @@ public class Naturals extends UserObj implements ValueConstants
         return IntValue.gen(res);
     }
 
-    public static IntValue Times(IntValue x, IntValue y)
+    public static IntValue Times(final IntValue x, final IntValue y)
     {
-        int n1 = x.val;
-        int n2 = y.val;
+        final int n1 = x.val;
+        final int n2 = y.val;
         /* The following line was originally
          *      long res = n1 * n2
          * which was wrong because in Java, * for ints  multiplication mod
          * 2^n for some n.  I'm not sure the new code is correct, but it's
          * at least better.  Modified by LL on 10 Jul 2009.
          */
-        long res = ((long) n1) * ((long) n2);
+        final long res = ((long) n1) * ((long) n2);
         if (-2147483648 > res || res > 2147483647)
         {
             throw new EvalException(EC.TLC_MODULE_OVERFLOW, n1 + "*" + n2);
@@ -92,7 +92,7 @@ public class Naturals extends UserObj implements ValueConstants
         return IntValue.gen((int) res);
     }
 
-    public static IBoolValue LT(Value x, Value y)
+    public static IBoolValue LT(final Value x, final Value y)
     {
         if (!(x instanceof IntValue))
         {
@@ -108,7 +108,7 @@ public class Naturals extends UserObj implements ValueConstants
         return (((IntValue) x).val < ((IntValue) y).val) ? BoolValue.ValTrue : BoolValue.ValFalse;
     }
 
-    public static IBoolValue LE(Value x, Value y)
+    public static IBoolValue LE(final Value x, final Value y)
     {
         if (!(x instanceof IntValue))
         {
@@ -124,7 +124,7 @@ public class Naturals extends UserObj implements ValueConstants
         return (((IntValue) x).val <= ((IntValue) y).val) ? BoolValue.ValTrue : BoolValue.ValFalse;
     }
 
-    public static IBoolValue GT(Value x, Value y)
+    public static IBoolValue GT(final Value x, final Value y)
     {
         if (!(x instanceof IntValue))
         {
@@ -141,7 +141,7 @@ public class Naturals extends UserObj implements ValueConstants
         return (((IntValue) x).val > ((IntValue) y).val) ? BoolValue.ValTrue : BoolValue.ValFalse;
     }
 
-    public static IBoolValue GEQ(Value x, Value y)
+    public static IBoolValue GEQ(final Value x, final Value y)
     {
         if (!(x instanceof IntValue))
         {
@@ -158,15 +158,15 @@ public class Naturals extends UserObj implements ValueConstants
         return (((IntValue) x).val >= ((IntValue) y).val) ? BoolValue.ValTrue : BoolValue.ValFalse;
     }
 
-    public static IntervalValue DotDot(IntValue x, IntValue y)
+    public static IntervalValue DotDot(final IntValue x, final IntValue y)
     {
         return new IntervalValue(x.val, y.val);
     }
 
-    public static IntValue Divide(IntValue x, IntValue y)
+    public static IntValue Divide(final IntValue x, final IntValue y)
     {
-        int n1 = x.val;
-        int n2 = y.val;
+        final int n1 = x.val;
+        final int n2 = y.val;
         if (n2 == 0)
         {
             throw new EvalException(EC.TLC_MODULE_DIVISION_BY_ZERO);
@@ -177,23 +177,23 @@ public class Naturals extends UserObj implements ValueConstants
         return IntValue.gen(q);
     }
 
-    public static IntValue Mod(IntValue x, IntValue y)
+    public static IntValue Mod(final IntValue x, final IntValue y)
     {
-        int n1 = x.val;
-        int n2 = y.val;
+        final int n1 = x.val;
+        final int n2 = y.val;
         if (n2 <= 0)
         {
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "second", "%", "positive number",
                     String.valueOf(n2) });
         }
-        int r = n1 % n2;
+        final int r = n1 % n2;
         return IntValue.gen(r < 0 ? (r + n2) : r);
     }
 
-    public static IntValue Expt(IntValue x, IntValue y)
+    public static IntValue Expt(final IntValue x, final IntValue y)
     {
-        int n1 = x.val;
-        int n2 = y.val;
+        final int n1 = x.val;
+        final int n2 = y.val;
         if (n2 < 0)
         {
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "second", "^", "natural number",
@@ -220,7 +220,7 @@ public class Naturals extends UserObj implements ValueConstants
     }
 
     @Override
-    public final int compareTo(Value val)
+    public final int compareTo(final Value val)
     {
         if (val instanceof UserValue)
         {
@@ -239,7 +239,7 @@ public class Naturals extends UserObj implements ValueConstants
     }
 
     @Override
-    public final boolean member(Value val)
+    public final boolean member(final Value val)
     {
         if (val instanceof IntValue)
             return ((IntValue) val).val >= 0;
@@ -256,7 +256,7 @@ public class Naturals extends UserObj implements ValueConstants
     }
 
     @Override
-    public final StringBuffer toString(StringBuffer sb, int offset, boolean swallow)
+    public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow)
     {
         return sb.append("Nat");
     }

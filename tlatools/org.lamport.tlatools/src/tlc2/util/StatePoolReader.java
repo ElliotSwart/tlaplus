@@ -18,11 +18,11 @@ import util.Assert;
 
 public class StatePoolReader extends Thread {
 
-  public StatePoolReader(int bufSize) {
+  public StatePoolReader(final int bufSize) {
 	  this(bufSize, null);
   }
 
-  public StatePoolReader(int bufSize, File file) {
+  public StatePoolReader(final int bufSize, final File file) {
 	  super("TLCStatePoolReader");
     this.buf = new TLCState[bufSize];
     this.poolFile = file;
@@ -41,7 +41,7 @@ public class StatePoolReader extends Thread {
     this.notify();
   }
 
-  public final synchronized void restart(File file, boolean canRead) {
+  public final synchronized void restart(final File file, final boolean canRead) {
     this.poolFile = file;
     this.isFull = false;
     this.canRead = canRead;
@@ -53,11 +53,11 @@ public class StatePoolReader extends Thread {
    * full, it returns its buffer and notifies this reader to read the
    * content of the file.
    */
-  public final synchronized TLCState[] doWork(TLCState[] deqBuf, File file)
+  public final synchronized TLCState[] doWork(final TLCState[] deqBuf, final File file)
   throws IOException, ClassNotFoundException {
     if (this.isFull) {
       assert this.poolFile == null : EC.SYSTEM_FILE_NULL;
-      TLCState[] res = this.buf;
+      final TLCState[] res = this.buf;
       this.buf = deqBuf;
       this.poolFile = file;
       this.isFull = false;      // <file, false>
@@ -66,7 +66,7 @@ public class StatePoolReader extends Thread {
       return res;
     }
     else if (this.poolFile != null) {
-      ValueInputStream vis = new ValueInputStream(this.poolFile);
+      final ValueInputStream vis = new ValueInputStream(this.poolFile);
       for (int i = 0; i < deqBuf.length; i++) {
 	deqBuf[i] = TLCState.Empty.createEmpty();
 	deqBuf[i].read(vis);
@@ -78,7 +78,7 @@ public class StatePoolReader extends Thread {
       return deqBuf;
     }
     else {
-      ValueInputStream vis = new ValueInputStream(file);
+      final ValueInputStream vis = new ValueInputStream(file);
       for (int i = 0; i < deqBuf.length; i++) {
 	deqBuf[i] = TLCState.Empty.createEmpty();
 	deqBuf[i].read(vis);
@@ -91,11 +91,11 @@ public class StatePoolReader extends Thread {
   /*
    * Returns the cached buffer if filled. Otherwise, returns null.
    */
-  public final synchronized TLCState[] getCache(TLCState[] deqBuf, File file)
+  public final synchronized TLCState[] getCache(final TLCState[] deqBuf, final File file)
   throws IOException, ClassNotFoundException {
     if (this.isFull) {
       assert this.poolFile == null : EC.SYSTEM_FILE_NULL;
-      TLCState[] res = this.buf;
+      final TLCState[] res = this.buf;
       this.buf = deqBuf;
       this.poolFile = file;
       this.isFull = false;      // <file, false>
@@ -104,7 +104,7 @@ public class StatePoolReader extends Thread {
     }
     else if (this.poolFile != null && this.canRead) {
       // this should seldom occur.
-      ValueInputStream vis = new ValueInputStream(this.poolFile);
+      final ValueInputStream vis = new ValueInputStream(this.poolFile);
       for (int i = 0; i < deqBuf.length; i++) {
 	deqBuf[i] = TLCState.Empty.createEmpty();
 	deqBuf[i].read(vis);
@@ -118,9 +118,9 @@ public class StatePoolReader extends Thread {
     return null;
   }
 
-  public final synchronized void beginChkpt(ObjectOutputStream oos)
+  public final synchronized void beginChkpt(final ObjectOutputStream oos)
   throws IOException {
-    boolean hasFile = this.poolFile != null;
+    final boolean hasFile = this.poolFile != null;
     oos.writeBoolean(hasFile);
     oos.writeBoolean(this.canRead);
     oos.writeBoolean(this.isFull);
@@ -135,8 +135,8 @@ public class StatePoolReader extends Thread {
   }
 
   /* Note that this method is not synchronized. */
-  public final void recover(ObjectInputStream ois) throws IOException {
-    boolean hasFile = ois.readBoolean();
+  public final void recover(final ObjectInputStream ois) throws IOException {
+    final boolean hasFile = ois.readBoolean();
     this.canRead = ois.readBoolean();
     this.isFull = ois.readBoolean();
     try {
@@ -149,7 +149,7 @@ public class StatePoolReader extends Thread {
 	}
       }
     }
-    catch (ClassNotFoundException e) 
+    catch (final ClassNotFoundException e)
     {
       Assert.fail(EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT, e);
     }
@@ -169,7 +169,7 @@ public class StatePoolReader extends Thread {
 	    	return;
 	    }
 	  }
-	  ValueInputStream vis = new ValueInputStream(this.poolFile);
+	  final ValueInputStream vis = new ValueInputStream(this.poolFile);
 	  for (int i = 0; i < this.buf.length; i++) {
 	    this.buf[i] = TLCState.Empty.createEmpty();
 	    this.buf[i].read(vis);
@@ -180,7 +180,7 @@ public class StatePoolReader extends Thread {
 	}
       }
     }
-    catch (Exception e) 
+    catch (final Exception e)
     {
       // Assert.printStack(e);
       MP.printError(EC.SYSTEM_ERROR_READING_POOL, e.getMessage(), e);

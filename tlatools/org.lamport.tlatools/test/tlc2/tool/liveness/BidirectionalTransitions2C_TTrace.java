@@ -38,7 +38,7 @@ import tlc2.output.EC.ExitStatus;
 
 public abstract class BidirectionalTransitions2C_TTrace extends TTraceModelCheckerTestCase {
 
-	public BidirectionalTransitions2C_TTrace(Class<?> clazz) {
+	public BidirectionalTransitions2C_TTrace(final Class<?> clazz) {
 		super(clazz, ExitStatus.VIOLATION_LIVENESS);
 	}
 	

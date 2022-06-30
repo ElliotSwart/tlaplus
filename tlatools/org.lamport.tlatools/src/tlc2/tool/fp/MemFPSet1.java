@@ -35,7 +35,7 @@ private String metadir;
     this.set = new SetOfLong(10001, 0.75f);
   }
 
-  public final FPSet init(int numThreads, String metadir, String filename) {
+  public final FPSet init(final int numThreads, final String metadir, final String filename) {
     this.metadir = metadir;
     this.filename = filename;
 	return this;
@@ -45,22 +45,22 @@ private String metadir;
 
   public final long sizeof() { return 8 + this.set.sizeof(); }
 
-  public synchronized final boolean put(long fp) {
+  public synchronized final boolean put(final long fp) {
     return this.set.put(fp);
   }
 
-  public synchronized final boolean contains(long fp) {
+  public synchronized final boolean contains(final long fp) {
     return this.set.contains(fp);
   }
 
-  public final void exit(boolean cleanup) throws IOException {
+  public final void exit(final boolean cleanup) throws IOException {
     super.exit(cleanup);
     if (cleanup) {
       // Delete the metadata directory:
-      File file = new File(this.metadir);
+      final File file = new File(this.metadir);
       FileUtil.deleteDir(file, true);
     }
-    String hostname = InetAddress.getLocalHost().getHostName();    
+    final String hostname = InetAddress.getLocalHost().getHostName();
     MP.printMessage(EC.TLC_FP_COMPLETED, hostname);
     System.exit(0);    
   }
@@ -68,24 +68,24 @@ private String metadir;
   public final long checkFPs() { return this.set.checkFPs(); }
 
   /* Checkpoint. */
-  public final void beginChkpt(String fname) throws IOException {
-    DataOutputStream dos = FileUtil.newDFOS(this.chkptName(fname, "tmp"));
+  public final void beginChkpt(final String fname) throws IOException {
+    final DataOutputStream dos = FileUtil.newDFOS(this.chkptName(fname, "tmp"));
     this.set.beginChkpt(dos);
     dos.close();
   }
   
-  public final void commitChkpt(String fname) throws IOException {
-    File oldChkpt = new File(this.chkptName(fname, "chkpt"));
-    File newChkpt = new File(this.chkptName(fname, "tmp"));
+  public final void commitChkpt(final String fname) throws IOException {
+    final File oldChkpt = new File(this.chkptName(fname, "chkpt"));
+    final File newChkpt = new File(this.chkptName(fname, "tmp"));
     if ((oldChkpt.exists() && !oldChkpt.delete()) ||
 	!newChkpt.renameTo(oldChkpt)) {
       throw new IOException("MemFPSet1.commitChkpt: cannot delete " + oldChkpt);
     }
   } 
 
-  public final void recover(String fname) throws IOException {
+  public final void recover(final String fname) throws IOException {
     
-    DataInputStream dis = FileUtil.newDFIS(this.chkptName(fname, "chkpt"));
+    final DataInputStream dis = FileUtil.newDFIS(this.chkptName(fname, "chkpt"));
     this.set.recover(dis);
     dis.close();
     
@@ -99,15 +99,15 @@ private String metadir;
     this.commitChkpt(this.filename);
   }
   
-  public final void recover(TLCTrace trace) throws IOException {
+  public final void recover(final TLCTrace trace) throws IOException {
     this.recover(this.filename);
   }
 
-  public final void recoverFP(long fp) throws IOException {
+  public final void recoverFP(final long fp) throws IOException {
     Assert.check(!this.set.put(fp), EC.TLC_FP_NOT_IN_SET);
   }
   
-  private final String chkptName(String fname, String ext) {
+  private final String chkptName(final String fname, final String ext) {
     return this.metadir + FileUtil.separator + fname + ".fp." + ext;
   }
   

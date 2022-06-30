@@ -117,7 +117,7 @@ public class SpecObj
      * @deprecated please use the {@link SpecObj#SpecObj(String, FilenameToStream)} 
      * with <code>null</code> as a second argument
      */
-    public SpecObj(String pfn)
+    public SpecObj(final String pfn)
     {
         this(pfn, null);
     }
@@ -128,7 +128,7 @@ public class SpecObj
      * @param ntfis string to named input stream resolver, if <code>null</code>, 
      * the default from {@link ToolIO#getDefaultResolver()} is used
      */
-    public SpecObj(String pfn, FilenameToStream ntfis)
+    public SpecObj(final String pfn, FilenameToStream ntfis)
     {
         if (ntfis == null) 
         {
@@ -157,7 +157,7 @@ public class SpecObj
         return rootModuleName;
     }
 
-    public final void setName(String name)
+    public final void setName(final String name)
     {
         rootModuleName = name;
     }
@@ -256,12 +256,12 @@ public class SpecObj
     // Prints the context of one ParseUnit
     public final void printParseUnitContext()
     {
-        Enumeration<String> enumerate = parseUnitContext.keys();
+        final Enumeration<String> enumerate = parseUnitContext.keys();
 
         ToolIO.out.println("parseUnitContext =");
         while (enumerate.hasMoreElements())
         {
-            String key = enumerate.nextElement();
+            final String key = enumerate.nextElement();
             ToolIO.out.println("  " + key + "-->" + parseUnitContext.get(key).getName());
         }
     }
@@ -275,7 +275,7 @@ public class SpecObj
     // module in the ParseUnit created is the name of the entire
     // SpecObj. Returns the ParseUnit found or created. Aborts if
     // neither happens.
-    protected ParseUnit findOrCreateParsedUnit(String name, Errors errors, boolean firstCall) throws AbortException
+    protected ParseUnit findOrCreateParsedUnit(final String name, final Errors errors, final boolean firstCall) throws AbortException
     {
         ParseUnit parseUnit;
 
@@ -291,7 +291,7 @@ public class SpecObj
             // NamedInputStream for it if possible
             // SZ 23.02.2009: split the name resolution from the stream retrieval
             // NamedInputStream nis = this.ntfis.toNIStream(name);
-            NamedInputStream nis;
+            final NamedInputStream nis;
             if (rootParseUnit != null) {
                 nis = FileUtil.createNamedInputStream(name, this.resolver, rootParseUnit.getNis());
             } else {
@@ -333,10 +333,10 @@ public class SpecObj
     // modules. The basic requirement is that if ParseUnit A extends or
     // instances ParseUnit B, then A must have a higher index in the
     // Vector than B.
-    private void calculateDependencies(ParseUnit currentParseUnit)
+    private void calculateDependencies(final ParseUnit currentParseUnit)
     {
-        Vector<ParseUnit> extendees = currentParseUnit.getExtendees();
-        Vector<ParseUnit> instancees = currentParseUnit.getInstancees();
+        final Vector<ParseUnit> extendees = currentParseUnit.getExtendees();
+        final Vector<ParseUnit> instancees = currentParseUnit.getInstancees();
 
         // Make sure all extendees of currentModule are in the semanticAnalysisVector
         for (int i = 0; i < extendees.size(); i++)
@@ -362,7 +362,7 @@ public class SpecObj
     // Converts a Vector of ParseUnits to a string representing a
     // circular chain of references, for purposes of the error message
     // in nonCircularityBody method below.
-    private String pathToString(Vector<ParseUnit> path)
+    private String pathToString(final Vector<ParseUnit> path)
     {
         String ret = "";
         for (int i = 0; i < path.size(); i++)
@@ -375,10 +375,10 @@ public class SpecObj
     // This method determines whether the there is any circularity
     // detectable this far among ParseUnits that involves the one named
     // parseUnitName. If there is, cause an abort; otherwise return.
-    private void nonCircularityTest(ParseUnit parseUnit, Errors errors) throws AbortException
+    private void nonCircularityTest(final ParseUnit parseUnit, final Errors errors) throws AbortException
     {
-        Set<ParseUnit> alreadyVisited = new HashSet<ParseUnit>();
-        Vector<ParseUnit> circularPath = new Vector<ParseUnit>();
+        final Set<ParseUnit> alreadyVisited = new HashSet<ParseUnit>();
+        final Vector<ParseUnit> circularPath = new Vector<ParseUnit>();
 
         circularPath.addElement(parseUnit);
         nonCircularityBody(parseUnit, parseUnit, errors, alreadyVisited, circularPath);
@@ -390,8 +390,8 @@ public class SpecObj
     // errors, and the method aborts. The set alreadyVisited is
     // used to prevent searching paths through the same candidate
     // multiple times.
-    private void nonCircularityBody(ParseUnit parseUnit, ParseUnit candidate, Errors errors, Set<ParseUnit> alreadyVisited,
-            Vector<ParseUnit> circularPath) throws AbortException
+    private void nonCircularityBody(final ParseUnit parseUnit, final ParseUnit candidate, final Errors errors, final Set<ParseUnit> alreadyVisited,
+                                    final Vector<ParseUnit> circularPath) throws AbortException
     {
         // If we have already checked for circularities through this
         // parseUnit, just return
@@ -402,12 +402,12 @@ public class SpecObj
 
         // Vector referencees holds ParseUnits either extended by or
         // instanced by "candidate"
-        Vector<ParseUnit> referencees = candidate.getExtendees();
+        final Vector<ParseUnit> referencees = candidate.getExtendees();
         referencees.appendNoRepeats(candidate.getInstancees());
 
         for (int i = 0; i < referencees.size(); i++)
         {
-            ParseUnit referencee = referencees.elementAt(i);
+            final ParseUnit referencee = referencees.elementAt(i);
             // See if our search has reached "parseUnit";
             // if so, we have a circularity
             if (referencee == parseUnit)
@@ -446,9 +446,9 @@ public class SpecObj
 
     // A wrapper for the next method, which empties the alreadyVisited
     // table calling the recursive method below
-    private boolean findNextUnresolvedExtention(ModulePointer currentModule)
+    private boolean findNextUnresolvedExtention(final ModulePointer currentModule)
     {
-        HashSet<ModulePointer> alreadyVisited = new HashSet<ModulePointer>();
+        final HashSet<ModulePointer> alreadyVisited = new HashSet<ModulePointer>();
         return findNextUnresolvedExtentionBody(currentModule, alreadyVisited);
     }
 
@@ -457,7 +457,7 @@ public class SpecObj
     // yet unresolved, if any, and set "nextParseUnit" to its name.
     // Return false iff there are no more unresolved EXTENDS names in
     // the entire specification.
-    private boolean findNextUnresolvedExtentionBody(ModulePointer currentModule, HashSet<ModulePointer> alreadyVisited)
+    private boolean findNextUnresolvedExtentionBody(final ModulePointer currentModule, final HashSet<ModulePointer> alreadyVisited)
     {
         if (alreadyVisited.contains(currentModule))
         {
@@ -466,9 +466,9 @@ public class SpecObj
         }
         alreadyVisited.add(currentModule);
 
-        ModuleContext currentContext = currentModule.getContext();
-        Vector<String> extendees = currentModule.getNamesOfModulesExtended();
-        Vector<String> instancees = currentModule.getNamesOfModulesInstantiated();
+        final ModuleContext currentContext = currentModule.getContext();
+        final Vector<String> extendees = currentModule.getNamesOfModulesExtended();
+        final Vector<String> instancees = currentModule.getNamesOfModulesInstantiated();
 
         // for all of the modules named as extendees of the current
         // module, but which may or not be resolved yet
@@ -517,7 +517,7 @@ public class SpecObj
         // Finally, see if any of "currentModule"'s inner modules (or any
         // they extend or instance) have any unresolved extentions by
         // invoking this method recursively on them.
-        Vector<ModulePointer> innerModules = currentModule.getDirectInnerModules();
+        final Vector<ModulePointer> innerModules = currentModule.getDirectInnerModules();
         for (int i = 0; i < innerModules.size(); i++)
         {
             if (findNextUnresolvedExtentionBody(innerModules.elementAt(i), alreadyVisited))
@@ -534,9 +534,9 @@ public class SpecObj
 
     // A wrapper for the next method, which empties the alreadyVisited
     // table calling the recursive method below
-    private boolean findNextUnresolvedInstantiation(ModulePointer currentModule)
+    private boolean findNextUnresolvedInstantiation(final ModulePointer currentModule)
     {
-        HashSet<ModulePointer> alreadyVisited = new HashSet<ModulePointer>();
+        final HashSet<ModulePointer> alreadyVisited = new HashSet<ModulePointer>();
         return findNextUnresolvedInstantiationBody(currentModule, alreadyVisited);
     }
 
@@ -546,27 +546,27 @@ public class SpecObj
     // linear search of the declaration in the syntactic tree of
     // "module". Note: this does NOT scale when there are large numbers
     // of INSTANCE decls in a long module.
-    private boolean instanceResolvesToInternalModule(ModulePointer currentModule, String instanceeName)
+    private boolean instanceResolvesToInternalModule(final ModulePointer currentModule, final String instanceeName)
     {
         // Find the body part of module tree
-        TreeNode body = currentModule.getBody();
+        final TreeNode body = currentModule.getBody();
 
         // We will be accumulating the set of names of internal modules
         // defined before the INSTANCE declaration.
-        HashSet<String> internalModulesSeen = new HashSet<String>();
+        final HashSet<String> internalModulesSeen = new HashSet<String>();
 
         // loop through the top level definitions in the body of the
         // module looking for embedded modules instantiations, and module
         // definitions
         for (int i = 0; i < body.heirs().length; i++)
         {
-            TreeNode def = body.heirs()[i];
+            final TreeNode def = body.heirs()[i];
 
             // if we encounter an new (inner) module
             if (def.getImage().equals("N_Module"))
             {
                 // Pick off name of inner module
-                String innerModuleName = def.heirs()[0].heirs()[1].getImage();
+                final String innerModuleName = def.heirs()[0].heirs()[1].getImage();
 
                 // Add to the set of names of inner modules seen so far
                 internalModulesSeen.add(innerModuleName);
@@ -575,8 +575,8 @@ public class SpecObj
             // if we encounter an INSTANCE decl
             else if (def.getImage().equals("N_Instance"))
             {
-                TreeNode[] instanceHeirs = def.heirs();
-                int nonLocalInstanceNodeIX;
+                final TreeNode[] instanceHeirs = def.heirs();
+                final int nonLocalInstanceNodeIX;
 
                 // The modifier "LOCAL" may or may not appear in the syntax tree;
                 // if so, offset by 1
@@ -589,7 +589,7 @@ public class SpecObj
                 }
 
                 // Find the name of the module being instantiated
-                String instanceModuleName = instanceHeirs[nonLocalInstanceNodeIX].heirs()[1].getImage();
+                final String instanceModuleName = instanceHeirs[nonLocalInstanceNodeIX].heirs()[1].getImage();
 
                 // if this is the module name we are searching for, then if it
                 // corresponds to an inner module defined earlier, then return
@@ -604,8 +604,8 @@ public class SpecObj
             // Modname WITH ...) that counts as an instance also
             else if (def.getImage().equals("N_ModuleDefinition"))
             {
-                TreeNode[] instanceHeirs = def.heirs();
-                int nonLocalInstanceNodeIX;
+                final TreeNode[] instanceHeirs = def.heirs();
+                final int nonLocalInstanceNodeIX;
 
                 // The modifier "LOCAL" may or may not appear in the syntax tree;
                 // if so, offset by 1
@@ -618,7 +618,7 @@ public class SpecObj
                 }
 
                 // Find the name of the module being instantiated
-                String instanceModuleName = instanceHeirs[nonLocalInstanceNodeIX].heirs()[1].getImage();
+                final String instanceModuleName = instanceHeirs[nonLocalInstanceNodeIX].heirs()[1].getImage();
 
                 // if this is the module name we are searching for, then if it
                 // corresponds to an inner module defined earlier, then return
@@ -637,7 +637,7 @@ public class SpecObj
     // name in an INSTANCE decl that is as yet unresolved, if any, and
     // set "nextParseUnit" to its name. Return false iff there are no
     // more unresolved INSTANCES names in the entire specification.
-    private boolean findNextUnresolvedInstantiationBody(ModulePointer currentModule, HashSet<ModulePointer> alreadyVisited)
+    private boolean findNextUnresolvedInstantiationBody(final ModulePointer currentModule, final HashSet<ModulePointer> alreadyVisited)
     {
         if (alreadyVisited.contains(currentModule))
         {
@@ -646,9 +646,9 @@ public class SpecObj
         }
         alreadyVisited.add(currentModule);
 
-        ModuleContext currentContext = currentModule.getContext();
-        Vector<String> extendees = currentModule.getNamesOfModulesExtended();
-        Vector<String> instancees = currentModule.getNamesOfModulesInstantiated();
+        final ModuleContext currentContext = currentModule.getContext();
+        final Vector<String> extendees = currentModule.getNamesOfModulesExtended();
+        final Vector<String> instancees = currentModule.getNamesOfModulesInstantiated();
 
         // for all of the modules named as instancees of the current
         // module, but which may or not be resolved yet.
@@ -706,7 +706,7 @@ public class SpecObj
         // Finally, see if any of "currentModule"'s inner modules (or any
         // they extend) have any unresolved instantiations by invoking
         // this method recursively on them.
-        Vector<ModulePointer> innerModules = currentModule.getDirectInnerModules();
+        final Vector<ModulePointer> innerModules = currentModule.getDirectInnerModules();
         for (int i = 0; i < innerModules.size(); i++)
         {
             if (findNextUnresolvedInstantiationBody(innerModules.elementAt(i), alreadyVisited))
@@ -723,11 +723,11 @@ public class SpecObj
     }
 
     // Returns true iff mod1 is known to directly extend mod2
-    private boolean directlyExtends(ModulePointer mod1, ModulePointer mod2)
+    private boolean directlyExtends(final ModulePointer mod1, final ModulePointer mod2)
     {
-        ModuleRelatives mod1Rels = mod1.getRelatives();
-        Vector<String> extendees = mod1Rels.directlyExtendedModuleNames;
-        ModuleContext mod1Context = mod1Rels.context;
+        final ModuleRelatives mod1Rels = mod1.getRelatives();
+        final Vector<String> extendees = mod1Rels.directlyExtendedModuleNames;
+        final ModuleContext mod1Context = mod1Rels.context;
 
         for (int i = 0; i < extendees.size(); i++)
         {
@@ -743,11 +743,11 @@ public class SpecObj
     // itself. This method is horribly inefficient when there are a
     // large number of modules, looping as it does through ALL modules;
     // it must be rewritten recursively!!
-    private Vector<ModulePointer> getModulesIndirectlyExtending(ModulePointer module)
+    private Vector<ModulePointer> getModulesIndirectlyExtending(final ModulePointer module)
     {
         // The Vector of Modules that equals, or directly or indirectly
         // extends, "module"
-        Vector<ModulePointer> extenders = new Vector<ModulePointer>();
+        final Vector<ModulePointer> extenders = new Vector<ModulePointer>();
         extenders.addElement(module);
 
         // initializations for the following nested loop
@@ -767,10 +767,10 @@ public class SpecObj
             {
                 // Check ALL modules in the entire specification (!) to see if
                 // they extend the i'th element of the vector
-                Enumeration<ModulePointer> enumModules = getModules();
+                final Enumeration<ModulePointer> enumModules = getModules();
                 while (enumModules.hasMoreElements())
                 {
-                    ModulePointer modPointer = (ModulePointer) enumModules.nextElement();
+                    final ModulePointer modPointer = (ModulePointer) enumModules.nextElement();
 
                     if (directlyExtends(modPointer, extenders.elementAt(i)))
                     {
@@ -791,10 +791,10 @@ public class SpecObj
 
     // This modules binds the name used in an INSTANCE definition in
     // module "instancer" to the top-level module in ParseUnit instancee
-    private void resolveNamesBetweenSpecAndInstantiation(ModulePointer instancer, ParseUnit instancee)
+    private void resolveNamesBetweenSpecAndInstantiation(final ModulePointer instancer, final ParseUnit instancee)
     {
         // Bind the name of the instancee in the instancer's context
-        ModuleContext instancerContext = instancer.getRelatives().context;
+        final ModuleContext instancerContext = instancer.getRelatives().context;
         instancerContext.bindIfNotBound(instancee.getName(), instancee.getRootModule());
     }
 
@@ -805,16 +805,16 @@ public class SpecObj
     // module xx that extends "extender", directly or indirectly, we
     // must resolve module names in xx to top level internal modules in
     // extendeeParseUnit
-    private void resolveNamesBetweenSpecAndExtention(ModulePointer extender, ParseUnit extendee)
+    private void resolveNamesBetweenSpecAndExtention(final ModulePointer extender, final ParseUnit extendee)
     {
         // First, bind the name of the extendee in the extender's context
-        ModuleContext extenderContext = extender.getRelatives().context;
+        final ModuleContext extenderContext = extender.getRelatives().context;
         extenderContext.bindIfNotBound(extendee.getName(), extendee.getRootModule());
 
         // Vextor of ModulePointers for modules that either are
         // "extender", or extend "extender" directly, of extend it
         // indirectly.
-        Vector<ModulePointer> modulesIndirectlyExtending = getModulesIndirectlyExtending(extender);
+        final Vector<ModulePointer> modulesIndirectlyExtending = getModulesIndirectlyExtending(extender);
 
         for (int i = 0; i < modulesIndirectlyExtending.size(); i++)
         {
@@ -825,12 +825,12 @@ public class SpecObj
     // Add all of the top level inner modules of extendeeParseUnit to
     // the contexts of extenderModule by doing appropriate bindings, and
     // do the same for all of extenderModule's submodules
-    private void resolveNamesBetweenModuleAndExtention(ModulePointer extenderModule, ParseUnit extendeeParseUnit)
+    private void resolveNamesBetweenModuleAndExtention(final ModulePointer extenderModule, final ParseUnit extendeeParseUnit)
     {
-        ModuleRelatives extenderRelatives = extenderModule.getRelatives();
-        ModuleContext extenderContext = extenderRelatives.context;
-        Vector<String> instantiatedNames = extenderRelatives.directlyInstantiatedModuleNames;
-        Vector<String> extendedNames = extenderRelatives.directlyExtendedModuleNames;
+        final ModuleRelatives extenderRelatives = extenderModule.getRelatives();
+        final ModuleContext extenderContext = extenderRelatives.context;
+        final Vector<String> instantiatedNames = extenderRelatives.directlyInstantiatedModuleNames;
+        final Vector<String> extendedNames = extenderRelatives.directlyExtendedModuleNames;
 
         // find all unresolved names in extenderModule and its submodules
         // and see if they can be resolved in extendeeParseUnit
@@ -839,16 +839,16 @@ public class SpecObj
         // it in the module it extends
         for (int i = 0; i < extendedNames.size(); i++)
         {
-            String extendedName = extendedNames.elementAt(i);
+            final String extendedName = extendedNames.elementAt(i);
 
             // Pick up vector of top level inner modules of extendeeParseUnit
-            Vector<ModulePointer> extendeeInnerModules = extendeeParseUnit.getRootModule().getDirectInnerModules();
+            final Vector<ModulePointer> extendeeInnerModules = extendeeParseUnit.getRootModule().getDirectInnerModules();
 
             // See if the name occurs among the direct inner modules of extendee
             for (int j = 0; j < extendeeInnerModules.size(); j++)
             {
-                ModulePointer extendeeInnerModule = extendeeInnerModules.elementAt(j);
-                String extendeeInnerName = extendeeInnerModule.getName();
+                final ModulePointer extendeeInnerModule = extendeeInnerModules.elementAt(j);
+                final String extendeeInnerName = extendeeInnerModule.getName();
 
                 // if we have a match...
                 if (extendedName.equals(extendeeInnerName))
@@ -867,16 +867,16 @@ public class SpecObj
         // extenderModule, try to resolve it in the module it extends
         for (int i = 0; i < instantiatedNames.size(); i++)
         {
-            String instanceName = instantiatedNames.elementAt(i);
+            final String instanceName = instantiatedNames.elementAt(i);
 
             // Pick up vector of top level inner modules of extendeeParseUnit
-            Vector<ModulePointer> extendeeInnerModules = extendeeParseUnit.getRootModule().getDirectInnerModules();
+            final Vector<ModulePointer> extendeeInnerModules = extendeeParseUnit.getRootModule().getDirectInnerModules();
 
             // See if the name occurs among the direct inner modules of extendee
             for (int j = 0; j < extendeeInnerModules.size(); j++)
             {
-                ModulePointer extendeeInnerModule = extendeeInnerModules.elementAt(j);
-                String extendeeInnerName = extendeeInnerModule.getName();
+                final ModulePointer extendeeInnerModule = extendeeInnerModules.elementAt(j);
+                final String extendeeInnerName = extendeeInnerModule.getName();
 
                 // if we have a match...
                 if (instanceName.equals(extendeeInnerName))
@@ -894,10 +894,10 @@ public class SpecObj
         // Now, for each inner module (recursively) of the extender
         // modules, try to resolve ITS unresolved module names in the same
         // extendee ParseUnit.
-        Vector<ModulePointer> extenderInnerModules = extenderRelatives.directInnerModules;
+        final Vector<ModulePointer> extenderInnerModules = extenderRelatives.directInnerModules;
         for (int i = 0; i < extenderInnerModules.size(); i++)
         {
-            ModulePointer nextInner = extenderInnerModules.elementAt(i);
+            final ModulePointer nextInner = extenderInnerModules.elementAt(i);
             resolveNamesBetweenModuleAndExtention(nextInner, extendeeParseUnit);
         }
     }
@@ -964,7 +964,7 @@ public class SpecObj
             // nextExtentionOrInstantiationParseUnit, and that
             // nextExtentionOrInstantiationParseUnit is extended or
             // instanced by extenderOrInstancerParseUnit.
-            ParseUnit extenderOrInstancerParseUnit = nextExtenderOrInstancerModule.getParseUnit();
+            final ParseUnit extenderOrInstancerParseUnit = nextExtenderOrInstancerModule.getParseUnit();
 
             if (extentionFound)
             {
@@ -1072,7 +1072,7 @@ public class SpecObj
     /**
      * @param globalContextErrors the globalContextErrors to set
      */
-    public void setGlobalContextErrors(Errors globalContextErrors)
+    public void setGlobalContextErrors(final Errors globalContextErrors)
     {
         this.globalContextErrors = globalContextErrors;
     }

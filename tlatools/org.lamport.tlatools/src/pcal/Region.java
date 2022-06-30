@@ -24,7 +24,7 @@ public class Region implements Serializable {
      * @param begin
      * @param end
      */
-	public Region(PCalLocation begin, PCalLocation end) {
+	public Region(final PCalLocation begin, final PCalLocation end) {
 		this.begin = begin;
 		this.end = end;
 	}
@@ -36,7 +36,7 @@ public class Region implements Serializable {
 	 * @param bcol
 	 * @param width
 	 */
-	public Region(int line, int bcol, int width)  {
+	public Region(final int line, final int bcol, final int width)  {
 		this.begin = new PCalLocation(line, bcol) ;
 		this.end = new PCalLocation(line, bcol+width);
 	}
@@ -44,13 +44,13 @@ public class Region implements Serializable {
 	public PCalLocation getBegin() {
 		return begin;
 	}
-	public void setBegin(PCalLocation begin) {
+	public void setBegin(final PCalLocation begin) {
 		this.begin = begin;
 	}
 	public PCalLocation getEnd() {
 		return end;
 	}
-	public void setEnd(PCalLocation end) {
+	public void setEnd(final PCalLocation end) {
 		this.end = end;
 	}
 	
@@ -74,14 +74,14 @@ public class Region implements Serializable {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Region other = (Region) obj;
+		final Region other = (Region) obj;
 		if (begin == null) {
 			if (other.begin != null)
 				return false;

@@ -67,12 +67,12 @@ public class Github726Test extends ModelCheckerTestCase {
 
 		public final List<String> log = new ArrayList<>();
 		
-		public TestPrintWriter(PrintStream out) {
+		public TestPrintWriter(final PrintStream out) {
 			super(out);
 		}
 
 		@Override
-		public void write(String x) {
+		public void write(final String x) {
 			log.add(x);
 			super.write(x);
 		}

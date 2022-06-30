@@ -51,13 +51,13 @@ public class TLCActionStackFrame extends TLCStateStackFrame {
 		return SCOPE;
 	}
 
-	public TLCActionStackFrame(TLCStackFrame parent, SemanticNode expr, Context c, Tool tool, TLCState predecessor,
-			Action a, TLCState ps) {
+	public TLCActionStackFrame(final TLCStackFrame parent, final SemanticNode expr, final Context c, final Tool tool, final TLCState predecessor,
+                               final Action a, final TLCState ps) {
 		this(parent, expr, c, tool, predecessor, a, ps, null);
 	}
 
-	public TLCActionStackFrame(TLCStackFrame parent, SemanticNode expr, Context c, Tool tool, TLCState predecessor,
-			Action a, TLCState ps, RuntimeException e) {
+	public TLCActionStackFrame(final TLCStackFrame parent, final SemanticNode expr, final Context c, final Tool tool, final TLCState predecessor,
+                               final Action a, final TLCState ps, final RuntimeException e) {
 		super(parent, expr, c, tool, ps /* super calls ps.deepCopy() */, e);
 		assert predecessor != null;
 		assert a != null;
@@ -97,7 +97,7 @@ public class TLCActionStackFrame extends TLCStateStackFrame {
 				if (value != null) {
 					return getVariable(value, var.getName() + "'");
 				} else {
-					Variable v = new Variable();
+					final Variable v = new Variable();
 					v.setName(var.getName() + "'");
 					v.setValue(DebuggerValue.NOT_EVALUATED);
 					return v;
@@ -117,7 +117,7 @@ public class TLCActionStackFrame extends TLCStateStackFrame {
 		return tool.eval(() -> {
 			try {
 				return lv.eval(tool, getS(), getT());
-			} catch (TLCRuntimeException | EvalException | FingerprintException e) {
+			} catch (final TLCRuntimeException | EvalException | FingerprintException e) {
 				return fallback == null ? e : fallback;
 			}
 		});

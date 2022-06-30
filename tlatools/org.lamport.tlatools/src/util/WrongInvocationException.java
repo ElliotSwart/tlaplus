@@ -15,7 +15,7 @@ public class WrongInvocationException extends RuntimeException
 	 */
 	private static final long serialVersionUID = 3746913549917545561L;
 
-	public WrongInvocationException(String message)
+	public WrongInvocationException(final String message)
     {
         super(message);
     }

@@ -197,7 +197,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 		
 		try {
 			diskFPSetMXWrapper = new DiskFPSetMXWrapper(this);
-		} catch (NotCompliantMBeanException e) {
+		} catch (final NotCompliantMBeanException e) {
 			// not expected to happen
 			// would cause JMX to be broken, hence just log and continue
 			MP.printWarning(
@@ -211,7 +211,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#init(int, java.lang.String, java.lang.String)
 	 */
-	public FPSet init(int numThreads, String aMetadir, String filename)
+	public FPSet init(final int numThreads, String aMetadir, String filename)
 			throws IOException {
 		
 		// Make it possible to pass in alternative location for the .fp and
@@ -224,7 +224,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 			this.metadir = aMetadir;
 		} else {
 			// If aMetadir is an absolute path name, we strip off the last part and append it to the prefix.
-			File file = new File(aMetadir);
+			final File file = new File(aMetadir);
 			if (file.isAbsolute()) {
 				aMetadir = file.getName();
 			}
@@ -248,7 +248,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 		
 		try {
 			// create/truncate backing file:
-			FileOutputStream f = new FileOutputStream(this.fpFilename);
+			final FileOutputStream f = new FileOutputStream(this.fpFilename);
 			f.close();
 
 			// open all "this.braf" and "this.brafPool" objects on currName:
@@ -260,9 +260,9 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 				this.brafPool[i] = new BufferedRandomAccessFile(
 						this.fpFilename, "r");
 			}
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// fatal error -- print error message and exit
-			String message = MP.getMessage(EC.SYSTEM_UNABLE_TO_OPEN_FILE,
+			final String message = MP.getMessage(EC.SYSTEM_UNABLE_TO_OPEN_FILE,
 					new String[] { this.fpFilename, e.getMessage() });
 			throw new IOException(message);
 		}
@@ -286,13 +286,13 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 		for (int i = 0; i < this.braf.length; i++) {
 			try {
 				this.braf[i].close();
-			} catch (IOException e) { /* SKIP */
+			} catch (final IOException e) { /* SKIP */
 			}
 		}
 		for (int i = 0; i < this.brafPool.length; i++) {
 			try {
 				this.brafPool[i].close();
-			} catch (IOException e) { /* SKIP */
+			} catch (final IOException e) { /* SKIP */
 			}
 		}
 	}
@@ -302,8 +302,8 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	 */
 	public final void addThread() throws IOException {
 		synchronized (this.braf) {
-			int len = this.braf.length;
-			BufferedRandomAccessFile[] nraf = new BufferedRandomAccessFile[len + 1];
+			final int len = this.braf.length;
+			final BufferedRandomAccessFile[] nraf = new BufferedRandomAccessFile[len + 1];
 			for (int i = 0; i < len; i++) {
 				nraf[i] = this.braf[i];
 			}
@@ -332,7 +332,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	 * @param fp The fingerprint to check validity for.
 	 * @return An alternative fingerprint value to map the invalid to.
 	 */
-	protected long checkValid(long fp) {
+	protected long checkValid(final long fp) {
 		if (fp == 0L) {
 			//TODO Decide on strategy:
 			// - Throw exception
@@ -369,7 +369,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	 * @param fp The fingerprint to lookup on disk
 	 * @return true iff fp is on disk
 	 */
-	final boolean diskLookup(long fp) throws IOException {
+	final boolean diskLookup(final long fp) throws IOException {
 		if (this.index == null) {
 			return false;
 		}
@@ -444,7 +444,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 				: ((long) hiPage) * NumEntriesPerPage);
 		try {
 			// b0) open file for reading that is associated with current thread
-			BufferedRandomAccessFile raf;
+			final BufferedRandomAccessFile raf;
 			final int id = IdThread.GetId(this.braf.length);
 			if (id < this.braf.length) {
 				raf = this.braf[id];
@@ -533,7 +533,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	 * 
 	 * @return A mid entry where to divide the interval
 	 */
-	long calculateMidEntry(long loVal, long hiVal, final double dfp, long loEntry, long hiEntry) {
+	long calculateMidEntry(final long loVal, final long hiVal, final double dfp, final long loEntry, final long hiEntry) {
 
 		final double dhi = (double) hiEntry;
 		final double dlo = (double) loEntry;
@@ -553,7 +553,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	protected int currIndex;
 	protected int counter;
 
-	protected final void writeFP(RandomAccessFile outRAF, long fp)
+	protected final void writeFP(final RandomAccessFile outRAF, final long fp)
 			throws IOException {
 		outRAF.writeLong(fp);
 		diskWriteCnt.increment();
@@ -571,7 +571,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	 */
 	protected int calculateIndexLen(final long buffLen) {
 		// +2L because we always need the lo and hi bounds for the index.
-		long indexLen = ((this.fileCnt + buffLen - 1L) / (long) NumEntriesPerPage) + 2L;
+		final long indexLen = ((this.fileCnt + buffLen - 1L) / (long) NumEntriesPerPage) + 2L;
 
 		//TODO this can cause a NegativeArraySizeException if fileCnt becomes sufficiently large
 		Assert.check(indexLen > 0, EC.GENERAL);
@@ -589,13 +589,13 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 		for (int i = 0; i < this.braf.length; i++) {
 			try {
 				this.braf[i].close();
-			} catch (IOException e) { /* SKIP */
+			} catch (final IOException e) { /* SKIP */
 			}
 		}
 		for (int i = 0; i < this.brafPool.length; i++) {
 			try {
 				this.brafPool[i].close();
-			} catch (IOException e) { /* SKIP */
+			} catch (final IOException e) { /* SKIP */
 			}
 		}
 		this.poolIndex = 0;
@@ -604,13 +604,13 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#exit(boolean)
 	 */
-	public void exit(boolean cleanup) throws IOException {
+	public void exit(final boolean cleanup) throws IOException {
 		super.exit(cleanup);
 		if (cleanup) {
 			// Delete the metadata directory:
 			FileUtil.deleteDir(this.metadir, true);
 		}
-		String hostname = InetAddress.getLocalHost().getHostName();
+		final String hostname = InetAddress.getLocalHost().getHostName();
 		MP.printMessage(EC.TLC_FP_COMPLETED, hostname);
 
 		System.exit(0);
@@ -627,15 +627,15 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 		flusher.flushTable();
 		releaseTblWriteLock();
 
-		RandomAccessFile braf = new BufferedRandomAccessFile(
+		final RandomAccessFile braf = new BufferedRandomAccessFile(
 				this.fpFilename, "r");
-		long fileLen = braf.length();
+		final long fileLen = braf.length();
 		long dis = Long.MAX_VALUE;
 		if (fileLen > 0) {
 			long x = braf.readLong();
 			while (braf.getFilePointer() < fileLen) {
-				long y = braf.readLong();
-				long dis1 = y - x;
+				final long y = braf.readLong();
+				final long dis1 = y - x;
 				if (dis1 >= 0) {
 					dis = Math.min(dis, dis1);
 				}
@@ -649,7 +649,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#beginChkpt(java.lang.String)
 	 */
-	public void beginChkpt(String fname) throws IOException {
+	public void beginChkpt(final String fname) throws IOException {
 		
 		this.flusherChosen.set(true);
 		acquireTblWriteLock();
@@ -666,9 +666,9 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#commitChkpt(java.lang.String)
 	 */
-	public void commitChkpt(String fname) throws IOException {
-		File oldChkpt = new File(this.getChkptName(fname, "chkpt"));
-		File newChkpt = new File(this.getChkptName(fname, "tmp"));
+	public void commitChkpt(final String fname) throws IOException {
+		final File oldChkpt = new File(this.getChkptName(fname, "chkpt"));
+		final File newChkpt = new File(this.getChkptName(fname, "tmp"));
 		if (!newChkpt.renameTo(oldChkpt)) {
 			throw new IOException("DiskFPSet.commitChkpt: cannot delete "
 					+ oldChkpt);
@@ -678,14 +678,14 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#recover(java.lang.String)
 	 */
-	public void recover(String fname) throws IOException {
-		RandomAccessFile chkptRAF = new BufferedRandomAccessFile(
+	public void recover(final String fname) throws IOException {
+		final RandomAccessFile chkptRAF = new BufferedRandomAccessFile(
 				this.getChkptName(fname, "chkpt"), "r");
-		RandomAccessFile currRAF = new BufferedRandomAccessFile(
+		final RandomAccessFile currRAF = new BufferedRandomAccessFile(
 				this.fpFilename, "rw");
 
 		this.fileCnt = chkptRAF.length() / LongSize;
-		int indexLen = (int) ((this.fileCnt - 1) / NumEntriesPerPage) + 2;
+		final int indexLen = (int) ((this.fileCnt - 1) / NumEntriesPerPage) + 2;
 		this.index = new long[indexLen];
 		this.currIndex = 0;
 		this.counter = 0;
@@ -700,7 +700,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 				Assert.check(predecessor < fp, EC.SYSTEM_INDEX_ERROR);
 				predecessor = fp;
 			}
-		} catch (EOFException e) {
+		} catch (final EOFException e) {
 			Assert.check(this.currIndex == indexLen - 1, EC.SYSTEM_INDEX_ERROR);
 			this.index[indexLen - 1] = fp;
 		}
@@ -745,7 +745,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#recoverFP(long)
 	 */
-	public final void recoverFP(long fp) throws IOException {
+	public final void recoverFP(final long fp) throws IOException {
 		// This implementation used to group n fingerprints into a sorted
 		// in-memory page. Pages were subsequently merged on-disk directly,
 		// creating the on-disk storage file for DiskFPSets.
@@ -770,8 +770,8 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 		// statistics code to speed up recovery. Thus, recovery relys on
 		// exclusive access to the fingerprint set, which it has during
 		// recovery.
-		long fp0 = fp & FLUSHED_MASK;
-		boolean unique = !this.memInsert(fp0);
+		final long fp0 = fp & FLUSHED_MASK;
+		final boolean unique = !this.memInsert(fp0);
 		Assert.check(unique, EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT, "");
 		if (needsDiskFlush()) {
 			this.flusher.flushTable();
@@ -781,16 +781,16 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#recover()
 	 */
-	public final void recover(TLCTrace trace) throws IOException {
+	public final void recover(final TLCTrace trace) throws IOException {
 		final Enumerator elements = trace.elements();
 		while (elements.nextPos() != -1) {
-			long fp = elements.nextFP();
+			final long fp = elements.nextFP();
 			this.recoverFP(fp);
 		}
 		elements.close();
 	}
 
-	private String getChkptName(String fname, String name) {
+	private String getChkptName(final String fname, final String name) {
 		return this.metadir + FileUtil.separator + fname + ".fp." + name;
 	}
 
@@ -807,7 +807,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 			long predecessor = Long.MIN_VALUE;
 			if (fileLen > 0) {
 				while (braf.getFilePointer() < fileLen) {
-					long l = braf.readLong();
+					final long l = braf.readLong();
 					if (predecessor >= l) {
 						return false;
 					}
@@ -824,7 +824,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#checkInvariant(long)
 	 */
-	public boolean checkInvariant(long expectedFPCnt) throws IOException {
+	public boolean checkInvariant(final long expectedFPCnt) throws IOException {
 		return checkInvariant() && size() == expectedFPCnt;
 	}
 
@@ -1060,8 +1060,8 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 			// merge array with disk file
 			try {
 				this.mergeNewEntries();
-			} catch (IOException e) {
-				String msg = "Error: merging entries into file "
+			} catch (final IOException e) {
+				final String msg = "Error: merging entries into file "
 						+ fpFilename + "  " + e;
 				throw new IOException(msg);
 			}
@@ -1092,9 +1092,9 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 			}
 
 			// create temporary file
-			File tmpFile = new File(tmpFilename);
+			final File tmpFile = new File(tmpFilename);
 			tmpFile.delete();
-			RandomAccessFile tmpRAF = new BufferedRandomAccessFile(tmpFile, "rw");
+			final RandomAccessFile tmpRAF = new BufferedRandomAccessFile(tmpFile, "rw");
 			tmpRAF.setLength((getTblCnt() + fileCnt) * FPSet.LongSize);
 
 			// merge
@@ -1108,7 +1108,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 			tmpRAF.close();
 			try {
 				FileUtil.replaceFile(tmpFilename, fpFilename);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				Assert.fail(EC.SYSTEM_UNABLE_NOT_RENAME_FILE, e);
 			}
 
@@ -1132,7 +1132,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 		
 	}
 	
-	private static boolean checkFile(BufferedRandomAccessFile braf, long[] index, long elements) throws IOException {
+	private static boolean checkFile(final BufferedRandomAccessFile braf, final long[] index, final long elements) throws IOException {
 		final long fileLen = braf.length();
 		if (fileLen / LongSize != elements) {
 			return false;
@@ -1145,7 +1145,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 				return false;
 			}
 			while (braf.getFilePointer() < fileLen) {
-				long l = braf.readLong();
+				final long l = braf.readLong();
 				if (predecessor >= l) {
 					return false;
 				}
@@ -1161,7 +1161,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	 */
 	
 	@SuppressWarnings("resource")
-	public static void main(String[] args) throws IOException {
+	public static void main(final String[] args) throws IOException {
 		if (args.length == 1 && !args[0].equals("")) {
 
 			final BufferedRandomAccessFile braf = new BufferedRandomAccessFile(new File(args[0]), "r");

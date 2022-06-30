@@ -67,10 +67,10 @@ public class DumpAsDotTest extends ModelCheckerTestCase {
 	}
 	
 	// http://stackoverflow.com/a/17861016
-	public static byte[] getBytes(InputStream is) throws IOException {
+	public static byte[] getBytes(final InputStream is) throws IOException {
 		final ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
-			byte[] buffer = new byte[0xFFFF];
+			final byte[] buffer = new byte[0xFFFF];
 			for (int len; (len = is.read(buffer)) != -1;) {
 				os.write(buffer, 0, len);
 			}

@@ -16,12 +16,12 @@ public class ConfigFileException extends RuntimeException
 	 */
 	private static final long serialVersionUID = 1479692626467317310L;
 
-	public ConfigFileException(int errorCode, String[] parameters)
+	public ConfigFileException(final int errorCode, final String[] parameters)
     {
         super(MP.getMessage(errorCode, parameters));
     }
 
-    public ConfigFileException(int errorCode, String[] parameters, Exception cause)
+    public ConfigFileException(final int errorCode, final String[] parameters, final Exception cause)
     {
         super(MP.getMessage(errorCode, parameters), cause);
     }

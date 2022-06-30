@@ -83,7 +83,7 @@ public class InliningTest extends ModelCheckerTestCase {
 		// stop recording and read the jfr from from disk. Close the recording
 		// afterwards.
 		r.stop();
-		Path p = Paths.get("test.jfr"); // test.jfr is the default file name.
+		final Path p = Paths.get("test.jfr"); // test.jfr is the default file name.
 		r.dump(p); 
 		final List<RecordedEvent> recordedEvents = RecordingFile.readAllEvents(p);
 		r.close();
@@ -124,17 +124,17 @@ public class InliningTest extends ModelCheckerTestCase {
 	private void notIn(final Method method, final Set<RecordedObject> notInlined) {
 		final List<RecordedObject> methodNameMatches = notInlined.stream()
 				.filter(ro -> method.getName().equals(ro.getString("name"))).collect(Collectors.toList());
-		for (RecordedObject methodNameMatch : methodNameMatches) {
+		for (final RecordedObject methodNameMatch : methodNameMatches) {
 			assertTrue(isNoMatch(methodNameMatch, method));
 		}
 	}
 
 	// I warned you that this doesn't work.
-	private boolean isNoMatch(RecordedObject methodNameMatch, Method method) {
+	private boolean isNoMatch(final RecordedObject methodNameMatch, final Method method) {
 		final String desc = methodNameMatch.getString("descriptor");
 		final String[] params = desc.substring(1, desc.indexOf(")")).split(";");
 		if (method.getParameterCount() == params.length) {
-			Class<?>[] parameters = method.getParameterTypes();
+			final Class<?>[] parameters = method.getParameterTypes();
 			for (int j = 0; j < params.length; j++) {
 				final String paramType = parameters[j].toString().replace(".", "/").replaceFirst("^(class|interface) ",
 						"L");

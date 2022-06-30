@@ -46,13 +46,13 @@ public class Context implements ExploreNode {
     SymbolNode info;
 
     // Note: Does not set lastPair
-    Pair(Pair lnk, SymbolNode inf) {
+    Pair(final Pair lnk, final SymbolNode inf) {
       this.link = lnk;
       this.info = inf;
     }
 
     // Note: Does set lastPair
-    Pair(SymbolNode inf) {
+    Pair(final SymbolNode inf) {
       this.link = lastPair;
       this.info = inf;
       lastPair = this;
@@ -138,7 +138,7 @@ public class Context implements ExploreNode {
    * exMT is the ExternalModuleTable containing the module whose
    * SymbolTable this Context is part of (or null).
    */
-  public Context(ExternalModuleTable mt, Errors errs) {
+  public Context(final ExternalModuleTable mt, final Errors errs) {
     table = new Hashtable<>();
     this.exMT = mt;
     this.errors = errs;
@@ -165,7 +165,7 @@ public class Context implements ExploreNode {
   
 	public static boolean isBuiltIn(final ExploreNode exploreNode) {
 		final Collection<Pair> pairs = initialContext.table.values();
-		for (Pair p : pairs) {
+		for (final Pair p : pairs) {
 			if (exploreNode == p.info) {
 				return true;
 			}
@@ -176,7 +176,7 @@ public class Context implements ExploreNode {
   public Errors getErrors() { return errors; }
 
   // Adds a symbol to the (unique) initialContext; aborts if already there
-  public static void addGlobalSymbol(UniqueString name, SymbolNode sn, Errors errors)
+  public static void addGlobalSymbol(final UniqueString name, final SymbolNode sn, final Errors errors)
   throws AbortException {
     if (initialContext.getSymbol(name) != null) {
       errors.addAbort(Location.nullLoc,
@@ -193,8 +193,8 @@ public class Context implements ExploreNode {
    * Returns symbol node associated with "name" in this Context, if
    * one exists; else returns null
    */
-  public SymbolNode getSymbol(Object name) {
-    Pair r = table.get(name);
+  public SymbolNode getSymbol(final Object name) {
+    final Pair r = table.get(name);
     if (r != null) {
       return r.info;
     }
@@ -207,7 +207,7 @@ public class Context implements ExploreNode {
    * @param name the UniqueString representing the string, see {@link UniqueString#uniqueStringOf(String)}
    * @param s the symbol node to be put in
    */
-  public void addSymbolToContext(Object name, SymbolNode s) {
+  public void addSymbolToContext(final Object name, final SymbolNode s) {
     table.put(name, new Pair(s));    // Links to & updates lastPair
   }
 
@@ -235,11 +235,11 @@ public class Context implements ExploreNode {
    * instances of class "template" (or one of its subclasses)
    */
   @SuppressWarnings("unchecked")
-public<T> Vector<T> getByClass( Class<T> template ) {
-    Vector<T> result = new Vector<>();
-    Enumeration<Pair> list = table.elements();
+public<T> Vector<T> getByClass(final Class<T> template ) {
+    final Vector<T> result = new Vector<>();
+    final Enumeration<Pair> list = table.elements();
     while (list.hasMoreElements()) {
-      Pair elt = list.nextElement();
+      final Pair elt = list.nextElement();
       if (template.isInstance(elt.info)) {
         result.addElement((T) elt.info );
       }
@@ -257,7 +257,7 @@ public<T> Vector<T> getByClass( Class<T> template ) {
       // Class template = OpDefNode.class;
     Pair nextPair = lastPair;
 
-    Vector<OpDefNode> result = new Vector<>();
+    final Vector<OpDefNode> result = new Vector<>();
     while (nextPair != null) {
       if ( nextPair.info instanceof OpDefNode &&     // true for superclasses too.
            ((OpDefNode)nextPair.info).getKind() != ASTConstants.ModuleInstanceKind &&
@@ -278,7 +278,7 @@ public<T> Vector<T> getByClass( Class<T> template ) {
       // Class template = ThmOrAssumpDefNode.class;
     Pair nextPair = lastPair;
 
-    Vector<ThmOrAssumpDefNode> result = new Vector<>();
+    final Vector<ThmOrAssumpDefNode> result = new Vector<>();
     while (nextPair != null) {
       if ( nextPair.info instanceof ThmOrAssumpDefNode)
         { result.addElement( (ThmOrAssumpDefNode)(nextPair.info) );} ;
@@ -291,12 +291,12 @@ public<T> Vector<T> getByClass( Class<T> template ) {
    * Returns vector of OpDeclNodes that represent CONSTANT declarations
    */
   public Vector<SemanticNode> getConstantDecls() {
-    Class<? extends SemanticNode> templateClass = OpDeclNode.class;
-    Enumeration<Pair> list = table.elements();
+    final Class<? extends SemanticNode> templateClass = OpDeclNode.class;
+    final Enumeration<Pair> list = table.elements();
 
-    Vector<SemanticNode> result = new Vector<>();
+    final Vector<SemanticNode> result = new Vector<>();
     while (list.hasMoreElements()) {
-      Pair elt = list.nextElement();
+      final Pair elt = list.nextElement();
       if (templateClass.isInstance(elt.info) &&     // true for superclasses too.
          ((OpDeclNode)elt.info).getKind() == ASTConstants.ConstantDeclKind  )
         result.addElement( (SemanticNode)(elt.info) );
@@ -307,12 +307,12 @@ public<T> Vector<T> getByClass( Class<T> template ) {
 
   /* Returns vector of OpDeclNodes that represent CONSTANT declarations  */
   public Vector<SemanticNode> getVariableDecls() {
-    Class<? extends SemanticNode> templateClass = OpDeclNode.class;
-    Enumeration<Pair> list = table.elements();
+    final Class<? extends SemanticNode> templateClass = OpDeclNode.class;
+    final Enumeration<Pair> list = table.elements();
 
-    Vector<SemanticNode> result = new Vector<>();
+    final Vector<SemanticNode> result = new Vector<>();
     while (list.hasMoreElements()) {
-      Pair elt = list.nextElement();
+      final Pair elt = list.nextElement();
       if (templateClass.isInstance(elt.info) &&     // true for superclasses too.
            ((OpDeclNode)elt.info).getKind() == ASTConstants.VariableDeclKind  )
         result.addElement( (SemanticNode)(elt.info) );
@@ -325,12 +325,12 @@ public<T> Vector<T> getByClass( Class<T> template ) {
    * instances of class ModuleNode
    */
   public Vector<SemanticNode> getModDefs() {
-    Class<? extends SemanticNode> template = ModuleNode.class;
-    Enumeration<Pair> list = table.elements();
+    final Class<? extends SemanticNode> template = ModuleNode.class;
+    final Enumeration<Pair> list = table.elements();
 
-    Vector<SemanticNode> result = new Vector<>();
+    final Vector<SemanticNode> result = new Vector<>();
     while (list.hasMoreElements()) {
-      Pair elt = list.nextElement();
+      final Pair elt = list.nextElement();
       if (template.isInstance(elt.info))    // true for superclasses too.
         result.addElement( (SemanticNode)(elt.info) );
     }
@@ -370,11 +370,11 @@ public<T> Vector<T> getByClass( Class<T> template ) {
 		Pair p = ct.lastPair.reversePairList();
 		while (p != null) {
 			// Walk back along the list of pairs added to Context "ct"
-			SymbolNode sn = p.info;
+			final SymbolNode sn = p.info;
 
 			// Ignore local symbols in Context "ct"
 			if (!sn.isLocal()) {
-				Object sName;
+				final Object sName;
 				if (sn instanceof ModuleNode) {
 					sName = new SymbolTable.ModuleName(sn.getName());
 				} else {
@@ -386,7 +386,7 @@ public<T> Vector<T> getByClass( Class<T> template ) {
 					table.put(sName, new Pair(sn));
 				} else {
 					// If this Context DOES contain this name
-					SymbolNode symbol = table.get(sName).info;
+					final SymbolNode symbol = table.get(sName).info;
 					if (symbol != sn) {
 						// if the two SymbolNodes with the same name are distinct nodes,
 						// We issue a warning or do nothing if they are instances of the same Java
@@ -422,7 +422,7 @@ public<T> Vector<T> getByClass( Class<T> template ) {
 		return erc;
   }
 
-  private static String kindOfNode(SymbolNode symbol) {
+  private static String kindOfNode(final SymbolNode symbol) {
       if (symbol instanceof OpDefNode) {return "definition";}
       if (symbol instanceof FormalParamNode) {return "definition";}
       return "declaration";
@@ -433,8 +433,8 @@ public<T> Vector<T> getByClass( Class<T> template ) {
    * SymbolTable class.  The tricky part is duplicating the
    * linked-list of Pairs starting from this.lastpair.
    */
-  public Context duplicate(ExternalModuleTable exMT) {    // Added argument exMT (DRJ)
-    Context dup       = new Context(exMT, errors);
+  public Context duplicate(final ExternalModuleTable exMT) {    // Added argument exMT (DRJ)
+    final Context dup       = new Context(exMT, errors);
     Pair    p         = this.lastPair;
     Pair    current   = null;
     boolean firstTime = true;
@@ -461,7 +461,7 @@ public<T> Vector<T> getByClass( Class<T> template ) {
    */
   public String levelDataToString() { return "Dummy level string"; }
 
-  public String toString(int depth) {
+  public String toString(final int depth) {
     return "Please use Context.getContextEntryStringVector()" +
       " instead of Context.toString()";
   }
@@ -474,23 +474,23 @@ public<T> Vector<T> getByClass( Class<T> template ) {
   * comment in the walkGraph method of this file for a bit more            *
   * information.                                                           *
   *************************************************************************/
-  public Vector<String> getContextEntryStringVector(int depth, boolean b) {
-    Vector<String> ctxtEntries = new Vector<>(100);  // vector of Strings
-    Context naturalsContext =
+  public Vector<String> getContextEntryStringVector(final int depth, final boolean b) {
+    final Vector<String> ctxtEntries = new Vector<>(100);  // vector of Strings
+    final Context naturalsContext =
                exMT.getContext(UniqueString.uniqueStringOf("Naturals"));
 
     if (depth <= 0) return ctxtEntries;
 
     Pair p = lastPair;
     while (p != null) {
-      UniqueString key = p.info.getName();
+      final UniqueString key = p.info.getName();
 
       // If b is false, don't bother printing the initialContext--too long--
       // and, don't bother printing elements of the Naturals module either
       if (b || (!initialContext.table.containsKey(key) &&
 		(naturalsContext == null ||
 		 !naturalsContext.table.containsKey(key)))) {
-        SymbolNode symbNode  = (table.get(key)).info;
+        final SymbolNode symbNode  = (table.get(key)).info;
 	ctxtEntries.addElement("\nContext Entry: " + key.toString() + "  "
                     + String.valueOf(((SemanticNode)symbNode).myUID).toString() + " "
                     + Strings.indentSB(2,(symbNode.toString(depth-1))));
@@ -500,7 +500,7 @@ public<T> Vector<T> getByClass( Class<T> template ) {
 
     // Reverse the order of elements in the vector so they print properly
     String obj;
-    int n = ctxtEntries.size();
+    final int n = ctxtEntries.size();
     for (int i = 0; i < n/2; i++) {
       obj = ctxtEntries.elementAt(i);
       ctxtEntries.setElementAt(ctxtEntries.elementAt(n-1-i),i);
@@ -509,10 +509,10 @@ public<T> Vector<T> getByClass( Class<T> template ) {
     return ctxtEntries;
   }
 
-  public void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
+  public void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
 	  visitor.preVisit(this);
     UniqueString key;
-    Enumeration<?>  e = table.keys();
+    final Enumeration<?>  e = table.keys();
 
     while (e.hasMoreElements()) {
       /*********************************************************************
@@ -528,7 +528,7 @@ public<T> Vector<T> getByClass( Class<T> template ) {
       * getContextEntryStringVector later on.  I decided to stop wasting   *
       * time on this.                                                      *
       *********************************************************************/
-      Object next = e.nextElement();
+      final Object next = e.nextElement();
       if (next instanceof SymbolTable.ModuleName) {
          key = ((SymbolTable.ModuleName) next).name ;
          System.out.println("Bug in debugging caused by inner module " +

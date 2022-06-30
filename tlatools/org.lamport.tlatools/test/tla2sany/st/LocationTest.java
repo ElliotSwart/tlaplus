@@ -46,7 +46,7 @@ public class LocationTest {
 		assertFalse(new Location(1, 0, 10, 9).includes(new Location(0, 0, 10, 10)));
 		
 		
-		Location[] parsedLocations = Location
+		final Location[] parsedLocations = Location
 				.getParsedLocations("line 781, col 31 to line 784, col 68 of module OpenAddressing\n"
 						+ "line 783, col 38 to line 784, col 68 of module OpenAddressing\n"
 						+ "line 784, col 41 to line 784, col 68 of module OpenAddressing\n"

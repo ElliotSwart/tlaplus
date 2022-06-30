@@ -11,7 +11,7 @@ import tlc2.tool.distributed.fp.FPSetRMI;
 public class CheckFPsCallable implements Callable<Long> {
 	private final FPSetRMI fpSetRMI;
 	
-	public CheckFPsCallable(FPSetRMI fpSetRMI) {
+	public CheckFPsCallable(final FPSetRMI fpSetRMI) {
 		this.fpSetRMI = fpSetRMI;
 	}
 
@@ -21,7 +21,7 @@ public class CheckFPsCallable implements Callable<Long> {
 	public Long call() throws Exception {
 		try {
 			return fpSetRMI.checkFPs();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// not expected to happen.
 			MP.printError(EC.GENERAL, e);
 			// return max value to indicate to caller that the result is

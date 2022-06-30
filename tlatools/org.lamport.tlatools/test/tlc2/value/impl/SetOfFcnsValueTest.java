@@ -46,7 +46,7 @@ import util.Assert.TLCRuntimeException;
 
 public class SetOfFcnsValueTest {
 
-	private static final Value[] getValue(String... strs) {
+	private static final Value[] getValue(final String... strs) {
 		final Value[] values = new Value[strs.length];
 		for (int i = 0; i < strs.length; i++) {
 			values[i] = new StringValue(strs[i]);
@@ -164,7 +164,7 @@ public class SetOfFcnsValueTest {
 		
 		final SetOfFcnsValue.SubsetEnumerator enumerator = (SubsetEnumerator) setOfFcnsValue.elements(27);
 		for (int i = 0; i < setOfFcnsValue.size(); i++) {
-			FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
+			final FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
 			assertEquals(3, rcd.domain.length);
 			assertEquals(3, rcd.values.length);
 			enumeratorValues.add(rcd);
@@ -200,7 +200,7 @@ public class SetOfFcnsValueTest {
 
 		final SetOfFcnsValue.SubsetEnumerator enumerator = (SubsetEnumerator) setOfFcnsValue.elements(27);
 		for (int i = 0; i < setOfFcnsValue.size(); i++) {
-			FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
+			final FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
 			assertEquals(3, rcd.domain.length);
 			assertEquals(3, rcd.values.length);
 			enumeratorValues.add(rcd);
@@ -249,7 +249,7 @@ public class SetOfFcnsValueTest {
 
 		final SetOfFcnsValue.SubsetEnumerator enumerator = (SubsetEnumerator) setOfFcnsValue.elements(9);
 		for (int i = 0; i < setOfFcnsValue.size(); i++) {
-			FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
+			final FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
 			assertEquals(2, rcd.domain.length);
 			assertEquals(2, rcd.values.length);
 			// Check element is in the original SetOfFcnsValue.
@@ -278,7 +278,7 @@ public class SetOfFcnsValueTest {
 
 		final SetOfFcnsValue.SubsetEnumerator enumerator = (SubsetEnumerator) setOfFcnsValue.elements(27);
 		for (int i = 0; i < setOfFcnsValue.size(); i++) {
-			FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
+			final FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
 			assertEquals(3, rcd.domain.length);
 			assertEquals(3, rcd.values.length);
 			// Check element is in the original SetOfFcnsValue.
@@ -325,7 +325,7 @@ public class SetOfFcnsValueTest {
 
 		final SetOfFcnsValue.SubsetEnumerator enumerator = (SubsetEnumerator) setOfFcnsValue.elements(256);
 		for (int i = 0; i < setOfFcnsValue.size(); i++) {
-			FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
+			final FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
 			assertEquals(4, rcd.domain.length);
 			assertEquals(4, rcd.values.length);
 			// Check element is in the original SetOfFcnsValue.
@@ -358,12 +358,12 @@ public class SetOfFcnsValueTest {
 			public void accept(final SetOfFcnsValue sofv) {
 				try {
 					sofv.size();
-				} catch (TLCRuntimeException tre) {
+				} catch (final TLCRuntimeException tre) {
 					// OK, set is huge for size to reject it. Next get a tiny subset of it.
 
 					IntStream.of(0, 1, 2, 799, 1024, 8932, 16933/*, 109031*/).forEach(new IntConsumer() { // 109031 causes the test to take a little long to be included in the overall test suite.
 						@Override
-						public void accept(int kOutOfN) {
+						public void accept(final int kOutOfN) {
 							final Enumerable randomSubset = sofv.getRandomSubset(kOutOfN);
 							
 							// Check expected amount of elements.

@@ -75,24 +75,24 @@ public final class PcalBuiltInSymbols
         buildStringCharTable();
       } ;
 
-    public static boolean IsBuiltInSymbol(String str) 
+    public static boolean IsBuiltInSymbol(final String str)
       { return (null != GetBuiltInSymbol(str)) ;
       } ;
 
-    public static Symbol GetBuiltInSymbol(String str)
+    public static Symbol GetBuiltInSymbol(final String str)
       { return builtInHashTable.get(str);
       } ;
 
-    public static boolean IsBuiltInPrefix(String str)
+    public static boolean IsBuiltInPrefix(final String str)
       { return prefixHashTable.containsKey(str) ;
       } ;
 
-    public static boolean IsStringChar(char ch)
+    public static boolean IsStringChar(final char ch)
       { return stringCharTable.containsKey("" + ch) ;
       } ;
 
     private static void buildStringCharTable() 
-      { String legalChars = 
+      { final String legalChars =
                  /**********************************************************
                  * Here are all the non-escaped characters that can        *
                  * appear in a TLA+ string.                                *
@@ -108,7 +108,7 @@ public final class PcalBuiltInSymbols
           }
       } ;
 
-    private static void add(String tla, String tex, int stype, int atype)
+    private static void add(final String tla, final String tex, final int stype, final int atype)
       /*********************************************************************
       * Adds an entry to the builtInHashTable.                             *
       *********************************************************************/
@@ -341,7 +341,7 @@ public final class PcalBuiltInSymbols
       * Initializes prefixHashTable, assuming that builtInHashTable is     *
       * already initialized.                                               *
       *********************************************************************/
-      { Enumeration<String> builtInEnum = builtInHashTable.keys();
+      { final Enumeration<String> builtInEnum = builtInHashTable.keys();
         while (builtInEnum.hasMoreElements())
           { String symbol = builtInEnum.nextElement();
             if (    Misc.IsLetter(symbol.charAt(0))

@@ -30,14 +30,14 @@ public class LNAction extends LiveExprNode {
 	private final Context con;
 	private int tag;
 
-	public LNAction(ExprNode body, Context con, ExprNode subscript, boolean isBox) {
+	public LNAction(final ExprNode body, final Context con, final ExprNode subscript, final boolean isBox) {
 		this.body = body;
 		this.subscript = subscript;
 		this.isBox = isBox;
 		this.con = con;
 	}
 
-	public LNAction(ExprNode body, Context con) {
+	public LNAction(final ExprNode body, final Context con) {
 		this.body = body;
 		this.subscript = null;
 		this.isBox = false;
@@ -48,7 +48,7 @@ public class LNAction extends LiveExprNode {
 		return this.tag;
 	}
 
-	public final void setTag(int t) {
+	public final void setTag(final int t) {
 		this.tag = t;
 	}
 
@@ -61,11 +61,11 @@ public class LNAction extends LiveExprNode {
 		return true;
 	}
 
-	public final boolean eval(ITool tool, TLCState s1, TLCState s2) {
+	public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
 		if (this.subscript != null) {
-			IValue v1 = tool.eval(this.subscript, con, s1, TLCState.Empty, EvalControl.Clear);
-			IValue v2 = tool.eval(this.subscript, con, s2, null, EvalControl.Clear);
-			boolean isStut = v1.equals(v2);
+			final IValue v1 = tool.eval(this.subscript, con, s1, TLCState.Empty, EvalControl.Clear);
+			final IValue v2 = tool.eval(this.subscript, con, s2, null, EvalControl.Clear);
+			final boolean isStut = v1.equals(v2);
 			if (this.isBox) {
 				if (isStut) {
 					return true;
@@ -76,14 +76,14 @@ public class LNAction extends LiveExprNode {
 				}
 			}
 		}
-		IValue val = tool.eval(this.body, con, s1, s2, EvalControl.Clear);
+		final IValue val = tool.eval(this.body, con, s1, s2, EvalControl.Clear);
 		if (!(val instanceof IBoolValue)) {
 			Assert.fail(EC.TLC_LIVE_ENCOUNTERED_NONBOOL_PREDICATE);
 		}
 		return ((IBoolValue) val).getVal();
 	}
 
-	public final void toString(StringBuffer sb, String padding) {
+	public final void toString(final StringBuffer sb, final String padding) {
 		if (this.subscript == null) {
 			this.body.toString(sb, padding);
 		} else {
@@ -93,7 +93,7 @@ public class LNAction extends LiveExprNode {
 		}
 	}
 
-	public int tagExpr(int tag) {
+	public int tagExpr(final int tag) {
 		setTag(tag);
 		return tag + 1;
 	}
@@ -103,7 +103,7 @@ public class LNAction extends LiveExprNode {
 		throw new WrongInvocationException("LiveExprNode.makeBinary: TLC encounters actions.");
 	}
 
-	public boolean equals(LiveExprNode exp) {
+	public boolean equals(final LiveExprNode exp) {
 		if (exp instanceof LNAction) {
 			return getTag() == ((LNAction) exp).getTag();
 		}

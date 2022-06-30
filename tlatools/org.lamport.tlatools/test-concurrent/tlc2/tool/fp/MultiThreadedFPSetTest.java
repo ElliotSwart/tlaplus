@@ -90,7 +90,7 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 	 * @throws IllegalArgumentException
 	 * @throws InvocationTargetException
 	 */
-	protected FPSet doTest(Class<? extends FingerPrintGenerator> fpgClass) throws IOException, InterruptedException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	protected FPSet doTest(final Class<? extends FingerPrintGenerator> fpgClass) throws IOException, InterruptedException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		// Skip the test if the property
 		// -Dtlc2.tool.fp.MultiThreadedFPSetTest.excludes contains the simple
 		// name of the test. I.e.
@@ -124,7 +124,7 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 						final long currentSize = fpSet.size();
 						final long insertions = currentSize - previousSize;
 						if (fpSet instanceof FPSetStatistic) {
-							FPSetStatistic fpSetStatistics = (FPSetStatistic) fpSet;
+							final FPSetStatistic fpSetStatistics = (FPSetStatistic) fpSet;
 							System.out.println(System.currentTimeMillis() + " s (epoch); " + df.format(insertions) + " insertions/min; " + pf.format(fpSetStatistics.getLoadFactor()) + " load factor");
 						} else {
 							System.out.println(System.currentTimeMillis() + " s (epoch); " + df.format(insertions) + " insertions/min");
@@ -143,7 +143,7 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 		for (int i = 0; i < fpgs.length; i++) {
 			fpgs[i] = (FingerPrintGenerator) constructor.newInstance(
 					this, i, fpgs.length, fpSet, latch, seed++, INSERTIONS, barrier);
-			Thread thread = new IdThread(fpgs[i], "Producer#" + i, i);
+			final Thread thread = new IdThread(fpgs[i], "Producer#" + i, i);
 			thread.start();
 		}
 
@@ -160,8 +160,8 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 		// print stats
 		for (int i = 0; i < fpgs.length; i++) {
 			final FingerPrintGenerator fpg = fpgs[i];
-			long puts = fpg.getPuts();
-			long collisions = fpg.getCollisions();
+			final long puts = fpg.getPuts();
+			final long collisions = fpg.getCollisions();
 			System.out.println(String.format("Producer: %s, puts: %s, puts/collisions: %s", fpg.getId(), puts,
 					(collisions == 0 ? "none" : (double) (puts / collisions))));
 			overallPuts += puts;

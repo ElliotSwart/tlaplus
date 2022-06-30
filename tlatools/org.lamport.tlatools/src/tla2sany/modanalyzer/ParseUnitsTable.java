@@ -17,11 +17,11 @@ class ParseUnitsTable {
   // Maps ParseUnit string names to their respective ParseUnit objects
   Hashtable<ParseUnit, ParseUnit> parseUnitTable = new Hashtable<ParseUnit, ParseUnit>();
 
-  ParseUnit get(ParseUnit parseUnitName) { 
+  ParseUnit get(final ParseUnit parseUnitName) {
     return parseUnitTable.get(parseUnitName); 
   }
 
-  void put (ParseUnit parseUnitName, ParseUnit parseUnit) {
+  void put (final ParseUnit parseUnitName, final ParseUnit parseUnit) {
     parseUnitTable.put(parseUnitName, parseUnit);
   }
 
@@ -30,7 +30,7 @@ class ParseUnitsTable {
   public String toString() {
     String ret = "";
 
-    Enumeration<ParseUnit> e = parseUnitTable.keys();
+    final Enumeration<ParseUnit> e = parseUnitTable.keys();
     while ( e.hasMoreElements()) {
       ret += "[ ParseUnit: " + e.nextElement().getName() + " ] ";
     }

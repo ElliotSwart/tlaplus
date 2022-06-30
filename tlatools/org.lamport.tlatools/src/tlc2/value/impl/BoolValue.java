@@ -25,7 +25,7 @@ public boolean val;   // the boolean
   public static final BoolValue ValTrue  = new BoolValue(true);
 
   /* Constructor */
-  public BoolValue(boolean b) { this.val = b; }
+  public BoolValue(final boolean b) { this.val = b; }
 
   @Override
   public final boolean getVal() {
@@ -36,11 +36,11 @@ public boolean val;   // the boolean
   public final byte getKind() { return BOOLVALUE; }
 
   @Override
-  public final int compareTo(Object obj) {
+  public final int compareTo(final Object obj) {
     try {
       if (obj instanceof BoolValue) {
-        int x = this.val ? 1 : 0;
-        int y = ((BoolValue)obj).val ? 1 : 0;
+        final int x = this.val ? 1 : 0;
+        final int y = ((BoolValue)obj).val ? 1 : 0;
         return x - y;
       }
       if (!(obj instanceof ModelValue)) {
@@ -49,13 +49,13 @@ public boolean val;   // the boolean
       }
       return ((ModelValue) obj).modelValueCompareTo(this);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     try {
       if (obj instanceof BoolValue) {
         return this.val == ((BoolValue)obj).val;
@@ -66,20 +66,20 @@ public boolean val;   // the boolean
       }
       return ((ModelValue) obj).modelValueEquals(this) ;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean member(Value elem) {
+  public final boolean member(final Value elem) {
     try {
       Assert.fail("Attempted to check if the value:\n" + Values.ppr(elem.toString()) +
       "\nis an element of the boolean " + Values.ppr(this.toString()), getSource());
       return false;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -92,14 +92,14 @@ public boolean val;   // the boolean
       " is a finite set.", getSource());
       return false;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
       if (ex.idx < ex.path.length) {
         Assert.fail("Attempted to apply EXCEPT construct to the boolean " +
@@ -107,14 +107,14 @@ public boolean val;   // the boolean
       }
       return ex.value;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       if (exs.length != 0) {
         Assert.fail("Attempted to apply EXCEPT construct to the boolean " +
@@ -122,7 +122,7 @@ public boolean val;   // the boolean
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -135,7 +135,7 @@ public boolean val;   // the boolean
       Values.ppr(this.toString()) + ".", getSource());
       return 0;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -159,19 +159,19 @@ public boolean val;   // the boolean
   public final IValue deepCopy() { return this; }
 
   @Override
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       return ((val instanceof BoolValue) &&
         this.val == ((BoolValue)val).val);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
 	@Override
-	public void write(IValueOutputStream vos) throws IOException {
+	public void write(final IValueOutputStream vos) throws IOException {
 		vos.writeByte(BOOLVALUE);
 		vos.writeBoolean(val);
 	}
@@ -184,27 +184,27 @@ public boolean val;   // the boolean
       fp = FP64.Extend(fp, (this.val) ? 't' : 'f') ;
       return fp;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final IValue permute(IMVPerm perm) { return this; }
+  public final IValue permute(final IMVPerm perm) { return this; }
 
   /* The string representation */
-  public final StringBuffer toString(StringBuffer sb, int offset) {
+  public final StringBuffer toString(final StringBuffer sb, final int offset) {
 	return toString(sb, offset, true);
 }
 
 /* The string representation */
   @Override
-  public final StringBuffer toString(StringBuffer sb, int offset, boolean swallow) {
+  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow) {
     try {
       return sb.append((this.val) ? "TRUE" : "FALSE");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }

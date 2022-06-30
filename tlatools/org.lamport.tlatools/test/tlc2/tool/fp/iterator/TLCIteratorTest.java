@@ -47,8 +47,8 @@ public class TLCIteratorTest {
 		return 21;
 	}
 	
-	protected long[] getArray(int length, long offset, int numOfElements) {
-		long[] l = new long[length];
+	protected long[] getArray(final int length, final long offset, final int numOfElements) {
+		final long[] l = new long[length];
 		for (int i = 0; i < length && i < numOfElements; i++) {
 			l[i] = i + offset;
 		}
@@ -67,7 +67,7 @@ public class TLCIteratorTest {
 			i++;
 			assertTrue(itr.hasNext());
 
-			long next = itr.next();
+			final long next = itr.next();
 			if (predecessor != -1l) {
 				assertTrue(predecessor < next);
 			}
@@ -90,7 +90,7 @@ public class TLCIteratorTest {
 		assertFalse(itr.hasNext());
 		try {
 			itr.next();
-		} catch (NoSuchElementException e) {
+		} catch (final NoSuchElementException e) {
 			return;
 		}
 		fail("Must throw NoSuchElementException");

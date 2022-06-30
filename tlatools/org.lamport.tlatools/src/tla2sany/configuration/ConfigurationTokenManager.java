@@ -12,7 +12,7 @@ package tla2sany.configuration;
 @SuppressWarnings("unused")
 public class ConfigurationTokenManager implements ConfigConstants
 {
-static private final int jjStopAtPos(int pos, int kind)
+static private final int jjStopAtPos(final int pos, final int kind)
 {
    jjmatchedKind = kind;
    jjmatchedPos = pos;
@@ -28,10 +28,10 @@ static private final int jjMoveStringLiteralDfa0_1()
          return 1;
    }
 }
-static private final int jjMoveStringLiteralDfa1_1(long active0)
+static private final int jjMoveStringLiteralDfa1_1(final long active0)
 {
    try { curChar = ASCII_CharStream.readChar(); }
-   catch(java.io.IOException e) {
+   catch(final java.io.IOException e) {
       return 1;
    }
    switch(curChar)
@@ -45,7 +45,7 @@ static private final int jjMoveStringLiteralDfa1_1(long active0)
    }
    return 2;
 }
-private static final int jjStopStringLiteralDfa_0(int pos, long active0)
+private static final int jjStopStringLiteralDfa_0(final int pos, final long active0)
 {
    switch (pos)
    {
@@ -60,16 +60,16 @@ private static final int jjStopStringLiteralDfa_0(int pos, long active0)
          return -1;
    }
 }
-private static final int jjStartNfa_0(int pos, long active0)
+private static final int jjStartNfa_0(final int pos, final long active0)
 {
    return jjMoveNfa_0(jjStopStringLiteralDfa_0(pos, active0), pos + 1);
 }
-static private final int jjStartNfaWithStates_0(int pos, int kind, int state)
+static private final int jjStartNfaWithStates_0(final int pos, final int kind, final int state)
 {
    jjmatchedKind = kind;
    jjmatchedPos = pos;
    try { curChar = ASCII_CharStream.readChar(); }
-   catch(java.io.IOException e) { return pos + 1; }
+   catch(final java.io.IOException e) { return pos + 1; }
    return jjMoveNfa_0(state, pos + 1);
 }
 static private final int jjMoveStringLiteralDfa0_0()
@@ -82,10 +82,10 @@ static private final int jjMoveStringLiteralDfa0_0()
          return jjMoveNfa_0(7, 0);
    }
 }
-static private final int jjMoveStringLiteralDfa1_0(long active0)
+static private final int jjMoveStringLiteralDfa1_0(final long active0)
 {
    try { curChar = ASCII_CharStream.readChar(); }
-   catch(java.io.IOException e) {
+   catch(final java.io.IOException e) {
       jjStopStringLiteralDfa_0(0, active0);
       return 1;
    }
@@ -100,7 +100,7 @@ static private final int jjMoveStringLiteralDfa1_0(long active0)
    }
    return jjStartNfa_0(0, active0);
 }
-static private final void jjCheckNAdd(int state)
+static private final void jjCheckNAdd(final int state)
 {
    if (jjrounds[state] != jjround)
    {
@@ -108,29 +108,29 @@ static private final void jjCheckNAdd(int state)
       jjrounds[state] = jjround;
    }
 }
-static private final void jjAddStates(int start, int end)
+static private final void jjAddStates(int start, final int end)
 {
    do {
       jjstateSet[jjnewStateCnt++] = jjnextStates[start];
    } while (start++ != end);
 }
-static private final void jjCheckNAddTwoStates(int state1, int state2)
+static private final void jjCheckNAddTwoStates(final int state1, final int state2)
 {
    jjCheckNAdd(state1);
    jjCheckNAdd(state2);
 }
-static private final void jjCheckNAddStates(int start, int end)
+static private final void jjCheckNAddStates(int start, final int end)
 {
    do {
       jjCheckNAdd(jjnextStates[start]);
    } while (start++ != end);
 }
-static private final void jjCheckNAddStates(int start)
+static private final void jjCheckNAddStates(final int start)
 {
    jjCheckNAdd(jjnextStates[start]);
    jjCheckNAdd(jjnextStates[start + 1]);
 }
-static private final int jjMoveNfa_0(int startState, int curPos)
+static private final int jjMoveNfa_0(final int startState, int curPos)
 {
    int[] nextStates;
    int startsAt = 0;
@@ -144,7 +144,7 @@ static private final int jjMoveNfa_0(int startState, int curPos)
          ReInitRounds();
       if (curChar < 64)
       {
-         long l = 1L << curChar;
+         final long l = 1L << curChar;
          MatchLoop: do
          {
             switch(jjstateSet[--i])
@@ -236,7 +236,7 @@ static private final int jjMoveNfa_0(int startState, int curPos)
       }
       else if (curChar < 128)
       {
-         long l = 1L << (curChar & 077);
+         final long l = 1L << (curChar & 077);
          MatchLoop: do
          {
             switch(jjstateSet[--i])
@@ -954,8 +954,8 @@ static private final int jjMoveNfa_0(int startState, int curPos)
       }
       else
       {
-         int i2 = (curChar & 0xff) >> 6;
-         long l2 = 1L << (curChar & 077);
+         final int i2 = (curChar & 0xff) >> 6;
+         final long l2 = 1L << (curChar & 077);
          MatchLoop: do
          {
             switch(jjstateSet[--i])
@@ -974,7 +974,7 @@ static private final int jjMoveNfa_0(int startState, int curPos)
       if ((i = jjnewStateCnt) == (startsAt = 174 - (jjnewStateCnt = startsAt)))
          return curPos;
       try { curChar = ASCII_CharStream.readChar(); }
-      catch(java.io.IOException e) { return curPos; }
+      catch(final java.io.IOException e) { return curPos; }
    }
 }
 static final int[] jjnextStates = {
@@ -1010,18 +1010,18 @@ static StringBuffer image;
 static int jjimageLen;
 static int lengthOfMatch;
 static protected char curChar;
-public ConfigurationTokenManager(ASCII_CharStream stream)
+public ConfigurationTokenManager(final ASCII_CharStream stream)
 {
    if (input_stream != null)
       throw new TokenMgrError("ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.", TokenMgrError.STATIC_LEXER_ERROR);
    input_stream = stream;
 }
-public ConfigurationTokenManager(ASCII_CharStream stream, int lexState)
+public ConfigurationTokenManager(final ASCII_CharStream stream, final int lexState)
 {
    this(stream);
    SwitchTo(lexState);
 }
-static public void ReInit(ASCII_CharStream stream)
+static public void ReInit(final ASCII_CharStream stream)
 {
    jjmatchedPos = jjnewStateCnt = 0;
    curLexState = defaultLexState;
@@ -1037,12 +1037,12 @@ static private final void ReInitRounds()
    for (i = 174; i-- > 0;)
       jjrounds[i] = 0x80000000;
 }
-static public void ReInit(ASCII_CharStream stream, int lexState)
+static public void ReInit(final ASCII_CharStream stream, final int lexState)
 {
    ReInit(stream);
    SwitchTo(lexState);
 }
-static public void SwitchTo(int lexState)
+static public void SwitchTo(final int lexState)
 {
    if (lexState >= 2 || lexState < 0)
       throw new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE);
@@ -1052,9 +1052,9 @@ static public void SwitchTo(int lexState)
 
 static private final Token jjFillToken()
 {
-   Token t = Token.newToken(jjmatchedKind);
+   final Token t = Token.newToken(jjmatchedKind);
    t.kind = jjmatchedKind;
-   String im = jjstrLiteralImages[jjmatchedKind];
+   final String im = jjstrLiteralImages[jjmatchedKind];
    t.image = (im == null) ? ASCII_CharStream.GetImage() : im;
    t.beginLine = ASCII_CharStream.getBeginLine();
    t.beginColumn = ASCII_CharStream.getBeginColumn();
@@ -1084,7 +1084,7 @@ public static final Token getNextToken()
    {     
       curChar = ASCII_CharStream.BeginToken();
    }     
-   catch(java.io.IOException e)
+   catch(final java.io.IOException e)
    {        
       jjmatchedKind = 0;
       matchedToken = jjFillToken();
@@ -1103,7 +1103,7 @@ public static final Token getNextToken()
             while (curChar <= 32 && (0x100000600L & (1L << curChar)) != 0L)
                curChar = ASCII_CharStream.BeginToken();
          }
-         catch (java.io.IOException e1) { continue EOFLoop; }
+         catch (final java.io.IOException e1) { continue EOFLoop; }
          jjmatchedKind = 0x7fffffff;
          jjmatchedPos = 0;
          curPos = jjMoveStringLiteralDfa0_0();
@@ -1159,14 +1159,14 @@ public static final Token getNextToken()
            curChar = ASCII_CharStream.readChar();
            continue;
         }
-        catch (java.io.IOException e1) { }
+        catch (final java.io.IOException e1) { }
      }
      int error_line = ASCII_CharStream.getEndLine();
      int error_column = ASCII_CharStream.getEndColumn();
      String error_after = null;
      boolean EOFSeen = false;
      try { ASCII_CharStream.readChar(); ASCII_CharStream.backup(1); }
-     catch (java.io.IOException e1) {
+     catch (final java.io.IOException e1) {
         EOFSeen = true;
         error_after = curPos <= 1 ? "" : ASCII_CharStream.GetImage();
         if (curChar == '\n' || curChar == '\r') {
@@ -1185,7 +1185,7 @@ public static final Token getNextToken()
   }
 }
 
-static final void SkipLexicalActions(Token matchedToken)
+static final void SkipLexicalActions(final Token matchedToken)
 {
    switch(jjmatchedKind)
    {

@@ -58,7 +58,7 @@ public class REPL {
     // A temporary directory to place auxiliary files needed for REPL evaluation.
     Path replTempDir;
 
-    public REPL(Path tempDir) {
+    public REPL(final Path tempDir) {
         replTempDir = tempDir;
     }
 
@@ -71,7 +71,7 @@ public class REPL {
      *
      * @return the pretty printed result of the evaluation or an empty string if there was an error.
      */
-    public String processInput(String evalExpr) {
+    public String processInput(final String evalExpr) {
 
         // The modules we will extend in the REPL environment.
         String moduleExtends = "Reals,Sequences,Bags,FiniteSets,TLC,Randomization";
@@ -82,15 +82,16 @@ public class REPL {
         	final Class<?> clazz = Class.forName("tlc2.overrides.CommunityModules");
         	final Method m = clazz.getDeclaredMethod("popularModules");
         	moduleExtends += String.format(",%s", m.invoke(null));
-		} catch (Exception | NoClassDefFoundError ignore) {
+		} catch (final Exception | NoClassDefFoundError ignore) {
 		}
         
         if (specFile != null) {
-            String mainModuleName = specFile.getName().replaceFirst(TLAConstants.Files.TLA_EXTENSION + "$", "");
+            final String mainModuleName = specFile.getName().replaceFirst(TLAConstants.Files.TLA_EXTENSION + "$", "");
             moduleExtends += ("," + mainModuleName);
         }
 
-        File tempFile, configFile;
+        final File tempFile;
+        final File configFile;
         try {
 
             // We want to place the spec files used by REPL evaluation into the temporary directory.
@@ -98,7 +99,7 @@ public class REPL {
             configFile = new File(replTempDir.toString(), REPL_SPEC_NAME + TLAConstants.Files.CONFIG_EXTENSION);
 
             // Create the config file.
-            BufferedWriter cfgWriter = new BufferedWriter(new FileWriter(configFile.getAbsolutePath(), false));
+            final BufferedWriter cfgWriter = new BufferedWriter(new FileWriter(configFile.getAbsolutePath(), false));
             cfgWriter.append("INIT replinit");
             cfgWriter.newLine();
             cfgWriter.append("NEXT replnext");
@@ -106,8 +107,8 @@ public class REPL {
             cfgWriter.close();
 
             // Create the spec file lines.
-            ArrayList<String> lines = new ArrayList<String>();
-            String replValueVarName = "replvalue";
+            final ArrayList<String> lines = new ArrayList<String>();
+            final String replValueVarName = "replvalue";
             lines.add("---- MODULE tlarepl ----");
             lines.add("EXTENDS " + moduleExtends);
             lines.add("VARIABLE replvar");
@@ -119,8 +120,8 @@ public class REPL {
             lines.add("====");
 
             // Write out the spec file.
-            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile.getAbsolutePath(), false));
-            for (String line : lines) {
+            final BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile.getAbsolutePath(), false));
+            for (final String line : lines) {
                 writer.append(line);
                 writer.newLine();
             }
@@ -133,10 +134,10 @@ public class REPL {
             try {
                 // We placed the REPL spec files into a temporary directory, so, we add this temp directory
                 // path to the filename resolver used by the Tool.
-                SimpleFilenameToStream resolver = new SimpleFilenameToStream(replTempDir.toAbsolutePath().toString());
-                Tool tool = new FastTool(REPL_SPEC_NAME, REPL_SPEC_NAME, resolver);
-                ModuleNode module = tool.getSpecProcessor().getRootModule();
-                OpDefNode valueNode = module.getOpDef(replValueVarName);
+                final SimpleFilenameToStream resolver = new SimpleFilenameToStream(replTempDir.toAbsolutePath().toString());
+                final Tool tool = new FastTool(REPL_SPEC_NAME, REPL_SPEC_NAME, resolver);
+                final ModuleNode module = tool.getSpecProcessor().getRootModule();
+                final OpDefNode valueNode = module.getOpDef(replValueVarName);
                 
 				// Make output of TLC!Print and TLC!PrintT appear in the REPL. Set here
 				// and unset in finally below to suppress output of FastTool instantiation
@@ -144,10 +145,10 @@ public class REPL {
 				tlc2.module.TLC.OUTPUT = replWriter;
 				final Value exprVal = (Value) tool.eval(valueNode.getBody());
 				return exprVal.toString();
-            } catch (EvalException exc) {
+            } catch (final EvalException exc) {
                 // TODO: Improve error messages with more specific detail.
             	System.out.printf("Error evaluating expression: '%s'%n%s%n", evalExpr, exc);
-            } catch (Assert.TLCRuntimeException exc) {
+            } catch (final Assert.TLCRuntimeException exc) {
             	if (exc.parameters != null && exc.parameters.length > 0) {
 					// 0..1 \X 0..1 has non-null params of length zero. Actual error message is
 					// "Parsing or semantic analysis failed.".
@@ -174,7 +175,7 @@ public class REPL {
                 replWriter.flush();
         		tlc2.module.TLC.OUTPUT = null;
             }
-        } catch (IOException pe) {
+        } catch (final IOException pe) {
             pe.printStackTrace();
         }
         return "";
@@ -189,14 +190,14 @@ public class REPL {
         while (true) {
             try {
                 expr = reader.readLine(prompt);
-                String res = processInput(expr);
+                final String res = processInput(expr);
                 if (res.equals("")) {
                     continue;
                 }
                 System.out.println(res);
-            } catch (UserInterruptException e) {
+            } catch (final UserInterruptException e) {
                 return;
-            } catch (EndOfFileException e) {
+            } catch (final EndOfFileException e) {
                 e.printStackTrace();
                 return;
             } finally {
@@ -206,14 +207,14 @@ public class REPL {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         try {
             final Path tempDir = Files.createTempDirectory(TEMP_DIR_PREFIX);
             final REPL repl = new REPL(tempDir);
             // TODO: Allow external spec file to be loaded into REPL context.
  
             if(args.length == 1) {
-                String res = repl.processInput(args[0]);
+                final String res = repl.processInput(args[0]);
                 if (!res.equals("")) {
                 	System.out.println(res);
                 }
@@ -234,7 +235,7 @@ public class REPL {
         	System.out.println("Enter a constant-level TLA+ expression.");
 
             repl.runREPL(reader);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
     }

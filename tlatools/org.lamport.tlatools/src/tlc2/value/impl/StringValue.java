@@ -26,16 +26,16 @@ public class StringValue extends Value {
 public final UniqueString val;
 
   /* Constructor */
-  public StringValue(String str) {
+  public StringValue(final String str) {
     // SZ 11.04.2009: changed the access method to equivalent
     this.val = UniqueString.uniqueStringOf(str);
   }
 
-  public StringValue(UniqueString var) {
+  public StringValue(final UniqueString var) {
     this.val = var;
   }
 
-  public StringValue(UniqueString var, CostModel cm) {
+  public StringValue(final UniqueString var, final CostModel cm) {
 	  this(var);
 	  this.cm = cm;
   }
@@ -46,7 +46,7 @@ public final UniqueString val;
   public final UniqueString getVal() { return this.val; }
 
   @Override
-  public final int compareTo(Object obj) {
+  public final int compareTo(final Object obj) {
     try {
       if (obj instanceof StringValue) {
         return this.val.compareTo(((StringValue)obj).val);
@@ -57,13 +57,13 @@ public final UniqueString val;
       }
       return ((ModelValue) obj).modelValueCompareTo(this);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     try {
       if (obj instanceof StringValue) {
         return this.val.equals(((StringValue)obj).getVal());
@@ -74,20 +74,20 @@ public final UniqueString val;
       }
       return ((ModelValue) obj).modelValueEquals(this) ;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean member(Value elem) {
+  public final boolean member(final Value elem) {
     try {
       Assert.fail("Attempted to check if the value:\n" + Values.ppr(elem.toString()) +
       "\nis an element of the string " + Values.ppr(this.toString()), getSource());
       return false;     // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -100,14 +100,14 @@ public final UniqueString val;
       " is a finite set.", getSource());
       return false;     // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
       if (ex.idx < ex.path.length) {
         Assert.fail("Attempted to apply EXCEPT construct to the string " +
@@ -115,14 +115,14 @@ public final UniqueString val;
       }
       return ex.value;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       if (exs.length != 0) {
         Assert.fail("Attempted to apply EXCEPT construct to the string " +
@@ -130,7 +130,7 @@ public final UniqueString val;
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -143,7 +143,7 @@ public final UniqueString val;
       Values.ppr(this.toString()) + ".", getSource());
       return 0;       // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -168,12 +168,12 @@ public final UniqueString val;
   public final IValue deepCopy() { return this; }
 
   @Override
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       return ((val instanceof StringValue) &&
         this.equals(val));
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -183,14 +183,14 @@ public final UniqueString val;
     try {
       return this.val.length();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
 	@Override
-	public void write(IValueOutputStream vos) throws IOException {
+	public void write(final IValueOutputStream vos) throws IOException {
 		final int index = vos.put(this);
 		if (index == -1) {
 			vos.writeByte(STRINGVALUE);
@@ -210,22 +210,22 @@ public final UniqueString val;
       fp = FP64.Extend(fp, this.val.toString());
       return fp;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final IValue permute(IMVPerm perm) { return this; }
+  public final IValue permute(final IMVPerm perm) { return this; }
 
   /*************************************************************************
   * toString() modified 23 Aug 2007 by LL to call PrintVersion so strings  *
   * with special characters are printed properly.                          *
   *************************************************************************/
-  final String PrintVersion(String str) {
+  final String PrintVersion(final String str) {
     try {
-      StringBuffer buf = new StringBuffer(str.length()) ;
+      final StringBuffer buf = new StringBuffer(str.length()) ;
       for (int i = 0 ; i < str.length() ; i++) {
         switch (str.charAt(i)) {
           case '\"' :
@@ -253,14 +253,14 @@ public final UniqueString val;
        }// for
       return buf.toString();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
    }
 
   	@Override
-	public TLCVariable toTLCVariable(final TLCVariable variable, Random rnd) {
+	public TLCVariable toTLCVariable(final TLCVariable variable, final Random rnd) {
 		final TLCVariable stringVar = super.toTLCVariable(variable, rnd);
 		// Replace the quoted string from super.toTLCVariable(..) with an unquoted one.
 		// In the variable view of the debugger, we don't want quotes.
@@ -270,11 +270,11 @@ public final UniqueString val;
 
   /* The string representation of the value. */
   @Override
-  public StringBuffer toString(StringBuffer sb, int offset, boolean swallow) {
+  public StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow) {
     try {
       return sb.append("\"" + PrintVersion(this.val.toString()) + "\"");
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }

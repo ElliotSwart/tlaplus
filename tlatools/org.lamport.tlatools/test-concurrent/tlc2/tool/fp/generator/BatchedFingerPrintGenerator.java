@@ -15,7 +15,7 @@ public class BatchedFingerPrintGenerator extends FingerPrintGenerator {
 
 	private static final int batch = 1024;
 	
-	public BatchedFingerPrintGenerator(MultiThreadedFPSetTest test, int id, int numThreads, FPSet fpSet, CountDownLatch latch, long seed, long insertions, final CyclicBarrier barrier) {
+	public BatchedFingerPrintGenerator(final MultiThreadedFPSetTest test, final int id, final int numThreads, final FPSet fpSet, final CountDownLatch latch, final long seed, final long insertions, final CyclicBarrier barrier) {
 		super(test, id, numThreads, fpSet, latch, seed, insertions, barrier);
 	}
 	
@@ -25,7 +25,7 @@ public class BatchedFingerPrintGenerator extends FingerPrintGenerator {
 	public void run() {
 		waitForAllThreadsStarted();
 		
-		long predecessors[] = new long[batch];
+		final long[] predecessors = new long[batch];
 		boolean initialized = false;
 		// Reduce number of FPSet#size invocation by counting puts/collisions.
 		// FPSet#size can cause an FPSet to synchronize all its writers slowing
@@ -35,7 +35,7 @@ public class BatchedFingerPrintGenerator extends FingerPrintGenerator {
 				// Make sure set still contains predecessors
 				if (initialized) {
 					for (int i = 0; i < predecessors.length; i++) {
-						long predecessor = predecessors[i];
+						final long predecessor = predecessors[i];
 						Assert.assertTrue(fpSet.contains(predecessor));
 					}
 				}
@@ -49,15 +49,15 @@ public class BatchedFingerPrintGenerator extends FingerPrintGenerator {
 
 				// Add sorted batch to fpset
 				for (int i = 0; i < predecessors.length; i++) {
-					long predecessor = predecessors[i];
-					boolean put = fpSet.put(predecessor);
+					final long predecessor = predecessors[i];
+					final boolean put = fpSet.put(predecessor);
 					if (put == false) {
 						puts++;
 					} else {
 						collisions++;
 					}
 				}
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				e.printStackTrace();
 				Assert.fail("Unexpected");
 			}

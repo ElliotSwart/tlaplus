@@ -66,7 +66,7 @@ public class TraceExpressionSpecLassoTest extends TraceExpressionSpecTest {
 	protected void doTest(final Tool tool, final String id) throws Exception {
 		final SpecProcessor specProcessor = tool.getSpecProcessor();
 
-		Action[] actions = tool.getActions();
+		final Action[] actions = tool.getActions();
 		assertEquals(1, actions.length);
 
 		assertEquals(0, specProcessor.getInvariants().length);
@@ -76,7 +76,7 @@ public class TraceExpressionSpecLassoTest extends TraceExpressionSpecTest {
 		assertEquals(1, property.length);
 
 		// Assert there exists one init-predicate
-		Vect<Action> initPred = specProcessor.getInitPred();
+		final Vect<Action> initPred = specProcessor.getInitPred();
 		assertEquals(1, initPred.size());
 
 		// Assert there exists a next-state relation
@@ -133,7 +133,7 @@ public class TraceExpressionSpecLassoTest extends TraceExpressionSpecTest {
 		
 		try {
 			lc.finalCheck(tool);
-		} catch (LiveException e) {
+		} catch (final LiveException e) {
 			return;
 		}
 		fail();

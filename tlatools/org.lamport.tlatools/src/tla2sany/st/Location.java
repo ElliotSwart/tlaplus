@@ -98,7 +98,7 @@ public final class Location implements Comparable<Location>
 				Integer.valueOf(ec));
 	}
 
-	public Location(final String fName, int bl, int bc, int el, int ec) {
+	public Location(final String fName, final int bl, final int bc, final int el, final int ec) {
 		this(UniqueString.uniqueStringOf(fName), bl, bc, el, ec);
 	}
     
@@ -110,7 +110,7 @@ public final class Location implements Comparable<Location>
      * @param el end line
      * @param ec end column
      */
-    public Location(UniqueString fName, int bl, int bc, int el, int ec)
+    public Location(final UniqueString fName, final int bl, final int bc, final int el, final int ec)
     {
         name = fName;
         bLine = bl;
@@ -119,7 +119,7 @@ public final class Location implements Comparable<Location>
         eColumn = ec;
     }
 
-    public Location(int bl, int bc, int el, int ec) {
+    public Location(final int bl, final int bc, final int el, final int ec) {
 		this((UniqueString) null, bl, bc, el, ec);
 	}
 
@@ -131,7 +131,7 @@ public final class Location implements Comparable<Location>
      * @param moduleName, string representation of the module name
      * @return a location
      */
-    public static Location moduleLocation(String moduleName)
+    public static Location moduleLocation(final String moduleName)
     {
         return new Location(UniqueString.uniqueStringOf(moduleName), 0, 0, 0, 0);
     }
@@ -141,7 +141,7 @@ public final class Location implements Comparable<Location>
      * @param locationString the string representation produced by {@link Location#toString()} method
      * @return location if it could be parsed, or a {@link Location#nullLoc} otherwise
      */
-    public static Location parseLocation(String locationString)
+    public static Location parseLocation(final String locationString)
     {
         if (locationString == null || locationString.length() == 0 || UNKNOWN_LOCATION.equals(locationString))
         {
@@ -166,7 +166,7 @@ public final class Location implements Comparable<Location>
                 return new Location(UniqueString.uniqueStringOf(matcher.group(5)), Integer.parseInt(matcher.group(1)),
                         Integer.parseInt(matcher.group(2)), Integer.parseInt(matcher.group(3)), Integer
                                 .parseInt(matcher.group(4)));
-            } catch (NumberFormatException e)
+            } catch (final NumberFormatException e)
             {
                 return nullLoc;
             }
@@ -179,7 +179,7 @@ public final class Location implements Comparable<Location>
                 return new Location(UniqueString.uniqueStringOf(matcher.group(5)), Integer.parseInt(matcher.group(1)),
                         Integer.parseInt(matcher.group(2)), Integer.parseInt(matcher.group(3)), Integer
                                 .parseInt(matcher.group(4)));
-            } catch (NumberFormatException e)
+            } catch (final NumberFormatException e)
             {
                 return nullLoc;
             }
@@ -192,7 +192,7 @@ public final class Location implements Comparable<Location>
                 return new Location(UniqueString.uniqueStringOf(matcher.group(5)), Integer.parseInt(matcher.group(1)),
                         Integer.parseInt(matcher.group(2)), Integer.parseInt(matcher.group(3)), Integer
                                 .parseInt(matcher.group(4)));
-            } catch (NumberFormatException e)
+            } catch (final NumberFormatException e)
             {
                 return nullLoc;
             }
@@ -228,13 +228,13 @@ public final class Location implements Comparable<Location>
      * @return
      * @see Location#nullLoc
      */
-    public static Location[] getParsedLocations(String input)
+    public static Location[] getParsedLocations(final String input)
     {
         /*
          * The Toolbox does not support generics,
          * so generics cannot be used here.
          */
-        List<Location> locations = new ArrayList<Location>();
+        final List<Location> locations = new ArrayList<Location>();
         /*
          * For each Pattern defined in this class, we find
          * all matches of the pattern and add this to the list
@@ -249,8 +249,8 @@ public final class Location implements Comparable<Location>
             matcher = ALL_PATTERNS[i].matcher(input);
             while (matcher.find())
             {
-                String locationString = matcher.group();
-                Location location = Location.parseLocation(locationString);
+                final String locationString = matcher.group();
+                final Location location = Location.parseLocation(locationString);
                 if (location != null && !location.equals(nullLoc))
                 {
                     locations.add(location);
@@ -343,11 +343,11 @@ public final class Location implements Comparable<Location>
      * and has the same begin line, begin column, end line,
      * end column, and module name.
      */
-    public boolean equals(Object object)
+    public boolean equals(final Object object)
     {
         if (object instanceof Location)
         {
-            Location loc = (Location) object;
+            final Location loc = (Location) object;
             return loc.bLine == bLine && loc.bColumn == bColumn && loc.eLine == eLine && loc.eColumn == eColumn
                     && loc.source().equals(source());
         }

@@ -17,7 +17,7 @@ public class FcnParams implements IFcnParams {
   public Value[] domains;         // the bounds of the formals
   public int argLen;              // the number of arguments
   
-  public FcnParams(FormalParamNode[][] formals, boolean[] isTuples, Value[] domains) {
+  public FcnParams(final FormalParamNode[][] formals, final boolean[] isTuples, final Value[] domains) {
     this.formals = formals;
     this.isTuples = isTuples;
     this.domains = domains;
@@ -34,9 +34,9 @@ public class FcnParams implements IFcnParams {
     // int idx = 0; // SZ Feb 24, 2009: never read locally
     long sz = 1;
     for (int i = 0; i < this.domains.length; i++) {
-      int sz1 = this.domains[i].size();
+      final int sz1 = this.domains[i].size();
       if (!this.isTuples[i]) {
-	int len1 = this.formals[i].length;
+	final int len1 = this.formals[i].length;
 	for (int j = 1; j < len1; j++) {
 	  sz *= sz1;
 	  if (sz < -2147483648 || sz > 2147483647) {
@@ -55,9 +55,9 @@ public class FcnParams implements IFcnParams {
   }
 
   public final String toString() {
-    StringBuffer sb = new StringBuffer();
+    final StringBuffer sb = new StringBuffer();
     if (this.domains.length != 0) {
-      FormalParamNode[] ids = this.formals[0];
+      final FormalParamNode[] ids = this.formals[0];
       if (this.isTuples[0]) {
 	sb.append("<<");
 	if (ids.length != 0) sb.append(ids[0].getName());
@@ -73,7 +73,7 @@ public class FcnParams implements IFcnParams {
     }
     for (int i = 1; i < this.domains.length; i++) {
       sb.append(", ");
-      FormalParamNode[] ids = this.formals[i];
+      final FormalParamNode[] ids = this.formals[i];
       if (this.isTuples[i]) {
 	sb.append("<<");
 	if (ids.length != 0) sb.append(ids[0].getName());
@@ -123,7 +123,7 @@ public class FcnParams implements IFcnParams {
 	  idx++;
 	}
 	else {
-	  int maxIdx = idx + formals[i].length;
+	  final int maxIdx = idx + formals[i].length;
 	  for (; idx < maxIdx; idx++) {
 	    this.enums[idx] = ((Enumerable)domains[i]).elements();
 	    this.currentElems[idx] = this.enums[idx].nextElement();
@@ -150,7 +150,7 @@ public class FcnParams implements IFcnParams {
     @Override
     public final Value nextElement() {
       if (this.enums == null) return null;
-      Value[] elems = new Value[argLen];
+      final Value[] elems = new Value[argLen];
       for (int i = 0; i < argLen; i++) {
 	elems[i] = this.currentElems[i];
       }

@@ -16,7 +16,7 @@ import util.FileUtil;
 
 public class ObjectPoolStack {
 
-  public ObjectPoolStack(int bufSize, String filePrefix) {
+  public ObjectPoolStack(final int bufSize, final String filePrefix) {
     this.filePrefix = filePrefix;
     this.buf = new Object[bufSize];
     this.hiPool = 0;
@@ -36,12 +36,12 @@ public class ObjectPoolStack {
   private Writer writer;
   private File poolFile;
   
-  public final Object[] write(Object[] outBuf)
+  public final Object[] write(final Object[] outBuf)
   throws IOException, InterruptedException {
     synchronized(this) {
       while (!this.isIdle) this.wait();
     }
-    Object[] res = this.buf;
+    final Object[] res = this.buf;
     this.buf = outBuf;
     this.poolFile = new File(this.filePrefix + Integer.toString(this.hiPool++));
     this.isIdle = false;
@@ -49,13 +49,13 @@ public class ObjectPoolStack {
     return res;
   }
 
-  public final Object[] read(Object[] inBuf)
+  public final Object[] read(final Object[] inBuf)
   throws IOException, InterruptedException {
     if (this.hiPool == 0) return null;
     synchronized(this) {
       while (!this.isIdle) this.wait();
     }
-    Object[] res = this.buf;
+    final Object[] res = this.buf;
     this.buf = inBuf;
     this.hiPool--;
     if (this.hiPool > 0) {
@@ -66,13 +66,13 @@ public class ObjectPoolStack {
     return res;
   }
 
-  public final synchronized void beginChkpt(ObjectOutputStream oos)
+  public final synchronized void beginChkpt(final ObjectOutputStream oos)
   throws IOException {
     oos.writeInt(this.hiPool);
   }
 
   /* Note that this method is not synchronized. */
-  public final void recover(ObjectInputStream ois) throws IOException {
+  public final void recover(final ObjectInputStream ois) throws IOException {
     this.hiPool = ois.readInt();
     if (this.hiPool > 0) {
       this.poolFile = new File(this.filePrefix + Integer.toString(this.hiPool-1));
@@ -89,7 +89,7 @@ public class ObjectPoolStack {
                       while (ObjectPoolStack.this.poolFile == null) {
                           this.wait();
                       }
-                      ObjectInputStream ois = FileUtil.newOBFIS(ObjectPoolStack.this.poolFile);
+                      final ObjectInputStream ois = FileUtil.newOBFIS(ObjectPoolStack.this.poolFile);
                       for (int i = 0; i < ObjectPoolStack.this.buf.length; i++) {
                           ObjectPoolStack.this.buf[i] = ois.readObject();
                       }
@@ -100,7 +100,7 @@ public class ObjectPoolStack {
                   }
               }
           }
-          catch (Exception e) 
+          catch (final Exception e)
           {
               MP.printError(EC.SYSTEM_ERROR_WRITING_POOL, e);
               System.exit(1);
@@ -116,7 +116,7 @@ public class ObjectPoolStack {
                       while (ObjectPoolStack.this.poolFile == null) {
                           this.wait();
                       }
-                      ObjectOutputStream oos = FileUtil.newOBFOS(ObjectPoolStack.this.poolFile);
+                      final ObjectOutputStream oos = FileUtil.newOBFOS(ObjectPoolStack.this.poolFile);
                       for (int i = 0; i < ObjectPoolStack.this.buf.length; i++) {
                           oos.writeObject(ObjectPoolStack.this.buf[i]);
                       }
@@ -127,7 +127,7 @@ public class ObjectPoolStack {
                   }
               }
           }
-          catch (Exception e) 
+          catch (final Exception e)
           {
               MP.printError(EC.SYSTEM_ERROR_READING_POOL, e);
               System.exit(1);

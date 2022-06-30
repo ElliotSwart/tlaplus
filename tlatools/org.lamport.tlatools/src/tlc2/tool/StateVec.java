@@ -25,13 +25,13 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
 
   private static final TLCState[] emptyStateArr = new TLCState[0];
 
-  public StateVec(TLCState item0) {
+  public StateVec(final TLCState item0) {
     this.size = 1;
     this.v = new TLCState[1];
     this.v[0] = item0;
   }
 
-  public StateVec(int length) {
+  public StateVec(final int length) {
     this.size = 0;
     if (length == 0) {
       this.v = emptyStateArr;
@@ -49,7 +49,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
 	}
   }
   
-  public StateVec(TLCState v[]) {
+  public StateVec(final TLCState[] v) {
     this.v = v;
     this.size = v.length;
   }
@@ -62,20 +62,20 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
 	return this.size == 0;
   }
 
-  public final void grow(int add) {
-    int oldLen = this.v.length;
+  public final void grow(final int add) {
+    final int oldLen = this.v.length;
     if (oldLen >= TLCGlobals.setBound) {
       Assert.fail(EC.TLC_TOO_MNY_POSSIBLE_STATES);
     }
-    int newLen = Math.min(Math.max(oldLen+add, 2*oldLen), TLCGlobals.setBound);
-    TLCState oldv[] = this.v;
+    final int newLen = Math.min(Math.max(oldLen+add, 2*oldLen), TLCGlobals.setBound);
+    final TLCState[] oldv = this.v;
     this.v = new TLCState[newLen];
     for (int i = 0; i < this.size; i++) {
       this.v[i] = oldv[i];
     }
   }
 
-  public final TLCState elementAt(int i) { return this.v[i]; }
+  public final TLCState elementAt(final int i) { return this.v[i]; }
 
   public boolean isLastElement(final TLCState state) {
 	  if (isEmpty()) {
@@ -95,14 +95,14 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
   /* (non-Javadoc)
    * @see tlc2.tool.IStateFunction#addElement(tlc2.tool.TLCState)
    */
-  public final StateVec addElement(TLCState state) {
+  public final StateVec addElement(final TLCState state) {
     if (this.size >= this.v.length) { grow(1); }
     this.v[this.size++] = state;
     return this;
   }
 
   @Override
-  public final StateVec addElement(TLCState predecessor, Action action, TLCState state) {
+  public final StateVec addElement(final TLCState predecessor, final Action action, final TLCState state) {
 	  return addElement(state.setPredecessor(predecessor).setAction(action));
   }
  
@@ -110,15 +110,15 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
     StateVec s0 = this;
 
     if (s1.size > s0.size) {
-      StateVec tmp = s0;
+      final StateVec tmp = s0;
       s0 = s1;
       s1 = tmp;
     }
 
-    int size0 = s0.size;
-    int size1 = s1.size;
+    final int size0 = s0.size;
+    final int size1 = s1.size;
     TLCState[] v0 = s0.v;
-    TLCState[] v1 = s1.v;
+    final TLCState[] v1 = s1.v;
     if (v0.length < size0 + size1) {
       s0.grow(size1);
       v0 = s0.v;
@@ -130,7 +130,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
     return s0;
   }
 
-  public final void removeElement(int index) {
+  public final void removeElement(final int index) {
     this.v[index] = this.v[this.size-1];
     this.size--;
   }
@@ -144,7 +144,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
   }
   
   public final StateVec copy() {
-    TLCState[] res = new TLCState[this.size];
+    final TLCState[] res = new TLCState[this.size];
     for (int i = 0; i < this.size; i++) {
       res[i] = this.v[i].copy();
     }
@@ -153,7 +153,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
 
   // Really really deep copy
   public final StateVec deepCopy() {
-    TLCState[] res = new TLCState[this.size];
+    final TLCState[] res = new TLCState[this.size];
     for (int i = 0; i < this.size; i++) {
       res[i] = this.v[i].deepCopy();
     }
@@ -169,7 +169,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
   }
 
   public final String toString() {
-    StringBuffer sb = new StringBuffer();
+    final StringBuffer sb = new StringBuffer();
     sb.append("{");
     if (this.size > 0) {
       sb.append(this.v[0].toString());
@@ -182,7 +182,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
     return sb.toString();
   }
 
-  public final boolean contains(TLCState state) {
+  public final boolean contains(final TLCState state) {
 	for (int i = 0; i < size; i++) {
 		if (this.v[i].fingerPrint() == state.fingerPrint()) {
 			return true;

@@ -47,7 +47,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     }
 
     /** Open this input stream on the underlying stream <code>is</code>. */
-    public BufferedDataInputStream(InputStream is) throws IOException {
+    public BufferedDataInputStream(final InputStream is) throws IOException {
         super(is);
         this.initFields();
         this.len = this.in.read(this.buff);
@@ -56,13 +56,13 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     
     /** Open this input stream on the underlying input stream
         <code>new FileInputStream(name)</code>. */
-    public BufferedDataInputStream(String name) throws IOException {
+    public BufferedDataInputStream(final String name) throws IOException {
         this(new FileInputStream(name));
     }
     
     /** Open this input stream on the underlying input stream
         <code>new FileOutputStream(file)</code>. */
-    public BufferedDataInputStream(File file) throws IOException {
+    public BufferedDataInputStream(final File file) throws IOException {
         this(new FileInputStream(file));
     }
 
@@ -78,7 +78,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         after the stream has been closed to re-open the stream on a
         different underlying stream without requiring internal resources
         to be re-allocated. */
-    public void open(InputStream is) throws IOException {
+    public void open(final InputStream is) throws IOException {
         Assert.check(this.in == null, EC.SYSTEM_STREAM_EMPTY);
         this.in = is;
         this.len = this.in.read(this.buff);
@@ -86,7 +86,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     }
     
     /** Equivalent to <code>this.open(new FileInputStream(name))</code>. */
-    public void open(String name) throws IOException {
+    public void open(final String name) throws IOException {
         this.open(new FileInputStream(name));
     }
 
@@ -107,7 +107,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     /** Reads up to <code>b.length</code> bytes into <code>b</code>, 
         and returns the number of bytes read, or -1 if the stream is 
         exhausted on entry. */
-    public final int read(byte[] b) throws IOException {
+    public final int read(final byte[] b) throws IOException {
         return this.read(b, 0, b.length);
     }
     
@@ -115,11 +115,11 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     /** Reads up to <code>n</code> bytes into <code>b</code> starting
         at position <code>off</code>, and returns the number of bytes
         read, or -1 if the stream is exhausted on entry. */
-    public final int read(byte[] b, int off, int n) throws IOException {
+    public final int read(final byte[] b, int off, int n) throws IOException {
         if (this.len < 0) return -1;
-        int offInit = off;
+        final int offInit = off;
         while (n > 0 && this.len > 0) {
-            int toCopy = Math.min(n, this.len - this.curr);
+            final int toCopy = Math.min(n, this.len - this.curr);
             System.arraycopy(this.buff, this.curr, b, off, toCopy);
             this.curr += toCopy; off += toCopy; n -= toCopy;
             if (this.curr == this.len) {
@@ -136,7 +136,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     /** Reads <code>b.length</code> bytes into <code>b</code>, or
         throws <code>EOFException</code> if the stream contains fewer
         than <code>b.length</code> bytes. */
-    public final void readFully(byte[] b) throws IOException, EOFException {
+    public final void readFully(final byte[] b) throws IOException, EOFException {
         this.readFully(b, 0, b.length);
     }
     
@@ -144,10 +144,10 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     /** Reads <code>n</code> bytes into <code>b</code> starting at
         position <code>off</code>, or throws <code>EOFException</code>
         if the stream contains fewer than <code>n</code> bytes. */
-    public final void readFully(byte[] b, int off, int n)
+    public final void readFully(final byte[] b, int off, int n)
       throws IOException, EOFException {
         while (n > 0) {
-            int numRead = this.read(b, off, n);
+            final int numRead = this.read(b, off, n);
             if (numRead < 0) throw new EOFException();
             off += numRead; n -= numRead;
         }
@@ -158,7 +158,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         <code>EOFException</code> if the stream is exhausted. */
     public final byte readByte() throws IOException, EOFException {
         if (this.len < 0) throw new EOFException();
-        byte res = this.buff[this.curr++];
+        final byte res = this.buff[this.curr++];
         if (this.curr == this.len) {
             // refill buffer from underlying input stream
             this.len = this.in.read(this.buff);
@@ -232,10 +232,10 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
             for (int i = this.curr; i < this.len; i++) {
                 if (this.buff[i] == (byte)'\n' || this.buff[i] == (byte)'\r') {
                     // remember EOL character
-                    byte eol = this.buff[i];
+                    final byte eol = this.buff[i];
                     
                     // create new substring
-                    String s = new String(this.buff, /*offset=*/ this.curr,
+                    final String s = new String(this.buff, /*offset=*/ this.curr,
 					  /*count=*/ i - this.curr);
                     if (res == null) res = s; else res += s;
                     
@@ -251,7 +251,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
                 }
             }
             // hit end of buffer -- append rest of buffer to "res"
-            String s = new String(this.buff, /*offset=*/ this.curr,
+            final String s = new String(this.buff, /*offset=*/ this.curr,
 				  /*count=*/ this.len - this.curr);
             if (res == null) res = s; else res += s;
             
@@ -263,13 +263,13 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     }
 
     public final String readString(int n) throws IOException {
-      char[] b = new char[n];
+      final char[] b = new char[n];
       int off = 0;
       while (n > 0) {
 	if (this.len < 0) throw new EOFException();
-	int offInit = off;
+	final int offInit = off;
 	while (n > 0 && this.len > 0) {
-	  int toCopy = Math.min(n, this.len - this.curr);
+	  final int toCopy = Math.min(n, this.len - this.curr);
 	  for (int i = 0; i < toCopy; i++) {
 	    b[off+i] = (char)this.buff[this.curr+i];
 	  }
@@ -281,7 +281,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
 	    this.curr = 0;
 	  }
 	}
-	int numRead = off - offInit;
+	final int numRead = off - offInit;
 	off += numRead; n -= numRead;
       }
       return new String(b);

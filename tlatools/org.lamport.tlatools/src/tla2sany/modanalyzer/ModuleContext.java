@@ -30,7 +30,7 @@ public class ModuleContext {
    * if it is found and resolves to null, i.e. is not yet resolved.
    */
 
-  ModulePointer resolve( String modName ) {
+  ModulePointer resolve(final String modName ) {
     return context.get(modName);
   }
 
@@ -40,7 +40,7 @@ public class ModuleContext {
    * Bind a module name to a particular ModulePointer iff that name is not
    * already bound; otherwise no-op.
    */
-  void bindIfNotBound( String modName, ModulePointer modPointer) {
+  void bindIfNotBound(final String modName, final ModulePointer modPointer) {
     if (context.get(modName) == null) context.put(modName,modPointer);
   }
 
@@ -48,11 +48,11 @@ public class ModuleContext {
    * Add elements of unionee ModuleContext to THIS ModuleContext,
    * without overwriting in cases where keys overlap between THIS and unionee
    */
-  void union (ModuleContext unionee) {
+  void union (final ModuleContext unionee) {
 
-    Enumeration<String> Enum = unionee.context.keys();
+    final Enumeration<String> Enum = unionee.context.keys();
     while ( Enum.hasMoreElements() ) {
-      String key = Enum.nextElement();
+      final String key = Enum.nextElement();
       this.bindIfNotBound(key,unionee.resolve(key));
     }
 
@@ -60,11 +60,11 @@ public class ModuleContext {
 
   public String toString() {
     String ret = "Context:\n";
-    Enumeration<String> Enum = context.keys();
+    final Enumeration<String> Enum = context.keys();
 
     while (Enum.hasMoreElements()) {
-      String key = Enum.nextElement();
-      ModulePointer modPointer = context.get(key);
+      final String key = Enum.nextElement();
+      final ModulePointer modPointer = context.get(key);
 
       ret = ret + "  " + key + "-->" + (modPointer != null ? modPointer.toStringAbbrev() : "null");
     }

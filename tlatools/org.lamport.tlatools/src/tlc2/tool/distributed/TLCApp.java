@@ -35,8 +35,8 @@ public class TLCApp extends DistApp {
 	private String config;
 
 	/* Constructors */
-	public TLCApp(String specFile, String configFile, boolean deadlock,
-			String fromChkpt, FPSetConfiguration fpSetConfig) throws IOException {
+	public TLCApp(final String specFile, final String configFile, final boolean deadlock,
+                  final String fromChkpt, final FPSetConfiguration fpSetConfig) throws IOException {
 		this(specFile, configFile, deadlock, null);
 
 		this.fromChkpt = fromChkpt;
@@ -44,8 +44,8 @@ public class TLCApp extends DistApp {
 		this.fpSetConfig = fpSetConfig;
 	}
 	
-	public TLCApp(String specFile, String configFile, boolean deadlock,
-			String fromChkpt, FPSetConfiguration fpSetConfig, FilenameToStream fts) throws IOException {
+	public TLCApp(final String specFile, final String configFile, final boolean deadlock,
+                  final String fromChkpt, final FPSetConfiguration fpSetConfig, final FilenameToStream fts) throws IOException {
 		this(specFile, configFile, deadlock, fts);
 
 		this.fromChkpt = fromChkpt;
@@ -54,12 +54,12 @@ public class TLCApp extends DistApp {
 	}
 
 	// TODO too many constructors redefinitions, replace with this(..) calls
-	public TLCApp(String specFile, String configFile,
-			Boolean deadlock, FilenameToStream fts) throws IOException {
+	public TLCApp(String specFile, final String configFile,
+                  final Boolean deadlock, final FilenameToStream fts) throws IOException {
 
 		// get the spec dir from the spec file
-		int lastSep = specFile.lastIndexOf(File.separatorChar);
-		String specDir = (lastSep == -1) ? "" : specFile.substring(0,
+		final int lastSep = specFile.lastIndexOf(File.separatorChar);
+		final String specDir = (lastSep == -1) ? "" : specFile.substring(0,
 				lastSep + 1);
 		specFile = specFile.substring(lastSep + 1);
 		
@@ -144,32 +144,32 @@ public class TLCApp extends DistApp {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#getInitStates(tlc2.tool.IStateFunctor)
 	 */
-	public final void getInitStates(IStateFunctor functor) {
+	public final void getInitStates(final IStateFunctor functor) {
 		this.tool.getInitStates(functor);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#getNextStates(tlc2.tool.TLCState)
 	 */
-	public final TLCState[] getNextStates(TLCState curState)
+	public final TLCState[] getNextStates(final TLCState curState)
 			throws WorkerException {
 		StateVec nextStates = new StateVec(10);
 		for (int i = 0; i < this.actions.length; i++) {
-			Action curAction = this.actions[i];
-			StateVec nstates = this.tool.getNextStates(curAction,
+			final Action curAction = this.actions[i];
+			final StateVec nstates = this.tool.getNextStates(curAction,
 					(TLCState) curState);
 			nextStates = nextStates.addElements(nstates);
 		}
-		int len = nextStates.size();
+		final int len = nextStates.size();
 		if (len == 0 && this.checkDeadlock) {
 			throw new WorkerException("Error: deadlock reached.", curState,
 					null, false);
 		}
-		TLCState[] res = new TLCState[nextStates.size()];
+		final TLCState[] res = new TLCState[nextStates.size()];
 		for (int i = 0; i < nextStates.size(); i++) {
-			TLCState succState = nextStates.elementAt(i);
+			final TLCState succState = nextStates.elementAt(i);
 			if (!this.tool.isGoodState(succState)) {
-				String msg = "Error: Successor state is not completely specified by"
+				final String msg = "Error: Successor state is not completely specified by"
 						+ " the next-state action.";
 				throw new WorkerException(msg, curState, succState, false);
 			}
@@ -185,13 +185,13 @@ public class TLCApp extends DistApp {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#checkState(tlc2.tool.TLCState, tlc2.tool.TLCState)
 	 */
-	public final void checkState(TLCState s1, TLCState s2)
+	public final void checkState(final TLCState s1, final TLCState s2)
 			throws WorkerException {
-		TLCState ts2 = (TLCState) s2;
+		final TLCState ts2 = (TLCState) s2;
 		for (int i = 0; i < this.invariants.length; i++) {
 			if (!tool.isValid(this.invariants[i], ts2)) {
 				// We get here because of invariant violation:
-				String msg = "Error: Invariant " + this.tool.getInvNames()[i]
+				final String msg = "Error: Invariant " + this.tool.getInvNames()[i]
 						+ " is violated.";
 				throw new WorkerException(msg, s1, s2, false);
 			}
@@ -200,18 +200,18 @@ public class TLCApp extends DistApp {
 			for (int i = 0; i < this.impliedInits.length; i++) {
 				if (!this.tool.isValid(this.impliedInits[i], ts2)) {
 					// We get here because of implied-inits violation:
-					String msg = "Error: Implied-init "
+					final String msg = "Error: Implied-init "
 							+ this.tool.getImpliedInitNames()[i]
 							+ " is violated.";
 					throw new WorkerException(msg, s1, s2, false);
 				}
 			}
 		} else {
-			TLCState ts1 = (TLCState) s1;
+			final TLCState ts1 = (TLCState) s1;
 			for (int i = 0; i < this.impliedActions.length; i++) {
 				if (!tool.isValid(this.impliedActions[i], ts1, ts2)) {
 					// We get here because of implied-action violation:
-					String msg = "Error: Implied-action "
+					final String msg = "Error: Implied-action "
 							+ this.tool.getImpliedActNames()[i]
 							+ " is violated.";
 					throw new WorkerException(msg, s1, s2, false);
@@ -223,14 +223,14 @@ public class TLCApp extends DistApp {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#isInModel(tlc2.tool.TLCState)
 	 */
-	public final boolean isInModel(TLCState s) {
+	public final boolean isInModel(final TLCState s) {
 		return this.tool.isInModel((TLCState) s);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#isInActions(tlc2.tool.TLCState, tlc2.tool.TLCState)
 	 */
-	public final boolean isInActions(TLCState s1, TLCState s2) {
+	public final boolean isInActions(final TLCState s1, final TLCState s2) {
 		return this.tool.isInActions((TLCState) s1, (TLCState) s2);
 	}
 
@@ -238,7 +238,7 @@ public class TLCApp extends DistApp {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#getState(long)
 	 */
-	public final TLCStateInfo getState(long fp) {
+	public final TLCStateInfo getState(final long fp) {
 		return this.tool.getState(fp);
 	}
 
@@ -246,7 +246,7 @@ public class TLCApp extends DistApp {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#getState(long, tlc2.tool.TLCState)
 	 */
-	public final TLCStateInfo getState(long fp, TLCState s) {
+	public final TLCStateInfo getState(final long fp, final TLCState s) {
 		return this.tool.getState(fp, s);
 	}
 
@@ -254,11 +254,11 @@ public class TLCApp extends DistApp {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.DistApp#getState(tlc2.tool.TLCState, tlc2.tool.TLCState)
 	 */
-	public TLCStateInfo getState(TLCState s1, TLCState s) {
+	public TLCStateInfo getState(final TLCState s1, final TLCState s) {
 		return this.tool.getState(s1, s);
 	}
 	
-	public TLCStateInfo evalAlias(TLCStateInfo current, TLCState successor) {
+	public TLCStateInfo evalAlias(final TLCStateInfo current, final TLCState successor) {
 		return this.tool.evalAlias(current, successor);
 	}
 
@@ -277,14 +277,14 @@ public class TLCApp extends DistApp {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static TLCApp create(String args[]) throws IOException {
+	public static TLCApp create(final String[] args) throws IOException {
 		String specFile = null;
 		String configFile = null;
 		boolean deadlock = true;
 		int fpIndex = 0;
 		String fromChkpt = null;
 
-		FPSetConfiguration fpSetConfig = new FPSetConfiguration();
+		final FPSetConfiguration fpSetConfig = new FPSetConfiguration();
 		
 		int index = 0;
 		while (index < args.length) {
@@ -325,7 +325,7 @@ public class TLCApp extends DistApp {
 						}
 
 						index++;
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						printErrorMsg("Error: An integer for checkpoint interval is required. But encountered "
 								+ args[index]);
 					}
@@ -349,7 +349,7 @@ public class TLCApp extends DistApp {
 //							return null;
 //						}
 						index++;
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						printErrorMsg("Error: An integer for coverage report interval required."
 								+ " But encountered " + args[index]);
 						return null;
@@ -371,18 +371,18 @@ public class TLCApp extends DistApp {
                 {
                     try
                     {
-                        int bound = Integer.parseInt(args[index]);
+                        final int bound = Integer.parseInt(args[index]);
                         
                     	// make sure it's in valid range
                     	if (!TLCGlobals.isValidSetSize(bound)) {
-                    		int maxValue = Integer.MAX_VALUE;
+                    		final int maxValue = Integer.MAX_VALUE;
                     		printErrorMsg("Error: Value in interval [0, " + maxValue + "] for maxSetSize required. But encountered " + args[index]);
                     		return null;
                     	}
                     	TLCGlobals.setBound = bound;
 
                     	index++;
-                    } catch (Exception e)
+                    } catch (final Exception e)
                     {
                         printErrorMsg("Error: An integer for maxSetSize required. But encountered " + args[index]);
                         return null;
@@ -403,7 +403,7 @@ public class TLCApp extends DistApp {
 							return null;
 						}
 						index++;
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						printErrorMsg("Error: A number for -fp is required. But encountered "
 								+ args[index]);
 						return null;
@@ -418,7 +418,7 @@ public class TLCApp extends DistApp {
 				index++;
 				if (index < args.length) {
 					try {
-						int fpBits = Integer.parseInt(args[index]);
+						final int fpBits = Integer.parseInt(args[index]);
 						
                     	// make sure it's in valid range
                     	if (!FPSet.isValid(fpBits)) {
@@ -428,7 +428,7 @@ public class TLCApp extends DistApp {
                     	fpSetConfig.setFpBits(fpBits);
                     	
 						index++;
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						printErrorMsg("Error: A number for -fpbits is required. But encountered "
 								+ args[index]);
 						return null;
@@ -454,7 +454,7 @@ public class TLCApp extends DistApp {
 						// Independently of relative or absolute mem allocation,
 						// a user cannot allocate more than JVM heap space
 						// available. Conversely there is the lower hard limit TLC#MinFpMemSize.
-                    	double fpmem = Double.parseDouble(args[index]);
+                    	final double fpmem = Double.parseDouble(args[index]);
                         if (fpmem < 0) {
                             printErrorMsg("Error: An positive integer or a fraction for fpset memory size/percentage required. But encountered " + args[index]);
                             return null;
@@ -473,7 +473,7 @@ public class TLCApp extends DistApp {
                         	fpSetConfig.setRatio(fpmem);
                         }
                         index++;
-                    } catch (Exception e)
+                    } catch (final Exception e)
                     {
                         printErrorMsg("Error: A positive integer or a fraction for fpset memory size/percentage required. But encountered " + args[index]);
                         return null;
@@ -514,7 +514,7 @@ public class TLCApp extends DistApp {
 				TLCGlobals.tool = true; // always run in Tool mode (to parse output by Toolbox later)
 				TLCGlobals.chkptDuration = 0; // never use checkpoints with distributed TLC (highly inefficient)
 				FP64.Init(fpIndex);
-				FilenameToStream resolver = new InJarFilenameToStream(ModelInJar.PATH);
+				final FilenameToStream resolver = new InJarFilenameToStream(ModelInJar.PATH);
 				return new TLCApp(TLAConstants.Files.MODEL_CHECK_FILE_BASENAME, TLAConstants.Files.MODEL_CHECK_FILE_BASENAME,
 						deadlock, fromChkpt, fpSetConfig, resolver);
 			}
@@ -534,7 +534,7 @@ public class TLCApp extends DistApp {
 		return new TLCApp(specFile, configFile, deadlock, fromChkpt, fpSetConfig);
 	}
 
-	private static void printErrorMsg(String msg) {
+	private static void printErrorMsg(final String msg) {
 		ToolIO.out.println(msg);
 		ToolIO.out
 				.println("Usage: java tlc2.tool.TLCServer [-option] inputfile");

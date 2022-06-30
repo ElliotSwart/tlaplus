@@ -81,8 +81,8 @@ public class ExceptionContext implements Serializable {
      * @param arguments Values for replacing the placeholders in the message
      * pattern.
      */
-    public void addMessage(Localizable pattern,
-                           Object ... arguments) {
+    public void addMessage(final Localizable pattern,
+                           final Object ... arguments) {
         msgPatterns.add(pattern);
         msgArguments.add(ArgUtils.flatten(arguments));
     }
@@ -95,7 +95,7 @@ public class ExceptionContext implements Serializable {
      * @param key Context key (not null).
      * @param value Context value.
      */
-    public void setValue(String key, Object value) {
+    public void setValue(final String key, final Object value) {
         context.put(key, value);
     }
 
@@ -105,7 +105,7 @@ public class ExceptionContext implements Serializable {
      * @param key Context key.
      * @return the context value or {@code null} if the key does not exist.
      */
-    public Object getValue(String key) {
+    public Object getValue(final String key) {
         return context.get(key);
     }
 
@@ -165,8 +165,8 @@ public class ExceptionContext implements Serializable {
      * @param separator Message separator.
      * @return a localized message string.
      */
-    private String buildMessage(Locale locale,
-                                String separator) {
+    private String buildMessage(final Locale locale,
+                                final String separator) {
         final StringBuilder sb = new StringBuilder();
         int count = 0;
         final int len = msgPatterns.size();
@@ -191,7 +191,7 @@ public class ExceptionContext implements Serializable {
      * @param out Stream.
      * @throws IOException This should never happen.
      */
-    private void writeObject(ObjectOutputStream out)
+    private void writeObject(final ObjectOutputStream out)
         throws IOException {
         out.writeObject(throwable);
         serializeMessages(out);
@@ -204,7 +204,7 @@ public class ExceptionContext implements Serializable {
      * @throws IOException This should never happen.
      * @throws ClassNotFoundException This should never happen.
      */
-    private void readObject(ObjectInputStream in)
+    private void readObject(final ObjectInputStream in)
         throws IOException,
                ClassNotFoundException {
         throwable = (Throwable) in.readObject();
@@ -218,7 +218,7 @@ public class ExceptionContext implements Serializable {
      * @param out Stream.
      * @throws IOException This should never happen.
      */
-    private void serializeMessages(ObjectOutputStream out)
+    private void serializeMessages(final ObjectOutputStream out)
         throws IOException {
         // Step 1.
         final int len = msgPatterns.size();
@@ -251,7 +251,7 @@ public class ExceptionContext implements Serializable {
      * @throws IOException This should never happen.
      * @throws ClassNotFoundException This should never happen.
      */
-    private void deSerializeMessages(ObjectInputStream in)
+    private void deSerializeMessages(final ObjectInputStream in)
         throws IOException,
                ClassNotFoundException {
         // Step 1.
@@ -280,12 +280,12 @@ public class ExceptionContext implements Serializable {
      * @param out Stream.
      * @throws IOException This should never happen.
      */
-    private void serializeContext(ObjectOutputStream out)
+    private void serializeContext(final ObjectOutputStream out)
         throws IOException {
         // Step 1.
         final int len = context.size();
         out.writeInt(len);
-        for (Map.Entry<String, Object> entry : context.entrySet()) {
+        for (final Map.Entry<String, Object> entry : context.entrySet()) {
             // Step 2.
             out.writeObject(entry.getKey());
             final Object value = entry.getValue();
@@ -306,7 +306,7 @@ public class ExceptionContext implements Serializable {
      * @throws IOException This should never happen.
      * @throws ClassNotFoundException This should never happen.
      */
-    private void deSerializeContext(ObjectInputStream in)
+    private void deSerializeContext(final ObjectInputStream in)
         throws IOException,
                ClassNotFoundException {
         // Step 1.
@@ -328,7 +328,7 @@ public class ExceptionContext implements Serializable {
      * interface.
      * @return a string that mentions which class could not be serialized.
      */
-    private String nonSerializableReplacement(Object obj) {
+    private String nonSerializableReplacement(final Object obj) {
         return "[Object could not be serialized: " + obj.getClass().getName() + "]";
     }
 }

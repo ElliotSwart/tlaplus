@@ -82,8 +82,8 @@ public class EWD998ChanDebuggerTest extends TLCDebuggerTestCase {
 		assertTLCFrame(stackFrames[0], 11, 11, RM);
 		
 		// Check constant context of ASSUME.
-		TLCStackFrame stackFrame = (TLCStackFrame) stackFrames[1];
-		Variable[] constants = stackFrame.getConstants();
+		final TLCStackFrame stackFrame = (TLCStackFrame) stackFrames[1];
+		final Variable[] constants = stackFrame.getConstants();
 		assertEquals(2, constants.length);
 		
 		// High-level spec constants (expected to be ordered lexicographically)
@@ -200,7 +200,7 @@ public class EWD998ChanDebuggerTest extends TLCDebuggerTestCase {
 
 		// action, counter, color, pending, and token are part of the context because
 		// this is debugging the refinement mapping.
-		Map<String, String> allVariables = new HashMap<>();
+		final Map<String, String> allVariables = new HashMap<>();
 		allVariables.put("pending", "(0 :> 0 @@ 1 :> 0 @@ 2 :> 0)");
 		allVariables.put("token", "[pos |-> 0, q |-> 0, color |-> \"black\"]");
 		allVariables.put("counter", "(0 :> 0 @@ 1 :> 0 @@ 2 :> 0)");
@@ -270,7 +270,7 @@ public class EWD998ChanDebuggerTest extends TLCDebuggerTestCase {
 		debugger.replaceAllBreakpointsWith(RM, 119);
 		stackFrames = debugger.continue_();
 		assertEquals(9, stackFrames.length);
-		Context context = Context.Empty.cons(null, IntValue.ValOne).cons(null, IntValue.ValOne).cons(null, IntValue.ValOne);
+		final Context context = Context.Empty.cons(null, IntValue.ValOne).cons(null, IntValue.ValOne).cons(null, IntValue.ValOne);
 		assertTLCActionFrame(stackFrames[0], 119, 119, RM, context, vars[3]);
 
 		stackFrames = debugger.stepIn();

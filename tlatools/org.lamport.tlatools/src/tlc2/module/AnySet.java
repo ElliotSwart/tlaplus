@@ -24,13 +24,13 @@ public class AnySet extends UserObj
     }
 
     @Override
-    public final int compareTo(Value val)
+    public final int compareTo(final Value val)
     {
         throw new EvalException(EC.TLC_MODULE_COMPARE_VALUE, new String[] { "ANY", Values.ppr(val.toString()) });
     }
 
     @Override
-    public final boolean member(Value val)
+    public final boolean member(final Value val)
     {
         return true;
     }
@@ -42,7 +42,7 @@ public class AnySet extends UserObj
     }
 
     @Override
-    public final StringBuffer toString(StringBuffer sb, int offset, boolean swallow)
+    public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow)
     {
         return sb.append("ANY");
     }

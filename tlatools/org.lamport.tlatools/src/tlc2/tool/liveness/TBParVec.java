@@ -11,16 +11,16 @@ public class TBParVec extends Vect<TBPar> {
 
 	private static final long serialVersionUID = -3448802399964070243L;
 
-	public TBParVec(int size) {
+	public TBParVec(final int size) {
 		super(size);
 	}
 
-	public final TBPar parAt(int i) {
+	public final TBPar parAt(final int i) {
 		return (TBPar) elementAt(i);
 	}
 
 	/* This method tests whether a particle is in a list of other particles */
-	public final boolean contains(TBPar par) {
+	public final boolean contains(final TBPar par) {
 		for (int i = 0; i < this.size(); i++) {
 			if (par.equals(this.parAt(i))) {
 				return true;
@@ -30,8 +30,8 @@ public class TBParVec extends Vect<TBPar> {
 	}
 
 	/* This method unions two lists of particles */
-	public final TBParVec union(TBParVec ps) {
-		TBParVec res = new TBParVec(this.size() + ps.size());
+	public final TBParVec union(final TBParVec ps) {
+		final TBParVec res = new TBParVec(this.size() + ps.size());
 		for (int i = 0; i < this.size(); i++) {
 			if (!ps.contains(this.parAt(i))) {
 				res.addElement(this.parAt(i));
@@ -44,9 +44,9 @@ public class TBParVec extends Vect<TBPar> {
 	}
 
 	/* The string representation. */
-	public final void toString(StringBuffer sb, String padding) {
+	public final void toString(final StringBuffer sb, final String padding) {
 		sb.append("{");
-		String padding1 = padding + " ";
+		final String padding1 = padding + " ";
 		if (this.size() != 0) {
 			this.parAt(0).toString(sb, padding1);
 		}
@@ -59,7 +59,7 @@ public class TBParVec extends Vect<TBPar> {
 	}
 
 	public final String toString() {
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		this.toString(sb, "");
 		return sb.toString();
 	}

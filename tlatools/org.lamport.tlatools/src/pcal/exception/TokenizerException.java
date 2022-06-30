@@ -15,7 +15,7 @@ public class TokenizerException extends UnrecoverableException
 	/**
      * @param message
      */
-    public TokenizerException(String message)
+    public TokenizerException(final String message)
     {
         super(message);
     }

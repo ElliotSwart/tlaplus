@@ -17,7 +17,7 @@ public class LongVecFingerPrintGenerator extends FingerPrintGenerator {
 
 	private static final int batch = 1024;
 	
-	public LongVecFingerPrintGenerator(MultiThreadedFPSetTest test, int id, int numThreads, FPSet fpSet, CountDownLatch latch, long seed, long insertions, final CyclicBarrier barrier) {
+	public LongVecFingerPrintGenerator(final MultiThreadedFPSetTest test, final int id, final int numThreads, final FPSet fpSet, final CountDownLatch latch, final long seed, final long insertions, final CyclicBarrier barrier) {
 		super(test, id, numThreads, fpSet, latch, seed, insertions, barrier);
 	}
 	
@@ -27,7 +27,7 @@ public class LongVecFingerPrintGenerator extends FingerPrintGenerator {
 	public void run() {
 		waitForAllThreadsStarted();
 		
-		TestLongVec predecessors = new TestLongVec(batch);
+		final TestLongVec predecessors = new TestLongVec(batch);
 		boolean initialized = false;
 		// Reduce number of FPSet#size invocation by counting puts/collisions.
 		// FPSet#size can cause an FPSet to synchronize all its writers slowing
@@ -51,7 +51,7 @@ public class LongVecFingerPrintGenerator extends FingerPrintGenerator {
 				final BitVector bitVector = fpSet.putBlock(predecessors);
 				puts += bitVector.trueCnt();
 				collisions += (batch - bitVector.trueCnt());
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				e.printStackTrace();
 				Assert.fail("Unexpected");
 			}
@@ -66,7 +66,7 @@ public class LongVecFingerPrintGenerator extends FingerPrintGenerator {
 
 		private static final long serialVersionUID = -720614225756936980L;
 
-		public TestLongVec(int batch) {
+		public TestLongVec(final int batch) {
 			super(batch);
 		}
 
@@ -74,7 +74,7 @@ public class LongVecFingerPrintGenerator extends FingerPrintGenerator {
 			Arrays.sort(elementData);
 		}
 		  
-		public final void setElement(int index, long x) {
+		public final void setElement(final int index, final long x) {
 			this.elementData[index] = x;
 			this.elementCount = ++elementCount % elementData.length + 1;
 		}

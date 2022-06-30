@@ -72,7 +72,7 @@ public class SetOfStatesTest extends TestCase {
 		// successor is not equal to predecessor
 		TLCState predecessor = null;
 		for (int i = 0; i < s.size(); i++) {
-			TLCState state = s.next();
+			final TLCState state = s.next();
 			assertNotSame(predecessor, state);
 			predecessor = state;
 		}
@@ -100,7 +100,7 @@ public class SetOfStatesTest extends TestCase {
 		for (int i = 0; i < s.size(); i++) {
 			states.add(s.next());
 		}
-		for (TLCState aState : states) {
+		for (final TLCState aState : states) {
 			assertTrue(s.put(aState));
 		}
 		assertEquals(32, states.size());
@@ -155,14 +155,14 @@ public class SetOfStatesTest extends TestCase {
 		/* (non-Javadoc)
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
-		public boolean equals(Object obj) {
+		public boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (obj == null)
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			EqualityDummyTLCState other = (EqualityDummyTLCState) obj;
+			final EqualityDummyTLCState other = (EqualityDummyTLCState) obj;
 			if (fingerPrint() != other.fingerPrint())
 				return false;
 			if (id != other.id)

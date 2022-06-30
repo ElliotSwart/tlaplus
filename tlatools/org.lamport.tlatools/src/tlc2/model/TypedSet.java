@@ -45,7 +45,7 @@ public class TypedSet {
         // preceded or followed by spaces. This was fixed by adding the
         // two set = set.trim(); statements and rewriting the
         // tests for an empty or null set. Changes made by LL on 11 Nov 2009.
-        TypedSet result = new TypedSet();
+        final TypedSet result = new TypedSet();
         if (set == null)
         {
             return result;
@@ -71,7 +71,7 @@ public class TypedSet {
         if (parsedSet.length > 0)
         {
             // pre-fetch first element (if no type it will store -1 there)
-            int typeSeparatorPosition = parsedSet[0].indexOf("_");
+            final int typeSeparatorPosition = parsedSet[0].indexOf("_");
             if (typeSeparatorPosition == -1 || typeSeparatorPosition == 0)
             {
                 // no type, provided
@@ -144,7 +144,7 @@ public class TypedSet {
 
     
 
-    public void setType(String type)
+    public void setType(final String type)
     {
         this.type = type;
     }
@@ -170,11 +170,11 @@ public class TypedSet {
             return Arrays.asList(values);
         } else
         {
-            List<String> typedList = new ArrayList<String>(values.length);
+            final List<String> typedList = new ArrayList<String>(values.length);
             // add type to the list
             for (int i = 0; i < values.length; i++)
             {
-                String value = type + SEPARATOR + values[i];
+                final String value = type + SEPARATOR + values[i];
                 typedList.add(value);
             }
             return typedList;
@@ -201,7 +201,7 @@ public class TypedSet {
      * @param index, index of the value, should be smaller then the value of {@link TypedSet#getValueCount()}
      * @return value (with type, if any) or null if index out of range 
      */
-    public String getValue(int index)
+    public String getValue(final int index)
     {
         if (index >= getValueCount())
         {
@@ -212,7 +212,7 @@ public class TypedSet {
         }
     }
 
-    public void setValues(String[] values)
+    public void setValues(final String[] values)
     {
         if (values == null)
         {
@@ -232,9 +232,9 @@ public class TypedSet {
         return result;
     }
 
-    private static int hashCode(Object[] array)
+    private static int hashCode(final Object[] array)
     {
-        int prime = 31;
+        final int prime = 31;
         if (array == null)
             return 0;
         int result = 1;
@@ -250,7 +250,7 @@ public class TypedSet {
      * the same type and the elements of the set are the same
      * (and appear in the same order)
      */
-    public boolean equals(Object obj)
+    public boolean equals(final Object obj)
     {
         if (this == obj)
             return true;
@@ -258,7 +258,7 @@ public class TypedSet {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        TypedSet other = (TypedSet) obj;
+        final TypedSet other = (TypedSet) obj;
         if (type == null)
         {
             if (other.type != null)
@@ -278,7 +278,7 @@ public class TypedSet {
      */
     public String toString()
     {
-        StringBuffer buffer = new StringBuffer("{");
+        final StringBuffer buffer = new StringBuffer("{");
         for (int i = 0; i < this.values.length; i++)
         {
             if (this.type != null)
@@ -301,7 +301,7 @@ public class TypedSet {
      */
     public String toStringWithoutBraces()
     {
-        String set = toString();
+        final String set = toString();
         return set.substring(1, set.length() - 1);
     }
 

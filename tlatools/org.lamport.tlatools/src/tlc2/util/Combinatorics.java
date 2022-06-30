@@ -14,7 +14,7 @@ public class Combinatorics {
 	public static long[] CHOOSETABLE = new long[CHOOSETABLESIZE];
   private static long[] SUMCHOOSETABLE = new long[CHOOSETABLESIZE];
 
-  public static long choose(int n, int m) {
+  public static long choose(final int n, final int m) {
 		if (n < 0 || m < 0) {
     Assert.check(((m >= 0) && (n >= 0) && (n >= m)), EC.TLC_CHOOSE_ARGUMENTS_WRONG, "choose");
 		}
@@ -26,7 +26,7 @@ public class Combinatorics {
 			// Cannot choose from zero elements or more elements than present.
 			return 0;
 		} else {
-      int j = choosePairToInt(n, m);
+      final int j = choosePairToInt(n, m);
       if (j < CHOOSETABLESIZE) {
 	return CHOOSETABLE[j];
       }
@@ -34,7 +34,7 @@ public class Combinatorics {
     }
   }
 
-	public static long sumChoose(int n, int m) {
+	public static long sumChoose(final int n, final int m) {
       Assert.check(((m>=0) && (n>=0) && (n>=m)), EC.TLC_CHOOSE_ARGUMENTS_WRONG, "sumChoose");
 		if (m == 0) {
           return (long)1;
@@ -45,7 +45,7 @@ public class Combinatorics {
 		} else if (m == n - 1) {
           return ((long)2 << n) - n;
 		} else {
-          int j = choosePairToInt(n,m);
+          final int j = choosePairToInt(n,m);
 			if (j < CHOOSETABLESIZE) {
               return SUMCHOOSETABLE[j];
           }
@@ -55,7 +55,7 @@ public class Combinatorics {
       }
   }
 	     
-	public static int choosePairToInt(int n, int m) {
+	public static int choosePairToInt(final int n, final int m) {
     return ((n-3)*(n-4))/2 + m -2;
   }
 
@@ -79,7 +79,7 @@ public class Combinatorics {
     }
   }
 
-  public static BigInteger toNum(BigInteger[] B, BigInteger[] N, int len) {
+  public static BigInteger toNum(final BigInteger[] B, final BigInteger[] N, final int len) {
     Assert.check((B.length >= len) && (len > 0), EC.SYSTEM_INDEX_ERROR);
 
     BigInteger num = N[len-1];
@@ -89,14 +89,14 @@ public class Combinatorics {
     return num;
   }
   
-  public static BigInteger toNum(BigInteger[] B, BigInteger[] N) {
+  public static BigInteger toNum(final BigInteger[] B, final BigInteger[] N) {
     return toNum(B, N, B.length);
   }
 
-  public static BigInteger[] toSeq(BigInteger[] B, BigInteger n, int len) {
+  public static BigInteger[] toSeq(final BigInteger[] B, final BigInteger n, final int len) {
     Assert.check((B.length >= len) && (len != 0), EC.SYSTEM_INDEX_ERROR);
 
-    BigInteger[] nlist = new BigInteger[len];
+    final BigInteger[] nlist = new BigInteger[len];
     BigInteger num = n;
     BigInteger base = B[0];
     nlist[0] = num.remainder(base);
@@ -108,11 +108,11 @@ public class Combinatorics {
     return nlist;
   }
   
-  public static BigInteger[] toSeq(BigInteger[] B, BigInteger n) {
+  public static BigInteger[] toSeq(final BigInteger[] B, final BigInteger n) {
     return toSeq(B, n, B.length);
   }
 
-  public static BigInteger fact(int n) {
+  public static BigInteger fact(final int n) {
     BigInteger result = BigInt.BigOne;
 
     for (int i = n; i > 1; i--)
@@ -120,7 +120,7 @@ public class Combinatorics {
     return result;
   }
 
-  public static BigInteger bigChoose(int n, int m) {
+  public static BigInteger bigChoose(final int n, final int m) {
 		if (n < MAXCHOOSENUM && m < MAXCHOOSENUM) {
 			return BigInteger.valueOf(choose(n, m));
 		}
@@ -134,14 +134,14 @@ public class Combinatorics {
 		return binomial;
 	}
 	
-	public static BigInteger slowBigChoose(int n, int m) {
-    BigInteger num = fact(n);
-    BigInteger denom = fact(n - m).multiply(fact(m));
+	public static BigInteger slowBigChoose(final int n, final int m) {
+    final BigInteger num = fact(n);
+    final BigInteger denom = fact(n - m).multiply(fact(m));
 
     return num.divide(denom);
   }
 
-  public static BigInteger bigSumChoose(int n, int m) {
+  public static BigInteger bigSumChoose(final int n, final int m) {
     BigInteger result;
 
     if ((n/2) >= m) {
@@ -157,8 +157,8 @@ public class Combinatorics {
     return result;
   }
 
-  public static String print (BigInteger[] A) {
-    StringBuffer sb = new StringBuffer();
+  public static String print (final BigInteger[] A) {
+    final StringBuffer sb = new StringBuffer();
     for (int i=0; i<A.length; i++) {
       sb.append(A[i].toString());
       sb.append(", ");
@@ -167,7 +167,7 @@ public class Combinatorics {
   }
 
 	// https://blog.plover.com/math/choose.html
-	public static final long binomial(int n, int k) {
+	public static final long binomial(final int n, int k) {
 		if (k > n) {
 			return 0;
 		}

@@ -15,11 +15,11 @@ class LNBool extends LiveExprNode {
 
 	protected final boolean b;
 
-	public LNBool(boolean b) {
+	public LNBool(final boolean b) {
 		this.b = b;
 	}
 
-	public final boolean eval(ITool tool, TLCState s1, TLCState s2) {
+	public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
 		return this.b;
 	}
 
@@ -31,7 +31,7 @@ class LNBool extends LiveExprNode {
 		return false;
 	}
 
-	public final void toString(StringBuffer sb, String padding) {
+	public final void toString(final StringBuffer sb, final String padding) {
 		sb.append(this.b ? "TRUE" : "FALSE");
 	}
 
@@ -43,7 +43,7 @@ class LNBool extends LiveExprNode {
 	 * This method pushes a negation all the way down to the atoms. It is
 	 * currently not used.
 	 */
-	public LiveExprNode pushNeg(boolean hasNeg) {
+	public LiveExprNode pushNeg(final boolean hasNeg) {
 		// for the remaining types, negate when needed:
 		if (hasNeg) {
 			return new LNBool(!b);
@@ -51,7 +51,7 @@ class LNBool extends LiveExprNode {
 		return super.pushNeg(hasNeg);
 	}
 
-	public boolean equals(LiveExprNode exp) {
+	public boolean equals(final LiveExprNode exp) {
 		if (exp instanceof LNBool) {
 			return b == ((LNBool) exp).b;
 		}

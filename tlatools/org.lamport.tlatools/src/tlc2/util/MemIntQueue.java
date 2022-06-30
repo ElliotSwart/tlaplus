@@ -20,34 +20,34 @@ public final class MemIntQueue extends MemBasedSet {
 	private String diskdir;
 	private String filename;
 
-	public MemIntQueue(String metadir, String filename) {
+	public MemIntQueue(final String metadir, final String filename) {
 		this(metadir, filename, InitialSize);
 	}
 
-	public MemIntQueue(String metadir, String filename, final int initialCapacity) {
+	public MemIntQueue(final String metadir, final String filename, final int initialCapacity) {
 		super(initialCapacity);
 		this.start = 0;
 		this.diskdir = metadir;
 		this.filename = filename;
 	}
 
-	public final void enqueueInt(int elem) {
+	public final void enqueueInt(final int elem) {
 		if (this.size == this.elems.length) {
 			// grow the array
 			final int[] newElems = ensureCapacity(InitialSize);
 			// copy old content to new array
-			int copyLen = this.elems.length - this.start;
+			final int copyLen = this.elems.length - this.start;
 			System.arraycopy(this.elems, this.start, newElems, 0, copyLen);
 			System.arraycopy(this.elems, 0, newElems, copyLen, this.start);
 			this.elems = newElems;
 			this.start = 0;
 		}
-		int last = (this.start + this.size) % this.elems.length;
+		final int last = (this.start + this.size) % this.elems.length;
 		this.elems[last] = elem;
 		this.size++;
 	}
 
-	public final void enqueueLong(long elem) {
+	public final void enqueueLong(final long elem) {
 		this.enqueueInt((int) (elem >>> 32));
 		this.enqueueInt((int) (elem & 0xFFFFFFFFL));
 	}
@@ -57,15 +57,15 @@ public final class MemIntQueue extends MemBasedSet {
 		if (this.size < 1) {
 			throw new NoSuchElementException();
 		}
-		int res = this.elems[this.start];
+		final int res = this.elems[this.start];
 		this.size--;
 		this.start = (this.start + 1) % this.elems.length;
 		return res;
 	}
 
 	public final long dequeueLong() {
-		long high = this.dequeueInt();
-		long low = this.dequeueInt();
+		final long high = this.dequeueInt();
+		final long low = this.dequeueInt();
 		return (high << 32) | (low & 0xFFFFFFFFL);
 	}
 
@@ -78,15 +78,15 @@ public final class MemIntQueue extends MemBasedSet {
 	}
 
 	public long popLong() {
-		long low = this.popInt();
-		long high = this.popInt();
+		final long low = this.popInt();
+		final long high = this.popInt();
 		return (high << 32) | (low & 0xFFFFFFFFL);
 	}
 
 	// Checkpoint.
 	public final void beginChkpt() throws IOException {
-		String tmpName = this.diskdir + FileUtil.separator + this.filename + ".tmp";
-		BufferedDataOutputStream bos = new BufferedDataOutputStream(tmpName);
+		final String tmpName = this.diskdir + FileUtil.separator + this.filename + ".tmp";
+		final BufferedDataOutputStream bos = new BufferedDataOutputStream(tmpName);
 		bos.writeInt(this.size);
 		int index = this.start;
 		for (int i = 0; i < this.size; i++) {
@@ -98,18 +98,18 @@ public final class MemIntQueue extends MemBasedSet {
 	}
 
 	public final void commitChkpt() throws IOException {
-		String oldName = this.diskdir + FileUtil.separator + this.filename + ".chkpt";
-		File oldChkpt = new File(oldName);
-		String newName = this.diskdir + FileUtil.separator + this.filename + ".tmp";
-		File newChkpt = new File(newName);
+		final String oldName = this.diskdir + FileUtil.separator + this.filename + ".chkpt";
+		final File oldChkpt = new File(oldName);
+		final String newName = this.diskdir + FileUtil.separator + this.filename + ".tmp";
+		final File newChkpt = new File(newName);
 		if ((oldChkpt.exists() && !oldChkpt.delete()) || !newChkpt.renameTo(oldChkpt)) {
 			throw new IOException("MemStateQueue.commitChkpt: cannot delete " + oldChkpt);
 		}
 	}
 
 	public final void recover() throws IOException {
-		String chkptName = this.diskdir + FileUtil.separator + this.filename + ".chkpt";
-		BufferedDataInputStream bis = new BufferedDataInputStream(chkptName);
+		final String chkptName = this.diskdir + FileUtil.separator + this.filename + ".chkpt";
+		final BufferedDataInputStream bis = new BufferedDataInputStream(chkptName);
 		this.size = bis.readInt();
 		for (int i = 0; i < this.size; i++) {
 			this.elems[i] = bis.readInt();
@@ -126,7 +126,7 @@ public final class MemIntQueue extends MemBasedSet {
 
 		// An Eclipse detailed formatter for when this Queue holds pairs of long
 		// (fp) and int (tableau idx)
-		public static String fpAndtidx(MemIntQueue aQueue) {
+		public static String fpAndtidx(final MemIntQueue aQueue) {
 			final StringBuffer buf = new StringBuffer(aQueue.size / 3);
 			for (int i = 0; i < aQueue.size; i += 3) {
 				final long fp = ((long) aQueue.elems[i] << 32) | ((long) (aQueue.elems[i + 1]) & 0xFFFFFFFFL);
@@ -139,7 +139,7 @@ public final class MemIntQueue extends MemBasedSet {
 
 		// An Eclipse detailed formatter for when this Queue holds pairs of long
 		// (fp), int (tableau idx) and long (disk graph pointer).
-		public static String fpAndtidxAndptr(MemIntQueue aQueue) {
+		public static String fpAndtidxAndptr(final MemIntQueue aQueue) {
 			final StringBuffer buf = new StringBuffer(aQueue.size / 5);
 			for (int i = 0; i < aQueue.size; i += 5) {
 				final long fp = ((long) aQueue.elems[i] << 32) | ((long) (aQueue.elems[i + 1]) & 0xFFFFFFFFL);

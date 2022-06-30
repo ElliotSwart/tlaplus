@@ -41,8 +41,8 @@ public class CheckImplFile extends CheckImpl
      * to ModelChecker constructor.
      * 
      */
-    public CheckImplFile(ITool tool, String metadir, boolean deadlock, int depth, String fromChkpt,
-            String traceFile, final FPSetConfiguration fpSetConfig) throws IOException
+    public CheckImplFile(final ITool tool, final String metadir, final boolean deadlock, final int depth, final String fromChkpt,
+                         final String traceFile, final FPSetConfiguration fpSetConfig) throws IOException
     {
         super(tool, metadir, deadlock, depth, fromChkpt, fpSetConfig);
         this.traceFile = traceFile;
@@ -72,11 +72,11 @@ public class CheckImplFile extends CheckImpl
     }
 
     /* This method exports a trace by writing it into a file.  */
-    public final void exportTrace(TLCStateInfo[] trace) throws IOException
+    public final void exportTrace(final TLCStateInfo[] trace) throws IOException
     {
-        String fname = this.traceFile + "_out_" + this.tocnt;
-        FileOutputStream fos = new FileOutputStream(fname);
-        PrintWriter pw = new PrintWriter(fos);
+        final String fname = this.traceFile + "_out_" + this.tocnt;
+        final FileOutputStream fos = new FileOutputStream(fname);
+        final PrintWriter pw = new PrintWriter(fos);
         for (int i = 0; i < trace.length; i++)
         {
             pw.println("STATE_" + (i + 1));
@@ -89,23 +89,23 @@ public class CheckImplFile extends CheckImpl
     /* This method reads in a trace from a file. */
     public final boolean getTrace()
     {
-        String rfname = this.traceFile + this.ticnt;
-        File tfile = new File(rfname);
+        final String rfname = this.traceFile + this.ticnt;
+        final File tfile = new File(rfname);
         ToolIO.out.println("Trying to work on trace " + tfile + " ...");
         if (!tfile.exists())
             return false;
 
         // Parse the trace file:
         // REFACTOR: Call SANY.frontendparse
-        SpecObj spec = new SpecObj(rfname, null);
+        final SpecObj spec = new SpecObj(rfname, null);
         try
         {
             SANY.frontEndInitialize(spec, ToolIO.out);
             SANY.frontEndParse(spec, ToolIO.out);
             SANY.frontEndSemanticAnalysis(spec, ToolIO.out, true);
-        } catch (Throwable e)
+        } catch (final Throwable e)
         {
-            String msg = (e.getMessage()==null)?e.toString():e.getMessage();
+            final String msg = (e.getMessage()==null)?e.toString():e.getMessage();
             Assert.fail(EC.CHECK_COULD_NOT_READ_TRACE, msg);
         }
         if (!spec.initErrors.isSuccess() || !spec.parseErrors.isSuccess() || !spec.semanticErrors.isSuccess())
@@ -114,17 +114,17 @@ public class CheckImplFile extends CheckImpl
         }
 
         // Set the rootModule:
-        ExternalModuleTable mt = spec.getExternalModuleTable();
+        final ExternalModuleTable mt = spec.getExternalModuleTable();
         // SZ 11.04.2009: Changed access method
-        ModuleNode module = mt.getModuleNode(UniqueString.uniqueStringOf(rfname));
+        final ModuleNode module = mt.getModuleNode(UniqueString.uniqueStringOf(rfname));
 
         // Put the sequence of states in the trace into this.states:
-        OpDefNode[] opDefs = module.getOpDefs();
-        int len = opDefs.length;
+        final OpDefNode[] opDefs = module.getOpDefs();
+        final int len = opDefs.length;
         this.states = new TLCState[len];
         for (int i = 0; i < len; i++)
         {
-            TLCState state = this.tool.makeState(opDefs[i].getBody());
+            final TLCState state = this.tool.makeState(opDefs[i].getBody());
             this.states[i] = state;
         }
         this.sidx = 0;
@@ -164,7 +164,7 @@ public class CheckImplFile extends CheckImpl
      *                       print out the information every seconds
      *    Defaults to no coverage if not specified
      **/
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
     ToolIO.out.println("TLC CheckImpl" + TLCGlobals.versionOfTLC);
 
     String mainFile = null;
@@ -213,7 +213,7 @@ public class CheckImplFile extends CheckImpl
                 {
                     TLCGlobals.setNumWorkers(Integer.parseInt(args[index]));
                     index++;
-                } catch (NumberFormatException e) 
+                } catch (final NumberFormatException e)
                 {
                     printErrorMsg(MP.getMessage(EC.CHECK_PARAM_WORKER_NUMBER_REQUIRED, args[index]));
                     return;
@@ -236,7 +236,7 @@ public class CheckImplFile extends CheckImpl
                     depth = Integer.parseInt(args[index]);
                     index++;
                 }
-                catch (NumberFormatException e) 
+                catch (final NumberFormatException e)
                 {
                     printErrorMsg(MP.getMessage(EC.CHECK_PARAM_DEPTH_REQUIRED, args[index]));
                     return;
@@ -268,7 +268,7 @@ public class CheckImplFile extends CheckImpl
                     }
                     index++;
                 }
-                catch (NumberFormatException e) {
+                catch (final NumberFormatException e) {
                     printErrorMsg(MP.getError(EC.CHECK_PARAM_COVREAGE_REQUIRED, args[index]));
                     return;
                 }
@@ -303,7 +303,7 @@ public class CheckImplFile extends CheckImpl
     if (traceFile == null) traceFile = mainFile + "_trace";
 
     final File f = new File(mainFile);
-	String metadir = FileUtil.makeMetaDir(f.isAbsolute() ? f.getParent() : "", fromChkpt);
+	final String metadir = FileUtil.makeMetaDir(f.isAbsolute() ? f.getParent() : "", fromChkpt);
 
     try {
       // Initialize:
@@ -315,13 +315,13 @@ public class CheckImplFile extends CheckImpl
       
       // Start the checker:
       final ITool tool = new FastTool(mainFile, configFile);
-      CheckImplFile checker = new CheckImplFile(tool, metadir, deadlock,
+      final CheckImplFile checker = new CheckImplFile(tool, metadir, deadlock,
 						depth, fromChkpt, traceFile, new FPSetConfiguration());
       checker.init();
       while (true) {
 	// Get a trace and check it.
 	checker.export();
-	boolean ok = checker.getTrace();
+	final boolean ok = checker.getTrace();
 	if (ok) {
 	  checker.checkTrace();
 	}
@@ -330,14 +330,14 @@ public class CheckImplFile extends CheckImpl
 	}
       }
     }
-    catch (Throwable e) 
+    catch (final Throwable e)
     {
       MP.printError(EC.CHECK_FAILED_TO_CHECK, e);
     }
     System.exit(0);    
   }
 
-    private static void printErrorMsg(String msg)
+    private static void printErrorMsg(final String msg)
     {
         ToolIO.out.println(msg);
         MP.printError(EC.CHECK_PARAM_USAGE);

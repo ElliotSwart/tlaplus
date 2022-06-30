@@ -34,26 +34,26 @@ public final Value[] elems;          // the elements of this tuple.
   public static final TupleValue EmptyTuple = new TupleValue(new Value[0]);
 
   /* Constructor */
-  public TupleValue(Value[] elems) { this.elems = elems; }
+  public TupleValue(final Value[] elems) { this.elems = elems; }
 
-  public TupleValue(Value v) {
+  public TupleValue(final Value v) {
 	  this(new Value[1]);
     this.elems[0] = v;
   }
 
-  public TupleValue(Value v1, Value v2) {
+  public TupleValue(final Value v1, final Value v2) {
 	  this(new Value[2]);
     this.elems[0] = v1;
     this.elems[1] = v2;
   }
 
-  public TupleValue(Value[] elems, CostModel cm) {
+  public TupleValue(final Value[] elems, final CostModel cm) {
 	  this(elems);
 	  this.cm = cm;
   }
 
   @Override
-  public IValue getElem(int idx) {
+  public IValue getElem(final int idx) {
 	  return elems[idx];
   }
   
@@ -66,14 +66,14 @@ public final Value[] elems;          // the elements of this tuple.
   public final byte getKind() { return TUPLEVALUE; }
 
   @Override
-  public final int compareTo(Object obj) {
+  public final int compareTo(final Object obj) {
     try {
-      TupleValue tv = obj instanceof Value ? (TupleValue) ((Value)obj).toTuple() : null;
+      final TupleValue tv = obj instanceof Value ? (TupleValue) ((Value)obj).toTuple() : null;
       if (tv == null) {
         // Well, we have to convert this to function and compare.
         return this.toFcnRcd().compareTo(obj);
       }
-      int len = this.elems.length;
+      final int len = this.elems.length;
       int cmp = len - tv.elems.length;
       if (cmp == 0) {
 		// At this point, we know that the domains are equal because the domain of a
@@ -86,20 +86,20 @@ public final Value[] elems;          // the elements of this tuple.
       }
       return cmp;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     try {
-      TupleValue tv = obj instanceof Value ? (TupleValue) ((Value)obj).toTuple() : null;
+      final TupleValue tv = obj instanceof Value ? (TupleValue) ((Value)obj).toTuple() : null;
       if (tv == null) {
         // Well, we have to convert this to function and compare.
         return this.toFcnRcd().equals(obj);
       }
-      int len = this.elems.length;
+      final int len = this.elems.length;
       if (len != tv.elems.length)
         return false;
 	// At this point, we know that the domains are equal because the domain of a
@@ -111,19 +111,19 @@ public final Value[] elems;          // the elements of this tuple.
       }
       return true;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean member(Value elem) {
+  public final boolean member(final Value elem) {
     try {
       Assert.fail("Attempted to check set membership in a tuple value.", getSource());
       return false;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -133,65 +133,65 @@ public final Value[] elems;          // the elements of this tuple.
   public final boolean isFinite() { return true; }
 
   @Override
-  public final Value apply(Value arg, int control) {
+  public final Value apply(final Value arg, final int control) {
     try {
       if (!(arg instanceof IntValue)) {
         Assert.fail("Attempted to access tuple at a non integral index: " + Values.ppr(arg.toString()), getSource());
       }
-      int idx = ((IntValue)arg).val;
+      final int idx = ((IntValue)arg).val;
       if (idx <= 0 || idx > this.elems.length) {
         Assert.fail("Attempted to access index " + idx + " of tuple\n"
             + Values.ppr(this.toString()) + "\nwhich is out of bounds.", getSource());
       }
       return (Value) this.elems[idx-1];
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value apply(Value[] args, int control) {
+  public final Value apply(final Value[] args, final int control) {
     try {
       if (args.length != 1) {
         Assert.fail("Attempted to access tuple with " + args.length + " arguments when it expects 1.", getSource());
       }
       return this.apply(args[0], EvalControl.Clear);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value select(Value arg) {
+  public final Value select(final Value arg) {
     try {
       if (!(arg instanceof IntValue)) {
         Assert.fail("Attempted to access tuple at a non integral index: " + Values.ppr(arg.toString()), getSource());
       }
-      int idx = ((IntValue)arg).val;
+      final int idx = ((IntValue)arg).val;
       if (idx > 0 && idx <= this.elems.length) {
         return (Value) this.elems[idx-1];
       }
       return null;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
       if (ex.idx < ex.path.length) {
-        int tlen = this.elems.length;
-        Value[] newElems = new Value[tlen];
-        Value arcVal = ex.path[ex.idx];
+        final int tlen = this.elems.length;
+        final Value[] newElems = new Value[tlen];
+        final Value arcVal = ex.path[ex.idx];
         if (arcVal instanceof IntValue) {
-          int idx = ((IntValue)arcVal).val - 1;
+          final int idx = ((IntValue)arcVal).val - 1;
           if (0 <= idx && idx < tlen) {
             for (int i = 0; i < tlen; i++) {
               newElems[i] = this.elems[i];
@@ -205,14 +205,14 @@ public final Value[] elems;          // the elements of this tuple.
       }
       return ex.value;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       Value val = this;
       for (int i = 0; i < exs.length; i++) {
@@ -220,7 +220,7 @@ public final Value[] elems;          // the elements of this tuple.
       }
       return val;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -231,7 +231,7 @@ public final Value[] elems;          // the elements of this tuple.
     try {
       return new IntervalValue(1, this.size());
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -247,7 +247,7 @@ public final Value[] elems;          // the elements of this tuple.
           elems[i].deepNormalize();
         }
 	    }
-	    catch (RuntimeException | OutOfMemoryError e) {
+	    catch (final RuntimeException | OutOfMemoryError e) {
 	      if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
 	      else { throw e; }
 	    }
@@ -286,7 +286,7 @@ public final Value[] elems;          // the elements of this tuple.
       }
       return defined;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -295,20 +295,20 @@ public final Value[] elems;          // the elements of this tuple.
   @Override
   public final IValue deepCopy() {
     try {
-    	Value[] vals = new Value[this.elems.length];
+    	final Value[] vals = new Value[this.elems.length];
       for (int i = 0; i < this.elems.length; i++) {
         vals[i] = (Value) this.elems[i].deepCopy();
       }
       return new TupleValue(vals);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       boolean canAssign = ((val instanceof TupleValue) &&
          (this.elems.length == ((TupleValue)val).elems.length));
@@ -318,14 +318,14 @@ public final Value[] elems;          // the elements of this tuple.
       }
       return canAssign;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
 	@Override
-	public final void write(IValueOutputStream vos) throws IOException {
+	public final void write(final IValueOutputStream vos) throws IOException {
 		final int index = vos.put(this);
 		if (index == -1) {
 			vos.writeByte(TUPLEVALUE);
@@ -344,7 +344,7 @@ public final Value[] elems;          // the elements of this tuple.
   @Override
   public final long fingerPrint(long fp) {
     try {
-      int len = this.elems.length;
+      final int len = this.elems.length;
       fp = FP64.Extend(fp, FCNRCDVALUE);
       fp = FP64.Extend(fp, len);
       for (int i = 0; i < len; i++) {
@@ -354,16 +354,16 @@ public final Value[] elems;          // the elements of this tuple.
       }
       return fp;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final IValue permute(IMVPerm perm) {
+  public final IValue permute(final IMVPerm perm) {
     try {
-    	Value[] vals = new Value[this.elems.length];
+    	final Value[] vals = new Value[this.elems.length];
       boolean changed = false;
       for (int i = 0; i < vals.length; i++) {
         vals[i] = (Value) this.elems[i].permute(perm);
@@ -374,7 +374,7 @@ public final Value[] elems;          // the elements of this tuple.
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -382,10 +382,10 @@ public final Value[] elems;          // the elements of this tuple.
 
   /* The string representation of this value. */
   @Override
-  public final StringBuffer toString(StringBuffer sb, int offset, boolean swallow) {
+  public final StringBuffer toString(StringBuffer sb, final int offset, final boolean swallow) {
     try {
       sb.append("<<");
-      int len = this.elems.length;
+      final int len = this.elems.length;
       if (len > 0) {
         sb = this.elems[0].toString(sb, offset, swallow);
       }
@@ -396,7 +396,7 @@ public final Value[] elems;          // the elements of this tuple.
       sb.append(">>");
       return sb;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -427,7 +427,7 @@ public final Value[] elems;          // the elements of this tuple.
 	}
 
 	@Override
-	public List<TLCVariable> getTLCVariables(TLCVariable prototype, Random rnd) {
+	public List<TLCVariable> getTLCVariables(final TLCVariable prototype, final Random rnd) {
 		final List<TLCVariable> nestedVars = new ArrayList<>(this.size());
 		for (int i = 0; i < elems.length; i++) {
 			final Value value = elems[i];

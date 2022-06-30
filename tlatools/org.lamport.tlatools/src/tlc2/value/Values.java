@@ -31,11 +31,11 @@ public abstract class Values {
 
 	private static int WIDTH = Integer.getInteger(Values.class.getName() + ".width", 80);
 	
-	public static String ppr(String s) {
+	public static String ppr(final String s) {
 	    return PrettyPrint.mypp(s, WIDTH) ;
 	  }
 
-	public static String ppr(IValue v) {
+	public static String ppr(final IValue v) {
 		  if (v == null) {
 			  return "null";
 		  }

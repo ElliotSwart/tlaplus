@@ -63,7 +63,7 @@ public class Validator {
 
 	private static final Pattern MODULE_CLOSING_PATTERN = Pattern.compile(TLAConstants.MODULE_CLOSING_REGEX);
 
-	public static Set<ValidationResult> validate(ParseUnit parseUnit, InputStream inputStream)
+	public static Set<ValidationResult> validate(final ParseUnit parseUnit, final InputStream inputStream)
 			throws IOException {
 		final BufferedReader reader = new BufferedReader(
 				new InputStreamReader((inputStream instanceof BufferedInputStream) ? (BufferedInputStream) inputStream
@@ -150,7 +150,7 @@ public class Validator {
                         notDone = false;
                     }
                 }
-			} catch (ParseAlgorithmException e) {
+			} catch (final ParseAlgorithmException e) {
                 // The token "PlusCal" not found.
                 notDone = false;
             }
@@ -220,7 +220,7 @@ public class Validator {
 	    	// Get the PlusCal AST by parsing it.
 			try {
 				ParseAlgorithm.uncomment(deTabbedSpecification, algLine, algCol);
-			} catch (ParseAlgorithmException e) {
+			} catch (final ParseAlgorithmException e) {
 	            PcalDebug.reportError(e);
 	            return setOf(ValidationResult.ERROR_ENCOUNTERED);
 	        }
@@ -242,7 +242,7 @@ public class Validator {
 		        final PCalTLAGenerator pcalTLAGenerator = new PCalTLAGenerator(ast);
 	            pcalTLAGenerator.removeNameConflicts();
                 pcalTLAGenerator.translate();
-			} catch (ParseAlgorithmException | RemoveNameConflictsException e) {
+			} catch (final ParseAlgorithmException | RemoveNameConflictsException e) {
 				PcalDebug.reportError(e);
 				// The PlusCal algorithm doesn't parse because of a syntax error. This indicates
 				// that the algorithm has been modified since it wouldn't have been possible to
@@ -293,7 +293,7 @@ public class Validator {
     	return Long.toHexString(crc32.getValue());
     }
 
-    private static Set<ValidationResult> setOf(ValidationResult... res) {
+    private static Set<ValidationResult> setOf(final ValidationResult... res) {
     	return new HashSet<>(Arrays.asList(res));
     }
 }

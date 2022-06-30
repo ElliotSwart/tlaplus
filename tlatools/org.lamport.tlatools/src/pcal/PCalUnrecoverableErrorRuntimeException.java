@@ -12,7 +12,7 @@ public class PCalUnrecoverableErrorRuntimeException extends RuntimeException
 
     private static final long serialVersionUID = -7122672794272829880L;
 
-	public PCalUnrecoverableErrorRuntimeException(String message)
+	public PCalUnrecoverableErrorRuntimeException(final String message)
     {
         super(message);
     }

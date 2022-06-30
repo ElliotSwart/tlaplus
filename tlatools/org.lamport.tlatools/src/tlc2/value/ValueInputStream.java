@@ -29,24 +29,24 @@ public final class ValueInputStream implements ValueConstants, IValueInputStream
   private final BufferedDataInputStream dis;
   private final HandleTable handles;
   
-  public ValueInputStream(InputStream in) throws IOException 
+  public ValueInputStream(final InputStream in) throws IOException
   {
       // SZ Feb 24, 2009: FileUtil refactoring
     this.dis = new BufferedDataInputStream(in);
     this.handles = new HandleTable();
   }
 
-  public ValueInputStream(File file, final boolean compressed) throws IOException 
+  public ValueInputStream(final File file, final boolean compressed) throws IOException
   {
 	  this(FileUtil.newBdFIS(compressed, file));
   }
   
-  public ValueInputStream(File file) throws IOException 
+  public ValueInputStream(final File file) throws IOException
   {
 	  this(file, TLCGlobals.useGZIP);
   }
 
-  public ValueInputStream(String fname) throws IOException {
+  public ValueInputStream(final String fname) throws IOException {
       this(new File(fname));
   }
 
@@ -161,7 +161,7 @@ public final class ValueInputStream implements ValueConstants, IValueInputStream
   
   @Override
   public final short readShortNat() throws IOException {
-	short res = this.dis.readByte();
+	final short res = this.dis.readByte();
 	if (res >= 0) return res;
 	return (short) -((res << 8) | (this.dis.readByte() & 0xFF));
   }
@@ -195,7 +195,7 @@ public final class ValueInputStream implements ValueConstants, IValueInputStream
 	}
 
 	@Override
-	public final UniqueString getValue(int idx) {
+	public final UniqueString getValue(final int idx) {
 		return (UniqueString) this.handles.getValue(idx);
 	}
 
@@ -211,18 +211,18 @@ public final class ValueInputStream implements ValueConstants, IValueInputStream
 
     final int getIndex() {
       if (this.index >= this.values.length) {
-	Object[] newValues = new Object[this.index*2];
+	final Object[] newValues = new Object[this.index*2];
 	System.arraycopy(this.values, 0, newValues, 0, this.index);
 	this.values = newValues;
       }
       return this.index++;
     }
 
-    final void assign(Object val, int idx) {
+    final void assign(final Object val, final int idx) {
       this.values[idx] = val;
     }
 
-    final Object getValue(int idx) { return this.values[idx]; }
+    final Object getValue(final int idx) { return this.values[idx]; }
 
   }
 }

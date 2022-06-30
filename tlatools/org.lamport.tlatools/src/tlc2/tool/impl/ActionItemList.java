@@ -25,8 +25,8 @@ class ActionItemList implements IActionItemList {
     Empty = new ActionItemList(null, null, 0, null, null);
   
   /* Constructors */
-  protected ActionItemList(SemanticNode pred, Context con,
-			 int kind, ActionItemList next, CostModel cm) {
+  protected ActionItemList(final SemanticNode pred, final Context con,
+                           final int kind, final ActionItemList next, final CostModel cm) {
     this.pred = pred;
     this.con = con;
     this.kind = kind;
@@ -49,8 +49,8 @@ class ActionItemList implements IActionItemList {
 
   public ActionItemList cdr() { return this.next; }
 
-  public IActionItemList cons(SemanticNode pred,
-				   Context con, CostModel cm, int kind) {
+  public IActionItemList cons(final SemanticNode pred,
+                              final Context con, final CostModel cm, final int kind) {
     return new ActionItemList(pred, con, kind, this, coverage ? cm.get(pred) : cm);
   }
 
@@ -60,7 +60,7 @@ class ActionItemList implements IActionItemList {
 
   public boolean isEmpty() { return this == Empty; }
   
-  public void setAction(Action action) {
+  public void setAction(final Action action) {
 	  // no-op here, but overridden by subclass.
   }
   

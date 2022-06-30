@@ -24,7 +24,7 @@ public class TLAClass
     private final String pkg;
 	private final FilenameToStream resolver;
 
-    public TLAClass(String pkg, FilenameToStream resolver)
+    public TLAClass(final String pkg, final FilenameToStream resolver)
     {
         this.resolver = resolver;
 		if (pkg.length() != 0 && pkg.charAt(pkg.length() - 1) != '.')
@@ -54,7 +54,7 @@ public class TLAClass
 	 * <p>
 	 * If no class could be loaded, <code>null</code> is returned.
 	 **/
-    public synchronized Class<?> loadClass(String name)
+    public synchronized Class<?> loadClass(final String name)
     {
         Class<?> cl = null;
         URLClassLoader classLoader = null;
@@ -70,14 +70,14 @@ public class TLAClass
         				cl = classLoader.loadClass(name);
         			}
         		}
-        	} catch (Exception ignored1) {
+        	} catch (final Exception ignored1) {
         		/*SKIP*/
         	} finally {
         		if (cl == null) {
         			try
         			{
         				cl = Class.forName(name);
-        			} catch (Exception e)
+        			} catch (final Exception e)
         			{ /*SKIP*/
         			}
         		}
@@ -91,11 +91,11 @@ public class TLAClass
                 try
                 {
                     cl = Class.forName(this.pkg + name);
-                } catch (Exception e)
+                } catch (final Exception e)
                 { /*SKIP*/
                 }
             }
-        } catch (Throwable e)
+        } catch (final Throwable e)
         {
             Assert.fail(EC.TLC_ERROR_REPLACING_MODULES, new String[] { name, 
                        (e.getMessage()==null)?e.toString():e.getMessage() });

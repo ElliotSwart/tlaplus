@@ -42,7 +42,7 @@ public final class TLCStepActionStackFrame extends TLCActionStackFrame {
 
 	private StepDirection step = StepDirection.Continue;
 
-	public TLCStepActionStackFrame(TLCStackFrame f, Tool tool, TLCState s, Action a, TLCState t) {
+	public TLCStepActionStackFrame(final TLCStackFrame f, final Tool tool, final TLCState s, final Action a, final TLCState t) {
 		super(f, f.getNode(), f.getContext(), tool, s, a, t);
 	}
 
@@ -155,7 +155,7 @@ public final class TLCStepActionStackFrame extends TLCActionStackFrame {
 		
 		public static final Capabilities NO_STEP_BACK = new TLCCapabilities(false);
 
-		public TLCCapabilities(boolean reverse) {
+		public TLCCapabilities(final boolean reverse) {
 			super();
 			setSupportsStepBack(reverse);
 		}

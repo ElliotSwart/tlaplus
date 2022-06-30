@@ -15,10 +15,10 @@ public class TLCStatistics {
 	/**
 	 * writes stats to .csv
 	 */
-	public static void writeStats(TLCServer server, Date processStart,
-			Date computationStart, Date computationEnd, Date processEnd) {
-		File sFile;
-		File wFile;
+	public static void writeStats(final TLCServer server, final Date processStart,
+                                  final Date computationStart, final Date computationEnd, final Date processEnd) {
+		final File sFile;
+		final File wFile;
 
 		// has the user given an output path?
 		final String path = System.getProperty(TLCStatistics.class.getName()
@@ -37,13 +37,13 @@ public class TLCStatistics {
 
 			serverStats(server, sFile, processStart, computationStart, computationEnd, processEnd);
 			workerStats(server, wFile);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	// create server stats .csv file
-	private static void workerStats(TLCServer server, File file)
+	private static void workerStats(final TLCServer server, final File file)
 			throws IOException {
 		final FileWriter writer = new FileWriter(file);
 
@@ -59,9 +59,9 @@ public class TLCStatistics {
 		final TLCServerThread[] threads = server.getThreads();
 		for (int i = 0; i < threads.length && threads[i] != null; i++) {
 			// print worker stats
-			int sentStates = threads[i].getSentStates();
-			int receivedStates = threads[i].getReceivedStates();
-			URI name = threads[i].getUri();
+			final int sentStates = threads[i].getSentStates();
+			final int receivedStates = threads[i].getReceivedStates();
+			final URI name = threads[i].getUri();
 
 			writer.write(name.toString());
 			writer.write(",");
@@ -75,9 +75,9 @@ public class TLCStatistics {
 	}
 
 	// create server stats .csv file
-	private static void serverStats(TLCServer server, File file,
-			Date processStartTime, Date computationStart,
-			Date computationEnd, Date processEndTime) throws IOException {
+	private static void serverStats(final TLCServer server, final File file,
+                                    final Date processStartTime, final Date computationStart,
+                                    final Date computationEnd, final Date processEndTime) throws IOException {
 		final FileWriter writer = new FileWriter(file);
 
 		// headlines
@@ -106,7 +106,7 @@ public class TLCStatistics {
 		
 		// get all rmi method invocations from monitor if any
 		final Map<String, Integer> invocations = RMIMethodMonitor.getInvocations();
-		for (Iterator<String> iterator = invocations.keySet().iterator(); iterator.hasNext();) {
+		for (final Iterator<String> iterator = invocations.keySet().iterator(); iterator.hasNext();) {
 			final String methodName = (String) iterator.next();
 			writer.write(methodName);
 			writer.write(",");
@@ -126,14 +126,14 @@ public class TLCStatistics {
 		writer.write(",");
 		
 		// print core count by checking how many threads ran on the same node
-		Set<String> hosts = new HashSet<String>();
+		final Set<String> hosts = new HashSet<String>();
 		final TLCServerThread[] threads = server.getThreads();
 		for (int i = 0; i < threads.length && threads[i] != null; i++) {
-			String host = threads[i].getUri().getHost();
+			final String host = threads[i].getUri().getHost();
 			hosts.add(host);
 		}
-		int size = hosts.size();
-		int workerCount = server.getWorkerCount();
+		final int size = hosts.size();
+		final int workerCount = server.getWorkerCount();
 		if (workerCount == 0 || size == 0) {
 			writer.write(0);
 		} else {
@@ -149,7 +149,7 @@ public class TLCStatistics {
 		writer.write(",");
 		writer.write(processEndTime.toString());
 		writer.write(",");
-		long elapsed = (computationEnd.getTime()
+		final long elapsed = (computationEnd.getTime()
 				- computationStart.getTime()) / 1000;
 		writer.write(Long.toString(elapsed));
 		writer.write(",");
@@ -158,7 +158,7 @@ public class TLCStatistics {
 		writer.write(",");
 
 		// write number of invocations
-		for (Iterator<Integer> iterator = invocations.values().iterator(); iterator.hasNext();) {
+		for (final Iterator<Integer> iterator = invocations.values().iterator(); iterator.hasNext();) {
 			final Integer amountOfInvocations = iterator.next();
 			writer.write(Integer.toString(amountOfInvocations));
 			writer.write(",");

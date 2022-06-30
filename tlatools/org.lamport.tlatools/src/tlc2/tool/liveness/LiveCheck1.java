@@ -72,13 +72,13 @@ public class LiveCheck1 implements ILiveCheck {
 	 */
 	private BEGraphNode initNode = null;
 
-	public LiveCheck1(ITool tool) {
+	public LiveCheck1(final ITool tool) {
 		myTool = tool;
 		solutions = Liveness.processLiveness(myTool);
 		bgraphs = new BEGraph[0];
 	}
 
-	public void init(ITool tool, Action[] acts, String mdir) {
+	public void init(final ITool tool, final Action[] acts, final String mdir) {
 		myTool = tool;
 		metadir = mdir;
 		actions = acts;
@@ -98,7 +98,7 @@ public class LiveCheck1 implements ILiveCheck {
 		}
 	}
 
-	private void initSccParams(OrderOfSolution os) {
+	private void initSccParams(final OrderOfSolution os) {
 		currentOOS = os;
 		comStack = new MemObjectStack(metadir, "comstack");
 		firstNum = 1;
@@ -115,25 +115,25 @@ public class LiveCheck1 implements ILiveCheck {
 	 * state trace (a sequence of states). Assume trace.length > 0. It returns
 	 * the set of initial states.
 	 */
-	Vect<BEGraphNode> constructBEGraph(final ITool tool, OrderOfSolution os) {
-		Vect<BEGraphNode> initNodes = new Vect<>(1);
-		int slen = os.getCheckState().length;
-		int alen = os.getCheckAction().length;
+	Vect<BEGraphNode> constructBEGraph(final ITool tool, final OrderOfSolution os) {
+		final Vect<BEGraphNode> initNodes = new Vect<>(1);
+		final int slen = os.getCheckState().length;
+		final int alen = os.getCheckAction().length;
 		TLCState srcState = stateTrace.elementAt(0); // the initial state
-		long srcFP = srcState.fingerPrint();
+		final long srcFP = srcState.fingerPrint();
 		boolean[] checkStateRes = os.checkState(tool, srcState);
 		boolean[] checkActionRes = os.checkAction(tool, srcState, srcState);
 		if (!os.hasTableau()) {
 			// If there is no tableau, construct begraph with trace.
-			LongObjTable allNodes = new LongObjTable(127);
+			final LongObjTable allNodes = new LongObjTable(127);
 			BEGraphNode srcNode = new BEGraphNode(srcFP);
 			srcNode.setCheckState(checkStateRes);
 			srcNode.addTransition(srcNode, slen, alen, checkActionRes);
 			allNodes.put(srcFP, srcNode);
 			initNodes.addElement(srcNode);
 			for (int i = 1; i < stateTrace.size(); i++) {
-				TLCState destState = stateTrace.elementAt(i);
-				long destFP = destState.fingerPrint();
+				final TLCState destState = stateTrace.elementAt(i);
+				final long destFP = destState.fingerPrint();
 				BEGraphNode destNode = (BEGraphNode) allNodes.get(destFP);
 				if (destNode == null) {
 					destNode = new BEGraphNode(destFP);
@@ -149,13 +149,13 @@ public class LiveCheck1 implements ILiveCheck {
 			}
 		} else {
 			// If there is tableau, construct begraph of (tableau X trace).
-			LongObjTable allNodes = new LongObjTable(255);
+			final LongObjTable allNodes = new LongObjTable(255);
 			Vect<BEGraphNode> srcNodes = new Vect<>();
-			int initCnt = os.getTableau().getInitCnt();
+			final int initCnt = os.getTableau().getInitCnt();
 			for (int i = 0; i < initCnt; i++) {
-				TBGraphNode tnode = os.getTableau().getNode(i);
+				final TBGraphNode tnode = os.getTableau().getNode(i);
 				if (tnode.isConsistent(srcState, myTool)) {
-					BEGraphNode destNode = new BTGraphNode(srcFP, tnode.getIndex());
+					final BEGraphNode destNode = new BTGraphNode(srcFP, tnode.getIndex());
 					destNode.setCheckState(checkStateRes);
 					initNodes.addElement(destNode);
 					srcNodes.addElement(destNode);
@@ -163,29 +163,29 @@ public class LiveCheck1 implements ILiveCheck {
 				}
 			}
 			for (int i = 0; i < srcNodes.size(); i++) {
-				BEGraphNode srcNode = srcNodes.elementAt(i);
-				TBGraphNode tnode = srcNode.getTNode(os.getTableau());
+				final BEGraphNode srcNode = srcNodes.elementAt(i);
+				final TBGraphNode tnode = srcNode.getTNode(os.getTableau());
 				for (int j = 0; j < tnode.nextSize(); j++) {
-					TBGraphNode tnode1 = tnode.nextAt(j);
-					long destFP = FP64.Extend(srcFP, tnode1.getIndex());
-					BEGraphNode destNode = (BEGraphNode) allNodes.get(destFP);
+					final TBGraphNode tnode1 = tnode.nextAt(j);
+					final long destFP = FP64.Extend(srcFP, tnode1.getIndex());
+					final BEGraphNode destNode = (BEGraphNode) allNodes.get(destFP);
 					if (destNode != null) {
 						srcNode.addTransition(destNode, slen, alen, checkActionRes);
 					}
 				}
 			}
 			for (int i = 1; i < stateTrace.size(); i++) {
-				Vect<BEGraphNode> destNodes = new Vect<>();
-				TLCState destState = stateTrace.elementAt(i);
-				long destStateFP = destState.fingerPrint();
+				final Vect<BEGraphNode> destNodes = new Vect<>();
+				final TLCState destState = stateTrace.elementAt(i);
+				final long destStateFP = destState.fingerPrint();
 				checkStateRes = os.checkState(myTool, destState);
 				checkActionRes = os.checkAction(tool, srcState, destState);
 				for (int j = 0; j < srcNodes.size(); j++) {
-					BEGraphNode srcNode = srcNodes.elementAt(j);
-					TBGraphNode tnode = srcNode.getTNode(os.getTableau());
+					final BEGraphNode srcNode = srcNodes.elementAt(j);
+					final TBGraphNode tnode = srcNode.getTNode(os.getTableau());
 					for (int k = 0; k < tnode.nextSize(); k++) {
-						TBGraphNode tnode1 = tnode.nextAt(k);
-						long destFP = FP64.Extend(destStateFP, tnode1.getIndex());
+						final TBGraphNode tnode1 = tnode.nextAt(k);
+						final long destFP = FP64.Extend(destStateFP, tnode1.getIndex());
 						BEGraphNode destNode = (BEGraphNode) allNodes.get(destFP);
 						if (destNode == null) {
 							if (tnode1.isConsistent(destState, myTool)) {
@@ -202,11 +202,11 @@ public class LiveCheck1 implements ILiveCheck {
 				}
 				checkActionRes = os.checkAction(tool, destState, destState);
 				for (int j = 0; j < destNodes.size(); j++) {
-					BEGraphNode srcNode = destNodes.elementAt(j);
-					TBGraphNode tnode = srcNode.getTNode(os.getTableau());
+					final BEGraphNode srcNode = destNodes.elementAt(j);
+					final TBGraphNode tnode = srcNode.getTNode(os.getTableau());
 					for (int k = 0; k < tnode.nextSize(); k++) {
-						TBGraphNode tnode1 = tnode.nextAt(k);
-						long destFP = FP64.Extend(destStateFP, tnode1.getIndex());
+						final TBGraphNode tnode1 = tnode.nextAt(k);
+						final long destFP = FP64.Extend(destStateFP, tnode1.getIndex());
 						BEGraphNode destNode = (BEGraphNode) allNodes.get(destFP);
 						if (destNode == null) {
 							if (tnode1.isConsistent(destState, myTool)) {
@@ -232,18 +232,18 @@ public class LiveCheck1 implements ILiveCheck {
 	 * This method adds new nodes into the behavior graph when a new initial
 	 * state is generated.
 	 */
-	public void addInitState(ITool tool, TLCState state, long stateFP) {
+	public void addInitState(final ITool tool, final TLCState state, final long stateFP) {
 		for (int soln = 0; soln < solutions.length; soln++) {
-			OrderOfSolution os = solutions[soln];
-			BEGraph bgraph = bgraphs[soln];
-			int slen = os.getCheckState().length;
-			int alen = os.getCheckAction().length;
-			boolean[] checkStateRes = os.checkState(tool, state);
-			boolean[] checkActionRes = os.checkAction(tool, state, state);
+			final OrderOfSolution os = solutions[soln];
+			final BEGraph bgraph = bgraphs[soln];
+			final int slen = os.getCheckState().length;
+			final int alen = os.getCheckAction().length;
+			final boolean[] checkStateRes = os.checkState(tool, state);
+			final boolean[] checkActionRes = os.checkAction(tool, state, state);
 			// Adding nodes and transitions:
 			if (!os.hasTableau()) {
 				// if there is no tableau ...
-				BEGraphNode node = new BEGraphNode(stateFP);
+				final BEGraphNode node = new BEGraphNode(stateFP);
 				node.setCheckState(checkStateRes);
 				bgraph.addInitNode(node);
 				node.addTransition(node, slen, alen, checkActionRes);
@@ -251,11 +251,11 @@ public class LiveCheck1 implements ILiveCheck {
 			} else {
 				// if there is tableau ...
 				// Add edges induced by root --> state:
-				int initCnt = os.getTableau().getInitCnt();
+				final int initCnt = os.getTableau().getInitCnt();
 				for (int i = 0; i < initCnt; i++) {
-					TBGraphNode tnode = os.getTableau().getNode(i);
+					final TBGraphNode tnode = os.getTableau().getNode(i);
 					if (tnode.isConsistent(state, myTool)) {
-						BTGraphNode destNode = new BTGraphNode(stateFP, tnode.getIndex());
+						final BTGraphNode destNode = new BTGraphNode(stateFP, tnode.getIndex());
 						destNode.setCheckState(checkStateRes);
 						bgraph.addInitNode(destNode);
 						bgraph.allNodes.putBTNode(destNode);
@@ -272,7 +272,7 @@ public class LiveCheck1 implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#addNextState(tlc2.tool.TLCState, long, tlc2.util.SetOfStates)
 	 */
-	public void addNextState(final ITool tool, TLCState s0, long fp0, SetOfStates nextStates) throws IOException {
+	public void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) throws IOException {
 		for (int i = 0; i < nextStates.size(); i++) {
 			final TLCState s2 = nextStates.next();
 			final long fp2 = s2.fingerPrint();
@@ -286,16 +286,16 @@ public class LiveCheck1 implements ILiveCheck {
 	 * generated. The argument s2 is the new state. The argument s1 is parent
 	 * state of s2.
 	 */
-	public synchronized void addNextState(final ITool tool, TLCState s1, long fp1, TLCState s2, long fp2) {
+	public synchronized void addNextState(final ITool tool, final TLCState s1, final long fp1, final TLCState s2, final long fp2) {
 		for (int soln = 0; soln < solutions.length; soln++) {
-			OrderOfSolution os = solutions[soln];
-			BEGraph bgraph = bgraphs[soln];
-			int slen = os.getCheckState().length;
-			int alen = os.getCheckAction().length;
+			final OrderOfSolution os = solutions[soln];
+			final BEGraph bgraph = bgraphs[soln];
+			final int slen = os.getCheckState().length;
+			final int alen = os.getCheckAction().length;
 			// Adding node and transitions:
 			if (!os.hasTableau()) {
 				// if there is no tableau ...
-				BEGraphNode node1 = bgraph.allNodes.getBENode(fp1);
+				final BEGraphNode node1 = bgraph.allNodes.getBENode(fp1);
 				BEGraphNode node2 = bgraph.allNodes.getBENode(fp2);
 				if (node2 == null) {
 					node2 = new BEGraphNode(fp2);
@@ -304,25 +304,25 @@ public class LiveCheck1 implements ILiveCheck {
 					node2.addTransition(node2, slen, alen, os.checkAction(tool, s2, s2));
 					bgraph.allNodes.putBENode(node2);
 				} else if (!node1.transExists(node2)) {
-					boolean[] checkActionRes = os.checkAction(tool, s1, s2);
+					final boolean[] checkActionRes = os.checkAction(tool, s1, s2);
 					node1.addTransition(node2, slen, alen, checkActionRes);
 				}
 			} else {
 				// if there is tableau ...
-				BTGraphNode[] srcNodes = bgraph.allNodes.getBTNode(fp1);
+				final BTGraphNode[] srcNodes = bgraph.allNodes.getBTNode(fp1);
 				if (srcNodes == null)
 				{
 					continue; // nothing to add
 				}
 				boolean[] checkStateRes = null;
 				// Add edges induced by s1 --> s2:
-				boolean[] checkActionRes = os.checkAction(tool, s1, s2);
+				final boolean[] checkActionRes = os.checkAction(tool, s1, s2);
 				boolean[] checkActionRes1 = null;
 				for (int i = 0; i < srcNodes.length; i++) {
-					BTGraphNode srcNode = srcNodes[i];
-					TBGraphNode tnode = os.getTableau().getNode(srcNode.getIndex());
+					final BTGraphNode srcNode = srcNodes[i];
+					final TBGraphNode tnode = os.getTableau().getNode(srcNode.getIndex());
 					for (int j = 0; j < tnode.nextSize(); j++) {
-						TBGraphNode tnode1 = tnode.nextAt(j);
+						final TBGraphNode tnode1 = tnode.nextAt(j);
 						BTGraphNode destNode = bgraph.allNodes.getBTNode(fp2, tnode1.getIndex());
 						if (destNode == null) {
 							if (tnode1.isConsistent(s2, myTool)) {
@@ -332,7 +332,7 @@ public class LiveCheck1 implements ILiveCheck {
 								}
 								destNode.setCheckState(checkStateRes);
 								srcNode.addTransition(destNode, slen, alen, checkActionRes);
-								int idx = bgraph.allNodes.putBTNode(destNode);
+								final int idx = bgraph.allNodes.putBTNode(destNode);
 								// add edges induced by s2 --> s2:
 								if (checkActionRes1 == null) {
 									checkActionRes1 = os.checkAction(tool, s2, s2);
@@ -357,13 +357,13 @@ public class LiveCheck1 implements ILiveCheck {
 	 * This method is called for each new node created. It generates nodes
 	 * induced by a stuttering state transition.
 	 */
-	private void addNodesForStut(TLCState state, long fp, BTGraphNode node, boolean[] checkState,
-			boolean[] checkAction, OrderOfSolution os, BEGraph bgraph) {
-		int slen = os.getCheckState().length;
-		int alen = os.getCheckAction().length;
-		TBGraphNode tnode = node.getTNode(os.getTableau());
+	private void addNodesForStut(final TLCState state, final long fp, final BTGraphNode node, final boolean[] checkState,
+                                 final boolean[] checkAction, final OrderOfSolution os, final BEGraph bgraph) {
+		final int slen = os.getCheckState().length;
+		final int alen = os.getCheckAction().length;
+		final TBGraphNode tnode = node.getTNode(os.getTableau());
 		for (int i = 0; i < tnode.nextSize(); i++) {
-			TBGraphNode tnode1 = tnode.nextAt(i);
+			final TBGraphNode tnode1 = tnode.nextAt(i);
 			BTGraphNode destNode = bgraph.allNodes.getBTNode(fp, tnode1.getIndex());
 			if (destNode == null) {
 				if (tnode1.isConsistent(state, myTool)) {
@@ -384,22 +384,22 @@ public class LiveCheck1 implements ILiveCheck {
 	 * after s has been done. So, we still have to compute the children of (s,
 	 * t). Hopefully, this case will not occur very frequently.
 	 */
-	private void addNextState(final ITool tool, TLCState s, long fp, BTGraphNode node, OrderOfSolution os, BEGraph bgraph) {
-		TBGraphNode tnode = node.getTNode(os.getTableau());
-		int slen = os.getCheckState().length;
-		int alen = os.getCheckAction().length;
+	private void addNextState(final ITool tool, final TLCState s, final long fp, final BTGraphNode node, final OrderOfSolution os, final BEGraph bgraph) {
+		final TBGraphNode tnode = node.getTNode(os.getTableau());
+		final int slen = os.getCheckState().length;
+		final int alen = os.getCheckAction().length;
 		boolean[] checkStateRes = null;
 		boolean[] checkActionRes = null;
 		for (int i = 0; i < actions.length; i++) {
-			Action curAction = actions[i];
-			StateVec nextStates = myTool.getNextStates(curAction, s);
+			final Action curAction = actions[i];
+			final StateVec nextStates = myTool.getNextStates(curAction, s);
 			for (int j = 0; j < nextStates.size(); j++) {
 				// Add edges induced by s -> s1:
-				TLCState s1 = nextStates.elementAt(j);
-				long fp1 = s1.fingerPrint();
+				final TLCState s1 = nextStates.elementAt(j);
+				final long fp1 = s1.fingerPrint();
 				boolean[] checkActionRes1 = null;
 				for (int k = 0; k < tnode.nextSize(); k++) {
-					TBGraphNode tnode1 = tnode.nextAt(k);
+					final TBGraphNode tnode1 = tnode.nextAt(k);
 					BTGraphNode destNode = bgraph.allNodes.getBTNode(fp1, tnode1.getIndex());
 					if (destNode == null) {
 						if (tnode1.isConsistent(s1, myTool)) {
@@ -416,7 +416,7 @@ public class LiveCheck1 implements ILiveCheck {
 								checkActionRes1 = os.checkAction(tool, s1, s1);
 							}
 							addNodesForStut(s1, fp1, destNode, checkStateRes, checkActionRes1, os, bgraph);
-							int idx = bgraph.allNodes.putBTNode(destNode);
+							final int idx = bgraph.allNodes.putBTNode(destNode);
 							if (bgraph.allNodes.isDone(idx)) {
 								addNextState(tool, s1, fp1, destNode, os, bgraph);
 							}
@@ -432,7 +432,7 @@ public class LiveCheck1 implements ILiveCheck {
 		}
 	}
 
-	public synchronized void setDone(long fp) {
+	public synchronized void setDone(final long fp) {
 		for (int soln = 0; soln < solutions.length; soln++) {
 			bgraphs[soln].allNodes.setDone(fp);
 		}
@@ -451,14 +451,14 @@ public class LiveCheck1 implements ILiveCheck {
 	 * property.
 	 */
 	@Override
-	public synchronized int check(ITool tool, boolean forceCheck) {
-		int slen = solutions.length;
+	public synchronized int check(final ITool tool, final boolean forceCheck) {
+		final int slen = solutions.length;
 		if (slen == 0) {
 			return EC.NO_ERROR;
 		}
 
 		for (int soln = 0; soln < slen; soln++) {
-			OrderOfSolution oos = solutions[soln];
+			final OrderOfSolution oos = solutions[soln];
 
 			// Liveness.printTBGraph(oos.tableau);
 			// ToolIO.err.println(bgraphs[soln].toString());
@@ -467,8 +467,8 @@ public class LiveCheck1 implements ILiveCheck {
 			// that is fulfilling and satisfies any of PEM's, then that
 			// SCC contains a "bad" cycle.
 			initSccParams(oos);
-			BEGraph bgraph = bgraphs[soln];
-			int numOfInits = bgraph.initSize();
+			final BEGraph bgraph = bgraphs[soln];
+			final int numOfInits = bgraph.initSize();
 			for (int i = 0; i < numOfInits; i++) {
 				initNode = bgraph.getInitNode(i);
 				if (initNode.getNumber() == 0) {
@@ -485,11 +485,11 @@ public class LiveCheck1 implements ILiveCheck {
 	 * Checks if the behavior graph constructed from a state trace contains any
 	 * "bad" cycle.
 	 */
-	public synchronized void checkTrace(ITool tool, final Supplier<StateVec> trace) {
+	public synchronized void checkTrace(final ITool tool, final Supplier<StateVec> trace) {
 		stateTrace = trace.get();
 		for (int soln = 0; soln < solutions.length; soln++) {
-			OrderOfSolution os = solutions[soln];
-			Vect<BEGraphNode> initNodes = constructBEGraph(tool, os);
+			final OrderOfSolution os = solutions[soln];
+			final Vect<BEGraphNode> initNodes = constructBEGraph(tool, os);
 
 			// Liveness.printTBGraph(os.tableau);
 			// ToolIO.err.println(os.behavior.toString());
@@ -498,7 +498,7 @@ public class LiveCheck1 implements ILiveCheck {
 			// that is fulfilling and satisfies any of PEM's, then that
 			// SCC contains a "bad" cycle.
 			initSccParams(os);
-			int numOfInits = initNodes.size();
+			final int numOfInits = initNodes.size();
 			for (int i = 0; i < numOfInits; i++) {
 				initNode = initNodes.elementAt(i);
 				if (initNode.getNumber() == 0) {
@@ -513,22 +513,22 @@ public class LiveCheck1 implements ILiveCheck {
 		MP.printError(EC.TLC_TEMPORAL_PROPERTY_VIOLATED);
 		MP.printError(EC.TLC_COUNTER_EXAMPLE);
 		// First, find a "bad" cycle from the "bad" scc.
-		ObjectStack cycleStack = new MemObjectStack(metadir, "cyclestack");
-		int slen = currentOOS.getCheckState().length;
-		int alen = currentOOS.getCheckAction().length;
-		long lowNum = thirdNum - 1;
-		boolean[] AEStateRes = new boolean[currentPEM.AEState.length];
-		boolean[] AEActionRes = new boolean[currentPEM.AEAction.length];
-		boolean[] promiseRes = new boolean[currentOOS.getPromises().length];
+		final ObjectStack cycleStack = new MemObjectStack(metadir, "cyclestack");
+		final int slen = currentOOS.getCheckState().length;
+		final int alen = currentOOS.getCheckAction().length;
+		final long lowNum = thirdNum - 1;
+		final boolean[] AEStateRes = new boolean[currentPEM.AEState.length];
+		final boolean[] AEActionRes = new boolean[currentPEM.AEAction.length];
+		final boolean[] promiseRes = new boolean[currentOOS.getPromises().length];
 		int cnt = AEStateRes.length + AEActionRes.length + promiseRes.length;
 		BEGraphNode curNode = node;
 		while (cnt > 0) {
 			curNode.setNumber(thirdNum);
-			int cnt0 = cnt;
+			final int cnt0 = cnt;
 			_next: while (true) {
 				// Check AEState:
 				for (int i = 0; i < currentPEM.AEState.length; i++) {
-					int idx = currentPEM.AEState[i];
+					final int idx = currentPEM.AEState[i];
 					if (!AEStateRes[i] && curNode.getCheckState(idx)) {
 						AEStateRes[i] = true;
 						cnt--;
@@ -537,8 +537,8 @@ public class LiveCheck1 implements ILiveCheck {
 				// Check if the component is fulfilling. (See MP page 453.)
 				// Note that the promises are precomputed and stored in oos.
 				for (int i = 0; i < currentOOS.getPromises().length; i++) {
-					LNEven promise = currentOOS.getPromises()[i];
-					TBPar par = curNode.getTNode(currentOOS.getTableau()).getPar();
+					final LNEven promise = currentOOS.getPromises()[i];
+					final TBPar par = curNode.getTNode(currentOOS.getTableau()).getPar();
 					if (!promiseRes[i] && par.isFulfilling(promise)) {
 						promiseRes[i] = true;
 						cnt--;
@@ -550,14 +550,14 @@ public class LiveCheck1 implements ILiveCheck {
 				// Check AEAction:
 				BEGraphNode nextNode1 = null;
 				BEGraphNode nextNode2 = null;
-				int cnt1 = cnt;
+				final int cnt1 = cnt;
 				for (int i = 0; i < curNode.nextSize(); i++) {
-					BEGraphNode node1 = curNode.nextAt(i);
-					long num = node1.getNumber();
+					final BEGraphNode node1 = curNode.nextAt(i);
+					final long num = node1.getNumber();
 					if (lowNum <= num && num <= thirdNum) {
 						nextNode1 = node1;
 						for (int j = 0; j < currentPEM.AEAction.length; j++) {
-							int idx = currentPEM.AEAction[j];
+							final int idx = currentPEM.AEAction[j];
 							if (!AEActionRes[j] && curNode.getCheckAction(slen, alen, i, idx)) {
 								AEActionRes[j] = true;
 								cnt--;
@@ -584,8 +584,8 @@ public class LiveCheck1 implements ILiveCheck {
 				while (nextNode2 == null) {
 					curNode = (BEGraphNode) cycleStack.pop();
 					for (int i = 0; i < curNode.nextSize(); i++) {
-						BEGraphNode node1 = curNode.nextAt(i);
-						long num = node1.getNumber();
+						final BEGraphNode node1 = curNode.nextAt(i);
+						final long num = node1.getNumber();
 						if (lowNum <= num && num < thirdNum) {
 							cycleStack.push(curNode);
 							nextNode2 = node1;
@@ -604,8 +604,8 @@ public class LiveCheck1 implements ILiveCheck {
 		_done: while (curNode != node) {
 			boolean found = false;
 			for (int i = 0; i < curNode.nextSize(); i++) {
-				BEGraphNode nextNode = curNode.nextAt(i);
-				long num = nextNode.getNumber();
+				final BEGraphNode nextNode = curNode.nextAt(i);
+				final long num = nextNode.getNumber();
 				if (lowNum <= num && num < thirdNum) {
 					cycleStack.push(curNode);
 					if (nextNode == node) {
@@ -629,8 +629,8 @@ public class LiveCheck1 implements ILiveCheck {
 		// led to the bad cycle. The nodes on prefix and cycleStack then
 		// form the complete counter example.
 		int stateNum = 0;
-		BEGraphNode[] prefix = BEGraph.getPath(initNode, node);
-		TLCStateInfo[] states = new TLCStateInfo[prefix.length];
+		final BEGraphNode[] prefix = BEGraph.getPath(initNode, node);
+		final TLCStateInfo[] states = new TLCStateInfo[prefix.length];
 
 		// Recover the initial state:
 		long fp = prefix[0].stateFP;
@@ -642,7 +642,7 @@ public class LiveCheck1 implements ILiveCheck {
 
 		// Recover the successor states:
 		for (int i = 1; i < states.length; i++) {
-			long fp1 = prefix[i].stateFP;
+			final long fp1 = prefix[i].stateFP;
 			if (fp1 != fp) {
 				sinfo = myTool.getState(fp1, sinfo.state);
 				if (sinfo == null) {
@@ -662,8 +662,8 @@ public class LiveCheck1 implements ILiveCheck {
 
 		// Print the cycle:
 		TLCState lastState = cycleState;
-		int cyclePos = stateNum;
-		long[] fps = new long[cycleStack.size()];
+		final int cyclePos = stateNum;
+		final long[] fps = new long[cycleStack.size()];
 		int idx = fps.length;
 		while (idx > 0) {
 			fps[--idx] = ((BEGraphNode) cycleStack.pop()).stateFP;
@@ -697,34 +697,34 @@ public class LiveCheck1 implements ILiveCheck {
 	 * current PEM, and is fulfilling. The subcomponents are those after pruning
 	 * EAs. When a counterexample is found, it throws a LiveException exception.
 	 */
-	void checkSubcomponent(BEGraphNode node) {
-		int slen = currentOOS.getCheckState().length;
-		int alen = currentOOS.getCheckAction().length;
-		boolean[] AEStateRes = new boolean[currentPEM.AEState.length];
-		boolean[] AEActionRes = new boolean[currentPEM.AEAction.length];
-		boolean[] promiseRes = new boolean[currentOOS.getPromises().length];
-		ObjectStack stack = new MemObjectStack(metadir, "subcomstack");
+	void checkSubcomponent(final BEGraphNode node) {
+		final int slen = currentOOS.getCheckState().length;
+		final int alen = currentOOS.getCheckAction().length;
+		final boolean[] AEStateRes = new boolean[currentPEM.AEState.length];
+		final boolean[] AEActionRes = new boolean[currentPEM.AEAction.length];
+		final boolean[] promiseRes = new boolean[currentOOS.getPromises().length];
+		final ObjectStack stack = new MemObjectStack(metadir, "subcomstack");
 
 		node.incNumber();
 		stack.push(node);
 		while (stack.size() != 0) {
-			BEGraphNode curNode = (BEGraphNode) stack.pop();
+			final BEGraphNode curNode = (BEGraphNode) stack.pop();
 			// Check AEState:
 			for (int i = 0; i < currentPEM.AEState.length; i++) {
 				if (!AEStateRes[i]) {
-					int idx = currentPEM.AEState[i];
+					final int idx = currentPEM.AEState[i];
 					AEStateRes[i] = curNode.getCheckState(idx);
 				}
 			}
 			// Check AEAction:
-			int nsz = curNode.nextSize();
+			final int nsz = curNode.nextSize();
 			for (int i = 0; i < nsz; i++) {
-				BEGraphNode node1 = curNode.nextAt(i);
-				long num = node1.getNumber();
+				final BEGraphNode node1 = curNode.nextAt(i);
+				final long num = node1.getNumber();
 				if (num >= thirdNum) {
 					for (int j = 0; j < currentPEM.AEAction.length; j++) {
 						if (!AEActionRes[j]) {
-							int idx = currentPEM.AEAction[j];
+							final int idx = currentPEM.AEAction[j];
 							AEActionRes[j] = curNode.getCheckAction(slen, alen, i, idx);
 						}
 					}
@@ -737,8 +737,8 @@ public class LiveCheck1 implements ILiveCheck {
 			// Check that the component is fulfilling. (See MP page 453.)
 			// Note that the promises are precomputed and stored in oos.
 			for (int i = 0; i < currentOOS.getPromises().length; i++) {
-				LNEven promise = currentOOS.getPromises()[i];
-				TBPar par = curNode.getTNode(currentOOS.getTableau()).getPar();
+				final LNEven promise = currentOOS.getPromises()[i];
+				final TBPar par = curNode.getTNode(currentOOS.getTableau()).getPar();
 				if (par.isFulfilling(promise)) {
 					promiseRes[i] = true;
 				}
@@ -767,7 +767,7 @@ public class LiveCheck1 implements ILiveCheck {
 		// conditions are satisfied. So, print a counter-example!
 		try {
 			printErrorTrace(node);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			MP.printError(EC.GENERAL, "printing an error trace", e); // LL
 			// changed
 			// call
@@ -784,13 +784,13 @@ public class LiveCheck1 implements ILiveCheck {
 	 * "Depth-First Search and Linear Graph Algorithms" to compute the strongly
 	 * connected components.
 	 */
-	long checkSccs(BEGraphNode node) {
+	long checkSccs(final BEGraphNode node) {
 		long lowlink = firstNum++;
 		node.setNumber(lowlink);
 		comStack.push(node);
-		int nsz = node.nextSize();
+		final int nsz = node.nextSize();
 		for (int i = 0; i < nsz; i++) {
-			BEGraphNode destNode = node.nextAt(i);
+			final BEGraphNode destNode = node.nextAt(i);
 			long destNum = destNode.getNumber();
 			if (destNum == 0) {
 				destNum = checkSccs(destNode);
@@ -809,16 +809,16 @@ public class LiveCheck1 implements ILiveCheck {
 	}
 
 	/* This method checks whether a scc satisfies currentPEM. */
-	void checkComponent(BEGraphNode node) {
-		Vect<BEGraphNode> nodes = extractComponent(node);
+	void checkComponent(final BEGraphNode node) {
+		final Vect<BEGraphNode> nodes = extractComponent(node);
 		if (nodes != null) {
-			PossibleErrorModel[] pems = currentOOS.getPems();
+			final PossibleErrorModel[] pems = currentOOS.getPems();
 			for (int i = 0; i < pems.length; i++) {
 				currentPEM = pems[i];
 				startSecondNum = secondNum;
 				startThirdNum = thirdNum;
 				for (int j = nodes.size() - 1; j >= 0; j--) {
-					BEGraphNode node1 = nodes.elementAt(j);
+					final BEGraphNode node1 = nodes.elementAt(j);
 					if (node1.getNumber() < startThirdNum) {
 						checkSccs1(node1);
 					}
@@ -839,13 +839,13 @@ public class LiveCheck1 implements ILiveCheck {
 	 * trivial one. It also assigns a new number to all the nodes in the
 	 * component.
 	 */
-	Vect<BEGraphNode> extractComponent(BEGraphNode node) {
+	Vect<BEGraphNode> extractComponent(final BEGraphNode node) {
 		BEGraphNode node1 = (BEGraphNode) comStack.pop();
 		if (node == node1 && !node.transExists(node)) {
 			node.setNumber(MAX_FIRST);
 			return null;
 		}
-		Vect<BEGraphNode> nodes = new Vect<>();
+		final Vect<BEGraphNode> nodes = new Vect<>();
 		numFirstCom = secondNum++;
 		numSecondCom = thirdNum;
 		node1.setNumber(numFirstCom);
@@ -858,13 +858,13 @@ public class LiveCheck1 implements ILiveCheck {
 		return nodes;
 	}
 
-	long checkSccs1(BEGraphNode node) {
+	long checkSccs1(final BEGraphNode node) {
 		long lowlink = secondNum++;
 		node.setNumber(lowlink);
 		comStack.push(node);
-		int nsz = node.nextSize();
+		final int nsz = node.nextSize();
 		for (int i = 0; i < nsz; i++) {
-			BEGraphNode destNode = node.nextAt(i);
+			final BEGraphNode destNode = node.nextAt(i);
 			long destNum = destNode.getNumber();
 			if ((numFirstCom <= destNum)
 					&& node.getCheckAction(currentOOS.getCheckState().length, currentOOS.getCheckAction().length, i,
@@ -887,7 +887,7 @@ public class LiveCheck1 implements ILiveCheck {
 		return lowlink;
 	}
 
-	boolean extractComponent1(BEGraphNode node) {
+	boolean extractComponent1(final BEGraphNode node) {
 		BEGraphNode node1 = (BEGraphNode) comStack.pop();
 		if (node == node1 && !canStutter(node)) {
 			node.setNumber(thirdNum++);
@@ -901,14 +901,14 @@ public class LiveCheck1 implements ILiveCheck {
 		return true;
 	}
 
-	boolean canStutter(BEGraphNode node) {
-		int slen = currentOOS.getCheckState().length;
-		int alen = currentOOS.getCheckAction().length;
+	boolean canStutter(final BEGraphNode node) {
+		final int slen = currentOOS.getCheckState().length;
+		final int alen = currentOOS.getCheckAction().length;
 
 		for (int i = 0; i < node.nextSize(); i++) {
-			BEGraphNode node1 = node.nextAt(i);
+			final BEGraphNode node1 = node.nextAt(i);
 			if (node.equals(node1)) {
-				long nodeNum = node.getNumber();
+				final long nodeNum = node.getNumber();
 				return ((numFirstCom <= nodeNum) && node.getCheckAction(slen, alen, i, currentPEM.EAAction));
 			}
 		}
@@ -916,7 +916,7 @@ public class LiveCheck1 implements ILiveCheck {
 	}
 
 	@Override
-	public int finalCheck(ITool tool) throws Exception {
+	public int finalCheck(final ITool tool) throws Exception {
 		return check(tool, true);
 	}
 
@@ -944,7 +944,7 @@ public class LiveCheck1 implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#getChecker(int)
 	 */
-	public ILiveChecker getChecker(int idx) {
+	public ILiveChecker getChecker(final int idx) {
 		return null;
 	}
 
@@ -986,14 +986,14 @@ public class LiveCheck1 implements ILiveCheck {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#calculateInDegreeDiskGraphs(tlc2.util.statistics.IBucketStatistics)
 	 */
-	public IBucketStatistics calculateInDegreeDiskGraphs(IBucketStatistics aGraphStats) throws IOException {
+	public IBucketStatistics calculateInDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
 		return new DummyBucketStatistics();
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#calculateOutDegreeDiskGraphs(tlc2.util.statistics.IBucketStatistics)
 	 */
-	public IBucketStatistics calculateOutDegreeDiskGraphs(IBucketStatistics aGraphStats) throws IOException {
+	public IBucketStatistics calculateOutDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
 		return new DummyBucketStatistics();
 	}
 

@@ -45,7 +45,7 @@ public abstract class SuiteTestCase extends ModelCheckerTestCase {
 		super("setBySetUp", "suite");
 	}
 
-	public SuiteTestCase(String stateGenerated, String distinctStates, String leftStates, String initStates) {
+	public SuiteTestCase(final String stateGenerated, final String distinctStates, final String leftStates, final String initStates) {
 		this();
 		this.stateGenerated = stateGenerated;
 		this.distinctStates = distinctStates;
@@ -53,7 +53,7 @@ public abstract class SuiteTestCase extends ModelCheckerTestCase {
 		this.initStates = initStates;
 	}
 
-	public SuiteTestCase(String stateGenerated, String distinctStates, String leftStates, String initStates, final String uncovered) {
+	public SuiteTestCase(final String stateGenerated, final String distinctStates, final String leftStates, final String initStates, final String uncovered) {
 		this(stateGenerated, distinctStates, leftStates, initStates);
 		this.uncovered = uncovered;
 	}

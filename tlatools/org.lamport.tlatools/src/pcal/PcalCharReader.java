@@ -146,7 +146,7 @@ class PcalCharReader
         * converting a tab to space.  Update column and vcolumn, and       *
         * return the next character.                                       *
         *******************************************************************/
-        char readChar = currentLine.charAt(column) ;
+        final char readChar = currentLine.charAt(column) ;
         column = column + 1;
         vcolumn = vcolumn + 1;
         if (readChar == '\t')
@@ -187,8 +187,7 @@ class PcalCharReader
            * case there are tabs.                                          *
            ****************************************************************/
            while (column < currentLine.length() - 1)
-             { @SuppressWarnings("unused")
-			char c = getNextChar() ; }
+             { @SuppressWarnings("unused") final char c = getNextChar() ; }
          }
         else
          { column = column - 1;
@@ -217,8 +216,8 @@ class PcalCharReader
         return currentLine.substring(column) + "\n" ;
       }
       
-    public PcalCharReader(Vector<String> vector, int firstLine, int firstCol,
-                            int lastLine, int lastCol) 
+    public PcalCharReader(final Vector<String> vector, final int firstLine, final int firstCol,
+                          final int lastLine, final int lastCol)
       /*********************************************************************
       * The class constructor.  The only tricky part is setting vcolumn    *
       * to account for tabs on the same line but before the starting       *
@@ -234,7 +233,7 @@ class PcalCharReader
         *******************************************************************/
         if (firstLine < vector.size())
           { int i = 0 ;
-            String ln = vector.elementAt(firstLine) ;
+            final String ln = vector.elementAt(firstLine) ;
             while (i < firstCol)
              { if (ln.charAt(i) == '\t')
                  { this.vcolumn = ((this.vcolumn / 8) + 1) * 8 ;}

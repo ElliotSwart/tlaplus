@@ -244,12 +244,12 @@ public class MP
      * @param parameters string of parameters to be replaced in the message
      * @return the formatted message
      */
-    public synchronized static String getMessage(int messageClass, int messageCode, String[] parameters)
+    public synchronized static String getMessage(final int messageClass, final int messageCode, final String[] parameters)
     {
     	return getMessage(messageClass, messageCode, parameters, true);
     }
 
-    public synchronized static String getMessage(int messageClass, int messageCode, String[] parameters, final boolean tool)
+    public synchronized static String getMessage(final int messageClass, final int messageCode, String[] parameters, final boolean tool)
         {
         if (parameters == null)
         {
@@ -263,7 +263,7 @@ public class MP
             DebugPrinter.print("param " + i + ": '" + parameters[i] + "'"); //$NON-NLS-1$
         }
 
-        StringBuffer b = new StringBuffer();
+        final StringBuffer b = new StringBuffer();
 
         if (TLCGlobals.tool && tool)
         {
@@ -325,7 +325,7 @@ public class MP
         return b.toString();
     }
 
-	private static String getMessage0(int messageClass, int messageCode, String[] parameters) {
+	private static String getMessage0(final int messageClass, final int messageCode, final String[] parameters) {
         final StringBuffer b = new StringBuffer();
 		// fill with different message depending on the error code
         switch (messageCode) {
@@ -1338,7 +1338,7 @@ public class MP
      * Returns the error  
      * @param errorCode
      */
-    public static String getError(int errorCode)
+    public static String getError(final int errorCode)
     {
         return getError(errorCode, EMPTY_PARAMS);
     }
@@ -1348,7 +1348,7 @@ public class MP
      * @param errorCode
      * @param parameter
      */
-    public static String getError(int errorCode, String parameter)
+    public static String getError(final int errorCode, final String parameter)
     {
         return getError(errorCode, new String[] { parameter });
     }
@@ -1359,7 +1359,7 @@ public class MP
      * @param parameters a list of string parameters to be inserted into the message, by replacing 
      * %i% with the i-th parameter in the array
      */
-    public static String getError(int errorCode, String[] parameters)
+    public static String getError(final int errorCode, final String[] parameters)
     {
     	recorder.record(errorCode, (Object[]) parameters);
         return getMessage(ERROR, errorCode, parameters);
@@ -1369,7 +1369,7 @@ public class MP
      * Returns the message  
      * @param errorCode
      */
-    public static String getMessage(int errorCode)
+    public static String getMessage(final int errorCode)
     {
         return getMessage(errorCode, EMPTY_PARAMS);
     }
@@ -1379,7 +1379,7 @@ public class MP
      * @param errorCode
      * @param parameter
      */
-    public static String getMessage(int errorCode, String parameter)
+    public static String getMessage(final int errorCode, final String parameter)
     {
         return getMessage(errorCode, new String[] { parameter });
     }
@@ -1390,7 +1390,7 @@ public class MP
      * @param parameters a list of string parameters to be inserted into the message, by replacing 
      * %i% with the i-th parameter in the array
      */
-    public static String getMessage(int errorCode, String[] parameters)
+    public static String getMessage(final int errorCode, final String[] parameters)
     {
     	recorder.record(errorCode, (Object[]) parameters);
         return getMessage(NONE, errorCode, parameters);
@@ -1401,7 +1401,7 @@ public class MP
      * @param errorCode
      * @return
      */
-    public static String getTLCBug(int errorCode)
+    public static String getTLCBug(final int errorCode)
     {
         return getMessage(TLCBUG, errorCode, EMPTY_PARAMS);
     }
@@ -1410,7 +1410,7 @@ public class MP
      * Prints the error for a given error code
      * @param errorCode
      */
-    public static int printError(int errorCode)
+    public static int printError(final int errorCode)
     {
         return printError(errorCode, EMPTY_PARAMS);
     }
@@ -1420,7 +1420,7 @@ public class MP
      * @param errorCode
      * @param parameter
      */
-    public static int printError(int errorCode, String parameter)
+    public static int printError(final int errorCode, final String parameter)
     {
         return printError(errorCode, new String[] { parameter });
     }
@@ -1431,7 +1431,7 @@ public class MP
      * @param parameters a list of string parameters to be inserted into the message, by replacing 
      * %i% with the i-th parameter in the array
      */
-    public static int printError(int errorCode, String[] parameters)
+    public static int printError(final int errorCode, final String[] parameters)
     {
     	recorder.record(errorCode, (Object[]) parameters);
         // write the output
@@ -1453,7 +1453,7 @@ public class MP
      * @param cause
      * @param includeStackTrace boolean flag if the stack-trace should be printed
      */
-    private static void printError(int errorCode, String cause, Throwable throwable, boolean includeStackTrace)
+    private static void printError(final int errorCode, final String cause, final Throwable throwable, final boolean includeStackTrace)
     {
         printError(errorCode, cause);
         if (includeStackTrace)
@@ -1470,7 +1470,7 @@ public class MP
      * @param errorCode
      * @param cause
      */
-    public static void printError(int errorCode, String[] cause, Throwable throwable)
+    public static void printError(final int errorCode, final String[] cause, final Throwable throwable)
     {
         printError(errorCode, cause);
         // Test of TLCGlobals.debug added by LL on 20 Mar 2012
@@ -1488,7 +1488,7 @@ public class MP
      * @param errorCode
      * @param cause
      */
-    public static void printError(int errorCode, String cause, Throwable throwable)
+    public static void printError(final int errorCode, final String cause, final Throwable throwable)
     {
         if (errorCode == EC.GENERAL) {
             printError(errorCode, ECGeneralMsg(cause, throwable));
@@ -1510,7 +1510,7 @@ public class MP
      * @param throwable
      * @return
      */
-    public static String ECGeneralMsg(String cause, Throwable throwable) {
+    public static String ECGeneralMsg(final String cause, final Throwable throwable) {
         String msg = "TLC threw an unexpected exception.";
         msg = msg
                 + "\nThis was probably caused by an error in the spec or model.";
@@ -1563,7 +1563,7 @@ public class MP
      * @param errorCode
      * @param cause
      */
-    public static int printError(int errorCode, Throwable cause)
+    public static int printError(final int errorCode, final Throwable cause)
     {
         if (errorCode == EC.GENERAL) {
             printError(errorCode, "", cause);
@@ -1577,7 +1577,7 @@ public class MP
      * Prints the error for a given error code
      * @param errorCode
      */
-    public static void printMessage(int errorCode)
+    public static void printMessage(final int errorCode)
     {
         printMessage(errorCode, EMPTY_PARAMS);
     }
@@ -1587,7 +1587,7 @@ public class MP
      * @param errorCode
      * @param parameter
      */
-    public static void printMessage(int errorCode, String parameter)
+    public static void printMessage(final int errorCode, final String parameter)
     {
         printMessage(errorCode, new String[] { parameter });
     }
@@ -1598,7 +1598,7 @@ public class MP
      * @param parameters a list of string parameters to be inserted into the message, by replacing 
      * %i% with the i-th parameter in the array
      */
-    public static void printMessage(int errorCode, String... parameters)
+    public static void printMessage(final int errorCode, final String... parameters)
     {
     	recorder.record(errorCode, (Object[]) parameters);
         DebugPrinter.print("entering printMessage(int, String[]) with errorCode " + errorCode); //$NON-NLS-1$
@@ -1627,12 +1627,12 @@ public class MP
      * Prints the state
      * @param parameters
      */
-    public static void printState(int code, String[] parameters, TLCState state, int num)
+    public static void printState(final int code, final String[] parameters, final TLCState state, final int num)
     {
         printState(code, parameters, new TLCStateInfo(state, num), num);
     }
     
-    public static void printState(int code, String[] parameters, TLCStateInfo stateInfo, int num)
+    public static void printState(final int code, final String[] parameters, final TLCStateInfo stateInfo, final int num)
     {
 		recorder.record(code, stateInfo, num);
         DebugPrinter.print("entering printState(String[])"); //$NON-NLS-1$
@@ -1646,7 +1646,7 @@ public class MP
      * @param parameters a list of string parameters to be inserted into the message, by replacing 
      * %i% with the i-th parameter in the array
      */
-    public static void printTLCBug(int errorCode, String[] parameters)
+    public static void printTLCBug(final int errorCode, final String[] parameters)
     {
     	recorder.record(errorCode, (Object[]) parameters);
         DebugPrinter.print("entering printTLCBug(int, String[]) with errorCode " + errorCode); //$NON-NLS-1$
@@ -1674,7 +1674,7 @@ public class MP
      * @param errorCode
      * @param parameters
      */
-    public static void printWarning(int errorCode, String... parameters)
+    public static void printWarning(final int errorCode, final String... parameters)
     {
     	if (Boolean.getBoolean(MP.class.getName() + ".warning2error")) {
     		Assert.fail(errorCode, parameters);
@@ -1685,7 +1685,7 @@ public class MP
         if (TLCGlobals.warn)
         {
             // construct the message
-            String message = getMessage(WARNING, errorCode, parameters);
+            final String message = getMessage(WARNING, errorCode, parameters);
             // if the message has not been printed
             if (instance.warningHistory.put(message) == null)
             {
@@ -1701,7 +1701,7 @@ public class MP
      * @param errorCode
      * @param parameters
      */
-    public static void printWarning(int errorCode, String parameters, Throwable e)
+    public static void printWarning(final int errorCode, final String parameters, final Throwable e)
     {
     	if (Boolean.getBoolean(MP.class.getName() + ".warning2error")) {
     		Assert.fail(errorCode, e);
@@ -1712,7 +1712,7 @@ public class MP
         if (TLCGlobals.warn)
         {
             // construct the message
-            String message = getMessage(WARNING, errorCode, new String[]{parameters});
+            final String message = getMessage(WARNING, errorCode, new String[]{parameters});
             // if the message has not been printed
             if (instance.warningHistory.put(message) == null)
             {
@@ -1741,7 +1741,7 @@ public class MP
     /**
      * Replaces the place holders by parameters 
      */
-    public static StringBuffer replaceString(StringBuffer buffer, String[] parameters)
+    public static StringBuffer replaceString(final StringBuffer buffer, final String[] parameters)
     {
         // replace parameters, if any
         int placeHolderPosition = -1;
@@ -1778,11 +1778,11 @@ public class MP
         ToolIO.err.flush();
     }
 
-	public static void setRecorder(IMessagePrinterRecorder mpRecorder) {
+	public static void setRecorder(final IMessagePrinterRecorder mpRecorder) {
 		recorder.subscribe(mpRecorder);
 	}
 	
-	public static void unsubscribeRecorder(IMessagePrinterRecorder mpRecorder) {
+	public static void unsubscribeRecorder(final IMessagePrinterRecorder mpRecorder) {
 		recorder.unsubscribe(mpRecorder);
 	}
 

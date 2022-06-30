@@ -65,11 +65,11 @@ public abstract class FPSetManager implements IFPSetManager {
 		 this(new ArrayList<FPSets>());
 	}
 	
-	public FPSetManager(List<FPSets> fpSets) {
+	public FPSetManager(final List<FPSets> fpSets) {
 		this.fpSets = fpSets;
 	}
 
-	public FPSetManager(FPSetRMI fpSet) {
+	public FPSetManager(final FPSetRMI fpSet) {
 		this();
 		this.fpSets.add(new FPSets(fpSet, fpSet.toString()));
 	}
@@ -155,9 +155,9 @@ public abstract class FPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.IFPSetManager#close(boolean)
 	 */
-	public void close(boolean cleanup) throws IOException {
+	public void close(final boolean cleanup) throws IOException {
 		FPSets curr = null;
-		int len = this.fpSets.size();
+		final int len = this.fpSets.size();
 		int idx = 0, lidx = 0;
 
 		for (idx = 0; idx < len; idx++) {
@@ -169,18 +169,18 @@ public abstract class FPSetManager implements IFPSetManager {
 			return;
 
 		for (lidx = len - 1; lidx > idx; lidx--) {
-			FPSets last = this.fpSets.get(lidx);
+			final FPSets last = this.fpSets.get(lidx);
 			if (last != null && last != curr)
 				break;
 		}
 		for (int i = idx + 1; i <= lidx; i++) {
-			FPSets next = this.fpSets.get(i);
+			final FPSets next = this.fpSets.get(i);
 			if (next != null && next != curr) {
 				try {
 					curr.exit(cleanup);
-				} catch (UnmarshalException e) {
+				} catch (final UnmarshalException e) {
 					// happens when the DiskFPSet closes it calls System.exit
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					e.printStackTrace();
 				}
 				curr = next;
@@ -189,9 +189,9 @@ public abstract class FPSetManager implements IFPSetManager {
 		if (curr != null) {
 			try {
 				curr.exit(cleanup);
-			} catch (UnmarshalException e) {
+			} catch (final UnmarshalException e) {
 				// happens when the DiskFPSet closes it calls System.exit
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -201,7 +201,7 @@ public abstract class FPSetManager implements IFPSetManager {
 		String hostname = "Unknown";
 		try {
 			hostname = InetAddress.getLocalHost().getHostName();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		return hostname;
@@ -210,12 +210,12 @@ public abstract class FPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.IFPSetManager#put(long)
 	 */
-	public boolean put(long fp) {
-		int fpIdx = getFPSetIndex(fp);
+	public boolean put(final long fp) {
+		final int fpIdx = getFPSetIndex(fp);
 		while (true) {
 			try {
 				return this.fpSets.get(fpIdx).put(fp);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				ToolIO.out.println("Warning: Failed to connect from "
 						+ this.getHostName() + " to the fp server at "
 						+ this.fpSets.get(fpIdx).getHostname() + ".\n" + e.getMessage());
@@ -231,12 +231,12 @@ public abstract class FPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.IFPSetManager#contains(long)
 	 */
-	public boolean contains(long fp) {
-		int fpIdx = getFPSetIndex(fp);
+	public boolean contains(final long fp) {
+		final int fpIdx = getFPSetIndex(fp);
 		while (true) {
 			try {
 				return this.fpSets.get(fpIdx).contains(fp);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				ToolIO.out.println("Warning: Failed to connect from "
 						+ this.getHostName() + " to the fp server at "
 						+ this.fpSets.get(fpIdx).getHostname() + ".\n" + e.getMessage());
@@ -252,20 +252,20 @@ public abstract class FPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.IFPSetManager#getFPSetIndex(long)
 	 */
-	public int getFPSetIndex(long fp) {
+	public int getFPSetIndex(final long fp) {
 		return (int) ((fp & mask) % numOfServers());
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.IFPSetManager#putBlock(tlc2.util.LongVec[])
 	 */
-	public BitVector[] putBlock(LongVec[] fps) {
-		int len = this.fpSets.size();
-		BitVector[] res = new BitVector[len];
+	public BitVector[] putBlock(final LongVec[] fps) {
+		final int len = this.fpSets.size();
+		final BitVector[] res = new BitVector[len];
 		for (int i = 0; i < len; i++) {
 			try {
 				res[i] = this.fpSets.get(i).putBlock(fps[i]);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				ToolIO.out.println("Warning: Failed to connect from "
 						+ this.getHostName() + " to the fp server at "
 						+ this.fpSets.get(i).getHostname() + ".\n" + e.getMessage());
@@ -302,13 +302,13 @@ public abstract class FPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.IFPSetManager#containsBlock(tlc2.util.LongVec[])
 	 */
-	public BitVector[] containsBlock(LongVec[] fps) {
-		int len = this.fpSets.size();
-		BitVector[] res = new BitVector[len];
+	public BitVector[] containsBlock(final LongVec[] fps) {
+		final int len = this.fpSets.size();
+		final BitVector[] res = new BitVector[len];
 		for (int i = 0; i < len; i++) {
 			try {
 				res[i] = this.fpSets.get(i).containsBlock(fps[i]);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				ToolIO.out.println("Warning: Failed to connect from "
 						+ this.getHostName() + " to the fp server at "
 						+ this.fpSets.get(i).getHostname() + ".\n" + e.getMessage());
@@ -357,13 +357,13 @@ public abstract class FPSetManager implements IFPSetManager {
 				ecs.submit(s);
 				// reset retry after successfully scheduling a callable
 				retry = 0;
-			} catch (RejectedExecutionException e) {
+			} catch (final RejectedExecutionException e) {
 				// Throttle current execution if executor service is rejecting
 				// task due to excessive task submission
 				if (retry++ < 3 && !executorService.isShutdown()) {
 					// Determine sleep interval [1,5] randomly to prevent all waiters
 					// from retrying at the same moment.
-					int sleep = 1 + rnd.nextInt(5);
+					final int sleep = 1 + rnd.nextInt(5);
 					
 					LOGGER.log(
 							Level.FINE,
@@ -373,7 +373,7 @@ public abstract class FPSetManager implements IFPSetManager {
 					// Sleep for n seconds
 					try {
 						Thread.sleep(sleep * 1000L);
-					} catch (InterruptedException e1) {
+					} catch (final InterruptedException e1) {
 						// not expected to happen
 						e1.printStackTrace();
 					}
@@ -407,10 +407,10 @@ public abstract class FPSetManager implements IFPSetManager {
 				// Only one result for a given LongVec[i] is correct
 				Assert.check(res[index] == null, EC.GENERAL);
 				res[index] = indexBitVector.getBitVector();
-			} catch (InterruptedException e) {
+			} catch (final InterruptedException e) {
 				// not expected to happen
 				e.printStackTrace();
-			} catch (ExecutionException e) {
+			} catch (final ExecutionException e) {
 				// not expected to happen
 				e.printStackTrace();
 			}
@@ -437,11 +437,11 @@ public abstract class FPSetManager implements IFPSetManager {
 			for (int i = 0; i < len; i++) {
 				try {
 					res = Math.min(res, ecs.take().get());
-				} catch (InterruptedException e) {
+				} catch (final InterruptedException e) {
 					// not expected to happen, could return an approximation
 					// if happens (but fail fast for the moment).
 					e.printStackTrace();
-				} catch (ExecutionException e) {
+				} catch (final ExecutionException e) {
 					// not expected to happen, could return an approximation
 					// if happens (but fail fast for the moment).
 					e.printStackTrace();
@@ -474,11 +474,11 @@ public abstract class FPSetManager implements IFPSetManager {
 					if(!ecs.take().get()) {
 						return false;
 					}
-				} catch (InterruptedException e) {
+				} catch (final InterruptedException e) {
 					// not expected to happen, could return an approximation
 					// if happens (but fail fast for the moment).
 					e.printStackTrace();
-				} catch (ExecutionException e) {
+				} catch (final ExecutionException e) {
 					// not expected to happen, could return an approximation
 					// if happens (but fail fast for the moment).
 					e.printStackTrace();
@@ -495,12 +495,12 @@ public abstract class FPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.IFPSetManager#size()
 	 */
 	public long size() {
-		int len = this.fpSets.size();
+		final int len = this.fpSets.size();
 		long res = 0;
 		for (int i = 0; i < len; i++) {
 			try {
 				res += this.fpSets.get(i).size();
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				ToolIO.out.println("Warning: Failed to connect from "
 						+ this.getHostName() + " to the fp server at "
 						+ this.fpSets.get(i).getHostname() + ".\n" + e.getMessage());
@@ -519,11 +519,11 @@ public abstract class FPSetManager implements IFPSetManager {
 	public long getStatesSeen() {
 		long res = 1; // the initial state
 		
-		int len = this.fpSets.size();
+		final int len = this.fpSets.size();
 		for (int i = 0; i < len; i++) {
 			try {
 				res += this.fpSets.get(i).getStatesSeen();
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				ToolIO.out.println("Warning: Failed to connect from "
 						+ this.getHostName() + " to the fp server at "
 						+ this.fpSets.get(i).getHostname() + ".\n" + e.getMessage());
@@ -543,10 +543,10 @@ public abstract class FPSetManager implements IFPSetManager {
 		return mask;
 	}
 
-	private final void chkptInner(String fname, boolean chkpt)
+	private final void chkptInner(final String fname, final boolean chkpt)
 			throws InterruptedException {
-		int len = this.fpSets.size();
-		Checkpoint[] chkpts = new Checkpoint[len];
+		final int len = this.fpSets.size();
+		final Checkpoint[] chkpts = new Checkpoint[len];
 		FPSets curr = null;
 		int cnt = 0, idx = 0, lidx = 0;
 
@@ -563,13 +563,13 @@ public abstract class FPSetManager implements IFPSetManager {
 			return;
 
 		for (lidx = len - 1; lidx > idx; lidx--) {
-			FPSets last = this.fpSets.get(lidx);
+			final FPSets last = this.fpSets.get(lidx);
 			if (last != null && last != curr)
 				break;
 		}
 
 		for (int i = idx + 1; i <= lidx; i++) {
-			FPSets next = this.fpSets.get(i);
+			final FPSets next = this.fpSets.get(i);
 			if (next != null && next != curr) {
 				curr = next;
 				chkpts[cnt] = new Checkpoint(i, fname, chkpt);
@@ -586,7 +586,7 @@ public abstract class FPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.IFPSetManager#checkpoint(java.lang.String)
 	 */
-	public void checkpoint(String fname) throws InterruptedException, IOException {
+	public void checkpoint(final String fname) throws InterruptedException, IOException {
 		chkptInner(fname, true);
 	}
 
@@ -600,7 +600,7 @@ public abstract class FPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.IFPSetManager#recover(java.lang.String)
 	 */
-	public void recover(String fname) throws InterruptedException, IOException {
+	public void recover(final String fname) throws InterruptedException, IOException {
 		chkptInner(fname, false);
 	}
 
@@ -609,7 +609,7 @@ public abstract class FPSetManager implements IFPSetManager {
 		String filename;
 		boolean isChkpt;
 
-		public Checkpoint(int index, String fname, boolean chkpt) {
+		public Checkpoint(final int index, final String fname, final boolean chkpt) {
 			this.hostIndex = index;
 			this.filename = fname;
 			this.isChkpt = chkpt;
@@ -623,7 +623,7 @@ public abstract class FPSetManager implements IFPSetManager {
 				} else {
 					fpSets.get(this.hostIndex).recover(this.filename);
 				}
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				ToolIO.out
 						.println("Error: Failed to checkpoint the fingerprint server at "
 								+ fpSets.get(this.hostIndex).getHostname()
@@ -641,7 +641,7 @@ public abstract class FPSetManager implements IFPSetManager {
 		 */
 		private boolean isAvailable = true;
 
-		public FPSets(FPSetRMI fpset, String hostname) {
+		public FPSets(final FPSetRMI fpset, final String hostname) {
 			this.fpset = fpset;
 			this.hostname = hostname;
 		}
@@ -654,19 +654,19 @@ public abstract class FPSetManager implements IFPSetManager {
 			return isAvailable;
 		}
 
-		public void exit(boolean cleanup) throws IOException {
+		public void exit(final boolean cleanup) throws IOException {
 			fpset.exit(cleanup);
 		}
 
-		public void recover(String filename) throws IOException {
+		public void recover(final String filename) throws IOException {
 			fpset.recover(filename);
 		}
 
-		public void commitChkpt(String filename) throws IOException {
+		public void commitChkpt(final String filename) throws IOException {
 			fpset.commitChkpt(filename);
 		}
 
-		public void beginChkpt(String filename) throws IOException {
+		public void beginChkpt(final String filename) throws IOException {
 			fpset.beginChkpt(filename);
 		}
 
@@ -678,19 +678,19 @@ public abstract class FPSetManager implements IFPSetManager {
 			return fpset.size();
 		}
 
-		public BitVector containsBlock(LongVec longVec) throws IOException {
+		public BitVector containsBlock(final LongVec longVec) throws IOException {
 			return fpset.containsBlock(longVec);
 		}
 
-		public BitVector putBlock(LongVec longVec) throws IOException {
+		public BitVector putBlock(final LongVec longVec) throws IOException {
 			return fpset.putBlock(longVec);
 		}
 
-		public boolean put(long fp) throws IOException {
+		public boolean put(final long fp) throws IOException {
 			return fpset.put(fp);
 		}
 
-		public boolean contains(long fp) throws IOException {
+		public boolean contains(final long fp) throws IOException {
 			return fpset.contains(fp);
 		}
 		

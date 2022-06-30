@@ -18,13 +18,13 @@ class ArgLevelParam {
   SymbolNode param;
 
   /* Creates new ArgLevelParam */
-  public ArgLevelParam(SymbolNode op, int i, SymbolNode param) {
+  public ArgLevelParam(final SymbolNode op, final int i, final SymbolNode param) {
     this.op = op;
     this.i = i;
     this.param = param;
   }
 
-  public final boolean occur(SymbolNode[] symbols) {
+  public final boolean occur(final SymbolNode[] symbols) {
     for (int i = 0; i < symbols.length; i++) {
       if (this.op == symbols[i] ||
 	  this.param == symbols[i]) {
@@ -34,9 +34,9 @@ class ArgLevelParam {
     return false;
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     if (obj instanceof ArgLevelParam) {
-      ArgLevelParam alp = (ArgLevelParam)obj;
+      final ArgLevelParam alp = (ArgLevelParam)obj;
       return ((this.op == alp.op) &&
 	      (this.i == alp.i) &&
 	      (this.param == alp.param));

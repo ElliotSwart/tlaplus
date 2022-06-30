@@ -211,10 +211,10 @@ public class EWD840DebuggerTest extends TLCDebuggerTestCase {
 		stackFrames = debugger.stepIn(13);
 		assertEquals(12, stackFrames.length);
 		assertTLCStateFrame(stackFrames[0], 16, 54, 16, 64, MDL, Context.Empty.cons(null, IntValue.ValZero));
-		Variable[] contextVariables = ((TLCStateStackFrame) stackFrames[0]).getVariables();
+		final Variable[] contextVariables = ((TLCStateStackFrame) stackFrames[0]).getVariables();
 		assertNotNull(contextVariables);
 		assertEquals(1, contextVariables.length);
-		Variable variable = contextVariables[0];
+		final Variable variable = contextVariables[0];
 		assertEquals("node", variable.getName());
 		assertEquals(IntValue.ValZero.getTypeString(), variable.getType());
 		assertEquals("0", variable.getValue());
@@ -232,7 +232,7 @@ public class EWD840DebuggerTest extends TLCDebuggerTestCase {
 		assertTLCStateFrame(stackFrames[0], 94, 3, 96, 26, RM, Context.Empty);
 
 		final int successors = 1;
-		SetBreakpointsArguments sba = createBreakpointArgument(RM, 25, 3, successors);
+		final SetBreakpointsArguments sba = createBreakpointArgument(RM, 25, 3, successors);
 		debugger.setBreakpoints(sba);
 		stackFrames = debugger.continue_();
 		assertEquals(1, stackFrames.length);

@@ -44,7 +44,7 @@ public class PriorityEvaluatingValue extends EvaluatingValue {
 
 	private static final Comparator<EvaluatingValue> comparator = new Comparator<EvaluatingValue>() {
 		@Override
-		public int compare(EvaluatingValue o1, EvaluatingValue o2) {
+		public int compare(final EvaluatingValue o1, final EvaluatingValue o2) {
 			return Integer.compare(o1.priority, o2.priority);
 		}
 	};
@@ -64,7 +64,7 @@ public class PriorityEvaluatingValue extends EvaluatingValue {
 		this.handles.sort(comparator);
 	}
 
-	public void add(EvaluatingValue ev) {
+	public void add(final EvaluatingValue ev) {
 		if (ev.opDef != this.opDef || ev.minLevel != this.minLevel) {
 			// TODO Specific error code.
 			Assert.fail(EC.GENERAL);
@@ -77,7 +77,7 @@ public class PriorityEvaluatingValue extends EvaluatingValue {
 	public Value eval(final Tool tool, final ExprOrOpArgNode[] args, final Context c, final TLCState s0,
 			final TLCState s1, final int control, final CostModel cm) {
 		try {
-			for (EvaluatingValue ev : handles) {
+			for (final EvaluatingValue ev : handles) {
 				final Object invoke = ev.mh.invoke(tool, args, c, s0, s1, control, cm);
 				if (invoke != null) {
 					return (Value) invoke;
@@ -86,7 +86,7 @@ public class PriorityEvaluatingValue extends EvaluatingValue {
 			// Fall back to pure (TLA+) operator definition if the Java module overrides
 			// returned null.
 			return tool.eval(opDef.getBody(), c, s0, s1, control, cm);
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			Assert.fail(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE, new String[] { this.md.toString(), e.getMessage() });
 			return null; // make compiler happy
 		}

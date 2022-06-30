@@ -53,7 +53,7 @@ public class PossibleErrorModel {
 	final int[] AEState; // []<>state's (Infinitely Often states)
 	final int[] AEAction; // []<>act's (Infinitely Often actions) (Weak fairness)
 	
-	public PossibleErrorModel(int[] aeAction, int[] aeState, int[] eaAction) {
+	public PossibleErrorModel(final int[] aeAction, final int[] aeState, final int[] eaAction) {
 		this.AEAction = aeAction;
 		this.AEState = aeState;
 		this.EAAction = eaAction;
@@ -63,18 +63,18 @@ public class PossibleErrorModel {
 		return (this.EAAction.length == 0 && this.AEState.length == 0 && this.AEAction.length == 0);
 	}
 
-	public final String toString(LiveExprNode[] checkState, LiveExprNode[] checkAction) {
-		StringBuffer sb = new StringBuffer();
+	public final String toString(final LiveExprNode[] checkState, final LiveExprNode[] checkAction) {
+		final StringBuffer sb = new StringBuffer();
 		this.toString(sb, "", checkState, checkAction);
 		return sb.toString();
 	}
 
-	public final void toString(StringBuffer sb, String padding, LiveExprNode[] checkState, LiveExprNode[] checkAction) {
+	public final void toString(final StringBuffer sb, final String padding, final LiveExprNode[] checkState, final LiveExprNode[] checkAction) {
 		boolean noPadding = true;
-		String padding1 = padding + "       ";
+		final String padding1 = padding + "       ";
 
 		for (int i = 0; i < this.EAAction.length; i++) {
-			int idx = this.EAAction[i];
+			final int idx = this.EAAction[i];
 			if (noPadding) {
 				noPadding = false;
 			} else {
@@ -85,7 +85,7 @@ public class PossibleErrorModel {
 			sb.append("\n");
 		}
 		for (int i = 0; i < this.AEState.length; i++) {
-			int idx = this.AEState[i];
+			final int idx = this.AEState[i];
 			if (noPadding) {
 				noPadding = false;
 			} else {
@@ -96,7 +96,7 @@ public class PossibleErrorModel {
 			sb.append("\n");
 		}
 		for (int i = 0; i < this.AEAction.length; i++) {
-			int idx = this.AEAction[i];
+			final int idx = this.AEAction[i];
 			if (noPadding) {
 				noPadding = false;
 			} else {

@@ -98,7 +98,7 @@ public class ToolIO
         return userDir;
     }
 
-    public static void setUserDir(String dir)
+    public static void setUserDir(final String dir)
     {
         userDir = dir;
     }
@@ -117,7 +117,7 @@ public class ToolIO
      * otherwise does nothing and returns false.
      * @param m - the mode, use {@link ToolIO#SYSTEM},{@link ToolIO#TOOL}
      */
-    public static boolean setMode(int m)
+    public static boolean setMode(final int m)
     {
         if (m == SYSTEM)
         {
@@ -166,7 +166,7 @@ public class ToolIO
         {
             retLen++;
         }
-        String[] ret = new String[retLen];
+        final String[] ret = new String[retLen];
         System.arraycopy(messages, 0, ret, 0, retLen);
         if (!nextMessage.equals(""))
         {
@@ -184,7 +184,7 @@ public class ToolIO
          * For debugging use.                                                   
          */
         System.out.println("---- Begin all messages");
-        String[] msgs = getAllMessages();
+        final String[] msgs = getAllMessages();
         for (int i = 0; i < msgs.length; i++)
         {
             System.out.println("Msg " + i + ":");
@@ -237,7 +237,7 @@ class ToolPrintStream extends PrintStream
      * @see java.io.PrintStream#printf(java.lang.String, java.lang.Object[])
      */
     @Override
-	public PrintStream printf(String format, Object... args) {
+	public PrintStream printf(final String format, final Object... args) {
 		// See special logic in println. If super.printf(...) gets used, Toolbox
 		// functionality breaks.
     	throw new UnsupportedOperationException("use println instead");
@@ -247,7 +247,7 @@ class ToolPrintStream extends PrintStream
 	 * @see java.io.PrintStream#printf(java.util.Locale, java.lang.String, java.lang.Object[])
 	 */
 	@Override
-	public PrintStream printf(Locale l, String format, Object... args) {
+	public PrintStream printf(final Locale l, final String format, final Object... args) {
 		// See special logic in println. If super.printf(...) gets used, Toolbox
 		// functionality breaks.
     	throw new UnsupportedOperationException("use println instead");
@@ -257,7 +257,7 @@ class ToolPrintStream extends PrintStream
      * Prints a string in to the ToolIO buffer in a separate line
      * @param str String to be printed
      */
-    public void println(String str)
+    public void println(final String str)
     {
         // SZ February 20 2009:
         // This is equivalent to
@@ -269,14 +269,14 @@ class ToolPrintStream extends PrintStream
         {
             // System.out.println("Println called with string:") ;
             // System.out.println(str) ;
-            String thisMessage = ToolIO.nextMessage + str;
+            final String thisMessage = ToolIO.nextMessage + str;
             ToolIO.nextMessage = "";
             /*****************************************************************
              * Enlarge the array if necessary.                                *
              *****************************************************************/
             if (ToolIO.messages.length == ToolIO.length)
             {
-                String[] newMessages = new String[2 * ToolIO.messages.length];
+                final String[] newMessages = new String[2 * ToolIO.messages.length];
                 System.arraycopy(ToolIO.messages, 0, newMessages, 0, ToolIO.messages.length);
                 ToolIO.messages = newMessages;
             }
@@ -312,7 +312,7 @@ class ToolPrintStream extends PrintStream
      *
      * @param str The <code>String</code> to be printed
      */
-    public synchronized void print(String str)
+    public synchronized void print(final String str)
     {
         // SZ February 20 2009:
         // This is equivalent to the next line, but

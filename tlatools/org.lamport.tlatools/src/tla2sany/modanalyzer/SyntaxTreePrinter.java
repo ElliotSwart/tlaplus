@@ -13,9 +13,9 @@ public class SyntaxTreePrinter {
    *  This method is used in only one place--in the ParseUnit class--to write a copy
    *  of the syntax tree to a file in case that option is invoked.
    */
-  static public final void print( ParseTree pt, java.io.PrintWriter output ) {
+  static public final void print(final ParseTree pt, final java.io.PrintWriter output ) {
     output.println("%% Output of parse tree for module " + pt.moduleName() );
-    String[] dependencies = pt.dependencies();
+    final String[] dependencies = pt.dependencies();
     if (dependencies.length == 0) {
       output.println("%% no dependencies");
     } else {
@@ -35,17 +35,17 @@ public class SyntaxTreePrinter {
   }
   */
    
-  private static void printSubTree(java.io.PrintWriter o, String offset, TreeNode node ) {
-    StringBuffer outS = new StringBuffer( offset );
-    Location l = node.getLocation();
-    String image = node.getImage();
+  private static void printSubTree(final java.io.PrintWriter o, final String offset, final TreeNode node ) {
+    final StringBuffer outS = new StringBuffer( offset );
+    final Location l = node.getLocation();
+    final String image = node.getImage();
     if (image != null ) {
       outS.append(image);
     } else {
       outS.append("-- no name --");
     }
     outS.append(" [" ).append(l.beginLine()).append(" ").append(l.beginColumn()).append("] ");  
-    TreeNode[] h = node.heirs();
+    final TreeNode[] h = node.heirs();
 // ADDED BY LL
 // if (h == null) {
   outS.append(" (kind: " + ((SyntaxTreeNode) node).getKind() + ") ");
@@ -53,7 +53,7 @@ public class SyntaxTreePrinter {
 // END ADDED BY LL
     if (h != null) {
       if (h.length == 0 ) {
-        int length = node.getPreComments().length;
+        final int length = node.getPreComments().length;
         outS.append(length); outS.append(" pre-comments ");
 // Commented out on 21 Aug 2007 by LL
 //        length = node.getPostComments().length;

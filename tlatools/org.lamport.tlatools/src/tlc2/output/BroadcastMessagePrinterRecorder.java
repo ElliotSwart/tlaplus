@@ -14,8 +14,8 @@ public class BroadcastMessagePrinterRecorder implements IMessagePrinterRecorder 
 	private Set<IMessagePrinterRecorder> subscribers = new HashSet<IMessagePrinterRecorder>();
 	
 	@Override
-	public void record(int code, Object... objects) {
-		for (IMessagePrinterRecorder recorder : this.subscribers)
+	public void record(final int code, final Object... objects) {
+		for (final IMessagePrinterRecorder recorder : this.subscribers)
 		{
 			recorder.record(code, objects);
 		}

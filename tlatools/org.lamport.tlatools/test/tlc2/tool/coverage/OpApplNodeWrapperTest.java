@@ -79,15 +79,15 @@ public class OpApplNodeWrapperTest {
 		final OpApplNodeWrapper root = new OpApplNodeWrapper();
 		root.incInvocations(42);
 		
-		OpApplNodeWrapper childA = getNode(23);
+		final OpApplNodeWrapper childA = getNode(23);
 		childA.addChild(getNode(546));
 		root.addChild(childA);
 		
-		OpApplNodeWrapper childB = getNode(24);
+		final OpApplNodeWrapper childB = getNode(24);
 		root.addChild(childB);
 		childB.addChild(getNode(0)); // Not reported because 0
 		
-		OpApplNodeWrapper childC = getNode(0);
+		final OpApplNodeWrapper childC = getNode(0);
 		root.addChild(childC); // Not reported
 
 		childC.addChild(getNode(17)); // Must be reported despite C being 0
@@ -114,17 +114,17 @@ public class OpApplNodeWrapperTest {
 		final OpApplNodeWrapper root = new OpApplNodeWrapper();
 		root.incInvocations(1);
 		
-		OpApplNodeWrapper childA = getNode(1);
+		final OpApplNodeWrapper childA = getNode(1);
 		root.addChild(childA);
 		
 		childA.addChild(getNode(131072));
 		
-		OpApplNodeWrapper cChildA = getNode(131072);
+		final OpApplNodeWrapper cChildA = getNode(131072);
 		childA.addChild(cChildA);
 		
 		cChildA.addChild(getNode(1));
 		
-		OpApplNodeWrapper childB = getNode(1);
+		final OpApplNodeWrapper childB = getNode(1);
 		root.addChild(childB);
 		
 		root.report();
@@ -139,7 +139,7 @@ public class OpApplNodeWrapperTest {
 	
 	// It is dummies all the way down...
 	
-	private OpApplNodeWrapper getNode(long count) {
+	private OpApplNodeWrapper getNode(final long count) {
 		final SymbolNode sn = new DummySymbolNode(Long.toString(count));
 		final OpApplNode node = new DummyOpApplNode(sn);
 		return new OpApplNodeWrapper(node, count);
@@ -147,7 +147,7 @@ public class OpApplNodeWrapperTest {
 	
 	private static class DummySymbolNode extends SymbolNode {
 
-		protected DummySymbolNode(String name) {
+		protected DummySymbolNode(final String name) {
 			super(1, SyntaxTreeNode.nullSTN, UniqueString.uniqueStringOf(name));
 		}
 
@@ -162,12 +162,12 @@ public class OpApplNodeWrapperTest {
 		}
 
 		@Override
-		public boolean match(OpApplNode test, ModuleNode mn) throws AbortException {
+		public boolean match(final OpApplNode test, final ModuleNode mn) throws AbortException {
 			throw new UnsupportedOperationException("not implemented");
 		}
 
 		@Override
-		protected Element getSymbolElement(Document doc, SymbolContext context) {
+		protected Element getSymbolElement(final Document doc, final SymbolContext context) {
 			throw new UnsupportedOperationException("not implemented");
 		}
 
@@ -180,7 +180,7 @@ public class OpApplNodeWrapperTest {
 	
 	private static class DummyOpApplNode extends OpApplNode {
 
-		public DummyOpApplNode(SymbolNode sn) {
+		public DummyOpApplNode(final SymbolNode sn) {
 			super(sn);
 		}
 	}

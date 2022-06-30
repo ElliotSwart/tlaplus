@@ -36,7 +36,7 @@ public class Formula {
      * Constructs a formula representation
      * @param formula
      */
-	public Formula(String formulaString) {
+	public Formula(final String formulaString) {
 		formula = formulaString;
 	}
 
@@ -57,7 +57,7 @@ public class Formula {
 	/**
 	 * @param formulaString
 	 */
-	public void setFormula(String formulaString) {
+	public void setFormula(final String formulaString) {
 		formula = formulaString;
 	}
 

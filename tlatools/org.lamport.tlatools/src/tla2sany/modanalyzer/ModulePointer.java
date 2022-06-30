@@ -22,7 +22,7 @@ public class ModulePointer {
   private ModuleRelatives moduleRelatives; // Contains info on related modules (parent, inner, extends, instantiates)
 
   // Constructor
-  ModulePointer(SpecObj spec, ParseUnit p, TreeNode t) {
+  ModulePointer(final SpecObj spec, final ParseUnit p, final TreeNode t) {
     this.spec = spec;
     this.parseUnit = p;
     this.treeNode = t;
@@ -59,7 +59,7 @@ public class ModulePointer {
 
 
   // Set the ModuleRelatives field
-  final void putRelatives ( ModuleRelatives relatives ) { 
+  final void putRelatives (final ModuleRelatives relatives ) {
     moduleRelatives = relatives; 
     spec.getModuleRelationships().putRelatives(this,relatives);
   }

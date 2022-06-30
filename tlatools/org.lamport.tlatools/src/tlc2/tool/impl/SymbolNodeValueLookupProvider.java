@@ -28,14 +28,14 @@ public interface SymbolNodeValueLookupProvider {
     /* Return the variable if expr is a state variable. Otherwise, null. */
 	default SymbolNode getVar(final SemanticNode expr, final Context c, final boolean cutoff, final int forToolId) {
 		if (expr instanceof OpApplNode) {
-			SymbolNode opNode = ((OpApplNode) expr).getOperator();
+			final SymbolNode opNode = ((OpApplNode) expr).getOperator();
 
 			if (opNode.getArity() == 0) {
-				boolean isVarDecl = (opNode.getKind() == ASTConstants.VariableDeclKind);
-				Object val = lookup(opNode, c, cutoff && isVarDecl, forToolId);
+				final boolean isVarDecl = (opNode.getKind() == ASTConstants.VariableDeclKind);
+				final Object val = lookup(opNode, c, cutoff && isVarDecl, forToolId);
 
 				if (val instanceof LazyValue) {
-					LazyValue lval = (LazyValue) val;
+					final LazyValue lval = (LazyValue) val;
 					return getVar(lval.expr, lval.con, cutoff, forToolId);
 				}
 				if (val instanceof OpDefNode) {
@@ -99,12 +99,12 @@ public interface SymbolNodeValueLookupProvider {
 	}
 
 	default Context getOpContext(final OpDefNode opDef, final ExprOrOpArgNode[] args, final Context c,
-			final boolean cachable, final CostModel cm, int forToolId) {
+                                 final boolean cachable, final CostModel cm, final int forToolId) {
 		final FormalParamNode[] formals = opDef.getParams();
 		final int alen = args.length;
 		Context c1 = c;
 		for (int i = 0; i < alen; i++) {
-			Object aval = getVal(args[i], c, cachable, cm, forToolId);
+			final Object aval = getVal(args[i], c, cachable, cm, forToolId);
 			c1 = c1.cons(formals[i], aval);
 		}
 		return c1;
@@ -132,7 +132,7 @@ public interface SymbolNodeValueLookupProvider {
 				Context c1 = c;
 				int level = 0;
 				for (int i = 0; i < letLen; i++) {
-					OpDefNode opDef = letDefs[i];
+					final OpDefNode opDef = letDefs[i];
 					level = Math.max(level, getLevelBound(opDef.getBody(), c1, forToolId));
 					c1 = c1.cons(opDef, IntValue.ValOne);
 				}
@@ -206,7 +206,7 @@ public interface SymbolNodeValueLookupProvider {
 		if (opcode == ToolGlobals.OPCODE_rfs) {
 			// For recursive function, don't compute level of the function body
 			// again in the recursive call.
-			SymbolNode fname = expr.getUnbdedQuantSymbols()[0];
+			final SymbolNode fname = expr.getUnbdedQuantSymbols()[0];
 			c = c.cons(fname, IntValue.ValOne);
 		}
 

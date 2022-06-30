@@ -26,7 +26,7 @@ public class BuiltInLevel implements LevelConstants {
     int[] argMaxLevels;
     int[] argWeights;
 
-    Data(int arity, int opLevel, int[] argMaxLevels, int[] argWeights) {
+    Data(final int arity, final int opLevel, final int[] argMaxLevels, final int[] argWeights) {
       this.arity = arity;
       this.opLevel = opLevel;
       this.argMaxLevels = argMaxLevels;
@@ -38,22 +38,22 @@ public class BuiltInLevel implements LevelConstants {
 
   static int[] make() { return new int[0]; }
 
-  static int[] make(int x) {
-    int[] res = { x };
+  static int[] make(final int x) {
+    final int[] res = { x };
     return res;
   }
 
-  static int[] make(int x, int y) {
-    int[] res = { x, y };
+  static int[] make(final int x, final int y) {
+    final int[] res = { x, y };
     return res;
   }
 
-  static int[] make(int x, int y, int z) {
-    int[] res = { x, y, z };
+  static int[] make(final int x, final int y, final int z) {
+    final int[] res = { x, y, z };
     return res;
   }
 
-  static Data data(int arity, int opLevel, int[] argMaxLevels, int[] argWeights) {
+  static Data data(final int arity, final int opLevel, final int[] argMaxLevels, final int[] argWeights) {
     return new Data(arity, opLevel, argMaxLevels, argWeights);
   }
   
@@ -144,14 +144,14 @@ public class BuiltInLevel implements LevelConstants {
    * Set up level data for built-in operators using LevelData.
    */
   public static void load () {
-    Context gcon = Context.getGlobalContext();
-    Context.ContextSymbolEnumeration Enum = gcon.getContextSymbolEnumeration();
+    final Context gcon = Context.getGlobalContext();
+    final Context.ContextSymbolEnumeration Enum = gcon.getContextSymbolEnumeration();
 
     while (Enum.hasMoreElements()) {
-      SymbolNode sn = Enum.nextElement();
-      Data d = LevelData.get(sn.getName().toString());
+      final SymbolNode sn = Enum.nextElement();
+      final Data d = LevelData.get(sn.getName().toString());
       if (d != null) {
-	OpDefNode opDef = (OpDefNode)gcon.getSymbol(sn.getName());
+	final OpDefNode opDef = (OpDefNode)gcon.getSymbol(sn.getName());
 	if (opDef.getArity() != d.arity) {
 	    throw new WrongInvocationException("Level data for " + sn.getName() + " has the wrong arity");
 	}

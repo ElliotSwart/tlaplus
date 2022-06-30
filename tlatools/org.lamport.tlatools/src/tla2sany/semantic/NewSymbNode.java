@@ -63,10 +63,10 @@ public class NewSymbNode extends LevelNode {
   * The Constructor.                                                       *
   *************************************************************************/
   public NewSymbNode(
-           OpDeclNode   opDeclNode, // The OpDeclNode for the declaration.
-           ExprNode     set,        // Expression S in "CONSTANT x \in S",
-                                    //   null for other kinds of declaration.
-           TreeNode stn             // The syntax node.
+          final OpDeclNode   opDeclNode, // The OpDeclNode for the declaration.
+          final ExprNode     set,        // Expression S in "CONSTANT x \in S",
+          //   null for other kinds of declaration.
+          final TreeNode stn             // The syntax node.
           ) {
     super(NewSymbKind, stn) ;
     this.set        = set;
@@ -88,7 +88,7 @@ public class NewSymbNode extends LevelNode {
   * information comes from the `set' expression.                           *
   *************************************************************************/
   @Override
-  public boolean levelCheck(int iter)       {
+  public boolean levelCheck(final int iter)       {
 
     if (levelChecked < iter) {
       /*********************************************************************
@@ -99,7 +99,7 @@ public class NewSymbNode extends LevelNode {
       * class is changed to make levelCheck do something.                  *
       *********************************************************************/
       levelChecked = iter ;
-      boolean opDeclLevelCheck = opDeclNode.levelCheck(iter) ;
+      final boolean opDeclLevelCheck = opDeclNode.levelCheck(iter) ;
       level = opDeclNode.getLevel() ;
       if (set != null) {
         levelCorrect = set.levelCheck(iter) ;
@@ -171,8 +171,8 @@ public class NewSymbNode extends LevelNode {
   }
 
   @Override
-  public final void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
@@ -181,7 +181,7 @@ public class NewSymbNode extends LevelNode {
    }
 
   @Override
-  public final String toString(int depth) {
+  public final String toString(final int depth) {
     if (depth <= 0) return "";
     String setString = "" ;
     if (this.set != null) {
@@ -197,8 +197,8 @@ public class NewSymbNode extends LevelNode {
    }
 
   @Override
-  protected Element getLevelElement(Document doc, SymbolContext context) {
-    Element e = doc.createElement("NewSymbNode");
+  protected Element getLevelElement(final Document doc, final SymbolContext context) {
+    final Element e = doc.createElement("NewSymbNode");
     e.appendChild(getOpDeclNode().export(doc,context));
     if (getSet() != null) {
       e.appendChild(getSet().export(doc,context));

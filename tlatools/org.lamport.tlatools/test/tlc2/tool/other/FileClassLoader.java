@@ -19,7 +19,7 @@ public class FileClassLoader extends ClassLoader {
   /* Load a class from a file. */
   private String dir;
 
-  public FileClassLoader(String dir) {
+  public FileClassLoader(final String dir) {
     this.dir = dir;
     if (dir.length() != 0 &&
 	!dir.endsWith(File.separator)) {
@@ -27,23 +27,23 @@ public class FileClassLoader extends ClassLoader {
     }
   }
     
-  private byte[] loadClassData(String name) {
+  private byte[] loadClassData(final String name) {
     byte[] bytes = null;
-    String fileName = name + ".class";
+    final String fileName = name + ".class";
     try {
-      FileInputStream fis = new FileInputStream(this.dir + fileName);
-      int size = fis.available();
+      final FileInputStream fis = new FileInputStream(this.dir + fileName);
+      final int size = fis.available();
       bytes = new byte[size];
       fis.read(bytes);
       fis.close();
     }
-    catch (IOException e) { bytes = null; }
+    catch (final IOException e) { bytes = null; }
     return bytes;
   }
 
-  public synchronized Class loadClass(String name, boolean resolve) {
+  public synchronized Class loadClass(final String name, final boolean resolve) {
     Class c = null;
-    byte[] data = loadClassData(name);
+    final byte[] data = loadClassData(name);
     if (data != null) {
       c = defineClass(name, data, 0, data.length);
       if (resolve) resolveClass(c);
@@ -51,13 +51,13 @@ public class FileClassLoader extends ClassLoader {
     return c;
   }
 
-  public static void main(String argv[]) {
-    FileClassLoader fcl = new FileClassLoader("/udir/yuanyu/proj/tlc/module");
+  public static void main(final String[] argv) {
+    final FileClassLoader fcl = new FileClassLoader("/udir/yuanyu/proj/tlc/module");
     try {
-      Class c = fcl.loadClass("Strings", true);  // must set CLASSPATH correctly
+      final Class c = fcl.loadClass("Strings", true);  // must set CLASSPATH correctly
       System.err.println(c);
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       // Assert.printStack();
       System.err.println("Error: " + e.getMessage());
     }

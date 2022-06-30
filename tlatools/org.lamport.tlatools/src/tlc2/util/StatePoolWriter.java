@@ -23,11 +23,11 @@ public class StatePoolWriter extends Thread {
     private StatePoolReader reader;  // the consumer if not null
 
     
-  public StatePoolWriter(int bufSize) {
+  public StatePoolWriter(final int bufSize) {
 	  this(bufSize, null);
   }
 
-  public StatePoolWriter(int bufSize, StatePoolReader reader) {
+  public StatePoolWriter(final int bufSize, final StatePoolReader reader) {
 	  super("TLCStatePoolWriter");
     this.buf = new TLCState[bufSize];
     this.poolFile = null;
@@ -39,16 +39,16 @@ public class StatePoolWriter extends Thread {
    * It then notifies this writer to flush enqBuf to file. In practice,
    * we expect the preceding write to have been completed. 
    */
-  public final synchronized TLCState[] doWork(TLCState[] enqBuf, File file)
+  public final synchronized TLCState[] doWork(final TLCState[] enqBuf, final File file)
   throws IOException {
     if (this.poolFile != null) {
-      ValueOutputStream vos = new ValueOutputStream(this.poolFile);
+      final ValueOutputStream vos = new ValueOutputStream(this.poolFile);
       for (int i = 0; i < this.buf.length; i++) {
 	this.buf[i].write(vos);
       }
       vos.close();
     }
-    TLCState[] res = this.buf;
+    final TLCState[] res = this.buf;
     this.buf = enqBuf;
     this.poolFile = file;
     this.notify();
@@ -64,9 +64,9 @@ public class StatePoolWriter extends Thread {
     }
   }
 
-  public final synchronized void beginChkpt(ObjectOutputStream oos)
+  public final synchronized void beginChkpt(final ObjectOutputStream oos)
   throws IOException {
-    boolean hasFile = (this.poolFile == null) ? false : true;
+    final boolean hasFile = (this.poolFile == null) ? false : true;
     oos.writeBoolean(hasFile);
     if (hasFile) {
       oos.writeObject(this.poolFile);
@@ -77,8 +77,8 @@ public class StatePoolWriter extends Thread {
   }
 
   /* Note this method is not synchronized.  */
-  public final void recover(ObjectInputStream ois) throws IOException {    
-    boolean hasFile = ois.readBoolean();
+  public final void recover(final ObjectInputStream ois) throws IOException {
+    final boolean hasFile = ois.readBoolean();
     if (hasFile) {
       try {
 	this.poolFile = (File)ois.readObject();
@@ -86,7 +86,7 @@ public class StatePoolWriter extends Thread {
 	  this.buf[i] = (TLCState)ois.readObject();
 	}
       }
-      catch (ClassNotFoundException e) 
+      catch (final ClassNotFoundException e)
       {
           Assert.fail(EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT, e);
       }
@@ -111,7 +111,7 @@ public class StatePoolWriter extends Thread {
 	    	return;
 	    }
 	  }
-	  ValueOutputStream vos = new ValueOutputStream(this.poolFile);
+	  final ValueOutputStream vos = new ValueOutputStream(this.poolFile);
 	  for (int i = 0; i < this.buf.length; i++) {
 	    this.buf[i].write(vos);
 	  }
@@ -122,7 +122,7 @@ public class StatePoolWriter extends Thread {
 	}
       }
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       // Assert.printStack(e);
         MP.printError(EC.SYSTEM_ERROR_WRITING_POOL, e.getMessage(), e);
       System.exit(1);

@@ -62,13 +62,13 @@ public class FcnRcdValueTest {
 
 	@Test
 	public void testSelecEmpty() {
-		FcnRcdValue rcdValue = new FcnRcdValue(new IntValue[0], new IntValue[0], false);
+		final FcnRcdValue rcdValue = new FcnRcdValue(new IntValue[0], new IntValue[0], false);
 		rcdValue.select(IntValue.ValNegOne);
 	}
 
 	@Test
 	public void testSelecNormalizedEmpty() {
-		FcnRcdValue rcdValue = (FcnRcdValue) new FcnRcdValue(new IntValue[0], new IntValue[0], false).normalize();
+		final FcnRcdValue rcdValue = (FcnRcdValue) new FcnRcdValue(new IntValue[0], new IntValue[0], false).normalize();
 		rcdValue.select(IntValue.ValNegOne);
 	}
 
@@ -85,10 +85,10 @@ public class FcnRcdValueTest {
 	private static void testSelect(final boolean normalize) {
 		for (int upper = -64; upper < 64; upper++) {
 			for (int lower = -64; lower < upper; lower++) {
-				Value[] dom = getInts(lower, upper, 0);
-				Value[] rng = getInts(lower, upper, 1024);
+				final Value[] dom = getInts(lower, upper, 0);
+				final Value[] rng = getInts(lower, upper, 1024);
 
-				FcnRcdValue rcdValue = new FcnRcdValue(dom, rng, false);
+				final FcnRcdValue rcdValue = new FcnRcdValue(dom, rng, false);
 				if (normalize) {
 					rcdValue.normalize();
 				}
@@ -99,7 +99,7 @@ public class FcnRcdValueTest {
 						assertNull(rcdValue.select(IntValue.gen(j)));
 					} else {
 						// \A i \in ...
-						IntValue val = (IntValue) rcdValue.select(IntValue.gen(j));
+						final IntValue val = (IntValue) rcdValue.select(IntValue.gen(j));
 						assertNotNull(val);
 						assertEquals(IntValue.gen(j + 1024), val);
 					}
@@ -143,19 +143,19 @@ public class FcnRcdValueTest {
 		try {
 			rcdValue.select(ModelValue.make("B_c"));
 			fail("Comparison to typed model value should fail");
-		} catch (TLCRuntimeException e) {
+		} catch (final TLCRuntimeException e) {
 			assertEquals("Attempted to check equality of the differently-typed model values A_A and B_c", e.getMessage());
 		}
 		try {
 			rcdValue.select(IntValue.ValNegOne);
 			fail("Comparison to typed model value should fail");
-		} catch (TLCRuntimeException e) {
+		} catch (final TLCRuntimeException e) {
 			assertEquals("Attempted to check equality of typed model value A_A and non-model value\n"
 					+ "-1", e.getMessage());
 		}
 		
 		for (int i = 0; i < dom.length; i++) {
-			IntValue val = (IntValue) rcdValue.select(dom[i]);
+			final IntValue val = (IntValue) rcdValue.select(dom[i]);
 			assertNotNull(val);
 			assertEquals(IntValue.gen(i), val);
 		}
@@ -176,19 +176,19 @@ public class FcnRcdValueTest {
 		try {
 			rcdValue.select(ModelValue.make("B_c"));
 			fail("Comparison to typed model value should fail");
-		} catch (TLCRuntimeException e) {
+		} catch (final TLCRuntimeException e) {
 			assertEquals("Attempted to compare the differently-typed model values A_Z and B_c", e.getMessage());
 		}
 		try {
 			rcdValue.select(IntValue.ValNegOne);
 			fail("Comparison to typed model value should fail");
-		} catch (TLCRuntimeException e) {
+		} catch (final TLCRuntimeException e) {
 			assertEquals("Attempted to compare the typed model value A_Z and non-model value\n"
 					+ "-1", e.getMessage());
 		}
 		
 		for (int i = 0; i < dom.length; i++) {
-			IntValue val = (IntValue) rcdValue.select(dom[i]);
+			final IntValue val = (IntValue) rcdValue.select(dom[i]);
 			assertNotNull(val);
 			assertEquals(IntValue.gen(i), val);
 		}

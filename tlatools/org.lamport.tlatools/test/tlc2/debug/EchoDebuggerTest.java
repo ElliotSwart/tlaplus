@@ -67,8 +67,8 @@ public class EchoDebuggerTest extends TLCDebuggerTestCase {
 		// prefix depends on where the tests execute.
 		assertTrue(stackFrames[0].getSource().getPath().endsWith("test-model/Echo/Echo.tla"));
 		
-		TLCStackFrame f = (TLCStackFrame) stackFrames[0];
-		Variable[] constants = f.getConstants();
+		final TLCStackFrame f = (TLCStackFrame) stackFrames[0];
+		final Variable[] constants = f.getConstants();
 		assertEquals(2, constants.length);
 		assertEquals("Echo", constants[0].getName());
 		Variable[] nested = f.getVariables(constants[0].getVariablesReference());
@@ -195,7 +195,7 @@ public class EchoDebuggerTest extends TLCDebuggerTestCase {
 		assertTLCStateFrame(stackFrames[0], 167, 6, 167, 63, RM, Context.Empty);
 		
 		TLCStateStackFrame frame = (TLCStateStackFrame) stackFrames[0];
-		Variable[] trace = frame.getTrace();
+		final Variable[] trace = frame.getTrace();
 		assertEquals(1, trace.length);
 		assertEquals(new RecordValue(frame.state), ((DebugTLCVariable) trace[0]).getTLCValue());
 		assertEquals("1: <Init line 95, col 9 to line 101, col 43 of module Echo>", trace[trace.length - 1].getName());

@@ -39,7 +39,7 @@ public class DistributedFPSetTLCServer extends TLCServer {
 	public IFPSetManager getFPSetManager() {
 		try {
 			this.latch.await();
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			// not expected to happen
 			MP.printError(EC.GENERAL, e);
 		}
@@ -58,11 +58,11 @@ public class DistributedFPSetTLCServer extends TLCServer {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCServer#registerFPSet(tlc2.tool.distributed.fp.FPSetRMI, java.lang.String)
 	 */
-	public synchronized void registerFPSet(FPSetRMI fpSet, String hostname) throws RemoteException {
+	public synchronized void registerFPSet(final FPSetRMI fpSet, final String hostname) throws RemoteException {
 		this.fpSetManager.register(fpSet, hostname);
 		latch.countDown();
 		
-		long diff = this.expectedFPSetCount - latch.getCount();
+		final long diff = this.expectedFPSetCount - latch.getCount();
 		MP.printMessage(EC.TLC_DISTRIBUTED_SERVER_FPSET_REGISTERED,
 				new String[] { Long.toString(diff),
 				Integer.toString(this.expectedFPSetCount)});

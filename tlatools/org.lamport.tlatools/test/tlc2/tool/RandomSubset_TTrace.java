@@ -43,7 +43,7 @@ public abstract class RandomSubset_TTrace extends TTraceModelCheckerTestCase {
 	private final int x;
 	private final int y;
 
-	public RandomSubset_TTrace(Class<?> clazz, final int x, final int y) {		
+	public RandomSubset_TTrace(final Class<?> clazz, final int x, final int y) {
 		super(clazz, ExitStatus.VIOLATION_SAFETY);
 		this.x = x;
 		this.y = y;

@@ -16,7 +16,7 @@ public class Assert
     /**
      * @deprecated Use {@linkplain util.Assert#check(boolean, int, String[])} instead of this method
      */
-    public final static void assertion(boolean b)
+    public final static void assertion(final boolean b)
     {
         // if (!b) {
         // ToolIO.err.println("assertion failed:");
@@ -28,7 +28,7 @@ public class Assert
     /**
      * @deprecated Use {@linkplain util.Assert#fail(int, String[])} instead of this method
      */
-    public final static void fail(String msg)
+    public final static void fail(final String msg)
     {
         // ToolIO.err.println("Error: " + msg);
         // System.exit(1);

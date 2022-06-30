@@ -232,23 +232,23 @@ public class OffHeapDiskFPSetTest {
 	
 	@Test
 	public void testOffset3Page() throws IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		long length = DiskFPSet.NumEntriesPerPage * 3L;
+		final long length = DiskFPSet.NumEntriesPerPage * 3L;
 		doTestOffset(length, 1474536306841L);
 	}
 	
 	@Test
 	public void testOffset5Page() throws IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		long length = DiskFPSet.NumEntriesPerPage * 5L;
+		final long length = DiskFPSet.NumEntriesPerPage * 5L;
 		doTestOffset(length, 1474536306841L);
 	}
 	
 	@Test
 	public void testOffset9Page() throws IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		long length = DiskFPSet.NumEntriesPerPage * 9L;
+		final long length = DiskFPSet.NumEntriesPerPage * 9L;
 		doTestOffset(length, 1474536306841L);
 	}
 
-	private void doTestOffset(long length, long rgenseed) throws RemoteException, IOException, NoSuchMethodException,
+	private void doTestOffset(final long length, final long rgenseed) throws RemoteException, IOException, NoSuchMethodException,
 			IllegalAccessException, InvocationTargetException {
 		
 		final DummyFPSetConfiguration fpSetConfig = new DummyFPSetConfiguration();
@@ -260,9 +260,9 @@ public class OffHeapDiskFPSetTest {
 		final SortedSet<Long> longs = new TreeSet<Long>();
 		
 		// Insert n randomly chosen positive longs.
-		Random random = new Random(rgenseed);
+		final Random random = new Random(rgenseed);
 		for (int i = 0; i < length / 2; i++) {
-			long fingerprint = getFingerprint(random);
+			final long fingerprint = getFingerprint(random);
 			assertFalse(fpSet.put(fingerprint));
 			longs.add(fingerprint);
 		}
@@ -273,7 +273,7 @@ public class OffHeapDiskFPSetTest {
 		field.setAccessible(true);
 		
 		for (long i = 0L; i < longs.size(); i++) {
-			long fp = longs.first();
+			final long fp = longs.first();
 			assertEquals(String.format("Length: %s with seed: %s", length, rgenseed), i + 1L,
 					field.invoke(fpSet, 0, fp + 1L));
 			longs.remove(fp);
@@ -287,7 +287,7 @@ public class OffHeapDiskFPSetTest {
 		return tmpdir;
 	}
 
-	private static long getFingerprint(Random random) {
+	private static long getFingerprint(final Random random) {
 		final long fp = (((long) random.nextInt(Integer.MAX_VALUE - 1) + 1) << 32) | (random.nextInt() & 0xffffffffL);
 		return fp;
 	}
@@ -310,15 +310,15 @@ public class OffHeapDiskFPSetTest {
 		try {
 			method.invoke(fpSet, new long[length], new DummyRandomAccessFile(File.createTempFile("foo", "bar"), "rw"),
 					Integer.MAX_VALUE);
-		} catch (InvocationTargetException e) {
-			Throwable targetException = e.getTargetException();
+		} catch (final InvocationTargetException e) {
+			final Throwable targetException = e.getTargetException();
 			fail(targetException.getMessage());
 		}
 	}
 
 	private static class DummyRandomAccessFile extends java.io.RandomAccessFile {
 
-		public DummyRandomAccessFile(File file, String mode) throws FileNotFoundException {
+		public DummyRandomAccessFile(final File file, final String mode) throws FileNotFoundException {
 			super(file, mode);
 		}
 

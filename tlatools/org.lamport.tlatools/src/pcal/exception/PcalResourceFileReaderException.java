@@ -15,7 +15,7 @@ public class PcalResourceFileReaderException extends UnrecoverableException
 	/**
      * @param message
      */
-    public PcalResourceFileReaderException(String message)
+    public PcalResourceFileReaderException(final String message)
     {
         super(message);
     }

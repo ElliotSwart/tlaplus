@@ -22,7 +22,7 @@ public class BEGraphNode extends AbstractGraphNode {
 
 	private static final BEGraphNode[] emptyNodes = new BEGraphNode[0];
 
-	public BEGraphNode(long fp) {
+	public BEGraphNode(final long fp) {
 		super(new BitVector(0));
 		this.stateFP = fp;
 		this.nnodes = emptyNodes;
@@ -30,7 +30,7 @@ public class BEGraphNode extends AbstractGraphNode {
 	}
 
 	public final long resetNumberField() {
-		long old = this.number;
+		final long old = this.number;
 		this.number = 0;
 		return old;
 	}
@@ -43,7 +43,7 @@ public class BEGraphNode extends AbstractGraphNode {
 		this.number++;
 	}
 
-	public final void setNumber(long num) {
+	public final void setNumber(final long num) {
 		this.number = (this.number < 0) ? (num | 0x8000000000000000L) : num;
 	}
 
@@ -68,7 +68,7 @@ public class BEGraphNode extends AbstractGraphNode {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -78,14 +78,14 @@ public class BEGraphNode extends AbstractGraphNode {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		BEGraphNode other = (BEGraphNode) obj;
+		final BEGraphNode other = (BEGraphNode) obj;
 		if (stateFP != other.stateFP) {
 			return false;
 		}
 		return true;
 	}
 
-	public final BEGraphNode nextAt(int i) {
+	public final BEGraphNode nextAt(final int i) {
 		return this.nnodes[i];
 	}
 
@@ -93,24 +93,24 @@ public class BEGraphNode extends AbstractGraphNode {
 		return this.nnodes.length;
 	}
 
-	public final void addTransition(BEGraphNode target, int slen, int alen, boolean[] acts) {
-		int num = this.nnodes.length;
+	public final void addTransition(final BEGraphNode target, final int slen, final int alen, final boolean[] acts) {
+		final int num = this.nnodes.length;
 		if (acts != null) {
-			int pos = slen + alen * num;
+			final int pos = slen + alen * num;
 			for (int i = 0; i < acts.length; i++) {
 				if (acts[i]) {
 					this.checks.set(pos + i);
 				}
 			}
 		}
-		BEGraphNode[] newNodes = new BEGraphNode[num + 1];
+		final BEGraphNode[] newNodes = new BEGraphNode[num + 1];
 		System.arraycopy(this.nnodes, 0, newNodes, 0, num);
 		newNodes[num] = target;
 		this.nnodes = newNodes;
 	}
 
-	public final boolean transExists(BEGraphNode target) {
-		int len = this.nnodes.length;
+	public final boolean transExists(final BEGraphNode target) {
+		final int len = this.nnodes.length;
 		for (int i = 0; i < len; i++) {
 			if (target.equals(this.nnodes[i])) {
 				return true;
@@ -119,7 +119,7 @@ public class BEGraphNode extends AbstractGraphNode {
 		return false;
 	}
 
-	public TBGraphNode getTNode(TBGraph tableau) {
+	public TBGraphNode getTNode(final TBGraph tableau) {
 		throw new WrongInvocationException("TLC bug: should never call BEGraphNode.getTNode().");
 	}
 
@@ -131,7 +131,7 @@ public class BEGraphNode extends AbstractGraphNode {
 	 * Set node to be the parent of this. This would destroy the original graph.
 	 * Use with caution.
 	 */
-	public final void setParent(BEGraphNode node) {
+	public final void setParent(final BEGraphNode node) {
 		if (this.nnodes.length == 0) {
 			this.nnodes = new BEGraphNode[1];
 		}
@@ -148,16 +148,16 @@ public class BEGraphNode extends AbstractGraphNode {
 	 * this.number as the visited bit.
 	 */
 	public final String toString() {
-		StringBuffer buf = new StringBuffer();
+		final StringBuffer buf = new StringBuffer();
 		this.toString(buf, this.getVisited());
 		return buf.toString();
 	}
 
-	protected void toString(StringBuffer buf, boolean unseen) {
+	protected void toString(final StringBuffer buf, final boolean unseen) {
 		if (this.getVisited() == unseen) {
 			this.flipVisited();
 			buf.append(this.stateFP + " --> ");
-			int size = this.nnodes.length;
+			final int size = this.nnodes.length;
 			if (size != 0) {
 				buf.append(this.nextAt(0).stateFP);
 			}

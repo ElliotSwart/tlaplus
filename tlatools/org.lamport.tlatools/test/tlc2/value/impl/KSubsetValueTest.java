@@ -47,7 +47,7 @@ public class KSubsetValueTest {
 		final KSubsetValue kSubset = new KSubsetValue(2, iv);
 		final SetEnumValue set = (SetEnumValue) kSubset.toSetEnum();
 		assertEquals(496, set.size());
-		Value[] array = set.elems.toArray();
+		final Value[] array = set.elems.toArray();
 		for (int i = 0; i < array.length; i++) {
 			assertNotNull(array[i]);
 			assertEquals(2, array[i].size());
@@ -62,7 +62,7 @@ public class KSubsetValueTest {
 		final KSubsetValue kSubset = new KSubsetValue(2, iv);
 		final SetEnumValue set = (SetEnumValue) kSubset.toSetEnum();
 		assertEquals(528, set.size());
-		Value[] array = set.elems.toArray();
+		final Value[] array = set.elems.toArray();
 		for (int i = 0; i < array.length; i++) {
 			assertNotNull(array[i]);
 			assertEquals(2, array[i].size());
@@ -77,7 +77,7 @@ public class KSubsetValueTest {
 		final KSubsetValue kSubset = new KSubsetValue(2, iv);
 		final SetEnumValue set = (SetEnumValue) kSubset.toSetEnum();
 		assertEquals(1953, set.size());
-		Value[] array = set.elems.toArray();
+		final Value[] array = set.elems.toArray();
 		for (int i = 0; i < array.length; i++) {
 			assertNotNull(array[i]);
 			assertEquals(2, array[i].size());
@@ -90,7 +90,7 @@ public class KSubsetValueTest {
 		assertEquals(64, iv.size());
 		try {
 			new KSubsetValue(42, iv).toSetEnum();
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return;
 		}
 		fail();

@@ -32,7 +32,7 @@ import tla2sany.semantic.OpApplNode;
 
 public class UnchangedOpApplNodeWrapper extends OpApplNodeWrapper {
 
-	public UnchangedOpApplNodeWrapper(OpApplNode opApplNode, ActionWrapper root) {
+	public UnchangedOpApplNodeWrapper(final OpApplNode opApplNode, final ActionWrapper root) {
 		super(opApplNode, root);
 	}
 

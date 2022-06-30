@@ -42,7 +42,7 @@ public abstract class TLCStates {
 		// Create variable declarations (no values yet).
 		final OpDeclNode[] variables = new OpDeclNode[numVars];
 		for (int i = 0; i < numVars; i++) {
-			UniqueString us = UniqueString.uniqueStringOf("v" + Integer.toString(i));
+			final UniqueString us = UniqueString.uniqueStringOf("v" + Integer.toString(i));
 			us.setLoc(i);
 			variables[i] = new OpDeclNode(us, ASTConstants.VariableDeclKind, 1, 0, null, null, null);
 		}

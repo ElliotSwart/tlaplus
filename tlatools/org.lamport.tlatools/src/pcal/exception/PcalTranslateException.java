@@ -18,7 +18,7 @@ public class PcalTranslateException extends UnrecoverablePositionedException
      * @param message
      * @param elementAt2
      */
-    public PcalTranslateException(String message, AST elementAt2)
+    public PcalTranslateException(final String message, final AST elementAt2)
     {
         super(message, elementAt2);
     }
@@ -26,7 +26,7 @@ public class PcalTranslateException extends UnrecoverablePositionedException
     /**
      * @param message
      */
-    public PcalTranslateException(String message)
+    public PcalTranslateException(final String message)
     {
         super(message);
     }

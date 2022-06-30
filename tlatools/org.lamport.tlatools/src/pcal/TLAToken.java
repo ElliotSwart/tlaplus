@@ -152,7 +152,7 @@ public class TLAToken
         return beginSubst;
     }
 
-    public void setBeginSubst(Vector<PCalLocation> beginSubst) {
+    public void setBeginSubst(final Vector<PCalLocation> beginSubst) {
         this.beginSubst = beginSubst;
     }
 
@@ -160,7 +160,7 @@ public class TLAToken
         return endSubst;
     }
 
-    public void setEndSubst(Vector<PCalLocation> endSubst) {
+    public void setEndSubst(final Vector<PCalLocation> endSubst) {
         this.endSubst = endSubst;
     }
     
@@ -194,7 +194,7 @@ public class TLAToken
      * @param col
      * @param typ
      */
-    public TLAToken(String str, int col, int typ)
+    public TLAToken(final String str, final int col, final int typ)
       /*********************************************************************
       * A TLAToken constructor                                             *
       *********************************************************************/
@@ -213,7 +213,7 @@ public class TLAToken
      * @param typ
      * @param line
      */
-    public TLAToken(String str, int col, int typ, int line)
+    public TLAToken(final String str, final int col, final int typ, final int line)
     /*********************************************************************
     * A TLAToken constructor                                             *
     *********************************************************************/
@@ -231,7 +231,7 @@ public class TLAToken
      * @param typ
      * @param src
      */
-    public TLAToken(String str, int col, int typ, Region src) {
+    public TLAToken(final String str, final int col, final int typ, final Region src) {
     	string = str ;
         column = col ;
         type   = typ ;
@@ -249,7 +249,7 @@ public class TLAToken
      * @param typ
      * @param appended
      */
-    public TLAToken(String str, int col, int typ, boolean appended) {
+    public TLAToken(final String str, final int col, final int typ, final boolean appended) {
         string = str ;
         column = col ;
         type   = typ ;
@@ -298,7 +298,7 @@ public class TLAToken
         String str = "\"" + string + "\"" ;
         if (string == null) {str = "null";};
 
-        String result =    "[str |-> "    + str
+        final String result =    "[str |-> "    + str
                          + ", type |-> "  + typeName
                          + ", col |-> "   + column
                          + ", source |->" + 
@@ -324,7 +324,7 @@ public class TLAToken
    @SuppressWarnings("unchecked")
 public TLAToken Clone()
      { 
-	   TLAToken result = new TLAToken(this.string, this.column, this.type) ;
+	   final TLAToken result = new TLAToken(this.string, this.column, this.type) ;
 	   result.source = this.source ;
 	   result.beginSubst = (Vector<PCalLocation>) this.beginSubst.clone();
 	   result.endSubst = (Vector<PCalLocation>) this.endSubst.clone();

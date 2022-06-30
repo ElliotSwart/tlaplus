@@ -142,7 +142,7 @@ public abstract class AbstractHeapBasedDiskFPSetTest {
 		fpSetConfig.setMemory(physicalMemoryInBytes);
 		
 		final DiskFPSet fpset = getDiskFPSet(fpSetConfig);
-		long maxTblCntInBytes = fpset.getMaxTblCnt() * FPSet.LongSize; // Convert from logical to physical
+		final long maxTblCntInBytes = fpset.getMaxTblCnt() * FPSet.LongSize; // Convert from logical to physical
 		
 		// Always allocate less storage than given 
 		assertTrue("Internal storage exceeds allocated memory", physicalMemoryInBytes >= maxTblCntInBytes);
@@ -154,7 +154,7 @@ public abstract class AbstractHeapBasedDiskFPSetTest {
 		// storage. Make this reservation the lower bound for the primary
 		// storage. We div by 2 to account for the fact that both
 		// implementations round down to the next power of 2.
-		double lowerLimit = (physicalMemoryInBytes / 2) / fpset.getAuxiliaryStorageRequirement();
+		final double lowerLimit = (physicalMemoryInBytes / 2) / fpset.getAuxiliaryStorageRequirement();
 		assertTrue("Internal storage falls short lower allocation limit", lowerLimit <= maxTblCntInBytes);
 	}
 

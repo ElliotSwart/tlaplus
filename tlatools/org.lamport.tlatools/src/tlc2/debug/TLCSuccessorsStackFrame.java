@@ -56,8 +56,8 @@ public class TLCSuccessorsStackFrame extends TLCStateStackFrame {
 		return SCOPE;
 	}
 
-	public TLCSuccessorsStackFrame(TLCStackFrame parent, OpDefNode node, Context ctxt, Tool tool, TLCState s, Action a,
-			INextStateFunctor fun) {
+	public TLCSuccessorsStackFrame(final TLCStackFrame parent, final OpDefNode node, final Context ctxt, final Tool tool, final TLCState s, final Action a,
+                                   final INextStateFunctor fun) {
 		super(parent, node, ctxt, tool, s);
 		this.a = a;
 		this.fun = fun;
@@ -78,7 +78,7 @@ public class TLCSuccessorsStackFrame extends TLCStateStackFrame {
 	}
 
 	@Override
-	public Variable[] getVariables(int vr) {
+	public Variable[] getVariables(final int vr) {
 		if (vr == stateId) {
 			return tool.eval(() -> {
 				// A) Filter those states from fun#getStates that are a-steps where a is the Action
@@ -87,10 +87,10 @@ public class TLCSuccessorsStackFrame extends TLCStateStackFrame {
 				
 				// B) Convert a-steps into the DAP representation.
 				final Variable[] vars = new Variable[aSteps.size()];
-				Iterator<TLCState> itr = aSteps.iterator();
+				final Iterator<TLCState> itr = aSteps.iterator();
 				for (int i = 0; i < vars.length; i++) {
-					TLCState t = itr.next();
-					RecordValue r = new RecordValue(t);
+					final TLCState t = itr.next();
+					final RecordValue r = new RecordValue(t);
 					vars[i] = getStateAsVariable(r, t.getLevel() + "." + (i + 1) + ": "
 							+ (t.hasAction() ? t.getAction().getLocation() : "<???>"));
 				}

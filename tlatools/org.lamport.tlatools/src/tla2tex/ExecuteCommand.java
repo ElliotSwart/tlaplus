@@ -13,24 +13,24 @@
 package tla2tex ;
 
 public class ExecuteCommand
-{ public static void executeCommand(String cmd)
+{ public static void executeCommand(final String cmd)
    {  int errorCode = -99;
-      try { Runtime rt = Runtime.getRuntime() ;
+      try { final Runtime rt = Runtime.getRuntime() ;
             Process proc = null ;
             if (Parameters.MetaDir.equals("")) {
                 proc = rt.exec(cmd);
             } else {
                 proc = rt.exec(cmd, null, Parameters.ParentDir);                
             }
-            GobbleOutput outThread = new GobbleOutput(true, proc, cmd);
+            final GobbleOutput outThread = new GobbleOutput(true, proc, cmd);
             outThread.start() ;
-            GobbleOutput errThread = new GobbleOutput(false, proc, cmd);
+            final GobbleOutput errThread = new GobbleOutput(false, proc, cmd);
             errThread.start() ;
             errorCode = proc.waitFor();
             outThread.join();
             errThread.join();
           }
-      catch (Exception e)
+      catch (final Exception e)
        { Debug.ReportError(
               "Trying to run the command `" + cmd
             + "' produced the following error\n    " + e.getMessage());

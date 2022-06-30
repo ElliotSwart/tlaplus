@@ -39,7 +39,7 @@ public class Defns implements ToolGlobals, Serializable
         this.table = new Object[defnIdx + 32];
     }
 
-    Defns(Defns other) {
+    Defns(final Defns other) {
     	this.defnIdx = other.defnIdx;
     	this.table = new Object[other.table.length];
         System.arraycopy(other.table, 0, this.table, 0, other.table.length);
@@ -49,9 +49,9 @@ public class Defns implements ToolGlobals, Serializable
      * Returns the definition of key if its definition exists.
      * Otherwise, returns null.
      */
-    public Object get(UniqueString key)
+    public Object get(final UniqueString key)
     {
-        int loc = key.getDefnLoc();
+        final int loc = key.getDefnLoc();
         if (loc < 0 || loc >= this.table.length)
         {
             return null;
@@ -64,9 +64,9 @@ public class Defns implements ToolGlobals, Serializable
      * @param key
      * @return
      */
-    public Object get(String key)
+    public Object get(final String key)
     {
-        UniqueString var = UniqueString.uniqueStringOf(key);
+        final UniqueString var = UniqueString.uniqueStringOf(key);
         return this.get(var);
     }
 
@@ -74,7 +74,7 @@ public class Defns implements ToolGlobals, Serializable
      * Store a new definition for key.  If there was an entry in the
      * table for the key, overwrite it.
      */
-    public void put(UniqueString key, Object val)
+    public void put(final UniqueString key, final Object val)
     {
         int loc = key.getDefnLoc();
         if (loc == -1)
@@ -84,9 +84,9 @@ public class Defns implements ToolGlobals, Serializable
         }
         if (loc >= this.table.length)
         {
-            int oldSize = this.table.length;
-            int newSize = Math.max(2 * oldSize, loc + 1);
-            Object[] old = this.table;
+            final int oldSize = this.table.length;
+            final int newSize = Math.max(2 * oldSize, loc + 1);
+            final Object[] old = this.table;
             this.table = new Object[newSize];
             // SZ 10.04.2009: changed a for loop of array copy to the 
             // native system copy call
@@ -100,12 +100,12 @@ public class Defns implements ToolGlobals, Serializable
      * @param key a string representation of the key
      * @param val the object to be stored
      */
-    public void put(String key, Object val)
+    public void put(final String key, final Object val)
     {
         this.put(UniqueString.uniqueStringOf(key), val);
     }
 
-    public void setDefnCount(int index)
+    public void setDefnCount(final int index)
     {
         this.defnIdx = index;
     }

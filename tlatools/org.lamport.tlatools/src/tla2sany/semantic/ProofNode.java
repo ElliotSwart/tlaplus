@@ -9,7 +9,7 @@ import tla2sany.st.TreeNode;
 * LeafProofNode and NonLeafProofNode.                                      *
 ***************************************************************************/
 public abstract class ProofNode extends LevelNode {
-  ProofNode(int kind, TreeNode stn) { super(kind, stn); }
+  ProofNode(final int kind, final TreeNode stn) { super(kind, stn); }
 
 }
 

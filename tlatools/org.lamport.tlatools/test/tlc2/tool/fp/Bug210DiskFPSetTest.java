@@ -44,7 +44,7 @@ public class Bug210DiskFPSetTest extends AbstractFPSetTest {
 		// multiplied by 2^10 (DiskFPSet#NumEntriesPerPage).
 		try {
 			assertFalse(fpSet.diskLookup(Long.MAX_VALUE - 2));
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			fail(e.getMessage());
 		}
 	}

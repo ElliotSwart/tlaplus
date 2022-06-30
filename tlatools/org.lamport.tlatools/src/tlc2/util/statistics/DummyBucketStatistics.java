@@ -38,7 +38,7 @@ public class DummyBucketStatistics implements IBucketStatistics {
 	/* (non-Javadoc)
 	 * @see tlc2.util.statistics.IBucketStatistics#addSample(int)
 	 */
-	public void addSample(int amount) {
+	public void addSample(final int amount) {
 		// ignore
 	}
 
@@ -87,7 +87,7 @@ public class DummyBucketStatistics implements IBucketStatistics {
 	/* (non-Javadoc)
 	 * @see tlc2.util.statistics.IBucketStatistics#getPercentile(double)
 	 */
-	public double getPercentile(double quantile) {
+	public double getPercentile(final double quantile) {
 		return 0;
 	}
 
@@ -101,6 +101,6 @@ public class DummyBucketStatistics implements IBucketStatistics {
 	/* (non-Javadoc)
 	 * @see tlc2.util.statistics.IBucketStatistics#addSamples(tlc2.util.statistics.IBucketStatistics)
 	 */
-	public void addSamples(IBucketStatistics stat) {
+	public void addSamples(final IBucketStatistics stat) {
 	}
 }

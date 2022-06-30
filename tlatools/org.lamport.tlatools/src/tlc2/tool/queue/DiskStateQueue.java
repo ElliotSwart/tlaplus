@@ -58,7 +58,7 @@ public class DiskStateQueue extends StateQueue {
 	}
 
 	/* Constructors */
-	public DiskStateQueue(String diskdir) {
+	public DiskStateQueue(final String diskdir) {
 		this.deqBuf = new TLCState[BufSize];
 		this.enqBuf = new TLCState[BufSize];
 		this.deqIndex = BufSize;
@@ -67,7 +67,7 @@ public class DiskStateQueue extends StateQueue {
 		this.hiPool = 0;
 		this.lastLoPool = 0;
 		this.filePrefix = diskdir + FileUtil.separator;
-		File rFile = new File(this.filePrefix + Integer.toString(0));
+		final File rFile = new File(this.filePrefix + Integer.toString(0));
 		this.reader = new StatePoolReader(BufSize, rFile);
 		this.reader.setDaemon(true);
 		this.loFile = new File(this.filePrefix + Integer.toString(this.loPool));
@@ -80,16 +80,16 @@ public class DiskStateQueue extends StateQueue {
 		this.cleaner.start();
 	}
 
-	final void enqueueInner(TLCState state) {
+	final void enqueueInner(final TLCState state) {
 		if (this.enqIndex == this.enqBuf.length) {
 			// enqBuf is full; flush it to disk
 			try {
-				String pstr = Integer.toString(this.hiPool);
-				File file = new File(this.filePrefix + pstr);
+				final String pstr = Integer.toString(this.hiPool);
+				final File file = new File(this.filePrefix + pstr);
 				this.enqBuf = this.writer.doWork(this.enqBuf, file);
 				this.hiPool++;
 				this.enqIndex = 0;
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				Assert.fail(EC.SYSTEM_ERROR_WRITING_STATES,
 						new String[] { "queue", (e.getMessage() == null) ? e.toString() : e.getMessage() });
 			}
@@ -125,17 +125,17 @@ public class DiskStateQueue extends StateQueue {
 				this.deqBuf = this.reader.doWork(this.deqBuf, this.loFile);
 				this.deqIndex = 0;
 				this.loPool++;
-				String pstr = Integer.toString(this.loPool);
+				final String pstr = Integer.toString(this.loPool);
 				this.loFile = new File(this.filePrefix + pstr);
 			} else {
 				// We still need to check if a file is buffered.
 				this.writer.ensureWritten();
-				TLCState[] buf = this.reader.getCache(this.deqBuf, this.loFile);
+				final TLCState[] buf = this.reader.getCache(this.deqBuf, this.loFile);
 				if (buf != null) {
 					this.deqBuf = buf;
 					this.deqIndex = 0;
 					this.loPool++;
-					String pstr = Integer.toString(this.loPool);
+					final String pstr = Integer.toString(this.loPool);
 					this.loFile = new File(this.filePrefix + pstr);
 				} else {
 					// copy entries from enqBuf to deqBuf.
@@ -152,7 +152,7 @@ public class DiskStateQueue extends StateQueue {
 					this.cleaner.notifyAll();
 				}
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			Assert.fail(EC.SYSTEM_ERROR_READING_STATES, new String[] { "queue",
 					(e.getMessage() == null) ? e.toString() : e.getMessage() });
 		}
@@ -168,8 +168,8 @@ public class DiskStateQueue extends StateQueue {
 			this.cleaner.notifyAll();
 		}
 		
-		String filename = this.filePrefix + "queue.tmp";
-		ValueOutputStream vos = new ValueOutputStream(filename);
+		final String filename = this.filePrefix + "queue.tmp";
+		final ValueOutputStream vos = new ValueOutputStream(filename);
 		vos.writeLongNat(this.len);
 		vos.writeInt(this.loPool);
 		vos.writeInt(this.hiPool);
@@ -187,25 +187,25 @@ public class DiskStateQueue extends StateQueue {
 
 	public final void commitChkpt() throws IOException {
 		for (int i = this.lastLoPool; i < this.newLastLoPool; i++) {
-			String pstr = Integer.toString(i);
-			File oldPool = new File(this.filePrefix + pstr);
+			final String pstr = Integer.toString(i);
+			final File oldPool = new File(this.filePrefix + pstr);
 			if (!oldPool.delete()) {
-				String msg = "DiskStateQueue.commitChkpt: cannot delete " + oldPool;
+				final String msg = "DiskStateQueue.commitChkpt: cannot delete " + oldPool;
 				throw new IOException(msg);
 			}
 		}
 		this.lastLoPool = this.newLastLoPool;
-		File oldChkpt = new File(this.filePrefix + "queue.chkpt");
-		File newChkpt = new File(this.filePrefix + "queue.tmp");
+		final File oldChkpt = new File(this.filePrefix + "queue.chkpt");
+		final File newChkpt = new File(this.filePrefix + "queue.tmp");
 		if ((oldChkpt.exists() && !oldChkpt.delete()) || !newChkpt.renameTo(oldChkpt)) {
-			String msg = "DiskStateQueue.commitChkpt: cannot delete " + oldChkpt;
+			final String msg = "DiskStateQueue.commitChkpt: cannot delete " + oldChkpt;
 			throw new IOException(msg);
 		}
 	}
 
 	public final void recover() throws IOException {
-		String filename = this.filePrefix + "queue.chkpt";
-		ValueInputStream vis = new ValueInputStream(filename);
+		final String filename = this.filePrefix + "queue.chkpt";
+		final ValueInputStream vis = new ValueInputStream(filename);
 		this.len = vis.readInt();
 		this.loPool = vis.readInt();
 		this.hiPool = vis.readInt();
@@ -222,10 +222,10 @@ public class DiskStateQueue extends StateQueue {
 			this.deqBuf[i].read(vis);
 		}
 		vis.close();
-		File file = new File(this.filePrefix + Integer.toString(this.lastLoPool));
-		boolean canRead = (this.lastLoPool < this.hiPool);
+		final File file = new File(this.filePrefix + Integer.toString(this.lastLoPool));
+		final boolean canRead = (this.lastLoPool < this.hiPool);
 		this.reader.restart(file, canRead);
-		String pstr = Integer.toString(this.loPool);
+		final String pstr = Integer.toString(this.loPool);
 		this.loFile = new File(this.filePrefix + pstr);
 	}
 
@@ -279,7 +279,7 @@ public class DiskStateQueue extends StateQueue {
 						lastLoPool = deleteUpTo;
 					}
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				// Assert.printStack(e);
 				MP.printError(EC.SYSTEM_ERROR_CLEANING_POOL, e.getMessage(), e);
 				System.exit(1);

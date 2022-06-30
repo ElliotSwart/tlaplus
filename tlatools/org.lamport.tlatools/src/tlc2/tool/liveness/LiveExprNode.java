@@ -58,7 +58,7 @@ public abstract class LiveExprNode {
 
 	/* The string representation. */
 	public final String toString() {
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		this.toString(sb, "");
 		return sb.toString();
 	}
@@ -107,7 +107,7 @@ public abstract class LiveExprNode {
 	 * This method pushes a negation all the way down to the atoms. It is
 	 * currently not used.
 	 */
-	public LiveExprNode pushNeg(boolean hasNeg) {
+	public LiveExprNode pushNeg(final boolean hasNeg) {
 		if (hasNeg) {
 			return new LNNeg(this);
 		}
@@ -175,7 +175,7 @@ public abstract class LiveExprNode {
 	 * returns the maximum tag used so that the caller can proceed with other
 	 * tags in its depth-first traversal.
 	 */
-	public int tagExpr(int tag) {
+	public int tagExpr(final int tag) {
 		// Non-trivially overridden in:
 		// - LNState
 		// - LNAction
@@ -190,7 +190,7 @@ public abstract class LiveExprNode {
 	 * some other rules, none of which have the possibility of creating a
 	 * promise! So we only need look at subformulas of p.
 	 */
-	public void extractPromises(TBPar promises) {
+	public void extractPromises(final TBPar promises) {
 		// Finally, for the remaining kinds, there is nothing to do.
 		// Except for LNEven, all LiveExprNode sub-classes have either trivial overrides
 		// or none at all.

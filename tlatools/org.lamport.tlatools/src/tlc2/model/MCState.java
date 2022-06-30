@@ -150,7 +150,7 @@ public class MCState {
 	 * @param isStuttering Whether to mark this state as stuttering.
 	 * @param isBackToState Whether to mark this state as the end of a lasso.
 	 */
-	public MCState(final MCState other, boolean isStuttering, boolean isBackToState) {
+	public MCState(final MCState other, final boolean isStuttering, final boolean isBackToState) {
 		this.variables = other.variables;
 		this.name = other.name;
 		this.label = other.label;
@@ -160,7 +160,7 @@ public class MCState {
 		this.isBackToState = isBackToState;
 	}
 	
-	public MCState(TLCStateInfo tlcState) {
+	public MCState(final TLCStateInfo tlcState) {
 		this.name = "";
 		this.label = "";
 		this.location = null;
@@ -168,13 +168,13 @@ public class MCState {
 		this.isBackToState = false;
 		this.stateNumber = (int)tlcState.stateNumber;
 
-		Map<UniqueString, IValue> variableMap = tlcState.getOriginalState().getVals();
-		List<MCVariable> variableList = new ArrayList<MCVariable>();
-		for (UniqueString key : variableMap.keySet()) {
-			IValue value = variableMap.get(key);
+		final Map<UniqueString, IValue> variableMap = tlcState.getOriginalState().getVals();
+		final List<MCVariable> variableList = new ArrayList<MCVariable>();
+		for (final UniqueString key : variableMap.keySet()) {
+			final IValue value = variableMap.get(key);
 			// value is null if the successor state is not completely specified by the
 			// next-state relation. See e.g. IncompleteNextTest.java
-			MCVariable variable = new MCVariable(key.toString(), value);
+			final MCVariable variable = new MCVariable(key.toString(), value);
 			variableList.add(variable);
 		}
 		
@@ -371,8 +371,8 @@ public class MCState {
 
 	
 	private static MCVariable[] parseVariables(final String variableInputString) {
-		String[] lines = variableInputString.split(TLAConstants.CR);
-		ArrayList<MCVariable> vars = new ArrayList<>();
+		final String[] lines = variableInputString.split(TLAConstants.CR);
+		final ArrayList<MCVariable> vars = new ArrayList<>();
 		int index;
 
 		// buffer for accumulating the state variable

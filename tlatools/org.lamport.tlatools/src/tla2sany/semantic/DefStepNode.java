@@ -38,7 +38,7 @@ public class DefStepNode extends LevelNode {
   /*************************************************************************
   * The constructor.                                                       *
   *************************************************************************/
-  public DefStepNode(TreeNode stn, UniqueString stepNum, OpDefNode[] theDefs){
+  public DefStepNode(final TreeNode stn, final UniqueString stepNum, final OpDefNode[] theDefs){
     super(DefStepKind, stn);
     this.stepNumber = stepNum;
     this.defs = theDefs;
@@ -51,7 +51,7 @@ public class DefStepNode extends LevelNode {
   public OpDefNode[] getDefs() {return defs;}
 
   @Override
-  public boolean levelCheck(int iter) {
+  public boolean levelCheck(final int iter) {
     /***********************************************************************
     * Level check the steps and the instantiated modules coming from       *
     * module definitions.                                                  *
@@ -60,8 +60,8 @@ public class DefStepNode extends LevelNode {
    }
 
   @Override
-  public void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
@@ -73,7 +73,7 @@ public class DefStepNode extends LevelNode {
 
   @Override
   public SemanticNode[] getChildren() {
-      SemanticNode[] res = new SemanticNode[defs.length];
+      final SemanticNode[] res = new SemanticNode[defs.length];
       for (int i = 0; i < defs.length; i++) {
           res[i] = defs[i];
       }
@@ -81,7 +81,7 @@ public class DefStepNode extends LevelNode {
    }
   
   @Override
-  public String toString(int depth) {
+  public String toString(final int depth) {
     if (depth <= 0) return "";
     String ret = "\n*DefStepNode:\n"
                   + super.toString(depth)
@@ -93,8 +93,8 @@ public class DefStepNode extends LevelNode {
    }
 
   @Override
-  protected Element getLevelElement(Document doc, SymbolContext context) {
-      Element e = doc.createElement("DefStepNode");
+  protected Element getLevelElement(final Document doc, final SymbolContext context) {
+      final Element e = doc.createElement("DefStepNode");
       for (int i=0; i<defs.length;i++) {
         e.appendChild(defs[i].export(doc,context));
       }

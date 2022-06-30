@@ -61,7 +61,7 @@ public abstract class CounterStatistic {
 		}
 		
 		@Override
-		public void add(long evalCount) {
+		public void add(final long evalCount) {
 			// noop
 		}
 	}
@@ -81,7 +81,7 @@ public abstract class CounterStatistic {
 		}
 
 		@Override
-		public void add(long evalCount) {
+		public void add(final long evalCount) {
 			adder.add(evalCount);
 		}
 

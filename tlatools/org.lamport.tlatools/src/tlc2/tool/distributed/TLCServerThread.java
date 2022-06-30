@@ -118,7 +118,7 @@ public class TLCServerThread extends IdThread {
 	 */
 	private URI uri;
 
-	public TLCServerThread(TLCWorkerRMI worker, URI aURI, TLCServer tlc, ExecutorService es, IBlockSelector aSelector) {
+	public TLCServerThread(final TLCWorkerRMI worker, final URI aURI, final TLCServer tlc, final ExecutorService es, final IBlockSelector aSelector) {
 		super(COUNT++);
 		this.executorService = es;
 		this.tlcServer = tlc;
@@ -190,7 +190,7 @@ public class TLCServerThread extends IdThread {
 						// Read remote worker cache hits which correspond to
 						// states skipped
 						tlcServer.addStatesGeneratedDelta(res.getStatesComputedDelta());
-					} catch (RemoteException e) {
+					} catch (final RemoteException e) {
 						// If a (remote) {@link TLCWorkerRMI} fails due to the
 						// amount of new states we have sent it, try to lower
 						// the amount of states
@@ -215,7 +215,7 @@ public class TLCServerThread extends IdThread {
 							handleRemoteWorkerLost(stateQueue);
 							return;
 						}
-					} catch (NullPointerException e) {
+					} catch (final NullPointerException e) {
 						MP.printMessage(EC.TLC_DISTRIBUTED_WORKER_LOST,
 								// have the stack trace on a newline
 								"\n" + throwableToString(e));
@@ -230,25 +230,25 @@ public class TLCServerThread extends IdThread {
 				// -> because if the worker crashes while computing states, the
 				// fp set would be inconsistent => making it an "atomic"
 				// operation)
-				BitVector[] visited = this.tlcServer.fpSetManager
+				final BitVector[] visited = this.tlcServer.fpSetManager
 						.putBlock(newFps, executorService);
 
 				// recreate newly computed states and add them to queue
 				for (int i = 0; i < visited.length; i++) {
-					BitVector.Iter iter = new BitVector.Iter(visited[i]);
+					final BitVector.Iter iter = new BitVector.Iter(visited[i]);
 					int index;
 					while ((index = iter.next()) != -1) {
-						TLCState state = newStates[i].elementAt(index);
+						final TLCState state = newStates[i].elementAt(index);
 						// write state id and state fp to .st file for
 						// checkpointing
-						long fp = newFps[i].elementAt(index);
+						final long fp = newFps[i].elementAt(index);
 						state.uid = this.tlcServer.trace.writeState(state, fp);
 						// add state to state queue for further processing
 						stateQueue.sEnqueue(state);
 					}
 				}
 			}
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			TLCState state1 = null, state2 = null;
 			if (e instanceof WorkerException) {
 				state1 = ((WorkerException) e).state1;
@@ -258,7 +258,7 @@ public class TLCServerThread extends IdThread {
 				if (state1 != null) {
 					try {
 						this.tlcServer.trace.printTrace(state1, state2);
-					} catch (Exception e1) {
+					} catch (final Exception e1) {
 						MP.printError(EC.GENERAL, e1);
 					}
 				} else {
@@ -272,7 +272,7 @@ public class TLCServerThread extends IdThread {
 		} finally {
 			try {
 				cacheRateHitRatio = worker.getCacheRateRatio();
-			} catch (RemoteException e) {
+			} catch (final RemoteException e) {
 				// Remote worker might crash after return the last next
 				// state computation result but before the cache rate hit
 				// ratio statistic could be read. If this is the case the
@@ -413,13 +413,13 @@ public class TLCServerThread extends IdThread {
 			// Check if the last invocation happened within the last minute. If
 			// not, check the worker's aliveness and dispose of it if indeed
 			// lost.
-			long now = new Date().getTime();
+			final long now = new Date().getTime();
 			if (lastInvocation == 0 || (now - lastInvocation) > 60000) {
 				try {
 					if (!worker.isAlive()) {
 						handleRemoteWorkerLost(tlcServer.stateQueue);
 					}
-				} catch (RemoteException e) {
+				} catch (final RemoteException e) {
 					handleRemoteWorkerLost(tlcServer.stateQueue);
 				}
 			}
@@ -428,7 +428,7 @@ public class TLCServerThread extends IdThread {
 		/**
 		 * @param lastInvocation the lastInvocation to set
 		 */
-		public void setLastInvocation(long lastInvocation) {
+		public void setLastInvocation(final long lastInvocation) {
 			this.lastInvocation = lastInvocation;
 		}
 	}

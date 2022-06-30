@@ -139,7 +139,7 @@ public class StringHelper {
         boolean allChars = true ;
         int i = 0;
         while (result && (i < str.length())) {
-            char ch = str.charAt(i) ;
+            final char ch = str.charAt(i) ;
             result = Character.isLetterOrDigit(ch) || (ch == '_') ;
             allChars = allChars && Character.isDigit(ch) ;
             i++;

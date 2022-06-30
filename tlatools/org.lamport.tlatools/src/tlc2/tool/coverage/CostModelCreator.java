@@ -228,7 +228,7 @@ public class CostModelCreator extends ExplorerVisitor {
 				// the stack (this is more involved because we have to find the OANWrappers and
 				// not just the OANs). 
 				final ExprNode in = letIns.get(opApplNode);
-				for (CostModelNode cmn : stack) {
+				for (final CostModelNode cmn : stack) {
 					final SemanticNode node = cmn.getNode();
 					if (node == in && cmn instanceof OpApplNodeWrapper) {
 						// addLets instead of addChild because lets can be added multiple times
@@ -331,12 +331,12 @@ public class CostModelCreator extends ExplorerVisitor {
 		} else if (exploreNode instanceof SubstInNode) {
 			final SubstInNode sin = (SubstInNode) exploreNode;
 			final Subst[] substs = sin.getSubsts();
-			for (Subst subst : substs) {
+			for (final Subst subst : substs) {
 				this.substs.put(subst.getExpr(), subst);
 			}
 		} else if (exploreNode instanceof LetInNode) {
 			final LetInNode lin = (LetInNode) exploreNode;
-			for (OpDefNode opDefNode : lin.getLets()) {
+			for (final OpDefNode opDefNode : lin.getLets()) {
 				letIns.put(opDefNode.getBody(), lin.getBody());
 			}
 		} else if (exploreNode instanceof OpDefNode) {
@@ -377,7 +377,7 @@ public class CostModelCreator extends ExplorerVisitor {
 		}
 
 		final Map<SemanticNode, CostModel> cms = new HashMap<>();
-		for (Action nextAction : tool.getActions()) {
+		for (final Action nextAction : tool.getActions()) {
 			if (cms.containsKey(nextAction.pred)) {
 				nextAction.cm = cms.get(nextAction.pred);
 			} else {
@@ -386,7 +386,7 @@ public class CostModelCreator extends ExplorerVisitor {
 			}
 		}
 
-		for (Action invariant : tool.getInvariants()) {
+		for (final Action invariant : tool.getInvariants()) {
 			if (!invariant.isInternal()) {
 				invariant.cm = collector.getCM(invariant, Relation.PROP);
 			}
@@ -394,7 +394,7 @@ public class CostModelCreator extends ExplorerVisitor {
 		
 		// action constraints
 		final ExprNode[] actionConstraints = tool.getActionConstraints();
-		for (ExprNode exprNode : actionConstraints) {
+		for (final ExprNode exprNode : actionConstraints) {
 			final OpDefNode odn = (OpDefNode) exprNode.getToolObject(tool.getId());
 			final Action act = new Action(exprNode, Context.Empty, odn);
 			act.cm = collector.getCM(act, Relation.CONSTRAINT);
@@ -402,7 +402,7 @@ public class CostModelCreator extends ExplorerVisitor {
 		}
 		// state constraints
 		final ExprNode[] modelConstraints = tool.getModelConstraints();
-		for (ExprNode exprNode : modelConstraints) {
+		for (final ExprNode exprNode : modelConstraints) {
 			final OpDefNode odn = (OpDefNode) exprNode.getToolObject(tool.getId());
 			final Action act = new Action(exprNode, Context.Empty, odn);
 			act.cm = collector.getCM(act, Relation.CONSTRAINT);
@@ -411,10 +411,10 @@ public class CostModelCreator extends ExplorerVisitor {
 		
         // https://github.com/tlaplus/tlaplus/issues/413#issuecomment-577304602
         if (Boolean.getBoolean(CostModelCreator.class.getName() + ".implied")) {
-    		for (Action impliedInits : tool.getImpliedInits()) {
+    		for (final Action impliedInits : tool.getImpliedInits()) {
     			impliedInits.cm = collector.getCM(impliedInits, Relation.PROP);
     		}
-    		for (Action impliedActions : tool.getImpliedActions()) {
+    		for (final Action impliedActions : tool.getImpliedActions()) {
     			impliedActions.cm = collector.getCM(impliedActions, Relation.PROP);
     		}
         }
@@ -439,19 +439,19 @@ public class CostModelCreator extends ExplorerVisitor {
         final Set<CostModel> reported = new HashSet<>();
         final Set<Action> sortedActions = new TreeSet<>(new Comparator<Action>() {
 			@Override
-			public int compare(Action o1, Action o2) {
+			public int compare(final Action o1, final Action o2) {
 				return o1.pred.getLocation().compareTo(o2.pred.getLocation());
 			}
 		});
         sortedActions.addAll(Arrays.asList(actions));
-        for (Action action : sortedActions) {
+        for (final Action action : sortedActions) {
         	if (!reported.contains(action.cm)) {
         		action.cm.report();
         		reported.add(action.cm);
         	}
 		}
         
-        for (Action invariant : tool.getInvariants()) {
+        for (final Action invariant : tool.getInvariants()) {
 			if (!invariant.isInternal()) {
 	        	//TODO May need to be ordered similar to next-state actions above.
 	        	invariant.cm.report();
@@ -460,23 +460,23 @@ public class CostModelCreator extends ExplorerVisitor {
         
 		// action constraints
 		final ExprNode[] actionConstraints = tool.getActionConstraints();
-		for (ExprNode exprNode : actionConstraints) {
+		for (final ExprNode exprNode : actionConstraints) {
 			final Action act = (Action) exprNode.getToolObject(tool.getId());
 			act.cm.report();
 		}
 		// state constraints
 		final ExprNode[] modelConstraints = tool.getModelConstraints();
-		for (ExprNode exprNode : modelConstraints) {
+		for (final ExprNode exprNode : modelConstraints) {
 			final Action act = (Action) exprNode.getToolObject(tool.getId());
 			act.cm.report();
 		}
         
         // https://github.com/tlaplus/tlaplus/issues/413#issuecomment-577304602
         if (Boolean.getBoolean(CostModelCreator.class.getName() + ".implied")) {
-    		for (Action impliedInits : tool.getImpliedInits()) {
+    		for (final Action impliedInits : tool.getImpliedInits()) {
     			impliedInits.cm.report();
     		}
-    		for (Action impliedActions : tool.getImpliedActions()) {
+    		for (final Action impliedActions : tool.getImpliedActions()) {
     			impliedActions.cm.report();
     		}
         }

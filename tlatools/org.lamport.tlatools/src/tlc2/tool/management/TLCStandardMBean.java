@@ -50,23 +50,23 @@ public abstract class TLCStandardMBean extends StandardMBean {
 	 */
 	protected boolean registerMBean(final String objectName){
 		// register monitoring mx bean
-		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer(); 
+		final MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 		try {
 			mxbeanName = new ObjectName(objectName);
 			mbs.registerMBean(this, mxbeanName);
-		} catch (MalformedObjectNameException e1) {
+		} catch (final MalformedObjectNameException e1) {
 			e1.printStackTrace();
 			return false;
-		} catch (NullPointerException e1) {
+		} catch (final NullPointerException e1) {
 			e1.printStackTrace();
 			return false;
-		} catch (InstanceAlreadyExistsException e) {
+		} catch (final InstanceAlreadyExistsException e) {
 			e.printStackTrace();
 			return false;
-		} catch (MBeanRegistrationException e) {
+		} catch (final MBeanRegistrationException e) {
 			e.printStackTrace();
 			return false;
-		} catch (NotCompliantMBeanException e) {
+		} catch (final NotCompliantMBeanException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -82,10 +82,10 @@ public abstract class TLCStandardMBean extends StandardMBean {
 			if (mbs.isRegistered(mxbeanName)) {
 				mbs.unregisterMBean(mxbeanName);
 			}
-		} catch (MBeanRegistrationException e) {
+		} catch (final MBeanRegistrationException e) {
 			e.printStackTrace();
 			return false;
-		} catch (InstanceNotFoundException e) {
+		} catch (final InstanceNotFoundException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -99,7 +99,7 @@ public abstract class TLCStandardMBean extends StandardMBean {
 		NullTLCStandardMBean nullTLCStandardMBean = null;
 		try {
 			nullTLCStandardMBean = new NullTLCStandardMBean();
-		} catch (NotCompliantMBeanException e) {
+		} catch (final NotCompliantMBeanException e) {
 			e.printStackTrace();
 		}
 		return nullTLCStandardMBean;
@@ -115,7 +115,7 @@ public abstract class TLCStandardMBean extends StandardMBean {
 		 * @see tlc2.tool.management.TLCStandardMBean#registerMBean(java.lang.String)
 		 */
 		@Override
-		protected boolean registerMBean(String objectName) {
+		protected boolean registerMBean(final String objectName) {
 			return true;
 		}
 

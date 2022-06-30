@@ -33,9 +33,9 @@ public class GobbleOutput extends Thread
      **********************************************************************/
    Process proc ;
    String  cmd ;
-   GobbleOutput(boolean stdOrError ,
-                Process proc,
-                String  cmd)
+   GobbleOutput(final boolean stdOrError ,
+                final Process proc,
+                final String  cmd)
      {this.stdOrError = stdOrError ;
       this.proc = proc;
       this.cmd  = cmd;
@@ -46,12 +46,12 @@ public class GobbleOutput extends Thread
         { outStream = proc.getInputStream(); }
        else
         { outStream = proc.getErrorStream(); }
-      byte[] readBytes   = new byte[100000] ;
+      final byte[] readBytes   = new byte[100000] ;
       int outBytes = 1;
       try { while ( outBytes != -1 )
              { outBytes = outStream.read(readBytes); }
           }
-      catch (Exception e)
+      catch (final Exception e)
        { Debug.ReportError(
               "Trying to read output for command\n " + cmd +
                "\n produced the following error\n    " + e.getMessage());

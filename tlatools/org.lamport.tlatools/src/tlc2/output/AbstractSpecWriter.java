@@ -223,13 +223,13 @@ public abstract class AbstractSpecWriter {
 		tlaBuffer.append(nextDefinition[1]).append(TLAConstants.CR);
 	}
 
-	public void addConstants(List<String> rawConstants) {
+	public void addConstants(final List<String> rawConstants) {
 		if (rawConstants.isEmpty()) {
 			return;
 		}
 		cfgBuffer.append(TLAConstants.KeyWords.CONSTANTS);
 		cfgBuffer.append("\n");	
-		for (String constant : rawConstants) {
+		for (final String constant : rawConstants) {
 			cfgBuffer.append(constant);	
 			cfgBuffer.append("\n");	
 		}

@@ -23,7 +23,7 @@ public class PcalDebug
      * Printer for the exceptions
      * @param exception containing the message to print
      */
-    public static void reportError(UnrecoverableException e)
+    public static void reportError(final UnrecoverableException e)
     {
         if (e instanceof UnrecoverablePositionedException)
         {
@@ -38,7 +38,7 @@ public class PcalDebug
      * Reports a warning 
      * @param warningText text to be reported
      */
-    public static void reportWarning(String warningText)
+    public static void reportWarning(final String warningText)
     {
         ToolIO.out.println(new StringBuffer(WARNING).append(warningText));
     }
@@ -47,7 +47,7 @@ public class PcalDebug
      * Reports a information for the user
      * @param infoText text to be reported
      */
-    public static void reportInfo(String infoText)
+    public static void reportInfo(final String infoText)
     {
         ToolIO.out.println(infoText);
     }
@@ -56,7 +56,7 @@ public class PcalDebug
      * Report error message 
      * @param message message to report
      */
-    public static void reportError(String message)
+    public static void reportError(final String message)
     {
         ToolIO.out.println(new StringBuffer(UNRECOVERABLE_ERROR).append(message).append(ERROR_POSTFIX).toString());
     }
@@ -66,7 +66,7 @@ public class PcalDebug
      * @param message message to report
      * @param ast the AST-object identifying the error location
      */
-    public static void reportError(String message, AST ast)
+    public static void reportError(final String message, final AST ast)
     {
         if (ast == null || ast.line == 0)
         {
@@ -76,7 +76,7 @@ public class PcalDebug
         }
     }
 
-    public static void Assert(boolean val)
+    public static void Assert(final boolean val)
     /*********************************************************************
     * Why doesn't java provide an Assert statement?                      *
     *********************************************************************/
@@ -88,7 +88,7 @@ public class PcalDebug
         ;
     };
 
-    public static void Assert(boolean val, String msg)
+    public static void Assert(final boolean val, final String msg)
     /*********************************************************************
     * An Assert with an error message.                                   *
     *********************************************************************/
@@ -100,7 +100,7 @@ public class PcalDebug
         ;
     };
 
-    public static void ReportBug(String msg)
+    public static void ReportBug(final String msg)
     /*********************************************************************
     * This method is called to report a bug in the program and abort.    *
     *********************************************************************/
@@ -116,7 +116,7 @@ public class PcalDebug
         throw new Error(sb.toString());
     };
 
-    public static void printObjectArray(Object[] array, String name)
+    public static void printObjectArray(final Object[] array, final String name)
     /*********************************************************************
     * This method prints to standard output the contents of the array    *
     * argument, where name is the name of the array.                     *
@@ -148,7 +148,7 @@ public class PcalDebug
         ;
     };
 
-    public static void printIntArray(int[] array, String name)
+    public static void printIntArray(final int[] array, final String name)
     /*********************************************************************
     * This method prints to standard output the contents of the array    *
     * argument, where name is the name of the array.                     *
@@ -174,7 +174,7 @@ public class PcalDebug
         ;
     };
 
-    public static void print2DArray(Object[][] array, String name)
+    public static void print2DArray(final Object[][] array, final String name)
     /*********************************************************************
     * This method prints to standard output the contents of the array    *
     * argument, where name is the name of the array.                     *
@@ -211,7 +211,7 @@ public class PcalDebug
         ;
     };
 
-    public static void printVector(Vector<?> vec, String name)
+    public static void printVector(final Vector<?> vec, final String name)
     /*********************************************************************
     * This method prints to standard output the contents of the vector   *
     * argument, where name is the name of the vector.                    *
@@ -243,7 +243,7 @@ public class PcalDebug
         ;
     };
 
-    public static void print2DVector(Vector<?> vec, String name)
+    public static void print2DVector(final Vector<?> vec, final String name)
     /*********************************************************************
     * This method prints to standard output the contents of its vector   *
     * argument, which is a vector of vectors, where name is the name of  *
@@ -277,7 +277,7 @@ public class PcalDebug
         ;
     };
 
-    public static String pair(int i, int j)
+    public static String pair(final int i, final int j)
     /*********************************************************************
     * Just a convenient little function.                                 *
     *********************************************************************/
@@ -285,7 +285,7 @@ public class PcalDebug
         return "(" + i + ", " + j + ")";
     };
 
-    public static void printPair(int i, int j)
+    public static void printPair(final int i, final int j)
     /*********************************************************************
     * Just prints "(i, j)".                                              *
     *********************************************************************/

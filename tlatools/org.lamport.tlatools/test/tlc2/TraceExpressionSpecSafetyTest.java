@@ -55,7 +55,7 @@ public abstract class TraceExpressionSpecSafetyTest extends TraceExpressionSpecT
 	protected void doTest(final Tool tool, final String id) {
 		final SpecProcessor specProcessor = tool.getSpecProcessor();
 
-		Action[] actions = tool.getActions();
+		final Action[] actions = tool.getActions();
 		assertEquals(1, actions.length);
 
 		// Assert that one invariant exists.
@@ -63,7 +63,7 @@ public abstract class TraceExpressionSpecSafetyTest extends TraceExpressionSpecT
 		assertEquals(1, invariants.length);
 
 		// Assert there exists one init-predicate
-		Vect<Action> initPred = specProcessor.getInitPred();
+		final Vect<Action> initPred = specProcessor.getInitPred();
 		assertEquals(1, initPred.size());
 
 		// Assert there exists a next-state relation

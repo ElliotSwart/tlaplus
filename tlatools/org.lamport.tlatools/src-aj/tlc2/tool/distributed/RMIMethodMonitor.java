@@ -16,10 +16,10 @@ public class RMIMethodMonitor {
 	/**
 	 * @param joinPoint Counts the invocation for the given joinPoint
 	 */
-	public static synchronized void entering(JoinPoint joinPoint) {
+	public static synchronized void entering(final JoinPoint joinPoint) {
 		final Signature signature = joinPoint.getSignature();
 		final String methodName = signature.toShortString();
-		Integer invocedTimes = invoctions.get(methodName);
+		final Integer invocedTimes = invoctions.get(methodName);
 		
 		if(invocedTimes == null) {
 			invoctions.put(methodName, 1);

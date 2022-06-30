@@ -35,7 +35,7 @@ import tlc2.tool.liveness.ModelCheckerTestCase;
 
 public abstract class InitEvalOrderTest extends ModelCheckerTestCase {
 
-	public InitEvalOrderTest(String config) {
+	public InitEvalOrderTest(final String config) {
 		super("InitEvalOrder", "EvalOrder", new String[] {"-config", config});
 	}
 

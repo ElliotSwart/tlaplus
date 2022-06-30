@@ -18,7 +18,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     /***********************************************************************
     * This method is used in modanalyzer/{SyntaxTreePrinter,ParserUnit}.   *
     ***********************************************************************/
-    String[]deps = new String[ dependencyList.size() ];
+    final String[]deps = new String[ dependencyList.size() ];
     for (int lvi =0; lvi < deps.length; lvi++)
       deps[lvi] = dependencyList.elementAt(lvi).toString();
     return deps;
@@ -87,13 +87,13 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     BStack.registerInCurrentClass( ASSUME );
 
     try { ParseTree = CompilationUnit(); }
-    catch( ParseException e ) {
+    catch( final ParseException e ) {
          PErrors.push( new ParseError( msgStackToString(e) ) ); }
-    catch( TokenMgrError tme ) {
+    catch( final TokenMgrError tme ) {
       // lexical error.
-      String msg = tme.getMessage();
-      int bl = jj_input_stream.getBeginLine() + 1;
-      int el = jj_input_stream.getEndLine() + 1;
+      final String msg = tme.getMessage();
+      final int bl = jj_input_stream.getBeginLine() + 1;
+      final int el = jj_input_stream.getEndLine() + 1;
       // lexical error.
       if ( (msg.indexOf("EOF") != -1) && (bl != el) )  {
         PErrors.push(new ParseError(
@@ -116,7 +116,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
       * parsing without throwing an exception.  This happens in            *
       * ExceptComponent() if it finds "!.@", and in FairnessExpr().        *
       *********************************************************************/
-      tla2sany.st.ParseError  list[] = PErrors.errors();
+      final tla2sany.st.ParseError[] list = PErrors.errors();
       for (int i = 0; i < list.length; i++ ) {
         ToolIO.out.println( list[i].reportedError() );
 //        ToolIO.out.println( "+ " + list[i].defaultError() );
@@ -170,7 +170,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
   * using the GetToken method.  He thinks that it was to make sure         *
   * it would always return a token rather than null.                       *
   *************************************************************************/
-  final private Token getNextPreviewToken(Token t) {
+  final private Token getNextPreviewToken(final Token t) {
     if (t.next == null) t.next = token_source.getNextToken();
        /********************************************************************
        * token_source is declared in configuration/Configuration.java to   *
@@ -285,7 +285,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
              *      USE ... DEF ++                                         *
              *      a == ...                                               *
              **************************************************************/
-             Token identifier = t;
+             final Token identifier = t;
              if (    isOp(t.next)
                   && ! isPostfixOp(t.next)
                   && (    ! isInfixOp(t.next)
@@ -320,7 +320,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         *******************************************************************/
         if (   (t.next == null)
             || (t.next.kind != DEFBREAK)) {
-          Token i = new Token();
+          final Token i = new Token();
           i.kind = DEFBREAK;
           i.image = "Beginning of definition";
           i.beginLine = t.beginLine;
@@ -361,15 +361,15 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
 
 
 boolean
-isOp( Token t ) {
+isOp(final Token t ) {
   return t.kind >= op_57 && t.kind <= op_119;
 }
 
-boolean isInfixOp( Token t ) {
+boolean isInfixOp(final Token t ) {
   return t.kind >= op_1 && t.kind <= op_119;
 }
 
-boolean isPostfixOp( Token t ) {
+boolean isPostfixOp(final Token t ) {
   return t.kind >= op_57 && t.kind <= op_70;
 }
 
@@ -382,8 +382,8 @@ Operator lastOp;
   * op that was parsed.                                                    *
   *************************************************************************/
 
-  boolean isGenOp(SyntaxTreeNode tn) { /* has to be of the form prefix, opsym */
-    int kind = tn.getKind();
+  boolean isGenOp(final SyntaxTreeNode tn) { /* has to be of the form prefix, opsym */
+    final int kind = tn.getKind();
     if ( kind == N_GenPrefixOp
       || kind == N_GenNonExpPrefixOp
       || kind == N_GenInfixOp
@@ -430,7 +430,7 @@ Operator lastOp;
 //    return false;
 //  }
 //
-  boolean isFieldNameToken( Token t ) {
+  boolean isFieldNameToken(final Token t ) {
     /***********************************************************************
     * Modified by LL on 10 Oct 2007 because of new keywords added and      *
     * obsolete ones removed.                                               *
@@ -448,7 +448,7 @@ Operator lastOp;
        return false;
   }
 
-  boolean isLabel(SyntaxTreeNode node) {
+  boolean isLabel(final SyntaxTreeNode node) {
     /***********************************************************************
     * Checks that node is a label, meaning that it is either an            *
     * identifier token or else an OpApplication node each of whose         *
@@ -460,7 +460,7 @@ Operator lastOp;
         return (node.heirs()[0].heirs().length == 0) ;
        } ;
     if (! node.isKind(N_OpApplication)) {return false;} ;
-    SyntaxTreeNode opArgs = (SyntaxTreeNode) node.heirs()[1] ;
+    final SyntaxTreeNode opArgs = (SyntaxTreeNode) node.heirs()[1] ;
 if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
         /*******************************************************************
         * Sanity check--can be removed after debugging.                    *
@@ -471,15 +471,15 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
       *                                                                    *
       *     "("   arg_1   ","  ...  ","   arg_N   ")"                      *
       *********************************************************************/
-      SyntaxTreeNode genId = (SyntaxTreeNode) opArgs.heirs()[i] ;
+      final SyntaxTreeNode genId = (SyntaxTreeNode) opArgs.heirs()[i] ;
       if (genId.kind != N_GeneralId) {return false;} ;
       if (genId.heirs()[0].heirs().length != 0){return false;}
      } // for
     return true;
    }
 
-  boolean labelDoesNotChangeParse(SyntaxTreeNode labeledExpr,
-                                  Operator labelOp) {
+  boolean labelDoesNotChangeParse(final SyntaxTreeNode labeledExpr,
+                                  final Operator labelOp) {
     /***********************************************************************
     * Checks if preceding the expression labeledExpr with a label has not  *
     * changed the parsing of the enclosing expression.  It has changed     *
@@ -492,13 +492,13 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
     if ( ! (   labeledExpr.isKind(N_InfixExpr)
             || labeledExpr.isKind(N_PostfixExpr) ) ) {return true;} ;
 
-    OSelement topNode = OperatorStack.topOfStack();
+    final OSelement topNode = OperatorStack.topOfStack();
     if (topNode == null) {return true;} ;
-    Operator stackOp = topNode.getOperator() ;
+    final Operator stackOp = topNode.getOperator() ;
     return (stackOp == null) || Operator.prec(stackOp, labelOp) ;
   }
 
-  void checkIndentation(SyntaxTreeNode nd, SyntaxTreeNode junct)
+  void checkIndentation(final SyntaxTreeNode nd, final SyntaxTreeNode junct)
      throws ParseException {
     /***********************************************************************
     * Goes through the descendants of node nd, stopping at an N_DisjList   *
@@ -507,9 +507,9 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
     * N_ConjItem junct.  If not, it reports an error by throwing an        *
     * exception.                                                           *
     ***********************************************************************/
-    TreeNode[] children = nd.heirs() ;
+    final TreeNode[] children = nd.heirs() ;
     for (int i = 0; i < children.length; i++) {
-      SyntaxTreeNode child = (SyntaxTreeNode) children[i] ;
+      final SyntaxTreeNode child = (SyntaxTreeNode) children[i] ;
       if (! (   child.isKind(N_ConjList)
              || child.isKind(N_DisjList))) {
          if (!BStack.aboveReference(child.location[1])) {
@@ -526,7 +526,7 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
 
 
   boolean caseSep() {
-    Token t = getToken(1);
+    final Token t = getToken(1);
     return ( t.kind == CASESEP );
   }
 
@@ -574,9 +574,9 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
   int msgStackMaxSize = 512;
   int msgStackCurrentSize = 0;
 
-  private final void pushMsg( String s, Token t ) {
+  private final void pushMsg(final String s, final Token t ) {
     if ( msgStackCurrentSize == msgStackMaxSize) {
-      Object neo[] = new Object[ 2 * msgStackMaxSize ];
+      final Object[] neo = new Object[ 2 * msgStackMaxSize ];
       System.arraycopy(msgStack, 0, neo, 0, msgStackMaxSize);
       msgStack = neo;
       msgStackMaxSize *= 2;
@@ -597,8 +597,8 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
     * an error.                                                            *
     ***********************************************************************/
 
-  private final String msgStackToString(ParseException e) {
-    StringBuffer msg;
+  private final String msgStackToString(final ParseException e) {
+    final StringBuffer msg;
 
     msg = new StringBuffer("***Parse Error***\n");
     if ( !expecting.equals(emptyString) ) {
@@ -619,7 +619,7 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
     for ( int lvi = msgStackCurrentSize; lvi > last; lvi -=2 ) {
       msg.append( (String) msgStack[lvi -2 ] );
       msg.append(" starting at line ");
-      Token t =  (Token) msgStack[lvi - 1 ];
+      final Token t =  (Token) msgStack[lvi - 1 ];
       msg.append( t.beginLine );
       msg.append(", column ");
       msg.append( t.beginColumn );
@@ -651,13 +651,13 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
   private int heirsSize = 512;
   private int heirsIndex = 0;
 
-  private final void addHeir( SyntaxTreeNode sn ) {
+  private final void addHeir(final SyntaxTreeNode sn ) {
     /***********************************************************************
     * Appends the syntax tree sn to the end of the dynamic array           *
     * implemented by heirsTable.                                           *
     ***********************************************************************/
     if ( heirsIndex == heirsSize ) {
-      SyntaxTreeNode nh[] = new SyntaxTreeNode[ heirsSize + 512 ];
+      final SyntaxTreeNode[] nh = new SyntaxTreeNode[ heirsSize + 512 ];
       System.arraycopy( heirsTable, 0, nh, 0, heirsSize );
       heirsSize += 512;
       heirsTable = nh;
@@ -683,11 +683,11 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
     *         /\ heirsTable[lvi] = null                                    *
     *         /\ \A i \in lvi+1 .. heirsIndex-1 : heirsTable[i] # null     *
     ***********************************************************************/
-    int as = heirsIndex - lvi - 1;
+    final int as = heirsIndex - lvi - 1;
     if (as == 0)
       return null;
     else {
-      SyntaxTreeNode ts[] = new SyntaxTreeNode[ as ];
+      final SyntaxTreeNode[] ts = new SyntaxTreeNode[ as ];
       System.arraycopy( heirsTable, lvi + 1, ts, 0, as);
       heirsIndex = lvi + 1;
       /*********************************************************************
@@ -712,7 +712,7 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
 
   private String emptyString = "";
 
-  private final void bpa( String s) { // Beginning of Production Actions 
+  private final void bpa(final String s) { // Beginning of Production Actions
     addHeir( null );
 if (System.getProperty("TLA-StackTrace", "off").equals("on")) ToolIO.out.println("Beginning " + s);
     pushMsg( s, getToken(1) );
@@ -730,20 +730,20 @@ if (System.getProperty("TLA-StackTrace", "off").equals("on")) ToolIO.out.println
 
   Stack internals = new Stack();
 
-  private final void addDependency( UniqueString s ) {
-    int lvi = internals.search( s );
+  private final void addDependency(final UniqueString s ) {
+    final int lvi = internals.search( s );
     if ( lvi < 0 )
       dependencyList.addElement( s );
   }
 
-  private final UniqueString reduceString( String s ) {
-    int l = s.length();
-    StringBuffer copy = new StringBuffer( l );
+  private final UniqueString reduceString(final String s ) {
+    final int l = s.length();
+    final StringBuffer copy = new StringBuffer( l );
     int i = 0;
     int j = 0;
     while ( i!= l ) {
       if (s.charAt(i) == '\\' ) {
-        i++; char c = s.charAt(i);
+        i++; final char c = s.charAt(i);
              if (c == '\\') copy.append( '\\');
         else if (c == 'n')  copy.append( '\n');
         else if (c == 'r')  copy.append( '\r');
@@ -776,12 +776,12 @@ private int[] proofLevelStack = new int[MaxProofDepth] ;
   * its level, then proofLevelStack[proofDepth] equals -1.                 *
   *************************************************************************/
 
-private int levelOfProofStepLexeme(Token tok){
+private int levelOfProofStepLexeme(final Token tok){
   /*************************************************************************
   * The level of a ProofStepLexeme or ProofStepDotLexeme.  It returns -1   *
   * for "*" and -2 for "*".                                                *
   *************************************************************************/
-  String im = tok.image ;
+  final String im = tok.image ;
   if (im.substring(1,2).equals("*")) {return -1;} ;
   if (im.substring(1,2).equals("+")) {return -2;} ;
   return Integer.valueOf(im.substring(1, im.indexOf('>'))).intValue() ;
@@ -797,7 +797,7 @@ private int levelOfProofStepLexeme(Token tok){
 * appropriate level number, and leading zeros are removed from a regular   *
 * level number.                                                            *
 ***************************************************************************/
-private UniqueString correctedStepNum(Token t) {
+private UniqueString correctedStepNum(final Token t) {
   String str = t.image ;
   if (   str.substring(1,2).equals("*")
       || str.substring(1,2).equals("+") ) {
@@ -839,7 +839,7 @@ private void popProofLevel() throws ParseException {
   proofDepth-- ;
  }
 
-private void setProofLevel(int val) throws ParseException {
+private void setProofLevel(final int val) throws ParseException {
   if (proofDepth < 0) {
     throw new ParseException("Parser bug: proof step found outside proof." ) ;
    } ;
@@ -850,13 +850,13 @@ private int getProofLevel() {
   if (proofDepth < 0) { return proofDepth; } ;
   return proofLevelStack[proofDepth]; }
 
-private boolean beginsProof(Token tok) {
+private boolean beginsProof(final Token tok) {
   /*************************************************************************
   * True iff the token tok begins a new proof--that is, iff it is either   *
   * "BY", "PROOF", a step number that has a higher level than the current  *
   * level, begins "<+>", or begins "<*>" and we are not inside a proof.    *
   *************************************************************************/
-  String im = tok.image ;
+  final String im = tok.image ;
   if (im.length() < 2) {return false;}
     /***********************************************************************
     * This can happen if the user makes a weird error.                     *
@@ -870,7 +870,7 @@ private boolean beginsProof(Token tok) {
     case UnnumberedStepLexeme :
     case ProofStepDotLexeme :
       if (proofDepth < 0) {return true ;} ;
-      int tokLevel = levelOfProofStepLexeme(tok) ;
+      final int tokLevel = levelOfProofStepLexeme(tok) ;
       return    (proofLevelStack[proofDepth] >= 0)
              && (tokLevel > proofLevelStack[proofDepth]) ;
     case BY :
@@ -882,7 +882,7 @@ private boolean beginsProof(Token tok) {
   return false ;
  }
 
-private boolean correctLevel(Token tok) {
+private boolean correctLevel(final Token tok) {
   /*************************************************************************
   * True iff tok is a correct proof step token for the current level of    *
   * proof, where precedeByPROOF is true iff the proof is preceded by a     *
@@ -890,7 +890,7 @@ private boolean correctLevel(Token tok) {
   * If this is the first step being processed for current proof, then it   *
   * sets the current proof level.                                          *
   *************************************************************************/
-  int tokLevel = levelOfProofStepLexeme(tok) ;
+  final int tokLevel = levelOfProofStepLexeme(tok) ;
 
   /*************************************************************************
   * Set lastDepth to the level of the containing proof, or -1 if this is   *
@@ -930,7 +930,7 @@ private boolean correctLevel(Token tok) {
 
 /* beginning of the grammar productions */
   final public Token PrefixOpToken() throws ParseException {
-  Token t;
+  final Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case op_26:
       t = jj_consume_token(op_26);
@@ -976,7 +976,7 @@ private boolean correctLevel(Token tok) {
 * "-." while the second contains does not.  Neither includes "-".          *
 ***************************************************************************/
   final public Token NEPrefixOpToken() throws ParseException {
-  Token t;
+  final Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case op_26:
       t = jj_consume_token(op_26);
@@ -1021,7 +1021,7 @@ private boolean correctLevel(Token tok) {
   }
 
   final public Token InfixOpToken() throws ParseException {
-  Token t;
+  final Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case op_1:
       t = jj_consume_token(op_1);
@@ -1339,7 +1339,7 @@ private boolean correctLevel(Token tok) {
   }
 
   final public Token PostfixOpToken() throws ParseException {
-Token t;
+final Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case op_57:
       t = jj_consume_token(op_57);
@@ -1363,7 +1363,7 @@ Token t;
   }
 
   final public SyntaxTreeNode CompilationUnit() throws ParseException {
-  SyntaxTreeNode tempASTN;
+  final SyntaxTreeNode tempASTN;
   belchDEF();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case BEGIN_PRAGMA:
@@ -1410,7 +1410,7 @@ Token t;
 
   final public SyntaxTreeNode Module() throws ParseException {
   Token t;
-  SyntaxTreeNode lSTN[] = new SyntaxTreeNode[ 4 ];
+  final SyntaxTreeNode[] lSTN = new SyntaxTreeNode[ 4 ];
   bpa( "Module definition" );
   internals.push( null );
   Object pop = null;
@@ -1429,7 +1429,7 @@ Token t;
   }
 
   final public SyntaxTreeNode BeginModule() throws ParseException {
-  SyntaxTreeNode lSTN[] = new SyntaxTreeNode[3];
+  final SyntaxTreeNode[] lSTN = new SyntaxTreeNode[3];
   Token t;
   bpa( "Begin module" );
   expecting = "---- MODULE (beginning of module)";
@@ -1462,8 +1462,8 @@ Token t;
   }
 
   final public SyntaxTreeNode EndModule() throws ParseException {
-  SyntaxTreeNode lSTN[] = new SyntaxTreeNode[1];
-  Token t;
+  final SyntaxTreeNode[] lSTN = new SyntaxTreeNode[1];
+  final Token t;
     t = jj_consume_token(END_MODULE);
     lSTN[0] = new SyntaxTreeNode(mn, t);
     {if (true) return new SyntaxTreeNode(mn, N_EndModule, lSTN );}
@@ -1507,14 +1507,15 @@ Token t;
       jj_la1[9] = jj_gen;
       ;
     }
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_Extends, sn );}
     throw new Error("Missing return statement in function");
   }
 
   final public SyntaxTreeNode Body() throws ParseException {
-  SyntaxTreeNode tn, sn[];
-  Token t;
+  SyntaxTreeNode tn;
+      final SyntaxTreeNode[] sn;
+      Token t;
   bpa("Module body");
   expecting = "LOCAL, INSTANCE, PROOF, ASSUMPTION, THEOREM, " +
               "RECURSIVE, declaration, or definition";
@@ -1583,9 +1584,10 @@ Token t;
   }
 
   final public SyntaxTreeNode VariableDeclaration() throws ParseException {
-  SyntaxTreeNode tn, sn[];
-  Token t;
-  SyntaxTreeNode lSTN[] = new SyntaxTreeNode[1];
+  SyntaxTreeNode tn;
+      final SyntaxTreeNode[] sn;
+      Token t;
+  final SyntaxTreeNode[] lSTN = new SyntaxTreeNode[1];
   bpa( "variable declaration" );
     t = jj_consume_token(VARIABLE);
                        lSTN[0] = new SyntaxTreeNode( mn, t);
@@ -1615,8 +1617,9 @@ Token t;
   }
 
   final public SyntaxTreeNode ParamDeclaration() throws ParseException {
-  SyntaxTreeNode tn, sn[];
-  Token t;
+  SyntaxTreeNode tn;
+      final SyntaxTreeNode[] sn;
+      Token t;
   bpa("Parameter declaration");
   expecting = TLAConstants.KeyWords.CONSTANT;
     tn = ParamSubDecl();
@@ -1650,9 +1653,11 @@ Token t;
 * Used to allow "STATE FUNCTION", "TEMPORAL", etc.                         *
 ***************************************************************************/
   final public SyntaxTreeNode ParamSubDecl() throws ParseException {
-  SyntaxTreeNode tn, sn[];
-  Token t, u;
-  bpa("Parameter declaration item");
+  final SyntaxTreeNode tn;
+      final SyntaxTreeNode[] sn;
+      final Token t;
+      Token u;
+      bpa("Parameter declaration item");
     t = jj_consume_token(CONSTANT);
      sn = new SyntaxTreeNode[1]; sn[0] = new SyntaxTreeNode(mn, t);
      tn = new SyntaxTreeNode(mn, N_ConsDecl, sn );
@@ -1668,8 +1673,9 @@ Token t;
 * Produces an N_Recursive node.                                            *
 ***************************************************************************/
   final public SyntaxTreeNode Recursive() throws ParseException {
-  SyntaxTreeNode tn, sn[];
-  Token t;
+  SyntaxTreeNode tn;
+      final SyntaxTreeNode[] sn;
+      Token t;
   bpa("Recursive");
   expecting = "RECURSIVE";
     t = jj_consume_token(RECURSIVE);
@@ -1701,8 +1707,9 @@ Token t;
   }
 
   final public SyntaxTreeNode ConstantDeclarationItems() throws ParseException {
-  SyntaxTreeNode tn, sn[];
-  int kind;
+  final SyntaxTreeNode tn;
+      final SyntaxTreeNode[] sn;
+      final int kind;
   Token t;
   bpa( "Constant declaration items");
   expecting = "Identifier, _ or prefix op";
@@ -2046,7 +2053,7 @@ expecting = "Expression";
         throw new ParseException();
       }
     }
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode(mn,kind, zn, sn);}
     throw new Error("Missing return statement in function");
   }
@@ -2088,7 +2095,7 @@ expecting = "COMMA or >>";
     }
     t = jj_consume_token(RAB);
                addHeir( new SyntaxTreeNode(mn, t) );
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_IdentifierTuple, sn  );}
     throw new Error("Missing return statement in function");
   }
@@ -2176,15 +2183,15 @@ expecting = "COMMA or )";
       jj_la1[28] = jj_gen;
       ;
     }
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_IdentLHS, sn);}
     throw new Error("Missing return statement in function");
   }
 
   final public SyntaxTreeNode PrefixLHS() throws ParseException {
-  SyntaxTreeNode sn[] = new SyntaxTreeNode[2];
-  SyntaxTreeNode tn;
-  Token t;
+  final SyntaxTreeNode[] sn = new SyntaxTreeNode[2];
+  final SyntaxTreeNode tn;
+  final Token t;
   bpa("Prefix LHS");
     t = NEPrefixOpToken();
                             sn[0] = new SyntaxTreeNode(mn, t);
@@ -2196,9 +2203,9 @@ expecting = "Identifier";
   }
 
   final public SyntaxTreeNode InfixLHS() throws ParseException {
-  SyntaxTreeNode sn[] = new SyntaxTreeNode[3];
+  final SyntaxTreeNode[] sn = new SyntaxTreeNode[3];
   SyntaxTreeNode tn;
-  Token t;
+  final Token t;
   bpa("Infix LHS");
     tn = Identifier();
                       sn[0] = tn;
@@ -2211,9 +2218,9 @@ expecting = "Identifier";
   }
 
   final public SyntaxTreeNode PostfixLHS() throws ParseException {
-  SyntaxTreeNode sn[] = new SyntaxTreeNode[2];
-  SyntaxTreeNode tn;
-  Token t;
+  final SyntaxTreeNode[] sn = new SyntaxTreeNode[2];
+  final SyntaxTreeNode tn;
+  final Token t;
   bpa("Postfix LHS");
     tn = Identifier();
                       sn[0] = tn;
@@ -2224,7 +2231,7 @@ expecting = "Identifier";
   }
 
   final public SyntaxTreeNode IdentDecl() throws ParseException {
-  SyntaxTreeNode tn;
+  final SyntaxTreeNode tn;
   Token t;
   bpa("Identifier Declation");
     tn = Identifier();
@@ -2262,18 +2269,18 @@ expecting = "COMMA or )";
       jj_la1[30] = jj_gen;
       ;
     }
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_IdentDecl, sn);}
     throw new Error("Missing return statement in function");
   }
 
   final public SyntaxTreeNode SomeFixDecl() throws ParseException {
-  SyntaxTreeNode localASTN = null;
-  SyntaxTreeNode tn;
+  final SyntaxTreeNode localASTN = null;
+  final SyntaxTreeNode tn;
   SyntaxTreeNode sn[] = null;
-  int kind;
+  final int kind;
   Token t;
-  UniqueString n;
+  final UniqueString n;
   bpa("Op. Symbol Declaration");
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case op_76:
@@ -2434,9 +2441,9 @@ expecting = "_";
   }
 
   final public SyntaxTreeNode Instance() throws ParseException {
-  SyntaxTreeNode tn;
+  final SyntaxTreeNode tn;
   SyntaxTreeNode zn = null;
-  Token t;
+  final Token t;
   bpa("Instance");
 expecting = "LOCAL or instance";
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2451,7 +2458,7 @@ expecting = "LOCAL or instance";
     tn = Instantiation();
                          addHeir( tn );
 expecting = "COMMA or Module Body";
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_Instance, zn, sn);}
     throw new Error("Missing return statement in function");
   }
@@ -2495,21 +2502,21 @@ expecting = emptyString;
       jj_la1[34] = jj_gen;
       ;
     }
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_NonLocalInstance, sn);}
     throw new Error("Missing return statement in function");
   }
 
   final public SyntaxTreeNode Substitution() throws ParseException {
-  SyntaxTreeNode zn[] = new SyntaxTreeNode[3];
+  final SyntaxTreeNode[] zn = new SyntaxTreeNode[3];
   SyntaxTreeNode tn = null;
-  Token t;
+  final Token t;
   anchor = null;
     /***********************************************************************
     * See the comments for the declaration of anchor to see what this is   *
     * being used for.                                                      *
     ***********************************************************************/
-  String n;
+  final String n;
   bpa("Substitution");
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case IDENTIFIER:
@@ -2660,7 +2667,7 @@ expecting = "Expression or Op. Symbol";
 
 
   final public SyntaxTreeNode PrefixOp() throws ParseException {
-  Token t;
+  final Token t;
     t = PrefixOpToken();
     lastOp = Operators.getOperator( UniqueString.uniqueStringOf(t.image) ); // YYY to revise
     {if (true) return new SyntaxTreeNode(mn, N_PrefixOp, t) ;}
@@ -2668,7 +2675,7 @@ expecting = "Expression or Op. Symbol";
   }
 
   final public SyntaxTreeNode NonExpPrefixOp() throws ParseException {
-  Token t;
+  final Token t;
     t = NEPrefixOpToken();
     lastOp = Operators.getOperator( UniqueString.uniqueStringOf(t.image) ); // YYY to revise
     {if (true) return new SyntaxTreeNode(mn, N_NonExpPrefixOp, t) ;}
@@ -2676,7 +2683,7 @@ expecting = "Expression or Op. Symbol";
   }
 
   final public SyntaxTreeNode InfixOp() throws ParseException {
-  Token t;
+  final Token t;
 bpa("Infix Op") ;
     t = InfixOpToken();
     lastOp = Operators.getOperator( UniqueString.uniqueStringOf(t.image) ); // YYY to revise
@@ -2686,7 +2693,7 @@ epa();
   }
 
   final public SyntaxTreeNode PostfixOp() throws ParseException {
-  Token t;
+  final Token t;
     t = PostfixOpToken();
     lastOp = Operators.getOperator( UniqueString.uniqueStringOf(t.image) ); // YYY to revise
     {if (true) return new SyntaxTreeNode(mn, N_PostfixOp, t) ;}
@@ -2694,7 +2701,7 @@ epa();
   }
 
   final public SyntaxTreeNode Identifier() throws ParseException {
-  Token t;
+  final Token t;
     t = jj_consume_token(IDENTIFIER);
                      {if (true) return new SyntaxTreeNode(mn, t);}
     throw new Error("Missing return statement in function");
@@ -2706,7 +2713,7 @@ epa();
 ***************************************************************************/
   final public SyntaxTreeNode Assumption() throws ParseException {
   SyntaxTreeNode tn;
-  SyntaxTreeNode zn = null;
+  final SyntaxTreeNode zn = null;
   Token t;
   bpa("Assumption");
 // expecting = "LOCAL or ASSUM...";
@@ -2748,7 +2755,7 @@ expecting = "==";
 expecting = "Expression";
     tn = Expression();
     addHeir(tn);
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_Assumption, zn, sn);}
     throw new Error("Missing return statement in function");
   }
@@ -2932,7 +2939,7 @@ expecting = "Expression";
   *************************************************************************/
   SyntaxTreeNode tn ;
   Token t ;
-  boolean hasArgs ;
+  final boolean hasArgs ;
     /***********************************************************************
     * We want to allow "NEW Id \in S" but disallow "NEW Id(_) \in S".      *
     * For simplicity, the we do this by letting javacc accept either, but  *
@@ -3027,7 +3034,7 @@ expecting = "Expression";
                          * node, and doesn't cope with a bare Identifier   *
                          * node.                                           *
                          **************************************************/
-                         SyntaxTreeNode[] sn = new SyntaxTreeNode[1] ;
+                         final SyntaxTreeNode[] sn = new SyntaxTreeNode[1] ;
                          sn[0] = tn ;
                          addHeir(new SyntaxTreeNode( mn, N_IdentDecl, sn));
     } else if (jj_2_22(2)) {
@@ -3086,7 +3093,7 @@ expecting = "Expression";
       jj_consume_token(-1);
       throw new ParseException();
     }
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_NewSymb, sn);}
     throw new Error("Missing return statement in function");
   }
@@ -3138,7 +3145,7 @@ expecting = "Expression";
   final public SyntaxTreeNode MaybeBound() throws ParseException {
   SyntaxTreeNode zn[] = null;
   SyntaxTreeNode tn;
-  Token t;
+  final Token t;
   bpa("Domain binding");
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case IN:
@@ -3216,7 +3223,7 @@ expecting = "==";
     } else {
       ;
     }
-   SyntaxTreeNode sn[] = getLastHeirs();
+   final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_Theorem, sn);}
     throw new Error("Missing return statement in function");
   }
@@ -3314,7 +3321,7 @@ expecting = "==";
         jj_consume_token(-1);
         throw new ParseException();
       }
-     SyntaxTreeNode sn[] ;
+     final SyntaxTreeNode[] sn;
      if (t0 != null) {
        sn = new SyntaxTreeNode[2];
        sn[0] = new SyntaxTreeNode(mn, t0);
@@ -3345,7 +3352,7 @@ expecting = "==";
       }
       tn = QEDStep();
      addHeir(tn);
-     SyntaxTreeNode sn[] = getLastHeirs();
+     final SyntaxTreeNode[] sn = getLastHeirs();
      tn = new SyntaxTreeNode(mn, N_Proof, sn );
     } else {
       jj_consume_token(-1);
@@ -3539,14 +3546,14 @@ expecting = "==";
       ;
     }
     if (kind == N_TerminalProof) {expecting = "[.]";};
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa();
     {if (true) return new SyntaxTreeNode(mn, kind, sn );}
     throw new Error("Missing return statement in function");
   }
 
   final public Token StepStartToken() throws ParseException {
- Token t ;
+ final Token t ;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case ProofStepLexeme:
       t = jj_consume_token(ProofStepLexeme);
@@ -3579,7 +3586,7 @@ expecting = "==";
  Token t ;
  SyntaxTreeNode tn;
  SyntaxTreeNode[] sn;
- int level = -1 ;
+ final int level = -1 ;
  bpa("QED step") ;
  expecting = "Step number" ;
     t = StepStartToken();
@@ -3707,7 +3714,7 @@ expecting = "==";
     } else {
       ;
     }
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
      epa();
      {if (true) return new SyntaxTreeNode(mn, N_ProofStep, sn);}
     throw new Error("Missing return statement in function");
@@ -3741,7 +3748,7 @@ expecting = "==";
         break label_17;
       }
     }
-     SyntaxTreeNode sn[] = getLastHeirs();
+     final SyntaxTreeNode[] sn = getLastHeirs();
      epa();
      {if (true) return new SyntaxTreeNode(mn, N_DefStep, sn );}
     throw new Error("Missing return statement in function");
@@ -3760,7 +3767,7 @@ expecting = "==";
                   expecting = "expression";
     tn = Expression();
       addHeir(tn) ;
-      SyntaxTreeNode sn[] = getLastHeirs();
+      final SyntaxTreeNode[] sn = getLastHeirs();
       epa();
       {if (true) return new SyntaxTreeNode(mn, N_HaveStep, sn );}
     throw new Error("Missing return statement in function");
@@ -3829,7 +3836,7 @@ expecting = "==";
         throw new ParseException();
       }
     }
-      SyntaxTreeNode sn[] = getLastHeirs();
+      final SyntaxTreeNode[] sn = getLastHeirs();
       epa();
       {if (true) return new SyntaxTreeNode(mn, N_TakeStep, sn );}
     throw new Error("Missing return statement in function");
@@ -3867,7 +3874,7 @@ expecting = "==";
                             addHeir(tn) ;
                             expecting = "comma or colon";
     }
-      SyntaxTreeNode sn[] = getLastHeirs();
+      final SyntaxTreeNode[] sn = getLastHeirs();
       epa();
       {if (true) return new SyntaxTreeNode(mn, N_WitnessStep, sn );}
     throw new Error("Missing return statement in function");
@@ -3942,7 +3949,7 @@ expecting = "==";
                   expecting = "expression";
     tn = Expression();
                         addHeir(tn) ;
-      SyntaxTreeNode sn[] = getLastHeirs();
+      final SyntaxTreeNode[] sn = getLastHeirs();
       epa();
       {if (true) return new SyntaxTreeNode(mn, N_PickStep, sn );}
     throw new Error("Missing return statement in function");
@@ -3961,7 +3968,7 @@ expecting = "==";
                   expecting = "expression";
     tn = Expression();
       addHeir(tn) ;
-      SyntaxTreeNode sn[] = getLastHeirs();
+      final SyntaxTreeNode[] sn = getLastHeirs();
       epa();
       {if (true) return new SyntaxTreeNode(mn, N_CaseStep, sn );}
     throw new Error("Missing return statement in function");
@@ -3994,7 +4001,7 @@ expecting = "==";
       throw new ParseException();
     }
       addHeir(tn) ;
-      SyntaxTreeNode sn[] = getLastHeirs();
+      final SyntaxTreeNode[] sn = getLastHeirs();
       epa();
       {if (true) return new SyntaxTreeNode(mn, N_AssertStep, sn );}
     throw new Error("Missing return statement in function");
@@ -4186,14 +4193,14 @@ expecting = "==";
       tn = IdPrefixElement();
                             addHeir( tn );
     }
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode(mn, N_Proof, sn );}
     throw new Error("Missing return statement in function");
   }
 
   final public SyntaxTreeNode IdPrefixElement() throws ParseException {
   SyntaxTreeNode tn;
-  Token t;
+  final Token t;
   bpa("ID Prefix Element");
     tn = Identifier();
                       addHeir( tn );
@@ -4208,13 +4215,13 @@ expecting = "==";
     }
     t = jj_consume_token(BANG);
                addHeir( new SyntaxTreeNode(mn, t) );
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return  new SyntaxTreeNode(mn, N_IdPrefixElement, sn);}
     throw new Error("Missing return statement in function");
   }
 
   final public SyntaxTreeNode ParenthesesExpression() throws ParseException {
-  SyntaxTreeNode tn;
+  final SyntaxTreeNode tn;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LBR:
       tn = ParenExpr();
@@ -4245,7 +4252,7 @@ expecting = "==";
   }
 
   final public SyntaxTreeNode ClosedExpressionOrOp() throws ParseException {
-  SyntaxTreeNode tn;
+  final SyntaxTreeNode tn;
   Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case NUMBER_LITERAL:
@@ -4390,7 +4397,7 @@ expecting = "==";
 
 
   final public SyntaxTreeNode OpenExpression() throws ParseException {
-  SyntaxTreeNode tn;
+  final SyntaxTreeNode tn;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case EXISTS:
     case FORALL:
@@ -4425,7 +4432,7 @@ expecting = "==";
   L.GeneralId, L.OpApplication, L.String, L.Number, L.GenOp...
 */
   final public SyntaxTreeNode ElementaryExpression() throws ParseException {
-  SyntaxTreeNode tn;
+  final SyntaxTreeNode tn;
   Token t;
   bpa("Elementary expression");
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -4566,8 +4573,8 @@ expecting = "==";
   }
 
   final public SyntaxTreeNode String() throws ParseException {
-  SyntaxTreeNode tn;
-  Token t;
+  final SyntaxTreeNode tn;
+  final Token t;
   bpa("String");
     t = jj_consume_token(STRING_LITERAL);
     tn = new SyntaxTreeNode( mn, N_String, t);
@@ -4579,8 +4586,9 @@ expecting = "==";
 
   final public SyntaxTreeNode Number() throws ParseException {
   SyntaxTreeNode tn, sn[] = null;
-  Token t1, t2;
-  int kind = N_Number;
+  Token t1;
+      final Token t2;
+      int kind = N_Number;
     t1 = jj_consume_token(NUMBER_LITERAL);
     if (jj_2_40(2)) {
       t2 = jj_consume_token(DOT);
@@ -4771,7 +4779,7 @@ expecting = "==";
           heirs[2] = new SyntaxTreeNode(mn, t );
         }
         heirs[0] = tid;
-        SyntaxTreeNode current = new SyntaxTreeNode( mn, N_IdPrefixElement, heirs );
+        final SyntaxTreeNode current = new SyntaxTreeNode( mn, N_IdPrefixElement, heirs );
         addHeir( current );
         last = Extension();
         break;
@@ -4836,7 +4844,7 @@ expecting = "==";
     }
     t = jj_consume_token(RBR);
                addHeir( new SyntaxTreeNode(mn, t) );
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode(mn, N_OpArgs, sn);}
     throw new Error("Missing return statement in function");
   }
@@ -4928,7 +4936,7 @@ expecting = "==";
   * expression (like a+b).                                                 *
   *************************************************************************/
 SyntaxTreeNode tn;
-int kind ;
+final int kind ;
     if (jj_2_41(2) && (BStack.aboveReference( getToken(1).beginColumn))) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case op_76:
@@ -5068,7 +5076,7 @@ int kind ;
         jj_consume_token(-1);
         throw new ParseException();
       }
-    SyntaxTreeNode heirs[] = new SyntaxTreeNode[2];
+    final SyntaxTreeNode[] heirs = new SyntaxTreeNode[2];
     heirs[0] = new SyntaxTreeNode( mn, N_IdPrefix, ( SyntaxTreeNode []) null );
     heirs[1] = tn;
     tn = new SyntaxTreeNode(mn, kind, heirs);
@@ -5092,7 +5100,7 @@ int kind ;
   }
 
   final public void OpSuite() throws ParseException {
-SyntaxTreeNode tn;
+final SyntaxTreeNode tn;
     tn = OpOrExpr();
                     addHeir(tn);
   }
@@ -5154,7 +5162,7 @@ SyntaxTreeNode tn;
 //   { addHeir( tn ); }
 // }
   final public SyntaxTreeNode ParenExpr() throws ParseException {
-  SyntaxTreeNode zn[] = new SyntaxTreeNode[3];
+  final SyntaxTreeNode[] zn = new SyntaxTreeNode[3];
   SyntaxTreeNode tn;
   Token t;
     t = jj_consume_token(LBR);
@@ -5170,7 +5178,7 @@ SyntaxTreeNode tn;
   SyntaxTreeNode tn;
   Token t;
   bpa("Quantified form");
-  int kind;
+  final int kind;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case EXISTS:
       t = jj_consume_token(EXISTS);
@@ -5236,7 +5244,7 @@ SyntaxTreeNode tn;
                  addHeir( new SyntaxTreeNode(mn, t) );
     tn = Expression();
                       addHeir( tn );
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode(mn, kind, sn);}
     throw new Error("Missing return statement in function");
   }
@@ -5279,7 +5287,7 @@ SyntaxTreeNode tn;
                  addHeir( new SyntaxTreeNode(mn, t) );
     tn = Expression();
                       addHeir( tn );
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode(mn, N_UnboundQuant, sn);}
     throw new Error("Missing return statement in function");
   }
@@ -5324,15 +5332,19 @@ SyntaxTreeNode tn;
     addHeir(tn);
     tn = Expression();
                       addHeir( tn );
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode(mn, N_QuantBound, sn);}
     throw new Error("Missing return statement in function");
   }
 
   final public SyntaxTreeNode BraceCases() throws ParseException {
   int kind = N_SetEnumerate; // set by default.
-  SyntaxTreeNode tn, tn_0, tn_1, tn_2, htn = null;
-  Token t;
+  SyntaxTreeNode tn;
+      SyntaxTreeNode tn_0;
+      SyntaxTreeNode tn_1;
+      final SyntaxTreeNode tn_2;
+      SyntaxTreeNode htn = null;
+      Token t;
   boolean te = false;
     /***********************************************************************
     * The value of te is set in a couple of places, but it is never        *
@@ -5377,7 +5389,7 @@ SyntaxTreeNode tn;
 // need to create a node for a N_InfixExpr. Some reassembly required, but if course it may be for naught.
 // This is in case it isn't a N_SubsetOf
       expecting = "':', ',' or '}'";
-      SyntaxTreeNode zn[] = new SyntaxTreeNode[3];
+      final SyntaxTreeNode[] zn = new SyntaxTreeNode[3];
       SyntaxTreeNode wn[]= new SyntaxTreeNode[2];
       wn[0] = new SyntaxTreeNode(mn, N_IdPrefix, new SyntaxTreeNode[0]);
       wn[1] = tn_0;
@@ -5558,7 +5570,7 @@ SyntaxTreeNode tn;
     t = jj_consume_token(RBC);
     if (htn!=null) addHeir(htn);
     addHeir( new SyntaxTreeNode(mn, t) );
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode(mn, kind, sn);}
     throw new Error("Missing return statement in function");
   }
@@ -5739,7 +5751,7 @@ SyntaxTreeNode tn;
       jj_consume_token(-1);
       throw new ParseException();
     }
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     Assert.check(kind !=0, EC.SANY_PARSER_CHECK_3);
 // "Assertion error in SBracketCases()"
     epa(); {if (true) return new SyntaxTreeNode(mn, kind, sn);}
@@ -5747,8 +5759,8 @@ SyntaxTreeNode tn;
   }
 
   final public SyntaxTreeNode FieldVal() throws ParseException {
-  SyntaxTreeNode zn[] = new SyntaxTreeNode[3];
-  Token t;
+  final SyntaxTreeNode[] zn = new SyntaxTreeNode[3];
+  final Token t;
   bpa("Field Value");
     zn[0] = Identifier();
     t = jj_consume_token(MAPTO);
@@ -5759,9 +5771,9 @@ SyntaxTreeNode tn;
   }
 
   final public SyntaxTreeNode FieldSet() throws ParseException {
-  SyntaxTreeNode zn[] = new SyntaxTreeNode[3];
+  final SyntaxTreeNode[] zn = new SyntaxTreeNode[3];
   SyntaxTreeNode tn;
-  Token t;
+  final Token t;
   bpa("Field Set");
     zn[0] = Identifier();
     t = jj_consume_token(COLON);
@@ -5798,7 +5810,7 @@ SyntaxTreeNode tn;
     addHeir(tn);
     tn = Expression();
                       addHeir( tn );
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_ExceptSpec, sn );}
     throw new Error("Missing return statement in function");
   }
@@ -5815,7 +5827,7 @@ SyntaxTreeNode tn;
                 * Following added by LL on 10 Oct 2007 to make something   *
                 * like "!.THEN" work right.                                *
                 ***********************************************************/
-                Token next = getToken(1);
+                final Token next = getToken(1);
                 if (isFieldNameToken( next )) next.kind = IDENTIFIER;
       tn = Identifier();
       if (tn.getUS().equals(At) ) {
@@ -5851,7 +5863,7 @@ SyntaxTreeNode tn;
       jj_consume_token(-1);
       throw new ParseException();
     }
-    SyntaxTreeNode sn[] = getLastHeirs(); epa();
+    final SyntaxTreeNode[] sn = getLastHeirs(); epa();
     {if (true) return new SyntaxTreeNode( mn, N_ExceptComponent, sn );}
     throw new Error("Missing return statement in function");
   }
@@ -5889,13 +5901,13 @@ SyntaxTreeNode tn;
     }
     t = jj_consume_token(RWB);
               addHeir( new SyntaxTreeNode(mn, t) );
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_SetExcept, sn );}
     throw new Error("Missing return statement in function");
   }
 
   final public SyntaxTreeNode SExceptSpec() throws ParseException {
-  SyntaxTreeNode zn[] = new SyntaxTreeNode[4];
+  final SyntaxTreeNode[] zn = new SyntaxTreeNode[4];
   SyntaxTreeNode tn;
   Token t;
   bpa("Set Expect Spec");
@@ -5966,15 +5978,17 @@ SyntaxTreeNode tn;
       jj_consume_token(-1);
       throw new ParseException();
     }
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, kind, sn );}
     throw new Error("Missing return statement in function");
   }
 
 //  new SyntaxTreeNode( N_IdPrefix )  ???
   final public SyntaxTreeNode NoOpExtension() throws ParseException {
-  SyntaxTreeNode tid, top, last;
-  last = null; top = null;
+  final SyntaxTreeNode tid;
+      SyntaxTreeNode top;
+      SyntaxTreeNode last;
+      last = null; top = null;
   Token t = null;
     tid = Identifier();
     if (jj_2_53(2)) {
@@ -5985,7 +5999,7 @@ SyntaxTreeNode tn;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case BANG:
       t = jj_consume_token(BANG);
-        SyntaxTreeNode heirs[];
+        final SyntaxTreeNode[] heirs;
         if ( top == null ) {
           heirs = new SyntaxTreeNode[2];
           heirs[1] = new SyntaxTreeNode( mn, t );
@@ -5995,7 +6009,7 @@ SyntaxTreeNode tn;
           heirs[2] = new SyntaxTreeNode(mn, t );
         }
         heirs[0] = tid;
-        SyntaxTreeNode current = new SyntaxTreeNode( mn, N_IdPrefixElement, heirs );
+        final SyntaxTreeNode current = new SyntaxTreeNode( mn, N_IdPrefixElement, heirs );
         addHeir( current );
       last = NoOpExtension();
       break;
@@ -6008,7 +6022,7 @@ SyntaxTreeNode tn;
            FairnessHook = top;
          else
            FairnessHook = null;
-         SyntaxTreeNode zn[] = new SyntaxTreeNode[2];
+         final SyntaxTreeNode[] zn = new SyntaxTreeNode[2];
          zn[0] = new SyntaxTreeNode( mn, N_IdPrefix, getLastHeirs() );
          zn[1] = tid;
          last = new SyntaxTreeNode( mn, N_GeneralId, zn );
@@ -6021,7 +6035,7 @@ SyntaxTreeNode tn;
   /*************************************************************************
   * This is an expression that can follow "[...]_" or "<<...>>_".          *
   *************************************************************************/
-  SyntaxTreeNode expr;
+  final SyntaxTreeNode expr;
   bpa("restricted form of expression");
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case IDENTIFIER:
@@ -6057,7 +6071,7 @@ SyntaxTreeNode tn;
 // in general, it's going to be some () [] or {} expression, or an Identifier foollowed by . () or [].
 // Note that FcnAppl may be more intricate.
   final public SyntaxTreeNode FairnessExpr() throws ParseException {
-  SyntaxTreeNode zn[] = new SyntaxTreeNode[5];
+  final SyntaxTreeNode[] zn = new SyntaxTreeNode[5];
   SyntaxTreeNode tn, expr;
   Token t;
   FairnessHook = null;
@@ -6094,7 +6108,7 @@ SyntaxTreeNode tn;
         {if (true) throw new ParseException("Ill-structured fairness expression at line " + zn[0].location[0] + ", column " + zn[0].location[1]);}
       }
 
-      SyntaxTreeNode parameters[] = (SyntaxTreeNode[]) FairnessHook.heirs();
+      final SyntaxTreeNode[] parameters = (SyntaxTreeNode[]) FairnessHook.heirs();
       if ( parameters != null && parameters.length == 3) { // was FairnessHook
         zn[1] = expr;
         zn[2] = parameters[0];
@@ -6112,7 +6126,7 @@ SyntaxTreeNode tn;
     } else { // reattach FairnessHook ! unless it is tuple
 // "GeneralId", "RecordComponent", "FcnAppl",
       if ( zn[1].isKind( N_GeneralId ) &&  FairnessHook != null ) {
-        SyntaxTreeNode ozn[] = new SyntaxTreeNode[2];
+        final SyntaxTreeNode[] ozn = new SyntaxTreeNode[2];
         ozn[0] = zn[1];
         ozn[1] = FairnessHook;
         zn[1] = new SyntaxTreeNode( mn, N_OpApplication, ozn );
@@ -6129,7 +6143,7 @@ SyntaxTreeNode tn;
   }
 
   final public SyntaxTreeNode IfThenElse() throws ParseException {
-  SyntaxTreeNode zn[] = new SyntaxTreeNode[6];
+  final SyntaxTreeNode[] zn = new SyntaxTreeNode[6];
   Token t;
   bpa("IF THEN ELSE");
     t = jj_consume_token(IF);
@@ -6173,14 +6187,14 @@ SyntaxTreeNode tn;
     } else {
       ;
     }
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode(mn, N_Case, sn);}
     throw new Error("Missing return statement in function");
   }
 
   final public SyntaxTreeNode CaseArm() throws ParseException {
-  SyntaxTreeNode zn[] = new SyntaxTreeNode[3];
-  Token t;
+  final SyntaxTreeNode[] zn = new SyntaxTreeNode[3];
+  final Token t;
   bpa("Case Arm");
     zn[0] = Expression();
     t = jj_consume_token(ARROW);
@@ -6191,7 +6205,7 @@ SyntaxTreeNode tn;
   }
 
   final public SyntaxTreeNode OtherArm() throws ParseException {
-  SyntaxTreeNode zn[] = new SyntaxTreeNode[3];
+  final SyntaxTreeNode[] zn = new SyntaxTreeNode[3];
   Token t;
   bpa("Case Other Arm");
     t = jj_consume_token(OTHER);
@@ -6211,7 +6225,7 @@ SyntaxTreeNode tn;
 * in tn.zero.                                                              *
 ***************************************************************************/
   final public SyntaxTreeNode LetIn() throws ParseException {
-  SyntaxTreeNode zn[] = new SyntaxTreeNode[4];
+  final SyntaxTreeNode[] zn = new SyntaxTreeNode[4];
   SyntaxTreeNode tn;
   Token t;
   bpa("Case Other Arm");
@@ -6257,7 +6271,7 @@ SyntaxTreeNode tn;
         break label_45;
       }
     }
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode(mn, N_LetDefinitions, sn);}
     throw new Error("Missing return statement in function");
   }
@@ -6270,7 +6284,7 @@ SyntaxTreeNode tn;
     ***********************************************************************/
 
   bpa("AND-OR Junction");
-  int kind;
+  final int kind;
     if (jj_2_55(2147483647)) {
                                       kind = N_DisjList;
       DisjList();
@@ -6282,7 +6296,7 @@ SyntaxTreeNode tn;
       throw new ParseException();
     }
     BStack.popReference();
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, kind, sn);}
     throw new Error("Missing return statement in function");
   }
@@ -6319,10 +6333,10 @@ SyntaxTreeNode tn;
     }
   }
 
-  final public SyntaxTreeNode JuncItem(int itemKind) throws ParseException {
-  SyntaxTreeNode zn[] = new SyntaxTreeNode[2];
-  SyntaxTreeNode tn;
-  Token t;
+  final public SyntaxTreeNode JuncItem(final int itemKind) throws ParseException {
+  final SyntaxTreeNode[] zn = new SyntaxTreeNode[2];
+  final SyntaxTreeNode tn;
+  final Token t;
   bpa("Junction Item");
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case OR:
@@ -6343,7 +6357,7 @@ SyntaxTreeNode tn;
     * Check for indentation errors.                                        *
     ***********************************************************************/
     tn = new SyntaxTreeNode( mn, itemKind, zn );
-    TreeNode[] children = tn.heirs() ;
+    final TreeNode[] children = tn.heirs() ;
     for (int i = 1; i < children.length; i++) {
       checkIndentation((SyntaxTreeNode) children[i], tn) ;
      };
@@ -6352,7 +6366,7 @@ SyntaxTreeNode tn;
   }
 
   final public SyntaxTreeNode UnboundOrBoundChoose() throws ParseException {
-  SyntaxTreeNode zn[] = new SyntaxTreeNode[5];
+  final SyntaxTreeNode[] zn = new SyntaxTreeNode[5];
   SyntaxTreeNode tn;
   Token t;
   bpa("(Un)Bounded Choose");
@@ -6374,7 +6388,7 @@ SyntaxTreeNode tn;
     t = jj_consume_token(COLON);
                 zn[3] = new SyntaxTreeNode(mn, t);
     zn[4] = Expression();
-    SyntaxTreeNode sn[] = getLastHeirs();
+    final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_UnboundOrBoundChoose, zn);}
     throw new Error("Missing return statement in function");
   }
@@ -6419,7 +6433,7 @@ SyntaxTreeNode tn;
                   expecting = "Expression";
     tn = Expression();
                        addHeir(tn);
-                       SyntaxTreeNode sn[] = getLastHeirs();
+                       final SyntaxTreeNode[] sn = getLastHeirs();
                        epa();
                        {if (true) return new SyntaxTreeNode( mn, N_Lambda, sn);}
     throw new Error("Missing return statement in function");
@@ -6564,7 +6578,7 @@ SyntaxTreeNode tn;
         jj_consume_token(-1);
         throw new ParseException();
       }
-     SyntaxTreeNode[] heirs = new SyntaxTreeNode[2];
+     final SyntaxTreeNode[] heirs = new SyntaxTreeNode[2];
      heirs[0] = new SyntaxTreeNode( mn, N_IdPrefix, (SyntaxTreeNode []) null);
      heirs[1] = tn ;
      OperatorStack.pushOnStack(new SyntaxTreeNode(mn, kind, heirs), lastOp);
@@ -6596,8 +6610,11 @@ SyntaxTreeNode tn;
 
   // Expression
   final public void ExtendableExpr() throws ParseException {
-  SyntaxTreeNode tn, tn0, tn1, tn2;
-  SyntaxTreeNode[] heirs;
+  SyntaxTreeNode tn;
+      SyntaxTreeNode tn0;
+      SyntaxTreeNode tn1;
+      final SyntaxTreeNode tn2;
+      SyntaxTreeNode[] heirs;
   int kind ;
   Token t;
   bpa("ExtendableExpr") ;
@@ -6653,7 +6670,7 @@ SyntaxTreeNode tn;
        if (OperatorStack.size() != 1) {OperatorStack.reduceStack();} ;
       } else if (jj_2_63(2147483647) && (BStack.aboveReference( getToken(1).beginColumn))) {
         t = jj_consume_token(DOT);
-       Token next = getToken(1);
+       final Token next = getToken(1);
        if (isFieldNameToken( next )) next.kind = IDENTIFIER;
         if (BStack.aboveReference( getToken(1).beginColumn)) {
 
@@ -6864,7 +6881,7 @@ SyntaxTreeNode tn;
           "Removing label at " + tn0.getLocation().toString() +
           " would change expression parsing.") ;}
        } ;
-      SyntaxTreeNode labelHeirs[] = {tn0, tn1, tn2} ;
+      final SyntaxTreeNode[] labelHeirs = {tn0, tn1, tn2} ;
       tn = new SyntaxTreeNode(N_Label, labelHeirs) ;
       OperatorStack.pushOnStack( tn, null );
       } else {
@@ -6879,11 +6896,14 @@ SyntaxTreeNode tn;
 
   // ExtendableExpr
   final public SyntaxTreeNode PrimitiveExp() throws ParseException {
-  SyntaxTreeNode tn, tn0, tn1, tn2;
-  SyntaxTreeNode tnOpArgs = null ;
+  final SyntaxTreeNode tn;
+      final SyntaxTreeNode tn0;
+      SyntaxTreeNode tn1;
+      SyntaxTreeNode tn2;
+      SyntaxTreeNode tnOpArgs = null ;
   SyntaxTreeNode tnBangs[] = null ;
   SyntaxTreeNode[] heirs ;
-  Token t;
+  final Token t;
   bpa("Primitive expression") ;
     if (jj_2_72(2147483647) && (BStack.aboveReference( getToken(1).beginColumn))) {
       tn = String();
@@ -7258,11 +7278,11 @@ SyntaxTreeNode tn;
                                             tnBangs[i+1].heirs()[0];
            heirs[i+1] = new SyntaxTreeNode(mn, N_IdPrefixElement, eltHeirs);
           } // for
-         TreeNode[] lastBang = tnBangs[tnBangs.length-1].heirs() ;
-         SyntaxTreeNode[] genIdHeirs = new SyntaxTreeNode[2] ;
+         final TreeNode[] lastBang = tnBangs[tnBangs.length-1].heirs() ;
+         final SyntaxTreeNode[] genIdHeirs = new SyntaxTreeNode[2] ;
          genIdHeirs[0] = new SyntaxTreeNode(mn, N_IdPrefix, heirs) ;
          genIdHeirs[1] = (SyntaxTreeNode) lastBang[1];
-         SyntaxTreeNode genId =
+         final SyntaxTreeNode genId =
              new SyntaxTreeNode(mn, N_GeneralId, genIdHeirs) ;
          if (lastBang.length == 2) {tn = genId;}
          else { heirs = new SyntaxTreeNode[2] ;
@@ -7296,7 +7316,7 @@ SyntaxTreeNode tn;
   * one.                                                                   *
   *************************************************************************/
   SyntaxTreeNode tn ;
-  Token t;
+  final Token t;
   bpa("Bang Extension") ;
     t = jj_consume_token(BANG);
                 addHeir(new SyntaxTreeNode(mn, t)) ;
@@ -7499,7 +7519,7 @@ SyntaxTreeNode tn;
                          "Illegal structural term at " +
                           tn.getLocation().toString());}
              };
-           SyntaxTreeNode[] heirs = new SyntaxTreeNode[1] ;
+           final SyntaxTreeNode[] heirs = new SyntaxTreeNode[1] ;
            heirs[0] = tn;
            {if (true) return new SyntaxTreeNode(mn, N_StructOp, heirs) ;} } ;
     throw new Error("Missing return statement in function");
@@ -7602,542 +7622,542 @@ SyntaxTreeNode tn;
 
 
 
-  final private boolean jj_2_1(int xla) {
+  final private boolean jj_2_1(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_1(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(0, xla); }
   }
 
-  final private boolean jj_2_2(int xla) {
+  final private boolean jj_2_2(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_2(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(1, xla); }
   }
 
-  final private boolean jj_2_3(int xla) {
+  final private boolean jj_2_3(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_3(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(2, xla); }
   }
 
-  final private boolean jj_2_4(int xla) {
+  final private boolean jj_2_4(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_4(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(3, xla); }
   }
 
-  final private boolean jj_2_5(int xla) {
+  final private boolean jj_2_5(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_5(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(4, xla); }
   }
 
-  final private boolean jj_2_6(int xla) {
+  final private boolean jj_2_6(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_6(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(5, xla); }
   }
 
-  final private boolean jj_2_7(int xla) {
+  final private boolean jj_2_7(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_7(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(6, xla); }
   }
 
-  final private boolean jj_2_8(int xla) {
+  final private boolean jj_2_8(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_8(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(7, xla); }
   }
 
-  final private boolean jj_2_9(int xla) {
+  final private boolean jj_2_9(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_9(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(8, xla); }
   }
 
-  final private boolean jj_2_10(int xla) {
+  final private boolean jj_2_10(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_10(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(9, xla); }
   }
 
-  final private boolean jj_2_11(int xla) {
+  final private boolean jj_2_11(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_11(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(10, xla); }
   }
 
-  final private boolean jj_2_12(int xla) {
+  final private boolean jj_2_12(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_12(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(11, xla); }
   }
 
-  final private boolean jj_2_13(int xla) {
+  final private boolean jj_2_13(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_13(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(12, xla); }
   }
 
-  final private boolean jj_2_14(int xla) {
+  final private boolean jj_2_14(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_14(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(13, xla); }
   }
 
-  final private boolean jj_2_15(int xla) {
+  final private boolean jj_2_15(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_15(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(14, xla); }
   }
 
-  final private boolean jj_2_16(int xla) {
+  final private boolean jj_2_16(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_16(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(15, xla); }
   }
 
-  final private boolean jj_2_17(int xla) {
+  final private boolean jj_2_17(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_17(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(16, xla); }
   }
 
-  final private boolean jj_2_18(int xla) {
+  final private boolean jj_2_18(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_18(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(17, xla); }
   }
 
-  final private boolean jj_2_19(int xla) {
+  final private boolean jj_2_19(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_19(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(18, xla); }
   }
 
-  final private boolean jj_2_20(int xla) {
+  final private boolean jj_2_20(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_20(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(19, xla); }
   }
 
-  final private boolean jj_2_21(int xla) {
+  final private boolean jj_2_21(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_21(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(20, xla); }
   }
 
-  final private boolean jj_2_22(int xla) {
+  final private boolean jj_2_22(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_22(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(21, xla); }
   }
 
-  final private boolean jj_2_23(int xla) {
+  final private boolean jj_2_23(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_23(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(22, xla); }
   }
 
-  final private boolean jj_2_24(int xla) {
+  final private boolean jj_2_24(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_24(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(23, xla); }
   }
 
-  final private boolean jj_2_25(int xla) {
+  final private boolean jj_2_25(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_25(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(24, xla); }
   }
 
-  final private boolean jj_2_26(int xla) {
+  final private boolean jj_2_26(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_26(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(25, xla); }
   }
 
-  final private boolean jj_2_27(int xla) {
+  final private boolean jj_2_27(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_27(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(26, xla); }
   }
 
-  final private boolean jj_2_28(int xla) {
+  final private boolean jj_2_28(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_28(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(27, xla); }
   }
 
-  final private boolean jj_2_29(int xla) {
+  final private boolean jj_2_29(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_29(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(28, xla); }
   }
 
-  final private boolean jj_2_30(int xla) {
+  final private boolean jj_2_30(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_30(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(29, xla); }
   }
 
-  final private boolean jj_2_31(int xla) {
+  final private boolean jj_2_31(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_31(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(30, xla); }
   }
 
-  final private boolean jj_2_32(int xla) {
+  final private boolean jj_2_32(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_32(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(31, xla); }
   }
 
-  final private boolean jj_2_33(int xla) {
+  final private boolean jj_2_33(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_33(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(32, xla); }
   }
 
-  final private boolean jj_2_34(int xla) {
+  final private boolean jj_2_34(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_34(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(33, xla); }
   }
 
-  final private boolean jj_2_35(int xla) {
+  final private boolean jj_2_35(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_35(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(34, xla); }
   }
 
-  final private boolean jj_2_36(int xla) {
+  final private boolean jj_2_36(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_36(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(35, xla); }
   }
 
-  final private boolean jj_2_37(int xla) {
+  final private boolean jj_2_37(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_37(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(36, xla); }
   }
 
-  final private boolean jj_2_38(int xla) {
+  final private boolean jj_2_38(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_38(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(37, xla); }
   }
 
-  final private boolean jj_2_39(int xla) {
+  final private boolean jj_2_39(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_39(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(38, xla); }
   }
 
-  final private boolean jj_2_40(int xla) {
+  final private boolean jj_2_40(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_40(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(39, xla); }
   }
 
-  final private boolean jj_2_41(int xla) {
+  final private boolean jj_2_41(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_41(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(40, xla); }
   }
 
-  final private boolean jj_2_42(int xla) {
+  final private boolean jj_2_42(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_42(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(41, xla); }
   }
 
-  final private boolean jj_2_43(int xla) {
+  final private boolean jj_2_43(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_43(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(42, xla); }
   }
 
-  final private boolean jj_2_44(int xla) {
+  final private boolean jj_2_44(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_44(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(43, xla); }
   }
 
-  final private boolean jj_2_45(int xla) {
+  final private boolean jj_2_45(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_45(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(44, xla); }
   }
 
-  final private boolean jj_2_46(int xla) {
+  final private boolean jj_2_46(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_46(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(45, xla); }
   }
 
-  final private boolean jj_2_47(int xla) {
+  final private boolean jj_2_47(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_47(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(46, xla); }
   }
 
-  final private boolean jj_2_48(int xla) {
+  final private boolean jj_2_48(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_48(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(47, xla); }
   }
 
-  final private boolean jj_2_49(int xla) {
+  final private boolean jj_2_49(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_49(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(48, xla); }
   }
 
-  final private boolean jj_2_50(int xla) {
+  final private boolean jj_2_50(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_50(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(49, xla); }
   }
 
-  final private boolean jj_2_51(int xla) {
+  final private boolean jj_2_51(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_51(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(50, xla); }
   }
 
-  final private boolean jj_2_52(int xla) {
+  final private boolean jj_2_52(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_52(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(51, xla); }
   }
 
-  final private boolean jj_2_53(int xla) {
+  final private boolean jj_2_53(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_53(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(52, xla); }
   }
 
-  final private boolean jj_2_54(int xla) {
+  final private boolean jj_2_54(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_54(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(53, xla); }
   }
 
-  final private boolean jj_2_55(int xla) {
+  final private boolean jj_2_55(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_55(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(54, xla); }
   }
 
-  final private boolean jj_2_56(int xla) {
+  final private boolean jj_2_56(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_56(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(55, xla); }
   }
 
-  final private boolean jj_2_57(int xla) {
+  final private boolean jj_2_57(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_57(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(56, xla); }
   }
 
-  final private boolean jj_2_58(int xla) {
+  final private boolean jj_2_58(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_58(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(57, xla); }
   }
 
-  final private boolean jj_2_59(int xla) {
+  final private boolean jj_2_59(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_59(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(58, xla); }
   }
 
-  final private boolean jj_2_60(int xla) {
+  final private boolean jj_2_60(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_60(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(59, xla); }
   }
 
-  final private boolean jj_2_61(int xla) {
+  final private boolean jj_2_61(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_61(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(60, xla); }
   }
 
-  final private boolean jj_2_62(int xla) {
+  final private boolean jj_2_62(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_62(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(61, xla); }
   }
 
-  final private boolean jj_2_63(int xla) {
+  final private boolean jj_2_63(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_63(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(62, xla); }
   }
 
-  final private boolean jj_2_64(int xla) {
+  final private boolean jj_2_64(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_64(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(63, xla); }
   }
 
-  final private boolean jj_2_65(int xla) {
+  final private boolean jj_2_65(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_65(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(64, xla); }
   }
 
-  final private boolean jj_2_66(int xla) {
+  final private boolean jj_2_66(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_66(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(65, xla); }
   }
 
-  final private boolean jj_2_67(int xla) {
+  final private boolean jj_2_67(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_67(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(66, xla); }
   }
 
-  final private boolean jj_2_68(int xla) {
+  final private boolean jj_2_68(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_68(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(67, xla); }
   }
 
-  final private boolean jj_2_69(int xla) {
+  final private boolean jj_2_69(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_69(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(68, xla); }
   }
 
-  final private boolean jj_2_70(int xla) {
+  final private boolean jj_2_70(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_70(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(69, xla); }
   }
 
-  final private boolean jj_2_71(int xla) {
+  final private boolean jj_2_71(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_71(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(70, xla); }
   }
 
-  final private boolean jj_2_72(int xla) {
+  final private boolean jj_2_72(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_72(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(71, xla); }
   }
 
-  final private boolean jj_2_73(int xla) {
+  final private boolean jj_2_73(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_73(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(72, xla); }
   }
 
-  final private boolean jj_2_74(int xla) {
+  final private boolean jj_2_74(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_74(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(73, xla); }
   }
 
-  final private boolean jj_2_75(int xla) {
+  final private boolean jj_2_75(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_75(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(74, xla); }
   }
 
-  final private boolean jj_2_76(int xla) {
+  final private boolean jj_2_76(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_76(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(75, xla); }
   }
 
-  final private boolean jj_2_77(int xla) {
+  final private boolean jj_2_77(final int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_77(); }
-    catch(LookaheadSuccess ls) { return true; }
+    catch(final LookaheadSuccess ls) { return true; }
     finally { jj_save(76, xla); }
   }
 
@@ -8152,7 +8172,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_65() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(129)) {
     jj_scanpos = xsp;
@@ -8508,7 +8528,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_230() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_233()) {
     jj_scanpos = xsp;
@@ -8521,7 +8541,7 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3R_100() {
     if (jj_scan_token(DOT)) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     lookingAhead = true;
     jj_semLA = BStack.aboveReference( getToken(1).beginColumn);
@@ -8537,7 +8557,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_145() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(119)) {
     jj_scanpos = xsp;
@@ -8585,7 +8605,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3_36() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_83()) {
     jj_scanpos = xsp;
@@ -8605,7 +8625,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3_61() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     lookingAhead = true;
     jj_semLA = BStack.aboveReference( getToken(1).beginColumn);
@@ -8649,7 +8669,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3_59() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(130)) {
     jj_scanpos = xsp;
@@ -8681,7 +8701,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_150() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(119)) {
     jj_scanpos = xsp;
@@ -8844,7 +8864,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3_57() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_96()) {
     jj_scanpos = xsp;
@@ -8864,7 +8884,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_66() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_129()) {
     jj_scanpos = xsp;
@@ -8887,7 +8907,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_126() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_166()) {
     jj_scanpos = xsp;
@@ -8965,7 +8985,7 @@ SyntaxTreeNode tn;
   final private boolean jj_3R_125() {
     if (jj_scan_token(INSTANCE)) return true;
     if (jj_3R_67()) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_318()) jj_scanpos = xsp;
     return false;
@@ -8993,7 +9013,7 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3R_200() {
     if (jj_scan_token(CHOOSE)) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_227()) {
     jj_scanpos = xsp;
@@ -9006,7 +9026,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_60() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_124()) jj_scanpos = xsp;
     if (jj_3R_125()) return true;
@@ -9114,7 +9134,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_222() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(133)) {
     jj_scanpos = xsp;
@@ -9136,7 +9156,7 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3R_171() {
     if (jj_scan_token(US)) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_323()) {
     jj_scanpos = xsp;
@@ -9162,7 +9182,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_193() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_203()) {
     jj_scanpos = xsp;
@@ -9175,7 +9195,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_134() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_170()) {
     jj_scanpos = xsp;
@@ -9190,7 +9210,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_174() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     lookingAhead = true;
     jj_semLA = BStack.aboveReference( getToken(1).beginColumn);
@@ -9262,7 +9282,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_201() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_207()) {
     jj_scanpos = xsp;
@@ -9273,7 +9293,7 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3R_68() {
     if (jj_3R_67()) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_133()) jj_scanpos = xsp;
     return false;
@@ -9301,7 +9321,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_231() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_235()) {
     jj_scanpos = xsp;
@@ -9321,7 +9341,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_140() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(232)) {
     jj_scanpos = xsp;
@@ -9387,7 +9407,7 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3R_317() {
     if (jj_scan_token(COMMA)) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_320()) {
     jj_scanpos = xsp;
@@ -9438,7 +9458,7 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3R_164() {
     if (jj_3R_67()) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_309()) jj_scanpos = xsp;
     return false;
@@ -9461,7 +9481,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3_31() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_81()) {
     jj_scanpos = xsp;
@@ -9539,7 +9559,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_159() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_181()) jj_scanpos = xsp;
     if (jj_scan_token(BY)) return true;
@@ -9548,7 +9568,7 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3R_146() {
     if (jj_scan_token(LAB)) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_173()) jj_scanpos = xsp;
     if (jj_scan_token(RAB)) return true;
@@ -9556,7 +9576,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_117() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_159()) {
     jj_scanpos = xsp;
@@ -9580,7 +9600,7 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3_11() {
     if (jj_scan_token(IDENTIFIER)) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(93)) {
     jj_scanpos = xsp;
@@ -9615,7 +9635,7 @@ SyntaxTreeNode tn;
   final private boolean jj_3R_122() {
     if (jj_3R_164()) return true;
     if (jj_scan_token(DEF)) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3_7()) {
     jj_scanpos = xsp;
@@ -9753,7 +9773,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_97() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(41)) {
     jj_scanpos = xsp;
@@ -9813,7 +9833,7 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3R_175() {
     if (jj_scan_token(NUMBER_LITERAL)) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3_40()) jj_scanpos = xsp;
     return false;
@@ -9835,7 +9855,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_243() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_247()) {
     jj_scanpos = xsp;
@@ -9874,7 +9894,7 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3R_302() {
     if (jj_scan_token(US)) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_310()) {
     jj_scanpos = xsp;
@@ -9932,7 +9952,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_168() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_183()) {
     jj_scanpos = xsp;
@@ -9982,14 +10002,14 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3R_300() {
     if (jj_3R_67()) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3_6()) jj_scanpos = xsp;
     return false;
   }
 
   final private boolean jj_3R_289() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_300()) {
     jj_scanpos = xsp;
@@ -10021,7 +10041,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3_24() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     lookingAhead = true;
     jj_semLA = getToken(1).kind == ASSUME || getToken(1).kind == BOXASSUME;
@@ -10122,7 +10142,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_202() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_209()) {
     jj_scanpos = xsp;
@@ -10170,7 +10190,7 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3R_85() {
     if (jj_3R_67()) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_144()) jj_scanpos = xsp;
     if (jj_scan_token(BANG)) return true;
@@ -10180,7 +10200,7 @@ SyntaxTreeNode tn;
   final private boolean jj_3R_270() {
     if (jj_scan_token(BANG)) return true;
     if (jj_3R_281()) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_282()) {
     jj_scanpos = xsp;
@@ -10202,7 +10222,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_257() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_265()) jj_scanpos = xsp;
     return false;
@@ -10240,7 +10260,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_112() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(103)) {
     jj_scanpos = xsp;
@@ -10325,7 +10345,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_281() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_295()) {
     jj_scanpos = xsp;
@@ -10387,7 +10407,7 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3R_244() {
     if (jj_scan_token(BANG)) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3_76()) {
     jj_scanpos = xsp;
@@ -10435,7 +10455,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3_1() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_53()) {
     jj_scanpos = xsp;
@@ -10521,7 +10541,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3_21() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_73()) jj_scanpos = xsp;
     if (jj_scan_token(VARIABLE)) return true;
@@ -10543,7 +10563,7 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3_19() {
     if (jj_3R_68()) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_69()) jj_scanpos = xsp;
     return false;
@@ -10597,7 +10617,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_172() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3_20()) {
     jj_scanpos = xsp;
@@ -10635,7 +10655,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_158() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(34)) {
     jj_scanpos = xsp;
@@ -10671,7 +10691,7 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3_51() {
     if (jj_3R_63()) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_276()) {
     jj_scanpos = xsp;
@@ -10804,7 +10824,7 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3R_154() {
     if (jj_scan_token(LSB)) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     lookingAhead = true;
     jj_semLA = matchFcnConst();
@@ -10871,7 +10891,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_64() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(114)) {
     jj_scanpos = xsp;
@@ -10933,7 +10953,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_177() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(232)) {
     jj_scanpos = xsp;
@@ -11004,7 +11024,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_294() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_305()) {
     jj_scanpos = xsp;
@@ -11014,7 +11034,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3_46() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_91()) {
     jj_scanpos = xsp;
@@ -11042,14 +11062,14 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3_47() {
     if (jj_3R_63()) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_294()) jj_scanpos = xsp;
     return false;
   }
 
   final private boolean jj_3R_98() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     lookingAhead = true;
     jj_semLA = BStack.aboveReference( getToken(1).beginColumn);
@@ -11078,7 +11098,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3_45() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_90()) {
     jj_scanpos = xsp;
@@ -11153,7 +11173,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3_15() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(95)) jj_scanpos = xsp;
     if (jj_3R_67()) return true;
@@ -11168,7 +11188,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_291() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_303()) {
     jj_scanpos = xsp;
@@ -11244,7 +11264,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3_65() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_103()) {
     jj_scanpos = xsp;
@@ -11274,7 +11294,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3R_259() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_266()) {
     jj_scanpos = xsp;
@@ -11303,7 +11323,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3_48() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     lookingAhead = true;
     jj_semLA = matchFcnConst();
@@ -11328,7 +11348,7 @@ SyntaxTreeNode tn;
 
   final private boolean jj_3R_218() {
     if (jj_scan_token(LBC)) return true;
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     if (jj_3_48()) jj_scanpos = xsp;
     if (jj_scan_token(RBC)) return true;
@@ -11357,7 +11377,7 @@ SyntaxTreeNode tn;
   }
 
   final private boolean jj_3_69() {
-    Token xsp;
+    final Token xsp;
     xsp = jj_scanpos;
     lookingAhead = true;
     jj_semLA = BStack.aboveReference( getToken(1).beginColumn);
@@ -11433,11 +11453,11 @@ SyntaxTreeNode tn;
   private boolean jj_rescan = false;
   private int jj_gc = 0;
 
-  public TLAplusParser(java.io.InputStream stream) {
+  public TLAplusParser(final java.io.InputStream stream) {
      this(stream, null);
   }
-  public TLAplusParser(java.io.InputStream stream, String encoding) {
-    try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
+  public TLAplusParser(final java.io.InputStream stream, final String encoding) {
+    try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } catch(final java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
     token_source = new TLAplusParserTokenManager(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
@@ -11447,8 +11467,8 @@ SyntaxTreeNode tn;
   }
 
   
-  public void ReInit(java.io.InputStream stream, String encoding) {
-    try { jj_input_stream.ReInit(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
+  public void ReInit(final java.io.InputStream stream, final String encoding) {
+    try { jj_input_stream.ReInit(stream, encoding, 1, 1); } catch(final java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
     token_source.ReInit(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
@@ -11459,7 +11479,7 @@ SyntaxTreeNode tn;
 
   
 
-  public void ReInit(java.io.Reader stream) {
+  public void ReInit(final java.io.Reader stream) {
     jj_input_stream.ReInit(stream, 1, 1);
     token_source.ReInit(jj_input_stream);
     token = new Token();
@@ -11469,7 +11489,7 @@ SyntaxTreeNode tn;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
-  public TLAplusParser(TLAplusParserTokenManager tm) {
+  public TLAplusParser(final TLAplusParserTokenManager tm) {
     token_source = tm;
     token = new Token();
     jj_ntk = -1;
@@ -11478,7 +11498,7 @@ SyntaxTreeNode tn;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
-  public void ReInit(TLAplusParserTokenManager tm) {
+  public void ReInit(final TLAplusParserTokenManager tm) {
     token_source = tm;
     token = new Token();
     jj_ntk = -1;
@@ -11487,8 +11507,8 @@ SyntaxTreeNode tn;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
-  final private Token jj_consume_token(int kind) throws ParseException {
-    Token oldToken;
+  final private Token jj_consume_token(final int kind) throws ParseException {
+    final Token oldToken;
     if ((oldToken = token).next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
     jj_ntk = -1;
@@ -11518,7 +11538,7 @@ SyntaxTreeNode tn;
 	 */
 	private static final long serialVersionUID = 761892822322674364L; }
   final private LookaheadSuccess jj_ls = new LookaheadSuccess();
-  final private boolean jj_scan_token(int kind) {
+  final private boolean jj_scan_token(final int kind) {
     if (jj_scanpos == jj_lastpos) {
       jj_la--;
       if (jj_scanpos.next == null) {
@@ -11547,7 +11567,7 @@ SyntaxTreeNode tn;
     return token;
   }
 
-  final public Token getToken(int index) {
+  final public Token getToken(final int index) {
     Token t = lookingAhead ? jj_scanpos : token;
     for (int i = 0; i < index; i++) {
       if (t.next != null) t = t.next;
@@ -11569,7 +11589,7 @@ SyntaxTreeNode tn;
   private int[] jj_lasttokens = new int[100];
   private int jj_endpos;
 
-  private void jj_add_error_token(int kind, int pos) {
+  private void jj_add_error_token(final int kind, final int pos) {
     if (pos >= 100) return;
     if (pos == jj_endpos + 1) {
       jj_lasttokens[jj_endpos++] = kind;
@@ -11579,8 +11599,8 @@ SyntaxTreeNode tn;
         jj_expentry[i] = jj_lasttokens[i];
       }
       boolean exists = false;
-      for (java.util.Enumeration<int[]> e = jj_expentries.elements(); e.hasMoreElements();) {
-        int[] oldentry = (e.nextElement());
+      for (final java.util.Enumeration<int[]> e = jj_expentries.elements(); e.hasMoreElements();) {
+        final int[] oldentry = (e.nextElement());
         if (oldentry.length == jj_expentry.length) {
           exists = true;
           for (int i = 0; i < jj_expentry.length; i++) {
@@ -11599,7 +11619,7 @@ SyntaxTreeNode tn;
 
   public ParseException generateParseException() {
     jj_expentries.removeAllElements();
-    boolean[] la1tokens = new boolean[237];
+    final boolean[] la1tokens = new boolean[237];
     for (int i = 0; i < 237; i++) {
       la1tokens[i] = false;
     }
@@ -11647,7 +11667,7 @@ SyntaxTreeNode tn;
     jj_endpos = 0;
     jj_rescan_token();
     jj_add_error_token(0, 0);
-    int[][] exptokseq = new int[jj_expentries.size()][];
+    final int[][] exptokseq = new int[jj_expentries.size()][];
     for (int i = 0; i < jj_expentries.size(); i++) {
       exptokseq[i] = jj_expentries.elementAt(i);
     }
@@ -11750,12 +11770,12 @@ SyntaxTreeNode tn;
         }
         p = p.next;
       } while (p != null);
-      } catch(LookaheadSuccess ls) { }
+      } catch(final LookaheadSuccess ls) { }
     }
     jj_rescan = false;
   }
 
-  final private void jj_save(int index, int xla) {
+  final private void jj_save(final int index, final int xla) {
     JJCalls p = jj_2_rtns[index];
     while (p.gen > jj_gen) {
       if (p.next == null) { p = p.next = new JJCalls(); break; }

@@ -21,7 +21,7 @@ class LNEven extends LiveExprNode {
 	private static final String EVENTUALLY = "<>";
 	private final LiveExprNode body;
 
-	public LNEven(LiveExprNode body) {
+	public LNEven(final LiveExprNode body) {
 		this.body = body;
 	}
 
@@ -42,33 +42,33 @@ class LNEven extends LiveExprNode {
 		return this.body.isPositiveForm();
 	}
 
-	public final boolean eval(ITool tool, TLCState s1, TLCState s2) {
+	public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
 		Assert.fail(EC.TLC_LIVE_CANNOT_EVAL_FORMULA, EVENTUALLY);
 		return false; // make compiler happy
 	}
 
-	public final void toString(StringBuffer sb, String padding) {
+	public final void toString(final StringBuffer sb, final String padding) {
 		sb.append(EVENTUALLY);
 		this.getBody().toString(sb, padding + "  ");
 	}
 	
 	public LiveExprNode getEABody() {
-		LiveExprNode evenBody = getBody();
+		final LiveExprNode evenBody = getBody();
 		if (evenBody instanceof LNAll) {
 			return ((LNAll) evenBody).getBody();
 		}
 		return super.getEABody();
 	}
 
-	public void extractPromises(TBPar promises) {
-		LNEven lne = (LNEven) this;
+	public void extractPromises(final TBPar promises) {
+		final LNEven lne = (LNEven) this;
 		if (!promises.member(lne)) {
 			promises.addElement(lne);
 		}
 		lne.getBody().extractPromises(promises);
 	}
 
-	public int tagExpr(int tag) {
+	public int tagExpr(final int tag) {
 		return getBody().tagExpr(tag);
 	}
 
@@ -89,7 +89,7 @@ class LNEven extends LiveExprNode {
 	}
 
 	public boolean isGeneralTF() {
-		LiveExprNode evenBody = getBody();
+		final LiveExprNode evenBody = getBody();
 		if (evenBody instanceof LNAll) {
 			return false;
 		}
@@ -104,7 +104,7 @@ class LNEven extends LiveExprNode {
 	 * This method pushes a negation all the way down to the atoms. It is
 	 * currently not used.
 	 */
-	public LiveExprNode pushNeg(boolean hasNeg) {
+	public LiveExprNode pushNeg(final boolean hasNeg) {
 		if (hasNeg) {
 			return new LNAll(getBody().pushNeg(true));
 		} else {
@@ -116,7 +116,7 @@ class LNEven extends LiveExprNode {
 	 * This method returns true or false for whether two LiveExprNodes are
 	 * syntactically equal.
 	 */
-	public boolean equals(LiveExprNode exp) {
+	public boolean equals(final LiveExprNode exp) {
 		if (exp instanceof LNEven) {
 			return getBody().equals(((LNEven) exp).getBody());
 		}

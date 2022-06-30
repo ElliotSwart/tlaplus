@@ -58,12 +58,12 @@ public class SimulatorTest extends CommonTestCase {
 		return 1;
 	}
 
-	public void runSimulatorTest(String specFile, String configFile, Boolean deadlock, int traceDepth, long traceNum) {
+	public void runSimulatorTest(final String specFile, final String configFile, final Boolean deadlock, final int traceDepth, final long traceNum) {
 		try {
-			Simulator simulator = new Simulator(specFile, configFile, null, deadlock, traceDepth, traceNum, rng, 0,
+			final Simulator simulator = new Simulator(specFile, configFile, null, deadlock, traceDepth, traceNum, rng, 0,
 					new SimpleFilenameToStream(), numWorkers());
 			simulator.simulate();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}

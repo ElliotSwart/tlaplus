@@ -16,7 +16,7 @@ package tla2tex;
 public class PosAndCol extends Position implements Comparable<PosAndCol>
  { public int column ;
 
-   public PosAndCol(int l, int i, int c)
+   public PosAndCol(final int l, final int i, final int c)
     { item = i ;
       line = l ;
       column = c ;

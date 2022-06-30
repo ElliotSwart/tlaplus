@@ -56,7 +56,7 @@ public class StateMonitor {
 
 	private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //$NON-NLS-1$ 
 
-	public static void main(String[] args) throws IOException, MalformedObjectNameException, InterruptedException, AttachNotSupportedException {
+	public static void main(final String[] args) throws IOException, MalformedObjectNameException, InterruptedException, AttachNotSupportedException {
 		int interval = 10; // 10sec interval by default
 		if (args.length == 1) {
 			interval = Integer.valueOf(args[0]);
@@ -67,7 +67,7 @@ public class StateMonitor {
 			final List<VirtualMachineDescriptor> vmds = com.sun.tools.attach.VirtualMachine.list();
 			vmds.sort(new Comparator<VirtualMachineDescriptor>() {
 				@Override
-				public int compare(VirtualMachineDescriptor o1, VirtualMachineDescriptor o2) {
+				public int compare(final VirtualMachineDescriptor o1, final VirtualMachineDescriptor o2) {
 					// Sort those vms higher whose display name contains TLC.
 					final boolean c1 = o1.displayName().contains("TLC");
 					final boolean c2 = o2.displayName().contains("TLC");
@@ -82,11 +82,11 @@ public class StateMonitor {
 			});
 			
 			int index = 1;
-			try (Scanner scanner = new Scanner(System.in)) {
+			try (final Scanner scanner = new Scanner(System.in)) {
 				rd: while (true) {
 					index = 1;
 					System.out.printf("============\n");
-					for (VirtualMachineDescriptor vmd : vmds) {
+					for (final VirtualMachineDescriptor vmd : vmds) {
 						System.out.printf("[%s]: pid=%s, name=%s\n", index++, vmd.id(), vmd.displayName());
 					}
 					System.out.printf("Please select the number of the Java VM running TLC to connect to:\n");
@@ -106,7 +106,7 @@ public class StateMonitor {
 			final String address = vm.startLocalManagementAgent();
 			url = new JMXServiceURL(address);
 			System.out.printf("Connecting to TLC running at %s.\n(Hit Ctrl+c to terminate)\n", url);
-		} catch (NumberFormatException nfe) {
+		} catch (final NumberFormatException nfe) {
 			// If monitored VM has been launched with explicit port, use service url instead
 			// of CAL:
 			// -Dcom.sun.management.jmxremote

@@ -24,25 +24,25 @@ public class FP64 {
     }
 
     /** Return the fingerprint of <code>s</code>. */
-    public static long New(String s)
+    public static long New(final String s)
     {
         return Extend(IrredPoly, s);
     }
 
     /** Return the fingerprint of the characters in the array <code>c</code>. */
-    public static long New(char[] c)
+    public static long New(final char[] c)
     {
         return Extend(IrredPoly, c, 0, c.length);
     }
 
     /** Return the fingerprint of the characters in the array <code>c</code>. */
-    public static long New(char[] c, int off, int len)
+    public static long New(final char[] c, final int off, final int len)
     {
         return Extend(IrredPoly, c, off, len);
     }
 
     /** Return the fingerprint of the bytes in the array <code>bytes</code>. */
-    public static long New(byte[] bytes)
+    public static long New(final byte[] bytes)
     {
         return Extend(IrredPoly, bytes, 0, bytes.length);
     }
@@ -51,20 +51,20 @@ public class FP64 {
         stream <code>is</code>. <code>IOException</code>
         is thrown in the event of an error reading the
         stream. */
-    public static long New(InputStream is) throws IOException
+    public static long New(final InputStream is) throws IOException
     {
         return Extend(IrredPoly, is);
     }
 
     /** Extend the fingerprint <code>fp</code> by the
         characters of <code>s</code>. */
-    public static long Extend(long fp, String s)
+    public static long Extend(long fp, final String s)
     {
     	final long[] mod = ByteModTable_7;
     	final int mask = 0xFF;
     	final int len = s.length();
 	for (int i = 0; i < len; i++) {
-	  char c = s.charAt(i);
+	  final char c = s.charAt(i);
 	  fp = ((fp >>> 8) ^ (mod[(((int)c) ^ ((int)fp)) & mask]));
     	}
 	return fp;
@@ -72,9 +72,9 @@ public class FP64 {
 
     /** Extend the fingerprint <code>fp</code> by the characters of 
         <code>chars</code>. */
-    public static long Extend(long fp, char[] chars, int start, int len) {
+    public static long Extend(long fp, final char[] chars, final int start, final int len) {
     	final long[] mod = ByteModTable_7;
-    	int end = start + len;
+    	final int end = start + len;
 	for (int i = start; i < end; i++) {
 	  fp = ((fp >>> 8) ^ (mod[(((int)chars[i]) ^ ((int)fp)) & 0xFF]));
     	}
@@ -83,9 +83,9 @@ public class FP64 {
 
     /** Extend the fingerprint <code>fp</code> by the
         bytes in the array <code>bytes</code>. */
-    public static long Extend(long fp, byte[] bytes, int start, int len) {
+    public static long Extend(long fp, final byte[] bytes, final int start, final int len) {
     	final long[] mod = ByteModTable_7;
-    	int end = start + len;
+    	final int end = start + len;
 	for (int i = start; i < end; i++) {
 	  fp = (fp >>> 8) ^ mod[(bytes[i] ^ (int)fp) & 0xFF];
     	}
@@ -95,7 +95,7 @@ public class FP64 {
     /** Extend the fingerprint <code>fp</code> by the bytes
         of the stream <code>is</code>. <code>IOException</code>
         is thrown in the event of an error reading the stream. */
-    public static long Extend(long fp, InputStream is) throws IOException
+    public static long Extend(long fp, final InputStream is) throws IOException
     {
     	final long[] mod = ByteModTable_7;
     	final int mask = 0xFF;
@@ -108,18 +108,18 @@ public class FP64 {
 
     /** Extend the fingerprint <code>fp</code> by a character 
 	<code>c</code>. */
-    public static long Extend(long fp, char c)
+    public static long Extend(long fp, final char c)
     {
-    	long[] mod = ByteModTable_7;
+    	final long[] mod = ByteModTable_7;
 	fp = ((fp >>> 8) ^ (mod[(((int)c) ^ ((int)fp)) & 0xFF]));
 	return fp;
     }
 
     /** Extend the fingerprint <code>fp</code> by a byte
 	<code>c</code>. */
-    public static long Extend(long fp, byte b)
+    public static long Extend(long fp, final byte b)
     {
-    	long[] mod = ByteModTable_7;
+    	final long[] mod = ByteModTable_7;
 	fp = ((fp >>> 8) ^ (mod[(b ^ ((int)fp)) & 0xFF]));
 	return fp;
     }
@@ -130,9 +130,9 @@ public class FP64 {
      */
     public static long ExtendLoop(long fp, int x)
     {
-        long[] mod = ByteModTable_7;
+        final long[] mod = ByteModTable_7;
 	for (int i = 0; i < 4; i++) {
-	  byte b = (byte)(x & 0xFF);
+	  final byte b = (byte)(x & 0xFF);
 	  fp = ((fp >>> 8) ^ (mod[(b ^ ((int)fp)) & 0xFF]));
 	  x = x >>> 8;
 	}
@@ -166,7 +166,7 @@ public class FP64 {
      */
     public static long Extend(long fp, long fp1)
     {
-        long[] mod = ByteModTable_7;
+        final long[] mod = ByteModTable_7;
 
 	byte b = (byte)(fp1 & 0xFF);
 	fp = ((fp >>> 8) ^ (mod[(b ^ ((int)fp)) & 0xFF]));
@@ -216,7 +216,7 @@ public class FP64 {
 */
 
     /** Return a hash value of the fingerprint <code>fp</code>. */
-    public static int Hash(long fp)
+    public static int Hash(final long fp)
     {
         return (int)fp;
     }
@@ -422,16 +422,16 @@ public class FP64 {
     }
     
     // Initialization code
-    public static void Init(int n) {
+    public static void Init(final int n) {
       Init(Polys[n]);
     }
     
-    public static void Init(long poly) {
+    public static void Init(final long poly) {
       IrredPoly = poly;
       
       // Maximum power needed == 127-7*8 == 127 - 56 == 71
-      int plength = 72;
-      long[] PowerTable = new long[plength];
+      final int plength = 72;
+      final long[] PowerTable = new long[plength];
 
       long t = One;
       for (int i = 0; i < plength; i++) {
@@ -439,7 +439,7 @@ public class FP64 {
 	//System.out.println("pow[" + i + "] = " + Long.toHexString(t));
 
 	// t = t * x
-	long mask = ((t & X63) != 0) ? IrredPoly : 0;
+	final long mask = ((t & X63) != 0) ? IrredPoly : 0;
 	t = (t >>> 1) ^ mask;
       }
 

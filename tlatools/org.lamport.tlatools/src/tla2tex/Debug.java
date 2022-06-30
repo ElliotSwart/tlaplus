@@ -14,7 +14,7 @@ import java.util.Vector;
 import util.ToolIO;
 
 public class Debug
-  { public static void ReportError(String msg)
+  { public static void ReportError(final String msg)
       /*********************************************************************
       * This method is called to report an error and abort.                *
       *********************************************************************/
@@ -26,21 +26,21 @@ public class Debug
         throw new TLA2TexException("TLATeX unrecoverable error:" + " -- " + msg + ".");
       };
 
-    public static void Assert(boolean val) 
+    public static void Assert(final boolean val)
       /*********************************************************************
       * Why doesn't java provide an Assert statement?                      *
       *********************************************************************/
       { if (! val) {ReportBug("Assertion failure");};
       };
 
-    public static void Assert(boolean val, String msg) 
+    public static void Assert(final boolean val, final String msg)
       /*********************************************************************
       * An Assert with an error message.                                   *
       *********************************************************************/
       { if (! val) {ReportBug("Failure of assertion: " + msg);};
       };
 
-    public static void ReportBug(String msg)
+    public static void ReportBug(final String msg)
       /*********************************************************************
       * This method is called to report a bug in the program and abort.    *
       *********************************************************************/
@@ -55,7 +55,7 @@ public class Debug
       };
 
 
-    public static void printArray(Object[] array, String name)
+    public static void printArray(final Object[] array, final String name)
       /*********************************************************************
       * This method prints to standard output the contents of the array    *
       * argument, where name is the name of the array.                     *
@@ -76,7 +76,7 @@ public class Debug
           {ToolIO.out.println(name + " = zero-length array" ); } ;
       } ;
 
-    public static void print2DArray(Object[][] array, String name)
+    public static void print2DArray(final Object[][] array, final String name)
       /*********************************************************************
       * This method prints to standard output the contents of the array    *
       * argument, where name is the name of the array.                     *
@@ -100,7 +100,7 @@ public class Debug
           {ToolIO.out.println(name + " = zero-length array" ); } ;
       } ;
 
-    public static void printVector(Vector<?> vec, String name)
+    public static void printVector(final Vector<?> vec, final String name)
       /*********************************************************************
       * This method prints to standard output the contents of the vector   *
       * argument, where name is the name of the vector.                    *
@@ -121,13 +121,13 @@ public class Debug
           {ToolIO.out.println(name + " = zero-length vec" ); } ;
       } ;
 
-    public static String pair(int i, int j)
+    public static String pair(final int i, final int j)
       /*********************************************************************
       * Just a convenient little function.                                 *
       *********************************************************************/
       { return "(" + i + ", " + j + ")"; };
 
-    public static void printPair(int i, int j)
+    public static void printPair(final int i, final int j)
       /*********************************************************************
       * Just prints "(i, j)".                                              *
       *********************************************************************/
@@ -138,11 +138,11 @@ public class Debug
       * Returns the current time in milliseconds since January 1, 1970,    *
       * 00:00:00 GMT                                                       *
       *********************************************************************/
-      {  Date date = new Date();
+      {  final Date date = new Date();
          return date.getTime() ;
       } ;
 
-    public static void printElapsedTime(long start, String msg)
+    public static void printElapsedTime(final long start, final String msg)
       /*********************************************************************
       * Print to stdout `msg' followed by the difference between the       *
       * current time and the time `start'.                                 *
@@ -150,7 +150,7 @@ public class Debug
       { printTimeDiff(now() - start, msg);
       } ;
 
-    public static void printTimeDiff(long diff, String msg)
+    public static void printTimeDiff(final long diff, final String msg)
       /*********************************************************************
       * Print to stdout `msg' followed by the time interval diff, which    *
       * is assumed to be in milliseconds                                   *

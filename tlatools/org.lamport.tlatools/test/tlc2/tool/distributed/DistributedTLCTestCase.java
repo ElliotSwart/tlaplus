@@ -48,15 +48,15 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 	
 	private SecurityManager securityManager;
 	
-	public DistributedTLCTestCase(String spec, String path) {
+	public DistributedTLCTestCase(final String spec, final String path) {
 		this(spec, path, new String[] {});
 	}
 	
-	public DistributedTLCTestCase(String spec, String path, String[] args) {
+	public DistributedTLCTestCase(final String spec, final String path, final String[] args) {
 		this(spec, path, args, 0);
 	}
 	
-	public DistributedTLCTestCase(String spec, String path, String[] args, int fpSets) {
+	public DistributedTLCTestCase(final String spec, final String path, final String[] args, final int fpSets) {
 		super(new FilteringTestMPRecorder());
 		this.arguments = new String[args.length + 1];
 		this.arguments[this.arguments.length - 1] = path + spec; // Add path to additional arguments
@@ -88,7 +88,7 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 			public void run() {
 				try {
 					TLCWorker.main(new String[] { "localhost" });
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					e.printStackTrace();
 				} finally {
 					latch.countDown();
@@ -102,7 +102,7 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 				try {
 					System.setProperty(TLCServer.class.getName() + ".expectedFPSetCount", Integer.toString(fpSets));
 					TLCServer.main(arguments);
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					e.printStackTrace();
 				} finally {
 					latch.countDown();
@@ -116,7 +116,7 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 				public void run() {
 					try {
 						DistributedFPSet.main(new String[] { "localhost" });
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						e.printStackTrace();
 					} finally {
 						latch.countDown();
@@ -127,7 +127,7 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 
 		try {
 			latch.await();
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			Assert.fail();
 		}
 	}
@@ -141,14 +141,14 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 		/* (non-Javadoc)
 		 * @see java.lang.SecurityManager#checkPermission(java.security.Permission)
 		 */
-		public void checkPermission(Permission perm) {
+		public void checkPermission(final Permission perm) {
 			// allow anything.
 		}
 
 		/* (non-Javadoc)
 		 * @see java.lang.SecurityManager#checkPermission(java.security.Permission, java.lang.Object)
 		 */
-		public void checkPermission(Permission perm, Object context) {
+		public void checkPermission(final Permission perm, final Object context) {
 			// allow anything.
 		}
 
@@ -156,7 +156,7 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 		 * @see java.lang.SecurityManager#checkExit(int)
 		 */
 		
-		public void checkExit(int status) {
+		public void checkExit(final int status) {
 			super.checkExit(status);
 			throw new NoExitException();
 		}
@@ -171,7 +171,7 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 		/* (non-Javadoc)
 		 * @see tlc2.TestMPRecorder#record(int, java.lang.Object[])
 		 */
-		public void record(int code, Object... objects) {
+		public void record(final int code, final Object... objects) {
 			if (EC.GENERAL == code && objects instanceof String[]) {
 				// GENERAL errors contain the exceptions thrown because of the
 				// intercepted System.exit(int) calls. Remove them so that 

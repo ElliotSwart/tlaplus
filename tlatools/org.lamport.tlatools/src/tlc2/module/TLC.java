@@ -59,10 +59,10 @@ public class TLC implements ValueConstants
      * {"a", "a"} instead of {"a"}.  For safety, the values are copied before normalizing,
      * thought that's probably not necessary.
      */
-    public static Value Print(Value v1, Value v2)
+    public static Value Print(final Value v1, final Value v2)
     {
-        Value v1c = (Value) v1.deepCopy();
-        Value v2c = (Value) v2.deepCopy();
+        final Value v1c = (Value) v1.deepCopy();
+        final Value v2c = (Value) v2.deepCopy();
         v1c.deepNormalize();
         v2c.deepNormalize();
         if (OUTPUT == null) {
@@ -70,7 +70,7 @@ public class TLC implements ValueConstants
         } else {
         	try {
         		OUTPUT.write(Values.ppr(v1c.toStringUnchecked()) + "  " + Values.ppr(v2c.toStringUnchecked()) + "\n");
-        	} catch (IOException e) {
+        	} catch (final IOException e) {
         		MP.printError(EC.GENERAL, e);
         	}
         }
@@ -82,17 +82,17 @@ public class TLC implements ValueConstants
      * 
      * Modified on 22 June 2011 by LL.  See comment on the Print method
      */
-    public static Value  PrintT(Value v1)
+    public static Value  PrintT(final Value v1)
     {
-        Value v1c = (Value) v1.deepCopy();
+        final Value v1c = (Value) v1.deepCopy();
         v1c.deepNormalize();   
         if (OUTPUT == null) {
-        	String ppr = Values.ppr(v1c.toStringUnchecked());
+        	final String ppr = Values.ppr(v1c.toStringUnchecked());
         	ToolIO.out.println(ppr);
         } else {
         	try {
         		OUTPUT.write(Values.ppr(v1c.toStringUnchecked("\n")));
-        	} catch (IOException e) {
+        	} catch (final IOException e) {
         		MP.printError(EC.GENERAL, e);
         	}
         }
@@ -100,7 +100,7 @@ public class TLC implements ValueConstants
     }
 
     /* Returns the string value of the string representation of v. */
-    public static Value ToString(Value v)
+    public static Value ToString(final Value v)
     {
         return new StringValue(v.toStringUnchecked());
     }
@@ -109,7 +109,7 @@ public class TLC implements ValueConstants
      * Returns true if the value of v1 is true. Otherwise, throws
      * an exception with v2 as the error message.
      */
-    public static Value Assert(Value v1, Value v2)
+    public static Value Assert(final Value v1, final Value v2)
     {
         if ((v1 instanceof IBoolValue) && ((BoolValue) v1).val)
         {
@@ -139,10 +139,10 @@ public class TLC implements ValueConstants
         return IntValue.gen(t & 0x7FFFFFFF);
     }
 
-	public static Value MakeFcn(Value d, Value e)
+	public static Value MakeFcn(final Value d, final Value e)
     {
-    	Value[] dom = new Value[1];
-    	Value[] vals = new Value[1];
+    	final Value[] dom = new Value[1];
+    	final Value[] vals = new Value[1];
         dom[0] = d;
         vals[0] = e;
         return new FcnRcdValue(dom, vals, true);
@@ -152,10 +152,10 @@ public class TLC implements ValueConstants
      * f @@ g == [x \in (DOMAIN f) \cup (DOMAIN g) |->
      *            IF x \in DOMAIN f THEN f[x] ELSE g[x]]
      */
-    public static Value CombineFcn(Value f1, Value f2)
+    public static Value CombineFcn(final Value f1, final Value f2)
     {
-        FcnRcdValue fcn1 = (FcnRcdValue) f1.toFcnRcd();
-        FcnRcdValue fcn2 = (FcnRcdValue) f2.toFcnRcd();
+        final FcnRcdValue fcn1 = (FcnRcdValue) f1.toFcnRcd();
+        final FcnRcdValue fcn2 = (FcnRcdValue) f2.toFcnRcd();
         if (fcn1 == null)
         {
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "first", "@@", "function",
@@ -166,15 +166,15 @@ public class TLC implements ValueConstants
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "second", "@@", "function",
                     Values.ppr(f2.toString()) });
         }
-        ValueVec dom = new ValueVec();
-        ValueVec vals = new ValueVec();
-        Value [] vals1 = fcn1.values;
-        Value [] vals2 = fcn2.values;
+        final ValueVec dom = new ValueVec();
+        final ValueVec vals = new ValueVec();
+        final Value [] vals1 = fcn1.values;
+        final Value [] vals2 = fcn2.values;
 
-        Value [] dom1 = fcn1.domain;
+        final Value [] dom1 = fcn1.domain;
         if (dom1 == null)
         {
-            IntervalValue intv1 = fcn1.intv;
+            final IntervalValue intv1 = fcn1.intv;
             for (int i = intv1.low; i <= intv1.high; i++)
             {
                 dom.addElement(IntValue.gen(i));
@@ -189,14 +189,14 @@ public class TLC implements ValueConstants
             }
         }
 
-        int len1 = dom.size();
-        Value [] dom2 = fcn2.domain;
+        final int len1 = dom.size();
+        final Value [] dom2 = fcn2.domain;
         if (dom2 == null)
         {
-            IntervalValue intv2 = fcn2.intv;
+            final IntervalValue intv2 = fcn2.intv;
             for (int i = intv2.low; i <= intv2.high; i++)
             {
-            	Value val = IntValue.gen(i);
+            	final Value val = IntValue.gen(i);
                 boolean found = false;
                 for (int j = 0; j < len1; j++)
                 {
@@ -216,7 +216,7 @@ public class TLC implements ValueConstants
         {
             for (int i = 0; i < dom2.length; i++)
             {
-            	Value  val = dom2[i];
+            	final Value  val = dom2[i];
                 boolean found = false;
                 for (int j = 0; j < len1; j++)
                 {
@@ -234,8 +234,8 @@ public class TLC implements ValueConstants
             }
         }
 
-        Value [] domain = new Value[dom.size()];
-        Value [] values = new Value[dom.size()];
+        final Value [] domain = new Value[dom.size()];
+        final Value [] values = new Value[dom.size()];
         for (int i = 0; i < domain.length; i++)
         {
             domain[i] = dom.elementAt(i);
@@ -244,9 +244,9 @@ public class TLC implements ValueConstants
         return new FcnRcdValue(domain, values, false);
     }
 
-    public static Value SortSeq(Value s, Value cmp)
+    public static Value SortSeq(final Value s, final Value cmp)
     {
-        TupleValue seq = (TupleValue) s.toTuple();
+        final TupleValue seq = (TupleValue) s.toTuple();
         if (seq == null)
         {
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "first", "SortSeq", "natural number",
@@ -257,13 +257,13 @@ public class TLC implements ValueConstants
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "second", "SortSeq", "function",
                     Values.ppr(cmp.toString()) });
         }
-        Applicable fcmp = (Applicable) cmp;
-        Value [] elems = seq.elems;
-        int len = elems.length;
+        final Applicable fcmp = (Applicable) cmp;
+        final Value [] elems = seq.elems;
+        final int len = elems.length;
         if (len == 0)
             return seq;
-        Value [] args = new Value[2];
-        Value [] newElems = new Value[len];
+        final Value [] args = new Value[2];
+        final Value [] newElems = new Value[len];
         newElems[0] = elems[0];
         for (int i = 1; i < len; i++)
         {
@@ -283,9 +283,9 @@ public class TLC implements ValueConstants
         return new TupleValue(newElems);
     }
 
-    private static boolean compare(Applicable fcmp, Value [] args)
+    private static boolean compare(final Applicable fcmp, final Value [] args)
     {
-        Value  res = fcmp.apply(args, EvalControl.Clear);
+        final Value  res = fcmp.apply(args, EvalControl.Clear);
         if (res instanceof IBoolValue)
         {
             return ((BoolValue) res).val;
@@ -295,27 +295,27 @@ public class TLC implements ValueConstants
     }
 
     // Returns a set of size n! where n = |s|.
-    public static Value Permutations(Value s)
+    public static Value Permutations(final Value s)
     {
-        SetEnumValue s1 = (SetEnumValue) s.toSetEnum();
+        final SetEnumValue s1 = (SetEnumValue) s.toSetEnum();
         if (s1 == null)
         {
             throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[] { "Permutations",
                     "a finite set", Values.ppr(s.toString()) });
         }
         s1.normalize();
-        ValueVec elems = s1.elems;
-        int len = elems.size();
+        final ValueVec elems = s1.elems;
+        final int len = elems.size();
         if (len == 0)
         {
-        	Value[] elems1 = { FcnRcdValue.EmptyFcn };
+        	final Value[] elems1 = { FcnRcdValue.EmptyFcn };
             return new SetEnumValue(elems1, true);
         }
 
         int factorial = 1;
-        Value [] domain = new Value[len];
-        int[] idxArray = new int[len];
-        boolean[] inUse = new boolean[len];
+        final Value [] domain = new Value[len];
+        final int[] idxArray = new int[len];
+        final boolean[] inUse = new boolean[len];
         for (int i = 0; i < len; i++)
         {
             domain[i] = elems.elementAt(i);
@@ -324,10 +324,10 @@ public class TLC implements ValueConstants
             factorial = factorial * (i + 1);
         }
 
-        ValueVec fcns = new ValueVec(factorial);
+        final ValueVec fcns = new ValueVec(factorial);
         _done: while (true)
         {
-        	Value [] vals = new Value[len];
+        	final Value [] vals = new Value[len];
             for (int i = 0; i < len; i++)
             {
                 vals[i] = domain[idxArray[i]];
@@ -372,22 +372,22 @@ public class TLC implements ValueConstants
         return new SetEnumValue(fcns, false);
     }
 
-    public static Value RandomElement(Value  val)
+    public static Value RandomElement(final Value  val)
     {
         switch (val.getKind()) {
         case SETOFFCNSVALUE: {
-            SetOfFcnsValue sfv = (SetOfFcnsValue) val;
+            final SetOfFcnsValue sfv = (SetOfFcnsValue) val;
             sfv.normalize();
-            SetEnumValue domSet = (SetEnumValue) sfv.domain.toSetEnum();
+            final SetEnumValue domSet = (SetEnumValue) sfv.domain.toSetEnum();
             if (domSet == null)
             {
                 throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[] { "RandomElement",
                         "a finite set", Values.ppr(val.toString()) });
             }
             domSet.normalize();
-            ValueVec elems = domSet.elems;
-            Value [] dom = new Value[elems.size()];
-            Value [] vals = new Value[elems.size()];
+            final ValueVec elems = domSet.elems;
+            final Value [] dom = new Value[elems.size()];
+            final Value [] vals = new Value[elems.size()];
             for (int i = 0; i < dom.length; i++)
             {
                 dom[i] = elems.elementAt(i);
@@ -396,9 +396,9 @@ public class TLC implements ValueConstants
             return new FcnRcdValue(dom, vals, true);
         }
         case SETOFRCDSVALUE: {
-            SetOfRcdsValue srv = (SetOfRcdsValue) val;
+            final SetOfRcdsValue srv = (SetOfRcdsValue) val;
             srv.normalize();
-            Value [] vals = new Value[srv.names.length];
+            final Value [] vals = new Value[srv.names.length];
             for (int i = 0; i < vals.length; i++)
             {
                 vals[i] = RandomElement(srv.values[i]);
@@ -406,9 +406,9 @@ public class TLC implements ValueConstants
             return new RecordValue(srv.names, vals, true);
         }
         case SETOFTUPLESVALUE: {
-            SetOfTuplesValue stv = (SetOfTuplesValue) val;
+            final SetOfTuplesValue stv = (SetOfTuplesValue) val;
             stv.normalize();
-            Value [] vals = new Value[stv.sets.length];
+            final Value [] vals = new Value[stv.sets.length];
             for (int i = 0; i < vals.length; i++)
             {
                 vals[i] = RandomElement(stv.sets[i]);
@@ -420,7 +420,7 @@ public class TLC implements ValueConstants
         	return iv.randomElement();
         }
         default: {
-            SetEnumValue enumVal = (SetEnumValue) val.toSetEnum();
+            final SetEnumValue enumVal = (SetEnumValue) val.toSetEnum();
             if (enumVal == null)
             {
                 throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[] { "RandomElement",

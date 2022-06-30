@@ -56,7 +56,7 @@ public class EWD840ErrorActionDebuggerTest extends TLCDebuggerTestCase {
 		debugger.unsetBreakpoints();
 		stackFrames = debugger.continue_();
 		// Error occurs after TLC generated the first initial state.
-		int i = 17;
+		final int i = 17;
 		assertEquals(i, stackFrames.length);
 		for (int j = i - 1; j > 0 ; j--) {
 			assertNull(((TLCStackFrame) stackFrames[j]).exception);
@@ -65,9 +65,9 @@ public class EWD840ErrorActionDebuggerTest extends TLCDebuggerTestCase {
 		assertTLCActionFrame(stackFrames[0], 13, 69, 13, 77, MDL, (Context) null);
 
 		// Assert the exception variable.
-		TLCStackFrame stackFrame = (TLCStackFrame) stackFrames[0];
+		final TLCStackFrame stackFrame = (TLCStackFrame) stackFrames[0];
 		assertNotNull(stackFrame.exception);
-		Variable[] expVar = stackFrame.getExceptionAsVariable();
+		final Variable[] expVar = stackFrame.getExceptionAsVariable();
 		assertEquals(1, expVar.length);
 
 		assertEquals("line 13, col 69 to line 13, col 77 of module Error03", expVar[0].getName());

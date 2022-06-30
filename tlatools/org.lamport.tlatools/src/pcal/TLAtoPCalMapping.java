@@ -92,10 +92,10 @@ public class TLAtoPCalMapping implements Serializable {
    * @param mapVec
    * @return
    */
-  public void  makeMapping(Vector<Vector<MappingObject>> mapVec) {
+  public void  makeMapping(final Vector<Vector<MappingObject>> mapVec) {
      this.mapping = new MappingObject[mapVec.size()][] ;
       for (int i = 0 ; i < this.mapping.length; i++) {
-          Vector<MappingObject> line = mapVec.elementAt(i);
+          final Vector<MappingObject> line = mapVec.elementAt(i);
           this.mapping[i] = new MappingObject[line.size()];
           for (int j = 0; j < line.size(); j++) {
               this.mapping[i][j] = line.elementAt(j);
@@ -124,14 +124,14 @@ public class TLAtoPCalMapping implements Serializable {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TLAtoPCalMapping other = (TLAtoPCalMapping) obj;
+		final TLAtoPCalMapping other = (TLAtoPCalMapping) obj;
 		if (algColumn != other.algColumn)
 			return false;
 		if (algLine != other.algLine)
@@ -150,19 +150,19 @@ public class TLAtoPCalMapping implements Serializable {
 	 * @see Arrays#equals(Object[], Object[]) except that elements are checked
 	 *      via object identity instead of referential identity.
 	 */
-	private boolean equals(MappingObject[][] m, MappingObject[][] m2) {
+	private boolean equals(final MappingObject[][] m, final MappingObject[][] m2) {
         if (m==m2)
             return true;
         if (m==null || m2==null)
             return false;
 
-        int length = m.length;
+        final int length = m.length;
         if (m2.length != length)
             return false;
 
         for (int i=0; i<length; i++) {
-            MappingObject[] o1 = m[i];
-            MappingObject[] o2 = m2[i];
+            final MappingObject[] o1 = m[i];
+            final MappingObject[] o2 = m2[i];
             // Use object instead of referential identity here
             if (!(o1==null ? o2==null : Arrays.equals(o1,o2)))
                 return false;
@@ -186,7 +186,7 @@ public class TLAtoPCalMapping implements Serializable {
    * @param tpregion
    * @return
    */
-  public static Region ApplyMapping(TLAtoPCalMapping mapping, Region tpregion) {
+  public static Region ApplyMapping(final TLAtoPCalMapping mapping, final Region tpregion) {
       /*
        * This method is the implementation of the algorithm in TLAToPCal.tla.  In that
        * algorithm, a mapping specification is a sequence of tokens.  That sequence
@@ -201,15 +201,15 @@ public class TLAtoPCalMapping implements Serializable {
        * 
        */
       
-      MappingObject[][] tpMap = mapping.mapping;
+      final MappingObject[][] tpMap = mapping.mapping;
 //MappingObject.printMapping(map);
-      Region tokPairRegion = RegionToTokPair(tpMap, tpregion) ;
+      final Region tokPairRegion = RegionToTokPair(tpMap, tpregion) ;
       if (tokPairRegion == null) {
           return null;
       }
       
-      PCalLocation ltok = tokPairRegion.getBegin();
-      PCalLocation rtok = tokPairRegion.getEnd();
+      final PCalLocation ltok = tokPairRegion.getBegin();
+      final PCalLocation rtok = tokPairRegion.getEnd();
       
       /* 
        * The algorithm sets allExpr to true iff tok.inExpr is true for all 
@@ -250,8 +250,8 @@ public class TLAtoPCalMapping implements Serializable {
       int rtokDepth = 0;
       int minDepth = 0;
       boolean allExpr = false;
-      MappingObject ltokObj = ObjectAt(ltok, tpMap);
-      MappingObject rtokObj = ObjectAt(rtok, tpMap);
+      final MappingObject ltokObj = ObjectAt(ltok, tpMap);
+      final MappingObject rtokObj = ObjectAt(rtok, tpMap);
       if (ltokObj.getType() == MappingObject.SOURCE_TOKEN) {
           allExpr = true;
           minDepth = -1;
@@ -259,7 +259,7 @@ public class TLAtoPCalMapping implements Serializable {
       }
       PCalLocation i = NextLocOf(ltok, tpMap);
       while (LTEq(i, rtok)) {
-          int newDepth = ModifiedDepth(rtokDepth, i, true, tpMap);
+          final int newDepth = ModifiedDepth(rtokDepth, i, true, tpMap);
           if (newDepth < minDepth) {
               /*
                * If we've just reached a new minDepth, then token i is
@@ -319,7 +319,7 @@ public class TLAtoPCalMapping implements Serializable {
               i = PrevLocOf(i, tpMap);
           }
       }
-      MappingObject bParen = ObjectAt(i, tpMap);
+      final MappingObject bParen = ObjectAt(i, tpMap);
       
       /*
        * Set eParen to first right paren to the right of rtok that rises
@@ -342,7 +342,7 @@ public class TLAtoPCalMapping implements Serializable {
               i = NextLocOf(i, tpMap);
           }
       }
-      MappingObject eParen = ObjectAt(i, tpMap);
+      final MappingObject eParen = ObjectAt(i, tpMap);
       
       /*
        * The algorithm of TLAToPCal now looks for breaks between bParen and eParen to compute the
@@ -353,7 +353,7 @@ public class TLAtoPCalMapping implements Serializable {
       /*
        * Set lpos and rpos to the PCalLocations marking the left and right of bParen and eParen.
        */
-      PCalLocation lpos ;
+      final PCalLocation lpos ;
       if (bParen.getType() == MappingObject.SOURCE_TOKEN) {
           lpos = ((MappingObject.SourceToken) bParen).getOrigin().getBegin();
       }
@@ -361,7 +361,7 @@ public class TLAtoPCalMapping implements Serializable {
           lpos = ((MappingObject.LeftParen) bParen).getLocation();
       }
       
-      PCalLocation rpos ;
+      final PCalLocation rpos ;
       if (eParen.getType() == MappingObject.SOURCE_TOKEN) {
           rpos = ((MappingObject.SourceToken) eParen).getOrigin().getEnd();
       }
@@ -387,9 +387,9 @@ public class TLAtoPCalMapping implements Serializable {
    * TLAToPCal.
    * @return
    */
-  private static int ModifiedDepth(int var, PCalLocation pos, boolean movingForward, MappingObject[][] tpMap) {
+  private static int ModifiedDepth(final int var, final PCalLocation pos, final boolean movingForward, final MappingObject[][] tpMap) {
       int amt = 0;
-      int type = ObjectAt(pos, tpMap).getType();
+      final int type = ObjectAt(pos, tpMap).getType();
       if (type == MappingObject.LEFT_PAREN) {
           amt = 1;
       }
@@ -419,7 +419,7 @@ public class TLAtoPCalMapping implements Serializable {
    * @param reg
    * @return
    */
-  private static Region RegionToTokPair(MappingObject[][] spec, Region reg) {
+  private static Region RegionToTokPair(final MappingObject[][] spec, final Region reg) {
       /*
        * Set regBegin, regEnd to the endpoints of Region reg.
        */
@@ -472,7 +472,7 @@ public class TLAtoPCalMapping implements Serializable {
       
       while (notDone && loc != null) {
           if (prevIsBeginToLeft) {
-              MappingObject.EndTLAToken mobj 
+              final MappingObject.EndTLAToken mobj
                   = (MappingObject.EndTLAToken) ObjectAt(loc, spec) ;
                 // This will throw an exception if a BeginTLAToken is not
                 // immediately followed by an EndTLAToken
@@ -485,20 +485,20 @@ public class TLAtoPCalMapping implements Serializable {
               }
           } 
           else {
-              MappingObject obj = ObjectAt(loc, spec);
+              final MappingObject obj = ObjectAt(loc, spec);
               if (obj.getType() == MappingObject.END_TLATOKEN) {
                  // If we encounter an EndTLAToken object before a BeginTLAToken
                  // object, then the matching BeginTLAToken object is at an
                  // earlier line than regBeg and is therefore the one we want,
                  // if it is at or to the right of regBegin.
-                 MappingObject.EndTLAToken eobj = (MappingObject.EndTLAToken) obj;
+                 final MappingObject.EndTLAToken eobj = (MappingObject.EndTLAToken) obj;
                  if (LT(regBegin, new PCalLocation(loc.getLine(), eobj.getColumn()))) {
                      tokAtOrRightOfBeginning = PrevLocOf(loc, spec);
                      notDone = false;
                  }
               }
               else if (obj.getType() == MappingObject.BEGIN_TLATOKEN) {
-                  MappingObject.BeginTLAToken bobj = (MappingObject.BeginTLAToken) obj;
+                  final MappingObject.BeginTLAToken bobj = (MappingObject.BeginTLAToken) obj;
                   if (LTEq(regBegin, new PCalLocation(loc.getLine(), bobj.getColumn()))) {
                       tokAtOrRightOfBeginning = loc;
                       notDone = false;
@@ -508,7 +508,7 @@ public class TLAtoPCalMapping implements Serializable {
                   }
               }
               else if (obj.getType() == MappingObject.SOURCE_TOKEN) {
-                  MappingObject.SourceToken sobj = (MappingObject.SourceToken) obj;
+                  final MappingObject.SourceToken sobj = (MappingObject.SourceToken) obj;
                   if (LT(regBegin, new PCalLocation(loc.getLine(), sobj.getEndColumn()))) {
                       tokAtOrRightOfBeginning = loc;
                       notDone = false;
@@ -552,7 +552,7 @@ public class TLAtoPCalMapping implements Serializable {
     
     while (notDone && loc != null) {
         if (prevIsEndToRight) {
-            MappingObject.BeginTLAToken mobj 
+            final MappingObject.BeginTLAToken mobj
                 = (MappingObject.BeginTLAToken) ObjectAt(loc, spec) ;
               // This will throw an exception if a BeginTLAToken is not
               // immediately followed by an EndTLAToken
@@ -565,20 +565,20 @@ public class TLAtoPCalMapping implements Serializable {
             }
         } 
         else {
-            MappingObject obj = ObjectAt(loc, spec);
+            final MappingObject obj = ObjectAt(loc, spec);
             if (obj.getType() == MappingObject.BEGIN_TLATOKEN) {
                // If we encounter a BeginTLAToken object before an EndTLAToken
                // object, then the matching EndTLAToken object is at a
                // later line than regEnd and is therefore the one we want
                // if this BeginTLAToken is at or to the left of regEnd.
-               MappingObject.BeginTLAToken eobj = (MappingObject.BeginTLAToken) obj;
+               final MappingObject.BeginTLAToken eobj = (MappingObject.BeginTLAToken) obj;
                if (LT(new PCalLocation(loc.getLine(), eobj.getColumn()), regEnd)) {
                    tokAtOrLeftOfEnd = NextLocOf(loc, spec);
                    notDone = false;
                }
             }
             else if (obj.getType() == MappingObject.END_TLATOKEN) {
-                MappingObject.EndTLAToken bobj = (MappingObject.EndTLAToken) obj;
+                final MappingObject.EndTLAToken bobj = (MappingObject.EndTLAToken) obj;
                 if (LTEq(new PCalLocation(loc.getLine(), bobj.getColumn()), regEnd)) {
                     tokAtOrLeftOfEnd = loc;
                     notDone = false;
@@ -588,7 +588,7 @@ public class TLAtoPCalMapping implements Serializable {
                 }
             }
             else if (obj.getType() == MappingObject.SOURCE_TOKEN) {
-                MappingObject.SourceToken sobj = (MappingObject.SourceToken) obj;
+                final MappingObject.SourceToken sobj = (MappingObject.SourceToken) obj;
                 if (LT(new PCalLocation(loc.getLine(), sobj.getBeginColumn()), regEnd)) {
                     tokAtOrLeftOfEnd = loc;
                     notDone = false;
@@ -615,7 +615,7 @@ public class TLAtoPCalMapping implements Serializable {
              * whose end is tokAtOrLeftOfEnd.  We first find their distances
              * to the region.
              */
-             int distToLeft;
+             final int distToLeft;
              MappingObject obj = ObjectAt(tokAtOrLeftOfEnd, spec);
              if (obj.getType() == MappingObject.END_TLATOKEN) {
                  distToLeft = Dist(new PCalLocation (tokAtOrLeftOfEnd.getLine(), 
@@ -627,7 +627,7 @@ public class TLAtoPCalMapping implements Serializable {
                                                       ((MappingObject.SourceToken) obj).getEndColumn()),
                                     regEnd);
              }
-             int distToRight;
+             final int distToRight;
               obj = ObjectAt(tokAtOrRightOfBeginning, spec);
              if (obj.getType() == MappingObject.BEGIN_TLATOKEN) {
                  distToRight = Dist(new PCalLocation (tokAtOrRightOfBeginning.getLine(), 
@@ -656,7 +656,7 @@ public class TLAtoPCalMapping implements Serializable {
                   while (rightEnd != null && notDone) {
                      // rightEnd should never equal null;  we'll get
                      // an exception if it is.  
-                     int type = ObjectAt(rightEnd, spec).getType() ;
+                     final int type = ObjectAt(rightEnd, spec).getType() ;
                      if (   (type == MappingObject.END_TLATOKEN)
                          || (type == MappingObject.SOURCE_TOKEN)) {
                          notDone = false; 
@@ -676,7 +676,7 @@ public class TLAtoPCalMapping implements Serializable {
                  while (notDone) {
                     // leftBegin should never equal null;  we'll get
                     // an exception if it is.
-                    int type = ObjectAt(leftBegin, spec).getType() ;
+                    final int type = ObjectAt(leftBegin, spec).getType() ;
                     if (   (type == MappingObject.BEGIN_TLATOKEN)
                         || (type == MappingObject.SOURCE_TOKEN)) {
                         notDone = false; 
@@ -711,7 +711,7 @@ public class TLAtoPCalMapping implements Serializable {
    * @param map
    * @return
    */
-  private static MappingObject ObjectAt(PCalLocation loc, MappingObject[][] map) {
+  private static MappingObject ObjectAt(final PCalLocation loc, final MappingObject[][] map) {
       return map[loc.getLine()][loc.getColumn()] ;
   }
   
@@ -722,7 +722,7 @@ public class TLAtoPCalMapping implements Serializable {
    * @param map
    * @return
    */
-  private static PCalLocation PrevLocOf(PCalLocation loc, MappingObject[][] map) {
+  private static PCalLocation PrevLocOf(final PCalLocation loc, final MappingObject[][] map) {
       if (loc.getColumn() > 0) {
           return new PCalLocation(loc.getLine(), loc.getColumn()-1) ;
       }
@@ -741,7 +741,7 @@ public class TLAtoPCalMapping implements Serializable {
    * @param map
    * @return
    */
-  private static PCalLocation NextLocOf(PCalLocation loc, MappingObject[][] map) {
+  private static PCalLocation NextLocOf(final PCalLocation loc, final MappingObject[][] map) {
       if (loc.getColumn() + 1 < map[loc.getLine()].length) {
           return new PCalLocation(loc.getLine(), loc.getColumn()+1) ;
       }
@@ -759,7 +759,7 @@ public class TLAtoPCalMapping implements Serializable {
    * @param locB
    * @return
    */
-  private static boolean LTEq(PCalLocation locA, PCalLocation locB) {
+  private static boolean LTEq(final PCalLocation locA, final PCalLocation locB) {
       if (locA.getLine() == locB.getLine()) {
           return locA.getColumn() <= locB.getColumn();
       }
@@ -772,7 +772,7 @@ public class TLAtoPCalMapping implements Serializable {
    * @param locB
    * @return
    */
-  private static boolean LT(PCalLocation locA, PCalLocation locB) {
+  private static boolean LT(final PCalLocation locA, final PCalLocation locB) {
       if (locA.getLine() == locB.getLine()) {
           return locA.getColumn() < locB.getColumn();
       }
@@ -788,7 +788,7 @@ public class TLAtoPCalMapping implements Serializable {
    * @param locB
    * @return
    */
-  private static int Dist(PCalLocation locA, PCalLocation locB) {
+  private static int Dist(final PCalLocation locA, final PCalLocation locB) {
       return 9999 * Math.abs(locA.getLine() - locB.getLine())
               + Math.abs(locA.getColumn() - locB.getColumn());
   }
@@ -833,9 +833,9 @@ public class TLAtoPCalMapping implements Serializable {
    * @param mappingVec
    * @return
    */
-  public static Vector<Vector<MappingObject>> RemoveRedundantParens(Vector<Vector<MappingObject>> mappingVec) {
-      Vector<Vector<MappingObject>> out = new Vector<Vector<MappingObject>>(); // Vector of Vectors of MappingObjects
-      Vector<PCalLocation> unmatchedLeft = new Vector<PCalLocation>();  
+  public static Vector<Vector<MappingObject>> RemoveRedundantParens(final Vector<Vector<MappingObject>> mappingVec) {
+      final Vector<Vector<MappingObject>> out = new Vector<Vector<MappingObject>>(); // Vector of Vectors of MappingObjects
+      final Vector<PCalLocation> unmatchedLeft = new Vector<PCalLocation>();
          // Vector of PCalLocations in out of unmatched LeftParen objects
       PCalLocation lastMatchedLeft = null;
         // position in out of last LeftParen object that was matched by
@@ -843,12 +843,12 @@ public class TLAtoPCalMapping implements Serializable {
       PCalLocation lastAddedRight = null;
       int i = 0 ;
       while (i < mappingVec.size()) {
-          Vector<MappingObject> inLine = mappingVec.elementAt(i);
-          Vector<MappingObject> outLine = new Vector<MappingObject>();
+          final Vector<MappingObject> inLine = mappingVec.elementAt(i);
+          final Vector<MappingObject> outLine = new Vector<MappingObject>();
           out.addElement(outLine);
           int j = 0 ;
           while (j < inLine.size()) {
-              MappingObject inObj = inLine.elementAt(j); 
+              final MappingObject inObj = inLine.elementAt(j);
               if (inObj.getType() == MappingObject.LEFT_PAREN) {
                 /*
                  * Bug in translating algorithm.  The following statement was
@@ -910,7 +910,7 @@ public class TLAtoPCalMapping implements Serializable {
    * @param vec
    * @return
    */
-  private static boolean IsNextIn(PCalLocation locA, PCalLocation locB, Vector<Vector<MappingObject>> vec) {
+  private static boolean IsNextIn(final PCalLocation locA, final PCalLocation locB, final Vector<Vector<MappingObject>> vec) {
       return     (locA != null)
               && (locB != null)
               && (   (   (locA.getLine() == locB.getLine())

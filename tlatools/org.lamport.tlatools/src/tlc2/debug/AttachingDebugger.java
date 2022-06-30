@@ -50,7 +50,7 @@ public class AttachingDebugger extends TLCDebugger {
 	private String buffer = "";
 	private final int port;
 	
-	public AttachingDebugger(int port, final Step s, final boolean halt) throws IOException, InterruptedException, ExecutionException {
+	public AttachingDebugger(final int port, final Step s, final boolean halt) throws IOException, InterruptedException, ExecutionException {
 		super(s, halt);
 		this.port = port;
 		
@@ -72,18 +72,18 @@ public class AttachingDebugger extends TLCDebugger {
 			// ToolIO.ToolPrintStream, TestPrintStream, ..., would not be able to store
 			// the string parameters, which causes several tests to fail.
 			@Override
-			public void println(String str) {
+			public void println(final String str) {
 				((PrintStream) out).println(str);
 				sendOutput(str + "\n");
 			}
 
 			@Override
-			public void print(String str) {
+			public void print(final String str) {
 				((PrintStream) out).print(str);
 				sendOutput(str);
 			}
 
-			private void sendOutput(String str) {
+			private void sendOutput(final String str) {
 				if (launcher != null) {
 					final OutputEventArguments oea = new OutputEventArguments();
 					// TODO Make use of OutputEventArgumentsCategory and OutputEventArgumentsGroup
@@ -108,7 +108,7 @@ public class AttachingDebugger extends TLCDebugger {
 	public IDebugTarget setTool(final Tool tool) {
 		super.setTool(tool);
 		Executors.newSingleThreadExecutor().submit(() -> {
-			try (ServerSocket serverSocket = new ServerSocket(port)) {
+			try (final ServerSocket serverSocket = new ServerSocket(port)) {
 				// Immediately re-open the debugger to front-end requests after a front-end disconnected.
 				//TODO: This doesn't terminate when TLC terminates.
 				while (true) {
@@ -130,7 +130,7 @@ public class AttachingDebugger extends TLCDebugger {
 	}
 
 	@Override
-	public CompletableFuture<Void> launch(Map<String, Object> args) {
+	public CompletableFuture<Void> launch(final Map<String, Object> args) {
 		LOGGER.finer("launch");
 		Executors.newSingleThreadExecutor().submit(() -> {
 			if (!"".equals(buffer)) {
@@ -141,7 +141,7 @@ public class AttachingDebugger extends TLCDebugger {
 				buffer = "";
 			}
 			
-			StoppedEventArguments eventArguments = new StoppedEventArguments();
+			final StoppedEventArguments eventArguments = new StoppedEventArguments();
 			eventArguments.setThreadId(0);
 			launcher.getRemoteProxy().stopped(eventArguments);
 		});

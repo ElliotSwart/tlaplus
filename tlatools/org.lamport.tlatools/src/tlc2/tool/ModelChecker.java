@@ -70,8 +70,8 @@ public class ModelChecker extends AbstractChecker
 	private boolean forceLiveCheck = false;
 
     /* Constructors  */
-    public ModelChecker(ITool tool, String metadir, final IStateWriter stateWriter, boolean deadlock, String fromChkpt,
-            final Future<FPSet> future, long startTime) throws EvalException, IOException, InterruptedException, ExecutionException {
+    public ModelChecker(final ITool tool, final String metadir, final IStateWriter stateWriter, final boolean deadlock, final String fromChkpt,
+                        final Future<FPSet> future, final long startTime) throws EvalException, IOException, InterruptedException, ExecutionException {
     	this(tool, metadir, stateWriter, deadlock, fromChkpt, startTime);
     	this.theFPSet = future.get();
 
@@ -83,8 +83,8 @@ public class ModelChecker extends AbstractChecker
         }
     }
     
-    public ModelChecker(ITool tool, String metadir, final IStateWriter stateWriter, boolean deadlock, String fromChkpt,
-            final FPSetConfiguration fpSetConfig, long startTime) throws EvalException, IOException {
+    public ModelChecker(final ITool tool, final String metadir, final IStateWriter stateWriter, final boolean deadlock, final String fromChkpt,
+                        final FPSetConfiguration fpSetConfig, final long startTime) throws EvalException, IOException {
     	this(tool, metadir, stateWriter, deadlock, fromChkpt, startTime);
     	this.theFPSet = FPSetFactory.getFPSet(fpSetConfig).init(TLCGlobals.getNumWorkers(), metadir, tool.getRootName());
 
@@ -102,8 +102,8 @@ public class ModelChecker extends AbstractChecker
      * @param resolver name resolver to be able to load files (specs and configs) from managed environments 
      * @param specObj external SpecObj added to enable to work on existing specification 
      */
-	private ModelChecker(ITool tool, String metadir, final IStateWriter stateWriter, boolean deadlock, String fromChkpt,
-			long startTime) throws EvalException, IOException    {
+	private ModelChecker(final ITool tool, final String metadir, final IStateWriter stateWriter, final boolean deadlock, final String fromChkpt,
+                         final long startTime) throws EvalException, IOException    {
         // call the abstract constructor
         super(tool, metadir, stateWriter, deadlock, fromChkpt, startTime);
 
@@ -130,7 +130,7 @@ public class ModelChecker extends AbstractChecker
         
         // needed to calculate state/minute in final progress report
 
-		boolean recovered = this.recover();
+		final boolean recovered = this.recover();
         if (!recovered)
         {
 
@@ -154,7 +154,7 @@ public class ModelChecker extends AbstractChecker
                     report("exiting, because init failed");
                     return result;
                 }
-            } catch (Throwable e)
+            } catch (final Throwable e)
             {
                 report("exception in init");
                 report(e);
@@ -189,10 +189,10 @@ public class ModelChecker extends AbstractChecker
                     numberOfInitialStates = 0;
                     // SZ Feb 23, 2009: ignore cancel on error reporting
 					this.doInit(cTool, true);
-                } catch (FingerprintException fe){
+                } catch (final FingerprintException fe){
 					result = MP.printError(EC.TLC_FINGERPRINT_EXCEPTION, new String[] {
 							cTool.hasCallStack() ? cTool.toString() : fe.getTrace(), fe.getRootCause().getMessage() });
-                } catch (Throwable e1) {
+                } catch (final Throwable e1) {
                     // Assert.printStack(e);
                     result = MP.printError(EC.TLC_NESTED_EXPRESSION, cTool.toString());
                 }
@@ -202,7 +202,7 @@ public class ModelChecker extends AbstractChecker
                 return result;
             }
 
-            long statesGenerated = getStatesGenerated();
+            final long statesGenerated = getStatesGenerated();
             final String plural = (statesGenerated == 1) ? "" : "s";
             if (statesGenerated == this.theFPSet.size())
             {
@@ -279,21 +279,21 @@ public class ModelChecker extends AbstractChecker
 					// their fingerprints in the trace.
 					this.doNext(cTool, this.predErrState, this.checkLiveness ? new SetOfStates() : null,
 							new Worker(4223, this, this.metadir, tool.getRootName()));
-                } catch (FingerprintException e)
+                } catch (final FingerprintException e)
                 {
 					result = MP.printError(EC.TLC_FINGERPRINT_EXCEPTION, new String[] {
 							cTool.hasCallStack() ? cTool.toString() : e.getTrace(), e.getRootCause().getMessage() });
-                } catch (EvalException e) {
+                } catch (final EvalException e) {
                 	// Do not replace the actual error code, such as assert violation, with TLC_NESTED_EXPRESSION.
 	                MP.printError(EC.TLC_NESTED_EXPRESSION, cTool.toString());
 	                result = e.getErrorCode();
-                } catch (Throwable e)
+                } catch (final Throwable e)
                 {
                     // Assert.printStack(e);
                     result = MP.printError(EC.TLC_NESTED_EXPRESSION, cTool.toString());
                 }
             }
-        } catch (Exception e)
+        } catch (final Exception e)
         {
             report("TLC terminated with error");
             // Assert.printStack(e);
@@ -337,11 +337,11 @@ public class ModelChecker extends AbstractChecker
      * @throws Throwable
      */
     @Override
-    public final int doInit(boolean ignoreCancel) throws Throwable {
+    public final int doInit(final boolean ignoreCancel) throws Throwable {
     	return doInit(this.tool, ignoreCancel);
     }
     
-    private final int doInit(final ITool tool, boolean ignoreCancel) throws Throwable
+    private final int doInit(final ITool tool, final boolean ignoreCancel) throws Throwable
     {
 		// Generate the initial states.
         //
@@ -362,10 +362,10 @@ public class ModelChecker extends AbstractChecker
         }
 		try {
 			tool.getInitStates(functor);
-		} catch (DoInitFunctor.InvariantViolatedException ive) {
+		} catch (final DoInitFunctor.InvariantViolatedException ive) {
 			this.errState = functor.errState;
 			return functor.returnValue;
-		} catch (Assert.TLCRuntimeException e) {
+		} catch (final Assert.TLCRuntimeException e) {
 			this.errState = functor.errState;
 			throw e;
 		}
@@ -391,7 +391,7 @@ public class ModelChecker extends AbstractChecker
      * 
      * This method is called from the workers on every step
      */
-    private final boolean doNext(final ITool tool, TLCState curState, final SetOfStates liveNextStates, final Worker worker) throws Throwable
+    private final boolean doNext(final ITool tool, final TLCState curState, final SetOfStates liveNextStates, final Worker worker) throws Throwable
     {
         boolean deadLocked = true;
         TLCState succState = null;
@@ -507,7 +507,7 @@ public class ModelChecker extends AbstractChecker
                 	}
 				}
 			}
-        } catch (Exception e)
+        } catch (final Exception e)
         {
 			doNextEvalFailed(curState, succState, EC.TLC_INVARIANT_EVALUATION_FAILED,
 					tool.getInvNames()[k], e);
@@ -540,7 +540,7 @@ public class ModelChecker extends AbstractChecker
                 	}
 				}
 			}
-        } catch (Exception e)
+        } catch (final Exception e)
         {
 			doNextEvalFailed(curState, succState, EC.TLC_ACTION_PROPERTY_EVALUATION_FAILED,
 					tool.getImpliedActNames()[k], e);
@@ -548,7 +548,7 @@ public class ModelChecker extends AbstractChecker
         return false;
 	}
 
-	final boolean doNextSetErr(TLCState curState, TLCState succState, boolean keep, int ec, String param) throws IOException, WorkerException {
+	final boolean doNextSetErr(final TLCState curState, final TLCState succState, final boolean keep, final int ec, final String param) throws IOException, WorkerException {
 		synchronized (this)
 		{
 		    if (this.setErrState(curState, succState, keep, ec))
@@ -566,7 +566,7 @@ public class ModelChecker extends AbstractChecker
 		return true;
 	}
 
-	final boolean doNextSetErr(TLCState curState, TLCState succState, Action action) throws IOException, WorkerException {
+	final boolean doNextSetErr(final TLCState curState, final TLCState succState, final Action action) throws IOException, WorkerException {
 		synchronized (this) {
 			final int errorCode = EC.TLC_STATE_NOT_COMPLETELY_SPECIFIED_NEXT;
 			if (this.setErrState(curState, succState, false, errorCode))
@@ -592,7 +592,7 @@ public class ModelChecker extends AbstractChecker
 		}
 	}
 
-	final void doNextEvalFailed(TLCState curState, TLCState succState, int ec, String param, Exception e)
+	final void doNextEvalFailed(final TLCState curState, final TLCState succState, final int ec, final String param, final Exception e)
 			throws IOException, WorkerException, Exception {
 		synchronized (this) {
 		    if (this.setErrState(curState, succState, true, ec))
@@ -606,7 +606,7 @@ public class ModelChecker extends AbstractChecker
 		}
 	}
 
-	final void doNextFailed(TLCState curState, TLCState succState, Throwable e)
+	final void doNextFailed(final TLCState curState, final TLCState succState, final Throwable e)
 			throws IOException, WorkerException, Throwable {
 		// Assert.printStack(e);
 		final boolean keep = ((e instanceof StackOverflowError) || (e instanceof OutOfMemoryError)
@@ -797,7 +797,7 @@ public class ModelChecker extends AbstractChecker
 				// liveness checking" at
 				// https://github.com/tlaplus/tlaplus/issues/22
             	this.tool.getInitStates(new IStateFunctor() {
-					public Object addElement(TLCState state) {
+					public Object addElement(final TLCState state) {
 						liveCheck.addInitState(tool, state, state.fingerPrint());
 						return true;
 					}
@@ -813,7 +813,7 @@ public class ModelChecker extends AbstractChecker
         return recovered;
     }
 
-    private final void cleanup(boolean success) throws IOException
+    private final void cleanup(final boolean success) throws IOException
     {
     	boolean vetoCleanup = VETO_CLEANUP;
     	
@@ -837,11 +837,11 @@ public class ModelChecker extends AbstractChecker
     	}
 	}
     
-    public final void printSummary(boolean success) throws IOException {
+    public final void printSummary(final boolean success) throws IOException {
     	printSummary(success, startTime);
     }
 
-    public final void printSummary(boolean success, final long startTime) throws IOException
+    public final void printSummary(final boolean success, final long startTime) throws IOException
     {
         super.reportCoverage(this.workers);
         
@@ -866,7 +866,7 @@ public class ModelChecker extends AbstractChecker
 			
         	// Aggregate outdegree from statistics maintained by individual workers. 
         	final BucketStatistics aggOutDegree = new BucketStatistics("State Graph OutDegree");
-        	for (IWorker worker : workers) {
+        	for (final IWorker worker : workers) {
 				aggOutDegree.add(((Worker) worker).getOutDegree());
 			}
         	// Print graph statistics iff data points were actually collected.
@@ -927,7 +927,7 @@ public class ModelChecker extends AbstractChecker
     /**
      * Spawn the worker threads
      */
-    protected IWorker[] startWorkers(AbstractChecker checker, int checkIndex)
+    protected IWorker[] startWorkers(final AbstractChecker checker, final int checkIndex)
     {
 		// Generation of initial states is done at this point. Thus set the
 		// number of workers on the fpset, for it to adapt any synchronization
@@ -992,7 +992,7 @@ public class ModelChecker extends AbstractChecker
      * Debugging support
      * @param e
      */
-    private void report(Throwable e)
+    private void report(final Throwable e)
     {
         DebugPrinter.print(e);
     }
@@ -1026,7 +1026,7 @@ public class ModelChecker extends AbstractChecker
 	public int getProgress() {
 		try {
 			return trace.getLevelForReporting();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// The modelchecker trace file might be closed already (e.g. it
 			// gets closed at the end of the modelchecker run)
 			return -1;
@@ -1059,12 +1059,12 @@ public class ModelChecker extends AbstractChecker
 	}
 
 	@Override
-	public TLCStateInfo[] getTraceInfo(TLCState s) throws IOException {
+	public TLCStateInfo[] getTraceInfo(final TLCState s) throws IOException {
 		return trace.getTrace(s);
 	}
 
 	@Override
-	public TLCStateInfo[] getTraceInfo(final TLCState from, TLCState to) throws IOException {
+	public TLCStateInfo[] getTraceInfo(final TLCState from, final TLCState to) throws IOException {
 		return trace.getTrace(from, to);
 	}
 
@@ -1110,11 +1110,11 @@ public class ModelChecker extends AbstractChecker
 		private final boolean forceChecks;
 		private final ITool tool;
 		
-		public DoInitFunctor(ITool tool) {
+		public DoInitFunctor(final ITool tool) {
 			this(tool, false);
 		}
 		
-		public DoInitFunctor(ITool tool, boolean forceChecks) {
+		public DoInitFunctor(final ITool tool, final boolean forceChecks) {
 			this.forceChecks = forceChecks;
 			this.tool = tool;
 		}
@@ -1147,10 +1147,10 @@ public class ModelChecker extends AbstractChecker
 					returnValue = EC.TLC_INITIAL_STATE;
 					throw new InvariantViolatedException();
 				}
-				boolean inModel = tool.isInModel(curState);
+				final boolean inModel = tool.isInModel(curState);
 				boolean seen = false;
 				if (inModel) {
-					long fp = curState.fingerPrint();
+					final long fp = curState.fingerPrint();
 					seen = theFPSet.put(fp);
 					if (!seen) {
 						allStateWriter.writeState(curState);
@@ -1188,18 +1188,18 @@ public class ModelChecker extends AbstractChecker
 						}
 					}
 				}
-			} catch (InvariantViolatedException | Assert.TLCRuntimeException | EvalException e) {
+			} catch (final InvariantViolatedException | Assert.TLCRuntimeException | EvalException e) {
 				// IVE gets thrown above when an Invariant is violated. TLCRuntimeException gets
 				// thrown when Tool fails to evaluate a statement because of e.g. too large sets
 				// or type errors such as in DoInitFunctorInvariantMinimalErrorStackTest test.
 				this.errState = curState;
 				this.e = e;
 				throw e;
-			} catch (OutOfMemoryError e) {
+			} catch (final OutOfMemoryError e) {
 				MP.printError(EC.SYSTEM_OUT_OF_MEMORY_TOO_MANY_INIT);
 				returnValue = EC.SYSTEM_OUT_OF_MEMORY_TOO_MANY_INIT;
 				return returnValue;
-			} catch (Throwable e) {
+			} catch (final Throwable e) {
 				// Assert.printStack(e);
 				this.errState = curState;
 				this.e = e;
@@ -1208,7 +1208,7 @@ public class ModelChecker extends AbstractChecker
 		}
 	}
 
-	public List<File> getModuleFiles(FilenameToStream resolver) {
+	public List<File> getModuleFiles(final FilenameToStream resolver) {
 		return this.tool.getModuleFiles(resolver);
 	}
 }

@@ -49,7 +49,7 @@ public class XMLExporter {
   static final String JAXP_SCHEMA_SOURCE =
         "http://java.sun.com/xml/jaxp/properties/schemaSource";
 
-  public static final void main(String[] args) throws XMLExportingException {
+  public static final void main(final String[] args) throws XMLExportingException {
 
     // parse arguments, possible flag
     // s
@@ -57,7 +57,7 @@ public class XMLExporter {
     // -o offline mode (no validation) //TODO: use a resolver to do offline validation
     // then a list of top level modules to parse)
     if (args.length < 1) throw new IllegalArgumentException("at least one .tla file must be given");
-    LinkedList<String> pathsLs = new LinkedList<String>();
+    final LinkedList<String> pathsLs = new LinkedList<String>();
 
     boolean offline_mode = false;
     int lastarg = -1; // lastarg will be incremented, initialize at -1
@@ -76,21 +76,21 @@ public class XMLExporter {
 
     lastarg++;
 
-    String[] paths = new String[pathsLs.size()];
+    final String[] paths = new String[pathsLs.size()];
     for (int i = 0; i < paths.length; i++) paths[i] = pathsLs.get(i);
 
     if (args.length - lastarg != 1)
       throw new IllegalArgumentException("Only one TLA file to check allowed!");
 
-    String tla_name = args[lastarg++];
+    final String tla_name = args[lastarg++];
 
-    FilenameToStream fts = new SimpleFilenameToStream(paths);
+    final FilenameToStream fts = new SimpleFilenameToStream(paths);
 
     // redirecting System.out
-    PrintStream out = System.out;
+    final PrintStream out = System.out;
     System.setOut(new PrintStream(new ByteArrayOutputStream()));
 
-    SpecObj spec = new SpecObj(tla_name, fts);
+    final SpecObj spec = new SpecObj(tla_name, fts);
 
     // Print documentation line on System.out
     ToolIO.out.println("\n****** SANY2 " + SANY.version + "\n");
@@ -108,7 +108,7 @@ public class XMLExporter {
           throw new XMLExportingException("spec " + spec.getName() + " is malformed - does not have an external module table", null);
         if (spec.getExternalModuleTable().getRootModule() == null)
           throw new XMLExportingException("spec " + spec.getName() + " is malformed - does not have a root module", null);
-      } catch (FrontEndException fe) {
+      } catch (final FrontEndException fe) {
         // For debugging
         fe.printStackTrace();
         ToolIO.out.println(fe);
@@ -122,27 +122,27 @@ public class XMLExporter {
 
     try {
 
-      DocumentBuilderFactory docFactory =
+      final DocumentBuilderFactory docFactory =
               DocumentBuilderFactory.newInstance();
 
       // write XML
-      DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+      final DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
       // root elements
-      Document doc = docBuilder.newDocument();
-      Element rootElement = doc.createElement("modules");
+      final Document doc = docBuilder.newDocument();
+      final Element rootElement = doc.createElement("modules");
       doc.appendChild(rootElement);
       // Create symbol context. It will be filled by all symbol references during module export.
-      SymbolContext context = new SymbolContext();
+      final SymbolContext context = new SymbolContext();
 
       //Export all the external modules
-      ExternalModuleTable table = spec.getExternalModuleTable();
+      final ExternalModuleTable table = spec.getExternalModuleTable();
       //Element e = table.getRootModule().exportDefinition(doc,context);
       //rootElement.appendChild(e);
-      ModuleNode[] externalModules = table.getModuleNodes();
+      final ModuleNode[] externalModules = table.getModuleNodes();
       for (int j = 0; j < externalModules.length; j++) {
         //Element ext_e = externalModules[j].exportDefinition(doc, context);
-        Element ext_e = externalModules[j].export(doc, context);
+        final Element ext_e = externalModules[j].export(doc, context);
         rootElement.appendChild(ext_e);
       }
 
@@ -153,20 +153,20 @@ public class XMLExporter {
       insertRootName(doc, rootElement, spec);
 
       //Create XML file
-      TransformerFactory transformerFactory = TransformerFactory.newInstance();
-      Transformer transformer = transformerFactory.newTransformer();
-      DOMSource source = new DOMSource(doc);
+      final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      final Transformer transformer = transformerFactory.newTransformer();
+      final DOMSource source = new DOMSource(doc);
 
       // validate the file, do not fail if there is a URL connection error
       if (!offline_mode) { //skip validation in offline mode
         try {
-          SchemaFactory factory = SchemaFactory.newInstance(W3C_XML_SCHEMA);
-          Schema schema = factory.newSchema(new URL(TLA_SCHEMA));
+          final SchemaFactory factory = SchemaFactory.newInstance(W3C_XML_SCHEMA);
+          final Schema schema = factory.newSchema(new URL(TLA_SCHEMA));
           // create a Validator instance, which can be used to validate an instance document
-          Validator validator = schema.newValidator();
+          final Validator validator = schema.newValidator();
           //validate the DOM tree
           validator.validate(source);
-        } catch (java.io.IOException ioe) {
+        } catch (final java.io.IOException ioe) {
           // do nothing if there is no internet connection
           // but fail for other errors
         }
@@ -175,21 +175,21 @@ public class XMLExporter {
             // but fail for other errors
           }*/
       }
-      StreamResult result = new StreamResult(out);
+      final StreamResult result = new StreamResult(out);
 
       transformer.transform(source, result);
-    } catch (ParserConfigurationException pce) {
+    } catch (final ParserConfigurationException pce) {
       throw new XMLExportingException("failed to write XML", pce);
-    } catch (TransformerException tfe) {
+    } catch (final TransformerException tfe) {
       throw new XMLExportingException("failed to write XML", tfe);
-    } catch (SAXException se) {
+    } catch (final SAXException se) {
       throw new XMLExportingException("failed to validate XML", se);
     }
 
   }
 
-  static void insertRootName(Document doc, Element rootElement, SpecObj spec) {
-    Element el = doc.createElement("RootModule");
+  static void insertRootName(final Document doc, final Element rootElement, final SpecObj spec) {
+    final Element el = doc.createElement("RootModule");
     el.appendChild(doc.createTextNode(spec.getName()));
     rootElement.insertBefore(el, rootElement.getFirstChild());
   }

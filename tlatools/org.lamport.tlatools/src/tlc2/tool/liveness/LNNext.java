@@ -12,7 +12,7 @@ import tlc2.tool.TLCState;
 class LNNext extends LiveExprNode {
 	private final LiveExprNode body;
 
-	public LNNext(LiveExprNode body) {
+	public LNNext(final LiveExprNode body) {
 		this.body = body;
 	}
 
@@ -33,16 +33,16 @@ class LNNext extends LiveExprNode {
 		return this.body.isPositiveForm();
 	}
 
-	public final boolean eval(ITool tool, TLCState s1, TLCState s2) {
+	public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
 		return this.body.eval(tool, s2, TLCState.Empty);
 	}
 
-	public final void toString(StringBuffer sb, String padding) {
+	public final void toString(final StringBuffer sb, final String padding) {
 		sb.append("()");
 		this.getBody().toString(sb, padding + "  ");
 	}
 
-	public void extractPromises(TBPar promises) {
+	public void extractPromises(final TBPar promises) {
 		getBody().extractPromises(promises);
 	}
 
@@ -54,7 +54,7 @@ class LNNext extends LiveExprNode {
 		return new LNNext(getBody().flattenSingleJunctions());
 	}
 
-	public boolean equals(LiveExprNode exp) {
+	public boolean equals(final LiveExprNode exp) {
 		if (exp instanceof LNNext) {
 			return getBody().equals(((LNNext) exp).getBody());
 		}

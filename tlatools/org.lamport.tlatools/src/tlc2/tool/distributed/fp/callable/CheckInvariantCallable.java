@@ -11,7 +11,7 @@ import tlc2.tool.distributed.fp.FPSetRMI;
 public class CheckInvariantCallable implements Callable<Boolean> {
 	private final FPSetRMI fpSetRMI;
 	
-	public CheckInvariantCallable(FPSetRMI fpSetRMI) {
+	public CheckInvariantCallable(final FPSetRMI fpSetRMI) {
 		this.fpSetRMI = fpSetRMI;
 	}
 
@@ -21,7 +21,7 @@ public class CheckInvariantCallable implements Callable<Boolean> {
 	public Boolean call() throws Exception {
 		try {
 			return fpSetRMI.checkInvariant();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// not expected to happen.
 			MP.printError(EC.GENERAL, e);
 			// return max value to indicate to caller that the result is

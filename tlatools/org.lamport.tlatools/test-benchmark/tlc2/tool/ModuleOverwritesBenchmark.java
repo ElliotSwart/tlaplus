@@ -58,7 +58,7 @@ public class ModuleOverwritesBenchmark {
 	private static final TLCStateMut state;
 
 	static {
-		String dir = BASE_PATH + File.separator + "ModuleOverwrites";
+		final String dir = BASE_PATH + File.separator + "ModuleOverwrites";
 		System.err.println(dir);
 		ToolIO.setUserDir(dir);
 

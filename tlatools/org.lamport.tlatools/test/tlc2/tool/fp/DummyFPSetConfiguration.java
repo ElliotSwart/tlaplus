@@ -15,7 +15,7 @@ public class DummyFPSetConfiguration extends FPSetConfiguration {
 		return memoryInBytes;
 	}
 	
-	public void setMemoryInFingerprintCnt(long length) {
+	public void setMemoryInFingerprintCnt(final long length) {
 		this.memoryInBytes = length * FPSet.LongSize;
 	}
 }

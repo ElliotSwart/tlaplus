@@ -85,10 +85,10 @@ public class Format {
 /* multiple lines.                                                         */
 /***************************************************************************/
 
-  public static String format(Node value, 
-			      int columnwidth, 
-			      int trailerwidth,
-			      String leftpad) throws FormatException {
+  public static String format(final Node value,
+                              final int columnwidth,
+                              final int trailerwidth,
+                              final String leftpad) throws FormatException {
 
     // Use the value's original format if it will fit on the line
     if (value.length() <= columnwidth-trailerwidth) return value.value();
@@ -141,14 +141,14 @@ public class Format {
 /* with the delimiters.                                                    */
 /***************************************************************************/
 
-  private static String formatSimpleValue(Node list, 
-					 int columnwidth, 
-					 int trailerwidth, 
-					 String leftpad,
-					 String open, 
-					 String close, 
-					 String pad,
-					 String sep) throws FormatException {
+  private static String formatSimpleValue(final Node list,
+                                          final int columnwidth,
+                                          final int trailerwidth,
+                                          final String leftpad,
+                                          final String open,
+                                          final String close,
+                                          final String pad,
+                                          final String sep) throws FormatException {
     try {
       return 
 	open +
@@ -159,18 +159,18 @@ public class Format {
 		     sep) +
 	close;
     }
-    catch (FormatException e) {
+    catch (final FormatException e) {
       throw e;
     }
   }
 
 /***************************************************************************/
 
-  private static String formatValues(Node values, 
-				    int columnwidth, 
-				    int trailerwidth, 
-				    String leftpad, 
-				    String sep) throws FormatException {
+  private static String formatValues(final Node values,
+                                     final int columnwidth,
+                                     final int trailerwidth,
+                                     final String leftpad,
+                                     final String sep) throws FormatException {
     try {
       String pp = "";
       for (Node value = values; value != null; value = value.next()) {
@@ -187,7 +187,7 @@ public class Format {
       }
       return pp;
     }
-    catch (FormatException e) {
+    catch (final FormatException e) {
       throw e;
     }
   }
@@ -203,16 +203,16 @@ public class Format {
 /* with the delimiters.                                                    */
 /***************************************************************************/
 
-  private static String formatPairValue(Node list, 
-				       int columnwidth, 
-				       int trailerwidth, 
-				       String leftpad,
-				       String open, 
-				       String close, 
-				       String pad,
-				       String sep,
-				       String div,
-				       String divpad) throws FormatException {
+  private static String formatPairValue(final Node list,
+                                        final int columnwidth,
+                                        final int trailerwidth,
+                                        final String leftpad,
+                                        final String open,
+                                        final String close,
+                                        final String pad,
+                                        final String sep,
+                                        final String div,
+                                        final String divpad) throws FormatException {
     try {
       return 
 	open +
@@ -225,25 +225,25 @@ public class Format {
 		    divpad) +
 	close;
     }
-    catch (FormatException e) {
+    catch (final FormatException e) {
       throw e;
     }
   }
 
 /***************************************************************************/
 
-  private static String formatPairs(Node pairs, 
-				   int columnwidth,
-				   int trailerwidth,
-				   String leftpad,
-				   String sep,
-				   String div,
-				   String divpad) throws FormatException {
+  private static String formatPairs(final Node pairs,
+                                    final int columnwidth,
+                                    final int trailerwidth,
+                                    final String leftpad,
+                                    final String sep,
+                                    final String div,
+                                    final String divpad) throws FormatException {
     try {
       String pp = "";
       for (Node pair = pairs; pair != null; pair = pair.next()) {
-	Node arg = pair.children();
-	Node val = arg.next();
+	final Node arg = pair.children();
+	final Node val = arg.next();
 
 	// First suppose this pair is not the last pair in
 	// the list.  In this case, don't forget to append sep to the
@@ -318,7 +318,7 @@ public class Format {
       }
       return pp;
     }
-    catch (FormatException e) {
+    catch (final FormatException e) {
       throw e;
     }
   }

@@ -70,147 +70,147 @@ import org.eclipse.lsp4j.debug.services.IDebugProtocolServer;
 public abstract class AbstractDebugger implements IDebugProtocolServer{
 
 	@Override
-	public CompletableFuture<SourceResponse> source(SourceArguments args) {
+	public CompletableFuture<SourceResponse> source(final SourceArguments args) {
 		System.out.println("SourceResponse");
 		return CompletableFuture.completedFuture(new SourceResponse());
 	}
 
 	@Override
-	public CompletableFuture<LoadedSourcesResponse> loadedSources(LoadedSourcesArguments args) {
+	public CompletableFuture<LoadedSourcesResponse> loadedSources(final LoadedSourcesArguments args) {
 		System.out.println("loadedSources");
 		return CompletableFuture.completedFuture(new LoadedSourcesResponse());
 	}
 
 	@Override
-	public CompletableFuture<Void> stepBack(StepBackArguments args) {
+	public CompletableFuture<Void> stepBack(final StepBackArguments args) {
 		System.out.println("stepBack");
 		return CompletableFuture.completedFuture(null);
 	}
 
 	@Override
-	public CompletableFuture<Void> goto_(GotoArguments args) {
+	public CompletableFuture<Void> goto_(final GotoArguments args) {
 		System.out.println("goto_");
 		return CompletableFuture.completedFuture(null);
 	}
 
 	@Override
-	public CompletableFuture<Void> attach(Map<String, Object> args) {
+	public CompletableFuture<Void> attach(final Map<String, Object> args) {
 		System.out.println("attach");
 		return CompletableFuture.completedFuture(null);
 	}
 
 	@Override
-	public CompletableFuture<Void> restart(RestartArguments args) {
+	public CompletableFuture<Void> restart(final RestartArguments args) {
 		System.out.println("restart");
 		return CompletableFuture.completedFuture(null);
 	}
 
 	@Override
-	public CompletableFuture<Void> disconnect(DisconnectArguments args) {
+	public CompletableFuture<Void> disconnect(final DisconnectArguments args) {
 		System.out.println("disconnect");
 		return CompletableFuture.completedFuture(null);
 	}
 
 	@Override
-	public CompletableFuture<Void> terminate(TerminateArguments args) {
+	public CompletableFuture<Void> terminate(final TerminateArguments args) {
 		System.out.println("terminate");
 		return CompletableFuture.completedFuture(null);
 	}
 
 	@Override
-	public CompletableFuture<RunInTerminalResponse> runInTerminal(RunInTerminalRequestArguments args) {
+	public CompletableFuture<RunInTerminalResponse> runInTerminal(final RunInTerminalRequestArguments args) {
 		System.out.println("runInTerminal");
 		return CompletableFuture.completedFuture(new RunInTerminalResponse());
 	}
 
 	@Override
 	public CompletableFuture<SetFunctionBreakpointsResponse> setFunctionBreakpoints(
-			SetFunctionBreakpointsArguments args) {
+            final SetFunctionBreakpointsArguments args) {
 		System.out.println("setFunctionBreakpoint");
 		return CompletableFuture.completedFuture(new SetFunctionBreakpointsResponse());
 	}
 
 	@Override
-	public CompletableFuture<Void> setExceptionBreakpoints(SetExceptionBreakpointsArguments args) {
+	public CompletableFuture<Void> setExceptionBreakpoints(final SetExceptionBreakpointsArguments args) {
 		System.out.println("setExceptionBreakpoints");
 		return CompletableFuture.completedFuture(null);
 	}
 
 	@Override
-	public CompletableFuture<DataBreakpointInfoResponse> dataBreakpointInfo(DataBreakpointInfoArguments args) {
+	public CompletableFuture<DataBreakpointInfoResponse> dataBreakpointInfo(final DataBreakpointInfoArguments args) {
 		System.out.println("dataBreakpointInfo");
 		return CompletableFuture.completedFuture(new DataBreakpointInfoResponse());
 	}
 
 	@Override
-	public CompletableFuture<SetDataBreakpointsResponse> setDataBreakpoints(SetDataBreakpointsArguments args) {
+	public CompletableFuture<SetDataBreakpointsResponse> setDataBreakpoints(final SetDataBreakpointsArguments args) {
 		System.out.println("setDataBreakpoints");
 		return CompletableFuture.completedFuture(new SetDataBreakpointsResponse());
 	}
 
 	@Override
 	public CompletableFuture<SetInstructionBreakpointsResponse> setInstructionBreakpoints(
-			SetInstructionBreakpointsArguments args) {
+            final SetInstructionBreakpointsArguments args) {
 		System.out.println("setInstructionBreakpoints");
 		return CompletableFuture.completedFuture(new SetInstructionBreakpointsResponse());
 	}
 
 	@Override
-	public CompletableFuture<Void> terminateThreads(TerminateThreadsArguments args) {
+	public CompletableFuture<Void> terminateThreads(final TerminateThreadsArguments args) {
 		System.out.println("terminateThreads");
 		return CompletableFuture.completedFuture(null);
 	}
 
 	@Override
-	public CompletableFuture<ModulesResponse> modules(ModulesArguments args) {
+	public CompletableFuture<ModulesResponse> modules(final ModulesArguments args) {
 		System.out.println("ModulesResponse");
 		return CompletableFuture.completedFuture(new ModulesResponse());
 	}
 
 	@Override
-	public CompletableFuture<Void> reverseContinue(ReverseContinueArguments args) {
+	public CompletableFuture<Void> reverseContinue(final ReverseContinueArguments args) {
 		System.out.println("reverseContinue");
 		return CompletableFuture.completedFuture(null);
 	}
 
 	@Override
-	public CompletableFuture<Void> restartFrame(RestartFrameArguments args) {
+	public CompletableFuture<Void> restartFrame(final RestartFrameArguments args) {
 		System.out.println("restartFrame");
 		return CompletableFuture.completedFuture(null);
 	}
 
 	@Override
-	public CompletableFuture<SetExpressionResponse> setExpression(SetExpressionArguments args) {
+	public CompletableFuture<SetExpressionResponse> setExpression(final SetExpressionArguments args) {
 		System.out.println("setExpression");
 		return CompletableFuture.completedFuture(new SetExpressionResponse());
 	}
 
 	@Override
-	public CompletableFuture<StepInTargetsResponse> stepInTargets(StepInTargetsArguments args) {
+	public CompletableFuture<StepInTargetsResponse> stepInTargets(final StepInTargetsArguments args) {
 		System.out.println("stepInTargets");
 		return CompletableFuture.completedFuture(new StepInTargetsResponse());
 	}
 
 	@Override
-	public CompletableFuture<CompletionsResponse> completions(CompletionsArguments args) {
+	public CompletableFuture<CompletionsResponse> completions(final CompletionsArguments args) {
 		System.out.println("completions");
 		return CompletableFuture.completedFuture(new CompletionsResponse());
 	}
 
 	@Override
-	public CompletableFuture<ReadMemoryResponse> readMemory(ReadMemoryArguments args) {
+	public CompletableFuture<ReadMemoryResponse> readMemory(final ReadMemoryArguments args) {
 		System.out.println("readMemory");
 		return CompletableFuture.completedFuture(new ReadMemoryResponse());
 	}
 
 	@Override
-	public CompletableFuture<DisassembleResponse> disassemble(DisassembleArguments args) {
+	public CompletableFuture<DisassembleResponse> disassemble(final DisassembleArguments args) {
 		System.out.println("disassemble");
 		return CompletableFuture.completedFuture(new DisassembleResponse());
 	}
 
 	@Override
-	public synchronized CompletableFuture<BreakpointLocationsResponse> breakpointLocations(BreakpointLocationsArguments args) {
+	public synchronized CompletableFuture<BreakpointLocationsResponse> breakpointLocations(final BreakpointLocationsArguments args) {
 		System.out.println("breakpointLocations");
 		// https://microsoft.github.io/debug-adapter-protocol/specification#Requests_BreakpointLocations
 		// Requires Capabilities#setSupportBreakpointLocationsRequest(true) to be returned in TLCDebugger.initialize(..).

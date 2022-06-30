@@ -102,7 +102,7 @@ public final class SpecWriterUtilities {
      * @return
      */
 	public static List<String[]> createListContent(final List<Formula> formulaList, final String labelingScheme) {
-		ArrayList<String[]> resultContent = new ArrayList<>(formulaList.size());
+		final ArrayList<String[]> resultContent = new ArrayList<>(formulaList.size());
 		String[] content;
 		String label;
 		for (int i = 0; i < formulaList.size(); i++) {
@@ -180,7 +180,7 @@ public final class SpecWriterUtilities {
      */
 	public static List<String[]> createFormulaListContent(final List<String> serializedFormulaList,
 			final String labelingScheme) {
-		List<Formula> formulaList = Formula.deserializeFormulaList(serializedFormulaList);
+		final List<Formula> formulaList = Formula.deserializeFormulaList(serializedFormulaList);
 		return createFormulaListContentFormula(formulaList, labelingScheme);
 	}
 

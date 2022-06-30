@@ -18,7 +18,7 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	private final transient TLCTrace trace; // Do not serialize trace and send it over the wire. Recovery executes on the master, not on the workers.
 
 	public NonDistributedFPSetManager(final FPSetRMI fpSet,
-			final String hostname, TLCTrace trace) throws IOException {
+                                      final String hostname, final TLCTrace trace) throws IOException {
 		this.fpSet = fpSet;
 		this.hostname = hostname;
 		this.trace = trace;
@@ -27,7 +27,7 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.IFPSetManager#register(tlc2.tool.distributed.fp.FPSetRMI, java.lang.String)
 	 */
-	public void register(FPSetRMI fpSet, String hostname)
+	public void register(final FPSetRMI fpSet, final String hostname)
 			throws FPSetManagerException {
 		throw new UnsupportedOperationException("Not applicable for non-distributed FPSetManager");
 	}
@@ -56,10 +56,10 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#put(long)
 	 */
-	public boolean put(long fp) {
+	public boolean put(final long fp) {
 		try {
 			return this.fpSet.put(fp);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// not expected to happen
 			MP.printError(EC.GENERAL, e);
 			return false;
@@ -69,10 +69,10 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#contains(long)
 	 */
-	public boolean contains(long fp) {
+	public boolean contains(final long fp) {
 		try {
 			return this.fpSet.contains(fp);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// not expected to happen
 			MP.printError(EC.GENERAL, e);
 			return false;
@@ -82,20 +82,20 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.IFPSetManager#getFPSetIndex(long)
 	 */
-	public int getFPSetIndex(long fp) {
+	public int getFPSetIndex(final long fp) {
 		return 0;
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#putBlock(tlc2.util.LongVec[])
 	 */
-	public BitVector[] putBlock(LongVec[] fps) {
+	public BitVector[] putBlock(final LongVec[] fps) {
 		final BitVector[] res = new BitVector[fps.length];
 		for (int i = 0; i < fps.length; i++) {
-			LongVec longVec = fps[i];
+			final LongVec longVec = fps[i];
 			try {
 				res[i] = this.fpSet.putBlock(longVec);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				// not expected to happen
 				MP.printError(EC.GENERAL, e);
 				res[i] = new BitVector(0);
@@ -107,20 +107,20 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#putBlock(tlc2.util.LongVec[], java.util.concurrent.ExecutorService)
 	 */
-	public BitVector[] putBlock(LongVec[] fps, ExecutorService executorService) {
+	public BitVector[] putBlock(final LongVec[] fps, final ExecutorService executorService) {
 		return putBlock(fps);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#containsBlock(tlc2.util.LongVec[])
 	 */
-	public BitVector[] containsBlock(LongVec[] fps) {
+	public BitVector[] containsBlock(final LongVec[] fps) {
 		final BitVector[] res = new BitVector[fps.length];
 		for (int i = 0; i < fps.length; i++) {
-			LongVec longVec = fps[i];
+			final LongVec longVec = fps[i];
 			try {
 				res[i] = this.fpSet.containsBlock(longVec);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				// not expected to happen
 				MP.printError(EC.GENERAL, e);
 				res[i] = new BitVector(0);
@@ -132,8 +132,8 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#containsBlock(tlc2.util.LongVec[], java.util.concurrent.ExecutorService)
 	 */
-	public BitVector[] containsBlock(LongVec[] fps,
-			ExecutorService executorService) {
+	public BitVector[] containsBlock(final LongVec[] fps,
+                                     final ExecutorService executorService) {
 		return containsBlock(fps);
 	}
 
@@ -143,7 +143,7 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	public long checkFPs() {
 		try {
 			return this.fpSet.checkFPs();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// not expected to happen
 			MP.printError(EC.GENERAL, e);
 			return -1;
@@ -156,7 +156,7 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	public boolean checkInvariant() {
 		try {
 			return this.fpSet.checkInvariant();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// not expected to happen
 			MP.printError(EC.GENERAL, e);
 			return false;
@@ -169,7 +169,7 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	public long size() {
 		try {
 			return this.fpSet.size();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// not supposed to happen
 			MP.printError(EC.GENERAL, e);
 			return -1;
@@ -182,7 +182,7 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	public long getStatesSeen() {
 		try {
 			return this.fpSet.size();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// not supposed to happen
 			MP.printError(EC.GENERAL, e);
 			return -1;
@@ -199,7 +199,7 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#checkpoint(java.lang.String)
 	 */
-	public void checkpoint(String fname) throws InterruptedException, IOException {
+	public void checkpoint(final String fname) throws InterruptedException, IOException {
 		this.fpSet.beginChkpt();
 	}
 
@@ -213,14 +213,14 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#recover(java.lang.String)
 	 */
-	public void recover(String fname) throws InterruptedException, IOException {
+	public void recover(final String fname) throws InterruptedException, IOException {
 		this.fpSet.recover(trace);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.fp.FPSetManager#close(boolean)
 	 */
-	public void close(boolean cleanup) throws IOException {
+	public void close(final boolean cleanup) throws IOException {
 		this.fpSet.close();
 		// Correspond with the existing impl in FPSetManager#exit(boolean) and
 		// exit the FPSet

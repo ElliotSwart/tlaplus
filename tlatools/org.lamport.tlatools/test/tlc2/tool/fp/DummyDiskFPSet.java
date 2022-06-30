@@ -14,7 +14,7 @@ public class DummyDiskFPSet extends LSBDiskFPSet {
 		super(fpSetConfig);
 	}
 
-	public void setIndex(long[] anIndex) {
+	public void setIndex(final long[] anIndex) {
 		this.index = anIndex;
 	}
 }

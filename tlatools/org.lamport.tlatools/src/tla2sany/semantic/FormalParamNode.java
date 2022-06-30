@@ -31,8 +31,8 @@ public class FormalParamNode extends SymbolNode {
     // the module in which this formal param was declared
 
   // Constructor
-  public FormalParamNode(UniqueString us, int ar, TreeNode stn,
-			 SymbolTable symbolTable, ModuleNode mn) {
+  public FormalParamNode(final UniqueString us, final int ar, final TreeNode stn,
+                         final SymbolTable symbolTable, final ModuleNode mn) {
     super(FormalParamKind, stn, us);
     this.arity      = ar;
     this.moduleNode = mn;
@@ -51,12 +51,12 @@ public class FormalParamNode extends SymbolNode {
 
   public final ModuleNode getModuleNode() { return this.moduleNode; }
 
-  public final boolean match( OpApplNode test, ModuleNode mn ) {
+  public final boolean match(final OpApplNode test, final ModuleNode mn ) {
     /***********************************************************************
     * True iff the current object has the same arity as the node operator  *
     * of the OpApplNode test.                                              *
     ***********************************************************************/
-    SymbolNode odn = test.getOperator();
+    final SymbolNode odn = test.getOperator();
     return odn.getArity() == this.arity;
   }
 
@@ -66,7 +66,7 @@ public class FormalParamNode extends SymbolNode {
 //  private HashSet levelParams;
 
   @Override
-  public final boolean levelCheck(int iter) {
+  public final boolean levelCheck(final int iter) {
     if (levelChecked == 0) {
       /*********************************************************************
       * There's never any need to do this more than once.                  *
@@ -111,8 +111,8 @@ public class FormalParamNode extends SymbolNode {
 //  }
 
   @Override
-  public final void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
 
     semNodesTable.put(uid, this);
@@ -121,7 +121,7 @@ public class FormalParamNode extends SymbolNode {
   }
 
   @Override
-  public final String toString(int depth) {
+  public final String toString(final int depth) {
     if (depth <= 0) return "";
     return ("\n*FormalParamNode: " + this.getName().toString() +
 	    "  " + super.toString(depth) + "  arity: " + arity);
@@ -131,8 +131,8 @@ public class FormalParamNode extends SymbolNode {
     return "FormalParamNodeRef";
   }
 
-  protected Element getSymbolElement(Document doc, SymbolContext context) {
-    Element e = doc.createElement("FormalParamNode");
+  protected Element getSymbolElement(final Document doc, final SymbolContext context) {
+    final Element e = doc.createElement("FormalParamNode");
     e.appendChild(appendText(doc,"uniquename",getName().toString()));
     e.appendChild(appendText(doc,"arity",Integer.toString(getArity())));
     return e;

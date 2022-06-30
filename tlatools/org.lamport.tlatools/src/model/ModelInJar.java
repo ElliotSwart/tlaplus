@@ -25,27 +25,27 @@ public abstract class ModelInJar {
 	public static File getCfg() {
 		try {
 			final InputStream source = ModelInJar.class.getResourceAsStream(PATH + TLAConstants.Files.MODEL_CHECK_CONFIG_FILE);
-			Path target = Files.createTempFile(TLAConstants.Files.MODEL_CHECK_FILE_BASENAME, TLAConstants.Files.CONFIG_EXTENSION);
+			final Path target = Files.createTempFile(TLAConstants.Files.MODEL_CHECK_FILE_BASENAME, TLAConstants.Files.CONFIG_EXTENSION);
 			Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
 			return target.toFile();
-		} catch (IOException notExpectedToHappen) {
+		} catch (final IOException notExpectedToHappen) {
 			return new File("");
 		}
 	}
 	
 	public static boolean loadProperties() {
-		InputStream in = ModelInJar.class.getResourceAsStream(PATH + "generated.properties");
+		final InputStream in = ModelInJar.class.getResourceAsStream(PATH + "generated.properties");
 		if (in != null) {
-			Properties prop = new Properties();
+			final Properties prop = new Properties();
 			try {
 				prop.load(in);
 				in.close();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				e.printStackTrace();
 			}
-			Enumeration<Object> elements = prop.keys();
+			final Enumeration<Object> elements = prop.keys();
 			while(elements.hasMoreElements()) {
-				String key = (String) elements.nextElement();
+				final String key = (String) elements.nextElement();
 				System.getProperties().setProperty(key, (String) prop.get(key));
 			}
 			return true;

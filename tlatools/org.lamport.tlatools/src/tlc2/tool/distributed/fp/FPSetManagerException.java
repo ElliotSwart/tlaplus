@@ -6,7 +6,7 @@ import java.rmi.RemoteException;
 @SuppressWarnings("serial")
 public class FPSetManagerException extends RemoteException {
 
-	public FPSetManagerException(String s) {
+	public FPSetManagerException(final String s) {
 		super(s);
 	}
 }

@@ -51,25 +51,25 @@ public class TLCTimerTask extends TimerTask {
 				if(server.isDone()) {
 					exitWorker(null);
 				}
-			} catch (MalformedURLException e) {
+			} catch (final MalformedURLException e) {
 				// not expected to happen
 				LOGGER.log(Level.FINEST, "Failed to exit worker", e);
-			} catch (RemoteException e) {
+			} catch (final RemoteException e) {
 				exitWorker(e);
-			} catch (NotBoundException e) {
+			} catch (final NotBoundException e) {
 				exitWorker(e);
 			}
 		}
 	}
 	
 	private boolean noActivityWithin(final int timeout) {
-		long lastInvocation = getMostRecentInvocation();
+		final long lastInvocation = getMostRecentInvocation();
 		if (lastInvocation == -1) {
 			// The worker is currently computing states, thus we count this as
 			// an activity
 			return false;
 		} else {
-			long now = new Date().getTime();
+			final long now = new Date().getTime();
 			return lastInvocation == 0 || (now - lastInvocation) > timeout;
 		}
 	}
@@ -77,7 +77,7 @@ public class TLCTimerTask extends TimerTask {
 	private long getMostRecentInvocation() {
 		long minInvocation = 0L;
 		for (int i = 0; i < runnables.length; i++) {
-			TLCWorker tlcWorker = runnables[i].getTLCWorker();
+			final TLCWorker tlcWorker = runnables[i].getTLCWorker();
 			/*
 			 * If one of the TLCworker threads is computing states, we assume
 			 * the TLCMaster/TLCServer to still be alive. At least we definitely
@@ -90,13 +90,13 @@ public class TLCTimerTask extends TimerTask {
 			if (tlcWorker.isComputing()) {
 				return -1L;
 			}
-			long lastInvocation = tlcWorker.getLastInvocation();
+			final long lastInvocation = tlcWorker.getLastInvocation();
 			minInvocation = Math.max(minInvocation, lastInvocation);
 		}
 		return minInvocation;
 	}
 
-	private void exitWorker(Throwable e) {
+	private void exitWorker(final Throwable e) {
 		if (e != null) {
 			MP.printError(EC.TLC_DISTRIBUTED_SERVER_NOT_RUNNING, e);
 		} else {
@@ -104,9 +104,9 @@ public class TLCTimerTask extends TimerTask {
 		}
 		for (int i = 0; i < runnables.length; i++) {
 			try {
-				TLCWorkerRunnable runnable = runnables[i];
+				final TLCWorkerRunnable runnable = runnables[i];
 				runnable.getTLCWorker().exit();
-			} catch (NoSuchObjectException ex) {
+			} catch (final NoSuchObjectException ex) {
 				// not expected to happen
 				LOGGER.log(Level.FINEST, "Failed to exit worker", ex);
 			}

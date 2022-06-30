@@ -90,7 +90,7 @@ public final class BuiltInSymbols
         buildCanPrecedeLabelTable();
       } ;
 
-    public static boolean IsBuiltInSymbol(String str) 
+    public static boolean IsBuiltInSymbol(final String str)
       { return (null != GetBuiltInSymbol(str)) ;
       } ;
 
@@ -103,7 +103,7 @@ public final class BuiltInSymbols
      * @param pcalMode : true if looking for pcal symbols as well as TLA+ symbols.
      * @return
      */
-    public static boolean IsBuiltInSymbol(String str, boolean pcalMode) 
+    public static boolean IsBuiltInSymbol(final String str, final boolean pcalMode)
       { return null != GetBuiltInSymbol(str, pcalMode)  ;
       } ;
     
@@ -115,8 +115,8 @@ public final class BuiltInSymbols
        * @param pcalMode
        * @return
        */
-    public static Symbol GetBuiltInSymbol(String str, boolean pcalMode)
-      { Symbol sym ;
+    public static Symbol GetBuiltInSymbol(final String str, final boolean pcalMode)
+      { final Symbol sym ;
         if (pcalMode) { 
             sym = pcalBuiltInHashTable.get(str);
         }
@@ -131,31 +131,31 @@ public final class BuiltInSymbols
       } ;
 
 
-    public static Symbol GetBuiltInSymbol(String str)
+    public static Symbol GetBuiltInSymbol(final String str)
       { return builtInHashTable.get(str);
       } ;
 
-    public static boolean IsBuiltInPrefix(String str)
+    public static boolean IsBuiltInPrefix(final String str)
       { return prefixHashTable.containsKey(str) ;
       } ;
 
-    public static boolean IsBuiltInPrefix(String str, boolean pcal)
+    public static boolean IsBuiltInPrefix(final String str, final boolean pcal)
       { if (pcal) {
           return pcalPrefixHashTable.containsKey(str);
       }
         return prefixHashTable.containsKey(str) ;
       } ;
 
-    public static boolean IsStringChar(char ch)
+    public static boolean IsStringChar(final char ch)
       { return stringCharTable.containsKey(String.valueOf(ch)) ;
       } ;
 
-    public static boolean CanPrecedeLabel(String str) {
+    public static boolean CanPrecedeLabel(final String str) {
         return canPrecedeLabelTable.containsKey(str) ;
     }
       
     private static void buildStringCharTable() 
-      { String legalChars = 
+      { final String legalChars =
                  /**********************************************************
                  * Here are all the non-escaped characters that can        *
                  * appear in a TLA+ string.                                *
@@ -172,13 +172,13 @@ public final class BuiltInSymbols
       } ;
 
     private static void buildCanPrecedeLabelTable() {
-        String[] canPrecedeLabel = 
+        final String[] canPrecedeLabel =
            {";", ")", "{",  "begin", "do", "either", "or", "then", "else", "elsif"};
         for (int i = 0; i < canPrecedeLabel.length; i++) {
             canPrecedeLabelTable.put(canPrecedeLabel[i], nullString);
         }
     }
-    private static void add(String tla, String tex, int stype, int atype)
+    private static void add(final String tla, final String tex, final int stype, final int atype)
       /*********************************************************************
       * Adds a non-PlusCal entry to the builtInHashTable and               *
       * pcalBuiltInHashTable.                                              *
@@ -187,7 +187,7 @@ public final class BuiltInSymbols
         pcalBuiltInHashTable.put(tla, new Symbol(tla, tex, stype, atype) ) ;   } ;
 
 
-    private static void pcaladd(String tla, String tex, int stype, int atype)
+    private static void pcaladd(final String tla, final String tex, final int stype, final int atype)
       /*********************************************************************
       * Adds a PlusCal entry to the pcalBuiltInHashTable.                  *
       *********************************************************************/

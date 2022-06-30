@@ -21,7 +21,7 @@ public class BTGraphNode extends BEGraphNode {
 	 */
 	private int tindex;
 
-	public BTGraphNode(long fp, int index) {
+	public BTGraphNode(final long fp, final int index) {
 		super(fp);
 		this.tindex = index;
 	}
@@ -30,7 +30,7 @@ public class BTGraphNode extends BEGraphNode {
 		return (this.tindex & 0x3FFFFFFF);
 	}
 
-	public final void setIndex(int index) {
+	public final void setIndex(final int index) {
 		this.tindex = (this.tindex & 0xC0000000) | index;
 	}
 
@@ -42,7 +42,7 @@ public class BTGraphNode extends BEGraphNode {
 		this.tindex |= 0x80000000;
 	}
 
-	public static BTGraphNode makeDummy(long fp) {
+	public static BTGraphNode makeDummy(final long fp) {
 		return new BTGraphNode(fp, 0x40000000);
 	}
 
@@ -65,7 +65,7 @@ public class BTGraphNode extends BEGraphNode {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -75,7 +75,7 @@ public class BTGraphNode extends BEGraphNode {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		BTGraphNode other = (BTGraphNode) obj;
+		final BTGraphNode other = (BTGraphNode) obj;
 		if (stateFP != other.stateFP) {
 			return false;
 		}
@@ -85,7 +85,7 @@ public class BTGraphNode extends BEGraphNode {
 		return true;
 	}
 
-	public final TBGraphNode getTNode(TBGraph tableau) {
+	public final TBGraphNode getTNode(final TBGraph tableau) {
 		return tableau.getNode(this.getIndex());
 	}
 
@@ -98,18 +98,18 @@ public class BTGraphNode extends BEGraphNode {
 	 * same value. It flips the visited field. We use the high-order bit of
 	 * this.number as the visited bit.
 	 */
-	protected final void toString(StringBuffer buf, boolean unseen) {
+	protected final void toString(final StringBuffer buf, final boolean unseen) {
 		if (this.getVisited() == unseen) {
 			this.flipVisited();
 			buf.append("(" + this.stateFP + "," + this.getIndex() + ") --> ");
-			int size = this.nextSize();
+			final int size = this.nextSize();
 			if (size != 0) {
-				BTGraphNode node = (BTGraphNode) this.nextAt(0);
+				final BTGraphNode node = (BTGraphNode) this.nextAt(0);
 				buf.append("(" + node.stateFP + "," + node.getIndex() + ")");
 			}
 			for (int i = 1; i < size; i++) {
 				buf.append(", ");
-				BTGraphNode node = (BTGraphNode) this.nextAt(i);
+				final BTGraphNode node = (BTGraphNode) this.nextAt(i);
 				buf.append("(" + node.stateFP + "," + node.getIndex() + ")");
 			}
 			buf.append("\n");

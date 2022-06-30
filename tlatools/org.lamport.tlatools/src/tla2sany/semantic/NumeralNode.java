@@ -39,7 +39,7 @@ public class NumeralNode extends ExprNode {
    * @param stn
    * @throws AbortException
    */
-  public NumeralNode( String s, TreeNode stn ) throws AbortException {
+  public NumeralNode(final String s, final TreeNode stn ) throws AbortException {
     super(NumeralKind, stn);
     this.image = s;
     String num = s.toLowerCase();
@@ -59,7 +59,7 @@ public class NumeralNode extends ExprNode {
     try {
 
       this.value = Integer.parseInt( num, radix );
-    } catch ( NumberFormatException e ) {
+    } catch ( final NumberFormatException e ) {
       this.bigValue = new BigInteger( s, radix );
     }
   }
@@ -80,7 +80,7 @@ public class NumeralNode extends ExprNode {
 
   /* Level Checking */
   @Override
-  public final boolean levelCheck(int iter) {
+  public final boolean levelCheck(final int iter) {
     levelChecked = iter;
       /*********************************************************************
       * Set it just to show that levelCHeck was called.                    *
@@ -115,8 +115,8 @@ public class NumeralNode extends ExprNode {
 //  }
 
   @Override
-  public final void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
 
     semNodesTable.put(uid, this);
@@ -125,7 +125,7 @@ public class NumeralNode extends ExprNode {
   }
 
   @Override
-  public final String toString(int depth) {
+  public final String toString(final int depth) {
     if (depth <= 0) return "";
 
     return("\n*NumeralNode: " + super.toString(depth) + " Value: " + value +
@@ -134,10 +134,10 @@ public class NumeralNode extends ExprNode {
   }
 
   @Override
-  protected Element getLevelElement(Document doc, SymbolContext context) {
-      String v = (bigValue != null) ? bigValue.toString() : (Integer.toString(value));
-      Element e = doc.createElement("IntValue");
-      Node n = doc.createTextNode(v);
+  protected Element getLevelElement(final Document doc, final SymbolContext context) {
+      final String v = (bigValue != null) ? bigValue.toString() : (Integer.toString(value));
+      final Element e = doc.createElement("IntValue");
+      final Node n = doc.createTextNode(v);
       e.appendChild(n);
       return appendElement(doc, "NumeralNode", e);
     //return appendText(doc,"NumeralNode",(bigValue != null) ? bigValue.toString() : (Integer.toString(value)));

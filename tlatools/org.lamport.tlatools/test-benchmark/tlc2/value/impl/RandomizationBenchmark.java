@@ -73,7 +73,7 @@ public class RandomizationBenchmark {
 	private static final SubsetValue subset2pow150; // ~2^150
 	private static final SubsetValue subset2pow268; // ~2^268
 	
-	private static ValueVec getValues(int from, int to) {
+	private static ValueVec getValues(final int from, final int to) {
 		final ValueVec vec = new ValueVec(to - from);
 		for (int i = from; i <= to; i++) {
 			vec.addElement(IntValue.gen(i));

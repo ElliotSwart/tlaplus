@@ -227,7 +227,7 @@
 package tla2tex;
 
 public class FindAlignments
-{ public static void FindAlignments(Token[][] spec)
+{ public static void FindAlignments(final Token[][] spec)
     { setSubscriptField(spec) ;
         /*******************************************************************
         * Set the subscript fields of the tokens.                          *
@@ -263,8 +263,8 @@ public class FindAlignments
             /***************************************************************
             * Set token, pos to the current token and its position.        *
             ***************************************************************/
-            Position pos = new Position(line, item) ;
-            Token    token = spec[line][item] ;
+            final Position pos = new Position(line, item) ;
+            final Token    token = spec[line][item] ;
 
             if (! token.subscript)
              {/*************************************************************
@@ -281,14 +281,14 @@ public class FindAlignments
                 * Set btoken, bpos to the blocking token of `token' and    *
                 * its position.                                            *
                 ***********************************************************/
-                Position bpos   = blockingPosition(spec, pos);              
+                final Position bpos   = blockingPosition(spec, pos);
                 Token    btoken =  null ;
                 if (bpos.line != -1) {btoken = bpos.toToken(spec);};
                 
                 /***********************************************************
                 * Set ctok to be a CommentToken alias for token.           *
                 ***********************************************************/
-                CommentToken ctok = (CommentToken) token ;
+                final CommentToken ctok = (CommentToken) token ;
                 if (   (ctok.subtype == CommentToken.MULTI)
                     || (ctok.subtype == CommentToken.NULL))
                  { /********************************************************
@@ -380,15 +380,15 @@ public class FindAlignments
                    ********************************************************/
                    Debug.Assert(pos.item > 0, 
                       "prevInfixInner true for first item on line");
-                   Position lPos  = new Position(pos.line, pos.item - 1);
+                   final Position lPos  = new Position(pos.line, pos.item - 1);
                    Debug.Assert(lPos.toToken(spec).aboveAlign.line != -1,
                      "prevInfixInner true, but token to left not aligned");
-                   Position alPos = lPos.toToken(spec).aboveAlign ;
+                   final Position alPos = lPos.toToken(spec).aboveAlign ;
                    if (alPos.item + 1 < spec[alPos.line].length)
-                    { Position aPos   = 
+                    { final Position aPos   =
                           new Position(alPos.line, alPos.item + 1) ;
-                      Token    atoken = aPos.toToken(spec);
-                      Position cPos   = coveringPosition(spec, pos, true);
+                      final Token    atoken = aPos.toToken(spec);
+                      final Position cPos   = coveringPosition(spec, pos, true);
                       if (   (cPos.line == aPos.line)
                           && (cPos.item == aPos.item)
                           && (token.column == atoken.column)
@@ -431,7 +431,7 @@ public class FindAlignments
                         { /*************************************************
                           * Next, check if InfixInner aligned.             *
                           *************************************************/
-                          Position cpos = coveringPosition(spec, pos, true) ;
+                          final Position cpos = coveringPosition(spec, pos, true) ;
                           Token ctoken = null ;
                             /***********************************************
                             * cpos and ctoken are the covering position    *
@@ -504,12 +504,12 @@ public class FindAlignments
                              //       "Trying to InfixArg align with token "
                              //   + "that is not aligned with token below it");
 
-                                 Token lTok = spec[line][item-1] ;
+                                 final Token lTok = spec[line][item-1] ;
                                    /****************************************
                                    * The token to the left of the current  *
                                    * token.                                *
                                    ****************************************/
-                                Position alPos = lTok.aboveAlign ;
+                                final Position alPos = lTok.aboveAlign ;
                                 /*****************************************
                                   * The token with which lTok is aligned   *
                                   * above.                                 *
@@ -599,7 +599,7 @@ public class FindAlignments
       while (line < spec.length)
        { int item = 0 ;
          while (item < spec[line].length)
-          { Token token = spec[line][item] ;
+          { final Token token = spec[line][item] ;
             if (token.aboveAlign.line != -1)
               { if (item > 0)
                   {token.isAlignmentPoint = true ;
@@ -661,7 +661,7 @@ public class FindAlignments
    *  
    * @param spec
    */
-  public static void FindLabelAlignments(Token[][] spec) {
+  public static void FindLabelAlignments(final Token[][] spec) {
       /*
        * Do nothing if there is no PlusCal algorithm.
        */
@@ -674,8 +674,8 @@ public class FindAlignments
        * PlusCal statement.  Since the algorithm begins with --algorithm
        * or --fair, we skip the algorithm's first line.
        */
-      int pcalStartLine = TokenizeSpec.pcalStart.line + 1 ;
-      int pcalEndLine   = TokenizeSpec.pcalEnd.line ;
+      final int pcalStartLine = TokenizeSpec.pcalStart.line + 1 ;
+      final int pcalEndLine   = TokenizeSpec.pcalEnd.line ;
       
       /*
        * The algorithm works by repeatedly searching for the next line beginning
@@ -714,8 +714,8 @@ public class FindAlignments
           if (   (spec[curLabelLine].length > 1)
               && (spec[curLabelLine][0].type == Token.PCAL_LABEL) ) {
               
-              Token tok = spec[curLabelLine][1] ;
-              int alignCol = tok.column ;
+              final Token tok = spec[curLabelLine][1] ;
+              final int alignCol = tok.column ;
 
               // Perform step 1 for token tok
               int curLine = curLabelLine + 1 ;
@@ -865,7 +865,7 @@ public class FindAlignments
   /*************************************************************************
   * The following are functions used in FindAlignments.                    *
   *************************************************************************/
-  private static boolean isLeftComment(Token[][] spec, Position p)
+  private static boolean isLeftComment(final Token[][] spec, final Position p)
     /***********************************************************************
     * A left-comment is a comment token that is the first token on a line  *
     * and has another token to its right.  This method returns true iff    *
@@ -876,7 +876,7 @@ public class FindAlignments
              && (spec[p.line].length > 1) ;
     } ;
 
-  private static boolean isRightComment(Token[][] spec, Position p)
+  private static boolean isRightComment(final Token[][] spec, final Position p)
     /***********************************************************************
     * A right-comment is a comment token that is the last token on its     *
     * line.  This method returns true iff the token at position p in spec  *
@@ -886,8 +886,8 @@ public class FindAlignments
              && (spec[p.line][p.item].type == Token.COMMENT) ;
     } ;
 
-  private static Position coveringPosition( 
-                          Token[][] spec, Position p, boolean ignore)
+  private static Position coveringPosition(
+          final Token[][] spec, final Position p, final boolean ignore)
     /***********************************************************************
     * A token t1 COVERS a token t2 if t1 lies on an earlier line than t2   *
     * and t1.column \leq t2.column.  This method searches upwards to find  *
@@ -900,7 +900,7 @@ public class FindAlignments
       * Find covering line.                                                *
       *********************************************************************/
       int   line = p.line - 1 ;
-      Token tok = p.toToken(spec) ;
+      final Token tok = p.toToken(spec) ;
       boolean notDone = true ;
       while ((line >= 0) && notDone)
        { if (spec[line].length > 0)
@@ -953,7 +953,7 @@ public class FindAlignments
      return new Position(line, nsItem);
     } ;
 
-  private static Position blockingPosition(Token[][] spec, Position p)
+  private static Position blockingPosition(final Token[][] spec, final Position p)
     /***********************************************************************
     * Searches upwards from position p to find the first token at the      *
     * same column or to the right of the token at p that is not            *
@@ -961,7 +961,7 @@ public class FindAlignments
     ***********************************************************************/
     { int line = p.line - 1 ;
       int item = 0 ;
-      Token tok = p.toToken(spec) ;
+      final Token tok = p.toToken(spec) ;
       boolean notDone = true ;
       while ((line >= 0) && notDone)
        { if (spec[line].length > 0)
@@ -996,7 +996,7 @@ public class FindAlignments
      return new Position(line, item);
     } ;
 
-  private static void setSubscriptField(Token[][] spec)
+  private static void setSubscriptField(final Token[][] spec)
     /***********************************************************************
     * Sets the subscript field of the tokens.  (This field is true iff     *
     * the token is part of a sub- or superscript.)  Upon encountering a    *
@@ -1021,7 +1021,7 @@ public class FindAlignments
            
 
          while (item < spec[line].length)
-          { Token tok = spec[line][item] ;
+          { final Token tok = spec[line][item] ;
               /*************************************************************
               * tok is the current token.                                  *
               *************************************************************/

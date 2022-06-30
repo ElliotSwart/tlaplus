@@ -109,7 +109,7 @@ public class TLCStackFrame extends StackFrame {
 	protected final int ctxtId;
 	
 	// Testing only!
-	TLCStackFrame(int id) {
+	TLCStackFrame(final int id) {
 		super();
 		this.node = null;
 		this.ctxt = null;
@@ -119,13 +119,13 @@ public class TLCStackFrame extends StackFrame {
 		this.setId(id);
 	}
 
-	public TLCStackFrame(TLCStackFrame parent, SemanticNode node, Context ctxt, Tool tool, RuntimeException e) {
+	public TLCStackFrame(final TLCStackFrame parent, final SemanticNode node, final Context ctxt, final Tool tool, final RuntimeException e) {
 		this.parent = parent;
 		this.tool = tool;
 		Assert.check(this.tool != null, EC.GENERAL);
 		
 		if (e instanceof TLCDetailedRuntimeException) {
-			TLCDetailedRuntimeException dre = (TLCDetailedRuntimeException) e;
+			final TLCDetailedRuntimeException dre = (TLCDetailedRuntimeException) e;
 			this.node = dre.expr;
 			this.ctxt = dre.ctxt;
 		} else {
@@ -174,11 +174,11 @@ public class TLCStackFrame extends StackFrame {
 		this.ctxtId = rnd.nextInt(Integer.MAX_VALUE - 1) + 1;
 	}
 
-	public TLCStackFrame(TLCStackFrame parent, SemanticNode node, Context ctxt, final Tool tool) {
+	public TLCStackFrame(final TLCStackFrame parent, final SemanticNode node, final Context ctxt, final Tool tool) {
 		this(parent, node, ctxt, tool, null);
 	}
 
-	protected Variable getStateAsVariable(final IValue value, String varName) {
+	protected Variable getStateAsVariable(final IValue value, final String varName) {
 		final Variable variable = getVariable(value, UniqueString.of(varName));
 		// Because we convert the TLCState (getT) to a RecordValue to re-use the
 		// getVariable(..) implementation, the type (shown when hovering over the
@@ -200,19 +200,19 @@ public class TLCStackFrame extends StackFrame {
 		return getVariable(val, expr.getName());
 	}
 
-	protected Variable getVariable(final IValue value, String varName) {
+	protected Variable getVariable(final IValue value, final String varName) {
 		return getVariable(value, UniqueString.of(varName));
 	}
 	
-	protected Variable getVariable(final IValue value, UniqueString varName) {
-		DebugTLCVariable variable = (DebugTLCVariable) value.toTLCVariable(new DebugTLCVariable(varName), rnd);
+	protected Variable getVariable(final IValue value, final UniqueString varName) {
+		final DebugTLCVariable variable = (DebugTLCVariable) value.toTLCVariable(new DebugTLCVariable(varName), rnd);
 		nestedVariables.put(variable.getVariablesReference(), variable);
 		return variable;
 	}
 	
 	protected List<Variable> getStackVariables(final List<Variable> vars) {
 		if (this.v != null) {
-			Variable variable = getVariable(v, ((SyntaxTreeNode) node.getTreeNode()).getHumanReadableImage());
+			final Variable variable = getVariable(v, ((SyntaxTreeNode) node.getTreeNode()).getHumanReadableImage());
 			// TODO Somehow attach the variable's location too? getHumanReadableImage
 			// doesn't correctly create whitespaces, which might be confusing. However, the
 			// Toolbox's hover help also shows getHumanReadableImage, which is why fixing it
@@ -261,21 +261,21 @@ public class TLCStackFrame extends StackFrame {
 			final List<Variable> vars = new ArrayList<>();
 
 			if (nestedVariables.containsKey(vr)) {
-				List<TLCVariable> nested = nestedVariables.get(vr).getNested(rnd);
-				for (TLCVariable n : nested) {
-					DebugTLCVariable d = (DebugTLCVariable) n;
+				final List<TLCVariable> nested = nestedVariables.get(vr).getNested(rnd);
+				for (final TLCVariable n : nested) {
+					final DebugTLCVariable d = (DebugTLCVariable) n;
 					nestedVariables.put(d.getVariablesReference(), d);
 					vars.add(d);
 				}
 			}
 
 			if (nestedConstants.containsKey(vr)) {
-				List<DebugTLCVariable> cntsts = nestedConstants.get(vr);
-				for (DebugTLCVariable c : cntsts) {
+				final List<DebugTLCVariable> cntsts = nestedConstants.get(vr);
+				for (final DebugTLCVariable c : cntsts) {
 					nestedVariables.put(c.getVariablesReference(), c);
-					List<TLCVariable> nested = c.getNested(rnd);
-					for (TLCVariable n : nested) {
-						DebugTLCVariable d = (DebugTLCVariable) n;
+					final List<TLCVariable> nested = c.getNested(rnd);
+					for (final TLCVariable n : nested) {
+						final DebugTLCVariable d = (DebugTLCVariable) n;
 						nestedVariables.put(d.getVariablesReference(), d);
 					}
 				}
@@ -356,7 +356,7 @@ public class TLCStackFrame extends StackFrame {
 					
 					final List<DebugTLCVariable> l = new ArrayList<>();
 					final Set<Entry<OpDefOrDeclNode,Object>> entrySet = e.getValue().entrySet();
-					for (Entry<OpDefOrDeclNode, Object> entry : entrySet) {
+					for (final Entry<OpDefOrDeclNode, Object> entry : entrySet) {
 						final OpDefOrDeclNode oddn = entry.getKey();
 						final Object value = entry.getValue();
 						if (oddn instanceof OpDefNode) {
@@ -380,7 +380,7 @@ public class TLCStackFrame extends StackFrame {
 		final Set<Variable> s = new TreeSet<>(new Comparator<Variable>() {
 			@SuppressWarnings("unchecked")
 			@Override
-			public int compare(Variable o1, Variable o2) {
+			public int compare(final Variable o1, final Variable o2) {
 				if (o1 instanceof Comparable && o2 instanceof Comparable) {
 					return ((Comparable<Variable>) o1).compareTo(o2);
 				}
@@ -394,7 +394,7 @@ public class TLCStackFrame extends StackFrame {
 	protected Variable getVariable(final LinkedList<SemanticNode> path) {
 		assert !path.isEmpty();
 		
-		SemanticNode sn = path.getFirst();
+		final SemanticNode sn = path.getFirst();
 		Object o;
 		if (sn instanceof SymbolNode) {
 			o = tool.lookup((SymbolNode) sn, this.ctxt, false);
@@ -491,7 +491,7 @@ public class TLCStackFrame extends StackFrame {
 			}
 			
 			return er;
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return er;
 		}
 	}
@@ -505,7 +505,7 @@ public class TLCStackFrame extends StackFrame {
 			return tool.eval(() -> {
 				return lv.eval(tool);
 			});
-		} catch (TLCRuntimeException | EvalException | FingerprintException e) {
+		} catch (final TLCRuntimeException | EvalException | FingerprintException e) {
 			return fallback == null ? e : fallback;
 		}
 	}
@@ -563,7 +563,7 @@ public class TLCStackFrame extends StackFrame {
 		return "TLCStackFrame [node=" + node + "]";
 	}
 
-	public Value setValue(Value v) {
+	public Value setValue(final Value v) {
 		assert this.v == null;
 		this.v = v;
 		return v;
@@ -601,15 +601,15 @@ public class TLCStackFrame extends StackFrame {
 				&& bp.getColumnAsInt() <= node.getLocation().beginColumn();
 	}
 
-    boolean matches(SemanticNode expr, RuntimeException e) {
+    boolean matches(final SemanticNode expr, final RuntimeException e) {
 		return node == expr || (e instanceof TLCDetailedRuntimeException && ((TLCDetailedRuntimeException)e).expr == node);
 	}
 
-	public boolean matches(SemanticNode expr) {
+	public boolean matches(final SemanticNode expr) {
 		return node == expr;
 	}
 
-	public boolean isTarget(SemanticNode expr) {
+	public boolean isTarget(final SemanticNode expr) {
 		return node == expr;
 	}
 

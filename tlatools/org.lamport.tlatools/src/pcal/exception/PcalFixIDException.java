@@ -15,7 +15,7 @@ public class PcalFixIDException extends UnrecoverableException
 	/**
      * @param message
      */
-    public PcalFixIDException(String message)
+    public PcalFixIDException(final String message)
     {
         super(message);
     }

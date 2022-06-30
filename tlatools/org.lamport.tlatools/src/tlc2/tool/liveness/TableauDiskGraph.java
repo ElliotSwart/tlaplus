@@ -41,12 +41,12 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 
 	private TableauNodePtrTable nodePtrTbl;
 	
-	public TableauDiskGraph(String metadir, int soln, IBucketStatistics graphStats) throws IOException {
+	public TableauDiskGraph(final String metadir, final int soln, final IBucketStatistics graphStats) throws IOException {
 		super(metadir, soln, graphStats);
 		this.nodePtrTbl = new TableauNodePtrTable(255);
 	}
 	
-	public final long getPtr(long fp, int tidx) {
+	public final long getPtr(final long fp, final int tidx) {
 		return this.nodePtrTbl.get(fp, tidx);
 	}
 	
@@ -115,7 +115,7 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#putNode(tlc2.tool.liveness.GraphNode, long)
 	 */
-	protected void putNode(GraphNode node, long ptr) {
+	protected void putNode(final GraphNode node, final long ptr) {
 		this.nodePtrTbl.put(node.stateFP, node.tindex, ptr);
 	}
 	
@@ -151,8 +151,8 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 	 * 
 	 * @throws IOException
 	 */
-	public final GraphNode getNode(long fp, int tidx) throws IOException {
-		long ptr = this.nodePtrTbl.get(fp, tidx);
+	public final GraphNode getNode(final long fp, final int tidx) throws IOException {
+		final long ptr = this.nodePtrTbl.get(fp, tidx);
 		if (ptr < 0) {
 			return new GraphNode(fp, tidx);
 		}
@@ -166,18 +166,18 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#getLink(long, int)
 	 */
-	public long getLink(long state, int tidx) {
+	public long getLink(final long state, final int tidx) {
 		return this.nodePtrTbl.get(state, tidx);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#putLink(long, int, long)
 	 */
-	public long putLink(long state, int tidx, long link) {
+	public long putLink(final long state, final int tidx, final long link) {
 		assert MAX_PTR <= link && link < MAX_LINK; 
-		int[] node = this.nodePtrTbl.getNodes(state);
-		int cloc = this.nodePtrTbl.getIdx(node, tidx);
-		long oldLink = TableauNodePtrTable.getElem(node, cloc);
+		final int[] node = this.nodePtrTbl.getNodes(state);
+		final int cloc = this.nodePtrTbl.getIdx(node, tidx);
+		final long oldLink = TableauNodePtrTable.getElem(node, cloc);
 		if (!isFilePointer(oldLink)) {
 			return oldLink;
 		}
@@ -188,7 +188,7 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.AbstractDiskGraph#setMaxLink(long, int)
 	 */
-	public void setMaxLink(long state, int tidx) {
+	public void setMaxLink(final long state, final int tidx) {
 		this.nodePtrTbl.put(state, tidx, MAX_LINK);
 	}
 
@@ -215,9 +215,9 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 	protected void makeNodePtrTbl(final long ptr, final TableauNodePtrTable aTable) throws IOException  {
 		this.nodePtrRAF.seek(0);
 		while (this.nodePtrRAF.getFilePointer() < ptr) {
-			long fp = this.nodePtrRAF.readLong();
-			int tidx = this.nodePtrRAF.readInt();
-			long loc = this.nodePtrRAF.readLongNat();
+			final long fp = this.nodePtrRAF.readLong();
+			final int tidx = this.nodePtrRAF.readInt();
+			final long loc = this.nodePtrRAF.readLongNat();
 			aTable.put(fp, tidx, loc);
 		}
 	}
@@ -236,19 +236,19 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 			return "";
 		}
 
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		try {
-			long nodePtr = this.nodeRAF.getFilePointer();
-			long nodePtrPtr = this.nodePtrRAF.getFilePointer();
-			long len = this.nodePtrRAF.length();
+			final long nodePtr = this.nodeRAF.getFilePointer();
+			final long nodePtrPtr = this.nodePtrRAF.getFilePointer();
+			final long len = this.nodePtrRAF.length();
 			this.nodePtrRAF.seek(0);
 			while (this.nodePtrRAF.getFilePointer() < len) {
-				long fp = nodePtrRAF.readLong();
-				int tidx = nodePtrRAF.readInt();
-				long loc = nodePtrRAF.readLongNat();
+				final long fp = nodePtrRAF.readLong();
+				final int tidx = nodePtrRAF.readInt();
+				final long loc = nodePtrRAF.readLongNat();
 				sb.append("<" + fp + "," + tidx + "> -> ");
-				GraphNode gnode = this.getNode(fp, tidx, loc);
-				int sz = gnode.succSize();
+				final GraphNode gnode = this.getNode(fp, tidx, loc);
+				final int sz = gnode.succSize();
 				for (int i = 0; i < sz; i++) {
 					sb.append("<" + gnode.getStateFP(i) + "," + gnode.getTidx(i) + "> ");
 				}
@@ -256,7 +256,7 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 			}
 			this.nodeRAF.seek(nodePtr);
 			this.nodePtrRAF.seek(nodePtrPtr);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			MP.printError(EC.SYSTEM_DISKGRAPH_ACCESS, e);
 
 			System.exit(1);
@@ -280,7 +280,7 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 			return "";
 		}
 
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		try {
 			sb.append("digraph DiskGraph {\n");
 			sb.append("nodesep = 0.7\n");
@@ -289,21 +289,21 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 			sb.append("subgraph cluster_graph {\n"); 
 	        sb.append("color=\"white\";\n"); // no border.
 			//TODO Reading the file front to end potentially yields node duplicates in the output. Better to create a (temporary) nodeptrtable and traverse it instead.
-			long nodePtr = this.nodeRAF.getFilePointer();
-			long nodePtrPtr = this.nodePtrRAF.getFilePointer();
-			long len = this.nodePtrRAF.length();
+			final long nodePtr = this.nodeRAF.getFilePointer();
+			final long nodePtrPtr = this.nodePtrRAF.getFilePointer();
+			final long len = this.nodePtrRAF.length();
 			this.nodePtrRAF.seek(0);
 			while (this.nodePtrRAF.getFilePointer() < len) {
-				long fp = nodePtrRAF.readLong();
-				int tidx = nodePtrRAF.readInt();
-				long loc = nodePtrRAF.readLongNat();
-				GraphNode gnode = this.getNode(fp, tidx, loc);
+				final long fp = nodePtrRAF.readLong();
+				final int tidx = nodePtrRAF.readInt();
+				final long loc = nodePtrRAF.readLongNat();
+				final GraphNode gnode = this.getNode(fp, tidx, loc);
 				sb.append(gnode.toDotViz(isInitState(gnode), true, slen, alen));
 			}
 			sb.append("}}");
 			this.nodeRAF.seek(nodePtr);
 			this.nodePtrRAF.seek(nodePtrPtr);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			MP.printError(EC.SYSTEM_DISKGRAPH_ACCESS, e);
 
 			System.exit(1);
@@ -580,8 +580,8 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 		 * @see tlc2.tool.liveness.TableauNodePtrTable#appendElem(int[], int, long)
 		 */
 		protected int[] appendElem(final int[] node, final int tidx, final long elem) {
-			int len = node.length;
-			int[] newNode = new int[len + getElemLength()];
+			final int len = node.length;
+			final int[] newNode = new int[len + getElemLength()];
 			System.arraycopy(node, 0, newNode, 0, len);
 			newNode[len] = tidx;
 			newNode[len + 1] = (int) (elem >>> 32);

@@ -29,7 +29,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.AbstractFPSetTest#getFPSet(FPSetConfiguration)
 	 */
-	protected FPSet getFPSet(FPSetConfiguration fpSetConfig) throws IOException {
+	protected FPSet getFPSet(final FPSetConfiguration fpSetConfig) throws IOException {
 		final DiskFPSet fpSet = new DummyDiskFPSet(fpSetConfig);
 		fpSet.init(1, tmpdir, filename + CNT++);
 		return fpSet;
@@ -243,11 +243,11 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		}
 	}
 
-	private void testCalculateMidEntry(DiskFPSet fpSet, long loVal, long hiVal, long fp, long loEntry, long hiEntry)
+	private void testCalculateMidEntry(final DiskFPSet fpSet, final long loVal, final long hiVal, final long fp, final long loEntry, final long hiEntry)
 			throws IOException {
 		if (!isInvalidInput(loVal, hiVal, fp, loEntry, hiEntry)) {
 			try {
-				long midEntry = fpSet.calculateMidEntry(loVal, hiVal, fp, loEntry, hiEntry);
+				final long midEntry = fpSet.calculateMidEntry(loVal, hiVal, fp, loEntry, hiEntry);
 				
 				assertTrue(getMessage("Negative mid entry", loVal, hiVal, fp, loEntry, hiEntry, midEntry),
 						midEntry >= 0);
@@ -260,19 +260,19 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 				assertTrue(getMessage("midEntry turned negative", loVal, hiVal, fp, loEntry, hiEntry, midEntry),
 						(midEntry * 8) >= 0);
 				
-			} catch (RuntimeException e) {
+			} catch (final RuntimeException e) {
 				fail("failed to calculate for valid input (loVal, hiVal, fp, loEntry, hiEntry): " + loVal + ", "
 						+ hiVal + ", " + fp + ", " + loEntry + ", " + hiEntry);
 			}
 		}
 	}
 
-	private String getMessage(String txt, long loVal, long hiVal, long fp, long loEntry, long hiEntry, long midEntry) {
+	private String getMessage(final String txt, final long loVal, final long hiVal, final long fp, final long loEntry, final long hiEntry, final long midEntry) {
 		return txt + " (loVal, hiVal, fp, loEntry, hiEntry, midEntry): " + loVal + ", "
 				+ hiVal + ", " + fp + ", " + loEntry + ", " + hiEntry + ", " + midEntry;
 	}
 
-	private boolean isInvalidInput(long loVal, long hiVal, long fp, long loEntry, long hiEntry) {
+	private boolean isInvalidInput(final long loVal, final long hiVal, final long fp, final long loEntry, final long hiEntry) {
 		return loVal > hiVal || loVal > fp || hiVal < fp || loEntry >= hiEntry;
 	}
 	
@@ -287,8 +287,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	@Test
 	@SuppressWarnings("deprecation")
 	public void testDiskLookupWithFpOnLoPage() throws IOException {
-		int freeMemory = 1000; // causes 16 in memory entries
-		FPSetConfiguration fpSetConfig = new DummyFPSetConfiguration();
+		final int freeMemory = 1000; // causes 16 in memory entries
+		final FPSetConfiguration fpSetConfig = new DummyFPSetConfiguration();
 		fpSetConfig.setRatio(1.0d);
 		fpSetConfig.setMemory(freeMemory);
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(fpSetConfig);
@@ -471,8 +471,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 
 	@SuppressWarnings("deprecation")
 	private void testDiskLookupOnPage(final long fp) throws IOException {
-		int freeMemory = 1000; // causes 16 in memory entries
-		FPSetConfiguration fpSetConfig = new FPSetConfiguration();
+		final int freeMemory = 1000; // causes 16 in memory entries
+		final FPSetConfiguration fpSetConfig = new FPSetConfiguration();
 		fpSetConfig.setRatio(1.0d);
 		fpSetConfig.setMemory(freeMemory);
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(fpSetConfig);
@@ -503,7 +503,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		fpv.addElement(fp);
 		
 		// put and putBlock have flipped return values %)
-		boolean putBlockRes = !putBlockFpSet.putBlock(fpv).get(0);
+		final boolean putBlockRes = !putBlockFpSet.putBlock(fpv).get(0);
 		assertEquals(putFpSet.put(fp), putBlockRes);
 	}
 
@@ -521,7 +521,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		fpv.addElement(fp);
 		
 		// put and putBlock have flipped return values %)
-		boolean containsBlockRes = !containsBlockFpSet.containsBlock(fpv).get(0);
+		final boolean containsBlockRes = !containsBlockFpSet.containsBlock(fpv).get(0);
 		assertEquals(containsFpSet.contains(fp), containsBlockRes);
 	}
 

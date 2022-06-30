@@ -42,7 +42,7 @@ public final class ActionWrapper extends CostModelNode {
 	private final Action action;
 	private final Relation relation;
 	
-	public ActionWrapper(final Action action, Relation rel) {
+	public ActionWrapper(final Action action, final Relation rel) {
 		this.action = action;
 		this.relation = rel;
 	}
@@ -167,7 +167,7 @@ public final class ActionWrapper extends CostModelNode {
 		return this;
 	}
 
-	public boolean is(Relation r) {
+	public boolean is(final Relation r) {
 		return r == this.relation;
 	}
 }

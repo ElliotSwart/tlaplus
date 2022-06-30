@@ -70,7 +70,7 @@ public class LiveWorker implements Callable<Boolean> {
 
 	private final int id;
 
-	public LiveWorker(final ITool tool, int id, int numWorkers, final ILiveCheck liveCheck, final BlockingQueue<ILiveChecker> queue, final boolean finalCheck) {
+	public LiveWorker(final ITool tool, final int id, final int numWorkers, final ILiveCheck liveCheck, final BlockingQueue<ILiveChecker> queue, final boolean finalCheck) {
 		this.id = id;
 		this.tool = tool;
 		this.numWorkers = numWorkers;
@@ -634,7 +634,7 @@ public class LiveWorker implements Callable<Boolean> {
 					// elements of AEStateRes are true. From that point onwards,
 					// checking further states wouldn't make a difference.
 					if (!AEStateRes[i]) {
-						int idx = this.pem.AEState[i];
+						final int idx = this.pem.AEState[i];
 						AEStateRes[i] = curNode.getCheckState(idx);
 						// Can stop checking AEStates the moment AEStateRes
 						// is completely set to true. However, most of the time
@@ -765,7 +765,7 @@ public class LiveWorker implements Callable<Boolean> {
 	}
 
 	/* Check if the node <state, tidx> stutters. */
-	private boolean isStuttering(long state, int tidx, long loc) throws IOException {
+	private boolean isStuttering(final long state, final int tidx, final long loc) throws IOException {
 		final int slen = this.oos.getCheckState().length;
 		final int alen = this.oos.getCheckAction().length;
 
@@ -818,7 +818,7 @@ public class LiveWorker implements Callable<Boolean> {
 	 * @throws ExecutionException 
 	 * @throws InterruptedException 
 	 */
-	private void printTrace(ITool tool, final long state, final int tidx, final TableauNodePtrTable nodeTbl) throws IOException, InterruptedException, ExecutionException {
+	private void printTrace(final ITool tool, final long state, final int tidx, final TableauNodePtrTable nodeTbl) throws IOException, InterruptedException, ExecutionException {
 //		writeDotViz(state, tidx, nodeTbl, new java.io.File(liveCheck.getMetaDir() + java.io.File.separator
 //				+ "pSatisfiableSCC_" + System.currentTimeMillis() + ".dot"));
 
@@ -855,7 +855,7 @@ public class LiveWorker implements Callable<Boolean> {
 
 				// Recover the successor states:
 				for (int i = plen - 2; i >= 0; i--) {
-					long curFP = prefix.elementAt(i);
+					final long curFP = prefix.elementAt(i);
 					// The prefix might contain duplicates if the path happens to walk
 					// along two (or more distinct states which differ in the tableau
 					// idx only (same fingerprint). From the counterexample perspective,
@@ -883,7 +883,7 @@ public class LiveWorker implements Callable<Boolean> {
 		 * work on the postfix (cycle).
 		 */
 		final MemIntStack cycleStack = new MemIntStack(liveCheck.getMetaDir(), "cycle");
-		GraphNode curNode = dfsPostFix(state, tidx, nodeTbl, cycleStack);
+		final GraphNode curNode = dfsPostFix(state, tidx, nodeTbl, cycleStack);
 		
 		/*
 		 * If the cycle is not closed/completed (complete when startState ==
@@ -904,7 +904,7 @@ public class LiveWorker implements Callable<Boolean> {
 		while (cycleStack.size() > 0) {
 			// Do not filter successive <<fp,tidx,permId>> here but do it below
 			// when the actual states get printed. See Test3.tla for reason why.
-			long fp = cycleStack.popLong();
+			final long fp = cycleStack.popLong();
 			if (postfix.isEmpty() || postfix.lastElement() != fp) {
 				// See comment 4723xdf below.  This here just a minor optimization.
 				postfix.addElement(fp);
@@ -921,7 +921,7 @@ public class LiveWorker implements Callable<Boolean> {
 		List<TLCStateInfo> states = new ArrayList<>(0);
 		try {
 			states = future.get();
-		} catch (ExecutionException ee) {
+		} catch (final ExecutionException ee) {
 			// Do not "leak" ExecutionException to user if root cause is actually an
 			// EvalException.
 			if (ee.getCause() instanceof EvalException) {
@@ -957,7 +957,7 @@ public class LiveWorker implements Callable<Boolean> {
 			
 			for (int i = postfix.size() - 1; i >= 0; i--) {
 				final long curFP = postfix.elementAt(i);
-				TLCStateInfo sucinfo = tool.getState(curFP, sinfo);
+				final TLCStateInfo sucinfo = tool.getState(curFP, sinfo);
 				states.add(sucinfo);
 				StatePrinter.printInvariantViolationStateTraceState(tool.getDebugger().evalAlias(sinfo, sucinfo.state));
 				sinfo = sucinfo;
@@ -1116,12 +1116,12 @@ public class LiveWorker implements Callable<Boolean> {
 		GraphNode curNode = this.dg.getNode(state, tidx, ptr);
 
 		while (cnt > 0) {
-			int cnt0 = cnt;
+			final int cnt0 = cnt;
 
 			_next: while (true) {
 				// Check AEState:
 				for (int i = 0; i < this.pem.AEState.length; i++) {
-					int idx = this.pem.AEState[i];
+					final int idx = this.pem.AEState[i];
 					if (!AEStateRes[i] && curNode.getCheckState(idx)) {
 						AEStateRes[i] = true;
 						cnt--;
@@ -1131,8 +1131,8 @@ public class LiveWorker implements Callable<Boolean> {
 				// Check if the component is fulfilling. (See MP page 453.)
 				// Note that the promises are precomputed and stored in oos.
 				for (int i = 0; i < this.oos.getPromises().length; i++) {
-					LNEven promise = this.oos.getPromises()[i];
-					TBPar par = curNode.getTNode(this.oos.getTableau()).getPar();
+					final LNEven promise = this.oos.getPromises()[i];
+					final TBPar par = curNode.getTNode(this.oos.getTableau()).getPar();
 					if (!promiseRes[i] && par.isFulfilling(promise)) {
 						promiseRes[i] = true;
 						cnt--;
@@ -1149,11 +1149,11 @@ public class LiveWorker implements Callable<Boolean> {
 				int tloc1 = -1, tloc2 = -1;
 				int[] nodes1 = null, nodes2 = null;
 				boolean hasUnvisitedSucc = false;
-				int cnt1 = cnt;
+				final int cnt1 = cnt;
 				int succCnt = curNode.succSize();
 				for (int i = 0; i < succCnt; i++) {
-					long nextState = curNode.getStateFP(i);
-					int nextTidx = curNode.getTidx(i);
+					final long nextState = curNode.getStateFP(i);
+					final int nextTidx = curNode.getTidx(i);
 					nodes = nodeTbl.getNodes(nextState);
 					if (nodes != null) {
 						tloc = nodeTbl.getIdx(nodes, nextTidx);
@@ -1173,7 +1173,7 @@ public class LiveWorker implements Callable<Boolean> {
 						tloc1 = tloc;
 						nodes1 = nodes;
 						for (int j = 0; j < this.pem.AEAction.length; j++) {
-							int idx = this.pem.AEAction[j];
+							final int idx = this.pem.AEAction[j];
 							if (!AEActionRes[j] && curNode.getCheckAction(slen, alen, i, idx)) {
 								AEActionRes[j] = true;
 								cnt--;
@@ -1185,7 +1185,7 @@ public class LiveWorker implements Callable<Boolean> {
 						// Take curNode -> <nextState, nextTidx>:
 						cycleStack.pushInt(curNode.tindex);
 						cycleStack.pushLong(curNode.stateFP);
-						long nextPtr = TableauNodePtrTable.getPtr(TableauNodePtrTable.getElem(nodes, tloc));
+						final long nextPtr = TableauNodePtrTable.getPtr(TableauNodePtrTable.getElem(nodes, tloc));
 						curNode = this.dg.getNode(nextState, nextTidx, nextPtr);
 						nodeTbl.resetElems();
 						break _next;
@@ -1206,7 +1206,7 @@ public class LiveWorker implements Callable<Boolean> {
 					// Take curNode -> <nextState1, nextTidx1>:
 					cycleStack.pushInt(curNode.tindex);
 					cycleStack.pushLong(curNode.stateFP);
-					long nextPtr = TableauNodePtrTable.getPtr(TableauNodePtrTable.getElem(nodes1, tloc1));
+					final long nextPtr = TableauNodePtrTable.getPtr(TableauNodePtrTable.getElem(nodes1, tloc1));
 					curNode = this.dg.getNode(nextState1, nextTidx1, nextPtr);
 					nodeTbl.resetElems();
 					break;
@@ -1215,9 +1215,9 @@ public class LiveWorker implements Callable<Boolean> {
 				// Backtrack if all successors of curNode have been visited
 				// and no successor can reduce cnt.
 				while (!hasUnvisitedSucc) {
-					long curState = cycleStack.popLong();
-					int curTidx = cycleStack.popInt();
-					long curPtr = TableauNodePtrTable.getPtr(nodeTbl.get(curState, curTidx));
+					final long curState = cycleStack.popLong();
+					final int curTidx = cycleStack.popInt();
+					final long curPtr = TableauNodePtrTable.getPtr(nodeTbl.get(curState, curTidx));
 					curNode = this.dg.getNode(curState, curTidx, curPtr);
 					succCnt = curNode.succSize();
 					for (int i = 0; i < succCnt; i++) {
@@ -1238,7 +1238,7 @@ public class LiveWorker implements Callable<Boolean> {
 				// visited.
 				cycleStack.pushInt(curNode.tindex);
 				cycleStack.pushLong(curNode.stateFP);
-				long nextPtr = TableauNodePtrTable.getPtr(TableauNodePtrTable.getElem(nodes2, tloc2));
+				final long nextPtr = TableauNodePtrTable.getPtr(TableauNodePtrTable.getElem(nodes2, tloc2));
 				curNode = this.dg.getNode(nextState2, nextTidx2, nextPtr);
 				TableauNodePtrTable.setSeen(nodes2, tloc2);
 			}
@@ -1269,7 +1269,7 @@ public class LiveWorker implements Callable<Boolean> {
 			this.oos = checker.getSolution();
 			this.dg = checker.getDiskGraph();
 			this.dg.createCache();
-			PossibleErrorModel[] pems = this.oos.getPems();
+			final PossibleErrorModel[] pems = this.oos.getPems();
 			for (int i = 0; i < pems.length; i++) {
 				if (!hasErrFound()) {
 					this.pem = pems[i];
@@ -1288,7 +1288,7 @@ public class LiveWorker implements Callable<Boolean> {
 		return hasErrFound(this.id);
 	}
 
-	public String toDotViz(final long state, final int tidx, TableauNodePtrTable tnpt) throws IOException {
+	public String toDotViz(final long state, final int tidx, final TableauNodePtrTable tnpt) throws IOException {
 		final StringBuffer sb = new StringBuffer(tnpt.size() * 10);
 		sb.append("digraph TableauNodePtrTable {\n");
 		sb.append("nodesep = 0.7\n");
@@ -1302,10 +1302,10 @@ public class LiveWorker implements Callable<Boolean> {
 				continue;
 			}
 
-			long state1 = TableauNodePtrTable.getKey(nodes);
+			final long state1 = TableauNodePtrTable.getKey(nodes);
 			for (int nidx = 2; nidx < nodes.length; nidx += tnpt.getElemLength()) { // nidx starts with 2 because [0][1] are the long fingerprint state1. 
-				int tidx1 = TableauNodePtrTable.getTidx(nodes, nidx);
-				long loc1 = TableauNodePtrTable.getElem(nodes, nidx);
+				final int tidx1 = TableauNodePtrTable.getTidx(nodes, nidx);
+				final long loc1 = TableauNodePtrTable.getElem(nodes, nidx);
 
 				final GraphNode curNode = this.dg.getNode(state1, tidx1, loc1);
 				sb.append(curNode.toDotViz((state1 == state && tidx1 == tidx), true, oos.getCheckState().length,
@@ -1341,7 +1341,7 @@ public class LiveWorker implements Callable<Boolean> {
 
 			// close the stream
 			bwr.close();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -1356,9 +1356,9 @@ public class LiveWorker implements Callable<Boolean> {
   			final int size = (int) comStack.size();
 			final StringBuffer buf = new StringBuffer(size / 5);
   			for (int i = 0; i < comStack.size(); i+=5) {
-  				long loc = comStack.peakLong(size - i - 5);
-  				int tidx = comStack.peakInt(size - i - 3);
-  				long state = comStack.peakLong(size - i - 2);
+  				final long loc = comStack.peakLong(size - i - 5);
+  				final int tidx = comStack.peakInt(size - i - 3);
+  				final long state = comStack.peakLong(size - i - 2);
   				buf.append("state: ");
   				buf.append(state);
   				buf.append(" tidx: ");

@@ -84,7 +84,7 @@ abstract class Spec
 
     // SZ Feb 20, 2009: added support to name resolver, to be able to run outside of the tool
 	public Spec(final String specDir, final String specFile, final String configFile, final FilenameToStream resolver,
-			Mode mode, final Map<String, Object> params) {
+                final Mode mode, final Map<String, Object> params) {
         this.specDir = specDir;
         this.rootFile = specFile;
         this.defns = new Defns();
@@ -134,12 +134,12 @@ abstract class Spec
     }
 
     /* Return the variable if expr is a primed state variable. Otherwise, null. */
-    public final SymbolNode getPrimedVar(SemanticNode expr, Context c, boolean cutoff)
+    public final SymbolNode getPrimedVar(final SemanticNode expr, final Context c, final boolean cutoff)
     {
         if (expr instanceof OpApplNode)
         {
-            OpApplNode expr1 = (OpApplNode) expr;
-            SymbolNode opNode = expr1.getOperator();
+            final OpApplNode expr1 = (OpApplNode) expr;
+            final SymbolNode opNode = expr1.getOperator();
 
             if (BuiltInOPs.getOpCode(opNode.getName()) == OPCODE_prime)
             {
@@ -148,12 +148,12 @@ abstract class Spec
 
             if (opNode.getArity() == 0)
             {
-                boolean isVarDecl = (opNode.getKind() == VariableDeclKind);
-                Object val = this.lookup(opNode, c, cutoff && isVarDecl, toolId);
+                final boolean isVarDecl = (opNode.getKind() == VariableDeclKind);
+                final Object val = this.lookup(opNode, c, cutoff && isVarDecl, toolId);
 
                 if (val instanceof LazyValue)
                 {
-                    LazyValue lval = (LazyValue) val;
+                    final LazyValue lval = (LazyValue) val;
                     return this.getPrimedVar(lval.expr, lval.con, cutoff);
                 }
                 if (val instanceof OpDefNode)
@@ -194,11 +194,11 @@ abstract class Spec
      */
     public final SemanticNode getViewSpec()
     {
-        String name = this.config.getView();
+        final String name = this.config.getView();
         if (name.length() == 0)
             return null;
 
-        Object view = this.defns.get(name);
+        final Object view = this.defns.get(name);
         if (view == null)
         {
             Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[] { "view function", name });
@@ -207,7 +207,7 @@ abstract class Spec
         {
             Assert.fail(EC.TLC_CONFIG_ID_MUST_NOT_BE_CONSTANT, new String[] { "view function", name });
         }
-        OpDefNode def = (OpDefNode) view;
+        final OpDefNode def = (OpDefNode) view;
         if (def.getArity() != 0)
         {
             Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { "view function", name });
@@ -218,7 +218,7 @@ abstract class Spec
     /* Get the alias declaration for the state variables. */
     public final SemanticNode getAliasSpec()
     {
-        String name = this.config.getAlias();
+        final String name = this.config.getAlias();
         if (name.length() == 0)
         {
             Assert.fail(EC.TLC_CONFIG_NO_STATE_TYPE);
@@ -227,7 +227,7 @@ abstract class Spec
         // A true constant-level alias such as such as [ x |-> "foo" ] will be evaluated
         // eagerly and type be an instance of RecordValue.  It would be good to return a
         // proper warning.
-        Object type = this.defns.get(name);
+        final Object type = this.defns.get(name);
         if (type == null)
         {
             Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[] { "alias", name });
@@ -236,7 +236,7 @@ abstract class Spec
         {
             Assert.fail(EC.TLC_CONFIG_ID_MUST_NOT_BE_CONSTANT, new String[] { "alias", name });
         }
-        OpDefNode def = (OpDefNode) type;
+        final OpDefNode def = (OpDefNode) type;
         if (def.getArity() != 0)
         {
             Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { "alias", name });
@@ -248,10 +248,10 @@ abstract class Spec
     {
     	final List<ExprNode> res = this.specProcessor.getPostConditionSpecs();
     	
-        String name = this.config.getPostCondition();
+        final String name = this.config.getPostCondition();
         if (name.length() != 0)
         {        	
-        	Object type = this.defns.get(name);
+        	final Object type = this.defns.get(name);
         	if (type == null)
         	{
         		Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[] { "post condition", name });
@@ -260,7 +260,7 @@ abstract class Spec
         	{
         		Assert.fail(EC.TLC_CONFIG_ID_MUST_NOT_BE_CONSTANT, new String[] { "post condition", name });
         	}
-        	OpDefNode def = (OpDefNode) type;
+        	final OpDefNode def = (OpDefNode) type;
         	if (def.getArity() != 0)
         	{
         		Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { "post condition", name });
@@ -275,7 +275,7 @@ abstract class Spec
     public final OpDefNode getCounterExampleDef()
     {
     	// Defined in TLCExt.tla
-        Object type = this.defns.get("CounterExample");
+        final Object type = this.defns.get("CounterExample");
         if (type == null)
         {
         	// Not used anywhere in the current spec.
@@ -285,7 +285,7 @@ abstract class Spec
         {
             Assert.fail(EC.GENERAL);
         }
-        OpDefNode def = ((EvaluatingValue) type).getOpDef();
+        final OpDefNode def = ((EvaluatingValue) type).getOpDef();
         if (def.getArity() != 0)
         {
             Assert.fail(EC.GENERAL);
@@ -385,7 +385,7 @@ abstract class Spec
      * lookup method should do.)
      * 
      */
-    public final Object lookup(SymbolNode opNode, Context c, TLCState s, boolean cutoff)
+    public final Object lookup(final SymbolNode opNode, final Context c, final TLCState s, final boolean cutoff)
     {
         Object result = lookup(opNode, c, cutoff, toolId);
         if (result != opNode) {
@@ -420,14 +420,14 @@ abstract class Spec
      * @param cachable
      * @return
      */
-    public final Context getOpContext(ThmOrAssumpDefNode opDef, ExprOrOpArgNode[] args, Context c, boolean cachable)
+    public final Context getOpContext(final ThmOrAssumpDefNode opDef, final ExprOrOpArgNode[] args, final Context c, final boolean cachable)
     {
-        FormalParamNode[] formals = opDef.getParams();
-        int alen = args.length;
+        final FormalParamNode[] formals = opDef.getParams();
+        final int alen = args.length;
         Context c1 = c;
         for (int i = 0; i < alen; i++)
         {
-            Object aval = this.getVal(args[i], c, cachable, toolId);
+            final Object aval = this.getVal(args[i], c, cachable, toolId);
             c1 = c1.cons(formals[i], aval);
         }
         return c1;
@@ -453,26 +453,26 @@ abstract class Spec
         return tbl;
     }
 
-    public final void collectPrimedLocs(SemanticNode pred, Context c, ObjLongTable<SemanticNode> tbl)
+    public final void collectPrimedLocs(final SemanticNode pred, final Context c, final ObjLongTable<SemanticNode> tbl)
     {
         switch (pred.getKind()) {
         case OpApplKind: {
-            OpApplNode pred1 = (OpApplNode) pred;
+            final OpApplNode pred1 = (OpApplNode) pred;
             this.collectPrimedLocsAppl(pred1, c, tbl);
             return;
         }
         case LetInKind: {
-            LetInNode pred1 = (LetInNode) pred;
+            final LetInNode pred1 = (LetInNode) pred;
             this.collectPrimedLocs(pred1.getBody(), c, tbl);
             return;
         }
         case SubstInKind: {
-            SubstInNode pred1 = (SubstInNode) pred;
-            Subst[] subs = pred1.getSubsts();
+            final SubstInNode pred1 = (SubstInNode) pred;
+            final Subst[] subs = pred1.getSubsts();
             Context c1 = c;
             for (int i = 0; i < subs.length; i++)
             {
-                Subst sub = subs[i];
+                final Subst sub = subs[i];
                 c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, toolId));
             }
             this.collectPrimedLocs(pred1.getBody(), c, tbl);
@@ -481,12 +481,12 @@ abstract class Spec
 
         // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
         case APSubstInKind: {
-            APSubstInNode pred1 = (APSubstInNode) pred;
-            Subst[] subs = pred1.getSubsts();
+            final APSubstInNode pred1 = (APSubstInNode) pred;
+            final Subst[] subs = pred1.getSubsts();
             Context c1 = c;
             for (int i = 0; i < subs.length; i++)
             {
-                Subst sub = subs[i];
+                final Subst sub = subs[i];
                 c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, toolId));
             }
             this.collectPrimedLocs(pred1.getBody(), c, tbl);
@@ -498,18 +498,18 @@ abstract class Spec
             * LabelKind case added by LL on 13 Jun 2007.                           *
             ***********************************************************************/
         case LabelKind: {
-            LabelNode pred1 = (LabelNode) pred;
+            final LabelNode pred1 = (LabelNode) pred;
             this.collectPrimedLocs(pred1.getBody(), c, tbl);
             return;
         }
         }
     }
 
-    private final void collectPrimedLocsAppl(OpApplNode pred, Context c, ObjLongTable<SemanticNode> tbl)
+    private final void collectPrimedLocsAppl(final OpApplNode pred, final Context c, final ObjLongTable<SemanticNode> tbl)
     {
-        ExprOrOpArgNode[] args = pred.getArgs();
-        SymbolNode opNode = pred.getOperator();
-        int opcode = BuiltInOPs.getOpCode(opNode.getName());
+        final ExprOrOpArgNode[] args = pred.getArgs();
+        final SymbolNode opNode = pred.getOperator();
+        final int opcode = BuiltInOPs.getOpCode(opNode.getName());
 
         switch (opcode) {
         case OPCODE_fa: // FcnApply
@@ -527,14 +527,14 @@ abstract class Spec
         {
             for (int i = 0; i < args.length; i++)
             {
-                OpApplNode pair = (OpApplNode) args[i];
+                final OpApplNode pair = (OpApplNode) args[i];
                 this.collectPrimedLocs(pair.getArgs()[1], c, tbl);
             }
             break;
         }
         case OPCODE_eq:   // x' = 42
         case OPCODE_in: { // x' \in S (eq case "falls through")
-            SymbolNode var = this.getPrimedVar(args[0], c, false);
+            final SymbolNode var = this.getPrimedVar(args[0], c, false);
             if (var != null && var.getName().getVarLoc() != -1)
             {
                 tbl.put(pred, 0);
@@ -574,21 +574,21 @@ abstract class Spec
         default: {
             if (opcode == 0)
             {
-                Object val = this.lookup(opNode, c, false, toolId);
+                final Object val = this.lookup(opNode, c, false, toolId);
 
                 if (val instanceof OpDefNode)
                 {
-                    OpDefNode opDef = (OpDefNode) val;
+                    final OpDefNode opDef = (OpDefNode) val;
                     // Following added by LL on 10 Apr 2010 to avoid infinite 
                     // recursion for recursive operator definitions
                     if (opDef.getInRecursive()) {
                         return ;
                     }
-                    Context c1 = this.getOpContext(opDef, args, c, true, toolId);
+                    final Context c1 = this.getOpContext(opDef, args, c, true, toolId);
                     this.collectPrimedLocs(opDef.getBody(), c1, tbl);
                 } else if (val instanceof LazyValue)
                 {
-                    LazyValue lv = (LazyValue) val;
+                    final LazyValue lv = (LazyValue) val;
                     this.collectPrimedLocs(lv.expr, lv.con, tbl);
                 }
             }
@@ -600,10 +600,10 @@ abstract class Spec
 			final ObjLongTable<SemanticNode> tbl) {
         if (expr instanceof OpApplNode)
         {
-            OpApplNode expr1 = (OpApplNode) expr;
-            SymbolNode opNode = expr1.getOperator();
-            UniqueString opName = opNode.getName();
-            int opcode = BuiltInOPs.getOpCode(opName);
+            final OpApplNode expr1 = (OpApplNode) expr;
+            final SymbolNode opNode = expr1.getOperator();
+            final UniqueString opName = opNode.getName();
+            final int opcode = BuiltInOPs.getOpCode(opName);
 
             if (opName.getVarLoc() >= 0)
             {
@@ -612,7 +612,7 @@ abstract class Spec
                 return;
             }
 
-            ExprOrOpArgNode[] args = expr1.getArgs();
+            final ExprOrOpArgNode[] args = expr1.getArgs();
             if (opcode == OPCODE_tup)
             {
 				// a tuple, might be:
@@ -633,7 +633,7 @@ abstract class Spec
             if (opcode == 0 && args.length == 0)
             {
                 // a 0-arity operator:
-                Object val = this.lookup(opNode, c, false, toolId);
+                final Object val = this.lookup(opNode, c, false, toolId);
                 if (val instanceof OpDefNode)
                 {
                     this.collectUnchangedLocs(((OpDefNode) val).getBody(), c, tbl);
@@ -678,8 +678,8 @@ abstract class Spec
 	
 		final Enumeration<ParseUnit> parseUnitContext = specProcessor.getSpecObj().parseUnitContext.elements();
 		while (parseUnitContext.hasMoreElements()) {
-			ParseUnit pu = parseUnitContext.nextElement();
-			File resolve = resolver.resolve(pu.getFileName(), false);
+			final ParseUnit pu = parseUnitContext.nextElement();
+			final File resolve = resolver.resolve(pu.getFileName(), false);
 			result.add(resolve);
 		}
 		return result;

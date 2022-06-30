@@ -18,7 +18,7 @@ public class TLARegistry {
 
   private static final Hashtable<String, String> javaToTLA = new Hashtable<String, String>();
 
-  public static String get(String name) {
+  public static String get(final String name) {
     return javaToTLA.get(name);
   }
 
@@ -28,19 +28,19 @@ public class TLARegistry {
    * @param jname the corresponding Java name
    * @return the previous value, if one
    */
-  public static String put(String tname, String jname) {
+  public static String put(final String tname, final String jname) {
     return javaToTLA.put(tname, jname);
   }
 
-  public static String mapName(String name) {
-    String tname = TLARegistry.get(name);
+  public static String mapName(final String name) {
+    final String tname = TLARegistry.get(name);
     return ((tname == null) ? name : tname);
   }
 
   /* Used only for debugging. */
   public static String allNames() {
-    StringBuffer sb = new StringBuffer("{");
-    Enumeration<String> eNames = javaToTLA.keys();
+    final StringBuffer sb = new StringBuffer("{");
+    final Enumeration<String> eNames = javaToTLA.keys();
     if (eNames.hasMoreElements()) {
       sb.append(eNames.nextElement());
     }

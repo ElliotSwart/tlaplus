@@ -31,11 +31,11 @@ public class Operator implements tla2sany.st.SyntaxTreeConstants {
       return voidOperator;
   }
   
-  public Operator( UniqueString id, int l, int h, int a, int f) {
+  public Operator(final UniqueString id, final int l, final int h, final int a, final int f) {
     Id = id; Low = l; High = h; Associativity = a; Fix = f;
   }
 
-  public Operator clone ( UniqueString name ) {
+  public Operator clone (final UniqueString name ) {
     return new Operator( name, Low, High, Associativity, Fix);
   }
 
@@ -86,15 +86,15 @@ public class Operator implements tla2sany.st.SyntaxTreeConstants {
 (* a prefix or infix operator.                                             *)
 */
 
-  static final boolean succ( Operator left, Operator right) {
+  static final boolean succ(final Operator left, final Operator right) {
       return left.Low > right.High;
   }
 
-  static final boolean prec( Operator left, Operator right ) {
+  static final boolean prec(final Operator left, final Operator right ) {
     return left.High < right.Low;
   }
 
-  static final boolean samePrec( Operator left, Operator right ) {
+  static final boolean samePrec(final Operator left, final Operator right ) {
     return ( (left.High == right.High) && (left.Low == right.Low) );
   }
 

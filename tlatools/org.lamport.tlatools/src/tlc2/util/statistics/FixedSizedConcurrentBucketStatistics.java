@@ -87,7 +87,7 @@ public class FixedSizedConcurrentBucketStatistics extends AbstractBucketStatisti
 	public NavigableMap<Integer, Long> getSamples() {
 		final NavigableMap<Integer, Long> res = new TreeMap<Integer, Long>();
 		for (int i = 0; i < this.buckets.length(); i++) {
-			long value = this.buckets.get(i);
+			final long value = this.buckets.get(i);
 			if (value > 0) {
 				res.put(i, value);
 			}

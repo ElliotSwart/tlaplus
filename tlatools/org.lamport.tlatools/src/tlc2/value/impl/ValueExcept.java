@@ -12,31 +12,31 @@ public class ValueExcept {
   public Value value;
   public int idx;
 
-  public ValueExcept(Value [] lhs, Value  rhs) {
+  public ValueExcept(final Value [] lhs, final Value  rhs) {
     this.path = lhs;
     this.value = rhs;
     this.idx = 0;
   }
   
-  public ValueExcept(ValueExcept ex, int idx) {
+  public ValueExcept(final ValueExcept ex, final int idx) {
     this.path = ex.path;
     this.value = ex.value;
     this.idx = idx;
   }
 
-  public final ValueExcept checkArg(FcnLambdaValue fcn) {
-    Value  argv = this.path[idx];
+  public final ValueExcept checkArg(final FcnLambdaValue fcn) {
+    final Value  argv = this.path[idx];
     if (fcn.getParams().length() == 1) {
       if (!fcn.getParams().domains[0].member(argv)) return null;
     }
     else {
-      TupleValue tval = (TupleValue)argv;
-      Value [] argList = tval.elems;
-      FormalParamNode[][] formals = fcn.getParams().formals;
-      Value [] domains = fcn.getParams().domains;
+      final TupleValue tval = (TupleValue)argv;
+      final Value [] argList = tval.elems;
+      final FormalParamNode[][] formals = fcn.getParams().formals;
+      final Value [] domains = fcn.getParams().domains;
       int argn = 0;
       for (int i = 0; i < fcn.getParams().formals.length; i++) {
-        FormalParamNode[] formal = formals[i];
+        final FormalParamNode[] formal = formals[i];
         for (int j = 0; j < formal.length; j++) {
           if (!domains[i].member(argList[argn++])) return null;
         }
@@ -52,7 +52,7 @@ public class ValueExcept {
   }
 
   public final String toString() {
-    StringBuffer sb = new StringBuffer();
+    final StringBuffer sb = new StringBuffer();
     for (int i = 0; i < path.length; i++) {
       sb.append(".(" + this.idx + ")");
       sb.append(path[i]);

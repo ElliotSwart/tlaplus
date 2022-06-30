@@ -5,12 +5,12 @@ package tla2sany.parser;
 public class ParseError implements tla2sany.st.ParseError {
   private String custom;
   private String backup;
-  ParseError(String a, String b) {
+  ParseError(final String a, final String b) {
     custom = a;
     backup = b;
   }
 
-  ParseError(String a) {
+  ParseError(final String a) {
     custom = a;
     backup = "";
   }

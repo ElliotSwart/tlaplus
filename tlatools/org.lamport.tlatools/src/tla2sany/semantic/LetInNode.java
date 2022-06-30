@@ -49,11 +49,11 @@ implements ExploreNode, LevelConstants {
   private ExprNode body;
 
   /* Constructor */
-  public LetInNode(TreeNode             treeNode,
-                   SymbolNode[]          defs,
-                   InstanceNode[]       insts,
-                   ExprNode bdy,
-                   Context ctext) {
+  public LetInNode(final TreeNode             treeNode,
+                   final SymbolNode[]          defs,
+                   final InstanceNode[]       insts,
+                   final ExprNode bdy,
+                   final Context ctext) {
     super(LetInKind, treeNode);
     this.opDefs = defs;
     this.insts = insts;
@@ -110,7 +110,7 @@ implements ExploreNode, LevelConstants {
 
   @Override
   @SuppressWarnings("unchecked")
-  public final boolean levelCheck(int itr) {
+  public final boolean levelCheck(final int itr) {
     if (this.levelChecked >= itr) return this.levelCorrect;
     levelChecked = itr ;
 
@@ -177,9 +177,9 @@ implements ExploreNode, LevelConstants {
         if (this.opDefs[i].getKind() != ThmOrAssumpDefKind){
           params = ((OpDefNode) this.opDefs[i]).getParams();
           } ;
-        Iterator<ArgLevelParam> iter = this.opDefs[i].getArgLevelParams().iterator();
+        final Iterator<ArgLevelParam> iter = this.opDefs[i].getArgLevelParams().iterator();
         while (iter.hasNext()) {
-          ArgLevelParam alp = iter.next();
+          final ArgLevelParam alp = iter.next();
           if (!alp.occur(params)) {
             this.argLevelParams.add(alp);
           }
@@ -225,7 +225,7 @@ implements ExploreNode, LevelConstants {
 
   @Override
   public SemanticNode[] getChildren() {
-      SemanticNode[] res =
+      final SemanticNode[] res =
          new SemanticNode[this.opDefs.length + this.insts.length + 1];
       res[res.length-1] = this.body;
       int i;
@@ -239,8 +239,8 @@ implements ExploreNode, LevelConstants {
    }
 
   @Override
-  public final void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
 
     if (semNodesTable.get(uid) != null) return;
 
@@ -262,14 +262,14 @@ implements ExploreNode, LevelConstants {
   }
 
   @Override
-  public final String toString(int depth) {
+  public final String toString(final int depth) {
     if (depth <= 0) return "";
 
     String ret = "\n*LetInNode: " + super.toString(depth);
     /***********************************************************************
     * Print context.                                                       *
     ***********************************************************************/
-    Vector<String> contextEntries = context.getContextEntryStringVector(1,false);
+    final Vector<String> contextEntries = context.getContextEntryStringVector(1,false);
       /*********************************************************************
       * The depth argument 1 of getContextEntryStringVector causes only    *
       * the name and node uid of the entry and not the node itself to be   *
@@ -296,10 +296,10 @@ implements ExploreNode, LevelConstants {
   }
 
   @Override
-  protected Element getLevelElement(Document doc, SymbolContext context) {
-    Element ret = doc.createElement("LetInNode");
+  protected Element getLevelElement(final Document doc, final SymbolContext context) {
+    final Element ret = doc.createElement("LetInNode");
     ret.appendChild(appendElement(doc,"body",body.export(doc,context)));
-    Element arguments = doc.createElement("opDefs");
+    final Element arguments = doc.createElement("opDefs");
     for (int i=0; i<opDefs.length; i++) arguments.appendChild(opDefs[i].export(doc,context));
     ret.appendChild(arguments);
 

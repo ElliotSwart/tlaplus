@@ -13,7 +13,7 @@ public class TestDriver
     private static TLCThread tlcThread;
 
     // runs TLC twice, to control the side effects
-    public static void main(String[] args)
+    public static void main(final String[] args)
     {
         for (int i = 0; i < COUNT; i++)
         {
@@ -24,7 +24,7 @@ public class TestDriver
         System.exit(0);
     }
 
-    private static void callTLC(String[] args)
+    private static void callTLC(final String[] args)
     {
         report("entering callTLC()");
         ToolIO.reset();
@@ -32,7 +32,7 @@ public class TestDriver
         ToolIO.setUserDir(args[5]);
         
         reported = 0;
-        TLC tlc = new TLC();
+        final TLC tlc = new TLC();
         report("tlc created " + tlc.toString());
         // handle parameters
         if (tlc.handleParameters(args))
@@ -71,14 +71,14 @@ public class TestDriver
             Thread.sleep(TIMEOUT);
             report("wake up " + System.currentTimeMillis());
 
-        } catch (InterruptedException e)
+        } catch (final InterruptedException e)
         {
             // nothing to do
             e.printStackTrace();
         }
         // return true if the tlc is still calculating
 
-        boolean isRunning = tlcThread.isRunning();
+        final boolean isRunning = tlcThread.isRunning();
         report("leaving checkAndSleep() with " + isRunning);
         return isRunning;
     }
@@ -87,7 +87,7 @@ public class TestDriver
     {
         // report progress
         report("entering reportProgress()");
-        String[] messages = ToolIO.getAllMessages();
+        final String[] messages = ToolIO.getAllMessages();
         for (; reported < messages.length; reported++)
         {
             System.out.println(messages[reported]);
@@ -95,7 +95,7 @@ public class TestDriver
         report("leaving reportProgress()");
     }
 
-    public static void report(String message)
+    public static void report(final String message)
     {
         // System.out.println(Thread.currentThread().getId() + "\t" + message);
     }
@@ -108,7 +108,7 @@ public class TestDriver
         private boolean isRunning;
         private final TLC tlc;
 
-        public TLCThread(TLC tlc)
+        public TLCThread(final TLC tlc)
         {
             this.tlc = tlc;
             synchronized (this)
@@ -135,7 +135,7 @@ public class TestDriver
             }
         }
 
-        public synchronized void setIsRunning(boolean value)
+        public synchronized void setIsRunning(final boolean value)
         {
             isRunning = value;
         }

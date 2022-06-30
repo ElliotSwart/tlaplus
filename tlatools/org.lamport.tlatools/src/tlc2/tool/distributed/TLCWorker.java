@@ -67,7 +67,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 	private final Cache cache;
 	
 
-	public TLCWorker(final int threadId, DistApp work, IFPSetManager fpSetManager, String aHostname)
+	public TLCWorker(final int threadId, final DistApp work, final IFPSetManager fpSetManager, final String aHostname)
 			throws RemoteException {
 		this.work = work;
 		this.fpSetManager = fpSetManager;
@@ -111,7 +111,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 				statesComputed += nstates.length;
 				// add all succ states/fps to the array designated for the corresponding fp server
 				for (int j = 0; j < nstates.length; j++) {
-					long fp = nstates[j].fingerPrint();
+					final long fp = nstates[j].fingerPrint();
 					if (!cache.hit(fp)) {
 						treeSet.add(new Holder(fp, nstates[j], state1));
 					}
@@ -122,11 +122,11 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 			overallStatesComputed += statesComputed;
 			
 			// create containers for each fingerprint _server_
-			int fpServerCnt = this.fpSetManager.numOfServers();
+			final int fpServerCnt = this.fpSetManager.numOfServers();
 			// previous state
-			TLCStateVec[] pvv = new TLCStateVec[fpServerCnt];
+			final TLCStateVec[] pvv = new TLCStateVec[fpServerCnt];
 			// container for all succ states
-			TLCStateVec[] nvv = new TLCStateVec[fpServerCnt];
+			final TLCStateVec[] nvv = new TLCStateVec[fpServerCnt];
 			// container for all succ state fingerprints
 			final LongVec[] fpvv = new LongVec[fpServerCnt];
 			for (int i = 0; i < fpServerCnt; i++) {
@@ -146,29 +146,29 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 			long last = Long.MIN_VALUE;
 			for (final Holder holder : treeSet) {
 				// make sure invariant is followed
-				long fp = holder.getFp();
+				final long fp = holder.getFp();
 				Assert.check(last < fp, EC.GENERAL);
 				last = fp;
 
-				int fpIndex = fpSetManager.getFPSetIndex(fp);
+				final int fpIndex = fpSetManager.getFPSetIndex(fp);
 				pvv[fpIndex].addElement(holder.getParentState());
 				nvv[fpIndex].addElement(holder.getNewState());
 				fpvv[fpIndex].addElement(fp);
 			}
 
-			BitVector[] visited = this.fpSetManager.containsBlock(fpvv, executorService);
+			final BitVector[] visited = this.fpSetManager.containsBlock(fpvv, executorService);
 
 			// Remove the states that have already been seen, check if the
 			// remaining new states are valid and inModel.
-			TLCStateVec[] newStates = new TLCStateVec[fpServerCnt];
-			LongVec[] newFps = new LongVec[fpServerCnt];
+			final TLCStateVec[] newStates = new TLCStateVec[fpServerCnt];
+			final LongVec[] newFps = new LongVec[fpServerCnt];
 			for (int i = 0; i < fpServerCnt; i++) {
 				newStates[i] = new TLCStateVec();
 				newFps[i] = new LongVec();
 			}
 
 			for (int i = 0; i < fpServerCnt; i++) {
-				BitVector.Iter iter = new BitVector.Iter(visited[i]);
+				final BitVector.Iter iter = new BitVector.Iter(visited[i]);
 				int index;
 				while ((index = iter.next()) != -1) {
 					state1 = pvv[i].elementAt(index);
@@ -186,13 +186,13 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 			// Prepare the return value.
 			final long computationTime = System.currentTimeMillis() - lastInvocation;
 			return new NextStateResult(newStates, newFps, computationTime, statesComputed);
-		} catch (WorkerException e) {
+		} catch (final WorkerException e) {
 			throw e;
-		} catch (OutOfMemoryError e) {
+		} catch (final OutOfMemoryError e) {
 			throw new RemoteException("OutOfMemoryError occurred at worker: " + uri.toASCIIString(), e);
-		} catch (RejectedExecutionException e) {
+		} catch (final RejectedExecutionException e) {
 			throw new RemoteException("Executor rejected task at worker: " + uri.toASCIIString(), e);
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			throw new WorkerException(e.getMessage(), e, state1, state2, true);
 		} finally {
 			computing = false;
@@ -245,34 +245,34 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 //			return liveRef.getPort();
 			
 			// load the SUN class if available
-			ClassLoader cl = ClassLoader.getSystemClassLoader();
-			Class<?> unicastRefClass = cl.loadClass("sun.rmi.server.UnicastRef");
+			final ClassLoader cl = ClassLoader.getSystemClassLoader();
+			final Class<?> unicastRefClass = cl.loadClass("sun.rmi.server.UnicastRef");
 
 			// get the LiveRef obj
 			Method method = unicastRefClass.getMethod(
 					"getLiveRef", (Class[]) null);
-			Object liveRef = method.invoke(getRef(), (Object[]) null);
+			final Object liveRef = method.invoke(getRef(), (Object[]) null);
 
 			// Load liveref class
-			Class<?> liveRefClass = cl.loadClass("sun.rmi.transport.LiveRef");
+			final Class<?> liveRefClass = cl.loadClass("sun.rmi.transport.LiveRef");
 
 			// invoke getPort on LiveRef instance
 			method = liveRefClass.getMethod(
 					"getPort", (Class[]) null);
 			return (Integer) method.invoke(liveRef, (Object[]) null);
-		} catch (SecurityException e) {
+		} catch (final SecurityException e) {
 			MP.printError(EC.GENERAL, "trying to get a port for a worker", e); // LL changed call on 7 April 2012
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			MP.printError(EC.GENERAL, "trying to get a port for a worker",e);  // LL changed call on 7 April 2012
-		} catch (ClassCastException e) {
+		} catch (final ClassCastException e) {
 			MP.printError(EC.GENERAL, "trying to get a port for a worker",e);  // LL changed call on 7 April 2012
-		} catch (NoSuchMethodException e) {
+		} catch (final NoSuchMethodException e) {
 			MP.printError(EC.TLC_DISTRIBUTED_VM_VERSION, e);
-		} catch (IllegalAccessException e) {
+		} catch (final IllegalAccessException e) {
 			MP.printError(EC.TLC_DISTRIBUTED_VM_VERSION, e);
-		} catch (InvocationTargetException e) {
+		} catch (final InvocationTargetException e) {
 			MP.printError(EC.TLC_DISTRIBUTED_VM_VERSION, e);
-		} catch (ClassNotFoundException e) {
+		} catch (final ClassNotFoundException e) {
 			MP.printError(EC.TLC_DISTRIBUTED_VM_VERSION, e);
 		}
 		return 0;
@@ -286,7 +286,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 		return computing;
 	}
 	
-	public static void main(String args[]) {
+	public static void main(final String[] args) {
 		ToolIO.out.println("TLC Worker " + TLCGlobals.versionOfTLC);
 
 		// Must have exactly one arg: a hostname (spec is read from the server
@@ -316,12 +316,12 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 				try {
 					server = (TLCServerRMI) Naming.lookup(url);
 					break;
-				} catch (ConnectException e) {
+				} catch (final ConnectException e) {
 					// if the cause is a java.NET.ConnectException the server is
 					// simply not ready yet
 					final Throwable cause = e.getCause();
 					if(cause instanceof java.net.ConnectException) {
-						long sleep = (long) Math.sqrt(i);
+						final long sleep = (long) Math.sqrt(i);
 						ToolIO.out.println("Server " + serverName
 								+ " unreachable, sleeping " + sleep
 								+ "s for server to come online...");
@@ -332,11 +332,11 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 						// how to handle
 						throw e;
 					}
-				} catch (NotBoundException e) {
+				} catch (final NotBoundException e) {
 					// Registry is available but no object by "TLCServer". This
 					// happens when TLCServer makes it registry available but
 					// has't registered itself yet.
-					long sleep = (long) Math.sqrt(i);
+					final long sleep = (long) Math.sqrt(i);
 					ToolIO.out.println("Server " + serverName + " reachable but not ready yet, sleeping " + sleep
 							+ "s for server to come online...");
 					Thread.sleep(sleep * 1000);
@@ -358,7 +358,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 				// I find this rather unlikely.
 			}
 
-			long irredPoly = server.getIrredPolyForFP();
+			final long irredPoly = server.getIrredPolyForFP();
 			FP64.Init(irredPoly);
 
 			// this call has to be made before the first UniqueString gets
@@ -371,7 +371,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 			}
 			fts.setTLCServer(server);
 			
-			DistApp work = new TLCApp(server.getSpecFileName(),
+			final DistApp work = new TLCApp(server.getSpecFileName(),
 					server.getConfigFileName(), server.getCheckDeadlock(), fts);
 
 			final IFPSetManager fpSetManager = server.getFPSetManager();
@@ -379,7 +379,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 			runnables = new TLCWorkerRunnable[numCores];
 			for (int j = 0; j < numCores; j++) {
 				runnables[j] = new TLCWorkerRunnable(j, server, fpSetManager, work);
-				Thread t = new Thread(runnables[j], TLCServer.THREAD_NAME_PREFIX + String.format("%03d", j));
+				final Thread t = new Thread(runnables[j], TLCServer.THREAD_NAME_PREFIX + String.format("%03d", j));
 				t.start();
 			}
 			
@@ -389,7 +389,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 			
 			ToolIO.out.println("TLC worker with " + numCores + " threads ready at: "
 					+ new Date());
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			// Assert.printStack(e);
 			MP.printError(EC.GENERAL, e);
 			ToolIO.out.println("Error: Failed to start worker "
@@ -399,13 +399,13 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 		ToolIO.out.flush();
 	}
 
-	private static void printErrorMsg(String msg) {
+	private static void printErrorMsg(final String msg) {
 		ToolIO.out.println(msg);
 		ToolIO.out
 				.println("Usage: java " + TLCWorker.class.getName() + " host");
 	}
 
-	public static void setFilenameToStreamResolver(RMIFilenameToStreamResolver aFTS) {
+	public static void setFilenameToStreamResolver(final RMIFilenameToStreamResolver aFTS) {
 		fts  = aFTS;
 	}
 
@@ -422,12 +422,12 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 		
 		// Exit and unregister all worker threads
 		for (int i = 0; i < runnables.length; i++) {
-			TLCWorker worker = runnables[i].getTLCWorker();
+			final TLCWorker worker = runnables[i].getTLCWorker();
 			try {
 				if (worker != null) {
 					worker.exit();
 				}
-			} catch (NoSuchObjectException e) {
+			} catch (final NoSuchObjectException e) {
 				// may happen, ignore
 			}
 		}
@@ -453,8 +453,8 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 		private TLCWorker worker;
 		private final int threadId;
 
-		public TLCWorkerRunnable(int threadId, TLCServerRMI aServer,
-				IFPSetManager anFpSetManager, DistApp aWork) {
+		public TLCWorkerRunnable(final int threadId, final TLCServerRMI aServer,
+                                 final IFPSetManager anFpSetManager, final DistApp aWork) {
 			this.threadId = threadId;
 			this.aServer = aServer;
 			this.anFpSetManager = anFpSetManager;
@@ -469,11 +469,11 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 				worker = new TLCWorker(threadId, aWork, anFpSetManager, InetAddress
 						.getLocalHost().getCanonicalHostName());
 				aServer.registerWorker(worker);
-			} catch (RemoteException e) {
+			} catch (final RemoteException e) {
 				throw new RuntimeException(e);
-			} catch (UnknownHostException e) {
+			} catch (final UnknownHostException e) {
 				throw new RuntimeException(e);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				throw new RuntimeException(e);
 			}
 		}
@@ -489,7 +489,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 		private final TLCState successor;
 		private final TLCState predecessor;
 
-		public Holder(long fp, TLCState successor, TLCState predecessor) {
+		public Holder(final long fp, final TLCState successor, final TLCState predecessor) {
 			this.fp = fp;
 			this.successor = successor;
 			this.predecessor = predecessor;
@@ -519,7 +519,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 		/* (non-Javadoc)
 		 * @see java.lang.Comparable#compareTo(java.lang.Object)
 		 */
-		public int compareTo(Holder o) {
+		public int compareTo(final Holder o) {
 			return (fp < o.fp) ? -1 : ((fp == o.fp) ? 0 : 1);
 		}
 	}

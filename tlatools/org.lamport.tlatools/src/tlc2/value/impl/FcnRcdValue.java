@@ -49,7 +49,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   public static final Value EmptyFcn = new FcnRcdValue(new Value[0], new Value[0], true);
 
   /* Constructor */
-  public FcnRcdValue(Value[] domain, Value[] values, boolean isNorm) {
+  public FcnRcdValue(final Value[] domain, final Value[] values, final boolean isNorm) {
     this.domain = domain;
     this.values = values;
     this.intv = null;
@@ -57,7 +57,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 //    this.indexTbl = null;
   }
 
-  public FcnRcdValue(IntervalValue intv, Value[] values) {
+  public FcnRcdValue(final IntervalValue intv, final Value[] values) {
     this.intv = intv;
     this.values = values;
     this.domain = null;
@@ -65,12 +65,12 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 //    this.indexTbl = null;
   }
 
-  public FcnRcdValue(IntervalValue intv, Value[] values, CostModel cm) {
+  public FcnRcdValue(final IntervalValue intv, final Value[] values, final CostModel cm) {
 	  this(intv, values);
 	  this.cm = cm;
   }
 
-  private FcnRcdValue(FcnRcdValue fcn, Value[] values) {
+  private FcnRcdValue(final FcnRcdValue fcn, final Value[] values) {
     this.domain = fcn.domain;
     this.intv = fcn.intv;
     this.values = values;
@@ -78,16 +78,16 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 //    this.indexTbl = fcn.indexTbl;
   }
 
-  public FcnRcdValue(ValueVec elems, Value[] values, boolean isNorm) {
+  public FcnRcdValue(final ValueVec elems, final Value[] values, final boolean isNorm) {
 	  this(elems.toArray(), values, isNorm);
   }
 
-  public FcnRcdValue(ValueVec elems, Value[] values, boolean isNorm, CostModel cm) {
+  public FcnRcdValue(final ValueVec elems, final Value[] values, final boolean isNorm, final CostModel cm) {
 	  this(elems, values, isNorm);
 	  this.cm = cm;
   }
 
-  public FcnRcdValue(Value[] domain, Value[] values, boolean isNorm, CostModel cm) {
+  public FcnRcdValue(final Value[] domain, final Value[] values, final boolean isNorm, final CostModel cm) {
 	  this(domain, values, isNorm);
 	  this.cm = cm;
   }
@@ -147,7 +147,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 //  }
 
   @Override
-  public final int compareTo(Object obj) {
+  public final int compareTo(final Object obj) {
     try {
 
 			final FcnRcdValue fcn = obj instanceof Value ? (FcnRcdValue) ((Value) obj).toFcnRcd() : null;
@@ -173,7 +173,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 			}
 
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -251,10 +251,10 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   	return 0;
   }
   
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     try {
 
-      FcnRcdValue fcn = obj instanceof Value ? (FcnRcdValue) ((Value)obj).toFcnRcd() : null;
+      final FcnRcdValue fcn = obj instanceof Value ? (FcnRcdValue) ((Value)obj).toFcnRcd() : null;
       if (fcn == null) {
         if (obj instanceof ModelValue)
            return ((ModelValue) obj).modelValueEquals(this) ;
@@ -275,7 +275,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
         else {
           if (fcn.domain.length != this.intv.size()) return false;
           for (int i = 0; i < fcn.domain.length; i++) {
-            Value dElem = fcn.domain[i];
+            final Value dElem = fcn.domain[i];
             if (!(dElem instanceof IntValue)) {
               Assert.fail("Attempted to compare an integer with non-integer:\n" +
               Values.ppr(dElem.toString()) + ".", getSource());
@@ -295,7 +295,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
         if (this.values.length != fcn.values.length) return false;
         if (fcn.intv != null) {
           for (int i = 0; i < this.domain.length; i++) {
-            Value dElem = this.domain[i];
+            final Value dElem = this.domain[i];
             if (!(dElem instanceof IntValue)) {
               Assert.fail("Attempted to compare an integer with non-integer:\n" +
               Values.ppr(dElem.toString()) + ".", getSource());
@@ -326,20 +326,20 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       return true;
 
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean member(Value elem) {
+  public final boolean member(final Value elem) {
     try {
       Assert.fail("Attempted to check if the value:\n" + Values.ppr(elem.toString()) +
       "\nis an element of the function " + Values.ppr(this.toString()), getSource());
       return false;  // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -349,9 +349,9 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   public final boolean isFinite() { return true; }
 
   @Override
-  public final Value apply(Value arg, int control) {
+  public final Value apply(final Value arg, final int control) {
     try {
-    	Value result = this.select(arg);
+    	final Value result = this.select(arg);
       if (result == null) {
         Assert.fail("Attempted to apply function:\n" + Values.ppr(this.toString()) +
         "\nto argument " + Values.ppr(arg.toString()) + ", which is" +
@@ -359,7 +359,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       }
       return result;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -367,18 +367,18 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 
   /* This one does not seem to be needed anymore.  */
   @Override
-  public final Value apply(Value[] args, int control) {
+  public final Value apply(final Value[] args, final int control) {
     try {
       return this.apply(new TupleValue(args), EvalControl.Clear);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value select(Value arg) {
+  public final Value select(final Value arg) {
     try {
 
       if (this.intv != null) {
@@ -387,7 +387,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
             Assert.fail("Attempted to apply function with integer domain to" +
                   " the non-integer argument " + Values.ppr(arg.toString()), getSource());
           }
-          int idx = ((IntValue)arg).val;
+          final int idx = ((IntValue)arg).val;
           if ((idx >= this.intv.low) && (idx <= this.intv.high)) {
             return this.values[idx - this.intv.low];
           }
@@ -397,7 +397,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
     	  return selectBinarySearch(arg);
       }
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -422,7 +422,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 
   final Value selectLinearSearch(final Value arg) {
       // domain is represented as an array of values:
-      int len = this.domain.length;
+      final int len = this.domain.length;
       for (int i = 0; i < len; i++) {
         if (this.domain[i].equals(arg)) {
           return this.values[i];
@@ -437,7 +437,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       if (this.isNorm && this.domain.length >= LINEAR_SEARCH_THRESHOLD) {
         // domain is represented as an array of values:
     	// iff normalized, use binary search to speedup lookups.
-    	int idx = Arrays.binarySearch(this.domain, arg, Value::compareTo);
+    	final int idx = Arrays.binarySearch(this.domain, arg, Value::compareTo);
 		if (idx >= 0 && this.domain[idx].equals(arg)) {
 			// Check equality and cmp here to not introduce subtle bugs should Value#compareTo
 			// behaving slightly differently for some types. Linear search and the old,
@@ -497,24 +497,24 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 //  }
 
   @Override
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
 
       if (ex.idx >= ex.path.length) return ex.value;
 
-      int flen = this.values.length;
-      Value[] newValues = new Value[flen];
+      final int flen = this.values.length;
+      final Value[] newValues = new Value[flen];
       for (int i = 0; i < flen; i++) {
         newValues[i] = this.values[i];
       }
-      Value arg = ex.path[ex.idx];
+      final Value arg = ex.path[ex.idx];
 
       if (this.intv != null) {
         // domain is represented as an integer interval:
         if (arg instanceof IntValue) {
-          int idx = ((IntValue)arg).val;
+          final int idx = ((IntValue)arg).val;
           if ((idx >= this.intv.low) && (idx <= this.intv.high)) {
-            int vidx = idx - this.intv.low;
+            final int vidx = idx - this.intv.low;
             ex.idx++;
             newValues[vidx] = this.values[vidx].takeExcept(ex);
           }
@@ -541,14 +541,14 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       return this;
 
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       Value res = this;
       for (int i = 0; i < exs.length; i++) {
@@ -556,7 +556,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       }
       return res;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -571,7 +571,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       this.normalize();
       return new SetEnumValue(this.domain, true);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -595,7 +595,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       this.normalize();
       return this.values.length;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -617,11 +617,11 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
         if (this.intv.low != 1) return null;
         return new TupleValue(this.values);
       }
-      int len = this.values.length;
-      Value[] elems = new Value[len];
+      final int len = this.values.length;
+      final Value[] elems = new Value[len];
       for (int i = 0; i < len; i++) {
         if (!(this.domain[i] instanceof IntValue)) return null;
-        int idx = ((IntValue)this.domain[i]).val;
+        final int idx = ((IntValue)this.domain[i]).val;
         if (0 < idx && idx <= len) {
           if (elems[idx-1] != null) return null;
           elems[idx-1] = this.values[i];
@@ -638,7 +638,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   public final Value toRcd() {
       if (this.domain == null) return null;
       this.normalize();
-      UniqueString[] vars = new UniqueString[this.domain.length];
+      final UniqueString[] vars = new UniqueString[this.domain.length];
       for (int i = 0; i < this.domain.length; i++) {
         if (!(this.domain[i] instanceof StringValue)) {
           return null;
@@ -674,9 +674,9 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 
       if (!this.isNorm) {
         // Assert.check(this.domain != null)
-        int dlen = this.domain.length;
+        final int dlen = this.domain.length;
         for (int i = 1; i < dlen; i++) {
-          int cmp = this.domain[0].compareTo(this.domain[i]);
+          final int cmp = this.domain[0].compareTo(this.domain[i]);
           if (cmp == 0) {
             Assert.fail("The value\n" + this.domain[i] +
                   "\noccurs multiple times in the function domain.", getSource());
@@ -691,8 +691,8 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
           }
         }
         for (int i = 2; i < dlen; i++) {
-        	Value d = this.domain[i];
-        	Value v = this.values[i];
+        	final Value d = this.domain[i];
+        	final Value v = this.values[i];
           int j = i;
           int cmp;
           while ((cmp = d.compareTo(this.domain[j-1])) < 0) {
@@ -711,7 +711,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -725,7 +725,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
         }
         normalize();
 	    }
-	    catch (RuntimeException | OutOfMemoryError e) {
+	    catch (final RuntimeException | OutOfMemoryError e) {
 	      if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
 	      else { throw e; }
 	    }
@@ -747,7 +747,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       return defined;
 
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -756,7 +756,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   @Override
   public final IValue deepCopy() {
     try {
-    	Value[] vals = new Value[this.values.length];
+    	final Value[] vals = new Value[this.values.length];
       for (int i = 0; i < vals.length; i++) {
         vals[i] = (Value) this.values[i].deepCopy();
       }
@@ -767,19 +767,19 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       }
       return new FcnRcdValue(this, vals);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       boolean canAssign = ((val instanceof FcnRcdValue) &&
         this.values.length == ((FcnRcdValue)val).values.length);
       if (!canAssign) return false;
-      FcnRcdValue fcn = (FcnRcdValue)val;
+      final FcnRcdValue fcn = (FcnRcdValue)val;
       for (int i = 0; i < this.values.length; i++) {
         canAssign = (canAssign &&
          this.domain[i].equals(fcn.domain[i]) &&
@@ -787,7 +787,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       }
       return canAssign;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -798,7 +798,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 		final int index = vos.put(this);
 		if (index == -1) {
 			vos.writeByte(FCNRCDVALUE);
-			int len = values.length;
+			final int len = values.length;
 			vos.writeNat(len);
 			if (intv != null) {
 				vos.writeByte((byte) 0);
@@ -825,7 +825,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   public final long fingerPrint(long fp) {
     try {
       this.normalize();
-      int flen = this.values.length;
+      final int flen = this.values.length;
       fp = FP64.Extend(fp, FCNRCDVALUE);
       fp = FP64.Extend(fp, flen);
       if (this.intv == null) {
@@ -843,19 +843,19 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       }
       return fp;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final IValue permute(IMVPerm perm) {
+  public final IValue permute(final IMVPerm perm) {
     try {
 
       this.normalize();
-      int flen = this.size();
-      Value[] vals = new Value[flen];
+      final int flen = this.size();
+      final Value[] vals = new Value[flen];
 
       boolean vchanged = false;
       for (int i = 0; i < flen; i++) {
@@ -864,7 +864,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       }
 
       if (this.intv == null) {
-    	  Value[] dom = new Value[flen];
+    	  final Value[] dom = new Value[flen];
         boolean dchanged = false;
         for (int i = 0; i < flen; i++) {
           dom[i] = (Value) this.domain[i].permute(perm);
@@ -886,18 +886,18 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       return this;
 
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  private static final boolean isName(String name) {
-    int len = name.length();
+  private static final boolean isName(final String name) {
+    final int len = name.length();
     boolean hasLetter = false;
 
     for (int idx = 0; idx < len; idx++) {
-      char ch = name.charAt(idx);
+      final char ch = name.charAt(idx);
       if (ch == '_') continue;
       if (!Character.isLetterOrDigit(ch)) return false;
       hasLetter = hasLetter || Character.isLetter(ch);
@@ -909,8 +909,8 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   private final boolean isRcd() {
     if (this.intv != null) return false;
     for (int i = 0; i < this.domain.length; i++) {
-      Value dval = this.domain[i];
-      boolean isName = ((dval instanceof StringValue) &&
+      final Value dval = this.domain[i];
+      final boolean isName = ((dval instanceof StringValue) &&
       isName(((StringValue)dval).val.toString()));
       if (!isName) return false;
     }
@@ -937,10 +937,10 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 
   /* The string representation of the value.  */
   @Override
-  public final StringBuffer toString(StringBuffer sb, int offset, boolean swallow) {
+  public final StringBuffer toString(StringBuffer sb, final int offset, final boolean swallow) {
     try {
 
-      int len = this.values.length;
+      final int len = this.values.length;
       if (len == 0) {
         sb.append("<< >>");
       }
@@ -985,7 +985,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       return sb;
 
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -995,7 +995,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 		final int index = vos.getIndex();
 		final int len = vos.readNat();
 		final int info = vos.readByte();
-		Value res;
+		final Value res;
 		final Value[] rvals = new Value[len];
 		if (info == 0) {
 			final int low = vos.readInt();
@@ -1021,7 +1021,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 		final int index = vos.getIndex();
 		final int len = vos.readNat();
 		final int info = vos.readByte();
-		Value res;
+		final Value res;
 		final Value[] rvals = new Value[len];
 		if (info == 0) {
 			final int low = vos.readInt();
@@ -1044,12 +1044,12 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 	}
 
 	@Override
-	public List<TLCVariable> getTLCVariables(final TLCVariable prototype, Random rnd) {
+	public List<TLCVariable> getTLCVariables(final TLCVariable prototype, final Random rnd) {
 		final List<TLCVariable> nestedVars = new ArrayList<>(values.length);
 		final Value[] domains = getDomainAsValues();
 		for (int i = 0; i < domains.length; i++) {
-			Value dom = domains[i];
-			Value value = values[i];
+			final Value dom = domains[i];
+			final Value value = values[i];
 			final TLCVariable nested = prototype.newInstance(dom.toString(), value, rnd);
 			nested.setValue(value.toString());
 			nested.setType(value.getTypeString());

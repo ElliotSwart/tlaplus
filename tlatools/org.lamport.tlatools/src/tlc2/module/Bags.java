@@ -63,21 +63,21 @@ public class Bags implements ValueConstants
         return BoolValue.ValTrue;
     }
 
-    public static IntValue BagCardinality(Value b)
+    public static IntValue BagCardinality(final Value b)
     {
-        FcnRcdValue fcn = (FcnRcdValue) b.toFcnRcd();
+        final FcnRcdValue fcn = (FcnRcdValue) b.toFcnRcd();
         if (fcn == null)
         {
             throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[] { "BagCardinality",
                     "a function with a finite domain", Values.ppr(b.toString()) });
         }
         int num = 0;
-        Value[] vals = fcn.values;
+        final Value[] vals = fcn.values;
         for (int i = 0; i < vals.length; i++)
         {
             if (vals[i] instanceof IntValue)
             {
-                int cnt = ((IntValue) vals[i]).val;
+                final int cnt = ((IntValue) vals[i]).val;
                 if (cnt > 0)
                 {
                     num += ((IntValue) vals[i]).val;
@@ -135,10 +135,10 @@ public class Bags implements ValueConstants
         return IntValue.ValZero;
     }
 
-    public static Value BagCup(Value b1, Value b2)
+    public static Value BagCup(final Value b1, final Value b2)
     {
-        FcnRcdValue fcn1 = (FcnRcdValue) b1.toFcnRcd();
-        FcnRcdValue fcn2 = (FcnRcdValue) b2.toFcnRcd();
+        final FcnRcdValue fcn1 = (FcnRcdValue) b1.toFcnRcd();
+        final FcnRcdValue fcn2 = (FcnRcdValue) b2.toFcnRcd();
         if (!IsABag(fcn1).getVal())
         {
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "first", "(+)", "bag",
@@ -149,12 +149,12 @@ public class Bags implements ValueConstants
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "second", "(+)", "bag",
                     Values.ppr(b2.toString()) });
         }
-        Value[] domain1 = fcn1.getDomainAsValues();
-        Value[] values1 = fcn1.values;
-        Value[] domain2 = fcn2.getDomainAsValues();
-        Value[] values2 = fcn2.values;
-        Vect<Value> dVec = new Vect<>(domain1.length);
-        Vect<Value> vVec = new Vect<>(domain1.length);
+        final Value[] domain1 = fcn1.getDomainAsValues();
+        final Value[] values1 = fcn1.values;
+        final Value[] domain2 = fcn2.getDomainAsValues();
+        final Value[] values2 = fcn2.values;
+        final Vect<Value> dVec = new Vect<>(domain1.length);
+        final Vect<Value> vVec = new Vect<>(domain1.length);
         for (int i = 0; i < domain1.length; i++)
         {
             dVec.addElement(domain1[i]);
@@ -167,8 +167,8 @@ public class Bags implements ValueConstants
             {
                 if (domain2[i].equals(domain1[j]))
                 {
-                    int v1 = ((IntValue) values1[j]).val;
-                    int v2 = ((IntValue) values2[i]).val;
+                    final int v1 = ((IntValue) values1[j]).val;
+                    final int v2 = ((IntValue) values2[i]).val;
                     vVec.setElementAt(IntValue.gen(v1 + v2), j);
                     found = true;
                     break;
@@ -180,8 +180,8 @@ public class Bags implements ValueConstants
                 vVec.addElement(values2[i]);
             }
         }
-        Value[] domain = new Value[dVec.size()];
-        Value[] values = new Value[dVec.size()];
+        final Value[] domain = new Value[dVec.size()];
+        final Value[] values = new Value[dVec.size()];
         for (int i = 0; i < domain.length; i++)
         {
             domain[i] = dVec.elementAt(i);
@@ -190,10 +190,10 @@ public class Bags implements ValueConstants
         return new FcnRcdValue(domain, values, false);
     }
 
-    public static Value BagDiff(Value b1, Value b2)
+    public static Value BagDiff(final Value b1, final Value b2)
     {
-        FcnRcdValue fcn1 = (FcnRcdValue) b1.toFcnRcd();
-        FcnRcdValue fcn2 = (FcnRcdValue) b2.toFcnRcd();
+        final FcnRcdValue fcn1 = (FcnRcdValue) b1.toFcnRcd();
+        final FcnRcdValue fcn2 = (FcnRcdValue) b2.toFcnRcd();
         if (fcn1 == null)
         {
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "first", "(-)", "bag",
@@ -204,12 +204,12 @@ public class Bags implements ValueConstants
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "second", "(-)", "bag",
                     Values.ppr(b2.toString()) });
         }
-        Value[] domain1 = fcn1.getDomainAsValues();
-        Value[] values1 = fcn1.values;
-        Value[] domain2 = fcn2.getDomainAsValues();
-        Value[] values2 = fcn2.values;
-        Vect<Value> dVec = new Vect<>(domain1.length);
-        Vect<Value> vVec = new Vect<>(domain1.length);
+        final Value[] domain1 = fcn1.getDomainAsValues();
+        final Value[] values1 = fcn1.values;
+        final Value[] domain2 = fcn2.getDomainAsValues();
+        final Value[] values2 = fcn2.values;
+        final Vect<Value> dVec = new Vect<>(domain1.length);
+        final Vect<Value> vVec = new Vect<>(domain1.length);
         for (int i = 0; i < domain1.length; i++)
         {
             int v1 = ((IntValue) values1[i]).val;
@@ -217,7 +217,7 @@ public class Bags implements ValueConstants
             {
                 if (domain1[i].equals(domain2[j]))
                 {
-                    int v2 = ((IntValue) values2[j]).val;
+                    final int v2 = ((IntValue) values2[j]).val;
                     v1 -= v2;
                     break;
                 }
@@ -228,8 +228,8 @@ public class Bags implements ValueConstants
                 vVec.addElement(IntValue.gen(v1));
             }
         }
-        Value[] domain = new Value[dVec.size()];
-        Value[] values = new Value[vVec.size()];
+        final Value[] domain = new Value[dVec.size()];
+        final Value[] values = new Value[vVec.size()];
         for (int i = 0; i < domain.length; i++)
         {
             domain[i] = dVec.elementAt(i);
@@ -253,16 +253,16 @@ public class Bags implements ValueConstants
         // unfortunately degrades performance due to sorting s1's elements.
         s1.normalize();
 
-        ValueVec elems = s1.elems;
-        int sz = elems.size();
+        final ValueVec elems = s1.elems;
+        final int sz = elems.size();
         if (sz == 0) {
         	return FcnRcdValue.EmptyFcn;
         }
         if (sz == 1) {
         	return elems.elementAt(0);
         }
-        ValueVec dVec = new ValueVec();
-        ValueVec vVec = new ValueVec();
+        final ValueVec dVec = new ValueVec();
+        final ValueVec vVec = new ValueVec();
         FcnRcdValue fcn = (FcnRcdValue) elems.elementAt(0).toFcnRcd();
         if (fcn == null)
         {
@@ -292,8 +292,8 @@ public class Bags implements ValueConstants
                 {
                     if (domain[j].equals(dVec.elementAt(k)))
                     {
-                        int v1 = ((IntValue) vVec.elementAt(k)).val;
-                        int v2 = ((IntValue) values[j]).val;
+                        final int v1 = ((IntValue) vVec.elementAt(k)).val;
+                        final int v2 = ((IntValue) values[j]).val;
                         vVec.setElementAt(IntValue.gen(v1 + v2), k);
                         found = true;
                         break;
@@ -306,8 +306,8 @@ public class Bags implements ValueConstants
                 }
             }
         }
-        Value[] dom = new Value[dVec.size()];
-        Value[] vals = new Value[vVec.size()];
+        final Value[] dom = new Value[dVec.size()];
+        final Value[] vals = new Value[vVec.size()];
         for (int i = 0; i < dom.length; i++)
         {
             dom[i] = dVec.elementAt(i);
@@ -316,10 +316,10 @@ public class Bags implements ValueConstants
         return new FcnRcdValue(dom, vals, false);
     }
 
-    public static IBoolValue SqSubseteq(Value b1, Value b2)
+    public static IBoolValue SqSubseteq(final Value b1, final Value b2)
     {
-        FcnRcdValue fcn1 = (FcnRcdValue) b1.toFcnRcd();
-        FcnRcdValue fcn2 = (FcnRcdValue) b2.toFcnRcd();
+        final FcnRcdValue fcn1 = (FcnRcdValue) b1.toFcnRcd();
+        final FcnRcdValue fcn2 = (FcnRcdValue) b2.toFcnRcd();
         if (fcn1 == null)
         {
             throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[] { "\\sqsubseteq",
@@ -331,10 +331,10 @@ public class Bags implements ValueConstants
             throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[] { "\\sqsubseteq",
                     "a function with a finite domain", Values.ppr(b2.toString()) });
         }
-        Value[] domain1 = fcn1.getDomainAsValues();
-        Value[] values1 = fcn1.values;
-        Value[] domain2 = fcn2.getDomainAsValues();
-        Value[] values2 = fcn2.values;
+        final Value[] domain1 = fcn1.getDomainAsValues();
+        final Value[] values1 = fcn1.values;
+        final Value[] domain2 = fcn2.getDomainAsValues();
+        final Value[] values2 = fcn2.values;
         for (int i = 0; i < domain1.length; i++)
         {
             int v1 = ((IntValue) values1[i]).val;
@@ -342,7 +342,7 @@ public class Bags implements ValueConstants
             {
                 if (domain1[i].equals(domain2[j]))
                 {
-                    int v2 = ((IntValue) values2[j]).val;
+                    final int v2 = ((IntValue) values2[j]).val;
                     v1 -= v2;
                     break;
                 }
@@ -353,36 +353,36 @@ public class Bags implements ValueConstants
         return BoolValue.ValTrue;
     }
 
-    public static Value BagOfAll(Value f, Value b)
+    public static Value BagOfAll(final Value f, final Value b)
     {
         if (!(f instanceof Applicable))
         {
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR_AN, new String[] { "first", "BagOfAll", "operator",
                     Values.ppr(f.toString()) });
         }
-        FcnRcdValue fcn = (FcnRcdValue) b.toFcnRcd();
+        final FcnRcdValue fcn = (FcnRcdValue) b.toFcnRcd();
         if (fcn == null)
         {
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "second", "BagOfAll",
                     "function with a finite domain", Values.ppr(b.toString()) });
         }
-        Applicable ff = (Applicable) f;
-        ValueVec dVec = new ValueVec();
-        ValueVec vVec = new ValueVec();
-        Value[] domain = fcn.getDomainAsValues();
-        Value[] values = fcn.values;
-        Value[] args = new Value[1];
+        final Applicable ff = (Applicable) f;
+        final ValueVec dVec = new ValueVec();
+        final ValueVec vVec = new ValueVec();
+        final Value[] domain = fcn.getDomainAsValues();
+        final Value[] values = fcn.values;
+        final Value[] args = new Value[1];
         for (int i = 0; i < domain.length; i++)
         {
             args[0] = domain[i];
-            Value val = ff.apply(args, EvalControl.Clear);
+            final Value val = ff.apply(args, EvalControl.Clear);
             boolean found = false;
             for (int j = 0; j < dVec.size(); j++)
             {
                 if (val.equals(dVec.elementAt(j)))
                 {
-                    int v1 = ((IntValue) vVec.elementAt(j)).val;
-                    int v2 = ((IntValue) values[i]).val;
+                    final int v1 = ((IntValue) vVec.elementAt(j)).val;
+                    final int v2 = ((IntValue) values[i]).val;
                     vVec.setElementAt(IntValue.gen(v1 + v2), j);
                     found = true;
                     break;
@@ -394,8 +394,8 @@ public class Bags implements ValueConstants
                 vVec.addElement(values[i]);
             }
         }
-        Value[] dom = new Value[dVec.size()];
-        Value[] vals = new Value[vVec.size()];
+        final Value[] dom = new Value[dVec.size()];
+        final Value[] vals = new Value[vVec.size()];
         for (int i = 0; i < dom.length; i++)
         {
             dom[i] = dVec.elementAt(i);
@@ -417,9 +417,9 @@ public class Bags implements ValueConstants
     }
     ******/
 
-    public static Value BagToSet(Value b)
+    public static Value BagToSet(final Value b)
     {
-        FcnRcdValue fcn = (FcnRcdValue) b.toFcnRcd();
+        final FcnRcdValue fcn = (FcnRcdValue) b.toFcnRcd();
         if (fcn == null)
         {
             throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[] { "BagToSet",
@@ -428,9 +428,9 @@ public class Bags implements ValueConstants
         return fcn.getDomain();
     }
 
-    public static Value SetToBag(Value b)
+    public static Value SetToBag(final Value b)
     {
-        SetEnumValue s1 = (SetEnumValue) b.toSetEnum();
+        final SetEnumValue s1 = (SetEnumValue) b.toSetEnum();
         if (s1 == null)
         {
             throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[] { "BagToSet",
@@ -442,9 +442,9 @@ public class Bags implements ValueConstants
         if (!s1.isNormalized()) {
         	s1.normalize();
         }
-        ValueVec elems = s1.elems;
-        Value[] domain = new Value[elems.size()];
-        Value[] values = new Value[elems.size()];
+        final ValueVec elems = s1.elems;
+        final Value[] domain = new Value[elems.size()];
+        final Value[] values = new Value[elems.size()];
         for (int i = 0; i < elems.size(); i++)
         {
             domain[i] = elems.elementAt(i);

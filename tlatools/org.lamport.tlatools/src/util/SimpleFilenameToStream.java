@@ -63,7 +63,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
  * installation path and instead the path supplied using the system property TLA_LIBRARY
  * (which is being used in the default constructor).
  */
-  public SimpleFilenameToStream(String[] anLibraryPaths) {
+  public SimpleFilenameToStream(final String[] anLibraryPaths) {
 	  libraryPaths = getLibraryPaths(getInstallationBasePath(), anLibraryPaths);
   }
 
@@ -84,11 +84,11 @@ public class SimpleFilenameToStream implements FilenameToStream {
     	final URI uri = new URI(path);
     		return new File(uri).getAbsolutePath();
     	}
-    } catch (URISyntaxException e) {
+    } catch (final URISyntaxException e) {
     	System.err.println(path);
     	// may never happen
     	e.printStackTrace();
-    } catch (IllegalArgumentException e) {
+    } catch (final IllegalArgumentException e) {
     	System.err.println(path);
     	// may never happen
     	e.printStackTrace();
@@ -101,8 +101,8 @@ public class SimpleFilenameToStream implements FilenameToStream {
    * added an informative method for returning the actual path used by this resolver
    */
   public String getFullPath() {
-    StringBuffer buf = new StringBuffer();
-    String[] ar = libraryPaths;
+    final StringBuffer buf = new StringBuffer();
+    final String[] ar = libraryPaths;
     for (int i=0; i<ar.length; i++)
     {
       buf.append(ar[i]);
@@ -118,12 +118,12 @@ public class SimpleFilenameToStream implements FilenameToStream {
    * added functionality for supplying additional libraries.
    * All usage of this except the one added by TL is supplying libraries  = null
    */
-  private String[] getLibraryPaths(final String installationBasePath, String[] libraries) {
-    String[] res;
+  private String[] getLibraryPaths(final String installationBasePath, final String[] libraries) {
+    final String[] res;
     String path = null;
     if (libraries == null) path = System.getProperty(TLA_LIBRARY);
     else {
-      StringBuffer buf = new StringBuffer();
+      final StringBuffer buf = new StringBuffer();
       for (int i=0; i<libraries.length; i++) {
         buf.append(libraries[i]);
         if (i < libraries.length-1) {
@@ -137,7 +137,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
       res[0] = installationBasePath + FileUtil.separator + STANDARD_MODULES_FOLDER + FileUtil.separator;
     }
     else {
-      String[] paths = path.split(FileUtil.pathSeparator);
+      final String[] paths = path.split(FileUtil.pathSeparator);
       res = new String[paths.length+1];
       for(int i=0;i<paths.length;i++){
 	res[i] = paths[i];
@@ -160,7 +160,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
    *
    *  @param  module name, used as basis of path name to the file that should contain it
    */
-  private final File locate(String name)
+  private final File locate(final String name)
   {
 
     String prefix      = "";                // directory to be prepended to file name before lookup
@@ -236,21 +236,21 @@ public class SimpleFilenameToStream implements FilenameToStream {
 
   } // end locate()
 
-  private File read(String name, URL location, InputStream is) {
+  private File read(final String name, final URL location, final InputStream is) {
     final File sourceFile = new TLAFile(tmpDir.resolve(name), location, true, this);
 	sourceFile.deleteOnExit();
 	try {
 
 		final FileOutputStream fos = new FileOutputStream(sourceFile);
 
-		byte buf[] = new byte[1024];
+		final byte[] buf = new byte[1024];
 		int len;
 		while ((len = is.read(buf)) > 0) {
 			fos.write(buf, 0, len);
 		}
 		fos.close();
 		is.close();
-	} catch (IOException e) {
+	} catch (final IOException e) {
 		// must not happen
 		e.printStackTrace();
 	}
@@ -264,10 +264,10 @@ public class SimpleFilenameToStream implements FilenameToStream {
    *
    * Returns null if the file does not exist
    */
-  public File resolve(String name, boolean isModule)
+  public File resolve(String name, final boolean isModule)
   {
       // Strip off one NEWLINE and anything after it, if it is there
-      int n;
+      final int n;
       n = name.indexOf( '\n' );
       if ( n >= 0 ) {
           // SZ Feb 20, 2009: the message adjusted to what is actually done
@@ -300,7 +300,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
       return locate(sourceFileName);
   }
 
-	public File resolve(String name) {
+	public File resolve(final String name) {
 		return resolve(name, false);
 	}
 
@@ -314,12 +314,12 @@ public class SimpleFilenameToStream implements FilenameToStream {
 	 * @see tla2sany.modanalyzer.ParseUnit.isLibraryModule()
 	 * @see StandardModules.isDefinedInStandardModule()
 	 */
-	public boolean isStandardModule(String moduleName) {
-		 File file = this.resolve(moduleName, true) ;
+	public boolean isStandardModule(final String moduleName) {
+		 final File file = this.resolve(moduleName, true) ;
 		 if (file == null) {
 			 return false ;
 			 }
-		 String path = file.getAbsolutePath() ;
+		 final String path = file.getAbsolutePath() ;
 		 if (path == null) {
 			 return false ;
 		 }

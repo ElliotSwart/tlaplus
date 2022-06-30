@@ -43,7 +43,7 @@ public class Assignment extends Formula {
      * Constructs the assignment
      * if the right side is equals to the label, the assignment is treated as a model value assignment
      */
-	public Assignment(String label, String[] params, String right) {
+	public Assignment(final String label, final String[] params, final String right) {
         super(right);
         this.label = label;
         this.setParams(params);
@@ -57,9 +57,9 @@ public class Assignment extends Formula {
     	return getFormula("");
     }
 
-    public String getFormula(String tab)
+    public String getFormula(final String tab)
     {
-        StringBuffer buffer = new StringBuffer(getLeft());
+        final StringBuffer buffer = new StringBuffer(getLeft());
         buffer.append(tab);
         buffer.append(ASSIGNMENT_SIGN);
         
@@ -102,7 +102,7 @@ public class Assignment extends Formula {
      * @param id
      * @return
      */
-    public String getParametrizedLabel(String id)
+    public String getParametrizedLabel(final String id)
     {
         return id + listParams();
     }
@@ -127,7 +127,7 @@ public class Assignment extends Formula {
         return buffer.toString();
     }
 
-    public void setFormula(String formula)
+    public void setFormula(final String formula)
     {
         throw new UnsupportedOperationException("Not implemented yet");
     }
@@ -191,7 +191,7 @@ public class Assignment extends Formula {
      * Sets the right part
      * @param right
      */
-	public synchronized void setRight(String right) {
+	public synchronized void setRight(final String right) {
 		super.setFormula(right);
 		setOfModelValues = null;
 	}
@@ -203,7 +203,7 @@ public class Assignment extends Formula {
      * Modified by LL on 11 Nov 2009 to trim spaces off the ends of 
      * the parameters.
      */
-    public void setParams(String[] params)
+    public void setParams(final String[] params)
     {
         if (params != null)
         {
@@ -265,7 +265,7 @@ public class Assignment extends Formula {
      * Sets the symmetry property for a set of model values 
      * @param isSymmetric
      */
-    public void setSymmetric(boolean isSymmetric)
+    public void setSymmetric(final boolean isSymmetric)
     {
         if (isSymmetric && !modelValue)
         {
@@ -278,7 +278,7 @@ public class Assignment extends Formula {
      * Set the constant assignment to be a model value
      * @param modelValue
      */
-    public void setModelValue(boolean modelValue)
+    public void setModelValue(final boolean modelValue)
     {
         if (modelValue && this.params.length != 0)
         {

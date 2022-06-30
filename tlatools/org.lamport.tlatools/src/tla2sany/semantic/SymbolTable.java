@@ -40,7 +40,7 @@ public class SymbolTable implements ASTConstants {
     //   THIS SymbolTable should be appended.
 
   // This form for external modules
-  public SymbolTable( ExternalModuleTable mt, Errors errs ) {
+  public SymbolTable(final ExternalModuleTable mt, final Errors errs ) {
     // Makes copy of context containing built-in symbols:
     topContext = Context.getGlobalContext().duplicate(mt);
     baseContext = topContext;
@@ -52,7 +52,7 @@ public class SymbolTable implements ASTConstants {
   };
 
   // This form for internal modules
-  public SymbolTable(ExternalModuleTable mt, Errors errs, SymbolTable st) {
+  public SymbolTable(final ExternalModuleTable mt, final Errors errs, final SymbolTable st) {
     modNode = st.modNode;
     errors = errs;
     contextStack = new Stack();
@@ -70,7 +70,7 @@ public class SymbolTable implements ASTConstants {
 
   public final Context getContext() { return topContext; }
 
-  public final void pushContext( Context ct ) {
+  public final void pushContext(final Context ct ) {
     contextStack.push( ct ); 
     topContext = ct;
   }
@@ -80,7 +80,7 @@ public class SymbolTable implements ASTConstants {
     topContext = (Context) contextStack.peek();
   }
 
-  public final void setModuleNode(ModuleNode mn) { modNode = mn; }
+  public final void setModuleNode(final ModuleNode mn) { modNode = mn; }
 
   public final ModuleNode getModuleNode() { return this.modNode; }
 
@@ -88,22 +88,22 @@ public class SymbolTable implements ASTConstants {
   * Looks up `name' in the symbol table and returns the node it finds, or  *
   * null if there is no entry for `name'.                                  *
   *************************************************************************/
-	public final SymbolNode resolveSymbol(UniqueString name) {
+	public final SymbolNode resolveSymbol(final UniqueString name) {
 		for (int c = contextStack.size() - 1; c >= 0; c--) {
-			Context ct = (Context) contextStack.elementAt(c);
-			SymbolNode r = ct.getSymbol(name);
+			final Context ct = (Context) contextStack.elementAt(c);
+			final SymbolNode r = ct.getSymbol(name);
 			if (r != null)
 				return r;
 		}
 		return null;
 	}
 
-  public final ModuleNode resolveModule(UniqueString name) {
-    ModuleName modName = new ModuleName(name);
+  public final ModuleNode resolveModule(final UniqueString name) {
+    final ModuleName modName = new ModuleName(name);
 
     for (int c = contextStack.size()-1; c >= 0; c--) {
-      Context ct = (Context)contextStack.elementAt(c);
-      SymbolNode res = ct.getSymbol(modName);
+      final Context ct = (Context)contextStack.elementAt(c);
+      final SymbolNode res = ct.getSymbol(modName);
       if (res != null) return (ModuleNode)res;
     }
 
@@ -121,8 +121,8 @@ public class SymbolTable implements ASTConstants {
    * 
    * As of 31 Oct 2012, the return value was not used by any calling method.
    */
-  public final boolean addSymbol(UniqueString name, SymbolNode symbol) {
-    SymbolNode currentBinding = resolveSymbol(name);
+  public final boolean addSymbol(final UniqueString name, final SymbolNode symbol) {
+    final SymbolNode currentBinding = resolveSymbol(name);
 // System.out.println("*** Resolving " + name.toString() + ", in binding ");
     // If "name" is already bound to the argument "symbol", then
     // nothing needs to be done; this call is redundant
@@ -218,8 +218,8 @@ public class SymbolTable implements ASTConstants {
     return true; 
   } // end addSymbol() 
 
-  public final boolean addModule(UniqueString name, ModuleNode symbol) {
-    SymbolNode currentBinding = resolveModule(name);
+  public final boolean addModule(final UniqueString name, final ModuleNode symbol) {
+    final SymbolNode currentBinding = resolveModule(name);
 
     // If "name" is already bound to the argument "symbol", then
     // nothing needs to be done; this call is redundant
@@ -228,7 +228,7 @@ public class SymbolTable implements ASTConstants {
     // If "name" was not already present in THIS SymbolTable, then add
     // it and bind it to "symbol"
     if (currentBinding == null)  {
-      ModuleName modName = new ModuleName(name);
+      final ModuleName modName = new ModuleName(name);
       topContext.addSymbolToContext(modName, symbol);
       return true;
     }
@@ -245,8 +245,8 @@ public class SymbolTable implements ASTConstants {
     String ret = "\n\n***SymbolTable\n\n*** top context";
 
     for (int c = contextStack.size()-1; c >= 0; c--) {
-      Context ct = (Context) contextStack.elementAt(c);
-      Vector<String> v = ct.getContextEntryStringVector(1,true);
+      final Context ct = (Context) contextStack.elementAt(c);
+      final Vector<String> v = ct.getContextEntryStringVector(1,true);
 
       for (int i = 0; i < v.size(); i++) {
         ret += (String)v.elementAt(i);
@@ -259,13 +259,13 @@ public class SymbolTable implements ASTConstants {
   static class ModuleName {
     UniqueString name;
 
-    ModuleName(UniqueString name) {
+    ModuleName(final UniqueString name) {
       this.name = name;
     }
 
     public final int hashCode() { return this.name.hashCode(); }
 
-    public final boolean equals(Object obj) {
+    public final boolean equals(final Object obj) {
       return ((obj instanceof ModuleName) &&
 	      this.name.equals(((ModuleName)obj).name));
     }

@@ -10,7 +10,7 @@ public class SemanticsException extends Exception {
 int    severity;      // 0 == warning; 1 == error; 2 == abort
   String message;       // human-readable error message
 
-  public SemanticsException( int s, String m) { 
+  public SemanticsException(final int s, final String m) {
     severity = s;
     message = m; 
   }

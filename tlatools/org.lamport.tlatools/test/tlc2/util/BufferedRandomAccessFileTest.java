@@ -73,9 +73,9 @@ public class BufferedRandomAccessFileTest {
 			for (long i = 0L; i < BufferedRandomAccessFile.BuffSz / 8; i++) {
 				raf.writeLong(i);
 			}
-		} catch (IOException expected) {
+		} catch (final IOException expected) {
 			return;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			fail(e.getMessage());
 		} finally {
 			raf.close();
@@ -125,9 +125,9 @@ public class BufferedRandomAccessFileTest {
 			for (int i = 0; i < BufferedRandomAccessFile.BuffSz / 8; i++) {
 				raf.readLong();
 			}
-		} catch (IOException expected) {
+		} catch (final IOException expected) {
 			return;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			fail(e.getMessage());
 		} finally {
 			raf.close();

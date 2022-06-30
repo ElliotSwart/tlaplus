@@ -50,9 +50,9 @@ public class OpDeclNode extends OpDefOrDeclNode {
   /*************************************************************************
   * The constructor.                                                       *
   *************************************************************************/
-  public OpDeclNode(UniqueString us, int kind, int level,
-		    int arity, ModuleNode mn, SymbolTable symbolTable,
-                    TreeNode stn) {
+  public OpDeclNode(final UniqueString us, final int kind, final int level,
+                    final int arity, final ModuleNode mn, final SymbolTable symbolTable,
+                    final TreeNode stn) {
     super(us, kind, arity, mn, symbolTable, stn);
     this.level = level;
     if (this.getKind() == ConstantDeclKind) {
@@ -73,8 +73,8 @@ public class OpDeclNode extends OpDefOrDeclNode {
 
   public final int getArity() { return this.arity; }
 
-  public final boolean match(OpApplNode oa, ModuleNode mn) {
-    ExprOrOpArgNode[] args = oa.getArgs();
+  public final boolean match(final OpApplNode oa, final ModuleNode mn) {
+    final ExprOrOpArgNode[] args = oa.getArgs();
 
     if (args == null || arity != args.length) {
       errors.addError(oa.getTreeNode().getLocation(),
@@ -89,7 +89,7 @@ public class OpDeclNode extends OpDefOrDeclNode {
 //  private HashSet levelParams;
 
   @Override
-  public final boolean levelCheck(int iter) {
+  public final boolean levelCheck(final int iter) {
     /***********************************************************************
     * Level information set by constructor.                                *
     ***********************************************************************/
@@ -141,8 +141,8 @@ public class OpDeclNode extends OpDefOrDeclNode {
 //  }
 
   @Override
-  public final void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
@@ -160,7 +160,7 @@ public class OpDeclNode extends OpDefOrDeclNode {
 	}
 
   @Override
-  public final String toString (int depth) {
+  public final String toString (final int depth) {
     if (depth <= 0) return "";
     return "\n*OpDeclNode: " + this.getName() + "  " + super.toString(depth)
            + "\n  originallyDefinedInModule: " +
@@ -174,8 +174,8 @@ public class OpDeclNode extends OpDefOrDeclNode {
     return "OpDeclNodeRef";
   }
 
-  protected Element getSymbolElement(Document doc, SymbolContext context) {
-    Element e = doc.createElement("OpDeclNode");
+  protected Element getSymbolElement(final Document doc, final SymbolContext context) {
+    final Element e = doc.createElement("OpDeclNode");
     e.appendChild(appendText(doc,"uniquename",getName().toString()));
     e.appendChild(appendText(doc,"arity",Integer.toString(getArity())));
     e.appendChild(appendText(doc,"kind", Integer.toString(getKind())));

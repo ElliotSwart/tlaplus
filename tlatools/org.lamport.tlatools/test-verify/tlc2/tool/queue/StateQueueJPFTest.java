@@ -35,7 +35,7 @@ import tlc2.tool.TLCState;
 
 public class StateQueueJPFTest extends TestJPF {
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		new StateQueueJPFTest().test();
 	}
 	
@@ -46,7 +46,7 @@ public class StateQueueJPFTest extends TestJPF {
 			final TLCState tlcState = new DummyTLCState();
 			queue.enqueue(tlcState);
 			
-			Thread main = new Thread(new Runnable() {
+			final Thread main = new Thread(new Runnable() {
 				public void run() {
 					queue.suspendAll();
 					// critical section (taking a checkpoint)
@@ -56,10 +56,10 @@ public class StateQueueJPFTest extends TestJPF {
 			main.start();
 
 			for (int i = 0; i < 3; i++) {
-				Thread worker = new Thread(new Runnable() {
+				final Thread worker = new Thread(new Runnable() {
 					public void run() {
 						for (int i = 0; i < 3; i++) {
-							TLCState state = queue.dequeue();
+							final TLCState state = queue.dequeue();
 							if (state == null) {
 								queue.finishAll();
 								return;
@@ -83,7 +83,7 @@ public class StateQueueJPFTest extends TestJPF {
 
 		private TLCState state;
 
-		void enqueueInner(TLCState state) {
+		void enqueueInner(final TLCState state) {
 			this.state = state;
 		}
 

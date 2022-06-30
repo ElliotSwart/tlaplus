@@ -21,7 +21,7 @@ public class AtNode extends ExprNode {
                                           //   ExceptComponent in which this occurrence of @ is used
 
   // Constructor
-  public AtNode(OpApplNode er, OpApplNode ecr) {
+  public AtNode(final OpApplNode er, final OpApplNode ecr) {
     super(AtNodeKind, ecr.stn);
     this.exceptRef          = er;
     this.exceptComponentRef = ecr;
@@ -76,11 +76,11 @@ public class AtNode extends ExprNode {
 //  private HashSet argLevelParams;
 
   @Override
-  public final boolean levelCheck(int iter) {
+  public final boolean levelCheck(final int iter) {
     if (this.levelChecked >= iter) return true;
     this.levelChecked = iter;
 
-    ExprOrOpArgNode[] args = this.exceptRef.getArgs();
+    final ExprOrOpArgNode[] args = this.exceptRef.getArgs();
     args[0].levelCheck(iter) ;
     this.level = args[0].getLevel();
     for (int i = 1; i < args.length; i++) {
@@ -152,7 +152,7 @@ public class AtNode extends ExprNode {
    * and inserts them in the Hashtable semNodesTable for use by the Explorer tool.
    */
   @Override
-  public final void walkGraph(Hashtable<Integer, ExploreNode> h, ExplorerVisitor visitor) {
+  public final void walkGraph(final Hashtable<Integer, ExploreNode> h, final ExplorerVisitor visitor) {
 	    visitor.preVisit(this);
   // Empty because there are no nodes reachable through an AtNode that are not
   // reachable by other paths through the semantic graph.
@@ -165,7 +165,7 @@ public class AtNode extends ExprNode {
    * parameter is a bound on the depth of the portion of the tree that is displayed.
    */
   @Override
-  public final String toString(int depth) {
+  public final String toString(final int depth) {
     if (depth <= 0) return "";
     return "\n*AtNode: " + super.toString(depth) +
            Strings.indent(2, "\nExceptRef: " + exceptRef.getUid() +
@@ -173,10 +173,10 @@ public class AtNode extends ExprNode {
   }
 
   @Override
-  protected Element getLevelElement(Document doc, SymbolContext context) {
-    Element e = doc.createElement("AtNode");
-    SemanticNode exceptObj = exceptRef.getArgs()[0];
-    SemanticNode exceptComponents = exceptComponentRef.getArgs()[0];
+  protected Element getLevelElement(final Document doc, final SymbolContext context) {
+    final Element e = doc.createElement("AtNode");
+    final SemanticNode exceptObj = exceptRef.getArgs()[0];
+    final SemanticNode exceptComponents = exceptComponentRef.getArgs()[0];
     e.appendChild(exceptObj.export(doc,context));
     e.appendChild(exceptComponents.export(doc,context));
     return e;

@@ -19,12 +19,12 @@ public class FiniteSets implements ValueConstants
 {
 	public static final long serialVersionUID = 20160822L;
 
-    public static IBoolValue IsFiniteSet(Value val)
+    public static IBoolValue IsFiniteSet(final Value val)
     {
         return val.isFinite() ? BoolValue.ValTrue : BoolValue.ValFalse;
     }
 
-    public static IntValue Cardinality(Value val)
+    public static IntValue Cardinality(final Value val)
     {
         if (val instanceof Enumerable)
         {

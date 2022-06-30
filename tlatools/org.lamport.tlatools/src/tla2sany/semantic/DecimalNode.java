@@ -36,14 +36,14 @@ public class DecimalNode extends ExprNode {
   private String     image;
 
   // Bug: should remove trailing 0's from b ?
-  public DecimalNode(String a, String b, TreeNode stn) {
+  public DecimalNode(final String a, final String b, final TreeNode stn) {
     super(DecimalKind, stn);
     image = a + "." + b;
     try {
       this.mantissa = Long.parseLong( a + b );
       this.exponent = - b.length();
      }
-     catch (NumberFormatException e) {
+     catch (final NumberFormatException e) {
       this.bigVal = new BigDecimal( image );
     }
    }
@@ -75,7 +75,7 @@ public class DecimalNode extends ExprNode {
 
   /* Level checking */
   @Override
-  public final boolean levelCheck(int iter) {
+  public final boolean levelCheck(final int iter) {
     levelChecked = iter;
       /*********************************************************************
       * Set it just to show that levelCHeck was called.                    *
@@ -115,8 +115,8 @@ public class DecimalNode extends ExprNode {
    * Explorer tool.
    */
   @Override
-  public final void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
 
     semNodesTable.put(uid, this);
@@ -130,7 +130,7 @@ public class DecimalNode extends ExprNode {
    * of the tree that is displayed.
    */
   @Override
-  public final String toString(int depth) {
+  public final String toString(final int depth) {
     if (depth <= 0) return "";
     return( "\n*DecimalNode" + super.toString(depth) + "Mantissa: "
             + mantissa + "; exponent: " + exponent
@@ -140,8 +140,8 @@ public class DecimalNode extends ExprNode {
   }
 
   @Override
-  protected Element getLevelElement(Document doc, SymbolContext context) {
-    Element e = doc.createElement("DecimalNode");
+  protected Element getLevelElement(final Document doc, final SymbolContext context) {
+    final Element e = doc.createElement("DecimalNode");
     if (bigVal != null) {
       e.appendChild(appendText(doc,"mantissa",bigVal.unscaledValue().toString()));
       e.appendChild(appendText(doc,"exponent",Integer.toString(bigVal.scale())));

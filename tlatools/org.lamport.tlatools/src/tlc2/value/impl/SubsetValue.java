@@ -37,12 +37,12 @@ public Value  set;           // SUBSET set
   protected SetEnumValue pset;
 
   /* Constructor */
-  public SubsetValue(Value  set) {
+  public SubsetValue(final Value  set) {
     this.set = set;
     this.pset = null;
   }
 
-  public SubsetValue(Value  set, CostModel cm) {
+  public SubsetValue(final Value  set, final CostModel cm) {
 	  this(set);
 	  this.cm = cm;
   }
@@ -51,7 +51,7 @@ public Value  set;           // SUBSET set
   public final byte getKind() { return SUBSETVALUE; }
 
   @Override
-  public int compareTo(Object obj) {
+  public int compareTo(final Object obj) {
     try {
       if (obj instanceof SubsetValue) {
         return this.set.compareTo(((SubsetValue)obj).set);
@@ -59,13 +59,13 @@ public Value  set;           // SUBSET set
       this.convertAndCache();
       return this.pset.compareTo(obj);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     try {
       if (obj instanceof SubsetValue) {
         return this.set.equals(((SubsetValue)obj).set);
@@ -73,17 +73,17 @@ public Value  set;           // SUBSET set
       this.convertAndCache();
       return this.pset.equals(obj);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public boolean member(Value val) {
+  public boolean member(final Value val) {
     try {
       if (val instanceof Enumerable) {
-        ValueEnumeration Enum = ((Enumerable)val).elements();
+        final ValueEnumeration Enum = ((Enumerable)val).elements();
         Value  elem;
         while ((elem = Enum.nextElement()) != null) {
           if (!this.set.member(elem)) {
@@ -97,14 +97,14 @@ public Value  set;           // SUBSET set
       }
       return true;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public Value isSubsetEq(Value other) {
+  public Value isSubsetEq(final Value other) {
     try {
       // Reduce (SUBSET A \subseteq SUBSET B) to (A \subseteq B) to avoid
       // exponential blowup inherent in generating the power set.
@@ -116,7 +116,7 @@ public Value  set;           // SUBSET set
       }
       return super.isSubsetEq(other);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -127,35 +127,35 @@ public Value  set;           // SUBSET set
     try {
       return this.set.isFinite();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
       if (ex.idx < ex.path.length) {
         Assert.fail("Attempted to apply EXCEPT to the set " + Values.ppr(this.toString()) + ".", getSource());
       }
       return ex.value;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       if (exs.length != 0) {
         Assert.fail("Attempted to apply EXCEPT to the set " + Values.ppr(this.toString()) + ".", getSource());
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -164,14 +164,14 @@ public Value  set;           // SUBSET set
   @Override
   public int size() {
     try {
-      int sz = this.set.size();
+      final int sz = this.set.size();
       if (sz >= 31) {
         Assert.fail(EC.TLC_MODULE_OVERFLOW, "the number of elements in:\n" +
         Values.ppr(this.toString()));
       }
       return (1 << sz);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -184,7 +184,7 @@ public Value  set;           // SUBSET set
         this.pset != SetEnumValue.DummyEnum &&
         this.pset.isNormalized());
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -201,7 +201,7 @@ public Value  set;           // SUBSET set
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -218,7 +218,7 @@ public Value  set;           // SUBSET set
         pset.deepNormalize();
       }
 	    }
-	    catch (RuntimeException | OutOfMemoryError e) {
+	    catch (final RuntimeException | OutOfMemoryError e) {
 	      if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
 	      else { throw e; }
 	    }
@@ -229,7 +229,7 @@ public Value  set;           // SUBSET set
     try {
       return this.set.isDefined();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -239,11 +239,11 @@ public Value  set;           // SUBSET set
   public final IValue deepCopy() { return this; }
 
   @Override
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       return this.equals(val);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -256,24 +256,24 @@ public Value  set;           // SUBSET set
 
   /* The fingerprint  */
   @Override
-  public final long fingerPrint(long fp) {
+  public final long fingerPrint(final long fp) {
     try {
       this.convertAndCache();
       return this.pset.fingerPrint(fp);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final IValue permute(IMVPerm perm) {
+  public final IValue permute(final IMVPerm perm) {
     try {
       this.convertAndCache();
       return this.pset.permute(perm);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -284,7 +284,7 @@ public Value  set;           // SUBSET set
       this.pset = (SetEnumValue) this.toSetEnum();
     }
     else if (this.pset == SetEnumValue.DummyEnum) {
-      SetEnumValue val = (SetEnumValue) this.toSetEnum();
+      final SetEnumValue val = (SetEnumValue) this.toSetEnum();
       val.deepNormalize();
       this.pset = val;
     }
@@ -295,8 +295,8 @@ public Value  set;           // SUBSET set
       if (this.pset != null && this.pset != SetEnumValue.DummyEnum) {
         return this.pset;
       }
-      ValueVec vals = new ValueVec(this.size());
-      ValueEnumeration Enum = this.elements();
+      final ValueVec vals = new ValueVec(this.size());
+      final ValueEnumeration Enum = this.elements();
       Value  elem;
       while ((elem = Enum.nextElement()) != null) {
         vals.addElement(elem);
@@ -310,7 +310,7 @@ public Value  set;           // SUBSET set
 
   /* The string representation  */
   @Override
-  public final StringBuffer toString(StringBuffer sb, int offset, boolean swallow) {
+  public final StringBuffer toString(StringBuffer sb, final int offset, final boolean swallow) {
     try {
       boolean unlazy = TLCGlobals.expand;
       try {
@@ -318,10 +318,10 @@ public Value  set;           // SUBSET set
           unlazy = this.set.size() < 7;
         }
       }
-      catch (Throwable e) { if (swallow) unlazy = false; else throw e; }
+      catch (final Throwable e) { if (swallow) unlazy = false; else throw e; }
 
       if (unlazy) {
-        Value  val = this.toSetEnum();
+        final Value  val = this.toSetEnum();
         return val.toString(sb, offset, swallow);
       }
       else {
@@ -346,7 +346,7 @@ public Value  set;           // SUBSET set
         return sb;
       }
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -720,7 +720,7 @@ public Value  set;           // SUBSET set
 		}
 	}
 
-	public final Value kSubset(int k) {
+	public final Value kSubset(final int k) {
 		return kElements(k).asSet();
 	}
 	
@@ -744,7 +744,7 @@ public Value  set;           // SUBSET set
       }
       return this.pset.elements();
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -775,8 +775,8 @@ public Value  set;           // SUBSET set
     public final Value nextElement() {
 			if (this.descriptor == null)
 				return null;
-			ValueVec vals;
-			int sz = this.elems.size();
+			final ValueVec vals;
+			final int sz = this.elems.size();
 			if (sz == 0) {
 				vals = new ValueVec(0);
 				this.descriptor = null;

@@ -20,7 +20,7 @@ package pcal;
 public class IntPair
   { public int one = 0 ;
     public int two = 0 ;
-    public IntPair(int a, int b)
+    public IntPair(final int a, final int b)
      { one = a ; 
        two = b ;
      }

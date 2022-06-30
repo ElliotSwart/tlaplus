@@ -40,7 +40,7 @@ import util.ToolIO;
 
 public class Liveness implements ToolGlobals, ASTConstants {
 
-	private static LiveExprNode astToLive(ITool tool, ExprNode expr, Context con, int level) {
+	private static LiveExprNode astToLive(final ITool tool, final ExprNode expr, final Context con, int level) {
 		/*
 		 * MAK 04/16/2021: Arguments of a non-zero arity operator that do not appear on
 		 * the operator's right-hand side (commonly called ignored arguments), are
@@ -110,7 +110,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			if (realDef instanceof MethodValue || realDef instanceof EvaluatingValue) {
 				// The current level is determined by the maximum level of the arguments in the
 				// operator's application.
-				for (SymbolNode p : expr.getAllParams()) {
+				for (final SymbolNode p : expr.getAllParams()) {
 					level = Math.max(level, p.getLevel());
 				}
 			}
@@ -138,23 +138,23 @@ public class Liveness implements ToolGlobals, ASTConstants {
 	 * the predicate body with []p. For the moment, we require that arguments to
 	 * predicates be computable from its context.
 	 */
-	private static LiveExprNode astToLive(ITool tool, ExprNode expr, Context con) {
+	private static LiveExprNode astToLive(final ITool tool, final ExprNode expr, final Context con) {
 		switch (expr.getKind()) {
 		case OpApplKind: {
-			OpApplNode expr1 = (OpApplNode) expr;
+			final OpApplNode expr1 = (OpApplNode) expr;
 			return astToLiveAppl(tool, expr1, con);
 		}
 		case LetInKind: {
-			LetInNode expr1 = (LetInNode) expr;
+			final LetInNode expr1 = (LetInNode) expr;
 			return astToLive(tool, expr1.getBody(), con);
 		}
 		case SubstInKind: {
-			SubstInNode expr1 = (SubstInNode) expr;
-			Subst[] subs = expr1.getSubsts();
-			int slen = subs.length;
+			final SubstInNode expr1 = (SubstInNode) expr;
+			final Subst[] subs = expr1.getSubsts();
+			final int slen = subs.length;
 			Context con1 = con;
 			for (int i = 0; i < slen; i++) {
-				Subst sub = subs[i];
+				final Subst sub = subs[i];
 				con1 = con1.cons(sub.getOp(), tool.getVal(sub.getExpr(), con, false));
 			}
 			return astToLive(tool, expr1.getBody(), con1);
@@ -169,7 +169,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			return astToLive(tool, (ExprNode) lbl.getBody(), con);
 		}
 		default: {
-			int level = Specs.getLevel(expr, con);
+			final int level = Specs.getLevel(expr, con);
 			if (level > LevelConstants.ActionLevel) {
 				Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA, expr.toString());
 			}
@@ -178,36 +178,36 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		}
 	}
 
-	private static LiveExprNode astToLiveAppl(ITool tool, OpApplNode expr, Context con) {
-		ExprOrOpArgNode[] args = expr.getArgs();
-		int alen = args.length;
-		SymbolNode opNode = expr.getOperator();
+	private static LiveExprNode astToLiveAppl(final ITool tool, final OpApplNode expr, final Context con) {
+		final ExprOrOpArgNode[] args = expr.getArgs();
+		final int alen = args.length;
+		final SymbolNode opNode = expr.getOperator();
 		int opcode = BuiltInOPs.getOpCode(opNode.getName());
 
 		if (opcode == 0) {
 			// This is a user-defined operator with one exception: it may
 			// be substed by a builtin operator. This special case is handled
 			// by checking if the lookup returns a OpDef with opcode = 0.
-			Object val = tool.lookup(opNode, con, false);
+			final Object val = tool.lookup(opNode, con, false);
 
 			if (val instanceof OpDefNode) {
-				OpDefNode opDef = (OpDefNode) val;
+				final OpDefNode opDef = (OpDefNode) val;
 				opcode = BuiltInOPs.getOpCode(opDef.getName());
 				if (opcode == 0) {
 					try {
-						FormalParamNode[] formals = opDef.getParams();
+						final FormalParamNode[] formals = opDef.getParams();
 						Context con1 = con;
 						for (int i = 0; i < alen; i++) {
-							IValue argVal = tool.eval(args[i], con, TLCState.Empty);
+							final IValue argVal = tool.eval(args[i], con, TLCState.Empty);
 							con1 = con1.cons(formals[i], argVal);
 						}
-						LiveExprNode res = astToLive(tool, opDef.getBody(), con1);
-						int level = res.getLevel();
+						final LiveExprNode res = astToLive(tool, opDef.getBody(), con1);
+						final int level = res.getLevel();
 						if (level > LevelConstants.ActionLevel) {
 							return res;
 						}
 						return astToLive(tool, expr, con, level);
-					} catch (Exception e) { /* SKIP */
+					} catch (final Exception e) { /* SKIP */
 					}
 				}
 			} else if (val instanceof IBoolValue) {
@@ -215,7 +215,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			}
 
 			if (opcode == 0) {
-				int level = Specs.getLevel(expr, con);
+				final int level = Specs.getLevel(expr, con);
 				if (level > LevelConstants.ActionLevel) {
 					Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA, expr.toString());
 				}
@@ -226,24 +226,24 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		switch (opcode) {
 		case OPCODE_be: // BoundedExists
 		{
-			ExprNode body = (ExprNode) args[0];
+			final ExprNode body = (ExprNode) args[0];
 			try {
-				IContextEnumerator Enum = tool.contexts(expr, con, TLCState.Empty, TLCState.Empty, EvalControl.Clear);
+				final IContextEnumerator Enum = tool.contexts(expr, con, TLCState.Empty, TLCState.Empty, EvalControl.Clear);
 				Context con1;
-				LNDisj res = new LNDisj(0);
+				final LNDisj res = new LNDisj(0);
 				while ((con1 = Enum.nextElement()) != null) {
-					LiveExprNode kid = astToLive(tool, body, con1);
+					final LiveExprNode kid = astToLive(tool, body, con1);
 					res.addDisj(kid);
 				}
-				int level = res.getLevel();
+				final int level = res.getLevel();
 				if (level > LevelConstants.ActionLevel) {
 					return res;
 				}
 				return astToLive(tool, expr, con, level);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				// Catching Exception here seem dangerous
 				// Assert.printStack(e);
-				int level = Specs.getLevel(expr, con);
+				final int level = Specs.getLevel(expr, con);
 				if (level > LevelConstants.ActionLevel) {
 					Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA, expr.toString());
 					;
@@ -253,24 +253,24 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		}
 		case OPCODE_bf: // BoundedForall
 		{
-			ExprNode body = (ExprNode) args[0];
+			final ExprNode body = (ExprNode) args[0];
 			try {
-				IContextEnumerator Enum = tool.contexts(expr, con, TLCState.Empty, TLCState.Empty, EvalControl.Clear);
+				final IContextEnumerator Enum = tool.contexts(expr, con, TLCState.Empty, TLCState.Empty, EvalControl.Clear);
 				Context con1;
-				LNConj res = new LNConj(0);
+				final LNConj res = new LNConj(0);
 				while ((con1 = Enum.nextElement()) != null) {
-					LiveExprNode kid = astToLive(tool, body, con1);
+					final LiveExprNode kid = astToLive(tool, body, con1);
 					res.addConj(kid);
 				}
-				int level = res.getLevel();
+				final int level = res.getLevel();
 				if (level > LevelConstants.ActionLevel) {
 					return res;
 				}
 				return astToLive(tool, expr, con, level);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				// Catching Exception here seem dangerous
 				// Assert.printStack(e);
-				int level = Specs.getLevel(expr, con);
+				final int level = Specs.getLevel(expr, con);
 				if (level > LevelConstants.ActionLevel) {
 					if (e instanceof Assert.TLCRuntimeException) {
 						Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA, new String[] {expr.toString(), e.getMessage()});
@@ -283,12 +283,12 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		}
 		case OPCODE_cl: // ConjList
 		case OPCODE_land: {
-			LNConj lnConj = new LNConj(alen);
+			final LNConj lnConj = new LNConj(alen);
 			for (int i = 0; i < alen; i++) {
-				LiveExprNode kid = astToLive(tool, (ExprNode) args[i], con);
+				final LiveExprNode kid = astToLive(tool, (ExprNode) args[i], con);
 				lnConj.addConj(kid);
 			}
-			int level = lnConj.getLevel();
+			final int level = lnConj.getLevel();
 			if (level > LevelConstants.ActionLevel) {
 				return lnConj;
 			}
@@ -296,12 +296,12 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		}
 		case OPCODE_dl: // DisjList
 		case OPCODE_lor: {
-			LNDisj lnDisj = new LNDisj(alen);
+			final LNDisj lnDisj = new LNDisj(alen);
 			for (int i = 0; i < alen; i++) {
-				LiveExprNode kid = astToLive(tool, (ExprNode) args[i], con);
+				final LiveExprNode kid = astToLive(tool, (ExprNode) args[i], con);
 				lnDisj.addDisj(kid);
 			}
-			int level = lnDisj.getLevel();
+			final int level = lnDisj.getLevel();
 			if (level > LevelConstants.ActionLevel) {
 				return lnDisj;
 			}
@@ -310,9 +310,9 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		case OPCODE_fa: // FcnApply
 		{
 			try {
-				IValue fval = tool.eval(args[0], con, TLCState.Empty);
+				final IValue fval = tool.eval(args[0], con, TLCState.Empty);
 				if (fval instanceof IFcnLambdaValue) {
-					IFcnLambdaValue fcn = (IFcnLambdaValue) fval;
+					final IFcnLambdaValue fcn = (IFcnLambdaValue) fval;
 					if (!fcn.hasRcd()) {
 						// this could be a bug, since con1 is created but not
 						// used
@@ -323,10 +323,10 @@ public class Liveness implements ToolGlobals, ASTConstants {
 						return astToLive(tool, (ExprNode) fcn.getBody(), con);
 					}
 				}
-			} catch (Exception e) { /* SKIP */
+			} catch (final Exception e) { /* SKIP */
 				// Swallowing Exception here seem dangerous
 			}
-			int level = expr.getLevel();
+			final int level = expr.getLevel();
 			if (level > LevelConstants.ActionLevel) {
 				Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA, expr.toString());
 			}
@@ -334,30 +334,30 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		}
 		case OPCODE_ite: // IfThenElse
 		{
-			LiveExprNode guard = astToLive(tool, (ExprNode) args[0], con);
-			LiveExprNode e1 = astToLive(tool, (ExprNode) args[1], con);
-			LiveExprNode e2 = astToLive(tool, (ExprNode) args[2], con);
-			LiveExprNode conj1 = new LNConj(guard, e1);
-			LiveExprNode conj2 = new LNConj(new LNNeg(guard), e2);
-			LiveExprNode res = new LNDisj(conj1, conj2);
-			int level = res.getLevel();
+			final LiveExprNode guard = astToLive(tool, (ExprNode) args[0], con);
+			final LiveExprNode e1 = astToLive(tool, (ExprNode) args[1], con);
+			final LiveExprNode e2 = astToLive(tool, (ExprNode) args[2], con);
+			final LiveExprNode conj1 = new LNConj(guard, e1);
+			final LiveExprNode conj2 = new LNConj(new LNNeg(guard), e2);
+			final LiveExprNode res = new LNDisj(conj1, conj2);
+			final int level = res.getLevel();
 			if (level > LevelConstants.ActionLevel) {
 				return res;
 			}
 			return astToLive(tool, expr, con, level);
 		}
 		case OPCODE_lnot: {
-			LiveExprNode lnArg = astToLive(tool, (ExprNode) args[0], con);
-			int level = lnArg.getLevel();
+			final LiveExprNode lnArg = astToLive(tool, (ExprNode) args[0], con);
+			final int level = lnArg.getLevel();
 			if (level > LevelConstants.ActionLevel) {
 				return new LNNeg(lnArg);
 			}
 			return astToLive(tool, expr, con, level);
 		}
 		case OPCODE_implies: {
-			LiveExprNode lnLeft = astToLive(tool, (ExprNode) args[0], con);
-			LiveExprNode lnRight = astToLive(tool, (ExprNode) args[1], con);
-			int level = Math.max(lnLeft.getLevel(), lnRight.getLevel());
+			final LiveExprNode lnLeft = astToLive(tool, (ExprNode) args[0], con);
+			final LiveExprNode lnRight = astToLive(tool, (ExprNode) args[1], con);
+			final int level = Math.max(lnLeft.getLevel(), lnRight.getLevel());
 			if (level > LevelConstants.ActionLevel) {
 				return new LNDisj(new LNNeg(lnLeft), lnRight);
 			}
@@ -369,20 +369,20 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		case OPCODE_sf: // SF
 		{
 			// expand SF_e(A) into <>[]-EN<A>_e \/ []<><A>_e
-			ExprNode subs = (ExprNode) args[0]; // the e in SF_e(A)
-			ExprNode body = (ExprNode) args[1]; // the A in SF_e(A)
-			LiveExprNode en = new LNNeg(new LNStateEnabled(body, con, subs, false));
-			LiveExprNode act = new LNAction(body, con, subs, false);
+			final ExprNode subs = (ExprNode) args[0]; // the e in SF_e(A)
+			final ExprNode body = (ExprNode) args[1]; // the A in SF_e(A)
+			final LiveExprNode en = new LNNeg(new LNStateEnabled(body, con, subs, false));
+			final LiveExprNode act = new LNAction(body, con, subs, false);
 			return new LNDisj(new LNEven(new LNAll(en)), new LNAll(new LNEven(act)));
 		}
 		case OPCODE_wf: // WF
 		{
 			// expand WF_e(A) into []<>(-EN<A>_e \/ <A>_e)
-			ExprNode subs = (ExprNode) args[0]; // the e in WF_e(A)
-			ExprNode body = (ExprNode) args[1]; // the A in WF_e(A)
-			LiveExprNode ln1 = new LNNeg(new LNStateEnabled(body, con, subs, false));
-			LiveExprNode ln2 = new LNAction(body, con, subs, false);
-			LiveExprNode disj = new LNDisj(ln1, ln2);
+			final ExprNode subs = (ExprNode) args[0]; // the e in WF_e(A)
+			final ExprNode body = (ExprNode) args[1]; // the A in WF_e(A)
+			final LiveExprNode ln1 = new LNNeg(new LNStateEnabled(body, con, subs, false));
+			final LiveExprNode ln2 = new LNAction(body, con, subs, false);
+			final LiveExprNode disj = new LNDisj(ln1, ln2);
 			return new LNAll(new LNEven(disj));
 		}
 		case OPCODE_leadto: {
@@ -390,18 +390,18 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			// implementation for logical implication. Thus, the rule of
 			// material implication ("->") is used to transform it into a
 			// disjunct.
-			LiveExprNode lnLeft = astToLive(tool, (ExprNode) args[0], con);
-			LiveExprNode lnRight = astToLive(tool, (ExprNode) args[1], con);
+			final LiveExprNode lnLeft = astToLive(tool, (ExprNode) args[0], con);
+			final LiveExprNode lnRight = astToLive(tool, (ExprNode) args[1], con);
 			// expand a ~> b into [](-a \/ <>b) 
-			LNDisj lnd = new LNDisj(new LNNeg(lnLeft), new LNEven(lnRight));
+			final LNDisj lnd = new LNDisj(new LNNeg(lnLeft), new LNEven(lnRight));
 			return new LNAll(lnd);
 		}
 		case OPCODE_box: {
-			LiveExprNode lnArg = astToLive(tool, (ExprNode) args[0], con);
+			final LiveExprNode lnArg = astToLive(tool, (ExprNode) args[0], con);
 			return new LNAll(lnArg);
 		}
 		case OPCODE_diamond: {
-			LiveExprNode lnArg = astToLive(tool, (ExprNode) args[0], con);
+			final LiveExprNode lnArg = astToLive(tool, (ExprNode) args[0], con);
 			return new LNEven(lnArg);
 		}
 		case OPCODE_aa: { // AngleAct <A>_e
@@ -431,7 +431,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			// The default handling here results in LNAction#subscript to be null skipping
 			// the subscript related branch in LNAction#eval(Tool, TLCState, TLCState). This
 			// poses no problem though because Tool#evalAppl eventually checks if e' = e.
-			int level = Specs.getLevel(expr, con);
+			final int level = Specs.getLevel(expr, con);
 			if (level > LevelConstants.ActionLevel) {
 				Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA, expr.toString());
 			}
@@ -444,19 +444,19 @@ public class Liveness implements ToolGlobals, ASTConstants {
 	 * Parse the temporals and impliedTemporals given in the config file. It
 	 * returns null if there is nothing to check.
 	 */
-	private static LiveExprNode parseLiveness(ITool tool) {
+	private static LiveExprNode parseLiveness(final ITool tool) {
 		// livespec (fairness)
 		// For example, a conjunct with context for each WF in `\A self \in ProcSet :
 		// WF_vars(Next(self))`.
-		Action[] fairs = tool.getTemporals();
-		LNConj lnc = new LNConj(fairs.length);
+		final Action[] fairs = tool.getTemporals();
+		final LNConj lnc = new LNConj(fairs.length);
 		for (int i = 0; i < fairs.length; i++) {
-			LiveExprNode ln = astToLive(tool, (ExprNode) fairs[i].pred, fairs[i].con);
+			final LiveExprNode ln = astToLive(tool, (ExprNode) fairs[i].pred, fairs[i].con);
 			lnc.addConj(ln);
 		}
 		
 		// livecheck
-		Action[] checks = tool.getImpliedTemporals();
+		final Action[] checks = tool.getImpliedTemporals();
 		if (checks.length == 0) {
 			if (fairs.length == 0) {
 				// No PROPERTIES and no fairness.
@@ -464,7 +464,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			}
 		} else if (checks.length == 1) {
 			// Avoid outer disjunct if just one branch (singleton junctions).
-			LiveExprNode ln = astToLive(tool, (ExprNode) checks[0].pred, checks[0].con);
+			final LiveExprNode ln = astToLive(tool, (ExprNode) checks[0].pred, checks[0].con);
 			if (lnc.getCount() == 0) {
 				// We are looking for ~livecheck. Thus, nest ln in LNNeg (same below).
 				return new LNNeg(ln);
@@ -473,9 +473,9 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			// /\ ~livecheck
 			lnc.addConj(new LNNeg(ln));
 		} else {
-			LNDisj lnd = new LNDisj(checks.length);
+			final LNDisj lnd = new LNDisj(checks.length);
 			for (int i = 0; i < checks.length; i++) {
-				LiveExprNode ln = astToLive(tool, (ExprNode) checks[i].pred, checks[i].con);
+				final LiveExprNode ln = astToLive(tool, (ExprNode) checks[i].pred, checks[i].con);
 				lnd.addDisj(new LNNeg(ln));
 			}
 			if (lnc.getCount() == 0) {
@@ -729,7 +729,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 				
 				// LEN#extractPromises returns all <>(someStateOrConstantLevelFormula), which
 				// are added as promises to the OOS.
-				TBGraph tbg = new TBGraph(tf1);
+				final TBGraph tbg = new TBGraph(tf1);
 				
 // Uncomment to write the tableau in dot format to disk.				
 //				try {
@@ -785,14 +785,14 @@ public class Liveness implements ToolGlobals, ASTConstants {
 	 * Given a list of checks, ensures that the checks are in the bin. It
 	 * returns an array of index of the checks in the bin.
 	 */
-	private static int addToBin(LiveExprNode check, Vect<LiveExprNode> bin) {
+	private static int addToBin(final LiveExprNode check, final Vect<LiveExprNode> bin) {
 		if (check == null) {
 			return -1;
 		}
-		int len = bin.size();
+		final int len = bin.size();
 		int idx;
 		for (idx = 0; idx < len; idx++) {
-			LiveExprNode ln = bin.elementAt(idx);
+			final LiveExprNode ln = bin.elementAt(idx);
 			if (check.equals(ln)) {
 				break;
 			}
@@ -803,10 +803,10 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		return idx;
 	}
 
-	private static int[] addToBin(Vect<LiveExprNode> checks, Vect<LiveExprNode> bin) {
-		int[] index = new int[checks.size()];
+	private static int[] addToBin(final Vect<LiveExprNode> checks, final Vect<LiveExprNode> bin) {
+		final int[] index = new int[checks.size()];
 		for (int i = 0; i < checks.size(); i++) {
-			LiveExprNode check = checks.elementAt(i);
+			final LiveExprNode check = checks.elementAt(i);
 			index[i] = addToBin(check, bin);
 		}
 		return index;
@@ -820,26 +820,26 @@ public class Liveness implements ToolGlobals, ASTConstants {
 	 */
 	// TODO Explore the idea to syntactically rewrite an LNActions A into a
 	// ordinary predicate and the next state operator ()A in the tableau.
-	private static void classifyExpr(LiveExprNode ln, OSExprPem pem) {
+	private static void classifyExpr(final LiveExprNode ln, final OSExprPem pem) {
 		// TLC is clever enough to optimize the case where some temporal formula
 		// can be handled WITHOUT a tableau. In this case, the state graph IS
 		// the behavior graph and thus the overall verification time is reduced.
 		// Additionally, the tableau generation does not support formulas 
 		// containing (nested) LNActions.
 		if (ln instanceof LNEven) {
-			LiveExprNode ln1 = ((LNEven) ln).getBody();
+			final LiveExprNode ln1 = ((LNEven) ln).getBody();
 			if (ln1 instanceof LNAll) {
-				LiveExprNode ln2 = ((LNAll) ln1).getBody();
+				final LiveExprNode ln2 = ((LNAll) ln1).getBody();
 				if (ln2.getLevel() < LevelConstants.TemporalLevel) {
 					pem.EAAction.addElement(ln2);
 					return;
 				}
 			}
 		} else if (ln instanceof LNAll) {
-			LiveExprNode ln1 = ((LNAll) ln).getBody();
+			final LiveExprNode ln1 = ((LNAll) ln).getBody();
 			if (ln1 instanceof LNEven) {
-				LiveExprNode ln2 = ((LNEven) ln1).getBody();
-				int level = ln2.getLevel();
+				final LiveExprNode ln2 = ((LNEven) ln1).getBody();
+				final int level = ln2.getLevel();
 				if (level <= LevelConstants.VariableLevel) {
 					pem.AEState.addElement(ln2);
 					return;
@@ -859,7 +859,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		pem.tfs.addElement(ln);
 	}
 
-	public static void printTBGraph(TBGraph tableau) {
+	public static void printTBGraph(final TBGraph tableau) {
 		if (tableau == null) {
 			ToolIO.out.println("No tableau.");
 		} else {

@@ -63,11 +63,11 @@ public class MappingObject implements Serializable {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(final int type) {
         this.type = type;
     }
     
-    public MappingObject(int type) {
+    public MappingObject(final int type) {
         this.type = type ;
     }
     
@@ -78,7 +78,7 @@ public class MappingObject implements Serializable {
 		private static final long serialVersionUID = 5476753619018204229L;
 		//        private int column ;
         private PCalLocation location ;
-        public LeftParen(PCalLocation location) {
+        public LeftParen(final PCalLocation location) {
            super(LEFT_PAREN) ;
 //           this.column = column;
            this.location = location;
@@ -112,14 +112,14 @@ public class MappingObject implements Serializable {
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
 		@Override
-		public boolean equals(Object obj) {
+		public boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (!super.equals(obj))
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			LeftParen other = (LeftParen) obj;
+			final LeftParen other = (LeftParen) obj;
 			if (location == null) {
 				if (other.location != null)
 					return false;
@@ -136,7 +136,7 @@ public class MappingObject implements Serializable {
 		private static final long serialVersionUID = 1313886393528667584L;
 		//        private int column ;
         private PCalLocation location ;
-        public RightParen(PCalLocation location) {
+        public RightParen(final PCalLocation location) {
            super(RIGHT_PAREN) ;
 //           this.column = column;
            this.location = location;
@@ -170,14 +170,14 @@ public class MappingObject implements Serializable {
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
 		@Override
-		public boolean equals(Object obj) {
+		public boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (!super.equals(obj))
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			RightParen other = (RightParen) obj;
+			final RightParen other = (RightParen) obj;
 			if (location == null) {
 				if (other.location != null)
 					return false;
@@ -197,11 +197,11 @@ public class MappingObject implements Serializable {
         public int getColumn() {
             return column;
         }
-        public void setColumn(int column) {
+        public void setColumn(final int column) {
             this.column = column ;
         }
         
-        public BeginTLAToken(int column) {
+        public BeginTLAToken(final int column) {
             super(BEGIN_TLATOKEN) ;
             this.column = column ;
         }
@@ -223,14 +223,14 @@ public class MappingObject implements Serializable {
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
 		@Override
-		public boolean equals(Object obj) {
+		public boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (!super.equals(obj))
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			BeginTLAToken other = (BeginTLAToken) obj;
+			final BeginTLAToken other = (BeginTLAToken) obj;
 			if (column != other.column)
 				return false;
 			return true;
@@ -247,11 +247,11 @@ public class MappingObject implements Serializable {
         public int getColumn() {
             return column;
         }
-        public void setColumn(int column) {
+        public void setColumn(final int column) {
             this.column = column ;
         }
         
-        public EndTLAToken(int column) {
+        public EndTLAToken(final int column) {
             super(END_TLATOKEN) ;
             this.column = column ;
         }
@@ -273,14 +273,14 @@ public class MappingObject implements Serializable {
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
 		@Override
-		public boolean equals(Object obj) {
+		public boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (!super.equals(obj))
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			EndTLAToken other = (EndTLAToken) obj;
+			final EndTLAToken other = (EndTLAToken) obj;
 			if (column != other.column)
 				return false;
 			return true;
@@ -300,7 +300,7 @@ public class MappingObject implements Serializable {
             return beginColumn;
         }
 
-        public void setBeginColumn(int beginColumn) {
+        public void setBeginColumn(final int beginColumn) {
             this.beginColumn = beginColumn;
         }
 
@@ -308,7 +308,7 @@ public class MappingObject implements Serializable {
             return endColumn;
         }
 
-        public void setEndColumn(int endColumn) {
+        public void setEndColumn(final int endColumn) {
             this.endColumn = endColumn;
         }
 
@@ -320,7 +320,7 @@ public class MappingObject implements Serializable {
 //            this.origin = origin;
 //        }
 
-        public SourceToken(int beginCol, int endCol, Region origin) {
+        public SourceToken(final int beginCol, final int endCol, final Region origin) {
             super(SOURCE_TOKEN) ;
             this.setBeginColumn(beginCol) ;
             this.setEndColumn(endCol) ;
@@ -351,14 +351,14 @@ public class MappingObject implements Serializable {
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
 		@Override
-		public boolean equals(Object obj) {
+		public boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (!super.equals(obj))
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			SourceToken other = (SourceToken) obj;
+			final SourceToken other = (SourceToken) obj;
 			if (beginColumn != other.beginColumn)
 				return false;
 			if (endColumn != other.endColumn)
@@ -383,7 +383,7 @@ public class MappingObject implements Serializable {
             return depth;
         }
         
-        public Break(int depth) {
+        public Break(final int depth) {
             super(BREAK) ;
             this.depth = depth;
         }
@@ -403,14 +403,14 @@ public class MappingObject implements Serializable {
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
 		@Override
-		public boolean equals(Object obj) {
+		public boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (!super.equals(obj))
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			Break other = (Break) obj;
+			final Break other = (Break) obj;
 			if (depth != other.depth)
 				return false;
 			return true;
@@ -429,19 +429,19 @@ public class MappingObject implements Serializable {
      * @param mvec  A mapping vector.
      * @param shift The distance to shift to the right.
      */
-    public static void shiftMappingVector(Vector<Vector<MappingObject>> mvec, int shift) {
+    public static void shiftMappingVector(final Vector<Vector<MappingObject>> mvec, final int shift) {
         for (int i = 0; i < mvec.size(); i++) {
-            Vector<MappingObject> line = mvec.elementAt(i);
+            final Vector<MappingObject> line = mvec.elementAt(i);
             for (int j = 0; j < line.size(); j++) {
-                MappingObject mobj = line.elementAt(j);
+                final MappingObject mobj = line.elementAt(j);
                 if (mobj.type == BEGIN_TLATOKEN) {
-                    BeginTLAToken obj = (BeginTLAToken) mobj;
+                    final BeginTLAToken obj = (BeginTLAToken) mobj;
                     obj.setColumn(obj.getColumn()+shift) ;
                 } else if (mobj.type == END_TLATOKEN) {
-                    EndTLAToken obj = (EndTLAToken) mobj;
+                    final EndTLAToken obj = (EndTLAToken) mobj;
                     obj.setColumn(obj.getColumn()+shift) ;
                 } else if (mobj.type == SOURCE_TOKEN) {
-                    SourceToken obj = (SourceToken) mobj;
+                    final SourceToken obj = (SourceToken) mobj;
                     obj.setBeginColumn(obj.getBeginColumn()+shift) ;
                     obj.setEndColumn(obj.getEndColumn()+shift) ;
                 }
@@ -453,24 +453,24 @@ public class MappingObject implements Serializable {
      * For debugging.
      * @param mvec
      */
-    public static void printMappingVector(Vector<Vector<MappingObject>> mvec) {
+    public static void printMappingVector(final Vector<Vector<MappingObject>> mvec) {
         for (int i = 0; i < mvec.size(); i++) {
-            Vector<MappingObject> line = mvec.elementAt(i);
+            final Vector<MappingObject> line = mvec.elementAt(i);
             System.out.print("line " + i + ":");
             for (int j = 0; j < line.size(); j++) {
-                MappingObject mobj = line.elementAt(j) ;
+                final MappingObject mobj = line.elementAt(j) ;
                 System.out.print("  " + mobj.toString());
             }
             System.out.println("");
         }
     }
     
-    public static void printMapping(MappingObject[][] mapping) {
+    public static void printMapping(final MappingObject[][] mapping) {
         for (int i = 0; i < mapping.length; i++) {
-            MappingObject[] line = mapping[i];
+            final MappingObject[] line = mapping[i];
             System.out.print("line " + i + ":");
             for (int j = 0; j < line.length; j++) {
-                MappingObject mobj = line[j] ;
+                final MappingObject mobj = line[j] ;
                 System.out.print("  " + mobj.toString());
             }
             System.out.println("");
@@ -492,14 +492,14 @@ public class MappingObject implements Serializable {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MappingObject other = (MappingObject) obj;
+		final MappingObject other = (MappingObject) obj;
 		if (type != other.type)
 			return false;
 		return true;

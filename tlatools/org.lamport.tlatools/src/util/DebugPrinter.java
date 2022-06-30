@@ -13,7 +13,7 @@ public class DebugPrinter
      * Prints out a message if the program has been called with -debug option 
      * @param message
      */
-    public static void print(String message)
+    public static void print(final String message)
     {
         if (TLCGlobals.debug) 
         {
@@ -25,7 +25,7 @@ public class DebugPrinter
      * Exception stacktrace printer
      * @param e
      */
-    public static void print(Throwable e)
+    public static void print(final Throwable e)
     {
         if (TLCGlobals.debug) 
         {

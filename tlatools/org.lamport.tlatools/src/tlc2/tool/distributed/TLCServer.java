@@ -162,7 +162,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	 * @throws IOException
 	 * @throws NotBoundException
 	 */
-	public TLCServer(TLCApp work) throws IOException, NotBoundException {
+	public TLCServer(final TLCApp work) throws IOException, NotBoundException {
 	    // LL modified error message on 7 April 2012
 		Assert.check(work != null, "TLC server found null work.");
 
@@ -172,7 +172,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 		if (this.metadir.endsWith(FileUtil.separator)) {
 			end--;
 		}
-		int start = this.metadir.lastIndexOf(FileUtil.separator, end - 1);
+		final int start = this.metadir.lastIndexOf(FileUtil.separator, end - 1);
 		this.filename = this.metadir.substring(start + 1, end);
 		this.work = work;
 
@@ -236,7 +236,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.InternRMI#intern(java.lang.String)
 	 */
-	public final UniqueString intern(String str) {
+	public final UniqueString intern(final String str) {
 		// SZ 11.04.2009: changed access method
 		return UniqueString.uniqueStringOf(str);
 	}
@@ -244,7 +244,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCServerRMI#registerWorker(tlc2.tool.distributed.TLCWorkerRMI)
 	 */
-	public synchronized final void registerWorker(TLCWorkerRMI worker
+	public synchronized final void registerWorker(final TLCWorkerRMI worker
 			) throws IOException {
 		
 		// Wake up potentially stuck TLCServerThreads (in
@@ -264,7 +264,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCServerRMI#registerFPSet(tlc2.tool.distributed.fp.FPSetRMI, java.lang.String)
 	 */
-	public synchronized void registerFPSet(FPSetRMI fpSet, String hostname) throws RemoteException {
+	public synchronized void registerFPSet(final FPSetRMI fpSet, final String hostname) throws RemoteException {
 		throw new UnsupportedOperationException("Not applicable for non-distributed TLCServer");
 	}
 
@@ -306,7 +306,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	 *         calls by other workers will be ignored. This implies that other
 	 *         error states are ignored.
 	 */
-	public synchronized final boolean setErrState(TLCState s, boolean keep) {
+	public synchronized final boolean setErrState(final TLCState s, final boolean keep) {
 		if (this.done) {
 			return false;
 		}
@@ -333,7 +333,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	 * overall. {@link IFPSetManager#getStatesSeen()} will not count these
 	 * states.
 	 */
-	public void addStatesGeneratedDelta(long delta) {
+	public void addStatesGeneratedDelta(final long delta) {
 		workerStatesGenerated.addAndGet(delta);
 	}
 
@@ -392,7 +392,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	 * @param cleanup
 	 * @throws IOException
 	 */
-	public final void close(boolean cleanup) throws IOException {
+	public final void close(final boolean cleanup) throws IOException {
 		this.trace.close();
 		this.fpSetManager.close(cleanup);
 		if (cleanup && !VETO_CLEANUP) {
@@ -423,8 +423,8 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 		}
 
 		// Create the central naming authority that is used by _all_ nodes
-		String hostname = InetAddress.getLocalHost().getHostName();
-		Registry rg = LocateRegistry.createRegistry(Port);
+		final String hostname = InetAddress.getLocalHost().getHostName();
+		final Registry rg = LocateRegistry.createRegistry(Port);
 		rg.rebind(SERVER_NAME, this);
 		
 		// First register TLCSERVER with RMI and only then wait for all FPSets
@@ -444,7 +444,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
                 doInit();
 				MP.printMessage(EC.TLC_INIT_GENERATED1,
 						new String[] { String.valueOf(stateQueue.size()), "(s)" });
-			} catch (Throwable e) {
+			} catch (final Throwable e) {
 				// Assert.printStack(e);
 				done = true;
 				
@@ -473,7 +473,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 					work.setCallStack();
 					try {
 						doInit();
-					} catch (Throwable e1) {
+					} catch (final Throwable e1) {
 						// Assert.printStack(e);
 						MP.printError(EC.TLC_NESTED_EXPRESSION, work.printCallStack());
 					}
@@ -568,23 +568,23 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 			thread.join();
 			
 			// print worker stats
-			int sentStates = thread.getSentStates();
-			int receivedStates = thread.getReceivedStates();
-			double cacheHitRatio = thread.getCacheRateRatio();
-			URI name = thread.getUri();
+			final int sentStates = thread.getSentStates();
+			final int receivedStates = thread.getReceivedStates();
+			final double cacheHitRatio = thread.getCacheRateRatio();
+			final URI name = thread.getUri();
 			MP.printMessage(EC.TLC_DISTRIBUTED_WORKER_STATS,
 					new String[] { name.toString(), Integer.toString(sentStates), Integer.toString(receivedStates),
 					cacheHitRatio < 0 ? "n/a" : String.format("%1$,.2f", cacheHitRatio) });
 
 			try {
 				worker.exit();
-			} catch (NoSuchObjectException e) {
+			} catch (final NoSuchObjectException e) {
 				// worker might have been lost in the meantime
 				MP.printWarning(EC.GENERAL, "Ignoring attempt to exit dead worker");
-			} catch (ConnectException e) {
+			} catch (final ConnectException e) {
 				// worker might have been lost in the meantime
 				MP.printWarning(EC.GENERAL, "Ignoring attempt to exit dead worker");
-			} catch (ServerException e) {
+			} catch (final ServerException e) {
 				// worker might have been lost in the meantime
 				MP.printWarning(EC.GENERAL, "Ignoring attempt to exit dead worker");
 			} finally {
@@ -664,7 +664,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	 */
 	public synchronized long getNewStates() {
 		long res = stateQueue.size();
-		for (TLCServerThread thread : threadsToWorkers.keySet()) {
+		for (final TLCServerThread thread : threadsToWorkers.keySet()) {
 			res += thread.getCurrentSize();
 		}
 		return res;
@@ -680,7 +680,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
      * form as all other progress statistics.
      * @param workerOverallCacheRate 
      */
-    public static final void printSummary(int level, long statesGenerated, long statesLeftInQueue, long distinctStates, boolean success) throws IOException
+    public static final void printSummary(final int level, final long statesGenerated, final long statesLeftInQueue, final long distinctStates, final boolean success) throws IOException
     {
 		if (TLCGlobals.tool) {
             MP.printMessage(EC.TLC_PROGRESS_STATS, new String[] {
@@ -698,7 +698,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
         }
     }
 
-	public static void main(String[] argv) {
+	public static void main(final String[] argv) {
 		// Print version before MailSender has been created. Oh well, it misses
 		// the version output.
 		MP.printMessage(EC.TLC_VERSION, "TLC Server " + TLCGlobals.versionOfTLC);
@@ -725,7 +725,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 				Runtime.getRuntime().addShutdownHook(new Thread(new WorkerShutdownHook(server)));
 				server.modelCheck();
 			}
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			System.gc();
 			// Assert.printStack(e);
 			if (e instanceof StackOverflowError) {
@@ -738,7 +738,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 			if (server != null) {
 				try {
 					server.close(false);
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					MP.printError(EC.GENERAL, e1);
 				}
 			}
@@ -753,7 +753,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 				if (app != null) {
 					files = app.getModuleFiles();
 				}
-				boolean send = mail.send(files);
+				final boolean send = mail.send(files);
 				// In case sending the mail has failed we treat this as an error.
 				// This is needed when TLC runs on another host and email is
 				// the only means for the user to get access to the model checking
@@ -815,10 +815,10 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	public byte[] getFile(final String file) throws RemoteException {
 		// sanitize file to only last part of the path
 		// to make sure to not load files outside of spec dir
-		String name = new File(file).getName();
+		final String name = new File(file).getName();
 		
 		// Resolve all 
-		File f = new InJarFilenameToStream(ModelInJar.PATH).resolve(name);
+		final File f = new InJarFilenameToStream(ModelInJar.PATH).resolve(name);
 		return read(f);
 	}
 	
@@ -836,14 +836,14 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 		try {
 			in = new FileInputStream(file);
 			in.read(buffer);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			pending = new RuntimeException("Exception occured on reading file "
 					+ file.getAbsolutePath(), e);
 		} finally {
 			if (in != null) {
 				try {
 					in.close();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					if (pending == null) {
 						pending = new RuntimeException(
 								"Exception occured on closing file"
@@ -874,7 +874,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 				final boolean inConstraints = work.isInModel(curState);
 				boolean seen = false;
 				if (inConstraints) {
-					long fp = curState.fingerPrint();
+					final long fp = curState.fingerPrint();
 					seen = fpSetManager.put(fp);
 					if (!seen) {
 						curState.uid = trace.writeState(fp);
@@ -884,7 +884,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 				if (!inConstraints || !seen) {
 					work.checkState(null, curState);
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				if (setErrState(curState, true)) {
 					this.e = e;
 				}
@@ -919,22 +919,22 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 				// isn't registered any longer. It won't be able to connect to
 				// workers anyway.
 				LocateRegistry.getRegistry(Port).lookup(SERVER_NAME);
-			} catch (AccessException e1) {
+			} catch (final AccessException e1) {
 				return;
-			} catch (RemoteException e1) {
+			} catch (final RemoteException e1) {
 				return;
-			} catch (NotBoundException e1) {
+			} catch (final NotBoundException e1) {
 				return;
 			}
 
-			for (TLCWorkerRMI worker : server.threadsToWorkers.values()) {
+			for (final TLCWorkerRMI worker : server.threadsToWorkers.values()) {
 				try {
 					worker.exit();
-				} catch (java.rmi.ConnectException e)  {
+				} catch (final java.rmi.ConnectException e)  {
 					// happens if worker has exited already
-				} catch (java.rmi.NoSuchObjectException e) {
+				} catch (final java.rmi.NoSuchObjectException e) {
 					// happens if worker has exited already
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					//TODO handle more gracefully
 					MP.printError(EC.GENERAL, e);
 				}

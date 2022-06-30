@@ -48,7 +48,7 @@ public class TLAPlusExecutor {
 			this.action = a;
 			this.params = new HashMap<>();
 			this.symbol2node = new HashMap<>();
-			for (String param : params) {
+			for (final String param : params) {
 				final SymbolNode node = action.con.lookupName(s -> s.getName().equals(param));
 				this.symbol2node.put(param, node);
 			}
@@ -64,7 +64,7 @@ public class TLAPlusExecutor {
 			// Replace TLC's values in ctx with the given ones by extending the pointer list
 			// of ctxs.
 			Context ctx = action.con;
-			for (Map.Entry<SymbolNode, IValue> entry : params.entrySet()) {
+			for (final Map.Entry<SymbolNode, IValue> entry : params.entrySet()) {
 				ctx = ctx.cons(entry.getKey(), entry.getValue());
 			}
 			return ctx;
@@ -76,7 +76,7 @@ public class TLAPlusExecutor {
 
 	private TLCState state;
 
-	public TLAPlusExecutor(String spec, String config) {
+	public TLAPlusExecutor(final String spec, final String config) {
 		this.tool = new FastTool(spec, config, new SimpleFilenameToStream(), Tool.Mode.Executor);
 
 		// Initialize the TLA+ executor by generating the initial state.
@@ -85,7 +85,7 @@ public class TLAPlusExecutor {
 
 	public Mapping map(final String actionName, final String processNode, final IValue v, final String... params) {
 		final Action[] actions = tool.getActions();
-		for (Action action : actions) {
+		for (final Action action : actions) {
 			if (action.getName().equals(actionName)) {
 				final Object lookup = action.con.lookup(s -> s.getName().equals(processNode));
 				if (lookup != null) {

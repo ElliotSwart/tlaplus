@@ -68,11 +68,11 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 public final class FormatComments
-{ public static void WriteComment(OutputFileWriter writer, 
-                                  Vector<String>   vec, 
-                                  int              commentType,
-                                  float            indentOrWidth,
-                                  boolean          tlaMode )
+{ public static void WriteComment(final OutputFileWriter writer,
+                                  final Vector<String>   vec,
+                                  final int              commentType,
+                                  final float            indentOrWidth,
+                                  final boolean          tlaMode )
     /***********************************************************************
     * Writes the comment to the writer.                                    *
     *                                                                      *
@@ -186,7 +186,7 @@ public final class FormatComments
     * A hashtable of all common English words.                             *
     ***********************************************************************/
 
-  public static boolean IsWord(String str) 
+  public static boolean IsWord(final String str)
       /*********************************************************************
       * Returns true iff str is a common English word.                     *
       *********************************************************************/
@@ -198,7 +198,7 @@ public final class FormatComments
     * Reads in the WordFile and puts its contents in wordHashTable.        *
     ***********************************************************************/
     { 
-      ResourceFileReader wordFileReader
+      final ResourceFileReader wordFileReader
                      = new ResourceFileReader(Parameters.WordFile);
 
       String word = wordFileReader.getLine();
@@ -221,7 +221,7 @@ public final class FormatComments
     * produces it.  (That string need work only outside math mode.)        *
     ***********************************************************************/
 
-  public static boolean isAmbiguous(String str) 
+  public static boolean isAmbiguous(final String str)
     /***********************************************************************
     * Returns true iff str is a built-in symbol that can also appear as    *
     * ordinary punctuation.                                                *
@@ -229,14 +229,14 @@ public final class FormatComments
       { return null !=  ambiguousHashTable.get(str);
       } ;   
 
-  private static String getAmbiguous(String str) 
+  private static String getAmbiguous(final String str)
     /***********************************************************************
     * Returns the true non-TLA TeX string for an ambiguous symbol.         *
     ***********************************************************************/
       { return (String) ambiguousHashTable.get(str);
       } ;   
 
-  private static void add(String tla, String tex)
+  private static void add(final String tla, final String tex)
     /***********************************************************************
     * Adds an entry to the ambiguousHashTable.                             *
     ***********************************************************************/
@@ -293,14 +293,14 @@ public final class FormatComments
     *                  to qualify as a REP_CHAR CToken.                    *
     ***********************************************************************/
 
-  public static boolean isRepeatChar(char ch) 
+  public static boolean isRepeatChar(final char ch)
     /***********************************************************************
     * Returns true iff ch is a repeatable char.                            *
     ***********************************************************************/
       { return null !=  repeatCharHashTable.get("" + ch);
       } ;   
 
-  private static String getRepeatCharCommand(char ch) 
+  private static String getRepeatCharCommand(final char ch)
     /***********************************************************************
     * Returns the command \foo such that \foo{n} produces the output for   *
     * a string of n ch characters, or "" if Misc.TeXify(the string of n    *
@@ -309,7 +309,7 @@ public final class FormatComments
       { return repeatCharHashTable.get("" + ch).TeXString ;
       } ;   
 
-  public static int getRepeatCharMin(char ch) 
+  public static int getRepeatCharMin(final char ch)
     /***********************************************************************
     * Returns the minimum number of ch characters that constitutes a       *
     * REPEATED_CHAR CToken.                                                *
@@ -317,7 +317,7 @@ public final class FormatComments
       { return repeatCharHashTable.get("" + ch).symbolType ;
       } ;   
 
-  private static void addRepeatChar(char ch, String tex, int min)
+  private static void addRepeatChar(final char ch, final String tex, final int min)
     /***********************************************************************
     * Adds an entry to the RepeatCharHashTable.                             *
     ***********************************************************************/
@@ -349,7 +349,7 @@ public final class FormatComments
     * that alignment just causes the lines to begin separate paragraphs.)  *
     ***********************************************************************/
 
-  private static boolean isAlignToken(String str)
+  private static boolean isAlignToken(final String str)
     /***********************************************************************
     * Returns true iff str is (the string representation of) an alignment  *
     * comment token.                                                       *
@@ -357,7 +357,7 @@ public final class FormatComments
       { return null !=  alignTokenHashTable.get(str);
       } ;   
 
-  private static void addAlignToken(String str)
+  private static void addAlignToken(final String str)
     /***********************************************************************
     * Adds an entry to the alignTokenHashTable.                             *
     ***********************************************************************/
@@ -483,7 +483,7 @@ public final class FormatComments
 /* ---------------------- MISCELLANEOUS METHODS ------------------------- */
 
   private static boolean 
-      PossibleAlignment(CToken[][] com, int line, int itemNo)
+      PossibleAlignment(final CToken[][] com, final int line, final int itemNo)
     /***********************************************************************
     * True iff the token at com[line][item] is a candidate for an          *
     * word-alignment position.                                             *
@@ -503,7 +503,7 @@ public final class FormatComments
     }
 
     
-  private static CToken nextCToken(CToken[][] com, int line, int item)
+  private static CToken nextCToken(final CToken[][] com, final int line, final int item)
     /***********************************************************************
     * The CToken following com[line][item].  However, if item is the last  *
     * one the line, then it equals a null Token (one with type NULL) if    *
@@ -522,7 +522,7 @@ public final class FormatComments
     }     
 
 
-  private static CToken previousCToken(CToken[][] com, int line, int item)
+  private static CToken previousCToken(final CToken[][] com, final int line, final int item)
     /***********************************************************************
     * The CToken preceding com[line][item].  However, if item is the       *
     * first one on the line, then it equals a null Token (one with type    *
@@ -540,7 +540,7 @@ public final class FormatComments
       return CToken.nullCToken ;
     }     
 
-  private static boolean isPreviousAdjacent(CToken[][] com, int line, int item)
+  private static boolean isPreviousAdjacent(final CToken[][] com, final int line, final int item)
     /***********************************************************************
     * True iff the token preceding the one at position (line, item) is     *
     * adjacent to the token at (line, item), with no intervening spaces.   *
@@ -553,7 +553,7 @@ public final class FormatComments
 
   
 
-  private static boolean isNextAdjacent(CToken[][] com, int line, int item)
+  private static boolean isNextAdjacent(final CToken[][] com, final int line, final int item)
     /***********************************************************************
     * True iff the token following the one at position (line, item) is     *
     * adjacent to the token at (line, item), with no intervening spaces.   *
@@ -567,7 +567,7 @@ public final class FormatComments
 
 /* --------------------- THE adjustIsTLA METHODS ------------------------ */
 
-  public static void adjustIsTLA(CToken[][] com)
+  public static void adjustIsTLA(final CToken[][] com)
     /***********************************************************************
     * Called after creating com with TokenizeComment.  That method sets    *
     * the isTLA field of tokens it determines to be TLA tokens (ones       *
@@ -698,7 +698,7 @@ public final class FormatComments
        while (item < com[line].length)
         { tok = com[line][item] ;
           ptok = previousCToken(com, line, item);
-          String tstr = tok.string;
+          final String tstr = tok.string;
           if (   (tok.type == CToken.IDENT)
               && tok.isAmbiguous
               && ! (   Misc.IsLowerCase(tstr)
@@ -823,7 +823,8 @@ public final class FormatComments
                 else
                  {
                    if (ptok.type == CToken.BUILTIN)
-                    {int stype = 
+                    {
+                        final int stype =
                       BuiltInSymbols.GetBuiltInSymbol(ptok.string, true).symbolType;
                       if (   (   (stype == Symbol.INFIX)
                               || (stype == Symbol.PREFIX))
@@ -834,7 +835,8 @@ public final class FormatComments
                     } ;
                   } ;
                 if (ntok.type == CToken.BUILTIN)
-                 {int stype = 
+                 {
+                     final int stype =
                    BuiltInSymbols.GetBuiltInSymbol(ntok.string, true).symbolType;
                    if (   (   (stype == Symbol.INFIX)
                            || (stype == Symbol.POSTFIX))
@@ -845,7 +847,7 @@ public final class FormatComments
                  } ;
                 break;
               case CToken.BUILTIN  :
-                int stype = 
+                final int stype =
                      BuiltInSymbols.GetBuiltInSymbol(tok.string, true).symbolType;
                 if (   (   (stype == Symbol.PREFIX)
                         || (stype == Symbol.INFIX) )
@@ -879,7 +881,7 @@ public final class FormatComments
      /**********************************************************************
      * Set thisCommentTLA to be a hash table of all TLA IDENT tokens.      *
      **********************************************************************/
-     Hashtable<String, String> thisCommentTLA  = new Hashtable<String, String>(100);     
+     final Hashtable<String, String> thisCommentTLA  = new Hashtable<String, String>(100);
      line = 0 ;
      while (line < com.length)
       {item = 0 ;
@@ -936,7 +938,7 @@ public final class FormatComments
 
 /* ------------------- THE InnerWriteComment METHOD --------------------- */
 
-  private static boolean IsTLALine(CToken[] tokLine)
+  private static boolean IsTLALine(final CToken[] tokLine)
     /***********************************************************************
     * Returns true iff every token in tokLine is a TLA token.              *
     ***********************************************************************/
@@ -949,10 +951,10 @@ public final class FormatComments
       return result ;
     } 
     
-  private static void InnerWriteComment(OutputFileWriter writer, 
-                                        CToken[][]       com, 
-                                        int              commentType,
-                                        float            indentOrWidth)
+  private static void InnerWriteComment(final OutputFileWriter writer,
+                                        final CToken[][]       com,
+                                        final int              commentType,
+                                        final float            indentOrWidth)
    /************************************************************************
    * This does the actual writing of the output for the WriteComment       *
    * method.                                                               *
@@ -1022,8 +1024,8 @@ public final class FormatComments
   *   the number of columns of indentation in the input.                   *
   *                                                                        *
   *************************************************************************/
-    int[] lineType    = new int[com.length];
-    String[] parStart = new String [com.length];
+    final int[] lineType    = new int[com.length];
+    final String[] parStart = new String [com.length];
       /*********************************************************************
       * These arrays determine the paragraph shape of the comment.  The    *
       * value of lineType[i] has the following meaning:                    *
@@ -1068,7 +1070,7 @@ public final class FormatComments
       *     one-line paragraph if it ends the paragraph--that is, if it    *
       *     is followed by a blank line or ends the comment.               *
       *********************************************************************/
-      boolean[] oneLine = new boolean[com.length] ;
+      final boolean[] oneLine = new boolean[com.length] ;
 
       boolean thisAligned = false ;
       boolean prevAligned = false;
@@ -1082,11 +1084,12 @@ public final class FormatComments
              && (com[line+1].length != 0) )
           { int m = 0 ;
             int n = 0 ;
-            int lastn = com[line+1].length ;
+            final int lastn = com[line+1].length ;
             while (   !thisAligned
                    && (m < com[line].length)
                    && (com[line][m].column <= com[line+1][lastn-1].column))
-             {CToken mtok = com[line][m] ;
+             {
+                 final CToken mtok = com[line][m] ;
               if (   (   isAlignToken(mtok.string)
                       || (mtok.type == CToken.REP_CHAR))
                   && ! (   isPreviousAdjacent(com, line, m)
@@ -1094,7 +1097,8 @@ public final class FormatComments
                {while (   !thisAligned
                        && (n < lastn)
                        && (mtok.column >= com[line+1][n].column))
-                {CToken ntok = com[line+1][n] ;
+                {
+                    final CToken ntok = com[line+1][n] ;
                  if (   (mtok.column == ntok.column)
                      && (mtok.string.equals(ntok.string))
                      && ! (   isPreviousAdjacent(com, line+1, n)
@@ -1134,7 +1138,7 @@ public final class FormatComments
     line = 0;
     while (line + 1 < com.length)    
      { if (com[line].length != 0)
-         { CToken tok = com[line][0] ;
+         { final CToken tok = com[line][0] ;
            if (   (com[line+1].length != 0)
                && tok.string.equals(com[line+1][0].string)
                && (   (tok.type != CToken.IDENT)
@@ -1209,7 +1213,7 @@ public final class FormatComments
                && (itemNo < com[line].length))
         { 
           if (PossibleAlignment(com, line, itemNo))
-           { int col = com[line][itemNo].column ;
+           { final int col = com[line][itemNo].column ;
              int nextLine = line + 1 ;
              while (   (nextLine < com.length)
                     && (itemNo < com[nextLine].length)
@@ -1259,7 +1263,7 @@ public final class FormatComments
       /*********************************************************************
       * The depth of the current prevailing margin.                        *
       *********************************************************************/
-    int[] margin = new int[200] ;
+    final int[] margin = new int[200] ;
       /*********************************************************************
       * for 0 \leq i \leq parDepth, margin[i] is the depth i prevailing    *
       * left margin (a column number)                                      *
@@ -1338,7 +1342,7 @@ public final class FormatComments
             * appeared on a previous line, then we act as if the "`^"      *
             * appeared in column 0.)                                       *
             ***************************************************************/
-            int tokType = com[line][0].type ;            
+            final int tokType = com[line][0].type ;
              
             if (tokType == CToken.VERB)
               /*************************************************************
@@ -1476,7 +1480,7 @@ public final class FormatComments
           * Set lineType[line] and parStart[line].                         *
           *****************************************************************/
           lineType[line] = labelItem ;
-          String temp =    
+          final String temp =
              "\\begin{" + Parameters.LaTeXCommentPar 
             + "}{" + popArg + "}{" + nestArg + "}{" + isLabelArg + "}{"
             + Misc.floatToString(Parameters.LaTeXCommentLeftSpace(dim1Cols),2)
@@ -1797,8 +1801,8 @@ public final class FormatComments
                 openVerb = false;
               } ;
 
-             CToken tok  = com[line][item] ;
-             CToken ptok = previousCToken(com, line, item) ;
+             final CToken tok  = com[line][item] ;
+             final CToken ptok = previousCToken(com, line, item) ;
                /************************************************************
                * tok is the current token, and ptok is the preceding one.  *
                ************************************************************/
@@ -2046,7 +2050,7 @@ public final class FormatComments
     * The possible commentType arguments to writeComment.                  *
     ***********************************************************************/
     
-  private static boolean IsParType(int type)
+  private static boolean IsParType(final int type)
     /***********************************************************************
     * True if type is PAR or RIGHT_MULTI.                                  *
     ***********************************************************************/
@@ -2054,10 +2058,10 @@ public final class FormatComments
     }    
 
   private static void CloseParagraph
-                      (OutputFileWriter writer, 
-                       String  curOutput, 
-                       boolean openMath, 
-                       boolean openVerb)
+                      (final OutputFileWriter writer,
+                       final String  curOutput,
+                       final boolean openMath,
+                       final boolean openVerb)
     /***********************************************************************
     * A procedure for InnerWriteComments that closes the current           *
     * paragraph.  After this is called, the caller should execute:         *

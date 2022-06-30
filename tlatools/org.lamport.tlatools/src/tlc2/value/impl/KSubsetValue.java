@@ -33,12 +33,12 @@ public class KSubsetValue extends SubsetValue {
 	private static final long serialVersionUID = -3232154930645775831L;
 	private final int k;
 
-	public KSubsetValue(int k, Value set) {
+	public KSubsetValue(final int k, final Value set) {
 		super(set);
 		this.k = k;
 	}
 
-	public KSubsetValue(int k, Value set, CostModel cm) {
+	public KSubsetValue(final int k, final Value set, final CostModel cm) {
 		super(set, cm);
 		this.k = k;
 	}
@@ -50,7 +50,7 @@ public class KSubsetValue extends SubsetValue {
 	}
 
 	@Override
-	public ValueEnumeration elements(Ordering ordering) {
+	public ValueEnumeration elements(final Ordering ordering) {
 		if (ordering == Ordering.RANDOMIZED) {
 			return new RandomSubsetGenerator(k);
 		}
@@ -67,7 +67,7 @@ public class KSubsetValue extends SubsetValue {
 	}
 	
 	  @Override
-	  public final int compareTo(Object obj) {
+	  public final int compareTo(final Object obj) {
 	    try {
 	      if (obj instanceof KSubsetValue) {
 	    	  final KSubsetValue other = (KSubsetValue) obj;
@@ -79,14 +79,14 @@ public class KSubsetValue extends SubsetValue {
 	      super.convertAndCache();
 	      return this.pset.compareTo(obj);
 	    }
-	    catch (RuntimeException | OutOfMemoryError e) {
+	    catch (final RuntimeException | OutOfMemoryError e) {
 	      if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
 	      else { throw e; }
 	    }
 	  }
 
 	  @Override
-	  public boolean member(Value val) {
+	  public boolean member(final Value val) {
 		  if (k == val.size()) {
 			  return super.member(val);
 		  }

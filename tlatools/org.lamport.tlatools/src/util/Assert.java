@@ -21,12 +21,12 @@ public class Assert
      * Unconditioned way to throw an exception
      * @param reason the explaining message to be enclosed into the exception
      */
-    public static void fail(String reason) throws RuntimeException
+    public static void fail(final String reason) throws RuntimeException
     {
         throw new TLCRuntimeException(reason);
     }
 
-	public static void fail(String reason, SemanticNode expr) throws RuntimeException {
+	public static void fail(final String reason, final SemanticNode expr) throws RuntimeException {
     	if (expr == null) {
     		// expr is null if Value#getSource returns null in Tool.
     		fail(reason);
@@ -35,7 +35,7 @@ public class Assert
     	}
 	}
 
-    public static void fail(String reason, SemanticNode expr, Context ctxt) throws RuntimeException
+    public static void fail(final String reason, final SemanticNode expr, final Context ctxt) throws RuntimeException
     {
     	if (expr == null) {
     		fail(reason);
@@ -49,12 +49,12 @@ public class Assert
      * @param errorCode error code of explanation
      * @param parameters parameters for the message
      */
-    public static void fail(int errorCode, String[] parameters)
+    public static void fail(final int errorCode, final String[] parameters)
     {
         throw new TLCRuntimeException(errorCode, parameters, MP.getMessage(errorCode, parameters));
     }
     
-	  public static void fail(int errorCode, String[] parameters, SemanticNode expr)
+	  public static void fail(final int errorCode, final String[] parameters, final SemanticNode expr)
 	  {
 	    	if (expr == null) {
 	    		fail(errorCode, parameters);
@@ -63,7 +63,7 @@ public class Assert
 	    	}
 	  }
 	  
-	  public static void fail(int errorCode, String[] parameters, SemanticNode expr, Context ctxt)
+	  public static void fail(final int errorCode, final String[] parameters, final SemanticNode expr, final Context ctxt)
 	  {
 		  if (expr == null) {
 			  fail(errorCode, parameters);
@@ -77,12 +77,12 @@ public class Assert
      * @param errorCode error code of explanation
      * @param parameter parameter for the message
      */
-    public static void fail(int errorCode, String parameter)
+    public static void fail(final int errorCode, final String parameter)
     {
         throw new TLCRuntimeException(errorCode, new String[] {parameter}, MP.getMessage(errorCode, parameter));
     }
 
-	    public static void fail(int errorCode, String parameter, SemanticNode expr, Context ctxt)
+	    public static void fail(final int errorCode, final String parameter, final SemanticNode expr, final Context ctxt)
 	    {
 	    	if (expr == null) {
 	    		fail(errorCode, parameter);
@@ -96,7 +96,7 @@ public class Assert
      * @param errorCode error code of explanation
      * @param cause reason of the fail and the message for the runtime exception
      */
-    public static void fail(int errorCode, Throwable cause)
+    public static void fail(final int errorCode, final Throwable cause)
     {
         throw new TLCRuntimeException(errorCode, MP.getMessage(errorCode, cause.getMessage()), cause);
     }
@@ -105,7 +105,7 @@ public class Assert
      * Unconditioned way to throw an exception
      * @param errorCode error code of explanation
      */
-    public static void fail(int errorCode)
+    public static void fail(final int errorCode)
     {
         throw new TLCRuntimeException(errorCode, MP.getMessage(errorCode));
     }
@@ -117,7 +117,7 @@ public class Assert
      * @param parameter parameter for the message
      * @throws RuntimeException
      */
-    public static void check(boolean condition, int errorCode, String[] parameters) throws RuntimeException
+    public static void check(final boolean condition, final int errorCode, final String[] parameters) throws RuntimeException
     {
         if (!condition) 
         {
@@ -132,7 +132,7 @@ public class Assert
      * @param parameters parameters for the message
      * @throws RuntimeException
      */
-    public static void check(boolean condition, int errorCode, String parameter) throws RuntimeException
+    public static void check(final boolean condition, final int errorCode, final String parameter) throws RuntimeException
     {
         if (!condition) 
         {
@@ -146,7 +146,7 @@ public class Assert
      * @param errorCode error code of explanation
      * @throws RuntimeException
      */
-    public static void check(boolean condition, int errorCode) throws RuntimeException
+    public static void check(final boolean condition, final int errorCode) throws RuntimeException
     {
         if (!condition) 
         {
@@ -168,7 +168,7 @@ public class Assert
      * @param errorMsg error explanation
      * @throws RuntimeException
      */
-    public static void check(boolean condition, String errorMsg) throws RuntimeException
+    public static void check(final boolean condition, final String errorMsg) throws RuntimeException
     {
         if (!condition) 
         {
@@ -182,22 +182,22 @@ public class Assert
 		public final int errorCode;
 		public String[] parameters = null;
 
-		public TLCRuntimeException(String errorMsg) {
+		public TLCRuntimeException(final String errorMsg) {
 			super(errorMsg);
 			this.errorCode = EC.GENERAL; // Unknown error code.
 		}
 		
-		public TLCRuntimeException(int errorCode, String message) {
+		public TLCRuntimeException(final int errorCode, final String message) {
 			super(message);
 			this.errorCode = errorCode;
 		}
 
-		public TLCRuntimeException(int errorCode, String message, Throwable cause) {
+		public TLCRuntimeException(final int errorCode, final String message, final Throwable cause) {
 			super(message, cause);
 			this.errorCode = errorCode;
 		}
 
-		public TLCRuntimeException(int errorCode, String[] parameters, String message) {
+		public TLCRuntimeException(final int errorCode, final String[] parameters, final String message) {
 			this(errorCode, message);
 			this.parameters = parameters;
 		}
@@ -209,17 +209,17 @@ public class Assert
 		public final SemanticNode expr;
 		public final Context ctxt;
 
-		public TLCDetailedRuntimeException(String errorMsg, SemanticNode expr, Context ctxt) {
+		public TLCDetailedRuntimeException(final String errorMsg, final SemanticNode expr, final Context ctxt) {
 			this(EC.GENERAL, errorMsg, expr, ctxt);
 		}
 		
-		public TLCDetailedRuntimeException(int errorCode, String message, SemanticNode expr, Context ctxt) {
+		public TLCDetailedRuntimeException(final int errorCode, final String message, final SemanticNode expr, final Context ctxt) {
 			super(errorCode, message);
 			this.expr = expr;
 			this.ctxt = ctxt;
 		}
 		
-		public TLCDetailedRuntimeException(int errorCode, String[] parameters, String message, SemanticNode expr, Context ctxt) {
+		public TLCDetailedRuntimeException(final int errorCode, final String[] parameters, final String message, final SemanticNode expr, final Context ctxt) {
 			super(errorCode, parameters, message);
 			this.expr = expr;
 			this.ctxt = ctxt;

@@ -50,7 +50,7 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
      */
     public abstract FPSet init(int numThreads, String metadir, String filename) throws IOException;
     
-    public void incWorkers(int num) {
+    public void incWorkers(final int num) {
     	// subclasses may override
     }
 
@@ -87,7 +87,7 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#exit(boolean)
      */
-    public void exit(boolean cleanup) throws IOException {
+    public void exit(final boolean cleanup) throws IOException {
 		// If DistributedFPSet is running, signal termination and wake it up.
 		// This is necessary when a SecurityManager intercepts System.exit(int)
 		// calls which has the side effect that DistributedFPSet's reporting
@@ -152,17 +152,17 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
 	 *         expected amount of fingerprints.
 	 * @throws IOException
 	 */
-	public boolean checkInvariant(long expectFPs) throws IOException {
+	public boolean checkInvariant(final long expectFPs) throws IOException {
 		return true;
 	}
 
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#putBlock(tlc2.util.LongVec)
      */
-    public BitVector putBlock(LongVec fpv) throws IOException
+    public BitVector putBlock(final LongVec fpv) throws IOException
     {
-        int size = fpv.size();
-		BitVector bv = new BitVector(size);
+        final int size = fpv.size();
+		final BitVector bv = new BitVector(size);
         for (int i = 0; i < fpv.size(); i++)
         {
 			// TODO Figure out why corresponding value in BitVector is inverted
@@ -178,10 +178,10 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#containsBlock(tlc2.util.LongVec)
      */
-    public BitVector containsBlock(LongVec fpv) throws IOException
+    public BitVector containsBlock(final LongVec fpv) throws IOException
     {
     	statesSeen += fpv.size();
-        BitVector bv = new BitVector(fpv.size());
+        final BitVector bv = new BitVector(fpv.size());
         for (int i = 0; i < fpv.size(); i++)
         {
 			// TODO Figure out why corresponding value in BitVector is inverted
@@ -209,7 +209,7 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
 	 * @param fpBits
 	 * @return
 	 */
-	public static boolean isValid(int fpBits) {
+	public static boolean isValid(final int fpBits) {
 		return fpBits >= 0 && fpBits <= MultiFPSet.MAX_FPBITS;
 	}
 
@@ -218,7 +218,7 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
 	 * @param force
 	 * @throws NoSuchObjectException
 	 */
-	public void unexportObject(boolean force) throws NoSuchObjectException {
+	public void unexportObject(final boolean force) throws NoSuchObjectException {
 		UnicastRemoteObject.unexportObject(this, force);
 	}
 }

@@ -45,7 +45,7 @@ private static final IntValue[] cache;
 
   public final int val;
 
-  private IntValue(int i) { this.val = i; }
+  private IntValue(final int i) { this.val = i; }
 
   @Override
   public final byte getKind() { return INTVALUE; }
@@ -55,13 +55,13 @@ private static final IntValue[] cache;
     try {
       return nbits(this.val);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public static IntValue gen(int i) {
+  public static IntValue gen(final int i) {
     if (i >= 0 && i < cache.length) {
       return cache[i];
     }
@@ -69,7 +69,7 @@ private static final IntValue[] cache;
   }
 
   @Override
-  public final int compareTo(Object obj) {
+  public final int compareTo(final Object obj) {
     try {
       if (obj instanceof IntValue) {
         return Integer.compare(this.val, ((IntValue)obj).val);
@@ -80,13 +80,13 @@ private static final IntValue[] cache;
       }
       return ((ModelValue) obj).modelValueCompareTo(this);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
-  public final boolean equals(Object obj) {
+  public final boolean equals(final Object obj) {
     try {
       if (obj instanceof IntValue) {
         return this.val == ((IntValue)obj).val;
@@ -97,20 +97,20 @@ private static final IntValue[] cache;
       }
       return ((ModelValue) obj).modelValueEquals(this);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final boolean member(Value elem) {
+  public final boolean member(final Value elem) {
     try {
       Assert.fail("Attempted to check if the value:\n" + Values.ppr(elem.toString()) +
       "\nis an element of the integer " + Values.ppr(this.toString()), getSource());
       return false;  // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -123,14 +123,14 @@ private static final IntValue[] cache;
       " is a finite set.", getSource());
       return false;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept ex) {
+  public final Value takeExcept(final ValueExcept ex) {
     try {
       if (ex.idx < ex.path.length) {
         Assert.fail("Attempted to appy EXCEPT construct to the integer " +
@@ -138,14 +138,14 @@ private static final IntValue[] cache;
       }
       return ex.value;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final Value takeExcept(ValueExcept[] exs) {
+  public final Value takeExcept(final ValueExcept[] exs) {
     try {
       if (exs.length != 0) {
         Assert.fail("Attempted to apply EXCEPT construct to the integer " +
@@ -153,7 +153,7 @@ private static final IntValue[] cache;
       }
       return this;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -166,7 +166,7 @@ private static final IntValue[] cache;
       Values.ppr(this.toString()) + ".", getSource());
       return 0;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -191,45 +191,45 @@ private static final IntValue[] cache;
   public final IValue deepCopy() { return this; }
 
   @Override
-  public final boolean assignable(Value val) {
+  public final boolean assignable(final Value val) {
     try {
       return ((val instanceof IntValue) &&
         this.val == ((IntValue)val).val);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
 	@Override
-	public void write(IValueOutputStream vos) throws IOException {
+	public void write(final IValueOutputStream vos) throws IOException {
 		vos.writeByte(INTVALUE);
 		vos.writeInt(val);
 	}
 
   /* The fingerprint methods */
   @Override
-  public final long fingerPrint(long fp) {
+  public final long fingerPrint(final long fp) {
     try {
       return FP64.Extend(FP64.Extend(fp, INTVALUE), this.val);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
   }
 
   @Override
-  public final IValue permute(IMVPerm perm) { return this; }
+  public final IValue permute(final IMVPerm perm) { return this; }
 
   /* The string representation. */
   @Override
-  public final StringBuffer toString(StringBuffer sb, int offset, boolean ignored) {
+  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean ignored) {
     try {
       return sb.append(this.val);
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }

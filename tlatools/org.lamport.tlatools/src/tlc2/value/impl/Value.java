@@ -77,7 +77,7 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
     try {
       return ValueImage[this.getKind()];
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -98,7 +98,7 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
   public abstract Value normalize();
 
   @Override
-  public void write(IValueOutputStream vos) throws IOException {
+  public void write(final IValueOutputStream vos) throws IOException {
 		throw new WrongInvocationException("ValueOutputStream: Can not pickle the value\n" +
 			    Values.ppr(toString()));
   }
@@ -106,7 +106,7 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
   public transient CostModel cm = CostModel.DO_NOT_RECORD;
   
   @Override
-  public IValue setCostModel(CostModel cm) {
+  public IValue setCostModel(final CostModel cm) {
 	  this.cm = cm;
 	  return this;
   }
@@ -156,42 +156,42 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
       switch (this.getKind()) {
         case SETENUMVALUE:
           {
-            SetEnumValue set = (SetEnumValue)this;
+            final SetEnumValue set = (SetEnumValue)this;
             return set.elems.size() == 0;
           }
         case INTERVALVALUE:
           {
-            IntervalValue intv = (IntervalValue)this;
+            final IntervalValue intv = (IntervalValue)this;
             return intv.size() == 0;
           }
         case SETCAPVALUE:
           {
-            SetCapValue cap = (SetCapValue)this;
+            final SetCapValue cap = (SetCapValue)this;
             return cap.elements().nextElement() == null;
           }
         case SETCUPVALUE:
           {
-            SetCupValue cup = (SetCupValue)this;
+            final SetCupValue cup = (SetCupValue)this;
             return cup.elements().nextElement() == null;
           }
         case SETDIFFVALUE:
           {
-            SetDiffValue diff = (SetDiffValue)this;
+            final SetDiffValue diff = (SetDiffValue)this;
             return diff.elements().nextElement() == null;
           }
         case SETOFFCNSVALUE:
           {
-            SetOfFcnsValue fcns = (SetOfFcnsValue)this;
+            final SetOfFcnsValue fcns = (SetOfFcnsValue)this;
             return fcns.elements().nextElement() == null;
           }
         case SETOFRCDSVALUE:
           {
-            SetOfRcdsValue srv = (SetOfRcdsValue)this;
+            final SetOfRcdsValue srv = (SetOfRcdsValue)this;
             return srv.elements().nextElement() == null;
           }
         case SETOFTUPLESVALUE:
           {
-            SetOfTuplesValue stv = (SetOfTuplesValue)this;
+            final SetOfTuplesValue stv = (SetOfTuplesValue)this;
             return stv.elements().nextElement() == null;
           }
         case SUBSETVALUE:
@@ -201,12 +201,12 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
           }
         case UNIONVALUE:
           {
-            UnionValue uv = (UnionValue)this;
+            final UnionValue uv = (UnionValue)this;
             return uv.elements().nextElement() == null;
           }
         case SETPREDVALUE:
           {
-            SetPredValue spv = (SetPredValue)this;
+            final SetPredValue spv = (SetPredValue)this;
             return spv.elements().nextElement() == null;
           }
         default:
@@ -215,7 +215,7 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
       }
 
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -228,13 +228,13 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
 
   /* This method returns the fingerprint of this value. */
   @Override
-  public long fingerPrint(long fp) {
+  public long fingerPrint(final long fp) {
     try {
       Assert.fail("TLC has found a state in which the value of a variable contains " +
       Values.ppr(this.toString()), getSource()); // SZ Feb 24, 2009: changed to static access
       return 0;      // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -245,13 +245,13 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
    * returns this if nothing is permuted.
    */
   @Override
-  public IValue permute(IMVPerm perm) {
+  public IValue permute(final IMVPerm perm) {
     try {
       Assert.fail("TLC has found a state in which the value of a variable contains " +
       Values.ppr(this.toString()), getSource()); // SZ Feb 24, 2009: changed to static access
       return null;   // make compiler happy
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -261,12 +261,12 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
   @Override
   public final int hashCode() {
     try {
-      long fp = this.fingerPrint(FP64.New());
-      int high = (int)(fp >> 32);
-      int low = (int)fp;
+      final long fp = this.fingerPrint(FP64.New());
+      final int high = (int)(fp >> 32);
+      final int low = (int)fp;
       return high ^ low;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -276,7 +276,7 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
    * This method selects the component of this value. The component is
    * specified by path.
    */
-  public final Value select(Value[] path) {
+  public final Value select(final Value[] path) {
     try {
       Value result = this;
       for (int i = 0; i < path.length; i++) {
@@ -284,13 +284,13 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
           Assert.fail("Attempted to apply EXCEPT construct to the value " +
                 Values.ppr(result.toString()) + ".", getSource());
         }
-        Value elem = path[i];
+        final Value elem = path[i];
         result = ((Applicable)result).select(elem);
         if (result == null) return null;
       }
       return result;
     }
-    catch (RuntimeException | OutOfMemoryError e) {
+    catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
       else { throw e; }
     }
@@ -361,13 +361,13 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
         sb.append(delim);
         return sb.toString();
       }
-      catch (RuntimeException | OutOfMemoryError e) {
+      catch (final RuntimeException | OutOfMemoryError e) {
         if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
         else { throw e; }
       }
   }
   
-	public TLCVariable toTLCVariable(final TLCVariable variable, Random rnd) {
+	public TLCVariable toTLCVariable(final TLCVariable variable, final Random rnd) {
 		variable.setInstance(this);
 		// TODO: Use Value#getKindString instead?
 //		if (hasSource()) {
@@ -390,9 +390,9 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
 		return String.format("%s: %s", getClass().getSimpleName(), getKindString());
 	}
 
-	public List<TLCVariable> getTLCVariables(TLCVariable var, Random rnd) {
+	public List<TLCVariable> getTLCVariables(final TLCVariable var, final Random rnd) {
 		if (this instanceof Enumerable && this.isFinite()) {
-			Enumerable e = (Enumerable) this;
+			final Enumerable e = (Enumerable) this;
 			return e.elements().all().stream().map(value -> value.toTLCVariable(var.newInstance(value, rnd), rnd))
 					.collect(Collectors.toList());
 		}

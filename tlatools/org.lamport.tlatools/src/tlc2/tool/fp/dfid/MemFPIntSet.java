@@ -62,15 +62,15 @@ public class MemFPIntSet extends FPIntSet {
   }
 
   /* The following constructor is provided for test programs only. */
-  public MemFPIntSet(int logInitialCapacity, int maxLoad) throws RemoteException {
-    int initialCapacity = 1 << logInitialCapacity;
+  public MemFPIntSet(final int logInitialCapacity, final int maxLoad) throws RemoteException {
+    final int initialCapacity = 1 << logInitialCapacity;
     this.count = 0;
     this.threshold = (initialCapacity * maxLoad);
     this.table = new int[initialCapacity][];
     this.mask = initialCapacity - 1;
   }
 
-  public final void init(int numThreads, String metadir, String filename) {
+  public final void init(final int numThreads, final String metadir, final String filename) {
     this.metadir = metadir;
     this.filename = filename;
   }
@@ -92,15 +92,15 @@ public class MemFPIntSet extends FPIntSet {
     return size;
   }
 
-  public synchronized final void setLeveled(long fp) {
-    int index = (int)(fp & this.mask);
-    int[] list = this.table[index];
+  public synchronized final void setLeveled(final long fp) {
+    final int index = (int)(fp & this.mask);
+    final int[] list = this.table[index];
 
     // Test if the fingerprint is already in the hashtable.
     if (list != null) {
-      int listlen = list.length;
+      final int listlen = list.length;
       for (int i = 0; i < listlen; i += 3) {
-	long fp1 = ((long)list[i] << 32) | ((long)list[i+1] & 0xFFFFFFFFL);
+	final long fp1 = ((long)list[i] << 32) | ((long)list[i+1] & 0xFFFFFFFFL);
 	if (fp1 == fp) {
 	  list[i+2] = (list[i+2] & ~LeveledMask) | Leveled;
 	  return;
@@ -111,17 +111,17 @@ public class MemFPIntSet extends FPIntSet {
     throw new WrongInvocationException("MemFPIntSet.setLeveled: The fp must have been in the set.");
   }
   
-  public synchronized final int setStatus(long fp, int status) {
+  public synchronized final int setStatus(final long fp, final int status) {
     int index = (int)(fp & this.mask);
     int[] list = this.table[index];
 
     // Test if the fingerprint is already in the hashtable.
     if (list != null) {
-      int listlen = list.length;
+      final int listlen = list.length;
       for (int i = 0; i < listlen; i += 3) {
-	long fp1 = ((long)list[i] << 32) | ((long)list[i+1] & 0xFFFFFFFFL);
+	final long fp1 = ((long)list[i] << 32) | ((long)list[i+1] & 0xFFFFFFFFL);
 	if (fp == fp1) {
-	  int status1 = list[i+2];
+	  final int status1 = list[i+2];
 	  list[i+2] = status1 | status;
 	  // System.err.println("setStatus: " + fp + "  " + status1 + " -> " + this.getStatus(fp));
 	  return status1;
@@ -138,8 +138,8 @@ public class MemFPIntSet extends FPIntSet {
     } 
 
     // Creates the new entry.
-    int len = (list == null ? 0 : list.length);
-    int[] newList = new int[len+3];
+    final int len = (list == null ? 0 : list.length);
+    final int[] newList = new int[len+3];
     if (list != null) System.arraycopy(list, 0, newList, 0, len);
     newList[len] = (int)(fp >>> 32);
     newList[len+1] = (int)fp;
@@ -150,15 +150,15 @@ public class MemFPIntSet extends FPIntSet {
     return NEW;
   }
 
-  public synchronized final int getStatus(long fp) {
-    int index = (int)(fp & this.mask);
-    int[] list = this.table[index];
+  public synchronized final int getStatus(final long fp) {
+    final int index = (int)(fp & this.mask);
+    final int[] list = this.table[index];
 
     // Test if the fingerprint is already in the hashtable.
     if (list != null) {
-      int listlen = list.length;
+      final int listlen = list.length;
       for (int i = 0; i < listlen; i += 3) {
-	long fp1 = ((long)list[i] << 32) | ((long)list[i+1] & 0xFFFFFFFFL);
+	final long fp1 = ((long)list[i] << 32) | ((long)list[i+1] & 0xFFFFFFFFL);
 	if (fp1 == fp) {
 	  return list[i+2];
 	}
@@ -169,7 +169,7 @@ public class MemFPIntSet extends FPIntSet {
 
   public final boolean allLeveled() {
     for (int i = 0; i < this.table.length; i++) {
-      int[] bucket = this.table[i];
+      final int[] bucket = this.table[i];
       if (bucket != null) {
 	for (int j = 0; j < bucket.length; j += 3) {
 	  if ((bucket[j+2] & LeveledMask) != Leveled) {
@@ -189,20 +189,20 @@ public class MemFPIntSet extends FPIntSet {
    */
   private final void rehash() {
     long min = this.count, max = 0;
-    int[][] oldTable = this.table;
-    int oldCapacity = oldTable.length;
-    int[][] newTable = new int[oldCapacity * 2][];
+    final int[][] oldTable = this.table;
+    final int oldCapacity = oldTable.length;
+    final int[][] newTable = new int[oldCapacity * 2][];
     final int onebitmask = oldCapacity;
 
     for (int i = 0; i < oldCapacity; i++) {
-      int[] list = oldTable[i];
+      final int[] list = oldTable[i];
       if (list != null) {
 	// The entries in list will be distributed over two arrays in
 	// the new hash table.
 	// count how big each list will be
 	int cnt0 = 0;
 	int cnt1 = 0;
-	int listlen = list.length;
+	final int listlen = list.length;
 	if (listlen < min) min = listlen;
 	if (listlen > max) max = listlen;
 	for (int j = 0; j < listlen; j += 3) {
@@ -221,8 +221,8 @@ public class MemFPIntSet extends FPIntSet {
 	}
 	else {
 	  // allocate two new arrays
-	  int[] list0 = new int[cnt0]; 
-	  int[] list1 = new int[cnt1]; 
+	  final int[] list0 = new int[cnt0];
+	  final int[] list1 = new int[cnt1];
             	  
 	  // copy the entries from the old list into the two new ones
 	  for (int j = 0; j < listlen; j += 3) {
@@ -251,13 +251,13 @@ public class MemFPIntSet extends FPIntSet {
     this.mask = newTable.length - 1;
   }
 
-  public final void exit(boolean cleanup) throws IOException {
+  public final void exit(final boolean cleanup) throws IOException {
     if (cleanup) {
       // Delete the metadata directory:
-      File file = new File(this.metadir);
+      final File file = new File(this.metadir);
       FileUtil.deleteDir(file, true);
     }
-    String hostname = InetAddress.getLocalHost().getHostName();    
+    final String hostname = InetAddress.getLocalHost().getHostName();
     MP.printMessage(EC.TLC_FP_COMPLETED, hostname);
     System.exit(0);    
   }
@@ -265,21 +265,21 @@ public class MemFPIntSet extends FPIntSet {
   public final long checkFPs() {
     long dis = Long.MAX_VALUE;
     for (int i = 0; i < this.table.length; i++) {
-      int[] bucket = this.table[i];
+      final int[] bucket = this.table[i];
       if (bucket != null) {
 	for (int j = 0; j < bucket.length; j += 3) {
 	  for (int k = j+3; k < bucket.length; k += 3) {
-	    long x = ((long)bucket[j]) << 32 | bucket[j+1];
-	    long y = ((long)bucket[k]) << 32 | bucket[k+1];
+	    final long x = ((long)bucket[j]) << 32 | bucket[j+1];
+	    final long y = ((long)bucket[k]) << 32 | bucket[k+1];
 	    dis = Math.min(dis, Math.abs(x-y));
 	  }
 	  for (int k = i+1; k < this.table.length; k++) {
-	    int[] bucket1 = this.table[k];
+	    final int[] bucket1 = this.table[k];
 	    if (bucket1 != null) {
 	      for (int m = 0; m < bucket1.length; m += 3) {
-		long x = ((long)bucket[j]) << 32 | bucket[j+1];
-		long y = ((long)bucket1[m]) << 32 | bucket1[m+1];
-		long dis1 = (x > y) ? x-y : y-x;
+		final long x = ((long)bucket[j]) << 32 | bucket[j+1];
+		final long y = ((long)bucket1[m]) << 32 | bucket1[m+1];
+		final long dis1 = (x > y) ? x-y : y-x;
 		if (dis1 >= 0) {
 		  dis = Math.min(dis, dis1);
 		}
@@ -293,11 +293,11 @@ public class MemFPIntSet extends FPIntSet {
   }
 
   // Checkpoint.
-  public final void beginChkpt(String fname) throws IOException {
-    BufferedDataOutputStream dos =
+  public final void beginChkpt(final String fname) throws IOException {
+    final BufferedDataOutputStream dos =
       new BufferedDataOutputStream(this.chkptName(fname, "tmp"));
     for (int i = 0; i < this.table.length; i++) {
-      int[] bucket = this.table[i];
+      final int[] bucket = this.table[i];
       if (bucket != null) {
 	for (int j = 0; j < bucket.length; j++) {
 	  dos.writeInt(bucket[j]);
@@ -311,9 +311,9 @@ public class MemFPIntSet extends FPIntSet {
     this.beginChkpt(this.filename);
   }
 
-  final public void commitChkpt(String fname) throws IOException {
-    File oldChkpt = new File(this.chkptName(fname, "chkpt"));
-    File newChkpt = new File(this.chkptName(fname, "tmp"));
+  final public void commitChkpt(final String fname) throws IOException {
+    final File oldChkpt = new File(this.chkptName(fname, "chkpt"));
+    final File newChkpt = new File(this.chkptName(fname, "tmp"));
     if ((oldChkpt.exists() && !oldChkpt.delete()) ||
 	!newChkpt.renameTo(oldChkpt)) {
       throw new IOException("MemFPIntSet.commitChkpt: cannot delete " + oldChkpt);
@@ -324,21 +324,21 @@ public class MemFPIntSet extends FPIntSet {
     this.commitChkpt(this.filename);
   }
     
-  public final void recover(String fname) throws IOException {
-    BufferedDataInputStream dis = 
+  public final void recover(final String fname) throws IOException {
+    final BufferedDataInputStream dis =
       new BufferedDataInputStream(this.chkptName(fname, "chkpt"));
     try {
       while (!dis.atEOF()) {
-	int fhi = dis.readInt();
-	int flo = dis.readInt();
-	int level = dis.readInt();
+	final int fhi = dis.readInt();
+	final int flo = dis.readInt();
+	final int level = dis.readInt();
 
 	if (count >= threshold) this.rehash();
 
-	int index = (int)(flo & this.mask);
-	int[] list = this.table[index];
-	int len = (list == null ? 0 : list.length);
-	int[] newList = new int[len+3];
+	final int index = (int)(flo & this.mask);
+	final int[] list = this.table[index];
+	final int len = (list == null ? 0 : list.length);
+	final int[] newList = new int[len+3];
 	if (list != null) System.arraycopy(list, 0, newList, 0, len);
 	newList[len] = fhi;
 	newList[len+1] = flo;
@@ -347,7 +347,7 @@ public class MemFPIntSet extends FPIntSet {
 	this.count++;
       }
     }
-    catch (EOFException e) 
+    catch (final EOFException e)
     {
       Assert.fail(EC.SYSTEM_DISK_IO_ERROR_FOR_FILE, "checkpoints");
     }
@@ -358,7 +358,7 @@ public class MemFPIntSet extends FPIntSet {
     this.recover(this.filename);
   }
     
-  final private String chkptName(String fname, String ext) {
+  final private String chkptName(final String fname, final String ext) {
     return this.metadir + FileUtil.separator + fname + ".fp." + ext;
   }
 

@@ -272,7 +272,7 @@ public interface ITool extends TraceApp {
 
 	TLCState evalAlias(TLCState curState, TLCState sucState);
 
-	default <T> T eval(Supplier<T> supplier) {
+	default <T> T eval(final Supplier<T> supplier) {
 		return supplier.get();
 	}
 

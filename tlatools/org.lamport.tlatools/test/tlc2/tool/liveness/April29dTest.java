@@ -84,7 +84,7 @@ public class April29dTest extends ModelCheckerTestCase {
 		// Remove self loop from init's transitions. The remaining transitions are
 		// the true successors (here just a single).
 		final List<Transition> outs = new ArrayList<Transition>();
-		for (Transition t : transitions) {
+		for (final Transition t : transitions) {
 			if (t.getFP() != init.stateFP) {
 				outs.add(t);
 			}

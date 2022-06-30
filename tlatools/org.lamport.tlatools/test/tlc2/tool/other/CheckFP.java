@@ -17,16 +17,15 @@ import tlc2.util.BufferedRandomAccessFile;
  * @deprecated (SZ February 19, 2009)
  */
 public class CheckFP {
-  public static void main(String args[]) {
+  public static void main(final String[] args) {
     try {
-      @SuppressWarnings("resource")
-	  BufferedRandomAccessFile raf = new BufferedRandomAccessFile(args[0], "r");
-      long fileLen = raf.length();
+      @SuppressWarnings("resource") final BufferedRandomAccessFile raf = new BufferedRandomAccessFile(args[0], "r");
+      final long fileLen = raf.length();
       long dis = Long.MAX_VALUE;
       int cnt = 0;
       long x = raf.readLong();
       while (raf.getFilePointer() < fileLen) {
-	long y = raf.readLong();
+	final long y = raf.readLong();
 	if ((x >> 8) == (y >> 8))
 	  System.err.println("bad: " + x + " and " + y);
 	dis = Math.min(dis, y-x);
@@ -38,7 +37,7 @@ public class CheckFP {
       System.err.println("the number of states checked: " + cnt);
       System.err.println("the probability of collision: " + 1.0/dis);
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       System.err.println("Error: " + e.getMessage());
       System.exit(1);
     }

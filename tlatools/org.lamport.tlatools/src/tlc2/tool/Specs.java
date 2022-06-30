@@ -43,28 +43,28 @@ public abstract class Specs {
 	 * The level of the expression according to level checking.
 	 * static method, does not change instance state 
 	 */
-	public static int getLevel(LevelNode expr, Context c)
+	public static int getLevel(final LevelNode expr, final Context c)
 	{
-	    HashSet<SymbolNode> lpSet = expr.getLevelParams();
+	    final HashSet<SymbolNode> lpSet = expr.getLevelParams();
 	    if (lpSet.isEmpty())
 	        return expr.getLevel();
 	
 	    int level = expr.getLevel();
-	    Iterator<SymbolNode> iter = lpSet.iterator();
+	    final Iterator<SymbolNode> iter = lpSet.iterator();
 	    while (iter.hasNext())
 	    {
-	        SymbolNode param = (SymbolNode) iter.next();
-	        Object res = c.lookup(param, true);
+	        final SymbolNode param = (SymbolNode) iter.next();
+	        final Object res = c.lookup(param, true);
 	        if (res != null)
 	        {
 	            if (res instanceof LazyValue)
 	            {
-	                LazyValue lv = (LazyValue) res;
-	                int plevel = getLevel((LevelNode) lv.expr, lv.con);
+	                final LazyValue lv = (LazyValue) res;
+	                final int plevel = getLevel((LevelNode) lv.expr, lv.con);
 	                level = (plevel > level) ? plevel : level;
 	            } else if (res instanceof OpDefNode)
 	            {
-	                int plevel = getLevel((LevelNode) res, c);
+	                final int plevel = getLevel((LevelNode) res, c);
 	                level = (plevel > level) ? plevel : level;
 	            }
 	        }
@@ -78,13 +78,13 @@ public abstract class Specs {
 	 * @param subs
 	 * @return
 	 */
-	public static final ExprNode addSubsts(ExprNode expr, List subs)
+	public static final ExprNode addSubsts(final ExprNode expr, List subs)
 	{
 	    ExprNode res = expr;
 	
 	    while (!subs.isEmpty())
 	    {
-	        SubstInNode sn = (SubstInNode) subs.car();
+	        final SubstInNode sn = (SubstInNode) subs.car();
 	        res = new SubstInNode(sn.stn, sn.getSubsts(), res, sn.getInstantiatingModule(), sn.getInstantiatedModule());
 	        subs = subs.cdr();
 	    }

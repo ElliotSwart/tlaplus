@@ -300,7 +300,7 @@ public class TLC {
      *		Defaults to 1000000
      *   
      */
-    public static void main(String[] args) throws Exception
+    public static void main(final String[] args) throws Exception
     {
         final TLC tlc = new TLC();
 
@@ -356,7 +356,7 @@ public class TLC {
         // This is needed when TLC runs on another host and email is
         // the only means for the user to get access to the model
         // checking results.
-        boolean mailSent = ms.send(tlc.getModuleFiles());
+        final boolean mailSent = ms.send(tlc.getModuleFiles());
 
         // Treat failure to send mail as a tool failure.
         //
@@ -385,7 +385,7 @@ public class TLC {
 		return true;
 	}
 
-	public static void setTraceNum(long aTraceNum) {
+	public static void setTraceNum(final long aTraceNum) {
 		traceNum = aTraceNum;
 	}
 
@@ -397,7 +397,7 @@ public class TLC {
      */
     // SZ Feb 23, 2009: added return status to indicate the error in parsing
 	@SuppressWarnings("deprecation")	// we're emitting a warning to the user, but still accepting fpmem values > 1
-	public boolean handleParameters(String[] args)
+	public boolean handleParameters(final String[] args)
     {
 		String dumpFile = null;
 		boolean asDot = false;
@@ -431,7 +431,7 @@ public class TLC {
 						|| args[index].contains("num="))) {
 					final String[] simArgs = args[index].split(",");
 					index++; // consume simulate args
-					for (String arg : simArgs) {
+					for (final String arg : simArgs) {
 						if (arg.startsWith("num=")) {
 							traceNum = Long.parseLong(arg.replace("num=", ""));
 						} else if (arg.startsWith("file=")) {
@@ -514,10 +514,10 @@ public class TLC {
             {
             	index++;
             	if (index < args.length) {
-            		String path = args[index];
+            		final String path = args[index];
             		try {
 						teSpecOut = Paths.get(path);
-            		} catch (InvalidPathException e) {
+            		} catch (final InvalidPathException e) {
             			printErrorMsg("Error: invalid path for -teSpecOutDir option: " + path);
             			return false;
             		}
@@ -634,7 +634,7 @@ public class TLC {
                             return false;
                         }
                         index++;
-                    } catch (NumberFormatException e)
+                    } catch (final NumberFormatException e)
                     {
                         
                         printErrorMsg("Error: An integer for coverage report interval required." + " But encountered "
@@ -661,7 +661,7 @@ public class TLC {
                         }
                         
                         index++;
-                    } catch (Exception e)
+                    } catch (final Exception e)
                     {
                         printErrorMsg("Error: An integer for checkpoint interval is required. But encountered " + args[index]);
                         return false;
@@ -680,7 +680,7 @@ public class TLC {
                     {
                         traceDepth = Integer.parseInt(args[index]);
                         index++;
-                    } catch (Exception e)
+                    } catch (final Exception e)
                     {
                         printErrorMsg("Error: An integer for trace length required. But encountered " + args[index]);
                         return false;
@@ -700,7 +700,7 @@ public class TLC {
                         seed = Long.parseLong(args[index]);
                         index++;
                         noSeed = false;
-                    } catch (Exception e)
+                    } catch (final Exception e)
                     {
                         printErrorMsg("Error: An integer for seed required. But encountered " + args[index]);
                         return false;
@@ -719,7 +719,7 @@ public class TLC {
                     {
                         aril = Long.parseLong(args[index]);
                         index++;
-                    } catch (Exception e)
+                    } catch (final Exception e)
                     {
                         printErrorMsg("Error: An integer for aril required. But encountered " + args[index]);
                         return false;
@@ -736,18 +736,18 @@ public class TLC {
                 {
                     try
                     {
-                        int bound = Integer.parseInt(args[index]);
+                        final int bound = Integer.parseInt(args[index]);
                         
                     	// make sure it's in valid range
                     	if (!TLCGlobals.isValidSetSize(bound)) {
-                    		int maxValue = Integer.MAX_VALUE;
+                    		final int maxValue = Integer.MAX_VALUE;
                     		printErrorMsg("Error: Value in interval [0, " + maxValue + "] for maxSetSize required. But encountered " + args[index]);
                     		return false;
                     	}
                     	TLCGlobals.setBound = bound;
 
                     	index++;
-                    } catch (Exception e)
+                    } catch (final Exception e)
                     {
                         printErrorMsg("Error: An integer for maxSetSize required. But encountered " + args[index]);
                         return false;
@@ -788,7 +788,7 @@ public class TLC {
 						// Most problems will only show when TLC eventually tries
 						// to write to the file.
 						tlc2.module.TLC.OUTPUT = new BufferedWriter(new FileWriter(new File(args[index++])));
-        			} catch (IOException e) {
+        			} catch (final IOException e) {
                         printErrorMsg("Error: Failed to create user output log file.");
                         return false;
         			}
@@ -804,7 +804,7 @@ public class TLC {
                 {
                     try
                     {
-                        int num = args[index].trim().toLowerCase().equals("auto")
+                        final int num = args[index].trim().toLowerCase().equals("auto")
                                 ? Runtime.getRuntime().availableProcessors()
                                 : Integer.parseInt(args[index]);
                         if (num < 1)
@@ -814,7 +814,7 @@ public class TLC {
                         }
                         TLCGlobals.setNumWorkers(num);
                         index++;
-                    } catch (Exception e)
+                    } catch (final Exception e)
                     {
                         printErrorMsg("Error: worker number or 'auto' required. But encountered " + args[index]);
                         return false;
@@ -838,7 +838,7 @@ public class TLC {
                             return false;
                         }
                         index++;
-                    } catch (Exception e)
+                    } catch (final Exception e)
                     {
                         printErrorMsg("Error: expect a nonnegative integer for -dfid option. " + "But encountered "
                                 + args[index]);
@@ -864,7 +864,7 @@ public class TLC {
                             return false;
                         }
                         index++;
-                    } catch (Exception e)
+                    } catch (final Exception e)
                     {
                         printErrorMsg("Error: A number for -fp is required. But encountered " + args[index]);
                         return false;
@@ -891,7 +891,7 @@ public class TLC {
 						// Independently of relative or absolute mem allocation,
 						// a user cannot allocate more than JVM heap space
 						// available. Conversely there is the lower hard limit TLC#MinFpMemSize.
-                        double fpMemSize = Double.parseDouble(args[index]);
+                        final double fpMemSize = Double.parseDouble(args[index]);
                         if (fpMemSize < 0) {
                             printErrorMsg("Error: An positive integer or a fraction for fpset memory size/percentage required. But encountered " + args[index]);
                             return false;
@@ -910,7 +910,7 @@ public class TLC {
                     		fpSetConfiguration.setRatio(fpMemSize);
                         }
                         index++;
-                    } catch (Exception e)
+                    } catch (final Exception e)
                     {
                         printErrorMsg("Error: An positive integer or a fraction for fpset memory size/percentage required. But encountered " + args[index]);
                         return false;
@@ -927,7 +927,7 @@ public class TLC {
                 {
                     try
                     {
-                    	int fpBits = Integer.parseInt(args[index]);
+                    	final int fpBits = Integer.parseInt(args[index]);
 
                     	// make sure it's in valid range
                     	if (!FPSet.isValid(fpBits)) {
@@ -937,7 +937,7 @@ public class TLC {
                     	fpSetConfiguration.setFpBits(fpBits);
                     	
                         index++;
-                    } catch (Exception e)
+                    } catch (final Exception e)
                     {
                         printErrorMsg("Error: An integer for fpbits required. But encountered " + args[index]);
                         return false;
@@ -1071,7 +1071,7 @@ public class TLC {
 				} else {
 					this.stateWriter = new StateWriter(dumpFile);
 				}
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				printErrorMsg(String.format("Error: Given file name %s for dumping states invalid.", dumpFile));
 				return false;
 			}
@@ -1099,7 +1099,7 @@ public class TLC {
 	 * Require a $suffix file extension unless already given. It is not clear why
 	 * this is enforced.
 	 */
-	private static String getDumpFile(String dumpFile, String suffix) {
+	private static String getDumpFile(final String dumpFile, final String suffix) {
 		if (dumpFile.endsWith(suffix)) {
 			return dumpFile;
 		}
@@ -1145,7 +1145,7 @@ public class TLC {
                 RandomEnumerableValues.setSeed(seed);
 				printStartupBanner(EC.TLC_MODE_SIMU, getSimulationRuntime(seed));
 				
-				Simulator simulator;
+				final Simulator simulator;
 				if (debugPort >= 0) {
 					assert TLCGlobals.getNumWorkers() == 1
 							: "TLCDebugger does not support running with multiple workers.";
@@ -1201,7 +1201,7 @@ public class TLC {
 
             }
 			return result;
-        } catch (Throwable e)
+        } catch (final Throwable e)
         {
             if (e instanceof StackOverflowError)
             {
@@ -1229,7 +1229,7 @@ public class TLC {
         		try {
         			tlc2.module.TLC.OUTPUT.flush();
 					tlc2.module.TLC.OUTPUT.close();
-				} catch (IOException e) { }
+				} catch (final IOException e) { }
         	}
 			modelCheckerMXWrapper.unregister();
 			// In tool mode print runtime in milliseconds, in non-tool mode print human
@@ -1366,7 +1366,7 @@ public class TLC {
      * @param resolver a resolver for the names, if <code>null</code> is used, 
      * the standard resolver {@link SimpleFilenameToStream} is used
      */
-    public void setResolver(FilenameToStream resolver)
+    public void setResolver(final FilenameToStream resolver)
     {
         this.resolver = resolver;
         ToolIO.setDefaultResolver(resolver);
@@ -1376,7 +1376,7 @@ public class TLC {
         return this.resolver;
     }
     
-    public void setStateWriter(IStateWriter sw) {
+    public void setStateWriter(final IStateWriter sw) {
     	this.stateWriter = sw;
     }
 
@@ -1385,7 +1385,7 @@ public class TLC {
      * @param msg, message to print
      * TODO remove this method and replace the calls
      */
-    private void printErrorMsg(String msg)
+    private void printErrorMsg(final String msg)
     {
         printWelcome();
         MP.printError(EC.WRONG_COMMANDLINE_PARAMS_TLC, msg);
@@ -1437,15 +1437,15 @@ public class TLC {
 	 * @param tlaFilePath Path to a TLA file.
 	 * @return Path to the parent directory of the TLA file.
 	 */
-	private static Path getTlaFileParentDir(String tlaFilePath) {
+	private static Path getTlaFileParentDir(final String tlaFilePath) {
 		if (null == tlaFilePath) {
 			return Paths.get(".");
 		}
 		
 		try {
-			Path tlaDirPath = Paths.get(tlaFilePath).getParent();
+			final Path tlaDirPath = Paths.get(tlaFilePath).getParent();
 			return null == tlaDirPath ? Paths.get(".") : tlaDirPath;
-		} catch (InvalidPathException e) { return Paths.get("."); }
+		} catch (final InvalidPathException e) { return Paths.get("."); }
 	}
 	
 	private static String mode2String(final int mode) {

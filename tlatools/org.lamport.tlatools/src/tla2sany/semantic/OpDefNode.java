@@ -404,7 +404,7 @@ public class OpDefNode extends OpDefOrDeclNode
 * The constructors.                                                        *
 ***************************************************************************/
   /* Used only for creating nullODN */
-  public OpDefNode(UniqueString us) {
+  public OpDefNode(final UniqueString us) {
     super(us, 0, -2, null, null, SyntaxTreeNode.nullSTN);
     if (st != null) {
       st.addSymbol(us, this);
@@ -412,9 +412,9 @@ public class OpDefNode extends OpDefOrDeclNode
   }
 
   /* Invoked in configuration.Configuration for built-in ops */
-  public OpDefNode(UniqueString us, int k, int ar, FormalParamNode[] parms,
-                   boolean localness, ExprNode exp, ModuleNode oModNode,
-                   SymbolTable symbolTable, TreeNode stn) {
+  public OpDefNode(final UniqueString us, final int k, final int ar, final FormalParamNode[] parms,
+                   final boolean localness, final ExprNode exp, final ModuleNode oModNode,
+                   final SymbolTable symbolTable, final TreeNode stn) {
     super(us, k, (parms == null ? -1 : parms.length), oModNode, symbolTable, stn);
     params = parms;
 
@@ -464,16 +464,16 @@ public class OpDefNode extends OpDefOrDeclNode
    * See semantic/Generator.java/startOpDefNode, and its uses.  This       *
    * argument was added by LL on 7 Apr 2007.                               *
    ************************************************************************/
-   public OpDefNode(UniqueString us,
-                    int k,                   // The kind
-                    FormalParamNode[] parms,
-                    boolean localness,
-                    ExprNode exp,             // The body
-                    ModuleNode oModNode,      // Originally defining module.
-                    SymbolTable symbolTable,
-                    TreeNode stn,
-                    boolean defined,
-                    OpDefNode src             // The source
+   public OpDefNode(final UniqueString us,
+                    final int k,                   // The kind
+                    final FormalParamNode[] parms,
+                    final boolean localness,
+                    final ExprNode exp,             // The body
+                    final ModuleNode oModNode,      // Originally defining module.
+                    final SymbolTable symbolTable,
+                    final TreeNode stn,
+                    final boolean defined,
+                    final OpDefNode src             // The source
                    ) {
     super(us, k, (parms != null ? parms.length : 0),
           oModNode, symbolTable, stn);
@@ -501,17 +501,17 @@ public class OpDefNode extends OpDefOrDeclNode
     }
   }
 
-   public OpDefNode(UniqueString us,
-           int k,                   // The kind
-           FormalParamNode[] parms,
-           boolean localness,
-           ExprNode exp,             // The body
-           ModuleNode oModNode,      // Originally defining module.
-           SymbolTable symbolTable,
-           TreeNode stn,
-           boolean defined,
-           OpDefNode src,             // The source
-           UniqueString[] compoundID
+   public OpDefNode(final UniqueString us,
+                    final int k,                   // The kind
+                    final FormalParamNode[] parms,
+                    final boolean localness,
+                    final ExprNode exp,             // The body
+                    final ModuleNode oModNode,      // Originally defining module.
+                    final SymbolTable symbolTable,
+                    final TreeNode stn,
+                    final boolean defined,
+                    final OpDefNode src,             // The source
+                    final UniqueString[] compoundID
           ) {
 	   this(us,k,parms,localness,exp,oModNode,symbolTable,stn,defined,src);
 	   this.compoundID = compoundID;
@@ -549,13 +549,13 @@ public class OpDefNode extends OpDefOrDeclNode
   *    body    - there is none                                             *
   *    defined - always true because it can't be declared RECURSIVE.       *
   *************************************************************************/
-  public OpDefNode(UniqueString us,
-                   FormalParamNode[] parms,
-                   boolean localness,
-                   ModuleNode oModNode,
-                   SymbolTable symbolTable,
-                   TreeNode stn,
-                   OpDefNode src  // the source
+  public OpDefNode(final UniqueString us,
+                   final FormalParamNode[] parms,
+                   final boolean localness,
+                   final ModuleNode oModNode,
+                   final SymbolTable symbolTable,
+                   final TreeNode stn,
+                   final OpDefNode src  // the source
                   ) {
     super(us, ModuleInstanceKind, (parms == null ? -1 : parms.length),
           oModNode, symbolTable, stn);
@@ -571,8 +571,8 @@ public class OpDefNode extends OpDefOrDeclNode
   * Constructor for NumberedProofStepKind nodes.  It should never be       *
   * called with symbolTable null.                                          *
   *************************************************************************/
-  public OpDefNode(UniqueString us,  LevelNode step, ModuleNode oModNode,
-                   SymbolTable symbolTable, TreeNode stn) {
+  public OpDefNode(final UniqueString us, final LevelNode step, final ModuleNode oModNode,
+                   final SymbolTable symbolTable, final TreeNode stn) {
     super(us, NumberedProofStepKind, 0, oModNode, symbolTable, stn) ;
     this.stepNode = step ;
     st.addSymbol(us, this);
@@ -606,7 +606,7 @@ public class OpDefNode extends OpDefOrDeclNode
   * params field for a node that was originally constructed with a dummy   *
   * field when processing a RECURSIVE declaration.                         *
   *************************************************************************/
-  public final void setParams(FormalParamNode[] pms) { this.params = pms ;}
+  public final void setParams(final FormalParamNode[] pms) { this.params = pms ;}
 
 
   /**
@@ -636,7 +636,7 @@ public class OpDefNode extends OpDefOrDeclNode
   /*************************************************************************
   * setBody() is also used by semantic/Generator.endOpDefNode.             *
   *************************************************************************/
-  public final void setBody(ExprNode body) { this.body = body; }
+  public final void setBody(final ExprNode body) { this.body = body; }
 
 
   /*************************************************************************
@@ -687,7 +687,7 @@ public class OpDefNode extends OpDefOrDeclNode
    * 
    * @see IllegalOperatorTest
    */
-  private boolean matchingOpArgOperand (ExprOrOpArgNode arg, int i) {
+  private boolean matchingOpArgOperand (final ExprOrOpArgNode arg, final int i) {
 	  // Set result to true iff arg is an operator argument of the
 	  // correct arity.
 	  boolean result = (arg instanceof OpArgNode) &&
@@ -700,9 +700,9 @@ public class OpDefNode extends OpDefOrDeclNode
 	  // an argument that is an operator.  Note that an argument j of an
 	  // OpDefNode is an operator iff its arity is  0.
 	  if (result) {
-		  OpArgNode argOpArg = (OpArgNode) arg ;
+		  final OpArgNode argOpArg = (OpArgNode) arg ;
 		  if (argOpArg.getOp() instanceof OpDefNode) {
-			  OpDefNode opdefArg = (OpDefNode) argOpArg.getOp() ;
+			  final OpDefNode opdefArg = (OpDefNode) argOpArg.getOp() ;
 			  for (int j = 0; j < opdefArg.getArity() ; j++) {
 				  if (opdefArg.getParams()[j].getArity() > 0) {
 					  result = false ;
@@ -733,10 +733,10 @@ public class OpDefNode extends OpDefOrDeclNode
    * to oan (i.e args[]) match the argument pattern required by THIS
    * OpDefNode in terms of arity, etc.
    */
-  public final boolean match(OpApplNode oanParent, ModuleNode mn) throws AbortException {
-    ExprOrOpArgNode[] args       = oanParent.getArgs();  // arg expr's that THIS operator is being applied to
+  public final boolean match(final OpApplNode oanParent, final ModuleNode mn) throws AbortException {
+    final ExprOrOpArgNode[] args       = oanParent.getArgs();  // arg expr's that THIS operator is being applied to
     boolean           result     = true;                 // Remains true unless an error is detected
-    Location loc = (oanParent.getTreeNode() != null
+    final Location loc = (oanParent.getTreeNode() != null
                     ? oanParent.getTreeNode().getLocation()
                     : null);
 
@@ -838,12 +838,12 @@ public class OpDefNode extends OpDefOrDeclNode
   * There doesn't seem to be any easy way to write these methods only      *
   * once.                                                                  *
   *************************************************************************/
-  public void setLabels(Hashtable<UniqueString, LabelNode> ht) {labels = ht; }
+  public void setLabels(final Hashtable<UniqueString, LabelNode> ht) {labels = ht; }
     /***********************************************************************
     * Sets the set of labels.                                              *
     ***********************************************************************/
 
-  public LabelNode getLabel(UniqueString us) {
+  public LabelNode getLabel(final UniqueString us) {
     /***********************************************************************
     * If the hashtable `labels' contains a LabelNode with name `us',       *
     * then that LabelNode is returned; otherwise null is returned.         *
@@ -853,7 +853,7 @@ public class OpDefNode extends OpDefOrDeclNode
    }
 
   @SuppressWarnings("unlikely-arg-type")
-public boolean addLabel(LabelNode odn) {
+public boolean addLabel(final LabelNode odn) {
     /***********************************************************************
     * If the hashtable `labels' contains no OpDefNode with the same name   *
     * as odn, then odn is added to the set and true is return; else the    *
@@ -871,10 +871,10 @@ public boolean addLabel(LabelNode odn) {
     * `labels'.                                                            *
     ***********************************************************************/
     if (labels == null) {return new LabelNode[0];} ;
-    Vector<LabelNode> v = new Vector<LabelNode>() ;
-    Enumeration<LabelNode> e = labels.elements() ;
+    final Vector<LabelNode> v = new Vector<LabelNode>() ;
+    final Enumeration<LabelNode> e = labels.elements() ;
     while (e.hasMoreElements()) { v.addElement(e.nextElement()); } ;
-    LabelNode[] retVal = new LabelNode[v.size()] ;
+    final LabelNode[] retVal = new LabelNode[v.size()] ;
     for (int i = 0 ; i < v.size() ; i++)
       {retVal[i] = (LabelNode) v.elementAt(i); } ;
     return retVal ;
@@ -942,7 +942,7 @@ public boolean addLabel(LabelNode odn) {
     ***********************************************************************/
 
   /* Set the level information for this builtin operator. */
-  public final void setBuiltinLevel(BuiltInLevel.Data d) {
+  public final void setBuiltinLevel(final BuiltInLevel.Data d) {
     if (d.arity == -1) {
       if (d.argMaxLevels.length > 0) {
         /*******************************************************************
@@ -989,7 +989,7 @@ public boolean addLabel(LabelNode odn) {
   }
 
   @Override
-  public final boolean levelCheck(int itr) {
+  public final boolean levelCheck(final int itr) {
     if (   (this.levelChecked >= itr)
         || (    (! inRecursiveSection)
              && (this.levelChecked > 0))) return this.levelCorrect;
@@ -1005,7 +1005,7 @@ public boolean addLabel(LabelNode odn) {
       * but just in case some reorganization of things causes it to        *
       * happen...                                                          *
       *********************************************************************/
-      LevelNode[] subs = new LevelNode[1] ;
+      final LevelNode[] subs = new LevelNode[1] ;
       subs[0] = stepNode ;
       this.levelCorrect = this.stepNode.levelCheck(itr);
       return this.levelCheckSubnodes(itr, subs) ;
@@ -1020,12 +1020,12 @@ public boolean addLabel(LabelNode odn) {
     // Calculate level information:
     this.level = Math.max(this.level, this.body.getLevel());
 
-     SetOfLevelConstraints lcSet = this.body.getLevelConstraints();
+     final SetOfLevelConstraints lcSet = this.body.getLevelConstraints();
     for (int i = 0; i < this.params.length; i++) {
       /*********************************************************************
       * Modified to never increase maxLevels[i].                           *
       *********************************************************************/
-      Object plevel = lcSet.get(params[i]);
+      final Object plevel = lcSet.get(params[i]);
       if (plevel != null) {
         this.maxLevels[i] = Math.min(this.maxLevels[i],
                                      ((Integer)plevel).intValue());
@@ -1045,12 +1045,12 @@ public boolean addLabel(LabelNode odn) {
     }
 
     this.minMaxLevel = new int[this.params.length][];
-    SetOfArgLevelConstraints alcSet = this.body.getArgLevelConstraints();
+    final SetOfArgLevelConstraints alcSet = this.body.getArgLevelConstraints();
     for (int i = 0; i < this.params.length; i++) {
-      int alen = this.params[i].getArity();
+      final int alen = this.params[i].getArity();
       this.minMaxLevel[i] = new int[alen];
       for (int j = 0; j < alen; j++) {
-        Object alevel = alcSet.get(new ParamAndPosition(this.params[i], j));
+        final Object alevel = alcSet.get(new ParamAndPosition(this.params[i], j));
         if (alevel == null) {
           this.minMaxLevel[i][j] = MinLevel;
         }
@@ -1061,12 +1061,12 @@ public boolean addLabel(LabelNode odn) {
     }
 
     this.opLevelCond = new boolean[this.params.length][this.params.length][];
-    HashSet<ArgLevelParam> alpSet = this.body.getArgLevelParams();
+    final HashSet<ArgLevelParam> alpSet = this.body.getArgLevelParams();
     for (int i = 0; i < this.params.length; i++) {
       for (int j = 0; j < this.params.length; j++) {
         this.opLevelCond[i][j] = new boolean[this.params[i].getArity()];
         for (int k = 0; k < this.params[i].getArity(); k++) {
-          ArgLevelParam alp = new ArgLevelParam(this.params[i], k, this.params[j]);
+          final ArgLevelParam alp = new ArgLevelParam(this.params[i], k, this.params[j]);
           this.opLevelCond[i][j][k] = alpSet.contains(alp);
         }
       }
@@ -1103,16 +1103,16 @@ public boolean addLabel(LabelNode odn) {
 
     this.argLevelConstraints = (SetOfArgLevelConstraints)alcSet.clone();
     for (int i = 0; i < this.params.length; i++) {
-      int alen = this.params[i].getArity();
+      final int alen = this.params[i].getArity();
       for (int j = 0; j < alen; j++) {
         this.argLevelConstraints.remove(new ParamAndPosition(this.params[i], j));
       }
     }
 
 //    this.argLevelParams = new HashSet();
-    Iterator<ArgLevelParam> iter = alpSet.iterator();
+    final Iterator<ArgLevelParam> iter = alpSet.iterator();
     while (iter.hasNext()) {
-      ArgLevelParam alp = iter.next();
+      final ArgLevelParam alp = iter.next();
       if (!alp.op.occur(this.params) ||
           !alp.param.occur(this.params)) {
         this.argLevelParams.add(alp);
@@ -1152,21 +1152,21 @@ public boolean addLabel(LabelNode odn) {
 /***************************************************************************
 * The following Asserts can be removed after debugging.                    *
 ***************************************************************************/
-  public final int getMaxLevel(int i) {
+  public final int getMaxLevel(final int i) {
     if (this.levelChecked == 0)
       {throw new WrongInvocationException("getMaxLevel called before levelCheck");};
-    int idx = (this.getArity() == -1) ? 0 : i;
+    final int idx = (this.getArity() == -1) ? 0 : i;
     return this.maxLevels[idx];
   }
 
-  public final int getWeight(int i) {
+  public final int getWeight(final int i) {
     if (this.levelChecked == 0)
       {throw new WrongInvocationException("getWeight called before levelCheck");};
-    int idx = (this.getArity() == -1) ? 0 : i;
+    final int idx = (this.getArity() == -1) ? 0 : i;
     return this.weights[idx];
   }
 
-  public final int getMinMaxLevel(int i, int j) {
+  public final int getMinMaxLevel(final int i, final int j) {
     if (this.levelChecked == 0)
       {throw new WrongInvocationException("getMinMaxLevel called before levelCheck");};
     if (this.minMaxLevel == null) {
@@ -1175,7 +1175,7 @@ public boolean addLabel(LabelNode odn) {
     return this.minMaxLevel[i][j];
   }
 
-  public final boolean getOpLevelCond(int i, int j, int k) {
+  public final boolean getOpLevelCond(final int i, final int j, final int k) {
     if (this.levelChecked == 0)
       {throw new WrongInvocationException("getOpLevelCond called before levelCheck");};
     if (this.opLevelCond == null) {
@@ -1270,8 +1270,8 @@ public boolean addLabel(LabelNode odn) {
    * the Explorer tool.
    */
   @Override
-  public final void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
@@ -1316,7 +1316,7 @@ public boolean addLabel(LabelNode odn) {
    * of the tree that is displayed.
    */
   @Override
-  public final String toString(int depth) {
+  public final String toString(final int depth) {
     if (depth <= 0) return "";
 
     String ret = "\n*OpDefNode: " + this.getName().toString()
@@ -1380,7 +1380,7 @@ public boolean addLabel(LabelNode odn) {
     ***********************************************************************/
     if (labels != null) {
        ret += "\n  Labels: " ;
-       Enumeration<UniqueString> list = labels.keys() ;
+       final Enumeration<UniqueString> list = labels.keys() ;
        while (list.hasMoreElements()) {
           ret += list.nextElement().toString() + "  " ;
          } ;
@@ -1399,9 +1399,9 @@ public boolean addLabel(LabelNode odn) {
 		final StringBuffer buf = new StringBuffer(comment);
 		buf.append("\n");
 		
-		TreeNode[] ones = getTreeNode().one();
+		final TreeNode[] ones = getTreeNode().one();
 		if (ones != null) {
-			for (TreeNode treeNode : ones) {
+			for (final TreeNode treeNode : ones) {
 				// TODO This omits all whitespaces from the definition and is thus hard to read.
 				// I couldn't figure out a better way to obtain the original image though.
 				buf.append(treeNode.getHumanReadableImage());
@@ -1426,7 +1426,7 @@ public boolean addLabel(LabelNode odn) {
     }
   }
 
-  protected Element getSymbolElement(Document doc, SymbolContext context) {
+  protected Element getSymbolElement(final Document doc, final SymbolContext context) {
     Element ret = null;
     switch (getKind()) {
       case UserDefinedOpKind:
@@ -1435,9 +1435,9 @@ public boolean addLabel(LabelNode odn) {
         ret.appendChild(appendText(doc,"arity",Integer.toString(getArity())));
         ret.appendChild(appendElement(doc,"body",body.export(doc,context)));
         if (params != null) {
-          Element arguments = doc.createElement("params");
+          final Element arguments = doc.createElement("params");
           for (int i=0; i<params.length; i++) {
-            Element lp = doc.createElement("leibnizparam");
+            final Element lp = doc.createElement("leibnizparam");
             lp.appendChild(params[i].export(doc,context));
             if (isLeibnizArg != null && isLeibnizArg[i]) lp.appendChild(doc.createElement("leibniz"));
             arguments.appendChild(lp);
@@ -1450,10 +1450,10 @@ public boolean addLabel(LabelNode odn) {
         ret = doc.createElement("BuiltInKind");
         ret.appendChild(appendText(doc,"uniquename",getName().toString()));
         ret.appendChild(appendText(doc,"arity",Integer.toString(getArity())));
-        Element arguments2 = doc.createElement("params");
+        final Element arguments2 = doc.createElement("params");
         if (params != null) {
           for (int i=0; i<params.length; i++) {
-            Element lp = doc.createElement("leibnizparam");
+            final Element lp = doc.createElement("leibnizparam");
             lp.appendChild(params[i].export(doc,context));
             if (isLeibnizArg != null && isLeibnizArg[i]) lp.appendChild(doc.createElement("leibniz"));
             arguments2.appendChild(lp);

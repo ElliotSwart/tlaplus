@@ -34,7 +34,7 @@ public class DFIDWorker extends IdThread implements IWorker {
   private boolean moreLevel;
 
   // SZ Feb 20, 2009: changes due to the introduced super type
-  public DFIDWorker(int id, int toLevel, AbstractChecker tlc) {
+  public DFIDWorker(final int id, final int toLevel, final AbstractChecker tlc) {
     super(id);
     this.tlc = (DFIDModelChecker) tlc;
     this.rng = new RandomGenerator();
@@ -59,7 +59,7 @@ public class DFIDWorker extends IdThread implements IWorker {
     this.moreLevel = false;
   }
 
-  public final void setStop(int code) { this.stopCode = code; }
+  public final void setStop(final int code) { this.stopCode = code; }
 
   public final boolean isTerminated() { return this.stopCode == 2; }
 
@@ -72,9 +72,9 @@ public class DFIDWorker extends IdThread implements IWorker {
    */
   private final int getInit() {
     while (this.initLen > 0) {
-      int index = (int)Math.floor(this.rng.nextDouble() * this.initLen);
-      long fp = this.theInitFPs[index];
-      int status = this.theFPSet.getStatus(fp);
+      final int index = (int)Math.floor(this.rng.nextDouble() * this.initLen);
+      final long fp = this.theInitFPs[index];
+      final int status = this.theFPSet.getStatus(fp);
 
       // Assert.check(status != FPIntSet.NEW);
       if (!FPIntSet.isCompleted(status)) {
@@ -93,15 +93,15 @@ public class DFIDWorker extends IdThread implements IWorker {
    * Return the index of the chosen state. Return -1 if there is no
    * such kind of next states.
    */
-  private final int getNext(TLCState curState, long cfp) {
-    StateVec succStates = this.succStateStack[this.curLevel-1];
-    LongVec succFPs = this.succFPStack[this.curLevel-1];
+  private final int getNext(final TLCState curState, final long cfp) {
+    final StateVec succStates = this.succStateStack[this.curLevel-1];
+    final LongVec succFPs = this.succFPStack[this.curLevel-1];
     int len = succFPs.size();
 
     while (len > 0) {
-      int index = (int)Math.floor(this.rng.nextDouble() * len);
-      long fp = succFPs.elementAt(index);
-      int status = this.theFPSet.getStatus(fp);
+      final int index = (int)Math.floor(this.rng.nextDouble() * len);
+      final long fp = succFPs.elementAt(index);
+      final int status = this.theFPSet.getStatus(fp);
 
       // Assert.check(status != FPIntSet.NEW);
       if (!FPIntSet.isCompleted(status) &&
@@ -122,7 +122,7 @@ public class DFIDWorker extends IdThread implements IWorker {
    * @param s1 
    * @param s2
    */
-  public final void printErrorTrace(int errorCode, String[] parameters, TLCState s1, TLCState s2) 
+  public final void printErrorTrace(final int errorCode, final String[] parameters, final TLCState s1, final TLCState s2)
   {
       MP.printError(errorCode, parameters);
       MP.printError(EC.TLC_BEHAVIOR_UP_TO_THIS_POINT);
@@ -147,7 +147,7 @@ public class DFIDWorker extends IdThread implements IWorker {
    * @param s1 Predecessor state to state which fails to satisfy invariant.
    * @param s2 State which fails to satisfy invariant.
    */
-  public final void printInvariantTrace(int errorCode, String[] parameters, TLCState s1, TLCState s2)
+  public final void printInvariantTrace(final int errorCode, final String[] parameters, final TLCState s1, final TLCState s2)
   {
       MP.printError(errorCode, parameters);
       MP.printError(EC.TLC_BEHAVIOR_UP_TO_THIS_POINT);
@@ -228,7 +228,7 @@ public class DFIDWorker extends IdThread implements IWorker {
 	}
       }
     }
-    catch (Throwable e) {
+    catch (final Throwable e) {
       // Something bad happened. Quit...
       // Assert.printStack(e);
       this.tlc.setStop(2);

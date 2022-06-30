@@ -53,7 +53,7 @@ public class MonolithSpecExtractor {
 	// by line and extract the lines in between the start and end marker.
 	
 	public static InputStream config(final InputStream in, final String configName) throws IOException {
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+		try (final BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 			String config = "";
 
 			String line = "";
@@ -77,7 +77,7 @@ public class MonolithSpecExtractor {
 			throws IOException {
 		final File out = FileUtil.createTempFile(moduleName + TLAConstants.Files.TLA_EXTENSION);
 		final PrintWriter pw = new PrintWriter(new FileWriter(out));
-		try (BufferedReader reader = new BufferedReader(new FileReader(in))) {
+		try (final BufferedReader reader = new BufferedReader(new FileReader(in))) {
 			boolean active = false;
 
 			String line = "";

@@ -31,7 +31,7 @@ public class DynamicFPSetManagerTest {
 	public void testCtorInvalidZero() throws RemoteException {
 		try {
 			new DynamicFPSetManager(0);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return;
 		}
 		fail("Exception expected");
@@ -44,7 +44,7 @@ public class DynamicFPSetManagerTest {
 	public void testCtorInvalidMin1() throws RemoteException {
 		try {
 			new DynamicFPSetManager(-1);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return;
 		}
 		fail("Exception expected");
@@ -56,8 +56,8 @@ public class DynamicFPSetManagerTest {
 	 */
 	@Test
 	public void testCtor1() throws RemoteException {
-		DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(1);
-		long mask = dynamicFPSetManager.getMask();
+		final DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(1);
+		final long mask = dynamicFPSetManager.getMask();
 		assertEquals(1L, mask);
 	}
 	
@@ -67,8 +67,8 @@ public class DynamicFPSetManagerTest {
 	 */
 	@Test
 	public void testCtor10() throws RemoteException {
-		DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(10);
-		long mask = dynamicFPSetManager.getMask();
+		final DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(10);
+		final long mask = dynamicFPSetManager.getMask();
 		assertEquals(15L, mask);
 	}
 	
@@ -78,8 +78,8 @@ public class DynamicFPSetManagerTest {
 	 */
 	@Test
 	public void testCtor31() throws RemoteException {
-		DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(31);
-		long mask = dynamicFPSetManager.getMask();
+		final DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(31);
+		final long mask = dynamicFPSetManager.getMask();
 		assertEquals(31L, mask);
 	}
 	
@@ -89,8 +89,8 @@ public class DynamicFPSetManagerTest {
 	 */
 	@Test
 	public void testCtor32() throws RemoteException {
-		DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(32);
-		long mask = dynamicFPSetManager.getMask();
+		final DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(32);
+		final long mask = dynamicFPSetManager.getMask();
 		assertEquals(63L, mask);
 	}
 	
@@ -100,8 +100,8 @@ public class DynamicFPSetManagerTest {
 	 */
 	@Test
 	public void testCtor33() throws RemoteException {
-		DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(33);
-		long mask = dynamicFPSetManager.getMask();
+		final DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(33);
+		final long mask = dynamicFPSetManager.getMask();
 		assertEquals(63L, mask);
 	}
 
@@ -111,8 +111,8 @@ public class DynamicFPSetManagerTest {
 	 */
 	@Test
 	public void testCtorMax() throws RemoteException {
-		DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(Integer.MAX_VALUE);
-		long mask = dynamicFPSetManager.getMask();
+		final DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(Integer.MAX_VALUE);
+		final long mask = dynamicFPSetManager.getMask();
 		assertEquals((Integer.MAX_VALUE), mask);
 	}
 
@@ -175,10 +175,10 @@ public class DynamicFPSetManagerTest {
 			dfm.register(new MemFPSet(), "localhost" + i);
 		}
 		
-		for (Entry<Long, Integer> pair : pairs.entrySet()) {
-			long fp = pair.getKey();
-			int index = dfm.getFPSetIndex(fp);
-			int expected = pair.getValue();
+		for (final Entry<Long, Integer> pair : pairs.entrySet()) {
+			final long fp = pair.getKey();
+			final int index = dfm.getFPSetIndex(fp);
+			final int expected = pair.getValue();
 			assertEquals(expected, index);
 		}
 	}
@@ -188,7 +188,7 @@ public class DynamicFPSetManagerTest {
 	 */
 	@Test
 	public void testReassingInvalidMin1() throws RemoteException {
-		int expectedNumOfServers = 1;
+		final int expectedNumOfServers = 1;
 		final DynamicFPSetManager dfm = new DynamicFPSetManager(expectedNumOfServers);
 		for (int i = 0; i < expectedNumOfServers; i++) {
 			dfm.register(new MemFPSet(), "localhost" + i);
@@ -197,7 +197,7 @@ public class DynamicFPSetManagerTest {
 		// invalid input
 		try {
 			dfm.reassign(-1);
-		} catch (IllegalArgumentException e){
+		} catch (final IllegalArgumentException e){
 			// expected
 			return;
 		}
@@ -209,7 +209,7 @@ public class DynamicFPSetManagerTest {
 	 */
 	@Test
 	public void testReassingInvalid2() throws RemoteException {
-		int expectedNumOfServers = 1;
+		final int expectedNumOfServers = 1;
 		final DynamicFPSetManager dfm = new DynamicFPSetManager(expectedNumOfServers);
 		for (int i = 0; i < expectedNumOfServers; i++) {
 			dfm.register(new MemFPSet(), "localhost" + i);
@@ -218,7 +218,7 @@ public class DynamicFPSetManagerTest {
 		// invalid input
 		try {
 			dfm.reassign(expectedNumOfServers);
-		} catch (IllegalArgumentException e){
+		} catch (final IllegalArgumentException e){
 			// expected
 			return;
 		}
@@ -231,13 +231,13 @@ public class DynamicFPSetManagerTest {
 	 */
 	@Test
 	public void testReassingTerminate() throws RemoteException {
-		int expectedNumOfServers = 1;
+		final int expectedNumOfServers = 1;
 		final DynamicFPSetManager dfm = new DynamicFPSetManager(expectedNumOfServers);
 		for (int i = 0; i < expectedNumOfServers; i++) {
 			dfm.register(new MemFPSet(), "localhost" + i);
 		}
 
-		int reassign = dfm.reassign(0);
+		final int reassign = dfm.reassign(0);
 		assertEquals(-1, reassign);
 	}
 	
@@ -246,7 +246,7 @@ public class DynamicFPSetManagerTest {
 	 */
 	@Test
 	public void testReassing() throws RemoteException {
-		int expectedNumOfServers = 10;
+		final int expectedNumOfServers = 10;
 		final DynamicFPSetManager dfm = new DynamicFPSetManager(expectedNumOfServers);
 		for (int i = 0; i < expectedNumOfServers; i++) {
 			dfm.register(new MemFPSet(), "localhost" + i);
@@ -290,7 +290,7 @@ public class DynamicFPSetManagerTest {
 	 */
 	@Test
 	public void testFailoverPut() throws RemoteException {
-		int expectedNumOfServers = 2;
+		final int expectedNumOfServers = 2;
 		final DynamicFPSetManager dfm = new DynamicFPSetManager(expectedNumOfServers);
 		dfm.register(new FaultyFPSet(), "TestFPSet");
 		dfm.register(new MemFPSet(), "RegularFPSet");
@@ -315,7 +315,7 @@ public class DynamicFPSetManagerTest {
 	 */
 	@Test
 	public void testFailoverPutBlock() throws RemoteException {
-		int expectedNumOfServers = 2;
+		final int expectedNumOfServers = 2;
 		final DynamicFPSetManager dfm = new DynamicFPSetManager(expectedNumOfServers);
 		dfm.register(new FaultyFPSet(), "TestFPSet");
 		dfm.register(new MemFPSet(), "RegularFPSet");
@@ -369,7 +369,7 @@ public class DynamicFPSetManagerTest {
 	 */
 	@Test
 	public void testFailoverTerminationPutBlock() throws RemoteException {
-		int expectedNumOfServers = 2;
+		final int expectedNumOfServers = 2;
 		final DynamicFPSetManager dfm = new DynamicFPSetManager(expectedNumOfServers);
 		dfm.register(new FaultyFPSet(), "TestFPSet1");
 		dfm.register(new FaultyFPSet(), "TestFPSet2");
@@ -422,7 +422,7 @@ public class DynamicFPSetManagerTest {
 	 */
 	@Test
 	public void testFailoverTerminationPutBlockConcurrent() throws RemoteException {
-		int expectedNumOfServers = 2;
+		final int expectedNumOfServers = 2;
 		final DynamicFPSetManager dfm = new DynamicFPSetManager(expectedNumOfServers);
 		dfm.register(new FaultyFPSet(), "TestFPSet1");
 		dfm.register(new FaultyFPSet(), "TestFPSet2");
@@ -487,7 +487,7 @@ public class DynamicFPSetManagerTest {
 	 */
 	@Test
 	public void testPutBlockConcurrentOrder() throws IOException {
-		int expectedNumOfServers = 20;
+		final int expectedNumOfServers = 20;
 		final DynamicFPSetManager dfm = new DynamicFPSetManager(expectedNumOfServers);
 		
 		// expectedNumOfServers - 1 empty fpsets
@@ -498,7 +498,7 @@ public class DynamicFPSetManagerTest {
 		final long fp = 1L;
 		
 		// add a single non-empty fpset at the last position
-		FPSet nonEmptyFPSet = new MemFPSet();
+		final FPSet nonEmptyFPSet = new MemFPSet();
 		nonEmptyFPSet.put(fp);
 		dfm.register(nonEmptyFPSet, "localhost");
 		

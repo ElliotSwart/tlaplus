@@ -54,8 +54,8 @@ public class TLAFlightRecorder {
 		private boolean isFinal;
 	}
 
-	public static void progress(boolean isFinal, final int diameter, final long states, final long distinctStates, final long unseen,
-			final long statesPerMinute, final long distinctStatesPerMinute) {
+	public static void progress(final boolean isFinal, final int diameter, final long states, final long distinctStates, final long unseen,
+                                final long statesPerMinute, final long distinctStatesPerMinute) {
 		try {
 			final ProgressEvent e = new ProgressEvent();
 			e.isFinal = isFinal;
@@ -66,7 +66,7 @@ public class TLAFlightRecorder {
 			e.states = states;
 			e.distStates = distinctStates;
 			e.commit();
-		} catch (NoClassDefFoundError e) {
+		} catch (final NoClassDefFoundError e) {
 			// Java 1.8 doesn't have jdk.jfr.Event and thus this flight recording is broken.
 		}
 	}
@@ -84,7 +84,7 @@ public class TLAFlightRecorder {
 			final MessageEvent e = new MessageEvent();
 			e.message = message;
 			e.commit();
-		} catch (NoClassDefFoundError e) {
+		} catch (final NoClassDefFoundError e) {
 			// Java 1.8 doesn't have jdk.jfr.Event and thus this flight recording is broken.
 		}
 		return message;

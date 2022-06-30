@@ -137,16 +137,16 @@ public class ThmOrAssumpDefNode extends SymbolNode
   * The Constructor.                                                      *
   *************************************************************************/
   public ThmOrAssumpDefNode(
-           UniqueString name,       // The thm/assump name.
-           boolean      thm,        // true if a theorem, false if an assump.
-           LevelNode    exp,        // The body
-           ModuleNode   oModNode,   // Name of module.
-           SymbolTable  st,         // The current value of
-                                    // Generator.symbolTable
-           TreeNode stn,            // The syntax node.
-           FormalParamNode[] parms, // The parameters, or null if none.
-           ModuleNode   iFrom,      // The instantiatedFrom field.
-           ThmOrAssumpDefNode src   // The source field.
+          final UniqueString name,       // The thm/assump name.
+          final boolean      thm,        // true if a theorem, false if an assump.
+          final LevelNode    exp,        // The body
+          final ModuleNode   oModNode,   // Name of module.
+          final SymbolTable  st,         // The current value of
+          // Generator.symbolTable
+          final TreeNode stn,            // The syntax node.
+          final FormalParamNode[] parms, // The parameters, or null if none.
+          final ModuleNode   iFrom,      // The instantiatedFrom field.
+          final ThmOrAssumpDefNode src   // The source field.
                            ) {
     super(ThmOrAssumpDefKind, stn, name) ;
     this.theorem    = thm;
@@ -182,17 +182,17 @@ public class ThmOrAssumpDefNode extends SymbolNode
   * not used when created a ThmOrAssumpDefNode by instantiation, so        *
   * getInstantitedFrom will be null for this object.                       *
   *************************************************************************/
-  public ThmOrAssumpDefNode(UniqueString name, TreeNode stn) {
+  public ThmOrAssumpDefNode(final UniqueString name, final TreeNode stn) {
     super(ThmOrAssumpDefKind, stn, name) ;
    }
 
   public void construct(
-           boolean      thm,       // true if a theorem, false if an assump.
-           LevelNode    exp,       // The body
-           ModuleNode   oModNode,  // Name of module.
-           SymbolTable  st,        // The current value of
-                                   // Generator.symbolTable
-           FormalParamNode[] parms // The parameters, or null if none.
+          final boolean      thm,       // true if a theorem, false if an assump.
+          final LevelNode    exp,       // The body
+          final ModuleNode   oModNode,  // Name of module.
+          final SymbolTable  st,        // The current value of
+          // Generator.symbolTable
+          final FormalParamNode[] parms // The parameters, or null if none.
                            ) {
     this.theorem    = thm;
     this.body       = exp;
@@ -271,18 +271,18 @@ public class ThmOrAssumpDefNode extends SymbolNode
     * Theorem and assumption definitions are local iff imported with a     *
     * LOCAL instance.                                                      *
     ***********************************************************************/
-  public final void setLocal(boolean localness) {
+  public final void setLocal(final boolean localness) {
       local = localness ;
   }
 
 //  public final ModuleNode getModuleNode() { return this.moduleNode; }
 
-  public final boolean match( OpApplNode test, ModuleNode mn ) {
+  public final boolean match(final OpApplNode test, final ModuleNode mn ) {
     /***********************************************************************
     * True iff the current object has the same arity as the node operator  *
     * of the OpApplNode test.                                              *
     ***********************************************************************/
-    SymbolNode odn = test.getOperator();
+    final SymbolNode odn = test.getOperator();
     return odn.getArity() == 0;
   }
 
@@ -294,12 +294,12 @@ public class ThmOrAssumpDefNode extends SymbolNode
   * There doesn't seem to be any easy way to write these methods only      *
   * once.                                                                  *
   *************************************************************************/
-  public void setLabels(Hashtable<UniqueString, LabelNode> ht) {labels = ht; }
+  public void setLabels(final Hashtable<UniqueString, LabelNode> ht) {labels = ht; }
     /***********************************************************************
     * Sets the set of labels.                                              *
     ***********************************************************************/
 
-  public LabelNode getLabel(UniqueString us) {
+  public LabelNode getLabel(final UniqueString us) {
     /***********************************************************************
     * If the hashtable `labels' contains a LabelNode with name `us',       *
     * then that LabelNode is returned; otherwise null is returned.         *
@@ -308,7 +308,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
     return (LabelNode) labels.get(us) ;
    }
 
-  public boolean addLabel(LabelNode odn) {
+  public boolean addLabel(final LabelNode odn) {
     /***********************************************************************
     * If the hashtable `labels' contains no OpDefNode with the same name   *
     * as odn, then odn is added to the set and true is return; else the    *
@@ -326,10 +326,10 @@ public class ThmOrAssumpDefNode extends SymbolNode
     * `labels'.                                                            *
     ***********************************************************************/
     if (labels == null) {return new LabelNode[0];} ;
-    Vector<LabelNode> v = new Vector<>() ;
-    Enumeration<LabelNode> e = labels.elements() ;
+    final Vector<LabelNode> v = new Vector<>() ;
+    final Enumeration<LabelNode> e = labels.elements() ;
     while (e.hasMoreElements()) { v.addElement(e.nextElement()); } ;
-    LabelNode[] retVal = new LabelNode[v.size()] ;
+    final LabelNode[] retVal = new LabelNode[v.size()] ;
     for (int i = 0 ; i < v.size() ; i++)
       {retVal[i] = v.elementAt(i); } ;
     return retVal ;
@@ -420,7 +420,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
     * of opArg.                                                            *
     ***********************************************************************/
   @Override
-  public final boolean levelCheck(int itr) {
+  public final boolean levelCheck(final int itr) {
       if (this.levelChecked >= itr) { return this.levelCorrect; }
       this.levelChecked = itr ;
 
@@ -443,9 +443,9 @@ public class ThmOrAssumpDefNode extends SymbolNode
       this.levelCorrect = this.body.levelCheck(itr);
       this.level = this.body.getLevel();
 
-      SetOfLevelConstraints lcSet = this.body.getLevelConstraints();
+      final SetOfLevelConstraints lcSet = this.body.getLevelConstraints();
       for (int i = 0; i < this.params.length; i++) {
-         Object plevel = lcSet.get(params[i]);
+         final Object plevel = lcSet.get(params[i]);
          if (plevel != null) {
              this.maxLevels[i] = ((Integer)plevel).intValue();
            }
@@ -458,12 +458,12 @@ public class ThmOrAssumpDefNode extends SymbolNode
         }
 
       this.minMaxLevel = new int[this.params.length][];
-      SetOfArgLevelConstraints alcSet = this.body.getArgLevelConstraints();
+      final SetOfArgLevelConstraints alcSet = this.body.getArgLevelConstraints();
       for (int i = 0; i < this.params.length; i++) {
-        int alen = this.params[i].getArity();
+        final int alen = this.params[i].getArity();
         this.minMaxLevel[i] = new int[alen];
         for (int j = 0; j < alen; j++) {
-          Object alevel = alcSet.get(new ParamAndPosition(this.params[i], j));
+          final Object alevel = alcSet.get(new ParamAndPosition(this.params[i], j));
           if (alevel == null) {
             this.minMaxLevel[i][j] = MinLevel;
           }
@@ -474,12 +474,12 @@ public class ThmOrAssumpDefNode extends SymbolNode
       }
 
       this.opLevelCond = new boolean[this.params.length][this.params.length][];
-      HashSet<ArgLevelParam> alpSet = this.body.getArgLevelParams();
+      final HashSet<ArgLevelParam> alpSet = this.body.getArgLevelParams();
       for (int i = 0; i < this.params.length; i++) {
         for (int j = 0; j < this.params.length; j++) {
           this.opLevelCond[i][j] = new boolean[this.params[i].getArity()];
           for (int k = 0; k < this.params[i].getArity(); k++) {
-            ArgLevelParam alp = new ArgLevelParam(this.params[i], k, this.params[j]);
+            final ArgLevelParam alp = new ArgLevelParam(this.params[i], k, this.params[j]);
             this.opLevelCond[i][j][k] = alpSet.contains(alp);
           }
         }
@@ -510,15 +510,15 @@ public class ThmOrAssumpDefNode extends SymbolNode
 
       this.argLevelConstraints = (SetOfArgLevelConstraints)alcSet.clone();
       for (int i = 0; i < this.params.length; i++) {
-        int alen = this.params[i].getArity();
+        final int alen = this.params[i].getArity();
         for (int j = 0; j < alen; j++) {
           this.argLevelConstraints.remove(new ParamAndPosition(this.params[i], j));
         }
       }
 
-      Iterator<ArgLevelParam> iter = alpSet.iterator();
+      final Iterator<ArgLevelParam> iter = alpSet.iterator();
       while (iter.hasNext()) {
-        ArgLevelParam alp = iter.next();
+        final ArgLevelParam alp = iter.next();
         if (!alp.op.occur(this.params) ||
             !alp.param.occur(this.params)) {
           this.argLevelParams.add(alp);
@@ -531,21 +531,21 @@ public class ThmOrAssumpDefNode extends SymbolNode
   /***************************************************************************
   * The following Asserts can be removed after debugging.                    *
   ***************************************************************************/
-    public final int getMaxLevel(int i) {
+    public final int getMaxLevel(final int i) {
       if (this.levelChecked == 0)
         {throw new WrongInvocationException("getMaxLevel called before levelCheck");};
-      int idx = (this.getArity() == -1) ? 0 : i;
+      final int idx = (this.getArity() == -1) ? 0 : i;
       return this.maxLevels[idx];
     }
 
-    public final int getWeight(int i) {
+    public final int getWeight(final int i) {
       if (this.levelChecked == 0)
         {throw new WrongInvocationException("getWeight called before levelCheck");};
-      int idx = (this.getArity() == -1) ? 0 : i;
+      final int idx = (this.getArity() == -1) ? 0 : i;
       return this.weights[idx];
     }
 
-    public final int getMinMaxLevel(int i, int j) {
+    public final int getMinMaxLevel(final int i, final int j) {
       if (this.levelChecked == 0)
         {throw new WrongInvocationException("getMinMaxLevel called before levelCheck");};
       if (this.minMaxLevel == null) {
@@ -554,7 +554,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
       return this.minMaxLevel[i][j];
     }
 
-    public final boolean getOpLevelCond(int i, int j, int k) {
+    public final boolean getOpLevelCond(final int i, final int j, final int k) {
       if (this.levelChecked == 0)
         {throw new WrongInvocationException("getOpLevelCond called before levelCheck");};
       if (this.opLevelCond == null) {
@@ -582,8 +582,8 @@ public class ThmOrAssumpDefNode extends SymbolNode
   }
 
   @Override
-  public final void walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, ExplorerVisitor visitor) {
-    Integer uid = Integer.valueOf(myUID);
+  public final void walkGraph(final Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor) {
+    final Integer uid = Integer.valueOf(myUID);
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
@@ -592,7 +592,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
    }
 
   @Override
-  public final String toString(int depth) {
+  public final String toString(final int depth) {
     if (depth <= 0) return "";
     String ret =
           "\n*ThmOrAssumpDefNode: " + this.getName().toString() +
@@ -625,7 +625,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
     ***********************************************************************/
     if (labels != null) {
        ret += "\n  Labels: " ;
-       Enumeration<UniqueString> list = labels.keys() ;
+       final Enumeration<UniqueString> list = labels.keys() ;
        while (list.hasMoreElements()) {
           ret += list.nextElement().toString() + "  " ;
          } ;
@@ -649,7 +649,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
     }
   }
 
-  protected Element getSymbolElement(Document doc, tla2sany.xml.SymbolContext context) {
+  protected Element getSymbolElement(final Document doc, final tla2sany.xml.SymbolContext context) {
     assert(this.body != null); //A theorem or assumption definition without a body does not make sense.
     Element e = null;
     if (theorem) {
@@ -666,10 +666,10 @@ public class ThmOrAssumpDefNode extends SymbolNode
 
   /* overrides LevelNode.export and exports a UID reference instad of the full version*/
   @Override
-  public Element export(Document doc, SymbolContext context) {
+  public Element export(final Document doc, final SymbolContext context) {
     // first add symbol to context
     context.put(this, doc);
-    Element e = doc.createElement(getNodeRef());
+    final Element e = doc.createElement(getNodeRef());
     e.appendChild(appendText(doc,"UID",Integer.toString(myUID)));
     return e;
   }

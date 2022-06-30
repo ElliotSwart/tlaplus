@@ -46,11 +46,11 @@ import util.ToolIO;
 @RunWith(BlockJUnit4ClassRunner.class)
 public abstract class TLCServerTestCase extends ModelCheckerTestCase {
 
-	public TLCServerTestCase(String spec) {
+	public TLCServerTestCase(final String spec) {
 		super(spec);
 	}
 
-	public TLCServerTestCase(String spec, String path) {
+	public TLCServerTestCase(final String spec, final String path) {
 		super(spec, path);
 	}
 
@@ -74,7 +74,7 @@ public abstract class TLCServerTestCase extends ModelCheckerTestCase {
 			server.modelCheck();
 			//TODO Implement exit status for distributed TLC
 			actualExitStatus = 0;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			fail(e.getMessage());
 		}
 	}
@@ -93,14 +93,14 @@ public abstract class TLCServerTestCase extends ModelCheckerTestCase {
 	@SuppressWarnings("serial")
 	protected static class DummyFPSet extends MSBDiskFPSet {
 
-		public DummyFPSet(FPSetConfiguration fpSetConfig) throws RemoteException {
+		public DummyFPSet(final FPSetConfiguration fpSetConfig) throws RemoteException {
 			super(fpSetConfig);
 		}
 
 		/* (non-Javadoc)
 		 * @see tlc2.tool.fp.DiskFPSet#exit(boolean)
 		 */
-		public void exit(boolean cleanup) throws IOException {
+		public void exit(final boolean cleanup) throws IOException {
 			//ignore because superclass calls System.exit(0) but we want to check our assertions first.
 		}
 	}

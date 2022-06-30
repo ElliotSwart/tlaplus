@@ -144,7 +144,7 @@ public class DotStateWriter extends StateWriter {
 		if (snapshot) {
 			try {
 				this.snapshot();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				// Let's assume this never happens!
 				e.printStackTrace();
 				throw new RuntimeException(e);
@@ -159,11 +159,11 @@ public class DotStateWriter extends StateWriter {
 	/* (non-Javadoc)
 	 * @see tlc2.util.StateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, boolean)
 	 */
-	public void writeState(TLCState state, TLCState successor, boolean successorStateIsNew) {
+	public void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew) {
 		writeState(state, successor, successorStateIsNew, Visualization.DEFAULT);
 	}
 	
-    public void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew, Action action)
+    public void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew, final Action action)
     {
 		writeState(state, successor, null, 0, 0, successorStateIsNew, Visualization.DEFAULT, action);
     }
@@ -171,22 +171,22 @@ public class DotStateWriter extends StateWriter {
 	/* (non-Javadoc)
 	 * @see tlc2.util.StateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, boolean, tlc2.util.IStateWriter.Visualization)
 	 */
-	public void writeState(TLCState state, TLCState successor, boolean successorStateIsNew, Visualization visualization) {
+	public void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew, final Visualization visualization) {
 		writeState(state, successor, null, 0, 0, successorStateIsNew, visualization, null);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.util.StateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitVector, int, int, boolean)
 	 */
-	public void writeState(TLCState state, TLCState successor, BitVector actionChecks, int from, int length, boolean successorStateIsNew) {
+	public void writeState(final TLCState state, final TLCState successor, final BitVector actionChecks, final int from, final int length, final boolean successorStateIsNew) {
 		writeState(state, successor, actionChecks, from, length, successorStateIsNew, Visualization.DEFAULT, null);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.util.StateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, java.lang.String, boolean, tlc2.util.IStateWriter.Visualization)
 	 */
-	private synchronized void writeState(TLCState state, TLCState successor, BitVector actionChecks, int from, int length, boolean successorStateIsNew,
-			Visualization visualization, Action action) {
+	private synchronized void writeState(final TLCState state, final TLCState successor, final BitVector actionChecks, final int from, final int length, final boolean successorStateIsNew,
+                                         final Visualization visualization, final Action action) {
 		final String successorsFP = Long.toString(successor.fingerPrint());
 		
 		// Write the transition edge.
@@ -198,7 +198,7 @@ public class DotStateWriter extends StateWriter {
 		} else {
 			// Add the transition edge label.
 			if(action!=null) {
-				String transitionLabel = this.dotTransitionLabel(state, successor, action);
+				final String transitionLabel = this.dotTransitionLabel(state, successor, action);
 				this.writer.append(transitionLabel);	
 			}
 			
@@ -223,7 +223,7 @@ public class DotStateWriter extends StateWriter {
 		if (snapshot) {
 			try {
 				this.snapshot();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				// Let's assume this never happens!
 				e.printStackTrace();
 				throw new RuntimeException(e);
@@ -245,7 +245,7 @@ public class DotStateWriter extends StateWriter {
 		if (action == null) {
 			return 1;
 		} else {
-			String actionName = action.getName().toString();
+			final String actionName = action.getName().toString();
 			// If this action has been seen before, retrieve its color.
 			if (actionToColors.containsKey(actionName)) {
 				return actionToColors.get(actionName);
@@ -294,8 +294,8 @@ public class DotStateWriter extends StateWriter {
 		sb.append("label = \"Next State Actions\" style=\"solid\"\n");
 		sb.append(String.format("node [ labeljust=\"l\",colorscheme=\"%s\",style=filled,shape=record ]\n",
 				dotColorScheme));
-		for (String action : actions) {
-			String str = String.format("%s [label=\"%s\",fillcolor=%d]", action.replaceAll("!", ":"), action,
+		for (final String action : actions) {
+			final String str = String.format("%s [label=\"%s\",fillcolor=%d]", action.replaceAll("!", ":"), action,
 					this.actionToColors.get(action));
 			sb.append(str);
 			sb.append("\n");
@@ -359,7 +359,7 @@ public class DotStateWriter extends StateWriter {
 		final String snapshot = fname.replace(".dot", "_snapshot" + ".dot");
 		FileUtil.copyFile(this.fname, snapshot);
 
-		StringBuffer buf = new StringBuffer();
+		final StringBuffer buf = new StringBuffer();
 		for (final Set<Long> entry : rankToNodes.values()) {
 			buf.append("{rank = same; ");
 			for (final Long l : entry) {

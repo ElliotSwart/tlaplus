@@ -119,9 +119,9 @@ public class SANY {
    * object, which must be checked as described above.
    */
   public static final int frontEndMain(
-                             SpecObj spec, 
-                             String fileName, 
-                             PrintStream syserr) throws FrontEndException {
+          final SpecObj spec,
+          final String fileName,
+          final PrintStream syserr) throws FrontEndException {
     try {
       // **** Initialize the global environment
       frontEndInitialize(spec, syserr);
@@ -133,16 +133,16 @@ public class SANY {
       if (doSemanticAnalysis) 
             {frontEndSemanticAnalysis(spec, syserr, doLevelChecking);} ;
     }
-    catch (InitException ie) {
+    catch (final InitException ie) {
       return -1;
     }
-    catch (ParseException pe) {
+    catch (final ParseException pe) {
       return -1;
     }
-    catch (SemanticException se) {
+    catch (final SemanticException se) {
       return -1;
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       // e.printStackTrace(syserr);
       syserr.println(e.toString());
       throw new FrontEndException(e);
@@ -157,10 +157,10 @@ public class SANY {
   /** 
    * Initialize the all parts of the FrontEnd to handle a new specification.
    */
-  public static void frontEndInitialize(SpecObj spec, PrintStream syserr ) 
+  public static void frontEndInitialize(final SpecObj spec, final PrintStream syserr )
   throws InitException {
-    String fileName   = spec.getFileName();
-    Errors initErrors = spec.initErrors;
+    final String fileName   = spec.getFileName();
+    final Errors initErrors = spec.initErrors;
     try {
       // Read & initialize config file for each specification
 
@@ -187,7 +187,7 @@ public class SANY {
         throw new InitException();
       }
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       syserr.println("Unexpected exception during SANY initialization " +
                      fileName + "\n" + e);
       // syserr.println("\nStack trace for exception:\n"); 
@@ -204,11 +204,11 @@ public class SANY {
   } // frontEndInitialize
 
   // Parse all of the files referred to by the top-level file in specification
-  public static void frontEndParse(SpecObj spec, PrintStream syserr) 
+  public static void frontEndParse(final SpecObj spec, final PrintStream syserr)
   throws ParseException {
 	  frontEndParse(spec, syserr, true);
   }
-  public static void frontEndParse(SpecObj spec, PrintStream syserr, boolean validatePCalTranslation) 
+  public static void frontEndParse(final SpecObj spec, final PrintStream syserr, final boolean validatePCalTranslation)
   throws ParseException {
       /***********************************************************************
        * Modified on 12 May 2008 by LL to remove "throws AbortException",     *
@@ -238,12 +238,12 @@ public class SANY {
           }
       }
       // TODO
-      catch (ParseException e) 
+      catch (final ParseException e)
       {
           // get here if either the TLAPlusParser.parse() threw a ParseException or spec.ParseErrors was not empty
           throw new ParseException();
       }
-      catch (Exception e) 
+      catch (final Exception e)
       {
           // Assert.printStack(e);
           syserr.println("\nFatal errors while parsing TLA+ spec in file " + 
@@ -258,17 +258,17 @@ public class SANY {
       return;
   } //
 
-  public static void frontEndSemanticAnalysis(SpecObj spec,
-                                              PrintStream syserr,
-                                              boolean levelCheck) 
+  public static void frontEndSemanticAnalysis(final SpecObj spec,
+                                              final PrintStream syserr,
+                                              final boolean levelCheck)
   throws SemanticException {
     String      moduleStringName;
     TreeNode    syntaxTreeRoot;
-    ExternalModuleTable externalModuleTable = spec.getExternalModuleTable();
+    final ExternalModuleTable externalModuleTable = spec.getExternalModuleTable();
     ParseUnit   parseUnit;
     ModuleNode  moduleNode = null;
-    Errors      semanticErrors = spec.semanticErrors;
-    Errors      globalContextErrors = tla2sany.semantic.Context.getGlobalContext().getErrors();
+    final Errors      semanticErrors = spec.semanticErrors;
+    final Errors      globalContextErrors = tla2sany.semantic.Context.getGlobalContext().getErrors();
 
     try {
       SemanticNode.setError(semanticErrors);
@@ -307,7 +307,7 @@ public class SANY {
           // Generate semantic graph for the entire external module
           syserr.println("Semantic processing of module " + moduleStringName);
           // create new Generator object
-          Generator gen = new Generator(externalModuleTable, semanticErrors);
+          final Generator gen = new Generator(externalModuleTable, semanticErrors);
     
           // Perform semantic analysis and create semantic graph for one external module here
           moduleNode = gen.generate(syntaxTreeRoot);    
@@ -358,7 +358,7 @@ public class SANY {
         } // end if
       } // end while
     }
-    catch (AbortException e) {
+    catch (final AbortException e) {
       if ( syserr != null) {
         syserr.println("Fatal errors in semantic processing of TLA spec " +
                        spec.getFileName() + "\n" + e.getMessage() +
@@ -396,7 +396,7 @@ public class SANY {
    * This method should print statistics about the specification
    * It is obviously not finished.
    */
-  public static final void frontEndStatistics(SpecObj spec) {
+  public static final void frontEndStatistics(final SpecObj spec) {
     
   }
 
@@ -407,7 +407,7 @@ public class SANY {
    * barring errors too severe, calls the Explorer tool with the resulting 
    * ExternalModuleTable.
    */
-  public static void SANYmain(String args[]) {
+  public static void SANYmain(final String[] args) {
     int i;
     // Parse and process the command line switches, which are
     // distinguished by the fact that they begin with a '-' character.
@@ -445,17 +445,17 @@ public class SANY {
       // semantically analyze, and level check the spec started in
       // file Filename leaving the result (normally) in Specification
       // spec.
-      SpecObj spec = new SpecObj(args[i], null);
+      final SpecObj spec = new SpecObj(args[i], null);
       // check if file exists
       if (FileUtil.createNamedInputStream(args[i], spec.getResolver()) != null) 
       {
           try {
-              int ret = frontEndMain(spec, args[i], ToolIO.out);
+              final int ret = frontEndMain(spec, args[i], ToolIO.out);
 			  if (ret != 0) {
             	  System.exit(ret);
               }
             }
-            catch (FrontEndException fe) {
+            catch (final FrontEndException fe) {
               // For debugging
               fe.printStackTrace();   
               ToolIO.out.println(fe);
@@ -467,11 +467,11 @@ public class SANY {
 
             if (doDebugging) {
               // Run the Semantic Graph Exploration tool
-              Explorer explorer = new Explorer(spec.getExternalModuleTable());
+              final Explorer explorer = new Explorer(spec.getExternalModuleTable());
               try {
                 explorer.main(args);
               }
-              catch (ExplorerQuitException e) { /*do nothing*/ }
+              catch (final ExplorerQuitException e) { /*do nothing*/ }
             }
       } else 
       {

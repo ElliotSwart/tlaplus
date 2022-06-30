@@ -11,7 +11,7 @@ import tlc2.tool.TLCState;
 public class LNNeg extends LiveExprNode {
 	private final LiveExprNode body;
 
-	public LNNeg(LiveExprNode body) {
+	public LNNeg(final LiveExprNode body) {
 		this.body = body;
 	}
 
@@ -35,20 +35,20 @@ public class LNNeg extends LiveExprNode {
 		return false;
 	}
 
-	public final boolean eval(ITool tool, TLCState s1, TLCState s2) {
+	public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
 		return !this.body.eval(tool, s1, s2);
 	}
 
-	public final void toString(StringBuffer sb, String padding) {
+	public final void toString(final StringBuffer sb, final String padding) {
 		sb.append("-");
 		this.getBody().toString(sb, padding + " ");
 	}
 
-	public void extractPromises(TBPar promises) {
+	public void extractPromises(final TBPar promises) {
 		getBody().extractPromises(promises);
 	}
 
-	public int tagExpr(int tag) {
+	public int tagExpr(final int tag) {
 		return getBody().tagExpr(tag);
 	}
 
@@ -57,7 +57,7 @@ public class LNNeg extends LiveExprNode {
 	}
 
 	public LiveExprNode flattenSingleJunctions() {
-		LiveExprNode ln1 = getBody();
+		final LiveExprNode ln1 = getBody();
 		if (ln1 instanceof LNNeg) {
 			return ((LNNeg) ln1).getBody().flattenSingleJunctions();
 		}
@@ -65,7 +65,7 @@ public class LNNeg extends LiveExprNode {
 	}
 
 	public final LiveExprNode toDNF() {
-		LiveExprNode body = getBody();
+		final LiveExprNode body = getBody();
 		if ((body instanceof LNState) || (body instanceof LNAction)) {
 			return this;
 		}
@@ -73,7 +73,7 @@ public class LNNeg extends LiveExprNode {
 	}
 
 	public LiveExprNode simplify() {
-		LiveExprNode body1 = getBody().simplify();
+		final LiveExprNode body1 = getBody().simplify();
 		if (body1 instanceof LNBool) {
 			return new LNBool(!((LNBool) body1).b);
 		}
@@ -88,8 +88,8 @@ public class LNNeg extends LiveExprNode {
 		return getBody();
 	}
 
-	public LiveExprNode pushNeg(boolean hasNeg) {
-		LiveExprNode lexpr = getBody();
+	public LiveExprNode pushNeg(final boolean hasNeg) {
+		final LiveExprNode lexpr = getBody();
 		return lexpr.pushNeg(!hasNeg);
 	}
 
@@ -97,7 +97,7 @@ public class LNNeg extends LiveExprNode {
 	 * This method returns true or false for whether two LiveExprNodes are
 	 * syntactically equal.
 	 */
-	public boolean equals(LiveExprNode exp) {
+	public boolean equals(final LiveExprNode exp) {
 		if (exp instanceof LNNeg) {
 			return getBody().equals(((LNNeg) exp).getBody());
 		}
