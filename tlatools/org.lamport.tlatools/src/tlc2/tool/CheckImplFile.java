@@ -178,120 +178,109 @@ public class CheckImplFile extends CheckImpl
 
     int index = 0;
     while (index < args.length) {
-        if (args[index].equals("-config")) {
-            index++;
-            if (index < args.length) {
-                configFile = args[index++];
-                if (configFile.endsWith(TLAConstants.Files.CONFIG_EXTENSION))
-                {
-                    configFile
-                    	= configFile.substring(0,
-                    			(configFile.length() - TLAConstants.Files.CONFIG_EXTENSION.length()));
-                }
-            }
-            else {
-                printErrorMsg(MP.getMessage(EC.CHECK_PARAM_EXPECT_CONFIG_FILENAME));
-                return;
-            }
-        }
-        else if (args[index].equals("-deadlock")) {
-            index++;
-            deadlock = false;
-        }	
-        else if (args[index].equals("-recover")) {
-            index++;
-            if (index < args.length) {
-                fromChkpt = args[index++] + FileUtil.separator;
-            }
-            else {
-                printErrorMsg(MP.getMessage(EC.CHECK_PARAM_NEED_TO_SPECIFY_CONFIG_DIR));
-                return;
-            }
-        }
-        else if (args[index].equals("-workers")) {
-            index++;
-            if (index < args.length) {
-                try 
-                {
-                    TLCGlobals.setNumWorkers(Integer.parseInt(args[index]));
-                    index++;
-                } catch (final NumberFormatException e)
-                {
-                    printErrorMsg(MP.getMessage(EC.CHECK_PARAM_WORKER_NUMBER_REQUIRED, args[index]));
-                    return;
-                }
-                if (TLCGlobals.getNumWorkers() < 1) 
-                {
-                    printErrorMsg(MP.getMessage(EC.CHECK_PARAM_WORKER_NUMBER_TOO_SMALL));
-                    return;
-                }
-            } else 
-            {
-                printErrorMsg(MP.getMessage(EC.CHECK_PARAM_WORKER_NUMBER_REQUIRED2));
-                return;
-            }
-        }
-        else if (args[index].equals("-depth")) {
-            index++;
-            if (index < args.length) {
-                try {
-                    depth = Integer.parseInt(args[index]);
-                    index++;
-                }
-                catch (final NumberFormatException e)
-                {
-                    printErrorMsg(MP.getMessage(EC.CHECK_PARAM_DEPTH_REQUIRED, args[index]));
+        switch (args[index]) {
+            case "-config" -> {
+                index++;
+                if (index < args.length) {
+                    configFile = args[index++];
+                    if (configFile.endsWith(TLAConstants.Files.CONFIG_EXTENSION)) {
+                        configFile
+                                = configFile.substring(0,
+                                (configFile.length() - TLAConstants.Files.CONFIG_EXTENSION.length()));
+                    }
+                } else {
+                    printErrorMsg(MP.getMessage(EC.CHECK_PARAM_EXPECT_CONFIG_FILENAME));
                     return;
                 }
             }
-            else {
-                printErrorMsg(MP.getMessage(EC.CHECK_PARAM_DEPTH_REQUIRED2));
-                return;
+            case "-deadlock" -> {
+                index++;
+                deadlock = false;
             }
-        }
-        else if (args[index].equals("-trace")) {
-            index++;
-            if (index < args.length) {
-                traceFile = args[index++];
+            case "-recover" -> {
+                index++;
+                if (index < args.length) {
+                    fromChkpt = args[index++] + FileUtil.separator;
+                } else {
+                    printErrorMsg(MP.getMessage(EC.CHECK_PARAM_NEED_TO_SPECIFY_CONFIG_DIR));
+                    return;
+                }
             }
-            else {
-                printErrorMsg(MP.getMessage(EC.CHECK_PARAM_TRACE_REQUIRED));
-                return;
-            }
-        }
-        else if (args[index].equals("-coverage")) {
-            index++;
-            if (index < args.length) {
-                try {
-                    TLCGlobals.coverageInterval = Integer.parseInt(args[index]) * 1000 * 60;
-                    if (TLCGlobals.coverageInterval < 0) {
-                        printErrorMsg(MP.getMessage(EC.CHECK_PARAM_COVREAGE_TOO_SMALL));
+            case "-workers" -> {
+                index++;
+                if (index < args.length) {
+                    try {
+                        TLCGlobals.setNumWorkers(Integer.parseInt(args[index]));
+                        index++;
+                    } catch (final NumberFormatException e) {
+                        printErrorMsg(MP.getMessage(EC.CHECK_PARAM_WORKER_NUMBER_REQUIRED, args[index]));
                         return;
                     }
-                    index++;
-                }
-                catch (final NumberFormatException e) {
-                    printErrorMsg(MP.getError(EC.CHECK_PARAM_COVREAGE_REQUIRED, args[index]));
+                    if (TLCGlobals.getNumWorkers() < 1) {
+                        printErrorMsg(MP.getMessage(EC.CHECK_PARAM_WORKER_NUMBER_TOO_SMALL));
+                        return;
+                    }
+                } else {
+                    printErrorMsg(MP.getMessage(EC.CHECK_PARAM_WORKER_NUMBER_REQUIRED2));
                     return;
                 }
             }
-            else {
-                printErrorMsg(MP.getError(EC.CHECK_PARAM_COVREAGE_REQUIRED));
-                return;
+            case "-depth" -> {
+                index++;
+                if (index < args.length) {
+                    try {
+                        depth = Integer.parseInt(args[index]);
+                        index++;
+                    } catch (final NumberFormatException e) {
+                        printErrorMsg(MP.getMessage(EC.CHECK_PARAM_DEPTH_REQUIRED, args[index]));
+                        return;
+                    }
+                } else {
+                    printErrorMsg(MP.getMessage(EC.CHECK_PARAM_DEPTH_REQUIRED2));
+                    return;
+                }
             }
-        }
-        else {
-            if (args[index].charAt(0) == '-') {
-                printErrorMsg(MP.getError(EC.CHECK_PARAM_UNRECOGNIZED, args[index]));
-                return;
+            case "-trace" -> {
+                index++;
+                if (index < args.length) {
+                    traceFile = args[index++];
+                } else {
+                    printErrorMsg(MP.getMessage(EC.CHECK_PARAM_TRACE_REQUIRED));
+                    return;
+                }
             }
-            if (mainFile != null) {
-                printErrorMsg(MP.getError(EC.CHECK_PARAM_UNRECOGNIZED, new String[]{args[index], mainFile }));
-                return;
+            case "-coverage" -> {
+                index++;
+                if (index < args.length) {
+                    try {
+                        TLCGlobals.coverageInterval = Integer.parseInt(args[index]) * 1000 * 60;
+                        if (TLCGlobals.coverageInterval < 0) {
+                            printErrorMsg(MP.getMessage(EC.CHECK_PARAM_COVREAGE_TOO_SMALL));
+                            return;
+                        }
+                        index++;
+                    } catch (final NumberFormatException e) {
+                        printErrorMsg(MP.getError(EC.CHECK_PARAM_COVREAGE_REQUIRED, args[index]));
+                        return;
+                    }
+                } else {
+                    printErrorMsg(MP.getError(EC.CHECK_PARAM_COVREAGE_REQUIRED));
+                    return;
+                }
             }
-            mainFile = args[index++];
-            if (mainFile.endsWith(TLAConstants.Files.TLA_EXTENSION)) {
-                mainFile = mainFile.substring(0, (mainFile.length() - TLAConstants.Files.TLA_EXTENSION.length()));
+            default -> {
+                if (args[index].charAt(0) == '-') {
+                    printErrorMsg(MP.getError(EC.CHECK_PARAM_UNRECOGNIZED, args[index]));
+                    return;
+                }
+                if (mainFile != null) {
+                    printErrorMsg(MP.getError(EC.CHECK_PARAM_UNRECOGNIZED, new String[]{args[index], mainFile}));
+                    return;
+                }
+                mainFile = args[index++];
+                if (mainFile.endsWith(TLAConstants.Files.TLA_EXTENSION)) {
+                    mainFile = mainFile.substring(0, (mainFile.length() - TLAConstants.Files.TLA_EXTENSION.length()));
+                }
             }
         }
     }

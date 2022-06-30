@@ -1223,20 +1223,21 @@ public class ParseAlgorithm
          { result.unlabThen = GetCStmt() ; }
          final String nextTok = PeekAtAlgToken(1) ;
        if (pSyntax)
-         { if (nextTok.equals("else"))
-            { MustGobbleThis("else") ;
-              result.unlabElse = GetStmtSeq() ;
-            }
-           else if (nextTok.equals("elsif"))
-                 { final AST.LabelIf innerIf = GetIf(depth + 1) ;
-                   result.unlabElse = new Vector<>() ;
-                   result.unlabElse.addElement(innerIf) ;
+         {
+             switch (nextTok) {
+                 case "else" -> {
+                     MustGobbleThis("else");
+                     result.unlabElse = GetStmtSeq();
                  }
-           else if (nextTok.equals("end")) 
-                 { result.unlabElse = new Vector<>() ;
+                 case "elsif" -> {
+                     final AST.LabelIf innerIf = GetIf(depth + 1);
+                     result.unlabElse = new Vector<>();
+                     result.unlabElse.addElement(innerIf);
                  }
-            else { ParsingError(
-                     "Expecting \"else\", \"elsif\", or \"end\"")  ; }
+                 case "end" -> result.unlabElse = new Vector<>();
+                 default -> ParsingError(
+                         "Expecting \"else\", \"elsif\", or \"end\"");
+             }
              if (depth == 0)
               { GobbleThis("end") ; 
                 GobbleThis("if") ; 

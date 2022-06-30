@@ -306,221 +306,224 @@ public class TLCApp extends DistApp {
 		
 		int index = 0;
 		while (index < args.length) {
-			if (args[index].equals("-config")) {
-				index++;
-				if (index < args.length) {
-					configFile = args[index];
-					if (configFile.endsWith(TLAConstants.Files.CONFIG_EXTENSION)) {
-						configFile = configFile.substring(0,
-								(configFile.length() - TLAConstants.Files.CONFIG_EXTENSION.length()));
-					}
-					index++;
-				} else {
-					printErrorMsg("Error: configuration file required.");
-					return null;
-				}
-			} else if (args[index].equals("-tool")) {
-				index++;
-                TLCGlobals.tool = true;
-			} else if (args[index].equals("-deadlock")) {
-				index++;
-				deadlock = false;
-			} else if (args[index].equals("-recover")) {
-				index++;
-				if (index < args.length) {
-					fromChkpt = args[index++] + FileUtil.separator;
-				} else {
-					printErrorMsg("Error: need to specify the metadata directory for recovery.");
-					return null;
-				}
-			} else if (args[index].equals("-checkpoint")) {
-				index++;
-                if (index < args.length) {
-					try {
-						TLCGlobals.chkptDuration = (long) Integer.parseInt(args[index]) * 1000 * 60;
-						if (TLCGlobals.chkptDuration < 0) {
-							printErrorMsg("Error: expect a nonnegative integer for -checkpoint option.");
-						}
+            switch (args[index]) {
+                case "-config" -> {
+                    index++;
+                    if (index < args.length) {
+                        configFile = args[index];
+                        if (configFile.endsWith(TLAConstants.Files.CONFIG_EXTENSION)) {
+                            configFile = configFile.substring(0,
+                                    (configFile.length() - TLAConstants.Files.CONFIG_EXTENSION.length()));
+                        }
+                        index++;
+                    } else {
+                        printErrorMsg("Error: configuration file required.");
+                        return null;
+                    }
+                }
+                case "-tool" -> {
+                    index++;
+                    TLCGlobals.tool = true;
+                }
+                case "-deadlock" -> {
+                    index++;
+                    deadlock = false;
+                }
+                case "-recover" -> {
+                    index++;
+                    if (index < args.length) {
+                        fromChkpt = args[index++] + FileUtil.separator;
+                    } else {
+                        printErrorMsg("Error: need to specify the metadata directory for recovery.");
+                        return null;
+                    }
+                }
+                case "-checkpoint" -> {
+                    index++;
+                    if (index < args.length) {
+                        try {
+                            TLCGlobals.chkptDuration = (long) Integer.parseInt(args[index]) * 1000 * 60;
+                            if (TLCGlobals.chkptDuration < 0) {
+                                printErrorMsg("Error: expect a nonnegative integer for -checkpoint option.");
+                            }
 
-						index++;
-					} catch (final Exception e) {
-						printErrorMsg("Error: An integer for checkpoint interval is required. But encountered "
-								+ args[index]);
-					}
-				} else {
-					printErrorMsg("Error: checkpoint interval required.");
-				}
-			} else if (args[index].equals("-coverage")) {
-				index++;
-				if (index < args.length) {
-					try {
-						// Coverage reporting is broken is distributed TLC. Thus
-						// warn the user and continue ignoring the parameter.
-						// Consume its value though.
-						ToolIO.out.println(
-								"Warning: coverage reporting not supported in distributed TLC, ignoring -coverage "
-										+ args[index] + " parameter.");
+                            index++;
+                        } catch (final Exception e) {
+                            printErrorMsg("Error: An integer for checkpoint interval is required. But encountered "
+                                    + args[index]);
+                        }
+                    } else {
+                        printErrorMsg("Error: checkpoint interval required.");
+                    }
+                }
+                case "-coverage" -> {
+                    index++;
+                    if (index < args.length) {
+                        try {
+                            // Coverage reporting is broken is distributed TLC. Thus
+                            // warn the user and continue ignoring the parameter.
+                            // Consume its value though.
+                            ToolIO.out.println(
+                                    "Warning: coverage reporting not supported in distributed TLC, ignoring -coverage "
+                                            + args[index] + " parameter.");
 //						TLCGlobals.coverageInterval = Integer
 //						.parseInt(args[index]) * 1000;
 //						if (TLCGlobals.coverageInterval < 0) {
 //							printErrorMsg("Error: expect a nonnegative integer for -coverage option.");
 //							return null;
 //						}
-						index++;
-					} catch (final Exception e) {
-						printErrorMsg("Error: An integer for coverage report interval required."
-								+ " But encountered " + args[index]);
-						return null;
-					}
-				} else {
-					printErrorMsg("Error: coverage report interval required.");
-					return null;
-				}
-			} else if (args[index].equals("-terse")) {
-				index++;
-				TLCGlobals.expand = false;
-			} else if (args[index].equals("-nowarning")) {
-				index++;
-				TLCGlobals.warn = false;
-            } else if (args[index].equals("-maxSetSize"))
-            {
-                index++;
-                if (index < args.length)
-                {
-                    try
-                    {
-                        final int bound = Integer.parseInt(args[index]);
-                        
-                    	// make sure it's in valid range
-                    	if (!TLCGlobals.isValidSetSize(bound)) {
-                    		final int maxValue = Integer.MAX_VALUE;
-                    		printErrorMsg("Error: Value in interval [0, " + maxValue + "] for maxSetSize required. But encountered " + args[index]);
-                    		return null;
-                    	}
-                    	TLCGlobals.setBound = bound;
-
-                    	index++;
-                    } catch (final Exception e)
-                    {
-                        printErrorMsg("Error: An integer for maxSetSize required. But encountered " + args[index]);
-                        return null;
-                    }
-                } else
-                {
-                    printErrorMsg("Error: maxSetSize required.");
-                    return null;
-                }
-			} else if (args[index].equals("-fp")) {
-				index++;
-				if (index < args.length) {
-					try {
-						fpIndex = Integer.parseInt(args[index]);
-						if (fpIndex < 0 || fpIndex >= FP64.Polys.length) {
-							printErrorMsg("Error: The number for -fp must be between 0 and "
-									+ (FP64.Polys.length - 1) + " (inclusive).");
-							return null;
-						}
-						index++;
-					} catch (final Exception e) {
-						printErrorMsg("Error: A number for -fp is required. But encountered "
-								+ args[index]);
-						return null;
-					}
-				} else {
-					printErrorMsg("Error: expect an integer for -workers option.");
-					return null;
-				}
-				
-				
-			} else if (args[index].equals("-fpbits")) {
-				index++;
-				if (index < args.length) {
-					try {
-						final int fpBits = Integer.parseInt(args[index]);
-						
-                    	// make sure it's in valid range
-                    	if (!FPSet.isValid(fpBits)) {
-                    		printErrorMsg("Error: Value in interval [0, 30] for fpbits required. But encountered " + args[index]);
-                    		return null;
-                    	}
-                    	fpSetConfig.setFpBits(fpBits);
-                    	
-						index++;
-					} catch (final Exception e) {
-						printErrorMsg("Error: A number for -fpbits is required. But encountered "
-								+ args[index]);
-						return null;
-					}
-				} else {
-					printErrorMsg("Error: expect an integer for -workers option.");
-					return null;
-				}
-            } else if (args[index].equals("-fpmem"))
-            {
-                index++;
-                if (index < args.length)
-                {
-                    try
-                    {
-                    	// -fpmem can be used in two ways:
-                    	// a) to set the relative memory to be used for fingerprints (being machine independent)
-                    	// b) to set the absolute memory to be used for fingerprints
-                    	//
-                    	// In order to set memory relatively, a value in the domain [0.0, 1.0] is interpreted as a fraction.
-                    	// A value in the [2, Double.MaxValue] domain allocates memory absolutely.
-                    	//
-						// Independently of relative or absolute mem allocation,
-						// a user cannot allocate more than JVM heap space
-						// available. Conversely there is the lower hard limit TLC#MinFpMemSize.
-                    	final double fpmem = Double.parseDouble(args[index]);
-                        if (fpmem < 0) {
-                            printErrorMsg("Error: An positive integer or a fraction for fpset memory size/percentage required. But encountered " + args[index]);
+                            index++;
+                        } catch (final Exception e) {
+                            printErrorMsg("Error: An integer for coverage report interval required."
+                                    + " But encountered " + args[index]);
                             return null;
-                        } else if (fpmem > 1) {
-							// For legacy reasons we allow users to set the
-							// absolute amount of memory. If this is the case,
-							// we know the user intends to allocate all 100% of
-							// the absolute memory to the fpset.
-                    		ToolIO.out
-            				.println("Using -fpmem with an abolute memory value has been deprecated. " +
-            						"Please allocate memory for the TLC process via the JVM mechanisms " +
-            						"and use -fpmem to set the fraction to be used for fingerprint storage.");
-                        	fpSetConfig.setMemory((long) fpmem);
-                        	fpSetConfig.setRatio(1.0);
-                        } else {
-                        	fpSetConfig.setRatio(fpmem);
                         }
-                        index++;
-                    } catch (final Exception e)
-                    {
-                        printErrorMsg("Error: A positive integer or a fraction for fpset memory size/percentage required. But encountered " + args[index]);
+                    } else {
+                        printErrorMsg("Error: coverage report interval required.");
                         return null;
                     }
                 }
-			} else if (args[index].equals("-metadir")) {
-				index++;
-                if (index < args.length)
-                {
-                    TLCGlobals.metaDir = args[index++] + FileUtil.separator;
-                } else {
-                    printErrorMsg("Error: need to specify the metadata directory.");
-                    return null;
+                case "-terse" -> {
+                    index++;
+                    TLCGlobals.expand = false;
                 }
-            } else {
-				if (args[index].charAt(0) == '-') {
-					printErrorMsg("Error: unrecognized option: " + args[index]);
-					return null;
-				}
-				if (specFile != null) {
-					printErrorMsg("Error: more than one input files: "
-							+ specFile + " and " + args[index]);
-					return null;
-				}
-				specFile = args[index++];
-				if (specFile.endsWith(TLAConstants.Files.TLA_EXTENSION)) {
-					specFile = specFile.substring(0, (specFile.length() - TLAConstants.Files.TLA_EXTENSION.length()));
-				}
-			}
+                case "-nowarning" -> {
+                    index++;
+                    TLCGlobals.warn = false;
+                }
+                case "-maxSetSize" -> {
+                    index++;
+                    if (index < args.length) {
+                        try {
+                            final int bound = Integer.parseInt(args[index]);
+
+                            // make sure it's in valid range
+                            if (!TLCGlobals.isValidSetSize(bound)) {
+                                final int maxValue = Integer.MAX_VALUE;
+                                printErrorMsg("Error: Value in interval [0, " + maxValue + "] for maxSetSize required. But encountered " + args[index]);
+                                return null;
+                            }
+                            TLCGlobals.setBound = bound;
+
+                            index++;
+                        } catch (final Exception e) {
+                            printErrorMsg("Error: An integer for maxSetSize required. But encountered " + args[index]);
+                            return null;
+                        }
+                    } else {
+                        printErrorMsg("Error: maxSetSize required.");
+                        return null;
+                    }
+                }
+                case "-fp" -> {
+                    index++;
+                    if (index < args.length) {
+                        try {
+                            fpIndex = Integer.parseInt(args[index]);
+                            if (fpIndex < 0 || fpIndex >= FP64.Polys.length) {
+                                printErrorMsg("Error: The number for -fp must be between 0 and "
+                                        + (FP64.Polys.length - 1) + " (inclusive).");
+                                return null;
+                            }
+                            index++;
+                        } catch (final Exception e) {
+                            printErrorMsg("Error: A number for -fp is required. But encountered "
+                                    + args[index]);
+                            return null;
+                        }
+                    } else {
+                        printErrorMsg("Error: expect an integer for -workers option.");
+                        return null;
+                    }
+                }
+                case "-fpbits" -> {
+                    index++;
+                    if (index < args.length) {
+                        try {
+                            final int fpBits = Integer.parseInt(args[index]);
+
+                            // make sure it's in valid range
+                            if (!FPSet.isValid(fpBits)) {
+                                printErrorMsg("Error: Value in interval [0, 30] for fpbits required. But encountered " + args[index]);
+                                return null;
+                            }
+                            fpSetConfig.setFpBits(fpBits);
+
+                            index++;
+                        } catch (final Exception e) {
+                            printErrorMsg("Error: A number for -fpbits is required. But encountered "
+                                    + args[index]);
+                            return null;
+                        }
+                    } else {
+                        printErrorMsg("Error: expect an integer for -workers option.");
+                        return null;
+                    }
+                }
+                case "-fpmem" -> {
+                    index++;
+                    if (index < args.length) {
+                        try {
+                            // -fpmem can be used in two ways:
+                            // a) to set the relative memory to be used for fingerprints (being machine independent)
+                            // b) to set the absolute memory to be used for fingerprints
+                            //
+                            // In order to set memory relatively, a value in the domain [0.0, 1.0] is interpreted as a fraction.
+                            // A value in the [2, Double.MaxValue] domain allocates memory absolutely.
+                            //
+                            // Independently of relative or absolute mem allocation,
+                            // a user cannot allocate more than JVM heap space
+                            // available. Conversely there is the lower hard limit TLC#MinFpMemSize.
+                            final double fpmem = Double.parseDouble(args[index]);
+                            if (fpmem < 0) {
+                                printErrorMsg("Error: An positive integer or a fraction for fpset memory size/percentage required. But encountered " + args[index]);
+                                return null;
+                            } else if (fpmem > 1) {
+                                // For legacy reasons we allow users to set the
+                                // absolute amount of memory. If this is the case,
+                                // we know the user intends to allocate all 100% of
+                                // the absolute memory to the fpset.
+                                ToolIO.out
+                                        .println("Using -fpmem with an abolute memory value has been deprecated. " +
+                                                "Please allocate memory for the TLC process via the JVM mechanisms " +
+                                                "and use -fpmem to set the fraction to be used for fingerprint storage.");
+                                fpSetConfig.setMemory((long) fpmem);
+                                fpSetConfig.setRatio(1.0);
+                            } else {
+                                fpSetConfig.setRatio(fpmem);
+                            }
+                            index++;
+                        } catch (final Exception e) {
+                            printErrorMsg("Error: A positive integer or a fraction for fpset memory size/percentage required. But encountered " + args[index]);
+                            return null;
+                        }
+                    }
+                }
+                case "-metadir" -> {
+                    index++;
+                    if (index < args.length) {
+                        TLCGlobals.metaDir = args[index++] + FileUtil.separator;
+                    } else {
+                        printErrorMsg("Error: need to specify the metadata directory.");
+                        return null;
+                    }
+                }
+                default -> {
+                    if (args[index].charAt(0) == '-') {
+                        printErrorMsg("Error: unrecognized option: " + args[index]);
+                        return null;
+                    }
+                    if (specFile != null) {
+                        printErrorMsg("Error: more than one input files: "
+                                + specFile + " and " + args[index]);
+                        return null;
+                    }
+                    specFile = args[index++];
+                    if (specFile.endsWith(TLAConstants.Files.TLA_EXTENSION)) {
+                        specFile = specFile.substring(0, (specFile.length() - TLAConstants.Files.TLA_EXTENSION.length()));
+                    }
+                }
+            }
 		}
 
 		if (specFile == null) {

@@ -345,252 +345,207 @@ public class TLA
         *******************************************************************/
         {
             final String option = args[nextArg];
-            if (option.equals("-help"))
-            {
-                OutputMessageFile(Parameters.HelpFile);
-                System.exit(0);
-            } else if (option.equals("-info"))
-            {
-                OutputMessageFile(Parameters.InfoFile);
-                System.exit(0);
-            } else if (option.equals("-grayLevel"))
-            {
-                nextArg = nextArg + 1;
-                if (nextArg >= args.length)
-                {
-                    CommandLineError("No input file specified");
+            switch (option) {
+                case "-help" -> {
+                    OutputMessageFile(Parameters.HelpFile);
+                    System.exit(0);
                 }
-                try
-                {
-                    Parameters.PSGrayLevel = Misc.stringToFloat(args[nextArg]);
-                } catch (final Exception e)
-                {
-                    CommandLineError("Bad -grayLevel value " + args[nextArg]);
+                case "-info" -> {
+                    OutputMessageFile(Parameters.InfoFile);
+                    System.exit(0);
                 }
-                // bug found by Yuan Yu in following if statement
-                // corrected 9 May 2001
-                if ((Parameters.PSGrayLevel > 1) || (Parameters.PSGrayLevel < 0))
-                {
-                    CommandLineError("-grayLevel value should be between 0 and 1, not "
-                            + Misc.floatToString(Parameters.PSGrayLevel, 3));
+                case "-grayLevel" -> {
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    try {
+                        Parameters.PSGrayLevel = Misc.stringToFloat(args[nextArg]);
+                    } catch (final Exception e) {
+                        CommandLineError("Bad -grayLevel value " + args[nextArg]);
+                    }
+                    // bug found by Yuan Yu in following if statement
+                    // corrected 9 May 2001
+                    if ((Parameters.PSGrayLevel > 1) || (Parameters.PSGrayLevel < 0)) {
+                        CommandLineError("-grayLevel value should be between 0 and 1, not "
+                                + Misc.floatToString(Parameters.PSGrayLevel, 3));
+                    }
                 }
-            } else if (option.equals("-ps"))
-            {
-                psOption = true;
-            } else if (option.equals("-nops"))
-            {
-                nopsOption = true;
-            } else if (option.equals("-psCommand"))
-            {
-                nextArg = nextArg + 1;
-                if (nextArg >= args.length)
-                {
-                    CommandLineError("No input file specified");
+                case "-ps" -> psOption = true;
+                case "-nops" -> nopsOption = true;
+                case "-psCommand" -> {
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    Parameters.PSCommand = args[nextArg];
                 }
-                Parameters.PSCommand = args[nextArg];
-            } else if (option.equals("-latexCommand"))
-            {
-                nextArg = nextArg + 1;
-                if (nextArg >= args.length)
-                {
-                    CommandLineError("No input file specified");
+                case "-latexCommand" -> {
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    Parameters.LaTeXCommand = args[nextArg];
                 }
-                Parameters.LaTeXCommand = args[nextArg];
-            } else if (option.equals("-out"))
-            {
-                /*************************************************************
-                * The LaTeX output file.                                     *
-                *************************************************************/
-                outOption = true;
-                nextArg = nextArg + 1;
-                if (nextArg >= args.length)
-                {
-                    CommandLineError("No input file specified");
+                case "-out" -> {
+                    /*************************************************************
+                     * The LaTeX output file.                                     *
+                     *************************************************************/
+                    outOption = true;
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    Parameters.LaTeXOutputFile = RemoveExtension(args[nextArg]);
+                    if (HasPathPrefix(Parameters.LaTeXOutputFile)) {
+                        CommandLineError("-out file contains a path specifier.\n"
+                                + "It must be a file in the current directory.");
+                    }
                 }
-                Parameters.LaTeXOutputFile = RemoveExtension(args[nextArg]);
-                if (HasPathPrefix(Parameters.LaTeXOutputFile))
-                {
-                    CommandLineError("-out file contains a path specifier.\n"
-                            + "It must be a file in the current directory.");
+                case "-tlaOut" -> {
+                    /*************************************************************
+                     * The tla output file, with TEX comments removed.  Add a     *
+                     * ".tla" extension if no extension is specified.             *
+                     *************************************************************/
+                    Parameters.TLAOut = true;
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    Parameters.TLAOutFile = args[nextArg];
+                    if (!Parameters.TLAOutFile.contains(".")) {
+                        Parameters.TLAOutFile = Parameters.TLAOutFile + TLAConstants.Files.TLA_EXTENSION;
+                    }
+                    if (HasPathPrefix(Parameters.TLAOutFile)) {
+                        CommandLineError("-tlaOut file contains a path specifier.\n"
+                                + "It must be a file in the current directory.");
+                    }
                 }
-            } else if (option.equals("-tlaOut"))
-            {
-                /*************************************************************
-                * The tla output file, with TEX comments removed.  Add a     *
-                * ".tla" extension if no extension is specified.             *
-                *************************************************************/
-                Parameters.TLAOut = true;
-                nextArg = nextArg + 1;
-                if (nextArg >= args.length)
-                {
-                    CommandLineError("No input file specified");
+                case "-alignOut" -> {
+                    /*************************************************************
+                     * The alignment file.                                        *
+                     *************************************************************/
+                    alignOutOption = true;
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    Parameters.LaTeXAlignmentFile = RemoveExtension(args[nextArg]);
+                    if (HasPathPrefix(Parameters.LaTeXAlignmentFile)) {
+                        CommandLineError("-alignOut file contains a path specifier.\n"
+                                + "It must be a file in the current directory.");
+                    }
                 }
-                Parameters.TLAOutFile = args[nextArg];
-                if (!Parameters.TLAOutFile.contains("."))
-                {
-                    Parameters.TLAOutFile = Parameters.TLAOutFile + TLAConstants.Files.TLA_EXTENSION;
+                case "-debug" -> Parameters.Debug = true;
+                case "-tlaComment" ->
+                /***************************************************************
+                 * This option tells TLATeX to interpret all ambiguous          *
+                 * identifiers in comments as TLA symbols.                      *
+                 ***************************************************************/
+
+                        Parameters.TLACommentOption = true;
+
+                // else if (option.equals("-notlaComment"))
+                // /***************************************************************
+                // * The FormatComments.adjustIsTLA method normally sets an *
+                // * ambiguous Identifier to a TLA token if it appears somewhere *
+                // * in the current comment as a TLA token. This option causes *
+                // * the method to do this only if the Identifier is not an *
+                // * English word. This option has no effect if the -tlaComment *
+                // * option is chosen. *
+                // ***************************************************************/
+                // { Parameters.NoTLACommentOption = true;
+                // }
+                case "-shade" -> Parameters.CommentShading = true;
+                case "-noPcalShade" -> Parameters.NoPlusCalShading = true;
+                case "-noProlog" -> Parameters.PrintProlog = false;
+                case "-noEpilog" -> Parameters.PrintEpilog = false;
+                case "-number" -> Parameters.PrintLineNumbers = true;
+                case "-style" -> {
+                    /*************************************************************
+                     * Use the specified file as style file in place of           *
+                     * Parameters.LaTeXModuleProlog.                              *
+                     *************************************************************/
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    Parameters.UserStyleFile = RemoveExtension(args[nextArg]);
+                    if ((!Parameters.UserStyleFile.equals(args[nextArg]))
+                            && (args[nextArg].indexOf(".sty") != args[nextArg].length() - 4)) {
+                        CommandLineError("-style file must have extension `.sty'");
+                    }
                 }
-                if (HasPathPrefix(Parameters.TLAOutFile))
-                {
-                    CommandLineError("-tlaOut file contains a path specifier.\n"
-                            + "It must be a file in the current directory.");
+                case "-ptSize" -> {
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    Parameters.LaTeXptSize = GetIntArg(args[nextArg], option);
+                    if ((Parameters.LaTeXptSize < 10) || (Parameters.LaTeXptSize > 12)) {
+                        CommandLineError("-ptSize option must be 10, 11, or 12");
+                    }
                 }
-            } else if (option.equals("-alignOut"))
-            {
-                /*************************************************************
-                * The alignment file.                                        *
-                *************************************************************/
-                alignOutOption = true;
-                nextArg = nextArg + 1;
-                if (nextArg >= args.length)
-                {
-                    CommandLineError("No input file specified");
+                case "-textwidth" -> {
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    Parameters.LaTeXtextwidth = GetIntArg(args[nextArg], option);
+                    if ((Parameters.LaTeXtextwidth < 100) || (Parameters.LaTeXtextwidth > 1000)) {
+                        CommandLineError("-textwidth value of " + Parameters.LaTeXtextwidth + " points is implausible");
+                    }
                 }
-                Parameters.LaTeXAlignmentFile = RemoveExtension(args[nextArg]);
-                if (HasPathPrefix(Parameters.LaTeXAlignmentFile))
-                {
-                    CommandLineError("-alignOut file contains a path specifier.\n"
-                            + "It must be a file in the current directory.");
+                case "-textheight" -> {
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    Parameters.LaTeXtextheight = GetIntArg(args[nextArg], option);
+                    if ((Parameters.LaTeXtextheight < 75) || (Parameters.LaTeXtextheight > 1500)) {
+                        CommandLineError("-textheight value of " + Parameters.LaTeXtextheight + " points is implausible");
+                    }
                 }
-            } else if (option.equals("-debug"))
-            {
-                Parameters.Debug = true;
-            } else if (option.equals("-tlaComment"))
-            /***************************************************************
-            * This option tells TLATeX to interpret all ambiguous          *
-            * identifiers in comments as TLA symbols.                      *
-            ***************************************************************/
-            {
-                Parameters.TLACommentOption = true;
-            }
-            // else if (option.equals("-notlaComment"))
-            // /***************************************************************
-            // * The FormatComments.adjustIsTLA method normally sets an *
-            // * ambiguous Identifier to a TLA token if it appears somewhere *
-            // * in the current comment as a TLA token. This option causes *
-            // * the method to do this only if the Identifier is not an *
-            // * English word. This option has no effect if the -tlaComment *
-            // * option is chosen. *
-            // ***************************************************************/
-            // { Parameters.NoTLACommentOption = true;
-            // }
-            else if (option.equals("-shade"))
-            {
-                Parameters.CommentShading = true;
-            } else if (option.equals("-noPcalShade"))
-            {
-                Parameters.NoPlusCalShading = true;
-            }else if (option.equals("-noProlog"))
-            {
-                Parameters.PrintProlog = false;
-            } else if (option.equals("-noEpilog"))
-            {
-                Parameters.PrintEpilog = false;
-            } else if (option.equals("-number"))
-            {
-                Parameters.PrintLineNumbers = true;
-            } else if (option.equals("-style"))
-            {
-                /*************************************************************
-                * Use the specified file as style file in place of           *
-                * Parameters.LaTeXModuleProlog.                              *
-                *************************************************************/
-                nextArg = nextArg + 1;
-                if (nextArg >= args.length)
-                {
-                    CommandLineError("No input file specified");
+                case "-hoffset" -> {
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    Parameters.LaTeXhoffset = GetIntArg(args[nextArg], option);
+                    if ((Parameters.LaTeXhoffset < -250) || (Parameters.LaTeXhoffset > 250)) {
+                        CommandLineError("-hoffset value of " + Parameters.LaTeXhoffset + " points is implausible");
+                    }
                 }
-                Parameters.UserStyleFile = RemoveExtension(args[nextArg]);
-                if ((!Parameters.UserStyleFile.equals(args[nextArg]))
-                        && (args[nextArg].indexOf(".sty") != args[nextArg].length() - 4))
-                {
-                    CommandLineError("-style file must have extension `.sty'");
+                case "-voffset" -> {
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    Parameters.LaTeXvoffset = GetIntArg(args[nextArg], option);
+                    if ((Parameters.LaTeXvoffset < -250) || (Parameters.LaTeXvoffset > 250)) {
+                        CommandLineError("-voffset value of " + Parameters.LaTeXvoffset + " points is implausible");
+                    }
                 }
-            } else if (option.equals("-ptSize"))
-            {
-                nextArg = nextArg + 1;
-                if (nextArg >= args.length)
-                {
-                    CommandLineError("No input file specified");
+                case "-metadir" -> {
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    Parameters.MetaDir = args[nextArg];
+                    Parameters.ParentDir = new File(Parameters.MetaDir);
+                    if (!Parameters.ParentDir.exists()) {
+                        CommandLineError("Specified metdir " + Parameters.MetaDir +
+                                " does not exist.");
+                    }
                 }
-                Parameters.LaTeXptSize = GetIntArg(args[nextArg], option);
-                if ((Parameters.LaTeXptSize < 10) || (Parameters.LaTeXptSize > 12))
-                {
-                    CommandLineError("-ptSize option must be 10, 11, or 12");
+                case "-latexOutputExt" -> {
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    Parameters.LatexOutputExt = args[nextArg];
                 }
-            } else if (option.equals("-textwidth"))
-            {
-                nextArg = nextArg + 1;
-                if (nextArg >= args.length)
-                {
-                    CommandLineError("No input file specified");
-                }
-                Parameters.LaTeXtextwidth = GetIntArg(args[nextArg], option);
-                if ((Parameters.LaTeXtextwidth < 100) || (Parameters.LaTeXtextwidth > 1000))
-                {
-                    CommandLineError("-textwidth value of " + Parameters.LaTeXtextwidth + " points is implausible");
-                }
-            } else if (option.equals("-textheight"))
-            {
-                nextArg = nextArg + 1;
-                if (nextArg >= args.length)
-                {
-                    CommandLineError("No input file specified");
-                }
-                Parameters.LaTeXtextheight = GetIntArg(args[nextArg], option);
-                if ((Parameters.LaTeXtextheight < 75) || (Parameters.LaTeXtextheight > 1500))
-                {
-                    CommandLineError("-textheight value of " + Parameters.LaTeXtextheight + " points is implausible");
-                }
-            } else if (option.equals("-hoffset"))
-            {
-                nextArg = nextArg + 1;
-                if (nextArg >= args.length)
-                {
-                    CommandLineError("No input file specified");
-                }
-                Parameters.LaTeXhoffset = GetIntArg(args[nextArg], option);
-                if ((Parameters.LaTeXhoffset < -250) || (Parameters.LaTeXhoffset > 250))
-                {
-                    CommandLineError("-hoffset value of " + Parameters.LaTeXhoffset + " points is implausible");
-                }
-            } else if (option.equals("-voffset"))
-            {
-                nextArg = nextArg + 1;
-                if (nextArg >= args.length)
-                {
-                    CommandLineError("No input file specified");
-                }
-                Parameters.LaTeXvoffset = GetIntArg(args[nextArg], option);
-                if ((Parameters.LaTeXvoffset < -250) || (Parameters.LaTeXvoffset > 250))
-                {
-                    CommandLineError("-voffset value of " + Parameters.LaTeXvoffset + " points is implausible");
-                }
-            } else if (option.equals("-metadir"))
-            {
-                nextArg = nextArg + 1;
-                if (nextArg >= args.length)
-                {
-                    CommandLineError("No input file specified");
-                }
-                Parameters.MetaDir = args[nextArg];
-                Parameters.ParentDir = new File(Parameters.MetaDir);
-                if (! Parameters.ParentDir.exists()) {
-                  CommandLineError("Specified metdir " + Parameters.MetaDir + 
-                          " does not exist.");
-                }
-            } else if (option.equals("-latexOutputExt"))
-            {
-                nextArg = nextArg + 1;
-                if (nextArg >= args.length)
-                {
-                    CommandLineError("No input file specified");
-                }
-                
-                Parameters.LatexOutputExt = args[nextArg];
-            } else
-            {
-                CommandLineError("Unknown option: " + option);
+                default -> CommandLineError("Unknown option: " + option);
             }
             nextArg = nextArg + 1;
         } // END while (nextArg < maxArg)

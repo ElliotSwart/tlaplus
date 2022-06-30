@@ -454,76 +454,77 @@ class TeX
         * "-" argument).                                                   *
         *******************************************************************/
         { final String option = args[nextArg] ;
-          if (option.equals("-help"))
-            { OutputMessageFile(Parameters.TeXHelpFile) ;
-              System.exit(0);
-            }
-          else if (option.equals("-info"))
-            { OutputMessageFile(Parameters.TeXInfoFile) ;
-              System.exit(0);
-            }
+            switch (option) {
+                case "-help" -> {
+                    OutputMessageFile(Parameters.TeXHelpFile);
+                    System.exit(0);
+                }
+                case "-info" -> {
+                    OutputMessageFile(Parameters.TeXInfoFile);
+                    System.exit(0);
+                }
+
 // We're not going to run the output through TeX or dvips.  The
 // user can do that.
 //          else if (option.equals("-ps"))
-//            { psOption = true ; 
+//            { psOption = true ;
 //            }
 //          else if (option.equals("-nops"))
-//            { nopsOption = true ; 
+//            { nopsOption = true ;
 //            }
 //          else if (option.equals("-psCommand"))
 //            { nextArg = nextArg + 1;
-//              if (nextArg >= args.length) 
+//              if (nextArg >= args.length)
 //                {CommandLineError("No input file specified") ;} ;
 //              Parameters.PSCommand = args[nextArg];
 //            }
-          else if (option.equals("-latexCommand"))
-            { nextArg = nextArg + 1;
-              if (nextArg >= args.length) 
-                {CommandLineError("No input file specified") ;}
-                Parameters.LaTeXCommand = args[nextArg];
-            }
-          else if (option.equals("-out"))
-            { /*************************************************************
-              * The LaTeX output file.                                     *
-              *************************************************************/
-              outOption = true ;
-              nextArg = nextArg + 1;
-              if (nextArg >= args.length) 
-                {CommandLineError("No input file specified") ;}
-                Parameters.LaTeXOutputFile = RemoveExtension(args[nextArg]);
-              if (HasPathPrefix(Parameters.LaTeXOutputFile))
-               { CommandLineError(
-                    "-out file contains a path specifier.\n"
-                  + "It must be a file in the current directory.");
-               }
-            }
-          else if (option.equals("-alignOut"))
-            { /*************************************************************
-              * The alignment file.  The default is "tlatex".              *
-              *************************************************************/
-              alignOutOption = true ;
-              nextArg = nextArg + 1;
-              if (nextArg >= args.length) 
-                {CommandLineError("No input file specified") ;}
-                Parameters.LaTeXAlignmentFile = RemoveExtension(args[nextArg]);
-              if (HasPathPrefix(Parameters.LaTeXAlignmentFile))
-               { CommandLineError(
-                    "-alignOut file contains a path specifier.\n"
-                  + "It must be a file in the current directory.") ;
-               }
-            } 
-          else if (option.equals("-debug"))
-            { Parameters.Debug = true;
-            }
+                case "-latexCommand" -> {
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    Parameters.LaTeXCommand = args[nextArg];
+                }
+                case "-out" -> {  /*************************************************************
+                 * The LaTeX output file.                                     *
+                 *************************************************************/
+                    outOption = true;
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    Parameters.LaTeXOutputFile = RemoveExtension(args[nextArg]);
+                    if (HasPathPrefix(Parameters.LaTeXOutputFile)) {
+                        CommandLineError(
+                                "-out file contains a path specifier.\n"
+                                        + "It must be a file in the current directory.");
+                    }
+                }
+                case "-alignOut" -> {  /*************************************************************
+                 * The alignment file.  The default is "tlatex".              *
+                 *************************************************************/
+                    alignOutOption = true;
+                    nextArg = nextArg + 1;
+                    if (nextArg >= args.length) {
+                        CommandLineError("No input file specified");
+                    }
+                    Parameters.LaTeXAlignmentFile = RemoveExtension(args[nextArg]);
+                    if (HasPathPrefix(Parameters.LaTeXAlignmentFile)) {
+                        CommandLineError(
+                                "-alignOut file contains a path specifier.\n"
+                                        + "It must be a file in the current directory.");
+                    }
+                }
+                case "-debug" -> Parameters.Debug = true;
+
 // Should probably change the way the -number option is implemented
-// so numbering is controlled by a LaTeX command, so the user 
+// so numbering is controlled by a LaTeX command, so the user
 // of tlatex.TeX can get lines numbered.
 //
 //          else if (option.equals("-number"))
 //            { Parameters.PrintLineNumbers = true;
 //            }
-          else 
-            { CommandLineError("Unknown option: " + option);
+                default -> CommandLineError("Unknown option: " + option);
             }
             nextArg = nextArg + 1;
         }                      // END while (nextArg < maxArg)
