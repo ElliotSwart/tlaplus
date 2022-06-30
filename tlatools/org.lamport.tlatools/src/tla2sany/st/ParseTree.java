@@ -7,8 +7,8 @@ package tla2sany.st;
 //   drivers.ParseUnit and drivers.SyntaxTreePrinter
 
 public  interface ParseTree {
-  public String[] dependencies();
-  public TreeNode rootNode();
-  public String   moduleName();
-  public boolean  parse();
+  String[] dependencies();
+  TreeNode rootNode();
+  String   moduleName();
+  boolean  parse();
 }

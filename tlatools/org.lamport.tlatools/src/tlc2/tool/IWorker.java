@@ -12,17 +12,17 @@ public interface IWorker
 	/**
 	 * @return A worker's id in the range 0 to {@link TLCGlobals#getNumWorkers()} - 1
 	 */
-	public int myGetId();
+    int myGetId();
 	
     // see Thread
     
-	public void start();
+	void start();
 
-	public void join() throws InterruptedException;
+	void join() throws InterruptedException;
 
 	// see IdThread
 	
-	public IValue getLocalValue(int idx);
+	IValue getLocalValue(int idx);
 
-	public void setLocalValue(int idx, IValue val);
+	void setLocalValue(int idx, IValue val);
 }

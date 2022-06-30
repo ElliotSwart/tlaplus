@@ -27,11 +27,11 @@ package pcal;
 
 public interface ValidationCallBack {
 
-	public enum Generate {
+	enum Generate {
 		NOT_NOW, IGNORE, DO_IT
     }
 
-	public class Noop implements ValidationCallBack {
+	class Noop implements ValidationCallBack {
 		@Override
 		public boolean shouldCancel() {
 			return false;

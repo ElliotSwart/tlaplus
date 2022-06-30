@@ -32,7 +32,7 @@ import tlc2.tool.TLCState;
 
 public interface IStateWriter {
 	
-	public enum Visualization {
+	enum Visualization {
 		/**
 		 * If successor and the current state are identical and the transition
 		 * is due to stuttering.

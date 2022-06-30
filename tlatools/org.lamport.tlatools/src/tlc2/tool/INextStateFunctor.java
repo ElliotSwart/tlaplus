@@ -29,7 +29,7 @@ import tlc2.util.SetOfStates;
 
 public interface INextStateFunctor extends IStateFunctor {
 	
-	public static class InvariantViolatedException extends StatefulRuntimeException {
+	class InvariantViolatedException extends StatefulRuntimeException {
 
 		private static final long serialVersionUID = 8396588814681641572L;
 	}

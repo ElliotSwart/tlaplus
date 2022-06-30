@@ -4,7 +4,7 @@ package tla2sany.st;
 
 public interface ParseError  {
 
-  public String reportedError();
-  public String defaultError() ;
+  String reportedError();
+  String defaultError() ;
 }
 

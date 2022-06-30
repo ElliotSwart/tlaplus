@@ -30,60 +30,60 @@ import tlc2.util.statistics.BucketStatistics;
 
 public interface BucketStatisticsMXBean {
 
-	public abstract String getObjectName();
+	String getObjectName();
 
 	/**
 	 * @see BucketStatistics#getObservations()
 	 */
-	public abstract long getObservations();
+    long getObservations();
 
 	/**
 	 * @see BucketStatistics#getMedian()
 	 */
-	public abstract int getMedian();
+    int getMedian();
 
 	/**
 	 * @see BucketStatistics#getMean()
 	 */
-	public abstract double getMean();
+    double getMean();
 
 	/**
 	 * @see BucketStatistics#getMin()
 	 */
-	public abstract int getMin();
+    int getMin();
 
 	/**
 	 * @see BucketStatistics#getMax()
 	 */
-	public abstract int getMax();
+    int getMax();
 
 	/**
 	 * @see BucketStatistics#getStdDev()
 	 */
-	public abstract double getStdDev();
+    double getStdDev();
 
 	/**
 	 * @see BucketStatistics#getPercentile(double)
 	 */
-	public abstract double get75Percentile();
+    double get75Percentile();
 
 	/**
 	 * @see BucketStatistics#getPercentile(double)
 	 */
-	public abstract double get95Percentile();
+    double get95Percentile();
 
 	/**
 	 * @see BucketStatistics#getPercentile(double)
 	 */
-	public abstract double get98Percentile();
+    double get98Percentile();
 
 	/**
 	 * @see BucketStatistics#getPercentile(double)
 	 */
-	public abstract double get99Percentile();
+    double get99Percentile();
 
 	/**
 	 * @see BucketStatistics#getPercentile(double)
 	 */
-	public abstract double get999Percentile();
+    double get999Percentile();
 }

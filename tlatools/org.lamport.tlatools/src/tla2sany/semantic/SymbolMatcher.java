@@ -35,7 +35,7 @@ public interface SymbolMatcher {
 	 */
 	boolean matches(final SymbolNode aSymbol);
 
-	public static class NameAndTypeMatcher implements SymbolMatcher {
+	class NameAndTypeMatcher implements SymbolMatcher {
 	
 		private String prefix;
 		

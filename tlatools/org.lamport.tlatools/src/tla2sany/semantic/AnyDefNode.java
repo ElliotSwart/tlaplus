@@ -32,22 +32,22 @@ import util.UniqueString;
  *
  */
 public interface AnyDefNode {
-    public boolean levelCheck(int itr) ;
-    public int getMaxLevel(int i) ;
-    public UniqueString getName() ;
-    public int getMinMaxLevel(int i, int j) ;
-    public boolean getOpLevelCond(int i, int j, int k) ;
-    public int getLevel() ;
-    public int getWeight(int i) ;
-    public HashSet<SymbolNode> getLevelParams() ;
-    public HashSet<SymbolNode> getAllParams() ;
-    public HashSet<SymbolNode> getNonLeibnizParams() ;
-    public int getArity() ;
-    public boolean[] getIsLeibnizArg() ;
-    public boolean getIsLeibniz() ;
-    public SetOfLevelConstraints getLevelConstraints() ;
-    public HashSet<ArgLevelParam> getArgLevelParams() ;
-    public SetOfArgLevelConstraints getArgLevelConstraints() ;
-    public FormalParamNode[] getParams() ;
-    public AnyDefNode getSource();
+    boolean levelCheck(int itr) ;
+    int getMaxLevel(int i) ;
+    UniqueString getName() ;
+    int getMinMaxLevel(int i, int j) ;
+    boolean getOpLevelCond(int i, int j, int k) ;
+    int getLevel() ;
+    int getWeight(int i) ;
+    HashSet<SymbolNode> getLevelParams() ;
+    HashSet<SymbolNode> getAllParams() ;
+    HashSet<SymbolNode> getNonLeibnizParams() ;
+    int getArity() ;
+    boolean[] getIsLeibnizArg() ;
+    boolean getIsLeibniz() ;
+    SetOfLevelConstraints getLevelConstraints() ;
+    HashSet<ArgLevelParam> getArgLevelParams() ;
+    SetOfArgLevelConstraints getArgLevelConstraints() ;
+    FormalParamNode[] getParams() ;
+    AnyDefNode getSource();
 }

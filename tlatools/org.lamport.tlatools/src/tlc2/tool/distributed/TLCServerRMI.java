@@ -16,35 +16,35 @@ import tlc2.tool.distributed.fp.IFPSetManager;
  * @version $Id$
  */
 public interface TLCServerRMI extends Remote {
-	public void registerWorker(TLCWorkerRMI worker)
+	void registerWorker(TLCWorkerRMI worker)
 			throws IOException;
 	
-	public void registerFPSet(FPSetRMI fpSet, String hostname) throws RemoteException;
+	void registerFPSet(FPSetRMI fpSet, String hostname) throws RemoteException;
 
-	public Boolean getCheckDeadlock() throws RemoteException;
+	Boolean getCheckDeadlock() throws RemoteException;
 
-	public Boolean getPreprocess() throws RemoteException;
+	Boolean getPreprocess() throws RemoteException;
 
-	public IFPSetManager getFPSetManager() throws RemoteException;
+	IFPSetManager getFPSetManager() throws RemoteException;
 
-	public long getIrredPolyForFP() throws RemoteException;
+	long getIrredPolyForFP() throws RemoteException;
 	
 	/**
 	 * @return true iff server is done computing states
 	 */
-	public boolean isDone() throws RemoteException;
+    boolean isDone() throws RemoteException;
 	
 	/**
 	 * @return The name and (potentially) path to the specification file 
 	 * @throws RemoteException
 	 */
-	public String getSpecFileName() throws RemoteException;
+    String getSpecFileName() throws RemoteException;
 
 	/**
 	 * @return The name and (potentially) path to the configuration file
 	 * @throws RemoteException
 	 */
-	public String getConfigFileName() throws RemoteException;
+    String getConfigFileName() throws RemoteException;
 	
 	/**
 	 * Reads the given file from the server stripping the path the just the file name.
@@ -52,5 +52,5 @@ public interface TLCServerRMI extends Remote {
 	 * @return the file requested
 	 * @throws RemoteException
 	 */
-	public byte[] getFile(final String file) throws RemoteException;
+    byte[] getFile(final String file) throws RemoteException;
 }

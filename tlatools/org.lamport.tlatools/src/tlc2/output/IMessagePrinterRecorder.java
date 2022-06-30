@@ -10,5 +10,5 @@ public interface IMessagePrinterRecorder {
 	 * @param code Code identifying the message type.
 	 * @param objects Data comprising the message.
 	 */
-	public void record(int code, Object... objects);
+    void record(int code, Object... objects);
 }

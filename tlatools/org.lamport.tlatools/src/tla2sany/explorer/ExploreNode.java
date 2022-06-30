@@ -11,7 +11,7 @@ import java.util.Hashtable;
 
 public interface ExploreNode {
 
-  public String toString(int depth);
+  String toString(int depth);
     /***********************************************************************
     * This displays the node as a string.  Apparently, the string should   *
     * begin with "\n" to start a new line.  The depth parameter is         *
@@ -20,9 +20,9 @@ public interface ExploreNode {
     * imagine it should call foo.toString(depth-1) to print each           *
     * descendant foo.                                                      *
     ***********************************************************************/
-  public String levelDataToString();
+    String levelDataToString();
 
-  public void   walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor);
+  void   walkGraph(Hashtable<Integer, ExploreNode> semNodesTable, final ExplorerVisitor visitor);
     /***********************************************************************
     * This method is apparently supposed to insert an entry in             *
     * semNodesTable for itself and every descendant in the semantic tree   *

@@ -24,28 +24,28 @@ public interface TLCWorkerRMI extends Remote {
 	 * @throws RemoteException
 	 * @throws WorkerException
 	 */
-	public NextStateResult getNextStates(TLCState[] states) throws RemoteException,
+    NextStateResult getNextStates(TLCState[] states) throws RemoteException,
 			WorkerException;
 	
 	/**
 	 * @return true iff worker is still alive
 	 */
-	public boolean isAlive() throws RemoteException;
+    boolean isAlive() throws RemoteException;
 	
 	/**
 	 * Kills/exits this worker
 	 * @throws RemoteException
 	 */
-	public void exit() throws RemoteException;
+    void exit() throws RemoteException;
 	
 	/**
 	 * @return The {@link URI} address of this worker
 	 * @throws RemoteException
 	 */
-	public URI getURI() throws RemoteException;
+    URI getURI() throws RemoteException;
 
 	/**
 	 * @return The ratio of cache hits to cache misses
 	 */
-	public double getCacheRateRatio() throws RemoteException;
+    double getCacheRateRatio() throws RemoteException;
 }

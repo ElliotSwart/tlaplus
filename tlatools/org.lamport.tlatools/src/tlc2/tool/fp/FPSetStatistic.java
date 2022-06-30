@@ -8,103 +8,103 @@ public interface FPSetStatistic {
 	/**
 	 * @return the bucketsCapacity counting all allocated (used and unused) fp slots in the in-memory storage.
 	 */
-	public long getBucketCapacity();
+    long getBucketCapacity();
 	
 	/**
 	 * @return The allocated (used and unused) array length of the first level in-memory storage.
 	 */
-	public long getTblCapacity();
+    long getTblCapacity();
 
 	/**
 	 * @return the index.length
 	 */
-	public long getIndexCapacity();
+    long getIndexCapacity();
 
 	/**
 	 * @return {@link DiskFPSet#getBucketCapacity()} + {@link DiskFPSet#getTblCapacity()} + {@link DiskFPSet#getIndexCapacity()}.
 	 */
-	public long getOverallCapacity();
+    long getOverallCapacity();
 	
 	/**
 	 * @return	Number of used slots in tbl by a bucket
 	 * {@link DiskFPSet#getTblLoad()} <= {@link DiskFPSet#getTblCnt()}
 	 */
-	public long getTblLoad();
+    long getTblLoad();
 	
 	/**
 	 * @return the amount of fingerprints stored in memory. This is less or equal to {@link DiskFPSet#getTblCnt()} depending on if there collision buckets exist. 
 	 */
-	public long getTblCnt();
+    long getTblCnt();
 	
 	/**
 	 * @return the maximal amount of fingerprints stored in memory. 
 	 */
-	public long getMaxTblCnt();
+    long getMaxTblCnt();
 	
 	/**
 	 * @return the amount of fingerprints stored on disk
 	 */
-	public long getFileCnt();
+    long getFileCnt();
 	
 	/**
 	 * @return the diskLookupCnt
 	 */
-	public long getDiskLookupCnt();
+    long getDiskLookupCnt();
 
 	/**
 	 * @return the diskHitCnt
 	 */
-	public long getMemHitCnt();
+    long getMemHitCnt();
 
 	/**
 	 * @return the diskHitCnt
 	 */
-	public long getDiskHitCnt();
+    long getDiskHitCnt();
 
 	/**
 	 * @return the diskWriteCnt
 	 */
-	public long getDiskWriteCnt();
+    long getDiskWriteCnt();
 
 	/**
 	 * @return the diskSeekCnt
 	 */
-	public long getDiskSeekCnt();
+    long getDiskSeekCnt();
 	
 	/**
 	 * @return the diskSeekCache
 	 */
-	public long getDiskSeekCache();
+    long getDiskSeekCache();
 	
 	/**
 	 * @return the growDiskMark
 	 */
-	public int getGrowDiskMark();
+    int getGrowDiskMark();
 	
 	/**
 	 * @return the checkPointMark
 	 */
-	public int getCheckPointMark();
+    int getCheckPointMark();
 	
 	/**
 	 * @return The memory size of the {@link DiskFPSet}
 	 */
-	public long sizeof();
+    long sizeof();
 	
 	/**
 	 * @return Accumulated time it has taken to flush {@link FPSet} to disk
 	 */
-	public long getFlushTime();
+    long getFlushTime();
 	
 	/**
 	 * @return DiskFPSet#getLockCnt()
 	 */
-	public int getLockCnt();
+    int getLockCnt();
 	
 	/**
 	 * @see DiskFPSet#getReaderWriterCnt()
 	 */
-	public int getReaderWriterCnt();
+    int getReaderWriterCnt();
 	
 	/**
 	 * @return DiskFPSet#getLoadFactor();

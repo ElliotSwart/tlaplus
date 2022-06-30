@@ -17,5 +17,5 @@ public interface XMLExportable {
    * and wrapping it inside general information such as location, which is common to all elements
    * @param doc is the Document used to generate elements
    */
-  public Element export(Document doc, SymbolContext context);
+  Element export(Document doc, SymbolContext context);
 }

@@ -37,7 +37,7 @@ import tlc2.value.impl.Value;
 
 public interface IDebugTarget {
 
-	public enum StepDirection {
+	enum StepDirection {
 		/**
 		 * Resume regular state-space exploration.
 		 */
@@ -56,11 +56,11 @@ public interface IDebugTarget {
 		Over
     }
 
-	public enum Granularity {
+	enum Granularity {
 		State, Formula
 	}
 
-    public enum Step {
+    enum Step {
 		In, Out, Over, Continue, Reset, Reset_Start
 	}
 

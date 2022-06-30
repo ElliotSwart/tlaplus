@@ -9,29 +9,29 @@ import tlc2.tool.Worker;
 public interface IStateQueue {
 
 	/* Enqueues the state. It is not thread-safe. */
-	public abstract void enqueue(final TLCState state);
+    void enqueue(final TLCState state);
 
 	/**
 	 * Returns the first element in the queue. It returns null if the queue is
 	 * empty. It is not thread-safe.
 	 */
-	public abstract TLCState dequeue();
+    TLCState dequeue();
 
 	/* Enqueues a state. Wake up any waiting thread. */
-	public abstract void sEnqueue(final TLCState state);
+    void sEnqueue(final TLCState state);
 
 	/* Enqueues a list of states. Wake up any waiting thread. */
-	public abstract void sEnqueue(final TLCState states[]);
-	public abstract void sEnqueue(final StateVec stateVec);
+    void sEnqueue(final TLCState states[]);
+	void sEnqueue(final StateVec stateVec);
 	
 	/* Return the first element in the queue. Wait if empty. */
-	public abstract TLCState sDequeue();
+    TLCState sDequeue();
 	
 	/**
 	 * Returns the first element in the queue. Wait if empty. Does not remove the
 	 * element. Can be null and blocks other consumers (sEnqueue and sDequeue).
 	 */
-	public abstract TLCState sPeek();
+    TLCState sPeek();
 
 	/**
 	 * Return (up to) the first count elements in the queue. Wait if empty.
@@ -43,12 +43,12 @@ public interface IStateQueue {
 	 * @throws RuntimeException
 	 *             if cnt <= 0
 	 */
-	public abstract TLCState[] sDequeue(int cnt);
+    TLCState[] sDequeue(int cnt);
 
 	/**
 	 * Signals all waiting {@link Worker} that all work is done. We can exit now.
 	 */
-	public abstract void finishAll();
+    void finishAll();
 
 	/**
 	 * Suspends all access to the {@link StateQueue} for {@link Worker},
@@ -56,12 +56,12 @@ public interface IStateQueue {
 	 * 
 	 * @return False iff {@link #finish} is true, true otherwise
 	 */
-	public abstract boolean suspendAll();
+    boolean suspendAll();
 
 	/**
 	 * Resumes waiting {@link Worker} after a checkpoint
 	 */
-	public abstract void resumeAll();
+    void resumeAll();
 
 	/**
 	 * This is a no-op in regular. The only case is, when a worker is stuck in
@@ -72,23 +72,23 @@ public interface IStateQueue {
 	 * 
 	 * @see Bug #175 in general/bugzilla/index.html
 	 */
-	public abstract void resumeAllStuck();
+    void resumeAllStuck();
 
 	/* This method returns the size of the state queue. */
-	public abstract long size();
+    long size();
 
 	/* Checkpoint. */
-	public abstract void beginChkpt() throws IOException;
+    void beginChkpt() throws IOException;
 
-	public abstract void commitChkpt() throws IOException;
+	void commitChkpt() throws IOException;
 
-	public abstract void recover() throws IOException;
+	void recover() throws IOException;
 
-	public abstract boolean isEmpty();
+	boolean isEmpty();
 
 	/**
 	 * TESTING ONLY!
 	 * Delete disk files if any.
 	 */
-	abstract void delete() throws IOException;
+    void delete() throws IOException;
 }

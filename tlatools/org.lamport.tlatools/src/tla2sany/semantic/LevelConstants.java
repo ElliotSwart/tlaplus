@@ -6,21 +6,21 @@ import java.util.HashSet;
 
 public interface LevelConstants {
 
-  static final int ConstantLevel = 0;
-  static final int VariableLevel = 1;
-  static final int ActionLevel   = 2;
-  static final int TemporalLevel = 3;
+  int ConstantLevel = 0;
+  int VariableLevel = 1;
+  int ActionLevel   = 2;
+  int TemporalLevel = 3;
 
-  static final int MinLevel      = 0;
-  static final int MaxLevel      = 3;
+  int MinLevel      = 0;
+  int MaxLevel      = 3;
 
-  static final Integer[] Levels = {Integer.valueOf(ConstantLevel),
+  Integer[] Levels = {Integer.valueOf(ConstantLevel),
 				   Integer.valueOf(VariableLevel),
 				   Integer.valueOf(ActionLevel),
 				   Integer.valueOf(TemporalLevel)};
   
-  static final HashSet<?> EmptySet = new HashSet<>();
-  static final SetOfLevelConstraints EmptyLC = new SetOfLevelConstraints();
-  static final SetOfArgLevelConstraints EmptyALC = new SetOfArgLevelConstraints();
+  HashSet<?> EmptySet = new HashSet<>();
+  SetOfLevelConstraints EmptyLC = new SetOfLevelConstraints();
+  SetOfArgLevelConstraints EmptyALC = new SetOfArgLevelConstraints();
 }
 

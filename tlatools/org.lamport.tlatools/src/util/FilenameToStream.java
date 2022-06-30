@@ -32,7 +32,7 @@ public interface FilenameToStream
 	 * time when it is known where a module was loaded from.
 	 */
 	@SuppressWarnings("serial")
-	public static class TLAFile extends File {
+    class TLAFile extends File {
 		// The following regex is concerned with determining whether the provided 'parent' string to our
 		//	parent/child constructor looks like the start of a legal absolute file path potentially including
 		//	a drive letter.
@@ -131,13 +131,13 @@ public interface FilenameToStream
      * @param isModule
      * @return
      */
-    public File resolve(String filename, boolean isModule);
+    File resolve(String filename, boolean isModule);
 
       /**
        * August 2014 - TL
        * Added this method which returns all the path locations stored in the resolver
       */
-    public String getFullPath();
+      String getFullPath();
 
     /**
      * Returns true iff moduleName is the name of a standard module, which
@@ -148,7 +148,7 @@ public interface FilenameToStream
 	 * @see tla2sany.modanalyzer.ParseUnit.isLibraryModule()
 	 * @see StandardModules.isDefinedInStandardModule()
      */
-    public boolean isStandardModule(String moduleName) ;
+    boolean isStandardModule(String moduleName) ;
 
 	default boolean isLibraryModule(final String moduleName) {
 		return isStandardModule(moduleName);
