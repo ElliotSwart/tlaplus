@@ -1,289 +1,632 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-  xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<!--
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>tlatoolbox</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>-->
+	<groupId>tlatoolbox</groupId>
+	<artifactId>org.lamport.tlatools</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
-  <parent>
-    <artifactId>parent</artifactId>
-    <groupId>tlatoolbox</groupId>
-    <version>0.0.1-SNAPSHOT</version>
-    <relativePath>../../pom.xml</relativePath>
-  </parent>
-  <groupId>tlatoolbox</groupId>
-  <artifactId>org.lamport.tlatools</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-  <packaging>eclipse-plugin</packaging>
+	<organization>
+		<name>Microsoft Research Inria Joint Centre</name>
+		<url>http://msr-inria.inria.fr/</url>
+	</organization>
 
-  <properties>
-    <!-- tlatools is a non-standard maven project. Its heart is customBuild.xml written for ant          -->
-    <!-- which gets invoked from maven. Unfortunately, it means that the tasks which are executed        -->
-    <!-- by ant are not visible to maven. In this case it results in sonar not finding necessary         -->
-    <!-- data to include coverage information. The properties below make sure that sonar finds the data. -->
-	<sonar.sources>src,src-aj</sonar.sources>
-	<sonar.tests>test,test-verify,test-long,test-concurrent</sonar.tests>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/tlaplus/tlaplus/issues</url>
+	</issueManagement>
 
-	<sonar.java.binaries>class</sonar.java.binaries>
-	<sonar.java.libraries>lib/*.jar</sonar.java.libraries>
-	
-	<sonar.java.test.binaries>class,test-class</sonar.java.test.binaries>
-	<sonar.java.test.libraries>lib/*.jar</sonar.java.test.libraries>
-	 
-	<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-	<sonar.surefire.reportsPath>target/surefire-reports</sonar.surefire.reportsPath>
-	<sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
-	<sonar.jacoco.reportPaths>target/code-coverage.exec</sonar.jacoco.reportPaths>
-  </properties>
+	<scm>
+		<connection>scm:git:https://github.com/tlaplus/tlaplus</connection>
+		<developerConnection>scm:git:https://github.com/tlaplus/tlaplus</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
 
+	<!-- tycho requires maven >= 3.0 -->
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
 
-    <build>
-    <plugins>
-		<!-- Delete the ../states/ folder created by the Ant JUnit tests as part 
-			of the maven-antrun-plugin of customBuild.xml. On the CI-machine, the ../states/ 
-			folder gradually grows to eventually fill-up the entire disk. -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-clean-plugin</artifactId>
-            <version>3.0.0</version>
-            <configuration>
-                <filesets>
-                    <fileset>
-                        <directory>../states/</directory>
-                        <includes>
-                            <include>**/*</include>
-                        </includes>
-                        <followSymlinks>false</followSymlinks>
-                    </fileset>
-                </filesets>
-            </configuration>
-        </plugin>
-        
-        <plugin>
-	    <groupId>org.apache.maven.plugins</groupId>
-	    <artifactId>maven-antrun-plugin</artifactId>
-	    <version>1.8</version>
-	    <executions>
-	    	<execution>
-	    		<id>compile</id>
-	    		<phase>compile</phase>
-	    		<configuration>
-	    			<tasks>
+	<properties>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 
-						<taskdef name="junit"
-							classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"
-							classpathref="maven.test.classpath" />
+		<!-- http://maven.apache.org/general.html#encoding-warning  -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		    			<property name="build.compiler" value="extJavac"/>
-		    			<property name="maven.test.skip" value="${maven.test.skip}"/>
-		    			<property name="maven.test.halt" value="${maven.test.halt}"/>
-	    				<ant antfile="customBuild.xml" inheritRefs="true">
-	    					<target name="default-maven" />
-	    				</ant>
-	    			</tasks>
-	    		</configuration>
-	    		<goals>
-	    			<goal>run</goal>
-	    		</goals>
-	    	</execution>
-	    	<!-- Run customBuild.xml's clean target -->
-	    	<execution>
-	    		<id>clean</id>
-	    		<phase>clean</phase>
-	    		<configuration>
-	    			<tasks>
+		<!-- These properties define a dummy certificate store that is used unless the developer passes overwrites to maven -->
+		<!-- see http://stackoverflow.com/a/3620575 for how such an overwrite would look like. -->
+		<keystore.path>${project.basedir}/../../keystore</keystore.path>
+		<keystore.alias>msr</keystore.alias>
+		<keystore.store.password>secret</keystore.store.password>
+		<keystore.key.password>secret</keystore.key.password>
 
-						<taskdef name="junit"
-							classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"
-							classpathref="maven.test.classpath" />
+		<!--
+				Set to the values below if the signature should include a timestamp. You want this for a release build
+				because a timestamp makes sure the signature remains valid after the certificate expired.
+				If you activate RFC3161, make sure the machine running the build has sufficient entropy available. Otherwise
+				expect to see intermittent hangs when the build attempts to sign a jar. On Linux the haveged and rng-tools
+				can help to collect entropy.
+				<tsa.flag>-tsa</tsa.flag>
+				<tsa.server>http://timestamp.comodoca.com</tsa.server>
+				-->
+		<tsa.flag></tsa.flag>
+		<tsa.server></tsa.server>
 
-		    			<property name="build.compiler" value="extJavac"/>
-		    			<property name="maven.test.skip" value="${maven.test.skip}"/>
-		    			<property name="maven.test.halt" value="${maven.test.halt}"/>
-	    				<ant antfile="customBuild.xml" inheritRefs="true">
-	    					<target name="clean" />
-	    				</ant>
-	    			</tasks>
-	    		</configuration>
-	    		<goals>
-	    			<goal>run</goal>
-	    		</goals>
-	    	</execution>
-	   	 </executions>
-	  	</plugin>
-			<!-- Compile java sources and exclude aspects -->
-	      <plugin>
-	        <groupId>org.eclipse.tycho</groupId>
-	        <artifactId>tycho-compiler-plugin</artifactId>
-	        <version>${tycho-version}</version>
-	        <configuration>
-				<!-- Ignore compiler errors due to forbidden sun.misc.Unsafe imports -->
-				<!-- https://bugs.eclipse.org/369187 -->
-				<compilerArgument>-err:-forbidden</compilerArgument>
-	          <excludeResources>
-	            <exludeResource>**/*.aj</exludeResource>
-	          </excludeResources>
-	        </configuration>
-	      </plugin>
+		<!-- Report into the tlaplus organization at SonarQube. -->
+		<!-- Organizations support reporting different branches. -->
+		<sonar.organization>tlaplus</sonar.organization>
 
-			<!-- Update the Manifest.mf packaged into the OSGi variant of tla2tools.jar 
-				which is embedded in the Toolbox. The standalone tla2tools.jar (see customBuild.xml) 
-				defines various properties in its manifest among which are the git revision 
-				and the implementation title. These two properties are read by TLCGlobals 
-				to determine TLCs revision. This is turn is reported as part of execution statistics.
-				To correctly report the TLC revision when it is launched from inside the Toolbox, the
-				embedded tla2tools.jar created here has to also include the two properties. -->
+		<!-- tlatools is a non-standard maven project. Its heart is customBuild.xml written for ant          -->
+		<!-- which gets invoked from maven. Unfortunately, it means that the tasks which are executed        -->
+		<!-- by ant are not visible to maven. In this case it results in sonar not finding necessary         -->
+		<!-- data to include coverage information. The properties below make sure that sonar finds the data. -->
+		<sonar.sources>src,src-aj</sonar.sources>
+		<sonar.tests>test,test-verify,test-long,test-concurrent</sonar.tests>
+
+		<sonar.java.binaries>class</sonar.java.binaries>
+		<sonar.java.libraries>lib/*.jar</sonar.java.libraries>
+
+		<sonar.java.test.binaries>class,test-class</sonar.java.test.binaries>
+		<sonar.java.test.libraries>lib/*.jar</sonar.java.test.libraries>
+
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.surefire.reportsPath>target/surefire-reports</sonar.surefire.reportsPath>
+		<sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
+		<sonar.jacoco.reportPaths>target/code-coverage.exec</sonar.jacoco.reportPaths>
+
+		<class.src>${project.basedir}/src</class.src>
+		<class.src.aj>${project.basedir}/src-aj</class.src.aj>
+		<class.output>${project.build.directory}/class</class.output>
+		<test.src>${project.basedir}/test</test.src>
+		<test.output>${project.build.directory}/test-class</test.output>
+		<test.model>${project.basedir}/test-model</test.model>
+		<test.whitespacedirectory>${project.basedir}/TLA+ Tools</test.whitespacedirectory>
+	</properties>
+
+	<build>
+		<directory>${project.basedir}/target</directory>
+		<sourceDirectory>${class.src}</sourceDirectory>
+		<outputDirectory>${class.output}</outputDirectory>
+		
+		<testSourceDirectory>${test.src}</testSourceDirectory>
+		<testOutputDirectory>${test.output}</testOutputDirectory>
+		<resources>
+			<resource>
+				<directory>${class.src}</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+					<exclude>**/*.~*</exclude>
+					<exclude>**/*##*</exclude>
+					<exclude>**/*.09-09-07</exclude>
+					<exclude>**/*.09-07-02</exclude>
+					<exclude>**/*.11-02-10</exclude>
+					<exclude>**/*.jpg</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>${test.src}</directory>
+				<includes>
+					<include>**/*.dot</include>
+					<include>**/*.dump</include>
+				</includes>
+			</testResource>
+		</testResources>
+		<plugins>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>buildnumber-maven-plugin</artifactId>
-				<version>1.4</version>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.2.0</version>
 				<executions>
 					<execution>
-						<phase>validate</phase>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>process-test-resources</phase>
 						<goals>
-							<goal>create</goal>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${test.whitespacedirectory}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${test.output}</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-test-model-resources</id>
+						<!-- here the phase you need -->
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${test.output}/test-model</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${test.model}</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.2</version>
+				<configuration>
+					<parallel>classes</parallel>
+					<threadCount>1</threadCount>
+					<forkCount>1</forkCount>
+					<reuseForks>false</reuseForks>
+					<argLine>-ea -XX:MaxDirectMemorySize=512k -XX:+UseParallelGC</argLine>
+					<additionalClasspathElements>
+						<additionalClasspathElement>${class.output}/</additionalClasspathElement>
+						<additionalClasspathElement>${test.output}/</additionalClasspathElement>
+					</additionalClasspathElements>
+					<useSystemClassLoader>true</useSystemClassLoader>
+					<!-- Display extra information on exception prints -->
+					<useFile>true</useFile>
+					<redirectTestOutputToFile>true</redirectTestOutputToFile>
+					<excludes>
+						<!-- Produce bogus crash with Quarantine runner. -->
+						<exclude>tlc2/tool/distributed/TLCSetTest.java</exclude>
+						<exclude>tlc2/tool/distributed/DistributedDoInitFunctorEvalExceptionTest.java</exclude>
+						<!-- Just fail because of Quarantine runner. -->
+						<exclude>tlc2/TLCTest.java"</exclude>
+						<exclude>tlc2/tool/fp/OffHeapDiskFPSetTest.java</exclude>
+						<exclude>tlc2/tool/EvaluatingValueTest.java</exclude>
+						<exclude>tlc2/tool/UserModuleOverrideTest.java</exclude>
+						<exclude>tlc2/tool/UserModuleOverrideFromJarTest.java</exclude>
+						<exclude>tlc2/tool/UserModuleOverrideAnnotationTest.java</exclude>
+
+						<exclude>**/PCalTest.java</exclude>
+						<exclude>**/SANYTest.java</exclude>
+						<exclude>**/*_TTraceTest.java</exclude>
+						<exclude>**/CommonTestCase.java</exclude>
+						<exclude>**/ModelCheckerTestCase.java</exclude>
+						<exclude>**/TTraceModelCheckerTestCase.java</exclude>
+						<exclude>**/TLCDebuggerTestCase.java</exclude>
+						<exclude>**/PCalModelCheckerTestCase.java</exclude>
+						<exclude>**/TraceExpressionSpecTest.java</exclude>
+						<exclude>**/TraceExpressionSpecSafetyTest.java</exclude>
+						<exclude>**/SuiteTestCase.java</exclude>
+						<exclude>**/SuiteETestCase.java</exclude>
+						<exclude>**/DistributedTLCTestCase.java</exclude>
+						<exclude>**/TLCServerTestCase.java</exclude>
+						<exclude>**/SuccessfulSimulationTestCase.java</exclude>
+						<exclude>**/AbstractExampleTestCase.java</exclude>
+						<exclude>**/AbstractCoverageTest.java</exclude>
+						<exclude>**/InitEvalOrderTest.java</exclude>
+						<exclude>**/TestMPRecorder.java</exclude>
+						<exclude>**/TestPrintStream.java</exclude>
+						<exclude>**/BidirectionalTransitions1BTest.java</exclude>
+						<exclude>**/BidirectionalTransitions2CTest.java</exclude>
+						<exclude>**/Abstract*Test.java</exclude>
+						<exclude>**/TestDriver.java</exclude>
+						<exclude>**/TestDriver2.java</exclude>
+						<exclude>**/AllTests.java</exclude>
+						<exclude>util/IsolatedTestCaseRunner.java"</exclude>
+						<!-- Known test failures -->
+						<exclude>**/pcal/StackTestTest.java</exclude>
+						<exclude>**/pcal/TestPCandStackTest.java</exclude>
+						<!-- These take too long -->
+						<exclude>**/MacroQuicksortTest.java</exclude>
+						<exclude>**/MacroRealQuicksortTest.java</exclude>
+						<exclude>**/PcalPaxosTest.java</exclude>
+						<exclude>**/DetlefsTest.java</exclude>
+						<exclude>**/StarkMutexTest.java</exclude>
+						<exclude>**/SimpleMultiProcTest.java</exclude>
+					</excludes>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit47</artifactId>
+						<version>3.0.0-M7</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
 						</goals>
 					</execution>
 				</executions>
 				<configuration>
-					<getRevisionOnlyOnce>true</getRevisionOnlyOnce>
-				    <shortRevisionLength>7</shortRevisionLength>
-					<doCheck>false</doCheck>
-					<doUpdate>false</doUpdate>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
 				</configuration>
 			</plugin>
-      		<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-packaging-plugin</artifactId>
-				<version>${tycho-version}</version>
+
+			<!-- Fail the build early and with a clear error message if the Java 11
+				dependency isn't satisfied. https://github.com/tlaplus/tlaplus/issues/278 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.0.0-M2</version>
+				<executions>
+					<execution>
+						<id>enforce-java</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireJavaVersion>
+									<version>11</version>
+								</requireJavaVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Delete the ../states/ folder created by the Ant JUnit tests as part 
+			of the maven-antrun-plugin of customBuild.xml. On the CI-machine, the ../states/ 
+			folder gradually grows to eventually fill-up the entire disk. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.0.0</version>
 				<configuration>
-					<archive>
-						<manifestEntries>
-							<Implementation-Title>TLA+ Tools</Implementation-Title>
-							<X-Git-ShortRevision>${buildNumber}</X-Git-ShortRevision>
-						</manifestEntries>
-					</archive>
+					<filesets>
+						<fileset>
+							<directory>../states/</directory>
+							<includes>
+								<include>**/*</include>
+							</includes>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
 				</configuration>
 			</plugin>
 
-			<!-- Compile aspects -->
-            <plugin>
-                <!-- https://github.com/nickwongdev/aspectj-maven-plugin -->
-                <groupId>com.nickwongdev</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.12.1</version>
-                <configuration>
-                    <ajdtBuildDefFile>build.ajproperties</ajdtBuildDefFile>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <complianceLevel>1.8</complianceLevel>
-                            <source>1.8</source>
-                            <target>1.8</target>
-                        </configuration>
-                    </execution>
-               </executions>
-           </plugin>
-      </plugins>
-  </build>
+			<plugin>
+				<!-- https://github.com/elab/jgit-buildnumber -->
+				<groupId>com.labun.buildnumber</groupId>
+				<artifactId>jgit-buildnumber-maven-plugin</artifactId>
+				<version>2.7.0</version>
+				<executions>
+					<execution>
+						<id>jgit-buildnumber</id>
+						<goals>
+							<goal>extract-buildnumber</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
-  <dependencies>
-	<dependency>
-		<groupId>org.apache.ant</groupId>
-		<artifactId>ant-junit</artifactId>
-		<version>1.7.1</version>
-		<scope>compile</scope>
-	</dependency>
-  		<dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.9.1</version>
-        </dependency>
-        <!-- REPL.java imports classes from org.jline.  The Toolbox (being an OSGi based Rich Client Platform) -->
-        <!-- does not see the jline jars references in customBuild.xml or .classpath.  It has to find jline    -->
-        <!-- elsewhere such as in the target platform (TLAToolbox.target) or on Maven Central.  For jline      -->
-        <!-- there exists no p2 repository that we could add to our target platform.  However, an OSGi-fied    -->
-        <!-- jline exists on Maven Central.                                                                    -->
-		<!-- https://mvnrepository.com/artifact/org.jline/jline-terminal -->
+		</plugins>
+	</build>
+
+	<dependencies>
 		<dependency>
-		    <groupId>org.jline</groupId>
-		    <artifactId>jline-terminal</artifactId>
-		    <version>3.14.1</version>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>jakarta.mail</artifactId>
+			<version>1.6.3</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>smtp</artifactId>
+			<version>1.6.3</version>
+		</dependency>
+
+		<!-- REPL.java imports classes from org.jline.  The Toolbox (being an OSGi based Rich Client Platform) -->
+		<!-- does not see the jline jars references in customBuild.xml or .classpath.  It has to find jline    -->
+		<!-- elsewhere such as in the target platform (TLAToolbox.target) or on Maven Central.  For jline      -->
+		<!-- there exists no p2 repository that we could add to our target platform.  However, an OSGi-fied    -->
+		<!-- jline exists on Maven Central.                                                                    -->
 		<!-- https://mvnrepository.com/artifact/org.jline/jline-reader -->
 		<dependency>
-		    <groupId>org.jline</groupId>
-		    <artifactId>jline-reader</artifactId>
-		    <version>3.14.1</version>
+			<groupId>org.jline</groupId>
+			<artifactId>jline-reader</artifactId>
+			<version>3.14.1</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
-		<dependency>
- 		   <groupId>com.google.code.gson</groupId>
- 		   <artifactId>gson</artifactId>
-		   <version>2.8.6</version>
-		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.eclipse.lsp4j/org.eclipse.lsp4j.jsonrpc.debug -->
 		<dependency>
-		    <groupId>org.eclipse.lsp4j</groupId>
-		    <artifactId>org.eclipse.lsp4j.debug</artifactId>
-		    <version>0.12.0</version>
+			<groupId>org.eclipse.lsp4j</groupId>
+			<artifactId>org.eclipse.lsp4j.debug</artifactId>
+			<version>0.12.0</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.eclipse.lsp4j/org.eclipse.lsp4j.jsonrpc -->
-		<dependency>
-		    <groupId>org.eclipse.lsp4j</groupId>
-		    <artifactId>org.eclipse.lsp4j.jsonrpc</artifactId>
-		    <version>0.12.0</version>
-		</dependency>
-      </dependencies>
 
-      <!-- August 2014 - TL
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.easymock/easymock -->
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>3.3.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openjdk.jmh</groupId>
+			<artifactId>jmh-generator-annprocess</artifactId>
+			<version>1.21</version>
+		</dependency>
+
+	</dependencies>
+
+	<!-- August 2014 - TL
            added a non-default profile (must be called explicitly)
            which creates a jar file and set XMLExporter as the main class.
        -->
-    <profiles>
-      <profile>
-        <id>exporter</id>
-        <build>
-          <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>2.0</version>
-            <executions>
-              <execution>
-                <phase>package</phase>
-                <goals>
-                  <goal>shade</goal>
-                </goals>
-                <configuration>
-                   <includes>
-                     <include>**/tlatools*</include>
-                   </includes>
-                  <minimizeJar>true</minimizeJar>
-                  <transformers>
-                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                      <manifestEntries>
-                        <Main-Class>tla2sany.xml.XMLExporter</Main-Class>
-                      </manifestEntries>
-                    </transformer>
-                  </transformers>
-                  <filters>
-                  <filter>
-                    <artifact>*:*</artifact>
-                      <excludes>
-                        <exclude>**/*Test*.*</exclude>
-                      </excludes>
-                    </filter>
-                  </filters>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-        </build>
-    </profile>
-  </profiles>
+	<profiles>
+		<profile>
+			<id>Coverage</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>0.8.8</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>prepare-agent</goal>
+								</goals>
+							</execution>
+							<!-- attached to Maven test phase -->
+							<execution>
+								<id>report</id>
+								<phase>test</phase>
+								<goals>
+									<goal>report</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>OSGi</id>
+			<properties>
+
+				<!-- https://wiki.eclipse.org/Tycho/Release_Notes/1.4 -->
+				<tycho-version>1.5.1</tycho-version>
+
+				<!-- no default here -->
+				<tycho.test.vm.argline>-Xmx500m -Xdebug -Xrunjdwp:transport=dt_socket,address=1044,server=y,suspend=n</tycho.test.vm.argline>
+				<tycho.test.vm.useUiThread>false</tycho.test.vm.useUiThread>
+
+			</properties>
+			<build>
+				<plugins>
+					<!-- enable tycho build extension -->
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-maven-plugin</artifactId>
+						<version>${tycho-version}</version>
+						<extensions>true</extensions>
+					</plugin>
+
+					<!-- Compile java sources and exclude aspects -->
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-compiler-plugin</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<!-- Ignore compiler errors due to forbidden sun.misc.Unsafe imports -->
+							<!-- https://bugs.eclipse.org/369187 -->
+							<compilerArgument>-err:-forbidden</compilerArgument>
+							<excludeResources>
+								<exludeResource>**/*.aj</exludeResource>
+							</excludeResources>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-packaging-plugin</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<archive>
+								<manifestEntries>
+									<Implementation-Title>TLA+ Tools</Implementation-Title>
+									<X-Git-ShortRevision>${buildNumber}</X-Git-ShortRevision>
+								</manifestEntries>
+							</archive>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>target-platform-configuration</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<!-- Some dependencies such as jline referenced by org.lamport.tlatools   -->
+							<!-- cannot be found in the Toolbox's target platform (TLAToolbox.target) -->
+							<!-- because the dependencies are not made available in p2 repositories.  -->
+							<!-- However, sometimes OSGi-fied dependencies are made available on      -->
+							<!-- Maven Central.  'pomDependencies' makes this build look there too.    -->
+							<!-- https://wiki.eclipse.org/Tycho/Target_Platform#.22POM_dependencies_consider.22 -->
+							<pomDependencies>consider</pomDependencies>
+							<!-- recommended: use p2-based target platform resolver -->
+							<resolver>p2</resolver>
+							<ignoreTychoRepositories>true</ignoreTychoRepositories>
+							<!-- Include the pack200 artifacts in the p2 repository. This increases
+								the size of the p2 repository (jars + pack.gz), but reduces the load on the
+								server hosting the repository as clients download the compressed pack.gz files. -->
+							<includePackedArtifacts>true</includePackedArtifacts>
+							<!-- use existing target platform definition -->
+							<target>
+								<artifact>
+									<groupId>tlatoolbox</groupId>
+									<artifactId>org.lamport.tla.toolbox.product.product</artifactId>
+									<version>1.4.0-SNAPSHOT</version>
+									<classifier>TLAToolbox</classifier>
+								</artifact>
+							</target>
+
+							<!-- Need to specify mininum Java version. This defines what
+								 java.* packages are available during dependency resolution.
+								 Java 1.4, e.g. does not come with "java.security.sasl", a
+								 package that is indirectly referenced by the toolbox (indirectly via
+								 org.apache.mina.core).
+								 see http://dev.eclipse.org/mhonarc/lists/cbi-dev/msg00166.html -->
+							<executionEnvironment>JavaSE-11</executionEnvironment>
+
+							<!-- configure the p2 target environments for multi-platform build -->
+							<environments>
+
+								<!-- Linux -->
+								<environment>
+									<os>linux</os>
+									<ws>gtk</ws>
+									<arch>x86_64</arch>
+								</environment>
+
+								<!-- Windows -->
+								<environment>
+									<os>win32</os>
+									<ws>win32</ws>
+									<arch>x86_64</arch>
+								</environment>
+
+								<!-- Mac -->
+								<environment>
+									<os>macosx</os>
+									<ws>cocoa</ws>
+									<arch>x86_64</arch>
+								</environment>
+
+							</environments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>aspectj</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>${class.src.aj}</directory>
+						<includes>
+							<include>**/*.*</include>
+						</includes>
+						<excludes>
+							<exclude>**/*.aj</exclude>
+							<exclude>**/*.java</exclude>
+							<exclude>**/*.~*</exclude>
+							<exclude>**/*##*</exclude>
+						</excludes>
+					</resource>
+				</resources>
+				<plugins>
+					<!-- Compile aspects -->
+					<plugin>
+						<!-- https://github.com/nickwongdev/aspectj-maven-plugin -->
+						<groupId>com.nickwongdev</groupId>
+						<artifactId>aspectj-maven-plugin</artifactId>
+						<version>1.12.1</version>
+						<configuration>
+							<ajdtBuildDefFile>build.ajproperties</ajdtBuildDefFile>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>compile</goal>
+								</goals>
+								<configuration>
+									<complianceLevel>1.8</complianceLevel>
+									<source>1.8</source>
+									<target>1.8</target>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>org.aspectj</groupId>
+					<artifactId>aspectjrt</artifactId>
+					<version>1.9.2</version>
+				</dependency>
+
+				<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjtools -->
+				<dependency>
+					<groupId>org.aspectj</groupId>
+					<artifactId>aspectjtools</artifactId>
+					<version>1.9.2</version>
+				</dependency>
+
+				<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+				<dependency>
+					<groupId>org.aspectj</groupId>
+					<artifactId>aspectjweaver</artifactId>
+					<version>1.9.2</version>
+					<scope>runtime</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>exporter</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-shade-plugin</artifactId>
+						<version>2.0</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>shade</goal>
+								</goals>
+								<configuration>
+									<includes>
+										<include>**/tlatools*</include>
+									</includes>
+									<minimizeJar>true</minimizeJar>
+									<transformers>
+										<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+											<manifestEntries>
+												<Main-Class>tla2sany.xml.XMLExporter</Main-Class>
+											</manifestEntries>
+										</transformer>
+									</transformers>
+									<filters>
+										<filter>
+											<artifact>*:*</artifact>
+											<excludes>
+												<exclude>**/*Test*.*</exclude>
+											</excludes>
+										</filter>
+									</filters>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

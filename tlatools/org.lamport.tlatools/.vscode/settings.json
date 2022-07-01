@@ -1,0 +1,15 @@
+{
+    "java.test.config": {
+        "name": "test",
+        "vmArgs": [
+            "-ea",
+            "-XX:MaxDirectMemorySize=512k",
+            "-XX:+UseParallelGC"
+        ],
+        "workingDirectory": "${workspaceFolder}",
+        "classPaths": [
+            "${workspaceFolder}/class/"
+        ]
+    },
+    "java.configuration.updateBuildConfiguration": "interactive"
+}
