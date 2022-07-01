@@ -280,8 +280,7 @@ public class ParseUnit {
                 // We try to get the monolith file path.
                 final File rootSourceFile = rootParseUnit.getNis().sourceFile();
                 if (rootSourceFile != null) {
-                    try {
-                        MonolithSpecExtractor.module(rootSourceFile, name);
+                    try(final NamedInputStream stream = MonolithSpecExtractor.module(rootSourceFile, name)) {
                         originalFilePath = " (" + rootSourceFile.getAbsolutePath() + ")";
                     } catch (final IOException e) {
                         // This should never happen.

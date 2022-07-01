@@ -24,8 +24,7 @@ public abstract class ModelInJar {
 	}
 
 	public static File getCfg() {
-		try {
-			final InputStream source = ModelInJar.class.getResourceAsStream(PATH + TLAConstants.Files.MODEL_CHECK_CONFIG_FILE);
+		try(final InputStream source = ModelInJar.class.getResourceAsStream(PATH + TLAConstants.Files.MODEL_CHECK_CONFIG_FILE)) {
 			final Path target = Files.createTempFile(TLAConstants.Files.MODEL_CHECK_FILE_BASENAME, TLAConstants.Files.CONFIG_EXTENSION);
 			Files.copy(Objects.requireNonNull(source), target, StandardCopyOption.REPLACE_EXISTING);
 			return target.toFile();
