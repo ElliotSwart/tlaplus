@@ -51,6 +51,19 @@ public class TestPrintStream extends PrintStream {
 		buf.append(x + "\n");
 		super.println(x);
 	}
+
+
+	@Override
+	public PrintStream printf(String format, Object ... args){
+		String formattedString = String.format(format, args);
+
+		// Equivalent to println
+		if (format.endsWith("%n")){
+			strings.add(formattedString);
+		}
+
+		return this;
+	}
 	
 	public void assertEmpty() {
 		assertTrue(this.strings.isEmpty());
