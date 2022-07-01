@@ -38,7 +38,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     * The root node.                                                       *
     ***********************************************************************/
 
-  public Vector<UniqueString> dependencyList = new Vector<>(20);
+  public final Vector<UniqueString> dependencyList = new Vector<>(20);
 
   private UniqueString mn = null;
      /**********************************************************************
@@ -53,7 +53,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
 
   private final UniqueString At = UniqueString.uniqueStringOf("@");
 
-  ParseErrors PErrors = new ParseErrors();
+  final ParseErrors PErrors = new ParseErrors();
 
   private final tla2sany.parser.OperatorStack OperatorStack = new tla2sany.parser.OperatorStack( PErrors );
 
@@ -682,7 +682,7 @@ if (System.getProperty("TLA-StackTrace", "off").equals("on")) ToolIO.out.println
   }
 //
 
-  Stack internals = new Stack();
+  final Stack internals = new Stack();
 
   private final void addDependency(final UniqueString s ) {
     final int lvi = internals.search( s );
