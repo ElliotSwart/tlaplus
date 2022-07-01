@@ -67,9 +67,9 @@ public abstract class TLCServerTestCase extends ModelCheckerTestCase {
 			// of no use anyway.
 			TLCGlobals.chkptDuration = 0;
 			
-			final String fqSpec = BASE_DIR + TEST_MODEL + path + File.separator + spec;
+			final String fqSpec = BASE_PATH + path + File.separator + spec;
 			final FPSetConfiguration fpSetConfig = new DummyFPSetConfig();
-			ToolIO.setUserDir(BASE_DIR + File.separator + TEST_MODEL + path + File.separator);
+			ToolIO.setUserDir(BASE_PATH + path + File.separator);
 			final TLCApp app = new TLCApp(fqSpec, spec, false, null, fpSetConfig);
 			final TLCServer server = new TLCServer(app);
 			server.modelCheck();

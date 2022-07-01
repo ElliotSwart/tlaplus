@@ -52,10 +52,10 @@ import util.IsolatedTestCaseRunner;
 @RunWith(IsolatedTestCaseRunner.class)
 public abstract class CommonTestCase {
 
-	protected static final String BASE_DIR = System.getProperty("basedir", "");
+	protected static final String BASE_DIR = System.getProperty("basedir", "target" + File.separator + "test/class" + File.separator);
 	protected static final String TEST_MODEL = "test-model" + File.separator;
-	public static final String BASE_PATH = TEST_MODEL;
-
+	public static final String BASE_PATH = BASE_DIR + TEST_MODEL;
+	
 	protected final TestMPRecorder recorder;
 
 	public CommonTestCase() {
