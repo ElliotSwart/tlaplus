@@ -152,8 +152,8 @@ public class Github432Test extends ModelCheckerTestCase {
 	}
 	
 	private void createConfigFile(final String humans, final String others) throws IOException {
-		final File configFile = new File(BASE_DIR + TEST_MODEL + CONFIG_FILE);
-		final File backup = new File(BASE_DIR + TEST_MODEL + CONFIG_FILE_BACKUP);
+		final File configFile = new File(CommonTestCase.BASE_PATH + CONFIG_FILE);
+		final File backup = new File(CommonTestCase.BASE_PATH + CONFIG_FILE_BACKUP);
 		
 		if (backup.exists()) {
 			Assert.fail("Github432 test state is incoherent: the backup file already exists at "
@@ -207,10 +207,10 @@ public class Github432Test extends ModelCheckerTestCase {
 	}
 	
 	private void revertConfigFile() {
-		final File backup = new File(BASE_DIR + TEST_MODEL + CONFIG_FILE_BACKUP);
+		final File backup = new File(CommonTestCase.BASE_PATH +  CONFIG_FILE_BACKUP);
 		
 		if (backup.exists()) {
-			final File configFile = new File(BASE_DIR + TEST_MODEL + CONFIG_FILE);
+			final File configFile = new File(CommonTestCase.BASE_PATH + CONFIG_FILE);
 
 			try {
 				Files.move(backup.toPath(), configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
