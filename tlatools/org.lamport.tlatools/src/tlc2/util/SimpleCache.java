@@ -36,10 +36,12 @@ public class SimpleCache implements Cache {
 	    final int index = (int)(fp & this.mask);
 	    final long hit = this.cache[index];
 	    if (hit == fp) {
-	    	cacheHit++;
+			long newValue = cacheHit + 1;
+	    	cacheHit = newValue;
 	    	return true;
 	    } else {
-	    	cacheMiss++;
+			long newValue = cacheMiss + 1;
+	    	cacheMiss = newValue;
 	    	this.cache[index] = fp;
 	    	return false;
 	    }

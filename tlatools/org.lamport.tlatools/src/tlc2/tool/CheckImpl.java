@@ -87,19 +87,6 @@ public abstract class CheckImpl extends ModelChecker {
     this.stateEnum.reset(-1);
   }
 
-  /**
-   * Creates a (partial) state space with the state st as the root and
-   * depth as the depth.
-   */
-  public final void makeStateSpace(final TLCState st, final int depth) throws Exception {
-    final int depth1= this.trace.getLevel(st.uid) + depth;
-    this.theStateQueue = new DiskStateQueue(this.metadir);
-    this.theStateQueue.enqueue(st);
-    final int result = this.runTLC(depth1);
-    if (result != EC.NO_ERROR) {
-      System.exit(EC.ExitStatus.errorConstantToExitStatus(result));
-    }
-  }
   
   /**
    * This method gets a new state from the external world.

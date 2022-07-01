@@ -82,7 +82,8 @@ public class BlockSelector implements IBlockSelector {
 	protected void setAverageBlockCnt(final long blockCnt) {
 		// Get meaningful results right from the start
 		if (averageBlockCnt > 0L) {
-			averageBlockCnt = (blockCnt + averageBlockCnt) / 2L;
+			var newValue = (blockCnt + averageBlockCnt) / 2L;
+			averageBlockCnt = newValue;
 		} else {
 			averageBlockCnt = blockCnt;
 		}

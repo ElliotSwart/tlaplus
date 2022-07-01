@@ -55,7 +55,7 @@ public class ModelChecker extends AbstractChecker
 
 	private long numberOfInitialStates;
     public FPSet theFPSet; // the set of reachable states (SZ: note the type)
-    public IStateQueue theStateQueue; // the state queue
+    public final IStateQueue theStateQueue; // the state queue
     public final ConcurrentTLCTrace trace; // the trace file
     // used to calculate the spm metric
     public long distinctStatesPerMinute, statesPerMinute = 0L;
