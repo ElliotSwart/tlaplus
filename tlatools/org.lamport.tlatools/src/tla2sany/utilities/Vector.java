@@ -141,7 +141,7 @@ public class Vector<E> {
 
   @Override
   public final String toString() {
-    StringBuilder ret;
+    final StringBuilder ret;
     ret = new StringBuilder("[ ");
     if (this.size() > 0) ret.append(this.elementAt(0).toString());
     for (int i = 1; i<this.size(); i++) {

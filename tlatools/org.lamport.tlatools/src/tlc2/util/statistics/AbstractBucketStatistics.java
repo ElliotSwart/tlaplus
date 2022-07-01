@@ -90,7 +90,7 @@ public abstract class AbstractBucketStatistics implements IBucketStatistics {
 		buf.append(String.format("99.9%%: %.2f%n", getPercentile(0.999d)));
 		buf.append("numEdges/occurrences (log scale)%n");
 		buf.append("--------------------------------%n");
-		for (Entry<Integer, Long> next : getSamples().entrySet()) {
+		for (final Entry<Integer, Long> next : getSamples().entrySet()) {
 			final long amount = next.getValue();
 			final int i = next.getKey();
 			buf.append(String.format("%02d", i));
@@ -115,7 +115,7 @@ public abstract class AbstractBucketStatistics implements IBucketStatistics {
 		// skip forward for as many elements as 1/2 observations. The 
 		// corresponding bucket is the median.
 		long sum = 0L;
-		for (Entry<Integer, Long> next : getSamples().entrySet()) {
+		for (final Entry<Integer, Long> next : getSamples().entrySet()) {
 			sum += next.getValue();
 			if (sum > (l / 2)) {
 				return next.getKey();
@@ -129,7 +129,7 @@ public abstract class AbstractBucketStatistics implements IBucketStatistics {
     public double getMean() {
 		long sum = 0L;
 		// Sum up values and count
-		for (Entry<Integer, Long> next : getSamples().entrySet()) {
+		for (final Entry<Integer, Long> next : getSamples().entrySet()) {
 			final long value = next.getValue();
 			final int i = next.getKey();
 			sum += value * i;
@@ -166,7 +166,7 @@ public abstract class AbstractBucketStatistics implements IBucketStatistics {
 		}
 		final double mean = getMean() * 1.0d;
 		double sum = 0.0d;
-		for (Entry<Integer, Long> next : getSamples().entrySet()) {
+		for (final Entry<Integer, Long> next : getSamples().entrySet()) {
 			final double Xi = next.getKey() * 1.0d;
 			final double diff = Xi - mean;
 			sum += (diff * diff) * ((next.getValue() * 1.0d)); // diff^2
@@ -203,7 +203,7 @@ public abstract class AbstractBucketStatistics implements IBucketStatistics {
 	    
 	    // advance to the bucket at position
 	    long cnt = 0L;
-		for (Entry<Integer, Long> next : samples.entrySet()) {
+		for (final Entry<Integer, Long> next : samples.entrySet()) {
 			final int i = next.getKey();
 			cnt += next.getValue();
 			if (cnt > pos) {

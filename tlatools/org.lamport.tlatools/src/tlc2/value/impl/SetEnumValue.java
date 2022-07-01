@@ -394,7 +394,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
 
   /* The string representation */
   @Override
-  public final StringBuffer toString(StringBuffer sb, final int offset, final boolean swallow) {
+  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow) {
     try {
       // If this SetEnumValue object is created by a union, at least one of
       // whose elements is a Cartesian product, then this can be an unnormalized

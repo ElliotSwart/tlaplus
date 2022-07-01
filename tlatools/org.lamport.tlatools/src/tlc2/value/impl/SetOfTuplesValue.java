@@ -125,7 +125,7 @@ public final Value[] sets;
   @Override
   public final boolean isFinite() {
     try {
-        for (Value set : this.sets) {
+        for (final Value set : this.sets) {
             if (!set.isFinite()) {
                 return false;
             }
@@ -172,7 +172,7 @@ public final Value[] sets;
   public final int size() {
     try {
       long sz = 1;
-        for (Value set : this.sets) {
+        for (final Value set : this.sets) {
             sz *= set.size();
             if (sz < -2147483648 || sz > 2147483647) {
                 Assert.fail("Overflow when computing the number of elements in " +
@@ -191,7 +191,7 @@ public final Value[] sets;
   public final boolean isNormalized() {
     try {
       if (this.tupleSet == null || this.tupleSet == SetEnumValue.DummyEnum) {
-          for (Value set : this.sets) {
+          for (final Value set : this.sets) {
               if (!set.isNormalized()) {
                   return false;
               }
@@ -210,7 +210,7 @@ public final Value[] sets;
   public final Value normalize() {
     try {
       if (this.tupleSet == null || this.tupleSet == SetEnumValue.DummyEnum) {
-          for (Value set : this.sets) {
+          for (final Value set : this.sets) {
               set.normalize();
           }
       }
@@ -228,7 +228,7 @@ public final Value[] sets;
   @Override
   public final void deepNormalize() {
 	    try {
-            for (Value set : sets) {
+            for (final Value set : sets) {
                 set.deepNormalize();
             }
         if (tupleSet == null) {
@@ -248,7 +248,7 @@ public final Value[] sets;
   public final boolean isDefined() {
     try {
       boolean defined = true;
-        for (Value set : this.sets) {
+        for (final Value set : this.sets) {
             defined = defined && set.isDefined();
         }
       return defined;
@@ -337,7 +337,7 @@ public final Value[] sets;
       try {
         if (unlazy) {
           long sz = 1;
-            for (Value set : this.sets) {
+            for (final Value set : this.sets) {
                 sz *= set.size();
                 if (sz < -2147483648 || sz > 2147483647) {
                     unlazy = false;

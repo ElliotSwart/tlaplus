@@ -117,7 +117,7 @@ public final UniqueString[] names;      // The names of the fields.
   @Override
   public final boolean isFinite() {
     try {
-        for (Value value : this.values) {
+        for (final Value value : this.values) {
             if (!value.isFinite()) return false;
         }
       return true;
@@ -162,7 +162,7 @@ public final UniqueString[] names;      // The names of the fields.
   public final int size() {
     try {
       long sz = 1;
-        for (Value value : this.values) {
+        for (final Value value : this.values) {
             sz *= value.size();
             if (sz < -2147483648 || sz > 2147483647) {
                 Assert.fail(EC.TLC_MODULE_OVERFLOW, "the number of elements in:\n" +
@@ -180,7 +180,7 @@ public final UniqueString[] names;      // The names of the fields.
 	@Override
 	protected boolean needBigInteger() {
 		long sz = 1;
-        for (Value value : values) {
+        for (final Value value : values) {
             sz *= value.size();
             if (sz < -2147483648 || sz > 2147483647) {
                 return true;
@@ -230,7 +230,7 @@ public final UniqueString[] names;      // The names of the fields.
   @Override
   public final void deepNormalize() {
 	    try {
-            for (Value value : values) {
+            for (final Value value : values) {
                 value.deepNormalize();
             }
         if (rcdSet == null) {
@@ -285,7 +285,7 @@ public final UniqueString[] names;      // The names of the fields.
   public final boolean isDefined() {
     try {
       boolean isDefined = true;
-        for (Value value : this.values) {
+        for (final Value value : this.values) {
             isDefined = isDefined && value.isDefined();
         }
       return isDefined;
@@ -374,7 +374,7 @@ public final UniqueString[] names;      // The names of the fields.
       try {
         if (unlazy) {
           long sz = 1;
-            for (Value value : this.values) {
+            for (final Value value : this.values) {
                 sz *= value.size();
                 if (sz < -2147483648 || sz > 2147483647) {
                     unlazy = false;

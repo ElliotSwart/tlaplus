@@ -151,7 +151,7 @@ public int levelChecked   = 0 ;
        *    This method is called for such a node only when               *
        *    level-checking a proof.                                       *
        *******************************************************************/
-      for (LevelNode levelNode : sub) {
+      for (final LevelNode levelNode : sub) {
           if ((levelNode.getKind() != ModuleKind)
 //          && (sub[i].getKind() != InstanceKind)
                   && (levelNode.getKind() != ModuleInstanceKind)) {
@@ -193,7 +193,7 @@ public int levelChecked   = 0 ;
   static void addTemporalLevelConstraintToConstants(
           final HashSet<SymbolNode> params,
           final SetOfLevelConstraints constrs ) {
-      for (SymbolNode node : params) {
+      for (final SymbolNode node : params) {
           if (node.getKind() == ConstantDeclKind) {
               constrs.put(node, Levels[ActionLevel]);
           }
@@ -297,9 +297,9 @@ public int levelChecked   = 0 ;
     /***********************************************************************
     * Converts a HashSet of SymbolNodes to a printable string.             *
     ***********************************************************************/
-    StringBuilder rval = new StringBuilder("{");
+    final StringBuilder rval = new StringBuilder("{");
     boolean first = true ;
-      for (SymbolNode h : hs) {
+      for (final SymbolNode h : hs) {
           if (!first) {
               rval.append(", ");
           }
@@ -314,9 +314,9 @@ public int levelChecked   = 0 ;
     /***********************************************************************
     * Converts a HashSet of ArgLevelParam objects to a printable string.   *
     ***********************************************************************/
-    StringBuilder rval = new StringBuilder("{");
+    final StringBuilder rval = new StringBuilder("{");
     boolean first = true ;
-      for (ArgLevelParam h : hs) {
+      for (final ArgLevelParam h : hs) {
           if (!first) {
               rval.append(", ");
           }

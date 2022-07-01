@@ -319,7 +319,7 @@ public abstract class Tool
             final FormalParamNode[] formals = opDef.getParams();
             final int alen = args.length;
             int argLevel = 0;
-              for (ExprOrOpArgNode arg : args) {
+              for (final ExprOrOpArgNode arg : args) {
                   argLevel = arg.getLevel();
                   if (argLevel != 0) break;
               }
@@ -375,7 +375,7 @@ public abstract class Tool
     case OPCODE_dl:     // DisjList
     case OPCODE_lor:
       {
-          for (ExprOrOpArgNode arg : args) {
+          for (final ExprOrOpArgNode arg : args) {
               this.getActions(arg, con, actionName, cm);
           }
         return;
@@ -614,7 +614,7 @@ public abstract class Tool
         case OPCODE_dl:     // DisjList
         case OPCODE_lor:
           {
-              for (ExprOrOpArgNode arg : args) {
+              for (final ExprOrOpArgNode arg : args) {
                   this.getInitStates(arg, acts, c, ps, states, cm);
               }
             return;
@@ -671,7 +671,7 @@ public abstract class Tool
         case OPCODE_case:   // Case
           {
             SemanticNode other = null;
-              for (ExprOrOpArgNode arg : args) {
+              for (final ExprOrOpArgNode arg : args) {
                   final OpApplNode pair = (OpApplNode) arg;
                   final ExprOrOpArgNode[] pairArgs = pair.getArgs();
                   if (pairArgs[0] == null) {
@@ -846,7 +846,7 @@ public abstract class Tool
   
   @Override
   public boolean getNextStates(final INextStateFunctor functor, final TLCState state) {
-      for (Action action : actions) {
+      for (final Action action : actions) {
           this.getNextStates(functor, state, action);
       }
 		return false;
@@ -2068,7 +2068,7 @@ public abstract class Tool
           {
             final int alen = args.length;
             SemanticNode other = null;
-              for (ExprOrOpArgNode arg : args) {
+              for (final ExprOrOpArgNode arg : args) {
                   final OpApplNode pairNode = (OpApplNode) arg;
                   final ExprOrOpArgNode[] pairArgs = pairNode.getArgs();
                   if (pairArgs[0] == null) {
@@ -2104,7 +2104,7 @@ public abstract class Tool
         case OPCODE_cl:     // ConjList
           {
             final int alen = args.length;
-              for (ExprOrOpArgNode arg : args) {
+              for (final ExprOrOpArgNode arg : args) {
                   final Value bval = this.eval(arg, c, s0, s1, control, cm);
                   if (!(bval instanceof BoolValue)) {
                       Assert.fail("A non-boolean expression (" + bval.getKindString() +
@@ -2119,7 +2119,7 @@ public abstract class Tool
         case OPCODE_dl:     // DisjList
           {
             final int alen = args.length;
-              for (ExprOrOpArgNode arg : args) {
+              for (final ExprOrOpArgNode arg : args) {
                   final Value bval = this.eval(arg, c, s0, s1, control, cm);
                   if (!(bval instanceof BoolValue)) {
                       Assert.fail("A non-boolean expression (" + bval.getKindString() +
@@ -2263,7 +2263,7 @@ public abstract class Tool
           {
             final int alen = args.length;
             final ValueVec vals = new ValueVec(alen);
-              for (ExprOrOpArgNode arg : args) {
+              for (final ExprOrOpArgNode arg : args) {
                   vals.addElement(this.eval(arg, c, s0, s1, control, cm));
               }
             return setSource(expr, new SetEnumValue(vals, false, cm));
@@ -2679,7 +2679,7 @@ public abstract class Tool
   @Override
   public final boolean isInModel(final TLCState state) throws EvalException {
     final ExprNode[] constrs = this.getModelConstraints();
-      for (ExprNode constr : constrs) {
+      for (final ExprNode constr : constrs) {
           final CostModel cm = coverage ? ((Action) Objects.requireNonNull(constr.getToolObject(toolId))).cm : CostModel.DO_NOT_RECORD;
           final IValue bval = this.eval(constr, Context.Empty, state, cm);
           if (!(bval instanceof BoolValue)) {
@@ -2703,7 +2703,7 @@ public abstract class Tool
   @Override
   public final boolean isInActions(final TLCState s1, final TLCState s2) throws EvalException {
     final ExprNode[] constrs = this.getActionConstraints();
-      for (ExprNode constr : constrs) {
+      for (final ExprNode constr : constrs) {
           final CostModel cm = coverage ? ((Action) Objects.requireNonNull(constr.getToolObject(toolId))).cm : CostModel.DO_NOT_RECORD;
           final Value bval = this.eval(constr, Context.Empty, s1, s2, EvalControl.Clear, cm);
           if (!(bval instanceof BoolValue)) {
@@ -2962,7 +2962,7 @@ public abstract class Tool
         case OPCODE_case: // Case
           {
             SemanticNode other = null;
-              for (ExprOrOpArgNode arg : args) {
+              for (final ExprOrOpArgNode arg : args) {
                   final OpApplNode pair = (OpApplNode) arg;
                   final ExprOrOpArgNode[] pairArgs = pair.getArgs();
                   if (pairArgs[0] == null) {
@@ -2997,7 +2997,7 @@ public abstract class Tool
         case OPCODE_dl: // DisjList
         case OPCODE_lor:
           {
-              for (ExprOrOpArgNode arg : args) {
+              for (final ExprOrOpArgNode arg : args) {
                   final TLCState s2 = this.enabled(arg, acts, c, s0, s1, cm);
                   if (s2 != null) {
                       return s2;
@@ -3762,7 +3762,7 @@ public abstract class Tool
           }
         }
         else {
-            for (FormalParamNode id : ids) {
+            for (final FormalParamNode id : ids) {
                 if (!domain.member(elems[argn])) {
                     Assert.fail("In applying the function\n" + Values.ppr(fcn.toString()) +
                             ",\nthe argument number " + (argn + 1) + " is:\n" +
@@ -3815,7 +3815,7 @@ public abstract class Tool
 	        enums[idx++] = ((Enumerable)boundSet).elements(ordering);
 	      }
 	      else {
-              for (FormalParamNode formalParamNode : farg) {
+              for (final FormalParamNode formalParamNode : farg) {
                   vars[idx] = formalParamNode;
                   enums[idx++] = ((Enumerable) boundSet).elements(ordering);
               }

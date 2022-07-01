@@ -473,7 +473,7 @@ public abstract class AbstractChecker
         }
 
         // Wait for all the workers to terminate:
-        for (IWorker worker : workers) {
+        for (final IWorker worker : workers) {
             worker.join();
         }
 		if (!this.keepCallStack) {
@@ -487,7 +487,7 @@ public abstract class AbstractChecker
     }
     
 	public final void setAllValues(final int idx, final IValue val) {
-        for (IWorker worker : this.workers) {
+        for (final IWorker worker : this.workers) {
             worker.setLocalValue(idx, val);
         }
 	}

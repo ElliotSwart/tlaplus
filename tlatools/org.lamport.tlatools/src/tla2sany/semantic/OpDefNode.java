@@ -1082,12 +1082,12 @@ public boolean addLabel(final LabelNode odn) {
     }
 
     this.levelConstraints = (SetOfLevelConstraints)lcSet.clone();
-      for (FormalParamNode formalParamNode : this.params) {
+      for (final FormalParamNode formalParamNode : this.params) {
           this.levelConstraints.remove(formalParamNode);
       }
 
     this.argLevelConstraints = (SetOfArgLevelConstraints)alcSet.clone();
-      for (FormalParamNode param : this.params) {
+      for (final FormalParamNode param : this.params) {
           final int alen = param.getArity();
           for (int j = 0; j < alen; j++) {
               this.argLevelConstraints.remove(new ParamAndPosition(param, j));
@@ -1095,7 +1095,7 @@ public boolean addLabel(final LabelNode odn) {
       }
 
 //    this.argLevelParams = new HashSet();
-      for (ArgLevelParam alp : alpSet) {
+      for (final ArgLevelParam alp : alpSet) {
           if (!alp.op.occur(this.params) ||
                   !alp.param.occur(this.params)) {
               this.argLevelParams.add(alp);
@@ -1168,13 +1168,13 @@ public boolean addLabel(final LabelNode odn) {
       * Modified by LL on 24 Mar 2007 to print the maxLevels array         *
       * properly.                                                          *
       *********************************************************************/
-      StringBuilder maxLevelStr = new StringBuilder();
+      final StringBuilder maxLevelStr = new StringBuilder();
         for (int i = 0; i < this.maxLevels.length; i++) {
            if (i > 0) {
                maxLevelStr.append(", ");}
             maxLevelStr.append(this.maxLevels[i]);
            }
-        StringBuilder isLeibnizArgStr = new StringBuilder();
+        final StringBuilder isLeibnizArgStr = new StringBuilder();
         for (int i = 0; i < this.isLeibnizArg.length; i++) {
            if (i > 0) {
                isLeibnizArgStr.append(", ");}
@@ -1183,9 +1183,9 @@ public boolean addLabel(final LabelNode odn) {
         StringBuilder opLevelCondStr = new StringBuilder();
       if (opLevelCond != null) {
         opLevelCondStr = new StringBuilder("[");
-          for (boolean[][] booleans : opLevelCond) {
+          for (final boolean[][] booleans : opLevelCond) {
               opLevelCondStr.append(" [");
-              for (boolean[] aBoolean : booleans) {
+              for (final boolean[] aBoolean : booleans) {
                   opLevelCondStr.append(" [");
                   for (int k = 0; k < aBoolean.length; k++) {
                       String foo = " ";
@@ -1241,7 +1241,7 @@ public boolean addLabel(final LabelNode odn) {
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
     if (params != null && params.length > 0) {
-        for (FormalParamNode param : params) {
+        for (final FormalParamNode param : params) {
             if (param != null) param.walkGraph(semNodesTable, visitor);
         }
     }
@@ -1284,7 +1284,7 @@ public boolean addLabel(final LabelNode odn) {
   public final String toString(final int depth) {
     if (depth <= 0) return "";
 
-    StringBuilder ret = new StringBuilder("\n*OpDefNode: " + this.getName().toString()
+    final StringBuilder ret = new StringBuilder("\n*OpDefNode: " + this.getName().toString()
             + "\n  "
             + super.toString(depth)
             + "\n  local: " + local
@@ -1308,8 +1308,8 @@ public boolean addLabel(final LabelNode odn) {
 
 //  nextDependency has been removed.
       if (params != null) {
-      StringBuilder tempString = new StringBuilder("\n  Formal params: " + params.length);
-        for (FormalParamNode param : params) {
+      final StringBuilder tempString = new StringBuilder("\n  Formal params: " + params.length);
+        for (final FormalParamNode param : params) {
             tempString.append(Strings.indent(4, ((param != null)
                     ? param.toString(depth - 1)
                     : "\nnull")));

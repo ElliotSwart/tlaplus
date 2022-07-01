@@ -519,7 +519,7 @@ abstract class Spec
         }
         case OPCODE_case: // Case
         {
-            for (ExprOrOpArgNode arg : args) {
+            for (final ExprOrOpArgNode arg : args) {
                 final OpApplNode pair = (OpApplNode) arg;
                 this.collectPrimedLocs(pair.getArgs()[1], c, tbl);
             }
@@ -543,7 +543,7 @@ abstract class Spec
         case OPCODE_implies:
         case OPCODE_nop: // This case added 13 Nov 2009 by LL to handle subexpression names.
           {
-              for (ExprOrOpArgNode arg : args) {
+              for (final ExprOrOpArgNode arg : args) {
                   this.collectPrimedLocs(arg, c, tbl);
               }
             break;
@@ -607,7 +607,7 @@ abstract class Spec
             	// UNCHANGED vars
 				// For the latter, we don't want vars == <<x,y,z>> to show up, but the vars in
 				// UNCHANGED vars (see CoverageStatisticsTest).
-                for (ExprOrOpArgNode arg : args) {
+                for (final ExprOrOpArgNode arg : args) {
                     this.collectUnchangedLocs(arg, c, tbl);
                 }
                 return;

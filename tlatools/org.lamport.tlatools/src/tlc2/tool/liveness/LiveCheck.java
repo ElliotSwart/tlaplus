@@ -82,7 +82,7 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public void addInitState(final ITool tool, final TLCState state, final long stateFP) {
-        for (ILiveChecker iLiveChecker : checker) {
+        for (final ILiveChecker iLiveChecker : checker) {
             iLiveChecker.addInitState(tool, state, stateFP);
         }
 	}
@@ -134,7 +134,7 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public boolean doLiveCheck() {
-        for (ILiveChecker iLiveChecker : checker) {
+        for (final ILiveChecker iLiveChecker : checker) {
             // If one of the disk graph's size has increased by the given
             // percentage, run liveness checking.
             //
@@ -174,7 +174,7 @@ public class LiveCheck implements ILiveCheck {
 			// state graph.
 			return EC.NO_ERROR;
 		}
-        for (ILiveChecker iLiveChecker : checker) {
+        for (final ILiveChecker iLiveChecker : checker) {
             // see note in doLiveCheck() above!
             final AbstractDiskGraph diskGraph = iLiveChecker.getDiskGraph();
             final long sizeAtLastCheck = diskGraph.getSizeAtLastCheck();
@@ -206,7 +206,7 @@ public class LiveCheck implements ILiveCheck {
 		// Sum up the number of nodes in all disk graphs to indicate the amount
 		// of work to be done by liveness checking.
 		long sum = 0L;
-        for (ILiveChecker liveChecker : checker) {
+        for (final ILiveChecker liveChecker : checker) {
             sum += liveChecker.getDiskGraph().size();
         }
 		MP.printMessage(EC.TLC_CHECKING_TEMPORAL_PROPS, finalCheck ? "complete" : "current",
@@ -284,7 +284,7 @@ public class LiveCheck implements ILiveCheck {
 		
 		// Reset after checking unless it's the final check:
 		if (!finalCheck) {
-            for (ILiveChecker iLiveChecker : checker) {
+            for (final ILiveChecker iLiveChecker : checker) {
                 iLiveChecker.getDiskGraph().makeNodePtrTbl();
             }
 		}
@@ -377,7 +377,7 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public void close() throws IOException {
-        for (ILiveChecker iLiveChecker : checker) {
+        for (final ILiveChecker iLiveChecker : checker) {
             iLiveChecker.close();
         }
 	}
@@ -388,7 +388,7 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public synchronized void beginChkpt() throws IOException {
-        for (ILiveChecker iLiveChecker : checker) {
+        for (final ILiveChecker iLiveChecker : checker) {
             iLiveChecker.getDiskGraph().beginChkpt();
         }
 	}
@@ -398,7 +398,7 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public void commitChkpt() throws IOException {
-        for (ILiveChecker iLiveChecker : checker) {
+        for (final ILiveChecker iLiveChecker : checker) {
             iLiveChecker.getDiskGraph().commitChkpt();
         }
 	}
@@ -408,7 +408,7 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public void recover() throws IOException {
-        for (ILiveChecker iLiveChecker : checker) {
+        for (final ILiveChecker iLiveChecker : checker) {
             MP.printMessage(EC.TLC_AAAAAAA);
             iLiveChecker.getDiskGraph().recover();
         }
@@ -419,7 +419,7 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public void reset() throws IOException {
-        for (ILiveChecker iLiveChecker : checker) {
+        for (final ILiveChecker iLiveChecker : checker) {
             iLiveChecker.getDiskGraph().reset();
         }
 	}
@@ -429,7 +429,7 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public IBucketStatistics calculateInDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
-        for (ILiveChecker iLiveChecker : checker) {
+        for (final ILiveChecker iLiveChecker : checker) {
             final AbstractDiskGraph diskGraph = iLiveChecker.getDiskGraph();
             diskGraph.calculateInDegreeDiskGraph(aGraphStats);
         }
@@ -441,7 +441,7 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	@Override
     public IBucketStatistics calculateOutDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
-        for (ILiveChecker iLiveChecker : checker) {
+        for (final ILiveChecker iLiveChecker : checker) {
             final AbstractDiskGraph diskGraph = iLiveChecker.getDiskGraph();
             diskGraph.calculateOutDegreeDiskGraph(aGraphStats);
         }
@@ -856,7 +856,7 @@ public class LiveCheck implements ILiveCheck {
 			// state graph):
 			cnt = 0;
 			final Action[] actions = tool.getActions();
-            for (Action action : actions) {
+            for (final Action action : actions) {
                 final StateVec nextStates = tool.getNextStates(action, s);
                 final int nextCnt = nextStates.size();
                 for (int j = 0; j < nextCnt; j++) {

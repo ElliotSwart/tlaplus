@@ -219,7 +219,7 @@ public class SymbolTable implements ASTConstants {
   
   // return a string with all symbols in all contexts, from top to bottom
   public String toString() {
-    StringBuilder ret = new StringBuilder("\n\n***SymbolTable\n\n*** top context");
+    final StringBuilder ret = new StringBuilder("\n\n***SymbolTable\n\n*** top context");
 
     for (int c = contextStack.size()-1; c >= 0; c--) {
       final Context ct = (Context) contextStack.elementAt(c);

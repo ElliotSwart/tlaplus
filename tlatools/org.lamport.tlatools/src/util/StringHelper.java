@@ -36,8 +36,8 @@ public class StringHelper {
      * }
      */
     public static final String copyString(final String str, final int copies) {
-        StringBuilder result = new StringBuilder();
-        StringBuilder powerOf2Copies = new StringBuilder(str);
+        final StringBuilder result = new StringBuilder();
+        final StringBuilder powerOf2Copies = new StringBuilder(str);
         int    remaining = copies;
         while (remaining > 0) {
             if (remaining %2 != 0) {

@@ -549,7 +549,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
                   // Printing of preComment added by LL on 2 Jul 2009
     );
 
-      for (TreeNode heir : heirs) {
+      for (final TreeNode heir : heirs) {
           if (heir != null)
               heir.printST(indentLevel + 1);
               // Indent 1 more level
@@ -565,7 +565,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
  
   public static String PreCommentToString(final String[] pcarray) {
     if (pcarray == null || pcarray.length == 0) {return "";}
-      StringBuilder res = new StringBuilder("\n preComment: ");
+      final StringBuilder res = new StringBuilder("\n preComment: ");
     for (int i = 0; i < pcarray.length; i++) {
       res.append((i == 0) ? "" : "\n             ").append(i).append(" ").append(pcarray[i]);
     }

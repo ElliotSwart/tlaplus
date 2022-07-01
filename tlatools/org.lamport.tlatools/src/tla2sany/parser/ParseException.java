@@ -98,12 +98,12 @@ public class ParseException extends Exception {
       return super.getMessage();
     }
     int maxSize = 0;
-      for (int[] expectedTokenSequence : expectedTokenSequences) {
+      for (final int[] expectedTokenSequence : expectedTokenSequences) {
           if (maxSize < expectedTokenSequence.length) {
               maxSize = expectedTokenSequence.length;
           }
       }
-    StringBuilder retval = new StringBuilder("Encountered \"");
+    final StringBuilder retval = new StringBuilder("Encountered \"");
     Token tok = currentToken.next;
 
     for (int i = 0; i < maxSize; i++) {
@@ -137,11 +137,11 @@ public class ParseException extends Exception {
     }
     final StringBuilder expected = new StringBuilder();
     int maxSize = 0;
-      for (int[] expectedTokenSequence : expectedTokenSequences) {
+      for (final int[] expectedTokenSequence : expectedTokenSequences) {
           if (maxSize < expectedTokenSequence.length) {
               maxSize = expectedTokenSequence.length;
           }
-          for (int i : expectedTokenSequence) {
+          for (final int i : expectedTokenSequence) {
               expected.append(tokenImage[i]).append(" ");
           }
           if (expectedTokenSequence[expectedTokenSequence.length - 1] != 0) {
@@ -149,7 +149,7 @@ public class ParseException extends Exception {
           }
           expected.append(eol).append("    ");
       }
-    StringBuilder retval = new StringBuilder("Encountered \"");
+    final StringBuilder retval = new StringBuilder("Encountered \"");
     Token tok = currentToken.next;
     for (int i = 0; i < maxSize; i++) {
       if (i != 0) retval.append(" ");

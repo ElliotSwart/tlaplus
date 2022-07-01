@@ -114,7 +114,7 @@ public final class NodeTable {
 			} else {
 				final BTGraphNode[] nodes = (BTGraphNode[]) elem;
 				if (nodes[0].stateFP == k1) {
-                    for (BTGraphNode btGraphNode : nodes) {
+                    for (final BTGraphNode btGraphNode : nodes) {
                         if (btGraphNode.getIndex() == k2) {
                             return loc;
                         }

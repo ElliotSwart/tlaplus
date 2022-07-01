@@ -475,19 +475,19 @@ public class ThmOrAssumpDefNode extends SymbolNode
       }
 
       this.levelConstraints = (SetOfLevelConstraints)lcSet.clone();
-      for (FormalParamNode formalParamNode : this.params) {
+      for (final FormalParamNode formalParamNode : this.params) {
           this.levelConstraints.remove(formalParamNode);
       }
 
       this.argLevelConstraints = (SetOfArgLevelConstraints)alcSet.clone();
-      for (FormalParamNode param : this.params) {
+      for (final FormalParamNode param : this.params) {
           final int alen = param.getArity();
           for (int j = 0; j < alen; j++) {
               this.argLevelConstraints.remove(new ParamAndPosition(param, j));
           }
       }
 
-      for (ArgLevelParam alp : alpSet) {
+      for (final ArgLevelParam alp : alpSet) {
           if (!alp.op.occur(this.params) ||
                   !alp.param.occur(this.params)) {
               this.argLevelParams.add(alp);
@@ -563,7 +563,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
   @Override
   public final String toString(final int depth) {
     if (depth <= 0) return "";
-    StringBuilder ret =
+    final StringBuilder ret =
             new StringBuilder("\n*ThmOrAssumpDefNode: " + this.getName().toString() +
                     "  " + super.toString(depth) +
                     " arity: " + this.arity +
@@ -573,8 +573,8 @@ public class ThmOrAssumpDefNode extends SymbolNode
     if (instantiatedFrom != null) {
         ret.append(" instantiatedFrom: ").append(instantiatedFrom.getName()); }
       if (params != null) {
-      StringBuilder tempString = new StringBuilder("\nFormal params: " + params.length);
-          for (FormalParamNode param : params) {
+      final StringBuilder tempString = new StringBuilder("\nFormal params: " + params.length);
+          for (final FormalParamNode param : params) {
               tempString.append(Strings.indent(2, ((param != null)
                       ? param.toString(depth - 1)
                       : "\nnull")));

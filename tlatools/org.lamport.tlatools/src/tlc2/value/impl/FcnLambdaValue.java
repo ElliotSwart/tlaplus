@@ -241,7 +241,7 @@ public final FcnParams params;       // the function formals
               }
             }
             else {
-                for (FormalParamNode id : ids) {
+                for (final FormalParamNode id : ids) {
                     if (!domain.member(elems[argn])) {
                         Assert.fail("In applying the function\n" + Values.ppr(this.toString()) +
                                 ",\nthe argument number " + (argn + 1) + " is:\n" +
@@ -367,7 +367,7 @@ public final FcnParams params;       // the function formals
               }
             }
             else {
-                for (FormalParamNode id : ids) {
+                for (final FormalParamNode id : ids) {
                     if (!domain.member(elems[argn])) return null;
                     c1 = c1.cons(id, elems[argn++]);
                 }
@@ -585,7 +585,7 @@ public final FcnParams params;       // the function formals
 	    try {
       if (fcnRcd == null) {
         if (excepts != null) {
-            for (ValueExcept except : excepts) {
+            for (final ValueExcept except : excepts) {
                 except.value.deepNormalize();
                 for (int j = 0; j < except.path.length; j++) {
                     except.path[j].deepNormalize();
@@ -593,7 +593,7 @@ public final FcnParams params;       // the function formals
             }
         }
         final IValue[] paramDoms = params.domains;
-          for (IValue paramDom : paramDoms) {
+          for (final IValue paramDom : paramDoms) {
               paramDom.deepNormalize();
           }
       }
@@ -709,7 +709,7 @@ public final FcnParams params;       // the function formals
                 }
               }
               else {
-                  for (FormalParamNode id : ids) {
+                  for (final FormalParamNode id : ids) {
                       c1 = c1.cons(id, argList[argn++]);
                   }
               }

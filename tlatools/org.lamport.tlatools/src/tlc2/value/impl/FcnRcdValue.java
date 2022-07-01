@@ -443,7 +443,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   public final Value takeExcept(final ValueExcept[] exs) {
     try {
       Value res = this;
-        for (ValueExcept ex : exs) {
+        for (final ValueExcept ex : exs) {
             res = res.takeExcept(ex);
         }
       return res;
@@ -612,7 +612,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   @Override
   public final void deepNormalize() {
 	  try {
-          for (Value value : values) {
+          for (final Value value : values) {
               value.deepNormalize();
           }
         normalize();
@@ -633,7 +633,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
           defined = defined && this.domain[i].isDefined();
         }
       }
-        for (Value value : this.values) {
+        for (final Value value : this.values) {
             defined = defined && value.isDefined();
         }
       return defined;
@@ -696,7 +696,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 				vos.writeByte((byte) 0);
 				vos.writeInt(intv.low);
 				vos.writeInt(intv.high);
-                for (Value value : values) {
+                for (final Value value : values) {
                     value.write(vos);
                 }
 			} else {
@@ -812,7 +812,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
     if (this.intv != null) {
       return (this.intv.low == 1);
     }
-      for (Value value : this.domain) {
+      for (final Value value : this.domain) {
           if (!(value instanceof IntValue)) {
               return false;
           }

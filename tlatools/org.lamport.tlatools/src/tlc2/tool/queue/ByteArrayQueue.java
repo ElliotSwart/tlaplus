@@ -140,7 +140,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 	}
 	
 	private final synchronized void sEnqueue(final byte[][] states) {
-		for (byte[] state : states) {
+		for (final byte[] state : states) {
 			this.enqueueInner(state);
 		}
 		this.len += states.length;

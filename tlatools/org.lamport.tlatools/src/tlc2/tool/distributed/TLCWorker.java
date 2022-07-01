@@ -105,13 +105,13 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 			TLCState[] nstates;
 			final Set<Holder> treeSet = getSet();
 			// Compute all of the next states of this block of states.
-            for (TLCState state : states) {
+            for (final TLCState state : states) {
                 state1 = state;
                 nstates = this.work.getNextStates(state1);
                 // Keep statistics about states computed during this invocation
                 statesComputed += nstates.length;
                 // add all succ states/fps to the array designated for the corresponding fp server
-                for (TLCState nstate : nstates) {
+                for (final TLCState nstate : nstates) {
                     final long fp = nstate.fingerPrint();
                     if (!cache.hit(fp)) {
                         treeSet.add(new Holder(fp, nstate, state1));
@@ -417,7 +417,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 		}
 		
 		// Exit and unregister all worker threads
-        for (TLCWorkerRunnable runnable : runnables) {
+        for (final TLCWorkerRunnable runnable : runnables) {
             final TLCWorker worker = runnable.getTLCWorker();
             try {
                 if (worker != null) {

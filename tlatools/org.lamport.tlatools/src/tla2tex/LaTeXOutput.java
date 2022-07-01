@@ -735,7 +735,7 @@ private static void InnerWriteAlignmentFile(final Token[][] spec,
     * Result is Misc.TeXify(str) with spaces replaced by "\ " and "-"      *
     * replaced by {-}.                                                     *
     ***********************************************************************/
-    { StringBuilder result = new StringBuilder();
+    { final StringBuilder result = new StringBuilder();
       final String str = Misc.TeXify(inputStr);
       int pos = 0 ;
       while (pos < str.length())
@@ -1331,7 +1331,7 @@ private static void InnerWriteLaTeXFile(final Token[][] spec,
                     * Add tok.column + 2 spaces to beginning of first      *
                     * line.                                                *
                     *******************************************************/
-                    StringBuilder spaces = new StringBuilder("  ");
+                    final StringBuilder spaces = new StringBuilder("  ");
                     int j = 0 ;
                     while (j < tok.column)
                       { spaces.append(" ");

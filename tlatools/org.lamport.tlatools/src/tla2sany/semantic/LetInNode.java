@@ -80,14 +80,14 @@ implements ExploreNode, LevelConstants {
       * opDefs.                                                            *
       *********************************************************************/
       int cnt = 0 ;
-        for (SymbolNode def : opDefs) {
+        for (final SymbolNode def : opDefs) {
             if (def.getKind() == UserDefinedOpKind) {
                 cnt++;
             }
         }
       gottenLets = new OpDefNode[cnt] ;
       cnt = 0 ;
-        for (SymbolNode opDef : opDefs) {
+        for (final SymbolNode opDef : opDefs) {
             if (opDef.getKind() == UserDefinedOpKind) {
                 gottenLets[cnt] = (OpDefNode) opDef;
                 cnt++;
@@ -117,7 +117,7 @@ implements ExploreNode, LevelConstants {
        * which should not be level checked.  (They have no body to level      *
        * check.)                                                              *
        ***********************************************************************/
-      for (SymbolNode node : this.opDefs) {
+      for (final SymbolNode node : this.opDefs) {
           /***********************************************************************
            * In TLA+2, opDefs contains ModuleInstanceKind OpDefNode objects,      *
            * which should not be level checked.  (They have no body to level      *
@@ -131,7 +131,7 @@ implements ExploreNode, LevelConstants {
     if (!this.body.levelCheck(itr)) {
       this.levelCorrect = false;
     }
-      for (InstanceNode instanceNode : this.insts) {
+      for (final InstanceNode instanceNode : this.insts) {
           if (!instanceNode.levelCheck(itr)) {
               this.levelCorrect = false;
           }
@@ -154,7 +154,7 @@ implements ExploreNode, LevelConstants {
       /*******************************************************************
        * opDefs[i] is level checked above.                                *
        *******************************************************************/
-      for (SymbolNode symbolNode : this.opDefs) {
+      for (final SymbolNode symbolNode : this.opDefs) {
           if (symbolNode.getKind() != ModuleInstanceKind) {
               this.levelConstraints.putAll(symbolNode.getLevelConstraints());
           }
@@ -165,7 +165,7 @@ implements ExploreNode, LevelConstants {
 
 //    this.argLevelConstraints = new SetOfArgLevelConstraints();
     this.argLevelConstraints.putAll(this.body.getArgLevelConstraints());
-      for (SymbolNode def : this.opDefs) {
+      for (final SymbolNode def : this.opDefs) {
           if (def.getKind() != ModuleInstanceKind) {
               this.argLevelConstraints.putAll(def.getArgLevelConstraints());
           }
@@ -177,7 +177,7 @@ implements ExploreNode, LevelConstants {
        * opDefs[i] is either an OpDefNode or a ThmOrAssumpDefNode; only   *
        * an OpDefNode can have parameters.                                *
        *******************************************************************/
-      for (SymbolNode opDef : this.opDefs) {
+      for (final SymbolNode opDef : this.opDefs) {
           if (opDef.getKind() != ModuleInstanceKind) {
               /*******************************************************************
                * opDefs[i] is either an OpDefNode or a ThmOrAssumpDefNode; only   *
@@ -187,7 +187,7 @@ implements ExploreNode, LevelConstants {
               if (opDef.getKind() != ThmOrAssumpDefKind) {
                   params = ((OpDefNode) opDef).getParams();
               }
-              for (ArgLevelParam alp : opDef.getArgLevelParams()) {
+              for (final ArgLevelParam alp : opDef.getArgLevelParams()) {
                   if (!alp.occur(params)) {
                       this.argLevelParams.add(alp);
                   }
@@ -197,7 +197,7 @@ implements ExploreNode, LevelConstants {
       /*******************************************************************
        * insts[i] level checked above.                                    *
        *******************************************************************/
-      for (InstanceNode inst : this.insts) {
+      for (final InstanceNode inst : this.insts) {
           this.argLevelParams.addAll(inst.getArgLevelParams());
           /*******************************************************************
            * insts[i] level checked above.                                    *
@@ -246,7 +246,7 @@ implements ExploreNode, LevelConstants {
   public final String toString(final int depth) {
     if (depth <= 0) return "";
 
-    StringBuilder ret = new StringBuilder("\n*LetInNode: " + super.toString(depth));
+    final StringBuilder ret = new StringBuilder("\n*LetInNode: " + super.toString(depth));
     /***********************************************************************
     * Print context.                                                       *
     ***********************************************************************/
@@ -278,7 +278,7 @@ implements ExploreNode, LevelConstants {
     final Element ret = doc.createElement("LetInNode");
     ret.appendChild(appendElement(doc,"body",body.export(doc,context)));
     final Element arguments = doc.createElement("opDefs");
-      for (SymbolNode opDef : opDefs) arguments.appendChild(opDef.export(doc, context));
+      for (final SymbolNode opDef : opDefs) arguments.appendChild(opDef.export(doc, context));
     ret.appendChild(arguments);
 
     return ret;

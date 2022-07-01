@@ -104,7 +104,7 @@ public class Translator
 	public List<Error> getErrors() {
 		final String[] messages = ToolIO.getAllMessages();
 		final Vector<Error> errorMessages = new Vector<>();
-        for (String message : messages) {
+        for (final String message : messages) {
             final int position = message.indexOf(PcalDebug.UNRECOVERABLE_ERROR);
             if (position != -1) {
                 errorMessages.add(new Error(message.substring(position,

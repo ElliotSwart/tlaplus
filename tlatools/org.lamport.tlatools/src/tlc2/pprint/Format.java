@@ -172,7 +172,7 @@ public class Format {
                                      final String leftpad,
                                      final String sep) throws FormatException {
     try {
-      StringBuilder pp = new StringBuilder();
+      final StringBuilder pp = new StringBuilder();
       for (Node value = values; value != null; value = value.next()) {
 	if (value.next() != null) {
 	  // this is not the last value in the list, so leave room for sep
@@ -237,7 +237,7 @@ public class Format {
                                     final String div,
                                     final String divpad) throws FormatException {
     try {
-      StringBuilder pp = new StringBuilder();
+      final StringBuilder pp = new StringBuilder();
       for (Node pair = pairs; pair != null; pair = pair.next()) {
 	final Node arg = pair.children();
 	final Node val = arg.next();

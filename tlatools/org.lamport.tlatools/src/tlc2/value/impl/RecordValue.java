@@ -346,7 +346,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
   public final Value takeExcept(final ValueExcept[] exs) {
     try {
       Value res = this;
-        for (ValueExcept ex : exs) {
+        for (final ValueExcept ex : exs) {
             res = res.takeExcept(ex);
         }
       return res;
@@ -514,7 +514,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
   @Override
   public final void deepNormalize() {
 	  try {
-          for (Value value : values) {
+          for (final Value value : values) {
               value.deepNormalize();
           }
         normalize();
@@ -529,7 +529,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
   public final boolean isDefined() {
     try {
       boolean defined = true;
-        for (Value value : this.values) {
+        for (final Value value : this.values) {
             defined = defined && value.isDefined();
         }
       return defined;
@@ -732,7 +732,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
     public TLCState toState() {
 			final TLCState state = TLCState.Empty.createEmpty();
 			final OpDeclNode[] vars = state.getVars();
-        for (OpDeclNode var : vars) {
+        for (final OpDeclNode var : vars) {
             final UniqueString name = var.getName();
             final int rlen = this.names.length;
             for (int j = 0; j < rlen; j++) {

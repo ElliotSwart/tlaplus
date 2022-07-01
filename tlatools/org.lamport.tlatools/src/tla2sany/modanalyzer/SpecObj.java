@@ -359,7 +359,7 @@ public class SpecObj
     // in nonCircularityBody method below.
     private String pathToString(final Vector<ParseUnit> path)
     {
-        StringBuilder ret = new StringBuilder();
+        final StringBuilder ret = new StringBuilder();
         for (int i = 0; i < path.size(); i++)
         {
             ret.append(path.elementAt(i).getFileName()).append(" --> ");

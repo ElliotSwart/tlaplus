@@ -418,7 +418,7 @@ public class PcalSymTab {
 
     public String toString ( ) {
         int i = 0;
-        StringBuilder result = new StringBuilder("[");
+        final StringBuilder result = new StringBuilder("[");
         while (i < symtab.size()) {
            final SymTabEntry se = symtab.elementAt(i);
             if (i > 0) result.append(", ");

@@ -86,7 +86,7 @@ public class MemFPIntSet extends FPIntSet {
   public final synchronized long sizeof() {
     long size = 28; // 8 (ptr table) + 8 (long count) + 8 (long threshold) + 4 (int mask)
     size += 16 + (this.table.length * 8L); // for this.table
-      for (int[] ints : this.table) {
+      for (final int[] ints : this.table) {
           if (ints != null) {
               size += 16 + (ints.length * 4L);
           }
@@ -306,7 +306,7 @@ public class MemFPIntSet extends FPIntSet {
       new BufferedDataOutputStream(this.chkptName(fname, "tmp"));
       for (final int[] bucket : this.table) {
           if (bucket != null) {
-              for (int k : bucket) {
+              for (final int k : bucket) {
                   dos.writeInt(k);
               }
           }

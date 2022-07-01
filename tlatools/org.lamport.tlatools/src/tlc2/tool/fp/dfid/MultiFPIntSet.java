@@ -39,7 +39,7 @@ public class MultiFPIntSet extends FPIntSet {
   @Override
   public final long size() {
     int sum = 0;
-      for (FPIntSet set : this.sets) {
+      for (final FPIntSet set : this.sets) {
           sum += set.size();
       }
     return sum;
@@ -66,7 +66,7 @@ public class MultiFPIntSet extends FPIntSet {
 
   @Override
   public final boolean allLeveled() {
-      for (FPIntSet set : this.sets) {
+      for (final FPIntSet set : this.sets) {
           if (!set.allLeveled()) return false;
       }
     return true;
@@ -74,7 +74,7 @@ public class MultiFPIntSet extends FPIntSet {
 
   @Override
   public final void close() {
-      for (FPIntSet set : this.sets) {
+      for (final FPIntSet set : this.sets) {
           set.close();
       }
   }
@@ -83,7 +83,7 @@ public class MultiFPIntSet extends FPIntSet {
   @Override
   public final long checkFPs() throws IOException {
     long res = Long.MIN_VALUE;
-      for (FPIntSet set : this.sets) {
+      for (final FPIntSet set : this.sets) {
           res = Math.max(res, set.checkFPs());
       }
     return res;
@@ -91,49 +91,49 @@ public class MultiFPIntSet extends FPIntSet {
 
   @Override
   public final void exit(final boolean cleanup) throws IOException {
-      for (FPIntSet set : this.sets) {
+      for (final FPIntSet set : this.sets) {
           set.exit(cleanup);
       }
   }
   
   @Override
   public final void beginChkpt() throws IOException {
-      for (FPIntSet set : this.sets) {
+      for (final FPIntSet set : this.sets) {
           set.beginChkpt();
       }
   }
   
   @Override
   public final void commitChkpt() throws IOException {
-      for (FPIntSet set : this.sets) {
+      for (final FPIntSet set : this.sets) {
           set.commitChkpt();
       }
   }
        
   @Override
   public final void recover() throws IOException {
-      for (FPIntSet set : this.sets) {
+      for (final FPIntSet set : this.sets) {
           set.recover();
       }
   }
 
   @Override
   public final void beginChkpt(final String filename) throws IOException {
-      for (FPIntSet set : this.sets) {
+      for (final FPIntSet set : this.sets) {
           set.beginChkpt(filename);
       }
   }
   
   @Override
   public final void commitChkpt(final String filename) throws IOException {
-      for (FPIntSet set : this.sets) {
+      for (final FPIntSet set : this.sets) {
           set.commitChkpt(filename);
       }
   }
   
   @Override
   public final void recover(final String filename) throws IOException {
-      for (FPIntSet set : this.sets) {
+      for (final FPIntSet set : this.sets) {
           set.recover(filename);
       }
   }

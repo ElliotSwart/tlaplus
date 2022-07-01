@@ -21,7 +21,7 @@ public class SyntaxTreePrinter {
       output.println("%% no dependencies");
     } else {
       output.print("%% dependends on:");
-        for (String dependency : dependencies) {
+        for (final String dependency : dependencies) {
             output.print(" " + dependency);
         }
       output.println(".");
@@ -49,7 +49,7 @@ public class SyntaxTreePrinter {
       }
       outS.append(" {");
       o.println(outS);
-        for (TreeNode treeNode : h) {
+        for (final TreeNode treeNode : h) {
             printSubTree(o, offset + ".", treeNode);
         }
       o.print(offset); o.println( "}");

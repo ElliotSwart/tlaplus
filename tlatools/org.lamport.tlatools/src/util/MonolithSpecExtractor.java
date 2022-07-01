@@ -54,7 +54,7 @@ public class MonolithSpecExtractor {
 	
 	public static InputStream config(final InputStream in, final String configName) throws IOException {
 		try (final BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
-			StringBuilder config = new StringBuilder();
+			final StringBuilder config = new StringBuilder();
 
 			String line = "";
 			while ((line = reader.readLine()) != null) {

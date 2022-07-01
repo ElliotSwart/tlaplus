@@ -135,7 +135,7 @@ public class InstanceNode extends LevelNode {
     * Level check the components this.module and this.substs[i].getExpr(). *
     ***********************************************************************/
         this.levelCorrect = this.module.levelCheck(itr);
-      for (Subst subst2 : this.substs) {
+      for (final Subst subst2 : this.substs) {
           if (!subst2.getExpr().levelCheck(itr)) {
               this.levelCorrect = false;
           }
@@ -153,7 +153,7 @@ public class InstanceNode extends LevelNode {
        * For if mparam an operator parameter, check that mexp is          *
        * Leibniz.                                                         *
        *******************************************************************/
-      for (Subst subst1 : this.substs) {
+      for (final Subst subst1 : this.substs) {
           final SymbolNode mparam = subst1.getOp();
           final ExprOrOpArgNode mexp = subst1.getExpr();
           mexp.levelCheck(itr);
@@ -210,7 +210,7 @@ public class InstanceNode extends LevelNode {
        * Apparently, we only bother reporting this error if level   *
        * checking opDef didn't cause an error.                      *
        *************************************************************/
-      for (Subst element : this.substs) {
+      for (final Subst element : this.substs) {
           final SymbolNode mparam = element.getOp();
           final ExprOrOpArgNode mexp = element.getExpr();
           /*******************************************************************
@@ -260,19 +260,19 @@ public class InstanceNode extends LevelNode {
       /************************************************************
        * Need to level check before calling op.getMaxLevel.        *
        ************************************************************/
-      for (ArgLevelParam alp : this.module.getArgLevelParams()) {
+      for (final ArgLevelParam alp : this.module.getArgLevelParams()) {
           /************************************************************
            * Need to level check before calling op.getMaxLevel.        *
            ************************************************************/
           /************************************************************
            * Need to level check before calling op.getMaxLevel.        *
            ************************************************************/
-          for (Subst value : this.substs) {
+          for (final Subst value : this.substs) {
               final SymbolNode pi = value.getOp();
               /************************************************************
                * Need to level check before calling op.getMaxLevel.        *
                ************************************************************/
-              for (Subst subst : this.substs) {
+              for (final Subst subst : this.substs) {
                   if (alp.op == pi &&
                           alp.param == subst.getOp()) {
                       final SymbolNode op = ((OpArgNode) value.getExpr()).getOp();
@@ -309,14 +309,14 @@ public class InstanceNode extends LevelNode {
       * on all nodes substs[i].getExpr(), which is a precondition for      *
       * calling getSubLCSet.                                               *
       *********************************************************************/
-      for (SymbolNode param : lcSet.keySet()) {
+      for (final SymbolNode param : lcSet.keySet()) {
           if (!param.occur(this.params)) {
               this.levelConstraints.put(param, lcSet.get(param));
           }
       }
-      for (Subst item : this.substs) {
+      for (final Subst item : this.substs) {
           lcSet = item.getExpr().getLevelConstraints();
-          for (SymbolNode param : lcSet.keySet()) {
+          for (final SymbolNode param : lcSet.keySet()) {
               if (!param.occur(this.params)) {
                   this.levelConstraints.put(param, lcSet.get(param));
               }
@@ -325,14 +325,14 @@ public class InstanceNode extends LevelNode {
 
 //    this.argLevelConstraints = new SetOfArgLevelConstraints();
     alcSet = Subst.getSubALCSet(this.module, this.substs, itr);
-      for (ParamAndPosition pap : alcSet.keySet()) {
+      for (final ParamAndPosition pap : alcSet.keySet()) {
           if (!pap.param.occur(this.params)) {
               this.argLevelConstraints.put(pap, alcSet.get(pap));
           }
       }
-      for (Subst value : this.substs) {
+      for (final Subst value : this.substs) {
           alcSet = value.getExpr().getArgLevelConstraints();
-          for (ParamAndPosition pap : alcSet.keySet()) {
+          for (final ParamAndPosition pap : alcSet.keySet()) {
               if (!pap.param.occur(this.params)) {
                   this.argLevelConstraints.put(pap, alcSet.get(pap));
               }
@@ -346,14 +346,14 @@ public class InstanceNode extends LevelNode {
       * and all nodes substs[i].getExpr(), which is a precondition for     *
       * calling getSubALPSet.                                              *
       *********************************************************************/
-      for (ArgLevelParam alp : alpSet) {
+      for (final ArgLevelParam alp : alpSet) {
           if (!alp.occur(this.params)) {
               this.argLevelParams.add(alp);
           }
       }
-      for (Subst subst : this.substs) {
+      for (final Subst subst : this.substs) {
           alpSet = subst.getExpr().getArgLevelParams();
-          for (ArgLevelParam alp : alpSet) {
+          for (final ArgLevelParam alp : alpSet) {
               if (!alp.occur(this.params)) {
                   this.argLevelParams.add(alp);
               }
@@ -414,20 +414,20 @@ public class InstanceNode extends LevelNode {
   public final String toString(final int depth) {
     if (depth <= 0) return "";
 
-    StringBuilder ret = new StringBuilder("\n*InstanceNode " + super.toString(depth) +
+    final StringBuilder ret = new StringBuilder("\n*InstanceNode " + super.toString(depth) +
             "  InstanceName = " + (name == null ? "(none)" : name.toString()) +
             Strings.indent(2, "\nModule: " + module.getName())
             + Strings.indent(2, "\nlocal: " + this.local));
     if (params.length > 0) {
       ret.append(Strings.indent(2, "\nInstance parameters:"));
-        for (FormalParamNode param : params) {
+        for (final FormalParamNode param : params) {
             ret.append(Strings.indent(4, param.toString(depth - 1)));
         }
     }
 
     if (substs.length > 0) {
       ret.append(Strings.indent(2, "\nSubstitutions:"));
-        for (Subst subst : substs) {
+        for (final Subst subst : substs) {
             ret.append(Strings.indent(2,
                     Strings.indent(2, "\nSubst:" +
                             (subst != null ?
@@ -442,12 +442,12 @@ public class InstanceNode extends LevelNode {
   protected Element getLevelElement(final Document doc, final tla2sany.xml.SymbolContext context) {
 
       final Element sbts = doc.createElement("substs");
-      for (Subst subst : substs) {
+      for (final Subst subst : substs) {
           sbts.appendChild(subst.export(doc, context));
       }
 
       final Element prms = doc.createElement("params");
-      for (FormalParamNode param : params) {
+      for (final FormalParamNode param : params) {
           prms.appendChild(param.export(doc, context));
       }
 

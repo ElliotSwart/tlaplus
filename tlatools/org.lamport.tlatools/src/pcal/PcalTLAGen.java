@@ -2829,7 +2829,7 @@ public class PcalTLAGen
                   "        /\\ " + 
                   procFairnessFormulas.elementAt(i).format(indent).toString();
              final String [] splitStr = str.split("\n");
-            for (String s : splitStr) {
+            for (final String s : splitStr) {
                 addOneLineOfTLA(s);
             }
 

@@ -108,7 +108,7 @@ public class BEGraphNode extends AbstractGraphNode {
 
 	public final boolean transExists(final BEGraphNode target) {
 		final int len = this.nnodes.length;
-        for (BEGraphNode nnode : this.nnodes) {
+        for (final BEGraphNode nnode : this.nnodes) {
             if (target.equals(nnode)) {
                 return true;
             }

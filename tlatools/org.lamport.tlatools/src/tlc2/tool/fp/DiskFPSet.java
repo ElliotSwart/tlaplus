@@ -287,13 +287,13 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	@Override
     public final void finalize() {
 		/* Close any backing disk files in use by this object. */
-        for (BufferedRandomAccessFile randomAccessFile : this.braf) {
+        for (final BufferedRandomAccessFile randomAccessFile : this.braf) {
             try {
                 randomAccessFile.close();
             } catch (final IOException e) { /* SKIP */
             }
         }
-        for (BufferedRandomAccessFile bufferedRandomAccessFile : this.brafPool) {
+        for (final BufferedRandomAccessFile bufferedRandomAccessFile : this.brafPool) {
             try {
                 bufferedRandomAccessFile.close();
             } catch (final IOException e) { /* SKIP */
@@ -590,13 +590,13 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 		// close JMX stats
 		diskFPSetMXWrapper.unregister();
 
-        for (BufferedRandomAccessFile randomAccessFile : this.braf) {
+        for (final BufferedRandomAccessFile randomAccessFile : this.braf) {
             try {
                 randomAccessFile.close();
             } catch (final IOException e) { /* SKIP */
             }
         }
-        for (BufferedRandomAccessFile bufferedRandomAccessFile : this.brafPool) {
+        for (final BufferedRandomAccessFile bufferedRandomAccessFile : this.brafPool) {
             try {
                 bufferedRandomAccessFile.close();
             } catch (final IOException e) { /* SKIP */
@@ -814,7 +814,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
     public boolean checkInvariant() throws IOException {
 		acquireTblWriteLock();
 		flusher.flushTable(); // No need for any lock here
-		try (RandomAccessFile braf = new BufferedRandomAccessFile(
+		try (final RandomAccessFile braf = new BufferedRandomAccessFile(
 				this.fpFilename, "r")) {
 			final long fileLen = braf.length();
 			long predecessor = Long.MIN_VALUE;
@@ -1071,11 +1071,11 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 			// provide a way to re-use an existing RandomAccessFile object on
 			// a different file, this implementation must close all existing
 			// files and re-allocate new BufferedRandomAccessFile objects.
-            for (BufferedRandomAccessFile accessFile : braf) {
+            for (final BufferedRandomAccessFile accessFile : braf) {
                 // Seek readers to zero position.
                 accessFile.seek(0L);
             }
-            for (BufferedRandomAccessFile randomAccessFile : brafPool) {
+            for (final BufferedRandomAccessFile randomAccessFile : brafPool) {
                 randomAccessFile.close();
             }
 
@@ -1089,7 +1089,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 			mergeNewEntries(braf, tmpRAF);
 			
 			// clean up
-            for (BufferedRandomAccessFile bufferedRandomAccessFile : braf) {
+            for (final BufferedRandomAccessFile bufferedRandomAccessFile : braf) {
                 // close existing files (except brafPool[0])
                 bufferedRandomAccessFile.close();
             }

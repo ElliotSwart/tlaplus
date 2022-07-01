@@ -195,7 +195,7 @@ public interface SymbolNodeValueLookupProvider {
 
 		int level = 0;
 		final ExprNode[] bnds = expr.getBdedQuantBounds();
-        for (ExprNode bnd : bnds) {
+        for (final ExprNode bnd : bnds) {
             level = Math.max(level, getLevelBound(bnd, c, forToolId));
         }
 
@@ -208,7 +208,7 @@ public interface SymbolNodeValueLookupProvider {
 
 		final ExprOrOpArgNode[] args = expr.getArgs();
 		final int alen = args.length;
-        for (ExprOrOpArgNode arg : args) {
+        for (final ExprOrOpArgNode arg : args) {
             if (arg != null) {
                 level = Math.max(level, getLevelBound(arg, c, forToolId));
             }

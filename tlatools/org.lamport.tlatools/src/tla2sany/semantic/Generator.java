@@ -289,8 +289,8 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 		@SuppressWarnings("unused")
 		public final String toString(final int n) {
-			StringBuilder ret = new StringBuilder("compound ID: " + compoundID + "\nargs: " + args.length + "\n");
-            for (ExprOrOpArgNode arg : args) {
+			final StringBuilder ret = new StringBuilder("compound ID: " + compoundID + "\nargs: " + args.length + "\n");
+            for (final ExprOrOpArgNode arg : args) {
                 ret.append(Strings.indent(2, arg.toString(n)));
             }
 			return ret.toString();
@@ -457,7 +457,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			/********************************************************************
 			 * For debugging. *
 			 ********************************************************************/
-			StringBuilder retval = new StringBuilder("Selector object:\n");
+			final StringBuilder retval = new StringBuilder("Selector object:\n");
 			for (int i = 0; i < ops.length; i++) {
 				retval.append(" elt ").append(i).append(" : ops = ").append(ops[i]).append(", opNames = ").append(opNames[i].toString()).append(", opsSTN.kind = ").append(opsSTN[i].getKind()).append(", args.kind = ").append((args[i] == null) ? "null" : (args[i].getKind() + " ")).append("\n");
 			}
@@ -491,7 +491,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
         /***************************************************************
          * There are arguments, which are heirs()[1]. *
          ***************************************************************/
-        for (TreeNode prefixElt : prefixElts) {
+        for (final TreeNode prefixElt : prefixElts) {
             final TreeNode[] pe = prefixElt.heirs();
             if (pe.length == 0) {
                 /*******************************************************************
@@ -902,7 +902,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 								opParams = ((ThmOrAssumpDefNode) curNode).getParams();
 								newNode = ((ThmOrAssumpDefNode) curNode).getBody();
 							}
-							for (FormalParamNode opParam : opParams) {
+							for (final FormalParamNode opParam : opParams) {
 								params.addElement(opParam);
 							}
                             // for
@@ -1164,13 +1164,13 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 									if (curOpApplNode.getNumberOfBoundedBoundSymbols() > 0) {
 										final FormalParamNode[][] symbs = curOpApplNode.getBdedQuantSymbolLists();
 										int numSymbs = 0;
-										for (FormalParamNode[] formalParamNodes : symbs) {
+										for (final FormalParamNode[] formalParamNodes : symbs) {
 											numSymbs = numSymbs + formalParamNodes.length;
 										}
                                         // for
 										temp = new FormalParamNode[numSymbs];
 										int k = 0;
-										for (FormalParamNode[] symb : symbs) {
+										for (final FormalParamNode[] symb : symbs) {
 											for (int j = 0; j < symb.length; j++) {
 												temp[k] = symb[j];
 												k++;
@@ -1187,7 +1187,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 									/*******************************************************
 									 * Add the elements of temp to the params vector. *
 									 *******************************************************/
-									for (FormalParamNode formalParamNode : temp) {
+									for (final FormalParamNode formalParamNode : temp) {
 										params.addElement(formalParamNode);
 									}
                                     // for i
@@ -1915,7 +1915,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
          * SEPARATOR was used, so perhaps there was some reason why this * class could
          * not be imported. *
          *******************************************************************/
-        for (TreeNode definition : definitions) {
+        for (final TreeNode definition : definitions) {
             switch (definition.getKind()) {
                 case N_VariableDeclaration:
                     checkIfInRecursiveSection(definition, "A VARIABLE declaration");
@@ -2284,7 +2284,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					 *****************************************************************/
 					boolean paramsMatch = (odn.getParams().length == Objects.requireNonNull(params).length);
 					if (paramsMatch) {
-                        for (FormalParamNode param : params) {
+                        for (final FormalParamNode param : params) {
                             paramsMatch = (param.getArity() == 0);
                         }
                     }
@@ -2624,7 +2624,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
          * Note: LL changed from an "if" and a sequence of "elseif"s to a * switch
          * statement on 7 Apr 2007 when adding the N_Recursive case. *
          *********************************************************************/
-        for (TreeNode node : syntaxTreeNode) {
+        for (final TreeNode node : syntaxTreeNode) {
             /*********************************************************************
              * Note: LL changed from an "if" and a sequence of "elseif"s to a * switch
              * statement on 7 Apr 2007 when adding the N_Recursive case. *
@@ -4024,7 +4024,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 		// for each argument list in prefix
 		int iarg = 0;
-        for (TreeNode allArg : allArgs) {
+        for (final TreeNode allArg : allArgs) {
             // if there is an actual arg list here (instead of a "!" or null)
             if (allArg != null && allArg.isKind(N_OpArgs)) {
                 // pick up array of arg list syntax elements
@@ -6513,13 +6513,13 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		 * such a 2-dimensional array, since * "bounded bound symbols" may be tuples. *
 		 ***********************************************************************/
 		int size = 0;
-        for (FormalParamNode[] paramNodes : array) {
+        for (final FormalParamNode[] paramNodes : array) {
             size = size + paramNodes.length;
         }
         final FormalParamNode[] res = new FormalParamNode[size];
 		int k = 0;
-        for (FormalParamNode[] formalParamNodes : array) {
-			for (FormalParamNode formalParamNode : formalParamNodes) {
+        for (final FormalParamNode[] formalParamNodes : array) {
+			for (final FormalParamNode formalParamNode : formalParamNodes) {
 				res[k] = formalParamNode;
 				k++;
 			}

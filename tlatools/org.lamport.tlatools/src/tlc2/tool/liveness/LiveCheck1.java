@@ -95,7 +95,7 @@ public class LiveCheck1 implements ILiveCheck {
 	 */
 	@Override
     public void reset() {
-        for (BEGraph bgraph : bgraphs) {
+        for (final BEGraph bgraph : bgraphs) {
             bgraph.resetNumberField();
         }
 	}
@@ -823,7 +823,7 @@ public class LiveCheck1 implements ILiveCheck {
              * thirdNum; thirdNum = thirdTemp; } else { startSecondNum =
              * secondNum; startThirdNum = thirdNum; checkSccs1(node); }
              ******/
-            for (PossibleErrorModel pem : pems) {
+            for (final PossibleErrorModel pem : pems) {
                 currentPEM = pem;
                 startSecondNum = secondNum;
                 startThirdNum = thirdNum;

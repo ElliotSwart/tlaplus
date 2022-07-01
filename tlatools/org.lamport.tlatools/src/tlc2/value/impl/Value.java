@@ -279,7 +279,7 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
   public final Value select(final Value[] path) {
     try {
       Value result = this;
-        for (Value value : path) {
+        for (final Value value : path) {
             if (!(result instanceof Applicable)) {
                 Assert.fail("Attempted to apply EXCEPT construct to the value " +
                         Values.ppr(result.toString()) + ".", getSource());

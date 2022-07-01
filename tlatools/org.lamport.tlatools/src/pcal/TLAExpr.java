@@ -431,7 +431,7 @@ public class TLAExpr
         return result ;
     }
     public String toString()
-      { StringBuilder result = new StringBuilder("<< ");
+      { final StringBuilder result = new StringBuilder("<< ");
         int i = 0;
         boolean nonempty = false ;
         while (i < tokens.size() )
@@ -1200,7 +1200,7 @@ public class TLAExpr
     * A string of n spaces.                                                *
     ***********************************************************************/
     { int i = 0 ;
-      StringBuilder result = new StringBuilder();
+      final StringBuilder result = new StringBuilder();
       if (i < 0) {PcalDebug.ReportBug(
                     "SpacesString called with negative argument");}
       while (i < n)

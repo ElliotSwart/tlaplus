@@ -159,7 +159,7 @@ public class Combinatorics {
 
   public static String print (final BigInteger[] A) {
     final StringBuilder sb = new StringBuilder();
-      for (BigInteger bigInteger : A) {
+      for (final BigInteger bigInteger : A) {
           sb.append(bigInteger.toString());
           sb.append(", ");
       }

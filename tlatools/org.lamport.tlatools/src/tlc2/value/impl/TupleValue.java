@@ -213,7 +213,7 @@ public final Value[] elems;          // the elements of this tuple.
   public final Value takeExcept(final ValueExcept[] exs) {
     try {
       Value val = this;
-        for (ValueExcept ex : exs) {
+        for (final ValueExcept ex : exs) {
             val = val.takeExcept(ex);
         }
       return val;
@@ -241,7 +241,7 @@ public final Value[] elems;          // the elements of this tuple.
   @Override
   public final void deepNormalize() {
 	  try {
-          for (Value elem : elems) {
+          for (final Value elem : elems) {
               elem.deepNormalize();
           }
 	    }
@@ -279,7 +279,7 @@ public final Value[] elems;          // the elements of this tuple.
   public final boolean isDefined() {
     try {
       boolean defined = true;
-        for (Value elem : this.elems) {
+        for (final Value elem : this.elems) {
             defined = defined && elem.isDefined();
         }
       return defined;
@@ -329,7 +329,7 @@ public final Value[] elems;          // the elements of this tuple.
 			vos.writeByte(TUPLEVALUE);
 			final int len = elems.length;
 			vos.writeNat(len);
-            for (Value elem : elems) {
+            for (final Value elem : elems) {
                 elem.write(vos);
             }
 		} else {

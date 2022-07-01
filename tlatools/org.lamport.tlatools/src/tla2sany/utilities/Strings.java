@@ -10,7 +10,7 @@ public class Strings {
   // indentation when printed.
   public static String indent(int n /* numb blanks to insert*/ , final String ss) {
 
-    StringBuilder s = new StringBuilder();
+    final StringBuilder s = new StringBuilder();
     if (n >= blanks.length) n = blanks.length-1;
 
     for (int i=0; i < ss.length(); i++) {

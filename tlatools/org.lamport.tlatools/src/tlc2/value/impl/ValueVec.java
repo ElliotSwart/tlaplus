@@ -200,7 +200,7 @@ private Value [] elementData;
   }
   
   public final String toString() {
-    StringBuffer sb = new StringBuffer();
+    final StringBuffer sb = new StringBuffer();
 
     sb.append("{");
     if (this.size() > 0) {

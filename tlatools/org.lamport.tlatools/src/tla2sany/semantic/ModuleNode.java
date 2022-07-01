@@ -640,7 +640,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
 	  HashSet<ModuleNode> extendeesSet = depthAllExtendeesMap.get(key);
 	  if (extendeesSet == null) {
 		  extendeesSet = new HashSet<>();
-          for (ModuleNode extendee : this.extendees) {
+          for (final ModuleNode extendee : this.extendees) {
               extendeesSet.add(extendee);
               if (recursively) {
                   extendeesSet.addAll(extendee.getExtendedModuleSet(true));
@@ -852,7 +852,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     // Level check everything in this module
     this.levelCorrect = true;
     final ModuleNode[] mods = this.getInnerModules();
-      for (ModuleNode mod : mods) {
+      for (final ModuleNode mod : mods) {
           if (!mod.levelCheck(1)) {
               this.levelCorrect = false;
           }
@@ -864,13 +864,13 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
       * presumably making it a local variable.  However, it doesn't seem   *
       * to make any difference, so I've left it.                           *
       *********************************************************************/
-      for (OpDefNode def : opDefs) {
+      for (final OpDefNode def : opDefs) {
           if (!def.levelCheck(1)) {
               this.levelCorrect = false;
           }
       }
     thmOrAssDefs = this.getThmOrAssDefs();
-      for (ThmOrAssumpDefNode thmOrAssDef : thmOrAssDefs) {
+      for (final ThmOrAssumpDefNode thmOrAssDef : thmOrAssDefs) {
           if (!thmOrAssDef.levelCheck(1)) {
               this.levelCorrect = false;
           }
@@ -881,7 +881,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     * assumptions, and instances.                                          *
     ***********************************************************************/
     final LevelNode[] tpLev = this.getTopLevel() ;
-      for (LevelNode node : tpLev) {
+      for (final LevelNode node : tpLev) {
           if (!node.levelCheck(1)) {
               this.levelCorrect = false;
           }
@@ -911,20 +911,20 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     // Calculate level and Leibniz information.
 //    this.levelParams = new HashSet();
     final OpDeclNode[] decls = this.getConstantDecls();
-      for (OpDeclNode opDeclNode : decls) {
+      for (final OpDeclNode opDeclNode : decls) {
           this.levelParams.add(opDeclNode);
           this.allParams.add(opDeclNode);
       }
 
         if (!this.isConstant()) {
-        for (OpDeclNode decl : decls) {
+        for (final OpDeclNode decl : decls) {
             this.levelConstraints.put(decl, Levels[ConstantLevel]);
         }
     }
-      for (OpDefNode opDef : opDefs) {
+      for (final OpDefNode opDef : opDefs) {
           this.levelConstraints.putAll(opDef.getLevelConstraints());
           this.argLevelConstraints.putAll(opDef.getArgLevelConstraints());
-          for (ArgLevelParam alp : opDef.getArgLevelParams()) {
+          for (final ArgLevelParam alp : opDef.getArgLevelParams()) {
               if (!alp.occur(opDef.getParams())) {
                   this.argLevelParams.add(alp);
               }
@@ -935,7 +935,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     * Can use topLevel instead of the three separate arrays theorems,      *
     * assumptions, and instances.                                          *
     ***********************************************************************/
-      for (LevelNode levelNode : tpLev) {
+      for (final LevelNode levelNode : tpLev) {
           this.levelConstraints.putAll(levelNode.getLevelConstraints());
           this.argLevelConstraints.putAll(levelNode.getArgLevelConstraints());
           this.argLevelParams.addAll(levelNode.getArgLevelParams());
@@ -985,7 +985,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
       * level information for the module's opDefs.                         *
       *********************************************************************/
     final OpDefNode[] opDefs = this.getOpDefs();
-      for (OpDefNode opDef : opDefs) {
+      for (final OpDefNode opDef : opDefs) {
           if (opDef.getKind() != ModuleInstanceKind &&
                   opDef.getBody().getLevel() != ConstantLevel)
               return false;
@@ -1087,7 +1087,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
   public final String toString(final int depth) {
     if (depth <= 0) return "";
 
-    StringBuilder ret =
+    final StringBuilder ret =
             new StringBuilder("\n*ModuleNode: " + name + "  " + super.toString(depth) +
                     "  constant module: " + this.isConstant() +
                     "  errors: " + (errors == null
@@ -1156,7 +1156,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     // constants
     //Element constants = doc.createElement("constants");
     nodes = getConstantDecls();
-      for (SemanticNode item : nodes) {
+      for (final SemanticNode item : nodes) {
           ret.appendChild(item.export(doc, context));
       }
     //ret.appendChild(constants);
@@ -1164,7 +1164,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     // variables
     //Element variables = doc.createElement("variables");
     nodes = getVariableDecls();
-      for (SemanticNode value : nodes) {
+      for (final SemanticNode value : nodes) {
           ret.appendChild(value.export(doc, context));
       }
     //ret.appendChild(variables);
@@ -1172,13 +1172,13 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     //operators
     //Element operators = doc.createElement("definitions");
     nodes = getOpDefs();
-      for (SemanticNode semanticNode : nodes) {
+      for (final SemanticNode semanticNode : nodes) {
           ret.appendChild(semanticNode.export(doc, context)); //was with true to expand operators
       }
     //ret.appendChild(operators);
 
       nodes = getTopLevel();
-      for (SemanticNode node : nodes) {
+      for (final SemanticNode node : nodes) {
           ret.appendChild(node.export(doc, context));
       }
 

@@ -35,7 +35,7 @@ public class WriteTLAFile
         
       while (line < spec.length)
        {
-           StringBuilder outLine = new StringBuilder();
+           final StringBuilder outLine = new StringBuilder();
         int item = 0 ;
         boolean nullComment = false ;
           /*****************************************************************
@@ -205,7 +205,7 @@ public class WriteTLAFile
     * A string of n spaces.                                                *
     ***********************************************************************/
     { int i = 0 ;
-      StringBuilder result = new StringBuilder();
+      final StringBuilder result = new StringBuilder();
       while (i < n)
        { result.append(" ");
          i = i + 1;
@@ -226,7 +226,7 @@ public class WriteTLAFile
     * the next "^'" (if there is one).                                     *
     ***********************************************************************/
     { String rest  = str ;
-      StringBuilder start = new StringBuilder();
+      final StringBuilder start = new StringBuilder();
       int nextDel = rest.indexOf("`^") ;
       while ( nextDel != -1 )
        { start.append(rest, 0, nextDel);

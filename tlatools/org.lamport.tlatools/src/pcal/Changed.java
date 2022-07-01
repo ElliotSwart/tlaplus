@@ -38,7 +38,7 @@ public class Changed {
     }
 
     public String toString () {
-	StringBuilder s = new StringBuilder("[");
+	final StringBuilder s = new StringBuilder("[");
 	for (int i = 0; i < count.length; i++)
 	    s.append((i == 0) ? "" : ", ").append(vars.elementAt(i)).append(" ").append(count[i]);
 	s.append("]");
@@ -71,7 +71,7 @@ public class Changed {
 
     /* String of vars whose change count is 0 */
     public String Unchanged () {
-	StringBuilder s = new StringBuilder();
+	final StringBuilder s = new StringBuilder();
 	for (int i = 0; i < count.length; i++)
 	    if (count[i] == 0)
 		s.append((s.length() == 0) ? "" : ", ").append(vars.elementAt(i));
@@ -80,7 +80,7 @@ public class Changed {
 
     /* String of vars that were changed in c but not in this */
     public String Unchanged (final Changed c) {
-	StringBuilder s = new StringBuilder();
+	final StringBuilder s = new StringBuilder();
 	for (int i = 0; i < count.length; i++)
 	    if ((count[i] == 0) && c.count[i] > 0)
 		s.append((s.length() == 0) ? "" : ", ").append(vars.elementAt(i));
@@ -136,7 +136,7 @@ public class Changed {
     /* Number of vars whose change count is 0 */
     public int NumUnchanged () {
 	int ct = 0;
-		for (int j : count) if (j == 0) ct = ct + 1;
+		for (final int j : count) if (j == 0) ct = ct + 1;
 	return ct;
     }
 

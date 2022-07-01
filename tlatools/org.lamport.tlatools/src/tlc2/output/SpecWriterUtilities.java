@@ -218,7 +218,7 @@ public final class SpecWriterUtilities {
         final String identifier = isScheme ? SpecWriterUtilities.getValidIdentifier(identifierOrLabelingScheme)
         								   : identifierOrLabelingScheme;
 
-        String buffer = identifier + TLAConstants.DEFINES_CR +
+        final String buffer = identifier + TLAConstants.DEFINES_CR +
                 value;
 
         result.add(new String[] { identifier, buffer});
@@ -297,12 +297,12 @@ public final class SpecWriterUtilities {
 		final OpDefNode[] opDefNodes = specObj.getExternalModuleTable().getRootModule().getOpDefs();
 		final HashMap<String, OpDefNode> nodeTable = new HashMap<>(opDefNodes.length);
 
-        for (OpDefNode opDefNode : opDefNodes) {
+        for (final OpDefNode opDefNode : opDefNodes) {
             final String key = opDefNode.getName().toString();
             nodeTable.put(key, opDefNode);
         }
 
-        for (Assignment override : overrides) {
+        for (final Assignment override : overrides) {
             id = getValidIdentifier(labelingScheme);
             // formulas
             // to .cfg : <id>

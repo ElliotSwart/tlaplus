@@ -59,7 +59,7 @@ public class ModuleContext {
   }
 
   public String toString() {
-    StringBuilder ret = new StringBuilder("Context:\n");
+    final StringBuilder ret = new StringBuilder("Context:\n");
     final Enumeration<String> Enum = context.keys();
 
     while (Enum.hasMoreElements()) {

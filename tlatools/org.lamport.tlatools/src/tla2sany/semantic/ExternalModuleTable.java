@@ -152,7 +152,7 @@ public class ExternalModuleTable implements ExploreNode {
   @Override
   public String toString() {
     final Enumeration<ExternalModuleTableEntry> Enum = moduleHashTable.elements();
-    StringBuilder ret = new StringBuilder();
+    final StringBuilder ret = new StringBuilder();
 
     while (Enum.hasMoreElements()) {
       final ExternalModuleTableEntry mte = Enum.nextElement();
@@ -188,7 +188,7 @@ public class ExternalModuleTable implements ExploreNode {
   public String toString(final int depth) {
     if (depth <= 0) return "";
 
-    StringBuilder ret = new StringBuilder();
+    final StringBuilder ret = new StringBuilder();
     for (int i = 0; i < moduleNodeVector.size(); i++) {
       final ModuleNode mn = moduleNodeVector.elementAt(i);
       if (mn != null) {

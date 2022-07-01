@@ -377,7 +377,7 @@ public class MCState {
 		String[] stateVarString = null;
 
 		// iterate line-wise
-        for (String line : lines) {
+        for (final String line : lines) {
             // find the index of the first /\ in the line
             index = line.indexOf(TLAConstants.TLA_AND);
             // adding the current line to the previous lines

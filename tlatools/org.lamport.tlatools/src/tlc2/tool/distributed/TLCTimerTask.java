@@ -75,7 +75,7 @@ public class TLCTimerTask extends TimerTask {
 
 	private long getMostRecentInvocation() {
 		long minInvocation = 0L;
-        for (TLCWorkerRunnable runnable : runnables) {
+        for (final TLCWorkerRunnable runnable : runnables) {
             final TLCWorker tlcWorker = runnable.getTLCWorker();
             /*
              * If one of the TLCworker threads is computing states, we assume
@@ -101,7 +101,7 @@ public class TLCTimerTask extends TimerTask {
 		} else {
 			MP.printError(EC.TLC_DISTRIBUTED_SERVER_FINISHED);
 		}
-        for (TLCWorkerRunnable tlcWorkerRunnable : runnables) {
+        for (final TLCWorkerRunnable tlcWorkerRunnable : runnables) {
             try {
                 final TLCWorkerRunnable runnable = tlcWorkerRunnable;
                 runnable.getTLCWorker().exit();

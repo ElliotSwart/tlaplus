@@ -51,7 +51,7 @@ public class Bags implements ValueConstants
             return BoolValue.ValFalse;
         }
         final Value[] vals = fcn.values;
-        for (Value val : vals) {
+        for (final Value val : vals) {
             if (!(val instanceof IntValue) || ((IntValue) val).val <= 0) {
                 return BoolValue.ValFalse;
             }
@@ -69,7 +69,7 @@ public class Bags implements ValueConstants
         }
         int num = 0;
         final Value[] vals = fcn.values;
-        for (Value val : vals) {
+        for (final Value val : vals) {
             if (val instanceof IntValue) {
                 final int cnt = ((IntValue) val).val;
                 if (cnt > 0) {

@@ -1819,7 +1819,7 @@ class trans {
          ********************************************************************/
         final Vector<String> newVec = new Vector<>();
         for (final String oldLine : input) {
-            StringBuilder newLine = new StringBuilder();
+            final StringBuilder newLine = new StringBuilder();
             int next = 0;
             while (next < oldLine.length()) {
                 if (oldLine.charAt(next) == '\t') {

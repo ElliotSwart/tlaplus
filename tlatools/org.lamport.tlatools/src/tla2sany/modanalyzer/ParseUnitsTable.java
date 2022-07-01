@@ -28,7 +28,7 @@ class ParseUnitsTable {
   Enumeration<ParseUnit> getKeys() { return parseUnitTable.keys(); }  
 
   public String toString() {
-    StringBuilder ret = new StringBuilder();
+    final StringBuilder ret = new StringBuilder();
 
     final Enumeration<ParseUnit> e = parseUnitTable.keys();
     while ( e.hasMoreElements()) {

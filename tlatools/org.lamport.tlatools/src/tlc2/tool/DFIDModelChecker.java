@@ -195,14 +195,14 @@ public class DFIDModelChecker extends AbstractChecker
                     return result;
 
                 // Check if we should stop at this level:
-                for (IWorker iWorker : this.workers) {
+                for (final IWorker iWorker : this.workers) {
                     if (((DFIDWorker) iWorker).isTerminated()) {
                         terminated = true;
                         break;
                     }
                 }
                 boolean moreLevel = false;
-                for (IWorker worker : this.workers) {
+                for (final IWorker worker : this.workers) {
                     if (((DFIDWorker) worker).hasMoreLevel()) {
                         moreLevel = true;
                         break;
@@ -652,7 +652,7 @@ public class DFIDModelChecker extends AbstractChecker
      */
     public final void setStop(final int code)
     {
-        for (IWorker worker : this.workers) {
+        for (final IWorker worker : this.workers) {
             ((DFIDWorker) worker).setStop(code);
         }
     }
@@ -769,7 +769,7 @@ public class DFIDModelChecker extends AbstractChecker
 		// Start all workers once instantiated to avoid a race with setStop,
 		// when setStop is being called concurrently with startWorkers. This
 		// happens, if a DFIDWorker terminates immediately.
-        for (IWorker worker : this.workers) {
+        for (final IWorker worker : this.workers) {
             worker.start();
         }
         return this.workers;

@@ -385,7 +385,7 @@ public class Json {
     value.normalize();
     final Value[] values = value.elems.toArray();
     final JsonArray jsonArray = new JsonArray(values.length);
-      for (Value item : values) {
+      for (final Value item : values) {
           jsonArray.add(getNode(item));
       }
     return jsonArray;
@@ -446,7 +446,7 @@ public class Json {
   private static RecordValue getRecordValue(final JsonElement node) throws IOException {
     final List<UniqueString> keys = new ArrayList<>();
     final List<Value> values = new ArrayList<>();
-      for (Map.Entry<String, JsonElement> entry : node.getAsJsonObject().entrySet()) {
+      for (final Map.Entry<String, JsonElement> entry : node.getAsJsonObject().entrySet()) {
           keys.add(UniqueString.uniqueStringOf(entry.getKey()));
           values.add(getValue(entry.getValue()));
       }

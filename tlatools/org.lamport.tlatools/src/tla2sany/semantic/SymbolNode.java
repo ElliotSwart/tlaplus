@@ -63,7 +63,7 @@ public abstract class SymbolNode extends LevelNode {
   public abstract boolean match(OpApplNode test, ModuleNode mn) throws AbortException ;
 
   public final boolean occur(final SymbolNode[] params) {
-      for (SymbolNode param : params) {
+      for (final SymbolNode param : params) {
           if (this == param) return true;
       }
     return false;

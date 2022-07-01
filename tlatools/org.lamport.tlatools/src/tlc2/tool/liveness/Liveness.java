@@ -281,7 +281,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		case OPCODE_cl: // ConjList
 		case OPCODE_land: {
 			final LNConj lnConj = new LNConj(alen);
-            for (ExprOrOpArgNode arg : args) {
+            for (final ExprOrOpArgNode arg : args) {
                 final LiveExprNode kid = astToLive(tool, (ExprNode) arg, con);
                 lnConj.addConj(kid);
             }
@@ -294,7 +294,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		case OPCODE_dl: // DisjList
 		case OPCODE_lor: {
 			final LNDisj lnDisj = new LNDisj(alen);
-            for (ExprOrOpArgNode arg : args) {
+            for (final ExprOrOpArgNode arg : args) {
                 final LiveExprNode kid = astToLive(tool, (ExprNode) arg, con);
                 lnDisj.addDisj(kid);
             }
@@ -446,7 +446,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		// WF_vars(Next(self))`.
 		final Action[] fairs = tool.getTemporals();
 		final LNConj lnc = new LNConj(fairs.length);
-        for (Action fair : fairs) {
+        for (final Action fair : fairs) {
             final LiveExprNode ln = astToLive(tool, (ExprNode) fair.pred, fair.con);
             lnc.addConj(ln);
         }
@@ -470,7 +470,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			lnc.addConj(new LNNeg(ln));
 		} else {
 			final LNDisj lnd = new LNDisj(checks.length);
-            for (Action check : checks) {
+            for (final Action check : checks) {
                 final LiveExprNode ln = astToLive(tool, (ExprNode) check.pred, check.con);
                 lnd.addDisj(new LNNeg(ln));
             }

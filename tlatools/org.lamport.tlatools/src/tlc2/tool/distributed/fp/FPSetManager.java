@@ -92,7 +92,7 @@ public abstract class FPSetManager implements IFPSetManager {
 		
 		int aliveServer = 0;
 
-        for (FPSets sets : s) {
+        for (final FPSets sets : s) {
             if (sets.isAvailable()) {
                 aliveServer++;
             }
@@ -431,7 +431,7 @@ public abstract class FPSetManager implements IFPSetManager {
 			// Start checkFP on all FPSets concurrently
 			// (checkFPs scans the full set sequentially!)
 			final CompletionService<Long> ecs = new ExecutorCompletionService<>(executorService);
-            for (FPSets fpSet : this.fpSets) {
+            for (final FPSets fpSet : this.fpSets) {
                 ecs.submit(new CheckFPsCallable(fpSet.getFpset()));
             }
 			// Return minimum value
@@ -464,7 +464,7 @@ public abstract class FPSetManager implements IFPSetManager {
 			// Start checkFP on all FPSets concurrently
 			// (checkFPs scans the full set sequentially!)
 			final CompletionService<Boolean> ecs = new ExecutorCompletionService<>(executorService);
-            for (FPSets fpSet : this.fpSets) {
+            for (final FPSets fpSet : this.fpSets) {
                 ecs.submit(new CheckInvariantCallable(fpSet.getFpset()));
             }
 			// Return minimum value

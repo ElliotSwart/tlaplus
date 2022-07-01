@@ -187,7 +187,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
      */
     private void processConstantDefns() {
         final ModuleNode[] mods = this.moduleTbl.getModuleNodes();
-        for (ModuleNode mod : mods) {
+        for (final ModuleNode mod : mods) {
             if ((!mod.isInstantiated())
                     || ((mod.getConstantDecls().length == 0)
                     && (mod.getVariableDecls().length == 0))) {
@@ -218,7 +218,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
       // run for constant definitions
       final OpDeclNode[] consts = mod.getConstantDecls();
-        for (OpDeclNode aConst : consts) {
+        for (final OpDeclNode aConst : consts) {
             final Object val = aConst.getToolObject(toolId);
             if (val instanceof IValue) {
                 // We do not wrap this value in a WorkerValue, because we assume that explicit
@@ -288,7 +288,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
       // run for constant operator definitions
       final OpDefNode[] opDefs = mod.getOpDefs();
       DEFS:
-      for (OpDefNode opDefNode : opDefs) {
+      for (final OpDefNode opDefNode : opDefs) {
           OpDefNode opDef = opDefNode;
 
           // The following variable evaluate and its value added by LL on 24 July 2013
@@ -334,7 +334,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
       // run for all inner modules
       final ModuleNode[] imods = mod.getInnerModules();
-        for (ModuleNode imod : imods) {
+        for (final ModuleNode imod : imods) {
             this.processConstantDefns(imod);
         }
     }
@@ -447,7 +447,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             Assert.fail(EC.TLC_STRING_MODULE_NOT_FOUND);
         }
         final Method[] ms = stringModule.getDeclaredMethods();
-        for (Method element : ms) {
+        for (final Method element : ms) {
             final int mod = element.getModifiers();
             if (Modifier.isStatic(mod)) {
                 final String name = TLARegistry.mapName(element.getName());
@@ -467,7 +467,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         // wrong to use it in the method processConstants.
         final ModuleNode[] mods = this.moduleTbl.getModuleNodes();
         final Map<String, ModuleNode> modSet = new HashMap<>();
-        for (ModuleNode item : mods) {
+        for (final ModuleNode item : mods) {
             this.processConstants(item);
             modSet.put(item.getName().toString(), item);
         }
@@ -489,7 +489,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
         // Apply config file constants to the constant decls visible to rootModule.
         final OpDeclNode[] rootConsts = this.rootModule.getConstantDecls();
-        for (OpDeclNode aConst : rootConsts) {
+        for (final OpDeclNode aConst : rootConsts) {
             final UniqueString name = aConst.getName();
             final Object val = constants.get(name.toString());
             if (val == null && !overrides.containsKey(name.toString())) {
@@ -501,7 +501,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
         // Apply config file constants to the operator defns visible to rootModule.
         final OpDefNode[] rootOpDefs = this.rootModule.getOpDefs();
-        for (OpDefNode def : rootOpDefs) {
+        for (final OpDefNode def : rootOpDefs) {
             final UniqueString name = def.getName();
             final Object val = constants.get(name.toString());
             if (val == null) {
@@ -515,12 +515,12 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         // Apply config file module specific constants to operator defns.
         // We do not allow this kind of replacement for constant decls.
         final Hashtable<String, Hashtable<String, Comparable<?>>> modConstants = this.initializeModConstants();
-        for (ModuleNode value : mods) {
+        for (final ModuleNode value : mods) {
             final UniqueString modName = value.getName();
             final Hashtable<String, Comparable<?>> mConsts = modConstants.get(modName.toString());
             if (mConsts != null) {
                 final OpDefNode[] opDefs = value.getOpDefs();
-                for (OpDefNode opDef : opDefs) {
+                for (final OpDefNode opDef : opDefs) {
                     final UniqueString name = opDef.getName();
                     final Object val = mConsts.get(name.toString());
                     if (val != null) {
@@ -531,7 +531,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         }
 
         // Apply module overrides:
-        for (ModuleNode node : mods) {
+        for (final ModuleNode node : mods) {
 
             final UniqueString modName = node.getName();
             final Class<?> userModule = this.tlaClass.loadClass(modName.toString());
@@ -585,7 +585,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                 // by using mods[i].getOpDef(UniqueString) right away
                 // without javaDefns.
                 final OpDefNode[] opDefs = node.getOpDefs();
-                for (OpDefNode opDef : opDefs) {
+                for (final OpDefNode opDef : opDefs) {
                     final UniqueString uname = opDef.getName();
                     final Object val = javaDefs.get(uname);
                     if (val != null) {
@@ -734,7 +734,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
         final Set<String> overriden = new HashSet<>();
         // Apply config file overrides to constants:
-        for (OpDeclNode rootConst : rootConsts) {
+        for (final OpDeclNode rootConst : rootConsts) {
             final UniqueString lhs = rootConst.getName();
             final String rhs = overrides.get(lhs.toString());
             if (rhs != null) {
@@ -763,7 +763,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 		}
 
         // Apply config file overrides to operator definitions:
-        for (OpDefNode rootOpDef : rootOpDefs) {
+        for (final OpDefNode rootOpDef : rootOpDefs) {
             final UniqueString lhs = rootOpDef.getName();
             final String rhs = overrides.get(lhs.toString());
             if (rhs != null) {
@@ -797,14 +797,14 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         // Apply config file module specific overrides to operator defns.
         // We do not allow this kind of replacement for constant decls.
         final Hashtable<String, Hashtable<Comparable<?>, Object>> modOverrides = this.config.getModOverrides();
-        for (ModuleNode mod : mods) {
+        for (final ModuleNode mod : mods) {
             final UniqueString modName = mod.getName();
             final Hashtable<Comparable<?>, Object> mDefs = modOverrides.get(modName.toString());
             final HashSet<String> modOverriden = new HashSet<>();
             if (mDefs != null) {
                 // the operator definitions:
                 final OpDefNode[] opDefs = mod.getOpDefs();
-                for (OpDefNode opDef : opDefs) {
+                for (final OpDefNode opDef : opDefs) {
                     final UniqueString lhs = opDef.getName();
                     final String rhs = (String) mDefs.get(lhs.toString());
                     if (rhs != null) {
@@ -1135,7 +1135,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             }
             if (opcode == OPCODE_cl || opcode == OPCODE_land)
             {
-                for (ExprOrOpArgNode arg : args) {
+                for (final ExprOrOpArgNode arg : args) {
                     this.processConfigSpec((ExprNode) arg, c, subs);
                 }
                 return;
@@ -1191,7 +1191,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                                     // if it's a tuple, recurse with its members
                                     if (opCode == OPCODE_tup)
                                     {
-                                        for (ExprOrOpArgNode exprOrOpArgNode : args) {
+                                        for (final ExprOrOpArgNode exprOrOpArgNode : args) {
                                             this.enter((ExprNode) exprOrOpArgNode, c);
                                         }
                                         return;
@@ -1220,7 +1220,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                                     final SubstInNode subscript1 = (SubstInNode) subscript;
                                     final Subst[] subs = subscript1.getSubsts();
                                     Context c1 = c;
-                                    for (Subst sub : subs) {
+                                    for (final Subst sub : subs) {
                                         c1 = c1.cons(sub.getOp(), symbolNodeValueLookupProvider.getVal(sub.getExpr(), c, false, toolId));
                                     }
                                     this.enter(subscript1.getBody(), c1);
@@ -1263,7 +1263,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                         {
                             final SubstInNode sn = (SubstInNode) subs1.car();
                             final Subst[] snsubs = sn.getSubsts();
-                            for (Subst snsub : snsubs) {
+                            for (final Subst snsub : snsubs) {
                                 c1 = c1.cons(snsub.getOp(), symbolNodeValueLookupProvider.getVal(snsub.getExpr(), c, false, toolId));
                             }
                             subs1 = subs1.cdr();
@@ -1278,7 +1278,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                     // ... and make sure they contain all the state variables
                     if (varsInSubscript != null)
                     {
-                        for (OpDeclNode variablesNode : this.variablesNodes) {
+                        for (final OpDeclNode variablesNode : this.variablesNodes) {
                             if (!varsInSubscript.contains(variablesNode)) {
                                 MP.printWarning(EC.TLC_SUBSCRIPT_CONTAIN_NO_STATE_VAR,
                                         new String[]{variablesNode.getName().toString()});
@@ -1364,7 +1364,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             final int opcode = BuiltInOPs.getOpCode(pred1.getOperator().getName());
             if (opcode == OPCODE_cl || opcode == OPCODE_land)
             {
-                for (ExprOrOpArgNode arg : args) {
+                for (final ExprOrOpArgNode arg : args) {
                     final ExprNode conj = (ExprNode) arg;
                     this.processConfigProps(conj.toString(), conj, c, subs);
                 }
@@ -1522,7 +1522,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             final ModuleNode expr1 = (ModuleNode) expr;
             // Process operator definitions:
             final OpDefNode[] opDefs = expr1.getOpDefs();
-            for (OpDefNode opDef : opDefs) {
+            for (final OpDefNode opDef : opDefs) {
                 final Object def = opDef.getToolObject(toolId);
                 if (def instanceof OpDefNode) {
                     this.processedDefs.add((OpDefNode) def);
@@ -1532,12 +1532,12 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             }
             // Process all the inner modules:
             final ModuleNode[] imods = expr1.getInnerModules();
-            for (ModuleNode imod : imods) {
+            for (final ModuleNode imod : imods) {
                 this.processConstants(imod);
             }
             // Process all the assumptions:
             final AssumeNode[] assumps = expr1.getAssumptions();
-            for (AssumeNode assump : assumps) {
+            for (final AssumeNode assump : assumps) {
                 this.processConstants(assump);
             }
             // On 13 Nov 2009, Yuan Yu added the following
@@ -1546,7 +1546,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             //
             // Process all the theorems:
             final TheoremNode[] thms = expr1.getTheorems();
-            for (TheoremNode thm : thms) {
+            for (final TheoremNode thm : thms) {
                 this.processConstants(thm);
             }
 
@@ -1562,13 +1562,13 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             } else
             {
                 final SemanticNode[] args = expr1.getArgs();
-                for (SemanticNode arg : args) {
+                for (final SemanticNode arg : args) {
                     if (arg != null) {
                         this.processConstants(arg);
                     }
                 }
                 final ExprNode[] bnds = expr1.getBdedQuantBounds();
-                for (ExprNode bnd : bnds) {
+                for (final ExprNode bnd : bnds) {
                     this.processConstants(bnd);
                 }
             }
@@ -1577,7 +1577,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         case LetInKind: {
             final LetInNode expr1 = (LetInNode) expr;
             final OpDefNode[] letDefs = expr1.getLets();
-            for (OpDefNode letDef : letDefs) {
+            for (final OpDefNode letDef : letDefs) {
                 this.processConstants(letDef.getBody());
             }
             this.processConstants(expr1.getBody());
@@ -1586,7 +1586,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         case SubstInKind: {
             final SubstInNode expr1 = (SubstInNode) expr;
             final Subst[] subs = expr1.getSubsts();
-            for (Subst sub : subs) {
+            for (final Subst sub : subs) {
                 this.processConstants(sub.getExpr());
             }
             this.processConstants(expr1.getBody());
@@ -1597,7 +1597,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         case APSubstInKind: {
             final APSubstInNode expr1 = (APSubstInNode) expr;
             final Subst[] subs = expr1.getSubsts();
-            for (Subst sub : subs) {
+            for (final Subst sub : subs) {
                 this.processConstants(sub.getExpr());
             }
             this.processConstants(expr1.getBody());

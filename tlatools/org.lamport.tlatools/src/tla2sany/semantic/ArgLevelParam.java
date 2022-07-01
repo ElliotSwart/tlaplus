@@ -25,7 +25,7 @@ class ArgLevelParam {
   }
 
   public final boolean occur(final SymbolNode[] symbols) {
-    for (SymbolNode symbol : symbols) {
+    for (final SymbolNode symbol : symbols) {
       if (this.op == symbol ||
               this.param == symbol) {
         return true;

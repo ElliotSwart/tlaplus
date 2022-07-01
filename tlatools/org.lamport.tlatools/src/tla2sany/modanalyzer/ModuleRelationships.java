@@ -46,7 +46,7 @@ class ModuleRelationships {
 
   public String toString() {
 
-    StringBuilder ret = new StringBuilder();
+    final StringBuilder ret = new StringBuilder();
 
     final Enumeration<ModulePointer> e = modRelHashtable.keys();
     while ( e.hasMoreElements()) {

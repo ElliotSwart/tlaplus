@@ -80,7 +80,7 @@ public abstract class StateQueue implements IStateQueue {
 	 */
 	@Override
     public final synchronized void sEnqueue(final TLCState[] states) {
-        for (TLCState state : states) {
+        for (final TLCState state : states) {
             this.enqueueInner(state);
         }
 		this.len += states.length;

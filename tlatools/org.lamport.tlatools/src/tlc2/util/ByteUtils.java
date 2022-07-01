@@ -437,7 +437,7 @@ public class ByteUtils {
     final StringBuilder res = new StringBuilder();
     StringBuffer t, t1;
 
-      for (byte value : b) {
+      for (final byte value : b) {
           t = new StringBuffer(Integer.toHexString(value));
           if (t.length() > 2) {
               t1 = new StringBuffer();

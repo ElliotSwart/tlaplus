@@ -123,7 +123,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
       * ExceptComponent() if it finds "!.@", and in FairnessExpr().        *
       *********************************************************************/
       final tla2sany.st.ParseError[] list = PErrors.errors();
-      for (tla2sany.st.ParseError parseError : list) {
+      for (final tla2sany.st.ParseError parseError : list) {
         ToolIO.out.println(parseError.reportedError());
 //        ToolIO.out.println( "+ " + list[i].defaultError() );
       }
@@ -471,7 +471,7 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); }
     * exception.                                                           *
     ***********************************************************************/
     final TreeNode[] children = nd.heirs() ;
-    for (TreeNode treeNode : children) {
+    for (final TreeNode treeNode : children) {
       final SyntaxTreeNode child = (SyntaxTreeNode) treeNode;
       if (!(child.isKind(N_ConjList)
               || child.isKind(N_DisjList))) {
@@ -5219,8 +5219,8 @@ final SyntaxTreeNode tn;
   final public SyntaxTreeNode BraceCases() throws ParseException {
   int kind = N_SetEnumerate; // set by default.
   SyntaxTreeNode tn;
-      SyntaxTreeNode tn_0;
-      SyntaxTreeNode tn_1;
+      final SyntaxTreeNode tn_0;
+      final SyntaxTreeNode tn_1;
       final SyntaxTreeNode tn_2;
       SyntaxTreeNode htn = null;
       Token t;
@@ -6447,8 +6447,8 @@ final SyntaxTreeNode tn;
   // Expression
   final public void ExtendableExpr() throws ParseException {
   SyntaxTreeNode tn;
-      SyntaxTreeNode tn0;
-      SyntaxTreeNode tn1;
+      final SyntaxTreeNode tn0;
+      final SyntaxTreeNode tn1;
       final SyntaxTreeNode tn2;
       SyntaxTreeNode[] heirs;
   int kind ;
@@ -11072,7 +11072,7 @@ final SyntaxTreeNode tn;
       jj_gen++;
       if (++jj_gc > 100) {
         jj_gc = 0;
-        for (JJCalls jj_2_rtn : jj_2_rtns) {
+        for (final JJCalls jj_2_rtn : jj_2_rtns) {
           JJCalls c = jj_2_rtn;
           while (c != null) {
             if (c.gen < jj_gen) c.first = null;

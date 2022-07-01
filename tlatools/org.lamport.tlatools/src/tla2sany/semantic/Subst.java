@@ -61,7 +61,7 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
   }
 
   public static ExprOrOpArgNode getSub(final Object param, final Subst[] subs) {
-      for (Subst sub : subs) {
+      for (final Subst sub : subs) {
           if (sub.getOp() == param) {
               return sub.getExpr();
           }
@@ -120,7 +120,7 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
     ***********************************************************************/
     final SetOfLevelConstraints res = new SetOfLevelConstraints();
     final SetOfLevelConstraints lcSet = body.getLevelConstraints();
-      for (SymbolNode param : lcSet.keySet()) {
+      for (final SymbolNode param : lcSet.keySet()) {
           Integer plevel = lcSet.get(param);
           if (!isConstant) {
               if (param.getKind() == ConstantDeclKind) {
@@ -129,7 +129,7 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
                   plevel = Levels[VariableLevel];
               }
           }
-          for (SymbolNode symbolNode : paramSet(param, subs)) {
+          for (final SymbolNode symbolNode : paramSet(param, subs)) {
               res.put(symbolNode, plevel);
           }
       }
@@ -142,7 +142,7 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
        * check it first, which is why we need the iteration number      *
        * argument of this method.                                       *
        *****************************************************************/
-      for (ArgLevelParam alp : alpSet) {
+      for (final ArgLevelParam alp : alpSet) {
           final OpArgNode sub = (OpArgNode) getSub(alp.op, subs);
           if (sub != null &&
                   sub.getOp() instanceof final OpDefNode subDef) {
@@ -156,7 +156,7 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
                * argument of this method.                                       *
                *****************************************************************/
               final Integer mlevel = subDef.getMaxLevel(alp.i);
-              for (SymbolNode symbolNode : paramSet(alp.param, subs)) {
+              for (final SymbolNode symbolNode : paramSet(alp.param, subs)) {
                   res.put(symbolNode, mlevel);
               }
           }
@@ -189,7 +189,7 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
       /***************************************************************
        * Must invoke levelCheck before invoking getLevel              *
        ***************************************************************/
-      for (ArgLevelParam alp : alpSet) {
+      for (final ArgLevelParam alp : alpSet) {
           final ExprOrOpArgNode subParam = getSub(alp.param, subs);
           if (subParam != null) {
               final ExprOrOpArgNode subOp = getSub(alp.op, subs);
@@ -215,14 +215,14 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
     ***********************************************************************/
     final HashSet<ArgLevelParam> res = new HashSet<>();
     final HashSet<ArgLevelParam> alpSet = body.getArgLevelParams();
-      for (ArgLevelParam alp : alpSet) {
+      for (final ArgLevelParam alp : alpSet) {
           final ExprOrOpArgNode sub = getSub(alp.op, subs);
           if (sub == null) {
               res.add(alp);
           } else {
               final SymbolNode subOp = ((OpArgNode) sub).getOp();
               if (subOp.isParam()) {
-                  for (SymbolNode symbolNode : paramSet(alp.param, subs)) {
+                  for (final SymbolNode symbolNode : paramSet(alp.param, subs)) {
                       res.add(new ArgLevelParam(subOp, alp.i, symbolNode));
                   }
               }

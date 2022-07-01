@@ -1008,7 +1008,7 @@ public class AST
 
 
    public static String NewLine()
-     { StringBuilder result = new StringBuilder("\n");
+     { final StringBuilder result = new StringBuilder("\n");
        int i = 0 ;
        while (i < curIndent[indentDepth])
          { result.append(" ");
@@ -1025,7 +1025,7 @@ public class AST
      * representation.                                                     *
      **********************************************************************/
      { if (vec == null) {return "null" ;}
-         StringBuilder result = new StringBuilder(Indent("<<"));
+         final StringBuilder result = new StringBuilder(Indent("<<"));
        int i = 0 ;
        while (i < vec.size())
          { if (i > 0)
@@ -1043,7 +1043,7 @@ public class AST
    * representation to be quoted.                                        *
    **********************************************************************/
    { if (vec == null) {return "null" ;}
-       StringBuilder result = new StringBuilder(Indent("<<"));
+       final StringBuilder result = new StringBuilder(Indent("<<"));
      int i = 0 ;
      while (i < vec.size())
        { if (i > 0)
@@ -1061,7 +1061,7 @@ public static String VectorOfVectorsToSeqString(final Vector<?> vecvec)
      * elements, where each of its elements is a vector of objects whose   *
      * representation is obtained by calling toString().                   *
      **********************************************************************/
-     { StringBuilder result = new StringBuilder(Indent("<< "));
+     { final StringBuilder result = new StringBuilder(Indent("<< "));
        int i = 0 ;
        while (i < vecvec.size())
          { if (i > 0)

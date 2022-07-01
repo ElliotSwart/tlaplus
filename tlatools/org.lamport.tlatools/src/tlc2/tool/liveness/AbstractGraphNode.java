@@ -55,7 +55,7 @@ public abstract class AbstractGraphNode {
 
 	public boolean getCheckAction(final int slen, final int alen, final int nodeIdx, final int[] is) {
 		final int len = is.length;
-		for (int j : is) {
+		for (final int j : is) {
 			final int pos = slen + alen * nodeIdx + j;
 			if (!this.checks.get(pos)) {
 				return false;

@@ -202,7 +202,7 @@ public final class Misc
     * Result is str with each of TeX's special characters replaced by the  *
     * command to produce it.                                               *
     ***********************************************************************/
-    { StringBuilder result = new StringBuilder();
+    { final StringBuilder result = new StringBuilder();
       int pos = 0 ;
       while (pos < str.length())
        { switch (str.charAt(pos))
@@ -287,7 +287,7 @@ public final class Misc
    * @return
    */
   public static String TeXifyPcalLabel(final String str) {
-      StringBuilder out = new StringBuilder();
+      final StringBuilder out = new StringBuilder();
       int next = 0 ;
       while (    (next < str.length())
               && (   IsLetter(str.charAt(next))) 
@@ -336,7 +336,7 @@ public final class Misc
   **************************************************************************/
   { int lineLen = 0 ; 
     int nextChar = 0 ;
-    StringBuilder newStr = new StringBuilder();
+    final StringBuilder newStr = new StringBuilder();
     char ch = '0' ;
     while (nextChar < str.length())
       { ch = str.charAt(nextChar) ;

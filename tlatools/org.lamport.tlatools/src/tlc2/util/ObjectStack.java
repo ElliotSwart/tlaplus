@@ -37,7 +37,7 @@ public abstract class ObjectStack {
 
   /* Enqueues a list of states. Wake up any waiting thread. */
   public final synchronized void spush(final Object[] states) {
-      for (Object state : states) {
+      for (final Object state : states) {
           this.enqueueInner(state);
       }
     this.len += states.length;

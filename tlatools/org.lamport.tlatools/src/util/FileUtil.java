@@ -89,7 +89,7 @@ public class FileUtil
             // must be a directory:
             final String[] fnames = file.list();
             File child = null;
-            for (String fname : Objects.requireNonNull(fnames)) {
+            for (final String fname : Objects.requireNonNull(fnames)) {
                 child = new File(file, fname);
 
                 if (!doDeleteDir(child, recurse)) {
@@ -180,14 +180,14 @@ public class FileUtil
     public static void printArrayOfBigInts(final InputStream in) throws IOException
     {
         final BigInt[] A = ByteUtils.readSizeArrayOfSizeBigInts(in);
-        for (BigInt bigInt : A) {
+        for (final BigInt bigInt : A) {
             ToolIO.out.println(bigInt);
         }
     }
 
     public static void printSizeArrayOfSizeBigIntegers(final InputStream in) throws IOException {
         final BigInteger[] A = ByteUtils.readSizeArrayOfSizeBigInts(in);
-        for (BigInteger bigInteger : A) {
+        for (final BigInteger bigInteger : A) {
             ToolIO.out.println(bigInteger);
         }
     }
@@ -260,10 +260,10 @@ public class FileUtil
     }
 
     public static boolean namedInputStreamCanBeCreated(final String name, final FilenameToStream resolver){
-        try(NamedInputStream is = FileUtil.createNamedInputStream(name, resolver)){
+        try(final NamedInputStream is = FileUtil.createNamedInputStream(name, resolver)){
             return (is != null);
         }
-        catch(Exception e) {
+        catch(final Exception e) {
             return false;
         }
     }

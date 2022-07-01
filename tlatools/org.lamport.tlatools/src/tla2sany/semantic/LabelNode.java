@@ -227,7 +227,7 @@ public boolean addLabel(final LabelNode odn) {
     if (levelChecked >= iter) {return true ;}
       levelChecked = iter;
     final boolean retVal = true ;
-      for (FormalParamNode param : params) {
+      for (final FormalParamNode param : params) {
           if (param != null) {
               param.levelCheck(iter);
           }
@@ -297,7 +297,7 @@ public boolean addLabel(final LabelNode odn) {
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
     if (body != null) body.walkGraph(semNodesTable, visitor);
-      for (FormalParamNode param : params) {
+      for (final FormalParamNode param : params) {
           param.walkGraph(semNodesTable, visitor);
       }
       visitor.postVisit(this);
@@ -306,7 +306,7 @@ public boolean addLabel(final LabelNode odn) {
   @Override
   public final String toString(final int depth) {
     if (depth <= 0) return "";
-    StringBuilder ret = new StringBuilder("\n*LabelNode: " + super.toString(depth));
+    final StringBuilder ret = new StringBuilder("\n*LabelNode: " + super.toString(depth));
     ret.append(Strings.indent(2, "\nname: " + name.toString()));
     for (int i = 0; i < params.length; i++) {
       ret.append(Strings.indent(2,
@@ -348,7 +348,7 @@ public boolean addLabel(final LabelNode odn) {
       ret.appendChild(appendText(doc,"arity",Integer.toString(getArity())));
       ret.appendChild(appendElement(doc,"body",body.export(doc,context)));
       final Element arguments = doc.createElement("params");
-      for (FormalParamNode param : params) arguments.appendChild(param.export(doc, context));
+      for (final FormalParamNode param : params) arguments.appendChild(param.export(doc, context));
       ret.appendChild(arguments);
       return ret;
     }

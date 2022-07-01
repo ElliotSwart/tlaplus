@@ -82,7 +82,7 @@ private String metadir;
   public final synchronized long sizeof() {
     long size = 28; // 8 (ptr table) + 8 (long count) + 8 (long threshold) + 4 (int mask)
     size += 16 + (this.table.length * 8L); // for this.table
-      for (long[] longs : this.table) {
+      for (final long[] longs : this.table) {
           if (longs != null) {
               size += 16 + (longs.length * 8L);
           }
@@ -107,7 +107,7 @@ private String metadir;
     // Test if the fingerprint is already in the hashtable.
     if (list != null) {
       final int listlen = list.length;
-        for (long l : list) {
+        for (final long l : list) {
             if (l == fp) return true;
         }
     }
@@ -139,7 +139,7 @@ private String metadir;
     // Test if the fingerprint is already in the hashtable.
     if (list != null) {
       final int listlen = list.length;
-        for (long l : list) {
+        for (final long l : list) {
             if (l == fp) return true;
         }
     }
@@ -170,7 +170,7 @@ private String metadir;
 	final int listlen = list.length;
 	if (listlen < min) min = listlen;
 	if (listlen > max) max = listlen;
-          for (long value : list) {
+          for (final long value : list) {
               if ((value & onebitmask) == 0)
                   cnt0++;
               else
@@ -190,7 +190,7 @@ private String metadir;
 	  final long[] list1 = new long[cnt1];
             	  
 	  // copy the entries from the old list into the two new ones
-        for (long l : list) {
+        for (final long l : list) {
             if ((l & onebitmask) == 0)
                 list0[--cnt0] = l;
             else
@@ -234,7 +234,7 @@ private String metadir;
 	  for (int k = i+1; k < this.table.length; k++) {
 	    final long[] bucket1 = this.table[k];
 	    if (bucket1 != null) {
-            for (long l : bucket1) {
+            for (final long l : bucket1) {
                 final long x = bucket[j];
                 final long y = l;
                 final long dis1 = (x > y) ? x - y : y - x;
@@ -257,7 +257,7 @@ private String metadir;
       new BufferedDataOutputStream(this.chkptName(fname, "tmp"));
       for (final long[] bucket : this.table) {
           if (bucket != null) {
-              for (long l : bucket) {
+              for (final long l : bucket) {
                   dos.writeLong(l);
               }
           }

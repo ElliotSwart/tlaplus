@@ -103,7 +103,7 @@ public final class MVPerm implements IMVPerm {
   public List<ModelValue> getAllModelValues() {
 	  final List<ModelValue> values = new ArrayList<>();
 
-      for (ModelValue elem : elems) {
+      for (final ModelValue elem : elems) {
           if (elem != null) {
               values.add(elem);
           }

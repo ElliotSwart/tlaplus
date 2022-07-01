@@ -118,7 +118,7 @@ public class Node {
   }
 
   public String toString() {
-    StringBuilder s = new StringBuilder();
+    final StringBuilder s = new StringBuilder();
 
     for (Node ch = children(); ch != null; ch = ch.next()) {
       s.append(ch);

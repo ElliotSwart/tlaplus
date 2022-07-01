@@ -110,7 +110,7 @@ public short workerId = Short.MAX_VALUE; // Must be set to a non-negative number
    */ 
   public final Map<UniqueString, IValue> getVals() {
 	final Map<UniqueString, IValue> valMap = new HashMap<>();
-      for (OpDeclNode var : vars) {
+      for (final OpDeclNode var : vars) {
           final UniqueString key = var.getName();
           final IValue val = this.lookup(key);
           valMap.put(key, val);

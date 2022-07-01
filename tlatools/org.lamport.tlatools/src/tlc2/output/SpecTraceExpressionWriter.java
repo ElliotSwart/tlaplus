@@ -886,7 +886,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	    
 		tlaBuffer.append(TLAConstants.CR).append(id).append(TLAConstants.DEFINES_CR);
 
-		String localBuffer = TLAConstants.TLA_NOT + TLAConstants.L_PAREN + TLAConstants.L_PAREN +
+		final String localBuffer = TLAConstants.TLA_NOT + TLAConstants.L_PAREN + TLAConstants.L_PAREN +
 				TLAConstants.TLA_INF_OFTEN + TLAConstants.L_PAREN + TLAConstants.CR +
 				getStateConjunction(finalState) + TLAConstants.CR + TLAConstants.R_PAREN +
 				TLAConstants.R_PAREN + TLAConstants.TLA_AND + TLAConstants.L_PAREN +

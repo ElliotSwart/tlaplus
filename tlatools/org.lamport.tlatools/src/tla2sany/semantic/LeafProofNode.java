@@ -107,7 +107,7 @@ public class LeafProofNode extends ProofNode {
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
-      for (LevelNode fact : facts) {
+      for (final LevelNode fact : facts) {
           fact.walkGraph(semNodesTable, visitor);
       }
       /***********************************************************************
@@ -120,14 +120,14 @@ public class LeafProofNode extends ProofNode {
   @Override
   public String toString(final int depth) {
     if (depth <= 0) return "";
-    StringBuilder ret = new StringBuilder("\n*LeafProofNode:\n"
+    final StringBuilder ret = new StringBuilder("\n*LeafProofNode:\n"
             + super.toString(depth)
             + Strings.indent(2, "\nfacts:"));
-      for (LevelNode fact : this.facts) {
+      for (final LevelNode fact : this.facts) {
           ret.append(Strings.indent(4, fact.toString(depth - 1)));
       }
       ret.append(Strings.indent(2, "\ndefs:"));
-      for (SymbolNode def : this.defs) {
+      for (final SymbolNode def : this.defs) {
           ret.append(Strings.indent(4, def.toString(depth - 1)));
       }
       ret.append(Strings.indent(2, "\nomitted: " + this.omitted)).append(Strings.indent(2, "\nonlyFlag: " + this.isOnly));
@@ -151,8 +151,8 @@ public class LeafProofNode extends ProofNode {
       final Element factse = doc.createElement("facts");
       final Element definitions = doc.createElement("defs");
 
-        for (LevelNode fact : facts) factse.appendChild(fact.export(doc, context));
-        for (SymbolNode def : defs) definitions.appendChild(def.export(doc, context));
+        for (final LevelNode fact : facts) factse.appendChild(fact.export(doc, context));
+        for (final SymbolNode def : defs) definitions.appendChild(def.export(doc, context));
 
       e.appendChild(factse);
       e.appendChild(definitions);

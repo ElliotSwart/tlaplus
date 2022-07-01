@@ -232,7 +232,7 @@ public class ExceptionContext implements Serializable {
             final int aLen = args.length;
             // Step 4.
             out.writeInt(aLen);
-            for (Object arg : args) {
+            for (final Object arg : args) {
                 if (arg instanceof Serializable) {
                     // Step 5a.
                     out.writeObject(arg);

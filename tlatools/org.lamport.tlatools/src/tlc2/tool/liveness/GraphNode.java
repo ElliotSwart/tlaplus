@@ -364,7 +364,7 @@ public class GraphNode extends AbstractGraphNode {
 		// Write nnodes
 		final int cnt = nnodes.length;
 		nodeRAF.writeNat(cnt);
-        for (int nnode : nnodes) {
+        for (final int nnode : nnodes) {
             nodeRAF.writeInt(nnode);
         }
 		// Write checks
@@ -429,7 +429,7 @@ public class GraphNode extends AbstractGraphNode {
 		// label iff the first 6 (+2) chars of their fingerprint match. However
 		// the graph will still contain all nodes regardless of the label
 		// collision due to id.
-		StringBuilder label = new StringBuilder(Long.toString(this.stateFP).substring(0, 6) + (hasTableau ? "." + this.tindex : ""));
+		final StringBuilder label = new StringBuilder(Long.toString(this.stateFP).substring(0, 6) + (hasTableau ? "." + this.tindex : ""));
 		if (slen > 0) {
 			label.append("\n");
 			for (int i = 0; i < slen; i++) {

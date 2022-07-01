@@ -204,7 +204,7 @@ public class AssumeProveNode extends LevelNode {
     /***********************************************************************
     * Level check assumptions.                                             *
     ***********************************************************************/
-      for (LevelNode element : this.assumes) {
+      for (final LevelNode element : this.assumes) {
           if (element != null && !element.levelCheck(iter)) {
               this.levelCorrect = false;
           }
@@ -222,7 +222,7 @@ public class AssumeProveNode extends LevelNode {
       /*******************************************************************
        * Must call levelCheck before calling getLevel.                    *
        *******************************************************************/
-      for (LevelNode item : this.assumes) {
+      for (final LevelNode item : this.assumes) {
           item.levelCheck(iter);
           /*******************************************************************
            * Must call levelCheck before calling getLevel.                    *
@@ -238,7 +238,7 @@ public class AssumeProveNode extends LevelNode {
 //    this.levelParams = new HashSet();
     this.levelParams.addAll(this.prove.getLevelParams());
     this.allParams.addAll(this.prove.getAllParams());
-      for (LevelNode value : this.assumes) {
+      for (final LevelNode value : this.assumes) {
           this.levelParams.addAll(value.getLevelParams());
           this.allParams.addAll(value.getAllParams());
       }// for i
@@ -248,7 +248,7 @@ public class AssumeProveNode extends LevelNode {
     ***********************************************************************/
 //    this.levelConstraints = new SetOfLevelConstraints();
     this.levelConstraints.putAll(this.prove.getLevelConstraints());
-      for (LevelNode node : this.assumes) {
+      for (final LevelNode node : this.assumes) {
           this.levelConstraints.putAll(node.getLevelConstraints());
       }
 
@@ -257,7 +257,7 @@ public class AssumeProveNode extends LevelNode {
     ***********************************************************************/
 //    this.argLevelConstraints = new SetOfArgLevelConstraints();
     this.argLevelConstraints.putAll(this.prove.getArgLevelConstraints());
-      for (LevelNode levelNode : this.assumes) {
+      for (final LevelNode levelNode : this.assumes) {
           this.argLevelConstraints.putAll(levelNode.getArgLevelConstraints());
       }
 
@@ -266,7 +266,7 @@ public class AssumeProveNode extends LevelNode {
     ***********************************************************************/
 //    this.argLevelParams = new HashSet();
     this.argLevelParams.addAll(this.prove.getArgLevelParams()) ;
-      for (LevelNode assume : this.assumes) {
+      for (final LevelNode assume : this.assumes) {
           this.argLevelParams.addAll(assume.getArgLevelParams());
       }
       /***********************************************************************
@@ -324,7 +324,7 @@ public class AssumeProveNode extends LevelNode {
   @Override
   public final String toString(final int depth) {
     if (depth <= 0) return "";
-    StringBuilder assumeStr = new StringBuilder();
+    final StringBuilder assumeStr = new StringBuilder();
     int i = 0 ;
     while (i < assumes.length) {
       assumeStr.append(Strings.indent(4, assumes[i].toString(depth - 1)));
@@ -351,7 +351,7 @@ public class AssumeProveNode extends LevelNode {
     final Element succedent = doc.createElement("prove");
 
     final SemanticNode[] assumes = getAssumes();
-      for (SemanticNode assume : assumes) antecedent.appendChild(assume.export(doc, context));
+      for (final SemanticNode assume : assumes) antecedent.appendChild(assume.export(doc, context));
 
     succedent.appendChild(getProve().export(doc,context));
 

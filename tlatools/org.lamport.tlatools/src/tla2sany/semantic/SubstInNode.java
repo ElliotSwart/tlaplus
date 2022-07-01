@@ -313,7 +313,7 @@ public class SubstInNode extends ExprNode {
        * At this point, levelCheck(itr) has been invoked on              *
        * this.substs[i].getExpr() (which equals this.getSubWith(i)).      *
        *******************************************************************/
-      for (SymbolNode symbolNode : lpSet) {
+      for (final SymbolNode symbolNode : lpSet) {
           this.levelParams.addAll(Subst.paramSet(symbolNode, this.substs));
           /*******************************************************************
            * At this point, levelCheck(itr) has been invoked on              *
@@ -357,7 +357,7 @@ public class SubstInNode extends ExprNode {
        * this.nonLeibnizParams and add the substituting expression's      *
        * allParams to it.                                                 *
        *******************************************************************/
-      for (Subst subst : this.substs) {
+      for (final Subst subst : this.substs) {
           final OpDeclNode param = subst.getOp();
           if (this.allParams.contains(param)) {
               /*******************************************************************
@@ -414,13 +414,13 @@ public class SubstInNode extends ExprNode {
   public final String toString(final int depth) {
     if (depth <= 0) return "";
 
-    StringBuilder ret = new StringBuilder("\n*SubstInNode: "
+    final StringBuilder ret = new StringBuilder("\n*SubstInNode: "
             + super.toString(depth)
             + "\n  instantiating module: " + instantiatingModule.getName()
             + ", instantiated module: " + instantiatedModule.getName()
             + Strings.indent(2, "\nSubstitutions:"));
     if (this.substs != null) {
-        for (Subst subst : this.substs) {
+        for (final Subst subst : this.substs) {
             ret.append(Strings.indent(2,
                     Strings.indent(2, "\nSubst:" +
                             (subst != null ?
@@ -459,7 +459,7 @@ public class SubstInNode extends ExprNode {
     visitor.preVisit(this);
 
     if (this.substs != null) {
-        for (Subst subst : this.substs) {
+        for (final Subst subst : this.substs) {
             if (subst != null) subst.walkGraph(semNodesTable, visitor);
         }
     }
@@ -470,7 +470,7 @@ public class SubstInNode extends ExprNode {
   @Override
   protected Element getLevelElement(final Document doc, final SymbolContext context) {
       final Element sbts = doc.createElement("substs");
-      for (Subst subst : substs) {
+      for (final Subst subst : substs) {
           sbts.appendChild(subst.export(doc, context));
       }
       final Element bdy = doc.createElement("body");

@@ -200,7 +200,7 @@ public class BitVector implements Serializable {
   public void write(final BufferedRandomAccessFile raf) throws IOException {
     final int len = this.word.length;
     raf.writeNat(len);
-      for (long l : this.word) {
+      for (final long l : this.word) {
           raf.writeLong(l);
       }
   }

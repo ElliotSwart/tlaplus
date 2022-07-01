@@ -49,7 +49,7 @@ public abstract class Specs {
 	        return expr.getLevel();
 	
 	    int level = expr.getLevel();
-        for (SymbolNode param : lpSet) {
+        for (final SymbolNode param : lpSet) {
             final Object res = c.lookup(param, true);
             if (res != null) {
                 if (res instanceof final LazyValue lv) {

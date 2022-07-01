@@ -211,7 +211,7 @@ private final IValue[] values;
 			// current smallest. Once all permutations (perms) have been processed, we know
 			// we have found the smallest state.
 			NEXT_PERM:
-            for (IMVPerm perm : perms) {
+            for (final IMVPerm perm : perms) {
                 int cmp = 0;
                 // For each value in values succinctly permute the current value
                 // and compare it to its corresponding minValue in minVals.
@@ -255,12 +255,12 @@ private final IValue[] values;
 				fp = minVals[i].fingerPrint(fp);
 			}
 			if (this.values != minVals) {
-                for (IValue value : this.values) {
+                for (final IValue value : this.values) {
                     value.deepNormalize();
                 }
 			}
 		} else {
-            for (IValue value : this.values) {
+            for (final IValue value : this.values) {
                 value.deepNormalize();
             }
 			TLCStateMut state = this;
@@ -276,7 +276,7 @@ private final IValue[] values;
   @Override
   public boolean allAssigned() {
     final int len = this.values.length;
-      for (IValue value : this.values) {
+      for (final IValue value : this.values) {
           if (value == null) return false;
       }
     return true;
@@ -285,7 +285,7 @@ private final IValue[] values;
     @Override
 	public boolean noneAssigned() {
 		final int len = this.values.length;
-        for (IValue value : this.values) {
+        for (final IValue value : this.values) {
             if (value != null) {
                 return false;
             }
@@ -319,7 +319,7 @@ private final IValue[] values;
   public void write(final IValueOutputStream vos) throws IOException {
     super.write(vos);
     final int len = this.values.length;
-      for (IValue value : this.values) {
+      for (final IValue value : this.values) {
           value.write(vos);
       }
   }
@@ -341,7 +341,7 @@ private final IValue[] values;
       result.append("\n");
     }
     else {
-        for (OpDeclNode var : vars) {
+        for (final OpDeclNode var : vars) {
             final UniqueString key = var.getName();
             final IValue val = this.lookup(key);
             result.append("/\\ ");
@@ -371,7 +371,7 @@ private final IValue[] values;
       }
     }
     else {
-        for (OpDeclNode var : vars) {
+        for (final OpDeclNode var : vars) {
             final UniqueString key = var.getName();
             final IValue val = this.lookup(key);
             final IValue lstateVal = lstate.lookup(key);

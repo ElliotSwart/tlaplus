@@ -133,7 +133,7 @@ public class OpRcdValue extends OpValue implements Applicable {
         }
       }
       // Generate the error message:
-      StringBuilder msg = new StringBuilder("Attempted to apply operator:\n" + Values.ppr(this.toString()) +
+      final StringBuilder msg = new StringBuilder("Attempted to apply operator:\n" + Values.ppr(this.toString()) +
               "\nto arguments (");
       if (args.length > 0) msg.append(args[0]);
       for (int i = 1; i < args.length; i++) {
@@ -272,7 +272,7 @@ public class OpRcdValue extends OpValue implements Applicable {
       if (this.values.size() != 0) {
         sb.append("<");
         final Value[] args = this.domain.elementAt(0);
-          for (Value arg : args) {
+          for (final Value arg : args) {
               sb = arg.toString(sb, offset, swallow);
               sb.append(", ");
           }
@@ -282,7 +282,7 @@ public class OpRcdValue extends OpValue implements Applicable {
       for (int i = 1; i < this.values.size(); i++) {
         sb.append(", <");
         final Value[] args = this.domain.elementAt(i);
-          for (Value arg : args) {
+          for (final Value arg : args) {
               sb = arg.toString(sb, offset, swallow);
               sb.append(", ");
           }

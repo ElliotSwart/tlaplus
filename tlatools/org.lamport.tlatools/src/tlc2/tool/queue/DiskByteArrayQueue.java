@@ -333,7 +333,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	  throws IOException {
 	    if (this.poolFile != null) {
 	  	  final BufferedDataOutputStream vos = new BufferedDataOutputStream(this.poolFile);
-            for (byte[] bytes : this.buf) {
+            for (final byte[] bytes : this.buf) {
                 vos.writeInt(bytes.length);
                 vos.write(bytes);
             }
@@ -372,7 +372,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		    }
 		  }
 		  final BufferedDataOutputStream vos = new BufferedDataOutputStream(this.poolFile);
-            for (byte[] bytes : this.buf) {
+            for (final byte[] bytes : this.buf) {
                 vos.writeInt(bytes.length);
                 vos.write(bytes);
             }
@@ -683,7 +683,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 			final char[] c = new char[length];
 			str.getChars(0, length, c, 0);
 
-            for (char value : c) {
+            for (final char value : c) {
                 this.bytes[idx++] = (byte) value;
             }
 		}

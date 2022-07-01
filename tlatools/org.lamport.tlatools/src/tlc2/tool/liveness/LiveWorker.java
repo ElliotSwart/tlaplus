@@ -1260,7 +1260,7 @@ public class LiveWorker implements Callable<Boolean> {
 			this.dg = checker.getDiskGraph();
 			this.dg.createCache();
 			final PossibleErrorModel[] pems = this.oos.getPems();
-            for (PossibleErrorModel possibleErrorModel : pems) {
+            for (final PossibleErrorModel possibleErrorModel : pems) {
                 if (!hasErrFound()) {
                     this.pem = possibleErrorModel;
                     this.checkSccs(tool);

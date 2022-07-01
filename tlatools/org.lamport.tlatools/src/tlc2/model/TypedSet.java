@@ -172,7 +172,7 @@ public class TypedSet {
         {
             final List<String> typedList = new ArrayList<>(values.length);
             // add type to the list
-            for (String s : values) {
+            for (final String s : values) {
                 final String value = type + SEPARATOR + s;
                 typedList.add(value);
             }
@@ -231,7 +231,7 @@ public class TypedSet {
         if (array == null)
             return 0;
         int result = 1;
-        for (Object o : array) {
+        for (final Object o : array) {
             result = prime * result + (o == null ? 0 : o.hashCode());
         }
         return result;
@@ -309,7 +309,7 @@ public class TypedSet {
             return !hasValidType();
         } else
         {
-            for (String value : values) {
+            for (final String value : values) {
                 if (value.matches("\\d*")) {
                     // a digit sequence found
                     return true;

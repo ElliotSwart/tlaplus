@@ -262,7 +262,7 @@ public abstract class AbstractSpecWriter {
 
         Assignment constant;
         // first run for all the declarations
-        for (Assignment value : constants) {
+        for (final Assignment value : constants) {
             constant = value;
             if (constant.isModelValue()) {
                 if (constant.isSetOfModelValues()) {
@@ -273,7 +273,7 @@ public abstract class AbstractSpecWriter {
         }
 
         // now all the definitions
-        for (Assignment assignment : constants) {
+        for (final Assignment assignment : constants) {
             constant = assignment;
             if (constant.isModelValue()) {
                 if (constant.isSetOfModelValues()) {

@@ -92,7 +92,7 @@ public class UseOrHideNode extends LevelNode {
   *************************************************************************/
   public void factCheck() {
     if (this.facts == null || this.getKind() == UseKind) { return; }
-      for (LevelNode fact : this.facts) {
+      for (final LevelNode fact : this.facts) {
           if ((fact.getKind() == OpApplKind)
                   && (((OpApplNode) fact).operator.getKind()
                   != ThmOrAssumpDefKind)) {
@@ -121,7 +121,7 @@ public class UseOrHideNode extends LevelNode {
     if (semNodesTable.get(uid) != null) return;
     semNodesTable.put(uid, this);
     visitor.preVisit(this);
-      for (LevelNode fact : facts) {
+      for (final LevelNode fact : facts) {
           fact.walkGraph(semNodesTable, visitor);
       }
       /***********************************************************************
@@ -148,15 +148,15 @@ public class UseOrHideNode extends LevelNode {
   @Override
   public String toString(final int depth) {
     if (depth <= 0) return "";
-    StringBuilder ret = new StringBuilder("\n*UseOrHideNode:\n"
+    final StringBuilder ret = new StringBuilder("\n*UseOrHideNode:\n"
             + super.toString(depth)
             + Strings.indent(2, "\nisOnly: " + this.isOnly)
             + Strings.indent(2, "\nfacts:"));
-      for (LevelNode fact : this.facts) {
+      for (final LevelNode fact : this.facts) {
           ret.append(Strings.indent(4, fact.toString(1)));
       }
       ret.append(Strings.indent(2, "\ndefs:"));
-      for (SymbolNode def : this.defs) {
+      for (final SymbolNode def : this.defs) {
           ret.append(Strings.indent(4, def.toString(1)));
       }
       return ret.toString();
@@ -170,8 +170,8 @@ public class UseOrHideNode extends LevelNode {
     final Element factse = doc.createElement("facts");
     final Element definitions = doc.createElement("defs");
 
-      for (LevelNode fact : facts) factse.appendChild(fact.export(doc, context));
-      for (SymbolNode def : defs) definitions.appendChild(def.export(doc, context));
+      for (final LevelNode fact : facts) factse.appendChild(fact.export(doc, context));
+      for (final SymbolNode def : defs) definitions.appendChild(def.export(doc, context));
 
     e.appendChild(factse);
     e.appendChild(definitions);

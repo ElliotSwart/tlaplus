@@ -43,7 +43,7 @@ public class ModuleRelatives {
   }
 
   public String toString() {
-    StringBuilder ret = new StringBuilder("currentModuleName: " + currentModule.getName());
+    final StringBuilder ret = new StringBuilder("currentModuleName: " + currentModule.getName());
 
     ret.append("\nouterModule: ").append(outerModule == null
             ? "<null>"
