@@ -8,7 +8,7 @@
         ],
         "workingDirectory": "${workspaceFolder}",
         "classPaths": [
-            "${workspaceFolder}/class/"
+            "${workspaceFolder}/test-model/UserModuleOverrideFromJar.jar"
         ]
     },
     "java.configuration.updateBuildConfiguration": "interactive"
