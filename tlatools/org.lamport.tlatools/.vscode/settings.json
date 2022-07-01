@@ -1,0 +1,15 @@
+{
+    "java.test.config": {
+        "name": "test",
+        "vmArgs": [
+            "-ea",
+            "-XX:MaxDirectMemorySize=512k",
+            "-XX:+UseParallelGC"
+        ],
+        "workingDirectory": "${workspaceFolder}",
+        "classPaths": [
+            "${workspaceFolder}/test-model/UserModuleOverrideFromJar.jar"
+        ]
+    },
+    "java.configuration.updateBuildConfiguration": "interactive"
+}

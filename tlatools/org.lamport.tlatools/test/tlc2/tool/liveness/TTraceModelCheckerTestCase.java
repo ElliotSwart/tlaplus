@@ -41,10 +41,14 @@ import util.TLAConstants;
 public abstract class TTraceModelCheckerTestCase extends ModelCheckerTestCase {
 
 	// Make the generated stuff go into the target/ folder of the org.lamport.tlatools folder.
-	private static final String GEN_SPEC_PATH = ".." + File.separator + "target" + File.separator + "GeneratedTESpecs";
+	private static final String GEN_SPEC_PATH = "GeneratedTESpecs";
+
+	public static String getSpecPath(){
+		return BASE_PATH + GEN_SPEC_PATH;
+	}
 
 	public static String getPath(final Class<? extends ModelCheckerTestCase> clazz) {
-		return BASE_PATH + GEN_SPEC_PATH + File.separator + getSpecFileName(clazz);
+		return TTraceModelCheckerTestCase.getSpecPath() + File.separator + getSpecFileName(clazz);
 	}
 
 	private static String getSpecFileName(final Class<?> clazz) {
@@ -63,13 +67,13 @@ public abstract class TTraceModelCheckerTestCase extends ModelCheckerTestCase {
 	public TTraceModelCheckerTestCase(final Class<?> clazz, final String path, final int exitStatus) {
 		super(getSpecFileName(clazz), GEN_SPEC_PATH, new String[] {"-config", getSpecFileName(clazz)}, exitStatus);
 		this.clazz = clazz;
-		this.specPath = BASE_PATH + path;
+		this.specPath = TTraceModelCheckerTestCase.getSpecPath();
 	}
 
 	public TTraceModelCheckerTestCase(final Class<?> clazz, final int exitStatus) {
 		super(getSpecFileName(clazz), GEN_SPEC_PATH, new String[] {"-config", getSpecFileName(clazz)}, exitStatus);
 		this.clazz = clazz;
-		this.specPath = BASE_PATH;
+		this.specPath = TTraceModelCheckerTestCase.getSpecPath();
 	}
 
 	public TTraceModelCheckerTestCase(final Class<?> clazz, final String[] extraArgs, final int exitStatus) {
@@ -77,7 +81,7 @@ public abstract class TTraceModelCheckerTestCase extends ModelCheckerTestCase {
 				.concat(Arrays.stream(new String[] { "-config", getSpecFileName(clazz) }), Arrays.stream(extraArgs))
 				.toArray(String[]::new), exitStatus);
 		this.clazz = clazz;
-		this.specPath = BASE_PATH;
+		this.specPath = TTraceModelCheckerTestCase.getSpecPath();
 	}
 	
 	@Override
