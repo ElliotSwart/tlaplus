@@ -25,12 +25,35 @@
  ******************************************************************************/
 package util;
 
+
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.ByteBuffer;
+import java.nio.file.FileSystem;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.security.CodeSigner;
+import java.security.CodeSource;
+import java.security.SecureClassLoader;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Stream;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.reflect.ClassPath ;
+import com.google.common.reflect.ClassPath.ClassInfo;
 
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
@@ -42,23 +65,40 @@ public class IsolatedTestCaseRunner extends Runner {
 
 	private final JUnit4 delegate;
 
-	public IsolatedTestCaseRunner(final Class<?> testFileClass)
+	public static ImmutableMap<String, ClassInfo> classPaths;
+
+	public static ImmutableMap<String, ClassInfo> getClassPaths() throws IOException {
+		
+		if (classPaths == null){
+			var classes = ClassPath.from(
+								ClassLoader.getSystemClassLoader())
+								.getTopLevelClasses();
+			
+			var b = new ImmutableMap.Builder<String, ClassInfo>();
+
+			for(var c : classes){
+				b.put(c.getName(), c);
+			}
+
+			IsolatedTestCaseRunner.classPaths = b.build();
+		}
+
+		return IsolatedTestCaseRunner.classPaths;
+	}
+
+	public IsolatedTestCaseRunner(final Class<?> testFileClass) 
 			throws InitializationError, ClassNotFoundException, InstantiationException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, IOException {
 	
 		// Since IsolatedTestCaseRunner runs several isolated tests in a single VM, it
 		// is good practice to clean resources before each new test.
 		System.gc();
+		var classpaths = getClassPaths();
 		
-		ClassLoader classLoader = IsolatedTestCaseRunner.class.getClassLoader();
-		if (classLoader instanceof URLClassLoader) {
-			// When run within e.g. Eclipse, the classloader might not be of instance
-			// URLClassLoader. In this case, just use the provided class loader which won't
-			// isolate tests. A set of tests can thus only be run in a single VM from ant
-			// or maven which pass a URLClassLoader.
-			classLoader = new IsolatedTestCaseClassLoader((URLClassLoader) classLoader);
-		}
-		delegate = new JUnit4(classLoader.loadClass(testFileClass.getName()));
+		var isolatedTestCaseClassLoader = new IsolatedTestCaseClassLoader(classpaths, this.getClass().getClassLoader());
+		var testClass = isolatedTestCaseClassLoader.loadClass(testFileClass.getName());
+
+		delegate = new JUnit4(testClass);
 	}
 
 	@Override
@@ -71,37 +111,55 @@ public class IsolatedTestCaseRunner extends Runner {
 		delegate.run(notifier);
 	}
 	
-	private class IsolatedTestCaseClassLoader extends URLClassLoader {
+	private class IsolatedTestCaseClassLoader extends ClassLoader {
 
 		private final Map<String, Class<?>> cache = new HashMap<>();
 		private final Set<String> packages = new HashSet<>();
-		
-		public IsolatedTestCaseClassLoader(final URLClassLoader classLoader) {
-			super(classLoader.getURLs());
-			
+
+		private final ImmutableMap<String, ClassInfo> classPaths;
+
+		public IsolatedTestCaseClassLoader(ImmutableMap<String, ClassInfo> classPaths, ClassLoader parent) {
+			super(parent);
+			this.classPaths = classPaths;
+
 			// All of TLC's java packages. 
 			packages.add("tla2sany");
 			packages.add("pcal");
 			packages.add("util");
 			packages.add("tla2tex");
 			packages.add("tlc2");
+
 		}
 
+
 		@Override
-		public Class<?> loadClass(final String name) throws ClassNotFoundException {
-			if (cache.containsKey(name)) {
-				// Cache to not load classes twice for a single test case which results in a
-				// LinkageError.
-				return cache.get(name);
+		public Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+			Class<?> loadedClass = this.findLoadedClass(name);
+
+			if(!Objects.isNull(loadedClass)){
+				return loadedClass;
 			}
-			for (final String pkg : packages) {
-				if (name.startsWith(pkg)) {
-					final Class<?> findClass = findClass(name);
-					cache.put(name, findClass);
-					return findClass;
+
+			if (loadedClass == null && classPaths.containsKey(name)){
+				var classInfo = classPaths.get(name);
+				var byteSource = classInfo.asByteSource();
+				byte[] bytes;
+				try {
+					bytes = byteSource.read();
+				} catch (IOException e) {
+					throw new ClassNotFoundException();
 				}
+
+				var c = defineClass(name, bytes, 0, bytes.length);
+
+				if(resolve){
+					resolveClass(c);
+				}
+
+				return c;
 			}
-			return super.loadClass(name);
+
+			return super.loadClass(name, resolve);
 		}
 	}
 }
