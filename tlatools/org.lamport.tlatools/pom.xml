@@ -178,7 +178,6 @@
 					<forkCount>10</forkCount>
 					<reuseForks>false</reuseForks>
 					<argLine>-ea -XX:MaxDirectMemorySize=512k -XX:+UseParallelGC</argLine>
-					<useSystemClassLoader>true</useSystemClassLoader>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 					<skip>true</skip>
 				</configuration>
