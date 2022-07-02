@@ -29,6 +29,7 @@ package util;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -63,103 +64,48 @@ import org.junit.runners.model.InitializationError;
 
 public class IsolatedTestCaseRunner extends Runner {
 
-	private final JUnit4 delegate;
-
-	public static ImmutableMap<String, ClassInfo> classPaths;
-
-	public static ImmutableMap<String, ClassInfo> getClassPaths() throws IOException {
-		
-		if (classPaths == null){
-			var classes = ClassPath.from(
-								ClassLoader.getSystemClassLoader())
-								.getTopLevelClasses();
-			
-			var b = new ImmutableMap.Builder<String, ClassInfo>();
-
-			for(var c : classes){
-				b.put(c.getName(), c);
-			}
-
-			IsolatedTestCaseRunner.classPaths = b.build();
-		}
-
-		return IsolatedTestCaseRunner.classPaths;
-	}
+	private Object adapter;
 
 	public IsolatedTestCaseRunner(final Class<?> testFileClass) 
-			throws InitializationError, ClassNotFoundException, InstantiationException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, IOException {
+			throws InitializationError {
 	
-		// Since IsolatedTestCaseRunner runs several isolated tests in a single VM, it
-		// is good practice to clean resources before each new test.
 		System.gc();
-		var classpaths = getClassPaths();
-		
-		var isolatedTestCaseClassLoader = new IsolatedTestCaseClassLoader(classpaths, this.getClass().getClassLoader());
-		var testClass = isolatedTestCaseClassLoader.loadClass(testFileClass.getName());
 
-		delegate = new JUnit4(testClass);
+		try {
+			var classLoader = IsolatedClassLoader.getClassLoader();
+
+			var Adapter = classLoader.loadClass("util.JUnitAdapter");
+
+			Class[] cArg = new Class[1];
+			cArg[0] = String.class;
+			Object[] arg = new Object[1];
+			arg[0] = testFileClass.getName();
+			adapter = Adapter.getDeclaredConstructor(cArg).newInstance(arg);
+
+			//delegate = new JUnit4(testClass);
+		} catch (Exception e) {
+			throw new InitializationError("Error during initialization");
+		}
 	}
 
 	@Override
 	public Description getDescription() {
-		return delegate.getDescription();
+		try {
+			Method getDescriptionMethod = this.adapter.getClass().getMethod("getDescription");
+			var description = (Description) getDescriptionMethod.invoke(adapter);
+			return description;
+		} catch (Exception e) {
+			return Description.createTestDescription("fail", "fail", "fail");
+		}
 	}
 
 	@Override
 	public void run(final RunNotifier notifier) {
-		delegate.run(notifier);
-	}
-	
-	private class IsolatedTestCaseClassLoader extends ClassLoader {
-
-		private final Map<String, Class<?>> cache = new HashMap<>();
-		private final Set<String> packages = new HashSet<>();
-
-		private final ImmutableMap<String, ClassInfo> classPaths;
-
-		public IsolatedTestCaseClassLoader(ImmutableMap<String, ClassInfo> classPaths, ClassLoader parent) {
-			super(parent);
-			this.classPaths = classPaths;
-
-			// All of TLC's java packages. 
-			packages.add("tla2sany");
-			packages.add("pcal");
-			packages.add("util");
-			packages.add("tla2tex");
-			packages.add("tlc2");
-
-		}
-
-
-		@Override
-		public Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-			Class<?> loadedClass = this.findLoadedClass(name);
-
-			if(!Objects.isNull(loadedClass)){
-				return loadedClass;
-			}
-
-			if (loadedClass == null && classPaths.containsKey(name)){
-				var classInfo = classPaths.get(name);
-				var byteSource = classInfo.asByteSource();
-				byte[] bytes;
-				try {
-					bytes = byteSource.read();
-				} catch (IOException e) {
-					throw new ClassNotFoundException();
-				}
-
-				var c = defineClass(name, bytes, 0, bytes.length);
-
-				if(resolve){
-					resolveClass(c);
-				}
-
-				return c;
-			}
-
-			return super.loadClass(name, resolve);
+		try {
+			Method runMethod = this.adapter.getClass().getMethod("run", RunNotifier.class);
+			runMethod.invoke(adapter, notifier);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
