@@ -5,7 +5,7 @@ package tla2sany.parser;
 @SuppressWarnings("unused")
 public class TLAplusParserTokenManager implements TLAplusParserConstants
 {
-  static int bracketCount = 0;
+  int bracketCount = 0;
   public  java.io.PrintStream debugStream = System.out;
   public  void setDebugStream(final java.io.PrintStream ds) { debugStream = ds; }
 private final int jjStopStringLiteralDfa_0(final int pos, final long active0)
