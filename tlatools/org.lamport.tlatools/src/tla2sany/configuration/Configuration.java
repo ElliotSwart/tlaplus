@@ -31,10 +31,9 @@ import util.UniqueString;
 
 public final class Configuration implements ConfigConstants {
 
-  private static Errors         errors;
-  private static java.io.Reader input;
+  private Errors         errors;
 
-  public static void displayDefinitions() {
+  public void displayDefinitions() {
     ToolIO.out.println( defaultConfig );
   }
 
@@ -45,9 +44,10 @@ public static void load (final Errors errs ) throws AbortException {
     ***********************************************************************/
     final Configuration Parser;
     try {
-      errors = errs;
       final File source = new File( "config.src" );
       final String origin;
+
+      java.io.Reader input;
 
       if ( source.exists() ) {
 //      java.io.OutputStream output;
@@ -58,23 +58,24 @@ public static void load (final Errors errs ) throws AbortException {
         origin = " from defaults.";
       }
       Parser = new Configuration( input );
+      Parser.errors = errs;
 
       try {
-        Configuration.ConfigurationUnit();
+          Parser.ConfigurationUnit();
 //      Operators.printTable();
       } catch (final ParseException e) {
-        errors.addAbort(Location.nullLoc,"\nConfiguration Parser:  Encountered errors during parse.  " 
+          Parser.errors.addAbort(Location.nullLoc,"\nConfiguration Parser:  Encountered errors during parse.  "
                         + e.getMessage(),true );
       }
 
     } catch (final java.io.FileNotFoundException e) {
-      errors.addAbort(Location.nullLoc,"File not found.\n" + e,true);
+        //Parser.errors.addAbort(Location.nullLoc,"File not found.\n" + e,true);
     }
   } // end load()
 
 
 
-  static public void ConfigurationUnit() throws ParseException, AbortException {
+  public void ConfigurationUnit() throws ParseException, AbortException {
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -91,7 +92,7 @@ public static void load (final Errors errs ) throws AbortException {
   }
 
 
-  static public void OpDefinition() throws ParseException, AbortException {
+  public void OpDefinition() throws ParseException, AbortException {
   final Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case OPERATOR:
@@ -124,7 +125,7 @@ public static void load (final Errors errs ) throws AbortException {
     }
   }
 
- static public void OpBody(final String s) throws ParseException {
+ public void OpBody(final String s) throws ParseException {
  Token t;
  final int kind;
      final int assoc;
@@ -191,7 +192,7 @@ public static void load (final Errors errs ) throws AbortException {
    Operators.addOperator( UniqueString.uniqueStringOf(s), op );
   }
 
-  static public void OpSynonym() throws ParseException {
+  public void OpSynonym() throws ParseException {
   final Token t1;
       final Token t2;
       jj_consume_token(SYNONYM);
@@ -201,11 +202,11 @@ public static void load (final Errors errs ) throws AbortException {
                           UniqueString.uniqueStringOf(t2.image) );
   }
 
-  static public void OpNull(final String s) throws ParseException {
+  public void OpNull(final String s) throws ParseException {
     jj_consume_token(NOTOP);
   }
 
-  static public void OpBuiltin() throws ParseException, AbortException {
+  public void OpBuiltin() throws ParseException, AbortException {
   Token t;
   final String external;
   final UniqueString us;
@@ -256,21 +257,21 @@ public static void load (final Errors errs ) throws AbortException {
 
   }
 
-  static private boolean                  jj_initialized_once = false;
-  static public ConfigurationTokenManager token_source;
-  static ASCII_CharStream                 jj_input_stream;
-  static public Token                     token, jj_nt;
-  static private int                      jj_ntk;
-  static private int                      jj_gen;
-  static final private int[]              jj_la1 = new int[7];
-  static final private int[]              jj_la1_0 = 
+  private boolean                  jj_initialized_once = false;
+  public ConfigurationTokenManager token_source;
+  ASCII_CharStream                 jj_input_stream;
+  public Token                     token, jj_nt;
+  private int                      jj_ntk;
+  private int                      jj_gen;
+  final private int[]              jj_la1 = new int[7];
+  final private int[]              jj_la1_0 = 
                                             {0x44100,0x402000,0x44100,0x38000,
                                              0x1e00,0x200000,0x400e80,};
 
   public Configuration(final java.io.InputStream stream) {
     if (jj_initialized_once) {
-      ToolIO.out.println("ERROR: Second call to constructor of static parser.  You must");
-      ToolIO.out.println("       either use ReInit() or set the JavaCC option STATIC to false");
+      ToolIO.out.println("ERROR: Second call to constructor of parser.  You must");
+      ToolIO.out.println("       either use ReInit() or set the JavaCC option to false");
       ToolIO.out.println("       during parser generation.");
       throw new Error();
     }
@@ -283,20 +284,11 @@ public static void load (final Errors errs ) throws AbortException {
     for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
-  static public void ReInit(final java.io.InputStream stream) {
-    jj_initialized_once = false;
-    ASCII_CharStream.ReInit(stream, 1, 1);
-    ConfigurationTokenManager.ReInit(jj_input_stream);
-    token = new Token();
-    jj_ntk = -1;
-    jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
-  }
 
   public Configuration(final java.io.Reader stream) {
     if (jj_initialized_once) {
-      ToolIO.out.println("ERROR: Second call to constructor of static parser.  You must");
-      ToolIO.out.println("       either use ReInit() or set the JavaCC option STATIC to false");
+      ToolIO.out.println("ERROR: Second call to constructor of parser.  You must");
+      ToolIO.out.println("       either use ReInit() or set the JavaCC option to false");
       ToolIO.out.println("       during parser generation.");
       throw new Error();
     }
@@ -309,32 +301,10 @@ public static void load (final Errors errs ) throws AbortException {
     for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
-  static public void ReInit(final java.io.Reader stream) {
-    jj_initialized_once = false;
-    ASCII_CharStream.ReInit(stream, 1, 1);
-    ConfigurationTokenManager.ReInit(jj_input_stream);
-    token = new Token();
-    jj_ntk = -1;
-    jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
-  }
-
-  // The following method added by DRJ.  It should be in the .jcc version of this file
-  static public void ReInit() {
-    jj_initialized_once = false;
-    ASCII_CharStream.ReInit(input, 1, 1);
-    ConfigurationTokenManager.ReInit(jj_input_stream);
-    token = new Token();
-    jj_ntk = -1;
-    jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
-  }
-
-
   public Configuration(final ConfigurationTokenManager tm) {
     if (jj_initialized_once) {
-      ToolIO.out.println("ERROR: Second call to constructor of static parser.  You must");
-      ToolIO.out.println("       either use ReInit() or set the JavaCC option STATIC to false");
+      ToolIO.out.println("ERROR: Second call to constructor of parser.  You must");
+      ToolIO.out.println("       either use ReInit() or set the JavaCC option to false");
       ToolIO.out.println("       during parser generation.");
       throw new Error();
     }
@@ -346,18 +316,10 @@ public static void load (final Errors errs ) throws AbortException {
     for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
-  public void ReInit(final ConfigurationTokenManager tm) {
-    token_source = tm;
-    token = new Token();
-    jj_ntk = -1;
-    jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
-  }
-
-  static private Token jj_consume_token(final int kind) throws ParseException {
+  private Token jj_consume_token(final int kind) throws ParseException {
     final Token oldToken;
     if ((oldToken = token).next != null) token = token.next;
-    else token = token.next = ConfigurationTokenManager.getNextToken();
+    else token = token.next = token_source.getNextToken();
     jj_ntk = -1;
     if (token.kind == kind) {
       jj_gen++;
@@ -368,35 +330,35 @@ public static void load (final Errors errs ) throws AbortException {
     throw generateParseException();
   }
 
-  static public Token getNextToken() {
+  public Token getNextToken() {
     if (token.next != null) token = token.next;
-    else token = token.next = ConfigurationTokenManager.getNextToken();
+    else token = token.next = token_source.getNextToken();
     jj_ntk = -1;
     jj_gen++;
     return token;
   }
 
-  static public Token getToken(final int index) {
+  public Token getToken(final int index) {
     Token t = token;
     for (int i = 0; i < index; i++) {
       if (t.next != null) t = t.next;
-      else t = t.next = ConfigurationTokenManager.getNextToken();
+      else t = t.next = token_source.getNextToken();
     }
     return t;
   }
 
-  static private int jj_ntk() {
+  private int jj_ntk() {
     if ((jj_nt=token.next) == null)
-      return (jj_ntk = (token.next=ConfigurationTokenManager.getNextToken()).kind);
+      return (jj_ntk = (token.next=token_source.getNextToken()).kind);
     else
       return (jj_ntk = jj_nt.kind);
   }
 
-  static private final java.util.Vector<int[]> jj_expentries = new java.util.Vector<>();
-  static private int[] jj_expentry;
-  static private int jj_kind = -1;
+  private final java.util.Vector<int[]> jj_expentries = new java.util.Vector<>();
+  private int[] jj_expentry;
+  private int jj_kind = -1;
 
-  static public ParseException generateParseException() {
+  public ParseException generateParseException() {
     jj_expentries.removeAllElements();
     final boolean[] la1tokens = new boolean[24];
     for (int i = 0; i < 24; i++) {
@@ -429,10 +391,10 @@ public static void load (final Errors errs ) throws AbortException {
     return new ParseException(token, exptokseq, tokenImage);
   }
 
-  static public void enable_tracing() {
+  public void enable_tracing() {
   }
 
-  static public void disable_tracing() {
+  public void disable_tracing() {
   }
 
 }

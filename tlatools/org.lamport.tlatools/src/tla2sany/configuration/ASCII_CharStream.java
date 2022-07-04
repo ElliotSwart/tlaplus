@@ -9,27 +9,27 @@ package tla2sany.configuration;
 
 public final class ASCII_CharStream
 {
-  public static final boolean staticFlag = true;
-  static int bufsize;
-  static int available;
-  static int tokenBegin;
-  static public int bufpos = -1;
-  static private int[] bufline;
-  static private int[] bufcolumn;
+  public final boolean staticFlag = true;
+  int bufsize;
+  int available;
+  int tokenBegin;
+  public int bufpos = -1;
+  private int[] bufline;
+  private int[] bufcolumn;
 
-  static private int column = 0;
-  static private int line = 1;
+  private int column = 0;
+  private int line = 1;
 
-  static private boolean prevCharIsCR = false;
-  static private boolean prevCharIsLF = false;
+  private boolean prevCharIsCR = false;
+  private boolean prevCharIsLF = false;
 
-  static private java.io.Reader inputStream;
+  private java.io.Reader inputStream;
 
-  static private char[] buffer;
-  static private int maxNextCharInd = 0;
-  static private int inBuf = 0;
+  private char[] buffer;
+  private int maxNextCharInd = 0;
+  private int inBuf = 0;
 
-  static private void ExpandBuff(final boolean wrapAround)
+  private void ExpandBuff(final boolean wrapAround)
   {
      final char[] newbuffer = new char[bufsize + 2048];
      final int[] newbufline = new int[bufsize + 2048];
@@ -79,7 +79,7 @@ public final class ASCII_CharStream
      tokenBegin = 0;
   }
 
-  static private void FillBuff() throws java.io.IOException
+  private void FillBuff() throws java.io.IOException
   {
      if (maxNextCharInd == available)
      {
@@ -123,7 +123,7 @@ public final class ASCII_CharStream
      }
   }
 
-  static public char BeginToken() throws java.io.IOException
+  public char BeginToken() throws java.io.IOException
   {
      tokenBegin = -1;
      final char c = readChar();
@@ -132,7 +132,7 @@ public final class ASCII_CharStream
      return c;
   }
 
-  static private void UpdateLineColumn(final char c)
+  private void UpdateLineColumn(final char c)
   {
      column++;
 
@@ -172,7 +172,7 @@ public final class ASCII_CharStream
      bufcolumn[bufpos] = column;
   }
 
-  static public char readChar() throws java.io.IOException
+  public char readChar() throws java.io.IOException
   {
      if (inBuf > 0)
      {
@@ -193,23 +193,23 @@ public final class ASCII_CharStream
 
   
 
-  static public int getEndColumn() {
+  public int getEndColumn() {
      return bufcolumn[bufpos];
   }
 
-  static public int getEndLine() {
+  public int getEndLine() {
      return bufline[bufpos];
   }
 
-  static public int getBeginColumn() {
+  public int getBeginColumn() {
      return bufcolumn[tokenBegin];
   }
 
-  static public int getBeginLine() {
+  public int getBeginLine() {
      return bufline[tokenBegin];
   }
 
-  static public void backup(final int amount) {
+  public void backup(final int amount) {
 
     inBuf += amount;
     if ((bufpos -= amount) < 0)
@@ -222,8 +222,8 @@ public final class ASCII_CharStream
     if (inputStream != null)
        throw new Error("""
 
-               ERROR: Second call to the constructor of a static ASCII_CharStream.  You must
-                   either use ReInit() or set the JavaCC option STATIC to false
+               ERROR: Second call to the constructor of a ASCII_CharStream.  You must
+                   either use ReInit() or set the JavaCC option to false
                    during the generation of this class.""".indent(3));
     inputStream = dstream;
     line = startline;
@@ -241,7 +241,7 @@ public final class ASCII_CharStream
      this(dstream, startline, startcolumn, 4096);
   }
 
-  static public void ReInit(final java.io.Reader dstream, final int startline,
+  public void ReInit(final java.io.Reader dstream, final int startline,
                             final int startcolumn, final int buffersize)
   {
     // Bug: The following line used to read "inputStream = dstream;" but this bug was
@@ -262,7 +262,7 @@ public final class ASCII_CharStream
     bufpos = -1;
   }
 
-  static public void ReInit(final java.io.Reader dstream, final int startline,
+  public void ReInit(final java.io.Reader dstream, final int startline,
                             final int startcolumn)
   {
      ReInit(dstream, startline, startcolumn, 4096);
@@ -280,19 +280,19 @@ public final class ASCII_CharStream
      this(dstream, startline, startcolumn, 4096);
   }
 
-  static public void ReInit(final java.io.InputStream dstream, final int startline,
+  public void ReInit(final java.io.InputStream dstream, final int startline,
                             final int startcolumn, final int buffersize)
   {
      ReInit(new java.io.InputStreamReader(dstream), startline, startcolumn, buffersize);
   }
 
-  static public void ReInit(final java.io.InputStream dstream, final int startline,
+  public void ReInit(final java.io.InputStream dstream, final int startline,
                             final int startcolumn)
   {
      ReInit(dstream, startline, startcolumn, 4096);
   }
 
-  static public String GetImage()
+  public String GetImage()
   {
      if (bufpos >= tokenBegin)
         return new String(buffer, tokenBegin, bufpos - tokenBegin + 1);

@@ -152,7 +152,6 @@ public class SANY {
       // Read & initialize config file for each specification
 
       // Set Configuration class to (re)start
-      Configuration.ReInit();
 
       // (Re)create an empty Context object
       Context.reInit();
