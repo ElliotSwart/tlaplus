@@ -59,9 +59,11 @@ public class Validator {
 	private static final Pattern MODULE_CLOSING_PATTERN = Pattern.compile(TLAConstants.MODULE_CLOSING_REGEX);
 
 	private final ParseAlgorithm parseAlgorithm;
+	private final PcalParams pcalParams;
 
 	public Validator(final ParseAlgorithm parseAlgorithm){
 		this.parseAlgorithm = parseAlgorithm;
+		this.pcalParams = parseAlgorithm.pcalParams;
 	}
 
 	public Set<ValidationResult> validate(final ParseUnit parseUnit, final InputStream inputStream)
@@ -146,7 +148,7 @@ public class Validator {
                     // space character is "options"
 					if (parseAlgorithm.NextNonIdChar(restOfLine, 0) == 7) {
                         // The "options" should begin an options line
-                        PcalParams.optionsInFile = true;
+						pcalParams.optionsInFile = true;
 						parseAlgorithm.ProcessOptions(deTabbedSpecification, searchLoc);
                         notDone = false;
                     }
@@ -229,14 +231,12 @@ public class Validator {
 	        final TLAtoPCalMapping mapping = new TLAtoPCalMapping() ;
 	        mapping.algColumn = algCol;
 	        mapping.algLine = algLine;
-	        PcalParams.tlaPcalMapping = mapping;
+	        pcalParams.tlaPcalMapping = mapping;
 			
-			AST ast = new AST();
+			AST ast = new AST(pcalParams);
 			try {
 				final PcalCharReader reader = new PcalCharReader(deTabbedSpecification, algLine, algCol,
 						specificationText.size(), 0);
-
-				final ParseAlgorithm parseAlgorithm = new ParseAlgorithm();
 
 				ast = parseAlgorithm.getAlgorithm(reader, foundFairBegin);
 				

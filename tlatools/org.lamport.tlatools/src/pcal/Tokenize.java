@@ -406,12 +406,12 @@ import tla2tex.Symbol;
 import tla2tex.Token;
 
 public class Tokenize
-  { private static final int MODULE = 1 ;
-    private static final int TLA =    2 ;
+  { private final int MODULE = 1 ;
+    private final int TLA =    2 ;
 
-    public static String Delimiter ;
-    public static int DelimiterLine ;
-    public static int DelimiterCol ;
+    public String Delimiter ;
+    public int DelimiterLine ;
+    public int DelimiterCol ;
       /*********************************************************************
       * Upon return, this equals the token following the expression.       *
       *********************************************************************/
@@ -429,22 +429,22 @@ public class Tokenize
     * variables so they can be accessed in procedures used by              *
     * TokenizedSpec (which are defined as private class methods).          *
     *                                                                      *
-    * Note: This use of static fields makes the class totally thread       *
+    * Note: This use of fields makes the class totally thread       *
     * unsafe.                                                              *
     ***********************************************************************/
-    private static Vector<Vector<TLAToken>> vspec = null ;
+    private Vector<Vector<TLAToken>> vspec = null ;
           /*****************************************************************
           * vspec is a vector of vectors in which the TokenizedSpec is     *
           * constructed.  At the end, it is turned into an array.          *
           *****************************************************************/
 
-    private static Vector<TLAToken> linev = new Vector<>(30, 30) ;
+    private Vector<TLAToken> linev = new Vector<>(30, 30) ;
           /*****************************************************************
           * Vector linev contains the tokens found so far on the current   *
           * line.                                                          *
           *****************************************************************/
 
-    private static char nextChar ;
+    private char nextChar ;
           /*****************************************************************
           * nextChar is the next input character to be processed.          *
           *****************************************************************/
@@ -456,15 +456,15 @@ public class Tokenize
      * reader.getLineNumber will have been incremented before TokenOut
      * is called.
      */
-    private static int getLineCorrection = 0 ;
+    private int getLineCorrection = 0 ;
     
-    private static String token  = "" ;
-    private static String token1 = "" ;
-    private static String token2 = "" ;
-    private static String token3 = "" ;
-    private static int    col1   = 0 ;
-    private static int    col2   = 0 ;
-    private static int    col3   = 0 ;
+    private String token  = "" ;
+    private String token1 = "" ;
+    private String token2 = "" ;
+    private String token3 = "" ;
+    private int    col1   = 0 ;
+    private int    col2   = 0 ;
+    private int    col3   = 0 ;
           /*****************************************************************
           * token is the string containing the part of the token found so  *
           * far.                                                           *
@@ -473,14 +473,14 @@ public class Tokenize
           * previous value of token.                                       *
           *****************************************************************/
 
-    private static int parenDepth = 0;
+    private int parenDepth = 0;
       /*********************************************************************
       * The current parenthesis nesting depth, where a parenthesis is      *
       * defined as a token of type BUILTIN whose corresponding Symbol      *
       * object has symbolType Symbol.LEFT_PAREN or Symbol.RIGHT_PAREN.     *
       *********************************************************************/
 
-    private static boolean inQuantifier = false;
+    private boolean inQuantifier = false;
       /*********************************************************************
       * Set true if a `\A' or `\E' is found when parenDepth = 0, and set   *
       * false when a `:' is found with parenDepth = 0.  A comma does not   *
@@ -490,18 +490,18 @@ public class Tokenize
       * found with parenDepth > 0 does not terminate the expression.)      *
       *********************************************************************/
       
-    private static int cdepth = 0 ;
+    private int cdepth = 0 ;
           /*****************************************************************
           * The nesting depth within "(*" ... "*)" comments.               *
           *****************************************************************/
 
-    private static int mdepth = 0 ;
+    private int mdepth = 0 ;
           /*****************************************************************
           * The module nesting depth.                                      *
           *****************************************************************/
 
-    private static int col ;
-    private static int ncol = 0;
+    private int col ;
+    private int ncol = 0;
           /*****************************************************************
           * col is the column from which the first character of token      *
           * came.                                                          *
@@ -510,7 +510,7 @@ public class Tokenize
           *****************************************************************/
 
 /************* made public for DEBUGGING  ****************/
-    public static PcalCharReader reader ;
+    public PcalCharReader reader ;
       /*********************************************************************
       * This is the "exposed" version of the CharReader argument to the    *
       * TokenizedSpec constructor, exposed so it can be used by the        *
@@ -520,48 +520,48 @@ public class Tokenize
     /***********************************************************************
     * Here are all the states for the tokenizing algorithm.                *
     ***********************************************************************/
-      private static final int PROLOG             = 1 ;
-      private static final int PROLOG_DASH        = 2 ;
-      private static final int PROLOG_DASHES      = 3 ;
-      private static final int PROLOG_SPACES      = 4 ;
-      private static final int PROLOG_ID          = 5 ;
-      private static final int START              = 6 ;
-      private static final int ID                 = 7 ;
-      private static final int NUM_OR_ID          = 8 ;
-      private static final int BS                 = 9 ;
-      private static final int NUM                = 10 ;
-      private static final int NUM_OR_BI          = 11 ;
-      private static final int BSBUILT_IN         = 12 ;
-      private static final int BUILT_IN           = 13 ;
-      private static final int DASH1              = 14 ;
-      private static final int DASH2              = 15 ;
-      private static final int DASH3              = 16 ;
-      private static final int DASHES             = 17 ;
-      private static final int EQ1                = 18 ;
-      private static final int EQ2                = 19 ;
-      private static final int EQ3                = 20 ;
-      private static final int EQS                = 21 ;
-      private static final int LEFT_PAREN         = 22 ;
-      private static final int STRING             = 23 ;
-      private static final int ESC_STRING         = 24 ;
-      private static final int LINE_COMMENT       = 25 ;
-      private static final int LINE_COM_PAREN     = 26 ;
-      private static final int LINE_COM_STAR      = 27 ;
-      private static final int COMMENT            = 28 ;
-      private static final int COMMENT_STAR       = 29 ;
-      private static final int COMMENT_PAREN      = 30 ;
-      private static final int OR_COMMENT         = 31 ;
-      private static final int OR_COMMENT_PAREN   = 32 ;
-      private static final int OR_COMMENT_STAR    = 33 ;
-      private static final int EPILOG             = 34 ;
-      private static final int DONE               = 35 ;
+      private final int PROLOG             = 1 ;
+      private final int PROLOG_DASH        = 2 ;
+      private final int PROLOG_DASHES      = 3 ;
+      private final int PROLOG_SPACES      = 4 ;
+      private final int PROLOG_ID          = 5 ;
+      private final int START              = 6 ;
+      private final int ID                 = 7 ;
+      private final int NUM_OR_ID          = 8 ;
+      private final int BS                 = 9 ;
+      private final int NUM                = 10 ;
+      private final int NUM_OR_BI          = 11 ;
+      private final int BSBUILT_IN         = 12 ;
+      private final int BUILT_IN           = 13 ;
+      private final int DASH1              = 14 ;
+      private final int DASH2              = 15 ;
+      private final int DASH3              = 16 ;
+      private final int DASHES             = 17 ;
+      private final int EQ1                = 18 ;
+      private final int EQ2                = 19 ;
+      private final int EQ3                = 20 ;
+      private final int EQS                = 21 ;
+      private final int LEFT_PAREN         = 22 ;
+      private final int STRING             = 23 ;
+      private final int ESC_STRING         = 24 ;
+      private final int LINE_COMMENT       = 25 ;
+      private final int LINE_COM_PAREN     = 26 ;
+      private final int LINE_COM_STAR      = 27 ;
+      private final int COMMENT            = 28 ;
+      private final int COMMENT_STAR       = 29 ;
+      private final int COMMENT_PAREN      = 30 ;
+      private final int OR_COMMENT         = 31 ;
+      private final int OR_COMMENT_PAREN   = 32 ;
+      private final int OR_COMMENT_STAR    = 33 ;
+      private final int EPILOG             = 34 ;
+      private final int DONE               = 35 ;
       
-    private static int state = 0 ;
+    private int state = 0 ;
       /*********************************************************************
       * The state in the tokenizing algorithm.                             *
       *********************************************************************/
 
-    private static boolean exprEnd = false;
+    private boolean exprEnd = false;
       /*********************************************************************
       * Set true when at the end of the expression.                        *
       *********************************************************************/
@@ -571,8 +571,9 @@ public class Tokenize
     * TokenizedSpec constructor.                                           *
     ***********************************************************************/
 
+    public Tokenize(){}
 
-    private static void skipNextChar()
+    private void skipNextChar()
       /*********************************************************************
       * Sets nextChar to the next character in the input stream, and sets  *
       * ncol to its column.                                                *
@@ -588,7 +589,7 @@ public class Tokenize
         }
       }
 
-      private static void addNextChar()
+      private void addNextChar()
       /*********************************************************************
       * Appends nextChar to token, sets nextChar to the next character in  *
       * the input stream, and sets ncol to its column.                     *
@@ -597,7 +598,7 @@ public class Tokenize
         skipNextChar() ;
       }
 
-      private static void gotoStart()
+      private void gotoStart()
       /*********************************************************************
       * Set the state to START. Since this means that we are at or before  *
       * the beginning of the next token, we set col equal to ncol.         *
@@ -606,7 +607,7 @@ public class Tokenize
         col = ncol ;
       }
 
-    private static boolean parseExpression = true ;
+    private boolean parseExpression = true ;
       /*********************************************************************
       * The Tokenize method sets this value to its isExpr argument so the  *
       * TokenOut method can use it.  (Doing it the right way and making    *
@@ -614,7 +615,7 @@ public class Tokenize
       * calls of TokenOut.)                                                *
       *********************************************************************/
 
-    private static String prevToken = " " ;
+    private String prevToken = " " ;
       /*********************************************************************
       * Used by TokenOut to remember the previous token for figuring out   *
       * whether the current token is a record-field name rather than an    *
@@ -625,7 +626,7 @@ public class Tokenize
      * @throws TokenizerException *
       *********************************************************************/
       
-    private static void TokenOut(final int type) throws TokenizerException
+    private void TokenOut(final int type) throws TokenizerException
       /*********************************************************************
       * If parseExpression is true, then add the token to linev and reset  *
       * token to the empty string unless it is the token following the     *
@@ -780,7 +781,7 @@ public class Tokenize
           }
       }
 
-    private static boolean IsDelimiter(final String tok)
+    private boolean IsDelimiter(final String tok)
       /*********************************************************************
       * True iff tok is a token that does not belong to the expression,    *
       * and hence must be the next token after the expression.             *
@@ -817,7 +818,7 @@ public class Tokenize
                ) ;
       }
 
-    private static void CommentTokenOut()
+    private void CommentTokenOut()
       /*********************************************************************
       * Add the token to linev and reset token to the empty string.        *
       *                                                                    *
@@ -828,7 +829,7 @@ public class Tokenize
       { token = "" ;
       }
 
-    private static void startNewLine()
+    private void startNewLine()
       /*********************************************************************
       * Append linev to vspec and reset linev.  This should be called      *
       * whenever a \n character is removed from the input stream.          *
@@ -838,7 +839,7 @@ public class Tokenize
         col = 0 ;
       }
 
-    private static void TokenizingError(final String msg) throws TokenizerException
+    private void TokenizingError(final String msg) throws TokenizerException
       { throw new TokenizerException(
            msg + " `" + token + "' found at\n" + 
           "    line " + (reader.getLineNumber() + 1) + ", column " + 
@@ -846,15 +847,15 @@ public class Tokenize
       }
 
 
-    public static TLAExpr TokenizeExpr(final PcalCharReader charReader) throws TokenizerException
+    public TLAExpr TokenizeExpr(final PcalCharReader charReader) throws TokenizerException
       { final TLAExpr exp = InnerTokenize(charReader, true) ;
         return exp ; }
 
-    public static String GetAlgorithmToken(final PcalCharReader charReader) throws TokenizerException
+    public String GetAlgorithmToken(final PcalCharReader charReader) throws TokenizerException
       { @SuppressWarnings("unused") final TLAExpr exp = InnerTokenize(charReader, false) ;
         return Delimiter ; }
 
-    public static TLAExpr InnerTokenize(final PcalCharReader charReader,
+    public TLAExpr InnerTokenize(final PcalCharReader charReader,
                                         final boolean isExpr) throws TokenizerException
       /*********************************************************************
       * Tokenize the input from the CharReader.  If isExpr is true, then   *

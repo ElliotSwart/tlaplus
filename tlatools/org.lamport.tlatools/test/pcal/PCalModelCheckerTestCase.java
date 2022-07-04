@@ -71,12 +71,14 @@ public abstract class PCalModelCheckerTestCase extends ModelCheckerTestCase {
 		// the previous tests.
 		ToolIO.reset();
 		
-		this.pcalArgs.add(CommonTestCase.BASE_PATH + File.separator + path + File.separator + spec
+		this.pcalArgs.add(CommonTestCase.BASE_PATH + path + File.separator + spec
 				+ TLAConstants.Files.TLA_EXTENSION);
-		
+
+		var t = new trans();
+
 		// Run PCal translator
-		assertEquals(0, trans.runMe(pcalArgs.toArray(new String[pcalArgs.size()])));
-		assertNotNull(PcalParams.tlaPcalMapping); // successfully translated PCal to TLA+
+		assertEquals(0, t.runMe(pcalArgs.toArray(new String[pcalArgs.size()])));
+		assertNotNull(t.pcalParams.tlaPcalMapping); // successfully translated PCal to TLA+
 		
 		final String[] messages = ToolIO.getAllMessages();
 		assertTrue(Arrays.toString(messages), messages.length == 4 || messages.length == 5);

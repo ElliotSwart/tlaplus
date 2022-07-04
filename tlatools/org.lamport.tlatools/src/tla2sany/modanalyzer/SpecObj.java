@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.*;
 
 import pcal.ParseAlgorithm;
+import pcal.PcalParams;
+import pcal.TLAtoPCalMapping;
 import pcal.Validator;
 import pcal.Validator.ValidationResult;
 import tla2sany.semantic.AbortException;
@@ -136,7 +138,9 @@ public class SpecObj
         }
         this.primaryFileName = pfn;
         this.resolver = ntfis;
-        this.parseAlgorithm = new ParseAlgorithm();
+        final PcalParams pcalParams = new PcalParams();
+        pcalParams.tlaPcalMapping = new TLAtoPCalMapping();
+        this.parseAlgorithm = new ParseAlgorithm(pcalParams);
         this.validator = new Validator(parseAlgorithm);
     }
 

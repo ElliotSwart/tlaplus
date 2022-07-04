@@ -20,9 +20,10 @@ public class CallGotoUnlabeledTest extends PCalTest {
 		ToolIO.setMode(ToolIO.TOOL);
 		
 		final String fileName = "CallGotoUnlabeledTest.tla";
-		
-		assertEquals(0, trans.runMe(new String[] {"-nocfg", "-unixEOL", "-reportLabels", CommonTestCase.BASE_PATH + fileName}));
-		final TLAtoPCalMapping mapping = PcalParams.tlaPcalMapping;
+		var t = new trans();
+
+		assertEquals(0, t.runMe(new String[] {"-nocfg", "-unixEOL", "-reportLabels", CommonTestCase.BASE_PATH + fileName}));
+		final TLAtoPCalMapping mapping = t.pcalParams.tlaPcalMapping;
 		assertNotNull(mapping);
 		
 		final String[] messages = ToolIO.getAllMessages();

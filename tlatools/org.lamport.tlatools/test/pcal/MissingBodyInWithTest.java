@@ -13,7 +13,7 @@ public class MissingBodyInWithTest extends PCalTest {
 	@Test
 	public void test() {
 		assertEquals(trans.STATUS_EXIT_WITH_ERRORS,
-				trans.runMe(new String[] { "-nocfg", CommonTestCase.BASE_PATH + "MissingBodyInWith.tla" }));
+				new trans().runMe(new String[] { "-nocfg", CommonTestCase.BASE_PATH + "MissingBodyInWith.tla" }));
 		
 		final String[] messages = ToolIO.getAllMessages();
 		assertTrue(messages.length == 1);

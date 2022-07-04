@@ -91,11 +91,13 @@ class Test
       /*********************************************************************
       * Makes the assignment statement id := exp.                          *
       *********************************************************************/
-      { final AST.SingleAssign sAss = new AST.SingleAssign() ;
+      {
+        PcalParams pcalParams = new PcalParams();
+        final AST.SingleAssign sAss = new AST.SingleAssign(pcalParams) ;
         sAss.lhs.var = id ;
         sAss.lhs.sub = MakeExpr(new Vector<>()) ;
         sAss.rhs = exp ;
-        final AST.Assign result = new AST.Assign() ;
+        final AST.Assign result = new AST.Assign(pcalParams) ;
         result.ass = Singleton(sAss) ;
         return result ;
       }

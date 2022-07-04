@@ -44,15 +44,18 @@ public class Translator
 
     private final String input;
     private final ParseAlgorithm parseAlgorithm;
+	private final PcalParams pcalParams;
 
     public Translator(final String anInput, ParseAlgorithm parseAlgorithm, final String[] args) {
 		this.input = anInput;
 		ToolIO.reset();
 		ToolIO.setMode(ToolIO.TOOL);
-		PcalParams.resetParams();
-		PcalParams.tlaPcalMapping = new TLAtoPCalMapping();
-		trans.parseAndProcessArguments(args);
+
+
 		this.parseAlgorithm = parseAlgorithm;
+		this.pcalParams = parseAlgorithm.pcalParams;
+
+		trans.parseAndProcessArguments(this.pcalParams, args);
     }
     
     public Translator(final String anInput, ParseAlgorithm parseAlgorithm, final List<String> args) {
@@ -71,7 +74,7 @@ public class Translator
 		final String[] lines = input.split("\\r?\\n");
 		final List<String> in = Arrays.asList(lines);
 		
-		final List<String> out = trans.performTranslation(in, cb, this.parseAlgorithm);
+		final List<String> out = trans.performTranslation(in, this.parseAlgorithm, cb);
 		if (out != null) {
 			final StringBuilder buf = new StringBuilder();
 			final String lineSeparator = System.getProperty("line.separator");
@@ -84,7 +87,7 @@ public class Translator
 			output = buf.toString();
 		}
 		
-		return output != null && PcalParams.tlaPcalMapping != null;
+		return output != null && pcalParams.tlaPcalMapping != null;
 	}
 	
 	public String getOutput() {
@@ -96,7 +99,7 @@ public class Translator
 	}
 	
 	public TLAtoPCalMapping getMapping() {
-		return PcalParams.tlaPcalMapping;
+		return pcalParams.tlaPcalMapping;
 	}
 
     /**

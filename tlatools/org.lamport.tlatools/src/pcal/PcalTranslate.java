@@ -51,9 +51,11 @@ public class PcalTranslate {
     private String currentProcedure;
 
     private final ParseAlgorithm parseAlgorithm;
-
+    private final PcalParams pcalParams;
     public PcalTranslate(final ParseAlgorithm parseAlgorithm){
+
         this.parseAlgorithm = parseAlgorithm;
+        this.pcalParams = parseAlgorithm.pcalParams;
     }
 
     /*************************************************************************
@@ -247,17 +249,17 @@ public class PcalTranslate {
         }
     }
 
-    public static AST.Assign MakeAssign(final String id, final TLAExpr exp) {
+    public AST.Assign MakeAssign(final String id, final TLAExpr exp) {
         /*********************************************************************
          * Makes the assignment statement id := exp.                         *
          *                                                                   *
          * It is called only by UpdatePC, with id = "pc".                    *
          *********************************************************************/
-        final AST.SingleAssign sAss = new AST.SingleAssign() ;
+        final AST.SingleAssign sAss = new AST.SingleAssign(pcalParams) ;
         sAss.lhs.var = id ;
         sAss.lhs.sub = MakeExpr(new Vector<>()) ;
         sAss.rhs = exp ;
-        final AST.Assign result = new AST.Assign() ;
+        final AST.Assign result = new AST.Assign(pcalParams) ;
         result.ass = Singleton(sAss) ;
         return result ;
       }
@@ -284,11 +286,11 @@ public class PcalTranslate {
         else return false;
     }
 
-    private static AST.When CheckPC (final String label) {
+    private AST.When CheckPC (final String label) {
         /*********************************************************************
         * Generate when pc = label ;                                         *
         *********************************************************************/
-        final AST.When checkPC = new AST.When();
+        final AST.When checkPC = new AST.When(pcalParams);
         final Vector<TLAToken> toks = new Vector<>();
         toks.addElement(AddedToken("pc"));
         toks.addElement(BuiltInToken("="));
@@ -332,7 +334,7 @@ public class PcalTranslate {
         * Generate new AST.Uniprocess that has exploded labeled statements.  *
         *********************************************************************/
         int i = 0;
-        final AST.Uniprocess newast = new AST.Uniprocess();
+        final AST.Uniprocess newast = new AST.Uniprocess(pcalParams);
         newast.col = ast.col;
         newast.line = ast.line;
         newast.name = ast.name;
@@ -373,7 +375,7 @@ public class PcalTranslate {
         * Generate new AST.Multiprocess with exploded labeled statements.    *
         *********************************************************************/
         int i = 0;
-        final AST.Multiprocess newast = new AST.Multiprocess();
+        final AST.Multiprocess newast = new AST.Multiprocess(pcalParams);
         newast.col = ast.col;
         newast.line = ast.line;
         newast.name = ast.name;
@@ -399,7 +401,7 @@ public class PcalTranslate {
         * Generate new AST.Procedure with exploded labeled statements.       *
         *********************************************************************/
         int i = 0;
-        final AST.Procedure newast = new AST.Procedure();
+        final AST.Procedure newast = new AST.Procedure(pcalParams);
         newast.setOrigin(ast.getOrigin()) ;
         newast.col = ast.col;
         newast.line = ast.line;
@@ -431,7 +433,7 @@ public class PcalTranslate {
         * Generate new AST.Process with exploded labeled statements.         *
         *********************************************************************/
         int i = 0;
-        final AST.Process newast = new AST.Process();
+        final AST.Process newast = new AST.Process(pcalParams);
         newast.setOrigin(ast.getOrigin()) ;
         newast.col = ast.col;
         newast.line = ast.line;
@@ -656,7 +658,7 @@ public class PcalTranslate {
             ast.stmts.elementAt(0) instanceof AST.While) {
             return ExplodeWhile(ast, next);
         }
-        final AST.LabeledStmt newast = new AST.LabeledStmt();
+        final AST.LabeledStmt newast = new AST.LabeledStmt(pcalParams);
         final Vector<Object> pair =
                 CopyAndExplodeLastStmtWithGoto((Vector) ast.stmts.clone(), 
                                                next);
@@ -729,7 +731,7 @@ public class PcalTranslate {
         final Vector<LabeledStmt> result = new Vector<>();
         final AST.While w = (AST.While) ast.stmts.elementAt(0);
 
-        final AST.LabeledStmt newast = new AST.LabeledStmt();
+        final AST.LabeledStmt newast = new AST.LabeledStmt(pcalParams);
         /*
          * We set the origin of the new LabeledStatement to that of
          * ast, if there is a statement that follows the While.  Otherwise,
@@ -780,7 +782,7 @@ public class PcalTranslate {
         if (IsTRUE(w.test)) // Optimized translation of while TRUE do
             newast.stmts.addAll((Vector) pair1.elementAt(0));
         else {
-            final AST.If ifS = new AST.If();
+            final AST.If ifS = new AST.If(pcalParams);
             ifS.test = w.test;
             ifS.Then = (Vector) pair1.elementAt(0);
             ifS.Else = (Vector) pair2.elementAt(0);
@@ -832,7 +834,7 @@ public class PcalTranslate {
         int i = 0;
         final Vector<If> result1 = new Vector<>(); /* If for unlabeled statements */
         final Vector<LabeledStmt> result2 = new Vector<>(); /* the labeled statements */
-        final AST.If newif = new AST.If();
+        final AST.If newif = new AST.If(pcalParams);
         AST.LabeledStmt firstThen = (ast.labThen.size() > 0)
             ? (AST.LabeledStmt) ast.labThen.elementAt(0) : null;
         AST.LabeledStmt firstElse = (ast.labElse.size() > 0)
@@ -912,7 +914,7 @@ public class PcalTranslate {
         *******************************************************************/
         final Vector<Either> result1 = new Vector<>(); /* For the Either object.           */
         final Vector<LabeledStmt> result2 = new Vector<>(); /* The internal labeled statements. */
-        final AST.Either newEither = new AST.Either();
+        final AST.Either newEither = new AST.Either(pcalParams);
 
         /* Construct Either object */
         newEither.col = ast.col;
@@ -975,11 +977,11 @@ public class PcalTranslate {
         *   for each procedure variable v of ast.to v |-> v                *
         *   for each parameter p of ast.to p |-> p                         *
         *******************************************************************/
-        AST.Assign ass = new AST.Assign();
+        AST.Assign ass = new AST.Assign(pcalParams);
         ass.ass = new Vector<>();
         ass.line = ast.line ;
         ass.col  = ast.col ;
-        AST.SingleAssign sass = new AST.SingleAssign();
+        AST.SingleAssign sass = new AST.SingleAssign(pcalParams);
         sass.line = ast.line ;
         sass.col  = ast.col ;
         sass.lhs.var = "stack";
@@ -1057,7 +1059,7 @@ public class PcalTranslate {
             if (i == pe.params.size() - 1) {
                 endLoc = decl.getOrigin().getEnd();
             }
-            sass = new AST.SingleAssign();
+            sass = new AST.SingleAssign(pcalParams);
             sass.line = ast.line ;
             sass.col  = ast.col ;
             sass.setOrigin(decl.getOrigin()) ;
@@ -1076,13 +1078,13 @@ public class PcalTranslate {
         *   v := initial value                                             *
         *******************************************************************/
         for (int i = 0; i < pe.decls.size(); i++) {
-            ass = new AST.Assign();
+            ass = new AST.Assign(pcalParams);
             ass.ass = new Vector<>() ;
             ass.line = ast.line ;
             ass.col  = ast.col ;
             final AST.PVarDecl decl =
                     pe.decls.elementAt(i);
-            sass = new AST.SingleAssign();
+            sass = new AST.SingleAssign(pcalParams);
             sass.line = ast.line ;
             sass.col  = ast.col ;
             sass.setOrigin(decl.getOrigin()) ;
@@ -1147,10 +1149,10 @@ public class PcalTranslate {
          *   for each procedure variable v of ast.from v := h.v  *
          *   for each parameter p of ast.from p := h.p           *
          *********************************************************/
-        AST.Assign ass = new AST.Assign();
+        AST.Assign ass = new AST.Assign(pcalParams);
         ass.line = ast.line ;
         ass.col  = ast.col ;
-        AST.SingleAssign sass = new AST.SingleAssign();
+        AST.SingleAssign sass = new AST.SingleAssign(pcalParams);
         sass.line = ast.line ;
         sass.col  = ast.col ;
         TLAExpr expr = new TLAExpr();
@@ -1170,10 +1172,10 @@ public class PcalTranslate {
         for (int i = 0; i < pe.decls.size(); i++) {
             final AST.PVarDecl decl =
                     pe.decls.elementAt(i);
-            ass = new AST.Assign();
+            ass = new AST.Assign(pcalParams);
             ass.line = ast.line ;
             ass.col  = ast.col ;
-            sass = new AST.SingleAssign();
+            sass = new AST.SingleAssign(pcalParams);
             sass.line = ast.line ;
             sass.col  = ast.col ;
             expr = new TLAExpr();
@@ -1200,10 +1202,10 @@ public class PcalTranslate {
         for (int i = 0; i < pe.params.size(); i++) {
             final AST.PVarDecl decl =
                     pe.params.elementAt(i);
-            ass = new AST.Assign();
+            ass = new AST.Assign(pcalParams);
             ass.line = ast.line ;
             ass.col  = ast.col ;
-            sass = new AST.SingleAssign();
+            sass = new AST.SingleAssign(pcalParams);
             sass.line = ast.line ;
             sass.col  = ast.col ;
             /** For assignments that restore procedure parameter values, there's no
@@ -1230,10 +1232,10 @@ public class PcalTranslate {
         /*********************************************************
          * stack := Tail(stack)                                  *
          *********************************************************/
-        ass = new AST.Assign();
+        ass = new AST.Assign(pcalParams);
         ass.line = ast.line ;
         ass.col  = ast.col ;
-        sass = new AST.SingleAssign();
+        sass = new AST.SingleAssign(pcalParams);
         sass.setOrigin(ast.getOrigin()) ;
         ass.setOrigin(ast.getOrigin()) ;
         sass.line = ast.line ;
@@ -1294,7 +1296,7 @@ public class PcalTranslate {
         final PcalSymTab.ProcedureEntry peTo =
             st.procs.elementAt(to);
         PcalDebug.Assert(from < st.procs.size());
-        AST.Assign ass = new AST.Assign();
+        AST.Assign ass = new AST.Assign(pcalParams);
         ass.ass = new Vector<>();
         ass.line = ast.line ;
         ass.col  = ast.col ;
@@ -1315,7 +1317,7 @@ public class PcalTranslate {
             for (int i = 0; i < peFrom.decls.size(); i++) {
                 final AST.PVarDecl decl =
                         peFrom.decls.elementAt(i);
-                sass = new AST.SingleAssign();
+                sass = new AST.SingleAssign(pcalParams);
                 sass.line = ast.line ;
                 sass.col  = ast.col ;
                 expr = new TLAExpr();
@@ -1339,7 +1341,7 @@ public class PcalTranslate {
              *   for each procedure variable v of ast.to v |-> v    *
              *   for each parameter variable p of ast.to p |-> p    *
              ********************************************************/
-            sass = new AST.SingleAssign();
+            sass = new AST.SingleAssign(pcalParams);
             sass.line = ast.line ;
             sass.col  = ast.col ;
             sass.lhs.var = "stack";
@@ -1419,7 +1421,7 @@ public class PcalTranslate {
             if (i == peTo.params.size() - 1) {
                 endLoc = decl.getOrigin().getEnd();
             }
-            sass = new AST.SingleAssign();
+            sass = new AST.SingleAssign(pcalParams);
             sass.line = ast.line ;
             sass.col  = ast.col ;
             sass.lhs.var = decl.var;
@@ -1437,13 +1439,13 @@ public class PcalTranslate {
         *   v := initial value                                             *
         *******************************************************************/
         for (int i = 0; i < peTo.decls.size(); i++) {
-            ass = new AST.Assign();
+            ass = new AST.Assign(pcalParams);
             ass.line = ast.line ;
             ass.col  = ast.col ;
             ass.ass = new Vector<>() ;
             final AST.PVarDecl decl =
                     peTo.decls.elementAt(i);
-            sass = new AST.SingleAssign();
+            sass = new AST.SingleAssign(pcalParams);
             sass.line = ast.line ;
             sass.col  = ast.col ;
             sass.setOrigin(decl.getOrigin()) ;
@@ -1466,7 +1468,7 @@ public class PcalTranslate {
     * goto.                                                                *
     ***********************************************************************/
     private Vector<AST.Assign> ExplodeCallGoto(final AST.CallGoto ast, final String next) throws PcalTranslateException {
-      final AST.Call call = new AST.Call();
+      final AST.Call call = new AST.Call(pcalParams);
       call.to = ast.to;
       call.args = ast.args;
       call.line = ast.line;

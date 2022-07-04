@@ -132,7 +132,8 @@ public class OptionalSemicolonTest extends PCalTest {
 	}
 
 	private void test(final String filename, final String absolutePath) {
-		assertEquals(trans.STATUS_EXIT_WITHOUT_ERROR, trans.runMe(new String[] { "-nocfg", absolutePath }));
+		var t = new trans();
+		assertEquals(trans.STATUS_EXIT_WITHOUT_ERROR, t.runMe(new String[] { "-nocfg", absolutePath }));
 
 		// Parse with SANY and check for errors (collects parse errors into ToolIO.out)
 		final TestPrintStream testPrintStream = new TestPrintStream();

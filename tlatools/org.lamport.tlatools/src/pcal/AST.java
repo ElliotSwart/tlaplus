@@ -157,7 +157,7 @@ public class AST
         public Vector<Macro>  macros = null ; // of Macro
         public Vector<AST.Procedure>  prcds  = null ; // of Procedure
         public Vector<AST>  body   = null ; // of LabeledStmt
-        public Uniprocess() {}
+        public Uniprocess(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return
@@ -189,6 +189,11 @@ public class AST
           }
       }
 
+    final PcalParams pcalParams;
+    public AST(final PcalParams pcalParams){
+        this.pcalParams = pcalParams;
+    }
+
     public static class Multiprocess extends AST
       { public String  name   = "" ;
         public Vector<AST.VarDecl>  decls  = null ; // of VarDecl 
@@ -196,7 +201,7 @@ public class AST
         public Vector<Macro>  macros = null ; // of Macro
         public Vector<AST.Procedure>  prcds  = null ; // of Procedure
         public Vector<AST.Process>  procs  = null ; // of Process
-        public Multiprocess() {}
+        public Multiprocess(final PcalParams pcalParams) {super(pcalParams);}
 
           public String  toString()
           { return
@@ -258,14 +263,14 @@ public class AST
         public Vector<AST.PVarDecl> params = null ; // of PVarDecl
         public Vector<AST.PVarDecl> decls  = null ; // of PVarDecl 
         public Vector<AST> body   = null ; // of LabeledStmt
-        public Procedure() {}
+        public Procedure(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { 
             // For versions earlier than 1.5 need to return those versions'
             // value since toString() is used to generate the AST module
             // used when TLC is doing the translation.
-            if (PcalParams.inputVersionNumber < PcalParams.VersionToNumber("1.5")){
+            if (pcalParams.inputVersionNumber < PcalParams.VersionToNumber("1.5")){
               return
                 Indent(lineCol()) +
                   "[name   |-> \"" + name + "\", " + NewLine() +
@@ -328,14 +333,14 @@ public class AST
         public TLAExpr   id    = null ;
         public Vector<AST.VarDecl>    decls = null ; // of VarDecl
         public Vector<AST>    body  = null ; // of LabeledStmt
-        public Process() { }
+        public Process(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { 
             // For versions earlier than 1.5 need to return those versions'
             // value since toString() is used to generate the AST module
             // used when TLC is doing the translation.
-            if (PcalParams.inputVersionNumber < PcalParams.VersionToNumber("1.5")){
+            if (pcalParams.inputVersionNumber < PcalParams.VersionToNumber("1.5")){
               return
                Indent(lineCol()) +
                  "[name   |-> \"" + name + "\", " + NewLine() +
@@ -376,7 +381,7 @@ public class AST
       { public String    var  = null ;
         public boolean   isEq = true ; // true means "=", false means "\\in"
         public TLAExpr   val  = PcalParams.DefaultVarInit();
-        public VarDecl() {}
+        public VarDecl(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -392,7 +397,7 @@ public class AST
       { public final boolean isEq = true    ;  // true means "="
         public String        var  = null ;
         public TLAExpr       val  = PcalParams.DefaultVarInit();
-        public PVarDecl() {}
+        public PVarDecl(final PcalParams pcalParams) {super(pcalParams);}
 
           /**
          * Converts the PVarDecl object to an equivalent VarDecl
@@ -401,7 +406,7 @@ public class AST
          * @return
          */
         public VarDecl toVarDecl() {
-            final VarDecl result = new VarDecl() ;
+            final VarDecl result = new VarDecl(pcalParams) ;
             result.var = this.var ;
             result.val = this.val ;
             result.setOrigin(this.getOrigin());
@@ -426,7 +431,7 @@ public class AST
           * An optional While prepended to a LabelSeq.                     *
           *****************************************************************/
 
-        public LabeledStmt() { }
+        public LabeledStmt(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           {return 
@@ -444,7 +449,7 @@ public class AST
       { public TLAExpr   test    = null ;
         public Vector<AST>    unlabDo = null ; // a LabelSeq
         public Vector<AST>    labDo   = null ; // of LabeledStmt 
-        public While() { }
+        public While(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -465,7 +470,7 @@ public class AST
 
     public static class Assign extends AST
       { public Vector<AST.SingleAssign>    ass  = null ; // of SingleAssign
-        public Assign() { }
+        public Assign(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -479,9 +484,9 @@ public class AST
       }
 
     public static class SingleAssign extends AST
-      { public Lhs       lhs  = new Lhs() ; 
+      { public Lhs       lhs  = new Lhs(pcalParams) ;
         public TLAExpr   rhs  = null ; 
-        public SingleAssign() { }
+        public SingleAssign(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -499,7 +504,7 @@ public class AST
       *********************************************************************/
       { public String    var  = "" ;
         public TLAExpr   sub  = null ; 
-        public Lhs() { }
+        public Lhs(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return lineCol() + 
@@ -555,7 +560,7 @@ public class AST
             this.source = source;
         }
 
-        public If() { }
+        public If(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -573,7 +578,7 @@ public class AST
 
     public static class Either extends AST
       { public Vector<Object> ors = null ; // of Seq(SimpleStmt)
-        public Either() { }
+        public Either(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -593,7 +598,7 @@ public class AST
           /*****************************************************************
           * Can't use "do" because that's a Java keyword.                  *
           *****************************************************************/
-        public With() { }
+        public With(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return
@@ -610,7 +615,7 @@ public class AST
 
     public static class When extends AST
       { public TLAExpr   exp  = null ;
-        public When() {}
+        public When(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -623,7 +628,7 @@ public class AST
 
     public static class PrintS extends AST
       { public TLAExpr   exp  = null ;
-        public PrintS() { }
+        public PrintS(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -636,7 +641,7 @@ public class AST
 
     public static class Assert extends AST
       { public TLAExpr   exp  = null ;
-        public Assert() {}
+        public Assert(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -649,7 +654,7 @@ public class AST
 
     public static class Skip extends AST
       { 
-        public Skip() {}
+        public Skip(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return lineCol() + "[type |-> \"skip\"]";
@@ -670,7 +675,7 @@ public class AST
         public Vector<AST>    labThen   = null ; // of LabeledStmt 
         public Vector<AST>    unlabElse = null ; // a LabelSeq
         public Vector<AST>    labElse   = null ; // of LabeledStmt 
-        public LabelIf() { }
+        public LabelIf(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -695,7 +700,7 @@ public class AST
 
     public static class LabelEither extends AST
       { public Vector<AST.Clause>    clauses = null ; // of Clause
-        public LabelEither() { }
+        public LabelEither(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -712,8 +717,7 @@ public class AST
       { public Vector<AST>    unlabOr = null ; // a LabelSeq
         public Vector<AST>    labOr   = null ; // LabeledStmt
 
-        public Clause() {   
-        }
+        public Clause(final PcalParams pcalParams) {super(pcalParams);}
         
         /**
          * The broken field is true iff the Clause object came from
@@ -746,7 +750,7 @@ public class AST
       { public String    returnTo = "" ;
         public String    to       = "" ;
         public Vector<TLAExpr>    args     = null ; // of TLAExpr
-        public Call() {}
+        public Call(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -762,7 +766,7 @@ public class AST
 
     public static class Return extends AST
       { public String    from = "" ;
-        public Return() {}
+        public Return(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -782,7 +786,7 @@ public class AST
       { public String    from = "" ;
         public String    to       = "" ;
         public Vector<TLAExpr>    args     = null ; // of TLAExpr
-        public CallReturn() { }
+        public CallReturn(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -801,7 +805,7 @@ public class AST
       { public String    after = "" ;
         public String    to       = "" ;
         public Vector<TLAExpr>    args     = null ; // of TLAExpr
-        public CallGoto() { }
+        public CallGoto(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -818,7 +822,7 @@ public class AST
 
     public static class Goto extends AST
       { public String    to       = "" ;
-        public Goto() {}
+        public Goto(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -832,7 +836,7 @@ public class AST
       { public String name   = "" ;
         public Vector<String> params = null ; // of Strings
         public Vector<AST> body   = null ; // of Stmt
-        public Macro() {}
+        public Macro(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -849,7 +853,7 @@ public class AST
     public static class MacroCall extends AST
       { public String name   = "" ;
         public Vector<TLAExpr> args     = null ; // of TLAExpr
-        public MacroCall() {}
+        public MacroCall(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
           { return 
@@ -876,7 +880,7 @@ public class AST
      * Equals "(*line, col*)" if pcal.trans called in debugging mode,      *
      * otherwise the empty string.                                         *
      **********************************************************************/
-     { if (PcalParams.Debug)
+     { if (pcalParams.Debug)
          { return "(*" + line + ", " + col +"*)" ;
          }
        else 

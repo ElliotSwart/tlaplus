@@ -25,99 +25,62 @@ public final class PcalParams
     // version.
     public static final int versionWeight = 1902;
     public static final String version = "1.11";
-    /**
-     * SZ Mar 9, 2009:
-     * Added re-initialization method. Since PcalParams class
-     * is used instead of PcalParams instance, it is required to
-     * take care of parameter initialization and de-initialization
-     * by explicit method. This is required in order to make PCal
-     * instance reentrant. 
-     * 
-     * Maybe at some point in time this should be converted to an ordinary
-     * configuration object, from the collection of public static variables.
-     */
-    public static void resetParams()
-    {
-        Debug = false;
-        SpecOption = false;
-        MyspecOption = false;
-        Spec2Option = false;
-        Myspec2Option = false;
-        SpecFile = "";
-        WriteASTFlag = false;
-        LabelFlag = false;
-        ReportLabelsFlag = false;
-        LabelRoot = "Lbl_";
-        FairnessOption = "";
-        FairAlgorithm = false;
-        CheckTermination = false;
-        NoOld = false;
-        Nocfg = false;
-        NoDoneDisjunct = false;
-        optionsInFile = false;
-        versionOption = null;
-        inputVersionNumber = PcalParams.versionWeight;
-        PcalTLAGen.wrapColumn = 78;
-        PcalTLAGen.ssWrapColumn = 45;
-        tlaPcalMapping = null ;
-        
-    }
     
     
   /*************************************************************************
   * Parameters related to non-file Options                                 *
   *************************************************************************/
-    public static boolean Debug = false ;
+    public boolean Debug = false ;
     /***********************************************************************
     * True if the -debug option is chosen.                                 *
     ***********************************************************************/
 
-    public static boolean SpecOption = false ;
+    public boolean SpecOption = false ;
     /***********************************************************************
     * True if the -spec option is chosen.                                  *
     ***********************************************************************/
 
-    public static boolean MyspecOption = false ;
+    public boolean MyspecOption = false ;
     /***********************************************************************
     * True if the -myspec option is chosen.                                *
     ***********************************************************************/
 
-    public static boolean Spec2Option = false ;
+    public boolean Spec2Option = false ;
     /***********************************************************************
     * True if the -spec2 option is chosen.                                 *
     ***********************************************************************/
 
-    public static boolean Myspec2Option = false ;
+    public boolean Myspec2Option = false ;
     /***********************************************************************
     * True if the -myspec2 option is chosen.                               *
     ***********************************************************************/
 
-    public static String SpecFile = "" ;
+    public String SpecFile = "" ;
     /***********************************************************************
     * The file name if the -spec option is chosen.                         *
     ***********************************************************************/
 
-    public static boolean tlcTranslation() {
-    	return PcalParams.SpecOption || PcalParams.MyspecOption || PcalParams.Spec2Option
-                || PcalParams.Myspec2Option;
+    public boolean tlcTranslation() {
+    	return SpecOption || MyspecOption || Spec2Option
+                || Myspec2Option;
     }
     
-    public static boolean WriteASTFlag = false ;
+    public boolean WriteASTFlag = false ;
     /***********************************************************************
     * True if the -writeAST option is chosen.                              *
     ***********************************************************************/
 
-    public static boolean LabelFlag = false ;
+    public boolean LabelFlag = false ;
       /*********************************************************************
       * True iff the -label option is chosen.                              *
       *********************************************************************/
 
-    public static boolean ReportLabelsFlag = false ;
+    public boolean ReportLabelsFlag = false ;
       /*********************************************************************
       * True iff the -reportLabels option is chosen.                       *
       *********************************************************************/
 
-    public static String LabelRoot = "Lbl_" ;
+    public String LabelRoot = "Lbl_" ;
       /*********************************************************************
       * The root of translator-generated labels, set to its non-default    *
       * value by the -labelRoot option.                                    *
@@ -126,27 +89,27 @@ public final class PcalParams
   /*************************************************************************
   * Parameters for Spec and .cfg file options.                             *
   *************************************************************************/
-    public static String FairnessOption = "" ;
+    public String FairnessOption = "" ;
       /*********************************************************************
       * Should be "", "wf", "sf", "wfNext", or "sfNext".                   *
       *********************************************************************/
       
-    public static boolean CheckTermination = false ;
+    public boolean CheckTermination = false ;
       /*********************************************************************
       * True iff there is a -termination option.                           *
       *********************************************************************/
 
-    public static boolean NoOld = false ;
+    public boolean NoOld = false ;
     /*********************************************************************
     * True iff there is a -noold option.                                 *
     *********************************************************************/
       
-    public static boolean Nocfg = false ;
+    public boolean Nocfg = false ;
       /*********************************************************************
       * True iff there is a -nocfg option.                                 *
       *********************************************************************/
       
-    public static boolean NoDoneDisjunct = false ;
+    public boolean NoDoneDisjunct = false ;
      /*********************************************************************
      * True iff there is a -noDoneDisjunct option.                        *
      *********************************************************************/
@@ -154,8 +117,11 @@ public final class PcalParams
     /**********************************************************************
      * The following parameter is set true if --fair algorithm is used.   *
      *********************************************************************/
-    public static boolean FairAlgorithm = false ; 
-    
+    public boolean FairAlgorithm = false ;
+
+    public int wrapColumn = 78;
+    public int ssWrapColumn = 45;
+
   /*************************************************************************
   * Parameters related to language definition.                             *
   *************************************************************************/
@@ -216,7 +182,7 @@ public final class PcalParams
     /*************************************************************************
   * File parameters.                                                       *
   *************************************************************************/
-  public static String TLAInputFile = "" ;
+  public String TLAInputFile = "" ;
     /***********************************************************************
     * The name of the input file, with no extension.  It is set to equal   *
     * the argument with which the program is called, minus the extension.  *
@@ -229,14 +195,14 @@ public final class PcalParams
    *    (briefly) added.  However, most of them still seem to be used.
    */
 
-  public static boolean optionsInFile = false ;
+  public boolean optionsInFile = false ;
      // Set true when an options statement has been found in the
      // module.  It is a kludgy way to pass an argument to 
      // trans.parseAndProcessStringArguments; things are done this
      // way because of the way the code evolved, and no intelligent
      // design has stepped in to fix it.
-  public static String versionOption = null;
-  public static int inputVersionNumber = PcalParams.versionWeight;
+  public String versionOption = null;
+  public int inputVersionNumber = PcalParams.versionWeight;
      // The input file's version number * 1000
 //  public static boolean readOnly = false; 
      // True iff this is a .pcal input file and the .tla file should 
@@ -250,8 +216,12 @@ public final class PcalParams
    * the more politically correct thing and pass the fields or the object
    * as a parameter in the method calls.
    */
-  public static TLAtoPCalMapping  tlaPcalMapping ;
-  
+  public TLAtoPCalMapping tlaPcalMapping = null;
+
+  public PcalParams(){
+
+  }
+
   /**
    * If str is a version number like 3.17, then this returns 1000 times
    * its numeric value--e.g., 3170.  Otherwise, it returns -1.
@@ -293,7 +263,7 @@ public final class PcalParams
    * and returns true if it is a legal version number; otherwise,
    * it reports the error with PcalDebug.reportError and returns false.
    */
-  static boolean ProcessVersion(final String ver) {
+  boolean ProcessVersion(final String ver) {
       final int vnum = VersionToNumber(ver);
       if (vnum < 0) {
           PcalDebug.reportError("Illegal version " + ver + " specified."); 

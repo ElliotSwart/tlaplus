@@ -1210,8 +1210,8 @@ public class TLC {
             {
                 System.gc();
                 return MP.printError(EC.SYSTEM_OUT_OF_MEMORY, e);
-            } else if (e instanceof TLCRuntimeException) {
-            	return MP.printTLCRuntimeException((TLCRuntimeException) e);
+            } else if (e instanceof TLCRuntimeException re) {
+            	return MP.printTLCRuntimeException(re);
             } else if (e instanceof RuntimeException) 
             {
                 // SZ 29.07.2009 

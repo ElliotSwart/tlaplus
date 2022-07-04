@@ -39,7 +39,7 @@ public class UnhandledInvalidSyntaxTest extends PCalTest {
 
 	@Test
 	public void test1() throws IOException {
-		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, trans.runMe(new String[] {"-nocfg", 
+		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, new trans().runMe(new String[] {"-nocfg",
 							writeTempFile("MissingSemicolonTest1", 
 				"---- MODULE algo ----\n" + 
 				"(*\n" + 
@@ -59,7 +59,7 @@ public class UnhandledInvalidSyntaxTest extends PCalTest {
 	
 	@Test
 	public void test2() throws IOException {
-		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, trans.runMe(new String[] {"-nocfg", 
+		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, new trans().runMe(new String[] {"-nocfg",
 							writeTempFile("MissingSemicolonTest2", 
 				"---- MODULE algo ----\n" + 
 				"(*\n" + 

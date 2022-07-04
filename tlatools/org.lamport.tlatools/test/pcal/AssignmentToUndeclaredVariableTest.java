@@ -38,7 +38,8 @@ import util.ToolIO;
 public class AssignmentToUndeclaredVariableTest extends PCalTest {
 	@Test
 	public void procedure() throws IOException {
-		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, trans.runMe(new String[] {"-nocfg", 
+		var t = new trans();
+		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, t.runMe(new String[] {"-nocfg",
 							writeTempFile("AssignmentToUndeclaredVariableTest", 
 				"---- MODULE algo ----\n" + 
 				"CONSTANT c\n" + 
@@ -63,7 +64,7 @@ public class AssignmentToUndeclaredVariableTest extends PCalTest {
 	
 	@Test
 	public void process() throws IOException {
-		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, trans.runMe(new String[] {"-nocfg", 
+		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, new trans().runMe(new String[] {"-nocfg",
 							writeTempFile("AssignmentToUndeclaredVariableTest", 
 				"---- MODULE algo ----\n" + 
 				"CONSTANT c\n" + 
@@ -90,7 +91,7 @@ public class AssignmentToUndeclaredVariableTest extends PCalTest {
 	
 	@Test
 	public void multiAssignment() throws IOException {
-		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, trans.runMe(new String[] {"-nocfg", 
+		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, new trans().runMe(new String[] {"-nocfg",
 							writeTempFile("AssignmentToUndeclaredVariableTest", 
 				"---- MODULE algo ----\n" + 
 				"CONSTANT c\n" + 
@@ -113,7 +114,7 @@ public class AssignmentToUndeclaredVariableTest extends PCalTest {
 
 	@Test
 	public void macro() throws IOException {
-		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, trans.runMe(new String[] {"-nocfg", 
+		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, new trans().runMe(new String[] {"-nocfg",
 							writeTempFile("AssignmentToUndeclaredVariableTest", 
 				"---- MODULE algo ----\n" + 
 				"CONSTANT c\n" + 
@@ -136,7 +137,7 @@ public class AssignmentToUndeclaredVariableTest extends PCalTest {
 	
 	@Test
 	public void macroParam() throws IOException {
-		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, trans.runMe(new String[] {"-nocfg", 
+		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, new trans().runMe(new String[] {"-nocfg",
 							writeTempFile("AssignmentToUndeclaredVariableTest", 
 				"---- MODULE algo ----\n" + 
 				"CONSTANT c\n" + 
@@ -159,7 +160,7 @@ public class AssignmentToUndeclaredVariableTest extends PCalTest {
 	
 	@Test
 	public void boundIdentifier() throws IOException {
-		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, trans.runMe(new String[] {"-nocfg", 
+		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, new trans().runMe(new String[] {"-nocfg",
 							writeTempFile("AssignmentToUndeclaredVariableTest", 
 				"---- MODULE algo ----\n" + 
 				"CONSTANT c\n" + 
@@ -183,7 +184,7 @@ public class AssignmentToUndeclaredVariableTest extends PCalTest {
 	
 	@Test
 	public void constant() throws IOException {
-		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, trans.runMe(new String[] {"-nocfg", 
+		assertEquals(trans.STATUS_EXIT_WITH_ERRORS, new trans().runMe(new String[] {"-nocfg",
 			writeTempFile("AssignmentToUndeclaredVariableTest", 
 				"---- MODULE algo ----\n" + 
 				"CONSTANT c\n" + 

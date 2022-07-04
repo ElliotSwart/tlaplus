@@ -303,7 +303,16 @@ class trans {
      */
     public static void main(final String[] args)
     {
-        runMe(args);
+        var t = new trans();
+        t.runMe(args);
+    }
+
+    public final PcalParams pcalParams;
+    private final ParseAlgorithm parseAlgorithm;
+
+    public trans(){
+        this.pcalParams = new PcalParams();
+        this.parseAlgorithm = new ParseAlgorithm(pcalParams);
     }
 
     /**
@@ -317,10 +326,8 @@ class trans {
      * value was not being used.)  If the translation fails, it returns
      * null.
      */
-    public static int runMe(final String[] args)
+    public int runMe(final String[] args)
     {
-        ParseAlgorithm parseAlgorithm = new ParseAlgorithm();
-
         /*********************************************************************
         * Get and print version number.                                      *
         *********************************************************************/
@@ -335,17 +342,11 @@ class trans {
             PcalDebug.reportInfo("pcal.trans Version " + PcalParams.version + " of " + PcalParams.modDate);
         }
 
-        // SZ Mar 9, 2009:
-        /*
-         * This method is called in order to make sure, that  the
-         * parameters are not sticky because these are could have been initialized
-         * by the previous run  
-         */
-        PcalParams.resetParams();
+
         /*********************************************************************
         * Get and process arguments.                                         
         *********************************************************************/
-        final int status = parseAndProcessArguments(args);
+        final int status = parseAndProcessArguments(this.pcalParams, args);
 
         if (status != STATUS_OK)
         {
@@ -360,7 +361,7 @@ class trans {
         List<String> inputVec = null;
         try
         {
-            inputVec = fileToStringVector(PcalParams.TLAInputFile + /* (PcalParams.fromPcalFile ? ".pcal" : */TLAConstants.Files.TLA_EXTENSION /*)*/);
+            inputVec = fileToStringVector(pcalParams.TLAInputFile + /* (PcalParams.fromPcalFile ? ".pcal" : */TLAConstants.Files.TLA_EXTENSION /*)*/);
         } catch (final FileToStringVectorException e)
         {
             PcalDebug.reportError(e);
@@ -383,22 +384,22 @@ class trans {
         *********************************************************************/
         // if (!PcalParams.fromPcalFile)
         // {
-        final boolean renameToOld = !PcalParams.NoOld;
+        final boolean renameToOld = !pcalParams.NoOld;
         if (renameToOld) {
         	File file;
         	try
         	{
-        		file = new File(PcalParams.TLAInputFile + ".old");
+        		file = new File(pcalParams.TLAInputFile + ".old");
         		if (file.exists())
         		{
         			file.delete();
         		}
-                file = new File(PcalParams.TLAInputFile + TLAConstants.Files.TLA_EXTENSION);
-        		file.renameTo(new File(PcalParams.TLAInputFile + ".old"));
+                file = new File(pcalParams.TLAInputFile + TLAConstants.Files.TLA_EXTENSION);
+        		file.renameTo(new File(pcalParams.TLAInputFile + ".old"));
         	} catch (final Exception e)
         	{
-        		PcalDebug.reportError("Could not rename input file " + PcalParams.TLAInputFile + TLAConstants.Files.TLA_EXTENSION + " to "
-        				+ PcalParams.TLAInputFile + ".old");
+        		PcalDebug.reportError("Could not rename input file " + pcalParams.TLAInputFile + TLAConstants.Files.TLA_EXTENSION + " to "
+        				+ pcalParams.TLAInputFile + ".old");
         		return exitWithStatus(STATUS_EXIT_WITH_ERRORS);
         	}
         }
@@ -414,28 +415,28 @@ class trans {
         *********************************************************************/
         try
         {
-            WriteStringVectorToFile(outputVec, PcalParams.TLAInputFile + TLAConstants.Files.TLA_EXTENSION);
+            WriteStringVectorToFile(outputVec, pcalParams.TLAInputFile + TLAConstants.Files.TLA_EXTENSION);
         } catch (final StringVectorToFileException e)
         {
             PcalDebug.reportError(e);
             return exitWithStatus(STATUS_EXIT_WITH_ERRORS);
         }
 
-        PcalDebug.reportInfo("New file " + PcalParams.TLAInputFile + TLAConstants.Files.TLA_EXTENSION + " written.");
+        PcalDebug.reportInfo("New file " + pcalParams.TLAInputFile + TLAConstants.Files.TLA_EXTENSION + " written.");
 
         /*********************************************************************
         * Write the cfg file, unless the -nocfg option is used.              *
         *********************************************************************/
-        final File cfgFile = new File(PcalParams.TLAInputFile + TLAConstants.Files.CONFIG_EXTENSION);
+        final File cfgFile = new File(pcalParams.TLAInputFile + TLAConstants.Files.CONFIG_EXTENSION);
         List<String> cfg = null;
-        boolean writeCfg = !PcalParams.Nocfg;
+        boolean writeCfg = !pcalParams.Nocfg;
         if (writeCfg && cfgFile.exists())
         {
             if (cfgFile.canRead())
             {
                 try
                 {
-                    cfg = fileToStringVector(PcalParams.TLAInputFile + TLAConstants.Files.CONFIG_EXTENSION);
+                    cfg = fileToStringVector(pcalParams.TLAInputFile + TLAConstants.Files.CONFIG_EXTENSION);
                 } catch (final FileToStringVectorException e)
                 {
                     PcalDebug.reportError(e);
@@ -447,12 +448,12 @@ class trans {
                 * cfg file is read-only.                                     *
                 *************************************************************/
                 writeCfg = false;
-                PcalDebug.reportInfo("File " + PcalParams.TLAInputFile + ".cfg is read only, new version not written.");
+                PcalDebug.reportInfo("File " + pcalParams.TLAInputFile + ".cfg is read only, new version not written.");
             }
         } else
         {
             cfg = new ArrayList<>();
-            cfg.add(PcalParams.CfgFileDelimiter);
+            cfg.add(pcalParams.CfgFileDelimiter);
         }
 
         /*********************************************************************
@@ -464,7 +465,7 @@ class trans {
             boolean done = false;
             while ((!done) && (cfg.size() > j))
             {
-                if (!cfg.get(j).contains(PcalParams.CfgFileDelimiter))
+                if (!cfg.get(j).contains(pcalParams.CfgFileDelimiter))
                 {
                     j = j + 1;
                 } else
@@ -498,7 +499,7 @@ class trans {
             * it to a model value of the same name.                           *
             * (Added 22 Aug 2007 by LL.)                                      *
             ******************************************************************/
-            if (PcalParams.tlcTranslation() || parseAlgorithm.hasDefaultInitialization)
+            if (pcalParams.tlcTranslation() || parseAlgorithm.hasDefaultInitialization)
             {
                 cfg.add(0, "CONSTANT defaultInitValue = defaultInitValue");
             }
@@ -506,7 +507,7 @@ class trans {
             /******************************************************************
             * Insert the `PROPERTY Termination' line if requested.            *
             ******************************************************************/
-            if (PcalParams.CheckTermination)
+            if (pcalParams.CheckTermination)
             {
                 cfg.add(0, "PROPERTY Termination");
             }
@@ -526,7 +527,7 @@ class trans {
 
             if (hasSpec)
             {
-                PcalDebug.reportInfo("File " + PcalParams.TLAInputFile
+                PcalDebug.reportInfo("File " + pcalParams.TLAInputFile
                         + ".cfg already contains " + TLAConstants.KeyWords.SPECIFICATION
                         + " statement," + "\n   so new one not written.");
             } else
@@ -536,13 +537,13 @@ class trans {
 
             try
             {
-                WriteStringVectorToFile(cfg, PcalParams.TLAInputFile + TLAConstants.Files.CONFIG_EXTENSION);
+                WriteStringVectorToFile(cfg, pcalParams.TLAInputFile + TLAConstants.Files.CONFIG_EXTENSION);
             } catch (final StringVectorToFileException e)
             {
                 PcalDebug.reportError(e);
                 return exitWithStatus(STATUS_EXIT_WITH_ERRORS);
             }
-            PcalDebug.reportInfo("New file " + PcalParams.TLAInputFile + TLAConstants.Files.CONFIG_EXTENSION + " written.");
+            PcalDebug.reportInfo("New file " + pcalParams.TLAInputFile + TLAConstants.Files.CONFIG_EXTENSION + " written.");
         }
 
         return exitWithStatus(STATUS_EXIT_WITHOUT_ERROR);
@@ -553,19 +554,21 @@ class trans {
     // For some reason this method used to both mutate the argument, and then also returns that argument... ?
     //		Now we copy the argument, mutate the copy, and return that.
     public static List<String> performTranslation(final List<String> specificationText,
-                                                  final ParseAlgorithm parseAlgorithm) {
-    	return performTranslation(specificationText, new ValidationCallBack.Noop(), parseAlgorithm);
+                                           final ParseAlgorithm parseAlgorithm) {
+    	return performTranslation(specificationText, parseAlgorithm, new ValidationCallBack.Noop());
     }
     
     public static List<String> performTranslation(final List<String> specificationText,
-                                                  final ValidationCallBack cb,
-                                                  final ParseAlgorithm parseAlgorithm) {
+                                                  final ParseAlgorithm parseAlgorithm,
+                                                  final ValidationCallBack cb
+                                                  ) {
         /**
          * Create the new TLAtoPCalMapping object, call it mapping
          * here and set PcalParams.tlaPcalMapping to point to it.
          */
         final TLAtoPCalMapping mapping = new TLAtoPCalMapping() ;
-        PcalParams.tlaPcalMapping = mapping;
+        final PcalParams pcalParams = parseAlgorithm.pcalParams;
+        pcalParams.tlaPcalMapping = mapping;
         
         /*********************************************************************
         * Set untabInputVec to be the vector of strings obtained from        *
@@ -612,7 +615,7 @@ class trans {
                     if (parseAlgorithm.NextNonIdChar(restOfLine, 0) == 7)
                     {
                         // The "options" should begin an options line
-                        PcalParams.optionsInFile = true;
+                        pcalParams.optionsInFile = true;
                         parseAlgorithm.ProcessOptions(untabInputVec, searchLoc);
                         notDone = false;
                     }
@@ -668,15 +671,15 @@ class trans {
         *******************************************************************/
     	final ArrayList<String> output = new ArrayList<>(specificationText);
 
-        translationLine = findTokenPair(untabInputVec, 0, PcalParams.BeginXlation1, PcalParams.BeginXlation2);
+        translationLine = findTokenPair(untabInputVec, 0, pcalParams.BeginXlation1, pcalParams.BeginXlation2);
         int endTranslationLine = -1;
         if (translationLine != -1)
         {
             endTranslationLine = findTokenPair(untabInputVec, translationLine + 1,
-            									   PcalParams.EndXlation1, PcalParams.EndXlation2);
+            									   pcalParams.EndXlation1, pcalParams.EndXlation2);
             if (endTranslationLine == -1)
             {
-                PcalDebug.reportError("No line containing `" + PcalParams.EndXlation1 + " " + PcalParams.EndXlation2);
+                PcalDebug.reportError("No line containing `" + pcalParams.EndXlation1 + " " + pcalParams.EndXlation2);
                 return null;
             }
 
@@ -699,21 +702,21 @@ class trans {
         while ((algLine < untabInputVec.size()) && !foundBegin)
         {
             final String line = untabInputVec.elementAt(algLine);
-            algCol = line.indexOf(PcalParams.BeginAlg);
+            algCol = line.indexOf(pcalParams.BeginAlg);
             if (algCol != -1)
             {
-                algCol = algCol + PcalParams.BeginAlg.length();
+                algCol = algCol + pcalParams.BeginAlg.length();
                 foundBegin = true;
             } else
             {
-            	algCol = line.indexOf(PcalParams.BeginFairAlg);
+            	algCol = line.indexOf(pcalParams.BeginFairAlg);
             	if (algCol != -1) {
             		// Found the "--fair".  The more structurally nice thing to
             		// do here would be to move past the following "algorithm".
             		// However, it's easier to pass a parameter to the ParseAlgorithm
             		// class's GetAlgorithm method that tells it to go past the
             		// "algorithm" token.
-            		 algCol = algCol + PcalParams.BeginFairAlg.length();
+            		 algCol = algCol + pcalParams.BeginFairAlg.length();
                      foundBegin = true;
                      foundFairBegin = true;
             		
@@ -724,7 +727,7 @@ class trans {
         }
         if (!foundBegin)
         {
-            PcalDebug.reportError("Beginning of algorithm string " + PcalParams.BeginAlg + " not found.");
+            PcalDebug.reportError("Beginning of algorithm string " + pcalParams.BeginAlg + " not found.");
             return null;
         }
 
@@ -843,7 +846,7 @@ class trans {
 //            return exitWithStatus(STATUS_EXIT_WITH_ERRORS);
             return null ; // added for testing
         }
-        // } // end else of if (PcalParams.fromPcalFile) -- i.e., end processing
+        // } // end else of if (pcalParams.fromPcalFile) -- i.e., end processing
         // of .tla input file.
 
         /*********************************************************************
@@ -876,9 +879,9 @@ class trans {
 /*********************************************************************
         * For -writeAST option, just write the file AST.tla and halt.        *
         *********************************************************************/
-        if (PcalParams.WriteASTFlag)
+        if (pcalParams.WriteASTFlag)
         {
-            WriteAST(Objects.requireNonNull(ast));
+            WriteAST(Objects.requireNonNull(ast), pcalParams);
 //            return exitWithStatus(STATUS_EXIT_WITHOUT_ERROR);
             return null ; // added for testing
         }
@@ -918,11 +921,11 @@ class trans {
         *********************************************************************/
         Vector<String> translation = null;
 
-        if (PcalParams.tlcTranslation())
+        if (pcalParams.tlcTranslation())
         {
             try
             {
-                translation = TLCTranslate(ast);
+                translation = TLCTranslate(ast, pcalParams);
             } catch (final TLCTranslationException e)
             {
                 PcalDebug.reportError(e);
@@ -1004,12 +1007,12 @@ class trans {
     }
 
     /********************** Writing the AST ************************************/
-    private static boolean WriteAST(final AST ast)
+    private static boolean WriteAST(final AST ast, final PcalParams pcalParams)
     {
         final Vector<String> astFile = new Vector<>();
         astFile.addElement("------ MODULE AST -------");
         astFile.addElement("EXTENDS TLC");
-        astFile.addElement("fairness == \"" + PcalParams.FairnessOption + "\"");
+        astFile.addElement("fairness == \"" + pcalParams.FairnessOption + "\"");
         astFile.addElement(" ");
         astFile.addElement("ast == ");
         astFile.addElement(ast.toString());
@@ -1028,7 +1031,7 @@ class trans {
 
     /************************* THE TLC TRANSLATION *****************************/
 
-    private static Vector<String> TLCTranslate(final AST ast) throws TLCTranslationException
+    private static Vector<String> TLCTranslate(final AST ast, final PcalParams pcalParams) throws TLCTranslationException
     /***********************************************************************
     * The result is a translation of the algorithm represented by ast      *
     * obtained by using TLC to execute the definition of Translation(ast)  *
@@ -1059,27 +1062,27 @@ class trans {
         /*********************************************************************
         * Write the file AST.tla that contains                               *
         *********************************************************************/
-        WriteAST(ast);
+        WriteAST(ast, pcalParams);
 
         /*********************************************************************
         * For the -spec (rather than -myspec) option, copy the               *
         * specification's .tla and .cfg files PlusCal.tla to current         *
         * directory.                                                         *
         *********************************************************************/
-        if (PcalParams.SpecOption || PcalParams.Spec2Option)
+        if (pcalParams.SpecOption || pcalParams.Spec2Option)
         {
             try
             {
 				Vector<String> parseFile = PcalResourceFileReader
-						.ResourceFileToStringVector(PcalParams.SpecFile + TLAConstants.Files.TLA_EXTENSION);
+						.ResourceFileToStringVector(pcalParams.SpecFile + TLAConstants.Files.TLA_EXTENSION);
 
-				WriteStringVectorToFile(parseFile, PcalParams.SpecFile + TLAConstants.Files.TLA_EXTENSION);
+				WriteStringVectorToFile(parseFile, pcalParams.SpecFile + TLAConstants.Files.TLA_EXTENSION);
 				parseFile = PcalResourceFileReader
-						.ResourceFileToStringVector(PcalParams.SpecFile + TLAConstants.Files.CONFIG_EXTENSION);
-				WriteStringVectorToFile(parseFile, PcalParams.SpecFile + TLAConstants.Files.CONFIG_EXTENSION);
+						.ResourceFileToStringVector(pcalParams.SpecFile + TLAConstants.Files.CONFIG_EXTENSION);
+				WriteStringVectorToFile(parseFile, pcalParams.SpecFile + TLAConstants.Files.CONFIG_EXTENSION);
 
-				PcalDebug.reportInfo("Wrote files " + PcalParams.SpecFile + TLAConstants.Files.TLA_EXTENSION + " and "
-						+ PcalParams.SpecFile + TLAConstants.Files.CONFIG_EXTENSION + ".");
+				PcalDebug.reportInfo("Wrote files " + pcalParams.SpecFile + TLAConstants.Files.TLA_EXTENSION + " and "
+						+ pcalParams.SpecFile + TLAConstants.Files.CONFIG_EXTENSION + ".");
             } catch (final UnrecoverableException e)
             {
                 throw new TLCTranslationException(e.getMessage());
@@ -1101,7 +1104,7 @@ class trans {
             // getErrorStream() did not get standard non-error.)  Apparently,
             // TLC has been changed to put its output on stdout.
             final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(rt.exec(
-                    javaInvocation + PcalParams.SpecFile).getInputStream()));
+                    javaInvocation + pcalParams.SpecFile).getInputStream()));
             while (!tlcOut.contains("<<"))
             {
                 tlcOut = bufferedReader.readLine();
@@ -1293,7 +1296,7 @@ class trans {
      * kludgy mechanism was kept and used to indicate if the method is being called
      * for options specified inside the module. 
      */
-    static int parseAndProcessArguments(final String[] args)
+    static int parseAndProcessArguments(PcalParams pcalParams, final String[] args)
     {
 
         /** *******************************************************************
@@ -1385,7 +1388,7 @@ class trans {
          *              thing when the earlier version number is specified.    *                
          *</pre>
          ********************************************************************* */
-        final boolean inFile = PcalParams.optionsInFile;
+        final boolean inFile = pcalParams.optionsInFile;
         final boolean notInFile = !inFile;
         // Just convenient abbreviations
         boolean firstFairness = inFile;
@@ -1449,16 +1452,16 @@ class trans {
                 }
             } else if (notInFile && option.equals("-writeAST"))
             {
-                PcalParams.WriteASTFlag = true;
-                if (CheckForConflictingSpecOptions())
+                pcalParams.WriteASTFlag = true;
+                if (CheckForConflictingSpecOptions(pcalParams))
                 {
                     return STATUS_EXIT_WITH_ERRORS;
                 }
             } else if (option.equals("-spec") || 
                         (inFile && option.equals("spec")))
             {
-                PcalParams.SpecOption = true;
-                if (CheckForConflictingSpecOptions())
+                pcalParams.SpecOption = true;
+                if (CheckForConflictingSpecOptions(pcalParams))
                 {
                     return STATUS_EXIT_WITH_ERRORS;
                 }
@@ -1467,12 +1470,12 @@ class trans {
                 {
                     return CommandLineError("Specification name must follow `-spec' option");
                 }
-                PcalParams.SpecFile = args[nextArg];
+                pcalParams.SpecFile = args[nextArg];
             } else if (option.equals("-myspec") || 
                     (inFile && option.equals("myspec")))
             {
-                PcalParams.MyspecOption = true;
-                if (CheckForConflictingSpecOptions())
+                pcalParams.MyspecOption = true;
+                if (CheckForConflictingSpecOptions(pcalParams))
                 {
                     return STATUS_EXIT_WITH_ERRORS;
                 }
@@ -1481,11 +1484,11 @@ class trans {
                 {
                     return CommandLineError("Specification name must follow `-myspec' option");
                 }
-                PcalParams.SpecFile = args[nextArg];
+                pcalParams.SpecFile = args[nextArg];
             } else if (notInFile && option.equals("-spec2"))
             {
-                PcalParams.Spec2Option = true;
-                if (CheckForConflictingSpecOptions())
+                pcalParams.Spec2Option = true;
+                if (CheckForConflictingSpecOptions(pcalParams))
                 {
                     return STATUS_EXIT_WITH_ERRORS;
                 }
@@ -1494,11 +1497,11 @@ class trans {
                 {
                     return CommandLineError("Specification name must follow `-spec' option");
                 }
-                PcalParams.SpecFile = args[nextArg];
+                pcalParams.SpecFile = args[nextArg];
             } else if (notInFile && option.equals("-myspec2"))
             {
-                PcalParams.Myspec2Option = true;
-                if (CheckForConflictingSpecOptions())
+                pcalParams.Myspec2Option = true;
+                if (CheckForConflictingSpecOptions(pcalParams))
                 {
                     return STATUS_EXIT_WITH_ERRORS;
                 }
@@ -1507,81 +1510,81 @@ class trans {
                 {
                     return CommandLineError("Specification name must follow `-myspec' option");
                 }
-                PcalParams.SpecFile = args[nextArg];
+                pcalParams.SpecFile = args[nextArg];
             } else if (notInFile && option.equals("-debug"))
             {
-                PcalParams.Debug = true;
+                pcalParams.Debug = true;
             } else if (notInFile && option.equals("-unixEOL"))
             {
                 System.setProperty("line.separator", "\n");
             } else if (option.equals("-termination") || (inFile && option.equals("termination")))
             {
-                PcalParams.CheckTermination = true;
+                pcalParams.CheckTermination = true;
             } else if (option.equals("-noold"))
             {
-                PcalParams.NoOld = true;
+                pcalParams.NoOld = true;
             } else if (option.equals("-nocfg"))
             {
-                PcalParams.Nocfg = true;
+                pcalParams.Nocfg = true;
             } else if (option.equals("-noDoneDisjunct") || (inFile && option.equals("noDoneDisjunct")))
             {
-                PcalParams.NoDoneDisjunct = true;
+                pcalParams.NoDoneDisjunct = true;
             } else if (option.equals("-wf") || (inFile && option.equals("wf")))
             {
                 if (firstFairness)
                 {
-                    PcalParams.FairnessOption = "";
+                    pcalParams.FairnessOption = "";
                     firstFairness = false;
                 }
-                if (!PcalParams.FairnessOption.equals(""))
+                if (!pcalParams.FairnessOption.equals(""))
                 {
                     return CommandLineError("Can only have one of -wf, -sf, -wfNext, " + "and -nof options");
                 }
-                PcalParams.FairnessOption = "wf";
+                pcalParams.FairnessOption = "wf";
             } else if (option.equals("-sf") || (inFile && option.equals("sf")))
             {
                 if (firstFairness)
                 {
-                    PcalParams.FairnessOption = "";
+                    pcalParams.FairnessOption = "";
                     firstFairness = false;
                 }
-                if (!PcalParams.FairnessOption.equals(""))
+                if (!pcalParams.FairnessOption.equals(""))
                 {
                     return CommandLineError("Can only have one of -wf, -sf, -wfNext, " + "and -nof options");
                 }
-                PcalParams.FairnessOption = "sf";
+                pcalParams.FairnessOption = "sf";
             } else if (option.equals("-wfNext") || (inFile && option.equals("wfNext")))
             {
                 if (firstFairness)
                 {
-                    PcalParams.FairnessOption = "";
+                    pcalParams.FairnessOption = "";
                     firstFairness = false;
                 }
-                if (!PcalParams.FairnessOption.equals(""))
+                if (!pcalParams.FairnessOption.equals(""))
                 {
                     return CommandLineError("Can only have one of -wf, -sf, -wfNext, " + "and -nof options");
                 }
-                PcalParams.FairnessOption = "wfNext";
+                pcalParams.FairnessOption = "wfNext";
             } else if (option.equals("-nof") || (inFile && option.equals("nof")))
             {
                 if (firstFairness)
                 {
-                    PcalParams.FairnessOption = "";
+                    pcalParams.FairnessOption = "";
                     firstFairness = false;
                 }
-                if (!PcalParams.FairnessOption.equals(""))
+                if (!pcalParams.FairnessOption.equals(""))
                 {
                     return CommandLineError("Can only have one of -wf, -sf, -wfNext, " + "and -nof options");
                 }
-                PcalParams.FairnessOption = "nof";
+                pcalParams.FairnessOption = "nof";
                 explicitNof = true;
             } else if (option.equals("-label") || (inFile && option.equals("label")))
             {
-                PcalParams.LabelFlag = true;
+                pcalParams.LabelFlag = true;
             } else if (notInFile && option.equals("-reportLabels"))
             {
-                PcalParams.ReportLabelsFlag = true;
-                PcalParams.LabelFlag = true;
+                pcalParams.ReportLabelsFlag = true;
+                pcalParams.LabelFlag = true;
             } else if (option.equals("-labelRoot") || (inFile && option.equals("labelRoot")))
             {
                 nextArg = nextArg + 1;
@@ -1589,13 +1592,13 @@ class trans {
                 {
                     return CommandLineError("Label root must follow `-labelRoot' option");
                 }
-                PcalParams.LabelRoot = args[nextArg];
+                pcalParams.LabelRoot = args[nextArg];
             }
             // else if (option.equals("-readOnly") || (pcal && option.equals("readOnly"))) {
-            // PcalParams.readOnly = true;
+            // pcalParams.readOnly = true;
             // }
             // else if (option.equals("-writable") || (pcal && option.equals("writable"))) {
-            // PcalParams.readOnly = false;
+            // pcalParams.readOnly = false;
             // }
             else if (option.equals("-version") || (inFile && option.equals("version")))
             {
@@ -1604,7 +1607,7 @@ class trans {
                 {
                     return CommandLineError("Version number must follow `-version' option");
                 }
-                if (!PcalParams.ProcessVersion(args[nextArg]))
+                if (!pcalParams.ProcessVersion(args[nextArg]))
                 {
                     return CommandLineError("Bad version number");
                 }
@@ -1623,8 +1626,8 @@ class trans {
                     {
                         throw new NumberFormatException();
                     }
-                    PcalTLAGen.wrapColumn = a;
-                    PcalTLAGen.ssWrapColumn = a - 33;
+                    pcalParams.wrapColumn = a;
+                    pcalParams.ssWrapColumn = a - 33;
                 } catch (final Exception e)
                 {
                     return CommandLineError("Integer value at least 60 must follow `-lineWidth' option");
@@ -1654,13 +1657,13 @@ class trans {
 
         // SZ 02.16.2009: since this is a modification of the parameters, moved
         // to the parameter handling method
-        if (PcalParams.FairnessOption.equals("-nof"))
+        if (pcalParams.FairnessOption.equals("-nof"))
         {
-            PcalParams.FairnessOption = "";
+            pcalParams.FairnessOption = "";
         }
-        if (PcalParams.CheckTermination && PcalParams.FairnessOption.equals("")  && !explicitNof)
+        if (pcalParams.CheckTermination && pcalParams.FairnessOption.equals("")  && !explicitNof)
         {
-            PcalParams.FairnessOption = "wf";
+            pcalParams.FairnessOption = "wf";
 
         }
 
@@ -1685,7 +1688,7 @@ class trans {
         if (file.getName().lastIndexOf(".") == -1)
         {
             // no extension
-            PcalParams.TLAInputFile = file.getPath();
+            pcalParams.TLAInputFile = file.getPath();
         } else
         {
             // extension present
@@ -1706,7 +1709,7 @@ class trans {
         if (hasExtension)
         {
             // cut the extension
-            PcalParams.TLAInputFile = file.getPath().substring(0, file.getPath().lastIndexOf("."));
+            pcalParams.TLAInputFile = file.getPath().substring(0, file.getPath().lastIndexOf("."));
             if (!file.exists())
             {
                 return CommandLineError("Input file " + file.getPath() + " does not exist.");
@@ -1714,16 +1717,16 @@ class trans {
         } else
         {
             // aborted version 1.31 code
-            // file = new File(PcalParams.TLAInputFile + ".pcal");
+            // file = new File(pcalParams.TLAInputFile + ".pcal");
             // if (file.exists())
             // {
-            // PcalParams.fromPcalFile = true;
+            // pcalParams.fromPcalFile = true;
             // } else
             // {
-            file = new File(PcalParams.TLAInputFile + TLAConstants.Files.TLA_EXTENSION);
+            file = new File(pcalParams.TLAInputFile + TLAConstants.Files.TLA_EXTENSION);
             if (!file.exists())
             {
-                return CommandLineError("Input file " + PcalParams.TLAInputFile + ".pcal and " + file.getPath()
+                return CommandLineError("Input file " + pcalParams.TLAInputFile + ".pcal and " + file.getPath()
                         + ".tla not found");
             }
             // }
@@ -1761,10 +1764,10 @@ class trans {
      * Returns if the options are conflicting
      * @return true if the provided options are conflicting, false otherwise
      */
-    private static boolean CheckForConflictingSpecOptions()
+    private static boolean CheckForConflictingSpecOptions(PcalParams pcalParams)
     {
-        if ((PcalParams.SpecOption ? 1 : 0) + (PcalParams.MyspecOption ? 1 : 0) + (PcalParams.Spec2Option ? 1 : 0)
-                + (PcalParams.Myspec2Option ? 1 : 0) + (PcalParams.WriteASTFlag ? 1 : 0) > 1)
+        if ((pcalParams.SpecOption ? 1 : 0) + (pcalParams.MyspecOption ? 1 : 0) + (pcalParams.Spec2Option ? 1 : 0)
+                + (pcalParams.Myspec2Option ? 1 : 0) + (pcalParams.WriteASTFlag ? 1 : 0) > 1)
         {
             CommandLineError("\nCan have at most one of the options " + "-spec, -myspec, -spec2, -myspec2, writeAST");
             return true;

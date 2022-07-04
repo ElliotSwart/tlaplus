@@ -30,15 +30,11 @@ public class PcalTLAGen
     // Constants that control formatting
     public final static boolean boxUnderCASE = true; /* else [] at end of line  */
 
-    // The following two variables made non-final on 9 Dec 2009 so they can
-    // be set by options.  They are initialized in PcalParams.resetParams().
-    public static int wrapColumn ; 
-       /* If the line width will be greater than this, then try to wrap */
-    public static int ssWrapColumn ; 
+
        // I think that this is used as follows: 
        //    when translating an assignment statement (or multiassignment?)
        //    to  var' = [var EXCEPT ...],  it begins the ... on a new line
-       //    iff  the ... would begin in a column > ssWrapColumn.
+       //    iff  the ... would begin in a column > pcalParams.ssWrapColumn.
        // For the time being, it is set to wrapColumn - 33.  We may want
        // to do something cleverer or else make it a user option.
 
@@ -120,9 +116,11 @@ public class PcalTLAGen
     private String currentProcName ;
 
     private final ParseAlgorithm parseAlgorithm;
+    private final PcalParams pcalParams;
 
     public PcalTLAGen(ParseAlgorithm parseAlgorithm){
         this.parseAlgorithm = parseAlgorithm;
+        this.pcalParams = parseAlgorithm.pcalParams;
     }
 
     /**
@@ -136,7 +134,7 @@ public class PcalTLAGen
      */
     public Vector<String> generate(final AST ast, final PcalSymTab symtab, final Vector<String> report) throws PcalTLAGenException
     {
-        final TLAtoPCalMapping map = PcalParams.tlaPcalMapping;
+        final TLAtoPCalMapping map = pcalParams.tlaPcalMapping;
         mappingVector = new Vector<String>(50);
         /*
          * Add the reports of renaming to the output.
@@ -351,7 +349,7 @@ public class PcalTLAGen
             final String disjunct = stmt.label + argument;
             if (   i != 0 
                 && tlacodeNextLine.length() +  7 /* the 7 was obtained empirically */
-                    + disjunct.length() > wrapColumn) {
+                    + disjunct.length() > pcalParams.wrapColumn) {
                 endCurrentLineOfTLA();
             }
             if (i != 0) {
@@ -427,7 +425,7 @@ public class PcalTLAGen
             final String disjunct = stmt.label + argument;
             if (   i != 0 
                 && tlacodeNextLine.length() + 7 /* the 7 was obtained empirically */
-                  + disjunct.length() > wrapColumn) {
+                  + disjunct.length() > pcalParams.wrapColumn) {
                 endCurrentLineOfTLA();
             }
             if (i != 0) {
@@ -543,7 +541,7 @@ public class PcalTLAGen
          * the last one is replaced with a call of addOneTokenToTLA so we can
          * put the RightParen object in mappingVector.
          */
-        final Vector<String> unc = c.Unchanged(wrapColumn - col - "/\\ UNCHANGED << ".length());
+        final Vector<String> unc = c.Unchanged(pcalParams.wrapColumn - col - "/\\ UNCHANGED << ".length());
         if (c.NumUnchanged() > 1)
         {
             sb = new StringBuilder(NSpaces(col));
@@ -859,7 +857,7 @@ public class PcalTLAGen
                     // The test for selfAsSV size added by LL on 22 Jan 2011
                     // because wrapping screws up the kludgeToFixPCHandlingBug
                     // hack.
-                    if ( (sb.length() + prefix.length() > ssWrapColumn)
+                    if ( (sb.length() + prefix.length() > pcalParams.ssWrapColumn)
                          && (selfAsSV.size() == 0))
                     {
 //                        lines.addElement(sb.toString());
@@ -1107,7 +1105,7 @@ public class PcalTLAGen
         // Generate UNCHANGED for the ELSE branch
         if (cElse.NumUnchanged(cThen) > 1)
         {
-            final Vector<String> uncElse = cElse.Unchanged(cThen, wrapColumn - sb.length() - "UNCHANGED << ".length());
+            final Vector<String> uncElse = cElse.Unchanged(cThen, pcalParams.wrapColumn - sb.length() - "UNCHANGED << ".length());
             sb.append("UNCHANGED << ");
             final int cc = sb.length();
             sb.append(uncElse.elementAt(0));
@@ -1156,7 +1154,7 @@ public class PcalTLAGen
         mappingVector.removeElementAt(lineUncThen);
         if (cThen.NumUnchanged(cElse) > 1)
         {
-            final Vector<String> uncThen = cThen.Unchanged(cElse, wrapColumn - sb.length() - "UNCHANGED << ".length());
+            final Vector<String> uncThen = cThen.Unchanged(cElse, pcalParams.wrapColumn - sb.length() - "UNCHANGED << ".length());
             sb.append("UNCHANGED << ");
             final int cc = sb.length();
             sb.append(uncThen.elementAt(0));
@@ -1465,7 +1463,7 @@ public class PcalTLAGen
         // modified on 23 Mar 2006 by LL to use location() instead of
         // ast.line and ast.col
         sc.append(".\")");
-        if (tlacodeNextLine.length() + sb.length() + sc.length() < wrapColumn) {
+        if (tlacodeNextLine.length() + sb.length() + sc.length() < pcalParams.wrapColumn) {
             addOneTokenToTLA(sb.toString() + sc);
         } else
         {
@@ -1535,7 +1533,7 @@ public class PcalTLAGen
           /**
            * For added variables, create a VarDecl with null origin.
            */
-          final AST.VarDecl pcVarDecl = new AST.VarDecl();
+          final AST.VarDecl pcVarDecl = new AST.VarDecl(pcalParams);
           pcVarDecl.var = "pc";
           gVarsSource.addElement(pcVarDecl);
           vars.addElement("pc");
@@ -1546,7 +1544,7 @@ public class PcalTLAGen
             /**
              * For added variables, create a VarDecl with null origin.
              */
-            final AST.VarDecl pcVarDecl = new AST.VarDecl();
+            final AST.VarDecl pcVarDecl = new AST.VarDecl(pcalParams);
             pcVarDecl.var = "stack";
             gVarsSource.addElement(pcVarDecl);
             vars.addElement("stack");
@@ -1657,16 +1655,16 @@ public class PcalTLAGen
             final String vbl = gVars.elementAt(i);
             final AST.VarDecl vblDecl = gVarsSource.elementAt(i);
             final Region vblOrigin = vblDecl.getOrigin();
-//            if (curLine.length() + vbl.length() + 1 > wrapColumn)
-            if (tlacodeNextLine.length() + vbl.length() + 1 > wrapColumn)
+//            if (curLine.length() + vbl.length() + 1 > pcalParams.wrapColumn)
+            if (tlacodeNextLine.length() + vbl.length() + 1 > pcalParams.wrapColumn)
             {
                 endCurrentLineOfTLA();
                 tlacodeNextLine = NSpaces(indent);
             }
             addOneSourceTokenToTLA(vbl, vblOrigin);
         }
-//        if (curLine.length() + " >>".length() + 1 > wrapColumn)
-        if (tlacodeNextLine.length() + " >>".length() + 1 > wrapColumn)
+//        if (curLine.length() + " >>".length() + 1 > pcalParams.wrapColumn)
+        if (tlacodeNextLine.length() + " >>".length() + 1 > pcalParams.wrapColumn)
         {
 //            var.append("\n" + NSpaces("vars ==".length()));
             endCurrentLineOfTLA() ;
@@ -1718,8 +1716,8 @@ public class PcalTLAGen
             }
             final String vbl = varVec.elementAt(i);
             final AST vblsource = varVecSource.elementAt(i);
-//            if (curLine.length() + vbl.length() + 1 > wrapColumn)
-            if (tlacodeNextLine.length() + vbl.length() + 1 > wrapColumn)
+//            if (curLine.length() + vbl.length() + 1 > pcalParams.wrapColumn)
+            if (tlacodeNextLine.length() + vbl.length() + 1 > pcalParams.wrapColumn)
             {
 //                curLine = new String
                 endCurrentLineOfTLA();
@@ -2314,7 +2312,7 @@ public class PcalTLAGen
         StringBuilder sb = new StringBuilder();
         int max, col;
         
-        if (! (PcalParams.NoDoneDisjunct || parseAlgorithm.omitStutteringWhenDone))
+        if (! (pcalParams.NoDoneDisjunct || parseAlgorithm.omitStutteringWhenDone))
         { 
 //          tlacode.addElement(sb.toString());
           sb.append("(* Allow infinite stuttering to prevent deadlock on termination. *)");
@@ -2373,7 +2371,7 @@ public class PcalTLAGen
         sb = new StringBuilder();
         		
         // Steps with no parameter
-        max = wrapColumn - ("Next == \\/ ".length());
+        max = pcalParams.wrapColumn - ("Next == \\/ ".length());
         for (int i = 0; i < nextStep.size(); i++)
         {
             final String a = nextStep.elementAt(i);
@@ -2394,7 +2392,7 @@ public class PcalTLAGen
         final Vector<String> nextSS = new Vector<>();
         final String nextSSstart = "(\\E self \\in ProcSet: ";
         sb = new StringBuilder();
-        max = wrapColumn - ("Next == \\/ (\\E self \\in ProcSet: \\/ ".length());
+        max = pcalParams.wrapColumn - ("Next == \\/ (\\E self \\in ProcSet: \\/ ".length());
         if (mp && st.procs.size() > 0)
         {
             for (int i = 0; i < st.procs.size(); i++)
@@ -2493,7 +2491,7 @@ public class PcalTLAGen
                 }
                 sb = new StringBuilder(NSpaces(col) + " \\/ ");
             }
-        if (! (PcalParams.NoDoneDisjunct || parseAlgorithm.omitStutteringWhenDone))
+        if (! (pcalParams.NoDoneDisjunct || parseAlgorithm.omitStutteringWhenDone))
         { 
           addOneLineOfTLA(sb.append("Terminating").toString());
         }
@@ -2613,8 +2611,8 @@ public class PcalTLAGen
     private void GenSpec()
     {   final String safetyFormula = "Init /\\ [][Next]_vars" ;
     	
-        if (    PcalParams.FairnessOption.equals("nof")
-             || (!mp && PcalParams.FairnessOption.equals(""))) {
+        if (    pcalParams.FairnessOption.equals("nof")
+             || (!mp && pcalParams.FairnessOption.equals(""))) {
             addOneLineOfTLA("Spec == " + safetyFormula);
             addOneLineOfTLA("");
             return;
@@ -2627,10 +2625,10 @@ public class PcalTLAGen
 
     	// wfNextConj is either null or  " /\ WF_(Next)" 
     	String wfNextConj = null; 
-    	if (   PcalParams.FairnessOption.equals("wfNext")
-    	    || PcalParams.FairAlgorithm
-        	|| (!mp && (   PcalParams.FairnessOption.equals("wf")
-        			    || PcalParams.FairnessOption.equals("sf"))))
+    	if (   pcalParams.FairnessOption.equals("wfNext")
+    	    || pcalParams.FairAlgorithm
+        	|| (!mp && (   pcalParams.FairnessOption.equals("wf")
+        			    || pcalParams.FairnessOption.equals("sf"))))
         {
             // If uniprocess then wf and sf are the same as wfNext
         	wfNextConj = " /\\ WF_vars(Next)";
@@ -2802,7 +2800,8 @@ public class PcalTLAGen
         	                 prefix, 
         	                 wfSB.toString(), 
         	                 (sfSB == null) ? null : sfSB.toString(), 
-        	                 prcdFormulas)
+        	                 prcdFormulas,
+                             pcalParams)
         	              ) ;
                } // end if (fairness != AST.UNFAIR_PROC)
            } 	   
@@ -3690,7 +3689,7 @@ public class PcalTLAGen
     	    // "LET self == exp \n IN " (note the ending space) or ""
     	public FormulaPair bodyFormulas ; // fairness conditions for the proc's body
     	public final Vector<FormulaPair> prcdFormulas ; // fairness conditions for the procedure
-
+        private final PcalParams pcalParams;
     	/** 
     	 * The constructor
     	 * @param xfVal
@@ -3700,7 +3699,8 @@ public class PcalTLAGen
     	 * @param prcdVal
     	 */
     	public ProcessFairness (final String xfVal, final Vector<String>  prefixVal, final String bodyWF,
-                                final String bodySF, final Vector<FormulaPair>  prcdVal) {
+                                final String bodySF, final Vector<FormulaPair>  prcdVal, PcalParams pcalParams) {
+            this.pcalParams = pcalParams;
     		xf = xfVal;
     		prefix = prefixVal;
     		bodyFormulas = null ;
@@ -3798,7 +3798,7 @@ public class PcalTLAGen
     	 * @return
     	 */
     	private boolean fitsAsSingleLine(final int col) {
-    	    return     (col + singleLineWidth() <= PcalTLAGen.wrapColumn)
+    	    return     (col + singleLineWidth() <= pcalParams.wrapColumn)
                     || (bodyFormulas.sf == null 
                         && (prcdFormulas == null || prcdFormulas.size() == 0));
     	}
@@ -3828,7 +3828,7 @@ public class PcalTLAGen
     		}
     		final int curCol = col + prefixWidth;
     		String line = this.bodyFormulas.singleLine();
-    		if (curCol + line.length() + 3 <= PcalTLAGen.wrapColumn) {
+    		if (curCol + line.length() + 3 <= pcalParams.wrapColumn) {
     		   val.append("/\\ ").append(line);
     		} else {
     			val.append(this.bodyFormulas.multiLine(curCol));
@@ -3856,7 +3856,7 @@ public class PcalTLAGen
     		        val.append("\n") ;
     		    }
     		    val.append(NSpaces(curCol));
-    		    if (curCol + line.length() + 3 <= PcalTLAGen.wrapColumn) {
+    		    if (curCol + line.length() + 3 <= pcalParams.wrapColumn) {
     	    		   val.append("/\\ ").append(line).append("\n");
     	    		} else {
     	    			val.append(form.multiLine(curCol));

@@ -279,7 +279,7 @@ public class ParseAlgorithm
     omitStutteringWhenDone = true;
     // if the user has specified an earlier version than 1.5, then
     // don't omit the pc variable or stuttering-when-done clause.
-    if (PcalParams.inputVersionNumber < PcalParams.VersionToNumber("1.5")){
+    if (pcalParams.inputVersionNumber < pcalParams.VersionToNumber("1.5")){
         omitPC = false; 
         omitStutteringWhenDone = false;
     }
@@ -322,7 +322,7 @@ public class ParseAlgorithm
     		   ParsingError("`" + PcalParams.BeginFairAlg + "' not followed by `" 
     				   + PcalParams.BeginFairAlg2 + "'");
     	   }
-    	   PcalParams.FairAlgorithm = true;    	   
+           pcalParams.FairAlgorithm = true;
        }
        final String name = GetAlgToken() ;
        if (PeekAtAlgToken(1).equals("{"))
@@ -362,8 +362,8 @@ public class ParseAlgorithm
                     )
                 )
     		 || PeekAtAlgToken(1).equals("process")   )
-         { final AST.Multiprocess multiproc = new AST.Multiprocess() ;
-           final TLAtoPCalMapping map = PcalParams.tlaPcalMapping ;
+         { final AST.Multiprocess multiproc = new AST.Multiprocess(pcalParams) ;
+           final TLAtoPCalMapping map = pcalParams.tlaPcalMapping ;
            final PCalLocation multiprocBegin = new PCalLocation(map.algLine, map.algColumn);
            multiproc.name   = name ;
            multiproc.decls  = vdecls ;
@@ -383,9 +383,9 @@ public class ParseAlgorithm
         		   fairness = AST.WF_PROC;
         		   }
                 } else 
-                { if (PcalParams.FairnessOption.equals("wf")) {
+                { if (pcalParams.FairnessOption.equals("wf")) {
                 	fairness = AST.WF_PROC;
-                    } else if (PcalParams.FairnessOption.equals("sf")) {
+                    } else if (pcalParams.FairnessOption.equals("sf")) {
                     	fairness = AST.SF_PROC;
                     }
                 }
@@ -441,8 +441,8 @@ public class ParseAlgorithm
            * specified.                                                    *
            ****************************************************************/
            if (addedLabels.size() > 0)
-             { if (! PcalParams.LabelFlag) { AddedMessagesError() ; }
-                 if (PcalParams.ReportLabelsFlag) { ReportLabels() ; }
+             { if (! pcalParams.LabelFlag) { AddedMessagesError() ; }
+                 if (pcalParams.ReportLabelsFlag) { ReportLabels() ; }
                else
                    // SZ March 11, 2009: info reporting using PcalDebug added
                 { PcalDebug.reportInfo("Labels added.") ; }
@@ -459,8 +459,8 @@ public class ParseAlgorithm
            return multiproc ;
          }
        else
-         { final AST.Uniprocess uniproc = new AST.Uniprocess() ;
-           final TLAtoPCalMapping map = PcalParams.tlaPcalMapping ;
+         { final AST.Uniprocess uniproc = new AST.Uniprocess(pcalParams) ;
+           final TLAtoPCalMapping map = pcalParams.tlaPcalMapping ;
            final PCalLocation uniprocBegin = new PCalLocation(map.algLine, map.algColumn);
            uniproc.name   = name ;
            uniproc.decls  = vdecls ;
@@ -469,13 +469,13 @@ public class ParseAlgorithm
            uniproc.prcds  = procedures ;
            // Version 1.5 allowed "fair" to appear here
            // to specify fairness for a sequential algorithm
-           if (PcalParams.inputVersionNumber == PcalParams.VersionToNumber("1.5")) {
+           if (pcalParams.inputVersionNumber == PcalParams.VersionToNumber("1.5")) {
         	   if (PeekAtAlgToken(1).equals("fair")) {
                    GobbleThis("fair");
                    if (PeekAtAlgToken(1).equals("+")) {
                        GobbleThis("+");
-                   } 
-                   PcalParams.FairnessOption = "wf";
+                   }
+                   pcalParams.FairnessOption = "wf";
                  }
            }
            
@@ -483,12 +483,12 @@ public class ParseAlgorithm
            // to fix bug in which --fair uniprocess algorithm
            // wasn't producing fairness condition.
            if (fairAlgorithm) {
-        	   if (!PcalParams.FairnessOption.equals("") 
-        		      && !PcalParams.FairnessOption.equals("wf")
-        		      && !PcalParams.FairnessOption.equals("wfNext")) {
-        		  PcalDebug.reportWarning("Option `" + PcalParams.FairnessOption + "' specified for --fair algorithm.");
+        	   if (!pcalParams.FairnessOption.equals("")
+        		      && !pcalParams.FairnessOption.equals("wf")
+        		      && !pcalParams.FairnessOption.equals("wfNext")) {
+        		  PcalDebug.reportWarning("Option `" + pcalParams.FairnessOption + "' specified for --fair algorithm.");
         	   }
-        	   PcalParams.FairnessOption = "wf";
+               pcalParams.FairnessOption = "wf";
            }
 
              GobbleBeginOrLeftBrace() ;
@@ -523,9 +523,9 @@ public class ParseAlgorithm
            * specified.                                                    *
            ****************************************************************/
            if (addedLabels.size() > 0)
-             { if (hasLabel && ! PcalParams.LabelFlag) 
+             { if (hasLabel && ! pcalParams.LabelFlag)
                         { AddedMessagesError() ; }
-                 if (PcalParams.ReportLabelsFlag) { ReportLabels() ; }
+                 if (pcalParams.ReportLabelsFlag) { ReportLabels() ; }
                else
                    // SZ March 11, 2009: info reporting using PcalDebug added
                 { PcalDebug.reportInfo("Labels added.") ; }
@@ -680,7 +680,7 @@ public class ParseAlgorithm
      }
 
    public AST.Procedure GetProcedure() throws ParseAlgorithmException
-     { final AST.Procedure result = new AST.Procedure() ;
+     { final AST.Procedure result = new AST.Procedure(pcalParams) ;
        GobbleThis("procedure") ;
        final PCalLocation beginLoc = GetLastLocationStart() ;
        result.col  = lastTokCol ;
@@ -721,7 +721,7 @@ public class ParseAlgorithm
      }
 
    public AST.Process GetProcess() throws ParseAlgorithmException
-     { final AST.Process result = new AST.Process() ;
+     { final AST.Process result = new AST.Process(pcalParams) ;
        GobbleThis("process") ;
        final PCalLocation beginLoc = GetLastLocationStart() ;
        result.col  = lastTokCol ;
@@ -783,7 +783,7 @@ public class ParseAlgorithm
      }
 
    public AST.PVarDecl GetPVarDecl() throws ParseAlgorithmException 
-     { final AST.PVarDecl pv = new AST.PVarDecl() ;
+     { final AST.PVarDecl pv = new AST.PVarDecl(pcalParams) ;
        pv.var = GetAlgToken() ;
        final PCalLocation beginLoc = GetLastLocationStart() ;
        PCalLocation endLoc = GetLastLocationEnd() ;
@@ -834,7 +834,7 @@ public class ParseAlgorithm
      }
 
    public AST.VarDecl GetVarDecl() throws ParseAlgorithmException 
-     { final AST.VarDecl pv = new AST.VarDecl() ;
+     { final AST.VarDecl pv = new AST.VarDecl(pcalParams) ;
        pv.var = GetAlgToken() ;
        final PCalLocation beginLoc = GetLastLocationStart() ;
        PCalLocation endLoc = GetLastLocationEnd() ;
@@ -867,14 +867,14 @@ public class ParseAlgorithm
          final TLAExpr result;
         try
         {
-            result = Tokenize.TokenizeExpr(charReader);
+            result = tokenizer.TokenizeExpr(charReader);
         } catch (final TokenizerException e)
         {
             throw new ParseAlgorithmException(e.getMessage());
         }
-        LAT[LATsize] = Tokenize.Delimiter;
-        curTokCol[LATsize]  = Tokenize.DelimiterCol;
-        curTokLine[LATsize] = Tokenize.DelimiterLine;
+        LAT[LATsize] = tokenizer.Delimiter;
+        curTokCol[LATsize]  = tokenizer.DelimiterCol;
+        curTokLine[LATsize] = tokenizer.DelimiterLine;
         LATsize = LATsize + 1 ;
         
         /**
@@ -906,7 +906,7 @@ public class ParseAlgorithm
      { if (! IsLabelNext())
          { ParsingError("Was expecting a label"); 
          }
-         final AST.LabeledStmt result = new AST.LabeledStmt() ;
+         final AST.LabeledStmt result = new AST.LabeledStmt(pcalParams) ;
        result.label = GetAlgToken() ;
        if (result.label.equals("Done"))
          { ParsingError("Cannot use `Done' as a label.") ; }
@@ -933,7 +933,7 @@ public class ParseAlgorithm
    public AST.While GetWhile() throws ParseAlgorithmException
      { MustGobbleThis("while") ;
        final PCalLocation beginLoc = GetLastLocationStart() ;
-       final AST.While result = new AST.While() ;
+       final AST.While result = new AST.While(pcalParams) ;
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
        if (cSyntax) { GobbleThis("(") ; }
@@ -977,7 +977,17 @@ public class ParseAlgorithm
     * getLabelLocation is the location at the beginning of the label.
     */
    public PCalLocation getLabelLocation;
-   
+
+
+   public final PcalParams pcalParams;
+   public final Tokenize tokenizer;
+
+   public ParseAlgorithm(PcalParams pcalParams){
+
+       this.pcalParams = pcalParams;
+       this.tokenizer = new Tokenize();
+   }
+
    public String GetLabel() throws ParseAlgorithmException 
      /**********************************************************************
      * Checks if a label comes next.  If so, it gobbles it and returns     *
@@ -1197,7 +1207,7 @@ public class ParseAlgorithm
        else 
          { MustGobbleThis("elsif") ; }
          final PCalLocation beginLoc = GetLastLocationStart() ;
-       final AST.LabelIf result = new AST.LabelIf() ;
+       final AST.LabelIf result = new AST.LabelIf(pcalParams) ;
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
        if (cSyntax) { GobbleThis("(") ; }
@@ -1268,14 +1278,14 @@ public class ParseAlgorithm
    public AST.LabelEither  GetEither() throws ParseAlgorithmException
      { MustGobbleThis("either") ;
        final PCalLocation beginLoc = GetLastLocationStart() ;
-       final AST.LabelEither result = new AST.LabelEither() ;
+       final AST.LabelEither result = new AST.LabelEither(pcalParams) ;
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
        result.clauses = new Vector<>() ;
        boolean done = false ;
        boolean hasOr = false ;
        while (! done)
-        { final AST.Clause nextClause = new AST.Clause() ;
+        { final AST.Clause nextClause = new AST.Clause(pcalParams) ;
           nextClause.labOr = new Vector<>() ;
           if (pSyntax)
             { nextClause.unlabOr = GetStmtSeq() ; }
@@ -1351,7 +1361,7 @@ public class ParseAlgorithm
            begLoc = GetLastLocationStart() ;
            if (cSyntax) { GobbleThis("(") ; }
          }
-         final AST.With result = new AST.With() ;
+         final AST.With result = new AST.With(pcalParams) ;
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
        result.var  = GetAlgToken() ;
@@ -1391,7 +1401,7 @@ public class ParseAlgorithm
      } 
 
    public AST.Assign GetAssign() throws ParseAlgorithmException
-     { final AST.Assign result = new AST.Assign() ;
+     { final AST.Assign result = new AST.Assign(pcalParams) ;
        result.col  = curTokCol[0]  + 1;
        result.line = curTokLine[0] + 1;
          /******************************************************************
@@ -1417,7 +1427,7 @@ public class ParseAlgorithm
      }
 
    public AST.SingleAssign GetSingleAssign() throws ParseAlgorithmException
-     { final AST.SingleAssign result = new AST.SingleAssign() ;
+     { final AST.SingleAssign result = new AST.SingleAssign(pcalParams) ;
        result.col  = curTokCol[0]  + 1;
        result.line = curTokLine[0] + 1;
          /******************************************************************
@@ -1435,7 +1445,7 @@ public class ParseAlgorithm
      }
 
    public AST.Lhs GetLhs() throws ParseAlgorithmException 
-     { final AST.Lhs result = new AST.Lhs() ;
+     { final AST.Lhs result = new AST.Lhs(pcalParams) ;
        result.col  = curTokCol[0]  + 1;
        result.line = curTokLine[0] + 1;
          /******************************************************************
@@ -1471,7 +1481,7 @@ public class ParseAlgorithm
    public AST.PrintS GetPrintS() throws ParseAlgorithmException 
      { MustGobbleThis("print") ;    
        final PCalLocation beginLoc = GetLastLocationStart() ;
-       final AST.PrintS result = new AST.PrintS() ;
+       final AST.PrintS result = new AST.PrintS(pcalParams) ;
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
        result.exp = GetExpr() ; 
@@ -1483,7 +1493,7 @@ public class ParseAlgorithm
      }
 
    public AST.Assert GetAssert() throws ParseAlgorithmException 
-     { final AST.Assert result = new AST.Assert() ;
+     { final AST.Assert result = new AST.Assert(pcalParams) ;
        MustGobbleThis("assert") ;       
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
@@ -1498,7 +1508,7 @@ public class ParseAlgorithm
      }
 
    public AST.Skip GetSkip() throws ParseAlgorithmException 
-     { final AST.Skip result = new AST.Skip() ;
+     { final AST.Skip result = new AST.Skip(pcalParams) ;
        MustGobbleThis("skip") ;
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
@@ -1512,7 +1522,7 @@ public class ParseAlgorithm
      * Called with isWhen = true for a "when"                              *
      *                    = false for an "await"                           *
      **********************************************************************/
-     { final AST.When result = new AST.When() ;
+     { final AST.When result = new AST.When(pcalParams) ;
        if (isWhen) {MustGobbleThis("when") ;} 
         else {MustGobbleThis("await") ;}
          result.col  = lastTokCol ;
@@ -1529,7 +1539,7 @@ public class ParseAlgorithm
 
    public AST.Call GetCall() throws ParseAlgorithmException 
      { MustGobbleThis("call") ;
-       final AST.Call result = new AST.Call() ;
+       final AST.Call result = new AST.Call(pcalParams) ;
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
        result.to = GetAlgToken() ;
@@ -1571,7 +1581,7 @@ public class ParseAlgorithm
      * procedure because it could be in a macro that is called only from   *
      * inside a procedure.                                                 *
      **********************************************************************/
-     { final AST.Return result = new AST.Return() ;
+     { final AST.Return result = new AST.Return(pcalParams) ;
        MustGobbleThis("return") ;
        result.setOrigin(new Region(GetLastLocationStart(), GetLastLocationEnd())); 
        result.col  = lastTokCol ;
@@ -1593,7 +1603,7 @@ public class ParseAlgorithm
          { MustGobbleThis("return") ;
            final PCalLocation end = new PCalLocation(lastTokLine-1, lastTokCol+5);
            GobbleThis(";") ;
-           final AST.CallReturn result = new AST.CallReturn();
+           final AST.CallReturn result = new AST.CallReturn(pcalParams);
            result.col  = theCall.col ;
            result.line = theCall.line ;
            result.to   = theCall.to ;
@@ -1604,7 +1614,7 @@ public class ParseAlgorithm
          }
        else if (PeekAtAlgToken(1).equals("goto"))
          { MustGobbleThis("goto") ;
-           final AST.CallGoto result = new AST.CallGoto();
+           final AST.CallGoto result = new AST.CallGoto(pcalParams);
            result.col   = theCall.col ;
            result.line  = theCall.line ;
            result.to    = theCall.to ;
@@ -1625,7 +1635,7 @@ public class ParseAlgorithm
 
    public AST.Goto GetGoto() throws ParseAlgorithmException 
      { MustGobbleThis("goto") ;
-       final AST.Goto result = new AST.Goto() ;
+       final AST.Goto result = new AST.Goto(pcalParams) ;
        result.col  = lastTokCol ;
        result.line = lastTokLine ;
        result.to   = GetAlgToken() ;
@@ -1659,7 +1669,7 @@ public class ParseAlgorithm
    /**********************************************************************
    * This method was largely copied from GetProcedure.                   *
    **********************************************************************/
-   { final AST.Macro result = new AST.Macro() ;
+   { final AST.Macro result = new AST.Macro(pcalParams) ;
      inGetMacro = true ;
      MustGobbleThis("macro") ;
      final PCalLocation beginLoc = GetLastLocationStart() ;
@@ -1690,7 +1700,7 @@ public class ParseAlgorithm
    }
    
    public AST.MacroCall GetMacroCall() throws ParseAlgorithmException 
-     { final AST.MacroCall result = new AST.MacroCall() ;
+     { final AST.MacroCall result = new AST.MacroCall(pcalParams) ;
        result.name = GetAlgToken() ;
        final PCalLocation beginLoc = GetLastLocationStart();
        result.col  = lastTokCol ;
@@ -2079,10 +2089,10 @@ public class ParseAlgorithm
      * label has not been typed by the user.                               *
      **********************************************************************/
      { if (stmt.lbl.equals("") )
-         { String lbl = PcalParams.LabelRoot + nextLabelNum ;
+         { String lbl = pcalParams.LabelRoot + nextLabelNum ;
            nextLabelNum = nextLabelNum + 1 ;
            while (allLabels.containsKey(lbl))
-             { lbl = PcalParams.LabelRoot + nextLabelNum ;
+             { lbl = pcalParams.LabelRoot + nextLabelNum ;
                nextLabelNum = nextLabelNum + 1 ;
              }
              stmt.lbl = lbl ;
@@ -2178,7 +2188,7 @@ public class ParseAlgorithm
      { final Vector<AST> result = new Vector<>() ;
        int nextStmt = 0 ;
        while (nextStmt < stmtseq.size())
-         { final AST.LabeledStmt lstmt = new AST.LabeledStmt() ;
+         { final AST.LabeledStmt lstmt = new AST.LabeledStmt(pcalParams) ;
            AST stmt = stmtseq.elementAt(nextStmt);
              /**************************************************************
              * lstmt is the current <LabeledStmt> being constructed, and   *
@@ -2385,7 +2395,7 @@ public class ParseAlgorithm
                {
                  result = ClassifyIf(ifNode) ;
                  if (result < 2)
-                   { final AST.If newIf = new AST.If() ;
+                   { final AST.If newIf = new AST.If(pcalParams) ;
                      newIf.test = ifNode.test ;
                      newIf.Then = ifNode.unlabThen ;
                      newIf.Else = ifNode.unlabElse ;
@@ -2397,7 +2407,7 @@ public class ParseAlgorithm
                {
                  result = ClassifyEither(eitherNode) ;
                  if (result < 2)
-                   { final AST.Either newEither = new AST.Either() ;
+                   { final AST.Either newEither = new AST.Either(pcalParams) ;
                      newEither.ors = new Vector<>() ;
                      int j = 0 ;
                      while (j < eitherNode.clauses.size())
@@ -2706,7 +2716,7 @@ public class ParseAlgorithm
            final AST.LabeledStmt stmt,
            final Vector<TLAExpr> args,   // of TLAExpr
            final Vector<String> params) throws ParseAlgorithmException // of String
-      { final AST.LabeledStmt result = new AST.LabeledStmt() ;
+      { final AST.LabeledStmt result = new AST.LabeledStmt(pcalParams) ;
         result.label = stmt.label ;
         result.stmts = SubstituteInStmtSeq(stmt.stmts, args, params, -1, 0) ;
         result.setOrigin(stmt.getOrigin()) ;
@@ -2770,7 +2780,7 @@ public class ParseAlgorithm
       try {          
         if (stmt instanceof AST.Assign tstmt)
           {
-            final AST.Assign result = new AST.Assign() ;
+            final AST.Assign result = new AST.Assign(pcalParams) ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
             result.macroCol  = tstmt.macroCol ;
@@ -2794,7 +2804,7 @@ public class ParseAlgorithm
 
         if (stmt  instanceof AST.If tstmt)
           {
-            final AST.If result = new AST.If() ;
+            final AST.If result = new AST.If(pcalParams) ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
             result.macroCol  = tstmt.macroCol ;
@@ -2819,7 +2829,7 @@ public class ParseAlgorithm
 
           if (stmt  instanceof AST.Either tstmt)
           {
-            final AST.Either result = new AST.Either() ;
+            final AST.Either result = new AST.Either(pcalParams) ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
             result.macroCol  = tstmt.macroCol ;
@@ -2844,7 +2854,7 @@ public class ParseAlgorithm
 
           if (stmt  instanceof AST.With tstmt)
           {
-            final AST.With result = new AST.With() ;
+            final AST.With result = new AST.With(pcalParams) ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
             result.macroCol  = tstmt.macroCol ;
@@ -2866,7 +2876,7 @@ public class ParseAlgorithm
 
           if (stmt  instanceof AST.When tstmt)
           {
-            final AST.When result = new AST.When() ;
+            final AST.When result = new AST.When(pcalParams) ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
             result.macroCol  = tstmt.macroCol ;
@@ -2884,7 +2894,7 @@ public class ParseAlgorithm
 
           if (stmt  instanceof AST.Assert tstmt)
           {
-            final AST.Assert result = new AST.Assert() ;
+            final AST.Assert result = new AST.Assert(pcalParams) ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
             result.macroCol  = tstmt.macroCol ;
@@ -2903,7 +2913,7 @@ public class ParseAlgorithm
 
           if (stmt  instanceof AST.Skip tstmt)
           {
-            final AST.Skip result = new AST.Skip() ;
+            final AST.Skip result = new AST.Skip(pcalParams) ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
             result.setOrigin(tstmt.getOrigin()) ;
@@ -2917,7 +2927,7 @@ public class ParseAlgorithm
 
           if (stmt  instanceof AST.PrintS tstmt)
           {
-            final AST.PrintS result = new AST.PrintS() ;
+            final AST.PrintS result = new AST.PrintS(pcalParams) ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
             result.macroCol  = tstmt.macroCol ;
@@ -2938,7 +2948,7 @@ public class ParseAlgorithm
         *******************************************************************/
         if (stmt  instanceof AST.While tstmt)
           {
-            final AST.While result = new AST.While() ;
+            final AST.While result = new AST.While(pcalParams) ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
             result.macroCol  = tstmt.macroCol ;
@@ -2966,7 +2976,7 @@ public class ParseAlgorithm
 
           if (stmt instanceof AST.LabelIf tstmt)
           {
-            final AST.LabelIf result = new AST.LabelIf() ;
+            final AST.LabelIf result = new AST.LabelIf(pcalParams) ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
             result.macroCol  = tstmt.macroCol ;
@@ -3004,7 +3014,7 @@ public class ParseAlgorithm
 
           if (stmt  instanceof AST.LabelEither tstmt)
           {
-            final AST.LabelEither result = new AST.LabelEither() ;
+            final AST.LabelEither result = new AST.LabelEither(pcalParams) ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
             result.macroCol  = tstmt.macroCol ;
@@ -3019,7 +3029,7 @@ public class ParseAlgorithm
             while (i < tstmt.clauses.size())
              { final AST.Clause oldClause =
                      tstmt.clauses.elementAt(i);
-               final AST.Clause newClause = new AST.Clause() ;
+               final AST.Clause newClause = new AST.Clause(pcalParams) ;
                newClause.setOrigin(oldClause.getOrigin()) ;
                newClause.labOr = SubstituteInLabeledStmtSeq(
                                      oldClause.labOr, 
@@ -3039,7 +3049,7 @@ public class ParseAlgorithm
 
           if (stmt  instanceof AST.Call tstmt)
           {
-            final AST.Call result = new AST.Call() ;
+            final AST.Call result = new AST.Call(pcalParams) ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
             result.macroCol  = tstmt.macroCol ;
@@ -3058,7 +3068,7 @@ public class ParseAlgorithm
 
           if (stmt  instanceof AST.Return tstmt)
           {
-            final AST.Return result = new AST.Return() ;
+            final AST.Return result = new AST.Return(pcalParams) ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
             result.macroCol  = tstmt.macroCol ;
@@ -3074,7 +3084,7 @@ public class ParseAlgorithm
 
           if (stmt  instanceof AST.CallReturn tstmt)
           {
-            final AST.CallReturn result = new AST.CallReturn() ;
+            final AST.CallReturn result = new AST.CallReturn(pcalParams) ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
             result.macroCol  = tstmt.macroCol ;
@@ -3093,7 +3103,7 @@ public class ParseAlgorithm
 
           if (stmt  instanceof AST.CallGoto tstmt)
           {
-            final AST.CallGoto result = new AST.CallGoto() ;
+            final AST.CallGoto result = new AST.CallGoto(pcalParams) ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
             result.macroCol  = tstmt.macroCol ;
@@ -3112,7 +3122,7 @@ public class ParseAlgorithm
 
           if (stmt  instanceof AST.Goto tstmt)
           {
-            final AST.Goto result = new AST.Goto() ;
+            final AST.Goto result = new AST.Goto(pcalParams) ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
             result.macroCol  = tstmt.macroCol ;
@@ -3129,7 +3139,7 @@ public class ParseAlgorithm
           PcalDebug.ReportBug(
            "Found unexpected statement type in macro at" +
              stmt.location() ); 
-        return new AST(); // Needed to keep Java from complaining.
+        return new AST(pcalParams); // Needed to keep Java from complaining.
       } catch (final UnrecoverableException e)
       {
           throw new ParseAlgorithmException(e.getMessage());
@@ -3151,7 +3161,7 @@ public class ParseAlgorithm
       *********************************************************************/
       { 
         try {
-        final AST.SingleAssign result = new AST.SingleAssign() ;
+        final AST.SingleAssign result = new AST.SingleAssign(pcalParams) ;
         result.setOrigin(assgn.getOrigin());
         result.col  = assgn.col ;
         result.line = assgn.line ;
@@ -3167,7 +3177,7 @@ public class ParseAlgorithm
         result.rhs = assgn.rhs.cloneAndNormalize() ;
         result.rhs.substituteForAll(args, params) ;
 
-        result.lhs = new AST.Lhs() ;
+        result.lhs = new AST.Lhs(pcalParams) ;
         result.lhs.setOrigin(assgn.getOrigin()) ;
         result.lhs.sub = assgn.lhs.sub ;
         /*******************************************************************
@@ -3496,7 +3506,7 @@ public class ParseAlgorithm
            final String tok;
         try
         {
-            tok = Tokenize.GetAlgorithmToken(charReader);
+            tok = tokenizer.GetAlgorithmToken(charReader);
         } catch (final TokenizerException e)
         {
             throw new ParseAlgorithmException(e.getMessage());
@@ -3547,7 +3557,7 @@ public class ParseAlgorithm
            curTokLine[LATsize] = charReader.getLineNumber();
            try
         {
-            LAT[LATsize] = Tokenize.GetAlgorithmToken(charReader);
+            LAT[LATsize] = tokenizer.GetAlgorithmToken(charReader);
         } catch (final TokenizerException e)
         {
             throw new ParseAlgorithmException(e.getMessage());
@@ -3575,7 +3585,7 @@ public class ParseAlgorithm
          while (tokNum > LATsize)
          { try
         {
-            LAT[LATsize] = Tokenize.GetAlgorithmToken(charReader);
+            LAT[LATsize] = tokenizer.GetAlgorithmToken(charReader);
         } catch (final TokenizerException e)
         {
             throw new ParseAlgorithmException(e.getMessage());
@@ -3859,7 +3869,7 @@ public class ParseAlgorithm
                 argsArray[i] = argsVec.elementAt(i);
             }
 // printArray(argsArray);           
-            final int status = trans.parseAndProcessArguments(argsArray);
+            final int status = trans.parseAndProcessArguments(this.pcalParams, argsArray);
             return status;
         }
         return trans.STATUS_OK;
