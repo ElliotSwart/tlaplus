@@ -258,16 +258,16 @@ public class PcalTLAGen
      ****************************************************************/
     private void GenSym(final AST ast, final String context) throws PcalTLAGenException
     {
-        if (ast.getClass().equals(AST.UniprocessObj.getClass()))
-            GenUniprocess((AST.Uniprocess) ast, context);
-        else if (ast.getClass().equals(AST.MultiprocessObj.getClass()))
-            GenMultiprocess((AST.Multiprocess) ast, context);
-        else if (ast.getClass().equals(AST.ProcedureObj.getClass()))
-            GenProcedure((AST.Procedure) ast, context);
-        else if (ast.getClass().equals(AST.ProcessObj.getClass()))
-            GenProcess((AST.Process) ast, context);
-        else if (ast.getClass().equals(AST.LabeledStmtObj.getClass()))
-            GenLabeledStmt((AST.LabeledStmt) ast, context);
+        if (ast instanceof AST.Uniprocess obj)
+            GenUniprocess(obj, context);
+        else if (ast instanceof AST.Multiprocess obj)
+            GenMultiprocess(obj, context);
+        else if (ast instanceof AST.Procedure obj)
+            GenProcedure(obj, context);
+        else if (ast instanceof AST.Process obj)
+            GenProcess(obj, context);
+        else if (ast instanceof AST.LabeledStmt obj)
+            GenLabeledStmt(obj, context);
     }
 
     private void GenUniprocess(final AST.Uniprocess ast, final String context) throws PcalTLAGenException
@@ -702,23 +702,23 @@ public class PcalTLAGen
      ****************************************************************/
     private void GenStmt(final AST ast, final Changed c, final String context, final String prefix, final int col) throws PcalTLAGenException
     {
-        if (ast.getClass().equals(AST.AssignObj.getClass()))
-            GenAssign((AST.Assign) ast, c, context, prefix, col);
-        else if (ast.getClass().equals(AST.IfObj.getClass()))
-            GenIf((AST.If) ast, c, context, prefix, col);
+        if (ast instanceof AST.Assign obj)
+            GenAssign(obj, c, context, prefix, col);
+        else if (ast instanceof AST.If obj)
+            GenIf(obj, c, context, prefix, col);
         // Either case added by LL on 27 Jan 2006
-        else if (ast.getClass().equals(AST.EitherObj.getClass()))
-            GenEither((AST.Either) ast, c, context, prefix, col);
-        else if (ast.getClass().equals(AST.WithObj.getClass()))
-            GenWith((AST.With) ast, c, context, prefix, col);
-        else if (ast.getClass().equals(AST.WhenObj.getClass()))
-            GenWhen((AST.When) ast, c, context, prefix, col);
-        else if (ast.getClass().equals(AST.PrintSObj.getClass()))
-            GenPrintS((AST.PrintS) ast, c, context, prefix, col);
-        else if (ast.getClass().equals(AST.AssertObj.getClass()))
-            GenAssert((AST.Assert) ast, c, context, prefix, col);
-        else if (ast.getClass().equals(AST.SkipObj.getClass()))
-            GenSkip((AST.Skip) ast, c, context, prefix, col);
+        else if (ast instanceof AST.Either obj)
+            GenEither(obj, c, context, prefix, col);
+        else if (ast instanceof AST.With obj)
+            GenWith(obj, c, context, prefix, col);
+        else if (ast instanceof AST.When obj)
+            GenWhen(obj, c, context, prefix, col);
+        else if (ast instanceof AST.PrintS obj)
+            GenPrintS(obj, c, context, prefix, col);
+        else if (ast instanceof AST.Assert obj)
+            GenAssert(obj, c, context, prefix, col);
+        else if (ast instanceof AST.Skip obj)
+            GenSkip(obj, c, context, prefix, col);
         else
             PcalDebug.ReportBug("Unexpected AST type " + ast);
     }

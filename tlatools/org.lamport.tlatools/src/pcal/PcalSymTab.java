@@ -432,50 +432,50 @@ public class PcalSymTab {
      * Type generic extract routine *
      ********************************/
     private void ExtractSym (final AST ast, final String context) {
-        if (ast.getClass().equals(AST.UniprocessObj.getClass()))
-            ExtractUniprocess((AST.Uniprocess) ast, context);
-        else if (ast.getClass().equals(AST.MultiprocessObj.getClass()))
-            ExtractMultiprocess((AST.Multiprocess) ast, context);
+        if (ast instanceof AST.Uniprocess u)
+            ExtractUniprocess(u, context);
+        else if (ast instanceof AST.Multiprocess m)
+            ExtractMultiprocess(m, context);
         else PcalDebug.ReportBug("Unexpected AST type.");
     }
 
     private void ExtractStmt (final AST ast, final String context, final String cType) {
-         if (ast.getClass().equals(AST.WhileObj.getClass()))
-            ExtractWhile((AST.While) ast, context, cType);
-        else if (ast.getClass().equals(AST.AssignObj.getClass()))
-            ExtractAssign((AST.Assign) ast, context, cType);
-        else if (ast.getClass().equals(AST.IfObj.getClass()))
-            ExtractIf((AST.If) ast, context, cType);
-        else if (ast.getClass().equals(AST.WithObj.getClass()))
-            ExtractWith((AST.With) ast, context, cType);
-        else if (ast.getClass().equals(AST.WhenObj.getClass()))
-            ExtractWhen((AST.When) ast, context, cType);
-        else if (ast.getClass().equals(AST.PrintSObj.getClass()))
-            ExtractPrintS((AST.PrintS) ast, context, cType);
-        else if (ast.getClass().equals(AST.AssertObj.getClass()))
-            ExtractAssert((AST.Assert) ast, context, cType);
-        else if (ast.getClass().equals(AST.SkipObj.getClass()))
-            ExtractSkip((AST.Skip) ast, context, cType);
-        else if (ast.getClass().equals(AST.LabelIfObj.getClass()))
-            ExtractLabelIf((AST.LabelIf) ast, context, cType);
-        else if (ast.getClass().equals(AST.CallObj.getClass()))
-            ExtractCall((AST.Call) ast, context, cType);
-        else if (ast.getClass().equals(AST.ReturnObj.getClass()))
-            ExtractReturn((AST.Return) ast, context, cType);
-        else if (ast.getClass().equals(AST.CallReturnObj.getClass()))
-            ExtractCallReturn((AST.CallReturn) ast, context, cType);
-        else if (ast.getClass().equals(AST.CallGotoObj.getClass()))
-            ExtractCallGoto((AST.CallGoto) ast, context, cType);
-        else if (ast.getClass().equals(AST.GotoObj.getClass()))
-            ExtractGoto((AST.Goto) ast, context, cType);
+         if (ast instanceof AST.While w)
+            ExtractWhile(w, context, cType);
+        else if (ast instanceof AST.Assign assign)
+            ExtractAssign(assign, context, cType);
+        else if (ast instanceof AST.If ifObj)
+            ExtractIf(ifObj, context, cType);
+        else if (ast instanceof AST.With withObj)
+            ExtractWith(withObj, context, cType);
+        else if (ast instanceof AST.When whenObj)
+            ExtractWhen(whenObj, context, cType);
+        else if (ast instanceof AST.PrintS printS)
+            ExtractPrintS(printS, context, cType);
+        else if (ast instanceof AST.Assert assertObj)
+            ExtractAssert(assertObj, context, cType);
+        else if (ast instanceof AST.Skip skipObj)
+            ExtractSkip(skipObj, context, cType);
+        else if (ast instanceof AST.LabelIf labelIf)
+            ExtractLabelIf(labelIf, context, cType);
+        else if (ast instanceof AST.Call callObj)
+            ExtractCall(callObj, context, cType);
+        else if (ast instanceof AST.Return returnObj)
+            ExtractReturn(returnObj, context, cType);
+        else if (ast instanceof AST.CallReturn cr)
+            ExtractCallReturn(cr, context, cType);
+        else if (ast instanceof AST.CallGoto callGoto)
+            ExtractCallGoto(callGoto, context, cType);
+        else if (ast instanceof AST.Goto gotoObj)
+            ExtractGoto(gotoObj, context, cType);
 
         /*******************************************************************
         * Handling of Either and LabelEither added by LL on 24 Jan 2006.   *
         *******************************************************************/
-        else if (ast.getClass().equals(AST.EitherObj.getClass()))
-            ExtractEither((AST.Either) ast, context, cType);
-        else if (ast.getClass().equals(AST.LabelEitherObj.getClass()))
-            ExtractLabelEither((AST.LabelEither) ast, context, cType);
+        else if (ast instanceof AST.Either either)
+            ExtractEither(either, context, cType);
+        else if (ast instanceof AST.LabelEither labelEither)
+            ExtractLabelEither(labelEither, context, cType);
         else PcalDebug.ReportBug("Unexpected AST type " + ast);
     }
 

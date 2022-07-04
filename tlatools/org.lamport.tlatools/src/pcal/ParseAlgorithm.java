@@ -288,11 +288,7 @@ public class ParseAlgorithm
    * Initialize charReader.                                          *
    ******************************************************************/
     PcalBuiltInSymbols.Initialize();
-  /*******************************************************************
-  * Initializes the hash tables of class PcalBuiltInSymbols, which   *
-  * is required before methods in the Tokenize class can be called.  *
-      *******************************************************************/
-    AST.ASTInit();
+
       /*******************************************************************
       * Performs the initialization method of the AST to create default  *
       * objects for each subclass.                                       *
@@ -591,7 +587,7 @@ public class ParseAlgorithm
            return;
        }
        if ((body.size() > 1) || 
-               ! body.elementAt(0).getClass().equals(AST.LabeledStmtObj.getClass()) ){
+               !(body.elementAt(0) instanceof AST.LabeledStmt)){
            omitPC = false;
            omitStutteringWhenDone = false;
            return;
@@ -602,7 +598,7 @@ public class ParseAlgorithm
            return;
        }
        if ((lblStmt.stmts.size() > 1) || 
-               ! lblStmt.stmts.elementAt(0).getClass().equals(AST.WhileObj.getClass()) ){
+               !(lblStmt.stmts.elementAt(0) instanceof AST.While)){
            omitPC = false;
            omitStutteringWhenDone = false;
            return;
@@ -641,9 +637,9 @@ public class ParseAlgorithm
            // is unnecessary, because there can only be a LabeledStmt
            // in a while statements unlabDo field if it is preceded by
            // a LabelIf or LabelEither
-           if (obj.getClass().equals(AST.LabelIfObj.getClass()) ||
-                   obj.getClass().equals(AST.LabelEitherObj.getClass()) ||
-                   obj.getClass().equals(AST.LabeledStmtObj.getClass())                   
+           if (obj instanceof AST.LabelIf ||
+                   obj instanceof AST.LabelEither ||
+                   obj instanceof AST.LabeledStmt
                ) {
                omitPC = false;
                return;
@@ -1814,7 +1810,7 @@ public class ParseAlgorithm
                 * outAssigned := {}                                        *
                 ***********************************************************/
             }
-             if (stmt.getClass().equals(AST.LabelIfObj.getClass()))
+             if (stmt  instanceof AST.LabelIf tstmt)
              { /************************************************************
                * This is an if statement.                                  *
                *   - Call InnerAddLabels on the the unlabThen and          *
@@ -1847,13 +1843,12 @@ public class ParseAlgorithm
               Copy(Union(thenAssigned, elseAssigned), outAssigned ) ;
 // PcalDebug.printVector(outAssigned, "pst outAssigned") ;
               }
-           else if (stmt.getClass().equals(AST.LabelEitherObj.getClass()))
+           else if (stmt  instanceof AST.LabelEither obj)
              { /************************************************************
                * This is a LabelEither object.  The sequence of its        *
                * clauses' unlabOr fields are handled in much the same way  *
                * as unlabThen and unlabElse fields for a LabelIf object.   *
                ************************************************************/
-               final AST.LabelEither obj = (AST.LabelEither) stmt ;
                  /******************************************************
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
@@ -1874,14 +1869,13 @@ public class ParseAlgorithm
                  }
                  Copy(newOutAssigned, outAssigned) ;
              }
-           else if (stmt.getClass().equals(AST.WhileObj.getClass()))
+           else if (stmt  instanceof AST.While obj)
              { /************************************************************
                * This is a while statement.                                *
                *   - Add a label if needed and clear outAssigned.          *
                *   - Call InnerAddLabels on the unlabDo clause.            *
                *   - set nextStepNeedsLabel to false                       *
                ************************************************************/
-               final AST.While obj = (AST.While) stmt ;
                  /******************************************************
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
@@ -1903,7 +1897,7 @@ public class ParseAlgorithm
                  * test.                                                   *
                  **********************************************************/
              } 
-           else if (stmt.getClass().equals(AST.WithObj.getClass()))
+           else if (stmt  instanceof AST.With obj)
              { /************************************************************
                * This is a with statement.  Apply InnerAddLabels to the    *
                * Do field.  If inWith = false, then this is an outermost   *
@@ -1912,7 +1906,6 @@ public class ParseAlgorithm
                * within the `with' has nonempty intersection with the      *
                * inAssigned parameter of the current call.                 *
                ************************************************************/
-               final AST.With obj = (AST.With) stmt ;
                  /******************************************************
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
@@ -1940,7 +1933,7 @@ public class ParseAlgorithm
                      }
                  }
              } 
-           else if (stmt.getClass().equals(AST.AssignObj.getClass()))
+           else if (stmt  instanceof AST.Assign obj)
              { /************************************************************
                * This is an Assign statement.  Set assignedVbls to the     *
                * set of variables being assigned.  If this has non-empty   *
@@ -1949,7 +1942,7 @@ public class ParseAlgorithm
                * nextStepNeedsLabel false, since there's no a priori       *
                * reason why an assignment needs a label after it.          *
                ************************************************************/
-               final AST.Assign obj = (AST.Assign) stmt ;
+
                  /******************************************************
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
@@ -2001,8 +1994,8 @@ public class ParseAlgorithm
                ************************************************************/
                boolean isCallOrReturn = false ;
                boolean setsPrcdVbls   = false ;
-               if (stmt.getClass().equals(AST.CallObj.getClass()))
-                 { final AST.Call obj = (AST.Call) stmt ;
+               if (stmt  instanceof AST.Call obj)
+                 {
                      /******************************************************
                      * Sets obj to an alias of stmt of the right type.     *
                      ******************************************************/
@@ -2010,21 +2003,21 @@ public class ParseAlgorithm
                    if (obj.to.equals(currentProcedure))
                      { setsPrcdVbls = true ; }
                  }
-               else if (stmt.getClass().equals(AST.CallGotoObj.getClass()))
-                 { final AST.CallGoto obj = (AST.CallGoto) stmt ;
+               else if (stmt  instanceof AST.CallGoto obj)
+                 {
                    isCallOrReturn = true ;
                    if (obj.to.equals(currentProcedure))
                      { setsPrcdVbls = true ; }
                  }
-               else if (   stmt.getClass().equals(AST.ReturnObj.getClass())
-                        || stmt.getClass().equals(AST.CallReturnObj.getClass())
+               else if (   stmt  instanceof AST.Return
+                        || stmt  instanceof AST.CallReturn
                        )
                  { isCallOrReturn = true ;
                    setsPrcdVbls = true ; 
                  } 
                // The following "else if" clause was originally missing; 
                // It was added on 15 May 2006.
-               else if (stmt.getClass().equals(AST.GotoObj.getClass()))
+               else if (stmt  instanceof AST.Goto obj)
                  { nextStepNeedsLabel = true;
                  }
                  if (isCallOrReturn)
@@ -2263,7 +2256,7 @@ public class ParseAlgorithm
      { int i = 0 ;
        while (i < stmtseq.size())
         { final AST stmt = stmtseq.elementAt(i);
-          if (stmt.getClass().equals(AST.LabelIfObj.getClass()))
+          if (stmt  instanceof AST.LabelIf obj)
              { /************************************************************
                * This is an if statement.  Set the unlabThen field to the  *
                * result of calling FixStmtSeq on the prefix of its         *
@@ -2272,7 +2265,6 @@ public class ParseAlgorithm
                * calling InnerMakeLabeledStmtSeq on the rest of the        *
                * statement sequence.                                       *
                ************************************************************/
-               final AST.LabelIf obj = (AST.LabelIf) stmt ;
                  /******************************************************
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
@@ -2299,13 +2291,12 @@ public class ParseAlgorithm
                  FixStmtSeq(obj.unlabElse) ;
                obj.labElse = InnerMakeLabeledStmtSeq(curr) ;
               }
-           else if (stmt.getClass().equals(AST.LabelEitherObj.getClass()))
+           else if (stmt  instanceof AST.LabelEither obj)
              { /************************************************************
                * This is a LabelEither object.  For each `or' clause, set  *
                * the unlabDo and labDo fields in the same way as the       *
                * unlabThen and labThen fields for a LabelIf object.        *
                ************************************************************/
-               final AST.LabelEither obj = (AST.LabelEither) stmt ;
                  /******************************************************
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
@@ -2325,7 +2316,7 @@ public class ParseAlgorithm
                  }
 
              }
-           else if (stmt.getClass().equals(AST.WhileObj.getClass()))
+           else if (stmt  instanceof AST.While obj)
              { /********************************************************
                * This is a while statement.  Set the unlabDo field to  *
                * the prefix of its current value consisting of         *
@@ -2334,7 +2325,6 @@ public class ParseAlgorithm
                * InnerMakeLabeledStmtSeq on the rest of the statement  *
                * sequence.                                             *
                ********************************************************/
-               final AST.While obj = (AST.While) stmt ;
                  /******************************************************
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
@@ -2391,9 +2381,8 @@ public class ParseAlgorithm
        int result = 0 ;
        while (i < stmtseq.size())
          { AST node = stmtseq.elementAt(i);
-             if (node.getClass().equals(
-                           AST.LabelIfObj.getClass()))
-               { final AST.LabelIf ifNode = (AST.LabelIf) node;
+             if (node instanceof AST.LabelIf ifNode)
+               {
                  result = ClassifyIf(ifNode) ;
                  if (result < 2)
                    { final AST.If newIf = new AST.If() ;
@@ -2404,9 +2393,8 @@ public class ParseAlgorithm
                      stmtseq.setElementAt(newIf, i) ;
                    }
                }
-             else if (node.getClass().equals(
-                           AST.LabelEitherObj.getClass()))
-               { final AST.LabelEither eitherNode = (AST.LabelEither) node;
+             else if (node instanceof AST.LabelEither eitherNode)
+               {
                  result = ClassifyEither(eitherNode) ;
                  if (result < 2)
                    { final AST.Either newEither = new AST.Either() ;
@@ -2421,40 +2409,34 @@ public class ParseAlgorithm
                      stmtseq.setElementAt(newEither, i) ;
                    }
                }
-             else if (node.getClass().equals(
-                           AST.WithObj.getClass()))
-               { result = ClassifyStmtSeq(((AST.With)node).Do) ; 
+             else if (node instanceof AST.With obj)
+               { result = ClassifyStmtSeq(obj.Do) ;
                  if (result == 2)
                    { throw new ParseAlgorithmException(
                       "with statement at " + node.location() + 
                       " contains a labeled statement") ;
                    }
                }
-             else if (node.getClass().equals(
-                           AST.WhileObj.getClass())  )
+             else if (node instanceof AST.While obj )
                { if (i != 0)
                    { PcalDebug.ReportBug(
                        "ParseAlgorithm.ClassifyStmtSeq encountered `while'" +
                        " not at beginning of StmtSeq.") ;
                    }
-                   @SuppressWarnings("unused") final int ignore = ClassifyStmtSeq(((AST.While) node).unlabDo) ;
-                 CheckLabeledStmtSeq(((AST.While) node).labDo) ;
+                   @SuppressWarnings("unused") final int ignore = ClassifyStmtSeq(obj.unlabDo) ;
+                 CheckLabeledStmtSeq(obj.labDo) ;
                }
-             else if (node.getClass().equals(
-                           AST.CallObj.getClass()))
+             else if (node instanceof AST.Call)
                { if (! (    (i < stmtseq.size() - 1)
                         &&  ( stmtseq.elementAt(
-                               i+1).getClass().equals(
-                                  AST.ReturnObj.getClass())  ) 
+                               i+1) instanceof AST.Return)
                        )
                     )                    
                    { result = 1 ;
                    }
                }
-             else if (   (node.getClass().equals(
-                           AST.ReturnObj.getClass())  )
-                      || (node.getClass().equals(
-                           AST.CallReturnObj.getClass())  )
+             else if (   (node instanceof AST.Return)
+                      || (node instanceof AST.CallReturn)
                      )
                { if (currentProcedure == null)
                    { throw new ParseAlgorithmException(
@@ -2463,28 +2445,21 @@ public class ParseAlgorithm
                    }
                    result = 1 ;
                }
-             else if (   node.getClass().equals(
-                           AST.GotoObj.getClass())
-                      || node.getClass().equals(
-                           AST.CallGotoObj.getClass())
+             else if (   node instanceof AST.Goto
+                      || node instanceof AST.CallGoto
                      )
                { result = 1 ;
                }
-             else if (! (   node.getClass().equals(AST.AssignObj.getClass())
-                         || node.getClass().equals(
-                               AST.WhenObj.getClass())  
-                         || node.getClass().equals(
-                               AST.PrintSObj.getClass())  
-                         || node.getClass().equals(
-                               AST.AssertObj.getClass())  
-                         || node.getClass().equals(
-                               AST.SkipObj.getClass())  
-                         || node.getClass().equals(
-                               AST.MacroCallObj.getClass())  )
+             else if (! (   node  instanceof AST.Assign
+                         || node instanceof AST.When
+                         || node instanceof AST.PrintS
+                         || node instanceof AST.Assert
+                         || node instanceof AST.Skip
+                         || node instanceof AST.MacroCall)
                      )
                { PcalDebug.ReportBug(
                   "ParseAlgorithm.ClassifyStmtSeq encountered the unexpected" +
-                  " statement type " + node.getClass()) ;
+                  " statement type " + node.getClass());
              }
            if (result > 0)
              { if (i == stmtseq.size() - 1)
@@ -2613,16 +2588,14 @@ public class ParseAlgorithm
      { int i = 0 ;
        while (i < stmtseq.size())
          { final AST node = stmtseq.elementAt(i);
-             if (node.getClass().equals(
-                           AST.LabelIfObj.getClass()))
-               { ExpandMacrosInStmtSeq(((AST.LabelIf) node).unlabThen, 
+             if (node instanceof AST.LabelIf obj)
+               { ExpandMacrosInStmtSeq(obj.unlabThen,
                                        macros) ;
-                 ExpandMacrosInStmtSeq(((AST.LabelIf) node).unlabElse, 
+                 ExpandMacrosInStmtSeq(obj.unlabElse,
                                          macros) ;
                }
-             else if (node.getClass().equals(
-                           AST.LabelEitherObj.getClass()))
-               { final AST.LabelEither eNode = (AST.LabelEither) node ;
+             else if (node instanceof AST.LabelEither eNode)
+               {
                  int j = 0 ;
                  while (j < eNode.clauses.size())
                    { ExpandMacrosInStmtSeq(
@@ -2631,18 +2604,15 @@ public class ParseAlgorithm
                      j = j + 1;
                    }
                }
-             else if (node.getClass().equals(
-                           AST.WithObj.getClass()))
-               { ExpandMacrosInStmtSeq(((AST.With)node).Do, macros) ; 
+             else if (node instanceof AST.With obj)
+               { ExpandMacrosInStmtSeq(obj.Do, macros) ;
                }
-             else if (node.getClass().equals(
-                           AST.WhileObj.getClass())  )
-               { ExpandMacrosInStmtSeq(((AST.While) node).unlabDo, macros) ;
+             else if (node instanceof AST.While obj)
+               { ExpandMacrosInStmtSeq(obj.unlabDo, macros) ;
                }
-             else if (node.getClass().equals(
-                           AST.MacroCallObj.getClass())  )
+             else if (node instanceof AST.MacroCall obj)
                { final Vector<AST> expansion =
-                          ExpandMacroCall( ((AST.MacroCall) node), macros);
+                          ExpandMacroCall(obj, macros);
                  
                  stmtseq.remove(i) ;
                  int j = expansion.size() ;
@@ -2798,8 +2768,8 @@ public class ParseAlgorithm
         * definition body.                                                 *
         *******************************************************************/
       try {          
-        if (stmt.getClass().equals( AST.AssignObj.getClass()))
-          { final AST.Assign tstmt = (AST.Assign) stmt ;
+        if (stmt instanceof AST.Assign tstmt)
+          {
             final AST.Assign result = new AST.Assign() ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
@@ -2822,8 +2792,8 @@ public class ParseAlgorithm
               return result ;
           }
 
-        if (stmt.getClass().equals( AST.IfObj.getClass()))
-          { final AST.If tstmt = (AST.If) stmt ;
+        if (stmt  instanceof AST.If tstmt)
+          {
             final AST.If result = new AST.If() ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
@@ -2847,8 +2817,8 @@ public class ParseAlgorithm
             return result;
           }
 
-          if (stmt.getClass().equals( AST.EitherObj.getClass()))
-          { final AST.Either tstmt = (AST.Either) stmt ;
+          if (stmt  instanceof AST.Either tstmt)
+          {
             final AST.Either result = new AST.Either() ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
@@ -2872,8 +2842,8 @@ public class ParseAlgorithm
               return result;
           }
 
-          if (stmt.getClass().equals( AST.WithObj.getClass()))
-          { final AST.With tstmt = (AST.With) stmt ;
+          if (stmt  instanceof AST.With tstmt)
+          {
             final AST.With result = new AST.With() ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
@@ -2894,8 +2864,8 @@ public class ParseAlgorithm
             return result;
           }
 
-          if (stmt.getClass().equals( AST.WhenObj.getClass()))
-          { final AST.When tstmt = (AST.When) stmt ;
+          if (stmt  instanceof AST.When tstmt)
+          {
             final AST.When result = new AST.When() ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
@@ -2912,8 +2882,8 @@ public class ParseAlgorithm
             return result;
           }
 
-          if (stmt.getClass().equals( AST.AssertObj.getClass()))
-          { final AST.Assert tstmt = (AST.Assert) stmt ;
+          if (stmt  instanceof AST.Assert tstmt)
+          {
             final AST.Assert result = new AST.Assert() ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
@@ -2931,8 +2901,8 @@ public class ParseAlgorithm
           }
 
 
-          if (stmt.getClass().equals( AST.SkipObj.getClass()))
-          { final AST.Skip tstmt = (AST.Skip) stmt ;
+          if (stmt  instanceof AST.Skip tstmt)
+          {
             final AST.Skip result = new AST.Skip() ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
@@ -2945,8 +2915,8 @@ public class ParseAlgorithm
           }
 
 
-          if (stmt.getClass().equals( AST.PrintSObj.getClass()))
-          { final AST.PrintS tstmt = (AST.PrintS) stmt ;
+          if (stmt  instanceof AST.PrintS tstmt)
+          {
             final AST.PrintS result = new AST.PrintS() ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
@@ -2966,8 +2936,8 @@ public class ParseAlgorithm
         * The following statements are ones that may not appear in a macro *
         * definition body.                                                 *
         *******************************************************************/
-        if (stmt.getClass().equals( AST.WhileObj.getClass()))
-          { final AST.While tstmt = (AST.While) stmt ;
+        if (stmt  instanceof AST.While tstmt)
+          {
             final AST.While result = new AST.While() ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
@@ -2994,8 +2964,8 @@ public class ParseAlgorithm
             return result;
           }
 
-          if (stmt.getClass().equals( AST.LabelIfObj.getClass()))
-          { final AST.LabelIf tstmt = (AST.LabelIf) stmt ;
+          if (stmt instanceof AST.LabelIf tstmt)
+          {
             final AST.LabelIf result = new AST.LabelIf() ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
@@ -3032,8 +3002,8 @@ public class ParseAlgorithm
             return result;
           }
 
-          if (stmt.getClass().equals( AST.LabelEitherObj.getClass()))
-          { final AST.LabelEither tstmt = (AST.LabelEither) stmt ;
+          if (stmt  instanceof AST.LabelEither tstmt)
+          {
             final AST.LabelEither result = new AST.LabelEither() ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
@@ -3067,8 +3037,8 @@ public class ParseAlgorithm
               return result ;
           }
 
-          if (stmt.getClass().equals( AST.CallObj.getClass()))
-          { final AST.Call tstmt = (AST.Call) stmt ;
+          if (stmt  instanceof AST.Call tstmt)
+          {
             final AST.Call result = new AST.Call() ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
@@ -3086,8 +3056,8 @@ public class ParseAlgorithm
             return result;
           }
 
-          if (stmt.getClass().equals( AST.ReturnObj.getClass()))
-          { final AST.Return tstmt = (AST.Return) stmt ;
+          if (stmt  instanceof AST.Return tstmt)
+          {
             final AST.Return result = new AST.Return() ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
@@ -3102,8 +3072,8 @@ public class ParseAlgorithm
             return result;
           }
 
-          if (stmt.getClass().equals( AST.CallReturnObj.getClass()))
-          { final AST.CallReturn tstmt = (AST.CallReturn) stmt ;
+          if (stmt  instanceof AST.CallReturn tstmt)
+          {
             final AST.CallReturn result = new AST.CallReturn() ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
@@ -3121,8 +3091,8 @@ public class ParseAlgorithm
             return result;
           }
 
-          if (stmt.getClass().equals( AST.CallGotoObj.getClass()))
-          { final AST.CallGoto tstmt = (AST.CallGoto) stmt ;
+          if (stmt  instanceof AST.CallGoto tstmt)
+          {
             final AST.CallGoto result = new AST.CallGoto() ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;
@@ -3140,8 +3110,8 @@ public class ParseAlgorithm
             return result;
           }
 
-          if (stmt.getClass().equals( AST.GotoObj.getClass()))
-          { final AST.Goto tstmt = (AST.Goto) stmt ;
+          if (stmt  instanceof AST.Goto tstmt)
+          {
             final AST.Goto result = new AST.Goto() ;
             result.col  = tstmt.col ;
             result.line = tstmt.line ;

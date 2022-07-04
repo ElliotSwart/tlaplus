@@ -66,45 +66,7 @@ import java.util.Vector;
 
 
 public class AST
-  { public static AST.Uniprocess   UniprocessObj   ;
-    public static AST.Multiprocess MultiprocessObj ;
-    public static AST.Procedure    ProcedureObj    ;
-    public static AST.Process      ProcessObj      ;
-    public static AST.VarDecl      VarDeclObj      ;
-    public static AST.PVarDecl     PVarDeclObj     ;
-    public static AST.LabeledStmt  LabeledStmtObj  ;
-    public static AST.While        WhileObj        ;
-    public static AST.Assign       AssignObj       ;
-    public static AST.SingleAssign SingleAssignObj ;
-      /*********************************************************************
-      * We added an explicit SINGLEASSIGN type to represent a single       *
-      * assignment within a multi-assignment.  We did this because Java    *
-      * doesn't allow a record (struct) to be constructed as anything      *
-      * other than an object of some class.                                *
-      *********************************************************************/
-    public static AST.Lhs          LhsObj          ;
-    public static AST.If           IfObj           ;
-    public static AST.Either       EitherObj       ;
-    public static AST.With         WithObj         ;
-    public static AST.When         WhenObj         ;
-    public static AST.PrintS       PrintSObj       ;
-    public static AST.Assert       AssertObj       ;
-    public static AST.Skip         SkipObj         ;
-    public static AST.LabelIf      LabelIfObj      ;
-    public static AST.LabelEither  LabelEitherObj  ;
-    public static AST.Clause       ClauseObj       ;
-      /*********************************************************************
-      * Because Java doesn't have records, only objects, we we add an      *
-      * explicit Clause object to be a record such that the `clauses'      *
-      * field of a LabelEither object is a sequence of Clause objects.     *
-      *********************************************************************/
-    public static AST.Call         CallObj         ;
-    public static AST.Return       ReturnObj       ;
-    public static AST.CallReturn   CallReturnObj   ;
-    public static AST.CallGoto     CallGotoObj     ;
-    public static AST.Goto         GotoObj         ;
-    public static AST.Macro        MacroObj        ;
-    public static AST.MacroCall    MacroCallObj    ;
+  {
 
     public int col ;
     public int line ;
@@ -187,41 +149,6 @@ public class AST
                    " of macro called at line " + macroLine + 
                    ", column " + macroCol ; }
       }
-      
-    public static void ASTInit()
-      /*********************************************************************
-      * An initializing method that creates the ...Obj objects used to     *
-      * test the class of an AST object.                                   *
-      *********************************************************************/
-      { UniprocessObj   = new AST.Uniprocess() ;
-        MultiprocessObj = new AST.Multiprocess() ;
-        ProcedureObj    = new AST.Procedure() ;
-        ProcessObj      = new AST.Process() ;
-        VarDeclObj      = new AST.VarDecl() ;
-        PVarDeclObj     = new AST.PVarDecl() ;
-        LabeledStmtObj  = new AST.LabeledStmt() ;
-        WhileObj        = new AST.While() ;
-        AssignObj       = new AST.Assign() ;
-        SingleAssignObj = new AST.SingleAssign() ;
-        LhsObj          = new AST.Lhs() ;
-        IfObj           = new AST.If() ;
-        EitherObj       = new AST.Either() ;
-        WithObj         = new AST.With() ;
-        WhenObj         = new AST.When() ;
-        PrintSObj       = new AST.PrintS() ;
-        AssertObj       = new AST.Assert() ;
-        SkipObj         = new AST.Skip() ;
-        LabelIfObj      = new AST.LabelIf() ;
-        LabelEitherObj  = new AST.LabelEither() ;
-        CallObj         = new AST.Call() ;
-        ReturnObj       = new AST.Return() ;
-        CallReturnObj   = new AST.CallReturn() ;
-        CallGotoObj     = new AST.CallGoto() ;
-        GotoObj         = new AST.Goto() ;
-        MacroObj        = new AST.Macro() ;
-        MacroCallObj    = new AST.MacroCall() ;
-      }
-
 
     public static class Uniprocess extends AST
       { public String  name   = "" ;

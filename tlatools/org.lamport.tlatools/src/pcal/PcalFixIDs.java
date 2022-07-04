@@ -35,56 +35,56 @@ public class PcalFixIDs {
     }
 
     private static void FixSym (final AST ast, final String context) throws PcalFixIDException {
-        if (ast.getClass().equals(AST.UniprocessObj.getClass()))
-            FixUniprocess((AST.Uniprocess) ast, context);
-        else if (ast.getClass().equals(AST.MultiprocessObj.getClass()))
-            FixMultiprocess((AST.Multiprocess) ast, context);
-        else if (ast.getClass().equals(AST.ProcedureObj.getClass()))
-            FixProcedure((AST.Procedure) ast, context);
-        else if (ast.getClass().equals(AST.ProcessObj.getClass()))
-            FixProcess((AST.Process) ast, context);
-        else if (ast.getClass().equals(AST.LabeledStmtObj.getClass()))
-            FixLabeledStmt((AST.LabeledStmt) ast, context);
-        else if (ast.getClass().equals(AST.WhileObj.getClass()))
-            FixWhile((AST.While) ast, context);
-        else if (ast.getClass().equals(AST.AssignObj.getClass()))
-            FixAssign((AST.Assign) ast, context);
-        else if (ast.getClass().equals(AST.SingleAssignObj.getClass()))
-            FixSingleAssign((AST.SingleAssign) ast, context);
-        else if (ast.getClass().equals(AST.LhsObj.getClass()))
-            FixLhs((AST.Lhs) ast, context);
-        else if (ast.getClass().equals(AST.IfObj.getClass()))
-            FixIf((AST.If) ast, context);
-        else if (ast.getClass().equals(AST.WithObj.getClass()))
-            FixWith((AST.With) ast, context);
-        else if (ast.getClass().equals(AST.WhenObj.getClass()))
-            FixWhen((AST.When) ast, context);
-        else if (ast.getClass().equals(AST.PrintSObj.getClass()))
-            FixPrintS((AST.PrintS) ast, context);
-        else if (ast.getClass().equals(AST.AssertObj.getClass()))
-            FixAssert((AST.Assert) ast, context);
-        else if (ast.getClass().equals(AST.SkipObj.getClass()))
-            FixSkip((AST.Skip) ast, context);
-        else if (ast.getClass().equals(AST.LabelIfObj.getClass()))
-            FixLabelIf((AST.LabelIf) ast, context);
-        else if (ast.getClass().equals(AST.CallObj.getClass()))
-            FixCall((AST.Call) ast, context);
-        else if (ast.getClass().equals(AST.ReturnObj.getClass()))
-            FixReturn((AST.Return) ast, context);
-        else if (ast.getClass().equals(AST.CallReturnObj.getClass()))
-            FixCallReturn((AST.CallReturn) ast, context);
-        else if (ast.getClass().equals(AST.CallGotoObj.getClass()))
-            FixCallGoto((AST.CallGoto) ast, context);
-        else if (ast.getClass().equals(AST.GotoObj.getClass()))
-            FixGoto((AST.Goto) ast, context);
+        if (ast instanceof AST.Uniprocess obj)
+            FixUniprocess(obj, context);
+        else if (ast instanceof AST.Multiprocess obj)
+            FixMultiprocess(obj, context);
+        else if (ast instanceof AST.Procedure obj)
+            FixProcedure(obj, context);
+        else if (ast instanceof AST.Process obj)
+            FixProcess(obj, context);
+        else if (ast instanceof AST.LabeledStmt obj)
+            FixLabeledStmt(obj, context);
+        else if (ast instanceof AST.While obj)
+            FixWhile(obj, context);
+        else if (ast instanceof AST.Assign obj)
+            FixAssign(obj, context);
+        else if (ast instanceof AST.SingleAssign obj)
+            FixSingleAssign(obj, context);
+        else if (ast instanceof AST.Lhs obj)
+            FixLhs(obj, context);
+        else if (ast instanceof AST.If obj)
+            FixIf(obj, context);
+        else if (ast instanceof AST.With obj)
+            FixWith(obj, context);
+        else if (ast instanceof AST.When obj)
+            FixWhen(obj, context);
+        else if (ast instanceof AST.PrintS obj)
+            FixPrintS(obj, context);
+        else if (ast instanceof AST.Assert obj)
+            FixAssert(obj, context);
+        else if (ast instanceof AST.Skip obj)
+            FixSkip(obj, context);
+        else if (ast instanceof AST.LabelIf obj)
+            FixLabelIf(obj, context);
+        else if (ast instanceof AST.Call obj)
+            FixCall(obj, context);
+        else if (ast instanceof AST.Return obj)
+            FixReturn(obj, context);
+        else if (ast instanceof AST.CallReturn obj)
+            FixCallReturn(obj, context);
+        else if (ast instanceof AST.CallGoto obj)
+            FixCallGoto(obj, context);
+        else if (ast instanceof AST.Goto obj)
+            FixGoto(obj, context);
 
         /*******************************************************************
         * Handling of Either and LabelEither added by LL on 24 Jan 2006.   *
         *******************************************************************/
-        else if (ast.getClass().equals(AST.EitherObj.getClass()))
-            FixEither((AST.Either) ast, context);
-        else if (ast.getClass().equals(AST.LabelEitherObj.getClass()))
-            FixLabelEither((AST.LabelEither) ast, context);
+        else if (ast instanceof AST.Either obj)
+            FixEither(obj, context);
+        else if (ast instanceof AST.LabelEither obj)
+            FixLabelEither(obj, context);
         else PcalDebug.ReportBug("Unexpected AST type" + ast);
     }
 

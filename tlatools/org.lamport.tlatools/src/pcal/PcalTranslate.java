@@ -312,10 +312,10 @@ public class PcalTranslate {
         *********************************************************************/
         st = symtab;
         currentProcedure = null;  // added by LL on 7 June 2010
-        if (ast.getClass().equals(AST.UniprocessObj.getClass()))
-            return ExplodeUniprocess((AST.Uniprocess) ast);
-        else if (ast.getClass().equals(AST.MultiprocessObj.getClass()))
-            return ExplodeMultiprocess((AST.Multiprocess) ast);
+        if (ast instanceof AST.Uniprocess u)
+            return ExplodeUniprocess(u);
+        else if (ast instanceof AST.Multiprocess m)
+            return ExplodeMultiprocess(m);
         else {
             PcalDebug.ReportBug("Unexpected AST type.");
             return null;
@@ -497,8 +497,8 @@ public class PcalTranslate {
         if (stmts != null && stmts.size() > 0) {
             final AST last = stmts.elementAt(stmts.size() - 1);
             result1 = stmts;
-            if (last.getClass().equals(AST.LabelIfObj.getClass())) {
-                final Vector<Object> pair = ExplodeLabelIf((AST.LabelIf) last, next);
+            if (last instanceof AST.LabelIf l) {
+                final Vector<Object> pair = ExplodeLabelIf(l, next);
                   /*********************************************************
                   * Because a LabelIf has a label in the `then' or `else'  *
                   * clause, ExplodeLabelIf always has to add the           *
@@ -509,8 +509,8 @@ public class PcalTranslate {
                 result2 = (Vector) pair.elementAt(1);
             }
             // LabelEither added by LL on 25 Jan 2006
-            else if (last.getClass().equals(AST.LabelEitherObj.getClass())) {
-                final Vector<Object> pair = ExplodeLabelEither((AST.LabelEither) last, next);
+            else if (last instanceof AST.LabelEither l) {
+                final Vector<Object> pair = ExplodeLabelEither(l, next);
                   /*********************************************************
                   * Because a LabelEither has a label in some clause,      *
                   * ExplodeLabelEither always has to add the necessary     *
@@ -520,30 +520,28 @@ public class PcalTranslate {
                 result1.addAll((Vector) pair.elementAt(0));
                 result2 = (Vector) pair.elementAt(1);
             }
-            else if (last.getClass().equals(AST.GotoObj.getClass())) {
-                final AST.Goto g = (AST.Goto) last;
+            else if (last instanceof AST.Goto g) {
                 result1.removeElementAt(result1.size()-1);
                 // Note: if there's a GotoObj, then omitPC should be false.
                 result1.addElement(UpdatePC(g.to));
             }
-            else if (last.getClass().equals(AST.CallObj.getClass())) {
+            else if (last instanceof AST.Call c) {
                 result1.removeElementAt(result1.size()-1);
-                result1.addAll(ExplodeCall((AST.Call) last, next));
+                result1.addAll(ExplodeCall(c, next));
             }
-            else if (last.getClass().equals(AST.ReturnObj.getClass())) {
+            else if (last instanceof AST.Return r) {
                 result1.removeElementAt(result1.size()-1);
-                result1.addAll(ExplodeReturn((AST.Return) last, next));
+                result1.addAll(ExplodeReturn(r, next));
             }
-            else if (last.getClass().equals(AST.CallReturnObj.getClass())) {
+            else if (last instanceof AST.CallReturn cr) {
                 result1.removeElementAt(result1.size()-1);
-                result1.addAll(ExplodeCallReturn((AST.CallReturn) last, next));
+                result1.addAll(ExplodeCallReturn(cr, next));
             }
-            else if (last.getClass().equals(AST.CallGotoObj.getClass())) {
+            else if (last instanceof AST.CallGoto cg) {
                 result1.removeElementAt(result1.size()-1);
-                result1.addAll(ExplodeCallGoto((AST.CallGoto) last, next));
+                result1.addAll(ExplodeCallGoto(cg, next));
             }
-            else if (last.getClass().equals(AST.IfObj.getClass())) {
-                final AST.If If = (AST.If) last;
+            else if (last instanceof AST.If If) {
                 final Vector<?> p1 = CopyAndExplodeLastStmt(If.Then, next);
                 final Vector<?> p2 = CopyAndExplodeLastStmt(If.Else, next);
                 result2.addAll((Vector) p1.elementAt(1));
@@ -565,10 +563,9 @@ public class PcalTranslate {
                 }
             }
             // EitherObj added by LL on 25 Jan 2006
-            else if (last.getClass().equals(AST.EitherObj.getClass())) {
+            else if (last instanceof AST.Either Either) {
                 needsGoto = true ;
                 final Vector<Object> needsGotoVec = new Vector<>() ;
-                final AST.Either Either = (AST.Either) last;
                 for (int i = 0; i < Either.ors.size(); i++) {
 				final Vector<Object> thisP = CopyAndExplodeLastStmt(
                              (Vector) Either.ors.elementAt(i), next);
@@ -591,8 +588,7 @@ public class PcalTranslate {
                   }
                 }
             }
-            else if (last.getClass().equals(AST.WithObj.getClass())) {
-                final AST.With with = (AST.With) last;
+            else if (last instanceof AST.With with) {
                 final Vector<?> p = CopyAndExplodeLastStmt(with.Do, next);
                 with.Do = (Vector) p.elementAt(0);
                 result2.addAll((Vector) p.elementAt(1));
@@ -652,7 +648,7 @@ public class PcalTranslate {
          ******************************************************************/
         /* Handle case of initial while separately */
         if (ast.stmts.size() > 0 && 
-            ast.stmts.elementAt(0).getClass().equals(AST.WhileObj.getClass())) {
+            ast.stmts.elementAt(0) instanceof AST.While) {
             return ExplodeWhile(ast, next);
         }
         final AST.LabeledStmt newast = new AST.LabeledStmt();
