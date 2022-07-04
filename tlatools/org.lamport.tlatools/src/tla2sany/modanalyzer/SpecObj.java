@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 
+import pcal.ParseAlgorithm;
 import pcal.Validator;
 import pcal.Validator.ValidationResult;
 import tla2sany.semantic.AbortException;
@@ -105,6 +106,9 @@ public class SpecObj
 
     public int errorLevel = 0;
 
+    public final ParseAlgorithm parseAlgorithm;
+    public final Validator validator;
+
     /**
      * Default constructor of the SpecObj with a given primary filename and the default 
      * NameToFileIStream for its resolution 
@@ -132,6 +136,8 @@ public class SpecObj
         }
         this.primaryFileName = pfn;
         this.resolver = ntfis;
+        this.parseAlgorithm = new ParseAlgorithm();
+        this.validator = new Validator(parseAlgorithm);
     }
 
     /**
@@ -1009,7 +1015,7 @@ public class SpecObj
     	final File f = parseUnit.getNis().sourceFile();
     	
     	try (final FileInputStream fis = new FileInputStream(f)) {
-    		final Set<ValidationResult> results = Validator.validate(parseUnit, fis);
+    		final Set<ValidationResult> results = validator.validate(parseUnit, fis);
     		
     		if (results.contains(ValidationResult.TLA_DIVERGENCE_EXISTS) && results.contains(ValidationResult.PCAL_DIVERGENCE_EXISTS)) {
     		/* Both hashes are invalid.

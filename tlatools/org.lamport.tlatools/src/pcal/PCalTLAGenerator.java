@@ -22,13 +22,16 @@ public class PCalTLAGenerator
     private AST ast = null; 
              // This is set to the AST constructed by ParseAlgorithm.getAlgorithm
 
+    private final ParseAlgorithm parseAlgorithm;
+
     /**
      * Constructs a working copy 
      * @param ast
      */
-    public PCalTLAGenerator(final AST ast)
+    public PCalTLAGenerator(final AST ast, final ParseAlgorithm parseAlgorithm)
     {
         this.ast = ast;
+        this.parseAlgorithm = parseAlgorithm;
     }
 
     /********************************************************************
@@ -69,11 +72,13 @@ public class PCalTLAGenerator
         Vector<String> result = new Vector<>();
         AST xast = null;  // Set to the exploded AST
 
+        PcalTranslate pcalTranslate = new PcalTranslate(this.parseAlgorithm);
+
         for (int i = 0; i < st.disambiguateReport.size(); i++)
             result.addElement(st.disambiguateReport.elementAt(i));
         try
         {
-            xast = PcalTranslate.Explode(ast, st);
+            xast = pcalTranslate.Explode(ast, st);
         } catch (final PcalTranslateException e)
         {
             throw new RemoveNameConflictsException(e);
@@ -81,7 +86,7 @@ public class PCalTLAGenerator
         // System.out.println("After exploding: " + xast.toString());
         try
         {
-            final PcalTLAGen tlaGenerator = new PcalTLAGen();
+            final PcalTLAGen tlaGenerator = new PcalTLAGen(parseAlgorithm);
 //            result.addAll(tlaGenerator.generate(xast, st));
             result = tlaGenerator.generate(xast, st, result);
         } catch (final PcalTLAGenException e)
@@ -95,7 +100,7 @@ public class PCalTLAGenerator
         *******************************************************************/
         try
         {
-            if (ParseAlgorithm.hasDefaultInitialization)
+            if (parseAlgorithm.hasDefaultInitialization)
             {
                 st.CheckForDefaultInitValue();
             }

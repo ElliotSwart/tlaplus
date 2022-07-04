@@ -58,7 +58,13 @@ public class Validator {
 
 	private static final Pattern MODULE_CLOSING_PATTERN = Pattern.compile(TLAConstants.MODULE_CLOSING_REGEX);
 
-	public static Set<ValidationResult> validate(final ParseUnit parseUnit, final InputStream inputStream)
+	private final ParseAlgorithm parseAlgorithm;
+
+	public Validator(final ParseAlgorithm parseAlgorithm){
+		this.parseAlgorithm = parseAlgorithm;
+	}
+
+	public Set<ValidationResult> validate(final ParseUnit parseUnit, final InputStream inputStream)
 			throws IOException {
 		final BufferedReader reader = new BufferedReader(
 				new InputStreamReader((inputStream instanceof BufferedInputStream) ? inputStream
@@ -66,7 +72,7 @@ public class Validator {
 		return validate(parseUnit, reader);
 	}
 	
-	public static Set<ValidationResult> validate(final ParseUnit parseUnit, final BufferedReader reader) throws IOException {
+	public Set<ValidationResult> validate(final ParseUnit parseUnit, final BufferedReader reader) throws IOException {
 		// Instead of matching the module start and end markers, whe while loop use SANY's
 		// parse tree that has the location of the start and end markers.
 		final Location loc = Objects.requireNonNull(parseUnit.getParseTree()).getLocation();
@@ -116,7 +122,7 @@ public class Validator {
 	 * @param specificationText the entire specification, line by line - for historical reasons.
 	 * @return the result of the validation, as enumerated by the inner enum of this class.
 	 */
-	private static Set<ValidationResult>  validate(final List<String> specificationText) {
+	private Set<ValidationResult>  validate(final List<String> specificationText) {
         final Vector<String> deTabbedSpecification = trans.removeTabs(specificationText);
 		
         final IntPair searchLoc = new IntPair(0, 0);
@@ -132,16 +138,16 @@ public class Validator {
 				 * 		the character-by-character marching done in the ParseAlgorithm code versus using a
 				 * 		regex matcher to split apart lines.
 				 */
-                ParseAlgorithm.FindToken("PlusCal", deTabbedSpecification, searchLoc, "");
-                final String line = ParseAlgorithm.GotoNextNonSpace(deTabbedSpecification, searchLoc);
+				parseAlgorithm.FindToken("PlusCal", deTabbedSpecification, searchLoc, "");
+                final String line = parseAlgorithm.GotoNextNonSpace(deTabbedSpecification, searchLoc);
                 final String restOfLine = line.substring(searchLoc.two);
 				if (restOfLine.startsWith("options")) {
                     // The first string after "PlusCal" not starting with a
                     // space character is "options"
-					if (ParseAlgorithm.NextNonIdChar(restOfLine, 0) == 7) {
+					if (parseAlgorithm.NextNonIdChar(restOfLine, 0) == 7) {
                         // The "options" should begin an options line
                         PcalParams.optionsInFile = true;
-                        ParseAlgorithm.ProcessOptions(deTabbedSpecification, searchLoc);
+						parseAlgorithm.ProcessOptions(deTabbedSpecification, searchLoc);
                         notDone = false;
                     }
                 }
@@ -214,7 +220,7 @@ public class Validator {
 
 	    	// Get the PlusCal AST by parsing it.
 			try {
-				ParseAlgorithm.uncomment(deTabbedSpecification, algLine, algCol);
+				parseAlgorithm.uncomment(deTabbedSpecification, algLine, algCol);
 			} catch (final ParseAlgorithmException e) {
 	            PcalDebug.reportError(e);
 	            return setOf(ValidationResult.ERROR_ENCOUNTERED);
@@ -229,12 +235,15 @@ public class Validator {
 			try {
 				final PcalCharReader reader = new PcalCharReader(deTabbedSpecification, algLine, algCol,
 						specificationText.size(), 0);
-				ast = ParseAlgorithm.getAlgorithm(reader, foundFairBegin);
+
+				final ParseAlgorithm parseAlgorithm = new ParseAlgorithm();
+
+				ast = parseAlgorithm.getAlgorithm(reader, foundFairBegin);
 				
 				// The call translate mutates the ast in pcal.PcalTranslate.Explode(AST, PcalSymTab).
 				// I'm ignoring the PcalParams.tlcTranslation() alternative in trans.java
 				// because I doubt the "-spec" feature is used widely (if at all).
-		        final PCalTLAGenerator pcalTLAGenerator = new PCalTLAGenerator(ast);
+		        final PCalTLAGenerator pcalTLAGenerator = new PCalTLAGenerator(ast, parseAlgorithm);
 	            pcalTLAGenerator.removeNameConflicts();
                 pcalTLAGenerator.translate();
 			} catch (final ParseAlgorithmException | RemoveNameConflictsException e) {

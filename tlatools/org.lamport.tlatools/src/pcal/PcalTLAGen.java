@@ -118,7 +118,13 @@ public class PcalTLAGen
      *    Next == lbl
      */
     private String currentProcName ;
-    
+
+    private final ParseAlgorithm parseAlgorithm;
+
+    public PcalTLAGen(ParseAlgorithm parseAlgorithm){
+        this.parseAlgorithm = parseAlgorithm;
+    }
+
     /**
      * Generates the translation.
      * 
@@ -410,7 +416,7 @@ public class PcalTLAGen
          * only label action.
          */
 
-      if (! ParseAlgorithm.omitPC) {
+      if (! parseAlgorithm.omitPC) {
         addLeftParen(ast.getOrigin());
         final String argument = (isSet) ? "(self)" : "";
         final StringBuilder buf = new StringBuilder(ast.name + argument + " == ");
@@ -452,7 +458,7 @@ public class PcalTLAGen
         // in which case it is "Next" for a uniprocess algorithm
         // and the process name for a multiprocess algorithm.
         String actionName = ast.label;
-        if (ParseAlgorithm.omitPC) {
+        if (parseAlgorithm.omitPC) {
             actionName = currentProcName;
         }
         StringBuilder sb = new StringBuilder(actionName);
@@ -1524,7 +1530,7 @@ public class PcalTLAGen
                 gVarsSource.addElement(decl);
                 vars.addElement(decl.var);
             }
-        if (! ParseAlgorithm.omitPC) {
+        if (! parseAlgorithm.omitPC) {
           gVars.addElement("pc");
           /**
            * For added variables, create a VarDecl with null origin.
@@ -1596,7 +1602,7 @@ public class PcalTLAGen
         * Add a declaration of the constant defaultInitValue if it is       *
         * used.  (Added by LL on 22 Aug 2007.)                              *
         ********************************************************************/
-        if (ParseAlgorithm.hasDefaultInitialization)
+        if (parseAlgorithm.hasDefaultInitialization)
         {
             addOneLineOfTLA("CONSTANT defaultInitValue");
         }
@@ -2231,7 +2237,7 @@ public class PcalTLAGen
             is = new StringBuffer(NSpaces(col));
         }
         /* pc initial value */
-        if (! ParseAlgorithm.omitPC) {
+        if (! parseAlgorithm.omitPC) {
           if (mp)
           {
               // On 4 May 2012, LL added useCase flag to inhibit adding of CASE for
@@ -2301,14 +2307,14 @@ public class PcalTLAGen
         // It we are omitting pc and this is a uniprocess
         // algorithm, then the definition of Next has
         // already been added.
-        if (ParseAlgorithm.omitPC && !mp) {
+        if (parseAlgorithm.omitPC && !mp) {
             return;
         }
         final Vector<String> nextS = new Vector<>();
         StringBuilder sb = new StringBuilder();
         int max, col;
         
-        if (! (PcalParams.NoDoneDisjunct || ParseAlgorithm.omitStutteringWhenDone))
+        if (! (PcalParams.NoDoneDisjunct || parseAlgorithm.omitStutteringWhenDone))
         { 
 //          tlacode.addElement(sb.toString());
           sb.append("(* Allow infinite stuttering to prevent deadlock on termination. *)");
@@ -2487,7 +2493,7 @@ public class PcalTLAGen
                 }
                 sb = new StringBuilder(NSpaces(col) + " \\/ ");
             }
-        if (! (PcalParams.NoDoneDisjunct || ParseAlgorithm.omitStutteringWhenDone))
+        if (! (PcalParams.NoDoneDisjunct || parseAlgorithm.omitStutteringWhenDone))
         { 
           addOneLineOfTLA(sb.append("Terminating").toString());
         }
@@ -2847,7 +2853,7 @@ public class PcalTLAGen
         // clause of the Next action, then we shouldn't
         // generate the Termination definition.
         // Check of omitStutteringWhenDone added by LL on 30 Mar 2012.
-        if (ParseAlgorithm.omitPC || ParseAlgorithm.omitStutteringWhenDone) {
+        if (parseAlgorithm.omitPC || parseAlgorithm.omitStutteringWhenDone) {
             return;
         }
         final StringBuilder sb = new StringBuilder();

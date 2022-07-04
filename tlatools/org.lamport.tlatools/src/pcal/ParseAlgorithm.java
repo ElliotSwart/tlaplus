@@ -122,13 +122,13 @@ import tla2tex.Debug;
 
 public class ParseAlgorithm
 { 
-    private static PcalCharReader charReader;
+    private PcalCharReader charReader;
      /**********************************************************************
      * The charReader argument to the Parse method is put here so other    *
      * methods can access it.  This makes the class totally thread unsafe. *
      **********************************************************************/
 
-   public static String currentProcedure;
+   public String currentProcedure;
      /**********************************************************************
      * This is set by GetProcedure to the procedure's name before the      *
      * procedure body is parsed, and is reset to null afterwards.  Hence,  *
@@ -142,9 +142,9 @@ public class ParseAlgorithm
     * current process or procedure with + or - modifiers, respectively.
     * Added in Version 1.5.
     */
-   public static Vector<String> plusLabels;
+   public Vector<String> plusLabels;
    
-   public static Vector<String> minusLabels;
+   public Vector<String> minusLabels;
    
    /**
     * proceduresCalled is the vector of distinct names of 
@@ -168,14 +168,14 @@ public class ParseAlgorithm
     * easier to modify the "code" generation by having the information
     * available in global variables.
     */
-   public static boolean gotoUsed;
-   public static boolean gotoDoneUsed;
-   public static boolean omitPC;
-   public static boolean omitStutteringWhenDone;
+   public boolean gotoUsed;
+   public boolean gotoDoneUsed;
+   public boolean omitPC;
+   public boolean omitStutteringWhenDone;
    
-   public static Vector<String> proceduresCalled;
+   public Vector<String> proceduresCalled;
    
-   public static boolean hasDefaultInitialization;
+   public boolean hasDefaultInitialization;
      /**********************************************************************
      * Set true if any variable has a default initialization.              *
      * (Added by LL on 22 Aug 2007.)                                       *
@@ -191,14 +191,14 @@ public class ParseAlgorithm
 * vector of AST.NonTerm objects.                                           *
 ***************************************************************************/
 
-   public static boolean hasLabel;
+   public boolean hasLabel;
      /**********************************************************************
      * This variable is set to true by GetStmtSeq whenever a label is      *
      * found.  It is used in deciding whether or not to add labels to a    *
      * uniprocess algorithm.                                               *
      **********************************************************************/
 
-   public static Hashtable<String, String> allLabels;
+   public Hashtable<String, String> allLabels;
      /**********************************************************************
      * Set by GetStmtSeq to a table of String objects containing all the   *
      * algorithm's (user-typed) labels.  The strings are the keys, the     *
@@ -207,7 +207,7 @@ public class ParseAlgorithm
      * algorithm.                                                          *
      **********************************************************************/
 
-   public static int nextLabelNum ;
+   public int nextLabelNum ;
      /**********************************************************************
      * The number to be appended to PcalParams.LabelRoot to form the next  *
      * label to be added.                                                  *
@@ -222,21 +222,21 @@ public class ParseAlgorithm
    * the i-th added label and the location of the statement to which it    *
    * was added.                                                            *
    ************************************************************************/
-   public static Vector<String> addedLabels;
-   public static Vector<String> addedLabelsLocs;
+   public Vector<String> addedLabels;
+   public Vector<String> addedLabelsLocs;
 
    /**********************************************************************
     * Is set to the sequence of procedures.  It's easier making this a    *
     * global variable than passing it as a parameter.                     *
     **********************************************************************/
-   public static Vector<Procedure> procedures;
+   public Vector<Procedure> procedures;
 
    /**********************************************************************
     * One of these booleans will be set true when we discover which       *
     * syntax is being used.                                               
     **********************************************************************/
-   public static boolean pSyntax;
-   public static boolean cSyntax;
+   public boolean pSyntax;
+   public boolean cSyntax;
 
    /**********************************************************************
     * This performs the initialization needed by the various Get...       *
@@ -245,7 +245,7 @@ public class ParseAlgorithm
     * so the various Get methods can be tested without calling            *
     * GetAlgorithm.                                                       *
     **********************************************************************/
-   public static void Init(final PcalCharReader charR)
+   public void Init(final PcalCharReader charR)
    { 
     // initialization moved 
     addedLabels = new Vector<>();
@@ -302,7 +302,7 @@ public class ParseAlgorithm
    }
 
    
-   public static AST getAlgorithm(final PcalCharReader charR, final boolean fairAlgorithm) throws ParseAlgorithmException
+   public AST getAlgorithm(final PcalCharReader charR, final boolean fairAlgorithm) throws ParseAlgorithmException
      /**********************************************************************
      * Assumes that the char reader charR is just past the string          *
      * PcalParams.BeginAlg that marks the character right after            *
@@ -579,7 +579,7 @@ public class ParseAlgorithm
     * 
     * @param body
     */
-   private static void checkBody(final Vector<AST> body) {
+   private void checkBody(final Vector<AST> body) {
        // The body should not be empty, so the following
        // test should be redundant.  But just in case the
        // error is being found elsewhere...
@@ -647,7 +647,7 @@ public class ParseAlgorithm
        }
    }
    
-   public static void AddedMessagesError() throws ParseAlgorithmException 
+   public void AddedMessagesError() throws ParseAlgorithmException 
      { StringBuilder msg = null;
        if (addedLabels.size() > 1)
          {
@@ -663,7 +663,7 @@ public class ParseAlgorithm
          throw new ParseAlgorithmException(msg.toString()) ;
        }
 
-   public static void ReportLabels() 
+   public void ReportLabels() 
    // SZ March 11, 2009: info reporting using PcalDebug added
      { if (addedLabels.size() > 1)
          {PcalDebug.reportInfo("The following labels were added:") ;}
@@ -679,7 +679,7 @@ public class ParseAlgorithm
         }
      }
 
-   public static AST.Procedure GetProcedure() throws ParseAlgorithmException
+   public AST.Procedure GetProcedure() throws ParseAlgorithmException
      { final AST.Procedure result = new AST.Procedure() ;
        GobbleThis("procedure") ;
        final PCalLocation beginLoc = GetLastLocationStart() ;
@@ -720,7 +720,7 @@ public class ParseAlgorithm
        return result ;
      }
 
-   public static AST.Process GetProcess() throws ParseAlgorithmException
+   public AST.Process GetProcess() throws ParseAlgorithmException
      { final AST.Process result = new AST.Process() ;
        GobbleThis("process") ;
        final PCalLocation beginLoc = GetLastLocationStart() ;
@@ -755,7 +755,7 @@ public class ParseAlgorithm
        return result ;
      }
 
-   public static Vector<PVarDecl> GetPVarDecls() throws ParseAlgorithmException
+   public Vector<PVarDecl> GetPVarDecls() throws ParseAlgorithmException
      /**********************************************************************
      * Parses a <PVarDecls> as a Vector of AST.PVarDecl objects.           *
      **********************************************************************/
@@ -782,7 +782,7 @@ public class ParseAlgorithm
          return result ;
      }
 
-   public static AST.PVarDecl GetPVarDecl() throws ParseAlgorithmException 
+   public AST.PVarDecl GetPVarDecl() throws ParseAlgorithmException 
      { final AST.PVarDecl pv = new AST.PVarDecl() ;
        pv.var = GetAlgToken() ;
        final PCalLocation beginLoc = GetLastLocationStart() ;
@@ -801,7 +801,7 @@ public class ParseAlgorithm
        return pv ;
      }
 
-   public static Vector<VarDecl> GetVarDecls() throws ParseAlgorithmException
+   public Vector<VarDecl> GetVarDecls() throws ParseAlgorithmException
      /**********************************************************************
      * Parses a <VarDecls> as a Vector of AST.VarDecl objects.             *
      **********************************************************************/
@@ -833,7 +833,7 @@ public class ParseAlgorithm
          return result ;
      }
 
-   public static AST.VarDecl GetVarDecl() throws ParseAlgorithmException 
+   public AST.VarDecl GetVarDecl() throws ParseAlgorithmException 
      { final AST.VarDecl pv = new AST.VarDecl() ;
        pv.var = GetAlgToken() ;
        final PCalLocation beginLoc = GetLastLocationStart() ;
@@ -859,7 +859,7 @@ public class ParseAlgorithm
        return pv ;
      }
 
-   public static TLAExpr GetExpr() throws ParseAlgorithmException
+   public TLAExpr GetExpr() throws ParseAlgorithmException
      { if (LATsize != 0)
          {PcalDebug.ReportBug(
                "ParseAlgorithm: GetExpr called after lookahead");
@@ -888,7 +888,7 @@ public class ParseAlgorithm
             final Vector<?> lastLineOfTokens = result.tokens.elementAt(
                                            result.tokens.size()-1);
            if (lastLineOfTokens.size()==0) {
-               Debug.ReportBug("Unexpected Event in ParseAlgorithm.GetExpr");
+               Debug.ReportBug("Unexpected Event in this.GetExpr");
            }
  
            final PCalLocation end =  ((TLAToken) lastLineOfTokens.elementAt(
@@ -902,7 +902,7 @@ public class ParseAlgorithm
 
    
 
-   /* OBSOLETE */ public static AST.LabeledStmt ObsoleteGetLabeledStmt() throws ParseAlgorithmException
+   /* OBSOLETE */ public AST.LabeledStmt ObsoleteGetLabeledStmt() throws ParseAlgorithmException
      { if (! IsLabelNext())
          { ParsingError("Was expecting a label"); 
          }
@@ -930,7 +930,7 @@ public class ParseAlgorithm
      }
 
 
-   public static AST.While GetWhile() throws ParseAlgorithmException
+   public AST.While GetWhile() throws ParseAlgorithmException
      { MustGobbleThis("while") ;
        final PCalLocation beginLoc = GetLastLocationStart() ;
        final AST.While result = new AST.While() ;
@@ -963,7 +963,7 @@ public class ParseAlgorithm
                 .getOrigin().getEnd())) ;
        return result ; }
 
-  public static boolean inGetMacro = false ;
+  public boolean inGetMacro = false ;
     /***********************************************************************
     * This boolean equals true while inside a call to GetMacro.  It is used to  
     * flag an error if a label appears within a macro.                     
@@ -976,9 +976,9 @@ public class ParseAlgorithm
     * label appears.  If GetLabel returns a string other than "", then 
     * getLabelLocation is the location at the beginning of the label.
     */
-   public static PCalLocation getLabelLocation;
+   public PCalLocation getLabelLocation;
    
-   public static String GetLabel() throws ParseAlgorithmException 
+   public String GetLabel() throws ParseAlgorithmException 
      /**********************************************************************
      * Checks if a label comes next.  If so, it gobbles it and returns     *
      * the label.  Otherwise, it returns "".                               *
@@ -1017,7 +1017,7 @@ public class ParseAlgorithm
          return nextLabel;
      }     
 
-   public static Vector<AST> GetStmtSeq() throws ParseAlgorithmException 
+   public Vector<AST> GetStmtSeq() throws ParseAlgorithmException 
      /**********************************************************************
      * Parses a sequence of <Stmt>s and returns the result as a Vector of  *
      * <Stmt> nodes.  It detects the end of the sequence by the            *
@@ -1066,7 +1066,7 @@ public class ParseAlgorithm
       }
 
 
-   public static AST GetStmt() throws ParseAlgorithmException
+   public AST GetStmt() throws ParseAlgorithmException
      { final String nextTok = PeekAtAlgToken(1) ;
        if (nextTok.equals("if"))     { return GetIf(0) ; }
          if (nextTok.equals("either")) { return GetEither() ; }
@@ -1085,7 +1085,7 @@ public class ParseAlgorithm
        return GetAssign() ;
      }
 
-   public static Vector<AST> GetCStmtSeq(final String lbl) throws ParseAlgorithmException
+   public Vector<AST> GetCStmtSeq(final String lbl) throws ParseAlgorithmException
      /**********************************************************************
      * Gets a c-syntax StmtSeq (enclosed in curly braces) that has a       *
      * label lbl.                                                          *
@@ -1115,7 +1115,7 @@ public class ParseAlgorithm
          return sseq ;
      }     
 
-   public static Vector<AST> GetCStmt() throws ParseAlgorithmException
+   public Vector<AST> GetCStmt() throws ParseAlgorithmException
      /**********************************************************************
      * Get one (possibly labeled) statement in the c-syntax, which could   *
      * be a StmtSeq, so this returns a vector of AST nodes.                *
@@ -1132,7 +1132,7 @@ public class ParseAlgorithm
        return result ;
      }     
 
-   public static boolean IsLabelNext() throws ParseAlgorithmException 
+   public boolean IsLabelNext() throws ParseAlgorithmException 
      /**********************************************************************
      * Peeks at the next token and perhaps at the next two characters to   *
      * determine if the next token is a label.  The tricky part is         *
@@ -1171,7 +1171,7 @@ public class ParseAlgorithm
      }
 
 
-   public static AST.LabelIf  GetIf(final int depth) throws ParseAlgorithmException
+   public AST.LabelIf  GetIf(final int depth) throws ParseAlgorithmException
      /**********************************************************************
      * If depth = 0, then the next token is "if" and this is the start of  *
      * an if statement.                                                    *
@@ -1265,7 +1265,7 @@ public class ParseAlgorithm
        return result ;
      }  
 
-   public static AST.LabelEither  GetEither() throws ParseAlgorithmException
+   public AST.LabelEither  GetEither() throws ParseAlgorithmException
      { MustGobbleThis("either") ;
        final PCalLocation beginLoc = GetLastLocationStart() ;
        final AST.LabelEither result = new AST.LabelEither() ;
@@ -1320,10 +1320,10 @@ public class ParseAlgorithm
     * @return
     * @throws ParseAlgorithmException
     */
-   public static AST GetWith(final int depth) throws ParseAlgorithmException {
+   public AST GetWith(final int depth) throws ParseAlgorithmException {
        return InnerGetWith(depth, null) ;
    }
-   public static AST InnerGetWith(final int depth, final PCalLocation beginLoc) throws ParseAlgorithmException
+   public AST InnerGetWith(final int depth, final PCalLocation beginLoc) throws ParseAlgorithmException
      /**********************************************************************
      * A with statement has p-syntax                                       *
      *                                                                     *
@@ -1390,7 +1390,7 @@ public class ParseAlgorithm
 	       return result ;
      } 
 
-   public static AST.Assign GetAssign() throws ParseAlgorithmException
+   public AST.Assign GetAssign() throws ParseAlgorithmException
      { final AST.Assign result = new AST.Assign() ;
        result.col  = curTokCol[0]  + 1;
        result.line = curTokLine[0] + 1;
@@ -1416,7 +1416,7 @@ public class ParseAlgorithm
        return result ;
      }
 
-   public static AST.SingleAssign GetSingleAssign() throws ParseAlgorithmException
+   public AST.SingleAssign GetSingleAssign() throws ParseAlgorithmException
      { final AST.SingleAssign result = new AST.SingleAssign() ;
        result.col  = curTokCol[0]  + 1;
        result.line = curTokLine[0] + 1;
@@ -1434,7 +1434,7 @@ public class ParseAlgorithm
        return result ;
      }
 
-   public static AST.Lhs GetLhs() throws ParseAlgorithmException 
+   public AST.Lhs GetLhs() throws ParseAlgorithmException 
      { final AST.Lhs result = new AST.Lhs() ;
        result.col  = curTokCol[0]  + 1;
        result.line = curTokLine[0] + 1;
@@ -1468,7 +1468,7 @@ public class ParseAlgorithm
        return result ;
      }
 
-   public static AST.PrintS GetPrintS() throws ParseAlgorithmException 
+   public AST.PrintS GetPrintS() throws ParseAlgorithmException 
      { MustGobbleThis("print") ;    
        final PCalLocation beginLoc = GetLastLocationStart() ;
        final AST.PrintS result = new AST.PrintS() ;
@@ -1482,7 +1482,7 @@ public class ParseAlgorithm
        return result ;
      }
 
-   public static AST.Assert GetAssert() throws ParseAlgorithmException 
+   public AST.Assert GetAssert() throws ParseAlgorithmException 
      { final AST.Assert result = new AST.Assert() ;
        MustGobbleThis("assert") ;       
        result.col  = lastTokCol ;
@@ -1497,7 +1497,7 @@ public class ParseAlgorithm
        return result ;
      }
 
-   public static AST.Skip GetSkip() throws ParseAlgorithmException 
+   public AST.Skip GetSkip() throws ParseAlgorithmException 
      { final AST.Skip result = new AST.Skip() ;
        MustGobbleThis("skip") ;
        result.col  = lastTokCol ;
@@ -1507,7 +1507,7 @@ public class ParseAlgorithm
        return result ;
      }
 
-   public static AST.When GetWhen(final boolean isWhen) throws ParseAlgorithmException
+   public AST.When GetWhen(final boolean isWhen) throws ParseAlgorithmException
      /**********************************************************************
      * Called with isWhen = true for a "when"                              *
      *                    = false for an "await"                           *
@@ -1527,7 +1527,7 @@ public class ParseAlgorithm
        return result ;
      }
 
-   public static AST.Call GetCall() throws ParseAlgorithmException 
+   public AST.Call GetCall() throws ParseAlgorithmException 
      { MustGobbleThis("call") ;
        final AST.Call result = new AST.Call() ;
        result.col  = lastTokCol ;
@@ -1565,7 +1565,7 @@ public class ParseAlgorithm
        return result ;
      }
 
-   public static AST.Return GetReturn() throws ParseAlgorithmException 
+   public AST.Return GetReturn() throws ParseAlgorithmException 
      /**********************************************************************
      * Note: GetReturn should not complain if the return is not inside a   *
      * procedure because it could be in a macro that is called only from   *
@@ -1582,7 +1582,7 @@ public class ParseAlgorithm
        return result ;
      }
 
-   public static AST GetCallOrCallReturnOrCallGoto() throws ParseAlgorithmException 
+   public AST GetCallOrCallReturnOrCallGoto() throws ParseAlgorithmException 
      /**********************************************************************
      * Note: should not complain if it finds a return that is not inside   *
      * a procedure because it could be in a macro that is called only      *
@@ -1623,7 +1623,7 @@ public class ParseAlgorithm
          { return theCall; }
      }
 
-   public static AST.Goto GetGoto() throws ParseAlgorithmException 
+   public AST.Goto GetGoto() throws ParseAlgorithmException 
      { MustGobbleThis("goto") ;
        final AST.Goto result = new AST.Goto() ;
        result.col  = lastTokCol ;
@@ -1655,7 +1655,7 @@ public class ParseAlgorithm
     *  of GetMacro, and change the error message generated in
     *  ExpandMacroCall.
     */
-   public static AST.Macro GetMacro(final Vector<Macro> macros) throws ParseAlgorithmException
+   public AST.Macro GetMacro(final Vector<Macro> macros) throws ParseAlgorithmException
    /**********************************************************************
    * This method was largely copied from GetProcedure.                   *
    **********************************************************************/
@@ -1689,7 +1689,7 @@ public class ParseAlgorithm
      return result ;
    }
    
-   public static AST.MacroCall GetMacroCall() throws ParseAlgorithmException 
+   public AST.MacroCall GetMacroCall() throws ParseAlgorithmException 
      { final AST.MacroCall result = new AST.MacroCall() ;
        result.name = GetAlgToken() ;
        final PCalLocation beginLoc = GetLastLocationStart();
@@ -1718,7 +1718,7 @@ public class ParseAlgorithm
 * @throws ParseAlgorithmException *
 ***************************************************************************/
 
-   public static void AddLabelsToStmtSeq(final Vector<AST> stmtseq) throws ParseAlgorithmException
+   public void AddLabelsToStmtSeq(final Vector<AST> stmtseq) throws ParseAlgorithmException
      { InnerAddLabels(stmtseq,
                       true,            // firstLabeled
                       false,           // inWith
@@ -1734,7 +1734,7 @@ public class ParseAlgorithm
 * procedure needs to add a label to some following statement.              * 
 *                                                                          *
 ***************************************************************************/
-   public static boolean InnerAddLabels(
+   public boolean InnerAddLabels(
            final Vector<AST> stmtseq,
            /********************************************************************
        * The sequence of statements to which labels are to be added.       *
@@ -2071,7 +2071,7 @@ public class ParseAlgorithm
        return hadOrAddedLabel || nextStepNeedsLabel ;
      }
 
-   public static void NeedsLabel(final AST stmt)
+   public void NeedsLabel(final AST stmt)
      /**********************************************************************
      * Add a label to statement stmt if it doesn't already have one.  The  *
      * label is PcalParams.LabelRoot concatenated with the next number     *
@@ -2097,7 +2097,7 @@ public class ParseAlgorithm
 * Methods for handling sets of strings, where such a set is represented    *
 * as a vector of its elements.                                             *
 ***************************************************************************/
-   public static boolean IsIn(final String elt, final Vector<String> set)
+   public boolean IsIn(final String elt, final Vector<String> set)
      /**********************************************************************
      * True iff elt is in `set'.  Implemented in a dumb way because it     *
      * should usually be called when it returns false.                     *
@@ -2112,7 +2112,7 @@ public class ParseAlgorithm
      }
 
 
-   public static boolean HasEmptyIntersection(final Vector<String> S, final Vector<String> T)
+   public boolean HasEmptyIntersection(final Vector<String> S, final Vector<String> T)
      /**********************************************************************
      * Returns the value of (S \cap T = {}).  Implemented in a dumb way    *
      * because it should usually be called to return false.                *
@@ -2127,7 +2127,7 @@ public class ParseAlgorithm
      }
 
 
-   public static Vector<String> Union(final Vector<String> S, final Vector<String> T)
+   public Vector<String> Union(final Vector<String> S, final Vector<String> T)
      /**********************************************************************
      * Returns S \cup T.                                                   *
      **********************************************************************/
@@ -2143,7 +2143,7 @@ public class ParseAlgorithm
      }
 
      
-   public static void Copy(final Vector<String> in, final Vector<String> out)
+   public void Copy(final Vector<String> in, final Vector<String> out)
      /**********************************************************************
      * Sets the non-null vector `out' to a copy of the non-null vector     *
      * `in'.  Note that `out' is a "call-by-reference" argument, while     *
@@ -2158,7 +2158,7 @@ public class ParseAlgorithm
      }
 
 
-   public static Vector<AST> MakeLabeledStmtSeq(final Vector<AST> stmtseq) throws ParseAlgorithmException
+   public Vector<AST> MakeLabeledStmtSeq(final Vector<AST> stmtseq) throws ParseAlgorithmException
      /**********************************************************************
      * Returns the sequence of <LabeledStmt> objects represented by the    *
      * sequence of <Stmt> objects and their lbl fields.                    *
@@ -2169,7 +2169,7 @@ public class ParseAlgorithm
       }
 
 
-   public static Vector<AST> InnerMakeLabeledStmtSeq(final Vector<AST> stmtseq)
+   public Vector<AST> InnerMakeLabeledStmtSeq(final Vector<AST> stmtseq)
      /**********************************************************************
      * This does the real work of MakeLabeledStmtSeq.  It is made a        *
      * separate procedure to avoid calling ClassifyStmtSeq with every      *
@@ -2245,7 +2245,7 @@ public class ParseAlgorithm
      }
 
 
-   public static void FixStmtSeq(final Vector<AST> stmtseq)
+   public void FixStmtSeq(final Vector<AST> stmtseq)
      /**********************************************************************
      * stmtseq is a sequence of statement objects that are produced by     *
      * GetStmtSeq.  This procedure expands the substatements within each   *
@@ -2352,7 +2352,7 @@ public class ParseAlgorithm
 * document (so the rules for where labels can appear are satisfied).       
  * @throws ParseAlgorithmException *
 ***************************************************************************/
-   public static void CheckLabeledStmtSeq(final Vector<AST> stmtseq) throws ParseAlgorithmException
+   public void CheckLabeledStmtSeq(final Vector<AST> stmtseq) throws ParseAlgorithmException
      { int i = 0 ;
        while (i < stmtseq.size())
          { final AST.LabeledStmt stmt = (AST.LabeledStmt) stmtseq.elementAt(i) ;
@@ -2361,7 +2361,7 @@ public class ParseAlgorithm
          }
      }
 
-   public static int ClassifyStmtSeq(final Vector<AST> stmtseq) throws ParseAlgorithmException
+   public int ClassifyStmtSeq(final Vector<AST> stmtseq) throws ParseAlgorithmException
      /**********************************************************************
      * Vector stmtseq must be a vector of <Stmt>s.  This method returns    *
      *                                                                     *
@@ -2420,7 +2420,7 @@ public class ParseAlgorithm
              else if (node instanceof AST.While obj )
                { if (i != 0)
                    { PcalDebug.ReportBug(
-                       "ParseAlgorithm.ClassifyStmtSeq encountered `while'" +
+                       "this.ClassifyStmtSeq encountered `while'" +
                        " not at beginning of StmtSeq.") ;
                    }
                    @SuppressWarnings("unused") final int ignore = ClassifyStmtSeq(obj.unlabDo) ;
@@ -2458,7 +2458,7 @@ public class ParseAlgorithm
                          || node instanceof AST.MacroCall)
                      )
                { PcalDebug.ReportBug(
-                  "ParseAlgorithm.ClassifyStmtSeq encountered the unexpected" +
+                  "this.ClassifyStmtSeq encountered the unexpected" +
                   " statement type " + node.getClass());
              }
            if (result > 0)
@@ -2478,7 +2478,7 @@ public class ParseAlgorithm
          return result ;
      }     
 
-   public static int ClassifyIf(final AST.LabelIf node) throws ParseAlgorithmException
+   public int ClassifyIf(final AST.LabelIf node) throws ParseAlgorithmException
      /**********************************************************************
      * Checks a LabelIf node and returns the kind of nonterminal of the    *
      * real BNF grammar with the following encoding it should really be,   *
@@ -2515,7 +2515,7 @@ public class ParseAlgorithm
          return 0 ;
      }
 
-   public static int ClassifyEither(final AST.LabelEither node) throws ParseAlgorithmException
+   public int ClassifyEither(final AST.LabelEither node) throws ParseAlgorithmException
      /**********************************************************************
      * Checks a LabelEither node and returns the kind of nonterminal of    *
      * the real BNF grammar with the following encoding it should really   *
@@ -2557,7 +2557,7 @@ public class ParseAlgorithm
  * @throws ParseAlgorithmException *
 ***************************************************************************/
 
-   public static void CheckForDuplicateMacros(final Vector<Macro> macros) throws ParseAlgorithmException
+   public void CheckForDuplicateMacros(final Vector<Macro> macros) throws ParseAlgorithmException
      /**********************************************************************
      * Argument macros is a vector of AST.Macro                            *
      **********************************************************************/
@@ -2578,7 +2578,7 @@ public class ParseAlgorithm
 
    
 
-   public static void ExpandMacrosInStmtSeq(final Vector<AST> stmtseq, final Vector<Macro> macros) throws ParseAlgorithmException
+   public void ExpandMacrosInStmtSeq(final Vector<AST> stmtseq, final Vector<Macro> macros) throws ParseAlgorithmException
      /**********************************************************************
      * This is called on a sequence stmtseq of statements, before          *
      * MakeLabeledStmtSeq has been called.  Therefore, stmtseq contains    *
@@ -2626,7 +2626,7 @@ public class ParseAlgorithm
          }
      }
 
-   public static Vector<AST> ExpandMacroCall(final AST.MacroCall call, final Vector<Macro> macros) throws ParseAlgorithmException
+   public Vector<AST> ExpandMacroCall(final AST.MacroCall call, final Vector<Macro> macros) throws ParseAlgorithmException
      { // Set macroDef to the Macro object
        AST.Macro macroDef = null ;
        int i = 0 ;
@@ -2685,7 +2685,7 @@ public class ParseAlgorithm
 
 
 
-    public static Vector<AST> SubstituteInLabeledStmtSeq(
+    public Vector<AST> SubstituteInLabeledStmtSeq(
             final Vector<AST> stmts,  // of AST.LabeledStmt
             final Vector<TLAExpr> args,   // of TLAExpr
             final Vector<String> params) throws ParseAlgorithmException // of String
@@ -2702,7 +2702,7 @@ public class ParseAlgorithm
           return result ;
       }
 
-   public static AST.LabeledStmt SubstituteInLabeledStmt(
+   public AST.LabeledStmt SubstituteInLabeledStmt(
            final AST.LabeledStmt stmt,
            final Vector<TLAExpr> args,   // of TLAExpr
            final Vector<String> params) throws ParseAlgorithmException // of String
@@ -2721,7 +2721,7 @@ public class ParseAlgorithm
 * arbitrary substitutions in the body of a process or uniprocess           *
 * algorithm.                                                               *
 ***************************************************************************/
-    public static Vector<AST> SubstituteInStmtSeq(final Vector<AST> stmts, // of AST
+    public Vector<AST> SubstituteInStmtSeq(final Vector<AST> stmts, // of AST
                                                   final Vector<TLAExpr> args,   // of TLAExpr
                                                   final Vector<String> params, // of String
                                                   final int macroLine,
@@ -2748,7 +2748,7 @@ public class ParseAlgorithm
       }
 
     @SuppressWarnings("unchecked")
-	public static AST SubstituteInStmt(final AST stmt,
+	public AST SubstituteInStmt(final AST stmt,
                                        final Vector<TLAExpr> args,   // of TLAExpr
                                        final Vector<String> params, // of String
                                        final int macroLine,
@@ -3136,7 +3136,7 @@ public class ParseAlgorithm
       }
     }      
 
-    public static AST.SingleAssign SubstituteInSingleAssign(
+    public AST.SingleAssign SubstituteInSingleAssign(
             final AST.SingleAssign assgn,
             final Vector<TLAExpr> args,   // of TLAExpr
             final Vector<String> params, // of String
@@ -3261,15 +3261,15 @@ public class ParseAlgorithm
 
 
 /*************************** UTILITY METHODS ******************************/
-//    private static String Loc(int line , int col)
+//    private String Loc(int line , int col)
 //      { return  }
 
-    private static void ParsingError(final String msg) throws ParseAlgorithmException
+    private void ParsingError(final String msg) throws ParseAlgorithmException
       { throw new ParseAlgorithmException(
            msg + "\n    line " + lastTokLine + ", column " + lastTokCol );
       }
 
-   public static void GobbleCommaOrSemicolon() throws ParseAlgorithmException
+   public void GobbleCommaOrSemicolon() throws ParseAlgorithmException
      /**********************************************************************
      * Equivalent to GobbleThis(",") if the next token is a ",", else to   *
      * GobbleThis(";").                                                    *
@@ -3279,7 +3279,7 @@ public class ParseAlgorithm
        else {GobbleThis(";");}
      }
           
-   public static void GobbleBeginOrLeftBrace() throws ParseAlgorithmException
+   public void GobbleBeginOrLeftBrace() throws ParseAlgorithmException
      /**********************************************************************
      * Used when expecting a "begin" in the p-syntax or a "{" in the       *
      * c-syntax.  Gobbles is and sets pSyntax or cSyntax.                  *
@@ -3291,7 +3291,7 @@ public class ParseAlgorithm
        else {PcalDebug.ReportBug("Syntax not initialized.") ;}
      }
 
-   public static void GobbleEndOrRightBrace(final String str) throws ParseAlgorithmException
+   public void GobbleEndOrRightBrace(final String str) throws ParseAlgorithmException
      /**********************************************************************
      * Used when expecting an "end str" in the p-syntax or a "}" in the    *
      * c-syntax.                                                           *
@@ -3305,7 +3305,7 @@ public class ParseAlgorithm
          { PcalDebug.ReportBug("Bad call of GobbleEndRightBrace") ; }
      }
 
-   public static void GobbleThis(final String str) throws ParseAlgorithmException
+   public void GobbleThis(final String str) throws ParseAlgorithmException
      { /********************************************************************
        * If the next token is not str, then report an error.  Otherwise,   *
        * just move past the token.  However, if str is a semicolon and     *
@@ -3380,7 +3380,7 @@ public class ParseAlgorithm
                             + tok + "\"") ; }
      }
 
-	public static void MustGobbleThis(final String str) throws ParseAlgorithmException {
+	public void MustGobbleThis(final String str) throws ParseAlgorithmException {
 		final String tok;
 		try {
 			tok = GetAlgToken();
@@ -3392,7 +3392,7 @@ public class ParseAlgorithm
 		}
 	}
 
-   public static boolean GobbleEqualOrIf() throws ParseAlgorithmException
+   public boolean GobbleEqualOrIf() throws ParseAlgorithmException
      /**********************************************************************
      * Gobbles the next token, returns true if it is "=", false if it is   *
      * "\in", and reports an error otherwise.                              *
@@ -3408,8 +3408,8 @@ public class ParseAlgorithm
      }
      
 
-   public static final String[] LAT = new String[10] ;
-   public static int LATsize = 0; 
+   public final String[] LAT = new String[10] ;
+   public int LATsize = 0; 
      /**********************************************************************
      * LAT[0], LAT[1], ...  , LAT[LATsize-1] contain tokens that have      *
      * been read from the algorithm with Tokenize.GetAlgorithmToken but    *
@@ -3417,8 +3417,8 @@ public class ParseAlgorithm
      * an Expr.                                                            *
      **********************************************************************/
 
-   public static final int[] curTokCol  = new int[10];
-   public static final int[] curTokLine = new int[10];
+   public final int[] curTokCol  = new int[10];
+   public final int[] curTokLine = new int[10];
      /**********************************************************************
      * curTokCol[i] and curTokLine[i] are the result of calling            *
      * PcalCharReader.getLineNumber() and                                  *
@@ -3426,8 +3426,8 @@ public class ParseAlgorithm
      * just before the token in LAT[i].                                    *
      **********************************************************************/
 
-   public static int lastTokCol ;
-   public static int lastTokLine ;
+   public int lastTokCol ;
+   public int lastTokLine ;
      /*********************************************************************
      * The column and line number of the last token returned with          *
      * GetAlgToken, where the numbering starts at 1.  The translation      *
@@ -3438,7 +3438,7 @@ public class ParseAlgorithm
    /**
     * The last string returned by GetAlgToken or gobbled by Gobble...
     */
-   private static String lastTokString ;
+   private String lastTokString ;
    
    
    /**
@@ -3448,7 +3448,7 @@ public class ParseAlgorithm
     * 
     * @return
     */
-   private static PCalLocation GetLastLocationStart() {
+   private PCalLocation GetLastLocationStart() {
        return new PCalLocation(lastTokLine-1, lastTokCol-1) ;
    }
    
@@ -3459,10 +3459,10 @@ public class ParseAlgorithm
     * 
     * @return
     */
-   private static PCalLocation GetLastLocationEnd() {
+   private PCalLocation GetLastLocationEnd() {
        return new PCalLocation(lastTokLine-1, lastTokCol-1 + lastTokString.length()) ;
    }
-   public static String GetAlgToken() throws ParseAlgorithmException
+   public String GetAlgToken() throws ParseAlgorithmException
      /**********************************************************************
      * Return the next algorithm token.                                      *
      **********************************************************************/
@@ -3519,7 +3519,7 @@ public class ParseAlgorithm
        return result;
      }   
 
-   public static String PeekAtAlgToken(final int tokNum) throws ParseAlgorithmException
+   public String PeekAtAlgToken(final int tokNum) throws ParseAlgorithmException
      /**********************************************************************
      * This returns the tokNum-th token ahead, but does not actually       *
      * remove any token from the input stream.  PeekAtAlgToken(1) returns  *
@@ -3557,7 +3557,7 @@ public class ParseAlgorithm
          return LAT[tokNum - 1] ;
      }          
 
-   public static String PeekPastAlgToken(final int tokNum) throws ParseAlgorithmException
+   public String PeekPastAlgToken(final int tokNum) throws ParseAlgorithmException
      /**********************************************************************
      * This performs and returns the results of a PcalCharReader.peek()    *
      * at the input stream after the tokNum-th token after the current     *
@@ -3568,7 +3568,7 @@ public class ParseAlgorithm
      **********************************************************************/
      { 
        if (tokNum < LATsize)
-         { PcalDebug.ReportBug ("ParseAlgorithm.PeekPastAlgToken called " +
+         { PcalDebug.ReportBug ("this.PeekPastAlgToken called " +
                                  "to peek after a token" +
                                  "\n    it has already peeked at") ; 
          }
@@ -3600,7 +3600,7 @@ public class ParseAlgorithm
 *                                                                          *
 * Bug fixed by LL on 28 Feb 2006                                           
 ***************************************************************************/
-   public static void uncomment(final Vector<String> inp,
+   public void uncomment(final Vector<String> inp,
                                 final int begLine,
                                 final int begCol) throws ParseAlgorithmException
 
@@ -3761,7 +3761,7 @@ public class ParseAlgorithm
     * See the comments above for an explanation of the arguments.
     */
    /***************************
-     public static boolean ProcessVersion(Vector inputVec, 
+     public boolean ProcessVersion(Vector inputVec, 
                                         IntPair curLoc) {
        String curLine = GotoNextNonSpace(inputVec, curLoc);
        boolean error = false;          
@@ -3808,7 +3808,7 @@ public class ParseAlgorithm
     * 
     * See the comments above for an explanation of the arguments.
     */
-    public static int ProcessOptions(final Vector<?> untabInputVec, final IntPair curLoc)
+    public int ProcessOptions(final Vector<?> untabInputVec, final IntPair curLoc)
     {
         String curLine = GotoNextNonSpace(untabInputVec, curLoc);
         if (curLine.substring(curLoc.two).startsWith("options"))
@@ -3879,7 +3879,7 @@ public class ParseAlgorithm
     * @param curLoc          <row, column> (Java coordinates) of beginning of search.
     * @throws ParseAlgorithmException
     */
-   public static void FindToken(
+   public void FindToken(
            final String token,
            final Vector<?> inputVec,
            final IntPair curLoc,
@@ -3929,7 +3929,7 @@ public class ParseAlgorithm
     * Returns the position of the first space , ",", or ")" at or after position col
     * in str, or str.size() if there is none.
     */
-   private static int NextDelimiterCol(final String str, final int col) {
+   private int NextDelimiterCol(final String str, final int col) {
        final String[] splitStr = str.substring(col).split("[ ,)]");
        if (splitStr.length == 0) { return col ; }
        return col + splitStr[0].length();
@@ -3942,7 +3942,7 @@ public class ParseAlgorithm
     * @param col
     * @return
     */
-   private static int NextSpaceCol(final String str, final int col) {
+   private int NextSpaceCol(final String str, final int col) {
        final String[] splitStr = str.substring(col).split(" ");
        if (splitStr.length == 0) { return col ; }
        return col + splitStr[0].length();
@@ -3956,7 +3956,7 @@ public class ParseAlgorithm
     * @param col
     * @return
     */
-   private static int NextBraceQuoteOrCommentCol(final String str, final int col) {
+   private int NextBraceQuoteOrCommentCol(final String str, final int col) {
        final String[] splitStr =
            str.substring(col).split("\\{|}|\"|\\(\\*|\\\\\\*");
        if (splitStr.length == 0) { return col ; }
@@ -3971,7 +3971,7 @@ public class ParseAlgorithm
     * @param col
     * @return
     */
-   public static int NextNonIdChar(final String str, final int col) {
+   public int NextNonIdChar(final String str, final int col) {
        int curCol = col;
        char c = str.charAt(col);
        while ((curCol < str.length()) &&
@@ -3995,7 +3995,7 @@ public class ParseAlgorithm
     * removal is possible.)
     * 
     */
-   public static String GotoNextNonSpace(final Vector<?> inputVec, final IntPair curLoc) {
+   public String GotoNextNonSpace(final Vector<?> inputVec, final IntPair curLoc) {
        boolean found = false;
        while ((!found) && curLoc.one < inputVec.size()) {
          final String line = (String) inputVec.elementAt(curLoc.one);
@@ -4036,7 +4036,7 @@ public class ParseAlgorithm
     * quote, then it throws a ParseAlgorithmException, reporting the error at
     * line line+1, column loc+1
     */
-   public static int findEndOfString(final String str, final int loc, final int line)
+   public int findEndOfString(final String str, final int loc, final int line)
      throws ParseAlgorithmException {
        int pos = loc + 1;
        boolean found = false;
@@ -4063,7 +4063,7 @@ public class ParseAlgorithm
     * 
     * See the comments above for an explanation of the arguments.
     */
-   public static void gotoEndOfComment(final Vector<?> inputVec,  // Vector of strings
+   public void gotoEndOfComment(final Vector<?> inputVec,  // Vector of strings
 //                                       Vector outputVec, // null or Vector of strings
                                        final IntPair curLoc
                                        // <row, column> in Java coordinates of
@@ -4113,7 +4113,7 @@ public class ParseAlgorithm
    }
    
    // Copied from StringHelper
-   public static final void printArray(final Object[] array) {
+   public final void printArray(final Object[] array) {
        if (array == null) {
            System.out.println("null array");
            return;

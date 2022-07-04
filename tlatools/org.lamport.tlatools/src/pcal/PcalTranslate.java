@@ -37,7 +37,7 @@ import pcal.exception.PcalTranslateException;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class PcalTranslate {
 
-    private static PcalSymTab st = null;  /* Set by invocation of Explode */
+    private PcalSymTab st = null;  /* Set by invocation of Explode */
     
     /**
      *  The following field added by LL on 7 June 2010 to allow return statements
@@ -48,8 +48,13 @@ public class PcalTranslate {
      *  See the comments for ExplodeReturn for more details.
      *  
      */
-    private static String currentProcedure;  
+    private String currentProcedure;
 
+    private final ParseAlgorithm parseAlgorithm;
+
+    public PcalTranslate(final ParseAlgorithm parseAlgorithm){
+        this.parseAlgorithm = parseAlgorithm;
+    }
 
     /*************************************************************************
      * Routines for constructing snippets of +cal code                       *
@@ -292,7 +297,7 @@ public class PcalTranslate {
         return checkPC;
     }
 
-    private static AST.Assign UpdatePC (final String next) {
+    private AST.Assign UpdatePC (final String next) {
         /*********************************************************************
         * Generate pc := next ;                                              *
         *********************************************************************/
@@ -304,7 +309,7 @@ public class PcalTranslate {
      **
      *************************************************************************/
 
-    public static AST Explode (final AST ast, final PcalSymTab symtab) throws PcalTranslateException {
+    public AST Explode (final AST ast, final PcalSymTab symtab) throws PcalTranslateException {
         /*********************************************************************
         * Expand while, labeled if, and nexted labeled with a sequence of    *
         * of flat labeled statements. Control flow is added via assignments  *
@@ -322,7 +327,7 @@ public class PcalTranslate {
         }
     }
 
-    private static AST.Uniprocess ExplodeUniprocess (final AST.Uniprocess ast) throws PcalTranslateException {
+    private AST.Uniprocess ExplodeUniprocess (final AST.Uniprocess ast) throws PcalTranslateException {
         /*********************************************************************
         * Generate new AST.Uniprocess that has exploded labeled statements.  *
         *********************************************************************/
@@ -363,7 +368,7 @@ public class PcalTranslate {
         return newast;
     }
         
-    private static AST.Multiprocess ExplodeMultiprocess (final AST.Multiprocess ast) throws PcalTranslateException {
+    private AST.Multiprocess ExplodeMultiprocess (final AST.Multiprocess ast) throws PcalTranslateException {
         /*********************************************************************
         * Generate new AST.Multiprocess with exploded labeled statements.    *
         *********************************************************************/
@@ -389,7 +394,7 @@ public class PcalTranslate {
         return newast;
     }
 
-    private static AST.Procedure ExplodeProcedure (final AST.Procedure ast) throws PcalTranslateException {
+    private AST.Procedure ExplodeProcedure (final AST.Procedure ast) throws PcalTranslateException {
         /*********************************************************************
         * Generate new AST.Procedure with exploded labeled statements.       *
         *********************************************************************/
@@ -421,7 +426,7 @@ public class PcalTranslate {
         return newast;
     }
         
-    private static AST.Process ExplodeProcess(final AST.Process ast) throws PcalTranslateException {
+    private AST.Process ExplodeProcess(final AST.Process ast) throws PcalTranslateException {
         /*********************************************************************
         * Generate new AST.Process with exploded labeled statements.         *
         *********************************************************************/
@@ -456,7 +461,7 @@ public class PcalTranslate {
         return newast;
     }
 
-    private static Vector<Object> CopyAndExplodeLastStmt(final Vector<AST> stmts, final String next) throws PcalTranslateException {
+    private Vector<Object> CopyAndExplodeLastStmt(final Vector<AST> stmts, final String next) throws PcalTranslateException {
         /**************************************************************
         * The arguments are:                                               *
         *                                                                  *
@@ -548,7 +553,7 @@ public class PcalTranslate {
                 result2.addAll((Vector) p2.elementAt(1));
                 If.Then = (Vector) p1.elementAt(0);
                 If.Else = (Vector) p2.elementAt(0);
-                if (! ParseAlgorithm.omitPC) {
+                if (! parseAlgorithm.omitPC) {
                   final boolean thenNeedsGoto = ((BoolObj) p1.elementAt(2)).val ;
                   final boolean elseNeedsGoto = ((BoolObj) p2.elementAt(2)).val ;
                   needsGoto = thenNeedsGoto && elseNeedsGoto ;
@@ -575,7 +580,7 @@ public class PcalTranslate {
                   needsGoto = needsGoto && ((BoolObj) thisP.elementAt(2)).val ;
                   needsGotoVec.addElement(thisP.elementAt(2)) ;
                 }
-                if (! ParseAlgorithm.omitPC) {
+                if (! parseAlgorithm.omitPC) {
                   if (! needsGoto) {
                     /* Each `or' clause needs a goto. */
                     for (int i = 0; i < Either.ors.size(); i++) {
@@ -606,14 +611,14 @@ public class PcalTranslate {
           needsGoto = true ;
         }
 //        else  result1.addElement(UpdatePC(next));
-        if (ParseAlgorithm.omitPC) {
+        if (parseAlgorithm.omitPC) {
             needsGoto = false;
         }
         return Triple(result1, result2, BO(needsGoto));
     }
 
 
-    private static Vector<Object> 
+    private Vector<Object>
           CopyAndExplodeLastStmtWithGoto(final Vector stmts, final String next) throws PcalTranslateException {
       /*********************************************************************
       * Added by LL on 5 Feb 2011: The following comment seems to be       *
@@ -631,7 +636,7 @@ public class PcalTranslate {
     }
 
 
-    private static Vector<LabeledStmt> ExplodeLabeledStmt (final AST.LabeledStmt ast,
+    private Vector<LabeledStmt> ExplodeLabeledStmt (final AST.LabeledStmt ast,
                                                            final String next) throws PcalTranslateException {
          /******************************************************************
          * label SL -->                                                    *
@@ -662,7 +667,7 @@ public class PcalTranslate {
         newast.label = ast.label;
         /* add the statements with last exploded */
         newast.stmts = (Vector) pair.elementAt(0);
-        if (! ParseAlgorithm.omitPC) {
+        if (! parseAlgorithm.omitPC) {
            /* prepend pc check */
            newast.stmts.insertElementAt(CheckPC(newast.label), 0);
            result.addElement(newast);
@@ -672,7 +677,7 @@ public class PcalTranslate {
         return result;
     }
 
-    private static Vector<LabeledStmt> ExplodeLabeledStmtSeq (final Vector seq,
+    private Vector<LabeledStmt> ExplodeLabeledStmtSeq (final Vector seq,
                                                               final String next) throws PcalTranslateException {
      /**********************************************************************
      * seq is a sequence of LabeledStmts, and `next' is the label that     *
@@ -700,7 +705,7 @@ public class PcalTranslate {
      * is an AST.While node, and the remaining elements are the unlabeled
      * statements following the source `while' statement.
      */
-    private static Vector<LabeledStmt> ExplodeWhile(final AST.LabeledStmt ast,
+    private Vector<LabeledStmt> ExplodeWhile(final AST.LabeledStmt ast,
                                                     final String next) throws PcalTranslateException {
         /*******************************************************************
         * label test unlabDo labDo next -->                                *
@@ -753,7 +758,7 @@ public class PcalTranslate {
         newast.label = ast.label;
         newast.stmts = new Vector();
 
-        if (! ParseAlgorithm.omitPC) {
+        if (! parseAlgorithm.omitPC) {
            newast.stmts.addElement(CheckPC(ast.label));   // pc test
         }
 
@@ -804,7 +809,7 @@ public class PcalTranslate {
         return result;
     }
 
-    private static Vector<Object> ExplodeLabelIf(final AST.LabelIf ast, final String next) throws PcalTranslateException {
+    private Vector<Object> ExplodeLabelIf(final AST.LabelIf ast, final String next) throws PcalTranslateException {
         /***************************************************************
          *       test unlabThen labThen unlabElse labElse next -->     *
          *       if test then                                          *
@@ -895,7 +900,7 @@ public class PcalTranslate {
         return Pair(result1, result2);
     }
 
-    private static Vector<Object> ExplodeLabelEither(final AST.LabelEither ast,
+    private Vector<Object> ExplodeLabelEither(final AST.LabelEither ast,
                                                      final String next) throws PcalTranslateException {
         /*******************************************************************
         * Analogous to ExplodeLabelIf, except it hasa sequence of clauses  *
@@ -949,7 +954,7 @@ public class PcalTranslate {
     * newly created statements for error reporting.                        
      **
     ***********************************************************************/
-    private static Vector<AST.Assign> ExplodeCall(final AST.Call ast, final String next) throws PcalTranslateException {
+    private Vector<AST.Assign> ExplodeCall(final AST.Call ast, final String next) throws PcalTranslateException {
         final Vector<AST.Assign> result = new Vector<>();
         final int to = st.FindProc(ast.to);
         /*******************************************************************
@@ -1104,7 +1109,7 @@ public class PcalTranslate {
     * newly created statements for error reporting.                        
      **
     ***********************************************************************/
-    private static Vector<AST.Assign> ExplodeReturn(final AST.Return ast, final String next) throws PcalTranslateException {
+    private Vector<AST.Assign> ExplodeReturn(final AST.Return ast, final String next) throws PcalTranslateException {
         final Vector<AST.Assign> result = new Vector<>();
         /*******************************************************************
         * On 30 Mar 2006, added code to throw a PcalTranslateException     *
@@ -1262,7 +1267,7 @@ public class PcalTranslate {
     * newly created statements for error reporting.                        
      **
     ***********************************************************************/
-    private static Vector<AST.Assign> ExplodeCallReturn(final AST.CallReturn ast, final String next) throws PcalTranslateException {
+    private Vector<AST.Assign> ExplodeCallReturn(final AST.CallReturn ast, final String next) throws PcalTranslateException {
     	final Vector<AST.Assign> result = new Vector<>();
         /*******************************************************************
         * The following test for a return not in a procedure was added by  *
@@ -1460,7 +1465,7 @@ public class PcalTranslate {
     * Generate sequence of statements corresponding to call followed by a  *
     * goto.                                                                *
     ***********************************************************************/
-    private static Vector<AST.Assign> ExplodeCallGoto(final AST.CallGoto ast, final String next) throws PcalTranslateException {
+    private Vector<AST.Assign> ExplodeCallGoto(final AST.CallGoto ast, final String next) throws PcalTranslateException {
       final AST.Call call = new AST.Call();
       call.to = ast.to;
       call.args = ast.args;

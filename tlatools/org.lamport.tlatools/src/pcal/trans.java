@@ -319,6 +319,8 @@ class trans {
      */
     public static int runMe(final String[] args)
     {
+        ParseAlgorithm parseAlgorithm = new ParseAlgorithm();
+
         /*********************************************************************
         * Get and print version number.                                      *
         *********************************************************************/
@@ -370,7 +372,7 @@ class trans {
         * which was not always the case in the aborted version 1.31.         *
         *********************************************************************/
         // Vector outputVec = PcalParams.fromPcalFile ? new Vector() : inputVec;
-        final List<String> outputVec = performTranslation(inputVec);
+        final List<String> outputVec = performTranslation(inputVec, parseAlgorithm);
         if (outputVec == null) {
         	return exitWithStatus(STATUS_EXIT_WITH_ERRORS);
         }
@@ -496,7 +498,7 @@ class trans {
             * it to a model value of the same name.                           *
             * (Added 22 Aug 2007 by LL.)                                      *
             ******************************************************************/
-            if (PcalParams.tlcTranslation() || ParseAlgorithm.hasDefaultInitialization)
+            if (PcalParams.tlcTranslation() || parseAlgorithm.hasDefaultInitialization)
             {
                 cfg.add(0, "CONSTANT defaultInitValue = defaultInitValue");
             }
@@ -546,14 +548,18 @@ class trans {
         return exitWithStatus(STATUS_EXIT_WITHOUT_ERROR);
     } // END main
 
+
     // This is called from the main-invoked {@link #runMe(String[])}
     // For some reason this method used to both mutate the argument, and then also returns that argument... ?
     //		Now we copy the argument, mutate the copy, and return that.
-    public static List<String> performTranslation(final List<String> specificationText) {
-    	return performTranslation(specificationText, new ValidationCallBack.Noop());
+    public static List<String> performTranslation(final List<String> specificationText,
+                                                  final ParseAlgorithm parseAlgorithm) {
+    	return performTranslation(specificationText, new ValidationCallBack.Noop(), parseAlgorithm);
     }
     
-    public static List<String> performTranslation(final List<String> specificationText, final ValidationCallBack cb) {
+    public static List<String> performTranslation(final List<String> specificationText,
+                                                  final ValidationCallBack cb,
+                                                  final ParseAlgorithm parseAlgorithm) {
         /**
          * Create the new TLAtoPCalMapping object, call it mapping
          * here and set PcalParams.tlaPcalMapping to point to it.
@@ -596,18 +602,18 @@ class trans {
         {
             try
             {
-                ParseAlgorithm.FindToken("PlusCal", untabInputVec, searchLoc, "");
-                final String line = ParseAlgorithm.GotoNextNonSpace(untabInputVec, searchLoc);
+                parseAlgorithm.FindToken("PlusCal", untabInputVec, searchLoc, "");
+                final String line = parseAlgorithm.GotoNextNonSpace(untabInputVec, searchLoc);
                 final String restOfLine = line.substring(searchLoc.two);
                 if (restOfLine.startsWith("options"))
                 {
                     // The first string after "PlusCal" not starting with a
                     // space character is "options"
-                    if (ParseAlgorithm.NextNonIdChar(restOfLine, 0) == 7)
+                    if (parseAlgorithm.NextNonIdChar(restOfLine, 0) == 7)
                     {
                         // The "options" should begin an options line
                         PcalParams.optionsInFile = true;
-                        ParseAlgorithm.ProcessOptions(untabInputVec, searchLoc);
+                        parseAlgorithm.ProcessOptions(untabInputVec, searchLoc);
                         notDone = false;
                     }
                 }
@@ -830,7 +836,7 @@ class trans {
         *********************************************************************/
         try
         {
-            ParseAlgorithm.uncomment(untabInputVec, algLine, algCol);
+            parseAlgorithm.uncomment(untabInputVec, algLine, algCol);
         } catch (final ParseAlgorithmException e)
         {
             PcalDebug.reportError(e);
@@ -853,7 +859,7 @@ class trans {
         AST ast = null;
         try
         {
-            ast = ParseAlgorithm.getAlgorithm(reader, foundFairBegin);
+            ast = parseAlgorithm.getAlgorithm(reader, foundFairBegin);
 // System.out.println(ast.toString());
 // For testing, we print out when the new code for eliminating the 
 // suttering-on-done and pc is used.
@@ -893,7 +899,7 @@ class trans {
         *********************************************************************/
 
         // SZ February.15 2009: made non-static to make PCal stateless for tool runs
-        final PCalTLAGenerator pcalTLAGenerator = new PCalTLAGenerator(ast);
+        final PCalTLAGenerator pcalTLAGenerator = new PCalTLAGenerator(ast, parseAlgorithm);
         try
         {
             pcalTLAGenerator.removeNameConflicts();

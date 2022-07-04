@@ -43,18 +43,20 @@ public class Translator
     private String output;
 
     private final String input;
-    
-    public Translator(final String anInput, final String[] args) {
+    private final ParseAlgorithm parseAlgorithm;
+
+    public Translator(final String anInput, ParseAlgorithm parseAlgorithm, final String[] args) {
 		this.input = anInput;
 		ToolIO.reset();
 		ToolIO.setMode(ToolIO.TOOL);
 		PcalParams.resetParams();
 		PcalParams.tlaPcalMapping = new TLAtoPCalMapping();
 		trans.parseAndProcessArguments(args);
+		this.parseAlgorithm = parseAlgorithm;
     }
     
-    public Translator(final String anInput, final List<String> args) {
-    	this(anInput, args.toArray(new String[0]));
+    public Translator(final String anInput, ParseAlgorithm parseAlgorithm, final List<String> args) {
+    	this(anInput, parseAlgorithm, args.toArray(new String[0]));
     }
 
     /**
@@ -69,7 +71,7 @@ public class Translator
 		final String[] lines = input.split("\\r?\\n");
 		final List<String> in = Arrays.asList(lines);
 		
-		final List<String> out = trans.performTranslation(in, cb);
+		final List<String> out = trans.performTranslation(in, cb, this.parseAlgorithm);
 		if (out != null) {
 			final StringBuilder buf = new StringBuilder();
 			final String lineSeparator = System.getProperty("line.separator");
