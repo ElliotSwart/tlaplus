@@ -32,7 +32,6 @@ public final class SpecWriterUtilities {
      * a "\n" before it when writing a new file.
      */
     public static final String MODIFICATION_HISTORY = /* StringHelper.PLATFORM_NEWLINE + */ "\\* Modification History";
-    public static String LAST_MODIFIED = StringHelper.PLATFORM_NEWLINE + "\\* Last modified ";
     public static final String MODIFIED_BY = " by ";
 
     /**

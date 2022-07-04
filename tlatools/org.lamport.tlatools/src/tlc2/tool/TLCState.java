@@ -43,7 +43,7 @@ public short workerId = Short.MAX_VALUE; // Must be set to a non-negative number
   }
   
   // The state variables.
-  protected static OpDeclNode[] vars = null;
+  protected OpDeclNode[] vars = null;
 
   public void read(final IValueInputStream vis) throws IOException {
 	this.workerId = vis.readShortNat();

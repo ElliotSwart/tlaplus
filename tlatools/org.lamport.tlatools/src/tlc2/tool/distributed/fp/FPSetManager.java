@@ -57,9 +57,6 @@ public abstract class FPSetManager implements IFPSetManager {
 	
 	protected boolean managerIsBroken = false; 
 
-	// SZ Jul 13, 2009: moved from FPSetRMI
-	public static int Port = 10998; // port # for fpset server
-
 	public FPSetManager() {
 		 this(new ArrayList<>());
 	}

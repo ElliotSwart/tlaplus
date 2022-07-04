@@ -44,7 +44,7 @@ import tlc2.util.FP64;
  * exist. This is OK, because the state variable are global.
  * <br>
  * In order to distinguish between the index in the state variable array and index of operator definition array, 
- * the number of state variables defined in the specification is maintained in the static member {@link UniqueString#varCount}. 
+ * the number of state variables defined in the specification is maintained in the member {@link UniqueString#varCount}. 
  * The methods that are responsible for this feature are:
  * <ul>
  *   <li>{@link UniqueString#getDefnLoc()}</li>
@@ -61,11 +61,11 @@ import tlc2.util.FP64;
 public final class UniqueString implements Serializable
 {
     
-    private static final long serialVersionUID = -4248026930568621196L;
+    private final long serialVersionUID = -4248026930568621196L;
 	/** 
      * Maps from strings to variables. 
      */
-    public static InternTable internTbl = null;
+    public InternTable internTbl = null;
     /**
      * The string content
      */
@@ -85,21 +85,12 @@ public final class UniqueString implements Serializable
 
     // SZ 10.04.2009: removed the getter method
     // since it is only needed in Spec#processSpec and the setter is called from there
-    private static int varCount;
-
-    
-    /**
-     * Call static constructor method for call not out of TLC
-     */
-    static 
-    {
-        UniqueString.initialize();
-    }
+    private int varCount;
 
     /**
-     * Static constructor method
+     * constructor method
      */
-    public static void initialize()
+    public UniqueString()
     {
         internTbl = new InternTable(1024);
         varCount = 0;
@@ -132,12 +123,12 @@ public final class UniqueString implements Serializable
      * Sets the number of variables in the spec
      * @param varCount number of variables defined
      */
-    public static void setVariableCount(final int varCount)
+    public void setVariableCount(final int varCount)
     {
-        UniqueString.varCount = varCount;
+        this.varCount = varCount;
         // SZ 10.04.2009: changed the method signature from setVariables(UniqueString[])
         // to setVariableCount(int), since the method is effectively only responsible
-        // for storing this information in the static field of this class.
+        // for storing this information in the field of this class.
 
         // SZ 10.04.2009: removed the loop that runs through the variable names
         // and sets the Loc field of each variable name to it's order in the list
@@ -262,20 +253,20 @@ public final class UniqueString implements Serializable
      * 
      * This is a convenience method for a table put.
      */
-    public static UniqueString uniqueStringOf(final String str)
+    public UniqueString uniqueStringOf(final String str)
     {
         return internTbl.put(str);
     }
 
-	public static UniqueString of(final String str) {
+	public UniqueString of(final String str) {
 		return uniqueStringOf(str);
 	}
 
-	public static UniqueString join(final String delim, final UniqueString... us) {
+	public UniqueString join(final String delim, final UniqueString... us) {
 		return join(delim, us.length, us);
 	}
 
-	public static UniqueString join(final String delim, final int n, final UniqueString... us) {
+	public UniqueString join(final String delim, final int n, final UniqueString... us) {
 		assert 0 < n && n <= us.length;
 		UniqueString out = null;
 		for (int i = 0; i < n; i++) {
@@ -296,7 +287,7 @@ public final class UniqueString implements Serializable
      * 
      * This is a convenience method for a table lookup. 
      */
-    public static UniqueString uidToUniqueString(final int tok)
+    public UniqueString uidToUniqueString(final int tok)
     {
         return internTbl.get(tok);
     }
@@ -325,7 +316,7 @@ public final class UniqueString implements Serializable
      * 
      * The method does not change member/class variables
      */
-    public static UniqueString read(final IDataInputStream dis) throws IOException
+    public UniqueString read(final IDataInputStream dis) throws IOException
     {
         final int tok1 = dis.readInt();
         final int loc1 = dis.readInt();
@@ -334,7 +325,7 @@ public final class UniqueString implements Serializable
         return new UniqueString(str, tok1, loc1);
     }
     
-    public static UniqueString read(final IDataInputStream dis, final Map<String, UniqueString> tbl) throws IOException
+    public UniqueString read(final IDataInputStream dis, final Map<String, UniqueString> tbl) throws IOException
     {
         dis.readInt(); // skip, because invalid for the given internTbl
         dis.readInt(); // skip, because invalid for the given internTbl
@@ -348,7 +339,7 @@ public final class UniqueString implements Serializable
      * Sets the source 
      * @param source
      */
-    public static void setSource(final InternRMI source)
+    public void setSource(final InternRMI source)
     {
         internTbl.setSource(source);
     }

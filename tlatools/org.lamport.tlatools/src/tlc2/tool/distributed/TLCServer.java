@@ -74,10 +74,6 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	 */
 	public static final String THREAD_NAME_PREFIX = "TLCWorkerThread-";
 
-	/**
-	 * Used by TLCStatistics which are collected after the {@link FPSet} or {@link FPSetManager} shut down.
-	 */
-	static long finalNumberOfDistinctStates = -1L;
 	
 	/**
 	 * the port # for tlc server
@@ -592,7 +588,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 		es.shutdown();
 		
 		// Collect model checking results before exiting remote workers
-		finalNumberOfDistinctStates = fpSetManager.size();
+		var finalNumberOfDistinctStates = fpSetManager.size();
 		final long statesGenerated = getStatesGenerated();
 		final long statesLeftInQueue = getNewStates();
 		

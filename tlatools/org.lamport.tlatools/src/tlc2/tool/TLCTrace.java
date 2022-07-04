@@ -25,13 +25,13 @@ import util.FileUtil;
 public class TLCTrace {
 
 	static final String EXT = ".st";
-	protected static String filename;
+	protected final String filename;
 	private final BufferedRandomAccessFile raf;
 	private long lastPtr;
 	protected TraceApp tool;
 
 	public TLCTrace(final String metadir, final String specFile, final TraceApp tool) throws IOException {
-		filename = metadir + FileUtil.separator + specFile + EXT;
+		this.filename = metadir + FileUtil.separator + specFile + EXT;
 		this.raf = new BufferedRandomAccessFile(filename, "rw");
 		this.lastPtr = 1L;
 		this.tool = tool;
