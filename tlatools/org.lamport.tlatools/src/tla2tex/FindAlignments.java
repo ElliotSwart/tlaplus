@@ -229,7 +229,7 @@ package tla2tex;
 import java.util.Objects;
 
 public class FindAlignments
-{ public static void FindAlignments(final Token[][] spec)
+{ public static void FindAlignments(final Token[][] spec, TokenizeSpec tokenizeSpec)
     { setSubscriptField(spec) ;
         /*******************************************************************
         * Set the subscript fields of the tokens.                          *
@@ -587,7 +587,7 @@ public class FindAlignments
        }// END while (line < spec.length)
 
        // Add the AfterLabel alignments.
-       FindLabelAlignments(spec) ;
+       FindLabelAlignments(spec, tokenizeSpec) ;
 
        /*********************************************************************
       * Set isAlignmentPoint flags.  For simplicity, it is set true for    *
@@ -660,11 +660,11 @@ public class FindAlignments
    *  
    * @param spec
    */
-  public static void FindLabelAlignments(final Token[][] spec) {
+  public static void FindLabelAlignments(final Token[][] spec, TokenizeSpec tokenizeSpec) {
       /*
        * Do nothing if there is no PlusCal algorithm.
        */
-      if (!TokenizeSpec.hasPcal) {
+      if (!tokenizeSpec.hasPcal) {
           return ;
       }
       
@@ -673,8 +673,8 @@ public class FindAlignments
        * PlusCal statement.  Since the algorithm begins with --algorithm
        * or --fair, we skip the algorithm's first line.
        */
-      final int pcalStartLine = TokenizeSpec.pcalStart.line + 1 ;
-      final int pcalEndLine   = TokenizeSpec.pcalEnd.line ;
+      final int pcalStartLine = tokenizeSpec.pcalStart.line + 1 ;
+      final int pcalEndLine   = tokenizeSpec.pcalEnd.line ;
       
       /*
        * The algorithm works by repeatedly searching for the next line beginning

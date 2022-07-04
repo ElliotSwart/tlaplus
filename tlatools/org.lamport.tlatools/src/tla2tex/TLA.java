@@ -83,7 +83,7 @@
 * FormatComments.Initialize                                                *
 *    Initializes tables used for formatting comments.  One table           *
 *    contains common English words, which are read from the file           *
-*    Parameters.WordFile                                                   *
+*    parameters.WordFile                                                   *
 *                                                                          *
 * FindAlignments.FindAlignment                                             *
 *    Determines what tokens should be aligned with what other tokens.      *
@@ -95,24 +95,24 @@
 * WriteTLAFile.Write                                                       *
 *    Writes the -tlaOut file (if one is specified).                        *
 *                                                                          *
-* LaTeXOutput.WriteAlignmentFile                                           *
+* latexOutput.WriteAlignmentFile                                           *
 *    Writes the -alignOut file.                                            *
 *                                                                          *
-* LaTeXOutput.RunLaTeX                                                     *
+* latexOutput.RunLaTeX                                                     *
 *    Runs LaTeX on the -alignOut file.  This aux file produced by LaTeX    *
 *    contains the information about the typeset widths of text that        *
 *    TLATeX needs to perform the alignment.                                *
 *                                                                          *
-* LaTeXOutput.SetDimensions                                                *
+* latexOutput.SetDimensions                                                *
 *    Reads the LaTeX aux file and determines how much space it needs to    *
 *    add for alignment, setting the information in the tokens'             *
 *    distFromMargin and preSpace fields.                                   *
 *                                                                          *
-* LaTeXOutput.WriteLaTeXFile                                               *
+* latexOutput.WriteLaTeXFile                                               *
 *    Writes the -out file, containing LaTeX input to produce the           *
 *    typeset version.                                                      *
 *                                                                          *
-* LaTeXOutput.RunLaTeX                                                     *
+* latexOutput.RunLaTeX                                                     *
 *    Runs LaTeX on the -out file.                                          *
 *                                                                          *
 * MakePSFile                                                               *
@@ -154,34 +154,40 @@ public class TLA
      * @param args
      */
     public static void runTranslation(final String[] args)
-    {  
+    {
+
+        Parameters parameters = new Parameters();
+        TokenizeSpec tokenizeSpec = new TokenizeSpec(parameters);
+
         /*********************************************************************
         * Get the command-line arguments.                                    *
         *********************************************************************/
         final long startTime = Debug.now();
         ToolIO.out.println(version);
-        GetArguments(args);
+        GetArguments(args, parameters);
 
         /*********************************************************************
         * Initialize class BuiltInSymbols.                                   *
         *********************************************************************/
-        Starting("BuiltInSymbols.Initialize");
+        Starting("BuiltInSymbols.Initialize", parameters);
         BuiltInSymbols.Initialize();
-        Finished("BuiltInSymbols.Initialize");
+        Finished("BuiltInSymbols.Initialize", parameters);
 
+
+        
         /*********************************************************************
         * Read and tokenize the spec.                                        *
         *********************************************************************/
-        final FileCharReader testlr = new FileCharReader(Parameters.TLAInputFile);
-        Starting("TokenizeSpec.Tokenize");
-        final Token[][] spec = TokenizeSpec.Tokenize(testlr, TokenizeSpec.MODULE);
+        final FileCharReader testlr = new FileCharReader(parameters.TLAInputFile);
+        Starting("TokenizeSpec.Tokenize", parameters);
+        final Token[][] spec = tokenizeSpec.Tokenize(testlr, tokenizeSpec.MODULE);
 
 /*********************************************************************
         * Finish the tokenization by converting sequences of tokens that     *
         * represent proof-step numbers to PF_STEP tokens.                    *
         *********************************************************************/
         Token.FindPfStepTokens(spec);
-        Finished("TokenizeSpec.Tokenize");
+        Finished("TokenizeSpec.Tokenize", parameters);
         // Debug.print2DArray(spec, "tok");
         
         /*********************************************************************
@@ -189,41 +195,42 @@ public class TLA
         * part of the PlusCal C-syntax to tokens that are printed            *
         * appropriately.                                                     *
         *********************************************************************/
-        Starting("TokenizeSpec.FixPlusCal");
-        TokenizeSpec.FixPlusCal(spec, false) ;
-        Finished("TokenizeSpec.FixPlusCal");
+        Starting("TokenizeSpec.FixPlusCal", parameters);
+        tokenizeSpec.FixPlusCal(spec, false) ;
+        Finished("tokenizeSpec.FixPlusCal", parameters);
 
         /*********************************************************************
         * Process the comment tokens.                                        *
         *********************************************************************/
-        Starting("CommentToken.ProcessComments");
+        Starting("CommentToken.ProcessComments", parameters);
         CommentToken.ProcessComments(spec);
-        Finished("CommentToken.ProcessComments");
+        Finished("CommentToken.ProcessComments", parameters);
         // Debug.print2DArray(spec, "com");
 
         /*********************************************************************
         * Initialize class FormatComments.                                   *
         *********************************************************************/
-        Starting("FormatComments.Initialize");
-        FormatComments.Initialize();
-        Finished("FormatComments.Initialize");
+        Starting("FormatComments.Initialize", parameters);
+        FormatComments formatComments = new FormatComments(tokenizeSpec);
+        formatComments.Initialize();
+        Finished("FormatComments.Initialize", parameters);
 
         /*********************************************************************
         * Add the alignment pointers to spec.                                *
         *********************************************************************/
-        Starting("FindAlignments.FindAlignments");
-        FindAlignments.FindAlignments(spec);
-        Finished("FindAlignments.FindAlignments");
+        Starting("FindAlignments.FindAlignments", parameters);
+        FindAlignments.FindAlignments(spec, tokenizeSpec);
+        Finished("FindAlignments.FindAlignments", parameters);
         // Debug.print2DArray(spec, "align");
 
         /*********************************************************************
         * Write out the tla file with deleted comments removed, if the       *
         * -tlaOut option is chosen.                                          *
         *********************************************************************/
-        if (Parameters.TLAOut)
+        if (parameters.TLAOut)
         {
-            WriteTLAFile.Write(spec, Parameters.TLAOutFile);
-            ToolIO.out.println("Wrote -tlaOut file " + Parameters.TLAOutFile);
+            WriteTLAFile.Write(spec, parameters.TLAOutFile);
+            ToolIO.out.println("Wrote -tlaOut file " + parameters.TLAOutFile);
         }
 
         /*********************************************************************
@@ -231,55 +238,57 @@ public class TLA
         * dimension information in spec based on the log file produced by    *
         * LaTeX.                                                             *
         *********************************************************************/
-        Starting("LaTeXOutput.WriteAlignmentFile");
-        LaTeXOutput.WriteAlignmentFile(spec);
-        Finished("LaTeXOutput.WriteAlignmentFile");
+        LaTeXOutput latexOutput = new LaTeXOutput(formatComments);
+        
+        Starting("latexOutput.WriteAlignmentFile", parameters);
+        latexOutput.WriteAlignmentFile(spec);
+        Finished("latexOutput.WriteAlignmentFile", parameters);
 
-        Starting("LaTeXOutput.RunLaTeX");
-        LaTeXOutput.RunLaTeX(Parameters.LaTeXAlignmentFile);
-        Finished("LaTeXOutput.RunLaTeX");
+        Starting("latexOutput.RunLaTeX", parameters);
+        latexOutput.RunLaTeX(parameters.LaTeXAlignmentFile);
+        Finished("latexOutput.RunLaTeX", parameters);
 
-        Starting("LaTeXOutput.SetDimensions");
-        LaTeXOutput.SetDimensions(spec);
-        Finished("LaTeXOutput.SetDimensions");
+        Starting("latexOutput.SetDimensions", parameters);
+        latexOutput.SetDimensions(spec);
+        Finished("latexOutput.SetDimensions", parameters);
         // Debug.print2DArray(spec, "");
 
         /*********************************************************************
         * Write the final LaTeX output and run it through LaTeX.             *
         *********************************************************************/
-        Starting("LaTeXOutput.WriteLaTeXFile");
-        LaTeXOutput.WriteLaTeXFile(spec);
-        Finished("LaTeXOutput.WriteLaTeXFile");
+        Starting("latexOutput.WriteLaTeXFile", parameters);
+        latexOutput.WriteLaTeXFile(spec);
+        Finished("latexOutput.WriteLaTeXFile", parameters);
 
-        Starting("LaTeXOutput.RunLaTeX");
-        LaTeXOutput.RunLaTeX(Parameters.LaTeXOutputFile);
-        Finished("LaTeXOutput.RunLaTeX");
+        Starting("latexOutput.RunLaTeX", parameters);
+        latexOutput.RunLaTeX(parameters.LaTeXOutputFile);
+        Finished("latexOutput.RunLaTeX", parameters);
 
-        ToolIO.out.println("TLATeX " + Parameters.LatexOutputExt + " output written on " + 
-                Parameters.LaTeXOutputFile + "." +
-                Parameters.LatexOutputExt +             
-                ((Parameters.MetaDir.equals("")) ? "" : ", from " + Parameters.MetaDir) + ".");
+        ToolIO.out.println("TLATeX " + parameters.LatexOutputExt + " output written on " + 
+                parameters.LaTeXOutputFile + "." +
+                parameters.LatexOutputExt +             
+                ((parameters.MetaDir.equals("")) ? "" : ", from " + parameters.MetaDir) + ".");
         
-        if (Parameters.PSOutput)
+        if (parameters.PSOutput)
         {
             /******************************************************************
             * Produce the Postscript file.                                    *
             ******************************************************************/
-            Starting("MakePSFile");
-            MakePSFile();
-            Finished("MakePSFile");
-            ToolIO.out.println("TLATeX Postscript (or pdf) output written on " + Parameters.LaTeXOutputFile
-                    + ".ps (or " + Parameters.LaTeXOutputFile + ".pdf).");
+            Starting("MakePSFile", parameters);
+            MakePSFile(parameters);
+            Finished("MakePSFile", parameters);
+            ToolIO.out.println("TLATeX Postscript (or pdf) output written on " + parameters.LaTeXOutputFile
+                    + ".ps (or " + parameters.LaTeXOutputFile + ".pdf).");
         }
-        if (! Parameters.MetaDir.equals("")) 
+        if (! parameters.MetaDir.equals("")) 
         {
             try
             {
-                FileUtil.copyFile(LaTeXOutput.prependMetaDirToFileName(Parameters.LaTeXOutputFile + "."
-                        + Parameters.LatexOutputExt), Parameters.TLAInputFile.substring(0, Parameters.TLAInputFile
+                FileUtil.copyFile(latexOutput.prependMetaDirToFileName(parameters.LaTeXOutputFile + "."
+                        + parameters.LatexOutputExt), parameters.TLAInputFile.substring(0, parameters.TLAInputFile
                         .length()
                         - "tla".length())
-                        + Parameters.LatexOutputExt);
+                        + parameters.LatexOutputExt);
             } catch (final IOException e)
             {
                 Debug.ReportError("Trying to copy output from metadir produced the error:\n" + e.getMessage());
@@ -289,7 +298,7 @@ public class TLA
         Debug.printElapsedTime(startTime, "Total execution time:");
     } // END main
 
-    private static void GetArguments(final String[] args)
+    private static void GetArguments(final String[] args, Parameters parameters)
     /**********************************************************************
     * Get the command-line arguments and set the appropriate parameters.  *
     **********************************************************************/
@@ -306,8 +315,8 @@ public class TLA
          * These static variables are set to true later in the method if    *
          * the user passes the appropriate argument.                        *
          ********************************************************************/
-        Parameters.CommentShading = false;
-        Parameters.PrintLineNumbers = false;
+        parameters.CommentShading = false;
+        parameters.PrintLineNumbers = false;
         
         int nextArg = 0;
         /******************************************************************
@@ -341,11 +350,11 @@ public class TLA
             final String option = args[nextArg];
             switch (option) {
                 case "-help" -> {
-                    OutputMessageFile(Parameters.HelpFile);
+                    OutputMessageFile(parameters.HelpFile);
                     System.exit(0);
                 }
                 case "-info" -> {
-                    OutputMessageFile(Parameters.InfoFile);
+                    OutputMessageFile(parameters.InfoFile);
                     System.exit(0);
                 }
                 case "-grayLevel" -> {
@@ -354,15 +363,15 @@ public class TLA
                         CommandLineError("No input file specified");
                     }
                     try {
-                        Parameters.PSGrayLevel = Misc.stringToFloat(args[nextArg]);
+                        parameters.PSGrayLevel = Misc.stringToFloat(args[nextArg]);
                     } catch (final Exception e) {
                         CommandLineError("Bad -grayLevel value " + args[nextArg]);
                     }
                     // bug found by Yuan Yu in following if statement
                     // corrected 9 May 2001
-                    if ((Parameters.PSGrayLevel > 1) || (Parameters.PSGrayLevel < 0)) {
+                    if ((parameters.PSGrayLevel > 1) || (parameters.PSGrayLevel < 0)) {
                         CommandLineError("-grayLevel value should be between 0 and 1, not "
-                                + Misc.floatToString(Parameters.PSGrayLevel, 3));
+                                + Misc.floatToString(parameters.PSGrayLevel, 3));
                     }
                 }
                 case "-ps" -> psOption = true;
@@ -372,14 +381,14 @@ public class TLA
                     if (nextArg >= args.length) {
                         CommandLineError("No input file specified");
                     }
-                    Parameters.PSCommand = args[nextArg];
+                    parameters.PSCommand = args[nextArg];
                 }
                 case "-latexCommand" -> {
                     nextArg = nextArg + 1;
                     if (nextArg >= args.length) {
                         CommandLineError("No input file specified");
                     }
-                    Parameters.LaTeXCommand = args[nextArg];
+                    parameters.LaTeXCommand = args[nextArg];
                 }
                 case "-out" -> {
                     /*************************************************************
@@ -390,8 +399,8 @@ public class TLA
                     if (nextArg >= args.length) {
                         CommandLineError("No input file specified");
                     }
-                    Parameters.LaTeXOutputFile = RemoveExtension(args[nextArg]);
-                    if (HasPathPrefix(Parameters.LaTeXOutputFile)) {
+                    parameters.LaTeXOutputFile = RemoveExtension(args[nextArg]);
+                    if (HasPathPrefix(parameters.LaTeXOutputFile)) {
                         CommandLineError("-out file contains a path specifier.\n"
                                 + "It must be a file in the current directory.");
                     }
@@ -401,16 +410,16 @@ public class TLA
                      * The tla output file, with TEX comments removed.  Add a     *
                      * ".tla" extension if no extension is specified.             *
                      *************************************************************/
-                    Parameters.TLAOut = true;
+                    parameters.TLAOut = true;
                     nextArg = nextArg + 1;
                     if (nextArg >= args.length) {
                         CommandLineError("No input file specified");
                     }
-                    Parameters.TLAOutFile = args[nextArg];
-                    if (!Parameters.TLAOutFile.contains(".")) {
-                        Parameters.TLAOutFile = Parameters.TLAOutFile + TLAConstants.Files.TLA_EXTENSION;
+                    parameters.TLAOutFile = args[nextArg];
+                    if (!parameters.TLAOutFile.contains(".")) {
+                        parameters.TLAOutFile = parameters.TLAOutFile + TLAConstants.Files.TLA_EXTENSION;
                     }
-                    if (HasPathPrefix(Parameters.TLAOutFile)) {
+                    if (HasPathPrefix(parameters.TLAOutFile)) {
                         CommandLineError("-tlaOut file contains a path specifier.\n"
                                 + "It must be a file in the current directory.");
                     }
@@ -424,38 +433,38 @@ public class TLA
                     if (nextArg >= args.length) {
                         CommandLineError("No input file specified");
                     }
-                    Parameters.LaTeXAlignmentFile = RemoveExtension(args[nextArg]);
-                    if (HasPathPrefix(Parameters.LaTeXAlignmentFile)) {
+                    parameters.LaTeXAlignmentFile = RemoveExtension(args[nextArg]);
+                    if (HasPathPrefix(parameters.LaTeXAlignmentFile)) {
                         CommandLineError("-alignOut file contains a path specifier.\n"
                                 + "It must be a file in the current directory.");
                     }
                 }
-                case "-debug" -> Parameters.Debug = true;
+                case "-debug" -> parameters.Debug = true;
                 case "-tlaComment" ->
                 /***************************************************************
                  * This option tells TLATeX to interpret all ambiguous          *
                  * identifiers in comments as TLA symbols.                      *
                  ***************************************************************/
 
-                        Parameters.TLACommentOption = true;
+                        parameters.TLACommentOption = true;
 
                 // else if (option.equals("-notlaComment"))
-                case "-shade" -> Parameters.CommentShading = true;
-                case "-noPcalShade" -> Parameters.NoPlusCalShading = true;
-                case "-noProlog" -> Parameters.PrintProlog = false;
-                case "-noEpilog" -> Parameters.PrintEpilog = false;
-                case "-number" -> Parameters.PrintLineNumbers = true;
+                case "-shade" -> parameters.CommentShading = true;
+                case "-noPcalShade" -> parameters.NoPlusCalShading = true;
+                case "-noProlog" -> parameters.PrintProlog = false;
+                case "-noEpilog" -> parameters.PrintEpilog = false;
+                case "-number" -> parameters.PrintLineNumbers = true;
                 case "-style" -> {
                     /*************************************************************
                      * Use the specified file as style file in place of           *
-                     * Parameters.LaTeXModuleProlog.                              *
+                     * parameters.LaTeXModuleProlog.                              *
                      *************************************************************/
                     nextArg = nextArg + 1;
                     if (nextArg >= args.length) {
                         CommandLineError("No input file specified");
                     }
-                    Parameters.UserStyleFile = RemoveExtension(args[nextArg]);
-                    if ((!Parameters.UserStyleFile.equals(args[nextArg]))
+                    parameters.UserStyleFile = RemoveExtension(args[nextArg]);
+                    if ((!parameters.UserStyleFile.equals(args[nextArg]))
                             && (args[nextArg].indexOf(".sty") != args[nextArg].length() - 4)) {
                         CommandLineError("-style file must have extension `.sty'");
                     }
@@ -465,8 +474,8 @@ public class TLA
                     if (nextArg >= args.length) {
                         CommandLineError("No input file specified");
                     }
-                    Parameters.LaTeXptSize = GetIntArg(args[nextArg], option);
-                    if ((Parameters.LaTeXptSize < 10) || (Parameters.LaTeXptSize > 12)) {
+                    parameters.LaTeXptSize = GetIntArg(args[nextArg], option);
+                    if ((parameters.LaTeXptSize < 10) || (parameters.LaTeXptSize > 12)) {
                         CommandLineError("-ptSize option must be 10, 11, or 12");
                     }
                 }
@@ -475,9 +484,9 @@ public class TLA
                     if (nextArg >= args.length) {
                         CommandLineError("No input file specified");
                     }
-                    Parameters.LaTeXtextwidth = GetIntArg(args[nextArg], option);
-                    if ((Parameters.LaTeXtextwidth < 100) || (Parameters.LaTeXtextwidth > 1000)) {
-                        CommandLineError("-textwidth value of " + Parameters.LaTeXtextwidth + " points is implausible");
+                    parameters.LaTeXtextwidth = GetIntArg(args[nextArg], option);
+                    if ((parameters.LaTeXtextwidth < 100) || (parameters.LaTeXtextwidth > 1000)) {
+                        CommandLineError("-textwidth value of " + parameters.LaTeXtextwidth + " points is implausible");
                     }
                 }
                 case "-textheight" -> {
@@ -485,9 +494,9 @@ public class TLA
                     if (nextArg >= args.length) {
                         CommandLineError("No input file specified");
                     }
-                    Parameters.LaTeXtextheight = GetIntArg(args[nextArg], option);
-                    if ((Parameters.LaTeXtextheight < 75) || (Parameters.LaTeXtextheight > 1500)) {
-                        CommandLineError("-textheight value of " + Parameters.LaTeXtextheight + " points is implausible");
+                    parameters.LaTeXtextheight = GetIntArg(args[nextArg], option);
+                    if ((parameters.LaTeXtextheight < 75) || (parameters.LaTeXtextheight > 1500)) {
+                        CommandLineError("-textheight value of " + parameters.LaTeXtextheight + " points is implausible");
                     }
                 }
                 case "-hoffset" -> {
@@ -495,9 +504,9 @@ public class TLA
                     if (nextArg >= args.length) {
                         CommandLineError("No input file specified");
                     }
-                    Parameters.LaTeXhoffset = GetIntArg(args[nextArg], option);
-                    if ((Parameters.LaTeXhoffset < -250) || (Parameters.LaTeXhoffset > 250)) {
-                        CommandLineError("-hoffset value of " + Parameters.LaTeXhoffset + " points is implausible");
+                    parameters.LaTeXhoffset = GetIntArg(args[nextArg], option);
+                    if ((parameters.LaTeXhoffset < -250) || (parameters.LaTeXhoffset > 250)) {
+                        CommandLineError("-hoffset value of " + parameters.LaTeXhoffset + " points is implausible");
                     }
                 }
                 case "-voffset" -> {
@@ -505,9 +514,9 @@ public class TLA
                     if (nextArg >= args.length) {
                         CommandLineError("No input file specified");
                     }
-                    Parameters.LaTeXvoffset = GetIntArg(args[nextArg], option);
-                    if ((Parameters.LaTeXvoffset < -250) || (Parameters.LaTeXvoffset > 250)) {
-                        CommandLineError("-voffset value of " + Parameters.LaTeXvoffset + " points is implausible");
+                    parameters.LaTeXvoffset = GetIntArg(args[nextArg], option);
+                    if ((parameters.LaTeXvoffset < -250) || (parameters.LaTeXvoffset > 250)) {
+                        CommandLineError("-voffset value of " + parameters.LaTeXvoffset + " points is implausible");
                     }
                 }
                 case "-metadir" -> {
@@ -515,10 +524,10 @@ public class TLA
                     if (nextArg >= args.length) {
                         CommandLineError("No input file specified");
                     }
-                    Parameters.MetaDir = args[nextArg];
-                    Parameters.ParentDir = new File(Parameters.MetaDir);
-                    if (!Parameters.ParentDir.exists()) {
-                        CommandLineError("Specified metdir " + Parameters.MetaDir +
+                    parameters.MetaDir = args[nextArg];
+                    parameters.ParentDir = new File(parameters.MetaDir);
+                    if (!parameters.ParentDir.exists()) {
+                        CommandLineError("Specified metdir " + parameters.MetaDir +
                                 " does not exist.");
                     }
                 }
@@ -527,7 +536,7 @@ public class TLA
                     if (nextArg >= args.length) {
                         CommandLineError("No input file specified");
                     }
-                    Parameters.LatexOutputExt = args[nextArg];
+                    parameters.LatexOutputExt = args[nextArg];
                 }
                 default -> CommandLineError("Unknown option: " + option);
             }
@@ -544,21 +553,21 @@ public class TLA
         }
 
         /********************************************************************
-        * Set Parameters.TLAInputFile to the last argument, adding ".tla"   *
+        * Set parameters.TLAInputFile to the last argument, adding ".tla"   *
         * if it has no extension already.                                   *
         ********************************************************************/
         if (!args[maxArg].contains("."))
         {
-            Parameters.TLAInputFile = args[maxArg] + TLAConstants.Files.TLA_EXTENSION;
+            parameters.TLAInputFile = args[maxArg] + TLAConstants.Files.TLA_EXTENSION;
         } else
         {
-            Parameters.TLAInputFile = args[maxArg];
+            parameters.TLAInputFile = args[maxArg];
         }
 
         /********************************************************************
         * Report an error if TLAInputFile = TLAOutFile.                     *
         ********************************************************************/
-        if (Parameters.TLAOutFile.equals(Parameters.TLAInputFile))
+        if (parameters.TLAOutFile.equals(parameters.TLAInputFile))
         {
             CommandLineError("""
 
@@ -571,11 +580,11 @@ public class TLA
         ********************************************************************/
         if (!outOption)
         {
-            Parameters.LaTeXOutputFile = RemoveExtension(RemovePathPrefix(Parameters.TLAInputFile));
+            parameters.LaTeXOutputFile = RemoveExtension(RemovePathPrefix(parameters.TLAInputFile));
         }
         if (!alignOutOption)
         {
-            Parameters.LaTeXAlignmentFile = Parameters.LaTeXOutputFile;
+            parameters.LaTeXAlignmentFile = parameters.LaTeXOutputFile;
         }
 
         /********************************************************************
@@ -584,10 +593,10 @@ public class TLA
         *  (ii) -shade but not -nops                                        *
         * was specified.                                                    *
         ********************************************************************/
-        if (psOption || (Parameters.CommentShading && !nopsOption))
+        if (psOption || (parameters.CommentShading && !nopsOption))
 
         {
-            Parameters.PSOutput = true;
+            parameters.PSOutput = true;
         }
     }
 
@@ -662,7 +671,7 @@ public class TLA
     {
         ToolIO.out.println("TLATeX command-line error: " + msg + ".");
         ToolIO.out.println("Use -help option for more information.");
-        // OutputMessageFile(Parameters.HelpFile) ;
+        // OutputMessageFile(parameters.HelpFile) ;
         throw new TLA2TexException("TLATeX command-line error: " + msg + "." + "Use -help option for more information.");
     }
 
@@ -686,27 +695,27 @@ public class TLA
     /***********************************************************************
     * Starting / Finished used to print debugging information.            *
     ***********************************************************************/
-    private static void Starting(final String name)
+    private static void Starting(final String name, final Parameters parameters)
     {
-        if (Parameters.Debug)
+        if (parameters.Debug)
         {
             start = Debug.now();
             ToolIO.out.println("Starting " + name);
         }
     }
 
-    private static void Finished(final String name)
+    private static void Finished(final String name, final Parameters parameters)
     {
-        if (Parameters.Debug)
+        if (parameters.Debug)
         {
             Debug.printElapsedTime(start, name + " finished in");
         }
     }
 
-    private static void MakePSFile()
+    private static void MakePSFile(final Parameters parameters)
     {
-        final String Command = Parameters.PSCommand + " " + Parameters.LaTeXOutputFile + ".dvi";
-        ExecuteCommand.executeCommand(Command);
+        final String Command = parameters.PSCommand + " " + parameters.LaTeXOutputFile + ".dvi";
+        ExecuteCommand.executeCommand(Command, parameters);
         /*******************************************************************
         * Modified on 11 November 2001 to call ExecuteCommand.             *
         *******************************************************************/

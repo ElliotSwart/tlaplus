@@ -348,7 +348,7 @@ public class TokenizeComment
           /*****************************************************************
           * The state in the tokenizing algorithm.                         *
           *****************************************************************/
-          
+
     /***********************************************************************
     * The following private methods are all procedures for use by the      *
     * Tokenize method.                                                     *
@@ -420,11 +420,14 @@ public class TokenizeComment
         col = ncol ;
       }
 
-    private static void CTokenOut(final int type)
+    private static void CTokenOut(final int type, final FormatComments formatComments)
       /*********************************************************************
       * Add the token to linev and reset token to the empty string.        *
       *********************************************************************/
-      { if (   (! token.equals(""))
+      {
+        final TokenizeSpec tokenizeSpec = formatComments.tokenizeSpec;
+
+        if (   (! token.equals(""))
             || (type == CToken.STRING))
           /*****************************************************************
           * CTokenOut can be called with a null argument if the user       *
@@ -440,7 +443,7 @@ public class TokenizeComment
             else
              { switch(type)
                 { case CToken.BUILTIN :
-                    if (FormatComments.isAmbiguous(token))
+                    if (formatComments.isAmbiguous(token))
                       { /***************************************************
                         * We set the isAmbiguous flag for an ambiguous     *
                         * token only if that token actually appears in     *
@@ -453,7 +456,7 @@ public class TokenizeComment
                         * because they're still more likely than not to    *
                         * be TLA symbols.  That table include "#".         *
                         ***************************************************/
-                        if (TokenizeSpec.isUsedBuiltin(token))
+                        if (tokenizeSpec.isUsedBuiltin(token))
                           {amb = true;}
                       }
                     else
@@ -469,12 +472,12 @@ public class TokenizeComment
                     tla = true;
                     break;
                   case CToken.IDENT :
-                    if (FormatComments.IsWord(token))
-                      { if (TokenizeSpec.isIdent(token))
+                    if (formatComments.IsWord(token))
+                      { if (tokenizeSpec.isIdent(token))
                          { amb = true ;}
                       }
                     else
-                      { if (TokenizeSpec.isIdent(token))
+                      { if (tokenizeSpec.isIdent(token))
                               //   || (token.length() == 1)
                               // At first, it seemed like a good idea
                               // to consider any 1-character non-word 
@@ -552,12 +555,15 @@ public class TokenizeComment
         return aspec;
       }
 
-      public static CToken[][] Tokenize(final Vector<String> vec)
+      public static CToken[][] Tokenize(final Vector<String> vec, FormatComments formatComments)
       /*********************************************************************
       * Tokenize the comment represented by vec, which must be a vector    *
       * of strings.                                                        *
       *********************************************************************/
-      { if ((vec == null) || (vec.size() == 0)) {return null ;}
+      {
+        final TokenizeSpec tokenizeSpec = formatComments.tokenizeSpec;
+
+        if ((vec == null) || (vec.size() == 0)) {return null ;}
           /*****************************************************************
           * A zero-length or null vector returns null.  Any caller who     *
           * provides such an argument had better be ready to deal with     *
@@ -629,7 +635,7 @@ public class TokenizeComment
                     { addNextChar();
                       state = BS;    
                     }
-                  else if (FormatComments.isRepeatChar(nextChar))
+                  else if (formatComments.isRepeatChar(nextChar))
                     { repChar = nextChar;
                       addNextChar();
                       state = REPEAT_CHAR ;
@@ -666,7 +672,7 @@ public class TokenizeComment
                     }
                   else 
                     { addNextChar();
-                      CTokenOut(CToken.OTHER);
+                      CTokenOut(CToken.OTHER, formatComments);
                       gotoStart() ;
                     }
                   break;
@@ -674,7 +680,7 @@ public class TokenizeComment
                 case ID :
                   if (   (token.length() == 3)
                       && (token.equals("WF_") || token.equals("SF_")))
-                    { CTokenOut(CToken.BUILTIN) ;
+                    { CTokenOut(CToken.BUILTIN, formatComments) ;
                       gotoStart(); 
                     }
                   else if (Misc.IsLetter(nextChar) || Misc.IsDigit(nextChar))
@@ -683,14 +689,14 @@ public class TokenizeComment
                     }  
                   else if (BuiltInSymbols.IsBuiltInSymbol(token))
                             // don't want to handle PCal tokens specially
-                    { CTokenOut(CToken.BUILTIN) ;
+                    { CTokenOut(CToken.BUILTIN, formatComments) ;
                       gotoStart();
                     }
                   else 
                     { if (isAllUnderscores())
-                        { CTokenOut(CToken.REP_CHAR); }
+                        { CTokenOut(CToken.REP_CHAR, formatComments); }
                       else 
-                        { CTokenOut(CToken.IDENT) ; }
+                        { CTokenOut(CToken.IDENT, formatComments) ; }
                         gotoStart();
                     }
                     break;
@@ -705,7 +711,7 @@ public class TokenizeComment
                       state = ID; 
                     }
                   else 
-                    { CTokenOut(CToken.NUMBER) ;
+                    { CTokenOut(CToken.NUMBER, formatComments) ;
                       gotoStart();
                     }
                   break;
@@ -747,7 +753,7 @@ public class TokenizeComment
                       state = ID;
                     }
                   else 
-                    { CTokenOut(CToken.NUMBER) ;
+                    { CTokenOut(CToken.NUMBER, formatComments) ;
                       gotoStart();
                     }
                   break;
@@ -759,11 +765,11 @@ public class TokenizeComment
                     }
                   else if (BuiltInSymbols.IsBuiltInSymbol(token))
                             // "\" built-in never a PCal symbol
-                    { CTokenOut(CToken.BUILTIN) ;
+                    { CTokenOut(CToken.BUILTIN, formatComments) ;
                       gotoStart();
                     }
                   else 
-                    { CTokenOut(CToken.OTHER) ;
+                    { CTokenOut(CToken.OTHER, formatComments) ;
                       gotoStart();
                     }
                     break;
@@ -789,7 +795,7 @@ public class TokenizeComment
                         }
                           nextChar = curString.charAt(ncol);
                       }
-                        CTokenOut(CToken.BUILTIN) ;
+                        CTokenOut(CToken.BUILTIN, formatComments) ;
                       gotoStart();
                     }
                    break;
@@ -799,9 +805,9 @@ public class TokenizeComment
                     { addNextChar();
                       // state = REPEAT_CHAR ;
                     }
-                  else if (token.length() >= 
-                          FormatComments.getRepeatCharMin(repChar))
-                    { CTokenOut(CToken.REP_CHAR);
+                  else if (token.length() >=
+                          formatComments.getRepeatCharMin(repChar))
+                    { CTokenOut(CToken.REP_CHAR, formatComments);
                       state = START ;
                     }
                   else
@@ -819,11 +825,11 @@ public class TokenizeComment
                       state = STRING ;
                     }
                   else if (  (nextChar == '"') // " )
-                          && (   TokenizeSpec.isString(token)
+                          && (   tokenizeSpec.isString(token)
                               || inSQuote ))
                     { 
                       skipNextChar();
-                      CTokenOut(CToken.STRING) ;
+                      CTokenOut(CToken.STRING, formatComments) ;
                       gotoStart();
                     }
                   else
@@ -849,14 +855,14 @@ public class TokenizeComment
                 case LEFT_DQUOTE :
                   Backspace(token.length()+1);
                   token = "\"" ; 
-                  CTokenOut(CToken.LEFT_DQUOTE);
+                  CTokenOut(CToken.LEFT_DQUOTE, formatComments);
                   inDQuote = true;
                   skipNextChar();
                   gotoStart();    
                   break;
 
                 case RIGHT_DQUOTE :
-                  CTokenOut(CToken.RIGHT_DQUOTE) ;
+                  CTokenOut(CToken.RIGHT_DQUOTE, formatComments) ;
                   inDQuote = false ;
                   gotoStart();    
                   break;
@@ -864,7 +870,7 @@ public class TokenizeComment
                 case LEFT_SQUOTE :
                   if (nextChar == '`')
                    { addNextChar();
-                     CTokenOut(CToken.OTHER);
+                     CTokenOut(CToken.OTHER, formatComments);
                      gotoStart();    
                    }
                   else if (nextChar == '^' )
@@ -894,7 +900,7 @@ public class TokenizeComment
                 case RIGHT_SQUOTE :
                   if (nextChar == '\'')
                     { addNextChar() ;
-                      CTokenOut(CToken.OTHER) ;
+                      CTokenOut(CToken.OTHER, formatComments) ;
                       gotoStart();
                     }
                   else
@@ -911,13 +917,13 @@ public class TokenizeComment
                    { skipNextChar();
                      if (token.equals(""))
                        { token = " "; }
-                     CTokenOut(CToken.TEX);
+                     CTokenOut(CToken.TEX, formatComments);
                      startNewLine();
                      // state = TEX
                    }
                   else if (nextChar == '\t' )
                    { if (! Misc.isBlank(token))
-                       {CTokenOut(CToken.TEX);}
+                       {CTokenOut(CToken.TEX, formatComments);}
                        token = "";
                      state = DONE ;
                    }
@@ -931,7 +937,7 @@ public class TokenizeComment
                   if (nextChar == '\'')
                    { skipNextChar();
                      if (! Misc.isBlank(token))
-                       {CTokenOut(CToken.TEX);}
+                       {CTokenOut(CToken.TEX, formatComments);}
                        token = "";
                      gotoStart();
                    }
@@ -987,14 +993,14 @@ public class TokenizeComment
                   else if (nextChar == '\n' )
                    { skipNextChar();
                      if (! Misc.isBlank(token))
-                       {CTokenOut(CToken.VERB);}
+                       {CTokenOut(CToken.VERB, formatComments);}
                        token = "";
                      startNewLine();
                      // state = VERB ;
                    }
                   else if (nextChar == '\t' )
                    { if (! Misc.isBlank(token))
-                       {CTokenOut(CToken.VERB);}
+                       {CTokenOut(CToken.VERB, formatComments);}
                        state = DONE ;
                    }
                   else 
@@ -1006,7 +1012,7 @@ public class TokenizeComment
                 case VERB_DOT :
                   if (nextChar == '\'')
                    { skipNextChar();
-                     CTokenOut(CToken.VERB) ;
+                     CTokenOut(CToken.VERB, formatComments) ;
                      gotoStart();
                    }
                    else 

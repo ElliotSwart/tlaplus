@@ -49,7 +49,13 @@
 package tla2tex;
 
 public final class Misc
-{  public static float stringToFloat(final String str)
+{
+    private final Parameters parameters;
+    public Misc(Parameters parameters){
+        this.parameters = parameters;
+    }
+
+    public static float stringToFloat(final String str)
      /**********************************************************************
      * Converts a string such as "123.456", ".123", "123.", or "123" to a  *
      * float.  (Lord knows why the standard Java libraries don't provide   *
@@ -126,7 +132,7 @@ public final class Misc
       return fStr.toString();
     }
 
-  public static void WriteIfNonNull(final OutputFileWriter writer, final String str)
+  public void WriteIfNonNull(final OutputFileWriter writer, final String str)
     /***********************************************************************
     * If str is non-empty, write it to writer, breaking long lines.        *
     ***********************************************************************/
@@ -136,7 +142,7 @@ public final class Misc
 
 
 
-  public static void BreakStringOut(final OutputFileWriter output, final String str)
+  public void BreakStringOut(final OutputFileWriter output, final String str)
   /*************************************************************************
   * Writes str to output, trying to limit the length of output lines by    *
   * breaking the string at spaces into separate lines.                     *
@@ -145,7 +151,7 @@ public final class Misc
     boolean done = false ;
     boolean cut = false ;
     while (   (!done) 
-           && (restOfString.length() > Parameters.MaxOutputLineLength))
+           && (restOfString.length() > parameters.MaxOutputLineLength))
      { /********************************************************************
        * If there is a space char in the line, set lastSpace to the index  *
        * of the char at which to break the line: either the last space     *
@@ -153,13 +159,13 @@ public final class Misc
        * it.  If there is no space char in the line, set lastSpace to -1.  *
        ********************************************************************/
        int lastSpace = restOfString.lastIndexOf(' ', 
-                          Parameters.MaxOutputLineLength - 1);
+                          parameters.MaxOutputLineLength - 1);
 
        if (lastSpace == -1)
         { lastSpace = restOfString.indexOf(' ');
         }
 
-         if (lastSpace <= Parameters.MaxOutputLineLength / 4)
+         if (lastSpace <= parameters.MaxOutputLineLength / 4)
         { done = true ; 
         }
        else

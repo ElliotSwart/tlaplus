@@ -474,7 +474,7 @@ import java.util.Vector;
  *
  */
 public class TokenizeSpec
-  { private static final Hashtable<String, String> identHashTable  = new Hashtable<>(1000);
+  { private final Hashtable<String, String> identHashTable  = new Hashtable<>(1000);
       /*********************************************************************
       * A hash table containing all the IDENT and STRING tokens found in   *
       * the spec.  It is used for formatting comments.                     *
@@ -484,39 +484,39 @@ public class TokenizeSpec
       * add them to the identHashTable just like identifiers.              *
       *********************************************************************/
 
-    public static boolean isIdent(final String str)
+    public boolean isIdent(final String str)
       /*********************************************************************
       * Returns true iff str is an IDENT token in the spec.                *
       *********************************************************************/
       { return null !=  identHashTable.get(str);
       }
 
-    private static final Hashtable<String, String> usedBuiltinHashTable  = new Hashtable<>(1000);
+    private final Hashtable<String, String> usedBuiltinHashTable  = new Hashtable<>(1000);
       /*********************************************************************
       * A hash table containing all the BUILTIN tokens found in the spec.  *
       * It is used for formatting comments.                                *
       *********************************************************************/
 
-    public static boolean isUsedBuiltin(final String str)
+    public boolean isUsedBuiltin(final String str)
       /*********************************************************************
       * Returns true iff str is a BUILTIN token in the spec.               *
       *********************************************************************/
       { return null !=  usedBuiltinHashTable.get(str);
       }
 
-    private static final Hashtable<String, String> stringHashTable  = new Hashtable<>(100);
+    private final Hashtable<String, String> stringHashTable  = new Hashtable<>(100);
       /*********************************************************************
       * A hash table containing all the STRING tokens found in the spec.   *
       * It is used for formatting comments.                                *
       *********************************************************************/
-    public static boolean isString(final String str)
+    public boolean isString(final String str)
       /*********************************************************************
       * Returns true iff str is a STRING token in the spec.                *
       *********************************************************************/
       { return null !=  stringHashTable.get(str);
       }
 
-    private static final String nullString = "" ;
+    private final String nullString = "" ;
       /*********************************************************************
       * The hash tables above are used only to remember the keys; there    *
       * is no value attached to them.  However, the Hashtable class        *
@@ -525,10 +525,10 @@ public class TokenizeSpec
       *********************************************************************/
       
     // The modes
-    public static final int MODULE    = 1 ;
-    public static final int TLA       = 2 ;
-    public static final int PLUSCAL   = 3 ;
-    public static final int P_PLUSCAL = 4 ;
+    public final int MODULE    = 1 ;
+    public final int TLA       = 2 ;
+    public final int PLUSCAL   = 3 ;
+    public final int P_PLUSCAL = 4 ;
 
     /*
      * The following public fields are set by the Tokenize method to 
@@ -553,10 +553,10 @@ public class TokenizeSpec
      *               pcalEnd is probably (i, j+1), even if the last token on
      *               line i has position j.
      */
-    public static boolean hasPcal ;
-    public static boolean isCSyntax ;
-    public static Position pcalStart ;
-    public static Position pcalEnd ;
+    public boolean hasPcal ;
+    public boolean isCSyntax ;
+    public Position pcalStart ;
+    public Position pcalEnd ;
     
     /***********************************************************************
     * The following private class variables are used in the                *
@@ -564,14 +564,14 @@ public class TokenizeSpec
     * variables so they can be accessed in procedures used by              *
     * TokenizedSpec (which are defined as private class methods).          *
     *                                                                      *
-    * Note: This use of static fields makes the class totally threads      *
+    * Note: This use of fields makes the class totally threads      *
     * unsafe.                                                              *
     ***********************************************************************/
-    private static boolean inPcal ;
+    private boolean inPcal ;
       // True iff we are inside a PlusCal algorithm.  inPcal => hasPcal
       // is an invariant.
     
-    private static boolean canBeLabel ;
+    private boolean canBeLabel ;
       // Set true when outputting a PlusCal token that can be followed
       // by a statement label.  Set false when outputting any other non-comment
       // PlusCal token.  The tokens that can be followed by a label are:
@@ -582,40 +582,40 @@ public class TokenizeSpec
       // It is set false by the TokenOut method and left unchanged
       // by the CommentTokenOut method (which is used to output a comment token).
     
-    private static boolean pseudoCom ;
+    private boolean pseudoCom ;
       // Set true iff the next Comment token to be output did not have
       // two of its delimiter characters because it immediately preceded or
       // followed a PlusCal algorithm.  Set false by CommentTokenOut
     
-    private static boolean ORCom ;
+    private boolean ORCom ;
       // Set true when looking for the start of a Pluscal algorithm when
       // processing a comment--true if processing an OR (overrun) comment,
       // false if processing a normal comment.  
     
-    private static Vector<Vector<Token>> vspec = null ;
+    private Vector<Vector<Token>> vspec = null ;
           /*****************************************************************
           * vspec is a vector of vectors in which the TokenizedSpec is     *
           * constructed.  At the end, it is turned into an array.          *
           *****************************************************************/
 
-    private static Vector<Token> linev = new Vector<>(30, 30) ;
+    private Vector<Token> linev = new Vector<>(30, 30) ;
           /*****************************************************************
           * Vector linev contains the tokens found so far on the current   *
           * line.                                                          *
           *****************************************************************/
 
-    private static char nextChar ;
+    private char nextChar ;
           /*****************************************************************
           * nextChar is the next input character to be processed.          *
           *****************************************************************/
 
-    private static String token  = "" ;
-    private static String token1 = "" ;
-    private static String token2 = "" ;
-    private static String token3 = "" ;
-    private static int    col1   = 0 ;
-    private static int    col2   = 0 ;
-    private static int    col3   = 0 ;
+    private String token  = "" ;
+    private String token1 = "" ;
+    private String token2 = "" ;
+    private String token3 = "" ;
+    private int    col1   = 0 ;
+    private int    col2   = 0 ;
+    private int    col3   = 0 ;
           /*****************************************************************
           * token is the string containing the part of the token found so  *
           * far.                                                           *
@@ -624,18 +624,18 @@ public class TokenizeSpec
           * previous value of token.                                       *
           *****************************************************************/
 
-    private static int cdepth = 0 ;
+    private int cdepth = 0 ;
           /*****************************************************************
           * The nesting depth within "(*" ... "*)" comments.               *
           *****************************************************************/
 
-    private static int mdepth = 0 ;
+    private int mdepth = 0 ;
           /*****************************************************************
           * The module nesting depth.                                      *
           *****************************************************************/
 
-    private static int col ;
-    private static int ncol = 0;
+    private int col ;
+    private int ncol = 0;
           /*****************************************************************
           * col is the column from which the first character of token      *
           * came.                                                          *
@@ -643,7 +643,7 @@ public class TokenizeSpec
           * ncol is the column from which nextChar came from.              *
           *****************************************************************/
       
-    private static CharReader reader ;
+    private CharReader reader ;
       /*********************************************************************
       * This is the "exposed" version of the CharReader argument to the    *
       * TokenizedSpec constructor, exposed so it can be used by procedures *
@@ -653,49 +653,49 @@ public class TokenizeSpec
     /***********************************************************************
     * Here are all the states for the tokenizing algorithm.                *
     ***********************************************************************/
-      private static final int PROLOG             = 1 ;
-      private static final int PROLOG_DASH        = 2 ;
-      private static final int PROLOG_DASHES      = 3 ;
-      private static final int PROLOG_SPACES      = 4 ;
-      private static final int PROLOG_ID          = 5 ;
-      private static final int START              = 6 ;
-      private static final int ID                 = 7 ;
-      private static final int NUM_OR_ID          = 8 ;
-      private static final int BS                 = 9 ;
-      private static final int NUM                = 10 ;
-      private static final int NUM_OR_BI          = 11 ;
-      private static final int BSBUILT_IN         = 12 ;
-      private static final int BUILT_IN           = 13 ;
-      private static final int DASH1              = 14 ;
-      private static final int DASH2              = 15 ;
-      private static final int DASH3              = 16 ;
-      private static final int DASHES             = 17 ;
-      private static final int EQ1                = 18 ;
-      private static final int EQ2                = 19 ;
-      private static final int EQ3                = 20 ;
-      private static final int EQS                = 21 ;
-      private static final int LEFT_PAREN         = 22 ;
-      private static final int STRING             = 23 ;
-      private static final int ESC_STRING         = 24 ;
-      private static final int LINE_COMMENT       = 25 ;
-      private static final int LINE_COM_PAREN     = 26 ;
-      private static final int LINE_COM_STAR      = 27 ;
-      private static final int COMMENT            = 28 ;
-      private static final int COMMENT_STAR       = 29 ;
-      private static final int COMMENT_PAREN      = 30 ;
-      private static final int OR_COMMENT         = 31 ;
-      private static final int OR_COMMENT_PAREN   = 32 ;
-      private static final int OR_COMMENT_STAR    = 33 ;
-      private static final int EPILOG             = 34 ;
-      private static final int DONE               = 35 ;
-      private static final int ID_OR_PCAL_LABEL   = 36 ;
-      private static final int PCAL_LABEL         = 37 ;
-      private static final int C_DASH             = 38 ;
-      private static final int C_DASH_DASH        = 39 ;
-      private static final int GET_ALG_TOKEN      = 40 ;
-      private static final int GET_ALG_NAME       = 41 ;      
+      private final int PROLOG             = 1 ;
+      private final int PROLOG_DASH        = 2 ;
+      private final int PROLOG_DASHES      = 3 ;
+      private final int PROLOG_SPACES      = 4 ;
+      private final int PROLOG_ID          = 5 ;
+      private final int START              = 6 ;
+      private final int ID                 = 7 ;
+      private final int NUM_OR_ID          = 8 ;
+      private final int BS                 = 9 ;
+      private final int NUM                = 10 ;
+      private final int NUM_OR_BI          = 11 ;
+      private final int BSBUILT_IN         = 12 ;
+      private final int BUILT_IN           = 13 ;
+      private final int DASH1              = 14 ;
+      private final int DASH2              = 15 ;
+      private final int DASH3              = 16 ;
+      private final int DASHES             = 17 ;
+      private final int EQ1                = 18 ;
+      private final int EQ2                = 19 ;
+      private final int EQ3                = 20 ;
+      private final int EQS                = 21 ;
+      private final int LEFT_PAREN         = 22 ;
+      private final int STRING             = 23 ;
+      private final int ESC_STRING         = 24 ;
+      private final int LINE_COMMENT       = 25 ;
+      private final int LINE_COM_PAREN     = 26 ;
+      private final int LINE_COM_STAR      = 27 ;
+      private final int COMMENT            = 28 ;
+      private final int COMMENT_STAR       = 29 ;
+      private final int COMMENT_PAREN      = 30 ;
+      private final int OR_COMMENT         = 31 ;
+      private final int OR_COMMENT_PAREN   = 32 ;
+      private final int OR_COMMENT_STAR    = 33 ;
+      private final int EPILOG             = 34 ;
+      private final int DONE               = 35 ;
+      private final int ID_OR_PCAL_LABEL   = 36 ;
+      private final int PCAL_LABEL         = 37 ;
+      private final int C_DASH             = 38 ;
+      private final int C_DASH_DASH        = 39 ;
+      private final int GET_ALG_TOKEN      = 40 ;
+      private final int GET_ALG_NAME       = 41 ;      
       
-    private static int state = 0 ;
+    private int state = 0 ;
       /*********************************************************************
       * The state in the tokenizing algorithm.                             *
       *********************************************************************/
@@ -705,8 +705,12 @@ public class TokenizeSpec
     * TokenizedSpec constructor.                                           *
     ***********************************************************************/
 
+    public final Parameters parameters;
+    public TokenizeSpec(Parameters parameters){
+      this.parameters = parameters;
+    }
 
-    private static void skipNextChar()
+    private void skipNextChar()
       /*********************************************************************
       * Sets nextChar to the next character in the input stream, and sets  *
       * ncol to its column.                                                *
@@ -715,7 +719,7 @@ public class TokenizeSpec
         nextChar = reader.getNextChar();
       }
 
-      private static void addNextChar()
+      private void addNextChar()
       /*********************************************************************
       * Appends nextChar to token, sets nextChar to the next character in  *
       * the input stream, and sets ncol to its column.                     *
@@ -724,7 +728,7 @@ public class TokenizeSpec
         skipNextChar() ;
       }
 
-      private static void gotoStart()
+      private void gotoStart()
       /*********************************************************************
       * Set the state to START. Since this means that we are at or before  *
       * the beginning of the next token, we set col equal to ncol.         *
@@ -734,7 +738,7 @@ public class TokenizeSpec
       }
 
     
-    private static void TokenOut(final int type)
+    private void TokenOut(final int type)
       /*********************************************************************
       * Add the token to linev and reset token to the empty string.        *
       * Reset canBeLabel.                                                  *
@@ -764,7 +768,7 @@ public class TokenizeSpec
         canBeLabel = false ;
       }
 
-      private static void CommentTokenOut(final int subtype)
+      private void CommentTokenOut(final int subtype)
       /*********************************************************************
       * Add the token to linev and reset token to the empty string.        *
       *********************************************************************/
@@ -773,7 +777,7 @@ public class TokenizeSpec
         token = "" ;
       }
 
-      private static void startNewLine()
+      private void startNewLine()
       /*********************************************************************
       * Append linev to vspec and reset linev.  This should be called      *
       * whenever a \n character is removed from the input stream.          *
@@ -783,7 +787,7 @@ public class TokenizeSpec
         col = 0 ;
       }
 
-      private static void SkipSpaceAndNewlines() {
+      private void SkipSpaceAndNewlines() {
         boolean notDone = true ;
         while (notDone) {
             while (Misc.IsSpace(nextChar)) {
@@ -807,17 +811,17 @@ public class TokenizeSpec
      * 
      * @return
      */
-    private static Position getNextTokenPosition() {
+    private Position getNextTokenPosition() {
         return new Position(vspec.size(), linev.size());
     }
-    private static void TokenizingError(final String msg)
+    private void TokenizingError(final String msg)
       { Debug.ReportError(
            msg + " `" + token + "' found at\n" + 
           "    line " + (reader.getLineNumber() + 1) + ", column " + 
                (col + 1));
       }
           
-    private static Token[][] vspecToArray() 
+    private Token[][] vspecToArray() 
       /*********************************************************************
       * Turns vspec into an array.                                         *
       *********************************************************************/
@@ -837,7 +841,7 @@ public class TokenizeSpec
           return aspec;
       }
 
-      public static Token[][] Tokenize(final CharReader charReader, final int mode)
+      public Token[][] Tokenize(final CharReader charReader, final int mode)
       /*********************************************************************
       * Tokenize the input from the CharReader.                            *
       *********************************************************************/
@@ -1775,7 +1779,7 @@ public class TokenizeSpec
      * @param spec
      * @param isTeX  true for tla2tex.TeX, false for tla2tex.TLA
      */
-    public static void FixPlusCal(final Token[][] spec, final boolean isTeX) {
+    public void FixPlusCal(final Token[][] spec, final boolean isTeX) {
 
         if (!hasPcal) {
             return ;
@@ -1784,8 +1788,8 @@ public class TokenizeSpec
         // Fix the problem of an extra gray bar caused by an empty
         // comment token following the algorithm by removing that
         // comment if it exists.
-        if (    Parameters.CommentShading
-            && Parameters.NoPlusCalShading
+        if (    parameters.CommentShading
+            && parameters.NoPlusCalShading
             && (pcalEnd.line < spec.length)
             && (pcalEnd.item < spec[pcalEnd.line].length)) {
             final Token tok = pcalEnd.toToken(spec) ;
@@ -1967,14 +1971,14 @@ public class TokenizeSpec
      * @param spec
      * @return
      */
-    private static final int CAN_BE_LBRACE         = 1 ;
-    private static final int NOT_LBRACE            = 2 ;
-    private static final int SEEKING_LPAREN        = 3 ;
-    private static final int SEEKING_IDENT_LPAREN  = 4 ;
-    private static final int AFTER_VAR_DECL        = 5 ;
-    private static final int AFTER_COMMA           = 6 ;
+    private final int CAN_BE_LBRACE         = 1 ;
+    private final int NOT_LBRACE            = 2 ;
+    private final int SEEKING_LPAREN        = 3 ;
+    private final int SEEKING_IDENT_LPAREN  = 4 ;
+    private final int AFTER_VAR_DECL        = 5 ;
+    private final int AFTER_COMMA           = 6 ;
     
-    public static Position ProcessPcalBrace(final Position pos, final Token[][] spec, final boolean isTeX) {
+    public Position ProcessPcalBrace(final Position pos, final Token[][] spec, final boolean isTeX) {
         Token tok = pos.toToken(spec) ;
         Position curPos = pos ;
         if (!isTeX) {
@@ -2124,7 +2128,7 @@ System.out.println("Error SEEKING_IDENT_LPAREN at " + curPos);
      * @param spec
      * @return
      */
-   private static Position nextTokenPos(final Position pos, final Token[][] spec) {
+   private Position nextTokenPos(final Position pos, final Token[][] spec) {
       if (pos == null) {
           return null ;
       }
@@ -2158,7 +2162,7 @@ System.out.println("Error SEEKING_IDENT_LPAREN at " + curPos);
     * @return
     */
    
-   private static Position nextNonComment(final Position pos, final Token[][] spec) {
+   private Position nextNonComment(final Position pos, final Token[][] spec) {
        Position nextPos = nextTokenPos(pos, spec) ;
        while (  (nextPos != null)
                && (nextPos.toToken(spec).type == Token.COMMENT)) {
@@ -2178,7 +2182,7 @@ System.out.println("Error SEEKING_IDENT_LPAREN at " + curPos);
     * @param punct  True if stopping at comma or semicolon.
     * @return
     */
-   public static Position skipToUnmatchedEnd(
+   public Position skipToUnmatchedEnd(
            final Position pos, final Token[][] spec, final boolean punct) {
        Position nextPos = pos ;
        while (nextPos != null) {

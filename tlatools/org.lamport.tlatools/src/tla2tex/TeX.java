@@ -4,8 +4,8 @@
 * CLASS TeX                                                                *
 *                                                                          *
 * THINGS TO DO:                                                            *
-*  - Change Parameters.latexwidth to be a float.  This requires            *
-*    rewriting a bunch of code.  (Should do Parameters.latexheight as      *
+*  - Change parameters.latexwidth to be a float.  This requires            *
+*    rewriting a bunch of code.  (Should do parameters.latexheight as      *
 *    well.)                                                                *
 *                                                                          *
 *  - Fix the following bug: the program always reports "More tla           *
@@ -32,7 +32,7 @@
 * FormatComments.Initialize                                                *
 *    Initializes tables used for formatting comments.  One table           *
 *    contains common English words, which are read from the file           *
-*    Parameters.WordFile                                                   *
+*    parameters.WordFile                                                   *
 *                                                                          *
 * ReadLogFile                                                              *
 *    Reads the log file created the last time LaTeX was run on the         *
@@ -101,6 +101,8 @@ import util.ToolIO;
 class TeX
  {                                            // BEGIN class
 
+
+
   static final String lastModified = 
     /***********************************************************************
     * The following string is inserted by an Emacs macro when a new        *
@@ -116,52 +118,58 @@ class TeX
   static final String version =
     "tla2tex.TeX Version 1.0 created " + modDate ;
 
+
     public static void main(final String[] args)
-    { /*********************************************************************
+    {
+        Parameters parameters = new Parameters();
+        TokenizeSpec tokenizeSpec = new TokenizeSpec(parameters);
+
+        /*********************************************************************
       * Get the command-line arguments.                                    *
       *********************************************************************/
       final long startTime = Debug.now();
       ToolIO.out.println(version) ;
-      GetArguments(args);
+      GetArguments(parameters, args);
 
       /*********************************************************************
       * Initialize class BuiltInSymbols.                                   *
       *********************************************************************/
-      Starting("BuiltInSymbols.Initialize") ;
+      Starting("BuiltInSymbols.Initialize", parameters) ;
       BuiltInSymbols.Initialize();
-      Finished("BuiltInSymbols.Initialize") ;
+      Finished("BuiltInSymbols.Initialize", parameters) ;
 
       /*********************************************************************
       * Initialize class FormatComments.                                   *
       *********************************************************************/
-      Starting("FormatComments.Initialize");
-      FormatComments.Initialize();
-      Finished("FormatComments.Initialize");
+      Starting("FormatComments.Initialize", parameters);
+      FormatComments formatComments = new FormatComments(tokenizeSpec);
+      formatComments.Initialize();
+      Finished("FormatComments.Initialize", parameters);
 
       /*********************************************************************
       * Obtain the linewidths from the log file.                           *
       *********************************************************************/
-      final float[] lineWidths = ReadLogFile();
+      final float[] lineWidths = ReadLogFile(parameters);
 
       /*********************************************************************
       * Open the input and output files.                                   *
       *********************************************************************/
       BufferedReader infile = null ;
       try 
-       { infile = new BufferedReader(new FileReader(Parameters.TLAInputFile));
+       { infile = new BufferedReader(new FileReader(parameters.TLAInputFile));
        }
       catch (final Exception e)
        { Debug.ReportError(
-          "Can't open input file " + Parameters.TLAInputFile);
+          "Can't open input file " + parameters.TLAInputFile);
        }
 
       OutputFileWriter outfile = null ;
       try      
-       { outfile = new OutputFileWriter(Parameters.LaTeXOutputFile + ".new");
+       { outfile = new OutputFileWriter(parameters.LaTeXOutputFile + ".new");
        }
       catch (final Exception e)
        { Debug.ReportError(
-          "Can't open output file " + Parameters.LaTeXOutputFile + ".new");
+          "Can't open output file " + parameters.LaTeXOutputFile + ".new");
        }
 
       int lineNum = 0 ;
@@ -232,15 +240,15 @@ class TeX
            int mode = -1 ;
            String envName = "" ;
            if (line.contains("\\begin{tla}")) {
-               mode = TokenizeSpec.TLA ;
+               mode = tokenizeSpec.TLA ;
                envName = "tla" ;
            }
            else if (line.contains("\\begin{pcal}")) {
-               mode = TokenizeSpec.PLUSCAL ;
+               mode = tokenizeSpec.PLUSCAL ;
                envName = "pcal" ;
            }
            else if (line.contains("\\begin{ppcal}")) {
-               mode = TokenizeSpec.P_PLUSCAL ;
+               mode = tokenizeSpec.P_PLUSCAL ;
                envName = "ppcal" ;
            }       
            if (mode != -1)
@@ -257,7 +265,7 @@ class TeX
              * precede an \end{tla}, and similarly for pcal and ppcal.     *
              **************************************************************/
              Starting(envName + " environment number " + (envNum + 1) 
-                         + " on line " + (lineNum + 1));
+                         + " on line " + (lineNum + 1), parameters);
              final Vector<String> tla = new Vector<>(100);
              final int tlaLineNum = lineNum ;
              line = infile.readLine();
@@ -312,7 +320,7 @@ class TeX
             * Tokenize the spec.                                           *
             ***************************************************************/
             final CharReader tlaRdr = new VectorCharReader(tla, tlaLineNum);
-            final Token[][] spec = TokenizeSpec.Tokenize(tlaRdr, mode);
+            final Token[][] spec = tokenizeSpec.Tokenize(tlaRdr, mode);
 
             /***************************************************************
             * Finish the tokenization by converting sequences of tokens    *
@@ -325,7 +333,7 @@ class TeX
             * part of the PlusCal C-syntax to tokens that are printed            *
             * appropriately.                                                     *
             *********************************************************************/
-            TokenizeSpec.FixPlusCal(spec, true) ;
+            tokenizeSpec.FixPlusCal(spec, true) ;
              
             /***************************************************************
             * Process the comment tokens.                                  *
@@ -335,7 +343,7 @@ class TeX
             /***************************************************************
             * Add the alignment pointers to spec.                          *
             ***************************************************************/
-            FindAlignments.FindAlignments(spec);      
+            FindAlignments.FindAlignments(spec, tokenizeSpec);
             // Debug.print2DArray(spec, "spec"); 
 
             /***************************************************************
@@ -358,25 +366,25 @@ class TeX
             * probably be changed to a float, but hopefully doing things   *
             * to the nearest point is good enough.                         *
             ***************************************************************/
-            Parameters.LaTeXtextwidth = (int) linewidth;
-
+            parameters.LaTeXtextwidth = (int) linewidth;
+            LaTeXOutput latexOutput = new LaTeXOutput(formatComments);
             /***************************************************************
             * Write the alignment file, run it through LaTeX, and set the  *
             * dimension information in spec based on the log file          *
             * produced by LaTeX.                                           *
             ***************************************************************/
-            LaTeXOutput.WriteTeXAlignmentFile(spec, preamble, linewidth);
-            Starting("to LaTeX alignment file.");
-            LaTeXOutput.RunLaTeX(Parameters.LaTeXAlignmentFile);
-            Finished("LaTeXing alignment file");
-            LaTeXOutput.SetDimensions(spec) ;
+            latexOutput.WriteTeXAlignmentFile(spec, preamble, linewidth);
+            Starting("to LaTeX alignment file.", parameters);
+            latexOutput.RunLaTeX(parameters.LaTeXAlignmentFile);
+            Finished("LaTeXing alignment file", parameters);
+            latexOutput.SetDimensions(spec) ;
             // Debug.print2DArray(spec, "");
 
             /***************************************************************
             * Write the tlatex environment.                                *
             ***************************************************************/
-            LaTeXOutput.WriteTLATeXEnvironment(spec, outfile) ;
-            Finished("tla/pcal/ppcal environment number " + (envNum + 1));
+            latexOutput.WriteTLATeXEnvironment(spec, outfile) ;
+            Finished("tla/pcal/ppcal environment number " + (envNum + 1), parameters);
             envNum = envNum + 1;
             }  // END then OF if (mode != -1)
            else
@@ -396,16 +404,16 @@ class TeX
         *******************************************************************/
         infile.close() ;
         outfile.close() ;
-        final File iFile = new File(Parameters.LaTeXOutputFile + ".tex") ;
-        final File oFile = new File(Parameters.LaTeXOutputFile + ".new") ;
+        final File iFile = new File(parameters.LaTeXOutputFile + ".tex") ;
+        final File oFile = new File(parameters.LaTeXOutputFile + ".new") ;
 
         /*******************************************************************
         * Delete the old version of the .old file, if there is one.        *
         *******************************************************************/
-        (new File(Parameters.LaTeXOutputFile + ".old")).delete();
+        (new File(parameters.LaTeXOutputFile + ".old")).delete();
 
-        if (   !iFile.renameTo(new File(Parameters.LaTeXOutputFile + ".old"))
-            || !oFile.renameTo(new File(Parameters.LaTeXOutputFile + ".tex")))
+        if (   !iFile.renameTo(new File(parameters.LaTeXOutputFile + ".old"))
+            || !oFile.renameTo(new File(parameters.LaTeXOutputFile + ".tex")))
          { Debug.ReportError("Error while renaming files"); }
        }
       catch (final Exception e)
@@ -416,7 +424,7 @@ class TeX
     }  // END main
 
 
-  private static void GetArguments(final String[] args)
+  private static void GetArguments(final Parameters parameters, final String[] args)
      /**********************************************************************
      * Get the command-line arguments and set the appropriate parameters.  *
      **********************************************************************/
@@ -457,11 +465,11 @@ class TeX
         { final String option = args[nextArg] ;
             switch (option) {
                 case "-help" -> {
-                    OutputMessageFile(Parameters.TeXHelpFile);
+                    OutputMessageFile(parameters.TeXHelpFile);
                     System.exit(0);
                 }
                 case "-info" -> {
-                    OutputMessageFile(Parameters.TeXInfoFile);
+                    OutputMessageFile(parameters.TeXInfoFile);
                     System.exit(0);
                 }
 
@@ -479,7 +487,7 @@ class TeX
                     if (nextArg >= args.length) {
                         CommandLineError("No input file specified");
                     }
-                    Parameters.LaTeXCommand = args[nextArg];
+                    parameters.LaTeXCommand = args[nextArg];
                 }
                 case "-out" -> {  /*************************************************************
                  * The LaTeX output file.                                     *
@@ -489,8 +497,8 @@ class TeX
                     if (nextArg >= args.length) {
                         CommandLineError("No input file specified");
                     }
-                    Parameters.LaTeXOutputFile = RemoveExtension(args[nextArg]);
-                    if (HasPathPrefix(Parameters.LaTeXOutputFile)) {
+                    parameters.LaTeXOutputFile = RemoveExtension(args[nextArg]);
+                    if (HasPathPrefix(parameters.LaTeXOutputFile)) {
                         CommandLineError(
                                 "-out file contains a path specifier.\n"
                                         + "It must be a file in the current directory.");
@@ -504,14 +512,14 @@ class TeX
                     if (nextArg >= args.length) {
                         CommandLineError("No input file specified");
                     }
-                    Parameters.LaTeXAlignmentFile = RemoveExtension(args[nextArg]);
-                    if (HasPathPrefix(Parameters.LaTeXAlignmentFile)) {
+                    parameters.LaTeXAlignmentFile = RemoveExtension(args[nextArg]);
+                    if (HasPathPrefix(parameters.LaTeXAlignmentFile)) {
                         CommandLineError(
                                 "-alignOut file contains a path specifier.\n"
                                         + "It must be a file in the current directory.");
                     }
                 }
-                case "-debug" -> Parameters.Debug = true;
+                case "-debug" -> parameters.Debug = true;
 
 // Should probably change the way the -number option is implemented
 // so numbering is controlled by a LaTeX command, so the user
@@ -532,27 +540,27 @@ class TeX
          }
 
          /********************************************************************
-       * Set Parameters.TLAInputFile to the last argument, adding ".tex"   *
+       * Set parameters.TLAInputFile to the last argument, adding ".tex"   *
        * if it has no extension already.                                   *
        ********************************************************************/
        if (!args[maxArg].contains("."))
-         { Parameters.TLAInputFile = args[maxArg] + ".tex";}
+         { parameters.TLAInputFile = args[maxArg] + ".tex";}
        else       
-         { Parameters.TLAInputFile = args[maxArg];}
+         { parameters.TLAInputFile = args[maxArg];}
 
          /********************************************************************
        * Set default options.                                              *
        ********************************************************************/
        if (! outOption)
-         { Parameters.LaTeXOutputFile = 
-             RemoveExtension(RemovePathPrefix(Parameters.TLAInputFile));
-           if (HasPathPrefix(Parameters.TLAInputFile))
+         { parameters.LaTeXOutputFile = 
+             RemoveExtension(RemovePathPrefix(parameters.TLAInputFile));
+           if (HasPathPrefix(parameters.TLAInputFile))
              ToolIO.out.println(
               "Warning: Output file being written to a different directory\n"
             + "         than input file.");
          }
          if (! alignOutOption)
-         { Parameters.LaTeXAlignmentFile = "tlatex" ;
+         { parameters.LaTeXAlignmentFile = "tlatex" ;
          }
 
          /********************************************************************
@@ -562,9 +570,9 @@ class TeX
        * was specified.                                                    *
        ********************************************************************/
        if (   psOption 
-           || (Parameters.CommentShading && ! nopsOption))
+           || (parameters.CommentShading && ! nopsOption))
 
-        { Parameters.PSOutput = true;
+        { parameters.PSOutput = true;
         }
      }   
 
@@ -611,7 +619,7 @@ class TeX
       *********************************************************************/
       { ToolIO.out.println("TLATeX command-line error: " + msg + ".");
         ToolIO.out.println("Use -help option for more information.");
-        // OutputMessageFile(Parameters.HelpFile) ;
+        // OutputMessageFile(parameters.HelpFile) ;
         throw new TLA2TexException("TLATeX command-line error: " + msg + "." + "Use -help option for more information.");
       }
 
@@ -633,19 +641,19 @@ class TeX
     /***********************************************************************
     * Starting / Finished used to print debugging information.            *
     ***********************************************************************/
-    private static void Starting(final String name)
-     { if (Parameters.Debug)
+    private static void Starting(final String name, final Parameters parameters)
+     { if (parameters.Debug)
          { start = Debug.now() ;
            ToolIO.out.println("Starting " + name);
          }
      }
-    private static void Finished(final String name)
-     { if (Parameters.Debug)
+    private static void Finished(final String name, final Parameters parameters)
+     { if (parameters.Debug)
          { Debug.printElapsedTime(start, name + " finished in");
          }
      }
 
-     private static float[] ReadLogFile()
+     private static float[] ReadLogFile(final Parameters parameters)
     /***********************************************************************
     * Reads the log file to obtain the linewidths for the tla              *
     * environments, and returns them as an array of floats.  Each          *
@@ -655,11 +663,11 @@ class TeX
     { BufferedReader logfile = null ;
       try 
        { logfile = new BufferedReader(
-                    new FileReader(Parameters.LaTeXOutputFile + ".log"));
+                    new FileReader(parameters.LaTeXOutputFile + ".log"));
        }
       catch (final Exception e)
        { ToolIO.out.println(
-               "No file " + Parameters.LaTeXOutputFile + ".log");
+               "No file " + parameters.LaTeXOutputFile + ".log");
          return new float[0];
        }
       final Vector<String> resultVec = new Vector<>(50);
@@ -682,7 +690,7 @@ class TeX
        }
       catch (final Exception e)
        { Debug.ReportError(
-           "Error reading file " + Parameters.LaTeXOutputFile + ".log");
+           "Error reading file " + parameters.LaTeXOutputFile + ".log");
        }
 
       final float[] result = new float[resultVec.size()];
