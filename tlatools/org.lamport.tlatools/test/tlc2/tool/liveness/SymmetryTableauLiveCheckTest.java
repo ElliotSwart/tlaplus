@@ -68,14 +68,14 @@ public class SymmetryTableauLiveCheckTest {
 		final AbstractDiskGraph diskGraph = lc.getChecker(0).getDiskGraph();
 		
 		// Add init state v
-		final TLCState v = new DummyTLCState(100L);
+		final TLCState v = new DummyTLCState(tool.getVariables(),100L);
 		lc.addInitState(tool, v, v.fingerPrint());
 		
 		// one init node (two elements in LongVec)
 		assertEquals(1, diskGraph.getInitNodes().size() / 2);
 
 		// Add v > s
-		final TLCState s = new DummyTLCState(200L);
+		final TLCState s = new DummyTLCState(tool.getVariables(),200L);
 		nexts.put(s);
 		lc.addNextState(null, v, v.fingerPrint(), nexts);
 		
@@ -87,7 +87,7 @@ public class SymmetryTableauLiveCheckTest {
 		
 		// Add s > t
 		nexts.clear();
-		final TLCState t = new DummyTLCState(300L);
+		final TLCState t = new DummyTLCState(tool.getVariables(),300L);
 		nexts.put(t);
 		lc.addNextState(null, s, s.fingerPrint(), nexts);
 		
@@ -102,7 +102,7 @@ public class SymmetryTableauLiveCheckTest {
 
 		// add s > u
 		nexts.clear();
-		final TLCState u = new DummyTLCState(400L);
+		final TLCState u = new DummyTLCState(tool.getVariables(),400L);
 		nexts.put(u);
 		lc.addNextState(null, s, s.fingerPrint(), nexts);
 		
@@ -163,9 +163,9 @@ public class SymmetryTableauLiveCheckTest {
 	@Test
 	@Ignore("Ignored for as long as symmetry is incorrectly handled by TLC with liveness checking.")
 	public void testSymmetry() throws IOException {
-		final TLCState s = new DummyTLCState(200L);
-		final TLCState s1 = new DummyTLCState(s.fingerPrint()); // symmetric sibling of s
-		final TLCState t = new DummyTLCState(300L);
+		final TLCState s = new DummyTLCState(tool.getVariables(),200L);
+		final TLCState s1 = new DummyTLCState(tool.getVariables(),s.fingerPrint()); // symmetric sibling of s
+		final TLCState t = new DummyTLCState(tool.getVariables(),300L);
 	
 		final ILiveCheck lc = getLiveCheckWithTwoNodeTableauSymmetry(s, s1, t);
 		
@@ -173,7 +173,7 @@ public class SymmetryTableauLiveCheckTest {
 		final AbstractDiskGraph diskGraph = lc.getChecker(0).getDiskGraph();
 		
 		// Add init state v
-		final TLCState v = new DummyTLCState(100L);
+		final TLCState v = new DummyTLCState(tool.getVariables(),100L);
 		lc.addInitState(tool, v, v.fingerPrint());
 		
 		// one init node (two elements in LongVec)
@@ -217,7 +217,7 @@ public class SymmetryTableauLiveCheckTest {
 		assertEquals(0, diskGraph.getNode(t.fingerPrint(), 2).succSize());
 
 		// Add additional init state u
-		final TLCState u = new DummyTLCState(400L);
+		final TLCState u = new DummyTLCState(tool.getVariables(),400L);
 		lc.addInitState(tool, u, u.fingerPrint());
 		
 		// two init nodes now (four elements in LongVec)

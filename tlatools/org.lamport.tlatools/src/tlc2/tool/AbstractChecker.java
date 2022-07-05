@@ -590,7 +590,7 @@ public abstract class AbstractChecker
      */
     final public int modelCheck() throws Exception {
         final int result = modelCheckImpl();
-        return (result != EC.NO_ERROR) ? result : errorCode;
+        return (result == EC.NO_ERROR) ? result : errorCode;
     }
 
     protected abstract int modelCheckImpl() throws Exception;

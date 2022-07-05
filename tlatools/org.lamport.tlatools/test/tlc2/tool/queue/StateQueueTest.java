@@ -9,6 +9,7 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
+import tla2sany.semantic.OpDeclNode;
 import tlc2.tool.TLCState;
 import tlc2.tool.ITool;
 public class StateQueueTest {
@@ -27,7 +28,7 @@ public class StateQueueTest {
 	// add and remove a single state
 	@Test
 	public void testEnqueue() {
-		final TLCState expected = new DummyTLCState();
+		final TLCState expected = new DummyTLCState(new OpDeclNode[]{});
 		sQueue.enqueue(expected);
 		final TLCState actual = sQueue.sDequeue();
 		assertEquals("", expected, actual);
@@ -50,7 +51,7 @@ public class StateQueueTest {
 	// dequeue from not empty 
 	@Test
 	public void testsDequeueNotEmpty() {
-		final DummyTLCState expected = new DummyTLCState();
+		final DummyTLCState expected = new DummyTLCState(new OpDeclNode[]{});
 		sQueue.sEnqueue(expected);
 		assertTrue(sQueue.size() == 1);
 		final TLCState actual = sQueue.sDequeue();
@@ -61,7 +62,7 @@ public class StateQueueTest {
 	// dequeue from not empty 
 	@Test
 	public void testDequeueNotEmpty() {
-		final DummyTLCState expected = new DummyTLCState();
+		final DummyTLCState expected = new DummyTLCState(new OpDeclNode[]{});
 		sQueue.enqueue(expected);
 		assertTrue(sQueue.size() == 1);
 		final TLCState actual = sQueue.dequeue();
@@ -74,7 +75,7 @@ public class StateQueueTest {
 	public void testEnqueueAddNotSame() {
 		final int j = 10;
 		for (int i = 0; i < j; i++) {
-			sQueue.sEnqueue(new DummyTLCState());
+			sQueue.sEnqueue(new DummyTLCState(new OpDeclNode[]{}));
 		}
 		assertTrue(sQueue.size() == j);
 	}
@@ -82,7 +83,7 @@ public class StateQueueTest {
 	// add same states 10 times and check size
 	@Test
 	public void testEnqueueAddSame() {
-		final DummyTLCState state = new DummyTLCState();
+		final DummyTLCState state = new DummyTLCState(new OpDeclNode[]{});
 		final int j = 10;
 		for (int i = 0; i < j; i++) {
 			sQueue.sEnqueue(state);
@@ -103,7 +104,7 @@ public class StateQueueTest {
 	// unfortunately sDequeue behaves differently depending what's its internal state
 	@Test
 	public void testsDequeueAbuseNonEmpty() {
-		sQueue.sEnqueue(new DummyTLCState()); // make sure isAvail = true
+		sQueue.sEnqueue(new DummyTLCState(new OpDeclNode[]{})); // make sure isAvail = true
 
 		expectRuntimeException(sQueue, 0);
 		expectRuntimeException(sQueue, -1);

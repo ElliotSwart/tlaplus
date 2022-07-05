@@ -30,6 +30,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import junit.framework.TestCase;
+import tla2sany.semantic.OpDeclNode;
 import tlc2.tool.queue.DummyTLCState;
 import tlc2.util.SetOfStates;
 
@@ -44,7 +45,7 @@ public class SetOfStatesTest extends TestCase {
 
 	public void testSize() {
 		final SetOfStates s = new SetOfStates(16);
-		s.put(new DummyTLCState(1L));
+		s.put(new DummyTLCState(new OpDeclNode[]{}, 1L));
 
 		assertEquals(16, s.capacity());
 		assertEquals(1, s.size());
@@ -54,7 +55,7 @@ public class SetOfStatesTest extends TestCase {
 		final SetOfStates s = new SetOfStates(1);
 		
 		for(int i = 0; i < 32; i++) {
-			s.put(new DummyTLCState(i));
+			s.put(new DummyTLCState(new OpDeclNode[]{}, i));
 		}
 
 		assertTrue(s.capacity() > 32);
@@ -65,7 +66,7 @@ public class SetOfStatesTest extends TestCase {
 		final SetOfStates s = new SetOfStates(1);
 		
 		for(int i = 1; i <= 32; i++) {
-			assertFalse(s.put(new DummyTLCState(i)));
+			assertFalse(s.put(new DummyTLCState(new OpDeclNode[]{}, i)));
 		}
 		assertEquals(32, s.size());
 
@@ -91,7 +92,7 @@ public class SetOfStatesTest extends TestCase {
 		final SetOfStates s = new SetOfStates(1);
 		
 		for(int i = 1; i <= 32; i++) {
-			assertFalse(s.put(new DummyTLCState(i)));
+			assertFalse(s.put(new DummyTLCState(new OpDeclNode[]{}, i)));
 		}
 		assertEquals(32, s.size());
 		
@@ -113,20 +114,20 @@ public class SetOfStatesTest extends TestCase {
 		
 		int id = 1;
 		for(int i = 1; i <= 32; i++) {
-			assertFalse(s.put(new EqualityDummyTLCState(i, id++)));
+			assertFalse(s.put(new EqualityDummyTLCState(new OpDeclNode[]{}, i, id++)));
 		}
 		assertEquals(32, s.size());
 		
 		// Add 32 more elements with identical fp but different ids
 		for(int i = 1; i <= 32; i++) {
-			assertFalse(s.put(new EqualityDummyTLCState(i, id++)));
+			assertFalse(s.put(new EqualityDummyTLCState(new OpDeclNode[]{}, i, id++)));
 		}
 		assertEquals(64, s.size());
 
 		// Add 32 more elements with identical fp and ids
 		id = 1;
 		for(int i = 1; i <= 32; i++) {
-			assertTrue(s.put(new EqualityDummyTLCState(i, id++)));
+			assertTrue(s.put(new EqualityDummyTLCState(new OpDeclNode[]{}, i, id++)));
 		}
 		assertEquals(64, s.size());
 	}
@@ -136,8 +137,8 @@ public class SetOfStatesTest extends TestCase {
 		
 		private final int id;
 
-		public EqualityDummyTLCState(final int fp, final int id) {
-			super(fp);
+		public EqualityDummyTLCState(OpDeclNode[] vars, final int fp, final int id) {
+			super(vars, fp);
 			this.id = id;
 		}
 

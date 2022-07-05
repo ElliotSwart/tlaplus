@@ -15,12 +15,15 @@ public class DummyTLCState extends TLCState {
 
 	private final long fp;
 
-	public DummyTLCState() {
+	public DummyTLCState(OpDeclNode[] vars) {
+		super(vars);
 		uid = 0;
 		this.fp = 0L;
 	}
 	
-	public DummyTLCState(final long fp) {
+	public DummyTLCState(OpDeclNode[] vars, final long fp) {
+		super(vars);
+		uid = 0;
 		this.fp = fp;
 	}
 

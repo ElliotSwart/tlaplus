@@ -32,6 +32,7 @@ private final SymbolNode name;
   public final static TLCState Empty = new TLCStateFun(null, null, null);
   
   private TLCStateFun(final SymbolNode name, final IValue value, final TLCStateFun state) {
+    super(state.vars);
     this.name = name;
     this.value = value;
     this.next = state;

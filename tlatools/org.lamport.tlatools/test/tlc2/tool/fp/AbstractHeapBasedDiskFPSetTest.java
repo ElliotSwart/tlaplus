@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 
 import org.junit.Test;
 
+import tla2sany.semantic.OpDeclNode;
 import tlc2.tool.TLCState;
 import tlc2.tool.TLCTrace;
 import tlc2.tool.queue.DummyTLCState;
@@ -92,7 +93,7 @@ public abstract class AbstractHeapBasedDiskFPSetTest {
 				null);
 		
 		// Fill the trace file with random fingerprints
-		final TLCState predecessor = new DummyTLCState();
+		final TLCState predecessor = new DummyTLCState(new OpDeclNode[]{});
 		predecessor.uid = 1L;
 		// an init state
 		trace.writeState(predecessor.uid);

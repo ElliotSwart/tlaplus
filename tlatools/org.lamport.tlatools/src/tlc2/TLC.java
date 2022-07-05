@@ -42,12 +42,7 @@ import tlc2.tool.impl.ParameterizedSpecObj.PostCondition;
 import tlc2.tool.impl.Tool;
 import tlc2.tool.management.ModelCheckerMXWrapper;
 import tlc2.tool.management.TLCStandardMBean;
-import tlc2.util.DotStateWriter;
-import tlc2.util.FP64;
-import tlc2.util.IStateWriter;
-import tlc2.util.NoopStateWriter;
-import tlc2.util.RandomGenerator;
-import tlc2.util.StateWriter;
+import tlc2.util.*;
 import tlc2.value.RandomEnumerableValues;
 import util.Assert.TLCRuntimeException;
 import util.DebugPrinter;
@@ -1136,6 +1131,9 @@ public class TLC {
             // Start checking:
             final int result;
 			if (RunMode.SIMULATE.equals(runMode)) {
+                // Ensure correct seed is used
+                IdThread.setMode(Tool.Mode.Simulation);
+
                 // random simulation
                 if (noSeed)
                 {
@@ -1172,6 +1170,15 @@ public class TLC {
 				if (noSeed) {
                     seed = rng.nextLong();
 				}
+
+                // Ensure random seed is set on correct variable
+                if(isBFS()){
+                    IdThread.setMode(Tool.Mode.MC);
+                }
+                else {
+                    IdThread.setMode(Tool.Mode.Simulation);
+                }
+
 				// Replace seed with tlc2.util.FP64.Polys[fpIndex]?
 				// + No need to print seed in startup-banner for BFS and DFS
 				// - Only 131 different seeds

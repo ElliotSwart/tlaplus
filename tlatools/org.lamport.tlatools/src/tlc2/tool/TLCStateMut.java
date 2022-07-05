@@ -50,13 +50,15 @@ private final IValue[] values;
    */
   private static IMVPerm[] perms = null;
 
-  private TLCStateMut(final IValue[] vals) { this.values = vals; }
+  private TLCStateMut(final OpDeclNode[] vars, final IValue[] vals) {
+      super(vars);
+      this.values = vals;
+  }
   
   public static TLCState getEmpty(final OpDeclNode[] vars)
   {
       final IValue[] vals = new IValue[vars.length];
-      var Empty = new TLCStateMut(vals);
-      Empty.vars = vars;
+      var Empty = new TLCStateMut(vars, vals);
       return Empty;
       // SZ 10.04.2009: since this method is called exactly one from Spec#processSpec
       // moved the call of UniqueString#setVariables to that place
@@ -71,8 +73,7 @@ private final IValue[] values;
   @Override
   public TLCState createEmpty() {
     final IValue[] vals = new IValue[vars.length];
-    var state = new TLCStateMut(vals);
-    state.vars = vars;
+    var state = new TLCStateMut(vars, vals);
     return state;
   }
 
@@ -130,7 +131,7 @@ private final IValue[] values;
     final int len = this.values.length;
     final IValue[] vals = new IValue[len];
       System.arraycopy(this.values, 0, vals, 0, len);
-    return copy(new TLCStateMut(vals));
+    return copy(new TLCStateMut(vars, vals));
   }
 
   @Override
@@ -143,7 +144,7 @@ private final IValue[] values;
 	vals[i] = val.deepCopy();
       }
     }
-	return deepCopy(new TLCStateMut(vals));
+	return deepCopy(new TLCStateMut(vars, vals));
   }
 
   @Override
@@ -266,7 +267,7 @@ private final IValue[] values;
             }
 			TLCStateMut state = this;
 			if (minVals != this.values) {
-				state = new TLCStateMut(minVals);
+				state = new TLCStateMut(vars, minVals);
 			}
 			final IValue val = mytool.eval(viewMap, Context.Empty, state);
 			fp = val.fingerPrint(fp);

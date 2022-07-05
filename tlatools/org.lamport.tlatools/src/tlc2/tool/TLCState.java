@@ -38,7 +38,11 @@ public short workerId = Short.MAX_VALUE; // Must be set to a non-negative number
   public static final TLCState Null = null;
 
   // The state variables.
-  protected OpDeclNode[] vars = null;
+  public final OpDeclNode[] vars;
+
+  public TLCState(OpDeclNode[] vars){
+      this.vars = vars;
+  }
 
   public void read(final IValueInputStream vis) throws IOException {
 	this.workerId = vis.readShortNat();

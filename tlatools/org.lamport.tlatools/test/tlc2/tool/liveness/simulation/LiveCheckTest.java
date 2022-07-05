@@ -89,11 +89,11 @@ public class LiveCheckTest {
 		final AbstractDiskGraph diskGraph = liveCheck.getChecker(0).getDiskGraph();
 		assertNotNull(diskGraph);
 		
-		final TLCState state = new DummyTLCState();
+		final TLCState state = new DummyTLCState(tool.getVariables());
 		liveCheck.addInitState(tool, state, 100L);
 
 		final SetOfStates setOfStates = new SetOfStates(1);
-		setOfStates.put(200L, new DummyTLCState(200L));
+		setOfStates.put(200L, new DummyTLCState(tool.getVariables(),200L));
 		
 		// Add state 100L the first time, then add its successor
 		liveCheck.addNextState(tool, state, 100L, setOfStates);

@@ -751,6 +751,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 			private final TLCState state;
 
 			public PrintTLCState(final RecordValue recordValue, final TLCState state) {
+                super(state.vars);
 				this.rcd = recordValue;
 				this.state = state;
 			}
