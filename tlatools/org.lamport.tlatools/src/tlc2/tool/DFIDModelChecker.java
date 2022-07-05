@@ -678,7 +678,7 @@ public class DFIDModelChecker extends AbstractChecker
                 }
             }
 
-            if (TLCGlobals.doCheckPoint()) {
+            if (doCheckPoint()) {
             	// Checkpoint:
             	MP.printMessage(EC.TLC_CHECKPOINT_START, this.metadir);
             	// start checkpointing:

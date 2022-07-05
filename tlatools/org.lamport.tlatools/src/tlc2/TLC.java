@@ -31,11 +31,7 @@ import tlc2.output.EC;
 import tlc2.output.ErrorTraceMessagePrinterRecorder;
 import tlc2.output.MP;
 import tlc2.output.Messages;
-import tlc2.tool.DFIDModelChecker;
-import tlc2.tool.ITool;
-import tlc2.tool.ModelChecker;
-import tlc2.tool.Simulator;
-import tlc2.tool.SingleThreadedSimulator;
+import tlc2.tool.*;
 import tlc2.tool.fp.FPSet;
 import tlc2.tool.fp.FPSetConfiguration;
 import tlc2.tool.fp.FPSetFactory;
@@ -199,7 +195,14 @@ public class TLC {
      * Trace exploration spec generator.
      */
     private TraceExplorationSpec teSpec;
-    
+
+    // The main model checker object (null if simulator non-null)
+    public static AbstractChecker mainChecker = null;
+
+    // The main simulator object (null if mainChecker non-null)
+    public static Simulator simulator = null;
+
+
     /**
      * Initialization
      */
@@ -1144,8 +1147,7 @@ public class TLC {
                 }
                 RandomEnumerableValues.setSeed(seed);
 				printStartupBanner(EC.TLC_MODE_SIMU, getSimulationRuntime(seed));
-				
-				final Simulator simulator;
+
 				if (debugPort >= 0) {
 					assert TLCGlobals.getNumWorkers() == 1
 							: "TLCDebugger does not support running with multiple workers.";
@@ -1155,12 +1157,16 @@ public class TLC {
 					}
 					simulator = new SingleThreadedSimulator(tool, metadir, traceFile, deadlock, traceDepth, 
 	                        traceNum, traceActions, rng, seed, resolver);
+
+                    tool.setSimulator(simulator);
 				} else {
 					tool = new FastTool(mainFile, configFile, resolver, Tool.Mode.Simulation, params);
 					simulator = new Simulator(tool, metadir, traceFile, deadlock, traceDepth, 
 	                        traceNum, traceActions, rng, seed, resolver, TLCGlobals.getNumWorkers());
+
+                    tool.setSimulator(simulator);
 				}
-                TLCGlobals.simulator = simulator;
+
                 result = simulator.simulate();
 			} else { // RunMode.MODEL_CHECK
 				if (noSeed) {
@@ -1188,15 +1194,18 @@ public class TLC {
                 deadlock = deadlock && tool.getModelConfig().getCheckDeadlock();
                 if (isBFS())
                 {
-					TLCGlobals.mainChecker = new ModelChecker(tool, metadir, stateWriter, deadlock, fromChkpt,
+					mainChecker = new ModelChecker(tool, metadir, stateWriter, deadlock, fromChkpt,
 							FPSetFactory.getFPSetInitialized(fpSetConfiguration, metadir, new File(mainFile).getName()),
 							startTime);
-					modelCheckerMXWrapper = new ModelCheckerMXWrapper((ModelChecker) TLCGlobals.mainChecker, this);
+                    tool.setMainChecker(mainChecker);
+					modelCheckerMXWrapper = new ModelCheckerMXWrapper((ModelChecker) mainChecker, this);
                 } else
                 {
-					TLCGlobals.mainChecker = new DFIDModelChecker(tool, metadir, stateWriter, deadlock, fromChkpt, startTime);
+					mainChecker = new DFIDModelChecker(tool, metadir, stateWriter, deadlock, fromChkpt, startTime);
+                    tool.setMainChecker(mainChecker);
                 }
-                result = TLCGlobals.mainChecker.modelCheck();
+
+                result = mainChecker.modelCheck();
 
             }
 			return result;
@@ -1346,7 +1355,7 @@ public class TLC {
 	public List<File> getModuleFiles() {
     	final List<File> result = new ArrayList<>();
     	
-    	if (TLCGlobals.mainChecker instanceof final ModelChecker mc) {
+    	if (mainChecker instanceof final ModelChecker mc) {
             result.addAll(mc.getModuleFiles(resolver));
     		if (ModelInJar.hasCfg()) {
     			result.add(ModelInJar.getCfg());

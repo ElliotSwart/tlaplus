@@ -32,22 +32,7 @@ import tla2sany.semantic.ThmOrAssumpDefNode;
 import tlc2.TLCGlobals;
 import tlc2.output.EC;
 import tlc2.output.MP;
-import tlc2.tool.Action;
-import tlc2.tool.BuiltInOPs;
-import tlc2.tool.EvalControl;
-import tlc2.tool.EvalException;
-import tlc2.tool.IActionItemList;
-import tlc2.tool.IContextEnumerator;
-import tlc2.tool.INextStateFunctor;
-import tlc2.tool.IStateFunctor;
-import tlc2.tool.ITool;
-import tlc2.tool.StateVec;
-import tlc2.tool.TLCState;
-import tlc2.tool.TLCStateFun;
-import tlc2.tool.TLCStateInfo;
-import tlc2.tool.TLCStateMut;
-import tlc2.tool.TLCStateMutExt;
-import tlc2.tool.ToolGlobals;
+import tlc2.tool.*;
 import tlc2.tool.coverage.CostModel;
 import tlc2.util.Context;
 import tlc2.util.ExpectInlined;
@@ -144,6 +129,10 @@ public abstract class Tool
   private Vect<Action> actionVec = new Vect<>(10);
   protected final Mode toolMode;
 
+  private AbstractChecker abstractChecker;
+
+  private Simulator simulator;
+
   /**
    * Creates a new tool handle
    */
@@ -223,6 +212,27 @@ public abstract class Tool
 	  this.actionVec = other.actionVec;
 	  this.toolMode = other.toolMode;
   }
+
+
+
+    @Override
+    public AbstractChecker getMainChecker(){
+          return abstractChecker;
+    }
+    @Override
+    public Simulator getSimulator(){
+          return simulator;
+    }
+
+    @Override
+    public void setMainChecker(AbstractChecker abstractChecker){
+          this.abstractChecker = abstractChecker;
+    }
+
+    @Override
+    public void setSimulator(Simulator simulator){
+          this.simulator = simulator;
+    }
 
   @Override
   public Mode getMode() {
@@ -1131,7 +1141,7 @@ public abstract class Tool
 	  {
 		if (PROBABLISTIC) {
 			// probabilistic (return after a state has been generated, ordered is randomized)
-			final RandomGenerator rng = TLCGlobals.simulator.getRNG();
+			final RandomGenerator rng = getSimulator().getRNG();
 			int index = (int) Math.floor(rng.nextDouble() * alen);
 			final int p = rng.nextPrime();
 		    for (int i = 0; i < alen; i++) {

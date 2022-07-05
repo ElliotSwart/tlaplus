@@ -565,7 +565,7 @@ public class LiveCheck implements ILiveCheck {
 					// Since the condition is only supposed to evaluate to false
 					// when LiveCheck is used in simulation mode, mainChecker
 					// has to be null.
-					Assert.check(TLCGlobals.mainChecker == null, EC.GENERAL);
+					Assert.check(tool.getMainChecker() == null, EC.GENERAL);
 				}
 			}
 		}
@@ -720,7 +720,7 @@ public class LiveCheck implements ILiveCheck {
 						// Since the condition is only supposed to evaluate to false
 						// when LiveCheck is used in simulation mode, mainChecker
 						// has to be null.
-						Assert.check(TLCGlobals.mainChecker == null, EC.GENERAL);
+						Assert.check(tool.getMainChecker() == null, EC.GENERAL);
 					}
 				}
 
@@ -730,7 +730,7 @@ public class LiveCheck implements ILiveCheck {
 
 					// Lock mainChecker to prevent another TLC Worker from concurrently printing a
 					// (state-graph) safety violation.
-					synchronized (TLCGlobals.mainChecker) {
+					synchronized (tool.getMainChecker()) {
 						
 						dgraph.createCache();
 						final LongVec prefix = dgraph.getPath(errorGraphNode.stateFP, errorGraphNode.tindex);
@@ -767,8 +767,8 @@ public class LiveCheck implements ILiveCheck {
 								tool.getLiveness().evalAlias(last, last.state));
 						
 						// Stop subsequent state-space exploration.
-						TLCGlobals.mainChecker.stop();
-						TLCGlobals.mainChecker.setErrState(states.get(states.size() - 2).state, last.state, false,
+						tool.getMainChecker().stop();
+						tool.getMainChecker().setErrState(states.get(states.size() - 2).state, last.state, false,
 								EC.TLC_INVARIANT_VIOLATED_BEHAVIOR);
 						
 						tool.checkPostConditionWithCounterExample(new CounterExample(states));

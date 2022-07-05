@@ -269,7 +269,7 @@ public class DebugTool extends Tool {
 		// target is null during instantiation of super (see constructor above), ie.
 		// eager evaluation of operators in SpecProcessor. mainChecker is null
 		// while SpecProcessor processes constant definitions, ...
-		return target == null || (TLCGlobals.mainChecker == null && TLCGlobals.simulator == null);
+		return target == null || (getMainChecker() == null && getSimulator() == null);
 	}
 
 	private boolean isLiveness(final int control, final TLCState s0, final TLCState s1) {

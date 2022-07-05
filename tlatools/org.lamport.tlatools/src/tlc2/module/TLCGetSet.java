@@ -36,12 +36,7 @@ import tlc2.TLCGlobals;
 import tlc2.output.EC;
 import tlc2.overrides.Evaluation;
 import tlc2.overrides.TLAPlusOperator;
-import tlc2.tool.Action;
-import tlc2.tool.EvalControl;
-import tlc2.tool.EvalException;
-import tlc2.tool.ModelChecker;
-import tlc2.tool.SimulationWorker;
-import tlc2.tool.TLCState;
+import tlc2.tool.*;
 import tlc2.tool.coverage.CostModel;
 import tlc2.tool.impl.Tool;
 import tlc2.util.Context;
@@ -148,10 +143,10 @@ public class TLCGetSet implements ValueConstants {
 				Value res = null;
 				if (th instanceof IdThread) {
 					res = (Value) ((IdThread) th).getLocalValue(idx);
-				} else if (TLCGlobals.mainChecker != null) {
-					res = (Value) tlc2.TLCGlobals.mainChecker.getValue(0, idx);
-				} else if (tlc2.TLCGlobals.simulator != null) {
-					res = (Value) tlc2.TLCGlobals.simulator.getLocalValue(idx);
+				} else if (tool.getMainChecker() != null) {
+					res = (Value) tool.getMainChecker().getValue(0, idx);
+				} else if (tool.getSimulator() != null) {
+					res = (Value) tool.getSimulator().getLocalValue(idx);
 				}
 				if (res == null) {
 					throw new EvalException(EC.TLC_MODULE_TLCGET_UNDEFINED, String.valueOf(idx));
@@ -170,9 +165,9 @@ public class TLCGetSet implements ValueConstants {
 		final StringValue sv = (StringValue) vidx;
 		if (DIAMETER == sv.val) {
 			try {
-				if (TLCGlobals.mainChecker != null) {
-					return IntValue.gen(TLCGlobals.mainChecker.getProgress());
-				} else if (TLCGlobals.simulator != null) {
+				if (tool.getMainChecker() != null) {
+					return IntValue.gen(tool.getMainChecker().getProgress());
+				} else if (tool.getSimulator() != null) {
 					if (Thread.currentThread() instanceof final SimulationWorker sw) {
 						// non-initial states.
                         final long traceCnt = sw.getTraceCnt();
@@ -188,37 +183,37 @@ public class TLCGetSet implements ValueConstants {
 					throw new EvalException(EC.TLC_MODULE_TLCGET_UNDEFINED, String.valueOf(sv.val));
 				}
 			} catch (final ArithmeticException e) {
-				throw new EvalException(EC.TLC_MODULE_OVERFLOW, Long.toString(Objects.requireNonNull(TLCGlobals.mainChecker).getProgress()));
+				throw new EvalException(EC.TLC_MODULE_OVERFLOW, Long.toString(Objects.requireNonNull(tool.getMainChecker()).getProgress()));
 			} catch (final NullPointerException npe) {
-				// TLCGlobals.mainChecker is null while the spec is parsed. A constant
+				// tool.getMainChecker() is null while the spec is parsed. A constant
 				// expression referencing one of the named values here would thus result in an
 				// NPE.
 				throw new EvalException(EC.TLC_MODULE_TLCGET_UNDEFINED, String.valueOf(sv.val));
 			}
 		} else if (GENERATED == sv.val) {
 			try {
-				return IntValue.gen(Math.toIntExact(TLCGlobals.mainChecker.getStatesGenerated()));
+				return IntValue.gen(Math.toIntExact(tool.getMainChecker().getStatesGenerated()));
 			} catch (final ArithmeticException e) {
 				throw new EvalException(EC.TLC_MODULE_OVERFLOW,
-						Long.toString(TLCGlobals.mainChecker.getStatesGenerated()));
+						Long.toString(tool.getMainChecker().getStatesGenerated()));
 			} catch (final NullPointerException npe) {
 				throw new EvalException(EC.TLC_MODULE_TLCGET_UNDEFINED, String.valueOf(sv.val));
 			}
 		} else if (DISTINCT == sv.val) {
 			try {
-				return IntValue.gen(Math.toIntExact(TLCGlobals.mainChecker.getDistinctStatesGenerated()));
+				return IntValue.gen(Math.toIntExact(tool.getMainChecker().getDistinctStatesGenerated()));
 			} catch (final ArithmeticException e) {
 				throw new EvalException(EC.TLC_MODULE_OVERFLOW,
-						Long.toString(TLCGlobals.mainChecker.getDistinctStatesGenerated()));
+						Long.toString(tool.getMainChecker().getDistinctStatesGenerated()));
 			} catch (final NullPointerException npe) {
 				throw new EvalException(EC.TLC_MODULE_TLCGET_UNDEFINED, String.valueOf(sv.val));
 			}
 		} else if (QUEUE == sv.val) {
 			try {
-				return IntValue.gen(Math.toIntExact(TLCGlobals.mainChecker.getStateQueueSize()));
+				return IntValue.gen(Math.toIntExact(tool.getMainChecker().getStateQueueSize()));
 			} catch (final ArithmeticException e) {
 				throw new EvalException(EC.TLC_MODULE_OVERFLOW,
-						Long.toString(TLCGlobals.mainChecker.getStateQueueSize()));
+						Long.toString(tool.getMainChecker().getStateQueueSize()));
 			} catch (final NullPointerException npe) {
 				throw new EvalException(EC.TLC_MODULE_TLCGET_UNDEFINED, String.valueOf(sv.val));
 			}
@@ -232,10 +227,10 @@ public class TLCGetSet implements ValueConstants {
 			}
 		} else if (STATISTICS == sv.val) {
 			try {
-				if (TLCGlobals.mainChecker != null) {
-					return TLCGlobals.mainChecker.getStatistics();
-				} else if (TLCGlobals.simulator != null) {
-					return TLCGlobals.simulator.getStatistics();
+				if (tool.getMainChecker() != null) {
+					return tool.getMainChecker().getStatistics();
+				} else if (tool.getSimulator() != null) {
+					return tool.getSimulator().getStatistics();
 				}
 			} catch (final NullPointerException npe) {
 				throw new EvalException(EC.TLC_MODULE_TLCGET_UNDEFINED, String.valueOf(sv.val));
@@ -258,10 +253,10 @@ public class TLCGetSet implements ValueConstants {
 			 *       overhead.
 			 */
 			try {
-				if (TLCGlobals.mainChecker != null) {
-					return TLCGlobals.mainChecker.getConfig();
-				} else if (TLCGlobals.simulator != null) {
-					return TLCGlobals.simulator.getConfig();
+				if (tool.getMainChecker() != null) {
+					return tool.getMainChecker().getConfig();
+				} else if (tool.getSimulator() != null) {
+					return tool.getSimulator().getConfig();
 				}
 			} catch (final NullPointerException npe) {
 				throw new EvalException(EC.TLC_MODULE_TLCGET_UNDEFINED, String.valueOf(sv.val));
@@ -400,38 +395,38 @@ public class TLCGetSet implements ValueConstants {
              *       [ w \in W |-> 
              *         Eval(w, TLCGet(i) ] ]
 			 */
-			if (TLCGlobals.mainChecker != null) {
-				return TLCGlobals.mainChecker.getAllValues();
-			} else if (TLCGlobals.simulator != null) {
-				return TLCGlobals.simulator.getAllValues();
+			if (tool.getMainChecker() != null) {
+				return tool.getMainChecker().getAllValues();
+			} else if (tool.getSimulator() != null) {
+				return tool.getSimulator().getAllValues();
 			}
 		}
 		throw new EvalException(EC.TLC_MODULE_TLCGET_UNDEFINED, String.valueOf(sv.val));
 	}
 
 	@TLAPlusOperator(identifier = "TLCSet", module = "TLC", warn = false)
-	public static Value TLCSet(final Value vidx, final Value val) {
+	public static Value TLCSet(final Value vidx, final Value val, ITool tool) {
 		if (vidx instanceof IntValue) {
 			final int idx = ((IntValue) vidx).val;
 			if (idx >= 0) {
 				final Thread th = Thread.currentThread();
 				if (th instanceof IdThread) {
 					((IdThread) th).setLocalValue(idx, val);
-				} else if (TLCGlobals.mainChecker != null) {
-					TLCGlobals.mainChecker.setAllValues(idx, val);
+				} else if (tool.getMainChecker() != null) {
+					tool.getMainChecker().setAllValues(idx, val);
 				} else {
-					tlc2.TLCGlobals.simulator.setAllValues(idx, val);
+					tool.getSimulator().setAllValues(idx, val);
 				}
 				return BoolValue.ValTrue;
 			}
 		} else if (vidx instanceof final StringValue sv) {
             if (EXIT == sv.val) {
 				if (val == BoolValue.ValTrue) {
-					if (TLCGlobals.mainChecker != null) {
-						TLCGlobals.mainChecker.stop();
+					if (tool.getMainChecker() != null) {
+						tool.getMainChecker().stop();
 					}
-					if (TLCGlobals.simulator != null) {
-						TLCGlobals.simulator.stop();
+					if (tool.getSimulator() != null) {
+						tool.getSimulator().stop();
 					}
 				}
 				return BoolValue.ValTrue;
@@ -441,7 +436,7 @@ public class TLCGetSet implements ValueConstants {
 				// TLCSet("pause", guard)
 				// but it might be better guarded by IfThenElse for performance reasons:
 				// IF guard THEN TLCSet("pause", TRUE) ELSE TRUE
-				if (val == BoolValue.ValTrue && TLCGlobals.mainChecker instanceof final ModelChecker mc) {
+				if (val == BoolValue.ValTrue && tool.getMainChecker() instanceof final ModelChecker mc) {
                     synchronized (mc.theStateQueue) {
 						ToolIO.out.println("Press enter to resume model checking.");
 						ToolIO.out.flush();

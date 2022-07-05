@@ -155,6 +155,36 @@ public abstract class AbstractChecker
 		});
     }
 
+
+    private static long lastChkpt = System.currentTimeMillis();
+
+    /**
+     * IMPORTANT NOTE: The method is unsynchronized. It is the caller's
+     * responsibility to ensure that only a single thread calls this method.
+     *
+     * @return true iff a checkpoint should be created next time possible
+     */
+    public static boolean doCheckPoint() {
+        // 1. checkpoint forced externally (e.g. JMX)
+        if (TLCGlobals.forceChkpt) {
+            TLCGlobals.forceChkpt = false;
+            return true;
+        }
+
+        // 2. user has disabled checkpoints
+        if (TLCGlobals.chkptDuration == 0) {
+            return false;
+        }
+
+        // 3. time between checkpoints is up?
+        final long now = System.currentTimeMillis();
+        if (now - lastChkpt >= TLCGlobals.chkptDuration) {
+            lastChkpt = now;
+            return true;
+        }
+        return false;
+    }
+
     public final boolean setDone()
     {
     	final boolean old = this.done;

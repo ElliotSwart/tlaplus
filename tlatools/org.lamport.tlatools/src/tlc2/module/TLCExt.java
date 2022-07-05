@@ -87,8 +87,8 @@ public class TLCExt {
 		// TLC checks action constraints before it checks if states are new or not. Exclude seen states here
 		// to not repeatedly ask a user to extend a behavior with the same state over and over again.
 		try {
-			if (TLCGlobals.mainChecker != null // simulation mode does not remember seen states.
-					&& ((ModelChecker) TLCGlobals.mainChecker).theFPSet.contains(s1.fingerPrint())) {
+			if (tool.getMainChecker() != null // simulation mode does not remember seen states.
+					&& ((ModelChecker) tool.getMainChecker()).theFPSet.contains(s1.fingerPrint())) {
 				// If it is a seen state it is by definition in the model.
 				return BoolValue.ValTrue;
 			}
@@ -152,9 +152,9 @@ public class TLCExt {
 			} else if (nextLine.charAt(0) == 'd') {
 				MP.printMessage(EC.TLC_MODULE_OVERRIDE_STDOUT, s1.toString(s0));
 			} else if (nextLine.charAt(0) == 'e') {
-				if (TLCGlobals.mainChecker != null) {
+				if (tool.getMainChecker() != null) {
 					try {
-						((ModelChecker) TLCGlobals.mainChecker).theFPSet.put(s1.fingerPrint());
+						((ModelChecker) tool.getMainChecker()).theFPSet.put(s1.fingerPrint());
 					} catch (final IOException notExpectedToHappen) {
 						notExpectedToHappen.printStackTrace();
 					}
@@ -210,10 +210,10 @@ public class TLCExt {
 					unassigned.stream().map(n -> n.getName().toString()).collect(Collectors.joining(", "))));
 		}
 
-		if (TLCGlobals.simulator != null) {
+		if (tool.getSimulator() != null) {
 			// TODO Somehow load only this implementation in simulation mode => module
 			// overrides for a specific tool mode.
-			final StateVec trace = TLCGlobals.simulator.getTrace(s0);
+			final StateVec trace = tool.getSimulator().getTrace(s0);
 			
 			final Value[] values = new Value[trace.size()];
 			for (int j = 0; j < trace.size(); j++) {
@@ -251,7 +251,7 @@ public class TLCExt {
 					trace.add(new TLCStateInfo(currentState));
 					trace.add(new TLCStateInfo(s0));
 				} else {
-					trace.addAll(Arrays.asList(TLCGlobals.mainChecker.getTraceInfo(currentState)));
+					trace.addAll(Arrays.asList(tool.getMainChecker().getTraceInfo(currentState)));
 					trace.add(new TLCStateInfo(currentState));
 					trace.add(new TLCStateInfo(s0));
 					// A side-effect of getTraceInfo are nested calls to setCurrentState. Thus, we
@@ -260,7 +260,7 @@ public class TLCExt {
 				}
 				return new TupleValue(trace.stream().map(si -> new RecordValue(si.state)).toArray(Value[]::new));
 			}
-			return getTrace0(s0, TLCGlobals.mainChecker.getTraceInfo(s0));
+			return getTrace0(s0, tool.getMainChecker().getTraceInfo(s0));
 		}
 	}
 

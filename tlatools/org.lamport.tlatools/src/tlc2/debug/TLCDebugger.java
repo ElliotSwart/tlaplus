@@ -311,11 +311,11 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 		LOGGER.finer("terminate");
 		// TODO: In case the debugger is currently paused on an ASSUME, TLC will first
 		// generate the initial states before stopping.
-		if (TLCGlobals.mainChecker != null) {
-			TLCGlobals.mainChecker.stop();
+		if (tool.getMainChecker() != null) {
+			tool.getMainChecker().stop();
 		}
-		if (TLCGlobals.simulator != null) {
-			TLCGlobals.simulator.stop();
+		if (tool.getSimulator() != null) {
+			tool.getSimulator().stop();
 		}
 		
 		if (launcher != null) {

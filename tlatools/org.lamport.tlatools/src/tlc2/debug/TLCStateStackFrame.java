@@ -149,8 +149,8 @@ public class TLCStateStackFrame extends TLCStackFrame {
 					}
 
 					final TLCStateInfo[] prefix;
-					if (TLCGlobals.simulator != null) {
-						prefix = TLCGlobals.simulator.getTraceInfo(t.getLevel() - 1);
+					if (tool.getSimulator() != null) {
+						prefix = tool.getSimulator().getTraceInfo(t.getLevel() - 1);
 					} else {
 						// B) Suffix from s_f to either an initial state or a state whose predecessor
 						// has to be looked up from disk (s_d).
@@ -171,7 +171,7 @@ public class TLCStateStackFrame extends TLCStackFrame {
 						// C) The prefix from an initial state s_i to the predecessor of s_d. We can
 						// assert that s_d is no initial state, it will *not* be part of prefix.
 						final List<TLCStateInfo> arrayList = new ArrayList<>(
-								Arrays.asList(TLCGlobals.mainChecker.getTraceInfo(last)));
+								Arrays.asList(tool.getMainChecker().getTraceInfo(last)));
 						prefix = arrayList.toArray(TLCStateInfo[]::new);
 					}
 

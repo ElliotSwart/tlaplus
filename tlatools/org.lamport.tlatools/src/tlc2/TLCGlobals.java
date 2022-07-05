@@ -96,12 +96,6 @@ public class TLCGlobals
     	incNumWorkers(-1);
     }
 
-    // The main model checker object (null if simulator non-null)
-    public static AbstractChecker mainChecker = null;
-    
-    // The main simulator object (null if mainChecker non-null)
-    public static Simulator simulator = null;
-
     // Char to indent nested coverage information.
 	public static final char coverageIndent = '|';
     
@@ -133,43 +127,16 @@ public class TLCGlobals
     
 	// MAK 08.2012: centralized checkpoint code and added disabling and
 	// externally forced checkpoints
-    private static boolean forceChkpt = false;
+    public static boolean forceChkpt = false;
     public static void forceChkpt() {
     	forceChkpt = true;
     }
-    private static long lastChkpt = System.currentTimeMillis();
+
 
 	public static boolean chkptExplicitlyEnabled() {
 		// Assumption is that a user will always select a different value.
 		return chkptDuration > 0 && chkptDuration != DEFAULT_CHECKPOINT_DURATION;
 	}
-
-	/**
-	 * IMPORTANT NOTE: The method is unsynchronized. It is the caller's
-	 * responsibility to ensure that only a single thread calls this method.
-	 * 
-	 * @return true iff a checkpoint should be created next time possible
-	 */
-    public static boolean doCheckPoint() {
-    	// 1. checkpoint forced externally (e.g. JMX)
-    	if (forceChkpt) {
-    		forceChkpt = false;
-    		return true;
-    	}
-    	
-    	// 2. user has disabled checkpoints
-    	if (chkptDuration == 0) {
-    		return false;
-    	}
-    	
-    	// 3. time between checkpoints is up?
-        final long now = System.currentTimeMillis();
-        if (now - lastChkpt >= TLCGlobals.chkptDuration) {
-        	lastChkpt = now;
-        	return true;
-        }
-        return false;
-    }
 
     // The meta data root.
     public static final String metaRoot = "states";

@@ -322,6 +322,7 @@ public class ModelChecker extends AbstractChecker
 		return result;
     }
 
+
     /** 
      * Check the assumptions.  
      */
@@ -673,7 +674,7 @@ public class ModelChecker extends AbstractChecker
 		// Remember if checkpointing should be run. doCheckPoint() when called
 		// internally diffs the time expired since its last invocation which is
 		// only milliseconds here when called twice.
-		final boolean createCheckPoint = TLCGlobals.doCheckPoint();
+		final boolean createCheckPoint = doCheckPoint();
 		if ((!this.checkLiveness || runtimeRatio > TLCGlobals.livenessRatio || !liveCheck.doLiveCheck()) && !forceLiveCheck && !createCheckPoint) {
 			updateRuntimeRatio(0L);
 			

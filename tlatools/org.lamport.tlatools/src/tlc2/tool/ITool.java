@@ -63,6 +63,12 @@ public interface ITool extends TraceApp {
 
 	TLCState getEmptyState();
 
+	AbstractChecker getMainChecker();
+	Simulator getSimulator();
+
+	void setMainChecker(AbstractChecker abstractChecker);
+	void setSimulator(Simulator simulator);
+
 	/*
 	   * This method returns the set of possible initial states that
 	   * satisfies the initial state predicate. Initial state predicate
@@ -281,11 +287,11 @@ public interface ITool extends TraceApp {
 	}
 
 	default ITool getDebugger() {
-		if (TLCGlobals.mainChecker != null) {
-			return TLCGlobals.mainChecker.tool;
+		if (getMainChecker() != null) {
+			return getMainChecker().tool;
 		}
-		if (TLCGlobals.simulator != null) {
-			return TLCGlobals.simulator.getTool();
+		if (getSimulator() != null) {
+			return getSimulator().getTool();
 		}
 		return this;
 	}
