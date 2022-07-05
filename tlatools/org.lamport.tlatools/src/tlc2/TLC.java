@@ -184,7 +184,7 @@ public class TLC {
     /**
      * Interface to retrieve model properties.
      */
-    private volatile ITool tool;
+    public volatile ITool tool;
 
     /**
      * Records errors as TLC runs.

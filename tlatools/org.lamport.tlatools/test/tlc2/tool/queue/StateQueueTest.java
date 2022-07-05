@@ -5,11 +5,12 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
 import tlc2.tool.TLCState;
-
+import tlc2.tool.ITool;
 public class StateQueueTest {
 
 	protected IStateQueue sQueue;
@@ -19,7 +20,8 @@ public class StateQueueTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		sQueue = new MemStateQueue("");
+		var tool = EasyMock.createNiceMock(ITool.class);
+		sQueue = new MemStateQueue( "", tool);
 	}
 
 	// add and remove a single state

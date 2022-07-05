@@ -24,6 +24,7 @@ import tlc2.tool.TLCStateVec;
 import tlc2.tool.WorkerException;
 import tlc2.tool.distributed.selector.IBlockSelector;
 import tlc2.tool.fp.FPSet;
+import tlc2.tool.impl.Tool;
 import tlc2.tool.queue.IStateQueue;
 import tlc2.tool.queue.StateQueue;
 import tlc2.util.BitVector;
@@ -154,7 +155,7 @@ public class TLCServerThread extends IdThread {
 		TLCGlobals.incNumWorkers();
 		TLCStateVec[] newStates = null;
 		LongVec[] newFps = null;
-
+		setMode(Tool.Mode.MC);
 		final IStateQueue stateQueue = this.tlcServer.stateQueue;
 		try {
 			START: while (true) {

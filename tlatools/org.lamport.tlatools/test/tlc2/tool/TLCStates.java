@@ -49,8 +49,7 @@ public abstract class TLCStates {
 
 		// Initialize the empty state (variable declarations are static/final per TLC
 		// run).
-		TLCStateMut.setVariables(variables);
-		final TLCState state = TLCState.Empty.createEmpty();
+		final TLCState state = TLCStateMut.getEmpty(variables);;
 		state.uid = 0;
 
 		// Assign values to variables.

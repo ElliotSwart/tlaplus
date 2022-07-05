@@ -77,7 +77,7 @@ public abstract class RandomEnumerableValues {
 	private static final ThreadLocal<Random> RANDOMS = new ThreadLocal<>() {
         @Override
         protected Random initialValue() {
-            if (TLCGlobals.mainChecker != null && ModelChecker.class.equals(TLCGlobals.mainChecker.getClass())) {
+            if (IdThread.getUsingMainChecker()) {
                 // In order to recreate the error trace in BFS mode - which essentially
                 // corresponds to rerunning state exploration following a given path - we have
                 // to recreate the same random values too. Otherwise, TLC will fail to recreate

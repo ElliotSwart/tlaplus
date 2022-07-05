@@ -3,6 +3,7 @@
 package tlc2.util;
 
 import tlc2.tool.TLCState;
+import tlc2.tool.impl.Tool;
 import tlc2.value.IValue;
 
 /** An <code>IdThread</code> is a <code>Thread</code> with an
@@ -10,7 +11,7 @@ import tlc2.value.IValue;
 
 public class IdThread extends Thread {
 	private static final ThreadLocal<TLCState> currentState = new ThreadLocal<>();
-	
+	private static final ThreadLocal<Boolean> usingMainChecker = new ThreadLocal<>();
 	/**
 	 * @return null during the generation of initial states (see
 	 *         tlc2.tool.ModelChecker.doInit(boolean) and a TLCState during the
@@ -28,6 +29,19 @@ public class IdThread extends Thread {
 		final TLCState tlcState = currentState.get();
 		currentState.remove();
 		return tlcState;
+	}
+
+	public static final void setMode(Tool.Mode mode){
+		if (mode == Tool.Mode.MC || mode == Tool.Mode.MC_DEBUG){
+			IdThread.usingMainChecker.set(true);
+		}
+		else {
+			IdThread.usingMainChecker.set(false);
+		}
+	}
+
+	public static final Boolean getUsingMainChecker(){
+		return IdThread.usingMainChecker.get();
 	}
 	
     private final int id;

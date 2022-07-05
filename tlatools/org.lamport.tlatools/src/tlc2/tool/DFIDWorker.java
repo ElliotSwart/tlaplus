@@ -7,6 +7,7 @@ import tlc2.output.EC;
 import tlc2.output.MP;
 import tlc2.output.StatePrinter;
 import tlc2.tool.fp.dfid.FPIntSet;
+import tlc2.tool.impl.Tool;
 import tlc2.util.IdThread;
 import tlc2.util.LongVec;
 import tlc2.util.RandomGenerator;
@@ -171,6 +172,7 @@ public class DFIDWorker extends IdThread implements IWorker {
   @Override
   public final void run() {
     TLCState curState = null;
+    setMode(Tool.Mode.Executor);
 
     try {
       while (this.stopCode == 0) {

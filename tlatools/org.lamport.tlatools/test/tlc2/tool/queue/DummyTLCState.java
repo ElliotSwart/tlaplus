@@ -17,7 +17,6 @@ public class DummyTLCState extends TLCState {
 
 	public DummyTLCState() {
 		uid = 0;
-		TLCState.Empty = this;
 		this.fp = 0L;
 	}
 	

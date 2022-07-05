@@ -145,12 +145,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 
 	protected OpDeclNode[] getVars() {
 		// The order of vars is expected to be deterministic across tests!,
-		return TLCState.Empty.getVars();
-		// If this ever causes problems because Empty is still null during startup, an
-		// alternative is:
-		//		final Tool tool = (Tool) TLCGlobals.mainChecker.tool;
-		//		return tool.getSpecProcessor().getVariablesNodes();
-
+		return tlc.tool.getEmptyState().getVars();
 	}
 	
 	protected static SetBreakpointsArguments createBreakpointArgument(final String spec, final int line, final int column, final int hitCnt) {

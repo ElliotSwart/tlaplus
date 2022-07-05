@@ -25,9 +25,7 @@
  ******************************************************************************/
 package tlc2.tool.liveness;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,12 +41,16 @@ import tlc2.TestMPRecorder;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.output.MP;
-import tlc2.tool.CommonTestCase;
-import tlc2.tool.ModelChecker;
+import tlc2.tool.*;
+import tlc2.util.BitVector;
+import tlc2.util.BufferedRandomAccessFile;
 import util.FileUtil;
 import util.FilenameToStream;
 import util.SimpleFilenameToStream;
 import util.ToolIO;
+
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public abstract class ModelCheckerTestCase extends CommonTestCase {
 
@@ -93,6 +95,76 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 		this.spec = spec;
 		this.path = path;
 		this.expectedExitStatus = exitStatus;
+	}
+
+	protected boolean isExtendedTLCState() {
+		return tlc.tool.getEmptyState() instanceof TLCStateMutExt;
+	}
+
+	/**
+	 * Asserts that the actual trace and the expected error trace are equal.
+	 *
+	 * @param actual
+	 *            The actual trace as recorded by {@link MPRecorder}.
+	 * @param expectedTrace
+	 *            The expected trace.
+	 */
+	protected void assertTraceWith(final List<Object> actual, final List<String> expectedTrace) {
+		assertEquals(expectedTrace.size(), actual.size());
+		for (int i = 0; i < expectedTrace.size(); i++) {
+			final Object[] objs = (Object[]) actual.get(i);
+			final TLCStateInfo stateInfo = (TLCStateInfo) objs[0];
+			final String info = (String) stateInfo.info;
+			if (i == 0 && !isExtendedTLCState()) {
+				// The first state has to be an initial state.
+				assertEquals("<Initial predicate>", info);
+			} else {
+				// ... all others are reachable via an action.
+				//TODO: Assert actual action names.
+				assertNotEquals("<Initial predicate>", info);
+				assertFalse(info.startsWith("<Action"));
+			}
+			assertEquals(expectedTrace.get(i),
+					stateInfo.toString().trim()); // trimmed to remove any newlines or whitespace
+			assertEquals(i+1, objs[1]);
+		}
+	}
+
+	/**
+	 * Check the file size of the AbstractDiskGraph files to assert that the
+	 * expected amount of ptrs and nodes (outgoing arcs) have been written to
+	 * disk.
+	 * <p>
+	 * CAUTION: The order in which the transitions are inserted into the
+	 * {@link GraphNode} determines the size of the {@link BitVector}. I.e. if
+	 * the truth values of the first N nodes inserted are true, and the
+	 * remainder is false, the BitVector's size will correspond to N. However,
+	 * if the first N truth values are false, followed by M trues, the
+	 * BitVector's size is N + M.
+	 * <p>
+	 * See {@link GraphNode}'s constructor: it initializes {@link BitVector}
+	 * with capacity zero and subsequently grows BV when bits are set to true.
+	 * <p>
+	 *
+	 * @see BitVector#read(BufferedRandomAccessFile)
+	 * @see BitVector#write(BufferedRandomAccessFile)
+	 * @see GraphNode#read(BufferedRandomAccessFile)
+	 * @see GraphNode#write(BufferedRandomAccessFile)
+	 *
+	 * @param nodesSize
+	 * @param ptrsSize
+	 */
+	protected void assertNodeAndPtrSizes(final long nodesSize, final long ptrsSize) {
+		final String metadir = tlc.mainChecker.metadir;
+		assertNotNull(metadir);
+
+		final File nodes = new File(metadir + File.separator + "nodes_0");
+		assertTrue(nodes.exists());
+		assertEquals(nodesSize, nodes.length());
+
+		final File ptrs =  new File(metadir + File.separator + "ptrs_0");
+		assertTrue(ptrs.exists());
+		assertEquals(ptrsSize, ptrs.length());
 	}
 
 	protected void beforeSetUp() {

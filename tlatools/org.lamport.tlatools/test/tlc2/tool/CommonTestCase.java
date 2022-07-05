@@ -68,39 +68,6 @@ public abstract class CommonTestCase {
 	public CommonTestCase(final TestMPRecorder testMPRecorder) {
 		recorder = testMPRecorder;
 	}
-
-	protected boolean isExtendedTLCState() {
-		return TLCState.Empty instanceof TLCStateMutExt;
-	}
-
-	/**
-	 * Asserts that the actual trace and the expected error trace are equal.
-	 * 
-	 * @param actual
-	 *            The actual trace as recorded by {@link MPRecorder}.
-	 * @param expectedTrace
-	 *            The expected trace.
-	 */
-	protected void assertTraceWith(final List<Object> actual, final List<String> expectedTrace) {
-		assertEquals(expectedTrace.size(), actual.size());
-		for (int i = 0; i < expectedTrace.size(); i++) {
-			final Object[] objs = (Object[]) actual.get(i);
-			final TLCStateInfo stateInfo = (TLCStateInfo) objs[0];
-			final String info = (String) stateInfo.info;
-			if (i == 0 && !isExtendedTLCState()) {
-				// The first state has to be an initial state.
-				assertEquals("<Initial predicate>", info);
-			} else {
-				// ... all others are reachable via an action.
-				//TODO: Assert actual action names.
-				assertNotEquals("<Initial predicate>", info);
-				assertFalse(info.startsWith("<Action"));
-			}
-			assertEquals(expectedTrace.get(i), 
-					   stateInfo.toString().trim()); // trimmed to remove any newlines or whitespace
-			assertEquals(i+1, objs[1]);
-		}
-	}
 	
 	/**
 	 * @see assertTraceWith above except that this method also asserts matching names for the initial predicate and the sub-actions of the next-state relation.
@@ -172,42 +139,7 @@ public abstract class CommonTestCase {
 		assertEquals(action, object[1]);
 	}
 
-	/**
-	 * Check the file size of the AbstractDiskGraph files to assert that the
-	 * expected amount of ptrs and nodes (outgoing arcs) have been written to
-	 * disk.
-	 * <p>
-	 * CAUTION: The order in which the transitions are inserted into the
-	 * {@link GraphNode} determines the size of the {@link BitVector}. I.e. if
-	 * the truth values of the first N nodes inserted are true, and the
-	 * remainder is false, the BitVector's size will correspond to N. However,
-	 * if the first N truth values are false, followed by M trues, the
-	 * BitVector's size is N + M.
-	 * <p>
-	 * See {@link GraphNode}'s constructor: it initializes {@link BitVector}
-	 * with capacity zero and subsequently grows BV when bits are set to true.
-	 * <p>
-	 * 
-	 * @see BitVector#read(BufferedRandomAccessFile)
-	 * @see BitVector#write(BufferedRandomAccessFile)
-	 * @see GraphNode#read(BufferedRandomAccessFile)
-	 * @see GraphNode#write(BufferedRandomAccessFile)
-	 * 
-	 * @param nodesSize
-	 * @param ptrsSize
-	 */
-	protected void assertNodeAndPtrSizes(final long nodesSize, final long ptrsSize) {
-		final String metadir = TLCGlobals.mainChecker.metadir;
-		assertNotNull(metadir);
-		
-		final File nodes = new File(metadir + File.separator + "nodes_0");
-		assertTrue(nodes.exists());
-		assertEquals(nodesSize, nodes.length());
-	
-		final File ptrs =  new File(metadir + File.separator + "ptrs_0");
-		assertTrue(ptrs.exists());
-		assertEquals(ptrsSize, ptrs.length());
-	}
+
 
 	// Checks if all uncovered (zero) lines are found and no more (don't care if the invocation and costs match).
 	protected void assertUncovered(final String expectedUncovered) {

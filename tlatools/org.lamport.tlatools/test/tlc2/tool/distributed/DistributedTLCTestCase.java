@@ -26,6 +26,7 @@
 package tlc2.tool.distributed;
 
 import java.security.Permission;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import org.junit.After;
@@ -37,7 +38,12 @@ import tlc2.TestMPRecorder;
 import tlc2.output.EC;
 import tlc2.output.MP;
 import tlc2.tool.CommonTestCase;
+import tlc2.tool.TLCStateInfo;
+import tlc2.tool.TLCStateMutExt;
 import tlc2.tool.distributed.fp.DistributedFPSet;
+
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 // TODO: Handle Distributed TLC without deprecated SecurityManager
 @SuppressWarnings({"deprecation", "removal"})
@@ -47,6 +53,8 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 	protected final int fpSets;
 	
 	private SecurityManager securityManager;
+
+	private TLCServer server;
 	
 	public DistributedTLCTestCase(final String spec, final String path) {
 		this(spec, path, new String[] {});
@@ -63,6 +71,39 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 		System.arraycopy(args, 0, arguments, 0, args.length);
 		
 		this.fpSets = fpSets;
+	}
+
+	protected boolean isExtendedTLCState() {
+		return true;
+	}
+
+	/**
+	 * Asserts that the actual trace and the expected error trace are equal.
+	 *
+	 * @param actual
+	 *            The actual trace as recorded by {@link MPRecorder}.
+	 * @param expectedTrace
+	 *            The expected trace.
+	 */
+	protected void assertTraceWith(final List<Object> actual, final List<String> expectedTrace) {
+		assertEquals(expectedTrace.size(), actual.size());
+		for (int i = 0; i < expectedTrace.size(); i++) {
+			final Object[] objs = (Object[]) actual.get(i);
+			final TLCStateInfo stateInfo = (TLCStateInfo) objs[0];
+			final String info = (String) stateInfo.info;
+			if (i == 0 && !isExtendedTLCState()) {
+				// The first state has to be an initial state.
+				assertEquals("<Initial predicate>", info);
+			} else {
+				// ... all others are reachable via an action.
+				//TODO: Assert actual action names.
+				assertNotEquals("<Initial predicate>", info);
+				assertFalse(info.startsWith("<Action"));
+			}
+			assertEquals(expectedTrace.get(i),
+					stateInfo.toString().trim()); // trimmed to remove any newlines or whitespace
+			assertEquals(i+1, objs[1]);
+		}
 	}
     
 	@Before
