@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import tlc2.output.EC;
+import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
 import tlc2.value.ValueInputStream;
 import tlc2.value.ValueOutputStream;
@@ -23,18 +24,21 @@ public final class MemStateQueue extends StateQueue {
   private TLCState[] states;
   private int start = 0;
   private final String diskdir;
-    
+
+  private final ITool tool;
+
   /**
    * TESTING ONLY!
    */
-  MemStateQueue() throws IOException {
-	  this(Files.createTempDirectory("MemStateQueue").toFile().toString());
+  MemStateQueue(final ITool tool) throws IOException {
+	  this(Files.createTempDirectory("MemStateQueue").toFile().toString(), tool);
   }
   
-  public MemStateQueue(final String metadir) {
+  public MemStateQueue(final String metadir, final ITool tool) {
     this.states = new TLCState[InitialSize];
     this.start = 0;
     this.diskdir = metadir;
+    this.tool = tool;
   }
     
   @Override
@@ -111,7 +115,7 @@ public final class MemStateQueue extends StateQueue {
     final ValueInputStream vis = new ValueInputStream(filename);
     this.len = vis.readInt();
     for (int i = 0; i < this.len; i++) {
-      this.states[i] = TLCState.Empty.createEmpty();
+      this.states[i] = tool.createEmptyState();
       this.states[i].read(vis);
     }
     vis.close();

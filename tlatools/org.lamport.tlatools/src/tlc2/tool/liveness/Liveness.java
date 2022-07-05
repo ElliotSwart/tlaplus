@@ -117,7 +117,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		}
 
 		if (level == LevelConstants.ConstantLevel) {
-			final IValue val = tool.eval(expr, con, TLCState.Empty);
+			final IValue val = tool.eval(expr, con, tool.getEmptyState());
 			if (!(val instanceof IBoolValue)) {
 				Assert.fail(EC.TLC_EXPECTED_VALUE, new String[] { "boolean", expr.toString() });
 			}
@@ -196,7 +196,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 						final FormalParamNode[] formals = opDef.getParams();
 						Context con1 = con;
 						for (int i = 0; i < alen; i++) {
-							final IValue argVal = tool.eval(args[i], con, TLCState.Empty);
+							final IValue argVal = tool.eval(args[i], con, tool.getEmptyState());
 							con1 = con1.cons(formals[i], argVal);
 						}
 						final LiveExprNode res = astToLive(tool, opDef.getBody(), con1);
@@ -226,7 +226,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		{
 			final ExprNode body = (ExprNode) args[0];
 			try {
-				final IContextEnumerator Enum = tool.contexts(expr, con, TLCState.Empty, TLCState.Empty, EvalControl.Clear);
+				final IContextEnumerator Enum = tool.contexts(expr, con, tool.getEmptyState(), tool.getEmptyState(), EvalControl.Clear);
 				Context con1;
 				final LNDisj res = new LNDisj(0);
 				while ((con1 = Enum.nextElement()) != null) {
@@ -252,7 +252,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		{
 			final ExprNode body = (ExprNode) args[0];
 			try {
-				final IContextEnumerator Enum = tool.contexts(expr, con, TLCState.Empty, TLCState.Empty, EvalControl.Clear);
+				final IContextEnumerator Enum = tool.contexts(expr, con, tool.getEmptyState(), tool.getEmptyState(), EvalControl.Clear);
 				Context con1;
 				final LNConj res = new LNConj(0);
 				while ((con1 = Enum.nextElement()) != null) {
@@ -307,7 +307,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		case OPCODE_fa: // FcnApply
 		{
 			try {
-				final IValue fval = tool.eval(args[0], con, TLCState.Empty);
+				final IValue fval = tool.eval(args[0], con, tool.getEmptyState());
 				if (fval instanceof final IFcnLambdaValue fcn) {
                     if (!fcn.hasRcd()) {
 						// this could be a bug, since con1 is created but not
@@ -315,7 +315,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 						// SZ Jul 13, 2009: removed to kill the warning
 						// SZ Feb 20, 2009: variable never read locally
 						// Context con1 =
-						tool.getFcnContext(fcn, args, con, TLCState.Empty, TLCState.Empty, EvalControl.Clear);
+						tool.getFcnContext(fcn, args, con, tool.getEmptyState(), tool.getEmptyState(), EvalControl.Clear);
 						return astToLive(tool, (ExprNode) fcn.getBody(), con);
 					}
 				}

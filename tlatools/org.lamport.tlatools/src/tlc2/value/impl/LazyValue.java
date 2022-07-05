@@ -297,7 +297,7 @@ public class LazyValue extends Value {
   }
 
   public IValue eval(final Tool tool) {
-		return eval(tool, TLCState.Empty);
+		return eval(tool, tool.EmptyState);
 	}
 
   public IValue eval(final Tool tool, final TLCState s0) {

@@ -149,14 +149,14 @@ public class DebugTool extends Tool {
 		if (act.isInternal()) {
 			mode = EvalMode.Debugger;
 			try {
-				return this.isValid(act, state, TLCState.Empty);
+				return this.isValid(act, state, EmptyState);
 			} finally {
 				mode = EvalMode.State;
 			}
 		}
 		mode = EvalMode.State;
 		try {
-			return this.isValid(act, state, TLCState.Empty);
+			return this.isValid(act, state, EmptyState);
 		} catch (final ResetEvalException ree) {
 			return this.isValid(act, state);
 		}
@@ -165,7 +165,7 @@ public class DebugTool extends Tool {
 	@Override
 	public final IValue eval(final SemanticNode expr, final Context ctxt) {
 		mode = EvalMode.Const;
-		return this.evalImpl(expr, Context.Empty, TLCState.Empty, TLCState.Empty, EvalControl.Clear,
+		return this.evalImpl(expr, Context.Empty, EmptyState, EmptyState, EvalControl.Clear,
 				CostModel.DO_NOT_RECORD);
 	}
 	
@@ -177,12 +177,12 @@ public class DebugTool extends Tool {
 	@Override
 	public final IValue eval(final SemanticNode expr, final Context c, final TLCState s0, final CostModel cm) {
 		mode = EvalMode.State;
-		return this.evalImpl(expr, c, s0, TLCState.Empty, EvalControl.Clear, cm);
+		return this.evalImpl(expr, c, s0, EmptyState, EvalControl.Clear, cm);
 	}
 
 	/**
-	 * s0 might be a fully or partially evaluated state including TLCState.Empty.
-	 * s1 might be a fully or partially evaluated state including TLCState.Empty, or null.
+	 * s0 might be a fully or partially evaluated state including EmptyState.
+	 * s1 might be a fully or partially evaluated state including EmptyState, or null.
 	 * control can be anything such as EvalControl.Init
 	 */
 	@Override

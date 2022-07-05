@@ -29,7 +29,7 @@ abstract class LNState extends LiveExprNode {
 	}
 
 	public final boolean eval(final ITool tool, final TLCState s) {
-		return this.eval(tool, s, TLCState.Empty);
+		return this.eval(tool, s, tool.getEmptyState());
 	}
 
 	public final Context getContext() {

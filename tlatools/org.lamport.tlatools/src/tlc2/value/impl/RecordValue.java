@@ -728,9 +728,9 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 		return res;
 	}
 
-	@Override
-    public TLCState toState() {
-			final TLCState state = TLCState.Empty.createEmpty();
+    @Override
+    public TLCState toState(TLCState emptyState) {
+			final TLCState state = emptyState;
 			final OpDeclNode[] vars = state.getVars();
         for (final OpDeclNode var : vars) {
             final UniqueString name = var.getName();
@@ -852,10 +852,8 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 				return this.state.getUnassigned();
 			}
 
-			@Override
-			public TLCState createEmpty() {
-				return this.state.createEmpty();
-			}
+            @Override
+            public TLCState createEmpty(){return this;}
 		}
 
 		@Override

@@ -37,7 +37,7 @@ class LNNext extends LiveExprNode {
 
 	@Override
     public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
-		return this.body.eval(tool, s2, TLCState.Empty);
+		return this.body.eval(tool, s2, tool.getEmptyState());
 	}
 
 	@Override

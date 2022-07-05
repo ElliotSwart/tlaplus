@@ -16,21 +16,7 @@ import java.util.Set;
 
 import tla2sany.modanalyzer.ParseUnit;
 import tla2sany.modanalyzer.SpecObj;
-import tla2sany.semantic.APSubstInNode;
-import tla2sany.semantic.ExprNode;
-import tla2sany.semantic.ExprOrOpArgNode;
-import tla2sany.semantic.FormalParamNode;
-import tla2sany.semantic.FrontEnd;
-import tla2sany.semantic.LabelNode;
-import tla2sany.semantic.LetInNode;
-import tla2sany.semantic.ModuleNode;
-import tla2sany.semantic.OpApplNode;
-import tla2sany.semantic.OpDefNode;
-import tla2sany.semantic.SemanticNode;
-import tla2sany.semantic.Subst;
-import tla2sany.semantic.SubstInNode;
-import tla2sany.semantic.SymbolNode;
-import tla2sany.semantic.ThmOrAssumpDefNode;
+import tla2sany.semantic.*;
 import tlc2.TLCGlobals;
 import tlc2.output.EC;
 import tlc2.tool.Action;
@@ -82,6 +68,9 @@ abstract class Spec
     protected final ModelConfig config; // The model configuration.
     private final SpecProcessor specProcessor;
 
+    private OpDeclNode[] variables;
+    public final TLCState EmptyState;
+
     // SZ Feb 20, 2009: added support to name resolver, to be able to run outside of the tool
 	public Spec(final String specDir, final String specFile, final String configFile, final FilenameToStream resolver,
                 final Mode mode, final Map<String, Object> params) {
@@ -108,8 +97,9 @@ abstract class Spec
         	specObj = new ParameterizedSpecObj(this, resolver, params);
         }
         specProcessor = new SpecProcessor(getRootName(), resolver, toolId, defns, config, this, this, tlaClass, mode, specObj);
-        
+        this.variables = specProcessor.variablesNodes;
         this.unprocessedDefns = specProcessor.getUnprocessedDefns();
+        this.EmptyState = specProcessor.EmptyState;
     }
     
     protected Spec(final Spec other) {
@@ -123,8 +113,22 @@ abstract class Spec
         this.unprocessedDefns = other.unprocessedDefns;
     	this.config = other.config;
         this.specProcessor = other.specProcessor;
+        this.variables = other.variables;
+        this.EmptyState = other.EmptyState;
     }
-    
+
+    public OpDeclNode[] getVariables(){
+        return variables;
+    }
+
+    public TLCState getEmptyState(){
+        return this.EmptyState;
+    }
+
+    public TLCState createEmptyState() {
+        return this.EmptyState.createEmpty();
+    }
+
     public ModelConfig getModelConfig() {
     	return config;
     }

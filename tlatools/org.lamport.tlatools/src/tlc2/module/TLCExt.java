@@ -38,13 +38,7 @@ import tlc2.output.EC;
 import tlc2.output.MP;
 import tlc2.overrides.Evaluation;
 import tlc2.overrides.TLAPlusOperator;
-import tlc2.tool.Action;
-import tlc2.tool.EvalException;
-import tlc2.tool.ModelChecker;
-import tlc2.tool.StateVec;
-import tlc2.tool.TLCState;
-import tlc2.tool.TLCStateInfo;
-import tlc2.tool.TLCStateMutExt;
+import tlc2.tool.*;
 import tlc2.tool.coverage.CostModel;
 import tlc2.tool.impl.Tool;
 import tlc2.util.Context;
@@ -114,7 +108,7 @@ public class TLCExt {
 			return BoolValue.ValTrue;
 		}
 
-		if (s1 == TLCState.Empty || !s1.allAssigned()) {
+		if (s1 == tool.EmptyState || !s1.allAssigned()) {
 			// Evaluates to TRUE if PickSuccessor is evaluated in the context of a
 			// constant- or state-level formula such as a state-constraint or invariant.
 			// Also evaluates to TRUE if PickSuccessor appears as part of the next-state

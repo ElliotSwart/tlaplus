@@ -114,7 +114,7 @@ public class WorkerValue {
 	 * Demuxing is supposed to be called only once per sn/opDef whereas muxing is called many many times.
 	 */    
     public static Object demux(final OpDefEvaluator spec, final ExprOrOpArgNode en, final CostModel cm) {
-        final IValue defVal = spec.eval(en, Context.Empty, TLCState.Empty, cm);
+        final IValue defVal = spec.eval(en, Context.Empty, spec.getEmptyState(), cm);
     	defVal.deepNormalize();
     	
     	if (defVal.mutates() && TLCGlobals.getNumWorkers() > 1) {
@@ -124,7 +124,7 @@ public class WorkerValue {
     		for (int i = 1; i < values.length; i++) {
     			// Ideally, we could invoke IValue#deepCopy here instead of evaluating opDef again.  However,
     			// IValue#deepCopy doesn't create copies for most values.
-    			values[i] = spec.eval(en, Context.Empty, TLCState.Empty, cm);
+    			values[i] = spec.eval(en, Context.Empty, spec.getEmptyState(), cm);
     			values[i].deepNormalize();
     		}
     		

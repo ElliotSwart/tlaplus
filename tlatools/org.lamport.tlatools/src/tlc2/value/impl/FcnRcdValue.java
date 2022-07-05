@@ -540,15 +540,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       if (coverage) {cm.incSecondary(this.values.length);}
       return new RecordValue(vars, this.values, this.isNormalized(), cm);
   }
-  
-  @Override
-  public TLCState toState() {
-	  final Value rcd = toRcd();
-	  if (rcd != null) {
-		  return rcd.toState();
-	  }
-	  return super.toState();
-  }
+
 
     @Override
 	public final Value toFcnRcd() {

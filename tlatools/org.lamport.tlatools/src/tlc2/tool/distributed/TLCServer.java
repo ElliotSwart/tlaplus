@@ -169,7 +169,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 		this.work = work;
 
 		// State Queue of unexplored states
-		this.stateQueue = new DiskStateQueue(this.metadir);
+		this.stateQueue = new DiskStateQueue(this.metadir, work.tool);
 
 		// State trace file
 		this.trace = new TLCTrace(this.metadir, this.work.getFileName(),

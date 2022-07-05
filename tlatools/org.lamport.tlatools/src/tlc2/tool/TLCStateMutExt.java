@@ -49,12 +49,12 @@ private final IValue[] values;
 
   private TLCStateMutExt(final IValue[] vals) { this.values = vals; }
   
-  public static void setVariables(final OpDeclNode[] variables)
+  public static TLCState getEmpty(final OpDeclNode[] vars)
   {
-      vars = variables;
       final IValue[] vals = new IValue[vars.length];
-      Empty = new TLCStateMutExt(vals);
-
+      var Empty = new TLCStateMutExt(vals);
+      Empty.vars = vars;
+      return Empty;
       // SZ 10.04.2009: since this method is called exactly one from Spec#processSpec
       // moved the call of UniqueString#setVariables to that place
 
@@ -69,7 +69,9 @@ private final IValue[] values;
   @Override
   public TLCState createEmpty() {
 	  final IValue[] vals = new IValue[vars.length];
-    return new TLCStateMutExt(vals);
+    var state = new TLCStateMutExt(vals);
+    state.vars = vars;
+    return state;
   }
 
   //TODO equals without hashcode!

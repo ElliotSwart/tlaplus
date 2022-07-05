@@ -13,6 +13,7 @@ import java.util.Arrays;
 
 import tlc2.output.EC;
 import tlc2.output.MP;
+import tlc2.tool.ITool;
 import tlc2.value.IValue;
 import tlc2.value.IValueInputStream;
 import tlc2.value.IValueOutputStream;
@@ -70,12 +71,13 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	private File loFile;
 	
 	// TESTING ONLY!
-	DiskByteArrayQueue() throws IOException {
-		this(Files.createTempDirectory("DiskByteArrayQueue").toFile().toString());
+	DiskByteArrayQueue(final ITool tool) throws IOException {
+		this(Files.createTempDirectory("DiskByteArrayQueue").toFile().toString(), tool);
 	}
 
 	/* Constructors */
-	public DiskByteArrayQueue(final String diskdir) {
+	public DiskByteArrayQueue(final String diskdir, final ITool tool) {
+		super(tool);
 		this.deqBuf = new byte[BufSize][];
 		this.enqBuf = new byte[BufSize][];
 		this.deqIndex = BufSize;

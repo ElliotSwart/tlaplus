@@ -12,22 +12,27 @@ import java.io.ObjectOutputStream;
 
 import tlc2.output.EC;
 import tlc2.output.MP;
+import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
 import tlc2.value.ValueInputStream;
 import util.Assert;
 
 public class StatePoolReader extends Thread {
 
-  public StatePoolReader(final int bufSize) {
-	  this(bufSize, null);
+  public StatePoolReader(final int bufSize, ITool tool) {
+	  this(bufSize, null, tool);
   }
 
-  public StatePoolReader(final int bufSize, final File file) {
+
+  private final ITool tool;
+
+  public StatePoolReader(final int bufSize, final File file, ITool tool) {
 	  super("TLCStatePoolReader");
     this.buf = new TLCState[bufSize];
     this.poolFile = file;
     this.isFull = false;
     this.canRead = false;
+    this.tool = tool;
   }
   
   private TLCState[] buf;
@@ -68,7 +73,7 @@ public class StatePoolReader extends Thread {
     else if (this.poolFile != null) {
       final ValueInputStream vis = new ValueInputStream(this.poolFile);
       for (int i = 0; i < deqBuf.length; i++) {
-	deqBuf[i] = TLCState.Empty.createEmpty();
+	deqBuf[i] = tool.createEmptyState();
 	deqBuf[i].read(vis);
       }
       vis.close();
@@ -80,7 +85,7 @@ public class StatePoolReader extends Thread {
     else {
       final ValueInputStream vis = new ValueInputStream(file);
       for (int i = 0; i < deqBuf.length; i++) {
-	deqBuf[i] = TLCState.Empty.createEmpty();
+	deqBuf[i] = tool.createEmptyState();
 	deqBuf[i].read(vis);
       }
       vis.close();              // <null, false>
@@ -106,7 +111,7 @@ public class StatePoolReader extends Thread {
       // this should seldom occur.
       final ValueInputStream vis = new ValueInputStream(this.poolFile);
       for (int i = 0; i < deqBuf.length; i++) {
-	deqBuf[i] = TLCState.Empty.createEmpty();
+	deqBuf[i] = tool.createEmptyState();
 	deqBuf[i].read(vis);
       }
       vis.close();
@@ -172,7 +177,7 @@ public class StatePoolReader extends Thread {
 	  }
 	  final ValueInputStream vis = new ValueInputStream(this.poolFile);
 	  for (int i = 0; i < this.buf.length; i++) {
-	    this.buf[i] = TLCState.Empty.createEmpty();
+	    this.buf[i] = tool.createEmptyState();
 	    this.buf[i].read(vis);
 	  }
 	  vis.close();

@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.Random;
 
 import tla2sany.semantic.SemanticNode;
+import tlc2.module.TLC;
 import tlc2.tool.TLCState;
 import tlc2.tool.coverage.CostModel;
 import tlc2.value.impl.BoolValue;
@@ -136,7 +137,7 @@ public interface IValue extends Comparable<Object> {
 		return true;
 	}
 
-	TLCState toState();
+	TLCState toState(TLCState emptyState);
 
 	TLCVariable toTLCVariable(TLCVariable variable, Random rnd);
 }

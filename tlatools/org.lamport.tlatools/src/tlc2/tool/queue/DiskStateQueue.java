@@ -11,6 +11,7 @@ import java.nio.file.Files;
 
 import tlc2.output.EC;
 import tlc2.output.MP;
+import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
 import tlc2.util.StatePoolReader;
 import tlc2.util.StatePoolWriter;
@@ -53,12 +54,14 @@ public class DiskStateQueue extends StateQueue {
 	private File loFile;
 
 	// TESTING ONLY!
-	DiskStateQueue() throws IOException {
-		this(Files.createTempDirectory("DiskStateQueue").toFile().toString());
+	DiskStateQueue(final ITool tool) throws IOException {
+		this(Files.createTempDirectory("DiskStateQueue").toFile().toString(), tool);
 	}
 
+	private final ITool tool;
+
 	/* Constructors */
-	public DiskStateQueue(final String diskdir) {
+	public DiskStateQueue(final String diskdir, final ITool tool) {
 		this.deqBuf = new TLCState[BufSize];
 		this.enqBuf = new TLCState[BufSize];
 		this.deqIndex = BufSize;
@@ -68,7 +71,7 @@ public class DiskStateQueue extends StateQueue {
 		this.lastLoPool = 0;
 		this.filePrefix = diskdir + FileUtil.separator;
 		final File rFile = new File(this.filePrefix + 0);
-		this.reader = new StatePoolReader(BufSize, rFile);
+		this.reader = new StatePoolReader(BufSize, rFile, tool);
 		this.reader.setDaemon(true);
 		this.loFile = new File(this.filePrefix + this.loPool);
 		this.reader.start();
@@ -78,6 +81,7 @@ public class DiskStateQueue extends StateQueue {
 		this.cleaner = new StatePoolCleaner();
 		this.cleaner.setDaemon(true);
 		this.cleaner.start();
+		this.tool = tool;
 	}
 
 	@Override
@@ -220,11 +224,11 @@ public class DiskStateQueue extends StateQueue {
 		this.lastLoPool = this.loPool - 1;
 
 		for (int i = 0; i < this.enqIndex; i++) {
-			this.enqBuf[i] = TLCState.Empty.createEmpty();
+			this.enqBuf[i] = tool.createEmptyState();
 			this.enqBuf[i].read(vis);
 		}
 		for (int i = this.deqIndex; i < this.deqBuf.length; i++) {
-			this.deqBuf[i] = TLCState.Empty.createEmpty();
+			this.deqBuf[i] = tool.createEmptyState();
 			this.deqBuf[i].read(vis);
 		}
 		vis.close();

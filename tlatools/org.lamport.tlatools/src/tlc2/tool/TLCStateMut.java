@@ -52,15 +52,14 @@ private final IValue[] values;
 
   private TLCStateMut(final IValue[] vals) { this.values = vals; }
   
-  public static void setVariables(final OpDeclNode[] variables)
+  public static TLCState getEmpty(final OpDeclNode[] vars)
   {
-      vars = variables;
       final IValue[] vals = new IValue[vars.length];
-      Empty = new TLCStateMut(vals);
-
+      var Empty = new TLCStateMut(vals);
+      Empty.vars = vars;
+      return Empty;
       // SZ 10.04.2009: since this method is called exactly one from Spec#processSpec
       // moved the call of UniqueString#setVariables to that place
-
   }
 
   public static void setTool(final ITool tool) {
@@ -71,8 +70,10 @@ private final IValue[] values;
 
   @Override
   public TLCState createEmpty() {
-	  final IValue[] vals = new IValue[vars.length];
-    return new TLCStateMut(vals);
+    final IValue[] vals = new IValue[vars.length];
+    var state = new TLCStateMut(vals);
+    state.vars = vars;
+    return state;
   }
 
   //TODO equals without hashcode!

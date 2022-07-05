@@ -67,14 +67,7 @@ import tlc2.overrides.Evaluation;
 import tlc2.overrides.ITLCOverrides;
 import tlc2.overrides.TLAPlusCallable;
 import tlc2.overrides.TLAPlusOperator;
-import tlc2.tool.Action;
-import tlc2.tool.BuiltInOPs;
-import tlc2.tool.Defns;
-import tlc2.tool.EvalException;
-import tlc2.tool.Specs;
-import tlc2.tool.TLCStateMut;
-import tlc2.tool.TLCStateMutExt;
-import tlc2.tool.ToolGlobals;
+import tlc2.tool.*;
 import tlc2.tool.impl.Tool.Mode;
 import tlc2.util.Context;
 import tlc2.util.List;
@@ -108,7 +101,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     private final SymbolNodeValueLookupProvider symbolNodeValueLookupProvider;
     private final TLAClass tlaClass;
 
-    private OpDeclNode[] variablesNodes; // The state variables.
+    public OpDeclNode[] variablesNodes; // The state variables.
     private ExternalModuleTable moduleTbl; // The external modules reachable from root
     private ModuleNode rootModule; // The root module.
     private final Set<OpDefNode> processedDefs;
@@ -143,6 +136,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     private Vect<String> temporalNameVec = new Vect<>();
     private Vect<Action> impliedTemporalVec = new Vect<>();
     private Vect<String> impliedTemporalNameVec = new Vect<>();
+
+    public TLCState EmptyState;
     
 	public SpecProcessor(final String rootFile, final FilenameToStream resolver, final int toolId, final Defns defns,
                          final ModelConfig config, final SymbolNodeValueLookupProvider snvlp, final OpDefEvaluator ode,
@@ -753,13 +748,13 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
 		// set variables to the static filed in the state
 		if (mode == Mode.Simulation || mode == Mode.MC_DEBUG) {
-			TLCStateMutExt.setVariables(this.variablesNodes);
+            this.EmptyState = TLCStateMutExt.getEmpty(this.variablesNodes);
 		} else if (hasCallableValue) {
 			assert mode == Mode.Executor;
-			TLCStateMutExt.setVariables(this.variablesNodes);
+            this.EmptyState = TLCStateMutExt.getEmpty(this.variablesNodes);
 		} else {
 			assert mode == Mode.MC;
-			TLCStateMut.setVariables(this.variablesNodes);
+            this.EmptyState = TLCStateMut.getEmpty(this.variablesNodes);
 		}
 
         // Apply config file overrides to operator definitions:

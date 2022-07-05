@@ -82,7 +82,7 @@ public class TraceExplorationSpec {
 			return;
 		}
 
-		final List<String> variables = Arrays.asList(TLCState.Empty.getVarsAsStrings());
+		final List<String> variables = Arrays.asList(specInfo.getEmptyState().getVarsAsStrings());
 
 		// Create any intermediate folders if they don't exist.
 		this.outputPath.toFile().mkdirs();

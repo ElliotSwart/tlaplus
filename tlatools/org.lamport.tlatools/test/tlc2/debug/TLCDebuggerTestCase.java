@@ -150,6 +150,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		// alternative is:
 		//		final Tool tool = (Tool) TLCGlobals.mainChecker.tool;
 		//		return tool.getSpecProcessor().getVariablesNodes();
+
 	}
 	
 	protected static SetBreakpointsArguments createBreakpointArgument(final String spec, final int line, final int column, final int hitCnt) {

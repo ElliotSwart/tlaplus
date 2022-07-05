@@ -29,12 +29,7 @@ import java.io.File;
 import java.util.List;
 import java.util.function.Supplier;
 
-import tla2sany.semantic.ExprNode;
-import tla2sany.semantic.ExprOrOpArgNode;
-import tla2sany.semantic.OpApplNode;
-import tla2sany.semantic.OpDefNode;
-import tla2sany.semantic.SemanticNode;
-import tla2sany.semantic.SymbolNode;
+import tla2sany.semantic.*;
 import tlc2.TLCGlobals;
 import tlc2.tool.coverage.CostModel;
 import tlc2.tool.impl.ModelConfig;
@@ -61,6 +56,12 @@ public interface ITool extends TraceApp {
 	   * of disjunction and existential quantification.
 	   */
 	Action[] getActions();
+
+	OpDeclNode[] getVariables();
+
+	TLCState createEmptyState();
+
+	TLCState getEmptyState();
 
 	/*
 	   * This method returns the set of possible initial states that

@@ -190,11 +190,11 @@ public abstract class Tool
       this.toolMode = mode;
 		// set variables to the static filed in the state
 		if (mode == Mode.Simulation || mode == Mode.Executor || mode == Mode.MC_DEBUG) {
-			assert TLCState.Empty instanceof TLCStateMutExt;
+			assert EmptyState instanceof TLCStateMutExt;
 			TLCStateMutExt.setTool(this);
 		} else {
 			// Initialize state.
-			assert TLCState.Empty instanceof TLCStateMut;
+			assert EmptyState instanceof TLCStateMut;
 			TLCStateMut.setTool(this);
 		}
       
@@ -327,7 +327,7 @@ public abstract class Tool
             if (argLevel == 0) {
               Context con1 = con;
               for (int i = 0; i < alen; i++) {
-                final IValue aval = this.eval(args[i], con, TLCState.Empty, cm);
+                final IValue aval = this.eval(args[i], con, EmptyState, cm);
                 con1 = con1.cons(formals[i], aval);
               }
               this.getActions(opDef.getBody(), con1, opDef, cm);
@@ -350,7 +350,7 @@ public abstract class Tool
         final int cnt = this.actionVec.size();
         try {
           final ContextEnumerator Enum =
-            this.contexts(next, con, TLCState.Empty, TLCState.Empty, EvalControl.Clear, cm);
+            this.contexts(next, con, EmptyState, EmptyState, EvalControl.Clear, cm);
           if (Enum.isDone()) {
         	  // No exception and no actions created implies Enum was empty:
         	  // \E i \in {} : ...
@@ -417,7 +417,7 @@ public abstract class Tool
 	  }
 	  if (init.size() != 0) {
 		  final Action elem = init.elementAt(0);
-		  final TLCState ps = TLCState.Empty.createEmpty();
+		  final TLCState ps = this.createEmptyState();
 		  if (acts.isEmpty()) {
 			  acts.setAction(elem);
 		  }
@@ -429,7 +429,7 @@ public abstract class Tool
   @Override
   public final TLCState makeState(final SemanticNode pred) {
     final ActionItemList acts = ActionItemList.Empty;
-    final TLCState ps = TLCState.Empty.createEmpty();
+    final TLCState ps = this.createEmptyState();
     final StateVec states = new StateVec(0);
     this.getInitStates(pred, acts, Context.Empty, ps, states, acts.cm);
     if (states.size() != 1) {
@@ -510,7 +510,7 @@ public abstract class Tool
 			// This optimization is especially useful to check inductive invariants which
 			// require TLC to generate a very large set of initial states.
 			while (!acts.isEmpty()) {
-				final Value bval = this.eval(acts.carPred(), acts.carContext(), ps, TLCState.Empty, EvalControl.Init, acts.cm);
+				final Value bval = this.eval(acts.carPred(), acts.carContext(), ps, EmptyState, EvalControl.Init, acts.cm);
 				if (!(bval instanceof BoolValue)) {
 					//TODO Choose more fitting error message.
 					Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING,
@@ -587,12 +587,12 @@ public abstract class Tool
               bval = ((MethodValue)val).apply(EmptyArgs, EvalControl.Init);
             } else if (val instanceof EvaluatingValue) {
               // Allow EvaluatingValue overwrites to have zero arity.
-              bval = ((EvaluatingValue) val).eval(this, args, c, ps, TLCState.Empty, EvalControl.Init, cm);
+              bval = ((EvaluatingValue) val).eval(this, args, c, ps, EmptyState, EvalControl.Init, cm);
             }
           }
           else {
             if (val instanceof OpValue) {
-          	  bval = ((OpValue) val).eval(this, args, c, ps, TLCState.Empty, EvalControl.Init, cm);
+          	  bval = ((OpValue) val).eval(this, args, c, ps, EmptyState, EvalControl.Init, cm);
             }
           }
 
@@ -632,7 +632,7 @@ public abstract class Tool
         case OPCODE_be:     // BoundedExists
           {
             final SemanticNode body = args[0];
-            final ContextEnumerator Enum = this.contexts(init, c, ps, TLCState.Empty, EvalControl.Init, cm);
+            final ContextEnumerator Enum = this.contexts(init, c, ps, EmptyState, EvalControl.Init, cm);
             Context c1;
             while ((c1 = Enum.nextElement()) != null) {
               this.getInitStates(body, acts, c1, ps, states, cm);
@@ -642,7 +642,7 @@ public abstract class Tool
         case OPCODE_bf:     // BoundedForall
           {
             final SemanticNode body = args[0];
-            final ContextEnumerator Enum = this.contexts(init, c, ps, TLCState.Empty, EvalControl.Init, cm);
+            final ContextEnumerator Enum = this.contexts(init, c, ps, EmptyState, EvalControl.Init, cm);
             final Context c1 = Enum.nextElement();
             if (c1 == null) {
               this.getInitStates(acts, ps, states, cm);
@@ -659,7 +659,7 @@ public abstract class Tool
           }
         case OPCODE_ite:    // IfThenElse
           {
-            final Value guard = this.eval(args[0], c, ps, TLCState.Empty, EvalControl.Init, cm);
+            final Value guard = this.eval(args[0], c, ps, EmptyState, EvalControl.Init, cm);
             if (!(guard instanceof BoolValue)) {
               Assert.fail("In computing initial states, a non-boolean expression (" +
                           guard.getKindString() + ") was used as the condition " +
@@ -678,7 +678,7 @@ public abstract class Tool
                   if (pairArgs[0] == null) {
                       other = pairArgs[1];
                   } else {
-                      final Value bval = this.eval(pairArgs[0], c, ps, TLCState.Empty, EvalControl.Init, cm);
+                      final Value bval = this.eval(pairArgs[0], c, ps, EmptyState, EvalControl.Init, cm);
                       if (!(bval instanceof BoolValue)) {
                           Assert.fail("In computing initial states, a non-boolean expression (" +
                                   bval.getKindString() + ") was used as a guard condition" +
@@ -699,10 +699,10 @@ public abstract class Tool
           }
         case OPCODE_fa:     // FcnApply
           {
-            Value fval = this.eval(args[0], c, ps, TLCState.Empty, EvalControl.Init, cm);
+            Value fval = this.eval(args[0], c, ps, EmptyState, EvalControl.Init, cm);
             if (fval instanceof final FcnLambdaValue fcn) {
                 if (fcn.fcnRcd == null) {
-                final Context c1 = this.getFcnContext(fcn, args, c, ps, TLCState.Empty, EvalControl.Init, cm);
+                final Context c1 = this.getFcnContext(fcn, args, c, ps, EmptyState, EvalControl.Init, cm);
                 this.getInitStates(fcn.body, acts, c1, ps, states, cm);
                 return;
               }
@@ -713,7 +713,7 @@ public abstract class Tool
                           fval.getKindString() + ") was applied as a function.\n" + init, init, c);
             }
             final Applicable fcn = (Applicable) fval;
-            final Value argVal = this.eval(args[1], c, ps, TLCState.Empty, EvalControl.Init, cm);
+            final Value argVal = this.eval(args[1], c, ps, EmptyState, EvalControl.Init, cm);
             final Value bval = fcn.apply(argVal, EvalControl.Init);
             if (!(bval instanceof BoolValue))
             {
@@ -729,7 +729,7 @@ public abstract class Tool
           {
             final SymbolNode var = this.getVar(args[0], c, false, toolId);
             if (var == null || var.getName().getVarLoc() < 0) {
-              final Value bval = this.eval(init, c, ps, TLCState.Empty, EvalControl.Init, cm);
+              final Value bval = this.eval(init, c, ps, EmptyState, EvalControl.Init, cm);
               if (!((BoolValue)bval).val) {
                 return;
               }
@@ -737,7 +737,7 @@ public abstract class Tool
             else {
               final UniqueString varName = var.getName();
               final IValue lval = ps.lookup(varName);
-              final Value rval = this.eval(args[1], c, ps, TLCState.Empty, EvalControl.Init, cm);
+              final Value rval = this.eval(args[1], c, ps, EmptyState, EvalControl.Init, cm);
               if (lval == null) {
                 ps = ps.bind(varName, rval);
                 this.getInitStates(acts, ps, states, cm);
@@ -757,7 +757,7 @@ public abstract class Tool
           {
             final SymbolNode var = this.getVar(args[0], c, false, toolId);
             if (var == null || var.getName().getVarLoc() < 0) {
-              final Value bval = this.eval(init, c, ps, TLCState.Empty, EvalControl.Init, cm);
+              final Value bval = this.eval(init, c, ps, EmptyState, EvalControl.Init, cm);
               if (!((BoolValue)bval).val) {
                 return;
               }
@@ -765,7 +765,7 @@ public abstract class Tool
             else {
               final UniqueString varName = var.getName();
               final Value lval = (Value) ps.lookup(varName);
-              final Value rval = this.eval(args[1], c, ps, TLCState.Empty, EvalControl.Init, cm);
+              final Value rval = this.eval(args[1], c, ps, EmptyState, EvalControl.Init, cm);
               if (lval == null) {
                 if (!(rval instanceof Enumerable)) {
                   Assert.fail("In computing initial states, the right side of \\IN" +
@@ -791,7 +791,7 @@ public abstract class Tool
           }
         case OPCODE_implies:
           {
-            final Value lval = this.eval(args[0], c, ps, TLCState.Empty, EvalControl.Init, cm);
+            final Value lval = this.eval(args[0], c, ps, EmptyState, EvalControl.Init, cm);
             if (!(lval instanceof BoolValue)) {
               Assert.fail("In computing initial states of a predicate of form" +
                           " P => Q, P was " + lval.getKindString() + "\n." + init, init, c);
@@ -813,7 +813,7 @@ public abstract class Tool
         default:
           {
             // For all the other builtin operators, simply evaluate:
-            final Value bval = this.eval(init, c, ps, TLCState.Empty, EvalControl.Init, cm);
+            final Value bval = this.eval(init, c, ps, EmptyState, EvalControl.Init, cm);
             if (!(bval instanceof BoolValue)) {
 
               Assert.fail("In computing initial states, TLC expected a boolean expression," +
@@ -837,7 +837,7 @@ public abstract class Tool
   
   public final StateVec getNextStates(final Action action, final Context ctx, final TLCState state) {
     final ActionItemList acts = ActionItemList.Empty;
-    final TLCState s1 = TLCState.Empty.createEmpty();
+    final TLCState s1 = this.createEmptyState();
     final StateVec nss = new StateVec(0);
     this.getNextStates(action, action.pred, acts, ctx, state, s1.setPredecessor(state).setAction(action), nss, action.cm);
     if (coverage) { action.cm.incInvocations(nss.size()); }
@@ -856,7 +856,7 @@ public abstract class Tool
   @Override
   public boolean getNextStates(final INextStateFunctor functor, final TLCState state, final Action action) {
 		this.getNextStates(action, action.pred, ActionItemList.Empty, action.con, state,
-				TLCState.Empty.createEmpty().setPredecessor(state).setAction(action), functor, action.cm);
+                this.createEmptyState().setPredecessor(state).setAction(action), functor, action.cm);
 		return false;
   }
   
@@ -1479,12 +1479,12 @@ public abstract class Tool
 
   @Override
   public IValue eval(final SemanticNode expr, final Context c, final TLCState s0) {
-	    return this.eval(expr, c, s0, TLCState.Empty, EvalControl.Clear, CostModel.DO_NOT_RECORD);
+	    return this.eval(expr, c, s0, EmptyState, EvalControl.Clear, CostModel.DO_NOT_RECORD);
 	  }
 
   @Override
   public IValue eval(final SemanticNode expr, final Context c) {
-	    return this.eval(expr, c, TLCState.Empty);
+	    return this.eval(expr, c, EmptyState);
 	  }
 
   @Override
@@ -1553,7 +1553,7 @@ public abstract class Tool
 		}
 
 		try {
-			final TLCState alias = eval(getAliasSpec(), Context.Empty, current, successor, EvalControl.Clear).toState();
+			final TLCState alias = eval(getAliasSpec(), Context.Empty, current, successor, EvalControl.Clear).toState(EmptyState);
 			if (alias != null) {
 				return alias;
 			}
@@ -1584,7 +1584,7 @@ public abstract class Tool
 		}
 
 		try {
-			final TLCState alias = eval(getAliasSpec(), Context.Empty, current.state, successor, EvalControl.Clear).toState();
+			final TLCState alias = eval(getAliasSpec(), Context.Empty, current.state, successor, EvalControl.Clear).toState(EmptyState);
 			if (alias != null) {
 				return new AliasTLCStateInfo(alias, current);
 			}
@@ -1619,7 +1619,7 @@ public abstract class Tool
   /* Special version of eval for state expressions. */
   @Override
   public IValue eval(final SemanticNode expr, final Context c, final TLCState s0, final CostModel cm) {
-    return this.eval(expr, c, s0, TLCState.Empty, EvalControl.Clear, cm);
+    return this.eval(expr, c, s0, EmptyState, EvalControl.Clear, cm);
   }
   
 	  @Override
@@ -2580,7 +2580,7 @@ public abstract class Tool
           }
         case OPCODE_unchanged:
           {
-            final Value v0 = this.eval(args[0], c, s0, TLCState.Empty, control, cm);
+            final Value v0 = this.eval(args[0], c, s0, EmptyState, control, cm);
             final Value v1 = this.eval(args[0], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
             return (v0.equals(v1)) ? BoolValue.ValTrue : BoolValue.ValFalse;
           }
@@ -2594,7 +2594,7 @@ public abstract class Tool
             if (!((BoolValue)res).val) {
               return BoolValue.ValFalse;
             }
-            final Value v0 = this.eval(args[1], c, s0, TLCState.Empty, control, cm);
+            final Value v0 = this.eval(args[1], c, s0, EmptyState, control, cm);
             final Value v1 = this.eval(args[1], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
             return v0.equals(v1) ? BoolValue.ValFalse : BoolValue.ValTrue;
           }
@@ -2608,7 +2608,7 @@ public abstract class Tool
             if (((BoolValue)res).val) {
               return BoolValue.ValTrue;
             }
-            final Value v0 = this.eval(args[1], c, s0, TLCState.Empty, control, cm);
+            final Value v0 = this.eval(args[1], c, s0, EmptyState, control, cm);
             final Value v1 = this.eval(args[1], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
             return (v0.equals(v1)) ? BoolValue.ValTrue : BoolValue.ValFalse;
           }
@@ -2846,7 +2846,7 @@ public abstract class Tool
       return res;
     }
 
-    final Value v1 = this.eval(pred, c, s0, TLCState.Empty, EvalControl.Enabled, cm);
+    final Value v1 = this.eval(pred, c, s0, EmptyState, EvalControl.Enabled, cm);
 	// We are now in ENABLED and primed state. Second TLCState parameter being null
 	// effectively disables LazyValue in evalAppl (same effect as
 	// EvalControl.setPrimed(EvalControl.Enabled)).
@@ -3307,7 +3307,7 @@ public abstract class Tool
           }
         }
 
-        final Value v0 = this.eval(expr, c, s0, TLCState.Empty, EvalControl.Enabled, cm);
+        final Value v0 = this.eval(expr, c, s0, EmptyState, EvalControl.Enabled, cm);
         // We are in ENABLED and primed but why pass only primed? This appears to
         // be the only place where we call eval from the ENABLED scope without
         // additionally passing EvalControl.Enabled. Not passing Enabled allows a 
@@ -3335,7 +3335,7 @@ public abstract class Tool
         // If this bug is ever fixed to make TLC accept spec 23, EvalControl.Primed
         // should likely be rewritten to EvalControl.setPrimed(EvalControl.Enabled)
         // to disable reusage of LazyValues on line ~1384 above.
-		final Value v1 = this.eval(expr, c, s1, TLCState.Empty, EvalControl.Primed, cm);
+		final Value v1 = this.eval(expr, c, s1, EmptyState, EvalControl.Primed, cm);
         if (!v0.equals(v1)) {
           return null;
         }
@@ -3355,18 +3355,18 @@ public abstract class Tool
   /* Returns true iff the predicate is valid in the state. */
   @Override
   public boolean isValid(final Action act, final TLCState state) {
-    return this.isValid(act, state, TLCState.Empty);
+    return this.isValid(act, state, EmptyState);
   }
 
   /* Returns true iff the predicate is valid in the state. */
   @Override
   public final boolean isValid(final Action act) {
-    return this.isValid(act, TLCState.Empty, TLCState.Empty);
+    return this.isValid(act, EmptyState, EmptyState);
   }
 
     @Override
 	public boolean isValid(final ExprNode expr, final Context ctxt) {
-	    final IValue val = this.eval(expr, ctxt, TLCState.Empty, TLCState.Empty,
+	    final IValue val = this.eval(expr, ctxt, EmptyState, EmptyState,
 	    		EvalControl.Const, CostModel.DO_NOT_RECORD);
 	    if (!(val instanceof BoolValue)) {
 	      Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, expr);
@@ -3568,7 +3568,7 @@ public abstract class Tool
     final OpDefNode opDef = (OpDefNode)symm;
     // This calls tlc2.module.TLC.Permutations(Value) and returns a Value of |fcns|
     // = n! where n is the capacity of the symmetry set.
-    final IValue fcns = this.eval(opDef.getBody(), Context.Empty, TLCState.Empty, CostModel.DO_NOT_RECORD);
+    final IValue fcns = this.eval(opDef.getBody(), Context.Empty, EmptyState, CostModel.DO_NOT_RECORD);
     if (!(fcns instanceof SetEnumValue)) {
       Assert.fail("The symmetry operator must specify a set of functions.", opDef.getBody());
     }

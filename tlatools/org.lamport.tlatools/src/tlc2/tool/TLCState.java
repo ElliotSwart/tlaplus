@@ -36,12 +36,7 @@ public short workerId = Short.MAX_VALUE; // Must be set to a non-negative number
   
   // Set by subclasses. Cannot set until we know what the variables are.
   public static final TLCState Null = null;
-  public static TLCState Empty = null;
 
-  public static boolean isEmpty(final TLCState state) {
-	  return Empty == state;
-  }
-  
   // The state variables.
   protected OpDeclNode[] vars = null;
 

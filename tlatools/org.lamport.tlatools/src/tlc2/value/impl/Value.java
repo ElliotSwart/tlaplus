@@ -326,7 +326,7 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
   }
   
   @Override
-  public TLCState toState() {
+  public TLCState toState(TLCState emptyState) {
 	  return null;
   }
   

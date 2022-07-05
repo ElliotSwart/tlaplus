@@ -65,7 +65,7 @@ public class LNAction extends LiveExprNode {
 	@Override
     public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
 		if (this.subscript != null) {
-			final IValue v1 = tool.eval(this.subscript, con, s1, TLCState.Empty, EvalControl.Clear);
+			final IValue v1 = tool.eval(this.subscript, con, s1, tool.getEmptyState(), EvalControl.Clear);
 			final IValue v2 = tool.eval(this.subscript, con, s2, null, EvalControl.Clear);
 			final boolean isStut = v1.equals(v2);
 			if (this.isBox) {

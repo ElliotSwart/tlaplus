@@ -13,7 +13,7 @@ import tlc2.output.MP;
 import tlc2.tool.StateVec;
 import tlc2.tool.TLCState;
 import tlc2.tool.Worker;
-
+import tlc2.tool.ITool;
 /*
  * This class is identical to StateQueue except that it internally works
  * on byte[] whereas StateQueue's internal data is TLCStates. In other words,
@@ -37,8 +37,13 @@ public abstract class ByteArrayQueue implements IStateQueue {
 	 * done.
 	 */
 	private final Object mu = new Object();
+
+	private final ITool tool;
 	
-	
+	public ByteArrayQueue(final ITool tool){
+		this.tool = tool;
+	}
+
 	private final byte[] toBytes(final TLCState state) {
 		try {
 			final DiskByteArrayQueue.ByteValueOutputStream vos = new DiskByteArrayQueue.ByteValueOutputStream();
@@ -64,7 +69,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 	
 	private final TLCState toState(final byte[] bytes) {
 		try {
-			final TLCState state = TLCState.Empty.createEmpty();
+			final TLCState state = tool.createEmptyState();
 			state.read(new DiskByteArrayQueue.ByteValueInputStream(bytes));
 			return state;
 		} catch (final IOException notExpectedToHappen) {
