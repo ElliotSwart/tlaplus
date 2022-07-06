@@ -207,7 +207,7 @@ public class MP
     public static final String NOT_APPLICABLE_VAL = "-1";
 
     private static MP instance = null;
-	private static final BroadcastMessagePrinterRecorder recorder = new BroadcastMessagePrinterRecorder();
+
     private final Set warningHistory;
     private static final String CONFIG_FILE_ERROR = "TLC found an error in the configuration file at line %1%\n";
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //$NON-NLS-1$ 
@@ -227,6 +227,19 @@ public class MP
     static
     {
         instance = new MP();
+    }
+
+    private static final InheritableThreadLocal<BroadcastMessagePrinterRecorder> recorders = new InheritableThreadLocal<>();
+
+    private static BroadcastMessagePrinterRecorder getBroadcastRecorder(){
+        var recorder = recorders.get();
+
+        if (recorder == null){
+            recorder = new BroadcastMessagePrinterRecorder();
+            recorders.set(recorder);
+        }
+
+        return recorder;
     }
 
     /**
@@ -1388,7 +1401,7 @@ public class MP
      */
     public static String getError(final int errorCode, final String[] parameters)
     {
-    	recorder.record(errorCode, (Object[]) parameters);
+    	getBroadcastRecorder().record(errorCode, (Object[]) parameters);
         return getMessage(ERROR, errorCode, parameters);
     }
 
@@ -1419,7 +1432,7 @@ public class MP
      */
     public static String getMessage(final int errorCode, final String[] parameters)
     {
-    	recorder.record(errorCode, (Object[]) parameters);
+    	getBroadcastRecorder().record(errorCode, (Object[]) parameters);
         return getMessage(NONE, errorCode, parameters);
     }
 
@@ -1460,7 +1473,7 @@ public class MP
      */
     public static int printError(final int errorCode, final String[] parameters)
     {
-    	recorder.record(errorCode, (Object[]) parameters);
+    	getBroadcastRecorder().record(errorCode, (Object[]) parameters);
         // write the output
         DebugPrinter.print("entering printError(int, String[]) with errorCode " + errorCode); //$NON-NLS-1$
         ToolIO.out.println(getMessage(ERROR, errorCode, parameters));
@@ -1627,7 +1640,7 @@ public class MP
      */
     public static void printMessage(final int errorCode, final String... parameters)
     {
-    	recorder.record(errorCode, (Object[]) parameters);
+    	getBroadcastRecorder().record(errorCode, (Object[]) parameters);
         DebugPrinter.print("entering printMessage(int, String[]) with errorCode " + errorCode); //$NON-NLS-1$
         // write the output
 		ToolIO.out.println(getMessage(NONE, errorCode, parameters));
@@ -1638,7 +1651,7 @@ public class MP
 
     public static int printTLCRuntimeException(final TLCRuntimeException tre) {
     	if (tre.parameters != null) {
-    		recorder.record(tre.errorCode, tre);
+    		getBroadcastRecorder().record(tre.errorCode, tre);
     		DebugPrinter.print("entering printTLCRuntimeException(TLCRuntimeException) with errorCode " + tre.errorCode); //$NON-NLS-1$
     		// write the output
     		ToolIO.out.println(getMessage(ERROR, tre.errorCode, tre.parameters));
@@ -1661,7 +1674,7 @@ public class MP
     
     public static void printState(final int code, final String[] parameters, final TLCStateInfo stateInfo, final int num)
     {
-		recorder.record(code, stateInfo, num);
+		getBroadcastRecorder().record(code, stateInfo, num);
         DebugPrinter.print("entering printState(String[])"); //$NON-NLS-1$
         ToolIO.out.println(getMessage(STATE, code, parameters));
         DebugPrinter.print("leaving printState(String[])"); //$NON-NLS-1$
@@ -1675,7 +1688,7 @@ public class MP
      */
     public static void printTLCBug(final int errorCode, final String[] parameters)
     {
-    	recorder.record(errorCode, (Object[]) parameters);
+    	getBroadcastRecorder().record(errorCode, (Object[]) parameters);
         DebugPrinter.print("entering printTLCBug(int, String[]) with errorCode " + errorCode); //$NON-NLS-1$
         // write the output
         ToolIO.out.println(getMessage(TLCBUG, errorCode, parameters));
@@ -1706,7 +1719,7 @@ public class MP
     	if (Boolean.getBoolean(MP.class.getName() + ".warning2error")) {
     		Assert.fail(errorCode, parameters);
     	}
-    	recorder.record(errorCode, (Object[]) parameters);
+    	getBroadcastRecorder().record(errorCode, (Object[]) parameters);
         DebugPrinter.print("entering printWarning(int, String[]) with errorCode " + errorCode); //$NON-NLS-1$
         // only print warnings if the global warning switch was enabled
         if (TLCGlobals.warn)
@@ -1733,7 +1746,7 @@ public class MP
     	if (Boolean.getBoolean(MP.class.getName() + ".warning2error")) {
     		Assert.fail(errorCode, e);
     	}
-    	recorder.record(errorCode, parameters, e);
+    	getBroadcastRecorder().record(errorCode, parameters, e);
         DebugPrinter.print("entering printWarning(int, String, Exception) with errorCode " + errorCode); //$NON-NLS-1$
         // only print warnings if the global warning switch was enabled
         if (TLCGlobals.warn)
@@ -1806,11 +1819,11 @@ public class MP
     }
 
 	public static void setRecorder(final IMessagePrinterRecorder mpRecorder) {
-		recorder.subscribe(mpRecorder);
+		getBroadcastRecorder().subscribe(mpRecorder);
 	}
 	
 	public static void unsubscribeRecorder(final IMessagePrinterRecorder mpRecorder) {
-		recorder.unsubscribe(mpRecorder);
+		getBroadcastRecorder().unsubscribe(mpRecorder);
 	}
 
     private static String now() {

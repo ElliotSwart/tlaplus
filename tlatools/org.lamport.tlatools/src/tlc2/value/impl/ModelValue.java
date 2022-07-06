@@ -164,8 +164,8 @@ public class ModelValue extends Value implements IModelValue {
 			}
 		}
 		if (obj instanceof final ModelValue mobj) {
-            if ((mobj.type == this.type) || (mobj.type == 0)) {
-				return this.val.compareTo(((ModelValue) obj).val);
+      if ((mobj.type == this.type) || (mobj.type == 0)) {
+				return this.val.compareTo(mobj.val);
 			} else {
 				Assert.fail("Attempted to compare the differently-typed model values "
 						+ Values.ppr(this.toString()) + " and " + Values.ppr(mobj.toString()), getSource());

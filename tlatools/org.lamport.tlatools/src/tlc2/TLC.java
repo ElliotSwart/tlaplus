@@ -192,10 +192,10 @@ public class TLC {
     private TraceExplorationSpec teSpec;
 
     // The main model checker object (null if simulator non-null)
-    public static AbstractChecker mainChecker = null;
+    public AbstractChecker mainChecker = null;
 
     // The main simulator object (null if mainChecker non-null)
-    public static Simulator simulator = null;
+    public Simulator simulator = null;
 
 
     /**

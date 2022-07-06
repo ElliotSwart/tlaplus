@@ -31,6 +31,8 @@ public class AbsoluteSpecPathTest extends CommonTestCase {
 		final TLC tlc = new TLC();
 		tlc.handleParameters(new String[] {BASE_PATH + "Test2"});
 		tlc.process();
+
+		MP.unsubscribeRecorder(recorder);
 		
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
 		assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "5"));

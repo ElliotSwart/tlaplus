@@ -78,6 +78,9 @@ public abstract class TLCServerTestCase extends ModelCheckerTestCase {
 		} catch (final Exception e) {
 			fail(e.getMessage());
 		}
+		finally {
+			MP.unsubscribeRecorder(recorder);
+		}
 	}
 	
 	@SuppressWarnings("serial")

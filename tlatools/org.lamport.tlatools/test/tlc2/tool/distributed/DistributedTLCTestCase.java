@@ -178,6 +178,7 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 	
 	@After
 	public void tearDown() {
+		MP.unsubscribeRecorder(recorder);
 		System.setSecurityManager(securityManager);
 	}
 	
