@@ -1565,7 +1565,7 @@ public abstract class Tool
 		}
 
 		try {
-			final TLCState alias = eval(getAliasSpec(), Context.Empty, current, successor, EvalControl.Clear).toState(EmptyState);
+			final TLCState alias = eval(getAliasSpec(), Context.Empty, current, successor, EvalControl.Clear).toState(createEmptyState());
 			if (alias != null) {
 				return alias;
 			}
@@ -1596,7 +1596,7 @@ public abstract class Tool
 		}
 
 		try {
-			final TLCState alias = eval(getAliasSpec(), Context.Empty, current.state, successor, EvalControl.Clear).toState(EmptyState);
+			final TLCState alias = eval(getAliasSpec(), Context.Empty, current.state, successor, EvalControl.Clear).toState(createEmptyState());
 			if (alias != null) {
 				return new AliasTLCStateInfo(alias, current);
 			}
