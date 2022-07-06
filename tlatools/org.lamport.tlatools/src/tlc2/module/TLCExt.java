@@ -181,8 +181,8 @@ public class TLCExt {
 			final TLCState s0, final TLCState s1, final int control, final CostModel cm) throws IOException {
 
 		final Object lookup = c.lookup(tool.getCounterExampleDef());
-		if (lookup instanceof Value) {
-			return (Value) lookup;
+		if (lookup instanceof Value v) {
+			return v;
 		}
 		// No CounterExample.
 		return new CounterExample();

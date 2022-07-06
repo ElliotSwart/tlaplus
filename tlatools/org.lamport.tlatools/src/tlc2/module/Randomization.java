@@ -40,16 +40,21 @@ public class Randomization implements ValueConstants {
 	public static final long serialVersionUID = 20180618L;
 	
     public static Value RandomSubset(final Value v1, final Value v2) {
-		if (!(v1 instanceof IntValue)) {
+		if (v1 instanceof IntValue v1IV) {
+			if (v2 instanceof EnumerableValue v2EV && v2.isFinite()) {
+				return v2EV.getRandomSubset(v1IV.val);
+			}
+			else {
+				// v2 has to be enumerable (infinite sets are not enumerable and impossible to draw from uniformly anyway).
+				throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR,
+						new String[] { "second", "RandomSubset", "a finite set", Values.ppr(v2.toString()) });
+			}
+		}
+		else
+		{
 			throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR,
 					new String[] { "first", "RandomSubset", "nonnegative integer", Values.ppr(v1.toString()) });
 		}
-        if (!(v2 instanceof EnumerableValue) || !v2.isFinite()) {
-        	// v2 has to be enumerable (infinite sets are not enumerable and impossible to draw from uniformly anyway).
-			throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR,
-					new String[] { "second", "RandomSubset", "a finite set", Values.ppr(v2.toString()) });
-        }
-        return ((EnumerableValue) v2).getRandomSubset(((IntValue) v1).val);
     }
     
     public static Value RandomSetOfSubsets(final Value v1, final Value v2, final Value v3) {

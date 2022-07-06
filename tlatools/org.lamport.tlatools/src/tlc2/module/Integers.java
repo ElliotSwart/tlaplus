@@ -73,66 +73,78 @@ public class Integers extends UserObj implements ValueConstants
 
     public static IBoolValue LT(final Value x, final Value y)
     {
-        if (!(x instanceof IntValue))
+        if (x instanceof IntValue xIV){
+            if(y instanceof IntValue yIV){
+                return (xIV.val < yIV.val) ? BoolValue.ValTrue : BoolValue.ValFalse;
+            }
+            else
+            {
+                throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR_AN, new String[] { "second", "<", "integer",
+                        Values.ppr(y.toString()) });
+            }
+        }
+        else
         {
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR_AN, new String[] { "first", "<", "integer",
                     Values.ppr(x.toString()) });
         }
-        if (!(y instanceof IntValue))
-        {
-            throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR_AN, new String[] { "second", "<", "integer",
-                    Values.ppr(y.toString()) });
-        }
-
-        return (((IntValue) x).val < ((IntValue) y).val) ? BoolValue.ValTrue : BoolValue.ValFalse;
     }
 
     public static IBoolValue LE(final Value x, final Value y)
     {
-        if (!(x instanceof IntValue))
+        if (x instanceof IntValue xIV){
+            if(y instanceof IntValue yIV){
+                return (xIV.val <= yIV.val) ? BoolValue.ValTrue : BoolValue.ValFalse;
+            }
+            else
+            {
+                throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR_AN, new String[] { "second", "<=", "integer",
+                        Values.ppr(y.toString()) });
+            }
+        }
+        else
         {
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR_AN, new String[] { "first", "<=", "integer",
                     Values.ppr(x.toString()) });
         }
-        if (!(y instanceof IntValue))
-        {
-            throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR_AN, new String[] { "second", "<=", "integer",
-                    Values.ppr(y.toString()) });
-        }
-
-        return (((IntValue) x).val <= ((IntValue) y).val) ? BoolValue.ValTrue : BoolValue.ValFalse;
     }
 
     public static BoolValue GT(final Value x, final Value y)
     {
-        if (!(x instanceof IntValue))
+        if (x instanceof IntValue xIV){
+            if(y instanceof IntValue yIV){
+                return (xIV.val > yIV.val) ? BoolValue.ValTrue : BoolValue.ValFalse;
+            }
+            else
+            {
+                throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR_AN, new String[] { "second", ">", "integer",
+                        Values.ppr(y.toString()) });
+            }
+        }
+        else
         {
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR_AN, new String[] { "first", ">", "integer",
                     Values.ppr(x.toString()) });
         }
-        if (!(y instanceof IntValue))
-        {
-            throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR_AN, new String[] { "second", ">", "integer",
-                    Values.ppr(y.toString()) });
-        }
-
-        return (((IntValue) x).val > ((IntValue) y).val) ? BoolValue.ValTrue : BoolValue.ValFalse;
     }
 
     public static IBoolValue GEQ(final Value x, final Value y)
     {
-        if (!(x instanceof IntValue))
+        if (x instanceof IntValue xIV){
+            if(y instanceof IntValue yIV){
+                return (xIV.val >= yIV.val) ? BoolValue.ValTrue : BoolValue.ValFalse;
+            }
+            else
+            {
+                throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR_AN, new String[] { "second", ">=", "integer",
+                        Values.ppr(y.toString()) });
+            }
+        }
+        else
         {
             throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR_AN, new String[] { "first", ">=", "integer",
                     Values.ppr(x.toString()) });
         }
-        if (!(y instanceof IntValue))
-        {
-            throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR_AN, new String[] { "second", ">=", "integer",
-                    Values.ppr(y.toString()) });
-        }
-
-        return (((IntValue) x).val >= ((IntValue) y).val) ? BoolValue.ValTrue : BoolValue.ValFalse;
     }
 
     public static IntervalValue DotDot(final IntValue x, final IntValue y)
@@ -212,13 +224,13 @@ public class Integers extends UserObj implements ValueConstants
     @Override
     public final int compareTo(final Value val)
     {
-        if (val instanceof UserValue)
+        if (val instanceof UserValue uv)
         {
-            if (((UserValue) val).userObj instanceof Integers)
+            if (uv.userObj instanceof Integers)
             {
                 return 0;
             }
-            if (((UserValue) val).userObj instanceof Naturals)
+            if (uv.userObj instanceof Naturals)
             {
                 return 1;
             }
@@ -233,9 +245,9 @@ public class Integers extends UserObj implements ValueConstants
     {
         if (val instanceof IntValue)
             return true;
-        if (val instanceof ModelValue)
+        if (val instanceof ModelValue mv)
         {
-            return ((ModelValue) val).modelValueMember(this);
+            return mv.modelValueMember(this);
         }
         throw new EvalException(EC.TLC_MODULE_CHECK_MEMBER_OF, new String[] { Values.ppr(val.toString()), "Int" });
     }

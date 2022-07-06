@@ -28,7 +28,7 @@ public class Strings extends UserObj
     @Override
     public final int compareTo(final Value val)
     {
-        if ((val instanceof UserValue) && (((UserValue) val).userObj instanceof Strings))
+        if ((val instanceof UserValue uv) && (uv.userObj instanceof Strings))
         {
             return 0;
         }
@@ -42,8 +42,8 @@ public class Strings extends UserObj
     {
         if (val instanceof StringValue)
             return true;
-        if (val instanceof ModelValue)
-            return ((ModelValue) val).modelValueMember(this);
+        if (val instanceof ModelValue mv)
+            return mv.modelValueMember(this);
         throw new EvalException(EC.TLC_MODULE_CHECK_MEMBER_OF, new String[] { Values.ppr(val.toString()), "STRING" });
     }
 

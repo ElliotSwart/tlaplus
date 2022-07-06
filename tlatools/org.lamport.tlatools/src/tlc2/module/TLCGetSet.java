@@ -136,13 +136,13 @@ public class TLCGetSet implements ValueConstants {
 			final TLCState s1, final int control, final CostModel cm) {
 
 		final Value vidx = tool.eval(args[0], c, s0, s1, control, cm);
-		if (vidx instanceof IntValue) {
-			final int idx = ((IntValue) vidx).val;
+		if (vidx instanceof IntValue iv) {
+			final int idx = iv.val;
 			if (idx >= 0) {
 				final Thread th = Thread.currentThread();
 				Value res = null;
-				if (th instanceof IdThread) {
-					res = (Value) ((IdThread) th).getLocalValue(idx);
+				if (th instanceof IdThread idT) {
+					res = (Value) idT.getLocalValue(idx);
 				} else if (tool.getMainChecker() != null) {
 					res = (Value) tool.getMainChecker().getValue(0, idx);
 				} else if (tool.getSimulator() != null) {
@@ -409,8 +409,8 @@ public class TLCGetSet implements ValueConstants {
 		var mainChecker = IdThread.getMainChecker();
 		var simulator = IdThread.getSimulator();
 
-		if (vidx instanceof IntValue) {
-			final int idx = ((IntValue) vidx).val;
+		if (vidx instanceof IntValue iv) {
+			final int idx = iv.val;
 			if (idx >= 0) {
 				final Thread th = Thread.currentThread();
 				if (th instanceof IdThread) {

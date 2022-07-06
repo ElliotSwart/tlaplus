@@ -52,7 +52,7 @@ public class Bags implements ValueConstants
         }
         final Value[] vals = fcn.values;
         for (final Value val : vals) {
-            if (!(val instanceof IntValue) || ((IntValue) val).val <= 0) {
+            if (!(val instanceof IntValue iv) || iv.val <= 0) {
                 return BoolValue.ValFalse;
             }
         }
@@ -70,10 +70,10 @@ public class Bags implements ValueConstants
         int num = 0;
         final Value[] vals = fcn.values;
         for (final Value val : vals) {
-            if (val instanceof IntValue) {
-                final int cnt = ((IntValue) val).val;
+            if (val instanceof IntValue iv) {
+                final int cnt = iv.val;
                 if (cnt > 0) {
-                    num += ((IntValue) val).val;
+                    num += iv.val;
                 } else {
                     throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[]{"BagCardinality", "a bag",
                             Values.ppr(b.toString())});
@@ -95,9 +95,9 @@ public class Bags implements ValueConstants
         {
             if (e.equals(domain[i]))
             {
-                if (values[i] instanceof IntValue)
+                if (values[i] instanceof IntValue iv)
                 {
-                    return (((IntValue) values[i]).val > 0) ? BoolValue.ValTrue : BoolValue.ValFalse;
+                    return (iv.val > 0) ? BoolValue.ValTrue : BoolValue.ValFalse;
                 }
                 throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "second", "BagIn", "bag",
                         Values.ppr(b.toString()) });
@@ -115,9 +115,9 @@ public class Bags implements ValueConstants
         {
             if (e.equals(domain[i]))
             {
-                if (values[i] instanceof IntValue)
+                if (values[i] instanceof IntValue iv)
                 {
-                    return (IntValue) values[i];
+                    return iv;
                 }
                 throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "second", "CopiesIn", "bag",
                         Values.ppr(b.toString()) });

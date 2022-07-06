@@ -57,9 +57,9 @@ public class Sequences extends UserObj implements ValueConstants
 
     public static IntValue Len(final Value s)
     {
-        if (s instanceof StringValue)
+        if (s instanceof StringValue sv)
         {
-            return IntValue.gen(((StringValue) s).length());
+            return IntValue.gen(sv.length());
         }
 
         final TupleValue seq = (TupleValue) s.toTuple();
@@ -89,8 +89,8 @@ public class Sequences extends UserObj implements ValueConstants
     public static Value Tail(final Value s)
     {
     	// Implementation of Tail(string) by LL on 17 April 2013
-    	if (s instanceof StringValue) {
-    		final String str = ((StringValue) s).val.toString();
+    	if (s instanceof StringValue sv) {
+    		final String str = sv.val.toString();
     		if (str.equals("")) {
     			throw new EvalException(EC.TLC_MODULE_APPLY_EMPTY_SEQ, "Tail");
     		}
@@ -145,16 +145,18 @@ public class Sequences extends UserObj implements ValueConstants
 
     public static Value Concat(final Value s1, final Value s2)
     {
-        if (s1 instanceof StringValue)
+        if (s1 instanceof StringValue s1V)
         {
-            if (!(s2 instanceof StringValue))
+            if (s2 instanceof StringValue s2V)
             {
+                final UniqueString u1 = s1V.val;
+                final UniqueString u2 = s2V.val;
+                return new StringValue(u1.concat(u2));
+            }
+            else{
                 throw new EvalException(EC.TLC_MODULE_EVALUATING, new String[] { "t \\o s", "string",
                         Values.ppr(s2.toString()) });
             }
-            final UniqueString u1 = ((StringValue) s1).val;
-            final UniqueString u2 = ((StringValue) s2).val;
-            return new StringValue(u1.concat(u2));
         }
 
         final TupleValue seq1 = (TupleValue) s1.toTuple();
@@ -257,8 +259,8 @@ public class Sequences extends UserObj implements ValueConstants
     	boolean isString = false ;
     	String str = null ;
     	TupleValue seq = null ;
-    	if (s instanceof StringValue) {
-    		str = ((StringValue) s).val.toString();
+    	if (s instanceof StringValue sv) {
+    		str = sv.val.toString();
     		isString = true ;
     	}
     	
@@ -337,7 +339,7 @@ public class Sequences extends UserObj implements ValueConstants
         {
             args[0] = seq.elems[i];
             final Value val = ftest.apply(args, EvalControl.Clear);
-            if (val instanceof IBoolValue)
+            if (val instanceof IBoolValue )
             {
                 if (((BoolValue) val).val)
                     vals.addElement(args[0]);

@@ -387,10 +387,10 @@ public class TLCStackFrame extends StackFrame {
 		
 		final SemanticNode sn = path.getFirst();
 		Object o;
-		if (sn instanceof SymbolNode) {
-			o = tool.lookup((SymbolNode) sn, this.ctxt, false);
-		} else if (sn instanceof ExprOrOpArgNode) {
-			o = tool.getVal((ExprOrOpArgNode) sn, ctxt, false);
+		if (sn instanceof SymbolNode node) {
+			o = tool.lookup(node, this.ctxt, false);
+		} else if (sn instanceof ExprOrOpArgNode node) {
+			o = tool.getVal(node, ctxt, false);
 		} else {
 			o = sn;
 		}
@@ -409,7 +409,7 @@ public class TLCStackFrame extends StackFrame {
 			variable = new Variable();
 			variable.setValue(
 					// Print the location for built-in symbols instead of "-- TLA Builtin ---"
-					o instanceof SymbolNode && ((SymbolNode) o).isBuiltIn() ? ((SymbolNode) o).getLocation().toString()
+					o instanceof SymbolNode symNode && symNode.isBuiltIn() ? symNode.getLocation().toString()
 							: o.toString());
 			variable.setType(o.getClass().getSimpleName());
 		}
