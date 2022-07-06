@@ -2,6 +2,9 @@
 // Portions Copyright (c) 2003 Microsoft Corporation.  All rights reserved.
 package tlc2.util;
 
+import tlc2.tool.AbstractChecker;
+import tlc2.tool.ModelChecker;
+import tlc2.tool.Simulator;
 import tlc2.tool.TLCState;
 import tlc2.tool.impl.Tool;
 import tlc2.value.IValue;
@@ -12,6 +15,11 @@ import tlc2.value.IValue;
 public class IdThread extends Thread {
 	private static final ThreadLocal<TLCState> currentState = new ThreadLocal<>();
 	private static final ThreadLocal<Boolean> usingMainChecker = new ThreadLocal<>();
+
+	private static final ThreadLocal<Simulator> simulator = new ThreadLocal<Simulator>();
+
+	private static  final ThreadLocal<AbstractChecker> mainChecker = new ThreadLocal<>();
+
 	/**
 	 * @return null during the generation of initial states (see
 	 *         tlc2.tool.ModelChecker.doInit(boolean) and a TLCState during the
@@ -25,6 +33,23 @@ public class IdThread extends Thread {
 	public static final void setCurrentState(final TLCState state) {
 		currentState.set(state);
 	}
+
+	public static final void setSimulator(final Simulator simulator){
+		IdThread.simulator.set(simulator);
+	}
+
+	public static final Simulator getSimulator(){
+		return IdThread.simulator.get();
+	}
+
+	public static final void setMainChecker(final AbstractChecker mainChecker){
+		IdThread.mainChecker.set(mainChecker);
+	}
+
+	public static final AbstractChecker getMainChecker(){
+		return IdThread.mainChecker.get();
+	}
+
 	public static final TLCState resetCurrentState() {
 		final TLCState tlcState = currentState.get();
 		currentState.remove();

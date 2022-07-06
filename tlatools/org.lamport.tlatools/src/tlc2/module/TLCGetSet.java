@@ -405,28 +405,32 @@ public class TLCGetSet implements ValueConstants {
 	}
 
 	@TLAPlusOperator(identifier = "TLCSet", module = "TLC", warn = false)
-	public static Value TLCSet(final Value vidx, final Value val, ITool tool) {
+	public static Value TLCSet(final Value vidx, final Value val) {
+		var mainChecker = IdThread.getMainChecker();
+		var simulator = IdThread.getSimulator();
+
 		if (vidx instanceof IntValue) {
 			final int idx = ((IntValue) vidx).val;
 			if (idx >= 0) {
 				final Thread th = Thread.currentThread();
 				if (th instanceof IdThread) {
 					((IdThread) th).setLocalValue(idx, val);
-				} else if (tool.getMainChecker() != null) {
-					tool.getMainChecker().setAllValues(idx, val);
+				} else if (mainChecker != null) {
+					mainChecker.setAllValues(idx, val);
 				} else {
-					tool.getSimulator().setAllValues(idx, val);
+					simulator.setAllValues(idx, val);
 				}
 				return BoolValue.ValTrue;
 			}
 		} else if (vidx instanceof final StringValue sv) {
             if (EXIT == sv.val) {
 				if (val == BoolValue.ValTrue) {
-					if (tool.getMainChecker() != null) {
-						tool.getMainChecker().stop();
+
+					if (mainChecker != null) {
+						mainChecker.stop();
 					}
-					if (tool.getSimulator() != null) {
-						tool.getSimulator().stop();
+					if (simulator != null) {
+						simulator.stop();
 					}
 				}
 				return BoolValue.ValTrue;
@@ -436,7 +440,7 @@ public class TLCGetSet implements ValueConstants {
 				// TLCSet("pause", guard)
 				// but it might be better guarded by IfThenElse for performance reasons:
 				// IF guard THEN TLCSet("pause", TRUE) ELSE TRUE
-				if (val == BoolValue.ValTrue && tool.getMainChecker() instanceof final ModelChecker mc) {
+				if (val == BoolValue.ValTrue && mainChecker instanceof final ModelChecker mc) {
                     synchronized (mc.theStateQueue) {
 						ToolIO.out.println("Press enter to resume model checking.");
 						ToolIO.out.flush();

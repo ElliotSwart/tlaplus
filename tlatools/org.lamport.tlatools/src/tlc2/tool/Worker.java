@@ -87,6 +87,8 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
     public void run() {
 		TLCState curState = null;
 		setMode(mode);
+		setMainChecker(tlc);
+
 		try {
 			while (true) {
 				curState = this.squeue.sDequeue();
