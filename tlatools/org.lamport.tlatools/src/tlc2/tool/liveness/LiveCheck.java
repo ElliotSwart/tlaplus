@@ -242,7 +242,7 @@ public class LiveCheck implements ILiveCheck {
 		final CompletionService<Boolean> completionService = new ExecutorCompletionService<>(pool);
 
 		for (int i = 0; i < wNum; i++) {
-			completionService.submit(new LiveWorker(tool, i, wNum, this, queue, finalCheck));
+			completionService.submit(new LiveWorker(tool, i, wNum, this, queue, finalCheck, IdThread.getMainChecker(), IdThread.getSimulator()));
 		}
 		// Wait for all LWs to complete.
 		pool.shutdown();

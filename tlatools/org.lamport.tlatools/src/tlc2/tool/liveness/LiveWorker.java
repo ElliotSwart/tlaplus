@@ -19,14 +19,8 @@ import tlc2.TLCGlobals;
 import tlc2.output.EC;
 import tlc2.output.MP;
 import tlc2.output.StatePrinter;
-import tlc2.tool.EvalException;
-import tlc2.tool.ITool;
-import tlc2.tool.TLCStateInfo;
-import tlc2.util.IntStack;
-import tlc2.util.LongVec;
-import tlc2.util.MemIntQueue;
-import tlc2.util.MemIntStack;
-import tlc2.util.SynchronousDiskIntStack;
+import tlc2.tool.*;
+import tlc2.util.*;
 import tlc2.util.statistics.BucketStatistics;
 import tlc2.util.statistics.IBucketStatistics;
 import tlc2.value.impl.CounterExample;
@@ -71,13 +65,21 @@ public class LiveWorker implements Callable<Boolean> {
 
 	private final int id;
 
-	public LiveWorker(final ITool tool, final int id, final int numWorkers, final ILiveCheck liveCheck, final BlockingQueue<ILiveChecker> queue, final boolean finalCheck) {
+	private final AbstractChecker mainChecker;
+	private final Simulator simulator;
+
+	public LiveWorker(final ITool tool, final int id, final int numWorkers, final ILiveCheck liveCheck,
+					  final BlockingQueue<ILiveChecker> queue, final boolean finalCheck,
+					  final AbstractChecker modelChecker, final Simulator simulator) {
 		this.id = id;
 		this.tool = tool;
 		this.numWorkers = numWorkers;
 		this.liveCheck = liveCheck;
 		this.queue = queue;
 		this.isFinalCheck = finalCheck;
+
+		this.mainChecker = modelChecker;
+		this.simulator = simulator;
 	}
 
 	/**
@@ -1244,6 +1246,10 @@ public class LiveWorker implements Callable<Boolean> {
 
 	@Override
     public final Boolean call() throws IOException, InterruptedException, ExecutionException {
+		// On new thread
+		IdThread.setMainChecker(mainChecker);
+		IdThread.setSimulator(simulator);
+
 		while (true) {
 			// Use poll() to get the next checker from the queue or null if
 			// there is none. Do *not* block when there are no more checkers
