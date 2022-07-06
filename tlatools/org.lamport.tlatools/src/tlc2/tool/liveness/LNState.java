@@ -52,8 +52,8 @@ abstract class LNState extends LiveExprNode {
 
 	@Override
     public boolean equals(final LiveExprNode exp) {
-		if (exp instanceof LNState) {
-			return getTag() == ((LNState) exp).getTag();
+		if (exp instanceof LNState lns) {
+			return getTag() == lns.getTag();
 		}
 		return false;
 	}

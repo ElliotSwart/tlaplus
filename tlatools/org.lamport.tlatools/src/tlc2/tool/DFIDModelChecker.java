@@ -214,9 +214,9 @@ public class DFIDModelChecker extends AbstractChecker
         } catch (final Exception e)
         {
             // Assert.printStack(e);
-            if (e instanceof LiveException)
+            if (e instanceof LiveException le)
             {
-                result = ((LiveException)e).errorCode;
+                result = le.errorCode;
             } else
             {
                 result = MP.printError(EC.GENERAL, e);  // LL changed call 7 April 2012

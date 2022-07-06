@@ -188,8 +188,8 @@ public abstract class FPSetFactory {
 			final Object instance = constructor.newInstance(
 					fpSetConfig);
 			// sanity check if given class from string implements FPSet
-			if (instance instanceof FPSet) {
-				return (FPSet) instance;
+			if (instance instanceof FPSet fpInstance) {
+				return fpInstance;
 			}
 		} catch (final ClassNotFoundException | InvocationTargetException | IllegalArgumentException |
                        NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException e) {

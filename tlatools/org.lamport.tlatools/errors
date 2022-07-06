@@ -1,0 +1,161 @@
+[INFO] 
+[ERROR] Failures: 
+[ERROR] pcal.RABTest.testSpec
+[ERROR]   Run 1: RABTest>PCalModelCheckerTestCase.setUp:87->ModelCheckerTestCase.setUp:275 TLC could not make a directory /Users/elliotswart/Documents/GitHub/tlaplus/tlatools/org.lamport.tlatools/states/22-07-05-18-44-14.511 for the disk files it needs to write.
+[ERROR]   Run 2: RABTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<12> but was:<-1>
+[INFO] 
+[ERROR]   TraceExpressionSpecLassoTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[ERROR]   TraceExpressionSpecRuntimeTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<75> but was:<255>
+[ERROR] tlc2.debug.EWD840DebuggerSimTest.testSpec
+[ERROR]   Run 1: EWD840DebuggerSimTest.testSpec:72 expected:<3> but was:<1>
+[ERROR]   Run 2: EWD840DebuggerSimTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<12> but was:<-1>
+[INFO] 
+[ERROR] tlc2.debug.EWD840DebuggerTest.testSpec
+[ERROR]   Run 1: EWD840DebuggerTest.testSpec:71 expected:<3> but was:<1>
+[ERROR]   Run 2: EWD840DebuggerTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<12> but was:<-1>
+[INFO] 
+[ERROR] tlc2.debug.EWD998ChanDebuggerTest.testSpec
+[ERROR]   Run 1: EWD998ChanDebuggerTest.testSpec:87 expected:<2> but was:<1>
+[ERROR]   Run 2: EWD998ChanDebuggerTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<0> but was:<-1>
+[INFO] 
+[ERROR] tlc2.debug.EWD998TraceDebuggerTest.testSpec
+[ERROR]   Run 1: EWD998TraceDebuggerTest.testSpec:55 expected:<...4 :> 0), token |-> [[color |-> "black", pos |-> 0, q |-> 0]], [color |-> (0 :> "white" @@ 1 :> "white" @@ 2 :> "white" @@ 3 :> "white" @@ 4 :> "white"), pending |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0), active |-> (0 :> FALSE @@ 1 :> FALSE @@ 2 :> FALSE @@ 3 :> FALSE @@ 4 :> FALSE), counter |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0), token |-> [color |-> "white", pos |-> 4, q |-> 0]]]>>> but was:<...4 :> 0), token |-> [[pos |-> 0, q |-> 0, color |-> "black"]], [color |-> (0 :> "white" @@ 1 :> "white" @@ 2 :> "white" @@ 3 :> "white" @@ 4 :> "white"), pending |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0), active |-> (0 :> FALSE @@ 1 :> FALSE @@ 2 :> FALSE @@ 3 :> FALSE @@ 4 :> FALSE), counter |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0), token |-> [pos |-> 4, q |-> 0, color |-> "white"]]]>>>
+[ERROR]   Run 2: EWD998TraceDebuggerTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<-1>
+[INFO] 
+[ERROR] tlc2.debug.EchoDebuggerTest.testSpec
+[ERROR]   Run 1: EchoDebuggerTest.testSpec:65 expected:<1> but was:<0>
+[ERROR]   Run 2: EchoDebuggerTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<0> but was:<255>
+[INFO] 
+[ERROR]   ASTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<75> but was:<0>
+[ERROR] tlc2.tool.AliasLivenessLassoTest.testSpec
+[ERROR]   Run 1: AliasLivenessLassoTest.testSpec:68->ModelCheckerTestCase.assertTraceWith:127 expected:</\ [y = FALSE
+/\ x = 1
+/\ a = 1
+/\ b = FALSE
+/\ anim = "e1: 1 e2: FALSE"
+/\ te = TRUE
+/\ lvl = <<1, 1>>]> but was:</\ [x = 1
+/\ y = FALSE]>
+[ERROR]   Run 2: AliasLivenessLassoTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[INFO] 
+[ERROR] tlc2.tool.AliasLivenessStutteringTest.testSpec
+[ERROR]   Run 1: AliasLivenessStutteringTest.testSpec:64->ModelCheckerTestCase.assertTraceWith:127 expected:</\ [y = FALSE
+/\ x = 1
+/\ a = 0
+/\ b = TRUE
+/\ anim = "e1: 1 e2: FALSE"
+/\ te = TRUE
+/\ lvl = <<1, 1>>]> but was:</\ [x = 1
+/\ y = FALSE]>
+[ERROR]   Run 2: AliasLivenessStutteringTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[INFO] 
+[ERROR]   DumpAsDotTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<10>
+[ERROR]   EmptySubsetEqTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<75> but was:<255>
+[ERROR]   EvalExceptionLivenessTest.testSpec:51
+[ERROR]   EvalExceptionTest.testSpec:51
+[ERROR]   FingerprintExceptionInitTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<75> but was:<0>
+[ERROR]   FingerprintExceptionNextCallstackTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<75> but was:<255>
+[ERROR]   FingerprintExceptionNextTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<75> but was:<255>
+[ERROR]   Github179aTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<10> but was:<0>
+[ERROR]   Github179bTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<75> but was:<0>
+[ERROR]   Github179cTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<75> but was:<255>
+[ERROR]   Github597Test>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[ERROR] tlc2.tool.Github648Test.testSpec
+[ERROR]   Run 1: Github648Test.testSpec:51
+[ERROR]   Run 2: Github648Test>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<0> but was:<151>
+[INFO] 
+[ERROR]   Github696Test>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<75> but was:<0>
+[ERROR]   Github696bTest.testSpec:46
+[ERROR] tlc2.tool.PostAssumptionTest.testSpec
+[ERROR]   Run 1: PostAssumptionTest.testSpec:46
+[ERROR]   Run 2: PostAssumptionTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<10> but was:<0>
+[INFO] 
+[ERROR]   PrintTraceRaceTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<76> but was:<0>
+[ERROR]   TLCGetLevelTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[ERROR]   TLCGetNamedUndefinedTest.testSpec:45
+[ERROR]   TSnapShotTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<76> but was:<0>
+[ERROR]   MCoverageTest.testSpec:54->CommonTestCase.assertCoverage:197 expected:<Coverage [line=line 23, col 18 to line 23, col 40 of module M, count=192, cost=4608]> but was:<Coverage [line=line 8, col 10 to line 8, col 27 of module M, count=8, cost=184]>
+[ERROR]   DistributedDoInitFunctorInvariantTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<12> but was:<0>
+[ERROR]   DoInitFunctorEvalExceptionTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<75> but was:<0>
+[ERROR]   DoInitFunctorInvariantMinimalErrorStackTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<75> but was:<0>
+[ERROR]   DoInitFunctorInvariantNoContinueTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<12> but was:<0>
+[ERROR]   DoInitFunctorInvariantTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<12> but was:<0>
+[ERROR]   DoInitFunctorPropertyTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[ERROR]   BidirectionalTransitions1BxTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[ERROR]   BidirectionalTransitions1ByTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[ERROR]   BidirectionalTransitions2CxTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[ERROR]   BidirectionalTransitions2CyTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[ERROR] tlc2.tool.liveness.CodePlexBug08AgentRingTest.testSpec
+[ERROR]   Run 1: CodePlexBug08AgentRingTest.testSpec:58
+[ERROR]   Run 2: CodePlexBug08AgentRingTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<12> but was:<0>
+[INFO] 
+[ERROR] tlc2.tool.liveness.CodePlexBug08EWD840FL1Test.testSpec
+[ERROR]   Run 1: CodePlexBug08EWD840FL1Test.testSpec:117
+[ERROR]   Run 2: CodePlexBug08EWD840FL1Test>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<10>
+[INFO] 
+[ERROR]   CodePlexBug08EWD840FL2FromCheckpointTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[ERROR] tlc2.tool.liveness.CodePlexBug08EWD840FL2Test.testSpec
+[ERROR]   Run 1: CodePlexBug08EWD840FL2Test.testSpec:60->ModelCheckerTestCase.assertNodeAndPtrSizes:162
+[ERROR]   Run 2: CodePlexBug08EWD840FL2Test>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[INFO] 
+[ERROR]   CodePlexBug08EWD840FL3Test>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[ERROR]   CodePlexBug08EWD840FL4Test>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[ERROR]   CodePlexBug08Test>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[ERROR] tlc2.tool.liveness.CodePlexBug08aTest.testSpec
+[ERROR]   Run 1: CodePlexBug08aTest.testSpec:86
+[ERROR]   Run 2: CodePlexBug08aTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<10>
+[INFO] 
+[ERROR]   EmptyOrderOfSolutionsTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<77> but was:<0>
+[ERROR]   ErrorTraceConstructionTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[ERROR]   Github317Test>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<255> but was:<0>
+[ERROR] tlc2.tool.liveness.Github710aTest.testSpec
+[ERROR]   Run 1: Github710aTest.testSpec:71->ModelCheckerTestCase.assertTraceWith:113 expected:<4> but was:<2>
+[ERROR]   Run 2: Github710aTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<12> but was:<0>
+[INFO] 
+[ERROR]   LoopTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<0>
+[ERROR] tlc2.tool.liveness.NoSymmetryTableauModelCheckerTest.testSpec
+[ERROR]   Run 1: NoSymmetryTableauModelCheckerTest.testSpec:45
+[ERROR]   Run 2: NoSymmetryTableauModelCheckerTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<0> but was:<255>
+[INFO] 
+[ERROR] tlc2.tool.liveness.OneBitMutexNoSymmetryTest.testSpec
+[ERROR]   Run 1: OneBitMutexNoSymmetryTest.testSpec:54
+[ERROR]   Run 2: OneBitMutexNoSymmetryTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<255>
+[INFO] 
+[ERROR] tlc2.tool.liveness.Test3.testSpec
+[ERROR]   Run 1: Test3.testSpec:76
+[ERROR]   Run 2: Test3>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<13> but was:<10>
+[INFO] 
+[ERROR] tlc2.tool.liveness.TwoPhaseCommitTest.testSpec
+[ERROR]   Run 1: TwoPhaseCommitTest.testSpec:45
+[ERROR]   Run 2: TwoPhaseCommitTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<0> but was:<255>
+[INFO] 
+[ERROR] tlc2.tool.simulation.NQSpecTest.testSpec
+[ERROR]   Run 1: NQSpecTest.testSpec:52
+[ERROR]   Run 2: NQSpecTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<0> but was:<255>
+[INFO] 
+[ERROR] tlc2.tool.suite.Test216.testSpec
+[ERROR]   Run 1: Test216.testSpec:39
+[ERROR]   Run 2: Test216>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<0> but was:<151>
+[INFO] 
+[ERROR] tlc2.tool.suite.Test23.testSpec
+[ERROR]   Run 1: Test23>SuiteTestCase.testSpec:74
+[ERROR]   Run 2: Test23>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<0> but was:<255>
+[INFO] 
+[ERROR] tlc2.tool.suite.Test34.testSpec
+[ERROR]   Run 1: Test34>SuiteTestCase.testSpec:74
+[ERROR]   Run 2: Test34>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<0> but was:<150>
+[INFO] 
+[ERROR] tlc2.tool.suite.Test43.testSpec
+[ERROR]   Run 1: Test43>SuiteTestCase.testSpec:74
+[ERROR]   Run 2: Test43>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<0> but was:<255>
+[INFO] 
+[ERROR]   Test57>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<12> but was:<0>
+[ERROR] Errors: 
+[ERROR]   AliasSafetyTest.testSpec:78 » NullPointer Cannot invoke "Object.toString()" because "obj" is null
+[ERROR]   ICoverageTest.testSpec:51->CommonTestCase.assertCoverage:185 » IndexOutOfBounds Index 9 out of bounds for length 9
+[ERROR] tlc2.tool.liveness.Github710bTest.testSpec
+[ERROR]   Run 1: Github710bTest.testSpec:78 » NullPointer Cannot invoke "Object.toString()" because "obj" is null
+[ERROR]   Run 2: Github710bTest>ModelCheckerTestCase.tearDown:307->ModelCheckerTestCase.assertExitStatus:311 expected:<12> but was:<0>
+[INFO] 
+[INFO] 
+[ERROR] Tests run: 1004, Failures: 64, Errors: 3, Skipped: 26

@@ -336,11 +336,11 @@ public class Simulator {
 				// somewhere, so we print out the exception and terminate. In the case of a
 				// liveness error, which is reported as an exception, we also terminate.
 				if (error.exception != null) {
-					if (error.exception instanceof LiveException) {
+					if (error.exception instanceof LiveException le) {
 						// In case of a liveness error, there is no need to print out
 						// the behavior since the liveness checker should take care of that itself.
 						this.printSummary();
-						errorCode = ((LiveException)error.exception).errorCode;
+						errorCode = le.errorCode;
 					} else if (error.exception instanceof final TLCRuntimeException exception) {
                         printBehavior(exception, error.state, error.stateTrace);
 						errorCode = exception.errorCode;

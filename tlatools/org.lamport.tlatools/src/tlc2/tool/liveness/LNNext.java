@@ -63,8 +63,8 @@ class LNNext extends LiveExprNode {
 
 	@Override
     public boolean equals(final LiveExprNode exp) {
-		if (exp instanceof LNNext) {
-			return getBody().equals(((LNNext) exp).getBody());
+		if (exp instanceof LNNext lnn) {
+			return getBody().equals(lnn.getBody());
 		}
 		return false;
 	}

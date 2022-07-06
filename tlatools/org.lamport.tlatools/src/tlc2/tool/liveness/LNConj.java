@@ -195,9 +195,9 @@ class LNConj extends LiveExprNode {
 		int total = 1;
 		for (int i = 0; i < count; i++) {
 			final LiveExprNode elem = temp[i];
-			if (elem instanceof LNDisj) {
+			if (elem instanceof LNDisj lnd) {
 				nes.addElement(elem);
-				total *= ((LNDisj) elem).getCount();
+				total *= lnd.getCount();
 			} else if (elem instanceof final LNConj elem1) {
 				// Flatten when elem is also a LNConj:
                 final int count1 = elem1.getCount();
@@ -247,8 +247,8 @@ class LNConj extends LiveExprNode {
 		final LNConj lnc1 = new LNConj(getCount());
 		for (int i = 0; i < getCount(); i++) {
 			final LiveExprNode elem = getBody(i).simplify();
-			if (elem instanceof LNBool) {
-				if (!((LNBool) elem).b) {
+			if (elem instanceof LNBool lnb) {
+				if (!lnb.b) {
 					return LNBool.FALSE;
 				}
 			} else {

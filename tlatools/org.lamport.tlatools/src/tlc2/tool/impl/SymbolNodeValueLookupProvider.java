@@ -27,8 +27,8 @@ import util.UniqueString;
 public interface SymbolNodeValueLookupProvider {
     /* Return the variable if expr is a state variable. Otherwise, null. */
 	default SymbolNode getVar(final SemanticNode expr, final Context c, final boolean cutoff, final int forToolId) {
-		if (expr instanceof OpApplNode) {
-			final SymbolNode opNode = ((OpApplNode) expr).getOperator();
+		if (expr instanceof OpApplNode odn) {
+			final SymbolNode opNode = odn.getOperator();
 
 			if (opNode.getArity() == 0) {
 				final boolean isVarDecl = (opNode.getKind() == ASTConstants.VariableDeclKind);
@@ -37,8 +37,8 @@ public interface SymbolNodeValueLookupProvider {
 				if (val instanceof final LazyValue lval) {
                     return getVar(lval.expr, lval.con, cutoff, forToolId);
 				}
-				if (val instanceof OpDefNode) {
-					return getVar(((OpDefNode) val).getBody(), c, cutoff, forToolId);
+				if (val instanceof OpDefNode valodn) {
+					return getVar(valodn.getBody(), c, cutoff, forToolId);
 				}
 				if (isVarDecl) {
 					return opNode;

@@ -59,8 +59,8 @@ class LNBool extends LiveExprNode {
 
 	@Override
     public boolean equals(final LiveExprNode exp) {
-		if (exp instanceof LNBool) {
-			return b == ((LNBool) exp).b;
+		if (exp instanceof LNBool lnb) {
+			return b == lnb.b;
 		}
 		return false;
 	}

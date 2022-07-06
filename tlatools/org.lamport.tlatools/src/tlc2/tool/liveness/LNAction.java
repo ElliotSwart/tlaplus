@@ -110,8 +110,8 @@ public class LNAction extends LiveExprNode {
 
 	@Override
     public boolean equals(final LiveExprNode exp) {
-		if (exp instanceof LNAction) {
-			return getTag() == ((LNAction) exp).getTag();
+		if (exp instanceof LNAction lna) {
+			return getTag() == lna.getTag();
 		}
 		return false;
 	}

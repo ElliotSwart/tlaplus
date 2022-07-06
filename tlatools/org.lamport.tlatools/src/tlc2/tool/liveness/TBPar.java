@@ -134,14 +134,14 @@ public class TBPar extends Vect<LiveExprNode> {
 		for (int i = 0; i < terms1.size(); i++) {
 			final LiveExprNode ln = terms1.exprAt(i);
 			LiveExprNode kappa1 = null, kappa2 = null;
-			if (ln instanceof LNAll) {
+			if (ln instanceof LNAll lna) {
 				// Alpha-Expansion: []p expands to p, ()[]p
-				kappa1 = ((LNAll) ln).getBody();
+				kappa1 = lna.getBody();
 				kappa2 = new LNNext(ln);
-			} else if (ln instanceof LNConj) {
+			} else if (ln instanceof LNConj lnc) {
 				// Alpha-Expansion: p /\ q expands to p, q
-				kappa1 = ((LNConj) ln).getBody(0);
-				kappa2 = ((LNConj) ln).getBody(1);
+				kappa1 = lnc.getBody(0);
+				kappa2 = lnc.getBody(1);
 			}
 			if (kappa1 != null) {
 				if (terms1.member(kappa1)) {
@@ -180,14 +180,14 @@ public class TBPar extends Vect<LiveExprNode> {
 		for (int i = 0; i < terms.size(); i++) {
 			final LiveExprNode ln = terms.exprAt(i);
 			LiveExprNode kappa1 = null, kappa2 = null;
-			if (ln instanceof LNEven) {
+			if (ln instanceof LNEven lne) {
 				// Beta-Expansion: <>p expands to p, ()<>p
-				kappa1 = ((LNEven) ln).getBody();
+				kappa1 = lne.getBody();
 				kappa2 = new LNNext(ln);
-			} else if (ln instanceof LNDisj) {
+			} else if (ln instanceof LNDisj lnd) {
 				// Beta-Expansion: p \/ expands to p, q
-				kappa1 = ((LNDisj) ln).getBody(0);
-				kappa2 = ((LNDisj) ln).getBody(1);
+				kappa1 = lnd.getBody(0);
+				kappa2 = lnd.getBody(1);
 			}
 			if ((kappa1 != null) && !terms.member(kappa1) && !terms.member(kappa2)) {
 				final TBParVec ps1 = particleClosure(terms.append(kappa1), alphas, betas);

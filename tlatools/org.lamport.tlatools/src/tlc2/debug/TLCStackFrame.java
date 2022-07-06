@@ -137,8 +137,8 @@ public class TLCStackFrame extends StackFrame {
 
 		this.exception = e; // e is nullable!
 
-		if (node instanceof NumeralNode) {
-			setName(Integer.toString(((NumeralNode)node).val()));
+		if (node instanceof NumeralNode nn) {
+			setName(Integer.toString(nn.val()));
 		} else if (e instanceof InvariantViolatedException) {
 			setName(String.format("(Invariant) %s", node.getHumanReadableImage()));
 			setPresentationHint(StackFramePresentationHint.SUBTLE);
@@ -283,16 +283,16 @@ public class TLCStackFrame extends StackFrame {
 				Context c = this.ctxt;
 				while (c.hasNext()) {
 					Object val = c.getValue();
-					if (val instanceof LazyValue) {
+					if (val instanceof LazyValue lv) {
 						// unlazy/eval LazyValues
-						val = unlazy((LazyValue) c.getValue());
+						val = unlazy(lv);
 					}
-					if (val instanceof Value) {
-						vars.add(getVariable((Value) val, c.getName()));
-					} else if (val instanceof SemanticNode) {
+					if (val instanceof Value v) {
+						vars.add(getVariable(v, c.getName()));
+					} else if (val instanceof SemanticNode sn) {
 						final Variable variable = new Variable();
 						variable.setName(c.getName().getSignature());
-						variable.setValue(((SemanticNode) val).getHumanReadableImage());
+						variable.setValue(sn.getHumanReadableImage());
 						vars.add(variable);
 					} else if (val instanceof final RuntimeException re) {
 						final Variable variable = new Variable();
@@ -395,16 +395,16 @@ public class TLCStackFrame extends StackFrame {
 			o = sn;
 		}
 		
-		if (o instanceof LazyValue) {
+		if (o instanceof LazyValue lv) {
 			// Unlazying might fail if the lazy value is not within the scope of this frame.
 			// In this case, fall-back to sn.
-			o = unlazy((LazyValue) o, o);
+			o = unlazy(lv, o);
 		}
 		
 		final Variable variable;
-		if (o instanceof Value) {
+		if (o instanceof Value v) {
 			variable = getVariable((IValue) o, sn.getHumanReadableImage());
-			variable.setType(((Value) o).getTypeString());
+			variable.setType(v.getTypeString());
 		} else {
 			variable = new Variable();
 			variable.setValue(
@@ -591,7 +591,7 @@ public class TLCStackFrame extends StackFrame {
 	}
 
     boolean matches(final SemanticNode expr, final RuntimeException e) {
-		return node == expr || (e instanceof TLCDetailedRuntimeException && ((TLCDetailedRuntimeException)e).expr == node);
+		return node == expr || (e instanceof TLCDetailedRuntimeException dre && dre.expr == node);
 	}
 
 	public boolean matches(final SemanticNode expr) {

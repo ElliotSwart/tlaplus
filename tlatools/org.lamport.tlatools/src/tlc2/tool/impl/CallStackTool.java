@@ -142,12 +142,12 @@ public final class CallStackTool extends Tool {
 		try {
 			// Replace stale ITool instances with this instance.
 			final Value value = evalImpl(expr, c, s0, s1, control, cm);
-			if (value instanceof SetPredValue) {
-				return new SetPredValue((SetPredValue) value, this);
-			} else if (value instanceof FcnLambdaValue) {
-				return new FcnLambdaValue((FcnLambdaValue) value, this);
-			} else if (value instanceof OpLambdaValue) {
-				return new OpLambdaValue((OpLambdaValue) value, this);
+			if (value instanceof SetPredValue spv) {
+				return new SetPredValue(spv, this);
+			} else if (value instanceof FcnLambdaValue flv) {
+				return new FcnLambdaValue(flv, this);
+			} else if (value instanceof OpLambdaValue olv) {
+				return new OpLambdaValue(olv, this);
 			}
 			return value;
 		} catch (final TLCRuntimeException | EvalException e) {
@@ -170,12 +170,12 @@ public final class CallStackTool extends Tool {
 		try {
 			// Replace stale ITool instances with this instance.
 			final Value value = evalApplImpl(expr, c, s0, s1, control, cm);
-			if (value instanceof SetPredValue) {
-				return new SetPredValue((SetPredValue) value, this);
-			} else if (value instanceof FcnLambdaValue) {
-				return new FcnLambdaValue((FcnLambdaValue) value, this);
-			} else if (value instanceof OpLambdaValue) {
-				return new OpLambdaValue((OpLambdaValue) value, this);
+			if (value instanceof SetPredValue spv) {
+				return new SetPredValue(spv, this);
+			} else if (value instanceof FcnLambdaValue flv) {
+				return new FcnLambdaValue(flv, this);
+			} else if (value instanceof OpLambdaValue olv) {
+				return new OpLambdaValue(olv, this);
 			}
 			return value;
 		} catch (final TLCRuntimeException | EvalException e) {

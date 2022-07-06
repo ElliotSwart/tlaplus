@@ -63,8 +63,8 @@ public class LNNeg extends LiveExprNode {
 	@Override
     public LiveExprNode flattenSingleJunctions() {
 		final LiveExprNode ln1 = getBody();
-		if (ln1 instanceof LNNeg) {
-			return ((LNNeg) ln1).getBody().flattenSingleJunctions();
+		if (ln1 instanceof LNNeg lnn) {
+			return lnn.getBody().flattenSingleJunctions();
 		}
 		return new LNNeg(ln1.flattenSingleJunctions());
 	}
@@ -81,8 +81,8 @@ public class LNNeg extends LiveExprNode {
 	@Override
     public LiveExprNode simplify() {
 		final LiveExprNode body1 = getBody().simplify();
-		if (body1 instanceof LNBool) {
-			return new LNBool(!((LNBool) body1).b);
+		if (body1 instanceof LNBool lnb) {
+			return new LNBool(!lnb.b);
 		}
 		return new LNNeg(body1);
 	}
@@ -109,8 +109,8 @@ public class LNNeg extends LiveExprNode {
 	 */
 	@Override
     public boolean equals(final LiveExprNode exp) {
-		if (exp instanceof LNNeg) {
-			return getBody().equals(((LNNeg) exp).getBody());
+		if (exp instanceof LNNeg lnn) {
+			return getBody().equals(lnn.getBody());
 		}
 		return false;
 	}

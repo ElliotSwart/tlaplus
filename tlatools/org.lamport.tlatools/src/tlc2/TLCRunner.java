@@ -83,8 +83,8 @@ public class TLCRunner {
 		final BufferedInputStream stdErrReader = new BufferedInputStream(p.getErrorStream());
 		final BufferedOutputStream logfileOutputStream;
 		if (outputOutputStream != null) {
-			if (outputOutputStream instanceof BufferedOutputStream) {
-				logfileOutputStream = (BufferedOutputStream)outputOutputStream;
+			if (outputOutputStream instanceof BufferedOutputStream bufOut) {
+				logfileOutputStream = bufOut;
 			} else {
 				logfileOutputStream = new BufferedOutputStream(outputOutputStream);
 			}

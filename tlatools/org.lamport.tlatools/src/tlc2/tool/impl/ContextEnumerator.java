@@ -41,8 +41,8 @@ public final class ContextEnumerator implements IContextEnumerator {
       Context con1 = this.con;
       if (this.isDone) return null;
       for (int i = 0; i < enums.length; i++) {
-          if (this.vars[i] instanceof SymbolNode) {
-              con1 = con1.cons((SymbolNode)this.vars[i], this.currentElems[i]);
+          if (this.vars[i] instanceof SymbolNode symNode) {
+              con1 = con1.cons(symNode, this.currentElems[i]);
           }
           else {
               final SymbolNode[] varList = (SymbolNode[])this.vars[i];

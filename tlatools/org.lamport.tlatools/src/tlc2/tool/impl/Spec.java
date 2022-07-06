@@ -158,9 +158,9 @@ abstract class Spec
                 {
                     return this.getPrimedVar(lval.expr, lval.con, cutoff);
                 }
-                if (val instanceof OpDefNode)
+                if (val instanceof OpDefNode odn)
                 {
-                    return this.getPrimedVar(((OpDefNode) val).getBody(), c, cutoff);
+                    return this.getPrimedVar(odn.getBody(), c, cutoff);
                 }
             }
         }
@@ -621,9 +621,9 @@ abstract class Spec
             {
                 // a 0-arity operator:
                 final Object val = this.lookup(opNode, c, false, toolId);
-                if (val instanceof OpDefNode)
+                if (val instanceof OpDefNode odn)
                 {
-                    this.collectUnchangedLocs(((OpDefNode) val).getBody(), c, tbl);
+                    this.collectUnchangedLocs(odn.getBody(), c, tbl);
                 }
             }
         }
