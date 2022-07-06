@@ -148,6 +148,8 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	
 	private final IBlockSelector blockSelector;
 	
+	public long finalNumberOfDistinctStates;
+
 	/**
 	 * @param work
 	 * @throws IOException
@@ -616,7 +618,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 		es.shutdown();
 		
 		// Collect model checking results before exiting remote workers
-		var finalNumberOfDistinctStates = fpSetManager.size();
+		finalNumberOfDistinctStates = fpSetManager.size();
 		final long statesGenerated = getStatesGenerated();
 		final long statesLeftInQueue = getNewStates();
 		

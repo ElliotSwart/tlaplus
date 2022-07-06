@@ -154,7 +154,7 @@ public class TLCStatistics {
 		writer.write(Long.toString(elapsed));
 		writer.write(",");
 		// NumberDistinctStates
-		writer.write(Long.toString(TLCServer.finalNumberOfDistinctStates));
+		writer.write(Long.toString(server.finalNumberOfDistinctStates));
 		writer.write(",");
 
 		// write number of invocations
