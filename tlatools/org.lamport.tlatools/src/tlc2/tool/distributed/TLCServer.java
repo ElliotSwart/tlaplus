@@ -478,11 +478,11 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 				// Distributed TLC does not support TLCGet/TLCSet operator. It
 				// would require synchronization among all (distributed)
 				// workers. In distributed mode, it is of limited use anyway. 
-				if (e instanceof EvalException
-						&& ((EvalException) e).getErrorCode() == EC.TLC_MODULE_TLCGET_UNDEFINED
+				if (e instanceof EvalException ee
+						&& ee.getErrorCode() == EC.TLC_MODULE_TLCGET_UNDEFINED
 						&& (e.getMessage().contains("TLCSet")
 								|| e.getMessage().contains("TLCGet"))
-						|| (e instanceof TLCRuntimeException && ((TLCRuntimeException) e).errorCode == EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE)) {
+						|| (e instanceof TLCRuntimeException tre && tre.errorCode == EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE)) {
 					MP.printError(EC.TLC_FEATURE_UNSUPPORTED,
 							"TLCSet & TLCGet operators not supported by distributed TLC.");
 				} else {

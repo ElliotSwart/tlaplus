@@ -252,9 +252,9 @@ public class TLCServerThread extends IdThread {
 			}
 		} catch (final Throwable e) {
 			TLCState state1 = null, state2 = null;
-			if (e instanceof WorkerException) {
-				state1 = ((WorkerException) e).state1;
-				state2 = ((WorkerException) e).state2;
+			if (e instanceof WorkerException we) {
+				state1 = we.state1;
+				state2 = we.state2;
 			}
 			if (this.tlcServer.setErrState(state1, true)) {
 				if (state1 != null) {

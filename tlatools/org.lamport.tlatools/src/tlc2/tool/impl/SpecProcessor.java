@@ -215,12 +215,12 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
       final OpDeclNode[] consts = mod.getConstantDecls();
         for (final OpDeclNode aConst : consts) {
             final Object val = aConst.getToolObject(toolId);
-            if (val instanceof IValue) {
+            if (val instanceof IValue iv) {
                 // We do not wrap this value in a WorkerValue, because we assume that explicit
                 // initialization does not pose a problem here. This is based on the observation,
                 // that val is either an atom (IValue#isAtom) or a set (of sets) of atoms (primarily
                 // ModelValues).
-                ((IValue) val).initialize();
+                iv.initialize();
                 constantDefns.computeIfAbsent(mod, key -> new HashMap<>()).put(aConst, val);
                 // System.err.println(consts[i].getName() + ": " + val);
             } // The following else clause was added by LL on 17 March 2012.
@@ -297,8 +297,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
           if (evaluate && opDef.getArity() == 0) {
               final Object realDef = symbolNodeValueLookupProvider.lookup(opDef, Context.Empty, false, toolId);
-              if (realDef instanceof OpDefNode) {
-                  opDef = (OpDefNode) realDef;
+              if (realDef instanceof OpDefNode odn) {
+                  opDef = odn;
                   if (symbolNodeValueLookupProvider.getLevelBound(opDef.getBody(), Context.Empty, toolId) == LevelConstants.ConstantLevel) {
                       try {
                           final UniqueString opName = opDef.getName();
@@ -769,8 +769,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                 if (myVal == null) {
                     Assert.fail(EC.TLC_CONFIG_WRONG_SUBSTITUTION, new String[]{lhs.toString(), rhs});
                 }
-                if ((myVal instanceof OpDefNode)
-                        && rootOpDef.getNumberOfArgs() != ((OpDefNode) myVal).getNumberOfArgs()) {
+                if ((myVal instanceof OpDefNode odn)
+                        && rootOpDef.getNumberOfArgs() != odn.getNumberOfArgs()) {
                     Assert.fail(EC.TLC_CONFIG_WRONG_SUBSTITUTION_NUMBER_OF_ARGS, new String[]{lhs.toString(), rhs});
                 }
                 rootOpDef.setToolObject(toolId, myVal);
@@ -811,8 +811,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                         if (myVal == null) {
                             Assert.fail(EC.TLC_CONFIG_WRONG_SUBSTITUTION, new String[]{lhs.toString(), rhs});
                         }
-                        if ((myVal instanceof OpDefNode)
-                                && opDef.getNumberOfArgs() != ((OpDefNode) myVal).getNumberOfArgs()) {
+                        if ((myVal instanceof OpDefNode odn)
+                                && opDef.getNumberOfArgs() != odn.getNumberOfArgs()) {
                             Assert.fail(EC.TLC_CONFIG_WRONG_SUBSTITUTION_NUMBER_OF_ARGS, new String[]{lhs.toString(),
                                     rhs});
                         }
@@ -1091,16 +1091,16 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             {
                 final SymbolNode opNode = pred1.getOperator();
                 final Object val = symbolNodeValueLookupProvider.lookup(opNode, c, false, toolId);
-                if (val instanceof OpDefNode)
+                if (val instanceof OpDefNode odn)
                 {
-                    if (((OpDefNode) val).getArity() != 0)
+                    if (odn.getArity() != 0)
                     {
                         Assert.fail(EC.TLC_CONFIG_OP_NO_ARGS, new String[] { opNode.getName().toString() });
                     }
-                    final ExprNode body = ((OpDefNode) val).getBody();
+                    final ExprNode body = odn.getBody();
                     if (symbolNodeValueLookupProvider.getLevelBound(body, c, toolId) == 1)
                     {
-                        this.initPredVec.addElement(new Action(Specs.addSubsts(body, subs), c, ((OpDefNode) val), true, false));
+                        this.initPredVec.addElement(new Action(Specs.addSubsts(body, subs), c, odn, true, false));
                     } else
                     {
                         this.processConfigSpec(body, c, subs);
@@ -1138,12 +1138,12 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             if (opcode == OPCODE_box)
             {
                 final SemanticNode boxArg = args[0];
-                if ((boxArg instanceof OpApplNode)
-                        && BuiltInOPs.getOpCode(((OpApplNode) boxArg).getOperator().getName()) == OPCODE_sa)
+                if ((boxArg instanceof OpApplNode oan)
+                        && BuiltInOPs.getOpCode(oan.getOperator().getName()) == OPCODE_sa)
                 {
-                    final ExprNode arg = (ExprNode) ((OpApplNode) boxArg).getArgs()[0];
+                    final ExprNode arg = (ExprNode) oan.getArgs()[0];
                     // ---sm 09/06/04 <<<
-                    final ExprNode subscript = (ExprNode) ((OpApplNode) boxArg).getArgs()[1];
+                    final ExprNode subscript = (ExprNode) oan.getArgs()[1];
                     Vect<SymbolNode> varsInSubscript = null;
                     // collect the variables from the subscript...
                     try
@@ -1332,13 +1332,13 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             {
                 final SymbolNode opNode = pred1.getOperator();
                 final Object val = symbolNodeValueLookupProvider.lookup(opNode, c, false, toolId);
-                if (val instanceof OpDefNode)
+                if (val instanceof OpDefNode odn)
                 {
-                    if (((OpDefNode) val).getArity() != 0)
+                    if (odn.getArity() != 0)
                     {
                         Assert.fail(EC.TLC_CONFIG_OP_NO_ARGS, opNode.getName().toString());
                     }
-                    this.processConfigProps(opNode.getName().toString(), ((OpDefNode) val).getBody(), c, subs);
+                    this.processConfigProps(opNode.getName().toString(), odn.getBody(), c, subs);
                 } else if (val == null)
                 {
                     Assert.fail(EC.TLC_CONFIG_OP_NOT_IN_SPEC, opNode.getName().toString());
@@ -1519,9 +1519,9 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             final OpDefNode[] opDefs = expr1.getOpDefs();
             for (final OpDefNode opDef : opDefs) {
                 final Object def = opDef.getToolObject(toolId);
-                if (def instanceof OpDefNode) {
-                    this.processedDefs.add((OpDefNode) def);
-                    this.processConstants(((OpDefNode) def).getBody());
+                if (def instanceof OpDefNode odn) {
+                    this.processedDefs.add(odn);
+                    this.processConstants(odn.getBody());
                 }
                 this.processConstants(opDef.getBody());
             }

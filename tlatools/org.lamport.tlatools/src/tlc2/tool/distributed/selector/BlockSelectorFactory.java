@@ -50,8 +50,8 @@ public class BlockSelectorFactory {
 			final Class<?> factoryClass = classLoader.loadClass(clazz);
 			final Object instance = factoryClass.getDeclaredConstructor().newInstance();
 			// sanity check if given class from string implements bsf
-			if (instance instanceof BlockSelectorFactory) {
-				bsf = (BlockSelectorFactory) instance;
+			if (instance instanceof BlockSelectorFactory b) {
+				bsf = b;
 			}
 		} catch (final ClassNotFoundException | SecurityException | NoSuchMethodException | InvocationTargetException |
 					   IllegalArgumentException | IllegalAccessException | InstantiationException e) {

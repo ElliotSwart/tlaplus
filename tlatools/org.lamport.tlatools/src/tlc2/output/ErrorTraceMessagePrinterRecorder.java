@@ -85,13 +85,13 @@ public class ErrorTraceMessagePrinterRecorder implements IMessagePrinterRecorder
 					Optional<Integer> stateOrdinal = Optional.empty();
 					if (objects.length >= 2
 						&& objects[0] instanceof TLCStateInfo
-						&& objects[1] instanceof Integer) {
-						stateOrdinal = Optional.of((Integer)objects[1]);
+						&& objects[1] instanceof Integer o1Int) {
+						stateOrdinal = Optional.of(o1Int);
 					} else if (objects.length >= 2
-						&& objects[0] instanceof String
+						&& objects[0] instanceof String o0S
 						&& objects[1] instanceof String) {
 						try {
-							stateOrdinal = Optional.of(Integer.parseInt((String)objects[0]));
+							stateOrdinal = Optional.of(Integer.parseInt(o0S));
 						} catch (final NumberFormatException e) { }
 					}
 

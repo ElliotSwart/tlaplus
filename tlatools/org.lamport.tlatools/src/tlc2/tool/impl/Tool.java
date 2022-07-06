@@ -595,16 +595,16 @@ public abstract class Tool
 
           Object bval = val;
           if (alen == 0) {
-            if (val instanceof MethodValue) {
-              bval = ((MethodValue)val).apply(EmptyArgs, EvalControl.Init);
-            } else if (val instanceof EvaluatingValue) {
+            if (val instanceof MethodValue mv) {
+              bval = mv.apply(EmptyArgs, EvalControl.Init);
+            } else if (val instanceof EvaluatingValue ev) {
               // Allow EvaluatingValue overwrites to have zero arity.
-              bval = ((EvaluatingValue) val).eval(this, args, c, ps, EmptyState, EvalControl.Init, cm);
+              bval = ev.eval(this, args, c, ps, EmptyState, EvalControl.Init, cm);
             }
           }
           else {
-            if (val instanceof OpValue) {
-          	  bval = ((OpValue) val).eval(this, args, c, ps, EmptyState, EvalControl.Init, cm);
+            if (val instanceof OpValue ov) {
+          	  bval = ov.eval(this, args, c, ps, EmptyState, EvalControl.Init, cm);
             }
           }
 
@@ -1093,15 +1093,15 @@ public abstract class Tool
   private final Object getNextStatesApplEvalAppl(final int alen, final ExprOrOpArgNode[] args, final Context c,
 			final TLCState s0, final TLCState s1, final CostModel cm, final Object val) {
 	      if (alen == 0) {
-        if (val instanceof MethodValue) {
-        	return ((MethodValue)val).apply(EmptyArgs, EvalControl.Clear);
-        } else if (val instanceof EvaluatingValue) {
-        	return ((EvaluatingValue)val).eval(this, args, c, s0, s1, EvalControl.Clear, cm);
+        if (val instanceof MethodValue mv) {
+        	return mv.apply(EmptyArgs, EvalControl.Clear);
+        } else if (val instanceof EvaluatingValue ev) {
+        	return ev.eval(this, args, c, s0, s1, EvalControl.Clear, cm);
        }
       }
       else {
-        if (val instanceof OpValue) { // EvaluatingValue sub-class of OpValue!
-       	  return ((OpValue) val).eval(this, args, c, s0, s1, EvalControl.Clear, cm);
+        if (val instanceof OpValue ov) { // EvaluatingValue sub-class of OpValue!
+       	  return ov.eval(this, args, c, s0, s1, EvalControl.Clear, cm);
         }
       }
       return val;
@@ -1464,8 +1464,8 @@ public abstract class Tool
 			final SymbolNode opNode, final UniqueString opName) {
 		final Object val = this.lookup(opNode, c, false);
 	
-		if (val instanceof OpDefNode) {
-		  return this.processUnchanged(action, ((OpDefNode)val).getBody(), acts, c, s0, s1, nss, cm);
+		if (val instanceof OpDefNode odn) {
+		  return this.processUnchanged(action, odn.getBody(), acts, c, s0, s1, nss, cm);
 		}
 		else if (val instanceof final LazyValue lv) {
             return this.processUnchanged(action, lv.expr, acts, lv.con, s0, s1, nss, cm);
@@ -1748,8 +1748,8 @@ public abstract class Tool
   private final Value evalImplOpArgKind(final OpArgNode expr1, final Context c, final TLCState s0, final TLCState s1, final CostModel cm) {
   	final SymbolNode opNode = expr1.getOp();
   	final Object val = this.lookup(opNode, c, false);
-  	if (val instanceof OpDefNode) {
-  	  return setSource(expr1, new OpLambdaValue((OpDefNode)val, this, c, s0, s1, cm));
+  	if (val instanceof OpDefNode odn) {
+  	  return setSource(expr1, new OpLambdaValue(odn, this, c, s0, s1, cm));
   	}
   	return (Value)val;
   }
@@ -1890,20 +1890,20 @@ public abstract class Tool
               res = this.eval(opDef.getBody(), c1, s0, s1, control, cm);
             }
           }
-          else if (val instanceof Value) {
-            res = (Value)val;
+          else if (val instanceof Value v) {
+            res = v;
             final int alen = args.length;
             if (alen == 0) {
-              if (val instanceof MethodValue) {
-                res = ((MethodValue)val).apply(EmptyArgs, EvalControl.Clear);
-              } else if (val instanceof EvaluatingValue) {
+              if (val instanceof MethodValue mv) {
+                res = mv.apply(EmptyArgs, EvalControl.Clear);
+              } else if (val instanceof EvaluatingValue ev) {
             	  // Allow EvaluatingValue overwrites to have zero arity.
-            	  res = ((EvaluatingValue) val).eval(this, args, c, s0, s1, control, cm);
+            	  res = ev.eval(this, args, c, s0, s1, control, cm);
               }
             }
             else {
-              if (val instanceof OpValue) {
-            	  res = ((OpValue) val).eval(this, args, c, s0, s1, control, cm);
+              if (val instanceof OpValue ov) {
+            	  res = ov.eval(this, args, c, s0, s1, control, cm);
                } 
             }
           }
@@ -2267,8 +2267,8 @@ public abstract class Tool
           {
             final Value rval = this.eval(args[0], c, s0, s1, control, cm);
             final Value sval = (Value) WorkerValue.mux(args[1].getToolObject(toolId));
-            if (rval instanceof RecordValue) {
-              final Value result = ((RecordValue)rval).select(sval);
+            if (rval instanceof RecordValue rv) {
+              final Value result = rv.select(sval);
               if (result == null) {
                 Assert.fail("Attempted to select nonexistent field " + sval + " from the" +
                             " record\n" + Values.ppr(rval.toString()) + "\n" + expr, expr, c);
@@ -2542,8 +2542,8 @@ public abstract class Tool
           {
             final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
             final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
-            if (arg1 instanceof Reducible) {
-              return setSource(expr, ((Reducible)arg1).diff(arg2));
+            if (arg1 instanceof Reducible r) {
+              return setSource(expr, r.diff(arg2));
             }
             return setSource(expr, new SetDiffValue(arg1, arg2));
           }
@@ -2551,11 +2551,11 @@ public abstract class Tool
           {
             final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
             final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
-            if (arg1 instanceof Reducible) {
-              return setSource(expr, ((Reducible)arg1).cap(arg2));
+            if (arg1 instanceof Reducible r) {
+              return setSource(expr, r.cap(arg2));
             }
-            else if (arg2 instanceof Reducible) {
-              return setSource(expr, ((Reducible)arg2).cap(arg1));
+            else if (arg2 instanceof Reducible r) {
+              return setSource(expr, r.cap(arg1));
             }
             return setSource(expr, new SetCapValue(arg1, arg2));
           }
@@ -2568,11 +2568,11 @@ public abstract class Tool
           {
             final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
             final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
-            if (arg1 instanceof Reducible) {
-              return setSource(expr, ((Reducible)arg1).cup(arg2));
+            if (arg1 instanceof Reducible r) {
+              return setSource(expr, r.cup(arg2));
             }
-            else if (arg2 instanceof Reducible) {
-              return setSource(expr, ((Reducible)arg2).cup(arg1));
+            else if (arg2 instanceof Reducible r) {
+              return setSource(expr, r.cup(arg1));
             }
             return setSource(expr, new SetCupValue(arg1, arg2, cm));
           }
@@ -2918,17 +2918,17 @@ public abstract class Tool
           Object bval = val;
           if (alen == 0)
           {
-            if (val instanceof MethodValue)
+            if (val instanceof MethodValue mv)
             {
-              bval = ((MethodValue) val).apply(EmptyArgs, EvalControl.Clear); // EvalControl.Clear is ignored by MethodValuea#apply
-            } else if (val instanceof EvaluatingValue) {
-              bval = ((EvaluatingValue) val).eval(this, args, c, s0, s1, EvalControl.Enabled, cm);
+              bval = mv.apply(EmptyArgs, EvalControl.Clear); // EvalControl.Clear is ignored by MethodValuea#apply
+            } else if (val instanceof EvaluatingValue ev) {
+              bval = ev.eval(this, args, c, s0, s1, EvalControl.Enabled, cm);
             }
           } else
           {
-            if (val instanceof OpValue)
+            if (val instanceof OpValue ov)
             {
-            	bval = ((OpValue) val).eval(this, args, c, s0, s1, EvalControl.Enabled, cm);
+            	bval = ov.eval(this, args, c, s0, s1, EvalControl.Enabled, cm);
              }
           }
 
@@ -3308,8 +3308,8 @@ public abstract class Tool
             if (val instanceof final LazyValue lv) {
                 return this.enabledUnchanged(lv.expr, acts, lv.con, s0, s1, cm);
             }
-            else if (val instanceof OpDefNode) {
-              return this.enabledUnchanged(((OpDefNode)val).getBody(), acts, c, s0, s1, cm);
+            else if (val instanceof OpDefNode odn) {
+              return this.enabledUnchanged(odn.getBody(), acts, c, s0, s1, cm);
             }
             else if (val == null) {
               Assert.fail("In computing ENABLED, TLC found the undefined identifier\n" +
@@ -3609,8 +3609,8 @@ public abstract class Tool
         subgroup = MVPerms.permutationSubgroup((Enumerable)fcns);
         final HashSet<ModelValue> subgroupMembers = new HashSet<>();
         for (final IMVPerm imvp : subgroup) {
-        	if (imvp instanceof MVPerm) { // should always be the case
-        		subgroupMembers.addAll(((MVPerm)imvp).getAllModelValues());
+        	if (imvp instanceof MVPerm mvp) { // should always be the case
+        		subgroupMembers.addAll(mvp.getAllModelValues());
         	}
         }
         for (final ExprOrOpArgNode node : argNodes) {
@@ -3685,18 +3685,18 @@ public abstract class Tool
               if (TLAConstants.BuiltInOperators.PERMUTATIONS.equals(operator.getName().toString())) {
 				  final ExprOrOpArgNode[] operands = permutationNode.getArgs();
 				  if ((operands.length == 1)
-						  && (operands[0] instanceof OpApplNode)
-						  && (((OpApplNode)operands[0]).getOperator() instanceof OpDefOrDeclNode)) {
-					  final Object o = ((OpApplNode)operands[0]).getOperator().getToolObject(toolId);
+						  && (operands[0] instanceof OpApplNode oan)
+						  && (oan.getOperator() instanceof OpDefOrDeclNode)) {
+					  final Object o = oan.getOperator().getToolObject(toolId);
 					  
-					  if (o instanceof SetEnumValue) {
-						  return (SetEnumValue)o;
+					  if (o instanceof SetEnumValue sev) {
+						  return sev;
 					  } else if (o instanceof final WorkerValue wv) {
 						  // If TLC was started with a -workers N specification, N > 1, o will be a WorkerValue instance
                           final Object unwrapped = WorkerValue.mux(wv);
 						  
-						  if (unwrapped instanceof SetEnumValue) {
-							  return (SetEnumValue)unwrapped;
+						  if (unwrapped instanceof SetEnumValue sev) {
+							  return sev;
 						  }
 					  }
 				  }

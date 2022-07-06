@@ -244,8 +244,8 @@ public class CostModelCreator extends ExplorerVisitor {
 			if (operator instanceof final OpDefNode odn) {
                 if (odn.getInRecursive()) {
 					stack.stream()
-							.filter(w -> w.getNode() != null && w.getNode() instanceof OpApplNode
-									&& ((OpApplNode) w.getNode()).getOperator() == odn)
+							.filter(w -> w.getNode() != null && w.getNode() instanceof OpApplNode wOAN
+									&& wOAN.getOperator() == odn)
 							.findFirst().ifPresent(oan::setRecursive);
 				}
 			}
@@ -285,17 +285,17 @@ public class CostModelCreator extends ExplorerVisitor {
 				}
 			}
 			final Object lookup = this.ctx.lookup(opApplNode.getOperator());
-			if (lookup instanceof OpDefNode) {
+			if (lookup instanceof OpDefNode odn) {
 				// 2) Context has an entry for the given body where body is 'LAMBDA e: e...' and
 				// oan is 'Op(s)'. Remember for later.
-				final ExprNode body = ((OpDefNode) lookup).getBody();
-				if (body instanceof OpApplNode) {
+				final ExprNode body = odn.getBody();
+				if (body instanceof OpApplNode bOAN) {
 					// Design choice:
 					// Might as well store the mapping from body to oan via
 					// body#setToolObject(tla2sany.semantic.FrontEnd.getToolId(), oan) instead of in
 					// node2Wrapper. However, node2Wrapper can be gc'ed after the CostModel has been
 					// created and before state space exploration.
-					this.node2Wrapper.computeIfAbsent((OpApplNode) body, key -> new HashSet<>()).add(oan);
+					this.node2Wrapper.computeIfAbsent(bOAN, key -> new HashSet<>()).add(oan);
 				}
 			}
 			if (this.node2Wrapper.containsKey(opApplNode)) {
@@ -324,22 +324,22 @@ public class CostModelCreator extends ExplorerVisitor {
             for (final OpDefNode opDefNode : lin.getLets()) {
 				letIns.put(opDefNode.getBody(), lin.getBody());
 			}
-		} else if (exploreNode instanceof OpDefNode) {
+		} else if (exploreNode instanceof OpDefNode odn) {
 			//TODO Might suffice to just keep RECURSIVE ones.
-			opDefNodes.add((OpDefNode) exploreNode);
+			opDefNodes.add(odn);
 		}
 	}
 
 	@Override
 	public void postVisit(final ExploreNode exploreNode) {
-		if (exploreNode instanceof OpApplNode) {
-			if (((OpApplNode) exploreNode).isStandardModule()) {
+		if (exploreNode instanceof OpApplNode oan) {
+			if (oan.isStandardModule()) {
 				return;
 			}
 			final CostModelNode pop = stack.pop();
 			assert pop.getNode() == exploreNode;
-		} else if (exploreNode instanceof OpDefNode) {
-			final boolean removed = opDefNodes.remove((OpDefNode) exploreNode);
+		} else if (exploreNode instanceof OpDefNode odn) {
+			final boolean removed = opDefNodes.remove(odn);
 			assert removed;
 		}
 	}

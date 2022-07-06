@@ -623,9 +623,9 @@ public class ModelChecker extends AbstractChecker
 			} else if (e instanceof AssertionError)
 			{
 				ec = EC.TLC_BUG;
-			} else if (e instanceof EvalException)
+			} else if (e instanceof EvalException ee)
 			{
-				ec = ((EvalException) e).getErrorCode();
+				ec = ee.getErrorCode();
 			// TODO: 345hv87 Read errorCode from TLCRE into ec. However, too much legacy
 			// code reports TLCRE errors as EC.General, and, thus, this change has the
 			// risk of causing regression (it causes test failures in e.g.:
@@ -642,12 +642,12 @@ public class ModelChecker extends AbstractChecker
 		    {
 				if (!(ec == EC.GENERAL && e.getMessage() == null))
 		        {
-					if (e instanceof EvalException && ((EvalException) e).hasParameters()) {
+					if (e instanceof EvalException ee && ee.hasParameters()) {
 						// An EvalException pretty-prints itself in its constructor, i.e. converts the
 						// parameters into the human readable string. However, MP.print* will
 						// pretty-print it a second time, which is why we pass the original parameters
 						// instead of the EvalException itself.  Exception handling in TLC is a mess!
-						MP.printError(ec, ((EvalException) e).getParameters(), e);
+						MP.printError(ec, ee.getParameters(), e);
 					//TODO: See note above at label "345hv87".
 //					} else if (e instanceof TLCRuntimeException) {
 //						MP.printError(ec, ((TLCRuntimeException) e).parameters);

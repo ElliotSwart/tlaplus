@@ -682,8 +682,8 @@ public class ModelConfig implements ValueConstants, Serializable {
     public synchronized final boolean getCheckDeadlock()
     {
     	final Object object = this.configTbl.get(CheckDeadlock);
-    	if (object instanceof Boolean) {
-    		return (boolean) object;
+    	if (object instanceof Boolean b) {
+    		return b;
     	}
     	return true;
     }
