@@ -86,10 +86,10 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
   @Override
   public final int compareTo(final Object obj) {
     try {
-      final SetEnumValue set = obj instanceof Value ? (SetEnumValue) ((Value)obj).toSetEnum() : null;
+      final SetEnumValue set = obj instanceof Value v ? (SetEnumValue) v.toSetEnum() : null;
       if (set == null) {
-        if (obj instanceof ModelValue) {
-            return ((ModelValue) obj).modelValueCompareTo(this);
+        if (obj instanceof ModelValue mv) {
+            return mv.modelValueCompareTo(this);
         }
         Assert.fail("Attempted to compare the set " + Values.ppr(this.toString()) +
         " with the value:\n" + Values.ppr(obj.toString()), getSource());
@@ -113,10 +113,10 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
 
   public final boolean equals(final Object obj) {
     try {
-      final SetEnumValue set = obj instanceof Value ? (SetEnumValue) ((Value)obj).toSetEnum() : null;
+      final SetEnumValue set = obj instanceof Value v ? (SetEnumValue) v.toSetEnum() : null;
       if (set == null) {
-        if (obj instanceof ModelValue)
-           return ((ModelValue) obj).modelValueEquals(this) ;
+        if (obj instanceof ModelValue mv)
+           return mv.modelValueEquals(this) ;
         Assert.fail("Attempted to check equality of the set " + Values.ppr(this.toString()) +
         " with the value:\n" + Values.ppr(obj.toString()), getSource());
       }

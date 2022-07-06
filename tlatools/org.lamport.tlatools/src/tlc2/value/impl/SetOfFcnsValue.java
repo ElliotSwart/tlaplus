@@ -74,8 +74,8 @@ public final Value domain;        /* Function domain  */
     try {
       final FcnRcdValue fcn = (FcnRcdValue) elem.toFcnRcd();
       if (fcn == null) {
-        if (elem instanceof ModelValue)
-           return ((ModelValue) elem).modelValueMember(this) ;
+        if (elem instanceof ModelValue mv)
+           return mv.modelValueMember(this) ;
         Assert.fail("Attempted to check if \n" + elem + "\nwhich is not a TLC function" +
         " value, is in the set of functions:\n" + Values.ppr(this.toString()), getSource());
       }
@@ -380,13 +380,13 @@ public final Value domain;        /* Function domain  */
 	public DomIVEnumerator() {
       this.isDone = false;
       final int sz = domain.size();
-      if (range instanceof Enumerable) {
+      if (range instanceof Enumerable enumerable) {
         this.enums = new ValueEnumeration[sz];
         this.currentElems = new Value[sz];
         // SZ Feb 24, 2009: never read locally
         // ValueEnumeration enumeration = ((Enumerable)domSet).elements();
         for (int i = 0; i < sz; i++) {
-          this.enums[i] = ((Enumerable)range).elements();
+          this.enums[i] = enumerable.elements();
           this.currentElems[i] = this.enums[i].nextElement();
           if (this.currentElems[i] == null) {
             this.enums = null;
@@ -465,7 +465,7 @@ public final Value domain;        /* Function domain  */
       Objects.requireNonNull(domSet).normalize();
       final ValueVec elems = domSet.elems;
       final int sz = elems.size();
-      if (range instanceof Enumerable) {
+      if (range instanceof Enumerable enumerable) {
         this.dom = new Value[sz];
         this.enums = new ValueEnumeration[sz];
         this.currentElems = new Value[sz];
@@ -473,7 +473,7 @@ public final Value domain;        /* Function domain  */
         // ValueEnumeration enumeration = ((Enumerable)domSet).elements();
         for (int i = 0; i < sz; i++) {
           this.dom[i] = elems.elementAt(i);
-          this.enums[i] = ((Enumerable)range).elements();
+          this.enums[i] = enumerable.elements();
           this.currentElems[i] = this.enums[i].nextElement();
           if (this.currentElems[i] == null) {
             this.enums = null;

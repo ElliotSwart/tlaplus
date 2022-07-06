@@ -220,8 +220,8 @@ public class TBPar extends Vect<LiveExprNode> {
 		final Vect<TBTriple> ts = new Vect<>();
 		for (int i = 0; i < this.size(); i++) {
 			final LiveExprNode ln = this.exprAt(i);
-			if (ln instanceof LNAll) {
-				ts.addElement(new TBTriple(ln, ((LNAll) ln).getBody(), new LNNext(ln)));
+			if (ln instanceof LNAll lna) {
+				ts.addElement(new TBTriple(ln, lna.getBody(), new LNNext(ln)));
 			} else if (ln instanceof final LNConj lnc) {
                 ts.addElement(new TBTriple(lnc, lnc.getBody(0), lnc.getBody(1)));
 			}
@@ -233,8 +233,8 @@ public class TBPar extends Vect<LiveExprNode> {
 		final Vect<TBTriple> ts = new Vect<>();
 		for (int i = 0; i < this.size(); i++) {
 			final LiveExprNode ln = this.exprAt(i);
-			if (ln instanceof LNEven) {
-				ts.addElement(new TBTriple(ln, ((LNEven) ln).getBody(), new LNNext(ln)));
+			if (ln instanceof LNEven lne) {
+				ts.addElement(new TBTriple(ln, lne.getBody(), new LNNext(ln)));
 			} else if (ln instanceof final LNDisj lnd) {
                 ts.addElement(new TBTriple(lnd, lnd.getBody(0), lnd.getBody(1)));
 			}
@@ -266,8 +266,8 @@ public class TBPar extends Vect<LiveExprNode> {
 			// pos and neg bins.
 			if (ln instanceof LNState || ln instanceof LNBool) {
 				pos.addElement(ln);
-			} else if (ln instanceof LNNeg) {
-				final LiveExprNode body = ((LNNeg) ln).getBody();
+			} else if (ln instanceof LNNeg lnn) {
+				final LiveExprNode body = lnn.getBody();
 				// Because tf has been brought into positive form by the nested pushNeg of
 				// toDNF, the sub-terms of LNNeg can only be LNState and LNBool, but not
 				// arbitrary terms such as ~[]p or []<>p.
@@ -309,22 +309,22 @@ public class TBPar extends Vect<LiveExprNode> {
 		while (tps.size() > 0) {
 			final LiveExprNode ln = tps.exprAt(tps.size() - 1);
 			tps.removeLastElement();
-			if (ln instanceof LNNeg) {
+			if (ln instanceof LNNeg lnn) {
 				// LNNeg is obviously not positive, but its subterms might.
-				tps.addElement(((LNNeg) ln).getBody());
-			} else if (ln instanceof LNNext) {
+				tps.addElement(lnn.getBody());
+			} else if (ln instanceof LNNext lnn) {
 				result.addElement(ln);
-				tps.addElement(((LNNext) ln).getBody());
-			} else if (ln instanceof LNEven) {
-				result.addElement(ln);
-				// See page 452, Closure and Particles, 3. item
-				result.addElement(new LNNext(ln));
-				tps.addElement(((LNEven) ln).getBody());
-			} else if (ln instanceof LNAll) {
+				tps.addElement(lnn.getBody());
+			} else if (ln instanceof LNEven lne) {
 				result.addElement(ln);
 				// See page 452, Closure and Particles, 3. item
 				result.addElement(new LNNext(ln));
-				tps.addElement(((LNAll) ln).getBody());
+				tps.addElement(lne.getBody());
+			} else if (ln instanceof LNAll lna) {
+				result.addElement(ln);
+				// See page 452, Closure and Particles, 3. item
+				result.addElement(new LNNext(ln));
+				tps.addElement(lna.getBody());
 			} else if (ln instanceof final LNConj lnc) {
                 for (int i = 0; i < lnc.getCount(); i++) {
 					tps.addElement(lnc.getBody(i));
@@ -354,8 +354,8 @@ public class TBPar extends Vect<LiveExprNode> {
 		final TBPar successors = new TBPar(this.size());
 		for (int i = 0; i < this.size(); i++) {
 			final LiveExprNode ln = this.exprAt(i);
-			if (ln instanceof LNNext) {
-				successors.addElement(((LNNext) ln).getBody());
+			if (ln instanceof LNNext lnn) {
+				successors.addElement(lnn.getBody());
 			}
 		}
 		return successors;

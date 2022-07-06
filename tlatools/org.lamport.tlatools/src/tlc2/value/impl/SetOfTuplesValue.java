@@ -93,8 +93,8 @@ public final Value[] sets;
       if (tv == null) {
         final FcnRcdValue fcn = (FcnRcdValue) elem.toFcnRcd();
         if (fcn == null) {
-          if (elem instanceof ModelValue)
-            return ((ModelValue) elem).modelValueMember(this) ;
+          if (elem instanceof ModelValue mv)
+            return mv.modelValueMember(this) ;
           Assert.fail("Attempted to check if non-tuple\n" + Values.ppr(elem.toString()) +
                 "\nis in the set of tuples:\n" + Values.ppr(this.toString()), getSource());
         }
@@ -398,8 +398,8 @@ public final Value[] sets;
       this.currentElems = new Value[sets.length];
       this.isDone = false;
       for (int i = 0; i < sets.length; i++) {
-        if (sets[i] instanceof Enumerable) {
-          this.enums[i] = ((Enumerable)sets[i]).elements();
+        if (sets[i] instanceof Enumerable enumerable) {
+          this.enums[i] = enumerable.elements();
           this.currentElems[i] = this.enums[i].nextElement();
           if (this.currentElems[i] == null) {
             this.enums = null;

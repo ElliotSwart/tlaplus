@@ -71,14 +71,18 @@ private static final IntValue[] cache;
   @Override
   public final int compareTo(final Object obj) {
     try {
-      if (obj instanceof IntValue) {
-        return Integer.compare(this.val, ((IntValue)obj).val);
+      if (obj instanceof IntValue iv) {
+        return Integer.compare(this.val, iv.val);
       }
-      if (!(obj instanceof ModelValue)) {
+      else if (obj instanceof ModelValue mv) {
+        return mv.modelValueCompareTo(this);
+      }
+      else{
         Assert.fail("Attempted to compare integer " + Values.ppr(this.toString()) +
-        " with non-integer:\n" + Values.ppr(obj.toString()), getSource());
+                " with non-integer:\n" + Values.ppr(obj.toString()), getSource());
+
+        throw new RuntimeException("Placeholder for Assert");
       }
-      return ((ModelValue) obj).modelValueCompareTo(this);
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
@@ -88,14 +92,17 @@ private static final IntValue[] cache;
 
   public final boolean equals(final Object obj) {
     try {
-      if (obj instanceof IntValue) {
-        return this.val == ((IntValue)obj).val;
+      if (obj instanceof IntValue iv) {
+        return this.val == iv.val;
       }
-      if (!(obj instanceof ModelValue)) {
+      else if (obj instanceof ModelValue mv) {
+        return mv.modelValueEquals(this);
+      }
+      else{
         Assert.fail("Attempted to check equality of integer " + Values.ppr(this.toString()) +
-        " with non-integer:\n" + Values.ppr(obj.toString()), getSource());
+                " with non-integer:\n" + Values.ppr(obj.toString()), getSource());
+        throw new RuntimeException("Placeholder for Assert");
       }
-      return ((ModelValue) obj).modelValueEquals(this);
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
@@ -193,8 +200,8 @@ private static final IntValue[] cache;
   @Override
   public final boolean assignable(final Value val) {
     try {
-      return ((val instanceof IntValue) &&
-        this.val == ((IntValue)val).val);
+      return ((val instanceof IntValue iv) &&
+        this.val == iv.val);
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }

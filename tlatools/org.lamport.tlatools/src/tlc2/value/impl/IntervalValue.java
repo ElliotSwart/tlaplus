@@ -74,13 +74,13 @@ public final int low;
   @Override
   public final boolean member(final Value elem) {
     try {
-      if (elem instanceof IntValue) {
-        final int x = ((IntValue)elem).val;
+      if (elem instanceof IntValue iv) {
+        final int x = iv.val;
         return (x >= low) && (x <= high);
       }
       if (   (this.low <= this.high)
-           && (   !(elem instanceof ModelValue)
-               || (((ModelValue) elem).type != 0)) ) {
+           && (   !(elem instanceof ModelValue mv)
+               || (mv.type != 0)) ) {
         Assert.fail("Attempted to check if the value:\n" + Values.ppr(elem.toString()) +
         "\nis in the integer interval " + Values.ppr(this.toString()), getSource());
       }
@@ -249,9 +249,9 @@ public final int low;
   @Override
   public final boolean assignable(final Value val) {
     try {
-      return ((val instanceof IntervalValue) &&
-        this.high == ((IntervalValue)val).high &&
-        this.low == ((IntervalValue)val).low);
+      return ((val instanceof IntervalValue iv) &&
+        this.high == iv.high &&
+        this.low == iv.low);
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }

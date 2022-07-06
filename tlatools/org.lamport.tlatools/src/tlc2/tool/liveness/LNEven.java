@@ -59,8 +59,8 @@ class LNEven extends LiveExprNode {
 	@Override
     public LiveExprNode getEABody() {
 		final LiveExprNode evenBody = getBody();
-		if (evenBody instanceof LNAll) {
-			return ((LNAll) evenBody).getBody();
+		if (evenBody instanceof LNAll lna) {
+			return lna.getBody();
 		}
 		return super.getEABody();
 	}
@@ -92,8 +92,8 @@ class LNEven extends LiveExprNode {
 	@Override
     public LiveExprNode simplify() {
 		LiveExprNode body1 = getBody().simplify();
-		if (body1 instanceof LNEven) {
-			body1 = ((LNEven) body1).getBody();
+		if (body1 instanceof LNEven lne) {
+			body1 = lne.getBody();
 		}
 		return new LNEven(body1);
 	}
@@ -131,8 +131,8 @@ class LNEven extends LiveExprNode {
 	 */
 	@Override
     public boolean equals(final LiveExprNode exp) {
-		if (exp instanceof LNEven) {
-			return getBody().equals(((LNEven) exp).getBody());
+		if (exp instanceof LNEven lne) {
+			return getBody().equals(lne.getBody());
 		}
 		return false;
 	}

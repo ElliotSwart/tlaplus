@@ -118,8 +118,8 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
       try {
         if (this.inVal.member(elem)) {
           Context con1 = this.con;
-          if (this.vars instanceof FormalParamNode) {
-            con1 = con1.cons((FormalParamNode)this.vars, elem);
+          if (this.vars instanceof FormalParamNode fpm) {
+            con1 = con1.cons(fpm, elem);
           }
           else {
             final FormalParamNode[] ids = (FormalParamNode[])this.vars;
@@ -338,8 +338,8 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
       catch (final Throwable e) { if (!swallow) throw e; }
 
       sb.append("{");
-      if (this.vars instanceof FormalParamNode) {
-        sb.append(((FormalParamNode)this.vars).getName());
+      if (this.vars instanceof FormalParamNode fpm) {
+        sb.append(fpm.getName());
       }
       else {
         final FormalParamNode[] ids = (FormalParamNode[])this.vars;
@@ -376,11 +376,14 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
     final ValueEnumeration Enum;
 
     public Enumerator() {
-      if (!(inVal instanceof Enumerable)) {
-        Assert.fail("Attempted to enumerate { x \\in S : p(x) } when S:\n" +
-              Values.ppr(inVal.toString()) + "\nis not enumerable", getSource());
+      if (inVal instanceof Enumerable enumerable) {
+        this.Enum = enumerable.elements();
       }
-      this.Enum = ((Enumerable)inVal).elements();
+      else{
+        Assert.fail("Attempted to enumerate { x \\in S : p(x) } when S:\n" +
+                Values.ppr(inVal.toString()) + "\nis not enumerable", getSource());
+        throw new RuntimeException("Placeholder for Assert");
+      }
     }
 
     @Override
@@ -392,8 +395,8 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
       while ((elem = this.Enum.nextElement()) != null) {
     	  if (coverage) { cm.incSecondary(); }
         Context con1 = con;
-        if (vars instanceof FormalParamNode) {
-          con1 = con1.cons((FormalParamNode)vars, elem);
+        if (vars instanceof FormalParamNode fpm) {
+          con1 = con1.cons(fpm, elem);
         }
         else {
           final FormalParamNode[] ids = (FormalParamNode[])vars;

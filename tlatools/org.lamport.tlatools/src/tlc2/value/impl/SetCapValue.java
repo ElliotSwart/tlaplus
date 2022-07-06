@@ -294,12 +294,12 @@ public final Value set1;
     Value set;
 
     public Enumerator() {
-      if (set1 instanceof Enumerable) {
-        this.enum1 = ((Enumerable)set1).elements();
+      if (set1 instanceof Enumerable e) {
+        this.enum1 = e.elements();
         this.set = set2;
       }
-      else if (set2 instanceof Enumerable) {
-        this.enum1 = ((Enumerable)set2).elements();
+      else if (set2 instanceof Enumerable e) {
+        this.enum1 = e.elements();
         this.set = set1;
       }
       else {

@@ -91,8 +91,8 @@ public final UniqueString[] names;      // The names of the fields.
     try {
       final RecordValue rcd = (RecordValue) elem.toRcd();
       if (rcd == null) {
-        if (elem instanceof ModelValue)
-           return ((ModelValue) elem).modelValueMember(this) ;
+        if (elem instanceof ModelValue mv)
+           return mv.modelValueMember(this) ;
         Assert.fail("Attempted to check if non-record\n" + elem + "\nis in the" +
         " set of records:\n" + Values.ppr(this.toString()), getSource());
       }
@@ -436,8 +436,8 @@ public final UniqueString[] names;      // The names of the fields.
       this.currentElems = new Value[values.length];
       this.isDone = false;
       for (int i = 0; i < values.length; i++) {
-        if (values[i] instanceof Enumerable) {
-          this.enums[i] = ((Enumerable)values[i]).elements();
+        if (values[i] instanceof Enumerable enumerable) {
+          this.enums[i] = enumerable.elements();
           this.currentElems[i] = this.enums[i].nextElement();
           if (this.currentElems[i] == null) {
             this.enums = null;

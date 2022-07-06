@@ -157,8 +157,8 @@ public class ModelValue extends Value implements IModelValue {
   public final int compareTo(final Object obj) {
     try {
 		if (this.type == 0) {
-			if (obj instanceof ModelValue) {
-				return this.val.compareTo(((ModelValue) obj).val);
+			if (obj instanceof ModelValue mv) {
+				return this.val.compareTo(mv.val);
 			} else {
 				return -1;
 			}
@@ -184,8 +184,8 @@ public class ModelValue extends Value implements IModelValue {
   public final boolean equals(final Object obj) {
     try {
       if (this.type == 0) {
-        return (obj instanceof ModelValue &&
-          this.val.equals(((ModelValue)obj).val));
+        return (obj instanceof ModelValue mv &&
+          this.val.equals(mv.val));
        }
       if (obj instanceof final ModelValue mobj) {
           if (   (mobj.type == this.type)
@@ -353,8 +353,8 @@ public class ModelValue extends Value implements IModelValue {
   @Override
   public final boolean assignable(final Value val) {
     try {
-      return ((val instanceof ModelValue) &&
-        this.val.equals(((ModelValue)val).val));
+      return ((val instanceof ModelValue mv) &&
+        this.val.equals(mv.val));
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }

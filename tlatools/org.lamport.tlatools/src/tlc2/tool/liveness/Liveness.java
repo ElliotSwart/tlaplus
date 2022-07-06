@@ -105,8 +105,8 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		 * incurred at startup (during the construction of the liveness tableau).
 		 * Additionally, it only checks the level for MethodValues and EvaluatingValues.
 		 */
-		if (level == LevelConstants.ConstantLevel && expr instanceof OpApplNode) {
-			final Object realDef = tool.lookup(((OpApplNode) expr).getOperator(), Context.Empty, false);
+		if (level == LevelConstants.ConstantLevel && expr instanceof OpApplNode oan) {
+			final Object realDef = tool.lookup(oan.getOperator(), Context.Empty, false);
 			if (realDef instanceof MethodValue || realDef instanceof EvaluatingValue) {
 				// The current level is determined by the maximum level of the arguments in the
 				// operator's application.
@@ -162,10 +162,12 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			// Labels in liveness properties cause bogus TLC error #647
 			// https://github.com/tlaplus/tlaplus/issues/647
             final LabelNode lbl = (LabelNode) expr;
-            if (!(lbl.getBody() instanceof ExprNode)) {
+            if (lbl.getBody() instanceof ExprNode en) {
+				return astToLive(tool, en, con);
+			}
+			else{
 				Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA, expr.toString());
 			}
-			return astToLive(tool, (ExprNode) lbl.getBody(), con);
 		}
 		default: {
 			final int level = Specs.getLevel(expr, con);
@@ -553,14 +555,14 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		// LiveExprNode#pushNeg). This is important later when the promises are
 		// extracted (see LiveExprNode#extractPromises).
 		lexpr = lexpr.simplify().toDNF();
-		if ((lexpr instanceof LNBool) && !((LNBool) lexpr).b) {
+		if ((lexpr instanceof LNBool lnb) && !lnb.b) {
 			// This branch is only reachable for a handful of properties, such as
 			// `<>[]TRUE => TRUE` -- simplify/toDNF move the LNBool to the top.
 			// However, simplify/toDNF does not work for other properties to be
 			// identified as tautologies (`<>TRUE`, `<>[]TRUE`, ...).  
 			return new OrderOfSolution[0]; // must be unsatisfiable
 		}
-		final LNDisj dnf = (lexpr instanceof LNDisj) ? (LNDisj) lexpr : (new LNDisj(lexpr));
+		final LNDisj dnf = (lexpr instanceof LNDisj lnd) ? lnd : (new LNDisj(lexpr));
 
 		// IV:
 		// Now we will turn DNF into a format that can be tested by the
@@ -815,19 +817,19 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		// the behavior graph and thus the overall verification time is reduced.
 		// Additionally, the tableau generation does not support formulas 
 		// containing (nested) LNActions.
-		if (ln instanceof LNEven) {
-			final LiveExprNode ln1 = ((LNEven) ln).getBody();
-			if (ln1 instanceof LNAll) {
-				final LiveExprNode ln2 = ((LNAll) ln1).getBody();
+		if (ln instanceof LNEven lne) {
+			final LiveExprNode ln1 = lne.getBody();
+			if (ln1 instanceof LNAll lna) {
+				final LiveExprNode ln2 = lna.getBody();
 				if (ln2.getLevel() < LevelConstants.TemporalLevel) {
 					pem.EAAction.addElement(ln2);
 					return;
 				}
 			}
-		} else if (ln instanceof LNAll) {
-			final LiveExprNode ln1 = ((LNAll) ln).getBody();
-			if (ln1 instanceof LNEven) {
-				final LiveExprNode ln2 = ((LNEven) ln1).getBody();
+		} else if (ln instanceof LNAll lna) {
+			final LiveExprNode ln1 = lna.getBody();
+			if (ln1 instanceof LNEven lne) {
+				final LiveExprNode ln2 = lne.getBody();
 				final int level = ln2.getLevel();
 				if (level <= LevelConstants.VariableLevel) {
 					pem.AEState.addElement(ln2);

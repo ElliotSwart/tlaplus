@@ -48,14 +48,18 @@ public final UniqueString val;
   @Override
   public final int compareTo(final Object obj) {
     try {
-      if (obj instanceof StringValue) {
-        return this.val.compareTo(((StringValue)obj).val);
+      if (obj instanceof StringValue sv) {
+        return this.val.compareTo(sv.val);
       }
-      if (!(obj instanceof ModelValue)) {
+      else if (obj instanceof ModelValue mv) {
+        return mv.modelValueCompareTo(this);
+      }
+      else{
         Assert.fail("Attempted to compare string " + Values.ppr(this.toString()) +
-        " with non-string:\n" + Values.ppr(obj.toString()), getSource());
+                " with non-string:\n" + Values.ppr(obj.toString()), getSource());
+        throw new RuntimeException("Placeholder for Assert");
       }
-      return ((ModelValue) obj).modelValueCompareTo(this);
+
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
@@ -65,14 +69,18 @@ public final UniqueString val;
 
   public final boolean equals(final Object obj) {
     try {
-      if (obj instanceof StringValue) {
-        return this.val.equals(((StringValue)obj).getVal());
+      if (obj instanceof StringValue sv) {
+        return this.val.equals(sv.getVal());
       }
-      if (!(obj instanceof ModelValue)) {
+      else if (obj instanceof ModelValue mv) {
+        return mv.modelValueEquals(this) ;
+      }
+      else{
         Assert.fail("Attempted to check equality of string " + Values.ppr(this.toString()) +
-        " with non-string:\n" + Values.ppr(obj.toString()), getSource());
+                " with non-string:\n" + Values.ppr(obj.toString()), getSource());
+        throw new RuntimeException("Placeholder for Assert");
       }
-      return ((ModelValue) obj).modelValueEquals(this) ;
+
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }

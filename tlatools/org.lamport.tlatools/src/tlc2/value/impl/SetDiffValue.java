@@ -297,8 +297,8 @@ public final Value set1;
     ValueEnumeration enum1;
 
     public Enumerator() {
-      if (set1 instanceof Enumerable) {
-        this.enum1 = ((Enumerable)set1).elements();
+      if (set1 instanceof Enumerable e) {
+        this.enum1 = e.elements();
       }
       else {
         Assert.fail("Attempted to enumerate S \\ T when S:\n" +

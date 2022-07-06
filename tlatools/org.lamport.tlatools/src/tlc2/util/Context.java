@@ -151,12 +151,12 @@ public final class Context implements Iterator<Context> {
 		}
 		final Map<UniqueString, Value> res = new HashMap<>();
 		res.put(this.name.getName(),
-				this.value instanceof Value ? (Value) this.value : new StringValue(this.value.toString()));
+				this.value instanceof Value v ? v : new StringValue(this.value.toString()));
 
 		Context cur;
 		for (cur = this.next; cur.name != null; cur = cur.next) {
 			res.put(cur.name.getName(),
-					cur.value instanceof Value ? (Value) cur.value : new StringValue(cur.value.toString()));
+					cur.value instanceof Value v ? v : new StringValue(cur.value.toString()));
 		}
 		res.putAll(cur.toMap());
 

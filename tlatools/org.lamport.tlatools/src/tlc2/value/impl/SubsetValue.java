@@ -49,8 +49,8 @@ public Value  set;           // SUBSET set
   @Override
   public int compareTo(final Object obj) {
     try {
-      if (obj instanceof SubsetValue) {
-        return this.set.compareTo(((SubsetValue)obj).set);
+      if (obj instanceof SubsetValue sv) {
+        return this.set.compareTo(sv.set);
       }
       this.convertAndCache();
       return this.pset.compareTo(obj);
@@ -63,8 +63,8 @@ public Value  set;           // SUBSET set
 
   public boolean equals(final Object obj) {
     try {
-      if (obj instanceof SubsetValue) {
-        return this.set.equals(((SubsetValue)obj).set);
+      if (obj instanceof SubsetValue sv) {
+        return this.set.equals(sv.set);
       }
       this.convertAndCache();
       return this.pset.equals(obj);
@@ -78,8 +78,8 @@ public Value  set;           // SUBSET set
   @Override
   public boolean member(final Value val) {
     try {
-      if (val instanceof Enumerable) {
-        final ValueEnumeration Enum = ((Enumerable)val).elements();
+      if (val instanceof Enumerable enumerable) {
+        final ValueEnumeration Enum = enumerable.elements();
         Value  elem;
         while ((elem = Enum.nextElement()) != null) {
           if (!this.set.member(elem)) {
@@ -106,8 +106,8 @@ public Value  set;           // SUBSET set
       // exponential blowup inherent in generating the power set.
 	  // For KSubsetValue, delegate to the naive implementation that enumerates the
 	  // elements. In other words, don't rewrite if a KSubsetValue is involved.
-	  if (other instanceof final SubsetValue sv && !(other instanceof KSubsetValue) && this.set instanceof Enumerable) {
-          return ((Enumerable) this.set).isSubsetEq(sv.set);
+	  if (other instanceof final SubsetValue sv && !(other instanceof KSubsetValue) && this.set instanceof Enumerable enumerable) {
+          return enumerable.isSubsetEq(sv.set);
       }
       return super.isSubsetEq(other);
     }

@@ -649,10 +649,13 @@ public final FcnParams params;       // the function formals
       fcn.normalize();
       final UniqueString[] vars = new UniqueString[fcn.domain.length];
       for (int i = 0; i < fcn.domain.length; i++) {
-        if (!(fcn.domain[i] instanceof StringValue)) {
+        if (fcn.domain[i] instanceof StringValue sv) {
+          vars[i] = sv.getVal();
+        }
+        else{
           return null;
         }
-        vars[i] = ((StringValue)fcn.domain[i]).getVal();
+
       }
       if (coverage) {cm.incSecondary(vars.length);}
       return new RecordValue(vars, fcn.values, fcn.isNormalized(), cm);

@@ -110,7 +110,7 @@ public class IdThread extends Thread {
         return its ID. Otherwise, return <TT>otherId</TT>. */
     public static int GetId(final int otherId) {
         final Thread th = Thread.currentThread();
-        return (th instanceof IdThread) ? ((IdThread)th).id : otherId;
+        return (th instanceof IdThread idT) ? idT.id : otherId;
     }
     
 	public IValue getLocalValue(final int idx) {

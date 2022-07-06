@@ -74,7 +74,7 @@ public final class NodeTable {
 	}
 
 	private int putBTNodes(final Object nodes) {
-		final long k = ((nodes instanceof BTGraphNode) ? ((BTGraphNode) nodes).stateFP : ((BTGraphNode[]) nodes)[0].stateFP);
+		final long k = ((nodes instanceof BTGraphNode btgn) ? btgn.stateFP : ((BTGraphNode[]) nodes)[0].stateFP);
 		int loc = ((int) k & 0x7FFFFFFF) % this.length;
 		while (this.elems[loc] != null) {
 			loc = (loc + 1) % this.length;
@@ -203,8 +203,8 @@ public final class NodeTable {
 		if (elem == null) {
 			return false;
 		}
-		if (elem instanceof BTGraphNode) {
-			return ((BTGraphNode) elem).isDone();
+		if (elem instanceof BTGraphNode btgn) {
+			return btgn.isDone();
 		}
 		return ((BTGraphNode[]) elem)[0].isDone();
 	}

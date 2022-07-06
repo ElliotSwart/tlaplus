@@ -63,17 +63,19 @@ public final Value set;
   @Override
   public final boolean member(final Value elem) {
     try {
-      if (!(this.set instanceof Enumerable)) {
+      if (this.set instanceof Enumerable enumerable) {
+        final ValueEnumeration Enum = enumerable.elements();
+        Value val;
+        while ((val = Enum.nextElement()) != null) {
+          if (val.member(elem)) return true;
+        }
+        return false;
+      } else {
         Assert.fail("Attempted to check if:\n " + Values.ppr(elem.toString()) +
-        "\nis an element of the non-enumerable set:\n " +
-        Values.ppr(this.toString()), getSource());
+                "\nis an element of the non-enumerable set:\n " +
+                Values.ppr(this.toString()), getSource());
+        throw new RuntimeException("Placeholder for Assert");
       }
-      final ValueEnumeration Enum = ((Enumerable)this.set).elements();
-      Value val;
-      while ((val = Enum.nextElement()) != null) {
-        if (val.member(elem)) return true;
-      }
-      return false;
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
@@ -84,16 +86,19 @@ public final Value set;
   @Override
   public final boolean isFinite() {
     try {
-      if (!(this.set instanceof Enumerable)) {
+      if (this.set instanceof Enumerable enumerable) {
+        final ValueEnumeration Enum = ((Enumerable)this.set).elements();
+        Value val;
+        while ((val = Enum.nextElement()) != null) {
+          if (!val.isFinite()) return false;
+        }
+        return true;
+      }
+      else {
         Assert.fail("Attempted to check if the nonenumerable set:\n" + Values.ppr(this.toString()) +
-        "\nis a finite set.", getSource());
+                "\nis a finite set.", getSource());
+        throw new RuntimeException("Placeholder for Assert");
       }
-      final ValueEnumeration Enum = ((Enumerable)this.set).elements();
-      Value val;
-      while ((val = Enum.nextElement()) != null) {
-        if (!val.isFinite()) return false;
-      }
-      return true;
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
@@ -349,17 +354,20 @@ public final Value set;
     ValueEnumeration elemSetEnum;
 
     public Enumerator() {
-      if (!(set instanceof Enumerable)) {
-        Assert.fail("Attempted to enumerate the nonenumerable set:\n"+
-              Values.ppr(this.toString()), getSource());
-      }
-      this.Enum = ((Enumerable)set).elements();
-      this.elemSet = this.Enum.nextElement();
-      if (this.elemSet != null) {
-        if (!(this.elemSet instanceof Enumerable)) {
-          Assert.fail("Attempted to enumerate UNION(s), but some element of s is nonenumerable.", getSource());
+      if (set instanceof Enumerable enumerable) {
+        this.Enum = enumerable.elements();
+        this.elemSet = this.Enum.nextElement();
+        if (this.elemSet != null) {
+          if (!(this.elemSet instanceof Enumerable)) {
+            Assert.fail("Attempted to enumerate UNION(s), but some element of s is nonenumerable.", getSource());
+          }
+          this.elemSetEnum = ((Enumerable)this.elemSet).elements();
         }
-        this.elemSetEnum = ((Enumerable)this.elemSet).elements();
+      }
+      else {
+        Assert.fail("Attempted to enumerate the nonenumerable set:\n"+
+                Values.ppr(this.toString()), getSource());
+        throw new RuntimeException("Placeholder for Assert");
       }
     }
 

@@ -218,8 +218,8 @@ class LNDisj extends LiveExprNode {
 		final LNDisj lnd1 = new LNDisj(getCount());
 		for (int i = 0; i < getCount(); i++) {
 			final LiveExprNode elem = getBody(i).simplify();
-			if (elem instanceof LNBool) {
-				if (((LNBool) elem).b) {
+			if (elem instanceof LNBool lnb) {
+				if (lnb.b) {
 					return LNBool.TRUE;
 				}
 			} else {

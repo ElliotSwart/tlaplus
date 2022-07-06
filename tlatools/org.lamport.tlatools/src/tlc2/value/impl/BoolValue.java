@@ -38,16 +38,20 @@ public final boolean val;   // the boolean
   @Override
   public final int compareTo(final Object obj) {
     try {
-      if (obj instanceof BoolValue) {
+      if (obj instanceof BoolValue bv) {
         final int x = this.val ? 1 : 0;
-        final int y = ((BoolValue)obj).val ? 1 : 0;
+        final int y = bv.val ? 1 : 0;
         return x - y;
       }
-      if (!(obj instanceof ModelValue)) {
-        Assert.fail("Attempted to compare boolean " + Values.ppr(this.toString()) +
-        " with non-boolean:\n" + Values.ppr(obj.toString()), getSource());
+      else if (obj instanceof ModelValue mv) {
+        return mv.modelValueCompareTo(this);
       }
-      return ((ModelValue) obj).modelValueCompareTo(this);
+      else{
+        Assert.fail("Attempted to compare boolean " + Values.ppr(this.toString()) +
+                " with non-boolean:\n" + Values.ppr(obj.toString()), getSource());
+        throw new RuntimeException("Placeholder for Assert");
+      }
+
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
@@ -57,14 +61,18 @@ public final boolean val;   // the boolean
 
   public final boolean equals(final Object obj) {
     try {
-      if (obj instanceof BoolValue) {
-        return this.val == ((BoolValue)obj).val;
+      if (obj instanceof BoolValue bv) {
+        return this.val == bv.val;
       }
-      if (!(obj instanceof ModelValue)) {
+      else if (obj instanceof ModelValue mv) {
+        return mv.modelValueEquals(this);
+      }
+      else{
         Assert.fail("Attempted to compare equality of boolean " + Values.ppr(this.toString()) +
-        " with non-boolean:\n" + Values.ppr(obj.toString()), getSource());
+                " with non-boolean:\n" + Values.ppr(obj.toString()), getSource());
+        throw new RuntimeException("Placeholder for Assert");
       }
-      return ((ModelValue) obj).modelValueEquals(this) ;
+
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
@@ -161,8 +169,8 @@ public final boolean val;   // the boolean
   @Override
   public final boolean assignable(final Value val) {
     try {
-      return ((val instanceof BoolValue) &&
-        this.val == ((BoolValue)val).val);
+      return ((val instanceof BoolValue bv) &&
+        this.val == bv.val);
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }

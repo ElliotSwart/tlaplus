@@ -913,8 +913,8 @@ public class LiveWorker implements Callable<Boolean> {
 		} catch (final ExecutionException ee) {
 			// Do not "leak" ExecutionException to user if root cause is actually an
 			// EvalException.
-			if (ee.getCause() instanceof EvalException) {
-				throw (EvalException) ee.getCause();
+			if (ee.getCause() instanceof EvalException evalException) {
+				throw evalException;
 			}
 			throw ee;
 		}

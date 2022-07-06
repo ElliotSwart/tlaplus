@@ -156,15 +156,15 @@ public class MethodValue extends OpValue implements Applicable {
     	  }
       } catch (final Throwable e)
       {
-          if (e instanceof InvocationTargetException)
+          if (e instanceof InvocationTargetException ite)
           {
-              final Throwable targetException = ((InvocationTargetException)e).getTargetException();
+              final Throwable targetException = ite.getTargetException();
               throw new EvalException(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE, new String[]{this.md.toString(), targetException.getMessage()});
           } else if (e instanceof NullPointerException) {
               throw new EvalException(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE, new String[]{this.md.toString(), e.getMessage()});
-          } else if (e instanceof EvalException) {
+          } else if (e instanceof EvalException ee) {
         	  // Do not wrap an EvalException below.
-        	  throw (EvalException) e;
+        	  throw ee;
           } else
           {
               String message = e.getMessage();

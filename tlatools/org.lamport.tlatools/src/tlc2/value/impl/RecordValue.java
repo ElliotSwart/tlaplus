@@ -224,10 +224,10 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
   @Override
   public final int compareTo(final Object obj) {
     try {
-      final RecordValue rcd = obj instanceof Value ? (RecordValue) ((Value)obj).toRcd() : null;
+      final RecordValue rcd = obj instanceof Value v ? (RecordValue) v.toRcd() : null;
       if (rcd == null) {
-        if (obj instanceof ModelValue) {
-            return ((ModelValue) obj).modelValueCompareTo(this);
+        if (obj instanceof ModelValue mv) {
+            return mv.modelValueCompareTo(this);
         }
         Assert.fail("Attempted to compare record:\n" + Values.ppr(this.toString()) +
         "\nwith non-record\n" + Values.ppr(obj.toString()), getSource());
@@ -258,10 +258,10 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 
   public final boolean equals(final Object obj) {
     try {
-      final RecordValue rcd = obj instanceof Value ? (RecordValue) ((Value)obj).toRcd() : null;
+      final RecordValue rcd = obj instanceof Value v ? (RecordValue) v.toRcd() : null;
       if (rcd == null) {
-        if (obj instanceof ModelValue)
-           return ((ModelValue) obj).modelValueEquals(this) ;
+        if (obj instanceof ModelValue mv)
+           return mv.modelValueEquals(this) ;
         Assert.fail("Attempted to check equality of record:\n" + Values.ppr(this.toString()) +
         "\nwith non-record\n" + Values.ppr(obj.toString()), getSource());
       }
@@ -312,8 +312,8 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
         final int rlen = this.names.length;
         final Value[] newValues = new Value[rlen];
         final Value arcVal = ex.path[ex.idx];
-        if (arcVal instanceof StringValue) {
-          final UniqueString arc = ((StringValue)arcVal).val;
+        if (arcVal instanceof StringValue sv) {
+          final UniqueString arc = sv.val;
           for (int i = 0; i < rlen; i++) {
             if (this.names[i].equals(arc)) {
               ex.idx++;
@@ -565,8 +565,8 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
   @Override
   public final boolean assignable(final Value val) {
     try {
-      boolean canAssign = ((val instanceof RecordValue) &&
-        this.names.length == ((RecordValue)val).names.length);
+      boolean canAssign = ((val instanceof RecordValue rv) &&
+        this.names.length == rv.names.length);
       if (!canAssign) return false;
       for (int i = 0; i < this.values.length; i++) {
         canAssign = (canAssign &&

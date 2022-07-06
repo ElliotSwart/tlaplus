@@ -68,7 +68,7 @@ public final Value[] elems;          // the elements of this tuple.
   @Override
   public final int compareTo(final Object obj) {
     try {
-      final TupleValue tv = obj instanceof Value ? (TupleValue) ((Value)obj).toTuple() : null;
+      final TupleValue tv = obj instanceof Value v ? (TupleValue) v.toTuple() : null;
       if (tv == null) {
         // Well, we have to convert this to function and compare.
         return this.toFcnRcd().compareTo(obj);
@@ -94,7 +94,7 @@ public final Value[] elems;          // the elements of this tuple.
 
   public final boolean equals(final Object obj) {
     try {
-      final TupleValue tv = obj instanceof Value ? (TupleValue) ((Value)obj).toTuple() : null;
+      final TupleValue tv = obj instanceof Value v ? (TupleValue) v.toTuple() : null;
       if (tv == null) {
         // Well, we have to convert this to function and compare.
         return this.toFcnRcd().equals(obj);
@@ -135,15 +135,19 @@ public final Value[] elems;          // the elements of this tuple.
   @Override
   public final Value apply(final Value arg, final int control) {
     try {
-      if (!(arg instanceof IntValue)) {
+      if (arg instanceof IntValue iv) {
+        final int idx = iv.val;
+
+        if (idx <= 0 || idx > this.elems.length) {
+          Assert.fail("Attempted to access index " + idx + " of tuple\n"
+                  + Values.ppr(this.toString()) + "\nwhich is out of bounds.", getSource());
+        }
+        return this.elems[idx-1];
+      }
+      else{
         Assert.fail("Attempted to access tuple at a non integral index: " + Values.ppr(arg.toString()), getSource());
+        throw new RuntimeException("Placeholder for Assert");
       }
-      final int idx = ((IntValue)arg).val;
-      if (idx <= 0 || idx > this.elems.length) {
-        Assert.fail("Attempted to access index " + idx + " of tuple\n"
-            + Values.ppr(this.toString()) + "\nwhich is out of bounds.", getSource());
-      }
-      return this.elems[idx-1];
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
@@ -168,14 +172,17 @@ public final Value[] elems;          // the elements of this tuple.
   @Override
   public final Value select(final Value arg) {
     try {
-      if (!(arg instanceof IntValue)) {
+      if (arg instanceof IntValue iv) {
+        final int idx = iv.val;
+        if (idx > 0 && idx <= this.elems.length) {
+          return this.elems[idx-1];
+        }
+        return null;
+      }
+      else{
         Assert.fail("Attempted to access tuple at a non integral index: " + Values.ppr(arg.toString()), getSource());
+        throw new RuntimeException("Placeholder for Assert");
       }
-      final int idx = ((IntValue)arg).val;
-      if (idx > 0 && idx <= this.elems.length) {
-        return this.elems[idx-1];
-      }
-      return null;
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
@@ -190,8 +197,8 @@ public final Value[] elems;          // the elements of this tuple.
         final int tlen = this.elems.length;
         final Value[] newElems = new Value[tlen];
         final Value arcVal = ex.path[ex.idx];
-        if (arcVal instanceof IntValue) {
-          final int idx = ((IntValue)arcVal).val - 1;
+        if (arcVal instanceof IntValue iv) {
+          final int idx = iv.val - 1;
           if (0 <= idx && idx < tlen) {
               System.arraycopy(this.elems, 0, newElems, 0, tlen);
             ex.idx++;
@@ -308,8 +315,8 @@ public final Value[] elems;          // the elements of this tuple.
   @Override
   public final boolean assignable(final Value val) {
     try {
-      boolean canAssign = ((val instanceof TupleValue) &&
-         (this.elems.length == ((TupleValue)val).elems.length));
+      boolean canAssign = ((val instanceof TupleValue tv) &&
+         (this.elems.length == tv.elems.length));
       if (!canAssign) return false;
       for (int i = 0; i < this.elems.length; i++) {
         canAssign = canAssign && this.elems[i].assignable(((TupleValue)val).elems[i]);

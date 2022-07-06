@@ -31,8 +31,8 @@ public abstract class MVPerms {
       for (int i = 0; i < fcn.domain.length; i++) {
 	final IValue dval = fcn.domain[i];
 	final IValue rval = fcn.values[i];
-	if ((dval instanceof ModelValue) && (rval instanceof ModelValue)) {
-	  perm.put((ModelValue)dval, (ModelValue)rval);
+	if ((dval instanceof ModelValue dMV) && (rval instanceof ModelValue rMV)) {
+	  perm.put(dMV, rMV);
 	}
 	else {
 	  Assert.fail("Symmetry function must have model values as domain and range.");

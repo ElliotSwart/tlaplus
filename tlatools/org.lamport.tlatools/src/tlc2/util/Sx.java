@@ -22,17 +22,23 @@ public abstract class Sx {
   }
 
   public static Sx car(final Sx a) {
-    if (!(a instanceof SxPair)) {
-        throw new WrongInvocationException("Car must be applied to cons.");
+    if (a instanceof SxPair p) {
+      return p.car;
     }
-    return ((SxPair)a).car;
+    else{
+      throw new WrongInvocationException("Car must be applied to cons.");
+    }
+
   }
 
   public static Sx cdr(final Sx a) {
-    if (!(a instanceof SxPair)) {
-        throw new WrongInvocationException("Cdr must be applied to cons.");
+    if (a instanceof SxPair p) {
+      return p.cdr;
     }
-    return ((SxPair)a).cdr;
+    else{
+      throw new WrongInvocationException("Cdr must be applied to cons.");
+    }
+
   }
     
   public static Sx List(final Sx a) { return cons(a, nil); }
@@ -124,10 +130,10 @@ public abstract class Sx {
       pw.print("(");
       this.car.print(pw);
       Sx next = this.cdr;
-      while (next instanceof SxPair) {
+      while (next instanceof SxPair p) {
 	pw.print(" ");
-	((SxPair)next).car.print(pw);
-	next = ((SxPair)next).cdr;
+        p.car.print(pw);
+	next = p.cdr;
       }
       if (next != nil) { pw.print(" . "); next.print(pw); }
       pw.print(")");

@@ -293,10 +293,10 @@ public final Value set1;
     ValueEnumeration enum2;
 
     public Enumerator() {
-      if ((set1 instanceof Enumerable) &&
-          (set2 instanceof Enumerable)) {
-        this.enum1 = ((Enumerable)set1).elements();
-        this.enum2 = ((Enumerable)set2).elements();
+      if ((set1 instanceof Enumerable e1) &&
+          (set2 instanceof Enumerable e2)) {
+        this.enum1 = e1.elements();
+        this.enum2 = e2.elements();
       }
       else {
         Assert.fail("Attempted to enumerate S \\cup T when S:\n" +

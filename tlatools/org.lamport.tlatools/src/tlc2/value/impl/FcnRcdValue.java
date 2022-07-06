@@ -106,10 +106,10 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   public final int compareTo(final Object obj) {
     try {
 
-			final FcnRcdValue fcn = obj instanceof Value ? (FcnRcdValue) ((Value) obj).toFcnRcd() : null;
+			final FcnRcdValue fcn = obj instanceof Value v ? (FcnRcdValue) v.toFcnRcd() : null;
 			if (fcn == null) {
-				if (obj instanceof ModelValue) {
-				      return ((ModelValue) obj).modelValueCompareTo(this);
+				if (obj instanceof ModelValue mv) {
+				      return mv.modelValueCompareTo(this);
 				}
 				Assert.fail("Attempted to compare the function " + Values.ppr(this.toString()) + " with the value:\n"
 						+ Values.ppr(obj.toString()), getSource());
@@ -140,14 +140,17 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 	if (fcn.intv != null) {
 		for (int i = 0; i < this.domain.length; i++) {
 			final Value dElem = this.domain[i];
-			if (!(dElem instanceof IntValue)) {
-				Assert.fail(
-						"Attempted to compare integer with non-integer\n" + Values.ppr(dElem.toString()) + ".", getSource());
+			if (dElem instanceof IntValue iv) {
+                result = iv.val - (fcn.intv.low + i);
+
+                if (result != 0) {
+                    return result;
+                }
 			}
-			result = ((IntValue) dElem).val - (fcn.intv.low + i);
-			if (result != 0) {
-				return result;
-			}
+            else{
+                Assert.fail(
+                        "Attempted to compare integer with non-integer\n" + Values.ppr(dElem.toString()) + ".", getSource());
+            }
 		}
 		for (int i = 0; i < this.domain.length; i++) {
 			result = this.values[i].compareTo(fcn.values[i]);
@@ -188,14 +191,15 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   	} else {
   		for (int i = 0; i < fcn.domain.length; i++) {
   			final Value dElem = fcn.domain[i];
-  			if (!(dElem instanceof IntValue)) {
-  				Assert.fail(
-  						"Attempted to compare integer with non-integer:\n" + Values.ppr(dElem.toString()) + ".", getSource());
-  			}
-  			result = this.intv.low + i - ((IntValue) dElem).val;
-  			if (result != 0) {
-  				return result;
-  			}
+  			if (dElem instanceof IntValue iv) {
+                result = this.intv.low + i - iv.val;
+                if (result != 0) {
+                    return result;
+                }
+  			}else{
+                Assert.fail(
+                        "Attempted to compare integer with non-integer:\n" + Values.ppr(dElem.toString()) + ".", getSource());
+            }
   		}
   		for (int i = 0; i < fcn.domain.length; i++) {
   			result = this.values[i].compareTo(fcn.values[i]);
@@ -210,10 +214,10 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   public final boolean equals(final Object obj) {
     try {
 
-      final FcnRcdValue fcn = obj instanceof Value ? (FcnRcdValue) ((Value)obj).toFcnRcd() : null;
+      final FcnRcdValue fcn = obj instanceof Value v ? (FcnRcdValue) v.toFcnRcd() : null;
       if (fcn == null) {
-        if (obj instanceof ModelValue)
-           return ((ModelValue) obj).modelValueEquals(this) ;
+        if (obj instanceof ModelValue mv)
+           return mv.modelValueEquals(this) ;
         Assert.fail("Attempted to check equality of the function " + Values.ppr(this.toString()) +
         " with the value:\n" + Values.ppr(obj.toString()), getSource());
       }
@@ -232,13 +236,16 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
           if (fcn.domain.length != this.intv.size()) return false;
           for (int i = 0; i < fcn.domain.length; i++) {
             final Value dElem = fcn.domain[i];
-            if (!(dElem instanceof IntValue)) {
-              Assert.fail("Attempted to compare an integer with non-integer:\n" +
-              Values.ppr(dElem.toString()) + ".", getSource());
+            if (dElem instanceof IntValue iv) {
+                if (iv.val != (this.intv.low + i)) {
+                    return false;
+                }
             }
-            if (((IntValue)dElem).val != (this.intv.low + i)) {
-              return false;
+            else{
+                Assert.fail("Attempted to compare an integer with non-integer:\n" +
+                        Values.ppr(dElem.toString()) + ".", getSource());
             }
+
           }
           for (int i = 0; i < fcn.values.length; i++) {
               if (!this.values[i].equals(fcn.values[i])) {
@@ -252,13 +259,16 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
         if (fcn.intv != null) {
           for (int i = 0; i < this.domain.length; i++) {
             final Value dElem = this.domain[i];
-            if (!(dElem instanceof IntValue)) {
-              Assert.fail("Attempted to compare an integer with non-integer:\n" +
-              Values.ppr(dElem.toString()) + ".", getSource());
+            if (dElem instanceof IntValue iv) {
+                if (iv.val != (fcn.intv.low + i)) {
+                    return false;
+                }
             }
-            if (((IntValue)dElem).val != (fcn.intv.low + i)) {
-              return false;
+            else{
+                Assert.fail("Attempted to compare an integer with non-integer:\n" +
+                        Values.ppr(dElem.toString()) + ".", getSource());
             }
+
           }
           for (int i = 0; i < this.values.length; i++) {
               if (!this.values[i].equals(fcn.values[i])) {
@@ -339,14 +349,17 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 
       if (this.intv != null) {
           // domain is represented as an integer interval:
-          if (!(arg instanceof IntValue)) {
-            Assert.fail("Attempted to apply function with integer domain to" +
-                  " the non-integer argument " + Values.ppr(arg.toString()), getSource());
+          if (arg instanceof IntValue iv) {
+              final int idx = iv.val;
+              if ((idx >= this.intv.low) && (idx <= this.intv.high)) {
+                  return this.values[idx - this.intv.low];
+              }
           }
-          final int idx = ((IntValue)arg).val;
-          if ((idx >= this.intv.low) && (idx <= this.intv.high)) {
-            return this.values[idx - this.intv.low];
+          else {
+              Assert.fail("Attempted to apply function with integer domain to" +
+                      " the non-integer argument " + Values.ppr(arg.toString()), getSource());
           }
+
           return null;
       }
       else {
@@ -404,8 +417,8 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 
       if (this.intv != null) {
         // domain is represented as an integer interval:
-        if (arg instanceof IntValue) {
-          final int idx = ((IntValue)arg).val;
+        if (arg instanceof IntValue iv) {
+          final int idx = iv.val;
           if ((idx >= this.intv.low) && (idx <= this.intv.high)) {
             final int vidx = idx - this.intv.low;
             ex.idx++;
@@ -531,10 +544,13 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       this.normalize();
       final UniqueString[] vars = new UniqueString[this.domain.length];
       for (int i = 0; i < this.domain.length; i++) {
-        if (!(this.domain[i] instanceof StringValue)) {
-          return null;
+        if (this.domain[i] instanceof StringValue sv) {
+            vars[i] = sv.getVal();
         }
-        vars[i] = ((StringValue)this.domain[i]).getVal();
+        else{
+            return null;
+        }
+
       }
       if (coverage) {cm.incSecondary(this.values.length);}
       return new RecordValue(vars, this.values, this.isNormalized(), cm);
@@ -792,8 +808,8 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   private final boolean isRcd() {
     if (this.intv != null) return false;
       for (final Value dval : this.domain) {
-          final boolean isName = ((dval instanceof StringValue) &&
-                  isName(((StringValue) dval).val.toString()));
+          final boolean isName = ((dval instanceof StringValue sv) &&
+                  isName(sv.val.toString()));
           if (!isName) return false;
       }
     return true;
