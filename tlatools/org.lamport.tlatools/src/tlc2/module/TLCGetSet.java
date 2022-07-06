@@ -163,6 +163,8 @@ public class TLCGetSet implements ValueConstants {
 	private static final Value TLCGetStringValue(final Tool tool, final Value vidx, final TLCState s0, final TLCState s1,
 			final int control) {
 		final StringValue sv = (StringValue) vidx;
+		var mainChecker = IdThread.getMainChecker();
+
 		if (DIAMETER == sv.val) {
 			try {
 				if (tool.getMainChecker() != null) {
@@ -192,7 +194,7 @@ public class TLCGetSet implements ValueConstants {
 			}
 		} else if (GENERATED == sv.val) {
 			try {
-				return IntValue.gen(Math.toIntExact(tool.getMainChecker().getStatesGenerated()));
+				return IntValue.gen(Math.toIntExact(mainChecker.getStatesGenerated()));
 			} catch (final ArithmeticException e) {
 				throw new EvalException(EC.TLC_MODULE_OVERFLOW,
 						Long.toString(tool.getMainChecker().getStatesGenerated()));
