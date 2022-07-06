@@ -33,12 +33,8 @@ import tlc2.tool.ModelChecker;
 import tlc2.tool.StateVec;
 import tlc2.tool.TLCState;
 import tlc2.tool.TLCStateInfo;
-import tlc2.util.BitVector;
-import tlc2.util.IStateWriter;
+import tlc2.util.*;
 import tlc2.util.IStateWriter.Visualization;
-import tlc2.util.LongVec;
-import tlc2.util.NoopStateWriter;
-import tlc2.util.SetOfStates;
 import tlc2.util.statistics.IBucketStatistics;
 import tlc2.value.impl.CounterExample;
 import util.Assert;
@@ -612,7 +608,9 @@ public class LiveCheck implements ILiveCheck {
                                  final SetOfStates nextStates, final BitVector checkActionResults, final boolean[] checkStateResults) throws IOException {
 			int cnt = 0;
 			final int succCnt = nextStates.size();
-			
+
+			var mainChecker = IdThread.getMainChecker();
+
 			//TODO: See regression introduced by moving TBGraphNode#isConsistent
 			//      out of the (synchronized) loop below (commit d4908d0).
 			//      https://github.com/tlaplus/tlaplus/issues/614
@@ -720,7 +718,7 @@ public class LiveCheck implements ILiveCheck {
 						// Since the condition is only supposed to evaluate to false
 						// when LiveCheck is used in simulation mode, mainChecker
 						// has to be null.
-						Assert.check(tool.getMainChecker() == null, EC.GENERAL);
+						Assert.check(mainChecker == null, EC.GENERAL);
 					}
 				}
 
@@ -730,7 +728,7 @@ public class LiveCheck implements ILiveCheck {
 
 					// Lock mainChecker to prevent another TLC Worker from concurrently printing a
 					// (state-graph) safety violation.
-					synchronized (tool.getMainChecker()) {
+					synchronized (mainChecker) {
 						
 						dgraph.createCache();
 						final LongVec prefix = dgraph.getPath(errorGraphNode.stateFP, errorGraphNode.tindex);
@@ -767,8 +765,8 @@ public class LiveCheck implements ILiveCheck {
 								tool.getLiveness().evalAlias(last, last.state));
 						
 						// Stop subsequent state-space exploration.
-						tool.getMainChecker().stop();
-						tool.getMainChecker().setErrState(states.get(states.size() - 2).state, last.state, false,
+						mainChecker.stop();
+						mainChecker.setErrState(states.get(states.size() - 2).state, last.state, false,
 								EC.TLC_INVARIANT_VIOLATED_BEHAVIOR);
 						
 						tool.checkPostConditionWithCounterExample(new CounterExample(states));
