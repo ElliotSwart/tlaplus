@@ -193,6 +193,9 @@ public class TLCExt {
 	public static TupleValue getTrace(final Tool tool, final ExprOrOpArgNode[] args, final Context c,
 			final TLCState s0, final TLCState s1, final int control, final CostModel cm) throws IOException {
 
+		var mainChecker = IdThread.getMainChecker();
+		var simulator = IdThread.getSimulator();
+
 		if (!s0.allAssigned()) {
 			/*
 			 * Fail when Trace appears before the state is completely specified (see
@@ -210,10 +213,10 @@ public class TLCExt {
 					unassigned.stream().map(n -> n.getName().toString()).collect(Collectors.joining(", "))));
 		}
 
-		if (tool.getSimulator() != null) {
+		if (simulator != null) {
 			// TODO Somehow load only this implementation in simulation mode => module
 			// overrides for a specific tool mode.
-			final StateVec trace = tool.getSimulator().getTrace(s0);
+			final StateVec trace = simulator.getTrace(s0);
 			
 			final Value[] values = new Value[trace.size()];
 			for (int j = 0; j < trace.size(); j++) {
@@ -251,7 +254,7 @@ public class TLCExt {
 					trace.add(new TLCStateInfo(currentState));
 					trace.add(new TLCStateInfo(s0));
 				} else {
-					trace.addAll(Arrays.asList(tool.getMainChecker().getTraceInfo(currentState)));
+					trace.addAll(Arrays.asList(mainChecker.getTraceInfo(currentState)));
 					trace.add(new TLCStateInfo(currentState));
 					trace.add(new TLCStateInfo(s0));
 					// A side-effect of getTraceInfo are nested calls to setCurrentState. Thus, we
@@ -260,7 +263,7 @@ public class TLCExt {
 				}
 				return new TupleValue(trace.stream().map(si -> new RecordValue(si.state)).toArray(Value[]::new));
 			}
-			return getTrace0(s0, tool.getMainChecker().getTraceInfo(s0));
+			return getTrace0(s0, mainChecker.getTraceInfo(s0));
 		}
 	}
 
