@@ -11,5 +11,6 @@
             "${workspaceFolder}/test-model/UserModuleOverrideFromJar.jar"
         ]
     },
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.autobuild.enabled": false
 }

@@ -175,8 +175,9 @@
 				<version>3.0.0-M7</version>
 				<configuration>
 					<threadCount>1</threadCount>
-					<forkCount>10</forkCount>
-					<reuseForks>false</reuseForks>
+					<forkCount>1</forkCount>
+					<reuseForks>true</reuseForks>
+					<parallel>classes</parallel>
 					<argLine>-ea -XX:MaxDirectMemorySize=512k -XX:+UseParallelGC</argLine>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 					<skip>true</skip>
@@ -368,32 +369,12 @@
 						<configuration>
 							<rules>
 								<requireJavaVersion>
-									<version>11</version>
+									<version>17</version>
 								</requireJavaVersion>
 							</rules>
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-
-			<!-- Delete the ../states/ folder created by the Ant JUnit tests as part 
-			of the maven-antrun-plugin of customBuild.xml. On the CI-machine, the ../states/ 
-			folder gradually grows to eventually fill-up the entire disk. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<filesets>
-						<fileset>
-							<directory>../states/</directory>
-							<includes>
-								<include>**/*</include>
-							</includes>
-							<followSymlinks>false</followSymlinks>
-						</fileset>
-					</filesets>
-				</configuration>
 			</plugin>
 
 			<plugin>
@@ -404,12 +385,15 @@
 				<executions>
 					<execution>
 						<id>jgit-buildnumber</id>
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>extract-buildnumber</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
+
+
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>3.2.0</version>
@@ -420,9 +404,21 @@
 					<goals>
 					  <goal>clean</goal>
 					</goals>
+					<configuration>
+						<filesets>
+							<fileset>
+								<!-- Delete the ../states/ folder created by the Ant JUnit tests as part -->
+								<directory>${basedir}/states/</directory>
+								<includes>
+									<include>**/*</include>
+								</includes>
+								<followSymlinks>false</followSymlinks>
+							</fileset>
+						</filesets>
+					</configuration>
 				  </execution>
 				</executions>
-			  </plugin>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -733,6 +729,48 @@
 							</execution>
 						</executions>
 					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>3.2.0</version>
+						<executions>
+						  <execution>
+							<id>auto-clean</id>
+							<phase>initialize</phase>
+							<goals>
+							  <goal>clean</goal>
+							</goals>
+							<configuration>
+								<excludeDefaultDirectories>true</excludeDefaultDirectories>
+								<filesets>
+									<fileset>
+										<!-- Delete the test model to allow tests to run -->
+										<directory>${test.output}/test-model/</directory>
+										<includes>
+											<include>**/*</include>
+										</includes>
+										<followSymlinks>false</followSymlinks>
+									</fileset>
+									<fileset>
+										<!-- Delete the ../states/ folder created by the Ant JUnit tests as part -->
+										<directory>${basedir}/states/</directory>
+										<includes>
+											<include>**/*</include>
+										</includes>
+										<followSymlinks>false</followSymlinks>
+									</fileset>
+								</filesets>
+							</configuration>
+						  </execution>
+						</executions>
+					</plugin>
+					
 				</plugins>
 			</build>
 		</profile>

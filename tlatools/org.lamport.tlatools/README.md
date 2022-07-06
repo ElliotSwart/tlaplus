@@ -1,27 +1,32 @@
 Running Tests
 --------------
 
-Before run any of the commands below, you have to compile the
-application classes (if you changed any of them) or compile the test
-classes (if changed as well).
 
 Compiling application classes:
 
 ``` shell
-ant -f customBuild.xml compile
+mvn compile
 ```
 
 Compiling test classes:
 
 ``` shell
-ant -f customBuild.xml compile-test
+mvn test-compile
 ```
+
+Compile test classes prior to using a test-runner, unless your IDE does it for you.
 
 To run all the tests:
 
 ``` shell
-ant -f customBuild.xml test
+mvn test
 ```
+
+Use the development profile to allow for faster test runs. It only cleans output directories, and so can shorten build time.
+``` shell
+mvn test -P dev
+```
+
 
 To run a single test:
 
