@@ -69,7 +69,7 @@ abstract class Spec
     private final SpecProcessor specProcessor;
 
     private final OpDeclNode[] variables;
-    public final TLCState EmptyState;
+    public TLCState EmptyState;
 
     // SZ Feb 20, 2009: added support to name resolver, to be able to run outside of the tool
 	public Spec(final String specDir, final String specFile, final String configFile, final FilenameToStream resolver,
@@ -99,7 +99,6 @@ abstract class Spec
         specProcessor = new SpecProcessor(getRootName(), resolver, toolId, defns, config, this, this, tlaClass, mode, specObj);
         this.variables = specProcessor.variablesNodes;
         this.unprocessedDefns = specProcessor.getUnprocessedDefns();
-        this.EmptyState = specProcessor.EmptyState;
     }
     
     protected Spec(final Spec other) {
@@ -123,6 +122,10 @@ abstract class Spec
 
     public TLCState getEmptyState(){
         return this.EmptyState;
+    }
+
+    public void setEmptyState(final TLCState emptyState) {
+        this.EmptyState = emptyState;
     }
 
     public TLCState createEmptyState() {

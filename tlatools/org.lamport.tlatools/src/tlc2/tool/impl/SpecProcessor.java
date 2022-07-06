@@ -136,8 +136,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     private Vect<String> temporalNameVec = new Vect<>();
     private Vect<Action> impliedTemporalVec = new Vect<>();
     private Vect<String> impliedTemporalNameVec = new Vect<>();
-
-    public TLCState EmptyState;
     
 	public SpecProcessor(final String rootFile, final FilenameToStream resolver, final int toolId, final Defns defns,
                          final ModelConfig config, final SymbolNodeValueLookupProvider snvlp, final OpDefEvaluator ode,
@@ -748,13 +746,13 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
 		// set variables to the static filed in the state
 		if (mode == Mode.Simulation || mode == Mode.MC_DEBUG) {
-            this.EmptyState = TLCStateMutExt.getEmpty(this.variablesNodes);
+            opDefEvaluator.setEmptyState(TLCStateMutExt.getEmpty(this.variablesNodes));
 		} else if (hasCallableValue) {
 			assert mode == Mode.Executor;
-            this.EmptyState = TLCStateMutExt.getEmpty(this.variablesNodes);
+            opDefEvaluator.setEmptyState(TLCStateMutExt.getEmpty(this.variablesNodes));
 		} else {
 			assert mode == Mode.MC;
-            this.EmptyState = TLCStateMut.getEmpty(this.variablesNodes);
+            opDefEvaluator.setEmptyState(TLCStateMut.getEmpty(this.variablesNodes));
 		}
 
         // Apply config file overrides to operator definitions:

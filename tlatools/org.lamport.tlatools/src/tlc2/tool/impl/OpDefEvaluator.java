@@ -10,4 +10,6 @@ public interface OpDefEvaluator {
 	IValue eval(SemanticNode body, Context empty, TLCState empty2, CostModel doNotRecord);
 
 	TLCState getEmptyState();
+
+	void setEmptyState(final TLCState state);
 }
