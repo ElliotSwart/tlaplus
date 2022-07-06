@@ -83,11 +83,12 @@ public class TLCExt {
 	public synchronized static Value pickSuccessor(final Tool tool, final ExprOrOpArgNode[] args, final Context c,
 			final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
 
+		var mainChecker = IdThread.getMainChecker();
 		// TLC checks action constraints before it checks if states are new or not. Exclude seen states here
 		// to not repeatedly ask a user to extend a behavior with the same state over and over again.
 		try {
-			if (tool.getMainChecker() != null // simulation mode does not remember seen states.
-					&& ((ModelChecker) tool.getMainChecker()).theFPSet.contains(s1.fingerPrint())) {
+			if (mainChecker != null // simulation mode does not remember seen states.
+					&& ((ModelChecker) mainChecker).theFPSet.contains(s1.fingerPrint())) {
 				// If it is a seen state it is by definition in the model.
 				return BoolValue.ValTrue;
 			}
@@ -151,9 +152,9 @@ public class TLCExt {
 			} else if (nextLine.charAt(0) == 'd') {
 				MP.printMessage(EC.TLC_MODULE_OVERRIDE_STDOUT, s1.toString(s0));
 			} else if (nextLine.charAt(0) == 'e') {
-				if (tool.getMainChecker() != null) {
+				if (mainChecker != null) {
 					try {
-						((ModelChecker) tool.getMainChecker()).theFPSet.put(s1.fingerPrint());
+						((ModelChecker) mainChecker).theFPSet.put(s1.fingerPrint());
 					} catch (final IOException notExpectedToHappen) {
 						notExpectedToHappen.printStackTrace();
 					}

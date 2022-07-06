@@ -561,7 +561,8 @@ public class LiveCheck implements ILiveCheck {
 					// Since the condition is only supposed to evaluate to false
 					// when LiveCheck is used in simulation mode, mainChecker
 					// has to be null.
-					Assert.check(tool.getMainChecker() == null, EC.GENERAL);
+					var mainChecker = IdThread.getMainChecker();
+					Assert.check(mainChecker == null, EC.GENERAL);
 				}
 			}
 		}
