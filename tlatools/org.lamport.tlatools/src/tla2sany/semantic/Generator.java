@@ -699,7 +699,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 							 ************************************************************/
 						} else {
 							newName = UniqueString.uniqueStringOf(
-									curName.toString() + "!" + Operators.resolveSynonym(sel.opNames[idx]).toString());
+									curName + "!" + Operators.resolveSynonym(sel.opNames[idx]).toString());
 						}
                     } // if (sel.ops[idx] = NameSel)
 					else {
@@ -2302,13 +2302,13 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 				} // if (odn.letInLevel == curLevel)
 				else {
 					errors.addError(treeNode.getLocation(),
-							"Recursive operator " + Objects.requireNonNull(name).toString() + " defined at wrong LET/IN level.");
+							"Recursive operator " + Objects.requireNonNull(name) + " defined at wrong LET/IN level.");
 					odn = null;
 				} // else
 			} // if (odn != null) ...
 			else {
 				errors.addError(treeNode.getLocation(),
-						"Operator " + Objects.requireNonNull(name).toString() + " already defined or declared.");
+						"Operator " + Objects.requireNonNull(name) + " already defined or declared.");
 			}
 		} // if (symbolNode != null)
 

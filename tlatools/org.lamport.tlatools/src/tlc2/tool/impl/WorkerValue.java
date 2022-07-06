@@ -27,7 +27,6 @@ package tlc2.tool.impl;
 
 import tla2sany.semantic.ExprOrOpArgNode;
 import tlc2.TLCGlobals;
-import tlc2.tool.TLCState;
 import tlc2.tool.coverage.CostModel;
 import tlc2.util.Context;
 import tlc2.util.IdThread;

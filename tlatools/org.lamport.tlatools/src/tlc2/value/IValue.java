@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.util.Random;
 
 import tla2sany.semantic.SemanticNode;
-import tlc2.module.TLC;
 import tlc2.tool.TLCState;
 import tlc2.tool.coverage.CostModel;
 import tlc2.value.impl.BoolValue;

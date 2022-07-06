@@ -960,14 +960,14 @@ class trans {
 						new StringBuilder(output.get(mapping.tlaStartLine - 1))
 						.replace(m.start(Validator.PCAL_CHECKSUM), m.end(Validator.PCAL_CHECKSUM),
 								// --fair algorithm is not reflected in the AST, which is why we prepend it here.
-								Validator.checksum(foundFairBegin ? Validator.FAIR : "" + Objects.requireNonNull(ast).toString()))
+								Validator.checksum(foundFairBegin ? Validator.FAIR : "" + Objects.requireNonNull(ast)))
 						.toString());
 			}
 		} else if ((g = cb.shouldGenerate()) != Generate.NOT_NOW) {
 			if (g == Generate.DO_IT) {
 				output.set(mapping.tlaStartLine - 1,
 						output.get(mapping.tlaStartLine - 1) + " " + String.format(Validator.CHECKSUM_TEMPLATE,
-								Validator.checksum(foundFairBegin ? Validator.FAIR : "" + Objects.requireNonNull(ast).toString()), Validator.checksum(translation)));
+								Validator.checksum(foundFairBegin ? Validator.FAIR : "" + Objects.requireNonNull(ast)), Validator.checksum(translation)));
 			} else {
 				output.set(mapping.tlaStartLine - 1,
 						output.get(mapping.tlaStartLine - 1) + " " + Validator.CHECKSUM_TEMPLATE_IGNORE);

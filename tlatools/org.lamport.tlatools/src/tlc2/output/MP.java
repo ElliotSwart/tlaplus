@@ -1638,7 +1638,7 @@ public class MP
 
     public static int printTLCRuntimeException(final TLCRuntimeException tre) {
     	if (tre.parameters != null) {
-    		recorder.record(tre.errorCode, new Object[] {tre});
+    		recorder.record(tre.errorCode, tre);
     		DebugPrinter.print("entering printTLCRuntimeException(TLCRuntimeException) with errorCode " + tre.errorCode); //$NON-NLS-1$
     		// write the output
     		ToolIO.out.println(getMessage(ERROR, tre.errorCode, tre.parameters));

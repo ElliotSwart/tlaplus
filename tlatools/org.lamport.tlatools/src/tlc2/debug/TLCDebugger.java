@@ -80,7 +80,6 @@ import tla2sany.semantic.ModuleNode;
 import tla2sany.semantic.OpDefNode;
 import tla2sany.semantic.SemanticNode;
 import tla2sany.st.Location;
-import tlc2.TLCGlobals;
 import tlc2.tool.Action;
 import tlc2.tool.INextStateFunctor;
 import tlc2.tool.StatefulRuntimeException;

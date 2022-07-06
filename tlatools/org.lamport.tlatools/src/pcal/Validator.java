@@ -259,7 +259,7 @@ public class Validator {
 	    	if (m.find()) {
 	    		if (m.group(Validator.PCAL_CHECKSUM) != null) {
 
-	    			final String chksumPCalAST = Validator.checksum(foundFairBegin ? FAIR : "" + Objects.requireNonNull(ast).toString());
+	    			final String chksumPCalAST = Validator.checksum(foundFairBegin ? FAIR : "" + Objects.requireNonNull(ast));
 	    			if (!m.group(Validator.PCAL_CHECKSUM).equals(chksumPCalAST)) {
 	    				// Mismatch between the PlusCal algorithm and its checksum.
 	    				res.add(ValidationResult.PCAL_DIVERGENCE_EXISTS);

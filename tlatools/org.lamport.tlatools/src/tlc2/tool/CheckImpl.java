@@ -11,7 +11,6 @@ import tlc2.output.StatePrinter;
 import tlc2.tool.fp.FPSet;
 import tlc2.tool.fp.FPSetConfiguration;
 import tlc2.tool.fp.FPSetFactory;
-import tlc2.tool.queue.DiskStateQueue;
 import tlc2.util.NoopStateWriter;
 import util.ToolIO;
 

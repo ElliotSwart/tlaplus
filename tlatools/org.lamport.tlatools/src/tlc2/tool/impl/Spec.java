@@ -68,7 +68,7 @@ abstract class Spec
     protected final ModelConfig config; // The model configuration.
     private final SpecProcessor specProcessor;
 
-    private OpDeclNode[] variables;
+    private final OpDeclNode[] variables;
     public final TLCState EmptyState;
 
     // SZ Feb 20, 2009: added support to name resolver, to be able to run outside of the tool

@@ -54,7 +54,7 @@ public final class LaTeXOutput
 public final Parameters parameters;
 public final Misc misc;
 public final TokenizeSpec tokenizeSpec;
-private FormatComments formatComments;
+private final FormatComments formatComments;
 public LaTeXOutput(FormatComments formatComments){
     this.formatComments = formatComments;
     this.parameters = formatComments.parameters;

@@ -15,9 +15,6 @@ import java.util.TimeZone;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
-import tlc2.tool.AbstractChecker;
-import tlc2.tool.Simulator;
-
 /**
  * Globals
  * @author Leslie Lamport

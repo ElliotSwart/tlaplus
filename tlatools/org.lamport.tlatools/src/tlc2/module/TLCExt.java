@@ -33,7 +33,6 @@ import tla2sany.semantic.ExprOrOpArgNode;
 import tla2sany.semantic.LevelConstants;
 import tla2sany.semantic.OpDeclNode;
 import tla2sany.semantic.StringNode;
-import tlc2.TLCGlobals;
 import tlc2.output.EC;
 import tlc2.output.MP;
 import tlc2.overrides.Evaluation;

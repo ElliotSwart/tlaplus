@@ -11,7 +11,6 @@ import java.util.*;
 
 import tlc2.tool.EvalControl;
 import tlc2.tool.FingerprintException;
-import tlc2.tool.TLCState;
 import tlc2.tool.coverage.CostModel;
 import tlc2.util.FP64;
 import tlc2.value.IFcnRcdValue;

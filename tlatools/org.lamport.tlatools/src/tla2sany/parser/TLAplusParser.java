@@ -4474,8 +4474,9 @@ expecting = "==";
   }
 
   final public SyntaxTreeNode Number() throws ParseException {
-  SyntaxTreeNode tn, sn[] = null;
-  Token t1;
+  SyntaxTreeNode tn;
+      SyntaxTreeNode[] sn = null;
+      Token t1;
       final Token t2;
       int kind = N_Number;
     t1 = jj_consume_token(NUMBER_LITERAL);

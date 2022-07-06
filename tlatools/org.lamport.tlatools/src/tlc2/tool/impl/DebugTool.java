@@ -37,7 +37,6 @@ import tla2sany.semantic.ASTConstants;
 import tla2sany.semantic.ExprNode;
 import tla2sany.semantic.OpApplNode;
 import tla2sany.semantic.SemanticNode;
-import tlc2.TLCGlobals;
 import tlc2.debug.IDebugTarget;
 import tlc2.debug.IDebugTarget.AbortEvalException;
 import tlc2.debug.IDebugTarget.ResetEvalException;

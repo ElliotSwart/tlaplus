@@ -36,7 +36,6 @@ import tlc2.tool.IStateFunctor;
 import tlc2.tool.ModelChecker;
 import tlc2.tool.TLCState;
 import tlc2.tool.TLCTrace;
-import tlc2.tool.distributed.fp.FPSetManager;
 import tlc2.tool.distributed.fp.FPSetRMI;
 import tlc2.tool.distributed.fp.IFPSetManager;
 import tlc2.tool.distributed.fp.NonDistributedFPSetManager;

@@ -787,7 +787,7 @@ public final FcnParams params;       // the function formals
         }
         catch (final Throwable e) { /*SKIP*/ }
       }
-      sb.append("[").append(Objects.requireNonNull(this.params).toString());
+      sb.append("[").append(Objects.requireNonNull(this.params));
       sb.append(" |-> <expression ").append(this.body).append(">]");
       return sb;
     }

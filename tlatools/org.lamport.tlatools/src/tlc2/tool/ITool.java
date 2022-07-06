@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import tla2sany.semantic.*;
-import tlc2.TLCGlobals;
 import tlc2.tool.coverage.CostModel;
 import tlc2.tool.impl.ModelConfig;
 import tlc2.tool.impl.SpecProcessor;
