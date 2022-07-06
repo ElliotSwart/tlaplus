@@ -262,7 +262,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 	@Override
     public final void run() {
 		boolean run = true;
-		setMode(Tool.Mode.Simulation);
+		setUsingModelChecker(Tool.Mode.Simulation);
 		setSimulator(tool.getSimulator());
 		while(run) {
 			run = simulateAndReport();

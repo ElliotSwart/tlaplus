@@ -172,7 +172,7 @@ public class DFIDWorker extends IdThread implements IWorker {
   @Override
   public final void run() {
     TLCState curState = null;
-    setMode(Tool.Mode.Executor);
+    setUsingModelChecker(Tool.Mode.Executor);
     setMainChecker(this.tlc);
 
     try {

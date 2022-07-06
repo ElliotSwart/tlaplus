@@ -1132,7 +1132,7 @@ public class TLC {
             final int result;
 			if (RunMode.SIMULATE.equals(runMode)) {
                 // Ensure correct seed is used
-                IdThread.setMode(Tool.Mode.Simulation);
+                IdThread.setUsingModelChecker(Tool.Mode.Simulation);
 
                 // random simulation
                 if (noSeed)
@@ -1173,10 +1173,10 @@ public class TLC {
 
                 // Ensure random seed is set on correct variable
                 if(isBFS()){
-                    IdThread.setMode(Tool.Mode.MC);
+                    IdThread.setUsingModelChecker(Tool.Mode.MC);
                 }
                 else {
-                    IdThread.setMode(Tool.Mode.Simulation);
+                    IdThread.setUsingModelChecker(Tool.Mode.Simulation);
                 }
 
 				// Replace seed with tlc2.util.FP64.Polys[fpIndex]?

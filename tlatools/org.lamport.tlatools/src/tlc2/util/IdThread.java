@@ -3,18 +3,19 @@
 package tlc2.util;
 
 import tlc2.tool.AbstractChecker;
-import tlc2.tool.ModelChecker;
 import tlc2.tool.Simulator;
 import tlc2.tool.TLCState;
 import tlc2.tool.impl.Tool;
 import tlc2.value.IValue;
+
+import java.util.Objects;
 
 /** An <code>IdThread</code> is a <code>Thread</code> with an
     integer identifier. */
 
 public class IdThread extends Thread {
 	private static final ThreadLocal<TLCState> currentState = new ThreadLocal<>();
-	private static final ThreadLocal<Boolean> usingMainChecker = new ThreadLocal<>();
+	private static final ThreadLocal<Boolean> usingModelChecker = new ThreadLocal<>();
 
 	private static final ThreadLocal<Simulator> simulator = new ThreadLocal<Simulator>();
 
@@ -56,17 +57,19 @@ public class IdThread extends Thread {
 		return tlcState;
 	}
 
-	public static final void setMode(Tool.Mode mode){
-		if (mode == Tool.Mode.MC || mode == Tool.Mode.MC_DEBUG){
-			IdThread.usingMainChecker.set(true);
+	public static final void setUsingModelChecker(Tool.Mode usingModelChecker){
+		if (usingModelChecker == Tool.Mode.MC || usingModelChecker == Tool.Mode.MC_DEBUG){
+			IdThread.usingModelChecker.set(true);
 		}
 		else {
-			IdThread.usingMainChecker.set(false);
+			IdThread.usingModelChecker.set(false);
 		}
 	}
 
-	public static final Boolean getUsingMainChecker(){
-		return IdThread.usingMainChecker.get();
+	public static final Boolean getUsingModelChecker(){
+		var u = IdThread.usingModelChecker.get();
+
+		return Objects.requireNonNullElse(u, false);
 	}
 	
     private final int id;

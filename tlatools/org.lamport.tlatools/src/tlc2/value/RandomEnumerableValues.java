@@ -29,8 +29,6 @@ package tlc2.value;
 
 import java.util.Random;
 
-import tlc2.TLCGlobals;
-import tlc2.tool.ModelChecker;
 import tlc2.tool.TLCState;
 import tlc2.util.IdThread;
 
@@ -77,7 +75,7 @@ public abstract class RandomEnumerableValues {
 	private static final ThreadLocal<Random> RANDOMS = new ThreadLocal<>() {
         @Override
         protected Random initialValue() {
-            if (IdThread.getUsingMainChecker()) {
+            if (IdThread.getUsingModelChecker()) {
                 // In order to recreate the error trace in BFS mode - which essentially
                 // corresponds to rerunning state exploration following a given path - we have
                 // to recreate the same random values too. Otherwise, TLC will fail to recreate

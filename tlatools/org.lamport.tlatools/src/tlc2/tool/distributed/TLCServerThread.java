@@ -155,7 +155,7 @@ public class TLCServerThread extends IdThread {
 		TLCGlobals.incNumWorkers();
 		TLCStateVec[] newStates = null;
 		LongVec[] newFps = null;
-		setMode(Tool.Mode.MC);
+		setUsingModelChecker(Tool.Mode.MC);
 		final IStateQueue stateQueue = this.tlcServer.stateQueue;
 		try {
 			START: while (true) {
