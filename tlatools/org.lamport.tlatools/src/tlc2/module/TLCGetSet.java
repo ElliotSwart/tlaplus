@@ -418,8 +418,8 @@ public class TLCGetSet implements ValueConstants {
 			final int idx = iv.val;
 			if (idx >= 0) {
 				final Thread th = Thread.currentThread();
-				if (th instanceof IdThread) {
-					((IdThread) th).setLocalValue(idx, val);
+				if (th instanceof IdThread idT) {
+					idT.setLocalValue(idx, val);
 				} else if (mainChecker != null) {
 					mainChecker.setAllValues(idx, val);
 				} else {
