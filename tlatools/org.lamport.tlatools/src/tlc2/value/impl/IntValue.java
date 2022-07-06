@@ -7,6 +7,7 @@
 package tlc2.value.impl;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import tlc2.tool.FingerprintException;
 import tlc2.util.FP64;
@@ -100,7 +101,7 @@ private static final IntValue[] cache;
       }
       else{
         Assert.fail("Attempted to check equality of integer " + Values.ppr(this.toString()) +
-                " with non-integer:\n" + Values.ppr(obj.toString()), getSource());
+                " with non-integer:\n" + Values.ppr(Objects.requireNonNullElse(obj, "null").toString()), getSource());
         throw new RuntimeException("Placeholder for Assert");
       }
     }
