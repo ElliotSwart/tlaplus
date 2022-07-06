@@ -629,6 +629,7 @@
 		<profile>
 			<id>aspectj</id>
 			<build>
+				<!-- Copy needed files to source directory -->
 				<resources>
 					<resource>
 						<directory>${class.src.aj}</directory>
@@ -644,6 +645,26 @@
 					</resource>
 				</resources>
 				<plugins>
+					<!-- Add source dir -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>3.2.0</version>
+						<executions>
+							<execution>
+								<id>add-source</id>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>${class.src.aj}</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 					<!-- Compile aspects -->
 					<plugin>
 						<!-- https://github.com/nickwongdev/aspectj-maven-plugin -->
