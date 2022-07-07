@@ -176,7 +176,7 @@
 				<configuration>
 					<threadCount>1</threadCount>
 					<forkCount>1</forkCount>
-					<reuseForks>true</reuseForks>
+					<reuseForks>false</reuseForks>
 					<parallel>classes</parallel>
 					<argLine>-ea -XX:MaxDirectMemorySize=512k -XX:+UseParallelGC</argLine>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
@@ -348,6 +348,32 @@
 					</execution>
 				</executions>
 				<configuration>
+					<outputDirectory>${project.build.directory}/dist</outputDirectory>
+					<archive>
+						<manifest>
+							<mainClass>tlc2.TLC</mainClass>
+						</manifest>
+						<manifestEntries>
+							<Build-Tag>${env.BUILD_TAG}</Build-Tag>
+							<Build-TimeStamp>${maven.build.timestamp.format}</Build-TimeStamp>
+							<Implementation-Title>TLA+ Tools</Implementation-Title>
+
+							<!-- Git revision -->
+							<X-Git-Branch>${git.branch}</X-Git-Branch>
+							<X-Git-Tag>${git.tag}</X-Git-Tag>
+							<X-Git-Revision>${git.revision}</X-Git-Revision>
+							<X-Git-ShortRevision>${git.shortRevision}</X-Git-ShortRevision>
+							<X-Git-BuildNumber>${git.branch}_${git.tag}_${git.shortRevision}</X-Git-BuildNumber>
+							<X-Git-Commits-Count>${git.commitsCount}</X-Git-Commits-Count>
+
+							<!-- App-Name and Permissions is required by Java Webstart used by distributed TLC -->
+							<!-- Depending on security level, the user will see a warning otherwise. -->
+							<!-- http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/security/manifest.html -->
+							<Application-Name>TLC</Application-Name>
+							<permissions>all-permissions</permissions>
+							<!-- won't work with 'sandbox' as it writes files -->
+						</manifestEntries>
+					  </archive>
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
@@ -482,8 +508,44 @@
            which creates a jar file and set XMLExporter as the main class.
        -->
 	<profiles>
+		<!-- Run tests on distribution rather than source -->
 		<profile>
-			<id>Coverage</id>
+			<id>test-dist</id>
+		</profile>
+
+		<!-- Executes long-running unit tests -->
+		<profile>
+			<id>test-long</id>
+		</profile>
+
+		<!-- Builds jmh benchmark -->
+		<profile>
+			<id>benchmark</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>pw.krejci</groupId>
+						<artifactId>jmh-maven-plugin</artifactId>
+						<version>0.2.2</version>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>org.openjdk.jmh</groupId>
+					<artifactId>jmh-core</artifactId>
+					<version>1.35</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<!-- Verifies TLC parts with NASA's pathfinder model checker -->
+		<profile>
+			<id>test-verify</id>
+		</profile>
+		<profile>
+			<id>coverage</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -594,7 +656,7 @@
 								 package that is indirectly referenced by the toolbox (indirectly via
 								 org.apache.mina.core).
 								 see http://dev.eclipse.org/mhonarc/lists/cbi-dev/msg00166.html -->
-							<executionEnvironment>JavaSE-11</executionEnvironment>
+							<executionEnvironment>JavaSE-17</executionEnvironment>
 
 							<!-- configure the p2 target environments for multi-platform build -->
 							<environments>
@@ -735,6 +797,9 @@
 										<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 											<manifestEntries>
 												<Main-Class>tla2sany.xml.XMLExporter</Main-Class>
+												<Build-Tag>${env.BUILD_TAG}</Build-Tag>
+												<Build-TimeStamp>${maven.build.timestamp.format}</Build-TimeStamp>
+												<Implementation-Title>TLA+ Tools</Implementation-Title>
 											</manifestEntries>
 										</transformer>
 									</transformers>
