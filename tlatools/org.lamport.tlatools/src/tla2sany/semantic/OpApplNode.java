@@ -1207,8 +1207,8 @@ public class OpApplNode extends ExprNode implements ExploreNode {
               "\nsubExpressionOf: " +
               Strings.indent(2, this.subExpressionOf.toString(1))) ;}
       return "\n*OpApplNode: " + operator.getName() + "  " + super.toString(depth+1)
-           + "  errors: " + (errors != null ? "non-null" : "null")
-           + toStringBody(depth) + sEO ;
+           + "  errors: " + "non-null"
+           + toStringBody(depth) + sEO;
   }
 
     @Override

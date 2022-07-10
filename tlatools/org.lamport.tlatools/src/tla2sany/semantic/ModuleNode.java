@@ -1070,12 +1070,10 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     if (depth <= 0) return;
 
     System.out.print(
-      "*ModuleNode: " + name + "  " + super.toString(depth)
-      + "  errors: " + (errors == null
-                           ? "null"
-                           : (errors.get().getNumErrors() == 0
-                                 ? "none"
-                                 : "" +errors.get().getNumErrors())));
+            "*ModuleNode: " + name + "  " + super.toString(depth)
+            + "  errors: " + (errors.get().getNumErrors() == 0
+                                       ? "none"
+                                       : "" +errors.get().getNumErrors()));
 
     final Vector<String> contextEntries = ctxt.getContextEntryStringVector(depth-1, b);
     for (int i = 0; i < contextEntries.size(); i++) {
@@ -1090,11 +1088,9 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     final StringBuilder ret =
             new StringBuilder("\n*ModuleNode: " + name + "  " + super.toString(depth) +
                     "  constant module: " + this.isConstant() +
-                    "  errors: " + (errors == null
-                    ? "null"
-                    : (errors.get().getNumErrors() == 0
+                    "  errors: " + (errors.get().getNumErrors() == 0
                     ? "none"
-                    : "" + errors.get().getNumErrors())));
+                    : "" + errors.get().getNumErrors()));
 
     final Vector<String> contextEntries = ctxt.getContextEntryStringVector(depth-1,false);
     if (contextEntries != null) {

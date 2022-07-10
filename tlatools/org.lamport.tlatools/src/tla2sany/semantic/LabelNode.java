@@ -232,7 +232,7 @@ public boolean addLabel(final LabelNode odn) {
               param.levelCheck(iter);
           }
       }
-      return this.body.levelCheck(iter) && retVal ;
+      return this.body.levelCheck(iter);
   }
 
   @Override
@@ -331,9 +331,6 @@ public boolean addLabel(final LabelNode odn) {
     }
     else {
         ret.append("\n  Labels: null");}
-      if (this.subExpressionOf != null) {
-       ret.append(Strings.indent(2, "\nsubExpressionOf: " +
-               Strings.indent(2, this.subExpressionOf.toString(1))));}
 
       if (goal != null) {
       ret.append("\n goal: ").append(Strings.indent(4, this.goal.toString(1))).append("\n goalClause: ").append(goalClause);

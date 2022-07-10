@@ -1012,9 +1012,7 @@ int lengthOfMatch;
 protected char curChar;
 public ConfigurationTokenManager(final ASCII_CharStream stream)
 {
-   if (input_stream != null)
-      throw new TokenMgrError("ERROR: Second call to constructor of lexer. You must use ReInit() to initialize the variables.", TokenMgrError.STATIC_LEXER_ERROR);
-   input_stream = stream;
+    input_stream = stream;
 }
 public ConfigurationTokenManager(final ASCII_CharStream stream, final int lexState)
 {

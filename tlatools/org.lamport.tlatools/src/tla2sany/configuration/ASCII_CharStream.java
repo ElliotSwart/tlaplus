@@ -219,13 +219,7 @@ public final class ASCII_CharStream
   public ASCII_CharStream(final java.io.Reader dstream, final int startline,
                           final int startcolumn, final int buffersize)
   {
-    if (inputStream != null)
-       throw new Error("""
-
-               ERROR: Second call to the constructor of a ASCII_CharStream.  You must
-                   either use ReInit() or set the JavaCC option to false
-                   during the generation of this class.""".indent(3));
-    inputStream = dstream;
+      inputStream = dstream;
     line = startline;
     column = startcolumn - 1;
 
