@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.nio.file.Path;
+import java.util.Objects;
 
 import tla2sany.semantic.AbortException;
 import tla2sany.semantic.Errors;
@@ -199,13 +200,13 @@ public class ParseUnit {
     String fName = getFileName();
 
     // Remove all of the pathname up to the final "/"
-    fName = fName.substring(fName.lastIndexOf(System.getProperty("file.separator"))+1);
+    fName = Objects.requireNonNull(fName).substring(fName.lastIndexOf(System.getProperty("file.separator"))+1);
 
     // Remove any extension from file name
     fName = fName.substring(0,fName.lastIndexOf("."));
 
     // mName = name of top-level module declared in the file
-    final String mName = getParseTree().heirs()[0].heirs()[1].getImage();
+    final String mName = Objects.requireNonNull(getParseTree()).heirs()[0].heirs()[1].getImage();
 
     // Make sure the module named in the file matches the name of the file, at least
     // with a case-independent test.
@@ -332,7 +333,7 @@ public class ParseUnit {
         if (firstCall)
         {
             // We don't know the name of the specification until this moment!
-            spec.setName(getParseTree().heirs()[0].heirs()[1].getImage());
+            spec.setName(Objects.requireNonNull(getParseTree()).heirs()[0].heirs()[1].getImage());
         }
 
         rootModule = new ModulePointer(spec, this, getParseTree());
@@ -418,7 +419,7 @@ public class ParseUnit {
 
       final Vector<ModulePointer> peers = getPeers(ancestorModule);
       // All peers defined so far are in the currentContext
-      for (int i = 0; i < peers.size() - 1; i++) {
+      for (int i = 0; i < Objects.requireNonNull(peers).size() - 1; i++) {
         final ModulePointer nextPeer = peers.elementAt(i);
         currentContext.bindIfNotBound(nextPeer.getName(), nextPeer);
       }
