@@ -1697,11 +1697,10 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
                 /***********************************************************************
 		 * curNode should be an expression node. *
 		 ***********************************************************************/
-		if (!(curNode instanceof ExprNode)) {
+		if (!(curNode instanceof ExprNode curExprNode)) {
 			errors.addAbort(sel.selSTN.getLocation(), "Internal error: Expected expression node.");
 		}
-                ExprNode curExprNode = (ExprNode) curNode;
-		int temp = substInPrefix.size();
+				int temp = substInPrefix.size();
 
 		/***********************************************************************
 		 * +cal: while temp > 0 do ... end while *
@@ -1710,8 +1709,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			// Modified on 13 Nov 2009 by LL to handle the case of a subexpression
 			// of a Theorem or Assumption.
 			final Object substOb = substInPrefix.elementAt(temp - 1);
-			if (substOb instanceof SubstInNode) {
-				final SubstInNode subst = (SubstInNode) substOb;
+			if (substOb instanceof final SubstInNode subst) {
 				curExprNode = new SubstInNode(subst.stn, subst.getSubsts(), curExprNode, subst.getInstantiatingModule(),
 						subst.getInstantiatedModule());
 			} else {
