@@ -365,7 +365,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             // checked errors (init, parse, semantic).
             // Only if something unexpected happens the
             // exception is thrown
-            SANY.frontEndMain(specObj, this.rootFile, ToolIO.out);
+            var sany = new SANY();
+            sany.frontEndMain(specObj, this.rootFile, ToolIO.out);
         } catch (final FrontEndException e)
         {
             Assert.fail(EC.TLC_PARSING_FAILED2, e);
@@ -1006,6 +1007,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             {
                 Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { "initial predicate", name });
             }
+
             this.initPredVec.addElement(new Action(def.getBody(), Context.Empty, def, true, false));
         }
 

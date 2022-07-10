@@ -167,7 +167,7 @@ public class InstanceNode extends LevelNode {
           if (!this.module.isConstant()) {
               if (mexp.getLevel() > mparam.getLevel()) {
                   if (mexp.levelCheck(itr) && mparam.levelCheck(itr)) {
-                      errors.addError(
+                      errors.get().addError(
                               this.stn.getLocation(),
                               "Level error in instantiating module '" + module.getName() +
                                       "':\nThe level of the expression or operator substituted for '"
@@ -187,7 +187,7 @@ public class InstanceNode extends LevelNode {
               if (((op.getKind() == UserDefinedOpKind)
                       || (op.getKind() == BuiltInKind))
                       && (!((OpDefNode) op).isLeibniz)) {
-                  errors.addError(
+                  errors.get().addError(
                           this.stn.getLocation(),
                           "Error in instantiating module '" + module.getName() +
                                   "':\n A non-Leibniz operator substituted for '"
@@ -219,7 +219,7 @@ public class InstanceNode extends LevelNode {
           if (plevel != null &&
                   mexp.getLevel() > plevel) {
               if (mexp.levelCheck(itr)) {
-                  errors.addError(this.stn.getLocation(),
+                  errors.get().addError(this.stn.getLocation(),
                           "Level error in instantiating module '" + module.getName() +
                                   "':\nThe level of the expression or operator substituted for '" +
                                   mparam.getName() + "' \nmust be at most " + plevel + ".");
@@ -244,7 +244,7 @@ public class InstanceNode extends LevelNode {
                            * Apparently, we only bother reporting this error if level   *
                            * checking opDef didn't cause an error.                      *
                            *************************************************************/
-                          errors.addError(
+                          errors.get().addError(
                                   this.stn.getLocation(),
                                   "Level error in instantiating module '" + module.getName() +
                                           "':\nThe level of the argument " + j + " of the operator " +
@@ -284,7 +284,7 @@ public class InstanceNode extends LevelNode {
                                       ((OpDefNode) op).getMaxLevel(alp.i)) {
                           if (opLevelCheck &&
                                   subst.getExpr().levelCheck(itr)) {
-                              errors.addError(
+                              errors.get().addError(
                                       this.stn.getLocation(),
                                       "Level error when instantiating module '" +
                                               module.getName() + "':\nThe level of the argument " +

@@ -33,131 +33,133 @@ public class BuiltInLevel implements LevelConstants {
       this.argWeights = argWeights;
     }
   }
-    
-  private static final HashMap<String, Data> LevelData = new HashMap<>();
 
-  static int[] make() { return new int[0]; }
 
-  static int[] make(final int x) {
+  private final HashMap<String, Data> LevelData = new HashMap<>();
+
+  int[] make() { return new int[0]; }
+
+  int[] make(final int x) {
     final int[] res = { x };
     return res;
   }
 
-  static int[] make(final int x, final int y) {
+  int[] make(final int x, final int y) {
     final int[] res = { x, y };
     return res;
   }
 
-  static int[] make(final int x, final int y, final int z) {
+  int[] make(final int x, final int y, final int z) {
     final int[] res = { x, y, z };
     return res;
   }
 
-  static Data data(final int arity, final int opLevel, final int[] argMaxLevels, final int[] argWeights) {
+  Data data(final int arity, final int opLevel, final int[] argMaxLevels, final int[] argWeights) {
     return new Data(arity, opLevel, argMaxLevels, argWeights);
   }
   
-  static {
-    //                                       arity  opLevel  argMaxLevels   argWeights
-    LevelData.put("STRING",               data(0,     0,       make(),       make()));
-    LevelData.put("FALSE",                data(0,     0,       make(),       make()));
-    LevelData.put("TRUE",                 data(0,     0,       make(),       make()));
-    LevelData.put("BOOLEAN",              data(0,     0,       make(),       make()));
-    LevelData.put("=",                    data(2,     0,       make(2,2),    make(1,1)));
-    LevelData.put("/=",                   data(2,     0,       make(2,2),    make(1,1)));
-    LevelData.put("'",                    data(1,     2,       make(1),      make(0)));
-    LevelData.put("\\lnot",               data(1,     0,       make(3),      make(1)));
-    LevelData.put("\\land",               data(2,     0,       make(3,3),    make(1,1)));
-    LevelData.put("\\lor",                data(2,     0,       make(3,3),    make(1,1)));
-    LevelData.put("\\equiv",              data(2,     0,       make(3,3),    make(1,1)));
-    LevelData.put("=>",                   data(2,     0,       make(3,3),    make(1,1)));
-    LevelData.put("SUBSET",               data(1,     0,       make(2),      make(1)));
-    LevelData.put("UNION",                data(1,     0,       make(2),      make(1)));
-    LevelData.put("DOMAIN",               data(1,     0,       make(2),      make(1)));
-    LevelData.put("\\subseteq",           data(2,     0,       make(2,2),    make(1,1)));
-    LevelData.put("\\in",                 data(2,     0,       make(2,2),    make(1,1)));
-    LevelData.put("\\notin",              data(2,     0,       make(2,2),    make(1,1)));
-    LevelData.put("\\",                   data(2,     0,       make(2,2),    make(1,1)));
-    LevelData.put("\\intersect",          data(2,     0,       make(2,2),    make(1,1)));
-    LevelData.put("\\union",              data(2,     0,       make(2,2),    make(1,1)));
-    LevelData.put("\\times",              data(2,     0,       make(2,2),    make(1,1)));
-    LevelData.put("~>",                   data(2,     3,       make(3,3),    make(0,0)));
-    LevelData.put("[]",                   data(1,     3,       make(3),      make(0)));
-    LevelData.put("<>",                   data(1,     3,       make(3),      make(0)));
-    LevelData.put("ENABLED",              data(1,     1,       make(2),      make(0)));
-    LevelData.put("UNCHANGED",            data(1,     2,       make(1),      make(0)));
-    LevelData.put("\\cdot",               data(2,     2,       make(2,2),    make(0,0)));
-    LevelData.put("-+->",                 data(2,     3,       make(3,3),    make(0,0)));
-    LevelData.put("$AngleAct",            data(2,     2,       make(2,1),    make(0,0)));
-    LevelData.put("$BoundedChoose",       data(-1,    0,       make(2),      make(1)));
-    LevelData.put("$BoundedExists",       data(-1,    0,       make(3),      make(1)));
-    LevelData.put("$BoundedForall",       data(-1,    0,       make(3),      make(1)));
-    LevelData.put("$CartesianProd",       data(-1,    0,       make(2),      make(1)));
-    LevelData.put("$Case",                data(-1,    0,       make(3),      make(1)));
-    LevelData.put("$ConjList",            data(-1,    0,       make(3),      make(1)));    
-    LevelData.put("$DisjList",            data(-1,    0,       make(3),      make(1)));
-    LevelData.put("$Except",              data(-1,    0,       make(2),      make(1)));
-    LevelData.put("$FcnApply",            data(2,     0,       make(2,2),    make(1,1)));
-    LevelData.put("$FcnConstructor",      data(-1,    0,       make(3),      make(1)));
-    LevelData.put("$IfThenElse",          data(3,     0,       make(3,3,3),  make(1,1,1)));
-    LevelData.put("$NonRecursiveFcnSpec", data(1,     0,       make(3),      make(1)));
-    LevelData.put("$Pair",                data(2,     0,       make(3,3),    make(1,1)));
-    LevelData.put("$RcdConstructor",      data(-1,    0,       make(3),      make(1)));
-    LevelData.put("$RcdSelect",           data(2,     0,       make(2,0),    make(1,1)));
-    LevelData.put("$RecursiveFcnSpec",    data(1,     0,       make(3),      make(1)));
-    LevelData.put("$Seq",                 data(-1,    0,       make(2),      make(1)));
-    LevelData.put("$SetEnumerate",        data(-1,    0,       make(2),      make(1)));
-    LevelData.put("$SetOfAll",            data(-1,    0,       make(2),      make(1)));
-    LevelData.put("$SetOfFcns",           data(-1,    0,       make(2),      make(1)));
-    LevelData.put("$SetOfRcds",           data(-1,    0,       make(2),      make(1)));
-    LevelData.put("$SF",                  data(2,     3,       make(1,2),    make(0,0)));
-    LevelData.put("$SquareAct",           data(2,     2,       make(2,1),    make(0,0)));
-    LevelData.put("$SubsetOf",            data(1,     0,       make(2),      make(1)));
-    LevelData.put("$TemporalExists",      data(1,     3,       make(3),      make(0)));
-    LevelData.put("$TemporalForall",      data(1,     3,       make(3),      make(0)));
-    LevelData.put("$TemporalWhile",       data(2,     3,       make(3,3),    make(0,0)));
-    LevelData.put("$Tuple",               data(-1,    0,       make(2),      make(1)));
-    LevelData.put("$UnboundedChoose",     data(1,     0,       make(2),      make(1)));
-    LevelData.put("$UnboundedExists",     data(1,     0,       make(3),      make(1)));
-    LevelData.put("$UnboundedForall",     data(1,     0,       make(3),      make(1)));
-    LevelData.put("$WF",                  data(2,     3,       make(1,2),    make(0,0)));
+public BuiltInLevel() {
+  LevelData.put("STRING",               data(0,     0,       make(),       make()));
+  LevelData.put("FALSE",                data(0,     0,       make(),       make()));
+  LevelData.put("TRUE",                 data(0,     0,       make(),       make()));
+  LevelData.put("BOOLEAN",              data(0,     0,       make(),       make()));
+  LevelData.put("=",                    data(2,     0,       make(2,2),    make(1,1)));
+  LevelData.put("/=",                   data(2,     0,       make(2,2),    make(1,1)));
+  LevelData.put("'",                    data(1,     2,       make(1),      make(0)));
+  LevelData.put("\\lnot",               data(1,     0,       make(3),      make(1)));
+  LevelData.put("\\land",               data(2,     0,       make(3,3),    make(1,1)));
+  LevelData.put("\\lor",                data(2,     0,       make(3,3),    make(1,1)));
+  LevelData.put("\\equiv",              data(2,     0,       make(3,3),    make(1,1)));
+  LevelData.put("=>",                   data(2,     0,       make(3,3),    make(1,1)));
+  LevelData.put("SUBSET",               data(1,     0,       make(2),      make(1)));
+  LevelData.put("UNION",                data(1,     0,       make(2),      make(1)));
+  LevelData.put("DOMAIN",               data(1,     0,       make(2),      make(1)));
+  LevelData.put("\\subseteq",           data(2,     0,       make(2,2),    make(1,1)));
+  LevelData.put("\\in",                 data(2,     0,       make(2,2),    make(1,1)));
+  LevelData.put("\\notin",              data(2,     0,       make(2,2),    make(1,1)));
+  LevelData.put("\\",                   data(2,     0,       make(2,2),    make(1,1)));
+  LevelData.put("\\intersect",          data(2,     0,       make(2,2),    make(1,1)));
+  LevelData.put("\\union",              data(2,     0,       make(2,2),    make(1,1)));
+  LevelData.put("\\times",              data(2,     0,       make(2,2),    make(1,1)));
+  LevelData.put("~>",                   data(2,     3,       make(3,3),    make(0,0)));
+  LevelData.put("[]",                   data(1,     3,       make(3),      make(0)));
+  LevelData.put("<>",                   data(1,     3,       make(3),      make(0)));
+  LevelData.put("ENABLED",              data(1,     1,       make(2),      make(0)));
+  LevelData.put("UNCHANGED",            data(1,     2,       make(1),      make(0)));
+  LevelData.put("\\cdot",               data(2,     2,       make(2,2),    make(0,0)));
+  LevelData.put("-+->",                 data(2,     3,       make(3,3),    make(0,0)));
+  LevelData.put("$AngleAct",            data(2,     2,       make(2,1),    make(0,0)));
+  LevelData.put("$BoundedChoose",       data(-1,    0,       make(2),      make(1)));
+  LevelData.put("$BoundedExists",       data(-1,    0,       make(3),      make(1)));
+  LevelData.put("$BoundedForall",       data(-1,    0,       make(3),      make(1)));
+  LevelData.put("$CartesianProd",       data(-1,    0,       make(2),      make(1)));
+  LevelData.put("$Case",                data(-1,    0,       make(3),      make(1)));
+  LevelData.put("$ConjList",            data(-1,    0,       make(3),      make(1)));
+  LevelData.put("$DisjList",            data(-1,    0,       make(3),      make(1)));
+  LevelData.put("$Except",              data(-1,    0,       make(2),      make(1)));
+  LevelData.put("$FcnApply",            data(2,     0,       make(2,2),    make(1,1)));
+  LevelData.put("$FcnConstructor",      data(-1,    0,       make(3),      make(1)));
+  LevelData.put("$IfThenElse",          data(3,     0,       make(3,3,3),  make(1,1,1)));
+  LevelData.put("$NonRecursiveFcnSpec", data(1,     0,       make(3),      make(1)));
+  LevelData.put("$Pair",                data(2,     0,       make(3,3),    make(1,1)));
+  LevelData.put("$RcdConstructor",      data(-1,    0,       make(3),      make(1)));
+  LevelData.put("$RcdSelect",           data(2,     0,       make(2,0),    make(1,1)));
+  LevelData.put("$RecursiveFcnSpec",    data(1,     0,       make(3),      make(1)));
+  LevelData.put("$Seq",                 data(-1,    0,       make(2),      make(1)));
+  LevelData.put("$SetEnumerate",        data(-1,    0,       make(2),      make(1)));
+  LevelData.put("$SetOfAll",            data(-1,    0,       make(2),      make(1)));
+  LevelData.put("$SetOfFcns",           data(-1,    0,       make(2),      make(1)));
+  LevelData.put("$SetOfRcds",           data(-1,    0,       make(2),      make(1)));
+  LevelData.put("$SF",                  data(2,     3,       make(1,2),    make(0,0)));
+  LevelData.put("$SquareAct",           data(2,     2,       make(2,1),    make(0,0)));
+  LevelData.put("$SubsetOf",            data(1,     0,       make(2),      make(1)));
+  LevelData.put("$TemporalExists",      data(1,     3,       make(3),      make(0)));
+  LevelData.put("$TemporalForall",      data(1,     3,       make(3),      make(0)));
+  LevelData.put("$TemporalWhile",       data(2,     3,       make(3,3),    make(0,0)));
+  LevelData.put("$Tuple",               data(-1,    0,       make(2),      make(1)));
+  LevelData.put("$UnboundedChoose",     data(1,     0,       make(2),      make(1)));
+  LevelData.put("$UnboundedExists",     data(1,     0,       make(3),      make(1)));
+  LevelData.put("$UnboundedForall",     data(1,     0,       make(3),      make(1)));
+  LevelData.put("$WF",                  data(2,     3,       make(1,2),    make(0,0)));
 
-    /***********************************************************************
-    * The following added by LL on 2 Aug 2007.                             *
-    ***********************************************************************/
-    //                                       arity  opLevel  argMaxLevels   argWeights
-    LevelData.put("$Nop",                 data(1,     0,       make(3),      make(1)));
-    LevelData.put("$Qed",                 data(0,     0,       make(),       make()));
-    LevelData.put("$Pfcase",              data(1,     0,       make(3),      make(1)));
-    LevelData.put("$Have",                data(1,     0,       make(3),      make(1)));
-    LevelData.put("$Take",                data(1,     0,       make(3),      make(1)));
-    LevelData.put("$Pick",                data(1,     0,       make(3),      make(1)));
-    LevelData.put("$Witness",             data(-1,    0,       make(2),       make(1)));
+  /***********************************************************************
+   * The following added by LL on 2 Aug 2007.                             *
+   ***********************************************************************/
+  //                                       arity  opLevel  argMaxLevels   argWeights
+  LevelData.put("$Nop",                 data(1,     0,       make(3),      make(1)));
+  LevelData.put("$Qed",                 data(0,     0,       make(),       make()));
+  LevelData.put("$Pfcase",              data(1,     0,       make(3),      make(1)));
+  LevelData.put("$Have",                data(1,     0,       make(3),      make(1)));
+  LevelData.put("$Take",                data(1,     0,       make(3),      make(1)));
+  LevelData.put("$Pick",                data(1,     0,       make(3),      make(1)));
+  LevelData.put("$Witness",             data(-1,    0,       make(2),       make(1)));
 
-    /***********************************************************************
-    * $Suffices added by LL 16 Feb 2009.                                   *
-    ***********************************************************************/
-    LevelData.put("$Suffices",            data(1,     0,       make(3),      make(1)));
-  }   
+  /***********************************************************************
+   * $Suffices added by LL 16 Feb 2009.                                   *
+   ***********************************************************************/
+  LevelData.put("$Suffices",            data(1,     0,       make(3),      make(1)));
+}
 
   /**
    * Set up level data for built-in operators using LevelData.
    */
-  public static void load () {
-    final Context gcon = Context.getGlobalContext();
-    final Context.ContextSymbolEnumeration Enum = gcon.getContextSymbolEnumeration();
+  public static BuiltInLevel load (Context context) {
+    final BuiltInLevel builtInLevel = new BuiltInLevel();
+    final Context.ContextSymbolEnumeration Enum = context.getContextSymbolEnumeration();
 
     while (Enum.hasMoreElements()) {
       final SymbolNode sn = Enum.nextElement();
-      final Data d = LevelData.get(sn.getName().toString());
+      final Data d = builtInLevel.LevelData.get(sn.getName().toString());
       if (d != null) {
-	final OpDefNode opDef = (OpDefNode)gcon.getSymbol(sn.getName());
-	if (opDef.getArity() != d.arity) {
-	    throw new WrongInvocationException("Level data for " + sn.getName() + " has the wrong arity");
-	}
-	opDef.setBuiltinLevel(d);
-      }	
+        final OpDefNode opDef = (OpDefNode)context.getSymbol(sn.getName());
+        if (opDef.getArity() != d.arity) {
+            throw new WrongInvocationException("Level data for " + sn.getName() + " has the wrong arity");
+        }
+        opDef.setBuiltinLevel(d);
+      }
     }
+
+    return builtInLevel;
   }
 
 }

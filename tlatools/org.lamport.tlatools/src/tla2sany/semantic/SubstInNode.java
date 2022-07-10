@@ -72,7 +72,7 @@ public class SubstInNode extends ExprNode {
     this.instantiatingModule = ingmn;
     this.instantiatedModule = edmn;
     if (this.body == null) {
-      errors.addError(treeNode.getLocation(), "Substitution error, " +
+      errors.get().addError(treeNode.getLocation(), "Substitution error, " +
 		      "probably due to error \nin module being instantiated.");
     }
   }
@@ -210,7 +210,7 @@ public class SubstInNode extends ExprNode {
       if (!this.substs[index].isImplicit()) {
 	// if it is not an implicit substitution, then replacing it is
 	// an error.
-        errors.addError(stn.getLocation(), "Multiple substitutions for symbol '" +
+        errors.get().addError(stn.getLocation(), "Multiple substitutions for symbol '" +
 			lhs.toString() + "' in substitution.");
       }
       else {
@@ -271,7 +271,7 @@ public class SubstInNode extends ExprNode {
 
       // If not, then report an error
       if ( j >= this.substs.length ) {
-        errors.addError(stn.getLocation(),
+        errors.get().addError(stn.getLocation(),
 			"Substitution missing for symbol " + opName + " declared at " +
 			decls.elementAt(i).getTreeNode().getLocation() +
 			" \nand instantiated in module " + instantiatingModule.getName() + "." );

@@ -77,8 +77,8 @@ public class SpecTraceExpressionWriterTest {
 		
 		final SpecObj so = new SpecObj(tlaFile.getAbsolutePath(), null);
 		final TestPrintStream printStream = new TestPrintStream();
-		
-		final int result = SANY.frontEndMain(so, tlaFile.getAbsolutePath(), printStream);
+		var sany = new SANY();
+		final int result = sany.frontEndMain(so, tlaFile.getAbsolutePath(), printStream);
 		if (result != 0) {
 			throw new FrontEndException("Parsing returned a non-zero success code (" + result + ")");
 		}

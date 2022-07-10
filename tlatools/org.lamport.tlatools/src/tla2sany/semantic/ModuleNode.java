@@ -809,7 +809,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
           *****************************************************************/
           for (int j = 0 ; j < curNode.getArity() ; j++) {
             if (curNode.maxLevels[j] < ActionLevel) {
-               errors.addError(curNode.getTreeNode().getLocation(),
+               errors.get().addError(curNode.getTreeNode().getLocation(),
                              "Argument " + (j+1) + " of recursive operator "
                                + curNode.getName() + " is primed") ;
             } // if
@@ -1073,9 +1073,9 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
       "*ModuleNode: " + name + "  " + super.toString(depth)
       + "  errors: " + (errors == null
                            ? "null"
-                           : (errors.getNumErrors() == 0
+                           : (errors.get().getNumErrors() == 0
                                  ? "none"
-                                 : "" +errors.getNumErrors())));
+                                 : "" +errors.get().getNumErrors())));
 
     final Vector<String> contextEntries = ctxt.getContextEntryStringVector(depth-1, b);
     for (int i = 0; i < contextEntries.size(); i++) {
@@ -1092,9 +1092,9 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
                     "  constant module: " + this.isConstant() +
                     "  errors: " + (errors == null
                     ? "null"
-                    : (errors.getNumErrors() == 0
+                    : (errors.get().getNumErrors() == 0
                     ? "none"
-                    : "" + errors.getNumErrors())));
+                    : "" + errors.get().getNumErrors())));
 
     final Vector<String> contextEntries = ctxt.getContextEntryStringVector(depth-1,false);
     if (contextEntries != null) {

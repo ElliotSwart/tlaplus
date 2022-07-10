@@ -103,7 +103,8 @@ public class XMLExporter {
     //ToolIO.out.println("Processing: "+tlas[i]+"\n"+(tlas[i] == null));
     if (FileUtil.namedInputStreamCanBeCreated(tla_name, spec.getResolver())) {
       try {
-        SANY.frontEndMain(spec, tla_name, System.err);
+        var sany = new SANY();
+        sany.frontEndMain(spec, tla_name, System.err);
         if (spec.getExternalModuleTable() == null)
           throw new XMLExportingException("spec " + spec.getName() + " is malformed - does not have an external module table", null);
         if (spec.getExternalModuleTable().getRootModule() == null)

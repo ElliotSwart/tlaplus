@@ -96,7 +96,7 @@ public class UseOrHideNode extends LevelNode {
           if ((fact.getKind() == OpApplKind)
                   && (((OpApplNode) fact).operator.getKind()
                   != ThmOrAssumpDefKind)) {
-              errors.addError(
+              errors.get().addError(
                       fact.stn.getLocation(),
                       "The only expression allowed as a fact in a HIDE " +
                               "is \nthe name of a theorem, assumption, or step.");

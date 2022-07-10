@@ -16,6 +16,7 @@
 package tla2sany.configuration;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import tla2sany.parser.Operator;
 import tla2sany.parser.Operators;
@@ -37,8 +38,9 @@ public final class Configuration implements ConfigConstants {
     ToolIO.out.println( defaultConfig );
   }
 
+
   @SuppressWarnings("unused")
-public static void load (final Errors errs ) throws AbortException {
+public static Configuration load (final Errors errs ) throws AbortException, FileNotFoundException {
     /***********************************************************************
     * Called from drivers/SANY.java                                        *
     ***********************************************************************/
@@ -68,8 +70,10 @@ public static void load (final Errors errs ) throws AbortException {
                         + e.getMessage(),true );
       }
 
+      return Parser;
     } catch (final java.io.FileNotFoundException e) {
         //Parser.errors.addAbort(Location.nullLoc,"File not found.\n" + e,true);
+        throw e;
     }
   } // end load()
 

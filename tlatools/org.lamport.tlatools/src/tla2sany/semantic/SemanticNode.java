@@ -35,7 +35,7 @@ public abstract class SemanticNode
 
   private static final AtomicInteger uid = new AtomicInteger();  // the next unique ID for any semantic node
 
-  protected static Errors errors;
+  protected static ThreadLocal<Errors> errors = new ThreadLocal<>();
 
   public    final int      myUID;    // the unique ID of THIS semantic node
   public    TreeNode stn;      // the concrete syntax tree node associated with THIS semantic node
@@ -51,7 +51,12 @@ public abstract class SemanticNode
     this.tools = EmptyArr;
   }
 
-  public static void setError(final Errors errs) { errors = errs; }
+  // Use errors as a threadlocal to scope static
+  public static Errors getErrors(){
+      return errors.get();
+  }
+
+  public static void setErrors(final Errors errs) { errors.set(errs);}
 
   public static String levelToString(final int level) {
     switch (level) {

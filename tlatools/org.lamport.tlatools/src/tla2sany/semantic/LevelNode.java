@@ -110,7 +110,7 @@ public int levelChecked   = 0 ;
     *                                                                      *
     * The method returns true iff n and all of its descendants are level   *
     * correct.  However, this value is apparently never used.  Instead,    *
-    * level errors should be reported using errors.addError.               *
+    * level errors should be reported using errors.get().addError.               *
     *                                                                      *
     * To handle recursive definitions, level checking must be performed    *
     * more than once.  To handle this, successive calls are with larger    *

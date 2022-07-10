@@ -50,28 +50,28 @@ public class SANY {
   public static final String version =
     "Version 2.2 created " + modDate ; 
 
-  private static final boolean doParsing          = true;
+  private final boolean doParsing          = true;
     // true <=> parsing should be done
     //          currently there is no way to turn this off
 
-  private static boolean doSemanticAnalysis = true;  
+  private boolean doSemanticAnalysis = true;
     // true <=> semantic analysis should be done
     //          default is true; turned OFF by -S switch
 
-  private static boolean doLevelChecking    = true;  
+  private boolean doLevelChecking    = true;
     // true <=> level checking should be done
     //          no effect if doSemanticAnalysis is false
     //          default is true; turned OFF by -L switch
 
-  private static boolean doDebugging        = false; 
+  private boolean doDebugging        = false;
     // true <=> control should be transferred to debugger;
     //          default is false; turned ON by -D switch
 
-  private static boolean doStats            = false; 
+  private boolean doStats            = false;
     // true <=> statistics about builtin operator usage 
     //          should be reported
 
-  private static boolean doStrictErrorCodes   = false;
+  private boolean doStrictErrorCodes   = false;
     // true <=> error level should be reported as the tools'
     //          return value
 
@@ -112,7 +112,16 @@ public class SANY {
    * processing--those are reported in the returned specification
    * object, which must be checked as described above.
    */
-  public static final int frontEndMain(
+
+  private Context context;
+  private Configuration configuration;
+
+  private BuiltInLevel builtInLevel;
+
+  public SANY(){
+  }
+
+  public final int frontEndMain(
           final SpecObj spec,
           final String fileName,
           final PrintStream syserr) throws FrontEndException {
@@ -144,7 +153,7 @@ public class SANY {
   /** 
    * Initialize the all parts of the FrontEnd to handle a new specification.
    */
-  public static void frontEndInitialize(final SpecObj spec, final PrintStream syserr )
+  public void frontEndInitialize(final SpecObj spec, final PrintStream syserr )
   throws InitException {
     final String fileName   = spec.getFileName();
     final Errors initErrors = spec.initErrors;
@@ -154,14 +163,14 @@ public class SANY {
       // Set Configuration class to (re)start
 
       // (Re)create an empty Context object
-      Context.reInit();
+      context = new Context(null, new Errors()); // null because outside of any module
 
       // (Re)parse tables of builtin operators and synonyms into the 
       // global context
-      Configuration.load(initErrors);
+      configuration = Configuration.load(initErrors);
 
       // (Re)read & initialize level data for builtin operators
-      BuiltInLevel.load();
+      builtInLevel = BuiltInLevel.load(context);
 
       // Print any errors from parsing during initialization phase
       if (! initErrors.isSuccess()) {
@@ -187,11 +196,11 @@ public class SANY {
   } // frontEndInitialize
 
   // Parse all of the files referred to by the top-level file in specification
-  public static void frontEndParse(final SpecObj spec, final PrintStream syserr)
+  public void frontEndParse(final SpecObj spec, final PrintStream syserr)
   throws ParseException {
 	  frontEndParse(spec, syserr, true);
   }
-  public static void frontEndParse(final SpecObj spec, final PrintStream syserr, final boolean validatePCalTranslation)
+  public void frontEndParse(final SpecObj spec, final PrintStream syserr, final boolean validatePCalTranslation)
   throws ParseException {
       /***********************************************************************
        * Modified on 12 May 2008 by LL to remove "throws AbortException",     *
@@ -232,7 +241,7 @@ public class SANY {
       }
   } //
 
-  public static void frontEndSemanticAnalysis(final SpecObj spec,
+  public void frontEndSemanticAnalysis(final SpecObj spec,
                                               final PrintStream syserr,
                                               final boolean levelCheck)
   throws SemanticException {
@@ -242,10 +251,10 @@ public class SANY {
     ParseUnit   parseUnit;
     ModuleNode  moduleNode = null;
     final Errors      semanticErrors = spec.semanticErrors;
-    final Errors      globalContextErrors = tla2sany.semantic.Context.getGlobalContext().getErrors();
+    final Errors      globalContextErrors = context.getErrors();
 
     try {
-      SemanticNode.setError(semanticErrors);
+      SemanticNode.setErrors(semanticErrors);
       
       // Go through the semanticAnalysisVector, and generate the
       // semantic graph for each external module in it, adding at each
@@ -348,34 +357,27 @@ public class SANY {
    * This method should print statistics about the specification
    * It is obviously not finished.
    */
-  public static final void frontEndStatistics(final SpecObj spec) {
+  public final void frontEndStatistics(final SpecObj spec) {
     
   }
 
-  /**
-   * Main driver method for maintainers and debuggers of SANY.
-   * 
-   * Calls frontEndMain for each file named on the command line and then, 
-   * barring errors too severe, calls the Explorer tool with the resulting 
-   * ExternalModuleTable.
-   */
-  public static void SANYmain(final String[] args) {
+  public void handleArgs(final String[] args){
     int i;
     // Parse and process the command line switches, which are
     // distinguished by the fact that they begin with a '-' character.
     // Once the first command line element that is NOT a switch is
     // encountered, the rest are presumed to be file names.
     for (i = 0; (i < args.length) &&  (args[i].charAt(0) == '-'); i++) {
-      if (args[i].equals("-S") || args[i].equals("-s")) 
-          doSemanticAnalysis = !doSemanticAnalysis;
-      else if (args[i].equals("-L") || args[i].equals("-l")) 
-           doLevelChecking    = !doLevelChecking;
-      else if (args[i].equals("-D") || args[i].equals("-d")) 
-           doDebugging        = !doDebugging;
-      else if (args[i].equals("-STAT") || args[i].equals("-stat")) 
-           doStats      = !doStats;      
+      if (args[i].equals("-S") || args[i].equals("-s"))
+        doSemanticAnalysis = !doSemanticAnalysis;
+      else if (args[i].equals("-L") || args[i].equals("-l"))
+        doLevelChecking    = !doLevelChecking;
+      else if (args[i].equals("-D") || args[i].equals("-d"))
+        doDebugging        = !doDebugging;
+      else if (args[i].equals("-STAT") || args[i].equals("-stat"))
+        doStats      = !doStats;
       else if (args[i].equalsIgnoreCase("-error-codes"))
-           doStrictErrorCodes = true;
+        doStrictErrorCodes = true;
       else {
         ToolIO.out.println("Illegal switch: " + args[i]);
         System.exit(-1);
@@ -401,36 +403,47 @@ public class SANY {
       // check if file exists
       if (FileUtil.namedInputStreamCanBeCreated(args[i], spec.getResolver()))
       {
-          try {
-              final int ret = frontEndMain(spec, args[i], ToolIO.out);
-			  if (ret != 0) {
-            	  System.exit(ret);
-              }
-            }
-            catch (final FrontEndException fe) {
-              // For debugging
-              fe.printStackTrace();   
-              ToolIO.out.println(fe);
-              System.exit(-1);
-            }
-
-            // Compile operator usage stats
-            if (doStats) frontEndStatistics(spec);
-
-            if (doDebugging) {
-              // Run the Semantic Graph Exploration tool
-              final Explorer explorer = new Explorer(spec.getExternalModuleTable());
-              try {
-                explorer.main(args);
-              }
-              catch (final ExplorerQuitException e) { /*do nothing*/ }
-            }
-      } else 
-      {
-          ToolIO.out.println("Cannot find the specified file " + args[i] + ".");
+        try {
+          final int ret = frontEndMain(spec, args[i], ToolIO.out);
+          if (ret != 0) {
+            System.exit(ret);
+          }
+        }
+        catch (final FrontEndException fe) {
+          // For debugging
+          fe.printStackTrace();
+          ToolIO.out.println(fe);
           System.exit(-1);
+        }
+
+        // Compile operator usage stats
+        if (doStats) frontEndStatistics(spec);
+
+        if (doDebugging) {
+          // Run the Semantic Graph Exploration tool
+          final Explorer explorer = new Explorer(spec.getExternalModuleTable());
+          try {
+            explorer.main(args);
+          }
+          catch (final ExplorerQuitException e) { /*do nothing*/ }
+        }
+      } else
+      {
+        ToolIO.out.println("Cannot find the specified file " + args[i] + ".");
+        System.exit(-1);
       }
     }
   }
 
+  /**
+   * Main driver method for maintainers and debuggers of SANY.
+   * 
+   * Calls frontEndMain for each file named on the command line and then, 
+   * barring errors too severe, calls the Explorer tool with the resulting 
+   * ExternalModuleTable.
+   */
+  public static void SANYmain(final String[] args) {
+    var sany = new SANY();
+    sany.handleArgs(args);
+  }
 }

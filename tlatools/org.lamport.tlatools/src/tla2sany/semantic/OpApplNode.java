@@ -483,7 +483,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
         if (opd != null) {
           if (opd.getLevel() > opDef.getMaxLevel(i)) {
             if (opDefLevelCheck && opd.levelCheck(itr)) {
-              errors.addError(
+              errors.get().addError(
                  this.stn.getLocation(),
                  "Level error in applying operator " + opDef.getName() +
                     ":\nThe level of argument " + (i+1) + " exceeds the" +
@@ -507,7 +507,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
             for (int j = 0; j < alen; j++) {
               if (opdDef.getMaxLevel(j) < opDef.getMinMaxLevel(i, j)) {
                 if (opDefLevelCheck && opd.levelCheck(itr)) {
-                  errors.addError(this.stn.getLocation(),
+                  errors.get().addError(this.stn.getLocation(),
                                   "Level error in applying operator "
                                         + opDef.getName() + ":\n" +
                                   "The permitted level of argument "
@@ -524,7 +524,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
                     this.operands[j].getLevel() > opdDef.getMaxLevel(k)) {
                   if (opd.levelCheck(itr) &&
                       this.operands[j].levelCheck(itr)) {
-                    errors.addError(
+                    errors.get().addError(
                        this.stn.getLocation(),
                        "Level error in applying operator " + opDef.getName() +
                          ":\nThe level of argument " + (j+1) + " exceeds the" +
@@ -544,7 +544,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
           final boolean rangeLevelCheck = range.levelCheck(itr) ;
           if (range.getLevel() > ActionLevel) {
             if (rangeLevelCheck) {
-              errors.addError(
+              errors.get().addError(
                 this.stn.getLocation(),
                 "Level error in applying operator " + opDef.getName() +
                   ":\nThe level of the range for the bounded variable " +
@@ -982,7 +982,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
           && (arg.getKind() == OpApplKind)) {
         if (!((OpApplNode) arg).operator.getName().toString().equals(
                                                            "$SquareAct")) {
-          errors.addError(
+          errors.get().addError(
             stn.getLocation(),
             "[] followed by action not of form [A]_v.");
         }
@@ -998,7 +998,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
             && (arg.getKind() == OpApplKind)) {
           if (!((OpApplNode) arg).operator.getName().toString().equals(
                                                              "$AngleAct")) {
-            errors.addError(
+            errors.get().addError(
               stn.getLocation(),
               "<> followed by action not of form <<A>>_v.");
           }
@@ -1011,7 +1011,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     if (opName.equals("~>") || opName.equals("-+->")) {
       if (   (this.getArgs()[0].getLevel() == ActionLevel)
           || (this.getArgs()[1].getLevel() == ActionLevel)) {
-          errors.addError(
+          errors.get().addError(
              stn.getLocation(),
              "Action used where only temporal formula or " +
              "state predicate allowed.");
@@ -1042,7 +1042,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     		if (pop.equals("$DisjList")) {
     			pop = "Disjunction list" ;
     		}
-    		errors.addError(
+    		errors.get().addError(
     	             stn.getLocation(),
     	             pop + " has both temporal formula and action as arguments.");
     	}
@@ -1056,7 +1056,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
             || opName.equals("$BoundedForall"))) {
         for (final ExprNode range : this.ranges) {
             if (range.getLevel() == ActionLevel) {
-                errors.addError(
+                errors.get().addError(
                         range.stn.getLocation(),
                         "Action-level bound of quantified temporal formula.");
             }

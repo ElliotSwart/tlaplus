@@ -103,9 +103,10 @@ public class CheckImplFile extends CheckImpl
         final SpecObj spec = new SpecObj(rfname, null);
         try
         {
-            SANY.frontEndInitialize(spec, ToolIO.out);
-            SANY.frontEndParse(spec, ToolIO.out);
-            SANY.frontEndSemanticAnalysis(spec, ToolIO.out, true);
+            var sany = new SANY();
+            sany.frontEndInitialize(spec, ToolIO.out);
+            sany.frontEndParse(spec, ToolIO.out);
+            sany.frontEndSemanticAnalysis(spec, ToolIO.out, true);
         } catch (final Throwable e)
         {
             final String msg = (e.getMessage()==null)?e.toString():e.getMessage();
@@ -313,6 +314,7 @@ public class CheckImplFile extends CheckImpl
       while (true) {
 	// Get a trace and check it.
 	checker.export();
+
 	final boolean ok = checker.getTrace();
 	if (ok) {
 	  checker.checkTrace();
