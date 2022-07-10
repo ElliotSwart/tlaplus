@@ -1219,7 +1219,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
 			// The values in aValue are ordered by the varloc of the variable names (see
 			// tlc2.tool.TLCStateMut.bind(UniqueString, Value, SemanticNode). Thus, sort
 			// allParams - which are unordered - under same varloc order.
-			final TreeSet<SymbolNode> s = new TreeSet<>((o1, o2) -> Integer.compare(o1.getName().getVarLoc(), o2.getName().getVarLoc()));
+			final TreeSet<SymbolNode> s = new TreeSet<>(Comparator.comparingInt(o -> o.getName().getVarLoc()));
 			s.addAll(allParams);
 			
 			int idx = 0;

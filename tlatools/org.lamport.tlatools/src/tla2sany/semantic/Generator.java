@@ -1174,8 +1174,8 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 										temp = new FormalParamNode[numSymbs];
 										int k = 0;
 										for (final FormalParamNode[] symb : symbs) {
-											for (int j = 0; j < symb.length; j++) {
-												temp[k] = symb[j];
+											for (FormalParamNode formalParamNode : symb) {
+												temp[k] = formalParamNode;
 												k++;
 											}
 											// for j
@@ -1697,10 +1697,15 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
                 /***********************************************************************
 		 * curNode should be an expression node. *
 		 ***********************************************************************/
-		if (!(curNode instanceof ExprNode curExprNode)) {
+		ExprNode curExprNode = null;
+		if (curNode instanceof ExprNode cen) {
+			curExprNode = cen;
+		}
+		else{
 			errors.addAbort(sel.selSTN.getLocation(), "Internal error: Expected expression node.");
 		}
-				int temp = substInPrefix.size();
+
+		int temp = substInPrefix.size();
 
 		/***********************************************************************
 		 * +cal: while temp > 0 do ... end while *
