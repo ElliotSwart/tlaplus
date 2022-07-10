@@ -293,6 +293,8 @@ public static Configuration load (final Errors errs ) throws AbortException, Fil
 
 
   public Configuration(final java.io.Reader stream) {
+    context = new Context(null, new Errors()); // null because outside of any module
+
     if (jj_initialized_once) {
       ToolIO.out.println("ERROR: Second call to constructor of parser.  You must");
       ToolIO.out.println("       either use ReInit() or set the JavaCC option to false");
@@ -309,6 +311,7 @@ public static Configuration load (final Errors errs ) throws AbortException, Fil
   }
 
   public Configuration(final ConfigurationTokenManager tm) {
+    context = new Context(null, new Errors()); // null because outside of any module
     if (jj_initialized_once) {
       ToolIO.out.println("ERROR: Second call to constructor of parser.  You must");
       ToolIO.out.println("       either use ReInit() or set the JavaCC option to false");
