@@ -116,6 +116,11 @@ public class SANY {
   private Context context;
   private Configuration configuration;
 
+  private static  ThreadLocal<Context> threadContext = new ThreadLocal<>();
+  public static Context getThreadContext(){
+    return threadContext.get();
+  }
+
   private BuiltInLevel builtInLevel;
 
   public SANY(){
@@ -162,12 +167,13 @@ public class SANY {
 
       // Set Configuration class to (re)start
 
-      // (Re)create an empty Context object
-      context = new Context(null, new Errors()); // null because outside of any module
-
       // (Re)parse tables of builtin operators and synonyms into the 
       // global context
       configuration = Configuration.load(initErrors);
+      context = configuration.context;
+
+      // Set to be used by nodes that don't take it as argument
+      threadContext.set(context);
 
       // (Re)read & initialize level data for builtin operators
       builtInLevel = BuiltInLevel.load(context);
@@ -275,7 +281,7 @@ public class SANY {
             // Generate semantic graph for the entire external module
           syserr.println("Semantic processing of module " + moduleStringName);
           // create new Generator object
-          final Generator gen = new Generator(externalModuleTable, semanticErrors);
+          final Generator gen = new Generator(context, externalModuleTable, semanticErrors);
     
           // Perform semantic analysis and create semantic graph for one external module here
           moduleNode = gen.generate(Objects.requireNonNull(syntaxTreeRoot));

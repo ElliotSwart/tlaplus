@@ -52,6 +52,7 @@ import util.WrongInvocationException;
 public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConstants, TLAplusParserConstants {
 
 	private Context context; // current context, not very useful.
+	private final Context mainContext;
 	private SymbolTable symbolTable; // symbol table used throughout the spec.
 										// except for embedded modules
 	/***********************************************************************
@@ -1835,7 +1836,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	}
 
 	// Constructor
-	public Generator(final ExternalModuleTable moduleTable, final Errors errs) {
+	public Generator(final Context mainContext, final ExternalModuleTable moduleTable, final Errors errs) {
 		nullParam = new FormalParamNode[0];
 		nullODN = new OpDefNode(UniqueString.uniqueStringOf("nullODN"));
 		nullOAN = new OpApplNode(nullODN);
@@ -1843,9 +1844,10 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		nullLabelNode = new LabelNode(nullOAN);
 		this.errors = errs;
 		this.moduleTable = moduleTable;
-		this.symbolTable = new SymbolTable(moduleTable, errors);
+		this.symbolTable = new SymbolTable(mainContext, moduleTable, errors);
 		this.excStack = new Stack();
 		this.excSpecStack = new Stack();
+		this.mainContext = mainContext;
 	}
 
 	public final SymbolTable getSymbolTable() {

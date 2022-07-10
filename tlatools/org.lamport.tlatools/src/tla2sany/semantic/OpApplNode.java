@@ -20,6 +20,7 @@ import java.util.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import tla2sany.drivers.SANY;
 import tla2sany.explorer.ExploreNode;
 import tla2sany.explorer.ExplorerVisitor;
 import tla2sany.parser.SyntaxTreeNode;
@@ -171,7 +172,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     this.boundedBoundSymbols= null;
     this.tupleOrs = null;
     this.ranges = new ExprNode[0];
-    this.operator = Context.getGlobalContext().getSymbol(us);
+    this.operator = SANY.getThreadContext().getSymbol(us);
     // operator.match( this, mn );
   }
 
@@ -194,7 +195,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     this.boundedBoundSymbols= null;
     this.tupleOrs = null;
     this.ranges = new ExprNode[0];
-    this.operator = Context.getGlobalContext().getSymbol(us);
+    this.operator = SANY.getThreadContext().getSymbol(us);
     // operator.match( this, mn );
   }
 
@@ -218,7 +219,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     this.boundedBoundSymbols= pars;
     this.tupleOrs = isT;
     this.ranges = rs;
-    this.operator = Context.getGlobalContext().getSymbol(us);
+    this.operator = SANY.getThreadContext().getSymbol(us);
      // operator.match( this, mn );
   }
 
@@ -239,7 +240,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
   * Called only by Function.recursionCheck() in semantic/Generator.java.   *
   *************************************************************************/
   final void resetOperator(final UniqueString us ) {
-    this.operator = Context.getGlobalContext().getSymbol(us);
+    this.operator = SANY.getThreadContext().getSymbol(us);
   }
 
   /**

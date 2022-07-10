@@ -33,6 +33,7 @@ import util.UniqueString;
 public final class Configuration implements ConfigConstants {
 
   private Errors         errors;
+  public Context context;
 
   public void displayDefinitions() {
     ToolIO.out.println( defaultConfig );
@@ -221,25 +222,25 @@ public static Configuration load (final Errors errs ) throws AbortException, Fil
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case INFIX:
       jj_consume_token(INFIX);
-      Context.addGlobalSymbol( us, new OpDefNode( us, tla2sany.semantic.ASTConstants.BuiltInKind, 2,
+      context.addGlobalSymbol( us, new OpDefNode( us, tla2sany.semantic.ASTConstants.BuiltInKind, 2,
                         new FormalParamNode[2], false, null, null, null, new SyntaxTreeNode( us ) ),
                         errors);
       break;
     case PREFIX:
       jj_consume_token(PREFIX);
-      Context.addGlobalSymbol( us, new OpDefNode( us, tla2sany.semantic.ASTConstants.BuiltInKind, 1,
+      context.addGlobalSymbol( us, new OpDefNode( us, tla2sany.semantic.ASTConstants.BuiltInKind, 1,
                         new FormalParamNode[1], false, null, null, null, new SyntaxTreeNode( us ) ),
                         errors);
       break;
     case POSTFIX:
       jj_consume_token(POSTFIX);
-      Context.addGlobalSymbol( us, new OpDefNode( us, tla2sany.semantic.ASTConstants.BuiltInKind, 1,
+      context.addGlobalSymbol( us, new OpDefNode( us, tla2sany.semantic.ASTConstants.BuiltInKind, 1,
                         new FormalParamNode[1], false, null, null, null, new SyntaxTreeNode( us ) ),
                         errors);
       break;
     case CONSTANT:
       jj_consume_token(CONSTANT);
-      Context.addGlobalSymbol( us, new OpDefNode( us, tla2sany.semantic.ASTConstants.BuiltInKind, 0,
+      context.addGlobalSymbol( us, new OpDefNode( us, tla2sany.semantic.ASTConstants.BuiltInKind, 0,
                         new FormalParamNode[0], false, null, null, null, new SyntaxTreeNode( us ) ),
                         errors);
       break;
@@ -248,7 +249,7 @@ public static Configuration load (final Errors errs ) throws AbortException, Fil
       final int n = Integer.parseInt( t.image );
       FormalParamNode[] fpn = null;
       if ( n != -1 ) fpn = new FormalParamNode[ n ];
-      Context.addGlobalSymbol( us, 
+      context.addGlobalSymbol( us,
                         new OpDefNode( us, tla2sany.semantic.ASTConstants.BuiltInKind, n,
                                        fpn, false, null, null, null, new SyntaxTreeNode( us ) ),
                                        errors);
@@ -273,6 +274,8 @@ public static Configuration load (final Errors errs ) throws AbortException, Fil
                                              0x1e00,0x200000,0x400e80,};
 
   public Configuration(final java.io.InputStream stream) {
+    context = new Context(null, new Errors()); // null because outside of any module
+
     if (jj_initialized_once) {
       ToolIO.out.println("ERROR: Second call to constructor of parser.  You must");
       ToolIO.out.println("       either use ReInit() or set the JavaCC option to false");

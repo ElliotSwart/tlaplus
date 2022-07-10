@@ -59,6 +59,7 @@ public class DotExplorerVisitor extends ExplorerVisitor {
 
 	public DotExplorerVisitor(final ModuleNode rootModule) {
 		this.rootModule = rootModule;
+
 		this.table = new NoopTable<>();
 		try {
 			this.writer = new PrintWriter(FileUtil.newBFOS(rootModule.getName() + ".dot"));
@@ -132,18 +133,18 @@ public class DotExplorerVisitor extends ExplorerVisitor {
 		return table;
 	}
 	
-	private static String toDot(final String sn) {
+	private String toDot(final String sn) {
 		return sn.replace("\\", "\\\\").replace("\"", "\\\"").trim().replace("\n", "\\n");
 	}
 	
-	private static boolean skipNode(final ExploreNode exploreNode) {
+	private boolean skipNode(final ExploreNode exploreNode) {
 		if (exploreNode instanceof Context || exploreNode instanceof FormalParamNode) {
 			return true;
 		}
 		if (exploreNode instanceof Subst) {
 			return true;
 		}
-		if (Context.isBuiltIn(exploreNode)) {
+		if (rootModule.getContext().isBuiltIn(exploreNode)) {
 			return true;
 		}
 		if (exploreNode instanceof SemanticNode) {

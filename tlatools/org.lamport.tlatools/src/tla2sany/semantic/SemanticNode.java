@@ -12,6 +12,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import tla2sany.drivers.SANY;
 import tla2sany.explorer.ExploreNode;
 import tla2sany.explorer.ExplorerVisitor;
 import tla2sany.parser.SyntaxTreeNode;
@@ -306,7 +307,7 @@ public abstract class SemanticNode
   }
   
   public boolean isBuiltIn() {
-	  return Context.isBuiltIn(this);
+	  return SANY.getThreadContext().isBuiltIn(this);
   }
 
   /**

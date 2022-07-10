@@ -87,16 +87,6 @@ public class Context implements ExploreNode {
     }
   } // class Pair
 
-  public class InitialSymbolEnumeration {
-
-    final Enumeration<Pair> e = initialContext.content();
-
-    public boolean hasMoreElements() { return e.hasMoreElements(); }
-
-    public SymbolNode nextElement() {
-      return e.nextElement().getSymbol();
-    }
-  }
 
   public class ContextSymbolEnumeration {
 
@@ -109,10 +99,6 @@ public class Context implements ExploreNode {
     }
 
   }
-
-  private static Context initialContext = new Context(null, new Errors());
-                                      // the one, static unique Context with builtin operators
-                                      // null ModuleTable arg because this is shared by all modules
 
   private final ExternalModuleTable exMT;   // The external ModuleTable that this context's SymbolTable
                                       // belongs to is null for global contex shared by all modules.
@@ -132,26 +118,9 @@ public class Context implements ExploreNode {
     this.lastPair = null;
   }
 
-  /*
-   * Reinitialize the initialContext module so that a new spec file
-   * can be parsed; must be called at the beginning of each root file
-   * of a spec.
-   */
-  public static void reInit() {
-    initialContext =  new Context(null, new Errors()); // null because outside of any module
-  }
 
-  /**
-   * This method returns a copy of the context that contains
-   * declarations only of the built-in operators of TLA+.  This
-   * context assigns no meanings to module names.
-   */
-  public static Context getGlobalContext() {
-    return initialContext;
-  }
-  
-	public static boolean isBuiltIn(final ExploreNode exploreNode) {
-		final Collection<Pair> pairs = initialContext.table.values();
+	public boolean isBuiltIn(final ExploreNode exploreNode) {
+		final Collection<Pair> pairs = table.values();
 		for (final Pair p : pairs) {
 			if (exploreNode == p.info) {
 				return true;
@@ -163,15 +132,15 @@ public class Context implements ExploreNode {
   public Errors getErrors() { return errors; }
 
   // Adds a symbol to the (unique) initialContext; aborts if already there
-  public static void addGlobalSymbol(final UniqueString name, final SymbolNode sn, final Errors errors)
+  public void addGlobalSymbol(final UniqueString name, final SymbolNode sn, final Errors errors)
   throws AbortException {
-    if (initialContext.getSymbol(name) != null) {
+    if (getSymbol(name) != null) {
       errors.addAbort(Location.nullLoc,
 		      "Error building initial context: Multiply-defined builtin operator " +
 		      name + " at " + sn, false );
     }
     else {
-      initialContext.addSymbolToContext( name, sn );
+      addSymbolToContext( name, sn );
     }
   }
 
@@ -475,7 +444,7 @@ public<T> Vector<T> getByClass(final Class<T> template ) {
 
       // If b is false, don't bother printing the initialContext--too long--
       // and, don't bother printing elements of the Naturals module either
-      if (b || (!initialContext.table.containsKey(key) &&
+      if (b || (!table.containsKey(key) &&
 		(naturalsContext == null ||
 		 !naturalsContext.table.containsKey(key)))) {
         final SymbolNode symbNode  = (table.get(key)).info;

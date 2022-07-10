@@ -42,9 +42,9 @@ public class SymbolTable implements ASTConstants {
     //   THIS SymbolTable should be appended.
 
   // This form for external modules
-  public SymbolTable(final ExternalModuleTable mt, final Errors errs ) {
+  public SymbolTable(final Context context, final ExternalModuleTable mt, final Errors errs ) {
     // Makes copy of context containing built-in symbols:
-    topContext = Context.getGlobalContext().duplicate(mt);
+    topContext = context.duplicate(mt);
     baseContext = topContext;
 
     errors = errs;
