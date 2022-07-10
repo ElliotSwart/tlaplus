@@ -29,15 +29,19 @@ public class OperatorStack implements tla2sany.st.SyntaxTreeConstants {
   private final ParseErrors PErrors;
 
   private final Operator fcnOp;
+
+  private final Operators operators;
+
     /***********************************************************************
     * This is a constant set when the OperatorStack object is created to   *
     * the operator entry for "[", which apparently is a dummy operator     *
     * representing function application.                                   *
     ***********************************************************************/
     
-  public OperatorStack(final ParseErrors pe ) {
+  public OperatorStack(final Operators operators, final ParseErrors pe ) {
     PErrors = pe;
-    fcnOp = Operators.getOperator( UniqueString.uniqueStringOf("[") ); }
+    this.operators = operators;
+    fcnOp = operators.getOperator( UniqueString.uniqueStringOf("[") ); }
 
 // could be optimized to reuse memory
   public final void newStack() {
@@ -290,7 +294,7 @@ What do left and right mean?????? What does shift mean????????
         }
       } else { // oR.isInfix()
         if ( n == 0 ) {
-            final Operator mixR  = Operators.getMixfix( oR );
+            final Operator mixR  = operators.getMixfix( oR );
             if ( mixR == null )
               throw new ParseException(
                           "\n  Encountered infix op " + oR.getIdentifier() + 
@@ -306,7 +310,7 @@ What do left and right mean?????? What does shift mean????????
             oL = tm1.getOperator();
             if ( oL.isInfix() || oL.isPrefix() ) { 
                     // new case for mixfix XXX this is not exhaustive.
-              final Operator mixR  = Operators.getMixfix( oR );
+              final Operator mixR  = operators.getMixfix( oR );
               if ( mixR == null ) { // is infix
                 if (oR == Operator.VoidOperator() )
                   throw new ParseException(
@@ -340,7 +344,7 @@ What do left and right mean?????? What does shift mean????????
               if ( tm2.isOperator() ) {
                 oL = tm2.getOperator();
 // System.out.println("tm2 is operator: " + oL.getIdentifier());
-                final Operator mixL = Operators.getMixfix( oL );
+                final Operator mixL = operators.getMixfix( oL );
                 if (  mixL != null && ((n==2) 
                     || 
                      CurrentTop.elementAt( n-3 ).isOperator())) {

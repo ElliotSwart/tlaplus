@@ -48,14 +48,14 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
   private boolean numberFlag = false;
   private boolean decimalFlag = false;
 
-  private final Operator FcnOp = Operators.getOperator( UniqueString.uniqueStringOf("[" ));
+  private final Operator FcnOp;
   private SyntaxTreeNode FairnessHook;
 
   private final UniqueString At = UniqueString.uniqueStringOf("@");
 
   final ParseErrors PErrors = new ParseErrors();
 
-  private final tla2sany.parser.OperatorStack OperatorStack = new tla2sany.parser.OperatorStack( PErrors );
+  private final tla2sany.parser.OperatorStack OperatorStack;
 
   private BracketStack BStack;
     /***********************************************************************
@@ -2601,7 +2601,7 @@ expecting = "Expression or Op. Symbol";
   final public SyntaxTreeNode PrefixOp() throws ParseException {
   final Token t;
     t = PrefixOpToken();
-    lastOp = Operators.getOperator( UniqueString.uniqueStringOf(t.image) ); // YYY to revise
+    lastOp = operators.getOperator( UniqueString.uniqueStringOf(t.image) ); // YYY to revise
     {if (true) return new SyntaxTreeNode(mn, N_PrefixOp, t) ;}
     throw new Error("Missing return statement in function");
   }
@@ -2609,7 +2609,7 @@ expecting = "Expression or Op. Symbol";
   final public SyntaxTreeNode NonExpPrefixOp() throws ParseException {
   final Token t;
     t = NEPrefixOpToken();
-    lastOp = Operators.getOperator( UniqueString.uniqueStringOf(t.image) ); // YYY to revise
+    lastOp = operators.getOperator( UniqueString.uniqueStringOf(t.image) ); // YYY to revise
     {if (true) return new SyntaxTreeNode(mn, N_NonExpPrefixOp, t) ;}
     throw new Error("Missing return statement in function");
   }
@@ -2618,7 +2618,7 @@ expecting = "Expression or Op. Symbol";
   final Token t;
 bpa("Infix Op") ;
     t = InfixOpToken();
-    lastOp = Operators.getOperator( UniqueString.uniqueStringOf(t.image) ); // YYY to revise
+    lastOp = operators.getOperator( UniqueString.uniqueStringOf(t.image) ); // YYY to revise
 epa();
     {if (true) return new SyntaxTreeNode( mn, N_InfixOp, t) ;}
     throw new Error("Missing return statement in function");
@@ -2627,7 +2627,7 @@ epa();
   final public SyntaxTreeNode PostfixOp() throws ParseException {
   final Token t;
     t = PostfixOpToken();
-    lastOp = Operators.getOperator( UniqueString.uniqueStringOf(t.image) ); // YYY to revise
+    lastOp = operators.getOperator( UniqueString.uniqueStringOf(t.image) ); // YYY to revise
     {if (true) return new SyntaxTreeNode(mn, N_PostfixOp, t) ;}
     throw new Error("Missing return statement in function");
   }
@@ -11010,10 +11010,16 @@ final SyntaxTreeNode tn;
   private boolean jj_rescan = false;
   private int jj_gc = 0;
 
-  public TLAplusParser(final java.io.InputStream stream) {
-     this(stream, null);
+  private Operators operators;
+
+  public TLAplusParser(final Operators operators, final java.io.InputStream stream) {
+     this(operators, stream, null);
   }
-  public TLAplusParser(final java.io.InputStream stream, final String encoding) {
+  public TLAplusParser(final Operators operators, final java.io.InputStream stream, final String encoding) {
+    this.operators = operators;
+    this.FcnOp = operators.getOperator( UniqueString.uniqueStringOf("[" ));
+    this.OperatorStack = new tla2sany.parser.OperatorStack(operators, PErrors );
+
     try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } catch(final java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
     token_source = new TLAplusParserTokenManager(jj_input_stream);
     token = new Token();
@@ -11046,7 +11052,11 @@ final SyntaxTreeNode tn;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
-  public TLAplusParser(final TLAplusParserTokenManager tm) {
+  public TLAplusParser(final Operators operators, final TLAplusParserTokenManager tm) {
+    this.operators = operators;
+    this.FcnOp = operators.getOperator( UniqueString.uniqueStringOf("[" ));
+    this.OperatorStack = new tla2sany.parser.OperatorStack(operators, PErrors );
+
     token_source = tm;
     token = new Token();
     jj_ntk = -1;

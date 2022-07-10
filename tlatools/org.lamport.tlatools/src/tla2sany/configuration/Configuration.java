@@ -34,6 +34,7 @@ public final class Configuration implements ConfigConstants {
 
   private Errors         errors;
   public Context context;
+  public Operators operators;
 
   public void displayDefinitions() {
     ToolIO.out.println( defaultConfig );
@@ -194,7 +195,7 @@ public static Configuration load (final Errors errs ) throws AbortException, Fil
    } else {
      op = new Operator( UniqueString.uniqueStringOf(t.image), low, high, assoc, kind );
    }
-   Operators.addOperator( UniqueString.uniqueStringOf(s), op );
+   operators.addOperator( UniqueString.uniqueStringOf(s), op );
   }
 
   public void OpSynonym() throws ParseException {
@@ -203,7 +204,7 @@ public static Configuration load (final Errors errs ) throws AbortException, Fil
       jj_consume_token(SYNONYM);
     t1 = jj_consume_token(OPID);
     t2 = jj_consume_token(OPID);
-    Operators.addSynonym( UniqueString.uniqueStringOf(t1.image), 
+    operators.addSynonym( UniqueString.uniqueStringOf(t1.image),
                           UniqueString.uniqueStringOf(t2.image) );
   }
 
@@ -294,6 +295,7 @@ public static Configuration load (final Errors errs ) throws AbortException, Fil
 
   public Configuration(final java.io.Reader stream) {
     context = new Context(null, new Errors()); // null because outside of any module
+    operators = new Operators();
 
     if (jj_initialized_once) {
       ToolIO.out.println("ERROR: Second call to constructor of parser.  You must");

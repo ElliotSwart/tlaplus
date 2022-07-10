@@ -16,6 +16,7 @@ import java.util.Hashtable;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import tla2sany.configuration.Configuration;
 import tla2sany.parser.Operators;
 import tla2sany.parser.SyntaxTreeNode;
 import tla2sany.parser.TLAplusParserConstants;
@@ -53,6 +54,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 	private Context context; // current context, not very useful.
 	private final Context mainContext;
+	private final Operators operators;
 	private SymbolTable symbolTable; // symbol table used throughout the spec.
 										// except for embedded modules
 	/***********************************************************************
@@ -270,7 +272,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			compoundIDUS = UniqueString.uniqueStringOf(compoundID.toString());
 
 			// look up the full name in the SymbolTable (may return null)
-			fullyQualifiedOp = symbolTable.resolveSymbol(Operators.resolveSynonym(compoundIDUS));
+			fullyQualifiedOp = symbolTable.resolveSymbol(operators.resolveSynonym(compoundIDUS));
 
 			if (fullyQualifiedOp == null && compoundIDUS != S_at) {
 				// if not in the symbol table and not "@", then it is an unresolved symbol
@@ -693,14 +695,14 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					 ******************************************************************/
 					if (sel.ops[idx] == NameSel) {
 						if (curName == null) {
-							newName = Operators.resolveSynonym(sel.opNames[idx]);
+							newName = operators.resolveSynonym(sel.opNames[idx]);
 							/************************************************************
 							 * Need to call resolveSynonym so things like (+), aka * \oplus, are handled
 							 * properly. *
 							 ************************************************************/
 						} else {
 							newName = UniqueString.uniqueStringOf(
-									curName + "!" + Operators.resolveSynonym(sel.opNames[idx]).toString());
+									curName + "!" + operators.resolveSynonym(sel.opNames[idx]).toString());
 						}
                     } // if (sel.ops[idx] = NameSel)
 					else {
@@ -1836,18 +1838,20 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	}
 
 	// Constructor
-	public Generator(final Context mainContext, final ExternalModuleTable moduleTable, final Errors errs) {
+	public Generator(final Configuration configuration, final ExternalModuleTable moduleTable, final Errors errs) {
 		nullParam = new FormalParamNode[0];
 		nullODN = new OpDefNode(UniqueString.uniqueStringOf("nullODN"));
 		nullOAN = new OpApplNode(nullODN);
 		nullOpArg = new OpArgNode(UniqueString.uniqueStringOf("nullOpArg"));
 		nullLabelNode = new LabelNode(nullOAN);
+		this.mainContext = configuration.context;
+		this.operators = configuration.operators;
+
 		this.errors = errs;
 		this.moduleTable = moduleTable;
-		this.symbolTable = new SymbolTable(mainContext, moduleTable, errors);
+		this.symbolTable = new SymbolTable(this.mainContext, moduleTable, errors);
 		this.excStack = new Stack();
 		this.excSpecStack = new Stack();
-		this.mainContext = mainContext;
 	}
 
 	public final SymbolTable getSymbolTable() {
@@ -2133,11 +2137,11 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		}
 
         /**********************************************************************
-		 * Changed us to Operators.resolveSynonym(us) in the following so * constant
+		 * Changed us to operators.resolveSynonym(us) in the following so * constant
 		 * declarations work with any synonym for an operator--e.g., * with both (+) and
 		 * \oplus. *
 		 **********************************************************************/
-		return new OpDeclNode(Operators.resolveSynonym(us), declKind, declLevel, arity, cm, st, treeNode);
+		return new OpDeclNode(operators.resolveSynonym(us), declKind, declLevel, arity, cm, st, treeNode);
 	}
 
 	private final void processParameters(final TreeNode[] treeNodes, final ModuleNode cm) {
@@ -2199,12 +2203,12 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 						arity = (sss.length - 1) / 2;
 					} else if (ss[lvi].isKind(N_InfixDecl)) {
 						// parameter is infix operator
-						// Call of Operators.resolveSynonym added by LL on 27 Mar 2013
+						// Call of operators.resolveSynonym added by LL on 27 Mar 2013
 						name = sss[1].getUS();
 
 						// Following added by LL on 27 Mar 2013
 						// to handle parameters like _(+)_
-						name = Operators.resolveSynonym(name);
+						name = operators.resolveSynonym(name);
 
 						arity = 2;
 					} else if (ss[lvi].isKind(N_PrefixDecl)) {
@@ -2233,7 +2237,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			params[0] = new FormalParamNode(ss[1].getUS(), 0, ss[1], symbolTable, cm);
 
 			// Process the operator
-			name = Operators.resolveSynonym(ss[0].getUS());
+			name = operators.resolveSynonym(ss[0].getUS());
 		} else if (children[0].isKind(N_InfixLHS)) { // operator is an infix operator
 			params = new FormalParamNode[2];
 			// Process the first param
@@ -2243,14 +2247,14 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			params[1] = new FormalParamNode(ss[2].getUS(), 0, ss[2], symbolTable, cm);
 
 			// Process the operator
-			name = Operators.resolveSynonym(ss[1].getUS());
+			name = operators.resolveSynonym(ss[1].getUS());
 		} else if (children[0].isKind(N_PostfixLHS)) { // operator is a postfix operator
 			// Process the parameter
 			params = new FormalParamNode[1];
 			params[0] = new FormalParamNode(ss[0].getUS(), 0, ss[0], symbolTable, cm);
 
 			// Process the operator
-			name = Operators.resolveSynonym(ss[1].getUS());
+			name = operators.resolveSynonym(ss[1].getUS());
 		} else {
 			errors.addError(children[0].getLocation(), "Unknown parameter declaration `" + children[0].getUS() + "'.");
 		}
@@ -2721,7 +2725,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			genID = generateGenID(children[1], cm);
 
 			sns = new ExprOrOpArgNode[2];
-			opn = symbolTable.resolveSymbol(Operators.resolveSynonym(genID.getCompoundIDUS()));
+			opn = symbolTable.resolveSymbol(operators.resolveSynonym(genID.getCompoundIDUS()));
 			if (opn == null) {
 				errors.addError(treeNode.getLocation(),
 						"Couldn't resolve infix operator symbol `" + genID.getCompoundIDUS() + "'.");
@@ -2735,7 +2739,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		case N_PrefixExpr:
 			genID = generateGenID(children[0], cm, true);
 			sns = new ExprOrOpArgNode[1];
-			opn = symbolTable.resolveSymbol(Operators.resolveSynonym(Objects.requireNonNull(genID).getCompoundIDUS()));
+			opn = symbolTable.resolveSymbol(operators.resolveSynonym(Objects.requireNonNull(genID).getCompoundIDUS()));
 
 			if (opn == null) {
 				errors.addError(treeNode.getLocation(),
@@ -2750,7 +2754,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			genID = generateGenID(children[1], cm);
 
 			sns = new ExprNode[1];
-			opn = symbolTable.resolveSymbol(Operators.resolveSynonym(genID.getCompoundIDUS()));
+			opn = symbolTable.resolveSymbol(operators.resolveSynonym(genID.getCompoundIDUS()));
 			if (opn == null) {
 				errors.addError(treeNode.getLocation(),
 						"Couldn't resolve postfix " + "operator symbol `" + genID.getCompoundIDUS() + "'.");
@@ -5416,7 +5420,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 								final GenID genID = generateGenID(children[1], cm);
 								final ExprNode[] sns = new ExprNode[2];
 								final SymbolNode opn = symbolTable
-										.resolveSymbol(Operators.resolveSynonym(genID.getCompoundIDUS()));
+										.resolveSymbol(operators.resolveSynonym(genID.getCompoundIDUS()));
 								if (opn == null) {
 									errors.addError(curExpr.getLocation(), "Couldn't resolve infix operator symbol `"
 											+ genID.getCompoundIDUS() + "'.");
@@ -6959,7 +6963,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
  * 
  * (***************************************************************************)
  * (* NAMING *) (* *) (* There are four kinds of Nameable Objects: *) (* -
- * Expressions *) (* - Operators that take an argument *) (* (and that can
+ * Expressions *) (* - operators that take an argument *) (* (and that can
  * appear as operator arguments) *) (* - Operator definitions (named in
  * BY/USE/HIDE statements) *) (* - ASSUME/PROVEs. *) (* *) (* There are three
  * relevant kinds of primitive names that appear in a *) (* TLA+ module. *) (*

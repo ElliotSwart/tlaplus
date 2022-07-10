@@ -297,7 +297,7 @@ public class ParseUnit {
         try 
         {
             // create parser object
-            parseTree = new tla2sany.parser.TLAplusParser(nis);
+            parseTree = new tla2sany.parser.TLAplusParser(spec.operators, nis);
 
             // Here is the one true REAL call to the parseTree.parse() for a file;
             // The root node of the parse tree is left in parseTree.

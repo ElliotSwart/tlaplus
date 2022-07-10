@@ -12,6 +12,7 @@ import pcal.PcalParams;
 import pcal.TLAtoPCalMapping;
 import pcal.Validator;
 import pcal.Validator.ValidationResult;
+import tla2sany.parser.Operators;
 import tla2sany.semantic.AbortException;
 import tla2sany.semantic.Errors;
 import tla2sany.semantic.ExprNode;
@@ -110,6 +111,8 @@ public class SpecObj
 
     public final ParseAlgorithm parseAlgorithm;
     public final Validator validator;
+
+    public Operators operators;
 
     /**
      * Default constructor of the SpecObj with a given primary filename and the default 

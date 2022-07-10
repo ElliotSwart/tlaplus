@@ -175,6 +175,8 @@ public class SANY {
       // Set to be used by nodes that don't take it as argument
       threadContext.set(context);
 
+      spec.operators = configuration.operators;
+
       // (Re)read & initialize level data for builtin operators
       builtInLevel = BuiltInLevel.load(context);
 
@@ -281,7 +283,7 @@ public class SANY {
             // Generate semantic graph for the entire external module
           syserr.println("Semantic processing of module " + moduleStringName);
           // create new Generator object
-          final Generator gen = new Generator(context, externalModuleTable, semanticErrors);
+          final Generator gen = new Generator(configuration, externalModuleTable, semanticErrors);
     
           // Perform semantic analysis and create semantic graph for one external module here
           moduleNode = gen.generate(Objects.requireNonNull(syntaxTreeRoot));
