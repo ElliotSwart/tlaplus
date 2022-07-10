@@ -11010,7 +11010,7 @@ final SyntaxTreeNode tn;
   private boolean jj_rescan = false;
   private int jj_gc = 0;
 
-  private Operators operators;
+  private final Operators operators;
 
   public TLAplusParser(final Operators operators, final java.io.InputStream stream) {
      this(operators, stream, null);

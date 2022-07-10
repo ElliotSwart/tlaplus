@@ -36,7 +36,7 @@ public abstract class SemanticNode
 
   private static final AtomicInteger uid = new AtomicInteger();  // the next unique ID for any semantic node
 
-  protected static ThreadLocal<Errors> errors = new ThreadLocal<>();
+  protected final static ThreadLocal<Errors> errors = new ThreadLocal<>();
 
   public    final int      myUID;    // the unique ID of THIS semantic node
   public    TreeNode stn;      // the concrete syntax tree node associated with THIS semantic node

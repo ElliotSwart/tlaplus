@@ -116,7 +116,7 @@ public class SANY {
   private Context context;
   private Configuration configuration;
 
-  private static  ThreadLocal<Context> threadContext = new ThreadLocal<>();
+  private static final ThreadLocal<Context> threadContext = new ThreadLocal<>();
   public static Context getThreadContext(){
     return threadContext.get();
   }
