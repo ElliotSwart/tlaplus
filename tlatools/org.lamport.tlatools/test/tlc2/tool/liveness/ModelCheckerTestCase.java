@@ -44,6 +44,7 @@ import tlc2.output.MP;
 import tlc2.tool.*;
 import tlc2.util.BitVector;
 import tlc2.util.BufferedRandomAccessFile;
+import tlc2.util.IdThread;
 import util.FileUtil;
 import util.FilenameToStream;
 import util.SimpleFilenameToStream;
@@ -212,11 +213,11 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 			if (!checkDeadLock()) {
 				args.add("-deadlock");
 			}
-			
+			/*
 			if (getNumberOfThreads() == 1 && runWithDebugger()) {
 				args.add("-debugger");
 				args.add(String.format("nosuspend,port=%s,nohalt", 1025 + new Random().nextInt(64540)));
-			}
+			}*/
 			
 			if (noGenerateSpec()) {
 				args.add("-noGenerateSpecTE");
@@ -305,7 +306,13 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 		beforeTearDown();
 		// Cleanup by unsubscribing
 		MP.unsubscribeRecorder(recorder);
-		
+		IdThread.resetThreadStates();
+
+		tlc = null;
+		ToolIO.out = System.out;
+
+		System.gc();
+
 		assertExitStatus();
 	}
 	
