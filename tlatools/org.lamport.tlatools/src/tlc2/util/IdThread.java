@@ -17,9 +17,8 @@ public class IdThread extends Thread {
 	private static final ThreadLocal<TLCState> currentState = new ThreadLocal<>();
 	private static final ThreadLocal<Boolean> usingModelChecker = new ThreadLocal<>();
 
-	private static final ThreadLocal<Simulator> simulator = new ThreadLocal<Simulator>();
-
-	private static  final ThreadLocal<AbstractChecker> mainChecker = new ThreadLocal<>();
+	private static final InheritableThreadLocal<Simulator> simulator = new InheritableThreadLocal<>();
+	private static  final InheritableThreadLocal<AbstractChecker> mainChecker = new InheritableThreadLocal<>();
 
 	/**
 	 * @return null during the generation of initial states (see
@@ -49,6 +48,12 @@ public class IdThread extends Thread {
 
 	public static final AbstractChecker getMainChecker(){
 		return IdThread.mainChecker.get();
+	}
+
+	public static final void resetThreadStates(){
+		setSimulator(null);
+		setMainChecker(null);
+		resetCurrentState();
 	}
 
 	public static final TLCState resetCurrentState() {

@@ -1246,10 +1246,6 @@ public class LiveWorker implements Callable<Boolean> {
 
 	@Override
     public final Boolean call() throws IOException, InterruptedException, ExecutionException {
-		// On new thread
-		IdThread.setMainChecker(mainChecker);
-		IdThread.setSimulator(simulator);
-
 		while (true) {
 			// Use poll() to get the next checker from the queue or null if
 			// there is none. Do *not* block when there are no more checkers

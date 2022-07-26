@@ -87,7 +87,6 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
     public void run() {
 		TLCState curState = null;
 		setUsingModelChecker(mode);
-		setMainChecker(tlc);
 
 		try {
 			while (true) {
