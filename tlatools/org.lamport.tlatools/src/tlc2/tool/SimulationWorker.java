@@ -269,6 +269,8 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 		while(run) {
 			run = simulateAndReport();
 		}
+
+		IdThread.resetThreadStates();
 	}
 
 	protected boolean simulateAndReport() {

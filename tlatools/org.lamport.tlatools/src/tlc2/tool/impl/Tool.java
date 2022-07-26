@@ -186,6 +186,7 @@ public abstract class Tool
 		}
 
     // Set as the fast tool for this thread
+    IdThread.setTool(this);
     IdThread.setFastTool(this);
       
 		final Action next = this.getNextStateSpec();

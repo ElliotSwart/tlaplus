@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import tlc2.TLCGlobals;
 import tlc2.output.EC;
@@ -920,6 +921,8 @@ public class LiveWorker implements Callable<Boolean> {
 			}
 			throw ee;
 		}
+
+		executor.shutdown();
 		
 		/*
 		 * At this point everything from the initial state up to the start state
@@ -977,6 +980,7 @@ public class LiveWorker implements Callable<Boolean> {
 		}
 		
 		tool.getDebugger().checkPostConditionWithCounterExample(new CounterExample(states, sinfo.getAction(), stateNumber));
+		executor.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS); // wait forever
 	}
 
 	// BFS search
