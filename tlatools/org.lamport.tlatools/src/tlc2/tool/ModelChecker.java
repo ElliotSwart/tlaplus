@@ -27,6 +27,7 @@ import tlc2.tool.queue.DiskByteArrayQueue;
 import tlc2.tool.queue.DiskStateQueue;
 import tlc2.tool.queue.IStateQueue;
 import tlc2.util.IStateWriter;
+import tlc2.util.IdThread;
 import tlc2.util.SetOfStates;
 import tlc2.util.statistics.BucketStatistics;
 import util.Assert;

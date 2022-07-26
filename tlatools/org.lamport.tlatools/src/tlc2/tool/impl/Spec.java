@@ -7,12 +7,7 @@ package tlc2.tool.impl;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import tla2sany.modanalyzer.ParseUnit;
 import tla2sany.modanalyzer.SpecObj;
@@ -194,11 +189,7 @@ abstract class Spec
 		return specProcessor.getNextPred();
 	}
 
-    /** 
-     * Get the view mapping for the specification. 
-     */
-    public final SemanticNode getViewSpec()
-    {
+    private SemanticNode generateViewSpec(){
         final String name = this.config.getView();
         if (name.length() == 0)
             return null;
@@ -218,6 +209,20 @@ abstract class Spec
             Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { "view function", name });
         }
         return def.getBody();
+    }
+
+    private SemanticNode viewSpec;
+
+    /** 
+     * Get the view mapping for the specification. 
+     */
+    public final SemanticNode getViewSpec()
+    {
+        if(Objects.isNull(viewSpec)){
+            viewSpec = generateViewSpec();
+        }
+
+        return viewSpec;
     }
 
     /* Get the alias declaration for the state variables. */

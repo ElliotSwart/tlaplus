@@ -18,6 +18,7 @@ import tla2sany.semantic.SymbolNode;
 import tlc2.TLCGlobals;
 import tlc2.util.Context;
 import tlc2.util.FP64;
+import tlc2.util.IdThread;
 import tlc2.value.IMVPerm;
 import tlc2.value.IValue;
 import tlc2.value.IValueInputStream;
@@ -33,19 +34,6 @@ import util.WrongInvocationException;
 public final class TLCStateMutExt extends TLCState implements Cloneable, Serializable {
   private static final long serialVersionUID = 26539988826590236L;
 private final IValue[] values;
-  private static ITool mytool = null;
-
-  /**
-   * If non-null, viewMap denotes the function to be applied to
-   * a state before its fingerprint is computed.
-   */
-  private static SemanticNode viewMap = null;
-
-  /**
-   * If non-null, perms denotes the set of permutations under the
-   * symmetry assumption.
-   */
-  private static IMVPerm[] perms = null;
 
   private TLCStateMutExt(final OpDeclNode[] vars, final IValue[] vals) {
       super(vars);
@@ -60,12 +48,6 @@ private final IValue[] values;
       // SZ 10.04.2009: since this method is called exactly one from Spec#processSpec
       // moved the call of UniqueString#setVariables to that place
 
-  }
-
-  public static void setTool(final ITool tool) {
-    mytool = tool;
-    viewMap = tool.getViewSpec();
-    perms = tool.getSymmetryPerms();
   }
 
   @Override
@@ -171,6 +153,9 @@ private final IValue[] values;
 	@Override
     public long fingerPrint() {
 		final int sz = this.values.length;
+        var tool = IdThread.getFastTool();
+        var perms = tool.getSymmetryPerms();
+        var viewMap = tool.getViewSpec();
 
 		// TLC supports symmetry reduction. Symmetry reduction works by defining classes
 		// of symmetrically equivalent states for which TLC only checks a
@@ -267,7 +252,7 @@ private final IValue[] values;
 			if (minVals != this.values) {
 				state = new TLCStateMutExt(vars, minVals);
 			}
-			final IValue val = mytool.eval(viewMap, Context.Empty, state);
+			final IValue val = tool.eval(viewMap, Context.Empty, state);
 			fp = val.fingerPrint(fp);
 		}
 		return fp;
@@ -326,8 +311,12 @@ private final IValue[] values;
   
   /* Returns a string representation of this state.  */
   public String toString() {
+      var tool = IdThread.getFastTool();
+      var perms = tool.getSymmetryPerms();
+      var viewMap = tool.getViewSpec();
+
     if (TLCGlobals.useView && viewMap != null) {
-      final IValue val = mytool.eval(viewMap, Context.Empty, this);
+      final IValue val = tool.eval(viewMap, Context.Empty, this);
       return viewMap.toString(val);
     }
     final StringBuilder result = new StringBuilder();

@@ -135,8 +135,16 @@ public class TLCGetSet implements ValueConstants {
 	public static Value TLCGetEval(final Tool tool, final ExprOrOpArgNode[] args, final Context c, final TLCState s0,
 			final TLCState s1, final int control, final CostModel cm) {
 
-		var mainChecker = IdThread.getMainChecker();
-		var simulator = IdThread.getSimulator();
+		var mainTool = IdThread.getTool();
+
+
+		AbstractChecker mainChecker = null;
+		Simulator simulator = null;
+
+		if (Objects.nonNull(mainTool)){
+			mainChecker = mainTool.getMainChecker();
+			simulator = mainTool.getSimulator();
+		}
 
 		final Value vidx = tool.eval(args[0], c, s0, s1, control, cm);
 		if (vidx instanceof IntValue iv) {
@@ -165,9 +173,19 @@ public class TLCGetSet implements ValueConstants {
 
 	private static final Value TLCGetStringValue(final Tool tool, final Value vidx, final TLCState s0, final TLCState s1,
 			final int control) {
+
 		final StringValue sv = (StringValue) vidx;
-		var mainChecker = IdThread.getMainChecker();
-		var simulator = IdThread.getSimulator();
+		var mainTool = IdThread.getTool();
+
+
+		AbstractChecker mainChecker = null;
+		Simulator simulator = null;
+
+		if (Objects.nonNull(mainTool)){
+			mainChecker = mainTool.getMainChecker();
+			simulator = mainTool.getSimulator();
+		}
+
 		if (DIAMETER == sv.val) {
 			try {
 				if (mainChecker != null) {
@@ -411,8 +429,16 @@ public class TLCGetSet implements ValueConstants {
 
 	@TLAPlusOperator(identifier = "TLCSet", module = "TLC", warn = false)
 	public static Value TLCSet(final Value vidx, final Value val) {
-		var mainChecker = IdThread.getMainChecker();
-		var simulator = IdThread.getSimulator();
+		var mainTool = IdThread.getTool();
+
+
+		AbstractChecker mainChecker = null;
+		Simulator simulator = null;
+
+		if (Objects.nonNull(mainTool)){
+			mainChecker = mainTool.getMainChecker();
+			simulator = mainTool.getSimulator();
+		}
 
 		if (vidx instanceof IntValue iv) {
 			final int idx = iv.val;

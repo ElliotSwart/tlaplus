@@ -87,6 +87,9 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
     public void run() {
 		TLCState curState = null;
 		setUsingModelChecker(mode);
+		// Threads are created before tool is known
+		IdThread.setTool(tool);
+		IdThread.setFastTool(IdThread.getFastTool());
 
 		try {
 			while (true) {

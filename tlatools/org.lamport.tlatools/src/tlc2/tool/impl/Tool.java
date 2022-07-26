@@ -180,12 +180,13 @@ public abstract class Tool
 		// set variables to the static filed in the state
 		if (mode == Mode.Simulation || mode == Mode.Executor || mode == Mode.MC_DEBUG) {
 			assert EmptyState instanceof TLCStateMutExt;
-			TLCStateMutExt.setTool(this);
 		} else {
 			// Initialize state.
 			assert EmptyState instanceof TLCStateMut;
-			TLCStateMut.setTool(this);
 		}
+
+    // Set as the fast tool for this thread
+    IdThread.setFastTool(this);
       
 		final Action next = this.getNextStateSpec();
 		if (next == null) {
@@ -3563,89 +3564,100 @@ public abstract class Tool
     return null;
   }
 
+  private final IMVPerm[] generateSymmetryPerms() {
+      final String name = this.config.getSymmetry();
+      if (name.length() == 0) { return null; }
+      final Object symm = this.unprocessedDefns.get(name);
+      if (symm == null) {
+          Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[] { "symmetry function", name});
+      }
+      if (!(symm instanceof OpDefNode)) {
+          Assert.fail("The symmetry function " + name + " must specify a set of permutations.");
+      }
+      final OpDefNode opDef = (OpDefNode)symm;
+      // This calls tlc2.module.TLC.Permutations(Value) and returns a Value of |fcns|
+      // = n! where n is the capacity of the symmetry set.
+      final IValue fcns = this.eval(opDef.getBody(), Context.Empty, EmptyState, CostModel.DO_NOT_RECORD);
+      if (!(fcns instanceof SetEnumValue)) {
+          Assert.fail("The symmetry operator must specify a set of functions.", opDef.getBody());
+      }
+      final List<Value> values = ((SetEnumValue)fcns).elements().all();
+      for (final Value v : values) {
+          if (!(v instanceof FcnRcdValue)) {
+              Assert.fail("The symmetry values must be function records.", opDef.getBody());
+          }
+      }
+      final ExprOrOpArgNode[] argNodes = ((OpApplNode)opDef.getBody()).getArgs();
+      // In the case where the config defines more than one set which is symmetric, they will pass through the
+      //		enumerable size() check even if they are single element sets
+      final StringBuilder cardinalityOneSetList = new StringBuilder();
+      int offenderCount = 0;
+      if (argNodes.length >= values.size()) {
+          // If equal, we have as many values as we have permuted sets => we have all 1-element sets;
+          //		if greater than, then we have a heterogenous cardinality of sets, including 0 element sets.
+          for (final ExprOrOpArgNode node : argNodes) {
+              addToSubTwoSizedSymmetrySetList(node, cardinalityOneSetList);
+              offenderCount++;
+          }
+      }
+
+      final IMVPerm[] subgroup;
+      if (offenderCount == 0) {
+          subgroup = MVPerms.permutationSubgroup((Enumerable)fcns);
+          final HashSet<ModelValue> subgroupMembers = new HashSet<>();
+          for (final IMVPerm imvp : subgroup) {
+              if (imvp instanceof MVPerm mvp) { // should always be the case
+                  subgroupMembers.addAll(mvp.getAllModelValues());
+              }
+          }
+          for (final ExprOrOpArgNode node : argNodes) {
+              final SetEnumValue enumValue = getSetEnumValueFromArgumentNode(node);
+
+              if (enumValue != null) {
+                  final ValueEnumeration ve = enumValue.elements();
+
+                  boolean found = false;
+                  Value v;
+                  while ((v = ve.nextElement()) != null) {
+                      if ((v instanceof ModelValue) && subgroupMembers.contains(v)) {
+                          found = true;
+                          break;
+                      }
+                  }
+
+                  if (!found) {
+                      addToSubTwoSizedSymmetrySetList(node, cardinalityOneSetList);
+                      offenderCount++;
+                  }
+              }
+          }
+      } else {
+          subgroup = null;
+      }
+
+      if (offenderCount > 0) {
+          final String plurality = (offenderCount > 1) ? "s" : "";
+          final String antiPlurality = (offenderCount > 1) ? "" : "s";
+          final String toHaveConjugation = (offenderCount > 1) ? "have" : "has";
+
+          MP.printWarning(EC.TLC_SYMMETRY_SET_TOO_SMALL,
+                  plurality, cardinalityOneSetList.toString(), toHaveConjugation, antiPlurality);
+      }
+
+      return subgroup;
+  }
+
+  private IMVPerm[] symmetryPerms;
+
   /* Return the set of all permutations under the symmetry assumption. */
   @Override
   public final IMVPerm[] getSymmetryPerms() {
-    final String name = this.config.getSymmetry();
-    if (name.length() == 0) { return null; }
-    final Object symm = this.unprocessedDefns.get(name);
-    if (symm == null) {
-      Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[] { "symmetry function", name});
-    }
-    if (!(symm instanceof OpDefNode)) {
-      Assert.fail("The symmetry function " + name + " must specify a set of permutations.");
-    }
-    final OpDefNode opDef = (OpDefNode)symm;
-    // This calls tlc2.module.TLC.Permutations(Value) and returns a Value of |fcns|
-    // = n! where n is the capacity of the symmetry set.
-    final IValue fcns = this.eval(opDef.getBody(), Context.Empty, EmptyState, CostModel.DO_NOT_RECORD);
-    if (!(fcns instanceof SetEnumValue)) {
-      Assert.fail("The symmetry operator must specify a set of functions.", opDef.getBody());
-    }
-    final List<Value> values = ((SetEnumValue)fcns).elements().all();
-    for (final Value v : values) {
-    	if (!(v instanceof FcnRcdValue)) {
-    		Assert.fail("The symmetry values must be function records.", opDef.getBody());
-    	}
-    }
-    final ExprOrOpArgNode[] argNodes = ((OpApplNode)opDef.getBody()).getArgs();
-    // In the case where the config defines more than one set which is symmetric, they will pass through the
-    //		enumerable size() check even if they are single element sets
-    final StringBuilder cardinalityOneSetList = new StringBuilder();
-    int offenderCount = 0;
-    if (argNodes.length >= values.size()) {
-    	// If equal, we have as many values as we have permuted sets => we have all 1-element sets;
-    	//		if greater than, then we have a heterogenous cardinality of sets, including 0 element sets.
-    	for (final ExprOrOpArgNode node : argNodes) {
-			addToSubTwoSizedSymmetrySetList(node, cardinalityOneSetList);
-			offenderCount++;
-    	}
-    }
-    
-    final IMVPerm[] subgroup;
-    if (offenderCount == 0) {
-        subgroup = MVPerms.permutationSubgroup((Enumerable)fcns);
-        final HashSet<ModelValue> subgroupMembers = new HashSet<>();
-        for (final IMVPerm imvp : subgroup) {
-        	if (imvp instanceof MVPerm mvp) { // should always be the case
-        		subgroupMembers.addAll(mvp.getAllModelValues());
-        	}
-        }
-        for (final ExprOrOpArgNode node : argNodes) {
-        	final SetEnumValue enumValue = getSetEnumValueFromArgumentNode(node);
-        	
-        	if (enumValue != null) {
-        		final ValueEnumeration ve = enumValue.elements();
-        		
-        		boolean found = false;
-        		Value v;
-        		while ((v = ve.nextElement()) != null) {
-        			if ((v instanceof ModelValue) && subgroupMembers.contains(v)) {
-        				found = true;
-        				break;
-        			}
-        		}
-        		
-        		if (!found) {
-    				addToSubTwoSizedSymmetrySetList(node, cardinalityOneSetList);
-    				offenderCount++;
-        		}
-        	}
-        }
-    } else {
-    	subgroup = null;
-    }
-    
-    if (offenderCount > 0) {
-      final String plurality = (offenderCount > 1) ? "s" : "";
-      final String antiPlurality = (offenderCount > 1) ? "" : "s";
-      final String toHaveConjugation = (offenderCount > 1) ? "have" : "has";
-      
-      MP.printWarning(EC.TLC_SYMMETRY_SET_TOO_SMALL,
-              plurality, cardinalityOneSetList.toString(), toHaveConjugation, antiPlurality);
-    }
-    
-    return subgroup;
+
+      if (Objects.isNull(symmetryPerms)){
+          symmetryPerms = generateSymmetryPerms();
+      }
+
+      return symmetryPerms;
   }
   
   /**

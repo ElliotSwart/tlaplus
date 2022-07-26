@@ -55,6 +55,7 @@ import tlc2.tool.TLCStateMutExt;
 import tlc2.tool.coverage.CostModel;
 import tlc2.tool.impl.ParameterizedSpecObj.Invariant;
 import tlc2.util.Context;
+import tlc2.util.IdThread;
 import tlc2.util.SetOfStates;
 import tlc2.value.IValue;
 import tlc2.value.impl.Value;
@@ -120,10 +121,10 @@ public class DebugTool extends Tool {
 		
 		// This and FastTool share state.  Do not evaluate things concurrently.
 		this.fastTool = new FastTool(this);
-		// Evaluation related to fingerprinting should not/cannot use DebugTool. There
-		// is nothing that a user could debug except, perhaps, for EvaluationExceptions.
-		TLCStateMutExt.setTool(this.fastTool);
-		
+
+		// Setting thread variable in constructor is non-ideal
+		IdThread.setFastTool(this.fastTool);
+
 		this.target = target.setTool(this);
 	}
 

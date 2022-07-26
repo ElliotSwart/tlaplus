@@ -83,7 +83,7 @@ public class TLCExt {
 	public synchronized static Value pickSuccessor(final Tool tool, final ExprOrOpArgNode[] args, final Context c,
 			final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
 
-		var mainChecker = IdThread.getMainChecker();
+		var mainChecker = IdThread.getTool().getMainChecker();
 		// TLC checks action constraints before it checks if states are new or not. Exclude seen states here
 		// to not repeatedly ask a user to extend a behavior with the same state over and over again.
 		try {
@@ -193,8 +193,8 @@ public class TLCExt {
 	public static TupleValue getTrace(final Tool tool, final ExprOrOpArgNode[] args, final Context c,
 			final TLCState s0, final TLCState s1, final int control, final CostModel cm) throws IOException {
 
-		var mainChecker = IdThread.getMainChecker();
-		var simulator = IdThread.getSimulator();
+		var mainChecker = IdThread.getTool().getMainChecker();
+		var simulator = IdThread.getTool().getSimulator();
 
 		if (!s0.allAssigned()) {
 			/*

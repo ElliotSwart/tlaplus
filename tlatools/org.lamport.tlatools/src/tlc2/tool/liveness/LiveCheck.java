@@ -242,7 +242,7 @@ public class LiveCheck implements ILiveCheck {
 		final CompletionService<Boolean> completionService = new ExecutorCompletionService<>(pool);
 
 		for (int i = 0; i < wNum; i++) {
-			completionService.submit(new LiveWorker(tool, i, wNum, this, queue, finalCheck, IdThread.getMainChecker(), IdThread.getSimulator()));
+			completionService.submit(new LiveWorker(tool, i, wNum, this, queue, finalCheck, IdThread.getTool().getMainChecker(), IdThread.getTool().getSimulator()));
 		}
 		// Wait for all LWs to complete.
 		pool.shutdown();
@@ -561,7 +561,7 @@ public class LiveCheck implements ILiveCheck {
 					// Since the condition is only supposed to evaluate to false
 					// when LiveCheck is used in simulation mode, mainChecker
 					// has to be null.
-					var mainChecker = IdThread.getMainChecker();
+					var mainChecker = IdThread.getTool().getMainChecker();
 					Assert.check(mainChecker == null, EC.GENERAL);
 				}
 			}
@@ -610,7 +610,7 @@ public class LiveCheck implements ILiveCheck {
 			int cnt = 0;
 			final int succCnt = nextStates.size();
 
-			var mainChecker = IdThread.getMainChecker();
+			var mainChecker = IdThread.getTool().getMainChecker();
 
 			//TODO: See regression introduced by moving TBGraphNode#isConsistent
 			//      out of the (synchronized) loop below (commit d4908d0).

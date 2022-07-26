@@ -5,8 +5,11 @@ package tlc2.util;
 import tlc2.tool.AbstractChecker;
 import tlc2.tool.Simulator;
 import tlc2.tool.TLCState;
+import tlc2.tool.impl.DebugTool;
+import tlc2.tool.impl.FastTool;
 import tlc2.tool.impl.Tool;
 import tlc2.value.IValue;
+import tlc2.tool.ITool;
 
 import java.util.Objects;
 
@@ -17,8 +20,24 @@ public class IdThread extends Thread {
 	private static final ThreadLocal<TLCState> currentState = new ThreadLocal<>();
 	private static final ThreadLocal<Boolean> usingModelChecker = new ThreadLocal<>();
 
-	private static final InheritableThreadLocal<Simulator> simulator = new InheritableThreadLocal<>();
-	private static  final InheritableThreadLocal<AbstractChecker> mainChecker = new InheritableThreadLocal<>();
+	private static final InheritableThreadLocal<ITool> tool = new InheritableThreadLocal<>();
+	private static final InheritableThreadLocal<ITool> fastTool = new InheritableThreadLocal<>();
+
+	public static final void setTool(ITool t){
+		tool.set(t);
+	}
+
+	public static final ITool getTool() {
+		return tool.get();
+	}
+
+	public static final void setFastTool(ITool f){
+		fastTool.set(f);
+	}
+
+	public static final ITool getFastTool(){
+		return fastTool.get();
+	}
 
 	/**
 	 * @return null during the generation of initial states (see
@@ -34,25 +53,9 @@ public class IdThread extends Thread {
 		currentState.set(state);
 	}
 
-	public static final void setSimulator(final Simulator simulator){
-		IdThread.simulator.set(simulator);
-	}
-
-	public static final Simulator getSimulator(){
-		return IdThread.simulator.get();
-	}
-
-	public static final void setMainChecker(final AbstractChecker mainChecker){
-		IdThread.mainChecker.set(mainChecker);
-	}
-
-	public static final AbstractChecker getMainChecker(){
-		return IdThread.mainChecker.get();
-	}
-
 	public static final void resetThreadStates(){
-		setSimulator(null);
-		setMainChecker(null);
+		tool.remove();
+		fastTool.remove();
 		resetCurrentState();
 	}
 
