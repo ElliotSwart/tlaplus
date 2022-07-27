@@ -59,7 +59,15 @@ class ActionItemList implements IActionItemList {
 	return new ActionItemList(act.pred, act.con, kind, this, coverage ? act.cm.get(pred) : act.cm);
   }
 
-  public boolean isEmpty() { return this == Empty; }
+  public boolean isEmpty() { 
+    return (
+      this.pred == null &&
+      this.con == null &&
+      this.kind == 0 &&
+      this.next == null &&
+      this.cm == null
+    );
+  }
   
   public void setAction(final Action action) {
 	  // no-op here, but overridden by subclass.

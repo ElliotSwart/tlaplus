@@ -42,6 +42,7 @@ import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.output.MP;
 import tlc2.tool.*;
+import tlc2.tool.impl.ActionItemListExt;
 import tlc2.util.BitVector;
 import tlc2.util.BufferedRandomAccessFile;
 import tlc2.util.IdThread;
@@ -310,6 +311,8 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 
 		tlc = null;
 		ToolIO.out = System.out;
+
+		var empty = ActionItemListExt.Empty;
 
 		System.gc();
 

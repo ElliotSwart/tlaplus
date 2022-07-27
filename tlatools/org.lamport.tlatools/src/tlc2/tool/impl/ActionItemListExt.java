@@ -34,6 +34,10 @@ import tlc2.util.Context;
 public class ActionItemListExt extends ActionItemList {
 
 	public final static ActionItemList Empty = new ActionItemListExt(null, null, 0, null, null);
+	public static ActionItemList getEmpty(){
+		return new ActionItemListExt(null, null, 0, null, null);
+	}
+
 
 	private ActionItemListExt prev;
 
@@ -62,11 +66,6 @@ public class ActionItemListExt extends ActionItemList {
 		final ActionItemListExt cdr = (ActionItemListExt) super.cdr();
 		cdr.prev = this;
 		return cdr;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return this == Empty;
 	}
 
 	@Override

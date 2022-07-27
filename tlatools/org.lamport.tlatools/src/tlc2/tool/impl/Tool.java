@@ -418,7 +418,7 @@ public abstract class Tool
   @Override
   public final void getInitStates(final IStateFunctor functor) {
 	  final Vect<Action> init = this.getInitStateSpec();
-	  ActionItemList acts = ActionItemListExt.Empty;
+	  ActionItemList acts = ActionItemListExt.getEmpty();
       // MAK 09/11/2018: Tail to head iteration order cause the first elem added with
       // acts.cons to be acts tail. This fixes the bug/funny behavior that the init
       // predicate Init == A /\ B /\ C /\ D was evaluated in the order A, D, C, B (A
