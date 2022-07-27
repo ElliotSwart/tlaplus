@@ -102,7 +102,7 @@ public class StandaloneConstExpressionDebugger extends TLCDebugger {
 		ToolIO.reset();
 		
 		final Tool tool = new DebugTool(moduleName, specName, new SimpleFilenameToStream(specPath), new HashMap<>(), this);
-		final ModuleNode module = tool.getSpecProcessor().getRootModule();
+		final ModuleNode module = tool.getRootModule();
 		// The spec has to have an "debugMe" operator.
 		final OpDefNode valueNode = module.getOpDef("debugMe");
 

@@ -136,7 +136,7 @@ public class REPL {
                 // path to the filename resolver used by the Tool.
                 final SimpleFilenameToStream resolver = new SimpleFilenameToStream(replTempDir.toAbsolutePath().toString());
                 final Tool tool = new FastTool(REPL_SPEC_NAME, REPL_SPEC_NAME, resolver);
-                final ModuleNode module = tool.getSpecProcessor().getRootModule();
+                final ModuleNode module = tool.getRootModule();
                 final OpDefNode valueNode = module.getOpDef(replValueVarName);
                 
 				// Make output of TLC!Print and TLC!PrintT appear in the REPL. Set here

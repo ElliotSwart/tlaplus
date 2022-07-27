@@ -59,21 +59,20 @@ public class TraceExpressionSpecDeadlockTest extends TraceExpressionSpecTest {
 
 	@Override
 	protected void doTest(final Tool tool, final String id) {
-		final SpecProcessor specProcessor = tool.getSpecProcessor();
 
 		final Action[] actions = tool.getActions();
 		assertEquals(1, actions.length);
 
 		// Assert that one invariant exists.
-		final Action[] invariants = specProcessor.getInvariants();
+		final Action[] invariants = tool.getInvariants();
 		assertEquals(1, invariants.length);
 
 		// Assert there exists one init-predicate
-		final Vect<Action> initPred = specProcessor.getInitPred();
+		final Vect<Action> initPred = tool.getInitPred();
 		assertEquals(1, initPred.size());
 
 		// Assert there exists a next-state relation
-		assertNotNull(specProcessor.getNextPred());
+		assertNotNull(tool.getNextPred());
 
 		// Assert the trace
 		StateVec sv = tool.getInitStates();
@@ -118,7 +117,7 @@ public class TraceExpressionSpecDeadlockTest extends TraceExpressionSpecTest {
 //		assertTrue(tool.getModelConfig().getCheckDeadlock());
 		
 		// Assert that all three sub-modules exist
-		final ExternalModuleTable moduleTbl = specProcessor.getModuleTbl();
+		final ExternalModuleTable moduleTbl = tool.getModuleTbl();
 		assertNotNull(moduleTbl.getModuleNode(UniqueString.of(TE_SPEC_TEST)));
 		assertNotNull(moduleTbl.getModuleNode(
 				UniqueString.of(TE_SPEC_TEST + "_" + TLAConstants.TraceExplore.EXPLORATION_MODULE_NAME)));

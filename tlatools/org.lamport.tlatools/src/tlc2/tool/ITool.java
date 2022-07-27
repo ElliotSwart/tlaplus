@@ -27,6 +27,7 @@ package tlc2.tool;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import tla2sany.semantic.*;
@@ -273,11 +274,21 @@ public interface ITool extends TraceApp {
 
 	ModelConfig getModelConfig();
 
-	SpecProcessor getSpecProcessor();
-
 	ExprNode[] getActionConstraints();
 
 	ExprNode[] getModelConstraints();
+
+	Action getNextPred();
+
+	ModuleNode getRootModule();
+
+	Defns getDefns();
+
+	ExternalModuleTable getModuleTbl();
+
+	Vect<Action> getInitPred();
+
+	Map<ModuleNode, Map<OpDefOrDeclNode, Object>> getConstantDefns();
 
 	TLCState evalAlias(TLCState curState, TLCState sucState);
 

@@ -176,7 +176,7 @@ public class TraceExplorationSpec {
 		// config file, but I do not use it (through `CONSTANTS`) in the model spec.
 		// So we add these remaining constants to `mvsStr` so they are added to the
 		// `TE` spec.
-		final Defns defns = specInfo.getSpecProcessor().getDefns();
+		final Defns defns = specInfo.getDefns();
 		final ArrayList<String> modConstants = new ArrayList<>();
 		for (final ModelValue mv : ModelValue.mvs) {
 			if (defns.get(mv.toString()) == null) {

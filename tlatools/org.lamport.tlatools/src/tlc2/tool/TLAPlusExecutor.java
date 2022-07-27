@@ -129,6 +129,6 @@ public class TLAPlusExecutor {
 	}
 	
 	public Value getConstant(final String string) {
-		return (Value) this.tool.getSpecProcessor().getDefns().get(string);
+		return (Value) this.tool.getDefns().get(string);
 	}
 }

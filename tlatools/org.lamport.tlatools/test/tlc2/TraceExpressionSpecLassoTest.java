@@ -65,29 +65,27 @@ public class TraceExpressionSpecLassoTest extends TraceExpressionSpecTest {
 
 	@Override
 	protected void doTest(final Tool tool, final String id) throws Exception {
-		final SpecProcessor specProcessor = tool.getSpecProcessor();
-
 		final Action[] actions = tool.getActions();
 		assertEquals(1, actions.length);
 
-		assertEquals(0, specProcessor.getInvariants().length);
+		assertEquals(0, tool.getInvariants().length);
 		
 		// Assert that one property exists.
-		final Action[] property = specProcessor.getImpliedTemporals();
+		final Action[] property = tool.getImpliedTemporals();
 		assertEquals(1, property.length);
 
 		// Assert there exists one init-predicate
-		final Vect<Action> initPred = specProcessor.getInitPred();
+		final Vect<Action> initPred = tool.getInitPred();
 		assertEquals(1, initPred.size());
 
 		// Assert there exists a next-state relation
-		assertNotNull(specProcessor.getNextPred());
+		assertNotNull(tool.getNextPred());
 		
 		assertNotNull(tool.getModelConfig().getAlias());
 		assertFalse(tool.getModelConfig().getCheckDeadlock());
 		
 		// Assert that all three sub-modules exist
-		final ExternalModuleTable moduleTbl = specProcessor.getModuleTbl();
+		final ExternalModuleTable moduleTbl = tool.getModuleTbl();
 		assertNotNull(moduleTbl.getModuleNode(UniqueString.of(TE_SPEC_TEST)));
 		assertNotNull(moduleTbl.getModuleNode(
 				UniqueString.of(TE_SPEC_TEST + "_" + TLAConstants.TraceExplore.EXPLORATION_MODULE_NAME)));

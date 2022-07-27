@@ -7,12 +7,7 @@ package tlc2.tool.impl;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import tla2sany.modanalyzer.ParseUnit;
 import tla2sany.modanalyzer.SpecObj;
@@ -55,6 +50,9 @@ abstract class Spec
 	protected final String specDir; // The spec directory.
     protected final String rootFile; // The root file of this spec.
     protected final String configFile; // The model config file.
+
+    protected ModuleNode rootModule; // The root module.
+
     protected final Set<OpDefNode> processedDefs ; 
       // The set of OpDefNodes on which processSpec has been called.
       // Added by LL & YY on 25 June 2014 to eliminate infinite
@@ -62,13 +60,45 @@ abstract class Spec
       // operator argument in its own definition.
     protected final Defns defns; // Global definitions reachable from root
 	protected final Defns unprocessedDefns;
+
+    protected final SpecObj specObj;
+
+
+    private final Vect<Action> initPred; // The initial state predicate.
+
+    protected final Action nextPred; // The next state predicate.
+
+    protected final Action[] temporals; // Fairness specifications...
+    protected final String[] temporalNames; // ... and their names
+    protected final Action[] impliedTemporals; // Liveness conds to check...
+    protected final String[] impliedTemporalNames; // ... and their names
+    protected final Action[] invariants; // Invariants to be checked...
+    protected final String[] invNames; // ... and their names
+    protected final Action[] impliedInits; // Implied-inits to be checked...
+    protected final String[] impliedInitNames; // ... and their names
+    protected final Action[] impliedActions; // Implied-actions to be checked...
+    protected final String[] impliedActNames; // ... and their names
+    protected final ExprNode[] modelConstraints; // Model constraints
+    protected final ExprNode[] actionConstraints; // Action constraints
+    protected final ExprNode[] assumptions; // Assumpt	ions
+    protected final boolean[] assumptionIsAxiom; // assumptionIsAxiom[i] is true iff assumptions[i]
+    // is an AXIOM.  Added 26 May 2010 by LL
+
     protected final TLAClass tlaClass; // TLA built-in classes.
     private final FilenameToStream resolver; // takes care of path to stream resolution
 
     protected final ModelConfig config; // The model configuration.
-    private final SpecProcessor specProcessor;
+
+    protected final ExternalModuleTable moduleTable;
 
     private final OpDeclNode[] variables;
+
+    protected final java.util.List<ExprNode> postConditionSpecs;
+
+    protected final Hashtable<String, ParseUnit> parseUnitContext;
+
+    protected final Map<ModuleNode, Map<OpDefOrDeclNode, Object>> constantDefns = new HashMap<>();
+
     public TLCState EmptyState;
 
     // SZ Feb 20, 2009: added support to name resolver, to be able to run outside of the tool
@@ -96,9 +126,30 @@ abstract class Spec
         } else {
         	specObj = new ParameterizedSpecObj(this, resolver, params);
         }
-        specProcessor = new SpecProcessor(getRootName(), resolver, toolId, defns, config, this, this, tlaClass, mode, specObj);
+        var specProcessor = new SpecProcessor(getRootName(), resolver, toolId, defns, config, this, this, tlaClass, mode, specObj);
         this.variables = specProcessor.variablesNodes;
         this.unprocessedDefns = specProcessor.getUnprocessedDefns();
+        this.modelConstraints = specProcessor.getModelConstraints();
+        this.initPred = specProcessor.getInitPred();
+        this.nextPred = specProcessor.getNextPred();
+        this.actionConstraints = specProcessor.getActionConstraints();
+        this.rootModule = specProcessor.getRootModule();
+        this.specObj = specProcessor.getSpecObj();
+        this.moduleTable = specProcessor.getModuleTbl();
+        this.temporals = specProcessor.getTemporal();
+        this.temporalNames = specProcessor.getImpliedTemporalNames();
+        this.impliedTemporals = specProcessor.getImpliedTemporals();
+        this.impliedTemporalNames = specProcessor.getImpliedTemporalNames();
+        this.invariants = specProcessor.getInvariants();
+        this.invNames = specProcessor.getInvariantsNames();
+        this.impliedInits = specProcessor.getImpliedInits();
+        this.impliedInitNames = specProcessor.getImpliedInitNames();
+        this.impliedActions = specProcessor.getImpliedActions();
+        this.impliedActNames = specProcessor.getImpliedActionNames();
+        this.assumptions = specProcessor.getAssumptions();
+        this.postConditionSpecs = specProcessor.getPostConditionSpecs();
+        this.parseUnitContext = specProcessor.getSpecObj().parseUnitContext;
+        this.assumptionIsAxiom = specProcessor.getAssumptionIsAxiom();
     }
     
     protected Spec(final Spec other) {
@@ -111,8 +162,29 @@ abstract class Spec
         this.resolver = other.resolver;
         this.unprocessedDefns = other.unprocessedDefns;
     	this.config = other.config;
-        this.specProcessor = other.specProcessor;
         this.variables = other.variables;
+        this.modelConstraints = other.modelConstraints;
+        this.initPred = other.initPred;
+        this.nextPred = other.nextPred;
+        this.actionConstraints = other.actionConstraints;
+        this.rootModule = other.rootModule;
+        this.specObj = other.specObj;
+        this.moduleTable = other.moduleTable;
+        this.temporals = other.temporals;
+        this.temporalNames = other.temporalNames;
+        this.impliedTemporals = other.impliedTemporals;
+        this.impliedTemporalNames = other.impliedTemporalNames;
+        this.impliedInits = other.impliedInits;
+        this.impliedInitNames = other.impliedInitNames;
+        this.invariants = other.invariants;
+        this.invNames = other.invNames;
+        this.impliedActions = other.impliedActions;
+        this.impliedActNames = other.impliedActNames;
+        this.assumptions = other.assumptions;
+        this.postConditionSpecs = other.postConditionSpecs;
+        this.parseUnitContext = other.parseUnitContext;
+        this.assumptionIsAxiom = other.assumptionIsAxiom;
+
         this.EmptyState = other.EmptyState;
     }
 
@@ -134,10 +206,6 @@ abstract class Spec
 
     public ModelConfig getModelConfig() {
     	return config;
-    }
-    
-    public SpecProcessor getSpecProcessor() {
-    	return specProcessor;
     }
 
     /* Return the variable if expr is a primed state variable. Otherwise, null. */
@@ -170,28 +238,43 @@ abstract class Spec
         return null;
     }
 
+    public ModuleNode getRootModule() {
+        return rootModule;
+    }
+    public final Map<ModuleNode, Map<OpDefOrDeclNode, Object>> getConstantDefns() {
+        return constantDefns;
+    }
+
+    public Defns getDefns() {
+        return defns;
+    }
+
+    public Action getNextPred() {
+        return nextPred;
+    }
+
     /** 
      * Get model constraints.  
      */
 	public final ExprNode[] getModelConstraints() {
-		return specProcessor.getModelConstraints();
+		return modelConstraints;
 	}
 
     /**
      * Get action constraints.  
      */
 	public final ExprNode[] getActionConstraints() {
-		return specProcessor.getActionConstraints();
+		return actionConstraints;
 	}
 
     /* Get the initial state predicate of the specification.  */
 	public final Vect<Action> getInitStateSpec() {
-		return specProcessor.getInitPred();
+		return initPred;
 	}
 
     /* Get the action (next state) predicate of the specification. */
 	public final Action getNextStateSpec() {
-		return specProcessor.getNextPred();
+		return nextPred;
 	}
 
     /** 
@@ -251,7 +334,7 @@ abstract class Spec
 
     public final ExprNode[] getPostConditionSpecs()
     {
-    	final List<ExprNode> res = this.specProcessor.getPostConditionSpecs();
+    	final List<ExprNode> res = this.postConditionSpecs;
     	
         final String name = this.config.getPostCondition();
         if (name.length() != 0)
@@ -298,6 +381,10 @@ abstract class Spec
         return def;
     }
 
+    public ExternalModuleTable getModuleTbl() {
+        return moduleTable;
+    }
+
 	public final boolean livenessIsTrue() {
 		return getImpliedTemporals().length == 0;
 	}
@@ -305,58 +392,62 @@ abstract class Spec
     /* Get the fairness condition of the specification.  */
     public final Action[] getTemporals()
     {
-        return specProcessor.getTemporal();
+        return temporals;
+    }
+
+    public Vect<Action> getInitPred() {
+        return initPred;
     }
 
     public final String[] getTemporalNames()
     {
-        return specProcessor.getTemporalNames();
+        return temporalNames;
     }
 
     /* Get the liveness checks of the specification.  */
 	public final Action[] getImpliedTemporals() {
-		return specProcessor.getImpliedTemporals();
+		return impliedTemporals;
 	}
 
 	public final String[] getImpliedTemporalNames() {
-		return specProcessor.getImpliedTemporalNames();
+		return impliedTemporalNames;
 	}
 
     /* Get the invariants of the specification. */
 	public final Action[] getInvariants() {
-		return specProcessor.getInvariants();
+		return invariants;
 	}
 
 	public final String[] getInvNames() {
-		return specProcessor.getInvariantsNames();
+		return invNames;
 	}
 
     /* Get the implied-inits of the specification. */
 	public final Action[] getImpliedInits() {
-		return specProcessor.getImpliedInits();
+		return impliedInits;
 	}
 
 	public final String[] getImpliedInitNames() {
-		return specProcessor.getImpliedInitNames();
+		return impliedInitNames;
 	}
 
     /* Get the implied-actions of the specification. */
 	public final Action[] getImpliedActions() {
-		return specProcessor.getImpliedActions();
+		return impliedActions;
 	}
 
 	public final String[] getImpliedActNames() {
-		return specProcessor.getImpliedActionNames();
+		return impliedActNames;
 	}
 
     /* Get the assumptions of the specification. */
 	public final ExprNode[] getAssumptions() {
-		return specProcessor.getAssumptions();
+		return assumptions;
 	}
     
     /* Get the assumptionIsAxiom field */
     public final boolean[] getAssumptionIsAxiom() {
-        return specProcessor.getAssumptionIsAxiom();
+        return assumptionIsAxiom;
     }
     
     /**
@@ -658,15 +749,15 @@ abstract class Spec
     }
 
 	public ModuleNode getModule(final String moduleName) {
-		return getSpecProcessor().getSpecObj().getExternalModuleTable().getModuleNode(moduleName);
+		return moduleTable.getModuleNode(moduleName);
 	}
 
 	public List<File> getModuleFiles(final FilenameToStream resolver) {
 		final List<File> result = new ArrayList<>();
 	
-		final Enumeration<ParseUnit> parseUnitContext = specProcessor.getSpecObj().parseUnitContext.elements();
-		while (parseUnitContext.hasMoreElements()) {
-			final ParseUnit pu = parseUnitContext.nextElement();
+		final Enumeration<ParseUnit> parseUnitContextElements = parseUnitContext.elements();
+		while (parseUnitContextElements.hasMoreElements()) {
+			final ParseUnit pu = parseUnitContextElements.nextElement();
 			final File resolve = resolver.resolve(pu.getFileName(), false);
 			result.add(resolve);
 		}

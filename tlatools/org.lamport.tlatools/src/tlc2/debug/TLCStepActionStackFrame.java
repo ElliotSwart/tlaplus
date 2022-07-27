@@ -123,7 +123,7 @@ public final class TLCStepActionStackFrame extends TLCActionStackFrame {
 	@Override
 	public boolean matches(final TLCSourceBreakpoint bp) {
 		if (tool.getMode() == Mode.Simulation) {
-			final Action nextPred = tool.getSpecProcessor().getNextPred();
+			final Action nextPred = tool.getNextPred();
 			final Location loc = nextPred.getDefinition();
             // We do not support hit count with state-level stepping because stepping back
             // to level/diameter < bp.getHits() does not work.

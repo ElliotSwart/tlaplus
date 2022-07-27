@@ -326,8 +326,7 @@ public class TLCStackFrame extends StackFrame {
 	}
 
 	private void getConstants(final List<Variable> vars) {
-		final SpecProcessor sp = this.tool.getSpecProcessor();
-		final Map<ModuleNode, Map<OpDefOrDeclNode, Object>> constantDefns = sp.getConstantDefns();
+		final Map<ModuleNode, Map<OpDefOrDeclNode, Object>> constantDefns = this.tool.getConstantDefns();
 			for (final Entry<ModuleNode, Map<OpDefOrDeclNode, Object>> e : constantDefns.entrySet()) {
 				if (constantDefns.size() == 1) {
 					// If there is only one module, do *not* organize the constants in the variable
@@ -509,7 +508,7 @@ public class TLCStackFrame extends StackFrame {
 			scopes.add(scope);
 		}
 		
-		if (!this.tool.getSpecProcessor().getConstantDefns().isEmpty()) {
+		if (!this.tool.getConstantDefns().isEmpty()) {
 			final Scope scope = new Scope();
 			scope.setName(CONSTANTS);
 			scope.setVariablesReference(getConstantsId());
