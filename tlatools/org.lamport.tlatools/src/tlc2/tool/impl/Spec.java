@@ -84,6 +84,10 @@ abstract class Spec
     protected final boolean[] assumptionIsAxiom; // assumptionIsAxiom[i] is true iff assumptions[i]
     // is an AXIOM.  Added 26 May 2010 by LL
 
+    protected final SemanticNode viewSpec;
+
+    protected final SemanticNode aliasSpec;
+
     protected final TLAClass tlaClass; // TLA built-in classes.
     private final FilenameToStream resolver; // takes care of path to stream resolution
 
@@ -93,7 +97,9 @@ abstract class Spec
 
     private final OpDeclNode[] variables;
 
-    protected final java.util.List<ExprNode> postConditionSpecs;
+    protected final ExprNode[] processedPostConditionSpecs;
+
+    protected final OpDefNode counterExampleDef;
 
     protected final Hashtable<String, ParseUnit> parseUnitContext;
 
@@ -147,9 +153,14 @@ abstract class Spec
         this.impliedActions = specProcessor.getImpliedActions();
         this.impliedActNames = specProcessor.getImpliedActionNames();
         this.assumptions = specProcessor.getAssumptions();
-        this.postConditionSpecs = specProcessor.getPostConditionSpecs();
+        var postConditionSpecs = specProcessor.getPostConditionSpecs();
         this.parseUnitContext = specProcessor.getSpecObj().parseUnitContext;
         this.assumptionIsAxiom = specProcessor.getAssumptionIsAxiom();
+
+        this.viewSpec = generateViewSpec(this.config, this.defns);
+        this.aliasSpec = generateAliasSpec(this.config, this.defns);
+        this.processedPostConditionSpecs = generatePostConditionSpecs(this.config, this.defns, postConditionSpecs);
+        this.counterExampleDef = generateCounterExampleDef(this.defns);
     }
     
     protected Spec(final Spec other) {
@@ -181,9 +192,14 @@ abstract class Spec
         this.impliedActions = other.impliedActions;
         this.impliedActNames = other.impliedActNames;
         this.assumptions = other.assumptions;
-        this.postConditionSpecs = other.postConditionSpecs;
+        this.processedPostConditionSpecs = other.processedPostConditionSpecs;
+        this.counterExampleDef = other.counterExampleDef;
+
         this.parseUnitContext = other.parseUnitContext;
         this.assumptionIsAxiom = other.assumptionIsAxiom;
+
+        this.aliasSpec = other.aliasSpec;
+        this.viewSpec = other.viewSpec;
 
         this.EmptyState = other.EmptyState;
     }
@@ -277,20 +293,17 @@ abstract class Spec
 		return nextPred;
 	}
 
-    /** 
-     * Get the view mapping for the specification. 
-     */
-    public final SemanticNode getViewSpec()
-    {
-        final String name = this.config.getView();
+    private static SemanticNode generateViewSpec(ModelConfig config, Defns defns) {
+        final String name = config.getView();
         if (name.length() == 0)
             return null;
 
-        final Object view = this.defns.get(name);
+        final Object view = defns.get(name);
         if (view == null)
         {
             Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[] { "view function", name });
         }
+
         if (!(view instanceof OpDefNode))
         {
             Assert.fail(EC.TLC_CONFIG_ID_MUST_NOT_BE_CONSTANT, new String[] { "view function", name });
@@ -303,19 +316,25 @@ abstract class Spec
         return def.getBody();
     }
 
-    /* Get the alias declaration for the state variables. */
-    public final SemanticNode getAliasSpec()
+    /** 
+     * Get the view mapping for the specification. 
+     */
+    public final SemanticNode getViewSpec()
     {
-        final String name = this.config.getAlias();
+        return viewSpec;
+    }
+
+    public static SemanticNode generateAliasSpec(ModelConfig config, Defns defns){
+        final String name = config.getAlias();
         if (name.length() == 0)
         {
-            Assert.fail(EC.TLC_CONFIG_NO_STATE_TYPE);
+            return null;//Assert.fail(EC.TLC_CONFIG_NO_STATE_TYPE);
         }
 
         // A true constant-level alias such as such as [ x |-> "foo" ] will be evaluated
         // eagerly and type be an instance of RecordValue.  It would be good to return a
         // proper warning.
-        final Object type = this.defns.get(name);
+        final Object type = defns.get(name);
         if (type == null)
         {
             Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[] { "alias", name });
@@ -332,41 +351,49 @@ abstract class Spec
         return def.getBody();
     }
 
-    public final ExprNode[] getPostConditionSpecs()
+    /* Get the alias declaration for the state variables. */
+    public final SemanticNode getAliasSpec()
     {
-    	final List<ExprNode> res = this.postConditionSpecs;
-    	
-        final String name = this.config.getPostCondition();
+        return aliasSpec;
+    }
+
+    private static ExprNode[] generatePostConditionSpecs(ModelConfig config, Defns defns, List<ExprNode> res){
+
+        final String name = config.getPostCondition();
         if (name.length() != 0)
-        {        	
-        	final Object type = this.defns.get(name);
-        	if (type == null)
-        	{
-        		Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[] { "post condition", name });
-        	}
-        	if (!(type instanceof OpDefNode))
-        	{
-        		Assert.fail(EC.TLC_CONFIG_ID_MUST_NOT_BE_CONSTANT, new String[] { "post condition", name });
-        	}
-        	final OpDefNode def = (OpDefNode) type;
-        	if (def.getArity() != 0)
-        	{
-        		Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { "post condition", name });
-        		
-        	}
-        	res.add(def.getBody());
+        {
+            final Object type = defns.get(name);
+            if (type == null)
+            {
+                Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[] { "post condition", name });
+            }
+            if (!(type instanceof OpDefNode))
+            {
+                Assert.fail(EC.TLC_CONFIG_ID_MUST_NOT_BE_CONSTANT, new String[] { "post condition", name });
+            }
+            final OpDefNode def = (OpDefNode) type;
+            if (def.getArity() != 0)
+            {
+                Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { "post condition", name });
+
+            }
+            res.add(def.getBody());
         }
-        
+
         return res.toArray(ExprNode[]::new);
     }
 
-    public final OpDefNode getCounterExampleDef()
+    public final ExprNode[] getPostConditionSpecs()
     {
-    	// Defined in TLCExt.tla
-        final Object type = this.defns.get("CounterExample");
+    	return this.processedPostConditionSpecs;
+    }
+
+    private static OpDefNode generateCounterExampleDef(Defns defns) {
+        // Defined in TLCExt.tla
+        final Object type = defns.get("CounterExample");
         if (type == null)
         {
-        	// Not used anywhere in the current spec.
+            // Not used anywhere in the current spec.
             return null;
         }
         if (!(type instanceof EvaluatingValue))
@@ -379,6 +406,11 @@ abstract class Spec
             Assert.fail(EC.GENERAL);
         }
         return def;
+    }
+
+    public final OpDefNode getCounterExampleDef()
+    {
+    	return this.counterExampleDef;
     }
 
     public ExternalModuleTable getModuleTbl() {
