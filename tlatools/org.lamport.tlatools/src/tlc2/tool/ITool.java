@@ -302,4 +302,6 @@ public interface ITool extends TraceApp {
 	default Vect<Action> getSpecActions() {
 		return getInitStateSpec().concat(new Vect<>(getActions()));
 	}
+
+	void close();
 }

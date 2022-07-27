@@ -57,6 +57,10 @@ public abstract class SemanticNode
       return errors.get();
   }
 
+  public static void clearErrors(){
+    errors.remove();
+  }
+
   public static void setErrors(final Errors errs) { errors.set(errs);}
 
   public static String levelToString(final int level) {

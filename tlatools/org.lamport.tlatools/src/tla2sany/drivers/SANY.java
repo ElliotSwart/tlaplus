@@ -117,8 +117,13 @@ public class SANY {
   private Configuration configuration;
 
   private static final ThreadLocal<Context> threadContext = new ThreadLocal<>();
+  
   public static Context getThreadContext(){
     return threadContext.get();
+  }
+
+  public static void clearThreadContext(){
+    threadContext.remove();
   }
 
   private BuiltInLevel builtInLevel;

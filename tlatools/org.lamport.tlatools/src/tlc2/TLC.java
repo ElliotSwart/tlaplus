@@ -27,6 +27,8 @@ import java.util.regex.Pattern;
 
 import model.InJarFilenameToStream;
 import model.ModelInJar;
+import tla2sany.SANY;
+import tla2sany.semantic.SemanticNode;
 import tlc2.debug.TLCDebugger;
 import tlc2.output.EC;
 import tlc2.output.ErrorTraceMessagePrinterRecorder;
@@ -1697,4 +1699,10 @@ public class TLC {
 	public String getSpecName() {
 		return System.getProperty(MailSender.SPEC_NAME, this.mainFile);
 	}
+
+    public void close() {
+        this.tool.close();
+        tla2sany.drivers.SANY.clearThreadContext();
+        SemanticNode.clearErrors();
+    }
 }
