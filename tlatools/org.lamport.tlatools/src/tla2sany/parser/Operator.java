@@ -40,15 +40,15 @@ public class Operator implements tla2sany.st.SyntaxTreeConstants {
   }
 
   public String toString() {
-  switch ( Fix ) {
-    case 0 /* Operators.nofix   */ : return Id.toString() + ", nofix";
-    case 1 /* Operators.prefix  */ : return Id.toString() + ", prefix";
-    case 2 /* Operators.postfix */ : return Id.toString() + ", postfix";
-    case 3 /* Operators.infix   */ : return Id.toString() + ", infix";
-    case 4 /* Operators.nfix    */ : return Id.toString() + ", nfix";
+    return switch (Fix) {
+      case 0 /* Operators.nofix   */ -> Id.toString() + ", nofix";
+      case 1 /* Operators.prefix  */ -> Id.toString() + ", prefix";
+      case 2 /* Operators.postfix */ -> Id.toString() + ", postfix";
+      case 3 /* Operators.infix   */ -> Id.toString() + ", infix";
+      case 4 /* Operators.nfix    */ -> Id.toString() + ", nfix";
+      default -> null;
+    };
   }
-  return null;
-}
 
   public final boolean isPrefix() {
     return (Fix==Operators.prefix);

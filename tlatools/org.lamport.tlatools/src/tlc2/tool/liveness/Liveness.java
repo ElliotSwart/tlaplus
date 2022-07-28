@@ -224,217 +224,218 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		}
 
 		switch (opcode) {
-		case OPCODE_be: // BoundedExists
-		{
-			final ExprNode body = (ExprNode) args[0];
-			try {
-				final IContextEnumerator Enum = tool.contexts(expr, con, tool.getEmptyState(), tool.getEmptyState(), EvalControl.Clear);
-				Context con1;
-				final LNDisj res = new LNDisj(0);
-				while ((con1 = Enum.nextElement()) != null) {
-					final LiveExprNode kid = astToLive(tool, body, con1);
-					res.addDisj(kid);
+			case OPCODE_be -> // BoundedExists
+			{
+				final ExprNode body = (ExprNode) args[0];
+				try {
+					final IContextEnumerator Enum = tool.contexts(expr, con, tool.getEmptyState(), tool.getEmptyState(), EvalControl.Clear);
+					Context con1;
+					final LNDisj res = new LNDisj(0);
+					while ((con1 = Enum.nextElement()) != null) {
+						final LiveExprNode kid = astToLive(tool, body, con1);
+						res.addDisj(kid);
+					}
+					final int level = res.getLevel();
+					if (level > LevelConstants.ActionLevel) {
+						return res;
+					}
+					return astToLive(tool, expr, con, level);
+				} catch (final Exception e) {
+					// Catching Exception here seem dangerous
+					// Assert.printStack(e);
+					final int level = Specs.getLevel(expr, con);
+					if (level > LevelConstants.ActionLevel) {
+						Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA, expr.toString());
+					}
+					return astToLive(tool, expr, con, level);
 				}
+			}
+			case OPCODE_bf -> // BoundedForall
+			{
+				final ExprNode body = (ExprNode) args[0];
+				try {
+					final IContextEnumerator Enum = tool.contexts(expr, con, tool.getEmptyState(), tool.getEmptyState(), EvalControl.Clear);
+					Context con1;
+					final LNConj res = new LNConj(0);
+					while ((con1 = Enum.nextElement()) != null) {
+						final LiveExprNode kid = astToLive(tool, body, con1);
+						res.addConj(kid);
+					}
+					final int level = res.getLevel();
+					if (level > LevelConstants.ActionLevel) {
+						return res;
+					}
+					return astToLive(tool, expr, con, level);
+				} catch (final Exception e) {
+					// Catching Exception here seem dangerous
+					// Assert.printStack(e);
+					final int level = Specs.getLevel(expr, con);
+					if (level > LevelConstants.ActionLevel) {
+						if (e instanceof Assert.TLCRuntimeException) {
+							Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA, new String[]{expr.toString(), e.getMessage()});
+						} else {
+							Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA, expr.toString());
+						}
+					}
+					return astToLive(tool, expr, con, level);
+				}
+			}
+			// ConjList
+			case OPCODE_cl, OPCODE_land -> {
+				final LNConj lnConj = new LNConj(alen);
+				for (final ExprOrOpArgNode arg : args) {
+					final LiveExprNode kid = astToLive(tool, (ExprNode) arg, con);
+					lnConj.addConj(kid);
+				}
+				final int level = lnConj.getLevel();
+				if (level > LevelConstants.ActionLevel) {
+					return lnConj;
+				}
+				return astToLive(tool, expr, con, level);
+			}
+			// DisjList
+			case OPCODE_dl, OPCODE_lor -> {
+				final LNDisj lnDisj = new LNDisj(alen);
+				for (final ExprOrOpArgNode arg : args) {
+					final LiveExprNode kid = astToLive(tool, (ExprNode) arg, con);
+					lnDisj.addDisj(kid);
+				}
+				final int level = lnDisj.getLevel();
+				if (level > LevelConstants.ActionLevel) {
+					return lnDisj;
+				}
+				return astToLive(tool, expr, con, level);
+			}
+			case OPCODE_fa -> // FcnApply
+			{
+				try {
+					final IValue fval = tool.eval(args[0], con, tool.getEmptyState());
+					if (fval instanceof final IFcnLambdaValue fcn) {
+						if (!fcn.hasRcd()) {
+							// this could be a bug, since con1 is created but not
+							// used
+							// SZ Jul 13, 2009: removed to kill the warning
+							// SZ Feb 20, 2009: variable never read locally
+							// Context con1 =
+							tool.getFcnContext(fcn, args, con, tool.getEmptyState(), tool.getEmptyState(), EvalControl.Clear);
+							return astToLive(tool, (ExprNode) fcn.getBody(), con);
+						}
+					}
+				} catch (final Exception e) { /* SKIP */
+					// Swallowing Exception here seem dangerous
+				}
+				final int level = expr.getLevel();
+				if (level > LevelConstants.ActionLevel) {
+					Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA, expr.toString());
+				}
+				return astToLive(tool, expr, con, level);
+			}
+			case OPCODE_ite -> // IfThenElse
+			{
+				final LiveExprNode guard = astToLive(tool, (ExprNode) args[0], con);
+				final LiveExprNode e1 = astToLive(tool, (ExprNode) args[1], con);
+				final LiveExprNode e2 = astToLive(tool, (ExprNode) args[2], con);
+				final LiveExprNode conj1 = new LNConj(guard, e1);
+				final LiveExprNode conj2 = new LNConj(new LNNeg(guard), e2);
+				final LiveExprNode res = new LNDisj(conj1, conj2);
 				final int level = res.getLevel();
 				if (level > LevelConstants.ActionLevel) {
 					return res;
 				}
 				return astToLive(tool, expr, con, level);
-			} catch (final Exception e) {
-				// Catching Exception here seem dangerous
-				// Assert.printStack(e);
+			}
+			case OPCODE_lnot -> {
+				final LiveExprNode lnArg = astToLive(tool, (ExprNode) args[0], con);
+				final int level = lnArg.getLevel();
+				if (level > LevelConstants.ActionLevel) {
+					return new LNNeg(lnArg);
+				}
+				return astToLive(tool, expr, con, level);
+			}
+			case OPCODE_implies -> {
+				final LiveExprNode lnLeft = astToLive(tool, (ExprNode) args[0], con);
+				final LiveExprNode lnRight = astToLive(tool, (ExprNode) args[1], con);
+				final int level = Math.max(lnLeft.getLevel(), lnRight.getLevel());
+				if (level > LevelConstants.ActionLevel) {
+					return new LNDisj(new LNNeg(lnLeft), lnRight);
+				}
+				return astToLive(tool, expr, con, level);
+			}
+			case OPCODE_prime -> {
+				return new LNAction(expr, con);
+			}
+			case OPCODE_sf -> // SF
+			{
+				// expand SF_e(A) into <>[]-EN<A>_e \/ []<><A>_e
+				final ExprNode subs = (ExprNode) args[0]; // the e in SF_e(A)
+				final ExprNode body = (ExprNode) args[1]; // the A in SF_e(A)
+				final LiveExprNode en = new LNNeg(new LNStateEnabled(body, con, subs, false));
+				final LiveExprNode act = new LNAction(body, con, subs, false);
+				return new LNDisj(new LNEven(new LNAll(en)), new LNAll(new LNEven(act)));
+			}
+			case OPCODE_wf -> // WF
+			{
+				// expand WF_e(A) into []<>(-EN<A>_e \/ <A>_e)
+				final ExprNode subs = (ExprNode) args[0]; // the e in WF_e(A)
+				final ExprNode body = (ExprNode) args[1]; // the A in WF_e(A)
+				final LiveExprNode ln1 = new LNNeg(new LNStateEnabled(body, con, subs, false));
+				final LiveExprNode ln2 = new LNAction(body, con, subs, false);
+				final LiveExprNode disj = new LNDisj(ln1, ln2);
+				return new LNAll(new LNEven(disj));
+			}
+			case OPCODE_leadto -> {
+				// F ~> G equals [](F => <>G), however TLC does not have an
+				// implementation for logical implication. Thus, the rule of
+				// material implication ("->") is used to transform it into a
+				// disjunct.
+				final LiveExprNode lnLeft = astToLive(tool, (ExprNode) args[0], con);
+				final LiveExprNode lnRight = astToLive(tool, (ExprNode) args[1], con);
+				// expand a ~> b into [](-a \/ <>b)
+				final LNDisj lnd = new LNDisj(new LNNeg(lnLeft), new LNEven(lnRight));
+				return new LNAll(lnd);
+			}
+			case OPCODE_box -> {
+				final LiveExprNode lnArg = astToLive(tool, (ExprNode) args[0], con);
+				return new LNAll(lnArg);
+			}
+			case OPCODE_diamond -> {
+				final LiveExprNode lnArg = astToLive(tool, (ExprNode) args[0], con);
+				return new LNEven(lnArg);
+			}
+			case OPCODE_aa -> { // AngleAct <A>_e
+				assert Specs.getLevel(expr, con) == LevelConstants.ActionLevel;
+				final ExprNode body = (ExprNode) args[0]; // the A in <<A>>_e
+				final ExprNode subs = (ExprNode) args[1]; // the e in <<A>>_e
+				return new LNAction(body, con, subs, false);
+			}
+
+
+			// The following case added by LL on 13 Nov 2009 to handle subexpression
+			// names.
+			case OPCODE_nop -> {
+				return astToLive(tool, (ExprNode) args[0], con);
+			}
+			default -> {
+				// We handle all the other built-in operators here. Surprisingly, even OPCODE_aa
+				// (AngleAct <A>_e) is handled here and not as the dedicated case statement below
+				// such that e gets passed as subscript to LNAction:
+				//
+				//		case OPCODE_aa: { // AngleAct <A>_e
+				//			assert Spec.getLevel(expr, con) == 2;
+				//			final ExprNode body = (ExprNode) args[0]; // the A in <<A>>_e
+				//			final ExprNode subscript = (ExprNode) args[1]; // the e in <<A>>_e
+				//			return new LNAction(body, con, subscript, false);
+				//		}
+				//
+				// The default handling here results in LNAction#subscript to be null skipping
+				// the subscript related branch in LNAction#eval(Tool, TLCState, TLCState). This
+				// poses no problem though because Tool#evalAppl eventually checks if e' = e.
 				final int level = Specs.getLevel(expr, con);
 				if (level > LevelConstants.ActionLevel) {
 					Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA, expr.toString());
-                }
-				return astToLive(tool, expr, con, level);
-			}
-		}
-		case OPCODE_bf: // BoundedForall
-		{
-			final ExprNode body = (ExprNode) args[0];
-			try {
-				final IContextEnumerator Enum = tool.contexts(expr, con, tool.getEmptyState(), tool.getEmptyState(), EvalControl.Clear);
-				Context con1;
-				final LNConj res = new LNConj(0);
-				while ((con1 = Enum.nextElement()) != null) {
-					final LiveExprNode kid = astToLive(tool, body, con1);
-					res.addConj(kid);
-				}
-				final int level = res.getLevel();
-				if (level > LevelConstants.ActionLevel) {
-					return res;
-				}
-				return astToLive(tool, expr, con, level);
-			} catch (final Exception e) {
-				// Catching Exception here seem dangerous
-				// Assert.printStack(e);
-				final int level = Specs.getLevel(expr, con);
-				if (level > LevelConstants.ActionLevel) {
-					if (e instanceof Assert.TLCRuntimeException) {
-						Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA, new String[] {expr.toString(), e.getMessage()});
-					} else {
-						Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA, expr.toString());
-					}
 				}
 				return astToLive(tool, expr, con, level);
 			}
-		}
-		case OPCODE_cl: // ConjList
-		case OPCODE_land: {
-			final LNConj lnConj = new LNConj(alen);
-            for (final ExprOrOpArgNode arg : args) {
-                final LiveExprNode kid = astToLive(tool, (ExprNode) arg, con);
-                lnConj.addConj(kid);
-            }
-			final int level = lnConj.getLevel();
-			if (level > LevelConstants.ActionLevel) {
-				return lnConj;
-			}
-			return astToLive(tool, expr, con, level);
-		}
-		case OPCODE_dl: // DisjList
-		case OPCODE_lor: {
-			final LNDisj lnDisj = new LNDisj(alen);
-            for (final ExprOrOpArgNode arg : args) {
-                final LiveExprNode kid = astToLive(tool, (ExprNode) arg, con);
-                lnDisj.addDisj(kid);
-            }
-			final int level = lnDisj.getLevel();
-			if (level > LevelConstants.ActionLevel) {
-				return lnDisj;
-			}
-			return astToLive(tool, expr, con, level);
-		}
-		case OPCODE_fa: // FcnApply
-		{
-			try {
-				final IValue fval = tool.eval(args[0], con, tool.getEmptyState());
-				if (fval instanceof final IFcnLambdaValue fcn) {
-                    if (!fcn.hasRcd()) {
-						// this could be a bug, since con1 is created but not
-						// used
-						// SZ Jul 13, 2009: removed to kill the warning
-						// SZ Feb 20, 2009: variable never read locally
-						// Context con1 =
-						tool.getFcnContext(fcn, args, con, tool.getEmptyState(), tool.getEmptyState(), EvalControl.Clear);
-						return astToLive(tool, (ExprNode) fcn.getBody(), con);
-					}
-				}
-			} catch (final Exception e) { /* SKIP */
-				// Swallowing Exception here seem dangerous
-			}
-			final int level = expr.getLevel();
-			if (level > LevelConstants.ActionLevel) {
-				Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA, expr.toString());
-			}
-			return astToLive(tool, expr, con, level);
-		}
-		case OPCODE_ite: // IfThenElse
-		{
-			final LiveExprNode guard = astToLive(tool, (ExprNode) args[0], con);
-			final LiveExprNode e1 = astToLive(tool, (ExprNode) args[1], con);
-			final LiveExprNode e2 = astToLive(tool, (ExprNode) args[2], con);
-			final LiveExprNode conj1 = new LNConj(guard, e1);
-			final LiveExprNode conj2 = new LNConj(new LNNeg(guard), e2);
-			final LiveExprNode res = new LNDisj(conj1, conj2);
-			final int level = res.getLevel();
-			if (level > LevelConstants.ActionLevel) {
-				return res;
-			}
-			return astToLive(tool, expr, con, level);
-		}
-		case OPCODE_lnot: {
-			final LiveExprNode lnArg = astToLive(tool, (ExprNode) args[0], con);
-			final int level = lnArg.getLevel();
-			if (level > LevelConstants.ActionLevel) {
-				return new LNNeg(lnArg);
-			}
-			return astToLive(tool, expr, con, level);
-		}
-		case OPCODE_implies: {
-			final LiveExprNode lnLeft = astToLive(tool, (ExprNode) args[0], con);
-			final LiveExprNode lnRight = astToLive(tool, (ExprNode) args[1], con);
-			final int level = Math.max(lnLeft.getLevel(), lnRight.getLevel());
-			if (level > LevelConstants.ActionLevel) {
-				return new LNDisj(new LNNeg(lnLeft), lnRight);
-			}
-			return astToLive(tool, expr, con, level);
-		}
-		case OPCODE_prime: {
-			return new LNAction(expr, con);
-		}
-		case OPCODE_sf: // SF
-		{
-			// expand SF_e(A) into <>[]-EN<A>_e \/ []<><A>_e
-			final ExprNode subs = (ExprNode) args[0]; // the e in SF_e(A)
-			final ExprNode body = (ExprNode) args[1]; // the A in SF_e(A)
-			final LiveExprNode en = new LNNeg(new LNStateEnabled(body, con, subs, false));
-			final LiveExprNode act = new LNAction(body, con, subs, false);
-			return new LNDisj(new LNEven(new LNAll(en)), new LNAll(new LNEven(act)));
-		}
-		case OPCODE_wf: // WF
-		{
-			// expand WF_e(A) into []<>(-EN<A>_e \/ <A>_e)
-			final ExprNode subs = (ExprNode) args[0]; // the e in WF_e(A)
-			final ExprNode body = (ExprNode) args[1]; // the A in WF_e(A)
-			final LiveExprNode ln1 = new LNNeg(new LNStateEnabled(body, con, subs, false));
-			final LiveExprNode ln2 = new LNAction(body, con, subs, false);
-			final LiveExprNode disj = new LNDisj(ln1, ln2);
-			return new LNAll(new LNEven(disj));
-		}
-		case OPCODE_leadto: {
-			// F ~> G equals [](F => <>G), however TLC does not have an
-			// implementation for logical implication. Thus, the rule of
-			// material implication ("->") is used to transform it into a
-			// disjunct.
-			final LiveExprNode lnLeft = astToLive(tool, (ExprNode) args[0], con);
-			final LiveExprNode lnRight = astToLive(tool, (ExprNode) args[1], con);
-			// expand a ~> b into [](-a \/ <>b) 
-			final LNDisj lnd = new LNDisj(new LNNeg(lnLeft), new LNEven(lnRight));
-			return new LNAll(lnd);
-		}
-		case OPCODE_box: {
-			final LiveExprNode lnArg = astToLive(tool, (ExprNode) args[0], con);
-			return new LNAll(lnArg);
-		}
-		case OPCODE_diamond: {
-			final LiveExprNode lnArg = astToLive(tool, (ExprNode) args[0], con);
-			return new LNEven(lnArg);
-		}
-		case OPCODE_aa: { // AngleAct <A>_e
-			assert Specs.getLevel(expr, con) == LevelConstants.ActionLevel;
-			final ExprNode body = (ExprNode) args[0]; // the A in <<A>>_e
-			final ExprNode subs = (ExprNode) args[1]; // the e in <<A>>_e
-			return new LNAction(body, con, subs, false);
-		}
-
-		// The following case added by LL on 13 Nov 2009 to handle subexpression
-		// names.
-		case OPCODE_nop: {
-			return astToLive(tool, (ExprNode) args[0], con);
-		}
-		default: {
-			// We handle all the other built-in operators here. Surprisingly, even OPCODE_aa
-			// (AngleAct <A>_e) is handled here and not as the dedicated case statement below
-			// such that e gets passed as subscript to LNAction:
-			//
-			//		case OPCODE_aa: { // AngleAct <A>_e
-			//			assert Spec.getLevel(expr, con) == 2;
-			//			final ExprNode body = (ExprNode) args[0]; // the A in <<A>>_e
-			//			final ExprNode subscript = (ExprNode) args[1]; // the e in <<A>>_e
-			//			return new LNAction(body, con, subscript, false);
-			//		}
-			//
-			// The default handling here results in LNAction#subscript to be null skipping
-			// the subscript related branch in LNAction#eval(Tool, TLCState, TLCState). This
-			// poses no problem though because Tool#evalAppl eventually checks if e' = e.
-			final int level = Specs.getLevel(expr, con);
-			if (level > LevelConstants.ActionLevel) {
-				Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA, expr.toString());
-			}
-			return astToLive(tool, expr, con, level);
-		}
 		}
 	}
 

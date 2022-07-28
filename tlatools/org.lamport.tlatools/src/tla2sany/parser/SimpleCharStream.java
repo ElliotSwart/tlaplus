@@ -156,21 +156,16 @@ public class SimpleCharStream
            line += (column = 1);
      }
 
-     switch (c)
-     {
-        case '\r' :
-           prevCharIsCR = true;
-           break;
-        case '\n' :
-           prevCharIsLF = true;
-           break;
-        case '\t' :
-           column--;
-           column += (tabSize - (column % tabSize));
-           break;
-        default :
-           break;
-     }
+      switch (c) {
+          case '\r' -> prevCharIsCR = true;
+          case '\n' -> prevCharIsLF = true;
+          case '\t' -> {
+              column--;
+              column += (tabSize - (column % tabSize));
+          }
+          default -> {
+          }
+      }
 
      bufline[bufpos] = line;
      bufcolumn[bufpos] = column;

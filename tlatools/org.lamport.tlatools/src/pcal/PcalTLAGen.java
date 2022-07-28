@@ -3236,12 +3236,8 @@ public class PcalTLAGen
                 if (inString)
                 {
                     switch (curChar) {
-                    case '\"':
-                        inString = false;
-                        break;
-                    case '\\':
-                        curCharNum++;
-                        break;
+                        case '\"' -> inString = false;
+                        case '\\' -> curCharNum++;
                     }
                     // end switch
                 } // end if (inString)

@@ -101,34 +101,27 @@ public class Format {
     // or record field/value pair.  We use two methods to format the
     // two types of lists.
 
-    switch (value.type()) {
-    case Node.CONSTANT: 
-      return value.value();
-    case Node.SET: 
-      return formatSimpleValue(value,columnwidth,trailerwidth,leftpad,
-			       setOpen, setClose, setPad, setSep);
-    case Node.SEQUENCE: 
-      return formatSimpleValue(value,columnwidth,trailerwidth,leftpad,
-			       seqOpen, seqClose, seqPad, seqSep);
-    case Node.FUNCTION: 
-      return formatPairValue(value,columnwidth,trailerwidth,leftpad,
-			     funOpen, funClose, funPad, funSep, 
-			     funDiv, funDivPad);
-    case Node.RECORD: 
-      return formatPairValue(value,columnwidth,trailerwidth,leftpad,
-			     recOpen, recClose, recPad, recSep,
-			     recDiv, recDivPad);
-    case Node.SUBSET:
-      return formatSimpleValue(value,columnwidth,trailerwidth,leftpad,
-			       subsetOpen, subsetClose, subsetPad,
-			       subsetSep);
-    default:
-      throw new FormatException("TLC Bug: while formating output," +
-				" the formatter called with an expression" +
-				" of type " + value.type() + 
-				" while formatting " + value.value() +
-				" and this should never happen");
-    }
+      return switch (value.type()) {
+          case Node.CONSTANT -> value.value();
+          case Node.SET -> formatSimpleValue(value, columnwidth, trailerwidth, leftpad,
+                  setOpen, setClose, setPad, setSep);
+          case Node.SEQUENCE -> formatSimpleValue(value, columnwidth, trailerwidth, leftpad,
+                  seqOpen, seqClose, seqPad, seqSep);
+          case Node.FUNCTION -> formatPairValue(value, columnwidth, trailerwidth, leftpad,
+                  funOpen, funClose, funPad, funSep,
+                  funDiv, funDivPad);
+          case Node.RECORD -> formatPairValue(value, columnwidth, trailerwidth, leftpad,
+                  recOpen, recClose, recPad, recSep,
+                  recDiv, recDivPad);
+          case Node.SUBSET -> formatSimpleValue(value, columnwidth, trailerwidth, leftpad,
+                  subsetOpen, subsetClose, subsetPad,
+                  subsetSep);
+          default -> throw new FormatException("TLC Bug: while formating output," +
+                  " the formatter called with an expression" +
+                  " of type " + value.type() +
+                  " while formatting " + value.value() +
+                  " and this should never happen");
+      };
   }
 
 /***************************************************************************/

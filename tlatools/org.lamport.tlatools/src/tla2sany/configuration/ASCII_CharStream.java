@@ -152,21 +152,16 @@ public final class ASCII_CharStream
            line += (column = 1);
      }
 
-     switch (c)
-     {
-        case '\r' :
-           prevCharIsCR = true;
-           break;
-        case '\n' :
-           prevCharIsLF = true;
-           break;
-        case '\t' :
-           column--;
-           column += (8 - (column & 07));
-           break;
-        default :
-           break;
-     }
+      switch (c) {
+          case '\r' -> prevCharIsCR = true;
+          case '\n' -> prevCharIsLF = true;
+          case '\t' -> {
+              column--;
+              column += (8 - (column & 07));
+          }
+          default -> {
+          }
+      }
 
      bufline[bufpos] = line;
      bufcolumn[bufpos] = column;

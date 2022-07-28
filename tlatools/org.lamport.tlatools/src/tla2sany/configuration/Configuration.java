@@ -33,7 +33,7 @@ import util.UniqueString;
 public final class Configuration implements ConfigConstants {
 
   private Errors         errors;
-  public Context context;
+  public final Context context;
   public Operators operators;
 
   public void displayDefinitions() {
@@ -100,35 +100,28 @@ public static Configuration load (final Errors errs ) throws AbortException, Fil
 
   public void OpDefinition() throws ParseException, AbortException {
   final Token t;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case OPERATOR:
-      jj_consume_token(OPERATOR);
-      t = jj_consume_token(OPID);
-
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case NUMBER:
-        OpBody(t.image);
-        break;
-      case NOTOP:
-        OpNull(t.image);
-        break;
-      default:
-        jj_la1[1] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case OPERATOR -> {
+              jj_consume_token(OPERATOR);
+              t = jj_consume_token(OPID);
+              switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                  case NUMBER -> OpBody(t.image);
+                  case NOTOP -> OpNull(t.image);
+                  default -> {
+                      jj_la1[1] = jj_gen;
+                      jj_consume_token(-1);
+                      throw new ParseException();
+                  }
+              }
+          }
+          case SYNONYM -> OpSynonym();
+          case BUILTIN -> OpBuiltin();
+          default -> {
+              jj_la1[2] = jj_gen;
+              jj_consume_token(-1);
+              throw new ParseException();
+          }
       }
-      break;
-    case SYNONYM:
-      OpSynonym();
-      break;
-    case BUILTIN:
-      OpBuiltin();
-      break;
-    default:
-      jj_la1[2] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
   }
 
  public void OpBody(final String s) throws ParseException {
@@ -141,54 +134,53 @@ public static Configuration load (final Errors errs ) throws AbortException, Fil
                 low = Integer.parseInt( t.image );
     t = jj_consume_token(NUMBER);
                 high = Integer.parseInt( t.image );
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case LEFTASSOC:
-      jj_consume_token(LEFTASSOC);
-                   assoc = Operators.assocLeft;
-      break;
-    case RIGHTASSOC:
-      jj_consume_token(RIGHTASSOC);
-                    assoc = Operators.assocRight;
-      break;
-    case NOASSOC:
-      jj_consume_token(NOASSOC);
-                 assoc = Operators.assocNone;
-      break;
-    default:
-      jj_la1[3] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case INFIX:
-      jj_consume_token(INFIX);
-               kind = Operators.infix;
-      break;
-    case PREFIX:
-      jj_consume_token(PREFIX);
-                kind = Operators.prefix;
-      break;
-    case POSTFIX:
-      jj_consume_token(POSTFIX);
-                 kind = Operators.postfix;
-      break;
-    case NFIX:
-      jj_consume_token(NFIX);
-              kind = Operators.nfix;
-      break;
-    default:
-      jj_la1[4] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
+     switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         case LEFTASSOC -> {
+             jj_consume_token(LEFTASSOC);
+             assoc = Operators.assocLeft;
+         }
+         case RIGHTASSOC -> {
+             jj_consume_token(RIGHTASSOC);
+             assoc = Operators.assocRight;
+         }
+         case NOASSOC -> {
+             jj_consume_token(NOASSOC);
+             assoc = Operators.assocNone;
+         }
+         default -> {
+             jj_la1[3] = jj_gen;
+             jj_consume_token(-1);
+             throw new ParseException();
+         }
+     }
+     switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         case INFIX -> {
+             jj_consume_token(INFIX);
+             kind = Operators.infix;
+         }
+         case PREFIX -> {
+             jj_consume_token(PREFIX);
+             kind = Operators.prefix;
+         }
+         case POSTFIX -> {
+             jj_consume_token(POSTFIX);
+             kind = Operators.postfix;
+         }
+         case NFIX -> {
+             jj_consume_token(NFIX);
+             kind = Operators.nfix;
+         }
+         default -> {
+             jj_la1[4] = jj_gen;
+             jj_consume_token(-1);
+             throw new ParseException();
+         }
+     }
      t = null;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case OPID:
-      t = jj_consume_token(OPID);
-      break;
-    default:
-      jj_la1[5] = jj_gen;
-    }
+     switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         case OPID -> t = jj_consume_token(OPID);
+         default -> jj_la1[5] = jj_gen;
+     }
    final Operator op;
    if ( t == null ) {
      op = new Operator( UniqueString.uniqueStringOf(s), low, high, assoc, kind );
@@ -220,46 +212,47 @@ public static Configuration load (final Errors errs ) throws AbortException, Fil
     t = jj_consume_token(OPID);
     external = t.image; us = UniqueString.uniqueStringOf( external );
     t = jj_consume_token(RESTRICTED);
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case INFIX:
-      jj_consume_token(INFIX);
-      context.addGlobalSymbol( us, new OpDefNode( us, tla2sany.semantic.ASTConstants.BuiltInKind, 2,
-                        new FormalParamNode[2], false, null, null, null, new SyntaxTreeNode( us ) ),
-                        errors);
-      break;
-    case PREFIX:
-      jj_consume_token(PREFIX);
-      context.addGlobalSymbol( us, new OpDefNode( us, tla2sany.semantic.ASTConstants.BuiltInKind, 1,
-                        new FormalParamNode[1], false, null, null, null, new SyntaxTreeNode( us ) ),
-                        errors);
-      break;
-    case POSTFIX:
-      jj_consume_token(POSTFIX);
-      context.addGlobalSymbol( us, new OpDefNode( us, tla2sany.semantic.ASTConstants.BuiltInKind, 1,
-                        new FormalParamNode[1], false, null, null, null, new SyntaxTreeNode( us ) ),
-                        errors);
-      break;
-    case CONSTANT:
-      jj_consume_token(CONSTANT);
-      context.addGlobalSymbol( us, new OpDefNode( us, tla2sany.semantic.ASTConstants.BuiltInKind, 0,
-                        new FormalParamNode[0], false, null, null, null, new SyntaxTreeNode( us ) ),
-                        errors);
-      break;
-    case NUMBER:
-      t = jj_consume_token(NUMBER);
-      final int n = Integer.parseInt( t.image );
-      FormalParamNode[] fpn = null;
-      if ( n != -1 ) fpn = new FormalParamNode[ n ];
-      context.addGlobalSymbol( us,
-                        new OpDefNode( us, tla2sany.semantic.ASTConstants.BuiltInKind, n,
-                                       fpn, false, null, null, null, new SyntaxTreeNode( us ) ),
-                                       errors);
-      break;
-    default:
-      jj_la1[6] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case INFIX -> {
+              jj_consume_token(INFIX);
+              context.addGlobalSymbol(us, new OpDefNode(us, tla2sany.semantic.ASTConstants.BuiltInKind, 2,
+                              new FormalParamNode[2], false, null, null, null, new SyntaxTreeNode(us)),
+                      errors);
+          }
+          case PREFIX -> {
+              jj_consume_token(PREFIX);
+              context.addGlobalSymbol(us, new OpDefNode(us, tla2sany.semantic.ASTConstants.BuiltInKind, 1,
+                              new FormalParamNode[1], false, null, null, null, new SyntaxTreeNode(us)),
+                      errors);
+          }
+          case POSTFIX -> {
+              jj_consume_token(POSTFIX);
+              context.addGlobalSymbol(us, new OpDefNode(us, tla2sany.semantic.ASTConstants.BuiltInKind, 1,
+                              new FormalParamNode[1], false, null, null, null, new SyntaxTreeNode(us)),
+                      errors);
+          }
+          case CONSTANT -> {
+              jj_consume_token(CONSTANT);
+              context.addGlobalSymbol(us, new OpDefNode(us, tla2sany.semantic.ASTConstants.BuiltInKind, 0,
+                              new FormalParamNode[0], false, null, null, null, new SyntaxTreeNode(us)),
+                      errors);
+          }
+          case NUMBER -> {
+              t = jj_consume_token(NUMBER);
+              final int n = Integer.parseInt(t.image);
+              FormalParamNode[] fpn = null;
+              if (n != -1) fpn = new FormalParamNode[n];
+              context.addGlobalSymbol(us,
+                      new OpDefNode(us, tla2sany.semantic.ASTConstants.BuiltInKind, n,
+                              fpn, false, null, null, null, new SyntaxTreeNode(us)),
+                      errors);
+          }
+          default -> {
+              jj_la1[6] = jj_gen;
+              jj_consume_token(-1);
+              throw new ParseException();
+          }
+      }
 
   }
 

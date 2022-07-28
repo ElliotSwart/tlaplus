@@ -823,58 +823,53 @@ public final class FormatComments
          ptok = previousCToken(com, line, item);
          ntok = nextCToken(com, line, item);
          if ( (! tok.isTLA) && tok.isAmbiguous)
-          { switch (tok.type)
-             {case CToken.IDENT  :
-              case CToken.NUMBER :
-                if (parameters.TLACommentOption)
-                 { tok.isTLA = true ;
-                 }
-                else
-                 {
-                   if (ptok.type == CToken.BUILTIN)
-                    {
-                        final int stype =
-                      Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(ptok.string, true)).symbolType;
-                      if (   (   (stype == Symbol.INFIX)
-                              || (stype == Symbol.PREFIX))
-                          && ( ptok.isTLA || ptok.isAmbiguous))
-                       { tok.isTLA = true ;
-                         ptok.isTLA = true ;
-                       }
-                    }
-                 }
-                  if (ntok.type == CToken.BUILTIN)
-                 {
-                     final int stype =
-                   Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(ntok.string, true)).symbolType;
-                   if (   (   (stype == Symbol.INFIX)
-                           || (stype == Symbol.POSTFIX))
-                       && ( ntok.isTLA || ntok.isAmbiguous))
-                    { tok.isTLA = true ;
-                      ntok.isTLA = true ;
-                    }
-                 }
-                  break;
-              case CToken.BUILTIN  :
-                final int stype =
-                     Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(tok.string, true)).symbolType;
-                if (   (   (stype == Symbol.PREFIX)
-                        || (stype == Symbol.INFIX) )
-                    && ( ntok.isTLA || ntok.isAmbiguous))
-                 { tok.isTLA = true ;
-                   ntok.isTLA = true ;
-                 }
-                  if (   (   (stype == Symbol.INFIX)
-                        || (stype == Symbol.POSTFIX))
-                    && ( ptok.isTLA || ptok.isAmbiguous))
-                 { tok.isTLA = true ;
-                   ptok.isTLA = true ;
-                 }
-                  break;
-              default :
-                Debug.ReportBug("FormatComments.adjustIsTLA: "
-                  + "ambiguous CToken of wrong type");
-             }
+          {
+              switch (tok.type) {
+                  case CToken.IDENT, CToken.NUMBER -> {
+                      if (parameters.TLACommentOption) {
+                          tok.isTLA = true;
+                      } else {
+                          if (ptok.type == CToken.BUILTIN) {
+                              final int stype =
+                                      Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(ptok.string, true)).symbolType;
+                              if (((stype == Symbol.INFIX)
+                                      || (stype == Symbol.PREFIX))
+                                      && (ptok.isTLA || ptok.isAmbiguous)) {
+                                  tok.isTLA = true;
+                                  ptok.isTLA = true;
+                              }
+                          }
+                      }
+                      if (ntok.type == CToken.BUILTIN) {
+                          final int stype =
+                                  Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(ntok.string, true)).symbolType;
+                          if (((stype == Symbol.INFIX)
+                                  || (stype == Symbol.POSTFIX))
+                                  && (ntok.isTLA || ntok.isAmbiguous)) {
+                              tok.isTLA = true;
+                              ntok.isTLA = true;
+                          }
+                      }
+                  }
+                  case CToken.BUILTIN -> {
+                      final int stype =
+                              Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(tok.string, true)).symbolType;
+                      if (((stype == Symbol.PREFIX)
+                              || (stype == Symbol.INFIX))
+                              && (ntok.isTLA || ntok.isAmbiguous)) {
+                          tok.isTLA = true;
+                          ntok.isTLA = true;
+                      }
+                      if (((stype == Symbol.INFIX)
+                              || (stype == Symbol.POSTFIX))
+                              && (ptok.isTLA || ptok.isAmbiguous)) {
+                          tok.isTLA = true;
+                          ptok.isTLA = true;
+                      }
+                  }
+                  default -> Debug.ReportBug("FormatComments.adjustIsTLA: "
+                          + "ambiguous CToken of wrong type");
+              }
           }
          item = item + 1;
         }
@@ -1560,56 +1555,48 @@ public final class FormatComments
     * Write out the opening of the comment.                                *
     ***********************************************************************/
     String tempStr = "";
-    switch (commentType)
-      {
-       case ONE_LINE :
-         tempStr = parameters.LaTeXOneLineCommentCommand + "{" ;
-         if (   (com[0].length > 0)
-             && (com[0][0].column > 0))
-           { tempStr = tempStr + 
-                  parameters.LaTeXSpaceCommand + "{" 
-                + Misc.floatToString(parameters.LaTeXCommentLeftSpace(
-                   com[0][0].column - 1), 2)
-                + "}" ;
+       switch (commentType) {
+           case ONE_LINE -> {
+               tempStr = parameters.LaTeXOneLineCommentCommand + "{";
+               if ((com[0].length > 0)
+                       && (com[0][0].column > 0)) {
+                   tempStr = tempStr +
+                           parameters.LaTeXSpaceCommand + "{"
+                           + Misc.floatToString(parameters.LaTeXCommentLeftSpace(
+                           com[0][0].column - 1), 2)
+                           + "}";
+               }
+               writer.putLine(tempStr + "%");
            }
-           writer.putLine(tempStr + "%");
-         break ;
-
-       case ZERO_WIDTH :
-         tempStr = parameters.LaTeXZeroWidthCommentCommand + "{" ;
-         if (   (com[0].length > 0)
-             && (com[0][0].column > 0))
-           { tempStr = tempStr + 
-                  parameters.LaTeXSpaceCommand + "{" 
-                + Misc.floatToString(parameters.LaTeXCommentLeftSpace(
-                   com[0][0].column - 1), 2)
-                + "}" ;
+           case ZERO_WIDTH -> {
+               tempStr = parameters.LaTeXZeroWidthCommentCommand + "{";
+               if ((com[0].length > 0)
+                       && (com[0][0].column > 0)) {
+                   tempStr = tempStr +
+                           parameters.LaTeXSpaceCommand + "{"
+                           + Misc.floatToString(parameters.LaTeXCommentLeftSpace(
+                           com[0][0].column - 1), 2)
+                           + "}";
+               }
+               writer.putLine(tempStr + "%");
            }
-           writer.putLine(tempStr + "%");
-         break ;
-
-       case PAR :
-         float indent = indentOrWidth ;
-
-         if (indent < -1)
-           { indent = parameters.LaTeXCommentLeftSpace(margin[0]);
+           case PAR -> {
+               float indent = indentOrWidth;
+               if (indent < -1) {
+                   indent = parameters.LaTeXCommentLeftSpace(margin[0]);
+               }
+               writer.putLine("\\begin{"
+                       + parameters.LaTeXLeftMultiLineComment
+                       + "}{" + Misc.floatToString(indent, 2)
+                       + "}%");
            }
-           writer.putLine("\\begin{"
-                             + parameters.LaTeXLeftMultiLineComment
-                             + "}{" + Misc.floatToString(indent,2) 
-                             + "}%");
-         break ;
-
-       case RIGHT_MULTI :
-         writer.putLine("\\begin{" 
-                             + parameters.LaTeXRightMultiLineComment
-                             + "}{" + Misc.floatToString(indentOrWidth,2) 
-                             + "}%");
-         break ;
-       default :
-         Debug.ReportBug(
-           "The impossible has happened in FormatComments.InnerWriteComment");
-      }
+           case RIGHT_MULTI -> writer.putLine("\\begin{"
+                   + parameters.LaTeXRightMultiLineComment
+                   + "}{" + Misc.floatToString(indentOrWidth, 2)
+                   + "}%");
+           default -> Debug.ReportBug(
+                   "The impossible has happened in FormatComments.InnerWriteComment");
+       }
 
     /***********************************************************************
     * Write out the body of the comment.                                   *
@@ -2023,25 +2010,20 @@ public final class FormatComments
           { curOutput.append("}");
           }
       }
-       switch (commentType)
-      {
-       case ONE_LINE :
-       case ZERO_WIDTH :
-         misc.BreakStringOut(writer, curOutput + "}%");
-         break ;
-       case PAR :
-           misc.WriteIfNonNull(writer, curOutput.toString());
-         writer.putLine("\\end{" + parameters.LaTeXLeftMultiLineComment + "}%");
-         break ;
-       case RIGHT_MULTI :
-         misc.WriteIfNonNull(writer, curOutput.toString());
-         writer.putLine("\\end{" + parameters.LaTeXRightMultiLineComment
-                                    + "}%");
-         break ;
-       default :
-         Debug.ReportBug(
-           "The impossible happened in FormatComments.InnerWriteComment");
-      }
+       switch (commentType) {
+           case ONE_LINE, ZERO_WIDTH -> misc.BreakStringOut(writer, curOutput + "}%");
+           case PAR -> {
+               misc.WriteIfNonNull(writer, curOutput.toString());
+               writer.putLine("\\end{" + parameters.LaTeXLeftMultiLineComment + "}%");
+           }
+           case RIGHT_MULTI -> {
+               misc.WriteIfNonNull(writer, curOutput.toString());
+               writer.putLine("\\end{" + parameters.LaTeXRightMultiLineComment
+                       + "}%");
+           }
+           default -> Debug.ReportBug(
+                   "The impossible happened in FormatComments.InnerWriteComment");
+       }
 
    } // END InnerWriteComment(...)
 

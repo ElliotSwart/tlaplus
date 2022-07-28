@@ -709,36 +709,36 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 			final byte kind = this.readByte();
 
 			switch (kind) {
-			case BOOLVALUE: {
-				return (this.readBoolean()) ? BoolValue.ValTrue : BoolValue.ValFalse;
-			}
-			case INTVALUE: {
-				return IntValue.gen(this.readInt());
-			}
-			case STRINGVALUE: {
-				return StringValue.createFrom(this);
-			}
-			case MODELVALUE: {
-				return ModelValue.mvs[this.readShort()];
-			}
-			case INTERVALVALUE: {
-				return new IntervalValue(this.readInt(), this.readInt());
-			}
-			case RECORDVALUE: {
-				return RecordValue.createFrom(this);
-			}
-			case FCNRCDVALUE: {
-				return FcnRcdValue.createFrom(this);
-			}
-			case SETENUMVALUE: {
-				return SetEnumValue.createFrom(this);
-			}
-			case TUPLEVALUE: {
-				return TupleValue.createFrom(this);
-			}
-			default: {
-				throw new WrongInvocationException("ValueInputStream: Can not unpickle a value of kind " + kind);
-			}
+				case BOOLVALUE -> {
+					return (this.readBoolean()) ? BoolValue.ValTrue : BoolValue.ValFalse;
+				}
+				case INTVALUE -> {
+					return IntValue.gen(this.readInt());
+				}
+				case STRINGVALUE -> {
+					return StringValue.createFrom(this);
+				}
+				case MODELVALUE -> {
+					return ModelValue.mvs[this.readShort()];
+				}
+				case INTERVALVALUE -> {
+					return new IntervalValue(this.readInt(), this.readInt());
+				}
+				case RECORDVALUE -> {
+					return RecordValue.createFrom(this);
+				}
+				case FCNRCDVALUE -> {
+					return FcnRcdValue.createFrom(this);
+				}
+				case SETENUMVALUE -> {
+					return SetEnumValue.createFrom(this);
+				}
+				case TUPLEVALUE -> {
+					return TupleValue.createFrom(this);
+				}
+				default -> {
+					throw new WrongInvocationException("ValueInputStream: Can not unpickle a value of kind " + kind);
+				}
 			}
 		}
 

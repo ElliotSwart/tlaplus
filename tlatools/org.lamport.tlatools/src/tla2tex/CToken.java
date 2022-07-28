@@ -237,19 +237,19 @@ public class CToken
       * This returns everything in toString() except the final "]", so it  *
       * can be used by the toString() method of subclasses.                *
       *********************************************************************/
-      { String typeName = "";
-        switch (type) 
-          { case BUILTIN      : typeName = "BUILTIN"       ; break ;
-            case NUMBER       : typeName = "NUMBER"        ; break ;
-            case STRING       : typeName = "STRING"        ; break ;
-            case IDENT        : typeName = "IDENT"         ; break ;
-            case OTHER        : typeName = "OTHER"         ; break ;
-            case REP_CHAR     : typeName = "REP_CHAR"      ; break ;
-            case LEFT_DQUOTE  : typeName = "LEFT_DQUOTE"   ; break ;
-            case RIGHT_DQUOTE : typeName = "RIGHT_DQUOTE"  ; break ;
-            case VERB         : typeName = "VERB"          ; break ;
-            case TEX          : typeName = "TEX"           ; break ;
-          }
+      { String typeName = switch (type) {
+          case BUILTIN -> "BUILTIN";
+          case NUMBER -> "NUMBER";
+          case STRING -> "STRING";
+          case IDENT -> "IDENT";
+          case OTHER -> "OTHER";
+          case REP_CHAR -> "REP_CHAR";
+          case LEFT_DQUOTE -> "LEFT_DQUOTE";
+          case RIGHT_DQUOTE -> "RIGHT_DQUOTE";
+          case VERB -> "VERB";
+          case TEX -> "TEX";
+          default -> "";
+      };
           String str = "\"" + string + "\"";
         if (string == null) {str = "null";}
 

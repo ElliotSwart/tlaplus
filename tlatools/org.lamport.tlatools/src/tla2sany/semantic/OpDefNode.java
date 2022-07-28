@@ -1393,45 +1393,45 @@ public boolean addLabel(final LabelNode odn) {
   @Override
   protected Element getSymbolElement(final Document doc, final SymbolContext context) {
     Element ret = null;
-    switch (getKind()) {
-      case UserDefinedOpKind:
-        ret = doc.createElement("UserDefinedOpKind");
-        ret.appendChild(appendText(doc,"uniquename",getName().toString()));
-        ret.appendChild(appendText(doc,"arity",Integer.toString(getArity())));
-        ret.appendChild(appendElement(doc,"body",body.export(doc,context)));
-        if (params != null) {
-          final Element arguments = doc.createElement("params");
-          for (int i=0; i<params.length; i++) {
-            final Element lp = doc.createElement("leibnizparam");
-            lp.appendChild(params[i].export(doc,context));
-            if (isLeibnizArg != null && isLeibnizArg[i]) lp.appendChild(doc.createElement("leibniz"));
-            arguments.appendChild(lp);
+      switch (getKind()) {
+          case UserDefinedOpKind -> {
+              ret = doc.createElement("UserDefinedOpKind");
+              ret.appendChild(appendText(doc, "uniquename", getName().toString()));
+              ret.appendChild(appendText(doc, "arity", Integer.toString(getArity())));
+              ret.appendChild(appendElement(doc, "body", body.export(doc, context)));
+              if (params != null) {
+                  final Element arguments = doc.createElement("params");
+                  for (int i = 0; i < params.length; i++) {
+                      final Element lp = doc.createElement("leibnizparam");
+                      lp.appendChild(params[i].export(doc, context));
+                      if (isLeibnizArg != null && isLeibnizArg[i]) lp.appendChild(doc.createElement("leibniz"));
+                      arguments.appendChild(lp);
+                  }
+                  ret.appendChild(arguments);
+              }
+              if (inRecursive) ret.appendChild(doc.createElement("recursive"));
           }
-          ret.appendChild(arguments);
+          case BuiltInKind -> {
+              ret = doc.createElement("BuiltInKind");
+              ret.appendChild(appendText(doc, "uniquename", getName().toString()));
+              ret.appendChild(appendText(doc, "arity", Integer.toString(getArity())));
+              final Element arguments2 = doc.createElement("params");
+              if (params != null) {
+                  for (int i = 0; i < params.length; i++) {
+                      final Element lp = doc.createElement("leibnizparam");
+                      lp.appendChild(params[i].export(doc, context));
+                      if (isLeibnizArg != null && isLeibnizArg[i]) lp.appendChild(doc.createElement("leibniz"));
+                      arguments2.appendChild(lp);
+                  }
+                  ret.appendChild(arguments2);
+              }
+          }
+          case ModuleInstanceKind -> {
+              ret = doc.createElement("ModuleInstanceKind");
+              ret.appendChild(appendText(doc, "uniquename", getName().toString()));
+          }
+          default -> throw new IllegalArgumentException("unsupported kind: " + getKind() + " in xml export");
       }
-        if (inRecursive) ret.appendChild(doc.createElement("recursive"));
-      break;
-      case BuiltInKind:
-        ret = doc.createElement("BuiltInKind");
-        ret.appendChild(appendText(doc,"uniquename",getName().toString()));
-        ret.appendChild(appendText(doc,"arity",Integer.toString(getArity())));
-        final Element arguments2 = doc.createElement("params");
-        if (params != null) {
-          for (int i=0; i<params.length; i++) {
-            final Element lp = doc.createElement("leibnizparam");
-            lp.appendChild(params[i].export(doc,context));
-            if (isLeibnizArg != null && isLeibnizArg[i]) lp.appendChild(doc.createElement("leibniz"));
-            arguments2.appendChild(lp);
-          }
-          ret.appendChild(arguments2);
-        }
-        break;
-      case ModuleInstanceKind:
-        ret = doc.createElement("ModuleInstanceKind");
-        ret.appendChild(appendText(doc,"uniquename",getName().toString()));
-        break;
-      default: throw new IllegalArgumentException("unsupported kind: " + getKind() + " in xml export");
-    }
     return ret;
   }
 }

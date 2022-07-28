@@ -211,49 +211,23 @@ public final class Misc
     { final StringBuilder result = new StringBuilder();
       int pos = 0 ;
       while (pos < str.length())
-       { switch (str.charAt(pos))
-           { case '_' :
-               result.append("\\_");
-               break ;
-             case '{' :
-               result.append("\\{");
-               break ;
-             case '}' :
-               result.append("\\}");
-               break ;
-             case '\\' :          
-               result.append("\\ensuremath{\\backslash}");
-               break ;
-             case '&' :
-               result.append("\\&");
-               break ;
-             case '%' :
-               result.append("\\%");
-               break ;
-             case '$' :
-               result.append("\\$");
-               break ;
-             case '#' :
-               result.append("\\#");
-               break ;
-             case '~' : 
-               result.append("\\ensuremath{\\sim}");
-               break ;
-             case '^' :
-               result.append("\\ensuremath{\\ct}");
-               break ;
-             case '<' :
-               result.append("\\ensuremath{<}");
-               break ;
-             case '>' :
-               result.append("\\ensuremath{>}");
-               break ;
-             case '|' :          
-               result.append("\\ensuremath{|}");
-               break ;
-             default :
-               result.append(str.charAt(pos));
-            }
+       {
+           switch (str.charAt(pos)) {
+               case '_' -> result.append("\\_");
+               case '{' -> result.append("\\{");
+               case '}' -> result.append("\\}");
+               case '\\' -> result.append("\\ensuremath{\\backslash}");
+               case '&' -> result.append("\\&");
+               case '%' -> result.append("\\%");
+               case '$' -> result.append("\\$");
+               case '#' -> result.append("\\#");
+               case '~' -> result.append("\\ensuremath{\\sim}");
+               case '^' -> result.append("\\ensuremath{\\ct}");
+               case '<' -> result.append("\\ensuremath{<}");
+               case '>' -> result.append("\\ensuremath{>}");
+               case '|' -> result.append("\\ensuremath{|}");
+               default -> result.append(str.charAt(pos));
+           }
            pos = pos + 1 ;
        }
         return result.toString();
