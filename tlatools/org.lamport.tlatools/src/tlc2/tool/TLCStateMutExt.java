@@ -7,6 +7,7 @@ package tlc2.tool;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -296,7 +297,7 @@ private final IValue[] values;
     @Override
 	public Set<OpDeclNode> getUnassigned() {
 		// Return sorted set (lexicographical).
-		final Set<OpDeclNode> unassignedVars = new TreeSet<>((o1, o2) -> o1.getName().toString().compareTo(o2.getName().toString()));
+		final Set<OpDeclNode> unassignedVars = new TreeSet<>(Comparator.comparing(o -> o.getName().toString()));
 		final int len = this.values.length;
 		for (int i = 0; i < len; i++) {
 			if (values[i] == null) {

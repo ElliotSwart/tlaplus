@@ -43,7 +43,6 @@ import org.eclipse.lsp4j.debug.StoppedEventArguments;
 import org.eclipse.lsp4j.debug.launch.DSPLauncher;
 
 import tlc2.tool.impl.DebugTool;
-import tlc2.tool.impl.Tool;
 import util.ToolIO;
 
 public class AttachingDebugger extends TLCDebugger {

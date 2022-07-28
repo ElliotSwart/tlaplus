@@ -12,6 +12,7 @@ import static java.math.BigDecimal.ROUND_HALF_DOWN;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.*;
 
 import tlc2.TLCGlobals;
@@ -385,7 +386,7 @@ public Value  set;           // SUBSET set
 		final ValueVec vec = new ValueVec(numOfSubsetsRequested);
 		for (int rank = 0; rank < kss.length; rank++) {
 			final BigDecimal divide = BigDecimal.valueOf(kss[rank]).divide(new BigDecimal(sum), 32,
-					ROUND_HALF_DOWN);
+                    RoundingMode.HALF_DOWN);
 			// Small bias towards smaller/shorter k-Subsets because 0 gets rounded up to 1.
 			final long n = divide.multiply(BigDecimal.valueOf(numOfSubsetsRequested)).max(BigDecimal.ONE).toBigInteger()
 					.longValueExact();

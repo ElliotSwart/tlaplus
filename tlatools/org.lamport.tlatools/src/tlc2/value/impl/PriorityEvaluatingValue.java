@@ -42,7 +42,7 @@ public class PriorityEvaluatingValue extends EvaluatingValue {
 
 	private static final long serialVersionUID = 6911089129982560105L;
 
-	private static final Comparator<EvaluatingValue> comparator = (o1, o2) -> Integer.compare(o1.priority, o2.priority);
+	private static final Comparator<EvaluatingValue> comparator = Comparator.comparingInt(o -> o.priority);
 
 	private final ArrayList<EvaluatingValue> handles = new ArrayList<>();
 

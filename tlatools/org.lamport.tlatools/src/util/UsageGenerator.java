@@ -22,7 +22,7 @@ public class UsageGenerator {
 	private static final String OPTIONS = "OPTIONS";
 	private static final String TIPS = "TIPS";
 	
-	private static final Comparator<Argument> NAME_COMPARATOR = (a, b) -> a.getArgumentName().compareTo(b.getArgumentName());
+	private static final Comparator<Argument> NAME_COMPARATOR = Comparator.comparing(Argument::getArgumentName);
 	
 	private static final Comparator<Argument> NAME_DASH_COMPARATOR = (a, b) -> {
         final boolean aDash = a.isDashArgument();

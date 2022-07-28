@@ -46,7 +46,6 @@ import tlc2.tool.INextStateFunctor.InvariantViolatedException;
 import tlc2.tool.coverage.CostModel;
 import tlc2.tool.impl.ParameterizedSpecObj.Invariant;
 import tlc2.util.Context;
-import tlc2.util.IdThread;
 import tlc2.util.SetOfStates;
 import tlc2.value.IValue;
 import tlc2.value.impl.Value;

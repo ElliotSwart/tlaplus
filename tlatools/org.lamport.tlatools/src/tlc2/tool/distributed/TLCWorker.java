@@ -466,12 +466,10 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 				worker = new TLCWorker(threadId, aWork, anFpSetManager, InetAddress
 						.getLocalHost().getCanonicalHostName());
 				aServer.registerWorker(worker);
-			} catch (final UnknownHostException e) {
-				throw new RuntimeException(e);
 			} catch (final IOException e) {
 				throw new RuntimeException(e);
 			}
-        }
+		}
 		
 		public TLCWorker getTLCWorker() {
 			return worker;

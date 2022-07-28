@@ -64,7 +64,6 @@ import tlc2.output.EC;
 import tlc2.tool.EvalException;
 import tlc2.tool.FingerprintException;
 import tlc2.tool.INextStateFunctor.InvariantViolatedException;
-import tlc2.tool.impl.SpecProcessor;
 import tlc2.tool.impl.Tool;
 import tlc2.util.Context;
 import tlc2.value.IValue;

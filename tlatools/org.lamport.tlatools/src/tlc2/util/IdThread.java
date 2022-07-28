@@ -18,7 +18,7 @@ public class IdThread extends Thread {
 	private static final ThreadLocal<Boolean> usingModelChecker = new ThreadLocal<>();
 
 	/* Used only for TLASet operator */
-	private static final ThreadLocal<Simulator> simulator = new ThreadLocal<Simulator>();
+	private static final ThreadLocal<Simulator> simulator = new ThreadLocal<>();
 
 	private static  final ThreadLocal<AbstractChecker> mainChecker = new ThreadLocal<>();
 
