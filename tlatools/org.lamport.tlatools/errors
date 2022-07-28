@@ -1,16 +1,13 @@
+[ERROR] Failures: 
+[ERROR]   AliasSafetyTest.testSpec:71
+[ERROR]   ViewMapTest.testSpec:76->CommonTestCase.assertTraceWith:75 expected:<...<<>>
+/\ waitset = {}[]> but was:<...<<>>
+/\ waitset = {}[
 /\ pc = (c1 :> "lbc" @@ c2 :> "lbc" @@ p1 :> "lbp")]>
-[ERROR] tlc2.tool.liveness.TwoPhaseCommitTest.testSpec
-[ERROR]   Run 1: TwoPhaseCommitTest.testSpec:45
-[ERROR]   Run 2: TwoPhaseCommitTest>ModelCheckerTestCase.tearDown:309->ModelCheckerTestCase.assertExitStatus:313 expected:<0> but was:<255>
-[INFO] 
-[ERROR] Errors: 
-[ERROR] tlc2.debug.EWD998ChanDebuggerTest.testSpec
-[ERROR]   Run 1: EWD998ChanDebuggerTest.testSpec:347 » NullPointer Cannot invoke "tla2sany.semantic.Context.isBuiltIn(tla2sany.explorer.ExploreNode)" because the return value of "tla2sany.drivers.SANY.getThreadContext()" is null
-[ERROR]   Run 2: EWD998ChanDebuggerTest>ModelCheckerTestCase.tearDown:309->ModelCheckerTestCase.assertExitStatus:313 expected:<0> but was:<-1>
-[INFO] 
-[ERROR]   Github432Test.testA:121 NullPointer Cannot invoke "java.util.List.get(int)" because the return value of "tlc2.TestMPRecorder.getRecords(int)" is null
-[ERROR]   Github432Test.testB:130 NullPointer Cannot invoke "java.util.List.get(int)" because the return value of "tlc2.TestMPRecorder.getRecords(int)" is null
-[ERROR]   Github432Test.testC:139 NullPointer Cannot invoke "java.util.List.get(int)" because the return value of "tlc2.TestMPRecorder.getRecords(int)" is null
-[INFO] 
-[ERROR] Tests run: 1007, Failures: 2, Errors: 4, Skipped: 26
-[INFO] 
+[ERROR]   CodePlexBug08AgentRingTest.testSpec:97
+[ERROR]   CodePlexBug08EWD840FL1Test.testSpec:116
+[ERROR]   CodePlexBug08aTest.testSpec:85
+[ERROR]   Github710aTest.testSpec:74
+[ERROR]   Github710bTest.testSpec:71
+[ERROR]   OneBitMutexNoSymmetryTest.testSpec:175
+[ERROR]   Test3.testSpec:75
