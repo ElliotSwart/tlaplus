@@ -49,6 +49,12 @@ public class CodePlexBug08EWD840FL1Test extends ModelCheckerTestCase {
 	public CodePlexBug08EWD840FL1Test() {
 		super("EWD840MC1", "CodePlexBug08", ExitStatus.VIOLATION_LIVENESS);
 	}
+
+
+	@Override
+	protected boolean runWithDebugger(){
+		return true;
+	}
 	
 	@Test
 	public void testSpec() {

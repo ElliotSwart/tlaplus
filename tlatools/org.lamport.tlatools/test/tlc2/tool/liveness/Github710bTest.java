@@ -50,6 +50,12 @@ public class Github710bTest extends ModelCheckerTestCase {
 		return false;
 	}
 
+
+	@Override
+	protected boolean runWithDebugger(){
+		return true;
+	}
+
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "3"));

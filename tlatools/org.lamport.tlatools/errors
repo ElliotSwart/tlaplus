@@ -4,10 +4,7 @@
 /\ waitset = {}[]> but was:<...<<>>
 /\ waitset = {}[
 /\ pc = (c1 :> "lbc" @@ c2 :> "lbc" @@ p1 :> "lbp")]>
-[ERROR]   CodePlexBug08AgentRingTest.testSpec:97
-[ERROR]   CodePlexBug08EWD840FL1Test.testSpec:116
-[ERROR]   CodePlexBug08aTest.testSpec:85
-[ERROR]   Github710aTest.testSpec:74
-[ERROR]   Github710bTest.testSpec:71
-[ERROR]   OneBitMutexNoSymmetryTest.testSpec:175
-[ERROR]   Test3.testSpec:75
+
+
+
+

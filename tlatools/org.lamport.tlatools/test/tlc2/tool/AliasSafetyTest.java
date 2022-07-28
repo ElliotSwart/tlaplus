@@ -49,6 +49,12 @@ public class AliasSafetyTest extends ModelCheckerTestCase {
 		super("Alias", new String[] { "-config", "Alias.tla" }, EC.ExitStatus.VIOLATION_SAFETY);
 	}
 
+
+	@Override
+	protected boolean runWithDebugger(){
+		return true;
+	}
+
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

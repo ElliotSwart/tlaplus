@@ -47,6 +47,11 @@ public class OneBitMutexNoSymmetryTest extends ModelCheckerTestCase {
 	public OneBitMutexNoSymmetryTest() {
 		super("OneBitMutexNoSymmetryMC", "symmetry" + File.separator + "OneBitMutex", ExitStatus.VIOLATION_LIVENESS);
 	}
+
+	@Override
+	protected boolean runWithDebugger(){
+		return true;
+	}
 	
 	@Test
 	public void testSpec() {

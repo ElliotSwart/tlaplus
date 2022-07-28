@@ -44,6 +44,12 @@ public class ViewMapTest extends ModelCheckerTestCase {
 	}
 
 
+	@Override
+	protected boolean runWithDebugger(){
+		return true;
+	}
+
+
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

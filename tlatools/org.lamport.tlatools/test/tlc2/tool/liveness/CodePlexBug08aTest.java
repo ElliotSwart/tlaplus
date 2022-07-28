@@ -49,6 +49,12 @@ public class CodePlexBug08aTest extends ModelCheckerTestCase {
 	public CodePlexBug08aTest() {
 		super("MCa", "CodePlexBug08", ExitStatus.VIOLATION_LIVENESS);
 	}
+
+
+	@Override
+	protected boolean runWithDebugger(){
+		return true;
+	}
 	
 	@Test
 	public void testSpec() {

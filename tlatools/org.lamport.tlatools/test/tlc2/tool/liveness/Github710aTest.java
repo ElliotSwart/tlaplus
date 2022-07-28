@@ -50,6 +50,12 @@ public class Github710aTest extends ModelCheckerTestCase {
 		return false;
 	}
 
+
+	@Override
+	protected boolean runWithDebugger(){
+		return true;
+	}
+
 	@Test
 	public void testSpec() {
 
