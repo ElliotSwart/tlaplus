@@ -830,6 +830,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
       specProcessor.snapshot();
       
       this.unprocessedDefns = specProcessor.getUnprocessedDefns();
+      this.viewSpec = generateViewSpec(this.config, this.defns);
 
       // set variables to the static filed in the state
       if (mode == Mode.Simulation || mode == Mode.MC_DEBUG) {
@@ -875,7 +876,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
       this.parseUnitContext = specProcessor.getSpecObj().parseUnitContext;
       this.assumptionIsAxiom = specProcessor.getAssumptionIsAxiom();
 
-      this.viewSpec = generateViewSpec(this.config, this.defns);
+
       this.aliasSpec = generateAliasSpec(this.config, this.defns);
       this.processedPostConditionSpecs = generatePostConditionSpecs(this.config, this.defns, postConditionSpecs);
       this.counterExampleDef = generateCounterExampleDef(this.defns);
