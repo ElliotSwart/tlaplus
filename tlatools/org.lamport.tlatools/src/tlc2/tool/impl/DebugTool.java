@@ -196,6 +196,9 @@ public class DebugTool extends Tool {
 			if (mode == EvalMode.Debugger) {
 				return fastTool.evalImpl(expr, c, s0, s1, control, cm);
 			}
+			if (isInitialize()){
+				return super.evalImpl(expr, c, s0, s1, control, cm);
+			}
 			if (s1 == null || EvalControl.isPrimed(control) || EvalControl.isEnabled(control)) {
 				return fastTool.evalImpl(expr, c, s0, s1, control, cm);
 			}

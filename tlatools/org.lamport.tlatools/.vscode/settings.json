@@ -5,7 +5,7 @@
             "-ea",
             "-XX:MaxDirectMemorySize=512k",
             "-XX:+UseParallelGC",
-            "-Dtestng.show.stack.frames=true"
+            "-XX:-OmitStackTraceInFastThrow"
         ],
         "workingDirectory": "${workspaceFolder}",
         "classPaths": [

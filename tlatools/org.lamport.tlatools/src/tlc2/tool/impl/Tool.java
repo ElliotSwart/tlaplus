@@ -820,6 +820,10 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
       specProcessor.processSpec(mode);
       this.variables = specProcessor.variablesNodes;
 
+      specProcessor.snapshot();
+      
+      this.unprocessedDefns = specProcessor.getUnprocessedDefns();
+
       // set variables to the static filed in the state
       if (mode == Mode.Simulation || mode == Mode.MC_DEBUG) {
           EmptyState = TLCStateMutExt.getEmpty(this.variables, this);
@@ -833,7 +837,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 
       specProcessor.processSpec2();
 
-      specProcessor.snapshot();
+      
 
       specProcessor.processConstantDefns(this);
 
@@ -841,7 +845,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
       specProcessor.processConfig();
 
 
-      this.unprocessedDefns = specProcessor.getUnprocessedDefns();
+      
       this.modelConstraints = specProcessor.getModelConstraints();
       this.initPred = specProcessor.getInitPred();
       this.nextPred = specProcessor.getNextPred();
