@@ -531,47 +531,48 @@ public abstract class Tool
     public final void collectPrimedLocs(final SemanticNode pred, final Context c, final ObjLongTable<SemanticNode> tbl)
     {
         switch (pred.getKind()) {
-        case OpApplKind: {
-            final OpApplNode pred1 = (OpApplNode) pred;
-            this.collectPrimedLocsAppl(pred1, c, tbl);
-            return;
-        }
-        case LetInKind: {
-            final LetInNode pred1 = (LetInNode) pred;
-            this.collectPrimedLocs(pred1.getBody(), c, tbl);
-            return;
-        }
-        case SubstInKind: {
-            final SubstInNode pred1 = (SubstInNode) pred;
-            final Subst[] subs = pred1.getSubsts();
-            Context c1 = c;
-            for (final Subst sub : subs) {
-                c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, toolId));
+            case OpApplKind -> {
+                final OpApplNode pred1 = (OpApplNode) pred;
+                this.collectPrimedLocsAppl(pred1, c, tbl);
+                return;
             }
-            this.collectPrimedLocs(pred1.getBody(), c, tbl);
-            return;
-        }
+            case LetInKind -> {
+                final LetInNode pred1 = (LetInNode) pred;
+                this.collectPrimedLocs(pred1.getBody(), c, tbl);
+                return;
+            }
+            case SubstInKind -> {
+                final SubstInNode pred1 = (SubstInNode) pred;
+                final Subst[] subs = pred1.getSubsts();
+                Context c1 = c;
+                for (final Subst sub : subs) {
+                    c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, toolId));
+                }
+                this.collectPrimedLocs(pred1.getBody(), c, tbl);
+                return;
+            }
 
-        // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
-        case APSubstInKind: {
-            final APSubstInNode pred1 = (APSubstInNode) pred;
-            final Subst[] subs = pred1.getSubsts();
-            Context c1 = c;
-            for (final Subst sub : subs) {
-                c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, toolId));
+
+            // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
+            case APSubstInKind -> {
+                final APSubstInNode pred1 = (APSubstInNode) pred;
+                final Subst[] subs = pred1.getSubsts();
+                Context c1 = c;
+                for (final Subst sub : subs) {
+                    c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, toolId));
+                }
+                this.collectPrimedLocs(pred1.getBody(), c, tbl);
+                return;
             }
-            this.collectPrimedLocs(pred1.getBody(), c, tbl);
-            return;
-        }
 
 
             /***********************************************************************
-            * LabelKind case added by LL on 13 Jun 2007.                           *
-            ***********************************************************************/
-        case LabelKind: {
-            final LabelNode pred1 = (LabelNode) pred;
-            this.collectPrimedLocs(pred1.getBody(), c, tbl);
-        }
+             * LabelKind case added by LL on 13 Jun 2007.                           *
+             ***********************************************************************/
+            case LabelKind -> {
+                final LabelNode pred1 = (LabelNode) pred;
+                this.collectPrimedLocs(pred1.getBody(), c, tbl);
+            }
         }
     }
 
@@ -581,80 +582,72 @@ public abstract class Tool
         final SymbolNode opNode = pred.getOperator();
         final int opcode = BuiltInOPs.getOpCode(opNode.getName());
 
-        switch (opcode) {
-        case OPCODE_fa: // FcnApply
-            case OPCODE_aa: // AngleAct <A>_e
+        switch (opcode) { // FcnApply
+            case OPCODE_fa, OPCODE_aa -> // AngleAct <A>_e
             {
-            this.collectPrimedLocs(args[0], c, tbl);
-            break;
-        }
-        case OPCODE_ite: // IfThenElse
-        {
-            this.collectPrimedLocs(args[1], c, tbl);
-            this.collectPrimedLocs(args[2], c, tbl);
-            break;
-        }
-        case OPCODE_case: // Case
-        {
-            for (final ExprOrOpArgNode arg : args) {
-                final OpApplNode pair = (OpApplNode) arg;
-                this.collectPrimedLocs(pair.getArgs()[1], c, tbl);
+                this.collectPrimedLocs(args[0], c, tbl);
+                break;
             }
-            break;
-        }
-        case OPCODE_eq:   // x' = 42
-        case OPCODE_in: { // x' \in S (eq case "falls through")
-            final SymbolNode var = this.getPrimedVar(args[0], c, false);
-            if (var != null && var.getName().getVarLoc() != -1)
+            case OPCODE_ite -> // IfThenElse
             {
-                tbl.put(pred, 0);
+                this.collectPrimedLocs(args[1], c, tbl);
+                this.collectPrimedLocs(args[2], c, tbl);
+                break;
             }
-            break;
-        }
-        case OPCODE_cl: // ConjList
-        case OPCODE_dl: // DisjList
-        case OPCODE_be: // BoundedExists
-        case OPCODE_bf: // BoundedForall
-        case OPCODE_land:
-        case OPCODE_lor:
-        case OPCODE_implies:
-        case OPCODE_nop: // This case added 13 Nov 2009 by LL to handle subexpression names.
-          {
-              for (final ExprOrOpArgNode arg : args) {
-                  this.collectPrimedLocs(arg, c, tbl);
-              }
-            break;
-        }
-        case OPCODE_unchanged: {
-            this.collectUnchangedLocs(args[0], c, tbl);
-            break;
-        }
-            case OPCODE_sa: // [A]_e
-        {
-            this.collectPrimedLocs(args[0], c, tbl);
-            tbl.put(args[1], 0);
-            break;
-        }
-        default: {
-            if (opcode == 0)
+            case OPCODE_case -> // Case
             {
-                final Object val = this.lookup(opNode, c, false, toolId);
+                for (final ExprOrOpArgNode arg : args) {
+                    final OpApplNode pair = (OpApplNode) arg;
+                    this.collectPrimedLocs(pair.getArgs()[1], c, tbl);
+                }
+                break;
+            }
+            // x' = 42
+            case OPCODE_eq, OPCODE_in -> { // x' \in S (eq case "falls through")
+                final SymbolNode var = this.getPrimedVar(args[0], c, false);
+                if (var != null && var.getName().getVarLoc() != -1) {
+                    tbl.put(pred, 0);
+                }
+                break;
+            }
+            // ConjList
+            // DisjList
+            // BoundedExists
+            // BoundedForall
+            case OPCODE_cl, OPCODE_dl, OPCODE_be, OPCODE_bf, OPCODE_land, OPCODE_lor, OPCODE_implies, OPCODE_nop -> // This case added 13 Nov 2009 by LL to handle subexpression names.
+            {
+                for (final ExprOrOpArgNode arg : args) {
+                    this.collectPrimedLocs(arg, c, tbl);
+                }
+                break;
+            }
+            case OPCODE_unchanged -> {
+                this.collectUnchangedLocs(args[0], c, tbl);
+                break;
+            }
+            case OPCODE_sa -> // [A]_e
+            {
+                this.collectPrimedLocs(args[0], c, tbl);
+                tbl.put(args[1], 0);
+                break;
+            }
+            default -> {
+                if (opcode == 0) {
+                    final Object val = this.lookup(opNode, c, false, toolId);
 
-                if (val instanceof final OpDefNode opDef)
-                {
-                    // Following added by LL on 10 Apr 2010 to avoid infinite
-                    // recursion for recursive operator definitions
-                    if (opDef.getInRecursive()) {
-                        return ;
+                    if (val instanceof final OpDefNode opDef) {
+                        // Following added by LL on 10 Apr 2010 to avoid infinite
+                        // recursion for recursive operator definitions
+                        if (opDef.getInRecursive()) {
+                            return;
+                        }
+                        final Context c1 = this.getOpContext(opDef, args, c, true, toolId);
+                        this.collectPrimedLocs(opDef.getBody(), c1, tbl);
+                    } else if (val instanceof final LazyValue lv) {
+                        this.collectPrimedLocs(lv.expr, lv.con, tbl);
                     }
-                    final Context c1 = this.getOpContext(opDef, args, c, true, toolId);
-                    this.collectPrimedLocs(opDef.getBody(), c1, tbl);
-                } else if (val instanceof final LazyValue lv)
-                {
-                    this.collectPrimedLocs(lv.expr, lv.con, tbl);
                 }
             }
-        }
         }
     }
 
@@ -1003,62 +996,56 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 	}
 
   private void getActions(final SemanticNode next, final Context con, final OpDefNode opDefNode, final CostModel cm) {
-    switch (next.getKind()) {
-    case OpApplKind:
-      {
-        final OpApplNode next1 = (OpApplNode)next;
-        this.getActionsAppl(next1, con, opDefNode, cm);
-        return;
-      }
-    case LetInKind:
-      {
-        final LetInNode next1 = (LetInNode)next;
-        this.getActions(next1.getBody(), con, opDefNode, cm);
-        return;
-      }
-    case SubstInKind:
-      {
-        final SubstInNode next1 = (SubstInNode)next;
-        final Subst[] substs = next1.getSubsts();
-        if (substs.length == 0) {
-          this.getActions(next1.getBody(), con, opDefNode, cm);
-        }
-        else {
-          final Action action = new Action(next1, con, opDefNode);
-          this.actionVec.addElement(action);
-        }
-        return;
-      }
-
-      // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
-      case APSubstInKind:
-        {
-          final APSubstInNode next1 = (APSubstInNode)next;
-          final Subst[] substs = next1.getSubsts();
-          if (substs.length == 0) {
-            this.getActions(next1.getBody(), con, opDefNode, cm);
+      switch (next.getKind()) {
+          case OpApplKind -> {
+              final OpApplNode next1 = (OpApplNode) next;
+              this.getActionsAppl(next1, con, opDefNode, cm);
+              return;
           }
-          else {
-            final Action action = new Action(next1, con, opDefNode);
-            this.actionVec.addElement(action);
+          case LetInKind -> {
+              final LetInNode next1 = (LetInNode) next;
+              this.getActions(next1.getBody(), con, opDefNode, cm);
+              return;
           }
-          return;
-        }
+          case SubstInKind -> {
+              final SubstInNode next1 = (SubstInNode) next;
+              final Subst[] substs = next1.getSubsts();
+              if (substs.length == 0) {
+                  this.getActions(next1.getBody(), con, opDefNode, cm);
+              } else {
+                  final Action action = new Action(next1, con, opDefNode);
+                  this.actionVec.addElement(action);
+              }
+              return;
+          }
 
-    /***********************************************************************
-    * LabelKind class added by LL on 13 Jun 2007.                          *
-    ***********************************************************************/
-    case LabelKind:
-      {
-        final LabelNode next1 = (LabelNode)next;
-        this.getActions(next1.getBody(), con, opDefNode, cm);
-        return;
+
+          // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
+          case APSubstInKind -> {
+              final APSubstInNode next1 = (APSubstInNode) next;
+              final Subst[] substs = next1.getSubsts();
+              if (substs.length == 0) {
+                  this.getActions(next1.getBody(), con, opDefNode, cm);
+              } else {
+                  final Action action = new Action(next1, con, opDefNode);
+                  this.actionVec.addElement(action);
+              }
+              return;
+          }
+
+
+          /***********************************************************************
+           * LabelKind class added by LL on 13 Jun 2007.                          *
+           ***********************************************************************/
+          case LabelKind -> {
+              final LabelNode next1 = (LabelNode) next;
+              this.getActions(next1.getBody(), con, opDefNode, cm);
+              return;
+          }
+          default -> {
+              Assert.fail("The next state relation is not a boolean expression.\n" + next, next, con);
+          }
       }
-    default:
-      {
-        Assert.fail("The next state relation is not a boolean expression.\n" + next, next, con);
-      }
-    }
   }
 
   private void getActionsAppl(final OpApplNode next, final Context con, final OpDefNode actionName, final CostModel cm) {
@@ -1100,50 +1087,47 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
       }
     }
 
-    switch (opcode) {
-    case OPCODE_be:     // BoundedExists
-      {
-        final int cnt = this.actionVec.size();
-        try {
-          final ContextEnumerator Enum =
-            this.contexts(next, con, EmptyState, EmptyState, EvalControl.Clear, cm);
-          if (Enum.isDone()) {
-        	  // No exception and no actions created implies Enum was empty:
-        	  // \E i \in {} : ...
-        	  // \E i \in Nat: FALSE
-        	  // ...
-        	  this.actionVec.addElement(new Action(next, con, actionName));
-        	  return;
+      switch (opcode) {
+          case OPCODE_be ->     // BoundedExists
+          {
+              final int cnt = this.actionVec.size();
+              try {
+                  final ContextEnumerator Enum =
+                          this.contexts(next, con, EmptyState, EmptyState, EvalControl.Clear, cm);
+                  if (Enum.isDone()) {
+                      // No exception and no actions created implies Enum was empty:
+                      // \E i \in {} : ...
+                      // \E i \in Nat: FALSE
+                      // ...
+                      this.actionVec.addElement(new Action(next, con, actionName));
+                      return;
+                  }
+                  Context econ;
+                  while ((econ = Enum.nextElement()) != null) {
+                      this.getActions(args[0], econ, actionName, cm);
+                  }
+                  assert (cnt < this.actionVec.size())
+                          : "AssertionError when creating Actions. This case should have been handled by Enum.isDone conditional above!";
+              } catch (final Throwable e) {
+                  final Action action = new Action(next, con, actionName);
+                  this.actionVec.removeAll(cnt);
+                  this.actionVec.addElement(action);
+              }
+              return;
           }
-          Context econ;
-          while ((econ = Enum.nextElement()) != null) {
-            this.getActions(args[0], econ, actionName, cm);
+          // DisjList
+          case OPCODE_dl, OPCODE_lor -> {
+              for (final ExprOrOpArgNode arg : args) {
+                  this.getActions(arg, con, actionName, cm);
+              }
+              return;
           }
-			assert (cnt < this.actionVec.size())
-					: "AssertionError when creating Actions. This case should have been handled by Enum.isDone conditional above!";
-        }
-        catch (final Throwable e) {
-          final Action action = new Action(next, con, actionName);
-          this.actionVec.removeAll(cnt);
-          this.actionVec.addElement(action);
-        }
-        return;
-      }
-    case OPCODE_dl:     // DisjList
-    case OPCODE_lor:
-      {
-          for (final ExprOrOpArgNode arg : args) {
-              this.getActions(arg, con, actionName, cm);
+          default -> {
+              // We handle all the other builtin operators here.
+              final Action action = new Action(next, con, actionName);
+              this.actionVec.addElement(action);
           }
-        return;
       }
-    default:
-      {
-        // We handle all the other builtin operators here.
-        final Action action = new Action(next, con, actionName);
-        this.actionVec.addElement(action);
-      }
-    }
   }
 
   /*
@@ -1200,54 +1184,50 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 
   protected void getInitStates(final SemanticNode init, final ActionItemList acts,
                                final Context c, final TLCState ps, final IStateFunctor states, final CostModel cm) {
-        switch (init.getKind()) {
-        case OpApplKind:
-          {
-            final OpApplNode init1 = (OpApplNode)init;
-            this.getInitStatesAppl(init1, acts, c, ps, states, cm);
-            return;
+      switch (init.getKind()) {
+          case OpApplKind -> {
+              final OpApplNode init1 = (OpApplNode) init;
+              this.getInitStatesAppl(init1, acts, c, ps, states, cm);
+              return;
           }
-        case LetInKind:
-          {
-            final LetInNode init1 = (LetInNode)init;
-            this.getInitStates(init1.getBody(), acts, c, ps, states, cm);
-            return;
+          case LetInKind -> {
+              final LetInNode init1 = (LetInNode) init;
+              this.getInitStates(init1.getBody(), acts, c, ps, states, cm);
+              return;
           }
-        case SubstInKind:
-          {
-            final SubstInNode init1 = (SubstInNode)init;
-            final Subst[] subs = init1.getSubsts();
-            Context c1 = c;
+          case SubstInKind -> {
+              final SubstInNode init1 = (SubstInNode) init;
+              final Subst[] subs = init1.getSubsts();
+              Context c1 = c;
               for (final Subst sub : subs) {
                   c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, coverage ? sub.getCM() : cm, toolId));
               }
-            this.getInitStates(init1.getBody(), acts, c1, ps, states, cm);
-            return;
+              this.getInitStates(init1.getBody(), acts, c1, ps, states, cm);
+              return;
           }
-        // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
-        case APSubstInKind:
-          {
-            final APSubstInNode init1 = (APSubstInNode)init;
-            final Subst[] subs = init1.getSubsts();
-            Context c1 = c;
+
+          // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
+          case APSubstInKind -> {
+              final APSubstInNode init1 = (APSubstInNode) init;
+              final Subst[] subs = init1.getSubsts();
+              Context c1 = c;
               for (final Subst sub : subs) {
                   c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, cm, toolId));
               }
-            this.getInitStates(init1.getBody(), acts, c1, ps, states, cm);
-            return;
+              this.getInitStates(init1.getBody(), acts, c1, ps, states, cm);
+              return;
           }
-        // LabelKind class added by LL on 13 Jun 2007
-        case LabelKind:
-          {
-            final LabelNode init1 = (LabelNode)init;
-            this.getInitStates(init1.getBody(), acts, c, ps, states, cm);
-            return;
+
+          // LabelKind class added by LL on 13 Jun 2007
+          case LabelKind -> {
+              final LabelNode init1 = (LabelNode) init;
+              this.getInitStates(init1.getBody(), acts, c, ps, states, cm);
+              return;
           }
-        default:
-          {
-            Assert.fail("The init state relation is not a boolean expression.\n" + init, init, c);
+          default -> {
+              Assert.fail("The init state relation is not a boolean expression.\n" + init, init, c);
           }
-        }
+      }
   }
 
   protected void getInitStates(ActionItemList acts, final TLCState ps, final IStateFunctor states, final CostModel cm) {
@@ -1367,67 +1347,63 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           }
         }
 
-        switch (opcode) {
-        case OPCODE_dl:     // DisjList
-        case OPCODE_lor:
-          {
+      switch (opcode) {     // DisjList
+          case OPCODE_dl, OPCODE_lor -> {
               for (final ExprOrOpArgNode arg : args) {
                   this.getInitStates(arg, acts, c, ps, states, cm);
               }
-            return;
+              return;
           }
-        case OPCODE_cl:     // ConjList
-        case OPCODE_land:
-          {
-            for (int i = alen-1; i > 0; i--) {
-              acts = (ActionItemList) acts.cons(args[i], c, cm, i);
-            }
-            this.getInitStates(args[0], acts, c, ps, states, cm);
-            return;
-          }
-        case OPCODE_be:     // BoundedExists
-          {
-            final SemanticNode body = args[0];
-            final ContextEnumerator Enum = this.contexts(init, c, ps, EmptyState, EvalControl.Init, cm);
-            Context c1;
-            while ((c1 = Enum.nextElement()) != null) {
-              this.getInitStates(body, acts, c1, ps, states, cm);
-            }
-            return;
-          }
-        case OPCODE_bf:     // BoundedForall
-          {
-            final SemanticNode body = args[0];
-            final ContextEnumerator Enum = this.contexts(init, c, ps, EmptyState, EvalControl.Init, cm);
-            final Context c1 = Enum.nextElement();
-            if (c1 == null) {
-              this.getInitStates(acts, ps, states, cm);
-            }
-            else {
-              ActionItemList acts1 = acts;
-              Context c2;
-              while ((c2 = Enum.nextElement()) != null) {
-                acts1 = (ActionItemList) acts1.cons(body, c2, cm, IActionItemList.PRED);
+          // ConjList
+          case OPCODE_cl, OPCODE_land -> {
+              for (int i = alen - 1; i > 0; i--) {
+                  acts = (ActionItemList) acts.cons(args[i], c, cm, i);
               }
-              this.getInitStates(body, acts1, c1, ps, states, cm);
-            }
-            return;
+              this.getInitStates(args[0], acts, c, ps, states, cm);
+              return;
           }
-        case OPCODE_ite:    // IfThenElse
+          case OPCODE_be ->     // BoundedExists
           {
-            final Value guard = this.eval(args[0], c, ps, EmptyState, EvalControl.Init, cm);
-            if (!(guard instanceof BoolValue)) {
-              Assert.fail("In computing initial states, a non-boolean expression (" +
+              final SemanticNode body = args[0];
+              final ContextEnumerator Enum = this.contexts(init, c, ps, EmptyState, EvalControl.Init, cm);
+              Context c1;
+              while ((c1 = Enum.nextElement()) != null) {
+                  this.getInitStates(body, acts, c1, ps, states, cm);
+              }
+              return;
+          }
+          case OPCODE_bf ->     // BoundedForall
+          {
+              final SemanticNode body = args[0];
+              final ContextEnumerator Enum = this.contexts(init, c, ps, EmptyState, EvalControl.Init, cm);
+              final Context c1 = Enum.nextElement();
+              if (c1 == null) {
+                  this.getInitStates(acts, ps, states, cm);
+              } else {
+                  ActionItemList acts1 = acts;
+                  Context c2;
+                  while ((c2 = Enum.nextElement()) != null) {
+                      acts1 = (ActionItemList) acts1.cons(body, c2, cm, IActionItemList.PRED);
+                  }
+                  this.getInitStates(body, acts1, c1, ps, states, cm);
+              }
+              return;
+          }
+          case OPCODE_ite ->    // IfThenElse
+          {
+              final Value guard = this.eval(args[0], c, ps, EmptyState, EvalControl.Init, cm);
+              if (!(guard instanceof BoolValue)) {
+                  Assert.fail("In computing initial states, a non-boolean expression (" +
                           guard.getKindString() + ") was used as the condition " +
                           "of an IF.\n" + init, init, c);
-            }
-            final int idx = (((BoolValue)guard).val) ? 1 : 2;
-            this.getInitStates(args[idx], acts, c, ps, states, cm);
-            return;
+              }
+              final int idx = (((BoolValue) guard).val) ? 1 : 2;
+              this.getInitStates(args[idx], acts, c, ps, states, cm);
+              return;
           }
-        case OPCODE_case:   // Case
+          case OPCODE_case ->   // Case
           {
-            SemanticNode other = null;
+              SemanticNode other = null;
               for (final ExprOrOpArgNode arg : args) {
                   final OpApplNode pair = (OpApplNode) arg;
                   final ExprOrOpArgNode[] pairArgs = pair.getArgs();
@@ -1446,140 +1422,129 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                       }
                   }
               }
-            if (other == null) {
-              Assert.fail("In computing initial states, TLC encountered a CASE with no" +
+              if (other == null) {
+                  Assert.fail("In computing initial states, TLC encountered a CASE with no" +
                           " conditions true.\n" + init, init, c);
-            }
-            this.getInitStates(other, acts, c, ps, states, cm);
-            return;
-          }
-        case OPCODE_fa:     // FcnApply
-          {
-            Value fval = this.eval(args[0], c, ps, EmptyState, EvalControl.Init, cm);
-            if (fval instanceof final FcnLambdaValue fcn) {
-                if (fcn.fcnRcd == null) {
-                final Context c1 = this.getFcnContext(fcn, args, c, ps, EmptyState, EvalControl.Init, cm);
-                this.getInitStates(fcn.body, acts, c1, ps, states, cm);
-                return;
               }
-              fval = fcn.fcnRcd;
-            }
-            else if (!(fval instanceof Applicable)) {
-              Assert.fail("In computing initial states, a non-function (" +
+              this.getInitStates(other, acts, c, ps, states, cm);
+              return;
+          }
+          case OPCODE_fa ->     // FcnApply
+          {
+              Value fval = this.eval(args[0], c, ps, EmptyState, EvalControl.Init, cm);
+              if (fval instanceof final FcnLambdaValue fcn) {
+                  if (fcn.fcnRcd == null) {
+                      final Context c1 = this.getFcnContext(fcn, args, c, ps, EmptyState, EvalControl.Init, cm);
+                      this.getInitStates(fcn.body, acts, c1, ps, states, cm);
+                      return;
+                  }
+                  fval = fcn.fcnRcd;
+              } else if (!(fval instanceof Applicable)) {
+                  Assert.fail("In computing initial states, a non-function (" +
                           fval.getKindString() + ") was applied as a function.\n" + init, init, c);
-            }
-            final Applicable fcn = (Applicable) fval;
-            final Value argVal = this.eval(args[1], c, ps, EmptyState, EvalControl.Init, cm);
-            final Value bval = fcn.apply(argVal, EvalControl.Init);
-            if (!(bval instanceof BoolValue))
-            {
-              Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING2, new String[] { "initial states", "boolean",
-                      init.toString() }, args[1], c);
-            }
-            if (((BoolValue)bval).val) {
-              this.getInitStates(acts, ps, states, cm);
-            }
-            return;
-          }
-        case OPCODE_eq:
-          {
-            final SymbolNode var = this.getVar(args[0], c, false, toolId);
-            if (var == null || var.getName().getVarLoc() < 0) {
-              final Value bval = this.eval(init, c, ps, EmptyState, EvalControl.Init, cm);
-              if (!((BoolValue)bval).val) {
-                return;
               }
-            }
-            else {
-              final UniqueString varName = var.getName();
-              final IValue lval = ps.lookup(varName);
-              final Value rval = this.eval(args[1], c, ps, EmptyState, EvalControl.Init, cm);
-              if (lval == null) {
-                ps = ps.bind(varName, rval);
-                this.getInitStates(acts, ps, states, cm);
-                ps.unbind(varName);
-                return;
+              final Applicable fcn = (Applicable) fval;
+              final Value argVal = this.eval(args[1], c, ps, EmptyState, EvalControl.Init, cm);
+              final Value bval = fcn.apply(argVal, EvalControl.Init);
+              if (!(bval instanceof BoolValue)) {
+                  Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING2, new String[]{"initial states", "boolean",
+                          init.toString()}, args[1], c);
               }
-              else {
-                if (!lval.equals(rval)) {
-                  return;
-                }
-              }
-            }
-            this.getInitStates(acts, ps, states, cm);
-            return;
-          }
-        case OPCODE_in:
-          {
-            final SymbolNode var = this.getVar(args[0], c, false, toolId);
-            if (var == null || var.getName().getVarLoc() < 0) {
-              final Value bval = this.eval(init, c, ps, EmptyState, EvalControl.Init, cm);
-              if (!((BoolValue)bval).val) {
-                return;
-              }
-            }
-            else {
-              final UniqueString varName = var.getName();
-              final Value lval = (Value) ps.lookup(varName);
-              final Value rval = this.eval(args[1], c, ps, EmptyState, EvalControl.Init, cm);
-              if (lval == null) {
-                if (!(rval instanceof Enumerable)) {
-                  Assert.fail("In computing initial states, the right side of \\IN" +
-                              " is not enumerable.\n" + init, init, c);
-                }
-                final ValueEnumeration Enum = ((Enumerable)rval).elements();
-                Value elem;
-                while ((elem = Enum.nextElement()) != null) {
-                  ps.bind(varName, elem);
+              if (((BoolValue) bval).val) {
                   this.getInitStates(acts, ps, states, cm);
-                  ps.unbind(varName);
-                }
-                return;
               }
-              else {
-                if (!rval.member(lval)) {
-                  return;
-                }
-              }
-            }
-            this.getInitStates(acts, ps, states, cm);
-            return;
+              return;
           }
-        case OPCODE_implies:
-          {
-            final Value lval = this.eval(args[0], c, ps, EmptyState, EvalControl.Init, cm);
-            if (!(lval instanceof BoolValue)) {
-              Assert.fail("In computing initial states of a predicate of form" +
+          case OPCODE_eq -> {
+              final SymbolNode var = this.getVar(args[0], c, false, toolId);
+              if (var == null || var.getName().getVarLoc() < 0) {
+                  final Value bval = this.eval(init, c, ps, EmptyState, EvalControl.Init, cm);
+                  if (!((BoolValue) bval).val) {
+                      return;
+                  }
+              } else {
+                  final UniqueString varName = var.getName();
+                  final IValue lval = ps.lookup(varName);
+                  final Value rval = this.eval(args[1], c, ps, EmptyState, EvalControl.Init, cm);
+                  if (lval == null) {
+                      ps = ps.bind(varName, rval);
+                      this.getInitStates(acts, ps, states, cm);
+                      ps.unbind(varName);
+                      return;
+                  } else {
+                      if (!lval.equals(rval)) {
+                          return;
+                      }
+                  }
+              }
+              this.getInitStates(acts, ps, states, cm);
+              return;
+          }
+          case OPCODE_in -> {
+              final SymbolNode var = this.getVar(args[0], c, false, toolId);
+              if (var == null || var.getName().getVarLoc() < 0) {
+                  final Value bval = this.eval(init, c, ps, EmptyState, EvalControl.Init, cm);
+                  if (!((BoolValue) bval).val) {
+                      return;
+                  }
+              } else {
+                  final UniqueString varName = var.getName();
+                  final Value lval = (Value) ps.lookup(varName);
+                  final Value rval = this.eval(args[1], c, ps, EmptyState, EvalControl.Init, cm);
+                  if (lval == null) {
+                      if (!(rval instanceof Enumerable)) {
+                          Assert.fail("In computing initial states, the right side of \\IN" +
+                                  " is not enumerable.\n" + init, init, c);
+                      }
+                      final ValueEnumeration Enum = ((Enumerable) rval).elements();
+                      Value elem;
+                      while ((elem = Enum.nextElement()) != null) {
+                          ps.bind(varName, elem);
+                          this.getInitStates(acts, ps, states, cm);
+                          ps.unbind(varName);
+                      }
+                      return;
+                  } else {
+                      if (!rval.member(lval)) {
+                          return;
+                      }
+                  }
+              }
+              this.getInitStates(acts, ps, states, cm);
+              return;
+          }
+          case OPCODE_implies -> {
+              final Value lval = this.eval(args[0], c, ps, EmptyState, EvalControl.Init, cm);
+              if (!(lval instanceof BoolValue)) {
+                  Assert.fail("In computing initial states of a predicate of form" +
                           " P => Q, P was " + lval.getKindString() + "\n." + init, init, c);
-            }
-            if (((BoolValue)lval).val) {
-              this.getInitStates(args[1], acts, c, ps, states, cm);
-            }
-            else {
-              this.getInitStates(acts, ps, states, cm);
-            }
-            return;
+              }
+              if (((BoolValue) lval).val) {
+                  this.getInitStates(args[1], acts, c, ps, states, cm);
+              } else {
+                  this.getInitStates(acts, ps, states, cm);
+              }
+              return;
           }
-        // The following case added by LL on 13 Nov 2009 to handle subexpression names.
-        case OPCODE_nop:
-        {
-           this.getInitStates(args[0], acts, c, ps, states, cm);
-           return;
-        }
-        default:
-          {
-            // For all the other builtin operators, simply evaluate:
-            final Value bval = this.eval(init, c, ps, EmptyState, EvalControl.Init, cm);
-            if (!(bval instanceof BoolValue)) {
 
-              Assert.fail("In computing initial states, TLC expected a boolean expression," +
-                          "\nbut instead found " + bval + ".\n" + init, init, c);
-            }
-            if (((BoolValue)bval).val) {
-              this.getInitStates(acts, ps, states, cm);
-            }
+          // The following case added by LL on 13 Nov 2009 to handle subexpression names.
+          case OPCODE_nop -> {
+              this.getInitStates(args[0], acts, c, ps, states, cm);
+              return;
           }
-        }
+          default -> {
+              // For all the other builtin operators, simply evaluate:
+              final Value bval = this.eval(init, c, ps, EmptyState, EvalControl.Init, cm);
+              if (!(bval instanceof BoolValue)) {
+
+                  Assert.fail("In computing initial states, TLC expected a boolean expression," +
+                          "\nbut instead found " + bval + ".\n" + init, init, c);
+              }
+              if (((BoolValue) bval).val) {
+                  this.getInitStates(acts, ps, states, cm);
+              }
+          }
+      }
   }
   
   /**
@@ -1621,38 +1586,36 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   
   protected final TLCState getNextStatesImpl(final Action action, final SemanticNode pred, final ActionItemList acts, final Context c,
                                              final TLCState s0, final TLCState s1, final INextStateFunctor nss, CostModel cm) {
-        switch (pred.getKind()) {
-        case OpApplKind:
-          {
-            final OpApplNode pred1 = (OpApplNode)pred;
-            if (coverage) {cm = cm.get(pred);}
-            return this.getNextStatesAppl(action, pred1, acts, c, s0, s1, nss, cm);
+      switch (pred.getKind()) {
+          case OpApplKind -> {
+              final OpApplNode pred1 = (OpApplNode) pred;
+              if (coverage) {
+                  cm = cm.get(pred);
+              }
+              return this.getNextStatesAppl(action, pred1, acts, c, s0, s1, nss, cm);
           }
-        case LetInKind:
-          {
-            final LetInNode pred1 = (LetInNode)pred;
-            return this.getNextStates(action, pred1.getBody(), acts, c, s0, s1, nss, cm);
+          case LetInKind -> {
+              final LetInNode pred1 = (LetInNode) pred;
+              return this.getNextStates(action, pred1.getBody(), acts, c, s0, s1, nss, cm);
           }
-        case SubstInKind:
-          {
-            return getNextStatesImplSubstInKind(action, (SubstInNode) pred, acts, c, s0, s1, nss, cm);
+          case SubstInKind -> {
+              return getNextStatesImplSubstInKind(action, (SubstInNode) pred, acts, c, s0, s1, nss, cm);
           }
-        // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
-        case APSubstInKind:
-          {
-            return getNextStatesImplApSubstInKind(action, (APSubstInNode) pred, acts, c, s0, s1, nss, cm);
+
+          // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
+          case APSubstInKind -> {
+              return getNextStatesImplApSubstInKind(action, (APSubstInNode) pred, acts, c, s0, s1, nss, cm);
           }
-        // LabelKind class added by LL on 13 Jun 2007
-        case LabelKind:
-          {
-            final LabelNode pred1 = (LabelNode)pred;
-            return this.getNextStates(action, pred1.getBody(), acts, c, s0, s1, nss, cm);
+
+          // LabelKind class added by LL on 13 Jun 2007
+          case LabelKind -> {
+              final LabelNode pred1 = (LabelNode) pred;
+              return this.getNextStates(action, pred1.getBody(), acts, c, s0, s1, nss, cm);
           }
-        default:
-          {
-            Assert.fail("The next state relation is not a boolean expression.\n" + pred, pred, c);
+          default -> {
+              Assert.fail("The next state relation is not a boolean expression.\n" + pred, pred, c);
           }
-        }
+      }
     	return s1;
   }
 
@@ -1872,294 +1835,277 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   private TLCState getNextStatesApplSwitch(final Action action, final OpApplNode pred, final ActionItemList acts, final Context c, final TLCState s0,
                                            final TLCState s1, final INextStateFunctor nss, final CostModel cm, final ExprOrOpArgNode[] args, final int alen, final int opcode) {
 	TLCState resState = s1;
-	switch (opcode) {
-	case OPCODE_cl:     // ConjList
-	case OPCODE_land:
-	  {
-	    ActionItemList acts1 = acts;
-	    for (int i = alen - 1; i > 0; i--) {
-	      acts1 = (ActionItemList) acts1.cons(args[i], c, cm, i);
-	    }
-	    return this.getNextStates(action, args[0], acts1, c, s0, s1, nss, cm);
-	  }
-	case OPCODE_dl:     // DisjList
-	case OPCODE_lor:
-	  {
-		if (PROBABLISTIC) {
-			// probabilistic (return after a state has been generated, ordered is randomized)
-			final RandomGenerator rng = getSimulator().getRNG();
-			int index = (int) Math.floor(rng.nextDouble() * alen);
-			final int p = rng.nextPrime();
-		    for (int i = 0; i < alen; i++) {
-			      resState = this.getNextStates(action, args[index], acts, c, s0, resState, nss, cm);
-				  if (nss.hasStates()) {
-						return resState;
-				  }
-				  index = (index + p) % alen;
-			}
-		} else {
-		    for (int i = 0; i < alen; i++) {
-		      resState = this.getNextStates(action, args[i], acts, c, s0, resState, nss, cm);
-		    }
-		}
-	    return resState;
-	  }
-	case OPCODE_be:     // BoundedExists
-	  {
-	    final SemanticNode body = args[0];
-	    
-	    if (PROBABLISTIC) {
-		    // probabilistic (return after a state has been generated, ordered is randomized)
-			final ContextEnumerator Enum = this.contexts(Ordering.RANDOMIZED, pred, c, s0, s1, EvalControl.Clear, cm);
-			Context c1;
-		    while ((c1 = Enum.nextElement()) != null) {
-				resState = this.getNextStates(action, body, acts, c1, s0, resState, nss, cm);
-				if (nss.hasStates()) {
-					return resState;
-				}
-		    }
-	    } else {
-	    	// non-deterministically generate successor states (potentially many)
-	    	final ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Clear, cm);
-	    	Context c1;
-	    	while ((c1 = Enum.nextElement()) != null) {
-	    		resState = this.getNextStates(action, body, acts, c1, s0, resState, nss, cm);
-	    	}
-	    }
+      switch (opcode) {     // ConjList
+          case OPCODE_cl, OPCODE_land -> {
+              ActionItemList acts1 = acts;
+              for (int i = alen - 1; i > 0; i--) {
+                  acts1 = (ActionItemList) acts1.cons(args[i], c, cm, i);
+              }
+              return this.getNextStates(action, args[0], acts1, c, s0, s1, nss, cm);
+          }
+          // DisjList
+          case OPCODE_dl, OPCODE_lor -> {
+              if (PROBABLISTIC) {
+                  // probabilistic (return after a state has been generated, ordered is randomized)
+                  final RandomGenerator rng = getSimulator().getRNG();
+                  int index = (int) Math.floor(rng.nextDouble() * alen);
+                  final int p = rng.nextPrime();
+                  for (int i = 0; i < alen; i++) {
+                      resState = this.getNextStates(action, args[index], acts, c, s0, resState, nss, cm);
+                      if (nss.hasStates()) {
+                          return resState;
+                      }
+                      index = (index + p) % alen;
+                  }
+              } else {
+                  for (int i = 0; i < alen; i++) {
+                      resState = this.getNextStates(action, args[i], acts, c, s0, resState, nss, cm);
+                  }
+              }
+              return resState;
+          }
+          case OPCODE_be ->     // BoundedExists
+          {
+              final SemanticNode body = args[0];
 
-	    return resState;
-	  }
-	case OPCODE_bf:     // BoundedForall
-	  {
-	    final SemanticNode body = args[0];
-	    final ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Clear, cm);
-	    final Context c1 = Enum.nextElement();
-	    if (c1 == null) {
-	      resState = this.getNextStates(action, acts, s0, s1, nss, cm);
-	    }
-	    else {
-	      ActionItemList acts1 = acts;
-	      Context c2;
-	      while ((c2 = Enum.nextElement()) != null) {
-	        acts1 = (ActionItemList) acts1.cons(body, c2, cm, IActionItemList.PRED);
-	      }
-	      resState = this.getNextStates(action, body, acts1, c1, s0, s1, nss, cm);
-	    }
-	    return resState;
-	  }
-	case OPCODE_fa:     // FcnApply
-	  {
-	    Value fval = this.eval(args[0], c, s0, s1, EvalControl.KeepLazy, cm);
-	    if (fval instanceof final FcnLambdaValue fcn) {
-            if (fcn.fcnRcd == null) {
-	        final Context c1 = this.getFcnContext(fcn, args, c, s0, s1, EvalControl.Clear, cm);
-	        return this.getNextStates(action, fcn.body, acts, c1, s0, s1, nss, fcn.cm);
-	      }
-	      fval = fcn.fcnRcd;
-	    }
-	    if (!(fval instanceof Applicable)) {
-	      Assert.fail("In computing next states, a non-function (" +
-	                  fval.getKindString() + ") was applied as a function.\n" + pred, pred, c);
-	    }
-	    final Applicable fcn = (Applicable)fval;
-	    final Value argVal = this.eval(args[1], c, s0, s1, EvalControl.Clear, cm);
-	    final Value bval = fcn.apply(argVal, EvalControl.Clear);
-	    if (!(bval instanceof BoolValue)) {
-	      Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING2, new String[] { "next states", "boolean",
-	              Objects.requireNonNull(pred).toString() }, args[1], c);
-	    }
-	    if (((BoolValue)bval).val) {
-	      return this.getNextStates(action, acts, s0, s1, nss, cm);
-	    }
-	    return resState;
-	  }
-	case OPCODE_aa:     // AngleAct <A>_e
-	  {
-	    final ActionItemList acts1 = (ActionItemList) acts.cons(args[1], c, cm, IActionItemList.CHANGED);
-	    return this.getNextStates(action, args[0], acts1, c, s0, s1, nss, cm);
-	  }
-	case OPCODE_sa:     // [A]_e
-	  {
-	    /* The following two lines of code did not work, and were changed by
-	     * YuanYu to mimic the way \/ works.  Change made
-	     *  11 Mar 2009, with LL sitting next to him.
-	     */
-          resState = this.getNextStates(action, args[0], acts, c, s0, resState, nss, cm);
-	    return this.processUnchanged(action, args[1], acts, c, s0, resState, nss, cm);
-	  }
-	case OPCODE_ite:    // IfThenElse
-	  {
-	    final Value guard = this.eval(args[0], c, s0, s1, EvalControl.Clear, cm);
-	    if (!(guard instanceof BoolValue)) {
-	      Assert.fail("In computing next states, a non-boolean expression (" +
-	                  guard.getKindString() + ") was used as the condition of" +
-	                  " an IF." + pred, pred, c);
-	    }
-	    if (((BoolValue)guard).val) {
-	      return this.getNextStates(action, args[1], acts, c, s0, s1, nss, cm);
-	    }
-	    else {
-	      return this.getNextStates(action, args[2], acts, c, s0, s1, nss, cm);
-	    }
-	  }
-	case OPCODE_case:   // Case
-	  {
-	    SemanticNode other = null;
-		if (PROBABLISTIC) {
-			// See Bounded exists above!
-			throw new UnsupportedOperationException(
-							"Probabilistic evaluation of next-state relation not implemented for CASE yet.");
-		}
-	    for (int i = 0; i < alen; i++) {
-	      final OpApplNode pair = (OpApplNode)args[i];
-	      final ExprOrOpArgNode[] pairArgs = pair.getArgs();
-	      if (pairArgs[0] == null) {
-	        other = pairArgs[1];
-	      }
-	      else {
-	        final Value bval = this.eval(pairArgs[0], c, s0, s1, EvalControl.Clear, coverage ? cm.get(args[i]) : cm);
-	        if (!(bval instanceof BoolValue)) {
-	          Assert.fail("In computing next states, a non-boolean expression (" +
-	                      bval.getKindString() + ") was used as a guard condition" +
-	                      " of a CASE.\n" + pairArgs[1], pairArgs[1], c);
-	        }
-	        if (((BoolValue)bval).val) {
-	          return this.getNextStates(action, pairArgs[1], acts, c, s0, s1, nss, coverage ? cm.get(args[i]) : cm);
-	        }
-	      }
-	    }
-	    if (other == null) {
-	      Assert.fail("In computing next states, TLC encountered a CASE with no" +
-	                  " conditions true.\n" + pred, pred, c);
-	    }
-	    return this.getNextStates(action, other, acts, c, s0, s1, nss, coverage ? cm.get(args[alen - 1]) : cm);
-	  }
-	case OPCODE_eq:
-	  {
-	    final SymbolNode var = this.getPrimedVar(args[0], c, false);
-	    // Assert.check(var.getName().getVarLoc() >= 0);
-	    if (var == null) {
-	      final Value bval = this.eval(pred, c, s0, s1, EvalControl.Clear, cm);
-	      if (!((BoolValue)bval).val) {
-	        return resState;
-	      }
-	    }
-	    else {
-	      final UniqueString varName = var.getName();
-	      final IValue lval = s1.lookup(varName);
-	      final Value rval = this.eval(args[1], c, s0, s1, EvalControl.Clear, cm);
-	      if (lval == null) {
-	        resState.bind(varName, rval);
-	        resState = this.getNextStates(action, acts, s0, resState, nss, cm);
-	        resState.unbind(varName);
-	        return resState;
-	      }
-	      else if (!lval.equals(rval)) {
-	        return resState;
-	      }
-	    }
-	    return this.getNextStates(action, acts, s0, s1, nss, cm);
-	  }
-	case OPCODE_in:
-	  {
-	    final SymbolNode var = this.getPrimedVar(args[0], c, false);
-	    // Assert.check(var.getName().getVarLoc() >= 0);
-	    if (var == null) {
-	      final Value bval = this.eval(pred, c, s0, s1, EvalControl.Clear, cm);
-	      if (!((BoolValue)bval).val) {
-	        return resState;
-	      }
-	    }
-	    else {
-	      final UniqueString varName = var.getName();
-	      final Value lval = (Value) s1.lookup(varName);
-	      final Value rval = this.eval(args[1], c, s0, s1, EvalControl.Clear, cm);
-	      if (lval == null) {
-	        if (!(rval instanceof Enumerable)) {
-	          Assert.fail("In computing next states, the right side of \\IN" +
-	                      " is not enumerable.\n" + pred, pred, c);
-	        }
-	        
-			if (PROBABLISTIC) {
-				final ValueEnumeration Enum = ((Enumerable)rval).elements(Ordering.RANDOMIZED);
-				Value elem;
-			    while ((elem = Enum.nextElement()) != null) {
-			        resState.bind(varName, elem);
-			        resState = this.getNextStates(action, acts, s0, resState, nss, cm);
-			        resState.unbind(varName);
-					if (nss.hasStates()) {
-						return resState;
-					}
-			    }
-			}
+              if (PROBABLISTIC) {
+                  // probabilistic (return after a state has been generated, ordered is randomized)
+                  final ContextEnumerator Enum = this.contexts(Ordering.RANDOMIZED, pred, c, s0, s1, EvalControl.Clear, cm);
+                  Context c1;
+                  while ((c1 = Enum.nextElement()) != null) {
+                      resState = this.getNextStates(action, body, acts, c1, s0, resState, nss, cm);
+                      if (nss.hasStates()) {
+                          return resState;
+                      }
+                  }
+              } else {
+                  // non-deterministically generate successor states (potentially many)
+                  final ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Clear, cm);
+                  Context c1;
+                  while ((c1 = Enum.nextElement()) != null) {
+                      resState = this.getNextStates(action, body, acts, c1, s0, resState, nss, cm);
+                  }
+              }
 
-	        final ValueEnumeration Enum = ((Enumerable)rval).elements();
-	        Value elem;
-	        while ((elem = Enum.nextElement()) != null) {
-	          resState.bind(varName, elem);
-	          resState = this.getNextStates(action, acts, s0, resState, nss, cm);
-	          resState.unbind(varName);
-	        }
-	        return resState;
-	      }
-	      else if (!rval.member(lval)) {
-	        return resState;
-	      }
-	    }
-	    return this.getNextStates(action, acts, s0, s1, nss, cm);
-	  }
-	case OPCODE_implies:
-	  {
-	    final Value bval = this.eval(args[0], c, s0, s1, EvalControl.Clear, cm);
-	    if (!(bval instanceof BoolValue)) {
-	      Assert.fail("In computing next states of a predicate of the form" +
-	                  " P => Q, P was\n" + bval.getKindString() + ".\n" + pred, pred, c);
-	    }
-	    if (((BoolValue)bval).val) {
-	      return this.getNextStates(action, args[1], acts, c, s0, s1, nss, cm);
-	    }
-	    else {
-	      return this.getNextStates(action, acts, s0, s1, nss, cm);
-	    }
-	  }
-	case OPCODE_unchanged:
-	  {
-	    return this.processUnchanged(action, args[0], acts, c, s0, s1, nss, cm);
-	  }
-	case OPCODE_cdot:
-	  {
-	    Assert.fail("The current version of TLC does not support action composition.", pred, c);
-	    /***
-	    TLCState s01 = TLCStateFun.Empty;
-	    StateVec iss = new StateVec(0);
-	    this.getNextStates(action, args[0], ActionItemList.Empty, c, s0, s01, iss);
-	    int sz = iss.size();
-	    for (int i = 0; i < sz; i++) {
-	      s01 = iss.elementAt(i);
-	      this.getNextStates(action, args[1], acts, c, s01, s1, nss);
-	    }
-	    ***/
-	    return s1;
-	  }
-	// The following case added by LL on 13 Nov 2009 to handle subexpression names.
-	case OPCODE_nop:
-	{
-	    return this.getNextStates(action, args[0], acts, c, s0, s1, nss, cm);
-	}
-	default:
-	  {
-	    // We handle all the other builtin operators here.
-	    final Value bval = this.eval(pred, c, s0, s1, EvalControl.Clear, cm);
-	    if (!(bval instanceof BoolValue)) {
-	      Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING, new String[] { "next states", "boolean",
-	              bval.toString(), pred.toString() }, pred, c);
-	    }
-	    if (((BoolValue)bval).val) {
-	      resState = this.getNextStates(action, acts, s0, s1, nss, cm);
-	    }
-	    return resState;
-	  }
-	}
+              return resState;
+          }
+          case OPCODE_bf ->     // BoundedForall
+          {
+              final SemanticNode body = args[0];
+              final ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Clear, cm);
+              final Context c1 = Enum.nextElement();
+              if (c1 == null) {
+                  resState = this.getNextStates(action, acts, s0, s1, nss, cm);
+              } else {
+                  ActionItemList acts1 = acts;
+                  Context c2;
+                  while ((c2 = Enum.nextElement()) != null) {
+                      acts1 = (ActionItemList) acts1.cons(body, c2, cm, IActionItemList.PRED);
+                  }
+                  resState = this.getNextStates(action, body, acts1, c1, s0, s1, nss, cm);
+              }
+              return resState;
+          }
+          case OPCODE_fa ->     // FcnApply
+          {
+              Value fval = this.eval(args[0], c, s0, s1, EvalControl.KeepLazy, cm);
+              if (fval instanceof final FcnLambdaValue fcn) {
+                  if (fcn.fcnRcd == null) {
+                      final Context c1 = this.getFcnContext(fcn, args, c, s0, s1, EvalControl.Clear, cm);
+                      return this.getNextStates(action, fcn.body, acts, c1, s0, s1, nss, fcn.cm);
+                  }
+                  fval = fcn.fcnRcd;
+              }
+              if (!(fval instanceof Applicable)) {
+                  Assert.fail("In computing next states, a non-function (" +
+                          fval.getKindString() + ") was applied as a function.\n" + pred, pred, c);
+              }
+              final Applicable fcn = (Applicable) fval;
+              final Value argVal = this.eval(args[1], c, s0, s1, EvalControl.Clear, cm);
+              final Value bval = fcn.apply(argVal, EvalControl.Clear);
+              if (!(bval instanceof BoolValue)) {
+                  Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING2, new String[]{"next states", "boolean",
+                          Objects.requireNonNull(pred).toString()}, args[1], c);
+              }
+              if (((BoolValue) bval).val) {
+                  return this.getNextStates(action, acts, s0, s1, nss, cm);
+              }
+              return resState;
+          }
+          case OPCODE_aa ->     // AngleAct <A>_e
+          {
+              final ActionItemList acts1 = (ActionItemList) acts.cons(args[1], c, cm, IActionItemList.CHANGED);
+              return this.getNextStates(action, args[0], acts1, c, s0, s1, nss, cm);
+          }
+          case OPCODE_sa ->     // [A]_e
+          {
+              /* The following two lines of code did not work, and were changed by
+               * YuanYu to mimic the way \/ works.  Change made
+               *  11 Mar 2009, with LL sitting next to him.
+               */
+              resState = this.getNextStates(action, args[0], acts, c, s0, resState, nss, cm);
+              return this.processUnchanged(action, args[1], acts, c, s0, resState, nss, cm);
+          }
+          case OPCODE_ite ->    // IfThenElse
+          {
+              final Value guard = this.eval(args[0], c, s0, s1, EvalControl.Clear, cm);
+              if (!(guard instanceof BoolValue)) {
+                  Assert.fail("In computing next states, a non-boolean expression (" +
+                          guard.getKindString() + ") was used as the condition of" +
+                          " an IF." + pred, pred, c);
+              }
+              if (((BoolValue) guard).val) {
+                  return this.getNextStates(action, args[1], acts, c, s0, s1, nss, cm);
+              } else {
+                  return this.getNextStates(action, args[2], acts, c, s0, s1, nss, cm);
+              }
+          }
+          case OPCODE_case ->   // Case
+          {
+              SemanticNode other = null;
+              if (PROBABLISTIC) {
+                  // See Bounded exists above!
+                  throw new UnsupportedOperationException(
+                          "Probabilistic evaluation of next-state relation not implemented for CASE yet.");
+              }
+              for (int i = 0; i < alen; i++) {
+                  final OpApplNode pair = (OpApplNode) args[i];
+                  final ExprOrOpArgNode[] pairArgs = pair.getArgs();
+                  if (pairArgs[0] == null) {
+                      other = pairArgs[1];
+                  } else {
+                      final Value bval = this.eval(pairArgs[0], c, s0, s1, EvalControl.Clear, coverage ? cm.get(args[i]) : cm);
+                      if (!(bval instanceof BoolValue)) {
+                          Assert.fail("In computing next states, a non-boolean expression (" +
+                                  bval.getKindString() + ") was used as a guard condition" +
+                                  " of a CASE.\n" + pairArgs[1], pairArgs[1], c);
+                      }
+                      if (((BoolValue) bval).val) {
+                          return this.getNextStates(action, pairArgs[1], acts, c, s0, s1, nss, coverage ? cm.get(args[i]) : cm);
+                      }
+                  }
+              }
+              if (other == null) {
+                  Assert.fail("In computing next states, TLC encountered a CASE with no" +
+                          " conditions true.\n" + pred, pred, c);
+              }
+              return this.getNextStates(action, other, acts, c, s0, s1, nss, coverage ? cm.get(args[alen - 1]) : cm);
+          }
+          case OPCODE_eq -> {
+              final SymbolNode var = this.getPrimedVar(args[0], c, false);
+              // Assert.check(var.getName().getVarLoc() >= 0);
+              if (var == null) {
+                  final Value bval = this.eval(pred, c, s0, s1, EvalControl.Clear, cm);
+                  if (!((BoolValue) bval).val) {
+                      return resState;
+                  }
+              } else {
+                  final UniqueString varName = var.getName();
+                  final IValue lval = s1.lookup(varName);
+                  final Value rval = this.eval(args[1], c, s0, s1, EvalControl.Clear, cm);
+                  if (lval == null) {
+                      resState.bind(varName, rval);
+                      resState = this.getNextStates(action, acts, s0, resState, nss, cm);
+                      resState.unbind(varName);
+                      return resState;
+                  } else if (!lval.equals(rval)) {
+                      return resState;
+                  }
+              }
+              return this.getNextStates(action, acts, s0, s1, nss, cm);
+          }
+          case OPCODE_in -> {
+              final SymbolNode var = this.getPrimedVar(args[0], c, false);
+              // Assert.check(var.getName().getVarLoc() >= 0);
+              if (var == null) {
+                  final Value bval = this.eval(pred, c, s0, s1, EvalControl.Clear, cm);
+                  if (!((BoolValue) bval).val) {
+                      return resState;
+                  }
+              } else {
+                  final UniqueString varName = var.getName();
+                  final Value lval = (Value) s1.lookup(varName);
+                  final Value rval = this.eval(args[1], c, s0, s1, EvalControl.Clear, cm);
+                  if (lval == null) {
+                      if (!(rval instanceof Enumerable)) {
+                          Assert.fail("In computing next states, the right side of \\IN" +
+                                  " is not enumerable.\n" + pred, pred, c);
+                      }
+
+                      if (PROBABLISTIC) {
+                          final ValueEnumeration Enum = ((Enumerable) rval).elements(Ordering.RANDOMIZED);
+                          Value elem;
+                          while ((elem = Enum.nextElement()) != null) {
+                              resState.bind(varName, elem);
+                              resState = this.getNextStates(action, acts, s0, resState, nss, cm);
+                              resState.unbind(varName);
+                              if (nss.hasStates()) {
+                                  return resState;
+                              }
+                          }
+                      }
+
+                      final ValueEnumeration Enum = ((Enumerable) rval).elements();
+                      Value elem;
+                      while ((elem = Enum.nextElement()) != null) {
+                          resState.bind(varName, elem);
+                          resState = this.getNextStates(action, acts, s0, resState, nss, cm);
+                          resState.unbind(varName);
+                      }
+                      return resState;
+                  } else if (!rval.member(lval)) {
+                      return resState;
+                  }
+              }
+              return this.getNextStates(action, acts, s0, s1, nss, cm);
+          }
+          case OPCODE_implies -> {
+              final Value bval = this.eval(args[0], c, s0, s1, EvalControl.Clear, cm);
+              if (!(bval instanceof BoolValue)) {
+                  Assert.fail("In computing next states of a predicate of the form" +
+                          " P => Q, P was\n" + bval.getKindString() + ".\n" + pred, pred, c);
+              }
+              if (((BoolValue) bval).val) {
+                  return this.getNextStates(action, args[1], acts, c, s0, s1, nss, cm);
+              } else {
+                  return this.getNextStates(action, acts, s0, s1, nss, cm);
+              }
+          }
+          case OPCODE_unchanged -> {
+              return this.processUnchanged(action, args[0], acts, c, s0, s1, nss, cm);
+          }
+          case OPCODE_cdot -> {
+              Assert.fail("The current version of TLC does not support action composition.", pred, c);
+              /***
+               TLCState s01 = TLCStateFun.Empty;
+               StateVec iss = new StateVec(0);
+               this.getNextStates(action, args[0], ActionItemList.Empty, c, s0, s01, iss);
+               int sz = iss.size();
+               for (int i = 0; i < sz; i++) {
+               s01 = iss.elementAt(i);
+               this.getNextStates(action, args[1], acts, c, s01, s1, nss);
+               }
+               ***/
+              return s1;
+          }
+
+          // The following case added by LL on 13 Nov 2009 to handle subexpression names.
+          case OPCODE_nop -> {
+              return this.getNextStates(action, args[0], acts, c, s0, s1, nss, cm);
+          }
+          default -> {
+              // We handle all the other builtin operators here.
+              final Value bval = this.eval(pred, c, s0, s1, EvalControl.Clear, cm);
+              if (!(bval instanceof BoolValue)) {
+                  Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING, new String[]{"next states", "boolean",
+                          bval.toString(), pred.toString()}, pred, c);
+              }
+              if (((BoolValue) bval).val) {
+                  resState = this.getNextStates(action, acts, s0, s1, nss, cm);
+              }
+              return resState;
+          }
+      }
   }
   
   /* processUnchanged */
@@ -2401,55 +2347,47 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   @ExpectInlined
   protected Value evalImpl(final SemanticNode expr, final Context c, final TLCState s0,
           final TLCState s1, final int control, CostModel cm) {
-        switch (expr.getKind()) {
-        /***********************************************************************
-        * LabelKind class added by LL on 13 Jun 2007.                          *
-        ***********************************************************************/
-        case LabelKind:
-          {
-            final LabelNode expr1 = (LabelNode) expr;
-            return this.eval(expr1.getBody(), c, s0, s1, control, cm);
+      switch (expr.getKind()) {
+          /***********************************************************************
+           * LabelKind class added by LL on 13 Jun 2007.                          *
+           ***********************************************************************/
+          case LabelKind -> {
+              final LabelNode expr1 = (LabelNode) expr;
+              return this.eval(expr1.getBody(), c, s0, s1, control, cm);
           }
-        case OpApplKind:
-          {
-            final OpApplNode expr1 = (OpApplNode)expr;
-            if (coverage) {cm = cm.get(expr);}
-            return this.evalAppl(expr1, c, s0, s1, control, cm);
+          case OpApplKind -> {
+              final OpApplNode expr1 = (OpApplNode) expr;
+              if (coverage) {
+                  cm = cm.get(expr);
+              }
+              return this.evalAppl(expr1, c, s0, s1, control, cm);
           }
-        case LetInKind:
-          {
-            return evalImplLetInKind((LetInNode) expr, c, s0, s1, control, cm);
+          case LetInKind -> {
+              return evalImplLetInKind((LetInNode) expr, c, s0, s1, control, cm);
           }
-        case SubstInKind:
-          {
-            return evalImplSubstInKind((SubstInNode) expr, c, s0, s1, control, cm);
+          case SubstInKind -> {
+              return evalImplSubstInKind((SubstInNode) expr, c, s0, s1, control, cm);
           }
-        // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
-        case APSubstInKind:
-          {
-            return evalImplApSubstInKind((APSubstInNode) expr, c, s0, s1, control, cm);
+
+          // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
+          case APSubstInKind -> {
+              return evalImplApSubstInKind((APSubstInNode) expr, c, s0, s1, control, cm);
           }
-        case NumeralKind:
-        case DecimalKind:
-        case StringKind:
-          {
-            return (Value) WorkerValue.mux(expr.getToolObject(toolId));
+          case NumeralKind, DecimalKind, StringKind -> {
+              return (Value) WorkerValue.mux(expr.getToolObject(toolId));
           }
-        case AtNodeKind:
-          {
-            return (Value)c.lookup(EXCEPT_AT);
+          case AtNodeKind -> {
+              return (Value) c.lookup(EXCEPT_AT);
           }
-        case OpArgKind:
-          {
-            return evalImplOpArgKind((OpArgNode) expr, c, s0, s1, cm);
+          case OpArgKind -> {
+              return evalImplOpArgKind((OpArgNode) expr, c, s0, s1, cm);
           }
-        default:
-          {
-            Assert.fail("Attempted to evaluate an expression that cannot be evaluated.\n" +
-                        expr, expr, c);
-            return null;     // make compiler happy
+          default -> {
+              Assert.fail("Attempted to evaluate an expression that cannot be evaluated.\n" +
+                      expr, expr, c);
+              return null;     // make compiler happy
           }
-        }
+      }
   }
 
   @ExpectInlined
@@ -2713,130 +2651,129 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           }
         }
 
-        switch (opcode) {
-        case OPCODE_bc:     // BoundedChoose
+      switch (opcode) {
+          case OPCODE_bc ->     // BoundedChoose
           {
-            final SemanticNode pred = args[0];
-            final SemanticNode inExpr = expr.getBdedQuantBounds()[0];
-            final Value inVal = this.eval(inExpr, c, s0, s1, control, cm);
-            if (!(inVal instanceof Enumerable)) {
-              Assert.fail("Attempted to compute the value of an expression of\n" +
+              final SemanticNode pred = args[0];
+              final SemanticNode inExpr = expr.getBdedQuantBounds()[0];
+              final Value inVal = this.eval(inExpr, c, s0, s1, control, cm);
+              if (!(inVal instanceof Enumerable)) {
+                  Assert.fail("Attempted to compute the value of an expression of\n" +
                           "form CHOOSE x \\in S: P, but S was not enumerable.\n" + expr, expr, c);
-            }
+              }
 
-            // To fix Bugzilla Bug 279 : TLC bug caused by TLC's not preserving the semantics of CHOOSE
-            // (@see tlc2.tool.BugzillaBug279Test),
-            // the statement
-            //
-            //    inVal.normalize();
-            //
-            // was replaced by the following by LL on 7 Mar 2012.  This fix has not yet received
-            // the blessing of Yuan Yu, so it should be considered to be provisional.
-            // 
-            //     Value convertedVal = inVal.ToSetEnum();
-            //       if (convertedVal != null) {
-            //         inVal = convertedVal;
-            //       } else {
-            //         inVal.normalize();
-            //     }
-            // end of fix.
-            
-            // MAK 09/22/2018:
-			// The old fix above has the undesired side effect of enumerating inVal. In
-			// other words, e.g. a SUBSET 1..8 would be enumerated and normalized into a
-			// SetEnumValue. This is expensive and especially overkill, if the CHOOSE
-			// predicate holds for most if not all elements of inVal. In this case, we
-            // don't want to fully enumerate inVal but instead return the first element
-			// obtained from Enumerable#elements for which the predicate holds. Thus,
-			// Enumerable#elements(Ordering) has been added by which we make the requirement
-			// for elements to be normalized explicit. Implementor of Enumerable, such as
-			// SubsetValue are then free to implement elements that returns elements in
-			// normalized order without converting SubsetValue into SetEnumValue first.
-            
-            inVal.normalize();
+              // To fix Bugzilla Bug 279 : TLC bug caused by TLC's not preserving the semantics of CHOOSE
+              // (@see tlc2.tool.BugzillaBug279Test),
+              // the statement
+              //
+              //    inVal.normalize();
+              //
+              // was replaced by the following by LL on 7 Mar 2012.  This fix has not yet received
+              // the blessing of Yuan Yu, so it should be considered to be provisional.
+              //
+              //     Value convertedVal = inVal.ToSetEnum();
+              //       if (convertedVal != null) {
+              //         inVal = convertedVal;
+              //       } else {
+              //         inVal.normalize();
+              //     }
+              // end of fix.
 
-            final ValueEnumeration enumSet = ((Enumerable)inVal).elements(Enumerable.Ordering.NORMALIZED);
-            final FormalParamNode[] bvars = expr.getBdedQuantSymbolLists()[0];
-            final boolean isTuple = expr.isBdedQuantATuple()[0];
-            if (isTuple) {
-              // Identifier tuple case:
-              final int cnt = bvars.length;
-              Value val;
-              while ((val = enumSet.nextElement()) != null) {
-                final TupleValue tv = (TupleValue) val.toTuple();
-                if (tv == null || tv.size() != cnt) {
-                  Assert.fail("Attempted to compute the value of an expression of form\n" +
-                              "CHOOSE <<x1, ... , xN>> \\in S: P, but S was not a set\n" +
-                              "of N-tuples.\n" + expr, expr, c);
-                }
-                Context c1 = c;
-                for (int i = 0; i < cnt; i++) {
-                  c1 = c1.cons(bvars[i], tv.elems[i]);
-                }
-                final Value bval = this.eval(pred, c1, s0, s1, control, cm);
-                if (!(bval instanceof BoolValue)) {
-                  Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, pred, c1);
-                }
-                if (((BoolValue)bval).val) {
-                  return val;
-                }
+              // MAK 09/22/2018:
+              // The old fix above has the undesired side effect of enumerating inVal. In
+              // other words, e.g. a SUBSET 1..8 would be enumerated and normalized into a
+              // SetEnumValue. This is expensive and especially overkill, if the CHOOSE
+              // predicate holds for most if not all elements of inVal. In this case, we
+              // don't want to fully enumerate inVal but instead return the first element
+              // obtained from Enumerable#elements for which the predicate holds. Thus,
+              // Enumerable#elements(Ordering) has been added by which we make the requirement
+              // for elements to be normalized explicit. Implementor of Enumerable, such as
+              // SubsetValue are then free to implement elements that returns elements in
+              // normalized order without converting SubsetValue into SetEnumValue first.
+
+              inVal.normalize();
+
+              final ValueEnumeration enumSet = ((Enumerable) inVal).elements(Ordering.NORMALIZED);
+              final FormalParamNode[] bvars = expr.getBdedQuantSymbolLists()[0];
+              final boolean isTuple = expr.isBdedQuantATuple()[0];
+              if (isTuple) {
+                  // Identifier tuple case:
+                  final int cnt = bvars.length;
+                  Value val;
+                  while ((val = enumSet.nextElement()) != null) {
+                      final TupleValue tv = (TupleValue) val.toTuple();
+                      if (tv == null || tv.size() != cnt) {
+                          Assert.fail("Attempted to compute the value of an expression of form\n" +
+                                  "CHOOSE <<x1, ... , xN>> \\in S: P, but S was not a set\n" +
+                                  "of N-tuples.\n" + expr, expr, c);
+                      }
+                      Context c1 = c;
+                      for (int i = 0; i < cnt; i++) {
+                          c1 = c1.cons(bvars[i], tv.elems[i]);
+                      }
+                      final Value bval = this.eval(pred, c1, s0, s1, control, cm);
+                      if (!(bval instanceof BoolValue)) {
+                          Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, pred, c1);
+                      }
+                      if (((BoolValue) bval).val) {
+                          return val;
+                      }
+                  }
+              } else {
+                  // Simple identifier case:
+                  final SymbolNode name = bvars[0];
+                  Value val;
+                  while ((val = enumSet.nextElement()) != null) {
+                      final Context c1 = c.cons(name, val);
+                      final Value bval = this.eval(pred, c1, s0, s1, control, cm);
+                      if (!(bval instanceof BoolValue)) {
+                          Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, pred, c1);
+                      }
+                      if (((BoolValue) bval).val) {
+                          return val;
+                      }
+                  }
               }
-            }
-            else {
-              // Simple identifier case:
-              final SymbolNode name = bvars[0];
-              Value val;
-              while ((val = enumSet.nextElement()) != null) {
-                final Context c1 = c.cons(name, val);
-                final Value bval = this.eval(pred, c1, s0, s1, control, cm);
-                if (!(bval instanceof BoolValue)) {
-                  Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, pred, c1);
-                }
-                if (((BoolValue)bval).val) {
-                  return val;
-                }
-              }
-            }
-            Assert.fail("Attempted to compute the value of an expression of form\n" +
-                        "CHOOSE x \\in S: P, but no element of S satisfied P.\n" + expr, expr, c);
-            return null;    // make compiler happy
+              Assert.fail("Attempted to compute the value of an expression of form\n" +
+                      "CHOOSE x \\in S: P, but no element of S satisfied P.\n" + expr, expr, c);
+              return null;    // make compiler happy
           }
-        case OPCODE_be:     // BoundedExists
+          case OPCODE_be ->     // BoundedExists
           {
-            final ContextEnumerator Enum = this.contexts(expr, c, s0, s1, control, cm);
-            final SemanticNode body = args[0];
-            Context c1;
-            while ((c1 = Enum.nextElement()) != null) {
-              final Value bval = this.eval(body, c1, s0, s1, control, cm);
-              if (!(bval instanceof BoolValue)) {
-                Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, body, c1);
+              final ContextEnumerator Enum = this.contexts(expr, c, s0, s1, control, cm);
+              final SemanticNode body = args[0];
+              Context c1;
+              while ((c1 = Enum.nextElement()) != null) {
+                  final Value bval = this.eval(body, c1, s0, s1, control, cm);
+                  if (!(bval instanceof BoolValue)) {
+                      Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, body, c1);
+                  }
+                  if (((BoolValue) bval).val) {
+                      return BoolValue.ValTrue;
+                  }
               }
-              if (((BoolValue)bval).val) {
-                return BoolValue.ValTrue;
-              }
-            }
-            return BoolValue.ValFalse;
+              return BoolValue.ValFalse;
           }
-        case OPCODE_bf:     // BoundedForall
+          case OPCODE_bf ->     // BoundedForall
           {
-            final ContextEnumerator Enum = this.contexts(expr, c, s0, s1, control, cm);
-            final SemanticNode body = args[0];
-            Context c1;
-            while ((c1 = Enum.nextElement()) != null) {
-              final Value bval = this.eval(body, c1, s0, s1, control, cm);
-              if (!(bval instanceof BoolValue)) {
-                Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, body, c1);
+              final ContextEnumerator Enum = this.contexts(expr, c, s0, s1, control, cm);
+              final SemanticNode body = args[0];
+              Context c1;
+              while ((c1 = Enum.nextElement()) != null) {
+                  final Value bval = this.eval(body, c1, s0, s1, control, cm);
+                  if (!(bval instanceof BoolValue)) {
+                      Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, body, c1);
+                  }
+                  if (!((BoolValue) bval).val) {
+                      return BoolValue.ValFalse;
+                  }
               }
-              if (!((BoolValue)bval).val) {
-                return BoolValue.ValFalse;
-              }
-            }
-            return BoolValue.ValTrue;
+              return BoolValue.ValTrue;
           }
-        case OPCODE_case:   // Case
+          case OPCODE_case ->   // Case
           {
-            final int alen = args.length;
-            SemanticNode other = null;
+              final int alen = args.length;
+              SemanticNode other = null;
               for (final ExprOrOpArgNode arg : args) {
                   final OpApplNode pairNode = (OpApplNode) arg;
                   final ExprOrOpArgNode[] pairArgs = pairNode.getArgs();
@@ -2856,23 +2793,23 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                       }
                   }
               }
-            if (other == null) {
-              Assert.fail("Attempted to evaluate a CASE with no conditions true.\n" + expr, expr, c);
-            }
-            return this.eval(other, c, s0, s1, control, cm);
+              if (other == null) {
+                  Assert.fail("Attempted to evaluate a CASE with no conditions true.\n" + expr, expr, c);
+              }
+              return this.eval(other, c, s0, s1, control, cm);
           }
-        case OPCODE_cp:     // CartesianProd
+          case OPCODE_cp ->     // CartesianProd
           {
-            final int alen = args.length;
-            final Value[] sets = new Value[alen];
-            for (int i = 0; i < alen; i++) {
-              sets[i] = this.eval(args[i], c, s0, s1, control, cm);
-            }
-            return setSource(expr, new SetOfTuplesValue(sets, cm));
+              final int alen = args.length;
+              final Value[] sets = new Value[alen];
+              for (int i = 0; i < alen; i++) {
+                  sets[i] = this.eval(args[i], c, s0, s1, control, cm);
+              }
+              return setSource(expr, new SetOfTuplesValue(sets, cm));
           }
-        case OPCODE_cl:     // ConjList
+          case OPCODE_cl ->     // ConjList
           {
-            final int alen = args.length;
+              final int alen = args.length;
               for (final ExprOrOpArgNode arg : args) {
                   final Value bval = this.eval(arg, c, s0, s1, control, cm);
                   if (!(bval instanceof BoolValue)) {
@@ -2883,11 +2820,11 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                       return BoolValue.ValFalse;
                   }
               }
-            return BoolValue.ValTrue;
+              return BoolValue.ValTrue;
           }
-        case OPCODE_dl:     // DisjList
+          case OPCODE_dl ->     // DisjList
           {
-            final int alen = args.length;
+              final int alen = args.length;
               for (final ExprOrOpArgNode arg : args) {
                   final Value bval = this.eval(arg, c, s0, s1, control, cm);
                   if (!(bval instanceof BoolValue)) {
@@ -2898,538 +2835,503 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                       return BoolValue.ValTrue;
                   }
               }
-            return BoolValue.ValFalse;
+              return BoolValue.ValFalse;
           }
-        case OPCODE_exc:    // Except
+          case OPCODE_exc ->    // Except
           {
-            final int alen = args.length;
-            Value result = this.eval(args[0], c, s0, s1, control, cm);
-            // SZ: variable not used ValueExcept[] expts = new ValueExcept[alen-1];
-            for (int i = 1; i < alen; i++) {
-              final OpApplNode pairNode = (OpApplNode)args[i];
-              final ExprOrOpArgNode[] pairArgs = pairNode.getArgs();
-              final SemanticNode[] cmpts = ((OpApplNode)pairArgs[0]).getArgs();
+              final int alen = args.length;
+              Value result = this.eval(args[0], c, s0, s1, control, cm);
+              // SZ: variable not used ValueExcept[] expts = new ValueExcept[alen-1];
+              for (int i = 1; i < alen; i++) {
+                  final OpApplNode pairNode = (OpApplNode) args[i];
+                  final ExprOrOpArgNode[] pairArgs = pairNode.getArgs();
+                  final SemanticNode[] cmpts = ((OpApplNode) pairArgs[0]).getArgs();
 
-              final Value[] lhs = new Value[cmpts.length];
-              for (int j = 0; j < lhs.length; j++) {
-                lhs[j] = this.eval(cmpts[j], c, s0, s1, control,  coverage ? cm.get(pairNode).get(pairArgs[0]) : cm);
-              }
-              final Value atVal = result.select(lhs);
-              if (atVal == null) {
-                // Do nothing but warn:
-                  MP.printWarning(EC.TLC_EXCEPT_APPLIED_TO_UNKNOWN_FIELD, new String[]{args[0].toString()});
-              }
-              else {
-                final Context c1 = c.cons(EXCEPT_AT, atVal);
-                final Value rhs = this.eval(pairArgs[1], c1, s0, s1, control,  coverage ? cm.get(pairNode) : cm);
-                final ValueExcept vex = new ValueExcept(lhs, rhs);
-                result = result.takeExcept(vex);
-              }
-            }
-            return result;
-          }
-        case OPCODE_fa:     // FcnApply
-          {
-            Value result = null;
-            final Value fval = this.eval(args[0], c, s0, s1, EvalControl.setKeepLazy(control), cm);
-            if ((fval instanceof FcnRcdValue) ||
-                (fval instanceof FcnLambdaValue)) {
-              final Applicable fcn = (Applicable)fval;
-              final Value argVal = this.eval(args[1], c, s0, s1, control, cm);
-              result = fcn.apply(argVal, control);
-            }
-            else if ((fval instanceof TupleValue) ||
-                     (fval instanceof RecordValue)) {
-              final Applicable fcn = (Applicable)fval;
-              if (args.length != 2) {
-                Assert.fail("Attempted to evaluate an expression of form f[e1, ... , eN]" +
-                            "\nwith f a tuple or record and N > 1.\n" + expr, expr, c);
-              }
-              final Value aval = this.eval(args[1], c, s0, s1, control, cm);
-              result = fcn.apply(aval, control);
-            }
-            else {
-              Assert.fail("A non-function (" + fval.getKindString() + ") was applied" +
-                          " as a function.\n" + expr, expr, c);
-            }
-            return result;
-          }
-        case OPCODE_fc:     // FcnConstructor
-        case OPCODE_nrfs:   // NonRecursiveFcnSpec
-        case OPCODE_rfs:    // RecursiveFcnSpec
-          {
-            final FormalParamNode[][] formals = expr.getBdedQuantSymbolLists();
-            final boolean[] isTuples = expr.isBdedQuantATuple();
-            final ExprNode[] domains = expr.getBdedQuantBounds();
-
-            final Value[] dvals = new Value[domains.length];
-            boolean isFcnRcd = true;
-            for (int i = 0; i < dvals.length; i++) {
-              dvals[i] = this.eval(domains[i], c, s0, s1, control, cm);
-              isFcnRcd = isFcnRcd && (dvals[i] instanceof Reducible);
-            }
-            final FcnParams params = new FcnParams(formals, isTuples, dvals);
-
-            final SemanticNode fbody = args[0];
-            final FcnLambdaValue fval = (FcnLambdaValue) setSource(expr, new FcnLambdaValue(params, fbody, this, c, s0, s1, control, cm));
-            if (opcode == OPCODE_rfs) {
-              final SymbolNode fname = expr.getUnbdedQuantSymbols()[0];
-              fval.makeRecursive(fname);
-              isFcnRcd = false;
-            }
-            if (isFcnRcd && !EvalControl.isKeepLazy(control)) {
-              return fval.toFcnRcd();
-            }
-            return fval;
-          }
-        case OPCODE_ite:    // IfThenElse
-          {
-            final Value bval = this.eval(args[0], c, s0, s1, control, cm);
-            if (!(bval instanceof BoolValue)) {
-              Assert.fail("A non-boolean expression (" + bval.getKindString() +
-                          ") was used as the condition of an IF.\n" + expr, expr, c);
-            }
-            if (((BoolValue)bval).val) {
-              return this.eval(args[1], c, s0, s1, control, cm);
-            }
-            return this.eval(args[2], c, s0, s1, control, cm);
-          }
-        case OPCODE_rc:     // RcdConstructor
-          {
-            final int alen = args.length;
-            final UniqueString[] names = new UniqueString[alen];
-            final Value[] vals = new Value[alen];
-            for (int i = 0; i < alen; i++) {
-              final OpApplNode pairNode = (OpApplNode)args[i];
-              final ExprOrOpArgNode[] pair = pairNode.getArgs();
-              names[i] = ((StringValue) Objects.requireNonNull(pair[0].getToolObject(toolId))).getVal();
-              vals[i] = this.eval(pair[1], c, s0, s1, control, coverage ? cm.get(pairNode) : cm);
-            }
-            return setSource(expr, new RecordValue(names, vals, false, cm));
-          }
-        case OPCODE_rs:     // RcdSelect
-          {
-            final Value rval = this.eval(args[0], c, s0, s1, control, cm);
-            final Value sval = (Value) WorkerValue.mux(args[1].getToolObject(toolId));
-            if (rval instanceof RecordValue rv) {
-              final Value result = rv.select(sval);
-              if (result == null) {
-                Assert.fail("Attempted to select nonexistent field " + sval + " from the" +
-                            " record\n" + Values.ppr(rval.toString()) + "\n" + expr, expr, c);
+                  final Value[] lhs = new Value[cmpts.length];
+                  for (int j = 0; j < lhs.length; j++) {
+                      lhs[j] = this.eval(cmpts[j], c, s0, s1, control, coverage ? cm.get(pairNode).get(pairArgs[0]) : cm);
+                  }
+                  final Value atVal = result.select(lhs);
+                  if (atVal == null) {
+                      // Do nothing but warn:
+                      MP.printWarning(EC.TLC_EXCEPT_APPLIED_TO_UNKNOWN_FIELD, new String[]{args[0].toString()});
+                  } else {
+                      final Context c1 = c.cons(EXCEPT_AT, atVal);
+                      final Value rhs = this.eval(pairArgs[1], c1, s0, s1, control, coverage ? cm.get(pairNode) : cm);
+                      final ValueExcept vex = new ValueExcept(lhs, rhs);
+                      result = result.takeExcept(vex);
+                  }
               }
               return result;
-            }
-            else {
-              final FcnRcdValue fcn = (FcnRcdValue) rval.toFcnRcd();
-              if (fcn == null) {
-                Assert.fail("Attempted to select field " + sval + " from a non-record" +
-                            " value " + Values.ppr(rval.toString()) + "\n" + expr, expr, c);
-              }
-              return fcn.apply(sval, control);
-            }
           }
-        case OPCODE_se:     // SetEnumerate
+          case OPCODE_fa ->     // FcnApply
           {
-            final int alen = args.length;
-            final ValueVec vals = new ValueVec(alen);
+              Value result = null;
+              final Value fval = this.eval(args[0], c, s0, s1, EvalControl.setKeepLazy(control), cm);
+              if ((fval instanceof FcnRcdValue) ||
+                      (fval instanceof FcnLambdaValue)) {
+                  final Applicable fcn = (Applicable) fval;
+                  final Value argVal = this.eval(args[1], c, s0, s1, control, cm);
+                  result = fcn.apply(argVal, control);
+              } else if ((fval instanceof TupleValue) ||
+                      (fval instanceof RecordValue)) {
+                  final Applicable fcn = (Applicable) fval;
+                  if (args.length != 2) {
+                      Assert.fail("Attempted to evaluate an expression of form f[e1, ... , eN]" +
+                              "\nwith f a tuple or record and N > 1.\n" + expr, expr, c);
+                  }
+                  final Value aval = this.eval(args[1], c, s0, s1, control, cm);
+                  result = fcn.apply(aval, control);
+              } else {
+                  Assert.fail("A non-function (" + fval.getKindString() + ") was applied" +
+                          " as a function.\n" + expr, expr, c);
+              }
+              return result;
+          }
+          // FcnConstructor
+          // NonRecursiveFcnSpec
+          case OPCODE_fc, OPCODE_nrfs, OPCODE_rfs ->    // RecursiveFcnSpec
+          {
+              final FormalParamNode[][] formals = expr.getBdedQuantSymbolLists();
+              final boolean[] isTuples = expr.isBdedQuantATuple();
+              final ExprNode[] domains = expr.getBdedQuantBounds();
+
+              final Value[] dvals = new Value[domains.length];
+              boolean isFcnRcd = true;
+              for (int i = 0; i < dvals.length; i++) {
+                  dvals[i] = this.eval(domains[i], c, s0, s1, control, cm);
+                  isFcnRcd = isFcnRcd && (dvals[i] instanceof Reducible);
+              }
+              final FcnParams params = new FcnParams(formals, isTuples, dvals);
+
+              final SemanticNode fbody = args[0];
+              final FcnLambdaValue fval = (FcnLambdaValue) setSource(expr, new FcnLambdaValue(params, fbody, this, c, s0, s1, control, cm));
+              if (opcode == OPCODE_rfs) {
+                  final SymbolNode fname = expr.getUnbdedQuantSymbols()[0];
+                  fval.makeRecursive(fname);
+                  isFcnRcd = false;
+              }
+              if (isFcnRcd && !EvalControl.isKeepLazy(control)) {
+                  return fval.toFcnRcd();
+              }
+              return fval;
+          }
+          case OPCODE_ite ->    // IfThenElse
+          {
+              final Value bval = this.eval(args[0], c, s0, s1, control, cm);
+              if (!(bval instanceof BoolValue)) {
+                  Assert.fail("A non-boolean expression (" + bval.getKindString() +
+                          ") was used as the condition of an IF.\n" + expr, expr, c);
+              }
+              if (((BoolValue) bval).val) {
+                  return this.eval(args[1], c, s0, s1, control, cm);
+              }
+              return this.eval(args[2], c, s0, s1, control, cm);
+          }
+          case OPCODE_rc ->     // RcdConstructor
+          {
+              final int alen = args.length;
+              final UniqueString[] names = new UniqueString[alen];
+              final Value[] vals = new Value[alen];
+              for (int i = 0; i < alen; i++) {
+                  final OpApplNode pairNode = (OpApplNode) args[i];
+                  final ExprOrOpArgNode[] pair = pairNode.getArgs();
+                  names[i] = ((StringValue) Objects.requireNonNull(pair[0].getToolObject(toolId))).getVal();
+                  vals[i] = this.eval(pair[1], c, s0, s1, control, coverage ? cm.get(pairNode) : cm);
+              }
+              return setSource(expr, new RecordValue(names, vals, false, cm));
+          }
+          case OPCODE_rs ->     // RcdSelect
+          {
+              final Value rval = this.eval(args[0], c, s0, s1, control, cm);
+              final Value sval = (Value) WorkerValue.mux(args[1].getToolObject(toolId));
+              if (rval instanceof RecordValue rv) {
+                  final Value result = rv.select(sval);
+                  if (result == null) {
+                      Assert.fail("Attempted to select nonexistent field " + sval + " from the" +
+                              " record\n" + Values.ppr(rval.toString()) + "\n" + expr, expr, c);
+                  }
+                  return result;
+              } else {
+                  final FcnRcdValue fcn = (FcnRcdValue) rval.toFcnRcd();
+                  if (fcn == null) {
+                      Assert.fail("Attempted to select field " + sval + " from a non-record" +
+                              " value " + Values.ppr(rval.toString()) + "\n" + expr, expr, c);
+                  }
+                  return fcn.apply(sval, control);
+              }
+          }
+          case OPCODE_se ->     // SetEnumerate
+          {
+              final int alen = args.length;
+              final ValueVec vals = new ValueVec(alen);
               for (final ExprOrOpArgNode arg : args) {
                   vals.addElement(this.eval(arg, c, s0, s1, control, cm));
               }
-            return setSource(expr, new SetEnumValue(vals, false, cm));
+              return setSource(expr, new SetEnumValue(vals, false, cm));
           }
-        case OPCODE_soa:    // SetOfAll: {e(x) : x \in S}
+          case OPCODE_soa ->    // SetOfAll: {e(x) : x \in S}
           {
-            final ValueVec vals = new ValueVec();
-            final ContextEnumerator Enum = this.contexts(expr, c, s0, s1, control, cm);
-            final SemanticNode body = args[0];
-            Context c1;
-            while ((c1 = Enum.nextElement()) != null) {
-              final Value val = this.eval(body, c1, s0, s1, control, cm);
-              vals.addElement(val);
-              // vals.addElement1(val);
-            }
-            return setSource(expr, new SetEnumValue(vals, false, cm));
-          }
-        case OPCODE_sor:    // SetOfRcds
-          {
-            final int alen = args.length;
-            final UniqueString[] names = new UniqueString[alen];
-            final Value[] vals = new Value[alen];
-            for (int i = 0; i < alen; i++) {
-              final OpApplNode pairNode = (OpApplNode)args[i];
-              final ExprOrOpArgNode[] pair = pairNode.getArgs();
-              names[i] = ((StringValue) Objects.requireNonNull(pair[0].getToolObject(toolId))).getVal();
-              vals[i] = this.eval(pair[1], c, s0, s1, control, coverage ? cm.get(pairNode) : cm);
-            }
-            return setSource(expr, new SetOfRcdsValue(names, vals, false, cm));
-          }
-        case OPCODE_sof:    // SetOfFcns
-          {
-            final Value lhs = this.eval(args[0], c, s0, s1, control, cm);
-            final Value rhs = this.eval(args[1], c, s0, s1, control, cm);
-            return setSource(expr, new SetOfFcnsValue(lhs, rhs, cm));
-          }
-        case OPCODE_sso:    // SubsetOf
-          {
-            final SemanticNode pred = args[0];
-            final SemanticNode inExpr = expr.getBdedQuantBounds()[0];
-            final Value inVal = this.eval(inExpr, c, s0, s1, control, cm);
-            final boolean isTuple = expr.isBdedQuantATuple()[0];
-            final FormalParamNode[] bvars = expr.getBdedQuantSymbolLists()[0];
-            if (inVal instanceof Reducible) {
               final ValueVec vals = new ValueVec();
-              final ValueEnumeration enumSet = ((Enumerable)inVal).elements();
-              Value elem;
-              if (isTuple) {
-                while ((elem = enumSet.nextElement()) != null) {
-                  Context c1 = c;
-                  final Value[] tuple = ((TupleValue)elem).elems;
-                  for (int i = 0; i < bvars.length; i++) {
-                    c1 = c1.cons(bvars[i], tuple[i]);
-                  }
-                  final Value bval = this.eval(pred, c1, s0, s1, control, cm);
-                  if (!(bval instanceof BoolValue)) {
-                    Assert.fail("Attempted to evaluate an expression of form {x \\in S : P(x)}" +
-                                " when P was " + bval.getKindString() + ".\n" + pred, pred, c1);
-                  }
-                  if (((BoolValue)bval).val) {
-                    vals.addElement(elem);
-                  }
-                }
+              final ContextEnumerator Enum = this.contexts(expr, c, s0, s1, control, cm);
+              final SemanticNode body = args[0];
+              Context c1;
+              while ((c1 = Enum.nextElement()) != null) {
+                  final Value val = this.eval(body, c1, s0, s1, control, cm);
+                  vals.addElement(val);
+                  // vals.addElement1(val);
               }
-              else {
-                final SymbolNode idName = bvars[0];
-                while ((elem = enumSet.nextElement()) != null) {
-                  final Context c1 = c.cons(idName, elem);
-                  final Value bval = this.eval(pred, c1, s0, s1, control, cm);
-                  if (!(bval instanceof BoolValue)) {
-                    Assert.fail("Attempted to evaluate an expression of form {x \\in S : P(x)}" +
-                                " when P was " + bval.getKindString() + ".\n" + pred, pred, c1);
-                  }
-                  if (((BoolValue)bval).val) {
-                    vals.addElement(elem);
-                  }
-                }
+              return setSource(expr, new SetEnumValue(vals, false, cm));
+          }
+          case OPCODE_sor ->    // SetOfRcds
+          {
+              final int alen = args.length;
+              final UniqueString[] names = new UniqueString[alen];
+              final Value[] vals = new Value[alen];
+              for (int i = 0; i < alen; i++) {
+                  final OpApplNode pairNode = (OpApplNode) args[i];
+                  final ExprOrOpArgNode[] pair = pairNode.getArgs();
+                  names[i] = ((StringValue) Objects.requireNonNull(pair[0].getToolObject(toolId))).getVal();
+                  vals[i] = this.eval(pair[1], c, s0, s1, control, coverage ? cm.get(pairNode) : cm);
               }
-              return setSource(expr, new SetEnumValue(vals, inVal.isNormalized(), cm));
-            }
-            else if (isTuple) {
-              return setSource(expr, new SetPredValue(bvars, inVal, pred, this, c, s0, s1, control, cm));
-            }
-            else {
-              return setSource(expr, new SetPredValue(bvars[0], inVal, pred, this, c, s0, s1, control, cm));
-            }
+              return setSource(expr, new SetOfRcdsValue(names, vals, false, cm));
           }
-        case OPCODE_tup:    // Tuple
+          case OPCODE_sof ->    // SetOfFcns
           {
-            final int alen = args.length;
-            final Value[] vals = new Value[alen];
-            for (int i = 0; i < alen; i++) {
-              vals[i] = this.eval(args[i], c, s0, s1, control, cm);
-            }
-            return setSource(expr, new TupleValue(vals, cm));
+              final Value lhs = this.eval(args[0], c, s0, s1, control, cm);
+              final Value rhs = this.eval(args[1], c, s0, s1, control, cm);
+              return setSource(expr, new SetOfFcnsValue(lhs, rhs, cm));
           }
-        case OPCODE_uc:     // UnboundedChoose
+          case OPCODE_sso ->    // SubsetOf
           {
-            Assert.fail("TLC attempted to evaluate an unbounded CHOOSE.\n" +
-                        "Make sure that the expression is of form CHOOSE x \\in S: P(x).\n" +
-                        expr, expr, c);
-            return null;    // make compiler happy
+              final SemanticNode pred = args[0];
+              final SemanticNode inExpr = expr.getBdedQuantBounds()[0];
+              final Value inVal = this.eval(inExpr, c, s0, s1, control, cm);
+              final boolean isTuple = expr.isBdedQuantATuple()[0];
+              final FormalParamNode[] bvars = expr.getBdedQuantSymbolLists()[0];
+              if (inVal instanceof Reducible) {
+                  final ValueVec vals = new ValueVec();
+                  final ValueEnumeration enumSet = ((Enumerable) inVal).elements();
+                  Value elem;
+                  if (isTuple) {
+                      while ((elem = enumSet.nextElement()) != null) {
+                          Context c1 = c;
+                          final Value[] tuple = ((TupleValue) elem).elems;
+                          for (int i = 0; i < bvars.length; i++) {
+                              c1 = c1.cons(bvars[i], tuple[i]);
+                          }
+                          final Value bval = this.eval(pred, c1, s0, s1, control, cm);
+                          if (!(bval instanceof BoolValue)) {
+                              Assert.fail("Attempted to evaluate an expression of form {x \\in S : P(x)}" +
+                                      " when P was " + bval.getKindString() + ".\n" + pred, pred, c1);
+                          }
+                          if (((BoolValue) bval).val) {
+                              vals.addElement(elem);
+                          }
+                      }
+                  } else {
+                      final SymbolNode idName = bvars[0];
+                      while ((elem = enumSet.nextElement()) != null) {
+                          final Context c1 = c.cons(idName, elem);
+                          final Value bval = this.eval(pred, c1, s0, s1, control, cm);
+                          if (!(bval instanceof BoolValue)) {
+                              Assert.fail("Attempted to evaluate an expression of form {x \\in S : P(x)}" +
+                                      " when P was " + bval.getKindString() + ".\n" + pred, pred, c1);
+                          }
+                          if (((BoolValue) bval).val) {
+                              vals.addElement(elem);
+                          }
+                      }
+                  }
+                  return setSource(expr, new SetEnumValue(vals, inVal.isNormalized(), cm));
+              } else if (isTuple) {
+                  return setSource(expr, new SetPredValue(bvars, inVal, pred, this, c, s0, s1, control, cm));
+              } else {
+                  return setSource(expr, new SetPredValue(bvars[0], inVal, pred, this, c, s0, s1, control, cm));
+              }
           }
-        case OPCODE_ue:     // UnboundedExists
+          case OPCODE_tup ->    // Tuple
           {
-            Assert.fail("TLC attempted to evaluate an unbounded \\E.\n" +
-                        "Make sure that the expression is of form \\E x \\in S: P(x).\n" +
-                        expr, expr, c);
-            return null;    // make compiler happy
+              final int alen = args.length;
+              final Value[] vals = new Value[alen];
+              for (int i = 0; i < alen; i++) {
+                  vals[i] = this.eval(args[i], c, s0, s1, control, cm);
+              }
+              return setSource(expr, new TupleValue(vals, cm));
           }
-        case OPCODE_uf:     // UnboundedForall
+          case OPCODE_uc ->     // UnboundedChoose
           {
-            Assert.fail("TLC attempted to evaluate an unbounded \\A.\n" +
-                        "Make sure that the expression is of form \\A x \\in S: P(x).\n" +
-                        expr, expr, c);
-            return null;    // make compiler happy
+              Assert.fail("TLC attempted to evaluate an unbounded CHOOSE.\n" +
+                      "Make sure that the expression is of form CHOOSE x \\in S: P(x).\n" +
+                      expr, expr, c);
+              return null;    // make compiler happy
           }
-        case OPCODE_lnot:
+          case OPCODE_ue ->     // UnboundedExists
           {
-            final Value arg = this.eval(args[0], c, s0, s1, control, cm);
-            if (!(arg instanceof BoolValue)) {
-              Assert.fail("Attempted to apply the operator ~ to a non-boolean\n(" +
+              Assert.fail("TLC attempted to evaluate an unbounded \\E.\n" +
+                      "Make sure that the expression is of form \\E x \\in S: P(x).\n" +
+                      expr, expr, c);
+              return null;    // make compiler happy
+          }
+          case OPCODE_uf ->     // UnboundedForall
+          {
+              Assert.fail("TLC attempted to evaluate an unbounded \\A.\n" +
+                      "Make sure that the expression is of form \\A x \\in S: P(x).\n" +
+                      expr, expr, c);
+              return null;    // make compiler happy
+          }
+          case OPCODE_lnot -> {
+              final Value arg = this.eval(args[0], c, s0, s1, control, cm);
+              if (!(arg instanceof BoolValue)) {
+                  Assert.fail("Attempted to apply the operator ~ to a non-boolean\n(" +
                           arg.getKindString() + ")\n" + expr, args[0], c);
-            }
-            return (((BoolValue)arg).val) ? BoolValue.ValFalse : BoolValue.ValTrue;
+              }
+              return (((BoolValue) arg).val) ? BoolValue.ValFalse : BoolValue.ValTrue;
           }
-        case OPCODE_subset:
-          {
-            final Value arg = this.eval(args[0], c, s0, s1, control, cm);
-			return setSource(expr, new SubsetValue(arg, cm));
+          case OPCODE_subset -> {
+              final Value arg = this.eval(args[0], c, s0, s1, control, cm);
+              return setSource(expr, new SubsetValue(arg, cm));
           }
-        case OPCODE_union:
-          {
-            final Value arg = this.eval(args[0], c, s0, s1, control, cm);
-            return setSource(expr, UnionValue.union(arg));
+          case OPCODE_union -> {
+              final Value arg = this.eval(args[0], c, s0, s1, control, cm);
+              return setSource(expr, UnionValue.union(arg));
           }
-        case OPCODE_domain:
-          {
-            final Value arg = this.eval(args[0], c, s0, s1, control, cm);
-            if (!(arg instanceof Applicable)) {
-              Assert.fail("Attempted to apply the operator DOMAIN to a non-function\n(" +
+          case OPCODE_domain -> {
+              final Value arg = this.eval(args[0], c, s0, s1, control, cm);
+              if (!(arg instanceof Applicable)) {
+                  Assert.fail("Attempted to apply the operator DOMAIN to a non-function\n(" +
                           arg.getKindString() + ")\n" + expr, expr, c);
-            }
-            return setSource(expr, ((Applicable)arg).getDomain());
+              }
+              return setSource(expr, ((Applicable) arg).getDomain());
           }
-        case OPCODE_enabled:
-          {
-            TLCState sfun = TLCStateFun.Empty;
-            final Context c1 = Context.branch(c);
-            sfun = this.enabled(args[0], ActionItemList.Empty.getEmpty(), c1, s0, sfun, cm);
-            return (sfun != null) ? BoolValue.ValTrue : BoolValue.ValFalse;
+          case OPCODE_enabled -> {
+              TLCState sfun = TLCStateFun.Empty;
+              final Context c1 = Context.branch(c);
+              sfun = this.enabled(args[0], ActionItemList.Empty.getEmpty(), c1, s0, sfun, cm);
+              return (sfun != null) ? BoolValue.ValTrue : BoolValue.ValFalse;
           }
-        case OPCODE_eq:
-          {
-            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
-            return (arg1.equals(arg2)) ? BoolValue.ValTrue : BoolValue.ValFalse;
+          case OPCODE_eq -> {
+              final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+              final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+              return (arg1.equals(arg2)) ? BoolValue.ValTrue : BoolValue.ValFalse;
           }
-        case OPCODE_land:
-          {
-            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            if (!(arg1 instanceof BoolValue)) {
-              Assert.fail("Attempted to evaluate an expression of form P /\\ Q" +
+          case OPCODE_land -> {
+              final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+              if (!(arg1 instanceof BoolValue)) {
+                  Assert.fail("Attempted to evaluate an expression of form P /\\ Q" +
                           " when P was\n" + arg1.getKindString() + ".\n" + expr, expr, c);
-            }
-            if (((BoolValue)arg1).val) {
+              }
+              if (((BoolValue) arg1).val) {
+                  final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+                  if (!(arg2 instanceof BoolValue)) {
+                      Assert.fail("Attempted to evaluate an expression of form P /\\ Q" +
+                              " when Q was\n" + arg2.getKindString() + ".\n" + expr, expr, c);
+                  }
+                  return arg2;
+              }
+              return BoolValue.ValFalse;
+          }
+          case OPCODE_lor -> {
+              final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+              if (!(arg1 instanceof BoolValue)) {
+                  Assert.fail("Attempted to evaluate an expression of form P \\/ Q" +
+                          " when P was\n" + arg1.getKindString() + ".\n" + expr, expr, c);
+              }
+              if (((BoolValue) arg1).val) {
+                  return BoolValue.ValTrue;
+              }
               final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
               if (!(arg2 instanceof BoolValue)) {
-                Assert.fail("Attempted to evaluate an expression of form P /\\ Q" +
-                            " when Q was\n" + arg2.getKindString() + ".\n" + expr, expr, c);
-              }
-              return arg2;
-            }
-            return BoolValue.ValFalse;
-          }
-        case OPCODE_lor:
-          {
-            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            if (!(arg1 instanceof BoolValue)) {
-              Assert.fail("Attempted to evaluate an expression of form P \\/ Q" +
-                          " when P was\n" + arg1.getKindString() + ".\n" + expr, expr, c);
-            }
-            if (((BoolValue)arg1).val) {
-              return BoolValue.ValTrue;
-            }
-            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
-            if (!(arg2 instanceof BoolValue)) {
-              Assert.fail("Attempted to evaluate an expression of form P \\/ Q" +
+                  Assert.fail("Attempted to evaluate an expression of form P \\/ Q" +
                           " when Q was\n" + arg2.getKindString() + ".\n" + expr, expr, c);
-            }
-            return arg2;
-          }
-        case OPCODE_implies:
-          {
-            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            if (!(arg1 instanceof BoolValue)) {
-              Assert.fail("Attempted to evaluate an expression of form P => Q" +
-                          " when P was\n" + arg1.getKindString() + ".\n" + expr, expr, c);
-            }
-            if (((BoolValue)arg1).val) {
-              final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
-              if (!(arg2 instanceof BoolValue)) {
-                Assert.fail("Attempted to evaluate an expression of form P => Q" +
-                            " when Q was\n" + arg2.getKindString() + ".\n" + expr, expr, c);
               }
               return arg2;
-            }
-            return BoolValue.ValTrue;
           }
-        case OPCODE_equiv:
-          {
-            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
-            if (!(arg1 instanceof BoolValue) || !(arg2 instanceof BoolValue)) {
-              Assert.fail("Attempted to evaluate an expression of form P <=> Q" +
+          case OPCODE_implies -> {
+              final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+              if (!(arg1 instanceof BoolValue)) {
+                  Assert.fail("Attempted to evaluate an expression of form P => Q" +
+                          " when P was\n" + arg1.getKindString() + ".\n" + expr, expr, c);
+              }
+              if (((BoolValue) arg1).val) {
+                  final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+                  if (!(arg2 instanceof BoolValue)) {
+                      Assert.fail("Attempted to evaluate an expression of form P => Q" +
+                              " when Q was\n" + arg2.getKindString() + ".\n" + expr, expr, c);
+                  }
+                  return arg2;
+              }
+              return BoolValue.ValTrue;
+          }
+          case OPCODE_equiv -> {
+              final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+              final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+              if (!(arg1 instanceof BoolValue) || !(arg2 instanceof BoolValue)) {
+                  Assert.fail("Attempted to evaluate an expression of form P <=> Q" +
                           " when P or Q was not a boolean.\n" + expr, expr, c);
-            }
-            final BoolValue bval1 = (BoolValue)arg1;
-            final BoolValue bval2 = (BoolValue)arg2;
-            return (bval1.val == bval2.val) ? BoolValue.ValTrue : BoolValue.ValFalse;
+              }
+              final BoolValue bval1 = (BoolValue) arg1;
+              final BoolValue bval2 = (BoolValue) arg2;
+              return (bval1.val == bval2.val) ? BoolValue.ValTrue : BoolValue.ValFalse;
           }
-        case OPCODE_noteq:
-          {
-            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
-            return arg1.equals(arg2) ? BoolValue.ValFalse : BoolValue.ValTrue;
+          case OPCODE_noteq -> {
+              final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+              final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+              return arg1.equals(arg2) ? BoolValue.ValFalse : BoolValue.ValTrue;
           }
-        case OPCODE_subseteq:
-          {
-            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
-            if (!(arg1 instanceof Enumerable)) {
-              Assert.fail("Attempted to evaluate an expression of form S \\subseteq T," +
+          case OPCODE_subseteq -> {
+              final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+              final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+              if (!(arg1 instanceof Enumerable)) {
+                  Assert.fail("Attempted to evaluate an expression of form S \\subseteq T," +
                           " but S was not enumerable.\n" + expr, expr, c);
-            }
-            return ((Enumerable) arg1).isSubsetEq(arg2);
+              }
+              return ((Enumerable) arg1).isSubsetEq(arg2);
           }
-        case OPCODE_in:
-          {
-            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
-            return (arg2.member(arg1)) ? BoolValue.ValTrue : BoolValue.ValFalse;
+          case OPCODE_in -> {
+              final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+              final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+              return (arg2.member(arg1)) ? BoolValue.ValTrue : BoolValue.ValFalse;
           }
-        case OPCODE_notin:
-          {
-            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
-            return (arg2.member(arg1)) ? BoolValue.ValFalse : BoolValue.ValTrue;
+          case OPCODE_notin -> {
+              final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+              final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+              return (arg2.member(arg1)) ? BoolValue.ValFalse : BoolValue.ValTrue;
           }
-        case OPCODE_setdiff:
-          {
-            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
-            if (arg1 instanceof Reducible r) {
-              return setSource(expr, r.diff(arg2));
-            }
-            return setSource(expr, new SetDiffValue(arg1, arg2));
+          case OPCODE_setdiff -> {
+              final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+              final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+              if (arg1 instanceof Reducible r) {
+                  return setSource(expr, r.diff(arg2));
+              }
+              return setSource(expr, new SetDiffValue(arg1, arg2));
           }
-        case OPCODE_cap:
-          {
-            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
-            if (arg1 instanceof Reducible r) {
-              return setSource(expr, r.cap(arg2));
-            }
-            else if (arg2 instanceof Reducible r) {
-              return setSource(expr, r.cap(arg1));
-            }
-            return setSource(expr, new SetCapValue(arg1, arg2));
+          case OPCODE_cap -> {
+              final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+              final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+              if (arg1 instanceof Reducible r) {
+                  return setSource(expr, r.cap(arg2));
+              } else if (arg2 instanceof Reducible r) {
+                  return setSource(expr, r.cap(arg1));
+              }
+              return setSource(expr, new SetCapValue(arg1, arg2));
           }
-        case OPCODE_nop:
+          case OPCODE_nop ->
           // Added by LL on 2 Aug 2007
           {
-            return eval(args[0], c, s0, s1, control, cm);
+              return eval(args[0], c, s0, s1, control, cm);
           }
-        case OPCODE_cup:
-          {
-            final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
-            final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
-            if (arg1 instanceof Reducible r) {
-              return setSource(expr, r.cup(arg2));
-            }
-            else if (arg2 instanceof Reducible r) {
-              return setSource(expr, r.cup(arg1));
-            }
-            return setSource(expr, new SetCupValue(arg1, arg2, cm));
+          case OPCODE_cup -> {
+              final Value arg1 = this.eval(args[0], c, s0, s1, control, cm);
+              final Value arg2 = this.eval(args[1], c, s0, s1, control, cm);
+              if (arg1 instanceof Reducible r) {
+                  return setSource(expr, r.cup(arg2));
+              } else if (arg2 instanceof Reducible r) {
+                  return setSource(expr, r.cup(arg1));
+              }
+              return setSource(expr, new SetCupValue(arg1, arg2, cm));
           }
-        case OPCODE_prime:
-          {
-        	  // MAK 03/2019:  Cannot reproduce this but without this check the nested evaluation
-        	  // fails with a NullPointerException which subsequently is swallowed. This makes it 
-        	  // impossible for a user to diagnose what is going on.  Since I cannot reproduce the
-        	  // actual expression, I leave this commented for.  I recall an expression along the
-        	  // lines of:
-        	  //    ...
-        	  //    TLCSet(23, CHOOSE p \in pc: pc[p] # pc[p]')
-        	  //    ...
-        	  // The fail statement below is obviously too generic to be useful and needs to be
-        	  // clarified if the actual cause has been identified.
+          case OPCODE_prime -> {
+              // MAK 03/2019:  Cannot reproduce this but without this check the nested evaluation
+              // fails with a NullPointerException which subsequently is swallowed. This makes it
+              // impossible for a user to diagnose what is going on.  Since I cannot reproduce the
+              // actual expression, I leave this commented for.  I recall an expression along the
+              // lines of:
+              //    ...
+              //    TLCSet(23, CHOOSE p \in pc: pc[p] # pc[p]')
+              //    ...
+              // The fail statement below is obviously too generic to be useful and needs to be
+              // clarified if the actual cause has been identified.
               return this.eval(args[0], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
           }
-        case OPCODE_unchanged:
-          {
-            final Value v0 = this.eval(args[0], c, s0, EmptyState, control, cm);
-            final Value v1 = this.eval(args[0], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
-            return (v0.equals(v1)) ? BoolValue.ValTrue : BoolValue.ValFalse;
+          case OPCODE_unchanged -> {
+              final Value v0 = this.eval(args[0], c, s0, EmptyState, control, cm);
+              final Value v1 = this.eval(args[0], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
+              return (v0.equals(v1)) ? BoolValue.ValTrue : BoolValue.ValFalse;
           }
-        case OPCODE_aa:     // <A>_e
+          case OPCODE_aa ->     // <A>_e
           {
-            final Value res = this.eval(args[0], c, s0, s1, control, cm);
-            if (!(res instanceof BoolValue)) {
-              Assert.fail("Attempted to evaluate an expression of form <A>_e," +
+              final Value res = this.eval(args[0], c, s0, s1, control, cm);
+              if (!(res instanceof BoolValue)) {
+                  Assert.fail("Attempted to evaluate an expression of form <A>_e," +
                           " but A was not a boolean.\n" + expr, expr, c);
-            }
-            if (!((BoolValue)res).val) {
-              return BoolValue.ValFalse;
-            }
-            final Value v0 = this.eval(args[1], c, s0, EmptyState, control, cm);
-            final Value v1 = this.eval(args[1], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
-            return v0.equals(v1) ? BoolValue.ValFalse : BoolValue.ValTrue;
+              }
+              if (!((BoolValue) res).val) {
+                  return BoolValue.ValFalse;
+              }
+              final Value v0 = this.eval(args[1], c, s0, EmptyState, control, cm);
+              final Value v1 = this.eval(args[1], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
+              return v0.equals(v1) ? BoolValue.ValFalse : BoolValue.ValTrue;
           }
-        case OPCODE_sa:     // [A]_e
+          case OPCODE_sa ->     // [A]_e
           {
-            final Value res = this.eval(args[0], c, s0, s1, control, cm);
-            if (!(res instanceof BoolValue)) {
-              Assert.fail("Attempted to evaluate an expression of form [A]_e," +
+              final Value res = this.eval(args[0], c, s0, s1, control, cm);
+              if (!(res instanceof BoolValue)) {
+                  Assert.fail("Attempted to evaluate an expression of form [A]_e," +
                           " but A was not a boolean.\n" + expr, expr, c);
-            }
-            if (((BoolValue)res).val) {
-              return BoolValue.ValTrue;
-            }
-            final Value v0 = this.eval(args[1], c, s0, EmptyState, control, cm);
-            final Value v1 = this.eval(args[1], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
-            return (v0.equals(v1)) ? BoolValue.ValTrue : BoolValue.ValFalse;
+              }
+              if (((BoolValue) res).val) {
+                  return BoolValue.ValTrue;
+              }
+              final Value v0 = this.eval(args[1], c, s0, EmptyState, control, cm);
+              final Value v1 = this.eval(args[1], c, s1, TLCState.Null, EvalControl.setPrimedIfEnabled(control), cm);
+              return (v0.equals(v1)) ? BoolValue.ValTrue : BoolValue.ValFalse;
           }
-        case OPCODE_cdot:
+          case OPCODE_cdot -> {
+              Assert.fail("The current version of TLC does not support action composition.", expr, c);
+              /***
+               TLCState s01 = TLCStateFun.Empty;
+               StateVec iss = new StateVec(0);
+               this.getNextStates(args[0], ActionItemList.Empty, c, s0, s01, iss);
+               int sz = iss.size();
+               for (int i = 0; i < sz; i++) {
+               s01 = iss.elementAt(i);
+               this.eval(args[1], c, s01, s1, control);
+               }
+               ***/
+              return null;    // make compiler happy
+          }
+          case OPCODE_sf ->     // SF
           {
-            Assert.fail("The current version of TLC does not support action composition.", expr, c);
-            /***
-            TLCState s01 = TLCStateFun.Empty;
-            StateVec iss = new StateVec(0);
-            this.getNextStates(args[0], ActionItemList.Empty, c, s0, s01, iss);
-            int sz = iss.size();
-            for (int i = 0; i < sz; i++) {
-              s01 = iss.elementAt(i);
-              this.eval(args[1], c, s01, s1, control);
-            }
-            ***/
-            return null;    // make compiler happy
+              Assert.fail(EC.TLC_ENCOUNTERED_FORMULA_IN_PREDICATE, new String[]{"SF", expr.toString()}, expr, c);
+              return null;    // make compiler happy
           }
-        case OPCODE_sf:     // SF
+          case OPCODE_wf ->     // WF
           {
-            Assert.fail(EC.TLC_ENCOUNTERED_FORMULA_IN_PREDICATE, new String[]{"SF", expr.toString()}, expr, c);
-            return null;    // make compiler happy
+              Assert.fail(EC.TLC_ENCOUNTERED_FORMULA_IN_PREDICATE, new String[]{"WF", expr.toString()}, expr, c);
+              return null;    // make compiler happy
           }
-        case OPCODE_wf:     // WF
+          case OPCODE_te ->     // TemporalExists
           {
-            Assert.fail(EC.TLC_ENCOUNTERED_FORMULA_IN_PREDICATE, new String[]{"WF", expr.toString()}, expr, c);
-            return null;    // make compiler happy
+              Assert.fail(EC.TLC_ENCOUNTERED_FORMULA_IN_PREDICATE, new String[]{"\\EE", expr.toString()}, expr, c);
+              return null;    // make compiler happy
           }
-        case OPCODE_te:     // TemporalExists
+          case OPCODE_tf ->     // TemporalForAll
           {
-            Assert.fail(EC.TLC_ENCOUNTERED_FORMULA_IN_PREDICATE, new String[]{"\\EE", expr.toString()}, expr, c);
-            return null;    // make compiler happy
+              Assert.fail(EC.TLC_ENCOUNTERED_FORMULA_IN_PREDICATE, new String[]{"\\AA", expr.toString()}, expr, c);
+              return null;    // make compiler happy
           }
-        case OPCODE_tf:     // TemporalForAll
-          {
-            Assert.fail(EC.TLC_ENCOUNTERED_FORMULA_IN_PREDICATE, new String[]{"\\AA", expr.toString()}, expr, c);
-            return null;    // make compiler happy
+          case OPCODE_leadto -> {
+              Assert.fail(EC.TLC_ENCOUNTERED_FORMULA_IN_PREDICATE, new String[]{"a ~> b", expr.toString()}, expr, c);
+              return null;    // make compiler happy
           }
-        case OPCODE_leadto:
-          {
-            Assert.fail(EC.TLC_ENCOUNTERED_FORMULA_IN_PREDICATE, new String[]{"a ~> b", expr.toString()}, expr, c);
-            return null;    // make compiler happy
+          case OPCODE_arrow -> {
+              Assert.fail(EC.TLC_ENCOUNTERED_FORMULA_IN_PREDICATE, new String[]{"a -+-> formula", expr.toString()}, expr, c);
+              return null;    // make compiler happy
           }
-        case OPCODE_arrow:
-          {
-            Assert.fail(EC.TLC_ENCOUNTERED_FORMULA_IN_PREDICATE, new String[]{"a -+-> formula", expr.toString()}, expr, c);
-            return null;    // make compiler happy
+          case OPCODE_box -> {
+              Assert.fail(EC.TLC_ENCOUNTERED_FORMULA_IN_PREDICATE, new String[]{"[]A", expr.toString()}, expr, c);
+              return null;    // make compiler happy
           }
-        case OPCODE_box:
-          {
-            Assert.fail(EC.TLC_ENCOUNTERED_FORMULA_IN_PREDICATE, new String[]{"[]A", expr.toString()}, expr, c);
-            return null;    // make compiler happy
+          case OPCODE_diamond -> {
+              Assert.fail(EC.TLC_ENCOUNTERED_FORMULA_IN_PREDICATE, new String[]{"<>A", expr.toString()}, expr, c);
+              return null;    // make compiler happy
           }
-        case OPCODE_diamond:
-          {
-            Assert.fail(EC.TLC_ENCOUNTERED_FORMULA_IN_PREDICATE, new String[]{"<>A", expr.toString()}, expr, c);
-            return null;    // make compiler happy
+          default -> {
+              Assert.fail("TLC BUG: could not evaluate this expression.\n" + expr, expr, c);
+              return null;
           }
-
-        default:
-          {
-            Assert.fail("TLC BUG: could not evaluate this expression.\n" + expr, expr, c);
-            return null;
-          }
-        }
+      }
   }
 
   protected abstract Value setSource(final SemanticNode expr, final Value value);
@@ -3524,61 +3426,57 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 
   protected final TLCState enabledImpl(final SemanticNode pred, final ActionItemList acts,
                                        final Context c, final TLCState s0, final TLCState s1, final CostModel cm) {
-        switch (pred.getKind()) {
-        case OpApplKind:
-          {
-            final OpApplNode pred1 = (OpApplNode)pred;
-            return this.enabledAppl(pred1, acts, c, s0, s1, cm);
+      switch (pred.getKind()) {
+          case OpApplKind -> {
+              final OpApplNode pred1 = (OpApplNode) pred;
+              return this.enabledAppl(pred1, acts, c, s0, s1, cm);
           }
-        case LetInKind:
-          {
-            final LetInNode pred1 = (LetInNode)pred;
-            final OpDefNode[] letDefs = pred1.getLets();
-            Context c1 = c;
+          case LetInKind -> {
+              final LetInNode pred1 = (LetInNode) pred;
+              final OpDefNode[] letDefs = pred1.getLets();
+              Context c1 = c;
               for (final OpDefNode opDef : letDefs) {
                   if (opDef.getArity() == 0) {
                       final Value rhs = new LazyValue(opDef.getBody(), c1, cm);
                       c1 = c1.cons(opDef, rhs);
                   }
               }
-            return this.enabled(pred1.getBody(), acts, c1, s0, s1, cm);
+              return this.enabled(pred1.getBody(), acts, c1, s0, s1, cm);
           }
-        case SubstInKind:
-          {
-            final SubstInNode pred1 = (SubstInNode)pred;
-            final Subst[] subs = pred1.getSubsts();
-            final int slen = subs.length;
-            Context c1 = c;
+          case SubstInKind -> {
+              final SubstInNode pred1 = (SubstInNode) pred;
+              final Subst[] subs = pred1.getSubsts();
+              final int slen = subs.length;
+              Context c1 = c;
               for (final Subst sub : subs) {
                   c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, coverage ? sub.getCM() : cm, toolId));
               }
-            return this.enabled(pred1.getBody(), acts, c1, s0, s1, cm);
+              return this.enabled(pred1.getBody(), acts, c1, s0, s1, cm);
           }
-        // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
-        case APSubstInKind:
-          {
-            final APSubstInNode pred1 = (APSubstInNode)pred;
-            final Subst[] subs = pred1.getSubsts();
-            final int slen = subs.length;
-            Context c1 = c;
+
+          // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
+          case APSubstInKind -> {
+              final APSubstInNode pred1 = (APSubstInNode) pred;
+              final Subst[] subs = pred1.getSubsts();
+              final int slen = subs.length;
+              Context c1 = c;
               for (final Subst sub : subs) {
                   c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, cm, toolId));
               }
-            return this.enabled(pred1.getBody(), acts, c1, s0, s1, cm);
+              return this.enabled(pred1.getBody(), acts, c1, s0, s1, cm);
           }
-        // LabelKind class added by LL on 13 Jun 2007
-        case LabelKind:
-          {
-            final LabelNode pred1 = (LabelNode)pred;
-            return this.enabled(pred1.getBody(), acts, c, s0, s1, cm);
+
+          // LabelKind class added by LL on 13 Jun 2007
+          case LabelKind -> {
+              final LabelNode pred1 = (LabelNode) pred;
+              return this.enabled(pred1.getBody(), acts, c, s0, s1, cm);
           }
-        default:
-          {
-            // We should not compute enabled on anything else.
-            Assert.fail("Attempted to compute ENABLED on a non-boolean expression.\n" + pred, pred, c);
-            return null;    // make compiler happy
+          default -> {
+              // We should not compute enabled on anything else.
+              Assert.fail("Attempted to compute ENABLED on a non-boolean expression.\n" + pred, pred, c);
+              return null;    // make compiler happy
           }
-        }
+      }
   }
 
   private TLCState enabled(final ActionItemList acts, final TLCState s0, final TLCState s1, CostModel cm) {
@@ -3691,46 +3589,43 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           }
         }
 
-        switch (opcode) {
-        case OPCODE_aa: // AngleAct <A>_e
+      switch (opcode) {
+          case OPCODE_aa -> // AngleAct <A>_e
           {
-        	  final ActionItemList acts1 = (ActionItemList) acts.cons(args[1], c, cm, IActionItemList.CHANGED);
-            return this.enabled(args[0], acts1, c, s0, s1, cm);
+              final ActionItemList acts1 = (ActionItemList) acts.cons(args[1], c, cm, IActionItemList.CHANGED);
+              return this.enabled(args[0], acts1, c, s0, s1, cm);
           }
-        case OPCODE_be: // BoundedExists
+          case OPCODE_be -> // BoundedExists
           {
-            final SemanticNode body = args[0];
-            final ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Enabled, cm);
-            Context c1;
-            while ((c1 = Enum.nextElement()) != null)
-            {
-              final TLCState s2 = this.enabled(body, acts, c1, s0, s1, cm);
-              if (s2 != null) {
-                return s2;
+              final SemanticNode body = args[0];
+              final ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Enabled, cm);
+              Context c1;
+              while ((c1 = Enum.nextElement()) != null) {
+                  final TLCState s2 = this.enabled(body, acts, c1, s0, s1, cm);
+                  if (s2 != null) {
+                      return s2;
+                  }
               }
-            }
-            return null;
+              return null;
           }
-        case OPCODE_bf: // BoundedForall
+          case OPCODE_bf -> // BoundedForall
           {
-            final SemanticNode body = args[0];
-            final ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Enabled, cm);
-            final Context c1 = Enum.nextElement();
-            if (c1 == null)
-            {
-              return this.enabled(acts, s0, s1, cm);
-            }
-            ActionItemList acts1 = acts;
-            Context c2;
-            while ((c2 = Enum.nextElement()) != null)
-            {
-              acts1 = (ActionItemList) acts1.cons(body, c2, cm, IActionItemList.PRED);
-            }
-            return this.enabled(body, acts1, c1, s0, s1, cm);
+              final SemanticNode body = args[0];
+              final ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Enabled, cm);
+              final Context c1 = Enum.nextElement();
+              if (c1 == null) {
+                  return this.enabled(acts, s0, s1, cm);
+              }
+              ActionItemList acts1 = acts;
+              Context c2;
+              while ((c2 = Enum.nextElement()) != null) {
+                  acts1 = (ActionItemList) acts1.cons(body, c2, cm, IActionItemList.PRED);
+              }
+              return this.enabled(body, acts1, c1, s0, s1, cm);
           }
-        case OPCODE_case: // Case
+          case OPCODE_case -> // Case
           {
-            SemanticNode other = null;
+              SemanticNode other = null;
               for (final ExprOrOpArgNode arg : args) {
                   final OpApplNode pair = (OpApplNode) arg;
                   final ExprOrOpArgNode[] pairArgs = pair.getArgs();
@@ -3747,260 +3642,225 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                       }
                   }
               }
-            if (other == null)
-            {
-              Assert.fail("In computing ENABLED, TLC encountered a CASE with no" + " conditions true.\n" + pred, pred, c);
-            }
-            return this.enabled(other, acts, c, s0, s1, cm);
+              if (other == null) {
+                  Assert.fail("In computing ENABLED, TLC encountered a CASE with no" + " conditions true.\n" + pred, pred, c);
+              }
+              return this.enabled(other, acts, c, s0, s1, cm);
           }
-        case OPCODE_cl: // ConjList
-        case OPCODE_land:
-          {
-            ActionItemList acts1 = acts;
-            for (int i = alen - 1; i > 0; i--)
-            {
-              acts1 = (ActionItemList) acts1.cons(args[i], c, cm, i);
-            }
-            return this.enabled(args[0], acts1, c, s0, s1, cm);
+          // ConjList
+          case OPCODE_cl, OPCODE_land -> {
+              ActionItemList acts1 = acts;
+              for (int i = alen - 1; i > 0; i--) {
+                  acts1 = (ActionItemList) acts1.cons(args[i], c, cm, i);
+              }
+              return this.enabled(args[0], acts1, c, s0, s1, cm);
           }
-        case OPCODE_dl: // DisjList
-        case OPCODE_lor:
-          {
+          // DisjList
+          case OPCODE_dl, OPCODE_lor -> {
               for (final ExprOrOpArgNode arg : args) {
                   final TLCState s2 = this.enabled(arg, acts, c, s0, s1, cm);
                   if (s2 != null) {
                       return s2;
                   }
               }
-            return null;
+              return null;
           }
-        case OPCODE_fa: // FcnApply
+          case OPCODE_fa -> // FcnApply
           {
-            Value fval = this.eval(args[0], c, s0, s1, EvalControl.setKeepLazy(EvalControl.Enabled), cm); // KeepLazy does not interfere with EvalControl.Enabled in this.evalAppl
-            if (fval instanceof final FcnLambdaValue fcn)
-            {
-                if (fcn.fcnRcd == null)
-              {
-                final Context c1 = this.getFcnContext(fcn, args, c, s0, s1, EvalControl.Enabled, cm); // EvalControl.Enabled passed on to nested this.evalAppl
-                return this.enabled(fcn.body, acts, c1, s0, s1, cm);
-              }
-              fval = fcn.fcnRcd;
-            }
-            if (fval instanceof final Applicable fcn)
-            {
-                final Value argVal = this.eval(args[1], c, s0, s1, EvalControl.Enabled, cm);
-              final Value bval = fcn.apply(argVal, EvalControl.Enabled); // EvalControl.Enabled not taken into account by any subclass of Applicable
-              if (!(bval instanceof BoolValue))
-              {
-                Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING2, new String[] { "ENABLED", "boolean",
-                        pred.toString() }, args[1], c);
-              }
-              if (!((BoolValue) bval).val) {
-                return null;
-              }
-            } else
-            {
-              Assert.fail("In computing ENABLED, a non-function (" + fval.getKindString()
-                      + ") was applied as a function.\n" + pred, pred, c);
-            }
-            return this.enabled(acts, s0, s1, cm);
-          }
-        case OPCODE_ite: // IfThenElse
-          {
-            final Value guard = this.eval(args[0], c, s0, s1, EvalControl.Enabled, cm);
-            if (!(guard instanceof BoolValue))
-            {
-              Assert.fail("In computing ENABLED, a non-boolean expression(" + guard.getKindString()
-                      + ") was used as the guard condition" + " of an IF.\n" + pred, pred, c);
-            }
-            final int idx = (((BoolValue) guard).val) ? 1 : 2;
-            return this.enabled(args[idx], acts, c, s0, s1, cm);
-          }
-        case OPCODE_sa: // SquareAct [A]_e
-          {
-            final TLCState s2 = this.enabled(args[0], acts, c, s0, s1, cm);
-            if (s2 != null) {
-              return s2;
-            }
-            return this.enabledUnchanged(args[1], acts, c, s0, s1, cm);
-          }
-        case OPCODE_te: // TemporalExists
-        case OPCODE_tf: // TemporalForAll
-          {
-            Assert.fail("In computing ENABLED, TLC encountered temporal quantifier.\n" + pred, pred, c);
-            return null; // make compiler happy
-          }
-        case OPCODE_uc: // UnboundedChoose
-          {
-            Assert.fail("In computing ENABLED, TLC encountered unbounded CHOOSE. "
-                    + "Make sure that the expression is of form CHOOSE x \\in S: P(x).\n" + pred, pred, c);
-            return null; // make compiler happy
-          }
-        case OPCODE_ue: // UnboundedExists
-          {
-            Assert.fail("In computing ENABLED, TLC encountered unbounded quantifier. "
-                    + "Make sure that the expression is of form \\E x \\in S: P(x).\n" + pred, pred, c);
-            return null; // make compiler happy
-          }
-        case OPCODE_uf: // UnboundedForall
-          {
-            Assert.fail("In computing ENABLED, TLC encountered unbounded quantifier. "
-                    + "Make sure that the expression is of form \\A x \\in S: P(x).\n" + pred, pred, c);
-            return null; // make compiler happy
-          }
-        case OPCODE_sf: // SF
-          {
-            Assert.fail(EC.TLC_ENABLED_WRONG_FORMULA, new String[]{ "SF", pred.toString()}, pred, c);
-            return null; // make compiler happy
-          }
-        case OPCODE_wf: // WF
-          {
-            Assert.fail(EC.TLC_ENABLED_WRONG_FORMULA, new String[] { "WF", pred.toString() }, pred, c);
-            return null; // make compiler happy
-          }
-        case OPCODE_box:
-          {
-            Assert.fail(EC.TLC_ENABLED_WRONG_FORMULA, new String[] { "[]", pred.toString() }, pred, c);
-            return null; // make compiler happy
-          }
-        case OPCODE_diamond:
-          {
-            Assert.fail(EC.TLC_ENABLED_WRONG_FORMULA, new String[] { "<>", pred.toString() }, pred, c);
-            return null; // make compiler happy
-          }
-        case OPCODE_unchanged:
-          {
-            return this.enabledUnchanged(args[0], acts, c, s0, s1, cm);
-          }
-        case OPCODE_eq:
-          {
-            final SymbolNode var = this.getPrimedVar(args[0], c, true);
-            if (var == null)
-            {
-              final Value bval = this.eval(pred, c, s0, s1, EvalControl.Enabled, cm);
-              if (!((BoolValue) bval).val) {
-                return null;
-              }
-            } else
-            {
-              final UniqueString varName = var.getName();
-              final IValue lval = s1.lookup(varName);
-              final Value rval = this.eval(args[1], c, s0, s1, EvalControl.Enabled, cm);
-              if (lval == null)
-              {
-                final TLCState s2 = s1.bind(var, rval);
-                return this.enabled(acts, s0, s2, cm);
-              } else
-              {
-                if (!lval.equals(rval)) {
-                  return null;
-                }
-              }
-            }
-            return this.enabled(acts, s0, s1, cm);
-          }
-        case OPCODE_implies:
-          {
-            final Value bval = this.eval(args[0], c, s0, s1, EvalControl.Enabled, cm);
-            if (!(bval instanceof BoolValue))
-            {
-              Assert.fail("While computing ENABLED of an expression of the form" + " P => Q, P was "
-                      + bval.getKindString() + ".\n" + pred, pred, c);
-            }
-            if (((BoolValue) bval).val)
-            {
-              return this.enabled(args[1], acts, c, s0, s1, cm);
-            }
-            return this.enabled(acts, s0, s1, cm);
-          }
-        case OPCODE_cdot:
-          {
-            Assert.fail("The current version of TLC does not support action composition.", pred, c);
-            /***
-            TLCState s01 = TLCStateFun.Empty;
-            StateVec iss = new StateVec(0);
-            this.getNextStates(args[0], ActionItemList.Empty, c, s0, s01, iss);
-            int sz = iss.size();
-            for (int i = 0; i < sz; i++) {
-              s01 = iss.elementAt(i);
-              TLCState s2 = this.enabled(args[1], acts, c, s01, s1);
-              if (s2 != null) return s2;
-            }
-            ***/
-            return null; // make compiler happy
-          }
-        case OPCODE_leadto:
-          {
-            Assert.fail("In computing ENABLED, TLC encountered a temporal formula" + " (a ~> b).\n" + pred, pred, c);
-            return null; // make compiler happy
-          }
-        case OPCODE_arrow:
-          {
-            Assert.fail("In computing ENABLED, TLC encountered a temporal formula" + " (a -+-> formula).\n" + pred, pred, c);
-            return null; // make compiler happy
-          }
-        case OPCODE_in:
-          {
-            final SymbolNode var = this.getPrimedVar(args[0], c, true);
-            if (var == null)
-            {
-                final Value bval = this.eval(pred, c, s0, s1, EvalControl.Enabled, cm);
-                if (!((BoolValue) bval).val) {
-                  return null;
-                }
-            } else
-            {
-              final UniqueString varName = var.getName();
-              final Value lval = (Value) s1.lookup(varName);
-              final Value rval = this.eval(args[1], c, s0, s1, EvalControl.Enabled, cm);
-              if (lval == null)
-              {
-                if (!(rval instanceof Enumerable))
-                {
-                  Assert.fail("The right side of \\IN is not enumerable.\n" + pred, pred, c);
-                }
-                final ValueEnumeration Enum = ((Enumerable) rval).elements();
-                Value val;
-                while ((val = Enum.nextElement()) != null)
-                {
-                  TLCState s2 = s1.bind(var, val);
-                  s2 = this.enabled(acts, s0, s2, cm);
-                  if (s2 != null) {
-                    return s2;
+              Value fval = this.eval(args[0], c, s0, s1, EvalControl.setKeepLazy(EvalControl.Enabled), cm); // KeepLazy does not interfere with EvalControl.Enabled in this.evalAppl
+              if (fval instanceof final FcnLambdaValue fcn) {
+                  if (fcn.fcnRcd == null) {
+                      final Context c1 = this.getFcnContext(fcn, args, c, s0, s1, EvalControl.Enabled, cm); // EvalControl.Enabled passed on to nested this.evalAppl
+                      return this.enabled(fcn.body, acts, c1, s0, s1, cm);
                   }
-                }
-                return null;
-              } else
-              {
-                if (!rval.member(lval)) {
-                  return null;
-                }
+                  fval = fcn.fcnRcd;
               }
-            }
-            return this.enabled(acts, s0, s1, cm);
+              if (fval instanceof final Applicable fcn) {
+                  final Value argVal = this.eval(args[1], c, s0, s1, EvalControl.Enabled, cm);
+                  final Value bval = fcn.apply(argVal, EvalControl.Enabled); // EvalControl.Enabled not taken into account by any subclass of Applicable
+                  if (!(bval instanceof BoolValue)) {
+                      Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING2, new String[]{"ENABLED", "boolean",
+                              pred.toString()}, args[1], c);
+                  }
+                  if (!((BoolValue) bval).val) {
+                      return null;
+                  }
+              } else {
+                  Assert.fail("In computing ENABLED, a non-function (" + fval.getKindString()
+                          + ") was applied as a function.\n" + pred, pred, c);
+              }
+              return this.enabled(acts, s0, s1, cm);
           }
-        // The following case added by LL on 13 Nov 2009 to handle subexpression names.
-        case OPCODE_nop:
+          case OPCODE_ite -> // IfThenElse
           {
-            return this.enabled(args[0], acts, c, s0, s1, cm);
+              final Value guard = this.eval(args[0], c, s0, s1, EvalControl.Enabled, cm);
+              if (!(guard instanceof BoolValue)) {
+                  Assert.fail("In computing ENABLED, a non-boolean expression(" + guard.getKindString()
+                          + ") was used as the guard condition" + " of an IF.\n" + pred, pred, c);
+              }
+              final int idx = (((BoolValue) guard).val) ? 1 : 2;
+              return this.enabled(args[idx], acts, c, s0, s1, cm);
+          }
+          case OPCODE_sa -> // SquareAct [A]_e
+          {
+              final TLCState s2 = this.enabled(args[0], acts, c, s0, s1, cm);
+              if (s2 != null) {
+                  return s2;
+              }
+              return this.enabledUnchanged(args[1], acts, c, s0, s1, cm);
+          }
+          // TemporalExists
+          case OPCODE_te, OPCODE_tf -> // TemporalForAll
+          {
+              Assert.fail("In computing ENABLED, TLC encountered temporal quantifier.\n" + pred, pred, c);
+              return null; // make compiler happy
+          }
+          case OPCODE_uc -> // UnboundedChoose
+          {
+              Assert.fail("In computing ENABLED, TLC encountered unbounded CHOOSE. "
+                      + "Make sure that the expression is of form CHOOSE x \\in S: P(x).\n" + pred, pred, c);
+              return null; // make compiler happy
+          }
+          case OPCODE_ue -> // UnboundedExists
+          {
+              Assert.fail("In computing ENABLED, TLC encountered unbounded quantifier. "
+                      + "Make sure that the expression is of form \\E x \\in S: P(x).\n" + pred, pred, c);
+              return null; // make compiler happy
+          }
+          case OPCODE_uf -> // UnboundedForall
+          {
+              Assert.fail("In computing ENABLED, TLC encountered unbounded quantifier. "
+                      + "Make sure that the expression is of form \\A x \\in S: P(x).\n" + pred, pred, c);
+              return null; // make compiler happy
+          }
+          case OPCODE_sf -> // SF
+          {
+              Assert.fail(EC.TLC_ENABLED_WRONG_FORMULA, new String[]{"SF", pred.toString()}, pred, c);
+              return null; // make compiler happy
+          }
+          case OPCODE_wf -> // WF
+          {
+              Assert.fail(EC.TLC_ENABLED_WRONG_FORMULA, new String[]{"WF", pred.toString()}, pred, c);
+              return null; // make compiler happy
+          }
+          case OPCODE_box -> {
+              Assert.fail(EC.TLC_ENABLED_WRONG_FORMULA, new String[]{"[]", pred.toString()}, pred, c);
+              return null; // make compiler happy
+          }
+          case OPCODE_diamond -> {
+              Assert.fail(EC.TLC_ENABLED_WRONG_FORMULA, new String[]{"<>", pred.toString()}, pred, c);
+              return null; // make compiler happy
+          }
+          case OPCODE_unchanged -> {
+              return this.enabledUnchanged(args[0], acts, c, s0, s1, cm);
+          }
+          case OPCODE_eq -> {
+              final SymbolNode var = this.getPrimedVar(args[0], c, true);
+              if (var == null) {
+                  final Value bval = this.eval(pred, c, s0, s1, EvalControl.Enabled, cm);
+                  if (!((BoolValue) bval).val) {
+                      return null;
+                  }
+              } else {
+                  final UniqueString varName = var.getName();
+                  final IValue lval = s1.lookup(varName);
+                  final Value rval = this.eval(args[1], c, s0, s1, EvalControl.Enabled, cm);
+                  if (lval == null) {
+                      final TLCState s2 = s1.bind(var, rval);
+                      return this.enabled(acts, s0, s2, cm);
+                  } else {
+                      if (!lval.equals(rval)) {
+                          return null;
+                      }
+                  }
+              }
+              return this.enabled(acts, s0, s1, cm);
+          }
+          case OPCODE_implies -> {
+              final Value bval = this.eval(args[0], c, s0, s1, EvalControl.Enabled, cm);
+              if (!(bval instanceof BoolValue)) {
+                  Assert.fail("While computing ENABLED of an expression of the form" + " P => Q, P was "
+                          + bval.getKindString() + ".\n" + pred, pred, c);
+              }
+              if (((BoolValue) bval).val) {
+                  return this.enabled(args[1], acts, c, s0, s1, cm);
+              }
+              return this.enabled(acts, s0, s1, cm);
+          }
+          case OPCODE_cdot -> {
+              Assert.fail("The current version of TLC does not support action composition.", pred, c);
+              /***
+               TLCState s01 = TLCStateFun.Empty;
+               StateVec iss = new StateVec(0);
+               this.getNextStates(args[0], ActionItemList.Empty, c, s0, s01, iss);
+               int sz = iss.size();
+               for (int i = 0; i < sz; i++) {
+               s01 = iss.elementAt(i);
+               TLCState s2 = this.enabled(args[1], acts, c, s01, s1);
+               if (s2 != null) return s2;
+               }
+               ***/
+              return null; // make compiler happy
+          }
+          case OPCODE_leadto -> {
+              Assert.fail("In computing ENABLED, TLC encountered a temporal formula" + " (a ~> b).\n" + pred, pred, c);
+              return null; // make compiler happy
+          }
+          case OPCODE_arrow -> {
+              Assert.fail("In computing ENABLED, TLC encountered a temporal formula" + " (a -+-> formula).\n" + pred, pred, c);
+              return null; // make compiler happy
+          }
+          case OPCODE_in -> {
+              final SymbolNode var = this.getPrimedVar(args[0], c, true);
+              if (var == null) {
+                  final Value bval = this.eval(pred, c, s0, s1, EvalControl.Enabled, cm);
+                  if (!((BoolValue) bval).val) {
+                      return null;
+                  }
+              } else {
+                  final UniqueString varName = var.getName();
+                  final Value lval = (Value) s1.lookup(varName);
+                  final Value rval = this.eval(args[1], c, s0, s1, EvalControl.Enabled, cm);
+                  if (lval == null) {
+                      if (!(rval instanceof Enumerable)) {
+                          Assert.fail("The right side of \\IN is not enumerable.\n" + pred, pred, c);
+                      }
+                      final ValueEnumeration Enum = ((Enumerable) rval).elements();
+                      Value val;
+                      while ((val = Enum.nextElement()) != null) {
+                          TLCState s2 = s1.bind(var, val);
+                          s2 = this.enabled(acts, s0, s2, cm);
+                          if (s2 != null) {
+                              return s2;
+                          }
+                      }
+                      return null;
+                  } else {
+                      if (!rval.member(lval)) {
+                          return null;
+                      }
+                  }
+              }
+              return this.enabled(acts, s0, s1, cm);
           }
 
-        default:
-          {
-            // We handle all the other builtin operators here.
-            final Value bval = this.eval(pred, c, s0, s1, EvalControl.Enabled, cm);
-            if (!(bval instanceof BoolValue))
-            {
-              Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING, new String[] { "ENABLED", "boolean",
-                      bval.toString(), pred.toString() }, pred, c);
-            }
-            if (((BoolValue) bval).val)
-            {
-              return this.enabled(acts, s0, s1, cm);
-            }
-            return null;
+          // The following case added by LL on 13 Nov 2009 to handle subexpression names.
+          case OPCODE_nop -> {
+              return this.enabled(args[0], acts, c, s0, s1, cm);
           }
-        }
+          default -> {
+              // We handle all the other builtin operators here.
+              final Value bval = this.eval(pred, c, s0, s1, EvalControl.Enabled, cm);
+              if (!(bval instanceof BoolValue)) {
+                  Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING, new String[]{"ENABLED", "boolean",
+                          bval.toString(), pred.toString()}, pred, c);
+              }
+              if (((BoolValue) bval).val) {
+                  return this.enabled(acts, s0, s1, cm);
+              }
+              return null;
+          }
+      }
   }
 
   protected abstract TLCState enabledUnchanged(SemanticNode expr, ActionItemList acts,

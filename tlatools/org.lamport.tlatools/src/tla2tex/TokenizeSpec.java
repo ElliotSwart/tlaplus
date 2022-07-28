@@ -872,26 +872,27 @@ public class TokenizeSpec
          * a C-Syntax PlusCal algorithm.
          */
         int braceDepth = 0 ;
-        
-        switch (mode)
-          { 
-            case MODULE    : state = PROLOG ; break ;
-            case TLA       : state = START  ; break ;
-            case PLUSCAL   : state = START ;
-                             hasPcal = true ;
-                             pcalStart = new Position(0, 0) ;
-                             inPcal = true ;
-                             canBeLabel = true ;
-                             isCSyntax = true ;
-                             break ;
-            case P_PLUSCAL : state = START ;
-                             hasPcal = true ;
-                             pcalStart = new Position(0, 0) ;
-                             inPcal = true ;
-                             canBeLabel = true ;
-                             break ;
-            default       : Debug.ReportBug(
-                             "TokenizeSpec.Tokenize called with illegal mode") ;
+
+          switch (mode) {
+              case MODULE -> state = PROLOG;
+              case TLA -> state = START;
+              case PLUSCAL -> {
+                  state = START;
+                  hasPcal = true;
+                  pcalStart = new Position(0, 0);
+                  inPcal = true;
+                  canBeLabel = true;
+                  isCSyntax = true;
+              }
+              case P_PLUSCAL -> {
+                  state = START;
+                  hasPcal = true;
+                  pcalStart = new Position(0, 0);
+                  inPcal = true;
+                  canBeLabel = true;
+              }
+              default -> Debug.ReportBug(
+                      "TokenizeSpec.Tokenize called with illegal mode");
           }
           while (state != DONE)
           { /***************************************************************

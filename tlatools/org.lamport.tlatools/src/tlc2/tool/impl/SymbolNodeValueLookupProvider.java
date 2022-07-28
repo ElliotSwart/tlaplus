@@ -120,53 +120,55 @@ public interface SymbolNodeValueLookupProvider {
      */
 	default int getLevelBound(final SemanticNode expr, final Context c, final int forToolId) {
 		switch (expr.getKind()) {
-			case ASTConstants.OpApplKind: {
+			case ASTConstants.OpApplKind -> {
 				final OpApplNode expr1 = (OpApplNode) expr;
 				return getLevelBoundAppl(expr1, c, forToolId);
 			}
-			case ASTConstants.LetInKind: {
+			case ASTConstants.LetInKind -> {
 				final LetInNode expr1 = (LetInNode) expr;
 				final OpDefNode[] letDefs = expr1.getLets();
 				final int letLen = letDefs.length;
 				Context c1 = c;
 				int level = 0;
-                for (final OpDefNode opDef : letDefs) {
-                    level = Math.max(level, getLevelBound(opDef.getBody(), c1, forToolId));
-                    c1 = c1.cons(opDef, IntValue.ValOne);
-                }
+				for (final OpDefNode opDef : letDefs) {
+					level = Math.max(level, getLevelBound(opDef.getBody(), c1, forToolId));
+					c1 = c1.cons(opDef, IntValue.ValOne);
+				}
 				return Math.max(level, getLevelBound(expr1.getBody(), c1, forToolId));
 			}
-			case ASTConstants.SubstInKind: {
+			case ASTConstants.SubstInKind -> {
 				final SubstInNode expr1 = (SubstInNode) expr;
 				final Subst[] subs = expr1.getSubsts();
 				final int slen = subs.length;
 				Context c1 = c;
-                for (final Subst sub : subs) {
-                    c1 = c1.cons(sub.getOp(), getVal(sub.getExpr(), c, true, forToolId));
-                }
+				for (final Subst sub : subs) {
+					c1 = c1.cons(sub.getOp(), getVal(sub.getExpr(), c, true, forToolId));
+				}
 				return getLevelBound(expr1.getBody(), c1, forToolId);
 			}
 
+
 			// Added by LL on 13 Nov 2009 to handle theorem and assumption names.
-			case ASTConstants.APSubstInKind: {
+			case ASTConstants.APSubstInKind -> {
 				final APSubstInNode expr1 = (APSubstInNode) expr;
 				final Subst[] subs = expr1.getSubsts();
 				final int slen = subs.length;
 				Context c1 = c;
-                for (final Subst sub : subs) {
-                    c1 = c1.cons(sub.getOp(), getVal(sub.getExpr(), c, true, forToolId));
-                }
+				for (final Subst sub : subs) {
+					c1 = c1.cons(sub.getOp(), getVal(sub.getExpr(), c, true, forToolId));
+				}
 				return getLevelBound(expr1.getBody(), c1, forToolId);
 			}
+
 
 			/***********************************************************************
 			 * LabelKind case added by LL on 13 Jun 2007. *
 			 ***********************************************************************/
-			case ASTConstants.LabelKind: {
+			case ASTConstants.LabelKind -> {
 				final LabelNode expr1 = (LabelNode) expr;
 				return getLevelBound(expr1.getBody(), c, forToolId);
 			}
-			default: {
+			default -> {
 				return 0;
 			}
 		}

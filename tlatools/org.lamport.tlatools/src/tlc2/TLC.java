@@ -1477,16 +1477,12 @@ public class TLC {
 	}
 	
 	private static String mode2String(final int mode) {
-		switch (mode) {
-		case EC.TLC_MODE_MC:
-			return "bfs";
-		case EC.TLC_MODE_MC_DFS:
-			return "dfs";
-		case EC.TLC_MODE_SIMU:
-			return "simulation";
-		default:
-			return "unknown";
-		}
+        return switch (mode) {
+            case EC.TLC_MODE_MC -> "bfs";
+            case EC.TLC_MODE_MC_DFS -> "dfs";
+            case EC.TLC_MODE_SIMU -> "simulation";
+            default -> "unknown";
+        };
 	}
     
     /**

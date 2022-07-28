@@ -53,143 +53,112 @@ public class WriteTLAFile
           else
            { outLine.append(SpacesString(tok.column));
            }
-             switch (tok.type)
-           {case Token.BUILTIN    : 
-            case Token.NUMBER     : 
-            case Token.IDENT      : 
-            case Token.PCAL_LABEL :
-            case Token.DASHES     : 
-            case Token.END_MODULE : 
-            case Token.PROLOG     : 
-            case Token.EPILOG     : 
-            case Token.PF_STEP    :
-              outLine.append(tok.string);
-              break ;
-            case Token.STRING : 
-              outLine.append("\"").append(tok.string).append("\"");
-              break ;
+             switch (tok.type) {
+                 case Token.BUILTIN, Token.NUMBER, Token.IDENT, Token.PCAL_LABEL, Token.DASHES, Token.END_MODULE, Token.PROLOG, Token.EPILOG, Token.PF_STEP ->
+                         outLine.append(tok.string);
+                 case Token.STRING -> outLine.append("\"").append(tok.string).append("\"");
+                 case Token.COMMENT -> {
+                     /*************************************************************
+                      * Set ctok to the current comment token we are processing.   *
+                      *************************************************************/
+                     CommentToken ctok = (CommentToken) tok;
+                     if (ctok.subtype == CommentToken.BEGIN_MULTI)
+                     /***********************************************************
+                      * Reset deleting and multiBelow when beginning a           *
+                      * mult-line comment.                                       *
+                      ***********************************************************/ {
+                         deleting = false;
+                         multiBelow = 0;
+                     }
+                     String commentString = "";
+                     /***********************************************************
+                      * Will set commentString to the current comment line       *
+                      * minus the deleted characters.                            *
+                      ***********************************************************/
+                     if ((ctok.subtype == CommentToken.MULTI)
+                             || (ctok.subtype == CommentToken.NULL))
+                     /***********************************************************
+                      * Set ctok to the token multiBelow lines below this one,   *
+                      * following the belowAlign pointers, or null if this       *
+                      * takes us past the end of the comment--which means we've  *
+                      * output the entire comment already.                       *
+                      ***********************************************************/ {
+                         int i = 0;
+                         while ((ctok != null)
+                                 && (i < multiBelow)) {
+                             final Position bpos = ctok.belowAlign;
+                             ctok = null;
+                             if (bpos.line != -1) {
+                                 final Token btok = bpos.toToken(spec);
+                                 if (btok.type == Token.COMMENT) {
+                                     final CommentToken bctok = (CommentToken) btok;
+                                     if ((bctok.subtype == CommentToken.MULTI)
+                                             || (bctok.subtype == CommentToken.NULL)) {
+                                         ctok = bctok;
+                                     }
+                                 }
+                             }
+                             i = i + 1;
+                         }
 
-            case Token.COMMENT : 
-              /*************************************************************
-              * Set ctok to the current comment token we are processing.   *
-              *************************************************************/
-              CommentToken ctok = (CommentToken) tok ;
-              if (ctok.subtype == CommentToken.BEGIN_MULTI)
-                /***********************************************************
-                * Reset deleting and multiBelow when beginning a           *
-                * mult-line comment.                                       *
-                ***********************************************************/
-                { deleting = false ;
-                  multiBelow = 0 ;
-                }
-
-                String commentString = "" ;
-                /***********************************************************
-                * Will set commentString to the current comment line       *
-                * minus the deleted characters.                            *
-                ***********************************************************/
-              if (   (ctok.subtype == CommentToken.MULTI)
-                  || (ctok.subtype == CommentToken.NULL))
-                /***********************************************************
-                * Set ctok to the token multiBelow lines below this one,   *
-                * following the belowAlign pointers, or null if this       *
-                * takes us past the end of the comment--which means we've  *
-                * output the entire comment already.                       *
-                ***********************************************************/
-                { int i = 0 ;
-                  while (   (ctok != null)
-                         && (i < multiBelow))
-                   { final Position bpos = ctok.belowAlign;
-                     ctok = null ;
-                     if (bpos.line != -1)
-                      { final Token btok = bpos.toToken(spec) ;
-                        if (btok.type == Token.COMMENT)
-                          { final CommentToken bctok = (CommentToken) btok ;
-                            if (   (bctok.subtype == CommentToken.MULTI)
-                                || (bctok.subtype == CommentToken.NULL))
-                              { ctok = bctok ;
-                              }
-                          }
-                      }
-                       i = i+1;
-                   }
-
-                  if (ctok != null)
-                   { commentString = ctok.string ;
-                     if (deleting)
-                       { commentString = "`^" + commentString ;}
-                     deleting = UnmatchedDelete(commentString) ;
-                     commentString = RemoveDeletions(commentString) ;
-                     while (    deleting
-                            &&  (ctok != null)
-                            &&  Misc.isBlank(commentString))
-                     { final Position bpos = ctok.belowAlign;
-                       ctok = null ;
-                       if (bpos.line != -1)
-                        { final Token btok = bpos.toToken(spec) ;
-                          if (btok.type == Token.COMMENT)
-                          { final CommentToken bctok = (CommentToken) btok ;
-                              if (   (bctok.subtype == CommentToken.MULTI)
-                                  || (bctok.subtype == CommentToken.NULL))
-                                { ctok = bctok ;
-                                  multiBelow = multiBelow + 1;
-                                  commentString = ctok.string ;
-                                  deleting = 
-                                     UnmatchedDelete("`^" + commentString) ;
-                                  commentString = 
-                                    RemoveDeletions("`^" + commentString) ;
-                                }
-                          }
-                        }
-                     } // END while ( deleting ... )
-                   }  
-                 if (   (ctok != null)
-                     && Misc.isBlank(commentString))
-                   { commentString = SpacesString(ctok.string.length()) ;
-                   }
-                }
-              else
-                { /*********************************************************
-                  * This is not a MULTI or NULL comment token.             *
-                  *********************************************************/
-                  commentString = RemoveDeletions(ctok.string);
-                  commentString = commentString + 
-                                   SpacesString(ctok.string.length() - 
-                                                commentString.length()) ;
-                }
-
-              if (ctok != null)
-               {
-                commentString = ReplaceQuoteTildes(commentString);
-                switch (ctok.rsubtype)
-                 {case CommentToken.NORMAL :
-                    outLine.append("(*").append(commentString).append("*)");
-                    break ;
-                  case CommentToken.LINE : 
-                    outLine.append("\\*").append(commentString);
-                    break ;
-                  case CommentToken.BEGIN_OVERRUN : 
-                    outLine.append("(*").append(commentString);
-                    break ;
-                  case CommentToken.END_OVERRUN : 
-                    outLine.append(commentString).append("*)");
-                    break ;
-                  case CommentToken.OVERRUN : 
-                    outLine.append(commentString);
-                    break ;
-                  default :
-                    Debug.ReportBug("Bad CommentToken subtype found.");
+                         if (ctok != null) {
+                             commentString = ctok.string;
+                             if (deleting) {
+                                 commentString = "`^" + commentString;
+                             }
+                             deleting = UnmatchedDelete(commentString);
+                             commentString = RemoveDeletions(commentString);
+                             while (deleting
+                                     && (ctok != null)
+                                     && Misc.isBlank(commentString)) {
+                                 final Position bpos = ctok.belowAlign;
+                                 ctok = null;
+                                 if (bpos.line != -1) {
+                                     final Token btok = bpos.toToken(spec);
+                                     if (btok.type == Token.COMMENT) {
+                                         final CommentToken bctok = (CommentToken) btok;
+                                         if ((bctok.subtype == CommentToken.MULTI)
+                                                 || (bctok.subtype == CommentToken.NULL)) {
+                                             ctok = bctok;
+                                             multiBelow = multiBelow + 1;
+                                             commentString = ctok.string;
+                                             deleting =
+                                                     UnmatchedDelete("`^" + commentString);
+                                             commentString =
+                                                     RemoveDeletions("`^" + commentString);
+                                         }
+                                     }
+                                 }
+                             } // END while ( deleting ... )
+                         }
+                         if ((ctok != null)
+                                 && Misc.isBlank(commentString)) {
+                             commentString = SpacesString(ctok.string.length());
+                         }
+                     } else { /*********************************************************
+                      * This is not a MULTI or NULL comment token.             *
+                      *********************************************************/
+                         commentString = RemoveDeletions(ctok.string);
+                         commentString = commentString +
+                                 SpacesString(ctok.string.length() -
+                                         commentString.length());
+                     }
+                     if (ctok != null) {
+                         commentString = ReplaceQuoteTildes(commentString);
+                         switch (ctok.rsubtype) {
+                             case CommentToken.NORMAL -> outLine.append("(*").append(commentString).append("*)");
+                             case CommentToken.LINE -> outLine.append("\\*").append(commentString);
+                             case CommentToken.BEGIN_OVERRUN -> outLine.append("(*").append(commentString);
+                             case CommentToken.END_OVERRUN -> outLine.append(commentString).append("*)");
+                             case CommentToken.OVERRUN -> outLine.append(commentString);
+                             default -> Debug.ReportBug("Bad CommentToken subtype found.");
+                         }
+                     } else {
+                         nullComment = true;
+                     }
                  }
-               }
-              else
-               { nullComment = true ;
-               }
-                break ;
-
-            default :
-              Debug.ReportBug("Bad token type found.");
-            break ;
-           }
+                 default -> Debug.ReportBug("Bad token type found.");
+             }
           item = item + 1;
          }
            if ( ! (   nullComment

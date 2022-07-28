@@ -153,66 +153,56 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
   public final boolean isEmpty() {
     try {
 
-      switch (this.getKind()) {
-        case SETENUMVALUE:
-          {
-            final SetEnumValue set = (SetEnumValue)this;
-            return set.elems.size() == 0;
-          }
-        case INTERVALVALUE:
-          {
-            final IntervalValue intv = (IntervalValue)this;
-            return intv.size() == 0;
-          }
-        case SETCAPVALUE:
-          {
-            final SetCapValue cap = (SetCapValue)this;
-            return cap.elements().nextElement() == null;
-          }
-        case SETCUPVALUE:
-          {
-            final SetCupValue cup = (SetCupValue)this;
-            return cup.elements().nextElement() == null;
-          }
-        case SETDIFFVALUE:
-          {
-            final SetDiffValue diff = (SetDiffValue)this;
-            return diff.elements().nextElement() == null;
-          }
-        case SETOFFCNSVALUE:
-          {
-            final SetOfFcnsValue fcns = (SetOfFcnsValue)this;
-            return fcns.elements().nextElement() == null;
-          }
-        case SETOFRCDSVALUE:
-          {
-            final SetOfRcdsValue srv = (SetOfRcdsValue)this;
-            return srv.elements().nextElement() == null;
-          }
-        case SETOFTUPLESVALUE:
-          {
-            final SetOfTuplesValue stv = (SetOfTuplesValue)this;
-            return stv.elements().nextElement() == null;
-          }
-        case SUBSETVALUE:
-          {
-            // SUBSET S is never empty.  (It always contains {}.)
-            return false;
-          }
-        case UNIONVALUE:
-          {
-            final UnionValue uv = (UnionValue)this;
-            return uv.elements().nextElement() == null;
-          }
-        case SETPREDVALUE:
-          {
-            final SetPredValue spv = (SetPredValue)this;
-            return spv.elements().nextElement() == null;
-          }
-        default:
-          Assert.fail("Shouldn't call isEmpty() on value " + Values.ppr(this.toString()), getSource());
-          return false;
-      }
+        switch (this.getKind()) {
+            case SETENUMVALUE -> {
+                final SetEnumValue set = (SetEnumValue) this;
+                return set.elems.size() == 0;
+            }
+            case INTERVALVALUE -> {
+                final IntervalValue intv = (IntervalValue) this;
+                return intv.size() == 0;
+            }
+            case SETCAPVALUE -> {
+                final SetCapValue cap = (SetCapValue) this;
+                return cap.elements().nextElement() == null;
+            }
+            case SETCUPVALUE -> {
+                final SetCupValue cup = (SetCupValue) this;
+                return cup.elements().nextElement() == null;
+            }
+            case SETDIFFVALUE -> {
+                final SetDiffValue diff = (SetDiffValue) this;
+                return diff.elements().nextElement() == null;
+            }
+            case SETOFFCNSVALUE -> {
+                final SetOfFcnsValue fcns = (SetOfFcnsValue) this;
+                return fcns.elements().nextElement() == null;
+            }
+            case SETOFRCDSVALUE -> {
+                final SetOfRcdsValue srv = (SetOfRcdsValue) this;
+                return srv.elements().nextElement() == null;
+            }
+            case SETOFTUPLESVALUE -> {
+                final SetOfTuplesValue stv = (SetOfTuplesValue) this;
+                return stv.elements().nextElement() == null;
+            }
+            case SUBSETVALUE -> {
+                // SUBSET S is never empty.  (It always contains {}.)
+                return false;
+            }
+            case UNIONVALUE -> {
+                final UnionValue uv = (UnionValue) this;
+                return uv.elements().nextElement() == null;
+            }
+            case SETPREDVALUE -> {
+                final SetPredValue spv = (SetPredValue) this;
+                return spv.elements().nextElement() == null;
+            }
+            default -> {
+                Assert.fail("Shouldn't call isEmpty() on value " + Values.ppr(this.toString()), getSource());
+                return false;
+            }
+        }
 
     }
     catch (final RuntimeException | OutOfMemoryError e) {

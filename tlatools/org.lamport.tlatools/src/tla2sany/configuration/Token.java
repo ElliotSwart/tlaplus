@@ -72,10 +72,9 @@ public class Token {
    */
   public static Token newToken(final int ofKind)
   {
-     switch(ofKind)
-     {
-       default : return new Token();
-     }
+    return switch (ofKind) {
+      default -> new Token();
+    };
   }
 
 }

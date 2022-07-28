@@ -300,20 +300,20 @@ public class Token
       * This returns everything in toString() except the final "]", so it  *
       * can be used by the toString() method of subclasses.                *
       *********************************************************************/
-      { String typeName = "";
-        switch (type) 
-          { case BUILTIN    : typeName = "BUILTIN"    ; break ;
-            case NUMBER     : typeName = "NUMBER"     ; break ;
-            case STRING     : typeName = "STRING"     ; break ;
-            case PF_STEP    : typeName = "PF_STEP"    ; break ;
-            case IDENT      : typeName = "IDENT"      ; break ;
-            case COMMENT    : typeName = "COMMENT"    ; break ;
-            case DASHES     : typeName = "DASHES"     ; break ;
-            case END_MODULE : typeName = "END_MODULE" ; break ;
-            case PROLOG     : typeName = "PROLOG"     ; break ;
-            case EPILOG     : typeName = "EPILOG"     ; break ;
-            case PCAL_LABEL : typeName = "PCAL_LABEL" ; break ;
-          }
+      { String typeName = switch (type) {
+          case BUILTIN -> "BUILTIN";
+          case NUMBER -> "NUMBER";
+          case STRING -> "STRING";
+          case PF_STEP -> "PF_STEP";
+          case IDENT -> "IDENT";
+          case COMMENT -> "COMMENT";
+          case DASHES -> "DASHES";
+          case END_MODULE -> "END_MODULE";
+          case PROLOG -> "PROLOG";
+          case EPILOG -> "EPILOG";
+          case PCAL_LABEL -> "PCAL_LABEL";
+          default -> "";
+      };
           String str = "\"" + string + "\"" ;
         if (string == null) {str = "null";}
 

@@ -55,39 +55,39 @@ public final class ValueInputStream implements ValueConstants, IValueInputStream
 		final byte kind = this.dis.readByte();
 
 		switch (kind) {
-		case BOOLVALUE: {
-			return (this.dis.readBoolean()) ? BoolValue.ValTrue : BoolValue.ValFalse;
-		}
-		case INTVALUE: {
-			return IntValue.gen(this.dis.readInt());
-		}
-		case STRINGVALUE: {
-			return StringValue.createFrom(this);
-		}
-		case MODELVALUE: {
-			return ModelValue.mvs[this.dis.readShort()];
-		}
-		case INTERVALVALUE: {
-			return new IntervalValue(this.dis.readInt(), this.dis.readInt());
-		}
-		case RECORDVALUE: {
-			return RecordValue.createFrom(this);
-		}
-		case FCNRCDVALUE: {
-			return FcnRcdValue.createFrom(this);
-		}
-		case SETENUMVALUE: {
-			return SetEnumValue.createFrom(this);
-		}
-		case TUPLEVALUE: {
-			return TupleValue.createFrom(this);
-		}
-		case DUMMYVALUE: {
-			return (IValue) this.handles.getValue(this.readNat());
-		}
-		default: {
-			throw new WrongInvocationException("ValueInputStream: Can not unpickle a value of kind " + kind);
-		}
+			case BOOLVALUE -> {
+				return (this.dis.readBoolean()) ? BoolValue.ValTrue : BoolValue.ValFalse;
+			}
+			case INTVALUE -> {
+				return IntValue.gen(this.dis.readInt());
+			}
+			case STRINGVALUE -> {
+				return StringValue.createFrom(this);
+			}
+			case MODELVALUE -> {
+				return ModelValue.mvs[this.dis.readShort()];
+			}
+			case INTERVALVALUE -> {
+				return new IntervalValue(this.dis.readInt(), this.dis.readInt());
+			}
+			case RECORDVALUE -> {
+				return RecordValue.createFrom(this);
+			}
+			case FCNRCDVALUE -> {
+				return FcnRcdValue.createFrom(this);
+			}
+			case SETENUMVALUE -> {
+				return SetEnumValue.createFrom(this);
+			}
+			case TUPLEVALUE -> {
+				return TupleValue.createFrom(this);
+			}
+			case DUMMYVALUE -> {
+				return (IValue) this.handles.getValue(this.readNat());
+			}
+			default -> {
+				throw new WrongInvocationException("ValueInputStream: Can not unpickle a value of kind " + kind);
+			}
 		}
 	}
 	
@@ -95,39 +95,39 @@ public final class ValueInputStream implements ValueConstants, IValueInputStream
 		final byte kind = this.dis.readByte();
 
 		switch (kind) {
-		case BOOLVALUE: {
-			return (this.dis.readBoolean()) ? BoolValue.ValTrue : BoolValue.ValFalse;
-		}
-		case INTVALUE: {
-			return IntValue.gen(this.dis.readInt());
-		}
-		case STRINGVALUE: {
-			return StringValue.createFrom(this, tbl);
-		}
-		case MODELVALUE: {
-			return ModelValue.mvs[this.dis.readShort()];
-		}
-		case INTERVALVALUE: {
-			return new IntervalValue(this.dis.readInt(), this.dis.readInt());
-		}
-		case RECORDVALUE: {
-			return RecordValue.createFrom(this, tbl);
-		}
-		case FCNRCDVALUE: {
-			return FcnRcdValue.createFrom(this, tbl);
-		}
-		case SETENUMVALUE: {
-			return SetEnumValue.createFrom(this, tbl);
-		}
-		case TUPLEVALUE: {
-			return TupleValue.createFrom(this, tbl);
-		}
-		case DUMMYVALUE: {
-			return (IValue) this.handles.getValue(this.readNat());
-		}
-		default: {
-			throw new WrongInvocationException("ValueInputStream: Can not unpickle a value of kind " + kind);
-		}
+			case BOOLVALUE -> {
+				return (this.dis.readBoolean()) ? BoolValue.ValTrue : BoolValue.ValFalse;
+			}
+			case INTVALUE -> {
+				return IntValue.gen(this.dis.readInt());
+			}
+			case STRINGVALUE -> {
+				return StringValue.createFrom(this, tbl);
+			}
+			case MODELVALUE -> {
+				return ModelValue.mvs[this.dis.readShort()];
+			}
+			case INTERVALVALUE -> {
+				return new IntervalValue(this.dis.readInt(), this.dis.readInt());
+			}
+			case RECORDVALUE -> {
+				return RecordValue.createFrom(this, tbl);
+			}
+			case FCNRCDVALUE -> {
+				return FcnRcdValue.createFrom(this, tbl);
+			}
+			case SETENUMVALUE -> {
+				return SetEnumValue.createFrom(this, tbl);
+			}
+			case TUPLEVALUE -> {
+				return TupleValue.createFrom(this, tbl);
+			}
+			case DUMMYVALUE -> {
+				return (IValue) this.handles.getValue(this.readNat());
+			}
+			default -> {
+				throw new WrongInvocationException("ValueInputStream: Can not unpickle a value of kind " + kind);
+			}
 		}
 	}
  

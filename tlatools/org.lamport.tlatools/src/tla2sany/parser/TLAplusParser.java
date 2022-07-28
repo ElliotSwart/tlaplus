@@ -885,41 +885,22 @@ private boolean correctLevel(final Token tok) {
 /* beginning of the grammar productions */
   final public Token PrefixOpToken() throws ParseException {
   final Token t;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case op_26:
-      t = jj_consume_token(op_26);
-      break;
-    case op_29:
-      t = jj_consume_token(op_29);
-      break;
-    case op_58:
-      t = jj_consume_token(op_58);
-      break;
-    case CASESEP:
-      t = jj_consume_token(CASESEP);
-      break;
-    case op_61:
-      t = jj_consume_token(op_61);
-      break;
-    case op_112:
-      t = jj_consume_token(op_112);
-      break;
-    case op_113:
-      t = jj_consume_token(op_113);
-      break;
-    case op_114:
-      t = jj_consume_token(op_114);
-      break;
-    case op_115:
-      t = jj_consume_token(op_115);
-      break;
-    case op_116:
-      t = jj_consume_token(op_116);
-      break;
-    default:
-      jj_la1[0] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case op_26 -> t = jj_consume_token(op_26);
+      case op_29 -> t = jj_consume_token(op_29);
+      case op_58 -> t = jj_consume_token(op_58);
+      case CASESEP -> t = jj_consume_token(CASESEP);
+      case op_61 -> t = jj_consume_token(op_61);
+      case op_112 -> t = jj_consume_token(op_112);
+      case op_113 -> t = jj_consume_token(op_113);
+      case op_114 -> t = jj_consume_token(op_114);
+      case op_115 -> t = jj_consume_token(op_115);
+      case op_116 -> t = jj_consume_token(op_116);
+      default -> {
+        jj_la1[0] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
      {if (true) return t;}
     throw new Error("Missing return statement in function");
@@ -931,44 +912,23 @@ private boolean correctLevel(final Token tok) {
 ***************************************************************************/
   final public Token NEPrefixOpToken() throws ParseException {
   final Token t;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case op_26:
-      t = jj_consume_token(op_26);
-      break;
-    case op_29:
-      t = jj_consume_token(op_29);
-      break;
-    case op_58:
-      t = jj_consume_token(op_58);
-      break;
-    case CASESEP:
-      t = jj_consume_token(CASESEP);
-      break;
-    case op_61:
-      t = jj_consume_token(op_61);
-      break;
-    case op_76:
-      t = jj_consume_token(op_76);
-      break;
-    case op_112:
-      t = jj_consume_token(op_112);
-      break;
-    case op_113:
-      t = jj_consume_token(op_113);
-      break;
-    case op_114:
-      t = jj_consume_token(op_114);
-      break;
-    case op_115:
-      t = jj_consume_token(op_115);
-      break;
-    case op_116:
-      t = jj_consume_token(op_116);
-      break;
-    default:
-      jj_la1[1] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case op_26 -> t = jj_consume_token(op_26);
+      case op_29 -> t = jj_consume_token(op_29);
+      case op_58 -> t = jj_consume_token(op_58);
+      case CASESEP -> t = jj_consume_token(CASESEP);
+      case op_61 -> t = jj_consume_token(op_61);
+      case op_76 -> t = jj_consume_token(op_76);
+      case op_112 -> t = jj_consume_token(op_112);
+      case op_113 -> t = jj_consume_token(op_113);
+      case op_114 -> t = jj_consume_token(op_114);
+      case op_115 -> t = jj_consume_token(op_115);
+      case op_116 -> t = jj_consume_token(op_116);
+      default -> {
+        jj_la1[1] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
      {if (true) return t;}
     throw new Error("Missing return statement in function");
@@ -976,317 +936,114 @@ private boolean correctLevel(final Token tok) {
 
   final public Token InfixOpToken() throws ParseException {
   final Token t;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case op_1:
-      t = jj_consume_token(op_1);
-      break;
-    case AND:
-      t = jj_consume_token(AND);
-      break;
-    case op_3:
-      t = jj_consume_token(op_3);
-      break;
-    case op_4:
-      t = jj_consume_token(op_4);
-      break;
-    case OR:
-      t = jj_consume_token(OR);
-      break;
-    case op_6:
-      t = jj_consume_token(op_6);
-      break;
-    case op_7:
-      t = jj_consume_token(op_7);
-      break;
-    case op_8:
-      t = jj_consume_token(op_8);
-      break;
-    case op_9:
-      t = jj_consume_token(op_9);
-      break;
-    case op_10:
-      t = jj_consume_token(op_10);
-      break;
-    case op_11:
-      t = jj_consume_token(op_11);
-      break;
-    case op_12:
-      t = jj_consume_token(op_12);
-      break;
-    case op_13:
-      t = jj_consume_token(op_13);
-      break;
-    case op_14:
-      t = jj_consume_token(op_14);
-      break;
-    case op_15:
-      t = jj_consume_token(op_15);
-      break;
-    case op_16:
-      t = jj_consume_token(op_16);
-      break;
-    case op_17:
-      t = jj_consume_token(op_17);
-      break;
-    case op_18:
-      t = jj_consume_token(op_18);
-      break;
-    case op_19:
-      t = jj_consume_token(op_19);
-      break;
-    case IN:
-      t = jj_consume_token(IN);
-      break;
-    case op_21:
-      t = jj_consume_token(op_21);
-      break;
-    case op_22:
-      t = jj_consume_token(op_22);
-      break;
-    case op_23:
-      t = jj_consume_token(op_23);
-      break;
-    case op_24:
-      t = jj_consume_token(op_24);
-      break;
-    case op_25:
-      t = jj_consume_token(op_25);
-      break;
-    case op_27:
-      t = jj_consume_token(op_27);
-      break;
-    case op_30:
-      t = jj_consume_token(op_30);
-      break;
-    case op_31:
-      t = jj_consume_token(op_31);
-      break;
-    case op_32:
-      t = jj_consume_token(op_32);
-      break;
-    case op_33:
-      t = jj_consume_token(op_33);
-      break;
-    case op_34:
-      t = jj_consume_token(op_34);
-      break;
-    case op_35:
-      t = jj_consume_token(op_35);
-      break;
-    case op_36:
-      t = jj_consume_token(op_36);
-      break;
-    case op_37:
-      t = jj_consume_token(op_37);
-      break;
-    case op_38:
-      t = jj_consume_token(op_38);
-      break;
-    case op_39:
-      t = jj_consume_token(op_39);
-      break;
-    case op_40:
-      t = jj_consume_token(op_40);
-      break;
-    case op_41:
-      t = jj_consume_token(op_41);
-      break;
-    case op_42:
-      t = jj_consume_token(op_42);
-      break;
-    case op_43:
-      t = jj_consume_token(op_43);
-      break;
-    case op_44:
-      t = jj_consume_token(op_44);
-      break;
-    case op_45:
-      t = jj_consume_token(op_45);
-      break;
-    case op_46:
-      t = jj_consume_token(op_46);
-      break;
-    case op_47:
-      t = jj_consume_token(op_47);
-      break;
-    case op_48:
-      t = jj_consume_token(op_48);
-      break;
-    case op_49:
-      t = jj_consume_token(op_49);
-      break;
-    case op_50:
-      t = jj_consume_token(op_50);
-      break;
-    case op_51:
-      t = jj_consume_token(op_51);
-      break;
-    case op_52:
-      t = jj_consume_token(op_52);
-      break;
-    case op_53:
-      t = jj_consume_token(op_53);
-      break;
-    case op_54:
-      t = jj_consume_token(op_54);
-      break;
-    case op_55:
-      t = jj_consume_token(op_55);
-      break;
-    case op_56:
-      t = jj_consume_token(op_56);
-      break;
-    case op_59:
-      t = jj_consume_token(op_59);
-      break;
-    case op_62:
-      t = jj_consume_token(op_62);
-      break;
-    case op_63:
-      t = jj_consume_token(op_63);
-      break;
-    case op_64:
-      t = jj_consume_token(op_64);
-      break;
-    case EQUALS:
-      t = jj_consume_token(EQUALS);
-      break;
-    case op_66:
-      t = jj_consume_token(op_66);
-      break;
-    case op_67:
-      t = jj_consume_token(op_67);
-      break;
-    case op_71:
-      t = jj_consume_token(op_71);
-      break;
-    case op_72:
-      t = jj_consume_token(op_72);
-      break;
-    case op_73:
-      t = jj_consume_token(op_73);
-      break;
-    case op_74:
-      t = jj_consume_token(op_74);
-      break;
-    case op_75:
-      t = jj_consume_token(op_75);
-      break;
-    case op_77:
-      t = jj_consume_token(op_77);
-      break;
-    case op_78:
-      t = jj_consume_token(op_78);
-      break;
-    case op_79:
-      t = jj_consume_token(op_79);
-      break;
-    case op_80:
-      t = jj_consume_token(op_80);
-      break;
-    case op_81:
-      t = jj_consume_token(op_81);
-      break;
-    case op_82:
-      t = jj_consume_token(op_82);
-      break;
-    case op_83:
-      t = jj_consume_token(op_83);
-      break;
-    case op_84:
-      t = jj_consume_token(op_84);
-      break;
-    case op_85:
-      t = jj_consume_token(op_85);
-      break;
-    case op_86:
-      t = jj_consume_token(op_86);
-      break;
-    case op_87:
-      t = jj_consume_token(op_87);
-      break;
-    case op_88:
-      t = jj_consume_token(op_88);
-      break;
-    case op_89:
-      t = jj_consume_token(op_89);
-      break;
-    case op_90:
-      t = jj_consume_token(op_90);
-      break;
-    case op_91:
-      t = jj_consume_token(op_91);
-      break;
-    case op_92:
-      t = jj_consume_token(op_92);
-      break;
-    case op_93:
-      t = jj_consume_token(op_93);
-      break;
-    case op_94:
-      t = jj_consume_token(op_94);
-      break;
-    case op_95:
-      t = jj_consume_token(op_95);
-      break;
-    case op_96:
-      t = jj_consume_token(op_96);
-      break;
-    case op_97:
-      t = jj_consume_token(op_97);
-      break;
-    case op_98:
-      t = jj_consume_token(op_98);
-      break;
-    case op_100:
-      t = jj_consume_token(op_100);
-      break;
-    case op_101:
-      t = jj_consume_token(op_101);
-      break;
-    case op_102:
-      t = jj_consume_token(op_102);
-      break;
-    case op_103:
-      t = jj_consume_token(op_103);
-      break;
-    case op_104:
-      t = jj_consume_token(op_104);
-      break;
-    case op_105:
-      t = jj_consume_token(op_105);
-      break;
-    case op_106:
-      t = jj_consume_token(op_106);
-      break;
-    case op_107:
-      t = jj_consume_token(op_107);
-      break;
-    case op_108:
-      t = jj_consume_token(op_108);
-      break;
-    case op_109:
-      t = jj_consume_token(op_109);
-      break;
-    case op_110:
-      t = jj_consume_token(op_110);
-      break;
-    case op_111:
-      t = jj_consume_token(op_111);
-      break;
-    case op_117:
-      t = jj_consume_token(op_117);
-      break;
-    case op_118:
-      t = jj_consume_token(op_118);
-      break;
-    case op_119:
-      t = jj_consume_token(op_119);
-      break;
-    default:
-      jj_la1[2] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case op_1 -> t = jj_consume_token(op_1);
+      case AND -> t = jj_consume_token(AND);
+      case op_3 -> t = jj_consume_token(op_3);
+      case op_4 -> t = jj_consume_token(op_4);
+      case OR -> t = jj_consume_token(OR);
+      case op_6 -> t = jj_consume_token(op_6);
+      case op_7 -> t = jj_consume_token(op_7);
+      case op_8 -> t = jj_consume_token(op_8);
+      case op_9 -> t = jj_consume_token(op_9);
+      case op_10 -> t = jj_consume_token(op_10);
+      case op_11 -> t = jj_consume_token(op_11);
+      case op_12 -> t = jj_consume_token(op_12);
+      case op_13 -> t = jj_consume_token(op_13);
+      case op_14 -> t = jj_consume_token(op_14);
+      case op_15 -> t = jj_consume_token(op_15);
+      case op_16 -> t = jj_consume_token(op_16);
+      case op_17 -> t = jj_consume_token(op_17);
+      case op_18 -> t = jj_consume_token(op_18);
+      case op_19 -> t = jj_consume_token(op_19);
+      case IN -> t = jj_consume_token(IN);
+      case op_21 -> t = jj_consume_token(op_21);
+      case op_22 -> t = jj_consume_token(op_22);
+      case op_23 -> t = jj_consume_token(op_23);
+      case op_24 -> t = jj_consume_token(op_24);
+      case op_25 -> t = jj_consume_token(op_25);
+      case op_27 -> t = jj_consume_token(op_27);
+      case op_30 -> t = jj_consume_token(op_30);
+      case op_31 -> t = jj_consume_token(op_31);
+      case op_32 -> t = jj_consume_token(op_32);
+      case op_33 -> t = jj_consume_token(op_33);
+      case op_34 -> t = jj_consume_token(op_34);
+      case op_35 -> t = jj_consume_token(op_35);
+      case op_36 -> t = jj_consume_token(op_36);
+      case op_37 -> t = jj_consume_token(op_37);
+      case op_38 -> t = jj_consume_token(op_38);
+      case op_39 -> t = jj_consume_token(op_39);
+      case op_40 -> t = jj_consume_token(op_40);
+      case op_41 -> t = jj_consume_token(op_41);
+      case op_42 -> t = jj_consume_token(op_42);
+      case op_43 -> t = jj_consume_token(op_43);
+      case op_44 -> t = jj_consume_token(op_44);
+      case op_45 -> t = jj_consume_token(op_45);
+      case op_46 -> t = jj_consume_token(op_46);
+      case op_47 -> t = jj_consume_token(op_47);
+      case op_48 -> t = jj_consume_token(op_48);
+      case op_49 -> t = jj_consume_token(op_49);
+      case op_50 -> t = jj_consume_token(op_50);
+      case op_51 -> t = jj_consume_token(op_51);
+      case op_52 -> t = jj_consume_token(op_52);
+      case op_53 -> t = jj_consume_token(op_53);
+      case op_54 -> t = jj_consume_token(op_54);
+      case op_55 -> t = jj_consume_token(op_55);
+      case op_56 -> t = jj_consume_token(op_56);
+      case op_59 -> t = jj_consume_token(op_59);
+      case op_62 -> t = jj_consume_token(op_62);
+      case op_63 -> t = jj_consume_token(op_63);
+      case op_64 -> t = jj_consume_token(op_64);
+      case EQUALS -> t = jj_consume_token(EQUALS);
+      case op_66 -> t = jj_consume_token(op_66);
+      case op_67 -> t = jj_consume_token(op_67);
+      case op_71 -> t = jj_consume_token(op_71);
+      case op_72 -> t = jj_consume_token(op_72);
+      case op_73 -> t = jj_consume_token(op_73);
+      case op_74 -> t = jj_consume_token(op_74);
+      case op_75 -> t = jj_consume_token(op_75);
+      case op_77 -> t = jj_consume_token(op_77);
+      case op_78 -> t = jj_consume_token(op_78);
+      case op_79 -> t = jj_consume_token(op_79);
+      case op_80 -> t = jj_consume_token(op_80);
+      case op_81 -> t = jj_consume_token(op_81);
+      case op_82 -> t = jj_consume_token(op_82);
+      case op_83 -> t = jj_consume_token(op_83);
+      case op_84 -> t = jj_consume_token(op_84);
+      case op_85 -> t = jj_consume_token(op_85);
+      case op_86 -> t = jj_consume_token(op_86);
+      case op_87 -> t = jj_consume_token(op_87);
+      case op_88 -> t = jj_consume_token(op_88);
+      case op_89 -> t = jj_consume_token(op_89);
+      case op_90 -> t = jj_consume_token(op_90);
+      case op_91 -> t = jj_consume_token(op_91);
+      case op_92 -> t = jj_consume_token(op_92);
+      case op_93 -> t = jj_consume_token(op_93);
+      case op_94 -> t = jj_consume_token(op_94);
+      case op_95 -> t = jj_consume_token(op_95);
+      case op_96 -> t = jj_consume_token(op_96);
+      case op_97 -> t = jj_consume_token(op_97);
+      case op_98 -> t = jj_consume_token(op_98);
+      case op_100 -> t = jj_consume_token(op_100);
+      case op_101 -> t = jj_consume_token(op_101);
+      case op_102 -> t = jj_consume_token(op_102);
+      case op_103 -> t = jj_consume_token(op_103);
+      case op_104 -> t = jj_consume_token(op_104);
+      case op_105 -> t = jj_consume_token(op_105);
+      case op_106 -> t = jj_consume_token(op_106);
+      case op_107 -> t = jj_consume_token(op_107);
+      case op_108 -> t = jj_consume_token(op_108);
+      case op_109 -> t = jj_consume_token(op_109);
+      case op_110 -> t = jj_consume_token(op_110);
+      case op_111 -> t = jj_consume_token(op_111);
+      case op_117 -> t = jj_consume_token(op_117);
+      case op_118 -> t = jj_consume_token(op_118);
+      case op_119 -> t = jj_consume_token(op_119);
+      default -> {
+        jj_la1[2] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
      {if (true) return t;}
     throw new Error("Missing return statement in function");
@@ -1294,23 +1051,16 @@ private boolean correctLevel(final Token tok) {
 
   final public Token PostfixOpToken() throws ParseException {
 final Token t;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case op_57:
-      t = jj_consume_token(op_57);
-      break;
-    case op_68:
-      t = jj_consume_token(op_68);
-      break;
-    case op_69:
-      t = jj_consume_token(op_69);
-      break;
-    case op_70:
-      t = jj_consume_token(op_70);
-      break;
-    default:
-      jj_la1[3] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case op_57 -> t = jj_consume_token(op_57);
+      case op_68 -> t = jj_consume_token(op_68);
+      case op_69 -> t = jj_consume_token(op_69);
+      case op_70 -> t = jj_consume_token(op_70);
+      default -> {
+        jj_la1[3] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
      {if (true) return t;}
     throw new Error("Missing return statement in function");
@@ -1319,12 +1069,9 @@ final Token t;
   final public SyntaxTreeNode CompilationUnit() throws ParseException {
   final SyntaxTreeNode tempASTN;
   belchDEF();
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case BEGIN_PRAGMA:
-      Prelude();
-      break;
-    default:
-      jj_la1[4] = jj_gen;
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case BEGIN_PRAGMA -> Prelude();
+      default -> jj_la1[4] = jj_gen;
     }
     tempASTN = Module();
                         token_source.SwitchTo(0);
@@ -1345,17 +1092,14 @@ final Token t;
         jj_la1[5] = jj_gen;
         break label_1;
       }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case NUMBER:
-        jj_consume_token(NUMBER);
-        break;
-      case IDENTIFIER:
-        jj_consume_token(IDENTIFIER);
-        break;
-      default:
-        jj_la1[6] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case NUMBER -> jj_consume_token(NUMBER);
+        case IDENTIFIER -> jj_consume_token(IDENTIFIER);
+        default -> {
+          jj_la1[6] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
       }
     }
   }
@@ -1385,20 +1129,15 @@ final Token t;
   Token t;
   bpa( "Begin module" );
   expecting = "---- MODULE (beginning of module)";
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case _BM0:
-      t = jj_consume_token(_BM0);
-      break;
-    case _BM1:
-      t = jj_consume_token(_BM1);
-      break;
-    case _BM2:
-      t = jj_consume_token(_BM2);
-      break;
-    default:
-      jj_la1[7] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case _BM0 -> t = jj_consume_token(_BM0);
+      case _BM1 -> t = jj_consume_token(_BM1);
+      case _BM2 -> t = jj_consume_token(_BM2);
+      default -> {
+        jj_la1[7] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
       lSTN[0] =  new SyntaxTreeNode(mn, t);
   expecting = "Identifier";
@@ -1426,36 +1165,37 @@ final Token t;
   SyntaxTreeNode tn;
   Token t;
   bpa( "Extends" );
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case EXTENDS:
-      t = jj_consume_token(EXTENDS);
-                        addHeir( new SyntaxTreeNode(mn, t));
-  expecting = "Identifier";
-  t = getToken(1);
-  if (isFieldNameToken( t )) t.kind = IDENTIFIER;
-      tn = Identifier();
-                      addDependency( tn.image ); addHeir( tn );
-  expecting = "comma or module body";
-      label_2:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMMA:
-          break;
-        default:
-          jj_la1[8] = jj_gen;
-          break label_2;
-        }
-        t = jj_consume_token(COMMA);
-                       addHeir( new SyntaxTreeNode(mn, t) );
-  expecting = "Identifier";
-  t = getToken(1);
-  if (isFieldNameToken( t )) t.kind = IDENTIFIER;
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case EXTENDS -> {
+        t = jj_consume_token(EXTENDS);
+        addHeir(new SyntaxTreeNode(mn, t));
+        expecting = "Identifier";
+        t = getToken(1);
+        if (isFieldNameToken(t)) t.kind = IDENTIFIER;
         tn = Identifier();
-                        addDependency( tn.image ); addHeir( tn );
+        addDependency(tn.image);
+        addHeir(tn);
+        expecting = "comma or module body";
+        label_2:
+        while (true) {
+          switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            case COMMA:
+              break;
+            default:
+              jj_la1[8] = jj_gen;
+              break label_2;
+          }
+          t = jj_consume_token(COMMA);
+          addHeir(new SyntaxTreeNode(mn, t));
+          expecting = "Identifier";
+          t = getToken(1);
+          if (isFieldNameToken(t)) t.kind = IDENTIFIER;
+          tn = Identifier();
+          addDependency(tn.image);
+          addHeir(tn);
+        }
       }
-      break;
-    default:
-      jj_la1[9] = jj_gen;
+      default -> jj_la1[9] = jj_gen;
     }
     final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_Extends, sn );}
@@ -1475,50 +1215,45 @@ final Token t;
       } else {
         break;
       }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case SEPARATOR:
-        t = jj_consume_token(SEPARATOR);
-                        tn = new SyntaxTreeNode(mn, t);
-        break;
-      case VARIABLE:
-        tn = VariableDeclaration();
-        break;
-      case CONSTANT:
-        tn = ParamDeclaration();
-        break;
-      default:
-        jj_la1[10] = jj_gen;
-        if (jj_2_2(2)) {
-          tn = OperatorOrFunctionDefinition();
-        } else {
-          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case RECURSIVE:
-            tn = Recursive();
-            break;
-          default:
-            jj_la1[11] = jj_gen;
-            if (jj_2_3(2)) {
-              tn = Instance();
-            } else if (jj_2_4(2)) {
-              tn = Assumption();
-            } else if (jj_2_5(2)) {
-              tn = Theorem();
-            } else {
-              switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-              case _BM1:
-              case _BM2:
-              case _BM0:
-                tn = Module();
-                                      belchDEF();
-                break;
-              default:
-                jj_la1[12] = jj_gen;
-                if ((getToken(1).kind == USE && getToken(2).kind != ONLY)
-                                    || (getToken(1).kind == HIDE)) {
-                  tn = UseOrHideOrBy();
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case SEPARATOR -> {
+          t = jj_consume_token(SEPARATOR);
+          tn = new SyntaxTreeNode(mn, t);
+        }
+        case VARIABLE -> tn = VariableDeclaration();
+        case CONSTANT -> tn = ParamDeclaration();
+        default -> {
+          jj_la1[10] = jj_gen;
+          if (jj_2_2(2)) {
+            tn = OperatorOrFunctionDefinition();
+          } else {
+            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+              case RECURSIVE -> tn = Recursive();
+              default -> {
+                jj_la1[11] = jj_gen;
+                if (jj_2_3(2)) {
+                  tn = Instance();
+                } else if (jj_2_4(2)) {
+                  tn = Assumption();
+                } else if (jj_2_5(2)) {
+                  tn = Theorem();
                 } else {
-                  jj_consume_token(-1);
-                  throw new ParseException();
+                  switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                    case _BM1, _BM2, _BM0 -> {
+                      tn = Module();
+                      belchDEF();
+                    }
+                    default -> {
+                      jj_la1[12] = jj_gen;
+                      if ((getToken(1).kind == USE && getToken(2).kind != ONLY)
+                              || (getToken(1).kind == HIDE)) {
+                        tn = UseOrHideOrBy();
+                      } else {
+                        jj_consume_token(-1);
+                        throw new ParseException();
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1659,200 +1394,90 @@ final Token t;
   Token t;
   bpa( "Constant declaration items");
   expecting = "Identifier, _ or prefix op";
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case IDENTIFIER:
-      tn = Identifier();
-                      addHeir( tn ); kind = N_IdentDecl;
-expecting  = "(, comma, or Module Body";
-      if (jj_2_6(2)) {
-        /*******************************************************************
-                * The following comment apparently made sense at the time.  I      *
-                * wonder what it should have said.                                 *
-                *                                                                  *
-                * This lookahead was added by J-Ch & LL on 1 Mar 2007 to fix the   *
-                * error when it tried to parse                                     *
-                *                                                                  *
-                *    CONSTANT ASSUME A                                             *
-                *             (B+C)                                                *
-                *    PROVE ...                                                     *
-                *******************************************************************/
-              t = jj_consume_token(LBR);
-                  addHeir( new SyntaxTreeNode( mn, t) ) ;
-expecting = "_";
-        t = jj_consume_token(US);
-                  addHeir( new SyntaxTreeNode( mn, t) ) ;
-expecting = "comma or )";
-        label_7:
-        while (true) {
-          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case COMMA:
-            break;
-          default:
-            jj_la1[16] = jj_gen;
-            break label_7;
-          }
-          t = jj_consume_token(COMMA);
-                      addHeir( new SyntaxTreeNode( mn, t) ) ;
-expecting = "_";
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case IDENTIFIER -> {
+        tn = Identifier();
+        addHeir(tn);
+        kind = N_IdentDecl;
+        expecting = "(, comma, or Module Body";
+        if (jj_2_6(2)) {
+          /*******************************************************************
+           * The following comment apparently made sense at the time.  I      *
+           * wonder what it should have said.                                 *
+           *                                                                  *
+           * This lookahead was added by J-Ch & LL on 1 Mar 2007 to fix the   *
+           * error when it tried to parse                                     *
+           *                                                                  *
+           *    CONSTANT ASSUME A                                             *
+           *             (B+C)                                                *
+           *    PROVE ...                                                     *
+           *******************************************************************/
+          t = jj_consume_token(LBR);
+          addHeir(new SyntaxTreeNode(mn, t));
+          expecting = "_";
           t = jj_consume_token(US);
-                      addHeir( new SyntaxTreeNode( mn, t) ) ;
-expecting = "comma or )";
+          addHeir(new SyntaxTreeNode(mn, t));
+          expecting = "comma or )";
+          label_7:
+          while (true) {
+            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+              case COMMA:
+                break;
+              default:
+                jj_la1[16] = jj_gen;
+                break label_7;
+            }
+            t = jj_consume_token(COMMA);
+            addHeir(new SyntaxTreeNode(mn, t));
+            expecting = "_";
+            t = jj_consume_token(US);
+            addHeir(new SyntaxTreeNode(mn, t));
+            expecting = "comma or )";
+          }
+          t = jj_consume_token(RBR);
+          addHeir(new SyntaxTreeNode(mn, t));
         }
-        t = jj_consume_token(RBR);
-                  addHeir( new SyntaxTreeNode( mn, t) ) ;
       }
-      break;
-    case op_76:
-    case op_26:
-    case op_29:
-    case op_58:
-    case CASESEP:
-    case op_61:
-    case op_112:
-    case op_113:
-    case op_114:
-    case op_115:
-    case op_116:
-      // LOOKAHEAD( <OpSymbol>, { isPrefixDeclOp( getToken(1) )  } )
-          tn = NonExpPrefixOp();
-expecting = "_";
-      kind = N_PrefixDecl; addHeir( tn );
-      t = jj_consume_token(US);
-               addHeir( new SyntaxTreeNode( mn, t) ) ;
-      break;
-    case US:
-      t = jj_consume_token(US);
-expecting = "prefix or postfix operator";
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case op_1:
-      case AND:
-      case op_3:
-      case op_4:
-      case OR:
-      case op_6:
-      case op_7:
-      case op_8:
-      case op_9:
-      case op_10:
-      case op_11:
-      case op_12:
-      case op_13:
-      case op_14:
-      case op_15:
-      case op_16:
-      case op_17:
-      case op_18:
-      case op_19:
-      case IN:
-      case op_21:
-      case op_22:
-      case op_23:
-      case op_24:
-      case op_25:
-      case op_27:
-      case op_30:
-      case op_31:
-      case op_32:
-      case op_33:
-      case op_34:
-      case op_35:
-      case op_36:
-      case op_37:
-      case op_38:
-      case op_39:
-      case op_40:
-      case op_41:
-      case op_42:
-      case op_43:
-      case op_44:
-      case op_45:
-      case op_46:
-      case op_47:
-      case op_48:
-      case op_49:
-      case op_50:
-      case op_51:
-      case op_52:
-      case op_53:
-      case op_54:
-      case op_55:
-      case op_56:
-      case op_59:
-      case op_62:
-      case op_63:
-      case op_64:
-      case EQUALS:
-      case op_66:
-      case op_67:
-      case op_71:
-      case op_72:
-      case op_73:
-      case op_74:
-      case op_75:
-      case op_77:
-      case op_78:
-      case op_79:
-      case op_80:
-      case op_81:
-      case op_82:
-      case op_83:
-      case op_84:
-      case op_85:
-      case op_86:
-      case op_87:
-      case op_88:
-      case op_89:
-      case op_90:
-      case op_91:
-      case op_92:
-      case op_93:
-      case op_94:
-      case op_95:
-      case op_96:
-      case op_97:
-      case op_98:
-      case op_100:
-      case op_101:
-      case op_102:
-      case op_103:
-      case op_104:
-      case op_105:
-      case op_106:
-      case op_107:
-      case op_108:
-      case op_109:
-      case op_110:
-      case op_111:
-      case op_117:
-      case op_118:
-      case op_119:
-        tn = InfixOp();
-expecting = "_";
-        kind = N_InfixDecl;
-        addHeir( new SyntaxTreeNode( mn, t) );
+      case op_76, op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116 -> {
+        // LOOKAHEAD( <OpSymbol>, { isPrefixDeclOp( getToken(1) )  } )
+        tn = NonExpPrefixOp();
+        expecting = "_";
+        kind = N_PrefixDecl;
         addHeir(tn);
         t = jj_consume_token(US);
-                   addHeir( new SyntaxTreeNode( mn, t) ) ;
-        break;
-      case op_57:
-      case op_68:
-      case op_69:
-      case op_70:
-        tn = PostfixOp();
-        kind = N_PostfixDecl;
-        addHeir( new SyntaxTreeNode( mn, t) );
-        addHeir(tn);
-        break;
-      default:
-        jj_la1[17] = jj_gen;
+        addHeir(new SyntaxTreeNode(mn, t));
+      }
+      case US -> {
+        t = jj_consume_token(US);
+        expecting = "prefix or postfix operator";
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case op_1, AND, op_3, op_4, OR, op_6, op_7, op_8, op_9, op_10, op_11, op_12, op_13, op_14, op_15, op_16, op_17, op_18, op_19, IN, op_21, op_22, op_23, op_24, op_25, op_27, op_30, op_31, op_32, op_33, op_34, op_35, op_36, op_37, op_38, op_39, op_40, op_41, op_42, op_43, op_44, op_45, op_46, op_47, op_48, op_49, op_50, op_51, op_52, op_53, op_54, op_55, op_56, op_59, op_62, op_63, op_64, EQUALS, op_66, op_67, op_71, op_72, op_73, op_74, op_75, op_77, op_78, op_79, op_80, op_81, op_82, op_83, op_84, op_85, op_86, op_87, op_88, op_89, op_90, op_91, op_92, op_93, op_94, op_95, op_96, op_97, op_98, op_100, op_101, op_102, op_103, op_104, op_105, op_106, op_107, op_108, op_109, op_110, op_111, op_117, op_118, op_119 -> {
+            tn = InfixOp();
+            expecting = "_";
+            kind = N_InfixDecl;
+            addHeir(new SyntaxTreeNode(mn, t));
+            addHeir(tn);
+            t = jj_consume_token(US);
+            addHeir(new SyntaxTreeNode(mn, t));
+          }
+          case op_57, op_68, op_69, op_70 -> {
+            tn = PostfixOp();
+            kind = N_PostfixDecl;
+            addHeir(new SyntaxTreeNode(mn, t));
+            addHeir(tn);
+          }
+          default -> {
+            jj_la1[17] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
+        }
+      }
+      default -> {
+        jj_la1[18] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
-      break;
-    default:
-      jj_la1[18] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
     }
     sn = getLastHeirs();
     epa();
@@ -1876,13 +1501,12 @@ expecting = "_";
   String n;
   Token t;
   expecting = "LOCAL, Identifier or Operator Symbol";
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case LOCAL:
-      t = jj_consume_token(LOCAL);
-                  zn = new SyntaxTreeNode( mn, t);
-      break;
-    default:
-      jj_la1[19] = jj_gen;
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case LOCAL -> {
+        t = jj_consume_token(LOCAL);
+        zn = new SyntaxTreeNode(mn, t);
+      }
+      default -> jj_la1[19] = jj_gen;
     }
     t = jj_consume_token(DEFBREAK);
   expecting = "LOCAL, Identifier or Operator Symbol";
@@ -1952,46 +1576,38 @@ expecting = "Expression or Instance";
         tn = Expression();
                               kind = N_OperatorDefinition;
       } else {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case INSTANCE:
-          tn = Instantiation();
-                                   kind = N_ModuleDefinition;
-          break;
-        default:
-          jj_la1[21] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case INSTANCE -> {
+            tn = Instantiation();
+            kind = N_ModuleDefinition;
+          }
+          default -> {
+            jj_la1[21] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
         }
       }
             addHeir( tn );
     } else {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case op_76:
-      case op_26:
-      case op_29:
-      case op_58:
-      case CASESEP:
-      case op_61:
-      case op_112:
-      case op_113:
-      case op_114:
-      case op_115:
-      case op_116:
-        tn = PrefixLHS();
-                         addHeir( tn );
-expecting = "==";
-        t = jj_consume_token(DEF);
-                   belchDEF();
-        kind = N_OperatorDefinition;
-        addHeir( new SyntaxTreeNode(mn, t) );
-expecting = "Expression";
-        tn = Expression();
-                          addHeir( tn );
-        break;
-      default:
-        jj_la1[22] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case op_76, op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116 -> {
+          tn = PrefixLHS();
+          addHeir(tn);
+          expecting = "==";
+          t = jj_consume_token(DEF);
+          belchDEF();
+          kind = N_OperatorDefinition;
+          addHeir(new SyntaxTreeNode(mn, t));
+          expecting = "Expression";
+          tn = Expression();
+          addHeir(tn);
+        }
+        default -> {
+          jj_la1[22] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
       }
     }
     final SyntaxTreeNode[] sn = getLastHeirs();
@@ -2007,30 +1623,29 @@ expecting = "Expression";
     t = jj_consume_token(LAB);
                addHeir( new SyntaxTreeNode(mn, t) );
 expecting = "Identifier or >>";
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case IDENTIFIER:
-      tn = Identifier();
-                        addHeir( tn );
-expecting = "COMMA or >>";
-      label_9:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMMA:
-          break;
-        default:
-          jj_la1[23] = jj_gen;
-          break label_9;
-        }
-        t = jj_consume_token(COMMA);
-                    addHeir( new SyntaxTreeNode(mn, t) );
-expecting = "COMMA or >>";
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case IDENTIFIER -> {
         tn = Identifier();
-                          addHeir( tn );
-expecting = "COMMA or >>";
+        addHeir(tn);
+        expecting = "COMMA or >>";
+        label_9:
+        while (true) {
+          switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            case COMMA:
+              break;
+            default:
+              jj_la1[23] = jj_gen;
+              break label_9;
+          }
+          t = jj_consume_token(COMMA);
+          addHeir(new SyntaxTreeNode(mn, t));
+          expecting = "COMMA or >>";
+          tn = Identifier();
+          addHeir(tn);
+          expecting = "COMMA or >>";
+        }
       }
-      break;
-    default:
-      jj_la1[24] = jj_gen;
+      default -> jj_la1[24] = jj_gen;
     }
     t = jj_consume_token(RAB);
                addHeir( new SyntaxTreeNode(mn, t) );
@@ -2046,79 +1661,52 @@ expecting = "COMMA or >>";
     tn = Identifier();
                       addHeir( tn );
 expecting = "( or ==";
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case LBR:
-      t = jj_consume_token(LBR);
-                  addHeir( new SyntaxTreeNode(mn, t) );
-expecting = "Identifier Declaration, prefix op, _ or )";
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case IDENTIFIER:
-        tn = IdentDecl();
-        break;
-      case US:
-      case op_76:
-      case op_26:
-      case op_29:
-      case op_58:
-      case CASESEP:
-      case op_61:
-      case op_112:
-      case op_113:
-      case op_114:
-      case op_115:
-      case op_116:
-        tn = SomeFixDecl();
-        break;
-      default:
-        jj_la1[25] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-                                                   addHeir( tn );
-expecting = "COMMA or )";
-      label_10:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMMA:
-          break;
-        default:
-          jj_la1[26] = jj_gen;
-          break label_10;
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case LBR -> {
+        t = jj_consume_token(LBR);
+        addHeir(new SyntaxTreeNode(mn, t));
+        expecting = "Identifier Declaration, prefix op, _ or )";
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case IDENTIFIER -> tn = IdentDecl();
+          case US, op_76, op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116 ->
+                  tn = SomeFixDecl();
+          default -> {
+            jj_la1[25] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
         }
-        t = jj_consume_token(COMMA);
-                       addHeir( new SyntaxTreeNode(mn, t) );
-expecting = "Identifier Declaration, prefix op or _";
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case IDENTIFIER:
-          tn = IdentDecl();
-          break;
-        case US:
-        case op_76:
-        case op_26:
-        case op_29:
-        case op_58:
-        case CASESEP:
-        case op_61:
-        case op_112:
-        case op_113:
-        case op_114:
-        case op_115:
-        case op_116:
-          tn = SomeFixDecl();
-          break;
-        default:
-          jj_la1[27] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
+        addHeir(tn);
+        expecting = "COMMA or )";
+        label_10:
+        while (true) {
+          switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            case COMMA:
+              break;
+            default:
+              jj_la1[26] = jj_gen;
+              break label_10;
+          }
+          t = jj_consume_token(COMMA);
+          addHeir(new SyntaxTreeNode(mn, t));
+          expecting = "Identifier Declaration, prefix op or _";
+          switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            case IDENTIFIER -> tn = IdentDecl();
+            case US, op_76, op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116 ->
+                    tn = SomeFixDecl();
+            default -> {
+              jj_la1[27] = jj_gen;
+              jj_consume_token(-1);
+              throw new ParseException();
+            }
+          }
+          addHeir(tn);
+          expecting = "COMMA or )";
         }
-                                                     addHeir( tn );
-expecting = "COMMA or )";
+        t = jj_consume_token(RBR);
+        addHeir(new SyntaxTreeNode(mn, t));
       }
-      t = jj_consume_token(RBR);
-                  addHeir( new SyntaxTreeNode(mn, t) );
-      break;
-    default:
-      jj_la1[28] = jj_gen;
+      default -> jj_la1[28] = jj_gen;
     }
     final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_IdentLHS, sn);}
@@ -2174,35 +1762,34 @@ expecting = "Identifier";
     tn = Identifier();
                       addHeir( tn );
 expecting = "( or ...";
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case LBR:
-      t = jj_consume_token(LBR);
-                 addHeir( new SyntaxTreeNode(mn, t) );
-expecting = "_";
-      t = jj_consume_token(US);
-                addHeir( new SyntaxTreeNode(mn, t) );
-expecting = "COMMA or )";
-      label_11:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMMA:
-          break;
-        default:
-          jj_la1[29] = jj_gen;
-          break label_11;
-        }
-        t = jj_consume_token(COMMA);
-                     addHeir( new SyntaxTreeNode(mn, t) );
-expecting = "_";
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case LBR -> {
+        t = jj_consume_token(LBR);
+        addHeir(new SyntaxTreeNode(mn, t));
+        expecting = "_";
         t = jj_consume_token(US);
-                  addHeir( new SyntaxTreeNode(mn, t) );
-expecting = "COMMA or )";
+        addHeir(new SyntaxTreeNode(mn, t));
+        expecting = "COMMA or )";
+        label_11:
+        while (true) {
+          switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            case COMMA:
+              break;
+            default:
+              jj_la1[29] = jj_gen;
+              break label_11;
+          }
+          t = jj_consume_token(COMMA);
+          addHeir(new SyntaxTreeNode(mn, t));
+          expecting = "_";
+          t = jj_consume_token(US);
+          addHeir(new SyntaxTreeNode(mn, t));
+          expecting = "COMMA or )";
+        }
+        t = jj_consume_token(RBR);
+        addHeir(new SyntaxTreeNode(mn, t));
       }
-      t = jj_consume_token(RBR);
-                 addHeir( new SyntaxTreeNode(mn, t) );
-      break;
-    default:
-      jj_la1[30] = jj_gen;
+      default -> jj_la1[30] = jj_gen;
     }
     final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_IdentDecl, sn);}
@@ -2217,159 +1804,53 @@ expecting = "COMMA or )";
   Token t;
   final UniqueString n;
   bpa("Op. Symbol Declaration");
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case op_76:
-    case op_26:
-    case op_29:
-    case op_58:
-    case CASESEP:
-    case op_61:
-    case op_112:
-    case op_113:
-    case op_114:
-    case op_115:
-    case op_116:
-      // LOOKAHEAD( <OpSymbol>, { isPrefixDeclOp( getToken(1) )  } )
-            tn = NonExpPrefixOp();
-        kind = N_PrefixDecl; n = lastOp.getIdentifier();
-        sn = new SyntaxTreeNode[2]; sn[0] = tn;
-expecting = "_";
-      t = jj_consume_token(US);
-                  sn[1] = new SyntaxTreeNode(mn, t);
-      break;
-    case US:
-      t = jj_consume_token(US);
-expecting = "infix or postfix operator";
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case op_1:
-      case AND:
-      case op_3:
-      case op_4:
-      case OR:
-      case op_6:
-      case op_7:
-      case op_8:
-      case op_9:
-      case op_10:
-      case op_11:
-      case op_12:
-      case op_13:
-      case op_14:
-      case op_15:
-      case op_16:
-      case op_17:
-      case op_18:
-      case op_19:
-      case IN:
-      case op_21:
-      case op_22:
-      case op_23:
-      case op_24:
-      case op_25:
-      case op_27:
-      case op_30:
-      case op_31:
-      case op_32:
-      case op_33:
-      case op_34:
-      case op_35:
-      case op_36:
-      case op_37:
-      case op_38:
-      case op_39:
-      case op_40:
-      case op_41:
-      case op_42:
-      case op_43:
-      case op_44:
-      case op_45:
-      case op_46:
-      case op_47:
-      case op_48:
-      case op_49:
-      case op_50:
-      case op_51:
-      case op_52:
-      case op_53:
-      case op_54:
-      case op_55:
-      case op_56:
-      case op_59:
-      case op_62:
-      case op_63:
-      case op_64:
-      case EQUALS:
-      case op_66:
-      case op_67:
-      case op_71:
-      case op_72:
-      case op_73:
-      case op_74:
-      case op_75:
-      case op_77:
-      case op_78:
-      case op_79:
-      case op_80:
-      case op_81:
-      case op_82:
-      case op_83:
-      case op_84:
-      case op_85:
-      case op_86:
-      case op_87:
-      case op_88:
-      case op_89:
-      case op_90:
-      case op_91:
-      case op_92:
-      case op_93:
-      case op_94:
-      case op_95:
-      case op_96:
-      case op_97:
-      case op_98:
-      case op_100:
-      case op_101:
-      case op_102:
-      case op_103:
-      case op_104:
-      case op_105:
-      case op_106:
-      case op_107:
-      case op_108:
-      case op_109:
-      case op_110:
-      case op_111:
-      case op_117:
-      case op_118:
-      case op_119:
-        tn = InfixOp();
-          kind = N_InfixDecl; n = lastOp.getIdentifier();
-          sn = new SyntaxTreeNode[3]; sn[1] = tn;
-          sn[0] =  new SyntaxTreeNode(mn, t);
-expecting = "_";
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case op_76, op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116 -> {
+        // LOOKAHEAD( <OpSymbol>, { isPrefixDeclOp( getToken(1) )  } )
+        tn = NonExpPrefixOp();
+        kind = N_PrefixDecl;
+        n = lastOp.getIdentifier();
+        sn = new SyntaxTreeNode[2];
+        sn[0] = tn;
+        expecting = "_";
         t = jj_consume_token(US);
-                       sn[2] = new SyntaxTreeNode(mn, t);
-        break;
-      case op_57:
-      case op_68:
-      case op_69:
-      case op_70:
-        tn = PostfixOp();
-          kind = N_PostfixDecl; n = lastOp.getIdentifier();
-          sn = new SyntaxTreeNode[2]; sn[1] = tn;
-          sn[0] =  new SyntaxTreeNode(mn, t);
-        break;
-      default:
-        jj_la1[31] = jj_gen;
+        sn[1] = new SyntaxTreeNode(mn, t);
+      }
+      case US -> {
+        t = jj_consume_token(US);
+        expecting = "infix or postfix operator";
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case op_1, AND, op_3, op_4, OR, op_6, op_7, op_8, op_9, op_10, op_11, op_12, op_13, op_14, op_15, op_16, op_17, op_18, op_19, IN, op_21, op_22, op_23, op_24, op_25, op_27, op_30, op_31, op_32, op_33, op_34, op_35, op_36, op_37, op_38, op_39, op_40, op_41, op_42, op_43, op_44, op_45, op_46, op_47, op_48, op_49, op_50, op_51, op_52, op_53, op_54, op_55, op_56, op_59, op_62, op_63, op_64, EQUALS, op_66, op_67, op_71, op_72, op_73, op_74, op_75, op_77, op_78, op_79, op_80, op_81, op_82, op_83, op_84, op_85, op_86, op_87, op_88, op_89, op_90, op_91, op_92, op_93, op_94, op_95, op_96, op_97, op_98, op_100, op_101, op_102, op_103, op_104, op_105, op_106, op_107, op_108, op_109, op_110, op_111, op_117, op_118, op_119 -> {
+            tn = InfixOp();
+            kind = N_InfixDecl;
+            n = lastOp.getIdentifier();
+            sn = new SyntaxTreeNode[3];
+            sn[1] = tn;
+            sn[0] = new SyntaxTreeNode(mn, t);
+            expecting = "_";
+            t = jj_consume_token(US);
+            sn[2] = new SyntaxTreeNode(mn, t);
+          }
+          case op_57, op_68, op_69, op_70 -> {
+            tn = PostfixOp();
+            kind = N_PostfixDecl;
+            n = lastOp.getIdentifier();
+            sn = new SyntaxTreeNode[2];
+            sn[1] = tn;
+            sn[0] = new SyntaxTreeNode(mn, t);
+          }
+          default -> {
+            jj_la1[31] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
+        }
+      }
+      default -> {
+        jj_la1[32] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
-      break;
-    default:
-      jj_la1[32] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
     }
     epa(); {if (true) return new SyntaxTreeNode(mn, kind, sn);}
     throw new Error("Missing return statement in function");
@@ -2381,13 +1862,12 @@ expecting = "_";
   final Token t;
   bpa("Instance");
 expecting = "LOCAL or instance";
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case LOCAL:
-      t = jj_consume_token(LOCAL);
-    zn =  new SyntaxTreeNode(mn, t);
-      break;
-    default:
-      jj_la1[33] = jj_gen;
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case LOCAL -> {
+        t = jj_consume_token(LOCAL);
+        zn = new SyntaxTreeNode(mn, t);
+      }
+      default -> jj_la1[33] = jj_gen;
     }
     tn = Instantiation();
                          addHeir( tn );
@@ -2409,30 +1889,29 @@ expecting = "Module identifier";
     tn = Identifier();
                       addDependency( tn.image ); addHeir( tn );
 expecting = "WITH or another definition.";
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case WITH:
-      t = jj_consume_token(WITH);
-                  addHeir( new SyntaxTreeNode(mn, t) );
-expecting = emptyString;
-      tn = Substitution();
-                          addHeir( tn );
-expecting = emptyString;
-      label_12:
-      while (true) {
-        if (jj_2_12(3)) {
-        } else {
-          break label_12;
-        }
-        t = jj_consume_token(COMMA);
-                     addHeir( new SyntaxTreeNode(mn, t) );
-expecting = emptyString;
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case WITH -> {
+        t = jj_consume_token(WITH);
+        addHeir(new SyntaxTreeNode(mn, t));
+        expecting = emptyString;
         tn = Substitution();
-                            addHeir( tn );
-expecting = emptyString;
+        addHeir(tn);
+        expecting = emptyString;
+        label_12:
+        while (true) {
+          if (jj_2_12(3)) {
+          } else {
+            break label_12;
+          }
+          t = jj_consume_token(COMMA);
+          addHeir(new SyntaxTreeNode(mn, t));
+          expecting = emptyString;
+          tn = Substitution();
+          addHeir(tn);
+          expecting = emptyString;
+        }
       }
-      break;
-    default:
-      jj_la1[34] = jj_gen;
+      default -> jj_la1[34] = jj_gen;
     }
     final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_NonLocalInstance, sn);}
@@ -2450,141 +1929,28 @@ expecting = emptyString;
     ***********************************************************************/
   final String n;
   bpa("Substitution");
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case IDENTIFIER:
-      tn = Identifier();
-                        zn[0] = tn;
-      break;
-    case op_76:
-    case op_26:
-    case op_29:
-    case op_58:
-    case CASESEP:
-    case op_61:
-    case op_112:
-    case op_113:
-    case op_114:
-    case op_115:
-    case op_116:
-      tn = NonExpPrefixOp();
-                            zn[0] = tn;
-      break;
-    case op_1:
-    case AND:
-    case op_3:
-    case op_4:
-    case OR:
-    case op_6:
-    case op_7:
-    case op_8:
-    case op_9:
-    case op_10:
-    case op_11:
-    case op_12:
-    case op_13:
-    case op_14:
-    case op_15:
-    case op_16:
-    case op_17:
-    case op_18:
-    case op_19:
-    case IN:
-    case op_21:
-    case op_22:
-    case op_23:
-    case op_24:
-    case op_25:
-    case op_27:
-    case op_30:
-    case op_31:
-    case op_32:
-    case op_33:
-    case op_34:
-    case op_35:
-    case op_36:
-    case op_37:
-    case op_38:
-    case op_39:
-    case op_40:
-    case op_41:
-    case op_42:
-    case op_43:
-    case op_44:
-    case op_45:
-    case op_46:
-    case op_47:
-    case op_48:
-    case op_49:
-    case op_50:
-    case op_51:
-    case op_52:
-    case op_53:
-    case op_54:
-    case op_55:
-    case op_56:
-    case op_59:
-    case op_62:
-    case op_63:
-    case op_64:
-    case EQUALS:
-    case op_66:
-    case op_67:
-    case op_71:
-    case op_72:
-    case op_73:
-    case op_74:
-    case op_75:
-    case op_77:
-    case op_78:
-    case op_79:
-    case op_80:
-    case op_81:
-    case op_82:
-    case op_83:
-    case op_84:
-    case op_85:
-    case op_86:
-    case op_87:
-    case op_88:
-    case op_89:
-    case op_90:
-    case op_91:
-    case op_92:
-    case op_93:
-    case op_94:
-    case op_95:
-    case op_96:
-    case op_97:
-    case op_98:
-    case op_100:
-    case op_101:
-    case op_102:
-    case op_103:
-    case op_104:
-    case op_105:
-    case op_106:
-    case op_107:
-    case op_108:
-    case op_109:
-    case op_110:
-    case op_111:
-    case op_117:
-    case op_118:
-    case op_119:
-      tn = InfixOp();
-                     zn[0] = tn;
-      break;
-    case op_57:
-    case op_68:
-    case op_69:
-    case op_70:
-      tn = PostfixOp();
-                       zn[0] = tn;
-      break;
-    default:
-      jj_la1[35] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case IDENTIFIER -> {
+        tn = Identifier();
+        zn[0] = tn;
+      }
+      case op_76, op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116 -> {
+        tn = NonExpPrefixOp();
+        zn[0] = tn;
+      }
+      case op_1, AND, op_3, op_4, OR, op_6, op_7, op_8, op_9, op_10, op_11, op_12, op_13, op_14, op_15, op_16, op_17, op_18, op_19, IN, op_21, op_22, op_23, op_24, op_25, op_27, op_30, op_31, op_32, op_33, op_34, op_35, op_36, op_37, op_38, op_39, op_40, op_41, op_42, op_43, op_44, op_45, op_46, op_47, op_48, op_49, op_50, op_51, op_52, op_53, op_54, op_55, op_56, op_59, op_62, op_63, op_64, EQUALS, op_66, op_67, op_71, op_72, op_73, op_74, op_75, op_77, op_78, op_79, op_80, op_81, op_82, op_83, op_84, op_85, op_86, op_87, op_88, op_89, op_90, op_91, op_92, op_93, op_94, op_95, op_96, op_97, op_98, op_100, op_101, op_102, op_103, op_104, op_105, op_106, op_107, op_108, op_109, op_110, op_111, op_117, op_118, op_119 -> {
+        tn = InfixOp();
+        zn[0] = tn;
+      }
+      case op_57, op_68, op_69, op_70 -> {
+        tn = PostfixOp();
+        zn[0] = tn;
+      }
+      default -> {
+        jj_la1[35] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
   expecting = "<-";
     t = jj_consume_token(SUBSTITUTE);
@@ -2650,26 +2016,20 @@ epa();
   bpa("Assumption");
 // expecting = "LOCAL or ASSUM...";
 expecting = "ASSUM...";
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case ASSUMPTION:
-      t = jj_consume_token(ASSUMPTION);
-      break;
-    case ASSUME:
-      t = jj_consume_token(ASSUME);
-      break;
-    default:
-      jj_la1[38] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case ASSUMPTION -> t = jj_consume_token(ASSUMPTION);
+      case ASSUME -> t = jj_consume_token(ASSUME);
+      default -> {
+        jj_la1[38] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
                                         addHeir( new SyntaxTreeNode(mn, t) );
     if (jj_2_15(2)) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case DEFBREAK:
-        t = jj_consume_token(DEFBREAK);
-        break;
-      default:
-        jj_la1[39] = jj_gen;
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case DEFBREAK -> t = jj_consume_token(DEFBREAK);
+        default -> jj_la1[39] = jj_gen;
       }
       /* A DEFBREAK might get added here by belchDEF */
           tn = Identifier();
@@ -2720,46 +2080,44 @@ expecting = "Expression";
   Token t;
   SyntaxTreeNode[] sn;
   bpa("Assume-Prove");
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case IDENTIFIER:
-      tn = Identifier();
-      /*********************************************************************
-      * The semantic analyzer expects the label name to be a GeneralId     *
-      * node whose first child is an empty N_IdPrefix node and whose       *
-      * second child is the label's Identifier node.                       *
-      *********************************************************************/
-      addHeir(new SyntaxTreeNode(
-                    mn,
-                    N_GeneralId,
-                    new SyntaxTreeNode[] {
-                       new SyntaxTreeNode(
-                             mn,
-                             N_IdPrefix,
-                             new SyntaxTreeNode[0]),
-                       tn}
-                      ) ) ;
-      t = jj_consume_token(COLONCOLON);
-                        addHeir( new SyntaxTreeNode(mn, t) );
-      tn = AssumeProve();
-                        addHeir(tn);
-      sn = getLastHeirs();
-      epa();
-      {if (true) return new SyntaxTreeNode( mn, N_Label, sn);}
-      break;
-    default:
-      jj_la1[40] = jj_gen;
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case IDENTIFIER -> {
+        tn = Identifier();
+        /*********************************************************************
+         * The semantic analyzer expects the label name to be a GeneralId     *
+         * node whose first child is an empty N_IdPrefix node and whose       *
+         * second child is the label's Identifier node.                       *
+         *********************************************************************/
+        addHeir(new SyntaxTreeNode(
+                mn,
+                N_GeneralId,
+                new SyntaxTreeNode[]{
+                        new SyntaxTreeNode(
+                                mn,
+                                N_IdPrefix,
+                                new SyntaxTreeNode[0]),
+                        tn}
+        ));
+        t = jj_consume_token(COLONCOLON);
+        addHeir(new SyntaxTreeNode(mn, t));
+        tn = AssumeProve();
+        addHeir(tn);
+        sn = getLastHeirs();
+        epa();
+        {
+          if (true) return new SyntaxTreeNode(mn, N_Label, sn);
+        }
+      }
+      default -> jj_la1[40] = jj_gen;
     }
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case ASSUME:
-      t = jj_consume_token(ASSUME);
-      break;
-    case BOXASSUME:
-      t = jj_consume_token(BOXASSUME);
-      break;
-    default:
-      jj_la1[41] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case ASSUME -> t = jj_consume_token(ASSUME);
+      case BOXASSUME -> t = jj_consume_token(BOXASSUME);
+      default -> {
+        jj_la1[41] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
                                       addHeir( new SyntaxTreeNode(mn, t) );
 expecting = "Expression, Declaration, or AssumeProve";
@@ -2771,23 +2129,17 @@ expecting = "Expression, Declaration, or AssumeProve";
                             *****************************************************/
            tn = AssumeProve();
     } else {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case ACTION:
-      case CONSTANT:
-      case NEW:
-      case STATE:
-      case TEMPORAL:
-      case VARIABLE:
-        tn = NewSymb();
-        break;
-      default:
-        jj_la1[42] = jj_gen;
-        if (jj_2_16(1)) {
-          tn = Expression();
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case ACTION, CONSTANT, NEW, STATE, TEMPORAL, VARIABLE -> tn = NewSymb();
+        default -> {
+          jj_la1[42] = jj_gen;
+          if (jj_2_16(1)) {
+            tn = Expression();
 
-        } else {
-          jj_consume_token(-1);
-          throw new ParseException();
+          } else {
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
         }
       }
     }
@@ -2813,39 +2165,30 @@ expecting = "Expression, Declaration, or AssumeProve";
                               *****************************************************/
                tn = AssumeProve();
       } else {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case ACTION:
-        case CONSTANT:
-        case NEW:
-        case STATE:
-        case TEMPORAL:
-        case VARIABLE:
-          tn = NewSymb();
-          break;
-        default:
-          jj_la1[44] = jj_gen;
-          if (jj_2_17(1)) {
-            tn = Expression();
-          } else {
-            jj_consume_token(-1);
-            throw new ParseException();
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case ACTION, CONSTANT, NEW, STATE, TEMPORAL, VARIABLE -> tn = NewSymb();
+          default -> {
+            jj_la1[44] = jj_gen;
+            if (jj_2_17(1)) {
+              tn = Expression();
+            } else {
+              jj_consume_token(-1);
+              throw new ParseException();
+            }
           }
         }
       }
       addHeir(tn);
 expecting = "PROVE or `,'";
     }
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case PROVE:
-      t = jj_consume_token(PROVE);
-      break;
-    case BOXPROVE:
-      t = jj_consume_token(BOXPROVE);
-      break;
-    default:
-      jj_la1[45] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case PROVE -> t = jj_consume_token(PROVE);
+      case BOXPROVE -> t = jj_consume_token(BOXPROVE);
+      default -> {
+        jj_la1[45] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
                                    addHeir( new SyntaxTreeNode(mn, t) );
 expecting = "Expression";
@@ -2882,19 +2225,20 @@ expecting = "Expression";
         t = jj_consume_token(CONSTANT);
                            addHeir( new SyntaxTreeNode(mn, t) );
       } else {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case NEW:
-          t = jj_consume_token(NEW);
-                           addHeir( new SyntaxTreeNode(mn, t) );
-          break;
-        case CONSTANT:
-          t = jj_consume_token(CONSTANT);
-                           addHeir( new SyntaxTreeNode(mn, t) );
-          break;
-        default:
-          jj_la1[46] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case NEW -> {
+            t = jj_consume_token(NEW);
+            addHeir(new SyntaxTreeNode(mn, t));
+          }
+          case CONSTANT -> {
+            t = jj_consume_token(CONSTANT);
+            addHeir(new SyntaxTreeNode(mn, t));
+          }
+          default -> {
+            jj_la1[46] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
         }
       }
       expecting = "Constant declaration";
@@ -2902,53 +2246,43 @@ expecting = "Expression";
         tn = IdentDecl();
                             hasArgs = tn.heirs().length > 1;
                             addHeir (tn) ;
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case IN:
-          t = jj_consume_token(IN);
-                      if (hasArgs) {
-                        {if (true) throw new ParseException(
-                          "declared symbol with arguments before \\in at "
-                           + tn.getLocation());}
-                        }
-          addHeir(new SyntaxTreeNode(mn, t) );
-                      expecting = "Expression";
-          tn = Expression();
-                               addHeir (tn) ;
-          break;
-        default:
-          jj_la1[47] = jj_gen;
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case IN -> {
+            t = jj_consume_token(IN);
+            if (hasArgs) {
+              {
+                if (true) throw new ParseException(
+                        "declared symbol with arguments before \\in at "
+                                + tn.getLocation());
+              }
+            }
+            addHeir(new SyntaxTreeNode(mn, t));
+            expecting = "Expression";
+            tn = Expression();
+            addHeir(tn);
+          }
+          default -> jj_la1[47] = jj_gen;
         }
       } else {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case US:
-        case op_76:
-        case op_26:
-        case op_29:
-        case op_58:
-        case CASESEP:
-        case op_61:
-        case op_112:
-        case op_113:
-        case op_114:
-        case op_115:
-        case op_116:
-          tn = SomeFixDecl();
-                              addHeir (tn) ;
-          break;
-        default:
-          jj_la1[48] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case US, op_76, op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116 -> {
+            tn = SomeFixDecl();
+            addHeir(tn);
+          }
+          default -> {
+            jj_la1[48] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
         }
       }
     } else if (jj_2_21(2)) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case NEW:
-        t = jj_consume_token(NEW);
-                   addHeir(new SyntaxTreeNode(mn, t) );
-        break;
-      default:
-        jj_la1[49] = jj_gen;
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case NEW -> {
+          t = jj_consume_token(NEW);
+          addHeir(new SyntaxTreeNode(mn, t));
+        }
+        default -> jj_la1[49] = jj_gen;
       }
       t = jj_consume_token(VARIABLE);
                       addHeir(new SyntaxTreeNode(mn, t) );
@@ -2963,55 +2297,39 @@ expecting = "Expression";
                          sn[0] = tn ;
                          addHeir(new SyntaxTreeNode( mn, N_IdentDecl, sn));
     } else if (jj_2_22(2)) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case NEW:
-        t = jj_consume_token(NEW);
-                     addHeir(new SyntaxTreeNode(mn, t));
-        break;
-      default:
-        jj_la1[50] = jj_gen;
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case NEW -> {
+          t = jj_consume_token(NEW);
+          addHeir(new SyntaxTreeNode(mn, t));
+        }
+        default -> jj_la1[50] = jj_gen;
       }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case STATE:
-        t = jj_consume_token(STATE);
-        break;
-      case ACTION:
-        t = jj_consume_token(ACTION);
-        break;
-      case TEMPORAL:
-        t = jj_consume_token(TEMPORAL);
-        break;
-      default:
-        jj_la1[51] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case STATE -> t = jj_consume_token(STATE);
+        case ACTION -> t = jj_consume_token(ACTION);
+        case TEMPORAL -> t = jj_consume_token(TEMPORAL);
+        default -> {
+          jj_la1[51] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
       }
        addHeir( new SyntaxTreeNode(mn, t));
        expecting = "Declaration" ;
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case IDENTIFIER:
-        tn = IdentDecl();
-                           addHeir(tn);
-        break;
-      case US:
-      case op_76:
-      case op_26:
-      case op_29:
-      case op_58:
-      case CASESEP:
-      case op_61:
-      case op_112:
-      case op_113:
-      case op_114:
-      case op_115:
-      case op_116:
-        tn = SomeFixDecl();
-                             addHeir(tn);
-        break;
-      default:
-        jj_la1[52] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case IDENTIFIER -> {
+          tn = IdentDecl();
+          addHeir(tn);
+        }
+        case US, op_76, op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116 -> {
+          tn = SomeFixDecl();
+          addHeir(tn);
+        }
+        default -> {
+          jj_la1[52] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
       }
     } else {
       jj_consume_token(-1);
@@ -3023,7 +2341,7 @@ expecting = "Expression";
   }
 
 // NumberedAssumeProve() commented out 5 Mar 2007 by LL
-// number . sequence 
+// number . sequence
 // SyntaxTreeNode
 // NumberedAssumeProve () : {
 //   SyntaxTreeNode tn;
@@ -3071,17 +2389,16 @@ expecting = "Expression";
   SyntaxTreeNode tn;
   final Token t;
   bpa("Domain binding");
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case IN:
-      t = jj_consume_token(IN);
-      zn    = new SyntaxTreeNode[2];
-      zn[0] =  new SyntaxTreeNode(mn, t);
-      zn[0].setKind(T_IN);
-expecting = "Expression";
-      zn[1] = Expression();
-      break;
-    default:
-      jj_la1[53] = jj_gen;
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case IN -> {
+        t = jj_consume_token(IN);
+        zn = new SyntaxTreeNode[2];
+        zn[0] = new SyntaxTreeNode(mn, t);
+        zn[0].setKind(T_IN);
+        expecting = "Expression";
+        zn[1] = Expression();
+      }
+      default -> jj_la1[53] = jj_gen;
     }
     epa(); {if (true) return new SyntaxTreeNode( mn, N_MaybeBound, zn);}
     throw new Error("Missing return statement in function");
@@ -3099,17 +2416,14 @@ expecting = "Expression";
   Token t;
   bpa("Theorem");
 expecting= "THEOREM, PROPOSITION";
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case THEOREM:
-      t = jj_consume_token(THEOREM);
-      break;
-    case PROPOSITION:
-      t = jj_consume_token(PROPOSITION);
-      break;
-    default:
-      jj_la1[54] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case THEOREM -> t = jj_consume_token(THEOREM);
+      case PROPOSITION -> t = jj_consume_token(PROPOSITION);
+      default -> {
+        jj_la1[54] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
                                           addHeir( new SyntaxTreeNode(mn, t) );
 expecting = "Identifier, Assume-Prove or Expression";
@@ -3220,24 +2534,18 @@ expecting = "==";
     if ((getToken(1).kind == BY) || (getToken(2).kind == BY)) {
       tn = UseOrHideOrBy();
     } else if (jj_2_27(2)) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case PROOF:
-        t0 = jj_consume_token(PROOF);
-        break;
-      default:
-        jj_la1[55] = jj_gen;
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case PROOF -> t0 = jj_consume_token(PROOF);
+        default -> jj_la1[55] = jj_gen;
       }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case OBVIOUS:
-        t = jj_consume_token(OBVIOUS);
-        break;
-      case OMITTED:
-        t = jj_consume_token(OMITTED);
-        break;
-      default:
-        jj_la1[56] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case OBVIOUS -> t = jj_consume_token(OBVIOUS);
+        case OMITTED -> t = jj_consume_token(OMITTED);
+        default -> {
+          jj_la1[56] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
       }
      final SyntaxTreeNode[] sn;
      if (t0 != null) {
@@ -3294,68 +2602,66 @@ expecting = "==";
   Token t;
   int kind = N_UseOrHide;
   bpa("UseOrHideOrBy");
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case BY:
-    case PROOF:
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case PROOF:
-        t = jj_consume_token(PROOF);
-                    addHeir(new SyntaxTreeNode(mn, t));
-        break;
-      default:
-        jj_la1[57] = jj_gen;
-      }
-      t = jj_consume_token(BY);
-                 kind = N_TerminalProof;
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case BY, PROOF -> {
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case PROOF -> {
+            t = jj_consume_token(PROOF);
+            addHeir(new SyntaxTreeNode(mn, t));
+          }
+          default -> jj_la1[57] = jj_gen;
+        }
+        t = jj_consume_token(BY);
+        kind = N_TerminalProof;
         addHeir(new SyntaxTreeNode(mn, t));
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case ONLY:
-        t = jj_consume_token(ONLY);
-                   addHeir(new SyntaxTreeNode(mn, t));
-        break;
-      default:
-        jj_la1[58] = jj_gen;
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case ONLY -> {
+            t = jj_consume_token(ONLY);
+            addHeir(new SyntaxTreeNode(mn, t));
+          }
+          default -> jj_la1[58] = jj_gen;
+        }
       }
-      break;
-    case USE:
-      t = jj_consume_token(USE);
-       addHeir(new SyntaxTreeNode(mn, t));
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case ONLY:
-        t = jj_consume_token(ONLY);
-                   addHeir(new SyntaxTreeNode(mn, t));
-        break;
-      default:
-        jj_la1[59] = jj_gen;
+      case USE -> {
+        t = jj_consume_token(USE);
+        addHeir(new SyntaxTreeNode(mn, t));
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case ONLY -> {
+            t = jj_consume_token(ONLY);
+            addHeir(new SyntaxTreeNode(mn, t));
+          }
+          default -> jj_la1[59] = jj_gen;
+        }
       }
-      break;
-    case HIDE:
-      t = jj_consume_token(HIDE);
-       addHeir(new SyntaxTreeNode(mn, t));
-      break;
-    default:
-      jj_la1[60] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+      case HIDE -> {
+        t = jj_consume_token(HIDE);
+        addHeir(new SyntaxTreeNode(mn, t));
+      }
+      default -> {
+        jj_la1[60] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
      expecting = "an expression, `MODULE' or `DEF'";
     if (jj_2_31(1)) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case MODULE:
-        t = jj_consume_token(MODULE);
-                             addHeir( new SyntaxTreeNode(mn, t) );
-                             expecting = "identifier";
-        tn = Identifier();
-                             addHeir(tn);
-        break;
-      default:
-        jj_la1[61] = jj_gen;
-        if (jj_2_29(1)) {
-          tn = Expression();
-                            addHeir(tn);
-        } else {
-          jj_consume_token(-1);
-          throw new ParseException();
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case MODULE -> {
+          t = jj_consume_token(MODULE);
+          addHeir(new SyntaxTreeNode(mn, t));
+          expecting = "identifier";
+          tn = Identifier();
+          addHeir(tn);
+        }
+        default -> {
+          jj_la1[61] = jj_gen;
+          if (jj_2_29(1)) {
+            tn = Expression();
+            addHeir(tn);
+          } else {
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
         }
       }
       label_15:
@@ -3370,87 +2676,92 @@ expecting = "==";
         t = jj_consume_token(COMMA);
                      addHeir( new SyntaxTreeNode(mn, t) );
                      expecting = "MODULE or expression";
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case MODULE:
-          t = jj_consume_token(MODULE);
-                               addHeir( new SyntaxTreeNode(mn, t) );
-                               expecting = "identifier";
-          tn = Identifier();
-                               addHeir(tn);
-          break;
-        default:
-          jj_la1[63] = jj_gen;
-          if (jj_2_30(1)) {
-            tn = Expression();
-                              addHeir(tn);
-          } else {
-            jj_consume_token(-1);
-            throw new ParseException();
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case MODULE -> {
+            t = jj_consume_token(MODULE);
+            addHeir(new SyntaxTreeNode(mn, t));
+            expecting = "identifier";
+            tn = Identifier();
+            addHeir(tn);
+          }
+          default -> {
+            jj_la1[63] = jj_gen;
+            if (jj_2_30(1)) {
+              tn = Expression();
+              addHeir(tn);
+            } else {
+              jj_consume_token(-1);
+              throw new ParseException();
+            }
           }
         }
          if (kind == N_TerminalProof) { expecting = "comma, DEF, or [.]"; }
          else {expecting = "comma, DEF, or proof step";}
       }
     }
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case DF:
-      t = jj_consume_token(DF);
-                addHeir( new SyntaxTreeNode(mn, t) );
-                expecting = "MODULE or expression";
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case MODULE:
-        t = jj_consume_token(MODULE);
-                             addHeir( new SyntaxTreeNode(mn, t) );
-                               expecting = "identifier";
-        tn = Identifier();
-                             addHeir(tn);
-        break;
-      default:
-        jj_la1[64] = jj_gen;
-        if (jj_2_32(1)) {
-          tn = Expression();
-                            addHeir(tn);
-        } else {
-          jj_consume_token(-1);
-          throw new ParseException();
-        }
-      }
-      label_16:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMMA:
-          break;
-        default:
-          jj_la1[65] = jj_gen;
-          break label_16;
-        }
-        t = jj_consume_token(COMMA);
-                     addHeir( new SyntaxTreeNode(mn, t) );
-                     expecting = "MODULE or expression";
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case MODULE:
-          t = jj_consume_token(MODULE);
-                               addHeir( new SyntaxTreeNode(mn, t) );
-                               expecting = "identifier";
-          tn = Identifier();
-                               addHeir(tn);
-          break;
-        default:
-          jj_la1[66] = jj_gen;
-          if (jj_2_33(1)) {
-            tn = Expression();
-                              addHeir(tn);
-          } else {
-            jj_consume_token(-1);
-            throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case DF -> {
+        t = jj_consume_token(DF);
+        addHeir(new SyntaxTreeNode(mn, t));
+        expecting = "MODULE or expression";
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case MODULE -> {
+            t = jj_consume_token(MODULE);
+            addHeir(new SyntaxTreeNode(mn, t));
+            expecting = "identifier";
+            tn = Identifier();
+            addHeir(tn);
+          }
+          default -> {
+            jj_la1[64] = jj_gen;
+            if (jj_2_32(1)) {
+              tn = Expression();
+              addHeir(tn);
+            } else {
+              jj_consume_token(-1);
+              throw new ParseException();
+            }
           }
         }
-          if (kind == N_TerminalProof) { expecting = "comma or [.]"; }
-         else {expecting = "comma or proof step" ; }
+        label_16:
+        while (true) {
+          switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            case COMMA:
+              break;
+            default:
+              jj_la1[65] = jj_gen;
+              break label_16;
+          }
+          t = jj_consume_token(COMMA);
+          addHeir(new SyntaxTreeNode(mn, t));
+          expecting = "MODULE or expression";
+          switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            case MODULE -> {
+              t = jj_consume_token(MODULE);
+              addHeir(new SyntaxTreeNode(mn, t));
+              expecting = "identifier";
+              tn = Identifier();
+              addHeir(tn);
+            }
+            default -> {
+              jj_la1[66] = jj_gen;
+              if (jj_2_33(1)) {
+                tn = Expression();
+                addHeir(tn);
+              } else {
+                jj_consume_token(-1);
+                throw new ParseException();
+              }
+            }
+          }
+          if (kind == N_TerminalProof) {
+            expecting = "comma or [.]";
+          } else {
+            expecting = "comma or proof step";
+          }
+        }
       }
-      break;
-    default:
-      jj_la1[67] = jj_gen;
+      default -> jj_la1[67] = jj_gen;
     }
     if (kind == N_TerminalProof) {expecting = "[.]";}
     final SyntaxTreeNode[] sn = getLastHeirs();
@@ -3461,26 +2772,17 @@ expecting = "==";
 
   final public Token StepStartToken() throws ParseException {
  final Token t ;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case ProofStepLexeme:
-      t = jj_consume_token(ProofStepLexeme);
-      break;
-    case ProofImplicitStepLexeme:
-      t = jj_consume_token(ProofImplicitStepLexeme);
-      break;
-    case ProofStepDotLexeme:
-      t = jj_consume_token(ProofStepDotLexeme);
-      break;
-    case BareLevelLexeme:
-      t = jj_consume_token(BareLevelLexeme);
-      break;
-    case UnnumberedStepLexeme:
-      t = jj_consume_token(UnnumberedStepLexeme);
-      break;
-    default:
-      jj_la1[68] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case ProofStepLexeme -> t = jj_consume_token(ProofStepLexeme);
+      case ProofImplicitStepLexeme -> t = jj_consume_token(ProofImplicitStepLexeme);
+      case ProofStepDotLexeme -> t = jj_consume_token(ProofStepDotLexeme);
+      case BareLevelLexeme -> t = jj_consume_token(BareLevelLexeme);
+      case UnnumberedStepLexeme -> t = jj_consume_token(UnnumberedStepLexeme);
+      default -> {
+        jj_la1[68] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
      {if (true) return t ;}
     throw new Error("Missing return statement in function");
@@ -3573,35 +2875,39 @@ expecting = "==";
       tn = DefStep();
                            addHeir(tn) ;
     } else {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case HAVE:
-        tn = HaveStep();
-                           addHeir(tn) ;
-        break;
-      case TAKE:
-        tn = TakeStep();
-                           addHeir(tn) ;
-        break;
-      case WITNESS:
-        tn = WitnessStep();
-                           addHeir(tn) ;
-        break;
-      case PICK:
-        tn = PickStep();
-                           addHeir(tn) ;  mayHaveProof = true;
-        break;
-      case CASE:
-        tn = CaseStep();
-                           addHeir(tn) ;  mayHaveProof = true;
-        break;
-      default:
-        jj_la1[69] = jj_gen;
-        if (jj_2_34(1)) {
-          tn = AssertStep();
-                           addHeir(tn) ; mayHaveProof = true;
-        } else {
-          jj_consume_token(-1);
-          throw new ParseException();
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case HAVE -> {
+          tn = HaveStep();
+          addHeir(tn);
+        }
+        case TAKE -> {
+          tn = TakeStep();
+          addHeir(tn);
+        }
+        case WITNESS -> {
+          tn = WitnessStep();
+          addHeir(tn);
+        }
+        case PICK -> {
+          tn = PickStep();
+          addHeir(tn);
+          mayHaveProof = true;
+        }
+        case CASE -> {
+          tn = CaseStep();
+          addHeir(tn);
+          mayHaveProof = true;
+        }
+        default -> {
+          jj_la1[69] = jj_gen;
+          if (jj_2_34(1)) {
+            tn = AssertStep();
+            addHeir(tn);
+            mayHaveProof = true;
+          } else {
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
         }
       }
     }
@@ -3628,13 +2934,12 @@ expecting = "==";
  Token t = null;
  SyntaxTreeNode tn = null;
  bpa("DefStep") ;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case DEFINE:
-      t = jj_consume_token(DEFINE);
-                    addHeir(new SyntaxTreeNode(mn, t));
-      break;
-    default:
-      jj_la1[70] = jj_gen;
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case DEFINE -> {
+        t = jj_consume_token(DEFINE);
+        addHeir(new SyntaxTreeNode(mn, t));
+      }
+      default -> jj_la1[70] = jj_gen;
     }
     label_17:
     while (true) {
@@ -3703,32 +3008,33 @@ expecting = "==";
                            expecting = "comma or proof step";
       }
     } else {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case IDENTIFIER:
-        tn = Identifier();
-                         addHeir(tn) ;
-                         expecting = "comma or proof step";
-        label_19:
-        while (true) {
-          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case COMMA:
-            break;
-          default:
-            jj_la1[72] = jj_gen;
-            break label_19;
-          }
-          t = jj_consume_token(COMMA);
-                     addHeir( new SyntaxTreeNode(mn, t) );
-                     expecting = "identifier";
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case IDENTIFIER -> {
           tn = Identifier();
-                           addHeir(tn) ;
-                           expecting = "comma or proof step";
+          addHeir(tn);
+          expecting = "comma or proof step";
+          label_19:
+          while (true) {
+            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+              case COMMA:
+                break;
+              default:
+                jj_la1[72] = jj_gen;
+                break label_19;
+            }
+            t = jj_consume_token(COMMA);
+            addHeir(new SyntaxTreeNode(mn, t));
+            expecting = "identifier";
+            tn = Identifier();
+            addHeir(tn);
+            expecting = "comma or proof step";
+          }
         }
-        break;
-      default:
-        jj_la1[73] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+        default -> {
+          jj_la1[73] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
       }
     }
       final SyntaxTreeNode[] sn = getLastHeirs();
@@ -3807,33 +3113,33 @@ expecting = "==";
                             expecting = "comma or colon";
       }
     } else {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case LAB:
-      case IDENTIFIER:
-        tn = QuantBound();
-                          addHeir(tn) ;
-                          expecting = "comma or colon";
-        label_22:
-        while (true) {
-          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case COMMA:
-            break;
-          default:
-            jj_la1[76] = jj_gen;
-            break label_22;
-          }
-          t = jj_consume_token(COMMA);
-                      addHeir( new SyntaxTreeNode(mn, t) );
-                      expecting = "identifier or tuple of identifiers";
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case LAB, IDENTIFIER -> {
           tn = QuantBound();
-                            addHeir(tn) ;
-                            expecting = "comma or colon";
+          addHeir(tn);
+          expecting = "comma or colon";
+          label_22:
+          while (true) {
+            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+              case COMMA:
+                break;
+              default:
+                jj_la1[76] = jj_gen;
+                break label_22;
+            }
+            t = jj_consume_token(COMMA);
+            addHeir(new SyntaxTreeNode(mn, t));
+            expecting = "identifier or tuple of identifiers";
+            tn = QuantBound();
+            addHeir(tn);
+            expecting = "comma or colon";
+          }
         }
-        break;
-      default:
-        jj_la1[77] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+        default -> {
+          jj_la1[77] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
       }
     }
     t = jj_consume_token(COLON);
@@ -3874,14 +3180,13 @@ expecting = "==";
  Token t = null;
  SyntaxTreeNode tn = null;
  bpa("AssertStep") ;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case SUFFICES:
-      t = jj_consume_token(SUFFICES);
-                     addHeir(new SyntaxTreeNode(mn, t));
-                    expecting = "expression or ASSUME/PROVE";
-      break;
-    default:
-      jj_la1[78] = jj_gen;
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case SUFFICES -> {
+        t = jj_consume_token(SUFFICES);
+        addHeir(new SyntaxTreeNode(mn, t));
+        expecting = "expression or ASSUME/PROVE";
+      }
+      default -> jj_la1[78] = jj_gen;
     }
     if (jj_2_38(1)) {
       tn = Expression();
@@ -3914,13 +3219,13 @@ expecting = "==";
 //  }{( LOOKAHEAD(2)
 //      (t = <ProofStepLexeme> | t = <ProofStepDotLexeme>)
 //      { tn = new SyntaxTreeNode(mn, t) ;
-//        addHeir(tn); 
+//        addHeir(tn);
 //        if ((proofDepth > 0) && (proofLevelStack[proofDepth-1] == -1)){
-//          throw new ParseException(tn.getLocation() + 
+//          throw new ParseException(tn.getLocation() +
 //                     ": numbered step inside unnumbered proof.");
 //         } ;
 //        if (!correctLevel(t)) {
-//          throw new ParseException(tn.getLocation() + 
+//          throw new ParseException(tn.getLocation() +
 //                     ": step number has incorrect level.");
 //         } ;
 //       }
@@ -3932,7 +3237,7 @@ expecting = "==";
 // //   have common prefixes, one of which is: "CASE"
 // //   Consider using a lookahead of 2 or more for nested expansion.
 // //
-// // This conflict is between "<1>2.  CASE expr" and 
+// // This conflict is between "<1>2.  CASE expr" and
 // // "<1>2.  CASE p -> ...".  This is an inherent ambiguity that arises
 // // from the use of "CASE" as a keyword here.  Javacc resolves
 // // conflicts by choosing the first successful match.  Here, this
@@ -3941,9 +3246,9 @@ expecting = "==";
 // //      <ProofStepDotLexeme> <CASE> Expression()
 // //
 // // causing an error when it tries to parse "-> ..." as an expression.
-// 
-// 
-// 
+//
+//
+//
 //        tn = Expression() {addHeir(tn);                               // XXXX
 //                           mayHaveProof = true ;}   // XXXX
 //       |                                                              // XXXX
@@ -3953,27 +3258,27 @@ expecting = "==";
 //    | t = <CASE> {addHeir(new SyntaxTreeNode(mn, t)); }             // XXXX
 //      tn = Expression() {addHeir(tn);                               // XXXX
 //                         mayHaveProof = nonExprBodyMayHaveProof;} // XXXX
-// 
-//    | tn = NonExprBody() 
-//        { addHeir(tn); 
+//
+//    | tn = NonExprBody()
+//        { addHeir(tn);
 //          mayHaveProof = nonExprBodyMayHaveProof;
 //          if (getProofLevel() == -2)
 //            { setProofLevel(-1) ;
 //           }
 //          else {
 //           if (getProofLevel() != -1) {
-//          throw new ParseException(tn.getLocation() + 
+//          throw new ParseException(tn.getLocation() +
 //                     ": Unnumbered step in numbered proof.");
 //             }
 //           }
 //       }
 //   )
 //   ( LOOKAHEAD( {mayHaveProof && beginsProof(getToken(1))} )
-//      tn = Proof() 
+//      tn = Proof()
 //      { addHeir(tn) ; }
 //   )?
 //   { SyntaxTreeNode sn[] = getLastHeirs();
-//     epa(); 
+//     epa();
 //     return new SyntaxTreeNode(mn, N_NumerableStep, sn);
 //   }
 // }
@@ -3990,79 +3295,79 @@ expecting = "==";
 //  nonExprBodyMayHaveProof = false ;
 //  bpa("NonExprBody") ;
 // }{ (  LOOKAHEAD(2)
-//       (t = <SUFFICES>    { addHeir(new SyntaxTreeNode(mn, t)); }) ? 
-//       tn = AssumeProve() { addHeir(tn) ; 
+//       (t = <SUFFICES>    { addHeir(new SyntaxTreeNode(mn, t)); }) ?
+//       tn = AssumeProve() { addHeir(tn) ;
 //                            nonExprBodyMayHaveProof = true;}
 //     | LOOKAHEAD(2)
 //       ( t = <PROVE> | t = <SUFFICES>)   // | t = <PROOFCASE>
-//       { addHeir(new SyntaxTreeNode(mn, t));  
+//       { addHeir(new SyntaxTreeNode(mn, t));
 //         expecting = "expression";}
-//       tn = Expression() { addHeir(tn) ; 
+//       tn = Expression() { addHeir(tn) ;
 //                           nonExprBodyMayHaveProof = true;}
-//     | t = <HAVE> { addHeir(new SyntaxTreeNode(mn, t)) ;   
+//     | t = <HAVE> { addHeir(new SyntaxTreeNode(mn, t)) ;
 //                    expecting = "expression";}
 //       tn = Expression() { addHeir(tn) ; }
-//     | t = <TAKE> { addHeir(new SyntaxTreeNode(mn, t)) ;    
+//     | t = <TAKE> { addHeir(new SyntaxTreeNode(mn, t)) ;
 //                    expecting = "identifier";}
 //       ( LOOKAHEAD (  <IDENTIFIER> (<COMMA> <IDENTIFIER>)* <IN>
-//                    | <LAB>) 
-//         tn = QuantBound() { addHeir(tn) ;  
+//                    | <LAB>)
+//         tn = QuantBound() { addHeir(tn) ;
 //                             expecting = "comma or step";}
-//         ( t = <COMMA> { addHeir( new SyntaxTreeNode(mn, t) ); 
+//         ( t = <COMMA> { addHeir( new SyntaxTreeNode(mn, t) );
 //                         expecting = "identifier or tuple of identifiers";}
-//           tn = QuantBound() { addHeir(tn) ;  
+//           tn = QuantBound() { addHeir(tn) ;
 //                               expecting = "comma or proof step";}
 //         )*
-//       |  
-//         tn = Identifier() { addHeir(tn) ; 
+//       |
+//         tn = Identifier() { addHeir(tn) ;
 //                              expecting = "comma or proof step";}
-//          ( t = <COMMA> { addHeir( new SyntaxTreeNode(mn, t) ); 
+//          ( t = <COMMA> { addHeir( new SyntaxTreeNode(mn, t) );
 //                           expecting = "identifier";}
-//            tn = Identifier() { addHeir(tn) ;  
+//            tn = Identifier() { addHeir(tn) ;
 //                                expecting = "comma or proof step";}
 //          )*
 //       )
-// 
-//     | t = <WITNESS> { addHeir(new SyntaxTreeNode(mn, t)) ;     
+//
+//     | t = <WITNESS> { addHeir(new SyntaxTreeNode(mn, t)) ;
 //                       expecting = "expression";}
 //       tn = Expression() { addHeir(tn) ; }
 //       /*********************************************************************
 //       * Note: The semantic phase must determine if this is expr \in expr,  *
 //       * or <<expr, ...  , expr>> \in expr, or just expr.                   *
 //       *********************************************************************/
-//       ( t = <COMMA> { addHeir( new SyntaxTreeNode(mn, t) ); 
+//       ( t = <COMMA> { addHeir( new SyntaxTreeNode(mn, t) );
 //                         expecting = "expression";}
-//         tn = Expression() { addHeir(tn) ;  
+//         tn = Expression() { addHeir(tn) ;
 //                             expecting = "comma or colon";}
 //       )*
-//       
-//     | t = <PICK> { addHeir(new SyntaxTreeNode(mn, t)) ;  
+//
+//     | t = <PICK> { addHeir(new SyntaxTreeNode(mn, t)) ;
 //                    expecting = "identifier";}
-//       ( LOOKAHEAD ( <IDENTIFIER> ( <COMMA> <IDENTIFIER> )* <COLON> ) 
+//       ( LOOKAHEAD ( <IDENTIFIER> ( <COMMA> <IDENTIFIER> )* <COLON> )
 //                           /* CommaList Identifier */
-//         tn = Identifier() { addHeir(tn) ; 
+//         tn = Identifier() { addHeir(tn) ;
 //                              expecting = "comma, or colon";}
-//          ( t = <COMMA> { addHeir( new SyntaxTreeNode(mn, t) ); 
+//          ( t = <COMMA> { addHeir( new SyntaxTreeNode(mn, t) );
 //                           expecting = "identifier";}
-//            tn = Identifier() { addHeir(tn) ;  
+//            tn = Identifier() { addHeir(tn) ;
 //                                expecting = "comma or colon";}
 //          )*
-//       |  
-//         tn = QuantBound() { addHeir(tn) ;  
+//       |
+//         tn = QuantBound() { addHeir(tn) ;
 //                             expecting = "comma or colon";}
-//         ( t = <COMMA> { addHeir( new SyntaxTreeNode(mn, t) ); 
+//         ( t = <COMMA> { addHeir( new SyntaxTreeNode(mn, t) );
 //                         expecting = "identifier or tuple of identifiers";}
-//           tn = QuantBound() { addHeir(tn) ;  
+//           tn = QuantBound() { addHeir(tn) ;
 //                               expecting = "comma or colon";}
 //         )*
 //        )
-//        t = <COLON> { addHeir( new SyntaxTreeNode(mn, t) );  
+//        t = <COLON> { addHeir( new SyntaxTreeNode(mn, t) );
 //                      expecting = "expression";}
 //        tn = Expression() { addHeir(tn) ; }
 //        { nonExprBodyMayHaveProof = true;}
 //    )
 //   { SyntaxTreeNode sn[] = getLastHeirs();
-//     epa(); 
+//     epa();
 //     return new SyntaxTreeNode(mn, N_NonExprBody, sn);
 //   }
 // }
@@ -4094,13 +3399,12 @@ expecting = "==";
   bpa("ID Prefix Element");
     tn = Identifier();
                       addHeir( tn );
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case LBR:
-      tn = OpArgs();
-                   addHeir( tn );
-      break;
-    default:
-      jj_la1[79] = jj_gen;
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case LBR -> {
+        tn = OpArgs();
+        addHeir(tn);
+      }
+      default -> jj_la1[79] = jj_gen;
     }
     t = jj_consume_token(BANG);
                addHeir( new SyntaxTreeNode(mn, t) );
@@ -4111,30 +3415,18 @@ expecting = "==";
 
   final public SyntaxTreeNode ParenthesesExpression() throws ParseException {
   final SyntaxTreeNode tn;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case LBR:
-      tn = ParenExpr();
-      break;
-    case LBC:
-      tn = BraceCases();
-      break;
-    case LSB:
-      tn = SBracketCases();
-      break;
-    case LWB:
-      tn = SetExcept();
-      break;
-    case LAB:
-      tn = TupleOrAction();
-      break;
-    case SF:
-    case WF:
-      tn = FairnessExpr();
-      break;
-    default:
-      jj_la1[80] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case LBR -> tn = ParenExpr();
+      case LBC -> tn = BraceCases();
+      case LSB -> tn = SBracketCases();
+      case LWB -> tn = SetExcept();
+      case LAB -> tn = TupleOrAction();
+      case SF, WF -> tn = FairnessExpr();
+      default -> {
+        jj_la1[80] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
      {if (true) return tn;}
     throw new Error("Missing return statement in function");
@@ -4143,141 +3435,15 @@ expecting = "==";
   final public SyntaxTreeNode ClosedExpressionOrOp() throws ParseException {
   final SyntaxTreeNode tn;
   Token t;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case NUMBER_LITERAL:
-    case STRING_LITERAL:
-    case op_57:
-    case op_68:
-    case op_69:
-    case op_70:
-    case op_26:
-    case op_29:
-    case op_58:
-    case CASESEP:
-    case op_61:
-    case op_112:
-    case op_113:
-    case op_114:
-    case op_115:
-    case op_116:
-    case op_1:
-    case AND:
-    case op_3:
-    case op_4:
-    case OR:
-    case op_6:
-    case op_7:
-    case op_8:
-    case op_9:
-    case op_10:
-    case op_11:
-    case op_12:
-    case op_13:
-    case op_14:
-    case op_15:
-    case op_16:
-    case op_17:
-    case op_18:
-    case op_19:
-    case IN:
-    case op_21:
-    case op_22:
-    case op_23:
-    case op_24:
-    case op_25:
-    case op_27:
-    case op_30:
-    case op_31:
-    case op_32:
-    case op_33:
-    case op_34:
-    case op_35:
-    case op_36:
-    case op_37:
-    case op_38:
-    case op_39:
-    case op_40:
-    case op_41:
-    case op_42:
-    case op_43:
-    case op_44:
-    case op_45:
-    case op_46:
-    case op_47:
-    case op_48:
-    case op_49:
-    case op_50:
-    case op_51:
-    case op_52:
-    case op_53:
-    case op_54:
-    case op_55:
-    case op_56:
-    case op_59:
-    case op_62:
-    case op_63:
-    case op_64:
-    case EQUALS:
-    case op_66:
-    case op_67:
-    case op_71:
-    case op_72:
-    case op_73:
-    case op_74:
-    case op_75:
-    case op_77:
-    case op_78:
-    case op_79:
-    case op_80:
-    case op_81:
-    case op_82:
-    case op_83:
-    case op_84:
-    case op_85:
-    case op_86:
-    case op_87:
-    case op_88:
-    case op_89:
-    case op_90:
-    case op_91:
-    case op_92:
-    case op_93:
-    case op_94:
-    case op_95:
-    case op_96:
-    case op_97:
-    case op_98:
-    case op_100:
-    case op_101:
-    case op_102:
-    case op_103:
-    case op_104:
-    case op_105:
-    case op_106:
-    case op_107:
-    case op_108:
-    case op_109:
-    case op_110:
-    case op_111:
-    case op_117:
-    case op_118:
-    case op_119:
-    case IDENTIFIER:
-      tn = ElementaryExpression();
-      break;
-    case SF:
-    case WF:
-    case LBR:
-    case LSB:
-    case LWB:
-    case LBC:
-    case LAB:
-      tn = ParenthesesExpression();
-      break;
-    default:
-      jj_la1[81] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case NUMBER_LITERAL, STRING_LITERAL, op_57, op_68, op_69, op_70, op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116, op_1, AND, op_3, op_4, OR, op_6, op_7, op_8, op_9, op_10, op_11, op_12, op_13, op_14, op_15, op_16, op_17, op_18, op_19, IN, op_21, op_22, op_23, op_24, op_25, op_27, op_30, op_31, op_32, op_33, op_34, op_35, op_36, op_37, op_38, op_39, op_40, op_41, op_42, op_43, op_44, op_45, op_46, op_47, op_48, op_49, op_50, op_51, op_52, op_53, op_54, op_55, op_56, op_59, op_62, op_63, op_64, EQUALS, op_66, op_67, op_71, op_72, op_73, op_74, op_75, op_77, op_78, op_79, op_80, op_81, op_82, op_83, op_84, op_85, op_86, op_87, op_88, op_89, op_90, op_91, op_92, op_93, op_94, op_95, op_96, op_97, op_98, op_100, op_101, op_102, op_103, op_104, op_105, op_106, op_107, op_108, op_109, op_110, op_111, op_117, op_118, op_119, IDENTIFIER ->
+              tn = ElementaryExpression();
+      case SF, WF, LBR, LSB, LWB, LBC, LAB -> tn = ParenthesesExpression();
+      default -> {
+        jj_la1[81] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
     {if (true) return tn;}
     throw new Error("Missing return statement in function");
@@ -4287,31 +3453,18 @@ expecting = "==";
 
   final public SyntaxTreeNode OpenExpression() throws ParseException {
   final SyntaxTreeNode tn;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case EXISTS:
-    case FORALL:
-      tn = SomeQuant();
-      break;
-    case T_EXISTS:
-    case T_FORALL:
-      tn = SomeTQuant();
-      break;
-    case IF:
-      tn = IfThenElse();
-      break;
-    case CASE:
-      tn = Case();
-      break;
-    case LET:
-      tn = LetIn();
-      break;
-    case CHOOSE:
-      tn = UnboundOrBoundChoose();
-      break;
-    default:
-      jj_la1[82] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case EXISTS, FORALL -> tn = SomeQuant();
+      case T_EXISTS, T_FORALL -> tn = SomeTQuant();
+      case IF -> tn = IfThenElse();
+      case CASE -> tn = Case();
+      case LET -> tn = LetIn();
+      case CHOOSE -> tn = UnboundOrBoundChoose();
+      default -> {
+        jj_la1[82] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
     {if (true) return tn;}
     throw new Error("Missing return statement in function");
@@ -4324,138 +3477,22 @@ expecting = "==";
   final SyntaxTreeNode tn;
   Token t;
   bpa("Elementary expression");
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case op_57:
-    case op_68:
-    case op_69:
-    case op_70:
-    case op_26:
-    case op_29:
-    case op_58:
-    case CASESEP:
-    case op_61:
-    case op_112:
-    case op_113:
-    case op_114:
-    case op_115:
-    case op_116:
-    case op_1:
-    case AND:
-    case op_3:
-    case op_4:
-    case OR:
-    case op_6:
-    case op_7:
-    case op_8:
-    case op_9:
-    case op_10:
-    case op_11:
-    case op_12:
-    case op_13:
-    case op_14:
-    case op_15:
-    case op_16:
-    case op_17:
-    case op_18:
-    case op_19:
-    case IN:
-    case op_21:
-    case op_22:
-    case op_23:
-    case op_24:
-    case op_25:
-    case op_27:
-    case op_30:
-    case op_31:
-    case op_32:
-    case op_33:
-    case op_34:
-    case op_35:
-    case op_36:
-    case op_37:
-    case op_38:
-    case op_39:
-    case op_40:
-    case op_41:
-    case op_42:
-    case op_43:
-    case op_44:
-    case op_45:
-    case op_46:
-    case op_47:
-    case op_48:
-    case op_49:
-    case op_50:
-    case op_51:
-    case op_52:
-    case op_53:
-    case op_54:
-    case op_55:
-    case op_56:
-    case op_59:
-    case op_62:
-    case op_63:
-    case op_64:
-    case EQUALS:
-    case op_66:
-    case op_67:
-    case op_71:
-    case op_72:
-    case op_73:
-    case op_74:
-    case op_75:
-    case op_77:
-    case op_78:
-    case op_79:
-    case op_80:
-    case op_81:
-    case op_82:
-    case op_83:
-    case op_84:
-    case op_85:
-    case op_86:
-    case op_87:
-    case op_88:
-    case op_89:
-    case op_90:
-    case op_91:
-    case op_92:
-    case op_93:
-    case op_94:
-    case op_95:
-    case op_96:
-    case op_97:
-    case op_98:
-    case op_100:
-    case op_101:
-    case op_102:
-    case op_103:
-    case op_104:
-    case op_105:
-    case op_106:
-    case op_107:
-    case op_108:
-    case op_109:
-    case op_110:
-    case op_111:
-    case op_117:
-    case op_118:
-    case op_119:
-    case IDENTIFIER:
-      tn = Extension();
-      break;
-    case STRING_LITERAL:
-      tn = String();
-                    epa();
-      break;
-    case NUMBER_LITERAL:
-      tn = Number();
-                    epa();
-      break;
-    default:
-      jj_la1[83] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case op_57, op_68, op_69, op_70, op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116, op_1, AND, op_3, op_4, OR, op_6, op_7, op_8, op_9, op_10, op_11, op_12, op_13, op_14, op_15, op_16, op_17, op_18, op_19, IN, op_21, op_22, op_23, op_24, op_25, op_27, op_30, op_31, op_32, op_33, op_34, op_35, op_36, op_37, op_38, op_39, op_40, op_41, op_42, op_43, op_44, op_45, op_46, op_47, op_48, op_49, op_50, op_51, op_52, op_53, op_54, op_55, op_56, op_59, op_62, op_63, op_64, EQUALS, op_66, op_67, op_71, op_72, op_73, op_74, op_75, op_77, op_78, op_79, op_80, op_81, op_82, op_83, op_84, op_85, op_86, op_87, op_88, op_89, op_90, op_91, op_92, op_93, op_94, op_95, op_96, op_97, op_98, op_100, op_101, op_102, op_103, op_104, op_105, op_106, op_107, op_108, op_109, op_110, op_111, op_117, op_118, op_119, IDENTIFIER ->
+              tn = Extension();
+      case STRING_LITERAL -> {
+        tn = String();
+        epa();
+      }
+      case NUMBER_LITERAL -> {
+        tn = Number();
+        epa();
+      }
+      default -> {
+        jj_la1[83] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
     {if (true) return tn;}
     throw new Error("Missing return statement in function");
@@ -4503,203 +3540,87 @@ expecting = "==";
   SyntaxTreeNode last = null, tid, top = null;
   Token t = null;
   SyntaxTreeNode[] heirs;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case op_26:
-    case op_29:
-    case op_58:
-    case CASESEP:
-    case op_61:
-    case op_112:
-    case op_113:
-    case op_114:
-    case op_115:
-    case op_116:
-      //  LOOKAHEAD( { isPrefixOp( getToken(1) )  } )
-            top = PrefixOp();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116 -> {
+        //  LOOKAHEAD( { isPrefixOp( getToken(1) )  } )
+        top = PrefixOp();
         heirs = new SyntaxTreeNode[2];
-        heirs[0] = new SyntaxTreeNode( mn, N_IdPrefix, getLastHeirs() );
+        heirs[0] = new SyntaxTreeNode(mn, N_IdPrefix, getLastHeirs());
         heirs[1] = top;
-        last = new SyntaxTreeNode( mn, N_GenPrefixOp, heirs );
+        last = new SyntaxTreeNode(mn, N_GenPrefixOp, heirs);
         epa();
-      break;
-    case op_1:
-    case AND:
-    case op_3:
-    case op_4:
-    case OR:
-    case op_6:
-    case op_7:
-    case op_8:
-    case op_9:
-    case op_10:
-    case op_11:
-    case op_12:
-    case op_13:
-    case op_14:
-    case op_15:
-    case op_16:
-    case op_17:
-    case op_18:
-    case op_19:
-    case IN:
-    case op_21:
-    case op_22:
-    case op_23:
-    case op_24:
-    case op_25:
-    case op_27:
-    case op_30:
-    case op_31:
-    case op_32:
-    case op_33:
-    case op_34:
-    case op_35:
-    case op_36:
-    case op_37:
-    case op_38:
-    case op_39:
-    case op_40:
-    case op_41:
-    case op_42:
-    case op_43:
-    case op_44:
-    case op_45:
-    case op_46:
-    case op_47:
-    case op_48:
-    case op_49:
-    case op_50:
-    case op_51:
-    case op_52:
-    case op_53:
-    case op_54:
-    case op_55:
-    case op_56:
-    case op_59:
-    case op_62:
-    case op_63:
-    case op_64:
-    case EQUALS:
-    case op_66:
-    case op_67:
-    case op_71:
-    case op_72:
-    case op_73:
-    case op_74:
-    case op_75:
-    case op_77:
-    case op_78:
-    case op_79:
-    case op_80:
-    case op_81:
-    case op_82:
-    case op_83:
-    case op_84:
-    case op_85:
-    case op_86:
-    case op_87:
-    case op_88:
-    case op_89:
-    case op_90:
-    case op_91:
-    case op_92:
-    case op_93:
-    case op_94:
-    case op_95:
-    case op_96:
-    case op_97:
-    case op_98:
-    case op_100:
-    case op_101:
-    case op_102:
-    case op_103:
-    case op_104:
-    case op_105:
-    case op_106:
-    case op_107:
-    case op_108:
-    case op_109:
-    case op_110:
-    case op_111:
-    case op_117:
-    case op_118:
-    case op_119:
-      // LOOKAHEAD( { isInfixOp( getToken(1) )  } )
-            top = InfixOp();
-        heirs = new SyntaxTreeNode[2];
-        heirs[0] = new SyntaxTreeNode( mn, N_IdPrefix, getLastHeirs() );
-        heirs[1] = top;
-        last =  new SyntaxTreeNode( mn, N_GenInfixOp, heirs );
-        epa();
-      break;
-    case op_57:
-    case op_68:
-    case op_69:
-    case op_70:
-      // LOOKAHEAD( { isPostfixOp( getToken(1) )  } )
-            top = PostfixOp();
-        heirs = new SyntaxTreeNode[2];
-        heirs[0] = new SyntaxTreeNode( mn, N_IdPrefix, getLastHeirs() );
-        heirs[1] = top;
-        last =  new SyntaxTreeNode( mn, N_GenPostfixOp, heirs );
-        epa();
-      break;
-    case IDENTIFIER:
-      tid = Identifier();
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case LBR:
-        top = OpArgs();
-        break;
-      default:
-        jj_la1[84] = jj_gen;
       }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case BANG:
-        t = jj_consume_token(BANG);
-        if ( top == null ) {
-          heirs = new SyntaxTreeNode[2];
-          heirs[1] = new SyntaxTreeNode( mn, t );
-        } else {
-          heirs = new SyntaxTreeNode[3];
-          heirs[1] = top;
-          heirs[2] = new SyntaxTreeNode(mn, t );
+      case op_1, AND, op_3, op_4, OR, op_6, op_7, op_8, op_9, op_10, op_11, op_12, op_13, op_14, op_15, op_16, op_17, op_18, op_19, IN, op_21, op_22, op_23, op_24, op_25, op_27, op_30, op_31, op_32, op_33, op_34, op_35, op_36, op_37, op_38, op_39, op_40, op_41, op_42, op_43, op_44, op_45, op_46, op_47, op_48, op_49, op_50, op_51, op_52, op_53, op_54, op_55, op_56, op_59, op_62, op_63, op_64, EQUALS, op_66, op_67, op_71, op_72, op_73, op_74, op_75, op_77, op_78, op_79, op_80, op_81, op_82, op_83, op_84, op_85, op_86, op_87, op_88, op_89, op_90, op_91, op_92, op_93, op_94, op_95, op_96, op_97, op_98, op_100, op_101, op_102, op_103, op_104, op_105, op_106, op_107, op_108, op_109, op_110, op_111, op_117, op_118, op_119 -> {
+        // LOOKAHEAD( { isInfixOp( getToken(1) )  } )
+        top = InfixOp();
+        heirs = new SyntaxTreeNode[2];
+        heirs[0] = new SyntaxTreeNode(mn, N_IdPrefix, getLastHeirs());
+        heirs[1] = top;
+        last = new SyntaxTreeNode(mn, N_GenInfixOp, heirs);
+        epa();
+      }
+      case op_57, op_68, op_69, op_70 -> {
+        // LOOKAHEAD( { isPostfixOp( getToken(1) )  } )
+        top = PostfixOp();
+        heirs = new SyntaxTreeNode[2];
+        heirs[0] = new SyntaxTreeNode(mn, N_IdPrefix, getLastHeirs());
+        heirs[1] = top;
+        last = new SyntaxTreeNode(mn, N_GenPostfixOp, heirs);
+        epa();
+      }
+      case IDENTIFIER -> {
+        tid = Identifier();
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case LBR -> top = OpArgs();
+          default -> jj_la1[84] = jj_gen;
         }
-        heirs[0] = tid;
-        final SyntaxTreeNode current = new SyntaxTreeNode( mn, N_IdPrefixElement, heirs );
-        addHeir( current );
-        last = Extension();
-        break;
-      default:
-        jj_la1[85] = jj_gen;
-      }
-      if ( last == null ) {
-         if ( top == null ) {
-           heirs = new SyntaxTreeNode[2];
-           heirs[0] = new SyntaxTreeNode( mn, N_IdPrefix, getLastHeirs() );
-           heirs[1] = tid;
-           last = new SyntaxTreeNode( mn, N_GeneralId, heirs );
-         } else {
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case BANG -> {
+            t = jj_consume_token(BANG);
+            if (top == null) {
+              heirs = new SyntaxTreeNode[2];
+              heirs[1] = new SyntaxTreeNode(mn, t);
+            } else {
+              heirs = new SyntaxTreeNode[3];
+              heirs[1] = top;
+              heirs[2] = new SyntaxTreeNode(mn, t);
+            }
+            heirs[0] = tid;
+            final SyntaxTreeNode current = new SyntaxTreeNode(mn, N_IdPrefixElement, heirs);
+            addHeir(current);
+            last = Extension();
+          }
+          default -> jj_la1[85] = jj_gen;
+        }
+        if (last == null) {
+          if (top == null) {
+            heirs = new SyntaxTreeNode[2];
+            heirs[0] = new SyntaxTreeNode(mn, N_IdPrefix, getLastHeirs());
+            heirs[1] = tid;
+            last = new SyntaxTreeNode(mn, N_GeneralId, heirs);
+          } else {
 /* XXX Wrong.
            addHeir( tid );
            tid = new SyntaxTreeNode( mn, N_GeneralId, getLastHeirs() );
 */
-           heirs = new SyntaxTreeNode[2];
-           heirs[0] = new SyntaxTreeNode( mn, N_IdPrefix, getLastHeirs() );
-           heirs[1] = tid;
-           tid = new SyntaxTreeNode( mn, N_GeneralId, heirs );
+            heirs = new SyntaxTreeNode[2];
+            heirs[0] = new SyntaxTreeNode(mn, N_IdPrefix, getLastHeirs());
+            heirs[1] = tid;
+            tid = new SyntaxTreeNode(mn, N_GeneralId, heirs);
 
-           heirs = new SyntaxTreeNode[2];
-           heirs[0] = tid;
-           heirs[1] = top;
-           last = new SyntaxTreeNode( mn, N_OpApplication, heirs );
-         }
-         epa();
+            heirs = new SyntaxTreeNode[2];
+            heirs[0] = tid;
+            heirs[1] = top;
+            last = new SyntaxTreeNode(mn, N_OpApplication, heirs);
+          }
+          epa();
+        }
       }
-      break;
-    default:
-      jj_la1[86] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+      default -> {
+        jj_la1[86] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
     {if (true) return last;}
     throw new Error("Missing return statement in function");
@@ -4822,143 +3743,32 @@ expecting = "==";
 SyntaxTreeNode tn;
 final int kind ;
     if (jj_2_41(2) && (BStack.aboveReference( getToken(1).beginColumn))) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case op_76:
-      case op_26:
-      case op_29:
-      case op_58:
-      case CASESEP:
-      case op_61:
-      case op_112:
-      case op_113:
-      case op_114:
-      case op_115:
-      case op_116:
-        tn = NonExpPrefixOp();
-                             kind = N_GenNonExpPrefixOp;
-        break;
-      case op_1:
-      case AND:
-      case op_3:
-      case op_4:
-      case OR:
-      case op_6:
-      case op_7:
-      case op_8:
-      case op_9:
-      case op_10:
-      case op_11:
-      case op_12:
-      case op_13:
-      case op_14:
-      case op_15:
-      case op_16:
-      case op_17:
-      case op_18:
-      case op_19:
-      case IN:
-      case op_21:
-      case op_22:
-      case op_23:
-      case op_24:
-      case op_25:
-      case op_27:
-      case op_30:
-      case op_31:
-      case op_32:
-      case op_33:
-      case op_34:
-      case op_35:
-      case op_36:
-      case op_37:
-      case op_38:
-      case op_39:
-      case op_40:
-      case op_41:
-      case op_42:
-      case op_43:
-      case op_44:
-      case op_45:
-      case op_46:
-      case op_47:
-      case op_48:
-      case op_49:
-      case op_50:
-      case op_51:
-      case op_52:
-      case op_53:
-      case op_54:
-      case op_55:
-      case op_56:
-      case op_59:
-      case op_62:
-      case op_63:
-      case op_64:
-      case EQUALS:
-      case op_66:
-      case op_67:
-      case op_71:
-      case op_72:
-      case op_73:
-      case op_74:
-      case op_75:
-      case op_77:
-      case op_78:
-      case op_79:
-      case op_80:
-      case op_81:
-      case op_82:
-      case op_83:
-      case op_84:
-      case op_85:
-      case op_86:
-      case op_87:
-      case op_88:
-      case op_89:
-      case op_90:
-      case op_91:
-      case op_92:
-      case op_93:
-      case op_94:
-      case op_95:
-      case op_96:
-      case op_97:
-      case op_98:
-      case op_100:
-      case op_101:
-      case op_102:
-      case op_103:
-      case op_104:
-      case op_105:
-      case op_106:
-      case op_107:
-      case op_108:
-      case op_109:
-      case op_110:
-      case op_111:
-      case op_117:
-      case op_118:
-      case op_119:
-        tn = InfixOp();
-         kind = N_GenInfixOp;
-         if (   (tn.image == UniqueString.uniqueStringOf("\\X"))
-             || (tn.image == UniqueString.uniqueStringOf("\\times"))){
-            {if (true) throw new ParseException(
-                        tn.getLocation() +
-                        ": \\X may not be used as an infix operator.");}
-           }
-        break;
-      case op_57:
-      case op_68:
-      case op_69:
-      case op_70:
-        tn = PostfixOp();
-                             kind = N_GenPostfixOp;
-        break;
-      default:
-        jj_la1[88] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case op_76, op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116 -> {
+          tn = NonExpPrefixOp();
+          kind = N_GenNonExpPrefixOp;
+        }
+        case op_1, AND, op_3, op_4, OR, op_6, op_7, op_8, op_9, op_10, op_11, op_12, op_13, op_14, op_15, op_16, op_17, op_18, op_19, IN, op_21, op_22, op_23, op_24, op_25, op_27, op_30, op_31, op_32, op_33, op_34, op_35, op_36, op_37, op_38, op_39, op_40, op_41, op_42, op_43, op_44, op_45, op_46, op_47, op_48, op_49, op_50, op_51, op_52, op_53, op_54, op_55, op_56, op_59, op_62, op_63, op_64, EQUALS, op_66, op_67, op_71, op_72, op_73, op_74, op_75, op_77, op_78, op_79, op_80, op_81, op_82, op_83, op_84, op_85, op_86, op_87, op_88, op_89, op_90, op_91, op_92, op_93, op_94, op_95, op_96, op_97, op_98, op_100, op_101, op_102, op_103, op_104, op_105, op_106, op_107, op_108, op_109, op_110, op_111, op_117, op_118, op_119 -> {
+          tn = InfixOp();
+          kind = N_GenInfixOp;
+          if ((tn.image == UniqueString.uniqueStringOf("\\X"))
+                  || (tn.image == UniqueString.uniqueStringOf("\\times"))) {
+            {
+              if (true) throw new ParseException(
+                      tn.getLocation() +
+                              ": \\X may not be used as an infix operator.");
+            }
+          }
+        }
+        case op_57, op_68, op_69, op_70 -> {
+          tn = PostfixOp();
+          kind = N_GenPostfixOp;
+        }
+        default -> {
+          jj_la1[88] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
       }
     final SyntaxTreeNode[] heirs = new SyntaxTreeNode[2];
     heirs[0] = new SyntaxTreeNode( mn, N_IdPrefix, ( SyntaxTreeNode []) null );
@@ -5007,7 +3817,7 @@ final SyntaxTreeNode tn;
 //     ***********************************************************************/
 // // XXXXX -- this won't work with the new expression syntax.
 //     t = <op_76> {
-//     tn = new SyntaxTreeNode(mn, N_NonExpPrefixOp, t); 
+//     tn = new SyntaxTreeNode(mn, N_NonExpPrefixOp, t);
 //     SyntaxTreeNode heirs[] = new SyntaxTreeNode[2];
 //     heirs[0] = new SyntaxTreeNode( mn, N_IdPrefix, ( SyntaxTreeNode []) null );
 //     heirs[1] = tn;
@@ -5019,7 +3829,7 @@ final SyntaxTreeNode tn;
 //         heirs[1] = tn;
 //         tn =  new SyntaxTreeNode( mn, N_GenInfixOp, heirs );
 //      }
-//   | tn = Lambda() 
+//   | tn = Lambda()
 //   | try {
 //       tn = Expression()
 //     } catch ( ParseException e ) {
@@ -5032,8 +3842,8 @@ final SyntaxTreeNode tn;
 //     /* it wasn't an expression, what was it ? */
 //     /* check the nature of the node returned. It can only be a prefixed op. */
 //     if ( ( anchor != null )
-//        &&(    anchor.isKind( N_GenPrefixOp ) 
-//            || anchor.isKind( N_GenInfixOp ) 
+//        &&(    anchor.isKind( N_GenPrefixOp )
+//            || anchor.isKind( N_GenInfixOp )
 //            || anchor.isKind( N_GenPostfixOp ) ) ) {tn = anchor; anchor = null;
 //       } else {
 // // ToolIO.out.println("anchor is " + anchor.toString());
@@ -5063,17 +3873,14 @@ final SyntaxTreeNode tn;
   Token t;
   bpa("Quantified form");
   final int kind;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case EXISTS:
-      t = jj_consume_token(EXISTS);
-      break;
-    case FORALL:
-      t = jj_consume_token(FORALL);
-      break;
-    default:
-      jj_la1[89] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case EXISTS -> t = jj_consume_token(EXISTS);
+      case FORALL -> t = jj_consume_token(FORALL);
+      default -> {
+        jj_la1[89] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
                                     addHeir( new SyntaxTreeNode(mn, t));
     if (jj_2_44(2147483647)) {
@@ -5095,31 +3902,31 @@ final SyntaxTreeNode tn;
         addHeir( tn );
       }
     } else {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case LAB:
-      case IDENTIFIER:
-        tn = QuantBound();
-      kind = N_BoundQuant;
-      addHeir( tn );
-        label_26:
-        while (true) {
-          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case COMMA:
-            break;
-          default:
-            jj_la1[91] = jj_gen;
-            break label_26;
-          }
-          t = jj_consume_token(COMMA);
-                    addHeir( new SyntaxTreeNode(mn, t) );
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case LAB, IDENTIFIER -> {
           tn = QuantBound();
-                          addHeir( tn );
+          kind = N_BoundQuant;
+          addHeir(tn);
+          label_26:
+          while (true) {
+            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+              case COMMA:
+                break;
+              default:
+                jj_la1[91] = jj_gen;
+                break label_26;
+            }
+            t = jj_consume_token(COMMA);
+            addHeir(new SyntaxTreeNode(mn, t));
+            tn = QuantBound();
+            addHeir(tn);
+          }
         }
-        break;
-      default:
-        jj_la1[92] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+        default -> {
+          jj_la1[92] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
       }
     }
     t = jj_consume_token(COLON);
@@ -5135,17 +3942,14 @@ final SyntaxTreeNode tn;
   SyntaxTreeNode tn;
   Token t;
   bpa("Bound Quantified Expression");
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case T_EXISTS:
-      t = jj_consume_token(T_EXISTS);
-      break;
-    case T_FORALL:
-      t = jj_consume_token(T_FORALL);
-      break;
-    default:
-      jj_la1[93] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case T_EXISTS -> t = jj_consume_token(T_EXISTS);
+      case T_FORALL -> t = jj_consume_token(T_FORALL);
+      default -> {
+        jj_la1[93] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
                                         addHeir( new SyntaxTreeNode(mn, t) );
     tn = Identifier();
@@ -5177,34 +3981,35 @@ final SyntaxTreeNode tn;
   SyntaxTreeNode tn;
   Token t;
   bpa("Quant Bound");
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case LAB:
-      tn = IdentifierTuple();
-      addHeir( tn );
-      break;
-    case IDENTIFIER:
-      tn = Identifier();
-      addHeir( tn );
-      label_28:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMMA:
-          break;
-        default:
-          jj_la1[95] = jj_gen;
-          break label_28;
-        }
-        t = jj_consume_token(COMMA);
-                      addHeir( new SyntaxTreeNode(mn, t) );
-        tn = Identifier();
-          addHeir( tn );
-          expecting = ", or \\in";
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case LAB -> {
+        tn = IdentifierTuple();
+        addHeir(tn);
       }
-      break;
-    default:
-      jj_la1[96] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+      case IDENTIFIER -> {
+        tn = Identifier();
+        addHeir(tn);
+        label_28:
+        while (true) {
+          switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            case COMMA:
+              break;
+            default:
+              jj_la1[95] = jj_gen;
+              break label_28;
+          }
+          t = jj_consume_token(COMMA);
+          addHeir(new SyntaxTreeNode(mn, t));
+          tn = Identifier();
+          addHeir(tn);
+          expecting = ", or \\in";
+        }
+      }
+      default -> {
+        jj_la1[96] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
     t = jj_consume_token(IN);
     tn =  new SyntaxTreeNode(mn, t);
@@ -5235,17 +4040,14 @@ final SyntaxTreeNode tn;
                addHeir( new SyntaxTreeNode(mn, t) );
     if (jj_2_48(1)) {
       if (matchFcnConst()) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case LAB:
-          tn = IdentifierTuple();
-          break;
-        case IDENTIFIER:
-          tn = Identifier();
-          break;
-        default:
-          jj_la1[97] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case LAB -> tn = IdentifierTuple();
+          case IDENTIFIER -> tn = Identifier();
+          default -> {
+            jj_la1[97] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
         }
       tn_0 = tn;
       expecting = "\\in";
@@ -5542,73 +4344,73 @@ final SyntaxTreeNode tn;
     } else if (jj_2_51(1)) {
       tn = Expression();
                         addHeir( tn );
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case COMMA:
-      case RSB:
-        label_38:
-        while (true) {
-          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case COMMA:
-            break;
-          default:
-            jj_la1[111] = jj_gen;
-            break label_38;
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case COMMA, RSB -> {
+          label_38:
+          while (true) {
+            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+              case COMMA:
+                break;
+              default:
+                jj_la1[111] = jj_gen;
+                break label_38;
+            }
+            t = jj_consume_token(COMMA);
+            addHeir(new SyntaxTreeNode(mn, t));
+            tn = Expression();
+            addHeir(tn);
           }
-          t = jj_consume_token(COMMA);
-                      addHeir( new SyntaxTreeNode(mn, t) );
+          t = jj_consume_token(RSB);
+          addHeir(new SyntaxTreeNode(mn, t));
+          kind = N_FcnAppl;
+          lastOp = FcnOp;
+        }
+        case ARROW -> {
+          t = jj_consume_token(ARROW);
+          // SetOfFcns
+          kind = N_SetOfFcns;
+          addHeir(new SyntaxTreeNode(mn, t));
           tn = Expression();
-                            addHeir( tn );
+          addHeir(tn);
+          t = jj_consume_token(RSB);
+          addHeir(new SyntaxTreeNode(mn, t));
         }
-        t = jj_consume_token(RSB);
-                  addHeir( new SyntaxTreeNode(mn, t) );
-      kind = N_FcnAppl;
-      lastOp = FcnOp;
-        break;
-      case ARROW:
-        t = jj_consume_token(ARROW);
-                                          // SetOfFcns
-        kind = N_SetOfFcns;
-        addHeir( new SyntaxTreeNode(mn, t) );
-        tn = Expression();
-                          addHeir( tn );
-        t = jj_consume_token(RSB);
-                  addHeir( new SyntaxTreeNode(mn, t) );
-        break;
-      case EXCEPT:
-        t = jj_consume_token(EXCEPT);
-                                           // Except
-        kind = N_Except;
-        addHeir( new SyntaxTreeNode(mn, t) );
-        tn = ExceptSpec();
-                          addHeir( tn );
-        label_39:
-        while (true) {
-          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case COMMA:
-            break;
-          default:
-            jj_la1[112] = jj_gen;
-            break label_39;
-          }
-          t = jj_consume_token(COMMA);
-                      addHeir( new SyntaxTreeNode(mn, t) );
+        case EXCEPT -> {
+          t = jj_consume_token(EXCEPT);
+          // Except
+          kind = N_Except;
+          addHeir(new SyntaxTreeNode(mn, t));
           tn = ExceptSpec();
-                            addHeir( tn );
+          addHeir(tn);
+          label_39:
+          while (true) {
+            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+              case COMMA:
+                break;
+              default:
+                jj_la1[112] = jj_gen;
+                break label_39;
+            }
+            t = jj_consume_token(COMMA);
+            addHeir(new SyntaxTreeNode(mn, t));
+            tn = ExceptSpec();
+            addHeir(tn);
+          }
+          t = jj_consume_token(RSB);
+          addHeir(new SyntaxTreeNode(mn, t));
         }
-        t = jj_consume_token(RSB);
-                  addHeir( new SyntaxTreeNode(mn, t) );
-        break;
-      case ARSB:
-        t = jj_consume_token(ARSB);
-        kind = N_ActionExpr;
-        addHeir( new SyntaxTreeNode(mn, t) );
-        tn = ReducedExpression();
-                                 addHeir( tn );
-        break;
-      default:
-        jj_la1[113] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+        case ARSB -> {
+          t = jj_consume_token(ARSB);
+          kind = N_ActionExpr;
+          addHeir(new SyntaxTreeNode(mn, t));
+          tn = ReducedExpression();
+          addHeir(tn);
+        }
+        default -> {
+          jj_la1[113] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
       }
     } else {
       jj_consume_token(-1);
@@ -5681,48 +4483,49 @@ final SyntaxTreeNode tn;
   SyntaxTreeNode tn;
   Token t;
   bpa("Except Component");
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case DOT:
-      t = jj_consume_token(DOT);
-                addHeir( new SyntaxTreeNode(mn, t) );
-                /***********************************************************
-                * Following added by LL on 10 Oct 2007 to make something   *
-                * like "!.THEN" work right.                                *
-                ***********************************************************/
-                final Token next = getToken(1);
-                if (isFieldNameToken( next )) next.kind = IDENTIFIER;
-      tn = Identifier();
-      if (tn.getUS().equals(At) ) {
-        PErrors.push( new ParseError("@ used in !.@") );
-      }
-      addHeir( tn );
-      break;
-    case LSB:
-      t = jj_consume_token(LSB);
-                addHeir( new SyntaxTreeNode(mn, t) );
-      tn = Expression();
-                        addHeir( tn );
-      label_41:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMMA:
-          break;
-        default:
-          jj_la1[115] = jj_gen;
-          break label_41;
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case DOT -> {
+        t = jj_consume_token(DOT);
+        addHeir(new SyntaxTreeNode(mn, t));
+        /***********************************************************
+         * Following added by LL on 10 Oct 2007 to make something   *
+         * like "!.THEN" work right.                                *
+         ***********************************************************/
+        final Token next = getToken(1);
+        if (isFieldNameToken(next)) next.kind = IDENTIFIER;
+        tn = Identifier();
+        if (tn.getUS().equals(At)) {
+          PErrors.push(new ParseError("@ used in !.@"));
         }
-        t = jj_consume_token(COMMA);
-                    addHeir( new SyntaxTreeNode(mn, t) );
-        tn = Expression();
-                          addHeir( tn );
+        addHeir(tn);
       }
-      t = jj_consume_token(RSB);
-                addHeir( new SyntaxTreeNode(mn, t) );
-      break;
-    default:
-      jj_la1[116] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+      case LSB -> {
+        t = jj_consume_token(LSB);
+        addHeir(new SyntaxTreeNode(mn, t));
+        tn = Expression();
+        addHeir(tn);
+        label_41:
+        while (true) {
+          switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            case COMMA:
+              break;
+            default:
+              jj_la1[115] = jj_gen;
+              break label_41;
+          }
+          t = jj_consume_token(COMMA);
+          addHeir(new SyntaxTreeNode(mn, t));
+          tn = Expression();
+          addHeir(tn);
+        }
+        t = jj_consume_token(RSB);
+        addHeir(new SyntaxTreeNode(mn, t));
+      }
+      default -> {
+        jj_la1[116] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
     final SyntaxTreeNode[] sn = getLastHeirs(); epa();
     {if (true) return new SyntaxTreeNode( mn, N_ExceptComponent, sn );}
@@ -5775,19 +4578,22 @@ final SyntaxTreeNode tn;
                zn[0] = new SyntaxTreeNode(mn, t);
     zn[1] = ExceptComponent();
     expecting = "= or \\in";
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case EQUALS:
-      t = jj_consume_token(EQUALS);
-      zn[2] =  new SyntaxTreeNode(mn, t); zn[2].setKind( T_EQUAL );
-      break;
-    case IN:
-      t = jj_consume_token(IN);
-      zn[2] =  new SyntaxTreeNode(mn, t); zn[2].setKind( T_IN );
-      break;
-    default:
-      jj_la1[118] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case EQUALS -> {
+        t = jj_consume_token(EQUALS);
+        zn[2] = new SyntaxTreeNode(mn, t);
+        zn[2].setKind(T_EQUAL);
+      }
+      case IN -> {
+        t = jj_consume_token(IN);
+        zn[2] = new SyntaxTreeNode(mn, t);
+        zn[2].setKind(T_IN);
+      }
+      default -> {
+        jj_la1[118] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
     zn[3] = Expression();
     epa(); {if (true) return new SyntaxTreeNode( mn, N_SExceptSpec, zn );}
@@ -5819,21 +4625,24 @@ final SyntaxTreeNode tn;
                             addHeir( tn );
       }
     }
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case RAB:
-      t = jj_consume_token(RAB);
-      kind = N_Tuple; addHeir( new SyntaxTreeNode(mn, t) );
-      break;
-    case ARAB:
-      t = jj_consume_token(ARAB);
-      kind = N_ActionExpr; addHeir( new SyntaxTreeNode(mn, t) );
-      tn = ReducedExpression();
-                               addHeir( tn );
-      break;
-    default:
-      jj_la1[120] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case RAB -> {
+        t = jj_consume_token(RAB);
+        kind = N_Tuple;
+        addHeir(new SyntaxTreeNode(mn, t));
+      }
+      case ARAB -> {
+        t = jj_consume_token(ARAB);
+        kind = N_ActionExpr;
+        addHeir(new SyntaxTreeNode(mn, t));
+        tn = ReducedExpression();
+        addHeir(tn);
+      }
+      default -> {
+        jj_la1[120] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
     final SyntaxTreeNode[] sn = getLastHeirs();
     epa(); {if (true) return new SyntaxTreeNode( mn, kind, sn );}
@@ -5851,25 +4660,24 @@ final SyntaxTreeNode tn;
     if (jj_2_53(2)) {
       top = OpArgs();
     }
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case BANG:
-      t = jj_consume_token(BANG);
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case BANG -> {
+        t = jj_consume_token(BANG);
         final SyntaxTreeNode[] heirs;
-        if ( top == null ) {
+        if (top == null) {
           heirs = new SyntaxTreeNode[2];
-          heirs[1] = new SyntaxTreeNode( mn, t );
+          heirs[1] = new SyntaxTreeNode(mn, t);
         } else {
           heirs = new SyntaxTreeNode[3];
           heirs[1] = top;
-          heirs[2] = new SyntaxTreeNode(mn, t );
+          heirs[2] = new SyntaxTreeNode(mn, t);
         }
         heirs[0] = tid;
-        final SyntaxTreeNode current = new SyntaxTreeNode( mn, N_IdPrefixElement, heirs );
-        addHeir( current );
-      last = NoOpExtension();
-      break;
-    default:
-      jj_la1[121] = jj_gen;
+        final SyntaxTreeNode current = new SyntaxTreeNode(mn, N_IdPrefixElement, heirs);
+        addHeir(current);
+        last = NoOpExtension();
+      }
+      default -> jj_la1[121] = jj_gen;
     }
       if ( last == null ) { // means no bang, bottom of recursion
         FairnessHook = top;
@@ -5888,29 +4696,18 @@ final SyntaxTreeNode tn;
   *************************************************************************/
   final SyntaxTreeNode expr;
   bpa("restricted form of expression");
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case IDENTIFIER:
-      expr = NoOpExtension();
-      break;
-    case LBR:
-      expr = ParenExpr();
-      break;
-    case LBC:
-      expr = BraceCases();
-      break;
-    case LSB:
-      expr = SBracketCases();
-      break;
-    case LWB:
-      expr = SetExcept();
-      break;
-    case LAB:
-      expr = TupleOrAction();
-      break;
-    default:
-      jj_la1[122] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case IDENTIFIER -> expr = NoOpExtension();
+      case LBR -> expr = ParenExpr();
+      case LBC -> expr = BraceCases();
+      case LSB -> expr = SBracketCases();
+      case LWB -> expr = SetExcept();
+      case LAB -> expr = TupleOrAction();
+      default -> {
+        jj_la1[122] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
      epa(); {if (true) return expr;}
     throw new Error("Missing return statement in function");
@@ -5927,23 +4724,20 @@ final SyntaxTreeNode tn;
   Token t;
   FairnessHook = null;
   bpa("Fairness Expression");
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case WF:
-      t = jj_consume_token(WF);
-      break;
-    case SF:
-      t = jj_consume_token(SF);
-      break;
-    default:
-      jj_la1[123] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case WF -> t = jj_consume_token(WF);
+      case SF -> t = jj_consume_token(SF);
+      default -> {
+        jj_la1[123] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
                           zn[0] = new SyntaxTreeNode(mn, t);
     expr = ReducedExpression();
     if (jj_2_54(2)) {
       t = jj_consume_token(LBR);
-// ^^^  
+// ^^^
 // Warning 3 -- Eliminated by LOOKAHEAD
     zn[1] = expr; expr = null;
     zn[2] = new SyntaxTreeNode(mn, t);
@@ -6087,20 +4881,20 @@ final SyntaxTreeNode tn;
   bpa("Let Definitions");
     label_45:
     while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case LOCAL:
-      case DEFBREAK:
-        tn = OperatorOrFunctionDefinition();
-                                            addHeir( tn );
-        break;
-      case RECURSIVE:
-        tn = Recursive();
-                         addHeir( tn );
-        break;
-      default:
-        jj_la1[124] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case LOCAL, DEFBREAK -> {
+          tn = OperatorOrFunctionDefinition();
+          addHeir(tn);
+        }
+        case RECURSIVE -> {
+          tn = Recursive();
+          addHeir(tn);
+        }
+        default -> {
+          jj_la1[124] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case LOCAL:
@@ -6177,17 +4971,15 @@ final SyntaxTreeNode tn;
   final SyntaxTreeNode tn;
   final Token t;
   bpa("Junction Item");
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case OR:
-      /* t = <BOR> | */ t = jj_consume_token(OR);
-      break;
-    case AND:
-      t = jj_consume_token(AND);
-      break;
-    default:
-      jj_la1[126] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case OR ->
+        /* t = <BOR> | */ t = jj_consume_token(OR);
+      case AND -> t = jj_consume_token(AND);
+      default -> {
+        jj_la1[126] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
     zn[0] = new SyntaxTreeNode(mn, t);
     zn[1] = Expression();
@@ -6211,17 +5003,14 @@ final SyntaxTreeNode tn;
   bpa("(Un)Bounded Choose");
     t = jj_consume_token(CHOOSE);
                  zn[0] = new SyntaxTreeNode(mn, t);
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case IDENTIFIER:
-      zn[1] = Identifier();
-      break;
-    case LAB:
-      zn[1] = IdentifierTuple();
-      break;
-    default:
-      jj_la1[127] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case IDENTIFIER -> zn[1] = Identifier();
+      case LAB -> zn[1] = IdentifierTuple();
+      default -> {
+        jj_la1[127] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
     zn[2] = MaybeBound();
     t = jj_consume_token(COLON);
@@ -6291,129 +5080,20 @@ final SyntaxTreeNode tn;
       } else {
         break;
       }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case op_26:
-      case op_29:
-      case op_58:
-      case CASESEP:
-      case op_61:
-      case op_112:
-      case op_113:
-      case op_114:
-      case op_115:
-      case op_116:
-        tn = PrefixOp();
-                      kind = N_GenPrefixOp;
-        break;
-      case op_1:
-      case AND:
-      case op_3:
-      case op_4:
-      case OR:
-      case op_6:
-      case op_7:
-      case op_8:
-      case op_9:
-      case op_10:
-      case op_11:
-      case op_12:
-      case op_13:
-      case op_14:
-      case op_15:
-      case op_16:
-      case op_17:
-      case op_18:
-      case op_19:
-      case IN:
-      case op_21:
-      case op_22:
-      case op_23:
-      case op_24:
-      case op_25:
-      case op_27:
-      case op_30:
-      case op_31:
-      case op_32:
-      case op_33:
-      case op_34:
-      case op_35:
-      case op_36:
-      case op_37:
-      case op_38:
-      case op_39:
-      case op_40:
-      case op_41:
-      case op_42:
-      case op_43:
-      case op_44:
-      case op_45:
-      case op_46:
-      case op_47:
-      case op_48:
-      case op_49:
-      case op_50:
-      case op_51:
-      case op_52:
-      case op_53:
-      case op_54:
-      case op_55:
-      case op_56:
-      case op_59:
-      case op_62:
-      case op_63:
-      case op_64:
-      case EQUALS:
-      case op_66:
-      case op_67:
-      case op_71:
-      case op_72:
-      case op_73:
-      case op_74:
-      case op_75:
-      case op_77:
-      case op_78:
-      case op_79:
-      case op_80:
-      case op_81:
-      case op_82:
-      case op_83:
-      case op_84:
-      case op_85:
-      case op_86:
-      case op_87:
-      case op_88:
-      case op_89:
-      case op_90:
-      case op_91:
-      case op_92:
-      case op_93:
-      case op_94:
-      case op_95:
-      case op_96:
-      case op_97:
-      case op_98:
-      case op_100:
-      case op_101:
-      case op_102:
-      case op_103:
-      case op_104:
-      case op_105:
-      case op_106:
-      case op_107:
-      case op_108:
-      case op_109:
-      case op_110:
-      case op_111:
-      case op_117:
-      case op_118:
-      case op_119:
-        tn = InfixOp();
-                      kind = N_GenInfixOp;
-        break;
-      default:
-        jj_la1[129] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116 -> {
+          tn = PrefixOp();
+          kind = N_GenPrefixOp;
+        }
+        case op_1, AND, op_3, op_4, OR, op_6, op_7, op_8, op_9, op_10, op_11, op_12, op_13, op_14, op_15, op_16, op_17, op_18, op_19, IN, op_21, op_22, op_23, op_24, op_25, op_27, op_30, op_31, op_32, op_33, op_34, op_35, op_36, op_37, op_38, op_39, op_40, op_41, op_42, op_43, op_44, op_45, op_46, op_47, op_48, op_49, op_50, op_51, op_52, op_53, op_54, op_55, op_56, op_59, op_62, op_63, op_64, EQUALS, op_66, op_67, op_71, op_72, op_73, op_74, op_75, op_77, op_78, op_79, op_80, op_81, op_82, op_83, op_84, op_85, op_86, op_87, op_88, op_89, op_90, op_91, op_92, op_93, op_94, op_95, op_96, op_97, op_98, op_100, op_101, op_102, op_103, op_104, op_105, op_106, op_107, op_108, op_109, op_110, op_111, op_117, op_118, op_119 -> {
+          tn = InfixOp();
+          kind = N_GenInfixOp;
+        }
+        default -> {
+          jj_la1[129] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
       }
      final SyntaxTreeNode[] heirs = new SyntaxTreeNode[2];
      heirs[0] = new SyntaxTreeNode( mn, N_IdPrefix, (SyntaxTreeNode []) null);
@@ -6456,36 +5136,31 @@ final SyntaxTreeNode tn;
   Token t;
   bpa("ExtendableExpr") ;
     if (jj_2_59(2147483647) && (OperatorStack.preInEmptyTop()
-               // && BStack.aboveReference( getToken(1).beginColumn) 
+               // && BStack.aboveReference( getToken(1).beginColumn)
     )) {
       tn = Junctions();
                       OperatorStack.pushOnStack( tn, null );
     } else {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case SF:
-      case WF:
-      case LBR:
-      case LSB:
-      case LWB:
-      case LBC:
-      case LAB:
-        /************************************************************************
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case SF, WF, LBR, LSB, LWB, LBC, LAB -> {
+          /************************************************************************
            * ParenthesesExpression                                                 *
            ************************************************************************/
-           tn = ParenthesesExpression();
-                                  OperatorStack.pushOnStack( tn, null );
-        break;
-      default:
-        jj_la1[130] = jj_gen;
-        if (jj_2_60(1)) {
-          /************************************************************************
+          tn = ParenthesesExpression();
+          OperatorStack.pushOnStack(tn, null);
+        }
+        default -> {
+          jj_la1[130] = jj_gen;
+          if (jj_2_60(1)) {
+            /************************************************************************
              * PrimitiveExpression                                                 *
              ************************************************************************/
-             tn = PrimitiveExp();
-                         OperatorStack.pushOnStack( tn, null );
-        } else {
-          jj_consume_token(-1);
-          throw new ParseException();
+            tn = PrimitiveExp();
+            OperatorStack.pushOnStack(tn, null);
+          } else {
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
         }
       }
     }
@@ -6552,129 +5227,20 @@ final SyntaxTreeNode tn;
           } else {
             break;
           }
-          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case op_26:
-          case op_29:
-          case op_58:
-          case CASESEP:
-          case op_61:
-          case op_112:
-          case op_113:
-          case op_114:
-          case op_115:
-          case op_116:
-            tn = PrefixOp();
-                        kind = N_GenPrefixOp;
-            break;
-          case op_1:
-          case AND:
-          case op_3:
-          case op_4:
-          case OR:
-          case op_6:
-          case op_7:
-          case op_8:
-          case op_9:
-          case op_10:
-          case op_11:
-          case op_12:
-          case op_13:
-          case op_14:
-          case op_15:
-          case op_16:
-          case op_17:
-          case op_18:
-          case op_19:
-          case IN:
-          case op_21:
-          case op_22:
-          case op_23:
-          case op_24:
-          case op_25:
-          case op_27:
-          case op_30:
-          case op_31:
-          case op_32:
-          case op_33:
-          case op_34:
-          case op_35:
-          case op_36:
-          case op_37:
-          case op_38:
-          case op_39:
-          case op_40:
-          case op_41:
-          case op_42:
-          case op_43:
-          case op_44:
-          case op_45:
-          case op_46:
-          case op_47:
-          case op_48:
-          case op_49:
-          case op_50:
-          case op_51:
-          case op_52:
-          case op_53:
-          case op_54:
-          case op_55:
-          case op_56:
-          case op_59:
-          case op_62:
-          case op_63:
-          case op_64:
-          case EQUALS:
-          case op_66:
-          case op_67:
-          case op_71:
-          case op_72:
-          case op_73:
-          case op_74:
-          case op_75:
-          case op_77:
-          case op_78:
-          case op_79:
-          case op_80:
-          case op_81:
-          case op_82:
-          case op_83:
-          case op_84:
-          case op_85:
-          case op_86:
-          case op_87:
-          case op_88:
-          case op_89:
-          case op_90:
-          case op_91:
-          case op_92:
-          case op_93:
-          case op_94:
-          case op_95:
-          case op_96:
-          case op_97:
-          case op_98:
-          case op_100:
-          case op_101:
-          case op_102:
-          case op_103:
-          case op_104:
-          case op_105:
-          case op_106:
-          case op_107:
-          case op_108:
-          case op_109:
-          case op_110:
-          case op_111:
-          case op_117:
-          case op_118:
-          case op_119:
-            tn = InfixOp();
-                        kind = N_GenInfixOp;
-            break;
-          default:
-            jj_la1[131] = jj_gen;
-            jj_consume_token(-1);
-            throw new ParseException();
+          switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            case op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116 -> {
+              tn = PrefixOp();
+              kind = N_GenPrefixOp;
+            }
+            case op_1, AND, op_3, op_4, OR, op_6, op_7, op_8, op_9, op_10, op_11, op_12, op_13, op_14, op_15, op_16, op_17, op_18, op_19, IN, op_21, op_22, op_23, op_24, op_25, op_27, op_30, op_31, op_32, op_33, op_34, op_35, op_36, op_37, op_38, op_39, op_40, op_41, op_42, op_43, op_44, op_45, op_46, op_47, op_48, op_49, op_50, op_51, op_52, op_53, op_54, op_55, op_56, op_59, op_62, op_63, op_64, EQUALS, op_66, op_67, op_71, op_72, op_73, op_74, op_75, op_77, op_78, op_79, op_80, op_81, op_82, op_83, op_84, op_85, op_86, op_87, op_88, op_89, op_90, op_91, op_92, op_93, op_94, op_95, op_96, op_97, op_98, op_100, op_101, op_102, op_103, op_104, op_105, op_106, op_107, op_108, op_109, op_110, op_111, op_117, op_118, op_119 -> {
+              tn = InfixOp();
+              kind = N_GenInfixOp;
+            }
+            default -> {
+              jj_la1[131] = jj_gen;
+              jj_consume_token(-1);
+              throw new ParseException();
+            }
           }
       heirs = new SyntaxTreeNode[2];
       heirs[0] = new SyntaxTreeNode( mn, N_IdPrefix, (SyntaxTreeNode []) null);
@@ -6743,387 +5309,162 @@ final SyntaxTreeNode tn;
     } else if (jj_2_73(2147483647) && (BStack.aboveReference( getToken(1).beginColumn))) {
       tn = Number();
     } else {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case op_57:
-      case op_68:
-      case op_69:
-      case op_70:
-      case op_76:
-      case op_26:
-      case op_29:
-      case op_58:
-      case CASESEP:
-      case op_61:
-      case op_112:
-      case op_113:
-      case op_114:
-      case op_115:
-      case op_116:
-      case op_1:
-      case AND:
-      case op_3:
-      case op_4:
-      case OR:
-      case op_6:
-      case op_7:
-      case op_8:
-      case op_9:
-      case op_10:
-      case op_11:
-      case op_12:
-      case op_13:
-      case op_14:
-      case op_15:
-      case op_16:
-      case op_17:
-      case op_18:
-      case op_19:
-      case IN:
-      case op_21:
-      case op_22:
-      case op_23:
-      case op_24:
-      case op_25:
-      case op_27:
-      case op_30:
-      case op_31:
-      case op_32:
-      case op_33:
-      case op_34:
-      case op_35:
-      case op_36:
-      case op_37:
-      case op_38:
-      case op_39:
-      case op_40:
-      case op_41:
-      case op_42:
-      case op_43:
-      case op_44:
-      case op_45:
-      case op_46:
-      case op_47:
-      case op_48:
-      case op_49:
-      case op_50:
-      case op_51:
-      case op_52:
-      case op_53:
-      case op_54:
-      case op_55:
-      case op_56:
-      case op_59:
-      case op_62:
-      case op_63:
-      case op_64:
-      case EQUALS:
-      case op_66:
-      case op_67:
-      case op_71:
-      case op_72:
-      case op_73:
-      case op_74:
-      case op_75:
-      case op_77:
-      case op_78:
-      case op_79:
-      case op_80:
-      case op_81:
-      case op_82:
-      case op_83:
-      case op_84:
-      case op_85:
-      case op_86:
-      case op_87:
-      case op_88:
-      case op_89:
-      case op_90:
-      case op_91:
-      case op_92:
-      case op_93:
-      case op_94:
-      case op_95:
-      case op_96:
-      case op_97:
-      case op_98:
-      case op_100:
-      case op_101:
-      case op_102:
-      case op_103:
-      case op_104:
-      case op_105:
-      case op_106:
-      case op_107:
-      case op_108:
-      case op_109:
-      case op_110:
-      case op_111:
-      case op_117:
-      case op_118:
-      case op_119:
-      case IDENTIFIER:
-      case ProofStepLexeme:
-      case ProofImplicitStepLexeme:
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case IDENTIFIER:
-          tn0 = Identifier();
-          break;
-        case ProofStepLexeme:
-        case ProofImplicitStepLexeme:
-          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case ProofStepLexeme:
-            t = jj_consume_token(ProofStepLexeme);
-            break;
-          case ProofImplicitStepLexeme:
-            t = jj_consume_token(ProofImplicitStepLexeme);
-            break;
-          default:
-            jj_la1[132] = jj_gen;
-            jj_consume_token(-1);
-            throw new ParseException();
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case op_57, op_68, op_69, op_70, op_76, op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116, op_1, AND, op_3, op_4, OR, op_6, op_7, op_8, op_9, op_10, op_11, op_12, op_13, op_14, op_15, op_16, op_17, op_18, op_19, IN, op_21, op_22, op_23, op_24, op_25, op_27, op_30, op_31, op_32, op_33, op_34, op_35, op_36, op_37, op_38, op_39, op_40, op_41, op_42, op_43, op_44, op_45, op_46, op_47, op_48, op_49, op_50, op_51, op_52, op_53, op_54, op_55, op_56, op_59, op_62, op_63, op_64, EQUALS, op_66, op_67, op_71, op_72, op_73, op_74, op_75, op_77, op_78, op_79, op_80, op_81, op_82, op_83, op_84, op_85, op_86, op_87, op_88, op_89, op_90, op_91, op_92, op_93, op_94, op_95, op_96, op_97, op_98, op_100, op_101, op_102, op_103, op_104, op_105, op_106, op_107, op_108, op_109, op_110, op_111, op_117, op_118, op_119, IDENTIFIER, ProofStepLexeme, ProofImplicitStepLexeme -> {
+          switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            case IDENTIFIER -> tn0 = Identifier();
+            case ProofStepLexeme, ProofImplicitStepLexeme -> {
+              switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                case ProofStepLexeme -> t = jj_consume_token(ProofStepLexeme);
+                case ProofImplicitStepLexeme -> t = jj_consume_token(ProofImplicitStepLexeme);
+                default -> {
+                  jj_la1[132] = jj_gen;
+                  jj_consume_token(-1);
+                  throw new ParseException();
+                }
+              }
+              tn0 = new SyntaxTreeNode(mn, t);
+              if ((getProofLevel() < 0) && (proofDepth <= 0)) {
+                {
+                  if (true) throw new
+                          ParseException(tn0.getLocation() +
+                          ": Step number used outside proof.");
+                }
+              }
+              if (t.image.charAt(1) == '+') {
+                {
+                  if (true) throw new ParseException(tn0.getLocation() +
+                          ": <+> step number used in an expression.");
+                }
+              }
+              if (t.kind == ProofImplicitStepLexeme) {
+                tn0.originalImage = tn0.image;
+                tn0.image = correctedStepNum(t);
+              }
+            }
+            case op_1, AND, op_3, op_4, OR, op_6, op_7, op_8, op_9, op_10, op_11, op_12, op_13, op_14, op_15, op_16, op_17, op_18, op_19, IN, op_21, op_22, op_23, op_24, op_25, op_27, op_30, op_31, op_32, op_33, op_34, op_35, op_36, op_37, op_38, op_39, op_40, op_41, op_42, op_43, op_44, op_45, op_46, op_47, op_48, op_49, op_50, op_51, op_52, op_53, op_54, op_55, op_56, op_59, op_62, op_63, op_64, EQUALS, op_66, op_67, op_71, op_72, op_73, op_74, op_75, op_77, op_78, op_79, op_80, op_81, op_82, op_83, op_84, op_85, op_86, op_87, op_88, op_89, op_90, op_91, op_92, op_93, op_94, op_95, op_96, op_97, op_98, op_100, op_101, op_102, op_103, op_104, op_105, op_106, op_107, op_108, op_109, op_110, op_111, op_117, op_118, op_119 ->
+                    tn0 = InfixOp();
+            case op_57, op_68, op_69, op_70 -> tn0 = PostfixOp();
+            default -> {
+              jj_la1[133] = jj_gen;
+              if (jj_2_70(2147483647)) {
+                tn0 = NonExpPrefixOp();
+              } else {
+                jj_consume_token(-1);
+                throw new ParseException();
+              }
+            }
           }
-                  tn0 = new SyntaxTreeNode(mn, t);
-                  if ((getProofLevel() < 0) && (proofDepth <= 0)) {
-                    {if (true) throw new
-                      ParseException(tn0.getLocation() +
-                           ": Step number used outside proof.");}
-                    }
-          if (t.image.charAt(1) == '+') {
-                    {if (true) throw new ParseException(tn0.getLocation() +
-                           ": <+> step number used in an expression.");}
-                    }
-          if (t.kind == ProofImplicitStepLexeme) {
-                    tn0.originalImage = tn0.image ;
-                    tn0.image = correctedStepNum(t) ;
-                   }
+          if (jj_2_71(2)) {
+            tnOpArgs = OpArgs();
+          }
+          label_52:
+          while (true) {
+            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+              case BANG:
+                break;
+              default:
+                jj_la1[134] = jj_gen;
+                break label_52;
+            }
+            tn1 = BangExt();
+            addHeir(tn1);
+          }
+          tnBangs = getLastHeirs();
+          if (tnBangs == null) {
+            heirs = new SyntaxTreeNode[2];
+            heirs[0] = new SyntaxTreeNode(mn, N_IdPrefix,
+                    new SyntaxTreeNode[0]);
+            heirs[1] = tn0;
+            tn1 = new SyntaxTreeNode(mn, N_GeneralId, heirs);
+            if (tnOpArgs == null) {
+              tn = tn1;
+            } else {
+              heirs = new SyntaxTreeNode[2];
+              heirs[0] = tn1;
+              heirs[1] = tnOpArgs;
+              tn = new SyntaxTreeNode(mn, N_OpApplication, heirs);
+            }
+          } // if (tnBangs == null)
+          else {
+            /******************************************************************
+             * There is a BangExt.  The parse tree constructed so far needs    *
+             * to be rearranged to be what is expected of the parser           *
+             * (because the parser was designed for TLA+1).  For example, if   *
+             * we're parsing                                                   *
+             *                                                                 *
+             *   foo(1)!b!c(2,3), so far we have                               *
+             *   tn0 = foo                                                     *
+             *   tnOpArgs = OpArgs[1]                                          *
+             *   tnBangs = IdPrefixElement[! b]                                *
+             *             IdPrefixElement[! c OpArgs[2, 3]]                   *
+             *                                                                 *
+             * and we must turn that into                                      *
+             *                                                                 *
+             *   OpAppl[ GeneralId[ IdPrefix[IdPrefixElement[foo OpArgs[1] !]  *
+             *                               IdPrefixElement[b !]]             *
+             *                      c]                                         *
+             *           OpArgs[2, 3]]                                         *
+             *                                                                 *
+             * Note that the result is an OpAppl node iff the last             *
+             * IdPrefixElement contains an OpArg heir, otherwise it is a       *
+             * GeneralId node.                                                 *
+             ******************************************************************/
 
-          break;
-        case op_1:
-        case AND:
-        case op_3:
-        case op_4:
-        case OR:
-        case op_6:
-        case op_7:
-        case op_8:
-        case op_9:
-        case op_10:
-        case op_11:
-        case op_12:
-        case op_13:
-        case op_14:
-        case op_15:
-        case op_16:
-        case op_17:
-        case op_18:
-        case op_19:
-        case IN:
-        case op_21:
-        case op_22:
-        case op_23:
-        case op_24:
-        case op_25:
-        case op_27:
-        case op_30:
-        case op_31:
-        case op_32:
-        case op_33:
-        case op_34:
-        case op_35:
-        case op_36:
-        case op_37:
-        case op_38:
-        case op_39:
-        case op_40:
-        case op_41:
-        case op_42:
-        case op_43:
-        case op_44:
-        case op_45:
-        case op_46:
-        case op_47:
-        case op_48:
-        case op_49:
-        case op_50:
-        case op_51:
-        case op_52:
-        case op_53:
-        case op_54:
-        case op_55:
-        case op_56:
-        case op_59:
-        case op_62:
-        case op_63:
-        case op_64:
-        case EQUALS:
-        case op_66:
-        case op_67:
-        case op_71:
-        case op_72:
-        case op_73:
-        case op_74:
-        case op_75:
-        case op_77:
-        case op_78:
-        case op_79:
-        case op_80:
-        case op_81:
-        case op_82:
-        case op_83:
-        case op_84:
-        case op_85:
-        case op_86:
-        case op_87:
-        case op_88:
-        case op_89:
-        case op_90:
-        case op_91:
-        case op_92:
-        case op_93:
-        case op_94:
-        case op_95:
-        case op_96:
-        case op_97:
-        case op_98:
-        case op_100:
-        case op_101:
-        case op_102:
-        case op_103:
-        case op_104:
-        case op_105:
-        case op_106:
-        case op_107:
-        case op_108:
-        case op_109:
-        case op_110:
-        case op_111:
-        case op_117:
-        case op_118:
-        case op_119:
-          tn0 = InfixOp();
-          break;
-        case op_57:
-        case op_68:
-        case op_69:
-        case op_70:
-          tn0 = PostfixOp();
-          break;
-        default:
-          jj_la1[133] = jj_gen;
-          if (jj_2_70(2147483647)) {
-            tn0 = NonExpPrefixOp();
-          } else {
-            jj_consume_token(-1);
-            throw new ParseException();
-          }
+            /******************************************************************
+             * We set heirs to the array of IdPrefixElement nodes that are     *
+             * the heirs of the IdPrefix node that is the first heir of the    *
+             * GeneralId node.                                                 *
+             ******************************************************************/
+            heirs = new SyntaxTreeNode[tnBangs.length];
+
+            /******************************************************************
+             * Set eltHeirs to the heirs of heirs[0].                          *
+             ******************************************************************/
+            SyntaxTreeNode[] eltHeirs;
+            if (tnOpArgs == null) {
+              eltHeirs = new SyntaxTreeNode[2];
+              eltHeirs[0] = tn0;
+              eltHeirs[1] = (SyntaxTreeNode) tnBangs[0].heirs()[0];
+            } else {
+              eltHeirs = new SyntaxTreeNode[3];
+              eltHeirs[0] = tn0;
+              eltHeirs[1] = tnOpArgs;
+              eltHeirs[2] = (SyntaxTreeNode) tnBangs[0].heirs()[0];
+            }
+            heirs[0] =
+                    new SyntaxTreeNode(mn, N_IdPrefixElement, eltHeirs);
+            for (int i = 0; i < tnBangs.length - 1; i++) {
+              eltHeirs =
+                      new SyntaxTreeNode[tnBangs[i].heirs().length];
+              for (int j = 0; j < eltHeirs.length - 1; j++) {
+                eltHeirs[j] = (SyntaxTreeNode) tnBangs[i].heirs()[j + 1];
+              }
+              eltHeirs[eltHeirs.length - 1] = (SyntaxTreeNode)
+                      tnBangs[i + 1].heirs()[0];
+              heirs[i + 1] = new SyntaxTreeNode(mn, N_IdPrefixElement, eltHeirs);
+            } // for
+            final TreeNode[] lastBang = tnBangs[tnBangs.length - 1].heirs();
+            final SyntaxTreeNode[] genIdHeirs = new SyntaxTreeNode[2];
+            genIdHeirs[0] = new SyntaxTreeNode(mn, N_IdPrefix, heirs);
+            genIdHeirs[1] = (SyntaxTreeNode) lastBang[1];
+            final SyntaxTreeNode genId =
+                    new SyntaxTreeNode(mn, N_GeneralId, genIdHeirs);
+            if (lastBang.length == 2) {
+              tn = genId;
+            } else {
+              heirs = new SyntaxTreeNode[2];
+              heirs[0] = genId;
+              heirs[1] = (SyntaxTreeNode) lastBang[2];
+              tn = new SyntaxTreeNode(mn, N_OpApplication, heirs);
+            } // else
+          } // else
         }
-        if (jj_2_71(2)) {
-          tnOpArgs = OpArgs();
+        default -> {
+          jj_la1[135] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
         }
-        label_52:
-        while (true) {
-          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case BANG:
-            break;
-          default:
-            jj_la1[134] = jj_gen;
-            break label_52;
-          }
-          tn1 = BangExt();
-                          addHeir(tn1) ;
-        }
-        tnBangs = getLastHeirs() ;
-        if (tnBangs == null) {
-          heirs = new SyntaxTreeNode[2];
-          heirs[0] = new SyntaxTreeNode( mn, N_IdPrefix,
-                                         new SyntaxTreeNode[0]);
-          heirs[1] = tn0;
-          tn1 = new SyntaxTreeNode(mn, N_GeneralId, heirs) ;
-          if (tnOpArgs == null) {tn = tn1;}
-          else { heirs    = new SyntaxTreeNode[2];
-                 heirs[0] = tn1 ;
-                 heirs[1] = tnOpArgs ;
-                 tn = new SyntaxTreeNode(mn, N_OpApplication, heirs) ;
-           }
-         } // if (tnBangs == null)
-        else {
-         /******************************************************************
-         * There is a BangExt.  The parse tree constructed so far needs    *
-         * to be rearranged to be what is expected of the parser           *
-         * (because the parser was designed for TLA+1).  For example, if   *
-         * we're parsing                                                   *
-         *                                                                 *
-         *   foo(1)!b!c(2,3), so far we have                               *
-         *   tn0 = foo                                                     *
-         *   tnOpArgs = OpArgs[1]                                          *
-         *   tnBangs = IdPrefixElement[! b]                                *
-         *             IdPrefixElement[! c OpArgs[2, 3]]                   *
-         *                                                                 *
-         * and we must turn that into                                      *
-         *                                                                 *
-         *   OpAppl[ GeneralId[ IdPrefix[IdPrefixElement[foo OpArgs[1] !]  *
-         *                               IdPrefixElement[b !]]             *
-         *                      c]                                         *
-         *           OpArgs[2, 3]]                                         *
-         *                                                                 *
-         * Note that the result is an OpAppl node iff the last             *
-         * IdPrefixElement contains an OpArg heir, otherwise it is a       *
-         * GeneralId node.                                                 *
-         ******************************************************************/
-
-         /******************************************************************
-         * We set heirs to the array of IdPrefixElement nodes that are     *
-         * the heirs of the IdPrefix node that is the first heir of the    *
-         * GeneralId node.                                                 *
-         ******************************************************************/
-         heirs = new SyntaxTreeNode[tnBangs.length] ;
-
-         /******************************************************************
-         * Set eltHeirs to the heirs of heirs[0].                          *
-         ******************************************************************/
-         SyntaxTreeNode[] eltHeirs;
-         if (tnOpArgs == null) {
-            eltHeirs = new SyntaxTreeNode[2] ;
-            eltHeirs[0] = tn0 ;
-            eltHeirs[1] = (SyntaxTreeNode) tnBangs[0].heirs()[0] ;
-          }
-         else {
-            eltHeirs = new SyntaxTreeNode[3] ;
-            eltHeirs[0] = tn0 ;
-            eltHeirs[1] = tnOpArgs;
-            eltHeirs[2] = (SyntaxTreeNode) tnBangs[0].heirs()[0] ;
-          }
-          heirs[0] =
-           new SyntaxTreeNode(mn, N_IdPrefixElement, eltHeirs);
-         for (int i = 0; i < tnBangs.length - 1; i++) {
-           eltHeirs =
-              new SyntaxTreeNode[tnBangs[i].heirs().length] ;
-           for (int j = 0 ; j < eltHeirs.length-1; j++) {
-             eltHeirs[j] = (SyntaxTreeNode) tnBangs[i].heirs()[j+1];
-             }
-           eltHeirs[eltHeirs.length-1] = (SyntaxTreeNode)
-                                            tnBangs[i+1].heirs()[0];
-           heirs[i+1] = new SyntaxTreeNode(mn, N_IdPrefixElement, eltHeirs);
-          } // for
-         final TreeNode[] lastBang = tnBangs[tnBangs.length-1].heirs() ;
-         final SyntaxTreeNode[] genIdHeirs = new SyntaxTreeNode[2] ;
-         genIdHeirs[0] = new SyntaxTreeNode(mn, N_IdPrefix, heirs) ;
-         genIdHeirs[1] = (SyntaxTreeNode) lastBang[1];
-         final SyntaxTreeNode genId =
-             new SyntaxTreeNode(mn, N_GeneralId, genIdHeirs) ;
-         if (lastBang.length == 2) {tn = genId;}
-         else { heirs = new SyntaxTreeNode[2] ;
-                heirs[0] = genId ;
-                heirs[1] = (SyntaxTreeNode) lastBang[2] ;
-                tn = new SyntaxTreeNode(mn, N_OpApplication, heirs) ;
-          } // else       
-      } // else
-
-        break;
-      default:
-        jj_la1[135] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
       }
     }
     epa() ;
@@ -7151,134 +5492,17 @@ final SyntaxTreeNode tn;
       if (jj_2_74(2147483647) && (!getToken(1).image.equals("@"))) {
         tn = Identifier();
       } else {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case op_76:
-        case op_26:
-        case op_29:
-        case op_58:
-        case CASESEP:
-        case op_61:
-        case op_112:
-        case op_113:
-        case op_114:
-        case op_115:
-        case op_116:
-          tn = NonExpPrefixOp();
-          break;
-        case op_1:
-        case AND:
-        case op_3:
-        case op_4:
-        case OR:
-        case op_6:
-        case op_7:
-        case op_8:
-        case op_9:
-        case op_10:
-        case op_11:
-        case op_12:
-        case op_13:
-        case op_14:
-        case op_15:
-        case op_16:
-        case op_17:
-        case op_18:
-        case op_19:
-        case IN:
-        case op_21:
-        case op_22:
-        case op_23:
-        case op_24:
-        case op_25:
-        case op_27:
-        case op_30:
-        case op_31:
-        case op_32:
-        case op_33:
-        case op_34:
-        case op_35:
-        case op_36:
-        case op_37:
-        case op_38:
-        case op_39:
-        case op_40:
-        case op_41:
-        case op_42:
-        case op_43:
-        case op_44:
-        case op_45:
-        case op_46:
-        case op_47:
-        case op_48:
-        case op_49:
-        case op_50:
-        case op_51:
-        case op_52:
-        case op_53:
-        case op_54:
-        case op_55:
-        case op_56:
-        case op_59:
-        case op_62:
-        case op_63:
-        case op_64:
-        case EQUALS:
-        case op_66:
-        case op_67:
-        case op_71:
-        case op_72:
-        case op_73:
-        case op_74:
-        case op_75:
-        case op_77:
-        case op_78:
-        case op_79:
-        case op_80:
-        case op_81:
-        case op_82:
-        case op_83:
-        case op_84:
-        case op_85:
-        case op_86:
-        case op_87:
-        case op_88:
-        case op_89:
-        case op_90:
-        case op_91:
-        case op_92:
-        case op_93:
-        case op_94:
-        case op_95:
-        case op_96:
-        case op_97:
-        case op_98:
-        case op_100:
-        case op_101:
-        case op_102:
-        case op_103:
-        case op_104:
-        case op_105:
-        case op_106:
-        case op_107:
-        case op_108:
-        case op_109:
-        case op_110:
-        case op_111:
-        case op_117:
-        case op_118:
-        case op_119:
-          tn = InfixOp();
-          break;
-        case op_57:
-        case op_68:
-        case op_69:
-        case op_70:
-          tn = PostfixOp();
-          break;
-        default:
-          jj_la1[136] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
+        switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+          case op_76, op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116 ->
+                  tn = NonExpPrefixOp();
+          case op_1, AND, op_3, op_4, OR, op_6, op_7, op_8, op_9, op_10, op_11, op_12, op_13, op_14, op_15, op_16, op_17, op_18, op_19, IN, op_21, op_22, op_23, op_24, op_25, op_27, op_30, op_31, op_32, op_33, op_34, op_35, op_36, op_37, op_38, op_39, op_40, op_41, op_42, op_43, op_44, op_45, op_46, op_47, op_48, op_49, op_50, op_51, op_52, op_53, op_54, op_55, op_56, op_59, op_62, op_63, op_64, EQUALS, op_66, op_67, op_71, op_72, op_73, op_74, op_75, op_77, op_78, op_79, op_80, op_81, op_82, op_83, op_84, op_85, op_86, op_87, op_88, op_89, op_90, op_91, op_92, op_93, op_94, op_95, op_96, op_97, op_98, op_100, op_101, op_102, op_103, op_104, op_105, op_106, op_107, op_108, op_109, op_110, op_111, op_117, op_118, op_119 ->
+                  tn = InfixOp();
+          case op_57, op_68, op_69, op_70 -> tn = PostfixOp();
+          default -> {
+            jj_la1[136] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
         }
       }
       addHeir(tn);
@@ -7287,19 +5511,20 @@ final SyntaxTreeNode tn;
                       addHeir(tn) ;
       }
     } else {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case LBR:
-        tn = OpArgs();
-                      addHeir(tn) ;
-        break;
-      default:
-        jj_la1[137] = jj_gen;
-        if (jj_2_77(1)) {
-          tn = StructOp();
-                      addHeir(tn) ;
-        } else {
-          jj_consume_token(-1);
-          throw new ParseException();
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case LBR -> {
+          tn = OpArgs();
+          addHeir(tn);
+        }
+        default -> {
+          jj_la1[137] = jj_gen;
+          if (jj_2_77(1)) {
+            tn = StructOp();
+            addHeir(tn);
+          } else {
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
         }
       }
     }
@@ -7315,26 +5540,19 @@ final SyntaxTreeNode tn;
   Token t = null;
   bpa("StructOp");
   expecting = "`<<' , `>>' , `:' , `@' , or number" ;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case LAB:
-      t = jj_consume_token(LAB);
-      break;
-    case RAB:
-      t = jj_consume_token(RAB);
-      break;
-    case COLON:
-      t = jj_consume_token(COLON);
-      break;
-    case NUMBER_LITERAL:
-      tn = Number();
-      break;
-    default:
-      jj_la1[138] = jj_gen;
-      if (getToken(1).image.equals("@")) {
-        t = jj_consume_token(IDENTIFIER);
-      } else {
-        jj_consume_token(-1);
-        throw new ParseException();
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case LAB -> t = jj_consume_token(LAB);
+      case RAB -> t = jj_consume_token(RAB);
+      case COLON -> t = jj_consume_token(COLON);
+      case NUMBER_LITERAL -> tn = Number();
+      default -> {
+        jj_la1[138] = jj_gen;
+        if (getToken(1).image.equals("@")) {
+          t = jj_consume_token(IDENTIFIER);
+        } else {
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
       }
     }
    epa() ;
@@ -7367,26 +5585,26 @@ final SyntaxTreeNode tn;
 //   SyntaxTreeNode tn, tn0, tn1, tn2;
 //   Token t;
 //   OperatorStack.newStack();
-// } { 
-// ( 
+// } {
+// (
 //  LOOKAHEAD(OpenStart(), {BStack.aboveReference( getToken(1).beginColumn) } )
 //    tn = OpenExpression() { OperatorStack.pushOnStack( tn, null ); }
-// |   (  LOOKAHEAD( /* <BAND> | <BOR> | */ <AND> | <OR>, 
-// // ^^^ 
+// |   (  LOOKAHEAD( /* <BAND> | <BOR> | */ <AND> | <OR>,
+// // ^^^
 // // Warning 4 -- Eliminated in SANY2
-//          { OperatorStack.preInEmptyTop() && 
+//          { OperatorStack.preInEmptyTop() &&
 //            BStack.aboveReference( getToken(1).beginColumn) } )
 //        tn = Junctions() { OperatorStack.pushOnStack( tn, null ); }
-//      | LOOKAHEAD( {    ClosedStart(getToken(1)) 
-//                    && boxDisc()  
+//      | LOOKAHEAD( {    ClosedStart(getToken(1))
+//                    && boxDisc()
 //                         /***************************************************
 //                        * \equiv                                            *
 //                        *   (token is "[]" => it's the temporal operator)   *
 //                         ***************************************************/
-//                    && BStack.aboveReference( 
+//                    && BStack.aboveReference(
 //                                 getToken(1).beginColumn) })
 //        tn = ClosedExpressionOrOp() {
-//           anchor = tn; // XXX is this correct ? Why had it disappered ? 
+//           anchor = tn; // XXX is this correct ? Why had it disappered ?
 //                        // This is the only place where anchor is set it seems.
 //           /*****************************************************************
 //           * If tn is an operator, push it on the stack and, if it's not    *
@@ -7401,8 +5619,8 @@ final SyntaxTreeNode tn;
 // // ToolIO.out.println("size of 1");
 //           } else OperatorStack.pushOnStack( tn, null );
 //         }
-//      | 
-//        t = <DOT> { 
+//      |
+//        t = <DOT> {
 //         Token next = getToken(1);
 //         if (isFieldNameToken( next )) next.kind = IDENTIFIER;
 //        }
@@ -11029,7 +9247,7 @@ final SyntaxTreeNode tn;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
-  
+
   public void ReInit(final java.io.InputStream stream, final String encoding) {
     try { jj_input_stream.ReInit(stream, encoding, 1, 1); } catch(final java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
     token_source.ReInit(jj_input_stream);
@@ -11040,7 +9258,7 @@ final SyntaxTreeNode tn;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
-  
+
 
   public void ReInit(final java.io.Reader stream) {
     jj_input_stream.ReInit(stream, 1, 1);
@@ -11101,7 +9319,7 @@ final SyntaxTreeNode tn;
   static private final class LookaheadSuccess extends java.lang.Error {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 761892822322674364L; }
   final private LookaheadSuccess jj_ls = new LookaheadSuccess();
@@ -11254,83 +9472,83 @@ final SyntaxTreeNode tn;
         if (p.gen > jj_gen) {
           jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;
           switch (i) {
-            case 0: jj_3_1(); break;
-            case 1: jj_3_2(); break;
-            case 2: jj_3_3(); break;
-            case 3: jj_3_4(); break;
-            case 4: jj_3_5(); break;
-            case 5: jj_3_6(); break;
-            case 6: jj_3_7(); break;
-            case 7: jj_3_8(); break;
-            case 8: jj_3_9(); break;
-            case 9: jj_3_10(); break;
-            case 10: jj_3_11(); break;
-            case 11: jj_3_12(); break;
-            case 12: jj_3_13(); break;
-            case 13: jj_3_14(); break;
-            case 14: jj_3_15(); break;
-            case 15: jj_3_16(); break;
-            case 16: jj_3_17(); break;
-            case 17: jj_3_18(); break;
-            case 18: jj_3_19(); break;
-            case 19: jj_3_20(); break;
-            case 20: jj_3_21(); break;
-            case 21: jj_3_22(); break;
-            case 22: jj_3_23(); break;
-            case 23: jj_3_24(); break;
-            case 24: jj_3_25(); break;
-            case 25: jj_3_26(); break;
-            case 26: jj_3_27(); break;
-            case 27: jj_3_28(); break;
-            case 28: jj_3_29(); break;
-            case 29: jj_3_30(); break;
-            case 30: jj_3_31(); break;
-            case 31: jj_3_32(); break;
-            case 32: jj_3_33(); break;
-            case 33: jj_3_34(); break;
-            case 34: jj_3_35(); break;
-            case 35: jj_3_36(); break;
-            case 36: jj_3_37(); break;
-            case 37: jj_3_38(); break;
-            case 38: jj_3_39(); break;
-            case 39: jj_3_40(); break;
-            case 40: jj_3_41(); break;
-            case 41: jj_3_42(); break;
-            case 42: jj_3_43(); break;
-            case 43: jj_3_44(); break;
-            case 44: jj_3_45(); break;
-            case 45: jj_3_46(); break;
-            case 46: jj_3_47(); break;
-            case 47: jj_3_48(); break;
-            case 48: jj_3_49(); break;
-            case 49: jj_3_50(); break;
-            case 50: jj_3_51(); break;
-            case 51: jj_3_52(); break;
-            case 52: jj_3_53(); break;
-            case 53: jj_3_54(); break;
-            case 54: jj_3_55(); break;
-            case 55: jj_3_56(); break;
-            case 56: jj_3_57(); break;
-            case 57: jj_3_58(); break;
-            case 58: jj_3_59(); break;
-            case 59: jj_3_60(); break;
-            case 60: jj_3_61(); break;
-            case 61: jj_3_62(); break;
-            case 62: jj_3_63(); break;
-            case 63: jj_3_64(); break;
-            case 64: jj_3_65(); break;
-            case 65: jj_3_66(); break;
-            case 66: jj_3_67(); break;
-            case 67: jj_3_68(); break;
-            case 68: jj_3_69(); break;
-            case 69: jj_3_70(); break;
-            case 70: jj_3_71(); break;
-            case 71: jj_3_72(); break;
-            case 72: jj_3_73(); break;
-            case 73: jj_3_74(); break;
-            case 74: jj_3_75(); break;
-            case 75: jj_3_76(); break;
-            case 76: jj_3_77(); break;
+            case 0 -> jj_3_1();
+            case 1 -> jj_3_2();
+            case 2 -> jj_3_3();
+            case 3 -> jj_3_4();
+            case 4 -> jj_3_5();
+            case 5 -> jj_3_6();
+            case 6 -> jj_3_7();
+            case 7 -> jj_3_8();
+            case 8 -> jj_3_9();
+            case 9 -> jj_3_10();
+            case 10 -> jj_3_11();
+            case 11 -> jj_3_12();
+            case 12 -> jj_3_13();
+            case 13 -> jj_3_14();
+            case 14 -> jj_3_15();
+            case 15 -> jj_3_16();
+            case 16 -> jj_3_17();
+            case 17 -> jj_3_18();
+            case 18 -> jj_3_19();
+            case 19 -> jj_3_20();
+            case 20 -> jj_3_21();
+            case 21 -> jj_3_22();
+            case 22 -> jj_3_23();
+            case 23 -> jj_3_24();
+            case 24 -> jj_3_25();
+            case 25 -> jj_3_26();
+            case 26 -> jj_3_27();
+            case 27 -> jj_3_28();
+            case 28 -> jj_3_29();
+            case 29 -> jj_3_30();
+            case 30 -> jj_3_31();
+            case 31 -> jj_3_32();
+            case 32 -> jj_3_33();
+            case 33 -> jj_3_34();
+            case 34 -> jj_3_35();
+            case 35 -> jj_3_36();
+            case 36 -> jj_3_37();
+            case 37 -> jj_3_38();
+            case 38 -> jj_3_39();
+            case 39 -> jj_3_40();
+            case 40 -> jj_3_41();
+            case 41 -> jj_3_42();
+            case 42 -> jj_3_43();
+            case 43 -> jj_3_44();
+            case 44 -> jj_3_45();
+            case 45 -> jj_3_46();
+            case 46 -> jj_3_47();
+            case 47 -> jj_3_48();
+            case 48 -> jj_3_49();
+            case 49 -> jj_3_50();
+            case 50 -> jj_3_51();
+            case 51 -> jj_3_52();
+            case 52 -> jj_3_53();
+            case 53 -> jj_3_54();
+            case 54 -> jj_3_55();
+            case 55 -> jj_3_56();
+            case 56 -> jj_3_57();
+            case 57 -> jj_3_58();
+            case 58 -> jj_3_59();
+            case 59 -> jj_3_60();
+            case 60 -> jj_3_61();
+            case 61 -> jj_3_62();
+            case 62 -> jj_3_63();
+            case 63 -> jj_3_64();
+            case 64 -> jj_3_65();
+            case 65 -> jj_3_66();
+            case 66 -> jj_3_67();
+            case 67 -> jj_3_68();
+            case 68 -> jj_3_69();
+            case 69 -> jj_3_70();
+            case 70 -> jj_3_71();
+            case 71 -> jj_3_72();
+            case 72 -> jj_3_73();
+            case 73 -> jj_3_74();
+            case 74 -> jj_3_75();
+            case 75 -> jj_3_76();
+            case 76 -> jj_3_77();
           }
         }
         p = p.next;

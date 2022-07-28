@@ -77,29 +77,15 @@ public class StringNode extends ExprNode implements ExploreNode {
     final StringBuilder buf = new StringBuilder(str.length()) ;
     for (int i = 0 ; i < str.length() ; i++) {
       switch (str.charAt(i)) {
-        case '\"' :
-          buf.append("\\\"") ;
-          break ;
-        case '\\' :
-          buf.append("\\\\") ;
-          break ;
-        case '\t' :
-          buf.append("\\t") ;
-          break ;
-        case '\n' :
-          buf.append("\\n") ;
-          break ;
-        case '\f' :
-          buf.append("\\f") ;
-          break ;
-        case '\r' :
-          buf.append("\\r") ;
-          break ;
-        default :
-          buf.append(str.charAt(i)) ;
-          break ;
-       } // switch
-     }// for
+        case '\"' -> buf.append("\\\"");
+        case '\\' -> buf.append("\\\\");
+        case '\t' -> buf.append("\\t");
+        case '\n' -> buf.append("\\n");
+        case '\f' -> buf.append("\\f");
+        case '\r' -> buf.append("\\r");
+        default -> buf.append(str.charAt(i));
+      } // switch
+    }// for
     return buf.toString();
    }
 

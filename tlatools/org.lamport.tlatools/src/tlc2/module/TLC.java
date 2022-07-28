@@ -374,59 +374,54 @@ public class TLC implements ValueConstants
     public static Value RandomElement(final Value  val)
     {
         switch (val.getKind()) {
-        case SETOFFCNSVALUE: {
-            final SetOfFcnsValue sfv = (SetOfFcnsValue) val;
-            sfv.normalize();
-            final SetEnumValue domSet = (SetEnumValue) sfv.domain.toSetEnum();
-            if (domSet == null)
-            {
-                throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[] { "RandomElement",
-                        "a finite set", Values.ppr(val.toString()) });
+            case SETOFFCNSVALUE -> {
+                final SetOfFcnsValue sfv = (SetOfFcnsValue) val;
+                sfv.normalize();
+                final SetEnumValue domSet = (SetEnumValue) sfv.domain.toSetEnum();
+                if (domSet == null) {
+                    throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[]{"RandomElement",
+                            "a finite set", Values.ppr(val.toString())});
+                }
+                domSet.normalize();
+                final ValueVec elems = domSet.elems;
+                final Value[] dom = new Value[elems.size()];
+                final Value[] vals = new Value[elems.size()];
+                for (int i = 0; i < dom.length; i++) {
+                    dom[i] = elems.elementAt(i);
+                    vals[i] = RandomElement(sfv.range);
+                }
+                return new FcnRcdValue(dom, vals, true);
             }
-            domSet.normalize();
-            final ValueVec elems = domSet.elems;
-            final Value [] dom = new Value[elems.size()];
-            final Value [] vals = new Value[elems.size()];
-            for (int i = 0; i < dom.length; i++)
-            {
-                dom[i] = elems.elementAt(i);
-                vals[i] = RandomElement(sfv.range);
+            case SETOFRCDSVALUE -> {
+                final SetOfRcdsValue srv = (SetOfRcdsValue) val;
+                srv.normalize();
+                final Value[] vals = new Value[srv.names.length];
+                for (int i = 0; i < vals.length; i++) {
+                    vals[i] = RandomElement(srv.values[i]);
+                }
+                return new RecordValue(srv.names, vals, true);
             }
-            return new FcnRcdValue(dom, vals, true);
-        }
-        case SETOFRCDSVALUE: {
-            final SetOfRcdsValue srv = (SetOfRcdsValue) val;
-            srv.normalize();
-            final Value [] vals = new Value[srv.names.length];
-            for (int i = 0; i < vals.length; i++)
-            {
-                vals[i] = RandomElement(srv.values[i]);
+            case SETOFTUPLESVALUE -> {
+                final SetOfTuplesValue stv = (SetOfTuplesValue) val;
+                stv.normalize();
+                final Value[] vals = new Value[stv.sets.length];
+                for (int i = 0; i < vals.length; i++) {
+                    vals[i] = RandomElement(stv.sets[i]);
+                }
+                return new TupleValue(vals);
             }
-            return new RecordValue(srv.names, vals, true);
-        }
-        case SETOFTUPLESVALUE: {
-            final SetOfTuplesValue stv = (SetOfTuplesValue) val;
-            stv.normalize();
-            final Value [] vals = new Value[stv.sets.length];
-            for (int i = 0; i < vals.length; i++)
-            {
-                vals[i] = RandomElement(stv.sets[i]);
+            case INTERVALVALUE -> {
+                final IntervalValue iv = (IntervalValue) val;
+                return iv.randomElement();
             }
-            return new TupleValue(vals);
-        }
-        case INTERVALVALUE: {
-        	final IntervalValue iv = (IntervalValue) val;
-        	return iv.randomElement();
-        }
-        default: {
-            final SetEnumValue enumVal = (SetEnumValue) val.toSetEnum();
-            if (enumVal == null)
-            {
-                throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[] { "RandomElement",
-                        "a finite set", Values.ppr(val.toString()) });
+            default -> {
+                final SetEnumValue enumVal = (SetEnumValue) val.toSetEnum();
+                if (enumVal == null) {
+                    throw new EvalException(EC.TLC_MODULE_APPLYING_TO_WRONG_VALUE, new String[]{"RandomElement",
+                            "a finite set", Values.ppr(val.toString())});
+                }
+                return enumVal.randomElement();
             }
-            return enumVal.randomElement();
-        }
         }
     }
 

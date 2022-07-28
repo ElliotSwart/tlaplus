@@ -907,11 +907,11 @@ public class Tokenize
         parenDepth = 0 ;
         inQuantifier = false ;
 
-        switch (mode)
-          { case MODULE : state = PROLOG ; break ;
-            case TLA    : state = START  ; break ;
-            default     : PcalDebug.ReportBug(
-                           "TokenizeSpec.Tokenize called with illegal mode") ;
+          switch (mode) {
+              case MODULE -> state = PROLOG;
+              case TLA -> state = START;
+              default -> PcalDebug.ReportBug(
+                      "TokenizeSpec.Tokenize called with illegal mode");
           }
 
           exprEnd = false ;
