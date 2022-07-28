@@ -69,6 +69,8 @@ public interface ITool extends TraceApp {
 	void setMainChecker(AbstractChecker abstractChecker);
 	void setSimulator(Simulator simulator);
 
+	tla2sany.semantic.Context getSANYContext();
+
 	/*
 	   * This method returns the set of possible initial states that
 	   * satisfies the initial state predicate. Initial state predicate

@@ -306,8 +306,8 @@ public abstract class SemanticNode
 	    + getPreCommentsAsString());
   }
   
-  public boolean isBuiltIn() {
-	  return SANY.getThreadContext().isBuiltIn(this);
+  public boolean isBuiltIn(Context context) {
+	  return context.isBuiltIn(this);
   }
 
   /**

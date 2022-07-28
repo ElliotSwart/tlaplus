@@ -113,13 +113,8 @@ public class SANY {
    * object, which must be checked as described above.
    */
 
-  private Context context;
+  public Context context;
   private Configuration configuration;
-
-  private static final ThreadLocal<Context> threadContext = new ThreadLocal<>();
-  public static Context getThreadContext(){
-    return threadContext.get();
-  }
 
   private BuiltInLevel builtInLevel;
 
@@ -171,9 +166,6 @@ public class SANY {
       // global context
       configuration = Configuration.load(initErrors);
       context = configuration.context;
-
-      // Set to be used by nodes that don't take it as argument
-      threadContext.set(context);
 
       spec.operators = configuration.operators;
 

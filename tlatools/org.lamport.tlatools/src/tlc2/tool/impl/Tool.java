@@ -145,6 +145,9 @@ public abstract class Tool
     private final Vect<Action> initPred; // The initial state predicate.
     private final FilenameToStream resolver; // takes care of path to stream resolution
     private final OpDeclNode[] variables;
+
+    private final tla2sany.semantic.Context sanyContext;
+
     protected ModuleNode rootModule; // The root module.
 
     private static SemanticNode generateViewSpec(ModelConfig config, Defns defns) {
@@ -241,6 +244,10 @@ public abstract class Tool
             Assert.fail(EC.GENERAL);
         }
         return def;
+    }
+
+    public tla2sany.semantic.Context getSANYContext() {
+        return sanyContext;
     }
 
     public OpDeclNode[] getVariables(){
@@ -897,6 +904,8 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 		for (int i = 0; i < initAndNext.size(); i++) {
 			initAndNext.elementAt(i).setId(i);
 		}
+
+        this.sanyContext = specProcessor.sany.context;
   }
 
     protected Tool(final Tool other) {
@@ -942,6 +951,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
         this.actions = other.actions;
         this.actionVec = other.actionVec;
         this.toolMode = other.toolMode;
+        this.sanyContext = other.sanyContext;
    }
 
 

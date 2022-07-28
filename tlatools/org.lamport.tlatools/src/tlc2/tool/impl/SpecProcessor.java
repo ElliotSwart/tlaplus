@@ -333,6 +333,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
     Map<String, ModuleNode> modSetSnapshot;
 
+    public SANY sany;
+
     /**
      * Processes the specification and collects information to be used
      * by tools. The processing tries to use any customized module (Java
@@ -357,7 +359,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             // checked errors (init, parse, semantic).
             // Only if something unexpected happens the
             // exception is thrown
-            var sany = new SANY();
+            sany = new SANY();
             sany.frontEndMain(specObj, this.rootFile, ToolIO.out);
         } catch (final FrontEndException e)
         {

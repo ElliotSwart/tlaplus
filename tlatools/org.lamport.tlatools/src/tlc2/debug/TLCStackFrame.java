@@ -408,7 +408,7 @@ public class TLCStackFrame extends StackFrame {
 			variable = new Variable();
 			variable.setValue(
 					// Print the location for built-in symbols instead of "-- TLA Builtin ---"
-					o instanceof SymbolNode symNode && symNode.isBuiltIn() ? symNode.getLocation().toString()
+					o instanceof SymbolNode symNode && symNode.isBuiltIn(tool.getSANYContext()) ? symNode.getLocation().toString()
 							: o.toString());
 			variable.setType(o.getClass().getSimpleName());
 		}
