@@ -103,7 +103,7 @@ abstract class Spec
 
     protected final Hashtable<String, ParseUnit> parseUnitContext;
 
-    protected final Map<ModuleNode, Map<OpDefOrDeclNode, Object>> constantDefns = new HashMap<>();
+    protected final Map<ModuleNode, Map<OpDefOrDeclNode, Object>> constantDefns;
 
     public TLCState EmptyState;
 
@@ -161,6 +161,8 @@ abstract class Spec
         this.aliasSpec = generateAliasSpec(this.config, this.defns);
         this.processedPostConditionSpecs = generatePostConditionSpecs(this.config, this.defns, postConditionSpecs);
         this.counterExampleDef = generateCounterExampleDef(this.defns);
+
+        this.constantDefns = specProcessor.getConstantDefns();
     }
     
     protected Spec(final Spec other) {
@@ -201,6 +203,7 @@ abstract class Spec
         this.aliasSpec = other.aliasSpec;
         this.viewSpec = other.viewSpec;
 
+        this.constantDefns = other.constantDefns;
         this.EmptyState = other.EmptyState;
     }
 
