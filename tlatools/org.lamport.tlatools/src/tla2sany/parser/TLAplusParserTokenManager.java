@@ -4051,8 +4051,6 @@ int jjimageLen;
 int lengthOfMatch;
 protected char curChar;
 public TLAplusParserTokenManager(final SimpleCharStream stream){
-   if (SimpleCharStream.staticFlag)
-      throw new Error("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
    input_stream = stream;
 }
 public TLAplusParserTokenManager(final SimpleCharStream stream, final int lexState){

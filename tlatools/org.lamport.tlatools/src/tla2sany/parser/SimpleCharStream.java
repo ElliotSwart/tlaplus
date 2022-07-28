@@ -8,7 +8,6 @@ package tla2sany.parser;
 
 public class SimpleCharStream
 {
-  public static final boolean staticFlag = false;
   int bufsize;
   int available;
   int tokenBegin;
