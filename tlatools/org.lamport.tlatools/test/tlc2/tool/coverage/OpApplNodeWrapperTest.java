@@ -31,10 +31,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import tla2sany.parser.SyntaxTreeNode;
-import tla2sany.semantic.AbortException;
-import tla2sany.semantic.ModuleNode;
-import tla2sany.semantic.OpApplNode;
-import tla2sany.semantic.SymbolNode;
+import tla2sany.semantic.*;
 import tla2sany.xml.SymbolContext;
 import tlc2.TLCGlobals;
 import util.TestPrintStream;
@@ -181,7 +178,7 @@ public class OpApplNodeWrapperTest {
 	private static class DummyOpApplNode extends OpApplNode {
 
 		public DummyOpApplNode(final SymbolNode sn) {
-			super(sn);
+			super(sn, new Context(new ExternalModuleTable(), new Errors()));
 		}
 	}
 }

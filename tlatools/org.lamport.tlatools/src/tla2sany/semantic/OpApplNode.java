@@ -50,6 +50,8 @@ import util.UniqueString;
  */
 public class OpApplNode extends ExprNode implements ExploreNode {
 
+  protected final Context context;
+
   protected SymbolNode        operator;
      // operator being applied to the operands
   protected ExprOrOpArgNode[] operands;
@@ -119,7 +121,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
   /**  constructor 1
    * Used only for creating "null" OpApplNode, nullOAN in Generator class.
    */
-  public OpApplNode(final SymbolNode sn) {
+  public OpApplNode(final SymbolNode sn, final Context context) {
     super(OpApplKind, SyntaxTreeNode.nullSTN);
       /*********************************************************************
       * The original implementation had an argument -1 instead of          *
@@ -136,6 +138,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     this.boundedBoundSymbols = null;
     this.ranges = new ExprNode[0];
     this.tupleOrs = null;
+    this.context = context;
   }
 
   /** constructor 2
@@ -143,7 +146,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
    * Generator.
    */
   public OpApplNode(final SymbolNode op, final ExprOrOpArgNode[] oprands, final TreeNode stn,
-                    final ModuleNode mn) throws AbortException {
+                    final ModuleNode mn, final Context context) throws AbortException {
     super(OpApplKind, stn);
     this.operator = op;
     this.operands = oprands;
@@ -156,6 +159,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     // Call the match method for the operator in this op application,
     // with this OpApplNode as argument
     op.match( this, mn );
+    this.context = context;
   }
 
   /* constructor 3
@@ -164,7 +168,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
    * as an OpApplNode for now
    */
   public OpApplNode(final UniqueString us, final ExprOrOpArgNode[] ops, final TreeNode stn,
-                    final ModuleNode mn) {
+                    final ModuleNode mn, final Context context) {
     super(OpApplKind, stn);
     this.operands = ops;
     this.unboundedBoundSymbols = null;
@@ -172,8 +176,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     this.boundedBoundSymbols= null;
     this.tupleOrs = null;
     this.ranges = new ExprNode[0];
-    this.operator = SANY.getThreadContext().getSymbol(us);
+    this.operator = context.getSymbol(us);
     // operator.match( this, mn );
+    this.context = context;
   }
 
   /** constructor 4
@@ -187,7 +192,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
   *************************************************************************/
   public OpApplNode(final UniqueString us, final ExprOrOpArgNode[] ops,
                     final FormalParamNode[] odns,
-                    final TreeNode stn, final ModuleNode mn) {
+                    final TreeNode stn, final ModuleNode mn, final Context context) {
     super(OpApplKind, stn);
     this.operands = ops;
     this.unboundedBoundSymbols = odns;
@@ -195,8 +200,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     this.boundedBoundSymbols= null;
     this.tupleOrs = null;
     this.ranges = new ExprNode[0];
-    this.operator = SANY.getThreadContext().getSymbol(us);
+    this.operator = context.getSymbol(us);
     // operator.match( this, mn );
+    this.context = context;
   }
 
 
@@ -207,7 +213,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
   public OpApplNode(final UniqueString us, final FormalParamNode[] funcName,
                     final ExprOrOpArgNode[] ops, final FormalParamNode[][] pars,
                     final boolean[] isT, final ExprNode[] rs, final TreeNode stn,
-                    final ModuleNode mn) {
+                    final ModuleNode mn, final Context context) {
     super(OpApplKind, stn);
     this.operands = ops;
     this.unboundedBoundSymbols = funcName;
@@ -219,8 +225,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
     this.boundedBoundSymbols= pars;
     this.tupleOrs = isT;
     this.ranges = rs;
-    this.operator = SANY.getThreadContext().getSymbol(us);
+    this.operator = context.getSymbol(us);
      // operator.match( this, mn );
+    this.context = context;
   }
 
   /**
@@ -240,7 +247,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
   * Called only by Function.recursionCheck() in semantic/Generator.java.   *
   *************************************************************************/
   final void resetOperator(final UniqueString us ) {
-    this.operator = SANY.getThreadContext().getSymbol(us);
+    this.operator = context.getSymbol(us);
   }
 
   /**

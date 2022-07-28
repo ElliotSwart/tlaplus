@@ -1524,7 +1524,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					/*****************************************************************
 					 * Formal parameter eoag is an ordinary (non-operator) parameter. *
 					 *****************************************************************/
-					eoag = new OpApplNode(newpm, new ExprNode[0], sel.selSTN, cm);
+					eoag = new OpApplNode(newpm, new ExprNode[0], sel.selSTN, cm, context);
 				} else {
 					/*****************************************************************
 					 * Formal parameter eoag is an operator parameter. *
@@ -1538,7 +1538,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			final SymbolNode curSymNode = (SymbolNode) curNode;
 			curNode = new OpApplNode(curSymNode, temp, // opDefArgArray,
 					sel.selSTN, // TreeNode
-					cm);
+					cm, context);
 
 		}
                 // if (prevMode == FindingOpName) ...
@@ -1583,7 +1583,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 				}
                 // for
 				curNode = new OpApplNode(curOpArgNode.getOp(), opDefArgArray, sel.selSTN, // TreeNode
-						cm);
+						cm, context);
 			}
             // if (params.size() + ...)
 
@@ -1662,7 +1662,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 				/*******************************************************************
 				 * expectedArity = 0 *
 				 *******************************************************************/
-				final OpApplNode oan = new OpApplNode(curSymbolNode, opDefArgArray, sel.selSTN, cm);
+				final OpApplNode oan = new OpApplNode(curSymbolNode, opDefArgArray, sel.selSTN, cm, context);
 				oan.subExpressionOf = subExprOf;
 				return oan;
 			} // if (expectedArity > 0)
@@ -1784,7 +1784,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			 *********************************************************************/
 			final ExprOrOpArgNode[] args = new ExprOrOpArgNode[1];
 			args[0] = curExprNode;
-			final OpApplNode ln = new OpApplNode(OP_nop, args, sel.selSTN, cm);
+			final OpApplNode ln = new OpApplNode(OP_nop, args, sel.selSTN, cm, context);
 			ln.subExpressionOf = subExprOf;
 			return ln;
 		}
@@ -1800,7 +1800,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			allArgsArray[i] = allArgs.elementAt(i);
 		}
 
-                final OpApplNode oan = new OpApplNode(newLambda, allArgsArray, sel.selSTN, cm);
+                final OpApplNode oan = new OpApplNode(newLambda, allArgsArray, sel.selSTN, cm, context);
 		oan.subExpressionOf = subExprOf;
 		return oan;
 
@@ -1844,7 +1844,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	public Generator(final Configuration configuration, final ExternalModuleTable moduleTable, final Errors errs) {
 		nullParam = new FormalParamNode[0];
 		nullODN = new OpDefNode(UniqueString.uniqueStringOf("nullODN"));
-		nullOAN = new OpApplNode(nullODN);
+		nullOAN = new OpApplNode(nullODN, context);
 		nullOpArg = new OpArgNode(UniqueString.uniqueStringOf("nullOpArg"));
 		nullLabelNode = new LabelNode(nullOAN);
 		this.mainContext = configuration.context;
@@ -2486,7 +2486,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		// this will be discovered during generateExpression() for the
 		// body
 		oan = new OpApplNode(OP_nrfs, fcnDeclForRecursion, new ExprNode[0], quants, tuples, domains, syntaxTreeNode,
-				cm);
+				cm, context);
 		// constructor 5
 
 		/***********************************************************************
@@ -2737,7 +2737,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 			sns[0] = generateExpression(children[0], cm);
 			sns[1] = generateExpression(children[2], cm);
-			return new OpApplNode(opn, sns, treeNode, cm);
+			return new OpApplNode(opn, sns, treeNode, cm, context);
 
 		case N_PrefixExpr:
 			genID = generateGenID(children[0], cm, true);
@@ -2751,7 +2751,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			}
 
 			sns[0] = generateExpression(children[1], cm);
-			return new OpApplNode(opn, sns, treeNode, cm); // constructor 2
+			return new OpApplNode(opn, sns, treeNode, cm, context); // constructor 2
 
 		case N_PostfixExpr:
 			genID = generateGenID(children[1], cm);
@@ -2765,7 +2765,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			}
 
 			sns[0] = generateExpression(children[0], cm);
-			return new OpApplNode(opn, sns, treeNode, cm); // constructor 2
+			return new OpApplNode(opn, sns, treeNode, cm, context); // constructor 2
 
 		case N_Times: // or cartesian product
 			sns = new ExprNode[(children.length + 1) / 2];
@@ -2773,7 +2773,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			for (int lvi = 0; lvi < sns.length; lvi++) {
 				sns[lvi] = generateExpression(children[2 * lvi], cm);
 			}
-			return new OpApplNode(OP_cp, sns, treeNode, cm); // constructor 3
+			return new OpApplNode(OP_cp, sns, treeNode, cm, context); // constructor 3
 
 		case N_SetEnumerate:
 			int size = (children.length - 1) / 2;
@@ -2781,7 +2781,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			for (int lvi = 0; lvi < size; lvi++) {
 				sns[lvi] = generateExpression(children[2 * lvi + 1], cm);
 			}
-			return new OpApplNode(OP_se, sns, treeNode, cm); // constructor 3
+			return new OpApplNode(OP_se, sns, treeNode, cm, context); // constructor 3
 
 		case N_GeneralId:
 			// This is a zero-ary operator; it should show in the syntax
@@ -2907,7 +2907,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			for (int lvi = 0; lvi < size; lvi++) {
 				sns[lvi] = generateExpression(children[2 * lvi + 1], cm);
 			}
-			return new OpApplNode(OP_tup, sns, treeNode, cm); // Constructor 3
+			return new OpApplNode(OP_tup, sns, treeNode, cm, context); // Constructor 3
 
 		case N_FcnAppl: // Apparent function application
 			// Number of arguments to the apparent func app
@@ -3008,10 +3008,10 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					exprs[lvi] = generateExpression(children[2 + 2 * lvi], cm);
 				}
 				// Create an application of $Tuple
-				sns[1] = new OpApplNode(OP_tup, exprs, treeNode, cm);
+				sns[1] = new OpApplNode(OP_tup, exprs, treeNode, cm, context);
 			}
 			// Create the function application node.
-			return new OpApplNode(OP_fa, sns, treeNode, cm);
+			return new OpApplNode(OP_fa, sns, treeNode, cm, context);
 
 		case N_UnboundOrBoundChoose:
 			return processChoose(treeNode, children, cm);
@@ -3027,7 +3027,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			sns[0] = generateExpression(children[1], cm);
 			sns[1] = generateExpression(children[3], cm);
 			sns[2] = generateExpression(children[5], cm);
-			return new OpApplNode(OP_ite, sns, treeNode, cm);
+			return new OpApplNode(OP_ite, sns, treeNode, cm, context);
 
 		case N_Case:
 			return processCase(treeNode, children, cm);
@@ -3039,22 +3039,22 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 				sns[lvi] = generateExpression(children[lvi].heirs()[1], cm);
 			}
 			if (treeNode.isKind(N_DisjList))
-				return new OpApplNode(OP_dl, sns, treeNode, cm);
+				return new OpApplNode(OP_dl, sns, treeNode, cm, context);
 			else
-				return new OpApplNode(OP_cl, sns, treeNode, cm);
+				return new OpApplNode(OP_cl, sns, treeNode, cm, context);
 
 		case N_RecordComponent: // really RcdSelect in the API
 			sns = new ExprNode[2];
 			sns[0] = generateExpression(children[0], cm);
 			sns[1] = new StringNode(children[2], false);
-			return new OpApplNode(OP_rs, sns, treeNode, cm);
+			return new OpApplNode(OP_rs, sns, treeNode, cm, context);
 
 		case N_SetOfFcns: /* [S -> T] */
 			sns = new ExprNode[2];
 			sns[0] = generateExpression(children[1], cm);
 			sns[1] = generateExpression(children[3], cm);
 
-			return new OpApplNode(OP_sof, sns, treeNode, cm);
+			return new OpApplNode(OP_sof, sns, treeNode, cm, context);
 
 		case N_SubsetOf:
 			return processSubsetOf(treeNode, children, cm);
@@ -3417,7 +3417,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			semanticNode[0] = generateExpression(children[4], cm);
 			popFormalParams();
 
-			result = new OpApplNode(OP_uc, semanticNode, odn, treeNode, cm);
+			result = new OpApplNode(OP_uc, semanticNode, odn, treeNode, cm, context);
 		} else {
 			// bounded case
 			final FormalParamNode[][] odna = new FormalParamNode[1][0];
@@ -3447,7 +3447,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			semanticNode[0] = generateExpression(children[4], cm);
 			popFormalParams();
 
-			result = new OpApplNode(OP_bc, null, semanticNode, odna, tuples, exprs, treeNode, cm);
+			result = new OpApplNode(OP_bc, null, semanticNode, odna, tuples, exprs, treeNode, cm, context);
 		}
 		symbolTable.popContext();
 		return result;
@@ -3481,9 +3481,9 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		// which variety? look under first child.
 		final boolean isExists = children[0].getUS().equals(S_e) || children[0].getUS().equals(S_ex);
 		if (isExists) {
-			return new OpApplNode(OP_be, null, semanticNode, odna, bt, ea, treeNode, cm);
+			return new OpApplNode(OP_be, null, semanticNode, odna, bt, ea, treeNode, cm, context);
 		} else {
-			return new OpApplNode(OP_bf, null, semanticNode, odna, bt, ea, treeNode, cm);
+			return new OpApplNode(OP_bf, null, semanticNode, odna, bt, ea, treeNode, cm, context);
 		}
 	}
 
@@ -3531,7 +3531,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 		// wrap up.
 		symbolTable.popContext();
-		return new OpApplNode(r_us, semanticNode, odn, treeNode, cm);
+		return new OpApplNode(r_us, semanticNode, odn, treeNode, cm, context);
 	}
 
 	private final ExprNode processCase(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm) throws AbortException {
@@ -3548,9 +3548,9 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 				sops[0] = this.generateExpression(ss[0], cm);
 			}
 			sops[1] = this.generateExpression(ss[2], cm);
-			casePairs[lvi] = new OpApplNode(OP_pair, sops, caseArm, cm);
+			casePairs[lvi] = new OpApplNode(OP_pair, sops, caseArm, cm, context);
 		}
-		return new OpApplNode(OP_case, casePairs, treeNode, cm);
+		return new OpApplNode(OP_case, casePairs, treeNode, cm, context);
 	}
 
 	private final ExprNode processSubsetOf(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm)
@@ -3586,7 +3586,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		popFormalParams();
 
 		symbolTable.popContext();
-		return new OpApplNode(OP_sso, null, ops, odna, tuples, exprs, treeNode, cm);
+		return new OpApplNode(OP_sso, null, ops, odna, tuples, exprs, treeNode, cm, context);
 	}
 
 	private final ExprNode processSetOfAll(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm)
@@ -3610,7 +3610,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 		symbolTable.popContext();
 
-		return new OpApplNode(OP_soa, null, ops, odna, tuples, exprs, treeNode, cm);
+		return new OpApplNode(OP_soa, null, ops, odna, tuples, exprs, treeNode, cm, context);
 	}
 
 	private final ExprNode processFcnConst(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm)
@@ -3634,7 +3634,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 		symbolTable.popContext();
 
-		return new OpApplNode(OP_fc, null, ops, odna, tuples, exprs, treeNode, cm);
+		return new OpApplNode(OP_fc, null, ops, odna, tuples, exprs, treeNode, cm, context);
 	}
 
 	/**
@@ -3676,11 +3676,11 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			sops[1] = generateExpression(syntaxTreeNode[2], cm);
 
 			// Put the $Pair OpApplNode into the fieldPairs array
-			fieldPairs[lvi] = new OpApplNode(OP_pair, sops, children[2 * lvi + 1], cm);
+			fieldPairs[lvi] = new OpApplNode(OP_pair, sops, children[2 * lvi + 1], cm, context);
 		}
 		// Create the top-level OpApplNode, for either the SetOfRecords op
 		// or the RcdConstructor op.
-		return new OpApplNode(operator, fieldPairs, treeNode, cm);
+		return new OpApplNode(operator, fieldPairs, treeNode, cm, context);
 	}
 
 	private final ExprNode processAction(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm) throws AbortException {
@@ -3697,7 +3697,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		final ExprNode[] ops = new ExprNode[2];
 		ops[0] = generateExpression(children[1], cm);
 		ops[1] = generateExpression(children[3], cm);
-		return new OpApplNode(match, ops, treeNode, cm);
+		return new OpApplNode(match, ops, treeNode, cm, context);
 	}
 
 	private final ExprNode processExcept(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm) throws AbortException {
@@ -3717,7 +3717,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		// Create the $Except OpApplNode that will be returned by this
 		// method. We create it now, and fill out its contents later,
 		// because we need a reference to it in order to process @ properly.
-		excNode = new OpApplNode(OP_exc, operands, treeNode, cm);
+		excNode = new OpApplNode(OP_exc, operands, treeNode, cm, context);
 
 		// for each of the ExceptSpecs produce another element of the operands array
 		for (int excSpecIx = 0; excSpecIx < numExcepts; excSpecIx++) {
@@ -3749,7 +3749,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 						}
 
 						// add one ExceptComponent to vector of ExceptComponents
-						ssops[excCompIx] = new OpApplNode(OP_tup, sssops, syntaxTreeNode[2 * excCompIx + 1], cm);
+						ssops[excCompIx] = new OpApplNode(OP_tup, sssops, syntaxTreeNode[2 * excCompIx + 1], cm, context);
 					} else {
 						// add one ExceptComponent to vector of ExceptComponents
 						ssops[excCompIx] = generateExpression(subSyntaxTreeNode[1], cm);
@@ -3765,13 +3765,13 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			// Create OpAppl for $SEQ applied to array of ExceptComponents
 			// following record or func expr or !
 			// This is the LHS of an ExceptionSpec
-			sops[0] = new OpApplNode(OP_seq, ssops, children[3 + 2 * excSpecIx], cm);
+			sops[0] = new OpApplNode(OP_seq, ssops, children[3 + 2 * excSpecIx], cm, context);
 
 			// Process the RHS of the ExceptionSpec
 
 			// Create exceptSpec node now, so that it can be available in
 			// case the RHS expression of this ExceptSpec contains an @
-			excSpecNode = new OpApplNode(OP_pair, sops, children[3 + 2 * excSpecIx], cm);
+			excSpecNode = new OpApplNode(OP_pair, sops, children[3 + 2 * excSpecIx], cm, context);
 
 			// Push the except node and the except spec node on stacks so
 			// that the RHS of the ExceptSpec, which might contain an @, can
@@ -4595,7 +4595,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		// must be passed to this constructor because with a default substitution
 		// LHS<-RHS the LHS is resolved in the instanceeCtxt, (done
 		// in the previous line) and the RHS is resolved in the instancerST.
-		final SubstInNode substIn = new SubstInNode(treeNode, instancerST, decls, mn, instanceeModule);
+		final SubstInNode substIn = new SubstInNode(treeNode, instancerST, decls, mn, instanceeModule, context);
 
 		// For each explicit substitution in the syntax tree, overwrite or add
 		// the corresponding default entry in SubstInNode just created
@@ -5382,7 +5382,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 						if (isSuffices) {
 							args = new ExprNode[1];
 							args[0] = generateExpression(curExpr, cm);
-							body = new OpApplNode(OP_suffices, args, stepBodySTN, cm);
+							body = new OpApplNode(OP_suffices, args, stepBodySTN, cm, context);
 						} // if (isSuffices)
 						else {
 							/************************************************************
@@ -5435,8 +5435,8 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 								 **********************************************************/
 								final ExprNode[] nopArgs = new ExprNode[1];
 								nopArgs[0] = prevRHS;
-								sns[0] = new OpApplNode(OP_nop, nopArgs, curLHS, cm);
-								body = new OpApplNode(opn, sns, curExpr, cm);
+								sns[0] = new OpApplNode(OP_nop, nopArgs, curLHS, cm, context);
+								body = new OpApplNode(opn, sns, curExpr, cm, context);
 							} // if ( prevIsInfix ...)
 							else { // this is not an @-step
 								body = generateExpression(curExpr, cm);
@@ -5471,7 +5471,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					}
                     args = new ExprNode[1];
 					args[0] = generateExpression(bodyHeirs[1], cm);
-					body = new OpApplNode(op, args, stepBodySTN, cm);
+					body = new OpApplNode(op, args, stepBodySTN, cm, context);
 					break;
 
 				case N_TakeStep:
@@ -5536,7 +5536,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 							 **********************************************************/
 							args = new ExprNode[0];
 						}
-                        body = new OpApplNode(op, null, args, params, bt, paramBounds, stepBodySTN, cm);
+                        body = new OpApplNode(op, null, args, params, bt, paramBounds, stepBodySTN, cm, context);
 					} else {
 						/************************************************************
 						 * The introduced identifiers are unbounded--e.g., "TAKE * id1, id2". *
@@ -5588,7 +5588,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 							 **********************************************************/
 							args = new ExprNode[0];
 						}
-                        body = new OpApplNode(op, args, params, stepBodySTN, cm);
+                        body = new OpApplNode(op, args, params, stepBodySTN, cm, context);
 					}
 
                     break;
@@ -5607,12 +5607,12 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					for (int j = 0; j < ids; j++) {
 						args[j] = generateExpression(bodyHeirs[2 * j + 1], cm);
 					}
-                    body = new OpApplNode(OP_witness, args, stepBodySTN, cm);
+                    body = new OpApplNode(OP_witness, args, stepBodySTN, cm, context);
 					break;
 
 				case N_QEDStep:
 					args = new ExprNode[0];
-					body = new OpApplNode(OP_qed, args, stepBodySTN, cm);
+					body = new OpApplNode(OP_qed, args, stepBodySTN, cm, context);
 					break;
 
 				default:
@@ -5814,7 +5814,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		UniqueString op = null;
 		switch (heirs[nextTok].getKind()) {
 		case TLAplusParserConstants.QED:
-			body = new OpApplNode(OP_qed, new ExprNode[0], heirs[nextTok], cm);
+			body = new OpApplNode(OP_qed, new ExprNode[0], heirs[nextTok], cm, context);
 			nextTok++;
 			break;
 
@@ -5827,7 +5827,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
             nextTok++;
 			ExprNode[] args = new ExprNode[1];
 			args[0] = generateExpression(heirs[nextTok], cm);
-			body = new OpApplNode(op, args, heirs[nextTok], cm);
+			body = new OpApplNode(op, args, heirs[nextTok], cm, context);
 			nextTok++;
 			break;
 
@@ -5873,7 +5873,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					 ****************************************************************/
 					args = new ExprNode[0];
 				}
-                body = new OpApplNode(op, null, args, params, bt, paramBounds, stn, cm);
+                body = new OpApplNode(op, null, args, params, bt, paramBounds, stn, cm, context);
 			} else {
 				/*****************************************************************
 				 * The introduced identifiers are unbounded--e.g., * "TAKE id1, id2". *
@@ -5916,7 +5916,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					 ****************************************************************/
 					args = new ExprNode[0];
 				}
-                body = new OpApplNode(op, args, params, stn, cm);
+                body = new OpApplNode(op, args, params, stn, cm, context);
 			}
             break;
 
@@ -5936,7 +5936,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 				exprs[i] = generateExpression(heirs[2 * i + nextTok], cm);
 			}
 
-            body = new OpApplNode(OP_tup, exprs, stn, cm);
+            body = new OpApplNode(OP_tup, exprs, stn, cm, context);
 			nextTok = nextTok + 2 * ids - 1;
 			break;
 

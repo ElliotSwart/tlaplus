@@ -33,10 +33,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import tla2sany.parser.SyntaxTreeNode;
-import tla2sany.semantic.AbortException;
-import tla2sany.semantic.ModuleNode;
-import tla2sany.semantic.OpApplNode;
-import tla2sany.semantic.SymbolNode;
+import tla2sany.semantic.*;
 import tla2sany.xml.SymbolContext;
 import tlc2.util.Context;
 import util.UniqueString;
@@ -179,7 +176,7 @@ public class TBParTest {
 	public static class DummyOpApplNode extends OpApplNode {
 
 		public DummyOpApplNode(final String name) {
-			super(new DummySymbolNode(name));
+			super(new DummySymbolNode(name), new tla2sany.semantic.Context(new ExternalModuleTable(), new Errors()));
 		}
 
 		@Override

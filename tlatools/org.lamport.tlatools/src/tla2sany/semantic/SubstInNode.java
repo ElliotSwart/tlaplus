@@ -82,12 +82,12 @@ public class SubstInNode extends ExprNode {
    * substitutions is to be produced.
    */
   public SubstInNode(final TreeNode treeNode, final SymbolTable instancerST,
-                     final Vector<OpDeclNode> instanceeDecls, final ModuleNode ingmn, final ModuleNode edmn)
+                     final Vector<OpDeclNode> instanceeDecls, final ModuleNode ingmn, final ModuleNode edmn, final Context context)
   throws AbortException {
     super(SubstInKind, treeNode);
     this.instantiatingModule = ingmn;
     this.instantiatedModule = edmn;
-    constructSubst(instanceeDecls, instancerST, treeNode);
+    constructSubst(instanceeDecls, instancerST, treeNode, context);
     this.body = null;
   }
 
@@ -133,7 +133,7 @@ public class SubstInNode extends ExprNode {
    * VARIABLE OpDeclNode in vector v.
    */
   final void constructSubst(final Vector<OpDeclNode> instanceeDecls, final SymbolTable instancerST,
-                            final TreeNode treeNode)
+                            final TreeNode treeNode, final Context context)
   throws AbortException {
     final Vector<Subst> vtemp = new Vector<>();
 
@@ -170,7 +170,7 @@ public class SubstInNode extends ExprNode {
 	  // an OpApplNode with zero arguments
           vtemp.addElement(
              new Subst(decl,
-		       new OpApplNode(symb, new ExprOrOpArgNode[0], treeNode, instantiatingModule),
+		       new OpApplNode(symb, new ExprOrOpArgNode[0], treeNode, instantiatingModule, context),
 		       null, true));
         }
 	else {
