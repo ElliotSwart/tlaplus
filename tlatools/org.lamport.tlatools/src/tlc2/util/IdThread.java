@@ -17,6 +17,7 @@ public class IdThread extends Thread {
 	private static final ThreadLocal<TLCState> currentState = new ThreadLocal<>();
 	private static final ThreadLocal<Boolean> usingModelChecker = new ThreadLocal<>();
 
+	/* Used only for TLASet operator */
 	private static final ThreadLocal<Simulator> simulator = new ThreadLocal<Simulator>();
 
 	private static  final ThreadLocal<AbstractChecker> mainChecker = new ThreadLocal<>();
@@ -49,6 +50,13 @@ public class IdThread extends Thread {
 
 	public static final AbstractChecker getMainChecker(){
 		return IdThread.mainChecker.get();
+	}
+
+	public static void resetThreadState(){
+		IdThread.mainChecker.remove();
+		IdThread.simulator.remove();
+		IdThread.usingModelChecker.remove();
+		resetCurrentState();
 	}
 
 	public static final TLCState resetCurrentState() {

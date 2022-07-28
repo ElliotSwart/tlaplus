@@ -281,7 +281,7 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 	}
 
 	protected boolean runWithDebugger() {
-		return true;
+		return false; // to prevent memory leak
 	}
 
 	protected double getLivenessThreshold() {
@@ -306,6 +306,9 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 		// Cleanup by unsubscribing
 		MP.unsubscribeRecorder(recorder);
 		
+		tlc = null;
+		System.gc();
+
 		assertExitStatus();
 	}
 	

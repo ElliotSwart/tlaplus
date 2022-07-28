@@ -1252,6 +1252,8 @@ public class TLC {
             }
         } finally 
         {
+            IdThread.resetThreadState();
+
         	if (tlc2.module.TLC.OUTPUT != null) {
         		try {
         			tlc2.module.TLC.OUTPUT.flush();

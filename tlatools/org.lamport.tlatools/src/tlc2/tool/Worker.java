@@ -157,6 +157,9 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 				this.tlc.notify();
 			}
         }
+		finally {
+			resetThreadState();
+		}
 	}
 	
 	/* Liveness */
