@@ -1162,7 +1162,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   @Override
   public final void getInitStates(final IStateFunctor functor) {
 	  final Vect<Action> init = this.getInitStateSpec();
-	  ActionItemList acts = ActionItemListExt.Empty;
+	  ActionItemList acts = ActionItemListExt.Empty.getEmpty();
       // MAK 09/11/2018: Tail to head iteration order cause the first elem added with
       // acts.cons to be acts tail. This fixes the bug/funny behavior that the init
       // predicate Init == A /\ B /\ C /\ D was evaluated in the order A, D, C, B (A
@@ -1184,7 +1184,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   /* Create the state specified by pred.  */
   @Override
   public final TLCState makeState(final SemanticNode pred) {
-    final ActionItemList acts = ActionItemList.Empty;
+    final ActionItemList acts = ActionItemList.Empty.getEmpty();
     final TLCState ps = this.createEmptyState();
     final StateVec states = new StateVec(0);
     this.getInitStates(pred, acts, Context.Empty, ps, states, acts.cm);
@@ -1592,7 +1592,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   }
   
   public final StateVec getNextStates(final Action action, final Context ctx, final TLCState state) {
-    final ActionItemList acts = ActionItemList.Empty;
+    final ActionItemList acts = ActionItemList.Empty.getEmpty();
     final TLCState s1 = this.createEmptyState();
     final StateVec nss = new StateVec(0);
     this.getNextStates(action, action.pred, acts, ctx, state, s1.setPredecessor(state).setAction(action), nss, action.cm);
@@ -1611,7 +1611,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 
   @Override
   public boolean getNextStates(final INextStateFunctor functor, final TLCState state, final Action action) {
-		this.getNextStates(action, action.pred, ActionItemList.Empty, action.con, state,
+		this.getNextStates(action, action.pred, ActionItemList.Empty.getEmpty(), action.con, state,
                 this.createEmptyState().setPredecessor(state).setAction(action), functor, action.cm);
 		return false;
   }
@@ -3182,7 +3182,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           {
             TLCState sfun = TLCStateFun.Empty;
             final Context c1 = Context.branch(c);
-            sfun = this.enabled(args[0], ActionItemList.Empty, c1, s0, sfun, cm);
+            sfun = this.enabled(args[0], ActionItemList.Empty.getEmpty(), c1, s0, sfun, cm);
             return (sfun != null) ? BoolValue.ValTrue : BoolValue.ValFalse;
           }
         case OPCODE_eq:
