@@ -41,20 +41,12 @@ import tlc2.debug.IDebugTarget;
 import tlc2.debug.IDebugTarget.AbortEvalException;
 import tlc2.debug.IDebugTarget.ResetEvalException;
 import tlc2.debug.IDebugTarget.StepDirection;
-import tlc2.tool.Action;
-import tlc2.tool.EvalControl;
-import tlc2.tool.EvalException;
-import tlc2.tool.IActionItemList;
-import tlc2.tool.INextStateFunctor;
+import tlc2.tool.*;
 import tlc2.tool.INextStateFunctor.InvariantViolatedException;
-import tlc2.tool.IStateFunctor;
-import tlc2.tool.ITool;
-import tlc2.tool.TLCState;
-import tlc2.tool.TLCStateFun;
-import tlc2.tool.TLCStateMutExt;
 import tlc2.tool.coverage.CostModel;
 import tlc2.tool.impl.ParameterizedSpecObj.Invariant;
 import tlc2.util.Context;
+import tlc2.util.IdThread;
 import tlc2.util.SetOfStates;
 import tlc2.value.IValue;
 import tlc2.value.impl.Value;
@@ -126,6 +118,18 @@ public class DebugTool extends Tool {
 	@Override
 	public ITool getFingerprintingTool(){
 		return this.fastTool;
+	}
+
+	@Override
+	public void setMainChecker(AbstractChecker abstractChecker){
+		super.setMainChecker(abstractChecker);
+		this.fastTool.setMainChecker(abstractChecker);
+	}
+
+	@Override
+	public void setSimulator(Simulator simulator){
+		super.setSimulator(simulator);
+		this.fastTool.setSimulator(simulator);
 	}
 
 	// 88888888888888888888888888888888888888888888888888888888888888888888888888 //

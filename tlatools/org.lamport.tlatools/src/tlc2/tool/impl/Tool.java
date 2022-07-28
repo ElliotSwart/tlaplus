@@ -207,13 +207,11 @@ public abstract class Tool
     @Override
     public void setMainChecker(AbstractChecker abstractChecker){
           this.abstractChecker = abstractChecker;
-          IdThread.setMainChecker(abstractChecker);
     }
 
     @Override
     public void setSimulator(Simulator simulator){
       this.simulator = simulator;
-      IdThread.setSimulator(simulator);
     }
 
   @Override

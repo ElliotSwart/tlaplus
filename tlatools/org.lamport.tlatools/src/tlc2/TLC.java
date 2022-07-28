@@ -1162,12 +1162,14 @@ public class TLC {
 	                        traceNum, traceActions, rng, seed, resolver);
 
                     tool.setSimulator(simulator);
+                    IdThread.setSimulator(simulator);
 				} else {
 					tool = new FastTool(mainFile, configFile, resolver, Tool.Mode.Simulation, params);
 					simulator = new Simulator(tool, metadir, traceFile, deadlock, traceDepth, 
 	                        traceNum, traceActions, rng, seed, resolver, TLCGlobals.getNumWorkers());
 
                     tool.setSimulator(simulator);
+                    IdThread.setSimulator(simulator);
 				}
 
                 TLCStateMut.setTool(tool.getFingerprintingTool());
@@ -1219,11 +1221,13 @@ public class TLC {
 							FPSetFactory.getFPSetInitialized(fpSetConfiguration, metadir, new File(mainFile).getName()),
 							startTime);
                     tool.setMainChecker(mainChecker);
+                    IdThread.setMainChecker(mainChecker);
 					modelCheckerMXWrapper = new ModelCheckerMXWrapper((ModelChecker) mainChecker, this);
                 } else
                 {
 					mainChecker = new DFIDModelChecker(tool, metadir, stateWriter, deadlock, fromChkpt, startTime);
                     tool.setMainChecker(mainChecker);
+                    IdThread.setMainChecker(mainChecker);
                 }
 
                 result = mainChecker.modelCheck();
