@@ -341,7 +341,7 @@ public class ModelChecker extends AbstractChecker
     	return doInit(this.tool, ignoreCancel);
     }
     
-    private final int doInit(final ITool tool, final boolean ignoreCancel) throws Throwable
+    private int doInit(final ITool tool, final boolean ignoreCancel) throws Throwable
     {
 		// Generate the initial states.
         //
@@ -391,7 +391,7 @@ public class ModelChecker extends AbstractChecker
      * 
      * This method is called from the workers on every step
      */
-    private final boolean doNext(final ITool tool, final TLCState curState, final SetOfStates liveNextStates, final Worker worker) throws Throwable
+    private boolean doNext(final ITool tool, final TLCState curState, final SetOfStates liveNextStates, final Worker worker) throws Throwable
     {
         boolean deadLocked = true;
         TLCState succState = null;
@@ -455,8 +455,8 @@ public class ModelChecker extends AbstractChecker
 		}
     }
 
-	private final boolean isSeenState(final TLCState curState, final TLCState succState,
-			final Action action, final Worker worker, final SetOfStates liveNextStates) throws IOException {
+	private boolean isSeenState(final TLCState curState, final TLCState succState,
+								final Action action, final Worker worker, final SetOfStates liveNextStates) throws IOException {
 		final long fp = succState.fingerPrint();
 		final boolean seen = this.theFPSet.put(fp);
 		// Write out succState when needed:
@@ -484,7 +484,7 @@ public class ModelChecker extends AbstractChecker
 		return seen;
 	}
 
-	private final boolean doNextCheckInvariants(final ITool tool, final TLCState curState, final TLCState succState) throws IOException, WorkerException, Exception {
+	private boolean doNextCheckInvariants(final ITool tool, final TLCState curState, final TLCState succState) throws IOException, WorkerException, Exception {
         int k = 0;
 		try
         {
@@ -515,7 +515,7 @@ public class ModelChecker extends AbstractChecker
 		return false;
 	}
 
-	private final boolean doNextCheckImplied(final ITool tool, final TLCState curState, final TLCState succState) throws IOException, WorkerException, Exception {
+	private boolean doNextCheckImplied(final ITool tool, final TLCState curState, final TLCState succState) throws IOException, WorkerException, Exception {
 		int k = 0;
         try
         {
@@ -811,7 +811,7 @@ public class ModelChecker extends AbstractChecker
         return recovered;
     }
 
-    private final void cleanup(final boolean success) throws IOException
+    private void cleanup(final boolean success) throws IOException
     {
     	boolean vetoCleanup = VETO_CLEANUP;
     	
@@ -878,7 +878,7 @@ public class ModelChecker extends AbstractChecker
         }
     }
     
-    private final void printProgresStats(final long startTime, final boolean isFinal) throws IOException {
+    private void printProgresStats(final long startTime, final boolean isFinal) throws IOException {
         final long fpSetSize = this.theFPSet.size();
         
         // print progress showing states per minute metric (spm)
@@ -908,7 +908,7 @@ public class ModelChecker extends AbstractChecker
 				statesPerMinute, distinctStatesPerMinute);
     }
 
-    public static final void reportSuccess(final FPSet anFpSet, final long numOfGenStates) throws IOException
+    public static void reportSuccess(final FPSet anFpSet, final long numOfGenStates) throws IOException
     {
         final long numOfDistinctStates = anFpSet.size();
         final double optimisticProb = calculateOptimisticProbability(numOfDistinctStates, numOfGenStates);

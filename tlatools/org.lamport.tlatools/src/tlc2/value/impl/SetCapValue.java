@@ -208,7 +208,7 @@ public final Value set1;
     }
   }
 
-  private final void convertAndCache() {
+  private void convertAndCache() {
     if (this.capSet == null) {
       this.capSet = (SetEnumValue) this.toSetEnum();
     }

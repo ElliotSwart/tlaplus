@@ -224,7 +224,7 @@ public final Value set1;
     }
   }
 
-  private final void convertAndCache() {
+  private void convertAndCache() {
     if (this.cupSet == null) {
       this.cupSet = (SetEnumValue) this.toSetEnum();
     }

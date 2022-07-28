@@ -298,7 +298,7 @@ public final Value[] sets;
     }
   }
 
-  private final void convertAndCache() {
+  private void convertAndCache() {
     if (this.tupleSet == null) {
       this.tupleSet = (SetEnumValue) this.toSetEnum();
     }

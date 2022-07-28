@@ -312,7 +312,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
   private static final Token nullToken = new Token();
 
 
-  private final String[] comments(final Token t ) {
+  private String[] comments(final Token t ) {
      Token nextPre  = nullToken;
      int cPre = 0;
 

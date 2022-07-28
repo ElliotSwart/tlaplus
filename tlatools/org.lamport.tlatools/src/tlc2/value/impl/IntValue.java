@@ -35,7 +35,7 @@ private static final IntValue[] cache;
 	
 	public static final IntValue ValZero   = gen(0);
 
-  public static final int nbits(int tmp) {
+  public static int nbits(int tmp) {
     int nb = 0;
     while(tmp != 0 && tmp != -1) {
       nb++;

@@ -158,7 +158,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
    *
    *  @param  module name, used as basis of path name to the file that should contain it
    */
-  private final File locate(final String name)
+  private File locate(final String name)
   {
 
     String prefix      = "";                // directory to be prepended to file name before lookup

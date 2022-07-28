@@ -44,7 +44,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 		this.tool = tool;
 	}
 
-	private final byte[] toBytes(final TLCState state) {
+	private byte[] toBytes(final TLCState state) {
 		try {
 			final DiskByteArrayQueue.ByteValueOutputStream vos = new DiskByteArrayQueue.ByteValueOutputStream();
 			state.write(vos);
@@ -56,7 +56,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 		return null;
 	}
 	
-	private final byte[] toBytes(final TLCState state, final DiskByteArrayQueue.ByteValueOutputStream vos) {
+	private byte[] toBytes(final TLCState state, final DiskByteArrayQueue.ByteValueOutputStream vos) {
 		try {
 			state.write(vos);
 			return vos.toByteArray();
@@ -67,7 +67,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 		return null;
 	}
 	
-	private final TLCState toState(final byte[] bytes) {
+	private TLCState toState(final byte[] bytes) {
 		try {
 			final TLCState state = tool.createEmptyState();
 			state.read(new DiskByteArrayQueue.ByteValueInputStream(bytes));
@@ -88,7 +88,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 		enqueue(toBytes(state));
 	}
 	
-	private final void enqueue(final byte[] state) {
+	private void enqueue(final byte[] state) {
 		this.enqueueInner(state);
 		this.len++;
 	}
@@ -105,7 +105,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 		return null;
 	}
 	
-	private final byte[] dequeueRaw() {
+	private byte[] dequeueRaw() {
 		if (isEmpty()) {
 			return null;
 		}
@@ -123,7 +123,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 		sEnqueue(toBytes(state));
 	}
 	
-	private final synchronized void sEnqueue(final byte[] state) {
+	private synchronized void sEnqueue(final byte[] state) {
 		this.enqueueInner(state);
 		this.len++;
 		if (this.numWaiting > 0 && !this.stop) {
@@ -144,7 +144,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 		sEnqueue(bytes);
 	}
 	
-	private final synchronized void sEnqueue(final byte[][] states) {
+	private synchronized void sEnqueue(final byte[][] states) {
 		for (final byte[] state : states) {
 			this.enqueueInner(state);
 		}
@@ -185,7 +185,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 		return null;
 	}
 		
-	private final synchronized byte[] sPeekRaw() {
+	private synchronized byte[] sPeekRaw() {
 		if (this.isAvail()) {
 			return this.peekInner();
 		}
@@ -205,7 +205,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 		return null;
 	}
 	
-	private final synchronized byte[] sDequeueRaw() {
+	private synchronized byte[] sDequeueRaw() {
 		if (this.isAvail()) {
 			final byte[] state = this.dequeueInner();
 			assert state != null : "Null state found on queue";
@@ -228,7 +228,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 		return null;
 	}
 
-	private final synchronized byte[][] sDequeueRaw(int cnt) {
+	private synchronized byte[][] sDequeueRaw(int cnt) {
 		assert cnt > 0 : "Nonpositive number of states requested.";
 		if (this.isAvail()) {
 			if (cnt > len) {
@@ -262,7 +262,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 	 * 
 	 * @return true if states are available in the queue.
 	 */
-	private final boolean isAvail() {
+	private boolean isAvail() {
 		/*
 		 * isAvail is only called from within sDequeue() and sDequeue(..) and
 		 * thus is always synchronized on this.

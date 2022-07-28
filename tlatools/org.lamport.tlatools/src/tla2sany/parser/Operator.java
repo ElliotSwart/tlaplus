@@ -86,15 +86,15 @@ public class Operator implements tla2sany.st.SyntaxTreeConstants {
 (* a prefix or infix operator.                                             *)
 */
 
-  static final boolean succ(final Operator left, final Operator right) {
+  static boolean succ(final Operator left, final Operator right) {
       return left.Low > right.High;
   }
 
-  static final boolean prec(final Operator left, final Operator right ) {
+  static boolean prec(final Operator left, final Operator right ) {
     return left.High < right.Low;
   }
 
-  static final boolean samePrec(final Operator left, final Operator right ) {
+  static boolean samePrec(final Operator left, final Operator right ) {
     return ( (left.High == right.High) && (left.Low == right.Low) );
   }
 

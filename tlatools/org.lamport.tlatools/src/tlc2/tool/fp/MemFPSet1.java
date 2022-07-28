@@ -121,7 +121,7 @@ private String metadir;
     Assert.check(!this.set.put(fp), EC.TLC_FP_NOT_IN_SET);
   }
   
-  private final String chkptName(final String fname, final String ext) {
+  private String chkptName(final String fname, final String ext) {
     return this.metadir + FileUtil.separator + fname + ".fp." + ext;
   }
   

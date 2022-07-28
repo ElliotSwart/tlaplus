@@ -167,7 +167,7 @@ public class Combinatorics {
   }
 
 	// https://blog.plover.com/math/choose.html
-	public static final long binomial(final int n, int k) {
+	public static long binomial(final int n, int k) {
 		if (k > n) {
 			return 0;
 		}

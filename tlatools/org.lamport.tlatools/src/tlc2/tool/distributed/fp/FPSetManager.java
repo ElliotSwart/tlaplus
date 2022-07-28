@@ -537,7 +537,7 @@ public abstract class FPSetManager implements IFPSetManager {
 		return mask;
 	}
 
-	private final void chkptInner(final String fname, final boolean chkpt)
+	private void chkptInner(final String fname, final boolean chkpt)
 			throws InterruptedException {
 		final int len = this.fpSets.size();
 		final Checkpoint[] chkpts = new Checkpoint[len];

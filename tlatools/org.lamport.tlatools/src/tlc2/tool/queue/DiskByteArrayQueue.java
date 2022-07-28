@@ -133,7 +133,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		return this.deqBuf[this.deqIndex];
 	}
 
-	private final void fillDeqBuffer() {
+	private void fillDeqBuffer() {
 		try {
 			if (this.loPool + 1 <= this.hiPool) {
 				// We are sure there are disk files.
@@ -742,7 +742,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 			}
 		}
 
-		private final boolean readBoolean() throws EOFException, IOException {
+		private boolean readBoolean() throws EOFException, IOException {
 	        return (bytes[idx++] != 0);
 		}
 

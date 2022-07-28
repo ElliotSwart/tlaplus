@@ -260,7 +260,7 @@ public class DFIDModelChecker extends AbstractChecker
     public final int doInit(final boolean ignoreCancel) throws Throwable {
     	return doInit(this.tool, ignoreCancel);
     }
-    private final int doInit(final ITool tool, final boolean ignoreCancel) throws Throwable
+    private int doInit(final ITool tool, final boolean ignoreCancel) throws Throwable
     {
         TLCState curState = null;
         try
@@ -616,7 +616,7 @@ public class DFIDModelChecker extends AbstractChecker
         }
     }
 
-    private final void printTrace(final int errorCode, final String[] parameters, final TLCState s1, final TLCState s2)
+    private void printTrace(final int errorCode, final String[] parameters, final TLCState s1, final TLCState s2)
     {
     	if (EC.TLC_INVARIANT_VIOLATED_BEHAVIOR == errorCode)
     	{
@@ -751,7 +751,7 @@ public class DFIDModelChecker extends AbstractChecker
                 String.valueOf(this.theFPSet.size()));
     }
 
-    private final void reportSuccess() throws IOException
+    private void reportSuccess() throws IOException
     {
         reportSuccess(this.theFPSet.size(), this.theFPSet.checkFPs(), numOfGenStates.get());
     }

@@ -188,11 +188,11 @@ public final class LongArray {
 	 * @param logical position (zero indexed)
 	 * @return The physical address of the fp slot
 	 */
-	private final long log2phy(final long logicalAddress) {
+	private long log2phy(final long logicalAddress) {
 		return baseAddress + (logicalAddress << logAddressSize);
 	}
 	
-    private final void rangeCheck(final long position) {
+    private void rangeCheck(final long position) {
 		assert position >= 0 && position < this.length;
     }
 	

@@ -575,7 +575,7 @@ public abstract class Tool
         }
     }
 
-    private final void collectPrimedLocsAppl(final OpApplNode pred, final Context c, final ObjLongTable<SemanticNode> tbl)
+    private void collectPrimedLocsAppl(final OpApplNode pred, final Context c, final ObjLongTable<SemanticNode> tbl)
     {
         final ExprOrOpArgNode[] args = pred.getArgs();
         final SymbolNode opNode = pred.getOperator();
@@ -658,8 +658,8 @@ public abstract class Tool
         }
     }
 
-    private final void collectUnchangedLocs(final SemanticNode expr, final Context c,
-final ObjLongTable<SemanticNode> tbl) {
+    private void collectUnchangedLocs(final SemanticNode expr, final Context c,
+                                      final ObjLongTable<SemanticNode> tbl) {
 if (expr instanceof final OpApplNode expr1)
 {
 final SymbolNode opNode = expr1.getOperator();
@@ -998,11 +998,11 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
     return this.actions;
   }
 
-	private final void getActions(final Action next) {
+	private void getActions(final Action next) {
 		this.getActions(next.pred, next.con, next.getOpDef(), next.cm);
 	}
 
-  private final void getActions(final SemanticNode next, final Context con, final OpDefNode opDefNode, final CostModel cm) {
+  private void getActions(final SemanticNode next, final Context con, final OpDefNode opDefNode, final CostModel cm) {
     switch (next.getKind()) {
     case OpApplKind:
       {
@@ -1061,7 +1061,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
     }
   }
 
-  private final void getActionsAppl(final OpApplNode next, final Context con, final OpDefNode actionName, final CostModel cm) {
+  private void getActionsAppl(final OpApplNode next, final Context con, final OpDefNode actionName, final CostModel cm) {
     final ExprOrOpArgNode[] args = next.getArgs();
     final SymbolNode opNode = next.getOperator();
     int opcode = BuiltInOPs.getOpCode(opNode.getName());
@@ -1657,7 +1657,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   }
 
   @ExpectInlined
-  private final TLCState getNextStatesImplSubstInKind(final Action action, final SubstInNode pred1, final ActionItemList acts, final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm) {
+  private TLCState getNextStatesImplSubstInKind(final Action action, final SubstInNode pred1, final ActionItemList acts, final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm) {
   	final Subst[] subs = pred1.getSubsts();
   	final int slen = subs.length;
   	Context c1 = c;
@@ -1668,7 +1668,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   }
   
   @ExpectInlined
-  private final TLCState getNextStatesImplApSubstInKind(final Action action, final APSubstInNode pred1, final ActionItemList acts, final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm) {
+  private TLCState getNextStatesImplApSubstInKind(final Action action, final APSubstInNode pred1, final ActionItemList acts, final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm) {
   	final Subst[] subs = pred1.getSubsts();
   	final int slen = subs.length;
   	Context c1 = c;
@@ -1679,8 +1679,8 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   }
   
   @ExpectInlined
-  private final TLCState getNextStates(final Action action, final ActionItemList acts, final TLCState s0, final TLCState s1,
-                                       final INextStateFunctor nss, final CostModel cm) {
+  private TLCState getNextStates(final Action action, final ActionItemList acts, final TLCState s0, final TLCState s1,
+                                 final INextStateFunctor nss, final CostModel cm) {
 	  final TLCState copy = getNextStates0(action, acts, s0, s1, nss, cm);
 	  if (coverage && copy != s1) {
 		  cm.incInvocations();
@@ -1690,8 +1690,8 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 
   
   @ExpectInlined
-  private final TLCState getNextStates0(final Action action, final ActionItemList acts, final TLCState s0, final TLCState s1,
-                                        final INextStateFunctor nss, CostModel cm) {
+  private TLCState getNextStates0(final Action action, final ActionItemList acts, final TLCState s0, final TLCState s1,
+                                  final INextStateFunctor nss, CostModel cm) {
     if (acts.isEmpty()) {
       nss.addElement(s0, action, s1);
       return s1.copy();
@@ -1736,8 +1736,8 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
     return s1;
   }
   
-  private final TLCState getNextStatesAllAssigned(final Action action, ActionItemList acts, final TLCState s0, final TLCState s1,
-		  								final INextStateFunctor nss, final CostModel cm) {
+  private TLCState getNextStatesAllAssigned(final Action action, ActionItemList acts, final TLCState s0, final TLCState s1,
+                                            final INextStateFunctor nss, final CostModel cm) {
 	  int kind = acts.carKind();
 	  SemanticNode pred = acts.carPred();
 	  Context c = acts.carContext();
@@ -1834,8 +1834,8 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
         return getNextStatesApplSwitch(action, pred, acts, c, s0, s1, nss, cm, args, alen, opcode);
   }
   
-  private final Object getNextStatesApplEvalAppl(final int alen, final ExprOrOpArgNode[] args, final Context c,
-			final TLCState s0, final TLCState s1, final CostModel cm, final Object val) {
+  private Object getNextStatesApplEvalAppl(final int alen, final ExprOrOpArgNode[] args, final Context c,
+                                           final TLCState s0, final TLCState s1, final CostModel cm, final Object val) {
 	      if (alen == 0) {
         if (val instanceof MethodValue mv) {
         	return mv.apply(EmptyArgs, EvalControl.Clear);
@@ -1851,8 +1851,8 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
       return val;
   }
 
-  private final TLCState getNextStatesApplUsrDefOp(final Action action, final OpApplNode pred, final ActionItemList acts, final TLCState s0,
-		final TLCState s1, final INextStateFunctor nss, final CostModel cm, final Object bval) {
+  private TLCState getNextStatesApplUsrDefOp(final Action action, final OpApplNode pred, final ActionItemList acts, final TLCState s0,
+                                             final TLCState s1, final INextStateFunctor nss, final CostModel cm, final Object bval) {
 	if (!(bval instanceof BoolValue))
 	{
 	  Assert.fail(EC.TLC_EXPECTED_EXPRESSION_IN_COMPUTING, new String[] { "next states", "boolean",
@@ -1869,8 +1869,8 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 	return s1;
   }
 
-  private final TLCState getNextStatesApplSwitch(final Action action, final OpApplNode pred, final ActionItemList acts, final Context c, final TLCState s0,
-		final TLCState s1, final INextStateFunctor nss, final CostModel cm, final ExprOrOpArgNode[] args, final int alen, final int opcode) {
+  private TLCState getNextStatesApplSwitch(final Action action, final OpApplNode pred, final ActionItemList acts, final Context c, final TLCState s0,
+                                           final TLCState s1, final INextStateFunctor nss, final CostModel cm, final ExprOrOpArgNode[] args, final int alen, final int opcode) {
 	TLCState resState = s1;
 	switch (opcode) {
 	case OPCODE_cl:     // ConjList
@@ -2203,9 +2203,9 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   }
 
   @ExpectInlined
-  private final TLCState processUnchangedImpl0Arity(final Action action, final SemanticNode expr, final ActionItemList acts,
-			final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm,
-			final SymbolNode opNode, final UniqueString opName) {
+  private TLCState processUnchangedImpl0Arity(final Action action, final SemanticNode expr, final ActionItemList acts,
+                                              final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm,
+                                              final SymbolNode opNode, final UniqueString opName) {
 		final Object val = this.lookup(opNode, c, false);
 	
 		if (val instanceof OpDefNode odn) {
@@ -2249,8 +2249,8 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 	  }
 
   @ExpectInlined
-  private final TLCState processUnchangedImplTuple(final Action action, final ActionItemList acts, final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss,
-                                                   final ExprOrOpArgNode[] args, final int alen, final CostModel cm, final CostModel cmNested) {
+  private TLCState processUnchangedImplTuple(final Action action, final ActionItemList acts, final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss,
+                                             final ExprOrOpArgNode[] args, final int alen, final CostModel cm, final CostModel cmNested) {
   	// a tuple:
   	if (alen != 0) {
   	  ActionItemList acts1 = acts;
@@ -2263,8 +2263,8 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   }
   
   @ExpectInlined
-  private final TLCState processUnchangedImplVar(final Action action, final SemanticNode expr, final ActionItemList acts, final TLCState s0, final TLCState s1, final INextStateFunctor nss,
-                                                 final SymbolNode var, final CostModel cm) {
+  private TLCState processUnchangedImplVar(final Action action, final SemanticNode expr, final ActionItemList acts, final TLCState s0, final TLCState s1, final INextStateFunctor nss,
+                                           final SymbolNode var, final CostModel cm) {
           TLCState resState = s1;
           // expr is a state variable:
           final UniqueString varName = var.getName();
@@ -2453,7 +2453,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   }
 
   @ExpectInlined
-  private final Value evalImplLetInKind(final LetInNode expr1, final Context c, final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
+  private Value evalImplLetInKind(final LetInNode expr1, final Context c, final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
 	final OpDefNode[] letDefs = expr1.getLets();
 	final int letLen = letDefs.length;
 	Context c1 = c;
@@ -2467,7 +2467,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   }
 
   @ExpectInlined
-  private final Value evalImplSubstInKind(final SubstInNode expr1, final Context c, final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
+  private Value evalImplSubstInKind(final SubstInNode expr1, final Context c, final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
   	final Subst[] subs = expr1.getSubsts();
   	final int slen = subs.length;
   	Context c1 = c;
@@ -2478,7 +2478,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   }
     
   @ExpectInlined
-  private final Value evalImplApSubstInKind(final APSubstInNode expr1, final Context c, final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
+  private Value evalImplApSubstInKind(final APSubstInNode expr1, final Context c, final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
   	final Subst[] subs = expr1.getSubsts();
   	final int slen = subs.length;
   	Context c1 = c;
@@ -2489,7 +2489,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   }
   
   @ExpectInlined
-  private final Value evalImplOpArgKind(final OpArgNode expr1, final Context c, final TLCState s0, final TLCState s1, final CostModel cm) {
+  private Value evalImplOpArgKind(final OpArgNode expr1, final Context c, final TLCState s0, final TLCState s1, final CostModel cm) {
   	final SymbolNode opNode = expr1.getOp();
   	final Object val = this.lookup(opNode, c, false);
   	if (val instanceof OpDefNode odn) {
@@ -3581,7 +3581,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
         }
   }
 
-  private final TLCState enabled(final ActionItemList acts, final TLCState s0, final TLCState s1, CostModel cm) {
+  private TLCState enabled(final ActionItemList acts, final TLCState s0, final TLCState s1, CostModel cm) {
     if (acts.isEmpty()) return s1;
 
     final int kind = acts.carKind();
@@ -4177,7 +4177,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 		return checkPostConditionWithContext(ctxt);
 	}
 
-	private final int checkPostConditionWithContext(final Context ctxt) {
+	private int checkPostConditionWithContext(final Context ctxt) {
 		// User request: http://discuss.tlapl.us/msg03658.html
 		final ExprNode[] postConditions = getPostConditionSpecs();
         for (final ExprNode en : postConditions) {
@@ -4559,8 +4559,8 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
     return contexts(Ordering.NORMALIZED, appl, c, s0, s1, control, cm);
   }
 
-	private final ContextEnumerator contexts(final Ordering ordering, final OpApplNode appl, final Context c, final TLCState s0, final TLCState s1, final int control,
-                                             final CostModel cm) {
+	private ContextEnumerator contexts(final Ordering ordering, final OpApplNode appl, final Context c, final TLCState s0, final TLCState s1, final int control,
+                                       final CostModel cm) {
 		final FormalParamNode[][] formals = appl.getBdedQuantSymbolLists();
 	    final boolean[] isTuples = appl.isBdedQuantATuple();
 	    final ExprNode[] domains = appl.getBdedQuantBounds();

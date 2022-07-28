@@ -309,7 +309,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 	/**
 	 * Check to see if the worker thread has been interrupted.
 	 */
-	private final void checkForInterrupt() throws InterruptedException {
+	private void checkForInterrupt() throws InterruptedException {
 		// MAK 07/2021: This used to be a call to Thread.interrupted instead of the
 		// explicit stopped flag. The former doesn't work anymore because of
 		// SingleThreadedSimulator (with STS, checkForTermination is called from
@@ -334,7 +334,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 	 * This method returns a state that is randomly chosen from the set of states.
 	 * It returns null if the set of states is empty.
 	 */
-	private final TLCState randomState(final RandomGenerator rng, final StateVec states) {
+	private TLCState randomState(final RandomGenerator rng, final StateVec states) {
 		final int len = states.size();
 		if (len > 0) {
 			final int index = (int) Math.floor(rng.nextDouble() * len);

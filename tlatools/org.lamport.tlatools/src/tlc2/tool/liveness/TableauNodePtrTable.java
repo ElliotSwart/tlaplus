@@ -278,7 +278,7 @@ public class TableauNodePtrTable {
 		}
 	}
 
-	private final void put(final int[] node) {
+	private void put(final int[] node) {
 		final long k = getKey(node);
 		int loc = ((int) k & 0x7FFFFFFF) % this.length;
 		while (true) {
@@ -311,7 +311,7 @@ public class TableauNodePtrTable {
 	}
 
 	/* Double the table when the table is full by the threshhold. */
-	private final void grow() {
+	private void grow() {
 		this.length = 2 * this.length + 1;
 		this.thresh = (int) (this.length * 0.75);
 		final int[][] oldNodes = this.nodes;

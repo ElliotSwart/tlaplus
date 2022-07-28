@@ -35,7 +35,7 @@ public class StringHelper {
      *   }
      * }
      */
-    public static final String copyString(final String str, final int copies) {
+    public static String copyString(final String str, final int copies) {
         final StringBuilder result = new StringBuilder();
         final StringBuilder powerOf2Copies = new StringBuilder(str);
         int    remaining = copies;
@@ -54,14 +54,14 @@ public class StringHelper {
     /**
      *  Returns true if the string str contains only whitespace 
      */
-    public static final boolean onlySpaces(final String str) {
+    public static boolean onlySpaces(final String str) {
         return str.trim().equals("");
     }
     
     /**
      * Returns str with any leading whitespace removed. 
      */
-    public static final String trimFront(final String str) {
+    public static String trimFront(final String str) {
         int position = 0;
         while ((position < str.length()) && 
                 Character.isWhitespace(str.charAt(position))) {
@@ -76,7 +76,7 @@ public class StringHelper {
     /**
      * Returns str with any terminating whitespace removed. 
      */
-    public static final String trimEnd(final String str) {
+    public static String trimEnd(final String str) {
         int position = str.length();
         while ((position > 0) && 
                 Character.isWhitespace(str.charAt(position - 1))) {
@@ -93,7 +93,7 @@ public class StringHelper {
      * @param str
      * @return
      */
-    public static final int leadingSpaces(final String str) {
+    public static int leadingSpaces(final String str) {
         return str.length() - trimFront(str).length() ;
     }
     
@@ -101,7 +101,7 @@ public class StringHelper {
      * Prints the elements of the array, one per line, enclosed between
      * *- and -*, except with the first line enclosed with 0- and -0.
      */
-    public static final void printArray(final Object[] array) {
+    public static void printArray(final Object[] array) {
         if (array == null) {
             System.out.println("null array");
             return;
@@ -122,7 +122,7 @@ public class StringHelper {
      * @param str
      * @return
      */
-    public static final String[] getWords(final String str) {
+    public static String[] getWords(final String str) {
     	final String[] result = trimFront(str).split("\\s+") ;
         return result;
     }
@@ -134,7 +134,7 @@ public class StringHelper {
      * @param str
      * @return
      */
-    public static final boolean isIdentifier(final String str) {
+    public static boolean isIdentifier(final String str) {
         boolean result = true ;
         boolean allChars = true ;
         int i = 0;

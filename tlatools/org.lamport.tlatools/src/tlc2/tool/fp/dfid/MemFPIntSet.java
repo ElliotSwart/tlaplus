@@ -192,7 +192,7 @@ public class MemFPIntSet extends FPIntSet {
    * number of items in the hashtable exceeds this hashtable's capacity 
    * and load factor. 
    */
-  private final void rehash() {
+  private void rehash() {
     long min = this.count, max = 0;
     final int[][] oldTable = this.table;
     final int oldCapacity = oldTable.length;
@@ -370,7 +370,7 @@ public class MemFPIntSet extends FPIntSet {
     this.recover(this.filename);
   }
     
-  final private String chkptName(final String fname, final String ext) {
+  private String chkptName(final String fname, final String ext) {
     return this.metadir + FileUtil.separator + fname + ".fp." + ext;
   }
 

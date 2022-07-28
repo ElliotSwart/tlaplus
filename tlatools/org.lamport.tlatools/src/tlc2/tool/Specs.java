@@ -70,7 +70,7 @@ public abstract class Specs {
 	 * @param subs
 	 * @return
 	 */
-	public static final ExprNode addSubsts(final ExprNode expr, List subs)
+	public static ExprNode addSubsts(final ExprNode expr, List subs)
 	{
 	    ExprNode res = expr;
 	

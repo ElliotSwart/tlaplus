@@ -283,7 +283,7 @@ public final Value domain;        /* Function domain  */
     }
   }
 
-  private final void convertAndCache() {
+  private void convertAndCache() {
     if (this.fcnSet == null) {
       this.fcnSet = (SetEnumValue) this.toSetEnum();
     }

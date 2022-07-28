@@ -410,7 +410,7 @@ public class Simulator {
 		this.printSummary();
 	}
 	
-	private final void printBehavior(final TLCState state, final StateVec stateTrace) {
+	private void printBehavior(final TLCState state, final StateVec stateTrace) {
         if (!stateTrace.isLastElement(state)) {
             // MAK 09/24/2019: this method is called with state being the stateTrace's
             // last element or not.
@@ -833,7 +833,7 @@ public class Simulator {
 		return this.config;
 	}
 
-	private final Value createConfig() {
+	private Value createConfig() {
 		final UniqueString[] n = new UniqueString[8];
 		final Value[] v = new Value[n.length];
 		

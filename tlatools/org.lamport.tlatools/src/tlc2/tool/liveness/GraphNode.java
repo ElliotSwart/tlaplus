@@ -140,7 +140,7 @@ public class GraphNode extends AbstractGraphNode {
 	 * @see GraphNode#addTransition(long, int, int, int, boolean[])
 	 * @see GraphNode#realign()
 	 */
-	private final void allocate(final int transitions) {
+	private void allocate(final int transitions) {
 		final int len = this.nnodes.length;
 		final int[] newNodes = new int[len + (NNODE_RECORD_SIZE * transitions)];
 		System.arraycopy(this.nnodes, 0, newNodes, 0, len);

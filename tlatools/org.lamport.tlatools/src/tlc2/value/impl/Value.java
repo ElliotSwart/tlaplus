@@ -359,7 +359,7 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
 	  return toStringImpl(delim, false);
   }
   
-  private final String toStringImpl(final String delim, final boolean checked) {
+  private String toStringImpl(final String delim, final boolean checked) {
     try {
         final StringBuffer sb = this.toString(new StringBuffer(), 0, checked);
         sb.append(delim);

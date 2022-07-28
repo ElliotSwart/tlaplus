@@ -63,7 +63,7 @@ public class TBPar extends Vect<LiveExprNode> {
 	/**
 	 * This method tests whether a particle par is a subset of this particle.
 	 */
-	private final boolean contains(final TBPar par) {
+	private boolean contains(final TBPar par) {
 		for (int i = 0; i < par.size(); i++) {
 			if (!this.member(par.exprAt(i))) {
 				return false;
@@ -74,7 +74,7 @@ public class TBPar extends Vect<LiveExprNode> {
 
 	/* This method returns the unions of two particles. */
 	@SuppressWarnings("unused")
-	private final TBPar union(final TBPar par) {
+	private TBPar union(final TBPar par) {
 		final TBPar res = new TBPar(this.size() + par.size());
 		for (int i = 0; i < this.size(); i++) {
 			if (!par.member(this.exprAt(i))) {
@@ -88,7 +88,7 @@ public class TBPar extends Vect<LiveExprNode> {
 	}
 
 	/* This method appends an expression to the tail of Par. */
-	private final TBPar append(final LiveExprNode ln) {
+	private TBPar append(final LiveExprNode ln) {
 		final TBPar res = new TBPar(this.size() + 1);
 		for (int i = 0; i < this.size(); i++) {
 			res.addElement(this.exprAt(i));
@@ -98,7 +98,7 @@ public class TBPar extends Vect<LiveExprNode> {
 	}
 
 	/* This method appends two expressions to the tail of Par. */
-	private final TBPar append(final LiveExprNode ln1, final LiveExprNode ln2) {
+	private TBPar append(final LiveExprNode ln1, final LiveExprNode ln2) {
 		final TBPar res = new TBPar(this.size() + 2);
 		for (int i = 0; i < this.size(); i++) {
 			res.addElement(this.exprAt(i));
@@ -216,7 +216,7 @@ public class TBPar extends Vect<LiveExprNode> {
 	 * closed. All junctions must have been binarified at this stage by
 	 * makeBinary, otherwise it may give the wrong answer and crash.
 	 */
-	private final Vect<TBTriple> alphaTriples() {
+	private Vect<TBTriple> alphaTriples() {
 		final Vect<TBTriple> ts = new Vect<>();
 		for (int i = 0; i < this.size(); i++) {
 			final LiveExprNode ln = this.exprAt(i);
@@ -229,7 +229,7 @@ public class TBPar extends Vect<LiveExprNode> {
 		return ts;
 	}
 
-	private final Vect<TBTriple> betaTriples() {
+	private Vect<TBTriple> betaTriples() {
 		final Vect<TBTriple> ts = new Vect<>();
 		for (int i = 0; i < this.size(); i++) {
 			final LiveExprNode ln = this.exprAt(i);
@@ -253,7 +253,7 @@ public class TBPar extends Vect<LiveExprNode> {
 	 * Check Manna & Pnueli book page 444ff and 453 specifically for the theory of
 	 * locally consistent.
 	 */
-	private final boolean isLocallyConsistent() {
+	private boolean isLocallyConsistent() {
 		// Pre-conditions per Manna & Pnueli and the calling code:
 		//assert !this.containsActions (no LNAction instances)
 		//assert this.isPositiveForm()
@@ -299,7 +299,7 @@ public class TBPar extends Vect<LiveExprNode> {
 	 * <p>
 	 * There can not be LNActs in the expression.
 	 */
-	private final TBPar positiveClosure() {
+	private TBPar positiveClosure() {
 		// tps is the queue of terms to be processed.
 		final TBPar tps = new TBPar(this.size() * 2);
 		for (int i = 0; i < this.size(); i++) {

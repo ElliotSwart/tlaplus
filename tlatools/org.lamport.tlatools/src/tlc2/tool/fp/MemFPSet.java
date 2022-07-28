@@ -152,7 +152,7 @@ private String metadir;
    * number of items in the hashtable exceeds this hashtable's
    * capacity and load factor.
    */
-  private final void rehash() {
+  private void rehash() {
     long min = this.count, max = 0;
     final long[][] oldTable = this.table;
     final int oldCapacity = oldTable.length;
@@ -310,7 +310,7 @@ private String metadir;
     Assert.check(!this.put(fp), EC.TLC_FP_NOT_IN_SET);
   }
   
-  final private String chkptName(final String fname, final String ext) {
+  private String chkptName(final String fname, final String ext) {
     return this.metadir + FileUtil.separator + fname + ".fp." + ext;
   }
 

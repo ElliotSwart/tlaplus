@@ -110,12 +110,12 @@ public class NodePtrTable {
 	}
 
 	/* Double the table when the table is full by the threshhold. */
-	private final void grow() {
+	private void grow() {
 		final int newLength = 2 * this.length + 1;
 		grow(newLength);
 	}
 
-    private final void grow(final int newLength) {
+    private void grow(final int newLength) {
 		try {
 			final long[] oldKeys = this.keys;
 			final long[] oldElems = this.elems;

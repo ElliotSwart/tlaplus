@@ -433,8 +433,8 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 		return diskLookupBinarySearch(fp, indexLength, loPage, hiPage, loVal, hiVal, dfp);
 	}
 
-	private final boolean diskLookupBinarySearch(final long fp, final int indexLength, final int loPage, final int hiPage, long loVal, long hiVal,
-			final double dfp) throws IOException {
+	private boolean diskLookupBinarySearch(final long fp, final int indexLength, final int loPage, final int hiPage, long loVal, long hiVal,
+                                           final double dfp) throws IOException {
 		// no page is in between loPage and hiPage at this point
 		Assert.check(hiPage == loPage + 1, EC.SYSTEM_INDEX_ERROR);
 
@@ -504,7 +504,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 		return diskHit;
 	}
 
-	private final BufferedRandomAccessFile poolOpen() throws IOException {
+	private BufferedRandomAccessFile poolOpen() throws IOException {
 		synchronized (this.brafPool) {
 			if (this.poolIndex < this.brafPool.length) {
 				return this.brafPool[this.poolIndex++];
@@ -515,7 +515,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 		}
 	}
 
-	private final void poolClose(final BufferedRandomAccessFile raf) throws IOException {
+	private void poolClose(final BufferedRandomAccessFile raf) throws IOException {
 		synchronized (this.brafPool) {
 			if (this.poolIndex > 0) {
 				this.brafPool[--this.poolIndex] = raf;

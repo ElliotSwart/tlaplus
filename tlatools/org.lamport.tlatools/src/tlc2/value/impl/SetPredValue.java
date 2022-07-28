@@ -213,12 +213,12 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
     }
   }
 
-  private final void readObject(final ObjectInputStream ois) throws IOException, ClassNotFoundException {
+  private void readObject(final ObjectInputStream ois) throws IOException, ClassNotFoundException {
     this.inVal = (Value )ois.readObject();
     this.converted = true;
   }
 
-  private final void writeObject(final ObjectOutputStream oos) throws IOException {
+  private void writeObject(final ObjectOutputStream oos) throws IOException {
     if (!this.converted) {
       this.inVal = this.toSetEnum();
       this.converted = true;

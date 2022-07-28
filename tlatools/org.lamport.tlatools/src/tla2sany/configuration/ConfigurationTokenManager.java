@@ -12,13 +12,13 @@ package tla2sany.configuration;
 @SuppressWarnings("unused")
 public class ConfigurationTokenManager implements ConfigConstants
 {
-private final int jjStopAtPos(final int pos, final int kind)
+private int jjStopAtPos(final int pos, final int kind)
 {
    jjmatchedKind = kind;
    jjmatchedPos = pos;
    return pos + 1;
 }
-private final int jjMoveStringLiteralDfa0_1()
+private int jjMoveStringLiteralDfa0_1()
 {
    switch(curChar)
    {
@@ -28,7 +28,7 @@ private final int jjMoveStringLiteralDfa0_1()
          return 1;
    }
 }
-private final int jjMoveStringLiteralDfa1_1(final long active0)
+private int jjMoveStringLiteralDfa1_1(final long active0)
 {
    try { curChar = input_stream.readChar(); }
    catch(final java.io.IOException e) {
@@ -45,7 +45,7 @@ private final int jjMoveStringLiteralDfa1_1(final long active0)
    }
    return 2;
 }
-private final int jjStopStringLiteralDfa_0(final int pos, final long active0)
+private int jjStopStringLiteralDfa_0(final int pos, final long active0)
 {
    switch (pos)
    {
@@ -60,11 +60,11 @@ private final int jjStopStringLiteralDfa_0(final int pos, final long active0)
          return -1;
    }
 }
-private final int jjStartNfa_0(final int pos, final long active0)
+private int jjStartNfa_0(final int pos, final long active0)
 {
    return jjMoveNfa_0(jjStopStringLiteralDfa_0(pos, active0), pos + 1);
 }
-private final int jjStartNfaWithStates_0(final int pos, final int kind, final int state)
+private int jjStartNfaWithStates_0(final int pos, final int kind, final int state)
 {
    jjmatchedKind = kind;
    jjmatchedPos = pos;
@@ -72,7 +72,7 @@ private final int jjStartNfaWithStates_0(final int pos, final int kind, final in
    catch(final java.io.IOException e) { return pos + 1; }
    return jjMoveNfa_0(state, pos + 1);
 }
-private final int jjMoveStringLiteralDfa0_0()
+private int jjMoveStringLiteralDfa0_0()
 {
    switch(curChar)
    {
@@ -82,7 +82,7 @@ private final int jjMoveStringLiteralDfa0_0()
          return jjMoveNfa_0(7, 0);
    }
 }
-private final int jjMoveStringLiteralDfa1_0(final long active0)
+private int jjMoveStringLiteralDfa1_0(final long active0)
 {
    try { curChar = input_stream.readChar(); }
    catch(final java.io.IOException e) {
@@ -100,7 +100,7 @@ private final int jjMoveStringLiteralDfa1_0(final long active0)
    }
    return jjStartNfa_0(0, active0);
 }
-private final void jjCheckNAdd(final int state)
+private void jjCheckNAdd(final int state)
 {
    if (jjrounds[state] != jjround)
    {
@@ -108,29 +108,29 @@ private final void jjCheckNAdd(final int state)
       jjrounds[state] = jjround;
    }
 }
-private final void jjAddStates(int start, final int end)
+private void jjAddStates(int start, final int end)
 {
    do {
       jjstateSet[jjnewStateCnt++] = jjnextStates[start];
    } while (start++ != end);
 }
-private final void jjCheckNAddTwoStates(final int state1, final int state2)
+private void jjCheckNAddTwoStates(final int state1, final int state2)
 {
    jjCheckNAdd(state1);
    jjCheckNAdd(state2);
 }
-private final void jjCheckNAddStates(int start, final int end)
+private void jjCheckNAddStates(int start, final int end)
 {
    do {
       jjCheckNAdd(jjnextStates[start]);
    } while (start++ != end);
 }
-private final void jjCheckNAddStates(final int start)
+private void jjCheckNAddStates(final int start)
 {
    jjCheckNAdd(jjnextStates[start]);
    jjCheckNAdd(jjnextStates[start + 1]);
 }
-private final int jjMoveNfa_0(final int startState, int curPos)
+private int jjMoveNfa_0(final int startState, int curPos)
 {
    int[] nextStates;
    int startsAt = 0;
@@ -1028,7 +1028,7 @@ public void ReInit(final ASCII_CharStream stream)
    input_stream = null;
    ReInitRounds();
 }
-private final void ReInitRounds()
+private void ReInitRounds()
 {
    int i;
    jjround = 0x80000001;
@@ -1048,7 +1048,7 @@ public void SwitchTo(final int lexState)
       curLexState = lexState;
 }
 
-private final Token jjFillToken()
+private Token jjFillToken()
 {
    final Token t = Token.newToken(jjmatchedKind);
    t.kind = jjmatchedKind;

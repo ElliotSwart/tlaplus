@@ -152,7 +152,7 @@ public class ParseUnit {
     return null;
   }
 
-  private final void writeParseTreeToFile(final boolean file, final Errors errors) throws AbortException {
+  private void writeParseTreeToFile(final boolean file, final Errors errors) throws AbortException {
       // Construct the name with a .jcg extension (Jean-Charles Gregoire)
       final PrintWriter pw;
       if (file) 
@@ -195,7 +195,7 @@ public class ParseUnit {
       }
   }
 
-  private final void verifyEquivalenceOfFileAndModuleNames(final Errors errors) throws AbortException {
+  private void verifyEquivalenceOfFileAndModuleNames(final Errors errors) throws AbortException {
     // Retrieve the full file name
     String fName = getFileName();
 

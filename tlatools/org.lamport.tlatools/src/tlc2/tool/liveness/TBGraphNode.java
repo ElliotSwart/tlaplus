@@ -103,7 +103,7 @@ public class TBGraphNode {
 		return true;
 	}
 	
-	private final boolean isSelfLoop() {
+	private boolean isSelfLoop() {
 		if (nextSize() == 1) {
 			return nextAt(0) == this;
 		}
@@ -121,7 +121,7 @@ public class TBGraphNode {
 		return buf.toString();
 	}
 
-	private final void toString(final StringBuffer buf, final SetOfLong visited) {
+	private void toString(final StringBuffer buf, final SetOfLong visited) {
 		if (!visited.put(this.index)) {
 			buf.append(this.par.toString());
 			for (int i = 0; i < this.nexts.size(); i++) {

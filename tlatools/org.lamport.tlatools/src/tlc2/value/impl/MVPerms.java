@@ -15,7 +15,7 @@ import util.Set;
 
 public abstract class MVPerms {
   
-  public static final IMVPerm[] permutationSubgroup(final Enumerable enumerable) {
+  public static IMVPerm[] permutationSubgroup(final Enumerable enumerable) {
     final ValueEnumeration Enum = enumerable.elements();
 	final int sz = enumerable.size() - 1;
     final Set perms = new Set(sz);

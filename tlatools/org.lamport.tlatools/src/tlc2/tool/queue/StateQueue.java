@@ -168,7 +168,7 @@ public abstract class StateQueue implements IStateQueue {
 	 * 
 	 * @return true if states are available in the queue.
 	 */
-	private final boolean isAvail() {
+	private boolean isAvail() {
 		/*
 		 * isAvail is only called from within sDequeue() and sDequeue(..) and
 		 * thus is always synchronized on this.

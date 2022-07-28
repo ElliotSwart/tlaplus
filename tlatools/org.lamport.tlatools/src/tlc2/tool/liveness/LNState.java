@@ -40,7 +40,7 @@ abstract class LNState extends LiveExprNode {
 		return this.tag;
 	}
 
-	private final void setTag(final int t) {
+	private void setTag(final int t) {
 		this.tag = t;
 	}
 

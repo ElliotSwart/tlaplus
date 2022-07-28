@@ -135,7 +135,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
     }
   }
 
-  private final int compareOtherInterval(final FcnRcdValue fcn) {
+  private int compareOtherInterval(final FcnRcdValue fcn) {
 	int result;
 	if (fcn.intv != null) {
 		for (int i = 0; i < this.domain.length; i++) {
@@ -175,7 +175,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 	return 0;
   }
 
-  private final int compareToInterval(final FcnRcdValue fcn) {
+  private int compareToInterval(final FcnRcdValue fcn) {
   	int result;
   	if (fcn.intv != null) {
   		result = this.intv.low - fcn.intv.low;
@@ -791,7 +791,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
     }
   }
 
-  private static final boolean isName(final String name) {
+  private static boolean isName(final String name) {
     final int len = name.length();
     boolean hasLetter = false;
 
@@ -805,7 +805,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
     return hasLetter && (len < 4 || (!name.startsWith("WF_") && !name.startsWith("SF_")));
   }
 
-  private final boolean isRcd() {
+  private boolean isRcd() {
     if (this.intv != null) return false;
       for (final Value dval : this.domain) {
           final boolean isName = ((dval instanceof StringValue sv) &&
@@ -815,7 +815,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
     return true;
   }
 
-  private final boolean isTuple() {
+  private boolean isTuple() {
     if (this.intv != null) {
       return (this.intv.low == 1);
     }

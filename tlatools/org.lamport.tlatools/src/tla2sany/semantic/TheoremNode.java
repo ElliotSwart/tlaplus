@@ -214,7 +214,7 @@ public class TheoremNode extends LevelNode {
   * the CASE statement.                                                    *
   * Added 4 Mar 2009.                                                      *
   *************************************************************************/
-  private final void LevelCheckTemporal(final ProofNode pn) {
+  private void LevelCheckTemporal(final ProofNode pn) {
      /**********************************************************************
      * Return if this is not a NonLeafProof.                               *
      **********************************************************************/

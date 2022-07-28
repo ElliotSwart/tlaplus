@@ -49,7 +49,7 @@ public class XMLExporter {
   static final String JAXP_SCHEMA_SOURCE =
         "http://java.sun.com/xml/jaxp/properties/schemaSource";
 
-  public static final void main(final String[] args) throws XMLExportingException {
+  public static void main(final String[] args) throws XMLExportingException {
 
     // parse arguments, possible flag
     // s

@@ -71,7 +71,7 @@ public class DFIDWorker extends IdThread implements IWorker {
    * index of the chosen state. Return -1 if there is no such kind of
    * initial state.
    */
-  private final int getInit() {
+  private int getInit() {
     while (this.initLen > 0) {
       final int index = (int)Math.floor(this.rng.nextDouble() * this.initLen);
       final long fp = this.theInitFPs[index];
@@ -94,7 +94,7 @@ public class DFIDWorker extends IdThread implements IWorker {
    * Return the index of the chosen state. Return -1 if there is no
    * such kind of next states.
    */
-  private final int getNext(final TLCState curState, final long cfp) {
+  private int getNext(final TLCState curState, final long cfp) {
     final StateVec succStates = this.succStateStack[this.curLevel-1];
     final LongVec succFPs = this.succFPStack[this.curLevel-1];
     int len = succFPs.size();

@@ -147,7 +147,7 @@ public class LiveWorker implements Callable<Boolean> {
 	 * @see http://dx.doi.org/10.1137%2F0201010
 	 * 
 	 */
-	private final void checkSccs(final ITool tool) throws IOException, InterruptedException, ExecutionException {
+	private void checkSccs(final ITool tool) throws IOException, InterruptedException, ExecutionException {
 		// Initialize this.dg:
 		this.dg.makeNodePtrTbl();
 		

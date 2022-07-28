@@ -1067,7 +1067,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     }
 
     /* Process the SPECIFICATION field of the config file.  */
-    private final void processConfigSpec(final ExprNode pred, final Context c, final List subs)
+    private void processConfigSpec(final ExprNode pred, final Context c, final List subs)
     {
         if (pred instanceof final SubstInNode pred1)
         {
@@ -1310,7 +1310,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     }
 
     /* Process the PROPERTIES field of the config file. */
-    private final void processConfigProps(String name, final ExprNode pred, final Context c, final List subs)
+    private void processConfigProps(String name, final ExprNode pred, final Context c, final List subs)
     {
         if (pred instanceof final SubstInNode pred1)
         {
@@ -1448,7 +1448,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 	    }
 	}
     
-	private final void processModelConstraints() {
+	private void processModelConstraints() {
 	    final Vect<Comparable<?>> names = this.config.getConstraints();
 	    this.modelConstraints = new ExprNode[names.size()];
 	    int idx = 0;
@@ -1502,7 +1502,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
      * Yuan claims that this is the only method in TLC that has to find all   *
      * the nodes in such a way.                                               *
      *************************************************************************/
-    private final void processConstants(final SemanticNode expr)
+    private void processConstants(final SemanticNode expr)
     {
         switch (expr.getKind()) {
         case ModuleKind: {
@@ -1654,7 +1654,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
     // Requires cast
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	private final Hashtable<String, Comparable<?>> makeConstantTable(final Vect<Vect<Comparable<?>>> consts)
+	private Hashtable<String, Comparable<?>> makeConstantTable(final Vect<Vect<Comparable<?>>> consts)
     {
         final Hashtable<String, Comparable<?>> constTbl = new Hashtable<>();
         for (int i = 0; i < consts.size(); i++)
@@ -1691,7 +1691,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     /** 
      * Initialize the spec constants using the config file.  
      */
-    private final Hashtable<String,Comparable<?>> initializeConstants()
+    private Hashtable<String,Comparable<?>> initializeConstants()
     {
         final Vect<Vect<Comparable<?>>> consts = this.config.getConstants();
         if (consts == null)
@@ -1701,7 +1701,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         return this.makeConstantTable(consts);
     }
 
-    private final Hashtable<String, Hashtable<String, Comparable<?>>> initializeModConstants()
+    private Hashtable<String, Hashtable<String, Comparable<?>>> initializeModConstants()
     {
         final Hashtable<String, Vect<Vect<Comparable<?>>>> modConstants = this.config.getModConstants();
         final Hashtable<String, Hashtable<String, Comparable<?>>> constants = new Hashtable<>();

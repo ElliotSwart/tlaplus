@@ -287,7 +287,7 @@ public final Value set;
     }
   }
 
-  private final void convertAndCache() {
+  private void convertAndCache() {
     if (this.realSet == null) {
       this.realSet = (SetEnumValue) this.toSetEnum();
     }

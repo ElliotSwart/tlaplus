@@ -163,8 +163,8 @@ public class TLCGetSet implements ValueConstants {
 				new String[] { "TLCGet", "nonnegative integer", Values.ppr(vidx.toString()) });
 	}
 
-	private static final Value TLCGetStringValue(final Tool tool, final Value vidx, final TLCState s0, final TLCState s1,
-			final int control) {
+	private static Value TLCGetStringValue(final Tool tool, final Value vidx, final TLCState s0, final TLCState s1,
+										   final int control) {
 		final StringValue sv = (StringValue) vidx;
 		var mainChecker = tool.getMainChecker();
 		var simulator = tool.getSimulator();

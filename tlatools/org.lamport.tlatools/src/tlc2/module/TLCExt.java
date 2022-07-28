@@ -267,7 +267,7 @@ public class TLCExt {
 		}
 	}
 
-	private static final TupleValue getTrace0(final TLCState s0, final TLCStateInfo[] trace) {
+	private static TupleValue getTrace0(final TLCState s0, final TLCStateInfo[] trace) {
 		final Value[] values = new Value[trace.length + 1];
 		for (int j = 0; j < (trace.length); j++) {
 			values[j] = new RecordValue(trace[j].state);

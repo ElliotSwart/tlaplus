@@ -229,7 +229,7 @@ public final Value set1;
     }
   }
 
-  private final void convertAndCache() {
+  private void convertAndCache() {
     if (this.diffSet == null) {
       this.diffSet = (SetEnumValue) this.toSetEnum();
     }

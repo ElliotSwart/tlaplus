@@ -67,7 +67,7 @@ public class TLCTrace {
 	 * @return The new location (pointer) for the given finger print (state)
 	 * @throws IOException
 	 */
-	private final synchronized long writeState(final long predecessorLoc, final long fp) throws IOException {
+	private synchronized long writeState(final long predecessorLoc, final long fp) throws IOException {
 		this.lastPtr = this.raf.getFilePointer();
 		this.raf.writeLongNat(predecessorLoc);
 		this.raf.writeLong(fp);
@@ -424,7 +424,7 @@ public class TLCTrace {
 	 * fingerprint fp.
 	 */
 	@SuppressWarnings("unused")
-	private final TLCStateInfo[] printPrefix(final long fp) throws IOException {
+	private TLCStateInfo[] printPrefix(final long fp) throws IOException {
 		// First, find the location for fp:
 		this.raf.seek(0);
 		this.raf.readLongNat(); /* drop */

@@ -44,7 +44,7 @@ public class CallStack {
  
   public final int size() { return this.index; }
 
-  private final void resize() {
+  private void resize() {
     final int len = 2 * this.stack.length;
     final SemanticNode[] stack1 = new SemanticNode[len];
     System.arraycopy(this.stack, 0, stack1, 0, this.stack.length);

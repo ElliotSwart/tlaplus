@@ -99,7 +99,7 @@ public class TLCGlobals
     // Enable collecting coverage information
     public static int coverageInterval = -1;
 
-    public static final boolean isCoverageEnabled() {
+    public static boolean isCoverageEnabled() {
     	return coverageInterval >= 0;
     }
     

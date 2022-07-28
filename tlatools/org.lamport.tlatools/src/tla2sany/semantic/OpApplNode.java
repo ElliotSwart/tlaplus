@@ -20,7 +20,6 @@ import java.util.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import tla2sany.drivers.SANY;
 import tla2sany.explorer.ExploreNode;
 import tla2sany.explorer.ExplorerVisitor;
 import tla2sany.parser.SyntaxTreeNode;
@@ -379,7 +378,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
    */
   public final ExprNode[] getBdedQuantBounds() { return this.ranges; }
 
-  private final ExprOrOpArgNode getArg(final SymbolNode param) {
+  private ExprOrOpArgNode getArg(final SymbolNode param) {
     /***********************************************************************
     * If param is a formal parameter of this node's operator, then return  *
     * the operand being substituted for that parameter, else return null.  *

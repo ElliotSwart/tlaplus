@@ -246,7 +246,7 @@ public final UniqueString[] names;      // The names of the fields.
 	    }
   }
 
-  private final void sortByNames() {
+  private void sortByNames() {
     for (int i = 1; i < this.names.length; i++) {
       final int cmp = this.names[0].compareTo(this.names[i]);
       if (cmp == 0) {
@@ -335,7 +335,7 @@ public final UniqueString[] names;      // The names of the fields.
     }
   }
 
-  private final void convertAndCache() {
+  private void convertAndCache() {
     if (this.rcdSet == null) {
       this.rcdSet = (SetEnumValue) this.toSetEnum();
     }

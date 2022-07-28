@@ -560,7 +560,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	private final int FollowingLabels = 22;
 	private final int FindingSubExpr = 33;
 
-	private final int ArgNum(final int op, final int arity) {
+	private int ArgNum(final int op, final int arity) {
 		/***********************************************************************
 		 * This is the implementation of ArgNum in Subexpression.tla. Beware * that this
 		 * is the human argument number (where the first argument is * argument 1), not
@@ -1873,7 +1873,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		return null;
 	}
 
-	private final Context getContext(final UniqueString us) {
+	private Context getContext(final UniqueString us) {
 		final ModuleNode symbolNode = symbolTable.resolveModule(us);
 
 		if (symbolNode == null) {
@@ -1882,7 +1882,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		return symbolNode.getContext();
 	}
 
-	private final ModuleNode generateModule(final TreeNode treeNode, final ModuleNode parent) throws AbortException {
+	private ModuleNode generateModule(final TreeNode treeNode, final ModuleNode parent) throws AbortException {
 		moduleNestingLevel++;
 		final TreeNode[] children = treeNode.heirs(); // Array of heirs of the module root
 		TreeNode[] definitions = null;
@@ -2040,7 +2040,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	// This method must be extended so that the Extends list hangs off of
 	// the ModuleNode to support a getExtends() method that might reasonably
 	// be in the API.
-	private final void processExtendsList(final TreeNode[] treeNodes, final ModuleNode cm) throws AbortException {
+	private void processExtendsList(final TreeNode[] treeNodes, final ModuleNode cm) throws AbortException {
 		final Vector<ModuleNode> extendeeVector = new Vector<>(2);
 
 		if (treeNodes != null) {
@@ -2081,7 +2081,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	// This method must be extended so that the variable declarations list
 	// hangs off of the module node to support the getVariableDecls method
 	// of the API.
-	private final void processVariables(final TreeNode[] treeNodes, final ModuleNode cm) {
+	private void processVariables(final TreeNode[] treeNodes, final ModuleNode cm) {
 		for (int lvi = 1; lvi < treeNodes.length; lvi += 2) {
 			final UniqueString us = treeNodes[lvi].getUS();
 
@@ -2095,8 +2095,8 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		}
 	}
 
-	private final OpDeclNode buildParameter(final TreeNode treeNode, final int declKind, final int declLevel, final ModuleNode cm,
-                                            final boolean declare) {
+	private OpDeclNode buildParameter(final TreeNode treeNode, final int declKind, final int declLevel, final ModuleNode cm,
+                                      final boolean declare) {
 		/***********************************************************************
 		 * This method was originally called only by the processParameters * method to
 		 * build an OpDeclNode for a module-level CONSTANT * declaration. For a
@@ -2147,7 +2147,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		return new OpDeclNode(operators.resolveSynonym(us), declKind, declLevel, arity, cm, st, treeNode);
 	}
 
-	private final void processParameters(final TreeNode[] treeNodes, final ModuleNode cm) {
+	private void processParameters(final TreeNode[] treeNodes, final ModuleNode cm) {
 		for (int lvi = 1; lvi < treeNodes.length; lvi += 2) {
 			if (treeNodes[lvi].getUS() == S_at) {
 				errors.addError(treeNodes[lvi].getLocation(), "Attempted to declare '@' as a constant.");
@@ -2174,7 +2174,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	 * It creates an OpDef node and puts it * in ModuleNode cm's set of definitions.
 	 * *
 	 ************************************************************************/
-	private final void processOperator(final TreeNode treeNode, final Vector<SymbolNode> defs, final ModuleNode cm) throws AbortException {
+	private void processOperator(final TreeNode treeNode, final Vector<SymbolNode> defs, final ModuleNode cm) throws AbortException {
 		final TreeNode syntaxTreeNode = treeNode;
 		UniqueString name = null;
 		int arity = 0;
@@ -2374,13 +2374,13 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			defs.addElement(symbolNode);
 	} // processOperator
 
-	private final void processQuantBoundArgs(final TreeNode[] treeNodeA, // node whose children include
-                                             // the bounded quants
-                                             final int offset, // nodes to skip to get to first
-                                             // "quantifier"
-                                             final FormalParamNode[][] odna, final boolean[] bt, // set to true if arg is a tuple;
-                                             // otherwise false
-                                             final ExprNode[] ena, final ModuleNode cm)
+	private void processQuantBoundArgs(final TreeNode[] treeNodeA, // node whose children include
+                                       // the bounded quants
+                                       final int offset, // nodes to skip to get to first
+                                       // "quantifier"
+                                       final FormalParamNode[][] odna, final boolean[] bt, // set to true if arg is a tuple;
+                                       // otherwise false
+                                       final ExprNode[] ena, final ModuleNode cm)
 			/***********************************************************************
 			 * Despite the incoherent and/or incorrect comments, here's what I * think is
 			 * going on: * * - odna, ena, and bt have the same length N. * * - treeNodeA is
@@ -2430,7 +2430,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	}
 
 	// Process a function definition
-	private final void processFunction(final TreeNode treeNode, final Vector<SymbolNode> defs, final ModuleNode cm) throws AbortException {
+	private void processFunction(final TreeNode treeNode, final Vector<SymbolNode> defs, final ModuleNode cm) throws AbortException {
 		final TreeNode syntaxTreeNode = treeNode;
 		final boolean local = syntaxTreeNode.zero() != null;
 		final TreeNode[] ss = syntaxTreeNode.one();
@@ -2603,7 +2603,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		}
 	} // end processFunction()
 
-	private final ExprNode processLetIn(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm) throws AbortException {
+	private ExprNode processLetIn(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm) throws AbortException {
 		final TreeNode[] syntaxTreeNode = children[1].heirs(); // extract LetDefinitions
 		final Vector<SymbolNode> defVec = new Vector<>(4);
 		final Vector<InstanceNode> instVec = new Vector<>(1);
@@ -2691,7 +2691,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		return letIn;
 	} // end processLetIn
 
-	private final ExprNode generateExpression(final TreeNode treeNode, final ModuleNode cm) throws AbortException {
+	private ExprNode generateExpression(final TreeNode treeNode, final ModuleNode cm) throws AbortException {
 		/***********************************************************************
 		 * Must return an ExprNode that represents an expression, and not a * labeled
 		 * ASSUME/PROVE *
@@ -2699,7 +2699,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		return generateExpressionOrLAP(treeNode, cm, false);
 	}
 
-	private final ExprNode generateExpressionOrLAP(final TreeNode treeNode, final ModuleNode cm, final boolean allowLabeledAP)
+	private ExprNode generateExpressionOrLAP(final TreeNode treeNode, final ModuleNode cm, final boolean allowLabeledAP)
 			/***********************************************************************
 			 * Can return a LabelNode labeling an ASSUME/PROVE iff allowLabeledAP * = true.
 			 * Otherwise, it can return only an ExprNode that represents * an expression. *
@@ -3153,7 +3153,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
         return false;
 	}
 
-	private final boolean illegalLabelRef(final LabelNode ln, final SyntaxTreeNode stn) throws AbortException {
+	private boolean illegalLabelRef(final LabelNode ln, final SyntaxTreeNode stn) throws AbortException {
 		/***********************************************************************
 		 * True iff we are currently in a point where a reference to this * label is
 		 * illegal because it lies inside an ASSUME/PROVE clause from * outside the
@@ -3172,7 +3172,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		return ap.inScopeOfDecl[ln.goalClause] && (goal.isSuffices() == ap.inProof);
 	} // illegalLabelRef
 
-	private final boolean illegalAPPosRef(final AssumeProveNode ap, final int pos) {
+	private boolean illegalAPPosRef(final AssumeProveNode ap, final int pos) {
 		/***********************************************************************
 		 * True iff it is illegal for the node currently being processed to * access the
 		 * clause number pos of AssumeProve node ap because it is * not in the scope of
@@ -3204,7 +3204,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	private final static UniqueString S_InAssume = UniqueString.uniqueStringOf("$$InAssume");
 	private final static OpDeclNode InAssumeDummyNode = new OpDeclNode(S_InAssume, 0, 0, 0, null, null, null);
 
-	private final AssumeProveNode generateAssumeProve(final TreeNode treeNode, final ModuleNode cm)
+	private AssumeProveNode generateAssumeProve(final TreeNode treeNode, final ModuleNode cm)
 			/***********************************************************************
 			 * Added by LL on 17 Mar 2007. *
 			 ***********************************************************************/
@@ -3321,7 +3321,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		return apn;
 	}
 
-	private final NewSymbNode generateNewSymb(final TreeNode treeNode, final ModuleNode cm)
+	private NewSymbNode generateNewSymb(final TreeNode treeNode, final ModuleNode cm)
 			/***********************************************************************
 			 * Added by LL on 21 Mar 2007. *
 			 ***********************************************************************/
@@ -3388,7 +3388,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		return new NewSymbNode(buildParameter(children[i + 1], declKind, declLevel, cm, true), set, treeNode);
 	}
 
-	private final ExprNode processChoose(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm) throws AbortException {
+	private ExprNode processChoose(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm) throws AbortException {
 		final ExprNode[] semanticNode = new ExprNode[1];
 		TreeNode[] syntaxTreeNode = children[2].heirs();
 		final OpApplNode result;
@@ -3453,7 +3453,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		return result;
 	}
 
-	private final ExprNode processBoundQuant(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm)
+	private ExprNode processBoundQuant(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm)
 			throws AbortException {
 		// Create data structures for all parameters
 		final int length = (children.length - 2) / 2;
@@ -3487,7 +3487,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		}
 	}
 
-	private final ExprNode processUnboundQuant(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm)
+	private ExprNode processUnboundQuant(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm)
 			throws AbortException {
 		// which variety? look under first child.
 		final UniqueString us = children[0].getUS();
@@ -3534,7 +3534,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		return new OpApplNode(r_us, semanticNode, odn, treeNode, cm, context);
 	}
 
-	private final ExprNode processCase(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm) throws AbortException {
+	private ExprNode processCase(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm) throws AbortException {
 		// number of arms to CASE-expr, not counting the CASE nodse itself
 		// or the []-separators
 		final int armCount = children.length / 2;
@@ -3553,7 +3553,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		return new OpApplNode(OP_case, casePairs, treeNode, cm, context);
 	}
 
-	private final ExprNode processSubsetOf(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm)
+	private ExprNode processSubsetOf(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm)
 			throws AbortException {
 		// cfr. unbounded choose
 		final ExprNode[] ops = new ExprNode[1];
@@ -3589,7 +3589,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		return new OpApplNode(OP_sso, null, ops, odna, tuples, exprs, treeNode, cm, context);
 	}
 
-	private final ExprNode processSetOfAll(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm)
+	private ExprNode processSetOfAll(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm)
 			throws AbortException {
 		final ExprNode[] ops = new ExprNode[1];
 		final int length = (children.length - 3) / 2;
@@ -3613,7 +3613,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		return new OpApplNode(OP_soa, null, ops, odna, tuples, exprs, treeNode, cm, context);
 	}
 
-	private final ExprNode processFcnConst(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm)
+	private ExprNode processFcnConst(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm)
 			throws AbortException {
 		final ExprNode[] ops = new ExprNode[1];
 		final int length = (children.length - 3) / 2; // number of args to function constant
@@ -3642,7 +3642,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	 * SetOfRecords operator. The two are essentially identical except for which
 	 * builtin operator is used.
 	 */
-	private final ExprNode processRcdForms(final UniqueString operator, final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm)
+	private ExprNode processRcdForms(final UniqueString operator, final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm)
 			throws AbortException {
 		// handles RcdConstructor or SetOfRcds
 		final int length = (children.length - 1) / 2;
@@ -3683,7 +3683,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		return new OpApplNode(operator, fieldPairs, treeNode, cm, context);
 	}
 
-	private final ExprNode processAction(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm) throws AbortException {
+	private ExprNode processAction(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm) throws AbortException {
 		UniqueString match = children[0].getUS();
 		if (match.equals(S_a))
 			match = OP_aa;
@@ -3700,7 +3700,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		return new OpApplNode(match, ops, treeNode, cm, context);
 	}
 
-	private final ExprNode processExcept(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm) throws AbortException {
+	private ExprNode processExcept(final TreeNode treeNode, final TreeNode[] children, final ModuleNode cm) throws AbortException {
 		final int numExcepts = (children.length - 3) / 2; // number of ExceptSpec's;
 		final ExprNode[] operands = new ExprNode[numExcepts + 1]; // 1 for each ExceptionSpec + first expr
 		final OpApplNode excNode; // Holds OpApplNode for $Except operator
@@ -4064,7 +4064,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	 * OpDefNode. Since it is * always used only as an operator argument, this
 	 * OpDefNode will appear * in an OpArgNode. *
 	 *************************************************************************/
-	private final OpDefNode generateLambda(final TreeNode syntaxTreeNode, final ModuleNode cm) throws AbortException {
+	private OpDefNode generateLambda(final TreeNode syntaxTreeNode, final ModuleNode cm) throws AbortException {
 		final TreeNode[] children = syntaxTreeNode.heirs();
 		final int arity = (children.length - 2) / 2;
 		/*********************************************************************
@@ -4126,19 +4126,19 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	/*************************************************************************
 	 * Note: the returned value does not seem to be used. *
 	 *************************************************************************/
-	private final OpDefNode processModuleDefinition(final TreeNode treeNode, final Vector<SymbolNode> defs,
-                                                    /*******************************************************
+	private OpDefNode processModuleDefinition(final TreeNode treeNode, final Vector<SymbolNode> defs,
+                                              /*******************************************************
 			 * This is non-null when called from inside a LET, in * which case the OpDef
 			 * node is appended to defs. If * null, the OpDef node is appended to the *
 			 * module-level lists of such nodes. *
 			 *******************************************************/
-                                                    final Vector<InstanceNode> insts,
-                                                    /*******************************************************
+                                              final Vector<InstanceNode> insts,
+                                              /*******************************************************
 			 * If non-null, then a vector of InstanceNode objects * to which the current
 			 * instance node is to be * appended. If null, cm.appendInstance is called to *
 			 * put the InstanceNode onto the module-level lists of * such nodes. *
 			 *******************************************************/
-                                                    final ModuleNode cm) throws AbortException {
+                                              final ModuleNode cm) throws AbortException {
 		// Start with a LHS for an instance: we must extract from it name
 		// and possibly parameters. Then we need the external Context of
 		// the module and to extract all non-local, non-builtin
@@ -4657,7 +4657,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	 * @return
 	 * @throws AbortException
 	 */
-	private final InstanceNode generateInstance(final TreeNode treeNode, final ModuleNode cm, final boolean topLevel)
+	private InstanceNode generateInstance(final TreeNode treeNode, final ModuleNode cm, final boolean topLevel)
 			throws AbortException {
 		/**********************************************************************
 		 * topLevel argument is true for a top-level INSTANCE statement, and * false
@@ -4937,7 +4937,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 	} // void generateInstance
 
-	private final void processTheorem(final TreeNode stn, final ModuleNode cm) throws AbortException {
+	private void processTheorem(final TreeNode stn, final ModuleNode cm) throws AbortException {
 		ThmOrAssumpDefNode tadn = null;
 		final LevelNode body;
 		ProofNode proof = null;
@@ -5030,7 +5030,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
         cm.addTheorem(stn, body, proof, tadn);
 	} // ProcessTheorem
 
-	private final void processAssumption(final TreeNode stn, final ModuleNode cm) throws AbortException {
+	private void processAssumption(final TreeNode stn, final ModuleNode cm) throws AbortException {
 		ThmOrAssumpDefNode tadn = null;
 		final int lastIndex = stn.heirs().length - 1;
 		if (lastIndex > 1) {
@@ -5053,7 +5053,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
         cm.addAssumption(stn, expr, symbolTable, tadn);
 	} // processAssumption
 
-	private final ProofNode generateProof(final TreeNode stn, final ModuleNode cm)
+	private ProofNode generateProof(final TreeNode stn, final ModuleNode cm)
 			/***********************************************************************
 			 * Node stn is of kind N_TerminalProof or an N_Proof. The heirs of an * N_Proof
 			 * node consist of an optional PROOF token followed by a * seequence of
@@ -5734,11 +5734,11 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	 * The following method is not used and I have no idea why it's still * here. *
 	 ***************************************************************************/
 	@SuppressWarnings("unused")
-	private final LevelNode generateNumerableStep(final TreeNode stn,
+	private LevelNode generateNumerableStep(final TreeNode stn,
 //          TreeNode stmt, 
 //          UniqueString stepNum,
 //          TreeNode proof, 
-                                                  final ModuleNode cm) throws AbortException {
+                                            final ModuleNode cm) throws AbortException {
 		/***********************************************************************
 		 * Used to generate the step for a NumerableStep or QEDStep token. * Returns a
 		 * TheoremNode or ThmOrAssumpDefNode. * * The parsing into the syntactic tree
@@ -6013,7 +6013,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 	} // generateNumerableStep
 
-	private final LeafProofNode generateLeafProof(final TreeNode stn, final ModuleNode cm) throws AbortException {
+	private LeafProofNode generateLeafProof(final TreeNode stn, final ModuleNode cm) throws AbortException {
 		final TreeNode[] heirs = stn.heirs();
 		final LevelNode[] facts;
 		final SymbolNode[] defs;

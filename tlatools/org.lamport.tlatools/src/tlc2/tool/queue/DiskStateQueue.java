@@ -121,7 +121,7 @@ public class DiskStateQueue extends StateQueue {
 		return this.deqBuf[this.deqIndex];
 	}
 
-	private final void fillDeqBuffer() {
+	private void fillDeqBuffer() {
 		try {
 			if (this.loPool + 1 <= this.hiPool) {
 				// We are sure there are disk files.

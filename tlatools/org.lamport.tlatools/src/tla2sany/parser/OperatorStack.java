@@ -104,7 +104,7 @@ What do left and right mean?????? What does shift mean????????
     }
   }
 
-  final private void reduceInfix(final Operator op ) {
+  private void reduceInfix(final Operator op ) {
     /***********************************************************************
     * IF Len(CurrentTop) < 4                                               *
     *   THEN do nothing.                                                   *
@@ -149,7 +149,7 @@ What do left and right mean?????? What does shift mean????????
     }
   }
 
-  final private void reducePrefix() {
+  private void reducePrefix() {
     /***********************************************************************
     * IF Len(CurrentTop) < 3                                               *
     *   THEN do nothing                                                    *
@@ -170,7 +170,7 @@ What do left and right mean?????? What does shift mean????????
     }
   }
 
-  final private void reducePostfix() {
+  private void reducePostfix() {
     /***********************************************************************
     * IF Len(CurrentTop) < 3                                               *
     *   THEN do nothing                                                    *

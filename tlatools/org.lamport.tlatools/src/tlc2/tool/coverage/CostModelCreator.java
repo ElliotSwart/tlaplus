@@ -349,7 +349,7 @@ public class CostModelCreator extends ExplorerVisitor {
 		return Objects.requireNonNull(this.stack.peek()).getRoot();
 	}
 	
-	public static final void create(final ITool tool) {
+	public static void create(final ITool tool) {
 		final CostModelCreator collector = new CostModelCreator(tool);
 
 		// TODO Start from the ModuleNode similar to how the Explorer works. It is

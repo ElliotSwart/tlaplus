@@ -271,7 +271,7 @@ public final class MemFPSet2 extends FPSet {
     Assert.check(!this.put(fp), EC.TLC_FP_NOT_IN_SET);
   }
   
-  final private String chkptName(final String fname, final String ext) {
+  private String chkptName(final String fname, final String ext) {
     return this.metadir + FileUtil.separator + fname + ".fp." + ext;
   }
     

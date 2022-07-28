@@ -231,18 +231,18 @@ public abstract class AbstractChecker
         }
     }
     
-    public static final double calculateOptimisticProbability(final long numOfDistinctStates, final long numOfGenStates) {
+    public static double calculateOptimisticProbability(final long numOfDistinctStates, final long numOfGenStates) {
         return numOfDistinctStates * ((numOfGenStates - numOfDistinctStates) / Math.pow(2, 64));
     }
     
-	public static final void reportSuccess(final long numOfDistinctStates, final long numOfGenStates)
+	public static void reportSuccess(final long numOfDistinctStates, final long numOfGenStates)
 			throws IOException {
 		final double optimisticProb = calculateOptimisticProbability(numOfDistinctStates, numOfGenStates);
 		MP.printMessage(EC.TLC_SUCCESS, new String[] { "val = " + ProbabilityToString(optimisticProb, 2) });
 	}
    
-	public static final void reportSuccess(final long numOfDistinctStates, final long actualDistance,
-			final long numOfGenStates) throws IOException {
+	public static void reportSuccess(final long numOfDistinctStates, final long actualDistance,
+                                     final long numOfGenStates) throws IOException {
 		// Prevent div-by-zero when calculating collision probabilities when no states
 		// are generated.
 		if (numOfDistinctStates == numOfGenStates && numOfGenStates == 0) {
@@ -283,7 +283,7 @@ public abstract class AbstractChecker
      * @param significantDigits  - the number of significant digits to include; must be > 0.
      * @return
      */
-    private static final String ProbabilityToString(final double val, final int significantDigits) {
+    private static String ProbabilityToString(final double val, final int significantDigits) {
         /*
          * If val = 0 (which shouldn't happen), return "0.0"
          */
@@ -675,7 +675,7 @@ public abstract class AbstractChecker
 		return config;
 	}
 	
-	private final Value createConfig() {
+	private Value createConfig() {
 		final UniqueString[] n = new UniqueString[6];
 		final Value[] v = new Value[n.length];
 		n[0] = TLCGetSet.MODE;

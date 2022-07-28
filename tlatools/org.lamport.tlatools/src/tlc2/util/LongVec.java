@@ -75,7 +75,7 @@ public class LongVec implements Cloneable, Serializable {
 		return this.elementCount;
 	}
 
-	private final void ensureCapacity(final int minCapacity) {
+	private void ensureCapacity(final int minCapacity) {
 		if (elementData.length < minCapacity) {
 			int newCapacity = elementData.length + elementData.length;
 			if (newCapacity < minCapacity) {

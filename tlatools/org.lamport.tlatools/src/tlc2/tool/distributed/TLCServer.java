@@ -377,7 +377,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	/**
 	 * @throws Throwable 
 	 */
-	private final void doInit() throws Throwable {
+	private void doInit() throws Throwable {
 		final DoInitFunctor functor = new DoInitFunctor();
 		work.getInitStates(functor);
 		
@@ -702,7 +702,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
      * form as all other progress statistics.
      * @param workerOverallCacheRate 
      */
-    public static final void printSummary(final int level, final long statesGenerated, final long statesLeftInQueue, final long distinctStates, final boolean success) throws IOException
+    public static void printSummary(final int level, final long statesGenerated, final long statesLeftInQueue, final long distinctStates, final boolean success) throws IOException
     {
 		if (TLCGlobals.tool) {
             MP.printMessage(EC.TLC_PROGRESS_STATS, String.valueOf(level),
