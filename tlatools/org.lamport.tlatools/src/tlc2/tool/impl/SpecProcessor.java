@@ -106,7 +106,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     private ModuleNode rootModule; // The root module.
     private final Set<OpDefNode> processedDefs;
     private final SpecObj specObj;
-    private final Defns snapshot;
+    private Defns snapshot;
 
     private final Vect<Action> initPredVec; // The initial state predicate.
     private Action nextPred; // The next state predicate.
@@ -154,21 +154,11 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         
         opDefEvaluator = ode;
         symbolNodeValueLookupProvider = snvlp;
-
-		// Parse and process this spec.
-		// It takes care of all overrides.
-		processSpec(mode);
-
-		snapshot = defns.snapshot();
-
-		if (opDefEvaluator != null) {
-			// Pre-evaluate all the definitions in the spec that are constants.
-			processConstantDefns();
-		}
-
-	      // Finally, process the config file.
-		processConfig();
 	}
+
+    public void snapshot(){
+        snapshot = defns.snapshot();
+    }
 
     /**
      * This method converts every definition that is constant into TLC
@@ -180,7 +170,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
      * Modified by LL on 23 July 2013 so it is not run for modules that are
      * instantiated and have parameters (CONSTANT or VARIABLE declarations)
      */
-    private void processConstantDefns() {
+    public void processConstantDefns() {
         final ModuleNode[] mods = this.moduleTbl.getModuleNodes();
         for (final ModuleNode mod : mods) {
             if ((!mod.isInstantiated())
@@ -350,7 +340,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
      * @param mode 
      */
     // SZ Feb 20, 2009: added support for existing specObj
-    private final void processSpec(final Mode mode)
+    public final void processSpec(final Mode mode)
     {
 
         // We first call the SANY front-end to parse and semantic-analyze
@@ -726,9 +716,13 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 				}
 	        }
 		}
-        
+    }
 
+    public final void processSpec2(){
+        final Hashtable<String, String> overrides = this.config.getOverrides();
         final Set<String> overriden = new HashSet<>();
+        final OpDeclNode[] rootConsts = this.rootModule.getConstantDecls();
+
         // Apply config file overrides to constants:
         for (final OpDeclNode rootConst : rootConsts) {
             final UniqueString lhs = rootConst.getName();
@@ -748,6 +742,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         }
 
         // Apply config file overrides to operator definitions:
+        final OpDefNode[] rootOpDefs = this.rootModule.getOpDefs();
         for (final OpDefNode rootOpDef : rootOpDefs) {
             final UniqueString lhs = rootOpDef.getName();
             final String rhs = overrides.get(lhs.toString());
@@ -782,6 +777,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         // Apply config file module specific overrides to operator defns.
         // We do not allow this kind of replacement for constant decls.
         final Hashtable<String, Hashtable<Comparable<?>, Object>> modOverrides = this.config.getModOverrides();
+        final ModuleNode[] mods = this.moduleTbl.getModuleNodes();
         for (final ModuleNode mod : mods) {
             final UniqueString modName = mod.getName();
             final Hashtable<Comparable<?>, Object> mDefs = modOverrides.get(modName.toString());
@@ -823,6 +819,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
         // Check if the module names specified in the config file are defined.
         final Enumeration<String> modKeys = modOverrides.keys();
+        final Map<String, ModuleNode> modSet = new HashMap<>();
         while (modKeys.hasMoreElements())
         {
             final Object modName = modKeys.nextElement();
@@ -836,7 +833,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     /** 
      * Process the configuration file. 
      */
-    private final void processConfig()
+    public final void processConfig()
     {
         // Process the invariants:
         this.processConfigInvariants();

@@ -130,7 +130,32 @@ abstract class Spec
         }
         var specProcessor = new SpecProcessor(getRootName(), resolver, toolId, defns, config, this, this, tlaClass, mode, specObj);
 
+        // Parse and process this spec.
+        // It takes care of all overrides.
+        specProcessor.processSpec(mode);
         this.variables = specProcessor.variablesNodes;
+
+        // set variables to the static filed in the state
+        if (mode == Mode.Simulation || mode == Mode.MC_DEBUG) {
+            EmptyState = TLCStateMutExt.getEmpty(this.variables);
+        } else if (specProcessor.hasCallableValue) {
+            assert mode == Mode.Executor;
+            EmptyState = TLCStateMutExt.getEmpty(this.variables);
+        } else {
+            assert mode == Mode.MC;
+            EmptyState = TLCStateMut.getEmpty(this.variables);
+        }
+
+        specProcessor.processSpec2();
+
+        specProcessor.snapshot();
+
+        specProcessor.processConstantDefns();
+
+        // Finally, process the config file.
+        specProcessor.processConfig();
+
+
         this.unprocessedDefns = specProcessor.getUnprocessedDefns();
         this.modelConstraints = specProcessor.getModelConstraints();
         this.initPred = specProcessor.getInitPred();
@@ -161,17 +186,6 @@ abstract class Spec
 
 
         this.constantDefns = specProcessor.getConstantDefns();
-
-        // set variables to the static filed in the state
-        if (mode == Mode.Simulation || mode == Mode.MC_DEBUG) {
-            EmptyState = TLCStateMutExt.getEmpty(this.variables);
-        } else if (specProcessor.hasCallableValue) {
-            assert mode == Mode.Executor;
-            EmptyState = TLCStateMutExt.getEmpty(this.variables);
-        } else {
-            assert mode == Mode.MC;
-            EmptyState = TLCStateMut.getEmpty(this.variables);
-        }
     }
     
     protected Spec(final Spec other) {
