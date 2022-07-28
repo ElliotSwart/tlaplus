@@ -49,6 +49,7 @@ public abstract class TLCStates {
 
 		// Initialize the empty state (variable declarations are static/final per TLC
 		// run).
+		/*
 		final TLCState state = TLCStateMut.getEmpty(variables);;
 		state.uid = 0;
 
@@ -57,6 +58,7 @@ public abstract class TLCStates {
 			state.bind(variables[i].getName(), IntValue.gen(i));
 		}
 
-		return state;
+		return state;*/
+		return null;
 	}
 }

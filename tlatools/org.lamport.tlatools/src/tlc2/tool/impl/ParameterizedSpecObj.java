@@ -49,10 +49,10 @@ public class ParameterizedSpecObj extends SpecObj {
 	public static final String POST_CONDITIONS = "POST_CONDITIONS";
 	public static final String INVARIANT = "INVARIANT";
 
-	private final Spec spec;
+	private final Tool spec;
 	private final Map<String, Object> params;
 
-	public ParameterizedSpecObj(final Spec spec, final FilenameToStream resolver, final Map<String, Object> params) {
+	public ParameterizedSpecObj(final Tool spec, final FilenameToStream resolver, final Map<String, Object> params) {
 		super(spec.rootFile, resolver);
 		this.spec = spec;
 		this.params = params;
