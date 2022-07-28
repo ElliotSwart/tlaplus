@@ -99,7 +99,7 @@ abstract class Spec
 
     protected final Hashtable<String, ParseUnit> parseUnitContext;
 
-    protected final Map<ModuleNode, Map<OpDefOrDeclNode, Object>> constantDefns = new HashMap<>();
+    protected final Map<ModuleNode, Map<OpDefOrDeclNode, Object>> constantDefns;
 
     public final TLCState EmptyState;
 
@@ -128,7 +128,7 @@ abstract class Spec
         } else {
         	specObj = new ParameterizedSpecObj(this, resolver, params);
         }
-        var specProcessor = new SpecProcessor(getRootName(), resolver, toolId, defns, config, this, this, tlaClass, mode, specObj);
+        var specProcessor = new SpecProcessor(getRootName(), resolver, toolId, defns, config, this, tlaClass, mode, specObj);
 
         this.variables = specProcessor.variablesNodes;
         this.unprocessedDefns = specProcessor.getUnprocessedDefns();
@@ -158,6 +158,7 @@ abstract class Spec
         this.aliasSpec = generateAliasSpec(this.config, this.defns);
         this.processedPostConditionSpecs = generatePostConditionSpecs(this.config, this.defns, postConditionSpecs);
         this.counterExampleDef = generateCounterExampleDef(this.defns);
+        this.constantDefns = specProcessor.processConstantDefns(this);
 
         // set variables to the static filed in the state
         if (mode == Mode.Simulation || mode == Mode.MC_DEBUG) {
@@ -202,7 +203,7 @@ abstract class Spec
         this.assumptions = other.assumptions;
         this.processedPostConditionSpecs = other.processedPostConditionSpecs;
         this.counterExampleDef = other.counterExampleDef;
-
+        this.constantDefns = other.constantDefns;
         this.parseUnitContext = other.parseUnitContext;
         this.assumptionIsAxiom = other.assumptionIsAxiom;
 

@@ -95,7 +95,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 	protected PipedOutputStream pipedOutputStream;
 	protected Launcher<IDebugProtocolClient> launcher;
 
-	private Tool tool;
+	private DebugTool tool;
 
 	public TLCDebugger() {
 		this.step = Step.In;
@@ -120,7 +120,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 	}
 
 	@Override
-	public IDebugTarget setTool(final Tool tool) {
+	public IDebugTarget setTool(final DebugTool tool) {
 		this.tool = tool;
 		return this;
 	}
@@ -270,7 +270,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 					.findAny().map(f -> f.get(args)).orElse(new EvaluateResponse()));
 		} else if (EvaluateArgumentsContext.REPL.equals(args.getContext())) {
 			if ("violate".equalsIgnoreCase(args.getExpression())) {
-				DebugTool.setForceViolation();
+				tool.setForceViolation();
 				return CompletableFuture.completedFuture(new EvaluateResponse());
 			}
 			// TODO: Users can enter (arbitrary) expressions in the front-end's "Debug
