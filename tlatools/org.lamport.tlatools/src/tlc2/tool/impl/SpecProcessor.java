@@ -136,7 +136,9 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     private Vect<String> temporalNameVec = new Vect<>();
     private Vect<Action> impliedTemporalVec = new Vect<>();
     private Vect<String> impliedTemporalNameVec = new Vect<>();
-    
+
+    public boolean hasCallableValue;
+
 	public SpecProcessor(final String rootFile, final FilenameToStream resolver, final int toolId, final Defns defns,
                          final ModelConfig config, final SymbolNodeValueLookupProvider snvlp, final OpDefEvaluator ode,
                          final TLAClass tlaClass, final Mode mode, final SpecObj obj) {
@@ -599,7 +601,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         // the default is to load the first class on the classpath with name tlc2.overrides.TLCOverrides
         // that implements tlc2.overrides.ITLCOverrides.  This is usually the tlc2.overrides.TLCOverrides
         // provided by the CommunityModules.
-        boolean hasCallableValue = false;
+        hasCallableValue = false;
 		final String tlcOverrides = TLCBuiltInOverrides.class.getName() + File.pathSeparator
 				+ System.getProperty("tlc2.overrides.TLCOverrides", "tlc2.overrides.TLCOverrides");
 		for (final String ovrde : tlcOverrides.split(File.pathSeparator)) {
@@ -744,17 +746,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                 overriden.add(lhs.toString());
             }
         }
-
-		// set variables to the static filed in the state
-		if (mode == Mode.Simulation || mode == Mode.MC_DEBUG) {
-            opDefEvaluator.setEmptyState(TLCStateMutExt.getEmpty(this.variablesNodes));
-		} else if (hasCallableValue) {
-			assert mode == Mode.Executor;
-            opDefEvaluator.setEmptyState(TLCStateMutExt.getEmpty(this.variablesNodes));
-		} else {
-			assert mode == Mode.MC;
-            opDefEvaluator.setEmptyState(TLCStateMut.getEmpty(this.variablesNodes));
-		}
 
         // Apply config file overrides to operator definitions:
         for (final OpDefNode rootOpDef : rootOpDefs) {
