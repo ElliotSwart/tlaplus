@@ -120,11 +120,12 @@ public class DebugTool extends Tool {
 		
 		// This and FastTool share state.  Do not evaluate things concurrently.
 		this.fastTool = new FastTool(this);
-		// Evaluation related to fingerprinting should not/cannot use DebugTool. There
-		// is nothing that a user could debug except, perhaps, for EvaluationExceptions.
-		TLCStateMutExt.setTool(this.fastTool);
-		
-		this.target = target.setTool(this);
+		this.target = target;
+	}
+
+	@Override
+	public ITool getFingerprintingTool(){
+		return this.fastTool;
 	}
 
 	// 88888888888888888888888888888888888888888888888888888888888888888888888888 //

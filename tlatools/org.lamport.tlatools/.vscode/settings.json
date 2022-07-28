@@ -4,7 +4,8 @@
         "vmArgs": [
             "-ea",
             "-XX:MaxDirectMemorySize=512k",
-            "-XX:+UseParallelGC"
+            "-XX:+UseParallelGC",
+            "-Dtestng.show.stack.frames=true"
         ],
         "workingDirectory": "${workspaceFolder}",
         "classPaths": [

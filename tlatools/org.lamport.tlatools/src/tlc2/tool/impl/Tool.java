@@ -109,7 +109,7 @@ public abstract class Tool
   public static final Value[] EmptyArgs = new Value[0];
 
   protected final Action[] actions;     // the list of TLA actions.
-  private Vect<Action> actionVec = new Vect<>(10);
+  private final Vect<Action> actionVec;
   protected final Mode toolMode;
 
   private AbstractChecker abstractChecker;
@@ -159,16 +159,9 @@ public abstract class Tool
   {
       super(specDir, specFile, configFile, resolver, mode, params);
 
+
+      this.actionVec = new Vect<>(10);
       this.toolMode = mode;
-		// set variables to the static filed in the state
-		if (mode == Mode.Simulation || mode == Mode.Executor || mode == Mode.MC_DEBUG) {
-			assert EmptyState instanceof TLCStateMutExt;
-			TLCStateMutExt.setTool(this);
-		} else {
-			// Initialize state.
-			assert EmptyState instanceof TLCStateMut;
-			TLCStateMut.setTool(this);
-		}
       
 		final Action next = this.getNextStateSpec();
 		if (next == null) {
@@ -189,14 +182,18 @@ public abstract class Tool
 		}
   }
 
-  Tool(final Tool other) {
+    protected Tool(final Tool other) {
 	  super(other);
 	  this.actions = other.actions;
 	  this.actionVec = other.actionVec;
 	  this.toolMode = other.toolMode;
-  }
+   }
 
 
+    @Override
+    public ITool getFingerprintingTool(){
+      return this;
+    }
 
     @Override
     public AbstractChecker getMainChecker(){

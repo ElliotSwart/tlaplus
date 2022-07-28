@@ -42,6 +42,7 @@ import org.eclipse.lsp4j.debug.OutputEventArguments;
 import org.eclipse.lsp4j.debug.StoppedEventArguments;
 import org.eclipse.lsp4j.debug.launch.DSPLauncher;
 
+import tlc2.tool.impl.DebugTool;
 import tlc2.tool.impl.Tool;
 import util.ToolIO;
 
@@ -103,7 +104,7 @@ public class AttachingDebugger extends TLCDebugger {
 
 
 	@Override
-	public IDebugTarget setTool(final Tool tool) {
+	public IDebugTarget setTool(final DebugTool tool) {
 		super.setTool(tool);
 		Executors.newSingleThreadExecutor().submit(() -> {
 			try (final ServerSocket serverSocket = new ServerSocket(port)) {

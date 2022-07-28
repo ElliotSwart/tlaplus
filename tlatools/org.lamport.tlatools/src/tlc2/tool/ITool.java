@@ -292,6 +292,8 @@ public interface ITool extends TraceApp {
 
 	TLCState evalAlias(TLCState curState, TLCState sucState);
 
+	ITool getFingerprintingTool();
+
 	default <T> T eval(final Supplier<T> supplier) {
 		return supplier.get();
 	}

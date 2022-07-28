@@ -31,6 +31,7 @@ import tlc2.tool.Action;
 import tlc2.tool.INextStateFunctor;
 import tlc2.tool.StatefulRuntimeException;
 import tlc2.tool.TLCState;
+import tlc2.tool.impl.DebugTool;
 import tlc2.tool.impl.Tool;
 import tlc2.util.Context;
 import tlc2.value.impl.Value;
@@ -143,5 +144,5 @@ public interface IDebugTarget {
 
 	IDebugTarget popFrame(TLCState predecessor, TLCState state);
 
-	IDebugTarget setTool(Tool tool);
+	IDebugTarget setTool(DebugTool tool);
 }

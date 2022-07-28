@@ -1151,8 +1151,13 @@ public class TLC {
 							: "TLCDebugger does not support running with multiple workers.";
 					final TLCDebugger instance = TLCDebugger.Factory.getInstance(debugPort, suspend, halt);
 					synchronized (instance) {
-						tool = new DebugTool(mainFile, configFile, resolver, Tool.Mode.Simulation, params, instance);
+                        var debugTool = new DebugTool(mainFile, configFile, resolver, Tool.Mode.Simulation, params, instance);
+						tool = debugTool;
+                        instance.setTool(debugTool);
 					}
+
+
+
 					simulator = new SingleThreadedSimulator(tool, metadir, traceFile, deadlock, traceDepth, 
 	                        traceNum, traceActions, rng, seed, resolver);
 
@@ -1164,6 +1169,9 @@ public class TLC {
 
                     tool.setSimulator(simulator);
 				}
+
+                TLCStateMut.setTool(tool.getFingerprintingTool());
+                TLCStateMutExt.setTool(tool.getFingerprintingTool());
 
                 result = simulator.simulate();
 			} else { // RunMode.MODEL_CHECK
@@ -1193,11 +1201,17 @@ public class TLC {
 					assert TLCGlobals.getNumWorkers() == 1 : "TLCDebugger does not support running with multiple workers.";
 					final TLCDebugger instance = TLCDebugger.Factory.getInstance(debugPort, suspend, halt);
 					synchronized (instance) {
-						tool = new DebugTool(mainFile, configFile, resolver, params, instance);
+						var debugTool = new DebugTool(mainFile, configFile, resolver, params, instance);
+                        tool = debugTool;
+                        instance.setTool(debugTool);
 					}
 				} else {
 					tool = new FastTool(mainFile, configFile, resolver, params);
 				}
+
+                TLCStateMut.setTool(tool.getFingerprintingTool());
+                TLCStateMutExt.setTool(tool.getFingerprintingTool());
+
                 deadlock = deadlock && tool.getModelConfig().getCheckDeadlock();
                 if (isBFS())
                 {
@@ -1260,7 +1274,7 @@ public class TLC {
 
 			// Generate trace exploration spec if error occurred.
 			if (teSpec != null) {
-				teSpec.generate(this.tool);
+				teSpec.generate(this.tool, this.mainChecker);
 			}
 
 			MP.unsubscribeRecorder(this.recorder);

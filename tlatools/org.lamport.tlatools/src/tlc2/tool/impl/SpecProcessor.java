@@ -331,6 +331,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 		return vetos.contains(us.toString());
 	}
 
+    Map<String, ModuleNode> modSetSnapshot;
+
     /**
      * Processes the specification and collects information to be used
      * by tools. The processing tries to use any customized module (Java
@@ -455,6 +457,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             this.processConstants(item);
             modSet.put(item.getName().toString(), item);
         }
+
+        modSetSnapshot = modSet;
 
         // Collect all the assumptions.
         final AssumeNode[] assumes = this.rootModule.getAssumptions();
@@ -817,7 +821,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
         // Check if the module names specified in the config file are defined.
         final Enumeration<String> modKeys = modOverrides.keys();
-        final Map<String, ModuleNode> modSet = new HashMap<>();
+        final Map<String, ModuleNode> modSet = modSetSnapshot;
         while (modKeys.hasMoreElements())
         {
             final Object modName = modKeys.nextElement();

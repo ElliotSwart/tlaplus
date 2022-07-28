@@ -20,6 +20,7 @@ import tlc2.output.EC;
 import tlc2.output.ErrorTraceMessagePrinterRecorder;
 import tlc2.output.MP;
 import tlc2.output.SpecTraceExpressionWriter;
+import tlc2.tool.AbstractChecker;
 import tlc2.tool.Defns;
 import tlc2.tool.ITool;
 import tlc2.tool.impl.ModelConfig;
@@ -66,7 +67,7 @@ public class TraceExplorationSpec {
 		this.recorder = recorder;
 	}
 
-	public void generate(final ITool specInfo) {
+	public void generate(final ITool specInfo, AbstractChecker mainChecker) {
 		if (this.recorder.getMCErrorTrace().isEmpty()) {
 			return;
 		}
@@ -77,7 +78,7 @@ public class TraceExplorationSpec {
 		// If TLC started from a checkpoint (`-recover`), we don't want to generate a TE
 		// spec.
 		if ((errorTrace.getStates().size() <= 1)
-				|| (specInfo.getMainChecker() != null && specInfo.getMainChecker().isRecovery())) {
+				|| (mainChecker != null && mainChecker.isRecovery())) {
 			return;
 		}
 
