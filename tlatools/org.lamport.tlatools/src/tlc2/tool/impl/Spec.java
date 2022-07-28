@@ -97,7 +97,7 @@ abstract class Spec
 
     protected final Hashtable<String, ParseUnit> parseUnitContext;
 
-    protected final Map<ModuleNode, Map<OpDefOrDeclNode, Object>> constantDefns = new HashMap<>();
+    protected final Map<ModuleNode, Map<OpDefOrDeclNode, Object>> constantDefns;
 
     public TLCState EmptyState;
 
@@ -150,6 +150,7 @@ abstract class Spec
         this.postConditionSpecs = specProcessor.getPostConditionSpecs();
         this.parseUnitContext = specProcessor.getSpecObj().parseUnitContext;
         this.assumptionIsAxiom = specProcessor.getAssumptionIsAxiom();
+        this.constantDefns = specProcessor.getConstantDefns();
     }
     
     protected Spec(final Spec other) {
@@ -184,7 +185,7 @@ abstract class Spec
         this.postConditionSpecs = other.postConditionSpecs;
         this.parseUnitContext = other.parseUnitContext;
         this.assumptionIsAxiom = other.assumptionIsAxiom;
-
+        this.constantDefns = other.constantDefns;
         this.EmptyState = other.EmptyState;
     }
 
