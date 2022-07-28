@@ -32,7 +32,7 @@ import util.UniqueString;
 //		implemented interface {@link SymbolNodeValueLookupProvider} (and our
 //		lack of implementation of {@link OpDefEvaluator} is why this class
 //		is marked {@code abstract}.)
-abstract class Spec
+public abstract class Spec
 		implements ValueConstants, ToolGlobals, Serializable, OpDefEvaluator, SymbolNodeValueLookupProvider {
 	private static final long serialVersionUID = 1L;
 
@@ -137,13 +137,13 @@ abstract class Spec
 
         // set variables to the static filed in the state
         if (mode == Mode.Simulation || mode == Mode.MC_DEBUG) {
-            EmptyState = TLCStateMutExt.getEmpty(this.variables);
+            EmptyState = TLCStateMutExt.getEmpty(this.variables, this);
         } else if (specProcessor.hasCallableValue) {
             assert mode == Mode.Executor;
-            EmptyState = TLCStateMutExt.getEmpty(this.variables);
+            EmptyState = TLCStateMutExt.getEmpty(this.variables, this);
         } else {
             assert mode == Mode.MC;
-            EmptyState = TLCStateMut.getEmpty(this.variables);
+            EmptyState = TLCStateMut.getEmpty(this.variables, this);
         }
 
         specProcessor.processSpec2();

@@ -193,7 +193,7 @@ public class TLCExt {
 	public static TupleValue getTrace(final Tool tool, final ExprOrOpArgNode[] args, final Context c,
 			final TLCState s0, final TLCState s1, final int control, final CostModel cm) throws IOException {
 
-		var mainChecker = IdThread.getMainChecker();
+		var mainChecker = tool.getMainChecker();
 		var simulator = tool.getSimulator();
 
 		if (!s0.allAssigned()) {

@@ -47,33 +47,33 @@ private final IValue[] values;
    */
   private static IMVPerm[] perms = null;
 
-  private TLCStateMutExt(final OpDeclNode[] vars, final IValue[] vals) {
-      super(vars);
-      this.values = vals;
-  }
-  
-  public static TLCState getEmpty(final OpDeclNode[] vars)
-  {
-      final IValue[] vals = new IValue[vars.length];
-      var Empty = new TLCStateMutExt(vars, vals);
-      return Empty;
-      // SZ 10.04.2009: since this method is called exactly one from Spec#processSpec
-      // moved the call of UniqueString#setVariables to that place
-
+  private TLCStateMutExt(final OpDeclNode[] vars, final IValue[] vals, final ITool tool) {
+      this(vars, vals, tool, tool.getViewSpec(), tool.getSymmetryPerms());
   }
 
-  public static void setTool(final ITool tool) {
-    mytool = tool;
-    viewMap = tool.getViewSpec();
-    perms = tool.getSymmetryPerms();
-  }
+    private TLCStateMutExt(final OpDeclNode[] vars, final IValue[] vals, final ITool tool, final SemanticNode viewMap, final IMVPerm[] perms) {
+        super(vars);
+        this.values = vals;
+        this.mytool = tool;
+        this.viewMap = viewMap;
+        this.perms = perms;
+    }
 
-  @Override
-  public TLCState createEmpty() {
-	  final IValue[] vals = new IValue[vars.length];
-    var state = new TLCStateMutExt(vars, vals);
-    return state;
-  }
+    public static TLCState getEmpty(final OpDeclNode[] vars, final ITool tool)
+    {
+        final IValue[] vals = new IValue[vars.length];
+        var Empty = new TLCStateMutExt(vars, vals, tool);
+        return Empty;
+        // SZ 10.04.2009: since this method is called exactly one from Spec#processSpec
+        // moved the call of UniqueString#setVariables to that place
+    }
+
+    @Override
+    public TLCState createEmpty() {
+        final IValue[] vals = new IValue[vars.length];
+        var state = new TLCStateMutExt(vars, vals, mytool, viewMap, perms);
+        return state;
+    }
 
   //TODO equals without hashcode!
   public boolean equals(final Object obj) {
@@ -129,7 +129,7 @@ private final IValue[] values;
     final int len = this.values.length;
     final IValue[] vals = new IValue[len];
       System.arraycopy(this.values, 0, vals, 0, len);
-    return copyExt(new TLCStateMutExt(vars, vals));
+    return copyExt(new TLCStateMutExt(vars, vals, mytool, viewMap, perms));
   }
 
   @Override
@@ -142,7 +142,7 @@ private final IValue[] values;
 	vals[i] = val.deepCopy();
       }
     }
-	return deepCopy(new TLCStateMutExt(vars, vals));
+	return deepCopy(new TLCStateMutExt(vars, vals, mytool, viewMap, perms));
   }
 
   @Override
@@ -265,7 +265,7 @@ private final IValue[] values;
             }
 			TLCStateMutExt state = this;
 			if (minVals != this.values) {
-				state = new TLCStateMutExt(vars, minVals);
+				state = new TLCStateMutExt(vars, minVals, mytool, viewMap, perms);
 			}
 			final IValue val = mytool.eval(viewMap, Context.Empty, state);
 			fp = val.fingerPrint(fp);

@@ -1172,9 +1172,6 @@ public class TLC {
                     IdThread.setSimulator(simulator);
 				}
 
-                TLCStateMut.setTool(tool.getFingerprintingTool());
-                TLCStateMutExt.setTool(tool.getFingerprintingTool());
-
                 result = simulator.simulate();
 			} else { // RunMode.MODEL_CHECK
 				if (noSeed) {
@@ -1210,9 +1207,6 @@ public class TLC {
 				} else {
 					tool = new FastTool(mainFile, configFile, resolver, params);
 				}
-
-                TLCStateMut.setTool(tool.getFingerprintingTool());
-                TLCStateMutExt.setTool(tool.getFingerprintingTool());
 
                 deadlock = deadlock && tool.getModelConfig().getCheckDeadlock();
                 if (isBFS())

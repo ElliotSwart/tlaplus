@@ -36,44 +36,47 @@ import util.WrongInvocationException;
 public final class TLCStateMut extends TLCState implements Cloneable, Serializable {
   private static final long serialVersionUID = 4041379887531543818L;
 private final IValue[] values;
-  private static ITool mytool = null;
+  private ITool mytool = null;
 
   /**
    * If non-null, viewMap denotes the function to be applied to
    * a state before its fingerprint is computed.
    */
-  private static SemanticNode viewMap = null;
+  private SemanticNode viewMap = null;
 
   /**
    * If non-null, perms denotes the set of permutations under the
    * symmetry assumption.
    */
-  private static IMVPerm[] perms = null;
+  private IMVPerm[] perms = null;
 
-  private TLCStateMut(final OpDeclNode[] vars, final IValue[] vals) {
-      super(vars);
-      this.values = vals;
+  private TLCStateMut(final OpDeclNode[] vars, final IValue[] vals, final ITool tool) {
+      this(vars, vals, tool, tool.getViewSpec(), tool.getSymmetryPerms());
+  }
+
+  private TLCStateMut(final OpDeclNode[] vars, final IValue[] vals, final ITool tool, final SemanticNode viewMap, final IMVPerm[] perms) {
+    super(vars);
+    this.values = vals;
+    this.mytool = tool;
+    this.viewMap = viewMap;
+    this.perms = perms;
   }
   
-  public static TLCState getEmpty(final OpDeclNode[] vars)
+  public static TLCState getEmpty(final OpDeclNode[] vars, final ITool tool)
   {
       final IValue[] vals = new IValue[vars.length];
-      var Empty = new TLCStateMut(vars, vals);
+      var Empty = new TLCStateMut(vars, vals, tool);
       return Empty;
       // SZ 10.04.2009: since this method is called exactly one from Spec#processSpec
       // moved the call of UniqueString#setVariables to that place
   }
 
-  public static void setTool(final ITool tool) {
-    mytool = tool;
-    viewMap = tool.getViewSpec();
-    perms = tool.getSymmetryPerms();
-  }
+
 
   @Override
   public TLCState createEmpty() {
     final IValue[] vals = new IValue[vars.length];
-    var state = new TLCStateMut(vars, vals);
+    var state = new TLCStateMut(vars, vals, mytool, viewMap, perms);
     return state;
   }
 
@@ -131,7 +134,7 @@ private final IValue[] values;
     final int len = this.values.length;
     final IValue[] vals = new IValue[len];
       System.arraycopy(this.values, 0, vals, 0, len);
-    return copy(new TLCStateMut(vars, vals));
+    return copy(new TLCStateMut(vars, vals, mytool, viewMap, perms));
   }
 
   @Override
@@ -144,7 +147,7 @@ private final IValue[] values;
 	vals[i] = val.deepCopy();
       }
     }
-	return deepCopy(new TLCStateMut(vars, vals));
+	return deepCopy(new TLCStateMut(vars, vals, mytool, viewMap, perms));
   }
 
   @Override
@@ -267,7 +270,7 @@ private final IValue[] values;
             }
 			TLCStateMut state = this;
 			if (minVals != this.values) {
-				state = new TLCStateMut(vars, minVals);
+				state = new TLCStateMut(vars, minVals, mytool, viewMap, perms);
 			}
 			final IValue val = mytool.eval(viewMap, Context.Empty, state);
 			fp = val.fingerPrint(fp);
