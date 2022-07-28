@@ -97,7 +97,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     private final int toolId;
     private final Defns defns; // Global definitions reachable from root
     private final ModelConfig config; // The model configuration.
-    private final OpDefEvaluator opDefEvaluator;
     private final SymbolNodeValueLookupProvider symbolNodeValueLookupProvider;
     private final TLAClass tlaClass;
 
@@ -140,7 +139,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     public boolean hasCallableValue;
 
 	public SpecProcessor(final String rootFile, final FilenameToStream resolver, final int toolId, final Defns defns,
-                         final ModelConfig config, final SymbolNodeValueLookupProvider snvlp, final OpDefEvaluator ode,
+                         final ModelConfig config, final SymbolNodeValueLookupProvider snvlp,
                          final TLAClass tlaClass, final Mode mode, final SpecObj obj) {
 		super();
 		this.rootFile = rootFile;
@@ -151,8 +150,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 		this.processedDefs = new HashSet<>();
         this.initPredVec = new Vect<>(5);
         this.specObj = obj;
-        
-        opDefEvaluator = ode;
+
         symbolNodeValueLookupProvider = snvlp;
 	}
 
@@ -170,13 +168,13 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
      * Modified by LL on 23 July 2013 so it is not run for modules that are
      * instantiated and have parameters (CONSTANT or VARIABLE declarations)
      */
-    public void processConstantDefns() {
+    public void processConstantDefns(final OpDefEvaluator opDefEvaluator) {
         final ModuleNode[] mods = this.moduleTbl.getModuleNodes();
         for (final ModuleNode mod : mods) {
             if ((!mod.isInstantiated())
                     || ((mod.getConstantDecls().length == 0)
                     && (mod.getVariableDecls().length == 0))) {
-                this.processConstantDefns(mod);
+                this.processConstantDefns(mod, opDefEvaluator);
             }
         }
     }
@@ -199,7 +197,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
      *
      * @param mod the module to run on
      */
-    private void processConstantDefns(final ModuleNode mod) {
+    private void processConstantDefns(final ModuleNode mod, final OpDefEvaluator opDefEvaluator) {
 
       // run for constant definitions
       final OpDeclNode[] consts = mod.getConstantDecls();
@@ -320,7 +318,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
       // run for all inner modules
       final ModuleNode[] imods = mod.getInnerModules();
         for (final ModuleNode imod : imods) {
-            this.processConstantDefns(imod);
+            this.processConstantDefns(imod, opDefEvaluator);
         }
     }
 

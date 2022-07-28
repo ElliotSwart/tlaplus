@@ -128,7 +128,7 @@ abstract class Spec
         } else {
         	specObj = new ParameterizedSpecObj(this, resolver, params);
         }
-        var specProcessor = new SpecProcessor(getRootName(), resolver, toolId, defns, config, this, this, tlaClass, mode, specObj);
+        var specProcessor = new SpecProcessor(getRootName(), resolver, toolId, defns, config, this, tlaClass, mode, specObj);
 
         // Parse and process this spec.
         // It takes care of all overrides.
@@ -150,7 +150,7 @@ abstract class Spec
 
         specProcessor.snapshot();
 
-        specProcessor.processConstantDefns();
+        specProcessor.processConstantDefns(this);
 
         // Finally, process the config file.
         specProcessor.processConfig();
