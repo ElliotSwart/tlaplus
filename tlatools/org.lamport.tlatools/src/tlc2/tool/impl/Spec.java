@@ -14,11 +14,7 @@ import tla2sany.modanalyzer.SpecObj;
 import tla2sany.semantic.*;
 import tlc2.TLCGlobals;
 import tlc2.output.EC;
-import tlc2.tool.Action;
-import tlc2.tool.BuiltInOPs;
-import tlc2.tool.Defns;
-import tlc2.tool.TLCState;
-import tlc2.tool.ToolGlobals;
+import tlc2.tool.*;
 import tlc2.tool.impl.Tool.Mode;
 import tlc2.util.Context;
 import tlc2.util.ObjLongTable;
@@ -105,7 +101,7 @@ abstract class Spec
 
     protected final Map<ModuleNode, Map<OpDefOrDeclNode, Object>> constantDefns = new HashMap<>();
 
-    public TLCState EmptyState;
+    public final TLCState EmptyState;
 
     // SZ Feb 20, 2009: added support to name resolver, to be able to run outside of the tool
 	public Spec(final String specDir, final String specFile, final String configFile, final FilenameToStream resolver,
@@ -133,6 +129,7 @@ abstract class Spec
         	specObj = new ParameterizedSpecObj(this, resolver, params);
         }
         var specProcessor = new SpecProcessor(getRootName(), resolver, toolId, defns, config, this, this, tlaClass, mode, specObj);
+
         this.variables = specProcessor.variablesNodes;
         this.unprocessedDefns = specProcessor.getUnprocessedDefns();
         this.modelConstraints = specProcessor.getModelConstraints();
@@ -161,6 +158,17 @@ abstract class Spec
         this.aliasSpec = generateAliasSpec(this.config, this.defns);
         this.processedPostConditionSpecs = generatePostConditionSpecs(this.config, this.defns, postConditionSpecs);
         this.counterExampleDef = generateCounterExampleDef(this.defns);
+
+        // set variables to the static filed in the state
+        if (mode == Mode.Simulation || mode == Mode.MC_DEBUG) {
+            EmptyState = TLCStateMutExt.getEmpty(this.variables);
+        } else if (specProcessor.hasCallableValue) {
+            assert mode == Mode.Executor;
+            EmptyState = TLCStateMutExt.getEmpty(this.variables);
+        } else {
+            assert mode == Mode.MC;
+            EmptyState = TLCStateMut.getEmpty(this.variables);
+        }
     }
     
     protected Spec(final Spec other) {
@@ -210,10 +218,6 @@ abstract class Spec
 
     public TLCState getEmptyState(){
         return this.EmptyState;
-    }
-
-    public void setEmptyState(final TLCState emptyState) {
-        this.EmptyState = emptyState;
     }
 
     public TLCState createEmptyState() {

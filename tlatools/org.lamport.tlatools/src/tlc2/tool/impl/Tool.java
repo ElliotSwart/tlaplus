@@ -3548,6 +3548,7 @@ public abstract class Tool
     return null;
   }
 
+
   /* Return the set of all permutations under the symmetry assumption. */
   @Override
   public final IMVPerm[] getSymmetryPerms() {
