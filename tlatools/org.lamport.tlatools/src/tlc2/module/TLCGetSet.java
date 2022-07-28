@@ -135,8 +135,8 @@ public class TLCGetSet implements ValueConstants {
 	public static Value TLCGetEval(final Tool tool, final ExprOrOpArgNode[] args, final Context c, final TLCState s0,
 			final TLCState s1, final int control, final CostModel cm) {
 
-		var mainChecker = IdThread.getMainChecker();
-		var simulator = IdThread.getSimulator();
+		var mainChecker = tool.getMainChecker();
+		var simulator = tool.getSimulator();
 
 		final Value vidx = tool.eval(args[0], c, s0, s1, control, cm);
 		if (vidx instanceof IntValue iv) {
@@ -166,8 +166,8 @@ public class TLCGetSet implements ValueConstants {
 	private static final Value TLCGetStringValue(final Tool tool, final Value vidx, final TLCState s0, final TLCState s1,
 			final int control) {
 		final StringValue sv = (StringValue) vidx;
-		var mainChecker = IdThread.getMainChecker();
-		var simulator = IdThread.getSimulator();
+		var mainChecker = tool.getMainChecker();
+		var simulator = tool.getSimulator();
 		if (DIAMETER == sv.val) {
 			try {
 				if (mainChecker != null) {
