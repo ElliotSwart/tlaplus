@@ -83,7 +83,7 @@ public abstract class Tool
      * @see See note on performance in CostModelCreator.
      */
     protected static final boolean coverage = TLCGlobals.isCoverageEnabled();
-    protected static final int toolId = FrontEnd.getToolId();
+    protected final int toolId;
     private static final long serialVersionUID = -8485049126843307912L;
 	public static final String PROBABLISTIC_KEY = Tool.class.getName() + ".probabilistic";
     /*
@@ -791,6 +791,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   
   public Tool(final String specDir, final String specFile, final String configFile, final FilenameToStream resolver, final Mode mode, final Map<String, Object> params)
   {
+      this.toolId = FrontEnd.getToolId();
       this.specDir = specDir;
       this.rootFile = specFile;
       this.defns = new Defns();
@@ -903,6 +904,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   }
 
     protected Tool(final Tool other) {
+        this.toolId = other.toolId;
         this.specDir = other.specDir;
         this.rootFile = other.rootFile;
         this.configFile = other.configFile;
