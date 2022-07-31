@@ -1110,7 +1110,7 @@ public class TLC {
     public int process()
     {
     	MP.setRecorder(this.recorder);
-        // UniqueString.initialize();
+        UniqueString.resetLocations();
         
         // a JMX wrapper that exposes runtime statistics 
         TLCStandardMBean modelCheckerMXWrapper = TLCStandardMBean.getNullTLCStandardMBean();

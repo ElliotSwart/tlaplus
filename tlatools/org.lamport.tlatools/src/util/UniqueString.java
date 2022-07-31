@@ -105,6 +105,13 @@ public final class UniqueString implements Serializable
         //varCount = 0;
     }
 
+    public static void resetLocations(){
+
+        for (var uniqueString : internTbl.toMap().values()){
+            uniqueString.setLoc(-1);
+        }
+    }
+
     /**
      * Protected constructor, used from utility methods
      * @param str a string to be saved 
