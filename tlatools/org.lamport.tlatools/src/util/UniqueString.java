@@ -85,7 +85,7 @@ public final class UniqueString implements Serializable
 
     // SZ 10.04.2009: removed the getter method
     // since it is only needed in Spec#processSpec and the setter is called from there
-    private static int varCount;
+    //private static int varCount;
 
     
     /**
@@ -102,7 +102,7 @@ public final class UniqueString implements Serializable
     public static void initialize()
     {
         internTbl = new InternTable(1024);
-        varCount = 0;
+        //varCount = 0;
     }
 
     /**
@@ -129,35 +129,25 @@ public final class UniqueString implements Serializable
     }
 
     /**
-     * Sets the number of variables in the spec
-     * @param varCount number of variables defined
-     */
-    public static void setVariableCount(final int varCount)
-    {
-        UniqueString.varCount = varCount;
-        // SZ 10.04.2009: changed the method signature from setVariables(UniqueString[])
-        // to setVariableCount(int), since the method is effectively only responsible
-        // for storing this information in the static field of this class.
-
-        // SZ 10.04.2009: removed the loop that runs through the variable names
-        // and sets the Loc field of each variable name to it's order in the list
-        // moved it to the place where the variables are initialized
-    }
-
-    /**
      * Returns the location of this variable in a state, if the name is a
      * variable.  Otherwise, returns -1.
      */
-    public int getVarLoc()
+
+    public int getVarLoc(int varCount)
     {
         return (this.loc < varCount) ? this.loc : -1;
+    }
+
+    public int getLoc(){
+        return this.loc;
     }
 
     /**
      * Returns the location of this operator in defns, if it is the name
      * of an operator.  Otherwise, returns -1.
      */
-    public int getDefnLoc()
+
+    public int getDefnLoc(int varCount)
     {
         return (this.loc < varCount) ? -1 : this.loc;
     }
@@ -165,10 +155,11 @@ public final class UniqueString implements Serializable
     /**
      * Set this string's location in either the state or the defns.
      * This is fishy to store location outside of the storage
-     * 
+     *
      * @see {@link TLCState}
      * @see {@link Defns}
      */
+
     public void setLoc(final int loc)
     {
         this.loc = loc;
@@ -311,7 +302,8 @@ public final class UniqueString implements Serializable
     public void write(final IDataOutputStream dos) throws IOException
     {
         dos.writeInt(this.tok);
-        dos.writeInt(this. getVarLoc()); 
+        dos.writeInt(this.getLoc());
+
          // Above changed from dos.writeInt(this.loc); by Yuan Yu on 17 Mar 2010
         dos.writeInt(this.s.length());
         dos.writeString(this.s);

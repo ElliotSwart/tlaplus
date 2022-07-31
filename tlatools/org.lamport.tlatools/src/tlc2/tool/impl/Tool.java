@@ -29,39 +29,8 @@ import tlc2.value.IMVPerm;
 import tlc2.value.IValue;
 import tlc2.value.ValueConstants;
 import tlc2.value.Values;
-import tlc2.value.impl.Applicable;
-import tlc2.value.impl.BoolValue;
-import tlc2.value.impl.Enumerable;
+import tlc2.value.impl.*;
 import tlc2.value.impl.Enumerable.Ordering;
-import tlc2.value.impl.EvaluatingValue;
-import tlc2.value.impl.FcnLambdaValue;
-import tlc2.value.impl.FcnParams;
-import tlc2.value.impl.FcnRcdValue;
-import tlc2.value.impl.LazyValue;
-import tlc2.value.impl.MVPerm;
-import tlc2.value.impl.MVPerms;
-import tlc2.value.impl.MethodValue;
-import tlc2.value.impl.ModelValue;
-import tlc2.value.impl.OpLambdaValue;
-import tlc2.value.impl.OpValue;
-import tlc2.value.impl.RecordValue;
-import tlc2.value.impl.Reducible;
-import tlc2.value.impl.SetCapValue;
-import tlc2.value.impl.SetCupValue;
-import tlc2.value.impl.SetDiffValue;
-import tlc2.value.impl.SetEnumValue;
-import tlc2.value.impl.SetOfFcnsValue;
-import tlc2.value.impl.SetOfRcdsValue;
-import tlc2.value.impl.SetOfTuplesValue;
-import tlc2.value.impl.SetPredValue;
-import tlc2.value.impl.StringValue;
-import tlc2.value.impl.SubsetValue;
-import tlc2.value.impl.TupleValue;
-import tlc2.value.impl.UnionValue;
-import tlc2.value.impl.Value;
-import tlc2.value.impl.ValueEnumeration;
-import tlc2.value.impl.ValueExcept;
-import tlc2.value.impl.ValueVec;
 import util.*;
 import util.Assert.TLCRuntimeException;
 
@@ -605,7 +574,7 @@ public abstract class Tool
             // x' = 42
             case OPCODE_eq, OPCODE_in -> { // x' \in S (eq case "falls through")
                 final SymbolNode var = this.getPrimedVar(args[0], c, false);
-                if (var != null && var.getName().getVarLoc() != -1) {
+                if (var != null && var.getName().getVarLoc(variables.length) != -1) {
                     tbl.put(pred, 0);
                 }
                 break;
@@ -659,7 +628,7 @@ final SymbolNode opNode = expr1.getOperator();
 final UniqueString opName = opNode.getName();
 final int opcode = BuiltInOPs.getOpCode(opName);
 
-if (opName.getVarLoc() >= 0)
+if (opName.getVarLoc(variables.length) >= 0)
 {
 // a state variable:
 tbl.put(expr, 0);
@@ -1459,7 +1428,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           }
           case OPCODE_eq -> {
               final SymbolNode var = this.getVar(args[0], c, false, toolId);
-              if (var == null || var.getName().getVarLoc() < 0) {
+              if (var == null || var.getName().getVarLoc(variables.length) < 0) {
                   final Value bval = this.eval(init, c, ps, EmptyState, EvalControl.Init, cm);
                   if (!((BoolValue) bval).val) {
                       return;
@@ -1484,7 +1453,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           }
           case OPCODE_in -> {
               final SymbolNode var = this.getVar(args[0], c, false, toolId);
-              if (var == null || var.getName().getVarLoc() < 0) {
+              if (var == null || var.getName().getVarLoc(variables.length) < 0) {
                   final Value bval = this.eval(init, c, ps, EmptyState, EvalControl.Init, cm);
                   if (!((BoolValue) bval).val) {
                       return;
@@ -4478,4 +4447,66 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 	public static boolean isProbabilistic() {
 		return PROBABLISTIC;
 	}
+
+    /**
+     * Users will likely want to call only {@link #getLevelBound(SemanticNode, Context, int)} - this
+     * 	method is called from that method in certain cases.
+     */
+    public int getLevelBoundAppl(final OpApplNode expr, Context c, final int forToolId) {
+        final SymbolNode opNode = expr.getOperator();
+        final UniqueString opName = opNode.getName();
+        final int opcode = BuiltInOPs.getOpCode(opName);
+
+        if (BuiltInOPs.isTemporal(opcode)) {
+            return 3; // Conservative estimate
+        }
+
+        if (BuiltInOPs.isAction(opcode)) {
+            return 2; // Conservative estimate
+        }
+
+        if (opcode == ToolGlobals.OPCODE_enabled) {
+            return 1; // Conservative estimate
+        }
+
+        int level = 0;
+        final ExprNode[] bnds = expr.getBdedQuantBounds();
+        for (final ExprNode bnd : bnds) {
+            level = Math.max(level, getLevelBound(bnd, c, forToolId));
+        }
+
+        if (opcode == ToolGlobals.OPCODE_rfs) {
+            // For recursive function, don't compute level of the function body
+            // again in the recursive call.
+            final SymbolNode fname = expr.getUnbdedQuantSymbols()[0];
+            c = c.cons(fname, IntValue.ValOne);
+        }
+
+        final ExprOrOpArgNode[] args = expr.getArgs();
+        final int alen = args.length;
+        for (final ExprOrOpArgNode arg : args) {
+            if (arg != null) {
+                level = Math.max(level, getLevelBound(arg, c, forToolId));
+            }
+        }
+
+        if (opcode == 0) {
+            // This operator is a user-defined operator.
+            if (opName.getVarLoc(variables.length) >= 0)
+                return 1;
+
+            final Object val = lookup(opNode, c, false, forToolId);
+            if (val instanceof final OpDefNode opDef) {
+                c = c.cons(opNode, IntValue.ValOne);
+                level = Math.max(level, getLevelBound(opDef.getBody(), c, forToolId));
+            } else if (val instanceof final LazyValue lv) {
+                level = Math.max(level, getLevelBound(lv.expr, lv.con, forToolId));
+            } else if (val instanceof final EvaluatingValue ev) {
+                level = Math.max(level, ev.getMinLevel());
+            } else if (val instanceof final MethodValue mv) {
+                level = Math.max(level, mv.getMinLevel());
+            }
+        }
+        return level;
+    }
 }

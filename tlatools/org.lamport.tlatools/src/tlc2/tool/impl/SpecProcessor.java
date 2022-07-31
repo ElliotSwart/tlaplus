@@ -410,7 +410,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         }
 
         // SZ 11.04.2009: set the number of variables
-        UniqueString.setVariableCount(varDecls.length);
+        //UniqueString.setVariableCount(varDecls.length);
 
         // SZ 10.04.2009: moved the initialization
         // removed static initialization

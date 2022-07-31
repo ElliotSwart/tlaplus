@@ -32,6 +32,8 @@ public class Defns implements ToolGlobals, Serializable
 	private int defnIdx;
     private Object[] table;
 
+    private int varCount;
+
     
 
     public Defns()
@@ -40,6 +42,7 @@ public class Defns implements ToolGlobals, Serializable
     }
 
     Defns(final Defns other) {
+        this.varCount = other.varCount;
     	this.defnIdx = other.defnIdx;
     	this.table = new Object[other.table.length];
         System.arraycopy(other.table, 0, this.table, 0, other.table.length);
@@ -51,7 +54,7 @@ public class Defns implements ToolGlobals, Serializable
      */
     public Object get(final UniqueString key)
     {
-        final int loc = key.getDefnLoc();
+        final int loc = key.getDefnLoc(varCount);
         if (loc < 0 || loc >= this.table.length)
         {
             return null;
@@ -76,7 +79,7 @@ public class Defns implements ToolGlobals, Serializable
      */
     public void put(final UniqueString key, final Object val)
     {
-        int loc = key.getDefnLoc();
+        int loc = key.getDefnLoc(varCount);
         if (loc == -1)
         {
             loc = defnIdx++;
@@ -108,6 +111,7 @@ public class Defns implements ToolGlobals, Serializable
     public void setDefnCount(final int index)
     {
         this.defnIdx = index;
+        this.varCount = index;
     }
     
     public Defns snapshot() {

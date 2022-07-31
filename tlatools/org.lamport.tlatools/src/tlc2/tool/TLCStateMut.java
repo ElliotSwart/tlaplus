@@ -101,7 +101,7 @@ private final IValue[] values;
   @Override
   public TLCState bind(final UniqueString name, final IValue value) {
 	  // Note, tla2sany.semantic.OpApplNode.toString(Value) relies on this ordering.
-    final int loc = name.getVarLoc();
+    final int loc = name.getVarLoc(values.length);
     this.values[loc] = value;
     return this;
   }
@@ -113,14 +113,14 @@ private final IValue[] values;
   
   @Override
   public TLCState unbind(final UniqueString name) {
-    final int loc = name.getVarLoc();
+    final int loc = name.getVarLoc(values.length);
     this.values[loc] = null;
     return this;
   }
 
   @Override
   public IValue lookup(final UniqueString var) {
-    final int loc = var.getVarLoc();
+    final int loc = var.getVarLoc(values.length);
     if (loc < 0) return null;
     return this.values[loc];
   }
