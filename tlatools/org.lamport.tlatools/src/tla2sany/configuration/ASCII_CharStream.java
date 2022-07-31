@@ -9,7 +9,6 @@ package tla2sany.configuration;
 
 public final class ASCII_CharStream
 {
-  public final boolean staticFlag = true;
   int bufsize;
   int available;
   int tokenBegin;

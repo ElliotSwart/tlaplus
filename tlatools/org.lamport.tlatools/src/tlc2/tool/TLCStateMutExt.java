@@ -34,19 +34,19 @@ import util.WrongInvocationException;
 public final class TLCStateMutExt extends TLCState implements Cloneable, Serializable {
   private static final long serialVersionUID = 26539988826590236L;
 private final IValue[] values;
-  private static ITool mytool = null;
+  private ITool mytool = null;
 
   /**
    * If non-null, viewMap denotes the function to be applied to
    * a state before its fingerprint is computed.
    */
-  private static SemanticNode viewMap = null;
+  private SemanticNode viewMap = null;
 
   /**
    * If non-null, perms denotes the set of permutations under the
    * symmetry assumption.
    */
-  private static IMVPerm[] perms = null;
+  private IMVPerm[] perms = null;
 
   private TLCStateMutExt(final OpDeclNode[] vars, final IValue[] vals, final ITool tool) {
       this(vars, vals, tool, tool.getViewSpec(), tool.getSymmetryPerms());
