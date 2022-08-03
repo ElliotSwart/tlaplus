@@ -361,7 +361,7 @@ public class SANY {
     
   }
 
-  public void handleArgs(final String[] args){
+  public int handleArgs(final String[] args){
     int i;
     // Parse and process the command line switches, which are
     // distinguished by the fact that they begin with a '-' character.
@@ -380,7 +380,7 @@ public class SANY {
         doStrictErrorCodes = true;
       else {
         ToolIO.out.println("Illegal switch: " + args[i]);
-        System.exit(-1);
+        return -1;
       }
     }
 
@@ -406,14 +406,14 @@ public class SANY {
         try {
           final int ret = frontEndMain(spec, args[i], ToolIO.out);
           if (ret != 0) {
-            System.exit(ret);
+            return ret;
           }
         }
         catch (final FrontEndException fe) {
           // For debugging
           fe.printStackTrace();
           ToolIO.out.println(fe);
-          System.exit(-1);
+          return -1;
         }
 
         // Compile operator usage stats
@@ -430,9 +430,11 @@ public class SANY {
       } else
       {
         ToolIO.out.println("Cannot find the specified file " + args[i] + ".");
-        System.exit(-1);
+        return -1;
       }
     }
+
+    return 0;
   }
 
   /**
@@ -442,8 +444,8 @@ public class SANY {
    * barring errors too severe, calls the Explorer tool with the resulting 
    * ExternalModuleTable.
    */
-  public static void SANYmain(final String[] args) {
+  public static int SANYmain(final String[] args) {
     var sany = new SANY();
-    sany.handleArgs(args);
+    return sany.handleArgs(args);
   }
 }
