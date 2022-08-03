@@ -75,7 +75,12 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		public final void add(final OffHeapDiskFPSet aSet) {
 			this.sets.add(aSet);
 		}
-		
+
+		public final void clear() {
+			this.sets.removeAll(this.sets);
+			flusherChosen.compareAndSet(true, false); // If true, set to false;
+		}
+
 		public final void incWorkers(final int numWorkers) {
 			final int parties = phaser.getRegisteredParties();
 			if (parties < numWorkers) {
@@ -106,6 +111,10 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	// FPSet would never see the complete set of waiting workers. TLC would thus
 	// deadlock. This is why SYNC is a singleton and shared by all FPSet instances.
 	private static final OffHeapSynchronizer SYNC = new OffHeapSynchronizer();
+
+	public static void clearSynchronizer(){
+		SYNC.clear();
+	}
 	
 	private static final int PROBE_LIMIT = Integer.getInteger(OffHeapDiskFPSet.class.getName() + ".probeLimit", 1024);
 	static final long EMPTY = 0L;

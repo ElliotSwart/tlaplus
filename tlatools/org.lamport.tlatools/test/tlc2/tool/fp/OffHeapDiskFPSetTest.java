@@ -222,6 +222,7 @@ public class OffHeapDiskFPSetTest {
 		}
 		
 		fpSet.close();
+		OffHeapDiskFPSet.clearSynchronizer();
 	}
 	
 	@Test
@@ -280,6 +281,7 @@ public class OffHeapDiskFPSetTest {
 		}
 
 		fpSet.close();
+		OffHeapDiskFPSet.clearSynchronizer();
 	}
 	
 	private static String createTmpFile() {
@@ -318,6 +320,7 @@ public class OffHeapDiskFPSetTest {
 		}
 		finally {
 			fpSet.close();
+			OffHeapDiskFPSet.clearSynchronizer();
 		}
 	}
 
