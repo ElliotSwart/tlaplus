@@ -51,8 +51,6 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 	
 	protected final String[] arguments;
 	protected final int fpSets;
-	
-	private SecurityManager securityManager;
 
 	private TLCServer server;
 	
@@ -65,7 +63,7 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 	}
 	
 	public DistributedTLCTestCase(final String spec, final String path, final String[] args, final int fpSets) {
-		super(new FilteringTestMPRecorder());
+		super(new TestMPRecorder());
 		this.arguments = new String[args.length + 1];
 		this.arguments[this.arguments.length - 1] = path + spec; // Add path to additional arguments
 		System.arraycopy(args, 0, arguments, 0, args.length);
@@ -116,8 +114,6 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 		// from terminating the JUnit test itself. To allow the JUnit test to
 		// later terminate the VM after test completion, we have to reinstate
 		// the original security manager again (see tearDown).
-		securityManager = System.getSecurityManager();
-		System.setSecurityManager(new NoExitSecurityManager());
 
 		MP.setRecorder(recorder);
 		
@@ -179,58 +175,5 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 	@After
 	public void tearDown() {
 		MP.unsubscribeRecorder(recorder);
-		System.setSecurityManager(securityManager);
-	}
-	
-	private static class NoExitSecurityManager extends SecurityManager {
-		/* (non-Javadoc)
-		 * @see java.lang.SecurityManager#checkPermission(java.security.Permission)
-		 */
-		@Override
-        public void checkPermission(final Permission perm) {
-			// allow anything.
-		}
-
-		/* (non-Javadoc)
-		 * @see java.lang.SecurityManager#checkPermission(java.security.Permission, java.lang.Object)
-		 */
-		@Override
-        public void checkPermission(final Permission perm, final Object context) {
-			// allow anything.
-		}
-
-		/* (non-Javadoc)
-		 * @see java.lang.SecurityManager#checkExit(int)
-		 */
-		
-		@Override
-        public void checkExit(final int status) {
-			super.checkExit(status);
-			throw new NoExitException();
-		}
-	}
-	
-	@SuppressWarnings("serial")
-	public static class NoExitException extends RuntimeException {
-		// Want an easily distinguishable exception.
-	}
-	
-	private static class FilteringTestMPRecorder extends TestMPRecorder {
-		/* (non-Javadoc)
-		 * @see tlc2.TestMPRecorder#record(int, java.lang.Object[])
-		 */
-		@Override
-        public void record(final int code, final Object... objects) {
-			if (EC.GENERAL == code && objects instanceof String[]) {
-				// GENERAL errors contain the exceptions thrown because of the
-				// intercepted System.exit(int) calls. Remove them so that 
-				// tests can check for real EC.GENERAL errors.
-				final String msg = ((String[]) objects)[0];
-				if (msg.contains(NoExitException.class.getName())) {
-					return;
-				}
-			}
-			super.record(code, objects);
-		}
 	}
 }
