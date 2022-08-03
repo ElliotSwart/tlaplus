@@ -82,9 +82,6 @@ public class TLCWorkerSmartProxyTest {
 
 		final double networkOverhead = proxy.getNetworkOverhead();
 
-		proxy.close();
-		aWorker.close();
-
 		return networkOverhead;
 	}
 }
