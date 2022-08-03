@@ -10,6 +10,7 @@ import java.io.RandomAccessFile;
 import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.text.DecimalFormat;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.logging.Logger;
@@ -194,6 +195,9 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 		this.tblLoad = new LongAdder();
 		this.flusherChosen = new AtomicBoolean(false);
 		this.index = null;
+
+		this.braf = new BufferedRandomAccessFile[0];
+		this.brafPool = new BufferedRandomAccessFile[0];
 		
 		try {
 			diskFPSetMXWrapper = new DiskFPSetMXWrapper(this);
