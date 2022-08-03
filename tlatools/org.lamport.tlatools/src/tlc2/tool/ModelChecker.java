@@ -559,7 +559,7 @@ public class ModelChecker extends AbstractChecker
 		    		MP.printError(ec, param);
 		    	}
 				this.trace.printTrace(curState, succState);
-				this.theStateQueue.finishAll();
+				this.theStateQueue.close();
 				this.notify();
 			}
 		}
@@ -585,7 +585,7 @@ public class ModelChecker extends AbstractChecker
 											.collect(Collectors.joining(", ")) });
 				}
 				this.trace.printTrace(curState, succState);
-				this.theStateQueue.finishAll();
+				this.theStateQueue.close();
 				this.notify();
 			}
 			return true;
@@ -599,7 +599,7 @@ public class ModelChecker extends AbstractChecker
 		    {
 				MP.printError(ec, new String[] { param, (e.getMessage() == null) ? e.toString() : e.getMessage() });
 				this.trace.printTrace(curState, succState);
-				this.theStateQueue.finishAll();
+				this.theStateQueue.close();
 				this.notify();
 			}
 			throw e;
@@ -656,7 +656,7 @@ public class ModelChecker extends AbstractChecker
 					}
 		        }
 				this.trace.printTrace(curState, succState);
-				this.theStateQueue.finishAll();
+				this.theStateQueue.close();
 				this.notify();
 			}
 		}
@@ -964,7 +964,7 @@ public class ModelChecker extends AbstractChecker
         
         if (level > depth)
         {
-            this.theStateQueue.finishAll();
+            this.theStateQueue.close();
             this.done = true;
         } else
         {
@@ -1034,7 +1034,7 @@ public class ModelChecker extends AbstractChecker
 	@Override
 	public void stop() {
 		synchronized (this) {
-			this.theStateQueue.finishAll();
+			this.theStateQueue.close();
 			this.notifyAll();
 		}
 	}

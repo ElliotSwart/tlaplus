@@ -6,7 +6,7 @@ import tlc2.tool.StateVec;
 import tlc2.tool.TLCState;
 import tlc2.tool.Worker;
 
-public interface IStateQueue {
+public interface IStateQueue extends AutoCloseable {
 
 	/* Enqueues the state. It is not thread-safe. */
     void enqueue(final TLCState state);
@@ -48,7 +48,7 @@ public interface IStateQueue {
 	/**
 	 * Signals all waiting {@link Worker} that all work is done. We can exit now.
 	 */
-    void finishAll();
+    void close();
 
 	/**
 	 * Suspends all access to the {@link StateQueue} for {@link Worker},

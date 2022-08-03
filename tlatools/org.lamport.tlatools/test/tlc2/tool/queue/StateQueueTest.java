@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.easymock.EasyMock;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,6 +24,11 @@ public class StateQueueTest {
 	public void setUp() throws Exception {
 		var tool = EasyMock.createNiceMock(ITool.class);
 		sQueue = new MemStateQueue( "", tool);
+	}
+
+	@After
+	public void tearDown(){
+		sQueue.close();
 	}
 
 	// add and remove a single state

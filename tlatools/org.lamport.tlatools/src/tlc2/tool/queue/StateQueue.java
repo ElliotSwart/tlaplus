@@ -213,7 +213,7 @@ public abstract class StateQueue implements IStateQueue {
 	 * @see tlc2.tool.queue.IStateQueue#finishAll()
 	 */
 	@Override
-    public synchronized void finishAll() {
+    public synchronized void close() {
 		this.finish = true;
 		// Notify all other worker threads.
 		this.notifyAll();

@@ -104,7 +104,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 					}
 					//TODO: finishAll not inside the synchronized block above, while
 					//inside in a similar construct below (Throwable catch)?!
-					this.squeue.finishAll();
+					this.squeue.close();
 					return;
 				}
 				setCurrentState(curState);
@@ -153,7 +153,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 				if (this.tlc.setErrState(curState, null, true, EC.GENERAL)) {
 					MP.printError(EC.GENERAL, e); // LL changed call 7 April 2012
 				}
-				this.squeue.finishAll();
+				this.squeue.close();
 				this.tlc.notify();
 			}
         }

@@ -87,6 +87,8 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
         synchronized (this) {
             this.notify();
         }
+
+        UnicastRemoteObject.unexportObject(this, true);
     }
 
     /* (non-Javadoc)

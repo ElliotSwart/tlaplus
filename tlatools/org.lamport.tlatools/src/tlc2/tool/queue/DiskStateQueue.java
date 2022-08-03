@@ -241,8 +241,8 @@ public class DiskStateQueue extends StateQueue {
 	}
 
 	@Override
-    public void finishAll() {
-		super.finishAll();
+    public void close() {
+		super.close();
 		synchronized (this.writer) {
 			this.writer.notifyAll();
 		}
@@ -305,7 +305,7 @@ public class DiskStateQueue extends StateQueue {
 	 */
 	@Override
 	public void delete() {
-		finishAll();
+		this.close();
 		new File(this.filePrefix).delete();
 	}
 }

@@ -183,7 +183,7 @@ public class TLCServerMXWrapper extends TLCStandardMBean implements TLCStatistic
     public void stop() {
 		synchronized (tlcServer) {
 			tlcServer.setDone();
-			tlcServer.stateQueue.finishAll();
+			tlcServer.stateQueue.close();
 			tlcServer.notifyAll();
 		}
 	}

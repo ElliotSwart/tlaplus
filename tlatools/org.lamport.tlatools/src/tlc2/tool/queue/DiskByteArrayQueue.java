@@ -247,8 +247,8 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	}
 
 	@Override
-    public void finishAll() {
-		super.finishAll();
+    public void close() {
+		super.close();
 		synchronized (this.writer) {
 			this.writer.notifyAll();
 		}
@@ -873,7 +873,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	 */
 	@Override
 	public void delete() {
-		finishAll();
+		this.close();
 		new File(this.filePrefix).delete();
 	}
 }

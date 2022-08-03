@@ -71,8 +71,11 @@ public abstract class TLCServerTestCase extends ModelCheckerTestCase {
 			final FPSetConfiguration fpSetConfig = new DummyFPSetConfig();
 			ToolIO.setUserDir(BASE_PATH + path + File.separator);
 			final TLCApp app = new TLCApp(fqSpec, spec, false, null, fpSetConfig);
-			final TLCServer server = new TLCServer(app);
-			server.modelCheck();
+
+			try (final TLCServer server = new TLCServer(app)) {
+				server.modelCheck();
+			}
+
 			//TODO Implement exit status for distributed TLC
 			actualExitStatus = 0;
 		} catch (final Exception e) {

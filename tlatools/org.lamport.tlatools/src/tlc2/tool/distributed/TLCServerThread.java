@@ -166,7 +166,7 @@ public class TLCServerThread extends IdThread {
 						this.tlcServer.setDone();
 						this.tlcServer.notify();
 					}
-					stateQueue.finishAll();
+					stateQueue.close();
 					return;
 				}
 
@@ -266,7 +266,7 @@ public class TLCServerThread extends IdThread {
 				} else {
 					MP.printError(EC.GENERAL, e);
 				}
-				stateQueue.finishAll();
+				stateQueue.close();
 				synchronized (this.tlcServer) {
 					this.tlcServer.notify();
 				}
