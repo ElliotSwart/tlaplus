@@ -152,7 +152,8 @@ public abstract class FPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.IFPSetManager#close(boolean)
 	 */
 	@Override
-    public void close(final boolean cleanup) throws IOException {
+    public void close() throws IOException {
+
 		FPSets curr = null;
 		final int len = this.fpSets.size();
 		int idx = 0, lidx = 0;
@@ -174,7 +175,7 @@ public abstract class FPSetManager implements IFPSetManager {
 			final FPSets next = this.fpSets.get(i);
 			if (next != null && next != curr) {
 				try {
-					curr.exit(cleanup);
+					curr.close();
 				} catch (final UnmarshalException e) {
 					// happens when the DiskFPSet closes it calls System.exit
 				} catch (final Exception e) {
@@ -184,7 +185,7 @@ public abstract class FPSetManager implements IFPSetManager {
 			}
 		}
         try {
-            curr.exit(cleanup);
+            curr.close();
         } catch (final UnmarshalException e) {
             // happens when the DiskFPSet closes it calls System.exit
         } catch (final Exception e) {
@@ -630,7 +631,7 @@ public abstract class FPSetManager implements IFPSetManager {
 		}
 	}
 	
-	public static class FPSets implements Serializable {
+	public static class FPSets implements Serializable, AutoCloseable {
 		private final String hostname;
 		private final FPSetRMI fpset;
 		/**
@@ -652,8 +653,8 @@ public abstract class FPSetManager implements IFPSetManager {
 			return isAvailable;
 		}
 
-		public void exit(final boolean cleanup) throws IOException {
-			fpset.exit(cleanup);
+		public void close() throws Exception {
+			fpset.close();
 		}
 
 		public void recover(final String filename) throws IOException {

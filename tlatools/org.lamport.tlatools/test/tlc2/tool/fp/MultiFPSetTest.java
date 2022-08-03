@@ -4,7 +4,6 @@ package tlc2.tool.fp;
 import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,10 +29,10 @@ public class MultiFPSetTest {
 
 	/**
 	 * Test method for {@link tlc2.tool.fp.MultiFPSet#new}.
-	 * @throws IOException Not supposed to happen
+	 * @throws Exception Not supposed to happen
 	 */
 	@Test
-	public void testCTorLowerMin() throws IOException {
+	public void testCTorLowerMin() throws Exception {
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, MemFPSet.class.getName());
 		final FPSetConfiguration conf = new FPSetConfiguration();
 
@@ -48,10 +47,10 @@ public class MultiFPSetTest {
 	
 	/**
 	 * Test method for {@link tlc2.tool.fp.MultiFPSet#new}.
-	 * @throws IOException Not supposed to happen
+	 * @throws Exception Not supposed to happen
 	 */
 	@Test
-	public void testCTorMin() throws IOException {
+	public void testCTorMin() throws Exception {
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
 
@@ -66,10 +65,10 @@ public class MultiFPSetTest {
 
 	/**
 	 * Test method for {@link tlc2.tool.fp.MultiFPSet#new}.
-	 * @throws IOException Not supposed to happen
+	 * @throws Exception Not supposed to happen
 	 */
 	@Test
-	public void testCTorMax() throws IOException {
+	public void testCTorMax() throws Exception {
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(30);
 
@@ -94,7 +93,7 @@ public class MultiFPSetTest {
 
 	/**
 	 * Test method for {@link tlc2.tool.fp.MultiFPSet#new}.
-	 * @throws IOException Not supposed to happen
+	 * @throws Exception Not supposed to happen
 	 */
 	@Test
 	public void testCTorHigherMax() {
@@ -109,10 +108,10 @@ public class MultiFPSetTest {
 	
 	/**
 	 * Test method for {@link tlc2.tool.fp.MultiFPSet#put(long)}.
-	 * @throws IOException Not supposed to happen
+	 * @throws Exception Not supposed to happen
 	 */
 	@Test
-	public void testPutMax() throws IOException {
+	public void testPutMax() throws Exception {
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
 		final MultiFPSet mfps = new MultiFPSet(conf);
@@ -130,10 +129,10 @@ public class MultiFPSetTest {
 
 	/**
 	 * Test method for {@link tlc2.tool.fp.MultiFPSet#put(long)}.
-	 * @throws IOException Not supposed to happen
+	 * @throws Exception Not supposed to happen
 	 */
 	@Test
-	public void testPutMin() throws IOException {
+	public void testPutMin() throws Exception {
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
 		final MultiFPSet mfps = new MultiFPSet(conf);
@@ -151,10 +150,10 @@ public class MultiFPSetTest {
 
 	/**
 	 * Test method for {@link tlc2.tool.fp.MultiFPSet#put(long)}.
-	 * @throws IOException Not supposed to happen
+	 * @throws Exception Not supposed to happen
 	 */
 	@Test
-	public void testPutZero() throws IOException {
+	public void testPutZero() throws Exception {
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
 		final MultiFPSet mfps = new MultiFPSet(conf);
@@ -171,7 +170,7 @@ public class MultiFPSetTest {
 	}
 	
 	@Test
-	public void testGetFPSet() throws IOException {
+	public void testGetFPSet() throws Exception {
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, MSBDiskFPSet.class.getName());
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
@@ -228,7 +227,7 @@ public class MultiFPSetTest {
 	}
 
 	@Test
-	public void testGetFPSet0() throws IOException {
+	public void testGetFPSet0() throws Exception {
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, MSBDiskFPSet.class.getName());
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
@@ -298,7 +297,7 @@ public class MultiFPSetTest {
 	}
 	
 	@Test
-	public void testGetFPSet1() throws IOException {
+	public void testGetFPSet1() throws Exception {
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, MSBDiskFPSet.class.getName());
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(2);
@@ -387,7 +386,7 @@ public class MultiFPSetTest {
 	}
 
 	@Test
-	public void testGetFPSetL() throws IOException {
+	public void testGetFPSetL() throws Exception {
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, LSBDiskFPSet.class.getName());
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
@@ -444,7 +443,7 @@ public class MultiFPSetTest {
 	}
 
 	@Test
-	public void testGetFPSet0L() throws IOException {
+	public void testGetFPSet0L() throws Exception {
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, LSBDiskFPSet.class.getName());
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
@@ -486,7 +485,7 @@ public class MultiFPSetTest {
 	}
 	
 	@Test
-	public void testGetFPSet1L() throws IOException {
+	public void testGetFPSet1L() throws Exception {
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, LSBDiskFPSet.class.getName());
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(2);
@@ -573,7 +572,7 @@ public class MultiFPSetTest {
 	}
 	
 	@Test
-	public void testGetFPSetOffHeap() throws IOException {
+	public void testGetFPSetOffHeap() throws Exception {
 		if (!System.getProperty("sun.arch.data.model").equals("64")) {
 			// LongArray only works on 64bit architectures. See comment in
 			// LongArray ctor.
@@ -635,7 +634,7 @@ public class MultiFPSetTest {
 	}
 
 	@Test
-	public void testGetFPSetOffHeap0() throws IOException {
+	public void testGetFPSetOffHeap0() throws Exception {
 		if (!System.getProperty("sun.arch.data.model").equals("64")) {
 			// LongArray only works on 64bit architectures. See comment in
 			// LongArray ctor.
@@ -710,7 +709,7 @@ public class MultiFPSetTest {
 	}
 	
 	@Test
-	public void testGetFPSetOffHeap1() throws IOException {
+	public void testGetFPSetOffHeap1() throws Exception {
 		if (!System.getProperty("sun.arch.data.model").equals("64")) {
 			// LongArray only works on 64bit architectures. See comment in
 			// LongArray ctor.

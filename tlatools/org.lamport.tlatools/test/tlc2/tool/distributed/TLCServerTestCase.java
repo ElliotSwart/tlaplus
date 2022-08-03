@@ -101,13 +101,5 @@ public abstract class TLCServerTestCase extends ModelCheckerTestCase {
 		public DummyFPSet(final FPSetConfiguration fpSetConfig) throws RemoteException {
 			super(fpSetConfig);
 		}
-
-		/* (non-Javadoc)
-		 * @see tlc2.tool.fp.DiskFPSet#exit(boolean)
-		 */
-		@Override
-        public void exit(final boolean cleanup) throws IOException {
-			//ignore because superclass calls System.exit(0) but we want to check our assertions first.
-		}
 	}
 }

@@ -136,16 +136,6 @@ public final class MemFPSet2 extends FPSet {
     return false;
   }
 
-  @Override
-  public void exit(final boolean cleanup) throws IOException {
-	super.exit(cleanup);
-    if (cleanup) {
-      // Delete the metadata directory:
-      FileUtil.deleteDir(this.metadir, true);
-    }
-    final String hostname = InetAddress.getLocalHost().getHostName();
-    MP.printMessage(EC.TLC_FP_COMPLETED, hostname);
-  }
 
   @Override
   public long checkFPs() {
@@ -272,6 +262,17 @@ public final class MemFPSet2 extends FPSet {
   
   private String chkptName(final String fname, final String ext) {
     return this.metadir + FileUtil.separator + fname + ".fp." + ext;
+  }
+
+  @Override
+  public void close() throws Exception{
+      super.close();
+
+      // Delete the metadata directory:
+      FileUtil.deleteDir(this.metadir, true);
+
+      final String hostname = InetAddress.getLocalHost().getHostName();
+      MP.printMessage(EC.TLC_FP_COMPLETED, hostname);
   }
     
 }

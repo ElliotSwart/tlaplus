@@ -139,7 +139,9 @@ public class MultiFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#close()
 	 */
 	@Override
-    public final void close() {
+    public final void close() throws Exception {
+		super.close();
+
 		for (final FPSet fpSet : sets) {
 			fpSet.close();
 		}
@@ -182,17 +184,6 @@ public class MultiFPSet extends FPSet {
 				throw new RuntimeException(e);
 			}
 		});
-	}
-
-	/* (non-Javadoc)
-	 * @see tlc2.tool.fp.FPSet#exit(boolean)
-	 */
-	@Override
-    public final void exit(final boolean cleanup) throws IOException {
-	    super.exit(cleanup);
-		for (final FPSet fpSet : sets) {
-			fpSet.exit(cleanup);
-		}
 	}
 
 	/* (non-Javadoc)

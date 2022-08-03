@@ -16,7 +16,7 @@ import tlc2.tool.WorkerException;
  * @author Simon Zambrovski
  * @version $Id$
  */
-public interface TLCWorkerRMI extends Remote {
+public interface TLCWorkerRMI extends Remote, AutoCloseable {
 
 	/**
 	 * @param states The initial states to work with
@@ -31,12 +31,7 @@ public interface TLCWorkerRMI extends Remote {
 	 * @return true iff worker is still alive
 	 */
     boolean isAlive() throws RemoteException;
-	
-	/**
-	 * Kills/exits this worker
-	 * @throws RemoteException
-	 */
-    void exit() throws RemoteException;
+
 	
 	/**
 	 * @return The {@link URI} address of this worker

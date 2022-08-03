@@ -20,7 +20,7 @@ import tlc2.util.LongVec;
  * @author markus
  *
  */
-public interface FPSetRMI extends Remote {
+public interface FPSetRMI extends Remote, AutoCloseable {
 
 	void addThread() throws IOException;
 
@@ -39,13 +39,6 @@ public interface FPSetRMI extends Remote {
 	 * @see FPSet#checkInvariant()
 	 */
 	boolean checkInvariant() throws IOException;
-	
-	/**
-	 * Disposes this {@link FPSet}. It cannot be used afterwards anymore.
-	 * 
-	 * @see FPSetRMI#exit(boolean)
-	 */
-	void close() throws RemoteException;
 
 	void commitChkpt() throws IOException;
 
@@ -68,15 +61,6 @@ public interface FPSetRMI extends Remote {
 	 * @see FPSetRMI#contains(long)
 	 */
 	BitVector containsBlock(LongVec fpv) throws IOException;
-
-	/**
-	 * Disposes this {@link FPSet}. The {@link FPSet} will be unusable after
-	 * calling {@link FPSet#exit(boolean)}.
-	 * 
-	 * @param cleanup
-	 *            if disk storage used by the {@link FPSet} should be removed
-	 */
-	void exit(boolean cleanup) throws IOException;
 
 	/**
 	 * @return The amount of states seen by this FPSet (not distinct states!)

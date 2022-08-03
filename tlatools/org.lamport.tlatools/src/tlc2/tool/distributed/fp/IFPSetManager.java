@@ -15,7 +15,7 @@ import tlc2.util.LongVec;
 /**
  *
  */
-public interface IFPSetManager extends Serializable {
+public interface IFPSetManager extends Serializable, AutoCloseable {
 
 	/**
 	 * @see FPSetRMI#checkFPs()
@@ -30,11 +30,7 @@ public interface IFPSetManager extends Serializable {
 	/**
 	 */
 	void checkpoint(String fname) throws InterruptedException, IOException;
-
-	/**
-	 * @see FPSetRMI#close()
-	 */
-	void close(boolean cleanup) throws IOException;
+	
 
 	/**
 	 * @see FPSetRMI#commitChkpt()

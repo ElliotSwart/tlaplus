@@ -204,7 +204,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 	 * @see tlc2.tool.distributed.TLCWorkerRMI#exit()
 	 */
 	@Override
-    public void exit() throws NoSuchObjectException {
+    public void close() throws Exception {
 		ToolIO.out.println(uri.getHost() + ", work completed at: " + new Date() + " Computed: "
 				+ overallStatesComputed
 				+ " and a cache hit ratio of " + this.cache.getHitRatioAsString()
@@ -410,7 +410,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 	 * gracefully unregistering with RMI. Additionally it terminates each
 	 * keep-alive timer.
 	 */
-	public static void shutdown() {
+	public static void shutdown() throws Exception {
 		// Exit the keepAliveTimer
 		if (keepAliveTimer != null) {
 			keepAliveTimer.cancel();
@@ -421,7 +421,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
             final TLCWorker worker = runnable.getTLCWorker();
             try {
                 if (worker != null) {
-                    worker.exit();
+                    worker.close();
                 }
             } catch (final NoSuchObjectException e) {
                 // may happen, ignore

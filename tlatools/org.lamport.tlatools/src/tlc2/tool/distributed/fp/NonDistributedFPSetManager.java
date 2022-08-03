@@ -2,6 +2,7 @@
 package tlc2.tool.distributed.fp;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.concurrent.ExecutorService;
 
 import tlc2.output.EC;
@@ -238,10 +239,7 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.fp.FPSetManager#close(boolean)
 	 */
 	@Override
-    public void close(final boolean cleanup) throws IOException {
+    public void close() throws Exception {
 		this.fpSet.close();
-		// Correspond with the existing impl in FPSetManager#exit(boolean) and
-		// exit the FPSet
-		this.fpSet.exit(cleanup);
 	}
 }

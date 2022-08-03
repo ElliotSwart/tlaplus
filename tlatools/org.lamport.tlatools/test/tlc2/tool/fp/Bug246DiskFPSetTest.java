@@ -23,7 +23,7 @@ public class Bug246DiskFPSetTest {
 	 */
 	@Test
 	@SuppressWarnings("deprecation")
-	public void testLinearFillup() throws IOException {
+	public void testLinearFillup() throws Exception {
 		final long vmMaxMemory = Runtime.getRuntime().maxMemory();
 		final long maxMemoryInBytes = TLCRuntime.getInstance().getFPMemSize(0.5d);
 		assertTrue("Not enough memory dedicated to JVM, increase -Vmx value", vmMaxMemory > maxMemoryInBytes);

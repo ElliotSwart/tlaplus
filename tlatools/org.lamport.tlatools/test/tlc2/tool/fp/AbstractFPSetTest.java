@@ -52,14 +52,6 @@ public abstract class AbstractFPSetTest {
 			endTimeStamp = new Date();
 		}
 		System.out.println("Test finished at " + endTimeStamp);
-		
-		// delete all nested files
-		final File[] listFiles = dir.listFiles();
-		for (int i = 0; i < listFiles.length; i++) {
-			final File aFile = listFiles[i];
-			aFile.delete();
-		}
-		dir.delete();
 	}
 
 	/**
@@ -67,13 +59,13 @@ public abstract class AbstractFPSetTest {
 	 * @return A new {@link FPSet} instance
 	 * @throws IOException
 	 */
-	protected abstract FPSet getFPSet(final FPSetConfiguration fpSetConfig) throws IOException;
+	protected abstract FPSet getFPSet(final FPSetConfiguration fpSetConfig) throws Exception;
 
-	protected FPSet getFPSetInitialized() throws IOException {
+	protected FPSet getFPSetInitialized() throws Exception {
 		return getFPSetInitialized(1);
 	}
 	
-	protected FPSet getFPSetInitialized(final int numThreads) throws IOException {
+	protected FPSet getFPSetInitialized(final int numThreads) throws Exception {
 		final FPSet fpSet = getFPSet(new FPSetConfiguration());
 		fpSet.init(numThreads, tmpdir, filename);
 

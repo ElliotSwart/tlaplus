@@ -12,7 +12,7 @@ import java.rmi.RemoteException;
  * guarantee that their methods are thread-safe.
  * @version $Id$
  */
-public abstract class FPIntSet
+public abstract class FPIntSet implements AutoCloseable
 // SZ Jul 13, 2009: there is no reason to extend the RMI interfaces, since they are not used
 // extends UnicastRemoteObject implements FPIntSetRMI 
 {
@@ -109,11 +109,7 @@ public abstract class FPIntSet
   
   public abstract boolean allLeveled();
 
-  public void close() { /*SKIP*/ }
-
-  
-  
-  public abstract void exit(boolean cleanup) throws IOException;
+  public void close() throws Exception { /*SKIP*/ }
 
   public abstract long checkFPs() throws IOException;
 

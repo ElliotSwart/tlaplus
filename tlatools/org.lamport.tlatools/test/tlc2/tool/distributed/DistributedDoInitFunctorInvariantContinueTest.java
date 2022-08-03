@@ -48,6 +48,6 @@ public class DistributedDoInitFunctorInvariantContinueTest extends ModelCheckerT
 
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_INVARIANT_VIOLATED_INITIAL, "NotNine", "x = 9\n"));
 
-	assertZeroUncovered();
+		assertZeroUncovered();
 	}
 }

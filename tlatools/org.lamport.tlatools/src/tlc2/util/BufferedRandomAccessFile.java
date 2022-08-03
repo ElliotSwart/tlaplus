@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 
-public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
+public final class BufferedRandomAccessFile extends java.io.RandomAccessFile implements AutoCloseable {
 	// Increase 8k buffer to match modern day hardware? No!!! The implementation
 	// discards the whole buffer each time it seeks to a position outside the
 	// current buffer. It then creates a new buffer, which takes proportionally
@@ -153,7 +153,10 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
     @Override
     public void close() throws IOException {
         // Assert.check(!this.closed);
+
         this.flush();
+
+
         // SZ Feb 24, 2009: never read locally
         // this.closed = true;
         synchronized (mu) {
@@ -165,6 +168,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile {
             }
             availBuffs[numAvailBuffs++] = this.buff;
         }
+
         super.close();
     }
     

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
 import org.junit.Test;
 
@@ -19,71 +18,71 @@ public abstract class AbstractHeapBasedDiskFPSetTest {
 	/* Test the lower limits */
 	
 	@Test
-	public void testCtorLLMinus1() throws RemoteException {
+	public void testCtorLLMinus1() throws Exception {
 		doTest(getLowerLimit() - 1);
 	}
 	
 	@Test
-	public void testCtorLL() throws RemoteException {
+	public void testCtorLL() throws Exception {
 		doTest(getLowerLimit());
 	}
 
 	@Test
-	public void testCtorLLPlus1() throws RemoteException {
+	public void testCtorLLPlus1() throws Exception {
 		doTest(getLowerLimit() + 1);
 	}
 	
 	@Test
-	public void testCtorLLNextPow2Min1() throws RemoteException {
+	public void testCtorLLNextPow2Min1() throws Exception {
 		doTest((getLowerLimit() << 1) - 1);
 	}
 	
 	/* Test with a power far away from upper/lower limits */
 	
 	@Test
-	public void testCtorPow16Minus1() throws RemoteException {
+	public void testCtorPow16Minus1() throws Exception {
 		doTest((1L << 16) - 1);
 	}
 	
 	@Test
-	public void testCtorPow16() throws RemoteException {
+	public void testCtorPow16() throws Exception {
 		doTest(1L << 16);
 	}
 
 	@Test
-	public void testCtorPow16Plus1() throws RemoteException {
+	public void testCtorPow16Plus1() throws Exception {
 		doTest((1L << 16) + 1);
 	}
 	
 	@Test
-	public void testCtorPow16NextPow2Min1() throws RemoteException {
+	public void testCtorPow16NextPow2Min1() throws Exception {
 		doTest(((1L << 16) << 1) - 1);
 	}
 	
 	/* Test the upper limits */
 	
 	@Test
-	public void testCtorULMinus1() throws RemoteException {
+	public void testCtorULMinus1() throws Exception {
 		doTest(getUpperLimit() - 1);
 	}
 	
 	@Test
-	public void testCtorUL() throws RemoteException {
+	public void testCtorUL() throws Exception {
 		doTest(getUpperLimit());
 	}
 
 	@Test
-	public void testCtorULPlus1() throws RemoteException {
+	public void testCtorULPlus1() throws Exception {
 		doTest(getUpperLimit() + 1);
 	}
 	
 	@Test
-	public void testCtorULNextPow2Min1() throws RemoteException {
+	public void testCtorULNextPow2Min1() throws Exception {
 		doTest((getUpperLimit() << 1) - 1);
 	}
 	
 	@Test
-	public void testFPSetRecovery() throws IOException {
+	public void testFPSetRecovery() throws Exception {
 		final int limit = 99999;
 		final String metadir = System.getProperty("java.io.tmpdir");
 		final String filename = this.getClass().getCanonicalName();
@@ -122,7 +121,7 @@ public abstract class AbstractHeapBasedDiskFPSetTest {
 	}
 	
 	@Test
-	public void testFPSetRecovery2() throws IOException {
+	public void testFPSetRecovery2() throws Exception {
 		final String metadir = System.getProperty("java.io.tmpdir");
 		final String filename = this.getClass().getCanonicalName() + "testFPSetRecovery2";
 		
@@ -142,7 +141,7 @@ public abstract class AbstractHeapBasedDiskFPSetTest {
 	/* Helper */
 
 	@SuppressWarnings("deprecation")
-	protected void doTest(final long physicalMemoryInBytes) throws RemoteException {
+	protected void doTest(final long physicalMemoryInBytes) throws Exception {
 		final FPSetConfiguration fpSetConfig = new DummyFPSetConfiguration();
 		fpSetConfig.setMemory(physicalMemoryInBytes);
 		
@@ -165,7 +164,7 @@ public abstract class AbstractHeapBasedDiskFPSetTest {
 		fpset.close();
 	}
 
-	protected abstract DiskFPSet getDiskFPSet(final FPSetConfiguration fpSetConfig) throws RemoteException;
+	protected abstract DiskFPSet getDiskFPSet(final FPSetConfiguration fpSetConfig) throws Exception;
 
 	/**
 	 * @return The lower size limit the {@link HeapBasedDiskFPSet} can handle.

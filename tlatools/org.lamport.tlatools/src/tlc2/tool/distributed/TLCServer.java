@@ -56,7 +56,7 @@ import util.UniqueString;
 
 @SuppressWarnings("serial")
 public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
-		InternRMI {
+		InternRMI, AutoCloseable {
 
 	/**
 	 * Name by which {@link FPSetRMI} lookup the {@link TLCServer} (master).
@@ -392,10 +392,11 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	 * @param cleanup
 	 * @throws IOException
 	 */
-	public final void close(final boolean cleanup) throws IOException {
+	public final void close() throws Exception{
 		this.trace.close();
-		this.fpSetManager.close(cleanup);
-		if (cleanup && !VETO_CLEANUP) {
+		this.fpSetManager.close();
+
+		if (!VETO_CLEANUP) {
 			FileUtil.deleteDir(new File(this.metadir), true);
 		}
 	}
@@ -435,7 +436,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	 * @throws InterruptedException
 	 * @throws NotBoundException
 	 */
-	protected void modelCheck() throws IOException, InterruptedException, NotBoundException {
+	protected void modelCheck() throws Exception {
     	final long startTime = System.currentTimeMillis();
 
 		/*
@@ -515,7 +516,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 					TLC.convertRuntimeToHumanReadable(System.currentTimeMillis() - startTime));
 			es.shutdown();
 			// clean up before exit:
-			close(false);
+			close();
 			return;
 		}
 		
@@ -605,7 +606,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
                     cacheHitRatio < 0 ? "n/a" : String.format("%1$,.2f", cacheHitRatio));
 
 			try {
-				worker.exit();
+				worker.close();
 			} catch (final NoSuchObjectException | ServerException | ConnectException e) {
 				// worker might have been lost in the meantime
 				MP.printWarning(EC.GENERAL, "Ignoring attempt to exit dead worker");
@@ -645,7 +646,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 		MP.flush();
 
 		// Close trace and (distributed) _FPSet_ servers!
-		close(hasNoErrors());
+		close();
 		
 		// dispose RMI leftovers
 		rg.unbind(SERVER_WORKER_NAME);
@@ -756,7 +757,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 			}
 			if (server != null) {
 				try {
-					server.close(false);
+					server.close();
 				} catch (final Exception e1) {
 					MP.printError(EC.GENERAL, e1);
 				}
@@ -959,10 +960,10 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 
             for (final TLCWorkerRMI worker : server.threadsToWorkers.values()) {
 				try {
-					worker.exit();
+					worker.close();
 				} catch (final ConnectException | NoSuchObjectException e)  {
 					// happens if worker has exited already
-				} catch (final IOException e) {
+				} catch (final Exception e) {
 					//TODO handle more gracefully
 					MP.printError(EC.GENERAL, e);
 				}

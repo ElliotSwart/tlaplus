@@ -147,7 +147,7 @@ public class OffHeapDiskFPSetTest {
 		doTest(1473871209569L, 157);
 	}
 
-	private void doTest(final long rgenseed, final long length) throws RemoteException, IOException, NoSuchFieldException, IllegalAccessException {
+	private void doTest(final long rgenseed, final long length) throws Exception {
 		final DummyFPSetConfiguration fpSetConfig = new DummyFPSetConfiguration();
 		fpSetConfig.setMemoryInFingerprintCnt(length);
 		
@@ -226,30 +226,30 @@ public class OffHeapDiskFPSetTest {
 	}
 	
 	@Test
-	public void testOffset1Page() throws IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void testOffset1Page() throws Exception {
 		final long length = DiskFPSet.NumEntriesPerPage;
 		doTestOffset(length, 1474536306841L);
 	}
 	
 	@Test
-	public void testOffset3Page() throws IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void testOffset3Page() throws Exception {
 		final long length = DiskFPSet.NumEntriesPerPage * 3L;
 		doTestOffset(length, 1474536306841L);
 	}
 	
 	@Test
-	public void testOffset5Page() throws IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void testOffset5Page() throws Exception {
 		final long length = DiskFPSet.NumEntriesPerPage * 5L;
 		doTestOffset(length, 1474536306841L);
 	}
 	
 	@Test
-	public void testOffset9Page() throws IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void testOffset9Page() throws Exception {
 		final long length = DiskFPSet.NumEntriesPerPage * 9L;
 		doTestOffset(length, 1474536306841L);
 	}
 
-	private void doTestOffset(final long length, final long rgenseed) throws RemoteException, IOException, NoSuchMethodException,
+	private void doTestOffset(final long length, final long rgenseed) throws Exception,
 			IllegalAccessException, InvocationTargetException {
 		
 		final DummyFPSetConfiguration fpSetConfig = new DummyFPSetConfiguration();
@@ -297,8 +297,7 @@ public class OffHeapDiskFPSetTest {
 	}
 
 	@Test
-	public void testWriteIndex() throws NoSuchFieldException, SecurityException, IllegalArgumentException,
-			IllegalAccessException, NoSuchMethodException, InvocationTargetException, IOException {
+	public void testWriteIndex() throws Exception {
 		final DummyFPSetConfiguration fpSetConfig = new DummyFPSetConfiguration();
 		fpSetConfig.setMemoryInFingerprintCnt(1);
 

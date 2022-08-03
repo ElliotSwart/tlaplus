@@ -257,12 +257,12 @@ public class MemFPIntSet extends FPIntSet {
   }
 
   @Override
-  public final void exit(final boolean cleanup) throws IOException {
-    if (cleanup) {
-      // Delete the metadata directory:
-      final File file = new File(this.metadir);
-      FileUtil.deleteDir(file, true);
-    }
+  public final void close() throws Exception {
+
+    // Delete the metadata directory:
+    final File file = new File(this.metadir);
+    FileUtil.deleteDir(file, true);
+
     final String hostname = InetAddress.getLocalHost().getHostName();
     MP.printMessage(EC.TLC_FP_COMPLETED, hostname);
   }

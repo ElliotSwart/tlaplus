@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.text.DecimalFormat;
 import java.util.Objects;
@@ -570,7 +571,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	 * @see tlc2.tool.fp.FPSet#close()
 	 */
 	@Override
-    public final void close() {
+    public final void close() throws Exception {
 		// close JMX stats
 		diskFPSetMXWrapper.unregister();
 		diskFPSetMXWrapper = null;
@@ -588,21 +589,20 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
             }
         }
 		this.poolIndex = 0;
-	}
 
-	/* (non-Javadoc)
-	 * @see tlc2.tool.fp.FPSet#exit(boolean)
-	 */
-	@Override
-    public void exit(final boolean cleanup) throws IOException {
-		super.exit(cleanup);
-		if (cleanup) {
-			// Delete the metadata directory:
+		super.close();
+
+		// Delete the metadata directory:
+		try {
 			FileUtil.deleteDir(this.metadir, true);
 		}
+		catch (NullPointerException e){}
+
+
 		final String hostname = InetAddress.getLocalHost().getHostName();
 		MP.printMessage(EC.TLC_FP_COMPLETED, hostname);
 	}
+
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#checkFPs()

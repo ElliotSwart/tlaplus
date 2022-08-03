@@ -23,7 +23,7 @@ import tlc2.value.RandomEnumerableValues;
 import util.FatalException;
 import util.FileUtil;
 
-public class TLCTrace {
+public class TLCTrace implements AutoCloseable {
 
 	static final String EXT = ".st";
 	protected final String filename;
@@ -75,7 +75,7 @@ public class TLCTrace {
 		return this.lastPtr;
 	}
 
-	public void close() throws IOException {
+	public void close() throws Exception {
 		this.raf.close();
 	}
 

@@ -41,7 +41,7 @@ public class MSBDiskFPSetTest2 extends AbstractHeapBasedDiskFPSetTest {
 	}
 	
 	@Test
-	public void testGetLast() throws IOException {
+	public void testGetLast() throws Exception {
 		final MSBDiskFPSet msbDiskFPSet = getMSBDiskFPSet();
 		
 		// Add the largest possible fingerprint into the fpset. It will end up
@@ -77,7 +77,7 @@ public class MSBDiskFPSetTest2 extends AbstractHeapBasedDiskFPSetTest {
 	}
 
 	@Test
-	public void testHighFingerprint1() throws RemoteException, IOException {
+	public void testHighFingerprint1() throws Exception {
 		final MSBDiskFPSet msbDiskFPSet = getMSBDiskFPSet();
 		assertFalse(msbDiskFPSet.put(9223368718049406096L));
 		msbDiskFPSet.flusher.flushTable();
@@ -88,7 +88,7 @@ public class MSBDiskFPSetTest2 extends AbstractHeapBasedDiskFPSetTest {
 	}
 
 	@Test
-	public void testHighFingerprint2() throws RemoteException, IOException {
+	public void testHighFingerprint2() throws Exception {
 		final MSBDiskFPSet msbDiskFPSet = getMSBDiskFPSet();
 		assertFalse(msbDiskFPSet.put(9223335424116589377L));
 		msbDiskFPSet.flusher.flushTable();
@@ -102,7 +102,7 @@ public class MSBDiskFPSetTest2 extends AbstractHeapBasedDiskFPSetTest {
 	 * Try to get the last element with no elements in the set.
 	 */
 	@Test
-	public void testGetLastNoBuckets() throws IOException {
+	public void testGetLastNoBuckets() throws Exception {
 		final MSBDiskFPSet msbDiskFPSet = getMSBDiskFPSet();
 		
 
@@ -118,7 +118,7 @@ public class MSBDiskFPSetTest2 extends AbstractHeapBasedDiskFPSetTest {
 		fail();
 	}
 
-	private MSBDiskFPSet getMSBDiskFPSet() throws RemoteException, IOException {
+	private MSBDiskFPSet getMSBDiskFPSet() throws Exception {
 		// Create an MSBDiskFPSet usable in this unit test with memory allocated
 		// to store 100 fingerprints.
 		final DummyFPSetConfiguration fpSetConfig = new DummyFPSetConfiguration();

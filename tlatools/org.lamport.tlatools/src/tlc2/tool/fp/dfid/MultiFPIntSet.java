@@ -72,13 +72,6 @@ public class MultiFPIntSet extends FPIntSet {
     return true;
   }
 
-  @Override
-  public final void close() {
-      for (final FPIntSet set : this.sets) {
-          set.close();
-      }
-  }
-
   /* This is not quite correct. */
   @Override
   public final long checkFPs() throws IOException {
@@ -90,9 +83,15 @@ public class MultiFPIntSet extends FPIntSet {
   }
 
   @Override
-  public final void exit(final boolean cleanup) throws IOException {
+  public final void close() throws Exception {
       for (final FPIntSet set : this.sets) {
-          set.exit(cleanup);
+          set.close();
+      }
+
+      super.close();
+
+      for (final FPIntSet set : this.sets) {
+          set.close();
       }
   }
   

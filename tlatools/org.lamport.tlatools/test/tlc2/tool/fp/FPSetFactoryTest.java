@@ -48,7 +48,7 @@ public class FPSetFactoryTest {
 	/* Test single FPSet with default memory */
 
 	@Test
-	public void testGetFPSetMSB() throws RemoteException {
+	public void testGetFPSetMSB() throws Exception {
 		// Explicitly set MSBDiskFPSet to overwrite any previous setting (if any)
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, MSBDiskFPSet.class.getName());
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
@@ -57,7 +57,7 @@ public class FPSetFactoryTest {
 	}
 
 	@Test
-	public void testGetFPSetLSB() throws RemoteException {
+	public void testGetFPSetLSB() throws Exception {
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, LSBDiskFPSet.class.getName());
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
 		var fpSet = doTestGetFPSet(LSBDiskFPSet.class, fpSetConfiguration);
@@ -65,7 +65,7 @@ public class FPSetFactoryTest {
 	}
 
 	@Test
-	public void testGetFPSetOffHeap() throws RemoteException {
+	public void testGetFPSetOffHeap() throws Exception {
 		Assume.assumeTrue(TLCRuntime.getInstance().getArchitecture() == TLCRuntime.ARCH.x86_64);
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, OffHeapDiskFPSet.class.getName());
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
@@ -76,7 +76,7 @@ public class FPSetFactoryTest {
 	/* Test single FPSet with explicit memory */
 	
 	@Test
-	public void testGetFPSetMSBWithMem() throws RemoteException {
+	public void testGetFPSetMSBWithMem() throws Exception {
 		// Explicitly set MSBDiskFPSet to overwrite any previous setting (if any)
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, MSBDiskFPSet.class.getName());
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
@@ -89,7 +89,7 @@ public class FPSetFactoryTest {
 	}
 
 	@Test
-	public void testGetFPSetLSBWithMem() throws RemoteException {
+	public void testGetFPSetLSBWithMem() throws Exception {
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, LSBDiskFPSet.class.getName());
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
 		fpSetConfiguration.setMemory(MEMORY);
@@ -103,7 +103,7 @@ public class FPSetFactoryTest {
 	/* Test single FPSet with explicit memory and ratio */
 	
 	@Test
-	public void testGetFPSetMSBWithMemAndRatio() throws RemoteException {
+	public void testGetFPSetMSBWithMemAndRatio() throws Exception {
 		// Explicitly set MSBDiskFPSet to overwrite any previous setting (if any)
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, MSBDiskFPSet.class.getName());
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
@@ -116,7 +116,7 @@ public class FPSetFactoryTest {
 	}
 
 	@Test
-	public void testGetFPSetLSBWithMemAndRatio() throws RemoteException {
+	public void testGetFPSetLSBWithMemAndRatio() throws Exception {
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, LSBDiskFPSet.class.getName());
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
 		fpSetConfiguration.setMemory(MEMORY);
@@ -131,7 +131,7 @@ public class FPSetFactoryTest {
 	/* Test MultiFPSet with default memory */
 	
 	@Test
-	public void testGetFPSetMultiFPSet() throws RemoteException {
+	public void testGetFPSetMultiFPSet() throws Exception {
 		// Explicitly set MSBDiskFPSet to overwrite any previous setting (if any)
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, MSBDiskFPSet.class.getName());
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
@@ -142,7 +142,7 @@ public class FPSetFactoryTest {
 	}
 	
 	@Test
-	public void testGetFPSetLSBMultiFPSet() throws RemoteException {
+	public void testGetFPSetLSBMultiFPSet() throws Exception {
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, LSBDiskFPSet.class.getName());
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
 		fpSetConfiguration.setFpBits(1);
@@ -152,7 +152,7 @@ public class FPSetFactoryTest {
 	}
 	
 	@Test
-	public void testGetFPSetOffHeapMultiFPSet() throws RemoteException {
+	public void testGetFPSetOffHeapMultiFPSet() throws Exception {
 		Assume.assumeTrue(TLCRuntime.getInstance().getArchitecture() == TLCRuntime.ARCH.x86_64);
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, OffHeapDiskFPSet.class.getName());
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
@@ -165,7 +165,7 @@ public class FPSetFactoryTest {
 	/* Test MultiFPSet with explicit memory */
 
 	@Test
-	public void testGetFPSetMultiFPSetWithMem() throws RemoteException {
+	public void testGetFPSetMultiFPSetWithMem() throws Exception {
 		// Explicitly set MSBDiskFPSet to overwrite any previous setting (if any)
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, MSBDiskFPSet.class.getName());
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
@@ -178,7 +178,7 @@ public class FPSetFactoryTest {
 	}
 	
 	@Test
-	public void testGetFPSetLSBMultiFPSetWithMem() throws RemoteException {
+	public void testGetFPSetLSBMultiFPSetWithMem() throws Exception {
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, LSBDiskFPSet.class.getName());
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
 		fpSetConfiguration.setMemory(MEMORY);
@@ -190,7 +190,7 @@ public class FPSetFactoryTest {
 	}
 	
 	@Test
-	public void testGetFPSetOffHeapMultiFPSetWithMem() throws RemoteException {
+	public void testGetFPSetOffHeapMultiFPSetWithMem() throws Exception {
 		Assume.assumeTrue(TLCRuntime.getInstance().getArchitecture() == TLCRuntime.ARCH.x86_64);
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, OffHeapDiskFPSet.class.getName());
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
@@ -203,7 +203,7 @@ public class FPSetFactoryTest {
 	}
 
 	@Test
-	public void testGetFPSetOffHeapMultiFPSet42() throws RemoteException {
+	public void testGetFPSetOffHeapMultiFPSet42() throws Exception {
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, OffHeapDiskFPSet.class.getName());
 		
 		final long nonHeapPhysicalMemory = TLCRuntime.getInstance().getNonHeapPhysicalMemory();
@@ -250,7 +250,7 @@ public class FPSetFactoryTest {
 	}
 	
 	private void doTestNested(final Class<? extends FPSet> clazz, final FPSetConfiguration fpSetConfiguration,
-			final MultiFPSet mFPSet) {
+			final MultiFPSet mFPSet) throws Exception {
 		final FPSet[] fpSets = mFPSet.getFPSets();
 
 		// Check expected amount of fpSets created

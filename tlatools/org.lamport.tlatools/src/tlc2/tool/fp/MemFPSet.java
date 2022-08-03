@@ -6,6 +6,7 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 
 import tlc2.output.EC;
@@ -209,13 +210,13 @@ private String metadir;
   }
 
   @Override
-  public final void exit(final boolean cleanup) throws IOException {
-	super.exit(cleanup);
-    if (cleanup) {
-      // Delete the metadata directory:
-      final File file = new File(this.metadir);
-      FileUtil.deleteDir(file, true);
-    }
+  public final void close() throws Exception {
+	super.close();
+
+    // Delete the metadata directory:
+    final File file = new File(this.metadir);
+    FileUtil.deleteDir(file, true);
+
     final String hostname = InetAddress.getLocalHost().getHostName();
     MP.printMessage(EC.TLC_FP_COMPLETED, hostname);
   }

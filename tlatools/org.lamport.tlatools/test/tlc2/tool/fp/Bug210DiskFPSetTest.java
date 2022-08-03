@@ -25,7 +25,7 @@ public class Bug210DiskFPSetTest extends AbstractFPSetTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testDiskLookupWithOverflow() throws IOException {
+	public void testDiskLookupWithOverflow() throws Exception {
 		// set up an index whose upper bound is beyond 1/1024 of
 		// Integer.MAX_VALUE
 		//

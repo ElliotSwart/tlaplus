@@ -811,7 +811,7 @@ public class ModelChecker extends AbstractChecker
         return recovered;
     }
 
-    private void cleanup(final boolean success) throws IOException
+    private void cleanup(final boolean success) throws Exception
     {
     	boolean vetoCleanup = VETO_CLEANUP;
     	

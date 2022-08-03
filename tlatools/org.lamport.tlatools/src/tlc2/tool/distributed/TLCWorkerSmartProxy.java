@@ -67,8 +67,8 @@ public class TLCWorkerSmartProxy implements TLCWorkerRMI {
 	 * @see tlc2.tool.distributed.TLCWorkerRMI#exit()
 	 */
 	@Override
-    public void exit() throws RemoteException {
-		worker.exit();
+    public void close() throws Exception {
+		worker.close();
 	}
 
 	/* (non-Javadoc)

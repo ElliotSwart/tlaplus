@@ -721,7 +721,7 @@ public class DFIDModelChecker extends AbstractChecker
         return recovered;
     }
 
-    protected final void cleanup(final boolean success) throws IOException
+    protected final void cleanup(final boolean success) throws Exception
     {
         this.theFPSet.close();
         if (this.checkLiveness)

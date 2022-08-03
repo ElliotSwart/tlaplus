@@ -104,11 +104,12 @@ public class TLCTimerTask extends TimerTask {
         for (final TLCWorkerRunnable tlcWorkerRunnable : runnables) {
             try {
                 final TLCWorkerRunnable runnable = tlcWorkerRunnable;
-                runnable.getTLCWorker().exit();
-            } catch (final NoSuchObjectException ex) {
+                runnable.getTLCWorker().close();
+            } catch (final Exception ex) {
                 // not expected to happen
                 LOGGER.log(Level.FINEST, "Failed to exit worker", ex);
             }
+
         }
 		// Cancel this time after having exited the worker. Otherwise we keep on
 		// going forever.
