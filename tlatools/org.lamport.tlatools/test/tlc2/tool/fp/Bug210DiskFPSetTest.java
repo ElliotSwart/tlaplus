@@ -47,5 +47,8 @@ public class Bug210DiskFPSetTest extends AbstractFPSetTest {
 		} catch (final IOException e) {
 			fail(e.getMessage());
 		}
+		finally {
+			fpSet.close();
+		}
 	}
 }

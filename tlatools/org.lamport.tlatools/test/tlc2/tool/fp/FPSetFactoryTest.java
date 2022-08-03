@@ -52,14 +52,16 @@ public class FPSetFactoryTest {
 		// Explicitly set MSBDiskFPSet to overwrite any previous setting (if any)
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, MSBDiskFPSet.class.getName());
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
-		doTestGetFPSet(MSBDiskFPSet.class, fpSetConfiguration);
+		var fpSet = doTestGetFPSet(MSBDiskFPSet.class, fpSetConfiguration);
+		fpSet.close();
 	}
 
 	@Test
 	public void testGetFPSetLSB() throws RemoteException {
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, LSBDiskFPSet.class.getName());
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
-		doTestGetFPSet(LSBDiskFPSet.class, fpSetConfiguration);
+		var fpSet = doTestGetFPSet(LSBDiskFPSet.class, fpSetConfiguration);
+		fpSet.close();
 	}
 
 	@Test
@@ -67,7 +69,8 @@ public class FPSetFactoryTest {
 		Assume.assumeTrue(TLCRuntime.getInstance().getArchitecture() == TLCRuntime.ARCH.x86_64);
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, OffHeapDiskFPSet.class.getName());
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
-		doTestGetFPSet(OffHeapDiskFPSet.class, fpSetConfiguration);
+		var fpSet = doTestGetFPSet(OffHeapDiskFPSet.class, fpSetConfiguration);
+		fpSet.close();
 	}
 
 	/* Test single FPSet with explicit memory */
@@ -231,6 +234,8 @@ public class FPSetFactoryTest {
 			assertEquals((nonHeapPhysicalMemory / FPSet.LongSize) / 2L, offConfig.getMemoryInFingerprintCnt());
 			assertEquals((offConfig.getMemoryInBytes() / FPSet.LongSize), offConfig.getMemoryInFingerprintCnt());
 		}
+
+		mFPSet.close();
 	}
 
 	/* Helper methods */
@@ -274,5 +279,7 @@ public class FPSetFactoryTest {
 		// dedicated to the MultiFPSet (unless the user decides to live with the
 		// implementation default)
 		assertEquals(mFPSet.getConfiguration().getMemoryInBytes(), memoryInBytes);
+
+		mFPSet.close();
 	}
 }

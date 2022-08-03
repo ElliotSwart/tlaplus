@@ -70,6 +70,9 @@ public class MSBDiskFPSetTest2 extends AbstractHeapBasedDiskFPSetTest {
 			assertEquals(lowFP, tlcIterator.getLast());
 			return;
 		}
+		finally {
+			msbDiskFPSet.close();
+		}
 		fail();
 	}
 
@@ -81,6 +84,7 @@ public class MSBDiskFPSetTest2 extends AbstractHeapBasedDiskFPSetTest {
 		assertTrue(msbDiskFPSet.put(9223368718049406096L));
 		msbDiskFPSet.flusher.flushTable();
 		assertTrue(msbDiskFPSet.put(9223368718049406096L));
+		msbDiskFPSet.close();
 	}
 
 	@Test
@@ -91,6 +95,7 @@ public class MSBDiskFPSetTest2 extends AbstractHeapBasedDiskFPSetTest {
 		assertTrue(msbDiskFPSet.put(9223335424116589377L));
 		msbDiskFPSet.flusher.flushTable();
 		assertTrue(msbDiskFPSet.put(9223335424116589377L));
+		msbDiskFPSet.close();
 	}
 
 	/*
@@ -106,6 +111,9 @@ public class MSBDiskFPSetTest2 extends AbstractHeapBasedDiskFPSetTest {
 			tlcIterator.getLast();
 		} catch (final NoSuchElementException e) {
 			return;
+		}
+		finally {
+			msbDiskFPSet.close();
 		}
 		fail();
 	}

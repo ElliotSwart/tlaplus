@@ -35,11 +35,11 @@ public class MultiFPSetTest {
 	@Test
 	public void testCTorLowerMin() throws IOException {
 		System.setProperty(FPSetFactory.IMPL_PROPERTY, MemFPSet.class.getName());
-		try {
-			System.setProperty(FPSetFactory.IMPL_PROPERTY, MemFPSet.class.getName());
-			final FPSetConfiguration conf = new FPSetConfiguration();
-			conf.setFpBits(0);
-			new MultiFPSet(conf);
+		final FPSetConfiguration conf = new FPSetConfiguration();
+
+		conf.setFpBits(0);
+
+		try(var fpSet = new MultiFPSet(conf)){
 		} catch (final RuntimeException e) {
 			return;
 		}
@@ -52,13 +52,15 @@ public class MultiFPSetTest {
 	 */
 	@Test
 	public void testCTorMin() throws IOException {
-		try {
-			final FPSetConfiguration conf = new FPSetConfiguration();
-			conf.setFpBits(1);
-			new MultiFPSet(conf);
+		final FPSetConfiguration conf = new FPSetConfiguration();
+		conf.setFpBits(1);
+
+		try(var fpSet = new MultiFPSet(conf);) {
+
 		} catch (final RuntimeException e) {
 			fail();
 		}
+
 		return;
 	}
 
@@ -68,10 +70,11 @@ public class MultiFPSetTest {
 	 */
 	@Test
 	public void testCTorMax() throws IOException {
-		try {
-			final FPSetConfiguration conf = new FPSetConfiguration();
-			conf.setFpBits(30);
-			new MultiFPSet(conf);
+		final FPSetConfiguration conf = new FPSetConfiguration();
+		conf.setFpBits(30);
+
+		try(var fpSet = new MultiFPSet(conf)) {
+
 		} catch (final OutOfMemoryError e) {
 			// might happen depending on test machine setup
 			return;
@@ -94,11 +97,10 @@ public class MultiFPSetTest {
 	 * @throws IOException Not supposed to happen
 	 */
 	@Test
-	public void testCTorHigherMax() throws IOException {
+	public void testCTorHigherMax() {
 		try {
 			final FPSetConfiguration conf = new FPSetConfiguration();
 			conf.setFpBits(31);
-			new MultiFPSet(conf);
 		} catch (final RuntimeException e) {
 			return;
 		}
@@ -121,6 +123,9 @@ public class MultiFPSetTest {
 		} catch (final ArrayIndexOutOfBoundsException e) {
 			fail();
 		}
+		finally {
+			mfps.close();
+		}
 	}
 
 	/**
@@ -139,6 +144,9 @@ public class MultiFPSetTest {
 		} catch (final ArrayIndexOutOfBoundsException e) {
 			fail();
 		}
+		finally {
+			mfps.close();
+		}
 	}
 
 	/**
@@ -156,6 +164,9 @@ public class MultiFPSetTest {
 			mfps.put(0);
 		} catch (final ArrayIndexOutOfBoundsException e) {
 			fail();
+		}
+		finally {
+			mfps.close();
 		}
 	}
 	
@@ -212,6 +223,8 @@ public class MultiFPSetTest {
 		Assert.assertEquals(0, bFPSet.size());
 		
 		Assert.assertTrue(mfps.checkInvariant());
+
+		mfps.close();
 	}
 
 	@Test
@@ -280,6 +293,8 @@ public class MultiFPSetTest {
 		}
 		
 		Assert.assertTrue(mfps.checkInvariant());
+
+		mfps.close();
 	}
 	
 	@Test
@@ -367,6 +382,8 @@ public class MultiFPSetTest {
 		Assert.assertFalse(dFPSet.contains(a));
 
 		Assert.assertTrue(mfps.checkInvariant());
+
+		mfps.close();
 	}
 
 	@Test
@@ -422,6 +439,8 @@ public class MultiFPSetTest {
 		Assert.assertEquals(0, bFPSet.size());
 
 		Assert.assertTrue(mfps.checkInvariant());
+
+		mfps.close();
 	}
 
 	@Test
@@ -462,6 +481,8 @@ public class MultiFPSetTest {
 		Assert.assertTrue(mfps.contains(b));
 
 		Assert.assertTrue(mfps.checkInvariant());
+
+		mfps.close();
 	}
 	
 	@Test
@@ -547,6 +568,8 @@ public class MultiFPSetTest {
 		Assert.assertFalse(dFPSet.contains(a));
 
 		Assert.assertTrue(mfps.checkInvariant());
+
+		mfps.close();
 	}
 	
 	@Test
@@ -607,6 +630,8 @@ public class MultiFPSetTest {
 		Assert.assertEquals(0, bFPSet.size());
 		
 		Assert.assertTrue(mfps.checkInvariant());
+
+		mfps.close();
 	}
 
 	@Test
@@ -680,6 +705,8 @@ public class MultiFPSetTest {
 		}
 		
 		Assert.assertTrue(mfps.checkInvariant());
+
+		mfps.close();
 	}
 	
 	@Test
@@ -772,6 +799,7 @@ public class MultiFPSetTest {
 		Assert.assertFalse(dFPSet.contains(a));
 
 		Assert.assertTrue(mfps.checkInvariant());
+		mfps.close();
 	}
 
 	private void printBinaryString(final String id, final long a) {

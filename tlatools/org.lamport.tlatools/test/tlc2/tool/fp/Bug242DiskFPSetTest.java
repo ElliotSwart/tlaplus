@@ -67,7 +67,8 @@ public class Bug242DiskFPSetTest extends AbstractFPSetTest {
 	@Test
 	public void testDiskFPSetZero() throws RemoteException {
 		try {
-			getFPSet(0);
+			var fpSet = getFPSet(0);
+			fpSet.close();
 		} catch (final Exception e) {
 			fail(e.getMessage());
 		}
@@ -75,7 +76,8 @@ public class Bug242DiskFPSetTest extends AbstractFPSetTest {
 	@Test
 	public void testDiskFPSetOne() throws RemoteException {
 		try {
-			getFPSet(1);
+			var fpSet = getFPSet(1);
+			fpSet.close();
 		} catch (final Exception e) {
 			fail(e.getMessage());
 		}

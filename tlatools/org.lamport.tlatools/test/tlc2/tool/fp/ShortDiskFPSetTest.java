@@ -44,6 +44,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	public void testWithoutZeroFP() throws IOException {
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(new FPSetConfiguration());
 		assertFalse("Succeeded to look up 0 fp", fpSet.contains(0l));
+		fpSet.close();
 	}
 	
 	/**
@@ -54,6 +55,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	public void testWithoutMinFP() throws IOException {
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(new FPSetConfiguration());
 		assertFalse("Succeeded to look up 0 fp", fpSet.contains(Long.MIN_VALUE));
+		fpSet.close();
 	}
 	
 	/**
@@ -64,6 +66,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	public void testWithoutMaxFP() throws IOException {
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(new FPSetConfiguration());
 		assertFalse("Succeeded to look up 0 fp", fpSet.contains(Long.MAX_VALUE));
+		fpSet.close();
 	}
 	
 	/**
@@ -83,6 +86,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(new FPSetConfiguration());
 		assertFalse(fpSet.put(0l));
 		assertTrue("Failed to look up 0 fp", fpSet.contains(0l));
+		fpSet.close();
 	}
 	
 	/**
@@ -103,6 +107,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		// zeroing the msb in DiskFPSet turns Long.Min_Value into 0
 		assertFalse(fpSet.put(Long.MIN_VALUE));
 		assertTrue("Failed to look up min fp", fpSet.contains(Long.MIN_VALUE));
+
+		fpSet.close();
 	}
 	
 	/**
@@ -115,6 +121,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		// zeroing the msb in DiskFPSet turns Long.Min_Value into 0
 		assertFalse(fpSet.put(Long.MIN_VALUE - 1l));
 		assertTrue("Failed to look up min fp", fpSet.contains(Long.MIN_VALUE - 1l));
+
+		fpSet.close();
 	}
 
 
@@ -127,6 +135,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(new FPSetConfiguration());
 		assertFalse(fpSet.put(-1l));
 		assertTrue("Failed to look up min fp", fpSet.contains(-1l));
+
+		fpSet.close();
 	}
 	
 	/**
@@ -138,6 +148,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(new FPSetConfiguration());
 		assertFalse(fpSet.put(1l));
 		assertTrue("Failed to look up min fp", fpSet.contains(1l));
+
+		fpSet.close();
 	}
 
 	/**
@@ -149,6 +161,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(new FPSetConfiguration());
 		assertFalse(fpSet.put(Long.MAX_VALUE));
 		assertTrue("Failed to look up max fp", fpSet.contains(Long.MAX_VALUE));
+
+		fpSet.close();
 	}
 
 	/**
@@ -242,6 +256,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 				}
 			}
 		}
+
+		fpSet.close();
 	}
 
 	private void testCalculateMidEntry(final DiskFPSet fpSet, final long loVal, final long hiVal, final long fp, final long loEntry, final long hiEntry)
@@ -302,6 +318,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		}
 		
 		assertTrue("Failed to lookup fp on first page", fpSet.diskLookup(fp));
+
+		fpSet.close();
 	}
 	
 	/**
@@ -323,6 +341,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		assertFalse(fpSet.memInsert(0l));
 		assertFalse(fpSet.diskLookup(0l));
 		assertTrue(fpSet.memLookup(0l));
+
+		fpSet.close();
 	}
 	
 	/**
@@ -344,6 +364,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		assertFalse(fpSet.memInsert(Long.MIN_VALUE & 0x7FFFFFFFFFFFFFFFL));
 		assertFalse(fpSet.diskLookup(Long.MIN_VALUE & 0x7FFFFFFFFFFFFFFFL));
 		assertTrue(fpSet.memLookup(Long.MIN_VALUE & 0x7FFFFFFFFFFFFFFFL));
+
+		fpSet.close();
 	}
 	
 	/**
@@ -357,6 +379,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		assertFalse(fpSet.memInsert(Long.MAX_VALUE));
 		assertFalse(fpSet.diskLookup(Long.MAX_VALUE));
 		assertTrue(fpSet.memLookup(Long.MAX_VALUE));
+
+		fpSet.close();
 	}
 
 	/**
@@ -392,6 +416,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		
 		// undefined behavior
 		// assertTrue(fpSet.memLookup(fp));
+
+		fpSet.close();
 	}
 	
 	/**
@@ -408,6 +434,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		assertTrue(fpSet.diskLookup(Long.MIN_VALUE & 0x7FFFFFFFFFFFFFFFL));
 		// undefined behavior
 		// assertTrue(fpSet.memLookup(Long.MIN_VALUE & 0x7FFFFFFFFFFFFFFFL));
+
+		fpSet.close();
 	}
 	
 	/**
@@ -423,6 +451,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		fpSet.flusher.flushTable();
 		assertTrue(fpSet.diskLookup(Long.MAX_VALUE));
 		assertTrue(fpSet.memLookup(Long.MAX_VALUE));
+
+		fpSet.close();
 	}
 
 	/**
@@ -488,6 +518,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		final long fp0 = fp & 0x7FFFFFFFFFFFFFFFL;
 		assertTrue(fpSet.memLookup(fp));
 		assertFalse(fpSet.diskLookup(fp0));
+
+		fpSet.close();
 	}
 
 	/**
@@ -506,6 +538,9 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		// put and putBlock have flipped return values %)
 		final boolean putBlockRes = !putBlockFpSet.putBlock(fpv).get(0);
 		assertEquals(putFpSet.put(fp), putBlockRes);
+
+		putFpSet.close();
+		putBlockFpSet.close();
 	}
 
 	/**
@@ -524,6 +559,9 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		// put and putBlock have flipped return values %)
 		final boolean containsBlockRes = !containsBlockFpSet.containsBlock(fpv).get(0);
 		assertEquals(containsFpSet.contains(fp), containsBlockRes);
+
+		containsFpSet.close();
+		containsBlockFpSet.close();
 	}
 
 	@Test
@@ -541,6 +579,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		
 		// BitVector is false if fp is in set 
 		assertFalse(fpSet.containsBlock(fpv).get(0));
+
+		fpSet.close();
 	}
 	
 	@Test
@@ -556,5 +596,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		
 		// BitVector is false if fp is in set 
 		assertFalse(fpSet.putBlock(fpv).get(0));
+
+		fpSet.close();
 	}
 }

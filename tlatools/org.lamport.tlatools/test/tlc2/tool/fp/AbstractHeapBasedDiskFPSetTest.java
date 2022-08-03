@@ -117,6 +117,8 @@ public abstract class AbstractHeapBasedDiskFPSetTest {
 		for (long fp = 1L; fp < limit; fp++) {
 			assertTrue(fpSet.contains(fp));
 		}
+
+		fpSet.close();
 	}
 	
 	@Test
@@ -133,6 +135,8 @@ public abstract class AbstractHeapBasedDiskFPSetTest {
 		for (long fp = 1; fp <= 1024; fp++) {
 			fpSet.recoverFP(fp);
 		}
+
+		fpSet.close();
 	}
 
 	/* Helper */
@@ -157,6 +161,8 @@ public abstract class AbstractHeapBasedDiskFPSetTest {
 		// implementations round down to the next power of 2.
 		final double lowerLimit = (physicalMemoryInBytes / 2) / fpset.getAuxiliaryStorageRequirement();
 		assertTrue("Internal storage falls short lower allocation limit", lowerLimit <= maxTblCntInBytes);
+
+		fpset.close();
 	}
 
 	protected abstract DiskFPSet getDiskFPSet(final FPSetConfiguration fpSetConfig) throws RemoteException;

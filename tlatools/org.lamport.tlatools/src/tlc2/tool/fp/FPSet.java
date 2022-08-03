@@ -23,7 +23,7 @@ import tlc2.util.LongVec;
  * guarantee that their methods are thread-safe.
  */
 @SuppressWarnings("serial")
-public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
+public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI, AutoCloseable
 {
 	/**
 	 * Size of a Java long in bytes

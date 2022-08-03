@@ -81,6 +81,9 @@ public class Bug246DiskFPSetTest {
 			
 			fail("OOM occurred (not flush to disk) " + buf.toString());
 		}
+		finally {
+			fpSet.close();
+		}
 	}
 	
 	@Test
@@ -110,6 +113,9 @@ public class Bug246DiskFPSetTest {
 //			fpSet.flushTable();
 //		} catch (OutOfMemoryError e) {
 //			fail(e.getMessage());
+//		}
+//		finally {
+//			fpSet.close();
 //		}
 	}
 }

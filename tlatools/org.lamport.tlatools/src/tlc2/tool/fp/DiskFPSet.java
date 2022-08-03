@@ -286,26 +286,6 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
     public abstract long sizeof();
 
 	/* (non-Javadoc)
-	 * @see java.lang.Object#finalize()
-	 */
-	@Override
-    public final void finalize() {
-		/* Close any backing disk files in use by this object. */
-        for (final BufferedRandomAccessFile randomAccessFile : this.braf) {
-            try {
-                randomAccessFile.close();
-            } catch (final IOException e) { /* SKIP */
-            }
-        }
-        for (final BufferedRandomAccessFile bufferedRandomAccessFile : this.brafPool) {
-            try {
-                bufferedRandomAccessFile.close();
-            } catch (final IOException e) { /* SKIP */
-            }
-        }
-	}
-
-	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#addThread()
 	 */
 	@Override
@@ -593,6 +573,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
     public final void close() {
 		// close JMX stats
 		diskFPSetMXWrapper.unregister();
+		diskFPSetMXWrapper = null;
 
         for (final BufferedRandomAccessFile randomAccessFile : this.braf) {
             try {

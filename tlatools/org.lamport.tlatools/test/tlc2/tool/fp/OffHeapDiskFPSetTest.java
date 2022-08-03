@@ -278,6 +278,8 @@ public class OffHeapDiskFPSetTest {
 					field.invoke(fpSet, 0, fp + 1L));
 			longs.remove(fp);
 		}
+
+		fpSet.close();
 	}
 	
 	private static String createTmpFile() {
@@ -313,6 +315,9 @@ public class OffHeapDiskFPSetTest {
 		} catch (final InvocationTargetException e) {
 			final Throwable targetException = e.getTargetException();
 			fail(targetException.getMessage());
+		}
+		finally {
+			fpSet.close();
 		}
 	}
 
