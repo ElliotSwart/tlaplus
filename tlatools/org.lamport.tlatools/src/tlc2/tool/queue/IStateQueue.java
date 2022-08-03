@@ -48,7 +48,7 @@ public interface IStateQueue extends AutoCloseable {
 	/**
 	 * Signals all waiting {@link Worker} that all work is done. We can exit now.
 	 */
-    void close();
+    void close() throws Exception;
 
 	/**
 	 * Suspends all access to the {@link StateQueue} for {@link Worker},
@@ -90,5 +90,5 @@ public interface IStateQueue extends AutoCloseable {
 	 * TESTING ONLY!
 	 * Delete disk files if any.
 	 */
-    void delete() throws IOException;
+    void delete() throws Exception;
 }

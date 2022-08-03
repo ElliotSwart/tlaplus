@@ -46,7 +46,7 @@ public interface ILiveCheck {
 	 * This method adds new nodes into the behavior graph induced by s0. It is
 	 * called after the successors of s0 are computed.
 	 */
-	void addNextState(ITool tool, TLCState s0, long fp0, SetOfStates nextStates) throws IOException;
+	void addNextState(ITool tool, TLCState s0, long fp0, SetOfStates nextStates) throws Exception;
 	
 	/**
 	 * true iff a call to {@link ILiveCheck#check(ITool, boolean)} would indeed result in liveness checking.
@@ -95,7 +95,7 @@ public interface ILiveCheck {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	void checkTrace(ITool tool, final Supplier<StateVec> trace) throws IOException, InterruptedException;
+	void checkTrace(ITool tool, final Supplier<StateVec> trace) throws Exception;
 	
 	/* auxiliary methods */
 	

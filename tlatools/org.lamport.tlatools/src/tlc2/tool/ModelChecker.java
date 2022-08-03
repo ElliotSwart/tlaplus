@@ -548,7 +548,7 @@ public class ModelChecker extends AbstractChecker
         return false;
 	}
 
-	final boolean doNextSetErr(final TLCState curState, final TLCState succState, final boolean keep, final int ec, final String param) throws IOException, WorkerException {
+	final boolean doNextSetErr(final TLCState curState, final TLCState succState, final boolean keep, final int ec, final String param) throws Exception {
 		synchronized (this)
 		{
 		    if (this.setErrState(curState, succState, keep, ec))
@@ -566,7 +566,7 @@ public class ModelChecker extends AbstractChecker
 		return true;
 	}
 
-	final boolean doNextSetErr(final TLCState curState, final TLCState succState, final Action action) throws IOException, WorkerException {
+	final boolean doNextSetErr(final TLCState curState, final TLCState succState, final Action action) throws Exception {
 		synchronized (this) {
 			final int errorCode = EC.TLC_STATE_NOT_COMPLETELY_SPECIFIED_NEXT;
 			if (this.setErrState(curState, succState, false, errorCode))
@@ -833,6 +833,8 @@ public class ModelChecker extends AbstractChecker
     	if (!vetoCleanup) {
     		FileUtil.deleteDir(this.metadir, success);
     	}
+
+		this.theStateQueue.close();
 	}
     
     public final void printSummary(final boolean success) throws IOException {
@@ -1032,7 +1034,7 @@ public class ModelChecker extends AbstractChecker
 	 * @see tlc2.tool.AbstractChecker#stop()
 	 */
 	@Override
-	public void stop() {
+	public void stop() throws Exception {
 		synchronized (this) {
 			this.theStateQueue.close();
 			this.notifyAll();

@@ -213,7 +213,7 @@ public abstract class StateQueue implements IStateQueue {
 	 * @see tlc2.tool.queue.IStateQueue#finishAll()
 	 */
 	@Override
-    public synchronized void close() {
+    public synchronized void close() throws Exception {
 		this.finish = true;
 		// Notify all other worker threads.
 		this.notifyAll();
@@ -386,7 +386,7 @@ public abstract class StateQueue implements IStateQueue {
     public abstract void recover() throws IOException;
 	
 	@Override
-	public void delete() throws IOException {
+	public void delete() throws Exception {
 		// no-op
 	}
 }

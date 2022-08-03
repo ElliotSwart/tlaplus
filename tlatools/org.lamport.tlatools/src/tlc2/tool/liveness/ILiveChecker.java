@@ -46,7 +46,7 @@ public interface ILiveChecker {
 	 * called after the successors of s0 are computed.
 	 */
 	void addNextState(ITool tool, TLCState s0, long fp0, SetOfStates nextStates,
-			BitVector checkActionResults, boolean[] checkStateResults) throws IOException;
+			BitVector checkActionResults, boolean[] checkStateResults) throws Exception;
 
 	AbstractDiskGraph getDiskGraph();
 

@@ -306,12 +306,16 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 	
 	// See setSupportsTerminateRequest above.
 	@Override
-	public synchronized CompletableFuture<Void> terminate(final TerminateArguments args) {
+	public synchronized CompletableFuture<Void> terminate(final TerminateArguments args){
 		LOGGER.finer("terminate");
 		// TODO: In case the debugger is currently paused on an ASSUME, TLC will first
 		// generate the initial states before stopping.
 		if (tool.getMainChecker() != null) {
-			tool.getMainChecker().stop();
+			try {
+				tool.getMainChecker().stop();
+			}
+			catch (Exception e){}
+
 		}
 		if (tool.getSimulator() != null) {
 			tool.getSimulator().stop();

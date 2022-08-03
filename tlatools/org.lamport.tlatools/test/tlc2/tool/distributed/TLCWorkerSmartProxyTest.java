@@ -19,60 +19,60 @@ public class TLCWorkerSmartProxyTest {
 	private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE * (1/10);
 	
 	@Test
-	public void testGetNetworkOverheadMaxStateOne() throws RemoteException, WorkerException {
+	public void testGetNetworkOverheadMaxStateOne() throws Exception {
 		final long calculationDuration = Long.MAX_VALUE;
 		assertTrue(doTest(calculationDuration, new DummyTLCState[ONE]) > 0);
 	}
 	
 	@Test
-	public void testGetNetworkOverheadMinStateOne() throws RemoteException, WorkerException {
+	public void testGetNetworkOverheadMinStateOne() throws Exception {
 		final long calculationDuration = Long.MIN_VALUE;
 		assertTrue(doTest(calculationDuration, new DummyTLCState[ONE]) > 0);
 	}
 	
 	@Test
-	public void testGetNetworkOverheadZeroStateOne() throws RemoteException, WorkerException {
+	public void testGetNetworkOverheadZeroStateOne() throws Exception {
 		final long calculationDuration = ZERO;
 		assertTrue(doTest(calculationDuration, new DummyTLCState[ONE]) > 0);
 	}
 
 	@Test
-	public void testGetNetworkOverheadMaxStateZero() throws RemoteException, WorkerException {
+	public void testGetNetworkOverheadMaxStateZero() throws Exception {
 		final long calculationDuration = Long.MAX_VALUE;
 		assertTrue(doTest(calculationDuration, new DummyTLCState[ZERO]) > 0);
 	}
 
 	@Test
-	public void testGetNetworkOverheadMinStateZero() throws RemoteException, WorkerException {
+	public void testGetNetworkOverheadMinStateZero() throws Exception {
 		final long calculationDuration = Long.MIN_VALUE;
 		assertTrue(doTest(calculationDuration, new DummyTLCState[ZERO]) > 0);
 	}
 
 	@Test
-	public void testGetNetworkOverheadZeroStateZero() throws RemoteException, WorkerException {
+	public void testGetNetworkOverheadZeroStateZero() throws Exception {
 		final long calculationDuration = ZERO;
 		assertTrue(doTest(calculationDuration, new DummyTLCState[ZERO]) > 0);
 	}
 
 	@Test
-	public void testGetNetworkOverheadMinStateMax() throws RemoteException, WorkerException {
+	public void testGetNetworkOverheadMinStateMax() throws Exception {
 		final long calculationDuration = Long.MIN_VALUE;
 		assertTrue(doTest(calculationDuration, new DummyTLCState[MAX_ARRAY_SIZE]) > 0);
 	}
 
 	@Test
-	public void testGetNetworkOverheadMaxStateMa() throws RemoteException, WorkerException {
+	public void testGetNetworkOverheadMaxStateMa() throws Exception {
 		final long calculationDuration = Long.MAX_VALUE;
 		assertTrue(doTest(calculationDuration, new DummyTLCState[MAX_ARRAY_SIZE]) > 0);
 	}
 
 	@Test
-	public void testGetNetworkOverheadZeroStateMax() throws RemoteException, WorkerException {
+	public void testGetNetworkOverheadZeroStateMax() throws Exception {
 		final long calculationDuration = ZERO;
 		assertTrue(doTest(calculationDuration, new DummyTLCState[MAX_ARRAY_SIZE]) > 0);
 	}
 	
-	private double doTest(final long calculationDuration, final TLCState[] states) throws RemoteException, WorkerException {
+	private double doTest(final long calculationDuration, final TLCState[] states) throws Exception {
 		final DummyTLCWorker aWorker = new DummyTLCWorker(calculationDuration);
 		final TLCWorkerSmartProxy proxy = new TLCWorkerSmartProxy(aWorker);
 
@@ -81,6 +81,10 @@ public class TLCWorkerSmartProxyTest {
 		assertNotNull(nsr);
 
 		final double networkOverhead = proxy.getNetworkOverhead();
+
+		proxy.close();
+		aWorker.close();
+
 		return networkOverhead;
 	}
 }

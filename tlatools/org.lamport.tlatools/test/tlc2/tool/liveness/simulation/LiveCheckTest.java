@@ -67,17 +67,17 @@ public class LiveCheckTest {
 	// on-disk file, but doesn't seem to invalidate the simulation validity.
 	@Test
 	@Ignore("EasyMock doesn't work with recent Java versions")
-	public void testAddIdenticalNodeTwiceNoTableau() throws IOException {
+	public void testAddIdenticalNodeTwiceNoTableau() throws Exception {
 		addIdenticalNodeTwice(false, -1);
 	}
 
 	@Test
 	@Ignore("EasyMock doesn't work with recent Java versions")
-	public void testAddIdenticalNodeTwiceWithTableau() throws IOException {
+	public void testAddIdenticalNodeTwiceWithTableau() throws Exception {
 		addIdenticalNodeTwice(true, 0);
 	}
 
-	public void addIdenticalNodeTwice(final boolean withTablue, final int tableauId) throws IOException {
+	public void addIdenticalNodeTwice(final boolean withTablue, final int tableauId) throws Exception {
 		final ILiveCheck liveCheck;
 		if (withTablue) {
 			liveCheck = getLiveCheckWithTableau();
@@ -121,7 +121,7 @@ public class LiveCheckTest {
 				new OrderOfSolution[] { oos }, System.getProperty("java.io.tmpdir"), new DummyBucketStatistics());
 	}
 	
-	private ILiveCheck getLiveCheckWithTableau() throws IOException {
+	private ILiveCheck getLiveCheckWithTableau() throws Exception {
 		final TBGraphNode node = EasyMock.createMock(TBGraphNode.class);
 		EasyMock.expect(node.isConsistent((TLCState) EasyMock.anyObject(), (ITool) EasyMock.anyObject())).andReturn(true)
 				.anyTimes();

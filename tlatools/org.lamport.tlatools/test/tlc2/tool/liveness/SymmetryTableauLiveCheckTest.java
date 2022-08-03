@@ -29,7 +29,6 @@ package tlc2.tool.liveness;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.util.Set;
 
 import org.easymock.Capture;
@@ -61,9 +60,9 @@ public class SymmetryTableauLiveCheckTest {
 
 	@Test
 	@Ignore("Ignored for as long as symmetry is incorrectly handled by TLC with liveness checking.")
-	public void testTableau() throws IOException {
+	public void testTableau() throws Exception {
 		final ILiveCheck lc = getLiveCheckWithTwoNodeTableau();
-		
+
 		final SetOfStates nexts = new SetOfStates(1);
 		final AbstractDiskGraph diskGraph = lc.getChecker(0).getDiskGraph();
 		
@@ -121,9 +120,11 @@ public class SymmetryTableauLiveCheckTest {
 		assertEquals(0, diskGraph.getNode(u.fingerPrint(), 1).succSize());
 
 		assertTrue(diskGraph.checkInvariants(0, 0));
+
+		lc.close();
 	}
 	
-	private ILiveCheck getLiveCheckWithTwoNodeTableau() throws IOException {
+	private ILiveCheck getLiveCheckWithTwoNodeTableau() throws Exception {
 		final TBGraphNode node1 = EasyMock.createNiceMock(TBGraphNode.class);
 		EasyMock.expect(node1.isConsistent((TLCState) EasyMock.anyObject(), (ITool) EasyMock.anyObject()))
 				.andReturn(true).anyTimes();
@@ -162,7 +163,7 @@ public class SymmetryTableauLiveCheckTest {
 	
 	@Test
 	@Ignore("Ignored for as long as symmetry is incorrectly handled by TLC with liveness checking.")
-	public void testSymmetry() throws IOException {
+	public void testSymmetry() throws Exception {
 		final TLCState s = new DummyTLCState(tool.getVariables(),200L);
 		final TLCState s1 = new DummyTLCState(tool.getVariables(),s.fingerPrint()); // symmetric sibling of s
 		final TLCState t = new DummyTLCState(tool.getVariables(),300L);
@@ -280,13 +281,15 @@ public class SymmetryTableauLiveCheckTest {
 		assertEquals(0, node200_2.succSize());
 
 		assertTrue(diskGraph.checkInvariants(0, 0));
+
+		lc.close();
 	}
 	
 	/**
 	 * @param s The smallest state under symmetry
 	 * @param sSymmetric A symmetric state to s
 	 */
-	private ILiveCheck getLiveCheckWithTwoNodeTableauSymmetry(final TLCState s, final TLCState sSymmetric, final TLCState t) throws IOException {
+	private ILiveCheck getLiveCheckWithTwoNodeTableauSymmetry(final TLCState s, final TLCState sSymmetric, final TLCState t) throws Exception {
 		final TBGraphNode node2 = EasyMock.createMock(TBGraphNode.class);
 		// consistency
 		final Capture<TLCState> capture = new Capture<TLCState>();

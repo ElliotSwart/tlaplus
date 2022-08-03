@@ -96,7 +96,7 @@ public interface TLCStatisticsMXBean {
 	/**
 	 * Force TLC to stop model checking.
 	 */
-	void stop();
+	void stop() throws Exception;
 	
 	/**
 	 * Suspend model checking until resume is called.

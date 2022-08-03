@@ -241,7 +241,7 @@ public class DiskStateQueue extends StateQueue {
 	}
 
 	@Override
-    public void close() {
+    public void close() throws Exception {
 		super.close();
 		synchronized (this.writer) {
 			this.writer.notifyAll();
@@ -254,6 +254,9 @@ public class DiskStateQueue extends StateQueue {
 			this.cleaner.finished = true;
 			this.cleaner.notifyAll();
 		}
+
+		this.reader.join();
+		this.cleaner.join();
 	}
 
 	private class StatePoolCleaner extends Thread {
@@ -304,7 +307,7 @@ public class DiskStateQueue extends StateQueue {
 	 * @see tlc2.tool.queue.IStateQueue#delete()
 	 */
 	@Override
-	public void delete() {
+	public void delete() throws Exception {
 		this.close();
 		new File(this.filePrefix).delete();
 	}

@@ -266,7 +266,7 @@ public class TLCServerThread extends IdThread {
 				} else {
 					MP.printError(EC.GENERAL, e);
 				}
-				stateQueue.close();
+
 				synchronized (this.tlcServer) {
 					this.tlcServer.notify();
 				}
@@ -274,6 +274,7 @@ public class TLCServerThread extends IdThread {
 		} finally {
 			try {
 				cacheRateHitRatio = worker.getCacheRateRatio();
+				stateQueue.close();
 			} catch (final RemoteException e) {
 				// Remote worker might crash after return the last next
 				// state computation result but before the cache rate hit
@@ -284,6 +285,10 @@ public class TLCServerThread extends IdThread {
 						EC.GENERAL,
 						"Failed to read remote worker cache statistic (Expect to see a negative chache hit rate. Does not invalidate model checking results)");
 			}
+			catch (final Exception e){
+				MP.printError(EC.GENERAL, "Unexpected Exception occured", e);
+			}
+
 			keepAliveTimer.cancel();
 			states = new TLCState[0];
 			// not calling TLCGlobals#decNumWorkers here because at this point

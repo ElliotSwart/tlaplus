@@ -70,7 +70,7 @@ public class AddAndCheckLiveCheck extends LiveCheck {
 	 * @see tlc2.tool.liveness.LiveCheck#addNextState(tlc2.tool.TLCState, long, tlc2.util.SetOfStates)
 	 */
 	@Override
-	public synchronized void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) throws IOException {
+	public synchronized void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) throws Exception {
 		super.addNextState(tool, s0, fp0, nextStates);
 		try {
 			check0(tool, false);

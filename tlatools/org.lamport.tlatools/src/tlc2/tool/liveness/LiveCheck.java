@@ -88,7 +88,7 @@ public class LiveCheck implements ILiveCheck {
 	 * @see tlc2.tool.liveness.ILiveCheck#addNextState(tlc2.tool.TLCState, long, tlc2.util.SetOfStates)
 	 */
 	@Override
-    public void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) throws IOException {
+    public void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) throws Exception {
         for (final ILiveChecker check : checker) {
             final OrderOfSolution oos = check.getSolution();
             final int alen = oos.getCheckAction().length;
@@ -295,7 +295,7 @@ public class LiveCheck implements ILiveCheck {
 	 * @see tlc2.tool.liveness.ILiveCheck#checkTrace(tlc2.tool.StateVec)
 	 */
 	@Override
-    public void checkTrace(final ITool tool, final Supplier<StateVec> traceSupplier) throws InterruptedException, IOException {
+    public void checkTrace(final ITool tool, final Supplier<StateVec> traceSupplier) throws Exception {
 		final StateVec stateTrace = traceSupplier.get();
 		// Add the first state to the LiveCheck as the current init state
 		addInitState(tool, stateTrace.elementAt(0), stateTrace.elementAt(0).fingerPrint());
@@ -608,7 +608,7 @@ public class LiveCheck implements ILiveCheck {
 		 */
 		@Override
         public void addNextState(final ITool tool, final TLCState s0, final long fp0,
-                                 final SetOfStates nextStates, final BitVector checkActionResults, final boolean[] checkStateResults) throws IOException {
+                                 final SetOfStates nextStates, final BitVector checkActionResults, final boolean[] checkStateResults) throws Exception {
 			int cnt = 0;
 			final int succCnt = nextStates.size();
 

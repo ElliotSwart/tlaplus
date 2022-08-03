@@ -153,6 +153,10 @@ public class FPSetManagerTest {
 
 			Assert.assertTrue(manager.checkInvariant());
 		}
+
+		for(var set : sets) {
+			set.close();
+		}
 	}
 
 	private String printBinaryString(final String id, final long a) {

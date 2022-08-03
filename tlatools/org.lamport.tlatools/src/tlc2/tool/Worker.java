@@ -153,7 +153,12 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 				if (this.tlc.setErrState(curState, null, true, EC.GENERAL)) {
 					MP.printError(EC.GENERAL, e); // LL changed call 7 April 2012
 				}
-				this.squeue.close();
+
+				try {
+					this.squeue.close();
+				}
+				catch (Exception ee){}
+
 				this.tlc.notify();
 			}
         }
@@ -171,7 +176,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 	private final boolean checkLiveness;
 	private static boolean printedLivenessErrorStack = false;
 
-	private void doNextCheckLiveness(final TLCState curState, final SetOfStates liveNextStates) throws IOException {
+	private void doNextCheckLiveness(final TLCState curState, final SetOfStates liveNextStates) throws Exception {
 		final long curStateFP = curState.fingerPrint();
 
 		// Add the stuttering step:
@@ -577,7 +582,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
         return false;
 	}
 	
-	private boolean doNextSetErr(final TLCState curState, final TLCState succState, final boolean keep, final int ec, final String param) throws IOException, WorkerException {
+	private boolean doNextSetErr(final TLCState curState, final TLCState succState, final boolean keep, final int ec, final String param) throws Exception {
 		synchronized (this.tlc) {
 			final boolean doNextSetErr = this.tlc.doNextSetErr(curState, succState, keep, ec, param);
 
@@ -588,7 +593,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		}
 	}
 	
-	private boolean doNextSetErr(final TLCState curState, final TLCState succState, final Action action) throws IOException, WorkerException {
+	private boolean doNextSetErr(final TLCState curState, final TLCState succState, final Action action) throws Exception {
 		synchronized (this.tlc) {
 			final boolean doNextSetErr = this.tlc.doNextSetErr(curState, succState, action);
 

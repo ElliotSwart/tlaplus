@@ -157,7 +157,7 @@ public class ModelCheckerMXWrapper extends TLCStandardMBean implements TLCStatis
 	 * @see tlc2.tool.distributed.management.TLCStatisticsMXBean#stop()
 	 */
 	@Override
-    public void stop() {
+    public void stop() throws Exception {
 		modelChecker.stop();
 	}
 	

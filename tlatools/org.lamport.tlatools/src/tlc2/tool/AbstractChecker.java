@@ -150,7 +150,10 @@ public abstract class AbstractChecker
         scheduleTermination(new TimerTask() {
 			@Override
 			public void run() {
-				AbstractChecker.this.stop();
+                try {
+                    AbstractChecker.this.stop();
+                }
+				catch (Exception e){};
 			}
 		});
     }
@@ -599,7 +602,7 @@ public abstract class AbstractChecker
 		return -1;
 	}
 	
-	public void stop() {
+	public void stop() throws Exception {
 		throw new UnsupportedOperationException("stop not implemented");
 	}
 	

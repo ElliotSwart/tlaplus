@@ -143,6 +143,8 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 		assertEquals(finalState, path.elementAt(0));
 		assertEquals(thirdState, path.elementAt(1));
 		assertEquals(secondState, path.elementAt(2));
+
+		dg.close();
 	}
 
 	/*
@@ -227,6 +229,8 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 		assertEquals(finalState, path.elementAt(0));
 		assertEquals(secondState, path.elementAt(1));
 		assertEquals(initState, path.elementAt(2));
+
+		dg.close();
 	}
 
 	/*
@@ -324,6 +328,8 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 		assertEquals(finalState, path.elementAt(0));
 		assertEquals(thirdState, path.elementAt(1));
 		assertEquals(initState, path.elementAt(2));
+
+		dg.close();
 	}
 
 	/*
@@ -388,6 +394,8 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 
 		assertEquals(1, path.size());
 		assertEquals(noSuccessorInitState, path.elementAt(0));
+
+		dg.close();
 	}
 	
 	/*
@@ -421,6 +429,9 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 			assertEquals(fingerprint, path.elementAt(0));
 			return;
 		}
+		finally {
+			dg.close();
+		}
 		fail("Returned path to non-existing node");
 	}
 	
@@ -444,6 +455,7 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 
 		// It is done now
 		assertTrue(dg.isDone(fingerprint));
+		dg.close();
 	}
 	
 	/*
@@ -475,6 +487,8 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 		assertEquals(2, path.size());
 		assertEquals(fingerprint, path.elementAt(0));
 		assertEquals(fingerprint, path.elementAt(1));
+
+		dg.close();
 	}
 	
 	/*
@@ -522,5 +536,7 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 		assertEquals(2, node.succSize());
 		assertTrue(node.transExists(2, 2));
 		assertTrue(node.transExists(3, 3));
+
+		dg.close();
 	}
 }

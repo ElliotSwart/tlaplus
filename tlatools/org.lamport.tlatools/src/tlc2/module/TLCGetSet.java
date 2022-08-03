@@ -432,7 +432,10 @@ public class TLCGetSet implements ValueConstants {
 				if (val == BoolValue.ValTrue) {
 
 					if (mainChecker != null) {
-						mainChecker.stop();
+						try {
+							mainChecker.stop();
+						}
+						catch (Exception e){}
 					}
 					if (simulator != null) {
 						simulator.stop();
