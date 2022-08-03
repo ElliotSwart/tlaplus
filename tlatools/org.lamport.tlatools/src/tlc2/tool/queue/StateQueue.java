@@ -13,6 +13,7 @@ import tlc2.output.MP;
 import tlc2.tool.StateVec;
 import tlc2.tool.TLCState;
 import tlc2.tool.Worker;
+import util.FatalException;
 
 /**
  * 
@@ -198,7 +199,7 @@ public abstract class StateQueue implements IStateQueue {
 				this.wait();
 			} catch (final Exception e) {
 				MP.printError(EC.GENERAL, "making a worker wait for a state from the queue", e);  // LL changed call 7 April 2012
-				System.exit(1);
+				throw new FatalException("making a worker wait for a state from the queue", e);
 			}
 			this.numWaiting--;
 			if (this.finish) {
@@ -281,7 +282,7 @@ public abstract class StateQueue implements IStateQueue {
 					this.mu.wait();
 				} catch (final Exception e) {
 					MP.printError(EC.GENERAL, "waiting for a worker to wake up", e);  // LL changed call 7 April 2012
-					System.exit(1);
+					throw new FatalException("Waiting for a worker to wake up", e);
 				}
 			}
 			synchronized (this) {

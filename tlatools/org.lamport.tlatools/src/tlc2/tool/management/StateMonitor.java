@@ -123,7 +123,7 @@ public class StateMonitor {
 		final TLCStatisticsMXBean mbeanProxy = MBeanServerInvocationHandler
 				.newProxyInstance(mbeanServerConnection, mbeanName, TLCStatisticsMXBean.class, true);
 
-		while (true) {
+		while (!Thread.currentThread().isInterrupted()) {
 			System.out.printf("############ %s ############\n%s", SDF.format(new Date()), mbeanProxy.getCurrentState());
 			Thread.sleep(interval * 1000L);
 		}

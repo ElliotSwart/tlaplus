@@ -15,6 +15,7 @@ import tlc2.output.MP;
 import tlc2.tool.TLCState;
 import tlc2.value.ValueOutputStream;
 import util.Assert;
+import util.FatalException;
 
 public class StatePoolWriter extends Thread {
 
@@ -104,7 +105,7 @@ public class StatePoolWriter extends Thread {
   public void run() {
     try {
       synchronized(this) {
-	while (true) {
+	while (!Thread.currentThread().isInterrupted()) {
 	  while (this.poolFile == null) {
 	    this.wait();
 	    // we are done without ever receiving a pool file
@@ -126,7 +127,7 @@ public class StatePoolWriter extends Thread {
     catch (final Exception e) {
       // Assert.printStack(e);
         MP.printError(EC.SYSTEM_ERROR_WRITING_POOL, e.getMessage(), e);
-      System.exit(1);
+      throw new FatalException("SYSTEM_ERROR_WRITING_POOL", e);
     }
   }
   

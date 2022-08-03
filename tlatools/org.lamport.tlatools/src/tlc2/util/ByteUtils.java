@@ -368,7 +368,7 @@ public class ByteUtils {
       do {
 	A.addElement(readSizeBigInt(in));
 	i++;
-      } while (true);
+      } while (!Thread.currentThread().isInterrupted());
     }
     catch (final IOException e) {}
     

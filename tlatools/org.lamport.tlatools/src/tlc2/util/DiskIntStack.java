@@ -127,7 +127,7 @@ public final class DiskIntStack implements IntStack {
     public void run() {
       try {
 	synchronized(this) {
-	  while (true) {
+	  while (!Thread.currentThread().isInterrupted()) {
 	    while (DiskIntStack.this.poolFile == null) {
 	      this.wait();
 	    }
@@ -155,7 +155,7 @@ public final class DiskIntStack implements IntStack {
     public void run() {
       try {
 	synchronized(this) {
-	  while (true) {
+	  while (!Thread.currentThread().isInterrupted()) {
 	    while (DiskIntStack.this.poolFile == null) {
 	      this.wait();
 	    }

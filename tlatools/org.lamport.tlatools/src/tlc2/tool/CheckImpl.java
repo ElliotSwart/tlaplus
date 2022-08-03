@@ -12,6 +12,7 @@ import tlc2.tool.fp.FPSet;
 import tlc2.tool.fp.FPSetConfiguration;
 import tlc2.tool.fp.FPSetFactory;
 import tlc2.util.NoopStateWriter;
+import util.FatalException;
 import util.ToolIO;
 
 /**
@@ -73,7 +74,9 @@ public abstract class CheckImpl extends ModelChecker {
     final int result = this.runTLC(this.depth);
     if (result != EC.NO_ERROR) {
       ToolIO.out.println("\nExit: failed to create the partial state space.");
-      System.exit(EC.ExitStatus.errorConstantToExitStatus(result));
+      throw new FatalException(
+              "failed to create the partial state space.",
+              EC.ExitStatus.errorConstantToExitStatus(result));
     }
     ToolIO.out.println("completed.");
     this.lastTraceTime = System.currentTimeMillis();
@@ -171,7 +174,7 @@ public abstract class CheckImpl extends ModelChecker {
     if (this.curState == null) return;
     this.checkState(this.curState);
     
-    while (true) {
+    while (!Thread.currentThread().isInterrupted()) {
       // Get the next state:
       final TLCState state = this.getState();
       if (state == null) break;

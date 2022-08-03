@@ -14,6 +14,8 @@ import tlc2.tool.StateVec;
 import tlc2.tool.TLCState;
 import tlc2.tool.Worker;
 import tlc2.tool.ITool;
+import util.FatalException;
+
 /*
  * This class is identical to StateQueue except that it internally works
  * on byte[] whereas StateQueue's internal data is TLCStates. In other words,
@@ -292,7 +294,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 				this.wait();
 			} catch (final Exception e) {
 				MP.printError(EC.GENERAL, "making a worker wait for a state from the queue", e);  // LL changed call 7 April 2012
-				System.exit(1);
+				throw new FatalException("SYSTEM_DISKGRAPH_ACCESS", e);
 			}
 			this.numWaiting--;
 			if (this.finish) {
@@ -375,7 +377,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 					this.mu.wait();
 				} catch (final Exception e) {
 					MP.printError(EC.GENERAL, "waiting for a worker to wake up", e);  // LL changed call 7 April 2012
-					System.exit(1);
+					throw new FatalException("waiting for a worker to wake up", e);
 				}
 			}
 			synchronized (this) {

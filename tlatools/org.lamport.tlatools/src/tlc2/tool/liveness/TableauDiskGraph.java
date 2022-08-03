@@ -35,6 +35,7 @@ import tlc2.tool.ITool;
 import tlc2.util.LongVec;
 import tlc2.util.MemIntQueue;
 import tlc2.util.statistics.IBucketStatistics;
+import util.FatalException;
 
 public class TableauDiskGraph extends AbstractDiskGraph {
 	
@@ -270,7 +271,7 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 		} catch (final IOException e) {
 			MP.printError(EC.SYSTEM_DISKGRAPH_ACCESS, e);
 
-			System.exit(1);
+			throw new FatalException("SYSTEM_DISKGRAPH_ACCESS", e);
 		}
 		return sb.toString();
 	}
@@ -318,7 +319,7 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 		} catch (final IOException e) {
 			MP.printError(EC.SYSTEM_DISKGRAPH_ACCESS, e);
 
-			System.exit(1);
+			throw new FatalException("SYSTEM_DISKGRAPH_ACCESS", e);
 		}
 		return sb.toString();
 	}

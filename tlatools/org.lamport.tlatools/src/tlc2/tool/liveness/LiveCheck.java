@@ -38,6 +38,7 @@ import tlc2.util.IStateWriter.Visualization;
 import tlc2.util.statistics.IBucketStatistics;
 import tlc2.value.impl.CounterExample;
 import util.Assert;
+import util.FatalException;
 
 public class LiveCheck implements ILiveCheck {
 
@@ -275,7 +276,8 @@ public class LiveCheck implements ILiveCheck {
 			} else {
 				MP.printError(EC.GENERAL, ee);
 			}
-			System.exit(1);
+
+			throw new FatalException("LW failed", ee);
 		}
 		
 		// Reset after checking unless it's the final check:

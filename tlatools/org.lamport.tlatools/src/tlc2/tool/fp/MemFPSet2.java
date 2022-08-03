@@ -145,7 +145,6 @@ public final class MemFPSet2 extends FPSet {
     }
     final String hostname = InetAddress.getLocalHost().getHostName();
     MP.printMessage(EC.TLC_FP_COMPLETED, hostname);
-    System.exit(0);    
   }
 
   @Override

@@ -543,7 +543,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
     	synchronized (this) { //TODO convert to do/while to move initial wait into loop
     		wait(REPORT_INTERVAL);
     	}
-		while (true) {
+		while (!Thread.currentThread().isInterrupted()) {
 			if (doCheckPoint()) {
 				// Periodically create a checkpoint assuming it is activated
 				checkpoint();
@@ -719,7 +719,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
         }
     }
 
-	public static void main(final String[] argv) {
+	public static int handleArgs(final String[] argv){
 		// Print version before MailSender has been created. Oh well, it misses
 		// the version output.
 		MP.printMessage(EC.TLC_VERSION, "TLC Server " + TLCGlobals.versionOfTLC);
@@ -735,16 +735,16 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 			app = TLCApp.create(argv);
 			mail.setModelName(System.getProperty(MailSender.MODEL_NAME, Objects.requireNonNull(app).getFileName()));
 			mail.setSpecName(System.getProperty(MailSender.SPEC_NAME, app.getFileName()));
-			
+
 			if (expectedFPSetCount > 0) {
 				server = new DistributedFPSetTLCServer(app, expectedFPSetCount);
 			} else {
 				server = new TLCServer(app);
 			}
 			tlcServerMXWrapper = new TLCServerMXWrapper(server);
-            Runtime.getRuntime().addShutdownHook(new Thread(new WorkerShutdownHook(server)));
-            server.modelCheck();
-        } catch (final Throwable e) {
+			Runtime.getRuntime().addShutdownHook(new Thread(new WorkerShutdownHook(server)));
+			server.modelCheck();
+		} catch (final Throwable e) {
 			System.gc();
 			// Assert.printStack(e);
 			if (e instanceof StackOverflowError) {
@@ -776,16 +776,25 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 				// In case sending the mail has failed we treat this as an error.
 				// This is needed when TLC runs on another host and email is
 				// the only means for the user to get access to the model checking
-				// results. 
+				// results.
 				// With distributed TLC and CloudDistributedTLCJob in particular,
 				// the cloud node is immediately turned off once the TLC process has
-				// finished. If we were to shutdown the node even when sending out 
+				// finished. If we were to shutdown the node even when sending out
 				// the email has failed, the result would be lost.
 				if (!send) {
 					MP.printMessage(EC.GENERAL, "Sending result mail failed.");
-					System.exit(1);
+					return 1;
 				}
 			}
+		}
+
+		return 0;
+	}
+
+	public static void main(final String[] argv) {
+		final int returnCode = handleArgs(argv);
+		if (returnCode != 0){
+			System.exit(returnCode);
 		}
 	}
 

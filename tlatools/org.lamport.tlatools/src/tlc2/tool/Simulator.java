@@ -325,7 +325,7 @@ public class Simulator {
 		int errorCode = EC.NO_ERROR;
 		
 		// Continuously consume results from all worker threads.
-		while (true) {
+		while (!Thread.currentThread().isInterrupted()) {
 			final SimulationWorkerResult result = workerResultQueue.take();
 
 			// If the result is an error, print it.

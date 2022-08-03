@@ -22,6 +22,7 @@ import tlc2.output.MP;
 import tlc2.util.BufferedRandomAccessFile;
 import tlc2.util.LongVec;
 import tlc2.util.statistics.IBucketStatistics;
+import util.FatalException;
 import util.FileUtil;
 
 /*
@@ -564,7 +565,7 @@ public abstract class AbstractDiskGraph {
 			}
 		} catch (final IOException e) {
 			MP.printError(EC.SYSTEM_DISKGRAPH_ACCESS, e);
-			System.exit(1);
+			throw new FatalException("SYSTEM_DISKGRAPH_ACCESS", e);
 		}
 	}
 	
@@ -606,7 +607,7 @@ public abstract class AbstractDiskGraph {
 			}
 		} catch (final IOException e) {
 			MP.printError(EC.SYSTEM_DISKGRAPH_ACCESS, e);
-			System.exit(1);
+			throw new FatalException("SYSTEM_DISKGRAPH_ACCESS", e);
 		}
 		
 		final Collection<Integer> values = nodes2count.values();

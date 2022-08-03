@@ -90,7 +90,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		setMainChecker(tlc);
 
 		try {
-			while (true) {
+			while (!Thread.currentThread().isInterrupted()) {
 				curState = this.squeue.sDequeue();
 				if (curState == null) {
 					synchronized (this.tlc) {

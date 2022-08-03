@@ -475,7 +475,7 @@ public abstract class AbstractChecker
         // added condition to run in the cycle
         // while (true) {
         int result = EC.NO_ERROR;
-        while (true)
+        while (!Thread.currentThread().isInterrupted())
         {
             result = this.doPeriodicWork();
             if (result != EC.NO_ERROR)

@@ -265,7 +265,6 @@ public class MemFPIntSet extends FPIntSet {
     }
     final String hostname = InetAddress.getLocalHost().getHostName();
     MP.printMessage(EC.TLC_FP_COMPLETED, hostname);
-    System.exit(0);    
   }
 
   @Override

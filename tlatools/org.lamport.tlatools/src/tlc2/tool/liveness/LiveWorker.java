@@ -1250,7 +1250,7 @@ public class LiveWorker implements Callable<Boolean> {
 		IdThread.setMainChecker(mainChecker);
 		IdThread.setSimulator(simulator);
 
-		while (true) {
+		while (!Thread.currentThread().isInterrupted()) {
 			// Use poll() to get the next checker from the queue or null if
 			// there is none. Do *not* block when there are no more checkers
 			// available. Nobody is going to add new checkers to the queue.

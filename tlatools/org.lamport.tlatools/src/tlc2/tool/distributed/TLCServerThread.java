@@ -158,7 +158,7 @@ public class TLCServerThread extends IdThread {
 		setUsingModelChecker(Tool.Mode.MC);
 		final IStateQueue stateQueue = this.tlcServer.stateQueue;
 		try {
-			START: while (true) {
+			START: while (!Thread.currentThread().isInterrupted()) {
 				// blocks until more states available or all work is done
 				states = selector.getBlocks(stateQueue, worker);
 				if (states == null) {

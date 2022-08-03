@@ -20,6 +20,7 @@ import tlc2.output.StatePrinter;
 import tlc2.util.BufferedRandomAccessFile;
 import tlc2.util.LongVec;
 import tlc2.value.RandomEnumerableValues;
+import util.FatalException;
 import util.FileUtil;
 
 public class TLCTrace {
@@ -316,7 +317,7 @@ public class TLCTrace {
 					 */
 					MP.printError(EC.TLC_FAILED_TO_RECOVER_INIT);
 					MP.printError(EC.TLC_BUG, "2 " + fp);
-					System.exit(1);
+					throw new FatalException("TLC_FAILED_TO_RECOVER_INIT");
 				}
 				res[stateNum++] = sinfo;
 			}
@@ -383,7 +384,7 @@ public class TLCTrace {
 			if (sinfo == null) {
 				MP.printError(EC.TLC_FAILED_TO_RECOVER_INIT);
 				MP.printError(EC.TLC_BUG, "3");
-				System.exit(1);
+				throw new FatalException("TLC_FAILED_TO_RECOVER_INIT");
 			}
 		} else {
 			final TLCStateInfo s0 = prefix[prefix.length - 1];
@@ -394,7 +395,7 @@ public class TLCTrace {
 				MP.printError(EC.TLC_FAILED_TO_RECOVER_INIT);
 				MP.printError(EC.TLC_BUG, "4");
 				StatePrinter.printStandaloneErrorState(s1);
-				System.exit(1);
+				throw new FatalException("TLC_FAILED_TO_RECOVER_INIT");
 			}
 		}
 		if (s2 == null) {
@@ -412,7 +413,7 @@ public class TLCTrace {
 				MP.printError(EC.TLC_FAILED_TO_RECOVER_INIT);
 				MP.printError(EC.TLC_BUG, "5");
 				StatePrinter.printStandaloneErrorState(s2);
-				System.exit(1);
+				throw new FatalException("TLC_FAILED_TO_RECOVER_INIT");
 			}
 			sinfo = this.tool.evalAlias(sinfo, s2);
 			StatePrinter.printInvariantViolationStateTraceState(sinfo, null, ++idx);

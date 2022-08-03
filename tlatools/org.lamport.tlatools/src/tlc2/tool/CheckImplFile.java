@@ -22,11 +22,7 @@ import tlc2.output.MP;
 import tlc2.tool.fp.FPSetConfiguration;
 import tlc2.tool.impl.FastTool;
 import tlc2.util.FP64;
-import util.Assert;
-import util.FileUtil;
-import util.TLAConstants;
-import util.ToolIO;
-import util.UniqueString;
+import util.*;
 
 /**
  * CheckImplFile is a subclass of CheckImpl. It uses files to
@@ -311,18 +307,22 @@ public class CheckImplFile extends CheckImpl
       final CheckImplFile checker = new CheckImplFile(tool, metadir, deadlock,
 						depth, fromChkpt, traceFile, new FPSetConfiguration());
       checker.init();
-      while (true) {
-	// Get a trace and check it.
-	checker.export();
+      while (!Thread.currentThread().isInterrupted()) {
+        // Get a trace and check it.
+        checker.export();
 
-	final boolean ok = checker.getTrace();
-	if (ok) {
-	  checker.checkTrace();
-	}
-	else {
-	  synchronized(checker) { checker.wait(WaitForTrace); }
-	}
+        final boolean ok = checker.getTrace();
+        if (ok) {
+          checker.checkTrace();
+        }
+        else {
+          synchronized(checker) { checker.wait(WaitForTrace); }
+        }
       }
+    }
+    catch (final FatalException e){
+        MP.printError(EC.CHECK_FAILED_TO_CHECK, e);
+        System.exit(e.errorCode);
     }
     catch (final Throwable e)
     {

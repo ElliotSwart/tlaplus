@@ -16,6 +16,7 @@ import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
 import tlc2.value.ValueInputStream;
 import util.Assert;
+import util.FatalException;
 
 public class StatePoolReader extends Thread {
 
@@ -168,7 +169,7 @@ public class StatePoolReader extends Thread {
   public void run() {
     try {
       synchronized(this) {
-	while (true) {
+	while (!Thread.currentThread().isInterrupted()) {
 	  while (this.poolFile == null || this.isFull || !this.canRead) {
 	    this.wait();
 	    if(this.finished ) {
@@ -190,7 +191,7 @@ public class StatePoolReader extends Thread {
     {
       // Assert.printStack(e);
       MP.printError(EC.SYSTEM_ERROR_READING_POOL, e.getMessage(), e);
-      System.exit(1);
+      throw new FatalException("SYSTEM_ERROR_WRITING_POOL", e);
     }
   }
   

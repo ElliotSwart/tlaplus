@@ -27,14 +27,7 @@ import tlc2.value.impl.RecordValue;
 import tlc2.value.impl.SetEnumValue;
 import tlc2.value.impl.StringValue;
 import tlc2.value.impl.TupleValue;
-import util.Assert;
-import util.BufferedDataInputStream;
-import util.BufferedDataOutputStream;
-import util.FileUtil;
-import util.IDataInputStream;
-import util.IDataOutputStream;
-import util.UniqueString;
-import util.WrongInvocationException;
+import util.*;
 
 /**
  * A {@link DiskByteArrayQueue} uses the local hard disc as a backing store for
@@ -308,7 +301,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 			} catch (final Exception e) {
 				// Assert.printStack(e);
 				MP.printError(EC.SYSTEM_ERROR_CLEANING_POOL, e.getMessage(), e);
-				System.exit(1);
+				throw new FatalException("SYSTEM_ERROR_CLEANING_POOL", e);
 			}
 		}
 	}
@@ -365,7 +358,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
       public void run() {
 	    try {
 	      synchronized(this) {
-		while (true) {
+		while (!Thread.currentThread().isInterrupted()) {
 		  while (this.poolFile == null) {
 		    this.wait();
 		    // we are done without ever receiving a pool file
@@ -388,7 +381,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	    catch (final Exception e) {
 	      // Assert.printStack(e);
 	        MP.printError(EC.SYSTEM_ERROR_WRITING_POOL, e.getMessage(), e);
-	      System.exit(1);
+	      	throw new FatalException("SYSTEM_ERROR_WRITING_POOL", e);
 	    }
 	  }
 	}
@@ -499,7 +492,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
           public void run() {
 		    try {
 		      synchronized(this) {
-			while (true) {
+			while (!Thread.currentThread().isInterrupted()) {
 			  while (this.poolFile == null || this.isFull || !this.canRead) {
 			    this.wait();
 			    if(this.finished ) {
@@ -521,7 +514,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		    {
 		      // Assert.printStack(e);
 		      MP.printError(EC.SYSTEM_ERROR_READING_POOL, e.getMessage(), e);
-		      System.exit(1);
+			  throw new FatalException("SYSTEM_ERROR_READING_POOL", e);
 		    }
 		  }
 		  

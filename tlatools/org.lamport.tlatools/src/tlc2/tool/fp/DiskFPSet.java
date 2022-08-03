@@ -617,8 +617,6 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 		}
 		final String hostname = InetAddress.getLocalHost().getHostName();
 		MP.printMessage(EC.TLC_FP_COMPLETED, hostname);
-
-		System.exit(0);
 	}
 
 	/* (non-Javadoc)

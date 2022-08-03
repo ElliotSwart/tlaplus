@@ -18,6 +18,7 @@ import tlc2.util.StatePoolWriter;
 import tlc2.value.ValueInputStream;
 import tlc2.value.ValueOutputStream;
 import util.Assert;
+import util.FatalException;
 import util.FileUtil;
 
 /**
@@ -294,7 +295,7 @@ public class DiskStateQueue extends StateQueue {
 			} catch (final Exception e) {
 				// Assert.printStack(e);
 				MP.printError(EC.SYSTEM_ERROR_CLEANING_POOL, e.getMessage(), e);
-				System.exit(1);
+				throw new FatalException("SYSTEM_ERROR_CLEANING_POOL", e);
 			}
 		}
 	}

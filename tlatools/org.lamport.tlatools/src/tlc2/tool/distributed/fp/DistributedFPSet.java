@@ -120,7 +120,7 @@ public class DistributedFPSet  {
 		// see similar while loop in
 		// tlc2.tool.distributed.TLCWorker.main(String[]) for more comments.
 		int i = 1;
-		while(true) {
+		while(!Thread.currentThread().isInterrupted()) {
 			try {
 				return (TLCServerRMI) Naming.lookup(url);
 			} catch (final ConnectException e) {
@@ -150,6 +150,8 @@ public class DistributedFPSet  {
 				i *= 2;
 			}
 		}
+
+		throw new InterruptedException();
 	}
 	
 	private static void printErrorMsg(final String msg) {

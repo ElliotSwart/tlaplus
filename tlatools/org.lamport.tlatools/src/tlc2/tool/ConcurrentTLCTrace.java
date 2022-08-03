@@ -36,6 +36,7 @@ import tlc2.output.EC;
 import tlc2.output.MP;
 import tlc2.util.LongVec;
 import tlc2.value.RandomEnumerableValues;
+import util.FatalException;
 
 /**
  * This implementation of a Trace is concurrent in that multiple workers can add
@@ -180,7 +181,7 @@ public class ConcurrentTLCTrace extends TLCTrace {
 					 */
 					MP.printError(EC.TLC_FAILED_TO_RECOVER_INIT);
 					MP.printError(EC.TLC_BUG, "2 " + fp);
-					System.exit(1);
+					throw new FatalException("TLC Failed to Recover");
 				}
 				final Record prev = records.get(i);
 				sinfo.state.workerId = (short) prev.worker;

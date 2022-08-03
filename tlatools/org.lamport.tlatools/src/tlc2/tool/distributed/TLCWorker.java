@@ -308,7 +308,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 			// try to repeatedly connect to the server until it becomes available
 			int i = 1;
 			TLCServerRMI server = null;
-			while(true) {
+			while(!Thread.currentThread().isInterrupted()) {
 				try {
 					server = (TLCServerRMI) Naming.lookup(url);
 					break;

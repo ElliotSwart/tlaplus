@@ -144,7 +144,7 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
             public void run() {
 				try {
 					System.setProperty(TLCServer.class.getName() + ".expectedFPSetCount", Integer.toString(fpSets));
-					TLCServer.main(arguments);
+					TLCServer.handleArgs(arguments);
 				} catch (final Exception e) {
 					e.printStackTrace();
 				} finally {

@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 
 import tlc2.output.EC;
 import tlc2.output.MP;
+import util.FatalException;
 import util.FileUtil;
 
 public class ObjectPoolStack {
@@ -86,7 +87,7 @@ public class ObjectPoolStack {
       public void run() {
           try {
               synchronized(this) {
-                  while (true) {
+                  while (!Thread.currentThread().isInterrupted()) {
                       while (ObjectPoolStack.this.poolFile == null) {
                           this.wait();
                       }
@@ -104,7 +105,7 @@ public class ObjectPoolStack {
           catch (final Exception e)
           {
               MP.printError(EC.SYSTEM_ERROR_WRITING_POOL, e);
-              System.exit(1);
+              throw new FatalException("SYSTEM_ERROR_WRITING_POOL", e);
           }
       }
   }
@@ -114,7 +115,7 @@ public class ObjectPoolStack {
       public void run() {
           try {
               synchronized(this) {
-                  while (true) {
+                  while (!Thread.currentThread().isInterrupted()) {
                       while (ObjectPoolStack.this.poolFile == null) {
                           this.wait();
                       }
@@ -132,7 +133,7 @@ public class ObjectPoolStack {
           catch (final Exception e)
           {
               MP.printError(EC.SYSTEM_ERROR_READING_POOL, e);
-              System.exit(1);
+              throw new FatalException("SYSTEM_ERROR_WRITING_POOL", e);
           }
       }
   }

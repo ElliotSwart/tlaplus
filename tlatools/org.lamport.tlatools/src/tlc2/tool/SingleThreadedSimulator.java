@@ -79,7 +79,7 @@ public class SingleThreadedSimulator extends Simulator {
 
 		int errorCode = EC.NO_ERROR;
 
-		while (true) {
+		while (!Thread.currentThread().isInterrupted()) {
 			simulationWorker.simulateAndReport();
 			if (workerResultQueue.isEmpty()) {
 				continue;
@@ -135,5 +135,7 @@ public class SingleThreadedSimulator extends Simulator {
 				return errorCode;
 			}
 		}
+
+		return errorCode;
 	}
 }
