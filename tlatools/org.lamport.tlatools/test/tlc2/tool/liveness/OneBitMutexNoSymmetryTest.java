@@ -36,11 +36,13 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.TLCGlobals;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.value.IValue;
 import tlc2.value.impl.IntValue;
+import util.DebuggerTest;
 
 public class OneBitMutexNoSymmetryTest extends ModelCheckerTestCase {
 
@@ -52,7 +54,8 @@ public class OneBitMutexNoSymmetryTest extends ModelCheckerTestCase {
 	protected boolean runWithDebugger(){
 		return true;
 	}
-	
+
+	@Category(DebuggerTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

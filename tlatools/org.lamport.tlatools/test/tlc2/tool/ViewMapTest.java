@@ -33,9 +33,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.ModelCheckerTestCase;
+import util.DebuggerTest;
 
 public class ViewMapTest extends ModelCheckerTestCase {
 
@@ -49,7 +51,7 @@ public class ViewMapTest extends ModelCheckerTestCase {
 		return true;
 	}
 
-
+	@Category(DebuggerTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
