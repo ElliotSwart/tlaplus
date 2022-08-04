@@ -33,15 +33,18 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
+import util.TTraceTest;
 
 public abstract class BidirectionalTransitions2C_TTrace extends TTraceModelCheckerTestCase {
 
 	public BidirectionalTransitions2C_TTrace(final Class<?> clazz) {
 		super(clazz, ExitStatus.VIOLATION_LIVENESS);
 	}
-	
+
+	@Category(TTraceTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

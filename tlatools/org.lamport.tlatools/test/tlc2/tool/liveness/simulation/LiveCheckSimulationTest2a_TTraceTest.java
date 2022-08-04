@@ -34,10 +34,12 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.TLCStateInfo;
 import tlc2.tool.liveness.TTraceModelCheckerTestCase;
+import util.TTraceTest;
 
 /*
  * Contrary to Test2, this test violates liveness (back to state 1)  
@@ -47,7 +49,8 @@ public class LiveCheckSimulationTest2a_TTraceTest extends TTraceModelCheckerTest
 	public LiveCheckSimulationTest2a_TTraceTest() {
 		super(LiveCheckSimulationTest2a.class, ExitStatus.VIOLATION_LIVENESS);
 	}
-	
+
+	@Category(TTraceTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

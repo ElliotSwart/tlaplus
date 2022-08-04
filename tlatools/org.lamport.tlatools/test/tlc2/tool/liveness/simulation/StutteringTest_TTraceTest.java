@@ -31,9 +31,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.TTraceModelCheckerTestCase;
+import util.TTraceTest;
 
 public class StutteringTest_TTraceTest extends TTraceModelCheckerTestCase {
 
@@ -41,6 +43,7 @@ public class StutteringTest_TTraceTest extends TTraceModelCheckerTestCase {
 		super(StutteringTest.class, "CodePlexBug08", ExitStatus.VIOLATION_LIVENESS);
 	}
 
+	@Category(TTraceTest.class)
 	@Test
 	public void testSpec() {
 		// Simulation has finished and generated states

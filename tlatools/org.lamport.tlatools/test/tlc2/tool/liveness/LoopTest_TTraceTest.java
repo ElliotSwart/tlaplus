@@ -34,8 +34,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
+import util.TTraceTest;
 
 /**
  * System LOOP as described by Manna & Pneuli on page 423ff
@@ -46,6 +48,7 @@ public class LoopTest_TTraceTest extends TTraceModelCheckerTestCase {
 		super(LoopTest.class, "Loop", ExitStatus.VIOLATION_LIVENESS);
 	}
 
+	@Category(TTraceTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

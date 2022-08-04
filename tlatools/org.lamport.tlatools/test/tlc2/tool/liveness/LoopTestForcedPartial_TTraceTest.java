@@ -34,9 +34,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.AbstractChecker;
+import util.TTraceTest;
 
 /**
  * Identical to {@link LoopTest}, except that liveness checking uses
@@ -53,6 +55,7 @@ public class LoopTestForcedPartial_TTraceTest extends TTraceModelCheckerTestCase
 		super(LoopTestForcedPartial.class, "Loop", ExitStatus.VIOLATION_LIVENESS);
 	}
 
+	@Category(TTraceTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states
