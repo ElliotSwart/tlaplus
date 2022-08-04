@@ -35,9 +35,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.TTraceModelCheckerTestCase;
+import util.TTraceTest;
 
 public class DepthFirstDieHardTest_TTraceTest extends TTraceModelCheckerTestCase {
 
@@ -45,6 +47,7 @@ public class DepthFirstDieHardTest_TTraceTest extends TTraceModelCheckerTestCase
 		super(DepthFirstDieHardTest.class, ExitStatus.VIOLATION_SAFETY);
 	}
 
+	@Category(TTraceTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

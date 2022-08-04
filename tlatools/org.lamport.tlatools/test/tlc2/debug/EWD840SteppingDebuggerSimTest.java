@@ -38,10 +38,12 @@ import java.util.Set;
 import org.eclipse.lsp4j.debug.StackFrame;
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.tool.TLCState;
 import tlc2.util.Context;
 import tlc2.value.impl.IntValue;
+import util.DebuggerTest;
 
 public class EWD840SteppingDebuggerSimTest extends TLCDebuggerTestCase {
 
@@ -59,6 +61,7 @@ public class EWD840SteppingDebuggerSimTest extends TLCDebuggerTestCase {
 		return true;
 	}
 
+	@Category(DebuggerTest.class)
 	@Test
 	public void testSpec() throws Exception {
 		// A "Next" breakpoint, i.e. a breakpoint that fires when a state has been

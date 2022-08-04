@@ -28,6 +28,7 @@ package pcal;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import tlc2.output.EC;
@@ -38,6 +39,7 @@ public class TestPCandStackTest extends PCalModelCheckerTestCase {
 		super("TestPCandStack", "pcal");
 	}
 
+	@Ignore // Known failure
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

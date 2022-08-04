@@ -45,6 +45,7 @@ import org.eclipse.lsp4j.debug.StackFrame;
 import org.eclipse.lsp4j.debug.Variable;
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tla2sany.semantic.OpDeclNode;
 import tlc2.debug.TLCStateStackFrame.DebuggerValue;
 import tlc2.output.EC;
@@ -55,6 +56,7 @@ import tlc2.value.impl.SetEnumValue;
 import tlc2.value.impl.SetOfRcdsValue;
 import tlc2.value.impl.TLCVariable;
 import tlc2.value.impl.TupleValue;
+import util.DebuggerTest;
 
 public class EWD998ChanDebuggerTest extends TLCDebuggerTestCase {
 
@@ -67,6 +69,7 @@ public class EWD998ChanDebuggerTest extends TLCDebuggerTestCase {
 		super(MDL, FOLDER, EC.ExitStatus.SUCCESS);
 	}
 
+	@Category(DebuggerTest.class)
 	@Test
 	public void testSpec() throws Exception {
 		StackFrame[] stackFrames = debugger.stackTrace();

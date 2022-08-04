@@ -31,8 +31,10 @@ import static org.junit.Assert.assertNotEquals;
 import org.eclipse.lsp4j.debug.EvaluateResponse;
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.value.impl.TupleValue;
+import util.DebuggerTest;
 
 public class EWD998TraceDebuggerTest extends TLCDebuggerTestCase {
 
@@ -43,6 +45,7 @@ public class EWD998TraceDebuggerTest extends TLCDebuggerTestCase {
 		super(MDL, FOLDER, new String[] { "-config", "EWD998_TTrace.tla", "-noGenerateSpecTE" }, EC.ExitStatus.VIOLATION_LIVENESS);
 	}
 
+	@Category(DebuggerTest.class)
 	@Test
 	public void testSpec() throws Exception {
 		

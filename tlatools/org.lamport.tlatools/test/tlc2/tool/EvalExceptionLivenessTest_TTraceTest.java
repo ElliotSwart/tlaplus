@@ -33,8 +33,10 @@ import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.tool.liveness.TTraceModelCheckerTestCase;
+import util.TTraceTest;
 
 public class EvalExceptionLivenessTest_TTraceTest extends TTraceModelCheckerTestCase {
 
@@ -49,6 +51,7 @@ public class EvalExceptionLivenessTest_TTraceTest extends TTraceModelCheckerTest
 
     // See https://github.com/tlaplus/tlaplus/pull/588#issuecomment-821745313.
     @Ignore("TESpec Bug - Monolith")
+	@Category(TTraceTest.class)
 	@Test
     public void testSpec() {
         assertTrue(recorder.recorded(EC.TLC_FINISHED));

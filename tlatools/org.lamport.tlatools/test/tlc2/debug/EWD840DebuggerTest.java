@@ -34,10 +34,12 @@ import org.eclipse.lsp4j.debug.StackFrame;
 import org.eclipse.lsp4j.debug.Variable;
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tla2sany.semantic.OpDeclNode;
 import tlc2.output.EC;
 import tlc2.util.Context;
 import tlc2.value.impl.IntValue;
+import util.DebuggerTest;
 
 public class EWD840DebuggerTest extends TLCDebuggerTestCase {
 
@@ -49,6 +51,7 @@ public class EWD840DebuggerTest extends TLCDebuggerTestCase {
 		super(MDL, RM, EC.ExitStatus.VIOLATION_SAFETY);
 	}
 
+	@Category(DebuggerTest.class)
 	@Test
 	public void testSpec() throws Exception {
 		StackFrame[] stackFrames = debugger.stackTrace();

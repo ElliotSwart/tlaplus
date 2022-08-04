@@ -34,6 +34,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.TTraceModelCheckerTestCase;
@@ -41,6 +42,7 @@ import tlc2.value.IBoolValue;
 import tlc2.value.IValue;
 import tlc2.value.impl.BoolValue;
 import tlc2.value.impl.IntValue;
+import util.TTraceTest;
 import util.UniqueString;
 
 public class RandomSubsetTest_TTraceTest extends TTraceModelCheckerTestCase {
@@ -49,6 +51,7 @@ public class RandomSubsetTest_TTraceTest extends TTraceModelCheckerTestCase {
 		super(RandomSubsetTest.class, ExitStatus.VIOLATION_SAFETY);
 	}
 
+	@Category(TTraceTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

@@ -31,8 +31,10 @@ import org.eclipse.lsp4j.debug.SetBreakpointsArguments;
 import org.eclipse.lsp4j.debug.StackFrame;
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.util.Context;
+import util.DebuggerTest;
 
 public class Debug03Test extends TLCDebuggerTestCase {
 
@@ -43,6 +45,7 @@ public class Debug03Test extends TLCDebuggerTestCase {
 		super(RM, FOLDER, new String[] { "-config", "Debug03.tla" }, EC.ExitStatus.SUCCESS);
 	}
 
+	@Category(DebuggerTest.class)
 	@Test
 	public void testSpec() throws Exception {
 

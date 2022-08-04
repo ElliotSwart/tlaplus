@@ -30,7 +30,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
+import util.LongTest;
 
 public class SimpleMultiProcTest extends PCalModelCheckerTestCase {
 
@@ -38,6 +40,7 @@ public class SimpleMultiProcTest extends PCalModelCheckerTestCase {
 		super("SimpleMultiProc", "pcal", new String[] {"-wf", "-termination"});
 	}
 
+	@Category(LongTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recordedWithStringValue(EC.TLC_INIT_GENERATED1, "16"));

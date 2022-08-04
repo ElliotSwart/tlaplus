@@ -34,9 +34,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.TTraceModelCheckerTestCase;
+import util.TTraceTest;
 
 public class ViewMapTest_TTraceTest extends TTraceModelCheckerTestCase {
 
@@ -44,7 +46,8 @@ public class ViewMapTest_TTraceTest extends TTraceModelCheckerTestCase {
 		super(ViewMapTest.class, new String[] { "-view" }, ExitStatus.VIOLATION_SAFETY);
 	}
 
-	@Test    
+	@Category(TTraceTest.class)
+	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
 		assertFalse(recorder.recorded(EC.GENERAL));

@@ -33,8 +33,10 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.tool.liveness.TTraceModelCheckerTestCase;
+import util.TTraceTest;
 
 public class Github597Test_TTraceTest extends TTraceModelCheckerTestCase {
 
@@ -57,6 +59,7 @@ public class Github597Test_TTraceTest extends TTraceModelCheckerTestCase {
 		return false;
 	}
 
+	@Category(TTraceTest.class)
 	@Test
 	public void testSpec() throws FileNotFoundException, IOException {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

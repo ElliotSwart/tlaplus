@@ -34,12 +34,14 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.TTraceModelCheckerTestCase;
 import tlc2.value.Values;
 import tlc2.value.impl.IntervalValue;
 import tlc2.value.impl.SubsetValue;
+import util.TTraceTest;
 
 /**
  * TLC bug caused by TLC's not preserving the semantics of CHOOSE
@@ -93,6 +95,7 @@ public class BugzillaBug279Test_TTraceTest extends TTraceModelCheckerTestCase {
 		return false;
 	}
 
+	@Category(TTraceTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

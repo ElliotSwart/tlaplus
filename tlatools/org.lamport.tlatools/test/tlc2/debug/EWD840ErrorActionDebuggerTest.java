@@ -33,7 +33,9 @@ import org.eclipse.lsp4j.debug.StackFrame;
 import org.eclipse.lsp4j.debug.Variable;
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.util.Context;
+import util.DebuggerTest;
 
 public class EWD840ErrorActionDebuggerTest extends TLCDebuggerTestCase {
 
@@ -46,6 +48,7 @@ public class EWD840ErrorActionDebuggerTest extends TLCDebuggerTestCase {
 																		// -1?
 	}
 
+	@Category(DebuggerTest.class)
 	@Test
 	public void testSpec() throws Exception {
 		// This is just the assume that this test ignores.

@@ -34,11 +34,13 @@ import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
 
 import tlc2.output.EC;
 import tlc2.tool.liveness.TTraceModelCheckerTestCase;
+import util.TTraceTest;
 
 @RunWith(BlockJUnit4ClassRunner.class)
 public class AliasSafetySimuTest_TTraceTest extends TTraceModelCheckerTestCase {
@@ -50,6 +52,7 @@ public class AliasSafetySimuTest_TTraceTest extends TTraceModelCheckerTestCase {
 	// ALIAS modifies the output of the original spec, do we need to worry
 	// about these cases and also create a ALIAS in our TE spec?
     @Ignore("TESpec Bug")
+	@Category(TTraceTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

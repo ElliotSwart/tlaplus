@@ -176,7 +176,7 @@
 				<configuration>
 					<threadCount>1</threadCount>
 					<forkCount>1</forkCount>
-					<reuseForks>false</reuseForks>
+					<reuseForks>true</reuseForks>
 					<parallel>classes</parallel>
 					<argLine>-ea -XX:MaxDirectMemorySize=512k -XX:+UseParallelGC</argLine>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
@@ -190,6 +190,9 @@
 						  </goals>
 						<configuration>
 							<skip>false</skip>
+							<excludedGroups>util.DebuggerTest</excludedGroups>
+							<excludedGroups>util.LongTest</excludedGroups>
+							<excludedGroups>util.TTraceTest</excludedGroups>
 							<excludes>
 								<!-- Produce bogus crash with Quarantine runner. -->
 								<exclude>tlc2/tool/distributed/TLCSetTest.java</exclude>
@@ -204,7 +207,6 @@
 		
 								<exclude>**/PCalTest.java</exclude>
 								<exclude>**/SANYTest.java</exclude>
-								<exclude>**/*_TTraceTest.java</exclude>
 								<exclude>**/CommonTestCase.java</exclude>
 								<exclude>**/ModelCheckerTestCase.java</exclude>
 								<exclude>**/TTraceModelCheckerTestCase.java</exclude>
@@ -230,15 +232,6 @@
 								<exclude>**/AllTests.java</exclude>
 								<exclude>util/IsolatedTestCaseRunner.java"</exclude>
 								<!-- Known test failures -->
-								<exclude>**/pcal/StackTestTest.java</exclude>
-								<exclude>**/pcal/TestPCandStackTest.java</exclude>
-								<!-- These take too long -->
-								<exclude>**/MacroQuicksortTest.java</exclude>
-								<exclude>**/MacroRealQuicksortTest.java</exclude>
-								<exclude>**/PcalPaxosTest.java</exclude>
-								<exclude>**/DetlefsTest.java</exclude>
-								<exclude>**/StarkMutexTest.java</exclude>
-								<exclude>**/SimpleMultiProcTest.java</exclude>
 							</excludes>
 						</configuration>
 					</execution>

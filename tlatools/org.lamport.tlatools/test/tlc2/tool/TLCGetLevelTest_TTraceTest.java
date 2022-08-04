@@ -33,9 +33,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.TTraceModelCheckerTestCase;
+import util.TTraceTest;
 
 public class TLCGetLevelTest_TTraceTest extends TTraceModelCheckerTestCase {
 
@@ -43,6 +45,7 @@ public class TLCGetLevelTest_TTraceTest extends TTraceModelCheckerTestCase {
 		super(TLCGetLevelTest.class, ExitStatus.VIOLATION_LIVENESS);
 	}
 
+	@Category(TTraceTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
