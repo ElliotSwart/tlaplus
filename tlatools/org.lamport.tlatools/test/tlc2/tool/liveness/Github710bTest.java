@@ -34,10 +34,12 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.TLCGlobals;
 import tlc2.output.EC;
 import tlc2.value.IValue;
 import tlc2.value.impl.IntValue;
+import util.DebuggerTest;
 
 public class Github710bTest extends ModelCheckerTestCase {
 
@@ -56,6 +58,7 @@ public class Github710bTest extends ModelCheckerTestCase {
 		return true;
 	}
 
+	@Category(DebuggerTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "3"));
