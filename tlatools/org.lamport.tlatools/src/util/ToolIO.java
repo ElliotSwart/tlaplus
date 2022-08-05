@@ -223,8 +223,6 @@ class ToolPrintStream extends PrintStream
     public ToolPrintStream()
     {
         super(new PipedOutputStream());
-        ToolIO.out = this;
-        ToolIO.err = this;
     }
     
     /* (non-Javadoc)
