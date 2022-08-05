@@ -30,12 +30,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import junit.framework.TestCase;
+import org.junit.Test;
 import tla2sany.semantic.OpDeclNode;
 import tlc2.tool.queue.DummyTLCState;
 import tlc2.util.SetOfStates;
 
 public class SetOfStatesTest extends TestCase {
 
+	@Test
 	public void testSizeEmpty() {
 		final SetOfStates s = new SetOfStates(16);
 		
@@ -43,6 +45,7 @@ public class SetOfStatesTest extends TestCase {
 		assertEquals(0, s.size());
 	}
 
+	@Test
 	public void testSize() {
 		final SetOfStates s = new SetOfStates(16);
 		s.put(new DummyTLCState(new OpDeclNode[]{}, 1L));
@@ -51,6 +54,7 @@ public class SetOfStatesTest extends TestCase {
 		assertEquals(1, s.size());
 	}
 
+	@Test
 	public void testGrow() {
 		final SetOfStates s = new SetOfStates(1);
 		
@@ -62,6 +66,7 @@ public class SetOfStatesTest extends TestCase {
 		assertEquals(32, s.size());
 	}
 
+	@Test
 	public void testIterate() {
 		final SetOfStates s = new SetOfStates(1);
 		
@@ -88,6 +93,7 @@ public class SetOfStatesTest extends TestCase {
 		assertEquals((32 / 2) * (1 + 32), sum);
 	}
 
+	@Test
 	public void testDuplicates() {
 		final SetOfStates s = new SetOfStates(1);
 		
@@ -107,6 +113,7 @@ public class SetOfStatesTest extends TestCase {
 		assertEquals(32, states.size());
 	}
 
+	@Test
 	public void testDuplicatesButNotEqual() {
 		// duplicates in terms of fingerprints, but not in terms of equality
 		// (symmetry).
