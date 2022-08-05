@@ -48,6 +48,11 @@ public class LiveWorker implements Callable<Boolean> {
 			.getPackage().getName(), "StronglyConnectedComponent sizes");
 	
 	private static int errFoundByThread = -1;
+
+	public static void resetErrFoundByThread(){
+		errFoundByThread = -1;
+	}
+
 	private static final Object workerLock = new Object();
 
 	private OrderOfSolution oos = null;

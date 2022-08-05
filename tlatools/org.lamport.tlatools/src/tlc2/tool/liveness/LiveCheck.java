@@ -186,6 +186,9 @@ public class LiveCheck implements ILiveCheck {
 	
 	@Override
 	public int finalCheck(final ITool tool) throws InterruptedException, IOException {
+
+		LiveWorker.resetErrFoundByThread();
+
 		// Do *not* re-create the nodePtrTable after the check which takes a
 		// while for larger disk graphs.
 		return check0(tool, true);
