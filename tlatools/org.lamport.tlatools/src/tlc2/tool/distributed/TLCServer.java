@@ -127,6 +127,8 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	private TLCState errState = null;
 	private boolean done = false;
 	private boolean keepCallStack = false;
+
+	private Registry rg;
 	
 	/**
 	 * Main data structure used to maintain the list of active workers (ref
@@ -396,6 +398,22 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 		this.trace.close();
 		this.fpSetManager.close();
 
+		// dispose RMI leftovers
+		try {
+			rg.unbind(SERVER_NAME);
+		}
+		catch (java.rmi.NotBoundException e){}
+
+		try {
+			rg.unbind(SERVER_WORKER_NAME);
+		}
+		catch (java.rmi.NotBoundException e){}
+
+		try {
+			UnicastRemoteObject.unexportObject(this, true);
+		}
+		catch (java.rmi.NoSuchObjectException e){}
+
 		if (!VETO_CLEANUP) {
 			FileUtil.deleteDir(new File(this.metadir), true);
 		}
@@ -430,6 +448,8 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 		return false;
 	}
 
+
+
 	/**
 	 * @param server
 	 * @throws IOException
@@ -454,7 +474,14 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 
 		// Create the central naming authority that is used by _all_ nodes
 		final String hostname = InetAddress.getLocalHost().getHostName();
-		final Registry rg = LocateRegistry.createRegistry(Port);
+
+		try {
+			rg = LocateRegistry.createRegistry(Port);
+		}
+		catch (java.rmi.server.ExportException e){
+			rg = LocateRegistry.getRegistry(Port);
+		}
+
 		rg.rebind(SERVER_NAME, this);
 		
 		// First register TLCSERVER with RMI and only then wait for all FPSets
@@ -647,11 +674,6 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 
 		// Close trace and (distributed) _FPSet_ servers!
 		close();
-		
-		// dispose RMI leftovers
-		rg.unbind(SERVER_WORKER_NAME);
-		rg.unbind(SERVER_NAME);
-		UnicastRemoteObject.unexportObject(this, false);
 	}
 	
 	/**
