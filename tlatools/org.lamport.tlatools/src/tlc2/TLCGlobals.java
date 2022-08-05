@@ -151,6 +151,26 @@ public class TLCGlobals
     // format messages easy for parsing
     public static boolean tool = false;
 
+	public static void reset(){
+		numWorkers = 1;
+		livenessThreshold = 0.1d;
+		lnCheck = "default";
+		coverageInterval = -1;
+		continuation = false;
+		printDiffsOnly = false;
+		warn = true;
+		chkptDuration = Integer.getInteger(
+				TLCGlobals.class.getName() + ".chkpt", DEFAULT_CHECKPOINT_DURATION);
+		forceChkpt = false;
+		metaDir = null;
+		useView = false;
+		useGZIP = false;
+		debug = false;
+		tool = false;
+		expand = true;
+	}
+
+
 	public static boolean isValidSetSize(final int bound) {
         return bound >= 1;
     }

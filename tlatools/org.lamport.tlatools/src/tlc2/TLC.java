@@ -406,6 +406,8 @@ public class TLC {
 		boolean generateTESpec = true;
 		boolean forceGenerateTESpec = false;
 		Path teSpecOut = null;
+
+        TLCGlobals.reset();
 		
         // SZ Feb 20, 2009: extracted this method to separate the 
         // parameter handling from the actual processing
