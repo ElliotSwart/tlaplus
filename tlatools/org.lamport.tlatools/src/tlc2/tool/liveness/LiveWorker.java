@@ -46,12 +46,6 @@ public class LiveWorker implements Callable<Boolean> {
 
 	public static final IBucketStatistics STATS = new BucketStatistics("Histogram SCC sizes", LiveWorker.class
 			.getPackage().getName(), "StronglyConnectedComponent sizes");
-	
-	private static int errFoundByThread = -1;
-
-
-
-	private static final Object workerLock = new Object();
 
 	private OrderOfSolution oos = null;
 	private AbstractDiskGraph dg = null;
@@ -71,9 +65,13 @@ public class LiveWorker implements Callable<Boolean> {
 	private final AbstractChecker mainChecker;
 	private final Simulator simulator;
 
-	public LiveWorker(final ITool tool, final int id, final int numWorkers, final ILiveCheck liveCheck,
+	private final LiveWorkerSynchronization synchronization;
+
+	public LiveWorker(final LiveWorkerSynchronization synchronization, final ITool tool, final int id, final int numWorkers, final ILiveCheck liveCheck,
 					  final BlockingQueue<ILiveChecker> queue, final boolean finalCheck,
 					  final AbstractChecker modelChecker, final Simulator simulator) {
+
+		this.synchronization = synchronization;
 		this.id = id;
 		this.tool = tool;
 		this.numWorkers = numWorkers;
@@ -83,45 +81,6 @@ public class LiveWorker implements Callable<Boolean> {
 
 		this.mainChecker = modelChecker;
 		this.simulator = simulator;
-	}
-
-	/**
-	 * Returns true iff an error has already been found.
-	 */
-	private static boolean hasErrFound() {
-		synchronized (workerLock) {
-			return (errFoundByThread != -1);
-		}
-	}
-
-	// True iff this LiveWorker found a liveness violation.zs
-	private static boolean hasErrFound(final int id) {
-		synchronized (workerLock) {
-			return (errFoundByThread == id);
-		}
-	}
-
-	public static void resetErrFoundByThread(){
-		synchronized (workerLock) {
-			errFoundByThread = -1;
-		}
-	}
-
-	/**
-	 * Returns true iff either an error has not been found or the error is found
-	 * by this thread.
-	 * <p>
-	 * This is used so that only one of the threads which have found an error
-	 * prints it.
-	 */
-	private/* static synchronized */boolean setErrFound() {
-		synchronized (workerLock) {
-			// (* GetId()) {
-			if (errFoundByThread == -1) {
-				errFoundByThread = this.id; // GetId();
-				return true;
-			} else return errFoundByThread == this.id;
-		}
 	}
 
 	/**
@@ -762,7 +721,7 @@ public class LiveWorker implements Callable<Boolean> {
 		// This component must contain a counter-example because all three
 		// conditions are satisfied. So, print a counter-example (if this thread
 		// is the first one to find a counter-example)!
-		if (setErrFound()) {
+		if (synchronization.setErrFound(this.id)) {
 			this.printTrace(tool, state, tidx, com);
 		}
 		return false;
@@ -1264,7 +1223,7 @@ public class LiveWorker implements Callable<Boolean> {
 			// there is none. Do *not* block when there are no more checkers
 			// available. Nobody is going to add new checkers to the queue.
 			final ILiveChecker checker = queue.poll();
-			if (checker == null || hasErrFound()) {
+			if (checker == null || synchronization.hasErrFound()) {
 				// Another thread has either found an error (violation of a
 				// liveness property) OR there is no more work (checker) to
 				// be done.
@@ -1276,7 +1235,7 @@ public class LiveWorker implements Callable<Boolean> {
 			this.dg.createCache();
 			final PossibleErrorModel[] pems = this.oos.getPems();
             for (final PossibleErrorModel possibleErrorModel : pems) {
-                if (!hasErrFound()) {
+                if (!synchronization.hasErrFound()) {
                     this.pem = possibleErrorModel;
                     this.checkSccs(tool);
                 }
@@ -1290,7 +1249,7 @@ public class LiveWorker implements Callable<Boolean> {
 			// that the disk graph's invariants hold.
 			assert this.dg.checkInvariants(oos.getCheckState().length, oos.getCheckAction().length);
 		}
-		return hasErrFound(this.id);
+		return synchronization.hasErrFound(this.id);
 	}
 
 	public String toDotViz(final long state, final int tidx, final TableauNodePtrTable tnpt) throws IOException {

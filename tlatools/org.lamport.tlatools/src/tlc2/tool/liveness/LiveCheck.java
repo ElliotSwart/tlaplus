@@ -200,8 +200,6 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	protected int check0(final ITool tool, final boolean finalCheck) throws InterruptedException, IOException {
 		final long startTime = System.currentTimeMillis();
-
-		LiveWorker.resetErrFoundByThread();
 		
 		// Sum up the number of nodes in all disk graphs to indicate the amount
 		// of work to be done by liveness checking.
@@ -245,8 +243,10 @@ public class LiveCheck implements ILiveCheck {
 		// creating a low-level array.
 		final CompletionService<Boolean> completionService = new ExecutorCompletionService<>(pool);
 
+		final LiveWorkerSynchronization synchronization = new LiveWorkerSynchronization();
+
 		for (int i = 0; i < wNum; i++) {
-			completionService.submit(new LiveWorker(tool, i, wNum, this, queue, finalCheck, tool.getMainChecker(), tool.getSimulator()));
+			completionService.submit(new LiveWorker(synchronization, tool, i, wNum, this, queue, finalCheck, tool.getMainChecker(), tool.getSimulator()));
 		}
 		// Wait for all LWs to complete.
 		pool.shutdown();
