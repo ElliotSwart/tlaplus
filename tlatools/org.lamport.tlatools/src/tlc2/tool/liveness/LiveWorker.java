@@ -49,9 +49,7 @@ public class LiveWorker implements Callable<Boolean> {
 	
 	private static int errFoundByThread = -1;
 
-	public static void resetErrFoundByThread(){
-		errFoundByThread = -1;
-	}
+
 
 	private static final Object workerLock = new Object();
 
@@ -100,6 +98,12 @@ public class LiveWorker implements Callable<Boolean> {
 	private static boolean hasErrFound(final int id) {
 		synchronized (workerLock) {
 			return (errFoundByThread == id);
+		}
+	}
+
+	public static void resetErrFoundByThread(){
+		synchronized (workerLock) {
+			errFoundByThread = -1;
 		}
 	}
 

@@ -187,8 +187,6 @@ public class LiveCheck implements ILiveCheck {
 	@Override
 	public int finalCheck(final ITool tool) throws InterruptedException, IOException {
 
-		LiveWorker.resetErrFoundByThread();
-
 		// Do *not* re-create the nodePtrTable after the check which takes a
 		// while for larger disk graphs.
 		return check0(tool, true);
@@ -202,6 +200,8 @@ public class LiveCheck implements ILiveCheck {
 	 */
 	protected int check0(final ITool tool, final boolean finalCheck) throws InterruptedException, IOException {
 		final long startTime = System.currentTimeMillis();
+
+		LiveWorker.resetErrFoundByThread();
 		
 		// Sum up the number of nodes in all disk graphs to indicate the amount
 		// of work to be done by liveness checking.
