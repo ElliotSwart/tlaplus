@@ -4,8 +4,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tla2sany.modanalyzer.SpecObj;
 import tlc2.tool.CommonTestCase;
+import util.IndependentlyRunTest;
 import util.SimpleFilenameToStream;
 import util.ToolIO;
 
@@ -21,6 +23,7 @@ public class Github429Test {
 		sany.frontEndInitialize(moduleSpec, ToolIO.out);
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testForFailedParse() {
         try {

@@ -30,7 +30,9 @@ import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import util.Assert.TLCRuntimeException;
+import util.IndependentlyRunTest;
 import util.UniqueString;
 
 public class ModelValueTest {
@@ -220,6 +222,7 @@ public class ModelValueTest {
 		assertEquals(0, a.compareTo(a));
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testCompareToTypedMVsUntyped() {
 		assertEquals(1, ModelValue.make("A_a").compareTo(ModelValue.make("untyped")));

@@ -36,10 +36,12 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.module.TLCExt;
 import tlc2.util.FP64;
 import tlc2.value.RandomEnumerableValues;
 import util.Assert.TLCRuntimeException;
+import util.IndependentlyRunTest;
 
 public class FcnRcdValueTest {
 
@@ -160,7 +162,8 @@ public class FcnRcdValueTest {
 			assertEquals(IntValue.gen(i), val);
 		}
 	}
-	
+
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSelectBinarySearchTypedMV() {
 		final String str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

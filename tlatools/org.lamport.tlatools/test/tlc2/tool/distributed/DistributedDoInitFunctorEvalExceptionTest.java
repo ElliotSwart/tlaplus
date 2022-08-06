@@ -31,7 +31,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
+import util.IndependentlyRunTest;
 
 public class DistributedDoInitFunctorEvalExceptionTest extends TLCServerTestCase {
 
@@ -39,6 +41,7 @@ public class DistributedDoInitFunctorEvalExceptionTest extends TLCServerTestCase
 		super("DoInitFunctorEvalException", "DoInitFunctor");
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

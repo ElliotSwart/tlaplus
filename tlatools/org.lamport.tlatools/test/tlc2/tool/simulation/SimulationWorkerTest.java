@@ -14,6 +14,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.TLCGlobals;
 import tlc2.TestMPRecorder;
 import tlc2.output.EC;
@@ -29,11 +30,7 @@ import tlc2.tool.impl.Tool;
 import tlc2.tool.impl.Tool.Mode;
 import tlc2.tool.liveness.ILiveCheck;
 import tlc2.tool.liveness.NoOpLiveCheck;
-import util.FileUtil;
-import util.SimpleFilenameToStream;
-import util.TLAConstants;
-import util.ToolIO;
-import util.UniqueString;
+import util.*;
 
 /**
  * Correctness tests for the SimulationWorker.
@@ -321,7 +318,8 @@ public class SimulationWorkerTest extends CommonTestCase {
 		worker.join();
 		assertFalse(worker.isAlive());
 	}
-	
+
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testModelStateConstraint() throws Exception {
 		final ITool tool = new FastTool("", "BasicMultiTrace", "MCWithConstraint", new SimpleFilenameToStream(), Mode.Simulation);
@@ -338,7 +336,8 @@ public class SimulationWorkerTest extends CommonTestCase {
 		assertTrue(resultQueue.isEmpty());
 		assertFalse(worker.isAlive());
 	}
-	
+
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testModelActionConstraint() throws Exception {
 		final ITool tool = new FastTool("", "BasicMultiTrace", "MCWithActionConstraint", new SimpleFilenameToStream(), Mode.Simulation);

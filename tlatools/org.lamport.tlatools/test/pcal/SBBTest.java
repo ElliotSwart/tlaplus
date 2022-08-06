@@ -34,8 +34,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
+import util.IndependentlyRunTest;
 
 public class SBBTest extends PCalModelCheckerTestCase {
 
@@ -43,6 +45,7 @@ public class SBBTest extends PCalModelCheckerTestCase {
 		super("SBB", "pcal", ExitStatus.VIOLATION_SAFETY);
 	}
 
+	@Category(IndependentlyRunTest.class) // Relies on ordering of unique strings
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recordedWithStringValue(EC.TLC_INIT_GENERATED1, "1"));

@@ -31,8 +31,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.tool.liveness.ModelCheckerTestCase;
+import util.IndependentlyRunTest;
 
 public class DistributedDoInitFunctorInvariantContinueTest extends ModelCheckerTestCase {
 	
@@ -40,6 +42,7 @@ public class DistributedDoInitFunctorInvariantContinueTest extends ModelCheckerT
 		super("DoInitFunctorInvariant", "DoInitFunctor", new String[] {"-continue"});
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

@@ -8,10 +8,12 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tla2sany.semantic.OpDeclNode;
 import tlc2.tool.TLCState;
 import tlc2.tool.TLCTrace;
 import tlc2.tool.queue.DummyTLCState;
+import util.LongTest;
 
 public abstract class AbstractHeapBasedDiskFPSetTest {
 	
@@ -80,7 +82,8 @@ public abstract class AbstractHeapBasedDiskFPSetTest {
 	public void testCtorULNextPow2Min1() throws Exception {
 		doTest((getUpperLimit() << 1) - 1);
 	}
-	
+
+	@Category(LongTest.class)
 	@Test
 	public void testFPSetRecovery() throws Exception {
 		final int limit = 99999;
@@ -119,7 +122,8 @@ public abstract class AbstractHeapBasedDiskFPSetTest {
 
 		fpSet.close();
 	}
-	
+
+	@Category(LongTest.class)
 	@Test
 	public void testFPSetRecovery2() throws Exception {
 		final String metadir = System.getProperty("java.io.tmpdir");

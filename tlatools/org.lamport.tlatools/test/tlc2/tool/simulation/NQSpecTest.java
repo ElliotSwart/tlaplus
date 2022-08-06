@@ -33,9 +33,11 @@ import java.io.File;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.TLC;
 import tlc2.output.EC;
 import tlc2.tool.liveness.ModelCheckerTestCase;
+import util.IndependentlyRunTest;
 import util.TLAConstants;
 
 public class NQSpecTest extends ModelCheckerTestCase {
@@ -45,6 +47,7 @@ public class NQSpecTest extends ModelCheckerTestCase {
 		TLC.setTraceNum(100);
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// Simulation has finished and generated states

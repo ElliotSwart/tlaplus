@@ -34,7 +34,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
+import util.IndependentlyRunTest;
 
 public class RABTest extends PCalModelCheckerTestCase {
 
@@ -42,6 +44,7 @@ public class RABTest extends PCalModelCheckerTestCase {
 		super("RAB", "pcal", EC.ExitStatus.VIOLATION_SAFETY);
 	}
 
+	@Category(IndependentlyRunTest.class) // Relies on ordering of unique strings
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recordedWithStringValue(EC.TLC_INIT_GENERATED1, "4"));
