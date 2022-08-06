@@ -784,7 +784,12 @@ public class Simulator {
 			worker.interrupt();
 		}
 
-		terminationTimer.cancel();
+		if(Objects.nonNull(terminationTimer)){
+			terminationTimer.cancel();
+			terminationTimer = null;
+		}
+
+
 	}
 
 	public RandomGenerator getRNG() {
