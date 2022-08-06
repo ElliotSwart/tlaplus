@@ -768,6 +768,9 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
       this.processedDefs = new HashSet<>();
       this.resolver = resolver;
 
+      // Reset unique string to allow this parse
+      UniqueString.resetLocations();
+
       // SZ Mar 9, 2009: added initialization of the modelValue class
       ModelValue.init();
       this.configFile = configFile;
