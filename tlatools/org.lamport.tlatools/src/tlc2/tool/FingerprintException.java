@@ -111,8 +111,11 @@ final public IValue value;
 		  stack.add(this.value.getSource());
 	  }
 
-	  while (next != null && next.value != null) {
-		stack.add(next.value.getSource());
+      var curr = next;
+
+	  while (curr != null && curr.value != null) {
+		stack.add(curr.value.getSource());
+        curr = curr.next;
 	  }
 	  
 	  return stack;
