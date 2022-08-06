@@ -8,14 +8,8 @@ package tlc2.tool;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicLong;
@@ -62,6 +56,8 @@ public class Simulator {
 			.getBoolean(Simulator.class.getName() + ".experimentalLiveness");
 	private final String traceActions;
 	private final Value config;
+
+	protected Timer terminationTimer;
 
 	/* Constructors */
 
@@ -130,7 +126,7 @@ public class Simulator {
         }
 		
 		//TODO Eventually derive Simulator from AbstractChecker.
-		AbstractChecker.scheduleTermination(new TimerTask() {
+		terminationTimer = AbstractChecker.scheduleTermination(new TimerTask() {
 			@Override
 			public void run() {
 				Simulator.this.stop();
@@ -787,6 +783,8 @@ public class Simulator {
 			worker.setStopped();
 			worker.interrupt();
 		}
+
+		terminationTimer.cancel();
 	}
 
 	public RandomGenerator getRNG() {

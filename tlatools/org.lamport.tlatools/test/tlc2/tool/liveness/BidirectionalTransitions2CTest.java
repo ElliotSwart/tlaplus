@@ -33,15 +33,18 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
+import util.IndependentlyRunTest;
 
 public abstract class BidirectionalTransitions2CTest extends ModelCheckerTestCase {
 
 	public BidirectionalTransitions2CTest(final String config) {
 		super("BidirectionalTransitions", new String[] { "-config", config }, ExitStatus.VIOLATION_LIVENESS);
 	}
-	
+
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

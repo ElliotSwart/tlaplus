@@ -31,9 +31,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.ModelCheckerTestCase;
+import util.IndependentlyRunTest;
 import util.TLAConstants;
 
 public class StutteringTest extends ModelCheckerTestCase {
@@ -42,6 +44,7 @@ public class StutteringTest extends ModelCheckerTestCase {
 		super(TLAConstants.Files.MODEL_CHECK_FILE_BASENAME, "CodePlexBug08", new String[] { "-simulate" }, ExitStatus.VIOLATION_LIVENESS);
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// Simulation has finished and generated states

@@ -41,8 +41,10 @@ import java.util.zip.ZipFile;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
+import util.IndependentlyRunTest;
 
 /**
  * see http://tlaplus.codeplex.com/workitem/8
@@ -53,7 +55,7 @@ public class CodePlexBug08EWD840FL2FromCheckpointTest extends ModelCheckerTestCa
 		super("EWD840MC2", "CodePlexBug08", new String[] {"-gzip", "-recover", BASE_PATH + "CodePlexBug08" + File.separator + "checkpoint"}, ExitStatus.VIOLATION_LIVENESS);
 	}
 	
-	
+
 	@Override
 	public void setUp() {
 		try {
@@ -101,6 +103,7 @@ public class CodePlexBug08EWD840FL2FromCheckpointTest extends ModelCheckerTestCa
 		super.setUp();
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_CHECKPOINT_RECOVER_START));

@@ -35,9 +35,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.ModelCheckerTestCase;
+import util.IndependentlyRunTest;
 
 public class DepthFirstDieHardTest extends ModelCheckerTestCase {
 
@@ -45,6 +47,7 @@ public class DepthFirstDieHardTest extends ModelCheckerTestCase {
 		super("DieHard", "", new String[] {"-dfid", "7"}, ExitStatus.VIOLATION_SAFETY);
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

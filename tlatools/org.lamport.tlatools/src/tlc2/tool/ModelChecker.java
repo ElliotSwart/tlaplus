@@ -1035,6 +1035,8 @@ public class ModelChecker extends AbstractChecker
 	 */
 	@Override
 	public void stop() throws Exception {
+		super.stop();
+
 		synchronized (this) {
 			this.theStateQueue.close();
 			this.notifyAll();

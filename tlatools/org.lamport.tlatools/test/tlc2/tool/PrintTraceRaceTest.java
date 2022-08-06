@@ -34,9 +34,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.ModelCheckerTestCase;
+import util.IndependentlyRunTest;
 import util.TLAConstants;
 
 public class PrintTraceRaceTest extends ModelCheckerTestCase {
@@ -44,7 +46,8 @@ public class PrintTraceRaceTest extends ModelCheckerTestCase {
 	public PrintTraceRaceTest() {
 		super(TLAConstants.Files.MODEL_CHECK_FILE_BASENAME, "PrintTraceRace", ExitStatus.FAILURE_SAFETY_EVAL);
 	}
-	
+
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

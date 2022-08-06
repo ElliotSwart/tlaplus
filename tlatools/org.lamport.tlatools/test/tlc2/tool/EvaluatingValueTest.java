@@ -29,6 +29,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
 
@@ -42,6 +43,7 @@ import tlc2.util.Context;
 import tlc2.value.impl.BoolValue;
 import tlc2.value.impl.IntValue;
 import tlc2.value.impl.Value;
+import util.IndependentlyRunTest;
 import util.UniqueString;
 
 @RunWith(BlockJUnit4ClassRunner.class)
@@ -51,6 +53,7 @@ public class EvaluatingValueTest extends ModelCheckerTestCase {
 		super("EvaluatingValueTest");
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

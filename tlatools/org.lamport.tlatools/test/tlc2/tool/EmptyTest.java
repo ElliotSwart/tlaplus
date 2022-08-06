@@ -31,8 +31,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.tool.liveness.ModelCheckerTestCase;
+import util.IndependentlyRunTest;
 
 public class EmptyTest extends ModelCheckerTestCase {
 
@@ -40,6 +42,7 @@ public class EmptyTest extends ModelCheckerTestCase {
 		super("Empty", "", new String[] {"-coverage", "1"});
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

@@ -31,14 +31,17 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
+import util.IndependentlyRunTest;
 
 public class NoSymmetryTableauModelCheckerTest extends ModelCheckerTestCase {
 
 	public NoSymmetryTableauModelCheckerTest() {
 		super("NoSymmetryLivenessTableauMC", "symmetry");
 	}
-	
+
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker intends to check liveness

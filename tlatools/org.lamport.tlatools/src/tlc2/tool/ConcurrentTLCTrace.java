@@ -91,7 +91,7 @@ public class ConcurrentTLCTrace extends TLCTrace {
 		
 		final List<Record> records = new ArrayList<>(state.getLevel());
 		records.add(Record.getRecord(state, this.workers));
-
+		var level = getLevel();
 		// Starting at the given start fingerprint (which is the end of the
 		// trace from the point of the initial states), the sequence of
 		// predecessors fingerprints are reconstructed from the trace files up to
@@ -101,10 +101,11 @@ public class ConcurrentTLCTrace extends TLCTrace {
 			while (!record.isInitial()) {
 				records.add(record);
 				record = record.getPredecessor();
+				assert records.size() <= level;
 			}
 			// The fp of the final initial state.
 			records.add(record);
-			assert records.size() <= getLevel();
+			assert records.size() <= level;
 			return getTrace(null, records);
 		}
 	}

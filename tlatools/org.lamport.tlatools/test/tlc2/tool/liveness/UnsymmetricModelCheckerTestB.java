@@ -31,14 +31,17 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
+import util.IndependentlyRunTest;
 
 public class UnsymmetricModelCheckerTestB extends ModelCheckerTestCase {
 
 	public UnsymmetricModelCheckerTestB() {
 		super("UnsymmetricMCB", "symmetry");
 	}
-	
+
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker intends to check liveness

@@ -21,6 +21,7 @@ import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -248,6 +249,9 @@ public class FileUtil
         	sdf = new SimpleDateFormat("yy-MM-dd-HH-mm-ss");
         }
         metadir += sdf.format(date);
+        metadir += "-";
+        metadir += UUID.randomUUID().toString();
+
         final File filedir = new File(metadir);
 
         // ensure the non-existence

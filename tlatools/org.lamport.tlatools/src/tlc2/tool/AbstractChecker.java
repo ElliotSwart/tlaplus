@@ -76,6 +76,8 @@ public abstract class AbstractChecker
      */
 	protected final long startTime;
 
+    protected Timer terminationTimer;
+
     /**
      * Constructor of the abstract model checker
      * @param specFile
@@ -146,8 +148,8 @@ public abstract class AbstractChecker
 		// TLCGet("config"). In this case, we would end up locking the
 		// UniqueString#InternTable for every lookup. See Simulator too.
         this.config = createConfig();
-        
-        scheduleTermination(new TimerTask() {
+
+        terminationTimer = scheduleTermination(new TimerTask() {
 			@Override
 			public void run() {
                 try {
@@ -156,6 +158,11 @@ public abstract class AbstractChecker
 				catch (Exception e){};
 			}
 		});
+    }
+
+    public void stop() throws Exception{
+        terminationTimer.cancel();
+        terminationTimer = null;
     }
 
 
@@ -602,10 +609,6 @@ public abstract class AbstractChecker
 		return -1;
 	}
 	
-	public void stop() throws Exception {
-		throw new UnsupportedOperationException("stop not implemented");
-	}
-	
 	public void suspend() {
 		throw new UnsupportedOperationException("suspend not implemented");
 	}
@@ -613,8 +616,8 @@ public abstract class AbstractChecker
 	public void resume() {
 		throw new UnsupportedOperationException("resume not implemented");
 	}
-	
-	static void scheduleTermination(final TimerTask tt) {
+
+	static Timer scheduleTermination(final TimerTask tt) {
 		// Stops model checker after the given time in seconds. If model checking
 		// terminates before stopAfter seconds, the timer task will never run.
 		// Contrary to TLCSet("exit",...) this does not require a spec modification. Is
@@ -625,7 +628,10 @@ public abstract class AbstractChecker
 		if (stopAfter > 0) {
 			final Timer stopTimer = new Timer("TLCStopAfterTimer");
 			stopTimer.schedule(tt, stopAfter * 1000L); // seconds to milliseconds.
+            return stopTimer;
 		}
+
+        return null;
 	}
 	
 	public TLCStateInfo[] getTraceInfo(final TLCState s) throws IOException {

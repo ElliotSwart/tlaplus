@@ -34,8 +34,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
+import util.IndependentlyRunTest;
 
 /**
  * System LOOP as described by Manna & Pneuli on page 423ff
@@ -46,6 +48,7 @@ public class LoopTest extends ModelCheckerTestCase {
 		super("SystemLoop", "Loop", ExitStatus.VIOLATION_LIVENESS);
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

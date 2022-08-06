@@ -572,6 +572,8 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	 */
 	@Override
     public final void close() throws Exception {
+		super.close();
+
 		// close JMX stats
 		if(Objects.nonNull(diskFPSetMXWrapper)){
 			diskFPSetMXWrapper.unregister();

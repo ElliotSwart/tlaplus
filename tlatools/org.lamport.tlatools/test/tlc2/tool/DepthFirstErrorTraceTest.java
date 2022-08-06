@@ -35,16 +35,19 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.ModelCheckerTestCase;
+import util.IndependentlyRunTest;
 
 public class DepthFirstErrorTraceTest extends ModelCheckerTestCase {
 
 	public DepthFirstErrorTraceTest() {
 		super("DepthFirstErrorTrace", "", new String[] {"-dfid", "9"}, ExitStatus.VIOLATION_SAFETY);
 	}
-	
+
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

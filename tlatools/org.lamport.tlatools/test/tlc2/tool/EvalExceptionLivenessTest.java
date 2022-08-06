@@ -32,8 +32,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.tool.liveness.ModelCheckerTestCase;
+import util.IndependentlyRunTest;
 
 public class EvalExceptionLivenessTest extends ModelCheckerTestCase {
     public EvalExceptionLivenessTest() {
@@ -45,6 +47,7 @@ public class EvalExceptionLivenessTest extends ModelCheckerTestCase {
 		return false;
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
     public void testSpec() {
         assertTrue(recorder.recorded(EC.TLC_FINISHED));

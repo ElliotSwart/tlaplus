@@ -33,8 +33,10 @@ import java.util.regex.Pattern;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.tool.liveness.ModelCheckerTestCase;
+import util.IndependentlyRunTest;
 import util.TestPrintStream;
 import util.ToolIO;
 
@@ -54,6 +56,7 @@ public class MonolithSpecTest extends ModelCheckerTestCase {
             ToolIO.reset();
         }
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

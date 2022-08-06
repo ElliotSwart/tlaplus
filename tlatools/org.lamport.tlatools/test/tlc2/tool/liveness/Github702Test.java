@@ -3,7 +3,9 @@
 package tlc2.tool.liveness;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
+import util.IndependentlyRunTest;
 
 import static org.junit.Assert.assertTrue;
 
@@ -18,6 +20,7 @@ public class Github702Test extends ModelCheckerTestCase {
 		return false;
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_SUCCESS));

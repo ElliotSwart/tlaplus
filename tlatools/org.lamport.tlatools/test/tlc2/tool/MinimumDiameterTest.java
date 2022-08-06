@@ -30,8 +30,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.tool.liveness.ModelCheckerTestCase;
+import util.IndependentlyRunTest;
 
 public class MinimumDiameterTest extends ModelCheckerTestCase {
 
@@ -39,6 +41,7 @@ public class MinimumDiameterTest extends ModelCheckerTestCase {
 		super("MinimumDiameter");
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertFalse(recorder.recorded(EC.GENERAL));

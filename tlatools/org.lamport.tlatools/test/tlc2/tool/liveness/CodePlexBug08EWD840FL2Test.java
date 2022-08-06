@@ -34,8 +34,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
+import util.IndependentlyRunTest;
 
 /**
  * see http://tlaplus.codeplex.com/workitem/8
@@ -45,7 +47,8 @@ public class CodePlexBug08EWD840FL2Test extends ModelCheckerTestCase {
 	public CodePlexBug08EWD840FL2Test() {
 		super("EWD840MC2", "CodePlexBug08", ExitStatus.VIOLATION_LIVENESS);
 	}
-	
+
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

@@ -34,15 +34,18 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
+import util.IndependentlyRunTest;
 
 public class ErrorTraceConstructionTest extends ModelCheckerTestCase {
 
 	public ErrorTraceConstructionTest() {
 		super("ErrorTraceConstructionMC", "symmetry", ExitStatus.VIOLATION_LIVENESS);
 	}
-	
+
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

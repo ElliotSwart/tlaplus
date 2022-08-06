@@ -35,18 +35,21 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.TLCGlobals;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.value.IValue;
 import tlc2.value.impl.IntValue;
+import util.IndependentlyRunTest;
 
 public class Test3 extends ModelCheckerTestCase {
 
 	public Test3() {
 		super("Test3", ExitStatus.VIOLATION_LIVENESS);
 	}
-	
+
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

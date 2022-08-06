@@ -31,7 +31,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
+import util.IndependentlyRunTest;
 
 public class Github317aTest extends ModelCheckerTestCase {
 
@@ -46,6 +48,7 @@ public class Github317aTest extends ModelCheckerTestCase {
 		return Runtime.getRuntime().availableProcessors();
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

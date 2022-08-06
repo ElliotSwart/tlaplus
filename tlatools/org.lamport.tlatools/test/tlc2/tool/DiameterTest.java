@@ -30,8 +30,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.tool.liveness.ModelCheckerTestCase;
+import util.IndependentlyRunTest;
 
 public class DiameterTest extends ModelCheckerTestCase {
 
@@ -39,6 +41,7 @@ public class DiameterTest extends ModelCheckerTestCase {
 		super("DieHardTLA");
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished without errors and generated the expected

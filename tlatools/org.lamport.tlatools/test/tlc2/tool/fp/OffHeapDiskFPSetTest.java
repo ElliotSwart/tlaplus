@@ -48,6 +48,8 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
+import util.LongTest;
 import util.TLCRuntime;
 
 public class OffHeapDiskFPSetTest {
@@ -67,81 +69,97 @@ public class OffHeapDiskFPSetTest {
 //		}
 //	}
 	
+	@Category(LongTest.class)
 	@Test
 	public void testInsertAndEvict1() throws Exception {
 		doTest(1473793977852L, 87);
 	}
-	
+
+	@Category(LongTest.class)
 	@Test
 	public void testInsertAndEvict2() throws Exception {
 		doTest(1473793976137L, 87);
 	}
-	
+
+	@Category(LongTest.class)
 	@Test
 	public void testInsertAndEvict3() throws Exception {
 		doTest(1473839150698L, 46);
 	}
-	
+
+	@Category(LongTest.class)
 	@Test
 	public void testInsertAndEvict4() throws Exception {
 		doTest(1473839150698L, 46);
 	}
-	
+
+	@Category(LongTest.class)
 	@Test
 	public void testInsertAndEvict5() throws Exception {
 		doTest(1473839322351L, 23);
 	}
 
+	@Category(LongTest.class)
 	@Test
 	public void testInsertAndEvict6() throws Exception {
 		doTest(1473839380539L, 23);
 	}
 
+	@Category(LongTest.class)
 	@Test
 	public void testInsertAndEvict7() throws Exception {
 		doTest(1473839422899L, 11);
 	}
 
+	@Category(LongTest.class)
 	@Test
 	public void testInsertAndEvict8() throws Exception {
 		doTest(1473839543883L, 11);
 	}
-	
+
+	@Category(LongTest.class)
 	@Test
 	public void testInsertAndEvict9() throws Exception {
 		doTest(1473871461079L, 64);
 	}
 
+	@Category(LongTest.class)
 	@Test
 	public void testInsertAndEvict10() throws Exception {
 		doTest(1473871462765L, 64);
 	}
 
+	@Category(LongTest.class)
 	@Test
 	public void testInsertAndEvict11() throws Exception {
 		doTest(1473871522834L, 32);
 	}
-	
+
+	@Category(LongTest.class)
 	@Test
 	public void testInsertAndEvict12() throws Exception {
 		doTest(1473871526136L, 32);
 	}
-
+	
+	@Category(LongTest.class)
 	@Test
 	public void testInsertAndEvict13() throws Exception {
 		doTest(1473873732723L, 47);
 	}
 
+	@Category(LongTest.class)
 	@Test
 	public void testInsertAndEvict14() throws Exception {
 		doTest(1473871294851L, 93);
 	}
 
+	@Category(LongTest.class)
 	@Test
 	public void testInsertAndEvict15() throws Exception {
 		doTest(1473871365625L, 93);
 	}
 
+	@Category(LongTest.class)
 	@Test
 	public void testInsertAndEvict16() throws Exception {
 		doTest(1473871209569L, 157);
