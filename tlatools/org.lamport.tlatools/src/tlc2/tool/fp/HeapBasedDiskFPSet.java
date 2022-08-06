@@ -3,6 +3,7 @@ package tlc2.tool.fp;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Objects;
 import java.util.concurrent.locks.Lock;
 import java.util.logging.Level;
 
@@ -324,9 +325,11 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 
 			final long l = System.currentTimeMillis() - timestamp;
 			flushTime += l;
-			
-			LOGGER.log(Level.FINE, "Flushed disk {0} {1}. time, in {2} sec after {3} insertions.", new Object[] {
-					((DiskFPSetMXWrapper) diskFPSetMXWrapper).getObjectName(), getGrowDiskMark(), l, insertions});
+
+			if(Objects.nonNull(diskFPSetMXWrapper)) {
+				LOGGER.log(Level.FINE, "Flushed disk {0} {1}. time, in {2} sec after {3} insertions.", new Object[] {
+						((DiskFPSetMXWrapper) diskFPSetMXWrapper).getObjectName(), getGrowDiskMark(), l, insertions});
+			}
 		}
 		w.unlock();
 		return false;
