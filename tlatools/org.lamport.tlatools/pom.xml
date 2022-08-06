@@ -177,14 +177,28 @@
 					<threadCount>1</threadCount>
 					<forkCount>1</forkCount>
 					<reuseForks>true</reuseForks>
-					<!--<paralell>method</paralell>-->
+					<paralell>method</paralell>
 					<argLine>-ea -XX:MaxDirectMemorySize=512k -XX:+UseParallelGC</argLine>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 					<skip>true</skip>
-					<!--<runOrder>alphabetical</runOrder>-->
+					<runOrder>alphabetical</runOrder>
 					<!--<forkedProcessTimeoutInSeconds>20</forkedProcessTimeoutInSeconds>-->
 				</configuration>
 				<executions>
+					<execution>
+						<id>independantly-run-tests</id>
+						<goals>
+							<goal>test</goal>
+						  </goals>
+						  <configuration>
+							<skip>false</skip>
+							<groups>util.IndependentlyRunTest,util.DebuggerTest</groups>
+							<reuseForks>false</reuseForks>
+							<excludes>
+								<exclude>tlc2/tool/EvaluatingValueTest.java</exclude>
+							</excludes>
+						  </configuration>
+					</execution>
 					<execution>
 						<id>concurrently-testable</id>
 						<goals>
@@ -196,15 +210,16 @@
 							<includes>
 								<include>pcal/**</include>
 								<include>tla2sany/**</include>
+								<include>tlc2/*.java</include>
 								<include>tlc2/model/**</include>
 								<include>tlc2/module/**</include>
 								<include>tlc2/output/**</include>
+								<include>tlc2/tool/*.java</include>
 								<include>tlc2/tool/checkpoint/**</include>
 								<include>tlc2/tool/coverage/**</include>
 								<include>tlc2/tool/distributed/**</include>
 								<include>tlc2/tool/doinitfunctor/**</include>
 								<include>tlc2/tool/evalorder/**</include>
-								<include>tlc2/tool/fp/**</include>
 								<include>tlc2/tool/other/**</include>
 								<include>tlc2/tool/queue/**</include>
 								<include>tlc2/tool/simulation/**</include>
@@ -212,9 +227,26 @@
 								<include>util/**</include>
 							</includes>
 							<excludes>
-								<exclude>tlc2/tool/fp/OffHeapDiskFPSetTest.java</exclude>
-								<exclude>tlc2/tool/suite/Test27.java</exclude>
 								<exclude>tlc2/tool/evalorder/InitEvalOrderTest.java</exclude>
+								<exclude>tlc2/tool/UserModuleOverrideTest.java</exclude>
+								<exclude>tlc2/tool/UserModuleOverrideFromJarTest.java</exclude>
+								<exclude>tlc2/tool/UserModuleOverrideAnnotationTest.java</exclude>
+							</excludes>
+						  </configuration>
+					</execution>
+					<execution>
+						<id>fpset</id>
+						<goals>
+							<goal>test</goal>
+						  </goals>
+						  <configuration>
+							<skip>false</skip>
+							<excludedGroups>util.DebuggerTest,util.LongTest,util.TTraceTest,util.IndependentlyRunTest</excludedGroups>
+							<includes>
+								<include>tlc2/tool/fp/**</include>
+							</includes>
+							<excludes>
+								<exclude>tlc2/tool/fp/OffHeapDiskFPSetTest.java</exclude>
 							</excludes>
 						  </configuration>
 					</execution>
@@ -245,41 +277,13 @@
 						  </configuration>
 					</execution>
 					<execution>
-						<id>tool</id>
-						<goals>
-							<goal>test</goal>
-						  </goals>
-						  <configuration>
-							<skip>false</skip>
-							<reuseForks>false</reuseForks>
-							<excludedGroups>util.DebuggerTest,util.LongTest,util.TTraceTest, util.IndependentlyRunTest</excludedGroups>
-							<includes>
-								<include>tlc2/tool/*.java</include>
-							</includes>
-						  </configuration>
-					</execution>
-					<execution>
-						<id>tlc</id>
-						<goals>
-							<goal>test</goal>
-						  </goals>
-						  <configuration>
-							<skip>false</skip>
-							<reuseForks>false</reuseForks>
-							<excludedGroups>util.DebuggerTest,util.LongTest,util.TTraceTest, util.IndependentlyRunTest</excludedGroups>
-							<includes>
-								<include>tlc2/*.java</include>
-							</includes>
-						  </configuration>
-					</execution>
-					<execution>
 						<id>liveness</id>
 						<goals>
 							<goal>test</goal>
 						  </goals>
 						  <configuration>
 							<skip>false</skip>
-							<reuseForks>false</reuseForks>
+							<reuseForks>true</reuseForks>
 							<excludedGroups>util.DebuggerTest,util.LongTest,util.TTraceTest, util.IndependentlyRunTest</excludedGroups>
 							<includes>
 								<include>tlc2/tool/liveness/**</include>
@@ -287,22 +291,12 @@
 						  </configuration>
 					</execution>
 					<execution>
-						<id>independantly-run-tests</id>
-						<goals>
-							<goal>test</goal>
-						  </goals>
-						  <configuration>
-							<skip>false</skip>
-							<groups>util.IndependentlyRunTest,util.DebuggerTest</groups>
-							<reuseForks>false</reuseForks>
-						  </configuration>
-					</execution>
-					<execution>
-						<id>execution3</id>
+						<id>ttrace-tests</id>
 						<goals>
 							<goal>test</goal>
 						  </goals>
 						<configuration>
+							<reuseForks>false</reuseForks>
 							<skip>false</skip>
 							<includes>
 								<include>**/*_TTraceTest.java</include>
@@ -345,18 +339,7 @@
 							</includes>
 						</configuration>
 					</execution>
-					<execution>
-						<id>set-test</id>
-						<goals>
-							<goal>test</goal>
-						  </goals>
-						<configuration>
-							<skip>false</skip>
-							<includes>
-								<include>tlc2/tool/distributed/TLCSetTest.java</include>
-							</includes>
-						</configuration>
-					</execution>
+
 					<execution>
 						<id>execution4</id>
 						<goals>
@@ -380,40 +363,6 @@
 								<include>tlc2/TLCTest.java</include>
 								<include>tlc2/tool/fp/OffHeapDiskFPSetTest.java</include>
 							</includes>
-						</configuration>
-					</execution>
-					<execution>
-						<id>execution2</id>
-						<goals>
-							<goal>test</goal>
-						  </goals>
-						<configuration>
-							<skip>false</skip>
-							<excludedGroups>util.DebuggerTest,util.LongTest,util.TTraceTest</excludedGroups>
-							<excludes>
-								<!-- Produce bogus crash with Quarantine runner. -->
-								<exclude>tlc2/tool/distributed/TLCSetTest.java</exclude>
-								<exclude>tlc2/tool/distributed/DistributedDoInitFunctorEvalExceptionTest.java</exclude>
-								<!-- Just fail because of Quarantine runner. -->
-								<exclude>tlc2/TLCTest.java"</exclude>
-								<exclude>tlc2/tool/fp/OffHeapDiskFPSetTest.java</exclude>
-								<exclude>tlc2/tool/EvaluatingValueTest.java</exclude>
-								<exclude>tlc2/tool/UserModuleOverrideTest.java</exclude>
-								<exclude>tlc2/tool/UserModuleOverrideFromJarTest.java</exclude>
-								<exclude>tlc2/tool/UserModuleOverrideAnnotationTest.java</exclude>
-		
-
-								<exclude>**/TraceExpressionSpecTest.java</exclude>
-								<exclude>**/TraceExpressionSpecSafetyTest.java</exclude>
-								<exclude>**/SuccessfulSimulationTestCase.java</exclude>
-								<exclude>**/AbstractExampleTestCase.java</exclude>
-								<exclude>**/InitEvalOrderTest.java</exclude>
-								<exclude>**/BidirectionalTransitions1BTest.java</exclude>
-								<exclude>**/BidirectionalTransitions2CTest.java</exclude>
-								
-								<exclude>**/Abstract*Test.java</exclude>
-								<!-- Known test failures -->
-							</excludes>
 						</configuration>
 					</execution>
 				</executions>
