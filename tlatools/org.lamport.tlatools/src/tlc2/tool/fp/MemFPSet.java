@@ -213,10 +213,6 @@ private String metadir;
   public final void close() throws Exception {
 	super.close();
 
-    // Delete the metadata directory:
-    final File file = new File(this.metadir);
-    FileUtil.deleteDir(file, true);
-
     final String hostname = InetAddress.getLocalHost().getHostName();
     MP.printMessage(EC.TLC_FP_COMPLETED, hostname);
   }

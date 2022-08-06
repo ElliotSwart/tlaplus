@@ -596,13 +596,6 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 
 		super.close();
 
-		// Delete the metadata directory:
-		try {
-			FileUtil.deleteDir(this.metadir, true);
-		}
-		catch (NullPointerException e){}
-
-
 		final String hostname = InetAddress.getLocalHost().getHostName();
 		MP.printMessage(EC.TLC_FP_COMPLETED, hostname);
 	}

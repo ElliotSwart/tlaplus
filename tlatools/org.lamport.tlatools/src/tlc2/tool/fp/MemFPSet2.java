@@ -268,9 +268,6 @@ public final class MemFPSet2 extends FPSet {
   public void close() throws Exception{
       super.close();
 
-      // Delete the metadata directory:
-      FileUtil.deleteDir(this.metadir, true);
-
       final String hostname = InetAddress.getLocalHost().getHostName();
       MP.printMessage(EC.TLC_FP_COMPLETED, hostname);
   }

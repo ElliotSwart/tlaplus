@@ -3,12 +3,7 @@ package tlc2.tool;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import tlc2.TLC;
@@ -161,8 +156,11 @@ public abstract class AbstractChecker
     }
 
     public void stop() throws Exception{
-        terminationTimer.cancel();
-        terminationTimer = null;
+        if (Objects.nonNull(terminationTimer)){
+            terminationTimer.cancel();
+            terminationTimer = null;
+        }
+
     }
 
 
