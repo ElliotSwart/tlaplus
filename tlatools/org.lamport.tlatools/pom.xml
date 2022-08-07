@@ -174,17 +174,17 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0-M7</version>
 				<configuration>
-					<threadCount>1</threadCount>
 					<forkCount>1</forkCount>
 					<reuseForks>true</reuseForks>
-					<paralell>method</paralell>
+					<paralell>classesAndMethods</paralell>
+					<useUnlimitedThreads>true</useUnlimitedThreads>
 					<argLine>-ea -XX:MaxDirectMemorySize=512k -XX:+UseParallelGC</argLine>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 					<skip>true</skip>
 					<runOrder>alphabetical</runOrder>
 					<!--<forkedProcessTimeoutInSeconds>20</forkedProcessTimeoutInSeconds>-->
 				</configuration>
-				<executions>
+				<executions><!--
 					<execution>
 						<id>independantly-run-tests</id>
 						<goals>
@@ -198,7 +198,7 @@
 								<exclude>tlc2/tool/EvaluatingValueTest.java</exclude>
 							</excludes>
 						  </configuration>
-					</execution>
+					</execution>-->
 					<execution>
 						<id>concurrently-testable</id>
 						<goals>
@@ -296,7 +296,7 @@
 							<goal>test</goal>
 						  </goals>
 						<configuration>
-							<reuseForks>false</reuseForks>
+							<reuseForks>true</reuseForks>
 							<skip>false</skip>
 							<includes>
 								<include>**/*_TTraceTest.java</include>
@@ -554,6 +554,7 @@
 		<!-- Executes long-running unit tests -->
 		<profile>
 			<id>test-long</id>
+
 		</profile>
 
 		<!-- Builds jmh benchmark -->
