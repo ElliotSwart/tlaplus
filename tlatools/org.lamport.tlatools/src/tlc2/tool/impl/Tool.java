@@ -772,7 +772,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
       UniqueString.resetLocations();
 
       // SZ Mar 9, 2009: added initialization of the modelValue class
-      ModelValue.init();
       this.configFile = configFile;
       this.config = new ModelConfig(MonolithSpecExtractor.getConfig(configFile), resolver);
       this.config.parse();

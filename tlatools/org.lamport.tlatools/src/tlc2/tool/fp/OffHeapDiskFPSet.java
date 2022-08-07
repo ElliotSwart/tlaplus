@@ -5,12 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutionException;
@@ -194,12 +189,14 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		final long timestamp = System.currentTimeMillis();
 		final long insertions = tblCnt.longValue();
 		final double lf = tblCnt.doubleValue() / (double) maxTblCnt;
-		
-		LOGGER.log(Level.FINE,
-				"Started eviction of disk {0} the {1}. time at {2} after {3} insertions, load factor {4} and reprobe of {5}.",
-				new Object[] { ((DiskFPSetMXWrapper) diskFPSetMXWrapper).getObjectName(), getGrowDiskMark(),
-						timestamp, insertions, lf, PROBE_LIMIT });
-		
+
+		if(Objects.nonNull(diskFPSetMXWrapper)) {
+			LOGGER.log(Level.FINE,
+					"Started eviction of disk {0} the {1}. time at {2} after {3} insertions, load factor {4} and reprobe of {5}.",
+					new Object[]{((DiskFPSetMXWrapper) diskFPSetMXWrapper).getObjectName(), getGrowDiskMark(),
+							timestamp, insertions, lf, PROBE_LIMIT});
+		}
+
 		// Check that the table adheres to our invariant. Otherwise, we
 		// can't hope to successfully evict it.
 		assert checkInput(array, indexer, PROBE_LIMIT) : "Table violates invariants prior to eviction: "
@@ -220,10 +217,13 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		// statistics and logging again.
 		final long l = System.currentTimeMillis() - timestamp;
 		flushTime += l;
-		LOGGER.log(Level.FINE,
-				"Finished eviction of disk {0} the {1}. time at {2}, in {3} sec after {4} insertions, load factor {5} and reprobe of {6}.",
-				new Object[] { ((DiskFPSetMXWrapper) diskFPSetMXWrapper).getObjectName(), getGrowDiskMark(), l,
-						System.currentTimeMillis(), insertions, lf, PROBE_LIMIT });
+
+		if(Objects.nonNull(diskFPSetMXWrapper)) {
+			LOGGER.log(Level.FINE,
+					"Finished eviction of disk {0} the {1}. time at {2}, in {3} sec after {4} insertions, load factor {5} and reprobe of {6}.",
+					new Object[] { ((DiskFPSetMXWrapper) diskFPSetMXWrapper).getObjectName(), getGrowDiskMark(), l,
+							System.currentTimeMillis(), insertions, lf, PROBE_LIMIT });
+		}
 	}
 
 	private Flusher getFlusher(final int numThreads, final long insertions) {
