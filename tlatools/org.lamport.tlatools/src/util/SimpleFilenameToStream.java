@@ -12,6 +12,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 
@@ -184,7 +185,13 @@ public class SimpleFilenameToStream implements FilenameToStream {
     InputStream is;
     while (true)
     {
-        if ((idx == 0) && (ToolIO.getUserDir() != null)) {
+        Path p = Paths.get(name);
+
+        if(p.isAbsolute()){
+            sourceFile  = p.toFile();
+            break;
+        }
+        else if ((idx == 0) && (ToolIO.getUserDir() != null)) {
             sourceFile = new TLAFile(ToolIO.getUserDir(), name, this );
         }
         else

@@ -184,8 +184,10 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 		System.setProperty(ModelChecker.class.getName() + ".vetoCleanup", "true");
 
 		try {
+			var userDir = BASE_PATH + path;
+
 			// TEST_MODEL is where TLC should look for user defined .tla files
-			ToolIO.setUserDir(BASE_PATH + path);
+			ToolIO.setUserDir(userDir);
 			
 			MP.setRecorder(recorder);
 			
@@ -224,7 +226,7 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 				// Make sure the generated spec ends up in a designated location.
 				args.add("-generateSpecTE");
 				args.add("-teSpecOutDir");
-				args.add(TTraceModelCheckerTestCase.getPath(getClass()));
+				args.add(TTraceModelCheckerTestCase.getTESpecPath(getClass()));
 			}
 			
 			if (noRandomFPandSeed()) {
