@@ -75,13 +75,21 @@ public class Test3 extends ModelCheckerTestCase {
 		assertZeroUncovered();
 		
 		// Assert POSTCONDITION.
-		assertFalse(recorder.recorded(EC.TLC_ASSUMPTION_FALSE));
-		assertFalse(recorder.recorded(EC.TLC_ASSUMPTION_EVALUATION_ERROR));
-
 		// Check that POSTCONDITION wrote the number of generated states to a TLCSet
 		// register.
 		final List<IValue> allValue = tlc.mainChecker.getAllValue(42);
 		assertTrue(!allValue.isEmpty());
 		assertEquals(IntValue.gen(5), allValue.get(0));
+
+
+		assertFalse(recorder.recorded(EC.TLC_ASSUMPTION_FALSE));
+		assertFalse(recorder.recorded(EC.TLC_ASSUMPTION_EVALUATION_ERROR));
+
+
+	}
+
+	@Override
+	public boolean runWithDebugger(){
+		return true;
 	}
 }
