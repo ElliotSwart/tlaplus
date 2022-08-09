@@ -29,6 +29,7 @@ package tlc2.tool;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import org.junit.experimental.categories.Category;
@@ -43,6 +44,7 @@ public class DepthFirstTerminateTest extends ModelCheckerTestCase {
 	}
 
 	@Category(IndependentlyRunTest.class)
+	@Ignore // Not valid due to (https://github.com/tlaplus/tlaplus/issues/548)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

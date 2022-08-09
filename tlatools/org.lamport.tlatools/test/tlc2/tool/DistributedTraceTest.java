@@ -41,7 +41,7 @@ import util.IndependentlyRunTest;
 public class DistributedTraceTest extends ModelCheckerTestCase {
 
 	public DistributedTraceTest() {
-		super("DistributedTrace");
+		super("DistributedTrace", EC.ExitStatus.VIOLATION_SAFETY);
 	}
 
 	@Category(IndependentlyRunTest.class)
@@ -50,7 +50,7 @@ public class DistributedTraceTest extends ModelCheckerTestCase {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
 		assertFalse(recorder.recorded(EC.GENERAL));
 
-		assertNoTESpec();
+		//assertNoTESpec();
 		
 		// Assert the error trace
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));

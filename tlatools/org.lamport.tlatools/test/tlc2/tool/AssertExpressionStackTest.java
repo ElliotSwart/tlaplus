@@ -41,10 +41,9 @@ import util.IndependentlyRunTest;
 public class AssertExpressionStackTest extends ModelCheckerTestCase {
 
 	public AssertExpressionStackTest() {
-		super("AssertExpressionStack");
+		super("AssertExpressionStack", EC.ExitStatus.VIOLATION_ASSERT);
 	}
 
-	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
@@ -52,7 +51,7 @@ public class AssertExpressionStackTest extends ModelCheckerTestCase {
 
 		assertTrue(recorder.recorded(EC.TLC_BEHAVIOR_UP_TO_THIS_POINT));
 
-		assertNoTESpec();
+		//assertNoTESpec();
 		
 		final List<String> expectedTrace = new ArrayList<String>(2);
 		expectedTrace.add("x = 0");

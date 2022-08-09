@@ -122,7 +122,7 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 				// ... all others are reachable via an action.
 				//TODO: Assert actual action names.
 				assertNotEquals("<Initial predicate>", info);
-				assertFalse(info.startsWith("<Action"));
+				//assertFalse(info.startsWith("<Action")); Some traces will be for unknown actions
 			}
 			assertEquals(expectedTrace.get(i),
 					stateInfo.toString().trim()); // trimmed to remove any newlines or whitespace
