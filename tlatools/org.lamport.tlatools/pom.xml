@@ -186,6 +186,24 @@
 				</configuration>
 				<executions>
 					<execution>
+						<id>user-module</id>
+						<goals>
+							<goal>test</goal>
+						  </goals>
+						<configuration>
+							<skip>false</skip>
+							<includes>
+								<include>tlc2/tool/UserModuleOverrideAnnotationTest.java</include>
+								<include>tlc2/tool/UserModuleOverrideTest.java</include>
+								<include>tlc2/tool/UserModuleOverrideAnnotationTest.java</include>
+							</includes>
+							<additionalClasspathElements>
+								<additionalClasspathElement>test-model/UserModuleOverrideFromJar.jar</additionalClasspathElement>
+								<additionalClasspathElement>test-model</additionalClasspathElement>
+							</additionalClasspathElements>
+						</configuration>
+					</execution>
+					<execution>
 						<id>concurrently-testable</id>
 						<goals>
 							<goal>test</goal>
@@ -312,56 +330,6 @@
 							<skip>false</skip>
 							<includes>
 								<include>tlc2/tool/EvaluatingValueTest.java</include>
-							</includes>
-						</configuration>
-					</execution>
-					<execution>
-						<id>user-module-annotation-test</id>
-						<goals>
-							<goal>test</goal>
-						  </goals>
-						<configuration>
-							<skip>false</skip>
-							<includes>
-								<include>tlc2/tool/UserModuleOverrideAnnotationTest.java</include>
-							</includes>
-						</configuration>
-					</execution>
-					<execution>
-						<id>user-module-override-test</id>
-						<goals>
-							<goal>test</goal>
-						  </goals>
-						<configuration>
-							<skip>false</skip>
-							<includes>
-								<include>tlc2/tool/UserModuleOverrideTest.java</include>
-							</includes>
-						</configuration>
-					</execution>
-
-					<execution>
-						<id>execution4</id>
-						<goals>
-							<goal>test</goal>
-						  </goals>
-						<configuration>
-							<skip>false</skip>
-							<includes>
-								<include>tlc2/tool/distributed/DistributedDoInitFunctorEvalExceptionTest.java</include>
-							</includes>
-						</configuration>
-					</execution>
-					<execution>
-						<id>execution5</id>
-						<goals>
-							<goal>test</goal>
-						  </goals>
-						<configuration>
-							<skip>false</skip>
-							<includes>
-								<include>tlc2/TLCTest.java</include>
-								<include>tlc2/tool/fp/OffHeapDiskFPSetTest.java</include>
 							</includes>
 						</configuration>
 					</execution>
