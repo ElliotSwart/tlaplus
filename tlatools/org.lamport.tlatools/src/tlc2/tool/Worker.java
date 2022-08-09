@@ -237,6 +237,10 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 						MP.printError(EC.TLC_NESTED_EXPRESSION, cTool.toString());
 					}
 				}
+				catch (IOException e){
+					// Do nothing, the FPset has already been closed
+				}
+
 				throw origExp;
 			}
 		}

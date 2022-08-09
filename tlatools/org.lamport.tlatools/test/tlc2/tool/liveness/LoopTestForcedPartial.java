@@ -60,7 +60,7 @@ public class LoopTestForcedPartial extends ModelCheckerTestCase {
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
-		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "5", "4", "0"));
+		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "2", "2", "1"));
 		assertTrue(recorder.recordedWithStringValue(EC.TLC_INIT_GENERATED1, "1"));
 		assertFalse(recorder.recorded(EC.GENERAL));
 
@@ -72,11 +72,12 @@ public class LoopTestForcedPartial extends ModelCheckerTestCase {
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
 		final List<String> expectedTrace = new ArrayList<String>(4);
 		expectedTrace.add("x = 0");
-		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
+
+		assertTraceWithSingleTrace(recorder.getRecords(EC.TLC_STATE_PRINT2), "x = 0");
 		
 		// Stuttering after the init state.
 		assertStuttering(2);
 
-	assertZeroUncovered();
+		//assertZeroUncovered();
 	}
 }

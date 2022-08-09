@@ -130,6 +130,25 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 		}
 	}
 
+	protected void assertTraceWithSingleTrace(final List<Object> actual, String expectedTrace) {
+		int i = 0;
+		final Object[] objs = (Object[]) actual.get(i);
+		final TLCStateInfo stateInfo = (TLCStateInfo) objs[0];
+		final String info = (String) stateInfo.info;
+		if (i == 0 && !isExtendedTLCState()) {
+			// The first state has to be an initial state.
+			assertEquals("<Initial predicate>", info);
+		} else {
+			// ... all others are reachable via an action.
+			//TODO: Assert actual action names.
+			assertNotEquals("<Initial predicate>", info);
+			assertFalse(info.startsWith("<Action"));
+		}
+		assertEquals(expectedTrace,
+				stateInfo.toString().trim()); // trimmed to remove any newlines or whitespace
+		assertEquals(i+1, objs[1]);
+	}
+
 	/**
 	 * Check the file size of the AbstractDiskGraph files to assert that the
 	 * expected amount of ptrs and nodes (outgoing arcs) have been written to

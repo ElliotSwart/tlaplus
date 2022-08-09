@@ -72,7 +72,7 @@ public class LoopTestForcedPartial_TTraceTest extends TTraceModelCheckerTestCase
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
 		final List<String> expectedTrace = new ArrayList<String>(4);
 		expectedTrace.add("x = 0");
-		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
+		assertTraceWithSingleTrace(recorder.getRecords(EC.TLC_STATE_PRINT2), "x = 0");
 		
 		// Stuttering after the init state.
 		assertStuttering(2);

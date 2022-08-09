@@ -30,6 +30,7 @@ import java.io.IOException;
 
 import tlc2.output.EC;
 import tlc2.output.MP;
+import tlc2.tool.EvalException;
 import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
 import tlc2.tool.Worker;
@@ -60,7 +61,10 @@ public class AddAndCheckLiveCheck extends LiveCheck {
 	public synchronized void addInitState(final ITool tool, final TLCState state, final long stateFP) {
 		super.addInitState(tool, state, stateFP);
 		try {
-			check0(tool, false);
+			int result = check0(tool, false);
+			if (result != 0){
+				throw new EvalException(EC.TLC_TEMPORAL_PROPERTY_VIOLATED);
+			}
 		} catch (final InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
@@ -73,7 +77,11 @@ public class AddAndCheckLiveCheck extends LiveCheck {
 	public synchronized void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) throws Exception {
 		super.addNextState(tool, s0, fp0, nextStates);
 		try {
-			check0(tool, false);
+			int result = check0(tool, false);
+			if (result != 0){
+				throw new EvalException(EC.TLC_TEMPORAL_PROPERTY_VIOLATED);
+			}
+
 		} catch (final InterruptedException e) {
 			e.printStackTrace();
 		}
