@@ -25,7 +25,7 @@
  ******************************************************************************/
 package tlc2.tool.evalorder;
 
-public class InitEvalOrder2Test extends InitEvalOrderTest {
+public class InitEvalOrder2Test extends InitEvalOrderTestCase {
 
 	public InitEvalOrder2Test() {
 		super("InitEvalOrder2.cfg");

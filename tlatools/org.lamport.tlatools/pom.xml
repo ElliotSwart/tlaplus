@@ -182,27 +182,13 @@
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 					<skip>true</skip>
 					<runOrder>alphabetical</runOrder>
+					<additionalClasspathElements>
+						<additionalClasspathElement>test-model/UserModuleOverrideFromJar.jar</additionalClasspathElement>
+						<additionalClasspathElement>test-model</additionalClasspathElement>
+					</additionalClasspathElements>
 					<!--<forkedProcessTimeoutInSeconds>20</forkedProcessTimeoutInSeconds>-->
 				</configuration>
 				<executions>
-					<execution>
-						<id>user-module</id>
-						<goals>
-							<goal>test</goal>
-						  </goals>
-						<configuration>
-							<skip>false</skip>
-							<includes>
-								<include>tlc2/tool/UserModuleOverrideAnnotationTest.java</include>
-								<include>tlc2/tool/UserModuleOverrideTest.java</include>
-								<include>tlc2/tool/UserModuleOverrideAnnotationTest.java</include>
-							</includes>
-							<additionalClasspathElements>
-								<additionalClasspathElement>test-model/UserModuleOverrideFromJar.jar</additionalClasspathElement>
-								<additionalClasspathElement>test-model</additionalClasspathElement>
-							</additionalClasspathElements>
-						</configuration>
-					</execution>
 					<execution>
 						<id>concurrently-testable</id>
 						<goals>
@@ -231,12 +217,25 @@
 								<include>util/**</include>
 							</includes>
 							<excludes>
-								<exclude>tlc2/tool/evalorder/InitEvalOrderTest.java</exclude>
 								<exclude>tlc2/tool/UserModuleOverrideTest.java</exclude>
 								<exclude>tlc2/tool/UserModuleOverrideFromJarTest.java</exclude>
 								<exclude>tlc2/tool/UserModuleOverrideAnnotationTest.java</exclude>
 							</excludes>
 						  </configuration>
+					</execution>
+					<execution>
+						<id>user-module</id>
+						<goals>
+							<goal>test</goal>
+						  </goals>
+						<configuration>
+							<skip>false</skip>
+							<includes>
+								<include>tlc2/tool/UserModuleOverrideAnnotationTest.java</include>
+								<include>tlc2/tool/UserModuleOverrideTest.java</include>
+								<include>tlc2/tool/UserModuleOverrideAnnotationTest.java</include>
+							</includes>
+						</configuration>
 					</execution>
 					<execution>
 						<id>fpset</id>
@@ -294,7 +293,7 @@
 							</includes>
 						  </configuration>
 					</execution>
-					<execution>
+					<execution> <!-- The fewer there are of these, the faster the suite will run -->
 						<id>independantly-run-tests</id>
 						<goals>
 							<goal>test</goal>
@@ -303,9 +302,6 @@
 							<skip>false</skip>
 							<groups>util.IndependentlyRunTest,util.DebuggerTest</groups>
 							<reuseForks>false</reuseForks>
-							<excludes>
-								<exclude>tlc2/tool/EvaluatingValueTest.java</exclude>
-							</excludes>
 						  </configuration>
 					</execution>
 					<execution>
@@ -318,18 +314,6 @@
 							<skip>false</skip>
 							<includes>
 								<include>**/*_TTraceTest.java</include>
-							</includes>
-						</configuration>
-					</execution>
-					<execution>
-						<id>evaluating-value-test</id>
-						<goals>
-							<goal>test</goal>
-						  </goals>
-						<configuration>
-							<skip>false</skip>
-							<includes>
-								<include>tlc2/tool/EvaluatingValueTest.java</include>
 							</includes>
 						</configuration>
 					</execution>

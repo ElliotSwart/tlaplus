@@ -33,9 +33,9 @@ import org.junit.Test;
 import tlc2.output.EC;
 import tlc2.tool.liveness.ModelCheckerTestCase;
 
-public abstract class InitEvalOrderTest extends ModelCheckerTestCase {
+public abstract class InitEvalOrderTestCase extends ModelCheckerTestCase {
 
-	public InitEvalOrderTest(final String config) {
+	public InitEvalOrderTestCase(final String config) {
 		super("InitEvalOrder", "EvalOrder", new String[] {"-config", config});
 	}
 
