@@ -4,13 +4,18 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
+import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
+import tla2sany.semantic.OpDeclNode;
+import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
+import util.LongTest;
 
-public class DiskStateQueueTest extends StateQueueTest {
+public class DiskStateQueueLongTest extends StateQueueTest {
 
 	private File file;
 
@@ -26,8 +31,8 @@ public class DiskStateQueueTest extends StateQueueTest {
 		file = new File(diskdir);
 		file.mkdirs();
 		file.deleteOnExit();
-		
-		sQueue = new DiskStateQueue(diskdir);
+
+		sQueue = new DiskStateQueue(diskdir, EasyMock.createNiceMock(ITool.class));
 	}
 	
 	/* (non-Javadoc)
@@ -46,9 +51,10 @@ public class DiskStateQueueTest extends StateQueueTest {
 	
 	// add Integer.MAX_VALUE states and check growth of MultiStateQueue. 
 	// Reuse the same state to speed up instantiation and space requirements
+	@Category(LongTest.class)
 	@Test
 	public void testGrowBeyondIntMaxValue() {
-		final TLCState state = new DummyTLCState();
+		final TLCState state = new DummyTLCState(new OpDeclNode[]{});
 
 		final long j = Integer.MAX_VALUE + 1L;
 		for (long i = 0; i < j; i++) {

@@ -16,9 +16,13 @@ import java.util.concurrent.Executors;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.util.BufferedRandomAccessFile;
+import util.ConcurrentTest;
 
 public class ConcurrentWriteTest {
+
+	@Category(ConcurrentTest.class)
 	@Test
 	public void test() throws IOException {
 		final File tempFile = File.createTempFile("ConcurrentWriteTest_test", ".bin");

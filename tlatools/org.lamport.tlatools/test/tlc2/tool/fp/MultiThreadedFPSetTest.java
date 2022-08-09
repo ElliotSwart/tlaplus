@@ -17,12 +17,14 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.TLCGlobals;
 import tlc2.tool.fp.generator.BatchedFingerPrintGenerator;
 import tlc2.tool.fp.generator.FingerPrintGenerator;
 import tlc2.tool.fp.generator.LongVecFingerPrintGenerator;
 import tlc2.tool.fp.generator.PartitionedFingerPrintGenerator;
 import tlc2.util.IdThread;
+import util.ConcurrentTest;
 
 public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 
@@ -45,8 +47,9 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 	 * Test filling a {@link FPSet} with random fingerprints using multiple
 	 * threads in ordered batches
 	 */
+	@Category(ConcurrentTest.class)
 	@Test
-	public void testMaxFPSetSizeRndBatched() throws IOException, InterruptedException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void testMaxFPSetSizeRndBatched() throws Exception {
 		doTest(BatchedFingerPrintGenerator.class);
 	}
 	
@@ -54,8 +57,9 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 	 * Test filling a {@link FPSet} with random fingerprints using multiple
 	 * threads in ordered LongVecs using putBlock/containsBlock
 	 */
+	@Category(ConcurrentTest.class)
 	@Test
-	public void testMaxFPSetSizeRndBlock() throws IOException, InterruptedException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void testMaxFPSetSizeRndBlock() throws Exception {
 		doTest(LongVecFingerPrintGenerator.class);
 	}
 	
@@ -63,8 +67,9 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 	 * Test filling a {@link FPSet} with max int + 2L random using multiple
 	 * threads
 	 */
+	@Category(ConcurrentTest.class)
 	@Test
-	public void testMaxFPSetSizeRnd() throws IOException, InterruptedException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void testMaxFPSetSizeRnd() throws Exception {
 		doTest(FingerPrintGenerator.class);
 	}
 	
@@ -74,8 +79,9 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 	 * prevents hash collisions as well as lock contention. Essentially, this is
 	 * the best case scenario. It ignores INSERTIONS for now.
 	 */
+	@Category(ConcurrentTest.class)
 	@Test
-	public void testMaxFPSetSizePartitioned() throws IOException, InterruptedException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void testMaxFPSetSizePartitioned() throws Exception {
 		doTest(PartitionedFingerPrintGenerator.class);
 	}
 	
@@ -90,7 +96,7 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 	 * @throws IllegalArgumentException
 	 * @throws InvocationTargetException
 	 */
-	protected void doTest(final Class<? extends FingerPrintGenerator> fpgClass) throws IOException, InterruptedException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	protected FPSet doTest(final Class<? extends FingerPrintGenerator> fpgClass) throws Exception {
 		// Skip the test if the property
 		// -Dtlc2.tool.fp.MultiThreadedFPSetTest.excludes contains the simple
 		// name of the test. I.e.
@@ -187,5 +193,7 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 		// the file are a) monotonically increasing and b) there are no duplicates.
 		assertTrue(fpSet.checkInvariant());
 		fpSet.close();
+
+		return fpSet;
 	}
 }

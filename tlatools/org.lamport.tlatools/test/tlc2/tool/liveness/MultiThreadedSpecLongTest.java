@@ -42,9 +42,11 @@ import java.util.concurrent.TimeoutException;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.TLCGlobals;
 import tlc2.output.EC;
-import tlc2.tool.WorkerMonitor;
+import tlc2.tool.distributed.WorkerMonitor;
+import util.LongTest;
 
 /**
  * This test takes about four minutes with 32 cores on an EC2 cr1.8xlarge instance.
@@ -55,7 +57,7 @@ import tlc2.tool.WorkerMonitor;
  * thread spends in the WAITING and BLOCKED state must not exceed more than waitedRatio and
  * blockedRatio. The current values for waitedRatio and blockedRatio have been obtained empirically.
  */
-public abstract class MultiThreadedSpecTest extends ModelCheckerTestCase {
+public abstract class MultiThreadedSpecLongTest extends ModelCheckerTestCase {
 
 	private final String statesGenerated;
 	private final String distinctStatesGenerated;
@@ -64,7 +66,7 @@ public abstract class MultiThreadedSpecTest extends ModelCheckerTestCase {
 	private final double waitedRatio;
 	private final double blockedRatio;
 	
-	public MultiThreadedSpecTest(final String spec, final String path, final String statesGenerated, final String distinctStatesGenerated, final double blockedRatio, final double waitedRatio) {
+	public MultiThreadedSpecLongTest(final String spec, final String path, final String statesGenerated, final String distinctStatesGenerated, final double blockedRatio, final double waitedRatio) {
 		super(spec, path);
 		this.statesGenerated = statesGenerated;
 		this.distinctStatesGenerated = distinctStatesGenerated;
@@ -72,7 +74,7 @@ public abstract class MultiThreadedSpecTest extends ModelCheckerTestCase {
 		this.waitedRatio = waitedRatio;
 	}
 
-	public MultiThreadedSpecTest(final String spec, final String path, final String[] extraArguments, final String statesGenerated, final String distinctStatesGenerated, final double blockedRatio, final double waitedRatio) {
+	public MultiThreadedSpecLongTest(final String spec, final String path, final String[] extraArguments, final String statesGenerated, final String distinctStatesGenerated, final double blockedRatio, final double waitedRatio) {
 		super(spec, path, extraArguments);
 		this.statesGenerated = statesGenerated;
 		this.distinctStatesGenerated = distinctStatesGenerated;
@@ -80,6 +82,7 @@ public abstract class MultiThreadedSpecTest extends ModelCheckerTestCase {
 		this.waitedRatio = waitedRatio;
 	}
 
+	@Category(LongTest.class)
 	@Test
 	public void testSpec() throws BrokenBarrierException, InterruptedException, TimeoutException {
 		// ModelChecker has finished and generated the expected amount of states

@@ -9,12 +9,15 @@ import java.util.Random;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
+import util.LongTest;
 import util.TLCRuntime;
 
-public class OffHeapDiskFPSetLongTest extends FPSetTest {
+public class OffHeapDiskFPSetLongTest extends FPSetLongTestCase {
 	
 	private static final int FLUSHES = 4;
 
+	@Category(LongTest.class)
 	@Test
 	public void testCollisionBucket() throws IOException {
 		final FPSet fpSet = getFPSet(new FPSetConfiguration());
@@ -26,6 +29,7 @@ public class OffHeapDiskFPSetLongTest extends FPSetTest {
 		}
 	}
 
+	@Category(LongTest.class)
 	@Test
 	public void testPosition() throws IOException {
 		final FPSet fpSet = getFPSet(new FPSetConfiguration());
@@ -43,6 +47,7 @@ public class OffHeapDiskFPSetLongTest extends FPSetTest {
 	/**
 	 * 
 	 */
+	@Category(LongTest.class)
 	@Test
 	public void testMultipleFlushes() throws IOException {
 		final FPSet fpSet = getFPSet(new FPSetConfiguration());

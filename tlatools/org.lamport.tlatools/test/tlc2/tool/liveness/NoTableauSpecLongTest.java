@@ -27,9 +27,9 @@ package tlc2.tool.liveness;
 
 import util.TLAConstants;
 
-public class NoTableauSpecTest extends MultiThreadedSpecTest {
+public class NoTableauSpecLongTest extends MultiThreadedSpecLongTest {
 
-	public NoTableauSpecTest() {
+	public NoTableauSpecLongTest() {
 		super(TLAConstants.Files.MODEL_CHECK_FILE_BASENAME, "VoteProof", "137297983", "693930", 0.25d, 0.25d);
 	}
 }

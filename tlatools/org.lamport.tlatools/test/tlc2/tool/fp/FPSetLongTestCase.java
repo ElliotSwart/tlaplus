@@ -9,15 +9,18 @@ import java.util.Date;
 import java.util.Random;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import util.LongTest;
 
-public abstract class FPSetTest extends AbstractFPSetTest {
+public abstract class FPSetLongTestCase extends AbstractFPSetTest {
 
 	/**
 	 * Test filling a {@link FPSet} with four linearly incrementing values
 	 * @throws IOException
 	 */
+	@Category(LongTest.class)
 	@Test
-	public void testSimpleFill() throws IOException {
+	public void testSimpleFill() throws Exception {
 		final FPSet fpSet = getFPSet(new FPSetConfiguration());
 		fpSet.init(1, tmpdir, filename);
 
@@ -36,8 +39,9 @@ public abstract class FPSetTest extends AbstractFPSetTest {
 	 * Test filling a {@link FPSet} with max int + 1 random
 	 * @throws IOException
 	 */
+	@Category(LongTest.class)
 	@Test
-	public void testMaxFPSetSizeRnd() throws IOException {
+	public void testMaxFPSetSizeRnd() throws Exception {
 		final Random rnd = new Random(RNG_SEED);
 		
 		final FPSet fpSet = getFPSetInitialized();
@@ -77,8 +81,9 @@ public abstract class FPSetTest extends AbstractFPSetTest {
 	 * Test filling a {@link FPSet} with max int + 1 
 	 * @throws IOException
 	 */
+	@Category(LongTest.class)
 	@Test
-	public void testMaxFPSetSize() throws IOException {
+	public void testMaxFPSetSize() throws Exception {
 	
 		//
 		final FPSet fpSet = getFPSet(new FPSetConfiguration());
