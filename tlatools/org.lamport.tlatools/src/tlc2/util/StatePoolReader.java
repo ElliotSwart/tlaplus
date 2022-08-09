@@ -20,20 +20,20 @@ import util.FatalException;
 
 public class StatePoolReader extends Thread {
 
-  public StatePoolReader(final int bufSize, ITool tool) {
-	  this(bufSize, null, tool);
+  public StatePoolReader(final int bufSize, TLCState emptyState) {
+	  this(bufSize, null, emptyState);
   }
 
 
-  private final ITool tool;
+  private final TLCState emptyState;
 
-  public StatePoolReader(final int bufSize, final File file, ITool tool) {
+  public StatePoolReader(final int bufSize, final File file, TLCState emptyState) {
 	  super("TLCStatePoolReader");
     this.buf = new TLCState[bufSize];
     this.poolFile = file;
     this.isFull = false;
     this.canRead = false;
-    this.tool = tool;
+    this.emptyState = emptyState;
   }
   
   private TLCState[] buf;
@@ -74,7 +74,7 @@ public class StatePoolReader extends Thread {
     else if (this.poolFile != null) {
       final ValueInputStream vis = new ValueInputStream(this.poolFile);
       for (int i = 0; i < deqBuf.length; i++) {
-	deqBuf[i] = tool.createEmptyState();
+	deqBuf[i] = emptyState.createEmpty();
 	deqBuf[i].read(vis);
       }
       vis.close();
@@ -86,7 +86,7 @@ public class StatePoolReader extends Thread {
     else {
       final ValueInputStream vis = new ValueInputStream(file);
       for (int i = 0; i < deqBuf.length; i++) {
-	deqBuf[i] = tool.createEmptyState();
+	deqBuf[i] = emptyState.createEmpty();
 	deqBuf[i].read(vis);
       }
       vis.close();              // <null, false>
@@ -112,7 +112,7 @@ public class StatePoolReader extends Thread {
       // this should seldom occur.
       final ValueInputStream vis = new ValueInputStream(this.poolFile);
       for (int i = 0; i < deqBuf.length; i++) {
-	deqBuf[i] = tool.createEmptyState();
+	deqBuf[i] = emptyState.createEmpty();
 	deqBuf[i].read(vis);
       }
       vis.close();
@@ -178,7 +178,7 @@ public class StatePoolReader extends Thread {
 	  }
 	  final ValueInputStream vis = new ValueInputStream(this.poolFile);
 	  for (int i = 0; i < this.buf.length; i++) {
-	    this.buf[i] = tool.createEmptyState();
+	    this.buf[i] = emptyState.createEmpty();
 	    this.buf[i].read(vis);
 	  }
 	  vis.close();

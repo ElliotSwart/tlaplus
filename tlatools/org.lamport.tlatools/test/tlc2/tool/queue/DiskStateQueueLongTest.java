@@ -1,5 +1,6 @@
 package tlc2.tool.queue;
 
+import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -13,6 +14,9 @@ import org.junit.experimental.categories.Category;
 import tla2sany.semantic.OpDeclNode;
 import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
+import tlc2.tool.TLCStateMut;
+import tlc2.value.IMVPerm;
+import tlc2.value.IValue;
 import util.LongTest;
 
 public class DiskStateQueueLongTest extends StateQueueTest {
@@ -32,7 +36,11 @@ public class DiskStateQueueLongTest extends StateQueueTest {
 		file.mkdirs();
 		file.deleteOnExit();
 
-		sQueue = new DiskStateQueue(diskdir, EasyMock.createNiceMock(ITool.class));
+		var tool = EasyMock.createNiceMock(ITool.class);
+
+		var empty = new TLCStateMut(new OpDeclNode[]{}, new IValue[]{}, tool, null, new IMVPerm[]{});
+
+		sQueue = new DiskStateQueue(diskdir, empty);
 	}
 	
 	/* (non-Javadoc)

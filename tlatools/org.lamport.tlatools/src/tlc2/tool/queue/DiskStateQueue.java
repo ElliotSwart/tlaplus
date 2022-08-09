@@ -55,14 +55,14 @@ public class DiskStateQueue extends StateQueue {
 	private File loFile;
 
 	// TESTING ONLY!
-	DiskStateQueue(final ITool tool) throws IOException {
-		this(Files.createTempDirectory("DiskStateQueue").toFile().toString(), tool);
+	DiskStateQueue(TLCState emptyState) throws IOException {
+		this(Files.createTempDirectory("DiskStateQueue").toFile().toString(), emptyState);
 	}
 
-	private final ITool tool;
+	private final TLCState emptyState;
 
 	/* Constructors */
-	public DiskStateQueue(final String diskdir, final ITool tool) {
+	public DiskStateQueue(final String diskdir, TLCState emptyState) {
 		this.deqBuf = new TLCState[BufSize];
 		this.enqBuf = new TLCState[BufSize];
 		this.deqIndex = BufSize;
@@ -72,7 +72,7 @@ public class DiskStateQueue extends StateQueue {
 		this.lastLoPool = 0;
 		this.filePrefix = diskdir + FileUtil.separator;
 		final File rFile = new File(this.filePrefix + 0);
-		this.reader = new StatePoolReader(BufSize, rFile, tool);
+		this.reader = new StatePoolReader(BufSize, rFile, emptyState);
 		this.reader.setDaemon(true);
 		this.loFile = new File(this.filePrefix + this.loPool);
 		this.reader.start();
@@ -82,7 +82,7 @@ public class DiskStateQueue extends StateQueue {
 		this.cleaner = new StatePoolCleaner();
 		this.cleaner.setDaemon(true);
 		this.cleaner.start();
-		this.tool = tool;
+		this.emptyState = emptyState;
 	}
 
 	@Override
@@ -225,11 +225,11 @@ public class DiskStateQueue extends StateQueue {
 		this.lastLoPool = this.loPool - 1;
 
 		for (int i = 0; i < this.enqIndex; i++) {
-			this.enqBuf[i] = tool.createEmptyState();
+			this.enqBuf[i] = emptyState.createEmpty();
 			this.enqBuf[i].read(vis);
 		}
 		for (int i = this.deqIndex; i < this.deqBuf.length; i++) {
-			this.deqBuf[i] = tool.createEmptyState();
+			this.deqBuf[i] = emptyState.createEmpty();
 			this.deqBuf[i].read(vis);
 		}
 		vis.close();

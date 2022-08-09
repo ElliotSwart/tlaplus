@@ -108,8 +108,8 @@ public class ModelChecker extends AbstractChecker
         super(tool, metadir, stateWriter, deadlock, fromChkpt, startTime);
 
 		this.theStateQueue = useByteArrayQueue()
-				? new DiskByteArrayQueue(this.metadir, tool)
-				: new DiskStateQueue(this.metadir, tool);
+				? new DiskByteArrayQueue(this.metadir, tool.getEmptyState())
+				: new DiskStateQueue(this.metadir, tool.getEmptyState());
         // this.theStateQueue = new MemStateQueue(this.metadir);
 
         // Finally, initialize the trace file:

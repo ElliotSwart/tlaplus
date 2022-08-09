@@ -55,7 +55,7 @@ private final IValue[] values;
       this(vars, vals, tool, tool.getViewSpec(), tool.getSymmetryPerms());
   }
 
-  private TLCStateMut(final OpDeclNode[] vars, final IValue[] vals, final ITool tool, final SemanticNode viewMap, final IMVPerm[] perms) {
+  public TLCStateMut(final OpDeclNode[] vars, final IValue[] vals, final ITool tool, final SemanticNode viewMap, final IMVPerm[] perms) {
     super(vars);
     this.values = vals;
     this.mytool = tool;

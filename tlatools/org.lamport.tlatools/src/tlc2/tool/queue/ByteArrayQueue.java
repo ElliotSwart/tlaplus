@@ -40,10 +40,10 @@ public abstract class ByteArrayQueue implements IStateQueue {
 	 */
 	private final Object mu = new Object();
 
-	private final ITool tool;
+	private final TLCState emptyState;
 	
-	public ByteArrayQueue(final ITool tool){
-		this.tool = tool;
+	public ByteArrayQueue(final TLCState emptyState){
+		this.emptyState = emptyState;
 	}
 
 	private byte[] toBytes(final TLCState state) {
@@ -71,7 +71,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 	
 	private TLCState toState(final byte[] bytes) {
 		try {
-			final TLCState state = tool.createEmptyState();
+			final TLCState state = emptyState.createEmpty();
 			state.read(new DiskByteArrayQueue.ByteValueInputStream(bytes));
 			return state;
 		} catch (final IOException notExpectedToHappen) {

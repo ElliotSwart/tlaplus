@@ -11,9 +11,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 
+import tlc2.module.TLC;
 import tlc2.output.EC;
 import tlc2.output.MP;
 import tlc2.tool.ITool;
+import tlc2.tool.TLCState;
 import tlc2.value.IValue;
 import tlc2.value.IValueInputStream;
 import tlc2.value.IValueOutputStream;
@@ -64,13 +66,13 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	private File loFile;
 	
 	// TESTING ONLY!
-	DiskByteArrayQueue(final ITool tool) throws IOException {
-		this(Files.createTempDirectory("DiskByteArrayQueue").toFile().toString(), tool);
+	DiskByteArrayQueue(final TLCState emptyState) throws IOException {
+		this(Files.createTempDirectory("DiskByteArrayQueue").toFile().toString(), emptyState);
 	}
 
 	/* Constructors */
-	public DiskByteArrayQueue(final String diskdir, final ITool tool) {
-		super(tool);
+	public DiskByteArrayQueue(final String diskdir, final TLCState emptyState) {
+		super(emptyState);
 		this.deqBuf = new byte[BufSize][];
 		this.enqBuf = new byte[BufSize][];
 		this.deqIndex = BufSize;
