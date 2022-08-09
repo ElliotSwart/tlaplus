@@ -47,6 +47,11 @@ public class DepthFirstDieHardTest_TTraceTest extends TTraceModelCheckerTestCase
 		super(DepthFirstDieHardTest.class, ExitStatus.VIOLATION_SAFETY);
 	}
 
+	@Override
+	public boolean collectStateInfo(){
+		return true;
+	}
+
 	@Category(TTraceTest.class)
 	@Test
 	public void testSpec() {

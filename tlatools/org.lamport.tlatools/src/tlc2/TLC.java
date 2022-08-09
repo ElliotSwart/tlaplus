@@ -496,7 +496,12 @@ public class TLC {
 					}
 					index++;
 				}
-            } else if (args[index].equals("-tool"))
+            }
+            else if (args[index].equals("-collectStateInfo")) {
+                params.put(Tool.COLLECT_STATE_INFORMATION, true);
+                index++;
+            }
+            else if (args[index].equals("-tool"))
             {
                 index++;
                 TLCGlobals.tool = true;

@@ -40,7 +40,7 @@ public class TLCExtTest extends ModelCheckerTestCase {
 	}
 
 	@Override
-	protected boolean runWithDebugger() {
+	protected boolean collectStateInfo() {
 		return false;
 	}
 

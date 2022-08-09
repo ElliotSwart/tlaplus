@@ -59,7 +59,7 @@ public class Github726Test extends ModelCheckerTestCase {
 	}
 
 	@Override
-	protected boolean runWithDebugger() {
+	protected boolean collectStateInfo() {
 		return false;
 	}
 	

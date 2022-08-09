@@ -52,7 +52,7 @@ public class Github680aTest extends ModelCheckerTestCase {
 	}
 
 	@Override
-	protected boolean runWithDebugger() {
+	protected boolean collectStateInfo() {
 		return false;
 	}
 }

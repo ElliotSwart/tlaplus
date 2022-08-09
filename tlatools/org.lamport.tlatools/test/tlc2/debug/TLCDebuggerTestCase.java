@@ -103,7 +103,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 	}
 	
 	@Override
-	protected boolean runWithDebugger() {
+	protected boolean collectStateInfo() {
 		// TLCDebuggerTestCase configures the debugger explicitly! Especially, it
 		// doesn't pass 'nosuspend,nohalt'.
 		return false;

@@ -54,11 +54,10 @@ public class Github710aTest extends ModelCheckerTestCase {
 
 
 	@Override
-	protected boolean runWithDebugger(){
+	protected boolean collectStateInfo(){
 		return true;
 	}
 
-	@Category(DebuggerTest.class)
 	@Test
 	public void testSpec() {
 

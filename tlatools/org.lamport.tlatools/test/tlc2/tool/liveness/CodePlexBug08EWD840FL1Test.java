@@ -54,7 +54,7 @@ public class CodePlexBug08EWD840FL1Test extends ModelCheckerTestCase {
 
 
 	@Override
-	protected boolean runWithDebugger(){
+	protected boolean collectStateInfo(){
 		return true;
 	}
 

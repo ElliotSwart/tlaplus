@@ -32,7 +32,7 @@ public class TLCSetMultiSimTest extends TLCSetSimTest {
 	}
 
 	@Override
-	protected boolean runWithDebugger() {
+	protected boolean collectStateInfo() {
 		// The debugger causes simulation to run via the SingleThreadedSimulator. STS
 		// results in different code being executed on TLCExit(..). Thus, also test the
 		// code related to TLCExit(..) for the case where STS is off.

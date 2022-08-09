@@ -40,6 +40,7 @@ import tlc2.output.EC;
 import tlc2.value.IValue;
 import tlc2.value.impl.IntValue;
 import util.DebuggerTest;
+import util.IndependentlyRunTest;
 
 public class Github710bTest extends ModelCheckerTestCase {
 
@@ -54,11 +55,11 @@ public class Github710bTest extends ModelCheckerTestCase {
 
 
 	@Override
-	protected boolean runWithDebugger(){
+	protected boolean collectStateInfo(){
 		return true;
 	}
 
-	@Category(DebuggerTest.class)
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "3"));

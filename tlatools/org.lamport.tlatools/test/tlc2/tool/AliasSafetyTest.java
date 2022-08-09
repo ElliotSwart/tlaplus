@@ -53,11 +53,10 @@ public class AliasSafetyTest extends ModelCheckerTestCase {
 
 
 	@Override
-	protected boolean runWithDebugger(){
+	protected boolean collectStateInfo(){
 		return true;
 	}
 
-	@Category(DebuggerTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

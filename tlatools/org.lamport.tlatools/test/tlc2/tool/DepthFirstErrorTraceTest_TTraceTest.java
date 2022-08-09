@@ -47,6 +47,11 @@ public class DepthFirstErrorTraceTest_TTraceTest extends TTraceModelCheckerTestC
 		super(DepthFirstErrorTraceTest.class, ExitStatus.VIOLATION_SAFETY);
 	}
 
+	@Override
+	public boolean collectStateInfo(){
+		return true;
+	}
+
 	@Category(TTraceTest.class)
 	@Test
 	public void testSpec() {

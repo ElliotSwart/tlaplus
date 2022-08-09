@@ -43,6 +43,7 @@ import tlc2.output.EC.ExitStatus;
 import tlc2.value.IValue;
 import tlc2.value.impl.IntValue;
 import util.DebuggerTest;
+import util.IndependentlyRunTest;
 
 public class OneBitMutexNoSymmetryTest extends ModelCheckerTestCase {
 
@@ -51,11 +52,11 @@ public class OneBitMutexNoSymmetryTest extends ModelCheckerTestCase {
 	}
 
 	@Override
-	protected boolean runWithDebugger(){
+	protected boolean collectStateInfo(){
 		return true;
 	}
 
-	@Category(DebuggerTest.class)
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

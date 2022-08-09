@@ -48,6 +48,8 @@ public abstract class Tool
 
     /* Transplated from spec */
 
+    public static final String COLLECT_STATE_INFORMATION = "COLLECT_STATE_INFORMATION";
+
     /**
      * @see See note on performance in CostModelCreator.
      */
@@ -797,13 +799,14 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
       this.unprocessedDefns = specProcessor.getUnprocessedDefns();
       this.viewSpec = generateViewSpec(this.config, this.defns);
 
-      // set variables to the static filed in the state
-      if (mode == Mode.Simulation || mode == Mode.MC_DEBUG) {
+      if(mode == Mode.Simulation || mode == Mode.MC_DEBUG || params.containsKey(COLLECT_STATE_INFORMATION)){
           EmptyState = TLCStateMutExt.getEmpty(this.variables, this);
-      } else if (specProcessor.hasCallableValue) {
+      }
+      else if (specProcessor.hasCallableValue) {
           assert mode == Mode.Executor;
           EmptyState = TLCStateMutExt.getEmpty(this.variables, this);
-      } else {
+      }
+      else {
           assert mode == Mode.MC;
           EmptyState = TLCStateMut.getEmpty(this.variables, this);
       }

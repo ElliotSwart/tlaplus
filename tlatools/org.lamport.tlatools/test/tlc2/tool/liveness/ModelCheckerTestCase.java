@@ -30,7 +30,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import org.junit.After;
 import org.junit.Before;
@@ -234,9 +233,9 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 				args.add("-deadlock");
 			}
 			
-			if (getNumberOfThreads() == 1 && runWithDebugger()) {
-				args.add("-debugger");
-				args.add(String.format("nosuspend,port=%s,nohalt", 1025 + new Random().nextInt(64540)));
+			if (getNumberOfThreads() == 1 && collectStateInfo()) {
+				args.add("-collectStateInfo");
+				//args.add(String.format("nosuspend,port=%s,nohalt", 1025 + new Random().nextInt(64540)));
 			}
 			
 			if (noGenerateSpec()) {
@@ -301,7 +300,7 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 		return true;
 	}
 
-	protected boolean runWithDebugger() {
+	protected boolean collectStateInfo() {
 		return false; // to prevent memory leak
 	}
 

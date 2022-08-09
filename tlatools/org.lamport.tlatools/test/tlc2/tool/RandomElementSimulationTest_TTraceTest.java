@@ -46,6 +46,11 @@ public class RandomElementSimulationTest_TTraceTest extends TTraceModelCheckerTe
 		super(RandomElementSimulationTest.class, ExitStatus.VIOLATION_SAFETY);
 	}
 
+	@Override
+	protected boolean collectStateInfo(){
+		return true;
+	}
+
 	@Category(TTraceTest.class)
 	@Test
 	public void test() {

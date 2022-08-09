@@ -54,11 +54,10 @@ public class CodePlexBug08AgentRingTest extends ModelCheckerTestCase {
 
 
 	@Override
-	protected boolean runWithDebugger(){
+	protected boolean collectStateInfo(){
 		return true;
 	}
 
-	@Category(DebuggerTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

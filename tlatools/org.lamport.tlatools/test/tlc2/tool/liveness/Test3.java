@@ -89,7 +89,7 @@ public class Test3 extends ModelCheckerTestCase {
 	}
 
 	@Override
-	public boolean runWithDebugger(){
+	public boolean collectStateInfo(){
 		return true;
 	}
 }
