@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -157,7 +158,10 @@ public class ModelConfig implements ValueConstants, Serializable {
             if (this.configFileName.endsWith(TLAConstants.Files.TLA_EXTENSION)) {
 				fis = MonolithSpecExtractor.config(fis,
 						// strip ".tla" from this.configFileName.
-						this.configFileName.replace(TLAConstants.Files.TLA_EXTENSION, ""));
+                        Paths
+                            .get(this.configFileName).getFileName()
+                            .toString()
+                            .replace(TLAConstants.Files.TLA_EXTENSION, ""));
             }
             final SimpleCharStream scs = new SimpleCharStream(fis, 1, 1);
             final TLAplusParserTokenManager tmgr = new TLAplusParserTokenManager(scs, 2);
