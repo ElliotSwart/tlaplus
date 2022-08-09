@@ -37,9 +37,9 @@ import org.junit.Test;
 
 import tlc2.output.EC;
 
-public class SymmetryModelCheckerTestLonga extends ModelCheckerTestCase {
+public class SymmetryModelCheckerTestLongaTest extends ModelCheckerTestCase {
 
-	public SymmetryModelCheckerTestLonga() {
+	public SymmetryModelCheckerTestLongaTest() {
 		super("LongMCa", "symmetry");
 	}
 	

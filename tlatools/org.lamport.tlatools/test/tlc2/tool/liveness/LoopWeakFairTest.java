@@ -36,9 +36,9 @@ import tlc2.output.EC;
 /**
  * System LOOP as described by Manna & Pneuli on page 423ff
  */
-public class LoopTestWeakFair extends ModelCheckerTestCase {
+public class LoopWeakFairTest extends ModelCheckerTestCase {
 
-	public LoopTestWeakFair() {
+	public LoopWeakFairTest() {
 		super("SystemLoop", "Loop", new String[] { "-config", "SystemLoopWeakFair" });
 	}
 

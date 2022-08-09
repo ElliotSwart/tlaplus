@@ -38,42 +38,28 @@ import tlc2.output.EC;
 import tlc2.tool.liveness.ModelCheckerTestCase;
 import util.IndependentlyRunTest;
 
-public class DistributedTrace extends ModelCheckerTestCase {
+public class AssertExpressionStackTest extends ModelCheckerTestCase {
 
-	public DistributedTrace() {
-		super("DistributedTrace");
+	public AssertExpressionStackTest() {
+		super("AssertExpressionStack");
 	}
 
 	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
-		assertFalse(recorder.recorded(EC.GENERAL));
+		assertFalse(recorder.recorded(EC.TLC_BUG));
+
+		assertTrue(recorder.recorded(EC.TLC_BEHAVIOR_UP_TO_THIS_POINT));
 
 		assertNoTESpec();
 		
-		// Assert the error trace
-		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(5);
-		expectedTrace.add("x = 10");
-		expectedTrace.add("x = 11");
-		expectedTrace.add("x = 12");
-		expectedTrace.add("x = 13");
-		expectedTrace.add("x = 14");
-		expectedTrace.add("x = 15");
-		expectedTrace.add("x = 16");
-		expectedTrace.add("x = 17");
-		expectedTrace.add("x = 18");
-		expectedTrace.add("x = 19");
-		expectedTrace.add("x = 20");
+		final List<String> expectedTrace = new ArrayList<String>(2);
+		expectedTrace.add("x = 0");
+		expectedTrace.add("x = 1");
 		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
-	}
-
-	/* (non-Javadoc)
-	 * @see tlc2.tool.liveness.ModelCheckerTestCase#getNumberOfThreads()
-	 */
-	@Override
-    protected int getNumberOfThreads() {
-		return 4;
+		
+		// Assert a proper nested expression has been recorded which represents the call stack.
+		assertFalse(recorder.recordedWithStringValue(EC.TLC_NESTED_EXPRESSION, "    The error call stack is empty.\n"));
 	}
 }

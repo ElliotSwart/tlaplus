@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015 Microsoft Research. All rights reserved. 
+ * Copyright (c) 2017 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
  * 
@@ -24,53 +24,37 @@
  *   Markus Alexander Kuppe - initial API and implementation
  ******************************************************************************/
 
-package tlc2.tool.liveness;
+package tlc2.tool;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Ignore;
 import org.junit.Test;
 
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
+import tlc2.tool.liveness.ModelCheckerTestCase;
+import util.IndependentlyRunTest;
 
-public class SymmetryModelCheckerTestLong extends ModelCheckerTestCase {
+public class DepthFirstTerminateTest extends ModelCheckerTestCase {
 
-	public SymmetryModelCheckerTestLong() {
-		super("LongMC", "symmetry");
+	public DepthFirstTerminateTest() {
+		super("DepthFirstTerminate", "", new String[] { "-dfid", "50" });
 	}
-	
+
+	@Category(IndependentlyRunTest.class)
 	@Test
-	@Ignore("Ignored for as long as symmetry is incorrectly handled by TLC with liveness checking.")
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
-		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "8", "5", "0"));
 		assertFalse(recorder.recorded(EC.GENERAL));
+	}
 
-		// Assert it has found the temporal violation and also a counter example
-		assertTrue(recorder.recorded(EC.TLC_TEMPORAL_PROPERTY_VIOLATED));
-		assertTrue(recorder.recorded(EC.TLC_COUNTER_EXAMPLE));
-		
-		assertNodeAndPtrSizes(192L, 80L);
-
-		// Assert the error trace
-		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(4);
-		expectedTrace.add("/\\ x = a\n/\\ y = 0");
-		expectedTrace.add("/\\ x = a\n/\\ y = 1");
-		expectedTrace.add("/\\ x = a\n/\\ y = 2");
-		expectedTrace.add("/\\ x = a\n/\\ y = 3");
-		expectedTrace.add("/\\ x = a\n/\\ y = 4"); // <= x changes after this state
-		expectedTrace.add("/\\ x = b\n/\\ y = 0");
-		expectedTrace.add("/\\ x = b\n/\\ y = 1");
-		expectedTrace.add("/\\ x = b\n/\\ y = 2");
-		expectedTrace.add("/\\ x = b\n/\\ y = 3");
-		expectedTrace.add("/\\ x = b\n/\\ y = 4");
-		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
-		
-		assertBackToState(1, "<Action line 47, col 12 to line 49, col 27 of module SymmetryLivenessLong>");
+	/* (non-Javadoc)
+	 * @see tlc2.tool.liveness.ModelCheckerTestCase#getNumberOfThreads()
+	 */
+	@Override
+	protected int getNumberOfThreads() {
+		// Run this test with as many threads possible to hopefully spot concurrency issues.
+		return Runtime.getRuntime().availableProcessors();
 	}
 }

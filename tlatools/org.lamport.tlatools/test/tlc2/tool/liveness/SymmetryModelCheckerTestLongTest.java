@@ -32,52 +32,45 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
-import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
-import tlc2.output.EC.ExitStatus;
-import tlc2.tool.AbstractChecker;
-import util.IndependentlyRunTest;
 
-/**
- * Identical to {@link LoopTest}, except that liveness checking uses
- * {@link AddAndCheckLiveCheck}. This way, TLC correctly produces the shortest
- * possible counterexample.
- */
-public class LoopTestForcedPartial extends ModelCheckerTestCase {
-	
-	static {
-		AbstractChecker.LIVENESS_TESTING_IMPLEMENTATION = true;
+public class SymmetryModelCheckerTestLongTest extends ModelCheckerTestCase {
+
+	public SymmetryModelCheckerTestLongTest() {
+		super("LongMC", "symmetry");
 	}
 	
-	public LoopTestForcedPartial() {
-		super("SystemLoop", "Loop", ExitStatus.VIOLATION_LIVENESS);
-	}
-
-	@Category(IndependentlyRunTest.class)
 	@Test
+	@Ignore("Ignored for as long as symmetry is incorrectly handled by TLC with liveness checking.")
 	public void testSpec() {
-		// ModelChecker has finished and generated the expected amount of states
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
-		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "2", "2", "1"));
-		assertTrue(recorder.recordedWithStringValue(EC.TLC_INIT_GENERATED1, "1"));
+		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "8", "5", "0"));
 		assertFalse(recorder.recorded(EC.GENERAL));
 
 		// Assert it has found the temporal violation and also a counter example
 		assertTrue(recorder.recorded(EC.TLC_TEMPORAL_PROPERTY_VIOLATED));
 		assertTrue(recorder.recorded(EC.TLC_COUNTER_EXAMPLE));
+		
+		assertNodeAndPtrSizes(192L, 80L);
 
 		// Assert the error trace
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
 		final List<String> expectedTrace = new ArrayList<String>(4);
-		expectedTrace.add("x = 0");
-
-		assertTraceWithSingleTrace(recorder.getRecords(EC.TLC_STATE_PRINT2), "x = 0");
+		expectedTrace.add("/\\ x = a\n/\\ y = 0");
+		expectedTrace.add("/\\ x = a\n/\\ y = 1");
+		expectedTrace.add("/\\ x = a\n/\\ y = 2");
+		expectedTrace.add("/\\ x = a\n/\\ y = 3");
+		expectedTrace.add("/\\ x = a\n/\\ y = 4"); // <= x changes after this state
+		expectedTrace.add("/\\ x = b\n/\\ y = 0");
+		expectedTrace.add("/\\ x = b\n/\\ y = 1");
+		expectedTrace.add("/\\ x = b\n/\\ y = 2");
+		expectedTrace.add("/\\ x = b\n/\\ y = 3");
+		expectedTrace.add("/\\ x = b\n/\\ y = 4");
+		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
 		
-		// Stuttering after the init state.
-		assertStuttering(2);
-
-		//assertZeroUncovered();
+		assertBackToState(1, "<Action line 47, col 12 to line 49, col 27 of module SymmetryLivenessLong>");
 	}
 }

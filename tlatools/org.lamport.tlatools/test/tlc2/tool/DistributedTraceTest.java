@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015 Microsoft Research. All rights reserved. 
+ * Copyright (c) 2017 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
  * 
@@ -23,8 +23,7 @@
  * Contributors:
  *   Markus Alexander Kuppe - initial API and implementation
  ******************************************************************************/
-
-package tlc2.tool.liveness;
+package tlc2.tool;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -36,45 +35,45 @@ import org.junit.Test;
 
 import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
-import tlc2.output.EC.ExitStatus;
-import tlc2.tool.AbstractChecker;
-import util.TTraceTest;
+import tlc2.tool.liveness.ModelCheckerTestCase;
+import util.IndependentlyRunTest;
 
-/**
- * Identical to {@link LoopTest}, except that liveness checking uses
- * {@link AddAndCheckLiveCheck}. This way, TLC correctly produces the shortest
- * possible counterexample.
- */
-public class LoopTestForcedPartial_TTraceTest extends TTraceModelCheckerTestCase {
-	
-	static {
-		AbstractChecker.LIVENESS_TESTING_IMPLEMENTATION = true;
-	}
-	
-	public LoopTestForcedPartial_TTraceTest() {
-		super(LoopTestForcedPartial.class, "Loop", ExitStatus.VIOLATION_LIVENESS);
+public class DistributedTraceTest extends ModelCheckerTestCase {
+
+	public DistributedTraceTest() {
+		super("DistributedTrace");
 	}
 
-	@Category(TTraceTest.class)
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
-		// ModelChecker has finished and generated the expected amount of states
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
-        assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "1", "1", "0"));
-		assertTrue(recorder.recordedWithStringValue(EC.TLC_INIT_GENERATED1, "1"));
 		assertFalse(recorder.recorded(EC.GENERAL));
 
-		// Assert it has found the temporal violation and also a counter example
-		assertTrue(recorder.recorded(EC.TLC_TEMPORAL_PROPERTY_VIOLATED));
-		assertTrue(recorder.recorded(EC.TLC_COUNTER_EXAMPLE));
-
+		assertNoTESpec();
+		
 		// Assert the error trace
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(4);
-		expectedTrace.add("x = 0");
-		assertTraceWithSingleTrace(recorder.getRecords(EC.TLC_STATE_PRINT2), "x = 0");
-		
-		// Stuttering after the init state.
-		assertStuttering(2);
+		final List<String> expectedTrace = new ArrayList<String>(5);
+		expectedTrace.add("x = 10");
+		expectedTrace.add("x = 11");
+		expectedTrace.add("x = 12");
+		expectedTrace.add("x = 13");
+		expectedTrace.add("x = 14");
+		expectedTrace.add("x = 15");
+		expectedTrace.add("x = 16");
+		expectedTrace.add("x = 17");
+		expectedTrace.add("x = 18");
+		expectedTrace.add("x = 19");
+		expectedTrace.add("x = 20");
+		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
+	}
+
+	/* (non-Javadoc)
+	 * @see tlc2.tool.liveness.ModelCheckerTestCase#getNumberOfThreads()
+	 */
+	@Override
+    protected int getNumberOfThreads() {
+		return 4;
 	}
 }

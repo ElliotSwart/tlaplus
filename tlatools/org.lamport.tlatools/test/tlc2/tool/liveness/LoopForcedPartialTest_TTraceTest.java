@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017 Microsoft Research. All rights reserved. 
+ * Copyright (c) 2015 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
  * 
@@ -23,7 +23,8 @@
  * Contributors:
  *   Markus Alexander Kuppe - initial API and implementation
  ******************************************************************************/
-package tlc2.tool;
+
+package tlc2.tool.liveness;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -35,31 +36,45 @@ import org.junit.Test;
 
 import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
-import tlc2.tool.liveness.ModelCheckerTestCase;
-import util.IndependentlyRunTest;
+import tlc2.output.EC.ExitStatus;
+import tlc2.tool.AbstractChecker;
+import util.TTraceTest;
 
-public class AssertExpressionStack extends ModelCheckerTestCase {
-
-	public AssertExpressionStack() {
-		super("AssertExpressionStack");
+/**
+ * Identical to {@link LoopTest}, except that liveness checking uses
+ * {@link AddAndCheckLiveCheck}. This way, TLC correctly produces the shortest
+ * possible counterexample.
+ */
+public class LoopForcedPartialTest_TTraceTest extends TTraceModelCheckerTestCase {
+	
+	static {
+		AbstractChecker.LIVENESS_TESTING_IMPLEMENTATION = true;
+	}
+	
+	public LoopForcedPartialTest_TTraceTest() {
+		super(LoopForcedPartialTest.class, "Loop", ExitStatus.VIOLATION_LIVENESS);
 	}
 
-	@Category(IndependentlyRunTest.class)
+	@Category(TTraceTest.class)
 	@Test
 	public void testSpec() {
+		// ModelChecker has finished and generated the expected amount of states
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
-		assertFalse(recorder.recorded(EC.TLC_BUG));
+        assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "1", "1", "0"));
+		assertTrue(recorder.recordedWithStringValue(EC.TLC_INIT_GENERATED1, "1"));
+		assertFalse(recorder.recorded(EC.GENERAL));
 
-		assertTrue(recorder.recorded(EC.TLC_BEHAVIOR_UP_TO_THIS_POINT));
+		// Assert it has found the temporal violation and also a counter example
+		assertTrue(recorder.recorded(EC.TLC_TEMPORAL_PROPERTY_VIOLATED));
+		assertTrue(recorder.recorded(EC.TLC_COUNTER_EXAMPLE));
 
-		assertNoTESpec();
-		
-		final List<String> expectedTrace = new ArrayList<String>(2);
+		// Assert the error trace
+		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
+		final List<String> expectedTrace = new ArrayList<String>(4);
 		expectedTrace.add("x = 0");
-		expectedTrace.add("x = 1");
-		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
+		assertTraceWithSingleTrace(recorder.getRecords(EC.TLC_STATE_PRINT2), "x = 0");
 		
-		// Assert a proper nested expression has been recorded which represents the call stack.
-		assertFalse(recorder.recordedWithStringValue(EC.TLC_NESTED_EXPRESSION, "    The error call stack is empty.\n"));
+		// Stuttering after the init state.
+		assertStuttering(2);
 	}
 }
