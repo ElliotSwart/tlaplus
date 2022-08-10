@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Random;
 
 import org.junit.Before;
@@ -121,7 +122,7 @@ public class ByteUtilsTest
             i = r.nextInt();
             b = ByteUtils.intToByteArray(i);
             if ((i != ByteUtils.byteArrayToInt(b)) || (b.length != 4))
-                ToolIO.out.println("i :" + i + "    byte :" + b + "    i: " + ByteUtils.byteArrayToInt(b)
+                ToolIO.out.println("i :" + i + "    byte :" + Arrays.toString(b) + "    i: " + ByteUtils.byteArrayToInt(b)
                         + "    size: " + b.length);
         }
     }
@@ -164,7 +165,7 @@ public class ByteUtilsTest
             i = r.nextLong();
             b = ByteUtils.longToByteArray(i);
             if ((i != ByteUtils.byteArrayToLong(b)) || (b.length != 8))
-                ToolIO.out.println("i :" + i + "    byte :" + b + "    i: " + ByteUtils.byteArrayToLong(b)
+                ToolIO.out.println("i :" + i + "    byte :" + Arrays.toString(b) + "    i: " + ByteUtils.byteArrayToLong(b)
                         + "    size: " + b.length);
         }
     }

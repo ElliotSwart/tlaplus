@@ -153,10 +153,7 @@ public class LongArrayTest {
 				for (final int j = 0; i < j; i++) {
 					assertEquals(0L, array.get(j));
 				}
-				for (final int j = 0; i < j; i++) {
-					array.set(j, -1L);
-				}
-			}
+            }
 		}
 	}
 	

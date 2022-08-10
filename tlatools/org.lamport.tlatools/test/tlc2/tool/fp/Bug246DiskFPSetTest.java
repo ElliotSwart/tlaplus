@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import org.junit.Test;
 
@@ -82,7 +83,7 @@ public class Bug246DiskFPSetTest {
 			fail("OOM occurred (not flush to disk) " + buf);
 		}
 		finally {
-			fpSet.close();
+			Objects.requireNonNull(fpSet).close();
 		}
 	}
 	

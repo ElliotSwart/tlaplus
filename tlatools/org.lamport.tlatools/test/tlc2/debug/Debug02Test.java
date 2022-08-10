@@ -25,11 +25,6 @@
  ******************************************************************************/
 package tlc2.debug;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.eclipse.lsp4j.debug.EvaluateResponse;
 import org.eclipse.lsp4j.debug.Variable;
 import org.junit.Test;
@@ -39,6 +34,10 @@ import tlc2.debug.TLCStateStackFrame.DebuggerValue;
 import tlc2.output.EC;
 import tlc2.value.impl.BoolValue;
 import util.DebuggerTest;
+
+import java.util.Objects;
+
+import static org.junit.Assert.*;
 
 public class Debug02Test extends TLCDebuggerTestCase {
 
@@ -55,28 +54,28 @@ public class Debug02Test extends TLCDebuggerTestCase {
 
 		// xx in Init
 		EvaluateResponse var = debugger.evaluate(RM, "x", 6, 9, 6, 9);
-		assertEquals(null, var.getType());
+        assertNull(var.getType());
 		assertEquals(DebuggerValue.NOT_EVALUATED, var.getResult());
 		// xx in Next
 		var = debugger.evaluate(RM, "x", 7, 14, 7, 14);
-		assertEquals(null, var.getType());
+        assertNull(var.getType());
 		assertEquals(DebuggerValue.NOT_EVALUATED, var.getResult());
 		// xx' in Next
 		var = debugger.evaluate(RM, "x", 7, 9, 7, 9);
-		assertEquals(null, var.getType());
+        assertNull(var.getType());
 		assertEquals("line 7, col 9 to line 7, col 9 of module Debug02", var.getResult());
 
 		// outer-most frame of Init => xx and xx' still null
 		debugger.stepIn();
 		assertTrue(debugger.stack.peek() instanceof TLCStateStackFrame);
 		var = debugger.evaluate(RM, "x", 6, 9, 6, 9);
-		assertEquals(null, var.getType());
+        assertNull(var.getType());
 		assertEquals(DebuggerValue.NOT_EVALUATED, var.getResult());
 		var = debugger.evaluate(RM, "x", 7, 14, 7, 14);
-		assertEquals(null, var.getType());
+        assertNull(var.getType());
 		assertEquals(DebuggerValue.NOT_EVALUATED, var.getResult());
 		var = debugger.evaluate(RM, "x", 7, 9, 7, 9);
-		assertEquals(null, var.getType());
+        assertNull(var.getType());
 		assertEquals("line 7, col 9 to line 7, col 9 of module Debug02", var.getResult());
 
 		// xx evaluated, xx' not yet
@@ -92,7 +91,7 @@ public class Debug02Test extends TLCDebuggerTestCase {
 		assertEquals("TRUE", var.getResult());
 		// xx' in Next
 		var = debugger.evaluate(RM, "x", 7, 9, 7, 9);
-		assertEquals(null, var.getType());
+        assertNull(var.getType());
 		assertEquals("line 7, col 9 to line 7, col 9 of module Debug02", var.getResult());
 
 		// outer-most frame of Next => xx evaluated, xx' not yet
@@ -106,7 +105,7 @@ public class Debug02Test extends TLCDebuggerTestCase {
 		assertEquals(BoolValue.ValTrue.getTypeString(), var.getType());
 		assertEquals("TRUE", var.getResult());
 		var = debugger.evaluate(RM, "x", 7, 9, 7, 10);
-		assertEquals(null, var.getType());
+        assertNull(var.getType());
 		assertEquals(DebuggerValue.NOT_EVALUATED, var.getResult());
 
 		// ... =~xx
@@ -120,7 +119,7 @@ public class Debug02Test extends TLCDebuggerTestCase {
 		assertEquals(BoolValue.ValTrue.getTypeString(), var.getType());
 		assertEquals("TRUE", var.getResult());
 		var = debugger.evaluate(RM, "x", 7, 9, 7, 10);
-		assertEquals(null, var.getType());
+        assertNull(var.getType());
 		assertEquals(DebuggerValue.NOT_EVALUATED, var.getResult());
 
 		// xx' =~xx
@@ -134,7 +133,7 @@ public class Debug02Test extends TLCDebuggerTestCase {
 		assertEquals(BoolValue.ValTrue.getTypeString(), var.getType());
 		assertEquals("TRUE", var.getResult());
 		var = debugger.evaluate(RM, "x", 7, 9, 7, 10);
-		assertEquals(null, var.getType());
+        assertNull(var.getType());
 		assertEquals(DebuggerValue.NOT_EVALUATED, var.getResult());
 
 		debugger.stepIn();
@@ -153,7 +152,7 @@ public class Debug02Test extends TLCDebuggerTestCase {
 		// Assert that constants of a single module spec (a spec without instantiation
 		// and variables declared only in one module) gets flattened in the variable view.
 		final TLCActionStackFrame f = (TLCActionStackFrame) debugger.stack.peek();
-		final Variable[] variables = f.getVariables(f.getConstantsId());
+		final Variable[] variables = Objects.requireNonNull(f).getVariables(f.getConstantsId());
 		assertEquals(1, variables.length);
 		assertEquals("val", variables[0].getName());
 		assertEquals("42", variables[0].getValue());

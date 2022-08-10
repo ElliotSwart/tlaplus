@@ -26,13 +26,11 @@
 
 package tlc2.tool.liveness;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Arrays;
 
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class TableauNodePtrTableTest {
 
@@ -75,7 +73,7 @@ public class TableauNodePtrTableTest {
 		assertTrue(tbl.getNodesLoc(fingerprint) != -1);
 		assertEquals(tbl.getNodesLoc(fingerprint), loc);
 
-		assertTrue(Arrays.equals(tbl.getNodesByLoc(loc), tbl.getNodes(fingerprint)));
+        assertArrayEquals(tbl.getNodesByLoc(loc), tbl.getNodes(fingerprint));
 
 		assertEquals(-1, tbl.getLoc(fingerprint, 1));
 		tbl.addElem(fingerprint, 1, 2342);

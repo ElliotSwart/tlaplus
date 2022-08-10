@@ -206,7 +206,7 @@ public class OneBitMutexNoSymmetryTest extends ModelCheckerTestCase {
 		// Check that POSTCONDITION wrote the number of generated states to a TLCSet
 		// register.
 		final List<IValue> allValue = tlc.mainChecker.getAllValue(42);
-		assertTrue(!allValue.isEmpty());
+		assertFalse(allValue.isEmpty());
 		assertEquals(IntValue.gen(244), allValue.get(0));
 	}
 }

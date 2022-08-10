@@ -109,18 +109,18 @@ public class TLCTest {
 		
 		tlc = new TLC();
 		assertTrue(tlc.handleParameters(new String[] {"-maxSetSize", "1", TLAConstants.Files.MODEL_CHECK_FILE_BASENAME}));
-		assertTrue(TLCGlobals.setBound == 1);
+        assertEquals(1, TLCGlobals.setBound);
 		
 
 		tlc = new TLC();
 		assertTrue(tlc.handleParameters(
 				new String[] { "-maxSetSize", Integer.toString(progDefault), TLAConstants.Files.MODEL_CHECK_FILE_BASENAME }));
-		assertTrue(TLCGlobals.setBound == progDefault);
+        assertEquals(TLCGlobals.setBound, progDefault);
 		
 		tlc = new TLC();
 		assertTrue(tlc.handleParameters(new String[] { "-maxSetSize", Integer.toString(Integer.MAX_VALUE),
 				TLAConstants.Files.MODEL_CHECK_FILE_BASENAME }));
-		assertTrue(TLCGlobals.setBound == Integer.MAX_VALUE);
+        assertEquals(Integer.MAX_VALUE, TLCGlobals.setBound);
 	}
 	
 	@Test

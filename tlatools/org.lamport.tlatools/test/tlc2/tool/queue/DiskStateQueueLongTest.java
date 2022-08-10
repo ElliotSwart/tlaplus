@@ -1,5 +1,6 @@
 package tlc2.tool.queue;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -66,6 +67,6 @@ public class DiskStateQueueLongTest extends StateQueueTest {
 		for (long i = 0; i < j; i++) {
 			sQueue.sEnqueue(state);
 		}
-		assertTrue(sQueue.size() == j);
+		assertEquals(j, sQueue.size());
 	}
 }

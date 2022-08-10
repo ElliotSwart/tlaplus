@@ -173,7 +173,7 @@ public class MultiFPSetTest {
 		printBinaryString("b00...1", b);
 		
 		final FPSet aFPSet = mfps.getFPSet(a);
-		Assert.assertTrue(aFPSet == mfps.getFPSet(b));
+		Assert.assertSame(aFPSet, mfps.getFPSet(b));
 		
 		// Initially neither a nor b are in the set.
 		Assert.assertFalse(aFPSet.contains(a));
@@ -233,7 +233,7 @@ public class MultiFPSetTest {
 		
 		final FPSet aFPSet = mfps.getFPSet(a);
 		final FPSet bFPSet = mfps.getFPSet(b);
-		Assert.assertTrue(aFPSet != bFPSet);
+		Assert.assertNotSame(aFPSet, bFPSet);
 		
 		// Initially neither a nor b are in the set.
 		Assert.assertFalse(aFPSet.contains(a));
@@ -387,7 +387,7 @@ public class MultiFPSetTest {
 		printBinaryString("b01", b);
 		
 		final FPSet aFPSet = mfps.getFPSet(a);
-		Assert.assertTrue(aFPSet == mfps.getFPSet(b));
+		Assert.assertSame(aFPSet, mfps.getFPSet(b));
 		
 		// Initially neither a nor b are in the set.
 		Assert.assertFalse(aFPSet.contains(a));
@@ -443,7 +443,7 @@ public class MultiFPSetTest {
 		
 		final FPSet aFPSet = mfps.getFPSet(a);
 		final FPSet bFPSet = mfps.getFPSet(b);
-		Assert.assertTrue(aFPSet != bFPSet);
+		Assert.assertNotSame(aFPSet, bFPSet);
 		
 		// Initially neither a nor b are in the set.
 		Assert.assertFalse(aFPSet.contains(a));
@@ -576,7 +576,7 @@ public class MultiFPSetTest {
 		printBinaryString("b00...1", b);
 		
 		final FPSet aFPSet = mfps.getFPSet(a);
-		Assert.assertTrue(aFPSet == mfps.getFPSet(b));
+		Assert.assertSame(aFPSet, mfps.getFPSet(b));
 		
 		// Initially neither a nor b are in the set.
 		Assert.assertFalse(aFPSet.contains(a));
@@ -641,7 +641,7 @@ public class MultiFPSetTest {
 		
 		final FPSet aFPSet = mfps.getFPSet(a);
 		final FPSet bFPSet = mfps.getFPSet(b);
-		Assert.assertTrue(aFPSet != bFPSet);
+		Assert.assertNotSame(aFPSet, bFPSet);
 		
 		// Initially neither a nor b are in the set.
 		Assert.assertFalse(aFPSet.contains(a));

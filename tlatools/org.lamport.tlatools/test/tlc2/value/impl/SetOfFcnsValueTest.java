@@ -30,10 +30,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
@@ -165,7 +162,7 @@ public class SetOfFcnsValueTest {
 		final SetOfFcnsValue.SubsetEnumerator enumerator = (SubsetEnumerator) setOfFcnsValue.elements(27);
 		for (int i = 0; i < setOfFcnsValue.size(); i++) {
 			final FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
-			assertEquals(3, rcd.domain.length);
+			assertEquals(3, Objects.requireNonNull(rcd.domain).length);
 			assertEquals(3, rcd.values.length);
 			enumeratorValues.add(rcd);
 		}
@@ -176,7 +173,7 @@ public class SetOfFcnsValueTest {
 		final ValueEnumeration enumerator2 = randomSubset.elements();
 		FcnRcdValue rcd;
 		while ((rcd = (FcnRcdValue) enumerator2.nextElement()) != null) {
-			assertEquals(3, rcd.domain.length);
+			assertEquals(3, Objects.requireNonNull(rcd.domain).length);
 			assertEquals(3, rcd.values.length);
 			randomsubsetValues.add(rcd);
 			// Check element is in the original SetOfFcnsValue.
@@ -201,7 +198,7 @@ public class SetOfFcnsValueTest {
 		final SetOfFcnsValue.SubsetEnumerator enumerator = (SubsetEnumerator) setOfFcnsValue.elements(27);
 		for (int i = 0; i < setOfFcnsValue.size(); i++) {
 			final FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
-			assertEquals(3, rcd.domain.length);
+			assertEquals(3, Objects.requireNonNull(rcd.domain).length);
 			assertEquals(3, rcd.values.length);
 			enumeratorValues.add(rcd);
 			// Check element is in the original SetOfFcnsValue.
@@ -250,7 +247,7 @@ public class SetOfFcnsValueTest {
 		final SetOfFcnsValue.SubsetEnumerator enumerator = (SubsetEnumerator) setOfFcnsValue.elements(9);
 		for (int i = 0; i < setOfFcnsValue.size(); i++) {
 			final FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
-			assertEquals(2, rcd.domain.length);
+			assertEquals(2, Objects.requireNonNull(rcd.domain).length);
 			assertEquals(2, rcd.values.length);
 			// Check element is in the original SetOfFcnsValue.
 			assertTrue(setOfFcnsValue.member(rcd));
@@ -279,7 +276,7 @@ public class SetOfFcnsValueTest {
 		final SetOfFcnsValue.SubsetEnumerator enumerator = (SubsetEnumerator) setOfFcnsValue.elements(27);
 		for (int i = 0; i < setOfFcnsValue.size(); i++) {
 			final FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
-			assertEquals(3, rcd.domain.length);
+			assertEquals(3, Objects.requireNonNull(rcd.domain).length);
 			assertEquals(3, rcd.values.length);
 			// Check element is in the original SetOfFcnsValue.
 			assertTrue(setOfFcnsValue.member(rcd));
@@ -326,7 +323,7 @@ public class SetOfFcnsValueTest {
 		final SetOfFcnsValue.SubsetEnumerator enumerator = (SubsetEnumerator) setOfFcnsValue.elements(256);
 		for (int i = 0; i < setOfFcnsValue.size(); i++) {
 			final FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
-			assertEquals(4, rcd.domain.length);
+			assertEquals(4, Objects.requireNonNull(rcd.domain).length);
 			assertEquals(4, rcd.values.length);
 			// Check element is in the original SetOfFcnsValue.
 			assertTrue(setOfFcnsValue.member(rcd));

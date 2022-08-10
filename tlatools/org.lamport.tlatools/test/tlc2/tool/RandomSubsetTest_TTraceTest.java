@@ -79,7 +79,7 @@ public class RandomSubsetTest_TTraceTest extends TTraceModelCheckerTestCase {
 		final IntValue firstX = (IntValue) firstState.get(UniqueString.uniqueStringOf("x"));
 		assertTrue(1 <= firstX.val && firstX.val <= 100000000);
 		final IntValue firstY = (IntValue) firstState.get(UniqueString.uniqueStringOf("y"));
-		assertTrue(100000000 <= firstY.val && firstX.val <= 100000010);
+		assertTrue(100000000 <= firstY.val);
 
 		// Check z is true
 		assertEquals(BoolValue.ValTrue, (IBoolValue) firstState.get(UniqueString.uniqueStringOf("z")));

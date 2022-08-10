@@ -27,6 +27,7 @@
 package tlc2.module;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import org.junit.Assert;
@@ -66,7 +67,7 @@ public class TLCTest {
 		rcdVal.normalize();
 
 		// domain
-		Assert.assertEquals(3, rcdVal.domain.length);
+		Assert.assertEquals(3, Objects.requireNonNull(rcdVal.domain).length);
 		Assert.assertArrayEquals(new Value [] { IntValue.gen(1), IntValue.gen(2), IntValue.gen(3) }, rcdVal.domain);
 
 		// values
@@ -90,7 +91,7 @@ public class TLCTest {
 		rcdVal.normalize();
 		
 		// domain
-		Assert.assertEquals(4, rcdVal.domain.length);
+		Assert.assertEquals(4, Objects.requireNonNull(rcdVal.domain).length);
 		Assert.assertArrayEquals(new Value [] { IntValue.gen(1), IntValue.gen(2), IntValue.gen(3), IntValue.gen(4) },
 				rcdVal.domain);
 

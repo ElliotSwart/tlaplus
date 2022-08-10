@@ -59,9 +59,9 @@ public class StateQueueTest {
 	public void testsDequeueNotEmpty() {
 		final DummyTLCState expected = new DummyTLCState(new OpDeclNode[]{});
 		sQueue.sEnqueue(expected);
-		assertTrue(sQueue.size() == 1);
+		assertEquals(1, sQueue.size());
 		final TLCState actual = sQueue.sDequeue();
-		assertTrue(sQueue.size() == 0);
+		assertEquals(0, sQueue.size());
 		assertEquals(expected, actual);
 	}
 	
@@ -70,9 +70,9 @@ public class StateQueueTest {
 	public void testDequeueNotEmpty() {
 		final DummyTLCState expected = new DummyTLCState(new OpDeclNode[]{});
 		sQueue.enqueue(expected);
-		assertTrue(sQueue.size() == 1);
+		assertEquals(1, sQueue.size());
 		final TLCState actual = sQueue.dequeue();
-		assertTrue(sQueue.size() == 0);
+		assertEquals(0, sQueue.size());
 		assertEquals(expected, actual);
 	}
 
@@ -83,7 +83,7 @@ public class StateQueueTest {
 		for (int i = 0; i < j; i++) {
 			sQueue.sEnqueue(new DummyTLCState(new OpDeclNode[]{}));
 		}
-		assertTrue(sQueue.size() == j);
+		assertEquals(j, sQueue.size());
 	}
 	
 	// add same states 10 times and check size
@@ -94,7 +94,7 @@ public class StateQueueTest {
 		for (int i = 0; i < j; i++) {
 			sQueue.sEnqueue(state);
 		}
-		assertTrue(sQueue.size() == j);
+		assertEquals(j, sQueue.size());
 	}
 
 	// uncommon input with empty queue sDequeue
@@ -116,7 +116,7 @@ public class StateQueueTest {
 		expectRuntimeException(sQueue, -1);
 		expectRuntimeException(sQueue, Integer.MIN_VALUE);
 
-		assertTrue(sQueue.sDequeue(Integer.MAX_VALUE).length == 1);
+		assertEquals(1, sQueue.sDequeue(Integer.MAX_VALUE).length);
 	}
 	
 	private void expectRuntimeException(final IStateQueue aQueue, final int size)  {

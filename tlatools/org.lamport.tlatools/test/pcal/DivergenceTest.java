@@ -364,8 +364,7 @@ public class DivergenceTest extends PCalTest {
 		SANY.SANYmain(new String[] { absolutePath });
 		testPrintStream.assertSubstring("Semantic processing of module " + filename);
 		testPrintStream.assertNoSubstring(String.format(
-				"!! WARNING:",
-				filename));
+				"!! WARNING:"));
 	}
 
 	@Test

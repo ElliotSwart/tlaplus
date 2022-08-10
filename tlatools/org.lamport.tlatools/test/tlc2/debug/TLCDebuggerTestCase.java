@@ -34,16 +34,7 @@ import static org.junit.Assert.fail;
 
 import java.net.URI;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.Phaser;
@@ -645,7 +636,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 			final URI uri = new URI("tlaplus", "", Paths.get(module).toAbsolutePath().toString(), symbol,
 					String.format("%s %s %s %s", beginLine, beginColumn, endLine, endColumn));
 			args.setExpression(uri.toASCIIString());
-			args.setFrameId(this.stack.peek().getId()); // Just use the id of the topmost frame.
+			args.setFrameId(Objects.requireNonNull(this.stack.peek()).getId()); // Just use the id of the topmost frame.
 			return evaluate(args).get();
 		}
 

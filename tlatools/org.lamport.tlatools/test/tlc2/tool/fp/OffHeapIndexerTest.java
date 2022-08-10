@@ -147,7 +147,7 @@ public class OffHeapIndexerTest {
 	}
 	
 	private void doTest(final int fpBits, final long positions, final int logPos, final Indexer indexer) {
-		Assert.assertTrue(Double.compare(Math.pow(2, logPos - fpBits), positions) == 0);
+		Assert.assertEquals(0, Double.compare(Math.pow(2, logPos - fpBits), positions));
 		
 		Assert.assertEquals(fpBits, Long.numberOfLeadingZeros((positions << (Long.SIZE - logPos)) - 1));
 		

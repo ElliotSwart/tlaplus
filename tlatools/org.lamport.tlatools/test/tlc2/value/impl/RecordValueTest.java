@@ -26,6 +26,7 @@
 
 package tlc2.value.impl;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -58,8 +59,8 @@ public class RecordValueTest {
 		// Verify the mappings in RecordValue are correct
 		assertTrue(orig.names[0].equals(b));
 		assertTrue(orig.names[1].equals(a));
-		assertTrue(orig.values[0].equals(bVal));
-		assertTrue(orig.values[1].equals(aVal));
+        assertEquals(orig.values[0], bVal);
+        assertEquals(orig.values[1], aVal);
 		
 		// Make a deep copy of te origina record value
 		final RecordValue deepCopy = (RecordValue) orig.deepCopy();
@@ -69,14 +70,14 @@ public class RecordValueTest {
 		orig.deepNormalize();
 		assertTrue(orig.names[0].equals(a));
 		assertTrue(orig.names[1].equals(b));
-		assertTrue(orig.values[0].equals(aVal));
-		assertTrue(orig.values[1].equals(bVal));
+        assertEquals(orig.values[0], aVal);
+        assertEquals(orig.values[1], bVal);
 		
 		// Check that the mappings in the deep copy didn't change.
 		assertTrue(deepCopy.names[0].equals(b));
 		assertTrue(deepCopy.names[1].equals(a));
-		assertTrue(deepCopy.values[0].equals(bVal));
-		assertTrue(deepCopy.values[1].equals(aVal));
+        assertEquals(deepCopy.values[0], bVal);
+        assertEquals(deepCopy.values[1], aVal);
 	}
 
 	@Test

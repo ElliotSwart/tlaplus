@@ -25,9 +25,6 @@
  ******************************************************************************/
 package tlc2.tool;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,6 +37,8 @@ import org.junit.Test;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.ModelCheckerTestCase;
+
+import static org.junit.Assert.*;
 
 public class DumpAsDotTest extends ModelCheckerTestCase {
 
@@ -61,7 +60,7 @@ public class DumpAsDotTest extends ModelCheckerTestCase {
 		
 		// If the file exist, simply compare it to a correct and manually checked version.
 		final InputStream master = getClass().getResourceAsStream("DumpAsDotTest.dot");
-		assertTrue(Arrays.equals(getBytes(master), getBytes(new FileInputStream(dumpFile))));
+		assertArrayEquals(getBytes(master), getBytes(new FileInputStream(dumpFile)));
 
 		assertZeroUncovered();
 	}

@@ -37,6 +37,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 import org.junit.Test;
 
@@ -67,7 +68,7 @@ public class Github407Test extends ModelCheckerTestCase {
 			final InputStream expected = getClass().getResourceAsStream("Github407.dump");
 			final FileInputStream actual = new FileInputStream(Github407Test.dumpFilePath.toFile())
 		) {
-			final BufferedReader expectedReader = new BufferedReader(new InputStreamReader(expected));
+			final BufferedReader expectedReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(expected)));
 			final BufferedReader actualReader = new BufferedReader(new InputStreamReader(actual));
 			while (expectedReader.ready() && actualReader.ready()) {
 				final String expectedLine = expectedReader.readLine();

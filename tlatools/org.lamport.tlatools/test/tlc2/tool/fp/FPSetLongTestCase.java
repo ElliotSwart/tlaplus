@@ -60,7 +60,7 @@ public abstract class FPSetLongTestCase extends AbstractFPSetTest {
 			predecessor = rnd.nextLong();
 			assertFalse(fpSet.put(predecessor));
 			final long currentSize = fpSet.size();
-			assertTrue(i == currentSize);
+            assertEquals(i, currentSize);
 
 			printInsertionSpeed(fpSet);
 		}
@@ -104,7 +104,7 @@ public abstract class FPSetLongTestCase extends AbstractFPSetTest {
 			
 			assertFalse(fpSet.put(value));
 			final long currentSize = fpSet.size();
-			assertTrue(++counter == currentSize);
+            assertEquals(++counter, currentSize);
 			
 			printInsertionSpeed(fpSet);
 		}

@@ -48,7 +48,7 @@ public abstract class CommonTestCase {
 	protected static final String BASE_DIR = System.getProperty("basedir", "");
 	protected static final String TEST_MODEL = "test-model" + File.separator;
 	
-	public static final String BASE_PATH = (BASE_DIR == "") ?
+	public static final String BASE_PATH = (BASE_DIR.equals("")) ?
 		"target" + File.separator + "test-class" + File.separator + TEST_MODEL :
 		BASE_DIR + File.separator + "target" + File.separator + "test-class" + File.separator + TEST_MODEL;
 	
@@ -178,7 +178,7 @@ public abstract class CommonTestCase {
 			final Coverage e = expectedNonZeroCoverage.get(i);
 			assertEquals(e, a);
 		}
-		assertTrue(expectedNonZeroCoverage.size() == actualNonZeroCoverage.size());
+		assertEquals(expectedNonZeroCoverage.size(), actualNonZeroCoverage.size());
 		
 		// Step B2 (coverage with cost):
 		final List<Coverage> actualCostCoverage = recorder.getCostCoverage();
@@ -189,7 +189,7 @@ public abstract class CommonTestCase {
 			final Coverage e = expectedCostCoverage.get(i);
 			assertEquals(e, a);
 		}
-		assertTrue(expectedCostCoverage.size() == actualCostCoverage.size());
+		assertEquals(expectedCostCoverage.size(), actualCostCoverage.size());
 		
 		// Step C (actions):
 		final List<Coverage> actualActions = recorder.getActionCoverage();
@@ -199,6 +199,6 @@ public abstract class CommonTestCase {
 			final Coverage e = expectedActions.get(i);
 			assertEquals(e, a);
 		}
-		assertTrue(expectedActions.size() == actualActions.size());
+		assertEquals(expectedActions.size(), actualActions.size());
 	}
 }

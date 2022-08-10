@@ -69,18 +69,18 @@ public class BucketStatisticsTest {
 
 	@Test
 	public void testMean() {
-		assertTrue(Double.compare(-1.0d, bucketStatistic.getMean()) == 0);
+        assertEquals(0, Double.compare(-1.0d, bucketStatistic.getMean()));
 
 		bucketStatistic.addSample(0);
-		assertTrue(Double.compare(0.0d, bucketStatistic.getMean()) == 0);
+        assertEquals(0, Double.compare(0.0d, bucketStatistic.getMean()));
 
 		bucketStatistic.addSample(1);
 		bucketStatistic.addSample(2);
-		assertTrue(Double.compare(1.0d, bucketStatistic.getMean()) == 0);
+        assertEquals(0, Double.compare(1.0d, bucketStatistic.getMean()));
 
 		bucketStatistic.addSample(2);
 		bucketStatistic.addSample(2);
-		assertTrue(Double.compare(1.4d, bucketStatistic.getMean()) == 0);
+        assertEquals(0, Double.compare(1.4d, bucketStatistic.getMean()));
 	}
 
 	@Test
@@ -157,7 +157,7 @@ public class BucketStatisticsTest {
 		bucketStatistic.addSample(2);
 		bucketStatistic.addSample(2);
 		bucketStatistic.addSample(3);
-		assertTrue(Double.compare(1.005d, (Math.round(bucketStatistic.getStdDev() * 10000d) / 10000d)) == 0);
+        assertEquals(0, Double.compare(1.005d, (Math.round(bucketStatistic.getStdDev() * 10000d) / 10000d)));
 	}
 
 	@Test
@@ -178,10 +178,10 @@ public class BucketStatisticsTest {
 		bucketStatistic.addSample(2);
 		bucketStatistic.addSample(2);
 		bucketStatistic.addSample(3);
-		assertTrue(Double.compare(2.0d, bucketStatistic.getPercentile(0.5d)) == 0);
-		assertTrue(Double.compare(2.0d, bucketStatistic.getPercentile(0.5d)) == 0);
-		assertTrue(Double.compare(2.0d, bucketStatistic.getPercentile(0.75d)) == 0);
-		assertTrue(Double.compare(3.0d, bucketStatistic.getPercentile(0.999d)) == 0);
+        assertEquals(0, Double.compare(2.0d, bucketStatistic.getPercentile(0.5d)));
+        assertEquals(0, Double.compare(2.0d, bucketStatistic.getPercentile(0.5d)));
+        assertEquals(0, Double.compare(2.0d, bucketStatistic.getPercentile(0.75d)));
+        assertEquals(0, Double.compare(3.0d, bucketStatistic.getPercentile(0.999d)));
 	}
 
 	// NaN test

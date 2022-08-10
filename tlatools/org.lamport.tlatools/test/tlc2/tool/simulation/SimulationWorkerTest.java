@@ -1,9 +1,5 @@
 package tlc2.tool.simulation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -31,6 +27,8 @@ import tlc2.tool.impl.Tool.Mode;
 import tlc2.tool.liveness.ILiveCheck;
 import tlc2.tool.liveness.NoOpLiveCheck;
 import util.*;
+
+import static org.junit.Assert.*;
 
 /**
  * Correctness tests for the SimulationWorker.
@@ -266,8 +264,8 @@ public class SimulationWorkerTest extends CommonTestCase {
 		// Check the generated trace.
 		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "depth"));
 		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "branch"));
-				
-		assertEquals(null, err.state.getVals().get(UniqueString.uniqueStringOf("depth")));
+
+		assertNull(err.state.getVals().get(UniqueString.uniqueStringOf("depth")));
 		assertEquals("0", getStateVal(err.state, "branch"));
 
 		worker.join();
