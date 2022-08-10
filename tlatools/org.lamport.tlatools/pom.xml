@@ -177,6 +177,7 @@
 					<forkCount>1</forkCount>
 					<reuseForks>true</reuseForks>
 					<paralell>classesAndMethods</paralell>
+					<!--<threadCount>3</threadCount>-->
 					<useUnlimitedThreads>true</useUnlimitedThreads>
 					<argLine>-ea -XX:MaxDirectMemorySize=512k -XX:+UseParallelGC</argLine>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
@@ -186,6 +187,10 @@
 						<additionalClasspathElement>test-model/UserModuleOverrideFromJar.jar</additionalClasspathElement>
 						<additionalClasspathElement>test-model</additionalClasspathElement>
 					</additionalClasspathElements>
+					<systemProperties>
+						<tlc2.tool.fp.FPSet.impl>tlc2.tool.fp.OffHeapDiskFPSet</tlc2.tool.fp.FPSet.impl>
+						<tlc2.tool.distributed.TLCWorker.threadCount>4</tlc2.tool.distributed.TLCWorker.threadCount>
+					</systemProperties>
 					<!--<forkedProcessTimeoutInSeconds>20</forkedProcessTimeoutInSeconds>-->
 				</configuration>
 				<executions>

@@ -122,6 +122,13 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		return LongArray.isSupported();
 	}
 
+	@Override
+	public void close() throws Exception{
+		clearSynchronizer();
+		super.close();
+	}
+
+
 	private final transient LongArray array;
 	
 	/**

@@ -571,7 +571,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	 * @see tlc2.tool.fp.FPSet#close()
 	 */
 	@Override
-    public final void close() throws Exception {
+    public void close() throws Exception {
 		super.close();
 
 		// close JMX stats

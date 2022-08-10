@@ -168,6 +168,8 @@ public abstract class MultiThreadedSpecLongTest extends ModelCheckerTestCase {
 				latch.countDown();
 			}
 		});
+
+		super.setUp();
 	}
 	
 	@Override
