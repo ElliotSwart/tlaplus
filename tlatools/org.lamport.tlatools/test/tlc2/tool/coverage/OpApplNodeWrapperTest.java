@@ -66,9 +66,10 @@ public class OpApplNodeWrapperTest {
 
 		root.report();
 		((TestPrintStream) ToolIO.out)
-				.assertContains("  Unknown location: 42\n" + 
-						"  |In module --TLA+ BUILTINS--: 23\n" + 
-						"  |In module --TLA+ BUILTINS--: 24");
+				.assertContains("""
+						Unknown location: 42
+						|In module --TLA+ BUILTINS--: 23
+						|In module --TLA+ BUILTINS--: 24""".indent(2));
 	}
 	
 	@Test
@@ -91,11 +92,12 @@ public class OpApplNodeWrapperTest {
 		
 		root.report();
 		((TestPrintStream) ToolIO.out)
-				.assertContains("  Unknown location: 42\n" + 
-						"  |In module --TLA+ BUILTINS--: 23\n" + 
-						"  ||In module --TLA+ BUILTINS--: 546\n" + 
-						"  |In module --TLA+ BUILTINS--: 24\n" + 
-						"  |In module --TLA+ BUILTINS--: 17");
+				.assertContains("""
+						Unknown location: 42
+						|In module --TLA+ BUILTINS--: 23
+						||In module --TLA+ BUILTINS--: 546
+						|In module --TLA+ BUILTINS--: 24
+						|In module --TLA+ BUILTINS--: 17""".indent(2));
 	}
 	
 	/*
@@ -126,12 +128,13 @@ public class OpApplNodeWrapperTest {
 		
 		root.report();
 		((TestPrintStream) ToolIO.out)
-				.assertContains("  Unknown location: 1\n" + 
-						"  |In module --TLA+ BUILTINS--: 1\n" + 
-						"  ||In module --TLA+ BUILTINS--: 131072\n" + 
-						"  ||In module --TLA+ BUILTINS--: 131072\n" + 
-						"  |||In module --TLA+ BUILTINS--: 1\n" + 
-						"  |In module --TLA+ BUILTINS--: 1");
+				.assertContains("""
+						Unknown location: 1
+						|In module --TLA+ BUILTINS--: 1
+						||In module --TLA+ BUILTINS--: 131072
+						||In module --TLA+ BUILTINS--: 131072
+						|||In module --TLA+ BUILTINS--: 1
+						|In module --TLA+ BUILTINS--: 1""".indent(2));
 	}
 	
 	// It is dummies all the way down...

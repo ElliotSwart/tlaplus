@@ -48,11 +48,13 @@ public class Github179bTest extends ModelCheckerTestCase {
 				"Attempted to check equality of integer 1 with non-integer:\n" + 
 				"{1}"));
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_NESTED_EXPRESSION,
-				"0. Line 13, column 1 to line 13, column 30 in Github179b\n" + 
-				"1. Line 13, column 1 to line 13, column 23 in Github179b\n" + 
-				"2. Line 9, column 27 to line 9, column 79 in Github179b\n" + 
-				"3. Line 9, column 40 to line 9, column 79 in Github179b\n" + 
-				"4. Line 9, column 43 to line 9, column 52 in Github179b\n" + 
-				"\n"));
+                """
+                        0. Line 13, column 1 to line 13, column 30 in Github179b
+                        1. Line 13, column 1 to line 13, column 23 in Github179b
+                        2. Line 9, column 27 to line 9, column 79 in Github179b
+                        3. Line 9, column 40 to line 9, column 79 in Github179b
+                        4. Line 9, column 43 to line 9, column 52 in Github179b
+
+                        """));
 	}
 }

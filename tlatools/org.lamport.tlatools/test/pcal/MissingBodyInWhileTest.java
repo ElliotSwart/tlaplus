@@ -19,8 +19,9 @@ public class MissingBodyInWhileTest extends PCalTest {
 		assertTrue(messages.length == 1);
 		
 		final String msg = messages[0];
-		assertEquals("Unrecoverable error:\n" + 
-				" -- Missing body of while statement at\n" + 
-				"    line 6, column 14.", msg.trim());
+		assertEquals("""
+                Unrecoverable error:
+                 -- Missing body of while statement at
+                    line 6, column 14.""", msg.trim());
 	}
 }

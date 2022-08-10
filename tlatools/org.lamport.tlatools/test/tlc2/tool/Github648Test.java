@@ -51,40 +51,41 @@ public class Github648Test extends ModelCheckerTestCase {
 		assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "1"));
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "1332", "36", "0"));
 		
-		assertCoverage("<Init line 34, col 1 to line 34, col 4 of module Github648>: 36:36\n"
-				+ "  line 35, col 8 to line 35, col 23 of module Github648: 1\n"
-				+ "  line 36, col 8 to line 36, col 23 of module Github648: 36\n"
-				+ "  |line 36, col 14 to line 36, col 23 of module Github648: 6\n"
-				+ "<Next line 38, col 1 to line 38, col 4 of module Github648>: 0:1296\n"
-				+ "  line 39, col 8 to line 39, col 24 of module Github648: 216\n"
-				+ "  |line 39, col 15 to line 39, col 24 of module Github648: 36\n"
-				+ "  line 40, col 8 to line 40, col 24 of module Github648: 1296\n"
-				+ "  |line 40, col 15 to line 40, col 24 of module Github648: 216\n"
-				+ "<Inv line 42, col 1 to line 42, col 3 of module Github648>\n"
-				+ "  line 43, col 5 to line 49, col 62 of module Github648: 36\n"
-				+ "  |line 43, col 8 to line 43, col 23 of module Github648: 36\n"
-				+ "  |line 44, col 8 to line 44, col 27 of module Github648: 36\n"
-				+ "  |line 45, col 8 to line 45, col 23 of module Github648: 36\n"
-				+ "  |line 46, col 8 to line 46, col 27 of module Github648: 36\n"
-				+ "  |line 47, col 8 to line 49, col 62 of module Github648: 36\n"
-				+ "  ||line 47, col 8 to line 49, col 54 of module Github648: 36\n"
-				+ "  |||line 47, col 16 to line 49, col 53 of module Github648: 1\n"
-				+ "  ||||line 48, col 9 to line 49, col 52 of module Github648: 1\n"
-				+ "  |||||line 48, col 17 to line 49, col 51 of module Github648: 1\n"
-				+ "  ||||||line 13, col 3 to line 13, col 34 of module Github648: 1\n"
-				+ "  |||||||line 13, col 9 to line 13, col 34 of module Github648: 1:131290\n"
-				+ "  ||||||||line 13, col 10 to line 13, col 20 of module Github648: 4:326526\n"
-				+ "  |||||||||line 13, col 11 to line 13, col 14 of module Github648: 4\n"
-				+ "  |||||||||line 13, col 19 to line 13, col 19 of module Github648: 4\n"
-				+ "  ||||||||line 13, col 30 to line 13, col 33 of module Github648: 1\n"
-				+ "  ||||||line 49, col 17 to line 49, col 47 of module Github648: 1\n"
-				+ "  |||||||line 49, col 25 to line 49, col 46 of module Github648: 1\n"
-				+ "  ||||||||line 13, col 3 to line 13, col 34 of module Github648: 1\n"
-				+ "  |||||||||line 13, col 9 to line 13, col 34 of module Github648: 1:69094\n"
-				+ "  ||||||||||line 13, col 10 to line 13, col 20 of module Github648: 4:186\n"
-				+ "  |||||||||||line 13, col 11 to line 13, col 14 of module Github648: 4\n"
-				+ "  |||||||||||line 13, col 19 to line 13, col 19 of module Github648: 4\n"
-				+ "  ||||||||||line 13, col 30 to line 13, col 33 of module Github648: 1\n"
-				+ "  ||||||||line 49, col 36 to line 49, col 42 of module Github648: 1:75");
+		assertCoverage("""
+                <Init line 34, col 1 to line 34, col 4 of module Github648>: 36:36
+                  line 35, col 8 to line 35, col 23 of module Github648: 1
+                  line 36, col 8 to line 36, col 23 of module Github648: 36
+                  |line 36, col 14 to line 36, col 23 of module Github648: 6
+                <Next line 38, col 1 to line 38, col 4 of module Github648>: 0:1296
+                  line 39, col 8 to line 39, col 24 of module Github648: 216
+                  |line 39, col 15 to line 39, col 24 of module Github648: 36
+                  line 40, col 8 to line 40, col 24 of module Github648: 1296
+                  |line 40, col 15 to line 40, col 24 of module Github648: 216
+                <Inv line 42, col 1 to line 42, col 3 of module Github648>
+                  line 43, col 5 to line 49, col 62 of module Github648: 36
+                  |line 43, col 8 to line 43, col 23 of module Github648: 36
+                  |line 44, col 8 to line 44, col 27 of module Github648: 36
+                  |line 45, col 8 to line 45, col 23 of module Github648: 36
+                  |line 46, col 8 to line 46, col 27 of module Github648: 36
+                  |line 47, col 8 to line 49, col 62 of module Github648: 36
+                  ||line 47, col 8 to line 49, col 54 of module Github648: 36
+                  |||line 47, col 16 to line 49, col 53 of module Github648: 1
+                  ||||line 48, col 9 to line 49, col 52 of module Github648: 1
+                  |||||line 48, col 17 to line 49, col 51 of module Github648: 1
+                  ||||||line 13, col 3 to line 13, col 34 of module Github648: 1
+                  |||||||line 13, col 9 to line 13, col 34 of module Github648: 1:131290
+                  ||||||||line 13, col 10 to line 13, col 20 of module Github648: 4:326526
+                  |||||||||line 13, col 11 to line 13, col 14 of module Github648: 4
+                  |||||||||line 13, col 19 to line 13, col 19 of module Github648: 4
+                  ||||||||line 13, col 30 to line 13, col 33 of module Github648: 1
+                  ||||||line 49, col 17 to line 49, col 47 of module Github648: 1
+                  |||||||line 49, col 25 to line 49, col 46 of module Github648: 1
+                  ||||||||line 13, col 3 to line 13, col 34 of module Github648: 1
+                  |||||||||line 13, col 9 to line 13, col 34 of module Github648: 1:69094
+                  ||||||||||line 13, col 10 to line 13, col 20 of module Github648: 4:186
+                  |||||||||||line 13, col 11 to line 13, col 14 of module Github648: 4
+                  |||||||||||line 13, col 19 to line 13, col 19 of module Github648: 4
+                  ||||||||||line 13, col 30 to line 13, col 33 of module Github648: 1
+                  ||||||||line 49, col 36 to line 49, col 42 of module Github648: 1:75""");
 	}
 }

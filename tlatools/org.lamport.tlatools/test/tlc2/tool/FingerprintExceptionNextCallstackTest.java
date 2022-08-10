@@ -48,15 +48,19 @@ public class FingerprintExceptionNextCallstackTest extends ModelCheckerTestCase 
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "1", "1", "0"));
 		assertTrue(recorder.recordedWithStringValue(EC.TLC_INIT_GENERATED1, "1"));
 		assertTrue(recorder.recorded(EC.GENERAL));
-		final String arg1 = "0. Line 9, column 9 to line 9, column 19 in FingerprintExceptionNextCallstack\n"
-				+ "1. Line 9, column 14 to line 9, column 19 in FingerprintExceptionNextCallstack\n"
-				+ "2. Line 7, column 10 to line 7, column 49 in FingerprintExceptionNextCallstack\n"
-				+ "3. Line 7, column 43 to line 7, column 49 in FingerprintExceptionNextCallstack\n"
-				+ "4. Line 7, column 25 to line 7, column 32 in FingerprintExceptionNextCallstack\n\n";
-		final String arg2 = "Attempted to check if the non-enumerable value\n"
-				+ "42\n"
-				+ "is element of\n"
-				+ "SUBSET 42";
+		final String arg1 = """
+                0. Line 9, column 9 to line 9, column 19 in FingerprintExceptionNextCallstack
+                1. Line 9, column 14 to line 9, column 19 in FingerprintExceptionNextCallstack
+                2. Line 7, column 10 to line 7, column 49 in FingerprintExceptionNextCallstack
+                3. Line 7, column 43 to line 7, column 49 in FingerprintExceptionNextCallstack
+                4. Line 7, column 25 to line 7, column 32 in FingerprintExceptionNextCallstack
+
+                """;
+		final String arg2 = """
+                Attempted to check if the non-enumerable value
+                42
+                is element of
+                SUBSET 42""";
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_FINGERPRINT_EXCEPTION, arg1, arg2));
 	}
 }

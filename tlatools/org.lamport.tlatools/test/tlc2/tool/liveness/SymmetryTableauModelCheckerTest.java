@@ -56,13 +56,14 @@ public class SymmetryTableauModelCheckerTest extends ModelCheckerTestCase {
 		
 		// The spec's 'NoVal' value is what violates symmetry.
 		assertTrue(recorder.recordedWithStringValue(EC.GENERAL,
-				"TLC threw an unexpected exception.\n" 
-						+ "This was probably caused by an error in the spec or model.\n"
-						+ "The error occurred when TLC was checking liveness.\n"
-						+ "The exception was a tlc2.tool.EvalException\n"
-						+ ": Failed to recover the next state from its fingerprint during\n"
-						+ "liveness error trace re-construction. This indicates that the\n"
-						+ "spec is in fact not symmetric (Please report a TLC bug if the\n"
-						+ "spec is known to be symmetric)."));
+                """
+                        TLC threw an unexpected exception.
+                        This was probably caused by an error in the spec or model.
+                        The error occurred when TLC was checking liveness.
+                        The exception was a tlc2.tool.EvalException
+                        : Failed to recover the next state from its fingerprint during
+                        liveness error trace re-construction. This indicates that the
+                        spec is in fact not symmetric (Please report a TLC bug if the
+                        spec is known to be symmetric)."""));
 	}
 }

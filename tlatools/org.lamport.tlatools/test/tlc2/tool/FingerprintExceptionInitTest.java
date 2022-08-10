@@ -46,13 +46,17 @@ public class FingerprintExceptionInitTest extends ModelCheckerTestCase {
 		// ModelChecker has finished with a fingerprint exception and underlying overflow exception
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
 		assertFalse(recorder.recorded(EC.GENERAL));
-		final String arg1 = "1) line 7, col 20 to line 7, col 32 of module FingerprintExceptionInit\n"
-			+ "0) line 7, col 13 to line 7, col 33 of module FingerprintExceptionInit\n";
+		final String arg1 = """
+                1) line 7, col 20 to line 7, col 32 of module FingerprintExceptionInit
+                0) line 7, col 13 to line 7, col 33 of module FingerprintExceptionInit
+                """;
 		final String arg2 = "Overflow when computing the number of elements in:\n"
 			+ "SUBSET (1..36)";
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_FINGERPRINT_EXCEPTION, arg1, arg2));
 		
-		assertUncovered("line 8, col 39 to line 8, col 64 of module FingerprintExceptionInit: 0\n" + 
-				"line 8, col 71 to line 8, col 76 of module FingerprintExceptionInit: 0\n");
+		assertUncovered("""
+                line 8, col 39 to line 8, col 64 of module FingerprintExceptionInit: 0
+                line 8, col 71 to line 8, col 76 of module FingerprintExceptionInit: 0
+                """);
 	}
 }

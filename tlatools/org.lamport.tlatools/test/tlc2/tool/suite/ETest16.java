@@ -37,9 +37,16 @@ public class ETest16 extends SuiteETestCase {
 
 	@Test
 	public void testSpec() {
-		assertSubstring("*** Errors: 2\n\n" + "line 5, col 27 to line 5, col 27 of module etest16\n\n"
-				+ "Non-unique fields in constructor.\n\n\n"
-				+ "line 7, col 27 to line 7, col 27 of module etest16\n\n"
-				+ "Non-unique fields in constructor.");
+		assertSubstring("""
+                *** Errors: 2
+
+                line 5, col 27 to line 5, col 27 of module etest16
+
+                Non-unique fields in constructor.
+
+
+                line 7, col 27 to line 7, col 27 of module etest16
+
+                Non-unique fields in constructor.""");
 	}
 }

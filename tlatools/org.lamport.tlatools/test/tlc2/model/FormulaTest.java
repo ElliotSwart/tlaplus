@@ -13,17 +13,19 @@ public class FormulaTest {
 		assertFalse(formula.isNamed());
 		assertEquals("TRUE", formula.getRightHandSide());
 
-		formula = new Formula("LET clock[i \\in 1..(__trace_var_state)] ==\n" + 
-				"   IF i = 1\n" + 
-				"   THEN [ p \\in DOMAIN pc |-> 0 ]\n" + 
-				"   ELSE clock[i - 1]\n" + 
-				"IN clock[__trace_var_state]");
+		formula = new Formula("""
+                LET clock[i \\in 1..(__trace_var_state)] ==
+                   IF i = 1
+                   THEN [ p \\in DOMAIN pc |-> 0 ]
+                   ELSE clock[i - 1]
+                IN clock[__trace_var_state]""");
 		assertFalse(formula.isNamed());
-		assertEquals("LET clock[i \\in 1..(__trace_var_state)] ==\n" + 
-				"   IF i = 1\n" + 
-				"   THEN [ p \\in DOMAIN pc |-> 0 ]\n" + 
-				"   ELSE clock[i - 1]\n" + 
-				"IN clock[__trace_var_state]", formula.getRightHandSide());
+		assertEquals("""
+                LET clock[i \\in 1..(__trace_var_state)] ==
+                   IF i = 1
+                   THEN [ p \\in DOMAIN pc |-> 0 ]
+                   ELSE clock[i - 1]
+                IN clock[__trace_var_state]""", formula.getRightHandSide());
 	}
 
 	@Test
@@ -36,16 +38,18 @@ public class FormulaTest {
 		assertEquals("foo", formula.getLeftHandSide());
 		assertEquals("LET bar == TRUE IN bar", formula.getRightHandSide());
 		
-		formula = new Formula("bar == LET clock[i \\in 1..(__trace_var_state)] ==\n" + 
-				"   IF i = 1\n" + 
-				"   THEN [ p \\in DOMAIN pc |-> 0 ]\n" + 
-				"   ELSE clock[i - 1]\n" + 
-				"IN clock[__trace_var_state]");
+		formula = new Formula("""
+                bar == LET clock[i \\in 1..(__trace_var_state)] ==
+                   IF i = 1
+                   THEN [ p \\in DOMAIN pc |-> 0 ]
+                   ELSE clock[i - 1]
+                IN clock[__trace_var_state]""");
 		assertEquals("bar", formula.getLeftHandSide());
-		assertEquals("LET clock[i \\in 1..(__trace_var_state)] ==\n" + 
-				"   IF i = 1\n" + 
-				"   THEN [ p \\in DOMAIN pc |-> 0 ]\n" + 
-				"   ELSE clock[i - 1]\n" + 
-				"IN clock[__trace_var_state]", formula.getRightHandSide());
+		assertEquals("""
+                LET clock[i \\in 1..(__trace_var_state)] ==
+                   IF i = 1
+                   THEN [ p \\in DOMAIN pc |-> 0 ]
+                   ELSE clock[i - 1]
+                IN clock[__trace_var_state]""", formula.getRightHandSide());
 	}
 }

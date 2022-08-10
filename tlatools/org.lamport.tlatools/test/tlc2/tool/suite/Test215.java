@@ -41,49 +41,51 @@ public class Test215 extends SuiteETestCase {
 	@Test
 	public void testSpec() {
 		assertFalse(recorder.recorded(EC.GENERAL));
-		assertSubstring("Semantic errors:\n" + 
-				"\n" + 
-				"*** Errors: 8\n" + 
-				"\n" + 
-				"line 8, col 6 to line 8, col 14 of module test215\n" + 
-				"\n" + 
-				"Action used where only temporal formula or state predicate allowed.\n" + 
-				"\n" + 
-				"\n" + 
-				"line 9, col 6 to line 9, col 14 of module test215\n" + 
-				"\n" + 
-				"Action used where only temporal formula or state predicate allowed.\n" + 
-				"\n" + 
-				"\n" + 
-				"line 12, col 6 to line 12, col 16 of module test215\n" + 
-				"\n" + 
-				"Action used where only temporal formula or state predicate allowed.\n" + 
-				"\n" + 
-				"\n" + 
-				"line 13, col 6 to line 13, col 16 of module test215\n" + 
-				"\n" + 
-				"Action used where only temporal formula or state predicate allowed.\n" + 
-				"\n" + 
-				"\n" + 
-				"line 16, col 6 to line 16, col 11 of module test215\n" + 
-				"\n" + 
-				"<> followed by action not of form <<A>>_v.\n" + 
-				"\n" + 
-				"\n" + 
-				"line 20, col 8 to line 20, col 13 of module test215\n" + 
-				"\n" + 
-				"[] followed by action not of form [A]_v.\n" + 
-				"\n" + 
-				"\n" + 
-				"line 23, col 25 to line 23, col 26 of module test215\n" + 
-				"\n" + 
-				"Action-level bound of quantified temporal formula.\n" + 
-				"\n" + 
-				"\n" + 
-				"line 26, col 26 to line 26, col 27 of module test215\n" + 
-				"\n" + 
-				"Action-level bound of quantified temporal formula.\n" + 
-				"\n" + 
-				"\n");
+		assertSubstring("""
+                Semantic errors:
+
+                *** Errors: 8
+
+                line 8, col 6 to line 8, col 14 of module test215
+
+                Action used where only temporal formula or state predicate allowed.
+
+
+                line 9, col 6 to line 9, col 14 of module test215
+
+                Action used where only temporal formula or state predicate allowed.
+
+
+                line 12, col 6 to line 12, col 16 of module test215
+
+                Action used where only temporal formula or state predicate allowed.
+
+
+                line 13, col 6 to line 13, col 16 of module test215
+
+                Action used where only temporal formula or state predicate allowed.
+
+
+                line 16, col 6 to line 16, col 11 of module test215
+
+                <> followed by action not of form <<A>>_v.
+
+
+                line 20, col 8 to line 20, col 13 of module test215
+
+                [] followed by action not of form [A]_v.
+
+
+                line 23, col 25 to line 23, col 26 of module test215
+
+                Action-level bound of quantified temporal formula.
+
+
+                line 26, col 26 to line 26, col 27 of module test215
+
+                Action-level bound of quantified temporal formula.
+
+
+                """);
 	}
 }

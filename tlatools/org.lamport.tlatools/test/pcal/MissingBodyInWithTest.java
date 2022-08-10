@@ -19,8 +19,9 @@ public class MissingBodyInWithTest extends PCalTest {
 		assertTrue(messages.length == 1);
 		
 		final String msg = messages[0];
-		assertEquals("Unrecoverable error:\n" + 
-				" -- Missing body of with statement\n" + 
-				"    at line 5, column 5.", msg.trim());
+		assertEquals("""
+                Unrecoverable error:
+                 -- Missing body of with statement
+                    at line 5, column 5.""", msg.trim());
 	}
 }

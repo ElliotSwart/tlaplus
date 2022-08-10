@@ -47,12 +47,12 @@ public class LocationTest {
 		
 		
 		final Location[] parsedLocations = Location
-				.getParsedLocations("line 781, col 31 to line 784, col 68 of module OpenAddressing\n"
-						+ "line 783, col 38 to line 784, col 68 of module OpenAddressing\n"
-						+ "line 784, col 41 to line 784, col 68 of module OpenAddressing\n"
-						
-						+ "line 786, col 30 to line 786, col 69 of module OpenAddressing\n"
-						+ "line 793, col 29 to line 793, col 63 of module OpenAddressing");
+				.getParsedLocations("""
+                        line 781, col 31 to line 784, col 68 of module OpenAddressing
+                        line 783, col 38 to line 784, col 68 of module OpenAddressing
+                        line 784, col 41 to line 784, col 68 of module OpenAddressing
+                        line 786, col 30 to line 786, col 69 of module OpenAddressing
+                        line 793, col 29 to line 793, col 63 of module OpenAddressing""");
 		
 		assertTrue(parsedLocations[0].includes(parsedLocations[0]));
 		
@@ -83,22 +83,23 @@ public class LocationTest {
 	@Test
 	public void testComparator() {
 		final Location[] parsedLocations = Location.getParsedLocations(
-				  "line 15, col 9 to line 15, col 9 of module CostMetrics\n"
-				+ "line 15, col 9 to line 15, col 17 of module CostMetrics\n"
-				+ "line 8, col 11 to line 8, col 11 of module CostMetrics\n"
-				+ "line 8, col 13 to line 8, col 13 of module CostMetrics\n"
-				+ "line 8, col 9 to line 8, col 15 of module CostMetrics\n"
-				+ "line 14, col 15 to line 14, col 17 of module CostMetrics\n"
-				+ "line 15, col 15 to line 15, col 17 of module CostMetrics\n"
-				+ "line 16, col 34 to line 16, col 52 of module CostMetrics\n"
-				+ "line 8, col 9 to line 8, col 15 of module CostMetrics\n"
-				+ "line 16, col 42 to line 16, col 51 of module CostMetrics\n"
-				+ "line 16, col 42 to line 16, col 50 of module CostMetrics\n"
-				+ "line 16, col 46 to line 16, col 46 of module CostMetrics\n"
-				+ "line 16, col 46 to line 16, col 50 of module CostMetrics\n"
-				+ "line 16, col 46 to line 16, col 50 of module CostMetrics\n"
-				+ "line 23, col 6 to line 25, col 18 of module CostMetrics\n"
-				+ "line 18, col 9 to line 18, col 9 of module CostMetrics");
+                """
+                        line 15, col 9 to line 15, col 9 of module CostMetrics
+                        line 15, col 9 to line 15, col 17 of module CostMetrics
+                        line 8, col 11 to line 8, col 11 of module CostMetrics
+                        line 8, col 13 to line 8, col 13 of module CostMetrics
+                        line 8, col 9 to line 8, col 15 of module CostMetrics
+                        line 14, col 15 to line 14, col 17 of module CostMetrics
+                        line 15, col 15 to line 15, col 17 of module CostMetrics
+                        line 16, col 34 to line 16, col 52 of module CostMetrics
+                        line 8, col 9 to line 8, col 15 of module CostMetrics
+                        line 16, col 42 to line 16, col 51 of module CostMetrics
+                        line 16, col 42 to line 16, col 50 of module CostMetrics
+                        line 16, col 46 to line 16, col 46 of module CostMetrics
+                        line 16, col 46 to line 16, col 50 of module CostMetrics
+                        line 16, col 46 to line 16, col 50 of module CostMetrics
+                        line 23, col 6 to line 25, col 18 of module CostMetrics
+                        line 18, col 9 to line 18, col 9 of module CostMetrics""");
 		assertEquals(16, parsedLocations.length);
 		
 		final TreeSet<Location> locations = new TreeSet<>(Arrays.asList(parsedLocations));

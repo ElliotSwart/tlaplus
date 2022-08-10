@@ -27,15 +27,16 @@ package tlc2.tool.suite;
 
 public class Test20 extends SuiteTestCase {
 	public Test20() {
-		super("5", "1", "0", "1", "  |||line 16, col 9 to line 16, col 12 of module test20: 0\n" + 
-				"  |||line 17, col 9 to line 17, col 12 of module test20: 0\n" + 
-				"  |||line 25, col 16 to line 25, col 33 of module test20: 0\n" + 
-				"  |||line 29, col 17 to line 29, col 34 of module test20: 0\n" + 
-				"  |||line 34, col 17 to line 34, col 34 of module test20: 0\n" + 
-				"  ||||line 16, col 9 to line 16, col 12 of module test20: 0\n" + 
-				"  ||||line 17, col 9 to line 17, col 12 of module test20: 0\n" + 
-				"  ||||line 25, col 16 to line 25, col 33 of module test20: 0\n" + 
-				"  ||||line 29, col 17 to line 29, col 34 of module test20: 0\n" + 
-				"  ||||line 34, col 17 to line 34, col 34 of module test20: 0");
+		super("5", "1", "0", "1", """
+                |||line 16, col 9 to line 16, col 12 of module test20: 0
+                |||line 17, col 9 to line 17, col 12 of module test20: 0
+                |||line 25, col 16 to line 25, col 33 of module test20: 0
+                |||line 29, col 17 to line 29, col 34 of module test20: 0
+                |||line 34, col 17 to line 34, col 34 of module test20: 0
+                ||||line 16, col 9 to line 16, col 12 of module test20: 0
+                ||||line 17, col 9 to line 17, col 12 of module test20: 0
+                ||||line 25, col 16 to line 25, col 33 of module test20: 0
+                ||||line 29, col 17 to line 29, col 34 of module test20: 0
+                ||||line 34, col 17 to line 34, col 34 of module test20: 0""".indent(2));
 	}
 }

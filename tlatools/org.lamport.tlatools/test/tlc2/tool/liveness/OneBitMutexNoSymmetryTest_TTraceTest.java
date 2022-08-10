@@ -66,105 +66,125 @@ public class OneBitMutexNoSymmetryTest_TTraceTest extends TTraceModelCheckerTest
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
 		final List<String> expectedTrace = new ArrayList<String>(17);
 		//1
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {})\n" 
-						+ "/\\ other = (A :> A @@ B :> A)\n"
-						+ "/\\ x = (A :> FALSE @@ B :> FALSE)\n" 
-						+ "/\\ pc = (A :> \"ncs\" @@ B :> \"ncs\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {})
+				/\\ other = (A :> A @@ B :> A)
+				/\\ x = (A :> FALSE @@ B :> FALSE)
+				/\\ pc = (A :> "ncs" @@ B :> "ncs")""");
 		//2
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {})\n"
-						+ "/\\ other = (A :> A @@ B :> A)\n"
-						+ "/\\ x = (A :> FALSE @@ B :> FALSE)\n"
-						+ "/\\ pc = (A :> \"e1\" @@ B :> \"ncs\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {})
+				/\\ other = (A :> A @@ B :> A)
+				/\\ x = (A :> FALSE @@ B :> FALSE)
+				/\\ pc = (A :> "e1" @@ B :> "ncs")""");
 		//3
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {})\n"
-						+ "/\\ other = (A :> A @@ B :> A)\n"
-						+ "/\\ x = (A :> FALSE @@ B :> FALSE)\n"
-						+ "/\\ pc = (A :> \"e1\" @@ B :> \"e1\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {})
+				/\\ other = (A :> A @@ B :> A)
+				/\\ x = (A :> FALSE @@ B :> FALSE)
+				/\\ pc = (A :> "e1" @@ B :> "e1")""");
 		//4
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {A})\n"
-						+ "/\\ other = (A :> A @@ B :> A)\n"
-						+ "/\\ x = (A :> FALSE @@ B :> TRUE)\n" 
-						+ "/\\ pc = (A :> \"e1\" @@ B :> \"e2\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {A})
+				/\\ other = (A :> A @@ B :> A)
+				/\\ x = (A :> FALSE @@ B :> TRUE)
+				/\\ pc = (A :> "e1" @@ B :> "e2")""");
 		//5
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {})\n" 
-						+ "/\\ other = (A :> A @@ B :> A)\n"
-						+ "/\\ x = (A :> FALSE @@ B :> TRUE)\n" 
-						+ "/\\ pc = (A :> \"e1\" @@ B :> \"e3\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {})
+				/\\ other = (A :> A @@ B :> A)
+				/\\ x = (A :> FALSE @@ B :> TRUE)
+				/\\ pc = (A :> "e1" @@ B :> "e3")""");
 		//6
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {})\n" 
-						+ "/\\ other = (A :> A @@ B :> A)\n"
-						+ "/\\ x = (A :> FALSE @@ B :> TRUE)\n" 
-						+ "/\\ pc = (A :> \"e1\" @@ B :> \"e2\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {})
+				/\\ other = (A :> A @@ B :> A)
+				/\\ x = (A :> FALSE @@ B :> TRUE)
+				/\\ pc = (A :> "e1" @@ B :> "e2")""");
 		//7
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {})\n" 
-						+ "/\\ other = (A :> A @@ B :> A)\n"
-						+ "/\\ x = (A :> FALSE @@ B :> TRUE)\n" 
-						+ "/\\ pc = (A :> \"e1\" @@ B :> \"cs\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {})
+				/\\ other = (A :> A @@ B :> A)
+				/\\ x = (A :> FALSE @@ B :> TRUE)
+				/\\ pc = (A :> "e1" @@ B :> "cs")""");
 		//8 (Loops back to)
-		expectedTrace.add("/\\ unchecked = (A :> {B} @@ B :> {})\n" 
-						+ "/\\ other = (A :> A @@ B :> A)\n"
-						+ "/\\ x = (A :> TRUE @@ B :> TRUE)\n" 
-						+ "/\\ pc = (A :> \"e2\" @@ B :> \"cs\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {B} @@ B :> {})
+				/\\ other = (A :> A @@ B :> A)
+				/\\ x = (A :> TRUE @@ B :> TRUE)
+				/\\ pc = (A :> "e2" @@ B :> "cs")""");
 		//9
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {})\n" 
-						+ "/\\ other = (A :> B @@ B :> A)\n"
-						+ "/\\ x = (A :> TRUE @@ B :> TRUE)\n" 
-						+ "/\\ pc = (A :> \"e3\" @@ B :> \"cs\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {})
+				/\\ other = (A :> B @@ B :> A)
+				/\\ x = (A :> TRUE @@ B :> TRUE)
+				/\\ pc = (A :> "e3" @@ B :> "cs")""");
 		//10
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {})\n" 
-						+ "/\\ other = (A :> B @@ B :> A)\n"
-						+ "/\\ x = (A :> TRUE @@ B :> TRUE)\n" 
-						+ "/\\ pc = (A :> \"e3\" @@ B :> \"f\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {})
+				/\\ other = (A :> B @@ B :> A)
+				/\\ x = (A :> TRUE @@ B :> TRUE)
+				/\\ pc = (A :> "e3" @@ B :> "f")""");
 		//11
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {})\n" 
-						+ "/\\ other = (A :> B @@ B :> A)\n"
-						+ "/\\ x = (A :> TRUE @@ B :> TRUE)\n" 
-						+ "/\\ pc = (A :> \"e4\" @@ B :> \"f\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {})
+				/\\ other = (A :> B @@ B :> A)
+				/\\ x = (A :> TRUE @@ B :> TRUE)
+				/\\ pc = (A :> "e4" @@ B :> "f")""");
 		//12
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {})\n" 
-						+ "/\\ other = (A :> B @@ B :> A)\n"
-						+ "/\\ x = (A :> TRUE @@ B :> FALSE)\n" 
-						+ "/\\ pc = (A :> \"e4\" @@ B :> \"ncs\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {})
+				/\\ other = (A :> B @@ B :> A)
+				/\\ x = (A :> TRUE @@ B :> FALSE)
+				/\\ pc = (A :> "e4" @@ B :> "ncs")""");
 		//13
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {})\n" 
-						+ "/\\ other = (A :> B @@ B :> A)\n"
-						+ "/\\ x = (A :> TRUE @@ B :> FALSE)\n" 
-						+ "/\\ pc = (A :> \"e4\" @@ B :> \"e1\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {})
+				/\\ other = (A :> B @@ B :> A)
+				/\\ x = (A :> TRUE @@ B :> FALSE)
+				/\\ pc = (A :> "e4" @@ B :> "e1")""");
 		//14
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {})\n" 
-						+ "/\\ other = (A :> B @@ B :> A)\n"
-						+ "/\\ x = (A :> FALSE @@ B :> FALSE)\n" 
-						+ "/\\ pc = (A :> \"e5\" @@ B :> \"e1\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {})
+				/\\ other = (A :> B @@ B :> A)
+				/\\ x = (A :> FALSE @@ B :> FALSE)
+				/\\ pc = (A :> "e5" @@ B :> "e1")""");
 		//15
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {})\n" 
-						+ "/\\ other = (A :> B @@ B :> A)\n"
-						+ "/\\ x = (A :> FALSE @@ B :> FALSE)\n" 
-						+ "/\\ pc = (A :> \"e1\" @@ B :> \"e1\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {})
+				/\\ other = (A :> B @@ B :> A)
+				/\\ x = (A :> FALSE @@ B :> FALSE)
+				/\\ pc = (A :> "e1" @@ B :> "e1")""");
 		//16
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {A})\n" 
-						+ "/\\ other = (A :> B @@ B :> A)\n"
-						+ "/\\ x = (A :> FALSE @@ B :> TRUE)\n" 
-						+ "/\\ pc = (A :> \"e1\" @@ B :> \"e2\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {A})
+				/\\ other = (A :> B @@ B :> A)
+				/\\ x = (A :> FALSE @@ B :> TRUE)
+				/\\ pc = (A :> "e1" @@ B :> "e2")""");
 		//17
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {})\n" 
-						+ "/\\ other = (A :> B @@ B :> A)\n"
-						+ "/\\ x = (A :> FALSE @@ B :> TRUE)\n" 
-						+ "/\\ pc = (A :> \"e1\" @@ B :> \"e3\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {})
+				/\\ other = (A :> B @@ B :> A)
+				/\\ x = (A :> FALSE @@ B :> TRUE)
+				/\\ pc = (A :> "e1" @@ B :> "e3")""");
 		//18
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {})\n" 
-						+ "/\\ other = (A :> B @@ B :> A)\n"
-						+ "/\\ x = (A :> FALSE @@ B :> TRUE)\n" 
-						+ "/\\ pc = (A :> \"e1\" @@ B :> \"e2\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {})
+				/\\ other = (A :> B @@ B :> A)
+				/\\ x = (A :> FALSE @@ B :> TRUE)
+				/\\ pc = (A :> "e1" @@ B :> "e2")""");
 		//19
-		expectedTrace.add("/\\ unchecked = (A :> {B} @@ B :> {})\n" 
-						+ "/\\ other = (A :> B @@ B :> A)\n"
-						+ "/\\ x = (A :> TRUE @@ B :> TRUE)\n" 
-						+ "/\\ pc = (A :> \"e2\" @@ B :> \"e2\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {B} @@ B :> {})
+				/\\ other = (A :> B @@ B :> A)
+				/\\ x = (A :> TRUE @@ B :> TRUE)
+				/\\ pc = (A :> "e2" @@ B :> "e2")""");
 		//20
-		expectedTrace.add("/\\ unchecked = (A :> {} @@ B :> {})\n" 
-						+ "/\\ other = (A :> B @@ B :> A)\n"
-						+ "/\\ x = (A :> TRUE @@ B :> TRUE)\n" 
-						+ "/\\ pc = (A :> \"e3\" @@ B :> \"e2\")");
+		expectedTrace.add("""
+				/\\ unchecked = (A :> {} @@ B :> {})
+				/\\ other = (A :> B @@ B :> A)
+				/\\ x = (A :> TRUE @@ B :> TRUE)
+				/\\ pc = (A :> "e3" @@ B :> "e2")""");
 		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
 
 		assertBackToState(9, "<_next line 42, col 5 to line 54, col 31 of module "+getModuleName()+">");

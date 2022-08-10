@@ -47,10 +47,11 @@ public class Factorial2Test extends PCalModelCheckerTestCase {
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "13", "12", "0"));
 		assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "12"));
 
-		assertUncovered("line 53, col 21 to line 53, col 40 of module Factorial2: 0\n" + 
-				"line 54, col 21 to line 54, col 38 of module Factorial2: 0\n" + 
-				"line 55, col 21 to line 55, col 44 of module Factorial2: 0\n" + 
-				"line 56, col 21 to line 56, col 40 of module Factorial2: 0\n" + 
-				"line 57, col 21 to line 57, col 52 of module Factorial2: 0");
+		assertUncovered("""
+                line 53, col 21 to line 53, col 40 of module Factorial2: 0
+                line 54, col 21 to line 54, col 38 of module Factorial2: 0
+                line 55, col 21 to line 55, col 44 of module Factorial2: 0
+                line 56, col 21 to line 56, col 40 of module Factorial2: 0
+                line 57, col 21 to line 57, col 52 of module Factorial2: 0""");
 	}
 }

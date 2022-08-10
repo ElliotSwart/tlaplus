@@ -47,8 +47,9 @@ public class ULEvenOddTest extends PCalModelCheckerTestCase {
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "14", "13", "0"));
 		assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "13"));
 
-		assertUncovered("line 67, col 24 to line 67, col 38 of module ULEvenOdd: 0\n"
-				+ "line 68, col 24 to line 68, col 36 of module ULEvenOdd: 0\n"
-				+ "line 69, col 24 to line 69, col 51 of module ULEvenOdd: 0");
+		assertUncovered("""
+                line 67, col 24 to line 67, col 38 of module ULEvenOdd: 0
+                line 68, col 24 to line 68, col 36 of module ULEvenOdd: 0
+                line 69, col 24 to line 69, col 51 of module ULEvenOdd: 0""");
 	}
 }

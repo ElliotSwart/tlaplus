@@ -44,8 +44,9 @@ public class Github358 extends PCalTest {
 		assertTrue(messages.length == 1);
 		
 		final String msg = messages[0];
-		assertEquals("Unrecoverable error:\n" + 
-				" -- Expected \":=\" but found \"skip\"\n" + 
-				"    line 5, column 7.", msg.trim());
+		assertEquals("""
+                Unrecoverable error:
+                 -- Expected ":=" but found "skip"
+                    line 5, column 7.""", msg.trim());
 	}
 }

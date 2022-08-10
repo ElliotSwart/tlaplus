@@ -166,10 +166,11 @@ public class EWD840SteppingDebuggerSimTest extends TLCDebuggerTestCase {
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
 		final List<String> expectedTrace = new ArrayList<String>(7);
 		expectedTrace.add(
-				"/\\ tpos = 0\n"
-				+ "/\\ active = (0 :> FALSE @@ 1 :> TRUE @@ 2 :> FALSE @@ 3 :> FALSE @@ 4 :> TRUE)\n"
-				+ "/\\ tcolor = \"black\"\n"
-				+ "/\\ color = (0 :> \"white\" @@ 1 :> \"black\" @@ 2 :> \"white\" @@ 3 :> \"black\" @@ 4 :> \"black\")");
+				"""
+						/\\ tpos = 0
+						/\\ active = (0 :> FALSE @@ 1 :> TRUE @@ 2 :> FALSE @@ 3 :> FALSE @@ 4 :> TRUE)
+						/\\ tcolor = "black"
+						/\\ color = (0 :> "white" @@ 1 :> "black" @@ 2 :> "white" @@ 3 :> "black" @@ 4 :> "black")""");
 		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
 	}
 }

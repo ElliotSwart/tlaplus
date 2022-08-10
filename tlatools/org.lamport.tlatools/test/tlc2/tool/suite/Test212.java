@@ -41,46 +41,47 @@ public class Test212 extends SuiteETestCase {
 	@Test
 	public void testSpec() {
 		assertFalse(recorder.recorded(EC.GENERAL));
-		assertSubstring("Semantic errors:\n" + 
-				"\n" + 
-				"*** Errors: 6\n" + 
-				"\n" + 
-				"line 27, col 1 to line 27, col 62 of module test212\n" + 
-				"\n" + 
-				"Error in instantiating module 'test212a':\n" + 
-				" A non-Leibniz operator substituted for 'Op2'.\n" + 
-				"\n" + 
-				"\n" + 
-				"line 28, col 1 to line 28, col 62 of module test212\n" + 
-				"\n" + 
-				"Error in instantiating module 'test212a':\n" + 
-				" A non-Leibniz operator substituted for 'Op'.\n" + 
-				"\n" + 
-				"\n" + 
-				"line 29, col 1 to line 29, col 62 of module test212\n" + 
-				"\n" + 
-				"Error in instantiating module 'test212a':\n" + 
-				" A non-Leibniz operator substituted for 'Op'.\n" + 
-				"\n" + 
-				"\n" + 
-				"line 30, col 1 to line 30, col 64 of module test212\n" + 
-				"\n" + 
-				"Error in instantiating module 'test212a':\n" + 
-				" A non-Leibniz operator substituted for 'Op2'.\n" + 
-				"\n" + 
-				"\n" + 
-				"line 31, col 1 to line 31, col 63 of module test212\n" + 
-				"\n" + 
-				"Error in instantiating module 'test212a':\n" + 
-				" A non-Leibniz operator substituted for 'Op2'.\n" + 
-				"\n" + 
-				"\n" + 
-				"line 32, col 1 to line 32, col 63 of module test212\n" + 
-				"\n" + 
-				"Error in instantiating module 'test212a':\n" + 
-				" A non-Leibniz operator substituted for 'Op2'.\n" + 
-				"\n" + 
-				"\n" + 
-				"");
+		assertSubstring("""
+                Semantic errors:
+
+                *** Errors: 6
+
+                line 27, col 1 to line 27, col 62 of module test212
+
+                Error in instantiating module 'test212a':
+                 A non-Leibniz operator substituted for 'Op2'.
+
+
+                line 28, col 1 to line 28, col 62 of module test212
+
+                Error in instantiating module 'test212a':
+                 A non-Leibniz operator substituted for 'Op'.
+
+
+                line 29, col 1 to line 29, col 62 of module test212
+
+                Error in instantiating module 'test212a':
+                 A non-Leibniz operator substituted for 'Op'.
+
+
+                line 30, col 1 to line 30, col 64 of module test212
+
+                Error in instantiating module 'test212a':
+                 A non-Leibniz operator substituted for 'Op2'.
+
+
+                line 31, col 1 to line 31, col 63 of module test212
+
+                Error in instantiating module 'test212a':
+                 A non-Leibniz operator substituted for 'Op2'.
+
+
+                line 32, col 1 to line 32, col 63 of module test212
+
+                Error in instantiating module 'test212a':
+                 A non-Leibniz operator substituted for 'Op2'.
+
+
+                """);
 	}
 }

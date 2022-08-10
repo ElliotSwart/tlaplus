@@ -50,10 +50,11 @@ public class ECoverageTest extends AbstractCoverageTest {
 		assertFalse(recorder.recorded(EC.GENERAL));
 
 		assertFalse(recorder.recorded(EC.TLC_COVERAGE_MISMATCH));
-		assertCoverage("<Init line 10, col 1 to line 10, col 4 of module E>: 1:1\n" + 
-				"  line 10, col 9 to line 10, col 13 of module E: 1\n" + 
-				"<Next line 12, col 1 to line 12, col 4 of module E>: 8:72\n" + 
-				"  line 12, col 9 to line 12, col 20 of module E: 72\n" + 
-				"  |line 12, col 16 to line 12, col 20 of module E: 9");
+		assertCoverage("""
+                <Init line 10, col 1 to line 10, col 4 of module E>: 1:1
+                  line 10, col 9 to line 10, col 13 of module E: 1
+                <Next line 12, col 1 to line 12, col 4 of module E>: 8:72
+                  line 12, col 9 to line 12, col 20 of module E: 72
+                  |line 12, col 16 to line 12, col 20 of module E: 9""");
     }
 }

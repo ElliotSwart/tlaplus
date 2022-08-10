@@ -63,34 +63,62 @@ public class AliasSafetySimuTest_TTraceTest extends TTraceModelCheckerTestCase {
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
 		final List<String> expectedTrace = new ArrayList<String>(7);
 		// Trace prefix
-		expectedTrace.add("/\\ y = FALSE\n/\\ x = 1\n/\\ a = 1\n/\\ b = FALSE\n/\\ anim = \"e1: 1 e2: FALSE\"\n/\\ te = TRUE\n/\\ TLCGetAction = [ name |-> \"UnnamedAction\",\n"
-				+ "  location |->\n"
-				+ "      [ beginLine |-> 26,\n"
-				+ "        beginColumn |-> 18,\n"
-				+ "        endLine |-> 26,\n"
-				+ "        endColumn |-> 26,\n"
-				+ "        module |-> \"Alias\" ] ]");
-		expectedTrace.add("/\\ y = TRUE\n/\\ x = 2\n/\\ a = 1\n/\\ b = FALSE\n/\\ anim = \"e1: 2 e2: TRUE\"\n/\\ te = TRUE\n/\\ TLCGetAction = [ name |-> \"A\",\n"
-				+ "  location |->\n"
-				+ "      [ beginLine |-> 15,\n"
-				+ "        beginColumn |-> 1,\n"
-				+ "        endLine |-> 17,\n"
-				+ "        endColumn |-> 13,\n"
-				+ "        module |-> \"Alias\" ] ]");
-		expectedTrace.add("/\\ y = FALSE\n/\\ x = 3\n/\\ a = 1\n/\\ b = FALSE\n/\\ anim = \"e1: 3 e2: FALSE\"\n/\\ te = TRUE\n/\\ TLCGetAction = [ name |-> \"A\",\n"
-				+ "  location |->\n"
-				+ "      [ beginLine |-> 15,\n"
-				+ "        beginColumn |-> 1,\n"
-				+ "        endLine |-> 17,\n"
-				+ "        endColumn |-> 13,\n"
-				+ "        module |-> \"Alias\" ] ]");
-		expectedTrace.add("/\\ y = TRUE\n/\\ x = 4\n/\\ a = 0\n/\\ b = TRUE\n/\\ anim = \"e1: 4 e2: TRUE\"\n/\\ te = TRUE\n/\\ TLCGetAction = [ name |-> \"A\",\n"
-				+ "  location |->\n"
-				+ "      [ beginLine |-> 15,\n"
-				+ "        beginColumn |-> 1,\n"
-				+ "        endLine |-> 17,\n"
-				+ "        endColumn |-> 13,\n"
-				+ "        module |-> \"Alias\" ] ]");
+		expectedTrace.add("""
+				/\\ y = FALSE
+				/\\ x = 1
+				/\\ a = 1
+				/\\ b = FALSE
+				/\\ anim = "e1: 1 e2: FALSE"
+				/\\ te = TRUE
+				/\\ TLCGetAction = [ name |-> "UnnamedAction",
+				  location |->
+				      [ beginLine |-> 26,
+				        beginColumn |-> 18,
+				        endLine |-> 26,
+				        endColumn |-> 26,
+				        module |-> "Alias" ] ]""");
+		expectedTrace.add("""
+				/\\ y = TRUE
+				/\\ x = 2
+				/\\ a = 1
+				/\\ b = FALSE
+				/\\ anim = "e1: 2 e2: TRUE"
+				/\\ te = TRUE
+				/\\ TLCGetAction = [ name |-> "A",
+				  location |->
+				      [ beginLine |-> 15,
+				        beginColumn |-> 1,
+				        endLine |-> 17,
+				        endColumn |-> 13,
+				        module |-> "Alias" ] ]""");
+		expectedTrace.add("""
+				/\\ y = FALSE
+				/\\ x = 3
+				/\\ a = 1
+				/\\ b = FALSE
+				/\\ anim = "e1: 3 e2: FALSE"
+				/\\ te = TRUE
+				/\\ TLCGetAction = [ name |-> "A",
+				  location |->
+				      [ beginLine |-> 15,
+				        beginColumn |-> 1,
+				        endLine |-> 17,
+				        endColumn |-> 13,
+				        module |-> "Alias" ] ]""");
+		expectedTrace.add("""
+				/\\ y = TRUE
+				/\\ x = 4
+				/\\ a = 0
+				/\\ b = TRUE
+				/\\ anim = "e1: 4 e2: TRUE"
+				/\\ te = TRUE
+				/\\ TLCGetAction = [ name |-> "A",
+				  location |->
+				      [ beginLine |-> 15,
+				        beginColumn |-> 1,
+				        endLine |-> 17,
+				        endColumn |-> 13,
+				        module |-> "Alias" ] ]""");
 		final List<String> expectedActions = new ArrayList<>();
 		expectedActions.add("<Initial predicate line 26, col 18 to line 26, col 26 of module Alias>");
 		expectedActions.addAll(Collections.nCopies(expectedTrace.size() - 1,

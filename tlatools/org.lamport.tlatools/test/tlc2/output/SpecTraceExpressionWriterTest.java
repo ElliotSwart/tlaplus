@@ -26,13 +26,15 @@ import util.TestPrintStream;
  */
 public class SpecTraceExpressionWriterTest {
 	static private final String TRIVIAL_TWO_STATE_DEADLOCK_PREAMBLE
-			= "VARIABLE x, y\n"
-					+ "XIncr == (x' = x * 2)\n"
-					+ "            /\\ (x < 8)\n"
-					+ "            /\\ UNCHANGED y\n"
-					+ "YIncr == (y' = x + y)\n"
-					+ "            /\\ (y < 15)\n"
-					+ "            /\\ UNCHANGED x\n";
+			= """
+            VARIABLE x, y
+            XIncr == (x' = x * 2)
+                        /\\ (x < 8)
+                        /\\ UNCHANGED y
+            YIncr == (y' = x + y)
+                        /\\ (y < 15)
+                        /\\ UNCHANGED x
+            """;
 	static private final String[] TRIVIAL_TWO_STATE_DEADLOCK_INIT
 			= new String[] {
 					"TestInit",
@@ -44,13 +46,17 @@ public class SpecTraceExpressionWriterTest {
 					"TestNext == YIncr \\/ XIncr\n"
 				};
 	static private final String ERROR_STATE_IP
-			= "1: <Initial predicate>\n"
-					+ "/\\ x = 8\n"
-					+ "/\\ y = 7\n";
+			= """
+            1: <Initial predicate>
+            /\\ x = 8
+            /\\ y = 7
+            """;
 	static private final String ERROR_STATE_1
-			= "2: <YIncr line 8, col 10 to line 10, col 26 of module Bla>\n"
-					+ "/\\ x = 8\n"
-					+"/\\ y = 15\n";
+			= """
+            2: <YIncr line 8, col 10 to line 10, col 26 of module Bla>
+            /\\ x = 8
+            /\\ y = 15
+            """;
 
 	
 	private SpecTraceExpressionWriter writer;
@@ -138,17 +144,17 @@ public class SpecTraceExpressionWriterTest {
 		writer.addTraceFunction(trace);
 
 		final List<Formula> expressions = new ArrayList<>();
-		expressions.add(new Formula("\n"
-				+ "/\\ y # 7\n"
-				+ "/\\ \\/ TRUE\n"
-				+ " \\* Comment"
-				+ "   \\/ FALSE"));
+		expressions.add(new Formula("""
+
+                /\\ y # 7
+                /\\ \\/ TRUE
+                 \\* Comment   \\/ FALSE"""));
 		// Named expression
-		final Formula e = new Formula("namedExpression == \n"
-				+ "  (* A commend \n over two lines*)"
-				+ "  /\\ \\/ TRUE\n"
-				+ " \\* Comment"
-				+ "     \\/ FALSE");
+		final Formula e = new Formula("""
+                namedExpression ==\s
+                  (* A commend\s
+                 over two lines*)  /\\ \\/ TRUE
+                 \\* Comment     \\/ FALSE""");
 		assertTrue(e.isNamed());
 		expressions.add(e);
 		final TraceExpressionInformationHolder[] traceExpressions

@@ -59,60 +59,68 @@ public class EvalExceptionTest extends ModelCheckerTestCase {
 				"first", "<=", "integer", "(-1 :> 0)"));
 
 		final List<String> expectedTrace = new ArrayList<String>(6);
-		expectedTrace.add("/\\ num = (-2 :> 0 @@ -1 :> 0)\n"
-				+ "/\\ rnum = (-2 :> (-1 :> 0) @@ -1 :> (-2 :> 0))\n"
-				+ "/\\ net = (-2 :> (-1 :> <<>>) @@ -1 :> (-2 :> <<>>))\n"
-				+ "/\\ acks = (-2 :> {} @@ -1 :> {})\n"
-				+ "/\\ pc = ( [node |-> -2, type |-> \"msg\"] :> \"a\" @@\n"
-				+ "  [node |-> -2, type |-> \"mutex\"] :> \"ncs\" @@\n"
-				+ "  [node |-> -1, type |-> \"msg\"] :> \"a\" @@\n"
-				+ "  [node |-> -1, type |-> \"mutex\"] :> \"ncs\" )");
-		expectedTrace.add("/\\ num = (-2 :> 0 @@ -1 :> 0)\n"
-				+ "/\\ rnum = (-2 :> (-1 :> 0) @@ -1 :> (-2 :> 0))\n"
-				+ "/\\ net = (-2 :> (-1 :> <<>>) @@ -1 :> (-2 :> <<>>))\n"
-				+ "/\\ acks = (-2 :> {} @@ -1 :> {})\n"
-				+ "/\\ pc = ( [node |-> -2, type |-> \"msg\"] :> \"a\" @@\n"
-				+ "  [node |-> -2, type |-> \"mutex\"] :> \"enter\" @@\n"
-				+ "  [node |-> -1, type |-> \"msg\"] :> \"a\" @@\n"
-				+ "  [node |-> -1, type |-> \"mutex\"] :> \"ncs\" )");
-		expectedTrace.add("/\\ num = (-2 :> 1 @@ -1 :> 0)\n"
-				+ "/\\ rnum = (-2 :> (-1 :> 0) @@ -1 :> (-2 :> 0))\n"
-				+ "/\\ net = (-2 :> (-1 :> <<[type |-> \"write\", num |-> 1]>>) @@ -1 :> (-2 :> <<>>))\n"
-				+ "/\\ acks = (-2 :> {-2} @@ -1 :> {})\n"
-				+ "/\\ pc = ( [node |-> -2, type |-> \"msg\"] :> \"a\" @@\n"
-				+ "  [node |-> -2, type |-> \"mutex\"] :> \"e1\" @@\n"
-				+ "  [node |-> -1, type |-> \"msg\"] :> \"a\" @@\n"
-				+ "  [node |-> -1, type |-> \"mutex\"] :> \"ncs\" )");
-		expectedTrace.add("/\\ num = (-2 :> 1 @@ -1 :> 0)\n"
-				+ "/\\ rnum = (-2 :> (-1 :> 0) @@ -1 :> (-2 :> 0))\n"
-				+ "/\\ net = (-2 :> (-1 :> <<[type |-> \"write\", num |-> 1]>>) @@ -1 :> (-2 :> <<>>))\n"
-				+ "/\\ acks = (-2 :> {-2} @@ -1 :> {})\n"
-				+ "/\\ pc = ( [node |-> -2, type |-> \"msg\"] :> \"a\" @@\n"
-				+ "  [node |-> -2, type |-> \"mutex\"] :> \"e1\" @@\n"
-				+ "  [node |-> -1, type |-> \"msg\"] :> \"a\" @@\n"
-				+ "  [node |-> -1, type |-> \"mutex\"] :> \"enter\" )");
-		expectedTrace.add("/\\ num = (-2 :> 1 @@ -1 :> 0)\n"
-				+ "/\\ rnum = (-2 :> (-1 :> 0) @@ -1 :> (-2 :> 1))\n"
-				+ "/\\ net = (-2 :> (-1 :> <<>>) @@ -1 :> (-2 :> <<[type |-> \"ack\"]>>))\n"
-				+ "/\\ acks = (-2 :> {-2} @@ -1 :> {})\n"
-				+ "/\\ pc = ( [node |-> -2, type |-> \"msg\"] :> \"a\" @@\n"
-				+ "  [node |-> -2, type |-> \"mutex\"] :> \"e1\" @@\n"
-				+ "  [node |-> -1, type |-> \"msg\"] :> \"a\" @@\n"
-				+ "  [node |-> -1, type |-> \"mutex\"] :> \"enter\" )");
-		expectedTrace.add("/\\ num = (-2 :> 1 @@ -1 :> (-1 :> 0))\n"
-				+ "/\\ rnum = (-2 :> (-1 :> 0) @@ -1 :> (-2 :> 1))\n"
-				+ "/\\ net = ( -2 :> (-1 :> <<>>) @@\n"
-				+ "  -1 :> (-2 :> <<[type |-> \"ack\"], [type |-> \"write\", num |-> (-1 :> 0)]>>) )\n"
-				+ "/\\ acks = (-2 :> {-2} @@ -1 :> {-1})\n"
-				+ "/\\ pc = ( [node |-> -2, type |-> \"msg\"] :> \"a\" @@\n"
-				+ "  [node |-> -2, type |-> \"mutex\"] :> \"e1\" @@\n"
-				+ "  [node |-> -1, type |-> \"msg\"] :> \"a\" @@\n"
-				+ "  [node |-> -1, type |-> \"mutex\"] :> \"e1\" )");
+		expectedTrace.add("""
+				/\\ num = (-2 :> 0 @@ -1 :> 0)
+				/\\ rnum = (-2 :> (-1 :> 0) @@ -1 :> (-2 :> 0))
+				/\\ net = (-2 :> (-1 :> <<>>) @@ -1 :> (-2 :> <<>>))
+				/\\ acks = (-2 :> {} @@ -1 :> {})
+				/\\ pc = ( [node |-> -2, type |-> "msg"] :> "a" @@
+				  [node |-> -2, type |-> "mutex"] :> "ncs" @@
+				  [node |-> -1, type |-> "msg"] :> "a" @@
+				  [node |-> -1, type |-> "mutex"] :> "ncs" )""");
+		expectedTrace.add("""
+				/\\ num = (-2 :> 0 @@ -1 :> 0)
+				/\\ rnum = (-2 :> (-1 :> 0) @@ -1 :> (-2 :> 0))
+				/\\ net = (-2 :> (-1 :> <<>>) @@ -1 :> (-2 :> <<>>))
+				/\\ acks = (-2 :> {} @@ -1 :> {})
+				/\\ pc = ( [node |-> -2, type |-> "msg"] :> "a" @@
+				  [node |-> -2, type |-> "mutex"] :> "enter" @@
+				  [node |-> -1, type |-> "msg"] :> "a" @@
+				  [node |-> -1, type |-> "mutex"] :> "ncs" )""");
+		expectedTrace.add("""
+				/\\ num = (-2 :> 1 @@ -1 :> 0)
+				/\\ rnum = (-2 :> (-1 :> 0) @@ -1 :> (-2 :> 0))
+				/\\ net = (-2 :> (-1 :> <<[type |-> "write", num |-> 1]>>) @@ -1 :> (-2 :> <<>>))
+				/\\ acks = (-2 :> {-2} @@ -1 :> {})
+				/\\ pc = ( [node |-> -2, type |-> "msg"] :> "a" @@
+				  [node |-> -2, type |-> "mutex"] :> "e1" @@
+				  [node |-> -1, type |-> "msg"] :> "a" @@
+				  [node |-> -1, type |-> "mutex"] :> "ncs" )""");
+		expectedTrace.add("""
+				/\\ num = (-2 :> 1 @@ -1 :> 0)
+				/\\ rnum = (-2 :> (-1 :> 0) @@ -1 :> (-2 :> 0))
+				/\\ net = (-2 :> (-1 :> <<[type |-> "write", num |-> 1]>>) @@ -1 :> (-2 :> <<>>))
+				/\\ acks = (-2 :> {-2} @@ -1 :> {})
+				/\\ pc = ( [node |-> -2, type |-> "msg"] :> "a" @@
+				  [node |-> -2, type |-> "mutex"] :> "e1" @@
+				  [node |-> -1, type |-> "msg"] :> "a" @@
+				  [node |-> -1, type |-> "mutex"] :> "enter" )""");
+		expectedTrace.add("""
+				/\\ num = (-2 :> 1 @@ -1 :> 0)
+				/\\ rnum = (-2 :> (-1 :> 0) @@ -1 :> (-2 :> 1))
+				/\\ net = (-2 :> (-1 :> <<>>) @@ -1 :> (-2 :> <<[type |-> "ack"]>>))
+				/\\ acks = (-2 :> {-2} @@ -1 :> {})
+				/\\ pc = ( [node |-> -2, type |-> "msg"] :> "a" @@
+				  [node |-> -2, type |-> "mutex"] :> "e1" @@
+				  [node |-> -1, type |-> "msg"] :> "a" @@
+				  [node |-> -1, type |-> "mutex"] :> "enter" )""");
+		expectedTrace.add("""
+				/\\ num = (-2 :> 1 @@ -1 :> (-1 :> 0))
+				/\\ rnum = (-2 :> (-1 :> 0) @@ -1 :> (-2 :> 1))
+				/\\ net = ( -2 :> (-1 :> <<>>) @@
+				  -1 :> (-2 :> <<[type |-> "ack"], [type |-> "write", num |-> (-1 :> 0)]>>) )
+				/\\ acks = (-2 :> {-2} @@ -1 :> {-1})
+				/\\ pc = ( [node |-> -2, type |-> "msg"] :> "a" @@
+				  [node |-> -2, type |-> "mutex"] :> "e1" @@
+				  [node |-> -1, type |-> "msg"] :> "a" @@
+				  [node |-> -1, type |-> "mutex"] :> "e1" )""");
 		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
 
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_NESTED_EXPRESSION,
-				"0. Line 209, column 5 to line 209, column 32 in DistBakery\n"
-				+ "1. Line 209, column 22 to line 209, column 32 in DistBakery\n"
-				+ "\n"));
+				"""
+						0. Line 209, column 5 to line 209, column 32 in DistBakery
+						1. Line 209, column 22 to line 209, column 32 in DistBakery
+
+						"""));
 	}
 }

@@ -41,8 +41,11 @@ public class ETest5 extends SuiteETestCase {
 	@Test
 	public void testSpec() {
 		assertFalse(recorder.recorded(EC.GENERAL));
-		assertSubstring("*** Errors: 1\n\n"
-				+ "line 13, col 17 to line 13, col 20 of module etest5\n\n"
-				+ "Unknown operator: `Init'.");
+		assertSubstring("""
+                *** Errors: 1
+
+                line 13, col 17 to line 13, col 20 of module etest5
+
+                Unknown operator: `Init'.""");
 	}
 }

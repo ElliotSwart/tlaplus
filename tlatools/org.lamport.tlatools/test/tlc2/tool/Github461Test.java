@@ -63,9 +63,11 @@ public class Github461Test extends ModelCheckerTestCase {
 
 		// Assert the underlying error message with stack trace.
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_NESTED_EXPRESSION,
-				"0. Line 9, column 5 to line 10, column 17 in Github461\n" + 
-				"1. Line 9, column 8 to line 9, column 65 in Github461\n" + 
-				"\n"));
+				"""
+						0. Line 9, column 5 to line 10, column 17 in Github461
+						1. Line 9, column 8 to line 9, column 65 in Github461
+
+						"""));
 		
 		assertZeroUncovered();
 	}

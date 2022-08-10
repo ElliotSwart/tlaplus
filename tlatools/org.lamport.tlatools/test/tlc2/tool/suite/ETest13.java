@@ -41,10 +41,11 @@ public class ETest13 extends SuiteETestCase {
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.toString(), recorder.recordedWithSubStringValue(EC.TLC_ASSUMPTION_EVALUATION_ERROR,
-				"Attempted to apply the operator overridden by the Java method\n"
-				+ "public static tlc2.value.impl.IntValue tlc2.module.FiniteSets.Cardinality(tlc2.value.impl.Value),\n"
-				+ "but it produced the following error:\n"
-				+ "Overflow when computing the number of elements in:"
-				+ "\n[0..2 -> 1..2000]"));
+                """
+                        Attempted to apply the operator overridden by the Java method
+                        public static tlc2.value.impl.IntValue tlc2.module.FiniteSets.Cardinality(tlc2.value.impl.Value),
+                        but it produced the following error:
+                        Overflow when computing the number of elements in:
+                        [0..2 -> 1..2000]"""));
 	}
 }

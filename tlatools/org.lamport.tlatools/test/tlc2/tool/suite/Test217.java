@@ -41,21 +41,23 @@ public class Test217 extends SuiteETestCase {
 	@Test
 	public void testSpec() {
 		assertFalse(recorder.recorded(EC.GENERAL));
-		assertSubstring("Semantic errors:\n" + 
-				"\n" + 
-				"*** Errors: 2\n" + 
-				"\n" + 
-				"line 12, col 11 to line 12, col 19 of module test217\n" + 
-				"\n" + 
-				"Level error in applying operator I!Foo:\n" + 
-				"The level of argument 1 exceeds the maximum level allowed by the operator.\n" + 
-				"\n" + 
-				"\n" + 
-				"line 13, col 9 to line 13, col 19 of module test217\n" + 
-				"\n" + 
-				"Level error in applying operator I!Foo:\n" + 
-				"The level of argument 1 exceeds the maximum level allowed by the operator.\n" + 
-				"\n" + 
-				"\n");
+		assertSubstring("""
+                Semantic errors:
+
+                *** Errors: 2
+
+                line 12, col 11 to line 12, col 19 of module test217
+
+                Level error in applying operator I!Foo:
+                The level of argument 1 exceeds the maximum level allowed by the operator.
+
+
+                line 13, col 9 to line 13, col 19 of module test217
+
+                Level error in applying operator I!Foo:
+                The level of argument 1 exceeds the maximum level allowed by the operator.
+
+
+                """);
 	}
 }
