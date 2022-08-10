@@ -587,24 +587,22 @@ public class ParseAlgorithm
            return;
        }
        if ((body.size() > 1) || 
-               !(body.elementAt(0) instanceof AST.LabeledStmt)){
+               !(body.elementAt(0) instanceof final AST.LabeledStmt lblStmt)){
            omitPC = false;
            omitStutteringWhenDone = false;
            return;
        }
-       final AST.LabeledStmt lblStmt = (AST.LabeledStmt) body.elementAt(0);
        if ( (lblStmt.stmts == null) || (lblStmt.stmts.size() == 0)) {
            // Again, this shouldn't happen.
            return;
        }
        if ((lblStmt.stmts.size() > 1) || 
-               !(lblStmt.stmts.elementAt(0) instanceof AST.While)){
+               !(lblStmt.stmts.elementAt(0) instanceof final AST.While whileStmt)){
            omitPC = false;
            omitStutteringWhenDone = false;
            return;
        }
 
-       final AST.While whileStmt = (AST.While) lblStmt.stmts.elementAt(0);
        final Vector<?> tokens = whileStmt.test.tokens;
        if (tokens.size() != 1) {
            omitPC = false;
@@ -1830,20 +1828,19 @@ public class ParseAlgorithm
                *   - Set nextStepNeedsLabel to true iff either call        *
                *     returns true.                                         *
                ************************************************************/
-               final AST.LabelIf obj = (AST.LabelIf) stmt ;
                  /******************************************************
                  * Sets obj to an alias of stmt of the right type.     *
                  ******************************************************/
                final Vector<String> thenAssigned     = new Vector<>() ;
                final Vector<String> elseAssigned     = new Vector<>() ;
                  nextStepNeedsLabel =
-                 InnerAddLabels(obj.unlabThen,  
+                 InnerAddLabels(tstmt.unlabThen,
                                 false,             // firstLabeled
                                 inWith,            // inWith
                                 outAssigned,       // inAssigned = {}
                                 thenAssigned) ;    // outAssigned
                nextStepNeedsLabel = 
-                 InnerAddLabels(obj.unlabElse,  
+                 InnerAddLabels(tstmt.unlabElse,
                                 false,             // firstLabeled
                                 inWith,            // inWith
                                 outAssigned,       // inAssigned = {}
