@@ -34,10 +34,13 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Categories;
 import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.TTraceModelCheckerTestCase;
+import util.IndependentlyRunTTraceTest;
+import util.IndependentlyRunTest;
 import util.TTraceTest;
 
 public class PrintTraceRaceTest_TTraceTest extends TTraceModelCheckerTestCase {
@@ -46,7 +49,7 @@ public class PrintTraceRaceTest_TTraceTest extends TTraceModelCheckerTestCase {
 		super(PrintTraceRaceTest.class, "PrintTraceRace", ExitStatus.VIOLATION_SAFETY);
 	}
 
-	@Category(TTraceTest.class)
+	@Category(IndependentlyRunTTraceTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

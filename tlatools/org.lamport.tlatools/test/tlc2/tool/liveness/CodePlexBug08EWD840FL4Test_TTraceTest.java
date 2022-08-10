@@ -34,9 +34,12 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Categories;
 import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
+import util.IndependentlyRunTTraceTest;
+import util.IndependentlyRunTest;
 import util.TTraceTest;
 
 /**
@@ -48,7 +51,6 @@ public class CodePlexBug08EWD840FL4Test_TTraceTest extends TTraceModelCheckerTes
 		super(CodePlexBug08EWD840FL4Test.class, "CodePlexBug08", ExitStatus.VIOLATION_LIVENESS);
 	}
 
-	@Category(TTraceTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

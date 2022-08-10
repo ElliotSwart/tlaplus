@@ -35,9 +35,12 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Categories;
 import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
+import util.IndependentlyRunTTraceTest;
+import util.IndependentlyRunTest;
 import util.TTraceTest;
 
 public class OneBitMutexNoSymmetryTest_TTraceTest extends TTraceModelCheckerTestCase {
@@ -46,7 +49,7 @@ public class OneBitMutexNoSymmetryTest_TTraceTest extends TTraceModelCheckerTest
 		super(OneBitMutexNoSymmetryTest.class, "symmetry" + File.separator + "OneBitMutex", ExitStatus.VIOLATION_LIVENESS);
 	}
 
-	@Category(TTraceTest.class)
+	@Category(IndependentlyRunTTraceTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

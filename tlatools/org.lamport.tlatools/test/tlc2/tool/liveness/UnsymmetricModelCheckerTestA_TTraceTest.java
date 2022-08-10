@@ -34,10 +34,13 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.experimental.categories.Categories;
 import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.TLCStateInfo;
+import util.IndependentlyRunTTraceTest;
+import util.IndependentlyRunTest;
 import util.TTraceTest;
 
 public class UnsymmetricModelCheckerTestA_TTraceTest extends TTraceModelCheckerTestCase {
@@ -46,7 +49,7 @@ public class UnsymmetricModelCheckerTestA_TTraceTest extends TTraceModelCheckerT
 		super(UnsymmetricModelCheckerTestA.class, "symmetry", ExitStatus.VIOLATION_LIVENESS);
 	}
 
-	@Category(TTraceTest.class)
+	@Category(IndependentlyRunTTraceTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker intends to check liveness

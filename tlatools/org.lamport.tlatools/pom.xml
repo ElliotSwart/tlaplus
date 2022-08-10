@@ -187,61 +187,10 @@
 						<tlc2.tool.fp.FPSet.impl>tlc2.tool.fp.OffHeapDiskFPSet</tlc2.tool.fp.FPSet.impl>
 						<tlc2.tool.distributed.TLCWorker.threadCount>4</tlc2.tool.distributed.TLCWorker.threadCount>
 					</systemProperties>
-					<excludedGroups>util.DebuggerTest,util.LongTest,util.TTraceTest, util.IndependentlyRunTest, util.ConcurrentTest</excludedGroups>
+					<excludedGroups>util.DebuggerTest,util.LongTest,util.TTraceTest, util.IndependentlyRunTest, util.ConcurrentTest, util.IndependentlyRunTTraceTest</excludedGroups>
 					<!--<forkedProcessTimeoutInSeconds>20</forkedProcessTimeoutInSeconds>-->
 				</configuration>
 				<executions>
-					<execution> <!-- The fewer there are of these, the faster the suite will run -->
-						<id>independantly-run-tests</id>
-						<goals>
-							<goal>test</goal>
-						  </goals>
-						  <configuration>
-							<skip>false</skip>
-							<groups>util.IndependentlyRunTest,util.DebuggerTest</groups>
-							<excludedGroups>util.LongTest, util.ConcurrentTest</excludedGroups>
-							<reuseForks>false</reuseForks>
-							<includes> <!-- Reduce lengthy search process by limited to applicable directories -->
-								<include>tlc2/debug/**</include>
-								<include>pcal/RABTest.java</include>
-								<include>pcal/SBBTest.java</include>
-								<include>tla2sany/drivers/Github429Test.java</include>
-								<include>tla2sany/drivers/IllegalOperatorTest.java</include>
-								<include>tlc2/tool/DepthFirstDieHardTest.java</include>
-								<include>tlc2/tool/DepthFirstErrorTraceTest.java</include>
-								<include>tlc2/tool/DepthFirstTerminateTest.java</include>
-								<include>tlc2/tool/DiameterTest.java</include>
-								<include>tlc2/tool/EvalExceptionLivenessTest.java</include>
-								<include>tlc2/tool/EvalExceptionTest.java</include>
-								<include>tlc2/tool/MinimumDiameterTest.java</include>
-								<include>tlc2/tool/MonolithSpecTest.java</include>
-								<include>tlc2/tool/PrintTraceRaceTest.java</include>
-								<include>tlc2/tool/TLCSetMultiSimTest.java</include>
-								<include>tlc2/tool/TLCSetSimTest.java</include>
-								<include>tlc2/tool/ViewMapTest.java</include>
-								<include>tlc2/tool/checkpoint/CheckpointWhenTimeBoundTest.java</include>
-								<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
-								<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
-								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test.java</include>
-								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2FromCheckpointTest.java</include>
-								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test.java</include>
-								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test.java</include>
-								<include>tlc2/tool/liveness/ErrorTraceConstructionTest.java</include>
-								<include>tlc2/tool/liveness/Github317aTest.java</include>
-								<include>tlc2/tool/liveness/Github710bTest.java</include>
-								<include>tlc2/tool/liveness/LoopForcedPartialTest.java</include>
-								<include>tlc2/tool/liveness/NoSymmetryTableauModelCheckerTest.java</include>
-								<include>tlc2/tool/liveness/OneBitMutexNoSymmetryTest.java</include>
-								<include>tlc2/tool/liveness/UnsymmetricModelCheckerTestB.java</include>
-								<include>tlc2/tool/liveness/simulation/StutteringTest.java</include>
-								<include>tlc2/tool/simulation/NQSpecTest.java*</include>
-								<include>tlc2/tool/simulation/SimulationWorkerTest.java</include>
-							</includes>
-							<excludes>
-								<exclude>tlc2/tool/EvaluatingValueTest.java</exclude>
-							</excludes>
-						  </configuration>
-					</execution>
 					<execution>
 						<id>concurrently-testable</id>
 						<goals>
@@ -344,17 +293,95 @@
 							</includes>
 						  </configuration>
 					</execution>
+					<execution> <!-- The fewer there are of these, the faster the suite will run -->
+						<id>independantly-run-tests</id>
+						<goals>
+							<goal>test</goal>
+						  </goals>
+						  <configuration>
+							<skip>false</skip>
+							<groups>util.IndependentlyRunTest,util.DebuggerTest</groups>
+							<excludedGroups>util.LongTest, util.ConcurrentTest</excludedGroups>
+							<reuseForks>false</reuseForks>
+							<includes> <!-- Reduce lengthy search process by limited to applicable directories -->
+								<include>tlc2/debug/**</include>
+								<include>pcal/RABTest.java</include>
+								<include>pcal/SBBTest.java</include>
+								<include>tla2sany/drivers/Github429Test.java</include>
+								<include>tla2sany/drivers/IllegalOperatorTest.java</include>
+								<include>tlc2/tool/DepthFirstDieHardTest.java</include>
+								<include>tlc2/tool/DepthFirstErrorTraceTest.java</include>
+								<include>tlc2/tool/DepthFirstTerminateTest.java</include>
+								<include>tlc2/tool/DiameterTest.java</include>
+								<include>tlc2/tool/EvalExceptionLivenessTest.java</include>
+								<include>tlc2/tool/EvalExceptionTest.java</include>
+								<include>tlc2/tool/MinimumDiameterTest.java</include>
+								<include>tlc2/tool/MonolithSpecTest.java</include>
+								<include>tlc2/tool/PrintTraceRaceTest.java</include>
+								<include>tlc2/tool/TLCSetMultiSimTest.java</include>
+								<include>tlc2/tool/TLCSetSimTest.java</include>
+								<include>tlc2/tool/ViewMapTest.java</include>
+								<include>tlc2/tool/checkpoint/CheckpointWhenTimeBoundTest.java</include>
+								<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
+								<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
+								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test.java</include>
+								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2FromCheckpointTest.java</include>
+								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test.java</include>
+								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test.java</include>
+								<include>tlc2/tool/liveness/ErrorTraceConstructionTest.java</include>
+								<include>tlc2/tool/liveness/Github317aTest.java</include>
+								<include>tlc2/tool/liveness/Github710bTest.java</include>
+								<include>tlc2/tool/liveness/LoopForcedPartialTest.java</include>
+								<include>tlc2/tool/liveness/NoSymmetryTableauModelCheckerTest.java</include>
+								<include>tlc2/tool/liveness/OneBitMutexNoSymmetryTest.java</include>
+								<include>tlc2/tool/liveness/UnsymmetricModelCheckerTestB.java</include>
+								<include>tlc2/tool/liveness/simulation/StutteringTest.java</include>
+								<include>tlc2/tool/simulation/NQSpecTest.java*</include>
+								<include>tlc2/tool/simulation/SimulationWorkerTest.java</include>
+							</includes>
+							<excludes>
+								<exclude>tlc2/tool/EvaluatingValueTest.java</exclude>
+							</excludes>
+						  </configuration>
+					</execution>
 					<execution>
-						<id>ttrace-tests</id>
+						<id>ttrace-tests-concurrent</id>
+						<goals>
+							<goal>test</goal>
+						  </goals>
+						<configuration>
+							<reuseForks>true</reuseForks>
+							<excludedGroups>util.LongTest, util.IndependentlyRunTest</excludedGroups>
+							<groups>util.TTraceTest</groups>
+							<skip>false</skip>
+							<includes>
+								<include>**/*_TTraceTest.java</include>
+							</includes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>ttrace-tests-individual</id>
 						<goals>
 							<goal>test</goal>
 						  </goals>
 						<configuration>
 							<reuseForks>false</reuseForks>
-							<excludedGroups></excludedGroups>
+							<excludedGroups>util.LongTest</excludedGroups>
+							<groups>util.IndependentlyRunTTraceTest</groups>
 							<skip>false</skip>
 							<includes>
-								<include>**/*_TTraceTest.java</include>
+								<include>pcal/RABTest_TTraceTest.java</include>
+								<include>pcal/SBBTest_TTraceTest.java</include>
+								<include>tlc2/tool/PrintTraceRaceTest_TTraceTest.java</include>
+								<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
+								<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
+								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test_TTraceTest.java</include>
+								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test_TTraceTest.java</include>
+								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test_TTraceTest.java</include>
+								<include>tlc2/tool/liveness/ErrorTraceConstructionTest_TTraceTest.java</include>
+								<include>tlc2/tool/liveness/LoopForcedPartialTest_TTraceTest.java</include>
+								<include>tlc2/tool/liveness/OneBitMutexNoSymmetryTest_TTraceTest.java</include>
+								<include>tlc2/tool/liveness/UnsymmetricModelCheckerTestB_TTraceTest.java</include>
 							</includes>
 						</configuration>
 					</execution>
