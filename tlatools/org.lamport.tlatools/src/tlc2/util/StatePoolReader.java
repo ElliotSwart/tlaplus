@@ -12,7 +12,6 @@ import java.io.ObjectOutputStream;
 
 import tlc2.output.EC;
 import tlc2.output.MP;
-import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
 import tlc2.value.ValueInputStream;
 import util.Assert;

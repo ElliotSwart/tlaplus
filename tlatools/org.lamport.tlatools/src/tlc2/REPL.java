@@ -187,7 +187,7 @@ public class REPL {
     public void runREPL(final LineReader reader) throws IOException {
         // Run the loop.
     	String expr;
-        while (!Thread.currentThread().interrupted()) {
+        while (!Thread.interrupted()) {
             try {
                 expr = reader.readLine(prompt);
                 final String res = processInput(expr);

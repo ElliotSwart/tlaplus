@@ -453,7 +453,7 @@ class trans {
         } else
         {
             cfg = new ArrayList<>();
-            cfg.add(pcalParams.CfgFileDelimiter);
+            cfg.add(PcalParams.CfgFileDelimiter);
         }
 
         /*********************************************************************
@@ -465,7 +465,7 @@ class trans {
             boolean done = false;
             while ((!done) && (cfg.size() > j))
             {
-                if (!cfg.get(j).contains(pcalParams.CfgFileDelimiter))
+                if (!cfg.get(j).contains(PcalParams.CfgFileDelimiter))
                 {
                     j = j + 1;
                 } else
@@ -671,15 +671,15 @@ class trans {
         *******************************************************************/
     	final ArrayList<String> output = new ArrayList<>(specificationText);
 
-        translationLine = findTokenPair(untabInputVec, 0, pcalParams.BeginXlation1, pcalParams.BeginXlation2);
+        translationLine = findTokenPair(untabInputVec, 0, PcalParams.BeginXlation1, PcalParams.BeginXlation2);
         int endTranslationLine = -1;
         if (translationLine != -1)
         {
             endTranslationLine = findTokenPair(untabInputVec, translationLine + 1,
-            									   pcalParams.EndXlation1, pcalParams.EndXlation2);
+                    PcalParams.EndXlation1, PcalParams.EndXlation2);
             if (endTranslationLine == -1)
             {
-                PcalDebug.reportError("No line containing `" + pcalParams.EndXlation1 + " " + pcalParams.EndXlation2);
+                PcalDebug.reportError("No line containing `" + PcalParams.EndXlation1 + " " + PcalParams.EndXlation2);
                 return null;
             }
 
@@ -702,21 +702,21 @@ class trans {
         while ((algLine < untabInputVec.size()) && !foundBegin)
         {
             final String line = untabInputVec.elementAt(algLine);
-            algCol = line.indexOf(pcalParams.BeginAlg);
+            algCol = line.indexOf(PcalParams.BeginAlg);
             if (algCol != -1)
             {
-                algCol = algCol + pcalParams.BeginAlg.length();
+                algCol = algCol + PcalParams.BeginAlg.length();
                 foundBegin = true;
             } else
             {
-            	algCol = line.indexOf(pcalParams.BeginFairAlg);
+            	algCol = line.indexOf(PcalParams.BeginFairAlg);
             	if (algCol != -1) {
             		// Found the "--fair".  The more structurally nice thing to
             		// do here would be to move past the following "algorithm".
             		// However, it's easier to pass a parameter to the ParseAlgorithm
             		// class's GetAlgorithm method that tells it to go past the
             		// "algorithm" token.
-            		 algCol = algCol + pcalParams.BeginFairAlg.length();
+            		 algCol = algCol + PcalParams.BeginFairAlg.length();
                      foundBegin = true;
                      foundFairBegin = true;
             		
@@ -727,7 +727,7 @@ class trans {
         }
         if (!foundBegin)
         {
-            PcalDebug.reportError("Beginning of algorithm string " + pcalParams.BeginAlg + " not found.");
+            PcalDebug.reportError("Beginning of algorithm string " + PcalParams.BeginAlg + " not found.");
             return null;
         }
 

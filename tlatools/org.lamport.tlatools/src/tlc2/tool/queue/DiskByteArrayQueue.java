@@ -11,10 +11,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 
-import tlc2.module.TLC;
 import tlc2.output.EC;
 import tlc2.output.MP;
-import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
 import tlc2.value.IValue;
 import tlc2.value.IValueInputStream;

@@ -13,7 +13,6 @@ import tlc2.output.MP;
 import tlc2.tool.StateVec;
 import tlc2.tool.TLCState;
 import tlc2.tool.Worker;
-import tlc2.tool.ITool;
 import util.FatalException;
 
 /*

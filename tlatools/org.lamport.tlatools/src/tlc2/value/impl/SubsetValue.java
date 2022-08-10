@@ -7,8 +7,6 @@
 
 package tlc2.value.impl;
 
-import static java.math.BigDecimal.ROUND_HALF_DOWN;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;

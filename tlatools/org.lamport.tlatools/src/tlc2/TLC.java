@@ -1167,16 +1167,14 @@ public class TLC {
 					simulator = new SingleThreadedSimulator(tool, metadir, traceFile, deadlock, traceDepth, 
 	                        traceNum, traceActions, rng, seed, resolver);
 
-                    tool.setSimulator(simulator);
-                    IdThread.setSimulator(simulator);
-				} else {
+                } else {
 					tool = new FastTool(mainFile, configFile, resolver, Tool.Mode.Simulation, params);
 					simulator = new Simulator(tool, metadir, traceFile, deadlock, traceDepth, 
 	                        traceNum, traceActions, rng, seed, resolver, TLCGlobals.getNumWorkers());
 
-                    tool.setSimulator(simulator);
-                    IdThread.setSimulator(simulator);
-				}
+                }
+                tool.setSimulator(simulator);
+                IdThread.setSimulator(simulator);
 
                 result = simulator.simulate();
 			} else { // RunMode.MODEL_CHECK
@@ -1363,9 +1361,6 @@ public class TLC {
     public static String convertRuntimeToHumanReadable(long runtime) {
 		SimpleDateFormat df = null;
 		if (runtime > (60 * 60 * 24 * 1000L)) {
-			df = new SimpleDateFormat("D'd' HH'h'");
-			runtime -= 86400000L;
-		} else if (runtime > (60 * 60 * 24 * 1000L)) {
 			df = new SimpleDateFormat("D'd' HH'h'");
 			runtime -= 86400000L;
 		} else if (runtime > (60 * 60 * 1000L)) {

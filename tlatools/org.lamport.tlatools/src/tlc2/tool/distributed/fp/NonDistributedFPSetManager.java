@@ -2,7 +2,6 @@
 package tlc2.tool.distributed.fp;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.concurrent.ExecutorService;
 
 import tlc2.output.EC;

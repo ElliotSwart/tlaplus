@@ -95,7 +95,7 @@ public void WriteTeXAlignmentFile(final Token[][] spec,
    }
      if (linewidth >= 0)
    { writer.putLine("\\setlength{\\textwidth}{" 
-                     + misc.floatToString(linewidth, 2) + "pt}");
+                     + Misc.floatToString(linewidth, 2) + "pt}");
      // see below for why this is commented out.
      //writer.putLine("\\makeatletter") ;   // added by LL on 7 Aug 2012
    }
@@ -244,7 +244,7 @@ private void InnerWriteAlignmentFile(final Token[][] spec,
 
              case Token.NUMBER :
              case Token.IDENT :
-               outLine.append(" ").append(misc.TeXify(tok.string));
+               outLine.append(" ").append(Misc.TeXify(tok.string));
                  /**********************************************************
                  * We TeXify the string to typeset a "\" from a number or  *
                  * a "_" from an identifier.                               *
@@ -252,7 +252,7 @@ private void InnerWriteAlignmentFile(final Token[][] spec,
                break ;
                
              case Token.PCAL_LABEL :
-               outLine.append(" ").append(misc.TeXifyPcalLabel(tok.string));
+               outLine.append(" ").append(Misc.TeXifyPcalLabel(tok.string));
                break ;
 
              case Token.STRING :
@@ -532,7 +532,7 @@ private void InnerWriteAlignmentFile(final Token[][] spec,
             final int item = Integer.parseInt(inputLine.substring(start, after));
             start = after + 2;
             after = inputLine.indexOf("p",start) ;
-            final float dist = misc.stringToFloat(inputLine.substring(start, after));
+            final float dist = Misc.stringToFloat(inputLine.substring(start, after));
             spec[line][item].distFromMargin = dist;
           }// END if (   (inputLine.length() > 2) ... )
          inputLine = bufferedReader.readLine();
@@ -751,7 +751,7 @@ private void InnerWriteAlignmentFile(final Token[][] spec,
     * replaced by {-}.                                                     *
     ***********************************************************************/
     { final StringBuilder result = new StringBuilder();
-      final String str = misc.TeXify(inputStr);
+      final String str = Misc.TeXify(inputStr);
       int pos = 0 ;
       while (pos < str.length())
        { final char ch = str.charAt(pos) ;
@@ -958,7 +958,7 @@ private void InnerWriteLaTeXFile(final Token[][] spec,
          //(  pcalLine2 ? "\\setlength{\\pcalvspace}{" :
         // "\\par\\vspace{" )
          "\\@pvspace{"
-         + misc.floatToString(parameters.LaTeXVSpace(blankLines), 2)
+         + Misc.floatToString(parameters.LaTeXVSpace(blankLines), 2)
          + "pt}%" );
 
 
@@ -1103,8 +1103,8 @@ private void InnerWriteLaTeXFile(final Token[][] spec,
              /*****************************************************************
           * Write the command to produce the preSpace space.               *
           *****************************************************************/
-          if (tok.preSpace >= misc.stringToFloat("0.01"))
-            { outLine.append(parameters.LaTeXSpaceCommand).append("{").append(misc.floatToString(tok.preSpace, 2)).append("}");
+          if (tok.preSpace >= Misc.stringToFloat("0.01"))
+            { outLine.append(parameters.LaTeXSpaceCommand).append("{").append(Misc.floatToString(tok.preSpace, 2)).append("}");
             }
 
              switch (tok.type)
@@ -1145,15 +1145,15 @@ private void InnerWriteLaTeXFile(final Token[][] spec,
                * A number can begin with a '\'.  Won't bother optimizing     *
                * for this special case of TeXify'ing.                        *
                **************************************************************/
-               outLine.append(" ").append(misc.TeXify(tok.string));
+               outLine.append(" ").append(Misc.TeXify(tok.string));
                break ;
   
              case Token.IDENT :
-               outLine.append(" ").append(misc.TeXifyIdent(tok.string));
+               outLine.append(" ").append(Misc.TeXifyIdent(tok.string));
                break ;
 
              case Token.PCAL_LABEL :
-               outLine.append(" ").append(misc.TeXifyPcalLabel(tok.string));
+               outLine.append(" ").append(Misc.TeXifyPcalLabel(tok.string));
                break ;
                
              case Token.STRING :

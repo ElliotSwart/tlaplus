@@ -279,7 +279,7 @@ public class ParseAlgorithm
     omitStutteringWhenDone = true;
     // if the user has specified an earlier version than 1.5, then
     // don't omit the pc variable or stuttering-when-done clause.
-    if (pcalParams.inputVersionNumber < pcalParams.VersionToNumber("1.5")){
+    if (pcalParams.inputVersionNumber < PcalParams.VersionToNumber("1.5")){
         omitPC = false; 
         omitStutteringWhenDone = false;
     }

@@ -11,7 +11,6 @@ import java.nio.file.Files;
 
 import tlc2.output.EC;
 import tlc2.output.MP;
-import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
 import tlc2.util.StatePoolReader;
 import tlc2.util.StatePoolWriter;

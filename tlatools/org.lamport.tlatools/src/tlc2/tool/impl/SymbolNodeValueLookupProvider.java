@@ -14,15 +14,10 @@ import tla2sany.semantic.SemanticNode;
 import tla2sany.semantic.Subst;
 import tla2sany.semantic.SubstInNode;
 import tla2sany.semantic.SymbolNode;
-import tlc2.tool.BuiltInOPs;
-import tlc2.tool.ToolGlobals;
 import tlc2.tool.coverage.CostModel;
 import tlc2.util.Context;
-import tlc2.value.impl.EvaluatingValue;
 import tlc2.value.impl.IntValue;
 import tlc2.value.impl.LazyValue;
-import tlc2.value.impl.MethodValue;
-import util.UniqueString;
 
 public interface SymbolNodeValueLookupProvider {
     /* Return the variable if expr is a state variable. Otherwise, null. */
