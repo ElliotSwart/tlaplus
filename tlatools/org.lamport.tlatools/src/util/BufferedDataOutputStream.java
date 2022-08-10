@@ -84,7 +84,7 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
     /** Flush all bytes written to this stream to the underlying
         output stream. */
     @Override
-    public final void flush() throws IOException {
+    public void flush() throws IOException {
         this.out.write(this.buff, 0, this.len);
         this.out.flush();
         this.len = 0;
@@ -93,28 +93,28 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
     /** Closes this stream and its underlying stream, after first
         flushing any buffered data. */
     @Override
-    public final void close() throws IOException {
+    public void close() throws IOException {
         this.flush();
         this.out.close();
         this.out = null;
     }
     
     /** Write <code>b</code> to this stream. */
-    public final void write(final byte b) throws IOException {
+    public void write(final byte b) throws IOException {
         this.writeByte(b);
     }
     
     /** Write the <code>b.length</code> bytes of <code>b</code> to 
         this stream. */
     @Override
-    public final void write(final byte[] b) throws IOException {
+    public void write(final byte[] b) throws IOException {
         this.write(b, 0, b.length);
     }
     
     /** Write <code>n</code> bytes of <code>b</code> starting
         at position <code>off</code> to this stream. */
     @Override
-    public final void write(final byte[] b, int off, int n) throws IOException {
+    public void write(final byte[] b, int off, int n) throws IOException {
         while (n > 0) {
             final int toCopy = Math.min(n, this.buff.length - this.len);
             System.arraycopy(b, off, this.buff, this.len, toCopy);
@@ -128,7 +128,7 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
     }
     
     /** Write the byte <code>b</code> to this stream. */
-    public final void writeByte(final byte b) throws IOException {
+    public void writeByte(final byte b) throws IOException {
         this.buff[this.len++] = b;
         if (this.buff.length == this.len) {
             // write buffer to underlying stream
@@ -139,14 +139,14 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
     
     /** Write the boolean value <code>b</code> to this stream as
         a single byte. */
-    public final void writeBoolean(final boolean bool) throws IOException {
+    public void writeBoolean(final boolean bool) throws IOException {
         final byte b = (bool ? (byte)1 : (byte)0);
         this.writeByte(b);
     }
     
     /** Write the short value <code>s</code> to this stream as
         two bytes. */
-    public final void writeShort(final short s) throws IOException {
+    public void writeShort(final short s) throws IOException {
         this.temp[0] = (byte) ((s >>> 8) & 0xff);
         this.temp[1] = (byte) (s & 0xff);
         this.write(this.temp, 0, 2);
@@ -155,7 +155,7 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
     /** Write the integer value <code>i</code> to this stream as
         four bytes. */
     @Override
-    public final void writeInt(final int i) throws IOException {
+    public void writeInt(final int i) throws IOException {
         this.temp[0] = (byte) ((i >>> 24) & 0xff);
         this.temp[1] = (byte) ((i >>> 16) & 0xff);
         this.temp[2] = (byte) ((i >>> 8) & 0xff);
@@ -165,7 +165,7 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
     
     /** Write the long value <code>l</code> to this stream as
         eight bytes. */
-    public final void writeLong(final long l) throws IOException {
+    public void writeLong(final long l) throws IOException {
         this.temp[0] = (byte) ((l >>> 56) & 0xff);
         this.temp[1] = (byte) ((l >>> 48) & 0xff);
         this.temp[2] = (byte) ((l >>> 40) & 0xff);
@@ -179,20 +179,20 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
     
     /** Write the float value <code>f</code> to this stream as
         four bytes. */
-    public final void writeFloat(final float f) throws IOException {
+    public void writeFloat(final float f) throws IOException {
 	    this.writeInt(Float.floatToIntBits(f));
     }
     
     /** Write the double value <code>d</code> to this stream as
         eight bytes. */
-    public final void writeDouble(final double d) throws IOException {
+    public void writeDouble(final double d) throws IOException {
 	    this.writeLong(Double.doubleToLongBits(d));
     }
 
     /** Write the characters of the string <code>s</code> to this
         stream as a sequence of bytes. */
     @Override
-    public final void writeString(final String s) throws IOException {
+    public void writeString(final String s) throws IOException {
         int n = s.length();
         int off = 0;
         while (n > 0) {
@@ -209,7 +209,7 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
     
     /** Write <code>n</code> characters of <code>chars</code> starting 
         at offset <code>off</code> to this stream as a sequence of bytes. */
-    public final void writeChars(final char[] chars, int off, final int n) throws IOException {
+    public void writeChars(final char[] chars, int off, final int n) throws IOException {
         final int finOff = off + n;
         while (off < finOff) {
             // Copy (part of) chars to this.buff
@@ -229,7 +229,7 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
         can be read back by <code>BufferedDataInputStream.readAnyString</code>,
         even if <code>s</code> is <code>null</code> or if it contains newline 
         characters. */
-    public final void writeAnyString(final String s) throws IOException {
+    public void writeAnyString(final String s) throws IOException {
       if (s == null) {
 	this.writeInt(-1);
       }
@@ -241,7 +241,7 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
     
     /** Write the characters of the string <code>s</code> to this
         stream as a sequence of bytes, followed by a newline. */
-    public final void writeLine(final String s) throws IOException {
+    public void writeLine(final String s) throws IOException {
         this.writeString(s);
         this.writeByte((byte) '\n');
     }

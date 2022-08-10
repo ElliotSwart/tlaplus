@@ -111,12 +111,12 @@ private final SymbolNode name;
   }
 
   @Override
-  public final void write(final IValueOutputStream vos) throws IOException {
+  public void write(final IValueOutputStream vos) throws IOException {
       throw new WrongInvocationException("TLCStateFun.write: This is a TLC bug.");
   }
   
   /* Returns a string representation of this state.  */
-  public final String toString() {
+  public String toString() {
     final StringBuilder sb = new StringBuilder("[");
     if (this != Empty) {
       sb.append(this.name.getName().toString());
@@ -135,7 +135,7 @@ private final SymbolNode name;
   }
   
   @Override
-  public final String toString(final TLCState lastState) {
+  public String toString(final TLCState lastState) {
       throw new WrongInvocationException("TLCStateFun.toString: This is a TLC bug.");
   }
   

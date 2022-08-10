@@ -128,7 +128,7 @@ public final class LongArray {
 	 * 
 	 * @throws IOException
 	 */
-	public final void zeroMemory()
+	public void zeroMemory()
 			throws IOException {
 		this.unsafe.setMemory(baseAddress, length * 8L, (byte) 0); // times 8L because it only writes a single byte.
 	}
@@ -144,7 +144,7 @@ public final class LongArray {
 	 *            Number of threads used to zero memory
 	 * @throws IOException
 	 */
-	public final void zeroMemory(final int numThreads)
+	public void zeroMemory(final int numThreads)
 			throws IOException {
 
 		final long segmentSize = (long) Math.floor(length / numThreads);
@@ -205,7 +205,7 @@ public final class LongArray {
 	 * @return true iff successful 
      * @throws IndexOutOfBoundsException
 	 */
-	public final boolean trySet(final long position, final long expected, final long value) {
+	public boolean trySet(final long position, final long expected, final long value) {
 		rangeCheck(position);
 		return this.unsafe.compareAndSwapLong(null, log2phy(position), expected, value);
 	}
@@ -218,7 +218,7 @@ public final class LongArray {
      * @param value element to be inserted
      * @throws IndexOutOfBoundsException
      */
-	public final void set(final long position, final long value) {
+	public void set(final long position, final long value) {
 		rangeCheck(position);
 		this.unsafe.putAddress(log2phy(position), value);
 	}
@@ -230,7 +230,7 @@ public final class LongArray {
      * @return the element at the specified position in this array
      * @throws IndexOutOfBoundsException
      */
-	public final long get(final long position) {
+	public long get(final long position) {
 		rangeCheck(position);
 		return this.unsafe.getAddress(log2phy(position));
 	}
@@ -239,7 +239,7 @@ public final class LongArray {
 	 * Swaps elements at pos1 and pos2. This is not atomic. The element at pos1
 	 * will for a moment not be an element of {@link LongArray}.
 	 */
-	public final void swap(final long position1, final long position2) {
+	public void swap(final long position1, final long position2) {
 		rangeCheck(position1);
 		rangeCheck(position2);
 		final long tmp = get(position1);
@@ -263,7 +263,7 @@ public final class LongArray {
      *
      * @return the number of elements in this array
      */
-	public final long size() {
+	public long size() {
 		return length;
 	}
 	
