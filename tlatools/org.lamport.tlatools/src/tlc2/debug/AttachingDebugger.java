@@ -109,7 +109,7 @@ public class AttachingDebugger extends TLCDebugger {
 			try (final ServerSocket serverSocket = new ServerSocket(port)) {
 				// Immediately re-open the debugger to front-end requests after a front-end disconnected.
 				//TODO: This doesn't terminate when TLC terminates.
-				while (true) {
+				while (!Thread.currentThread().isInterrupted()) {
 					// Beware: Do not remove "Debugger is listening on %s\n" below, because the
 					// debugger front-end of the VSCode extension waits for TLC to print this
 					// message when connecting to the TLA+ debugger:
@@ -123,9 +123,13 @@ public class AttachingDebugger extends TLCDebugger {
 					launcher.startListening().get(); // This blocks until the front-end disconnects.
 				}
 			}
+			catch (Exception e){
+				ToolIO.out.println(e);
+			}
 		});
 		return this;
 	}
+
 
 	@Override
 	public CompletableFuture<Void> launch(final Map<String, Object> args) {
