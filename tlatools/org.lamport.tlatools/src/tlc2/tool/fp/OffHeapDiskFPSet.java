@@ -788,7 +788,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 				loPage = midPage;
 				loVal = v;
 			} else {
-				return (midPage * 1L) * (NumEntriesPerPage * 1L);
+				return ((long) midPage) * ((long) NumEntriesPerPage);
 			}
 		}
 		// no page is in between loPage and hiPage at this point

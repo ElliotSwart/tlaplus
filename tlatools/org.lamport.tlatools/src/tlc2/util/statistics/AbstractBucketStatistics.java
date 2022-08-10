@@ -164,7 +164,7 @@ public abstract class AbstractBucketStatistics implements IBucketStatistics {
 		if (N <= 0) {
 			return -1.0d;
 		}
-		final double mean = getMean() * 1.0d;
+		final double mean = getMean();
 		double sum = 0.0d;
 		for (final Entry<Integer, Long> next : getSamples().entrySet()) {
 			final double Xi = next.getKey() * 1.0d;

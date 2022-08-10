@@ -24,7 +24,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile imp
 	// longer with larger buffer sizes.
 	static final int LogBuffSz = 13; // 8K buffer
     public static final int BuffSz = (1 << LogBuffSz);
-    static final int BuffMask = ~(BuffSz - 1);
+    static final int BuffMask = -BuffSz;
 
     /* This implementation is based on the buffer implementation in
        Modula-3's "Rd", "Wr", "RdClass", and "WrClass" interfaces. */
