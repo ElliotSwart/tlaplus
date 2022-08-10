@@ -1170,70 +1170,67 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                                 }
                                 // otherwise further analyze the expression
                                 switch (subscript.getKind()) {
-                                case OpApplKind: {
-                                    final OpApplNode subscript1 = (OpApplNode) subscript;
-                                    final SymbolNode opNode = subscript1.getOperator();
-                                    final ExprOrOpArgNode[] args = subscript1.getArgs();
-                                    final int opCode = BuiltInOPs.getOpCode(opNode.getName());
-                                    // if it's a tuple, recurse with its members
-                                    if (opCode == OPCODE_tup)
-                                    {
-                                        for (final ExprOrOpArgNode exprOrOpArgNode : args) {
-                                            this.enter((ExprNode) exprOrOpArgNode, c);
+                                    case OpApplKind -> {
+                                        final OpApplNode subscript1 = (OpApplNode) subscript;
+                                        final SymbolNode opNode = subscript1.getOperator();
+                                        final ExprOrOpArgNode[] args = subscript1.getArgs();
+                                        final int opCode = BuiltInOPs.getOpCode(opNode.getName());
+                                        // if it's a tuple, recurse with its members
+                                        if (opCode == OPCODE_tup) {
+                                            for (final ExprOrOpArgNode exprOrOpArgNode : args) {
+                                                this.enter((ExprNode) exprOrOpArgNode, c);
+                                            }
+                                            return;
                                         }
+                                        // all other built-in operators are ignored
+                                        else if (opCode != 0) {
+                                            return;
+                                        }
+                                        // user-defined operator: look up its definition
+                                        final Object opDef = symbolNodeValueLookupProvider.lookup(opNode, c, false, toolId);
+                                        if (opDef instanceof final OpDefNode opDef1) {
+                                            this.enter(opDef1.getBody(), symbolNodeValueLookupProvider.getOpContext(opDef1, args, c, false, toolId));
+                                            return;
+                                        }
+                                        if (opDef instanceof final LazyValue lv) {
+                                            this.enter((ExprNode) lv.expr, lv.con);
+                                            return;
+                                        }
+                                        // ignore overridden operators etc
+                                        break;
+                                    }
+                                    case SubstInKind -> {
+                                        final SubstInNode subscript1 = (SubstInNode) subscript;
+                                        final Subst[] subs = subscript1.getSubsts();
+                                        Context c1 = c;
+                                        for (final Subst sub : subs) {
+                                            c1 = c1.cons(sub.getOp(), symbolNodeValueLookupProvider.getVal(sub.getExpr(), c, false, toolId));
+                                        }
+                                        this.enter(subscript1.getBody(), c1);
                                         return;
                                     }
-                                    // all other built-in operators are ignored
-                                    else if (opCode != 0)
-                                    {
+                                    case LetInKind -> { // a bit strange, but legal...
+                                        // note: the let-bound values become constants
+                                        // so they are uninteresting for our purposes
+                                        final LetInNode subscript1 = (LetInNode) subscript;
+                                        this.enter(subscript1.getBody(), c);
                                         return;
                                     }
-                                    // user-defined operator: look up its definition
-                                    final Object opDef = symbolNodeValueLookupProvider.lookup(opNode, c, false, toolId);
-                                    if (opDef instanceof final OpDefNode opDef1)
-                                    {
-                                        this.enter(opDef1.getBody(), symbolNodeValueLookupProvider.getOpContext(opDef1, args, c, false, toolId));
-                                        return;
-                                    }
-                                    if (opDef instanceof final LazyValue lv)
-                                    {
-                                        this.enter((ExprNode) lv.expr, lv.con);
-                                        return;
-                                    }
-                                    // ignore overridden operators etc
-                                    break;
-                                }
-                                case SubstInKind: {
-                                    final SubstInNode subscript1 = (SubstInNode) subscript;
-                                    final Subst[] subs = subscript1.getSubsts();
-                                    Context c1 = c;
-                                    for (final Subst sub : subs) {
-                                        c1 = c1.cons(sub.getOp(), symbolNodeValueLookupProvider.getVal(sub.getExpr(), c, false, toolId));
-                                    }
-                                    this.enter(subscript1.getBody(), c1);
-                                    return;
-                                }
-                                case LetInKind: { // a bit strange, but legal...
-                                    // note: the let-bound values become constants
-                                    // so they are uninteresting for our purposes
-                                    final LetInNode subscript1 = (LetInNode) subscript;
-                                    this.enter(subscript1.getBody(), c);
-                                    return;
-                                }
+
                                     /***********************************************************
-                                    * LabelKind case added by LL on 13 Jun 2007.               *
-                                    ***********************************************************/
-                                case LabelKind: { // unlikely, but probably legal...
-                                    final LabelNode subscript1 = (LabelNode) subscript;
-                                    this.enter((ExprNode) subscript1.getBody(), c);
-                                    /*******************************************************
-                                    * Cast to ExprNode added by LL on 19 May 2008 because  *
-                                    * of change to LabelNode class.                        *
-                                    *******************************************************/
-                                    return;
-                                }
-                                default: // give up
-                                    Assert.fail(EC.TLC_CANT_HANDLE_SUBSCRIPT, subscript.toString());
+                                     * LabelKind case added by LL on 13 Jun 2007.               *
+                                     ***********************************************************/
+                                    case LabelKind -> { // unlikely, but probably legal...
+                                        final LabelNode subscript1 = (LabelNode) subscript;
+                                        this.enter((ExprNode) subscript1.getBody(), c);
+                                        /*******************************************************
+                                         * Cast to ExprNode added by LL on 19 May 2008 because  *
+                                         * of change to LabelNode class.                        *
+                                         *******************************************************/
+                                        return;
+                                    }
+                                    default -> // give up
+                                            Assert.fail(EC.TLC_CANT_HANDLE_SUBSCRIPT, subscript.toString());
                                 }
                             }
 
@@ -1505,150 +1502,148 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     private void processConstants(final SemanticNode expr)
     {
         switch (expr.getKind()) {
-        case ModuleKind: {
-            final ModuleNode expr1 = (ModuleNode) expr;
-            // Process operator definitions:
-            final OpDefNode[] opDefs = expr1.getOpDefs();
-            for (final OpDefNode opDef : opDefs) {
-                final Object def = opDef.getToolObject(toolId);
-                if (def instanceof OpDefNode odn) {
-                    this.processedDefs.add(odn);
-                    this.processConstants(odn.getBody());
-                }
-                this.processConstants(opDef.getBody());
-            }
-            // Process all the inner modules:
-            final ModuleNode[] imods = expr1.getInnerModules();
-            for (final ModuleNode imod : imods) {
-                this.processConstants(imod);
-            }
-            // Process all the assumptions:
-            final AssumeNode[] assumps = expr1.getAssumptions();
-            for (final AssumeNode assump : assumps) {
-                this.processConstants(assump);
-            }
-            // On 13 Nov 2009, Yuan Yu added the following
-            // processing of all TheoremNodes, which was needed to
-            // allow Theorem and Assumption names to be used as expressions.
-            //
-            // Process all the theorems:
-            final TheoremNode[] thms = expr1.getTheorems();
-            for (final TheoremNode thm : thms) {
-                this.processConstants(thm);
-            }
-
-            return;
-        }
-        case OpApplKind: {
-            final OpApplNode expr1 = (OpApplNode) expr;
-            final SymbolNode opNode = expr1.getOperator();
-            final Object val = this.defns.get(opNode.getName());
-            if (val != null)
-            {
-                opNode.setToolObject(toolId, val);
-            } else
-            {
-                final SemanticNode[] args = expr1.getArgs();
-                for (final SemanticNode arg : args) {
-                    if (arg != null) {
-                        this.processConstants(arg);
+            case ModuleKind -> {
+                final ModuleNode expr1 = (ModuleNode) expr;
+                // Process operator definitions:
+                final OpDefNode[] opDefs = expr1.getOpDefs();
+                for (final OpDefNode opDef : opDefs) {
+                    final Object def = opDef.getToolObject(toolId);
+                    if (def instanceof OpDefNode odn) {
+                        this.processedDefs.add(odn);
+                        this.processConstants(odn.getBody());
                     }
+                    this.processConstants(opDef.getBody());
                 }
-                final ExprNode[] bnds = expr1.getBdedQuantBounds();
-                for (final ExprNode bnd : bnds) {
-                    this.processConstants(bnd);
+                // Process all the inner modules:
+                final ModuleNode[] imods = expr1.getInnerModules();
+                for (final ModuleNode imod : imods) {
+                    this.processConstants(imod);
                 }
-            }
-            return;
-        }
-        case LetInKind: {
-            final LetInNode expr1 = (LetInNode) expr;
-            final OpDefNode[] letDefs = expr1.getLets();
-            for (final OpDefNode letDef : letDefs) {
-                this.processConstants(letDef.getBody());
-            }
-            this.processConstants(expr1.getBody());
-            return;
-        }
-        case SubstInKind: {
-            final SubstInNode expr1 = (SubstInNode) expr;
-            final Subst[] subs = expr1.getSubsts();
-            for (final Subst sub : subs) {
-                this.processConstants(sub.getExpr());
-            }
-            this.processConstants(expr1.getBody());
-            return;
-        }
+                // Process all the assumptions:
+                final AssumeNode[] assumps = expr1.getAssumptions();
+                for (final AssumeNode assump : assumps) {
+                    this.processConstants(assump);
+                }
+                // On 13 Nov 2009, Yuan Yu added the following
+                // processing of all TheoremNodes, which was needed to
+                // allow Theorem and Assumption names to be used as expressions.
+                //
+                // Process all the theorems:
+                final TheoremNode[] thms = expr1.getTheorems();
+                for (final TheoremNode thm : thms) {
+                    this.processConstants(thm);
+                }
 
-        // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
-        case APSubstInKind: {
-            final APSubstInNode expr1 = (APSubstInNode) expr;
-            final Subst[] subs = expr1.getSubsts();
-            for (final Subst sub : subs) {
-                this.processConstants(sub.getExpr());
-            }
-            this.processConstants(expr1.getBody());
-            return;
-        }
-
-
-        case NumeralKind: {
-            final NumeralNode expr1 = (NumeralNode) expr;
-            final IntValue val = IntValue.gen(expr1.val());
-            // LL added this test on 20 Jul 2011; otherwise
-            // TLC treats a number bigger than MAX_VALUE 
-            // (2^31-1 or 2,147,483,647) as if it equals 0.
-            if (expr1.bigVal() != null) {
-            	Assert.fail(EC.TLC_INTEGER_TOO_BIG, expr1.toString());
                 return;
             }
-            expr1.setToolObject(toolId, val);
-            return;
-        }
-        case DecimalKind: {
-            final DecimalNode expr1 = (DecimalNode) expr; // SZ: using typed variable
-            Assert.fail(EC.TLC_CANT_HANDLE_REAL_NUMBERS, expr1.toString());
-            return;
-        }
-        case StringKind: {
-            final StringNode expr1 = (StringNode) expr;
-            final StringValue val = new StringValue(expr1.getRep());
-            expr1.setToolObject(toolId, val);
-            return;
-        }
-        case AssumeKind: {
-            final AssumeNode expr1 = (AssumeNode) expr;
-            this.processConstants(expr1.getAssume());
-            return;
-        }
-        // On 13 Nov 2009, Yuan Yu added the following case, which was
-        // needed to allow Theorem and Assumption names to be used as 
-        // expressions.
-        //
-        case TheoremKind:
-          {
-        final TheoremNode expr1 = (TheoremNode)expr;
-        this.processConstants(expr1.getTheorem());
-        return;
-          }
-        case OpArgKind: {
-            final SymbolNode opArgNode = ((OpArgNode) expr).getOp();
-            if (opArgNode.getKind() == UserDefinedOpKind)
-            {   final OpDefNode opdef = (OpDefNode) opArgNode ;
-                if (! processedDefs.contains(opdef)) {
-                	processedDefs.add(opdef) ;
-                	this.processConstants(opdef.getBody());
+            case OpApplKind -> {
+                final OpApplNode expr1 = (OpApplNode) expr;
+                final SymbolNode opNode = expr1.getOperator();
+                final Object val = this.defns.get(opNode.getName());
+                if (val != null) {
+                    opNode.setToolObject(toolId, val);
+                } else {
+                    final SemanticNode[] args = expr1.getArgs();
+                    for (final SemanticNode arg : args) {
+                        if (arg != null) {
+                            this.processConstants(arg);
+                        }
+                    }
+                    final ExprNode[] bnds = expr1.getBdedQuantBounds();
+                    for (final ExprNode bnd : bnds) {
+                        this.processConstants(bnd);
+                    }
                 }
+                return;
             }
-            return;
-        }
+            case LetInKind -> {
+                final LetInNode expr1 = (LetInNode) expr;
+                final OpDefNode[] letDefs = expr1.getLets();
+                for (final OpDefNode letDef : letDefs) {
+                    this.processConstants(letDef.getBody());
+                }
+                this.processConstants(expr1.getBody());
+                return;
+            }
+            case SubstInKind -> {
+                final SubstInNode expr1 = (SubstInNode) expr;
+                final Subst[] subs = expr1.getSubsts();
+                for (final Subst sub : subs) {
+                    this.processConstants(sub.getExpr());
+                }
+                this.processConstants(expr1.getBody());
+                return;
+            }
+
+
+            // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
+            case APSubstInKind -> {
+                final APSubstInNode expr1 = (APSubstInNode) expr;
+                final Subst[] subs = expr1.getSubsts();
+                for (final Subst sub : subs) {
+                    this.processConstants(sub.getExpr());
+                }
+                this.processConstants(expr1.getBody());
+                return;
+            }
+            case NumeralKind -> {
+                final NumeralNode expr1 = (NumeralNode) expr;
+                final IntValue val = IntValue.gen(expr1.val());
+                // LL added this test on 20 Jul 2011; otherwise
+                // TLC treats a number bigger than MAX_VALUE
+                // (2^31-1 or 2,147,483,647) as if it equals 0.
+                if (expr1.bigVal() != null) {
+                    Assert.fail(EC.TLC_INTEGER_TOO_BIG, expr1.toString());
+                    return;
+                }
+                expr1.setToolObject(toolId, val);
+                return;
+            }
+            case DecimalKind -> {
+                final DecimalNode expr1 = (DecimalNode) expr; // SZ: using typed variable
+                Assert.fail(EC.TLC_CANT_HANDLE_REAL_NUMBERS, expr1.toString());
+                return;
+            }
+            case StringKind -> {
+                final StringNode expr1 = (StringNode) expr;
+                final StringValue val = new StringValue(expr1.getRep());
+                expr1.setToolObject(toolId, val);
+                return;
+            }
+            case AssumeKind -> {
+                final AssumeNode expr1 = (AssumeNode) expr;
+                this.processConstants(expr1.getAssume());
+                return;
+            }
+
+            // On 13 Nov 2009, Yuan Yu added the following case, which was
+            // needed to allow Theorem and Assumption names to be used as
+            // expressions.
+            //
+            case TheoremKind -> {
+                final TheoremNode expr1 = (TheoremNode) expr;
+                this.processConstants(expr1.getTheorem());
+                return;
+            }
+            case OpArgKind -> {
+                final SymbolNode opArgNode = ((OpArgNode) expr).getOp();
+                if (opArgNode.getKind() == UserDefinedOpKind) {
+                    final OpDefNode opdef = (OpDefNode) opArgNode;
+                    if (!processedDefs.contains(opdef)) {
+                        processedDefs.add(opdef);
+                        this.processConstants(opdef.getBody());
+                    }
+                }
+                return;
+            }
+
             /***********************************************************************
              * LabelKind case added by LL on 13 Jun 2007.                           *
              ***********************************************************************/
-        case LabelKind: {
-            final LabelNode expr1 = (LabelNode) expr;
-            this.processConstants(expr1.getBody());
-        }
+            case LabelKind -> {
+                final LabelNode expr1 = (LabelNode) expr;
+                this.processConstants(expr1.getBody());
+            }
         }
     }
 

@@ -59,13 +59,13 @@ public abstract class SemanticNode
   public static void setErrors(final Errors errs) { errors.set(errs);}
 
   public static String levelToString(final int level) {
-    switch (level) {
-      case ConstantLevel: return level + " (Constant)";
-      case VariableLevel: return level + " (Variable)";
-      case ActionLevel:   return level + " (Action)";
-      case TemporalLevel: return level + " (Temporal)";
-      default:            return level + " (Illegal)";
-    }
+      return switch (level) {
+          case ConstantLevel -> level + " (Constant)";
+          case VariableLevel -> level + " (Variable)";
+          case ActionLevel -> level + " (Action)";
+          case TemporalLevel -> level + " (Temporal)";
+          default -> level + " (Illegal)";
+      };
   }
 
   /**

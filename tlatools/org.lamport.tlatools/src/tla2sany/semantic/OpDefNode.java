@@ -1379,15 +1379,12 @@ public boolean addLabel(final LabelNode odn) {
   
   @Override
   protected String getNodeRef() {
-    switch (getKind()) {
-      case UserDefinedOpKind:
-        return "UserDefinedOpKindRef";
-      case BuiltInKind:
-        return "BuiltInKindRef";
-      case ModuleInstanceKind:
-        return "ModuleInstanceKindRef";
-      default: throw new IllegalArgumentException("unsupported kind: " + getKind() + " in xml export");
-    }
+      return switch (getKind()) {
+          case UserDefinedOpKind -> "UserDefinedOpKindRef";
+          case BuiltInKind -> "BuiltInKindRef";
+          case ModuleInstanceKind -> "ModuleInstanceKindRef";
+          default -> throw new IllegalArgumentException("unsupported kind: " + getKind() + " in xml export");
+      };
   }
 
   @Override

@@ -280,13 +280,13 @@ public class TLAToken
       /*********************************************************************
       * This is used to print a TLAToken for debugging.                    *
       *********************************************************************/
-      { String typeName = "";
-        switch (type) 
-          { case BUILTIN    : typeName = "BUILTIN"    ; break ;
-            case NUMBER     : typeName = "NUMBER"     ; break ;
-            case STRING     : typeName = "STRING"     ; break ;
-            case IDENT      : typeName = "IDENT"      ; break ;
-          }
+      { String typeName = switch (type) {
+          case BUILTIN -> "BUILTIN";
+          case NUMBER -> "NUMBER";
+          case STRING -> "STRING";
+          case IDENT -> "IDENT";
+          default -> "";
+      };
           String str = "\"" + string + "\"" ;
         if (string == null) {str = "null";}
 

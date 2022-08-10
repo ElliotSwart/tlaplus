@@ -20,13 +20,10 @@ private int jjStopAtPos(final int pos, final int kind)
 }
 private int jjMoveStringLiteralDfa0_1()
 {
-   switch(curChar)
-   {
-      case 42:
-         return jjMoveStringLiteralDfa1_1(0x20L);
-      default :
-         return 1;
-   }
+   return switch (curChar) {
+      case 42 -> jjMoveStringLiteralDfa1_1(0x20L);
+      default -> 1;
+   };
 }
 private int jjMoveStringLiteralDfa1_1(final long active0)
 {
@@ -74,13 +71,10 @@ private int jjStartNfaWithStates_0(final int pos, final int kind, final int stat
 }
 private int jjMoveStringLiteralDfa0_0()
 {
-   switch(curChar)
-   {
-      case 40:
-         return jjMoveStringLiteralDfa1_0(0x10L);
-      default :
-         return jjMoveNfa_0(7, 0);
-   }
+   return switch (curChar) {
+      case 40 -> jjMoveStringLiteralDfa1_0(0x10L);
+      default -> jjMoveNfa_0(7, 0);
+   };
 }
 private int jjMoveStringLiteralDfa1_0(final long active0)
 {
@@ -958,9 +952,9 @@ private int jjMoveNfa_0(final int startState, int curPos)
          final long l2 = 1L << (curChar & 077);
          MatchLoop: do
          {
-            switch(jjstateSet[--i])
-            {
-               default : break;
+            switch (jjstateSet[--i]) {
+               default -> {
+               }
             }
          } while(i != startsAt);
       }
@@ -1094,28 +1088,27 @@ public final Token getNextToken()
 
    for (;;)
    {
-     switch(curLexState)
-     {
-       case 0:
-         try {
-            while (curChar <= 32 && (0x100000600L & (1L << curChar)) != 0L)
-               curChar = input_stream.BeginToken();
+      switch (curLexState) {
+         case 0 -> {
+            try {
+               while (curChar <= 32 && (0x100000600L & (1L << curChar)) != 0L)
+                  curChar = input_stream.BeginToken();
+            } catch (final java.io.IOException e1) {
+               continue EOFLoop;
+            }
+            jjmatchedKind = 0x7fffffff;
+            jjmatchedPos = 0;
+            curPos = jjMoveStringLiteralDfa0_0();
          }
-         catch (final java.io.IOException e1) { continue EOFLoop; }
-         jjmatchedKind = 0x7fffffff;
-         jjmatchedPos = 0;
-         curPos = jjMoveStringLiteralDfa0_0();
-         break;
-       case 1:
-         jjmatchedKind = 0x7fffffff;
-         jjmatchedPos = 0;
-         curPos = jjMoveStringLiteralDfa0_1();
-         if (jjmatchedPos == 0 && jjmatchedKind > 6)
-         {
-            jjmatchedKind = 6;
+         case 1 -> {
+            jjmatchedKind = 0x7fffffff;
+            jjmatchedPos = 0;
+            curPos = jjMoveStringLiteralDfa0_1();
+            if (jjmatchedPos == 0 && jjmatchedKind > 6) {
+               jjmatchedKind = 6;
+            }
          }
-         break;
-     }
+      }
      if (jjmatchedKind != 0x7fffffff)
      {
         if (jjmatchedPos + 1 < curPos)
@@ -1185,10 +1178,9 @@ public final Token getNextToken()
 
 final void SkipLexicalActions(final Token matchedToken)
 {
-   switch(jjmatchedKind)
-   {
-      default :
-         break;
+   switch (jjmatchedKind) {
+      default -> {
+      }
    }
 }
 }

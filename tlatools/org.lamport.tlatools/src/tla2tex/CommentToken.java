@@ -376,19 +376,19 @@ public class CommentToken extends Token
       *********************************************************************/
       { String rstypeName = "";
         String stypeName = "";
-        switch (rsubtype) 
-          { case NORMAL        : rstypeName = "NORMAL"        ; break ;
-            case LINE          : rstypeName = "LINE"          ; break ;
-            case BEGIN_OVERRUN : rstypeName = "BEGIN_OVERRUN" ; break ;
-            case END_OVERRUN   : rstypeName = "END_OVERRUN"   ; break ;
-            case OVERRUN       : rstypeName = "OVERRUN"       ; break ;
+          switch (rsubtype) {
+              case NORMAL -> rstypeName = "NORMAL";
+              case LINE -> rstypeName = "LINE";
+              case BEGIN_OVERRUN -> rstypeName = "BEGIN_OVERRUN";
+              case END_OVERRUN -> rstypeName = "END_OVERRUN";
+              case OVERRUN -> rstypeName = "OVERRUN";
           }
-          switch (subtype)
-          { case ONE_LINE      : stypeName = "ONE_LINE"      ; break ;
-            case BEGIN_MULTI   : stypeName = "BEGIN_MULTI"   ; break ;
-            case MULTI         : stypeName = "MULTI"         ; break ;
-            case NULL          : stypeName = "NULL"          ; break ;
-            case PAR           : stypeName = "PAR"           ; break ;
+          switch (subtype) {
+              case ONE_LINE -> stypeName = "ONE_LINE";
+              case BEGIN_MULTI -> stypeName = "BEGIN_MULTI";
+              case MULTI -> stypeName = "MULTI";
+              case NULL -> stypeName = "NULL";
+              case PAR -> stypeName = "PAR";
           }
           return Misc.BreakLine( mostOfString() +
                           ",\t subtype |-> " + stypeName + 
