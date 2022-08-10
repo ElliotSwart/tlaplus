@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class WorkerMonitor {
 
-	private static final Set<ThreadListener> listeners = new HashSet<ThreadListener>();
+	private static final Set<ThreadListener> listeners = new HashSet<>();
 	
 	public static void addPerformanceResult(final Thread thread, final long runningTime) {
 		for (final ThreadListener threadListener : listeners) {

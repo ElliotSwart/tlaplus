@@ -546,7 +546,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 			// TODO is it ok here?
 			final PrintWriter pw = new PrintWriter(FileUtil.newBFOS(fileName));
 			pw.println("---------------- MODULE " + fileName + " -----------------");
-			final StateVec stateTrace = ((Supplier<StateVec>) this::getTrace).get();
+			final StateVec stateTrace = getTrace();
 			for (int idx = 0; idx < stateTrace .size(); idx++) {
 				pw.println("STATE_" + (idx + 1) + " == ");
 				pw.println(stateTrace.elementAt(idx) + "\n");

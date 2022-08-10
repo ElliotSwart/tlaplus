@@ -505,12 +505,10 @@ public abstract class Tool
             case OpApplKind -> {
                 final OpApplNode pred1 = (OpApplNode) pred;
                 this.collectPrimedLocsAppl(pred1, c, tbl);
-                return;
             }
             case LetInKind -> {
                 final LetInNode pred1 = (LetInNode) pred;
                 this.collectPrimedLocs(pred1.getBody(), c, tbl);
-                return;
             }
             case SubstInKind -> {
                 final SubstInNode pred1 = (SubstInNode) pred;
@@ -520,7 +518,6 @@ public abstract class Tool
                     c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, toolId));
                 }
                 this.collectPrimedLocs(pred1.getBody(), c, tbl);
-                return;
             }
 
 
@@ -533,7 +530,6 @@ public abstract class Tool
                     c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, toolId));
                 }
                 this.collectPrimedLocs(pred1.getBody(), c, tbl);
-                return;
             }
 
 
@@ -557,13 +553,11 @@ public abstract class Tool
             case OPCODE_fa, OPCODE_aa -> // AngleAct <A>_e
             {
                 this.collectPrimedLocs(args[0], c, tbl);
-                break;
             }
             case OPCODE_ite -> // IfThenElse
             {
                 this.collectPrimedLocs(args[1], c, tbl);
                 this.collectPrimedLocs(args[2], c, tbl);
-                break;
             }
             case OPCODE_case -> // Case
             {
@@ -571,7 +565,6 @@ public abstract class Tool
                     final OpApplNode pair = (OpApplNode) arg;
                     this.collectPrimedLocs(pair.getArgs()[1], c, tbl);
                 }
-                break;
             }
             // x' = 42
             case OPCODE_eq, OPCODE_in -> { // x' \in S (eq case "falls through")
@@ -579,7 +572,6 @@ public abstract class Tool
                 if (var != null && var.getName().getVarLoc(variables.length) != -1) {
                     tbl.put(pred, 0);
                 }
-                break;
             }
             // ConjList
             // DisjList
@@ -590,17 +582,14 @@ public abstract class Tool
                 for (final ExprOrOpArgNode arg : args) {
                     this.collectPrimedLocs(arg, c, tbl);
                 }
-                break;
             }
             case OPCODE_unchanged -> {
                 this.collectUnchangedLocs(args[0], c, tbl);
-                break;
             }
             case OPCODE_sa -> // [A]_e
             {
                 this.collectPrimedLocs(args[0], c, tbl);
                 tbl.put(args[1], 0);
-                break;
             }
             default -> {
                 if (opcode == 0) {
@@ -976,12 +965,10 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           case OpApplKind -> {
               final OpApplNode next1 = (OpApplNode) next;
               this.getActionsAppl(next1, con, opDefNode, cm);
-              return;
           }
           case LetInKind -> {
               final LetInNode next1 = (LetInNode) next;
               this.getActions(next1.getBody(), con, opDefNode, cm);
-              return;
           }
           case SubstInKind -> {
               final SubstInNode next1 = (SubstInNode) next;
@@ -992,7 +979,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                   final Action action = new Action(next1, con, opDefNode);
                   this.actionVec.addElement(action);
               }
-              return;
           }
 
 
@@ -1006,7 +992,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                   final Action action = new Action(next1, con, opDefNode);
                   this.actionVec.addElement(action);
               }
-              return;
           }
 
 
@@ -1016,7 +1001,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           case LabelKind -> {
               final LabelNode next1 = (LabelNode) next;
               this.getActions(next1.getBody(), con, opDefNode, cm);
-              return;
           }
           default -> Assert.fail("The next state relation is not a boolean expression.\n" + next, next, con);
       }
@@ -1087,14 +1071,12 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                   this.actionVec.removeAll(cnt);
                   this.actionVec.addElement(action);
               }
-              return;
           }
           // DisjList
           case OPCODE_dl, OPCODE_lor -> {
               for (final ExprOrOpArgNode arg : args) {
                   this.getActions(arg, con, actionName, cm);
               }
-              return;
           }
           default -> {
               // We handle all the other builtin operators here.
@@ -1162,12 +1144,10 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           case OpApplKind -> {
               final OpApplNode init1 = (OpApplNode) init;
               this.getInitStatesAppl(init1, acts, c, ps, states, cm);
-              return;
           }
           case LetInKind -> {
               final LetInNode init1 = (LetInNode) init;
               this.getInitStates(init1.getBody(), acts, c, ps, states, cm);
-              return;
           }
           case SubstInKind -> {
               final SubstInNode init1 = (SubstInNode) init;
@@ -1177,7 +1157,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                   c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, coverage ? sub.getCM() : cm, toolId));
               }
               this.getInitStates(init1.getBody(), acts, c1, ps, states, cm);
-              return;
           }
 
           // Added by LL on 13 Nov 2009 to handle theorem and assumption names.
@@ -1189,14 +1168,12 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                   c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, cm, toolId));
               }
               this.getInitStates(init1.getBody(), acts, c1, ps, states, cm);
-              return;
           }
 
           // LabelKind class added by LL on 13 Jun 2007
           case LabelKind -> {
               final LabelNode init1 = (LabelNode) init;
               this.getInitStates(init1.getBody(), acts, c, ps, states, cm);
-              return;
           }
           default -> Assert.fail("The init state relation is not a boolean expression.\n" + init, init, c);
       }
@@ -1324,7 +1301,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
               for (final ExprOrOpArgNode arg : args) {
                   this.getInitStates(arg, acts, c, ps, states, cm);
               }
-              return;
           }
           // ConjList
           case OPCODE_cl, OPCODE_land -> {
@@ -1332,7 +1308,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                   acts = (ActionItemList) acts.cons(args[i], c, cm, i);
               }
               this.getInitStates(args[0], acts, c, ps, states, cm);
-              return;
           }
           case OPCODE_be ->     // BoundedExists
           {
@@ -1342,7 +1317,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
               while ((c1 = Enum.nextElement()) != null) {
                   this.getInitStates(body, acts, c1, ps, states, cm);
               }
-              return;
           }
           case OPCODE_bf ->     // BoundedForall
           {
@@ -1359,7 +1333,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                   }
                   this.getInitStates(body, acts1, c1, ps, states, cm);
               }
-              return;
           }
           case OPCODE_ite ->    // IfThenElse
           {
@@ -1371,7 +1344,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
               }
               final int idx = (((BoolValue) guard).val) ? 1 : 2;
               this.getInitStates(args[idx], acts, c, ps, states, cm);
-              return;
           }
           case OPCODE_case ->   // Case
           {
@@ -1399,7 +1371,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                           " conditions true.\n" + init, init, c);
               }
               this.getInitStates(other, acts, c, ps, states, cm);
-              return;
           }
           case OPCODE_fa ->     // FcnApply
           {
@@ -1425,7 +1396,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
               if (((BoolValue) bval).val) {
                   this.getInitStates(acts, ps, states, cm);
               }
-              return;
           }
           case OPCODE_eq -> {
               final SymbolNode var = this.getVar(args[0], c, false, toolId);
@@ -1450,7 +1420,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                   }
               }
               this.getInitStates(acts, ps, states, cm);
-              return;
           }
           case OPCODE_in -> {
               final SymbolNode var = this.getVar(args[0], c, false, toolId);
@@ -1483,7 +1452,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                   }
               }
               this.getInitStates(acts, ps, states, cm);
-              return;
           }
           case OPCODE_implies -> {
               final Value lval = this.eval(args[0], c, ps, EmptyState, EvalControl.Init, cm);
@@ -1496,13 +1464,11 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
               } else {
                   this.getInitStates(acts, ps, states, cm);
               }
-              return;
           }
 
           // The following case added by LL on 13 Nov 2009 to handle subexpression names.
           case OPCODE_nop -> {
               this.getInitStates(args[0], acts, c, ps, states, cm);
-              return;
           }
           default -> {
               // For all the other builtin operators, simply evaluate:
