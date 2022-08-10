@@ -30,7 +30,7 @@ import java.io.IOException;
 
 public interface IDataInputStream {
 
-	int readInt() throws IOException, EOFException;
+	int readInt() throws IOException;
 
 	String readString(int slen) throws IOException;
 

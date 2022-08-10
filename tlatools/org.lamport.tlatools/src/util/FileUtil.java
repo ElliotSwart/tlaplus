@@ -127,7 +127,7 @@ public class FileUtil
         }
     }
 
-    public static InputStream newZFileInputStream(final String file) throws FileNotFoundException, IOException
+    public static InputStream newZFileInputStream(final String file) throws IOException
     {
         return new GZIPInputStream(new FileInputStream(file));
     }
@@ -459,7 +459,7 @@ public class FileUtil
     }
 
 
-    public static ObjectInputStream newOBFIS(final File file) throws FileNotFoundException, IOException
+    public static ObjectInputStream newOBFIS(final File file) throws IOException
     {
         return new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)));
     }

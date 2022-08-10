@@ -49,7 +49,7 @@ public interface IValueInputStream {
 
 	long readLongNat() throws IOException;
 
-	byte readByte() throws EOFException, IOException;
+	byte readByte() throws IOException;
 
 	void assign(Object obj, int idx);
 

@@ -522,7 +522,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		return seen;
 	}
 
-	private boolean doNextCheckInvariants(final TLCState curState, final TLCState succState) throws IOException, WorkerException, Exception {
+	private boolean doNextCheckInvariants(final TLCState curState, final TLCState succState) throws Exception {
         int k = 0;
 		try
         {
@@ -553,7 +553,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		return false;
 	}
 
-	private boolean doNextCheckImplied(final TLCState curState, final TLCState succState) throws IOException, WorkerException, Exception {
+	private boolean doNextCheckImplied(final TLCState curState, final TLCState succState) throws Exception {
 		int k = 0;
         try
         {

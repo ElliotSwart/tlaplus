@@ -140,7 +140,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     /** Reads <code>b.length</code> bytes into <code>b</code>, or
         throws <code>EOFException</code> if the stream contains fewer
         than <code>b.length</code> bytes. */
-    public void readFully(final byte[] b) throws IOException, EOFException {
+    public void readFully(final byte[] b) throws IOException {
         this.readFully(b, 0, b.length);
     }
     
@@ -149,7 +149,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         position <code>off</code>, or throws <code>EOFException</code>
         if the stream contains fewer than <code>n</code> bytes. */
     public void readFully(final byte[] b, int off, int n)
-      throws IOException, EOFException {
+      throws IOException {
         while (n > 0) {
             final int numRead = this.read(b, off, n);
             if (numRead < 0) throw new EOFException();
@@ -160,7 +160,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     /** REQUIRES LL = SELF */
     /** Reads and returns the next byte of this stream, or throws
         <code>EOFException</code> if the stream is exhausted. */
-    public byte readByte() throws IOException, EOFException {
+    public byte readByte() throws IOException {
         if (this.len < 0) throw new EOFException();
         final byte res = this.buff[this.curr++];
         if (this.curr == this.len) {
@@ -177,7 +177,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         encoded in the next byte of this stream, or
         throws <code>EOFException</code> if the stream is
         exhausted. */
-    public boolean readBoolean() throws IOException, EOFException {
+    public boolean readBoolean() throws IOException {
         return (this.readByte() != 0);
     }
     
@@ -186,7 +186,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         encoded in the next two bytes of this stream, or
         throw <code>EOFException</code> if the stream contains
         fewer than two bytes. */
-    public short readShort() throws IOException, EOFException {
+    public short readShort() throws IOException {
         this.readFully(this.temp, 0, 2);
         return (short) ((temp[0] << 8) | (temp[1] & 0xff));
     }
@@ -197,7 +197,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         throws <code>EOFException</code> if the stream contains
         fewer than four bytes. */
     @Override
-    public int readInt() throws IOException, EOFException {
+    public int readInt() throws IOException {
         this.readFully(this.temp, 0, 4);
         int res = temp[0];
         res <<= 8; res |= (temp[1] & 0xff);
@@ -211,7 +211,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
         encoded in the next eight bytes of this stream, or
         throws <code>EOFException</code> if the stream contains
         fewer than eight bytes. */
-    public long readLong() throws IOException, EOFException {
+    public long readLong() throws IOException {
         this.readFully(this.temp, 0, 8);
         long res = temp[0];
         res <<= 8; res |= (temp[1] & 0xff);
@@ -297,7 +297,7 @@ public final class BufferedDataInputStream extends FilterInputStream implements 
     /** Skips over the next <code>n</code> bytes in this stream,
         or throws <code>EOFException</code> if it contains fewer
         than <code>n</code> bytes. */
-    public void skip(int n) throws IOException, EOFException {
+    public void skip(int n) throws IOException {
         while (this.len > 0 && this.curr + n >= this.len) {
             n -= (this.len - this.curr);
             // refill buffer from underlying input stream

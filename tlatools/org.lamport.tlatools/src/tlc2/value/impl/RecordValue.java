@@ -674,7 +674,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
     }
   }
 
-	public static IValue createFrom(final IValueInputStream vos) throws EOFException, IOException {
+	public static IValue createFrom(final IValueInputStream vos) throws IOException {
 		final int index = vos.getIndex();
 		boolean isNorm = true;
 		int len = vos.readInt();
@@ -701,7 +701,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 		return res;
 	}
 
-	public static IValue createFrom(final ValueInputStream vos, final Map<String, UniqueString> tbl) throws EOFException, IOException {
+	public static IValue createFrom(final ValueInputStream vos, final Map<String, UniqueString> tbl) throws IOException {
 		final int index = vos.getIndex();
 		boolean isNorm = true;
 		int len = vos.readInt();

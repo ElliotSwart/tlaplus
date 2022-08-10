@@ -175,7 +175,7 @@ public final class ValueInputStream implements ValueConstants, IValueInputStream
   }
 
 	@Override
-	public byte readByte() throws EOFException, IOException {
+	public byte readByte() throws IOException {
 		return this.dis.readByte();
 	}
 

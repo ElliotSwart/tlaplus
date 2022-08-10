@@ -484,7 +484,7 @@ public class ModelChecker extends AbstractChecker
 		return seen;
 	}
 
-	private boolean doNextCheckInvariants(final ITool tool, final TLCState curState, final TLCState succState) throws IOException, WorkerException, Exception {
+	private boolean doNextCheckInvariants(final ITool tool, final TLCState curState, final TLCState succState) throws Exception {
         int k = 0;
 		try
         {
@@ -515,7 +515,7 @@ public class ModelChecker extends AbstractChecker
 		return false;
 	}
 
-	private boolean doNextCheckImplied(final ITool tool, final TLCState curState, final TLCState succState) throws IOException, WorkerException, Exception {
+	private boolean doNextCheckImplied(final ITool tool, final TLCState curState, final TLCState succState) throws Exception {
 		int k = 0;
         try
         {
@@ -593,7 +593,7 @@ public class ModelChecker extends AbstractChecker
 	}
 
 	final void doNextEvalFailed(final TLCState curState, final TLCState succState, final int ec, final String param, final Exception e)
-			throws IOException, WorkerException, Exception {
+			throws Exception {
 		synchronized (this) {
 		    if (this.setErrState(curState, succState, true, ec))
 		    {
@@ -607,7 +607,7 @@ public class ModelChecker extends AbstractChecker
 	}
 
 	final void doNextFailed(final TLCState curState, final TLCState succState, final Throwable e)
-			throws IOException, WorkerException, Throwable {
+			throws Throwable {
 		// Assert.printStack(e);
 		final boolean keep = ((e instanceof StackOverflowError) || (e instanceof OutOfMemoryError)
 		        || (e instanceof AssertionError));
