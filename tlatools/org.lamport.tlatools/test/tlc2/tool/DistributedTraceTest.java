@@ -44,7 +44,6 @@ public class DistributedTraceTest extends ModelCheckerTestCase {
 		super("DistributedTrace", EC.ExitStatus.VIOLATION_SAFETY);
 	}
 
-	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

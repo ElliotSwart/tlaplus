@@ -48,7 +48,6 @@ public class LoopTest extends ModelCheckerTestCase {
 		super("SystemLoop", "Loop", ExitStatus.VIOLATION_LIVENESS);
 	}
 
-	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

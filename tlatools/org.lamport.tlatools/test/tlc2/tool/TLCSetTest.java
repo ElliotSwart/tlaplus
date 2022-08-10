@@ -41,7 +41,6 @@ public class TLCSetTest extends ModelCheckerTestCase {
 		super("TLCSet");
 	}
 
-	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

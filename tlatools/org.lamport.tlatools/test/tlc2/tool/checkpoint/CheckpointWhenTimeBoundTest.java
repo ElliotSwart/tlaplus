@@ -29,10 +29,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import tlc2.TLC;
 import tlc2.output.EC;
 import tlc2.tool.liveness.ModelCheckerTestCase;
+import util.IndependentlyRunTest;
 
 public class CheckpointWhenTimeBoundTest extends ModelCheckerTestCase {
 
@@ -46,6 +48,7 @@ public class CheckpointWhenTimeBoundTest extends ModelCheckerTestCase {
 		super.setUp();
 	}
 
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states. 

@@ -49,7 +49,6 @@ public class Test3 extends ModelCheckerTestCase {
 		super("Test3", ExitStatus.VIOLATION_LIVENESS);
 	}
 
-	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

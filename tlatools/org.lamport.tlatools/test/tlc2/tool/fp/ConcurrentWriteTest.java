@@ -54,6 +54,7 @@ public class ConcurrentWriteTest {
 		tmpRAF.close();
 	}
 
+	@Category(ConcurrentTest.class)
 	@Test
 	public void test1() throws IOException {
 		final File tempFile = File.createTempFile("ConcurrentWriteTest_test1", ".bin");
@@ -98,7 +99,8 @@ public class ConcurrentWriteTest {
 		}
 		tmpRAF.close();
 	}
-	
+
+	@Category(ConcurrentTest.class)
 	@Test
 	public void test2() throws IOException {
 		final File tempFile = File.createTempFile("ConcurrentWriteTest_test2", ".bin");
@@ -147,7 +149,8 @@ public class ConcurrentWriteTest {
 		}
 		tmpRAF.close();
 	}
-	
+
+	@Category(ConcurrentTest.class)
 	@Test
 	public void test3() throws IOException, InterruptedException {
 		final File tempFile = File.createTempFile("ConcurrentWriteTest_test3", ".bin");
@@ -186,6 +189,7 @@ public class ConcurrentWriteTest {
 		tmpRAF.close();
 	}
 
+	@Category(ConcurrentTest.class)
 	@Test
 	public void test4() throws IOException, InterruptedException {
 		final File tempFile = File.createTempFile("ConcurrentWriteTest_test4", ".bin");

@@ -242,25 +242,29 @@ public class OffHeapDiskFPSetTest {
 		fpSet.close();
 		OffHeapDiskFPSet.clearSynchronizer();
 	}
-	
+
+	@Category(LongTest.class)
 	@Test
 	public void testOffset1Page() throws Exception {
 		final long length = DiskFPSet.NumEntriesPerPage;
 		doTestOffset(length, 1474536306841L);
 	}
-	
+
+	@Category(LongTest.class)
 	@Test
 	public void testOffset3Page() throws Exception {
 		final long length = DiskFPSet.NumEntriesPerPage * 3L;
 		doTestOffset(length, 1474536306841L);
 	}
-	
+
+	@Category(LongTest.class)
 	@Test
 	public void testOffset5Page() throws Exception {
 		final long length = DiskFPSet.NumEntriesPerPage * 5L;
 		doTestOffset(length, 1474536306841L);
 	}
-	
+
+	@Category(LongTest.class)
 	@Test
 	public void testOffset9Page() throws Exception {
 		final long length = DiskFPSet.NumEntriesPerPage * 9L;
@@ -314,6 +318,7 @@ public class OffHeapDiskFPSetTest {
 		return fp;
 	}
 
+	@Category(LongTest.class)
 	@Test
 	public void testWriteIndex() throws Exception {
 		final DummyFPSetConfiguration fpSetConfig = new DummyFPSetConfiguration();

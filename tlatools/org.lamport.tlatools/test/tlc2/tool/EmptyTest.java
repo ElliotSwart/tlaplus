@@ -42,7 +42,6 @@ public class EmptyTest extends ModelCheckerTestCase {
 		super("Empty", "", new String[] {"-coverage", "1"});
 	}
 
-	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

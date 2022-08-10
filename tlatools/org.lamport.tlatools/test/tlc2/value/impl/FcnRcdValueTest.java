@@ -163,7 +163,6 @@ public class FcnRcdValueTest {
 		}
 	}
 
-	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSelectBinarySearchTypedMV() {
 		final String str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

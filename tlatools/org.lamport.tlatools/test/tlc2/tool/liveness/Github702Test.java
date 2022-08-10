@@ -20,7 +20,6 @@ public class Github702Test extends ModelCheckerTestCase {
 		return false;
 	}
 
-	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_SUCCESS));

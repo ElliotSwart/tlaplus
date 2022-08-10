@@ -183,14 +183,11 @@
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 					<skip>true</skip>
 					<runOrder>alphabetical</runOrder>
-					<additionalClasspathElements>
-						<additionalClasspathElement>test-model/UserModuleOverrideFromJar.jar</additionalClasspathElement>
-						<additionalClasspathElement>test-model</additionalClasspathElement>
-					</additionalClasspathElements>
 					<systemProperties>
 						<tlc2.tool.fp.FPSet.impl>tlc2.tool.fp.OffHeapDiskFPSet</tlc2.tool.fp.FPSet.impl>
 						<tlc2.tool.distributed.TLCWorker.threadCount>4</tlc2.tool.distributed.TLCWorker.threadCount>
 					</systemProperties>
+					<excludedGroups>util.DebuggerTest,util.LongTest,util.TTraceTest, util.IndependentlyRunTest, util.ConcurrentTest</excludedGroups>
 					<!--<forkedProcessTimeoutInSeconds>20</forkedProcessTimeoutInSeconds>-->
 				</configuration>
 				<executions>
@@ -201,7 +198,7 @@
 						  </goals>
 						  <configuration>
 							<skip>false</skip>
-							<excludedGroups>util.DebuggerTest,util.LongTest,util.TTraceTest, util.IndependentlyRunTest</excludedGroups>
+							
 							<includes>
 								<include>pcal/**</include>
 								<include>tla2sany/**</include>
@@ -240,6 +237,10 @@
 								<include>tlc2/tool/UserModuleOverrideTest.java</include>
 								<include>tlc2/tool/UserModuleOverrideAnnotationTest.java</include>
 							</includes>
+							<additionalClasspathElements>
+								<additionalClasspathElement>test-model/UserModuleOverrideFromJar.jar</additionalClasspathElement>
+								<additionalClasspathElement>test-model</additionalClasspathElement>
+							</additionalClasspathElements>
 						</configuration>
 					</execution>
 					<execution>
@@ -249,13 +250,9 @@
 						  </goals>
 						  <configuration>
 							<skip>false</skip>
-							<excludedGroups>util.DebuggerTest,util.LongTest,util.TTraceTest,util.IndependentlyRunTest</excludedGroups>
 							<includes>
 								<include>tlc2/tool/fp/**</include>
 							</includes>
-							<excludes>
-								<exclude>tlc2/tool/fp/OffHeapDiskFPSetTest.java</exclude>
-							</excludes>
 						  </configuration>
 					</execution>
 					<execution>
@@ -265,7 +262,6 @@
 						  </goals>
 						  <configuration>
 							<skip>false</skip>
-							<excludedGroups>util.DebuggerTest,util.LongTest,util.TTraceTest, util.IndependentlyRunTest</excludedGroups>
 							<includes>
 								<include>tlc2/tool/suite/**</include>
 							</includes>
@@ -278,7 +274,6 @@
 						  </goals>
 						  <configuration>
 							<skip>false</skip>
-							<excludedGroups>util.DebuggerTest,util.LongTest,util.TTraceTest, util.IndependentlyRunTest</excludedGroups>
 							<includes>
 								<include>tlc2/value/**</include>
 							</includes>
@@ -292,7 +287,6 @@
 						  <configuration>
 							<skip>false</skip>
 							<reuseForks>true</reuseForks>
-							<excludedGroups>util.DebuggerTest,util.LongTest,util.TTraceTest, util.IndependentlyRunTest</excludedGroups>
 							<includes>
 								<include>tlc2/tool/liveness/**</include>
 							</includes>
@@ -306,6 +300,7 @@
 						  <configuration>
 							<skip>false</skip>
 							<groups>util.IndependentlyRunTest,util.DebuggerTest</groups>
+							<excludedGroups></excludedGroups>
 							<reuseForks>false</reuseForks>
 						  </configuration>
 					</execution>
@@ -316,6 +311,7 @@
 						  </goals>
 						<configuration>
 							<reuseForks>false</reuseForks>
+							<excludedGroups></excludedGroups>
 							<skip>false</skip>
 							<includes>
 								<include>**/*_TTraceTest.java</include>

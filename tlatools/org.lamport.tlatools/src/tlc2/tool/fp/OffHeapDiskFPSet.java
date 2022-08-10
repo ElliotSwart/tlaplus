@@ -71,6 +71,10 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 			this.sets.add(aSet);
 		}
 
+		public final void remove(final OffHeapDiskFPSet aSet){
+			this.sets.remove(aSet);
+		}
+
 		public final void clear() {
 			this.sets.removeAll(this.sets);
 			flusherChosen.compareAndSet(true, false); // If true, set to false;
@@ -124,7 +128,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 
 	@Override
 	public void close() throws Exception{
-		clearSynchronizer();
+		SYNC.remove(this);
 		super.close();
 	}
 
