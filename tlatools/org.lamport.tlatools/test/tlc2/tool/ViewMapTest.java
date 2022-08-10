@@ -61,7 +61,7 @@ public class ViewMapTest extends ModelCheckerTestCase {
 
 		assertTrue(recorder.recorded(EC.TLC_BEHAVIOR_UP_TO_THIS_POINT));
 		
-		final List<String> expectedTrace = new ArrayList<String>(8);
+		final List<String> expectedTrace = new ArrayList<>(8);
 		expectedTrace.add("/\\ buffer = <<>>\n/\\ waitset = {}");
 		expectedTrace.add("/\\ buffer = <<>>\n/\\ waitset = {c1}");
 		expectedTrace.add("/\\ buffer = <<>>\n/\\ waitset = {c1, c2}");

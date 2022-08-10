@@ -53,7 +53,7 @@ public class AssertExpressionStackTest extends ModelCheckerTestCase {
 
 		//assertNoTESpec();
 		
-		final List<String> expectedTrace = new ArrayList<String>(2);
+		final List<String> expectedTrace = new ArrayList<>(2);
 		expectedTrace.add("x = 0");
 		expectedTrace.add("x = 1");
 		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);

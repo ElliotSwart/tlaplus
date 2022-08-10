@@ -104,15 +104,15 @@ public class InliningTest extends ModelCheckerTestCase {
 		// For now we only care that methods in Tool get correctly inlined
 		// because its methods are guaranteed to be on the hot path.
 		Method[] dm = Tool.class.getDeclaredMethods();
-		for (int i = 0; i < dm.length; i++) {
-			if (dm[i].getAnnotation(ExpectInlined.class) != null) {
-				notIn(dm[i], notInlined);
+		for (Method value : dm) {
+			if (value.getAnnotation(ExpectInlined.class) != null) {
+				notIn(value, notInlined);
 			}
 		}
 		dm = FastTool.class.getDeclaredMethods();
-		for (int i = 0; i < dm.length; i++) {
-			if (dm[i].getAnnotation(ExpectInlined.class) != null) {
-				notIn(dm[i], notInlined);
+		for (Method method : dm) {
+			if (method.getAnnotation(ExpectInlined.class) != null) {
+				notIn(method, notInlined);
 			}
 		}
 	}

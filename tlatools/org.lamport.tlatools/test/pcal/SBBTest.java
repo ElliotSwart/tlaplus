@@ -55,7 +55,7 @@ public class SBBTest extends PCalModelCheckerTestCase {
 		assertEquals(15, recorder.getRecordAsInt(EC.TLC_SEARCH_DEPTH));
 
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>();
+		final List<String> expectedTrace = new ArrayList<>();
 		expectedTrace.add("""
 				/\\ availablebuffers = {b1, b2, b3}
 				/\\ publishedbuffers = {}

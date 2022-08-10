@@ -82,7 +82,7 @@ public class FPSetManagerTest {
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
 		fpSetConfiguration.setFpBits(1); // two nested FPSets
 
-		final List<FPSets> sets = new ArrayList<FPSets>();
+		final List<FPSets> sets = new ArrayList<>();
 		for (int i = 0; i < fpSetConfiguration.getMultiFPSetCnt(); i++) {
 			final FPSet fpSet = FPSetFactory.getFPSet(fpSetConfiguration);
 			fpSet.init(1, tmpdir, "test" + expectedNumOfServers);
@@ -102,7 +102,7 @@ public class FPSetManagerTest {
 			Assert.assertEquals(0, manager.getFPSetIndex((1L << 63) + 2L));
 			Assert.assertEquals(1, manager.getFPSetIndex((1L << 63) + 1L));
 
-			final Set<Long> fps = new HashSet<Long>();
+			final Set<Long> fps = new HashSet<>();
 			// fps.add(0L); // Not accepted by nested FPSets
 			fps.add(1L);              // 00...0001
 			fps.add((1L << 62) + 1L); // 01...0001
@@ -137,7 +137,7 @@ public class FPSetManagerTest {
 			fps.add((1L << 63) + 8L); // 10...1000
 			fps.add((3L << 62) + 8L); // 11...1000
 
-			final Set<Long> unseen = new HashSet<Long>(fps);
+			final Set<Long> unseen = new HashSet<>(fps);
 			for (final Long fp : fps) {
 				// Unseen fingerprints must not be in set.
 				for (final Long unseenFP : unseen) {

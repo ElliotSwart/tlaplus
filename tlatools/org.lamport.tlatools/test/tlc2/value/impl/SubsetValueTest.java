@@ -54,8 +54,8 @@ public class SubsetValueTest {
 
 	private static final Value[] getValue(final String... strs) {
 		final List<Value> values = new ArrayList<>(strs.length);
-		for (int i = 0; i < strs.length; i++) {
-			values.add(new StringValue(strs[i]));
+		for (String str : strs) {
+			values.add(new StringValue(str));
 		}
 		Collections.shuffle(values);
 		return values.toArray(new Value[values.size()]);
@@ -79,17 +79,14 @@ public class SubsetValueTest {
 		final SubsetValue subsetValue = new SubsetValue(innerSet);
 		assertEquals(expectedSize, subsetValue.size());
 
-		final Set<Value> s = new TreeSet<>(new Comparator<Value>() {
-			@Override
-			public int compare(final Value o1, final Value o2) {
-				// o1.normalize();
-				// ((SetEnumValue) o1).elems.sort(true);
-				//
-				// o2.normalize();
-				// ((SetEnumValue) o2).elems.sort(true);
+		final Set<Value> s = new TreeSet<>((o1, o2) -> {
+			// o1.normalize();
+			// ((SetEnumValue) o1).elems.sort(true);
+			//
+			// o2.normalize();
+			// ((SetEnumValue) o2).elems.sort(true);
 
-				return o1.compareTo(o2);
-			}
+			return o1.compareTo(o2);
 		});
 		
 		final ValueEnumeration elements = subsetValue.elements(expectedElements);
@@ -527,7 +524,7 @@ public class SubsetValueTest {
 		final ValueVec vec = new ValueVec(subset.size());
 		for (int i = 0; i <= inner.size(); i++) {
 			final List<Value> kElements = subset.kElements(i).all();
-			kElements.forEach(e -> vec.addElement(e));
+			kElements.forEach(vec::addElement);
 		}
         final Value unnormalized = new SetEnumValue(vec, false);
         
@@ -543,7 +540,7 @@ public class SubsetValueTest {
 
 		final ValueVec vec = new ValueVec(subset.size());
 		final ValueEnumeration bElements = subset.elementsNormalized();
-		bElements.forEach(e -> vec.addElement(e));
+		bElements.forEach(vec::addElement);
         final Value unnormalized = new SetEnumValue(vec, true);
         
         final Value normalized = subset.toSetEnum().normalize();

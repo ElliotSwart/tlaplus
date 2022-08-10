@@ -60,7 +60,7 @@ public class IncompleteNextMultipleActionsTest_TTraceTest extends TTraceModelChe
 		
 		// Assert the error trace
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(4);
+		final List<String> expectedTrace = new ArrayList<>(4);
 		expectedTrace.add("/\\ x = 0\n/\\ y = 0\n/\\ z = 0");
 		expectedTrace.add("/\\ x = 1\n/\\ y = null\n/\\ z = null");
 		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);

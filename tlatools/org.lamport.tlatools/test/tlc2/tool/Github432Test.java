@@ -63,28 +63,28 @@ public class Github432Test extends ModelCheckerTestCase {
 		final int testNumber = TEST_COUNTER.getAndIncrement();
 		final String humans;
 		final String others;
-		
+
 		switch (testNumber) {
-			case 0:
+			case 0 -> {
 				humans = "Alice";
 				others = "Cat, Dog";
-				expectedWarnings = new String[] {"", "Humans", "has", "s"};
-				break;
-			case 1:
+				expectedWarnings = new String[]{"", "Humans", "has", "s"};
+			}
+			case 1 -> {
 				humans = "";
 				others = "Emu";
-				expectedWarnings = new String[] {"s", "Humans, and Others", "have", ""};
-				break;
-			case 2:
+				expectedWarnings = new String[]{"s", "Humans, and Others", "have", ""};
+			}
+			case 2 -> {
 				humans = "Frank, Glenda";
 				others = "";
-				expectedWarnings = new String[] {"", "Others", "has", "s"};
-				break;
-			default:
+				expectedWarnings = new String[]{"", "Others", "has", "s"};
+			}
+			default -> {
 				humans = "Hauser, Ignatio";
 				others = "Jackal, Kangaroo";
 				expectedWarnings = null;
-				break;
+			}
 		}
 		
 		try {

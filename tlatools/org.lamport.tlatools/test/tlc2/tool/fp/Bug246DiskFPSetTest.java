@@ -71,7 +71,7 @@ public class Bug246DiskFPSetTest {
 			assertTrue("Expect not to have flushed to disk", growDiskMark == 0);
 			
 			// stats
-			final StringBuffer buf = new StringBuffer(100);
+			final StringBuilder buf = new StringBuilder(100);
 			buf.append("Bucket Capacity: " + bucketCapacity);
 			
 			buf.append("Tbl Capacity: " + tblCapacity);

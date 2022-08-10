@@ -55,7 +55,7 @@ public class April20bTest extends ModelCheckerTestCase {
 		
 		// Assert the error trace
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(6);
+		final List<String> expectedTrace = new ArrayList<>(6);
 		expectedTrace.add("/\\ x = <<>>\n" 
 						+ "/\\ y = 0");
 		expectedTrace.add("/\\ x = <<m2>>\n" 

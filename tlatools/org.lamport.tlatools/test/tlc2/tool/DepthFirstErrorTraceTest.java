@@ -57,7 +57,7 @@ public class DepthFirstErrorTraceTest extends ModelCheckerTestCase {
 		// Assert the error trace
 		assertFalse(recorder.recorded(EC.TLC_STATE_PRINT1));
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(5);
+		final List<String> expectedTrace = new ArrayList<>(5);
 		expectedTrace.add("x = 0");
 		expectedTrace.add("x = 1");
 		expectedTrace.add("x = 2");

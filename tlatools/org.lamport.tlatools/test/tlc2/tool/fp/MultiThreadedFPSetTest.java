@@ -120,30 +120,27 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 		startTimestamp = System.currentTimeMillis();
 
 		final Timer timer = new Timer();
-		final CyclicBarrier barrier = new CyclicBarrier(NUM_THREADS, new Runnable() {
-			@Override
-            public void run() {
-				// Start a periodic task to report progress. Do not do it as part of the
-				// FPGs below. It can drastically slow down an FPG selected to be the
-				// reporter.
-				final TimerTask reporter = new TimerTask() {
-					@Override
-                    public void run() {
-						final long currentSize = fpSet.size();
-						final long insertions = currentSize - previousSize;
-						if (fpSet instanceof FPSetStatistic) {
-							final FPSetStatistic fpSetStatistics = (FPSetStatistic) fpSet;
-							System.out.println(System.currentTimeMillis() + " s (epoch); " + df.format(insertions) + " insertions/min; " + pf.format(fpSetStatistics.getLoadFactor()) + " load factor");
-						} else {
-							System.out.println(System.currentTimeMillis() + " s (epoch); " + df.format(insertions) + " insertions/min");
-						}
-						previousSize = currentSize;
+		final CyclicBarrier barrier = new CyclicBarrier(NUM_THREADS, () -> {
+			// Start a periodic task to report progress. Do not do it as part of the
+			// FPGs below. It can drastically slow down an FPG selected to be the
+			// reporter.
+			final TimerTask reporter = new TimerTask() {
+				@Override
+public void run() {
+					final long currentSize = fpSet.size();
+					final long insertions = currentSize - previousSize;
+					if (fpSet instanceof FPSetStatistic) {
+						final FPSetStatistic fpSetStatistics = (FPSetStatistic) fpSet;
+						System.out.println(System.currentTimeMillis() + " s (epoch); " + df.format(insertions) + " insertions/min; " + pf.format(fpSetStatistics.getLoadFactor()) + " load factor");
+					} else {
+						System.out.println(System.currentTimeMillis() + " s (epoch); " + df.format(insertions) + " insertions/min");
 					}
-				};
-				// Take timestamp after instantiating FPSet to not measure zero'ing/initializing FPSet.  
-				startTimestamp = System.currentTimeMillis();
-				timer.scheduleAtFixedRate(reporter, 1L, 60 * 1000);
-			}
+					previousSize = currentSize;
+				}
+			};
+			// Take timestamp after instantiating FPSet to not measure zero'ing/initializing FPSet.
+			startTimestamp = System.currentTimeMillis();
+			timer.scheduleAtFixedRate(reporter, 1L, 60 * 1000);
 		});
 		
 		long seed = RNG_SEED;
@@ -166,8 +163,7 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 		long overallCollisions = 0L;
 		
 		// print stats
-		for (int i = 0; i < fpgs.length; i++) {
-			final FingerPrintGenerator fpg = fpgs[i];
+		for (final FingerPrintGenerator fpg : fpgs) {
 			final long puts = fpg.getPuts();
 			final long collisions = fpg.getCollisions();
 			System.out.println(String.format("Producer: %s, puts: %s, puts/collisions: %s", fpg.getId(), puts,

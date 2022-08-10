@@ -75,7 +75,7 @@ public class May09Test extends ModelCheckerTestCase {
 
 		// Assert the error trace
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(2);
+		final List<String> expectedTrace = new ArrayList<>(2);
 		expectedTrace.add("/\\ x = a\n/\\ y = 0");
 		expectedTrace.add("/\\ x = a\n/\\ y = 1");
 		expectedTrace.add("/\\ x = a\n/\\ y = 2");

@@ -158,23 +158,20 @@ public class ConcurrentWriteTest {
 		final long writers = 8L;
 		final long partition = limit / writers;
 
-		final Collection<Callable<Void>> tasks = new ArrayList<Callable<Void>>((int) writers);
+		final Collection<Callable<Void>> tasks = new ArrayList<>((int) writers);
 		for (long i = 0L; i < writers; i++) {
 			final long id = i;
-			tasks.add(new Callable<Void>() {
-				@Override
-                public Void call() throws Exception {
-					final RandomAccessFile tmpRAF = new BufferedRandomAccessFile(tempFile, "rw");
-					tmpRAF.setLength(limit * Long.BYTES);
-					tmpRAF.seek(id * partition * Long.BYTES);
+			tasks.add(() -> {
+				final RandomAccessFile tmpRAF = new BufferedRandomAccessFile(tempFile, "rw");
+				tmpRAF.setLength(limit * Long.BYTES);
+				tmpRAF.seek(id * partition * Long.BYTES);
 
-					for (long j = (id * partition); j < ((id + 1) * partition); j++) {
-						tmpRAF.writeLong(j);
-					}
-
-					tmpRAF.close();
-					return null;
+				for (long j = (id * partition); j < ((id + 1) * partition); j++) {
+					tmpRAF.writeLong(j);
 				}
+
+				tmpRAF.close();
+				return null;
 			});
 		}
 		
@@ -200,25 +197,22 @@ public class ConcurrentWriteTest {
 		tmpRAF.setLength(limit * Long.BYTES);
 		final FileChannel channel = tmpRAF.getChannel();
 
-		final Collection<Callable<Void>> tasks = new ArrayList<Callable<Void>>((int) writers);
+		final Collection<Callable<Void>> tasks = new ArrayList<>((int) writers);
 		for (long i = 0L; i < writers; i++) {
 			final long id = i;
-			tasks.add(new Callable<Void>() {
-				@Override
-                public Void call() throws Exception {
-					final long position = id * partition * Long.BYTES;
-					final ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES/* * 1024*/);
-					for (long j = (id * partition); j < ((id + 1) * partition); j++/*j+=1024L*/) {
+			tasks.add(() -> {
+				final long position = id * partition * Long.BYTES;
+				final ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES/* * 1024*/);
+				for (long j = (id * partition); j < ((id + 1) * partition); j++/*j+=1024L*/) {
 //						for (int i = 0; i < buffer.capacity(); i++) {
-							buffer.putLong(j/* + i*/);
-							buffer.flip();
+					buffer.putLong(j/* + i*/);
+					buffer.flip();
 //						}
-						channel.write(buffer, position + (j * Long.BYTES));
-						buffer.clear();
-					}
-					channel.force(false);
-					return null;
+					channel.write(buffer, position + (j * Long.BYTES));
+					buffer.clear();
 				}
+				channel.force(false);
+				return null;
 			});
 		};
 		

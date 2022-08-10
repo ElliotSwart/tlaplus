@@ -71,7 +71,7 @@ public class SymmetryModelCheckerTest3a extends ModelCheckerTestCase {
 
 		// Assert the error trace
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(4);
+		final List<String> expectedTrace = new ArrayList<>(4);
 		expectedTrace.add("/\\ x = a\n/\\ y = 0");
 		expectedTrace.add("/\\ x = a\n/\\ y = 1"); // <= x changes after this state
 		expectedTrace.add("/\\ x = b\n/\\ y = 0");

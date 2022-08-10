@@ -52,7 +52,7 @@ public abstract class BidirectionalTransitions1BTest extends ModelCheckerTestCas
 		assertTrue(recorder.recorded(EC.TLC_COUNTER_EXAMPLE));
 
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(3);
+		final List<String> expectedTrace = new ArrayList<>(3);
 		expectedTrace.add("x = 0");
 		expectedTrace.add("x = 2");
 		expectedTrace.add("x = 1");

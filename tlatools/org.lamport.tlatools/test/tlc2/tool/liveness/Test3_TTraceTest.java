@@ -59,7 +59,7 @@ public class Test3_TTraceTest extends TTraceModelCheckerTestCase {
 		
 		// Assert the error trace
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(4);
+		final List<String> expectedTrace = new ArrayList<>(4);
 		expectedTrace.add("x = 0");
 		expectedTrace.add("x = 1");
 		expectedTrace.add("x = 0");

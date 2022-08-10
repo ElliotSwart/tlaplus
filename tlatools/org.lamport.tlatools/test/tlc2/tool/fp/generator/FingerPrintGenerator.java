@@ -107,9 +107,7 @@ public class FingerPrintGenerator implements Runnable {
 	protected void waitForAllThreadsStarted() {
 		try {
 			barrier.await();
-		} catch (final InterruptedException e1) {
-			e1.printStackTrace();
-		} catch (final BrokenBarrierException e1) {
+		} catch (final InterruptedException | BrokenBarrierException e1) {
 			e1.printStackTrace();
 		}
 	}

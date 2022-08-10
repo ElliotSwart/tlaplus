@@ -49,15 +49,15 @@ public class SubsetEnumeratorTest {
 
 	private static final Value[] getValue(final String... strs) {
 		final List<Value> values = new ArrayList<>(strs.length);
-		for (int i = 0; i < strs.length; i++) {
-			values.add(new StringValue(strs[i]));
+		for (String str : strs) {
+			values.add(new StringValue(str));
 		}
 		return values.toArray(new Value[values.size()]);
 	}
 
 	@Parameters
 	public static List<Enumerable> getEnumerable() {
-		final List<Enumerable> params = new ArrayList<Enumerable>();
+		final List<Enumerable> params = new ArrayList<>();
 		
 		// IntervalValue
 		params.add(new IntervalValue(1, 10));
@@ -65,12 +65,7 @@ public class SubsetEnumeratorTest {
 		// SetEnumValue
 		final ValueVec vec = new ValueVec();
 		final String input = "ABCDEFGHIJ";
-		input.chars().forEach(new IntConsumer() {
-			@Override
-			public void accept(final int value) {
-				vec.addElement(ModelValue.make(String.valueOf(value)));
-			}
-		});
+		input.chars().forEach(value -> vec.addElement(ModelValue.make(String.valueOf(value))));
 		params.add(new SetEnumValue(vec, false));
 		
 		// SetOfTuplesValue
@@ -119,54 +114,48 @@ public class SubsetEnumeratorTest {
 	@Test
 	public void testElementsInt() {
 		// for various fractions...
-		DoubleStream.of(0, .1, .2, .3, .4, .55, .625, .775, .8, .9, 1).forEach(new DoubleConsumer() {
-			@Override
-			public void accept(final double fraction) {
-				final int k = (int) Math.ceil(enumerable.size() * fraction);
-				final List<Value> values = enumerable.elements(k).all();
-				
-				// Expected size.
-				Assert.assertEquals(String.format("Failed for fraction: %s", fraction), k, values.size());
+		DoubleStream.of(0, .1, .2, .3, .4, .55, .625, .775, .8, .9, 1).forEach(fraction -> {
+			final int k = (int) Math.ceil(enumerable.size() * fraction);
+			final List<Value> values = enumerable.elements(k).all();
 
-				// Unique values.
-				Assert.assertEquals(String.format("Failed for fraction: %s", fraction), values.size(),
-						new HashSet<Value>(values).size());
+			// Expected size.
+			Assert.assertEquals(String.format("Failed for fraction: %s", fraction), k, values.size());
 
-				// Each value is actually a member of enumerable.
-				for (final Value v : values) {
-					Assert.assertTrue(String.format("Failed for fraction: %s", fraction), enumerable.member(v));
-				}
+			// Unique values.
+			Assert.assertEquals(String.format("Failed for fraction: %s", fraction), values.size(),
+					new HashSet<>(values).size());
+
+			// Each value is actually a member of enumerable.
+			for (final Value v : values) {
+				Assert.assertTrue(String.format("Failed for fraction: %s", fraction), enumerable.member(v));
 			}
 		});
 	}
 	
 	@Test
 	public void testGetRandomSubset() {
-		DoubleStream.of(0, .1, .2, .3, .4, .55, .625, .775, .8, .9, 1).forEach(new DoubleConsumer() {
-			@Override
-			public void accept(final double fraction) {
-				final int k = (int) Math.ceil(enumerable.size() * fraction);
-				
-				final Enumerable enumValue = enumerable.getRandomSubset(k);
-				
-				// Expected size.
-				assertEquals(String.format("Failed for fraction: %s", fraction), k, enumValue.size());
+		DoubleStream.of(0, .1, .2, .3, .4, .55, .625, .775, .8, .9, 1).forEach(fraction -> {
+			final int k = (int) Math.ceil(enumerable.size() * fraction);
 
-				final Set<Value> values = new HashSet<>(enumValue.size());
-				
-				// Each value is actually a member of enumerable.
-				final ValueEnumeration elements = enumValue.elements();
-				Value v = null;
-				while ((v = elements.nextElement()) != null) {
-					Assert.assertTrue(String.format("Failed for fraction: %s", fraction), enumerable.member(v));
-					values.add(v);
-				}
+			final Enumerable enumValue = enumerable.getRandomSubset(k);
 
-				// Unique values.
-				Assert.assertEquals(String.format("Failed for fraction: %s", fraction), enumValue.size(),
-						new HashSet<Value>(values).size());
-				
+			// Expected size.
+			assertEquals(String.format("Failed for fraction: %s", fraction), k, enumValue.size());
+
+			final Set<Value> values = new HashSet<>(enumValue.size());
+
+			// Each value is actually a member of enumerable.
+			final ValueEnumeration elements = enumValue.elements();
+			Value v = null;
+			while ((v = elements.nextElement()) != null) {
+				Assert.assertTrue(String.format("Failed for fraction: %s", fraction), enumerable.member(v));
+				values.add(v);
 			}
+
+			// Unique values.
+			Assert.assertEquals(String.format("Failed for fraction: %s", fraction), enumValue.size(),
+					new HashSet<>(values).size());
+
 		});
 	}
 }

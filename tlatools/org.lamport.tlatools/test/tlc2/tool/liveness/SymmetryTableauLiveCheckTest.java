@@ -292,16 +292,13 @@ public class SymmetryTableauLiveCheckTest {
 	private ILiveCheck getLiveCheckWithTwoNodeTableauSymmetry(final TLCState s, final TLCState sSymmetric, final TLCState t) throws Exception {
 		final TBGraphNode node2 = EasyMock.createMock(TBGraphNode.class);
 		// consistency
-		final Capture<TLCState> capture = new Capture<TLCState>();
-		EasyMock.expect(node2.isConsistent(EasyMock.capture(capture), (ITool) EasyMock.anyObject())).andAnswer(new IAnswer<Boolean>() {
-			@Override
-            public Boolean answer() throws Throwable {
-				final TLCState value = capture.getValue();
-				if (value == s) {
-					return false;
-				}
-				return true;
+		final Capture<TLCState> capture = new Capture<>();
+		EasyMock.expect(node2.isConsistent(EasyMock.capture(capture), (ITool) EasyMock.anyObject())).andAnswer(() -> {
+			final TLCState value = capture.getValue();
+			if (value == s) {
+				return false;
 			}
+			return true;
 		}).anyTimes();
 		// index
 		EasyMock.expect(node2.getIndex()).andReturn(2).anyTimes();
@@ -313,16 +310,13 @@ public class SymmetryTableauLiveCheckTest {
 		
 		final TBGraphNode node1 = EasyMock.createMock(TBGraphNode.class);
 		// consistency
-		final Capture<TLCState> capture1 = new Capture<TLCState>();
-		EasyMock.expect(node1.isConsistent(EasyMock.capture(capture1), (ITool) EasyMock.anyObject())).andAnswer(new IAnswer<Boolean>() {
-			@Override
-            public Boolean answer() throws Throwable {
-				final TLCState value = capture1.getValue();
-				if (value == sSymmetric) {
-					return false;
-				}
-				return true;
+		final Capture<TLCState> capture1 = new Capture<>();
+		EasyMock.expect(node1.isConsistent(EasyMock.capture(capture1), (ITool) EasyMock.anyObject())).andAnswer(() -> {
+			final TLCState value = capture1.getValue();
+			if (value == sSymmetric) {
+				return false;
 			}
+			return true;
 		}).anyTimes();
 		// index
 		EasyMock.expect(node1.getIndex()).andReturn(1).anyTimes();
@@ -364,18 +358,15 @@ public class SymmetryTableauLiveCheckTest {
 		
 		final ITool tool = EasyMock.createNiceMock(ITool.class);
 		EasyMock.expect(tool.hasSymmetry()).andReturn(true);
-		final Capture<TLCState> nextStates = new Capture<TLCState>();
-		EasyMock.expect(tool.getNextStates((Action) EasyMock.anyObject(), EasyMock.capture(nextStates))).andAnswer(new IAnswer<StateVec>() {
-			@Override
-            public StateVec answer() throws Throwable {
-			    final StateVec nss = new StateVec(0);
-			    // s > t for sSymmetric
-			    final TLCState state = nextStates.getValue();
-			    if (state == sSymmetric) {
-			    	nss.addElement(t);
-			    }
-				return nss;
+		final Capture<TLCState> nextStates = new Capture<>();
+		EasyMock.expect(tool.getNextStates((Action) EasyMock.anyObject(), EasyMock.capture(nextStates))).andAnswer(() -> {
+			final StateVec nss = new StateVec(0);
+			// s > t for sSymmetric
+			final TLCState state = nextStates.getValue();
+			if (state == sSymmetric) {
+				nss.addElement(t);
 			}
+			return nss;
 		});
 		EasyMock.expect(tool.isInModel((TLCState) EasyMock.anyObject())).andReturn(true).anyTimes();
 		EasyMock.expect(tool.isInActions((TLCState) EasyMock.anyObject(), (TLCState) EasyMock.anyObject())).andReturn(true).anyTimes();

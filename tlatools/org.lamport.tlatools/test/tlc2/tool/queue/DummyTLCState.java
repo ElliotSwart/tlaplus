@@ -120,7 +120,7 @@ public class DummyTLCState extends TLCState {
 	 */
 	@Override
     public final Set<OpDeclNode> getUnassigned() {
-		return new HashSet<OpDeclNode>();
+		return new HashSet<>();
 	}
 
 	/* (non-Javadoc)

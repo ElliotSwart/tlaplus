@@ -50,10 +50,9 @@ public class DiskStateQueueLongTest extends StateQueueTest {
 	public void tearDown() {
 		// delete all nested files
 		final File[] listFiles = file.listFiles();
-		for (int i = 0; i < listFiles.length; i++) {
-			final File aFile = listFiles[i];
-			aFile.delete();
-		}
+        for (final File aFile : listFiles) {
+            aFile.delete();
+        }
 		file.delete();
 	}
 	

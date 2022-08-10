@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
 public class TestPrintStream extends PrintStream {
 
 	private final StringBuffer buf = new StringBuffer();
-	private final List<String> strings = new ArrayList<String>();
+	private final List<String> strings = new ArrayList<>();
 	
 	public TestPrintStream() {
         super(ToolIO.out);

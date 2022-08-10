@@ -353,40 +353,35 @@ public class SetOfFcnsValueTest {
 		l.add(new SetOfFcnsValue(new IntervalValue(1, 121), new IntervalValue(1, 19)));
 		l.add(new SetOfFcnsValue(new IntervalValue(1, 321), new IntervalValue(1, 29)));
 		
-		l.forEach(new Consumer<SetOfFcnsValue>() {
-			@Override
-			public void accept(final SetOfFcnsValue sofv) {
-				try {
-					sofv.size();
-				} catch (final TLCRuntimeException tre) {
-					// OK, set is huge for size to reject it. Next get a tiny subset of it.
+		l.forEach(sofv -> {
+			try {
+				sofv.size();
+			} catch (final TLCRuntimeException tre) {
+				// OK, set is huge for size to reject it. Next get a tiny subset of it.
 
-					IntStream.of(0, 1, 2, 799, 1024, 8932, 16933/*, 109031*/).forEach(new IntConsumer() { // 109031 causes the test to take a little long to be included in the overall test suite.
-						@Override
-						public void accept(final int kOutOfN) {
-							final Enumerable randomSubset = sofv.getRandomSubset(kOutOfN);
-							
-							// Check expected amount of elements.
-							assertEquals(kOutOfN, randomSubset.size());
+				// 109031 causes the test to take a little long to be included in the overall test suite.
+				IntStream.of(0, 1, 2, 799, 1024, 8932, 16933/*, 109031*/).forEach(kOutOfN -> {
+					final Enumerable randomSubset = sofv.getRandomSubset(kOutOfN);
 
-							// Check for no duplicates.
-							FP64.Init();
-							final Set<FcnRcdValue> set = new HashSet<>(kOutOfN);
+					// Check expected amount of elements.
+					assertEquals(kOutOfN, randomSubset.size());
 
-							final ValueEnumeration elements = randomSubset.elements();
-							FcnRcdValue rcd;
-							while ((rcd = (FcnRcdValue) elements.nextElement()) != null) {
-								// Check element is in the original SetOfFcnsValue.
-								assertTrue(sofv.member(rcd));
-								set.add(rcd);
-							}
-							assertEquals(kOutOfN, set.size());
-						}
-					});
-					return;
-				}
-				fail();
+					// Check for no duplicates.
+					FP64.Init();
+					final Set<FcnRcdValue> set = new HashSet<>(kOutOfN);
+
+					final ValueEnumeration elements = randomSubset.elements();
+					FcnRcdValue rcd;
+					while ((rcd = (FcnRcdValue) elements.nextElement()) != null) {
+						// Check element is in the original SetOfFcnsValue.
+						assertTrue(sofv.member(rcd));
+						set.add(rcd);
+					}
+					assertEquals(kOutOfN, set.size());
+				});
+				return;
 			}
+			fail();
 		});
 	}
 }

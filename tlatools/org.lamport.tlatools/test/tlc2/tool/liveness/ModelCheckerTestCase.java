@@ -224,7 +224,7 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 			// debugging by taking out threading
 			// * MC is the name of the TLA+ specification to be checked (the file
 			// is placed in TEST_MODEL
-			final List<String> args = new ArrayList<String>(6);
+			final List<String> args = new ArrayList<>(6);
 			
 			// *Don't* check for deadlocks. All tests are interested in liveness
 			// checks which are shielded away by deadlock checking. TLC finds a
@@ -380,13 +380,7 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 			final Field field = targetClass.getDeclaredField(fieldName);
 			field.setAccessible(true);
 			return field.get(instance);
-		} catch (final NoSuchFieldException e) {
-			e.printStackTrace();
-		} catch (final SecurityException e) {
-			e.printStackTrace();
-		} catch (final IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (final IllegalAccessException e) {
+		} catch (final NoSuchFieldException | IllegalAccessException | IllegalArgumentException | SecurityException e) {
 			e.printStackTrace();
 		}
 		return null;

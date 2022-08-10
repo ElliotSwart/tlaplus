@@ -104,16 +104,13 @@ public class MSBDiskFPSetTest2 extends AbstractHeapBasedDiskFPSetTest {
 	@Test
 	public void testGetLastNoBuckets() throws Exception {
 		final MSBDiskFPSet msbDiskFPSet = getMSBDiskFPSet();
-		
 
-		final TLCIterator tlcIterator = new MSBDiskFPSet.TLCIterator(msbDiskFPSet.tbl);
-		try {
+
+		try (msbDiskFPSet) {
+			final TLCIterator tlcIterator = new TLCIterator(msbDiskFPSet.tbl);
 			tlcIterator.getLast();
 		} catch (final NoSuchElementException e) {
 			return;
-		}
-		finally {
-			msbDiskFPSet.close();
 		}
 		fail();
 	}

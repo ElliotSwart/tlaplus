@@ -35,7 +35,7 @@ public class MCErrorTest {
 			error.addState(state);
 		}
 		
-		final Map<String, String> map = new HashMap<String, String>();
+		final Map<String, String> map = new HashMap<>();
 		map.put("x", "y");
 		error.updateStatesForTraceExpression(map);
 		

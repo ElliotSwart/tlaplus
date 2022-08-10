@@ -280,7 +280,7 @@ public class OffHeapDiskFPSetTest {
 		final OffHeapDiskFPSet fpSet = new OffHeapDiskFPSet(fpSetConfig);
 		fpSet.init(1, createTmpFile(), filename);
 
-		final SortedSet<Long> longs = new TreeSet<Long>();
+		final SortedSet<Long> longs = new TreeSet<>();
 		
 		// Insert n randomly chosen positive longs.
 		final Random random = new Random(rgenseed);

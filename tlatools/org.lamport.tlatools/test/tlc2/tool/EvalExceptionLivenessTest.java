@@ -64,7 +64,7 @@ public class EvalExceptionLivenessTest extends ModelCheckerTestCase {
 						: Attempted to check equality of the function <<-2>> with the value:
 						-2"""));
 
-		final List<String> expectedTrace = new ArrayList<String>(15);
+		final List<String> expectedTrace = new ArrayList<>(15);
 		// 1
 		expectedTrace.add("""
 				/\\ rnum = (-2 :> (-2 :> 0 @@ -1 :> 0) @@ -1 :> (-2 :> 0 @@ -1 :> 0))

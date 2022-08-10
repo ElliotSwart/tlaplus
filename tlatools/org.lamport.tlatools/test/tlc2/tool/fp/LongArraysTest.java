@@ -26,12 +26,12 @@ public class LongArraysTest {
 	
 	@Test
 	public void testEmpty1() {
-		doTest(new ArrayList<Long>(0), 1L, 0, new OffHeapDiskFPSet.Indexer(0, 1));
+		doTest(new ArrayList<>(0), 1L, 0, new OffHeapDiskFPSet.Indexer(0, 1));
 	}
 	
 	@Test
 	public void testEmpty2() {
-		final List<Long> expected = new ArrayList<Long>();
+		final List<Long> expected = new ArrayList<>();
 		expected.add(0L);
 		expected.add(0L);
 		expected.add(0L);
@@ -42,7 +42,7 @@ public class LongArraysTest {
 	
 	@Test
 	public void testBasic1() {
-		final List<Long> expected = new ArrayList<Long>();
+		final List<Long> expected = new ArrayList<>();
 		expected.add(5L);
 		expected.add(8L);
 		expected.add(1L);
@@ -62,7 +62,7 @@ public class LongArraysTest {
 
 	@Test
 	public void testBasic2() {
-		final List<Long> expected = new ArrayList<Long>();
+		final List<Long> expected = new ArrayList<>();
 		expected.add(74236458333421747L);
 		expected.add(9185197375878056627L);
 		expected.add(9017810141411942826L);
@@ -120,7 +120,7 @@ public class LongArraysTest {
 
 	@Test
 	public void test0() {
-		final List<Long> expected = new ArrayList<Long>();
+		final List<Long> expected = new ArrayList<>();
 		expected.add(22102288204167208L);
 		expected.add(225160948165161873L);
 		expected.add(0L);
@@ -133,7 +133,7 @@ public class LongArraysTest {
 	
 	@Test
 	public void test1() {
-		final List<Long> expected = new ArrayList<Long>();
+		final List<Long> expected = new ArrayList<>();
 		expected.add(22102288204167208L);
 		expected.add(225160948165161873L);
 		expected.add(0L);
@@ -188,7 +188,7 @@ public class LongArraysTest {
 
 	@Test
 	public void test2() {
-		final List<Long> expected = new ArrayList<Long>();
+		final List<Long> expected = new ArrayList<>();
 		expected.add(0L);
 		expected.add(0L);
 		expected.add(22102288204167208L);
@@ -243,7 +243,7 @@ public class LongArraysTest {
 
 	@Test
 	public void test3() {
-		final List<Long> expected = new ArrayList<Long>();
+		final List<Long> expected = new ArrayList<>();
 		expected.add(9183932681676589496L);
 		expected.add(0L);
 		expected.add(0L);
@@ -337,7 +337,7 @@ public class LongArraysTest {
 	
 	@Test
 	public void test4() {
-		final List<Long> expected = new ArrayList<Long>();
+		final List<Long> expected = new ArrayList<>();
 		expected.add(9136953010061430590L);
 		expected.add(74236458333421747L);
 		expected.add(0L);
@@ -431,7 +431,7 @@ public class LongArraysTest {
 
 	@Test
 	public void test5() {
-		final List<Long> expected = new ArrayList<Long>();
+		final List<Long> expected = new ArrayList<>();
 		expected.add(9185197375878056627L);
 		expected.add(74236458333421747L);
 		expected.add(9017810141411942826L);
@@ -525,7 +525,7 @@ public class LongArraysTest {
 	
 	@Test
 	public void test6() {
-		final List<Long> expected = new ArrayList<Long>();
+		final List<Long> expected = new ArrayList<>();
 		expected.add(1L);
 		expected.add(9185197375878056627L);
 		expected.add(9017810141411942826L);
@@ -619,7 +619,7 @@ public class LongArraysTest {
 	
 	@Test
 	public void test7() {
-		final List<Long> expected = new ArrayList<Long>();
+		final List<Long> expected = new ArrayList<>();
 		expected.add(1L);
 		expected.add(0L);
 		expected.add(4L);
@@ -637,7 +637,7 @@ public class LongArraysTest {
 	
 	@Test
 	public void test8() {
-		final List<Long> expected = new ArrayList<Long>();
+		final List<Long> expected = new ArrayList<>();
 		expected.add(1L);
 		expected.add(11L);
 		expected.add(3L);
@@ -660,7 +660,7 @@ public class LongArraysTest {
 	
 	@Test
 	public void test9a() {
-		final List<Long> expected = new ArrayList<Long>();
+		final List<Long> expected = new ArrayList<>();
 		expected.add(12L);
 		expected.add(1L);
 		expected.add(0L);
@@ -673,7 +673,7 @@ public class LongArraysTest {
 	
 	@Test
 	public void test9b() {
-		final List<Long> expected = new ArrayList<Long>();
+		final List<Long> expected = new ArrayList<>();
 		expected.add(11L);
 		expected.add(1L);
 		expected.add(0L);
@@ -686,7 +686,7 @@ public class LongArraysTest {
 	
 	@Test
 	public void test9c() {
-		final List<Long> expected = new ArrayList<Long>();
+		final List<Long> expected = new ArrayList<>();
 		expected.add(1L);
 		expected.add(12L);
 		expected.add(0L);
@@ -802,7 +802,7 @@ public class LongArraysTest {
 		// care of wrapped elements too. A) First find the first non-sentinel,
 		// non-wrapped element.
 		long pos = 0;
-		final List<Long> seen = new ArrayList<Long>(expected.size());
+		final List<Long> seen = new ArrayList<>(expected.size());
 		while (pos < array.size()) {
 			final long e = array.get(pos);
 			if (e <= EMPTY || indexer.getIdx(e) > pos) {

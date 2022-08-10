@@ -37,18 +37,15 @@ public class Bug210DiskFPSetTest extends AbstractFPSetTest {
 		anIndex[size - 1] = Long.MAX_VALUE - 1;
 
 		final DummyDiskFPSet fpSet = (DummyDiskFPSet) getFPSet(new FPSetConfiguration());
-		fpSet.setIndex(anIndex);
-		
+
 		// do a diskLookup for a non-existent fp that accesses the index values
 		// [size - 2, b = size - 1]. These two are "close" to an int overflow if
 		// multiplied by 2^10 (DiskFPSet#NumEntriesPerPage).
-		try {
+		try (fpSet) {
+			fpSet.setIndex(anIndex);
 			assertFalse(fpSet.diskLookup(Long.MAX_VALUE - 2));
 		} catch (final IOException e) {
 			fail(e.getMessage());
-		}
-		finally {
-			fpSet.close();
 		}
 	}
 }

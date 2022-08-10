@@ -53,7 +53,7 @@ public class RandomElementXandYTest extends ModelCheckerTestCase {
 		
 		assertTrue(recorder.recorded(EC.TLC_BEHAVIOR_UP_TO_THIS_POINT));
 
-		final List<String> expectedTrace = new ArrayList<String>(11);
+		final List<String> expectedTrace = new ArrayList<>(11);
 		expectedTrace.add("/\\ x = 0\n/\\ y = 0");
 		expectedTrace.add("/\\ x = 1\n/\\ y = 1");
 		expectedTrace.add("/\\ x = 0\n/\\ y = 1");

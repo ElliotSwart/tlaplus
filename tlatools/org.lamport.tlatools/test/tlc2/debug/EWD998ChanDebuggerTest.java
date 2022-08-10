@@ -158,14 +158,10 @@ public class EWD998ChanDebuggerTest extends TLCDebuggerTestCase {
 				49, 50, 51, 53, 57, 58, 59, 60, 61, 62, 64, 66, 67, 73, 75, 77, 80, 83, 84, 86, 88, 90, 91, 94, 95, 96,
 				98, 103, 105, 113, 114, 123, 124, 125, 126, 127, 128, 133, 140, 141, 144, 150, 153, 154, 155, 156, 158,
 				160, 162, 168, 171).boxed().collect(Collectors.toSet());
-		lines.forEach(i -> {
-			assertTrue(String.format("line %s", i),
-					debugger.replaceAllBreakpointsWithUnchecked(FOLDER, i)[0].isVerified());
-		});
-		IntStream.rangeClosed(1, 171).filter(line -> !lines.contains(line)).forEach(i -> {
-			assertFalse(String.format("line %s", i),
-					debugger.replaceAllBreakpointsWithUnchecked(FOLDER, i)[0].isVerified());
-		});
+		lines.forEach(i -> assertTrue(String.format("line %s", i),
+                debugger.replaceAllBreakpointsWithUnchecked(FOLDER, i)[0].isVerified()));
+		IntStream.rangeClosed(1, 171).filter(line -> !lines.contains(line)).forEach(i -> assertFalse(String.format("line %s", i),
+                debugger.replaceAllBreakpointsWithUnchecked(FOLDER, i)[0].isVerified()));
 
 		assertTrue(debugger.replaceAllBreakpointsWith(RM, 102)[0].isVerified());
 		assertFalse(debugger.replaceAllBreakpointsWith(RM, 103)[0].isVerified());

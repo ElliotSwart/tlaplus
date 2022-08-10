@@ -26,7 +26,7 @@ public class SimpleFilenameToStreamTest {
 	 */
 	@Test
 	public void testWindowsTLAFileCreation() {
-		if (System.getProperty("os.name").toLowerCase().indexOf("win") > -1) {
+		if (System.getProperty("os.name").toLowerCase().contains("win")) {
 			final String driveLetter = "X:";
 			final String parentDirectory = driveLetter + "\\Develop\\myspecs\\DecentSpec\\";
 			final String child = parentDirectory + "Fromage.tla";

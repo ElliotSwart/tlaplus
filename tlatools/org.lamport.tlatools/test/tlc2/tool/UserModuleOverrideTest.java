@@ -51,12 +51,7 @@ public class UserModuleOverrideTest extends ModelCheckerTestCase {
 	public void testSpec() {
 		final List<String[]> mismatches = recorder.getRecordAsStringArray(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_MISMATCH);
 		assertEquals(2, mismatches.size());
-		Collections.sort(mismatches, new Comparator<String[]>() {
-			@Override
-			public int compare(final String[] o1, final String[] o2) {
-				return o1[0].compareTo(o2[0]);
-			}
-		});
+		mismatches.sort((o1, o2) -> o1[0].compareTo(o2[0]));
 		
 		// arity mismatch
 		String[] strs = mismatches.get(0);

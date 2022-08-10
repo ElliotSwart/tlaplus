@@ -62,7 +62,7 @@ public abstract class RandomSubset extends ModelCheckerTestCase {
 		assertEquals(2, recorder.getRecordAsInt(EC.TLC_SEARCH_DEPTH));
 
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>();
+		final List<String> expectedTrace = new ArrayList<>();
 		expectedTrace.add("/\\ x = " + x + "\n" + "/\\ y = " + y + "\n" + "/\\ z = TRUE");
 		expectedTrace.add("/\\ x = " + x + "\n" + "/\\ y = " + y + "\n" + "/\\ z = FALSE");
 		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);

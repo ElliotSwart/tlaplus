@@ -48,10 +48,10 @@ public class KSubsetValueTest {
 		final SetEnumValue set = (SetEnumValue) kSubset.toSetEnum();
 		assertEquals(496, set.size());
 		final Value[] array = set.elems.toArray();
-		for (int i = 0; i < array.length; i++) {
-			assertNotNull(array[i]);
-			assertEquals(2, array[i].size());
-		}
+        for (Value value : array) {
+            assertNotNull(value);
+            assertEquals(2, value.size());
+        }
 	}
 	
 	@Test
@@ -63,10 +63,10 @@ public class KSubsetValueTest {
 		final SetEnumValue set = (SetEnumValue) kSubset.toSetEnum();
 		assertEquals(528, set.size());
 		final Value[] array = set.elems.toArray();
-		for (int i = 0; i < array.length; i++) {
-			assertNotNull(array[i]);
-			assertEquals(2, array[i].size());
-		}
+        for (Value value : array) {
+            assertNotNull(value);
+            assertEquals(2, value.size());
+        }
 	}
 	
 	@Test
@@ -78,10 +78,10 @@ public class KSubsetValueTest {
 		final SetEnumValue set = (SetEnumValue) kSubset.toSetEnum();
 		assertEquals(1953, set.size());
 		final Value[] array = set.elems.toArray();
-		for (int i = 0; i < array.length; i++) {
-			assertNotNull(array[i]);
-			assertEquals(2, array[i].size());
-		}
+        for (Value value : array) {
+            assertNotNull(value);
+            assertEquals(2, value.size());
+        }
 	}
 	
 	@Test

@@ -103,7 +103,7 @@ public class GraphNodeTest {
 		final GraphNode node = new GraphNode(0, 0);
 		final Random rnd = new Random(4711);
 
-		final List<Integer> verificationSet = new ArrayList<Integer>();
+		final List<Integer> verificationSet = new ArrayList<>();
 		
 		int cnt = 0;
 		for (int i = 0; i < 5; i++) {

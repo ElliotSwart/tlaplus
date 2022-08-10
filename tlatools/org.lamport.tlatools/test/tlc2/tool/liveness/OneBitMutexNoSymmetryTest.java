@@ -71,7 +71,7 @@ public class OneBitMutexNoSymmetryTest extends ModelCheckerTestCase {
 
 		// Assert the error trace
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(17);
+		final List<String> expectedTrace = new ArrayList<>(17);
 		//1
 		expectedTrace.add("""
 				/\\ unchecked = (A :> {} @@ B :> {})

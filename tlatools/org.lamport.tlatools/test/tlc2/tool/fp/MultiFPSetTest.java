@@ -114,16 +114,12 @@ public class MultiFPSetTest {
 	public void testPutMax() throws Exception {
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
-		final MultiFPSet mfps = new MultiFPSet(conf);
 
 		// put a random fp value into set
-		try {
+		try (MultiFPSet mfps = new MultiFPSet(conf)) {
 			mfps.put(Long.MAX_VALUE);
 		} catch (final ArrayIndexOutOfBoundsException e) {
 			fail();
-		}
-		finally {
-			mfps.close();
 		}
 	}
 
@@ -135,16 +131,12 @@ public class MultiFPSetTest {
 	public void testPutMin() throws Exception {
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
-		final MultiFPSet mfps = new MultiFPSet(conf);
 
 		// put a random fp value into set
-		try {
+		try (MultiFPSet mfps = new MultiFPSet(conf)) {
 			mfps.put(Long.MIN_VALUE);
 		} catch (final ArrayIndexOutOfBoundsException e) {
 			fail();
-		}
-		finally {
-			mfps.close();
 		}
 	}
 
@@ -156,16 +148,12 @@ public class MultiFPSetTest {
 	public void testPutZero() throws Exception {
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
-		final MultiFPSet mfps = new MultiFPSet(conf);
 
 		// put a random fp value into set
-		try {
+		try (MultiFPSet mfps = new MultiFPSet(conf)) {
 			mfps.put(0);
 		} catch (final ArrayIndexOutOfBoundsException e) {
 			fail();
-		}
-		finally {
-			mfps.close();
 		}
 	}
 	
@@ -210,9 +198,9 @@ public class MultiFPSetTest {
 		
 		// Get the other FPSet
 		final FPSet[] fpSets = mfps.getFPSets();
-		final Set<FPSet> s = new HashSet<FPSet>();
-		for (int i = 0; i < fpSets.length; i++) {
-			s.add(fpSets[i]);
+		final Set<FPSet> s = new HashSet<>();
+		for (FPSet fpSet : fpSets) {
+			s.add(fpSet);
 		}
 		s.remove(aFPSet);
 		final FPSet bFPSet = (FPSet) s.toArray()[0];
@@ -313,7 +301,7 @@ public class MultiFPSetTest {
 		final long d = (3L << 62) + 1; // 11...1
 		printBinaryString("d02", d);
 		
-		final Set<FPSet> s = new HashSet<FPSet>();
+		final Set<FPSet> s = new HashSet<>();
 		final FPSet aFPSet = mfps.getFPSet(a);
 		s.add(aFPSet);
 		final FPSet bFPSet = mfps.getFPSet(b);
@@ -426,9 +414,9 @@ public class MultiFPSetTest {
 		
 		// Get the other FPSet
 		final FPSet[] fpSets = mfps.getFPSets();
-		final Set<FPSet> s = new HashSet<FPSet>();
-		for (int i = 0; i < fpSets.length; i++) {
-			s.add(fpSets[i]);
+		final Set<FPSet> s = new HashSet<>();
+		for (FPSet fpSet : fpSets) {
+			s.add(fpSet);
 		}
 		s.remove(aFPSet);
 		final FPSet bFPSet = (FPSet) s.toArray()[0];
@@ -501,7 +489,7 @@ public class MultiFPSetTest {
 		final long d = (3L << 62) + 1; // 11...1
 		printBinaryString("d02", d);
 		
-		final Set<FPSet> s = new HashSet<FPSet>();
+		final Set<FPSet> s = new HashSet<>();
 		final FPSet aFPSet = mfps.getFPSet(a);
 		s.add(aFPSet);
 		final FPSet bFPSet = mfps.getFPSet(b);
@@ -617,9 +605,9 @@ public class MultiFPSetTest {
 		
 		// Get the other FPSet
 		final FPSet[] fpSets = mfps.getFPSets();
-		final Set<FPSet> s = new HashSet<FPSet>();
-		for (int i = 0; i < fpSets.length; i++) {
-			s.add(fpSets[i]);
+		final Set<FPSet> s = new HashSet<>();
+		for (FPSet fpSet : fpSets) {
+			s.add(fpSet);
 		}
 		s.remove(aFPSet);
 		final FPSet bFPSet = (FPSet) s.toArray()[0];
@@ -730,7 +718,7 @@ public class MultiFPSetTest {
 		final long d = (3L << 62) + 1; // 11...1
 		printBinaryString("d02", d);
 		
-		final Set<FPSet> s = new HashSet<FPSet>();
+		final Set<FPSet> s = new HashSet<>();
 		final FPSet aFPSet = mfps.getFPSet(a);
 		s.add(aFPSet);
 		final FPSet bFPSet = mfps.getFPSet(b);

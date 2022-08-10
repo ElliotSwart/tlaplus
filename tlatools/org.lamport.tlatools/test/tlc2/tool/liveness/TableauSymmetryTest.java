@@ -58,7 +58,7 @@ public class TableauSymmetryTest extends ModelCheckerTestCase {
 
 		// Assert the error trace
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(7);
+		final List<String> expectedTrace = new ArrayList<>(7);
 		// Trace prefix
 		expectedTrace.add("arr = (a :> \"ready\" @@ b :> \"ready\")");
 		expectedTrace.add("arr = (a :> \"busy\" @@ b :> \"ready\")");

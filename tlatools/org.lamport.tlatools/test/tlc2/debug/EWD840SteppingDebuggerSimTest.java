@@ -145,7 +145,7 @@ public class EWD840SteppingDebuggerSimTest extends TLCDebuggerTestCase {
 		// 888888888888888888888888888888888888888888
 
 		// Let's deadlock state-space exploration by skipping over all successors.
-		final Set<TLCState> skipped = new HashSet<TLCState>();
+		final Set<TLCState> skipped = new HashSet<>();
 		skipped.add(state);
 		final TLCState init = f.getS();
 		
@@ -164,7 +164,7 @@ public class EWD840SteppingDebuggerSimTest extends TLCDebuggerTestCase {
 		assertFalse(recorder.recorded(EC.GENERAL));
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_PROGRESS_SIMU, "1030", "1", "0", "0", "0"));
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(7);
+		final List<String> expectedTrace = new ArrayList<>(7);
 		expectedTrace.add(
 				"""
 						/\\ tpos = 0

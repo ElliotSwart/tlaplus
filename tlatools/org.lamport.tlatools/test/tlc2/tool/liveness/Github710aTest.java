@@ -70,7 +70,7 @@ public class Github710aTest extends ModelCheckerTestCase {
 
 		// Assert the error trace
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(4);
+		final List<String> expectedTrace = new ArrayList<>(4);
 		expectedTrace.add("x = FALSE");
 		expectedTrace.add("x = TRUE");
 		expectedTrace.add("x = FALSE");

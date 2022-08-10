@@ -44,7 +44,7 @@ import util.ToolIO;
 
 public abstract class PCalModelCheckerTestCase extends ModelCheckerTestCase {
 
-	private final List<String> pcalArgs = new ArrayList<String>();
+	private final List<String> pcalArgs = new ArrayList<>();
 
 	public PCalModelCheckerTestCase(final String spec, final String path) {
 		this(spec, path, EC.ExitStatus.SUCCESS);

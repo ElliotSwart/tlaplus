@@ -128,7 +128,7 @@ public class DynamicFPSetManagerTest {
 	@Test
 	public void testGetIndexSingleFPSet() throws Exception {
 		// Simple case with a single FPSet server
-		final Map<Long, Integer> pairs = new HashMap<Long, Integer>();
+		final Map<Long, Integer> pairs = new HashMap<>();
 		pairs.put(Long.MAX_VALUE, 0);
 		pairs.put(Long.MIN_VALUE, 0);
 		pairs.put(0L, 0);
@@ -143,7 +143,7 @@ public class DynamicFPSetManagerTest {
 	 */
 	@Test
 	public void testGetIndex10FPSet() throws Exception {
-		final Map<Long, Integer> pairs = new HashMap<Long, Integer>();
+		final Map<Long, Integer> pairs = new HashMap<>();
 		
 		pairs.put(Long.MAX_VALUE, 5);
 		pairs.put(Long.MIN_VALUE, 0);

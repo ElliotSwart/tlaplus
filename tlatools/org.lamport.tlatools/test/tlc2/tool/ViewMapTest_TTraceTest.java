@@ -55,7 +55,7 @@ public class ViewMapTest_TTraceTest extends TTraceModelCheckerTestCase {
 
 		assertTrue(recorder.recorded(EC.TLC_BEHAVIOR_UP_TO_THIS_POINT));
 		
-		final List<String> expectedTrace = new ArrayList<String>(8);
+		final List<String> expectedTrace = new ArrayList<>(8);
 		expectedTrace.add("/\\ buffer = <<>>\n/\\ waitset = {}\n/\\ pc = (c1 :> \"lbc\" @@ c2 :> \"lbc\" @@ p1 :> \"lbp\")");
 		expectedTrace.add("/\\ buffer = <<>>\n/\\ waitset = {c1}\n/\\ pc = (c1 :> \"lbc\" @@ c2 :> \"lbc\" @@ p1 :> \"lbp\")");
 		expectedTrace.add("/\\ buffer = <<>>\n/\\ waitset = {c1, c2}\n/\\ pc = (c1 :> \"lbc\" @@ c2 :> \"lbc\" @@ p1 :> \"lbp\")");

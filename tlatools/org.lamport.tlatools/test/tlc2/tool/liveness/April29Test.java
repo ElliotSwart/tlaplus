@@ -64,7 +64,7 @@ public class April29Test extends ModelCheckerTestCase {
 		
 		// Assert the error trace
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(2);
+		final List<String> expectedTrace = new ArrayList<>(2);
 		expectedTrace.add("/\\ x = a\n/\\ y = 0");
 		expectedTrace.add("/\\ x = a\n/\\ y = 1");
 		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
@@ -95,7 +95,7 @@ public class April29Test extends ModelCheckerTestCase {
 		
 		// Remove self loop from init's transitions. The remaining transitions are
 		// the true successors (here just a single).
-		final List<Transition> outs = new ArrayList<Transition>();
+		final List<Transition> outs = new ArrayList<>();
 		for (final Transition t : transitions) {
 			if (t.getFP() != init.stateFP) {
 				outs.add(t);

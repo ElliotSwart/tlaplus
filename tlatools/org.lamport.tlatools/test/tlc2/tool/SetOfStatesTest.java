@@ -103,7 +103,7 @@ public class SetOfStatesTest extends TestCase {
 		assertEquals(32, s.size());
 		
 		// Adding the same elements again fails
-		final Set<TLCState> states = new HashSet<TLCState>(s.size());
+		final Set<TLCState> states = new HashSet<>(s.size());
 		for (int i = 0; i < s.size(); i++) {
 			states.add(s.next());
 		}

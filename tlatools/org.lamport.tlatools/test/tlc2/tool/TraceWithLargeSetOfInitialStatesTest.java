@@ -51,7 +51,7 @@ public class TraceWithLargeSetOfInitialStatesTest extends ModelCheckerTestCase {
 
 		assertTrue(recorder.recorded(EC.TLC_BEHAVIOR_UP_TO_THIS_POINT));
 		
-		final List<String> expectedTrace = new ArrayList<String>(2);
+		final List<String> expectedTrace = new ArrayList<>(2);
 		expectedTrace.add("/\\ x = 1\n/\\ y = FALSE");
 		expectedTrace.add("/\\ x = 1\n/\\ y = TRUE");
 		final List<String> expectedActions = new ArrayList<>(2);

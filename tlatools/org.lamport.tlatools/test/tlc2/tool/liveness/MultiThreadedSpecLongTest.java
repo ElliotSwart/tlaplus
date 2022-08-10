@@ -61,7 +61,7 @@ public abstract class MultiThreadedSpecLongTest extends ModelCheckerTestCase {
 
 	private final String statesGenerated;
 	private final String distinctStatesGenerated;
-	private final List<PerformanceResult> performanceResults = new ArrayList<PerformanceResult>();
+	private final List<PerformanceResult> performanceResults = new ArrayList<>();
 	private final CountDownLatch latch = new CountDownLatch(getNumberOfThreads());
 	private final double waitedRatio;
 	private final double blockedRatio;
@@ -131,10 +131,10 @@ public abstract class MultiThreadedSpecLongTest extends ModelCheckerTestCase {
 		// None of the workers threads should have been blocked or waiting for
 		// more than 25%
 		for (final PerformanceResult result : performanceResults) {
-			assertTrue(String.format("Blocked(%s): %.3f", result.getThreadName(), result.getBlockedRatio()),
-					result.getBlockedRatio() < blockedRatio);
-			assertTrue(String.format("Waiting(%s): %.3f", result.getThreadName(), result.getWaitedRatio()),
-					result.getWaitedRatio() < waitedRatio);
+			assertTrue(String.format("Blocked(%s): %.3f", result.threadName(), result.blockedRatio()),
+					result.blockedRatio() < blockedRatio);
+			assertTrue(String.format("Waiting(%s): %.3f", result.threadName(), result.waitedRatio()),
+					result.waitedRatio() < waitedRatio);
 		}
 	}
 	
@@ -177,29 +177,9 @@ public abstract class MultiThreadedSpecLongTest extends ModelCheckerTestCase {
 		// Run this test with as many threads possible to hopefully spot concurrency issues.
 		return Runtime.getRuntime().availableProcessors();
 	}
-	
-	private static class PerformanceResult {
 
-		private final double blockedRatio;
-		private final double waitedRatio;
-		private final String threadName;
+	private record PerformanceResult(String threadName, double blockedRatio, double waitedRatio) {
 
-		public PerformanceResult(final String threadName, final double blockedRatio, final double waitedRatio) {
-			this.threadName = threadName;
-			this.blockedRatio = blockedRatio;
-			this.waitedRatio = waitedRatio;
-		}
 
-		public double getWaitedRatio() {
-			return waitedRatio;
-		}
-
-		public double getBlockedRatio() {
-			return blockedRatio;
-		}
-		
-		public String getThreadName() {
-			return threadName;
-		}
 	}
 }

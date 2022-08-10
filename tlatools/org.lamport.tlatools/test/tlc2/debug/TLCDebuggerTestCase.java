@@ -206,8 +206,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		final List<LazyValue> lazies = new ArrayList<>();
 		Context context = f.getContext();
 		while (context != null) {
-			if (context.getValue() instanceof LazyValue) {
-				final LazyValue lv = (LazyValue) context.getValue();
+			if (context.getValue() instanceof final LazyValue lv) {
 				if (lv.getValue() == null) {
 					lazies.add(lv);
 				}
@@ -298,8 +297,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		final List<LazyValue> lazies = new ArrayList<>();
 		Context context = f.getContext();
 		while (context != null) {
-			if (context.getValue() instanceof LazyValue) {
-				final LazyValue lv = (LazyValue) context.getValue();
+			if (context.getValue() instanceof final LazyValue lv) {
 				if (lv.getValue() == null) {
 					lazies.add(lv);
 				}
@@ -413,9 +411,9 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 			final List<Variable> variables = Arrays.asList(succframe.getVariables(succs.getVariablesReference()));
 			assertEquals(expectedSuccessors, variables.size());
 			
-			final List<Value> stateRecords = variables.stream().map(v -> (DebugTLCVariable) v).map(d -> d.getTLCValue())
+			final List<Value> stateRecords = variables.stream().map(v -> (DebugTLCVariable) v).map(DebugTLCVariable::getTLCValue)
 					.collect(Collectors.toList());
-			final Set<RecordValue> successors = succframe.getSuccessors().stream().map(s -> new RecordValue(s))
+			final Set<RecordValue> successors = succframe.getSuccessors().stream().map(RecordValue::new)
 					.collect(Collectors.toSet());
 			for (final Value s : stateRecords) {
 				assertTrue(successors.contains(s));

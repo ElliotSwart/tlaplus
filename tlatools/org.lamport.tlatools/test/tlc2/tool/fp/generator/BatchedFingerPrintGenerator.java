@@ -35,10 +35,9 @@ public class BatchedFingerPrintGenerator extends FingerPrintGenerator {
 			try {
 				// Make sure set still contains predecessors
 				if (initialized) {
-					for (int i = 0; i < predecessors.length; i++) {
-						final long predecessor = predecessors[i];
-						Assert.assertTrue(fpSet.contains(predecessor));
-					}
+                    for (final long predecessor : predecessors) {
+                        Assert.assertTrue(fpSet.contains(predecessor));
+                    }
 				}
 
 				// Fill new fingerprints and sort them
@@ -49,15 +48,14 @@ public class BatchedFingerPrintGenerator extends FingerPrintGenerator {
 				Arrays.sort(predecessors);
 
 				// Add sorted batch to fpset
-				for (int i = 0; i < predecessors.length; i++) {
-					final long predecessor = predecessors[i];
-					final boolean put = fpSet.put(predecessor);
-					if (put == false) {
-						puts++;
-					} else {
-						collisions++;
-					}
-				}
+                for (final long predecessor : predecessors) {
+                    final boolean put = fpSet.put(predecessor);
+                    if (put == false) {
+                        puts++;
+                    } else {
+                        collisions++;
+                    }
+                }
 			} catch (final IOException e) {
 				e.printStackTrace();
 				Assert.fail("Unexpected");

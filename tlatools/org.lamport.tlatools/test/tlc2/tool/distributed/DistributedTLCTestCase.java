@@ -121,46 +121,37 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 		final CountDownLatch latch = new CountDownLatch(fpSets + 2);
 		
 		// Workers
-		new Thread(new Runnable() {
-			@Override
-            public void run() {
-				try {
-					TLCWorker.main(new String[] { "localhost" });
-				} catch (final Exception e) {
-					e.printStackTrace();
-				} finally {
-					latch.countDown();
-				}
+		new Thread(() -> {
+			try {
+				TLCWorker.main(new String[] { "localhost" });
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				latch.countDown();
 			}
 		}, "Worker").start();
 
 		// master
-		new Thread(new Runnable() {
-			@Override
-            public void run() {
-				try {
-					System.setProperty(TLCServer.class.getName() + ".expectedFPSetCount", Integer.toString(fpSets));
-					TLCServer.handleArgs(arguments);
-				} catch (final Exception e) {
-					e.printStackTrace();
-				} finally {
-					latch.countDown();
-				}
+		new Thread(() -> {
+			try {
+				System.setProperty(TLCServer.class.getName() + ".expectedFPSetCount", Integer.toString(fpSets));
+				TLCServer.handleArgs(arguments);
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				latch.countDown();
 			}
 		}, "Master").start();
 
 		// FPSet
 		if (fpSets > 0) {
-			new Thread(new Runnable() {
-				@Override
-                public void run() {
-					try {
-						DistributedFPSet.main(new String[] { "localhost" });
-					} catch (final Exception e) {
-						e.printStackTrace();
-					} finally {
-						latch.countDown();
-					}
+			new Thread(() -> {
+				try {
+					DistributedFPSet.main(new String[] { "localhost" });
+				} catch (final Exception e) {
+					e.printStackTrace();
+				} finally {
+					latch.countDown();
 				}
 			}, "FPSet").start();
 		}

@@ -185,7 +185,7 @@ public class LongArrayTest {
 	public void testSwapRandom() throws IOException {
 		final int elements = 21383;
 		
-		final List<Long> vals = new ArrayList<Long>();
+		final List<Long> vals = new ArrayList<>();
 		final Random rnd = new Random();
 		
 		for (int i = 0; i < elements; i++) {

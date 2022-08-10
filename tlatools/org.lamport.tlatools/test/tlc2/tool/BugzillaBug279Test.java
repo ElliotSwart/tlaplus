@@ -103,7 +103,7 @@ public class BugzillaBug279Test extends ModelCheckerTestCase {
 		// Assert the error trace
 		assertTrue(recorder.recorded(EC.TLC_DEADLOCK_REACHED));
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(6);
+		final List<String> expectedTrace = new ArrayList<>(6);
 		expectedTrace.add("/\\ set = {}\n/\\ pc = 0\n/\\ fun = {}");
 		expectedTrace.add("/\\ set = SUBSET (1..20)\n/\\ pc = 1\n/\\ fun = {5}");
 		expectedTrace.add(

@@ -68,8 +68,8 @@ public class BufferedRandomAccessFileTest {
 		final java.io.RandomAccessFile raf = new BufferedRandomAccessFile(tmpFile, "rw");
 
 		// Do not set length, expect meaningful exception
-		raf.seek(1);
-		try {
+		try (raf) {
+			raf.seek(1);
 			for (long i = 0L; i < BufferedRandomAccessFile.BuffSz / 8; i++) {
 				raf.writeLong(i);
 			}
@@ -77,8 +77,6 @@ public class BufferedRandomAccessFileTest {
 			return;
 		} catch (final Exception e) {
 			fail(e.getMessage());
-		} finally {
-			raf.close();
 		}
 	}
 	
@@ -120,8 +118,8 @@ public class BufferedRandomAccessFileTest {
 		final java.io.RandomAccessFile raf = new BufferedRandomAccessFile(tmpFile, "rw");
 
 		// Do not set length, expect meaningful exception
-		raf.seek(1);
-		try {
+		try (raf) {
+			raf.seek(1);
 			for (int i = 0; i < BufferedRandomAccessFile.BuffSz / 8; i++) {
 				raf.readLong();
 			}
@@ -129,8 +127,6 @@ public class BufferedRandomAccessFileTest {
 			return;
 		} catch (final Exception e) {
 			fail(e.getMessage());
-		} finally {
-			raf.close();
 		}
 	}
 }

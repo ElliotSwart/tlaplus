@@ -57,8 +57,8 @@ public class IncompleteNextTest_TTraceTest extends TTraceModelCheckerTestCase {
 		
 		// Assert the error trace
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(2);
-		final List<String> expectedActions = new ArrayList<String>(2);
+		final List<String> expectedTrace = new ArrayList<>(2);
+		final List<String> expectedActions = new ArrayList<>(2);
 		expectedTrace.add("/\\ x = 0\n/\\ y = 0");
 		expectedActions.add(isExtendedTLCState()
 				? "<Initial predicate line 6, col 19 to line 6, col 21 of module IncompleteNext>"

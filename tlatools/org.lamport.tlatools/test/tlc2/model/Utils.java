@@ -42,7 +42,7 @@ public class Utils {
 	
 	public static List<String> toTlcOutputFormat(final MCState state)
 	{
-		final List<String> inputLines = new ArrayList<String>();
+		final List<String> inputLines = new ArrayList<>();
 		inputLines.add(String.format("%d: %s", state.getStateNumber(), state.getLabel()));
 		for (final MCVariable variable : state.getVariables())
 		{

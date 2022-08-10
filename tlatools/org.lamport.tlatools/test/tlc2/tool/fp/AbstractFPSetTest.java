@@ -69,8 +69,7 @@ public abstract class AbstractFPSetTest {
 		final FPSet fpSet = getFPSet(new FPSetConfiguration());
 		fpSet.init(numThreads, tmpdir, filename);
 
-		if (fpSet instanceof FPSetStatistic) {
-			final FPSetStatistic fpSetStats = (FPSetStatistic) fpSet;
+		if (fpSet instanceof final FPSetStatistic fpSetStats) {
 			final long maxTblCnt = fpSetStats.getMaxTblCnt();
 			System.out.println("Maximum FPSet table count is: "
 					+ df.format(maxTblCnt) + " (approx: "
@@ -91,8 +90,7 @@ public abstract class AbstractFPSetTest {
 		if (factor >= 1d) {
 			final long currentSize = fpSet.size();
 			final long insertions = (long) ((currentSize - previousSize) * factor);
-			if (fpSet instanceof FPSetStatistic) {
-				final FPSetStatistic fpSetStatistics = (FPSetStatistic) fpSet;
+			if (fpSet instanceof final FPSetStatistic fpSetStatistics) {
 				System.out.println(System.currentTimeMillis() + " s (epoch); " + df.format(insertions) + " insertions/min; " + pf.format(fpSetStatistics.getLoadFactor()) + " load factor");
 			} else {
 				System.out.println(System.currentTimeMillis() + " s (epoch); " + df.format(insertions) + " insertions/min");
@@ -107,8 +105,7 @@ public abstract class AbstractFPSetTest {
 		// Normalize insertions to minutes.
 		final long duration = Math.max(end - start, 1); //ms (avoid div-by-zero)
 		final long insertions = (long) ((size / duration) * 60000L);
-		if (fpSet instanceof FPSetStatistic) {
-			final FPSetStatistic fpSetStatistics = (FPSetStatistic) fpSet;
+		if (fpSet instanceof final FPSetStatistic fpSetStatistics) {
 			System.out.println(System.currentTimeMillis() + " s; " + df.format(insertions) + " insertions/min; " + pf.format(fpSetStatistics.getLoadFactor()) + " load factor");
 		} else {
 			System.out.println(System.currentTimeMillis() + " s (epoch); " + df.format(insertions) + " insertions/min");

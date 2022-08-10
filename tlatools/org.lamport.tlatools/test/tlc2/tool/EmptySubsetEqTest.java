@@ -64,7 +64,7 @@ public class EmptySubsetEqTest extends ModelCheckerTestCase {
 
 		// Expect an error trace consisting of a single state.
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>(4);
+		final List<String> expectedTrace = new ArrayList<>(4);
 		expectedTrace.add("b = TRUE");
 		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
 

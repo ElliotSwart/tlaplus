@@ -58,7 +58,7 @@ public class RABTest_TTraceTest extends TTraceModelCheckerTestCase {
 		assertEquals(7, recorder.getRecordAsInt(EC.TLC_SEARCH_DEPTH));
 
 		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<String>();
+		final List<String> expectedTrace = new ArrayList<>();
 		expectedTrace.add("""
 				/\\ myattr = (p0 :> "A" @@ p1 :> "A")
 				/\\ temp = ( p0 :>

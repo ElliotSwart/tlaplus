@@ -176,7 +176,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	public void testValues() throws Exception {
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(new FPSetConfiguration());
 
-		final List<Long> loVals = new ArrayList<Long>();
+		final List<Long> loVals = new ArrayList<>();
 		// no negative values (MSB stripped in DiskFPSet)
 		// loVals.add(Long.MIN_VALUE);
 		// loVals.add(Long.MIN_VALUE - 1l);
@@ -189,7 +189,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		loVals.add(Long.MAX_VALUE - 1l);
 		loVals.add(Long.MAX_VALUE);
 
-		final List<Long> hiVals = new ArrayList<Long>();
+		final List<Long> hiVals = new ArrayList<>();
 		// no negative values (MSB stripped in DiskFPSet)
 		// hiVals.add(Long.MIN_VALUE);
 		// hiVals.add(Long.MIN_VALUE - 1l);
@@ -202,7 +202,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		hiVals.add(Long.MAX_VALUE - 1l);
 		hiVals.add(Long.MAX_VALUE);
 
-		final List<Long> fps = new ArrayList<Long>();
+		final List<Long> fps = new ArrayList<>();
 		// no negative values (MSB stripped in DiskFPSet)
 		// fps.add(Long.MIN_VALUE);
 		// fps.add(Long.MIN_VALUE - 1l);
@@ -215,7 +215,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		fps.add(Long.MAX_VALUE - 1l);
 		fps.add(Long.MAX_VALUE);
 
-		final List<Long> loEntries = new ArrayList<Long>();
+		final List<Long> loEntries = new ArrayList<>();
 		loEntries.add(0l);
 		loEntries.add(1l);
 		// possible maximum due to impl. detail in DiskFPSet
@@ -225,7 +225,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		// loEntries.add(Long.MAX_VALUE - 1l);
 		// loEntries.add(Long.MAX_VALUE);
 
-		final List<Long> hiEntries = new ArrayList<Long>();
+		final List<Long> hiEntries = new ArrayList<>();
 		hiEntries.add(0l);
 		hiEntries.add(1l);
 		// possible maximum due to impl. detail in DiskFPSet
@@ -236,20 +236,15 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		// hiEntries.add(Long.MAX_VALUE);
 
 		// loVals
-		for (final Iterator<Long> itr0 = loVals.iterator(); itr0.hasNext();) {
-			final Long loVal = itr0.next();
+		for (final Long loVal : loVals) {
 			// hiVals
-			for (final Iterator<Long> itr1 = hiVals.iterator(); itr1.hasNext();) {
-				final Long hiVal = itr1.next();
+			for (final Long hiVal : hiVals) {
 				// fps
-				for (final Iterator<Long> itr2 = fps.iterator(); itr2.hasNext();) {
-					final Long fp = itr2.next();
+				for (final Long fp : fps) {
 					// loEntry
-					for (final Iterator<Long> itr3 = loEntries.iterator(); itr3.hasNext();) {
-						final Long loEntry = itr3.next();
+					for (final Long loEntry : loEntries) {
 						// hiEntry
-						for (final Iterator<Long> itr4 = hiEntries.iterator(); itr4.hasNext();) {
-							final Long hiEntry = itr4.next();
+						for (final Long hiEntry : hiEntries) {
 							testCalculateMidEntry(fpSet, loVal, hiVal, fp, loEntry, hiEntry);
 						}
 					}

@@ -58,7 +58,7 @@ public class EvalExceptionTest extends ModelCheckerTestCase {
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_MODULE_ARGUMENT_ERROR_AN,
 				"first", "<=", "integer", "(-1 :> 0)"));
 
-		final List<String> expectedTrace = new ArrayList<String>(6);
+		final List<String> expectedTrace = new ArrayList<>(6);
 		expectedTrace.add("""
 				/\\ num = (-2 :> 0 @@ -1 :> 0)
 				/\\ rnum = (-2 :> (-1 :> 0) @@ -1 :> (-2 :> 0))
