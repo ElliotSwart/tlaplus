@@ -29,7 +29,6 @@ package tlc2.tool.distributed;
 import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.io.IOException;
 import java.rmi.RemoteException;
 
 import org.junit.Before;

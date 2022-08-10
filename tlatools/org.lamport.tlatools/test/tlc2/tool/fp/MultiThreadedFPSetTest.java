@@ -37,7 +37,7 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Before
-	public void printStats() throws Exception {
+	public void printStats() {
 		System.out.println("Insertions: " + df.format(INSERTIONS)
 				+ " (approx: " + df.format(INSERTIONS * FPSet.LongSize >> 20) + " GiB)");
 		System.out.println("Thread count: " + NUM_THREADS);
@@ -166,13 +166,13 @@ public void run() {
 		for (final FingerPrintGenerator fpg : fpgs) {
 			final long puts = fpg.getPuts();
 			final long collisions = fpg.getCollisions();
-			System.out.println(String.format("Producer: %s, puts: %s, puts/collisions: %s", fpg.getId(), puts,
-					(collisions == 0 ? "none" : (double) (puts / collisions))));
+			System.out.printf("Producer: %s, puts: %s, puts/collisions: %s%n", fpg.getId(), puts,
+					(collisions == 0 ? "none" : (double) (puts / collisions)));
 			overallPuts += puts;
 			overallCollisions += collisions;
 		}
-		System.out.println(String.format("Total puts: %s, total collisions: %s, total load factor: %s, duration: %s ms.", overallPuts,
-				overallCollisions, df.format(((FPSetStatistic) fpSet).getLoadFactor()), endTimeStamp.getTime() - startTimestamp));
+		System.out.printf("Total puts: %s, total collisions: %s, total load factor: %s, duration: %s ms.%n", overallPuts,
+				overallCollisions, df.format(((FPSetStatistic) fpSet).getLoadFactor()), endTimeStamp.getTime() - startTimestamp);
 		printInsertionSpeed(fpSet, startTimestamp, endTimeStamp.getTime());
 		
 		// Do not compare fpSet.size() to insertions as several FPGs might race

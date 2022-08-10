@@ -26,11 +26,11 @@ public class ByteUtilsTest
     private File testFileB;
     private File testFileA;
 
-    BigInteger Arr[];
-    BigInteger Arr2[];
-    BigInteger Arr3[];
-    BigInteger Arr4[];
-    BigInteger Arr5[];
+    BigInteger[] Arr;
+    BigInteger[] Arr2;
+    BigInteger[] Arr3;
+    BigInteger[] Arr4;
+    BigInteger[] Arr5;
     long t1;
     long t2;
 
@@ -66,7 +66,7 @@ public class ByteUtilsTest
     }
 
     @Test
-	public void test2() throws FileNotFoundException, IOException
+	public void test2() throws IOException
     {
         t1 = System.currentTimeMillis();
         mainTestWriteIntReadInt();
@@ -84,7 +84,7 @@ public class ByteUtilsTest
     }
 
     @Test
-	public void test4() throws FileNotFoundException, IOException
+	public void test4() throws IOException
     {
         t1 = System.currentTimeMillis();
         mainTestWriteLongReadLong();
@@ -93,7 +93,7 @@ public class ByteUtilsTest
     }
 
     @Test
-	public void test5() throws FileNotFoundException, IOException
+	public void test5() throws IOException
     {
         t1 = System.currentTimeMillis();
         mainTestWriteReadSizeByteArray();
@@ -102,7 +102,7 @@ public class ByteUtilsTest
     }
 
     @Test
-	public void test6() throws FileNotFoundException, IOException
+	public void test6() throws IOException
     {
         t1 = System.currentTimeMillis();
         mainTestAppend();
@@ -126,8 +126,7 @@ public class ByteUtilsTest
         }
     }
 
-    private void mainTestWriteIntReadInt() throws IOException, FileNotFoundException
-    {
+    private void mainTestWriteIntReadInt() throws IOException {
         final FileOutputStream fout = new FileOutputStream(testFileA);
 
         int i, j;
@@ -170,8 +169,7 @@ public class ByteUtilsTest
         }
     }
 
-    private void mainTestWriteLongReadLong() throws IOException, FileNotFoundException
-    {
+    private void mainTestWriteLongReadLong() throws IOException {
         final FileOutputStream fout = new FileOutputStream(testFileA);
 
         long i;
@@ -198,8 +196,7 @@ public class ByteUtilsTest
         }
     }
 
-    private void mainTestWriteReadSizeByteArray() throws IOException, FileNotFoundException
-    {
+    private void mainTestWriteReadSizeByteArray() throws IOException {
         final FileOutputStream fout = new FileOutputStream(testFileA);
 
         int j;
@@ -235,8 +232,7 @@ public class ByteUtilsTest
         }
     }
 
-    private void mainTestAppend() throws IOException, FileNotFoundException
-    {
+    private void mainTestAppend() throws IOException {
         FileOutputStream fout = new FileOutputStream(testFileA);
 
         int j;

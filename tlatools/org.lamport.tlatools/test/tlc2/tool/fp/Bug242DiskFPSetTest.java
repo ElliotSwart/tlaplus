@@ -33,7 +33,7 @@ public class Bug242DiskFPSetTest extends AbstractFPSetTest {
 	 * @see Bug #242 in general/bugzilla/index.html
 	 */
 	@Test
-	public void testDiskFPSetWithHighMem() throws RemoteException {
+	public void testDiskFPSetWithHighMem() {
 		try {
 			getFPSet(2097153638);
 		} catch (final OutOfMemoryError e) {
@@ -44,7 +44,7 @@ public class Bug242DiskFPSetTest extends AbstractFPSetTest {
 		}
 	}
 	@Test
-	public void testDiskFPSetIntMaxValue() throws RemoteException {
+	public void testDiskFPSetIntMaxValue() {
 		try {
 			getFPSet(Integer.MAX_VALUE);
 		} catch (final OutOfMemoryError e) {
@@ -55,7 +55,7 @@ public class Bug242DiskFPSetTest extends AbstractFPSetTest {
 		}
 	}
 	@Test
-	public void testDiskFPSetIntMinValue() throws RemoteException {
+	public void testDiskFPSetIntMinValue() {
 		try {
 			getFPSet(Integer.MIN_VALUE);
 		} catch (final Exception e) {
@@ -65,7 +65,7 @@ public class Bug242DiskFPSetTest extends AbstractFPSetTest {
 		fail();
 	}
 	@Test
-	public void testDiskFPSetZero() throws RemoteException {
+	public void testDiskFPSetZero() {
 		try {
 			var fpSet = getFPSet(0);
 			fpSet.close();
@@ -74,7 +74,7 @@ public class Bug242DiskFPSetTest extends AbstractFPSetTest {
 		}
 	}
 	@Test
-	public void testDiskFPSetOne() throws RemoteException {
+	public void testDiskFPSetOne() {
 		try {
 			var fpSet = getFPSet(1);
 			fpSet.close();

@@ -21,7 +21,7 @@ public class StateQueueTest {
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		var tool = EasyMock.createNiceMock(ITool.class);
 		sQueue = new MemStateQueue( "", tool);
 	}

@@ -201,7 +201,7 @@ public class TBParTest {
 			}
 			
 			@Override
-			public boolean match(final OpApplNode test, final ModuleNode mn) throws AbortException {
+			public boolean match(final OpApplNode test, final ModuleNode mn) {
 				throw new UnsupportedOperationException("not implemented");
 			}
 			

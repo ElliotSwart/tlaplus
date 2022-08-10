@@ -214,8 +214,8 @@ public class ConcurrentWriteTest {
 				channel.force(false);
 				return null;
 			});
-		};
-		
+		}
+
 		final ExecutorService executorService = Executors.newFixedThreadPool((int) writers);
 		executorService.invokeAll(tasks);
 		executorService.shutdown();

@@ -240,7 +240,7 @@ public class FPSetFactoryTest {
 
 	/* Helper methods */
 	
-	private FPSet doTestGetFPSet(final Class<? extends FPSet> class1, final FPSetConfiguration fpSetConfig) throws RemoteException, NoSuchObjectException {
+	private FPSet doTestGetFPSet(final Class<? extends FPSet> class1, final FPSetConfiguration fpSetConfig) throws RemoteException {
 		final FPSet fpSet = FPSetFactory.getFPSet(fpSetConfig);
 		if (!FPSetFactory.isDiskFPSet(class1.getName())) {
 			assertTrue(class1.isAssignableFrom(fpSet.getClass()));

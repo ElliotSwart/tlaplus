@@ -31,9 +31,7 @@ import static org.junit.Assert.assertNotEquals;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import org.junit.experimental.categories.Category;
 import util.Assert.TLCRuntimeException;
-import util.IndependentlyRunTest;
 import util.UniqueString;
 
 public class ModelValueTest {

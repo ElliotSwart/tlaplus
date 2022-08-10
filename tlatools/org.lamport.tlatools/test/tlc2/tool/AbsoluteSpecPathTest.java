@@ -18,7 +18,7 @@ public class AbsoluteSpecPathTest extends CommonTestCase {
 	}
 
 	@Test
-	public void test() throws Exception {
+	public void test() {
 		// Check that BASE_DIR is actually set to make sure we have an absolute path to
 		// work with. If this test gets executed from within the Eclipse IDE, manually
 		// set -Dbasedir=/path/to/tlatools/

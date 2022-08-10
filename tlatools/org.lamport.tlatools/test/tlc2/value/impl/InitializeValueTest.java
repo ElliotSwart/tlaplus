@@ -265,7 +265,7 @@ public class InitializeValueTest {
 		}
 	}
 
-	private static final Value[] getValue(final int n, final String str) {
+	private static Value[] getValue(final int n, final String str) {
 		final Value[] values = new Value[n];
 		for (int i = 0; i < n; i++) {
 			values[i] = new StringValue(str + i);
@@ -273,7 +273,7 @@ public class InitializeValueTest {
 		return values;
 	}
 
-	private static final UniqueString[] getNames(final int n) {
+	private static UniqueString[] getNames(final int n) {
 		final UniqueString[] names = new UniqueString[n];
 		for (int i = 0; i < names.length; i++) {
 			names[i] = UniqueString.uniqueStringOf("N" + i);

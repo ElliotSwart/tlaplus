@@ -58,7 +58,7 @@ public class Github597Test extends ModelCheckerTestCase {
 	}
 
 	@Test
-	public void testSpec() throws FileNotFoundException, IOException {
+	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "4356", "1500", "0"));
 		assertFalse(recorder.recorded(EC.GENERAL));

@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.SortedSet;
@@ -271,8 +270,7 @@ public class OffHeapDiskFPSetTest {
 		doTestOffset(length, 1474536306841L);
 	}
 
-	private void doTestOffset(final long length, final long rgenseed) throws Exception,
-			IllegalAccessException, InvocationTargetException {
+	private void doTestOffset(final long length, final long rgenseed) throws Exception {
 		
 		final DummyFPSetConfiguration fpSetConfig = new DummyFPSetConfiguration();
 		fpSetConfig.setMemoryInFingerprintCnt(length);
@@ -353,7 +351,7 @@ public class OffHeapDiskFPSetTest {
 		}
 
 		@Override
-		public int read() throws IOException {
+		public int read() {
 			return 0;
 		}
 	}

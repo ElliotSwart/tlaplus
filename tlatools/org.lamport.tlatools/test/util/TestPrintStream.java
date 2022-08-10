@@ -48,7 +48,7 @@ public class TestPrintStream extends PrintStream {
 	@Override
     public void println(final String x) {
 		strings.add(x);
-		buf.append(x + "\n");
+		buf.append(x).append("\n");
 		super.println(x);
 	}
 
@@ -89,7 +89,7 @@ public class TestPrintStream extends PrintStream {
 				return;
 			}
 		}
-		fail("Match not found for regex \"" + pattern.toString() + "\"");		
+		fail("Match not found for regex \"" + pattern + "\"");
 	}
 	
 	public void assertNoSubstring(final String substring) {

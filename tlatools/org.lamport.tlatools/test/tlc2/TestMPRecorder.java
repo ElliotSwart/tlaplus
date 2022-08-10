@@ -131,15 +131,15 @@ public class TestMPRecorder implements tlc2.output.IMessagePrinterRecorder {
 
 	public String getCoverageRecords() {
 		final List<Object> coverages = getRecords(EC.TLC_COVERAGE_VALUE);
-		String out = "";
+		StringBuilder out = new StringBuilder();
 		if (coverages == null) {
-			return out;
+			return out.toString();
 		}
 		for (final Object o : coverages) {
 			final String[] coverage = (String[]) o;
-			out += coverage[0] + ": " + Integer.parseInt(coverage[1]) + "\n";
+			out.append(coverage[0]).append(": ").append(Integer.parseInt(coverage[1])).append("\n");
 		}
-		return out;
+		return out.toString();
 	}
 
 	public List<Coverage> getActionCoverage() {
@@ -256,11 +256,8 @@ public class TestMPRecorder implements tlc2.output.IMessagePrinterRecorder {
 			if (cost != other.cost)
 				return false;
 			if (line == null) {
-				if (other.line != null)
-					return false;
-			} else if (!line.equals(other.line))
-				return false;
-			return true;
+				return other.line == null;
+			} else return line.equals(other.line);
 		}
 	}
 	

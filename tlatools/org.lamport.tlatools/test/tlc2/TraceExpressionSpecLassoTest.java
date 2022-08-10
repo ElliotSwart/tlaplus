@@ -38,7 +38,6 @@ import tlc2.output.EC;
 import tlc2.tool.Action;
 import tlc2.tool.StateVec;
 import tlc2.tool.TLCState;
-import tlc2.tool.impl.SpecProcessor;
 import tlc2.tool.impl.Tool;
 import tlc2.tool.liveness.LiveCheck1;
 import tlc2.tool.liveness.LiveException;

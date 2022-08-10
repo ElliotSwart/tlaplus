@@ -44,7 +44,7 @@ public class SetOfRcrdValueTest {
 
 	private static final int a = 97;
 
-	private static final Value[] getValue(final int n, final String str) {
+	private static Value[] getValue(final int n, final String str) {
 		final Value[] values = new Value[n];
 		for (int i = 0; i < n; i++) {
 			values[i] = new StringValue(str + i);
@@ -52,7 +52,7 @@ public class SetOfRcrdValueTest {
 		return values;
 	}
 
-	private static final Value[] getValue(final int n, final String... strs) {
+	private static Value[] getValue(final int n, final String... strs) {
 		final Value[] values = new Value[strs.length];
 		for (int i = 0; i < values.length; i++) {
 			values[i] = new SetEnumValue(getValue(n, strs[i]), false);
@@ -60,13 +60,13 @@ public class SetOfRcrdValueTest {
 		return values;
 	}
 
-	private static final Value[] getValue(final int n, final UniqueString[] names) {
+	private static Value[] getValue(final int n, final UniqueString[] names) {
 		// a,b,c,d,e,...
 		return getValue(n, IntStream.range(a, a + names.length).mapToObj(ascii -> Character.toString((char) ascii))
 				.toArray(String[]::new));
 	}
 
-	private static final UniqueString[] getNames(final int n) {
+	private static UniqueString[] getNames(final int n) {
 		final UniqueString[] names = new UniqueString[n];
 		for (int i = 0; i < names.length; i++) {
 			names[i] = UniqueString.uniqueStringOf("N" + i);

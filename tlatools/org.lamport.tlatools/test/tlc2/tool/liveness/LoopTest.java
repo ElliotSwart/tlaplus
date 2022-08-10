@@ -34,10 +34,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
-import util.IndependentlyRunTest;
 
 /**
  * System LOOP as described by Manna & Pneuli on page 423ff

@@ -25,7 +25,6 @@
  ******************************************************************************/
 package tlc2.tool.distributed;
 
-import java.security.Permission;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -35,15 +34,12 @@ import org.junit.Assume;
 import org.junit.Before;
 
 import tlc2.TestMPRecorder;
-import tlc2.output.EC;
 import tlc2.output.MP;
 import tlc2.tool.CommonTestCase;
 import tlc2.tool.TLCStateInfo;
-import tlc2.tool.TLCStateMutExt;
 import tlc2.tool.distributed.fp.DistributedFPSet;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 // TODO: Handle Distributed TLC without deprecated SecurityManager
 @SuppressWarnings({"deprecation", "removal"})

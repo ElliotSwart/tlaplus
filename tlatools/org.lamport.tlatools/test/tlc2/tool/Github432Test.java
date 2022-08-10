@@ -116,7 +116,7 @@ public class Github432Test extends ModelCheckerTestCase {
 	}
 	
 	@Test
-	public void testA() throws FileNotFoundException, IOException {
+	public void testA() {
 		if (expectedWarnings != null) {
 			compareToExpectedResults((String[])recorder.getRecords(EC.TLC_SYMMETRY_SET_TOO_SMALL).get(0));
 		} else {
@@ -125,7 +125,7 @@ public class Github432Test extends ModelCheckerTestCase {
 	}
 	
 	@Test
-	public void testB() throws FileNotFoundException, IOException {
+	public void testB() {
 		if (expectedWarnings != null) {
 			compareToExpectedResults((String[])recorder.getRecords(EC.TLC_SYMMETRY_SET_TOO_SMALL).get(0));
 		} else {
@@ -134,7 +134,7 @@ public class Github432Test extends ModelCheckerTestCase {
 	}
 	
 	@Test
-	public void testC() throws FileNotFoundException, IOException {
+	public void testC() {
 		if (expectedWarnings != null) {
 			compareToExpectedResults((String[])recorder.getRecords(EC.TLC_SYMMETRY_SET_TOO_SMALL).get(0));
 		} else {
@@ -143,7 +143,7 @@ public class Github432Test extends ModelCheckerTestCase {
 	}
 	
 	@Test
-	public void testD() throws FileNotFoundException, IOException {
+	public void testD() {
 		if (expectedWarnings != null) {
 			compareToExpectedResults((String[])recorder.getRecords(EC.TLC_SYMMETRY_SET_TOO_SMALL).get(0));
 		} else {
@@ -151,7 +151,7 @@ public class Github432Test extends ModelCheckerTestCase {
 		}
 	}
 	
-	private void createConfigFile(final String humans, final String others) throws IOException {
+	private void createConfigFile(final String humans, final String others) {
 		final File configFile = new File(CommonTestCase.BASE_PATH + CONFIG_FILE);
 		final File backup = new File(CommonTestCase.BASE_PATH + CONFIG_FILE_BACKUP);
 		

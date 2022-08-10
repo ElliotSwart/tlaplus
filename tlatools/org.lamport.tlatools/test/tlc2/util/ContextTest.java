@@ -187,7 +187,7 @@ public class ContextTest {
 		}
 		
 		@Override
-        public boolean match(final OpApplNode test, final ModuleNode mn) throws AbortException {
+        public boolean match(final OpApplNode test, final ModuleNode mn) {
 			return false;
 		}
 

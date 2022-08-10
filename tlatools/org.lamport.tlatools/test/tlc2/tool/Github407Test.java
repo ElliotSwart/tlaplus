@@ -55,7 +55,7 @@ public class Github407Test extends ModelCheckerTestCase {
 	}
 
 	@Test
-	public void testSpec() throws FileNotFoundException, IOException {
+	public void testSpec() throws IOException {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "9", "4", "0"));
 		assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "3"));
@@ -65,8 +65,8 @@ public class Github407Test extends ModelCheckerTestCase {
 		// If the file exist, simply compare it to a correct and manually checked version.
 		try (
 			final InputStream expected = getClass().getResourceAsStream("Github407.dump");
-			final FileInputStream actual = new FileInputStream(Github407Test.dumpFilePath.toFile());
-			) {
+			final FileInputStream actual = new FileInputStream(Github407Test.dumpFilePath.toFile())
+		) {
 			final BufferedReader expectedReader = new BufferedReader(new InputStreamReader(expected));
 			final BufferedReader actualReader = new BufferedReader(new InputStreamReader(actual));
 			while (expectedReader.ready() && actualReader.ready()) {

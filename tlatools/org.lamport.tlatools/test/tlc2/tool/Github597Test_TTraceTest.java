@@ -61,7 +61,7 @@ public class Github597Test_TTraceTest extends TTraceModelCheckerTestCase {
 
 	@Category(TTraceTest.class)
 	@Test
-	public void testSpec() throws FileNotFoundException, IOException {
+	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
 		// Every run of this test generates a different trace, but the TE spec should
 		// replicate it anyway. For now, simply check that a trace has been generated

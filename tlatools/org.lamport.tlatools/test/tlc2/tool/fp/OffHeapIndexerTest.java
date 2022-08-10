@@ -43,7 +43,7 @@ public class OffHeapIndexerTest {
 	}
 
 	@Test
-	public void testRescale() throws RemoteException {
+	public void testRescale() {
 		final int fpBits = 1;
 		final long positions = 96L;
 		
@@ -61,7 +61,7 @@ public class OffHeapIndexerTest {
 	}
 
 	@Test
-	public void testRescale99() throws RemoteException {
+	public void testRescale99() {
 		final int fpBits = 1;
 		final long positions = 99L;
 		
@@ -87,7 +87,7 @@ public class OffHeapIndexerTest {
 	}
 
 	@Test
-	public void testRescale2() throws RemoteException {
+	public void testRescale2() {
 		final int fpBits = 2;
 		final long positions = 96L;
 		
@@ -105,7 +105,7 @@ public class OffHeapIndexerTest {
 	}
 
 	@Test
-	public void testRescale299() throws RemoteException {
+	public void testRescale299() {
 		final int fpBits = 2;
 		final long positions = 99L;
 		
@@ -123,7 +123,7 @@ public class OffHeapIndexerTest {
 	}
 
 	@Test
-	public void testRescaleMaximum() throws RemoteException {
+	public void testRescaleMaximum() {
 		final int fpBits = 1;
 		final long positions = 11L;
 		

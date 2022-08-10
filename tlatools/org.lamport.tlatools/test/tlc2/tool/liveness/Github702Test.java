@@ -3,9 +3,7 @@
 package tlc2.tool.liveness;
 
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
-import util.IndependentlyRunTest;
 
 import static org.junit.Assert.assertTrue;
 

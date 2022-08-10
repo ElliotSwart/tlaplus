@@ -49,7 +49,7 @@ public class ContinueTest extends ModelCheckerTestCase {
 	}
 
 	@Test
-	public void testSpec() throws FileNotFoundException, IOException {
+	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "32", "29", "0"));
 		assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "29"));

@@ -73,7 +73,7 @@ public class FingerPrintGenerator implements Runnable {
 //				}
 //				
 				final boolean put = fpSet.put(predecessor);
-				if (put == false) {
+				if (!put) {
 					puts++;
 				} else {
 					collisions++;

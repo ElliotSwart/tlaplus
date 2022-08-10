@@ -72,14 +72,14 @@ public class Bug246DiskFPSetTest {
 			
 			// stats
 			final StringBuilder buf = new StringBuilder(100);
-			buf.append("Bucket Capacity: " + bucketCapacity);
+			buf.append("Bucket Capacity: ").append(bucketCapacity);
 			
-			buf.append("Tbl Capacity: " + tblCapacity);
-			buf.append("Tbl Load: " + tblLoad);
-			buf.append("Tbl Cnt: " + tblCnt);
+			buf.append("Tbl Capacity: ").append(tblCapacity);
+			buf.append("Tbl Load: ").append(tblLoad);
+			buf.append("Tbl Cnt: ").append(tblCnt);
 			
 			
-			fail("OOM occurred (not flush to disk) " + buf.toString());
+			fail("OOM occurred (not flush to disk) " + buf);
 		}
 		finally {
 			fpSet.close();
@@ -87,7 +87,7 @@ public class Bug246DiskFPSetTest {
 	}
 	
 	@Test
-	public void testFlushDiskFPSet() throws IOException {
+	public void testFlushDiskFPSet() {
 		
 //		// Dedicate 90% of VM memory to DiskFPSet 
 //		final long vmMaxMemory = Runtime.getRuntime().maxMemory();

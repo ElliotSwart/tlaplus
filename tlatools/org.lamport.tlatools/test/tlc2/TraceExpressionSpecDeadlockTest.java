@@ -35,7 +35,6 @@ import tla2sany.semantic.ExternalModuleTable;
 import tlc2.output.EC;
 import tlc2.tool.Action;
 import tlc2.tool.StateVec;
-import tlc2.tool.impl.SpecProcessor;
 import tlc2.tool.impl.Tool;
 import tlc2.util.Vect;
 import tlc2.value.IValue;

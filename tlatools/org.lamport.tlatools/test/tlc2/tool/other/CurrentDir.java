@@ -20,7 +20,6 @@ public class CurrentDir
         {
             System.out.println("args[" + i + "] = '" + args[i] + "'");
         }
-        ;
 
         final File dir1 = new File(".");
         final File dir2 = new File("..");

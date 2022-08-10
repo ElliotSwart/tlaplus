@@ -1,6 +1,5 @@
 package tlc2.tool.queue;
 
-import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -28,7 +27,7 @@ public class DiskStateQueueLongTest extends StateQueueTest {
 	 */
 	@Override
     @Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		// create a temp folder in java.io.tmpdir and have it deleted on VM exit
 		final String diskdir = System.getProperty("java.io.tmpdir") + File.separator + "MultiDiskStateQueueTest_"
 				+ System.currentTimeMillis();

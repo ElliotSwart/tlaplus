@@ -36,16 +36,14 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import org.junit.experimental.categories.Category;
 import tlc2.module.TLCExt;
 import tlc2.util.FP64;
 import tlc2.value.RandomEnumerableValues;
 import util.Assert.TLCRuntimeException;
-import util.IndependentlyRunTest;
 
 public class FcnRcdValueTest {
 
-	private static final Value[] getInts(final int from, final int to, final int offset) {
+	private static Value[] getInts(final int from, final int to, final int offset) {
 		final List<IntValue> l = new ArrayList<>();
 		for (int i = from; i < to; i++) {
 			l.add(IntValue.gen(offset + i));

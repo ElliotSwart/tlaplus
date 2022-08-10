@@ -173,9 +173,7 @@ public class SetOfStatesTest extends TestCase {
 			final EqualityDummyTLCState other = (EqualityDummyTLCState) obj;
 			if (fingerPrint() != other.fingerPrint())
 				return false;
-			if (id != other.id)
-				return false;
-			return true;
+			return id == other.id;
 		}
 	}
 }

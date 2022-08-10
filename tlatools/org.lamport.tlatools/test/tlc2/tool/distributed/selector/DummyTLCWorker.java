@@ -12,7 +12,7 @@ import tlc2.util.LongVec;
 
 public class DummyTLCWorker extends TLCWorkerSmartProxy implements TLCWorkerRMI {
 
-	private long duration;
+	private final long duration;
 
 	public DummyTLCWorker(final long duration) {
 		super(null);
@@ -23,7 +23,7 @@ public class DummyTLCWorker extends TLCWorkerSmartProxy implements TLCWorkerRMI 
 	 * @see tlc2.tool.distributed.TLCWorkerSmartProxy#getNextStates(tlc2.tool.TLCState[])
 	 */
 	@Override
-    public NextStateResult getNextStates(final TLCState[] states) throws RemoteException, WorkerException {
+    public NextStateResult getNextStates(final TLCState[] states) throws RemoteException {
 		return new NextStateResult((TLCStateVec[]) null, (LongVec[]) null, duration, -1L);
 	}
 }

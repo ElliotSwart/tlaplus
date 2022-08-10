@@ -50,7 +50,7 @@ public class BatchedFingerPrintGenerator extends FingerPrintGenerator {
 				// Add sorted batch to fpset
                 for (final long predecessor : predecessors) {
                     final boolean put = fpSet.put(predecessor);
-                    if (put == false) {
+                    if (!put) {
                         puts++;
                     } else {
                         collisions++;

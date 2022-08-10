@@ -32,7 +32,7 @@ public abstract class AbstractFPSetTest {
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		// create temp folder
 		dir = new File(tmpdir);
 		dir.mkdirs();

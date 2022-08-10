@@ -43,8 +43,8 @@ public class IsolatedTestCaseRunner extends Runner {
 	private final JUnit4 delegate;
 
 	public IsolatedTestCaseRunner(final Class<?> testFileClass)
-			throws InitializationError, ClassNotFoundException, InstantiationException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+			throws InitializationError, ClassNotFoundException,
+			IllegalArgumentException, SecurityException {
 	
 		// Since IsolatedTestCaseRunner runs several isolated tests in a single VM, it
 		// is good practice to clean resources before each new test.

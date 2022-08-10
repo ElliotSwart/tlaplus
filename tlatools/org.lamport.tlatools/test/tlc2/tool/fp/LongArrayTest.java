@@ -85,7 +85,7 @@ public class LongArrayTest {
 	}
 	
 	@Test
-	public void testOutOfRangePositive() throws IOException {
+	public void testOutOfRangePositive() {
 		final LongArray array = new LongArray(1);
 		try {
 			array.get(1);
@@ -96,7 +96,7 @@ public class LongArrayTest {
 	}
 	
 	@Test
-	public void testOutOfRangeNegative() throws IOException {
+	public void testOutOfRangeNegative() {
 		final LongArray array = new LongArray(1);
 		try {
 			array.get(-1);

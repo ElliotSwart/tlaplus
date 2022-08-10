@@ -33,13 +33,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import org.junit.experimental.categories.Categories;
 import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import util.IndependentlyRunTTraceTest;
-import util.IndependentlyRunTest;
-import util.TTraceTest;
 
 public abstract class BidirectionalTransitions2C_TTrace extends TTraceModelCheckerTestCase {
 

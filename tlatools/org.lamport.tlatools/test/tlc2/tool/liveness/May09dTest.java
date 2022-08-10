@@ -45,7 +45,7 @@ public class May09dTest extends ModelCheckerTestCase {
 
 	@Test
 	@Ignore("Ignored for as long as symmetry is incorrectly handled by TLC with liveness checking.")
-	public void testSpec() throws IOException {
+	public void testSpec() {
 		assertFalse(recorder.recorded(EC.TLC_TEMPORAL_PROPERTY_VIOLATED));
 		assertFalse(recorder.recorded(EC.TLC_COUNTER_EXAMPLE));
 	}

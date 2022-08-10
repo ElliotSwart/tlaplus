@@ -34,14 +34,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-import org.junit.experimental.categories.Categories;
 import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.AbstractChecker;
 import util.IndependentlyRunTTraceTest;
-import util.IndependentlyRunTest;
-import util.TTraceTest;
 
 /**
  * Identical to {@link LoopTest}, except that liveness checking uses

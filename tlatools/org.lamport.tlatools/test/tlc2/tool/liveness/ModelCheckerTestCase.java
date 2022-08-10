@@ -49,7 +49,6 @@ import util.SimpleFilenameToStream;
 import util.ToolIO;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
 
 public abstract class ModelCheckerTestCase extends CommonTestCase {
 
@@ -285,7 +284,7 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 			args.addAll(Arrays.asList(extraArguments));
 			
 			args.add(spec);
-			tlc.handleParameters(args.toArray(new String[args.size()]));
+			tlc.handleParameters(args.toArray(new String[0]));
 			
 			// Run the ModelChecker
 			final int errorCode = tlc.process();

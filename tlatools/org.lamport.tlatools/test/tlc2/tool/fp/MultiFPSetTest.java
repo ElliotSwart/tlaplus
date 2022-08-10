@@ -4,6 +4,7 @@ package tlc2.tool.fp;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +24,7 @@ public class MultiFPSetTest {
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		new File(tmpdir).mkdirs();
 	}
 
@@ -54,7 +55,7 @@ public class MultiFPSetTest {
 		final FPSetConfiguration conf = new FPSetConfiguration();
 		conf.setFpBits(1);
 
-		try(var fpSet = new MultiFPSet(conf);) {
+		try(var fpSet = new MultiFPSet(conf)) {
 
 		} catch (final RuntimeException e) {
 			fail();
@@ -199,9 +200,7 @@ public class MultiFPSetTest {
 		// Get the other FPSet
 		final FPSet[] fpSets = mfps.getFPSets();
 		final Set<FPSet> s = new HashSet<>();
-		for (FPSet fpSet : fpSets) {
-			s.add(fpSet);
-		}
+		Collections.addAll(s, fpSets);
 		s.remove(aFPSet);
 		final FPSet bFPSet = (FPSet) s.toArray()[0];
 		
@@ -415,9 +414,7 @@ public class MultiFPSetTest {
 		// Get the other FPSet
 		final FPSet[] fpSets = mfps.getFPSets();
 		final Set<FPSet> s = new HashSet<>();
-		for (FPSet fpSet : fpSets) {
-			s.add(fpSet);
-		}
+		Collections.addAll(s, fpSets);
 		s.remove(aFPSet);
 		final FPSet bFPSet = (FPSet) s.toArray()[0];
 		
@@ -606,9 +603,7 @@ public class MultiFPSetTest {
 		// Get the other FPSet
 		final FPSet[] fpSets = mfps.getFPSets();
 		final Set<FPSet> s = new HashSet<>();
-		for (FPSet fpSet : fpSets) {
-			s.add(fpSet);
-		}
+		Collections.addAll(s, fpSets);
 		s.remove(aFPSet);
 		final FPSet bFPSet = (FPSet) s.toArray()[0];
 		

@@ -41,7 +41,7 @@ public class ExecutionStatisticsCollectorTest {
 	// Opt-out
 
 	@Test
-	public void testOptOutNoFile() throws IOException {
+	public void testOptOutNoFile() {
 		final String tmpdir = System.getProperty("java.io.tmpdir");
 		final File tempFile = new File(tmpdir + File.separator + "esc" + System.currentTimeMillis() + ".txt");
 		tempFile.deleteOnExit();
@@ -78,7 +78,7 @@ public class ExecutionStatisticsCollectorTest {
 	@Test
 	public void testOptOutNoESCFile() throws IOException {
 		final File tempFile = File.createTempFile("esc", "txt");
-		Files.write(tempFile.toPath(), ("   " + ExecutionStatisticsCollector.Selection.NO_ESC.toString() + "   ").getBytes());
+		Files.write(tempFile.toPath(), ("   " + ExecutionStatisticsCollector.Selection.NO_ESC + "   ").getBytes());
 		tempFile.deleteOnExit();
 		
 		final ExecutionStatisticsCollector esc = new ExecutionStatisticsCollector(true, tempFile.getAbsolutePath());
@@ -89,7 +89,7 @@ public class ExecutionStatisticsCollectorTest {
 	@Test
 	public void testOptOutRandomIdFile() throws IOException {
 		final File tempFile = File.createTempFile("esc", "txt");
-		Files.write(tempFile.toPath(), ("   " + ExecutionStatisticsCollector.Selection.RANDOM_IDENTIFIER.toString() + "   ").getBytes());
+		Files.write(tempFile.toPath(), ("   " + ExecutionStatisticsCollector.Selection.RANDOM_IDENTIFIER + "   ").getBytes());
 		tempFile.deleteOnExit();
 		
 		final ExecutionStatisticsCollector esc = new ExecutionStatisticsCollector(true, tempFile.getAbsolutePath());
@@ -139,7 +139,7 @@ public class ExecutionStatisticsCollectorTest {
 	@Test
 	public void testNoESCFile() throws IOException {
 		final File tempFile = File.createTempFile("esc", "txt");
-		Files.write(tempFile.toPath(), ("   " + ExecutionStatisticsCollector.Selection.NO_ESC.toString() + "   ").getBytes());
+		Files.write(tempFile.toPath(), ("   " + ExecutionStatisticsCollector.Selection.NO_ESC + "   ").getBytes());
 		tempFile.deleteOnExit();
 		
 		assertNull(new ExecutionStatisticsCollector(tempFile.getAbsolutePath()).getIdentifier());
@@ -148,7 +148,7 @@ public class ExecutionStatisticsCollectorTest {
 	@Test
 	public void testRandomIdFile() throws IOException {
 		final File tempFile = File.createTempFile("esc", "txt");
-		Files.write(tempFile.toPath(), ("   " + ExecutionStatisticsCollector.Selection.RANDOM_IDENTIFIER.toString() + "   ").getBytes());
+		Files.write(tempFile.toPath(), ("   " + ExecutionStatisticsCollector.Selection.RANDOM_IDENTIFIER + "   ").getBytes());
 		tempFile.deleteOnExit();
 		
 		final ExecutionStatisticsCollector esc = new ExecutionStatisticsCollector(tempFile.getAbsolutePath());

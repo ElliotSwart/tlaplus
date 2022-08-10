@@ -46,7 +46,7 @@ import util.Assert.TLCRuntimeException;
 
 public class SetOfFcnsValueTest {
 
-	private static final Value[] getValue(final String... strs) {
+	private static Value[] getValue(final String... strs) {
 		final Value[] values = new Value[strs.length];
 		for (int i = 0; i < strs.length; i++) {
 			values[i] = new StringValue(strs[i]);

@@ -84,7 +84,7 @@ public abstract class MultiThreadedSpecLongTest extends ModelCheckerTestCase {
 
 	@Category(LongTest.class)
 	@Test
-	public void testSpec() throws BrokenBarrierException, InterruptedException, TimeoutException {
+	public void testSpec() throws InterruptedException {
 		// ModelChecker has finished and generated the expected amount of states
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));
 		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, statesGenerated, distinctStatesGenerated));

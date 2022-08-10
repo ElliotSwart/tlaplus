@@ -6,7 +6,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -255,8 +254,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		fpSet.close();
 	}
 
-	private void testCalculateMidEntry(final DiskFPSet fpSet, final long loVal, final long hiVal, final long fp, final long loEntry, final long hiEntry)
-			throws Exception {
+	private void testCalculateMidEntry(final DiskFPSet fpSet, final long loVal, final long hiVal, final long fp, final long loEntry, final long hiEntry) {
 		if (!isInvalidInput(loVal, hiVal, fp, loEntry, hiEntry)) {
 			try {
 				final long midEntry = fpSet.calculateMidEntry(loVal, hiVal, fp, loEntry, hiEntry);

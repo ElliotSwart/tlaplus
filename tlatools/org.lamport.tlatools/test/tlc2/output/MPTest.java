@@ -15,8 +15,7 @@ public class MPTest
      * @see junit.framework.TestCase#setUp()
      */
     @Before
-	public void setUp() throws Exception
-    {
+	public void setUp() {
         ToolIO.setMode(ToolIO.TOOL);
         ToolIO.reset();
     }

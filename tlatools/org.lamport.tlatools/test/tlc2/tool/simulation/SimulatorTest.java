@@ -36,7 +36,7 @@ public class SimulatorTest extends CommonTestCase {
 	}
 	
 	@Before
-	public void setUp() throws Exception{
+	public void setUp() {
 		// Make the each unit test execution as deterministic as possible.
 		rng = new RandomGenerator(0);
 		ToolIO.setUserDir(BASE_PATH + File.separator + "simulation" + File.separator + "BasicMultiTrace");
@@ -46,7 +46,7 @@ public class SimulatorTest extends CommonTestCase {
 	}
 	
 	@After
-	public void tearDown() throws Exception{
+	public void tearDown() {
         FileUtil.deleteDir(TLCGlobals.metaRoot, true);
 		MP.unsubscribeRecorder(recorder);
 	}

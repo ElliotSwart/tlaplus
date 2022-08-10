@@ -47,12 +47,12 @@ import tlc2.util.FP64;
 @RunWith(Parameterized.class)
 public class SubsetEnumeratorTest {
 
-	private static final Value[] getValue(final String... strs) {
+	private static Value[] getValue(final String... strs) {
 		final List<Value> values = new ArrayList<>(strs.length);
 		for (String str : strs) {
 			values.add(new StringValue(str));
 		}
-		return values.toArray(new Value[values.size()]);
+		return values.toArray(new Value[0]);
 	}
 
 	@Parameters

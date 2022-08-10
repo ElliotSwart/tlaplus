@@ -41,7 +41,7 @@ public class EmptyOrderOfSolutionsTest extends ModelCheckerTestCase {
 	}
 
 	@Test
-	public void testSpec() throws IOException {
+	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_LIVE_FORMULA_TAUTOLOGY));
 	}
 }

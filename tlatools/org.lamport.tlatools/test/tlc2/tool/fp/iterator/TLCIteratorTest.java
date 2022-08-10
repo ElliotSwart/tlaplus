@@ -22,7 +22,7 @@ public class TLCIteratorTest {
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		itr = new MSBDiskFPSet.TLCIterator(getBuffer());
 	}
 	

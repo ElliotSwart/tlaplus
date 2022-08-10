@@ -42,12 +42,12 @@ public class SimulationWorkerTest extends CommonTestCase {
 	}
 	
 	@Before
-	public void setUp() throws Exception{
+	public void setUp() {
 		ToolIO.setUserDir(BASE_PATH + File.separator + "simulation" + File.separator + "BasicMultiTrace");
 	}
 	
 	@After
-	public void tearDown() throws Exception{
+	public void tearDown() {
         FileUtil.deleteDir(TLCGlobals.metaRoot, true);
 	}
 	

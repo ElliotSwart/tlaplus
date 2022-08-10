@@ -44,7 +44,7 @@ public class Github461Test extends ModelCheckerTestCase {
 	}
 
 	@Test
-	public void testSpec() throws FileNotFoundException, IOException {
+	public void testSpec() {
 		// Assert evaluation error.
 		assertTrue(recorder.recordedWithStringValue(EC.TLC_VALUE_ASSERT_FAILED,
 				"\"Failure of assertion at line 8, column 4.\""));

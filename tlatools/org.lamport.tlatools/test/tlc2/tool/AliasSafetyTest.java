@@ -33,16 +33,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
 
-import tlc2.TLCGlobals;
 import tlc2.output.EC;
 import tlc2.tool.liveness.ModelCheckerTestCase;
 import tlc2.value.IValue;
 import tlc2.value.impl.IntValue;
-import util.DebuggerTest;
 
 @RunWith(BlockJUnit4ClassRunner.class)
 public class AliasSafetyTest extends ModelCheckerTestCase {

@@ -52,13 +52,13 @@ import util.Assert;
 
 public class SubsetValueTest {
 
-	private static final Value[] getValue(final String... strs) {
+	private static Value[] getValue(final String... strs) {
 		final List<Value> values = new ArrayList<>(strs.length);
 		for (String str : strs) {
 			values.add(new StringValue(str));
 		}
 		Collections.shuffle(values);
-		return values.toArray(new Value[values.size()]);
+		return values.toArray(new Value[0]);
 	}
 
 	@BeforeClass
