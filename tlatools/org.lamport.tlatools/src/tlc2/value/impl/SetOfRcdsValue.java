@@ -9,6 +9,7 @@ package tlc2.value.impl;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Objects;
 
 import tlc2.TLCGlobals;
 import tlc2.output.EC;
@@ -96,7 +97,7 @@ public final UniqueString[] names;      // The names of the fields.
         Assert.fail("Attempted to check if non-record\n" + elem + "\nis in the" +
         " set of records:\n" + Values.ppr(this.toString()), getSource());
       }
-      rcd.normalize();
+      Objects.requireNonNull(rcd).normalize();
       if (this.names.length != rcd.names.length) {
         return false;
       }

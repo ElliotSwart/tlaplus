@@ -5,9 +5,7 @@
 package tlc2.tool.liveness;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
+import java.util.*;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -734,7 +732,7 @@ public class LiveCheck implements ILiveCheck {
 
 					// Lock mainChecker to prevent another TLC Worker from concurrently printing a
 					// (state-graph) safety violation.
-					synchronized (mainChecker) {
+					synchronized (Objects.requireNonNull(mainChecker)) {
 						
 						dgraph.createCache();
 						final LongVec prefix = dgraph.getPath(errorGraphNode.stateFP, errorGraphNode.tindex);

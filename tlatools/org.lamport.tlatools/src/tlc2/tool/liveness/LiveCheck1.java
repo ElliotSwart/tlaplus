@@ -586,7 +586,7 @@ public class LiveCheck1 implements ILiveCheck {
 				// Backtrack if needed:
 				while (nextNode2 == null) {
 					curNode = (BEGraphNode) cycleStack.pop();
-					for (int i = 0; i < curNode.nextSize(); i++) {
+					for (int i = 0; i < Objects.requireNonNull(curNode).nextSize(); i++) {
 						final BEGraphNode node1 = curNode.nextAt(i);
 						final long num = node1.getNumber();
 						if (lowNum <= num && num < thirdNum) {
@@ -606,7 +606,7 @@ public class LiveCheck1 implements ILiveCheck {
 		curNode.setNumber(++thirdNum);
 		_done: while (curNode != node) {
 			boolean found = false;
-			for (int i = 0; i < curNode.nextSize(); i++) {
+			for (int i = 0; i < Objects.requireNonNull(curNode).nextSize(); i++) {
 				final BEGraphNode nextNode = curNode.nextAt(i);
 				final long num = nextNode.getNumber();
 				if (lowNum <= num && num < thirdNum) {
@@ -669,7 +669,7 @@ public class LiveCheck1 implements ILiveCheck {
 		final long[] fps = new long[cycleStack.size()];
 		int idx = fps.length;
 		while (idx > 0) {
-			fps[--idx] = ((BEGraphNode) cycleStack.pop()).stateFP;
+			fps[--idx] = ((BEGraphNode) Objects.requireNonNull(cycleStack.pop())).stateFP;
 		}
 		// Assert.assert(fps.length > 0);
 		sinfo = states[stateNum - 1];

@@ -92,7 +92,7 @@ public final Value domain;        /* Function domain  */
         }
       }
       else {
-        if (fcn.intv.equals(this.domain)) {
+        if (Objects.requireNonNull(fcn.intv).equals(this.domain)) {
           for (int i = 0; i < fcn.values.length; i++) {
             if (!this.range.member(fcn.values[i])) return false;
           }

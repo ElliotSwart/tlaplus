@@ -421,7 +421,7 @@ public class Sequences extends UserObj implements ValueConstants
             sb.append(", ");
             sb.append(this.size);
         }
-        sb = sb.append(")");
+        sb.append(")");
         return sb;
     }
 

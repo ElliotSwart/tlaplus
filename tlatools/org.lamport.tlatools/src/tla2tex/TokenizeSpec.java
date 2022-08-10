@@ -467,6 +467,7 @@
 ***************************************************************************/
 package tla2tex;
 import java.util.Hashtable;
+import java.util.Objects;
 import java.util.Vector;
 
 /**
@@ -2017,8 +2018,8 @@ public class TokenizeSpec
                               tok.string = BuiltInSymbols.pcalRightBrace ;
                               return nextNonComment(curPos, spec);
                           }
-                          else if (BuiltInSymbols.GetBuiltInSymbol(
-                                     tok.string, true).symbolType == Symbol.LEFT_PAREN) {
+                          else if (Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(
+                                 tok.string, true)).symbolType == Symbol.LEFT_PAREN) {
                               curPos = skipToUnmatchedEnd(nextNonComment(curPos, spec), 
                                                           spec, false) ;
                           }
@@ -2085,8 +2086,8 @@ System.out.println("Error SEEKING_IDENT_LPAREN at " + curPos);
                     pstate = AFTER_COMMA ;
                 }
                 else if (     (tok.type == Token.BUILTIN) 
-                           && (BuiltInSymbols.GetBuiltInSymbol(
-                                     tok.string, true).symbolType == Symbol.LEFT_PAREN)) {
+                           && (Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(
+                        tok.string, true)).symbolType == Symbol.LEFT_PAREN)) {
                     curPos = skipToUnmatchedEnd(nextNonComment(curPos, spec), 
                                                 spec, false) ;
                 }    
@@ -2189,8 +2190,8 @@ System.out.println("Error SEEKING_IDENT_LPAREN at " + curPos);
        while (nextPos != null) {
            final Token tok = nextPos.toToken(spec) ;
            if (tok.type == Token.BUILTIN) {
-               final int symType = BuiltInSymbols.GetBuiltInSymbol(
-                                 tok.string, true).symbolType ;
+               final int symType = Objects.requireNonNull(BuiltInSymbols.GetBuiltInSymbol(
+                       tok.string, true)).symbolType ;
                if (   (symType == Symbol.RIGHT_PAREN)
                    || (   punct
                        && (   tok.string.equals(";") 

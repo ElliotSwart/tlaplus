@@ -16,11 +16,7 @@ import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Timer;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -353,7 +349,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 				// I find this rather unlikely.
 			}
 
-			final long irredPoly = server.getIrredPolyForFP();
+			final long irredPoly = Objects.requireNonNull(server).getIrredPolyForFP();
 			FP64.Init(irredPoly);
 
 			// this call has to be made before the first UniqueString gets

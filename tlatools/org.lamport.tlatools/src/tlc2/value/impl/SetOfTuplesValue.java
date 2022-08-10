@@ -8,6 +8,7 @@
 package tlc2.value.impl;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import tlc2.TLCGlobals;
 import tlc2.tool.FingerprintException;
@@ -98,8 +99,8 @@ public final Value[] sets;
           Assert.fail("Attempted to check if non-tuple\n" + Values.ppr(elem.toString()) +
                 "\nis in the set of tuples:\n" + Values.ppr(this.toString()), getSource());
         }
-        if (fcn.intv != null) return false;
-        for (int i = 0; i < fcn.domain.length; i++) {
+        if (Objects.requireNonNull(fcn).intv != null) return false;
+        for (int i = 0; i < Objects.requireNonNull(fcn.domain).length; i++) {
           if (!(fcn.domain[i] instanceof IntValue)) {
             Assert.fail("Attempted to check if non-tuple\n" + Values.ppr(elem.toString()) +
                   "\nis in the set of tuples:\n" + Values.ppr(this.toString()), getSource());
