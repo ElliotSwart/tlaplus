@@ -22,7 +22,7 @@ public class WorkerMonitor {
 	 * A ThreadListener is notified of when the Worker thread terminates. The
 	 * notification includes the execution time of the thread.
 	 */
-	public static interface ThreadListener {
+	public interface ThreadListener {
 
 		void terminated(final Thread thread, final long runningTime);
 	}

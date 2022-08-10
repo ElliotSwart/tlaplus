@@ -1018,9 +1018,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
               this.getActions(next1.getBody(), con, opDefNode, cm);
               return;
           }
-          default -> {
-              Assert.fail("The next state relation is not a boolean expression.\n" + next, next, con);
-          }
+          default -> Assert.fail("The next state relation is not a boolean expression.\n" + next, next, con);
       }
   }
 
@@ -1200,9 +1198,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
               this.getInitStates(init1.getBody(), acts, c, ps, states, cm);
               return;
           }
-          default -> {
-              Assert.fail("The init state relation is not a boolean expression.\n" + init, init, c);
-          }
+          default -> Assert.fail("The init state relation is not a boolean expression.\n" + init, init, c);
       }
   }
 
@@ -1588,9 +1584,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
               final LabelNode pred1 = (LabelNode) pred;
               return this.getNextStates(action, pred1.getBody(), acts, c, s0, s1, nss, cm);
           }
-          default -> {
-              Assert.fail("The next state relation is not a boolean expression.\n" + pred, pred, c);
-          }
+          default -> Assert.fail("The next state relation is not a boolean expression.\n" + pred, pred, c);
       }
     	return s1;
   }

@@ -85,9 +85,7 @@ public final class ValueInputStream implements ValueConstants, IValueInputStream
 			case DUMMYVALUE -> {
 				return (IValue) this.handles.getValue(this.readNat());
 			}
-			default -> {
-				throw new WrongInvocationException("ValueInputStream: Can not unpickle a value of kind " + kind);
-			}
+			default -> throw new WrongInvocationException("ValueInputStream: Can not unpickle a value of kind " + kind);
 		}
 	}
 	
@@ -125,9 +123,7 @@ public final class ValueInputStream implements ValueConstants, IValueInputStream
 			case DUMMYVALUE -> {
 				return (IValue) this.handles.getValue(this.readNat());
 			}
-			default -> {
-				throw new WrongInvocationException("ValueInputStream: Can not unpickle a value of kind " + kind);
-			}
+			default -> throw new WrongInvocationException("ValueInputStream: Can not unpickle a value of kind " + kind);
 		}
 	}
  

@@ -371,8 +371,8 @@ public class TLCStackFrame extends StackFrame {
 		// Its nicer if variables/constants are sorted lexicographically, and
 		// duplicates removed.
 		final Set<Variable> s = new TreeSet<>((o1, o2) -> {
-            if (o1 instanceof Comparable && o2 instanceof Comparable) {
-                return ((Comparable<Variable>) o1).compareTo(o2);
+            if (o1 instanceof Comparable o1c && o2 instanceof Comparable o2c) {
+                return o1c.compareTo(o2c);
             }
             return o1.getName().compareTo(o2.getName());
         });

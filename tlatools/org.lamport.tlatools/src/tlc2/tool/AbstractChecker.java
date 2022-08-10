@@ -150,8 +150,8 @@ public abstract class AbstractChecker
                 try {
                     AbstractChecker.this.stop();
                 }
-				catch (Exception e){};
-			}
+				catch (Exception e){}
+            }
 		});
     }
 

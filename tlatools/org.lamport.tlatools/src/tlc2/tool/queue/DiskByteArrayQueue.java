@@ -731,9 +731,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 				case TUPLEVALUE -> {
 					return TupleValue.createFrom(this);
 				}
-				default -> {
-					throw new WrongInvocationException("ValueInputStream: Can not unpickle a value of kind " + kind);
-				}
+				default -> throw new WrongInvocationException("ValueInputStream: Can not unpickle a value of kind " + kind);
 			}
 		}
 
