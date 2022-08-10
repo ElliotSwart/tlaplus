@@ -89,6 +89,8 @@
 		<test.output>${project.build.directory}/test-class</test.output>
 		<test.model>${project.basedir}/test-model</test.model>
 		<test.whitespacedirectory>${project.basedir}/TLA+ Tools</test.whitespacedirectory>
+
+		<dist.output>${project.build.directory}/dist</dist.output>
 	</properties>
 
 	<build>
@@ -129,9 +131,61 @@
 			</testResource>
 		</testResources>
 		<plugins>
+			<!-- Enforce Version -->
+			<!-- Fail the build early and with a clear error message if the Java 17
+			dependency isn't satisfied. https://github.com/tlaplus/tlaplus/issues/278 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>enforce-java</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireJavaVersion>
+									<version>17</version>
+								</requireJavaVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Clean -->
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+				  <execution>
+					<id>auto-clean</id>
+					<phase>initialize</phase>
+					<goals>
+					  <goal>clean</goal>
+					</goals>
+					<configuration>
+						<filesets>
+							<fileset>
+								<!-- Delete the ../states/ folder created by the Ant JUnit tests as part -->
+								<directory>${basedir}/states/</directory>
+								<includes>
+									<include>**/*</include>
+								</includes>
+								<followSymlinks>false</followSymlinks>
+							</fileset>
+						</filesets>
+					</configuration>
+				  </execution>
+				</executions>
+			</plugin>
+
+			<!-- Copy Resources -->
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.2.0</version>
+				<version>3.3.0</version>
 				<executions>
 					<execution>
 						<id>copy-resources</id>
@@ -168,7 +222,7 @@
 				</executions>
 			</plugin>
 
-
+			<!-- Run Unit Tests -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -395,72 +449,7 @@
 				</dependencies>
 			</plugin>
 
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<outputDirectory>${project.build.directory}/dist</outputDirectory>
-					<archive>
-						<manifest>
-							<mainClass>tlc2.TLC</mainClass>
-						</manifest>
-						<manifestEntries>
-							<Build-Tag>${env.BUILD_TAG}</Build-Tag>
-							<Build-TimeStamp>${maven.build.timestamp.format}</Build-TimeStamp>
-							<Implementation-Title>TLA+ Tools</Implementation-Title>
-
-							<!-- Git revision -->
-							<X-Git-Branch>${git.branch}</X-Git-Branch>
-							<X-Git-Tag>${git.tag}</X-Git-Tag>
-							<X-Git-Revision>${git.revision}</X-Git-Revision>
-							<X-Git-ShortRevision>${git.shortRevision}</X-Git-ShortRevision>
-							<X-Git-BuildNumber>${git.branch}_${git.tag}_${git.shortRevision}</X-Git-BuildNumber>
-							<X-Git-Commits-Count>${git.commitsCount}</X-Git-Commits-Count>
-
-							<!-- App-Name and Permissions is required by Java Webstart used by distributed TLC -->
-							<!-- Depending on security level, the user will see a warning otherwise. -->
-							<!-- http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/security/manifest.html -->
-							<Application-Name>TLC</Application-Name>
-							<permissions>all-permissions</permissions>
-							<!-- won't work with 'sandbox' as it writes files -->
-						</manifestEntries>
-					  </archive>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-				</configuration>
-			</plugin>
-
-			<!-- Fail the build early and with a clear error message if the Java 11
-				dependency isn't satisfied. https://github.com/tlaplus/tlaplus/issues/278 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>3.0.0-M2</version>
-				<executions>
-					<execution>
-						<id>enforce-java</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<requireJavaVersion>
-									<version>17</version>
-								</requireJavaVersion>
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
+			<!-- Get Build Information -->
 			<plugin>
 				<!-- https://github.com/elab/jgit-buildnumber -->
 				<groupId>com.labun.buildnumber</groupId>
@@ -477,31 +466,72 @@
 				</executions>
 			</plugin>
 
+			<!-- Package -->
 
 			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.2.0</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.2</version>
+				<configuration>
+					<outputDirectory>${dist.output}</outputDirectory>
+				</configuration>
+			</plugin>
+
+			<!-- Build jar with dependencies -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.3.0</version>
+				<configuration>
+					<promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+					<includes>
+						<include>**/tlatools*</include>
+					</includes>
+					<minimizeJar>true</minimizeJar>
+					<transformers>
+						<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+							<manifestEntries>
+								<!-- Git revision -->
+								<X-Git-Branch>${git.branch}</X-Git-Branch>
+								<X-Git-Tag>${git.tag}</X-Git-Tag>
+								<X-Git-Revision>${git.revision}</X-Git-Revision>
+								<X-Git-ShortRevision>${git.shortRevision}</X-Git-ShortRevision>
+								<X-Git-BuildNumber>${git.branch}_${git.tag}_${git.shortRevision}</X-Git-BuildNumber>
+								<X-Git-Commits-Count>${git.commitsCount}</X-Git-Commits-Count>
+
+								<Main-Class>tlc2.TLC</Main-Class>
+								<Build-Tag>${env.BUILD_TAG}</Build-Tag>
+								<Build-TimeStamp>${maven.build.timestamp.format}</Build-TimeStamp>
+								<Implementation-Title>TLA+ Tools</Implementation-Title>
+								<Application-Name>TLC</Application-Name>
+								<permissions>all-permissions</permissions>
+							</manifestEntries>
+						</transformer>
+						<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer">
+						</transformer>
+						<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
+							<addHeader>false</addHeader>
+						</transformer>
+					</transformers>
+					<filters>
+						<filter>
+							<artifact>*</artifact>
+							<excludes>
+								<exclude>**/*Test*.*</exclude>
+								<exclude>META-INF/**</exclude>
+							</excludes>
+						</filter>
+					</filters>
+					<outputDirectory>${dist.output}</outputDirectory>
+				</configuration>
 				<executions>
-				  <execution>
-					<id>auto-clean</id>
-					<phase>initialize</phase>
-					<goals>
-					  <goal>clean</goal>
-					</goals>
-					<configuration>
-						<filesets>
-							<fileset>
-								<!-- Delete the ../states/ folder created by the Ant JUnit tests as part -->
-								<directory>${basedir}/states/</directory>
-								<includes>
-									<include>**/*</include>
-								</includes>
-								<followSymlinks>false</followSymlinks>
-							</fileset>
-						</filesets>
-					</configuration>
-				  </execution>
-				</executions>
+					<execution>
+					  <phase>package</phase>
+					  <goals>
+						<goal>shade</goal>
+					  </goals>
+					</execution>
+				  </executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -552,13 +582,6 @@
 			<version>3.3.1</version>
 			<scope>test</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>org.openjdk.jmh</groupId>
-			<artifactId>jmh-generator-annprocess</artifactId>
-			<version>1.21</version>
-		</dependency>
-
 	</dependencies>
 
 	<!-- August 2014 - TL
