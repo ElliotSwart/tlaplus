@@ -34,19 +34,21 @@ import util.WrongInvocationException;
 public final class TLCStateMutExt extends TLCState implements Cloneable, Serializable {
   private static final long serialVersionUID = 26539988826590236L;
 private final IValue[] values;
-  private ITool mytool = null;
+  private final ITool mytool;
 
   /**
    * If non-null, viewMap denotes the function to be applied to
    * a state before its fingerprint is computed.
    */
-  private SemanticNode viewMap = null;
+  private final SemanticNode viewMap;
 
   /**
    * If non-null, perms denotes the set of permutations under the
    * symmetry assumption.
    */
-  private IMVPerm[] perms = null;
+  private final IMVPerm[] perms;
+
+  private final long fingerPrint;
 
   private TLCStateMutExt(final OpDeclNode[] vars, final IValue[] vals, final ITool tool) {
       this(vars, vals, tool, tool.getViewSpec(), tool.getSymmetryPerms());
@@ -58,6 +60,7 @@ private final IValue[] values;
         this.mytool = tool;
         this.viewMap = viewMap;
         this.perms = perms;
+        this.fingerPrint = 0;// = generateFingerPrint();
     }
 
     public static TLCState getEmpty(final OpDeclNode[] vars, final ITool tool)
@@ -160,6 +163,110 @@ private final IValue[] values;
       }
   }
 
+  public long generateFingerPrint(){
+      final int sz = this.values.length;
+
+      // TLC supports symmetry reduction. Symmetry reduction works by defining classes
+      // of symmetrically equivalent states for which TLC only checks a
+      // single representative of the equivalence class (orbit). E.g. in a two
+      // process mutual exclusion problem, the process ids are - most of the time -
+      // not relevant with regards to mutual exclusion: We don't care if process A or
+      // B is in the critical section as long as only a single process is in CS. Thus
+      // two states are symmetric that only differ in the process id variable value.
+      // Symmetry can also be observed graphically in the state graph s.t. subgraphs
+      // are isomorphic (Graph Isomorphism). Instead of enumerating the complete state
+      // graph, TLC enumerates one of the isomorphic subgraphs whose state correspond
+      // to the representatives. With respect to the corresponding Kripke structure M,
+      // the resulting Kripke M' is called the "quotient structure" (see "Exploiting
+      // Symmetry in Temporal Logic Model Checking" by Clarke et al).
+      //
+      // The definition of equivalence classes (orbits) is provided manually by the
+      // user at startup by defining 1 to n symmetry sets. Thus TLC has to find
+      // representative at runtime only which happens below. Given any state s, TLC
+      // evaluates rep(s) to find the lexicographically smallest state ss = rep(s)
+      // with regards to the variable values. The state ss is then fingerprint instead
+      // of s.
+      //
+      // Evaluating rep(s) - to reduce s to ss - requires to apply all permutations in
+      // the group this.perms (derived from the user-defined orbit). This is known as
+      // the constructive orbit problem and is NP-hard. The loop has O(|perms| * |this.values|)
+      // with |prems| = |symmetry set 1|! * |symmetry set 2|! * ... * |symmetry set n|.
+      //
+      // minVals is what is used to calculate/generate the fingerprint below.
+      // If this state is not the lexicographically smallest state ss, its current
+      // minVals will be replaced temporarily with the values of ss for the
+      // calculation of the fingerprint.
+      IValue[] minVals = this.values;
+      if (perms != null) {
+          IValue[] vals = new IValue[sz];
+          // The following for loop converges to the smallest state ss under symmetry by
+          // looping over all permutations applying each. If the outcome turns out to be
+          // lexicographically smaller than the currently smallest, it replaces the
+          // current smallest. Once all permutations (perms) have been processed, we know
+          // we have found the smallest state.
+          NEXT_PERM:
+          for (final IMVPerm perm : perms) {
+              int cmp = 0;
+              // For each value in values succinctly permute the current value
+              // and compare it to its corresponding minValue in minVals.
+              for (int j = 0; j < sz; j++) {
+                  vals[j] = this.values[j].permute(perm);
+                  if (cmp == 0) {
+                      // Only compare unless an earlier compare has found a
+                      // difference already (if a difference has been found
+                      // earlier, still permute the remaining values of the
+                      // state to fully permute all state values).
+                      cmp = vals[j].compareTo(minVals[j]);
+                      if (cmp > 0) {
+                          // When cmp evaluates to >0, all subsequent
+                          // applications of perms[i] for the remaining values
+                          // won't make the resulting vals[] smaller than
+                          // minVals. Thus, exit preemptively from the loop
+                          // over vals. This works because perms is the cross
+                          // product of all symmetry sets.
+                          continue NEXT_PERM;
+                      }
+                  }
+              }
+              // cmp < 0 means the current state is part of a symmetry
+              // permutation set/group and not the "smallest" one.
+              if (cmp < 0) {
+                  if (minVals == this.values) {
+                      minVals = vals;
+                      vals = new IValue[sz];
+                  } else {
+                      final IValue[] temp = minVals;
+                      minVals = vals;
+                      vals = temp;
+                  }
+              }
+          }
+      }
+      // Fingerprint the state:
+      long fp = FP64.New();
+      if (viewMap == null) {
+          for (int i = 0; i < sz; i++) {
+              fp = minVals[i].fingerPrint(fp);
+          }
+          if (this.values != minVals) {
+              for (final IValue value : this.values) {
+                  value.deepNormalize();
+              }
+          }
+      } else {
+          for (final IValue value : this.values) {
+              value.deepNormalize();
+          }
+          TLCStateMutExt state = this;
+          if (minVals != this.values) {
+              state = new TLCStateMutExt(vars, minVals, mytool, viewMap, perms);
+          }
+          final IValue val = mytool.eval(viewMap, Context.Empty, state);
+          fp = val.fingerPrint(fp);
+      }
+      return fp;
+  }
+
   /**
    * This method returns the fingerprint of this state. We fingerprint
    * the values in the state according to the order given by vars.
@@ -171,107 +278,7 @@ private final IValue[] values;
    */
 	@Override
     public long fingerPrint() {
-		final int sz = this.values.length;
-
-		// TLC supports symmetry reduction. Symmetry reduction works by defining classes
-		// of symmetrically equivalent states for which TLC only checks a
-		// single representative of the equivalence class (orbit). E.g. in a two
-		// process mutual exclusion problem, the process ids are - most of the time -
-		// not relevant with regards to mutual exclusion: We don't care if process A or
-		// B is in the critical section as long as only a single process is in CS. Thus
-		// two states are symmetric that only differ in the process id variable value.
-		// Symmetry can also be observed graphically in the state graph s.t. subgraphs
-		// are isomorphic (Graph Isomorphism). Instead of enumerating the complete state
-		// graph, TLC enumerates one of the isomorphic subgraphs whose state correspond
-		// to the representatives. With respect to the corresponding Kripke structure M,
-		// the resulting Kripke M' is called the "quotient structure" (see "Exploiting
-		// Symmetry in Temporal Logic Model Checking" by Clarke et al).
-		// 
-		// The definition of equivalence classes (orbits) is provided manually by the
-		// user at startup by defining 1 to n symmetry sets. Thus TLC has to find
-		// representative at runtime only which happens below. Given any state s, TLC
-		// evaluates rep(s) to find the lexicographically smallest state ss = rep(s)
-		// with regards to the variable values. The state ss is then fingerprint instead
-		// of s.
-		//
-		// Evaluating rep(s) - to reduce s to ss - requires to apply all permutations in
-		// the group this.perms (derived from the user-defined orbit). This is known as
-		// the constructive orbit problem and is NP-hard. The loop has O(|perms| * |this.values|)
-		// with |prems| = |symmetry set 1|! * |symmetry set 2|! * ... * |symmetry set n|. 
-        //		
-		// minVals is what is used to calculate/generate the fingerprint below.
-		// If this state is not the lexicographically smallest state ss, its current
-		// minVals will be replaced temporarily with the values of ss for the
-		// calculation of the fingerprint.
-		IValue[] minVals = this.values;
-		if (perms != null) {
-			IValue[] vals = new IValue[sz];
-			// The following for loop converges to the smallest state ss under symmetry by
-			// looping over all permutations applying each. If the outcome turns out to be
-			// lexicographically smaller than the currently smallest, it replaces the
-			// current smallest. Once all permutations (perms) have been processed, we know
-			// we have found the smallest state.
-			NEXT_PERM:
-            for (final IMVPerm perm : perms) {
-                int cmp = 0;
-                // For each value in values succinctly permute the current value
-                // and compare it to its corresponding minValue in minVals.
-                for (int j = 0; j < sz; j++) {
-                    vals[j] = this.values[j].permute(perm);
-                    if (cmp == 0) {
-                        // Only compare unless an earlier compare has found a
-                        // difference already (if a difference has been found
-                        // earlier, still permute the remaining values of the
-                        // state to fully permute all state values).
-                        cmp = vals[j].compareTo(minVals[j]);
-                        if (cmp > 0) {
-                            // When cmp evaluates to >0, all subsequent
-                            // applications of perms[i] for the remaining values
-                            // won't make the resulting vals[] smaller than
-                            // minVals. Thus, exit preemptively from the loop
-                            // over vals. This works because perms is the cross
-                            // product of all symmetry sets.
-                            continue NEXT_PERM;
-                        }
-                    }
-                }
-                // cmp < 0 means the current state is part of a symmetry
-                // permutation set/group and not the "smallest" one.
-                if (cmp < 0) {
-                    if (minVals == this.values) {
-                        minVals = vals;
-                        vals = new IValue[sz];
-                    } else {
-                        final IValue[] temp = minVals;
-                        minVals = vals;
-                        vals = temp;
-                    }
-                }
-            }
-		}
-		// Fingerprint the state:
-		long fp = FP64.New();
-		if (viewMap == null) {
-			for (int i = 0; i < sz; i++) {
-				fp = minVals[i].fingerPrint(fp);
-			}
-			if (this.values != minVals) {
-                for (final IValue value : this.values) {
-                    value.deepNormalize();
-                }
-			}
-		} else {
-            for (final IValue value : this.values) {
-                value.deepNormalize();
-            }
-			TLCStateMutExt state = this;
-			if (minVals != this.values) {
-				state = new TLCStateMutExt(vars, minVals, mytool, viewMap, perms);
-			}
-			final IValue val = mytool.eval(viewMap, Context.Empty, state);
-			fp = val.fingerPrint(fp);
-		}
-		return fp;
+		return generateFingerPrint();
 	}
 
   @Override
