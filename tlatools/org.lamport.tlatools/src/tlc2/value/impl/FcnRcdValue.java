@@ -48,7 +48,10 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
     this.domain = domain;
     this.values = values;
     this.intv = null;
-    this.isNorm = isNorm;
+
+    if (!isNorm){
+        this.normalize();
+    }
 //    this.indexTbl = null;
   }
 
@@ -70,6 +73,10 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
     this.intv = fcn.intv;
     this.values = values;
     this.isNorm = fcn.isNorm;
+
+      if (!isNorm){
+          this.normalize();
+      }
 //    this.indexTbl = fcn.indexTbl;
   }
 
@@ -114,7 +121,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 				Assert.fail("Attempted to compare the function " + Values.ppr(this.toString()) + " with the value:\n"
 						+ Values.ppr(obj.toString()), getSource());
 			}
-			this.normalize();
+
 			Objects.requireNonNull(fcn).normalize();
 
 			final int result = this.values.length - fcn.values.length;
@@ -221,7 +228,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
         Assert.fail("Attempted to check equality of the function " + Values.ppr(this.toString()) +
         " with the value:\n" + Values.ppr(obj.toString()), getSource());
       }
-      this.normalize();
+
       Objects.requireNonNull(fcn).normalize();
 
       if (this.intv != null) {
@@ -472,7 +479,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
       if (this.intv != null) {
         return this.intv;
       }
-      this.normalize();
+
       return new SetEnumValue(this.domain, true);
     }
     catch (final RuntimeException | OutOfMemoryError e) {
@@ -496,7 +503,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   @Override
   public final int size() {
     try {
-      this.normalize();
+
       return this.values.length;
     }
     catch (final RuntimeException | OutOfMemoryError e) {
@@ -541,7 +548,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   @Override
   public final Value toRcd() {
       if (this.domain == null) return null;
-      this.normalize();
+
       final UniqueString[] vars = new UniqueString[this.domain.length];
       for (int i = 0; i < this.domain.length; i++) {
         if (this.domain[i] instanceof StringValue sv) {
@@ -622,7 +629,6 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
           for (final Value value : values) {
               value.deepNormalize();
           }
-        normalize();
 	    }
 	    catch (final RuntimeException | OutOfMemoryError e) {
 	      if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
@@ -723,7 +729,6 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   @Override
   public final long fingerPrint(long fp) {
     try {
-      this.normalize();
       final int flen = this.values.length;
       fp = FP64.Extend(fp, FCNRCDVALUE);
       fp = FP64.Extend(fp, flen);
@@ -751,8 +756,6 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   @Override
   public final IValue permute(final IMVPerm perm) {
     try {
-
-      this.normalize();
       final int flen = this.size();
       final Value[] vals = new Value[flen];
 
@@ -824,7 +827,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
               return false;
           }
       }
-    this.normalize();
+
     for (int i = 0; i < this.domain.length; i++) {
       if (((IntValue)this.domain[i]).val != (i+1)) {
         return false;
