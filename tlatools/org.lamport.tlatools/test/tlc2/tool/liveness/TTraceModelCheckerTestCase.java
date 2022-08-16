@@ -45,7 +45,7 @@ public abstract class TTraceModelCheckerTestCase extends ModelCheckerTestCase {
 	private static final String GEN_SPEC_PATH = "GeneratedTESpecs";
 
 	public static String getGenSpecPath(){
-		return BASE_PATH + GEN_SPEC_PATH;
+		return BASE_DIR + File.separator + "target" + File.separator + GEN_SPEC_PATH;
 	}
 
 	public static String getTESpecPath(final Class<?> clazz) {
