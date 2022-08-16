@@ -51,7 +51,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
   private final Path tmpDir = FilenameToStream.getTempDirectory();
 
   public SimpleFilenameToStream() {
-	  libraryPaths = getLibraryPaths(getInstallationBasePath(), null);
+	  libraryPaths = getLibraryPaths(getStandardModulesPath(), null);
   }
 
   public SimpleFilenameToStream(final String libraryPath) {
@@ -66,17 +66,17 @@ public class SimpleFilenameToStream implements FilenameToStream {
  * (which is being used in the default constructor).
  */
   public SimpleFilenameToStream(final String[] anLibraryPaths) {
-	  libraryPaths = getLibraryPaths(getInstallationBasePath(), anLibraryPaths);
+	  libraryPaths = getLibraryPaths(getStandardModulesPath(), anLibraryPaths);
   }
 
   // Find the absolute path in the file system to the directory
   // that is the base of the entire installation of tlaSANY; this path
   // must have separators appropriate to the Unix ('/') or Windows ('\') world.
 
-  private String getInstallationBasePath() {
+  private String getStandardModulesPath() {
 
     // get a "file:" URL for the base directory for package tla2sany
-    final URL         url = cl.getResource("tla2sany");
+    final URL         url = cl.getResource("tla2sany" + FileUtil.separator + STANDARD_MODULES_FOLDER);
 
     // jar expanded to the fs (make sure to handle whitespaces correctly
     final String path = Objects.requireNonNull(url).toString();
@@ -117,7 +117,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
    * added functionality for supplying additional libraries.
    * All usage of this except the one added by TL is supplying libraries  = null
    */
-  private String[] getLibraryPaths(final String installationBasePath, final String[] libraries) {
+  private String[] getLibraryPaths(final String standardModulesFolder, final String[] libraries) {
     final String[] res;
     String path = null;
     if (libraries == null) path = System.getProperty(TLA_LIBRARY);
@@ -133,7 +133,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
     }
     if (path == null) {
       res = new String[1];
-      res[0] = installationBasePath + FileUtil.separator + STANDARD_MODULES_FOLDER + FileUtil.separator;
+      res[0] = standardModulesFolder + FileUtil.separator;
     }
     else {
       final String[] paths = path.split(FileUtil.pathSeparator);
@@ -144,7 +144,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
 	  res[i] = res[i] + FileUtil.separator;
 	}
       }
-      res[paths.length] = installationBasePath + FileUtil.separator + STANDARD_MODULES_FOLDER + FileUtil.separator;
+      res[paths.length] = standardModulesFolder + FileUtil.separator;
     }
     return res;
   }
