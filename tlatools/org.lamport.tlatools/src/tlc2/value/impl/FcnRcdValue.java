@@ -569,6 +569,8 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
   /* This method normalizes (destructively) this function. */
   @Override
   public final Value normalize() {
+    try {
+
       if (!this.isNorm) {
         // Assert.check(this.domain != null)
         final int dlen = this.domain.length;
@@ -579,7 +581,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
                   "\noccurs multiple times in the function domain.", getSource());
           }
           else if (cmp > 0) {
-              Value tv = this.domain[0];
+        	  Value tv = this.domain[0];
             this.domain[0] = this.domain[i];
             this.domain[i] = tv;
             tv = this.values[0];
@@ -588,8 +590,8 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
           }
         }
         for (int i = 2; i < dlen; i++) {
-            final Value d = this.domain[i];
-            final Value v = this.values[i];
+        	final Value d = this.domain[i];
+        	final Value v = this.values[i];
           int j = i;
           int cmp;
           while ((cmp = d.compareTo(this.domain[j-1])) < 0) {
@@ -607,6 +609,11 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
         this.isNorm = true;
       }
       return this;
+    }
+    catch (final RuntimeException | OutOfMemoryError e) {
+      if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
+      else { throw e; }
+    }
   }
 
   @Override
