@@ -126,13 +126,6 @@
 					<include>**/*.dump</include>
 				</includes>
 			</testResource>
-			<!-- Ensure all classes are on test classpath -->
-			<testResource>
-				<directory>${class.output}</directory>
-				<includes>
-					<include>**/*</include>
-				</includes>
-			</testResource>
 		</testResources>
 		<plugins>
 			<!-- Enforce Version -->
@@ -320,25 +313,6 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>user-module</id>
-						<goals>
-							<goal>test</goal>
-						</goals>
-						<configuration>
-							<skip>false</skip>
-							<includes>
-								<include>tlc2/tool/EvaluatingValueTest.java</include>
-								<include>tlc2/tool/UserModuleOverrideAnnotationTest.java</include>
-								<include>tlc2/tool/UserModuleOverrideTest.java</include>
-								<include>tlc2/tool/UserModuleOverrideAnnotationTest.java</include>
-							</includes>
-							<additionalClasspathElements>
-								<additionalClasspathElement>test-model/UserModuleOverrideFromJar.jar</additionalClasspathElement>
-								<additionalClasspathElement>test-model</additionalClasspathElement>
-							</additionalClasspathElements>
-						</configuration>
-					</execution>
-					<execution>
 						<id>fpset</id>
 						<goals>
 							<goal>test</goal>
@@ -385,6 +359,25 @@
 							<includes>
 								<include>tlc2/tool/liveness/**</include>
 							</includes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>user-module</id>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<includes>
+								<include>tlc2/tool/EvaluatingValueTest.java</include>
+								<include>tlc2/tool/UserModuleOverrideAnnotationTest.java</include>
+								<include>tlc2/tool/UserModuleOverrideTest.java</include>
+								<include>tlc2/tool/UserModuleOverrideAnnotationTest.java</include>
+							</includes>
+							<additionalClasspathElements>
+								<additionalClasspathElement>target/test-model/UserModuleOverrideFromJar.jar</additionalClasspathElement>
+								<additionalClasspathElement>target/test-model</additionalClasspathElement>
+							</additionalClasspathElements>
 						</configuration>
 					</execution>
 					<execution>
@@ -623,14 +616,14 @@
 						<tlc2.tool.distributed.TLCWorker.threadCount>4</tlc2.tool.distributed.TLCWorker.threadCount>
 					</systemProperties>
 					<excludedGroups>util.DebuggerTest,util.LongTest,util.TTraceTest, util.IndependentlyRunTest, util.ConcurrentTest, util.IndependentlyRunTTraceTest</excludedGroups>
-					<additionalClasspathElements>
-						<!-- Include the jar -->
-						<additionalClasspathElement></additionalClasspathElement>
-					</additionalClasspathElements>
 					<!-- Exclude .class files -->
 					<classpathDependencyExcludes>
-						<classpathDependencyExclude>${class.output}</classpathDependencyExclude>
+						<classpathDependencyScopeExclude>system</classpathDependencyScopeExclude>
+						<classpathDependencyScopeExclude>provided</classpathDependencyScopeExclude>
+						<classpathDependencyScopeExclude>compile</classpathDependencyScopeExclude>
+						<classpathDependencyScopeExclude>runtime</classpathDependencyScopeExclude>
 					</classpathDependencyExcludes>
+					<useManifestOnlyJar>false</useManifestOnlyJar>
 				</configuration>
 				<!-- Copy from Surefire -->
 				<!-- Modify goal from test to integration-test -->
@@ -683,8 +676,8 @@
 								<include>tlc2/tool/UserModuleOverrideAnnotationTest.java</include>
 							</includes>
 							<additionalClasspathElements>
-								<additionalClasspathElement>test-model/UserModuleOverrideFromJar.jar</additionalClasspathElement>
-								<additionalClasspathElement>test-model</additionalClasspathElement>
+								<additionalClasspathElement>target/test-model/UserModuleOverrideFromJar.jar</additionalClasspathElement>
+								<additionalClasspathElement>target/test-model</additionalClasspathElement>
 							</additionalClasspathElements>
 						</configuration>
 					</execution>
@@ -841,12 +834,14 @@
 			<groupId>com.sun.mail</groupId>
 			<artifactId>jakarta.mail</artifactId>
 			<version>1.6.3</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>smtp</artifactId>
 			<version>1.6.3</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<!-- REPL.java imports classes from org.jline.  The Toolbox (being an OSGi based Rich Client Platform) -->
@@ -859,6 +854,7 @@
 			<groupId>org.jline</groupId>
 			<artifactId>jline-reader</artifactId>
 			<version>3.14.1</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.eclipse.lsp4j/org.eclipse.lsp4j.jsonrpc.debug -->
@@ -866,6 +862,7 @@
 			<groupId>org.eclipse.lsp4j</groupId>
 			<artifactId>org.eclipse.lsp4j.debug</artifactId>
 			<version>0.12.0</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
