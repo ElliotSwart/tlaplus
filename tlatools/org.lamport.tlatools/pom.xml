@@ -89,15 +89,16 @@
 		<test.output>${project.build.directory}/test-class</test.output>
 		<test.model>${project.basedir}/test-model</test.model>
 		<test.whitespacedirectory>${project.basedir}/TLA+ Tools</test.whitespacedirectory>
-
+		<test.model.output>${project.build.directory}/test-model</test.model.output>
 		<dist.output>${project.build.directory}/dist</dist.output>
+		<dist.name>tlatools</dist.name>
 	</properties>
 
 	<build>
 		<directory>${project.basedir}/target</directory>
 		<sourceDirectory>${class.src}</sourceDirectory>
 		<outputDirectory>${class.output}</outputDirectory>
-		
+
 		<testSourceDirectory>${test.src}</testSourceDirectory>
 		<testOutputDirectory>${test.output}</testOutputDirectory>
 		<resources>
@@ -163,31 +164,29 @@
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>3.2.0</version>
 				<executions>
-				  <execution>
-					<id>auto-clean</id>
-					<phase>initialize</phase>
-					<goals>
-					  <goal>clean</goal>
-					</goals>
-					<configuration>
-						<filesets>
-							<fileset>
-								<!-- Delete the ../states/ folder created by the Ant JUnit tests as part -->
-								<directory>${basedir}/states/</directory>
-								<includes>
-									<include>**/*</include>
-								</includes>
-								<followSymlinks>false</followSymlinks>
-							</fileset>
-						</filesets>
-					</configuration>
-				  </execution>
+					<execution>
+						<id>auto-clean</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+						<configuration>
+							<filesets>
+								<fileset>
+									<!-- Delete the ../states/ folder created by the Ant JUnit tests as part -->
+									<directory>${basedir}/states/</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+									<followSymlinks>false</followSymlinks>
+								</fileset>
+							</filesets>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 
-
 			<!-- Aggregate licenses -->
-
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>license-maven-plugin</artifactId>
@@ -197,14 +196,14 @@
 				</configuration>
 				<executions>
 					<execution>
-					<id>download-licenses</id>
-					<phase>prepare-package</phase>
-					<goals>
-						<goal>download-licenses</goal>
-					</goals>
+						<id>download-licenses</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>download-licenses</goal>
+						</goals>
 					</execution>
 				</executions>
-				</plugin>
+			</plugin>
 
 			<!-- Copy Resources -->
 			<plugin>
@@ -235,7 +234,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${test.output}/test-model</outputDirectory>
+							<outputDirectory>${test.model.output}</outputDirectory>
 							<resources>
 								<resource>
 									<directory>${test.model}</directory>
@@ -248,17 +247,17 @@
 						<!-- here the phase you need -->
 						<phase>prepare-package</phase>
 						<goals>
-						  <goal>copy-resources</goal>
+							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-						  <outputDirectory>${class.output}/</outputDirectory>
-						  <resources>          
-							<resource>
-							  <directory>${project.build.directory}/generated-resources</directory>
-							</resource>
-						  </resources>              
-						</configuration>            
-					  </execution>
+							<outputDirectory>${class.output}/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.build.directory}/generated-resources</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 
@@ -276,6 +275,7 @@
 					<argLine>-ea -XX:MaxDirectMemorySize=512k -XX:+UseParallelGC</argLine>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 					<skip>true</skip>
+					<skipTests>${skip.surefire.tests}</skipTests>
 					<runOrder>alphabetical</runOrder>
 					<systemProperties>
 						<tlc2.tool.fp.FPSet.impl>tlc2.tool.fp.OffHeapDiskFPSet</tlc2.tool.fp.FPSet.impl>
@@ -289,10 +289,10 @@
 						<id>concurrently-testable</id>
 						<goals>
 							<goal>test</goal>
-						  </goals>
-						  <configuration>
+						</goals>
+						<configuration>
 							<skip>false</skip>
-							
+
 							<includes>
 								<include>pcal/**</include>
 								<include>tla2sany/**</include>
@@ -317,13 +317,13 @@
 								<exclude>tlc2/tool/UserModuleOverrideFromJarTest.java</exclude>
 								<exclude>tlc2/tool/UserModuleOverrideAnnotationTest.java</exclude>
 							</excludes>
-						  </configuration>
+						</configuration>
 					</execution>
 					<execution>
 						<id>user-module</id>
 						<goals>
 							<goal>test</goal>
-						  </goals>
+						</goals>
 						<configuration>
 							<skip>false</skip>
 							<includes>
@@ -342,62 +342,64 @@
 						<id>fpset</id>
 						<goals>
 							<goal>test</goal>
-						  </goals>
-						  <configuration>
+						</goals>
+						<configuration>
 							<skip>false</skip>
 							<includes>
 								<include>tlc2/tool/fp/**</include>
 							</includes>
-						  </configuration>
+						</configuration>
 					</execution>
 					<execution>
 						<id>suite</id>
 						<goals>
 							<goal>test</goal>
-						  </goals>
-						  <configuration>
+						</goals>
+						<configuration>
 							<skip>false</skip>
 							<includes>
 								<include>tlc2/tool/suite/**</include>
 							</includes>
-						  </configuration>
+						</configuration>
 					</execution>
 					<execution>
 						<id>values</id>
 						<goals>
 							<goal>test</goal>
-						  </goals>
-						  <configuration>
+						</goals>
+						<configuration>
 							<skip>false</skip>
 							<includes>
 								<include>tlc2/value/**</include>
 							</includes>
-						  </configuration>
+						</configuration>
 					</execution>
 					<execution>
 						<id>liveness</id>
 						<goals>
 							<goal>test</goal>
-						  </goals>
-						  <configuration>
+						</goals>
+						<configuration>
 							<skip>false</skip>
 							<reuseForks>true</reuseForks>
 							<includes>
 								<include>tlc2/tool/liveness/**</include>
 							</includes>
-						  </configuration>
+						</configuration>
 					</execution>
-					<execution> <!-- The fewer there are of these, the faster the suite will run -->
+					<execution>
+						<!-- The fewer there are of these, the faster the suite will run -->
 						<id>independantly-run-tests</id>
 						<goals>
 							<goal>test</goal>
-						  </goals>
-						  <configuration>
+						</goals>
+						<configuration>
 							<skip>false</skip>
 							<groups>util.IndependentlyRunTest,util.DebuggerTest</groups>
 							<excludedGroups>util.LongTest, util.ConcurrentTest</excludedGroups>
 							<reuseForks>false</reuseForks>
-							<includes> <!-- Reduce lengthy search process by limited to applicable directories -->
+							<includes>
+								<!-- Reduce lengthy search process by limited to applicable directories -->
 								<include>tlc2/debug/**</include>
 								<include>pcal/RABTest.java</include>
 								<include>pcal/SBBTest.java</include>
@@ -436,13 +438,13 @@
 							<excludes>
 								<exclude>tlc2/tool/EvaluatingValueTest.java</exclude>
 							</excludes>
-						  </configuration>
+						</configuration>
 					</execution>
 					<execution>
 						<id>ttrace-tests-concurrent</id>
 						<goals>
 							<goal>test</goal>
-						  </goals>
+						</goals>
 						<configuration>
 							<reuseForks>true</reuseForks>
 							<excludedGroups>util.LongTest, util.IndependentlyRunTest</excludedGroups>
@@ -457,7 +459,7 @@
 						<id>ttrace-tests-individual</id>
 						<goals>
 							<goal>test</goal>
-						  </goals>
+						</goals>
 						<configuration>
 							<reuseForks>false</reuseForks>
 							<excludedGroups>util.LongTest</excludedGroups>
@@ -507,7 +509,6 @@
 			</plugin>
 
 			<!-- Package -->
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -523,6 +524,8 @@
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.3.0</version>
 				<configuration>
+					<outputDirectory>${dist.output}</outputDirectory>
+					<finalName>${dist.name}</finalName>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<promoteTransitiveDependencies>true</promoteTransitiveDependencies>
 					<includes>
@@ -548,8 +551,8 @@
 								<X-Git-ShortRevision>${git.shortRevision}</X-Git-ShortRevision>
 								<X-Git-BuildNumber>${git.branch}_${git.tag}_${git.shortRevision}</X-Git-BuildNumber>
 								<X-Git-Commits-Count>${git.commitsCount}</X-Git-Commits-Count>
-								<!-- The jar files contains many main classes (SANY, TEX, pcal, ...) --> 
-								<!-- but lets consider TLC the one users primarily use. --> 
+								<!-- The jar files contains many main classes (SANY, TEX, pcal, ...) -->
+								<!-- but lets consider TLC the one users primarily use. -->
 								<Main-Class>tlc2.TLC</Main-Class>
 								<Class-Path>CommunityModules-deps.jar CommunityModules.jar</Class-Path>
 								<!-- App-Name and Permissions is required by Java Webstart used by distributed TLC -->
@@ -559,11 +562,11 @@
 								<permissions>all-permissions</permissions>
 							</manifestEntries>
 						</transformer>
-						<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer">
-						</transformer>
+						<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"></transformer>
 						<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
 							<addHeader>false</addHeader>
-						</transformer>-->
+						</transformer>
+						-->
 					</transformers>
 					<filters>
 						<filter>
@@ -588,17 +591,248 @@
 							</excludes>
 						</filter>
 					</filters>
-					<outputDirectory>${dist.output}</outputDirectory>
+					
 				</configuration>
 				<executions>
 					<execution>
-					  <phase>package</phase>
-					  <goals>
-						<goal>shade</goal>
-					  </goals>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
 					</execution>
-				  </executions>
+				</executions>
 			</plugin>
+
+			<!-- Integration Test Jar -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>3.0.0-M7</version>
+				<configuration>
+					<forkCount>1</forkCount>
+					<reuseForks>true</reuseForks>
+					<paralell>classesAndMethods</paralell>
+					<!--<threadCount>3</threadCount>-->
+					<useUnlimitedThreads>true</useUnlimitedThreads>
+					<argLine>-ea -XX:MaxDirectMemorySize=512k -XX:+UseParallelGC</argLine>
+					<redirectTestOutputToFile>true</redirectTestOutputToFile>
+					<skip>true</skip>
+					<runOrder>alphabetical</runOrder>
+					<systemProperties>
+						<tlc2.tool.fp.FPSet.impl>tlc2.tool.fp.OffHeapDiskFPSet</tlc2.tool.fp.FPSet.impl>
+						<tlc2.tool.distributed.TLCWorker.threadCount>4</tlc2.tool.distributed.TLCWorker.threadCount>
+					</systemProperties>
+					<excludedGroups>util.DebuggerTest,util.LongTest,util.TTraceTest, util.IndependentlyRunTest, util.ConcurrentTest, util.IndependentlyRunTTraceTest</excludedGroups>
+					<additionalClasspathElements>
+						<!-- Include the jar -->
+						<additionalClasspathElement></additionalClasspathElement>
+					</additionalClasspathElements>
+					<!-- Exclude .class files -->
+					<classpathDependencyExcludes>
+						<classpathDependencyExclude>${class.output}</classpathDependencyExclude>
+					</classpathDependencyExcludes>
+				</configuration>
+				<!-- Copy from Surefire -->
+				<!-- Modify goal from test to integration-test -->
+				<executions>
+					<execution>
+						<id>concurrently-testable</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+
+							<includes>
+								<include>pcal/**</include>
+								<include>tla2sany/**</include>
+								<include>tlc2/*.java</include>
+								<include>tlc2/model/**</include>
+								<include>tlc2/module/**</include>
+								<include>tlc2/output/**</include>
+								<include>tlc2/tool/*.java</include>
+								<include>tlc2/tool/checkpoint/**</include>
+								<include>tlc2/tool/coverage/**</include>
+								<include>tlc2/tool/distributed/**</include>
+								<include>tlc2/tool/doinitfunctor/**</include>
+								<include>tlc2/tool/evalorder/**</include>
+								<include>tlc2/tool/other/**</include>
+								<include>tlc2/tool/queue/**</include>
+								<include>tlc2/tool/simulation/**</include>
+								<include>tlc2/utils/**</include>
+								<include>util/**</include>
+							</includes>
+							<excludes>
+								<exclude>tlc2/tool/UserModuleOverrideTest.java</exclude>
+								<exclude>tlc2/tool/UserModuleOverrideFromJarTest.java</exclude>
+								<exclude>tlc2/tool/UserModuleOverrideAnnotationTest.java</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>user-module</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<includes>
+								<include>tlc2/tool/EvaluatingValueTest.java</include>
+								<include>tlc2/tool/UserModuleOverrideAnnotationTest.java</include>
+								<include>tlc2/tool/UserModuleOverrideTest.java</include>
+								<include>tlc2/tool/UserModuleOverrideAnnotationTest.java</include>
+							</includes>
+							<additionalClasspathElements>
+								<additionalClasspathElement>test-model/UserModuleOverrideFromJar.jar</additionalClasspathElement>
+								<additionalClasspathElement>test-model</additionalClasspathElement>
+							</additionalClasspathElements>
+						</configuration>
+					</execution>
+					<execution>
+						<id>fpset</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<includes>
+								<include>tlc2/tool/fp/**</include>
+							</includes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>suite</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<includes>
+								<include>tlc2/tool/suite/**</include>
+							</includes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>values</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<includes>
+								<include>tlc2/value/**</include>
+							</includes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>liveness</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<reuseForks>true</reuseForks>
+							<includes>
+								<include>tlc2/tool/liveness/**</include>
+							</includes>
+						</configuration>
+					</execution>
+					<execution>
+						<!-- The fewer there are of these, the faster the suite will run -->
+						<id>independantly-run-tests</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<groups>util.IndependentlyRunTest,util.DebuggerTest</groups>
+							<excludedGroups>util.LongTest, util.ConcurrentTest</excludedGroups>
+							<reuseForks>false</reuseForks>
+							<includes>
+								<!-- Reduce lengthy search process by limited to applicable directories -->
+								<include>tlc2/debug/**</include>
+								<include>pcal/RABTest.java</include>
+								<include>pcal/SBBTest.java</include>
+								<include>tla2sany/drivers/Github429Test.java</include>
+								<include>tla2sany/drivers/IllegalOperatorTest.java</include>
+								<include>tlc2/tool/DepthFirstDieHardTest.java</include>
+								<include>tlc2/tool/DepthFirstErrorTraceTest.java</include>
+								<include>tlc2/tool/DepthFirstTerminateTest.java</include>
+								<include>tlc2/tool/DiameterTest.java</include>
+								<include>tlc2/tool/EvalExceptionLivenessTest.java</include>
+								<include>tlc2/tool/EvalExceptionTest.java</include>
+								<include>tlc2/tool/MinimumDiameterTest.java</include>
+								<include>tlc2/tool/MonolithSpecTest.java</include>
+								<include>tlc2/tool/PrintTraceRaceTest.java</include>
+								<include>tlc2/tool/TLCSetMultiSimTest.java</include>
+								<include>tlc2/tool/TLCSetSimTest.java</include>
+								<include>tlc2/tool/ViewMapTest.java</include>
+								<include>tlc2/tool/checkpoint/CheckpointWhenTimeBoundTest.java</include>
+								<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
+								<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
+								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test.java</include>
+								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2FromCheckpointTest.java</include>
+								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test.java</include>
+								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test.java</include>
+								<include>tlc2/tool/liveness/ErrorTraceConstructionTest.java</include>
+								<include>tlc2/tool/liveness/Github317aTest.java</include>
+								<include>tlc2/tool/liveness/Github710bTest.java</include>
+								<include>tlc2/tool/liveness/LoopForcedPartialTest.java</include>
+								<include>tlc2/tool/liveness/NoSymmetryTableauModelCheckerTest.java</include>
+								<include>tlc2/tool/liveness/OneBitMutexNoSymmetryTest.java</include>
+								<include>tlc2/tool/liveness/UnsymmetricModelCheckerTestB.java</include>
+								<include>tlc2/tool/liveness/simulation/StutteringTest.java</include>
+								<include>tlc2/tool/simulation/NQSpecTest.java*</include>
+								<include>tlc2/tool/simulation/SimulationWorkerTest.java</include>
+							</includes>
+							<excludes>
+								<exclude>tlc2/tool/EvaluatingValueTest.java</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>ttrace-tests-concurrent</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+						<configuration>
+							<reuseForks>true</reuseForks>
+							<excludedGroups>util.LongTest, util.IndependentlyRunTest</excludedGroups>
+							<groups>util.TTraceTest</groups>
+							<skip>false</skip>
+							<includes>
+								<include>**/*_TTraceTest.java</include>
+							</includes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>ttrace-tests-individual</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+						<configuration>
+							<reuseForks>false</reuseForks>
+							<excludedGroups>util.LongTest</excludedGroups>
+							<groups>util.IndependentlyRunTTraceTest</groups>
+							<skip>false</skip>
+							<includes>
+								<include>pcal/RABTest_TTraceTest.java</include>
+								<include>pcal/SBBTest_TTraceTest.java</include>
+								<include>tlc2/tool/PrintTraceRaceTest_TTraceTest.java</include>
+								<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
+								<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
+								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test_TTraceTest.java</include>
+								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test_TTraceTest.java</include>
+								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test_TTraceTest.java</include>
+								<include>tlc2/tool/liveness/ErrorTraceConstructionTest_TTraceTest.java</include>
+								<include>tlc2/tool/liveness/LoopForcedPartialTest_TTraceTest.java</include>
+								<include>tlc2/tool/liveness/OneBitMutexNoSymmetryTest_TTraceTest.java</include>
+								<include>tlc2/tool/liveness/UnsymmetricModelCheckerTestB_TTraceTest.java</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
+			  </plugin>
 		</plugins>
 	</build>
 
@@ -650,10 +884,7 @@
 		</dependency>
 	</dependencies>
 
-	<!-- August 2014 - TL
-           added a non-default profile (must be called explicitly)
-           which creates a jar file and set XMLExporter as the main class.
-       -->
+
 	<profiles>
 		<!-- Run tests on distribution rather than source -->
 		<profile>
@@ -922,6 +1153,11 @@
 				</dependency>
 			</dependencies>
 		</profile>
+
+		<!-- August 2014 - TL
+		   added a non-default profile (must be called explicitly)
+		   which creates a jar file and set XMLExporter as the main class.
+	   -->
 		<profile>
 			<id>exporter</id>
 			<build>
@@ -955,8 +1191,7 @@
 										<permissions>all-permissions</permissions>
 									</manifestEntries>
 								</transformer>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer">
-								</transformer>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"></transformer>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
 									<addHeader>false</addHeader>
 								</transformer>
@@ -974,12 +1209,12 @@
 						</configuration>
 						<executions>
 							<execution>
-							  <phase>package</phase>
-							  <goals>
-								<goal>shade</goal>
-							  </goals>
+								<phase>package</phase>
+								<goals>
+									<goal>shade</goal>
+								</goals>
 							</execution>
-						  </executions>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>
@@ -992,37 +1227,37 @@
 						<artifactId>maven-clean-plugin</artifactId>
 						<version>3.2.0</version>
 						<executions>
-						  <execution>
-							<id>auto-clean</id>
-							<phase>initialize</phase>
-							<goals>
-							  <goal>clean</goal>
-							</goals>
-							<configuration>
-								<excludeDefaultDirectories>true</excludeDefaultDirectories>
-								<filesets>
-									<fileset>
-										<!-- Delete the test model to allow tests to run -->
-										<directory>${test.output}/test-model/</directory>
-										<includes>
-											<include>**/*</include>
-										</includes>
-										<followSymlinks>false</followSymlinks>
-									</fileset>
-									<fileset>
-										<!-- Delete the ../states/ folder created by the Ant JUnit tests as part -->
-										<directory>${basedir}/states/</directory>
-										<includes>
-											<include>**/*</include>
-										</includes>
-										<followSymlinks>false</followSymlinks>
-									</fileset>
-								</filesets>
-							</configuration>
-						  </execution>
+							<execution>
+								<id>auto-clean</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>clean</goal>
+								</goals>
+								<configuration>
+									<excludeDefaultDirectories>true</excludeDefaultDirectories>
+									<filesets>
+										<fileset>
+											<!-- Delete the test model to allow tests to run -->
+											<directory>${test.model.output}</directory>
+											<includes>
+												<include>**/*</include>
+											</includes>
+											<followSymlinks>false</followSymlinks>
+										</fileset>
+										<fileset>
+											<!-- Delete the ../states/ folder created by the Ant JUnit tests as part -->
+											<directory>${basedir}/states/</directory>
+											<includes>
+												<include>**/*</include>
+											</includes>
+											<followSymlinks>false</followSymlinks>
+										</fileset>
+									</filesets>
+								</configuration>
+							</execution>
 						</executions>
 					</plugin>
-					
+
 				</plugins>
 			</build>
 		</profile>
