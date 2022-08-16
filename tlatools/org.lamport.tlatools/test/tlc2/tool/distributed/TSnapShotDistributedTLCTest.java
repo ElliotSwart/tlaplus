@@ -38,7 +38,7 @@ import util.TLAConstants;
 public class TSnapShotDistributedTLCTest extends DistributedTLCTestCase {
 
 	public TSnapShotDistributedTLCTest() {
-		super(TLAConstants.Files.MODEL_CHECK_FILE_BASENAME, BASE_PATH + "TSnapShot" + File.separator, new String[] {"-deadlock"});
+		super(TLAConstants.Files.MODEL_CHECK_FILE_BASENAME, TEST_MODEL_PATH + "TSnapShot" + File.separator, new String[] {"-deadlock"});
 	}
 
 	@Test

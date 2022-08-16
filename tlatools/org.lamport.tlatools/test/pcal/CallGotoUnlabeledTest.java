@@ -22,7 +22,7 @@ public class CallGotoUnlabeledTest extends PCalTest {
 		final String fileName = "CallGotoUnlabeledTest.tla";
 		var t = new trans();
 
-		assertEquals(0, t.runMe(new String[] {"-nocfg", "-unixEOL", "-reportLabels", CommonTestCase.BASE_PATH + fileName}));
+		assertEquals(0, t.runMe(new String[] {"-nocfg", "-unixEOL", "-reportLabels", CommonTestCase.TEST_MODEL_PATH + fileName}));
 		final TLAtoPCalMapping mapping = t.pcalParams.tlaPcalMapping;
 		assertNotNull(mapping);
 		

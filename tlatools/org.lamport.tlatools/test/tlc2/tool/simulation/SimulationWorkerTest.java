@@ -41,7 +41,7 @@ public class SimulationWorkerTest extends CommonTestCase {
 	
 	@Before
 	public void setUp() {
-		ToolIO.setUserDir(BASE_PATH + File.separator + "simulation" + File.separator + "BasicMultiTrace");
+		ToolIO.setUserDir(TEST_MODEL_PATH + File.separator + "simulation" + File.separator + "BasicMultiTrace");
 	}
 	
 	@After

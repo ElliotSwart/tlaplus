@@ -42,14 +42,12 @@ import util.TLAConstants;
 public abstract class TTraceModelCheckerTestCase extends ModelCheckerTestCase {
 
 	// Make the generated stuff go into the target/ folder of the org.lamport.tlatools folder.
-	private static final String GEN_SPEC_PATH = "GeneratedTESpecs";
+	private static final String GEN_SPEC_NAME = "GeneratedTESpecs";
 
-	public static String getGenSpecPath(){
-		return BASE_DIR + File.separator + "target" + File.separator + GEN_SPEC_PATH;
-	}
+	protected static final String GEN_SPEC_PAth = TARGET_DIR + File.separator + GEN_SPEC_NAME;
 
 	public static String getTESpecPath(final Class<?> clazz) {
-		return TTraceModelCheckerTestCase.getGenSpecPath() + File.separator + getSpecFileName(clazz);
+		return GEN_SPEC_PAth + File.separator + getSpecFileName(clazz);
 	}
 
 	public static String getTESpecPathForLoading(final Class<?> clazz){
@@ -74,13 +72,13 @@ public abstract class TTraceModelCheckerTestCase extends ModelCheckerTestCase {
 	public TTraceModelCheckerTestCase(final Class<?> clazz , final String path, final int exitStatus) {
 		super(getSpecFileName(clazz), path, new String[] {"-config", getTESpecPathForLoading(clazz)}, exitStatus);
 		this.clazz = clazz;
-		this.specPath = TTraceModelCheckerTestCase.getGenSpecPath();
+		this.specPath = GEN_SPEC_PAth;
 	}
 
 	public TTraceModelCheckerTestCase(final Class<?> clazz, final int exitStatus) {
 		super(getSpecFileName(clazz), "", new String[] {"-config", getTESpecPathForLoading(clazz)}, exitStatus);
 		this.clazz = clazz;
-		this.specPath = TTraceModelCheckerTestCase.getGenSpecPath();
+		this.specPath = GEN_SPEC_PAth;
 	}
 
 	public TTraceModelCheckerTestCase(final Class<?> clazz, final String[] extraArgs, final int exitStatus) {
@@ -88,7 +86,7 @@ public abstract class TTraceModelCheckerTestCase extends ModelCheckerTestCase {
 				.concat(Arrays.stream(new String[] { "-config", getTESpecPathForLoading(clazz) }), Arrays.stream(extraArgs))
 				.toArray(String[]::new), exitStatus);
 		this.clazz = clazz;
-		this.specPath = TTraceModelCheckerTestCase.getGenSpecPath();
+		this.specPath = GEN_SPEC_PAth;
 	}
 	
 	@Override

@@ -28,7 +28,6 @@ package tlc2.tool;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -152,8 +151,8 @@ public class Github432Test extends ModelCheckerTestCase {
 	}
 	
 	private void createConfigFile(final String humans, final String others) {
-		final File configFile = new File(CommonTestCase.BASE_PATH + CONFIG_FILE);
-		final File backup = new File(CommonTestCase.BASE_PATH + CONFIG_FILE_BACKUP);
+		final File configFile = new File(CommonTestCase.TEST_MODEL_PATH + CONFIG_FILE);
+		final File backup = new File(CommonTestCase.TEST_MODEL_PATH + CONFIG_FILE_BACKUP);
 		
 		if (backup.exists()) {
 			Assert.fail("Github432 test state is incoherent: the backup file already exists at "
@@ -207,10 +206,10 @@ public class Github432Test extends ModelCheckerTestCase {
 	}
 	
 	private void revertConfigFile() {
-		final File backup = new File(CommonTestCase.BASE_PATH +  CONFIG_FILE_BACKUP);
+		final File backup = new File(CommonTestCase.TEST_MODEL_PATH +  CONFIG_FILE_BACKUP);
 		
 		if (backup.exists()) {
-			final File configFile = new File(CommonTestCase.BASE_PATH + CONFIG_FILE);
+			final File configFile = new File(CommonTestCase.TEST_MODEL_PATH + CONFIG_FILE);
 
 			try {
 				Files.move(backup.toPath(), configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);

@@ -39,7 +39,7 @@ import tlc2.output.EC;
 public class DieHardDistributedTLCTest extends DistributedTLCTestCase {
 
 	public DieHardDistributedTLCTest() {
-		super("DieHard", BASE_PATH, new String[] {"-deadlock"});
+		super("DieHard", TEST_MODEL_PATH, new String[] {"-deadlock"});
 	}
 
 	@Test

@@ -47,11 +47,13 @@ public abstract class CommonTestCase {
 //
 	protected static final String BASE_DIR = System.getProperty("basedir", "");
 	protected static final String TEST_MODEL = "test-model" + File.separator;
-	
-	public static final String BASE_PATH = (BASE_DIR.equals("")) ?
-		"target" + File.separator + TEST_MODEL :
-		BASE_DIR + File.separator + "target" + File.separator + TEST_MODEL;
-	
+
+	protected static final String TARGET_DIR = (BASE_DIR.equals("")) ?
+			"target" :
+			BASE_DIR + File.separator + "target";
+
+	public static final String TEST_MODEL_PATH = TARGET_DIR + File.separator + TEST_MODEL;
+
 	protected final TestMPRecorder recorder;
 
 	public CommonTestCase() {

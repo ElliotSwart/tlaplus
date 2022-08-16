@@ -29,7 +29,7 @@ public class AbsoluteSpecPathTest extends CommonTestCase {
 		// Do not call TLC#main because we won't get control back (system.exit) to check
 		// assertions below.
 		final TLC tlc = new TLC();
-		tlc.handleParameters(new String[] {BASE_PATH + "Test2"});
+		tlc.handleParameters(new String[] {TEST_MODEL_PATH + "Test2"});
 		tlc.process();
 
 		MP.unsubscribeRecorder(recorder);

@@ -42,7 +42,7 @@ public class IllegalOperatorTest  {
 		ToolIO.out = testPrintStream;
 		
 		SANY.SANYmain(
-				new String[] { CommonTestCase.BASE_PATH + "IllegalOperatorTest" });
+				new String[] { CommonTestCase.TEST_MODEL_PATH + "IllegalOperatorTest" });
 		
 		testPrintStream.assertSubstring("""
                 *** Errors: 1

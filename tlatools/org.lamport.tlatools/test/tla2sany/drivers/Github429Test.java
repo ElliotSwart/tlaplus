@@ -18,7 +18,7 @@ public class Github429Test {
 	@Before
 	public void setUp() throws Exception {
 		// create a model and initialize
-		moduleSpec = new SpecObj(CommonTestCase.BASE_PATH + "Github429.tla", new SimpleFilenameToStream());
+		moduleSpec = new SpecObj(CommonTestCase.TEST_MODEL_PATH + "Github429.tla", new SimpleFilenameToStream());
 		sany = new SANY();
 		sany.frontEndInitialize(moduleSpec, ToolIO.out);
 	}

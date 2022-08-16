@@ -201,7 +201,7 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 		System.setProperty(ModelChecker.class.getName() + ".vetoCleanup", "true");
 
 		try {
-			var userDir = BASE_PATH + path;
+			var userDir = TEST_MODEL_PATH + path;
 
 			// TEST_MODEL is where TLC should look for user defined .tla files
 			ToolIO.setUserDir(userDir);

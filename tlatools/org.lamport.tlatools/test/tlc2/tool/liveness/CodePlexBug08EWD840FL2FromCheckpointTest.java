@@ -52,7 +52,7 @@ import util.IndependentlyRunTest;
 public class CodePlexBug08EWD840FL2FromCheckpointTest extends ModelCheckerTestCase {
 
 	public CodePlexBug08EWD840FL2FromCheckpointTest() {
-		super("EWD840MC2", "CodePlexBug08", new String[] {"-gzip", "-recover", BASE_PATH + "CodePlexBug08" + File.separator + "checkpoint"}, ExitStatus.VIOLATION_LIVENESS);
+		super("EWD840MC2", "CodePlexBug08", new String[] {"-gzip", "-recover", TEST_MODEL_PATH + "CodePlexBug08" + File.separator + "checkpoint"}, ExitStatus.VIOLATION_LIVENESS);
 	}
 	
 
@@ -68,7 +68,7 @@ public class CodePlexBug08EWD840FL2FromCheckpointTest extends ModelCheckerTestCa
 			 * 5) Replace the content of checkpoint.zip with the content of 4)
 			 * 6) Update the number below on states found...
 			 */
-			final String prefix = BASE_PATH + "CodePlexBug08" + File.separator;
+			final String prefix = TEST_MODEL_PATH + "CodePlexBug08" + File.separator;
 			final ZipFile zipFile = new ZipFile(prefix + "checkpoint.zip");
 			final Enumeration<?> enu = zipFile.entries();
 			while (enu.hasMoreElements()) {

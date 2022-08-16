@@ -71,7 +71,7 @@ public abstract class PCalModelCheckerTestCase extends ModelCheckerTestCase {
 		// the previous tests.
 		ToolIO.reset();
 		
-		this.pcalArgs.add(CommonTestCase.BASE_PATH + path + File.separator + spec
+		this.pcalArgs.add(CommonTestCase.TEST_MODEL_PATH + path + File.separator + spec
 				+ TLAConstants.Files.TLA_EXTENSION);
 
 		var t = new trans();
