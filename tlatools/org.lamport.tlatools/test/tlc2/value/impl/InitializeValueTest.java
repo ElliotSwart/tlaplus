@@ -185,11 +185,6 @@ public class InitializeValueTest {
 
 		final FcnRcdValue rcdv = new FcnRcdValue(new Value[] { new StringValue("B"), new StringValue("A") },
 				new Value[] { bVal, aVal }, false);
-
-		assertFalse(rcdv.isNormalized());
-		for (final Value v : rcdv.values) {
-			assertFalse(v.isNormalized());
-		}
 		
 		rcdv.initialize();
 		

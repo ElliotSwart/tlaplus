@@ -2588,6 +2588,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
         }
 
       switch (opcode) {
+
           case OPCODE_bc ->     // BoundedChoose
           {
               final SemanticNode pred = args[0];
@@ -3424,16 +3425,13 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
     cm = acts.cm;
     final ActionItemList acts1 = acts.cdr();
     if (kind > IActionItemList.CONJUNCT) {
-      final TLCState res = this.enabled(pred, acts1, c, s0, s1, cm);
-      return res;
+        return this.enabled(pred, acts1, c, s0, s1, cm);
     }
     else if (kind == IActionItemList.PRED) {
-      final TLCState res = this.enabled(pred, acts1, c, s0, s1, cm);
-      return res;
+        return this.enabled(pred, acts1, c, s0, s1, cm);
     }
     if (kind == IActionItemList.UNCHANGED) {
-      final TLCState res = this.enabledUnchanged(pred, acts1, c, s0, s1, cm);
-      return res;
+        return this.enabledUnchanged(pred, acts1, c, s0, s1, cm);
     }
 
     final Value v1 = this.eval(pred, c, s0, EmptyState, EvalControl.Enabled, cm);
@@ -3443,8 +3441,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
     final Value v2 = this.eval(pred, c, s1, TLCState.Null, EvalControl.Primed, cm);
 
     if (v1.equals(v2)) return null;
-    final TLCState res = this.enabled(acts1, s0, s1, cm);
-    return res;
+      return this.enabled(acts1, s0, s1, cm);
   }
 
   protected abstract TLCState enabledAppl(OpApplNode pred, ActionItemList acts, Context c, TLCState s0, TLCState s1, CostModel cm);

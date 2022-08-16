@@ -271,8 +271,7 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
       Value result = this;
         for (final Value value : path) {
             if (result instanceof Applicable applicable) {
-                final Value elem = value;
-                result = applicable.select(elem);
+                result = applicable.select(value);
                 if (result == null) return null;
             }
             else {

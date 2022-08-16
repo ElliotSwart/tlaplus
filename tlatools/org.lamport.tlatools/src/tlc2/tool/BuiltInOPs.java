@@ -8,7 +8,7 @@ import util.UniqueString;
 
 public class BuiltInOPs implements ToolGlobals {
 
-  private static int[] OpCodeTable;
+  private static final int[] OpCodeTable;
 
   static {
     OpCodeTable = new int[200];
@@ -85,19 +85,18 @@ public class BuiltInOPs implements ToolGlobals {
 
   private static void put(final UniqueString op, final int opcode) {
     final int loc = op.getTok();
-    if (loc >= OpCodeTable.length) {
-      final int len1 = loc + 20;
-      final int[] OpCodeTable1 = new int[len1];
-      System.arraycopy(OpCodeTable, 0, OpCodeTable1, 0, OpCodeTable.length);
-      OpCodeTable = OpCodeTable1;
-    }
     OpCodeTable[loc] = opcode;
   }
 	
   /* Return the opcode for op. If it is not builtin, return 0. */
   public static int getOpCode(final UniqueString op) {
     final int loc = op.getTok();
-    return (loc < OpCodeTable.length) ? OpCodeTable[loc] : 0;
+
+    if (loc < OpCodeTable.length){
+      return OpCodeTable[loc];
+    }
+
+    return 0;
   }
 
   public static int getOpCode(final int loc) {

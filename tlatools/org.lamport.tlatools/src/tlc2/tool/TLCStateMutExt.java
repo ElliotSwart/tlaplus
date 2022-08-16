@@ -48,7 +48,6 @@ private final IValue[] values;
    */
   private final IMVPerm[] perms;
 
-  private long fingerPrint;
 
   private TLCStateMutExt(final OpDeclNode[] vars, final IValue[] vals, final ITool tool) {
       this(vars, vals, tool, tool.getViewSpec(), tool.getSymmetryPerms());
@@ -68,14 +67,12 @@ private final IValue[] values;
         this.mytool = tool;
         this.viewMap = viewMap;
         this.perms = perms;
-        this.fingerPrint = generateFingerPrint();
     }
 
     public static TLCState getEmpty(final OpDeclNode[] vars, final ITool tool)
     {
         final IValue[] vals = new IValue[vars.length];
-        var Empty = new TLCStateMutExt(vars, vals, tool);
-        return Empty;
+        return new TLCStateMutExt(vars, vals, tool);
         // SZ 10.04.2009: since this method is called exactly one from Spec#processSpec
         // moved the call of UniqueString#setVariables to that place
     }
@@ -83,8 +80,7 @@ private final IValue[] values;
     @Override
     public TLCState createEmpty() {
         final IValue[] vals = new IValue[vars.length];
-        var state = new TLCStateMutExt(vars, vals, mytool, viewMap, perms);
-        return state;
+        return new TLCStateMutExt(vars, vals, mytool, viewMap, perms);
     }
 
     @Override
@@ -99,8 +95,7 @@ private final IValue[] values;
             vals[i] = vis.read();
         }
 
-        var state = new TLCStateMutExt(workerId, uid, level, vars, vals, mytool, viewMap, perms);
-        return state;
+        return new TLCStateMutExt(workerId, uid, level, vars, vals, mytool, viewMap, perms);
     }
 
 

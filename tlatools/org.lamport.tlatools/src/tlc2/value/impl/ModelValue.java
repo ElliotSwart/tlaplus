@@ -78,7 +78,7 @@ public class ModelValue extends Value implements IModelValue {
   // SZ Mar 9, 2009: public accessed field, this will cause troubles
   public static ModelValue[] mvs;
 
-  public UniqueString val;
+  public final UniqueString val;
   public int index;
   public char type;  // type = 0 means untyped.
 
