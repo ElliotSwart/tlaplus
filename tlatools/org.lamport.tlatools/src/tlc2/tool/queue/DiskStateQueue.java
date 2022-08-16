@@ -224,12 +224,10 @@ public class DiskStateQueue extends StateQueue {
 		this.lastLoPool = this.loPool - 1;
 
 		for (int i = 0; i < this.enqIndex; i++) {
-			this.enqBuf[i] = emptyState.createEmpty();
-			this.enqBuf[i].read(vis);
+			this.enqBuf[i] = emptyState.createNewFromValueStream(vis);
 		}
 		for (int i = this.deqIndex; i < this.deqBuf.length; i++) {
-			this.deqBuf[i] = emptyState.createEmpty();
-			this.deqBuf[i].read(vis);
+			this.deqBuf[i] = emptyState.createNewFromValueStream(vis);
 		}
 		vis.close();
 		final File file = new File(this.filePrefix + this.lastLoPool);

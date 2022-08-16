@@ -115,8 +115,7 @@ public final class MemStateQueue extends StateQueue {
     final ValueInputStream vis = new ValueInputStream(filename);
     this.len = vis.readInt();
     for (int i = 0; i < this.len; i++) {
-      this.states[i] = tool.createEmptyState();
-      this.states[i].read(vis);
+      this.states[i] = tool.getEmptyState().createNewFromValueStream(vis);
     }
     vis.close();
   }

@@ -70,8 +70,8 @@ public abstract class ByteArrayQueue implements IStateQueue {
 	
 	private TLCState toState(final byte[] bytes) {
 		try {
-			final TLCState state = emptyState.createEmpty();
-			state.read(new DiskByteArrayQueue.ByteValueInputStream(bytes));
+			final TLCState state = emptyState
+					.createNewFromValueStream(new DiskByteArrayQueue.ByteValueInputStream(bytes));
 			return state;
 		} catch (final IOException notExpectedToHappen) {
 			// With ByteValueInputStream

@@ -48,7 +48,7 @@ private final IValue[] values;
    */
   private final IMVPerm[] perms;
 
-  private final long fingerPrint;
+  private long fingerPrint;
 
   private TLCStateMutExt(final OpDeclNode[] vars, final IValue[] vals, final ITool tool) {
       this(vars, vals, tool, tool.getViewSpec(), tool.getSymmetryPerms());
@@ -60,7 +60,15 @@ private final IValue[] values;
         this.mytool = tool;
         this.viewMap = viewMap;
         this.perms = perms;
-        this.fingerPrint = 0;// = generateFingerPrint();
+    }
+
+    private TLCStateMutExt(final short workerId, final long uid, final int level, final OpDeclNode[] vars, final IValue[] vals, final ITool tool, final SemanticNode viewMap, final IMVPerm[] perms) {
+        super(workerId, uid, level, vars);
+        this.values = vals;
+        this.mytool = tool;
+        this.viewMap = viewMap;
+        this.perms = perms;
+        this.fingerPrint = generateFingerPrint();
     }
 
     public static TLCState getEmpty(final OpDeclNode[] vars, final ITool tool)
@@ -78,6 +86,23 @@ private final IValue[] values;
         var state = new TLCStateMutExt(vars, vals, mytool, viewMap, perms);
         return state;
     }
+
+    @Override
+    public TLCState createNewFromValueStream(final IValueInputStream vis) throws IOException{
+        var workerId = vis.readShortNat();
+        var uid = vis.readLongNat();
+        var level = vis.readShortNat();
+
+        final IValue[] vals = new IValue[vars.length];
+        final int len = vals.length;
+        for (int i = 0; i < len; i++) {
+            vals[i] = vis.read();
+        }
+
+        var state = new TLCStateMutExt(workerId, uid, level, vars, vals, mytool, viewMap, perms);
+        return state;
+    }
+
 
   //TODO equals without hashcode!
   public boolean equals(final Object obj) {
@@ -278,7 +303,7 @@ private final IValue[] values;
    */
 	@Override
     public long fingerPrint() {
-		return generateFingerPrint();
+        return generateFingerPrint();
 	}
 
   @Override
@@ -313,15 +338,6 @@ private final IValue[] values;
 		}
 		return unassignedVars;
 	}
-
-  @Override
-  public void read(final IValueInputStream vis) throws IOException {
-    super.read(vis);
-    final int len = this.values.length;
-    for (int i = 0; i < len; i++) {
-      this.values[i] = vis.read();
-    }
-  }
 
   @Override
   public void write(final IValueOutputStream vos) throws IOException {

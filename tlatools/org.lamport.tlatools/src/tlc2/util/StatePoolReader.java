@@ -73,8 +73,7 @@ public class StatePoolReader extends Thread {
     else if (this.poolFile != null) {
       final ValueInputStream vis = new ValueInputStream(this.poolFile);
       for (int i = 0; i < deqBuf.length; i++) {
-	deqBuf[i] = emptyState.createEmpty();
-	deqBuf[i].read(vis);
+	deqBuf[i] = emptyState.createNewFromValueStream(vis);
       }
       vis.close();
       this.poolFile = file;     // <file, false>
@@ -85,8 +84,7 @@ public class StatePoolReader extends Thread {
     else {
       final ValueInputStream vis = new ValueInputStream(file);
       for (int i = 0; i < deqBuf.length; i++) {
-	deqBuf[i] = emptyState.createEmpty();
-	deqBuf[i].read(vis);
+	deqBuf[i] = emptyState.createNewFromValueStream(vis);
       }
       vis.close();              // <null, false>
       return deqBuf;
@@ -111,8 +109,7 @@ public class StatePoolReader extends Thread {
       // this should seldom occur.
       final ValueInputStream vis = new ValueInputStream(this.poolFile);
       for (int i = 0; i < deqBuf.length; i++) {
-	deqBuf[i] = emptyState.createEmpty();
-	deqBuf[i].read(vis);
+	deqBuf[i] = emptyState.createNewFromValueStream(vis);
       }
       vis.close();
       // this.poolFile.delete();
@@ -177,8 +174,7 @@ public class StatePoolReader extends Thread {
 	  }
 	  final ValueInputStream vis = new ValueInputStream(this.poolFile);
 	  for (int i = 0; i < this.buf.length; i++) {
-	    this.buf[i] = emptyState.createEmpty();
-	    this.buf[i].read(vis);
+	    this.buf[i] = emptyState.createNewFromValueStream(vis);
 	  }
 	  vis.close();
 	  this.poolFile = null;

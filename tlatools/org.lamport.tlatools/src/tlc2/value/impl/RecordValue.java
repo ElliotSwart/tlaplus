@@ -15,11 +15,7 @@ import tla2sany.semantic.SymbolNode;
 import tla2sany.st.Location;
 import tlc2.output.EC;
 import tlc2.output.MP;
-import tlc2.tool.Action;
-import tlc2.tool.FingerprintException;
-import tlc2.tool.StateVec;
-import tlc2.tool.TLCState;
-import tlc2.tool.TLCStateInfo;
+import tlc2.tool.*;
 import tlc2.tool.coverage.CostModel;
 import tlc2.util.Context;
 import tlc2.util.FP64;
@@ -855,6 +851,11 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 
             @Override
             public TLCState createEmpty(){return this;}
+
+            @Override
+            public TLCState createNewFromValueStream(final IValueInputStream vis) throws IOException{
+                return this;
+            }
 		}
 
 		@Override

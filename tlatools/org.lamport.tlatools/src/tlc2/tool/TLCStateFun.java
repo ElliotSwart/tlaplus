@@ -93,6 +93,11 @@ private final SymbolNode name;
   }
 
   @Override
+  public TLCState createNewFromValueStream(final IValueInputStream vis) throws IOException{
+    throw new WrongInvocationException("TLCStateFun.fingerPrint: This is a TLC bug.");
+  }
+
+  @Override
   public boolean allAssigned() { return true; }
   
   @Override
@@ -103,11 +108,6 @@ private final SymbolNode name;
   @Override
   public StateVec addToVec(final StateVec states) {
     return states.addElement(this);
-  }
-  
-  @Override
-  public void read(final IValueInputStream vis) throws IOException {
-      throw new WrongInvocationException("TLCStateFun.read: This is a TLC bug.");
   }
 
   @Override

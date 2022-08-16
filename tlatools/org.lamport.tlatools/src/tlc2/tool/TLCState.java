@@ -40,15 +40,15 @@ public short workerId = Short.MAX_VALUE; // Must be set to a non-negative number
   // The state variables.
   public final OpDeclNode[] vars;
 
-  public TLCState(OpDeclNode[] vars){
+  public TLCState(final OpDeclNode[] vars){
       this.vars = vars;
   }
 
-  public void read(final IValueInputStream vis) throws IOException {
-	this.workerId = vis.readShortNat();
-	this.uid = vis.readLongNat();
-    this.level = vis.readShortNat();
-    assert this.level >= 0; // Should never overflow.
+  public TLCState(final short workerId, final long uid, final int level, final OpDeclNode[] vars){
+      this(vars);
+      this.workerId = workerId;
+      this.uid = uid;
+      this.level = level;
   }
   
 	public void write(final IValueOutputStream vos) throws IOException {
@@ -85,6 +85,8 @@ public short workerId = Short.MAX_VALUE; // Must be set to a non-negative number
   public abstract boolean allAssigned();
   public abstract Set<OpDeclNode> getUnassigned();
   public abstract TLCState createEmpty();
+
+  public abstract TLCState createNewFromValueStream(final IValueInputStream vis) throws IOException;
 
   protected TLCState copy(final TLCState copy) {
 	  copy.level = this.level;

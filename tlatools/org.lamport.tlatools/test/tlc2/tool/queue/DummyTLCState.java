@@ -1,5 +1,6 @@
 package tlc2.tool.queue;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,6 +9,7 @@ import tla2sany.semantic.SymbolNode;
 import tlc2.tool.StateVec;
 import tlc2.tool.TLCState;
 import tlc2.value.IValue;
+import tlc2.value.IValueInputStream;
 import util.UniqueString;
 
 @SuppressWarnings("serial")
@@ -144,5 +146,10 @@ public class DummyTLCState extends TLCState {
 	@Override
     public String toString(final TLCState lastState) {
 		return null;
+	}
+
+	@Override
+	public TLCState createNewFromValueStream(final IValueInputStream vis) throws IOException{
+		return this;
 	}
 }
