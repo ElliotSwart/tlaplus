@@ -29,11 +29,6 @@
 		<tag>HEAD</tag>
 	</scm>
 
-	<!-- tycho requires maven >= 3.0 -->
-	<prerequisites>
-		<maven>3.0</maven>
-	</prerequisites>
-
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
@@ -61,6 +56,8 @@
 		<class.src.aj>${project.basedir}/src-aj</class.src.aj>
 		<class.output>${project.build.directory}/class</class.output>
 		<test.src>${project.basedir}/test</test.src>
+		<test.src.benchmark>${project.basedir}/test-benchmark</test.src.benchmark>
+		<test.src.jpf>${project.basedir}/test-verify</test.src.jpf>
 		<test.output>${project.build.directory}/test-class</test.output>
 		<test.model>${project.basedir}/test-model</test.model>
 		<test.whitespacedirectory>${project.basedir}/TLA+ Tools</test.whitespacedirectory>
@@ -388,7 +385,10 @@
 								<include>tlc2/tool/checkpoint/CheckpointWhenTimeBoundTest.java</include>
 								<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
 								<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
+								<!--
+								Flaky
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test.java</include>
+								-->
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2FromCheckpointTest.java</include>
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test.java</include>
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test.java</include>
@@ -439,7 +439,8 @@
 								<include>tlc2/tool/PrintTraceRaceTest_TTraceTest.java</include>
 								<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
 								<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
-								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test_TTraceTest.java</include>
+								<!--
+								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test_TTraceTest.java</include>-->
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test_TTraceTest.java</include>
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test_TTraceTest.java</include>
 								<include>tlc2/tool/liveness/ErrorTraceConstructionTest_TTraceTest.java</include>
@@ -595,6 +596,7 @@
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>3.0.0-M7</version>
 				<configuration>
+					<skipTests>${skip.failsafe.tests}</skipTests>
 					<forkCount>1</forkCount>
 					<reuseForks>true</reuseForks>
 					<threadCount>1</threadCount>
@@ -753,7 +755,7 @@
 								<include>tlc2/tool/checkpoint/CheckpointWhenTimeBoundTest.java</include>
 								<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
 								<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
-								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test.java</include>
+								<!--<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test.java</include>-->
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2FromCheckpointTest.java</include>
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test.java</include>
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test.java</include>
@@ -804,7 +806,7 @@
 								<include>tlc2/tool/PrintTraceRaceTest_TTraceTest.java</include>
 								<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
 								<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
-								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test_TTraceTest.java</include>
+								<!--<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test_TTraceTest.java</include>-->
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test_TTraceTest.java</include>
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test_TTraceTest.java</include>
 								<include>tlc2/tool/liveness/ErrorTraceConstructionTest_TTraceTest.java</include>
@@ -887,21 +889,178 @@
 		<!-- Builds jmh benchmark -->
 		<profile>
 			<id>benchmark</id>
+			<properties>
+				<!-- Standard tests should not be run -->
+				<skip.surefire.tests>true</skip.surefire.tests>
+				<skip.failsafe.tests>true</skip.failsafe.tests>
+			</properties>
 			<build>
 				<plugins>
+					<!-- Add source dir -->
 					<plugin>
-						<groupId>pw.krejci</groupId>
-						<artifactId>jmh-maven-plugin</artifactId>
-						<version>0.2.2</version>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>3.2.0</version>
+						<executions>
+							<execution>
+								<id>add-benchmark-test-source</id>
+								<goals>
+									<goal>add-test-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>${test.src.benchmark}</source>
+									</sources>
+								</configuration>
+							</execution>
+
+						</executions>
+					</plugin>
+
+					<!-- Copy compiled test files to be bundled into jar -->
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>3.3.0</version>
+						<executions>
+							<execution>
+								<id>add-resource</id>
+								<phase>prepare-package</phase>
+								<goals>
+								  <goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${class.output}/</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${test.output}</directory>
+										</resource>
+									</resources>
+								</configuration>
+							  </execution>
+						</executions>
+					</plugin>
+
+					<!-- Package benchmark jar -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-shade-plugin</artifactId>
+						<version>3.3.0</version>
+						<configuration>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<finalName>${project.artifactId}-${project.version}-benchmark</finalName>
+							<createDependencyReducedPom>false</createDependencyReducedPom>
+							<minimizeJar>false</minimizeJar>
+							<promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<manifestEntries>
+										<Implementation-Title>TLA+ Tools JMH Benchmark</Implementation-Title>
+										<!--<Implementation-Version></Implementation-Version>-->
+										<Implementation-Vendor>Not Microsoft Corp.</Implementation-Vendor>
+
+										<Built-By>${user.name}</Built-By>
+										<Build-Tag>${env.BUILD_TAG}</Build-Tag>
+										<Build-TimeStamp>${maven.build.timestamp.format}</Build-TimeStamp>
+										<!--<Build-Rev></Build-Rev>-->
+
+										<!-- Git revision -->
+										<X-Git-Branch>${git.branch}</X-Git-Branch>
+										<X-Git-Tag>${git.tag}</X-Git-Tag>
+										<X-Git-Revision>${git.revision}</X-Git-Revision>
+										<X-Git-ShortRevision>${git.shortRevision}</X-Git-ShortRevision>
+										<X-Git-BuildNumber>${git.branch}_${git.tag}_${git.shortRevision}</X-Git-BuildNumber>
+										<X-Git-Commits-Count>${git.commitsCount}</X-Git-Commits-Count>
+
+										<Main-Class>org.openjdk.jmh.Main</Main-Class>
+									</manifestEntries>
+								</transformer>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"></transformer>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
+									<addHeader>false</addHeader>
+								</transformer>
+								-->
+							</transformers>
+							<filters>
+								<filter>
+									<artifact>*</artifact>
+									<excludes>
+										<exclude>META-INF/maven/**</exclude>
+										<exclude>META-INF/MANIFEST.MF</exclude>
+									</excludes>
+								</filter>
+								<filter>
+									<artifact>com.sun.mail:*</artifact>
+									<excludes>
+										<exclude>javax/mail/search/**</exclude>
+										<exclude>org/**</exclude>
+									</excludes>
+								</filter>
+								<filter>
+									<artifact>org.eclipse*</artifact>
+									<excludes>
+										<exclude>META-INF/**</exclude>
+										<exclude>about*</exclude>
+									</excludes>
+								</filter>
+							</filters>
+
+						</configuration>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>shade</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- Run benchmark -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>3.1.0</version>
+						<executions>
+						  <execution>
+							<id>Run benchmark</id>
+							<goals>
+							  <goal>exec</goal>
+							</goals>
+							<phase>integration-test</phase>
+						  </execution>
+						</executions>
+						<configuration>
+						  <async>false</async>
+						  <executable>java</executable>
+						  <arguments>
+							<argument>-jar</argument>
+							<argument>${project.build.directory}/${project.artifactId}-${project.version}-benchmark.jar</argument>
+							<argument>-wi 1</argument>
+							<argument>-i1</argument>
+							<argument>-f1</argument>
+							<argument>-rf json</argument>
+							<argument>-rff DiskQueueBenchmark-$(date +%s)-$(git rev-parse --short HEAD).json</argument>
+							<!--<argument>-jvmArgsPrepend "-ea -Xms8192m -Xmx8192m"</argument>
+							<argument>-jvmArgsAppend "-Dtlc2.tool.ModuleOverwritesBenchmark.base=${test.model.output}"</argument>-->
+							<argument>tlc2.tool.queue.DiskQueueBenchmark</argument>
+						  </arguments>
+						</configuration>
 					</plugin>
 				</plugins>
+
 			</build>
 			<dependencies>
 				<dependency>
 					<groupId>org.openjdk.jmh</groupId>
 					<artifactId>jmh-core</artifactId>
-					<version>1.35</version>
-					<scope>test</scope>
+					<version>1.21</version>
+					<scope>compile</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.openjdk.jmh</groupId>
+					<artifactId>jmh-generator-annprocess</artifactId>
+					<version>1.21</version>
+					<scope>compile</scope>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -914,123 +1073,6 @@
 			<id>coverage</id>
 			<build>
 				<plugins></plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>OSGi</id>
-			<properties>
-
-				<!-- https://wiki.eclipse.org/Tycho/Release_Notes/1.4 -->
-				<tycho-version>1.5.1</tycho-version>
-
-				<!-- no default here -->
-				<tycho.test.vm.argline>-Xmx500m -Xdebug -Xrunjdwp:transport=dt_socket,address=1044,server=y,suspend=n</tycho.test.vm.argline>
-				<tycho.test.vm.useUiThread>false</tycho.test.vm.useUiThread>
-
-			</properties>
-			<build>
-				<plugins>
-					<!-- enable tycho build extension -->
-					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>tycho-maven-plugin</artifactId>
-						<version>${tycho-version}</version>
-						<extensions>true</extensions>
-					</plugin>
-
-					<!-- Compile java sources and exclude aspects -->
-					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>tycho-compiler-plugin</artifactId>
-						<version>${tycho-version}</version>
-						<configuration>
-							<!-- Ignore compiler errors due to forbidden sun.misc.Unsafe imports -->
-							<!-- https://bugs.eclipse.org/369187 -->
-							<compilerArgument>-err:-forbidden</compilerArgument>
-							<excludeResources>
-								<exludeResource>**/*.aj</exludeResource>
-							</excludeResources>
-						</configuration>
-					</plugin>
-
-					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>tycho-packaging-plugin</artifactId>
-						<version>${tycho-version}</version>
-						<configuration>
-							<archive>
-								<manifestEntries>
-									<Implementation-Title>TLA+ Tools</Implementation-Title>
-									<X-Git-ShortRevision>${buildNumber}</X-Git-ShortRevision>
-								</manifestEntries>
-							</archive>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>target-platform-configuration</artifactId>
-						<version>${tycho-version}</version>
-						<configuration>
-							<!-- Some dependencies such as jline referenced by org.lamport.tlatools   -->
-							<!-- cannot be found in the Toolbox's target platform (TLAToolbox.target) -->
-							<!-- because the dependencies are not made available in p2 repositories.  -->
-							<!-- However, sometimes OSGi-fied dependencies are made available on      -->
-							<!-- Maven Central.  'pomDependencies' makes this build look there too.    -->
-							<!-- https://wiki.eclipse.org/Tycho/Target_Platform#.22POM_dependencies_consider.22 -->
-							<pomDependencies>consider</pomDependencies>
-							<!-- recommended: use p2-based target platform resolver -->
-							<resolver>p2</resolver>
-							<ignoreTychoRepositories>true</ignoreTychoRepositories>
-							<!-- Include the pack200 artifacts in the p2 repository. This increases
-								the size of the p2 repository (jars + pack.gz), but reduces the load on the
-								server hosting the repository as clients download the compressed pack.gz files. -->
-							<includePackedArtifacts>true</includePackedArtifacts>
-							<!-- use existing target platform definition -->
-							<target>
-								<artifact>
-									<groupId>tlatoolbox</groupId>
-									<artifactId>org.lamport.tla.toolbox.product.product</artifactId>
-									<version>1.4.0-SNAPSHOT</version>
-									<classifier>TLAToolbox</classifier>
-								</artifact>
-							</target>
-
-							<!-- Need to specify mininum Java version. This defines what
-								 java.* packages are available during dependency resolution.
-								 Java 1.4, e.g. does not come with "java.security.sasl", a
-								 package that is indirectly referenced by the toolbox (indirectly via
-								 org.apache.mina.core).
-								 see http://dev.eclipse.org/mhonarc/lists/cbi-dev/msg00166.html -->
-							<executionEnvironment>JavaSE-17</executionEnvironment>
-
-							<!-- configure the p2 target environments for multi-platform build -->
-							<environments>
-
-								<!-- Linux -->
-								<environment>
-									<os>linux</os>
-									<ws>gtk</ws>
-									<arch>x86_64</arch>
-								</environment>
-
-								<!-- Windows -->
-								<environment>
-									<os>win32</os>
-									<ws>win32</ws>
-									<arch>x86_64</arch>
-								</environment>
-
-								<!-- Mac -->
-								<environment>
-									<os>macosx</os>
-									<ws>cocoa</ws>
-									<arch>x86_64</arch>
-								</environment>
-
-							</environments>
-						</configuration>
-					</plugin>
-				</plugins>
 			</build>
 		</profile>
 		<profile>
@@ -1052,45 +1094,26 @@
 					</resource>
 				</resources>
 				<plugins>
-					<!-- Add source dir -->
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<version>3.2.0</version>
-						<executions>
-							<execution>
-								<id>add-source</id>
-								<phase>generate-sources</phase>
-								<goals>
-									<goal>add-source</goal>
-								</goals>
-								<configuration>
-									<sources>
-										<source>${class.src.aj}</source>
-									</sources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
 					<!-- Compile aspects -->
 					<plugin>
-						<!-- https://github.com/nickwongdev/aspectj-maven-plugin -->
-						<groupId>com.nickwongdev</groupId>
+						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>aspectj-maven-plugin</artifactId>
-						<version>1.12.1</version>
+						<version>1.14.0</version>
 						<configuration>
-							<ajdtBuildDefFile>build.ajproperties</ajdtBuildDefFile>
+							<sources>
+								<source>
+									<basedir>${class.src.aj}</basedir>
+									<includes>
+										<include>**</include>
+									</includes>
+								</source>
+							</sources>
 						</configuration>
 						<executions>
 							<execution>
 								<goals>
 									<goal>compile</goal>
 								</goals>
-								<configuration>
-									<complianceLevel>1.8</complianceLevel>
-									<source>1.8</source>
-									<target>1.8</target>
-								</configuration>
 							</execution>
 						</executions>
 					</plugin>
@@ -1100,21 +1123,21 @@
 				<dependency>
 					<groupId>org.aspectj</groupId>
 					<artifactId>aspectjrt</artifactId>
-					<version>1.9.2</version>
+					<version>1.9.7</version>
 				</dependency>
 
 				<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjtools -->
 				<dependency>
 					<groupId>org.aspectj</groupId>
 					<artifactId>aspectjtools</artifactId>
-					<version>1.9.2</version>
+					<version>1.9.7</version>
 				</dependency>
 
 				<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
 				<dependency>
 					<groupId>org.aspectj</groupId>
 					<artifactId>aspectjweaver</artifactId>
-					<version>1.9.2</version>
+					<version>1.9.7</version>
 					<scope>runtime</scope>
 				</dependency>
 			</dependencies>
@@ -1171,7 +1194,7 @@
 									</excludes>
 								</filter>
 							</filters>
-							<outputDirectory>${project.build.directory}/dist</outputDirectory>
+							<outputDirectory>${dist.output}</outputDirectory>
 						</configuration>
 						<executions>
 							<execution>

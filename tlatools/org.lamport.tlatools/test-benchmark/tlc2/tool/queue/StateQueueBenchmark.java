@@ -40,7 +40,7 @@ import tlc2.tool.TLCState;
 import tlc2.tool.TLCStates;
 
 @State(Scope.Group)
-public class StateQueueBenachmark {
+public class StateQueueBenchmark {
 
 	@Param({"1", "2", "4", "8", "16", "32", "64"})
 	public int size;
@@ -51,7 +51,7 @@ public class StateQueueBenachmark {
 
     @Setup
     public void up() throws IOException {
-        s = new DiskStateQueue();
+        s = new DiskStateQueue(TLCStates.createDummyState());
         
     	// balance off the costs for creating the TLCState[].
     	this.batch = new TLCState[size];
@@ -61,7 +61,7 @@ public class StateQueueBenachmark {
     }
     
     @TearDown
-    public void down() throws IOException {
+    public void down() throws Exception {
     	this.s.delete();
     }
   

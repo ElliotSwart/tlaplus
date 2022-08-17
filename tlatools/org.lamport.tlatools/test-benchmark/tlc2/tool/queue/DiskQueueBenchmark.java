@@ -42,13 +42,21 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
+import tlc2.tool.ITool;
+import tlc2.tool.TLCStateMut;
+import tlc2.value.IMVPerm;
+import tlc2.value.IValue;
+import tla2sany.semantic.OpDeclNode;
+import org.easymock.EasyMock;
+
 import tlc2.tool.TLCState;
 import tlc2.tool.TLCStates;
 import tlc2.util.FlightRecorderProfiler;
 
+
 @State(Scope.Group)
 @BenchmarkMode(Mode.Throughput)
-public class DiskQueueBenachmark {
+public class DiskQueueBenchmark {
 	
 	@Param({"1", "2", "4", "8", "16", "32", "64"})
 	public int vars;
@@ -62,17 +70,17 @@ public class DiskQueueBenachmark {
 	
     @Setup
     public void up() throws IOException {
-		if (impl.equals("DiskByteArrayQueue")) {
-			this.dsq = new DiskByteArrayQueue();
-		} else {
-			this.dsq = new DiskStateQueue();
-		}
+        this.state = new TLCStateMut(new OpDeclNode[]{}, new IValue[]{}, null, null, new IMVPerm[]{});
 
-		this.state = TLCStates.createDummyState(vars);
+		if (impl.equals("DiskByteArrayQueue")) {
+			this.dsq = new DiskByteArrayQueue(this.state);
+		} else {
+			this.dsq = new DiskStateQueue(this.state);
+		}		
     }
     
     @TearDown
-    public void down() throws IOException {
+    public void down() throws Exception {
     	this.dsq.delete();
     }
     
@@ -137,7 +145,7 @@ public class DiskQueueBenachmark {
     
     public static void main(final String[] args) throws RunnerException {
         final Options opt = new OptionsBuilder()
-                .include(DiskQueueBenachmark.class.getSimpleName())
+                .include(DiskQueueBenchmark.class.getSimpleName())
                 .addProfiler(FlightRecorderProfiler.class)
                 .build();
 
