@@ -691,33 +691,4 @@ public class ModelConfig implements ValueConstants, Serializable {
     	}
     	return true;
     }
-
-    /**
-     * Testing method of the parser
-     * @param args
-     * @deprecated
-     */
-    @Deprecated
-    public static void main(final String[] args)
-    {
-        try
-        {
-            // SZ Feb 20, 2009: move to test package
-            // REFACTOR: Name to stream
-            final FileInputStream fis = new FileInputStream(args[0]);
-            final SimpleCharStream scs = new SimpleCharStream(fis, 1, 1);
-            final TLAplusParserTokenManager tmgr = new TLAplusParserTokenManager(scs, 2);
-
-            Token t = getNextToken(tmgr);
-            while (t.kind != 0)
-            {
-                System.err.println(t);
-                t = getNextToken(tmgr);
-            }
-        } catch (final Exception e)
-        {
-            System.err.println(e.getMessage());
-        }
-    }
-
 }

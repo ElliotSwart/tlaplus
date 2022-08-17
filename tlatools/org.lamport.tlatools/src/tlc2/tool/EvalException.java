@@ -51,22 +51,4 @@ public class EvalException extends StatefulRuntimeException
 	public boolean hasParameters() {
 		return parameters != null;
 	}
-    
-    // SZ Jul 14, 2009: refactored and deprecated, all usage changed to standard constructor 
-    // public EvalException(int type, String message)
-    // {
-    //      super(message);
-    //      this.type = type;
-    // }
-    
-    
-
-    // SZ Jul 14, 2009: not used
-    // public final int getErrno()
-    // {
-    //      return this.type;
-    // }
-
-    // SZ Jul 14, 2009: not used
-
 }

@@ -115,19 +115,6 @@ public class SpecObj
     public Operators operators;
 
     /**
-     * Default constructor of the SpecObj with a given primary filename and the default 
-     * NameToFileIStream for its resolution 
-     * @param pfn primary filename of the specification
-     * @deprecated please use the {@link SpecObj#SpecObj(String, FilenameToStream)} 
-     * with <code>null</code> as a second argument
-     */
-    @Deprecated
-    public SpecObj(final String pfn)
-    {
-        this(pfn, null);
-    }
-
-    /**
      * Constructs a SpecObj for the given filename using a specified filename resolver
      * @param pfn primary filename of the specification
      * @param ntfis string to named input stream resolver, if <code>null</code>, 
