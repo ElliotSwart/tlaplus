@@ -27,6 +27,8 @@ package tlc2.tool;
 
 import tla2sany.semantic.ASTConstants;
 import tla2sany.semantic.OpDeclNode;
+import tlc2.value.IValue;
+import tlc2.value.impl.IntValue;
 import util.UniqueString;
 
 public abstract class TLCStates {
@@ -45,9 +47,9 @@ public abstract class TLCStates {
 		}
 
 		// Initialize the empty state (variable declarations are static/final per TLC
-		// run).
-		/*
-		final TLCState state = TLCStateMut.getEmpty(variables);;
+		// run).new TLCStateMut(new OpDeclNode[]{}, new IValue[]{}, tool, null, new IMVPerm[]{})
+		final IValue[] values = new IValue[variables.length];
+		final TLCState state = new TLCStateMut(variables, values, null, null, null);
 		state.uid = 0;
 
 		// Assign values to variables.
@@ -55,7 +57,6 @@ public abstract class TLCStates {
 			state.bind(variables[i].getName(), IntValue.gen(i));
 		}
 
-		return state;*/
-		return null;
+		return state;
 	}
 }

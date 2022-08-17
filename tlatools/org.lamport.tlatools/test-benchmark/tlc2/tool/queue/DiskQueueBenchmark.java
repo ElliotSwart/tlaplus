@@ -42,13 +42,6 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
-import tlc2.tool.ITool;
-import tlc2.tool.TLCStateMut;
-import tlc2.value.IMVPerm;
-import tlc2.value.IValue;
-import tla2sany.semantic.OpDeclNode;
-import org.easymock.EasyMock;
-
 import tlc2.tool.TLCState;
 import tlc2.tool.TLCStates;
 import tlc2.util.FlightRecorderProfiler;
@@ -70,7 +63,7 @@ public class DiskQueueBenchmark {
 	
     @Setup
     public void up() throws IOException {
-        this.state = new TLCStateMut(new OpDeclNode[]{}, new IValue[]{}, null, null, new IMVPerm[]{});
+        this.state = TLCStates.createDummyState(vars);
 
 		if (impl.equals("DiskByteArrayQueue")) {
 			this.dsq = new DiskByteArrayQueue(this.state);
