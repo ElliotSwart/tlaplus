@@ -1252,8 +1252,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           * imported with parameterized instantiation.                         *
           *********************************************************************/
           if (val instanceof final ThmOrAssumpDefNode opDef) {
-              opcode = BuiltInOPs.getOpCode(opDef.getName());
-            final Context c1 = this.getOpContext(opDef, args, c, true);
+              final Context c1 = this.getOpContext(opDef, args, c, true);
             this.getInitStates(opDef.getBody(), acts, c1, ps, states, cm);
             return;
           }

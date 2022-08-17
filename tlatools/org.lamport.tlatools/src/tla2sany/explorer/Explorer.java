@@ -340,7 +340,6 @@ public class Explorer {
 
 		// For each entry ExternalModuleTableEntry mte in the ExternalModuleTable mt ...
 		while (modules.hasNext()) {
-			key = -1;
 
 			mte = modules.next();
 

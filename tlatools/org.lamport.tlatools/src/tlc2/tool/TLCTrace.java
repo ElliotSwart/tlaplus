@@ -403,7 +403,6 @@ public class TLCTrace implements AutoCloseable {
 		}
 		sinfo = this.tool.evalAlias(sinfo, s2 == null ? sinfo.state : s2);
 		StatePrinter.printInvariantViolationStateTraceState(sinfo, lastState, ++idx);
-		lastState = sinfo.state;
 
 		// Print s2:
 		// The predecessor to s2 is s1.

@@ -55,8 +55,7 @@ public class MultiFPSet extends FPSet {
 		Assert.check(bits > 0 && bits <= MAX_FPBITS, "Illegal number of FPSets found.");
 		
 		if (fpMemSize == MEM_DEFAULT) {
-			fpMemSize = HeapBasedDiskFPSet.DefaultMaxTblCnt / 20;
-		}
+        }
 
 		this.sets = getNestedFPSets(fpSetConfiguration);
 		this.fpbits = 64 - bits;

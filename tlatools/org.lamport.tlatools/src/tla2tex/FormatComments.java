@@ -1353,8 +1353,8 @@ public final class FormatComments
               * For a sequence of VERB lines, the margin is reset to the   *
               * left edge.                                                 *
               *************************************************************/
-              { newMargin = 0 ;
-                popArg = marginDepth ;
+              {
+                  popArg = marginDepth ;
                 marginDepth = 0 ;
               }
             else

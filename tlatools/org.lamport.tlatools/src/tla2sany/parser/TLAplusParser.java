@@ -1809,7 +1809,6 @@ expecting = "( or ...";
         // LOOKAHEAD( <OpSymbol>, { isPrefixDeclOp( getToken(1) )  } )
         tn = NonExpPrefixOp();
         kind = N_PrefixDecl;
-        n = lastOp.getIdentifier();
         sn = new SyntaxTreeNode[2];
         sn[0] = tn;
         expecting = "_";
@@ -1823,7 +1822,6 @@ expecting = "( or ...";
           case op_1, AND, op_3, op_4, OR, op_6, op_7, op_8, op_9, op_10, op_11, op_12, op_13, op_14, op_15, op_16, op_17, op_18, op_19, IN, op_21, op_22, op_23, op_24, op_25, op_27, op_30, op_31, op_32, op_33, op_34, op_35, op_36, op_37, op_38, op_39, op_40, op_41, op_42, op_43, op_44, op_45, op_46, op_47, op_48, op_49, op_50, op_51, op_52, op_53, op_54, op_55, op_56, op_59, op_62, op_63, op_64, EQUALS, op_66, op_67, op_71, op_72, op_73, op_74, op_75, op_77, op_78, op_79, op_80, op_81, op_82, op_83, op_84, op_85, op_86, op_87, op_88, op_89, op_90, op_91, op_92, op_93, op_94, op_95, op_96, op_97, op_98, op_100, op_101, op_102, op_103, op_104, op_105, op_106, op_107, op_108, op_109, op_110, op_111, op_117, op_118, op_119 -> {
             tn = InfixOp();
             kind = N_InfixDecl;
-            n = lastOp.getIdentifier();
             sn = new SyntaxTreeNode[3];
             sn[1] = tn;
             sn[0] = new SyntaxTreeNode(mn, t);
@@ -1834,7 +1832,6 @@ expecting = "( or ...";
           case op_57, op_68, op_69, op_70 -> {
             tn = PostfixOp();
             kind = N_PostfixDecl;
-            n = lastOp.getIdentifier();
             sn = new SyntaxTreeNode[2];
             sn[1] = tn;
             sn[0] = new SyntaxTreeNode(mn, t);
@@ -1954,8 +1951,7 @@ expecting = "WITH or another definition.";
     }
   expecting = "<-";
     t = jj_consume_token(SUBSTITUTE);
-                     n = tn.getImage();
-     zn[1] = new SyntaxTreeNode(mn, t);
+    zn[1] = new SyntaxTreeNode(mn, t);
 expecting = "Expression or Op. Symbol";
     tn = OpOrExpr();
     epa(); zn[2] = tn; {if (true) return new SyntaxTreeNode(mn, N_Substitution, zn );}
@@ -4143,7 +4139,7 @@ final SyntaxTreeNode tn;
                             addHeir( tn );
         }
       } else if (jj_2_46(2147483647)) {
-      te = true; kind = N_SetOfAll;
+        kind = N_SetOfAll;
         tn = Expression();
       addHeir( tn );
         t = jj_consume_token(COLON);
@@ -4173,7 +4169,7 @@ final SyntaxTreeNode tn;
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case COLON:
             t = jj_consume_token(COLON);
-        te = true; kind = N_SetOfAll;
+            kind = N_SetOfAll;
 // IF tn is infix expression, with operator IN, we have a pbm for throw new ParseException( "Form {a \in b : c \in d } is forbidden" );
 
         /*******************************************************************
@@ -6576,7 +6572,6 @@ final SyntaxTreeNode tn;
   private boolean jj_3R_100() {
     if (jj_scan_token(DOT)) return true;
     final Token xsp;
-    xsp = jj_scanpos;
     lookingAhead = true;
     jj_semLA = BStack.aboveReference( getToken(1).beginColumn);
     lookingAhead = false;
@@ -7942,7 +7937,6 @@ final SyntaxTreeNode tn;
 
   private boolean jj_3_24() {
     final Token xsp;
-    xsp = jj_scanpos;
     lookingAhead = true;
     jj_semLA = getToken(1).kind == ASSUME || getToken(1).kind == BOXASSUME;
     lookingAhead = false;
