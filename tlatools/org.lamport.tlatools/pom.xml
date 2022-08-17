@@ -1067,7 +1067,7 @@
 
 		<!-- Verifies TLC parts with NASA's pathfinder model checker -->
 		<profile>
-			<id>test-verify</id>
+			<id>pathfinder-verification</id>
 		</profile>
 		<profile>
 			<id>coverage</id>
