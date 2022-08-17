@@ -72,9 +72,9 @@ private String metadir;
   /* Checkpoint. */
   @Override
   public void beginChkpt(final String fname) throws IOException {
-    final DataOutputStream dos = FileUtil.newDFOS(this.chkptName(fname, "tmp"));
-    this.set.beginChkpt(dos);
-    dos.close();
+    try(final DataOutputStream dos = FileUtil.newDFOS(this.chkptName(fname, "tmp"))){
+      this.set.beginChkpt(dos);
+    }
   }
   
   @Override
@@ -89,11 +89,9 @@ private String metadir;
 
   @Override
   public void recover(final String fname) throws IOException {
-    
-    final DataInputStream dis = FileUtil.newDFIS(this.chkptName(fname, "chkpt"));
-    this.set.recover(dis);
-    dis.close();
-    
+    try(final DataInputStream dis = FileUtil.newDFIS(this.chkptName(fname, "chkpt"))){
+      this.set.recover(dis);
+    }
   }
 
   @Override

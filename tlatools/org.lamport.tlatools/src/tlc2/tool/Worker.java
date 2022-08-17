@@ -359,10 +359,10 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 
 	public synchronized void beginChkpt() throws IOException {
 		this.raf.flush();
-		final DataOutputStream dos = FileUtil.newDFOS(filename + ".tmp");
-		dos.writeLong(this.raf.getFilePointer());
-		dos.writeLong(this.lastPtr);
-		dos.close();
+		try(final DataOutputStream dos = FileUtil.newDFOS(filename + ".tmp")){
+			dos.writeLong(this.raf.getFilePointer());
+			dos.writeLong(this.lastPtr);
+		}
 	}
 
 	public synchronized void commitChkpt() throws IOException {
@@ -374,11 +374,11 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 	}
 
 	public void recover() throws IOException {
-		final DataInputStream dis = FileUtil.newDFIS(filename + ".chkpt");
-		final long filePos = dis.readLong();
-		this.lastPtr = dis.readLong();
-		dis.close();
-		this.raf.seek(filePos);
+		try(final DataInputStream dis = FileUtil.newDFIS(filename + ".chkpt")){
+			final long filePos = dis.readLong();
+			this.lastPtr = dis.readLong();
+			this.raf.seek(filePos);
+		}
 	}
 	
 	/* Enumerator */

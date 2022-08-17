@@ -90,21 +90,21 @@ public class REPL {
             moduleExtends += ("," + mainModuleName);
         }
 
-        final File tempFile;
-        final File configFile;
+        // We want to place the spec files used by REPL evaluation into the temporary directory.
+        final File tempFile = new File(replTempDir.toString(), REPL_SPEC_NAME + TLAConstants.Files.TLA_EXTENSION);
+        final File configFile = new File(replTempDir.toString(), REPL_SPEC_NAME + TLAConstants.Files.CONFIG_EXTENSION);
         try {
 
-            // We want to place the spec files used by REPL evaluation into the temporary directory.
-            tempFile = new File(replTempDir.toString(), REPL_SPEC_NAME + TLAConstants.Files.TLA_EXTENSION);
-            configFile = new File(replTempDir.toString(), REPL_SPEC_NAME + TLAConstants.Files.CONFIG_EXTENSION);
+
+
 
             // Create the config file.
-            final BufferedWriter cfgWriter = new BufferedWriter(new FileWriter(configFile.getAbsolutePath(), false));
-            cfgWriter.append("INIT replinit");
-            cfgWriter.newLine();
-            cfgWriter.append("NEXT replnext");
-            cfgWriter.newLine();
-            cfgWriter.close();
+            try(final BufferedWriter cfgWriter = new BufferedWriter(new FileWriter(configFile.getAbsolutePath(), false))){
+                cfgWriter.append("INIT replinit");
+                cfgWriter.newLine();
+                cfgWriter.append("NEXT replnext");
+                cfgWriter.newLine();
+            }
 
             // Create the spec file lines.
             final ArrayList<String> lines = new ArrayList<>();
@@ -120,12 +120,12 @@ public class REPL {
             lines.add("====");
 
             // Write out the spec file.
-            final BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile.getAbsolutePath(), false));
-            for (final String line : lines) {
-                writer.append(line);
-                writer.newLine();
+            try(final BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile.getAbsolutePath(), false))){
+                for (final String line : lines) {
+                    writer.append(line);
+                    writer.newLine();
+                }
             }
-            writer.close();
 
             // Avoid sending log messages to stdout and reset the messages recording.
             ToolIO.setMode(ToolIO.TOOL);

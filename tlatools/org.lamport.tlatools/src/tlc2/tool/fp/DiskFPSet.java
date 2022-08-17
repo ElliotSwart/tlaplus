@@ -612,22 +612,25 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 		flusher.flushTable();
 		releaseTblWriteLock();
 
-		final RandomAccessFile braf = new BufferedRandomAccessFile(
-				this.fpFilename, "r");
-		final long fileLen = braf.length();
 		long dis = Long.MAX_VALUE;
-		if (fileLen > 0) {
-			long x = braf.readLong();
-			while (braf.getFilePointer() < fileLen) {
-				final long y = braf.readLong();
-				final long dis1 = y - x;
-				if (dis1 >= 0) {
-					dis = Math.min(dis, dis1);
+
+		try(final RandomAccessFile braf = new BufferedRandomAccessFile(
+				this.fpFilename, "r")){
+			final long fileLen = braf.length();
+
+			if (fileLen > 0) {
+				long x = braf.readLong();
+				while (braf.getFilePointer() < fileLen) {
+					final long y = braf.readLong();
+					final long dis1 = y - x;
+					if (dis1 >= 0) {
+						dis = Math.min(dis, dis1);
+					}
+					x = y;
 				}
-				x = y;
 			}
 		}
-		braf.close();
+
 		return dis;
 	}
 
@@ -667,34 +670,33 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	 */
 	@Override
     public void recover(final String fname) throws IOException {
-		final RandomAccessFile chkptRAF = new BufferedRandomAccessFile(
-				this.getChkptName(fname, "chkpt"), "r");
-		final RandomAccessFile currRAF = new BufferedRandomAccessFile(
-				this.fpFilename, "rw");
+		try(
+			final RandomAccessFile chkptRAF = new BufferedRandomAccessFile(
+			this.getChkptName(fname, "chkpt"), "r");
+			final RandomAccessFile currRAF = new BufferedRandomAccessFile(
+			this.fpFilename, "rw")){
 
-		this.fileCnt = chkptRAF.length() / LongSize;
-		final int indexLen = (int) ((this.fileCnt - 1) / NumEntriesPerPage) + 2;
-		this.index = new long[indexLen];
-		this.currIndex = 0;
-		this.counter = 0;
+			this.fileCnt = chkptRAF.length() / LongSize;
+			final int indexLen = (int) ((this.fileCnt - 1) / NumEntriesPerPage) + 2;
+			this.index = new long[indexLen];
+			this.currIndex = 0;
+			this.counter = 0;
 
-		long fp = 0L;
-		try {
-			long predecessor = Long.MIN_VALUE;
-			while (true) {
-				fp = chkptRAF.readLong();
-				this.writeFP(currRAF, fp);
-				// check invariant
-				Assert.check(predecessor < fp, EC.SYSTEM_INDEX_ERROR);
-				predecessor = fp;
+			long fp = 0L;
+			try {
+				long predecessor = Long.MIN_VALUE;
+				while (true) {
+					fp = chkptRAF.readLong();
+					this.writeFP(currRAF, fp);
+					// check invariant
+					Assert.check(predecessor < fp, EC.SYSTEM_INDEX_ERROR);
+					predecessor = fp;
+				}
+			} catch (final EOFException e) {
+				Assert.check(this.currIndex == indexLen - 1, EC.SYSTEM_INDEX_ERROR);
+				this.index[indexLen - 1] = fp;
 			}
-		} catch (final EOFException e) {
-			Assert.check(this.currIndex == indexLen - 1, EC.SYSTEM_INDEX_ERROR);
-			this.index[indexLen - 1] = fp;
 		}
-
-		chkptRAF.close();
-		currRAF.close();
 
 		// reopen a BufferedRAF for each thread
 		for (int i = 0; i < this.braf.length; i++) {
@@ -1061,18 +1063,20 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 			// create temporary file
 			final File tmpFile = new File(tmpFilename);
 			tmpFile.delete();
-			final RandomAccessFile tmpRAF = new BufferedRandomAccessFile(tmpFile, "rw");
-			tmpRAF.setLength((getTblCnt() + fileCnt) * FPSet.LongSize);
 
-			// merge
-			mergeNewEntries(braf, tmpRAF);
-			
-			// clean up
-            for (final BufferedRandomAccessFile bufferedRandomAccessFile : braf) {
-                // close existing files (except brafPool[0])
-                bufferedRandomAccessFile.close();
-            }
-			tmpRAF.close();
+			try(final RandomAccessFile tmpRAF = new BufferedRandomAccessFile(tmpFile, "rw")){
+				tmpRAF.setLength((getTblCnt() + fileCnt) * FPSet.LongSize);
+
+				// merge
+				mergeNewEntries(braf, tmpRAF);
+
+				// clean up
+				for (final BufferedRandomAccessFile bufferedRandomAccessFile : braf) {
+					// close existing files (except brafPool[0])
+					bufferedRandomAccessFile.close();
+				}
+			}
+
 			try {
 				FileUtil.replaceFile(tmpFilename, fpFilename);
 			} catch (final IOException e) {

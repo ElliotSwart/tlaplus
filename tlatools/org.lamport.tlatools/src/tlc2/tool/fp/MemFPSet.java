@@ -248,16 +248,17 @@ private String metadir;
   // Checkpoint.
   @Override
   public final void beginChkpt(final String fname) throws IOException {
-    final BufferedDataOutputStream dos =
-      new BufferedDataOutputStream(this.chkptName(fname, "tmp"));
+    try(final BufferedDataOutputStream dos =
+      new BufferedDataOutputStream(this.chkptName(fname, "tmp")))
+    {
       for (final long[] bucket : this.table) {
-          if (bucket != null) {
-              for (final long l : bucket) {
-                  dos.writeLong(l);
-              }
+        if (bucket != null) {
+          for (final long l : bucket) {
+            dos.writeLong(l);
           }
+        }
       }
-    dos.close();
+    }
   }
       
   @Override

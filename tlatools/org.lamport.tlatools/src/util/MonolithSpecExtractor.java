@@ -76,8 +76,9 @@ public class MonolithSpecExtractor {
 	public static NamedInputStream module(final File in, final String moduleName)
 			throws IOException {
 		final File out = FileUtil.createTempFile(moduleName + TLAConstants.Files.TLA_EXTENSION);
-		final PrintWriter pw = new PrintWriter(new FileWriter(out));
-		try (final BufferedReader reader = new BufferedReader(new FileReader(in))) {
+
+		try (final PrintWriter pw = new PrintWriter(new FileWriter(out));
+			 final BufferedReader reader = new BufferedReader(new FileReader(in))) {
 			boolean active = false;
 
 			String line = "";
@@ -95,7 +96,7 @@ public class MonolithSpecExtractor {
 					pw.println(line);
 				}
 			}
-			pw.close();
+
 			if (!active) {
 				// Not found in uber-spec.
 				return null;

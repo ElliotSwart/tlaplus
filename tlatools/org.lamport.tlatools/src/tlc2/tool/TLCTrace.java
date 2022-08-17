@@ -450,10 +450,10 @@ public class TLCTrace implements AutoCloseable {
 	public synchronized void beginChkpt() throws IOException {
 		this.raf.flush();
 		// SZ Feb 24, 2009: FileUtil introduced
-		final DataOutputStream dos = FileUtil.newDFOS(filename + ".tmp");
-		dos.writeLong(this.raf.getFilePointer());
-		dos.writeLong(this.lastPtr);
-		dos.close();
+		try(final DataOutputStream dos = FileUtil.newDFOS(filename + ".tmp")){
+			dos.writeLong(this.raf.getFilePointer());
+			dos.writeLong(this.lastPtr);
+		}
 	}
 
 	public void commitChkpt() throws IOException {
@@ -466,11 +466,11 @@ public class TLCTrace implements AutoCloseable {
 
 	public void recover() throws IOException {
 		// SZ Feb 24, 2009: FileUtil introduced
-		final DataInputStream dis = FileUtil.newDFIS(filename + ".chkpt");
-		final long filePos = dis.readLong();
-		this.lastPtr = dis.readLong();
-		dis.close();
-		this.raf.seek(filePos);
+		try(final DataInputStream dis = FileUtil.newDFIS(filename + ".chkpt")){
+			final long filePos = dis.readLong();
+			this.lastPtr = dis.readLong();
+			this.raf.seek(filePos);
+		}
 	}
 
 	@SuppressWarnings("unused")

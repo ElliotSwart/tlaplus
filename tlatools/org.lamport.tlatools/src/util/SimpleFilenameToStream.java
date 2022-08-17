@@ -237,16 +237,13 @@ public class SimpleFilenameToStream implements FilenameToStream {
   private File read(final String name, final URL location, final InputStream is) {
     final File sourceFile = new TLAFile(Objects.requireNonNull(tmpDir).resolve(name), location, true, this);
 	sourceFile.deleteOnExit();
-	try {
-
-		final FileOutputStream fos = new FileOutputStream(sourceFile);
-
+	try(final FileOutputStream fos = new FileOutputStream(sourceFile)) {
 		final byte[] buf = new byte[1024];
 		int len;
 		while ((len = is.read(buf)) > 0) {
 			fos.write(buf, 0, len);
 		}
-		fos.close();
+
 		is.close();
 	} catch (final IOException e) {
 		// must not happen

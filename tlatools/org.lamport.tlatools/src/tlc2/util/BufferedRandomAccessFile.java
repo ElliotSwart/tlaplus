@@ -495,18 +495,21 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile imp
   public static void main(final String[] args) throws IOException {
     final String name = "xxx";
     final String mode = "rw";
-    BufferedRandomAccessFile braf = new BufferedRandomAccessFile(name, mode);
     final int x = 100;
-    braf.writeLong(x); braf.writeLong(x); braf.writeLong(x);
-    System.err.println("len = " + braf.length() + ", pos = " + braf.getFilePointer());
-    braf.close();
-    braf = new BufferedRandomAccessFile(name, mode);
-    System.err.println("len = " + braf.length() + ", pos = " + braf.getFilePointer());
-    braf.seek(braf.length());
-    System.err.println("len = " + braf.length() + ", pos = " + braf.getFilePointer());
-    braf.writeLong(x); braf.writeLong(x); braf.writeLong(x);
-    System.err.println("len = " + braf.length() + ", pos = " + braf.getFilePointer());
-    braf.close();
+
+    try(BufferedRandomAccessFile braf = new BufferedRandomAccessFile(name, mode)){
+
+        braf.writeLong(x); braf.writeLong(x); braf.writeLong(x);
+        System.err.println("len = " + braf.length() + ", pos = " + braf.getFilePointer());
+    }
+
+    try (BufferedRandomAccessFile braf = new BufferedRandomAccessFile(name, mode)){
+          System.err.println("len = " + braf.length() + ", pos = " + braf.getFilePointer());
+          braf.seek(braf.length());
+          System.err.println("len = " + braf.length() + ", pos = " + braf.getFilePointer());
+          braf.writeLong(x); braf.writeLong(x); braf.writeLong(x);
+          System.err.println("len = " + braf.length() + ", pos = " + braf.getFilePointer());
+    }
   }
   
 }

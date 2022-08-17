@@ -126,15 +126,17 @@ public class LongVec implements Cloneable, Serializable {
 		vec.addElement(3);
 		vec.addElement(5);
 		System.err.println(vec.size());
-		final ObjectOutputStream oos = FileUtil.newOBFOS("XXX");
-		oos.writeObject(vec);
+		try(final ObjectOutputStream oos = FileUtil.newOBFOS("XXX")){
+			oos.writeObject(vec);
+		}
 
-		final ObjectInputStream ois = FileUtil.newOBFIS("XXX");
-		final LongVec vec1 = (LongVec) ois.readObject();
-		System.err.println(vec1.size());
-		System.err.println(vec1.elementAt(0));
-		System.err.println(vec1.elementAt(1));
-		System.err.println(vec1.elementAt(2));
+		try(final ObjectInputStream ois = FileUtil.newOBFIS("XXX")){
+			final LongVec vec1 = (LongVec) ois.readObject();
+			System.err.println(vec1.size());
+			System.err.println(vec1.elementAt(0));
+			System.err.println(vec1.elementAt(1));
+			System.err.println(vec1.elementAt(2));
+		}
 	}
 
 	private LongVec reverse0() {

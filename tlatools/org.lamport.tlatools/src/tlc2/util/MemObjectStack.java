@@ -56,13 +56,12 @@ public final class MemObjectStack extends ObjectStack {
   public void beginChkpt() throws IOException {
     final String tmpfile = this.filename + ".tmp";
     
-    final ObjectOutputStream oos = FileUtil.newOBFOS(tmpfile);
-    oos.writeInt(this.len);
-    for (int i = 0; i < this.len; i++) {
-      oos.writeObject(this.states[i++]);
+    try(final ObjectOutputStream oos = FileUtil.newOBFOS(tmpfile)){
+      oos.writeInt(this.len);
+      for (int i = 0; i < this.len; i++) {
+        oos.writeObject(this.states[i++]);
+      }
     }
-    oos.close();
-    
   }
 
   @Override

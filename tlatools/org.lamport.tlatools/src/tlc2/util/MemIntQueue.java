@@ -86,15 +86,15 @@ public final class MemIntQueue extends MemBasedSet {
 	// Checkpoint.
 	public void beginChkpt() throws IOException {
 		final String tmpName = this.diskdir + FileUtil.separator + this.filename + ".tmp";
-		final BufferedDataOutputStream bos = new BufferedDataOutputStream(tmpName);
-		bos.writeInt(this.size);
-		int index = this.start;
-		for (int i = 0; i < this.size; i++) {
-			bos.writeInt(this.elems[index++]);
-			if (index == this.elems.length)
-				index = 0;
+		try(final BufferedDataOutputStream bos = new BufferedDataOutputStream(tmpName)){
+			bos.writeInt(this.size);
+			int index = this.start;
+			for (int i = 0; i < this.size; i++) {
+				bos.writeInt(this.elems[index++]);
+				if (index == this.elems.length)
+					index = 0;
+			}
 		}
-		bos.close();
 	}
 
 	public void commitChkpt() throws IOException {
@@ -109,12 +109,12 @@ public final class MemIntQueue extends MemBasedSet {
 
 	public void recover() throws IOException {
 		final String chkptName = this.diskdir + FileUtil.separator + this.filename + ".chkpt";
-		final BufferedDataInputStream bis = new BufferedDataInputStream(chkptName);
-		this.size = bis.readInt();
-		for (int i = 0; i < this.size; i++) {
-			this.elems[i] = bis.readInt();
+		try(final BufferedDataInputStream bis = new BufferedDataInputStream(chkptName)){
+			this.size = bis.readInt();
+			for (int i = 0; i < this.size; i++) {
+				this.elems[i] = bis.readInt();
+			}
 		}
-		bis.close();
 	}
 
 	/*

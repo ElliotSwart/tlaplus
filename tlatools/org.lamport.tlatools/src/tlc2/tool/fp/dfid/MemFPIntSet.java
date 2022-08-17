@@ -296,16 +296,16 @@ public class MemFPIntSet extends FPIntSet {
   // Checkpoint.
   @Override
   public final void beginChkpt(final String fname) throws IOException {
-    final BufferedDataOutputStream dos =
-      new BufferedDataOutputStream(this.chkptName(fname, "tmp"));
-      for (final int[] bucket : this.table) {
-          if (bucket != null) {
-              for (final int k : bucket) {
-                  dos.writeInt(k);
-              }
-          }
-      }
-    dos.close();
+    try(final BufferedDataOutputStream dos =
+      new BufferedDataOutputStream(this.chkptName(fname, "tmp"))){
+        for (final int[] bucket : this.table) {
+            if (bucket != null) {
+                for (final int k : bucket) {
+                    dos.writeInt(k);
+                }
+            }
+        }
+    }
   }
       
   @Override

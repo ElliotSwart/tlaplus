@@ -75,16 +75,18 @@ public class SynchronousDiskIntStack implements IntStack {
 	@Override
     public void pushInt(final int x) {
 		if (this.index == bufSize) {
+			final File poolFile = new File(this.filePrefix + this.hiPool);
+			poolFile.deleteOnExit();
+
 			// flush to disk
-			try {
-				final File poolFile = new File(this.filePrefix + this.hiPool);
-				poolFile.deleteOnExit();
-				final BufferedDataOutputStream bdos = FileUtil.newBdFOS(false, poolFile);
+			try(final BufferedDataOutputStream bdos = FileUtil.newBdFOS(false, poolFile)) {
+
+				;
 				final int len = buf.length;
                 for (final int j : buf) {
                     bdos.writeInt(j);
                 }
-				bdos.close();
+
 				this.hiPool++;
 				this.index = 0;
 			} catch (final Exception e) {
@@ -110,15 +112,14 @@ public class SynchronousDiskIntStack implements IntStack {
 	@Override
     public int popInt() {
 		if (this.index == 0 && hasPool()) {
+			final File poolFile = new File(this.filePrefix + (this.hiPool - 1));
 			// fill buffer
-			try {
-				final File poolFile = new File(this.filePrefix + (this.hiPool - 1));
-				final BufferedDataInputStream bdis = FileUtil.newBdFIS(false, poolFile);
+			try(final BufferedDataInputStream bdis = FileUtil.newBdFIS(false, poolFile)) {
 				final int len = buf.length;
 				for (int i = 0; i < len; i++) {
 					buf[i] = bdis.readInt();
 				}
-				bdis.close();
+
 				this.hiPool--;
 				this.index = len;
 			} catch (final Exception e) {

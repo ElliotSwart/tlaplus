@@ -93,6 +93,7 @@ package tla2tex ;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -660,34 +661,31 @@ class TeX
     * linewidth is written to the log file as a separate line such as      *
     *                   \%{123.456}                                        *
     ***********************************************************************/
-    { BufferedReader logfile = null ;
-      try 
-       { logfile = new BufferedReader(
-                    new FileReader(parameters.LaTeXOutputFile + ".log"));
-       }
-      catch (final Exception e)
-       { ToolIO.out.println(
-               "No file " + parameters.LaTeXOutputFile + ".log");
-         return new float[0];
-       }
+    {
       final Vector<String> resultVec = new Vector<>(50);
         /*******************************************************************
         * A vector of the strings representing the linewidths.             *
         *******************************************************************/
         
-      try
-       {String inputLine = logfile.readLine();
+      try(BufferedReader logfile = new BufferedReader(
+              new FileReader(parameters.LaTeXOutputFile + ".log")))
+       {
+           String inputLine = logfile.readLine();
         while (inputLine != null)
-         { if ((inputLine.startsWith("\\%{")))
-            { final int start = 3 ;
-              final int after = inputLine.indexOf("}",start)-2 ;
-              resultVec.addElement(inputLine.substring(start, after));
-            }
+         {
+             if ((inputLine.startsWith("\\%{")))
+                { final int start = 3 ;
+                  final int after = inputLine.indexOf("}",start)-2 ;
+                  resultVec.addElement(inputLine.substring(start, after));
+                }
              inputLine = logfile.readLine();
          }
-        
-        logfile.close();
        }
+       catch (final IOException e)
+      { ToolIO.out.println(
+              "No file " + parameters.LaTeXOutputFile + ".log");
+          return new float[0];
+      }
       catch (final Exception e)
        { Debug.ReportError(
            "Error reading file " + parameters.LaTeXOutputFile + ".log");

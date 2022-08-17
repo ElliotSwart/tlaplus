@@ -87,19 +87,19 @@ public class DiskObjectStack extends ObjectStack {
   @Override
   public final void beginChkpt() throws IOException {
     final String filename = this.filePrefix + ".tmp";
-    final ObjectOutputStream oos = FileUtil.newOBFOS(filename);
-    oos.writeInt(this.len);
-    final int index1 = (this.buf == this.buf1) ? this.index : BufSize;
-    final int index2 = (this.buf == this.buf1) ? 0 : this.index;
-    oos.writeInt(index1);
-    oos.writeInt(index2);
-    for (int i = 0; i < index1; i++) {
-      oos.writeObject(this.buf1[i]);
+    try(final ObjectOutputStream oos = FileUtil.newOBFOS(filename)){
+      oos.writeInt(this.len);
+      final int index1 = (this.buf == this.buf1) ? this.index : BufSize;
+      final int index2 = (this.buf == this.buf1) ? 0 : this.index;
+      oos.writeInt(index1);
+      oos.writeInt(index2);
+      for (int i = 0; i < index1; i++) {
+        oos.writeObject(this.buf1[i]);
+      }
+      for (int i = 0; i < index2; i++) {
+        oos.writeObject(this.buf2[i]);
+      }
     }
-    for (int i = 0; i < index2; i++) {
-      oos.writeObject(this.buf2[i]);
-    }
-    oos.close();
   }
 
   @Override
@@ -119,32 +119,30 @@ public class DiskObjectStack extends ObjectStack {
   public final void recover() throws IOException {
     final String filename = this.filePrefix + ".chkpt";
     
-    final ObjectInputStream ois = FileUtil.newOBFIS(filename);
-    this.len = ois.readInt();
-    final int index1 = ois.readInt();
-    final int index2 = ois.readInt();
-    try {
-      for (int i = 0; i < index1; i++) {
-	this.buf1[i] = ois.readObject();
+    try(final ObjectInputStream ois = FileUtil.newOBFIS(filename)){
+      this.len = ois.readInt();
+      final int index1 = ois.readInt();
+      final int index2 = ois.readInt();
+      try {
+        for (int i = 0; i < index1; i++) {
+          this.buf1[i] = ois.readObject();
+        }
+        for (int i = 0; i < index2; i++) {
+          this.buf2[i] = ois.readObject();
+        }
       }
-      for (int i = 0; i < index2; i++) {
-	this.buf2[i] = ois.readObject();
-      }
-    }
-    catch (final ClassNotFoundException e) {
+      catch (final ClassNotFoundException e) {
         Assert.fail(EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT, e.getMessage());
-    }
-    finally {
-      ois.close();
-    }
-    if (index2 == 0) {
-      this.buf = this.buf1;
-      this.index = index1;
-    }
-    else {
-      this.buf = this.buf2;
-      this.index = index2;
+      }
+
+      if (index2 == 0) {
+        this.buf = this.buf1;
+        this.index = index1;
+      }
+      else {
+        this.buf = this.buf2;
+        this.index = index2;
+      }
     }
   }
-  
 }

@@ -494,17 +494,12 @@ public abstract class AbstractDiskGraph {
 	public final void writeDotViz(final OrderOfSolution oos, final File file) {
 		this.createCache();
 
-		try {
-			final BufferedWriter bwr = new BufferedWriter(new FileWriter(file));
-
+		try(final BufferedWriter bwr = new BufferedWriter(new FileWriter(file))) {
 			// write contents of StringBuffer to a file
 			bwr.write(toDotViz(oos));
 
 			// flush the stream
 			bwr.flush();
-
-			// close the stream
-			bwr.close();
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
@@ -515,12 +510,11 @@ public abstract class AbstractDiskGraph {
 	public synchronized final void beginChkpt() throws IOException {
 		this.nodeRAF.flush();
 		this.nodePtrRAF.flush();
-		final FileOutputStream fos = new FileOutputStream(this.chkptName + ".chkpt.tmp");
-		final DataOutputStream dos = new DataOutputStream(fos);
-		dos.writeLong(this.nodeRAF.getFilePointer());
-		dos.writeLong(this.nodePtrRAF.getFilePointer());
-		dos.close();
-		fos.close();
+		try(final FileOutputStream fos = new FileOutputStream(this.chkptName + ".chkpt.tmp");
+			final DataOutputStream dos = new DataOutputStream(fos)){
+			dos.writeLong(this.nodeRAF.getFilePointer());
+			dos.writeLong(this.nodePtrRAF.getFilePointer());
+		}
 	}
 
 	public final void commitChkpt() throws IOException {
@@ -532,16 +526,16 @@ public abstract class AbstractDiskGraph {
 	}
 
 	public final void recover() throws IOException {
-		final FileInputStream fis = new FileInputStream(chkptName + ".chkpt");
-		final DataInputStream dis = new DataInputStream(fis);
-		final long nodeRAFPos = dis.readLong();
-		final long nodePtrRAFPos = dis.readLong();
-		dis.close();
-		fis.close();
+		try(final FileInputStream fis = new FileInputStream(chkptName + ".chkpt");
+			final DataInputStream dis = new DataInputStream(fis))
+		{
+			final long nodeRAFPos = dis.readLong();
+			final long nodePtrRAFPos = dis.readLong();
 
-		this.makeNodePtrTbl(nodePtrRAFPos);
-		this.nodeRAF.seek(nodeRAFPos);
-		this.nodePtrRAF.seek(nodePtrRAFPos);
+			this.makeNodePtrTbl(nodePtrRAFPos);
+			this.nodeRAF.seek(nodeRAFPos);
+			this.nodePtrRAF.seek(nodePtrRAFPos);
+		}
 	}
 
 	public abstract void reset() throws IOException;

@@ -62,14 +62,14 @@ public final class MemObjectQueue {
   // Checkpoint.
   public void beginChkpt() throws IOException {
     final String filename = this.diskdir + FileUtil.separator + "queue.tmp";
-    final ObjectOutputStream oos = FileUtil.newOBFOS(filename);
-    oos.writeInt(this.len);
-    int index = this.start;
-    for (int i = 0; i < this.len; i++) {
-      oos.writeObject(this.states[index++]);
-      if (index == this.states.length) index = 0;
+    try(final ObjectOutputStream oos = FileUtil.newOBFOS(filename)){
+      oos.writeInt(this.len);
+      int index = this.start;
+      for (int i = 0; i < this.len; i++) {
+        oos.writeObject(this.states[index++]);
+        if (index == this.states.length) index = 0;
+      }
     }
-    oos.close();
   }
 
   public void commitChkpt() throws IOException {
@@ -85,20 +85,15 @@ public final class MemObjectQueue {
   
   public void recover() throws IOException {
     final String filename = this.diskdir + FileUtil.separator + "queue.chkpt";
-    final ObjectInputStream ois = FileUtil.newOBFIS(filename);
-    this.len = ois.readInt();
-    try {
+    try(final ObjectInputStream ois = FileUtil.newOBFIS(filename)){
+      this.len = ois.readInt();
+
       for (int i = 0; i < this.len; i++) {
-	this.states[i] = ois.readObject();
+        this.states[i] = ois.readObject();
       }
     }
     catch (final ClassNotFoundException e) {
-        ois.close();
-        Assert.fail(EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT, e.getMessage());
-    } finally 
-    {
-        ois.close();
+      Assert.fail(EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT, e.getMessage());
     }
   }
-
 }

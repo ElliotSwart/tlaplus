@@ -142,13 +142,13 @@ public final class InternTable implements Serializable
 
     public void beginChkpt(final String filename) throws IOException
     {
-        final BufferedDataOutputStream dos = new BufferedDataOutputStream(this.chkptName(filename, "tmp"));
-        dos.writeInt(tokenCnt);
-        for (final UniqueString var : this.table) {
-            if (var != null)
-                var.write(dos);
+        try(final BufferedDataOutputStream dos = new BufferedDataOutputStream(this.chkptName(filename, "tmp"))){
+            dos.writeInt(tokenCnt);
+            for (final UniqueString var : this.table) {
+                if (var != null)
+                    var.write(dos);
+            }
         }
-        dos.close();
     }
 
     public void commitChkpt(final String filename) throws IOException
@@ -163,10 +163,10 @@ public final class InternTable implements Serializable
 
     public synchronized void recover(final String filename) throws IOException
     {
-        final BufferedDataInputStream dis = new BufferedDataInputStream(this.chkptName(filename, "chkpt"));
-        tokenCnt = dis.readInt();
-        try
+        try(final BufferedDataInputStream dis = new BufferedDataInputStream(this.chkptName(filename, "chkpt")))
         {
+            tokenCnt = dis.readInt();
+
             while (!dis.atEOF())
             {
                 final UniqueString var = UniqueString.read(dis);
@@ -176,7 +176,6 @@ public final class InternTable implements Serializable
         {
             Assert.fail(EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT, e.getMessage());
         }
-        dis.close();
     }
 
     private String chkptName(final String filename, final String ext)

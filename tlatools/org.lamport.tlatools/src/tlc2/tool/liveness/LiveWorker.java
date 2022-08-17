@@ -1294,17 +1294,12 @@ public class LiveWorker implements Callable<Boolean> {
 			return;
 		}
 		
-		try {
-			final java.io.BufferedWriter bwr = new java.io.BufferedWriter(new java.io.FileWriter(file));
-
+		try(final java.io.BufferedWriter bwr = new java.io.BufferedWriter(new java.io.FileWriter(file))) {
 			// write contents of StringBuffer to a file
 			bwr.write(toDotViz(state, tidx, tnpt));
 
 			// flush the stream
 			bwr.flush();
-
-			// close the stream
-			bwr.close();
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}

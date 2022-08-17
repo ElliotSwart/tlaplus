@@ -182,21 +182,23 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		}
 		
 		final String filename = this.filePrefix + "queue.tmp";
-	  	final BufferedDataOutputStream vos = new BufferedDataOutputStream(filename);
-		vos.writeLong(this.len);
-		vos.writeInt(this.loPool);
-		vos.writeInt(this.hiPool);
-		vos.writeInt(this.enqIndex);
-		vos.writeInt(this.deqIndex);
-		for (int i = 0; i < this.enqIndex; i++) {
-	  		vos.writeInt(this.enqBuf[i].length);
-	  		vos.write(this.enqBuf[i]);
+
+		try(final BufferedDataOutputStream vos = new BufferedDataOutputStream(filename)){
+			vos.writeLong(this.len);
+			vos.writeInt(this.loPool);
+			vos.writeInt(this.hiPool);
+			vos.writeInt(this.enqIndex);
+			vos.writeInt(this.deqIndex);
+			for (int i = 0; i < this.enqIndex; i++) {
+				vos.writeInt(this.enqBuf[i].length);
+				vos.write(this.enqBuf[i]);
+			}
+			for (int i = this.deqIndex; i < this.deqBuf.length; i++) {
+				vos.writeInt(this.deqBuf[i].length);
+				vos.write(this.deqBuf[i]);
+			}
 		}
-		for (int i = this.deqIndex; i < this.deqBuf.length; i++) {
-	  		vos.writeInt(this.deqBuf[i].length);
-	  		vos.write(this.deqBuf[i]);
-		}
-		vos.close();
+
 		this.newLastLoPool = this.loPool - 1;
 	}
 
@@ -222,23 +224,25 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	@Override
     public final void recover() throws IOException {
 		final String filename = this.filePrefix + "queue.chkpt";
-	  	final BufferedDataInputStream vis = new BufferedDataInputStream(filename);
-		this.len = vis.readLong();
-		this.loPool = vis.readInt();
-		this.hiPool = vis.readInt();
-		this.enqIndex = vis.readInt();
-		this.deqIndex = vis.readInt();
-		this.lastLoPool = this.loPool - 1;
 
-		for (int i = 0; i < this.enqIndex; i++) {
-			this.enqBuf[i] = new byte[vis.readInt()];
-			vis.read(this.enqBuf[i]);
+		try(final BufferedDataInputStream vis = new BufferedDataInputStream(filename)){
+			this.len = vis.readLong();
+			this.loPool = vis.readInt();
+			this.hiPool = vis.readInt();
+			this.enqIndex = vis.readInt();
+			this.deqIndex = vis.readInt();
+			this.lastLoPool = this.loPool - 1;
+
+			for (int i = 0; i < this.enqIndex; i++) {
+				this.enqBuf[i] = new byte[vis.readInt()];
+				vis.read(this.enqBuf[i]);
+			}
+			for (int i = this.deqIndex; i < this.deqBuf.length; i++) {
+				this.deqBuf[i] = new byte[vis.readInt()];
+				vis.read(this.deqBuf[i]);
+			}
 		}
-		for (int i = this.deqIndex; i < this.deqBuf.length; i++) {
-			this.deqBuf[i] = new byte[vis.readInt()];
-			vis.read(this.deqBuf[i]);
-		}
-		vis.close();
+
 		final File file = new File(this.filePrefix + this.lastLoPool);
 		final boolean canRead = (this.lastLoPool < this.hiPool);
 		this.reader.restart(file, canRead);
@@ -327,12 +331,12 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 	  public synchronized byte[][] doWork(final byte[][] enqBuf, final File file)
 	  throws IOException {
 	    if (this.poolFile != null) {
-	  	  final BufferedDataOutputStream vos = new BufferedDataOutputStream(this.poolFile);
-            for (final byte[] bytes : this.buf) {
-                vos.writeInt(bytes.length);
-                vos.write(bytes);
-            }
-	      vos.close();
+			try(final BufferedDataOutputStream vos = new BufferedDataOutputStream(this.poolFile)){
+				for (final byte[] bytes : this.buf) {
+					vos.writeInt(bytes.length);
+					vos.write(bytes);
+				}
+			}
 	    }
 	    final byte[][] res = this.buf;
 	    this.buf = enqBuf;
@@ -432,24 +436,26 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		      return res;
 		    }
 		    else if (this.poolFile != null) {
-		  	  final BufferedDataInputStream vis = new BufferedDataInputStream(this.poolFile);
-		  	  for (int i = 0; i < deqBuf.length; i++) {
-		      	  deqBuf[i] = new byte[vis.readInt()];
-		      	  vis.read(deqBuf[i]);
-		  	  }
-		      vis.close();
+		  	  try(final BufferedDataInputStream vis = new BufferedDataInputStream(this.poolFile)){
+				  for (int i = 0; i < deqBuf.length; i++) {
+					  deqBuf[i] = new byte[vis.readInt()];
+					  vis.read(deqBuf[i]);
+				  }
+			  }
+
 		      this.poolFile = file;     // <file, false>
 		      this.canRead = true;
 		      this.notify();
 		      return deqBuf;
 		    }
 		    else {
-		  	  final BufferedDataInputStream vis = new BufferedDataInputStream(this.poolFile);
-		  	  for (int i = 0; i < deqBuf.length; i++) {
-		  		  deqBuf[i] = new byte[vis.readInt()];
-		      	  vis.read(deqBuf[i]);
-		  	  }
-		      vis.close();              // <null, false>
+		  	  try(final BufferedDataInputStream vis = new BufferedDataInputStream(this.poolFile)){
+				  for (int i = 0; i < deqBuf.length; i++) {
+					  deqBuf[i] = new byte[vis.readInt()];
+					  vis.read(deqBuf[i]);
+				  }
+			  }
+
 		      return deqBuf;
 		    }
 		  }
@@ -470,12 +476,13 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		    }
 		    else if (this.poolFile != null && this.canRead) {
 		      // this should seldom occur.
-		  	  final BufferedDataInputStream vis = new BufferedDataInputStream(this.poolFile);
-		  	  for (int i = 0; i < deqBuf.length; i++) {
-		  		  deqBuf[i] = new byte[vis.readInt()];
-		      	  vis.read(deqBuf[i]);
-		      }
-		      vis.close();
+		  	  try(final BufferedDataInputStream vis = new BufferedDataInputStream(this.poolFile)){
+				  for (int i = 0; i < deqBuf.length; i++) {
+					  deqBuf[i] = new byte[vis.readInt()];
+					  vis.read(deqBuf[i]);
+				  }
+			  }
+
 		      // this.poolFile.delete();
 		      this.poolFile = file;    // <file, false>
 		      this.canRead = false;
