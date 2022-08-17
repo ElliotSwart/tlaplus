@@ -68,12 +68,12 @@ public class ConcurrentTLCTrace extends TLCTrace {
 	 * @see ConcurrentTLCTrace#getLevel()
 	 */
 	@Override
-	public final int getLevelForReporting() throws IOException {
+	public final int getLevelForReporting() {
 		return getLevel();
 	}
 
 	@Override
-	public synchronized final int getLevel() throws IOException {
+	public synchronized final int getLevel() {
 		int maxLevel = 1; // With a single, init state the level/progress/diameter is 1, not 0!
 		for (final Worker worker : workers) {
 			maxLevel = Math.max(maxLevel, worker.getMaxLevel());
@@ -204,10 +204,9 @@ public class ConcurrentTLCTrace extends TLCTrace {
 	 * @param s2
 	 *            may be null.
 	 * @throws IOException
-	 * @throws WorkerException
 	 */
 	@Override
-    public void printTrace(final TLCState s1, final TLCState s2) throws IOException, WorkerException {
+    public void printTrace(final TLCState s1, final TLCState s2) throws IOException {
 		if (s1.isInitial()) {
 			printTrace(s1, s2, new TLCStateInfo[0]);
 		} else {
@@ -301,7 +300,7 @@ public class ConcurrentTLCTrace extends TLCTrace {
 			}
 
 			@Override
-			public void reset(final long i) throws IOException {
+			public void reset(final long i) {
 				idx = 0;
 			}
 		};

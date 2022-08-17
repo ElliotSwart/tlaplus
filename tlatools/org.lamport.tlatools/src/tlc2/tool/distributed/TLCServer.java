@@ -155,9 +155,8 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	/**
 	 * @param work
 	 * @throws IOException
-	 * @throws NotBoundException
 	 */
-	public TLCServer(final TLCApp work) throws IOException, NotBoundException {
+	public TLCServer(final TLCApp work) throws IOException {
 	    // LL modified error message on 7 April 2012
 		Assert.check(work != null, "TLC server found null work.");
 
@@ -725,8 +724,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
      * form as all other progress statistics.
      * @param workerOverallCacheRate 
      */
-    public static void printSummary(final int level, final long statesGenerated, final long statesLeftInQueue, final long distinctStates, final boolean success) throws IOException
-    {
+    public static void printSummary(final int level, final long statesGenerated, final long statesLeftInQueue, final long distinctStates, final boolean success) {
 		if (TLCGlobals.tool) {
             MP.printMessage(EC.TLC_PROGRESS_STATS, String.valueOf(level),
                     MP.format(statesGenerated),

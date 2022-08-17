@@ -125,11 +125,9 @@ public final class LongArray {
 	/**
 	 * Initializes the memory by overriding each byte with zero starting at
 	 * <code>baseAddress</code> and ending when all positions have been written.
-	 * 
-	 * @throws IOException
-	 */
-	public void zeroMemory()
-			throws IOException {
+	 *
+     */
+	public void zeroMemory() {
 		this.unsafe.setMemory(baseAddress, length * 8L, (byte) 0); // times 8L because it only writes a single byte.
 	}
 	
@@ -142,10 +140,8 @@ public final class LongArray {
 	 * 
 	 * @param numThreads
 	 *            Number of threads used to zero memory
-	 * @throws IOException
-	 */
-	public void zeroMemory(final int numThreads)
-			throws IOException {
+     */
+	public void zeroMemory(final int numThreads) {
 
 		final long segmentSize = (long) Math.floor(length / numThreads);
 		
@@ -296,7 +292,7 @@ public final class LongArray {
         }
 	}
 	
-	public static void main(final String[] args) throws IOException {
+	public static void main(final String[] args) {
 		final long elements = 1L << Integer.parseInt(args[0]);
 		System.out.format("Allocating LongArray with %,d elements.\n", elements);
 		final LongArray longArray = new LongArray(elements);

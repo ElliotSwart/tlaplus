@@ -18,8 +18,7 @@ public class DistributedFPSetTLCServer extends TLCServer {
 	protected final CountDownLatch latch;
 	private final int expectedFPSetCount;
 
-	public DistributedFPSetTLCServer(final TLCApp work, final int expectedFPSetCount) throws IOException,
-			NotBoundException {
+	public DistributedFPSetTLCServer(final TLCApp work, final int expectedFPSetCount) throws IOException {
 		super(work);
 		this.expectedFPSetCount = expectedFPSetCount;
 		this.latch = new CountDownLatch(expectedFPSetCount);
@@ -30,7 +29,7 @@ public class DistributedFPSetTLCServer extends TLCServer {
 	 */
 	@Override
     protected IFPSetManager getFPSetManagerImpl(final TLCApp work,
-                                                final String metadir, final int fpsetCount) throws IOException {
+                                                final String metadir, final int fpsetCount) {
 		return new DynamicFPSetManager(fpsetCount);
 	}
 

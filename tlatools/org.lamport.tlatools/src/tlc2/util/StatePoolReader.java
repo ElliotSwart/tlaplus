@@ -59,7 +59,7 @@ public class StatePoolReader extends Thread {
    * content of the file.
    */
   public final synchronized TLCState[] doWork(final TLCState[] deqBuf, final File file)
-  throws IOException, ClassNotFoundException {
+  throws IOException {
     if (this.isFull) {
       assert this.poolFile == null : EC.SYSTEM_FILE_NULL;
       final TLCState[] res = this.buf;
@@ -95,7 +95,7 @@ public class StatePoolReader extends Thread {
    * Returns the cached buffer if filled. Otherwise, returns null.
    */
   public final synchronized TLCState[] getCache(final TLCState[] deqBuf, final File file)
-  throws IOException, ClassNotFoundException {
+  throws IOException {
     if (this.isFull) {
       assert this.poolFile == null : EC.SYSTEM_FILE_NULL;
       final TLCState[] res = this.buf;

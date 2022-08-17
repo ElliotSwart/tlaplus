@@ -57,12 +57,12 @@ public class MemFPIntSet extends FPIntSet {
   private int mask;
 
   /* Constructs a new, empty FPSet.  */
-  public MemFPIntSet() throws RemoteException {
+  public MemFPIntSet() {
     this(LogInitialCapacity, MaxLoad);
   }
 
   /* The following constructor is provided for test programs only. */
-  public MemFPIntSet(final int logInitialCapacity, final int maxLoad) throws RemoteException {
+  public MemFPIntSet(final int logInitialCapacity, final int maxLoad) {
     final int initialCapacity = 1 << logInitialCapacity;
     this.count = 0;
     this.threshold = ((long) initialCapacity * maxLoad);

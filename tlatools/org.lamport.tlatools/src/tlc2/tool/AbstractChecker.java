@@ -243,14 +243,13 @@ public abstract class AbstractChecker
         return numOfDistinctStates * ((numOfGenStates - numOfDistinctStates) / Math.pow(2, 64));
     }
     
-	public static void reportSuccess(final long numOfDistinctStates, final long numOfGenStates)
-			throws IOException {
+	public static void reportSuccess(final long numOfDistinctStates, final long numOfGenStates) {
 		final double optimisticProb = calculateOptimisticProbability(numOfDistinctStates, numOfGenStates);
 		MP.printMessage(EC.TLC_SUCCESS, new String[] { "val = " + ProbabilityToString(optimisticProb, 2) });
 	}
    
 	public static void reportSuccess(final long numOfDistinctStates, final long actualDistance,
-                                     final long numOfGenStates) throws IOException {
+                                     final long numOfGenStates) {
 		// Prevent div-by-zero when calculating collision probabilities when no states
 		// are generated.
 		if (numOfDistinctStates == numOfGenStates && numOfGenStates == 0) {

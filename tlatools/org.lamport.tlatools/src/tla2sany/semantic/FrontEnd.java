@@ -68,8 +68,7 @@ public class FrontEnd implements ASTConstants {
    * specification.
    */
   public static TreeNode[] parseAll(final NamedInputStream nis, final int nkind,
-                                    final FilenameToStream cobj)
-  throws ParseException {
+                                    final FilenameToStream cobj) {
     return null;
   }
 
@@ -81,8 +80,7 @@ public class FrontEnd implements ASTConstants {
    * editor that wants to do a quick check of what the user has just
    * typed?)
    */
-  public static TreeNode parseOne(final NamedInputStream nis, final int nkind)
-    throws ParseException {
+  public static TreeNode parseOne(final NamedInputStream nis, final int nkind) {
     return null;
   }
 
@@ -98,8 +96,7 @@ public class FrontEnd implements ASTConstants {
    * assignment of the name of the module cst to the returned SemNode.
    */
   public static SemanticNode semanticAnalysis(final TreeNode cst, final int nkind,
-                                              final Context ctxt)
-    throws ParseException {
+                                              final Context ctxt) {
     return null;
   }
 

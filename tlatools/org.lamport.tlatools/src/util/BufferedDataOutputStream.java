@@ -66,7 +66,7 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
         after the stream has been closed to re-open the stream on a
         different underlying stream without requiring internal resources
         to be re-allocated. */
-    public void open(final OutputStream os) throws IOException {
+    public void open(final OutputStream os) {
         this.out = os;
         this.len = 0;
     }

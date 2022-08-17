@@ -179,7 +179,7 @@ public class TLCExt {
 
 	@Evaluation(definition = "CounterExample", module = "TLCExt", minLevel = 1, warn = false, silent = true)
 	public static Value error(final Tool tool, final ExprOrOpArgNode[] args, final Context c,
-			final TLCState s0, final TLCState s1, final int control, final CostModel cm) throws IOException {
+			final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
 
 		final Object lookup = c.lookup(tool.getCounterExampleDef());
 		if (lookup instanceof Value v) {

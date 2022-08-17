@@ -50,7 +50,7 @@ public class AttachingDebugger extends TLCDebugger {
 	private String buffer = "";
 	private final int port;
 	
-	public AttachingDebugger(final int port, final Step s, final boolean halt) throws IOException, InterruptedException, ExecutionException {
+	public AttachingDebugger(final int port, final Step s, final boolean halt) throws IOException {
 		super(s, halt);
 		this.port = port;
 		

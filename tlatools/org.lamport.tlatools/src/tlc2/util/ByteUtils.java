@@ -358,8 +358,7 @@ public class ByteUtils {
       should contain some sequence of (size byte[]) pairs that are
       consistent, i.e. there really are size bytes in the stream,
       otherwise a RuntimeException is thrown */
-  public static BigInt[] readArrayOfSizeBigInts(final InputStream in)
-  throws IOException{
+  public static BigInt[] readArrayOfSizeBigInts(final InputStream in) {
   
     final Vector<BigInt> A = new Vector<>();
     int i = 0;

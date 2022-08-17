@@ -73,7 +73,7 @@ public class MultiFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#init(int, java.lang.String, java.lang.String)
 	 */
 	@Override
-    public final FPSet init(final int numThreads, final String metadir, final String filename) throws IOException {
+    public final FPSet init(final int numThreads, final String metadir, final String filename) {
 		IntStream.range(0, this.sets.size()).parallel().forEach(i -> {
 			try {
 				sets.get(i).init(numThreads, metadir, filename + "_" + i);
@@ -161,7 +161,7 @@ public class MultiFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#checkFPs()
 	 */
 	@Override
-    public final long checkFPs() throws IOException {
+    public final long checkFPs() {
 		return sets.parallelStream().mapToLong(s -> {
 			try {
 				return s.checkFPs();
@@ -175,7 +175,7 @@ public class MultiFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#checkInvariant()
 	 */
 	@Override
-    public boolean checkInvariant() throws IOException {
+    public boolean checkInvariant() {
 		return sets.parallelStream().allMatch(s -> {
 			try {
 				return s.checkInvariant();
@@ -230,7 +230,7 @@ public class MultiFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#beginChkpt(java.lang.String)
 	 */
 	@Override
-    public final void beginChkpt(final String filename) throws IOException {
+    public final void beginChkpt(final String filename) {
 		IntStream.range(0, this.sets.size()).parallel().forEach(i -> {
 			try {
 				sets.get(i).beginChkpt(filename + "_" + i);
@@ -244,7 +244,7 @@ public class MultiFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#commitChkpt(java.lang.String)
 	 */
 	@Override
-    public final void commitChkpt(final String filename) throws IOException {
+    public final void commitChkpt(final String filename) {
 		IntStream.range(0, this.sets.size()).parallel().forEach(i -> {
 			try {
 				sets.get(i).commitChkpt(filename + "_" + i);
@@ -258,7 +258,7 @@ public class MultiFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#recover(java.lang.String)
 	 */
 	@Override
-    public final void recover(final String filename) throws IOException {
+    public final void recover(final String filename) {
 		IntStream.range(0, this.sets.size()).parallel().forEach(i -> {
 			try {
 				sets.get(i).recover(filename + "_" + i);

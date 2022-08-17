@@ -433,8 +433,7 @@ public class ModelConfig implements ValueConstants, Serializable {
     /**
      * Parses a value (number, string, boolean and set)
      */
-    private Value parseValue(Token tt, final SimpleCharStream scs, final TLAplusParserTokenManager tmgr, final StringBuffer buf) throws IOException
-    {
+    private Value parseValue(Token tt, final SimpleCharStream scs, final TLAplusParserTokenManager tmgr, final StringBuffer buf) {
         if (tt.kind == TLAplusParserConstants.NUMBER_LITERAL)
         {
             final int val = Integer.parseInt(tt.image);

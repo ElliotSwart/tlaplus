@@ -256,7 +256,7 @@ public final class MemFPSet2 extends FPSet {
   }
 
   @Override
-  public void recoverFP(final long fp) throws IOException {
+  public void recoverFP(final long fp) {
     Assert.check(!this.put(fp), EC.TLC_FP_NOT_IN_SET);
   }
   

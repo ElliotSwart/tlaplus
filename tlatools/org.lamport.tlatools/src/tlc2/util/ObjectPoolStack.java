@@ -38,7 +38,7 @@ public class ObjectPoolStack {
   private File poolFile;
   
   public final Object[] write(final Object[] outBuf)
-  throws IOException, InterruptedException {
+  throws InterruptedException {
     synchronized(this) {
       while (!this.isIdle) this.wait();
     }
@@ -51,7 +51,7 @@ public class ObjectPoolStack {
   }
 
   public final Object[] read(final Object[] inBuf)
-  throws IOException, InterruptedException {
+  throws InterruptedException {
     if (this.hiPool == 0) return null;
     synchronized(this) {
       while (!this.isIdle) this.wait();

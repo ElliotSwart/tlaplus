@@ -427,7 +427,7 @@ public class LiveCheck implements ILiveCheck {
 	 * @see tlc2.tool.liveness.ILiveCheck#calculateInDegreeDiskGraphs(tlc2.util.statistics.IBucketStatistics)
 	 */
 	@Override
-    public IBucketStatistics calculateInDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
+    public IBucketStatistics calculateInDegreeDiskGraphs(final IBucketStatistics aGraphStats) {
         for (final ILiveChecker iLiveChecker : checker) {
             final AbstractDiskGraph diskGraph = iLiveChecker.getDiskGraph();
             diskGraph.calculateInDegreeDiskGraph(aGraphStats);
@@ -439,7 +439,7 @@ public class LiveCheck implements ILiveCheck {
 	 * @see tlc2.tool.liveness.ILiveCheck#calculateOutDegreeDiskGraphs(tlc2.util.statistics.IBucketStatistics)
 	 */
 	@Override
-    public IBucketStatistics calculateOutDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
+    public IBucketStatistics calculateOutDegreeDiskGraphs(final IBucketStatistics aGraphStats) {
         for (final ILiveChecker iLiveChecker : checker) {
             final AbstractDiskGraph diskGraph = iLiveChecker.getDiskGraph();
             diskGraph.calculateOutDegreeDiskGraph(aGraphStats);

@@ -19,7 +19,7 @@ public class CheckFPsCallable implements Callable<Long> {
 	 * @see java.util.concurrent.Callable#call()
 	 */
 	@Override
-    public Long call() throws Exception {
+    public Long call() {
 		try {
 			return fpSetRMI.checkFPs();
 		} catch (final IOException e) {

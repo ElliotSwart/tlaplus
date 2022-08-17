@@ -257,11 +257,10 @@ public class DFIDModelChecker extends AbstractChecker
     /* Compute the set of initial states.  */
     // SZ Feb 23, 2009: added ignore cancel flag
     @Override
-    public final int doInit(final boolean ignoreCancel) throws Throwable {
+    public final int doInit(final boolean ignoreCancel) {
     	return doInit(this.tool, ignoreCancel);
     }
-    private int doInit(final ITool tool, final boolean ignoreCancel) throws Throwable
-    {
+    private int doInit(final ITool tool, final boolean ignoreCancel) {
         TLCState curState = null;
         try
         {
@@ -732,8 +731,7 @@ public class DFIDModelChecker extends AbstractChecker
         FileUtil.deleteDir(this.metadir, success);
     }
 
-    public final void printSummary(final boolean success) throws IOException
-    {
+    public final void printSummary(final boolean success) {
         this.reportCoverage(this.workers);
 
         /*

@@ -276,7 +276,7 @@ public class LiveCheck1 implements ILiveCheck {
 	 * @see tlc2.tool.liveness.ILiveCheck#addNextState(tlc2.tool.TLCState, long, tlc2.util.SetOfStates)
 	 */
 	@Override
-    public void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) throws IOException {
+    public void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) {
 		for (int i = 0; i < nextStates.size(); i++) {
 			final TLCState s2 = nextStates.next();
 			final long fp2 = s2.fingerPrint();
@@ -512,7 +512,7 @@ public class LiveCheck1 implements ILiveCheck {
 	}
 
 	/* Print out the error state trace. */
-	void printErrorTrace(final BEGraphNode node) throws IOException {
+	void printErrorTrace(final BEGraphNode node) {
 		MP.printError(EC.TLC_TEMPORAL_PROPERTY_VIOLATED);
 		MP.printError(EC.TLC_COUNTER_EXAMPLE);
 		// First, find a "bad" cycle from the "bad" scc.
@@ -768,17 +768,9 @@ public class LiveCheck1 implements ILiveCheck {
 		}
 		// This component must contain a counter-example because all three
 		// conditions are satisfied. So, print a counter-example!
-		try {
-			printErrorTrace(node);
-		} catch (final IOException e) {
-			MP.printError(EC.GENERAL, "printing an error trace", e); // LL
-			// changed
-			// call
-			// 7
-			// April
-			// 2012
-		}
-		throw new LiveException(EC.TLC_TEMPORAL_PROPERTY_VIOLATED, "LiveCheck: Found error trace.");
+        printErrorTrace(node);
+
+        throw new LiveException(EC.TLC_TEMPORAL_PROPERTY_VIOLATED, "LiveCheck: Found error trace.");
 	}
 
 	/**
@@ -926,7 +918,7 @@ public class LiveCheck1 implements ILiveCheck {
 	}
 
 	@Override
-	public int finalCheck(final ITool tool) throws Exception {
+	public int finalCheck(final ITool tool) {
 		return check(tool, true);
 	}
 
@@ -973,7 +965,7 @@ public class LiveCheck1 implements ILiveCheck {
 	 * @see tlc2.tool.liveness.ILiveCheck#close()
 	 */
 	@Override
-    public void close() throws IOException {
+    public void close() {
 		// Intentional no op - LiveCheck1 has no disk files.
 	}
 
@@ -981,7 +973,7 @@ public class LiveCheck1 implements ILiveCheck {
 	 * @see tlc2.tool.liveness.ILiveCheck#beginChkpt()
 	 */
 	@Override
-    public void beginChkpt() throws IOException {
+    public void beginChkpt() {
 		// Intentional no op - LiveCheck1 has no disk files.
 	}
 
@@ -989,7 +981,7 @@ public class LiveCheck1 implements ILiveCheck {
 	 * @see tlc2.tool.liveness.ILiveCheck#commitChkpt()
 	 */
 	@Override
-    public void commitChkpt() throws IOException {
+    public void commitChkpt() {
 		// Intentional no op - LiveCheck1 has no disk files.
 	}
 
@@ -997,7 +989,7 @@ public class LiveCheck1 implements ILiveCheck {
 	 * @see tlc2.tool.liveness.ILiveCheck#recover()
 	 */
 	@Override
-    public void recover() throws IOException {
+    public void recover() {
 		// Intentional no op - LiveCheck1 has no disk files.
 	}
 
@@ -1005,7 +997,7 @@ public class LiveCheck1 implements ILiveCheck {
 	 * @see tlc2.tool.liveness.ILiveCheck#calculateInDegreeDiskGraphs(tlc2.util.statistics.IBucketStatistics)
 	 */
 	@Override
-    public IBucketStatistics calculateInDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
+    public IBucketStatistics calculateInDegreeDiskGraphs(final IBucketStatistics aGraphStats) {
 		return new DummyBucketStatistics();
 	}
 
@@ -1013,7 +1005,7 @@ public class LiveCheck1 implements ILiveCheck {
 	 * @see tlc2.tool.liveness.ILiveCheck#calculateOutDegreeDiskGraphs(tlc2.util.statistics.IBucketStatistics)
 	 */
 	@Override
-    public IBucketStatistics calculateOutDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
+    public IBucketStatistics calculateOutDegreeDiskGraphs(final IBucketStatistics aGraphStats) {
 		return new DummyBucketStatistics();
 	}
 

@@ -18,7 +18,7 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	private final transient TLCTrace trace; // Do not serialize trace and send it over the wire. Recovery executes on the master, not on the workers.
 
 	public NonDistributedFPSetManager(final FPSetRMI fpSet,
-                                      final String hostname, final TLCTrace trace) throws IOException {
+                                      final String hostname, final TLCTrace trace) {
 		this.fpSet = fpSet;
 		this.hostname = hostname;
 		this.trace = trace;
@@ -28,8 +28,7 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.fp.IFPSetManager#register(tlc2.tool.distributed.fp.FPSetRMI, java.lang.String)
 	 */
 	@Override
-    public void register(final FPSetRMI fpSet, final String hostname)
-			throws FPSetManagerException {
+    public void register(final FPSetRMI fpSet, final String hostname) {
 		throw new UnsupportedOperationException("Not applicable for non-distributed FPSetManager");
 	}
 
@@ -214,7 +213,7 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.fp.FPSetManager#checkpoint(java.lang.String)
 	 */
 	@Override
-    public void checkpoint(final String fname) throws InterruptedException, IOException {
+    public void checkpoint(final String fname) throws IOException {
 		this.fpSet.beginChkpt();
 	}
 
@@ -230,7 +229,7 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.fp.FPSetManager#recover(java.lang.String)
 	 */
 	@Override
-    public void recover(final String fname) throws InterruptedException, IOException {
+    public void recover(final String fname) throws IOException {
 		this.fpSet.recover(trace);
 	}
 

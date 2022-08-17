@@ -144,6 +144,6 @@ public class NoopLivenessStateWriter implements ILivenessStateWriter {
 	 * @see tlc2.util.IStateWriter#snapshot()
 	 */
 	@Override
-	public void snapshot() throws IOException {
+	public void snapshot() {
 	}
 }

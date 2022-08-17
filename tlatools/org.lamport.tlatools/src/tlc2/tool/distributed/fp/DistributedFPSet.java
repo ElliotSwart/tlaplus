@@ -112,7 +112,7 @@ public class DistributedFPSet  {
 		running = false;
 	}
 	
-	private static TLCServerRMI lookupTLCServer(final String serverName) throws MalformedURLException, RemoteException, NotBoundException, InterruptedException {
+	private static TLCServerRMI lookupTLCServer(final String serverName) throws MalformedURLException, RemoteException, InterruptedException {
 		final String url = "//" + serverName + ":" + TLCServer.Port
 				+ "/" + TLCServer.SERVER_NAME;
 

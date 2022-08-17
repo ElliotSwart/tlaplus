@@ -424,7 +424,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		   * content of the file.
 		   */
 		  public synchronized byte[][] doWork(final byte[][] deqBuf, final File file)
-		  throws IOException, ClassNotFoundException {
+		  throws IOException {
 		    if (this.isFull) {
 		      assert this.poolFile == null : EC.SYSTEM_FILE_NULL;
 		      final byte[][] res = this.buf;
@@ -464,7 +464,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		   * Returns the cached buffer if filled. Otherwise, returns null.
 		   */
 		  public synchronized byte[][] getCache(final byte[][] deqBuf, final File file)
-		  throws IOException, ClassNotFoundException {
+		  throws IOException {
 		    if (this.isFull) {
 		      assert this.poolFile == null : EC.SYSTEM_FILE_NULL;
 		      final byte[][] res = this.buf;
@@ -556,7 +556,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#writeShort(short)
 		 */
 		@Override
-		public void writeShort(final short s) throws IOException {
+		public void writeShort(final short s) {
 			ensureCapacity(idx + 2);
 	        this.bytes[idx++] = (byte) ((s >>> 8) & 0xff);
 	        this.bytes[idx++] = (byte) (s & 0xff);
@@ -566,7 +566,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#writeInt(int)
 		 */
 		@Override
-		public void writeInt(final int i) throws IOException {
+		public void writeInt(final int i) {
 			ensureCapacity(idx + 4);
 	        this.bytes[idx++] = (byte) ((i >>> 24) & 0xff);
 	        this.bytes[idx++] = (byte) ((i >>> 16) & 0xff);
@@ -578,7 +578,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#writeLong(long)
 		 */
 		@Override
-		public void writeLong(final long l) throws IOException {
+		public void writeLong(final long l) {
 			ensureCapacity(idx + 8);
 	        this.bytes[idx++] = (byte) ((l >>> 56) & 0xff);
 	        this.bytes[idx++] = (byte) ((l >>> 48) & 0xff);
@@ -594,7 +594,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#close()
 		 */
 		@Override
-		public void close() throws IOException {
+		public void close() {
 			// No-op
 		}
 
@@ -602,7 +602,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#writeShortNat(short)
 		 */
 		@Override
-		public void writeShortNat(final short x) throws IOException {
+		public void writeShortNat(final short x) {
 			if (x > 0x7f) {
 				this.writeShort((short) -x);
 			} else {
@@ -614,7 +614,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#writeNat(int)
 		 */
 		@Override
-		public void writeNat(final int x) throws IOException {
+		public void writeNat(final int x) {
 			if (x > 0x7fff) {
 				this.writeInt(-x);
 			} else {
@@ -626,7 +626,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#writeLongNat(long)
 		 */
 		@Override
-		public void writeLongNat(final long x) throws IOException {
+		public void writeLongNat(final long x) {
 			if (x <= 0x7fffffff) {
 				this.writeInt((int) x);
 			} else {
@@ -638,7 +638,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#writeByte(byte)
 		 */
 		@Override
-		public void writeByte(final byte b) throws IOException {
+		public void writeByte(final byte b) {
 			ensureCapacity(idx + 1);
 			this.bytes[idx++] = b;
 		}
@@ -647,7 +647,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueOutputStream#writeBoolean(boolean)
 		 */
 		@Override
-		public void writeBoolean(final boolean bool) throws IOException {
+		public void writeBoolean(final boolean bool) {
 	        final byte b = (bool ? (byte)1 : (byte)0);
 	        this.writeByte(b);
 		}
@@ -678,7 +678,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see util.IDataOutputStream#writeString(java.lang.String)
 		 */
 		@Override
-		public void writeString(final String str) throws IOException {
+		public void writeString(final String str) {
 			final int length = str.length();
 			ensureCapacity(idx + length);
 			
@@ -740,7 +740,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 			}
 		}
 
-		private boolean readBoolean() throws EOFException, IOException {
+		private boolean readBoolean() {
 	        return (bytes[idx++] != 0);
 		}
 
@@ -748,7 +748,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueInputStream#readShort()
 		 */
 		@Override
-		public int readShort() throws IOException {
+		public int readShort() {
 	        return (short) ((bytes[idx++] << 8) | (bytes[idx++] & 0xff));
 		}
 
@@ -756,7 +756,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueInputStream#readInt()
 		 */
 		@Override
-		public int readInt() throws IOException {
+		public int readInt() {
 	        int res = bytes[idx++];
 	        res <<= 8; res |= (bytes[idx++] & 0xff);
 	        res <<= 8; res |= (bytes[idx++] & 0xff);
@@ -768,7 +768,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueInputStream#readLong()
 		 */
 		@Override
-		public long readLong() throws IOException {
+		public long readLong() {
 	        long res = bytes[idx++];
 	        res <<= 8; res |= (bytes[idx++] & 0xff);
 	        res <<= 8; res |= (bytes[idx++] & 0xff);
@@ -784,7 +784,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueInputStream#close()
 		 */
 		@Override
-		public void close() throws IOException {
+		public void close() {
 			// No-op
 		}
 
@@ -792,7 +792,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueInputStream#readNat()
 		 */
 		@Override
-		public int readNat() throws IOException {
+		public int readNat() {
 		    int res = this.readShort();
 		    if (res >= 0) return res;
 		    res = (res << 16) | (this.readShort() & 0xFFFF);
@@ -803,7 +803,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueInputStream#readShortNat()
 		 */
 		@Override
-		public short readShortNat() throws IOException {
+		public short readShortNat() {
 			final short res = this.readByte();
 			if (res >= 0) return res;
 			return (short) -((res << 8) | (this.readByte() & 0xFF));
@@ -813,7 +813,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueInputStream#readLongNat()
 		 */
 		@Override
-		public long readLongNat() throws IOException {
+		public long readLongNat() {
 		    long res = this.readInt();
 		    if (res >= 0) return res;
 		    res = (res << 32) | ((long)this.readInt() & 0xFFFFFFFFL);
@@ -824,7 +824,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see tlc2.value.IValueInputStream#readByte()
 		 */
 		@Override
-		public byte readByte() throws EOFException, IOException {
+		public byte readByte() {
 			return bytes[idx++];
 		}
 
@@ -864,7 +864,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
 		 * @see util.IDataInputStream#readString(int)
 		 */
 		@Override
-		public String readString(final int length) throws IOException {
+		public String readString(final int length) {
 			final char[] s = new char[length];
 			for (int i = 0; i < s.length; i++) {
 				s[i] = (char) this.bytes[idx++];

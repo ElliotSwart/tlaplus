@@ -19,7 +19,7 @@ public abstract class FPIntSet implements AutoCloseable
 
   public static int Port = 10998;   // port # for fpset server
 
-  protected FPIntSet() throws RemoteException { /*SKIP*/ }
+  protected FPIntSet() { /*SKIP*/ }
   
   /**
    * Performs any initialization necessary to handle "numThreads"

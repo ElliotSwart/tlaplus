@@ -19,7 +19,7 @@ public class DynamicFPSetManager extends FPSetManager implements Serializable {
 
 	private final int expectedNumOfServers;
 
-	public DynamicFPSetManager(int expectedNumOfServers) throws RemoteException {
+	public DynamicFPSetManager(int expectedNumOfServers) {
 		super();
 		// If expectedNumOfServers is no power of two, a subset of FPSet
 		// servers will act as passive backups. Each time a FPSet from

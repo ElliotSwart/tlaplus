@@ -720,7 +720,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	 * @see tlc2.tool.fp.FPSet#beginChkpt()
 	 */
 	@Override
-    public final void beginChkpt() throws IOException {
+    public final void beginChkpt() {
 		// @see tlc2.tool.fp.DiskFPSet.commitChkpt()
 	}
 
@@ -728,7 +728,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	 * @see tlc2.tool.fp.FPSet#commitChkpt()
 	 */
 	@Override
-    public final void commitChkpt() throws IOException {
+    public final void commitChkpt() {
 		/* SKIP */
 		// DiskFPSet checkpointing is a no-op, because DiskFPSet recreates 
 		// the fingerprints from the TLCTrace file. Not from its own .fp file. 

@@ -36,7 +36,7 @@ public class TLCApp extends DistApp {
 
 	/* Constructors */
 	public TLCApp(final String specFile, final String configFile, final boolean deadlock,
-                  final String fromChkpt, final FPSetConfiguration fpSetConfig) throws IOException {
+                  final String fromChkpt, final FPSetConfiguration fpSetConfig) {
 		this(specFile, configFile, deadlock, null);
 
 		this.fromChkpt = fromChkpt;
@@ -45,7 +45,7 @@ public class TLCApp extends DistApp {
 	}
 	
 	public TLCApp(final String specFile, final String configFile, final boolean deadlock,
-                  final String fromChkpt, final FPSetConfiguration fpSetConfig, final FilenameToStream fts) throws IOException {
+                  final String fromChkpt, final FPSetConfiguration fpSetConfig, final FilenameToStream fts) {
 		this(specFile, configFile, deadlock, fts);
 
 		this.fromChkpt = fromChkpt;
@@ -55,7 +55,7 @@ public class TLCApp extends DistApp {
 
 	// TODO too many constructors redefinitions, replace with this(..) calls
 	public TLCApp(String specFile, final String configFile,
-                  final Boolean deadlock, final FilenameToStream fts) throws IOException {
+                  final Boolean deadlock, final FilenameToStream fts) {
 
 		// get the spec dir from the spec file
 		final int lastSep = specFile.lastIndexOf(File.separatorChar);

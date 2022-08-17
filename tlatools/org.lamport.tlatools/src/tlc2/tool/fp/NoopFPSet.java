@@ -44,7 +44,7 @@ public class NoopFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#init(int, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public FPSet init(final int numThreads, final String metadir, final String filename) throws IOException {
+	public FPSet init(final int numThreads, final String metadir, final String filename) {
 		return this;
 	}
 
@@ -60,7 +60,7 @@ public class NoopFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#put(long)
 	 */
 	@Override
-	public boolean put(final long fp) throws IOException {
+	public boolean put(final long fp) {
 		return false;
 	}
 
@@ -68,7 +68,7 @@ public class NoopFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#contains(long)
 	 */
 	@Override
-	public boolean contains(final long fp) throws IOException {
+	public boolean contains(final long fp) {
 		return false;
 	}
 
@@ -76,7 +76,7 @@ public class NoopFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#checkFPs()
 	 */
 	@Override
-	public long checkFPs() throws IOException {
+	public long checkFPs() {
 		return 0;
 	}
 
@@ -84,48 +84,48 @@ public class NoopFPSet extends FPSet {
 	 * @see tlc2.tool.fp.FPSet#beginChkpt()
 	 */
 	@Override
-	public void beginChkpt() throws IOException {
+	public void beginChkpt() {
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#commitChkpt()
 	 */
 	@Override
-	public void commitChkpt() throws IOException {
+	public void commitChkpt() {
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#recover()
 	 */
 	@Override
-	public void recover(final TLCTrace trace) throws IOException {
+	public void recover(final TLCTrace trace) {
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#recoverFP(long)
 	 */
 	@Override
-	public void recoverFP(final long fp) throws IOException {
+	public void recoverFP(final long fp) {
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#beginChkpt(java.lang.String)
 	 */
 	@Override
-	public void beginChkpt(final String filename) throws IOException {
+	public void beginChkpt(final String filename) {
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#commitChkpt(java.lang.String)
 	 */
 	@Override
-	public void commitChkpt(final String filename) throws IOException {
+	public void commitChkpt(final String filename) {
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.FPSet#recover(java.lang.String)
 	 */
 	@Override
-	public void recover(final String filename) throws IOException {
+	public void recover(final String filename) {
 	}
 }

@@ -542,7 +542,7 @@ public abstract class AbstractDiskGraph {
 
 	// This method is not called anywhere because *out degree* graph statistics are collected
 	// during liveness checking with negligible overhead (see DiskGraph#addNode).
-	public void calculateOutDegreeDiskGraph(final IBucketStatistics outDegreeGraphStats) throws IOException {
+	public void calculateOutDegreeDiskGraph(final IBucketStatistics outDegreeGraphStats) {
 		try {
 			this.nodePtrRAF.flush();
 			this.nodeRAF.flush();
@@ -563,7 +563,7 @@ public abstract class AbstractDiskGraph {
 		}
 	}
 	
-	public void calculateInDegreeDiskGraph(final IBucketStatistics inDegreeGraphStats) throws IOException {
+	public void calculateInDegreeDiskGraph(final IBucketStatistics inDegreeGraphStats) {
 		//TODO This only supports 2^31 map elements and thus less of what TLC can handle. A
 		// longlong FPSet with a user defined mask could be used to store 2^63.
 		final Map<NodeRAFRecord, Integer> nodes2count = new HashMap<>();

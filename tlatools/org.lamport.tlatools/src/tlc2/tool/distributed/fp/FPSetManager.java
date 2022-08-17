@@ -152,7 +152,7 @@ public abstract class FPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.IFPSetManager#close(boolean)
 	 */
 	@Override
-    public void close() throws IOException {
+    public void close() {
 
 		FPSets curr = null;
 		final int len = this.fpSets.size();
@@ -582,7 +582,7 @@ public abstract class FPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.IFPSetManager#checkpoint(java.lang.String)
 	 */
 	@Override
-    public void checkpoint(final String fname) throws InterruptedException, IOException {
+    public void checkpoint(final String fname) throws InterruptedException {
 		chkptInner(fname, true);
 	}
 
@@ -590,7 +590,7 @@ public abstract class FPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.fp.IFPSetManager#commitChkpt()
 	 */
 	@Override
-    public void commitChkpt() throws IOException {
+    public void commitChkpt() {
 		// no-op, added due to polymorphism with NonDistribuedFPSetManager
 	}
 
@@ -598,7 +598,7 @@ public abstract class FPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.IFPSetManager#recover(java.lang.String)
 	 */
 	@Override
-    public void recover(final String fname) throws InterruptedException, IOException {
+    public void recover(final String fname) throws InterruptedException {
 		chkptInner(fname, false);
 	}
 

@@ -225,7 +225,7 @@ public class ExecutionStatisticsCollector {
 		}
 	}	
 	
-	private static String encode(final Map<String, String> parameters) throws UnsupportedEncodingException {
+	private static String encode(final Map<String, String> parameters) {
 		final StringBuilder buf = new StringBuilder();
 
 		for (final String key : parameters.keySet()) {

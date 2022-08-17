@@ -60,7 +60,7 @@ public class NoOpLiveCheck implements ILiveCheck {
 	 * @see tlc2.tool.liveness.ILiveCheck#addNextState(tlc2.tool.TLCState, long, tlc2.util.SetOfStates)
 	 */
 	@Override
-    public void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) throws IOException {
+    public void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) {
 	}
 
 	/* (non-Javadoc)
@@ -72,12 +72,12 @@ public class NoOpLiveCheck implements ILiveCheck {
 	}
 
 	@Override
-	public int check(final ITool tool, final boolean forceCheck) throws Exception {
+	public int check(final ITool tool, final boolean forceCheck) {
 		return EC.NO_ERROR;
 	}
 
 	@Override
-	public int finalCheck(final ITool tool) throws Exception {
+	public int finalCheck(final ITool tool) {
 		return EC.NO_ERROR;
 	}
 	
@@ -85,7 +85,7 @@ public class NoOpLiveCheck implements ILiveCheck {
 	 * @see tlc2.tool.liveness.ILiveCheck#checkTrace(tlc2.tool.StateVec)
 	 */
 	@Override
-    public void checkTrace(final ITool tool, final Supplier<StateVec> trace) throws IOException, InterruptedException {
+    public void checkTrace(final ITool tool, final Supplier<StateVec> trace) {
 	}
 
 	/* (non-Javadoc)
@@ -131,35 +131,35 @@ public class NoOpLiveCheck implements ILiveCheck {
 	 * @see tlc2.tool.liveness.ILiveCheck#close()
 	 */
 	@Override
-    public void close() throws IOException {
+    public void close() {
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#beginChkpt()
 	 */
 	@Override
-    public void beginChkpt() throws IOException {
+    public void beginChkpt() {
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#commitChkpt()
 	 */
 	@Override
-    public void commitChkpt() throws IOException {
+    public void commitChkpt() {
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#recover()
 	 */
 	@Override
-    public void recover() throws IOException {
+    public void recover() {
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.liveness.ILiveCheck#calculateInDegreeDiskGraphs(tlc2.util.statistics.IBucketStatistics)
 	 */
 	@Override
-    public IBucketStatistics calculateInDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
+    public IBucketStatistics calculateInDegreeDiskGraphs(final IBucketStatistics aGraphStats) {
 		return stats;
 	}
 
@@ -167,7 +167,7 @@ public class NoOpLiveCheck implements ILiveCheck {
 	 * @see tlc2.tool.liveness.ILiveCheck#calculateOutDegreeDiskGraphs(tlc2.util.statistics.IBucketStatistics)
 	 */
 	@Override
-    public IBucketStatistics calculateOutDegreeDiskGraphs(final IBucketStatistics aGraphStats) throws IOException {
+    public IBucketStatistics calculateOutDegreeDiskGraphs(final IBucketStatistics aGraphStats) {
 		return stats;
 	}
 
@@ -175,6 +175,6 @@ public class NoOpLiveCheck implements ILiveCheck {
 	 * @see tlc2.tool.liveness.ILiveCheck#reset()
 	 */
 	@Override
-    public void reset() throws IOException {
+    public void reset() {
 	}
 }

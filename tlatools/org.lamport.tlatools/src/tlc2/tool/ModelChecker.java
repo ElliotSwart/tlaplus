@@ -837,12 +837,11 @@ public class ModelChecker extends AbstractChecker
 		this.theStateQueue.close();
 	}
     
-    public final void printSummary(final boolean success) throws IOException {
+    public final void printSummary(final boolean success) {
     	printSummary(success, startTime);
     }
 
-    public final void printSummary(final boolean success, final long startTime) throws IOException
-    {
+    public final void printSummary(final boolean success, final long startTime) {
         super.reportCoverage(this.workers);
         
         /*
@@ -880,7 +879,7 @@ public class ModelChecker extends AbstractChecker
         }
     }
     
-    private void printProgresStats(final long startTime, final boolean isFinal) throws IOException {
+    private void printProgresStats(final long startTime, final boolean isFinal) {
         final long fpSetSize = this.theFPSet.size();
         
         // print progress showing states per minute metric (spm)
@@ -1021,13 +1020,8 @@ public class ModelChecker extends AbstractChecker
 	 */
 	@Override
 	public int getProgress() {
-		try {
-			return trace.getLevelForReporting();
-		} catch (final IOException e) {
-			// The modelchecker trace file might be closed already (e.g. it
-			// gets closed at the end of the modelchecker run)
-			return -1;
-		}
+		return trace.getLevelForReporting();
+
 	}
 	
 	/* (non-Javadoc)

@@ -330,7 +330,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile imp
         return len;
     }
 
-    public BigInteger readBigInteger(final int size) throws IOException {
+    public BigInteger readBigInteger(final int size) {
       final byte[] b = new byte[size];
       // Assert.check(this.read(b) == size);
       return new BigInteger(b);

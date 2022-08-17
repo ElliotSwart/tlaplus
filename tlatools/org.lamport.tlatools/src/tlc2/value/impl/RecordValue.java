@@ -853,7 +853,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
             public TLCState createEmpty(){return this;}
 
             @Override
-            public TLCState createNewFromValueStream(final IValueInputStream vis) throws IOException{
+            public TLCState createNewFromValueStream(final IValueInputStream vis) {
                 return this;
             }
 		}

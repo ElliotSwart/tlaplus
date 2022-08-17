@@ -335,14 +335,12 @@ public class TLCTrace implements AutoCloseable {
 	 * @param s2
 	 *            may be null.
 	 * @throws IOException
-	 * @throws WorkerException
 	 */
-	public void printTrace(final TLCState s1, final TLCState s2) throws IOException, WorkerException {
+	public void printTrace(final TLCState s1, final TLCState s2) throws IOException {
 		printTrace(s1, s2, getTrace(s1.uid, false));
 	}
 	
-	protected final void printTrace(final TLCState s1, final TLCState s2, final TLCStateInfo[] prefix)
-			throws IOException, WorkerException {
+	protected final void printTrace(final TLCState s1, final TLCState s2, final TLCStateInfo[] prefix) {
 		if (s1.isInitial()) {
 			// Do not recreate the potentially expensive error trace - e.g. when the set of
 			// initial states is huge such as during inductive invariant checking. Instead

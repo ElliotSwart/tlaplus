@@ -485,7 +485,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 	 * @see tlc2.tool.fp.DiskFPSet#checkFPs()
 	 */
 	@Override
-	public long checkFPs() throws IOException {
+	public long checkFPs() {
 		if (getTblCnt() <= 0) {
 			return Long.MAX_VALUE;
 		}
@@ -653,7 +653,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		private final long prefixMask;
 		private final int rShift;
 
-		public BitshiftingIndexer(final long positions, final int fpBits) throws RemoteException {
+		public BitshiftingIndexer(final long positions, final int fpBits) {
 			super(positions, fpBits);
 			
 			this.prefixMask = 0xFFFFFFFFFFFFFFFFL >>> fpBits;
@@ -1392,7 +1392,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		return checkSorted(array, indexer, reprobe, 0, array.size() - 1L + reprobe);
 	}
 
-	private static boolean checkRAFs(final BufferedRandomAccessFile[] rafs) throws IOException {
+	private static boolean checkRAFs(final BufferedRandomAccessFile[] rafs) {
 		for (int i = 0; i < rafs.length - 1; i++) {
 			final long end = rafs[i].getFilePointer();
 			final long start = rafs[i + 1].getMark();

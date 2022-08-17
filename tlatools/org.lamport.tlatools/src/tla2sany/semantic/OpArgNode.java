@@ -48,8 +48,7 @@ public class OpArgNode extends ExprOrOpArgNode {
    * (unresolved symbol) we want to be able to continue semantic
    * analysis.
    */
-  public OpArgNode(final SymbolNode op, final TreeNode stn, final ModuleNode mn)
-  throws AbortException {
+  public OpArgNode(final SymbolNode op, final TreeNode stn, final ModuleNode mn) {
     super(OpArgKind, stn);
 
     // if op is an OpDefNode, OpDeclNode, or FormalParamNode

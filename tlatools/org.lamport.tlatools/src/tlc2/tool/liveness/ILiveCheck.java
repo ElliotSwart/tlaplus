@@ -117,9 +117,9 @@ public interface ILiveCheck {
 
 	void recover() throws IOException;
 
-	IBucketStatistics calculateInDegreeDiskGraphs(IBucketStatistics aGraphStats) throws IOException;
+	IBucketStatistics calculateInDegreeDiskGraphs(IBucketStatistics aGraphStats);
 
-	IBucketStatistics calculateOutDegreeDiskGraphs(IBucketStatistics aGraphStats) throws IOException;
+	IBucketStatistics calculateOutDegreeDiskGraphs(IBucketStatistics aGraphStats);
 
 	void reset() throws IOException;
 }

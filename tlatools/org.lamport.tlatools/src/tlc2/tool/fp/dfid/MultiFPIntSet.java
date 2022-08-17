@@ -15,7 +15,7 @@ public class MultiFPIntSet extends FPIntSet {
   private final FPIntSet[] sets;
   private final int fpbits;
 
-  public MultiFPIntSet(final int bits) throws RemoteException {
+  public MultiFPIntSet(final int bits) {
     final int len = 1 << bits;
     this.sets = new FPIntSet[len];
     for (int i = 0; i < len; i++) {

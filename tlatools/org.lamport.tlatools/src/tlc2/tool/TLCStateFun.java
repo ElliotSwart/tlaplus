@@ -93,7 +93,7 @@ private final SymbolNode name;
   }
 
   @Override
-  public TLCState createNewFromValueStream(final IValueInputStream vis) throws IOException{
+  public TLCState createNewFromValueStream(final IValueInputStream vis) {
     throw new WrongInvocationException("TLCStateFun.fingerPrint: This is a TLC bug.");
   }
 
@@ -111,7 +111,7 @@ private final SymbolNode name;
   }
 
   @Override
-  public void write(final IValueOutputStream vos) throws IOException {
+  public void write(final IValueOutputStream vos) {
       throw new WrongInvocationException("TLCStateFun.write: This is a TLC bug.");
   }
   

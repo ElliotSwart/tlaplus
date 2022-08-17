@@ -39,7 +39,7 @@ public abstract class DistApp implements TraceApp {
 
 	// Returns a list of successor states of the state s. /
 	// TLCServer
-	public abstract TLCState[] getNextStates(TLCState s) throws WorkerException, RemoteException;
+	public abstract TLCState[] getNextStates(TLCState s) throws WorkerException;
 
 	// Checks if the state is a valid state.
 	// TLCServer, TLCWorker

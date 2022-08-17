@@ -152,7 +152,7 @@ public class ParseUnit {
     return null;
   }
 
-  private void writeParseTreeToFile(final boolean file, final Errors errors) throws AbortException {
+  private void writeParseTreeToFile(final boolean file, final Errors errors) {
       // Construct the name with a .jcg extension (Jean-Charles Gregoire)
       final PrintWriter pw;
       if (file) 

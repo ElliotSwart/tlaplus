@@ -110,7 +110,7 @@ private String metadir;
   }
 
   @Override
-  public void recoverFP(final long fp) throws IOException {
+  public void recoverFP(final long fp) {
     Assert.check(!this.set.put(fp), EC.TLC_FP_NOT_IN_SET);
   }
   

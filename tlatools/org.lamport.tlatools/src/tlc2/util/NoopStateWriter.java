@@ -117,6 +117,6 @@ public final class NoopStateWriter implements IStateWriter {
 	 * @see tlc2.util.IStateWriter#snapshot()
 	 */
 	@Override
-	public void snapshot() throws IOException {
+	public void snapshot() {
 	}
 }
