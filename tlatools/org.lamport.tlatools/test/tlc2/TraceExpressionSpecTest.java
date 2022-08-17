@@ -51,7 +51,7 @@ public abstract class TraceExpressionSpecTest extends ModelCheckerTestCase {
 
 	@Override
     protected FilenameToStream getResolver() {
-		return new SimpleFilenameToStream();
+		return new SimpleFilenameToStream(OUTPUT_PATH);
 	}
 
 	@Override
