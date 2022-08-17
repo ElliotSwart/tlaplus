@@ -249,7 +249,7 @@ public class SANY {
     TreeNode    syntaxTreeRoot;
     final ExternalModuleTable externalModuleTable = spec.getExternalModuleTable();
     ParseUnit   parseUnit;
-    ModuleNode  moduleNode = null;
+    ModuleNode  moduleNode;
     final Errors      semanticErrors = spec.semanticErrors;
     final Errors      globalContextErrors = context.getErrors();
 

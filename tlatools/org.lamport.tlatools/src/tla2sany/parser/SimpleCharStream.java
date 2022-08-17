@@ -15,8 +15,8 @@ public class SimpleCharStream
   protected int[] bufline;
   protected int[] bufcolumn;
 
-  protected int column = 0;
-  protected int line = 1;
+  protected int column;
+  protected int line;
 
   protected boolean prevCharIsCR = false;
   protected boolean prevCharIsLF = false;

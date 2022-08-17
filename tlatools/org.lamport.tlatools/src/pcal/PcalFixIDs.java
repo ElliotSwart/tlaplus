@@ -452,7 +452,7 @@ public class PcalFixIDs {
         final Vector<String> stringVec = new Vector<>(); // the substituted  ids
         for (int i = 0; i < expr.tokens.size(); i++) {
             final Vector<TLAToken> tv = expr.tokens.elementAt(i);
-            String useMe = null;
+            String useMe;
             for (int j = 0; j < tv.size(); j++) {
                 final int shift = 0;
                 final TLAToken tok = tv.elementAt(j);

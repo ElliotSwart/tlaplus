@@ -74,7 +74,7 @@ public class SpecObj
      * changed to private again.
      */
     // SZ 23.02.2009: renamed according to the purpose
-    private FilenameToStream resolver = null;
+    private FilenameToStream resolver;
 
 
     ParseUnit rootParseUnit = null;
@@ -937,7 +937,7 @@ public class SpecObj
         // ParseUnit into that for this entire SpecObj
         // 4. Select the next unresolved module name for processing.
 
-        ParseUnit nextExtentionOrInstantiationParseUnit = null;
+        ParseUnit nextExtentionOrInstantiationParseUnit;
 
         while (findNextUnresolvedExtention(rootModule) || findNextUnresolvedInstantiation(rootModule))
         {

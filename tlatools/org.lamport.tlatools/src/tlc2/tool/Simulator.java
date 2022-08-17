@@ -157,7 +157,7 @@ public class Simulator {
 	private final long traceNum;
 
 	// The number of worker threads to use for simulation.
-	private int numWorkers = 1;
+	private int numWorkers;
 
 	private final RandomGenerator rng;
 	private final long seed;

@@ -804,7 +804,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 							 **************************************************************/
 							if (expectedArity == 0) {
 								final SyntaxTreeNode opArgs = sel.args[idx];
-								int numOfOpArgs = 0;
+								int numOfOpArgs;
 								if (opArgs != null) {
 									// if there are arguments, add them to tempArgs.
 									/**********************************************************
@@ -1481,7 +1481,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			/*********************************************************************
 			 * Set nodeParams to the +cal program's curNode.params value. *
 			 *********************************************************************/
-			FormalParamNode[] nodeParams = null;
+			FormalParamNode[] nodeParams;
 			if (curNode.getKind() == UserDefinedOpKind) {
 				nodeParams = ((OpDefNode) curNode).getParams();
 			} else {
@@ -1508,7 +1508,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 				/*******************************************************************
 				 * Set eoag to the ExprOrOpArgNode constructed from newpm. *
 				 *******************************************************************/
-				ExprOrOpArgNode eoag = null;
+				ExprOrOpArgNode eoag;
 				if (pm.getArity() == 0) {
 					/*****************************************************************
 					 * Formal parameter eoag is an ordinary (non-operator) parameter. *
@@ -1874,7 +1874,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	private ModuleNode generateModule(final TreeNode treeNode, final ModuleNode parent) throws AbortException {
 		moduleNestingLevel++;
 		final TreeNode[] children = treeNode.heirs(); // Array of heirs of the module root
-		TreeNode[] definitions = null;
+		TreeNode[] definitions;
 		// Array of definitions in the module
 		/*********************************************************************
 		 * Actually, the array of all syntactic nodes that are heirs of the * module's
@@ -2166,7 +2166,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	private void processOperator(final TreeNode treeNode, final Vector<SymbolNode> defs, final ModuleNode cm) throws AbortException {
 		final TreeNode syntaxTreeNode = treeNode;
 		UniqueString name = null;
-		int arity = 0;
+		int arity;
 		final boolean local = syntaxTreeNode.zero() != null;
 		final TreeNode[] children = syntaxTreeNode.one();
 		final TreeNode[] ss = children[0].heirs();
@@ -2682,7 +2682,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			 ***********************************************************************/
 			throws AbortException {
 		final TreeNode[] children = treeNode.heirs();
-		SymbolNode opn = null;
+		SymbolNode opn;
 		final GenID genID;
 		final ExprOrOpArgNode[] sns; // a ExprNode list used for arguments
 
@@ -3780,7 +3780,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	 */
 	private ExprOrOpArgNode generateExprOrOpArg(final SymbolNode mainOp, final TreeNode mainSTN, final int argPosition, final TreeNode argRoot,
                                                 final ModuleNode mn) throws AbortException {
-		SymbolNode argOp = null;
+		SymbolNode argOp;
 		// the SymbolNode that heads the argRoot expression
 		final int argArity;
 		// number of actual arguments under argRoot
@@ -3956,12 +3956,12 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	private GenID generateGenID(final TreeNode syntaxTreeNode, final ModuleNode mn, final boolean unaryNegKludge) throws AbortException {
 		final GenID genID; // Holds components of the generalized ID for this operator
 		final TreeNode[] children = syntaxTreeNode.heirs(); // To contain N_IdPrefix node and the main operator
-		TreeNode[] prefix = null; // Contains array of prefix elements
+		TreeNode[] prefix; // Contains array of prefix elements
 									// This is the array of N_IdPrefixElements for the operator,
 									// i.e. A!B(3)!C has 2 N_IdPrefixElements, A and B(3).
 		TreeNode[] prefixElt; // a prefixElement; 2- or 3-elem array: [op, (args), "!"]
-		TreeNode[] allArgs = null; // to collect arg arrays from prefix
-		TreeNode[] argsList = null; // Will hold an arg list tree
+		TreeNode[] allArgs; // to collect arg arrays from prefix
+		TreeNode[] argsList; // Will hold an arg list tree
 
 		if (children == null || children.length <= 0) {
 			// almost certainly an @ used outside of EXCEPT, which is detected elsewhere
@@ -5284,7 +5284,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					/***************************************************************
 					 * This will be set to the body of the TheoremNode or * ThmOrAssumpDefNode. *
 					 ***************************************************************/
-					UniqueString op = null;
+					UniqueString op;
 					final ExprNode[] args;
 					/***************************************************************
 					 * For anything but an N_Assert node, body is set to an * OpApplNode having
@@ -5717,7 +5717,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		/*********************************************************************
 		 * For use with an ASSUME/PROVE. *
 		 *********************************************************************/
-		LevelNode body = null;
+		LevelNode body;
 		/*********************************************************************
 		 * This will be set to the body of the TheoremNode or * ThmOrAssumpDefNode. *
 		 *********************************************************************/
@@ -5760,7 +5760,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		 * "PICK"). Otherwise, the body will be an ordinary * assertion and op is left
 		 * null. *
 		 ***********************************************************************/
-		UniqueString op = null;
+		UniqueString op;
 		switch (heirs[nextTok].getKind()) {
 		case TLAplusParserConstants.QED:
 			body = new OpApplNode(OP_qed, new ExprNode[0], heirs[nextTok], cm, context);
@@ -6331,7 +6331,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 				final TreeNode argSyntaxNode = opArgsChildren[2 * i + 1];
 				final UniqueString argName = argSyntaxNode.heirs()[1].getUS();
 				final SymbolNode argNode = symbolTable.resolveSymbol(argName);
-				FormalParamNode arg = null;
+				FormalParamNode arg;
 				if (argNode instanceof FormalParamNode) {
 					arg = (FormalParamNode) argNode;
 				} else {

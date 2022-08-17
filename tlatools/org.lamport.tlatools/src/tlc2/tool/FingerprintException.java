@@ -45,7 +45,7 @@ final public IValue value;
   }
 
   public static FingerprintException getNewHead(final IValue v, final Throwable t){
-    FingerprintException fpe = null;
+    FingerprintException fpe;
     if(t instanceof FingerprintException e)
       fpe = e.prependNewHead(v);
     else

@@ -325,7 +325,7 @@ public final int low;
     	
     	final ValueEnumeration ve = elements(kOutOfN);
     	
-    	Value v = null;
+    	Value v;
     	while ((v = ve.nextElement()) != null) {
     		vec.addElement(v);
     	}

@@ -646,7 +646,7 @@ public class ParseAlgorithm
    }
    
    public void AddedMessagesError() throws ParseAlgorithmException 
-     { StringBuilder msg = null;
+     { StringBuilder msg;
        if (addedLabels.size() > 1)
          {
              msg = new StringBuilder("Missing labels at the following locations:");}
@@ -1257,7 +1257,7 @@ public class ParseAlgorithm
         * if, which is either at the end of the end clause or, if there is none,
         * at the end of the then clause.
         */
-       AST lastStmt = null ;
+       AST lastStmt;
        if (result.unlabElse.size() != 0) {
     	   lastStmt = result.unlabElse.elementAt(result.unlabElse.size()-1);
        }
@@ -1450,8 +1450,8 @@ public class ParseAlgorithm
          * We use the fact here that this method is called after           *
          * PeekAtAlgToken(1), so LAT[0] contains the next token.           *
          ******************************************************************/
-       PCalLocation beginLoc = null ;
-       PCalLocation endLoc = null ;
+       PCalLocation beginLoc;
+       PCalLocation endLoc;
        try
     {
         result.var = GetAlgToken() ;

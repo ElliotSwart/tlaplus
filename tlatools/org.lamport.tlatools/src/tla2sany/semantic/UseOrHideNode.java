@@ -26,7 +26,7 @@ public class UseOrHideNode extends LevelNode {
   * A use or hide has the syntax USE/HIDE [facts] [DEF[S] defs].  The      *
   * following two fields are the semantic nodes for the facts and defs.    *
   *************************************************************************/
-  public LevelNode[]  facts = null ;
+  public LevelNode[]  facts;
     /***********************************************************************
     * For each i, facts[i] will be either an ExprNode, a ModuleNode, or    *
     * an OpDefNode of type ModuleInstanceKind (with no parameters).  A     *
@@ -37,7 +37,7 @@ public class UseOrHideNode extends LevelNode {
     * can't be used as facts.  The only allowable expressions are the      *
     * names of theorems, assumptions, and steps.                           *
     ***********************************************************************/
-  public SymbolNode[] defs  = null ;
+  public SymbolNode[] defs;
     /***********************************************************************
     * For each i, defs[i] should be a UserDefinedOpDefKind or              *
     * ModuleInstanceKind OpDefNode or a ThmOrAssumpDefNode                 *

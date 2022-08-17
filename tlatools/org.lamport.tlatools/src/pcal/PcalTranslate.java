@@ -212,7 +212,7 @@ public class PcalTranslate {
          * in column 6.                                                      *
          *********************************************************************/
         Vector<TLAToken> line; /* Vector of TLAToken */
-        int nextCol = 0;
+        int nextCol;
         for (int i = 0; i < expr.tokens.size(); i++) {
             line = expr.tokens.elementAt(i);
             if (i == 0 || i == expr.tokens.size() - 1) nextCol = 1;
@@ -1300,8 +1300,8 @@ public class PcalTranslate {
         ass.ass = new Vector<>();
         ass.line = ast.line ;
         ass.col  = ast.col ;
-        AST.SingleAssign sass = null;
-        TLAExpr expr = null;
+        AST.SingleAssign sass;
+        TLAExpr expr;
         /*******************************************************************
         * Add a single multiple assignment statement that                  *
         *   - restores the local variables of ast.from from the head of    *

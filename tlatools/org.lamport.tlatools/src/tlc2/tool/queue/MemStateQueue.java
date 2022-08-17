@@ -22,7 +22,7 @@ public final class MemStateQueue extends StateQueue {
 
   /* Fields  */
   private TLCState[] states;
-  private int start = 0;
+  private int start;
   private final String diskdir;
 
   private final ITool tool;

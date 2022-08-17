@@ -16,8 +16,8 @@ public final class ASCII_CharStream
   private int[] bufline;
   private int[] bufcolumn;
 
-  private int column = 0;
-  private int line = 1;
+  private int column;
+  private int line;
 
   private boolean prevCharIsCR = false;
   private boolean prevCharIsLF = false;

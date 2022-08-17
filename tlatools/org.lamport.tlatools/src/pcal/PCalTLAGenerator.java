@@ -19,7 +19,7 @@ public class PCalTLAGenerator
 {
 
     private PcalSymTab st = null;
-    private AST ast = null; 
+    private AST ast;
              // This is set to the AST constructed by ParseAlgorithm.getAlgorithm
 
     private final ParseAlgorithm parseAlgorithm;
@@ -70,7 +70,7 @@ public class PCalTLAGenerator
     public Vector<String> translate() throws RemoveNameConflictsException
     {
         Vector<String> result = new Vector<>();
-        AST xast = null;  // Set to the exploded AST
+        AST xast;  // Set to the exploded AST
 
         PcalTranslate pcalTranslate = new PcalTranslate(this.parseAlgorithm);
 

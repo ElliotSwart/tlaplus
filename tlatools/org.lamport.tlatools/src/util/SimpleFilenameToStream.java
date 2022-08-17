@@ -119,7 +119,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
    */
   private String[] getLibraryPaths(final String standardModulesFolder, final String[] libraries) {
     final String[] res;
-    String path = null;
+    String path;
     if (libraries == null) path = System.getProperty(TLA_LIBRARY);
     else {
       final StringBuilder buf = new StringBuilder();
@@ -271,7 +271,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
                   + "Only the part before NEWLINE is considered.");
           name = name.substring( 0, n );     // Strip off the newline
       }
-      String sourceFileName = null;
+      String sourceFileName;
       // SZ Feb 20, 2009:
       // if the name is a name of the module
       if (isModule)

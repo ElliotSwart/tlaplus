@@ -482,7 +482,7 @@ public abstract class AbstractChecker
         // SZ Feb 23, 2009: exit if canceled
         // added condition to run in the cycle
         // while (true) {
-        int result = EC.NO_ERROR;
+        int result;
         while (!Thread.currentThread().isInterrupted())
         {
             result = this.doPeriodicWork();

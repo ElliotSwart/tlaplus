@@ -475,7 +475,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
     	
     	final ValueEnumeration ve = elements(kOutOfN);
     	
-    	Value v = null;
+    	Value v;
     	while ((v = ve.nextElement()) != null) {
     		vec.addElement(v);
     	}

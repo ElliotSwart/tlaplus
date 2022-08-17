@@ -156,7 +156,7 @@ public abstract class FPSetManager implements IFPSetManager {
 
 		FPSets curr = null;
 		final int len = this.fpSets.size();
-		int idx = 0, lidx = 0;
+		int idx, lidx;
 
 		for (idx = 0; idx < len; idx++) {
 			curr = this.fpSets.get(idx);
@@ -543,7 +543,7 @@ public abstract class FPSetManager implements IFPSetManager {
 		final int len = this.fpSets.size();
 		final Checkpoint[] chkpts = new Checkpoint[len];
 		FPSets curr = null;
-		int cnt = 0, idx = 0, lidx = 0;
+		int cnt = 0, idx, lidx;
 
 		for (idx = 0; idx < len; idx++) {
 			curr = this.fpSets.get(idx);

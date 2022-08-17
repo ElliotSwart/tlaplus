@@ -51,7 +51,7 @@ public class Symbol
         * For convenience, we define a value that's not a symbol type.     *
         *******************************************************************/
       
-    public boolean pcal = false ;  
+    public boolean pcal;
       // True iff this is a PlusCal symbol.
     
     public final int alignmentType ;

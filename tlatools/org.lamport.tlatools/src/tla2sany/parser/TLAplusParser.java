@@ -1109,7 +1109,7 @@ final Token t;
   final SyntaxTreeNode[] lSTN = new SyntaxTreeNode[ 4 ];
   bpa( "Module definition" );
   internals.push( null );
-  Object pop = null;
+  Object pop;
   expecting = "---- MODULE";
     lSTN[0] = BeginModule();
   expecting = "EXTENDS clause or module body";
@@ -1497,7 +1497,7 @@ final Token t;
   SyntaxTreeNode tn;
   SyntaxTreeNode zn = null;
   bpa("Definition");
-  int kind = 0;
+  int kind;
   String n;
   Token t;
   expecting = "LOCAL, Identifier or Operator Symbol";
@@ -1799,7 +1799,7 @@ expecting = "( or ...";
   final public SyntaxTreeNode SomeFixDecl() throws ParseException {
   final SyntaxTreeNode localASTN = null;
   final SyntaxTreeNode tn;
-  SyntaxTreeNode[] sn = null;
+  SyntaxTreeNode[] sn;
   final int kind;
   Token t;
   final UniqueString n;
@@ -1920,7 +1920,7 @@ expecting = "WITH or another definition.";
 
   final public SyntaxTreeNode Substitution() throws ParseException {
   final SyntaxTreeNode[] zn = new SyntaxTreeNode[3];
-  SyntaxTreeNode tn = null;
+  SyntaxTreeNode tn;
   final Token t;
   anchor = null;
     /***********************************************************************
@@ -2527,7 +2527,7 @@ expecting = "==";
 *     N_QEDStep  N_PickStep   N_CaseStep   N_AssertStep                    *
 ***************************************************************************/
   SyntaxTreeNode tn;
-  Token t = null ;
+  Token t;
   Token t0 = null;
   pushProofLevel() ;
   bpa("Proof");
@@ -2845,8 +2845,8 @@ expecting = "==";
 * Note: The grammar accepts a USE or HIDE with no items.  This should      *
 * be reported as an error in the semantic analysis phase.                  *
 ***************************************************************************/
- Token t = null;
- SyntaxTreeNode tn = null;
+ Token t;
+ SyntaxTreeNode tn;
  boolean mayHaveProof = false ;
  bpa("Step") ;
  expecting = "Step number" ;
@@ -2931,8 +2931,8 @@ expecting = "==";
 * followed by a non-empty sequence of nodes returned by                    *
 * OperatorOrFunctionDefinition().                                          *
 ***************************************************************************/
- Token t = null;
- SyntaxTreeNode tn = null;
+ Token t;
+ SyntaxTreeNode tn;
  bpa("DefStep") ;
     switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
       case DEFINE -> {
@@ -2961,8 +2961,8 @@ expecting = "==";
 * Returns an N_HaveStep node whose heirs are a <HAVE> token and an         *
 * expression node.                                                         *
 ***************************************************************************/
- Token t = null;
- SyntaxTreeNode tn = null;
+ Token t;
+ SyntaxTreeNode tn;
  bpa("HaveStep") ;
     t = jj_consume_token(HAVE);
                  addHeir(new SyntaxTreeNode(mn, t));
@@ -2981,8 +2981,8 @@ expecting = "==";
 * remaining heirs are a sequence of QuantBound() nodes or a sequence of    *
 * identifiers.                                                             *
 ***************************************************************************/
- Token t = null;
- SyntaxTreeNode tn = null;
+ Token t;
+ SyntaxTreeNode tn;
  bpa("TakeStep") ;
     t = jj_consume_token(TAKE);
                 addHeir(new SyntaxTreeNode(mn, t)) ;
@@ -3050,8 +3050,8 @@ expecting = "==";
 * those expressions have the form <<expr, ...  , expr>> \in expr,          *
 * expr \in expr, or just expr.                                             *
 ***************************************************************************/
- Token t = null;
- SyntaxTreeNode tn = null;
+ Token t;
+ SyntaxTreeNode tn;
  bpa("WitnessStep") ;
     t = jj_consume_token(WITNESS);
                     addHeir(new SyntaxTreeNode(mn, t));
@@ -3085,8 +3085,8 @@ expecting = "==";
 * Returns an N_PickStep node whose heirs are a <PICK> token and an         *
 * expression node.                                                         *
 ***************************************************************************/
- Token t = null;
- SyntaxTreeNode tn = null;
+ Token t;
+ SyntaxTreeNode tn;
  bpa("PickStep") ;
     t = jj_consume_token(PICK);
                  addHeir(new SyntaxTreeNode(mn, t)) ;
@@ -3158,8 +3158,8 @@ expecting = "==";
 * Returns an N_CaseStep node whose heirs are a <CASE> token and an         *
 * expression node.                                                         *
 ***************************************************************************/
- Token t = null;
- SyntaxTreeNode tn = null;
+ Token t;
+ SyntaxTreeNode tn;
  bpa("CaseStep") ;
     t = jj_consume_token(CASE);
                 addHeir(new SyntaxTreeNode(mn, t));
@@ -3177,8 +3177,8 @@ expecting = "==";
 * Returns an N_AssertStep node whose heirs are an optional <SUFFICES>      *
 * token and an expression or N_AssumeProve node.                           *
 ***************************************************************************/
- Token t = null;
- SyntaxTreeNode tn = null;
+ Token t;
+ SyntaxTreeNode tn;
  bpa("AssertStep") ;
     switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
       case SUFFICES -> {
@@ -3538,7 +3538,7 @@ expecting = "==";
 
   final public SyntaxTreeNode Extension() throws ParseException {
   SyntaxTreeNode last = null, tid, top = null;
-  Token t = null;
+  Token t;
   SyntaxTreeNode[] heirs;
     switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
       case op_26, op_29, op_58, CASESEP, op_61, op_112, op_113, op_114, op_115, op_116 -> {
@@ -4249,7 +4249,7 @@ final SyntaxTreeNode tn;
   final public SyntaxTreeNode SBracketCases() throws ParseException {
   SyntaxTreeNode tn;
   Token t;
-  int kind = 0;
+  int kind;
   bpa("Some [] Form");
     t = jj_consume_token(LSB);
                addHeir( new SyntaxTreeNode(mn, t) );
@@ -4601,7 +4601,7 @@ final SyntaxTreeNode tn;
   }
 
   final public SyntaxTreeNode TupleOrAction() throws ParseException {
-  int kind = 0;
+  int kind;
   SyntaxTreeNode tn;
   Token t;
   bpa("Some << -- >> or >>_ Form");
@@ -4655,7 +4655,7 @@ final SyntaxTreeNode tn;
       SyntaxTreeNode top;
       SyntaxTreeNode last;
       last = null; top = null;
-  Token t = null;
+  Token t;
     tid = Identifier();
     if (jj_2_53(2)) {
       top = OpArgs();
@@ -5300,7 +5300,7 @@ final SyntaxTreeNode tn;
       SyntaxTreeNode tn1;
       SyntaxTreeNode tn2;
       SyntaxTreeNode tnOpArgs = null ;
-  SyntaxTreeNode[] tnBangs = null ;
+  SyntaxTreeNode[] tnBangs;
   SyntaxTreeNode[] heirs ;
   final Token t;
   bpa("Primitive expression") ;

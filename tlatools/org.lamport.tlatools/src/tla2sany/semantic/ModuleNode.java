@@ -1148,7 +1148,7 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     final Element ret = doc.createElement("ModuleNode");
     ret.appendChild(appendText(doc, "uniquename", getName().toString()));
 
-    SemanticNode[] nodes = null;
+    SemanticNode[] nodes;
     // constants
     //Element constants = doc.createElement("constants");
     nodes = getConstantDecls();

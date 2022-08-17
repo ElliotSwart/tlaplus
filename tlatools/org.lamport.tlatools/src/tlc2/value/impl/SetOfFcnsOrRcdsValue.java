@@ -39,7 +39,7 @@ public abstract class SetOfFcnsOrRcdsValue extends EnumerableValue {
 
 		final ValueEnumeration ve = elements(kOutOfN);
 
-		Value v = null;
+		Value v;
 		while ((v = ve.nextElement()) != null) {
 			vec.addElement(v);
 		}

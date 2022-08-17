@@ -103,7 +103,7 @@ public final class ObjLongTable<T> {
 	public T[] toArray(T[] a) {
 		a = (T[]) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), count);
 		final ObjLongTable<T>.Enumerator<T> keys2 = keys();
-		T e = null;
+		T e;
 		int i = 0;
 		while((e = keys2.nextElement()) != null) {
 			a[i++] = e;

@@ -342,7 +342,7 @@ public class PcalSymTab {
      * NOTE: Stop using FindSym; it's a bad hack.            *
      *********************************************************/
     public String UseThisVar (final String id, final String context) {
-        SymTabEntry se = null;
+        SymTabEntry se;
         int i = FindSym(id, context);
         if (i == symtab.size()) return id;
         se = symtab.elementAt(i);

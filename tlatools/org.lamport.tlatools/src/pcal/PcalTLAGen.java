@@ -1048,7 +1048,7 @@ public class PcalTLAGen
         final Changed cElse = new Changed(c);
         int lineUncThen;
         StringBuilder sb = new StringBuilder(prefix);
-        TLAExpr test = null;
+        TLAExpr test;
         test = AddSubscriptsToExpr(ast.test, SubExpr(Self(context)), c);
 //        Vector sv = test.toStringVector();
         sb.append("IF ");

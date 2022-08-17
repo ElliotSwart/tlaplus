@@ -42,7 +42,7 @@ public class GobbleOutput extends Thread
      }
    @Override
    public void run()
-    { InputStream outStream = null;
+    { InputStream outStream;
       if (stdOrError)
         { outStream = proc.getInputStream(); }
        else

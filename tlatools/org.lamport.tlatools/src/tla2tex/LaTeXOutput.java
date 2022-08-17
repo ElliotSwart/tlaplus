@@ -634,7 +634,7 @@ private void InnerWriteAlignmentFile(final Token[][] spec,
                its left--in most cases.
                
              **************************************************************/
-             Token ltok = null ;
+             Token ltok;
              int extraSpace = Integer.MAX_VALUE;
 
              if (   (pc.item > 1)

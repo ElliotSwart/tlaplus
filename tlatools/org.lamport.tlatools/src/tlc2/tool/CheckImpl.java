@@ -153,7 +153,7 @@ public abstract class CheckImpl extends ModelChecker {
    * state space.
    */
   public final TLCStateInfo[] generateNewTrace() throws IOException {
-    long pos = -1;
+    long pos;
     while ((pos = this.stateEnum.nextPos()) != -1) {
       final long fp = this.stateEnum.nextFP();
       if (!this.coverSet.contains(fp)) {

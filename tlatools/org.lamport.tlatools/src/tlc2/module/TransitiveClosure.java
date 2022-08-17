@@ -37,7 +37,7 @@ public class TransitiveClosure implements ValueConstants
         final Vect<Value> elemList = new Vect<>();
         final Hashtable<Value, Integer> fps = new Hashtable<>();
         int cnt = 0;
-        Value elem = null;
+        Value elem;
         while ((elem = elems.nextElement()) != null)
         {
             final TupleValue tv = (TupleValue) elem.toTuple();

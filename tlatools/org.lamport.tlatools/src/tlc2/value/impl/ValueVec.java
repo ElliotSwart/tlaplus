@@ -149,7 +149,7 @@ private Value [] elementData;
   /* Assume that the elements are sorted. */
   public final boolean search(final Value  elem, final boolean sorted) {
     if (sorted) {
-      int cmp = 0, mid = 0, low = 0, high = this.elementCount;
+      int cmp, mid, low = 0, high = this.elementCount;
       while (low < high) {
 	mid = (low + high) >> 1;
 	cmp = elem.compareTo(this.elementData[mid]);

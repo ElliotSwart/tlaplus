@@ -206,7 +206,7 @@ public class MP
      */
     public static final String NOT_APPLICABLE_VAL = "-1";
 
-    private static MP instance = null;
+    private static MP instance;
 
     private final Set warningHistory;
     private static final String CONFIG_FILE_ERROR = "TLC found an error in the configuration file at line %1%\n";
@@ -1784,8 +1784,8 @@ public class MP
     public static StringBuffer replaceString(final StringBuffer buffer, final String[] parameters)
     {
         // replace parameters, if any
-        int placeHolderPosition = -1;
-        String placeHolder = null;
+        int placeHolderPosition;
+        String placeHolder;
         // replace all parameters
         for (int i = 0; i < parameters.length; i++)
         {

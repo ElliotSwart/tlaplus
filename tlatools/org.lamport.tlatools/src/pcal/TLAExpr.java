@@ -350,7 +350,7 @@ public class TLAExpr
               {
                   curString = new StringBuilder(SpacesString(curAncTok.column - curAncCol));}
 
-            TLAToken curTok = null ;
+            TLAToken curTok;
             TLAToken lastTok = null ;
             int j = 0 ;
             while (j < curTokLine.size())

@@ -98,7 +98,7 @@ public abstract class SymbolNode extends LevelNode {
    */
   public final boolean sameOriginallyDefinedInModule(final SymbolNode otherNode) {
       if (this.getClass() == otherNode.getClass()) {
-          ModuleNode thisModule = null ;
+          ModuleNode thisModule;
           if (this instanceof OpDefNode) {
               final OpDefNode thisSrc = ((OpDefNode) this).getSource() ;
               if (thisSrc != ((OpDefNode) otherNode).getSource()) {

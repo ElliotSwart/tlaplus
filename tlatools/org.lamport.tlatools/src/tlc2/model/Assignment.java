@@ -169,7 +169,7 @@ public class Assignment extends Formula {
         {
             return null;
         }
-        int i = -1;
+        int i;
         if ( (i = tempRight.indexOf("\n")) != -1) 
         {
             tempRight = tempRight.substring(0, i + 1) + " ..."; 

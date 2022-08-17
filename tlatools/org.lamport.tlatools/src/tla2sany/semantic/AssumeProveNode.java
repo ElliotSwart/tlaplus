@@ -145,7 +145,7 @@ public class AssumeProveNode extends LevelNode {
       isBoxAssumeProve = value;
   }
 
-  private ThmOrAssumpDefNode goal = null ;
+  private ThmOrAssumpDefNode goal;
     /***********************************************************************
     * This is the named theorem or proof-step node whose body the          *
     * ASSUME/PROVE is.  Otherwise, it equals null.  In particular, it      *

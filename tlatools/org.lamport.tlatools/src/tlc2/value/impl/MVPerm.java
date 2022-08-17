@@ -114,7 +114,7 @@ public final class MVPerm implements IMVPerm {
 
   public String toString() {
     final StringBuilder sb = new StringBuilder("[");
-    int i = 0;
+    int i;
     for (i = 0; i < this.elems.length; i++) {
       if (this.elems[i] != null) {
 	sb.append(ModelValue.mvs[i].toString());

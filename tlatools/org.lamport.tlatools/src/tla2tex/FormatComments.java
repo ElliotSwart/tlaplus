@@ -133,7 +133,7 @@ public final class FormatComments
       /*********************************************************************
       * Tokenize the comment.                                              *
       *********************************************************************/
-      CToken[][] tokens = null ;
+      CToken[][] tokens;
       if(tlaMode)
         { tokens = TokenizeComment.Tokenize(vec, this);
         }
@@ -588,10 +588,10 @@ public final class FormatComments
     * ambiguous tokens should become TLA tokens.                           *
     ***********************************************************************/
     {int line = 0;
-     int item = 0;
-     CToken tok  = null ;
-     CToken ptok = null ;
-     CToken ntok = null ;
+     int item;
+     CToken tok;
+     CToken ptok;
+     CToken ntok;
      /**********************************************************************
      * Check for the following special cases.                              *
      *  - a "'" token is immediately followed by an IDENT.                 *
@@ -1076,7 +1076,7 @@ public final class FormatComments
       *********************************************************************/
       final boolean[] oneLine = new boolean[com.length] ;
 
-      boolean thisAligned = false ;
+      boolean thisAligned;
       boolean prevAligned = false;
         /*******************************************************************
         * True iff this or the previous line was aligned (case 2).         *
@@ -1314,7 +1314,7 @@ public final class FormatComments
             * zero.                                                       *
             **************************************************************/
           int popArg = 0 ;
-          boolean nest  = false ;
+          boolean nest;
           String nestArg  = "F" ;
           boolean isLabel = false ;
           String isLabelArg  = "F" ;
@@ -1554,7 +1554,7 @@ public final class FormatComments
     /***********************************************************************
     * Write out the opening of the comment.                                *
     ***********************************************************************/
-    String tempStr = "";
+    String tempStr;
        switch (commentType) {
            case ONE_LINE -> {
                tempStr = parameters.LaTeXOneLineCommentCommand + "{";
@@ -1626,7 +1626,7 @@ public final class FormatComments
       * argument of a LaTeXCommentPar environment.  In that case,          *
       * curOutput is the output for the label constructed thus far.        *
       *********************************************************************/
-    int item = 0;
+    int item;
      /**********************************************************************
      * The next token to process is com[line][item].                       *
      **********************************************************************/

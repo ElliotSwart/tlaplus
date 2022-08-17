@@ -332,7 +332,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 	 */
 	@Override
 	public final boolean suspendAll() {
-		boolean needWait = false;
+		boolean needWait;
 		synchronized (this) {
 			if (this.finish) {
 				return false;

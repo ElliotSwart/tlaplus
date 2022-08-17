@@ -12,7 +12,7 @@ public class ModuleRelatives {
 
   final ParseUnit     parseUnit;                              // The ParseUnit that THIS ModuleRelatives object is associated with
 
-  ModulePointer currentModule                   = null; // The TreeNode where the name of the current module appears in
+  ModulePointer currentModule; // The TreeNode where the name of the current module appears in
                                                         //   in the image field; using the tree node rather than the String
                                                         //   name of the module 
 

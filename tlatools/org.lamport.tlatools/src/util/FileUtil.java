@@ -89,7 +89,7 @@ public class FileUtil
             }
             // must be a directory:
             final String[] fnames = file.list();
-            File child = null;
+            File child;
             for (final String fname : Objects.requireNonNull(fnames)) {
                 child = new File(file, fname);
 

@@ -358,7 +358,7 @@ class trans {
         * contents, where inputVec[i] is the string containing the contents  *
         * of line i+1 of the input file.                                     *
         *********************************************************************/
-        List<String> inputVec = null;
+        List<String> inputVec;
         try
         {
             inputVec = fileToStringVector(pcalParams.TLAInputFile + /* (PcalParams.fromPcalFile ? ".pcal" : */TLAConstants.Files.TLA_EXTENSION /*)*/);
@@ -633,7 +633,7 @@ class trans {
          * tla-file input by the user, or inserted into the output by the
          * translator for pcal-file input.
          */
-        int translationLine = 0;
+        int translationLine;
 
         /*********************************************************************
          * Set algLine, algCol to the line and column just after the string   *
@@ -859,7 +859,7 @@ class trans {
         /*********************************************************************
         * Set ast to the AST node representing the entire algorithm.         *
         *********************************************************************/
-        AST ast = null;
+        AST ast;
         try
         {
             ast = parseAlgorithm.getAlgorithm(reader, foundFairBegin);
@@ -919,7 +919,7 @@ class trans {
         * do the translation by calling TLC. Otherwise, call the ordinary    *
         * Translate method.                                                  *
         *********************************************************************/
-        Vector<String> translation = null;
+        Vector<String> translation;
 
         if (pcalParams.tlcTranslation())
         {
@@ -946,7 +946,7 @@ class trans {
         }
 
 		final Matcher m = Validator.CHECKSUM_PATTERN.matcher(output.get(mapping.tlaStartLine - 1));
-		ValidationCallBack.Generate g = null;
+		ValidationCallBack.Generate g;
 		if (m.find()) {
 			// Do TLA_CHECKSUM first because doing PCAL_CHECKSUM (at the front of the
 			// string) invalidates start end enf of the TLA_CHECKSUM match.
@@ -1741,7 +1741,7 @@ class trans {
      */
     private static boolean OutputHelpMessage()
     {
-        Vector<String> helpVec = null;
+        Vector<String> helpVec;
         try
         {
             helpVec = PcalResourceFileReader.ResourceFileToStringVector("help.txt");

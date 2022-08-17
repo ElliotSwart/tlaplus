@@ -18,8 +18,8 @@
 package pcal;
 
 public class IntPair
-  { public int one = 0 ;
-    public int two = 0 ;
+  { public int one;
+    public int two;
     public IntPair(final int a, final int b)
      { one = a ; 
        two = b ;

@@ -230,7 +230,7 @@ public final class SetOfStates {
 	private int iteratorIndex = 0;
 	
 	public TLCState next() {
-		TLCState next = null;
+		TLCState next;
 		while ((next = this.states[iteratorIndex++]) == null) {
 			// No-op loop
 		}

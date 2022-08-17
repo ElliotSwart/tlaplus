@@ -23,7 +23,7 @@ public class NonLeafProofNode extends ProofNode {
   /*************************************************************************
   * The fields.                                                            *
   *************************************************************************/
-  private LevelNode[] steps = null ;
+  private LevelNode[] steps;
     /***********************************************************************
     * An array of nodes representing the steps of the proof.  It is read   *
     * publicly by the method getSteps().  Since any non-leaf proof must    *

@@ -632,7 +632,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 	
 	// Initialize the debugger to immediately halt on the first frame.
 	private volatile int targetLevel = 1;
-	private volatile Step step = Step.In;
+	private volatile Step step;
 	private volatile Granularity granularity = Granularity.Formula;
 	
 	private volatile boolean haltExp;

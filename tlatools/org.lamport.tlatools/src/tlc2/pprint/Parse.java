@@ -314,8 +314,8 @@ public class Parse {
     try {
       // construct the parse tree node for this record
       final Node node = new Node(string,first,Node.RECORDPAIR);
-      Node field = null;
-      Node value = null;
+      Node field;
+      Node value;
 
       // get field name
       field = parse(string,last);
@@ -476,8 +476,8 @@ public class Parse {
     try {
       // construct the parse tree node for this function
       final Node node = new Node(string,first,Node.FUNCTIONPAIR);
-      Node domain = null;
-      Node range = null;
+      Node domain;
+      Node range;
 
       // get domain value
       domain = parse(string,last);

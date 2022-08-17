@@ -167,7 +167,7 @@ public final FcnParams params;       // the function formals
         for (int i = exlen-1; i >= 0; i--) {
           final ValueExcept ex = this.excepts[i];
           final Value  arg = ex.current();
-          boolean inExcept = true;
+          boolean inExcept;
           inExcept = arg.equals(args);
           if (inExcept) {
             if (ex.isLast()) { res = ex.value; break; }
@@ -433,7 +433,7 @@ public final FcnParams params;       // the function formals
       final FcnLambdaValue fcn = new FcnLambdaValue(this);
       final int exslen = exs.length;
       if (exslen != 0) {
-        int i = 0;
+        int i;
         for (i = exs.length-1; i >= 0; i--) {
           if (exs[i].idx >= exs[i].path.length) break;
         }

@@ -99,7 +99,7 @@ public final class Misc
     ***********************************************************************/
     { StringBuilder fStr = new StringBuilder("" + f);
       final int ePos = fStr.indexOf("E");
-      int shiftRight = 0 ;
+      int shiftRight;
       int ptPos;
       float tenToTheMinusD = 1;
       int i = d ;
@@ -317,7 +317,7 @@ public final class Misc
   { int lineLen = 0 ; 
     int nextChar = 0 ;
     final StringBuilder newStr = new StringBuilder();
-    char ch = '0' ;
+    char ch;
     while (nextChar < str.length())
       { ch = str.charAt(nextChar) ;
         if (ch == '\t')

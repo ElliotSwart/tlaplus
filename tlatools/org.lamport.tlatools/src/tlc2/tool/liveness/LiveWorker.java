@@ -877,7 +877,7 @@ public class LiveWorker implements Callable<Boolean> {
 		// Wait for the prefix-path to be searched/generated and fully printed.
 		// get() is a blocking call that makes this thread wait for the executor
 		// to finish its job of searching and printing the prefix-path.
-		List<TLCStateInfo> states = new ArrayList<>(0);
+		List<TLCStateInfo> states;
 		try {
 			states = future.get();
 		} catch (final ExecutionException ee) {

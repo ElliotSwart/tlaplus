@@ -1389,7 +1389,7 @@ public boolean addLabel(final LabelNode odn) {
 
   @Override
   protected Element getSymbolElement(final Document doc, final SymbolContext context) {
-    Element ret = null;
+    Element ret;
       switch (getKind()) {
           case UserDefinedOpKind -> {
               ret = doc.createElement("UserDefinedOpKind");

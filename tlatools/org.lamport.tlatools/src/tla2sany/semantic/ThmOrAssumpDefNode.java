@@ -623,7 +623,7 @@ public class ThmOrAssumpDefNode extends SymbolNode
   @Override
   protected Element getSymbolElement(final Document doc, final tla2sany.xml.SymbolContext context) {
     assert(this.body != null); //A theorem or assumption definition without a body does not make sense.
-    Element e = null;
+    Element e;
     if (theorem) {
       e = doc.createElement("TheoremDefNode");
     }

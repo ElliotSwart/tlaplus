@@ -548,7 +548,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
                 try {
                     // If the partition is empty, next throws a NSEE.
                     long x = itr.next();
-                    long y = 0;
+                    long y;
                     while ((y = itr.next(end)) != EMPTY) {
                         final long d = y - x;
                         // d < 0 indicates that the array is not sorted.
@@ -1204,7 +1204,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
 		private final Indexer indexer;
 		private final WRAP canWrap;
 
-		private long pos = 0;
+		private long pos;
 		private long elementsRead = 0L;
 		
 		public Iterator(final LongArray array, final long elements, final Indexer indexer) {

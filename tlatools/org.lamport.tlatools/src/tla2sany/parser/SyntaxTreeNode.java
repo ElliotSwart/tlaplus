@@ -465,7 +465,7 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
    * ordered.   LL 26 Nov 2009
    */
   private void updateLocation() {
-      int lvi = 0;
+      int lvi;
       location[0] = java.lang.Integer.MAX_VALUE;
       location[1] = java.lang.Integer.MAX_VALUE;
       location[2] = java.lang.Integer.MIN_VALUE;

@@ -64,7 +64,7 @@ public class TypedSet {
             return result;
         }
  
-        String[] parsedSet = null;
+        String[] parsedSet;
 
         // split by comma surrounded by any kind of spaces/tabs/new lines
         parsedSet = set.split(PATTERN);

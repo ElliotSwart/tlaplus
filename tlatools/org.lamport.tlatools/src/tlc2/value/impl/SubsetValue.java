@@ -423,7 +423,7 @@ public Value  set;           // SUBSET set
 			// Cache the sum of all binomials lt n for 0..elems.size choose k.
 			int choice = Math.max(k - 1, 0);
 			sums.put(-1L, choice); // As base for idx = 0 (see lowerEntry below);
-			long bin = 0L;
+			long bin;
 			while ((bin = memoizedBinomial(choice, k)) < n) {
 				sums.put(bin, ++choice);
 			}

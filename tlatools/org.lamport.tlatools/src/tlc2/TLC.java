@@ -1359,7 +1359,7 @@ public class TLC {
 	 *         days, nobody cares for minutes or seconds).
 	 */
     public static String convertRuntimeToHumanReadable(long runtime) {
-		SimpleDateFormat df = null;
+		SimpleDateFormat df;
 		if (runtime > (60 * 60 * 24 * 1000L)) {
 			df = new SimpleDateFormat("D'd' HH'h'");
 			runtime -= 86400000L;

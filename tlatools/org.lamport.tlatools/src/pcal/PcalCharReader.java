@@ -46,8 +46,8 @@ class PcalCharReader
       * The current line of input, or null if at the end of the input.     *
       *********************************************************************/
 
-    protected int line  = 0;                
-    private int column  = 0;                
+    protected int line;
+    private int column;
     private int vcolumn = 0;
       /*********************************************************************
       * The line and column numbers of the next character to be returned   *
@@ -59,8 +59,8 @@ class PcalCharReader
       * In Java fashion, these are numbered starting at 0.                 *
       *********************************************************************/
 
-    private int lastLine   = 0 ;
-    private int lastColumn = 0 ;
+    private int lastLine;
+    private int lastColumn;
       /*********************************************************************
       * These values marks the position in the input vector immediately    *
       * following the last character in the input stream.                  *

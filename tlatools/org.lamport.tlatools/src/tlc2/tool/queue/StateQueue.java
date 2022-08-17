@@ -238,7 +238,7 @@ public abstract class StateQueue implements IStateQueue {
 	 */
 	@Override
     public final boolean suspendAll() {
-		boolean needWait = false;
+		boolean needWait;
 		synchronized (this) {
 			if (this.finish) {
 				return false;

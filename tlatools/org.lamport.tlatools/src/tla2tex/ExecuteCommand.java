@@ -16,7 +16,7 @@ public class ExecuteCommand
 { public static void executeCommand(final String cmd, final Parameters parameters)
    {  int errorCode = -99;
       try { final Runtime rt = Runtime.getRuntime() ;
-            Process proc = null ;
+            Process proc;
             if (parameters.MetaDir.equals("")) {
                 proc = rt.exec(cmd);
             } else {

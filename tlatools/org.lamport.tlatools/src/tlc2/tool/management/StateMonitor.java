@@ -61,7 +61,7 @@ public class StateMonitor {
 			interval = Integer.parseInt(args[0]);
 		}
 		
-		JMXServiceURL url = null;
+		JMXServiceURL url;
 		try {
 			final List<VirtualMachineDescriptor> vmds = com.sun.tools.attach.VirtualMachine.list();
 			vmds.sort((o1, o2) -> {
@@ -77,7 +77,7 @@ public class StateMonitor {
                 return 0;
             });
 			
-			int index = 1;
+			int index;
 			try (final Scanner scanner = new Scanner(System.in)) {
 				rd: while (true) {
 					index = 1;

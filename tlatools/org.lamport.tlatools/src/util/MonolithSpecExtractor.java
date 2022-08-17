@@ -56,7 +56,7 @@ public class MonolithSpecExtractor {
 		try (final BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 			final StringBuilder config = new StringBuilder();
 
-			String line = "";
+			String line;
 			while ((line = reader.readLine()) != null) {
 				if ((config.length() > 0) && line.matches("====.*")) {
 					break;
@@ -81,7 +81,7 @@ public class MonolithSpecExtractor {
 			 final BufferedReader reader = new BufferedReader(new FileReader(in))) {
 			boolean active = false;
 
-			String line = "";
+			String line;
 			while ((line = reader.readLine()) != null) {
 				if (active && line.matches("====.*")) {
 					pw.println(line); // include end marker.
