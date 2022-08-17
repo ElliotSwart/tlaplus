@@ -30,6 +30,7 @@
 	</scm>
 
 	<properties>
+		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 
@@ -64,6 +65,7 @@
 		<test.model.output>${project.build.directory}/test-model</test.model.output>
 		<dist.output>${project.build.directory}/dist</dist.output>
 		<dist.name>tlatools</dist.name>
+		<benchmark.out>${project.build.directory}/benchmark</benchmark.out>
 	</properties>
 
 	<build>
@@ -506,7 +508,7 @@
 
 								<Built-By>${user.name}</Built-By>
 								<Build-Tag>${env.BUILD_TAG}</Build-Tag>
-								<Build-TimeStamp>${maven.build.timestamp.format}</Build-TimeStamp>
+								<Build-TimeStamp>${maven.build.timestamp}</Build-TimeStamp>
 								<!--<Build-Rev></Build-Rev>-->
 
 								<!-- Git revision -->
@@ -893,6 +895,7 @@
 				<!-- Standard tests should not be run -->
 				<skip.surefire.tests>true</skip.surefire.tests>
 				<skip.failsafe.tests>true</skip.failsafe.tests>
+				<benchmark.class></benchmark.class> <!-- Overridden with a specific benchmark if appropriate -->
 			</properties>
 			<build>
 				<plugins>
@@ -946,7 +949,7 @@
 						<artifactId>maven-shade-plugin</artifactId>
 						<version>3.3.0</version>
 						<configuration>
-							<outputDirectory>${project.build.directory}</outputDirectory>
+							<outputDirectory>${benchmark.out}</outputDirectory>
 							<finalName>${project.artifactId}-${project.version}-benchmark</finalName>
 							<createDependencyReducedPom>false</createDependencyReducedPom>
 							<minimizeJar>false</minimizeJar>
@@ -1032,18 +1035,9 @@
 						<configuration>
 						  <async>false</async>
 						  <executable>java</executable>
-						  <arguments>
-							<argument>-jar</argument>
-							<argument>${project.build.directory}/${project.artifactId}-${project.version}-benchmark.jar</argument>
-							<argument>-wi 1</argument>
-							<argument>-i1</argument>
-							<argument>-f1</argument>
-							<argument>-rf json</argument>
-							<argument>-rff DiskQueueBenchmark-$(date +%s)-$(git rev-parse --short HEAD).json</argument>
-							<!--<argument>-jvmArgsPrepend "-ea -Xms8192m -Xmx8192m"</argument>
-							<argument>-jvmArgsAppend "-Dtlc2.tool.ModuleOverwritesBenchmark.base=${test.model.output}"</argument>-->
-							<argument>tlc2.tool.queue.DiskQueueBenchmark</argument>
-						  </arguments>
+						  <commandlineArgs>
+							-jar ${benchmark.out}/${project.artifactId}-${project.version}-benchmark.jar -wi 1 -i1 -f1 -rf json -rff "${project.build.directory}/benchmark/Benchmark-${benchmark.class}-${maven.build.timestamp}-${git.shortRevision}.json" -jvmArgsPrepend "-ea -Xms8192m -Xmx8192m" -jvmArgsAppend "-Dtlc2.tool.ModuleOverwritesBenchmark.base=${test.model.output}" ${benchmark.class}
+						  </commandlineArgs>
 						</configuration>
 					</plugin>
 				</plugins>
