@@ -455,9 +455,9 @@
 								<include>pcal/RABTest_TTraceTest.java</include>
 								<include>pcal/SBBTest_TTraceTest.java</include>
 								<include>tlc2/tool/PrintTraceRaceTest_TTraceTest.java</include>
-								<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
-								<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
+								<!--
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test_TTraceTest.java</include>
+								-->
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test_TTraceTest.java</include>
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test_TTraceTest.java</include>
 								<include>tlc2/tool/liveness/ErrorTraceConstructionTest_TTraceTest.java</include>
@@ -904,7 +904,10 @@
 										<include>pcal/RABTest_TTraceTest.java</include>
 										<include>pcal/SBBTest_TTraceTest.java</include>
 										<include>tlc2/tool/PrintTraceRaceTest_TTraceTest.java</include>
-										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test_TTraceTest.java</include>
+										<!-- 
+											<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test_TTraceTest.java</include>
+										-->
+										
 										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test_TTraceTest.java</include>
 										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test_TTraceTest.java</include>
 										<include>tlc2/tool/liveness/ErrorTraceConstructionTest_TTraceTest.java</include>
