@@ -151,7 +151,6 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		case SubstInKind: {
 			final SubstInNode expr1 = (SubstInNode) expr;
 			final Subst[] subs = expr1.getSubsts();
-			final int slen = subs.length;
 			Context con1 = con;
             for (final Subst sub : subs) {
                 con1 = con1.cons(sub.getOp(), tool.getVal(sub.getExpr(), con, false));

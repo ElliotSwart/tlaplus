@@ -1,23 +1,17 @@
 package tlc2.tool.queue;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import org.junit.experimental.categories.Category;
 import tla2sany.semantic.OpDeclNode;
-import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
-import tlc2.tool.TLCStateMut;
 import tlc2.tool.TLCStates;
-import tlc2.value.IMVPerm;
-import tlc2.value.IValue;
 import util.LongTest;
 
 public class DiskStateQueueLongTest extends StateQueueTest {

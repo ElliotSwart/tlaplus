@@ -25,8 +25,6 @@
  ******************************************************************************/
 package tlc2.util;
 
-import java.io.IOException;
-
 import tlc2.tool.Action;
 import tlc2.tool.TLCState;
 

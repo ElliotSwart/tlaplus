@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 
 import org.junit.Assume;

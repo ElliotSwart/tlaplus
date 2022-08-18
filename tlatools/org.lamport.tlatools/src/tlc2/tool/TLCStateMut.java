@@ -308,8 +308,7 @@ private final IValue[] values;
 
   @Override
   public boolean allAssigned() {
-    final int len = this.values.length;
-      for (final IValue value : this.values) {
+    for (final IValue value : this.values) {
           if (value == null) return false;
       }
     return true;
@@ -317,8 +316,7 @@ private final IValue[] values;
 
     @Override
 	public boolean noneAssigned() {
-		final int len = this.values.length;
-        for (final IValue value : this.values) {
+		for (final IValue value : this.values) {
             if (value != null) {
                 return false;
             }
@@ -342,8 +340,7 @@ private final IValue[] values;
   @Override
   public void write(final IValueOutputStream vos) throws IOException {
     super.write(vos);
-    final int len = this.values.length;
-      for (final IValue value : this.values) {
+    for (final IValue value : this.values) {
           value.write(vos);
       }
   }

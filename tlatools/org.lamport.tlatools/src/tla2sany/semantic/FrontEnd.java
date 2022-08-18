@@ -8,7 +8,6 @@ package tla2sany.semantic;
 ***************************************************************************/
 
 
-import tla2sany.parser.ParseException;
 import tla2sany.st.TreeNode;
 import util.FilenameToStream;
 import util.NamedInputStream;

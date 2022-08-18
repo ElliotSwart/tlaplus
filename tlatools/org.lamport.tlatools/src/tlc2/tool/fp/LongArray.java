@@ -1,7 +1,6 @@
 // Copyright (c) 2016 Markus Alexander Kuppe. All rights reserved.
 package tlc2.tool.fp;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;

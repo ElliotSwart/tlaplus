@@ -106,7 +106,6 @@ private String metadir;
 
     // Test if the fingerprint is already in the hashtable.
     if (list != null) {
-      final int listlen = list.length;
         for (final long l : list) {
             if (l == fp) return true;
         }
@@ -138,7 +137,6 @@ private String metadir;
 
     // Test if the fingerprint is already in the hashtable.
     if (list != null) {
-      final int listlen = list.length;
         for (final long l : list) {
             if (l == fp) return true;
         }

@@ -454,7 +454,6 @@ public class PcalFixIDs {
             final Vector<TLAToken> tv = expr.tokens.elementAt(i);
             String useMe;
             for (int j = 0; j < tv.size(); j++) {
-                final int shift = 0;
                 final TLAToken tok = tv.elementAt(j);
                 if (tok.type == TLAToken.IDENT) {
                     useMe = st.UseThisVar(tok.string, context);

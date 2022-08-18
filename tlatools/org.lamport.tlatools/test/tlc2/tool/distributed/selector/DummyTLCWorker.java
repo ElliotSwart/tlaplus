@@ -4,7 +4,6 @@ import java.rmi.RemoteException;
 
 import tlc2.tool.TLCState;
 import tlc2.tool.TLCStateVec;
-import tlc2.tool.WorkerException;
 import tlc2.tool.distributed.NextStateResult;
 import tlc2.tool.distributed.TLCWorkerRMI;
 import tlc2.tool.distributed.TLCWorkerSmartProxy;

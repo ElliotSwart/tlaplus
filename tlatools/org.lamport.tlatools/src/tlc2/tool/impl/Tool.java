@@ -1557,7 +1557,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   @ExpectInlined
   private TLCState getNextStatesImplSubstInKind(final Action action, final SubstInNode pred1, final ActionItemList acts, final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm) {
   	final Subst[] subs = pred1.getSubsts();
-  	final int slen = subs.length;
+
   	Context c1 = c;
       for (final Subst sub : subs) {
           c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, coverage ? sub.getCM() : cm, toolId));
@@ -1568,7 +1568,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   @ExpectInlined
   private TLCState getNextStatesImplApSubstInKind(final Action action, final APSubstInNode pred1, final ActionItemList acts, final Context c, final TLCState s0, final TLCState s1, final INextStateFunctor nss, final CostModel cm) {
   	final Subst[] subs = pred1.getSubsts();
-  	final int slen = subs.length;
+
   	Context c1 = c;
       for (final Subst sub : subs) {
           c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, cm, toolId));
@@ -2328,7 +2328,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   @ExpectInlined
   private Value evalImplLetInKind(final LetInNode expr1, final Context c, final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
 	final OpDefNode[] letDefs = expr1.getLets();
-	final int letLen = letDefs.length;
+
 	Context c1 = c;
       for (final OpDefNode opDef : letDefs) {
           if (opDef.getArity() == 0) {
@@ -2342,7 +2342,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   @ExpectInlined
   private Value evalImplSubstInKind(final SubstInNode expr1, final Context c, final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
   	final Subst[] subs = expr1.getSubsts();
-  	final int slen = subs.length;
+
   	Context c1 = c;
       for (final Subst sub : subs) {
           c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, coverage ? sub.getCM() : cm, toolId));
@@ -2353,7 +2353,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   @ExpectInlined
   private Value evalImplApSubstInKind(final APSubstInNode expr1, final Context c, final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
   	final Subst[] subs = expr1.getSubsts();
-  	final int slen = subs.length;
+
   	Context c1 = c;
       for (final Subst sub : subs) {
           c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, true, cm, toolId));
@@ -2708,7 +2708,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           }
           case OPCODE_case ->   // Case
           {
-              final int alen = args.length;
               SemanticNode other = null;
               for (final ExprOrOpArgNode arg : args) {
                   final OpApplNode pairNode = (OpApplNode) arg;
@@ -2745,7 +2744,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           }
           case OPCODE_cl ->     // ConjList
           {
-              final int alen = args.length;
               for (final ExprOrOpArgNode arg : args) {
                   final Value bval = this.eval(arg, c, s0, s1, control, cm);
                   if (!(bval instanceof BoolValue)) {
@@ -2760,7 +2758,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           }
           case OPCODE_dl ->     // DisjList
           {
-              final int alen = args.length;
               for (final ExprOrOpArgNode arg : args) {
                   final Value bval = this.eval(arg, c, s0, s1, control, cm);
                   if (!(bval instanceof BoolValue)) {
@@ -3382,7 +3379,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           case SubstInKind -> {
               final SubstInNode pred1 = (SubstInNode) pred;
               final Subst[] subs = pred1.getSubsts();
-              final int slen = subs.length;
+
               Context c1 = c;
               for (final Subst sub : subs) {
                   c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, coverage ? sub.getCM() : cm, toolId));
@@ -3394,7 +3391,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           case APSubstInKind -> {
               final APSubstInNode pred1 = (APSubstInNode) pred;
               final Subst[] subs = pred1.getSubsts();
-              final int slen = subs.length;
+
               Context c1 = c;
               for (final Subst sub : subs) {
                   c1 = c1.cons(sub.getOp(), this.getVal(sub.getExpr(), c, false, cm, toolId));
@@ -4444,7 +4441,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
         }
 
         final ExprOrOpArgNode[] args = expr.getArgs();
-        final int alen = args.length;
         for (final ExprOrOpArgNode arg : args) {
             if (arg != null) {
                 level = Math.max(level, getLevelBound(arg, c, forToolId));

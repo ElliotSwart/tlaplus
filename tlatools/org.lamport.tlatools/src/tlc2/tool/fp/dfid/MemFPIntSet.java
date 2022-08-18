@@ -6,8 +6,6 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.rmi.RemoteException;
-
 import tlc2.output.EC;
 import tlc2.output.MP;
 import util.Assert;

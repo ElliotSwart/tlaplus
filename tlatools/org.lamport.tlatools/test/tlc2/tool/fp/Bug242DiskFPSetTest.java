@@ -4,7 +4,6 @@ package tlc2.tool.fp;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
 import org.junit.Test;
 

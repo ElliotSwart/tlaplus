@@ -31,8 +31,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 
 import org.junit.Test;

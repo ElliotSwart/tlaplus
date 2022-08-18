@@ -125,7 +125,7 @@ public class TLCExt {
 			// TODO: This is clumsy (we regenerate all next-states again) and incorrect if
 			// two actions generate the same successor states. It's good enough for now
 			// until the Action instance was passed down the call-stack.
-			LOOP: for (final Action act : tool.getActions()) {
+			for (final Action act : tool.getActions()) {
 				final StateVec nextStates = tool.getNextStates(act, s0);
 				if (nextStates.contains(s1)) {
 					action = act;

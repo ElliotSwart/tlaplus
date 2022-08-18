@@ -5,7 +5,6 @@
 package tlc2.tool.fp.dfid;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
 /**
  * An <code>MultiFPInt</code> is a set of 64-bit fingerprints.

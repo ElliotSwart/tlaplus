@@ -26,7 +26,6 @@
 
 package tlc2.tool.liveness;
 
-import java.io.IOException;
 import java.util.function.Supplier;
 
 import tlc2.output.EC;

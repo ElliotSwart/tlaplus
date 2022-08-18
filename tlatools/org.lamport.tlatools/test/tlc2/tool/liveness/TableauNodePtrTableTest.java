@@ -26,8 +26,6 @@
 
 package tlc2.tool.liveness;
 
-import java.util.Arrays;
-
 import org.junit.Test;
 
 import static org.junit.Assert.*;

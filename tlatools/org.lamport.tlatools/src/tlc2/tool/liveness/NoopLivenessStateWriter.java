@@ -25,8 +25,6 @@
  ******************************************************************************/
 package tlc2.tool.liveness;
 
-import java.io.IOException;
-
 import tlc2.tool.Action;
 import tlc2.tool.TLCState;
 import tlc2.util.BitVector;

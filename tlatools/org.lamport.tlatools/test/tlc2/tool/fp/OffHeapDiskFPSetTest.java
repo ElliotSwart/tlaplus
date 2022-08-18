@@ -34,7 +34,6 @@ import static tlc2.tool.fp.OffHeapDiskFPSet.EMPTY;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

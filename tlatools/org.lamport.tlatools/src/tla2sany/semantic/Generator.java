@@ -238,9 +238,6 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			return args;
 		}
 
-		public final Vector<ExprOrOpArgNode> getArgsVector() {
-			return argsVector;
-		}
 
 
 		/** Append a new segment to the compound name of the operator */

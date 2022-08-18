@@ -5,7 +5,6 @@
 package tlc2.tool.fp.dfid;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
 /**
  * <b>Note:</b> All concrete subclasses of this class are required to

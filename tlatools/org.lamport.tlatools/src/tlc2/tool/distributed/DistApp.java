@@ -5,8 +5,6 @@
 
 package tlc2.tool.distributed;
 
-import java.rmi.RemoteException;
-
 import tlc2.tool.IStateFunctor;
 import tlc2.tool.TLCState;
 import tlc2.tool.TLCStateInfo;

@@ -122,7 +122,7 @@ public interface SymbolNodeValueLookupProvider {
 			case ASTConstants.LetInKind -> {
 				final LetInNode expr1 = (LetInNode) expr;
 				final OpDefNode[] letDefs = expr1.getLets();
-				final int letLen = letDefs.length;
+
 				Context c1 = c;
 				int level = 0;
 				for (final OpDefNode opDef : letDefs) {
@@ -134,7 +134,6 @@ public interface SymbolNodeValueLookupProvider {
 			case ASTConstants.SubstInKind -> {
 				final SubstInNode expr1 = (SubstInNode) expr;
 				final Subst[] subs = expr1.getSubsts();
-				final int slen = subs.length;
 				Context c1 = c;
 				for (final Subst sub : subs) {
 					c1 = c1.cons(sub.getOp(), getVal(sub.getExpr(), c, true, forToolId));
@@ -147,7 +146,7 @@ public interface SymbolNodeValueLookupProvider {
 			case ASTConstants.APSubstInKind -> {
 				final APSubstInNode expr1 = (APSubstInNode) expr;
 				final Subst[] subs = expr1.getSubsts();
-				final int slen = subs.length;
+
 				Context c1 = c;
 				for (final Subst sub : subs) {
 					c1 = c1.cons(sub.getOp(), getVal(sub.getExpr(), c, true, forToolId));

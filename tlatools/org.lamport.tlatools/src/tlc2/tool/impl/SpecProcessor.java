@@ -606,7 +606,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 					final Class<?>[] candidateClasses = index.get();
 					for (final Class<?> c : candidateClasses) {
 						final Method[] candidateMethods = c.getDeclaredMethods();
-						LOOP: for (final Method m : candidateMethods) {
+						for (final Method m : candidateMethods) {
 							
 							
 							final Evaluation evaluation = m.getAnnotation(Evaluation.class);

@@ -27,8 +27,6 @@ package tlc2.tool.liveness;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
-
 import org.junit.Test;
 
 import tlc2.output.EC;

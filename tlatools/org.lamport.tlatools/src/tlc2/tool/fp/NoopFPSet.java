@@ -25,7 +25,6 @@
  ******************************************************************************/
 package tlc2.tool.fp;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
 
 import tlc2.tool.TLCTrace;

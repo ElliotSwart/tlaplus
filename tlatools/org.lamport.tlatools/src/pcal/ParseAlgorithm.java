@@ -3956,21 +3956,6 @@ public class ParseAlgorithm
    }
    
    /**
-    * Returns the position of the first "{", "}", quote ("), "(*", or
-    * "\*" at or after position col in str, or str.size() if there is
-    * none.
-    * @param str
-    * @param col
-    * @return
-    */
-   private int NextBraceQuoteOrCommentCol(final String str, final int col) {
-       final String[] splitStr =
-           str.substring(col).split("\\{|}|\"|\\(\\*|\\\\\\*");
-       if (splitStr.length == 0) { return col ; }
-       return col + splitStr[0].length();
-   }
-   
-   /**
     * Returns the position of the first character not a letter, number,
     * or "_" at or after position col in str, or str.size() if there is
     * none.

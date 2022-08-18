@@ -226,7 +226,7 @@ public boolean addLabel(final LabelNode odn) {
   public final boolean levelCheck(final int iter) {
     if (levelChecked >= iter) {return true ;}
       levelChecked = iter;
-    final boolean retVal = true ;
+
       for (final FormalParamNode param : params) {
           if (param != null) {
               param.levelCheck(iter);

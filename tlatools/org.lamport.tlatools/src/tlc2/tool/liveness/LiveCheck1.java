@@ -5,7 +5,6 @@
 
 package tlc2.tool.liveness;
 
-import java.io.IOException;
 import java.util.Objects;
 import java.util.function.Supplier;
 

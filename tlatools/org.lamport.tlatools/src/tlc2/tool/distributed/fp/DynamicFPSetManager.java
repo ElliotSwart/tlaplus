@@ -2,7 +2,6 @@
 package tlc2.tool.distributed.fp;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import tlc2.tool.distributed.TLCWorker;

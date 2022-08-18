@@ -5,7 +5,6 @@
 
 package tlc2.tool.queue;
 
-import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

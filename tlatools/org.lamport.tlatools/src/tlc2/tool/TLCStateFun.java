@@ -5,7 +5,6 @@
 
 package tlc2.tool;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 

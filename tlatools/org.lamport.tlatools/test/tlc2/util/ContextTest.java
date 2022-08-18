@@ -34,7 +34,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import tla2sany.parser.SyntaxTreeNode;
-import tla2sany.semantic.AbortException;
 import tla2sany.semantic.ModuleNode;
 import tla2sany.semantic.OpApplNode;
 import tla2sany.semantic.SymbolNode;
