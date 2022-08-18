@@ -13,7 +13,7 @@ import org.junit.experimental.categories.Category;
 import util.LongTest;
 import util.TLCRuntime;
 
-public class OffHeapDiskFPSetLongTest extends FPSetLongTestCase {
+public class OffHeapDiskFPSetLongTest extends FPSetLongTest {
 	
 	private static final int FLUSHES = 4;
 

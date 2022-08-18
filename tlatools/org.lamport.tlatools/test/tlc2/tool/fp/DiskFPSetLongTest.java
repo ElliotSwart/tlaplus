@@ -2,7 +2,7 @@ package tlc2.tool.fp;
 
 import java.io.IOException;
 
-public class DiskFPSetLongTest extends FPSetLongTestCase {
+public class DiskFPSetLongTest extends FPSetLongTest {
 
 	/* (non-Javadoc)
 	 * @see tlc2.tool.fp.AbstractFPSetTest#getFPSet(int)

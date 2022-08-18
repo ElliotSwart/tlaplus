@@ -46,7 +46,7 @@
 		<!-- by ant are not visible to maven. In this case it results in sonar not finding necessary         -->
 		<!-- data to include coverage information. The properties below make sure that sonar finds the data. -->
 		<!--
-		<sonar.sources>src-aj</sonar.sources>
+		<sonar.sources>src-aspectj</sonar.sources>
 		<sonar.tests>,test-verify,test-long,test-concurrent</sonar.tests>-->
 
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -54,7 +54,7 @@
 		<sonar.login>e459e933ebed0530c8350662d4e147539dfe6a82</sonar.login>
 
 		<class.src>${project.basedir}/src</class.src>
-		<class.src.aj>${project.basedir}/src-aj</class.src.aj>
+		<class.src.aspectj>${project.basedir}/src-aspectj</class.src.aspectj>
 		<class.output>${project.build.directory}/class</class.output>
 		<test.src>${project.basedir}/test</test.src>
 		<test.src.benchmark>${project.basedir}/test-benchmark</test.src.benchmark>
@@ -926,7 +926,78 @@
 		<!-- Executes long-running unit tests -->
 		<profile>
 			<id>test-long</id>
-
+			<properties>
+				<skip.surefire.tests>true</skip.surefire.tests>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>3.0.0-M7</version>
+						<configuration>
+							<skipTests>${skip.failsafe.tests}</skipTests>
+							<forkCount>1</forkCount>
+							<skip>true</skip>
+							<reuseForks>false</reuseForks>
+							<threadCount>1</threadCount>
+							<argLine>-javaagent:${org.aspectj:aspectjweaver:jar} -ea -XX:+UseParallelGC</argLine>
+							<redirectTestOutputToFile>true</redirectTestOutputToFile>
+							<runOrder>alphabetical</runOrder>
+							<systemProperties>
+								<org.aspectj.weaver.showWeaveInfo>false</org.aspectj.weaver.showWeaveInfo>
+								<aj.weaving.verbose>false</aj.weaving.verbose>
+								<tlc2.tool.fp.FPSet.impl>tlc2.tool.fp.OffHeapDiskFPSet</tlc2.tool.fp.FPSet.impl>
+								<tlc2.tool.distributed.TLCWorker.threadCount>4</tlc2.tool.distributed.TLCWorker.threadCount>
+							</systemProperties>
+							<groups>util.LongTest</groups>
+							<!-- Exclude .class files -->
+							<classpathDependencyScopeExclude>compile</classpathDependencyScopeExclude>
+							<useManifestOnlyJar>false</useManifestOnlyJar>
+							<reportsDirectory>${project.build.directory}/test-reports</reportsDirectory>
+							<additionalClasspathElements>
+								<additionalClasspathElement>target/test-model</additionalClasspathElement>
+							</additionalClasspathElements>
+						</configuration>
+						<executions>
+							<execution>
+								<!-- The fewer there are of these, the faster the suite will run -->
+								<id>long-tests</id>
+								<goals>
+									<goal>integration-test</goal>
+								</goals>
+								<configuration>
+									<skip>false</skip>
+									<includes>
+										<include>pcal/MacroQuicksortTest.java</include>
+										<include>pcal/SimpleMultiProcTest.java</include>
+										<include>tlc2/tool/fp/OffHeapDiskFPSetTest.java</include>
+										<include>tlc2/tool/fp/AbstractHeapBasedDiskFPSetTest.java</include>
+									</includes>
+								</configuration>
+							</execution>
+							<execution>
+								<!-- The fewer there are of these, the faster the suite will run -->
+								<id>very-long-tests</id>
+								<goals>
+									<goal>integration-test</goal>
+								</goals>
+								<configuration>
+									<skip>false</skip>
+									<includes>
+										<include>tlc2/tool/fp/FPSetLongTest.java</include>
+										<include>tlc2/tool/fp/DiskFPSetLongTest.java</include>
+										<include>tlc2/tool/fp/MSBDiskFPSetLongTest.java</include>
+										<include>tlc2/tool/fp/OffHeapDiskFPSetLongTest.java</include>
+										<include>tlc2/tool/liveness/MultiThreadedSpecLongTest.java</include>
+										<include>tlc2/tool/queue/DiskStateQueueLongTest.java</include>
+									</includes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 
 		<!-- Builds jmh benchmark -->
@@ -1183,7 +1254,7 @@
 				<!-- Copy needed files to source directory -->
 				<resources>
 					<resource>
-						<directory>${class.src.aj}</directory>
+						<directory>${class.src.aspectj}</directory>
 						<includes>
 							<include>**/*.*</include>
 						</includes>
@@ -1196,25 +1267,53 @@
 					</resource>
 				</resources>
 				<plugins>
+					<!--  -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>3.2.0</version>
+						<executions>
+							<execution>
+								<id>add-aspectj-source</id>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>${class.src.aspectj}</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>3.10.1</version>
+						<configuration>
+							<!-- IMPORTANT -->
+							<useIncrementalCompilation>false</useIncrementalCompilation>
+						</configuration>
+					</plugin>
+
 					<!-- Compile aspects -->
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>aspectj-maven-plugin</artifactId>
 						<version>1.14.0</version>
 						<configuration>
-							<sources>
-								<source>
-									<basedir>${class.src.aj}</basedir>
-									<includes>
-										<include>**</include>
-									</includes>
-								</source>
-							</sources>
+							<!-- Uncomment for detailed weave info
+							<showWeaveInfo>true</showWeaveInfo>
+							-->
+							<complianceLevel>16</complianceLevel>
 						</configuration>
 						<executions>
 							<execution>
+								<!-- IMPORTANT -->
+								<phase>process-sources</phase>
 								<goals>
 									<goal>compile</goal>
+									<goal>test-compile</goal>
 								</goals>
 							</execution>
 						</executions>
