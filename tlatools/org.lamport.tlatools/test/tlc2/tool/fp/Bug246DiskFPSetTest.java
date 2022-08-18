@@ -7,8 +7,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.util.Objects;
-
 import org.junit.Test;
 
 import util.TLCRuntime;
@@ -33,8 +31,6 @@ public class Bug246DiskFPSetTest {
 		final FPSetConfiguration fpSetConfiguration = new FPSetConfiguration();
 		fpSetConfiguration.setMemory(maxMemoryInBytes);
 		fpSetConfiguration.setRatio(1.0d);
-		DummyDiskFPSet fpSet = new DummyDiskFPSet(fpSetConfiguration);
-		fpSet.init(0, System.getProperty("java.io.tmpdir"), getClass().getName()+System.currentTimeMillis());
 
 		long bucketCapacity = 0;
 
@@ -44,8 +40,9 @@ public class Bug246DiskFPSetTest {
 		
 		int growDiskMark = 0;
 		
-		try {
-			
+		try(DummyDiskFPSet fpSet = new DummyDiskFPSet(fpSetConfiguration)) {
+			fpSet.init(0, System.getProperty("java.io.tmpdir"), getClass().getName()+System.currentTimeMillis());
+
 			// Linearly fill DiskFPSet in-memory storage to simulate an unevenly distributed fp space 
 			for(int i =  0; i < fpSet.getTblCapacity() - 1; i++) {
 				// since n least significant bits are used for tbl addressing,
@@ -66,7 +63,6 @@ public class Bug246DiskFPSetTest {
 		} catch(final OutOfMemoryError e) {
 			// null fpSet and run a System.gc() to reclaim its allocated memory.
 			// Afterwards we hope to gracefully report test outcome.
-			fpSet = null;
 			System.gc();
 			
 			assertTrue("Expect not to have flushed to disk", growDiskMark == 0);
@@ -81,9 +77,6 @@ public class Bug246DiskFPSetTest {
 			
 			
 			fail("OOM occurred (not flush to disk) " + buf);
-		}
-		finally {
-			Objects.requireNonNull(fpSet).close();
 		}
 	}
 	

@@ -41,14 +41,11 @@ import tlc2.tool.distributed.fp.DistributedFPSet;
 
 import static org.junit.Assert.*;
 
-// TODO: Handle Distributed TLC without deprecated SecurityManager
-@SuppressWarnings({"deprecation", "removal"})
 public abstract class DistributedTLCTestCase extends CommonTestCase {
 	
 	protected final String[] arguments;
 	protected final int fpSets;
 
-	private TLCServer server;
 	
 	public DistributedTLCTestCase(final String spec, final String path) {
 		this(spec, path, new String[] {});

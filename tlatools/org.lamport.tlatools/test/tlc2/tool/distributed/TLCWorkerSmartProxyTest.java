@@ -71,14 +71,14 @@ public class TLCWorkerSmartProxyTest {
 	
 	private double doTest(final long calculationDuration, final TLCState[] states) throws Exception {
 		final DummyTLCWorker aWorker = new DummyTLCWorker(calculationDuration);
-		final TLCWorkerSmartProxy proxy = new TLCWorkerSmartProxy(aWorker);
+		
+		try(final TLCWorkerSmartProxy proxy = new TLCWorkerSmartProxy(aWorker)){
+			// let proxy calculate current network overhead
+			final NextStateResult nsr = proxy.getNextStates(states);
+			assertNotNull(nsr);
 
-		// let proxy calculate current network overhead
-		final NextStateResult nsr = proxy.getNextStates(states);
-		assertNotNull(nsr);
-
-		final double networkOverhead = proxy.getNetworkOverhead();
-
-		return networkOverhead;
+			final double networkOverhead = proxy.getNetworkOverhead();
+			return networkOverhead;
+		}
 	}
 }
