@@ -47,7 +47,6 @@ import util.FileUtil;
 import util.FilenameToStream;
 import util.SimpleFilenameToStream;
 import util.ToolIO;
-import com.google.gson.JsonElement;
 import static org.junit.Assert.*;
 
 public abstract class ModelCheckerTestCase extends CommonTestCase {
@@ -195,12 +194,7 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 	public void setUp() {
 		beforeSetUp();
 
-		JsonElement element = new JsonElement() {
-			@Override
-			public JsonElement deepCopy() {
-				return null;
-			}
-		};
+
 		
 		// some tests might want to access the liveness graph after model
 		// checking completed. Thus, prevent the liveness graph from being
