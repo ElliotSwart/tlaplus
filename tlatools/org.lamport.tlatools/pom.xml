@@ -946,7 +946,7 @@
 										</resource>
 									</resources>
 								</configuration>
-							  </execution>
+							</execution>
 						</executions>
 					</plugin>
 
@@ -1031,18 +1031,18 @@
 						<artifactId>exec-maven-plugin</artifactId>
 						<version>3.1.0</version>
 						<executions>
-						  <execution>
-							<id>Run benchmark</id>
-							<goals>
-							  <goal>exec</goal>
-							</goals>
-							<phase>integration-test</phase>
-						  </execution>
+							<execution>
+								<id>Run benchmark</id>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<phase>integration-test</phase>
+							</execution>
 						</executions>
 						<configuration>
-						  <async>false</async>
-						  <executable>java</executable>
-						  <commandlineArgs>
+							<async>false</async>
+							<executable>java</executable>
+							<commandlineArgs>
 							-jar ${benchmark.out}/${project.artifactId}-${project.version}-benchmark.jar -wi 1 -i1 -f1 -rf json -rff "${project.build.directory}/benchmark/Benchmark-${benchmark.class}-${maven.build.timestamp}-${git.shortRevision}.json" -jvmArgsPrepend "-ea -Xms8192m -Xmx8192m" -jvmArgsAppend "-Dtlc2.tool.ModuleOverwritesBenchmark.base=${test.model.output}" ${benchmark.class}
 						  </commandlineArgs>
 						</configuration>
@@ -1069,6 +1069,73 @@
 		<!-- Verifies TLC parts with NASA's pathfinder model checker -->
 		<profile>
 			<id>pathfinder-verification</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>3.2.0</version>
+						<executions>
+							<execution>
+								<id>add-jpf-test-source</id>
+								<goals>
+									<goal>add-test-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>${test.src.jpf}</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+
+					<!-- Run Unit Tests -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>3.0.0-M7</version>
+						<configuration>
+							<forkCount>1</forkCount>
+							<reuseForks>false</reuseForks>
+							<argLine>-ea -XX:MaxDirectMemorySize=512k -XX:+UseParallelGC</argLine>
+							<redirectTestOutputToFile>true</redirectTestOutputToFile>
+							<skip>false</skip>
+							<runOrder>alphabetical</runOrder>
+							<reportsDirectory>${project.build.directory}/test-pathfinder-verification-reports</reportsDirectory>
+							<skip>false</skip>
+							<includes>
+								<include>tlc2/**/*JPF*.java</include>
+							</includes>
+							<!--<forkedProcessTimeoutInSeconds>20</forkedProcessTimeoutInSeconds>-->
+						</configuration>
+						<dependencies>
+							<dependency>
+								<groupId>org.apache.maven.surefire</groupId>
+								<artifactId>surefire-junit47</artifactId>
+								<version>3.0.0-M7</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>gov.nasa</groupId>
+					<artifactId>jpf</artifactId>
+					<version>1.0.0</version>
+					<scope>system</scope>
+					<systemPath>${test.src.jpf}/lib/jpf.jar</systemPath>
+				</dependency>
+				<dependency>
+					<groupId>gov.nasa</groupId>
+					<artifactId>jpf-classes</artifactId>
+					<version>1.0.0</version>
+					<scope>system</scope>
+					<systemPath>${test.src.jpf}/lib/jpf-classes.jar</systemPath>
+				</dependency>
+			</dependencies>
 		</profile>
 		<profile>
 			<id>coverage</id>
