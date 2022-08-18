@@ -102,9 +102,6 @@ public class TLCGlobals
     public static boolean isCoverageEnabled() {
     	return coverageInterval >= 0;
     }
-    
-    // Depth for depth-first iterative deepening
-    public static int DFIDMax = -1;
 
     // Continue running even when invariant is violated
     public static boolean continuation = false;

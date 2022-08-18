@@ -47,7 +47,6 @@ public class DepthFirstDieHardTest extends ModelCheckerTestCase {
 		super("DieHard", "", new String[] {"-dfid", "7"}, ExitStatus.VIOLATION_SAFETY);
 	}
 
-	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

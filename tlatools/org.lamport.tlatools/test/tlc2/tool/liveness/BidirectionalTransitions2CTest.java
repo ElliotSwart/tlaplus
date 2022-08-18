@@ -44,7 +44,6 @@ public abstract class BidirectionalTransitions2CTest extends ModelCheckerTestCas
 		super("BidirectionalTransitions", new String[] { "-config", config }, ExitStatus.VIOLATION_LIVENESS);
 	}
 
-	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertTrue(recorder.recorded(EC.TLC_FINISHED));

@@ -175,7 +175,11 @@ public class TLC {
     private int debugPort = -1;
     private boolean suspend = true;
     private boolean halt = true;
-    
+
+    // Variable that configures depth first search
+    // By default not enabled
+    private int dfidMax = -1;
+
     /**
      * Interface to retrieve model properties.
      */
@@ -836,8 +840,8 @@ public class TLC {
                 {
                     try
                     {
-                        TLCGlobals.DFIDMax = Integer.parseInt(args[index]);
-                        if (TLCGlobals.DFIDMax < 0)
+                        dfidMax = Integer.parseInt(args[index]);
+                        if (dfidMax < 0)
                         {
                             printErrorMsg("Error: expect a nonnegative integer for -dfid option.");
                             return false;
@@ -1223,7 +1227,7 @@ public class TLC {
 					modelCheckerMXWrapper = new ModelCheckerMXWrapper((ModelChecker) mainChecker, this);
                 } else
                 {
-					mainChecker = new DFIDModelChecker(tool, metadir, stateWriter, deadlock, fromChkpt, startTime);
+					mainChecker = new DFIDModelChecker(tool, dfidMax, metadir, stateWriter, deadlock, fromChkpt, startTime);
                     tool.setMainChecker(mainChecker);
                     IdThread.setMainChecker(mainChecker);
                 }
@@ -1286,8 +1290,8 @@ public class TLC {
         }
     }
     
-	private static boolean isBFS() {
-		return TLCGlobals.DFIDMax == -1;
+	private boolean isBFS() {
+		return dfidMax == -1;
 	}
 
 	public static Map<String, String> getSimulationRuntime(final long seed) {

@@ -45,12 +45,14 @@ public class DFIDModelChecker extends AbstractChecker
 
 	protected static final int INITIAL_CAPACITY = 16;
 
+    public final int dfidMax;
+
     /** 
      * Constructor for running DFID   
      * @param startTime 
      * @param resolver 
      */
-	public DFIDModelChecker(final ITool tool, final String metadir, final IStateWriter stateWriter,
+	public DFIDModelChecker(final ITool tool, final int dfidMax, final String metadir, final IStateWriter stateWriter,
                             final boolean deadlock, final String fromChkpt, final long startTime) throws EvalException, IOException {
         // call the abstract constructor
         super(tool, metadir, stateWriter, deadlock, fromChkpt, startTime);
@@ -61,6 +63,8 @@ public class DFIDModelChecker extends AbstractChecker
 		// https://github.com/tlaplus/tlaplus/issues/548
 		Assert.check(!this.checkLiveness, EC.GENERAL,
 				"Depth-First Iterative Deepening mode does not support checking liveness properties (https://github.com/tlaplus/tlaplus/issues/548).  Please check liveness properties in Breadth-First-Search mode.");
+
+        this.dfidMax = dfidMax;
 
 		this.theInitStates = null;
         this.theInitFPs = null;
@@ -140,7 +144,7 @@ public class DFIDModelChecker extends AbstractChecker
         try
         {
             boolean terminated = false;
-            for (int level = 2; level <= TLCGlobals.DFIDMax; level++)
+            for (int level = 2; level <= dfidMax; level++)
             {
                 // If terminated is true, stop:
                 if (terminated)

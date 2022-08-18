@@ -43,7 +43,7 @@ public class DepthFirstTerminateTest extends ModelCheckerTestCase {
 		super("DepthFirstTerminate", "", new String[] { "-dfid", "50" });
 	}
 
-	@Category(IndependentlyRunTest.class)
+
 	@Ignore // Not valid due to (https://github.com/tlaplus/tlaplus/issues/548)
 	@Test
 	public void testSpec() {

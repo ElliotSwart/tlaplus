@@ -47,7 +47,6 @@ public class DepthFirstErrorTraceTest extends ModelCheckerTestCase {
 		super("DepthFirstErrorTrace", "", new String[] {"-dfid", "9"}, ExitStatus.VIOLATION_SAFETY);
 	}
 
-	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished and generated the expected amount of states

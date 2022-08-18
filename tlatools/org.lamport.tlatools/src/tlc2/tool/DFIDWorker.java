@@ -40,11 +40,14 @@ public class DFIDWorker extends IdThread implements IWorker {
     this.tlc = (DFIDModelChecker) tlc;
     this.rng = new RandomGenerator();
     this.rng.setSeed(this.rng.nextLong());
-    this.stateStack = new TLCState[TLCGlobals.DFIDMax];
-    this.fpStack = new long[TLCGlobals.DFIDMax];
-    this.succStateStack = new StateVec[TLCGlobals.DFIDMax];
-    this.succFPStack = new LongVec[TLCGlobals.DFIDMax];
-    for (int i = 0; i < TLCGlobals.DFIDMax; i++) {
+
+    int dfidMax = this.tlc.dfidMax;
+
+    this.stateStack = new TLCState[dfidMax];
+    this.fpStack = new long[dfidMax];
+    this.succStateStack = new StateVec[dfidMax];
+    this.succFPStack = new LongVec[dfidMax];
+    for (int i = 0; i < dfidMax; i++) {
       this.succStateStack[i] = new StateVec(1);
       this.succFPStack[i] = new LongVec(1);
     }

@@ -41,7 +41,6 @@ public class MinimumDiameterTest extends ModelCheckerTestCase {
 		super("MinimumDiameter");
 	}
 
-	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		assertFalse(recorder.recorded(EC.GENERAL));
