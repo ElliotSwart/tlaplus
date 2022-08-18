@@ -83,6 +83,9 @@ public abstract class PCalModelCheckerTestCase extends ModelCheckerTestCase {
 		final String[] messages = ToolIO.getAllMessages();
 		assertTrue(Arrays.toString(messages), messages.length == 4 || messages.length == 5);
 
+		// Get output from PCAL tests
+		ToolIO.setMode(ToolIO.SYSTEM);
+
 		// Run TLC
 		super.setUp();
 	}
