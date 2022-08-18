@@ -23,7 +23,6 @@ public class Github429Test {
 		sany.frontEndInitialize(moduleSpec, ToolIO.out);
 	}
 
-	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testForFailedParse() {
         try {

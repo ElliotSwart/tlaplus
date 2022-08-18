@@ -35,7 +35,6 @@ import util.ToolIO;
 
 public class IllegalOperatorTest  {
 
-	@Category(IndependentlyRunTest.class)
 	@Test
 	public void test() {
 		final TestPrintStream testPrintStream = new TestPrintStream();
