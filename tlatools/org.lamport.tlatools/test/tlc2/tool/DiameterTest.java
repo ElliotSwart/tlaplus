@@ -41,7 +41,6 @@ public class DiameterTest extends ModelCheckerTestCase {
 		super("DieHardTLA");
 	}
 
-	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() {
 		// ModelChecker has finished without errors and generated the expected

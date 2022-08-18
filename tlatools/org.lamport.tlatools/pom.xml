@@ -363,7 +363,27 @@
 					</execution>
 					<execution>
 						<!-- The fewer there are of these, the faster the suite will run -->
-						<id>independantly-run-tests</id>
+						<id>unique-string-conflicts</id>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<groups>util.IndependentlyRunTest,util.DebuggerTest</groups>
+							<excludedGroups>util.LongTest, util.ConcurrentTest</excludedGroups>
+							<reuseForks>false</reuseForks>
+							<includes>
+								<include>pcal/RABTest.java</include>
+								<include>pcal/SBBTest.java</include>
+								<include>tlc2/tool/EvalExceptionTest.java</include>
+								<include>tlc2/tool/PrintTraceRaceTest.java</include>
+								<include>tlc2/tool/ViewMapTest.java</include>
+							</includes>
+						</configuration>
+					</execution>
+					<execution>
+						<!-- The fewer there are of these, the faster the suite will run -->
+						<id>independently-run-tests</id>
 						<goals>
 							<goal>test</goal>
 						</goals>
@@ -375,27 +395,18 @@
 							<includes>
 								<!-- Reduce lengthy search process by limited to applicable directories -->
 								<include>tlc2/debug/**</include>
-								<include>pcal/RABTest.java</include>
-								<include>pcal/SBBTest.java</include>
-								<include>tla2sany/drivers/Github429Test.java</include>
-								<include>tla2sany/drivers/IllegalOperatorTest.java</include>
+								
 								<include>tlc2/tool/InliningTest.java</include>
-								<include>tlc2/tool/DepthFirstDieHardTest.java</include>
-								<include>tlc2/tool/DepthFirstErrorTraceTest.java</include>
-								<include>tlc2/tool/DepthFirstTerminateTest.java</include>
-								<include>tlc2/tool/DiameterTest.java</include>
+
 								<include>tlc2/tool/EvalExceptionLivenessTest.java</include>
-								<include>tlc2/tool/EvalExceptionTest.java</include>
-								<include>tlc2/tool/MinimumDiameterTest.java</include>
 								<include>tlc2/tool/MonolithSpecTest.java</include>
-								<include>tlc2/tool/PrintTraceRaceTest.java</include>
 								<include>tlc2/tool/TLCSetMultiSimTest.java</include>
 								<include>tlc2/tool/TLCSetSimTest.java</include>
-								<include>tlc2/tool/ViewMapTest.java</include>
 								<include>tlc2/tool/checkpoint/CheckpointWhenTimeBoundTest.java</include>
-								<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
-								<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
+								<!--
+									Race condition makes test flaky 
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test.java</include>
+								-->
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2FromCheckpointTest.java</include>
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test.java</include>
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test.java</include>
@@ -799,7 +810,27 @@
 							</execution>
 							<execution>
 								<!-- The fewer there are of these, the faster the suite will run -->
-								<id>independantly-run-tests</id>
+								<id>unique-string-conflicts</id>
+								<goals>
+									<goal>integration-test</goal>
+								</goals>
+								<configuration>
+									<skip>false</skip>
+									<groups>util.IndependentlyRunTest,util.DebuggerTest</groups>
+									<excludedGroups>util.LongTest, util.ConcurrentTest</excludedGroups>
+									<reuseForks>false</reuseForks>
+									<includes>
+										<include>pcal/RABTest.java</include>
+										<include>pcal/SBBTest.java</include>
+										<include>tlc2/tool/EvalExceptionTest.java</include>
+										<include>tlc2/tool/PrintTraceRaceTest.java</include>
+										<include>tlc2/tool/ViewMapTest.java</include>
+									</includes>
+								</configuration>
+							</execution>
+							<execution>
+								<!-- The fewer there are of these, the faster the suite will run -->
+								<id>independently-run-tests</id>
 								<goals>
 									<goal>integration-test</goal>
 								</goals>
@@ -811,30 +842,20 @@
 									<includes>
 										<!-- Reduce lengthy search process by limited to applicable directories -->
 										<include>tlc2/debug/**</include>
-										<include>pcal/RABTest.java</include>
-										<include>pcal/SBBTest.java</include>
-										<include>tla2sany/drivers/Github429Test.java</include>
-										<include>tla2sany/drivers/IllegalOperatorTest.java</include>
 										<!--
 											Does not work well with code coverage 
 										<include>tlc2/tool/InliningTest.java</include>
 										-->
-										<include>tlc2/tool/DepthFirstDieHardTest.java</include>
-										<include>tlc2/tool/DepthFirstErrorTraceTest.java</include>
-										<include>tlc2/tool/DepthFirstTerminateTest.java</include>
-										<include>tlc2/tool/DiameterTest.java</include>
+
 										<include>tlc2/tool/EvalExceptionLivenessTest.java</include>
-										<include>tlc2/tool/EvalExceptionTest.java</include>
-										<include>tlc2/tool/MinimumDiameterTest.java</include>
 										<include>tlc2/tool/MonolithSpecTest.java</include>
-										<include>tlc2/tool/PrintTraceRaceTest.java</include>
 										<include>tlc2/tool/TLCSetMultiSimTest.java</include>
 										<include>tlc2/tool/TLCSetSimTest.java</include>
-										<include>tlc2/tool/ViewMapTest.java</include>
 										<include>tlc2/tool/checkpoint/CheckpointWhenTimeBoundTest.java</include>
-										<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
-										<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
+										<!--
+											Race condition makes test flaky 
 										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test.java</include>
+										-->
 										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2FromCheckpointTest.java</include>
 										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test.java</include>
 										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test.java</include>
@@ -883,8 +904,6 @@
 										<include>pcal/RABTest_TTraceTest.java</include>
 										<include>pcal/SBBTest_TTraceTest.java</include>
 										<include>tlc2/tool/PrintTraceRaceTest_TTraceTest.java</include>
-										<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
-										<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
 										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test_TTraceTest.java</include>
 										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test_TTraceTest.java</include>
 										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test_TTraceTest.java</include>
