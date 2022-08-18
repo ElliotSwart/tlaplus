@@ -42,12 +42,14 @@ import jdk.jfr.Recording;
 import jdk.jfr.consumer.RecordedEvent;
 import jdk.jfr.consumer.RecordedObject;
 import jdk.jfr.consumer.RecordingFile;
+import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.impl.FastTool;
 import tlc2.tool.impl.Tool;
 import tlc2.tool.liveness.ModelCheckerTestCase;
 import tlc2.util.ExpectInlined;
+import util.IndependentlyRunTest;
 
 public class InliningTest extends ModelCheckerTestCase {
 
@@ -73,6 +75,7 @@ public class InliningTest extends ModelCheckerTestCase {
 	}
 	
 	// testSpec runs after model-checking.
+	@Category(IndependentlyRunTest.class)
 	@Test
 	public void testSpec() throws IOException {
 		// ModelChecker has finished at this point.

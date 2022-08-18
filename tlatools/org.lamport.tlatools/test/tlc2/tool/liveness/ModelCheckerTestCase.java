@@ -323,6 +323,10 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 	@After
 	public void tearDown() {
 		beforeTearDown();
+
+		// Uncomment to print out the full recorder to stdout
+		//ToolIO.out.println(recorder.toString());
+
 		// Cleanup by unsubscribing
 		MP.unsubscribeRecorder(recorder);
 		

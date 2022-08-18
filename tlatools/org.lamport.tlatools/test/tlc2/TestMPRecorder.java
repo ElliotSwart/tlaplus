@@ -26,10 +26,7 @@
 
 package tlc2;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -119,14 +116,39 @@ public class TestMPRecorder implements tlc2.output.IMessagePrinterRecorder {
 		}
 	}
 
+	public boolean recordedWithStringValueAt(final Object codeRecord, final String str, final int idx) {
+		try {
+			final Object object = codeRecord;
+			if (object instanceof final String[] strs) {
+				return strs[idx].equals(str);
+			} else if (object instanceof String) {
+				return object.equals(str);
+			}
+			return false;
+		} catch (final Exception e) {
+			return false;
+		}
+	}
+
 	public boolean recordedWithStringValues(final int code, final String... strings) {
-		int i = 0;
-		for (final String string : strings) {
-			if (!recordedWithStringValueAt(code, string, i++)) {
-				return false;
+		var codeRecords = records.get(code);
+
+		for(var codeRecord : codeRecords){
+			int i = 0;
+			for (final String string : strings) {
+				if (!recordedWithStringValueAt(codeRecord, string, i)) {
+					break;
+				}
+
+				i++;
+			}
+
+			if(i == strings.length){
+				return true;
 			}
 		}
-		return true;
+
+		return false;
 	}
 
 	public String getCoverageRecords() {

@@ -252,7 +252,7 @@
 					<runOrder>alphabetical</runOrder>
 					<systemProperties>
 						<tlc2.tool.fp.FPSet.impl>tlc2.tool.fp.OffHeapDiskFPSet</tlc2.tool.fp.FPSet.impl>
-						<tlc2.tool.distributed.TLCWorker.threadCount>4</tlc2.tool.distributed.TLCWorker.threadCount>
+						<tlc2.tool.distributed.TLCWorker.threadCount>1</tlc2.tool.distributed.TLCWorker.threadCount>
 					</systemProperties>
 					<excludedGroups>util.DebuggerTest,util.LongTest,util.TTraceTest, util.IndependentlyRunTest, util.ConcurrentTest, util.IndependentlyRunTTraceTest</excludedGroups>
 					<reportsDirectory>${project.build.directory}/test-reports</reportsDirectory>
@@ -379,6 +379,7 @@
 								<include>pcal/SBBTest.java</include>
 								<include>tla2sany/drivers/Github429Test.java</include>
 								<include>tla2sany/drivers/IllegalOperatorTest.java</include>
+								<include>tlc2/tool/InliningTest.java</include>
 								<include>tlc2/tool/DepthFirstDieHardTest.java</include>
 								<include>tlc2/tool/DepthFirstErrorTraceTest.java</include>
 								<include>tlc2/tool/DepthFirstTerminateTest.java</include>
@@ -394,10 +395,7 @@
 								<include>tlc2/tool/checkpoint/CheckpointWhenTimeBoundTest.java</include>
 								<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
 								<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
-								<!--
-								Flaky
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test.java</include>
-								-->
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2FromCheckpointTest.java</include>
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test.java</include>
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test.java</include>
@@ -448,8 +446,7 @@
 								<include>tlc2/tool/PrintTraceRaceTest_TTraceTest.java</include>
 								<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
 								<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
-								<!--
-								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test_TTraceTest.java</include>-->
+								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test_TTraceTest.java</include>
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test_TTraceTest.java</include>
 								<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test_TTraceTest.java</include>
 								<include>tlc2/tool/liveness/ErrorTraceConstructionTest_TTraceTest.java</include>
@@ -705,7 +702,7 @@
 								</goals>
 								<configuration>
 									<skip>false</skip>
-
+									<reuseForks>true</reuseForks>
 									<includes>
 										<include>pcal/**</include>
 										<include>tla2sany/**</include>
@@ -818,6 +815,10 @@
 										<include>pcal/SBBTest.java</include>
 										<include>tla2sany/drivers/Github429Test.java</include>
 										<include>tla2sany/drivers/IllegalOperatorTest.java</include>
+										<!--
+											Does not work well with code coverage 
+										<include>tlc2/tool/InliningTest.java</include>
+										-->
 										<include>tlc2/tool/DepthFirstDieHardTest.java</include>
 										<include>tlc2/tool/DepthFirstErrorTraceTest.java</include>
 										<include>tlc2/tool/DepthFirstTerminateTest.java</include>
@@ -833,7 +834,7 @@
 										<include>tlc2/tool/checkpoint/CheckpointWhenTimeBoundTest.java</include>
 										<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
 										<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
-										<!--<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test.java</include>-->
+										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test.java</include>
 										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2FromCheckpointTest.java</include>
 										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test.java</include>
 										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test.java</include>
@@ -884,7 +885,7 @@
 										<include>tlc2/tool/PrintTraceRaceTest_TTraceTest.java</include>
 										<include>tlc2/tool/liveness/BidirectionalTransitions2CxTest.java</include>
 										<include>tlc2/tool/liveness/BidirectionalTransitions2CyTest.java</include>
-										<!--<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test_TTraceTest.java</include>-->
+										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL1Test_TTraceTest.java</include>
 										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL2Test_TTraceTest.java</include>
 										<include>tlc2/tool/liveness/CodePlexBug08EWD840FL3Test_TTraceTest.java</include>
 										<include>tlc2/tool/liveness/ErrorTraceConstructionTest_TTraceTest.java</include>
