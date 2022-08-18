@@ -1,5 +1,5 @@
 package tlc2.tool;
-
+import tlc2.tool.WorkerMonitor;
 
 public aspect WorkerMonitorAspect perthis(callToRunMethod()) {
 	

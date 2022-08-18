@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import util.LongTest;
 
-public abstract class FPSetLongTestCase extends AbstractFPSetTest {
+public abstract class FPSetLongTest extends AbstractFPSetTest {
 
 	/**
 	 * Test filling a {@link FPSet} with four linearly incrementing values

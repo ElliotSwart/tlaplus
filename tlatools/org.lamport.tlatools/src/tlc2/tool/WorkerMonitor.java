@@ -1,4 +1,4 @@
-package tlc2.tool.distributed;
+package tlc2.tool;
 
 import java.util.HashSet;
 import java.util.Set;
