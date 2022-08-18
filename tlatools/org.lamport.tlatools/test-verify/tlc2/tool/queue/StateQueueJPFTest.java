@@ -32,6 +32,7 @@ import org.junit.Test;
 
 import gov.nasa.jpf.util.test.TestJPF;
 import tlc2.tool.TLCState;
+import tlc2.tool.TLCStates;
 
 public class StateQueueJPFTest extends TestJPF {
 
@@ -43,7 +44,7 @@ public class StateQueueJPFTest extends TestJPF {
 	public void test() {
 		if (verifyNoPropertyViolation()) {
 			final StateQueue queue = new DummyStateQueue();
-			final TLCState tlcState = new DummyTLCState();
+			final TLCState tlcState = TLCStates.createDummyState();
 			queue.enqueue(tlcState);
 			
 			final Thread main = new Thread(new Runnable() {
@@ -63,12 +64,19 @@ public class StateQueueJPFTest extends TestJPF {
 						for (int i = 0; i < 3; i++) {
 							final TLCState state = queue.dequeue();
 							if (state == null) {
-								queue.finishAll();
+								try {
+									queue.close();
+								}
+								catch (Exception e){}
 								return;
 							}
 							queue.enqueue(tlcState);
 						}
-						queue.finishAll();
+
+						try {
+							queue.close();
+						}
+						catch (Exception e){}
 					}
 				}, "Worker" + i);
 				worker.start();
