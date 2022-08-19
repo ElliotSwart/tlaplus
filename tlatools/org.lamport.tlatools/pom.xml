@@ -591,14 +591,14 @@
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>jakarta.mail</artifactId>
-			<version>1.6.3</version>
+			<version>1.6.7</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>smtp</artifactId>
-			<version>1.6.3</version>
+			<version>1.6.7</version>
 			<scope>compile</scope>
 		</dependency>
 
@@ -611,7 +611,7 @@
 		<dependency>
 			<groupId>org.jline</groupId>
 			<artifactId>jline-reader</artifactId>
-			<version>3.14.1</version>
+			<version>3.21.0</version>
 			<scope>compile</scope>
 		</dependency>
 
@@ -642,7 +642,7 @@
 		<dependency>
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
-			<version>3.3.1</version>
+			<version>3.5.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -928,9 +928,23 @@
 			<id>test-long</id>
 			<properties>
 				<skip.surefire.tests>true</skip.surefire.tests>
+				<skip.tests.very-long>false</skip.tests.very-long>
 			</properties>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>3.3.0</version>
+						<executions>
+							<execution>
+								<phase>initialize</phase>
+								<goals>
+									<goal>properties</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-failsafe-plugin</artifactId>
@@ -941,7 +955,7 @@
 							<skip>true</skip>
 							<reuseForks>false</reuseForks>
 							<threadCount>1</threadCount>
-							<argLine>-javaagent:${org.aspectj:aspectjweaver:jar} -ea -XX:+UseParallelGC</argLine>
+							<argLine>-ea -XX:+UseParallelGC</argLine>
 							<redirectTestOutputToFile>true</redirectTestOutputToFile>
 							<runOrder>alphabetical</runOrder>
 							<systemProperties>
@@ -969,8 +983,11 @@
 								<configuration>
 									<skip>false</skip>
 									<includes>
+										<include>pcal/DetlefsTest.java</include>
 										<include>pcal/MacroQuicksortTest.java</include>
+										<include>pcal/PcalPaxosTest.java</include>
 										<include>pcal/SimpleMultiProcTest.java</include>
+										<include>pcal/StarkMutexTest.java</include>
 										<include>tlc2/tool/fp/OffHeapDiskFPSetTest.java</include>
 										<include>tlc2/tool/fp/AbstractHeapBasedDiskFPSetTest.java</include>
 									</includes>
@@ -983,7 +1000,8 @@
 									<goal>integration-test</goal>
 								</goals>
 								<configuration>
-									<skip>false</skip>
+									<argLine>-javaagent:${org.aspectj:aspectjweaver:jar} -ea -XX:+UseParallelGC</argLine>
+									<skip>${skip.tests.very-long}</skip>
 									<includes>
 										<include>tlc2/tool/fp/FPSetLongTest.java</include>
 										<include>tlc2/tool/fp/DiskFPSetLongTest.java</include>
@@ -1159,13 +1177,13 @@
 				<dependency>
 					<groupId>org.openjdk.jmh</groupId>
 					<artifactId>jmh-core</artifactId>
-					<version>1.21</version>
+					<version>1.35</version>
 					<scope>compile</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.openjdk.jmh</groupId>
 					<artifactId>jmh-generator-annprocess</artifactId>
-					<version>1.21</version>
+					<version>1.35</version>
 					<scope>compile</scope>
 				</dependency>
 			</dependencies>
@@ -1306,6 +1324,7 @@
 							<showWeaveInfo>true</showWeaveInfo>
 							-->
 							<complianceLevel>16</complianceLevel>
+							<weaveDirectories>${class.src.aspectj}</weaveDirectories>
 						</configuration>
 						<executions>
 							<execution>
@@ -1324,21 +1343,21 @@
 				<dependency>
 					<groupId>org.aspectj</groupId>
 					<artifactId>aspectjrt</artifactId>
-					<version>1.9.7</version>
+					<version>1.9.9.1</version>
 				</dependency>
 
 				<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjtools -->
 				<dependency>
 					<groupId>org.aspectj</groupId>
 					<artifactId>aspectjtools</artifactId>
-					<version>1.9.7</version>
+					<version>1.9.9.1</version>
 				</dependency>
 
 				<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
 				<dependency>
 					<groupId>org.aspectj</groupId>
 					<artifactId>aspectjweaver</artifactId>
-					<version>1.9.7</version>
+					<version>1.9.9.1</version>
 					<scope>runtime</scope>
 				</dependency>
 			</dependencies>
