@@ -30,7 +30,7 @@ import tla2sany.explorer.ExploreNode;
 import tla2sany.explorer.ExplorerVisitor;
 import tla2sany.st.TreeNode;
 import tla2sany.utilities.Strings;
-import tla2sany.utilities.Vector;
+import java.util.ArrayList;
 import tla2sany.xml.SymbolContext;
 import util.UniqueString;
 
@@ -82,7 +82,7 @@ public class SubstInNode extends ExprNode {
    * substitutions is to be produced.
    */
   public SubstInNode(final TreeNode treeNode, final SymbolTable instancerST,
-                     final Vector<OpDeclNode> instanceeDecls, final ModuleNode ingmn, final ModuleNode edmn, final Context context)
+                     final ArrayList<OpDeclNode> instanceeDecls, final ModuleNode ingmn, final ModuleNode edmn, final Context context)
   throws AbortException {
     super(SubstInKind, treeNode);
     this.instantiatingModule = ingmn;
@@ -122,7 +122,7 @@ public class SubstInNode extends ExprNode {
   }
 
   /**
-   * For each element of the vector of instanceeDecls of OpDeclNode's,
+   * For each element of the ArrayList of instanceeDecls of OpDeclNode's,
    * this method puts a default Subst for the same name into
    * "substitutions" if and only if the name can be resolved in the
    * instancerST, i.e.  the SymbolTable of the module doing the
@@ -130,19 +130,19 @@ public class SubstInNode extends ExprNode {
    *
    * Fill the substitutions array with dummy substitutions, i.e. an
    * OpApplNode or an OpArgNode substituted for each CONSTANT of
-   * VARIABLE OpDeclNode in vector v.
+   * VARIABLE OpDeclNode in ArrayList v.
    */
-  final void constructSubst(final Vector<OpDeclNode> instanceeDecls, final SymbolTable instancerST,
+  final void constructSubst(final ArrayList<OpDeclNode> instanceeDecls, final SymbolTable instancerST,
                             final TreeNode treeNode, final Context context)
   throws AbortException {
-    final Vector<Subst> vtemp = new Vector<>();
+    final ArrayList<Subst> vtemp = new ArrayList<>();
 
     // for each CONSTANT or VARIABLE declared in module being
     // instantiated (the instancee)
     for ( int i = 0; i < instanceeDecls.size(); i++ ) {
       // Get the OpDeclNode for the CONSTANT or VARIABLE being
       // substituted for, i.e. "c" in" c <- e"
-      final OpDeclNode decl = instanceeDecls.elementAt(i);
+      final OpDeclNode decl = instanceeDecls.get(i);
 
       // Try to resolve the name in the instancer module so we can see
       // if it is recognized as an operator, and if so, what kind of
@@ -168,14 +168,14 @@ public class SubstInNode extends ExprNode {
 	     decl.getArity() == 0)) {
 	  // Create a new Subst for c <- c, where the c on the RHS is
 	  // an OpApplNode with zero arguments
-          vtemp.addElement(
+          vtemp.add(
              new Subst(decl,
 		       new OpApplNode(symb, new ExprOrOpArgNode[0], treeNode, instantiatingModule, context),
 		       null, true));
         }
 	else {
 	  // Create a new Subst for c <- c, where the c on the RHS is an OpArgNode
-          vtemp.addElement(
+          vtemp.add(
              new Subst(decl,
 		       new OpArgNode(symb, treeNode, instantiatingModule),
 		       null, true));
@@ -183,11 +183,11 @@ public class SubstInNode extends ExprNode {
       } // end if
     } // end for
 
-    // The vector vtemp now contains all the default substitutions
+    // The ArrayList vtemp now contains all the default substitutions
     // that are legally possible. Make an array out of them
     this.substs = new Subst[ vtemp.size() ];
     for (int i = 0; i < vtemp.size(); i++) {
-      this.substs[i] = vtemp.elementAt(i);
+      this.substs[i] = vtemp.get(i);
     }
   } // end constructSubst()
 
@@ -258,10 +258,10 @@ public class SubstInNode extends ExprNode {
    * possible, because X is not defined in the instantiating module,
    * then we have an error.
    */
-  final void matchAll(final Vector<OpDeclNode> decls) {
+  final void matchAll(final ArrayList<OpDeclNode> decls) {
     for (int i = 0; i < decls.size(); i++) {
       // Get the name of the i'th operator that must be substituted for
-      final UniqueString opName = decls.elementAt(i).getName();
+      final UniqueString opName = decls.get(i).getName();
 
       // See if it is represented in the substitutions array
       int j;
@@ -273,7 +273,7 @@ public class SubstInNode extends ExprNode {
       if ( j >= this.substs.length ) {
         errors.get().addError(stn.getLocation(),
 			"Substitution missing for symbol " + opName + " declared at " +
-			decls.elementAt(i).getTreeNode().getLocation() +
+			decls.get(i).getTreeNode().getLocation() +
 			" \nand instantiated in module " + instantiatingModule.getName() + "." );
       }
     }

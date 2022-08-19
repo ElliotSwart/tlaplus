@@ -14,7 +14,7 @@ import java.util.Hashtable;
 import tla2sany.explorer.ExploreNode;
 import tla2sany.explorer.ExplorerVisitor;
 import tla2sany.utilities.Strings;
-import tla2sany.utilities.Vector;
+import java.util.ArrayList;
 import util.UniqueString;
 
 public class ExternalModuleTable implements ExploreNode {
@@ -86,11 +86,11 @@ public class ExternalModuleTable implements ExploreNode {
   *************************************************************************/
   public final Hashtable<UniqueString, ExternalModuleTableEntry> moduleHashTable;
 
-  // Vector moduleVector contains ModuleNodes (the same ones as
+  // ArrayList moduleArrayList contains ModuleNodes (the same ones as
   // moduleHashTable), but preserves the order in which they were
   // inserted.  If module A depends on module B, then A has a HIGHER
   // index than B.
-  public final Vector<ModuleNode>    moduleNodeVector;
+  public final ArrayList<ModuleNode>    moduleNodeArrayList;
 
   // The nodule node of the root module
   public ModuleNode rootModule;
@@ -98,7 +98,7 @@ public class ExternalModuleTable implements ExploreNode {
   // Constructor
   public ExternalModuleTable() {
     moduleHashTable  = new Hashtable<>();
-    moduleNodeVector = new Vector<>();
+    moduleNodeArrayList = new ArrayList<>();
   }
 
   // Set and get the rootModule field
@@ -116,7 +116,7 @@ public class ExternalModuleTable implements ExploreNode {
   }
   
   /**
-   *  Returns a vector of ModuleNodes, one for each outer module (i.e. not
+   *  Returns a ArrayList of ModuleNodes, one for each outer module (i.e. not
    *  inner modules) in the specification.  InnerModules can be obtained 
    *  via getInnerModules() applied to a ModuleNode.
    *
@@ -124,9 +124,9 @@ public class ExternalModuleTable implements ExploreNode {
    *  module B, then A has a higher index than B in the array.
    */
   public ModuleNode[] getModuleNodes() {
-    final ModuleNode [] mods = new ModuleNode[moduleNodeVector.size()];
+    final ModuleNode [] mods = new ModuleNode[moduleNodeArrayList.size()];
     for (int i = 0; i < mods.length; i++) {
-      mods[i] = moduleNodeVector.elementAt(i);
+      mods[i] = moduleNodeArrayList.get(i);
     }
     return mods;
   }
@@ -145,7 +145,7 @@ public class ExternalModuleTable implements ExploreNode {
     final ExternalModuleTableEntry c = moduleHashTable.get( key );
     if (c == null) {
       moduleHashTable.put( key, new ExternalModuleTableEntry(ctxt, moduleNode));
-      moduleNodeVector.addElement(moduleNode);
+      moduleNodeArrayList.add(moduleNode);
     }
   }
 
@@ -164,8 +164,8 @@ public class ExternalModuleTable implements ExploreNode {
   public void printExternalModuleTable(final int depth, final boolean b) {
     System.out.print("\nExternal Module Table:");
 
-    for (int i = 0; i < moduleNodeVector.size(); i++) {
-      final ModuleNode mn = moduleNodeVector.elementAt(i);
+    for (int i = 0; i < moduleNodeArrayList.size(); i++) {
+      final ModuleNode mn = moduleNodeArrayList.get(i);
 
       if (mn != null) {
         System.out.print(Strings.indent(2, "\nModule: ")); 
@@ -189,8 +189,8 @@ public class ExternalModuleTable implements ExploreNode {
     if (depth <= 0) return "";
 
     final StringBuilder ret = new StringBuilder();
-    for (int i = 0; i < moduleNodeVector.size(); i++) {
-      final ModuleNode mn = moduleNodeVector.elementAt(i);
+    for (int i = 0; i < moduleNodeArrayList.size(); i++) {
+      final ModuleNode mn = moduleNodeArrayList.get(i);
       if (mn != null) {
         ret.append(Strings.indent(2, "\nModule: " + Strings.indent(2, mn.toString(depth))));
       } else {

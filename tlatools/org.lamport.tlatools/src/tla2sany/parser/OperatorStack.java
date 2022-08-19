@@ -1,7 +1,7 @@
 // Copyright (c) 2003 Compaq Corporation.  All rights reserved.
 package tla2sany.parser;
 
-import tla2sany.utilities.Vector;
+import java.util.ArrayList;
 import util.UniqueString;
 
 /***************************************************************************
@@ -10,16 +10,16 @@ import util.UniqueString;
 
 public class OperatorStack implements tla2sany.st.SyntaxTreeConstants {
 
-  private final Vector<Vector<OSelement>> StackOfStack = new Vector<>(10);
+  private final ArrayList<ArrayList<OSelement>> StackOfStack = new ArrayList<>(10);
     /***********************************************************************
-    * The actual OperatorStack object.  It appears to be a vector of       *
-    * vectors of OSElement objects.  A stack appears to be represented by  *
-    * a vector v where v.elementAt(v.size()-1) is the top element of the   *
+    * The actual OperatorStack object.  It appears to be a ArrayList of       *
+    * ArrayLists of OSElement objects.  A stack appears to be represented by  *
+    * a ArrayList v where v.get(v.size()-1) is the top element of the   *
     * stack.                                                               *
     ***********************************************************************/
 
 
-  private Vector<OSelement> CurrentTop = null;
+  private ArrayList<OSelement> CurrentTop = null;
     /***********************************************************************
     * Appears to be the stack of OSelement objects at the top of the       *
     * OperatorStack.  It equals null if OperatorStack is empty.  Does it   *
@@ -48,8 +48,8 @@ public class OperatorStack implements tla2sany.st.SyntaxTreeConstants {
     /***********************************************************************
     * Adds an empty stack to the top of the OperatorStack.                 *
     ***********************************************************************/
-    CurrentTop = new Vector<>(20);
-    StackOfStack.addElement( CurrentTop );
+    CurrentTop = new ArrayList<>(20);
+    StackOfStack.add( CurrentTop );
   }
 
 // could be optimized to reuse memory
@@ -57,9 +57,9 @@ public class OperatorStack implements tla2sany.st.SyntaxTreeConstants {
     /***********************************************************************
     * Removes the element at the top of the operator stack.                *
     ***********************************************************************/
-    StackOfStack.removeElementAt( StackOfStack.size()-1 );
+    StackOfStack.remove( StackOfStack.size()-1 );
     if (StackOfStack.size() > 0 )
-      CurrentTop = StackOfStack.elementAt( StackOfStack.size() - 1 );
+      CurrentTop = StackOfStack.get( StackOfStack.size() - 1 );
     else
       CurrentTop = null;
   }
@@ -96,7 +96,7 @@ What do left and right mean?????? What does shift mean????????
     if (CurrentTop.size() == 0)
       return true;
     else {
-      final Operator op  = CurrentTop.elementAt( CurrentTop.size()-1 ).getOperator();
+      final Operator op  = CurrentTop.get( CurrentTop.size()-1 ).getOperator();
       if (op != null)
         return op.isPrefix() || op.isInfix();
       else
@@ -126,11 +126,11 @@ What do left and right mean?????? What does shift mean????????
     final int n = CurrentTop.size()-1;
 //    SyntaxTreeNode localTN = new InfixExprNode();
     if (n>=3) {
-      final SyntaxTreeNode opNode  = CurrentTop.elementAt( n-2).getNode();
-      final SyntaxTreeNode leftOp  = CurrentTop.elementAt( n-3).getNode();
-      final SyntaxTreeNode rightOp = CurrentTop.elementAt( n-1).getNode();
-      CurrentTop.removeElementAt(n-1);
-      CurrentTop.removeElementAt(n-2);
+      final SyntaxTreeNode opNode  = CurrentTop.get( n-2).getNode();
+      final SyntaxTreeNode leftOp  = CurrentTop.get( n-3).getNode();
+      final SyntaxTreeNode rightOp = CurrentTop.get( n-1).getNode();
+      CurrentTop.remove(n-1);
+      CurrentTop.remove(n-2);
       final SyntaxTreeNode lSTN;
 
       if (op.isNfix() && leftOp.isKind( N_Times ) ) {
@@ -145,7 +145,7 @@ What do left and right mean?????? What does shift mean????????
       } else { // inFix
         lSTN = new SyntaxTreeNode(N_InfixExpr, leftOp , opNode, rightOp );
       }
-      CurrentTop.setElementAt(new OSelement(lSTN), n-3);
+      CurrentTop.set(n-3, new OSelement(lSTN));
     }
   }
 
@@ -163,10 +163,10 @@ What do left and right mean?????? What does shift mean????????
 //    SyntaxTreeNode localTN = new PrefixExprNode();
     if (n>=2) {
         final SyntaxTreeNode lSTN = new SyntaxTreeNode(N_PrefixExpr,
-          CurrentTop.elementAt( n-2).getNode(),
-          CurrentTop.elementAt( n-1).getNode());
-        CurrentTop.removeElementAt(n-1);
-      CurrentTop.setElementAt(new OSelement(lSTN) , n-2);
+          CurrentTop.get( n-2).getNode(),
+          CurrentTop.get( n-1).getNode());
+        CurrentTop.remove(n-1);
+      CurrentTop.set(n-2, new OSelement(lSTN));
     }
   }
 
@@ -188,20 +188,20 @@ What do left and right mean?????? What does shift mean????????
     final SyntaxTreeNode lSTN;
 //    SyntaxTreeNode localTN = new PostfixExprNode();
     if (n>=2) {
-      final Operator op = CurrentTop.elementAt( n-1).getOperator();
-      final SyntaxTreeNode opNode = CurrentTop.elementAt( n-1).getNode();
+      final Operator op = CurrentTop.get( n-1).getOperator();
+      final SyntaxTreeNode opNode = CurrentTop.get( n-1).getNode();
       if (op != fcnOp ) {
 //      ((GenOpNode)opNode).register( op.getIdentifier(), STable);
         lSTN = new SyntaxTreeNode(N_PostfixExpr,
-          CurrentTop.elementAt( n-2).getNode(),
+          CurrentTop.get( n-2).getNode(),
           opNode);
       } else {
 // System.out.println("postfix reduction : FcnOp");
-        final SyntaxTreeNode eSTN = CurrentTop.elementAt( n-2).getNode();
+        final SyntaxTreeNode eSTN = CurrentTop.get( n-2).getNode();
         lSTN = new SyntaxTreeNode( eSTN.getFN(), N_FcnAppl, eSTN, (SyntaxTreeNode[]) (opNode.heirs()) );
       }
-      CurrentTop.removeElementAt(n-1);
-      CurrentTop.setElementAt(new OSelement(lSTN) , n-2);
+      CurrentTop.remove(n-1);
+      CurrentTop.set(n-2, new OSelement(lSTN));
     }
   }
 
@@ -219,7 +219,7 @@ What do left and right mean?????? What does shift mean????????
     do { // until (n != CurrentTop.size()-1);
       n = CurrentTop.size()-1; 
          // note !!! n is used as index, not size. XXX lousy identifier.
-      tm0 = CurrentTop.elementAt( n );
+      tm0 = CurrentTop.get( n );
 
       if ( ! tm0.isOperator() ) break; /* break = return here */
       oR = tm0.getOperator();
@@ -231,7 +231,7 @@ What do left and right mean?????? What does shift mean????????
                   tm0.getNode().getLocation() +
                                    " on empty stack");
         } else {
-          tm1 = CurrentTop.elementAt( n-1 );
+          tm1 = CurrentTop.get( n-1 );
           if ( tm1.isOperator()) {
             oL = tm1.getOperator();
 // System.out.println("tm1 est " + oL.toString() );
@@ -246,7 +246,7 @@ What do left and right mean?????? What does shift mean????????
             }
           } else { // tm1 is Expression - what's below ?
             if ( n > 1 ) {
-              tm2 = CurrentTop.elementAt( n-2 );
+              tm2 = CurrentTop.get( n-2 );
               if ( tm2.isOperator() ) { 
                 oL = tm2.getOperator();
                 if ( Operator.succ( oL, oR ) ) { // prefix or infix ?
@@ -274,7 +274,7 @@ What do left and right mean?????? What does shift mean????????
       } else if ( oR.isPrefix() ) {
         if ( n == 0 ) break; // can't do anything yet
         else {
-          tm1 = CurrentTop.elementAt( n-1 );
+          tm1 = CurrentTop.get( n-1 );
           if ( tm1.isOperator()) { // prefix, or infix
             oL = tm1.getOperator();
             if ( oL.isPostfix() ) {
@@ -305,7 +305,7 @@ What do left and right mean?????? What does shift mean????????
               break;
         } else {
 // System.out.println("infix case: " + oR.getIdentifier());
-          tm1 = CurrentTop.elementAt( n-1 );
+          tm1 = CurrentTop.get( n-1 );
           if ( tm1.isOperator()) {
             oL = tm1.getOperator();
             if ( oL.isInfix() || oL.isPrefix() ) { 
@@ -340,14 +340,14 @@ What do left and right mean?????? What does shift mean????????
 // System.out.println("tm1 is expression");
             if ( n > 1 ) {
 // System.out.println("deep stack");
-              tm2 = CurrentTop.elementAt( n-2 );
+              tm2 = CurrentTop.get( n-2 );
               if ( tm2.isOperator() ) {
                 oL = tm2.getOperator();
 // System.out.println("tm2 is operator: " + oL.getIdentifier());
                 final Operator mixL = operators.getMixfix( oL );
                 if (  mixL != null && ((n==2) 
                     || 
-                     CurrentTop.elementAt( n-3 ).isOperator())) {
+                     CurrentTop.get( n-3 ).isOperator())) {
 // System.out.println("identified prefix");
                   oL = mixL;
                 } 
@@ -423,13 +423,13 @@ What do left and right mean?????? What does shift mean????????
     pushOnStack( null, Operator.VoidOperator() );
     reduceStack();
     if ( isWellReduced() )
-      return CurrentTop.elementAt(0).getNode();
+      return CurrentTop.get(0).getNode();
     else {
       final StringBuilder msg = new StringBuilder("Couldn't properly parse expression");
       do {
-//((OSelement)CurrentTop.elementAt(n)).getNode().printTree(new java.io.PrintWriter(System.out));  n++;
+//((OSelement)CurrentTop.get(n)).getNode().printTree(new java.io.PrintWriter(System.out));  n++;
         msg.append("-- incomplete expression at ");
-        msg.append(CurrentTop.elementAt(n).getNode().getLocation()) ;
+        msg.append(CurrentTop.get(n).getNode().getLocation()) ;
         msg.append(".\n");
         n++;
       } while (n < CurrentTop.size()-1);
@@ -448,12 +448,12 @@ What do left and right mean?????? What does shift mean????????
     * Apparently, the operator argument o is null if this is not an        *
     * in/pre/postfix operator.                                             *
     ***********************************************************************/
-      CurrentTop.addElement( new OSelement( n, o) );
+      CurrentTop.add( new OSelement( n, o) );
 //    System.out.println(printStack());
   }
 
   public SyntaxTreeNode bottomOfStack() {
-    return CurrentTop.elementAt(0).getNode();
+    return CurrentTop.get(0).getNode();
   }
 
   public final void reduceRecord(final SyntaxTreeNode middle, final SyntaxTreeNode right ) throws ParseException {
@@ -463,23 +463,23 @@ What do left and right mean?????? What does shift mean????????
     index = CurrentTop.size()-1;
     if (index < 0)
       throw new ParseException("\n    ``.'' has no left hand side at " + middle.getLocation() + "." );
-    oselt = CurrentTop.elementAt( index );
+    oselt = CurrentTop.get( index );
 
     if ( oselt.isOperator() ) {
-      final OSelement ospelt = CurrentTop.elementAt( index - 1 );
+      final OSelement ospelt = CurrentTop.get( index - 1 );
       if ( oselt.getOperator().isPostfix() && !ospelt.isOperator() ) {
-        CurrentTop.addElement( null ); // humour reducePostfix
+        CurrentTop.add( null ); // humour reducePostfix
         reducePostfix();
         index = CurrentTop.size()-1;             // fix humoring
-        CurrentTop.removeElementAt(index);
+        CurrentTop.remove(index);
         index--;
-        oselt = CurrentTop.elementAt( index );
+        oselt = CurrentTop.get( index );
       } else
         throw new ParseException("\n    ``.'' follows operator " + oselt.getNode().getLocation() + "." );
     } 
-    final SyntaxTreeNode left = CurrentTop.elementAt(index ).getNode();
+    final SyntaxTreeNode left = CurrentTop.get(index ).getNode();
     final SyntaxTreeNode rcd = new SyntaxTreeNode(N_RecordComponent, left, middle, right);
-    CurrentTop.setElementAt(new OSelement(rcd) , index);
+    CurrentTop.set(index, new OSelement(rcd));
 }
 
 // simple utility
@@ -492,7 +492,7 @@ What do left and right mean?????? What does shift mean????????
     if (CurrentTop == null) {return null;}
       final int n = CurrentTop.size() ;
     if (n == 0) {return null;}
-      return CurrentTop.elementAt(n-1) ;
+      return CurrentTop.get(n-1) ;
    }
 
   final public void popCurrentTop() {
@@ -500,6 +500,6 @@ What do left and right mean?????? What does shift mean????????
     * Removes the element currently at the top of the CurrentTop stack.    *
     * Must not be called unless CurrentTop has at least one element.       *
     ***********************************************************************/
-    CurrentTop.removeElementAt(CurrentTop.size() - 1) ;
+    CurrentTop.remove(CurrentTop.size() - 1) ;
    }
 }

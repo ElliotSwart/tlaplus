@@ -16,7 +16,7 @@ import tla2sany.explorer.ExploreNode;
 import tla2sany.explorer.ExplorerVisitor;
 import tla2sany.st.Location;
 import tla2sany.utilities.Strings;
-import tla2sany.utilities.Vector;
+import java.util.ArrayList;
 import util.UniqueString;
 
 // A context contains def/declNodes only.
@@ -186,108 +186,108 @@ public class Context implements ExploreNode {
   }
 
   /**
-   * Returns a Vector of those SymbolNodes in this Context that are
+   * Returns a ArrayList of those SymbolNodes in this Context that are
    * instances of class "template" (or one of its subclasses)
    */
   @SuppressWarnings("unchecked")
-public<T> Vector<T> getByClass(final Class<T> template ) {
-    final Vector<T> result = new Vector<>();
+public<T> ArrayList<T> getByClass(final Class<T> template ) {
+    final ArrayList<T> result = new ArrayList<>();
     final Enumeration<Pair> list = table.elements();
     while (list.hasMoreElements()) {
       final Pair elt = list.nextElement();
       if (template.isInstance(elt.info)) {
-        result.addElement((T) elt.info );
+        result.add((T) elt.info );
       }
     }
     return result;
   }
 
   /**
-   * Returns a Vector of those SymbolNodes in this Context that are
+   * Returns a ArrayList of those SymbolNodes in this Context that are
    * instances of class OpDefNode and that are NOT of kind BuiltInKind
    * or ModuleInstanceKind
    */
-  public Vector<OpDefNode> getOpDefs() {
+  public ArrayList<OpDefNode> getOpDefs() {
       // SZ Apr 21, 2009: not used instance
       // Class template = OpDefNode.class;
     Pair nextPair = lastPair;
 
-    final Vector<OpDefNode> result = new Vector<>();
+    final ArrayList<OpDefNode> result = new ArrayList<>();
     while (nextPair != null) {
       if ( nextPair.info instanceof OpDefNode &&     // true for superclasses too.
            nextPair.info.getKind() != ASTConstants.ModuleInstanceKind &&
            nextPair.info.getKind() != ASTConstants.BuiltInKind  )
-        result.addElement( (OpDefNode)(nextPair.info) );
+        result.add( (OpDefNode)(nextPair.info) );
       nextPair = nextPair.link;
     }
     return result;
   }
 
   /*************************************************************************
-  * Returns a Vector of those SymbolNodes in this Context that are         *
+  * Returns a ArrayList of those SymbolNodes in this Context that are         *
   * instances of class ThmOrAssumpDefNode or ModuleInstanceKind            *
   * Code copied from getOpDefs().                                          *
   *************************************************************************/
-  public Vector<ThmOrAssumpDefNode> getThmOrAssDefs() {
+  public ArrayList<ThmOrAssumpDefNode> getThmOrAssDefs() {
       // SZ Apr 21, 2009: not used instance
       // Class template = ThmOrAssumpDefNode.class;
     Pair nextPair = lastPair;
 
-    final Vector<ThmOrAssumpDefNode> result = new Vector<>();
+    final ArrayList<ThmOrAssumpDefNode> result = new ArrayList<>();
     while (nextPair != null) {
       if ( nextPair.info instanceof ThmOrAssumpDefNode)
-        { result.addElement( (ThmOrAssumpDefNode)(nextPair.info) );}
+        { result.add( (ThmOrAssumpDefNode)(nextPair.info) );}
         nextPair = nextPair.link;
     }
     return result;
   }
 
   /**
-   * Returns vector of OpDeclNodes that represent CONSTANT declarations
+   * Returns ArrayList of OpDeclNodes that represent CONSTANT declarations
    */
-  public Vector<SemanticNode> getConstantDecls() {
+  public ArrayList<SemanticNode> getConstantDecls() {
     final Class<? extends SemanticNode> templateClass = OpDeclNode.class;
     final Enumeration<Pair> list = table.elements();
 
-    final Vector<SemanticNode> result = new Vector<>();
+    final ArrayList<SemanticNode> result = new ArrayList<>();
     while (list.hasMoreElements()) {
       final Pair elt = list.nextElement();
       if (templateClass.isInstance(elt.info) &&     // true for superclasses too.
          elt.info.getKind() == ASTConstants.ConstantDeclKind  )
-        result.addElement(elt.info);
+        result.add(elt.info);
 
     }
     return result;
   }
 
-  /* Returns vector of OpDeclNodes that represent CONSTANT declarations  */
-  public Vector<SemanticNode> getVariableDecls() {
+  /* Returns ArrayList of OpDeclNodes that represent CONSTANT declarations  */
+  public ArrayList<SemanticNode> getVariableDecls() {
     final Class<? extends SemanticNode> templateClass = OpDeclNode.class;
     final Enumeration<Pair> list = table.elements();
 
-    final Vector<SemanticNode> result = new Vector<>();
+    final ArrayList<SemanticNode> result = new ArrayList<>();
     while (list.hasMoreElements()) {
       final Pair elt = list.nextElement();
       if (templateClass.isInstance(elt.info) &&     // true for superclasses too.
            elt.info.getKind() == ASTConstants.VariableDeclKind  )
-        result.addElement(elt.info);
+        result.add(elt.info);
     }
     return result;
   }
 
   /**
-   * Returns a Vector of those SymbolNodes in this Context that are
+   * Returns a ArrayList of those SymbolNodes in this Context that are
    * instances of class ModuleNode
    */
-  public Vector<SemanticNode> getModDefs() {
+  public ArrayList<SemanticNode> getModDefs() {
     final Class<? extends SemanticNode> template = ModuleNode.class;
     final Enumeration<Pair> list = table.elements();
 
-    final Vector<SemanticNode> result = new Vector<>();
+    final ArrayList<SemanticNode> result = new ArrayList<>();
     while (list.hasMoreElements()) {
       final Pair elt = list.nextElement();
       if (template.isInstance(elt.info))    // true for superclasses too.
-        result.addElement(elt.info);
+        result.add(elt.info);
     }
     return result;
   }
@@ -419,11 +419,11 @@ public<T> Vector<T> getByClass(final Class<T> template ) {
 
   @Override
   public String toString(final int depth) {
-    return "Please use Context.getContextEntryStringVector()" +
+    return "Please use Context.getContextEntryStringArrayList()" +
       " instead of Context.toString()";
   }
 
-  /* Returns a vector of strings */
+  /* Returns a ArrayList of strings */
 
   /*************************************************************************
   * When trying to use SANY's -d (debug) option, this method throws a      *
@@ -431,8 +431,8 @@ public<T> Vector<T> getByClass(final Class<T> template ) {
   * comment in the walkGraph method of this file for a bit more            *
   * information.                                                           *
   *************************************************************************/
-  public Vector<String> getContextEntryStringVector(final int depth, final boolean b) {
-    final Vector<String> ctxtEntries = new Vector<>(100);  // vector of Strings
+  public ArrayList<String> getContextEntryStringArrayList(final int depth, final boolean b) {
+    final ArrayList<String> ctxtEntries = new ArrayList<>(100);  // ArrayList of Strings
     final Context naturalsContext =
                exMT.getContext(UniqueString.uniqueStringOf("Naturals"));
 
@@ -448,20 +448,20 @@ public<T> Vector<T> getByClass(final Class<T> template ) {
 		(naturalsContext == null ||
 		 !naturalsContext.table.containsKey(key)))) {
         final SymbolNode symbNode  = (table.get(key)).info;
-	ctxtEntries.addElement("\nContext Entry: " + key.toString() + "  "
+	ctxtEntries.add("\nContext Entry: " + key.toString() + "  "
                     + symbNode.myUID + " "
                     + Strings.indentSB(2,(symbNode.toString(depth-1))));
       }
       p = p.link;
     }
 
-    // Reverse the order of elements in the vector so they print properly
+    // Reverse the order of elements in the ArrayList so they print properly
     String obj;
     final int n = ctxtEntries.size();
     for (int i = 0; i < n/2; i++) {
-      obj = ctxtEntries.elementAt(i);
-      ctxtEntries.setElementAt(ctxtEntries.elementAt(n-1-i),i);
-      ctxtEntries.setElementAt(obj, n-1-i);
+      obj = ctxtEntries.get(i);
+      ctxtEntries.set(i, ctxtEntries.get(n-1-i));
+      ctxtEntries.set(n-1-i, obj);
     }
     return ctxtEntries;
   }
@@ -483,7 +483,7 @@ public<T> Vector<T> getByClass(final Class<T> template ) {
       * NullPointerException because table.get(key) equaled null.  So, I   *
       * just had the code print a warning and ignore the entry for the     *
       * inner module.  However, this caused a NullPointerException in      *
-      * getContextEntryStringVector later on.  I decided to stop wasting   *
+      * getContextEntryStringArrayList later on.  I decided to stop wasting   *
       * time on this.                                                      *
       *********************************************************************/
       final Object next = e.nextElement();

@@ -49,7 +49,7 @@ import tla2sany.explorer.ExplorerVisitor;
 import tla2sany.parser.SyntaxTreeNode;
 import tla2sany.st.TreeNode;
 import tla2sany.utilities.Strings;
-import tla2sany.utilities.Vector;
+import java.util.ArrayList;
 import tla2sany.xml.SymbolContext;
 import util.UniqueString;
 import util.WrongInvocationException;
@@ -202,12 +202,12 @@ public boolean addLabel(final LabelNode odn) {
     * `labels'.                                                            *
     ***********************************************************************/
     if (labels == null) {return new LabelNode[0];}
-      final Vector<LabelNode> v = new Vector<>() ;
+      final ArrayList<LabelNode> v = new ArrayList<>() ;
     final Enumeration<LabelNode> e = labels.elements() ;
-    while (e.hasMoreElements()) { v.addElement(e.nextElement()); }
+    while (e.hasMoreElements()) { v.add(e.nextElement()); }
       final LabelNode[] retVal = new LabelNode[v.size()] ;
     for (int i = 0 ; i < v.size() ; i++)
-      {retVal[i] = v.elementAt(i); }
+      {retVal[i] = v.get(i); }
       return retVal ;
    }
 

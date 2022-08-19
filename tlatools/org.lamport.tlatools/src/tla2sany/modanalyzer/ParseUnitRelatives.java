@@ -2,17 +2,17 @@
 // Portions Copyright (c) 2003 Microsoft Corporation.  All rights reserved.
 package tla2sany.modanalyzer;
 
-import tla2sany.utilities.Vector;
+import java.util.ArrayList;
 
 class ParseUnitRelatives {
 
-  final Vector<ParseUnit> extendees  = new Vector<>();  // vector of ParseUnit objects
+  final ArrayList<ParseUnit> extendees  = new ArrayList<>();  // ArrayList of ParseUnit objects
 
-  final Vector<ParseUnit> extendedBy = new Vector<>();  // vector of ParseUnit objects
+  final ArrayList<ParseUnit> extendedBy = new ArrayList<>();  // ArrayList of ParseUnit objects
 
-  final Vector<ParseUnit> instancees = new Vector<>();  // vector of ParseUnit objects
+  final ArrayList<ParseUnit> instancees = new ArrayList<>();  // ArrayList of ParseUnit objects
 
-  final Vector<ParseUnit> instancedBy = new Vector<>();  // vector of ParseUnit objects
+  final ArrayList<ParseUnit> instancedBy = new ArrayList<>();  // ArrayList of ParseUnit objects
 
   public final String toString() {
     return "[ extendees = "   + extendees +

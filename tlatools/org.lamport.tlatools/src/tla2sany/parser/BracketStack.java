@@ -3,7 +3,7 @@
 
 package tla2sany.parser;
 
-import java.util.Stack;
+import java.util.Stack;;
 
 import tla2sany.st.SyntaxTreeConstants;
 // import tla2sany.error.*;

@@ -250,7 +250,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
   }
 
   /**
-   * Sets the unBoundedBound symbols vector for THIS OpApplNode to null,
+   * Sets the unBoundedBound symbols ArrayList for THIS OpApplNode to null,
    * once it is discoved that a function def is in fact nonrecursive.
    */
   final void makeNonRecursive() { this.unboundedBoundSymbols = null; }

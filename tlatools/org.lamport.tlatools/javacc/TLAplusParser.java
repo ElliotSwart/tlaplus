@@ -5,8 +5,8 @@ import tla2sany.st.ParseTree;
 import tla2sany.st.TreeNode;
 import tlc2.output.EC;
 
-import tla2sany.utilities.Vector;
-import tla2sany.utilities.Stack;
+import java.util.ArrayList;
+import java.util.Stack;
 import util.Assert;
 import util.TLAConstants;
 import util.UniqueString;

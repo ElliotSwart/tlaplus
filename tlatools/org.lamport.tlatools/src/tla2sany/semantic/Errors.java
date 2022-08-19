@@ -22,7 +22,7 @@
 package tla2sany.semantic;
 
 import tla2sany.st.Location;
-import tla2sany.utilities.Vector;
+import java.util.ArrayList;
 
 
 public class Errors {
@@ -33,22 +33,22 @@ public class Errors {
   private int    numErrors   = 0;
   private int    numWarnings = 0;
 
-  private final Vector<String> warnings = new Vector<>();
-  private final Vector<String> errors   = new Vector<>();
-  private final Vector<String> aborts   = new Vector<>();
+  private final ArrayList<String> warnings = new ArrayList<>();
+  private final ArrayList<String> errors   = new ArrayList<>();
+  private final ArrayList<String> aborts   = new ArrayList<>();
 
   /*************************************************************************
   * The following methods to return the warnings, errors, and aborts in a  *
   * sane way were added by LL on 12 May 2008.                              *
   *************************************************************************/
-  public String[] getAborts()   { return StringVectortoStringArray(aborts) ; }
-  public String[] getErrors()   { return StringVectortoStringArray(errors) ; }
-  public String[] getWarnings() { return StringVectortoStringArray(warnings) ; }
+  public String[] getAborts()   { return StringArrayListtoStringArray(aborts) ; }
+  public String[] getErrors()   { return StringArrayListtoStringArray(errors) ; }
+  public String[] getWarnings() { return StringArrayListtoStringArray(warnings) ; }
 
-  private String[] StringVectortoStringArray(final Vector<String> vec) {
+  private String[] StringArrayListtoStringArray(final ArrayList<String> vec) {
     final String[] retVal = new String[vec.size()] ;
     for (int i = 0 ; i < retVal.length; i++) {
-      retVal[i] = vec.elementAt(i) ;
+      retVal[i] = vec.get(i) ;
      }
       return retVal;
    }
@@ -58,11 +58,11 @@ public class Errors {
 
     int i;
     for (i = warnings.size()-1; i >= 0; i--) {
-      if ( (loc + "\n\n" + str).equals( warnings.elementAt(i) ) ) break;
+      if ( (loc + "\n\n" + str).equals( warnings.get(i) ) ) break;
     }
 
     if ( i < 0) {
-      warnings.addElement( loc + "\n\n"+ str );
+      warnings.add( loc + "\n\n"+ str );
       numWarnings++;
     }
   }
@@ -73,11 +73,11 @@ public class Errors {
 
     int i;
     for (i = errors.size()-1; i >= 0; i--) {
-      if ( (loc + "\n\n" + str).equals( errors.elementAt(i) ) )  break;
+      if ( (loc + "\n\n" + str).equals( errors.get(i) ) )  break;
     }
 
     if ( i < 0) {
-      errors.addElement( loc + "\n\n"+ str );
+      errors.add( loc + "\n\n"+ str );
       numErrors++;
     }
     succeed = false;
@@ -96,10 +96,10 @@ public class Errors {
     final String errMsg = loc.toString() + "\n\n" + str;
     int i;
     for (i = aborts.size()-1; i >= 0; i--) {
-      if (errMsg.equals(aborts.elementAt(i))) break;
+      if (errMsg.equals(aborts.get(i))) break;
     }
     if (i < 0) {
-      aborts.addElement(errMsg);
+      aborts.add(errMsg);
       numAborts++;
     }
     succeed = false;
@@ -139,17 +139,17 @@ public class Errors {
 
     ret.append((numAborts > 0) ? "*** Abort messages: " + numAborts + "\n\n" : "");
     for (int i = 0; i < aborts.size(); i++)   {
-      ret.append(aborts.elementAt(i)).append("\n\n\n");
+      ret.append(aborts.get(i)).append("\n\n\n");
     }
 
     ret.append((numErrors > 0) ? "*** Errors: " + numErrors + "\n\n" : "");
     for (int i = 0; i < errors.size(); i++)   {
-      ret.append(errors.elementAt(i)).append("\n\n\n");
+      ret.append(errors.get(i)).append("\n\n\n");
     }
 
     ret.append((numWarnings > 0) ? "*** Warnings: " + numWarnings + "\n\n" : "");
     for (int i = 0; i < warnings.size(); i++) {
-      ret.append(warnings.elementAt(i)).append("\n\n\n");
+      ret.append(warnings.get(i)).append("\n\n\n");
     }
 
     return ret.toString();

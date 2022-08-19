@@ -2,8 +2,8 @@
 // Portions Copyright (c) 2003 Microsoft Corporation.  All rights reserved.
 package tla2sany.semantic;
 
-import tla2sany.utilities.Stack;
-import tla2sany.utilities.Vector;
+import java.util.Stack;
+import java.util.ArrayList;
 import util.UniqueString;
 
 import java.util.Objects;
@@ -22,7 +22,7 @@ import java.util.Objects;
 public class SymbolTable implements ASTConstants {
 
    
-  private final Stack               contextStack;
+  private final Stack<Context>               contextStack;
      // A SymbolTable is a stack of contexts.  New contexts are
      // pushed on the stack for LET, for formal param lists, 
      // for bound variables sets, and for inner modules
@@ -48,7 +48,7 @@ public class SymbolTable implements ASTConstants {
     baseContext = topContext;
 
     errors = errs;
-    contextStack = new Stack();
+    contextStack = new Stack<>();
     contextStack.push( topContext );
     this.mt = mt;
   }
@@ -57,11 +57,11 @@ public class SymbolTable implements ASTConstants {
   public SymbolTable(final ExternalModuleTable mt, final Errors errs, final SymbolTable st) {
     modNode = st.modNode;
     errors = errs;
-    contextStack = new Stack();
+    contextStack = new Stack<>();
     for (int i = 0; i < st.contextStack.size(); i++) {
-      contextStack.push( st.contextStack.elementAt( i ) );
+      contextStack.push( st.contextStack.get( i ) );
     }
-    baseContext = (Context)contextStack.elementAt(0);
+    baseContext = (Context)contextStack.get(0);
     this.mt = mt;
   }
 
@@ -92,7 +92,7 @@ public class SymbolTable implements ASTConstants {
   *************************************************************************/
 	public final SymbolNode resolveSymbol(final UniqueString name) {
 		for (int c = contextStack.size() - 1; c >= 0; c--) {
-			final Context ct = (Context) contextStack.elementAt(c);
+			final Context ct = (Context) contextStack.get(c);
 			final SymbolNode r = ct.getSymbol(name);
 			if (r != null)
 				return r;
@@ -104,7 +104,7 @@ public class SymbolTable implements ASTConstants {
     final ModuleName modName = new ModuleName(name);
 
     for (int c = contextStack.size()-1; c >= 0; c--) {
-      final Context ct = (Context)contextStack.elementAt(c);
+      final Context ct = (Context)contextStack.get(c);
       final SymbolNode res = ct.getSymbol(modName);
       if (res != null) return (ModuleNode)res;
     }
@@ -222,11 +222,11 @@ public class SymbolTable implements ASTConstants {
     final StringBuilder ret = new StringBuilder("\n\n***SymbolTable\n\n*** top context");
 
     for (int c = contextStack.size()-1; c >= 0; c--) {
-      final Context ct = (Context) contextStack.elementAt(c);
-      final Vector<String> v = ct.getContextEntryStringVector(1,true);
+      final Context ct = (Context) contextStack.get(c);
+      final ArrayList<String> v = ct.getContextEntryStringArrayList(1,true);
 
       for (int i = 0; i < v.size(); i++) {
-        ret.append(v.elementAt(i));
+        ret.append(v.get(i));
       }
       ret.append("\n\n*** next context\n");
     }

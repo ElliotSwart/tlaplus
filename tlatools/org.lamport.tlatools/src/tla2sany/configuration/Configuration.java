@@ -359,12 +359,12 @@ public static Configuration load (final Errors errs ) throws AbortException, Fil
       return (jj_ntk = jj_nt.kind);
   }
 
-  private final java.util.Vector<int[]> jj_expentries = new java.util.Vector<>();
+  private final java.util.ArrayList<int[]> jj_expentries = new java.util.ArrayList<>();
   private int[] jj_expentry;
   private int jj_kind = -1;
 
   public ParseException generateParseException() {
-    jj_expentries.removeAllElements();
+    jj_expentries.removeAll(jj_expentries);
     final boolean[] la1tokens = new boolean[24];
     for (int i = 0; i < 24; i++) {
       la1tokens[i] = false;
@@ -386,12 +386,12 @@ public static Configuration load (final Errors errs ) throws AbortException, Fil
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
-        jj_expentries.addElement(jj_expentry);
+        jj_expentries.add(jj_expentry);
       }
     }
     final int[][] exptokseq = new int[jj_expentries.size()][];
     for (int i = 0; i < jj_expentries.size(); i++) {
-      exptokseq[i] = jj_expentries.elementAt(i);
+      exptokseq[i] = jj_expentries.get(i);
     }
     return new ParseException(token, exptokseq, tokenImage);
   }

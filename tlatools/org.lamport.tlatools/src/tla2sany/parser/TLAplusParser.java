@@ -3,8 +3,8 @@ package tla2sany.parser;
 
 import tla2sany.st.ParseTree;
 import tla2sany.st.TreeNode;
-import tla2sany.utilities.Stack;
-import tla2sany.utilities.Vector;
+import java.util.Stack;
+import java.util.ArrayList;
 import tlc2.output.EC;
 import util.Assert;
 import util.TLAConstants;
@@ -23,7 +23,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     ***********************************************************************/
     final String[]deps = new String[ dependencyList.size() ];
     for (int lvi =0; lvi < deps.length; lvi++)
-      deps[lvi] = dependencyList.elementAt(lvi).toString();
+      deps[lvi] = dependencyList.get(lvi).toString();
     return deps;
   }
   @Override
@@ -38,7 +38,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     * The root node.                                                       *
     ***********************************************************************/
 
-  public final Vector<UniqueString> dependencyList = new Vector<>(20);
+  public final ArrayList<UniqueString> dependencyList = new ArrayList<>(20);
 
   private UniqueString mn = null;
      /**********************************************************************
@@ -682,12 +682,12 @@ if (System.getProperty("TLA-StackTrace", "off").equals("on")) ToolIO.out.println
   }
 //
 
-  final Stack internals = new Stack();
+  final Stack<UniqueString> internals = new Stack<>();
 
   private void addDependency(final UniqueString s ) {
     final int lvi = internals.search( s );
     if ( lvi < 0 )
-      dependencyList.addElement( s );
+      dependencyList.add( s );
   }
 
   private UniqueString reduceString(final String s ) {
@@ -9329,7 +9329,7 @@ final SyntaxTreeNode tn;
       return (jj_ntk = jj_nt.kind);
   }
 
-  private final java.util.Vector<int[]> jj_expentries = new java.util.Vector<>();
+  private final java.util.ArrayList<int[]> jj_expentries = new java.util.ArrayList<>();
   private int[] jj_expentry;
   private int jj_kind = -1;
   private final int[] jj_lasttokens = new int[100];
@@ -9343,8 +9343,7 @@ final SyntaxTreeNode tn;
       jj_expentry = new int[jj_endpos];
       System.arraycopy(jj_lasttokens, 0, jj_expentry, 0, jj_endpos);
       boolean exists = false;
-      for (final java.util.Enumeration<int[]> e = jj_expentries.elements(); e.hasMoreElements();) {
-        final int[] oldentry = (e.nextElement());
+      for (final int[] oldentry : jj_expentries) {
         if (oldentry.length == jj_expentry.length) {
           exists = true;
           for (int i = 0; i < jj_expentry.length; i++) {
@@ -9356,13 +9355,13 @@ final SyntaxTreeNode tn;
           if (exists) break;
         }
       }
-      if (!exists) jj_expentries.addElement(jj_expentry);
+      if (!exists) jj_expentries.add(jj_expentry);
       if (pos != 0) jj_lasttokens[(jj_endpos = pos) - 1] = kind;
     }
   }
 
   public ParseException generateParseException() {
-    jj_expentries.removeAllElements();
+    jj_expentries.removeAll(jj_expentries);
     final boolean[] la1tokens = new boolean[237];
     for (int i = 0; i < 237; i++) {
       la1tokens[i] = false;
@@ -9405,7 +9404,7 @@ final SyntaxTreeNode tn;
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
-        jj_expentries.addElement(jj_expentry);
+        jj_expentries.add(jj_expentry);
       }
     }
     jj_endpos = 0;
@@ -9413,7 +9412,7 @@ final SyntaxTreeNode tn;
     jj_add_error_token(0, 0);
     final int[][] exptokseq = new int[jj_expentries.size()][];
     for (int i = 0; i < jj_expentries.size(); i++) {
-      exptokseq[i] = jj_expentries.elementAt(i);
+      exptokseq[i] = jj_expentries.get(i);
     }
     return new ParseException(token, exptokseq, tokenImage);
   }

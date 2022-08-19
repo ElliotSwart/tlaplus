@@ -3,7 +3,7 @@
 package tla2sany.modanalyzer;
 
 import tla2sany.st.TreeNode;
-import tla2sany.utilities.Vector;
+import java.util.ArrayList;
 
 /**
  * An instance of this class is a "pointer" to a module used during
@@ -55,20 +55,20 @@ public class ModulePointer {
   }
 
 
-  // Returns Vector of names of modules extended
-  Vector<String> getNamesOfModulesExtended() {
+  // Returns ArrayList of names of modules extended
+  ArrayList<String> getNamesOfModulesExtended() {
     return moduleRelatives.directlyExtendedModuleNames; 
   }
   
 
-  // Returns Vector of names of modules instanced
-  Vector<String> getNamesOfModulesInstantiated() { 
+  // Returns ArrayList of names of modules instanced
+  ArrayList<String> getNamesOfModulesInstantiated() { 
     return moduleRelatives.directlyInstantiatedModuleNames; 
   }
 
 
-  // Returns Vector of names of Module pointers for immediate inner modules
-  Vector<ModulePointer> getDirectInnerModules() { 
+  // Returns ArrayList of names of Module pointers for immediate inner modules
+  ArrayList<ModulePointer> getDirectInnerModules() { 
     return moduleRelatives.directInnerModules; 
   }
 

@@ -28,7 +28,7 @@ import tla2sany.explorer.ExploreNode;
 import tla2sany.explorer.ExplorerVisitor;
 import tla2sany.st.TreeNode;
 import tla2sany.utilities.Strings;
-import tla2sany.utilities.Vector;
+import java.util.ArrayList;
 import tla2sany.xml.SymbolContext;
 import util.UniqueString;
 
@@ -174,10 +174,10 @@ public class APSubstInNode extends LevelNode {
    * possible, because X is not defined in the instantiating module,
    * then we have an error.
    */
-  final void matchAll(final Vector<OpDeclNode> decls) {
+  final void matchAll(final ArrayList<OpDeclNode> decls) {
     for (int i = 0; i < decls.size(); i++) {
       // Get the name of the i'th operator that must be substituted for
-      final UniqueString opName = decls.elementAt(i).getName();
+      final UniqueString opName = decls.get(i).getName();
 
       // See if it is represented in the substitutions array
       int j;
@@ -189,7 +189,7 @@ public class APSubstInNode extends LevelNode {
       if ( j >= this.substs.length ) {
         errors.get().addError(stn.getLocation(),
 			"Substitution missing for symbol " + opName + " declared at " +
-			decls.elementAt(i).getTreeNode().getLocation() +
+			decls.get(i).getTreeNode().getLocation() +
 			" \nand instantiated in module " + instantiatingModule.getName() + "." );
       }
     }

@@ -33,7 +33,7 @@ import tla2sany.semantic.Errors;
 import tla2sany.st.Location;
 import tla2sany.st.ParseTree;
 import tla2sany.st.TreeNode;
-import tla2sany.utilities.Vector;
+import java.util.ArrayList;
 import util.FileUtil;
 import util.FilenameToStream.TLAFile;
 import util.MonolithSpecExtractor;
@@ -114,22 +114,22 @@ public class ParseUnit {
 
   public final ModulePointer getRootModule()  { return rootModule; }
 
-  final        Vector<ParseUnit>        getExtendees()   { return parseUnitRelatives.extendees; }
+  final        ArrayList<ParseUnit>        getExtendees()   { return parseUnitRelatives.extendees; }
 
   
 
-  final        Vector<ParseUnit>        getInstancees()  { return parseUnitRelatives.instancees; }
+  final        ArrayList<ParseUnit>        getInstancees()  { return parseUnitRelatives.instancees; }
              
   
 
   // Add-methods
-  final        void          addExtendee(final ParseUnit pu)    { parseUnitRelatives.extendees.addElement(pu); }
+  final        void          addExtendee(final ParseUnit pu)    { parseUnitRelatives.extendees.add(pu); }
 
-  final        void          addExtendedBy(final ParseUnit pu)  { parseUnitRelatives.extendedBy.addElement(pu); }
+  final        void          addExtendedBy(final ParseUnit pu)  { parseUnitRelatives.extendedBy.add(pu); }
 
-  final        void          addInstancee(final ParseUnit pu)   { parseUnitRelatives.instancees.addElement(pu); }
+  final        void          addInstancee(final ParseUnit pu)   { parseUnitRelatives.instancees.add(pu); }
 
-  final        void          addInstancedBy(final ParseUnit pu) { parseUnitRelatives.instancedBy.addElement(pu); }
+  final        void          addInstancedBy(final ParseUnit pu) { parseUnitRelatives.instancedBy.add(pu); }
 
   
 
@@ -145,7 +145,7 @@ public class ParseUnit {
     return module.getRelatives().outerModule;
   }
 
-  final Vector<ModulePointer> getPeers(final ModulePointer module) {
+  final ArrayList<ModulePointer> getPeers(final ModulePointer module) {
     if ( module.getRelatives().outerModule != null ) {
       return module.getRelatives().outerModule.getRelatives().directInnerModules;
     }
@@ -362,11 +362,11 @@ public class ParseUnit {
     }
 
     final ModuleContext currentContext = getContext(currentModule);
-    final Vector<String>        extendeeNames  = otherModule.getNamesOfModulesExtended();
+    final ArrayList<String>        extendeeNames  = otherModule.getNamesOfModulesExtended();
 
     // For all modules extended by otherModule
     for (int i = 0; i < extendeeNames.size(); i++) {
-      final String        extendeeName = extendeeNames.elementAt(i);
+      final String        extendeeName = extendeeNames.get(i);
       final ModulePointer extendeeResolvant = currentContext.resolve(extendeeName);
 
       // if extendeeName is resolved in currentContext, then
@@ -374,9 +374,9 @@ public class ParseUnit {
       // recursively add to currentContext all of the inner modules in
       // modules extended by resolvant
       if ( extendeeResolvant != null ) {
-        final Vector<ModulePointer> directInnerModules = extendeeResolvant.getDirectInnerModules();
+        final ArrayList<ModulePointer> directInnerModules = extendeeResolvant.getDirectInnerModules();
         for (int j = 0; j < directInnerModules.size(); j++) {
-          final ModulePointer upperInnerMod = directInnerModules.elementAt(j);
+          final ModulePointer upperInnerMod = directInnerModules.get(j);
           currentContext.bindIfNotBound(upperInnerMod.getName(), upperInnerMod);
           handleExtensions(currentModule,extendeeResolvant); // recursive call
 	}
@@ -417,10 +417,10 @@ public class ParseUnit {
       // etc. at point where it is defined
       currentContext.union(getParent(ancestorModule).getContext());
 
-      final Vector<ModulePointer> peers = getPeers(ancestorModule);
+      final ArrayList<ModulePointer> peers = getPeers(ancestorModule);
       // All peers defined so far are in the currentContext
       for (int i = 0; i < Objects.requireNonNull(peers).size() - 1; i++) {
-        final ModulePointer nextPeer = peers.elementAt(i);
+        final ModulePointer nextPeer = peers.get(i);
         currentContext.bindIfNotBound(nextPeer.getName(), nextPeer);
       }
       ancestorModule = getParent(ancestorModule);
@@ -443,11 +443,11 @@ public class ParseUnit {
   //   1) Create a ModuleRelatives object associated with it 
   //   2) Fill in the outerModule field for currentNode
   //   3) Calculate the module context as known within this ParseUnit
-  //   4) Fill its directlyExtendedModules Vector with the String names
+  //   4) Fill its directlyExtendedModules ArrayList with the String names
   //      of all of the modules it extends
-  //   5) Fill its directlyInstantiatedModules Vector with the String
+  //   5) Fill its directlyInstantiatedModules ArrayList with the String
   //      names of all modules it instances
-  //   6) Fill in its directInnerModules Vector with references to the
+  //   6) Fill in its directInnerModules ArrayList with references to the
   //      module name TreeNodes of all direct inner modules it defines
   //   7) For all direct inner modules defined, call
   //      determineModuleRelationships recursively
@@ -488,10 +488,10 @@ public class ParseUnit {
     
     // Loop through the EXTENDS decl for the odd nodes, which are the
     // names of the modules being extended, and add an entry in the
-    // directlyExtendsModules vector for each module mentioned
+    // directlyExtendsModules ArrayList for each module mentioned
     for (int i = 1; i < extendNode.heirs().length; i += 2) {
       final String extendedModuleName = extendNode.heirs()[i].getImage();
-      currentRelatives.directlyExtendedModuleNames.addElement(extendedModuleName);
+      currentRelatives.directlyExtendedModuleNames.add(extendedModuleName);
     }
 
     // Calculate the module context for current module, i.e. the names
@@ -513,7 +513,7 @@ public class ParseUnit {
         final ModulePointer innerModule = new ModulePointer(spec, this,def);
 
         // Indicate that the inner module is inner to the current module
-        currentRelatives.directInnerModules.addElement( innerModule );
+        currentRelatives.directInnerModules.add( innerModule );
 
         // Recursive call to determine module relationships for the inner module
         determineModuleRelationships(innerModule, currentModule); 
@@ -534,8 +534,8 @@ public class ParseUnit {
         // Find the name of the module being instantiated
         String instanceModuleName = instanceHeirs[nonLocalInstanceNodeIX].heirs()[1].getImage();
 
-        // Append it to the Vector of instantiated modules
-        currentRelatives.directlyInstantiatedModuleNames.addElement(instanceModuleName);
+        // Append it to the ArrayList of instantiated modules
+        currentRelatives.directlyInstantiatedModuleNames.add(instanceModuleName);
       }
       else if ( def.getImage().equals("N_ModuleDefinition") ) {
 	// We encounter a module definition (i.e. D(x,y) == INSTANCE Modname WITH ...)
@@ -552,8 +552,8 @@ public class ParseUnit {
         // Find the name of the module being instantiated
         String instanceModuleName = instanceHeirs[nonLocalInstanceNodeIX].heirs()[1].getImage();
 
-        // Append it to the Vector of instantiated modules
-        currentRelatives.directlyInstantiatedModuleNames.addElement(instanceModuleName);
+        // Append it to the ArrayList of instantiated modules
+        currentRelatives.directlyInstantiatedModuleNames.add(instanceModuleName);
       }
 // BUG:  The following doesn't work
 //
@@ -586,7 +586,7 @@ public class ParseUnit {
     * This is a very simple-minded method that walks the syntactic parse   *
     * tree at node treeNode and hunts for N_NonLocalInstance nodes and,    *
     * for each one it finds, adds the module name to the                   *
-    * directlyInstantiatedModuleNames vector of currentRelatives.  There   *
+    * directlyInstantiatedModuleNames ArrayList of currentRelatives.  There   *
     * is much that could be done to avoid walking down dead-end branches.  *
     * However, most of the nodes in real specs are expression nodes, and   *
     * they have to be searched to find the INSTANCEs inside LET/INs.  So,  *
@@ -601,7 +601,7 @@ public class ParseUnit {
       * because a substitution in the WITH could contain a LET with an     *
       * INSTANCE.                                                          *
       *********************************************************************/
-      currentRelatives.directlyInstantiatedModuleNames.addElement(
+      currentRelatives.directlyInstantiatedModuleNames.add(
          children[1].getImage() );
          // System.err.println("Found Instance: " + children[1].getImage()) ;
       i = 2 ;

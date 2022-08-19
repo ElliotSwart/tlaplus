@@ -44,7 +44,7 @@ import tla2sany.parser.SyntaxTreeNode;
 import tla2sany.st.Location;
 import tla2sany.st.TreeNode;
 import tla2sany.utilities.Strings;
-import tla2sany.utilities.Vector;
+import java.util.ArrayList;
 import tla2sany.xml.SymbolContext;
 import tlc2.tool.BuiltInOPs;
 import util.UniqueString;
@@ -357,9 +357,9 @@ public class OpDefNode extends OpDefOrDeclNode
   * The remaining fields are meaningful, and have the indicated meaning,   *
   * only when participating = true.                                        *
   *************************************************************************/
-//  Vector nbrs = null ;
+//  ArrayList nbrs = null ;
     /***********************************************************************
-    * This is a vector of OpDefNode objects containing all the OpDefNode   *
+    * This is a ArrayList of OpDefNode objects containing all the OpDefNode   *
     * objects whose operators occur in the definition of this node's       *
     * operator.  The same object may appear multiple times.  Tarjan's      *
     * algorithm works with multiple copies (they're equivalent to          *
@@ -743,7 +743,7 @@ public class OpDefNode extends OpDefOrDeclNode
     }
     else if ( arity == -1 ) {
       // if THIS OpDefNode is for an operator that takes a variable number of args ...
-      if ( args != null ) { // args vector may have length zero, but should not be null
+      if ( args != null ) { // args ArrayList may have length zero, but should not be null
         for ( int i = 0; i < args.length; i++ ) {
           if (args[i] instanceof OpArgNode) {
             errors.get().addError(loc, "Illegal expression used as argument " + (i+1) +
@@ -752,15 +752,15 @@ public class OpDefNode extends OpDefOrDeclNode
           }
         }
       }
-      else  {// null arg vector; supposedly cannot happen
-        errors.get().addAbort(Objects.requireNonNull(loc), "Internal error: null args vector for operator '" +
+      else  {// null arg ArrayList; supposedly cannot happen
+        errors.get().addAbort(Objects.requireNonNull(loc), "Internal error: null args ArrayList for operator '" +
                         this.getName() + "' that should take variable number of args.",true);
       }
     }
     else {
       // It is an operator with a fixed number of params (possibly zero)
-      if (args == null | params == null) { // args vector should never be null
-        errors.get().addAbort(Objects.requireNonNull(loc), "Internal error: Null args or params vector for operator '" +
+      if (args == null | params == null) { // args ArrayList should never be null
+        errors.get().addAbort(Objects.requireNonNull(loc), "Internal error: Null args or params ArrayList for operator '" +
                         this.getName() + "'.", true);
       }
       else { // Normal case: params != null & args != null
@@ -870,12 +870,12 @@ public boolean addLabel(final LabelNode odn) {
     * `labels'.                                                            *
     ***********************************************************************/
     if (labels == null) {return new LabelNode[0];}
-      final Vector<LabelNode> v = new Vector<>() ;
+      final ArrayList<LabelNode> v = new ArrayList<>() ;
     final Enumeration<LabelNode> e = labels.elements() ;
-    while (e.hasMoreElements()) { v.addElement(e.nextElement()); }
+    while (e.hasMoreElements()) { v.add(e.nextElement()); }
       final LabelNode[] retVal = new LabelNode[v.size()] ;
     for (int i = 0 ; i < v.size() ; i++)
-      {retVal[i] = v.elementAt(i); }
+      {retVal[i] = v.get(i); }
       return retVal ;
    }
 

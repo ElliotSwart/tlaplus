@@ -256,14 +256,14 @@ public class SANY {
     try {
       SemanticNode.setErrors(semanticErrors);
       
-      // Go through the semanticAnalysisVector, and generate the
+      // Go through the semanticAnalysisArrayList, and generate the
       // semantic graph for each external module in it, adding at each
       // iteration what was generated (i.e. <context, node>) to
-      // externalModuleTable.  The semanticAnalysisVector is ordered
+      // externalModuleTable.  The semanticAnalysisArrayList is ordered
       // so that is A depends on B, then B has a lower index in the
-      // Vector than A.
-      for (int i = 0; i < spec.semanticAnalysisVector.size(); i++) {
-        moduleStringName = spec.semanticAnalysisVector.elementAt(i);
+      // ArrayList than A.
+      for (int i = 0; i < spec.semanticAnalysisArrayList.size(); i++) {
+        moduleStringName = spec.semanticAnalysisArrayList.get(i);
 
         // if semantic analysis has not already been done on this module
         if (externalModuleTable.getContext( UniqueString.uniqueStringOf( moduleStringName)) == null ) {
@@ -296,7 +296,7 @@ public class SANY {
 
           // Indicate in the externalModuleTable that the last module
           // analyzed is the root ModuleNode
-          if (i == spec.semanticAnalysisVector.size()-1) { 
+          if (i == spec.semanticAnalysisArrayList.size()-1) { 
             externalModuleTable.setRootModule( moduleNode ); 
           }
     
@@ -311,7 +311,7 @@ public class SANY {
            *  of context errors 
            *  that keeps being added to.  By setting spec.globalContextErrors
            *  to its value, we ensure that when we finish, spec.globalContextErrors
-           *  contains the vector of all the globalContextErrors.
+           *  contains the ArrayList of all the globalContextErrors.
            */
             spec.setGlobalContextErrors(globalContextErrors);
           }
