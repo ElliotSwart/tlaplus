@@ -18,7 +18,7 @@ This project has configuration for the following IDEs:
 - Intellij
 - VSCode
 
-Note that the majority of the configuration is derived from the Maven project, so you may need to reimport the maven project if it has changed.
+Note that the majority of the configuration is derived from the Maven project, so you may need to reimport the maven project if it has changed. For certain changes this may involve sometimes requires deleting the project file.
 
 There are certain features of this project that are built specifically for the Eclipse IDE.
 
@@ -40,7 +40,7 @@ This project has specific testing requirements that need to be set up for testin
 mvn test-compile
 ```
 
-Then you can run any specific test with the test runner.
+Then you can run any specific test with the test runner. You can also use standard test debugging features.
 
 ### With Maven
 For standard testing, run:
@@ -59,8 +59,10 @@ mvn test -P dev
 To follow the standard release workflow run:
 
 ``` shell
-mvn verify
+mvn verify -P test-dist
 ```
+
+> Note: A profile is necessary because testing the distribution excludes compile dependencies from the classpath, and can effect IDES
 
 If you do not want to run integration tests against the created jar file, run:
 ``` shell
@@ -69,7 +71,7 @@ mvn package
 
 If you want to skip running the standard tests, so they will be run against the jar, run:
 ``` shell
-mvn verify -Dskip.surefire.tests=true
+mvn verify -P test-dist -Dskip.surefire.tests=true
 ```
 
 
@@ -94,26 +96,46 @@ For instructions on running the benchmark from eclipse [see additional instructi
 
 ## Java Pathfinder Verification
 
+To run the pathfinder tests, run:
+
 ``` shell
-mvn test -P pathfinder-verification
+mvn verify -P pathfinder-verification
 ```
+
 
 ## Long Tests
-### From IDE
+
+Long tests can only be easily run from maven.
+
 ``` shell
-mvn test-compile -P aspectj
+mvn verify -P aspectj,test-long
 ```
 
-### From Maven
+Due to the aspectj dependency, additional configuration would be needed to run them from the IDE.
+
+To skip the multi-hour tests, run the following command:
+
 ``` shell
-mvn test -P aspectj longtest
+mvn verify -P aspectj,test-long -Dskip.tests.very-long=true
 ```
 
-## Specialized Testing
-
-
-
+## Tips
 
 One tip, if you want to record the output of some tlatool (like if you
 were seeing the CLI stdout/stderr), you can use `TestPrintStream` in
 combination with `ToolIO`. Search for them in the codebase.
+
+## Technical Decisions
+
+### Java Version
+
+
+## Codebase Idiosyncrasies
+
+The original codebase was written with the intention of being run from the command line only.
+
+### Notable Mutable Static State
+There is a significant amount of static state. While much has been removed
+- [util/UniqueString.java](src/util/UniqueString.java):
+- [util/ToolIO.java](src/util/ToolIO.java): Used for 
+- [tlc2/TLCGlobals.java](src/tlc2/TLCGlobals.java):
