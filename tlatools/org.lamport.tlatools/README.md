@@ -9,6 +9,10 @@ It contains the following functionality:
 - TLC Model Checker / Simulator / Debugger
 - TLA+ to TeX conversion
 
+Information on how to use these tools can be found [here](http://lamport.azurewebsites.net/tla/tools.html).
+
+The content below is a "Getting Started" guide to developing on this codebase. It covers the majority of building, testing and packaging operations. New developers should also read the [codebase overview](docs/CodebaseOverview.md) to help orient themselves.
+
 ## Development Prerequisites
 - [Maven](https://maven.apache.org/)
 
@@ -49,7 +53,7 @@ For standard testing, run:
 mvn test
 ```
 
-If you want incremental builds for testing, use the command below. It only cleans output directories, and so can shorten build time.
+If you want incremental builds for testing, use the command below. It only cleans output directories, and so can shorten build time dramatically.
 
 ``` shell
 mvn test -P dev
@@ -74,13 +78,7 @@ If you want to skip running the standard tests, so they will be run against the 
 mvn verify -P test-dist -Dskip.surefire.tests=true
 ```
 
-
 ## Benchmarking
-
-To build the jmh benchmark jar, run:
-``` shell
-mvn package -P benchmark
-```
 
 To build and run all the benchmarks, run:
 ``` shell
@@ -92,9 +90,15 @@ To run a specific benchmark
 mvn verify -P benchmark -Dbenchmark.class=BENCHMARK_CLASS_WITH_PACKAGE
 ```
 
-For instructions on running the benchmark from eclipse [see additional instructions](test-benchmark/README.md).
+To just build the jmh benchmark jar, run:
+``` shell
+mvn package -P benchmark
+```
+
+[See additional instructions](test-benchmark/README.md) on running the benchmark from eclipse .
 
 ## Java Pathfinder Verification
+For details on pathfinder verification, see the [readme](test-verify/README.md).
 
 To run the pathfinder tests, run:
 
@@ -105,7 +109,7 @@ mvn verify -P pathfinder-verification
 
 ## Long Tests
 
-Long tests can only be easily run from maven.
+Long tests can only be easily run from maven:
 
 ``` shell
 mvn verify -P aspectj,test-long
@@ -122,20 +126,5 @@ mvn verify -P aspectj,test-long -Dskip.tests.very-long=true
 ## Tips
 
 One tip, if you want to record the output of some tlatool (like if you
-were seeing the CLI stdout/stderr), you can use `TestPrintStream` in
-combination with `ToolIO`. Search for them in the codebase.
-
-## Technical Decisions
-
-### Java Version
-
-
-## Codebase Idiosyncrasies
-
-The original codebase was written with the intention of being run from the command line only.
-
-### Notable Mutable Static State
-There is a significant amount of static state. While much has been removed
-- [util/UniqueString.java](src/util/UniqueString.java):
-- [util/ToolIO.java](src/util/ToolIO.java): Used for 
-- [tlc2/TLCGlobals.java](src/tlc2/TLCGlobals.java):
+were seeing the CLI stdout/stderr), you can use [TestPrintStream](test/util/TestPrintStream.java) in
+combination with [ToolIO](src/util/ToolIO.java). Search for them in the codebase.
