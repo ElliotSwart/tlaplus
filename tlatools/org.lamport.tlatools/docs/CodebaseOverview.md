@@ -62,10 +62,47 @@ The difficulty is that the new methods require getting all the bytes in the stri
 
 As a 20 year old code base, one can expect idiosyncrasies that do not match current best practice. There are also inherent idiosyncrasies to any language interpreter. Maintaining functionality and performance is the most important concern. However whenever these idiosyncrasies can be removed without compromising those, they should be.
 
-### Reflection and ClassLoaders
-The original codebase was written with the intention of being run from the command line only.
+### Dynamic Class Loading
+This project makes extensive use of Classloaders. This can make it slightly more difficult to debug / statically analyze. Critical usecases are called out here.
+
+#### Operators / Modules
+The ClassLoader is used to load both standard modules and user created modules. The standard modules can be found here:
+- [src/tlc2/module]
+- [src/tla2sany/StandardModules]
+
+The [SimpleFilenameToStream](../src/util/SimpleFilenameToStream.java) class is used to read in this information, and contains the logic about standard module directories. It is where the ClassLoader is used. [TLAClass](../src/tlc2/tool/impl/TLAClass.java) is also used for a similar purpose, used to loader certain built in classes.
+
+The classpath of the created jar explicitly includes the CommunityModules such that they can be loaded if available.
+```
+CommunityModules-deps.jar CommunityModules.jar
+```
+
+Users can also create custom operators and modules and load them similarly.
+
+The methods are invoked with:
+``` java
+mh.invoke
+mh.invokeExplict
+```
+
+And this is done in a small number of locations:
+[MethodValue](../src/tlc2/value/impl/MethodValue.java)
+[CallableValue](../src/tlc2/value/impl/CallableValue.java)
+[PriorityEvaluatingValue](../src/tlc2/value/impl/PriorityEvaluatingValue.java)
+
+
+#### FPSet Selection
+
+FPSets are dynamically selected using a system property and loaded with a ClassLoader in the [FPSetFactory](../src/tlc2/tool/fp/FPSetFactory.java).
+
+#### Misc
+- [TLCWorker](../src/tlc2/tool/distributed/TLCWorker.java): Used to load certain sun class dependencies if available.
+- [BlockSelectorFactory](../src/tlc2/tool/distributed/selector/BlockSelectorFactory.java): Used to modularity load a custom BlockSelectorFactory.
+- [TLCRuntime](../src/util/TLCRuntime.java): Used to get processId
 
 ### Notable Mutable Static State
+The original codebase was written with the intention of being run from the command line only.
+
 There is a significant amount of static state. While much has been removed
 - [util/UniqueString.java](../src/util/UniqueString.java):
 - [util/ToolIO.java](../src/util/ToolIO.java): Used for 
@@ -77,7 +114,11 @@ There is a significant amount of static state. While much has been removed
 
 ### Proprietary Implementations of Standard Data Structures
 
-Vector (../src/tla2sany/utilities/Vector.java)
+Multiple custom vector classes are used:
+- [Vector] (../src/tla2sany/utilities/Vector.java)
+- [Vect] (../src/tlc2/util/Vect.java)
+
+They have no particularly unique functionality, however slight behavioral changes mean it is not a trivial substitution. Since none of them seem particularly Thread-safe, they should likely both be replaced with ArrayList's.
 
 ### Unchecked Casting
 As a language interpreter, there are a number of Abstract Syntax Tree node types. In many cases, functions use unchecked casts to resolve these node types, often after using if statements to check the nodes type.
@@ -93,10 +134,20 @@ Whenever possible unchecked casts should be replaced with [pattern matching inst
 This project was initiated prior to "good" version control. Therefore modern anti-patterns such as commenting out code and leaving unused methods, classes, etc have propagated. Significant amounts of dead code have been removed. Because of the use of reflection / classloaders, static analysis tools may indicate certain items are unused when they are actually depended on. Dead code removal needs to be done in conjunction with testing and exploration.
 
 #### Acceptable Dead Code
-- Standard methods implemented on data structures
+A certain amount of dead code may have explanatory purpose.
+- Standard methods implemented on data structures: ideally they should be tested, but some are not.
 - Semantic variables / properties that are set appropriately but unread: They serve as a form of comment. Misleading examples of these should be removed.
-- Small amounts of inline, commented out code that unlocks particular functionality or configures the codebase
-- Tested classes that implement used interfaces, where the class is not currently used: These still have explanatory purpose. Without 
+- Small amounts of inline, commented out code that changes particular functionality or configures the codebase.
+- Tested classes that implement used interfaces, where the class is not currently used: These still have explanatory purpose. 
+
+Any of this code should be removed when it loses relevance or accuracy.
 
 #### Dead Code to be Removed
-- 
+- Commented out methods
+- Orphan classes
+- Large amounts of inline commented out code without sufficient explanatory power
+- Unused, untested, non-standard methods: Version control can be used if they are needed, but they add confusion and may be broken
+
+
+### Inconsistent Formatting
+The formatting of certain classes is inconsistent and doesn't work well with modern IDEs. Ideally an autoformatter would be run on the codebase to fix this. However, as this is a fork of the primary codebase, it is left unrun to allow better diffs with the upstream repo.       
