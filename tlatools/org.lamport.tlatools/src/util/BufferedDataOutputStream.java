@@ -191,6 +191,7 @@ public final class BufferedDataOutputStream extends FilterOutputStream implement
 
     /** Write the characters of the string <code>s</code> to this
         stream as a sequence of bytes. */
+    @SuppressWarnings( "deprecation" )
     @Override
     public void writeString(final String s) throws IOException {
         int n = s.length();
