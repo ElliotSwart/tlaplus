@@ -164,18 +164,16 @@ public class ExternalModuleTable implements ExploreNode {
   public void printExternalModuleTable(final int depth, final boolean b) {
     System.out.print("\nExternal Module Table:");
 
-    for (int i = 0; i < moduleNodeArrayList.size(); i++) {
-      final ModuleNode mn = moduleNodeArrayList.get(i);
-
-      if (mn != null) {
-        System.out.print(Strings.indent(2, "\nModule: ")); 
-        mn.print(2,depth,b);
-      } else {
-        System.out.print(Strings.indent(2, "\nModule: " + 
-                         Strings.indent(2, "\n***Null ExternalModuleTable entry; " + 
-                                           "module contained error and was not created.")));
+      for (final ModuleNode mn : moduleNodeArrayList) {
+          if (mn != null) {
+              System.out.print(Strings.indent(2, "\nModule: "));
+              mn.print(2, depth, b);
+          } else {
+              System.out.print(Strings.indent(2, "\nModule: " +
+                      Strings.indent(2, "\n***Null ExternalModuleTable entry; " +
+                              "module contained error and was not created.")));
+          }
       }
-    }
   }
 
   /**  
@@ -189,15 +187,14 @@ public class ExternalModuleTable implements ExploreNode {
     if (depth <= 0) return "";
 
     final StringBuilder ret = new StringBuilder();
-    for (int i = 0; i < moduleNodeArrayList.size(); i++) {
-      final ModuleNode mn = moduleNodeArrayList.get(i);
-      if (mn != null) {
-        ret.append(Strings.indent(2, "\nModule: " + Strings.indent(2, mn.toString(depth))));
-      } else {
-	final String str = "\n***Null ExternalModuleTable entry; module contained error and was not created.";
-	ret.append(Strings.indent(2, "\nModule: " + Strings.indent(2, str)));
+      for (final ModuleNode mn : moduleNodeArrayList) {
+          if (mn != null) {
+              ret.append(Strings.indent(2, "\nModule: " + Strings.indent(2, mn.toString(depth))));
+          } else {
+              final String str = "\n***Null ExternalModuleTable entry; module contained error and was not created.";
+              ret.append(Strings.indent(2, "\nModule: " + Strings.indent(2, str)));
+          }
       }
-    }
     return ret.toString();
   }
 

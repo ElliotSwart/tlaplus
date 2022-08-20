@@ -175,9 +175,9 @@ public class APSubstInNode extends LevelNode {
    * then we have an error.
    */
   final void matchAll(final ArrayList<OpDeclNode> decls) {
-    for (int i = 0; i < decls.size(); i++) {
+    for (OpDeclNode decl : decls) {
       // Get the name of the i'th operator that must be substituted for
-      final UniqueString opName = decls.get(i).getName();
+      final UniqueString opName = decl.getName();
 
       // See if it is represented in the substitutions array
       int j;
@@ -186,11 +186,11 @@ public class APSubstInNode extends LevelNode {
       }
 
       // If not, then report an error
-      if ( j >= this.substs.length ) {
+      if (j >= this.substs.length) {
         errors.get().addError(stn.getLocation(),
-			"Substitution missing for symbol " + opName + " declared at " +
-			decls.get(i).getTreeNode().getLocation() +
-			" \nand instantiated in module " + instantiatingModule.getName() + "." );
+                "Substitution missing for symbol " + opName + " declared at " +
+                        decl.getTreeNode().getLocation() +
+                        " \nand instantiated in module " + instantiatingModule.getName() + ".");
       }
     }
   }

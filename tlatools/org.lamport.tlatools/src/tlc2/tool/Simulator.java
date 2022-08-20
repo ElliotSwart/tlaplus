@@ -647,8 +647,7 @@ public class Simulator {
 		
 		// Create a map from id to action name.
 		final Map<Integer, Action> idToActionName = new HashMap<>();
-		for (int i = 0; i < initAndNext.size(); i++) {
-			final Action action = initAndNext.get(i);
+		for (final Action action : initAndNext) {
 			idToActionName.put(action.getId(), action);
 		}
 
@@ -695,9 +694,7 @@ public class Simulator {
 		// Create mappings from distinct ids to action ids and name.
 		final Map<Integer, Action> idToAction = new HashMap<>();
 		final Map<Location, Integer> actionToId = new HashMap<>();
-		for (int i = 0; i < initAndNext.size(); i++) {
-			final Action action = initAndNext.get(i);
-			
+		for (final Action action : initAndNext) {
 			if (!actionToId.containsKey(action.getDefinition())) {
 				final int id = idToAction.size();
 				idToAction.put(id, action);
@@ -705,8 +702,7 @@ public class Simulator {
 			}
 		}
 		final Map<Integer, Integer> actionsToDistinctActions = new HashMap<>();
-		for (int i = 0; i < initAndNext.size(); i++) {
-			final Action action = initAndNext.get(i);
+		for (final Action action : initAndNext) {
 			actionsToDistinctActions.put(action.getId(), actionToId.get(action.getDefinition()));
 		}
 		

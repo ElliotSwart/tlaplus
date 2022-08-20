@@ -50,18 +50,18 @@ public class ModuleRelatives {
             : outerModule.getName());
 
     ret.append("\ndirectInnerModules: ");
-    for (int i = 0; i < directInnerModules.size(); i++) {
-      ret.append((directInnerModules.get(i)).getName()).append(" ");
+    for (ModulePointer directInnerModule : directInnerModules) {
+      ret.append(directInnerModule.getName()).append(" ");
     }
 
     ret.append("\ndirectlyExtendedModuleNames: ");
-    for (int i = 0; i < directlyExtendedModuleNames.size(); i++) {
-      ret.append(directlyExtendedModuleNames.get(i)).append(" ");
+    for (String directlyExtendedModuleName : directlyExtendedModuleNames) {
+      ret.append(directlyExtendedModuleName).append(" ");
     }
 
     ret.append("\ndirectlyInstantiatedModuleNames: ");
-    for (int i = 0; i < directlyInstantiatedModuleNames.size(); i++) {
-      ret.append(directlyInstantiatedModuleNames.get(i)).append(" ");
+    for (String directlyInstantiatedModuleName : directlyInstantiatedModuleNames) {
+      ret.append(directlyInstantiatedModuleName).append(" ");
     }
 
     ret.append("\n").append(context);

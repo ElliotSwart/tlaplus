@@ -910,8 +910,8 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 									} else {
 										mode = FindingSubExpr;
 									}
-									for (int i = 0; i < opDefArgs.size(); i++) {
-										allArgs.add(opDefArgs.get(i));
+									for (ExprOrOpArgNode opDefArg : opDefArgs) {
+										allArgs.add(opDefArg);
 									}
 									// for
 									opDefArityFound = 0;
@@ -4218,10 +4218,14 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 		// For each definition in the instancee module, create a
 		// corresponding definition in the instancer module
-		for (int i = 0; i < elts.size(); i++) {
+		/**********************************************************************
+		 * Ignore it if it is local or a builtin def. *
+		 **********************************************************************/
+		/*****************************************************************
+		 * This is a ModuleInstanceKind node. *
+		 *****************************************************************/
+		for (final OpDefNode odn : elts) {
 			// Find the OpDefNode to be instantiated
-			final OpDefNode odn = elts.get(i);
-
 			/**********************************************************************
 			 * Ignore it if it is local or a builtin def. *
 			 **********************************************************************/
@@ -4251,7 +4255,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 						// ad-hoc parsing later when a feature such as the debugger needs to know each
 						// segment.
 						// A!B!C!OP -> {A,B,C,OP}
-						final UniqueString[] cID = Stream.of(new UniqueString[] { name }, odn.getCompoundId())
+						final UniqueString[] cID = Stream.of(new UniqueString[]{name}, odn.getCompoundId())
 								.flatMap(Stream::of).toArray(UniqueString[]::new);
 
 						// Create the OpDefNode for the new instance of this
@@ -4260,17 +4264,17 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 						// "the same" or "different"
 						newOdn = new OpDefNode(qualifiedName, UserDefinedOpKind, params, localness, substInNode, cm,
 								symbolTable, treeNode, true, odn.getSource(), cID);
-                    } // if (substIn.getSubsts().length > 0)
+					} // if (substIn.getSubsts().length > 0)
 					else {
 						// no SUBST-IN node required; but because of the new
 						// operator name, cm is the module of origin for purposes of
 						// deciding of two defs are "the same" or "different"
 						newOdn = new OpDefNode(qualifiedName, UserDefinedOpKind, params, localness, odn.getBody(), cm,
 								symbolTable, treeNode, true, odn.getSource());
-                    } // else
-                    setOpDefNodeRecursionFields(newOdn, cm);
-                    newOdn.setLabels(odn.getLabelsHT());
-                } // if (odn.kind == UserDefinedOpKind)
+					} // else
+					setOpDefNodeRecursionFields(newOdn, cm);
+					newOdn.setLabels(odn.getLabelsHT());
+				} // if (odn.kind == UserDefinedOpKind)
 				else {
 					/*****************************************************************
 					 * This is a ModuleInstanceKind node. *
@@ -4278,7 +4282,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					newOdn = new OpDefNode(qualifiedName, params, localness, odn.getOriginallyDefinedInModuleNode(),
 							symbolTable, treeNode, odn.getSource());
 				}
-                // else
+				// else
 				// defs is non-null iff this module definition is in the Let
 				// part of a Let-In expression. Add this newly created OpDef
 				// to either the LET list or the module cm's definition list.
@@ -4301,10 +4305,22 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 		// For each definition in the instancee module, create a
 		// corresponding definition in the instancer module
-		for (int i = 0; i < taelts.size(); i++) {
+		/*********************************************************************
+		 * There are no builtin ThmOrAssumpDefNode objects. *
+		 *********************************************************************/
+		/*******************************************************************
+		 * Theorem or assumption definitions have no parameters. *
+		 *******************************************************************/
+		/*****************************************************************
+		 * No recursion fields needed for a theorem or assumption * because it can't
+		 * appear in a recursive section. *
+		 *****************************************************************/
+		/*****************************************************************
+		 * No recursion fields needed for theorems or assumptions * because they can't
+		 * appear in a recursive section. *
+		 *****************************************************************/
+		for (final ThmOrAssumpDefNode taOdn : taelts) {
 			// Find the ThmOrAssumpDefNode to be instantiated
-			final ThmOrAssumpDefNode taOdn = taelts.get(i);
-
 			/*********************************************************************
 			 * There are no builtin ThmOrAssumpDefNode objects. *
 			 *********************************************************************/
@@ -4343,7 +4359,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					// instantiated theorems and assumptions. Added setLabels call
 					// on 31 Oct 2012.
 
-                    /*****************************************************************
+					/*****************************************************************
 					 * No recursion fields needed for a theorem or assumption * because it can't
 					 * appear in a recursive section. *
 					 *****************************************************************/
@@ -4357,16 +4373,16 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					// Following statement added by LL on 30 Oct 2012 to handle locally
 					// instantiated theorems and assumptions. Added setLabels call
 					// on 31 Oct 2012.
-                    /*****************************************************************
+					/*****************************************************************
 					 * No recursion fields needed for theorems or assumptions * because they can't
 					 * appear in a recursive section. *
 					 *****************************************************************/
 					// setThmOrAssumpDefNodeRecursionFields(newtaOdn, cm) ;
 				}
-                newtaOdn.setLocal(localness);
-                newtaOdn.setLabels(taOdn.getLabelsHT());
+				newtaOdn.setLocal(localness);
+				newtaOdn.setLabels(taOdn.getLabelsHT());
 
-                // defs is non-null iff this module definition is in the Let
+				// defs is non-null iff this module definition is in the Let
 				// part of a Let-In expression. Add this newly created ThmOrAssumpDef
 				// to either the LET list or the module cm's definition list.
 				if (defs == null) {
@@ -4697,8 +4713,37 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 										// SubstInNode wrappers required
 
 		// Duplicate the OpDef records from the module being INSTANCE'd
-		for (int i = 0; i < defs.size(); i++) {
-			odn = defs.get(i);
+		/****************************************************************
+		 * Originally, newOdn was set the way it now is if localness = * true. Here's
+		 * the problem with it. Suppose the instantiated * module EXTENDS the Naturals
+		 * module. Then this will add new * OpDefNodes for all the symbols defined in
+		 * Naturals. If the * current module EXTENDS Naturals, this will lead to
+		 * multiple * definitions. So, for nonlocal definitions, we just * set newOdn to
+		 * odn. * * However, now the problem is: suppose the current module * does not
+		 * EXTEND the Naturals module. Then the operators * defined in Naturals, which
+		 * should be defined in the current * module, are not. So, we add them to
+		 * symbolTable. This does * not lead to a multiple definition error because
+		 * apparently * it's the addSymbol method that is smart enough to detect if * we
+		 * are adding a definition that comes from the same source as * the original
+		 * one. * * This fix was made by LL on 16 Feb 2009. * * On 6 June 2010, LL add
+		 * "&& topLevel" to the following `if' * test. This was needed because an
+		 * INSTANCE inside a proof * was producing a "Multiple declarations or
+		 * definition" * warning if the INSTANCEd module and the current module both *
+		 * EXTENDed Naturals. This fix seems to do the right thing, * but I have not
+		 * extensively tested it and I have no idea what * problems may remain. *
+		 ****************************************************************/
+		/***************************************************************
+		 * The following statement was added by LL on 16 Feb 2009, by * analogy with the
+		 * corresponding code about 45 lines below. I * have no idea if it was
+		 * originally omitted for a good reason. *
+		 ***************************************************************/
+		/****************************************************************
+		 * See the comments about the similar change made to the * setting of newOdn in
+		 * the `then' clause, just above. * This entire change was made by LL on 16 Feb
+		 * 2009. *
+		 ****************************************************************/
+		for (OpDefNode def : defs) {
+			odn = def;
 			// OpDefNode in module being instantiated (instancee)
 
 			// Do not instantiate built-in or local operators, or those
@@ -4805,8 +4850,12 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		// SubstInNode wrappers required
 
 		// Duplicate the OpDef records from the module being INSTANCE'd
-		for (int i = 0; i < tadefs.size(); i++) {
-			tadn = tadefs.get(i);
+		/********************************************************************
+		 * No recursion fields needed for theorems or assumptions because * they can't
+		 * appear in a recursive section. *
+		 ********************************************************************/
+		for (ThmOrAssumpDefNode tadef : tadefs) {
+			tadn = tadef;
 			// ThmOrAssumpDefNode in module being instantiated (instancee)
 
 			// Following statement added by LL on 30 Oct 2012 to handle locally
@@ -4887,7 +4936,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 			if (topLevel) {
 				cm.appendDef(newTadn);
 			}
-            /********************************************************************
+			/********************************************************************
 			 * No recursion fields needed for theorems or assumptions because * they can't
 			 * appear in a recursive section. *
 			 ********************************************************************/

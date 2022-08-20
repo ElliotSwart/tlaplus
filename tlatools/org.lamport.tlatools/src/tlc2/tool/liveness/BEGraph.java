@@ -33,10 +33,9 @@ public class BEGraph {
 	 */
 	public final void resetNumberField() {
 		final MemObjectStack stack = new MemObjectStack(this.metadir, "resetstack");
-		for (int i = 0; i < this.initNodes.size(); i++) {
-			final BEGraphNode node = this.initNodes.get(i);
+		for (final BEGraphNode node : this.initNodes) {
 			if (node.resetNumberField() != 0) {
-				stack.push(this.initNodes.get(i));
+				stack.push(node);
 			}
 		}
 		while (stack.size() != 0) {

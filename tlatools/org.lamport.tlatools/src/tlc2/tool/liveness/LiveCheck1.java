@@ -163,8 +163,7 @@ public class LiveCheck1 implements ILiveCheck {
 					allNodes.put(FP64.Extend(srcFP, tnode.getIndex()), destNode);
 				}
 			}
-			for (int i = 0; i < srcNodes.size(); i++) {
-				final BEGraphNode srcNode = srcNodes.get(i);
+			for (final BEGraphNode srcNode : srcNodes) {
 				final TBGraphNode tnode = srcNode.getTNode(os.getTableau());
 				for (int j = 0; j < tnode.nextSize(); j++) {
 					final TBGraphNode tnode1 = tnode.nextAt(j);
@@ -181,8 +180,7 @@ public class LiveCheck1 implements ILiveCheck {
 				final long destStateFP = destState.fingerPrint();
 				checkStateRes = os.checkState(myTool, destState);
 				checkActionRes = os.checkAction(tool, srcState, destState);
-				for (int j = 0; j < srcNodes.size(); j++) {
-					final BEGraphNode srcNode = srcNodes.get(j);
+				for (final BEGraphNode srcNode : srcNodes) {
 					final TBGraphNode tnode = srcNode.getTNode(os.getTableau());
 					for (int k = 0; k < tnode.nextSize(); k++) {
 						final TBGraphNode tnode1 = tnode.nextAt(k);
@@ -501,12 +499,12 @@ public class LiveCheck1 implements ILiveCheck {
             // SCC contains a "bad" cycle.
             initSccParams(os);
             final int numOfInits = initNodes.size();
-            for (int i = 0; i < numOfInits; i++) {
-                initNode = initNodes.get(i);
-                if (initNode.getNumber() == 0) {
-                    checkSccs(initNode);
-                }
-            }
+			for (BEGraphNode node : initNodes) {
+				initNode = node;
+				if (initNode.getNumber() == 0) {
+					checkSccs(initNode);
+				}
+			}
         }
 	}
 

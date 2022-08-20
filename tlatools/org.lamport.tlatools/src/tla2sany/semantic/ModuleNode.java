@@ -994,8 +994,8 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     // If the module contains any nonconstant expressions as Theorems
     // it is nonconstant module.  (Assumptions can only be of level 0
     // anyway, so no additional test for them is necessary here.)
-    for (int i = 0; i < theoremVec.size(); i++) {
-      if ((theoremVec.get(i)).getLevel() != ConstantLevel) {
+    for (TheoremNode theoremNode : theoremVec) {
+      if (theoremNode.getLevel() != ConstantLevel) {
         return false;
       }
     }
@@ -1060,8 +1060,8 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
     if (ctxt != null) {
       ctxt.walkGraph(semNodesTable, visitor);
     }
-    for (int i = 0; i < topLevelVec.size(); i++) {
-      (topLevelVec.get(i)).walkGraph(semNodesTable, visitor);
+    for (LevelNode levelNode : topLevelVec) {
+      levelNode.walkGraph(semNodesTable, visitor);
     }
       visitor.postVisit(this);
   }
@@ -1076,8 +1076,8 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
                                        : "" +errors.get().getNumErrors()));
 
     final ArrayList<String> contextEntries = ctxt.getContextEntryStringArrayList(depth-1, b);
-    for (int i = 0; i < contextEntries.size(); i++) {
-      System.out.print(Strings.indent(2+indent, contextEntries.get(i)) );
+    for (String contextEntry : contextEntries) {
+      System.out.print(Strings.indent(2 + indent, contextEntry));
     }
   }
 
@@ -1094,11 +1094,10 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
 
     final ArrayList<String> contextEntries = ctxt.getContextEntryStringArrayList(depth-1,false);
     if (contextEntries != null) {
-      for (int i = 0; i < contextEntries.size(); i++) {
-        if (contextEntries.get(i) != null) {
-          ret.append(Strings.indent(2, contextEntries.get(i)));
-        }
-        else {
+      for (String contextEntry : contextEntries) {
+        if (contextEntry != null) {
+          ret.append(Strings.indent(2, contextEntry));
+        } else {
           ret.append("*** null ***");
         }
       }
@@ -1110,30 +1109,30 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
 
     if ( instanceVec.size() > 0 ) {
       ret.append(Strings.indent(2, "\nInstantiations:"));
-      for (int i = 0; i < instanceVec.size(); i++) {
-        ret.append(Strings.indent(4, (instanceVec.get(i)).toString(1)));
+      for (InstanceNode instanceNode : instanceVec) {
+        ret.append(Strings.indent(4, instanceNode.toString(1)));
       }
     }
 
     if ( assumptionVec.size() > 0 ) {
       ret.append(Strings.indent(2, "\nAssumptions:"));
-      for (int i = 0; i < assumptionVec.size(); i++) {
-        ret.append(Strings.indent(4, (assumptionVec.get(i)).toString(1)));
+      for (AssumeNode assumeNode : assumptionVec) {
+        ret.append(Strings.indent(4, assumeNode.toString(1)));
       }
     }
 
     if ( theoremVec.size() > 0 ) {
       ret.append(Strings.indent(2, "\nTheorems:"));
-      for (int i = 0; i < theoremVec.size(); i++) {
-        ret.append(Strings.indent(4, (theoremVec.get(i)).toString(1)));
+      for (TheoremNode theoremNode : theoremVec) {
+        ret.append(Strings.indent(4, theoremNode.toString(1)));
       }
     }
 
     if ( topLevelVec.size() > 0 ) {
       ret.append(Strings.indent(2, "\ntopLevelVec: "));
-      for (int i = 0; i < topLevelVec.size(); i++) {
-        ret.append(Strings.indent(4, topLevelVec.get(i).toString(1)));
-        }
+      for (LevelNode levelNode : topLevelVec) {
+        ret.append(Strings.indent(4, levelNode.toString(1)));
+      }
       }
       return ret.toString();
   }

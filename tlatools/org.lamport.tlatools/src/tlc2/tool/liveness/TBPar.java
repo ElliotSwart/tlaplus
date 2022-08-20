@@ -159,13 +159,12 @@ public class TBPar extends ArrayList<LiveExprNode> {
 		boolean done;
 		do {
 			done = true;
-			for (int i = 0; i < alphas.size(); i++) {
-				final TBTriple alpha = alphas.get(i);
-				if (terms1.member(alpha.getB()) && terms1.member(alpha.getC()) && !terms1.member(alpha.getA())) {
-					terms1.add(alpha.getA());
-					done = false;
-				}
-			}
+            for (final TBTriple alpha : alphas) {
+                if (terms1.member(alpha.getB()) && terms1.member(alpha.getC()) && !terms1.member(alpha.getA())) {
+                    terms1.add(alpha.getA());
+                    done = false;
+                }
+            }
 		} while (!done);
 		// finally, recurse only when locally consistent
 		if ((terms1.size() > terms.size()) && (!terms1.isLocallyConsistent())) {

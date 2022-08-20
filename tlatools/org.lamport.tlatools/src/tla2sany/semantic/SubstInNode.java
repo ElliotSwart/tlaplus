@@ -139,49 +139,46 @@ public class SubstInNode extends ExprNode {
 
     // for each CONSTANT or VARIABLE declared in module being
     // instantiated (the instancee)
-    for ( int i = 0; i < instanceeDecls.size(); i++ ) {
-      // Get the OpDeclNode for the CONSTANT or VARIABLE being
-      // substituted for, i.e. "c" in" c <- e"
-      final OpDeclNode decl = instanceeDecls.get(i);
+      for (final OpDeclNode decl : instanceeDecls) {
+          // Get the OpDeclNode for the CONSTANT or VARIABLE being
+          // substituted for, i.e. "c" in" c <- e"
+          // Try to resolve the name in the instancer module so we can see
+          // if it is recognized as an operator, and if so, what kind of
+          // operator it is
+          final SymbolNode symb = instancerST.resolveSymbol(decl.getName());
 
-      // Try to resolve the name in the instancer module so we can see
-      // if it is recognized as an operator, and if so, what kind of
-      // operator it is
-      final SymbolNode symb = instancerST.resolveSymbol(decl.getName());
-
-      // if the name could be resolved in the instancer module
-      // (including parameters created on the LHS of the module
-      // instance definition), then create a default substitution for
-      // it.  If it cannot be resolved in instancerST, then do
-      // nothing, because explicit substitutions have yet to be
-      // processed, and then a check for completeness of the
-      // substitutions will occur after that.
-      if (symb != null){
-        // If "decl" is either a VARIABLE declaration, or a CONSTANT
-        // declaration for an operator with no arguments, then the
-        // expression being substituted must be an ExprNode.  But
-        // otherwise (i.e. if it is a CONSTANT declaration for an
-        // operator of at least one argument) then the expression being
-	// substituted must be an OpArgNode. No other choices are legal.
-        if (decl.getKind() == VariableDeclKind ||
-	    (decl.getKind() == ConstantDeclKind &&
-	     decl.getArity() == 0)) {
-	  // Create a new Subst for c <- c, where the c on the RHS is
-	  // an OpApplNode with zero arguments
-          vtemp.add(
-             new Subst(decl,
-		       new OpApplNode(symb, new ExprOrOpArgNode[0], treeNode, instantiatingModule, context),
-		       null, true));
-        }
-	else {
-	  // Create a new Subst for c <- c, where the c on the RHS is an OpArgNode
-          vtemp.add(
-             new Subst(decl,
-		       new OpArgNode(symb, treeNode, instantiatingModule),
-		       null, true));
-        } // end else
-      } // end if
-    } // end for
+          // if the name could be resolved in the instancer module
+          // (including parameters created on the LHS of the module
+          // instance definition), then create a default substitution for
+          // it.  If it cannot be resolved in instancerST, then do
+          // nothing, because explicit substitutions have yet to be
+          // processed, and then a check for completeness of the
+          // substitutions will occur after that.
+          if (symb != null) {
+              // If "decl" is either a VARIABLE declaration, or a CONSTANT
+              // declaration for an operator with no arguments, then the
+              // expression being substituted must be an ExprNode.  But
+              // otherwise (i.e. if it is a CONSTANT declaration for an
+              // operator of at least one argument) then the expression being
+              // substituted must be an OpArgNode. No other choices are legal.
+              if (decl.getKind() == VariableDeclKind ||
+                      (decl.getKind() == ConstantDeclKind &&
+                              decl.getArity() == 0)) {
+                  // Create a new Subst for c <- c, where the c on the RHS is
+                  // an OpApplNode with zero arguments
+                  vtemp.add(
+                          new Subst(decl,
+                                  new OpApplNode(symb, new ExprOrOpArgNode[0], treeNode, instantiatingModule, context),
+                                  null, true));
+              } else {
+                  // Create a new Subst for c <- c, where the c on the RHS is an OpArgNode
+                  vtemp.add(
+                          new Subst(decl,
+                                  new OpArgNode(symb, treeNode, instantiatingModule),
+                                  null, true));
+              } // end else
+          } // end if
+      } // end for
 
     // The ArrayList vtemp now contains all the default substitutions
     // that are legally possible. Make an array out of them
@@ -259,24 +256,24 @@ public class SubstInNode extends ExprNode {
    * then we have an error.
    */
   final void matchAll(final ArrayList<OpDeclNode> decls) {
-    for (int i = 0; i < decls.size(); i++) {
-      // Get the name of the i'th operator that must be substituted for
-      final UniqueString opName = decls.get(i).getName();
+      for (OpDeclNode decl : decls) {
+          // Get the name of the i'th operator that must be substituted for
+          final UniqueString opName = decl.getName();
 
-      // See if it is represented in the substitutions array
-      int j;
-      for (j = 0; j < this.substs.length; j++) {
-        if (this.substs[j].getOp().getName() == opName) break;
-      }
+          // See if it is represented in the substitutions array
+          int j;
+          for (j = 0; j < this.substs.length; j++) {
+              if (this.substs[j].getOp().getName() == opName) break;
+          }
 
-      // If not, then report an error
-      if ( j >= this.substs.length ) {
-        errors.get().addError(stn.getLocation(),
-			"Substitution missing for symbol " + opName + " declared at " +
-			decls.get(i).getTreeNode().getLocation() +
-			" \nand instantiated in module " + instantiatingModule.getName() + "." );
+          // If not, then report an error
+          if (j >= this.substs.length) {
+              errors.get().addError(stn.getLocation(),
+                      "Substitution missing for symbol " + opName + " declared at " +
+                              decl.getTreeNode().getLocation() +
+                              " \nand instantiated in module " + instantiatingModule.getName() + ".");
+          }
       }
-    }
   }
 
   /* Level check */

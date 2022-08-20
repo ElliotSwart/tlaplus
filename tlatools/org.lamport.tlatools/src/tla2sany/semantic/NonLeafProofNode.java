@@ -208,12 +208,13 @@ public class NonLeafProofNode extends ProofNode {
     ***********************************************************************/
     final ArrayList<String> contextEntries = context.getContextEntryStringArrayList(depth-1,false);
     if (contextEntries != null) {
-      for (int i = 0; i < contextEntries.size(); i++) {
-        if (contextEntries.get(i) != null) {
-          ret.append(Strings.indent(2, contextEntries.get(i)));
-         }
-        else { ret.append("*** null ***"); }
-      }
+        for (String contextEntry : contextEntries) {
+            if (contextEntry != null) {
+                ret.append(Strings.indent(2, contextEntry));
+            } else {
+                ret.append("*** null ***");
+            }
+        }
        } // for i
     return ret.toString();
    }

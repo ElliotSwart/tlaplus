@@ -38,8 +38,7 @@ class LNConj extends LiveExprNode {
 		this.conjs = conjs;
 		boolean hasAct = false;
 		int level = 0;
-		for (int i = 0; i < conjs.size(); i++) {
-			final LiveExprNode lexpr = conjs.get(i);
+		for (final LiveExprNode lexpr : conjs) {
 			level = Math.max(level, lexpr.getLevel());
 			hasAct = hasAct || lexpr.containAction();
 		}
@@ -79,8 +78,7 @@ class LNConj extends LiveExprNode {
 	
 	@Override
 	public final boolean isPositiveForm() {
-		for (int i = 0; i < conjs.size(); i++) {
-			final LiveExprNode lexpr = conjs.get(i);
+		for (final LiveExprNode lexpr : conjs) {
 			if (!lexpr.isPositiveForm()) {
 				return false;
 			}
@@ -91,8 +89,7 @@ class LNConj extends LiveExprNode {
 	@Override
     public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
 		final int sz = this.conjs.size();
-		for (int i = 0; i < sz; i++) {
-			final LiveExprNode item = this.conjs.get(i);
+		for (final LiveExprNode item : this.conjs) {
 			if (!item.eval(tool, s1, s2)) {
 				return false;
 			}
@@ -219,10 +216,9 @@ class LNConj extends LiveExprNode {
 		}
 		int num = 1;
 		int rCount = total;
-		for (int i = 0; i < nesSize; i++) {
-			final LiveExprNode ln = nes.get(i);
+		for (final LiveExprNode ln : nes) {
 			if (ln instanceof final LNDisj disj) {
-                rCount = rCount / disj.getCount();
+				rCount = rCount / disj.getCount();
 				int idx = 0;
 				for (int j = 0; j < num; j++) {
 					for (int k = 0; k < disj.getCount(); k++) {

@@ -365,23 +365,21 @@ public class ParseUnit {
     final ArrayList<String>        extendeeNames  = otherModule.getNamesOfModulesExtended();
 
     // For all modules extended by otherModule
-    for (int i = 0; i < extendeeNames.size(); i++) {
-      final String        extendeeName = extendeeNames.get(i);
-      final ModulePointer extendeeResolvant = currentContext.resolve(extendeeName);
+      for (final String extendeeName : extendeeNames) {
+          final ModulePointer extendeeResolvant = currentContext.resolve(extendeeName);
 
-      // if extendeeName is resolved in currentContext, then
-      // incorporate all of its inner modules into currentContext And
-      // recursively add to currentContext all of the inner modules in
-      // modules extended by resolvant
-      if ( extendeeResolvant != null ) {
-        final ArrayList<ModulePointer> directInnerModules = extendeeResolvant.getDirectInnerModules();
-        for (int j = 0; j < directInnerModules.size(); j++) {
-          final ModulePointer upperInnerMod = directInnerModules.get(j);
-          currentContext.bindIfNotBound(upperInnerMod.getName(), upperInnerMod);
-          handleExtensions(currentModule,extendeeResolvant); // recursive call
-	}
+          // if extendeeName is resolved in currentContext, then
+          // incorporate all of its inner modules into currentContext And
+          // recursively add to currentContext all of the inner modules in
+          // modules extended by resolvant
+          if (extendeeResolvant != null) {
+              final ArrayList<ModulePointer> directInnerModules = extendeeResolvant.getDirectInnerModules();
+              for (final ModulePointer upperInnerMod : directInnerModules) {
+                  currentContext.bindIfNotBound(upperInnerMod.getName(), upperInnerMod);
+                  handleExtensions(currentModule, extendeeResolvant); // recursive call
+              }
+          }
       }
-    }
 
   }
 

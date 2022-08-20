@@ -38,8 +38,7 @@ class LNDisj extends LiveExprNode {
 		this.disjs = disjs;
 		boolean hasAct = false;
 		int level = 0;
-		for (int i = 0; i < disjs.size(); i++) {
-			final LiveExprNode lexpr = disjs.get(i);
+		for (final LiveExprNode lexpr : disjs) {
 			level = Math.max(level, lexpr.getLevel());
 			hasAct = hasAct || lexpr.containAction();
 		}
@@ -79,8 +78,7 @@ class LNDisj extends LiveExprNode {
 	
 	@Override
 	public final boolean isPositiveForm() {
-		for (int i = 0; i < disjs.size(); i++) {
-			final LiveExprNode lexpr = disjs.get(i);
+		for (final LiveExprNode lexpr : disjs) {
 			if (!lexpr.isPositiveForm()) {
 				return false;
 			}
@@ -91,8 +89,7 @@ class LNDisj extends LiveExprNode {
 	@Override
     public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
 		final int sz = disjs.size();
-		for (int i = 0; i < sz; i++) {
-			final LiveExprNode item = disjs.get(i);
+		for (final LiveExprNode item : disjs) {
 			if (item.eval(tool, s1, s2)) {
 				return true;
 			}

@@ -78,12 +78,11 @@ public class TBGraph extends ArrayList<TBGraphNode> {
 	 * it does create a node, then it also sticks that node into allnodes.
 	 */
 	private TBGraphNode findOrCreateNode(final TBPar par) {
-		for (int i = 0; i < this.size(); i++) {
-			final TBGraphNode gn = this.get(i);
-			if (par.equals(gn.getPar())) {
-				return gn;
-			}
-		}
+        for (final TBGraphNode gn : this) {
+            if (par.equals(gn.getPar())) {
+                return gn;
+            }
+        }
 		final TBGraphNode gn = new TBGraphNode(par);
 		this.add(gn);
 		return gn;

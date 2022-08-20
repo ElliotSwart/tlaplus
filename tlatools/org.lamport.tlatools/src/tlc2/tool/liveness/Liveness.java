@@ -877,8 +877,8 @@ public class Liveness implements ToolGlobals, ASTConstants {
 				return tfs.get(0);
 			} else if (tfs.size() > 1) {
 				final LNConj lnc2 = new LNConj(tfs.size());
-				for (int j = 0; j < tfs.size(); j++) {
-					lnc2.addConj(tfs.get(j));
+				for (LiveExprNode tf : tfs) {
+					lnc2.addConj(tf);
 				}
 				return lnc2;
 			} else {

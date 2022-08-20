@@ -236,8 +236,8 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 		
 		final ArrayList<Action> initAndNext = this.tool.getSpecActions();
 		final int len = initAndNext.size();
-		for (int i = 0; i < initAndNext.size(); i++) {
-			this.behaviorStats.put(initAndNext.get(i).getName(), 0);
+		for (Action action : initAndNext) {
+			this.behaviorStats.put(action.getName(), 0);
 		}
 
 		if (traceActions != null) {

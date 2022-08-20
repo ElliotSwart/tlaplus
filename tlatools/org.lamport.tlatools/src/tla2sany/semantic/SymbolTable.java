@@ -225,8 +225,8 @@ public class SymbolTable implements ASTConstants {
       final Context ct = (Context) contextStack.get(c);
       final ArrayList<String> v = ct.getContextEntryStringArrayList(1,true);
 
-      for (int i = 0; i < v.size(); i++) {
-        ret.append(v.get(i));
+      for (String s : v) {
+        ret.append(s);
       }
       ret.append("\n\n*** next context\n");
     }

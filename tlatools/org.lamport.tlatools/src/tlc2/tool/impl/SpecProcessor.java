@@ -872,23 +872,18 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
         // Process the properties:
         final ArrayList<Comparable<?>> propNames = this.config.getProperties();
-        for (int i = 0; i < propNames.size(); i++)
-        {
-            final String propName = (String) propNames.get(i);
+        for (Comparable<?> name : propNames) {
+            final String propName = (String) name;
             final Object prop = this.defns.get(propName);
-            if (prop instanceof final OpDefNode opDef)
-            {
-                if (opDef.getArity() != 0)
-                {
-                    Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { propName });
+            if (prop instanceof final OpDefNode opDef) {
+                if (opDef.getArity() != 0) {
+                    Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[]{propName});
                 }
                 this.processConfigProps(propName, opDef.getBody(), Context.Empty, new LinkedList<>());
-            } else if (prop == null)
-            {
-                Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[] { "property", propName });
-            } else if (!(prop instanceof IBoolValue) || !(((BoolValue) prop).val))
-            {
-                Assert.fail(EC.TLC_CONFIG_ID_HAS_VALUE, new String[] { "property", propName, prop.toString() });
+            } else if (prop == null) {
+                Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[]{"property", propName});
+            } else if (!(prop instanceof IBoolValue) || !(((BoolValue) prop).val)) {
+                Assert.fail(EC.TLC_CONFIG_ID_HAS_VALUE, new String[]{"property", propName, prop.toString()});
             }
         }
 
@@ -1030,38 +1025,32 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     private void processConfigInvariants()
     {
         final ArrayList<Comparable<?>> invs = this.config.getInvariants();
-        for (int i = 0; i < invs.size(); i++)
-        {
-            final String name = (String) invs.get(i);
+        for (Comparable<?> comparable : invs) {
+            final String name = (String) comparable;
             final Object inv = this.defns.get(name);
-            if (inv instanceof final OpDefNode def)
-            {
-                if (def.getArity() != 0)
-                {
-                    Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { "invariant", name });
+            if (inv instanceof final OpDefNode def) {
+                if (def.getArity() != 0) {
+                    Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[]{"invariant", name});
                 }
-				// MK 07/25/2017: Check if the invariant is a valid state predicate and produce
-				// a meaningful warning otherwise. With this enhancement, a rare bug in TLC's
-				// level-checking surfaced for which we don't have a fix right now. Fortunately,
-				// the bug is rather unlikely which is why TLC simply produces a warning for now
-				// if it "thinks" a user might be affected by the bug.
+                // MK 07/25/2017: Check if the invariant is a valid state predicate and produce
+                // a meaningful warning otherwise. With this enhancement, a rare bug in TLC's
+                // level-checking surfaced for which we don't have a fix right now. Fortunately,
+                // the bug is rather unlikely which is why TLC simply produces a warning for now
+                // if it "thinks" a user might be affected by the bug.
                 // see LevelNode.java line 590ff, Test52, TestInvalidInvariant, and related files
                 // for more context.
-                if (def.getLevel() >= 2)
-                {
-               		if (!def.getBody().levelParams.isEmpty()) {
-                        Assert.fail(EC.TLC_INVARIANT_VIOLATED_LEVEL, new String[] { def.getName().toString(), "includeWarning" });
-               		}
-                	Assert.fail(EC.TLC_INVARIANT_VIOLATED_LEVEL, def.getName().toString());
+                if (def.getLevel() >= 2) {
+                    if (!def.getBody().levelParams.isEmpty()) {
+                        Assert.fail(EC.TLC_INVARIANT_VIOLATED_LEVEL, new String[]{def.getName().toString(), "includeWarning"});
+                    }
+                    Assert.fail(EC.TLC_INVARIANT_VIOLATED_LEVEL, def.getName().toString());
                 }
                 this.invNameVec.add(name);
                 this.invVec.add(new Action(def.getBody(), Context.Empty, def));
-            } else if (inv == null)
-            {
-                Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[] { "invariant", name });
-            } else if (!(inv instanceof IBoolValue) || !(((BoolValue) inv).val))
-            {
-                Assert.fail(EC.TLC_CONFIG_ID_HAS_VALUE, new String[] { "invariant", name, inv.toString() });
+            } else if (inv == null) {
+                Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[]{"invariant", name});
+            } else if (!(inv instanceof IBoolValue) || !(((BoolValue) inv).val)) {
+                Assert.fail(EC.TLC_CONFIG_ID_HAS_VALUE, new String[]{"invariant", name, inv.toString()});
             }
         }
     }
@@ -1073,7 +1062,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         if (pred instanceof final SubstInNode pred1)
         {
             // cons
-            var s = (LinkedList) subs.clone();
+            var s = (LinkedList<SubstInNode>) subs.clone();
             s.addFirst(pred1);
 
             this.processConfigSpec(pred1.getBody(), c, s);
@@ -1317,7 +1306,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         if (pred instanceof final SubstInNode pred1)
         {
             // cons
-            var s = (LinkedList) subs.clone();
+            var s = (LinkedList<SubstInNode>) subs.clone();
             s.addFirst(pred1);
 
             this.processConfigProps(name, pred1.getBody(), c, s);
@@ -1416,35 +1405,29 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 	    final ArrayList<Comparable<?>> names = this.config.getActionConstraints();
 	    this.actionConstraints = new ExprNode[names.size()];
 	    int idx = 0;
-	    for (int i = 0; i < names.size(); i++)
-	    {
-	        final String name = (String) names.get(i);
-	        final Object constr = this.defns.get(name);
-	        if (constr instanceof final OpDefNode def)
-	        {
-                if (def.getArity() != 0)
-	            {
-	                Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { "action constraint", name });
-	            }
-	            final ExprNode body = def.getBody();
-				// Remember OpDefNode of body because CostModelCreator needs it to correctly
-				// report state statistics (CostModelCreator#create will later replace it
-	            // with an Action instance).
-	            assert body.getToolObject(toolId) == null;
-	            body.setToolObject(toolId, def);
-	            this.actionConstraints[idx++] = body;
-	        } else if (constr != null)
-	        {
-	            if (!(constr instanceof IBoolValue) || !((BoolValue) constr).val)
-	            {
-	                Assert.fail(EC.TLC_CONFIG_ID_HAS_VALUE,
-	                        new String[] { "action constraint", name, constr.toString() });
-	            }
-	        } else
-	        {
-	            Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[] { "action constraint", name });
-	        }
-	    }
+        for (Comparable<?> comparable : names) {
+            final String name = (String) comparable;
+            final Object constr = this.defns.get(name);
+            if (constr instanceof final OpDefNode def) {
+                if (def.getArity() != 0) {
+                    Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[]{"action constraint", name});
+                }
+                final ExprNode body = def.getBody();
+                // Remember OpDefNode of body because CostModelCreator needs it to correctly
+                // report state statistics (CostModelCreator#create will later replace it
+                // with an Action instance).
+                assert body.getToolObject(toolId) == null;
+                body.setToolObject(toolId, def);
+                this.actionConstraints[idx++] = body;
+            } else if (constr != null) {
+                if (!(constr instanceof IBoolValue) || !((BoolValue) constr).val) {
+                    Assert.fail(EC.TLC_CONFIG_ID_HAS_VALUE,
+                            new String[]{"action constraint", name, constr.toString()});
+                }
+            } else {
+                Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[]{"action constraint", name});
+            }
+        }
 	    // Shrink in case array has been overallocated
 	    if (idx < this.actionConstraints.length)
 	    {
@@ -1458,34 +1441,28 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 	    final ArrayList<Comparable<?>> names = this.config.getConstraints();
 	    this.modelConstraints = new ExprNode[names.size()];
 	    int idx = 0;
-	    for (int i = 0; i < names.size(); i++)
-	    {
-	        final String name = (String) names.get(i);
-	        final Object constr = this.defns.get(name);
-	        if (constr instanceof final OpDefNode def)
-	        {
-                if (def.getArity() != 0)
-	            {
-	                Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { "constraint", name });
-	            }
-	            final ExprNode body = def.getBody();
-				// Remember OpDefNode of body because CostModelCreator needs it to correctly
-				// report state statistics (CostModelCreator#create will later replace it
-	            // with an Action instance).
-	            assert body.getToolObject(toolId) == null;
-	            body.setToolObject(toolId, def);
-				this.modelConstraints[idx++] = body;
-	        } else if (constr != null)
-	        {
-	            if (!(constr instanceof IBoolValue) || !((BoolValue) constr).val)
-	            {
-	                Assert.fail(EC.TLC_CONFIG_ID_HAS_VALUE, new String[] { "constraint", name, constr.toString() });
-	            }
-	        } else
-	        {
-	            Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[] { "constraint", name });
-	        }
-	    }
+        for (Comparable<?> comparable : names) {
+            final String name = (String) comparable;
+            final Object constr = this.defns.get(name);
+            if (constr instanceof final OpDefNode def) {
+                if (def.getArity() != 0) {
+                    Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[]{"constraint", name});
+                }
+                final ExprNode body = def.getBody();
+                // Remember OpDefNode of body because CostModelCreator needs it to correctly
+                // report state statistics (CostModelCreator#create will later replace it
+                // with an Action instance).
+                assert body.getToolObject(toolId) == null;
+                body.setToolObject(toolId, def);
+                this.modelConstraints[idx++] = body;
+            } else if (constr != null) {
+                if (!(constr instanceof IBoolValue) || !((BoolValue) constr).val) {
+                    Assert.fail(EC.TLC_CONFIG_ID_HAS_VALUE, new String[]{"constraint", name, constr.toString()});
+                }
+            } else {
+                Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[]{"constraint", name});
+            }
+        }
 		// Shrink modelContraints in case we allocated a too large array. See
 		// nested if block above for why some constraints don't get instantiated.
 	    if (idx < this.modelConstraints.length)
@@ -1661,31 +1638,24 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 	private Hashtable<String, Comparable<?>> makeConstantTable(final ArrayList<ArrayList<Comparable<?>>> consts)
     {
         final Hashtable<String, Comparable<?>> constTbl = new Hashtable<>();
-        for (int i = 0; i < consts.size(); i++)
-        {
-            final ArrayList<Comparable<?>> line = consts.get(i);
+        for (final ArrayList<Comparable<?>> line : consts) {
             final int len = line.size();
             final String name = (String) line.get(0);
-            if (len <= 2)
-            {
+            if (len <= 2) {
                 constTbl.put(name, line.get(1));
-            } else
-            {
+            } else {
                 final Object val = constTbl.get(name);
-                if (val == null)
-                {
+                if (val == null) {
                     final OpRcdValue opVal = new OpRcdValue();
-                    opVal.addLine((ArrayList)line);
+                    opVal.addLine((ArrayList) line);
                     constTbl.put(name, opVal);
-                } else
-                {
+                } else {
                     final OpRcdValue opVal = (OpRcdValue) val;
                     final int arity = opVal.domain.get(0).length;
-                    if (len != arity + 2)
-                    {
+                    if (len != arity + 2) {
                         Assert.fail(EC.TLC_CONFIG_OP_ARITY_INCONSISTENT, name);
                     }
-                    opVal.addLine((ArrayList)line);
+                    opVal.addLine((ArrayList) line);
                 }
             }
         }

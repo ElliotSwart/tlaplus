@@ -138,18 +138,18 @@ public class Errors {
     final StringBuilder ret = new StringBuilder();
 
     ret.append((numAborts > 0) ? "*** Abort messages: " + numAborts + "\n\n" : "");
-    for (int i = 0; i < aborts.size(); i++)   {
-      ret.append(aborts.get(i)).append("\n\n\n");
+    for (String abort : aborts) {
+      ret.append(abort).append("\n\n\n");
     }
 
     ret.append((numErrors > 0) ? "*** Errors: " + numErrors + "\n\n" : "");
-    for (int i = 0; i < errors.size(); i++)   {
-      ret.append(errors.get(i)).append("\n\n\n");
+    for (String error : errors) {
+      ret.append(error).append("\n\n\n");
     }
 
     ret.append((numWarnings > 0) ? "*** Warnings: " + numWarnings + "\n\n" : "");
-    for (int i = 0; i < warnings.size(); i++) {
-      ret.append(warnings.get(i)).append("\n\n\n");
+    for (String warning : warnings) {
+      ret.append(warning).append("\n\n\n");
     }
 
     return ret.toString();

@@ -257,13 +257,13 @@ implements ExploreNode, LevelConstants {
       * printed.                                                           *
       *********************************************************************/
     if (contextEntries != null) {
-      for (int i = 0; i < contextEntries.size(); i++) {
-        if (contextEntries.get(i) != null) {
-          ret.append(Strings.indent(2, contextEntries.get(i)));
+        for (String contextEntry : contextEntries) {
+            if (contextEntry != null) {
+                ret.append(Strings.indent(2, contextEntry));
+            } else {
+                ret.append("*** null ***");
+            }
         }
-        else {
-          ret.append("*** null ***"); }
-      }
     }
 
       /***********************************************************************

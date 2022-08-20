@@ -239,9 +239,9 @@ public class OpRcdValue extends OpValue implements Applicable {
   public final boolean isDefined() {
     try {
       boolean defined = true;
-      for (int i = 0; i < this.values.size(); i++) {
-        defined = defined && this.values.get(i).isDefined();
-      }
+        for (Value value : this.values) {
+            defined = defined && value.isDefined();
+        }
       return defined;
     }
     catch (final RuntimeException | OutOfMemoryError e) {

@@ -123,8 +123,7 @@ public class Explorer {
 		}
 
 		// Print them all
-		for (int i = 0; i < symbolVect.size(); i++) {
-			final SymbolNode sym = symbolVect.get(i);
+		for (final SymbolNode sym : symbolVect) {
 			sym.getTreeNode().printST(0);
 			System.out.println();
 		}
@@ -151,8 +150,7 @@ public class Explorer {
 		}
 
 		// Print them all
-		for (int i = 0; i < symbolVect.size(); i++) {
-			final SymbolNode sym = symbolVect.get(i);
+		for (final SymbolNode sym : symbolVect) {
 			if (sym instanceof OpDefOrDeclNode) {
 				if (((OpDefOrDeclNode) sym).getOriginallyDefinedInModuleNode() != null) {
 					System.out.print(
@@ -163,7 +161,7 @@ public class Explorer {
 			} else if (sym instanceof FormalParamNode) {
 				System.out.print("Module: " + ((FormalParamNode) sym).getModuleNode().getName());
 			}
-			System.out.println(((ExploreNode) (symbolVect.get(i))).toString(100));
+			System.out.println(((ExploreNode) sym).toString(100));
 			System.out.println();
 		}
 
@@ -189,8 +187,7 @@ public class Explorer {
 		}
 
 		// Print them all
-		for (int i = 0; i < symbolVect.size(); i++) {
-			final SymbolNode sym = symbolVect.get(i);
+		for (final SymbolNode sym : symbolVect) {
 			if (sym instanceof OpDefOrDeclNode) {
 				if (((OpDefOrDeclNode) sym).getOriginallyDefinedInModuleNode() != null) {
 					System.out.print(
