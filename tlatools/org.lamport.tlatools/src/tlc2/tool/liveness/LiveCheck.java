@@ -111,11 +111,12 @@ public class LiveCheck implements ILiveCheck {
             // that are new (ptr == -1)
             // (see https://github.com/tlaplus/tlaplus/issues/614)
             final BitSet checkActionResults = new BitSet(alen * nextStates.size());
+			final var nextStatesIterator = nextStates.iterator();
             for (int sidx = 0; sidx < nextStates.size(); sidx++) {
-                final TLCState s1 = nextStates.next();
+                final TLCState s1 = nextStatesIterator.next();
                 oos.checkAction(tool, s0, s1, checkActionResults, alen * sidx);
             }
-            nextStates.resetNext();
+
             check.addNextState(tool, s0, fp0, nextStates, checkActionResults, oos.checkState(tool, s0));
 
             // Write the content of the current graph to a file in GraphViz
@@ -314,11 +315,11 @@ public class LiveCheck implements ILiveCheck {
 			final long fingerPrint = tlcState.fingerPrint();
 
 			// Add state itself to allow stuttering
-			successors.put(tlcState);
+			successors.add(tlcState);
 			
 			// Add the successor in the trace
 			final TLCState successor = stateTrace.get(i + 1);
-			successors.put(successor);
+			successors.add(successor);
 			addNextState(tool, tlcState, fingerPrint, successors);
 		}
 		
@@ -510,8 +511,9 @@ public class LiveCheck implements ILiveCheck {
 				final GraphNode node0 = dgraph.getNode(fp0);
 				final int s = node0.succSize();
 				node0.setCheckState(checkStateResults);
+				final var nextStatesIterator = nextStates.iterator();
 				for (int sidx = 0; sidx < succCnt; sidx++) {
-					final TLCState successorState = nextStates.next();
+					final TLCState successorState = nextStatesIterator.next();
 					final long successor = successorState.fingerPrint();
 					// Only add the transition if:
 					// a) The successor itself has not been written to disk
@@ -540,7 +542,7 @@ public class LiveCheck implements ILiveCheck {
 					}
 					writer.writeState(s0, successorState, checkActionResults, sidx * alen, alen, ptr1 == -1);
 				}
-				nextStates.resetNext();
+
 				// In simulation mode (see Simulator), it's possible that this
 				// method is called multiple times for the same state (s0/fp0)
 				// but with changing successors caused by the random successor
@@ -629,8 +631,9 @@ public class LiveCheck implements ILiveCheck {
 
 			for(final TBGraphNode tableauNode : tableau) {
 
+				final var nextStatesIterator = nextStates.iterator();
 				for (int sidx = 0; sidx < succCnt; sidx++) {
-					final TLCState s1 = nextStates.next();
+					final TLCState s1 = nextStatesIterator.next();
 					if(tableauNode.isConsistent(s1, tool)) {
 						// BitSet is divided into a segment for each
 						// tableau node. Inside each segment, addressing is done
@@ -639,7 +642,6 @@ public class LiveCheck implements ILiveCheck {
 						consistency.set((tableauNode.getIndex() * succCnt) + sidx);
 					}
 				}
-				nextStates.resetNext();
 			}
 			
 			// At this point only constant time operations are allowed =>
@@ -677,8 +679,10 @@ public class LiveCheck implements ILiveCheck {
 					final GraphNode node0 = dgraph.getNode(fp0, tidx0);
 					final int s = node0.succSize();
 					node0.setCheckState(checkStateResults);
+
+					final var nextStatesIterator = nextStates.iterator();
 					for (int sidx = 0; sidx < succCnt; sidx++) {
-						final TLCState s1 = nextStates.next();
+						final TLCState s1 = nextStatesIterator.next();
 						final long successor = s1.fingerPrint();
 						final boolean isDone = dgraph.isDone(successor);
 						for (int k = 0; k < tnode0.nextSize(); k++) {
@@ -712,7 +716,7 @@ public class LiveCheck implements ILiveCheck {
 							cnt++;
 						}
 					}
-					nextStates.resetNext();
+
 					// See same case in LiveChecker#addNextState
 					if ((s == 0 && s == node0.succSize()) || s < node0.succSize()) {
 						node0.realign(); // see node0.addTransition() hint

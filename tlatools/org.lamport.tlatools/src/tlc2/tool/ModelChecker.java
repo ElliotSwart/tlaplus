@@ -479,7 +479,7 @@ public class ModelChecker extends AbstractChecker
 		// For liveness checking:
 		if (this.checkLiveness)
 		{
-			liveNextStates.put(fp, succState);
+			liveNextStates.add(fp, succState);
 		}
 		return seen;
 	}

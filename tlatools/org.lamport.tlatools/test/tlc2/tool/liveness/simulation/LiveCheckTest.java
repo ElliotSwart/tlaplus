@@ -93,7 +93,7 @@ public class LiveCheckTest {
 		liveCheck.addInitState(tool, state, 100L);
 
 		final SetOfStates setOfStates = new SetOfStates(1);
-		setOfStates.put(200L, new DummyTLCState(tool.getVariables(),200L));
+		setOfStates.add(200L, new DummyTLCState(tool.getVariables(),200L));
 		
 		// Add state 100L the first time, then add its successor
 		liveCheck.addNextState(tool, state, 100L, setOfStates);

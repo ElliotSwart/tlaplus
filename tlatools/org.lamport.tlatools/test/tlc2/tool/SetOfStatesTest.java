@@ -48,7 +48,7 @@ public class SetOfStatesTest extends TestCase {
 	@Test
 	public void testSize() {
 		final SetOfStates s = new SetOfStates(16);
-		s.put(new DummyTLCState(new OpDeclNode[]{}, 1L));
+		s.add(new DummyTLCState(new OpDeclNode[]{}, 1L));
 
 		assertEquals(16, s.capacity());
 		assertEquals(1, s.size());
@@ -59,7 +59,7 @@ public class SetOfStatesTest extends TestCase {
 		final SetOfStates s = new SetOfStates(1);
 		
 		for(int i = 0; i < 32; i++) {
-			s.put(new DummyTLCState(new OpDeclNode[]{}, i));
+			s.add(new DummyTLCState(new OpDeclNode[]{}, i));
 		}
 
 		assertTrue(s.capacity() > 32);
@@ -71,23 +71,25 @@ public class SetOfStatesTest extends TestCase {
 		final SetOfStates s = new SetOfStates(1);
 		
 		for(int i = 1; i <= 32; i++) {
-			assertFalse(s.put(new DummyTLCState(new OpDeclNode[]{}, i)));
+			assertFalse(s.add(new DummyTLCState(new OpDeclNode[]{}, i)));
 		}
 		assertEquals(32, s.size());
 
 		// successor is not equal to predecessor
 		TLCState predecessor = null;
-		for (int i = 0; i < s.size(); i++) {
-			final TLCState state = s.next();
+		;
+		for (final var it = s.iterator(); it.hasNext();) {
+			final TLCState state = it.next();
 			assertNotSame(predecessor, state);
 			predecessor = state;
 		}
-		s.resetNext();
+
 		
 		// The combined sum of elements is correct
 		long sum = 0L;
-		for (int i = 0; i < s.size(); i++) {
-			final TLCState elem = s.next();
+
+		for (final var it = s.iterator(); it.hasNext();) {
+			final TLCState elem = it.next();
 			sum += elem.fingerPrint();
 		}
 		assertEquals((32 / 2) * (1 + 32), sum);
@@ -98,17 +100,18 @@ public class SetOfStatesTest extends TestCase {
 		final SetOfStates s = new SetOfStates(1);
 		
 		for(int i = 1; i <= 32; i++) {
-			assertFalse(s.put(new DummyTLCState(new OpDeclNode[]{}, i)));
+			assertFalse(s.add(new DummyTLCState(new OpDeclNode[]{}, i)));
 		}
 		assertEquals(32, s.size());
 		
 		// Adding the same elements again fails
 		final Set<TLCState> states = new HashSet<>(s.size());
+		var it = s.iterator();
 		for (int i = 0; i < s.size(); i++) {
-			states.add(s.next());
+			states.add(it.next());
 		}
 		for (final TLCState aState : states) {
-			assertTrue(s.put(aState));
+			assertTrue(s.add(aState));
 		}
 		assertEquals(32, states.size());
 	}
@@ -121,20 +124,20 @@ public class SetOfStatesTest extends TestCase {
 		
 		int id = 1;
 		for(int i = 1; i <= 32; i++) {
-			assertFalse(s.put(new EqualityDummyTLCState(new OpDeclNode[]{}, i, id++)));
+			assertFalse(s.add(new EqualityDummyTLCState(new OpDeclNode[]{}, i, id++)));
 		}
 		assertEquals(32, s.size());
 		
 		// Add 32 more elements with identical fp but different ids
 		for(int i = 1; i <= 32; i++) {
-			assertFalse(s.put(new EqualityDummyTLCState(new OpDeclNode[]{}, i, id++)));
+			assertFalse(s.add(new EqualityDummyTLCState(new OpDeclNode[]{}, i, id++)));
 		}
 		assertEquals(64, s.size());
 
 		// Add 32 more elements with identical fp and ids
 		id = 1;
 		for(int i = 1; i <= 32; i++) {
-			assertTrue(s.put(new EqualityDummyTLCState(new OpDeclNode[]{}, i, id++)));
+			assertTrue(s.add(new EqualityDummyTLCState(new OpDeclNode[]{}, i, id++)));
 		}
 		assertEquals(64, s.size());
 	}

@@ -113,7 +113,7 @@ public class TraceExpressionSpecLassoTest extends TraceExpressionSpecTest {
 		assertEquals(BoolValue.ValTrue, vals.get(UniqueString.of("y")));
 
 		SetOfStates nextStates = new SetOfStates(1);
-		nextStates.put(sv.first());
+		nextStates.add(sv.first());
 		lc.addNextState(tool, cur, cur.fingerPrint(), nextStates);
 		cur = sv.first();
 		
@@ -126,7 +126,7 @@ public class TraceExpressionSpecLassoTest extends TraceExpressionSpecTest {
 		assertEquals(BoolValue.ValFalse, vals.get(UniqueString.of("y")));
 
 		nextStates = new SetOfStates(1);
-		nextStates.put(sv.first());
+		nextStates.add(sv.first());
 		lc.addNextState(tool, cur, cur.fingerPrint(), nextStates);
 		
 		try {

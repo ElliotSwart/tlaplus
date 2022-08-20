@@ -180,7 +180,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		final long curStateFP = curState.fingerPrint();
 
 		// Add the stuttering step:
-		liveNextStates.put(curStateFP, curState);
+		liveNextStates.add(curStateFP, curState);
 		this.tlc.allStateWriter.writeState(curState, curState, true, IStateWriter.Visualization.STUTTERING);
 
 		// Contrary to exceptions that are thrown during the evaluation of the init
@@ -205,9 +205,6 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 				
 				// liveCheck#addNextState throws an EvalException if, e.g., a Java module overrides throw one:
 				// For example: `Cardinality(S) ~> ...` with `S` a naturals, ...
-
-				// Reset the iterator before using it again after the call to addNextState above.
-				liveNextStates.resetNext();
 
 				// TODO: Try to pass DebugTool instead of tool.getLiveness to enable the TLC
 				// debugger for liveness checking.
@@ -517,7 +514,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 		// For liveness checking:
 		if (this.checkLiveness || mode == Mode.MC_DEBUG)
 		{
-			this.setOfStates.put(fp, succState);
+			this.setOfStates.add(fp, succState);
 		}
 		return seen;
 	}

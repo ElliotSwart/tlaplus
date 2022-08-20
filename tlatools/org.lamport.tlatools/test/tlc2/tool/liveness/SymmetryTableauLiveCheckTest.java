@@ -74,7 +74,7 @@ public class SymmetryTableauLiveCheckTest {
 
 		// Add v > s
 		final TLCState s = new DummyTLCState(tool.getVariables(),200L);
-		nexts.put(s);
+		nexts.add(s);
 		lc.addNextState(null, v, v.fingerPrint(), nexts);
 		
 		assertEquals(2, diskGraph.getNode(v.fingerPrint(), 0).succSize());
@@ -86,7 +86,7 @@ public class SymmetryTableauLiveCheckTest {
 		// Add s > t
 		nexts.clear();
 		final TLCState t = new DummyTLCState(tool.getVariables(),300L);
-		nexts.put(t);
+		nexts.add(t);
 		lc.addNextState(null, s, s.fingerPrint(), nexts);
 		
 		assertEquals(2, diskGraph.getNode(v.fingerPrint(), 0).succSize());
@@ -101,7 +101,7 @@ public class SymmetryTableauLiveCheckTest {
 		// add s > u
 		nexts.clear();
 		final TLCState u = new DummyTLCState(tool.getVariables(),400L);
-		nexts.put(u);
+		nexts.add(u);
 		lc.addNextState(null, s, s.fingerPrint(), nexts);
 		
 		Assert.fail("finish incomplete test! Assertions below are partially bogus.");
@@ -180,7 +180,7 @@ public class SymmetryTableauLiveCheckTest {
 		assertEquals(1, diskGraph.getInitNodes().size() / 2);
 
 		// Add v > s
-		nexts.put(s);
+		nexts.add(s);
 		lc.addNextState(null, v, v.fingerPrint(), nexts);
 		
 		final GraphNode vgn = diskGraph.getNode(v.fingerPrint(), 0);
@@ -197,7 +197,7 @@ public class SymmetryTableauLiveCheckTest {
 		
 		// Add s > t
 		nexts.clear();
-		nexts.put(t);
+		nexts.add(t);
 		lc.addNextState(null, s, s.fingerPrint(), nexts);
 		
 		assertEquals(2, diskGraph.getNode(v.fingerPrint(), 0).succSize());
@@ -241,7 +241,7 @@ public class SymmetryTableauLiveCheckTest {
 	
 		// add a symmetric s1 (same fingerprint as s)
 		nexts.clear();
-		nexts.put(s1);
+		nexts.add(s1);
 		lc.addNextState(null, u, u.fingerPrint(), nexts);
 		
 		assertEquals(2, diskGraph.getNode(v.fingerPrint(), 0).succSize());

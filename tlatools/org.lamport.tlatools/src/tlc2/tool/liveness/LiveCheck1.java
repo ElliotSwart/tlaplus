@@ -273,12 +273,11 @@ public class LiveCheck1 implements ILiveCheck {
 	 */
 	@Override
     public void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) {
-		for (int i = 0; i < nextStates.size(); i++) {
-			final TLCState s2 = nextStates.next();
+		for (final var it = nextStates.iterator(); it.hasNext();) {
+			final TLCState s2 = it.next();
 			final long fp2 = s2.fingerPrint();
 			addNextState(tool, s0, fp0, s2, fp2);
 		}
-		nextStates.resetNext();
 	}
 
 	/**

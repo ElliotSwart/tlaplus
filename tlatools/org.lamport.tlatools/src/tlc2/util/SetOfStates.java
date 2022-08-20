@@ -26,7 +26,7 @@
 
 package tlc2.util;
 
-import java.util.HashSet;
+import java.util.*;
 
 import tlc2.tool.Action;
 import tlc2.tool.ModelChecker;
@@ -42,7 +42,7 @@ import util.Assert.TLCRuntimeException;
  * this means that the {@link TLCState}s in {@link SetOfStates} are evenly
  * distributed assuming the {@link SetOfStates#length} is sufficiently large.
  */
-public final class SetOfStates {
+public final class SetOfStates extends AbstractSet<TLCState> {
 
 	private TLCState[] states;
 	private int count;
@@ -63,7 +63,7 @@ public final class SetOfStates {
 	public SetOfStates(final StateVec sv) {
 		this(sv.size());
 		for (int i = 0; i < sv.size(); i++) {
-			put(sv.get(i));
+			add(sv.get(i));
 		}
 	}
 
@@ -82,16 +82,24 @@ public final class SetOfStates {
             // This is where we have to redundantly compute the state's
             // fingerprint. Thus, try to minimize the number of grow operations.
             if (s != null) {
-                this.put(s.fingerPrint(), s);
+                this.add(s.fingerPrint(), s);
             }
         }
 	}
 
-	public boolean put(final TLCState aState) {
-		return put(aState.fingerPrint(), aState);
+	@Override
+	public boolean add(final TLCState aState) {
+		return add(aState.fingerPrint(), aState);
 	}
 
-	public boolean put(final long fingerprint, final TLCState aState) {
+
+	@Override
+	public boolean removeAll(Collection<?> c) {
+		clear();
+		return true;
+	}
+
+	public boolean add(final long fingerprint, final TLCState aState) {
 		if (count >= thresh) {
 			this.grow();
 		}
@@ -179,7 +187,51 @@ public final class SetOfStates {
 	public int size() {
 		return this.count;
 	}
-	
+
+	@Override
+	public boolean isEmpty() {
+		return this.count == 0;
+	}
+
+	@Override
+	public boolean contains(Object o) {
+		return false;
+	}
+
+	@Override
+	public Iterator<TLCState> iterator() {
+		return new SetIterator(this);
+	}
+
+	public static class SetIterator implements Iterator<TLCState> {
+
+		private int iteratorIndex = 0;
+		private int returnedIndex = 0;
+		private SetOfStates setOfStates;
+		public SetIterator(SetOfStates setOfStates){
+			this.setOfStates = setOfStates;
+			this.iteratorIndex = 0;
+		}
+
+		@Override
+		public boolean hasNext() {
+			return returnedIndex != setOfStates.count;
+		}
+
+		@Override
+		public TLCState next() {
+			TLCState next;
+
+			while ((next = setOfStates.states[iteratorIndex++]) == null) {
+				// No-op loop
+			}
+
+			returnedIndex += 1;
+			return next;
+		}
+	}
+
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -201,9 +253,9 @@ public final class SetOfStates {
 	
 	public java.util.Set<TLCState> getSubSet(final Action a) {
 		final HashSet<TLCState> subset = new HashSet<>(size());
-		
-		for (int i = 0; i < size(); i++) {
-			final TLCState next = next();
+
+		for (Iterator<TLCState> it = this.iterator(); it.hasNext(); ) {
+			final TLCState next = it.next();
 			// Deliberately use identify checking here! TLC maintains N instances of action
 			// A, one for each N passed to A:
 			//  
@@ -216,28 +268,9 @@ public final class SetOfStates {
 				subset.add(next);
 			}
 		}
-		// Always clean-up after ourself!
-		resetNext();
 		
 		return subset;
 	}
 	
-	/*
-	 * Iterate (avoids creating an iterator object at the price of the mandatory
-	 * resetNext() method).
-	 */
 
-	private int iteratorIndex = 0;
-	
-	public TLCState next() {
-		TLCState next;
-		while ((next = this.states[iteratorIndex++]) == null) {
-			// No-op loop
-		}
-		return next;
-	}
-
-	public void resetNext() {
-		iteratorIndex = 0;
-	}
 }

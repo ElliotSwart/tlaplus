@@ -438,7 +438,7 @@ public class DFIDModelChecker extends AbstractChecker
                         // For liveness checking:
                         if (this.checkLiveness && isLeaf)
                         {
-                            liveNextStates.put(fp, succState);
+                            liveNextStates.add(fp, succState);
                         }
                     }
 
@@ -561,7 +561,7 @@ public class DFIDModelChecker extends AbstractChecker
             {
             	final long curStateFP = curState.fingerPrint();
                 // Add a stuttering step for curState:
-                liveNextStates.put(curStateFP, curState);
+                liveNextStates.add(curStateFP, curState);
             	this.allStateWriter.writeState(curState, curState, true, IStateWriter.Visualization.STUTTERING);
                 // Add curState to the behavior graph:
                 liveCheck.addNextState(tool, curState, curStateFP, liveNextStates);
