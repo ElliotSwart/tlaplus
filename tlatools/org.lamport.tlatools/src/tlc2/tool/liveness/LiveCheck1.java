@@ -126,7 +126,7 @@ public class LiveCheck1 implements ILiveCheck {
 		boolean[] checkActionRes = os.checkAction(tool, srcState, srcState);
 		if (!os.hasTableau()) {
 			// If there is no tableau, construct begraph with trace.
-			final LongObjTable allNodes = new LongObjTable(127);
+			final LongObjTable<BEGraphNode> allNodes = new LongObjTable<>(BEGraphNode.class, 127);
 			BEGraphNode srcNode = new BEGraphNode(srcFP);
 			srcNode.setCheckState(checkStateRes);
 			srcNode.addTransition(srcNode, slen, alen, checkActionRes);
@@ -150,7 +150,7 @@ public class LiveCheck1 implements ILiveCheck {
 			}
 		} else {
 			// If there is tableau, construct begraph of (tableau X trace).
-			final LongObjTable allNodes = new LongObjTable(255);
+			final LongObjTable<BEGraphNode> allNodes = new LongObjTable<>(BEGraphNode.class, 255);
 			ArrayList<BEGraphNode> srcNodes = new ArrayList<>();
 			final int initCnt = os.getTableau().getInitCnt();
 			for (int i = 0; i < initCnt; i++) {
