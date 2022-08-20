@@ -1189,7 +1189,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                                             return;
                                         }
                                         // ignore overridden operators etc
-                                        break;
                                     }
                                     case SubstInKind -> {
                                         final SubstInNode subscript1 = (SubstInNode) subscript;
@@ -1199,14 +1198,12 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                                             c1 = c1.cons(sub.getOp(), symbolNodeValueLookupProvider.getVal(sub.getExpr(), c, false, toolId));
                                         }
                                         this.enter(subscript1.getBody(), c1);
-                                        return;
                                     }
                                     case LetInKind -> { // a bit strange, but legal...
                                         // note: the let-bound values become constants
                                         // so they are uninteresting for our purposes
                                         final LetInNode subscript1 = (LetInNode) subscript;
                                         this.enter(subscript1.getBody(), c);
-                                        return;
                                     }
 
                                     /***********************************************************
@@ -1219,7 +1216,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                                          * Cast to ExprNode added by LL on 19 May 2008 because  *
                                          * of change to LabelNode class.                        *
                                          *******************************************************/
-                                        return;
                                     }
                                     default -> // give up
                                             Assert.fail(EC.TLC_CANT_HANDLE_SUBSCRIPT, subscript.toString());
@@ -1518,7 +1514,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                     this.processConstants(thm);
                 }
 
-                return;
             }
             case OpApplKind -> {
                 final OpApplNode expr1 = (OpApplNode) expr;
@@ -1538,7 +1533,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                         this.processConstants(bnd);
                     }
                 }
-                return;
             }
             case LetInKind -> {
                 final LetInNode expr1 = (LetInNode) expr;
@@ -1547,7 +1541,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                     this.processConstants(letDef.getBody());
                 }
                 this.processConstants(expr1.getBody());
-                return;
             }
             case SubstInKind -> {
                 final SubstInNode expr1 = (SubstInNode) expr;
@@ -1556,7 +1549,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                     this.processConstants(sub.getExpr());
                 }
                 this.processConstants(expr1.getBody());
-                return;
             }
 
 
@@ -1568,7 +1560,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                     this.processConstants(sub.getExpr());
                 }
                 this.processConstants(expr1.getBody());
-                return;
             }
             case NumeralKind -> {
                 final NumeralNode expr1 = (NumeralNode) expr;
@@ -1581,23 +1572,19 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                     return;
                 }
                 expr1.setToolObject(toolId, val);
-                return;
             }
             case DecimalKind -> {
                 final DecimalNode expr1 = (DecimalNode) expr; // SZ: using typed variable
                 Assert.fail(EC.TLC_CANT_HANDLE_REAL_NUMBERS, expr1.toString());
-                return;
             }
             case StringKind -> {
                 final StringNode expr1 = (StringNode) expr;
                 final StringValue val = new StringValue(expr1.getRep());
                 expr1.setToolObject(toolId, val);
-                return;
             }
             case AssumeKind -> {
                 final AssumeNode expr1 = (AssumeNode) expr;
                 this.processConstants(expr1.getAssume());
-                return;
             }
 
             // On 13 Nov 2009, Yuan Yu added the following case, which was
@@ -1607,7 +1594,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
             case TheoremKind -> {
                 final TheoremNode expr1 = (TheoremNode) expr;
                 this.processConstants(expr1.getTheorem());
-                return;
             }
             case OpArgKind -> {
                 final SymbolNode opArgNode = ((OpArgNode) expr).getOp();
@@ -1618,7 +1604,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                         this.processConstants(opdef.getBody());
                     }
                 }
-                return;
             }
 
             /***********************************************************************

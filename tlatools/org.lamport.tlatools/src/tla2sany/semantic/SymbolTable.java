@@ -61,7 +61,7 @@ public class SymbolTable implements ASTConstants {
     for (int i = 0; i < st.contextStack.size(); i++) {
       contextStack.push( st.contextStack.get( i ) );
     }
-    baseContext = (Context)contextStack.get(0);
+    baseContext = contextStack.get(0);
     this.mt = mt;
   }
 
@@ -79,7 +79,7 @@ public class SymbolTable implements ASTConstants {
 
   public final void popContext() {
     contextStack.pop();
-    topContext = (Context) contextStack.peek();
+    topContext = contextStack.peek();
   }
 
   public final void setModuleNode(final ModuleNode mn) { modNode = mn; }
@@ -92,7 +92,7 @@ public class SymbolTable implements ASTConstants {
   *************************************************************************/
 	public final SymbolNode resolveSymbol(final UniqueString name) {
 		for (int c = contextStack.size() - 1; c >= 0; c--) {
-			final Context ct = (Context) contextStack.get(c);
+			final Context ct = contextStack.get(c);
 			final SymbolNode r = ct.getSymbol(name);
 			if (r != null)
 				return r;
@@ -104,7 +104,7 @@ public class SymbolTable implements ASTConstants {
     final ModuleName modName = new ModuleName(name);
 
     for (int c = contextStack.size()-1; c >= 0; c--) {
-      final Context ct = (Context)contextStack.get(c);
+      final Context ct = contextStack.get(c);
       final SymbolNode res = ct.getSymbol(modName);
       if (res != null) return (ModuleNode)res;
     }
@@ -222,7 +222,7 @@ public class SymbolTable implements ASTConstants {
     final StringBuilder ret = new StringBuilder("\n\n***SymbolTable\n\n*** top context");
 
     for (int c = contextStack.size()-1; c >= 0; c--) {
-      final Context ct = (Context) contextStack.get(c);
+      final Context ct = contextStack.get(c);
       final ArrayList<String> v = ct.getContextEntryStringArrayList(1,true);
 
       for (String s : v) {

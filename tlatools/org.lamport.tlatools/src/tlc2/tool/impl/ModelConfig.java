@@ -350,11 +350,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                                     }
                                     tt = getNextToken(tmgr, buf);
                                     line.add(this.parseValue(tt, scs, tmgr, buf));
-                                    ArrayList<ArrayList<Comparable<?>>> mConsts = this.modConstants.get(modName);
-                                    if (mConsts == null) {
-                                        mConsts = new ArrayList<>();
-                                        this.modConstants.put(modName, mConsts);
-                                    }
+                                    ArrayList<ArrayList<Comparable<?>>> mConsts = this.modConstants.computeIfAbsent(modName, k -> new ArrayList<>());
                                     mConsts.add(line);
                                 } else {
                                     // This is a main module override:

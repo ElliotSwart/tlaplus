@@ -153,9 +153,9 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		// function definition--change the operator to indicate so.
 		boolean recursionCheck(final UniqueString uniqueString) {
 			for (int lvi = funcStack.size() - 1; lvi >= 0; lvi--) {
-				if (uniqueString.equals(((pair) funcStack.get(lvi)).uniqueString())) {
+				if (uniqueString.equals(funcStack.get(lvi).uniqueString())) {
 					// OA-rfs = recursive func spec
-					((pair) funcStack.get(lvi)).oan().resetOperator(OP_rfs);
+					funcStack.get(lvi).oan().resetOperator(OP_rfs);
 					return true;
 				}
 			}
@@ -2761,7 +2761,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 				} else {
 					// So, the context for @ is proper, then construct the
 					// AtNode and return it
-					return new AtNode((OpApplNode) excStack.peek(), (OpApplNode) excSpecStack.peek());
+					return new AtNode(excStack.peek(), excSpecStack.peek());
 				}
 			}
 
