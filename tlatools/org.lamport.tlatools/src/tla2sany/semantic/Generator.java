@@ -904,9 +904,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 									} else {
 										mode = FindingSubExpr;
 									}
-									for (ExprOrOpArgNode opDefArg : opDefArgs) {
-										allArgs.add(opDefArg);
-									}
+									allArgs.addAll(opDefArgs);
 									// for
 									opDefArityFound = 0;
 									opDefArgs = new ArrayList<>();
