@@ -35,7 +35,7 @@ import tlc2.tool.fp.OffHeapDiskFPSet.Indexer;
 public class OffHeapIndexerTest {
 
 	@Test
-	public void testBitshifting() throws RemoteException {
+	public void testBitshifting() {
 		final int fpBits = 1;
 		final long positions = 128L;
 		final int logPos = 8;
@@ -79,7 +79,7 @@ public class OffHeapIndexerTest {
 	}
 
 	@Test
-	public void testBitshifting2() throws RemoteException {
+	public void testBitshifting2() {
 		final int fpBits = 2;
 		final long positions = 128L;
 		final int logPos = 9;
@@ -138,7 +138,7 @@ public class OffHeapIndexerTest {
 	}
 	
 	@Test
-	public void testBitshiftOvershoot() throws RemoteException {
+	public void testBitshiftOvershoot() {
 		final int fpBits = 1;
 		final long positions = 536870912L;
 		

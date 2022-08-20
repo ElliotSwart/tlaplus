@@ -182,13 +182,13 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 	protected static void assertTLCActionFrame(final StackFrame stackFrame, final int beginLine, final int beginColumn,
                                                final int endLine, final int endColumn, final String spec, final Set<Variable> expected,
                                                final OpDeclNode... unassigned) {
-		assertTLCActionFrame(stackFrame, beginLine, endLine, spec, expected, unassigned);
+		assertTLCActionFrame(stackFrame, beginLine, endLine, spec, expected);
 		assertEquals(beginColumn, stackFrame.getColumn());
 		assertEquals(endColumn + 1, (int) stackFrame.getEndColumn());
 	}
 
 	protected static void assertTLCActionFrame(final StackFrame stackFrame, final int beginLine, final int endLine,
-                                               final String spec, final Set<Variable> expected, final OpDeclNode... unassigned) {
+                                               final String spec, final Set<Variable> expected) {
 		assertTLCFrame0(stackFrame, beginLine, endLine, spec, null);
 		assertTrue(stackFrame instanceof TLCActionStackFrame);
 		final TLCActionStackFrame f = (TLCActionStackFrame) stackFrame;
@@ -250,7 +250,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		assertStateVars(f, f.getS(), f.state);
 
 		// Assert successor has a trace leading to an initial state.
-		assertTrace(f, f.state);
+		assertTrace(f);
 		
 		// Assert level of state and successor.
 		if (!isStuttering(f.getS(), f.getT())) {
@@ -344,10 +344,10 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		assertEquals(new HashSet<>(Arrays.asList(unassigned)), f.state.getUnassigned());
 		
 		assertStateVars(f, f.state);
-		assertTrace(f, f.state);
+		assertTrace(f);
 	}
 
-	private static void assertTrace(final TLCStateStackFrame frame, final TLCState st) {
+	private static void assertTrace(final TLCStateStackFrame frame) {
 		final Map<Integer, DebugTLCVariable> old = new HashMap<>(frame.nestedVariables);
 		try {
 			final List<DebugTLCVariable> trace = Arrays.asList(frame.getTrace()).stream()

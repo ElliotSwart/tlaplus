@@ -33,13 +33,9 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
 
-import tla2sany.semantic.ExprOrOpArgNode;
 import tlc2.output.EC;
 import tlc2.overrides.Evaluation;
-import tlc2.tool.coverage.CostModel;
-import tlc2.tool.impl.Tool;
 import tlc2.tool.liveness.ModelCheckerTestCase;
-import tlc2.util.Context;
 import tlc2.value.impl.BoolValue;
 import tlc2.value.impl.IntValue;
 import tlc2.value.impl.Value;
@@ -68,8 +64,7 @@ public class EvaluatingValueTest extends ModelCheckerTestCase {
 	}
 
 	@Evaluation(definition = "A", module = "EvaluatingValueTest")
-	public synchronized static Value action(final Tool tool, final ExprOrOpArgNode[] args, final Context c,
-			final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
+	public synchronized static Value action(final TLCState s1) {
 
 		// Set value of x variable of successor state to 42. 
 		s1.bind(UniqueString.of("x"), IntValue.gen(42));

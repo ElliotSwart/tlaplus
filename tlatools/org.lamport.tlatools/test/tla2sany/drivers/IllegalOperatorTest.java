@@ -27,9 +27,7 @@ package tla2sany.drivers;
 
 import org.junit.Test;
 
-import org.junit.experimental.categories.Category;
 import tlc2.tool.CommonTestCase;
-import util.IndependentlyRunTest;
 import util.TestPrintStream;
 import util.ToolIO;
 

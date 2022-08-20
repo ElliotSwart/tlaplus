@@ -18,7 +18,6 @@ import tlc2.tool.CommonTestCase;
 import tlc2.tool.Simulator;
 import tlc2.util.FP64;
 import tlc2.util.RandomGenerator;
-import util.FileUtil;
 import util.SimpleFilenameToStream;
 import util.TLAConstants;
 import util.ToolIO;

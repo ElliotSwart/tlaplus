@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.junit.experimental.categories.Category;
-import tlc2.TLCGlobals;
 import tlc2.TestMPRecorder;
 import tlc2.output.EC;
 import tlc2.tool.CommonTestCase;

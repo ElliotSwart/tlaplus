@@ -27,7 +27,7 @@ public class DynamicFPSetManagerTest {
 	 * Test that the ctor rejects invalid values.
 	 */
 	@Test
-	public void testCtorInvalidZero() throws Exception {
+	public void testCtorInvalidZero() {
 		try (var dfm = new DynamicFPSetManager(0)) {
 		} catch (final IllegalArgumentException e) {
 			return;
@@ -39,7 +39,7 @@ public class DynamicFPSetManagerTest {
 	 * Test that the ctor rejects invalid values.
 	 */
 	@Test
-	public void testCtorInvalidMin1() throws Exception {
+	public void testCtorInvalidMin1() {
 		try(var dfm = new DynamicFPSetManager(-1)) {
 
 		} catch (final IllegalArgumentException e) {
@@ -53,7 +53,7 @@ public class DynamicFPSetManagerTest {
 	 * servers for valid values.
 	 */
 	@Test
-	public void testCtor1() throws Exception {
+	public void testCtor1() {
 		try (final DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(1)) {
 			final long mask = dynamicFPSetManager.getMask();
 			assertEquals(1L, mask);
@@ -65,7 +65,7 @@ public class DynamicFPSetManagerTest {
 	 * servers for valid values.
 	 */
 	@Test
-	public void testCtor10() throws Exception {
+	public void testCtor10() {
 		try(final DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(10)) {
 			final long mask = dynamicFPSetManager.getMask();
 			assertEquals(15L, mask);
@@ -78,7 +78,7 @@ public class DynamicFPSetManagerTest {
 	 * servers for valid values.
 	 */
 	@Test
-	public void testCtor31() throws Exception {
+	public void testCtor31() {
 		try (DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(31)) {
 			final long mask = dynamicFPSetManager.getMask();
 			assertEquals(31L, mask);
@@ -90,7 +90,7 @@ public class DynamicFPSetManagerTest {
 	 * servers for valid values.
 	 */
 	@Test
-	public void testCtor32() throws Exception {
+	public void testCtor32() {
 		try (final DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(32)){
 			final long mask = dynamicFPSetManager.getMask();
 			assertEquals(63L, mask);
@@ -102,7 +102,7 @@ public class DynamicFPSetManagerTest {
 	 * servers for valid values.
 	 */
 	@Test
-	public void testCtor33() throws Exception {
+	public void testCtor33() {
 		try (final DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(33)) {
 			final long mask = dynamicFPSetManager.getMask();
 			assertEquals(63L, mask);
@@ -114,7 +114,7 @@ public class DynamicFPSetManagerTest {
 	 * servers for valid values.
 	 */
 	@Test
-	public void testCtorMax() throws Exception {
+	public void testCtorMax() {
 		try (final DynamicFPSetManager dynamicFPSetManager = new DynamicFPSetManager(Integer.MAX_VALUE)) {
 			final long mask = dynamicFPSetManager.getMask();
 			assertEquals((Integer.MAX_VALUE), mask);

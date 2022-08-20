@@ -32,10 +32,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.tool.liveness.ModelCheckerTestCase;
-import util.IndependentlyRunTest;
 
 public class DepthFirstTerminateTest extends ModelCheckerTestCase {
 

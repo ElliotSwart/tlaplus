@@ -49,7 +49,7 @@ public class LongArrayTest {
 	}
 
 	@Test
-	public void testGetAndSet() throws IOException {
+	public void testGetAndSet() {
 		final int elements = 100;
 
 		final LongArray array = new LongArray(elements);
@@ -107,7 +107,7 @@ public class LongArrayTest {
 	}
 	
 	@Test
-	public void testGetAndTrySet() throws IOException {
+	public void testGetAndTrySet() {
 		final int elements = 100;
 
 		final LongArray array = new LongArray(elements);
@@ -145,7 +145,7 @@ public class LongArrayTest {
 	}
 	
 	@Test
-	public void testZeroMemory() throws IOException {
+	public void testZeroMemory() {
 		for (int k = 1; k < 8; k++) {
 			for (int i = 1; i < 128; i++) {
 				final LongArray array = new LongArray(i);
@@ -158,7 +158,7 @@ public class LongArrayTest {
 	}
 	
 	@Test
-	public void testSwap() throws IOException {
+	public void testSwap() {
 		final int elements = 10321;
 
 		final LongArray array = new LongArray(elements);
@@ -179,7 +179,7 @@ public class LongArrayTest {
 	}
 	
 	@Test
-	public void testSwapRandom() throws IOException {
+	public void testSwapRandom() {
 		final int elements = 21383;
 		
 		final List<Long> vals = new ArrayList<>();

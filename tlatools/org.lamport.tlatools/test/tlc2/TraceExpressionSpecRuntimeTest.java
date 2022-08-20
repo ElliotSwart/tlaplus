@@ -51,7 +51,7 @@ public class TraceExpressionSpecRuntimeTest extends TraceExpressionSpecTest {
 	}
 
 	@Override
-	protected void doTest(final Tool tool, final String id) {
+	protected void doTest(final Tool tool) {
 		final Action[] actions = tool.getActions();
 		assertEquals(1, actions.length);
 

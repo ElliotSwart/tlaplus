@@ -149,7 +149,7 @@ public class DummyTLCState extends TLCState {
 	}
 
 	@Override
-	public TLCState createNewFromValueStream(final IValueInputStream vis) throws IOException{
+	public TLCState createNewFromValueStream(final IValueInputStream vis) {
 		return this;
 	}
 }

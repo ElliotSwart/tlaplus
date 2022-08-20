@@ -63,7 +63,7 @@ public class TraceExpressionSpecLassoTest extends TraceExpressionSpecTest {
 	}
 
 	@Override
-	protected void doTest(final Tool tool, final String id) throws Exception {
+	protected void doTest(final Tool tool) {
 		final Action[] actions = tool.getActions();
 		assertEquals(1, actions.length);
 

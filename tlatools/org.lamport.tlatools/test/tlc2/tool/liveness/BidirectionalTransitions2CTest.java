@@ -33,10 +33,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
-import util.IndependentlyRunTest;
 
 public abstract class BidirectionalTransitions2CTest extends ModelCheckerTestCase {
 

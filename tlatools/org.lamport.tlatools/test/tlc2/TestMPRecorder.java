@@ -78,12 +78,8 @@ public class TestMPRecorder implements tlc2.output.IMessagePrinterRecorder {
 			return false;
 		}
 	}
-
-	public boolean recordedWithSubStringValue(final int code, final String substring) {
-		return recordedWithSubStringValue(code, substring, 0);
-	}
 	
-	public boolean recordedWithSubStringValue(final int code, final String substring, final int idx) {
+	public boolean recordedWithSubStringValue(final int code, final String substring) {
 		try {
 			final Object object = records.get(code).get(0);
 			if (object instanceof final String[] strs) {
