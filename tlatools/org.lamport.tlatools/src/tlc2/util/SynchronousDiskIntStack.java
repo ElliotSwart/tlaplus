@@ -81,8 +81,7 @@ public class SynchronousDiskIntStack implements IntStack {
 			// flush to disk
 			try(final BufferedDataOutputStream bdos = FileUtil.newBdFOS(false, poolFile)) {
 
-				;
-				for (final int j : buf) {
+                for (final int j : buf) {
                     bdos.writeInt(j);
                 }
 

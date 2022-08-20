@@ -550,9 +550,7 @@ public abstract class Tool
 
         switch (opcode) { // FcnApply
             case OPCODE_fa, OPCODE_aa -> // AngleAct <A>_e
-            {
-                this.collectPrimedLocs(args[0], c, tbl);
-            }
+                    this.collectPrimedLocs(args[0], c, tbl);
             case OPCODE_ite -> // IfThenElse
             {
                 this.collectPrimedLocs(args[1], c, tbl);
@@ -582,9 +580,7 @@ public abstract class Tool
                     this.collectPrimedLocs(arg, c, tbl);
                 }
             }
-            case OPCODE_unchanged -> {
-                this.collectUnchangedLocs(args[0], c, tbl);
-            }
+            case OPCODE_unchanged -> this.collectUnchangedLocs(args[0], c, tbl);
             case OPCODE_sa -> // [A]_e
             {
                 this.collectPrimedLocs(args[0], c, tbl);
@@ -1474,9 +1470,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           }
 
           // The following case added by LL on 13 Nov 2009 to handle subexpression names.
-          case OPCODE_nop -> {
-              this.getInitStates(args[0], acts, c, ps, states, cm);
-          }
+          case OPCODE_nop -> this.getInitStates(args[0], acts, c, ps, states, cm);
           default -> {
               // For all the other builtin operators, simply evaluate:
               final Value bval = this.eval(init, c, ps, EmptyState, EvalControl.Init, cm);
