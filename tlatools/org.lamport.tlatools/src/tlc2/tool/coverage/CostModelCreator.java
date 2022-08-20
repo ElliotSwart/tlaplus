@@ -356,8 +356,7 @@ public class CostModelCreator extends ExplorerVisitor {
 		// unclear how to lookup the corresponding subtree in the global CM graph
 		// in getNextState and getInitStates of the model checker.
 		final ArrayList<Action> init = tool.getInitStateSpec();
-		for (int i = 0; i < init.size(); i++) {
-			final Action initAction = init.get(i);
+		for (final Action initAction : init) {
 			initAction.cm = collector.getCM(initAction, Relation.INIT);
 		}
 
@@ -408,8 +407,7 @@ public class CostModelCreator extends ExplorerVisitor {
 	public static void report(final ITool tool, final long startTime) {
         MP.printMessage(EC.TLC_COVERAGE_START);
     	final ArrayList<Action> init = tool.getInitStateSpec();
-    	for (int i = 0; i < init.size(); i++) {
-    		final Action initAction = init.get(i);
+    	for (final Action initAction : init) {
     		initAction.cm.report();
     	}
 

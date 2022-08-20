@@ -315,7 +315,8 @@ public interface ITool extends TraceApp {
 	}
 
 	default ArrayList<Action> getSpecActions() {
-		var specActions = getInitStateSpec();
+		// Do not modify the underlying list
+		var specActions = (ArrayList<Action>) getInitStateSpec().clone();
 		specActions.addAll(Arrays.asList(getActions()));
 		return specActions;
 	}
