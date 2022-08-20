@@ -1789,7 +1789,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                   final int p = rng.nextPrime();
                   for (int i = 0; i < alen; i++) {
                       resState = this.getNextStates(action, args[index], acts, c, s0, resState, nss, cm);
-                      if (nss.hasStates()) {
+                      if (!nss.hasStates()) {
                           return resState;
                       }
                       index = (index + p) % alen;

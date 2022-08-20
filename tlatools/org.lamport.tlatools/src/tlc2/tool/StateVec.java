@@ -5,13 +5,8 @@
 
 package tlc2.tool;
 
-
-import java.util.LinkedList;
-
 import tlc2.TLCGlobals;
 import tlc2.output.EC;
-import tlc2.value.impl.RecordValue;
-import tlc2.value.impl.Value;
 import util.Assert;
 
 /*
@@ -55,15 +50,13 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
         this.size = v.length;
     }
 
-    public final boolean empty() { return (this.size == 0); }
-
-    public final int size() { return this.size; }
+    public int size() { return this.size; }
 
     public boolean isEmpty() {
         return this.size == 0;
     }
 
-    public final void grow(int add) {
+    public void grow(int add) {
         int oldLen = this.v.length;
         if (oldLen >= TLCGlobals.setBound) {
             Assert.fail(EC.TLC_TOO_MNY_POSSIBLE_STATES);
@@ -76,7 +69,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
         }
     }
 
-    public final TLCState get(int i) { return this.v[i]; }
+    public TLCState get(int i) { return this.v[i]; }
 
     public boolean isLastElement(final TLCState state) {
         if (isEmpty()) {
@@ -89,25 +82,25 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
         return get(0);
     }
 
-    public final void clear() {
+    public void clear() {
         this.size = 0;
     }
 
     /* (non-Javadoc)
      * @see tlc2.tool.IStateFunction#addElement(tlc2.tool.TLCState)
      */
-    public final StateVec addState(TLCState state) {
+    public StateVec addState(TLCState state) {
         if (this.size >= this.v.length) { grow(1); }
         this.v[this.size++] = state;
         return this;
     }
 
     @Override
-    public final StateVec addState(TLCState predecessor, Action action, TLCState state) {
+    public StateVec addState(TLCState predecessor, Action action, TLCState state) {
         return addState(state.setPredecessor(predecessor).setAction(action));
     }
 
-    public final StateVec addAll(StateVec s1) {
+    public StateVec addAll(StateVec s1) {
         StateVec s0 = this;
 
         if (s1.size > s0.size) {
@@ -131,12 +124,12 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
         return s0;
     }
 
-    public final void remove(int index) {
+    public void remove(int index) {
         this.v[index] = this.v[this.size-1];
         this.size--;
     }
 
-    public final StateVec copy() {
+    public StateVec copy() {
         TLCState[] res = new TLCState[this.size];
         for (int i = 0; i < this.size; i++) {
             res[i] = this.v[i].copy();
@@ -145,7 +138,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
     }
 
     // Really really deep copy
-    public final StateVec deepCopy() {
+    public StateVec deepCopy() {
         TLCState[] res = new TLCState[this.size];
         for (int i = 0; i < this.size; i++) {
             res[i] = this.v[i].deepCopy();
@@ -153,15 +146,15 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
         return new StateVec(res);
     }
 
-    public final void reset() { this.size = 0; }
+    public void reset() { this.size = 0; }
 
-    public final void deepNormalize() {
+    public void deepNormalize() {
         for (int i = 0; i < this.size; i++) {
             this.v[i].deepNormalize();
         }
     }
 
-    public final String toString() {
+    public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("{");
         if (this.size > 0) {
@@ -175,7 +168,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
         return sb.toString();
     }
 
-    public final boolean contains(TLCState state) {
+    public boolean contains(TLCState state) {
         for (int i = 0; i < size; i++) {
             if (this.v[i].fingerPrint() == state.fingerPrint()) {
                 return true;
@@ -184,28 +177,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
         return false;
     }
 
-    public final Value[] toRecords(final TLCState append) {
-        final Value[] values = new Value[size + 1];
-        for (int i = 0; i < size; i++) {
-            values[i] = new RecordValue(v[i]);
-        }
-        values[values.length - 1] = new RecordValue(append);
-        return values;
-    }
-
-    public final Value[] toRecords(final TLCState from, final TLCState append) {
-        final LinkedList<RecordValue> res = new LinkedList<>();
-        res.add(new RecordValue(append));
-        for (int i = size - 1; i >= 0; i--) {
-            res.push(new RecordValue(v[i]));
-            if (from.fingerPrint() == v[i].fingerPrint()) {
-                break;
-            }
-        }
-        return res.toArray(new Value[res.size()]);
-    }
-
-    public final boolean hasStates() {
+    public boolean hasStates() {
         return !isEmpty();
     }
 }
