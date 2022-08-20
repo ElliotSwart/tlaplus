@@ -10,7 +10,6 @@ package tlc2.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Vector;
 
 
 // SZ Feb 20, 2009: tests moved to the unit-test source folder, imports organized 

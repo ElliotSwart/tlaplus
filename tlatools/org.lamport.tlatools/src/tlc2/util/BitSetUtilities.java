@@ -1,9 +1,7 @@
 package tlc2.util;
 
 import java.io.IOException;
-import java.nio.LongBuffer;
 import java.util.BitSet;
-import java.util.Iterator;
 
 public class BitSetUtilities {
 

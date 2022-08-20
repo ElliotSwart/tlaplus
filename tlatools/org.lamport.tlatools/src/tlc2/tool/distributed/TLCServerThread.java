@@ -29,7 +29,6 @@ import tlc2.tool.queue.IStateQueue;
 import tlc2.tool.queue.StateQueue;
 import java.util.BitSet;
 
-import tlc2.util.BitSetUtilities;
 import tlc2.util.IdThread;
 import tlc2.util.LongVec;
 

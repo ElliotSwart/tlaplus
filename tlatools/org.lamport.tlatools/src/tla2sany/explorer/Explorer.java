@@ -16,7 +16,6 @@ import tla2sany.semantic.FormalParamNode;
 import tla2sany.semantic.Generator;
 import tla2sany.semantic.OpDefOrDeclNode;
 import tla2sany.semantic.SymbolNode;
-import java.util.ArrayList;
 import util.UniqueString;
 
 /*

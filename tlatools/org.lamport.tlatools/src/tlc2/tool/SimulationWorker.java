@@ -42,7 +42,6 @@ import tlc2.tool.liveness.ILiveCheck;
 import tlc2.util.IdThread;
 import tlc2.util.RandomGenerator;
 import tlc2.util.SetOfStates;
-import java.util.ArrayList;
 import tlc2.value.impl.IntValue;
 import tlc2.value.impl.RecordValue;
 import tlc2.value.impl.Value;

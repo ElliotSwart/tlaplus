@@ -20,7 +20,6 @@ import tla2sany.semantic.SymbolNode;
 import tlc2.output.EC;
 import tlc2.output.MP;
 import tlc2.tool.*;
-import tlc2.tool.IContextEnumerator;
 import tlc2.util.Context;
 import java.util.ArrayList;
 import tlc2.value.IBoolValue;

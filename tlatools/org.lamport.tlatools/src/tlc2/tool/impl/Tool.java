@@ -10,7 +10,6 @@ package tlc2.tool.impl;
 import java.io.File;
 import java.io.Serializable;
 import java.util.*;
-import java.util.List;
 import java.util.Set;
 
 import tla2sany.modanalyzer.ParseUnit;

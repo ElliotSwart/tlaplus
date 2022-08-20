@@ -5,8 +5,6 @@
 
 package tlc2.value.impl;
 
-import java.util.Enumeration;
-
 import java.util.ArrayList;
 import tlc2.value.IMVPerm;
 import tlc2.value.IValue;

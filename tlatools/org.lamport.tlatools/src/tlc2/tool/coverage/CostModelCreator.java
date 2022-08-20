@@ -47,7 +47,6 @@ import tlc2.tool.ITool;
 import tlc2.tool.coverage.ActionWrapper.Relation;
 import tlc2.util.Context;
 import tlc2.util.ObjLongTable;
-import java.util.ArrayList;
 
 /**
  * <h1>Why a CostModel:</h1> Why a CostModelCreator to traverses the semantic

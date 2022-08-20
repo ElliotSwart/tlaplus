@@ -20,7 +20,6 @@ import tla2sany.parser.Token;
 import tla2sany.parser.TokenMgrError;
 import tlc2.output.EC;
 import tlc2.tool.ConfigFileException;
-import java.util.ArrayList;
 import tlc2.value.IValue;
 import tlc2.value.ValueConstants;
 import tlc2.value.impl.BoolValue;

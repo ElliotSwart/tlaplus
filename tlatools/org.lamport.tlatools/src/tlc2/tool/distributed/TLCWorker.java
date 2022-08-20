@@ -29,7 +29,6 @@ import tlc2.tool.TLCState;
 import tlc2.tool.TLCStateVec;
 import tlc2.tool.WorkerException;
 import tlc2.tool.distributed.fp.IFPSetManager;
-import java.util.BitSet;
 
 import tlc2.util.*;
 import util.Assert;

@@ -14,8 +14,6 @@ import tlc2.value.impl.Value;
 import tlc2.value.impl.ValueEnumeration;
 import util.Assert;
 
-import java.util.Iterator;
-
 public final class ContextEnumerator implements IContextEnumerator {
     private final Context con;
     private final Object[] vars;

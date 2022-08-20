@@ -41,7 +41,6 @@ import tlc2.tool.coverage.CostModel;
 import tlc2.tool.impl.Tool;
 import tlc2.util.Context;
 import tlc2.util.IdThread;
-import java.util.ArrayList;
 import tlc2.value.ValueConstants;
 import tlc2.value.Values;
 import tlc2.value.impl.BoolValue;

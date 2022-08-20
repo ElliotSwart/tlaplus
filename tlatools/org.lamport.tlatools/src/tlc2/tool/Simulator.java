@@ -35,7 +35,6 @@ import tlc2.tool.liveness.LiveException;
 import tlc2.tool.liveness.NoOpLiveCheck;
 import tlc2.util.DotActionWriter;
 import tlc2.util.RandomGenerator;
-import java.util.ArrayList;
 import tlc2.util.statistics.DummyBucketStatistics;
 import tlc2.value.IValue;
 import tlc2.value.impl.BoolValue;

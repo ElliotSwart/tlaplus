@@ -70,8 +70,6 @@ import tlc2.overrides.TLAPlusOperator;
 import tlc2.tool.*;
 import tlc2.tool.impl.Tool.Mode;
 import tlc2.util.Context;
-import java.util.List;
-import java.util.ArrayList;
 import tlc2.value.IBoolValue;
 import tlc2.value.IValue;
 import tlc2.value.ValueConstants;

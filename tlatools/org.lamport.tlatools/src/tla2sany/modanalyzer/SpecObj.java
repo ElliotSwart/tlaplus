@@ -19,7 +19,6 @@ import tla2sany.semantic.ExprNode;
 import tla2sany.semantic.ExternalModuleTable;
 import tla2sany.semantic.ModuleNode;
 import tla2sany.st.TreeNode;
-import java.util.ArrayList;
 import tlc2.tool.Action;
 import util.FileUtil;
 import util.FilenameToStream;

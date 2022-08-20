@@ -6,7 +6,6 @@ package tlc2.tool.liveness;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CompletionService;
