@@ -71,18 +71,14 @@ public abstract class Specs {
 	 * @param subs
 	 * @return
 	 */
-	public static ExprNode addSubsts(final ExprNode expr, LinkedList<SubstInNode> subs)
+	public static ExprNode addSubsts(final ExprNode expr, final LinkedList<SubstInNode> subs)
 	{
 	    ExprNode res = expr;
-	
-	    while (!subs.isEmpty())
-	    {
-			// car
-	        final SubstInNode sn = subs.getFirst();
-	        res = new SubstInNode(sn.stn, sn.getSubsts(), res, sn.getInstantiatingModule(), sn.getInstantiatedModule());
 
-			// cdr
-			subs = new LinkedList<>(subs.subList(1, subs.size()));
+
+	    for (final SubstInNode sn : subs)
+	    {
+	        res = new SubstInNode(sn.stn, sn.getSubsts(), res, sn.getInstantiatingModule(), sn.getInstantiatedModule());
 	    }
 	    return res;
 	}

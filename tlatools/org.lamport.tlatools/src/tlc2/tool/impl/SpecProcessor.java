@@ -1067,12 +1067,13 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     }
 
     /* Process the SPECIFICATION field of the config file.  */
+    @SuppressWarnings("unchecked")
     private void processConfigSpec(final ExprNode pred, final Context c, final LinkedList<SubstInNode> subs)
     {
         if (pred instanceof final SubstInNode pred1)
         {
             // cons
-            var s = new LinkedList<>(subs);
+            var s = (LinkedList) subs.clone();
             s.addFirst(pred1);
 
             this.processConfigSpec(pred1.getBody(), c, s);
@@ -1246,18 +1247,14 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
                         final SubscriptCollector collector = new SubscriptCollector();
                         Context c1 = c;
-                        var subs1 = subs;
-                        while (!subs1.isEmpty())
+
+                        for (final SubstInNode sn : subs)
                         {
                             // car
-                            final SubstInNode sn = subs1.getFirst();
                             final Subst[] snsubs = sn.getSubsts();
                             for (final Subst snsub : snsubs) {
                                 c1 = c1.cons(snsub.getOp(), symbolNodeValueLookupProvider.getVal(snsub.getExpr(), c, false, toolId));
                             }
-
-                            // cdr
-                            subs1 = new LinkedList<>(subs1.subList(1, subs1.size()));
                         }
                         collector.enter(subscript, c1);
                         varsInSubscript = collector.getComponents();
@@ -1314,12 +1311,13 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     }
 
     /* Process the PROPERTIES field of the config file. */
+    @SuppressWarnings("unchecked")
     private void processConfigProps(String name, final ExprNode pred, final Context c, final LinkedList<SubstInNode> subs)
     {
         if (pred instanceof final SubstInNode pred1)
         {
             // cons
-            var s = new LinkedList<>(subs);
+            var s = (LinkedList) subs.clone();
             s.addFirst(pred1);
 
             this.processConfigProps(name, pred1.getBody(), c, s);
