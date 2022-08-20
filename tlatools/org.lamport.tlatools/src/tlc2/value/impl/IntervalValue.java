@@ -151,7 +151,7 @@ public final int low;
       final ValueVec diffElems = new ValueVec();
       for (int i = this.low; i <= this.high; i++) {
     	  final Value elem = IntValue.gen(i);
-        if (!val.member(elem)) diffElems.addElement(elem);
+        if (!val.member(elem)) diffElems.add(elem);
       }
       return new SetEnumValue(diffElems, true, cm);
     }
@@ -168,7 +168,7 @@ public final int low;
       final ValueVec capElems = new ValueVec();
       for (int i = this.low; i <= this.high; i++) {
     	  final Value elem = IntValue.gen(i);
-        if (val.member(elem)) capElems.addElement(elem);
+        if (val.member(elem)) capElems.add(elem);
       }
       return new SetEnumValue(capElems, true, cm);
     }
@@ -187,12 +187,12 @@ public final int low;
       if (set instanceof Reducible) {
         final ValueVec cupElems = new ValueVec();
         for (int i = this.low; i <= this.high; i++) {
-          cupElems.addElement(IntValue.gen(i));
+          cupElems.add(IntValue.gen(i));
         }
         final ValueEnumeration Enum = ((Enumerable)set).elements();
         Value elem;
         while ((elem = Enum.nextElement()) != null) {
-          if (!this.member(elem)) cupElems.addElement(elem);
+          if (!this.member(elem)) cupElems.add(elem);
         }
         return new SetEnumValue(cupElems, false, cm);
       }
@@ -327,12 +327,12 @@ public final int low;
     	
     	Value v;
     	while ((v = ve.nextElement()) != null) {
-    		vec.addElement(v);
+    		vec.add(v);
     	}
     	return new SetEnumValue(vec, false, cm);
 	}
 
-	public Value elementAt(final int idx) {
+	public Value get(final int idx) {
 		if (0 <= idx && idx < size()) {
 			return IntValue.gen(low + idx);
 		}
@@ -385,7 +385,7 @@ public final int low;
 	public Value randomElement() {
 	     final int sz = size();
 	     final int index = (int) Math.floor(RandomEnumerableValues.get().nextDouble() * sz);
-	     return elementAt(index);
+	     return get(index);
 	}
 
 	@Override

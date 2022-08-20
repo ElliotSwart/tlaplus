@@ -592,10 +592,10 @@ public class DebugTool extends Tool {
 	private record WrapperStateFunctor(IStateFunctor functor, IDebugTarget target) implements IStateFunctor {
 
 		@Override
-			public Object addElement(final TLCState state) {
+			public Object add(final TLCState state) {
 				try {
 					target.pushFrame(state);
-					return functor.addElement(state);
+					return functor.add(state);
 				} finally {
 					target.popFrame(state);
 				}
@@ -606,7 +606,7 @@ public class DebugTool extends Tool {
 										   IDebugTarget target) implements INextStateFunctor {
 
 		@Override
-			public Object addElement(final TLCState predecessor, final Action a, final TLCState state) {
+			public Object add(final TLCState predecessor, final Action a, final TLCState state) {
 				try {
 					final StepDirection dt = target.pushFrame(predecessor, a, state);
 					if (dt == StepDirection.Out) {
@@ -623,7 +623,7 @@ public class DebugTool extends Tool {
 					} else if (dt == StepDirection.In) {
 						// First, do the usual checks on the *new* state, and then make it the only
 						// successor state to explore further.
-						functor.addElement(predecessor, a, state);
+						functor.add(predecessor, a, state);
 						functor.setElement(state);
 						throw new AbortEvalException();
 					} else if (dt == StepDirection.Over) {
@@ -631,7 +631,7 @@ public class DebugTool extends Tool {
 						return functor;
 					} else {
 						assert dt == StepDirection.Continue;
-						return functor.addElement(predecessor, a, state);
+						return functor.add(predecessor, a, state);
 					}
 				} finally {
 					target.popFrame(predecessor, state);

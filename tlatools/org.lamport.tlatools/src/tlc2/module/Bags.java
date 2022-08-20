@@ -250,11 +250,11 @@ public class Bags implements ValueConstants
         	return FcnRcdValue.EmptyFcn;
         }
         if (sz == 1) {
-        	return elems.elementAt(0);
+        	return elems.get(0);
         }
         final ValueVec dVec = new ValueVec();
         final ValueVec vVec = new ValueVec();
-        FcnRcdValue fcn = (FcnRcdValue) elems.elementAt(0).toFcnRcd();
+        FcnRcdValue fcn = (FcnRcdValue) elems.get(0).toFcnRcd();
         if (fcn == null)
         {
             throw new EvalException(EC.TLC_MODULE_BAG_UNION1, Values.ppr(s.toString()));
@@ -263,12 +263,12 @@ public class Bags implements ValueConstants
         Value[] values = fcn.values;
         for (int i = 0; i < domain.length; i++)
         {
-            dVec.addElement(domain[i]);
-            vVec.addElement(values[i]);
+            dVec.add(domain[i]);
+            vVec.add(values[i]);
         }
         for (int i = 1; i < sz; i++)
         {
-            fcn = (FcnRcdValue) elems.elementAt(i).toFcnRcd();
+            fcn = (FcnRcdValue) elems.get(i).toFcnRcd();
             if (fcn == null)
             {
 
@@ -281,9 +281,9 @@ public class Bags implements ValueConstants
                 boolean found = false;
                 for (int k = 0; k < dVec.size(); k++)
                 {
-                    if (domain[j].equals(dVec.elementAt(k)))
+                    if (domain[j].equals(dVec.get(k)))
                     {
-                        final int v1 = ((IntValue) vVec.elementAt(k)).val;
+                        final int v1 = ((IntValue) vVec.get(k)).val;
                         final int v2 = ((IntValue) values[j]).val;
                         vVec.setElementAt(IntValue.gen(v1 + v2), k);
                         found = true;
@@ -292,8 +292,8 @@ public class Bags implements ValueConstants
                 }
                 if (!found)
                 {
-                    dVec.addElement(domain[j]);
-                    vVec.addElement(values[j]);
+                    dVec.add(domain[j]);
+                    vVec.add(values[j]);
                 }
             }
         }
@@ -301,8 +301,8 @@ public class Bags implements ValueConstants
         final Value[] vals = new Value[vVec.size()];
         for (int i = 0; i < dom.length; i++)
         {
-            dom[i] = dVec.elementAt(i);
-            vals[i] = vVec.elementAt(i);
+            dom[i] = dVec.get(i);
+            vals[i] = vVec.get(i);
         }
         return new FcnRcdValue(dom, vals, false);
     }
@@ -369,9 +369,9 @@ public class Bags implements ValueConstants
             boolean found = false;
             for (int j = 0; j < dVec.size(); j++)
             {
-                if (val.equals(dVec.elementAt(j)))
+                if (val.equals(dVec.get(j)))
                 {
-                    final int v1 = ((IntValue) vVec.elementAt(j)).val;
+                    final int v1 = ((IntValue) vVec.get(j)).val;
                     final int v2 = ((IntValue) values[i]).val;
                     vVec.setElementAt(IntValue.gen(v1 + v2), j);
                     found = true;
@@ -380,16 +380,16 @@ public class Bags implements ValueConstants
             }
             if (!found)
             {
-                dVec.addElement(val);
-                vVec.addElement(values[i]);
+                dVec.add(val);
+                vVec.add(values[i]);
             }
         }
         final Value[] dom = new Value[dVec.size()];
         final Value[] vals = new Value[vVec.size()];
         for (int i = 0; i < dom.length; i++)
         {
-            dom[i] = dVec.elementAt(i);
-            vals[i] = vVec.elementAt(i);
+            dom[i] = dVec.get(i);
+            vals[i] = vVec.get(i);
         }
         return new FcnRcdValue(dom, vals, false);
     }
@@ -437,7 +437,7 @@ public class Bags implements ValueConstants
         final Value[] values = new Value[elems.size()];
         for (int i = 0; i < elems.size(); i++)
         {
-            domain[i] = elems.elementAt(i);
+            domain[i] = elems.get(i);
             values[i] = IntValue.ValOne;
         }
         return new FcnRcdValue(domain, values, s1.isNormalized());

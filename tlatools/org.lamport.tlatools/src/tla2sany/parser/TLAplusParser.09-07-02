@@ -11825,7 +11825,7 @@ ClosedStart() : {
   }
 
   public ParseException generateParseException() {
-    jj_expentries.removeAllElements();
+    jj_expentries.clear();
     boolean[] la1tokens = new boolean[237];
     for (int i = 0; i < 237; i++) {
       la1tokens[i] = false;

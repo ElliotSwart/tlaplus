@@ -99,11 +99,11 @@ public class KSubsetValueTest {
 	@Test
 	public void testNormalization() {
 		final ValueVec vals = new ValueVec();
-		vals.addElement(IntValue.gen(1));
-		vals.addElement(IntValue.gen(7));
-		vals.addElement(IntValue.gen(42));
-		vals.addElement(IntValue.gen(42));
-		vals.addElement(IntValue.gen(23));
+		vals.add(IntValue.gen(1));
+		vals.add(IntValue.gen(7));
+		vals.add(IntValue.gen(42));
+		vals.add(IntValue.gen(42));
+		vals.add(IntValue.gen(23));
 		final Value set = new SetEnumValue(vals, false);
 		
 		final KSubsetValue kSubset = new KSubsetValue(2, set);

@@ -1132,7 +1132,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
     if (states.size() != 1) {
       Assert.fail("The predicate does not specify a unique state." + pred, pred);
     }
-    final TLCState state = states.elementAt(0);
+    final TLCState state = states.get(0);
     if (!this.isGoodState(state)) {
       Assert.fail("The state specified by the predicate is not complete." + pred, pred);
     }
@@ -1186,7 +1186,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 				cm.incInvocations();
 				cm.getRoot().incInvocations();
 			}
-			states.addElement(ps.copy().setAction(acts.getAction()));
+			states.add(ps.copy().setAction(acts.getAction()));
 			return;
 		} else if (ps.allAssigned()) {
 			// MAK 05/25/2018: If all values of the initial state have already been
@@ -1216,7 +1216,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 				cm.incInvocations();
 				cm.getRoot().incInvocations();
 			}
-			states.addElement(ps.copy().setAction(acts.getAction()));
+			states.add(ps.copy().setAction(acts.getAction()));
 			return;
 		}
 		// Assert.check(act.kind > 0 || act.kind == -1);
@@ -1593,7 +1593,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   private TLCState getNextStates0(final Action action, final ActionItemList acts, final TLCState s0, final TLCState s1,
                                   final INextStateFunctor nss, CostModel cm) {
     if (acts.isEmpty()) {
-      nss.addElement(s0, action, s1);
+      nss.add(s0, action, s1);
       return s1.copy();
     } else if (TLCGlobals.warn && s1.allAssigned()) {
 		// If all variables have been assigned and warnings are turned off, Tool can
@@ -1670,7 +1670,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 		  kind = acts.carKind();
           cm2 = acts.cm;
 	  }
-	  nss.addElement(s0, action, s1);
+	  nss.add(s0, action, s1);
 	  return s1.copy();
   }
 
@@ -2022,7 +2022,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                this.getNextStates(action, args[0], ActionItemList.Empty, c, s0, s01, iss);
                int sz = iss.size();
                for (int i = 0; i < sz; i++) {
-               s01 = iss.elementAt(i);
+               s01 = iss.get(i);
                this.getNextStates(action, args[1], acts, c, s01, s1, nss);
                }
                ***/
@@ -2906,7 +2906,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
               final int alen = args.length;
               final ValueVec vals = new ValueVec(alen);
               for (final ExprOrOpArgNode arg : args) {
-                  vals.addElement(this.eval(arg, c, s0, s1, control, cm));
+                  vals.add(this.eval(arg, c, s0, s1, control, cm));
               }
               return setSource(expr, new SetEnumValue(vals, false, cm));
           }
@@ -2919,7 +2919,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
               while(contextEnumerator.hasNext()){
                   Context c1 = contextEnumerator.next();
                   final Value val = this.eval(body, c1, s0, s1, control, cm);
-                  vals.addElement(val);
+                  vals.add(val);
                   // vals.addElement1(val);
               }
               return setSource(expr, new SetEnumValue(vals, false, cm));
@@ -2967,7 +2967,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                                       " when P was " + bval.getKindString() + ".\n" + pred, pred, c1);
                           }
                           if (((BoolValue) bval).val) {
-                              vals.addElement(elem);
+                              vals.add(elem);
                           }
                       }
                   } else {
@@ -2980,7 +2980,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                                       " when P was " + bval.getKindString() + ".\n" + pred, pred, c1);
                           }
                           if (((BoolValue) bval).val) {
-                              vals.addElement(elem);
+                              vals.add(elem);
                           }
                       }
                   }
@@ -3226,7 +3226,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                this.getNextStates(args[0], ActionItemList.Empty, c, s0, s01, iss);
                int sz = iss.size();
                for (int i = 0; i < sz; i++) {
-               s01 = iss.elementAt(i);
+               s01 = iss.get(i);
                this.eval(args[1], c, s01, s1, control);
                }
                ***/
@@ -3737,7 +3737,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                this.getNextStates(args[0], ActionItemList.Empty, c, s0, s01, iss);
                int sz = iss.size();
                for (int i = 0; i < sz; i++) {
-               s01 = iss.elementAt(i);
+               s01 = iss.get(i);
                TLCState s2 = this.enabled(args[1], acts, c, s01, s1);
                if (s2 != null) return s2;
                }
@@ -4017,7 +4017,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 				this.fp = fp;
 			}
 			@Override
-			public Object addElement(final TLCState state) {
+			public Object add(final TLCState state) {
 				if (state == null) {
 					return null;
 				} else if (this.state != null) {
@@ -4081,7 +4081,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
       for (final Action curAction : this.actions) {
           final StateVec nextStates = this.getNextStates(curAction, s);
           for (int j = 0; j < nextStates.size(); j++) {
-              final TLCState state = nextStates.elementAt(j);
+              final TLCState state = nextStates.get(j);
               final long nfp = state.fingerPrint();
               if (fp == nfp) {
                   state.setPredecessor(s);
@@ -4100,7 +4100,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
       for (final Action curAction : this.actions) {
           final StateVec nextStates = this.getNextStates(curAction, s);
           for (int j = 0; j < nextStates.size(); j++) {
-              final TLCState state = nextStates.elementAt(j);
+              final TLCState state = nextStates.get(j);
               if (s1.equals(state)) {
                   state.setPredecessor(s);
                   assert !state.isInitial();

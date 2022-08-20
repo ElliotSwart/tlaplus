@@ -356,7 +356,7 @@ public final UniqueString[] names;      // The names of the fields.
       final ValueEnumeration Enum = this.elements();
       Value elem;
       while ((elem = Enum.nextElement()) != null) {
-        vals.addElement(elem);
+        vals.add(elem);
       }
       if (coverage) {cm.incSecondary(vals.size());}
       return new SetEnumValue(vals, this.isNormalized(), cm);
@@ -511,7 +511,7 @@ public final UniqueString[] names;      // The names of the fields.
 		}
 
 		@Override
-        protected RecordValue elementAt(final int idx) {
+        protected RecordValue get(final int idx) {
 			assert 0 <= idx && idx < size();
 			
 			final Value[] val = new Value[names.length];
@@ -522,7 +522,7 @@ public final UniqueString[] names;      // The names of the fields.
 				final int rescaledIdx = (int) Math.floor(idx / rescaleBy[i]);
 				final int elementAt = rescaledIdx % mod;
 				
-				val[i] = sev.elems.elementAt(elementAt);
+				val[i] = sev.elems.get(elementAt);
 			}
 			return new RecordValue(names, val, false, cm);
 		}
@@ -556,7 +556,7 @@ public final UniqueString[] names;      // The names of the fields.
 		}
 
 		@Override
-		protected Value elementAt(final BigInteger idx) {
+		protected Value get(final BigInteger idx) {
 			final Value[] val = new Value[names.length];
 			for (int i = 0; i < val.length; i++) {
 				final SetEnumValue sev = convert[i];
@@ -566,7 +566,7 @@ public final UniqueString[] names;      // The names of the fields.
 				final BigInteger m = d.mod(BigInteger.valueOf(mod));
 				final int elementAt = m.intValueExact();
 
-				val[i] = sev.elems.elementAt(elementAt);
+				val[i] = sev.elems.get(elementAt);
 			}
 			return new RecordValue(names, val, false, cm);
 		}

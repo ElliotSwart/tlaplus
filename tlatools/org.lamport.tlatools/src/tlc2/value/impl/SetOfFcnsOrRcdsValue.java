@@ -41,7 +41,7 @@ public abstract class SetOfFcnsOrRcdsValue extends EnumerableValue {
 
 		Value v;
 		while ((v = ve.nextElement()) != null) {
-			vec.addElement(v);
+			vec.add(v);
 		}
     	
 		// Assert no duplicates. For large sets we assume kOutOfN < size() to avoid
@@ -78,10 +78,10 @@ public abstract class SetOfFcnsOrRcdsValue extends EnumerableValue {
 			if (!hasNext()) {
 				return null;
 			}
-			return elementAt(nextIndex());
+			return get(nextIndex());
 		}
 
-		protected abstract Value elementAt(int nextIndex);
+		protected abstract Value get(int nextIndex);
 	}
 
 	abstract static class BigIntegerSubsetEnumerator implements ValueEnumeration {
@@ -126,9 +126,9 @@ public abstract class SetOfFcnsOrRcdsValue extends EnumerableValue {
 			if (!hasNext()) {
 				return null;
 			}
-			return elementAt(nextIndex());
+			return get(nextIndex());
 		}
 
-		protected abstract Value elementAt(BigInteger nextIndex);
+		protected abstract Value get(BigInteger nextIndex);
 	}
 }

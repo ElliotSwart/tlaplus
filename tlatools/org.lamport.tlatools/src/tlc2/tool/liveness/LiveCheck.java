@@ -298,7 +298,7 @@ public class LiveCheck implements ILiveCheck {
     public void checkTrace(final ITool tool, final Supplier<StateVec> traceSupplier) throws Exception {
 		final StateVec stateTrace = traceSupplier.get();
 		// Add the first state to the LiveCheck as the current init state
-		addInitState(tool, stateTrace.elementAt(0), stateTrace.elementAt(0).fingerPrint());
+		addInitState(tool, stateTrace.get(0), stateTrace.get(0).fingerPrint());
 		
 		// Add the remaining states...
 		final SetOfStates successors = new SetOfStates(stateTrace.size() * 2);
@@ -310,20 +310,20 @@ public class LiveCheck implements ILiveCheck {
 			successors.clear();
 			
 			// Calculate the current state's fingerprint
-			final TLCState tlcState = stateTrace.elementAt(i);
+			final TLCState tlcState = stateTrace.get(i);
 			final long fingerPrint = tlcState.fingerPrint();
 
 			// Add state itself to allow stuttering
 			successors.put(tlcState);
 			
 			// Add the successor in the trace
-			final TLCState successor = stateTrace.elementAt(i + 1);
+			final TLCState successor = stateTrace.get(i + 1);
 			successors.put(successor);
 			addNextState(tool, tlcState, fingerPrint, successors);
 		}
 		
 		// Add last state in trace for which *no* successors have been generated
-		final TLCState lastState = stateTrace.elementAt(stateTrace.size() - 1);
+		final TLCState lastState = stateTrace.get(stateTrace.size() - 1);
 		addNextState(tool, lastState, lastState.fingerPrint(), new SetOfStates(0));
 		
 		// Do *not* re-create the nodePtrTbl when it is thrown away anyway.
@@ -740,7 +740,7 @@ public class LiveCheck implements ILiveCheck {
 						final int plen = prefix.size();
 						final List<TLCStateInfo> states = new ArrayList<>(plen);
 
-						long fp = prefix.elementAt(plen - 1);
+						long fp = prefix.get(plen - 1);
 						TLCStateInfo sinfo = tool.getState(fp);
 						if (sinfo == null) {
 							throw new EvalException(EC.TLC_FAILED_TO_RECOVER_INIT);
@@ -749,7 +749,7 @@ public class LiveCheck implements ILiveCheck {
 
 						// Drop finite stuttering from fingerprint path.
 						for (int i = plen - 2; i >= 0; i--) {
-							final long curFP = prefix.elementAt(i);
+							final long curFP = prefix.get(i);
 							if (curFP != fp) {
 								sinfo = tool.getState(curFP, sinfo);
 								states.add(sinfo);	
@@ -861,7 +861,7 @@ public class LiveCheck implements ILiveCheck {
                 final StateVec nextStates = tool.getNextStates(action, s);
                 final int nextCnt = nextStates.size();
                 for (int j = 0; j < nextCnt; j++) {
-                    final TLCState s1 = nextStates.elementAt(j);
+                    final TLCState s1 = nextStates.get(j);
                     if (tool.isInModel(s1) && tool.isInActions(s, s1)) {
                         final long fp1 = s1.fingerPrint();
                         final BitSet checkActionRes = oos.checkAction(tool, s, s1, new BitSet(alen), 0);

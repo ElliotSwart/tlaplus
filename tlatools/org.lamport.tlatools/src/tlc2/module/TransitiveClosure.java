@@ -97,7 +97,7 @@ public class TransitiveClosure implements ValueConstants
                 	final Value elem1 = elemList.get(i);
                 	final Value elem2 = elemList.get(j);
                 	final Value newElem = new TupleValue(elem1, elem2);
-                    newElems.addElement(newElem);
+                    newElems.add(newElem);
                 }
             }
         }

@@ -29,14 +29,14 @@ public class LongVec implements Cloneable, Serializable {
 		this.elementData = Arrays.copyOfRange(other.elementData, 0, other.elementCount);
 	}
 
-	public final void addElement(final long x) {
+	public final void add(final long x) {
 		if (this.elementCount == this.elementData.length) {
 			ensureCapacity(this.elementCount + 1);
 		}
 		this.elementData[this.elementCount++] = x;
 	}
 
-	public final long elementAt(final int index) {
+	public final long get(final int index) {
 		rangeCheck(index);
 		return this.elementData[index];
 	}
@@ -45,7 +45,7 @@ public class LongVec implements Cloneable, Serializable {
 		return this.elementData[elementCount - 1];
 	}
 
-	public final void removeElement(final int index) {
+	public final void remove(final int index) {
 		rangeCheck(index);
 		this.elementData[index] = this.elementData[this.elementCount - 1];
 		this.elementCount--;
@@ -122,9 +122,9 @@ public class LongVec implements Cloneable, Serializable {
 
 	public static void main(final String[] args) throws Exception {
 		final LongVec vec = new LongVec(1000);
-		vec.addElement(1);
-		vec.addElement(3);
-		vec.addElement(5);
+		vec.add(1);
+		vec.add(3);
+		vec.add(5);
 		System.err.println(vec.size());
 		try(final ObjectOutputStream oos = FileUtil.newOBFOS("XXX")){
 			oos.writeObject(vec);
@@ -133,9 +133,9 @@ public class LongVec implements Cloneable, Serializable {
 		try(final ObjectInputStream ois = FileUtil.newOBFIS("XXX")){
 			final LongVec vec1 = (LongVec) ois.readObject();
 			System.err.println(vec1.size());
-			System.err.println(vec1.elementAt(0));
-			System.err.println(vec1.elementAt(1));
-			System.err.println(vec1.elementAt(2));
+			System.err.println(vec1.get(0));
+			System.err.println(vec1.get(1));
+			System.err.println(vec1.get(2));
 		}
 	}
 
@@ -173,7 +173,7 @@ public class LongVec implements Cloneable, Serializable {
 		for (int i = 0; i < elementCount; i++) {
 			final long x = elementData[i];
 			if (filtered.elementCount == 0 || filtered.lastElement() != x) {
-				filtered.addElement(x);
+				filtered.add(x);
 			}
 		}
 		this.elementCount = filtered.elementCount;

@@ -147,7 +147,7 @@ public class MCError {
 		if (isLasso()) {
 			final ValueVec valueVec = new ValueVec();
 			for (int i = 0; i < states.size() - 1; i++) {
-				valueVec.addElement(states.get(i).getRecord());
+				valueVec.add(states.get(i).getRecord());
 			}
 			return this.states.size() != new SetEnumValue(valueVec, false).size();
 		}

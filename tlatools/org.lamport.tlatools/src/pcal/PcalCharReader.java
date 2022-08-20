@@ -30,13 +30,13 @@
 * Lines and columns are numbered starting from 0.                          *
 ***************************************************************************/
 package pcal;
-import java.util.Vector;
+import java.util.ArrayList;
 
 class PcalCharReader 
   { /***********************************************************************
     * The variables representing the state of the object.                  *
     ***********************************************************************/
-    private final Vector<String> vec ;
+    private final ArrayList<String> vec ;
       /*********************************************************************
       * This is the vector providing the input characters.                 *
       *********************************************************************/
@@ -137,7 +137,7 @@ class PcalCharReader
             vcolumn     = 0 ;
             if (line >= vec.size())
                  {currentLine = null ;}
-            else {currentLine = vec.elementAt(line) ;}
+            else {currentLine = vec.get(line) ;}
               return '\n' ;
            }
 
@@ -178,7 +178,7 @@ class PcalCharReader
                   "move past beginning of reader");
              }
              line = line - 1 ;
-           currentLine = vec.elementAt(line) ;
+           currentLine = vec.get(line) ;
            column = 0 ;
            vcolumn = 0 ;
 
@@ -216,7 +216,7 @@ class PcalCharReader
         return currentLine.substring(column) + "\n" ;
       }
       
-    public PcalCharReader(final Vector<String> vector, final int firstLine, final int firstCol,
+    public PcalCharReader(final ArrayList<String> vector, final int firstLine, final int firstCol,
                           final int lastLine, final int lastCol)
       /*********************************************************************
       * The class constructor.  The only tricky part is setting vcolumn    *
@@ -233,7 +233,7 @@ class PcalCharReader
         *******************************************************************/
         if (firstLine < vector.size())
           { int i = 0 ;
-            final String ln = vector.elementAt(firstLine) ;
+            final String ln = vector.get(firstLine) ;
             while (i < firstCol)
              { if (ln.charAt(i) == '\t')
                  { this.vcolumn = ((this.vcolumn / 8) + 1) * 8 ;}
@@ -246,6 +246,6 @@ class PcalCharReader
         * Set currentLine.                                                 *
         *******************************************************************/
         if (firstLine < vector.size())
-          { this.currentLine = vector.elementAt(firstLine) ; }
+          { this.currentLine = vector.get(firstLine) ; }
       }
   }     

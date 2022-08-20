@@ -336,7 +336,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 		final int len = states.size();
 		if (len > 0) {
 			final int index = (int) Math.floor(rng.nextDouble() * len);
-			return states.elementAt(index);
+			return states.get(index);
 		}
 		return null;
 	}
@@ -344,12 +344,12 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 	@Override
 	public Object setElement(final TLCState s) {
 		this.nextStates.clear();
-		this.nextStates.addElement(s);
+		this.nextStates.add(s);
 		return this;
 	}
 
 	@Override
-	public Object addElement(final TLCState s, final Action a, final TLCState t) {
+	public Object add(final TLCState s, final Action a, final TLCState t) {
 	    if (coverage) { a.cm.incInvocations(); }
 		numOfGenStates.increment();
 
@@ -412,7 +412,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 		
 		if ((tool.isInModel(t) && tool.isInActions(s, t))) {
 			if (coverage) {	a.cm.incSecondary(); }
-			return nextStates.addElement(t);
+			return nextStates.add(t);
 		}
 
 		return this;
@@ -547,7 +547,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 			final StateVec stateTrace = getTrace();
 			for (int idx = 0; idx < stateTrace .size(); idx++) {
 				pw.println("STATE_" + (idx + 1) + " == ");
-				pw.println(stateTrace.elementAt(idx) + "\n");
+				pw.println(stateTrace.get(idx) + "\n");
 			}
 			pw.println("=================================================");
 			pw.close();
@@ -587,7 +587,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 		assert 0 < level && level <= stateTrace.size();
 		final TLCStateInfo[] trace = new TLCStateInfo[level];
 		for (int i = 0; i < trace.length; i++) {
-			final TLCState s = stateTrace.elementAt(i);
+			final TLCState s = stateTrace.get(i);
 			trace[i] = new TLCStateInfo(s);
 		}
 		return trace;

@@ -45,7 +45,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
 	this(other.size);
 	this.size = other.size;
 	for (int i = 0; i < v.length; i++) {
-		this.v[i] = other.elementAt(i);
+		this.v[i] = other.get(i);
 	}
   }
   
@@ -73,17 +73,17 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
     if (this.size >= 0) System.arraycopy(oldv, 0, this.v, 0, this.size);
   }
 
-  public TLCState elementAt(final int i) { return this.v[i]; }
+  public TLCState get(final int i) { return this.v[i]; }
 
   public boolean isLastElement(final TLCState state) {
 	  if (isEmpty()) {
 		  return false;
 	  }
-	  return this.elementAt(size() - 1) == state;
+	  return this.get(size() - 1) == state;
   }
   
   public TLCState first() {
-	return elementAt(0);
+	return get(0);
   }
 
   public void clear() {
@@ -91,18 +91,18 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
   }
   
   /* (non-Javadoc)
-   * @see tlc2.tool.IStateFunction#addElement(tlc2.tool.TLCState)
+   * @see tlc2.tool.IStateFunction#add(tlc2.tool.TLCState)
    */
   @Override
-  public StateVec addElement(final TLCState state) {
+  public StateVec add(final TLCState state) {
     if (this.size >= this.v.length) { grow(1); }
     this.v[this.size++] = state;
     return this;
   }
 
   @Override
-  public StateVec addElement(final TLCState predecessor, final Action action, final TLCState state) {
-	  return addElement(state.setPredecessor(predecessor).setAction(action));
+  public StateVec add(final TLCState predecessor, final Action action, final TLCState state) {
+	  return add(state.setPredecessor(predecessor).setAction(action));
   }
  
   public StateVec addElements(StateVec s1) {
@@ -127,19 +127,11 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
     return s0;
   }
 
-  public void removeElement(final int index) {
+  public void remove(final int index) {
     this.v[index] = this.v[this.size-1];
     this.size--;
   }
-  
-  public void removeAt(final int index) {
-	  replaceAt(index, null);
-  }
-  
-  public void replaceAt(final int index, final TLCState state) {
-	  this.v[index] = state;
-  }
-  
+
   public StateVec copy() {
     final TLCState[] res = new TLCState[this.size];
     for (int i = 0; i < this.size; i++) {

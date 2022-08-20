@@ -64,7 +64,7 @@ public class ModuleOverwritesBenchmark {
 
 		tool = new FastTool("", "ModuleOverwrites", "ModuleOverwrites", new SimpleFilenameToStream());
 
-		state = (TLCStateMut) tool.getInitStates().elementAt(0);
+		state = (TLCStateMut) tool.getInitStates().get(0);
 	}
 
 	@Benchmark

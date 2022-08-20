@@ -181,7 +181,7 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
         {
 			// TODO Figure out why corresponding value in BitSet is inverted
 			// compared to put(long)
-            if (!this.put(fpv.elementAt(i)))
+            if (!this.put(fpv.get(i)))
             {
                 bv.set(i);
             }
@@ -201,7 +201,7 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
         {
 			// TODO Figure out why corresponding value in BitSet is inverted
 			// compared to contains(long)
-            if (!this.contains(fpv.elementAt(i)))
+            if (!this.contains(fpv.get(i)))
             {
                 bv.set(i);
             }

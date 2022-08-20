@@ -468,7 +468,7 @@
 package tla2tex;
 import java.util.Hashtable;
 import java.util.Objects;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * @author lamport
@@ -593,15 +593,15 @@ public class TokenizeSpec
       // processing a comment--true if processing an OR (overrun) comment,
       // false if processing a normal comment.  
     
-    private Vector<Vector<Token>> vspec = null ;
+    private ArrayList<ArrayList<Token>> vspec = null ;
           /*****************************************************************
           * vspec is a vector of vectors in which the TokenizedSpec is     *
           * constructed.  At the end, it is turned into an array.          *
           *****************************************************************/
 
-    private Vector<Token> linev = new Vector<>(30, 30) ;
+    private ArrayList<Token> linev = new ArrayList<>(30) ;
           /*****************************************************************
-          * Vector linev contains the tokens found so far on the current   *
+          * ArrayList linev contains the tokens found so far on the current   *
           * line.                                                          *
           *****************************************************************/
 
@@ -752,7 +752,7 @@ public class TokenizeSpec
         * no other cases of non-comment tokens with empty strings, so the  *
         * test seems harmless.                                             *
         *******************************************************************/
-          { linev.addElement(new Token(token, col, type )); }
+          { linev.add(new Token(token, col, type )); }
           if (type == Token.IDENT)
          { identHashTable.put(token, nullString);
          }
@@ -773,7 +773,7 @@ public class TokenizeSpec
       /*********************************************************************
       * Add the token to linev and reset token to the empty string.        *
       *********************************************************************/
-      { linev.addElement(new CommentToken(token, col, subtype, pseudoCom)); 
+      { linev.add(new CommentToken(token, col, subtype, pseudoCom)); 
         pseudoCom = false;
         token = "" ;
       }
@@ -783,8 +783,8 @@ public class TokenizeSpec
       * Append linev to vspec and reset linev.  This should be called      *
       * whenever a \n character is removed from the input stream.          *
       *********************************************************************/
-      { vspec.addElement(linev)    ;
-        linev = new Vector<>(30, 30) ;
+      { vspec.add(linev)    ;
+        linev = new ArrayList<>(30) ;
         col = 0 ;
       }
 
@@ -830,11 +830,11 @@ public class TokenizeSpec
         int n = 0 ;                                                       
         while (n < vspec.size())                                          
           { aspec[n] =                                                     
-               new Token [ vspec.elementAt(n) . size() ] ;     
+               new Token [ vspec.get(n) . size() ] ;     
             int m = 0 ;                                                   
             while (m < aspec[n].length)                                    
               {aspec[n][m] =
-                      vspec.elementAt(n) . elementAt(m);
+                      vspec.get(n) . get(m);
                m = m+1;                                                   
               }
               n = n+1 ;
@@ -846,7 +846,7 @@ public class TokenizeSpec
       /*********************************************************************
       * Tokenize the input from the CharReader.                            *
       *********************************************************************/
-      { vspec = new Vector<>(1000, 1000) ;
+      { vspec = new ArrayList<>(1000) ;
         reader = charReader ;
            /****************************************************************
            * This "exports" the charReader for use by the classes other    *

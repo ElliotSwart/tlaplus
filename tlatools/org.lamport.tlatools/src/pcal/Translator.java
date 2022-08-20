@@ -28,7 +28,7 @@ package pcal;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -108,7 +108,7 @@ public class Translator
      */
 	public List<Error> getErrors() {
 		final String[] messages = ToolIO.getAllMessages();
-		final Vector<Error> errorMessages = new Vector<>();
+		final ArrayList<Error> errorMessages = new ArrayList<>();
         for (final String message : messages) {
             final int position = message.indexOf(PcalDebug.UNRECOVERABLE_ERROR);
             if (position != -1) {

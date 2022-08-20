@@ -237,17 +237,17 @@ public final Value set;
       final ValueVec elems = ((SetEnumValue)val).elems;
       for (int i = 0; i < elems.size(); i++) {
         canCombine = (canCombine &&
-                (elems.elementAt(i) instanceof SetEnumValue));
+                (elems.get(i) instanceof SetEnumValue));
       }
       if (canCombine) {
         final ValueVec resElems = new ValueVec();
         final Value result = new SetEnumValue(resElems, false, val.getCostModel());
         for (int i = 0; i < elems.size(); i++) {
-          final ValueVec elems1 = ((SetEnumValue)elems.elementAt(i)).elems;
+          final ValueVec elems1 = ((SetEnumValue)elems.get(i)).elems;
           for (int j = 0; j < elems1.size(); j++) {
-        	  final Value elem = elems1.elementAt(j);
+        	  final Value elem = elems1.get(j);
             if (!result.member(elem)) {
-            	resElems.addElement(elem);
+            	resElems.add(elem);
             }
           }
         }
@@ -307,7 +307,7 @@ public final Value set;
       final ValueEnumeration Enum = this.elements();
       Value elem;
       while ((elem = Enum.nextElement()) != null) {
-        vals.addElement(elem);
+        vals.add(elem);
       }
       if (coverage) {cm.incSecondary(vals.size());}
       return new SetEnumValue(vals, false, cm);

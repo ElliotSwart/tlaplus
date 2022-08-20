@@ -5,7 +5,7 @@
 * pcal.trans.  Some of them are set by program options.                    *
 ***************************************************************************/
 package pcal ;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Holds parameters for the PCal Translator
@@ -133,10 +133,10 @@ public final class PcalParams
       * Default initial value changed to "defaultInitValue"                *
       * by LL on 22 Aug 2007                                               *
       *********************************************************************/
-      { final Vector<TLAToken> line = new Vector<>() ;
-          line.addElement(new TLAToken("defaultInitValue", 0, 0));
-        final Vector<Vector<TLAToken>> vec = new Vector<>() ;
-        vec.addElement(line) ;
+      { final ArrayList<TLAToken> line = new ArrayList<>() ;
+          line.add(new TLAToken("defaultInitValue", 0, 0));
+        final ArrayList<ArrayList<TLAToken>> vec = new ArrayList<>() ;
+        vec.add(line) ;
         final TLAExpr exp = new TLAExpr(vec) ;
         exp.normalize() ;
         return exp ;

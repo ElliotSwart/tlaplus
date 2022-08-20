@@ -62,7 +62,7 @@
 * it in the Java Reference Manual.                                         *
 ***************************************************************************/
 package pcal;
-import java.util.Vector;
+import java.util.ArrayList;
 
 
 public class AST
@@ -152,11 +152,11 @@ public class AST
 
     public static class Uniprocess extends AST
       { public String  name   = "" ;
-        public Vector<AST.VarDecl>  decls  = null ; // of VarDecl 
+        public ArrayList<AST.VarDecl>  decls  = null ; // of VarDecl 
         public TLAExpr defs   = null ;
-        public Vector<Macro>  macros = null ; // of Macro
-        public Vector<AST.Procedure>  prcds  = null ; // of Procedure
-        public Vector<AST>  body   = null ; // of LabeledStmt
+        public ArrayList<Macro>  macros = null ; // of Macro
+        public ArrayList<AST.Procedure>  prcds  = null ; // of Procedure
+        public ArrayList<AST>  body   = null ; // of LabeledStmt
         public Uniprocess(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
@@ -196,11 +196,11 @@ public class AST
 
     public static class Multiprocess extends AST
       { public String  name   = "" ;
-        public Vector<AST.VarDecl>  decls  = null ; // of VarDecl 
+        public ArrayList<AST.VarDecl>  decls  = null ; // of VarDecl 
         public TLAExpr defs   = null ;
-        public Vector<Macro>  macros = null ; // of Macro
-        public Vector<AST.Procedure>  prcds  = null ; // of Procedure
-        public Vector<AST.Process>  procs  = null ; // of Process
+        public ArrayList<Macro>  macros = null ; // of Macro
+        public ArrayList<AST.Procedure>  prcds  = null ; // of Procedure
+        public ArrayList<AST.Process>  procs  = null ; // of Process
         public Multiprocess(final PcalParams pcalParams) {super(pcalParams);}
 
           public String  toString()
@@ -257,12 +257,12 @@ public class AST
      */
     public static class Procedure extends AST
       { public String name   = "" ;
-        public Vector<String> minusLabels = new Vector<>();
-        public Vector<String> plusLabels = new Vector<>();
-        public Vector<String> proceduresCalled = new Vector<>();
-        public Vector<AST.PVarDecl> params = null ; // of PVarDecl
-        public Vector<AST.PVarDecl> decls  = null ; // of PVarDecl 
-        public Vector<AST> body   = null ; // of LabeledStmt
+        public ArrayList<String> minusLabels = new ArrayList<>();
+        public ArrayList<String> plusLabels = new ArrayList<>();
+        public ArrayList<String> proceduresCalled = new ArrayList<>();
+        public ArrayList<AST.PVarDecl> params = null ; // of PVarDecl
+        public ArrayList<AST.PVarDecl> decls  = null ; // of PVarDecl 
+        public ArrayList<AST> body   = null ; // of LabeledStmt
         public Procedure(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
@@ -326,13 +326,13 @@ public class AST
     public static class Process extends AST
       { public String    name  = "" ;
         public int fairness = UNFAIR_PROC ;
-        public Vector<String>  minusLabels = new Vector<>();
-        public Vector<String>  plusLabels = new Vector<>();
-        public Vector<String>  proceduresCalled = new Vector<>();
+        public ArrayList<String>  minusLabels = new ArrayList<>();
+        public ArrayList<String>  plusLabels = new ArrayList<>();
+        public ArrayList<String>  proceduresCalled = new ArrayList<>();
         public boolean   isEq  = true ; // true means "=", false means "\\in"
         public TLAExpr   id    = null ;
-        public Vector<AST.VarDecl>    decls = null ; // of VarDecl
-        public Vector<AST>    body  = null ; // of LabeledStmt
+        public ArrayList<AST.VarDecl>    decls = null ; // of VarDecl
+        public ArrayList<AST>    body  = null ; // of LabeledStmt
         public Process(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
@@ -426,7 +426,7 @@ public class AST
 
     public static class LabeledStmt extends AST
       { public String    label = null ;
-        public Vector<AST>    stmts = null ;  
+        public ArrayList<AST>    stmts = null ;  
           /*****************************************************************
           * An optional While prepended to a LabelSeq.                     *
           *****************************************************************/
@@ -447,8 +447,8 @@ public class AST
 
     public static class While extends AST
       { public TLAExpr   test    = null ;
-        public Vector<AST>    unlabDo = null ; // a LabelSeq
-        public Vector<AST>    labDo   = null ; // of LabeledStmt 
+        public ArrayList<AST>    unlabDo = null ; // a LabelSeq
+        public ArrayList<AST>    labDo   = null ; // of LabeledStmt 
         public While(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
@@ -469,7 +469,7 @@ public class AST
 
 
     public static class Assign extends AST
-      { public Vector<AST.SingleAssign>    ass  = null ; // of SingleAssign
+      { public ArrayList<AST.SingleAssign>    ass  = null ; // of SingleAssign
         public Assign(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
@@ -524,12 +524,12 @@ public class AST
      */
     public static class If extends AST
       { public TLAExpr   test = null ;
-        public Vector<AST>    Then = null ; // of SimpleStmt
+        public ArrayList<AST>    Then = null ; // of SimpleStmt
           /*****************************************************************
           * Could use "then", but use "Then" to avoid confusion since we   *
           * can't use "else".                                              *
           *****************************************************************/
-        public Vector<AST>    Else = null ; // of SimpleStmt
+        public ArrayList<AST>    Else = null ; // of SimpleStmt
           /*****************************************************************
           * Can't use "else" because that's a Java keyword.                *
           *****************************************************************/
@@ -577,7 +577,7 @@ public class AST
       }     
 
     public static class Either extends AST
-      { public Vector<Object> ors = null ; // of Seq(SimpleStmt)
+      { public ArrayList<Object> ors = null ; // of Seq(SimpleStmt)
         public Either(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
@@ -594,7 +594,7 @@ public class AST
       { public String    var  = "" ;
         public boolean   isEq = true ; // true means "=", false "\\in"
         public TLAExpr   exp  = null ;
-        public Vector<AST>    Do   = null ; // of SimpleStmt
+        public ArrayList<AST>    Do   = null ; // of SimpleStmt
           /*****************************************************************
           * Can't use "do" because that's a Java keyword.                  *
           *****************************************************************/
@@ -671,10 +671,10 @@ public class AST
      */
     public static class LabelIf extends AST
       { public TLAExpr   test      = null ;
-        public Vector<AST>    unlabThen = null ; // a LabelSeq
-        public Vector<AST>    labThen   = null ; // of LabeledStmt 
-        public Vector<AST>    unlabElse = null ; // a LabelSeq
-        public Vector<AST>    labElse   = null ; // of LabeledStmt 
+        public ArrayList<AST>    unlabThen = null ; // a LabelSeq
+        public ArrayList<AST>    labThen   = null ; // of LabeledStmt 
+        public ArrayList<AST>    unlabElse = null ; // a LabelSeq
+        public ArrayList<AST>    labElse   = null ; // of LabeledStmt 
         public LabelIf(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
@@ -699,7 +699,7 @@ public class AST
       }
 
     public static class LabelEither extends AST
-      { public Vector<AST.Clause>    clauses = null ; // of Clause
+      { public ArrayList<AST.Clause>    clauses = null ; // of Clause
         public LabelEither(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
@@ -714,8 +714,8 @@ public class AST
       }
 
     public static class Clause extends AST
-      { public Vector<AST>    unlabOr = null ; // a LabelSeq
-        public Vector<AST>    labOr   = null ; // LabeledStmt
+      { public ArrayList<AST>    unlabOr = null ; // a LabelSeq
+        public ArrayList<AST>    labOr   = null ; // LabeledStmt
 
         public Clause(final PcalParams pcalParams) {super(pcalParams);}
         
@@ -749,7 +749,7 @@ public class AST
     public static class Call extends AST
       { public String    returnTo = "" ;
         public String    to       = "" ;
-        public Vector<TLAExpr>    args     = null ; // of TLAExpr
+        public ArrayList<TLAExpr>    args     = null ; // of TLAExpr
         public Call(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
@@ -785,7 +785,7 @@ public class AST
     public static class CallReturn extends AST
       { public String    from = "" ;
         public String    to       = "" ;
-        public Vector<TLAExpr>    args     = null ; // of TLAExpr
+        public ArrayList<TLAExpr>    args     = null ; // of TLAExpr
         public CallReturn(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
@@ -804,7 +804,7 @@ public class AST
     public static class CallGoto extends AST
       { public String    after = "" ;
         public String    to       = "" ;
-        public Vector<TLAExpr>    args     = null ; // of TLAExpr
+        public ArrayList<TLAExpr>    args     = null ; // of TLAExpr
         public CallGoto(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
@@ -834,8 +834,8 @@ public class AST
 
     public static class Macro extends AST
       { public String name   = "" ;
-        public Vector<String> params = null ; // of Strings
-        public Vector<AST> body   = null ; // of Stmt
+        public ArrayList<String> params = null ; // of Strings
+        public ArrayList<AST> body   = null ; // of Stmt
         public Macro(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
@@ -852,7 +852,7 @@ public class AST
 
     public static class MacroCall extends AST
       { public String name   = "" ;
-        public Vector<TLAExpr> args     = null ; // of TLAExpr
+        public ArrayList<TLAExpr> args     = null ; // of TLAExpr
         public MacroCall(final PcalParams pcalParams) {super(pcalParams);}
 
           public String toString()
@@ -949,7 +949,7 @@ public class AST
      }     
 
      
-   public static String VectorToSeqString(final Vector<?> vec)
+   public static String VectorToSeqString(final ArrayList<?> vec)
      /**********************************************************************
      * Returns the TLA+ representation of vec as a sequence of its         *
      * elements, where toString() is used to produce the elements'         *
@@ -961,13 +961,13 @@ public class AST
        while (i < vec.size())
          { if (i > 0)
              { result.append(", ").append(NewLine()); }
-             result.append(vec.elementAt(i).toString());
+             result.append(vec.get(i).toString());
            i = i + 1 ;
          }
          return result + ">>" + EndIndent();
      }
    
-   public static String VectorToSeqQuotedString(final Vector<?> vec)
+   public static String VectorToSeqQuotedString(final ArrayList<?> vec)
    /**********************************************************************
    * Returns the TLA+ representation of vec as a sequence of quoted      *
    * elements, where toString() is used to produce the elements'         *
@@ -979,14 +979,14 @@ public class AST
      while (i < vec.size())
        { if (i > 0)
            { result.append(", ") /* + NewLine() */ ; }
-           result.append("\"").append(vec.elementAt(i).toString()).append("\"");
+           result.append("\"").append(vec.get(i).toString()).append("\"");
          i = i + 1 ;
        }
        return result + ">>" + EndIndent();
    }
 
 
-public static String VectorOfVectorsToSeqString(final Vector<?> vecvec)
+public static String VectorOfVectorsToSeqString(final ArrayList<?> vecvec)
      /**********************************************************************
      * Returns the TLA+ representation of vec as a sequence of its         *
      * elements, where each of its elements is a vector of objects whose   *
@@ -997,7 +997,7 @@ public static String VectorOfVectorsToSeqString(final Vector<?> vecvec)
        while (i < vecvec.size())
          { if (i > 0)
              { result.append(", ").append(NewLine()); }
-             result.append(VectorToSeqString((Vector<?>) vecvec.elementAt(i)));
+             result.append(VectorToSeqString((ArrayList<?>) vecvec.get(i)));
            i = i + 1 ;
          }
          return result + " >>" + EndIndent();

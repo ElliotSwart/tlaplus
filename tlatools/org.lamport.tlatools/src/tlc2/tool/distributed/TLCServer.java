@@ -916,10 +916,10 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 		private Throwable e;
 
 		/* (non-Javadoc)
-		 * @see tlc2.tool.IStateFunctor#addElement(tlc2.tool.TLCState)
+		 * @see tlc2.tool.IStateFunctor#add(tlc2.tool.TLCState)
 		 */
 		@Override
-        public Object addElement(final TLCState curState) {
+        public Object add(final TLCState curState) {
 			if (e != null) {
 				return curState;
 			}

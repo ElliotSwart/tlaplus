@@ -177,15 +177,15 @@ public class TLC implements ValueConstants
             final IntervalValue intv1 = fcn1.intv;
             for (int i = intv1.low; i <= intv1.high; i++)
             {
-                dom.addElement(IntValue.gen(i));
-                vals.addElement(vals1[i-intv1.low]);
+                dom.add(IntValue.gen(i));
+                vals.add(vals1[i-intv1.low]);
             }
         } else
         {
             for (int i = 0; i < dom1.length; i++)
             {
-                dom.addElement(dom1[i]);
-                vals.addElement(vals1[i]);
+                dom.add(dom1[i]);
+                vals.add(vals1[i]);
             }
         }
 
@@ -200,7 +200,7 @@ public class TLC implements ValueConstants
                 boolean found = false;
                 for (int j = 0; j < len1; j++)
                 {
-                    if (val.equals(dom.elementAt(j)))
+                    if (val.equals(dom.get(j)))
                     {
                         found = true;
                         break;
@@ -208,8 +208,8 @@ public class TLC implements ValueConstants
                 }
                 if (!found)
                 {
-                    dom.addElement(val);
-                    vals.addElement(vals2[i - intv2.low]);
+                    dom.add(val);
+                    vals.add(vals2[i - intv2.low]);
                 }
             }
         } else
@@ -220,7 +220,7 @@ public class TLC implements ValueConstants
                 boolean found = false;
                 for (int j = 0; j < len1; j++)
                 {
-                    if (val.equals(dom.elementAt(j)))
+                    if (val.equals(dom.get(j)))
                     {
                         found = true;
                         break;
@@ -228,8 +228,8 @@ public class TLC implements ValueConstants
                 }
                 if (!found)
                 {
-                    dom.addElement(val);
-                    vals.addElement(vals2[i]);
+                    dom.add(val);
+                    vals.add(vals2[i]);
                 }
             }
         }
@@ -238,8 +238,8 @@ public class TLC implements ValueConstants
         final Value [] values = new Value[dom.size()];
         for (int i = 0; i < domain.length; i++)
         {
-            domain[i] = dom.elementAt(i);
-            values[i] = vals.elementAt(i);
+            domain[i] = dom.get(i);
+            values[i] = vals.get(i);
         }
         return new FcnRcdValue(domain, values, false);
     }
@@ -317,7 +317,7 @@ public class TLC implements ValueConstants
         final boolean[] inUse = new boolean[len];
         for (int i = 0; i < len; i++)
         {
-            domain[i] = elems.elementAt(i);
+            domain[i] = elems.get(i);
             idxArray[i] = i;
             inUse[i] = true;
             factorial = factorial * (i + 1);
@@ -331,7 +331,7 @@ public class TLC implements ValueConstants
             {
                 vals[i] = domain[idxArray[i]];
             }
-            fcns.addElement(new FcnRcdValue(domain, vals, true));
+            fcns.add(new FcnRcdValue(domain, vals, true));
             int i;
             for (i = len - 1; i >= 0; i--)
             {
@@ -387,7 +387,7 @@ public class TLC implements ValueConstants
                 final Value[] dom = new Value[elems.size()];
                 final Value[] vals = new Value[elems.size()];
                 for (int i = 0; i < dom.length; i++) {
-                    dom[i] = elems.elementAt(i);
+                    dom[i] = elems.get(i);
                     vals[i] = RandomElement(sfv.range);
                 }
                 return new FcnRcdValue(dom, vals, true);

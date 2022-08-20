@@ -120,7 +120,7 @@ public class LiveCheck1 implements ILiveCheck {
 		final ArrayList<BEGraphNode> initNodes = new ArrayList<>(1);
 		final int slen = os.getCheckState().length;
 		final int alen = os.getCheckAction().length;
-		TLCState srcState = stateTrace.elementAt(0); // the initial state
+		TLCState srcState = stateTrace.get(0); // the initial state
 		final long srcFP = srcState.fingerPrint();
 		boolean[] checkStateRes = os.checkState(tool, srcState);
 		boolean[] checkActionRes = os.checkAction(tool, srcState, srcState);
@@ -133,7 +133,7 @@ public class LiveCheck1 implements ILiveCheck {
 			allNodes.put(srcFP, srcNode);
 			initNodes.add(srcNode);
 			for (int i = 1; i < stateTrace.size(); i++) {
-				final TLCState destState = stateTrace.elementAt(i);
+				final TLCState destState = stateTrace.get(i);
 				final long destFP = destState.fingerPrint();
 				BEGraphNode destNode = (BEGraphNode) allNodes.get(destFP);
 				if (destNode == null) {
@@ -176,7 +176,7 @@ public class LiveCheck1 implements ILiveCheck {
 			}
 			for (int i = 1; i < stateTrace.size(); i++) {
 				final ArrayList<BEGraphNode> destNodes = new ArrayList<>();
-				final TLCState destState = stateTrace.elementAt(i);
+				final TLCState destState = stateTrace.get(i);
 				final long destStateFP = destState.fingerPrint();
 				checkStateRes = os.checkState(myTool, destState);
 				checkActionRes = os.checkAction(tool, srcState, destState);
@@ -394,7 +394,7 @@ public class LiveCheck1 implements ILiveCheck {
             final StateVec nextStates = myTool.getNextStates(curAction, s);
             for (int j = 0; j < nextStates.size(); j++) {
                 // Add edges induced by s -> s1:
-                final TLCState s1 = nextStates.elementAt(j);
+                final TLCState s1 = nextStates.get(j);
                 final long fp1 = s1.fingerPrint();
                 boolean[] checkActionRes1 = null;
                 for (int k = 0; k < tnode.nextSize(); k++) {

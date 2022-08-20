@@ -6,7 +6,7 @@
 package pcal;
 
 import java.util.Arrays;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Changed {
 	/*
@@ -23,9 +23,9 @@ public class Changed {
 	 *          i-th variable in vars has been changed.
 	 */
     public final int[] count; /* number times variable set */
-    public final Vector<String> vars; /* list of variables */
+    public final ArrayList<String> vars; /* list of variables */
 
-    public Changed (final Vector<String> vars) {
+    public Changed (final ArrayList<String> vars) {
 	count = new int[vars.size()];
 	this.vars = vars;
 		Arrays.fill(count, 0);
@@ -40,7 +40,7 @@ public class Changed {
     public String toString () {
 	final StringBuilder s = new StringBuilder("[");
 	for (int i = 0; i < count.length; i++)
-	    s.append((i == 0) ? "" : ", ").append(vars.elementAt(i)).append(" ").append(count[i]);
+	    s.append((i == 0) ? "" : ", ").append(vars.get(i)).append(" ").append(count[i]);
 	s.append("]");
 	return s.toString();
     }
@@ -51,7 +51,7 @@ public class Changed {
 
     public boolean IsChanged(final String s) {
 	for (int i = 0; i < count.length; i++)
-	    if (s.equals(vars.elementAt(i)))
+	    if (s.equals(vars.get(i)))
 		return (count[i] > 0);
 	return false;
     }
@@ -64,7 +64,7 @@ public class Changed {
 
     public int Set (final String v) {
 	for (int i = 0; i < count.length; i++)
-	    if (v.equals(vars.elementAt(i)))
+	    if (v.equals(vars.get(i)))
 		return ++count[i];
 	return 0;
     }
@@ -74,7 +74,7 @@ public class Changed {
 	final StringBuilder s = new StringBuilder();
 	for (int i = 0; i < count.length; i++)
 	    if (count[i] == 0)
-		s.append((s.length() == 0) ? "" : ", ").append(vars.elementAt(i));
+		s.append((s.length() == 0) ? "" : ", ").append(vars.get(i));
 	return s.toString();
     }
 
@@ -83,53 +83,53 @@ public class Changed {
 	final StringBuilder s = new StringBuilder();
 	for (int i = 0; i < count.length; i++)
 	    if ((count[i] == 0) && c.count[i] > 0)
-		s.append((s.length() == 0) ? "" : ", ").append(vars.elementAt(i));
+		s.append((s.length() == 0) ? "" : ", ").append(vars.get(i));
 	return s.toString();
     }
   
-    /* Vector of strings of vars whose change count is 0 */
+    /* ArrayList of strings of vars whose change count is 0 */
     /* Each string is no longer than ch characters       */
     /* (except for vars whose length is over ch-1)       */
     /* This method is called only once, from             */
     /* GenLabeledStmt.                                   */
-    public Vector<String> Unchanged (final int ch) {
-	final Vector<String> sv = new Vector<>();
+    public ArrayList<String> Unchanged (final int ch) {
+	final ArrayList<String> sv = new ArrayList<>();
 	StringBuilder s = new StringBuilder();
 	boolean haveOne = false;
 	for (int i = 0; i < count.length; i++)
 	    if (count[i] == 0) {
-		final String one = vars.elementAt(i);
+		final String one = vars.get(i);
 		if (haveOne) s.append(", ");
 		else haveOne = true;
 		if (s.length() + one.length() > ch) {
-		    if (s.length() > 0) sv.addElement(s.toString());
+		    if (s.length() > 0) sv.add(s.toString());
 		    s = new StringBuilder(one);
 		}
 		else s.append(one);
 	    }
-	if  (s.length() > 0) sv.addElement(s.toString());
+	if  (s.length() > 0) sv.add(s.toString());
 	return sv;
     }
 
     /* String of vars that were changed in c but not in this */
     /* Each string is no longer than ch characters           */
     /* (except for vars whose length is over ch-1)           */
-    public Vector<String> Unchanged (final Changed c, final int ch) {
-	final Vector<String> sv = new Vector<>();
+    public ArrayList<String> Unchanged (final Changed c, final int ch) {
+	final ArrayList<String> sv = new ArrayList<>();
 	StringBuilder s = new StringBuilder();
 	boolean haveOne = false;
 	for (int i = 0; i < count.length; i++)
 	    if ((count[i] == 0) && c.count[i] > 0) {
-		final String one = vars.elementAt(i);
+		final String one = vars.get(i);
 		if (haveOne) s.append(", ");
 		else haveOne = true;
 		if (s.length() + one.length() > ch) {
-		    if (s.length() > 0) sv.addElement(s.toString());
+		    if (s.length() > 0) sv.add(s.toString());
 		    s = new StringBuilder(one);
 		}
 		else s.append(one);
 	    }
-	if  (s.length() > 0) sv.addElement(s.toString());
+	if  (s.length() > 0) sv.add(s.toString());
 	return sv;
     }
   

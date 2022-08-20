@@ -97,7 +97,7 @@ public class SetOfRcrdValueTest {
 			final SubsetEnumerator rcds) {
 		for (int i = 0; i < set.size(); i++) {
 			// Check names are stable.
-			final RecordValue rcd = rcds.elementAt(i);
+			final RecordValue rcd = rcds.get(i);
 			assertArrayEquals(names, rcd.names);
 			// Check values are from correct range.
 			final Value[] rcdValues = rcd.values;

@@ -36,7 +36,7 @@ public interface ValueEnumeration {
 		final ValueVec vv = new ValueVec();
 		Value elem;
 		while ((elem = nextElement()) != null) {
-			vv.addElement(elem);
+			vv.add(elem);
 		}
 		return new SetEnumValue(vv, false);
 	}

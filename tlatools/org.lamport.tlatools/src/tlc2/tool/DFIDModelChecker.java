@@ -278,7 +278,7 @@ public class DFIDModelChecker extends AbstractChecker
             int idx = 0;
             for (int i = 0; i < l; i++)
             {
-                curState = states.elementAt(i);
+                curState = states.get(i);
                 // Check if the state is a legal state
                 if (!tool.isGoodState(curState))
                 {
@@ -391,7 +391,7 @@ public class DFIDModelChecker extends AbstractChecker
 
                 for (int j = 0; j < sz; j++)
                 {
-                    succState = nextStates.elementAt(j);
+                    succState = nextStates.get(j);
                     // Check if the state is a legal state.
                     if (!tool.isGoodState(succState))
                     {
@@ -431,8 +431,8 @@ public class DFIDModelChecker extends AbstractChecker
                         // Remember succState if it has not been completed at this level:
                         if (!FPIntSet.isCompleted(status))
                         {
-                            states.addElement(succState);
-                            fps.addElement(fp);
+                            states.add(succState);
+                            fps.add(fp);
                         }
 
                         // For liveness checking:

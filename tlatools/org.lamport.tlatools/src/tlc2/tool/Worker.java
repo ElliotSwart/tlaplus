@@ -416,12 +416,12 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 	//**************************************************************//
 
 	@Override
-	public Object addElement(final TLCState state) {
-		throw new WrongInvocationException("tlc2.tool.Worker.addElement(TLCState) should not be called");
+	public Object add(final TLCState state) {
+		throw new WrongInvocationException("tlc2.tool.Worker.add(TLCState) should not be called");
 	}
 
 	@Override
-	public Object addElement(final TLCState curState, final Action action, final TLCState succState) {
+	public Object add(final TLCState curState, final Action action, final TLCState succState) {
 	    if (coverage) { action.cm.incInvocations(); }
 		this.statesGenerated++;
 		
@@ -468,7 +468,7 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 			return this;
 		} catch (final Exception e) {
 			// We can't throw Exception here because it would violate the contract of
-			// tlc2.tool.INextStateFunctor.addElement(TLCState, Action, TLCState). Thus,
+			// tlc2.tool.INextStateFunctor.add(TLCState, Action, TLCState). Thus,
 			// wrap the exception regardless of whether it is a (unchecked) runtime
 			// exception or not. We expect the outer code in run(..) above to unwrap this
 			// exception.  As a bonus, we can attach succState and send it up the stack.

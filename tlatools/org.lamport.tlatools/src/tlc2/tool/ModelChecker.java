@@ -407,7 +407,7 @@ public class ModelChecker extends AbstractChecker
 
                 for (int j = 0; j < sz; j++)
                 {
-					succState = nextStates.elementAt(j);
+					succState = nextStates.get(j);
 					// Check if succState is a legal state.
                     if (!tool.isGoodState(succState))
                     {
@@ -1115,10 +1115,10 @@ public class ModelChecker extends AbstractChecker
 		}
 
 		/* (non-Javadoc)
-		 * @see tlc2.tool.IStateFunctor#addElement(tlc2.tool.TLCState)
+		 * @see tlc2.tool.IStateFunctor#add(tlc2.tool.TLCState)
 		 */
 		@Override
-        public Object addElement(final TLCState curState) {
+        public Object add(final TLCState curState) {
 			if (Long.bitCount(numberOfInitialStates) == 1 && numberOfInitialStates > 1) {
 				MP.printMessage(EC.TLC_COMPUTING_INIT_PROGRESS, Long.toString(numberOfInitialStates));
 			}

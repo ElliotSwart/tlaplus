@@ -42,7 +42,7 @@ public class LongVecTest {
 	public void testReadBeyondCapacity() {
 		final LongVec vec = getLongVec();
 		try {
-			vec.elementAt(0);
+			vec.get(0);
 		} catch (final IndexOutOfBoundsException e) {
 			return;
 		}
@@ -52,10 +52,10 @@ public class LongVecTest {
 	@Test
 	public void testAddAndReadBeyondCapacity() {
 		final LongVec vec = getLongVec();
-		vec.addElement(1L);
-		assertEquals(1L, vec.elementAt(0));
+		vec.add(1L);
+		assertEquals(1L, vec.get(0));
 		try {
-			vec.elementAt(1);
+			vec.get(1);
 		} catch (final IndexOutOfBoundsException e) {
 			return;
 		}
@@ -67,7 +67,7 @@ public class LongVecTest {
 		final LongVec vec = new LongVec(10);
 		for (int i = -1; i <= 10; i++) {
 			try {
-				vec.removeElement(0);
+				vec.remove(0);
 			} catch (final IndexOutOfBoundsException e) {
 				continue;
 			}
@@ -78,10 +78,10 @@ public class LongVecTest {
 	@Test
 	public void testAddRemoveBeyondCapacity() {
 		final LongVec vec = new LongVec(10);
-		vec.addElement(1L);
-		vec.removeElement(0);
+		vec.add(1L);
+		vec.remove(0);
 		try {
-			vec.removeElement(1);
+			vec.remove(1);
 		} catch (final IndexOutOfBoundsException e) {
 			return;
 		}
@@ -91,20 +91,20 @@ public class LongVecTest {
 	@Test
 	public void testRemoveAndGet() {
 		final LongVec vec = getLongVec();
-		vec.addElement(1L);
-		vec.addElement(2L);
-		vec.addElement(3L);
+		vec.add(1L);
+		vec.add(2L);
+		vec.add(3L);
 		
-		assertEquals(1L, vec.elementAt(0));
-		assertEquals(2L, vec.elementAt(1));
-		assertEquals(3L, vec.elementAt(2));
+		assertEquals(1L, vec.get(0));
+		assertEquals(2L, vec.get(1));
+		assertEquals(3L, vec.get(2));
 		
-		vec.removeElement(1);
-		assertEquals(1L, vec.elementAt(0));
-		assertEquals(3L, vec.elementAt(1));
+		vec.remove(1);
+		assertEquals(1L, vec.get(0));
+		assertEquals(3L, vec.get(1));
 		// There must not be an element at idx 2 anymore!
 		try {
-			vec.elementAt(2);
+			vec.get(2);
 		} catch (final IndexOutOfBoundsException e) {
 			return;
 		}
@@ -114,15 +114,15 @@ public class LongVecTest {
 	@Test
 	public void testRemoveWrongOrder() {
 		final LongVec vec = getLongVec();
-		vec.addElement(1L);
-		vec.addElement(2L);
+		vec.add(1L);
+		vec.add(2L);
 		
-		assertEquals(1L, vec.elementAt(0));
-		assertEquals(2L, vec.elementAt(1));
+		assertEquals(1L, vec.get(0));
+		assertEquals(2L, vec.get(1));
 		
-		vec.removeElement(0);
+		vec.remove(0);
 		try {
-			vec.removeElement(1);
+			vec.remove(1);
 		} catch (final IndexOutOfBoundsException e) {
 			return;
 		}
@@ -133,7 +133,7 @@ public class LongVecTest {
 	public void testGetNegative() {
 		final LongVec vec = getLongVec();
 		try {
-			vec.elementAt(-1);
+			vec.get(-1);
 		} catch (final IndexOutOfBoundsException e) {
 			return;
 		}
@@ -144,7 +144,7 @@ public class LongVecTest {
 	public void testRemoveNegative() {
 		final LongVec vec = getLongVec();
 		try {
-			vec.removeElement(-1);
+			vec.remove(-1);
 		} catch (final IndexOutOfBoundsException e) {
 			return;
 		}

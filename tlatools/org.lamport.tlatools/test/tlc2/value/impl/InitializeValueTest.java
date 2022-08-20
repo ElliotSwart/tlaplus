@@ -48,10 +48,10 @@ public class InitializeValueTest {
 	@Test
 	public void union() {
 		final ValueVec vec = new ValueVec();
-		vec.addElement(new SetEnumValue(new IntValue[] {IntValue.gen(42)}, false));
-		vec.addElement(new SetEnumValue(new IntValue[] {IntValue.gen(23)}, false));
-		vec.addElement(new SetEnumValue(new IntValue[] {IntValue.gen(4711)}, false));
-		vec.addElement(new SetEnumValue(new IntValue[] {IntValue.gen(1)}, false));
+		vec.add(new SetEnumValue(new IntValue[] {IntValue.gen(42)}, false));
+		vec.add(new SetEnumValue(new IntValue[] {IntValue.gen(23)}, false));
+		vec.add(new SetEnumValue(new IntValue[] {IntValue.gen(4711)}, false));
+		vec.add(new SetEnumValue(new IntValue[] {IntValue.gen(1)}, false));
 		
 		final UnionValue uv = new UnionValue(new SetEnumValue(vec, false));
 		assertFalse(uv.isNormalized());
@@ -69,10 +69,10 @@ public class InitializeValueTest {
 	@Test
 	public void setcap() {
 		final ValueVec vec = new ValueVec();
-		vec.addElement(IntValue.gen(42));
-		vec.addElement(IntValue.gen(23));
-		vec.addElement(IntValue.gen(4711));
-		vec.addElement(IntValue.gen(1));
+		vec.add(IntValue.gen(42));
+		vec.add(IntValue.gen(23));
+		vec.add(IntValue.gen(4711));
+		vec.add(IntValue.gen(1));
 		
 		final SetCapValue scv = new SetCapValue(new SetEnumValue(vec, false), new SetEnumValue(vec, false));
 		assertFalse(scv.isNormalized());
@@ -89,10 +89,10 @@ public class InitializeValueTest {
 	@Test
 	public void setcup() {
 		final ValueVec vec = new ValueVec();
-		vec.addElement(IntValue.gen(42));
-		vec.addElement(IntValue.gen(23));
-		vec.addElement(IntValue.gen(4711));
-		vec.addElement(IntValue.gen(1));
+		vec.add(IntValue.gen(42));
+		vec.add(IntValue.gen(23));
+		vec.add(IntValue.gen(4711));
+		vec.add(IntValue.gen(1));
 		
 		final SetCupValue scv = new SetCupValue(new SetEnumValue(vec, false), new SetEnumValue(vec, false));
 		assertFalse(scv.isNormalized());
@@ -109,10 +109,10 @@ public class InitializeValueTest {
 	@Test
 	public void setdiff() {
 		final ValueVec vec = new ValueVec();
-		vec.addElement(IntValue.gen(42));
-		vec.addElement(IntValue.gen(23));
-		vec.addElement(IntValue.gen(4711));
-		vec.addElement(IntValue.gen(1));
+		vec.add(IntValue.gen(42));
+		vec.add(IntValue.gen(23));
+		vec.add(IntValue.gen(4711));
+		vec.add(IntValue.gen(1));
 		
 		final SetDiffValue sdv = new SetDiffValue(new SetEnumValue(vec, false), new SetEnumValue(vec, false));
 		assertFalse(sdv.isNormalized());
@@ -129,10 +129,10 @@ public class InitializeValueTest {
 	@Test
 	public void subset() {
 		final ValueVec vec = new ValueVec();
-		vec.addElement(IntValue.gen(42));
-		vec.addElement(IntValue.gen(23));
-		vec.addElement(IntValue.gen(4711));
-		vec.addElement(IntValue.gen(1));
+		vec.add(IntValue.gen(42));
+		vec.add(IntValue.gen(23));
+		vec.add(IntValue.gen(4711));
+		vec.add(IntValue.gen(1));
 		
 		final SubsetValue sub = new SubsetValue(new SetEnumValue(vec, false));
 		assertFalse(sub.isNormalized());
@@ -151,10 +151,10 @@ public class InitializeValueTest {
 		final UniqueString b = internTable.put("b");
 		
 		final ValueVec vec = new ValueVec();
-		vec.addElement(IntValue.gen(42));
-		vec.addElement(IntValue.gen(23));
-		vec.addElement(IntValue.gen(4711));
-		vec.addElement(IntValue.gen(1));
+		vec.add(IntValue.gen(42));
+		vec.add(IntValue.gen(23));
+		vec.add(IntValue.gen(4711));
+		vec.add(IntValue.gen(1));
 		final Value aVal = new SetEnumValue(vec, false);
 		final Value bVal = new SetEnumValue(vec, false);
 		
@@ -176,10 +176,10 @@ public class InitializeValueTest {
 	@Test
 	public void fcnrecord() {
 		final ValueVec vec = new ValueVec();
-		vec.addElement(IntValue.gen(42));
-		vec.addElement(IntValue.gen(23));
-		vec.addElement(IntValue.gen(4711));
-		vec.addElement(IntValue.gen(1));
+		vec.add(IntValue.gen(42));
+		vec.add(IntValue.gen(23));
+		vec.add(IntValue.gen(4711));
+		vec.add(IntValue.gen(1));
 		final Value aVal = new SetEnumValue(vec, false);
 		final Value bVal = new SetEnumValue(vec, false);
 
@@ -197,10 +197,10 @@ public class InitializeValueTest {
 	@Test
 	public void tuple() {
 		final ValueVec vec = new ValueVec();
-		vec.addElement(IntValue.gen(42));
-		vec.addElement(IntValue.gen(23));
-		vec.addElement(IntValue.gen(4711));
-		vec.addElement(IntValue.gen(1));
+		vec.add(IntValue.gen(42));
+		vec.add(IntValue.gen(23));
+		vec.add(IntValue.gen(4711));
+		vec.add(IntValue.gen(1));
 		final Value aVal = new SetEnumValue(vec, false);
 		
 		final TupleValue tuple = new TupleValue(aVal);

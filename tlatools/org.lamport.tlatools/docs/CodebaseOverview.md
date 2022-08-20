@@ -115,7 +115,7 @@ There is a significant amount of static state. While much has been removed
 ### Proprietary Implementations of Standard Data Structures
 
 Multiple custom vector classes are used:
-- [Vector] (../src/tla2sany/utilities/Vector.java)
+- [ArrayList] (../src/tla2sany/utilities/ArrayList.java)
 - [Vect] (../src/tlc2/util/Vect.java)
 
 They have no particularly unique functionality, however slight behavioral changes mean it is not a trivial substitution. Since none of them seem particularly Thread-safe, they should likely both be replaced with ArrayList's.

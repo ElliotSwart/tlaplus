@@ -89,7 +89,7 @@ public class April29Test extends ModelCheckerTestCase {
 		final int alen = checker.getSolution().getCheckAction().length;
 		assertEquals(3, alen);
 		
-		final GraphNode init = graph.getNode(initNodes.elementAt(0));
+		final GraphNode init = graph.getNode(initNodes.get(0));
 		Set<Transition> transitions = init.getTransition(slen, alen);
 		assertEquals(2, transitions.size()); // One self-loop and one successor
 		

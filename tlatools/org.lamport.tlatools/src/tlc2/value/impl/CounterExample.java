@@ -90,7 +90,7 @@ public class CounterExample extends RecordValue {
 		final SetEnumValue set = (SetEnumValue) this.select(new StringValue(STATES));
 		final Value[] v = new Value[Objects.requireNonNull(set).elems.size()];
 		for (int i = 0; i < v.length; i++) {
-			final TupleValue tv = (TupleValue) set.elems.elementAt(i);
+			final TupleValue tv = (TupleValue) set.elems.get(i);
 			v[((IntValue) tv.getElem(0)).val - 1] = (Value) tv.getElem(1);
 		}
 		return new TupleValue(v);

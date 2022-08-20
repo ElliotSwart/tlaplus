@@ -254,7 +254,7 @@ public class TLCTrace implements AutoCloseable {
 			final long curLoc = this.raf.getFilePointer();
 			final long loc1 = (included) ? loc : this.getPrev(loc);
 			for (long ploc = loc1; ploc != 1; ploc = this.getPrev(ploc)) {
-				fps.addElement(this.getFP(ploc));
+				fps.add(this.getFP(ploc));
 			}
 			this.raf.seek(curLoc);
 		}
@@ -301,13 +301,13 @@ public class TLCTrace implements AutoCloseable {
 		if (len > 0) {
 			if (sinfo == null) {
 				// Recreate initial state from its fingerprint.
-				final long fp = fps.elementAt(len - 1);
+				final long fp = fps.get(len - 1);
 				sinfo = this.tool.getState(fp);
 			}
 			// Recover successor states from its predecessor and its fingerprint.
 			res[stateNum++] = sinfo;
 			for (int i = len - 2; i >= 0; i--) {
-				final long fp = fps.elementAt(i);
+				final long fp = fps.get(i);
 				sinfo = this.tool.getState(fp, sinfo.state);
 				if (sinfo == null) {
 					/*

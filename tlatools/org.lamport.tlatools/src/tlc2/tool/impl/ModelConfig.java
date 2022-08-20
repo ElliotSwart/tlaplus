@@ -451,7 +451,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                 while (true)
                 {
                 	final Value elem = this.parseValue(tt, scs, tmgr, buf);
-                    elems.addElement(elem);
+                    elems.add(elem);
                     tt = getNextToken(tmgr, buf);
                     if (!tt.image.equals(","))
                         break;

@@ -303,7 +303,7 @@ public final Value domain;        /* Function domain  */
       final ValueEnumeration Enum = this.elements();
       Value elem;
       while ((elem = Enum.nextElement()) != null) {
-        vals.addElement(elem);
+        vals.add(elem);
       }
       if (coverage) {cm.incSecondary(vals.size());}
       return new SetEnumValue(vals, this.isNormalized(), cm);
@@ -472,7 +472,7 @@ public final Value domain;        /* Function domain  */
         // SZ Feb 24, 2009: never read locally
         // ValueEnumeration enumeration = ((Enumerable)domSet).elements();
         for (int i = 0; i < sz; i++) {
-          this.dom[i] = elems.elementAt(i);
+          this.dom[i] = elems.get(i);
           this.enums[i] = enumerable.elements();
           this.currentElems[i] = this.enums[i].nextElement();
           if (this.currentElems[i] == null) {
@@ -558,14 +558,14 @@ public final Value domain;        /* Function domain  */
 		}
 
 		@Override
-		protected Value elementAt(final int idx) {
+		protected Value get(final int idx) {
 			assert 0 <= idx && idx < size();
 
 			final Value[] range = new Value[domSet.size()];
 
 			for (int i = 0; i < domSet.size(); i++) {
 				final int elementAt = (int) (Math.floor(idx / Math.pow(mod, i)) % mod);
-				range[range.length - 1 - i] = rangeSet.elems.elementAt(elementAt);
+				range[range.length - 1 - i] = rangeSet.elems.get(elementAt);
 			}
 
 			return new FcnRcdValue(domSet.elems, range, true);
@@ -597,7 +597,7 @@ public final Value domain;        /* Function domain  */
 		}
 
 		@Override
-		protected Value elementAt(final BigInteger idx) {
+		protected Value get(final BigInteger idx) {
 			final Value[] range = new Value[domSet.size()];
 
 			for (int i = 0; i < domSet.size(); i++) {
@@ -606,7 +606,7 @@ public final Value domain;        /* Function domain  */
 				// idx2 is the index in the range (0,range.size^domset.size] 
 				final BigInteger idx2 = idx.divide(bScale);
 				final int elementAt = idx2.mod(bMod).intValueExact();
-				range[range.length - 1 - i] = rangeSet.elems.elementAt(elementAt);
+				range[range.length - 1 - i] = rangeSet.elems.get(elementAt);
 			}
 
 			return new FcnRcdValue(domSet.elems, range, true);

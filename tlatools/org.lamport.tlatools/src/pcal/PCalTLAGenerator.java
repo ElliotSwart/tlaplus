@@ -1,6 +1,6 @@
 package pcal;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import pcal.exception.PcalFixIDException;
 import pcal.exception.PcalSymTabException;
@@ -67,15 +67,15 @@ public class PCalTLAGenerator
      * Note that this requires RemoveNameConflicts to be called first   *
      * because of the grotty use of the class variable st.              *
      ********************************************************************/
-    public Vector<String> translate() throws RemoveNameConflictsException
+    public ArrayList<String> translate() throws RemoveNameConflictsException
     {
-        Vector<String> result = new Vector<>();
+        ArrayList<String> result = new ArrayList<>();
         AST xast;  // Set to the exploded AST
 
         PcalTranslate pcalTranslate = new PcalTranslate(this.parseAlgorithm);
 
         for (int i = 0; i < st.disambiguateReport.size(); i++)
-            result.addElement(st.disambiguateReport.elementAt(i));
+            result.add(st.disambiguateReport.get(i));
         try
         {
             xast = pcalTranslate.Explode(ast, st);

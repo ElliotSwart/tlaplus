@@ -76,7 +76,7 @@ public class RandomizationBenchmark {
 	private static ValueVec getValues(final int from, final int to) {
 		final ValueVec vec = new ValueVec(to - from);
 		for (int i = from; i <= to; i++) {
-			vec.addElement(IntValue.gen(i));
+			vec.add(IntValue.gen(i));
 		}
 		return vec;
 	}

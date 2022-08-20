@@ -14,7 +14,7 @@ public class IntervalValueTest {
 	public void testElementAt() {
 		final IntervalValue iv = new IntervalValue(3, 11);
 		for (int i = 0; i < iv.size(); i++) {
-			assertEquals(IntValue.gen(i + 3), iv.elementAt(i));
+			assertEquals(IntValue.gen(i + 3), iv.get(i));
 		}
 	}
 
@@ -22,7 +22,7 @@ public class IntervalValueTest {
 	public void testElementAtOutOfBoundsNegative() {
 		final IntervalValue iv = new IntervalValue(3, 11);
 		try {
-			iv.elementAt(-1);
+			iv.get(-1);
 		} catch (final TLCRuntimeException e) {
 			return;
 		}
@@ -33,7 +33,7 @@ public class IntervalValueTest {
 	public void testElementAtOutOfBoundsSize() {
 		final IntervalValue iv = new IntervalValue(3, 11);
 		try {
-			iv.elementAt(iv.size());
+			iv.get(iv.size());
 		} catch (final TLCRuntimeException e) {
 			return;
 		}

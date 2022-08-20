@@ -16,7 +16,7 @@ package pcal ;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import pcal.exception.PcalResourceFileReaderException;
 
@@ -48,18 +48,18 @@ public class PcalResourceFileReader
          inputReader = new BufferedReader(new InputStreamReader(input)) ;
       }
 
-      public static Vector<String> ResourceFileToStringVector(final String fileName) throws PcalResourceFileReaderException
+      public static ArrayList<String> ResourceFileToStringVector(final String fileName) throws PcalResourceFileReaderException
     /***********************************************************************
     * Reads file fileName into a StringVector, a vector in which each      *
     * element is a line of the file.                                       *
     ***********************************************************************/
-    { final Vector<String> inputVec = new Vector<>(100) ;
+    { final ArrayList<String> inputVec = new ArrayList<>(100) ;
        final PcalResourceFileReader wordFileReader
                      = new PcalResourceFileReader(fileName);
 
        String word = wordFileReader.getLine();
        while (word != null)
-         { inputVec.addElement(word) ;
+         { inputVec.add(word) ;
            word = wordFileReader.getLine() ;
          }
         wordFileReader.close();

@@ -140,9 +140,9 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 		
 		// It is important that it finds the shortest path.
 		assertEquals(3, path.size());
-		assertEquals(finalState, path.elementAt(0));
-		assertEquals(thirdState, path.elementAt(1));
-		assertEquals(secondState, path.elementAt(2));
+		assertEquals(finalState, path.get(0));
+		assertEquals(thirdState, path.get(1));
+		assertEquals(secondState, path.get(2));
 
 		dg.close();
 	}
@@ -226,9 +226,9 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 		// init -> second -> final & init -> third -> final
 		// and both are correct path.
 		assertEquals(3, path.size());
-		assertEquals(finalState, path.elementAt(0));
-		assertEquals(secondState, path.elementAt(1));
-		assertEquals(initState, path.elementAt(2));
+		assertEquals(finalState, path.get(0));
+		assertEquals(secondState, path.get(1));
+		assertEquals(initState, path.get(2));
 
 		dg.close();
 	}
@@ -325,9 +325,9 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 		// init -> second -> final & init -> third -> final
 		// and both are correct path.
 		assertEquals(3, path.size());
-		assertEquals(finalState, path.elementAt(0));
-		assertEquals(thirdState, path.elementAt(1));
-		assertEquals(initState, path.elementAt(2));
+		assertEquals(finalState, path.get(0));
+		assertEquals(thirdState, path.get(1));
+		assertEquals(initState, path.get(2));
 
 		dg.close();
 	}
@@ -384,8 +384,8 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 		dg.destroyCache();
 		
 		assertEquals(2, path.size());
-		assertEquals(finalState, path.elementAt(0));
-		assertEquals(regularInitState, path.elementAt(1));
+		assertEquals(finalState, path.get(0));
+		assertEquals(regularInitState, path.get(1));
 		
 		// Make sure it also returns a path if init is searched
 		dg.createCache();
@@ -393,7 +393,7 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 		dg.destroyCache();
 
 		assertEquals(1, path.size());
-		assertEquals(noSuccessorInitState, path.elementAt(0));
+		assertEquals(noSuccessorInitState, path.get(0));
 
 		dg.close();
 	}
@@ -426,7 +426,7 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 			dg.destroyCache();
 			
 			assertEquals(1, path.size());
-			assertEquals(fingerprint, path.elementAt(0));
+			assertEquals(fingerprint, path.get(0));
 			return;
 		}
 		finally {
@@ -485,8 +485,8 @@ public class TableauDiskGraphTest extends DiskGraphTest {
 		dg.destroyCache();
 
 		assertEquals(2, path.size());
-		assertEquals(fingerprint, path.elementAt(0));
-		assertEquals(fingerprint, path.elementAt(1));
+		assertEquals(fingerprint, path.get(0));
+		assertEquals(fingerprint, path.get(1));
 
 		dg.close();
 	}

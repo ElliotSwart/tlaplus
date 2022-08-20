@@ -63,7 +63,7 @@ public class SubsetEnumeratorTest {
 		// SetEnumValue
 		final ValueVec vec = new ValueVec();
 		final String input = "ABCDEFGHIJ";
-		input.chars().forEach(value -> vec.addElement(ModelValue.make(String.valueOf(value))));
+		input.chars().forEach(value -> vec.add(ModelValue.make(String.valueOf(value))));
 		params.add(new SetEnumValue(vec, false));
 		
 		// SetOfTuplesValue

@@ -38,7 +38,7 @@ private Value [] elementData;
     public ValueVec(final Collection<Value > elems) {
     	this(elems.size());
     	for (final Value  value : elems) {
-			addElement(value);
+			add(value);
 		}
     }
     public final void addElementAt(final Value  val, final int index) {
@@ -46,7 +46,7 @@ private Value [] elementData;
         this.elementCount++;
     }
 
-  public final void addElement(final Value val) {
+  public final void add(final Value val) {
     if (this.elementCount == this.elementData.length) {
       ensureCapacity(this.elementCount+1);
     }
@@ -89,7 +89,7 @@ private Value [] elementData;
     System.arraycopy(elementData, 0, anArray, 0, elementCount);
   }
 
-  public final Value  elementAt(final int index) {
+  public final Value  get(final int index) {
     // Assert.check(index < this.elementCount);
     return this.elementData[index];
   }

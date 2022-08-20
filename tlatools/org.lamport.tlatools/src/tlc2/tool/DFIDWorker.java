@@ -103,7 +103,7 @@ public class DFIDWorker extends IdThread implements IWorker {
 
     while (len > 0) {
       final int index = (int)Math.floor(this.rng.nextDouble() * len);
-      final long fp = succFPs.elementAt(index);
+      final long fp = succFPs.get(index);
       final int status = this.theFPSet.getStatus(fp);
 
       // Assert.check(status != FPIntSet.NEW);
@@ -111,8 +111,8 @@ public class DFIDWorker extends IdThread implements IWorker {
 	  this.curLevel < FPIntSet.getLevel(status)) {
 	return index;
       }
-      succStates.removeElement(index);
-      succFPs.removeElement(index);
+      succStates.remove(index);
+      succFPs.remove(index);
       len--;
     }
     return -1;
@@ -215,8 +215,8 @@ public class DFIDWorker extends IdThread implements IWorker {
 	    cfp = this.fpStack[this.curLevel-1];
 	  }
 	  else {
-	    curState = this.succStateStack[this.curLevel-1].elementAt(index);
-	    cfp = this.succFPStack[this.curLevel-1].elementAt(index);
+	    curState = this.succStateStack[this.curLevel-1].get(index);
+	    cfp = this.succFPStack[this.curLevel-1].get(index);
 	    this.stateStack[this.curLevel] = curState;
 	    this.fpStack[this.curLevel] = cfp;
 	    this.succStateStack[this.curLevel].reset();

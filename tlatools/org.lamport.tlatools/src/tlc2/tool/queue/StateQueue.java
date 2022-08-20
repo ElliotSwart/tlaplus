@@ -94,7 +94,7 @@ public abstract class StateQueue implements IStateQueue {
     public final synchronized void sEnqueue(final StateVec stateVec) {
 		int cnt = 0;
 		for (int j = 0; j < stateVec.size(); j++) {
-			final TLCState state = stateVec.elementAt(j);
+			final TLCState state = stateVec.get(j);
 			if (state != null) {
 				this.enqueueInner(state);
 				cnt++;

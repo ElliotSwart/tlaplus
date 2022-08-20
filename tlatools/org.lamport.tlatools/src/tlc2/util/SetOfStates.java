@@ -63,7 +63,7 @@ public final class SetOfStates {
 	public SetOfStates(final StateVec sv) {
 		this(sv.size());
 		for (int i = 0; i < sv.size(); i++) {
-			put(sv.elementAt(i));
+			put(sv.get(i));
 		}
 	}
 

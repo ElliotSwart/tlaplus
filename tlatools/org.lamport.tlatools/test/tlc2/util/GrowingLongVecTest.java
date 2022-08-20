@@ -43,19 +43,19 @@ public class GrowingLongVecTest extends LongVecTest {
 	public void testGrowAndShrink() {
 		// Zero capacity, LongVec has to grow
 		final LongVec vec = new LongVec(0);
-		vec.addElement(1L);
-		vec.addElement(2L);
+		vec.add(1L);
+		vec.add(2L);
 
 		assertEquals(2, vec.size());
 
 		// Remove in reverse order
-		vec.removeElement(1);
-		vec.removeElement(0);
+		vec.remove(1);
+		vec.remove(0);
 		
 		assertEquals(0, vec.size());
 		
 		try {
-			vec.removeElement(0);
+			vec.remove(0);
 		} catch (final Exception e) {
 			return;
 		}

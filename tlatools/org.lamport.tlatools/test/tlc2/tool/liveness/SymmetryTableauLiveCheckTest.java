@@ -357,7 +357,7 @@ public class SymmetryTableauLiveCheckTest {
 			// s > t for sSymmetric
 			final TLCState state = nextStates.getValue();
 			if (state == sSymmetric) {
-				nss.addElement(t);
+				nss.add(t);
 			}
 			return nss;
 		});

@@ -106,7 +106,7 @@ private final SymbolNode name;
 
   @Override
   public StateVec addToVec(final StateVec states) {
-    return states.addElement(this);
+    return states.add(this);
   }
 
   @Override

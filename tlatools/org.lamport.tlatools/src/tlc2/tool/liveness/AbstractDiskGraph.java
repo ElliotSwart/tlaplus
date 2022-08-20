@@ -109,8 +109,8 @@ public abstract class AbstractDiskGraph {
 	}
 
 	public final void addInitNode(final long node, final int tidx) {
-		this.initNodes.addElement(node);
-		this.initNodes.addElement(tidx);
+		this.initNodes.add(node);
+		this.initNodes.add(tidx);
 	}
 
 	public final LongVec getInitNodes() {
@@ -202,8 +202,8 @@ public abstract class AbstractDiskGraph {
 	protected boolean isInitState(final GraphNode gnode) {
 		final int numOfInits = initNodes.size();
 		for (int j = 0; j < numOfInits; j += 2) {
-			final long state = initNodes.elementAt(j);
-			final int tidx = (int) initNodes.elementAt(j + 1);
+			final long state = initNodes.get(j);
+			final int tidx = (int) initNodes.get(j + 1);
 			if (gnode.stateFP == state && gnode.tindex == tidx) {
 				return true;
 			}

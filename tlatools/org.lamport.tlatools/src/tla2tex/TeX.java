@@ -95,7 +95,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import util.ToolIO;
 
@@ -181,9 +181,9 @@ class TeX
       /*********************************************************************
       * Copy the preamble (everything through the line containing          *
       * \begin{document}, and save everything except the                   *
-      * \begin{document} in the Vector preamble.                           *
+      * \begin{document} in the ArrayList preamble.                           *
       *********************************************************************/
-      final Vector<String> preamble = new Vector<>(200);
+      final ArrayList<String> preamble = new ArrayList<>(200);
       String line = "" ;
       try
        { line = Objects.requireNonNull(infile).readLine();
@@ -191,7 +191,7 @@ class TeX
                 && (!line.contains("\\begin{document}")))
           { lineNum = lineNum + 1 ;
             Objects.requireNonNull(outfile).putLine(line) ;
-            preamble.addElement(line);
+            preamble.add(line);
             line = infile.readLine();
           }
        }
@@ -214,7 +214,7 @@ class TeX
       *********************************************************************/
       final int begindocPos = Objects.requireNonNull(line).indexOf("\\begin{document}") ;
       if (begindocPos != 0)
-       { preamble.addElement(line.substring(0, begindocPos));
+       { preamble.add(line.substring(0, begindocPos));
        }
         
       /*********************************************************************
@@ -267,14 +267,14 @@ class TeX
              **************************************************************/
              Starting(envName + " environment number " + (envNum + 1) 
                          + " on line " + (lineNum + 1), parameters);
-             final Vector<String> tla = new Vector<>(100);
+             final ArrayList<String> tla = new ArrayList<>(100);
              final int tlaLineNum = lineNum ;
              line = infile.readLine();
              while (   (line != null) 
                     && (!line.contains("\\end{" + envName + "}")))
               { lineNum = lineNum + 1 ;
                 outfile.putLine(line) ;
-                tla.addElement(line);
+                tla.add(line);
                 line = infile.readLine();
               }
 
@@ -662,7 +662,7 @@ class TeX
     *                   \%{123.456}                                        *
     ***********************************************************************/
     {
-      final Vector<String> resultVec = new Vector<>(50);
+      final ArrayList<String> resultVec = new ArrayList<>(50);
         /*******************************************************************
         * A vector of the strings representing the linewidths.             *
         *******************************************************************/
@@ -676,7 +676,7 @@ class TeX
              if ((inputLine.startsWith("\\%{")))
                 { final int start = 3 ;
                   final int after = inputLine.indexOf("}",start)-2 ;
-                  resultVec.addElement(inputLine.substring(start, after));
+                  resultVec.add(inputLine.substring(start, after));
                 }
              inputLine = logfile.readLine();
          }
@@ -694,7 +694,7 @@ class TeX
       final float[] result = new float[resultVec.size()];
       int i = 0;
       while (i < result.length)
-       { result[i] = Misc.stringToFloat(resultVec.elementAt(i));
+       { result[i] = Misc.stringToFloat(resultVec.get(i));
         i = i+1;
        }
       return result ;

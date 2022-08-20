@@ -342,7 +342,7 @@ public class Sequences extends UserObj implements ValueConstants
             if (val instanceof IBoolValue )
             {
                 if (((BoolValue) val).val)
-                    vals.addElement(args[0]);
+                    vals.add(args[0]);
             } else
             {
                 throw new EvalException(EC.TLC_MODULE_ARGUMENT_ERROR, new String[] { "second", "SelectSeq",
@@ -352,7 +352,7 @@ public class Sequences extends UserObj implements ValueConstants
         final Value[] elems = new Value[vals.size()];
         for (int i = 0; i < elems.length; i++)
         {
-            elems[i] = vals.elementAt(i);
+            elems[i] = vals.get(i);
         }
         return new TupleValue(elems);
     }

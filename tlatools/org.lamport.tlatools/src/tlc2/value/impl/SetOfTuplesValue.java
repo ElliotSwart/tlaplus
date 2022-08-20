@@ -319,7 +319,7 @@ public final Value[] sets;
       final ValueEnumeration Enum = this.elements();
       Value elem;
       while ((elem = Enum.nextElement()) != null) {
-        vals.addElement(elem);
+        vals.add(elem);
       }
       if (coverage) {cm.incSecondary(vals.size());}
       return new SetEnumValue(vals, this.isNormalized(), cm);

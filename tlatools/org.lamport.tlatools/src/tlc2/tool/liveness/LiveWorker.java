@@ -142,8 +142,8 @@ public class LiveWorker implements Callable<Boolean> {
 		// <<long, int, long>> per "record.
 		final MemIntQueue nodeQueue = new MemIntQueue(liveCheck.getMetaDir(), "root", (numOfInits / 2) * 5);
 		for (int j = 0; j < numOfInits; j += 2) {
-			final long state = initNodes.elementAt(j);
-			final int tidx = (int) initNodes.elementAt(j + 1);
+			final long state = initNodes.get(j);
+			final int tidx = (int) initNodes.get(j + 1);
 			final long ptr = this.dg.getLink(state, tidx);
 			// Check if the node <<state, tidx>> s is done. A node s is undone
 			// if it is an initial state which hasn't been explored yet. This is
@@ -806,7 +806,7 @@ public class LiveWorker implements Callable<Boolean> {
             //TODO This throws an ArrayIndexOutOfBounds if getPath returned a
             // LongVec with just a single element. This happens when the parameter
             // state is one of the init states already.
-            long fp = prefix.elementAt(plen - 1);
+            long fp = prefix.get(plen - 1);
             TLCStateInfo sinfo = tool.getState(fp);
             if (sinfo == null) {
                 throw new EvalException(EC.TLC_FAILED_TO_RECOVER_INIT);
@@ -815,7 +815,7 @@ public class LiveWorker implements Callable<Boolean> {
 
             // Recover the successor states:
             for (int i = plen - 2; i >= 0; i--) {
-                final long curFP = prefix.elementAt(i);
+                final long curFP = prefix.get(i);
                 // The prefix might contain duplicates if the path happens to walk
                 // along two (or more distinct states which differ in the tableau
                 // idx only (same fingerprint). From the counterexample perspective,
@@ -866,7 +866,7 @@ public class LiveWorker implements Callable<Boolean> {
 			final long fp = cycleStack.popLong();
 			if (postfix.isEmpty() || postfix.lastElement() != fp) {
 				// See comment 4723xdf below.  This here just a minor optimization.
-				postfix.addElement(fp);
+				postfix.add(fp);
 			}
 			cycleStack.popInt(); // ignore tableau idx. The tableau idx is
 									// irrelevant as <<fpA, tidx1>> and <<fpA,
@@ -915,7 +915,7 @@ public class LiveWorker implements Callable<Boolean> {
 			postfix.pack().removeLastIf(cycleState.fingerPrint());
 			
 			for (int i = postfix.size() - 1; i >= 0; i--) {
-				final long curFP = postfix.elementAt(i);
+				final long curFP = postfix.get(i);
 				final TLCStateInfo sucinfo = tool.getState(curFP, sinfo);
 				states.add(sucinfo);
 				StatePrinter.printInvariantViolationStateTraceState(tool.getDebugger().evalAlias(sinfo, sucinfo.state));
@@ -1012,12 +1012,12 @@ public class LiveWorker implements Callable<Boolean> {
 							// now backtrack the path the outer loop took to get
 							// us here and add each state to postfix.
 							while (curState != startState) {
-								postfix.addElement(curState);
+								postfix.add(curState);
 								nodes = nodeTbl.getNodesByLoc(ploc);
 								curState = TableauNodePtrTable.getKey(nodes);
 								ploc = TableauNodePtrTable.getParent(nodes);
 							}
-							postfix.addElement(startState);
+							postfix.add(startState);
 							break _done;
 						}
 

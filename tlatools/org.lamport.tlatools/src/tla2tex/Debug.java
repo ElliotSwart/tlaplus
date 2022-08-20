@@ -9,7 +9,7 @@
 ***************************************************************************/
 package tla2tex;
 import java.util.Date;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import util.ToolIO;
 
@@ -100,7 +100,7 @@ public class Debug
           {ToolIO.out.println(name + " = zero-length array" ); }
       }
 
-      public static void printVector(final Vector<?> vec, final String name)
+      public static void printVector(final ArrayList<?> vec, final String name)
       /*********************************************************************
       * This method prints to standard output the contents of the vector   *
       * argument, where name is the name of the vector.                    *
@@ -110,11 +110,11 @@ public class Debug
            return ;}
           int i = 0 ;
         while (i < vec.size())
-          { if (vec.elementAt(i) == null)
+          { if (vec.get(i) == null)
               { ToolIO.out.println(name + "[" + i + "] = null") ;}
             else
               { ToolIO.out.println(name + "[" + i + "] = " 
-                                        + vec.elementAt(i).toString()) ; }
+                                        + vec.get(i).toString()) ; }
             i = i+1;
           }
           if (vec.size() == 0)

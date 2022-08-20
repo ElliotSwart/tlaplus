@@ -146,7 +146,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 				final int fpIndex = fpSetManager.getFPSetIndex(fp);
 				pvv[fpIndex].add(holder.getParentState());
 				nvv[fpIndex].add(holder.getNewState());
-				fpvv[fpIndex].addElement(fp);
+				fpvv[fpIndex].add(fp);
 			}
 
 			final BitSet[] visited = this.fpSetManager.containsBlock(fpvv, executorService);
@@ -170,7 +170,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 							&& this.work.isInActions(state1, state2)) {
 						state2.uid = state1.uid;
 						newStates[i].add(state2);
-						newFps[i].addElement(fpvv[i].elementAt(index));
+						newFps[i].add(fpvv[i].get(index));
 					}
 				}
 			}

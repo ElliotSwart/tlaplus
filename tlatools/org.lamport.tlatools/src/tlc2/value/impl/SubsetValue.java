@@ -293,7 +293,7 @@ public Value  set;           // SUBSET set
       final ValueEnumeration Enum = this.elements();
       Value  elem;
       while ((elem = Enum.nextElement()) != null) {
-        vals.addElement(elem);
+        vals.add(elem);
       }
       // For as long as pset.elements() (SubsetValue#elements)
       // internally calls SubsetValue#elementsNormalized, the
@@ -397,7 +397,7 @@ public Value  set;           // SUBSET set
 
 			Value  subset;
 			while ((subset = unrank.randomSubset()) != null && vec.size() < numOfSubsetsRequested) {
-				vec.addElement(subset);
+				vec.add(subset);
 			}
 		}
 		assert vec.size() == numOfSubsetsRequested;
@@ -439,7 +439,7 @@ public Value  set;           // SUBSET set
 				if (c <= idx) {
 					idx -= c;
 					y--;
-					vec.addElement(this.elems.elementAt(choice));
+					vec.add(this.elems.get(choice));
 				}
 			}
 			return new SetEnumValue(vec, false, cm);
@@ -577,7 +577,7 @@ public Value  set;           // SUBSET set
 				final ValueVec vals = new ValueVec(k);
 				int i = k - 1;
 				for (int j = i; j >= 0; j--) {
-					vals.addElementAt(elems.elementAt(indices[j]), j);
+					vals.addElementAt(elems.get(indices[j]), j);
 					if (indices[j] + k - j == n) {
 						i = j - 1;
 					}
@@ -689,7 +689,7 @@ public Value  set;           // SUBSET set
 				// Treat bits as a bitset and add the element of elem at current
 				// position i if the LSB of bits happens to be set.
 				if ((bits & 0x1) > 0) {
-					vals.addElement(elems.elementAt(i));
+					vals.add(elems.get(i));
 				}
 				// ...right-shift zero-fill bits by one afterwards.
 				bits = bits >>> 1;
@@ -708,7 +708,7 @@ public Value  set;           // SUBSET set
 			final ValueVec vv = new ValueVec(numKSubsetElems);
 			Value elem;
 			while ((elem = nextElement()) != null) {
-				vv.addElement(elem);
+				vv.add(elem);
 			}
 			return new SetEnumValue(vv, false);
 		}
@@ -778,7 +778,7 @@ public Value  set;           // SUBSET set
 				vals = new ValueVec(this.descriptor.cardinality());
 				for (int i = 0; i < sz; i++) {
 					if (this.descriptor.get(i)) {
-						vals.addElement(this.elems.elementAt(i));
+						vals.add(this.elems.get(i));
 					}
 				}
 				for (int i = 0; i < sz; i++) {
@@ -834,7 +834,7 @@ public Value  set;           // SUBSET set
 				// Treat bits as a bitset and add the element of this.elem at current
 				// position i if the LSB of bits happens to be set.
 				if ((bits & 0x1) > 0) {
-					vals.addElement(this.elems.elementAt(i));
+					vals.add(this.elems.get(i));
 				}
 				// ...right-shift zero-fill bits by one afterwards.
 				bits = bits >>> 1;
@@ -882,7 +882,7 @@ public Value  set;           // SUBSET set
 			final ValueVec vals = new ValueVec(elems.size());
 			for (int i = 0; i < elems.size(); i++) {
 				if (RandomEnumerableValues.get().nextDouble() < probability) {
-					vals.addElement(elems.elementAt(i));
+					vals.add(elems.get(i));
 				}
 			}
 			this.i++;
@@ -957,7 +957,7 @@ public Value  set;           // SUBSET set
 				final double p = (k - vec.size()) / ((n - t) * 1d);
 
 				if (random.nextDouble() <= p) {
-					vec.addElement(s.elems.elementAt(t));
+					vec.add(s.elems.get(t));
 				}
 				
 				if (vec.size() == k) {
@@ -972,7 +972,7 @@ public Value  set;           // SUBSET set
 //				final int i = random.nextInt(n);
 //				if (!bs.get(i)) {
 //					bs.set(i);
-//					vec.addElement(s.elems.elementAt(i));
+//					vec.add(s.elems.get(i));
 //				}
 //			}
 

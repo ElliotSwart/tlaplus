@@ -35,6 +35,6 @@ package tlc2.tool;
  */
 public interface IStateFunctor {
 
-	Object addElement(TLCState state);
+	Object add(TLCState state);
 
 }

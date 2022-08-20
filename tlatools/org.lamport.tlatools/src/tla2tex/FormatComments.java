@@ -66,7 +66,7 @@
 package tla2tex;
 import java.util.Hashtable;
 import java.util.Objects;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public final class FormatComments
 {
@@ -81,7 +81,7 @@ public final class FormatComments
     }
 
     public void WriteComment(final OutputFileWriter writer,
-                                  final Vector<String>   vec,
+                                  final ArrayList<String>   vec,
                                   final int              commentType,
                                   final float            indentOrWidth,
                                   final boolean          tlaMode )

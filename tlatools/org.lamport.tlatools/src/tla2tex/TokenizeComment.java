@@ -4,7 +4,7 @@
 * CLASS TokenizeComment                                                    *
 *                                                                          *
 * This class contains a a single method, Tokenize, that takes as argument  *
-* a multiline comment represented as a Vector whose elements are strings.  *
+* a multiline comment represented as a ArrayList whose elements are strings.  *
 * Its result is an array of arrays of CTokens obtained by tokenizing the   *
 * comment.  Each element of the vector produces one row of the array.      *
 *                                                                          *
@@ -241,10 +241,10 @@
 
 
 package tla2tex;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class TokenizeComment
-  { private static Vector<Vector<CToken>> vspec = new Vector<>(50, 50) ;
+  { private static ArrayList<ArrayList<CToken>> vspec = new ArrayList<>(50) ;
       /*********************************************************************
       * The vector that will eventually be turned into the array returned  *
       * by the Tokenize method.                                            *
@@ -257,13 +257,13 @@ public class TokenizeComment
     * (which are defined as private class methods).                        *
     ***********************************************************************/
 
-    private static Vector<CToken> linev = new Vector<>(40, 40) ;
+    private static ArrayList<CToken> linev = new ArrayList<>(40) ;
           /*****************************************************************
-          * Vector linev contains the tokens found so far on the current   *
+          * ArrayList linev contains the tokens found so far on the current   *
           * line.                                                          *
           *****************************************************************/
 
-    private static Vector<String> argVec ;
+    private static ArrayList<String> argVec ;
       /*********************************************************************
       * The argument with which the Tokenize method is called, "exposed"   *
       * so that other methods, which are actually subprocedures of         *
@@ -307,14 +307,14 @@ public class TokenizeComment
           *****************************************************************/
     private static int line = 0;
       /*********************************************************************
-      * The line of comment (the element of the Vector argument of         *
+      * The line of comment (the element of the ArrayList argument of         *
       * Tokenize) currently being processed.                               *
       *********************************************************************/
       
     private static String curString = "";
       /*********************************************************************
       * This is the line of the comment currently being processed.  It     *
-      * equals vec.elementAt(line), where vec is the argument to           *
+      * equals vec.get(line), where vec is the argument to           *
       * Tokenize.                                                          *
       *********************************************************************/
 
@@ -380,7 +380,7 @@ public class TokenizeComment
         else
           { line = line + 1;
             if (line < argVec.size())
-              { curString = argVec.elementAt(line);
+              { curString = argVec.get(line);
                 if (curString == null) {curString = "";}
               }
             else
@@ -517,7 +517,7 @@ public class TokenizeComment
                      "TokenizeComment.CTokenOut called with illegal type"); 
                 }
              }
-            linev.addElement(new CToken(token, col, type, tla, amb)); 
+            linev.add(new CToken(token, col, type, tla, amb)); 
           }
           token = "" ;
       }
@@ -528,8 +528,8 @@ public class TokenizeComment
       * line of input.  This should be called whenever a \n character is   *
       * removed from the input stream.                                     *
       *********************************************************************/
-      { vspec.addElement(linev)    ;
-        linev = new Vector<>(30, 30) ;
+      { vspec.add(linev)    ;
+        linev = new ArrayList<>(30) ;
         col = 0 ;
         ncol = 0 ;
       }
@@ -542,20 +542,20 @@ public class TokenizeComment
         int n = 0 ;                                                       
         while (n < vspec.size())                                          
           { aspec[n] =                                                     
-               new CToken [ vspec.elementAt(n) . size() ] ;     
+               new CToken [ vspec.get(n) . size() ] ;     
             int m = 0 ;                                                   
             while (m < aspec[n].length)                                    
               {aspec[n][m] =
-                      vspec.elementAt(n) . elementAt(m);
+                      vspec.get(n) . get(m);
                m = m+1;                                                   
               }
               n = n+1 ;
           }
-          vspec = new Vector<>(50, 50) ;
+          vspec = new ArrayList<>(50) ;
         return aspec;
       }
 
-      public static CToken[][] Tokenize(final Vector<String> vec, FormatComments formatComments)
+      public static CToken[][] Tokenize(final ArrayList<String> vec, FormatComments formatComments)
       /*********************************************************************
       * Tokenize the comment represented by vec, which must be a vector    *
       * of strings.                                                        *
@@ -581,11 +581,11 @@ public class TokenizeComment
         /*******************************************************************
         * Initialize curString and nextChar, col, and ncol.                *
         *******************************************************************/
-        if (argVec.elementAt(line) == null)
+        if (argVec.get(line) == null)
           { curString = "" ;
           }
         else 
-          { curString = argVec.elementAt(line);
+          { curString = argVec.get(line);
           }
           if (curString.equals(""))
           { nextChar  = '\n';}
@@ -1035,7 +1035,7 @@ public class TokenizeComment
         return vspecToArray();
       }
 
-    public static CToken[][] TeXTokenize(final Vector<String> vec)
+    public static CToken[][] TeXTokenize(final ArrayList<String> vec)
       /*********************************************************************
       * Tokenize the comment represented by vec, which must be a vector of *
       * strings, turning each line into a TeX token.                       *
@@ -1050,8 +1050,8 @@ public class TokenizeComment
         line = 0 ;
         while (line < vec.size())
          {String curString = "" ;
-          if (vec.elementAt(line) != null)
-           {curString = vec.elementAt(line) ;
+          if (vec.get(line) != null)
+           {curString = vec.get(line) ;
            }
              result[line] = new CToken[1];
           result[line][0] = new CToken(curString,0,CToken.TEX, false, false);

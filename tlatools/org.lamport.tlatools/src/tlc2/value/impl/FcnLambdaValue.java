@@ -631,7 +631,7 @@ public final FcnParams params;       // the function formals
         final int len = eSet.size();
         final Value [] elems = new Value [len];
         for (int i = 0; i < len; i++) {
-          final Value  argVal = eSet.elems.elementAt(i);
+          final Value  argVal = eSet.elems.get(i);
           if (!(argVal instanceof IntValue)) return null;
           if (((IntValue)argVal).val != i + 1) return null;
           final Context c1 = this.con.cons(var, argVal);

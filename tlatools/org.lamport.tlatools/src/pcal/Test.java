@@ -3,21 +3,21 @@
 
 package pcal ;
 import java.io.File;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import util.ToolIO;
 
 class Test
-  { public static <T> Vector<T> Singleton(final T obj)
+  { public static <T> ArrayList<T> Singleton(final T obj)
       /*********************************************************************
       * If we think of a vector as a sequence, then this returns <<obj>>.  *
       *********************************************************************/
-      { final Vector<T> result = new Vector<>() ;
-        result.addElement(obj) ;
+      { final ArrayList<T> result = new ArrayList<>() ;
+        result.add(obj) ;
         return result; 
       }
  
-    public static <T> Vector<Vector<T>> Singleton2(final T obj)
+    public static <T> ArrayList<ArrayList<T>> Singleton2(final T obj)
       /*********************************************************************
       * If we think of a vector as a sequence, then this returns           *
       * << <<obj>> >>.                                                     *
@@ -58,7 +58,7 @@ class Test
         return result ;
       }
 
-    public static TLAExpr MakeExpr(final Vector<Vector<TLAToken>> vec)
+    public static TLAExpr MakeExpr(final ArrayList<ArrayList<TLAToken>> vec)
       /*********************************************************************
       * Makes a normalized expression exp with exp.tokens = vec.           *
       *********************************************************************/
@@ -67,19 +67,19 @@ class Test
         return result ;
       }
 
-    public static TLAExpr TokVectorToExpr(final Vector<TLAToken> vec, final int spaces)
+    public static TLAExpr TokVectorToExpr(final ArrayList<TLAToken> vec, final int spaces)
       /*********************************************************************
       * If vec is a vector of TLAToken objects, then this method returns   *
       * a TLAExpr describing a one-line expression composed of clones of   *
       * the tokens in vec separated by `spaces' spaces.                    *
       *********************************************************************/
-      { final Vector<TLAToken> firstLine = new Vector<>() ;
+      { final ArrayList<TLAToken> firstLine = new ArrayList<>() ;
         int nextCol = 0 ;
         int i = 0 ;
         while (i < vec.size())
-          { final TLAToken tok = vec.elementAt(i).Clone() ;
+          { final TLAToken tok = vec.get(i).Clone() ;
             tok.column = nextCol ;
-            firstLine.addElement(tok) ;
+            firstLine.add(tok) ;
             nextCol = nextCol + tok.getWidth() + spaces ;
             i = i + 1 ;
           }
@@ -95,7 +95,7 @@ class Test
         PcalParams pcalParams = new PcalParams();
         final AST.SingleAssign sAss = new AST.SingleAssign(pcalParams) ;
         sAss.lhs.var = id ;
-        sAss.lhs.sub = MakeExpr(new Vector<>()) ;
+        sAss.lhs.sub = MakeExpr(new ArrayList<>()) ;
         sAss.rhs = exp ;
         final AST.Assign result = new AST.Assign(pcalParams) ;
         result.ass = Singleton(sAss) ;
@@ -105,11 +105,11 @@ class Test
 
 /***************************************************************************
 * The AST node for `when pc = "foo"'  should be produced by something like *
-* Vector toks = new Vector() ;                                             *
+* ArrayList toks = new ArrayList() ;                                             *
 *                                                                          *
-*     toks.addElement(IdentToken("pc")) ;                                  *
-*     toks.addElement(BuiltInToken("=")) ;                                 *
-*     toks.addElement(StringToken("foo")) ;                                *
+*     toks.add(IdentToken("pc")) ;                                  *
+*     toks.add(BuiltInToken("=")) ;                                 *
+*     toks.add(StringToken("foo")) ;                                *
 *     AST.When node = new AST.when() ;                                     *
 *     node.exp = TokVectorToExpr(toks) ;                                   *
 *                                                                          *

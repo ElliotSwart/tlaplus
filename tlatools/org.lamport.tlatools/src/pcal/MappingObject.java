@@ -4,7 +4,7 @@
 package pcal;
 
 import java.io.Serializable;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * A MappingObject is an element in the mapping field of a TLAtoPCalMapping object.
@@ -402,11 +402,11 @@ public class MappingObject implements Serializable {
      * @param mvec  A mapping vector.
      * @param shift The distance to shift to the right.
      */
-    public static void shiftMappingVector(final Vector<Vector<MappingObject>> mvec, final int shift) {
+    public static void shiftMappingVector(final ArrayList<ArrayList<MappingObject>> mvec, final int shift) {
         for (int i = 0; i < mvec.size(); i++) {
-            final Vector<MappingObject> line = mvec.elementAt(i);
+            final ArrayList<MappingObject> line = mvec.get(i);
             for (int j = 0; j < line.size(); j++) {
-                final MappingObject mobj = line.elementAt(j);
+                final MappingObject mobj = line.get(j);
                 if (mobj.type == BEGIN_TLATOKEN) {
                     final BeginTLAToken obj = (BeginTLAToken) mobj;
                     obj.setColumn(obj.getColumn()+shift) ;
@@ -426,12 +426,12 @@ public class MappingObject implements Serializable {
      * For debugging.
      * @param mvec
      */
-    public static void printMappingVector(final Vector<Vector<MappingObject>> mvec) {
+    public static void printMappingVector(final ArrayList<ArrayList<MappingObject>> mvec) {
         for (int i = 0; i < mvec.size(); i++) {
-            final Vector<MappingObject> line = mvec.elementAt(i);
+            final ArrayList<MappingObject> line = mvec.get(i);
             System.out.print("line " + i + ":");
             for (int j = 0; j < line.size(); j++) {
-                final MappingObject mobj = line.elementAt(j) ;
+                final MappingObject mobj = line.get(j) ;
                 System.out.print("  " + mobj.toString());
             }
             System.out.println();

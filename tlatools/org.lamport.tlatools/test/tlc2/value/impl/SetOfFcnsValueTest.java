@@ -62,33 +62,33 @@ public class SetOfFcnsValueTest {
 		final SetEnumValue emptyset = new SetEnumValue();
 		int i = 0;
 		assertEquals(new FcnRcdValue(values, new Value[] { emptyset, emptyset, emptyset }, true),
-				enumerator.elementAt(i++));
+				enumerator.get(i++));
 		assertEquals(
 				new FcnRcdValue(values,
 						new Value[] { emptyset, emptyset,
 								new SetEnumValue(new Value[] { new StringValue("a") }, true) },
 						true),
-				enumerator.elementAt(i++));
+				enumerator.get(i++));
 		assertEquals(
 				new FcnRcdValue(values,
 						new Value[] { emptyset, emptyset,
 								new SetEnumValue(new Value[] { new StringValue("b") }, true) },
 						true),
-				enumerator.elementAt(i++));
+				enumerator.get(i++));
 		assertEquals(new FcnRcdValue(values,
 				new Value[] { emptyset, emptyset,
 						new SetEnumValue(new Value[] { new StringValue("c") }, true) },
-				true), enumerator.elementAt(i++));
+				true), enumerator.get(i++));
 		assertEquals(new FcnRcdValue(values,
 				new Value[] { emptyset, emptyset,
 						new SetEnumValue(new Value[] { new StringValue("a"), new StringValue("b") }, true) },
-				true), enumerator.elementAt(i++));
+				true), enumerator.get(i++));
 
 		// Last element
 		final SetEnumValue setEnumValue = new SetEnumValue(
 				new Value[] { new StringValue("a"), new StringValue("b"), new StringValue("c") }, true);
 		assertEquals(new FcnRcdValue(values, new Value[] { setEnumValue, setEnumValue, setEnumValue }, true),
-				enumerator.elementAt(511));
+				enumerator.get(511));
 	}
 	
 	@Test
@@ -159,7 +159,7 @@ public class SetOfFcnsValueTest {
 		
 		final SetOfFcnsValue.SubsetEnumerator enumerator = (SubsetEnumerator) setOfFcnsValue.elements(27);
 		for (int i = 0; i < setOfFcnsValue.size(); i++) {
-			final FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
+			final FcnRcdValue rcd = (FcnRcdValue) enumerator.get(i);
 			assertEquals(3, Objects.requireNonNull(rcd.domain).length);
 			assertEquals(3, rcd.values.length);
 			enumeratorValues.add(rcd);
@@ -195,7 +195,7 @@ public class SetOfFcnsValueTest {
 
 		final SetOfFcnsValue.SubsetEnumerator enumerator = (SubsetEnumerator) setOfFcnsValue.elements(27);
 		for (int i = 0; i < setOfFcnsValue.size(); i++) {
-			final FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
+			final FcnRcdValue rcd = (FcnRcdValue) enumerator.get(i);
 			assertEquals(3, Objects.requireNonNull(rcd.domain).length);
 			assertEquals(3, rcd.values.length);
 			enumeratorValues.add(rcd);
@@ -205,33 +205,33 @@ public class SetOfFcnsValueTest {
 		assertEquals(27, enumeratorValues.size());
 		
 		int i = 0;
-		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "a"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "b"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "c"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "b", "a"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "b", "b"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "b", "c"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "c", "a"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "c", "b"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "c", "c"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "a", "a"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "a", "b"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "a", "c"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "b", "a"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "b", "b"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "b", "c"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "c", "a"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "c", "b"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "c", "c"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "a", "a"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "a", "b"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "a", "c"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "b", "a"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "b", "b"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "b", "c"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "c", "a"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "c", "b"), true), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "c", "c"), true), enumerator.elementAt(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "a"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "b"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "c"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "b", "a"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "b", "b"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "b", "c"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "c", "a"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "c", "b"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "c", "c"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "a", "a"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "a", "b"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "a", "c"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "b", "a"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "b", "b"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "b", "c"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "c", "a"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "c", "b"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "c", "c"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "a", "a"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "a", "b"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "a", "c"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "b", "a"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "b", "b"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "b", "c"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "c", "a"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "c", "b"), true), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "c", "c"), true), enumerator.get(i++));
 	}
 
 	@Test
@@ -244,7 +244,7 @@ public class SetOfFcnsValueTest {
 
 		final SetOfFcnsValue.SubsetEnumerator enumerator = (SubsetEnumerator) setOfFcnsValue.elements(9);
 		for (int i = 0; i < setOfFcnsValue.size(); i++) {
-			final FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
+			final FcnRcdValue rcd = (FcnRcdValue) enumerator.get(i);
 			assertEquals(2, Objects.requireNonNull(rcd.domain).length);
 			assertEquals(2, rcd.values.length);
 			// Check element is in the original SetOfFcnsValue.
@@ -252,15 +252,15 @@ public class SetOfFcnsValueTest {
 		}
 
 		int i = 0;
-		assertEquals(new FcnRcdValue(domain, getValue("a", "a")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "b")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "c")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "a")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "b")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "c")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "a")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "b")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "c")), enumerator.elementAt(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "a")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "b")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "c")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "a")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "b")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "c")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "a")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "b")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "c")), enumerator.get(i++));
 	}
 
 	@Test
@@ -273,7 +273,7 @@ public class SetOfFcnsValueTest {
 
 		final SetOfFcnsValue.SubsetEnumerator enumerator = (SubsetEnumerator) setOfFcnsValue.elements(27);
 		for (int i = 0; i < setOfFcnsValue.size(); i++) {
-			final FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
+			final FcnRcdValue rcd = (FcnRcdValue) enumerator.get(i);
 			assertEquals(3, Objects.requireNonNull(rcd.domain).length);
 			assertEquals(3, rcd.values.length);
 			// Check element is in the original SetOfFcnsValue.
@@ -281,33 +281,33 @@ public class SetOfFcnsValueTest {
 		}
 
 		int i = 0;
-		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "a")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "b")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "c")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "b", "a")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "b", "b")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "b", "c")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "c", "a")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "c", "b")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "c", "c")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "a", "a")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "a", "b")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "a", "c")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "b", "a")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "b", "b")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "b", "c")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "c", "a")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "c", "b")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("b", "c", "c")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "a", "a")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "a", "b")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "a", "c")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "b", "a")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "b", "b")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "b", "c")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "c", "a")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "c", "b")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("c", "c", "c")), enumerator.elementAt(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "a")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "b")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "c")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "b", "a")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "b", "b")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "b", "c")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "c", "a")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "c", "b")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "c", "c")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "a", "a")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "a", "b")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "a", "c")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "b", "a")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "b", "b")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "b", "c")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "c", "a")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "c", "b")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("b", "c", "c")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "a", "a")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "a", "b")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "a", "c")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "b", "a")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "b", "b")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "b", "c")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "c", "a")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "c", "b")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("c", "c", "c")), enumerator.get(i++));
 	}
 
 	@Test
@@ -320,7 +320,7 @@ public class SetOfFcnsValueTest {
 
 		final SetOfFcnsValue.SubsetEnumerator enumerator = (SubsetEnumerator) setOfFcnsValue.elements(256);
 		for (int i = 0; i < setOfFcnsValue.size(); i++) {
-			final FcnRcdValue rcd = (FcnRcdValue) enumerator.elementAt(i);
+			final FcnRcdValue rcd = (FcnRcdValue) enumerator.get(i);
 			assertEquals(4, Objects.requireNonNull(rcd.domain).length);
 			assertEquals(4, rcd.values.length);
 			// Check element is in the original SetOfFcnsValue.
@@ -328,14 +328,14 @@ public class SetOfFcnsValueTest {
 		}
 
 		int i = 0;
-		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "a", "a")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "a", "b")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "a", "c")), enumerator.elementAt(i++));
-		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "a", "d")), enumerator.elementAt(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "a", "a")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "a", "b")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "a", "c")), enumerator.get(i++));
+		assertEquals(new FcnRcdValue(domain, getValue("a", "a", "a", "d")), enumerator.get(i++));
 		// ... (to lazy to type them out)
-		assertEquals(new FcnRcdValue(domain, getValue("d", "d", "d", "b")), enumerator.elementAt(253));
-		assertEquals(new FcnRcdValue(domain, getValue("d", "d", "d", "c")), enumerator.elementAt(254));
-		assertEquals(new FcnRcdValue(domain, getValue("d", "d", "d", "d")), enumerator.elementAt(255));
+		assertEquals(new FcnRcdValue(domain, getValue("d", "d", "d", "b")), enumerator.get(253));
+		assertEquals(new FcnRcdValue(domain, getValue("d", "d", "d", "c")), enumerator.get(254));
+		assertEquals(new FcnRcdValue(domain, getValue("d", "d", "d", "d")), enumerator.get(255));
 	}
 
 	@Test

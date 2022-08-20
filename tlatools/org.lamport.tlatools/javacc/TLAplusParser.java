@@ -20,7 +20,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     ***********************************************************************/
     String[]deps = new String[ dependencyList.size() ];
     for (int lvi =0; lvi < deps.length; lvi++)
-      deps[lvi] = ((UniqueString)dependencyList.elementAt(lvi)).toString();
+      deps[lvi] = ((UniqueString)dependencyList.get(lvi)).toString();
     return deps;
   }
   public TreeNode rootNode() { return ParseTree; }
@@ -33,7 +33,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     * The root node.                                                       *
     ***********************************************************************/
 
-  public Vector dependencyList = new Vector( 20 );
+  public ArrayList dependencyList = new ArrayList( 20 );
 
   private UniqueString mn = null;
      /**********************************************************************
@@ -761,7 +761,7 @@ if (System.getProperty("TLA-StackTrace", "off").equals("on")) ToolIO.out.println
   private final void addDependency( UniqueString s ) {
     int lvi = internals.search( s );
     if ( lvi < 0 )
-      dependencyList.addElement( s );
+      dependencyList.add( s );
   }
 
   private final UniqueString reduceString( String s ) {
@@ -11854,7 +11854,7 @@ ClosedStart() : {
       return (jj_ntk = jj_nt.kind);
   }
 
-  private java.util.Vector jj_expentries = new java.util.Vector();
+  private java.util.ArrayList jj_expentries = new java.util.ArrayList();
   private int[] jj_expentry;
   private int jj_kind = -1;
   private int[] jj_lasttokens = new int[100];
@@ -11883,13 +11883,13 @@ ClosedStart() : {
           if (exists) break;
         }
       }
-      if (!exists) jj_expentries.addElement(jj_expentry);
+      if (!exists) jj_expentries.add(jj_expentry);
       if (pos != 0) jj_lasttokens[(jj_endpos = pos) - 1] = kind;
     }
   }
 
   public ParseException generateParseException() {
-    jj_expentries.removeAllElements();
+    jj_expentries.clear();
     boolean[] la1tokens = new boolean[237];
     for (int i = 0; i < 237; i++) {
       la1tokens[i] = false;
@@ -11932,7 +11932,7 @@ ClosedStart() : {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
-        jj_expentries.addElement(jj_expentry);
+        jj_expentries.add(jj_expentry);
       }
     }
     jj_endpos = 0;
@@ -11940,7 +11940,7 @@ ClosedStart() : {
     jj_add_error_token(0, 0);
     int[][] exptokseq = new int[jj_expentries.size()][];
     for (int i = 0; i < jj_expentries.size(); i++) {
-      exptokseq[i] = (int[])jj_expentries.elementAt(i);
+      exptokseq[i] = (int[])jj_expentries.get(i);
     }
     return new ParseException(token, exptokseq, tokenImage);
   }

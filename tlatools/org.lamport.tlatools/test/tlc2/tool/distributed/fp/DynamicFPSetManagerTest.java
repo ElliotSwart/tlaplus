@@ -339,10 +339,10 @@ public class DynamicFPSetManagerTest {
 			// method contract)
 			final LongVec[] fps = new LongVec[numOfServers];
 			fps[0] = new LongVec();
-			fps[0].addElement(0L);
+			fps[0].add(0L);
 			assertEquals("Assert fingerprint corresponds to TestFPSet", 0, dfm.getFPSetIndex(0L));
 			fps[1] = new LongVec();
-			fps[1].addElement(1L);
+			fps[1].add(1L);
 			assertEquals("Assert fingerprint corresponds to TestFPSet", 1, dfm.getFPSetIndex(1L));
 
 			/* Test DFM correctly behaves first time when TestFPSet works as expected */
@@ -395,10 +395,10 @@ public class DynamicFPSetManagerTest {
 			// method contract)
 			final LongVec[] fps = new LongVec[numOfServers];
 			fps[0] = new LongVec();
-			fps[0].addElement(0L);
+			fps[0].add(0L);
 			assertEquals("Assert fingerprint corresponds to TestFPSet", 0, dfm.getFPSetIndex(0L));
 			fps[1] = new LongVec();
-			fps[1].addElement(1L);
+			fps[1].add(1L);
 			assertEquals("Assert fingerprint corresponds to TestFPSet", 1, dfm.getFPSetIndex(1L));
 
 			/* Test DFM correctly behaves first time when TestFPSet works as expected */
@@ -451,10 +451,10 @@ public class DynamicFPSetManagerTest {
 			// method contract)
 			final LongVec[] fps = new LongVec[numOfServers];
 			fps[0] = new LongVec();
-			fps[0].addElement(0L);
+			fps[0].add(0L);
 			assertEquals("Assert fingerprint corresponds to TestFPSet", 0, dfm.getFPSetIndex(0L));
 			fps[1] = new LongVec();
-			fps[1].addElement(1L);
+			fps[1].add(1L);
 			assertEquals("Assert fingerprint corresponds to TestFPSet", 1, dfm.getFPSetIndex(1L));
 
 			/* Test DFM correctly behaves first time when TestFPSet works as expected */
@@ -525,7 +525,7 @@ public class DynamicFPSetManagerTest {
 			final LongVec[] fps = new LongVec[expectedNumOfServers];
 			for (int i = 0; i < expectedNumOfServers; i++) {
 				fps[i] = new LongVec();
-				fps[i].addElement(fp);
+				fps[i].add(fp);
 			}
 
 			// Check if the last element in the resulting bitvector has the bit for the fp set

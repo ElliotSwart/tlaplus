@@ -28,7 +28,7 @@
 *   toString() : for debuggin                                              *
 ***************************************************************************/
 package tla2tex;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class CToken
   /*************************************************************************
@@ -181,7 +181,7 @@ public class CToken
     static void FindPfStepCTokens(final CToken[][] toks) {
       for (int k = 0 ; k < toks.length ; k++) 
         { final CToken[] input = toks[k] ;
-          final Vector<CToken> outputVec = new Vector<>(input.length) ;
+          final ArrayList<CToken> outputVec = new ArrayList<>(input.length) ;
           int i = 0 ;
           while (i < input.length)
            { if (   (i < input.length - 2)
@@ -207,21 +207,21 @@ public class CToken
                          numOfToks = 5;
                        }
                    }
-                   outputVec.addElement(new CToken(str,
+                   outputVec.add(new CToken(str,
                                                 input[i].column,
                                                 PF_STEP,
                                                 input[i].isTLA,
                                                 input[i].isAmbiguous) );
                  i = i + numOfToks;
                } // if
-             else { outputVec.addElement(input[i]) ;
+             else { outputVec.add(input[i]) ;
                     i = i+1 ;
                   } // else
            } // while
           if (outputVec.size() != input.length)
             { toks[k] = new CToken[outputVec.size()] ;
               for (i = 0; i < outputVec.size(); i++) 
-                 { toks[k][i] = outputVec.elementAt(i) ;
+                 { toks[k][i] = outputVec.get(i) ;
                  }
             }
         } // for k

@@ -33,7 +33,7 @@
 ***************************************************************************/
 package tla2tex;
 import java.util.Objects;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Token
   /*************************************************************************
@@ -233,7 +233,7 @@ public class Token
     static void FindPfStepTokens(final Token[][] toks) {
       for (int k = 0 ; k < toks.length ; k++) 
         { final Token[] input = toks[k] ;
-          final Vector<Token> outputVec = new Vector<>(input.length) ;
+          final ArrayList<Token> outputVec = new ArrayList<>(input.length) ;
           int i = 0 ;
           while (i < input.length)
            { if (   (i < input.length - 2)
@@ -270,20 +270,20 @@ public class Token
                            input[i + numOfToks].string, true)).symbolType
                               == Symbol.PUNCTUATION)))
                    { needsSpace = false ; }
-                   outputVec.addElement(new Token.PfStepToken
+                   outputVec.add(new Token.PfStepToken
                                         (str,
                                          input[i].column,
                                          needsSpace) );
                  i = i + numOfToks;
                } // if
-             else { outputVec.addElement(input[i]) ;
+             else { outputVec.add(input[i]) ;
                     i = i+1 ;
                   } // else
            } // while
           if (outputVec.size() != input.length)
             { toks[k] = new Token[outputVec.size()] ;
               for (i = 0; i < outputVec.size(); i++) 
-                 { toks[k][i] = outputVec.elementAt(i) ;
+                 { toks[k][i] = outputVec.get(i) ;
                  }
             }
         } // for k

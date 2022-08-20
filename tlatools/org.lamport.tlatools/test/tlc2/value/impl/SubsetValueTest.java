@@ -510,7 +510,7 @@ public class SubsetValueTest {
 		final ValueVec vec = new ValueVec(subset.size());
 		for (int i = 0; i <= inner.size(); i++) {
 			final List<Value> kElements = subset.kElements(i).all();
-			kElements.forEach(vec::addElement);
+			kElements.forEach(vec::add);
 		}
         final Value unnormalized = new SetEnumValue(vec, false);
         
@@ -526,7 +526,7 @@ public class SubsetValueTest {
 
 		final ValueVec vec = new ValueVec(subset.size());
 		final ValueEnumeration bElements = subset.elementsNormalized();
-		bElements.forEach(vec::addElement);
+		bElements.forEach(vec::add);
         final Value unnormalized = new SetEnumValue(vec, true);
         
         final Value normalized = subset.toSetEnum().normalize();

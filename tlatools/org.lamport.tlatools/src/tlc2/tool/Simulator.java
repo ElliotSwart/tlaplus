@@ -228,7 +228,7 @@ public class Simulator {
 
 			// Check all initial states for validity.
 			for (int i = 0; i < inits.size(); i++) {
-				curState = inits.elementAt(i);
+				curState = inits.get(i);
 				if (this.tool.isGoodState(curState)) {
 					for (int j = 0; j < this.invariants.length; j++) {
 						if (!this.tool.isValid(this.invariants[j], curState)) {
@@ -242,7 +242,7 @@ public class Simulator {
 				}
 				
 				if (tool.isInModel(curState)) {
-					initStates.addElement(curState);
+					initStates.add(curState);
 				}
 			}
 		} catch (final Exception e) {
@@ -409,7 +409,7 @@ public class Simulator {
         if (!stateTrace.isLastElement(state)) {
             // MAK 09/24/2019: this method is called with state being the stateTrace's
             // last element or not.
-            stateTrace.addElement(state);
+            stateTrace.add(state);
         }
 
         MP.printError(EC.TLC_BEHAVIOR_UP_TO_THIS_POINT);
@@ -421,9 +421,9 @@ public class Simulator {
         TLCStateInfo sinfo;
         int omitted = 0;
         for (int i = 0; i < stateTrace.size(); i++) {
-            final TLCState curState = stateTrace.elementAt(i);
+            final TLCState curState = stateTrace.get(i);
             // Last state's successor is itself.
-            final TLCState sucState = stateTrace.elementAt(Math.min(i + 1, stateTrace.size() - 1));
+            final TLCState sucState = stateTrace.get(Math.min(i + 1, stateTrace.size() - 1));
             if (lastState != null) {
                 // Contrary to BFS/ModelChecker, simulation remembers the action (its id) during
                 // trace exploration to print the error-trace without re-evaluating the

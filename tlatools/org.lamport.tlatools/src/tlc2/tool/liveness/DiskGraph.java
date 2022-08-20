@@ -239,10 +239,10 @@ public class DiskGraph extends AbstractDiskGraph {
 		// init node. This is the trivial case.
 		final int numOfInits = this.initNodes.size();
 		for (int i = 0; i < numOfInits; i += 2) {
-			final long state0 = this.initNodes.elementAt(i);
+			final long state0 = this.initNodes.get(i);
 			if (state0 == state) {
 				final LongVec res = new LongVec(1);
-				res.addElement(state0);
+				res.add(state0);
 				return res;
 			}
 		}
@@ -257,7 +257,7 @@ public class DiskGraph extends AbstractDiskGraph {
 
 		// Initialize queue with initial states:
 		for (int i = 0; i < numOfInits; i += 2) {
-			final long state0 = this.initNodes.elementAt(i);
+			final long state0 = this.initNodes.get(i);
 			final long ptr = this.nodePtrTbl.get(state0);
 			// Skip initial states without successors:
 			// An initial state with a -1 (disk) pointer means that is has *no*
@@ -285,10 +285,10 @@ public class DiskGraph extends AbstractDiskGraph {
 				if (nextState == state) {
 					// found a path to state: construct the path and return.
 					final LongVec res = new LongVec(2);
-					res.addElement(nextState);
+					res.add(nextState);
 					int curLoc = this.nodePtrTbl.getLoc(curState);
 					while (true) {
-						res.addElement(curState);
+						res.add(curState);
 						final long ploc = this.nodePtrTbl.getByLoc(curLoc);
 						// MAX_PTR indicates that this is an init state. Since
 						// getPath is looking for the shortest path from the

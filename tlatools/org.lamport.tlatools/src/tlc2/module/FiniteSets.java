@@ -90,12 +90,12 @@ public class FiniteSets implements ValueConstants
       ValueVec vals = new ValueVec();
       for (int i = 0; i < tv.size(); i++) {
         if (!set.member(tv.elems[i])) {
-    vals.addElement(tv.elems[i]);
+    vals.add(tv.elems[i]);
         }
       }
       Value[] elems = new Value[vals.size()];
       for (int i = 0; i < vals.size(); i++) {
-        elems[i] = vals.elementAt(i);
+        elems[i] = vals.get(i);
       }
       return new TupleValue(elems);
     }
@@ -108,12 +108,12 @@ public class FiniteSets implements ValueConstants
       ValueVec vals = new ValueVec();
       for (int i = 0; i < tv.size(); i++) {
         if (set.member(tv.elems[i])) {
-    vals.addElement(tv.elems[i]);
+    vals.add(tv.elems[i]);
         }
       }
       Value[] elems = new Value[vals.size()];
       for (int i = 0; i < vals.size(); i++) {
-        elems[i] = vals.elementAt(i);
+        elems[i] = vals.get(i);
       }
       return new TupleValue(elems);
     }

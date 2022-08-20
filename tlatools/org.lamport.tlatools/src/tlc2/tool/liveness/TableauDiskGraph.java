@@ -333,15 +333,15 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 		// init node. This is the trivial case.
 		final int numOfInits = this.initNodes.size();
 		for (int i = 0; i < numOfInits; i += 2) {
-			final long state0 = this.initNodes.elementAt(i);
+			final long state0 = this.initNodes.get(i);
 			// Comparing the tidx here makes sure we only return a path iff the
 			// node matches what is actually requested (the returned path of
 			// just the initial state's fingerprint would be indistinguishable
 			// anyway).
-			final int tidx0 = (int) this.initNodes.elementAt(i + 1);
+			final int tidx0 = (int) this.initNodes.get(i + 1);
 			if (state0 == state && tidx0 == tidx) {
 				final LongVec res = new LongVec(1);
-				res.addElement(state0);
+				res.add(state0);
 				return res;
 			}
 		}
@@ -366,8 +366,8 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 		// that a nodes init state property does not solely depend on its
 		// fingerprint. It depends on the fingerprint *and* tableau idx.:
 		for (int i = 0; i < numOfInits; i += 2) {
-			final long state0 = this.initNodes.elementAt(i);
-			final int tidx0 = (int) this.initNodes.elementAt(i + 1);
+			final long state0 = this.initNodes.get(i);
+			final int tidx0 = (int) this.initNodes.get(i + 1);
 			// Can get from reversablePtrTable because at this point it is an
 			// exact copy of nodePtrTable
 			final long ptr = reversablePtrTable.get(state0, tidx0);
@@ -477,7 +477,7 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 		// does not start at the final state that the getPath(..) is searching
 		// for, but at its immediate predecessor alias startState. 
 		final LongVec res = new LongVec(2);
-		res.addElement(finalState);
+		res.add(finalState);
 		
 		// Traverse the graph backwards from currentState using
 		// the NodePtrTable. The NodePtrTable contains the back
@@ -498,7 +498,7 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 				// to follow a cycle, thus exit.
 				throw new RuntimeException("Self loop in trace path reconstruction");
 			}
-			res.addElement(currentState);
+			res.add(currentState);
 			lastTidx = currentTidx;
 			long predecessorLocation = -1;
 			int predecessorTidx = -1;

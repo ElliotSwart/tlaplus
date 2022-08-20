@@ -220,7 +220,7 @@ public class TLCExt {
 			
 			final Value[] values = new Value[trace.size()];
 			for (int j = 0; j < trace.size(); j++) {
-				final TLCState state = trace.elementAt(j);
+				final TLCState state = trace.get(j);
 				values[j] = new RecordValue(state, state.getAction());
 			}
 			

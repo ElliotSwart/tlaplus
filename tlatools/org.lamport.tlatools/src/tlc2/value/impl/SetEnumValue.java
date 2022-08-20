@@ -67,7 +67,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
   public final boolean isSetOfAtoms() {
       final int len = this.elems.size();
       for (int i = 0; i < len; i++) {
-    	  final Value v = this.elems.elementAt(i);
+    	  final Value v = this.elems.get(i);
     	  if (v instanceof final SetEnumValue sev) {
     		  // Sets of sets of sets... of atoms.
               if (!sev.isSetOfAtoms()) {
@@ -100,7 +100,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       int cmp = sz - set.elems.size();
       if (cmp != 0) return cmp;
       for (int i = 0; i < sz; i++) {
-        cmp = this.elems.elementAt(i).compareTo(set.elems.elementAt(i));
+        cmp = this.elems.get(i).compareTo(set.elems.get(i));
         if (cmp != 0) return cmp;
       }
       return 0;
@@ -127,7 +127,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
         return false;
       }
       for (int i = 0; i < sz; i++) {
-        if (!this.elems.elementAt(i).equals(set.elems.elementAt(i))) {
+        if (!this.elems.get(i).equals(set.elems.get(i))) {
           return false;
         }
       }
@@ -159,9 +159,9 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       final int sz = this.elems.size();
       final ValueVec diffElems = new ValueVec();
       for (int i = 0; i < sz; i++) {
-    	  final Value elem = this.elems.elementAt(i);
+    	  final Value elem = this.elems.get(i);
         if (!val.member(elem)) {
-          diffElems.addElement(elem);
+          diffElems.add(elem);
         }
       }
       return new SetEnumValue(diffElems, this.isNormalized(), cm);
@@ -178,9 +178,9 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       final int sz = this.elems.size();
       final ValueVec capElems = new ValueVec();
       for (int i = 0; i < sz; i++) {
-    	  final Value elem = this.elems.elementAt(i);
+    	  final Value elem = this.elems.get(i);
         if (val.member(elem)) {
-          capElems.addElement(elem);
+          capElems.add(elem);
         }
       }
       return new SetEnumValue(capElems, this.isNormalized(), cm);
@@ -200,13 +200,13 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       if (set instanceof Reducible) {
         final ValueVec cupElems = new ValueVec();
         for (int i = 0; i < sz; i++) {
-        	final Value elem = this.elems.elementAt(i);
-          cupElems.addElement(elem);
+        	final Value elem = this.elems.get(i);
+          cupElems.add(elem);
         }
         final ValueEnumeration Enum = ((Enumerable)set).elements();
         Value elem;
         while ((elem = Enum.nextElement()) != null) {
-          if (!this.member(elem)) cupElems.addElement(elem);
+          if (!this.member(elem)) cupElems.add(elem);
         }
         return new SetEnumValue(cupElems, false);
       }
@@ -281,7 +281,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
   public final void deepNormalize() {
 	    try {
       for (int i = 0; i < elems.size(); i++) {
-          elems.elementAt(i).deepNormalize();
+          elems.get(i).deepNormalize();
         }
         normalize();
 	    }
@@ -311,7 +311,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       boolean defined = true;
       final int sz = this.elems.size();
       for (int i = 0; i < sz; i++) {
-        defined = defined && this.elems.elementAt(i).isDefined();
+        defined = defined && this.elems.get(i).isDefined();
       }
       return defined;
     }
@@ -343,7 +343,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
 			final int len = elems.size();
 			vos.writeInt((isNormalized()) ? len : -len);
 			for (int i = 0; i < len; i++) {
-				elems.elementAt(i).write(vos);
+				elems.get(i).write(vos);
 			}
 		} else {
 			vos.writeByte(DUMMYVALUE);
@@ -360,7 +360,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       fp = FP64.Extend(fp, SETENUMVALUE);
       fp = FP64.Extend(fp, sz);
       for (int i = 0; i < sz; i++) {
-        final Value elem = this.elems.elementAt(i);
+        final Value elem = this.elems.get(i);
         fp = elem.fingerPrint(fp);
       }
       return fp;
@@ -378,8 +378,8 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       final Value[] vals = new Value[sz];
       boolean changed = false;
       for (int i = 0; i < sz; i++) {
-        vals[i] = (Value) this.elems.elementAt(i).permute(perm);
-        changed = (changed || vals[i] != this.elems.elementAt(i));
+        vals[i] = (Value) this.elems.get(i).permute(perm);
+        changed = (changed || vals[i] != this.elems.get(i));
       }
       if (changed) {
         return new SetEnumValue(vals, false);
@@ -417,11 +417,11 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
       final int len = this.elems.size();
         sb.append("{");
         if (len > 0) {
-        this.elems.elementAt(0).toString(sb, offset, swallow);
+        this.elems.get(0).toString(sb, offset, swallow);
       }
       for (int i = 1; i < len; i++) {
         sb.append(", ");
-        this.elems.elementAt(i).toString(sb, offset, swallow);
+        this.elems.get(i).toString(sb, offset, swallow);
       }
       sb.append("}");
       return sb;
@@ -435,7 +435,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
   public final Value randomElement() {
      final int sz = size();
      final int index = (int) Math.floor(RandomEnumerableValues.get().nextDouble() * sz);
-     return this.elems.elementAt(index);
+     return this.elems.get(index);
   }
 
   @Override
@@ -463,7 +463,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
     public Value nextElement() {
     	if (coverage) { cm.incSecondary(); }
       if (this.index < elems.size()) {
-        return elems.elementAt(this.index++);
+        return elems.get(this.index++);
       }
       return null;
     }
@@ -477,7 +477,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
     	
     	Value v;
     	while ((v = ve.nextElement()) != null) {
-    		vec.addElement(v);
+    		vec.add(v);
     	}
     	return new SetEnumValue(vec, false, cm);
 	}
@@ -499,7 +499,7 @@ public static final SetEnumValue DummyEnum = new SetEnumValue((ValueVec)null, tr
 				if (!hasNext()) {
 					return null;
 				}
-				return elems.elementAt(nextIndex());
+				return elems.get(nextIndex());
 			}
 		};
 	}

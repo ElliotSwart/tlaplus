@@ -10,7 +10,7 @@
 *      For tlatex.TLA, writes the LaTeX source file whose resulting        *
 *      log file contains the dimensions needed to do the alignment.        *
 *                                                                          *
-*   WriteTeXAlignmentFile(Token[][], Vector, float)                        *
+*   WriteTeXAlignmentFile(Token[][], ArrayList, float)                        *
 *      For tlatex.TeX, writes the LaTeX source file whose resulting        *
 *      log file contains the dimensions needed to do the alignment.        *
 *                                                                          *
@@ -43,7 +43,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import util.ToolIO;
 
@@ -71,7 +71,7 @@ public void WriteAlignmentFile(final Token[][] spec)
   }
 
 public void WriteTeXAlignmentFile(final Token[][] spec,
-                                         final Vector<?> preamble,
+                                         final ArrayList<?> preamble,
                                          final float  linewidth)
   /*************************************************************************
   * Called to write the alignment file for a tlatex environment, where     *
@@ -90,7 +90,7 @@ public void WriteTeXAlignmentFile(final Token[][] spec,
   writer.putLine("\\batchmode");
   int i = 0 ;
   while (i < preamble.size())
-   { writer.putLine((String) preamble.elementAt(i)) ;
+   { writer.putLine((String) preamble.get(i)) ;
      i = i + 1;
    }
      if (linewidth >= 0)
@@ -283,8 +283,8 @@ private void InnerWriteAlignmentFile(final Token[][] spec,
                       { outLine.append("%");
                         misc.WriteIfNonNull(writer, outLine.toString());
                         outLine = new StringBuilder();
-                        final Vector<String> vec = new Vector<>(2);
-                        vec.addElement(tok.string) ;
+                        final ArrayList<String> vec = new ArrayList<>(2);
+                        vec.add(tok.string) ;
                         formatComments.WriteComment
                          (writer, vec, formatComments.ONE_LINE, 0, tlaMode) ;
                       }
@@ -809,7 +809,7 @@ private void InnerWriteLaTeXFile(final Token[][] spec,
   * and with it false by WriteTLATeXEnvironment.                           *
   *************************************************************************/
  { // BEGIN  InnerWriteLaTeXFile(Token[][] spec)
-  final Vector<String> commentVec = new Vector<>(150);
+  final ArrayList<String> commentVec = new ArrayList<>(150);
     /***********************************************************************
     * Used to hold the vector argument to formatComments.WriteComment.     *
     ***********************************************************************/
@@ -845,14 +845,14 @@ private void InnerWriteLaTeXFile(final Token[][] spec,
               && (line < spec.length))
      {if  (   (spec[line] == null)
            || (spec[line].length == 0))
-       { commentVec.addElement("");
+       { commentVec.add("");
          line = line + 1;
        } 
       else
        {if (spec[line][0].type != Token.PROLOG)
          {endProlog = true ;}
         else
-         {commentVec.addElement(spec[line][0].string);
+         {commentVec.add(spec[line][0].string);
           if (spec[line].length > 1)
            /*********************************************************
            * If a prolog token is followed by a token on the same   *
@@ -1188,8 +1188,8 @@ private void InnerWriteLaTeXFile(final Token[][] spec,
                     misc.BreakStringOut(writer, outLine + "}%" ) ;
   
   
-                    final Vector<String> vec = new Vector<>(2);
-                    vec.addElement(tok.string) ;
+                    final ArrayList<String> vec = new ArrayList<>(2);
+                    vec.add(tok.string) ;
                     if (   (item == 0)
                         && (spec[line].length > 1))
                       /*****************************************************
@@ -1234,7 +1234,7 @@ private void InnerWriteLaTeXFile(final Token[][] spec,
                     * line.  (A multi-line need not be ended by a NULL     *
                     * line.)                                               *
                     *******************************************************/
-                    final Vector<String> mlineVector = new Vector<>();
+                    final ArrayList<String> mlineVector = new ArrayList<>();
                     Position nextPos = ctok.belowAlign;
                     boolean more = true;
                     Token ntok = null;
@@ -1257,7 +1257,7 @@ private void InnerWriteLaTeXFile(final Token[][] spec,
                        if (   (ntok.type == Token.COMMENT)
                            && (((CommentToken) ntok).subtype == 
                                    CommentToken.MULTI))
-                         { mlineVector.addElement(ntok.string) ;
+                         { mlineVector.add(ntok.string) ;
                            lastLine = nextPos.line ;
                            nextPos = ntok.belowAlign;
                          } 
@@ -1340,7 +1340,7 @@ private void InnerWriteLaTeXFile(final Token[][] spec,
                     Debug.Assert(outLine.toString().equals(""),
                       "Non-empty outLine at beginning of PAR comment");
   
-                    final Vector<String> lineVector = new Vector<>();
+                    final ArrayList<String> lineVector = new ArrayList<>();
 
                     /*******************************************************
                     * Add tok.column + 2 spaces to beginning of first      *
@@ -1353,7 +1353,7 @@ private void InnerWriteLaTeXFile(final Token[][] spec,
                         j = j + 1;
                       }
 
-                      lineVector.addElement(spaces + tok.string) ;
+                      lineVector.add(spaces + tok.string) ;
                     while (   (line + 1 < spec.length)
                            && (   (spec[line + 1].length == 0)
                                || (   (spec[line + 1][0].type == 
@@ -1454,12 +1454,12 @@ private void InnerWriteLaTeXFile(final Token[][] spec,
                    /********************************************************
                    * Print the epilog like a PAR comment.                  *
                    ********************************************************/
-                   final Vector<String> lineVector = new Vector<>() ;
+                   final ArrayList<String> lineVector = new ArrayList<>() ;
                    while (line < spec.length)
                     { if (spec[line].length == 0)
-                       { lineVector.addElement(""); }
+                       { lineVector.add(""); }
                       else
-                       { lineVector.addElement(spec[line][0].string);}
+                       { lineVector.add(spec[line][0].string);}
                         line = line + 1;
                     }
 
