@@ -855,7 +855,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 		}
 		
 		// Tag the initial predicates and next-state actions.
-		final ArrayList<Action> initAndNext = (ArrayList<Action>) getInitStateSpec().clone();
+		final ArrayList<Action> initAndNext = new ArrayList<>(getInitStateSpec());
         initAndNext.addAll(actionVec);
 
 		for (int i = 0; i < initAndNext.size(); i++) {
