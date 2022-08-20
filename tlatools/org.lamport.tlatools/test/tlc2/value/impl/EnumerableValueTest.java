@@ -60,7 +60,8 @@ public class EnumerableValueTest {
 	}
 
 	@SuppressWarnings("serial")
-	class DummyValue extends EnumerableValue {
+    static
+    class DummyValue extends EnumerableValue {
 
 		private final int size;
 

@@ -86,7 +86,7 @@ public abstract class TLCServerTestCase extends ModelCheckerTestCase {
 	}
 	
 	@SuppressWarnings("serial")
-	private class DummyFPSetConfig extends FPSetConfiguration {
+	private static class DummyFPSetConfig extends FPSetConfiguration {
 
 		/* (non-Javadoc)
 		 * @see tlc2.tool.fp.FPSetConfiguration#getImplementation()

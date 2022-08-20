@@ -41,7 +41,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	@Test
 	public void testWithoutZeroFP() throws Exception {
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(new FPSetConfiguration());
-		assertFalse("Succeeded to look up 0 fp", fpSet.contains(0l));
+		assertFalse("Succeeded to look up 0 fp", fpSet.contains(0L));
 		fpSet.close();
 	}
 	
@@ -82,8 +82,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		}
 
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(new FPSetConfiguration());
-		assertFalse(fpSet.put(0l));
-		assertTrue("Failed to look up 0 fp", fpSet.contains(0l));
+		assertFalse(fpSet.put(0L));
+		assertTrue("Failed to look up 0 fp", fpSet.contains(0L));
 		fpSet.close();
 	}
 	
@@ -117,8 +117,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	public void testMinMin1FP() throws Exception {
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(new FPSetConfiguration());
 		// zeroing the msb in DiskFPSet turns Long.Min_Value into 0
-		assertFalse(fpSet.put(Long.MIN_VALUE - 1l));
-		assertTrue("Failed to look up min fp", fpSet.contains(Long.MIN_VALUE - 1l));
+		assertFalse(fpSet.put(Long.MIN_VALUE - 1L));
+		assertTrue("Failed to look up min fp", fpSet.contains(Long.MIN_VALUE - 1L));
 
 		fpSet.close();
 	}
@@ -131,8 +131,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	@Test
 	public void testNeg1FP() throws Exception {
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(new FPSetConfiguration());
-		assertFalse(fpSet.put(-1l));
-		assertTrue("Failed to look up min fp", fpSet.contains(-1l));
+		assertFalse(fpSet.put(-1L));
+		assertTrue("Failed to look up min fp", fpSet.contains(-1L));
 
 		fpSet.close();
 	}
@@ -144,8 +144,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	@Test
 	public void testPos1FP() throws Exception {
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(new FPSetConfiguration());
-		assertFalse(fpSet.put(1l));
-		assertTrue("Failed to look up min fp", fpSet.contains(1l));
+		assertFalse(fpSet.put(1L));
+		assertTrue("Failed to look up min fp", fpSet.contains(1L));
 
 		fpSet.close();
 	}
@@ -181,10 +181,10 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		// loVals.add(Long.MIN_VALUE / 2l);
 		// loVals.add(-1l);
 
-		loVals.add(0l); // zero valid fp
-		loVals.add(1l);
-		loVals.add(Long.MAX_VALUE / 2l);
-		loVals.add(Long.MAX_VALUE - 1l);
+		loVals.add(0L); // zero valid fp
+		loVals.add(1L);
+		loVals.add(Long.MAX_VALUE / 2L);
+		loVals.add(Long.MAX_VALUE - 1L);
 		loVals.add(Long.MAX_VALUE);
 
 		final List<Long> hiVals = new ArrayList<>();
@@ -194,10 +194,10 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		// hiVals.add(Long.MIN_VALUE / 2l);
 		// hiVals.add(-1l);
 
-		hiVals.add(0l); // zero valid fp
-		hiVals.add(1l);
-		hiVals.add(Long.MAX_VALUE / 2l);
-		hiVals.add(Long.MAX_VALUE - 1l);
+		hiVals.add(0L); // zero valid fp
+		hiVals.add(1L);
+		hiVals.add(Long.MAX_VALUE / 2L);
+		hiVals.add(Long.MAX_VALUE - 1L);
 		hiVals.add(Long.MAX_VALUE);
 
 		final List<Long> fps = new ArrayList<>();
@@ -207,15 +207,15 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		// fps.add(Long.MIN_VALUE / 2l);
 		// fps.add(-1l);
 
-		fps.add(0l);
-		fps.add(1l);
-		fps.add(Long.MAX_VALUE / 2l);
-		fps.add(Long.MAX_VALUE - 1l);
+		fps.add(0L);
+		fps.add(1L);
+		fps.add(Long.MAX_VALUE / 2L);
+		fps.add(Long.MAX_VALUE - 1L);
 		fps.add(Long.MAX_VALUE);
 
 		final List<Long> loEntries = new ArrayList<>();
-		loEntries.add(0l);
-		loEntries.add(1l);
+		loEntries.add(0L);
+		loEntries.add(1L);
 		// possible maximum due to impl. detail in DiskFPSet
 		// (array index Integer.Max_Value)
 		loEntries.add((long) Integer.MAX_VALUE * 1024);
@@ -224,8 +224,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		// loEntries.add(Long.MAX_VALUE);
 
 		final List<Long> hiEntries = new ArrayList<>();
-		hiEntries.add(0l);
-		hiEntries.add(1l);
+		hiEntries.add(0L);
+		hiEntries.add(1L);
 		// possible maximum due to impl. detail in DiskFPSet
 		// (array index Integer.Max_Value)
 		hiEntries.add((long) Integer.MAX_VALUE * 1024);
@@ -303,7 +303,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(fpSetConfig);
 		
 		// add enough fps to cause 3 disk writes
-		final long fp = 1l;
+		final long fp = 1L;
 		for (long i = 0; i < 1024 * 3; i++) {
 			assertFalse(fpSet.put(fp + i));
 			assertTrue(fpSet.contains(fp + i));
@@ -330,9 +330,9 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		}
 		
 		final DiskFPSet fpSet = (DiskFPSet) getFPSet(new FPSetConfiguration(.75d));
-		assertFalse(fpSet.memInsert(0l));
-		assertFalse(fpSet.diskLookup(0l));
-		assertTrue(fpSet.memLookup(0l));
+		assertFalse(fpSet.memInsert(0L));
+		assertFalse(fpSet.diskLookup(0L));
+		assertTrue(fpSet.memLookup(0L));
 
 		fpSet.close();
 	}
@@ -471,7 +471,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 					.println("Skipping test failing due to Bug #213 in general/bugzilla/index.html");
 			return;
 		}
-		testDiskLookupOnPage(0l);
+		testDiskLookupOnPage(0L);
 	}
 
 	/**

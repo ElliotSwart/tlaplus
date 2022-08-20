@@ -25,8 +25,6 @@ public abstract class AbstractFPSetTest {
 	protected long startTimestamp;
 	protected Date endTimeStamp;
 
-	private File dir;
-	
 
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
@@ -34,7 +32,7 @@ public abstract class AbstractFPSetTest {
 	@Before
 	public void setUp() {
 		// create temp folder
-		dir = new File(tmpdir);
+		File dir = new File(tmpdir);
 		dir.mkdirs();
 		
 		previousTimestamp = startTimestamp = System.currentTimeMillis();

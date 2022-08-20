@@ -13,7 +13,7 @@ public class TLCWorkerSmartProxyTest {
 
 	private static final int ZERO = 0;
 	private static final int ONE = 1;
-	private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE * (1/10);
+	private static final int MAX_ARRAY_SIZE = 0;
 	
 	@Test
 	public void testGetNetworkOverheadMaxStateOne() throws Exception {

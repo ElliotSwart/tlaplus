@@ -294,10 +294,7 @@ public class SymmetryTableauLiveCheckTest {
 		final Capture<TLCState> capture = EasyMock.newCapture();
 		EasyMock.expect(node2.isConsistent(EasyMock.capture(capture), EasyMock.anyObject())).andAnswer(() -> {
 			final TLCState value = capture.getValue();
-			if (value == s) {
-				return false;
-			}
-			return true;
+			return value != s;
 		}).anyTimes();
 		// index
 		EasyMock.expect(node2.getIndex()).andReturn(2).anyTimes();
@@ -312,10 +309,7 @@ public class SymmetryTableauLiveCheckTest {
 		final Capture<TLCState> capture1 = EasyMock.newCapture();
 		EasyMock.expect(node1.isConsistent(EasyMock.capture(capture1), EasyMock.anyObject())).andAnswer(() -> {
 			final TLCState value = capture1.getValue();
-			if (value == sSymmetric) {
-				return false;
-			}
-			return true;
+			return value != sSymmetric;
 		}).anyTimes();
 		// index
 		EasyMock.expect(node1.getIndex()).andReturn(1).anyTimes();

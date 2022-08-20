@@ -22,8 +22,7 @@ public class ByteUtilsTest
 {
     public static final int ARRAYSIZE = 10000;
     public static final int BITS = 1000;
-    
-    private File testFileB;
+
     private File testFileA;
 
     BigInteger[] Arr;
@@ -47,7 +46,7 @@ public class ByteUtilsTest
         testFileA = File.createTempFile("ByteUtilsTestA", null);
         testFileA.deleteOnExit();
 
-        testFileB = File.createTempFile("ByteUtilsTestB", null);
+        File testFileB = File.createTempFile("ByteUtilsTestB", null);
         testFileB.deleteOnExit();
         
         // SZ Feb 20, 2009: no ide what it is for...

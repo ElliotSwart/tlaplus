@@ -195,7 +195,7 @@ public class TLCDebuggerTest {
 		}
 	}
 
-	protected class TestTLCStackFrame extends TLCStackFrame {
+	protected static class TestTLCStackFrame extends TLCStackFrame {
 
 		public TestTLCStackFrame(final int id) {
 			super(id);
@@ -207,7 +207,7 @@ public class TLCDebuggerTest {
 		}
 	}
 
-	protected class TestStackTraceArguments extends StackTraceArguments {
+	protected static class TestStackTraceArguments extends StackTraceArguments {
 		public TestStackTraceArguments() {
 			super();
 		}

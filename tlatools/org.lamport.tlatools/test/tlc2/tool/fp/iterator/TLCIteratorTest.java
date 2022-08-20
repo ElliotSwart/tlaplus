@@ -60,7 +60,7 @@ public class TLCIteratorTest {
 	 */
 	@Test
 	public void testNext() {
-		long predecessor = -1l;
+		long predecessor = -1L;
 		
 		int i = 0;
 		while (i < getLength()) {
@@ -68,7 +68,7 @@ public class TLCIteratorTest {
 			assertTrue(itr.hasNext());
 
 			final long next = itr.next();
-			if (predecessor != -1l) {
+			if (predecessor != -1L) {
 				assertTrue(predecessor < next);
 			}
 			predecessor = next;

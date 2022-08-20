@@ -114,11 +114,10 @@ public class TestMPRecorder implements tlc2.output.IMessagePrinterRecorder {
 
 	public boolean recordedWithStringValueAt(final Object codeRecord, final String str, final int idx) {
 		try {
-			final Object object = codeRecord;
-			if (object instanceof final String[] strs) {
+			if (codeRecord instanceof final String[] strs) {
 				return strs[idx].equals(str);
-			} else if (object instanceof String) {
-				return object.equals(str);
+			} else if (codeRecord instanceof String) {
+				return codeRecord.equals(str);
 			}
 			return false;
 		} catch (final Exception e) {

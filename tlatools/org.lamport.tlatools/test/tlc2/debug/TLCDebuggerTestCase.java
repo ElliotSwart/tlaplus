@@ -363,7 +363,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 			
 			// Assert that the variables' numbers in trace are strictly monotonic.
 			for (int i = 0; i < trace.size(); i++) {
-				assertTrue(trace.get(i).getName().startsWith(Integer.toString(i + 1) + ":"));
+				assertTrue(trace.get(i).getName().startsWith(i + 1 + ":"));
 			}
 
 			// Assert TLCState#allAssigned for all but the last state.

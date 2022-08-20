@@ -12,15 +12,13 @@ import util.ToolIO;
  */
 public class Bug156TEStackOverflowTest {
 
-	private SpecObj moduleSpec;
-
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
 		// create a model and initialize
-		moduleSpec = new SpecObj("test-model/Bug156/TE.tla", new SimpleFilenameToStream());
+		SpecObj moduleSpec = new SpecObj("test-model/Bug156/TE.tla", new SimpleFilenameToStream());
 		var sany = new SANY();
 		sany.frontEndInitialize(moduleSpec, ToolIO.out);
 	}

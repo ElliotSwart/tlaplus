@@ -63,7 +63,7 @@ public class LongVecFingerPrintGenerator extends FingerPrintGenerator {
 	// This implementation adds two methods that should be used with caution as
 	// they mess with the internal capacity checks of LongVec. We don't want to
 	// make them API.
-	private class TestLongVec extends LongVec {
+	private static class TestLongVec extends LongVec {
 
 		private static final long serialVersionUID = -720614225756936980L;
 

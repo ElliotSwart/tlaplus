@@ -122,11 +122,11 @@ public class ConcurrentWriteTest {
 		tmpRAF3.setLength(limit * Long.BYTES);
 		tmpRAF3.seek((3L * partition) * Long.BYTES);
 
-		for(long i = 0L; i < (1L * partition); i++) {
+		for(long i = 0L; i < (partition); i++) {
 			tmpRAF0.writeLong(i);
 		}
 		
-		for(long i = (1L * partition); i < (2L * partition); i++) {
+		for(long i = (partition); i < (2L * partition); i++) {
 			tmpRAF1.writeLong(i);
 		}
 		

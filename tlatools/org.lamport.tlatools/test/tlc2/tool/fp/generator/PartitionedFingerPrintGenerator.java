@@ -47,9 +47,9 @@ public class PartitionedFingerPrintGenerator extends FingerPrintGenerator {
 		super(test, id, numThreads, fpSet, latch, seed, insertions, barrier);
 		
 		final long numOfTotalBuckets = fpSet.getConfiguration().getMemoryInFingerprintCnt();
-		numOfPerThreadBuckets = numOfTotalBuckets / (1L * numThreads);
+		numOfPerThreadBuckets = numOfTotalBuckets / ((long) numThreads);
 
-		final long perThreadStartBucket = numOfPerThreadBuckets * (1L * id);
+		final long perThreadStartBucket = numOfPerThreadBuckets * ((long) id);
 		increment = (long) Math.ceil((Long.MAX_VALUE - 1L) / (numOfTotalBuckets * 1d));
 		fp = increment * perThreadStartBucket;
 	}

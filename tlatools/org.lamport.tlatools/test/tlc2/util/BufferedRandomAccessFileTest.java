@@ -89,7 +89,7 @@ public class BufferedRandomAccessFileTest {
 		}
 
 		raf.seek(0);
-		for (long i = 0l; i < BufferedRandomAccessFile.BuffSz / 8; i++) {
+		for (long i = 0L; i < BufferedRandomAccessFile.BuffSz / 8; i++) {
 			assertEquals(i, raf.readLong());
 		}
 		raf.close();
