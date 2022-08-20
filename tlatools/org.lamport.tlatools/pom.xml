@@ -241,7 +241,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0-M7</version>
 				<configuration>
-					<forkCount>1</forkCount>
+					<forkCount>4</forkCount>
 					<reuseForks>true</reuseForks>
 					<!--<threadCount>3</threadCount>-->
 					<useUnlimitedThreads>true</useUnlimitedThreads>
@@ -251,6 +251,8 @@
 					<skipTests>${skip.surefire.tests}</skipTests>
 					<runOrder>alphabetical</runOrder>
 					<systemProperties>
+						<!-- Don't dump dot for unit tests to speed them up -->
+						<tlc2.test.dump>false</tlc2.test.dump>
 						<tlc2.tool.fp.FPSet.impl>tlc2.tool.fp.OffHeapDiskFPSet</tlc2.tool.fp.FPSet.impl>
 						<tlc2.tool.distributed.TLCWorker.threadCount>1</tlc2.tool.distributed.TLCWorker.threadCount>
 					</systemProperties>

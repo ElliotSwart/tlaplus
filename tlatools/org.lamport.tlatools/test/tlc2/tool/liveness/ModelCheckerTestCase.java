@@ -58,6 +58,8 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 	protected int actualExitStatus = -1;
 	protected int expectedExitStatus = ExitStatus.SUCCESS;
 
+	protected static final String DUMP_DOT = System.getProperty("tlc2.test.dump", "true");
+
 	public ModelCheckerTestCase(final String spec) {
 		this(spec, ExitStatus.SUCCESS);
 	}
@@ -352,7 +354,7 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 	}
 	
 	protected boolean doDump() {
-		return true;
+		return DUMP_DOT.equals("true");
 	}
 
 	protected boolean doDumpTrace() {
