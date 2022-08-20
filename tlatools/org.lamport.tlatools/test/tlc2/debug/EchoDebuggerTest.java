@@ -209,7 +209,7 @@ public class EchoDebuggerTest extends TLCDebuggerTestCase {
 		debugger.replaceAllBreakpointsWith(RM, 104);
 		stackFrames = debugger.continue_();
 		assertEquals(4, stackFrames.length);
-		assertTLCActionFrame(stackFrames[0], 104, 16, 107, 40, RM, (Context) null, getVars());
+		assertTLCActionFrame(stackFrames[0], 104, 16, 107, 40, RM, null, getVars());
 		
 		debugger.replaceAllBreakpointsWith(RM, 167);
 		stackFrames = debugger.continue_();
@@ -226,7 +226,7 @@ public class EchoDebuggerTest extends TLCDebuggerTestCase {
 		debugger.setBreakpoints(sba);
 		stackFrames = debugger.continue_();
 		assertEquals(4, stackFrames.length);
-		assertTLCActionFrame(stackFrames[0], 104, 16, 107, 40, RM, (Context) null, getVars());
+		assertTLCActionFrame(stackFrames[0], 104, 16, 107, 40, RM, null, getVars());
 
 		// Check n0 action has expected number of successor states.
 		sba = createBreakpointArgument(RM, 103, 1, 1); // Inline breakpoint set on the LHS of Action definition.
@@ -239,7 +239,7 @@ public class EchoDebuggerTest extends TLCDebuggerTestCase {
 		debugger.setBreakpoints(sba);
 		stackFrames = debugger.continue_();
 		assertEquals(4, stackFrames.length);
-		assertTLCActionFrame(stackFrames[0], 112, 16, 129, 71, RM, (Context) null, getVars());
+		assertTLCActionFrame(stackFrames[0], 112, 16, 129, 71, RM, null, getVars());
 		
 		// Remove all breakpoints and run the spec to completion.
 		debugger.unsetBreakpoints();

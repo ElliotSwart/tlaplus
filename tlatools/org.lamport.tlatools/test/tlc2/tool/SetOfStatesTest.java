@@ -78,8 +78,7 @@ public class SetOfStatesTest extends TestCase {
 		// successor is not equal to predecessor
 		TLCState predecessor = null;
 		;
-		for (final var it = s.iterator(); it.hasNext();) {
-			final TLCState state = it.next();
+		for (final TLCState state : s) {
 			assertNotSame(predecessor, state);
 			predecessor = state;
 		}
@@ -88,8 +87,7 @@ public class SetOfStatesTest extends TestCase {
 		// The combined sum of elements is correct
 		long sum = 0L;
 
-		for (final var it = s.iterator(); it.hasNext();) {
-			final TLCState elem = it.next();
+		for (final TLCState elem : s) {
 			sum += elem.fingerPrint();
 		}
 		assertEquals((32 / 2) * (1 + 32), sum);
