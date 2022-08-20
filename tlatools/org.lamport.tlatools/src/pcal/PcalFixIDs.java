@@ -174,46 +174,45 @@ public class PcalFixIDs {
             // We now fix proc.proceduresCalled by, for each procedure p in
             // it, we add all the procedures that p calls.
             final ArrayList<String> pCalled = proc.proceduresCalled;
-            for (int j = 0; j < pCalled.size(); j++) {
+            for (final String pName : pCalled) {
                 // Set idx to the value such that pCalled.get(j)
                 // is the name of the idx-th element in procedureNames.
-                final String pName = pCalled.get(j);
                 final int pNum = nameToNum(pName, procedureNames);
                 if (pNum == -1) {
-                	// For some reason, this originally called PcalDebug.ReportBug.
-                	// Since it can occur just because there is no procedure by that
-                	// name in the code, it occurs on an error.  Fixed 31 May 2013 by LL.
-                	// This fix caused the for loop that follows to throw an ArrayIndexOutOfBounds
-                	// exception.  When run from the Toolbox, this caused the error message
-                	// to be lost and the Translate command to fail with no message.
-                	// It appears that it's not necessary to report the error here, because
-                	// it will be caught later.  Moreover, when caught later, the location
-                	// of the bad procedure name is indicated.  That location doesn't seem to
-                	// available here.  However, I'm hesitant to remove the error report in case
-                	// the error isn't caught later in all cases.  So I have added the return
-                	// to avoid the exception.  Hopefully, no further exceptions can be caused
-                	// by the error.  However, I don't know how to make sure that's the
-                	// case without figuring out how the code works.  
-                	// I also removed an unhelpful part of the message.  LL 30 Aug 2015
+                    // For some reason, this originally called PcalDebug.ReportBug.
+                    // Since it can occur just because there is no procedure by that
+                    // name in the code, it occurs on an error.  Fixed 31 May 2013 by LL.
+                    // This fix caused the for loop that follows to throw an ArrayIndexOutOfBounds
+                    // exception.  When run from the Toolbox, this caused the error message
+                    // to be lost and the Translate command to fail with no message.
+                    // It appears that it's not necessary to report the error here, because
+                    // it will be caught later.  Moreover, when caught later, the location
+                    // of the bad procedure name is indicated.  That location doesn't seem to
+                    // available here.  However, I'm hesitant to remove the error report in case
+                    // the error isn't caught later in all cases.  So I have added the return
+                    // to avoid the exception.  Hopefully, no further exceptions can be caused
+                    // by the error.  However, I don't know how to make sure that's the
+                    // case without figuring out how the code works.
+                    // I also removed an unhelpful part of the message.  LL 30 Aug 2015
                     PcalDebug.reportError(
-                     "Could not find procedure name `" + pName +"'"
-                     // + "' in method FixMultiprocess"
-                     ) ;
-                    return ; // Added 30 Aug 2015 
+                            "Could not find procedure name `" + pName + "'"
+                            // + "' in method FixMultiprocess"
+                    );
+                    return; // Added 30 Aug 2015
 
-               }
+                }
                 // For each k such that path[pNum][k] is true
                 // (meaning that procedure number pNum calls
                 // procedure number k), add 
                 // procedureNames.get(k) to proc.proceduresCalled
                 // if it is not already in it.
                 for (int k = 0; k < n; k++) {
-                  if (path[pNum][k]) {
-                      final String callee = procedureNames.get(k);
-                      if (! InVector(callee, proc.proceduresCalled)) {
-                          proc.proceduresCalled.add(callee);
-                      }
-                  }
+                    if (path[pNum][k]) {
+                        final String callee = procedureNames.get(k);
+                        if (!InVector(callee, proc.proceduresCalled)) {
+                            proc.proceduresCalled.add(callee);
+                        }
+                    }
                 }
 //          System.out.println(proc.toString());                
             }
@@ -250,16 +249,8 @@ public class PcalFixIDs {
             FixLabeledStmt((AST.LabeledStmt) ast.body.get(i), ast.name);
         final PcalSymTab.ProcedureEntry p =
             st.procs.get(st.FindProc(ast.name));
-        for (int i = 0; i < ast.plusLabels.size(); i++) {
-        	final String lbl = ast.plusLabels.get(i);
-        	final String newLbl = st.UseThis(PcalSymTab.LABEL, lbl, ast.name);
-        	ast.plusLabels.set(i, newLbl) ;
-        }
-       for (int i = 0; i < ast.minusLabels.size(); i++) {
-	       final String lbl = ast.minusLabels.get(i);
-	       final String newLbl = st.UseThis(PcalSymTab.LABEL, lbl, ast.name);
-	       ast.minusLabels.set(i, newLbl) ;
-         }
+        ast.plusLabels.replaceAll(s -> st.UseThis(PcalSymTab.LABEL, s, ast.name));
+        ast.minusLabels.replaceAll(s -> st.UseThis(PcalSymTab.LABEL, s, ast.name));
         p.iPC = st.UseThis(PcalSymTab.LABEL, p.iPC, ast.name);
         ast.name = st.UseThis(PcalSymTab.PROCEDURE, ast.name, "");
         p.name = ast.name;
@@ -279,16 +270,8 @@ public class PcalFixIDs {
             FixLabeledStmt((AST.LabeledStmt) ast.body.get(i), ast.name);
         final PcalSymTab.ProcessEntry p =
             st.processes.get(st.FindProcess(ast.name));
-        for (int i = 0; i < ast.plusLabels.size(); i++) {
-        	final String lbl = ast.plusLabels.get(i);
-        	final String newLbl = st.UseThis(PcalSymTab.LABEL, lbl, ast.name);
-        	ast.plusLabels.set(i, newLbl) ;
-        }
-       for (int i = 0; i < ast.minusLabels.size(); i++) {
-         final String lbl = ast.minusLabels.get(i);
-         final String newLbl = st.UseThis(PcalSymTab.LABEL, lbl, ast.name);
-         ast.minusLabels.set(i, newLbl) ;
-         }
+        ast.plusLabels.replaceAll(s -> st.UseThis(PcalSymTab.LABEL, s, ast.name));
+        ast.minusLabels.replaceAll(s -> st.UseThis(PcalSymTab.LABEL, s, ast.name));
         p.iPC = st.UseThis(PcalSymTab.LABEL, p.iPC, ast.name);
         ast.name = st.UseThis(PcalSymTab.PROCESS, ast.name, "");
         p.name = ast.name;
@@ -423,8 +406,7 @@ public class PcalFixIDs {
 	private static void FixEither(final AST.Either ast, final String context) throws PcalFixIDException {
         for (int i = 0; i < ast.ors.size(); i++)
               { final ArrayList<AST> orClause = (ArrayList) ast.ors.get(i) ;
-                for (int j = 0; j < orClause.size(); j++)
-                  FixSym(orClause.get(j), context);
+                  for (AST value : orClause) FixSym(value, context);
                }
     }
 
@@ -453,12 +435,11 @@ public class PcalFixIDs {
         for (int i = 0; i < expr.tokens.size(); i++) {
             final ArrayList<TLAToken> tv = expr.tokens.get(i);
             String useMe;
-            for (int j = 0; j < tv.size(); j++) {
-                final TLAToken tok = tv.get(j);
+            for (final TLAToken tok : tv) {
                 if (tok.type == TLAToken.IDENT) {
                     useMe = st.UseThisVar(tok.string, context);
                     if (InVector(tok.string, stringVec)
-                        || useMe.equals(tok.string)) continue;
+                            || useMe.equals(tok.string)) continue;
                     stringVec.add(tok.string);
                     final TLAExpr exp = new TLAExpr();
                     exp.addLine();
@@ -482,8 +463,7 @@ public class PcalFixIDs {
     /* Returns whether the string is present in a vector of string. */
     /****************************************************************/
     private static boolean InVector(final String var, final ArrayList<String> v) {
-        for (int i = 0; i < v.size(); i++)
-            if (var.equals(v.get(i))) return true;
+        for (String s : v) if (var.equals(s)) return true;
         return false;
     }
 

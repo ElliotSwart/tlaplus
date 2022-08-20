@@ -387,8 +387,7 @@ public class PcalSymTab {
      **************************************************************************/
     public void Disambiguate ( ) {
         for (int vtype = 0; vtype <= num_vtypes; vtype++)
-            for (int i = 0; i < symtab.size(); i++) {
-                final SymTabEntry se = symtab.get(i);
+            for (final SymTabEntry se : symtab) {
                 if (se.type == vtype) {
                     se.useThis = typePrefix[vtype] + se.id;
                     int suffixLength = 0;
@@ -398,20 +397,20 @@ public class PcalSymTab {
                         else if (suffixLength > se.context.length() + 1)
                             se.useThis = se.useThis + vtype;
                         else se.useThis = se.useThis
-                            + se.context.charAt(suffixLength - 2);
+                                    + se.context.charAt(suffixLength - 2);
                     }
-                    if (! se.id.equals(se.useThis))
+                    if (!se.id.equals(se.useThis))
                         disambiguateReport.add(
-                        "\\* " +
-                        vtypeName[se.type] +
-                        " " +
-                        se.id +
-                        ((se.context.length() == 0)
-                         ? "" 
-                         : (" of " + se.cType + " " + se.context)) +
-                        " at line " + se.line + " col " + se.col +
-                        " changed to " +
-                        se.useThis);
+                                "\\* " +
+                                        vtypeName[se.type] +
+                                        " " +
+                                        se.id +
+                                        ((se.context.length() == 0)
+                                                ? ""
+                                                : (" of " + se.cType + " " + se.context)) +
+                                        " at line " + se.line + " col " + se.col +
+                                        " changed to " +
+                                        se.useThis);
                 }
             }
     }
@@ -665,8 +664,7 @@ public class PcalSymTab {
     private void ExtractEither(final AST.Either ast, final String context, final String cType) {
         for (int i = 0; i < ast.ors.size(); i++)
               { @SuppressWarnings("unchecked") final ArrayList<AST> orClause = (ArrayList<AST>) ast.ors.get(i) ;
-                for (int j = 0; j < orClause.size(); j++)
-                  ExtractStmt(orClause.get(j), context, cType);
+                  for (AST value : orClause) ExtractStmt(value, context, cType);
                }
     }
 
@@ -690,13 +688,13 @@ public class PcalSymTab {
    ************************************************************************/
    public void CheckForDefaultInitValue() throws PcalSymTabException {
      StringBuilder errors = new StringBuilder();
-     for (int i = 0 ; i < symtab.size() ; i++) 
-       { final SymTabEntry se = symtab.get(i);
-         if (se.id.equals("defaultInitValue")) 
-           { if (errors.toString().equals(""))
-               { errors = new StringBuilder("Cannot use `defaultInitValue' as ");}
-             else {
-               errors.append(" or ");}
+       for (final SymTabEntry se : symtab) {
+           if (se.id.equals("defaultInitValue")) {
+               if (errors.toString().equals("")) {
+                   errors = new StringBuilder("Cannot use `defaultInitValue' as ");
+               } else {
+                   errors.append(" or ");
+               }
                errors.append(vtypeName[se.type]).append(" name");
            }
        }

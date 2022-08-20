@@ -74,8 +74,7 @@ public class PCalTLAGenerator
 
         PcalTranslate pcalTranslate = new PcalTranslate(this.parseAlgorithm);
 
-        for (int i = 0; i < st.disambiguateReport.size(); i++)
-            result.add(st.disambiguateReport.get(i));
+        result.addAll(st.disambiguateReport);
         try
         {
             xast = pcalTranslate.Explode(ast, st);

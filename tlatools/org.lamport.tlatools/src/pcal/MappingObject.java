@@ -403,23 +403,21 @@ public class MappingObject implements Serializable {
      * @param shift The distance to shift to the right.
      */
     public static void shiftMappingVector(final ArrayList<ArrayList<MappingObject>> mvec, final int shift) {
-        for (int i = 0; i < mvec.size(); i++) {
-            final ArrayList<MappingObject> line = mvec.get(i);
-            for (int j = 0; j < line.size(); j++) {
-                final MappingObject mobj = line.get(j);
-                if (mobj.type == BEGIN_TLATOKEN) {
-                    final BeginTLAToken obj = (BeginTLAToken) mobj;
-                    obj.setColumn(obj.getColumn()+shift) ;
-                } else if (mobj.type == END_TLATOKEN) {
-                    final EndTLAToken obj = (EndTLAToken) mobj;
-                    obj.setColumn(obj.getColumn()+shift) ;
-                } else if (mobj.type == SOURCE_TOKEN) {
-                    final SourceToken obj = (SourceToken) mobj;
-                    obj.setBeginColumn(obj.getBeginColumn()+shift) ;
-                    obj.setEndColumn(obj.getEndColumn()+shift) ;
-                }
-            }
-        }
+		for (final ArrayList<MappingObject> line : mvec) {
+			for (final MappingObject mobj : line) {
+				if (mobj.type == BEGIN_TLATOKEN) {
+					final BeginTLAToken obj = (BeginTLAToken) mobj;
+					obj.setColumn(obj.getColumn() + shift);
+				} else if (mobj.type == END_TLATOKEN) {
+					final EndTLAToken obj = (EndTLAToken) mobj;
+					obj.setColumn(obj.getColumn() + shift);
+				} else if (mobj.type == SOURCE_TOKEN) {
+					final SourceToken obj = (SourceToken) mobj;
+					obj.setBeginColumn(obj.getBeginColumn() + shift);
+					obj.setEndColumn(obj.getEndColumn() + shift);
+				}
+			}
+		}
     }
     
     /**
@@ -430,10 +428,9 @@ public class MappingObject implements Serializable {
         for (int i = 0; i < mvec.size(); i++) {
             final ArrayList<MappingObject> line = mvec.get(i);
             System.out.print("line " + i + ":");
-            for (int j = 0; j < line.size(); j++) {
-                final MappingObject mobj = line.get(j) ;
-                System.out.print("  " + mobj.toString());
-            }
+			for (final MappingObject mobj : line) {
+				System.out.print("  " + mobj.toString());
+			}
             System.out.println();
         }
     }

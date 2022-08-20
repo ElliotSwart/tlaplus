@@ -391,43 +391,42 @@ public class TLAExpr
      */
     public ArrayList<ArrayList<MappingObject>> toMappingVector () {
         final ArrayList<ArrayList<MappingObject>> result = new ArrayList<>(4) ;
-        for (int i = 0; i < this.tokens.size(); i++) {
-            final ArrayList<MappingObject> mapLine = new ArrayList<>() ;
-            final ArrayList<TLAToken> expLine = this.tokens.get(i);
-            MappingObject.SourceToken sourceTok = null ;
-            for (int j = 0; j < expLine.size(); j ++) {
-              final TLAToken tok = expLine.get(j) ;
-              final int tokEndCol = tok.column + tok.string.length() ;
-              for (int k = 0 ; k < tok.getBeginSubst().size(); k++) {
-                  mapLine.add(new MappingObject.LeftParen(
-                                       tok.getBeginSubst().get(k)));
-              }
-              if (tok.source == null) {
-                  if(sourceTok == null || ! tok.isAppended()) {                
-                    mapLine.add(new MappingObject.BeginTLAToken(tok.column)) ;
-                    mapLine.add(
-                       new MappingObject.EndTLAToken(tokEndCol)) ;
-                    sourceTok = null ;
-                  } else {
-                      /* {
-                       * 
-                       * Make this TLA token part of sourceTok
-                       */
-                      sourceTok.setEndColumn(tokEndCol) ;
-                  }
-              } else {
-
-                      sourceTok = new MappingObject.SourceToken(
-                                     tok.column, tokEndCol, tok.source) ;
-                      mapLine.add(sourceTok) ;
-              }
-              for (int k = tok.getEndSubst().size()-1 ; k >= 0; k--) {
-                  mapLine.add(new MappingObject.RightParen(
-                         tok.getEndSubst().get(k)));
-              }
+      for (ArrayList<TLAToken> token : this.tokens) {
+        final ArrayList<MappingObject> mapLine = new ArrayList<>();
+        final ArrayList<TLAToken> expLine = token;
+        MappingObject.SourceToken sourceTok = null;
+        for (final TLAToken tok : expLine) {
+          final int tokEndCol = tok.column + tok.string.length();
+          for (int k = 0; k < tok.getBeginSubst().size(); k++) {
+            mapLine.add(new MappingObject.LeftParen(
+                    tok.getBeginSubst().get(k)));
+          }
+          if (tok.source == null) {
+            if (sourceTok == null || !tok.isAppended()) {
+              mapLine.add(new MappingObject.BeginTLAToken(tok.column));
+              mapLine.add(
+                      new MappingObject.EndTLAToken(tokEndCol));
+              sourceTok = null;
+            } else {
+              /* {
+               *
+               * Make this TLA token part of sourceTok
+               */
+              sourceTok.setEndColumn(tokEndCol);
             }
-            result.add(mapLine) ;
+          } else {
+
+            sourceTok = new MappingObject.SourceToken(
+                    tok.column, tokEndCol, tok.source);
+            mapLine.add(sourceTok);
+          }
+          for (int k = tok.getEndSubst().size() - 1; k >= 0; k--) {
+            mapLine.add(new MappingObject.RightParen(
+                    tok.getEndSubst().get(k)));
+          }
         }
+        result.add(mapLine);
+      }
         return result ;
     }
     public String toString()
