@@ -15,7 +15,9 @@ import tlc2.util.statistics.IBucketStatistics;
 import util.Assert;
 import util.Assert.TLCRuntimeException;
 import util.DebugPrinter;
-import util.Set;
+
+import java.util.HashSet;
+import java.util.Set;
 import util.TLAConstants;
 import util.TLAFlightRecorder;
 import util.ToolIO;
@@ -208,7 +210,7 @@ public class MP
 
     private static final MP instance;
 
-    private final Set warningHistory;
+    private final Set<String> warningHistory;
     private static final String CONFIG_FILE_ERROR = "TLC found an error in the configuration file at line %1%\n";
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //$NON-NLS-1$ 
 	private static final DecimalFormat df = new DecimalFormat("###,###.###");
@@ -247,7 +249,7 @@ public class MP
      */
     private MP()
     {
-        warningHistory = new Set();
+        warningHistory = new HashSet<String>();
     }
 
     /**
@@ -1727,7 +1729,7 @@ public class MP
             // construct the message
             final String message = getMessage(WARNING, errorCode, parameters);
             // if the message has not been printed
-            if (instance.warningHistory.put(message) == null)
+            if (instance.warningHistory.add(message))
             {
                 // print it
                 ToolIO.out.println(message);
@@ -1754,7 +1756,7 @@ public class MP
             // construct the message
             final String message = getMessage(WARNING, errorCode, new String[]{parameters});
             // if the message has not been printed
-            if (instance.warningHistory.put(message) == null)
+            if (instance.warningHistory.add(message))
             {
                 // print it
                 ToolIO.out.println(message);
