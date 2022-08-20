@@ -207,7 +207,7 @@ public final class SetOfStates extends AbstractSet<TLCState> {
 
 		private int iteratorIndex = 0;
 		private int returnedIndex = 0;
-		private SetOfStates setOfStates;
+		private final SetOfStates setOfStates;
 		public SetIterator(SetOfStates setOfStates){
 			this.setOfStates = setOfStates;
 			this.iteratorIndex = 0;
@@ -254,8 +254,7 @@ public final class SetOfStates extends AbstractSet<TLCState> {
 	public java.util.Set<TLCState> getSubSet(final Action a) {
 		final HashSet<TLCState> subset = new HashSet<>(size());
 
-		for (Iterator<TLCState> it = this.iterator(); it.hasNext(); ) {
-			final TLCState next = it.next();
+		for (final TLCState next : this) {
 			// Deliberately use identify checking here! TLC maintains N instances of action
 			// A, one for each N passed to A:
 			//  

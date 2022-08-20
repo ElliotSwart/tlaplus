@@ -249,7 +249,7 @@ public class MP
      */
     private MP()
     {
-        warningHistory = new HashSet<String>();
+        warningHistory = new HashSet<>();
     }
 
     /**

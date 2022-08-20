@@ -69,12 +69,11 @@ public class PCalTLAGenerator
      ********************************************************************/
     public ArrayList<String> translate() throws RemoveNameConflictsException
     {
-        ArrayList<String> result = new ArrayList<>();
         AST xast;  // Set to the exploded AST
 
         PcalTranslate pcalTranslate = new PcalTranslate(this.parseAlgorithm);
 
-        result.addAll(st.disambiguateReport);
+        ArrayList<String> result = new ArrayList<>(st.disambiguateReport);
         try
         {
             xast = pcalTranslate.Explode(ast, st);

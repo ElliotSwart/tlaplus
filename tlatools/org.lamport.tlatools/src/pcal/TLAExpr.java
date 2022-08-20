@@ -974,8 +974,8 @@ public class TLAExpr
                     *******************************************************/
                     indent = 0 ;
                     curLine = curLine + 1 ;
-                    this.tokens.add(curLine, new ArrayList<>()); ;
-                    line = this.tokens.get(curLine) ;
+                    this.tokens.add(curLine, new ArrayList<>());
+                      line = this.tokens.get(curLine) ;
                     final TLAToken[] aTok  = new TLAToken[this.tokens.size()] ;
                     final int[]      aTCol = new int[this.tokens.size()] ;
                     int k = 0 ;

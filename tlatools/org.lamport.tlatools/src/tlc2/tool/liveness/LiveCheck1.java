@@ -134,7 +134,7 @@ public class LiveCheck1 implements ILiveCheck {
 			for (int i = 1; i < stateTrace.size(); i++) {
 				final TLCState destState = stateTrace.get(i);
 				final long destFP = destState.fingerPrint();
-				BEGraphNode destNode = (BEGraphNode) allNodes.get(destFP);
+				BEGraphNode destNode = allNodes.get(destFP);
 				if (destNode == null) {
 					destNode = new BEGraphNode(destFP);
 					destNode.setCheckState(os.checkState(tool, srcState));
@@ -167,7 +167,7 @@ public class LiveCheck1 implements ILiveCheck {
 				for (int j = 0; j < tnode.nextSize(); j++) {
 					final TBGraphNode tnode1 = tnode.nextAt(j);
 					final long destFP = FP64.Extend(srcFP, tnode1.getIndex());
-					final BEGraphNode destNode = (BEGraphNode) allNodes.get(destFP);
+					final BEGraphNode destNode = allNodes.get(destFP);
 					if (destNode != null) {
 						srcNode.addTransition(destNode, slen, alen, checkActionRes);
 					}
@@ -184,7 +184,7 @@ public class LiveCheck1 implements ILiveCheck {
 					for (int k = 0; k < tnode.nextSize(); k++) {
 						final TBGraphNode tnode1 = tnode.nextAt(k);
 						final long destFP = FP64.Extend(destStateFP, tnode1.getIndex());
-						BEGraphNode destNode = (BEGraphNode) allNodes.get(destFP);
+						BEGraphNode destNode = allNodes.get(destFP);
 						if (destNode == null) {
 							if (tnode1.isConsistent(destState, myTool)) {
 								destNode = new BTGraphNode(destStateFP, tnode1.getIndex());
@@ -205,7 +205,7 @@ public class LiveCheck1 implements ILiveCheck {
 					for (int k = 0; k < tnode.nextSize(); k++) {
 						final TBGraphNode tnode1 = tnode.nextAt(k);
 						final long destFP = FP64.Extend(destStateFP, tnode1.getIndex());
-						BEGraphNode destNode = (BEGraphNode) allNodes.get(destFP);
+						BEGraphNode destNode = allNodes.get(destFP);
 						if (destNode == null) {
 							if (tnode1.isConsistent(destState, myTool)) {
 								destNode = new BTGraphNode(destStateFP, tnode1.getIndex());
@@ -273,8 +273,7 @@ public class LiveCheck1 implements ILiveCheck {
 	 */
 	@Override
     public void addNextState(final ITool tool, final TLCState s0, final long fp0, final SetOfStates nextStates) {
-		for (final var it = nextStates.iterator(); it.hasNext();) {
-			final TLCState s2 = it.next();
+		for (final TLCState s2 : nextStates) {
 			final long fp2 = s2.fingerPrint();
 			addNextState(tool, s0, fp0, s2, fp2);
 		}
@@ -580,7 +579,7 @@ public class LiveCheck1 implements ILiveCheck {
 				}
 				// Backtrack if needed:
 				while (nextNode2 == null) {
-					curNode = (BEGraphNode) cycleStack.pop();
+					curNode = cycleStack.pop();
 					for (int i = 0; i < Objects.requireNonNull(curNode).nextSize(); i++) {
 						final BEGraphNode node1 = curNode.nextAt(i);
 						final long num = node1.getNumber();
@@ -616,7 +615,7 @@ public class LiveCheck1 implements ILiveCheck {
 				}
 			}
 			if (!found) {
-				curNode = (BEGraphNode) cycleStack.pop();
+				curNode = cycleStack.pop();
 			}
 		}
 		if (cycleStack.size() == 0) {
@@ -664,7 +663,7 @@ public class LiveCheck1 implements ILiveCheck {
 		final long[] fps = new long[cycleStack.size()];
 		int idx = fps.length;
 		while (idx > 0) {
-			fps[--idx] = ((BEGraphNode) Objects.requireNonNull(cycleStack.pop())).stateFP;
+			fps[--idx] = Objects.requireNonNull(cycleStack.pop()).stateFP;
 		}
 		// Assert.assert(fps.length > 0);
 		sinfo = states[stateNum - 1];
@@ -706,7 +705,7 @@ public class LiveCheck1 implements ILiveCheck {
 		node.incNumber();
 		stack.push(node);
 		while (stack.size() != 0) {
-			final BEGraphNode curNode = (BEGraphNode) stack.pop();
+			final BEGraphNode curNode = stack.pop();
 			// Check AEState:
 			for (int i = 0; i < currentPEM.AEState.length; i++) {
 				if (!AEStateRes[i]) {
@@ -837,7 +836,7 @@ public class LiveCheck1 implements ILiveCheck {
 	 * component.
 	 */
 	ArrayList<BEGraphNode> extractComponent(final BEGraphNode node) {
-		BEGraphNode node1 = (BEGraphNode) comStack.pop();
+		BEGraphNode node1 = comStack.pop();
 		if (node == node1 && !node.transExists(node)) {
 			node.setNumber(MAX_FIRST);
 			return null;
@@ -848,7 +847,7 @@ public class LiveCheck1 implements ILiveCheck {
 		Objects.requireNonNull(node1).setNumber(numFirstCom);
 		nodes.add(node1);
 		while (node != node1) {
-			node1 = (BEGraphNode) comStack.pop();
+			node1 = comStack.pop();
 			Objects.requireNonNull(node1).setNumber(numFirstCom);
 			nodes.add(node1);
 		}
@@ -885,14 +884,14 @@ public class LiveCheck1 implements ILiveCheck {
 	}
 
 	boolean extractComponent1(final BEGraphNode node) {
-		BEGraphNode node1 = (BEGraphNode) comStack.pop();
+		BEGraphNode node1 = comStack.pop();
 		if (node == node1 && !canStutter(node)) {
 			node.setNumber(thirdNum++);
 			return false;
 		}
 		Objects.requireNonNull(node1).setNumber(thirdNum);
 		while (node != node1) {
-			node1 = (BEGraphNode) comStack.pop();
+			node1 = comStack.pop();
 			Objects.requireNonNull(node1).setNumber(thirdNum);
 		}
 		return true;

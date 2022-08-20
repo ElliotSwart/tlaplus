@@ -39,7 +39,7 @@ public class BEGraph {
 			}
 		}
 		while (stack.size() != 0) {
-			final BEGraphNode node = (BEGraphNode) stack.pop();
+			final BEGraphNode node = stack.pop();
 			for (int i = 0; i < Objects.requireNonNull(node).nextSize(); i++) {
 				final BEGraphNode node1 = node.nextAt(i);
 				if (node1.resetNumberField() != 0) {
