@@ -262,6 +262,7 @@ public abstract class FPSetManager implements IFPSetManager {
     public BitSet[] putBlock(final LongVec[] fps) {
 		final int len = this.fpSets.size();
 		final BitSet[] res = new BitSet[len];
+
 		for (int i = 0; i < len; i++) {
 			try {
 				res[i] = this.fpSets.get(i).putBlock(fps[i]);
@@ -274,8 +275,9 @@ public abstract class FPSetManager implements IFPSetManager {
 							.println("Warning: there is no fp server available.");
 					// Indicate for all fingerprints of the lost fpset that they are
 					// new. This is achieved by setting all bits in BitSet.
-					final var bitSet = new BitSet(fps[i].size());
-					bitSet.set(0, bitSet.size()-1, true);
+					final var size = fps[i].size();
+					final var bitSet = new BitSet();
+					bitSet.set(0, size, true);
 
 					res[i] = bitSet;
 
@@ -323,9 +325,9 @@ public abstract class FPSetManager implements IFPSetManager {
 							.println("Warning: there is no fp server available.");
 					// Indicate for all fingerprints of the lost fpset that they are
 					// new. This is achieved by setting all bits in BitSet.
-
-					final var bitSet = new BitSet(fps[i].size());
-					bitSet.set(0, bitSet.size()-1, true);
+					final var size = fps[i].size();
+					final var bitSet = new BitSet(size);
+					bitSet.set(0, size, true);
 
 					res[i] = bitSet;
 				} else {

@@ -1,6 +1,7 @@
 package tlc2.util;
 
 import java.io.IOException;
+import java.nio.LongBuffer;
 import java.util.BitSet;
 import java.util.Iterator;
 
@@ -21,18 +22,25 @@ public class BitSetUtilities {
 
     /** Write the bit vector to a file. */
     public static void write(final BitSet bitSet, final BufferedRandomAccessFile raf) throws IOException {
-        final int bytes = bitSet.size() / 8;
-        raf.writeNat(bytes);
-        raf.write(bitSet.toByteArray());
+        final var words = bitSet.toLongArray();
+
+        raf.writeNat(words.length);
+
+        for(final long word : words){
+            raf.writeLong(word);
+        }
     }
 
     /** Read a bit vector from a file */
     public static BitSet fromFile(final BufferedRandomAccessFile raf) throws IOException {
-        final int bytes = raf.readNat();
-        final byte[] byteArray = new byte[bytes];
+        final int wordCount = raf.readNat();
 
-        raf.read(byteArray);
+        final long[] words = new long[wordCount];
 
-        return BitSet.valueOf(byteArray);
+        for(int i=0; i<wordCount;i++){
+            words[i] = raf.readLong();
+        }
+
+        return BitSet.valueOf(words);
     }
 }

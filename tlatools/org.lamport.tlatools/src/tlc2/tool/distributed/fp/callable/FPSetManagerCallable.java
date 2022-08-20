@@ -33,8 +33,9 @@ public abstract class FPSetManagerCallable implements Callable<BitVectorWrapper>
 			.println("Warning: there is no fp server available.");
 			// Indicate for all fingerprints of the lost fpset that they are
 			// new. This is achieved by setting all bits in BitSet.
-			final var bitSet = new BitSet(fps[index].size());
-			bitSet.set(0, bitSet.size()-1, true);
+			final var size = fps[index].size();
+			final var bitSet = new BitSet(size);
+			bitSet.set(0, size, true);
 			return new BitVectorWrapper(index, bitSet);
 		} else {
 			// Retry with newly assigned FPSet for the given index
