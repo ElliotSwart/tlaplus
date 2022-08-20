@@ -1324,10 +1324,12 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           {
               final SemanticNode body = args[0];
               final IContextEnumerator contextEnumerator = this.contexts(init, c, ps, EmptyState, EvalControl.Init, cm);
-              final Context c1 = contextEnumerator.next();
+
               if (!contextEnumerator.hasNext()) {
                   this.getInitStates(acts, ps, states, cm);
               } else {
+                  final Context c1 = contextEnumerator.next();
+
                   ActionItemList acts1 = acts;
                   while(contextEnumerator.hasNext()){
                       Context c2 = contextEnumerator.next();
@@ -1831,10 +1833,12 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           {
               final SemanticNode body = args[0];
               final IContextEnumerator contextEnumerator = this.contexts(pred, c, s0, s1, EvalControl.Clear, cm);
-              final Context c1 = contextEnumerator.next();
+
               if (!contextEnumerator.hasNext()) {
                   resState = this.getNextStates(action, acts, s0, s1, nss, cm);
               } else {
+                  final Context c1 = contextEnumerator.next();
+
                   ActionItemList acts1 = acts;
 
                   while(contextEnumerator.hasNext()){
@@ -3549,10 +3553,13 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           {
               final SemanticNode body = args[0];
               final IContextEnumerator contextEnumerator = this.contexts(pred, c, s0, s1, EvalControl.Enabled, cm);
-              final Context c1 = contextEnumerator.next();
+
               if (!contextEnumerator.hasNext()) {
                   return this.enabled(acts, s0, s1, cm);
               }
+
+              final Context c1 = contextEnumerator.next();
+
               ActionItemList acts1 = acts;
 
               while(contextEnumerator.hasNext()){

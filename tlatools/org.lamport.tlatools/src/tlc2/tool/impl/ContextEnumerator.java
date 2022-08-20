@@ -40,7 +40,7 @@ public final class ContextEnumerator implements IContextEnumerator {
 
     @Override
     public boolean hasNext() {
-        return isDone;
+        return !isDone;
     }
 
     @Override
