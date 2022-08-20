@@ -19,8 +19,7 @@ import tlc2.tool.TLCState;
 import tlc2.tool.TLCStateInfo;
 import tlc2.util.FP64;
 import tlc2.util.LongObjTable;
-import tlc2.util.MemObjectStack;
-import tlc2.util.ObjectStack;
+import java.util.Stack;
 import tlc2.util.SetOfStates;
 import java.util.ArrayList;
 import tlc2.util.statistics.DummyBucketStatistics;
@@ -44,7 +43,7 @@ public class LiveCheck1 implements ILiveCheck {
 
 	private OrderOfSolution currentOOS = null;
 	private PossibleErrorModel currentPEM = null;
-	private ObjectStack comStack = null;
+	private Stack<BEGraphNode> comStack = null;
 
 	/* firstNum ranges from 1 to MAX_FIRST. */
 	private long firstNum = 1;
@@ -101,7 +100,7 @@ public class LiveCheck1 implements ILiveCheck {
 
 	private void initSccParams(final OrderOfSolution os) {
 		currentOOS = os;
-		comStack = new MemObjectStack(metadir, "comstack");
+		comStack = new Stack<>();
 		firstNum = 1;
 		secondNum = MAX_FIRST + 1;
 		thirdNum = MAX_SECOND + 1;
@@ -513,7 +512,7 @@ public class LiveCheck1 implements ILiveCheck {
 		MP.printError(EC.TLC_TEMPORAL_PROPERTY_VIOLATED);
 		MP.printError(EC.TLC_COUNTER_EXAMPLE);
 		// First, find a "bad" cycle from the "bad" scc.
-		final ObjectStack cycleStack = new MemObjectStack(metadir, "cyclestack");
+		final Stack<BEGraphNode> cycleStack = new Stack<>();
 		final int slen = currentOOS.getCheckState().length;
 		final int alen = currentOOS.getCheckAction().length;
 		final long lowNum = thirdNum - 1;
@@ -703,7 +702,7 @@ public class LiveCheck1 implements ILiveCheck {
 		final boolean[] AEStateRes = new boolean[currentPEM.AEState.length];
 		final boolean[] AEActionRes = new boolean[currentPEM.AEAction.length];
 		final boolean[] promiseRes = new boolean[currentOOS.getPromises().length];
-		final ObjectStack stack = new MemObjectStack(metadir, "subcomstack");
+		final Stack<BEGraphNode> stack = new Stack<>();
 
 		node.incNumber();
 		stack.push(node);

@@ -8,7 +8,7 @@ package tlc2.tool.liveness;
 import tlc2.output.EC;
 import tlc2.tool.EvalException;
 import java.util.ArrayDeque;
-import tlc2.util.MemObjectStack;
+import java.util.Stack;
 import java.util.ArrayList;
 
 import java.util.Objects;
@@ -32,7 +32,7 @@ public class BEGraph {
 	 * to 0. Assume that all the nodes have non-zero number fields.
 	 */
 	public final void resetNumberField() {
-		final MemObjectStack stack = new MemObjectStack(this.metadir, "resetstack");
+		final Stack<BEGraphNode> stack = new Stack<>();
 		for (final BEGraphNode node : this.initNodes) {
 			if (node.resetNumberField() != 0) {
 				stack.push(node);
