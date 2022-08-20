@@ -26,7 +26,6 @@ import tlc2.TLCGlobals;
 import tlc2.output.EC;
 import tlc2.output.MP;
 import tlc2.tool.TLCState;
-import tlc2.tool.TLCStateVec;
 import tlc2.tool.WorkerException;
 import tlc2.tool.distributed.fp.IFPSetManager;
 
@@ -81,6 +80,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 	/* (non-Javadoc)
 	 * @see tlc2.tool.distributed.TLCWorkerRMI#getNextStates(tlc2.tool.TLCState[])
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
     public synchronized NextStateResult getNextStates(final TLCState[] states)
 			throws WorkerException, RemoteException {
@@ -117,14 +117,14 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 			// create containers for each fingerprint _server_
 			final int fpServerCnt = this.fpSetManager.numOfServers();
 			// previous state
-			final TLCStateVec[] pvv = new TLCStateVec[fpServerCnt];
+			final ArrayList<TLCState>[] pvv = new ArrayList[fpServerCnt];
 			// container for all succ states
-			final TLCStateVec[] nvv = new TLCStateVec[fpServerCnt];
+			final ArrayList<TLCState>[] nvv = new ArrayList[fpServerCnt];
 			// container for all succ state fingerprints
 			final LongVec[] fpvv = new LongVec[fpServerCnt];
 			for (int i = 0; i < fpServerCnt; i++) {
-				pvv[i] = new TLCStateVec();
-				nvv[i] = new TLCStateVec();
+				pvv[i] = new ArrayList<>();
+				nvv[i] = new ArrayList<>();
 				fpvv[i] = new LongVec();
 			}
 			
@@ -144,8 +144,8 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 				last = fp;
 
 				final int fpIndex = fpSetManager.getFPSetIndex(fp);
-				pvv[fpIndex].addElement(holder.getParentState());
-				nvv[fpIndex].addElement(holder.getNewState());
+				pvv[fpIndex].add(holder.getParentState());
+				nvv[fpIndex].add(holder.getNewState());
 				fpvv[fpIndex].addElement(fp);
 			}
 
@@ -153,23 +153,23 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 
 			// Remove the states that have already been seen, check if the
 			// remaining new states are valid and inModel.
-			final TLCStateVec[] newStates = new TLCStateVec[fpServerCnt];
+			final ArrayList<TLCState>[] newStates = new ArrayList[fpServerCnt];
 			final LongVec[] newFps = new LongVec[fpServerCnt];
 			for (int i = 0; i < fpServerCnt; i++) {
-				newStates[i] = new TLCStateVec();
+				newStates[i] = new ArrayList<TLCState>();
 				newFps[i] = new LongVec();
 			}
 
 			for (int i = 0; i < fpServerCnt; i++) {
 				for (var it =  visited[i].stream().iterator(); it.hasNext();) {
 					var index = it.next();
-					state1 = pvv[i].elementAt(index);
-					state2 = nvv[i].elementAt(index);
+					state1 = pvv[i].get(index);
+					state2 = nvv[i].get(index);
 					this.work.checkState(state1, state2);
 					if (this.work.isInModel(state2)
 							&& this.work.isInActions(state1, state2)) {
 						state2.uid = state1.uid;
-						newStates[i].addElement(state2);
+						newStates[i].add(state2);
 						newFps[i].addElement(fpvv[i].elementAt(index));
 					}
 				}

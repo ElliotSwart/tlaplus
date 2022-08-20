@@ -10,9 +10,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URI;
 import java.rmi.RemoteException;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -20,14 +18,12 @@ import tlc2.TLCGlobals;
 import tlc2.output.EC;
 import tlc2.output.MP;
 import tlc2.tool.TLCState;
-import tlc2.tool.TLCStateVec;
 import tlc2.tool.WorkerException;
 import tlc2.tool.distributed.selector.IBlockSelector;
 import tlc2.tool.fp.FPSet;
 import tlc2.tool.impl.Tool;
 import tlc2.tool.queue.IStateQueue;
 import tlc2.tool.queue.StateQueue;
-import java.util.BitSet;
 
 import tlc2.util.IdThread;
 import tlc2.util.LongVec;
@@ -154,7 +150,7 @@ public class TLCServerThread extends IdThread {
 	@Override
     public void run() {
 		TLCGlobals.incNumWorkers();
-		TLCStateVec[] newStates = null;
+		ArrayList<TLCState>[] newStates = null;
 		LongVec[] newFps = null;
 		setUsingModelChecker(Tool.Mode.MC);
 		final IStateQueue stateQueue = this.tlcServer.stateQueue;
@@ -240,7 +236,7 @@ public class TLCServerThread extends IdThread {
 				for (int i = 0; i < visited.length; i++) {
 					for (var it =  visited[i].stream().iterator(); it.hasNext();) {
 						final int index = it.next();
-						final TLCState state = newStates[i].elementAt(index);
+						final TLCState state = newStates[i].get(index);
 						// write state id and state fp to .st file for
 						// checkpointing
 						final long fp = newFps[i].elementAt(index);

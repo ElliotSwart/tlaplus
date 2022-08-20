@@ -2,8 +2,9 @@
 package tlc2.tool.distributed;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
-import tlc2.tool.TLCStateVec;
+import tlc2.tool.TLCState;
 import tlc2.util.LongVec;
 
 @SuppressWarnings("serial")
@@ -11,10 +12,10 @@ public class NextStateResult implements Serializable {
 
 	private final long computationTime;
 	private final long statesComputed;
-	private final TLCStateVec[] nextStates;
+	private final ArrayList<TLCState>[] nextStates;
 	private final LongVec[] nextFingerprints;
 	
-	public NextStateResult(final TLCStateVec[] nextStates, final LongVec[] nextFingerprints,
+	public NextStateResult(final ArrayList<TLCState>[] nextStates, final LongVec[] nextFingerprints,
                            final long computationTime, final long statesComputed) {
 		this.nextStates = nextStates;
 		this.nextFingerprints = nextFingerprints;
@@ -34,7 +35,7 @@ public class NextStateResult implements Serializable {
 		return nextFingerprints;
 	}
 
-	public TLCStateVec[] getNextStates() {
+	public ArrayList<TLCState>[] getNextStates() {
 		return nextStates;
 	}
 }
