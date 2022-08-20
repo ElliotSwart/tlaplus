@@ -70,7 +70,7 @@ import tlc2.overrides.TLAPlusOperator;
 import tlc2.tool.*;
 import tlc2.tool.impl.Tool.Mode;
 import tlc2.util.Context;
-import tlc2.util.List;
+import java.util.List;
 import java.util.ArrayList;
 import tlc2.value.IBoolValue;
 import tlc2.value.IValue;
@@ -860,7 +860,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                 {
                     Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { specName });
                 }
-                this.processConfigSpec(opDef.getBody(), Context.Empty, List.Empty);
+                this.processConfigSpec(opDef.getBody(), Context.Empty, new LinkedList<>());
             } else if (spec == null)
             {
                 Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[] { "name", specName });
@@ -882,7 +882,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                 {
                     Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { propName });
                 }
-                this.processConfigProps(propName, opDef.getBody(), Context.Empty, List.Empty);
+                this.processConfigProps(propName, opDef.getBody(), Context.Empty, new LinkedList<>());
             } else if (prop == null)
             {
                 Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[] { "property", propName });
@@ -1067,11 +1067,15 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     }
 
     /* Process the SPECIFICATION field of the config file.  */
-    private void processConfigSpec(final ExprNode pred, final Context c, final List subs)
+    private void processConfigSpec(final ExprNode pred, final Context c, final LinkedList<SubstInNode> subs)
     {
         if (pred instanceof final SubstInNode pred1)
         {
-            this.processConfigSpec(pred1.getBody(), c, subs.cons(pred1));
+            // cons
+            var s = new LinkedList<>(subs);
+            s.addFirst(pred1);
+
+            this.processConfigSpec(pred1.getBody(), c, s);
             return;
         }
         
@@ -1242,15 +1246,18 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
                         final SubscriptCollector collector = new SubscriptCollector();
                         Context c1 = c;
-                        List subs1 = subs;
+                        var subs1 = subs;
                         while (!subs1.isEmpty())
                         {
-                            final SubstInNode sn = (SubstInNode) subs1.car();
+                            // car
+                            final SubstInNode sn = subs1.getFirst();
                             final Subst[] snsubs = sn.getSubsts();
                             for (final Subst snsub : snsubs) {
                                 c1 = c1.cons(snsub.getOp(), symbolNodeValueLookupProvider.getVal(snsub.getExpr(), c, false, toolId));
                             }
-                            subs1 = subs1.cdr();
+
+                            // cdr
+                            subs1 = new LinkedList<>(subs1.subList(1, subs1.size()));
                         }
                         collector.enter(subscript, c1);
                         varsInSubscript = collector.getComponents();
@@ -1307,11 +1314,15 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     }
 
     /* Process the PROPERTIES field of the config file. */
-    private void processConfigProps(String name, final ExprNode pred, final Context c, final List subs)
+    private void processConfigProps(String name, final ExprNode pred, final Context c, final LinkedList<SubstInNode> subs)
     {
         if (pred instanceof final SubstInNode pred1)
         {
-            this.processConfigProps(name, pred1.getBody(), c, subs.cons(pred1));
+            // cons
+            var s = new LinkedList<>(subs);
+            s.addFirst(pred1);
+
+            this.processConfigProps(name, pred1.getBody(), c, s);
             return;
         }
         if (pred instanceof final OpApplNode pred1)

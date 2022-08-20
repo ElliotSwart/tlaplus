@@ -33,7 +33,8 @@ import tla2sany.semantic.OpDefNode;
 import tla2sany.semantic.SubstInNode;
 import tla2sany.semantic.SymbolNode;
 import tlc2.util.Context;
-import tlc2.util.List;
+
+import java.util.LinkedList;
 import tlc2.value.impl.LazyValue;
 
 public abstract class Specs {
@@ -70,15 +71,18 @@ public abstract class Specs {
 	 * @param subs
 	 * @return
 	 */
-	public static ExprNode addSubsts(final ExprNode expr, List subs)
+	public static ExprNode addSubsts(final ExprNode expr, LinkedList<SubstInNode> subs)
 	{
 	    ExprNode res = expr;
 	
 	    while (!subs.isEmpty())
 	    {
-	        final SubstInNode sn = (SubstInNode) subs.car();
+			// car
+	        final SubstInNode sn = subs.getFirst();
 	        res = new SubstInNode(sn.stn, sn.getSubsts(), res, sn.getInstantiatingModule(), sn.getInstantiatedModule());
-	        subs = subs.cdr();
+
+			// cdr
+			subs = new LinkedList<>(subs.subList(1, subs.size()));
 	    }
 	    return res;
 	}
