@@ -32,24 +32,6 @@ public class ByteUtils {
   }
 
   /*
-   * Input: No restrictions.  Output: a byte array of size 8 (this
-   * is all that's needed for a Java long) that when converted to
-   * a BigInt equals the BigInt corresponding to x.
-   */
-  public static byte[] longToByteArray(final long x) {
-    final byte[] b = new byte[8];
-    b[0] = (byte) (x >>> 56);
-    b[1] = (byte) (x >>> 48);
-    b[2] = (byte) (x >>> 40);
-    b[3] = (byte) (x >>> 32);
-    b[4] = (byte) (x >>> 24);
-    b[5] = (byte) (x >>> 16);
-    b[6] = (byte) (x >>>  8);
-    b[7] = (byte) (x       );
-    return b;
-  }
-
-  /*
    * Output: Converts the BigInt corresponding to bA to an int
    * and returns it. Standard narrowing primitive conversion as per
    * The Java Language Specification.
@@ -60,23 +42,6 @@ public class ByteUtils {
     final int i2 = (b[2] & 0xFF) << 8;
     final int i3 = (b[3] & 0xFF);
     return (i0 | i1 | i2 | i3);
-  }
-
-  /*
-   * Output: Converts the BigInt corresponding to bA to a long
-   * and returns it. Standard narrowing primitive conversion as per
-   * The Java Language Specification.
-   */
-  public static long byteArrayToLong(final byte[] b) {
-    final long i0 = (long) (b[0] & 0xFF) << 56;
-    final long i1 = (long) (b[1] & 0xFF) << 48;
-    final long i2 = (long) (b[2] & 0xFF) << 40;
-    final long i3 = (long) (b[3] & 0xFF) << 32;
-    final long i4 = (long) (b[4] & 0xFF) << 24;
-    final long i5 = (long) (b[5] & 0xFF) << 16;
-    final long i6 = (long) (b[6] & 0xFF) << 8;
-    final long i7 = b[7] & 0xFF;
-    return (i0 | i1 | i2 | i3 | i4 | i5 | i6 | i7);
   }
 
   /*
@@ -133,14 +98,6 @@ public class ByteUtils {
     out.write(intToByteArray(i));
   }
 
-  /*
-   * Converts l to a byte array and writes the result to out.
-   * @see longToByteArray
-   */
-  public static void writeLong(final OutputStream out, final long l)
-  throws IOException {
-    out.write(longToByteArray(l));
-  }
 
   /*
    * Writes the size of bA (using four bytes) and bA to out. The size
@@ -159,53 +116,7 @@ public class ByteUtils {
     writeSizeByteArray(out, b.toByteArray());
   }
 
-  /*
-   * Writes bA to out, using length bytes.  Input: the length of bA
-   * should be <= length, otherwise, a runtime error is thrown.
-   */
-  public static void writeByteArray(final OutputStream out, final byte[] bA, final int len)
-  throws IOException {
-    final int bAlen = bA.length;
 
-    if (bAlen > len) {
-        throw new IOException("writeByteArray: the byte array too large");
-    }
-    out.write(byteArrayToByteArray(bA, len));
-  }
-
-  /* Converts b to a byte array and calls writeByteArray. */
-  public static void writeBigInt(final OutputStream out, final BigInt b, final int len)
-  throws IOException {
-    
-    writeByteArray(out, b.toByteArray(), len);
-  }
-
-  /*
-   * Writes the length of the sub array and then (length, byte[])
-   * pairs (for each BigInt in the sub array) to out.  The
-   * subarray starts at A[start] and finishes at A[finish].  byte[]
-   * is the byte array representation of the BigInt, and length
-   * is the size of byte[]
-   */
-  public static void writeSizeArrayOfSizeBigInts 
-  (final BigInt[] A, final int start, final int finish, final OutputStream out)
-  throws IOException {
-    writeInt(out, finish-start+1);
-    writeArrayOfSizeBigInts(A,start,finish,out);
-  }
-  
-  /*
-   * Writes (length, byte[]) pairs (for each BigInt in the sub
-   * array) to out.  The subarray starts at A[start] and finishes at
-   * A[finish].  byte[] is the byte array representation of the
-   * BigInt, and length is the size of byte[].
-   */
-  public static void writeArrayOfSizeBigInts
-  (final BigInt[] A, final int start, final int finish, final OutputStream out)
-  throws IOException {
-    for (int i = start; i <= finish; i++) 
-      writeSizeByteArray(out, A[i].toByteArray());
-  }
 
   /* *************************************************************************** 
      Utility functions for reading InputStreams
@@ -261,45 +172,6 @@ public class ByteUtils {
     return byteArrayToInt(b);
   }
 
-  /** Reads a long from in.  Input: there must at least eight bytes
-      in in, otherwise if there are no bytes, an IOException is thrown
-      (to be used as an end of stream test), but if there are not
-      enough bytes, a runtime error is thrown.  Output: The long
-      corresponding to the next eight bytes.  
-      @see byteArrayToLong */
-  public static long readLong(final InputStream in) throws IOException {
-    final byte[] b = new byte[8];
-    final int cnt = read(in, b);
-
-    if (cnt < 8) {
-      if (cnt <= 0) {
-          throw new IOException("readLong: the imput stream is empty.");
-      }
-      else {
-          throw new IOException("readLong: not enought bytes.");
-      }
-    }
-    return byteArrayToLong(b);
-  }
-
-  /*
-   * Reads an integer (len) and then a byte array of length len and
-   * returns it.  Input: there must at least four bytes in in (for
-   * len) and then len bytes, otherwise if in is empty, an
-   * IOException is thrown, but if there are not enough bytes, a
-   * RuntimeException is thrown.
-   */
-  public static byte[] readSizeByteArray(final InputStream in) throws IOException {
-    final int len = readInt(in);
-    final byte[] bA = new byte[len];
-    final int cnt = read(in, bA);
-
-    if (cnt != len) {
-        throw new IOException("readSizeByteArray: not enough bytes.");
-    }
-    return bA;
-  }
-
   /*
    * Reads an integer (len) and then a BigInt (as a byte array of
    * length len) and returns it.  Input: there must at least four
@@ -353,101 +225,6 @@ public class ByteUtils {
     return A;
   }
 
-  /** Reads in as many (size byte[]) pairs as it can and returns an
-      array of BigInts corresponding to the byte[]s.  Input: in
-      should contain some sequence of (size byte[]) pairs that are
-      consistent, i.e. there really are size bytes in the stream,
-      otherwise a RuntimeException is thrown */
-  public static BigInt[] readArrayOfSizeBigInts(final InputStream in) {
-  
-    final Vector<BigInt> A = new Vector<>();
-    int i = 0;
-
-    try {
-      do {
-	A.addElement(readSizeBigInt(in));
-	i++;
-      } while (!Thread.currentThread().isInterrupted());
-    }
-    catch (final IOException e) {}
-    
-    final BigInt[] bA = new BigInt[i];
-    
-    for (int j=0; j<i; j++)
-      bA[j] = A.elementAt(j);
-    
-    return bA;
-  }
-  
-  /*
-   * Reads an integer from in, and appends that many bytes arrays to
-   * out.  Input: If in is empty, an IOException is thrown; if it
-   * doesn't have enough bytes, a RuntimeException is throw.
-   */
-  public static void appendByteArray(final InputStream in, final OutputStream out)
-  throws  IOException {
-    final int i;
-    
-    try {
-      i = readInt(in);
-    }
-    catch (final IOException e) {
-      throw new IOException("Can't append in to out; in is empty.");
-    }
-    try {
-      for (int j = 0; j < i; j++)
-	writeSizeByteArray(out, readSizeByteArray(in));
-    }
-    catch (final IOException e) {
-        throw new IOException("Can't append in to out; not enough bytes, but not empty.");
-    }
-  }
-
-  /*
-   * Reads an integer from in, and appends that integer and that many
-   * bytes arrays to out.  Input: If in is empty, an IOException is thrown;
-   * if it doesn't have enough bytes, a RuntimeException is throw.
-   */
-  public static void appendSizeByteArray(final InputStream in, final OutputStream out)
-  throws  IOException {
-    final int i;
-    
-    try {
-      i = readInt(in);
-    }
-    catch (final IOException e) {
-      throw new IOException("Can't append in to out; in is empty.");
-    }
-    writeInt(out,i);
-    try {
-      for (int j=0; j<i; j++)
-	writeSizeByteArray(out, readSizeByteArray(in));
-    }
-    catch (final IOException e) {
-        throw new IOException("Can't append in to out; not enough bytes, but not empty.");
-    }
-  }
-
-  
-  /* *************************************************************************** 
-     Pretty printing code.
-     ***************************************************************************  */
-  public static String printHex(final byte[] b) {
-    final StringBuilder res = new StringBuilder();
-    StringBuffer t, t1;
-
-      for (final byte value : b) {
-          t = new StringBuffer(Integer.toHexString(value));
-          if (t.length() > 2) {
-              t1 = new StringBuffer();
-              t1.append(t.charAt(t.length() - 2));
-              t1.append(t.charAt(t.length() - 1));
-              t = t1;
-          }
-          res.append(t);
-      }
-    return res.toString();
-  }
 
 
 

@@ -28,7 +28,6 @@ import java.util.zip.GZIPOutputStream;
 import tlc2.TLCGlobals;
 import tlc2.output.EC;
 import tlc2.util.BigInt;
-import tlc2.util.ByteUtils;
 
 /**
  * Utilities for file modifications
@@ -170,26 +169,6 @@ public class FileUtil
         } else
         {
             return new FileOutputStream(file, app);
-        }
-    }
-
-    /**
-     * Print array of big integers read from a input stream
-     * @param in
-     * @throws IOException
-     */
-    public static void printArrayOfBigInts(final InputStream in) throws IOException
-    {
-        final BigInt[] A = ByteUtils.readSizeArrayOfSizeBigInts(in);
-        for (final BigInt bigInt : A) {
-            ToolIO.out.println(bigInt);
-        }
-    }
-
-    public static void printSizeArrayOfSizeBigIntegers(final InputStream in) throws IOException {
-        final BigInteger[] A = ByteUtils.readSizeArrayOfSizeBigInts(in);
-        for (final BigInteger bigInteger : A) {
-            ToolIO.out.println(bigInteger);
         }
     }
 
