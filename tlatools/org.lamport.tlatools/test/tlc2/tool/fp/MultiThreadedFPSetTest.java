@@ -129,8 +129,7 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 public void run() {
 					final long currentSize = fpSet.size();
 					final long insertions = currentSize - previousSize;
-					if (fpSet instanceof FPSetStatistic) {
-						final FPSetStatistic fpSetStatistics = (FPSetStatistic) fpSet;
+					if (fpSet instanceof final FPSetStatistic fpSetStatistics) {
 						System.out.println(System.currentTimeMillis() + " s (epoch); " + df.format(insertions) + " insertions/min; " + pf.format(fpSetStatistics.getLoadFactor()) + " load factor");
 					} else {
 						System.out.println(System.currentTimeMillis() + " s (epoch); " + df.format(insertions) + " insertions/min");

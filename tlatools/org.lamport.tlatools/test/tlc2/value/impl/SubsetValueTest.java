@@ -30,12 +30,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -78,15 +73,7 @@ public class SubsetValueTest {
 		final SubsetValue subsetValue = new SubsetValue(innerSet);
 		assertEquals(expectedSize, subsetValue.size());
 
-		final Set<Value> s = new TreeSet<>((o1, o2) -> {
-			// o1.normalize();
-			// ((SetEnumValue) o1).elems.sort(true);
-			//
-			// o2.normalize();
-			// ((SetEnumValue) o2).elems.sort(true);
-
-			return o1.compareTo(o2);
-		});
+		final Set<Value> s = new TreeSet<>(Comparator.naturalOrder());
 		
 		final ValueEnumeration elements = subsetValue.elements(expectedElements);
 		assertTrue(elements instanceof SubsetEnumerator);

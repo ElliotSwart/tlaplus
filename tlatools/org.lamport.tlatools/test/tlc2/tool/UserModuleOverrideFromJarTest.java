@@ -29,6 +29,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.junit.Test;
@@ -50,7 +51,7 @@ public class UserModuleOverrideFromJarTest extends ModelCheckerTestCase {
 	public void testSpec() {
 		final List<String[]> mismatches = recorder.getRecordAsStringArray(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE_MISMATCH);
 		assertEquals(2, mismatches.size());
-		mismatches.sort((o1, o2) -> o1[0].compareTo(o2[0]));
+		mismatches.sort(Comparator.comparing(o -> o[0]));
 		
 		// arity mismatch
 		String[] strs = mismatches.get(0);
