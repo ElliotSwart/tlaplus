@@ -5,10 +5,10 @@
 
 package tlc2.tool.liveness;
 
-import tlc2.util.Vect;
+import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class TBGraph extends Vect<TBGraphNode> {
+public class TBGraph extends ArrayList<TBGraphNode> {
 	/**
 	 * TBGraph represents the nodes in the tableau graph.
 	 */
@@ -36,7 +36,7 @@ public class TBGraph extends Vect<TBGraphNode> {
 		this.initCnt = 0;
 		
 		final TBPar initTerms = new TBPar(1);
-		initTerms.addElement(tf);
+		initTerms.add(tf);
 		
 		// TBPar#particleClosure implements the tableau construction method described on
 		// page 452 of the Manna & Pnueli book, which works under the assumption that
@@ -52,18 +52,18 @@ public class TBGraph extends Vect<TBGraphNode> {
 
 		for (int i = 0; i < pars.size(); i++) {
 			final TBGraphNode gn = new TBGraphNode(pars.parAt(i));
-			this.addElement(gn);
+			this.add(gn);
 		}
 		this.setInitCnt(this.size());
 		// We now repeatedly compute the outlinks of each node:
 		for (int i = 0; i < this.size(); i++) {
-			final TBGraphNode gnSrc = this.elementAt(i);
+			final TBGraphNode gnSrc = this.get(i);
 			final TBPar imps = gnSrc.getPar().impliedSuccessors();
 			final TBParVec succs = imps.particleClosure();
 			for (int j = 0; j < succs.size(); j++) {
 				final TBPar par = succs.parAt(j);
 				final TBGraphNode gnDst = findOrCreateNode(par);
-				gnSrc.nexts.addElement(gnDst);
+				gnSrc.nexts.add(gnDst);
 			}
 		}
 		// Assign each node in the tableau an index.
@@ -79,18 +79,18 @@ public class TBGraph extends Vect<TBGraphNode> {
 	 */
 	private TBGraphNode findOrCreateNode(final TBPar par) {
 		for (int i = 0; i < this.size(); i++) {
-			final TBGraphNode gn = this.elementAt(i);
+			final TBGraphNode gn = this.get(i);
 			if (par.equals(gn.getPar())) {
 				return gn;
 			}
 		}
 		final TBGraphNode gn = new TBGraphNode(par);
-		this.addElement(gn);
+		this.add(gn);
 		return gn;
 	}
 
 	public TBGraphNode getNode(final int idx) {
-		return this.elementAt(idx);
+		return this.get(idx);
 	}
 
 	public final void setInitCnt(final int n) {

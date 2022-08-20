@@ -35,7 +35,7 @@ import tlc2.tool.liveness.LiveException;
 import tlc2.tool.liveness.NoOpLiveCheck;
 import tlc2.util.DotActionWriter;
 import tlc2.util.RandomGenerator;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 import tlc2.util.statistics.DummyBucketStatistics;
 import tlc2.value.IValue;
 import tlc2.value.impl.BoolValue;
@@ -601,7 +601,7 @@ public class Simulator {
 	private void writeActionFlowGraphFull() throws IOException {		
 		// The number of actions is expected to be low (dozens commons and hundreds are
 		// rare). This is why the code below isn't optimized for performance.
-		final Vect<Action> initAndNext = tool.getSpecActions();
+		final ArrayList<Action> initAndNext = tool.getSpecActions();
 		final int len = initAndNext.size();
 		
 		// Clusters of actions that have the same context:
@@ -611,7 +611,7 @@ public class Simulator {
 		// Next == \E p \in Proc : A(p)
 		final Map<String, Set<Integer>> clusters = new HashMap<>();
 		for (int i = 0; i < len; i++) {
-			final String con = initAndNext.elementAt(i).con.toString();
+			final String con = initAndNext.get(i).con.toString();
 			if (!clusters.containsKey(con)) {
 				clusters.put(con, new HashSet<>());	
 			}
@@ -628,7 +628,7 @@ public class Simulator {
 			
 			final Set<Integer> ids = cluster.getValue();
 			for (final Integer id : ids) {
-				dotActionWriter.write(initAndNext.elementAt(id), id);
+				dotActionWriter.write(initAndNext.get(id), id);
 			}
 			dotActionWriter.writeSubGraphEnd();
 		}					
@@ -648,7 +648,7 @@ public class Simulator {
 		// Create a map from id to action name.
 		final Map<Integer, Action> idToActionName = new HashMap<>();
 		for (int i = 0; i < initAndNext.size(); i++) {
-			final Action action = initAndNext.elementAt(i);
+			final Action action = initAndNext.get(i);
 			idToActionName.put(action.getId(), action);
 		}
 
@@ -677,7 +677,7 @@ public class Simulator {
 	private void writeActionFlowGraphBasic() throws IOException {
 		// The number of actions is expected to be low (dozens commons and hundreds a
 		// rare). This is why the code below isn't optimized for performance.
-		final Vect<Action> initAndNext = tool.getSpecActions();
+		final ArrayList<Action> initAndNext = tool.getSpecActions();
 		final int len = initAndNext.size();
 		
 		// Element-wise sum the statistics from all workers.
@@ -696,7 +696,7 @@ public class Simulator {
 		final Map<Integer, Action> idToAction = new HashMap<>();
 		final Map<Location, Integer> actionToId = new HashMap<>();
 		for (int i = 0; i < initAndNext.size(); i++) {
-			final Action action = initAndNext.elementAt(i);
+			final Action action = initAndNext.get(i);
 			
 			if (!actionToId.containsKey(action.getDefinition())) {
 				final int id = idToAction.size();
@@ -706,7 +706,7 @@ public class Simulator {
 		}
 		final Map<Integer, Integer> actionsToDistinctActions = new HashMap<>();
 		for (int i = 0; i < initAndNext.size(); i++) {
-			final Action action = initAndNext.elementAt(i);
+			final Action action = initAndNext.get(i);
 			actionsToDistinctActions.put(action.getId(), actionToId.get(action.getDefinition()));
 		}
 		

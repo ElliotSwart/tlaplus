@@ -9,7 +9,7 @@ import tlc2.output.EC;
 import tlc2.tool.EvalControl;
 import tlc2.tool.EvalException;
 import tlc2.tool.impl.TLARegistry;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 import tlc2.value.IBoolValue;
 import tlc2.value.ValueConstants;
 import tlc2.value.Values;
@@ -144,12 +144,12 @@ public class Bags implements ValueConstants
         final Value[] values1 = fcn1.values;
         final Value[] domain2 = fcn2.getDomainAsValues();
         final Value[] values2 = fcn2.values;
-        final Vect<Value> dVec = new Vect<>(domain1.length);
-        final Vect<Value> vVec = new Vect<>(domain1.length);
+        final ArrayList<Value> dVec = new ArrayList<>(domain1.length);
+        final ArrayList<Value> vVec = new ArrayList<>(domain1.length);
         for (int i = 0; i < domain1.length; i++)
         {
-            dVec.addElement(domain1[i]);
-            vVec.addElement(values1[i]);
+            dVec.add(domain1[i]);
+            vVec.add(values1[i]);
         }
         for (int i = 0; i < domain2.length; i++)
         {
@@ -160,23 +160,23 @@ public class Bags implements ValueConstants
                 {
                     final int v1 = ((IntValue) values1[j]).val;
                     final int v2 = ((IntValue) values2[i]).val;
-                    vVec.setElementAt(IntValue.gen(v1 + v2), j);
+                    vVec.set(j, IntValue.gen(v1 + v2));
                     found = true;
                     break;
                 }
             }
             if (!found)
             {
-                dVec.addElement(domain2[i]);
-                vVec.addElement(values2[i]);
+                dVec.add(domain2[i]);
+                vVec.add(values2[i]);
             }
         }
         final Value[] domain = new Value[dVec.size()];
         final Value[] values = new Value[dVec.size()];
         for (int i = 0; i < domain.length; i++)
         {
-            domain[i] = dVec.elementAt(i);
-            values[i] = vVec.elementAt(i);
+            domain[i] = dVec.get(i);
+            values[i] = vVec.get(i);
         }
         return new FcnRcdValue(domain, values, false);
     }
@@ -199,8 +199,8 @@ public class Bags implements ValueConstants
         final Value[] values1 = fcn1.values;
         final Value[] domain2 = fcn2.getDomainAsValues();
         final Value[] values2 = fcn2.values;
-        final Vect<Value> dVec = new Vect<>(domain1.length);
-        final Vect<Value> vVec = new Vect<>(domain1.length);
+        final ArrayList<Value> dVec = new ArrayList<>(domain1.length);
+        final ArrayList<Value> vVec = new ArrayList<>(domain1.length);
         for (int i = 0; i < domain1.length; i++)
         {
             int v1 = ((IntValue) values1[i]).val;
@@ -215,16 +215,16 @@ public class Bags implements ValueConstants
             }
             if (v1 > 0)
             {
-                dVec.addElement(domain1[i]);
-                vVec.addElement(IntValue.gen(v1));
+                dVec.add(domain1[i]);
+                vVec.add(IntValue.gen(v1));
             }
         }
         final Value[] domain = new Value[dVec.size()];
         final Value[] values = new Value[vVec.size()];
         for (int i = 0; i < domain.length; i++)
         {
-            domain[i] = dVec.elementAt(i);
-            values[i] = vVec.elementAt(i);
+            domain[i] = dVec.get(i);
+            values[i] = vVec.get(i);
         }
         return new FcnRcdValue(domain, values, fcn1.isNormalized());
     }

@@ -26,6 +26,7 @@
 package tlc2.tool;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -36,7 +37,7 @@ import tlc2.tool.impl.ModelConfig;
 import tlc2.tool.impl.Tool.Mode;
 import tlc2.util.Context;
 import tlc2.util.ObjLongTable;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 import tlc2.value.IFcnLambdaValue;
 import tlc2.value.IMVPerm;
 import tlc2.value.IValue;
@@ -174,7 +175,7 @@ public interface ITool extends TraceApp {
 
 	IContextEnumerator contexts(OpApplNode appl, Context c, TLCState s0, TLCState s1, int control);
 
-	Vect<Action> getInitStateSpec();
+	ArrayList<Action> getInitStateSpec();
 
 	Action[] getInvariants();
 
@@ -287,7 +288,7 @@ public interface ITool extends TraceApp {
 
 	ExternalModuleTable getModuleTbl();
 
-	Vect<Action> getInitPred();
+	ArrayList<Action> getInitPred();
 
 	Map<ModuleNode, Map<OpDefOrDeclNode, Object>> getConstantDefns();
 
@@ -313,7 +314,9 @@ public interface ITool extends TraceApp {
 		return this;
 	}
 
-	default Vect<Action> getSpecActions() {
-		return getInitStateSpec().concat(new Vect<>(getActions()));
+	default ArrayList<Action> getSpecActions() {
+		var specActions = getInitStateSpec();
+		specActions.addAll(Arrays.asList(getActions()));
+		return specActions;
 	}
 }

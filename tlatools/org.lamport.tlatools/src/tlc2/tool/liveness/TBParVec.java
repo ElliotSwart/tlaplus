@@ -5,9 +5,9 @@
 
 package tlc2.tool.liveness;
 
-import tlc2.util.Vect;
+import java.util.ArrayList;
 
-public class TBParVec extends Vect<TBPar> {
+public class TBParVec extends ArrayList<TBPar> {
 
 	private static final long serialVersionUID = -3448802399964070243L;
 
@@ -16,7 +16,7 @@ public class TBParVec extends Vect<TBPar> {
 	}
 
 	public final TBPar parAt(final int i) {
-		return elementAt(i);
+		return get(i);
 	}
 
 	/* This method tests whether a particle is in a list of other particles */
@@ -34,11 +34,11 @@ public class TBParVec extends Vect<TBPar> {
 		final TBParVec res = new TBParVec(this.size() + ps.size());
 		for (int i = 0; i < this.size(); i++) {
 			if (!ps.contains(this.parAt(i))) {
-				res.addElement(this.parAt(i));
+				res.add(this.parAt(i));
 			}
 		}
 		for (int i = 0; i < ps.size(); i++) {
-			res.addElement(ps.parAt(i));
+			res.add(ps.parAt(i));
 		}
 		return res;
 	}

@@ -627,9 +627,9 @@ public class LiveCheck implements ILiveCheck {
 			// trades speed for additional memory usage (BitVector).
 			final TBGraph tableau = oos.getTableau();
 			final BitVector consistency = new BitVector(tableau.size() * succCnt);
-			final Enumeration<TBGraphNode> elements = tableau.elements();
-			while(elements.hasMoreElements()) {
-				final TBGraphNode tableauNode = elements.nextElement();
+
+			for(final TBGraphNode tableauNode : tableau) {
+
 				for (int sidx = 0; sidx < succCnt; sidx++) {
 					final TLCState s1 = nextStates.next();
 					if(tableauNode.isConsistent(s1, tool)) {

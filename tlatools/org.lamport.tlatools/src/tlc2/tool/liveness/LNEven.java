@@ -69,7 +69,7 @@ class LNEven extends LiveExprNode {
     public void extractPromises(final TBPar promises) {
 		final LNEven lne = this;
 		if (!promises.member(lne)) {
-			promises.addElement(lne);
+			promises.add(lne);
 		}
 		lne.getBody().extractPromises(promises);
 	}

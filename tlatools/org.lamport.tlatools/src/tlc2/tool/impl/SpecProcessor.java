@@ -71,7 +71,7 @@ import tlc2.tool.*;
 import tlc2.tool.impl.Tool.Mode;
 import tlc2.util.Context;
 import tlc2.util.List;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 import tlc2.value.IBoolValue;
 import tlc2.value.IValue;
 import tlc2.value.ValueConstants;
@@ -107,7 +107,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     private final SpecObj specObj;
     private Defns snapshot;
 
-    private final Vect<Action> initPredVec; // The initial state predicate.
+    private final ArrayList<Action> initPredVec; // The initial state predicate.
     private Action nextPred; // The next state predicate.
     private Action[] temporals; // Fairness specifications...
     private String[] temporalNames; // ... and their names
@@ -125,16 +125,16 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     private boolean[] assumptionIsAxiom; // assumptionIsAxiom[i] is true iff assumptions[i]
                                            // is an AXIOM.  Added 26 May 2010 by LL
     
-    private final Vect<Action> invVec = new Vect<>();
-    private final Vect<String> invNameVec = new Vect<>();
-    private Vect<Action> impliedInitVec = new Vect<>();
-    private Vect<String> impliedInitNameVec = new Vect<>();
-    private Vect<Action> impliedActionVec = new Vect<>();
-    private Vect<String> impliedActNameVec = new Vect<>();
-    private Vect<Action> temporalVec = new Vect<>();
-    private Vect<String> temporalNameVec = new Vect<>();
-    private Vect<Action> impliedTemporalVec = new Vect<>();
-    private Vect<String> impliedTemporalNameVec = new Vect<>();
+    private final ArrayList<Action> invVec = new ArrayList<>();
+    private final ArrayList<String> invNameVec = new ArrayList<>();
+    private ArrayList<Action> impliedInitVec = new ArrayList<>();
+    private ArrayList<String> impliedInitNameVec = new ArrayList<>();
+    private ArrayList<Action> impliedActionVec = new ArrayList<>();
+    private ArrayList<String> impliedActNameVec = new ArrayList<>();
+    private ArrayList<Action> temporalVec = new ArrayList<>();
+    private ArrayList<String> temporalNameVec = new ArrayList<>();
+    private ArrayList<Action> impliedTemporalVec = new ArrayList<>();
+    private ArrayList<String> impliedTemporalNameVec = new ArrayList<>();
 
     public boolean hasCallableValue;
 
@@ -148,7 +148,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 		this.config = config;
 		this.tlaClass = tlaClass;
 		this.processedDefs = new HashSet<>();
-        this.initPredVec = new Vect<>(5);
+        this.initPredVec = new ArrayList<>(5);
         this.specObj = obj;
 
         symbolNodeValueLookupProvider = snvlp;
@@ -871,10 +871,10 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         }
 
         // Process the properties:
-        final Vect<Comparable<?>> propNames = this.config.getProperties();
+        final ArrayList<Comparable<?>> propNames = this.config.getProperties();
         for (int i = 0; i < propNames.size(); i++)
         {
-            final String propName = (String) propNames.elementAt(i);
+            final String propName = (String) propNames.get(i);
             final Object prop = this.defns.get(propName);
             if (prop instanceof final OpDefNode opDef)
             {
@@ -897,16 +897,16 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         this.invNames = new String[this.invVec.size()];
         for (int i = 0; i < this.invVec.size(); i++)
         {
-            this.invariants[i] = this.invVec.elementAt(i);
-            this.invNames[i] = this.invNameVec.elementAt(i);
+            this.invariants[i] = this.invVec.get(i);
+            this.invNames[i] = this.invNameVec.get(i);
         }
 
         this.impliedInits = new Action[this.impliedInitVec.size()];
         this.impliedInitNames = new String[this.impliedInitVec.size()];
         for (int i = 0; i < this.impliedInits.length; i++)
         {
-            this.impliedInits[i] = this.impliedInitVec.elementAt(i);
-            this.impliedInitNames[i] = this.impliedInitNameVec.elementAt(i);
+            this.impliedInits[i] = this.impliedInitVec.get(i);
+            this.impliedInitNames[i] = this.impliedInitNameVec.get(i);
         }
         this.impliedInitVec = null;
         this.impliedInitNameVec = null;
@@ -915,8 +915,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         this.impliedActNames = new String[this.impliedActionVec.size()];
         for (int i = 0; i < this.impliedActions.length; i++)
         {
-            this.impliedActions[i] = this.impliedActionVec.elementAt(i);
-            this.impliedActNames[i] = this.impliedActNameVec.elementAt(i);
+            this.impliedActions[i] = this.impliedActionVec.get(i);
+            this.impliedActNames[i] = this.impliedActNameVec.get(i);
         }
         this.impliedActionVec = null;
         this.impliedActNameVec = null;
@@ -925,8 +925,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         this.temporalNames = new String[this.temporalNameVec.size()];
         for (int i = 0; i < this.temporals.length; i++)
         {
-            this.temporals[i] = this.temporalVec.elementAt(i);
-            this.temporalNames[i] = this.temporalNameVec.elementAt(i);
+            this.temporals[i] = this.temporalVec.get(i);
+            this.temporalNames[i] = this.temporalNameVec.get(i);
         }
         this.temporalVec = null;
         this.temporalNameVec = null;
@@ -935,8 +935,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         this.impliedTemporalNames = new String[this.impliedTemporalNameVec.size()];
         for (int i = 0; i < this.impliedTemporals.length; i++)
         {
-            this.impliedTemporals[i] = this.impliedTemporalVec.elementAt(i);
-            this.impliedTemporalNames[i] = this.impliedTemporalNameVec.elementAt(i);
+            this.impliedTemporals[i] = this.impliedTemporalVec.get(i);
+            this.impliedTemporalNames[i] = this.impliedTemporalNameVec.get(i);
         }
         this.impliedTemporalVec = null;
         this.impliedTemporalNameVec = null;
@@ -1000,7 +1000,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                 Assert.fail(EC.TLC_CONFIG_ID_REQUIRES_NO_ARG, new String[] { "initial predicate", name });
             }
 
-            this.initPredVec.addElement(new Action(def.getBody(), Context.Empty, def, true, false));
+            this.initPredVec.add(new Action(def.getBody(), Context.Empty, def, true, false));
         }
 
         name = this.config.getNext();
@@ -1029,10 +1029,10 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
      */
     private void processConfigInvariants()
     {
-        final Vect<Comparable<?>> invs = this.config.getInvariants();
+        final ArrayList<Comparable<?>> invs = this.config.getInvariants();
         for (int i = 0; i < invs.size(); i++)
         {
-            final String name = (String) invs.elementAt(i);
+            final String name = (String) invs.get(i);
             final Object inv = this.defns.get(name);
             if (inv instanceof final OpDefNode def)
             {
@@ -1054,8 +1054,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                		}
                 	Assert.fail(EC.TLC_INVARIANT_VIOLATED_LEVEL, def.getName().toString());
                 }
-                this.invNameVec.addElement(name);
-                this.invVec.addElement(new Action(def.getBody(), Context.Empty, def));
+                this.invNameVec.add(name);
+                this.invVec.add(new Action(def.getBody(), Context.Empty, def));
             } else if (inv == null)
             {
                 Assert.fail(EC.TLC_CONFIG_SPECIFIED_NOT_DEFINED, new String[] { "invariant", name });
@@ -1092,7 +1092,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                     final ExprNode body = odn.getBody();
                     if (symbolNodeValueLookupProvider.getLevelBound(body, c, toolId) == 1)
                     {
-                        this.initPredVec.addElement(new Action(Specs.addSubsts(body, subs), c, odn, true, false));
+                        this.initPredVec.add(new Action(Specs.addSubsts(body, subs), c, odn, true, false));
                     } else
                     {
                         this.processConfigSpec(body, c, subs);
@@ -1136,7 +1136,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                     final ExprNode arg = (ExprNode) oan.getArgs()[0];
                     // ---sm 09/06/04 <<<
                     final ExprNode subscript = (ExprNode) oan.getArgs()[1];
-                    Vect<SymbolNode> varsInSubscript = null;
+                    ArrayList<SymbolNode> varsInSubscript = null;
                     // collect the variables from the subscript...
                     try
                     {
@@ -1152,11 +1152,11 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                              * of this specification object -- otherwise TLC's
                              * analysis is incorrect.
                              **/
-                            final Vect<SymbolNode> components;
+                            final ArrayList<SymbolNode> components;
 
                             SubscriptCollector()
                             {
-                                this.components = new Vect<>();
+                                this.components = new ArrayList<>();
                             }
 
                             void enter(final ExprNode subscript, final Context c)
@@ -1165,7 +1165,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                                 final SymbolNode var = symbolNodeValueLookupProvider.getVar(subscript, c, false, toolId);
                                 if (var != null)
                                 {
-                                    components.addElement(var);
+                                    components.add(var);
                                     return;
                                 }
                                 // otherwise further analyze the expression
@@ -1234,7 +1234,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                                 }
                             }
 
-                            Vect<SymbolNode> getComponents()
+                            ArrayList<SymbolNode> getComponents()
                             {
                                 return components;
                             }
@@ -1279,8 +1279,8 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                     // ---sm 09/06/04 >>>
                 } else
                 {
-                    this.temporalVec.addElement(new Action(Specs.addSubsts(pred, subs), c));
-                    this.temporalNameVec.addElement(pred.toString());
+                    this.temporalVec.add(new Action(Specs.addSubsts(pred, subs), c));
+                    this.temporalNameVec.add(pred.toString());
                 }
                 return;
             }
@@ -1295,11 +1295,11 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         final int level = symbolNodeValueLookupProvider.getLevelBound(pred, c, toolId);
         if (level <= 1)
         {
-            this.initPredVec.addElement(new Action(Specs.addSubsts(pred, subs), c));
+            this.initPredVec.add(new Action(Specs.addSubsts(pred, subs), c));
         } else if (level == 3)
         {
-            this.temporalVec.addElement(new Action(Specs.addSubsts(pred, subs), c));
-            this.temporalNameVec.addElement(pred.toString());
+            this.temporalVec.add(new Action(Specs.addSubsts(pred, subs), c));
+            this.temporalNameVec.add(pred.toString());
         } else
         {
             Assert.fail(EC.TLC_CANT_HANDLE_CONJUNCT, pred.toString());
@@ -1364,20 +1364,20 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                     {
                         name = boxArg1.getOperator().getName().toString();
                     }
-                    this.impliedActNameVec.addElement(name);
-                    this.impliedActionVec.addElement(new Action(Specs.addSubsts(boxArg, subs), c));
+                    this.impliedActNameVec.add(name);
+                    this.impliedActionVec.add(new Action(Specs.addSubsts(boxArg, subs), c));
                 } else if (symbolNodeValueLookupProvider.getLevelBound(boxArg, c, toolId) < 2)
                 {
-                    this.invVec.addElement(new Action(Specs.addSubsts(boxArg, subs), c));
+                    this.invVec.add(new Action(Specs.addSubsts(boxArg, subs), c));
                     if ((boxArg instanceof OpApplNode) && (((OpApplNode) boxArg).getArgs().length == 0))
                     {
                         name = ((OpApplNode) boxArg).getOperator().getName().toString();
                     }
-                    this.invNameVec.addElement(name);
+                    this.invNameVec.add(name);
                 } else
                 {
-                    this.impliedTemporalVec.addElement(new Action(Specs.addSubsts(pred, subs), c));
-                    this.impliedTemporalNameVec.addElement(name);
+                    this.impliedTemporalVec.add(new Action(Specs.addSubsts(pred, subs), c));
+                    this.impliedTemporalNameVec.add(name);
                 }
                 return;
             }
@@ -1391,12 +1391,12 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
         final int level = symbolNodeValueLookupProvider.getLevelBound(pred, c, toolId);
         if (level <= 1)
         {
-            this.impliedInitVec.addElement(new Action(Specs.addSubsts(pred, subs), c));
-            this.impliedInitNameVec.addElement(name);
+            this.impliedInitVec.add(new Action(Specs.addSubsts(pred, subs), c));
+            this.impliedInitNameVec.add(name);
         } else if (level == 3)
         {
-            this.impliedTemporalVec.addElement(new Action(Specs.addSubsts(pred, subs), c));
-            this.impliedTemporalNameVec.addElement(name);
+            this.impliedTemporalVec.add(new Action(Specs.addSubsts(pred, subs), c));
+            this.impliedTemporalNameVec.add(name);
         } else
         {
             Assert.fail(EC.TLC_CONFIG_PROPERTY_NOT_CORRECTLY_DEFINED, name);
@@ -1404,12 +1404,12 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
     }
     
 	private void processActionConstraints() {
-	    final Vect<Comparable<?>> names = this.config.getActionConstraints();
+	    final ArrayList<Comparable<?>> names = this.config.getActionConstraints();
 	    this.actionConstraints = new ExprNode[names.size()];
 	    int idx = 0;
 	    for (int i = 0; i < names.size(); i++)
 	    {
-	        final String name = (String) names.elementAt(i);
+	        final String name = (String) names.get(i);
 	        final Object constr = this.defns.get(name);
 	        if (constr instanceof final OpDefNode def)
 	        {
@@ -1446,12 +1446,12 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 	}
     
 	private void processModelConstraints() {
-	    final Vect<Comparable<?>> names = this.config.getConstraints();
+	    final ArrayList<Comparable<?>> names = this.config.getConstraints();
 	    this.modelConstraints = new ExprNode[names.size()];
 	    int idx = 0;
 	    for (int i = 0; i < names.size(); i++)
 	    {
-	        final String name = (String) names.elementAt(i);
+	        final String name = (String) names.get(i);
 	        final Object constr = this.defns.get(name);
 	        if (constr instanceof final OpDefNode def)
 	        {
@@ -1649,34 +1649,34 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
     // Requires cast
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	private Hashtable<String, Comparable<?>> makeConstantTable(final Vect<Vect<Comparable<?>>> consts)
+	private Hashtable<String, Comparable<?>> makeConstantTable(final ArrayList<ArrayList<Comparable<?>>> consts)
     {
         final Hashtable<String, Comparable<?>> constTbl = new Hashtable<>();
         for (int i = 0; i < consts.size(); i++)
         {
-            final Vect<Comparable<?>> line = consts.elementAt(i);
+            final ArrayList<Comparable<?>> line = consts.get(i);
             final int len = line.size();
-            final String name = (String) line.elementAt(0);
+            final String name = (String) line.get(0);
             if (len <= 2)
             {
-                constTbl.put(name, line.elementAt(1));
+                constTbl.put(name, line.get(1));
             } else
             {
                 final Object val = constTbl.get(name);
                 if (val == null)
                 {
                     final OpRcdValue opVal = new OpRcdValue();
-                    opVal.addLine((Vect)line);
+                    opVal.addLine((ArrayList)line);
                     constTbl.put(name, opVal);
                 } else
                 {
                     final OpRcdValue opVal = (OpRcdValue) val;
-                    final int arity = opVal.domain.elementAt(0).length;
+                    final int arity = opVal.domain.get(0).length;
                     if (len != arity + 2)
                     {
                         Assert.fail(EC.TLC_CONFIG_OP_ARITY_INCONSISTENT, name);
                     }
-                    opVal.addLine((Vect)line);
+                    opVal.addLine((ArrayList)line);
                 }
             }
         }
@@ -1688,7 +1688,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
      */
     private Hashtable<String,Comparable<?>> initializeConstants()
     {
-        final Vect<Vect<Comparable<?>>> consts = this.config.getConstants();
+        final ArrayList<ArrayList<Comparable<?>>> consts = this.config.getConstants();
         if (consts == null)
         {
             return new Hashtable<>();
@@ -1698,7 +1698,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 
     private Hashtable<String, Hashtable<String, Comparable<?>>> initializeModConstants()
     {
-        final Hashtable<String, Vect<Vect<Comparable<?>>>> modConstants = this.config.getModConstants();
+        final Hashtable<String, ArrayList<ArrayList<Comparable<?>>>> modConstants = this.config.getModConstants();
         final Hashtable<String, Hashtable<String, Comparable<?>>> constants = new Hashtable<>();
         final Enumeration<String> mods = modConstants.keys();
         while (mods.hasMoreElements())
@@ -1721,7 +1721,7 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
 		return variablesNodes;
 	}
 	
-	public Vect<Action> getInitPred() {
+	public ArrayList<Action> getInitPred() {
 		return initPredVec;
 	}
 

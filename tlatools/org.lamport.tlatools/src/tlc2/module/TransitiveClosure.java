@@ -9,7 +9,7 @@ import java.util.Hashtable;
 
 import tlc2.output.EC;
 import tlc2.tool.EvalException;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 import tlc2.value.ValueConstants;
 import tlc2.value.Values;
 import tlc2.value.impl.Enumerable;
@@ -34,7 +34,7 @@ public class TransitiveClosure implements ValueConstants
         final int maxLen = 2 * rel.size();
         final boolean[][] matrix = new boolean[maxLen][maxLen];
         final ValueEnumeration elems = ((Enumerable) rel).elements();
-        final Vect<Value> elemList = new Vect<>();
+        final ArrayList<Value> elemList = new ArrayList<>();
         final Hashtable<Value, Integer> fps = new Hashtable<>();
         int cnt = 0;
         Value elem;
@@ -52,7 +52,7 @@ public class TransitiveClosure implements ValueConstants
             if (num == null)
             {
                 fps.put(elem1, cnt);
-                elemList.addElement(elem1);
+                elemList.add(elem1);
                 cnt++;
             } else
             {
@@ -63,7 +63,7 @@ public class TransitiveClosure implements ValueConstants
             if (num == null)
             {
                 fps.put(elem2, cnt);
-                elemList.addElement(elem2);
+                elemList.add(elem2);
                 cnt++;
             } else
             {
@@ -94,8 +94,8 @@ public class TransitiveClosure implements ValueConstants
             {
                 if (matrix[i][j])
                 {
-                	final Value elem1 = elemList.elementAt(i);
-                	final Value elem2 = elemList.elementAt(j);
+                	final Value elem1 = elemList.get(i);
+                	final Value elem2 = elemList.get(j);
                 	final Value newElem = new TupleValue(elem1, elem2);
                     newElems.addElement(newElem);
                 }

@@ -7,39 +7,39 @@ package tlc2.tool.liveness;
 
 import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 
 class LNDisj extends LiveExprNode {
-	private final Vect<LiveExprNode> disjs; // The disjuncts
+	private final ArrayList<LiveExprNode> disjs; // The disjuncts
 	private int info;
 
 	public LNDisj(final int size) {
-		this.disjs = new Vect<>(size);
+		this.disjs = new ArrayList<>(size);
 		this.info = 0;
 	}
 
 	public LNDisj(final LiveExprNode n) {
-		this.disjs = new Vect<>(1);
-		this.disjs.addElement(n);
+		this.disjs = new ArrayList<>(1);
+		this.disjs.add(n);
 		final int level = n.getLevel();
 		this.info = n.containAction() ? level + 8 : level;
 	}
 
 	public LNDisj(final LiveExprNode n1, final LiveExprNode n2) {
-		this.disjs = new Vect<>(2);
-		this.disjs.addElement(n1);
-		this.disjs.addElement(n2);
+		this.disjs = new ArrayList<>(2);
+		this.disjs.add(n1);
+		this.disjs.add(n2);
 		final boolean hasAct = n1.containAction() || n2.containAction();
 		final int level = Math.max(n1.getLevel(), n2.getLevel());
 		this.info = hasAct ? level + 8 : level;
 	}
 
-	public LNDisj(final Vect<LiveExprNode> disjs) {
+	public LNDisj(final ArrayList<LiveExprNode> disjs) {
 		this.disjs = disjs;
 		boolean hasAct = false;
 		int level = 0;
 		for (int i = 0; i < disjs.size(); i++) {
-			final LiveExprNode lexpr = disjs.elementAt(i);
+			final LiveExprNode lexpr = disjs.get(i);
 			level = Math.max(level, lexpr.getLevel());
 			hasAct = hasAct || lexpr.containAction();
 		}
@@ -51,7 +51,7 @@ class LNDisj extends LiveExprNode {
 	}
 
 	public final LiveExprNode getBody(final int i) {
-		return this.disjs.elementAt(i);
+		return this.disjs.get(i);
 	}
 
 	public final void addDisj(final LiveExprNode elem) {
@@ -60,7 +60,7 @@ class LNDisj extends LiveExprNode {
 				this.addDisj(elem1.getBody(i));
 			}
 		} else {
-			this.disjs.addElement(elem);
+			this.disjs.add(elem);
 		}
 		final int level = Math.max(this.getLevel(), elem.getLevel());
 		final boolean hasAct = this.containAction() || elem.containAction();
@@ -80,7 +80,7 @@ class LNDisj extends LiveExprNode {
 	@Override
 	public final boolean isPositiveForm() {
 		for (int i = 0; i < disjs.size(); i++) {
-			final LiveExprNode lexpr = disjs.elementAt(i);
+			final LiveExprNode lexpr = disjs.get(i);
 			if (!lexpr.isPositiveForm()) {
 				return false;
 			}
@@ -92,7 +92,7 @@ class LNDisj extends LiveExprNode {
     public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
 		final int sz = disjs.size();
 		for (int i = 0; i < sz; i++) {
-			final LiveExprNode item = disjs.elementAt(i);
+			final LiveExprNode item = disjs.get(i);
 			if (item.eval(tool, s1, s2)) {
 				return true;
 			}

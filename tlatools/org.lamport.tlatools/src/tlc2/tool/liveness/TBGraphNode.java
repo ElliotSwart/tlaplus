@@ -9,7 +9,7 @@ import tla2sany.semantic.LevelConstants;
 import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
 import tlc2.util.SetOfLong;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 
 public class TBGraphNode {
 	/**
@@ -20,7 +20,7 @@ public class TBGraphNode {
 	 * if a state-node is consistent with a tableau-node.
 	 */
 	private final TBPar par; // particle
-	public final Vect<TBGraphNode> nexts; // outlinks
+	public final ArrayList<TBGraphNode> nexts; // outlinks
 	private int index; // unique id for this node
 	private final LiveExprNode[] statePreds; // state predicates in the particle
 
@@ -28,7 +28,7 @@ public class TBGraphNode {
 	public TBGraphNode(final TBPar par) {
 		this.par = par;
 		this.index = 0;
-		this.nexts = new Vect<>();
+		this.nexts = new ArrayList<>();
 		final TBPar preds = new TBPar(par.size());
 		for (int i = 0; i < par.size(); i++) {
 			final LiveExprNode ln = par.exprAt(i);
@@ -57,7 +57,7 @@ public class TBGraphNode {
 			// `()[]~(someStatePredicate)` as a particle of `[]-someStatePredicate` with `()`
 			// denoting LNNext/LTL's next operator.
 			if (ln.getLevel() <= LevelConstants.VariableLevel) {
-				preds.addElement(ln);
+				preds.add(ln);
 			}
 		}
 		this.statePreds = new LiveExprNode[preds.size()];
@@ -83,7 +83,7 @@ public class TBGraphNode {
 	}
 
 	public TBGraphNode nextAt(final int i) {
-		return this.nexts.elementAt(i);
+		return this.nexts.get(i);
 	}
 
 	

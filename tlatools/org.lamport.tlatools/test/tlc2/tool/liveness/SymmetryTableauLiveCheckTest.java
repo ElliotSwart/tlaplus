@@ -141,8 +141,8 @@ public class SymmetryTableauLiveCheckTest {
 		EasyMock.replay(node0);
 
 		final TBGraph tbGraph = new TBGraph();
-		tbGraph.addElement(node0);
-		tbGraph.addElement(node1);
+		tbGraph.add(node0);
+		tbGraph.add(node1);
 		tbGraph.setInitCnt(1);
 
 		// Configure OOS mock to react to the subsequent invocation. This is a
@@ -339,9 +339,9 @@ public class SymmetryTableauLiveCheckTest {
 		EasyMock.replay(node0);
 
 		final TBGraph tbGraph = new TBGraph();
-		tbGraph.addElement(node0);
-		tbGraph.addElement(node1);
-		tbGraph.addElement(node2);
+		tbGraph.add(node0);
+		tbGraph.add(node1);
+		tbGraph.add(node2);
 		tbGraph.setInitCnt(1);
 
 		// Configure OOS mock to react to the subsequent invocation. This is a

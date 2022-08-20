@@ -6,7 +6,7 @@
 package tlc2.tool.liveness;
 
 import tlc2.output.EC;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 import util.Assert;
 
 /**
@@ -28,7 +28,7 @@ import util.Assert;
  * tableau construction.
  */
 @SuppressWarnings("serial")
-public class TBPar extends Vect<LiveExprNode> {
+public class TBPar extends ArrayList<LiveExprNode> {
 
 	TBPar() {
 		super(0);
@@ -39,7 +39,7 @@ public class TBPar extends Vect<LiveExprNode> {
 	}
 
 	public final LiveExprNode exprAt(final int i) {
-		return elementAt(i);
+		return get(i);
 	}
 
 	/* This method returns true iff this particle is equal to another particle */
@@ -78,11 +78,11 @@ public class TBPar extends Vect<LiveExprNode> {
 		final TBPar res = new TBPar(this.size() + par.size());
 		for (int i = 0; i < this.size(); i++) {
 			if (!par.member(this.exprAt(i))) {
-				res.addElement(this.exprAt(i));
+				res.add(this.exprAt(i));
 			}
 		}
 		for (int i = 0; i < par.size(); i++) {
-			res.addElement(par.exprAt(i));
+			res.add(par.exprAt(i));
 		}
 		return res;
 	}
@@ -91,9 +91,9 @@ public class TBPar extends Vect<LiveExprNode> {
 	private TBPar append(final LiveExprNode ln) {
 		final TBPar res = new TBPar(this.size() + 1);
 		for (int i = 0; i < this.size(); i++) {
-			res.addElement(this.exprAt(i));
+			res.add(this.exprAt(i));
 		}
-		res.addElement(ln);
+		res.add(ln);
 		return res;
 	}
 
@@ -101,10 +101,10 @@ public class TBPar extends Vect<LiveExprNode> {
 	private TBPar append(final LiveExprNode ln1, final LiveExprNode ln2) {
 		final TBPar res = new TBPar(this.size() + 2);
 		for (int i = 0; i < this.size(); i++) {
-			res.addElement(this.exprAt(i));
+			res.add(this.exprAt(i));
 		}
-		res.addElement(ln1);
-		res.addElement(ln2);
+		res.add(ln1);
+		res.add(ln2);
 		return res;
 	}
 
@@ -115,12 +115,12 @@ public class TBPar extends Vect<LiveExprNode> {
 	 */
 	public TBParVec particleClosure() {
 		final TBPar positive_closure = this.positiveClosure();
-		final Vect<TBTriple> alphas = positive_closure.alphaTriples();
-		final Vect<TBTriple> betas = positive_closure.betaTriples();
+		final ArrayList<TBTriple> alphas = positive_closure.alphaTriples();
+		final ArrayList<TBTriple> betas = positive_closure.betaTriples();
 		return particleClosure(this, alphas, betas);
 	}
 
-	private TBParVec particleClosure(final TBPar terms, final Vect<TBTriple> alphas, final Vect<TBTriple> betas) {
+	private TBParVec particleClosure(final TBPar terms, final ArrayList<TBTriple> alphas, final ArrayList<TBTriple> betas) {
 		// if terms is not locally consistent, then terminate .
 		if (!terms.isLocallyConsistent()) {
 			// TODO: The calling code does not seem to terminate if the term is
@@ -160,9 +160,9 @@ public class TBPar extends Vect<LiveExprNode> {
 		do {
 			done = true;
 			for (int i = 0; i < alphas.size(); i++) {
-				final TBTriple alpha = alphas.elementAt(i);
+				final TBTriple alpha = alphas.get(i);
 				if (terms1.member(alpha.getB()) && terms1.member(alpha.getC()) && !terms1.member(alpha.getA())) {
-					terms1.addElement(alpha.getA());
+					terms1.add(alpha.getA());
 					done = false;
 				}
 			}
@@ -174,7 +174,7 @@ public class TBPar extends Vect<LiveExprNode> {
 		return particleClosureBeta(terms1, alphas, betas);
 	}
 
-	private TBParVec particleClosureBeta(final TBPar terms, final Vect<TBTriple> alphas, final Vect<TBTriple> betas) {
+	private TBParVec particleClosureBeta(final TBPar terms, final ArrayList<TBTriple> alphas, final ArrayList<TBTriple> betas) {
 		// try a beta expansion. See MP page 403 
 		// figure 5.1. for beta expansion rules.
 		for (int i = 0; i < terms.size(); i++) {
@@ -197,7 +197,7 @@ public class TBPar extends Vect<LiveExprNode> {
 		}
 		// try a beta^-1 expansion
 		for (int i = 0; i < betas.size(); i++) {
-			final TBTriple beta = betas.elementAt(i);
+			final TBTriple beta = betas.get(i);
 			if ((terms.member(beta.getB()) || terms.member(beta.getC())) && !terms.member(beta.getA())) {
 				return particleClosure(terms.append(beta.getA()), alphas, betas);
 			}
@@ -205,7 +205,7 @@ public class TBPar extends Vect<LiveExprNode> {
 		// if there are not any more expansions to do, return the terms
 		// we've got as the only particle in a list of particles.
 		final TBParVec res = new TBParVec(1);
-		res.addElement(terms);
+		res.add(terms);
 		return res;
 	}
 
@@ -216,27 +216,27 @@ public class TBPar extends Vect<LiveExprNode> {
 	 * closed. All junctions must have been binarified at this stage by
 	 * makeBinary, otherwise it may give the wrong answer and crash.
 	 */
-	private Vect<TBTriple> alphaTriples() {
-		final Vect<TBTriple> ts = new Vect<>();
+	private ArrayList<TBTriple> alphaTriples() {
+		final ArrayList<TBTriple> ts = new ArrayList<>();
 		for (int i = 0; i < this.size(); i++) {
 			final LiveExprNode ln = this.exprAt(i);
 			if (ln instanceof LNAll lna) {
-				ts.addElement(new TBTriple(ln, lna.getBody(), new LNNext(ln)));
+				ts.add(new TBTriple(ln, lna.getBody(), new LNNext(ln)));
 			} else if (ln instanceof final LNConj lnc) {
-                ts.addElement(new TBTriple(lnc, lnc.getBody(0), lnc.getBody(1)));
+                ts.add(new TBTriple(lnc, lnc.getBody(0), lnc.getBody(1)));
 			}
 		}
 		return ts;
 	}
 
-	private Vect<TBTriple> betaTriples() {
-		final Vect<TBTriple> ts = new Vect<>();
+	private ArrayList<TBTriple> betaTriples() {
+		final ArrayList<TBTriple> ts = new ArrayList<>();
 		for (int i = 0; i < this.size(); i++) {
 			final LiveExprNode ln = this.exprAt(i);
 			if (ln instanceof LNEven lne) {
-				ts.addElement(new TBTriple(ln, lne.getBody(), new LNNext(ln)));
+				ts.add(new TBTriple(ln, lne.getBody(), new LNNext(ln)));
 			} else if (ln instanceof final LNDisj lnd) {
-                ts.addElement(new TBTriple(lnd, lnd.getBody(0), lnd.getBody(1)));
+                ts.add(new TBTriple(lnd, lnd.getBody(0), lnd.getBody(1)));
 			}
 		}
 		return ts;
@@ -265,7 +265,7 @@ public class TBPar extends Vect<LiveExprNode> {
 			// Implementation not aligned with TBGraphNode::new because here we split into
 			// pos and neg bins.
 			if (ln instanceof LNState || ln instanceof LNBool) {
-				pos.addElement(ln);
+				pos.add(ln);
 			} else if (ln instanceof LNNeg lnn) {
 				final LiveExprNode body = lnn.getBody();
 				// Because tf has been brought into positive form by the nested pushNeg of
@@ -273,7 +273,7 @@ public class TBPar extends Vect<LiveExprNode> {
 				// arbitrary terms such as ~[]p or []<>p.
 				//assert body instanceof LNState || body instanceof LNBool;
 				if (body instanceof LNState || body instanceof LNBool) {
-					neg.addElement(body);
+					neg.add(body);
 				}
 			}
 		}
@@ -303,42 +303,43 @@ public class TBPar extends Vect<LiveExprNode> {
 		// tps is the queue of terms to be processed.
 		final TBPar tps = new TBPar(this.size() * 2);
 		for (int i = 0; i < this.size(); i++) {
-			tps.addElement(this.elementAt(i));
+			tps.add(this.get(i));
 		}
 		final TBPar result = new TBPar(this.size() * 2);
 		while (tps.size() > 0) {
 			final LiveExprNode ln = tps.exprAt(tps.size() - 1);
-			tps.removeLastElement();
+			// Remove last element
+			tps.remove(tps.size() - 1);
 			if (ln instanceof LNNeg lnn) {
 				// LNNeg is obviously not positive, but its subterms might.
-				tps.addElement(lnn.getBody());
+				tps.add(lnn.getBody());
 			} else if (ln instanceof LNNext lnn) {
-				result.addElement(ln);
-				tps.addElement(lnn.getBody());
+				result.add(ln);
+				tps.add(lnn.getBody());
 			} else if (ln instanceof LNEven lne) {
-				result.addElement(ln);
+				result.add(ln);
 				// See page 452, Closure and Particles, 3. item
-				result.addElement(new LNNext(ln));
-				tps.addElement(lne.getBody());
+				result.add(new LNNext(ln));
+				tps.add(lne.getBody());
 			} else if (ln instanceof LNAll lna) {
-				result.addElement(ln);
+				result.add(ln);
 				// See page 452, Closure and Particles, 3. item
-				result.addElement(new LNNext(ln));
-				tps.addElement(lna.getBody());
+				result.add(new LNNext(ln));
+				tps.add(lna.getBody());
 			} else if (ln instanceof final LNConj lnc) {
                 for (int i = 0; i < lnc.getCount(); i++) {
-					tps.addElement(lnc.getBody(i));
+					tps.add(lnc.getBody(i));
 				}
-				result.addElement(ln);
+				result.add(ln);
 			} else if (ln instanceof final LNDisj lnd) {
                 for (int i = 0; i < lnd.getCount(); i++) {
-					tps.addElement(lnd.getBody(i));
+					tps.add(lnd.getBody(i));
 				}
-				result.addElement(ln);
+				result.add(ln);
 			} else if (ln instanceof LNState) {
-				result.addElement(ln);
+				result.add(ln);
 			} else if (ln instanceof LNBool) {
-				result.addElement(ln);
+				result.add(ln);
 			} else {
 				Assert.fail(EC.TLC_LIVE_ENCOUNTERED_ACTIONS);
 			}
@@ -355,7 +356,7 @@ public class TBPar extends Vect<LiveExprNode> {
 		for (int i = 0; i < this.size(); i++) {
 			final LiveExprNode ln = this.exprAt(i);
 			if (ln instanceof LNNext lnn) {
-				successors.addElement(lnn.getBody());
+				successors.add(lnn.getBody());
 			}
 		}
 		return successors;
@@ -379,12 +380,12 @@ public class TBPar extends Vect<LiveExprNode> {
 		sb.append("{");
 		final String padding1 = padding + " ";
 		if (this.size() != 0) {
-			this.elementAt(0).toString(sb, padding1);
+			this.get(0).toString(sb, padding1);
 		}
 		for (int i = 1; i < this.size(); i++) {
 			sb.append(",\n");
 			sb.append(padding1);
-			this.elementAt(i).toString(sb, padding1);
+			this.get(i).toString(sb, padding1);
 		}
 		sb.append("}");
 	}
@@ -399,12 +400,12 @@ public class TBPar extends Vect<LiveExprNode> {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("{");
 		if (this.size() != 0) {
-			final LiveExprNode liveExprNode = this.elementAt(0);
+			final LiveExprNode liveExprNode = this.get(0);
 			sb.append(liveExprNode.toDotViz());
 		}
 		for (int i = 1; i < this.size(); i++) {
 			sb.append(",\n");
-			final LiveExprNode liveExprNode = this.elementAt(i);
+			final LiveExprNode liveExprNode = this.get(i);
 			sb.append(liveExprNode.toDotViz());
 		}
 		sb.append("}");

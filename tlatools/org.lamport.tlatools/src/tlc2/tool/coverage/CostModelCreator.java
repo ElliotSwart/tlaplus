@@ -47,7 +47,7 @@ import tlc2.tool.ITool;
 import tlc2.tool.coverage.ActionWrapper.Relation;
 import tlc2.util.Context;
 import tlc2.util.ObjLongTable;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 
 /**
  * <h1>Why a CostModel:</h1> Why a CostModelCreator to traverses the semantic
@@ -355,9 +355,9 @@ public class CostModelCreator extends ExplorerVisitor {
 		// TODO Start from the ModuleNode similar to how the Explorer works. It is
 		// unclear how to lookup the corresponding subtree in the global CM graph
 		// in getNextState and getInitStates of the model checker.
-		final Vect<Action> init = tool.getInitStateSpec();
+		final ArrayList<Action> init = tool.getInitStateSpec();
 		for (int i = 0; i < init.size(); i++) {
-			final Action initAction = init.elementAt(i);
+			final Action initAction = init.get(i);
 			initAction.cm = collector.getCM(initAction, Relation.INIT);
 		}
 
@@ -407,9 +407,9 @@ public class CostModelCreator extends ExplorerVisitor {
 	
 	public static void report(final ITool tool, final long startTime) {
         MP.printMessage(EC.TLC_COVERAGE_START);
-    	final Vect<Action> init = tool.getInitStateSpec();
+    	final ArrayList<Action> init = tool.getInitStateSpec();
     	for (int i = 0; i < init.size(); i++) {
-    		final Action initAction = init.elementAt(i);
+    		final Action initAction = init.get(i);
     		initAction.cm.report();
     	}
 

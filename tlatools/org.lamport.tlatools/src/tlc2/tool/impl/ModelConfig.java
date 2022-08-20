@@ -20,7 +20,7 @@ import tla2sany.parser.Token;
 import tla2sany.parser.TokenMgrError;
 import tlc2.output.EC;
 import tlc2.tool.ConfigFileException;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 import tlc2.value.IValue;
 import tlc2.value.ValueConstants;
 import tlc2.value.impl.BoolValue;
@@ -40,9 +40,9 @@ import util.TLAConstants;
  * Stores information from user's model configuration file.
  * 
  * TODO we should move from Hashtable to HashMap (we should probably also stop using our own collection implmentations
- * 			like {@link Vect}.)
- * TODO we're storing a heterogeneous mishmash in the values of configTbl - sometimes a Vect, sometimes a String, sometime
- * 			that Vect has only String instances, sometimes is has a String instance and Value subclasses, ... it would
+ * 			like {@link ArrayList}.)
+ * TODO we're storing a heterogeneous mishmash in the values of configTbl - sometimes a ArrayList, sometimes a String, sometime
+ * 			that ArrayList has only String instances, sometimes is has a String instance and Value subclasses, ... it would
  * 			be nice were the design cleaner.
  * 
  * @author Yuan Yu, Leslie Lamport
@@ -81,7 +81,7 @@ public class ModelConfig implements ValueConstants, Serializable {
     private final Hashtable<String, Object> configTbl;
     private final Hashtable<String, String> overrides;
     private final Hashtable<String, String> overridesReverseMap;
-    private final Hashtable<String, Vect<Vect<Comparable<?>>>> modConstants;
+    private final Hashtable<String, ArrayList<ArrayList<Comparable<?>>>> modConstants;
     private final Hashtable<String, Hashtable<Comparable<?>,Object>> modOverrides;
     private final String configFileName;
     private final FilenameToStream resolver; // resolver for the file
@@ -103,16 +103,16 @@ public class ModelConfig implements ValueConstants, Serializable {
 
         this.configFileName = configFileName;
         this.configTbl = new Hashtable<>();
-        Vect<Comparable<?>> temp = new Vect<>();
+        ArrayList<Comparable<?>> temp = new ArrayList<>();
         this.configTbl.put(Constant, temp);
         this.configTbl.put(Constants, temp);
-        temp = new Vect<>();
+        temp = new ArrayList<>();
         this.configTbl.put(Constraint, temp);
         this.configTbl.put(Constraints, temp);
-        temp = new Vect<>();
+        temp = new ArrayList<>();
         this.configTbl.put(ActionConstraint, temp);
         this.configTbl.put(ActionConstraints, temp);
-        temp = new Vect<>();
+        temp = new ArrayList<>();
         this.configTbl.put(Invariant, temp);
         this.configTbl.put(Invariants, temp);
         this.configTbl.put(Init, "");
@@ -120,7 +120,7 @@ public class ModelConfig implements ValueConstants, Serializable {
         this.configTbl.put(View, "");
         this.configTbl.put(Symmetry, "");
         this.configTbl.put(Spec, "");
-        temp = new Vect<>();
+        temp = new ArrayList<>();
         this.configTbl.put(Prop, temp);
         this.configTbl.put(Props, temp);
         this.configTbl.put(Alias, "");
@@ -139,11 +139,11 @@ public class ModelConfig implements ValueConstants, Serializable {
      */
     public final void parse()
     {
-        final Vect<Vect<Comparable<?>>> constants = this.getConstants();
-        final Vect<Comparable<?>> constraints = this.getConstraints();
-        final Vect<Comparable<?>> actionConstraints = this.getActionConstraints();
-        final Vect<Comparable<?>> invariants = this.getInvariants();
-        final Vect<Comparable<?>> props = this.getProperties();
+        final ArrayList<ArrayList<Comparable<?>>> constants = this.getConstants();
+        final ArrayList<Comparable<?>> constraints = this.getConstraints();
+        final ArrayList<Comparable<?>> actionConstraints = this.getActionConstraints();
+        final ArrayList<Comparable<?>> invariants = this.getInvariants();
+        final ArrayList<Comparable<?>> props = this.getProperties();
         
         try
         {
@@ -283,8 +283,8 @@ public class ModelConfig implements ValueConstants, Serializable {
                                 lhs.append("!").append(tt.image);
                                 tt = getNextToken(tmgr, buf);
                             }
-                            final Vect<Comparable<?>> line = new Vect<>();
-                            line.addElement(lhs.toString());
+                            final ArrayList<Comparable<?>> line = new ArrayList<>();
+                            line.add(lhs.toString());
                             // Following code replaced on 30 July 2009.
                             if (tt.image.equals("<-")) {
                                 tt = getNextToken(tmgr, buf);
@@ -307,14 +307,14 @@ public class ModelConfig implements ValueConstants, Serializable {
                                                 String.valueOf(scs.getBeginLine()), "<-[mod]"});
                                     }
                                     final Hashtable<Comparable<?>, Object> defs = this.modOverrides.computeIfAbsent(modName, k -> new Hashtable<>());
-                                    defs.put(line.elementAt(0), tt.image);
+                                    defs.put(line.get(0), tt.image);
                                 } else {
                                     // This is a main module override:
                                     if (tt.kind == TLAplusParserConstants.EOF) {
                                         throw new ConfigFileException(EC.CFG_EXPECT_ID, new String[]{
                                                 String.valueOf(scs.getBeginLine()), "<-"});
                                     }
-                                    final String string = (String) line.elementAt(0);
+                                    final String string = (String) line.get(0);
                                     this.overrides.put(string, tt.image);
                                     this.overridesReverseMap.put(tt.image, string);
                                 }
@@ -323,7 +323,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                                     do {
                                         tt = getNextToken(tmgr, buf);
                                         final IValue arg = this.parseValue(tt, scs, tmgr, buf);
-                                        line.addElement(arg);
+                                        line.add(arg);
                                         tt = getNextToken(tmgr, buf);
                                     } while (tt.image.equals(","));
                                     if (!tt.image.equals(")")) {
@@ -350,17 +350,17 @@ public class ModelConfig implements ValueConstants, Serializable {
                                                 String.valueOf(scs.getBeginLine()), "]"});
                                     }
                                     tt = getNextToken(tmgr, buf);
-                                    line.addElement(this.parseValue(tt, scs, tmgr, buf));
-                                    Vect<Vect<Comparable<?>>> mConsts = this.modConstants.get(modName);
+                                    line.add(this.parseValue(tt, scs, tmgr, buf));
+                                    ArrayList<ArrayList<Comparable<?>>> mConsts = this.modConstants.get(modName);
                                     if (mConsts == null) {
-                                        mConsts = new Vect<>();
+                                        mConsts = new ArrayList<>();
                                         this.modConstants.put(modName, mConsts);
                                     }
-                                    mConsts.addElement(line);
+                                    mConsts.add(line);
                                 } else {
                                     // This is a main module override:
-                                    line.addElement(this.parseValue(tt, scs, tmgr, buf));
-                                    constants.addElement(line);
+                                    line.add(this.parseValue(tt, scs, tmgr, buf));
+                                    constants.add(line);
                                 }
                             }
                         }
@@ -370,7 +370,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                         while ((tt = getNextToken(tmgr)).kind != TLAplusParserConstants.EOF) {
                             if (this.configTbl.get(tt.image) != null)
                                 break;
-                            invariants.addElement(tt.image);
+                            invariants.add(tt.image);
                         }
                         break;
                     case Prop:
@@ -378,7 +378,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                         while ((tt = getNextToken(tmgr)).kind != TLAplusParserConstants.EOF) {
                             if (this.configTbl.get(tt.image) != null)
                                 break;
-                            props.addElement(tt.image);
+                            props.add(tt.image);
                         }
                         break;
                     case Constraint:
@@ -386,7 +386,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                         while ((tt = getNextToken(tmgr)).kind != TLAplusParserConstants.EOF) {
                             if (this.configTbl.get(tt.image) != null)
                                 break;
-                            constraints.addElement(tt.image);
+                            constraints.add(tt.image);
                         }
                         break;
                     case ActionConstraint:
@@ -394,7 +394,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                         while ((tt = getNextToken(tmgr)).kind != TLAplusParserConstants.EOF) {
                             if (this.configTbl.get(tt.image) != null)
                                 break;
-                            actionConstraints.addElement(tt.image);
+                            actionConstraints.add(tt.image);
                         }
                         break;
                     case CheckDeadlock:
@@ -592,12 +592,12 @@ public class ModelConfig implements ValueConstants, Serializable {
     }
 
     @SuppressWarnings("unchecked")
-	public synchronized final Vect<Vect<Comparable<?>>> getConstants()
+	public synchronized final ArrayList<ArrayList<Comparable<?>>> getConstants()
     {
-        return (Vect<Vect<Comparable<?>>>) this.configTbl.get(Constant);
+        return (ArrayList<ArrayList<Comparable<?>>>) this.configTbl.get(Constant);
     }
 
-    public synchronized final Hashtable<String, Vect<Vect<Comparable<?>>>> getModConstants()
+    public synchronized final Hashtable<String, ArrayList<ArrayList<Comparable<?>>>> getModConstants()
     {
         return this.modConstants;
     }
@@ -617,15 +617,15 @@ public class ModelConfig implements ValueConstants, Serializable {
     }
 
     @SuppressWarnings("unchecked")
-	public synchronized final Vect<Comparable<?>> getConstraints()
+	public synchronized final ArrayList<Comparable<?>> getConstraints()
     {
-        return (Vect<Comparable<?>>) this.configTbl.get(Constraint);
+        return (ArrayList<Comparable<?>>) this.configTbl.get(Constraint);
     }
 
     @SuppressWarnings("unchecked")
-	public synchronized final Vect<Comparable<?>> getActionConstraints()
+	public synchronized final ArrayList<Comparable<?>> getActionConstraints()
     {
-        return (Vect<Comparable<?>>) this.configTbl.get(ActionConstraint);
+        return (ArrayList<Comparable<?>>) this.configTbl.get(ActionConstraint);
     }
 
     public synchronized final String getInit()
@@ -655,9 +655,9 @@ public class ModelConfig implements ValueConstants, Serializable {
     }
 
     @SuppressWarnings("unchecked")
-	public synchronized final Vect<Comparable<?>> getInvariants()
+	public synchronized final ArrayList<Comparable<?>> getInvariants()
     {
-        return (Vect<Comparable<?>>) this.configTbl.get(Invariant);
+        return (ArrayList<Comparable<?>>) this.configTbl.get(Invariant);
     }
 
     public synchronized final String getSpec()
@@ -666,9 +666,9 @@ public class ModelConfig implements ValueConstants, Serializable {
     }
 
     @SuppressWarnings("unchecked")
-	public synchronized final Vect<Comparable<?>> getProperties()
+	public synchronized final ArrayList<Comparable<?>> getProperties()
     {
-        return (Vect<Comparable<?>>) this.configTbl.get(Prop);
+        return (ArrayList<Comparable<?>>) this.configTbl.get(Prop);
     }
 
     public synchronized final String getAlias()

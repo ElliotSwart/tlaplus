@@ -7,7 +7,7 @@
 package tlc2.value.impl;
 
 import tlc2.tool.FingerprintException;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 import tlc2.value.IValue;
 import tlc2.value.Values;
 import util.Assert;
@@ -18,16 +18,16 @@ public class OpRcdValue extends OpValue implements Applicable {
 
   private static final long serialVersionUID = 6268427410634909269L;
 
-  public final Vect<Value[]> domain;
-  public final Vect<Value> values;
+  public final ArrayList<Value[]> domain;
+  public final ArrayList<Value> values;
 
   /* Constructor */
   public OpRcdValue() {
-    this.domain = new Vect<>();
-    this.values = new Vect<>();
+    this.domain = new ArrayList<>();
+    this.values = new ArrayList<>();
   }
 
-  public OpRcdValue(final Vect<Value[]> domain, final Vect<Value> values) {
+  public OpRcdValue(final ArrayList<Value[]> domain, final ArrayList<Value> values) {
     this.domain = domain;
     this.values = values;
   }
@@ -86,15 +86,15 @@ public class OpRcdValue extends OpValue implements Applicable {
     }
   }
 
-  public final void addLine(final Vect<Value> vs) {
+  public final void addLine(final ArrayList<Value> vs) {
     try {
       final int len = vs.size();
       final Value[] args = new Value[len-2];
       for (int i = 0; i < len-2; i++) {
-        args[i] = vs.elementAt(i+1);
+        args[i] = vs.get(i+1);
       }
-      this.domain.addElement(args);
-      this.values.addElement(vs.elementAt(len-1));
+      this.domain.add(args);
+      this.values.add(vs.get(len-1));
     }
     catch (final RuntimeException | OutOfMemoryError e) {
       if (hasSource()) { throw FingerprintException.getNewHead(this, e); }
@@ -118,7 +118,7 @@ public class OpRcdValue extends OpValue implements Applicable {
     try {
       final int sz = this.domain.size();
       for (int i = 0; i < sz; i++) {
-        final Value[] vals = this.domain.elementAt(i);
+        final Value[] vals = this.domain.get(i);
         if (args.length != vals.length) {
           Assert.fail("Attempted to apply the operator " + Values.ppr(this.toString()) +
           "\nwith wrong number of arguments.", getSource());
@@ -129,7 +129,7 @@ public class OpRcdValue extends OpValue implements Applicable {
           if (!matched) break;
         }
         if (matched) {
-          return this.values.elementAt(i);
+          return this.values.get(i);
         }
       }
       // Generate the error message:
@@ -240,7 +240,7 @@ public class OpRcdValue extends OpValue implements Applicable {
     try {
       boolean defined = true;
       for (int i = 0; i < this.values.size(); i++) {
-        defined = defined && this.values.elementAt(i).isDefined();
+        defined = defined && this.values.get(i).isDefined();
       }
       return defined;
     }
@@ -271,22 +271,22 @@ public class OpRcdValue extends OpValue implements Applicable {
       sb.append("{ ");
       if (this.values.size() != 0) {
         sb.append("<");
-        final Value[] args = this.domain.elementAt(0);
+        final Value[] args = this.domain.get(0);
           for (final Value arg : args) {
               sb = arg.toString(sb, offset, swallow);
               sb.append(", ");
           }
-        sb = this.values.elementAt(0).toString(sb, offset, swallow);
+        sb = this.values.get(0).toString(sb, offset, swallow);
         sb.append(">");
       }
       for (int i = 1; i < this.values.size(); i++) {
         sb.append(", <");
-        final Value[] args = this.domain.elementAt(i);
+        final Value[] args = this.domain.get(i);
           for (final Value arg : args) {
               sb = arg.toString(sb, offset, swallow);
               sb.append(", ");
           }
-        sb = this.values.elementAt(i).toString(sb, offset, swallow);
+        sb = this.values.get(i).toString(sb, offset, swallow);
         sb.append(">");
       }
       return sb.append("}");

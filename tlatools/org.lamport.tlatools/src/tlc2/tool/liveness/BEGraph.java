@@ -9,7 +9,7 @@ import tlc2.output.EC;
 import tlc2.tool.EvalException;
 import tlc2.util.MemObjectQueue;
 import tlc2.util.MemObjectStack;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 
 import java.util.Objects;
 
@@ -17,12 +17,12 @@ public class BEGraph {
 	/**
 	 * BEGraph represents the behaviour graph.
 	 */
-	public final Vect<BEGraphNode> initNodes;
+	public final ArrayList<BEGraphNode> initNodes;
 	public final String metadir;
 	public final NodeTable allNodes;
 
 	public BEGraph(final String metadir, final boolean isBT) {
-		this.initNodes = new Vect<>();
+		this.initNodes = new ArrayList<>();
 		this.metadir = metadir;
 		this.allNodes = new NodeTable(127, isBT);
 	}
@@ -34,9 +34,9 @@ public class BEGraph {
 	public final void resetNumberField() {
 		final MemObjectStack stack = new MemObjectStack(this.metadir, "resetstack");
 		for (int i = 0; i < this.initNodes.size(); i++) {
-			final BEGraphNode node = this.initNodes.elementAt(i);
+			final BEGraphNode node = this.initNodes.get(i);
 			if (node.resetNumberField() != 0) {
-				stack.push(this.initNodes.elementAt(i));
+				stack.push(this.initNodes.get(i));
 			}
 		}
 		while (stack.size() != 0) {
@@ -52,11 +52,11 @@ public class BEGraph {
 
 	/* Returns the ith initial node. */
 	public final BEGraphNode getInitNode(final int i) {
-		return this.initNodes.elementAt(i);
+		return this.initNodes.get(i);
 	}
 
 	public final void addInitNode(final BEGraphNode node) {
-		this.initNodes.addElement(node);
+		this.initNodes.add(node);
 	}
 
 	/* Returns the number of initial nodes. */
@@ -97,16 +97,16 @@ public class BEGraph {
 			}
 		}
 		// Get the path following parent pointers:
-		final Vect<BEGraphNode> path = new Vect<>();
+		final ArrayList<BEGraphNode> path = new ArrayList<>();
 		BEGraphNode curNode = end;
 		while (curNode != null) {
-			path.addElement(curNode);
+			path.add(curNode);
 			curNode = curNode.getParent();
 		}
 		final int sz = path.size();
 		final BEGraphNode[] bpath = new BEGraphNode[sz];
 		for (int i = 0; i < sz; i++) {
-			bpath[i] = path.elementAt(sz - i - 1);
+			bpath[i] = path.get(sz - i - 1);
 		}
 		return bpath;
 	}

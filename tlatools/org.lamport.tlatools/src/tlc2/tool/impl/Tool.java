@@ -113,7 +113,7 @@ public abstract class Tool
     protected final OpDefNode counterExampleDef;
     protected final Hashtable<String, ParseUnit> parseUnitContext;
     protected final Map<ModuleNode, Map<OpDefOrDeclNode, Object>> constantDefns;
-    private final Vect<Action> initPred; // The initial state predicate.
+    private final ArrayList<Action> initPred; // The initial state predicate.
     private final FilenameToStream resolver; // takes care of path to stream resolution
     private final OpDeclNode[] variables;
 
@@ -298,7 +298,7 @@ public abstract class Tool
 	}
 
     /* Get the initial state predicate of the specification.  */
-	public final Vect<Action> getInitStateSpec() {
+	public final ArrayList<Action> getInitStateSpec() {
 		return initPred;
 	}
 
@@ -345,7 +345,7 @@ public abstract class Tool
         return temporals;
     }
 
-    public Vect<Action> getInitPred() {
+    public ArrayList<Action> getInitPred() {
         return initPred;
     }
 
@@ -703,7 +703,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   public static final Value[] EmptyArgs = new Value[0];
 
   protected final Action[] actions;     // the list of TLA actions.
-  private final Vect<Action> actionVec;
+  private final ArrayList<Action> actionVec;
   protected final Mode toolMode;
 
   private AbstractChecker abstractChecker;
@@ -842,7 +842,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
       this.constantDefns = specProcessor.getConstantDefns();
 
 
-      this.actionVec = new Vect<>(10);
+      this.actionVec = new ArrayList<>(10);
       this.toolMode = mode;
       
 		final Action next = this.getNextStateSpec();
@@ -850,17 +850,16 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 			this.actions = new Action[0];
 		} else {
 			this.getActions(next);
-			final int sz = this.actionVec.size();
-			this.actions = new Action[sz];
-			for (int i = 0; i < sz; i++) {
-				this.actions[i] = this.actionVec.elementAt(i);
-			}
+			this.actions = new Action[this.actionVec.size()];
+            this.actionVec.toArray(this.actions);
 		}
 		
 		// Tag the initial predicates and next-state actions.
-		final Vect<Action> initAndNext = getInitStateSpec().concat(actionVec);
+		final ArrayList<Action> initAndNext = getInitStateSpec();
+        initAndNext.addAll(actionVec);
+
 		for (int i = 0; i < initAndNext.size(); i++) {
-			initAndNext.elementAt(i).setId(i);
+			initAndNext.get(i).setId(i);
 		}
 
         this.sanyContext = specProcessor.sany.context;
@@ -977,7 +976,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                   this.getActions(next1.getBody(), con, opDefNode, cm);
               } else {
                   final Action action = new Action(next1, con, opDefNode);
-                  this.actionVec.addElement(action);
+                  this.actionVec.add(action);
               }
           }
 
@@ -990,7 +989,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                   this.getActions(next1.getBody(), con, opDefNode, cm);
               } else {
                   final Action action = new Action(next1, con, opDefNode);
-                  this.actionVec.addElement(action);
+                  this.actionVec.add(action);
               }
           }
 
@@ -1040,7 +1039,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
       }
       if (opcode == 0) {
         final Action action = new Action(next, con, (OpDefNode) opNode);
-        this.actionVec.addElement(action);
+        this.actionVec.add(action);
         return;
       }
     }
@@ -1058,7 +1057,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                       // \E i \in {} : ...
                       // \E i \in Nat: FALSE
                       // ...
-                      this.actionVec.addElement(new Action(next, con, actionName));
+                      this.actionVec.add(new Action(next, con, actionName));
                       return;
                   }
 
@@ -1067,11 +1066,16 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                       this.getActions(args[0], econ, actionName, cm);
                   }
                   assert (cnt < this.actionVec.size())
-                          : "AssertionError when creating Actions. This case should have been handled by Enum.isDone conditional above!";
+                          : "AssertionError when creating Actions. This case should have been handled by contextEnumerator.isDone conditional above!";
               } catch (final Throwable e) {
                   final Action action = new Action(next, con, actionName);
-                  this.actionVec.removeAll(cnt);
-                  this.actionVec.addElement(action);
+
+                  // Remove all elements except the first count
+                  for(var i = this.actionVec.size() - 1; i >= cnt; i--){
+                      this.actionVec.remove(i);
+                  }
+
+                  this.actionVec.add(action);
               }
           }
           // DisjList
@@ -1083,7 +1087,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           default -> {
               // We handle all the other builtin operators here.
               final Action action = new Action(next, con, actionName);
-              this.actionVec.addElement(action);
+              this.actionVec.add(action);
           }
       }
   }
@@ -1103,18 +1107,18 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 
   @Override
   public final void getInitStates(final IStateFunctor functor) {
-	  final Vect<Action> init = this.getInitStateSpec();
+	  final ArrayList<Action> init = this.getInitStateSpec();
 	  ActionItemList acts = ActionItemListExt.Empty.getEmpty();
       // MAK 09/11/2018: Tail to head iteration order cause the first elem added with
       // acts.cons to be acts tail. This fixes the bug/funny behavior that the init
       // predicate Init == A /\ B /\ C /\ D was evaluated in the order A, D, C, B (A
       // doesn't get added to acts at all).
 	  for (int i = (init.size() - 1); i > 0; i--) {
-		  final Action elem = init.elementAt(i);
+		  final Action elem = init.get(i);
 		  acts = acts.cons(elem, IActionItemList.PRED);
 	  }
 	  if (init.size() != 0) {
-		  final Action elem = init.elementAt(0);
+		  final Action elem = init.get(0);
 		  final TLCState ps = this.createEmptyState();
 		  if (acts.isEmpty()) {
 			  acts.setAction(elem);

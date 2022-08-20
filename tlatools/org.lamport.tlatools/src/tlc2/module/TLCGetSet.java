@@ -41,7 +41,7 @@ import tlc2.tool.coverage.CostModel;
 import tlc2.tool.impl.Tool;
 import tlc2.util.Context;
 import tlc2.util.IdThread;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 import tlc2.value.ValueConstants;
 import tlc2.value.Values;
 import tlc2.value.impl.BoolValue;
@@ -301,9 +301,9 @@ public class TLCGetSet implements ValueConstants {
 
 			// Inits as found by spec processing.
 			final List<Value> l = new ArrayList<>();
-			final Vect<Action> inits = tool.getInitStateSpec();
-			for (int i = 0; i < inits.size(); i++) {
-				l.add(new RecordValue(inits.elementAt(i)));
+			final ArrayList<Action> inits = tool.getInitStateSpec();
+			for (final Action a : inits) {
+				l.add(new RecordValue(a));
 			}
 			n[0] = SPEC_INITS;
 			v[0] = new SetEnumValue(new ValueVec(l), false);
