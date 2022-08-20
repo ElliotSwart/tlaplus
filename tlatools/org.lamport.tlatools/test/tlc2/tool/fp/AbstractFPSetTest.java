@@ -53,9 +53,7 @@ public abstract class AbstractFPSetTest {
 	}
 
 	/**
-	 * @param freeMemory
 	 * @return A new {@link FPSet} instance
-	 * @throws IOException
 	 */
 	protected abstract FPSet getFPSet(final FPSetConfiguration fpSetConfig) throws Exception;
 

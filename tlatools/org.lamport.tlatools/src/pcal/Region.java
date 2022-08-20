@@ -9,9 +9,6 @@ import java.io.Serializable;
 
 public class Region implements Serializable {
 
-    /**
-	 * @see TLAtoPCalMapping#serialVersionUID
-	 */
 	private static final long serialVersionUID = 5596444966456185518L;
 	
 	private PCalLocation begin ;
@@ -19,8 +16,6 @@ public class Region implements Serializable {
 
 	/**
      * The simple constructor.
-     * @param begin
-     * @param end
      */
 	public Region(final PCalLocation begin, final PCalLocation end) {
 		this.begin = begin;
@@ -30,10 +25,7 @@ public class Region implements Serializable {
 	/**
 	 * Constructs a region within a single line, from
 	 * column bcol to column bcol+width;
-	 * @param line
-	 * @param bcol
-	 * @param width
-	 */
+     */
 	public Region(final int line, final int bcol, final int width)  {
 		this.begin = new PCalLocation(line, bcol) ;
 		this.end = new PCalLocation(line, bcol+width);

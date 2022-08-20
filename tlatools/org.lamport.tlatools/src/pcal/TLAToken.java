@@ -183,10 +183,7 @@ public class TLAToken
      * This is the old constructor, used before the addition of the TLA-PCal
      * mapping.  It should be used only to construct tokens that do not come
      * from a corresponding token in the PCal code. 
-     * 
-     * @param str
-     * @param col
-     * @param typ
+     *
      */
     public TLAToken(final String str, final int col, final int typ)
       /*********************************************************************
@@ -201,11 +198,7 @@ public class TLAToken
     /**
      * The following constructor added for TLA-PCal mapping.  It 
      * sets the source field.
-     * 
-     * @param str
-     * @param col
-     * @param typ
-     * @param line
+     *
      */
     public TLAToken(final String str, final int col, final int typ, final int line)
     /*********************************************************************
@@ -219,11 +212,7 @@ public class TLAToken
     
     /**
      * A constructor for cases in which the source region is known.
-     * 
-     * @param str
-     * @param col
-     * @param typ
-     * @param src
+     *
      */
     public TLAToken(final String str, final int col, final int typ, final Region src) {
     	string = str ;
@@ -237,11 +226,7 @@ public class TLAToken
      * or in Gen... methods that use it to construct tokens for the
      * TLAExpr argument of a call AddSubscriptsToExpr  
      * to create a token with isAppended = true.
-     * 
-     * @param str
-     * @param col
-     * @param typ
-     * @param appended
+     *
      */
     public TLAToken(final String str, final int col, final int typ, final boolean appended) {
         string = str ;
@@ -305,9 +290,8 @@ public class TLAToken
       /**
     * Modified by LL on 6 Dec 2011 to set the source field too.
     * And on 14 Dec 2011 to set the beginSubst and endSubst fields.
-    * 
-    * @return
-    */
+    *
+       */
    @SuppressWarnings("unchecked")
 public TLAToken Clone()
      { 

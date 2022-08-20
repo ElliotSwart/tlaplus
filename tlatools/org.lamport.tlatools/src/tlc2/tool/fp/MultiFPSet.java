@@ -100,8 +100,7 @@ public class MultiFPSet extends FPSet {
 	}
 	
 	/**
-	 * @param fp
-	 * @return Partition given fp into the {@link FPSet} space 
+	 * @return Partition given fp into the {@link FPSet} space
 	 */
 	protected FPSet getFPSet(final long fp) {
 		// determine corresponding fpset (using unsigned right shift)

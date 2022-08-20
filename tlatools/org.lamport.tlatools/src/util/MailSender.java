@@ -42,9 +42,7 @@ public class MailSender {
 	/**
 	 * @param from "Foo bar <foo@bar.com>"
 	 * @param to An email address _with_ domain part (foo@bar.com)
-	 * @param subject
-	 * @param messages
-	 */
+     */
 	private static boolean send(final InternetAddress from, final InternetAddress to, final String subject, final String body, final File[] files) {
 		
 		// https://javaee.github.io/javamail/docs/api/com/sun/mail/smtp/package-summary.html

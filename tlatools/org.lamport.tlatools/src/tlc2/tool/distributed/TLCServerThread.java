@@ -78,7 +78,7 @@ public class TLCServerThread extends IdThread {
 	 * Either {@link TLCServerThread#run()} or
 	 * {@link TLCServerThread#keepAliveTimer} will flip to false causing
 	 * subsequent calls to
-	 * {@link TLCServerThread#handleRemoteWorkerLost(StateQueue)} to be a noop.
+	 * {@link TLCServerThread#handleRemoteWorkerLost} to be a noop.
 	 * 
 	 * Synchronization is required because {@link TLCServerThread#run()} and
 	 * {@link TLCTimerTask#run()} are executed as two separate threads.
@@ -312,9 +312,8 @@ public class TLCServerThread extends IdThread {
 
 	/**
 	 * Handles the case of a disconnected remote worker
-	 * 
-	 * @param stateQueue
-	 */
+	 *
+     */
 	private void handleRemoteWorkerLost(final IStateQueue stateQueue) {
 		// Cancel the keepAliveTimer which might still be running if an
 		// exception in the this run() method has caused handleRemoteWorkerLost

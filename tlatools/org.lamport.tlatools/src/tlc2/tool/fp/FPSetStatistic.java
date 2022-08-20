@@ -112,7 +112,6 @@ public interface FPSetStatistic {
 	double getLoadFactor();
 
 	/**
-	 * @return DiskFPSet#forceFlush();
 	 */
 	void forceFlush();
 	

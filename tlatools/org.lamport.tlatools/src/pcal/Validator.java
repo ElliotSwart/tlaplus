@@ -118,7 +118,7 @@ public class Validator {
 	}
 	
 	/**
-	 * There is some redundancy between this and {@link trans#performTranslation(List)} - it would be nice to make a
+	 * There is some redundancy between this and {@link trans#performTranslation} - it would be nice to make a
 	 * 	common method, extended by each.
 	 * 
 	 * @param specificationText the entire specification, line by line - for historical reasons.

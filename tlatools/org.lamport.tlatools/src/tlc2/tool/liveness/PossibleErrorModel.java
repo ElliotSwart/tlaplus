@@ -24,7 +24,7 @@ import java.util.BitSet;
  * are evaluated during "normal" model checking the PEM index selects the set of
  * relevant OOS checks. The result of each check is stored in a per node
  * {@link BitSet} index again by the corresponding PEM mapping.</li>
- * <li>During liveness checking (see {@link LiveWorker#checkSccs()} when the
+ * <li>During liveness checking (see {@link LiveWorker#checkSccs} when the
  * pre-computed check result is being looked up in the node's {@link BitSet}.
  * </li>
  * </ul>
@@ -35,9 +35,9 @@ import java.util.BitSet;
  * <p>
  * Theorie-wise, a {@link PossibleErrorModel} (there are as many PEMs as
  * disjuncts in the normal form (DNF) produced by
- * {@link Liveness#processLiveness(tlc2.tool.Tool)}) represents the negation of
+ * {@link Liveness#processLiveness}) represents the negation of
  * the stated liveness properties. It is then applied onto the discovered
- * strongly-connected-components in {@link LiveWorker#checkComponent()} to check
+ * strongly-connected-components in {@link LiveWorker#checkComponent} to check
  * if the PEM is "P-satisfiable". If it is, it shows that a violation of the
  * original liveness properties has been found (meaning they can't be
  * "P-valid"). A counter-example can be created.

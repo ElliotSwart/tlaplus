@@ -161,8 +161,6 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
 
 	/**
 	 * calculate hash value (just n least significat bits of fp) which is used as an index address
-	 * @param fp
-	 * @return
 	 */
 	protected int getIndex(final long fp) {
 		return (int) index(fp, this.mask);

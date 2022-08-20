@@ -809,8 +809,7 @@ public class TokenizeSpec
     /**
      * Returns the Position in the final output of the next
      * token to be output.
-     * 
-     * @return
+     *
      */
     private Position getNextTokenPosition() {
         return new Position(vspec.size(), linev.size());
@@ -1778,7 +1777,6 @@ public class TokenizeSpec
      * The isTeX argument is true if this is called for tla2tex.TeX, in 
      * which case the spec can start anywhere inside a PlusCal algorithm.
      * 
-     * @param spec
      * @param isTeX  true for tla2tex.TeX, false for tla2tex.TLA
      */
     public void FixPlusCal(final Token[][] spec, final boolean isTeX) {
@@ -1968,10 +1966,7 @@ public class TokenizeSpec
      *   (BUILT_IN & "define" | "macro" | "procedure" | "fair" | "process")
      *      ---> NOT_LBRACE
      *   [OTHER] ---> AFTER_VAR_DECL
-     *   
-     * @param pos
-     * @param spec
-     * @return
+     *
      */
     private final int CAN_BE_LBRACE         = 1 ;
     private final int NOT_LBRACE            = 2 ;
@@ -2125,10 +2120,7 @@ System.out.println("Error SEEKING_IDENT_LPAREN at " + curPos);
      * specification spec if that token exists and is in the PlusCal
      * algorithm; otherwise, it returns null.  For convenience it returns
      * null if called with a null pos argument.
-     * 
-     * @param pos
-     * @param spec
-     * @return
+     *
      */
    private Position nextTokenPos(final Position pos, final Token[][] spec) {
       if (pos == null) {
@@ -2158,10 +2150,7 @@ System.out.println("Error SEEKING_IDENT_LPAREN at " + curPos);
     * specification spec that is not a comment, if that token exists and is 
     * in the PlusCal algorithm; otherwise, it returns null.  
     * For convenience it returns null if called with a null pos argument.
-    * 
-    * @param pos
-    * @param spec
-    * @return
+    *
     */
    
    private Position nextNonComment(final Position pos, final Token[][] spec) {
@@ -2182,7 +2171,6 @@ System.out.println("Error SEEKING_IDENT_LPAREN at " + curPos);
     * @param pos    The position of the token.
     * @param spec   The specification.
     * @param punct  True if stopping at comma or semicolon.
-    * @return
     */
    public Position skipToUnmatchedEnd(
            final Position pos, final Token[][] spec, final boolean punct) {

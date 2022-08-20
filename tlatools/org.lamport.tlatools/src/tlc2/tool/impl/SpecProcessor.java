@@ -337,7 +337,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
      * Processes the specification and collects information to be used
      * by tools. The processing tries to use any customized module (Java
      * class) to override the corresponding TLA+ module.
-     * @param mode 
      */
     // SZ Feb 20, 2009: added support for existing specObj
     public final void processSpec(final Mode mode)

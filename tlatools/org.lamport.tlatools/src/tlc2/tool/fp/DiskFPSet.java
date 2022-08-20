@@ -150,8 +150,8 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	/**
 	 * This is (assumed to be) the auxiliary storage for a fingerprint that need
 	 * to be respected to not cause an OOM.
-	 * @see DiskFPSet#flushTable()
-	 * @see DiskFPSet#index
+	 * @see tlc2.tool.fp.DiskFPSet.Flusher#flushTable()
+	 * @see tlc2.tool.fp.DiskFPSet#index
 	 */
 	protected double getAuxiliaryStorageRequirement() {
 		return 1.0d;
@@ -180,8 +180,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	 * buffer of new fingerprints can contain up to
 	 * <code>DefaultMaxTblCnt</code> entries. When the buffer fills up, its
 	 * entries are atomically flushed to the FPSet's backing disk file.
-	 * 
-	 * @throws RemoteException
+	 *
 	 */
 	protected DiskFPSet(final FPSetConfiguration fpSetConfig) throws RemoteException {
 		super(fpSetConfig);
@@ -340,7 +339,6 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	/**
 	 * Return "true" if "fp" is contained in the hash table; otherwise, insert
 	 * it and return "false". Precondition: msb(fp) = 0
-	 * @throws IOException 
 	 */
 	abstract boolean memInsert(long fp) throws IOException;
 
@@ -514,7 +512,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	 * 
 	 * @param loVal Smallest fingerprint in this interval {@link Long#MIN_VALUE} to {@link Long#MAX_VALUE}
 	 * @param hiVal Biggest fingerprint in this interval {@link Long#MIN_VALUE} to {@link Long#MAX_VALUE}
-	 * @param fp The fingerprint we are searching for {@link Long#MIN_VALUE} to {@link Long#MAX_VALUE}
+	 * @param dfp The fingerprint we are searching for {@link Long#MIN_VALUE} to {@link Long#MAX_VALUE}
 	 * @param loEntry low position/bound index  0 to {@link Long#MAX_VALUE}
 	 * @param hiEntry high position/bound index loEntry to {@link Long#MAX_VALUE}
 	 * 
@@ -553,7 +551,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	}
 
 	/**
-	 * @param buffLen The current {@link DiskFPSet#tbl} length
+	 * @param buffLen The current  length
 	 * @return The new required length for the {@link DiskFPSet#index}
 	 */
 	protected int calculateIndexLen(final long buffLen) {
@@ -860,7 +858,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	
 	/**
 	 * @return	Number of used slots in tbl by a bucket
-	 * {@link DiskFPSet#getTblLoad()} <= {@link DiskFPSet#getTblCnt()}
+	 * @see tlc2.tool.fp.DiskFPSet#getTblLoad() <= {@link DiskFPSet#getTblCnt()}
 	 */
 	@Override
     public long getTblLoad() {
@@ -868,7 +866,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 	}
 	
 	/**
-	 * @return the amount of fingerprints stored in memory. This is less or equal to {@link DiskFPSet#getTblCnt()} depending on if there collision buckets exist. 
+	 * @return the amount of fingerprints stored in memory. This is less or equal to {@link DiskFPSet#getTblCnt()} depending on if there collision buckets exist.
 	 */
 	@Override
     public long getTblCnt() {

@@ -15,9 +15,8 @@ import static org.junit.Assert.*;
 public class Bug246DiskFPSetTest {
 
 	/**
-	 * Tests if the DiskFPSet gets correctly flushed to disk (if the fp spaces is unevenly distributed) or causes an {@link OutOfMemoryError} 
-	 * @throws IOException 
-	 */
+	 * Tests if the DiskFPSet gets correctly flushed to disk (if the fp spaces is unevenly distributed) or causes an {@link OutOfMemoryError}
+     */
 	@Test
 	@SuppressWarnings("deprecation")
 	public void testLinearFillup() throws Exception {

@@ -153,9 +153,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	public long finalNumberOfDistinctStates;
 
 	/**
-	 * @param work
-	 * @throws IOException
-	 */
+     */
 	public TLCServer(final TLCApp work) throws IOException {
 	    // LL modified error message on 7 April 2012
 		Assert.check(work != null, "TLC server found null work.");
@@ -188,8 +186,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	 * The {@link IFPSetManager} implementation to be used by the
 	 * {@link TLCServer} implementation. Subclass may want to return specialized
 	 * {@link IFPSetManager}s with different functionality.
-	 * @param expectedfpsetcount2 
-	 */
+     */
 	protected IFPSetManager getFPSetManagerImpl(final TLCApp work,
 			final String metadir, final int fpsetCount) throws IOException {
 		// A single FPSet server running on the master node
@@ -273,9 +270,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	 * An (idempotent) method to remove a (dead) TLCServerThread from the TLCServer.
 	 * 
 	 * @see Map#remove(Object)
-	 * @param thread
-	 * @return 
-	 */
+     */
 	public TLCWorkerRMI removeTLCServerThread(final TLCServerThread thread) {
 		final TLCWorkerRMI worker = threadsToWorkers.remove(thread);
 		/*
@@ -299,8 +294,6 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	}
 
 	/**
-	 * @param s
-	 * @param keep
 	 * @return true iff setting the error state has succeeded. This is the case
 	 *         for the first worker to call
 	 *         {@link TLCServer#setErrState(TLCState, boolean)}. Subsequent
@@ -340,9 +333,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 
 	/**
 	 * Creates a checkpoint for the currently running model run
-	 * @throws IOException
-	 * @throws InterruptedException
-	 */
+     */
 	public void checkpoint() throws IOException, InterruptedException {
 		if (this.stateQueue.suspendAll()) {
 			// Checkpoint:
@@ -366,9 +357,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 
 	/**
 	 * Recovers a model run
-	 * @throws IOException
-	 * @throws InterruptedException
-	 */
+     */
 	public final void recover() throws IOException, InterruptedException {
 		this.trace.recover();
 		this.stateQueue.recover();
@@ -376,8 +365,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	}
 
 	/**
-	 * @throws Throwable 
-	 */
+     */
 	private void doInit() throws Throwable {
 		final DoInitFunctor functor = new DoInitFunctor();
 		work.getInitStates(functor);
@@ -390,9 +378,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	}
 
 	/**
-	 * @param cleanup
-	 * @throws IOException
-	 */
+     */
 	public final void close() throws Exception{
 		this.trace.close();
 		this.fpSetManager.close();
@@ -450,11 +436,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 
 
 	/**
-	 * @param server
-	 * @throws IOException
-	 * @throws InterruptedException
-	 * @throws NotBoundException
-	 */
+     */
 	protected void modelCheck() throws Exception {
     	final long startTime = System.currentTimeMillis();
 
@@ -704,8 +686,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	}
 
 	/**
-	 * @return
-	 */
+     */
 	public synchronized long getNewStates() {
 		long res = stateQueue.size();
 		for (final TLCServerThread thread : threadsToWorkers.keySet()) {
@@ -722,7 +703,6 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
      * This allows the toolbox to easily display the last set
      * of state space statistics by putting them in the same
      * form as all other progress statistics.
-     * @param workerOverallCacheRate 
      */
     public static void printSummary(final int level, final long statesGenerated, final long statesLeftInQueue, final long distinctStates, final boolean success) {
 		if (TLCGlobals.tool) {
@@ -827,8 +807,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 	}
 	
 	/**
-	 * @return
-	 */
+     */
 	synchronized TLCServerThread[] getThreads() {
 		return threadsToWorkers.keySet().toArray(new TLCServerThread[0]);
 	}

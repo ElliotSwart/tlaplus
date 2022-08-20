@@ -4619,11 +4619,6 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 	 * @throws AbortException
 	 */
 	/**
-	 * @param treeNode
-	 * @param cm
-	 * @param topLevel
-	 * @return
-	 * @throws AbortException
 	 */
 	private InstanceNode generateInstance(final TreeNode treeNode, final ModuleNode cm, final boolean topLevel)
 			throws AbortException {

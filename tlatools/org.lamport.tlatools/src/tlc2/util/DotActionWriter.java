@@ -35,7 +35,7 @@ import util.FileUtil;
 /**
  * Writes the given action in dot notation.
  * 
- * @see https://en.wikipedia.org/wiki/DOT_(graph_description_language)
+ * @see <a href="https://en.wikipedia.org/wiki/DOT_(graph_description_language)">DOT Format</a>
  * 
  * 
  * To ASCII-render a graph (on Debian|Ubuntu) install cpanminus, sudo cpanm Graph::Easy and run:

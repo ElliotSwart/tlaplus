@@ -51,7 +51,7 @@ public class FixedSizedConcurrentBucketStatistics extends AbstractBucketStatisti
 	 * @param aTitle
 	 *            A title for console pretty printing
 	 * @param aMaxmimum
-	 *            see {@link BucketStatistics#maximum}
+	 *            see {@link BucketStatistics}
 	 */
 	public FixedSizedConcurrentBucketStatistics(final String aTitle, final int aMaxmimum) {
 		super(aTitle);

@@ -82,7 +82,7 @@ public abstract class AbstractDiskGraph {
 	private final String chkptName;
 	protected final String metadir;
 	/**
-	 * @see tlatools/test/tlc2/tool/liveness/AbstractDiskGraph.JPG
+	 * @see <a href="tlatools/test/tlc2/tool/liveness/AbstractDiskGraph.JPG">AbstractDiskGraph</a>
 	 */
 	protected final BufferedRandomAccessFile nodeRAF;
 	protected final BufferedRandomAccessFile nodePtrRAF;
@@ -163,9 +163,7 @@ public abstract class AbstractDiskGraph {
 	 * {@link GraphNode}s in the graph is therefore stored in the internal
 	 * {@link NodePtrTable}. The {@link BufferedRandomAccessFile} length does
 	 * not allow to draw a conclusion about the graph's node count.
-	 * 
-	 * @see commented tlc2.tool.liveness.DiskGraphTest#
-	 *      testAddSameGraphN	odeTwiceCorrectSuccessors
+	 *
 	 */
 	public final long addNode(final GraphNode node) throws IOException {
 		outDegreeGraphStats.addSample(node.succSize());
@@ -415,7 +413,6 @@ public abstract class AbstractDiskGraph {
 	 *         recreated ({@link #makeNodePtrTbl()}) or nodes are read from
 	 *         disk ({@link #getNodeFromDisk(long, int, long)}). It is up to
 	 *         the caller to take this into account.
-	 * @throws IOException
 	 */
 	public long getSizeOnDisk() throws IOException {
 		return this.nodePtrRAF.length() + this.nodeRAF.length();
@@ -431,13 +428,13 @@ public abstract class AbstractDiskGraph {
 	
 	/**
 	 * Only useful for debugging.
-	 * 
+	 *
 	 * No-OP when not wrapped inside {@link DiskGraph#createCache()} and
 	 * {@link DiskGraph#destroyCache()}
-	 * 
+	 *
 	 * Copy&Paste output "digraph DiskGraph {...} to a file called graphviz.txt
 	 * and call something similar to: 'dot -T svg graphviz.txt -o
-	 * "Graphviz.svg"'. It obviously needs Graphviz (http://www.graphviz.org).
+	 * "Graphviz.svg"'. It obviously needs Graphviz (<a href="http://www.graphviz.org">...</a>).
 	 */
 	public abstract String toDotViz(final OrderOfSolution oos);
 
@@ -476,18 +473,16 @@ public abstract class AbstractDiskGraph {
 	
 	/**
 	 * Only useful for debugging.
-	 * 
+	 *
 	 * Writes the current {@link AbstractDiskGraph} to the given {@link File}.
 	 * <p>
 	 * For the Eclipse IDE there exists a handy plug-in that automatically
 	 * renders a .dot file when selected in the package explorer. Just follow
 	 * the installation instructions at
-	 * https://github.com/abstratt/eclipsegraphviz
-	 * 
+	 * <a href="https://github.com/abstratt/eclipsegraphviz">...</a>
+	 *
 	 * @param oos
 	 *            Length of state checks
-	 * @param alen
-	 *            Length of action checks
 	 * @param file
 	 *            Destination
 	 */

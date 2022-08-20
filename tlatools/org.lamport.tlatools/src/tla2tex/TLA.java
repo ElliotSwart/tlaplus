@@ -151,7 +151,6 @@ public class TLA
     }
 
     /**
-     * @param args
      */
     public static void runTranslation(final String[] args)
     {

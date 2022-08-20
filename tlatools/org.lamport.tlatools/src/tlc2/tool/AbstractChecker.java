@@ -75,14 +75,6 @@ public abstract class AbstractChecker
 
     /**
      * Constructor of the abstract model checker
-     * @param specFile
-     * @param configFile
-     * @param dumpFile
-     * @param deadlock
-     * @param fromChkpt
-     * @param preprocess
-     * @param resolver
-     * @param spec - pre-built specification object (e.G. from calling SANY from the tool previously)
      */
 	public AbstractChecker(final ITool tool, final String metadir, final IStateWriter stateWriter,
                            final boolean deadlock, final String fromChkpt, final long startTime) throws EvalException, IOException {
@@ -228,7 +220,6 @@ public abstract class AbstractChecker
 
     /**
      * Responsible for printing the coverage information
-     * @param workers
      */
     protected void reportCoverage(final IWorker[] workers)
     {
@@ -288,7 +279,6 @@ public abstract class AbstractChecker
      * 
      * @param val                - the probability represented as a long; must satisfy 0 <= val <= 1.
      * @param significantDigits  - the number of significant digits to include; must be > 0.
-     * @return
      */
     private static String ProbabilityToString(final double val, final int significantDigits) {
         /*
@@ -426,7 +416,6 @@ public abstract class AbstractChecker
     /**
      * Initialize the model checker
      * @return an error code, or <code>EC.NO_ERROR</code> on success
-     * @throws Throwable
      */
     public abstract int doInit(boolean ignoreCancel) throws Throwable;
 
@@ -557,7 +546,6 @@ public abstract class AbstractChecker
 	
     /**
      * Debugging support
-     * @param message
      */
     protected void report(final String message)
     {
@@ -578,22 +566,17 @@ public abstract class AbstractChecker
      * Checkpoint: checkpoint three data structures: the state set, the
      *             state queue, and the state trace.
      * @return an error code, or <code>EC.NO_ERROR</code> on success
-     * @throws Exception
      */
     public abstract int doPeriodicWork() throws Exception;
 
     /**
      * Method called from the main worker loop
-     * @param count
-     * @param depth
-     * @throws Exception
      */
     protected abstract void runTLCContinueDoing(int count, int depth) throws Exception;
 
     /**
      * Main method of the model checker
      * @return an error code, or <code>EC.NO_ERROR</code> on success
-     * @throws Exception
      */
     final public int modelCheck() throws Exception {
         final int result = modelCheckImpl();

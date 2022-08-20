@@ -137,8 +137,7 @@ public class TestDriver
         }
 
         /**
-         * 
-         * @return
+         *
          */
         public synchronized boolean isRunning()
         {

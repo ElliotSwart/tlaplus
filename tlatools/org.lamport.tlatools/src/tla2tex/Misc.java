@@ -263,8 +263,6 @@ public final class Misc
    *      any spaces.
    *    - add \@s{3} or @s{4} depending on whether there are spaces before
    *      the ":"
-   * @param str
-   * @return
    */
   public static String TeXifyPcalLabel(final String str) {
       final StringBuilder out = new StringBuilder();

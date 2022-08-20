@@ -36,7 +36,7 @@ import util.Assert.TLCRuntimeException;
 
 /**
  * A {@link SetOfStates} is a hash set with open addressing that is intended to
- * be used in TLC's {@link ModelChecker#getNextStates()} implementation. In this
+ * be used in TLC's {@link ModelChecker#getNextStates} implementation. In this
  * are the number of {@link TLCState}s generated is relatively small and thus
  * the likelihood of consecutive ranges in the fingerprint domain low. In turn,
  * this means that the {@link TLCState}s in {@link SetOfStates} are evenly

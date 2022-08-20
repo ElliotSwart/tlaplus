@@ -357,9 +357,7 @@ public class GraphNode extends AbstractGraphNode {
 	/**
 	 * Writes this {@link GraphNode} into the given
 	 * {@link BufferedRandomAccessFile}
-	 * 
-	 * @param nodeRAF
-	 * @throws IOException
+	 *
 	 */
 	void write(final BufferedRandomAccessFile nodeRAF) throws IOException {
 		assert offset == NO_FREE_SLOTS; // assert that nnodes hasn't been overallocated.

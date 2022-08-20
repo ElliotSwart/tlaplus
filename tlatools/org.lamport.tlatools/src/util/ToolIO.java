@@ -72,7 +72,7 @@ public class ToolIO
 	 * Care must be taken with out and err not being synchronized. Concurrent
 	 * writes will cause interleaved output.
 	 * 
-	 * @see Bug #221 in general/bugzilla/index.html
+	 * @see <a href="general/bugzilla/index.html">Bug #221</a>
 	 */
     public static PrintStream err = System.err;
 
@@ -203,7 +203,6 @@ public class ToolIO
 
     /**
      * Sets default resolver
-     * @param resolver
      */
     public static void setDefaultResolver(FilenameToStream resolver)
     {

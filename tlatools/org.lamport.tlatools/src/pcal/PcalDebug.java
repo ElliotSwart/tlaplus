@@ -21,7 +21,7 @@ public class PcalDebug
 
     /**
      * Printer for the exceptions
-     * @param exception containing the message to print
+     * @param e containing the message to print
      */
     public static void reportError(final UnrecoverableException e)
     {

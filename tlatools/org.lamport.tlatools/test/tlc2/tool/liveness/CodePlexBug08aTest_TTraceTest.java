@@ -40,7 +40,7 @@ import tlc2.output.EC.ExitStatus;
 import util.TTraceTest;
 
 /**
- * see http://tlaplus.codeplex.com/workitem/8
+ * see <a href="http://tlaplus.codeplex.com/workitem/8">...</a>
  */
 public class CodePlexBug08aTest_TTraceTest extends TTraceModelCheckerTestCase {
 

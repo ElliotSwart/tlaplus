@@ -223,7 +223,6 @@ public class PcalFixIDs {
     /**
      * If nm is the i-th element of names, then return i.  Otherwise,
      * return -1 if nm is not any element of names.
-     * @return
      */
     private static int nameToNum(final String nm, final ArrayList<String> names) {
         for (int i = 0; i < names.size(); i++) {
@@ -236,10 +235,7 @@ public class PcalFixIDs {
     /**
      * FixProcedure modified by LL on 12 January 2011 so it also fixes the
      * plusLabels and minusLabels entries.
-     * 
-     * @param ast
-     * @param context
-     * @throws PcalFixIDException
+     *
      */
     private static void FixProcedure (final AST.Procedure ast, final String context) throws PcalFixIDException {
         for (int i = 0; i < ast.decls.size(); i++)
@@ -260,9 +256,6 @@ public class PcalFixIDs {
     /**
      * FixProcess modified by LL on 12 January 2011 so it also fixes the
      * plusLabels and minusLabels entries.
-     * @param ast
-     * @param context
-     * @throws PcalFixIDException
      */
     private static void FixProcess(final AST.Process ast, final String context) throws PcalFixIDException {
         for (int i = 0; i < ast.decls.size(); i++)

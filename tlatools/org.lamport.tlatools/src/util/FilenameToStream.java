@@ -127,10 +127,7 @@ public interface FilenameToStream
 	
     /**
      * This method resolves the logical name to the OS-resource
-     * @param filename
-     * @param isModule
-     * @return
-     */
+	 */
     File resolve(String filename, boolean isModule);
 
       /**
@@ -143,10 +140,8 @@ public interface FilenameToStream
      * Returns true iff moduleName is the name of a standard module, which
      * is identified by the directory in which its source file resides.
      *
-     * @param moduleName
-     * @return
-	 * @see tla2sany.modanalyzer.ParseUnit.isLibraryModule()
-	 * @see StandardModules.isDefinedInStandardModule()
+     * @see tla2sany.modanalyzer.ParseUnit#isLibraryModule()
+	 * @see tla2sany.semantic.StandardModules#isDefinedInStandardModule
      */
     boolean isStandardModule(String moduleName) ;
 

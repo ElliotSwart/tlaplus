@@ -35,9 +35,6 @@ public class NumeralNode extends ExprNode {
    * The following method was modified by LL on 20 Jul 2011 to handle
    * \b, \o, and \h numbers.
    *
-   * @param s
-   * @param stn
-   * @throws AbortException
    */
   public NumeralNode(final String s, final TreeNode stn ) throws AbortException {
     super(NumeralKind, stn);

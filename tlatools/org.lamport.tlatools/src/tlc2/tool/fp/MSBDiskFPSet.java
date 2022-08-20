@@ -29,8 +29,7 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 	 * 
 	 * @param maxInMemoryCapacity The number of fingerprints (not memory) this DiskFPSet should maximally store in-memory.
 	 * @param preBits Take the amount of DiskFPSet instance into account to move the index bits further to the right
-	 * @throws RemoteException
-	 */
+     */
 	protected MSBDiskFPSet(final FPSetConfiguration fpSetConfig) throws RemoteException {
 		super(fpSetConfig);
 

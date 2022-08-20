@@ -70,8 +70,7 @@ public class NamedInputStream extends FileInputStream
     /**
 	 * @return The absolute, resolved path. In case a file is symlinked, resolve the
 	 *         final target (doesn't work for cygwin symlinks but for mklink)
-     * @throws IOException 
-	 */
+     */
     public final Path getAbsoluteResolvedPath() throws IOException {
 		return inputFile.toPath().toRealPath();
     }
@@ -98,7 +97,6 @@ public class NamedInputStream extends FileInputStream
 
     /**
      * Sanity check method
-     * @return
      */
     public synchronized static int getNumberOfreferences()
     {

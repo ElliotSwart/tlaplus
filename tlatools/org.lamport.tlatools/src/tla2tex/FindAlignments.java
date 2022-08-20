@@ -657,9 +657,8 @@ public class FindAlignments
    *    label: stmt
    * 
    * the method sets the first stmt's aboveAlign field
-   *  
-   * @param spec
-   */
+   *
+     */
   public static void FindLabelAlignments(final Token[][] spec, TokenizeSpec tokenizeSpec) {
       /*
        * Do nothing if there is no PlusCal algorithm.

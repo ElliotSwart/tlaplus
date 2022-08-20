@@ -99,9 +99,7 @@ public class ModelChecker extends AbstractChecker
     /**
      * The only used constructor of the TLA+ model checker
      * SZ Feb 20, 2009
-     * @param resolver name resolver to be able to load files (specs and configs) from managed environments 
-     * @param specObj external SpecObj added to enable to work on existing specification 
-     */
+	 */
 	private ModelChecker(final ITool tool, final String metadir, final IStateWriter stateWriter, final boolean deadlock, final String fromChkpt,
                          final long startTime) throws EvalException, IOException    {
         // call the abstract constructor
@@ -334,8 +332,7 @@ public class ModelChecker extends AbstractChecker
     /**
      * Initialize the model checker
      * @return status, if false, the processing should be stopped
-     * @throws Throwable
-     */
+	 */
     @Override
     public final int doInit(final boolean ignoreCancel) throws Throwable {
     	return doInit(this.tool, ignoreCancel);
@@ -951,11 +948,8 @@ public class ModelChecker extends AbstractChecker
      * 
      * It looks like this is where the depth-first model checker exits when it has
      * finished checking the required depth, but I'm not sure.
-     * 
-     * @param count
-     * @param depth
-     * @throws Exception
-     */
+     *
+	 */
     @Override
     protected void runTLCContinueDoing(final int count, final int depth) throws Exception
     {
@@ -986,8 +980,7 @@ public class ModelChecker extends AbstractChecker
 
     /**
      * Debugging support
-     * @param e
-     */
+	 */
     private void report(final Throwable e)
     {
         DebugPrinter.print(e);

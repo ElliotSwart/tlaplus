@@ -34,16 +34,14 @@ public class Formula {
 
     /**
      * Constructs a formula representation
-     * @param formula
-     */
+	 */
 	public Formula(final String formulaString) {
 		formula = formulaString;
 	}
 
 	/**
 	 * Retrives formula
-	 * 
-	 * @return
+	 *
 	 */
 	public String getFormula() {
 		return formula;
@@ -55,7 +53,6 @@ public class Formula {
 	}
 
 	/**
-	 * @param formulaString
 	 */
 	public void setFormula(final String formulaString) {
 		formula = formulaString;

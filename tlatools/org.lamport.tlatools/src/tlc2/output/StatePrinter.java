@@ -37,7 +37,6 @@ public class StatePrinter
     /**
      * Prints a single state out of a larger state trace, for use when an
      * invariant is violated.
-     * @param currentStateInfo
      */
     public static void printInvariantViolationStateTraceState(final TLCStateInfo currentStateInfo) {
     	if (currentStateInfo.predecessorState == null) {

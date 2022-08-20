@@ -21,8 +21,7 @@ public class Bug210DiskFPSetTest extends AbstractFPSetTest {
 	}
 
 	/**
-	 * @see Bug #210 in general/bugzilla/index.html
-	 * @throws IOException
+	 * @see <a href="../../general/bugzilla/index.html">Bug #210</a>
 	 */
 	@Test
 	public void testDiskLookupWithOverflow() throws Exception {

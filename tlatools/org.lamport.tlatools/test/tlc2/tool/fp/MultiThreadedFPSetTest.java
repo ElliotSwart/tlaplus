@@ -86,15 +86,6 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 	}
 	
 	/**
-	 * @param fpgClass
-	 * @throws IOException
-	 * @throws InterruptedException
-	 * @throws NoSuchMethodException
-	 * @throws SecurityException
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 * @throws InvocationTargetException
 	 */
 	protected FPSet doTest(final Class<? extends FingerPrintGenerator> fpgClass) throws Exception {
 		// Skip the test if the property

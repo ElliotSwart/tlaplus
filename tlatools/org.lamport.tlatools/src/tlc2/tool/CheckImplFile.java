@@ -33,11 +33,6 @@ public class CheckImplFile extends CheckImpl
 
     private static final int WaitForTrace = 10000;
 
-    /**
-     * @param fpMemSize : Parameter added 6 Apr 2010 by Yuan Yu because it was added
-     * to ModelChecker constructor.
-     * 
-     */
     public CheckImplFile(final ITool tool, final String metadir, final boolean deadlock, final int depth, final String fromChkpt,
                          final String traceFile, final FPSetConfiguration fpSetConfig) throws IOException
     {

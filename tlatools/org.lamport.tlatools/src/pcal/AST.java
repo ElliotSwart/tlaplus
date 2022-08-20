@@ -403,8 +403,7 @@ public class AST
          * Converts the PVarDecl object to an equivalent VarDecl
          * object.  (I don't know why I bothered introducing a separate
          * PVarDecl object in the first place.)
-         * @return
-         */
+           */
         public VarDecl toVarDecl() {
             final VarDecl result = new VarDecl(pcalParams) ;
             result.var = this.var ;

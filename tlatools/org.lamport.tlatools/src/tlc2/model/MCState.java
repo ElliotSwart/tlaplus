@@ -306,7 +306,6 @@ public class MCState {
      * 
      * @param includeTraceExpressions whether trace expressions should be included.
      * @param indent if non-null, this will be prepended to each line
-     * @return
      */
     public String getConjunctiveDescription(final boolean includeTraceExpressions, final String indent) {
         return getConjunctiveDescription(includeTraceExpressions, indent, false);
@@ -329,7 +328,6 @@ public class MCState {
      * @param indent if non-null, this will be prepended to each line
      * @param ansiMarkup if true, the String will include ANSI markup for trace expressions; this is currently ignored
      * 							if includeTraceExpressions is false
-     * @return
      */
     public String getConjunctiveDescription(final boolean includeTraceExpressions, final String indent,
     										final boolean ansiMarkup) {

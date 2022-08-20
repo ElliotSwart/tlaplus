@@ -63,9 +63,7 @@ public class Defns implements ToolGlobals, Serializable
     }
 
     /**
-     * Convenience method for {@link Defns#get(UniqueString)} 
-     * @param key
-     * @return
+     * Convenience method for {@link Defns#get(UniqueString)}
      */
     public Object get(final String key)
     {

@@ -36,7 +36,6 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	
 	/**
 	 * Tests if {@link DiskFPSet#diskLookup(long)} returns true for zero fp
-	 * @throws Exception 
 	 */
 	@Test
 	public void testWithoutZeroFP() throws Exception {
@@ -47,7 +46,6 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	
 	/**
 	 * Tests if {@link DiskFPSet#diskLookup(long)} returns true for min fp
-	 * @throws Exception 
 	 */
 	@Test
 	public void testWithoutMinFP() throws Exception {
@@ -58,7 +56,6 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	
 	/**
 	 * Tests if {@link DiskFPSet#diskLookup(long)} returns true for max fp
-	 * @throws Exception 
 	 */
 	@Test
 	public void testWithoutMaxFP() throws Exception {
@@ -69,7 +66,6 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	
 	/**
 	 * Tests if {@link DiskFPSet#diskLookup(long)} accepts a 0 fp
-	 * @throws Exception 
 	 */
 	@Test
 	public void testZeroFP() throws Exception {
@@ -89,7 +85,6 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	
 	/**
 	 * Tests if {@link DiskFPSet#diskLookup(long)} accepts a min fp
-	 * @throws Exception 
 	 */
 	@Test
 	public void testMinFP() throws Exception {
@@ -111,7 +106,6 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	
 	/**
 	 * Tests if {@link DiskFPSet#diskLookup(long)} accepts a min - 1  fp
-	 * @throws Exception 
 	 */
 	@Test
 	public void testMinMin1FP() throws Exception {
@@ -126,7 +120,6 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 
 	/**
 	 * Tests if {@link DiskFPSet#diskLookup(long)} accepts a -1 fp
-	 * @throws Exception 
 	 */
 	@Test
 	public void testNeg1FP() throws Exception {
@@ -139,7 +132,6 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	
 	/**
 	 * Tests if {@link DiskFPSet#diskLookup(long)} accepts a +1 fp
-	 * @throws Exception 
 	 */
 	@Test
 	public void testPos1FP() throws Exception {
@@ -152,7 +144,6 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 
 	/**
 	 * Tests if {@link DiskFPSet#diskLookup(long)} accepts a max fp
-	 * @throws Exception 
 	 */
 	@Test
 	public void testMaxFP() throws Exception {
@@ -167,8 +158,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	 * Tries to call
 	 * {@link DiskFPSet#calculateMidEntry(long, long, double, long, long)} with
 	 * values causing a negative midEntry to be calculated.
-	 * 
-	 * @throws Exception
+	 *
 	 */
 	@Test
 	public void testValues() throws Exception {
@@ -290,8 +280,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	 * first fp in first page
 	 * 
 	 * page size hard-coded in {@link DiskFPSet} to be 1024
-	 * 
-	 * @throws Exception 
+	 *
 	 */
 	@Test
 	@SuppressWarnings("deprecation")
@@ -316,8 +305,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	
 	/**
 	 * Tests how {@link DiskFPSet#memLookup(long)} handles zeros
-	 * 
-	 * @throws Exception 
+	 *
 	 */
 	@Test
 	public void testMemLookupWithZeros() throws Exception {
@@ -339,8 +327,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	
 	/**
 	 * Tests how {@link DiskFPSet#memLookup(long)} handles Long.Min_VALUE
-	 * 
-	 * @throws Exception 
+	 *
 	 */
 	@Test
 	public void testMemLookupWithMin() throws Exception {
@@ -362,8 +349,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	
 	/**
 	 * Tests how {@link DiskFPSet#memLookup(long)} handles MAx_Value
-	 * 
-	 * @throws Exception 
+	 *
 	 */
 	@Test
 	public void testMemLookupWithMax() throws Exception {
@@ -377,8 +363,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 
 	/**
 	 * Tests how {@link DiskFPSet#memLookup(long)} handles zeros
-	 * 
-	 * @throws Exception 
+	 *
 	 */
 	@Test
 	public void testDiskLookupWithZeros() throws Exception {
@@ -414,8 +399,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	
 	/**
 	 * Tests how {@link DiskFPSet#memLookup(long)} handles Long.Min_VALUE
-	 * 
-	 * @throws Exception 
+	 *
 	 */
 	@Test
 	public void testDiskLookupWithMin() throws Exception {
@@ -432,8 +416,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	
 	/**
 	 * Tests how {@link DiskFPSet#memLookup(long)} handles MAx_Value
-	 * 
-	 * @throws Exception 
+	 *
 	 */
 	@Test
 	public void testDiskLookupWithMax() throws Exception {
@@ -449,8 +432,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 
 	/**
 	 * Tests how {@link DiskFPSet#diskLookup(long)} handles max on pages
-	 * 
-	 * @throws Exception 
+	 *
 	 */
 	@Test
 	public void testDiskLookupWithMaxOnPage() throws Exception {
@@ -459,8 +441,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 
 	/**
 	 * Tests how {@link DiskFPSet#diskLookup(long)} handles zeros on pages
-	 * 
-	 * @throws Exception 
+	 *
 	 */
 	@Test
 	public void testDiskLookupWithZerosOnPage() throws Exception {
@@ -476,8 +457,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 
 	/**
 	 * Tests how {@link DiskFPSet#diskLookup(long)} handles Long#Min_Value on pages
-	 * 
-	 * @throws Exception 
+	 *
 	 */
 	@Test
 	public void testDiskLookupWithLongMinValueOnPage() throws Exception {

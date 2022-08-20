@@ -12,8 +12,7 @@ public class StatisticalBlockSelector extends LimitingBlockSelector {
 	private final double networkOverheadLimit;
 
 	/**
-	 * @param aTLCServer
-	 */
+     */
 	public StatisticalBlockSelector(final TLCServer aTLCServer) {
 		super(aTLCServer);
 		this.networkOverheadLimit = 2.5 / 100d; 

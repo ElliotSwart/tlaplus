@@ -85,7 +85,7 @@ public class LiveWorker implements Callable<Boolean> {
 
 	/**
 	 * The main routine that computes strongly connected components (SCCs) (see
-	 * http://en.wikipedia.org/wiki/Strongly_connected_component), and checks
+	 * <a href="http://en.wikipedia.org/wiki/Strongly_connected_component">...</a>), and checks
 	 * each of them to see if it contains a counterexample.
 	 * <p>
 	 * It is Tarjan's SCC algorithm at work:
@@ -107,13 +107,10 @@ public class LiveWorker implements Callable<Boolean> {
 	 * checkSccs runs on a partial graph. Thus some nodes are marked undone.
 	 * Those nodes are skipped by the SCC search.</li>
 	 * </ul>
-	 * @throws ExecutionException 
-	 * @throws InterruptedException 
-	 * 
 	 * @see http://en.wikipedia.org/wiki/Tarjan'
 	 *      s_strongly_connected_components_algorithm
 	 * @see http://dx.doi.org/10.1137%2F0201010
-	 * 
+	 *
 	 */
 	private void checkSccs(final ITool tool) throws IOException, InterruptedException, ExecutionException {
 		// Initialize this.dg:
@@ -492,8 +489,6 @@ public class LiveWorker implements Callable<Boolean> {
 	 * satisfies &#968;). ~&#966; (called &#968; by MP) is the negation of the
 	 * liveness formula &#966; which has to be "P-valid" for the liveness
 	 * properties to be valid.
-	 * @throws ExecutionException 
-	 * @throws InterruptedException 
 	 */
 	private boolean checkComponent(final ITool tool, final long state, final int tidx, final IntStack comStack) throws IOException, InterruptedException, ExecutionException {
 		final long comStackSize = comStack.size();
@@ -778,8 +773,6 @@ public class LiveWorker implements Callable<Boolean> {
 	 *            The current SCC which is known to satisfy the
 	 *            {@link PossibleErrorModel} and thus violates the liveness
 	 *            properties.
-	 * @throws ExecutionException 
-	 * @throws InterruptedException 
 	 */
 	private void printTrace(final ITool tool, final long state, final int tidx, final TableauNodePtrTable nodeTbl) throws IOException, InterruptedException, ExecutionException {
 
@@ -1283,10 +1276,6 @@ public class LiveWorker implements Callable<Boolean> {
 	
 	/**
 	 * Write the output of {@link LiveWorker#toDotViz(long, int, TableauNodePtrTable)} to the given file.
-	 * @param state
-	 * @param tidx
-	 * @param tnpt
-	 * @param file
 	 */
 	public void writeDotViz(final long state, final int tidx, final TableauNodePtrTable tnpt, final java.io.File file) {
 		// Ignore trivial SCCs consisting of a single node.

@@ -29,7 +29,7 @@ public class Bug242DiskFPSetTest extends AbstractFPSetTest {
 	}
 	
 	/**
-	 * @see Bug #242 in general/bugzilla/index.html
+	 * @see <a href="../../general/bugzilla/index.html">Bug #242</a>
 	 */
 	@Test
 	public void testDiskFPSetWithHighMem() {

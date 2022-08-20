@@ -25,14 +25,14 @@ import util.ToolIO;
 public class LazyValue extends Value {
 	private static final long serialVersionUID = -6829055787675377238L;
 	/**
-	 * Allow to completely disable LazyValue by passing a VM property/system
-	 * property to the Java VM with "-Dtlc2.value.LazyValue.off=true". This is meant
-	 * for debug purposes only and can be removed at any time. This is not API.
-	 * 
-	 * This property was added 01/12/2018 by Markus Kuppe in the process of fixing a
-	 * bug where TLC generates and incorrect set of states with certain statements.
-	 * More details can be found at https://github.com/tlaplus/tlaplus/issues/113.
-	 */
+     * Allow to completely disable LazyValue by passing a VM property/system
+     * property to the Java VM with "-Dtlc2.value.LazyValue.off=true". This is meant
+     * for debug purposes only and can be removed at any time. This is not API.
+     *
+     * This property was added 01/12/2018 by Markus Kuppe in the process of fixing a
+     * bug where TLC generates and incorrect set of states with certain statements.
+     * More details can be found at <a href="https://github.com/tlaplus/tlaplus/issues/113">...</a>.
+     */
 	private static final boolean LAZYEVAL_OFF = Boolean.getBoolean(tlc2.value.impl.LazyValue.class.getName() + ".off");
 	
 	static {

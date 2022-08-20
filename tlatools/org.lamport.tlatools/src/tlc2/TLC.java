@@ -395,7 +395,6 @@ public class TLC {
      * This method handles parameter arguments and prepares the actual call
      * <strong>Note:</strong> This method set ups the static TLCGlobals variables
      * @return status of parsing: true iff parameter check was ok, false otherwise
-     * @throws IOException 
      */
     // SZ Feb 23, 2009: added return status to indicate the error in parsing
 	@SuppressWarnings("deprecation")	// we're emitting a warning to the user, but still accepting fpmem values > 1

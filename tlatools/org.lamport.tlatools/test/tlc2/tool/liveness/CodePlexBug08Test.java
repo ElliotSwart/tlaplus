@@ -39,7 +39,7 @@ import tlc2.output.EC.ExitStatus;
 import util.TLAConstants;
 
 /**
- * see http://tlaplus.codeplex.com/workitem/8
+ * see <a href="http://tlaplus.codeplex.com/workitem/8">...</a>
  */
 public class CodePlexBug08Test extends ModelCheckerTestCase {
 

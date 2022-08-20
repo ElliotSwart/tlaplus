@@ -474,8 +474,6 @@ public class ModelConfig implements ValueConstants, Serializable {
 
     /**
      * Retrieves the next token from the token manager
-     * @param tmgr
-     * @return
      */
     private static Token getNextToken(final TLAplusParserTokenManager tmgr)
     {

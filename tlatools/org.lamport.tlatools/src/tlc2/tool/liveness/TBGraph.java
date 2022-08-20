@@ -125,7 +125,7 @@ public class TBGraph extends ArrayList<TBGraphNode> {
 	}
 
 	/**
-	 * @see AbstractDiskGraph#toDotViz()
+	 * @see AbstractDiskGraph#toDotViz
 	 */
 	public String toDotViz() {
 		final StringBuilder sb = new StringBuilder();

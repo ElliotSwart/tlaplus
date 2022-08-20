@@ -35,7 +35,8 @@ public interface DiskFPSetMXBean {
 	 */
 	long getDiskSeekCache();
 	/**
-	 * @see DiskFPSet#getDiskSeekRate()
+	 * @see tlc2.tool.fp.DiskFPSet#getDiskSeekCnt()
+	 * * @see tlc2.tool.fp.DiskFPSet#getDiskSeekCache()
 	 */
 	double getDiskSeekRate();
 	/**
@@ -90,7 +91,6 @@ public interface DiskFPSetMXBean {
 	int getCheckPointMark();
 	
 	/**
-	 * @return
 	 */
 	long getSizeOf();
 	

@@ -48,9 +48,7 @@ public class DFIDModelChecker extends AbstractChecker
     public final int dfidMax;
 
     /** 
-     * Constructor for running DFID   
-     * @param startTime 
-     * @param resolver 
+     * Constructor for running DFID
      */
 	public DFIDModelChecker(final ITool tool, final int dfidMax, final String metadir, final IStateWriter stateWriter,
                             final boolean deadlock, final String fromChkpt, final long startTime) throws EvalException, IOException {
@@ -651,7 +649,6 @@ public class DFIDModelChecker extends AbstractChecker
 
     /**
      * Stop the workers
-     * @param code
      */
     public final void setStop(final int code)
     {
@@ -778,10 +775,7 @@ public class DFIDModelChecker extends AbstractChecker
     }
 
     /**
-     * Process calculation 
-     * @param count
-     * @param depth
-     * @throws Exception
+     * Process calculation
      */
     @Override
     protected void runTLCContinueDoing(int count, final int depth) throws Exception

@@ -25,8 +25,7 @@ public class PCalTLAGenerator
     private final ParseAlgorithm parseAlgorithm;
 
     /**
-     * Constructs a working copy 
-     * @param ast
+     * Constructs a working copy
      */
     public PCalTLAGenerator(final AST ast, final ParseAlgorithm parseAlgorithm)
     {

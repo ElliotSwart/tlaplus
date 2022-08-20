@@ -28,7 +28,6 @@ import util.ToolIO;
 /**
  * This class holds the results from running the SANY on a single TLA+
  * specification.
- * @version: $Id$
  */
 public class SpecObj
 {

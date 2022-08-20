@@ -9,7 +9,6 @@ public class LimitingBlockSelector extends BlockSelector {
 
 	/**
 	 * Limits the block size to 8192
-	 * @param aTLCServer
 	 */
 	LimitingBlockSelector(final TLCServer aTLCServer) {
 		this(aTLCServer, 8192);

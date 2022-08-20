@@ -8,7 +8,7 @@ import tlc2.model.MCState;
 import tlc2.tool.TLCStateInfo;
 
 /**
- * Saves all messages containing info about error traces that pass through {@link tlc.output.MP}.
+ * Saves all messages containing info about error traces that pass through {@link tlc2.output.MP}.
  * Ideally this will eventually go away and all of TLC's model checking implementations will
  * bubble their error traces up through their top-level .run() methods, but until that
  * refactoring takes place this is how we get the error trace: by hooking into the static

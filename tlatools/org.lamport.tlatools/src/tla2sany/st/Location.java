@@ -56,8 +56,8 @@ public final class Location implements Comparable<Location>
      *      Location location = Location.parseLocation(locationString); 
      * }
      * </pre>
-     * @see {@link Location#parseLocation(String)}
-     * @see Location#getParsedLocations(String)
+     * @see tla2sany.st.Location#parseLocation(String)
+     * @see tla2sany.st.Location#getParsedLocations(String)
      */
     public static final Pattern LOCATION_MATCHER = Pattern
             .compile(LINE + NATURAL /* bl group */+ COL + NATURAL
@@ -227,8 +227,6 @@ public final class Location implements Comparable<Location>
      * Location loc = Location.parseLocation(sub)
      * </pre>
      * 
-     * @param input
-     * @return
      * @see Location#nullLoc
      */
     public static Location[] getParsedLocations(final String input)
@@ -381,7 +379,6 @@ public final class Location implements Comparable<Location>
 	}
 	
 	/**
-	 * @param line
 	 * @return returns true if line is in [beginLine, endLine]
 	 */
 	public boolean containsLine(final int line) {

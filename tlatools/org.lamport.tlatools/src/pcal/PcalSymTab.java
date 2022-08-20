@@ -191,9 +191,7 @@ public class PcalSymTab {
      * the symbol table for the AST ast, which I presume contains all things
      * whose name must be looked up, which includes labels, variables, and
      * probably process and procedure names.
-     * 
-     * @param ast
-     * @throws PcalSymTabException
+     *
      */
     public PcalSymTab (final AST ast) throws PcalSymTabException {
 

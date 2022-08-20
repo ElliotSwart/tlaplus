@@ -104,7 +104,7 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 	 * Asserts that the actual trace and the expected error trace are equal.
 	 *
 	 * @param actual
-	 *            The actual trace as recorded by {@link MPRecorder}.
+	 *            The actual trace as recorded by {@link tlc2.TestMPRecorder}.
 	 * @param expectedTrace
 	 *            The expected trace.
 	 */
@@ -164,13 +164,11 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 	 * with capacity zero and subsequently grows BV when bits are set to true.
 	 * <p>
 	 *
-	 * @see BitSet#read(BufferedRandomAccessFile)
-	 * @see BitSet#write(BufferedRandomAccessFile)
+	 * @see tlc2.util.BitSetUtilities#fromFile
+	 * @see tlc2.util.BitSetUtilities#write
 	 * @see GraphNode#read(BufferedRandomAccessFile)
 	 * @see GraphNode#write(BufferedRandomAccessFile)
 	 *
-	 * @param nodesSize
-	 * @param ptrsSize
 	 */
 	protected void assertNodeAndPtrSizes(final long nodesSize, final long ptrsSize) {
 		final String metadir = tlc.mainChecker.metadir;

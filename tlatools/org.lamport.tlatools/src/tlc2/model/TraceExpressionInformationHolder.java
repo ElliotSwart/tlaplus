@@ -16,8 +16,6 @@ import util.TLAConstants;
  */
 public class TraceExpressionInformationHolder {
 	/**
-	 * @param expressions
-	 * @param attributeName
 	 * @return expressions.size() instances of {@code TraceExpressionInformationHolder}
 	 */
 	public static TraceExpressionInformationHolder[] createHolders(final List<Formula> expressions, final String attributeName) {

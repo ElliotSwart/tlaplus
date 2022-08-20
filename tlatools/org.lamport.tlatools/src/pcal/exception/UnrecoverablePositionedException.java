@@ -20,8 +20,6 @@ public class UnrecoverablePositionedException extends UnrecoverableException
     }
 
     /**
-     * @param message
-     * @param position
      */
     public UnrecoverablePositionedException(final String message, final AST position)
     {

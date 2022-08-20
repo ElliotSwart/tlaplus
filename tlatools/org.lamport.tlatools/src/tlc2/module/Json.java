@@ -136,7 +136,7 @@ public class Json {
    * Serializes a tuple of values to newline delimited JSON.
    *
    * @param path  the file to which to write the values
-   * @param value the values to write
+   * @param v the values to write
    * @return a boolean value indicating whether the serialization was successful
    */
   @TLAPlusOperator(identifier = "ndJsonSerialize", module = "Json", warn = false)
@@ -156,7 +156,7 @@ public class Json {
    * Serializes a tuple of values to newline delimited JSON.
    *
    * @param path  the file to which to write the values
-   * @param value the values to write
+   * @param v the values to write
    * @return a boolean value indicating whether the serialization was successful
    */
   @TLAPlusOperator(identifier = "JsonSerialize", module = "Json", warn = false)

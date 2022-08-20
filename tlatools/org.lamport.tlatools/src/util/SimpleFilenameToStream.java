@@ -157,7 +157,7 @@ public class SimpleFilenameToStream implements FilenameToStream {
    *  anyway.  Hence, the File object returned does not necessarily represent a file
    *  that actually exists in the file system.
    *
-   *  @param  module name, used as basis of path name to the file that should contain it
+   *  @param  name, module used as basis of path name to the file that should contain it
    */
   private File locate(final String name)
   {
@@ -307,8 +307,8 @@ public class SimpleFilenameToStream implements FilenameToStream {
 	 * This method is used to set the isStandard field of the module's ModuleNode.
 	 * I don't know if this is every called with a module that
 	 * Added by LL on 24 July 2013.
-	 * @see tla2sany.modanalyzer.ParseUnit.isLibraryModule()
-	 * @see StandardModules.isDefinedInStandardModule()
+	 * @see tla2sany.modanalyzer.ParseUnit#isLibraryModule()
+	 * @see tla2sany.semantic.StandardModules#isDefinedInStandardModule
 	 */
 	@Override
     public boolean isStandardModule(final String moduleName) {

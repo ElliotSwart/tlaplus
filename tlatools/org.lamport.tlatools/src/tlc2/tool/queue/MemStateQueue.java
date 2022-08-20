@@ -60,7 +60,6 @@ public final class MemStateQueue extends StateQueue {
   }
     
   /**
-   * @param oldLength
    * @return The new capacity softly increased
    */
   private int getNewLength(final long oldLength) {

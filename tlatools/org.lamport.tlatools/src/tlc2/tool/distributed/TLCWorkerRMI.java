@@ -21,9 +21,7 @@ public interface TLCWorkerRMI extends Remote, AutoCloseable {
 	/**
 	 * @param states The initial states to work with
 	 * @return The next states for the initial state wet
-	 * @throws RemoteException
-	 * @throws WorkerException
-	 */
+     */
     NextStateResult getNextStates(TLCState[] states) throws RemoteException,
 			WorkerException;
 	
@@ -35,8 +33,7 @@ public interface TLCWorkerRMI extends Remote, AutoCloseable {
 	
 	/**
 	 * @return The {@link URI} address of this worker
-	 * @throws RemoteException
-	 */
+     */
     URI getURI() throws RemoteException;
 
 	/**

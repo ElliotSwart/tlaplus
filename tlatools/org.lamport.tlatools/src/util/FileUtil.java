@@ -71,10 +71,6 @@ public class FileUtil
 
     /**
      * Implementation of the file deletion
-     * @param file
-     * @param recurse
-     * @param resolver
-     * @return
      */
     private static boolean doDeleteDir(final File file, final boolean recurse)
     {
@@ -101,11 +97,6 @@ public class FileUtil
 
     /**
      * Constructs a input stream from the file
-     * @param file
-     * @param useGzip
-     * @param useIBuffers
-     * @param buffersize
-     * @return
      * @throws IOException
      * SZ Feb 20, 2009: FileNotFoundException removed
      */
@@ -131,12 +122,6 @@ public class FileUtil
 
     /**
      * Constructs an output stream to a file
-     * @param file
-     * @param useGzip
-     * @param useOBuffers
-     * @param buffersize
-     * @return
-     * @throws IOException
      */
     public static OutputStream newBZFileOutputStream(final String file, final boolean useGzip, final boolean useOBuffers, final int buffersize)
             throws IOException
@@ -146,14 +131,6 @@ public class FileUtil
 
     /**
      * Constructs an output stream to a file
-     * @param file
-     * @param useGzip
-     * @param useOBuffers
-     * @param buffersize
-     * @param append
-     *
-     * @return
-     * @throws IOException
      */
     public static OutputStream newBZFileOutputStream(final String file, final boolean useGzip, final boolean useOBuffers, final int buffersize,
                                                      final boolean app) throws IOException
@@ -181,10 +158,7 @@ public class FileUtil
 
 	/**
 	 * Atomically replaces the file targetName with the file sourceName.
-	 * @param sourceName
-	 * @param targetName
-	 * @throws IOException
-	 */
+     */
 	public static void replaceFile(final String sourceName, final String targetName) throws IOException {
 		Files.move(new File(sourceName).toPath(), new File(targetName).toPath(), StandardCopyOption.REPLACE_EXISTING);
 	}
@@ -368,9 +342,6 @@ public class FileUtil
 
     /**
      * retrieves a new buffered file output stream
-     * @param name
-     * @return
-     * @throws FileNotFoundException 
      */
     public static OutputStream newBFOS(final String name) throws FileNotFoundException
     {
@@ -396,10 +367,6 @@ public class FileUtil
     }
 
     /**
-     * @param useGZIP
-     * @param string
-     * @return
-     * @throws IOException
      */
     public static BufferedDataInputStream newBdFIS(final boolean useGZIP, final String filename) throws IOException
     {
@@ -407,11 +374,6 @@ public class FileUtil
     }
 
     /**
-     * @param b
-     * @param poolFile
-     * @return
-     * @throws IOException
-     * @throws FileNotFoundException
      */
     @SuppressWarnings("resource")
 	public static BufferedDataOutputStream newBdFOS(final boolean useGZIP, final File file) throws FileNotFoundException, IOException
@@ -425,10 +387,6 @@ public class FileUtil
     }
 
     /**
-     * @param useGZIP
-     * @param string
-     * @return
-     * @throws IOException
      */
     public static BufferedDataOutputStream newBdFOS(final boolean useGZIP, final String filename) throws IOException
     {
@@ -442,10 +400,6 @@ public class FileUtil
     }
 
     /**
-     * @param chkptfile
-     * @return
-     * @throws IOException
-     * @throws FileNotFoundException
      */
     public static ObjectInputStream newOBFIS(final String filename) throws FileNotFoundException, IOException
     {
@@ -454,10 +408,6 @@ public class FileUtil
 
 
     /**
-     * @param poolFile
-     * @return
-     * @throws IOException
-     * @throws FileNotFoundException
      */
     public static ObjectOutputStream newOBFOS(final File file) throws FileNotFoundException, IOException
     {
@@ -465,10 +415,6 @@ public class FileUtil
     }
 
     /**
-     * @param tmpfile
-     * @return
-     * @throws IOException
-     * @throws FileNotFoundException
      */
     public static ObjectOutputStream newOBFOS(final String filename) throws FileNotFoundException, IOException
     {
@@ -476,10 +422,6 @@ public class FileUtil
     }
 
     /**
-     * @param b
-     * @param chkptName
-     * @return
-     * @throws FileNotFoundException
      */
     public static DataInputStream newDFIS(final String filename) throws FileNotFoundException
     {
@@ -487,9 +429,6 @@ public class FileUtil
     }
 
     /**
-     * @param chkptName
-     * @return
-     * @throws FileNotFoundException
      */
     public static DataOutputStream newDFOS(final String filename) throws FileNotFoundException
     {

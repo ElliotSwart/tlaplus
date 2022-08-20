@@ -150,8 +150,7 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
     
 	/**
 	 * @return true iff no invaritant is violated.
-	 * @throws IOException
-	 */
+     */
 	@Override
     public boolean checkInvariant() throws IOException {
 		return true;
@@ -163,8 +162,7 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
 	 *            {@link FPSet}
 	 * @return true iff no invaritant is violated and the FPSet contains the
 	 *         expected amount of fingerprints.
-	 * @throws IOException
-	 */
+     */
 	public boolean checkInvariant(final long expectFPs) throws IOException {
 		return true;
 	}
@@ -222,18 +220,14 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
     }
 
 	/**
-	 * @param fpBits
-	 * @return
-	 */
+     */
 	public static boolean isValid(final int fpBits) {
 		return fpBits >= 0 && fpBits <= MultiFPSet.MAX_FPBITS;
 	}
 
 	/**
 	 * @see UnicastRemoteObject#unexportObject(java.rmi.Remote, boolean)
-	 * @param force
-	 * @throws NoSuchObjectException
-	 */
+     */
 	public void unexportObject(final boolean force) throws NoSuchObjectException {
 		UnicastRemoteObject.unexportObject(this, force);
 	}

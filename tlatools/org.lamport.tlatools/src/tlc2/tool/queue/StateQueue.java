@@ -296,7 +296,6 @@ public abstract class StateQueue implements IStateQueue {
 	}
 	
 	/**
-	 * @return
 	 */
 	private boolean needsWaiting() {
 		//MAK 04/2012: Commented to fix an EOFException when liveness checking is enabled 

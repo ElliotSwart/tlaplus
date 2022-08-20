@@ -47,10 +47,10 @@ import tlc2.util.FP64;
  * the number of state variables defined in the specification is maintained in the static member {@link UniqueString#varCount}. 
  * The methods that are responsible for this feature are:
  * <ul>
- *   <li>{@link UniqueString#getDefnLoc()}</li>
- *   <li>{@link UniqueString#getVarLoc()}</li>
+ *   <li>{@link UniqueString#getDefnLoc}</li>
+ *   <li>{@link UniqueString#getVarLoc}</li>
  *   <li>{@link UniqueString#setLoc(int)}</li>
- *   <li>{@link UniqueString#setVariableCount(int)}</li>
+ *   <li>{@link UniqueString#setVariableCount}</li>
  * </ul>
  * <br>
  * Finally, there are two methods responsible for marshaling/un-marshaling and convenience methods to put and get unique 
@@ -163,8 +163,8 @@ public final class UniqueString implements Serializable
      * Set this string's location in either the state or the defns.
      * This is fishy to store location outside of the storage
      *
-     * @see {@link TLCState}
-     * @see {@link Defns}
+     * @see tlc2.tool.TLCState
+     * @see tlc2.tool.Defns
      */
 
     public void setLoc(final int loc)
@@ -174,7 +174,6 @@ public final class UniqueString implements Serializable
 
     /**
      * Retrieves the unique number associated with this string
-     * @return
      */
     public int getTok()
     {
@@ -203,7 +202,7 @@ public final class UniqueString implements Serializable
     }
 
     /**
-     * @see {@link String#hashCode()} 
+     * @see java.lang.String#hashCode()
      */
     public int hashCode()
     {
@@ -211,7 +210,7 @@ public final class UniqueString implements Serializable
     }
 
     /**
-     * @see {@link String#length()} 
+     * @see java.lang.String#length()
      */
     public int length()
     {
@@ -219,9 +218,7 @@ public final class UniqueString implements Serializable
     }
     /**
      * Not a compare method as usual for objects
-     * Delivers the difference in positions inside of the table, the unique strings are stored in 
-     * @param uniqueString
-     * @return
+     * Delivers the difference in positions inside of the table, the unique strings are stored in
      */
     public int compareTo(final UniqueString uniqueString)
     {
@@ -302,9 +299,6 @@ public final class UniqueString implements Serializable
 
     /**
      * Writes current unique string to the stream
-     * @param dos
-     * @return
-     * @throws IOException
      */
     public void write(final IDataOutputStream dos) throws IOException
     {
@@ -318,8 +312,6 @@ public final class UniqueString implements Serializable
 
     /**
      * Utility method for reading a unique string from the stream
-     * @param dis
-     * @return
      * @throws IOException
      * 
      * The method does not change member/class variables
@@ -344,8 +336,7 @@ public final class UniqueString implements Serializable
 
 
     /**
-     * Sets the source 
-     * @param source
+     * Sets the source
      */
     public static void setSource(final InternRMI source)
     {

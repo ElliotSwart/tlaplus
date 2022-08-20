@@ -39,7 +39,7 @@ import util.FileUtil;
 /**
  * Writes the given state in dot notation.
  * 
- * @see https://en.wikipedia.org/wiki/DOT_(graph_description_language)
+ * @see <a href="https://en.wikipedia.org/wiki/DOT_(graph_description_language)">DOT Format</a>
  * 
  * 
  * To ASCII-render a graph (on Debian|Ubuntu) install cpanminus, sudo cpanm Graph::Easy and run:
@@ -80,14 +80,12 @@ public class DotStateWriter extends StateWriter {
 	}
 	
 	/**
-	 * @param fname
 	 * @param colorize
 	 *            Colorize state transition edges in the DOT state graph.
 	 * @param actionLabels
 	 *            Label transition edges in the state graph with the name of the
 	 *            associated action. Can potentially add a large amount of visual
 	 *            clutter for large graphs with many actions.
-	 * @throws IOException
 	 */
 	public DotStateWriter(final String fname, final boolean colorize, final boolean actionLabels,
 			final boolean snapshot) throws IOException {
@@ -239,7 +237,6 @@ public class DotStateWriter extends StateWriter {
 	 * method updates the (action -> color) mapping if this action has not been seen
 	 * before for this DotStateWriter instance.
 	 * 
-	 * @param action
 	 * @return the color identifier for the given action
 	 */
 	protected Integer getActionColor(final Action action) {
@@ -287,7 +284,6 @@ public class DotStateWriter extends StateWriter {
 	 * 
 	 * @param name the title of the legend
 	 * @param actions the set of action names that will be included in the legend
-	 * @return
 	 */
 	protected String dotLegend(final String name, final Set<String> actions) {
 		final StringBuilder sb = new StringBuilder();

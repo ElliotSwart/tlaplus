@@ -89,9 +89,7 @@ public class TLAtoPCalMapping implements Serializable {
   /**
    * Sets the mapping field to an array version of mapVec, which must be a vector 
    * of vectors of MappingObjects.
-   * 
-   * @param mapVec
-   * @return
+   *
    */
   public void  makeMapping(final ArrayList<ArrayList<MappingObject>> mapVec) {
      this.mapping = new MappingObject[mapVec.size()][] ;
@@ -179,11 +177,8 @@ public class TLAtoPCalMapping implements Serializable {
    * This implements the algorithm of module TLAToPCal.
    * <p> 
    * Preconditions: 1. The first and last lines of mapping.mapping are not empty.
-   * 
-   * @param mapping
-   * @param tpregion
-   * @return
-   */
+   *
+ */
   public static Region ApplyMapping(final TLAtoPCalMapping mapping, final Region tpregion) {
       /*
        * This method is the implementation of the algorithm in TLAToPCal.tla.  In that
@@ -383,7 +378,6 @@ public class TLAtoPCalMapping implements Serializable {
    * the location before pos if movingForward = FALSE.  This essentially
    * implements the macro of the same name in the algorithm of module
    * TLAToPCal.
-   * @return
    */
   private static int ModifiedDepth(final int var, final PCalLocation pos, final boolean movingForward, final MappingObject[][] tpMap) {
       int amt = 0;
@@ -413,9 +407,6 @@ public class TLAtoPCalMapping implements Serializable {
    * 
    * Preconditions of this method:
    *   The first and last lines of spec are non-empty.
-   * @param map
-   * @param reg
-   * @return
    */
   private static Region RegionToTokPair(final MappingObject[][] spec, final Region reg) {
       /*
@@ -705,9 +696,6 @@ public class TLAtoPCalMapping implements Serializable {
   
   /**
    * Returns the MappingObject at the location in map indicated by loc.
-   * @param loc
-   * @param map
-   * @return
    */
   private static MappingObject ObjectAt(final PCalLocation loc, final MappingObject[][] map) {
       return map[loc.getLine()][loc.getColumn()] ;
@@ -716,9 +704,6 @@ public class TLAtoPCalMapping implements Serializable {
   /**
    * Returns the position within map of the previous object after the one with
    * position loc.  It returns null if there is no previous  object in map.
-   * @param loc
-   * @param map
-   * @return
    */
   private static PCalLocation PrevLocOf(final PCalLocation loc, final MappingObject[][] map) {
       if (loc.getColumn() > 0) {
@@ -735,9 +720,6 @@ public class TLAtoPCalMapping implements Serializable {
   /**
    * Returns the position within map of the next object after the one with
    * position loc.  It returns null if there is no further object in map.
-   * @param loc
-   * @param map
-   * @return
    */
   private static PCalLocation NextLocOf(final PCalLocation loc, final MappingObject[][] map) {
       if (loc.getColumn() + 1 < map[loc.getLine()].length) {
@@ -753,9 +735,6 @@ public class TLAtoPCalMapping implements Serializable {
   
   /**
    * True iff location locA is before or equal to locB
-   * @param locA
-   * @param locB
-   * @return
    */
   private static boolean LTEq(final PCalLocation locA, final PCalLocation locB) {
       if (locA.getLine() == locB.getLine()) {
@@ -766,9 +745,6 @@ public class TLAtoPCalMapping implements Serializable {
  
   /**
    * True iff location locA is before  locB
-   * @param locA
-   * @param locB
-   * @return
    */
   private static boolean LT(final PCalLocation locA, final PCalLocation locB) {
       if (locA.getLine() == locB.getLine()) {
@@ -781,10 +757,7 @@ public class TLAtoPCalMapping implements Serializable {
    * The distance between the two locations, where the distance from the end of 
    * one line to the beginning of the next is considered to be 9999 times as 
    * great as the distance between adjacent characters.
-   * 
-   * @param locA
-   * @param locB
-   * @return
+   *
    */
   private static int Dist(final PCalLocation locA, final PCalLocation locB) {
       return 9999 * Math.abs(locA.getLine() - locB.getLine())
@@ -827,9 +800,7 @@ public class TLAtoPCalMapping implements Serializable {
    * the "row" and "column" of the object.
    *  
    *
-   * 
-   * @param mappingVec
-   * @return
+   *
    */
   public static ArrayList<ArrayList<MappingObject>> RemoveRedundantParens(final ArrayList<ArrayList<MappingObject>> mappingVec) {
       final ArrayList<ArrayList<MappingObject>> out = new ArrayList<>(); // ArrayList of Vectors of MappingObjects
@@ -902,11 +873,7 @@ public class TLAtoPCalMapping implements Serializable {
    * both non-null and locA and locB represent consecutive (line, column) locations
    * in vector vec (with locA preceding locB).  If non-null, then the line fields 
    * of locA and locB must both be less than vec.size().
-   * 
-   * @param locA
-   * @param locB
-   * @param vec
-   * @return
+   *
    */
   private static boolean IsNextIn(final PCalLocation locA, final PCalLocation locB, final ArrayList<ArrayList<MappingObject>> vec) {
       return     (locA != null)

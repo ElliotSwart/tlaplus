@@ -13,7 +13,6 @@ public class TLAExprException extends UnrecoverableException
 	private static final long serialVersionUID = -2799366112339449959L;
 
 	/**
-     * @param message
      */
     public TLAExprException(final String message)
     {

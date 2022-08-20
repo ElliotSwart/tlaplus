@@ -39,11 +39,10 @@ public class TLCTrace implements AutoCloseable {
 	}
 
 	/**
-	 * @param fp
+	 * @param aFingerprint
 	 *            A finger print of a state without a predecessor (init state)
 	 * @return The new location (pointer) for the given finger print (state)
-	 * @throws IOException
-	 */
+     */
 	public final synchronized long writeState(final long aFingerprint) throws IOException {
 		return writeState(1, aFingerprint);
 	}
@@ -51,11 +50,10 @@ public class TLCTrace implements AutoCloseable {
 	/**
 	 * @param predecessor
 	 *            The predecessor state
-	 * @param fp
+	 * @param aFingerprint
 	 *            A finger print
 	 * @return The new location (pointer) for the given finger print (state)
-	 * @throws IOException
-	 */
+     */
 	public final synchronized long writeState(final TLCState predecessor, final long aFingerprint) throws IOException {
 		return writeState(predecessor.uid, aFingerprint);
 	}
@@ -66,8 +64,7 @@ public class TLCTrace implements AutoCloseable {
 	 * @param fp
 	 *            A finger print
 	 * @return The new location (pointer) for the given finger print (state)
-	 * @throws IOException
-	 */
+     */
 	private synchronized long writeState(final long predecessorLoc, final long fp) throws IOException {
 		this.lastPtr = this.raf.getFilePointer();
 		this.raf.writeLongNat(predecessorLoc);
@@ -170,8 +167,7 @@ public class TLCTrace implements AutoCloseable {
 	 *            the path in the execution tree should be calculated.
 	 * @return The level (height) of the path in the execution tree (the trace)
 	 *         starting at startLoc.
-	 * @throws IOException
-	 */
+     */
 	public synchronized final int getLevel(final long startLoc) throws IOException {
 		// keep current location
 		final long currentFilePointer = this.raf.getFilePointer();
@@ -190,8 +186,7 @@ public class TLCTrace implements AutoCloseable {
 
 	/**
 	 * @return All states in the trace file
-	 * @throws IOException
-	 */
+     */
 	public final TLCStateInfo[] getTrace() throws IOException {
 		final Map<Long, TLCStateInfo> locToState = new HashMap<>();
 
@@ -241,8 +236,7 @@ public class TLCTrace implements AutoCloseable {
 	 * @param included
 	 *            true if the start location state should be included
 	 * @return An array of predecessor states
-	 * @throws IOException
-	 */
+     */
 	protected TLCStateInfo[] getTrace(final long loc, final boolean included) throws IOException {
 		final LongVec fps = new LongVec();
 
@@ -334,8 +328,7 @@ public class TLCTrace implements AutoCloseable {
 	 *            may not be null.
 	 * @param s2
 	 *            may be null.
-	 * @throws IOException
-	 */
+     */
 	public void printTrace(final TLCState s1, final TLCState s2) throws IOException {
 		printTrace(s1, s2, getTrace(s1.uid, false));
 	}

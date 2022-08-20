@@ -116,7 +116,6 @@ public class FPSetConfiguration implements Serializable {
 	/**
 	 * @deprecated DO NOT USE, will be removed once -fpmem cmd line parameter
 	 *             only accepts a ratio rather than an absolute memory value
-	 * @param fpMemSize
 	 */
 	@Deprecated
     public void setMemory(final long fpMemSize) {

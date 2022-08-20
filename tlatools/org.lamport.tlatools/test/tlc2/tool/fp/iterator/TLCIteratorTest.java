@@ -56,7 +56,7 @@ public class TLCIteratorTest {
 	}
 
 	/**
-	 * Test method for {@link tlc2.tool.fp.TLCIterator#next()}.
+	 * Test method for {@link tlc2.tool.fp.MSBDiskFPSet.TLCIterator#next()}.
 	 */
 	@Test
 	public void testNext() {
@@ -77,7 +77,7 @@ public class TLCIteratorTest {
 	}
 	
 	/**
-	 * Test method for {@link tlc2.tool.fp.TLCIterator#next()}.
+	 * Test method for {@link tlc2.tool.fp.MSBDiskFPSet.TLCIterator#next()}.
 	 */
 	@Test
 	public void testNoNext() {
@@ -97,7 +97,7 @@ public class TLCIteratorTest {
 	}
 	
 	/**
-	 * Test method for {@link tlc2.tool.fp.TLCIterator#getLast()}.
+	 * Test method for {@link tlc2.tool.fp.MSBDiskFPSet.TLCIterator#getLast()}.
 	 */
 	@Test
 	public void testGetLast() {

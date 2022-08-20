@@ -334,7 +334,6 @@ public class ModuleNode extends SymbolNode {
 
   /**
    * This just returns null.  I don't know why its needed.
-   * @return
    */
   public final SymbolTable getSymbolTable() { return null; }
 
@@ -554,7 +553,7 @@ public void setInstantiated(final boolean isInstantiated) {
 
 /**
  * @return the isStandard
- * @see tla2sany.modanalyzer.ParseUnit.isLibraryModule()
+ * @see tla2sany.modanalyzer.ParseUnit#isLibraryModule()
  */
 public boolean isStandard() {
 	return isStandard;
@@ -562,7 +561,7 @@ public boolean isStandard() {
 
 /**
  * @param isStandard the isStandard to set
- * @see tla2sany.modanalyzer.ParseUnit.isLibraryModule()
+ * @see tla2sany.modanalyzer.ParseUnit#isLibraryModule()
  */
 public void setStandard(final boolean isStandard) {
 	this.isStandard = isStandard;
@@ -618,7 +617,6 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
    * @param recursively if true, the extendees of extendees of extendees of ...
    * 						will be included; if false, only the direct extendees
    * 						of this instance will be returned.
-   * @return
    */
   public final HashSet<ModuleNode> getExtendedModuleSet(final boolean recursively) {
 		/***********************************************************************

@@ -120,10 +120,6 @@ public class DFIDWorker extends IdThread implements IWorker {
 
   /**
    * Prints the stacktrace
-   * @param code error code
-   * @param params params
-   * @param s1 
-   * @param s2
    */
   public final void printErrorTrace(final int errorCode, final String[] parameters, final TLCState s1, final TLCState s2)
   {

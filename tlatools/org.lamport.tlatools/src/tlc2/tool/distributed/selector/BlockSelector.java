@@ -20,7 +20,6 @@ public class BlockSelector implements IBlockSelector {
 
 	/**
 	 * Functor pattern used to make the block size configurable that gets assigned to workers
-	 * @param aTLCServer
 	 */
 	BlockSelector(final TLCServer aTLCServer) {
 	    // LL modified error message on 7 April 2012

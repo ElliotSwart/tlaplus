@@ -84,7 +84,7 @@ import tlc2.util.ObjLongTable;
  * reasons are unknown and further investigations have been abandoned. Instead,
  * the problem has been side-stepped by refactorings in ModelChecker and Tool.
  * [1]
- * https://bitbucket.org/parvmor/tarjanconcurrentscc/src/unionfind/specifications/MCBloemenSCC.tla
+ * <a href="https://bitbucket.org/parvmor/tarjanconcurrentscc/src/unionfind/specifications/MCBloemenSCC.tla">...</a>
  * altered to terminate TLC after five minutes with TLCSet("exit",...)
  * <p>
  * The refactorings essentially decomposed large methods into smaller ones (see

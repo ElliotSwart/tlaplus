@@ -55,14 +55,12 @@ public class ConcurrentBucketStatistics extends AbstractBucketStatistics impleme
 	}
 	
 	/**
-	 * @see {@link BucketStatistics#BucketStatistics(String, int)}
 	 */
 	public ConcurrentBucketStatistics(final String aTitle) {
 		super(aTitle);
 	}
 	
 	/**
-	 * @see {@link BucketStatistics#BucketStatistics(String, int, String, String)}
 	 */
 	public ConcurrentBucketStatistics(final String aTitle, final String pkg, final String name) {
 		super(aTitle, pkg, name);

@@ -19,8 +19,7 @@ public class NodePtrTable {
 	private long[] elems;
 
 	/**
-	 * @param size
-	 */
+     */
 	public NodePtrTable(final int size) {
 		this.count = 0;
 		this.length = size;

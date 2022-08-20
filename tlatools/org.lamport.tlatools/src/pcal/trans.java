@@ -991,7 +991,6 @@ class trans {
 
 	/**
      * If run in the system mode, exits the program, in tool mode returns the status
-     * @param status
      */
 	private static int exitWithStatus(final int status)
     {

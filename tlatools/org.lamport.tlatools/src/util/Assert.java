@@ -114,9 +114,7 @@ public class Assert
      * Checks whether the condition is true. Throws an unchecked exception if otherwise
      * @param condition condition the condition to check
      * @param errorCode error code of explanation
-     * @param parameter parameter for the message
-     * @throws RuntimeException
-     */
+	 */
     public static void check(final boolean condition, final int errorCode, final String[] parameters) throws RuntimeException
     {
         if (!condition) 
@@ -129,9 +127,7 @@ public class Assert
      * Checks whether the condition is true. Throws an unchecked exception if otherwise
      * @param condition condition the condition to check
      * @param errorCode error code of explanation
-     * @param parameters parameters for the message
-     * @throws RuntimeException
-     */
+	 */
     public static void check(final boolean condition, final int errorCode, final String parameter) throws RuntimeException
     {
         if (!condition) 
@@ -144,8 +140,7 @@ public class Assert
      * Checks whether the condition is true. Throws an unchecked exception if otherwise
      * @param condition condition the condition to check
      * @param errorCode error code of explanation
-     * @throws RuntimeException
-     */
+	 */
     public static void check(final boolean condition, final int errorCode) throws RuntimeException
     {
         if (!condition) 
@@ -166,8 +161,7 @@ public class Assert
      * Checks whether the condition is true. Throws an unchecked exception if otherwise
      * @param condition condition the condition to check
      * @param errorMsg error explanation
-     * @throws RuntimeException
-     */
+	 */
     public static void check(final boolean condition, final String errorMsg) throws RuntimeException
     {
         if (!condition) 

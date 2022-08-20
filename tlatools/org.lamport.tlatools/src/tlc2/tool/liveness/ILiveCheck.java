@@ -69,9 +69,8 @@ public interface ILiveCheck {
 	/**
 	 * No states can be added with add*State once finalCheck has been called.
 	 * 
-	 * @see ILiveCheck#check()
+	 * @see ILiveCheck#check
    * @return an error code, or <code>EC.NO_ERROR</code> on success
-	 * @throws Exception
 	 */
 	int finalCheck(ITool tool) throws Exception;
 
@@ -90,10 +89,6 @@ public interface ILiveCheck {
 	 * is done as part of checkTrace.
 	 * <p>
 	 * checkTrace can be called multiple times until ILiveCheck has been closed (see close()).
-	 * @param trace
-	 * 
-	 * @throws IOException
-	 * @throws InterruptedException
 	 */
 	void checkTrace(ITool tool, final Supplier<StateVec> trace) throws Exception;
 	

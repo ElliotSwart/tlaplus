@@ -129,8 +129,7 @@ public abstract class AbstractSpecWriter {
      * 
      * @param tlaFile if null, nothing is written
      * @param cfgFile if null, nothing is written
-     * @throws IOException
-     */
+	 */
 	public void writeFiles(final File tlaFile, final File cfgFile) throws IOException {
 		final ContentWriter cw = (inputStream, forTLAFile) -> {
 			final File f = (forTLAFile ? tlaFile: cfgFile);
@@ -146,9 +145,7 @@ public abstract class AbstractSpecWriter {
 	/**
 	 * Subclasses may use to this to provide a content writer which deals with output other than using {@code java.io}
 	 * directly.
-	 * 
-	 * @param contentWriter
-	 * @throws IOException
+	 *
 	 */
 	protected void writeFiles(final ContentWriter contentWriter) throws IOException {
         tlaBuffer.append(getTLAModuleClosingTag());
@@ -165,9 +162,7 @@ public abstract class AbstractSpecWriter {
 	/**
 	 * Add file header, which consists of the module-beginning ----- MODULE ... ----
 	 * line and the EXTENDS statement.
-	 * 
-	 * @param moduleFilename
-	 * @param extendedModuleName
+	 *
 	 */
 	public void addPrimer(final String moduleFilename, final String extendedModuleName) {
 		tlaBuffer.append(SpecWriterUtilities.getExtendingModuleContent(moduleFilename,
@@ -176,9 +171,7 @@ public abstract class AbstractSpecWriter {
 
 	/**
 	 * Add spec definition
-	 * 
-	 * @param specDefinition
-	 * @param attributeName
+	 *
 	 */
 	public void addSpecDefinition(final String[] specDefinition, final String attributeName) {
 		if (cfgBuffer != null) {
@@ -196,8 +189,6 @@ public abstract class AbstractSpecWriter {
 	 * 
 	 * @param initDefinition the 0th element is the init definition name, the 1rst is the entire definition
 	 * @param nextDefinition the 0th element is the next definition name, the 1rst is the entire definition
-	 * @param initAttributeName
-	 * @param nextAttributeName
 	 */
 	public void addInitNextDefinitions(final String[] initDefinition, final String[] nextDefinition,
 									   final String initAttributeName, final String nextAttributeName) {
@@ -247,12 +238,8 @@ public abstract class AbstractSpecWriter {
      * 
      * See the use of these two methods in TLCModelLaunchDelegate.buildForLaunch for a description
      * of what these methods do.
-     * 
-     * @param constants
-     * @param modelValues
-     * @param attributeConstants
-     * @param attributeMVs
-     */
+     *
+	 */
 	public void addConstants(final List<Assignment> constants, final TypedSet modelValues, final String attributeConstants,
 			final String attributeMVs) {
         // add declarations for model values introduced on Advanced Model page.
@@ -363,10 +350,8 @@ public abstract class AbstractSpecWriter {
      * 
      * See the comments in the method for an explanation of defining
      * an identifier.
-     * 
-     * @param expression
-     * @param attributeName
-     */
+     *
+	 */
 	public void addConstantExpressionEvaluation(final String expression, final String attributeName) {
 		if (expression.trim().length() != 0) {
 			/*
@@ -401,9 +386,7 @@ public abstract class AbstractSpecWriter {
 
     /**
      * New definitions are added to the TLA buffer only
-     * @param defnitions
-     * @param attributeName
-     */
+	 */
 	public void addNewDefinitions(final String definitions, final String attributeName) {
 		if (definitions.trim().length() == 0) {
 			return;
@@ -415,10 +398,7 @@ public abstract class AbstractSpecWriter {
 
 	/**
 	 * Convenience method to call {@link #addFormulaList(List, String, String)} wrapping the {@code element} parameter.
-	 * 
-	 * @param element
-	 * @param keyword
-	 * @param attributeName
+	 *
 	 */
     public void addFormulaList(final String element, final String keyword, final String attributeName) {
     	final List<String[]> elements = new ArrayList<>(1);

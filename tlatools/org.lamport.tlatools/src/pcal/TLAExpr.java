@@ -386,8 +386,7 @@ public class TLAExpr
      * Begin/EndTlaToken and SourceToken objects are obtained directly from
      * the columns of the tokens.  The returned value does NOT contain LeftParen
      * and RightParen MappingObjects enclosing the entire expression.
-     *  
-     * @return
+     *
      */
     public ArrayList<ArrayList<MappingObject>> toMappingVector () {
         final ArrayList<ArrayList<MappingObject>> result = new ArrayList<>(4) ;
@@ -628,8 +627,6 @@ public class TLAExpr
 
      * @param exprs  A vector of TLAExpr objects
      * @param strs   A vector of strings
-     * @param parenthesize  A boolean that is true iff 
-     * @throws TLAExprException
      */
     public void substituteForAll(final ArrayList<TLAExpr> exprs , // of TLAExpr
                                  final ArrayList<String> strs    // of String
@@ -637,11 +634,7 @@ public class TLAExpr
       { substituteForAll(exprs, strs, true); }
 
     /**
-     * 
-     * @param exprs
-     * @param strs
-     * @param parenthesize
-     * @throws TLAExprException
+     *
      */
     public void substituteForAll(final ArrayList<TLAExpr> exprs , // of TLAExpr
                                  final ArrayList<String> strs ,  // of String

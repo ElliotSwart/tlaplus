@@ -8,12 +8,11 @@ import util.SimpleFilenameToStream;
 import util.ToolIO;
 
 /**
- * @see Bug #156 in general/bugzilla/index.html
+ * @see <a href="../../general/bugzilla/index.html">Bug #156 </a>
  */
 public class Bug156TEStackOverflowTest {
 
 	/**
-	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {

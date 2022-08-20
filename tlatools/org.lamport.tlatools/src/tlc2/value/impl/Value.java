@@ -62,7 +62,7 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
 	  };
 	  
 	/**
-	 * @see See note on performance in CostModelCreator.
+	 * @see tlc2.tool.coverage.CostModelCreator: See note on performance.
 	 */
 	protected static final boolean coverage = TLCGlobals.isCoverageEnabled();
   /**

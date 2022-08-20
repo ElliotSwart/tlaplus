@@ -16,8 +16,7 @@ public abstract class FPSetLongTest extends AbstractFPSetTest {
 
 	/**
 	 * Test filling a {@link FPSet} with four linearly incrementing values
-	 * @throws IOException
-	 */
+     */
 	@Category(LongTest.class)
 	@Test
 	public void testSimpleFill() throws Exception {
@@ -37,8 +36,7 @@ public abstract class FPSetLongTest extends AbstractFPSetTest {
 	
 	/**
 	 * Test filling a {@link FPSet} with max int + 1 random
-	 * @throws IOException
-	 */
+     */
 	@Category(LongTest.class)
 	@Test
 	public void testMaxFPSetSizeRnd() throws Exception {
@@ -78,9 +76,8 @@ public abstract class FPSetLongTest extends AbstractFPSetTest {
 	}
 
 	/**
-	 * Test filling a {@link FPSet} with max int + 1 
-	 * @throws IOException
-	 */
+	 * Test filling a {@link FPSet} with max int + 1
+     */
 	@Category(LongTest.class)
 	@Test
 	public void testMaxFPSetSize() throws Exception {

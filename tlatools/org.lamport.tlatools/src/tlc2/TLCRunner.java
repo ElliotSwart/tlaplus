@@ -17,7 +17,7 @@ import tlc2.output.TeeOutputStream;
 import tlc2.tool.fp.FPSetFactory;
 
 /**
- * Originally i was attempting to run the model check in the same JVM in which {@link TraceExplorer} was invoked (and 
+ * Originally i was attempting to run the model check in the same JVM in which TraceExplorer was invoked (and
  * 	then did its parsing and generating TLA and CFG files.) The model check process would fail with a message of:
  * 
  * 				@!@!@STARTMSG 2233:1 @!@!@
@@ -74,8 +74,7 @@ public class TLCRunner {
 	/**
 	 * This will not return until the process has finished.
 	 * @return the exit value of the TLC process
-	 * @throws IOException
-	 */
+     */
 	public int run() throws IOException {
 		final ProcessBuilder processBuilder = createProcess();
 		final Process p = processBuilder.start();
@@ -155,7 +154,6 @@ public class TLCRunner {
 	    private volatile boolean shouldStop;
 
 	    /**
-	     * @param is
 	     * @param os pass null to simply drain the input stream
 	     */
 	    StreamPump(final InputStream is, final OutputStream os) {

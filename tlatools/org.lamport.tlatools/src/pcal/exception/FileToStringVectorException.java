@@ -13,7 +13,6 @@ public class FileToStringVectorException extends UnrecoverableException
 	private static final long serialVersionUID = -5179732537701280883L;
 
 	/**
-     * @param string
      */
     public FileToStringVectorException(final String string)
     {

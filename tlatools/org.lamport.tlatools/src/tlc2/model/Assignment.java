@@ -90,7 +90,6 @@ public class Assignment extends Formula {
 
     /**
      * Retrieves the left part (label with parameter list)
-     * @return
      */
     public String getLeft()
     {
@@ -99,8 +98,6 @@ public class Assignment extends Formula {
 
     /**
      * Appends parameters to the label
-     * @param id
-     * @return
      */
     public String getParametrizedLabel(final String id)
     {
@@ -190,7 +187,6 @@ public class Assignment extends Formula {
 
     /**
      * Sets the right part
-     * @param right
      */
 	public synchronized void setRight(final String right) {
 		super.setFormula(right);
@@ -263,8 +259,7 @@ public class Assignment extends Formula {
     }
 
     /**
-     * Sets the symmetry property for a set of model values 
-     * @param isSymmetric
+     * Sets the symmetry property for a set of model values
      */
     public void setSymmetric(final boolean isSymmetric)
     {
@@ -277,7 +272,6 @@ public class Assignment extends Formula {
 
     /**
      * Set the constant assignment to be a model value
-     * @param modelValue
      */
     public void setModelValue(final boolean modelValue)
     {

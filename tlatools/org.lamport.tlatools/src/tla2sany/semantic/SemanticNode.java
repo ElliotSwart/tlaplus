@@ -310,8 +310,8 @@ public abstract class SemanticNode
   }
 
   /**
-   * @see tla2sany.modanalyzer.ParseUnit.isLibraryModule()
-   * @see StandardModules.isDefinedInStandardModule()
+   * @see tla2sany.modanalyzer.ParseUnit#isLibraryModule()
+   * @see tla2sany.semantic.StandardModules#isDefinedInStandardModule
    */
   public boolean isStandardModule() {
 	  return StandardModules.isDefinedInStandardModule(this);
@@ -333,9 +333,6 @@ public abstract class SemanticNode
    * beginLine() and  beginColumn().  Thus, compare(s1, s2) == 0
    * is NOT equivalent to equals(s1, s2).
    *
-   * @param s1
-   * @param s2
-   * @return
    */
   @Override
   public int compareTo(final SemanticNode s) {

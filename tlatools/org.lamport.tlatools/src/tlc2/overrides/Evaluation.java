@@ -32,7 +32,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * @see EvaluatingValue.
+ * @see tlc2.value.impl.EvaluatingValue
  */
 @Retention(RUNTIME)
 @Target(METHOD)
@@ -55,10 +55,10 @@ public @interface Evaluation {
 	 *         greater value, the OpDefNode is a constant-level expression if
 	 *         0 causing it to be eagerly evaluated in 
 	 *         SpecProcessor.processConstantDefns.
-	 * @see tla2sany.semantic.LevelNode.getLevel()
-	 * @see tlc2.tool.impl.Spec.getLevelBound(SemanticNode, Context)
+	 * @see tla2sany.semantic.LevelNode#getLevel()
+	 * @see tlc2.tool.impl.Tool#getLevelBound
 	 * @see tlc2.value.impl.EvaluatingValue
-	 * @see tlc2.tool.impl.SpecProcessor.processConstantDefns()
+	 * @see tlc2.tool.impl.SpecProcessor#processConstantDefns
 	 */
 	int minLevel() default 0;
 	

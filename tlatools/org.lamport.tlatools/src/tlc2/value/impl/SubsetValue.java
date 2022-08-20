@@ -521,7 +521,7 @@ public Value  set;           // SUBSET set
 	};
 
 	/**
-	 * @see file SubsetValue.tla.
+	 * @see <a href="">SubsetValue.tla</a> .
 	 * <p>
 	 * In addition, this generates all subsets of this SubsetValue instance which extends
 	 * the order definition given in SubsetValue.tla such that a subset s is considered 
@@ -621,9 +621,7 @@ public Value  set;           // SUBSET set
 	
 	/**
 	 * [S]^k (sometimes denoted S^[k]) == { t \in SUBSET S : Cardinality(t) = k }
-	 * @param k
-	 * @return
-	 */
+     */
 	public final ValueEnumeration kElements(final int k) {
 		if (k < 0 || this.set.size() < k) {
 			throw new IllegalArgumentException();

@@ -48,11 +48,7 @@ public class AssumeNode extends LevelNode {
 
 
   /**
- * @param stn
- * @param expr
- * @param mn
- * @param opd
- */
+   */
 public AssumeNode(final TreeNode stn, final ExprNode expr, final ModuleNode mn,
                   final ThmOrAssumpDefNode opd) {
     super(AssumeKind, stn);

@@ -49,7 +49,7 @@ public abstract class Tool
     public static final String COLLECT_STATE_INFORMATION = "COLLECT_STATE_INFORMATION";
 
     /**
-     * @see See note on performance in CostModelCreator.
+     * @see tlc2.tool.coverage.CostModelCreator: See note on performance.
      */
     protected static final boolean coverage = TLCGlobals.isCoverageEnabled();
     protected final int toolId;
@@ -458,11 +458,6 @@ public abstract class Tool
      * The following added by LL on 23 October 2012 to fix bug in evaluation of names of theorems and
      * assumptions imported by parameterized instantiation.
      *
-     * @param opDef
-     * @param args
-     * @param c
-     * @param cachable
-     * @return
      */
     public final Context getOpContext(final ThmOrAssumpDefNode opDef, final ExprOrOpArgNode[] args, final Context c, final boolean cachable)
     {
@@ -4221,7 +4216,6 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   }
   
   /**
-   * @param node
    * @return if the node represents a permutation, this will return the {@link SetEnumValue} instance contains its
    * 					model values
    */

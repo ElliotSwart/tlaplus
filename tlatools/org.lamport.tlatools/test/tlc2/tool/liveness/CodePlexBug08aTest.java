@@ -41,7 +41,7 @@ import tlc2.value.IValue;
 import tlc2.value.impl.IntValue;
 
 /**
- * see http://tlaplus.codeplex.com/workitem/8
+ * see <a href="http://tlaplus.codeplex.com/workitem/8">...</a>
  */
 public class CodePlexBug08aTest extends ModelCheckerTestCase {
 

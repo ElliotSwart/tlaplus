@@ -28,10 +28,7 @@ public abstract class CheckImpl extends ModelChecker {
   
   private static final int TraceDuration = 30000;
 
-  /**
-   * @param fpMemSize : This parameter added by Yuan Yu on 6 Apr 2010 
-   * because same parameter was added to the ModelChecker constructor. 
-   */
+
   public CheckImpl(final ITool tool, final String metadir, final boolean deadlock,
                    final int depth, final String fromChkpt, final FPSetConfiguration fpSetConfig)
   throws IOException {

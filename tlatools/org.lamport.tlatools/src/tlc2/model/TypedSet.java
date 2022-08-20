@@ -264,7 +264,7 @@ public class TypedSet {
      * The string implementation of the typed set
      * Is used to be set in the right side of assignment ({@link Assignment#setRight(String)})
      * <br><b>Note:</b> {@link TypedSet#toString()} should not be used for comparison
-     * @see TypedSet#equals(Object)
+     * @see tlc2.model.TypedSet#equals(Object)
      */
     public String toString()
     {
@@ -287,7 +287,6 @@ public class TypedSet {
 
     /**
      * Same as toString, but without curly braces
-     * @return
      */
     public String toStringWithoutBraces()
     {

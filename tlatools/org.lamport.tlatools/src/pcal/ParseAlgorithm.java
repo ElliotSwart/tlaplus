@@ -576,8 +576,7 @@ public class ParseAlgorithm
     * cannot be omitted if it is needed to represent any process), I decided
     * not to modify this method, but to work around the problem in the method
     * that calls it.  Comment added by LL on 30 Mar 2012.
-    * 
-    * @param body
+    *
     */
    private void checkBody(final ArrayList<AST> body) {
        // The body should not be empty, so the following
@@ -1323,10 +1322,7 @@ public class ParseAlgorithm
     * For constructing the TLA+ to PlusCal mapping, the original GetWith
     * procedure was given a second argument and was renamed InnerGetWidth.
     * See the comments for that method
-    *  
-    * @param depth
-    * @return
-    * @throws ParseAlgorithmException
+    *
     */
    public AST GetWith(final int depth) throws ParseAlgorithmException {
        return InnerGetWith(depth, null) ;
@@ -3452,8 +3448,7 @@ public class ParseAlgorithm
     * Returns the PCalLocation object corresponding to the beginning of
     * the last token returned by GetAlgToken or gobbled by a Gobble...
     * method.  
-    * 
-    * @return
+    *
     */
    private PCalLocation GetLastLocationStart() {
        return new PCalLocation(lastTokLine-1, lastTokCol-1) ;
@@ -3463,8 +3458,7 @@ public class ParseAlgorithm
     * Returns the PCalLocation object corresponding to the position to
     * the right of the last token returned by GetAlgToken or gobbled by 
     * a Gobble... method.
-    * 
-    * @return
+    *
     */
    private PCalLocation GetLastLocationEnd() {
        return new PCalLocation(lastTokLine-1, lastTokCol-1 + lastTokString.length()) ;
@@ -3884,7 +3878,6 @@ public class ParseAlgorithm
     * @param token           The token being searched for.
     * @param inputVec        Input String ArrayList 
     * @param curLoc          <row, column> (Java coordinates) of beginning of search.
-    * @throws ParseAlgorithmException
     */
    public void FindToken(
            final String token,
@@ -3945,9 +3938,6 @@ public class ParseAlgorithm
    /**
     * Returns the position of the first spaceat or after position col in 
     * str, or str.size() if there is none.
-    * @param str
-    * @param col
-    * @return
     */
    private int NextSpaceCol(final String str, final int col) {
        final String[] splitStr = str.substring(col).split(" ");
@@ -3959,9 +3949,6 @@ public class ParseAlgorithm
     * Returns the position of the first character not a letter, number,
     * or "_" at or after position col in str, or str.size() if there is
     * none.
-    * @param str
-    * @param col
-    * @return
     */
    public int NextNonIdChar(final String str, final int col) {
        int curCol = col;

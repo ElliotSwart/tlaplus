@@ -90,8 +90,6 @@ public class StringHelper {
     
     /**
      * Returns the number of leading spaces in the string str.
-     * @param str
-     * @return
      */
     public static int leadingSpaces(final String str) {
         return str.length() - trimFront(str).length() ;
@@ -119,8 +117,6 @@ public class StringHelper {
     /**
      * Returns the sequence of words contained in str, where
      * a word is any sequence of non-space characters.
-     * @param str
-     * @return
      */
     public static String[] getWords(final String str) {
     	final String[] result = trimFront(str).split("\\s+") ;
@@ -130,9 +126,7 @@ public class StringHelper {
     /**
      * Returns true iff str is a sequence of letters, "_" characters, and digits
      * that is not all digits.  
-     * 
-     * @param str
-     * @return
+     *
      */
     public static boolean isIdentifier(final String str) {
         boolean result = true ;

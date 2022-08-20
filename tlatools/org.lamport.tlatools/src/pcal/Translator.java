@@ -63,9 +63,7 @@ public class Translator
     }
 
     /**
-     * delegates the call to the {@link trans#main()}
-     * @param args
-     * @return 
+     * delegates the call to the {@link trans#performTranslation}
      */
 	public boolean translate(final ValidationCallBack cb) {
 		// The input .tla file might have unix or windows line ending. If we fail to
@@ -104,7 +102,6 @@ public class Translator
 
     /**
      * Retrieves the errors recorded during the execution
-     * @return
      */
 	public List<Error> getErrors() {
 		final String[] messages = ToolIO.getAllMessages();

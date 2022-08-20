@@ -40,7 +40,6 @@ import java.util.ArrayList;
 public class MappingObject implements Serializable {
     
     /**
-	 * @see TLAtoPCalMapping#serialVersionUID
 	 */
 	private static final long serialVersionUID = 8620480075506527787L;
 
@@ -73,8 +72,7 @@ public class MappingObject implements Serializable {
     
     public static class LeftParen extends MappingObject {
         /**
-    	 * @see TLAtoPCalMapping#serialVersionUID
-    	 */
+		 */
 		private static final long serialVersionUID = 5476753619018204229L;
 		//        private int column ;
         private final PCalLocation location ;
@@ -124,8 +122,7 @@ public class MappingObject implements Serializable {
     
     public static class RightParen extends MappingObject {
         /**
-    	 * @see TLAtoPCalMapping#serialVersionUID
-    	 */
+		 */
 		private static final long serialVersionUID = 1313886393528667584L;
 		//        private int column ;
         private final PCalLocation location ;
@@ -175,8 +172,7 @@ public class MappingObject implements Serializable {
     
     public static class BeginTLAToken extends MappingObject {
         /**
-    	 * @see TLAtoPCalMapping#serialVersionUID
-    	 */
+		 */
 		private static final long serialVersionUID = 3737867780161818714L;
 		private int column ;
 
@@ -223,8 +219,7 @@ public class MappingObject implements Serializable {
     
     public static class EndTLAToken extends MappingObject {
         /**
-    	 * @see TLAtoPCalMapping#serialVersionUID
-    	 */
+		 */
 		private static final long serialVersionUID = -2173558662370032149L;
 		private int column ;
 
@@ -271,8 +266,7 @@ public class MappingObject implements Serializable {
     
     public static class SourceToken extends MappingObject {
         /**
-    	 * @see TLAtoPCalMapping#serialVersionUID
-    	 */
+		 */
 		private static final long serialVersionUID = 6438346684127312114L;
 		private int beginColumn ;
         private int endColumn ;
@@ -349,8 +343,7 @@ public class MappingObject implements Serializable {
     }
     public static class Break extends MappingObject{
         /**
-    	 * @see TLAtoPCalMapping#serialVersionUID
-    	 */
+		 */
 		private static final long serialVersionUID = 3197403974334483558L;
 		private final int depth ;
 
@@ -422,7 +415,6 @@ public class MappingObject implements Serializable {
     
     /**
      * For debugging.
-     * @param mvec
      */
     public static void printMappingVector(final ArrayList<ArrayList<MappingObject>> mvec) {
         for (int i = 0; i < mvec.size(); i++) {

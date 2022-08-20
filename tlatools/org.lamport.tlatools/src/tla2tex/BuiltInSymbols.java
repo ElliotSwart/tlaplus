@@ -101,7 +101,6 @@ public final class BuiltInSymbols
      * 
      * @param str : The symbols ascii string.
      * @param pcalMode : true if looking for pcal symbols as well as TLA+ symbols.
-     * @return
      */
     public static boolean IsBuiltInSymbol(final String str, final boolean pcalMode)
       { return null != GetBuiltInSymbol(str, pcalMode)  ;
@@ -111,10 +110,7 @@ public final class BuiltInSymbols
        * Returns the built-in symbol with string str.  If pcalMode = false,
        * just return a TLA+ symbol; if pcalMode = true, return either a TLA+
        * or a PlusCal symbol.
-       * @param str
-       * @param pcalMode
-       * @return
-       */
+     */
     public static Symbol GetBuiltInSymbol(final String str, final boolean pcalMode)
       { final Symbol sym ;
         if (pcalMode) { 

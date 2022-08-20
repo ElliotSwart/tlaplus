@@ -241,10 +241,8 @@ public class UsageGenerator {
 		
 		/**
 		 * This calls {@code this(key, optionDescription, false);}
-		 * 
-		 * @param key
-		 * @param optionDescription
-		 */
+		 *
+         */
 		public Argument(final String key, final String optionDescription) {
 			this(key, optionDescription, false);
 		}

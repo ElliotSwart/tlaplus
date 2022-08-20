@@ -26,8 +26,7 @@ public class BlockSelectorFactory {
 	
 	/**
 	 * Creates an {@link IBlockSelector} for the given {@link TLCServer}.
-	 * @see {@link IBlockSelector}
-	 * @param aTLCServer
+	 * @see IBlockSelector
 	 * @return An {@link IBlockSelector} for the given {@link TLCServer}
 	 */
 	public static IBlockSelector getBlockSelector(final TLCServer aTLCServer) {
@@ -61,7 +60,6 @@ public class BlockSelectorFactory {
 	}
 	
 	/**
-	 * @param aTLCServer
 	 * @return An instance of the requested selector type
 	 */
 	protected IBlockSelector getSelector(final TLCServer aTLCServer) {

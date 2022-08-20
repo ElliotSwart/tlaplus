@@ -469,9 +469,8 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile imp
     /**
 	 * Resets the BufferedRandomAccessFile so it appears to be a pristine file.
 	 * The previous content of the underlying disk file will be overwritten.
-	 * 
-	 * @throws IOException
-	 */
+	 *
+     */
     public void reset() throws IOException {
     	setLength(0);
     	this.init();

@@ -68,7 +68,7 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 	 * Asserts that the actual trace and the expected error trace are equal.
 	 *
 	 * @param actual
-	 *            The actual trace as recorded by {@link MPRecorder}.
+	 *            The actual trace as recorded by {@link tlc2.TestMPRecorder}.
 	 * @param expectedTrace
 	 *            The expected trace.
 	 */

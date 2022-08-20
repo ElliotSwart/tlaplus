@@ -194,11 +194,7 @@ public final class LongArray {
 	/**
 	 * CAS (compare and swap) variant of {@link LongArray#set(long, long)}.
 	 * 
-	 * @param position
-	 * @param expected
-	 * @param value
-	 * @return true iff successful 
-     * @throws IndexOutOfBoundsException
+	 * @return true iff successful
 	 */
 	public boolean trySet(final long position, final long expected, final long value) {
 		rangeCheck(position);
@@ -211,8 +207,7 @@ public final class LongArray {
      *
      * @param position position at which the specified element is to be inserted
      * @param value element to be inserted
-     * @throws IndexOutOfBoundsException
-     */
+	 */
 	public void set(final long position, final long value) {
 		rangeCheck(position);
 		this.unsafe.putAddress(log2phy(position), value);
@@ -223,8 +218,7 @@ public final class LongArray {
      *
      * @param  position position of the element to return
      * @return the element at the specified position in this array
-     * @throws IndexOutOfBoundsException
-     */
+	 */
 	public long get(final long position) {
 		rangeCheck(position);
 		return this.unsafe.getAddress(log2phy(position));

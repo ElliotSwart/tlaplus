@@ -28,7 +28,6 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	 * 
 	 * @param tlaBuffer the buffer into which the TLA code will be placed
 	 * @param cfgBuffer if non-null, the buffer into which the CFG code will be placed
-	 * @param trace
 	 * @param expressionData data on trace explorer expressions, can be null
 	 * @return String[], first element is the identifier for the initial state predicate,
 	 * second element is the identifier for the next-state action, the third element is the identifier for
@@ -52,12 +51,10 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	 * 
 	 * @param tlaBuffer the buffer into which the TLA code will be placed
 	 * @param cfgBuffer if non-null, the buffer into which the CFG code will be placed
-	 * @param trace
 	 * @param expressionData data on trace explorer expressions, can be null
 	 * @param initId the identifier to be used for the initial state predicate, cannot be null
 	 * @param nextId the identifier to be used for the next-state action, cannot be null
 	 * @param actionConstraintId the indentified used for the action constraint
-	 * @see #addInitNextToBuffers(StringBuilder, StringBuilder, List, TraceExpressionInformationHolder[], String, String, String, String)
 	 */
 	public static void addInitNextToBuffers(final StringBuilder tlaBuffer, final StringBuilder cfgBuffer,
 			final List<MCState> trace, final TraceExpressionInformationHolder[] expressionData, final String initId,
@@ -73,13 +70,12 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	 * 
 	 * @param tlaBuffer the buffer into which the TLA code will be placed
 	 * @param cfgBuffer if non-null, the buffer into which the CFG code will be placed
-	 * @param trace
 	 * @param expressionData data on trace explorer expressions, can be null
 	 * @param initId the identifier to be used for the initial state predicate, cannot be null
 	 * @param nextId the identifier to be used for the next-state action, cannot be null
 	 * @param actionConstraintId the identifier used for the action constraint
 	 * @param nextSubActionBasename the base string to be used as the prefix to unique names for next sub-actions
-	 * @param leaveStubsForTraceExpression if true, then a variable will be defined {@link TRACE_EXPRESSION_VARIABLE},
+	 * @param leaveStubsForTraceExpression if true, then a variable will be defined {@link #TRACE_EXPRESSION_VARIABLE},
 	 * 						yet commented out, and similarly conjoined, but commented out in the SpecTE Init and Next
 	 * 						declarations
 	 */
@@ -188,13 +184,12 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	 * of the state before the state labeled "Stuttering".
 	 * 
 	 * @param cfgBuffer if non-null, the buffer into which the CFG code will be placed
-	 * @param trace
 	 * @param expressionData data on trace explorer expressions, can be null
 	 * @param initId the identifier to be used for the initial state predicate, cannot be null
 	 * @param nextId the identifier to be used for the next-state action, cannot be null
 	 * @param actionConstraintId the indentified used for the action constraint
 	 * @param nextSubActionBasename the base string to be used as the prefix to unique names for next sub-actions
-	 * @param leaveStubsForTraceExpression if true, then a variable will be defined {@link TRACE_EXPRESSION_VARIABLE},
+	 * @param leaveStubsForTraceExpression if true, then a variable will be defined {@link #TRACE_EXPRESSION_VARIABLE},
 	 * 						yet commented out, and similarly conjoined, but commented out in the SpecTE Init and Next
 	 * 						declarations
 	 * @return an array of length 2, the first element is a buffer containing all trace expression subaction
@@ -690,7 +685,6 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	 * ----
 	 * 
 	 * @param traceExpressionData information about the trace expressions
-	 * @param attributeName
 	 * @param addDefinitions whether or not to define each identifier as the expression
 	 */
 	public void addVariablesAndDefinitions(final TraceExpressionInformationHolder[] traceExpressionData, final String attributeName,
@@ -746,8 +740,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	 * P
 	 * )
 	 * ----
-	 * 
-	 * @param finalState
+	 *
 	 */
 	private void addInvariant(final MCState finalState) {
 	    final String id = SpecWriterUtilities.getValidIdentifierNoTimestamp(TLAConstants.Schemes.INVARIANT_SCHEME);
@@ -850,8 +843,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	 * P
 	 * )
 	 * ----
-	 * 
-	 * @param finalState
+	 *
 	 */
 	private void addStutteringProperty(final MCState finalState) {
 	    final String id = SpecWriterUtilities.getValidIdentifierNoTimestamp(TLAConstants.Schemes.PROP_SCHEME);
@@ -875,9 +867,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	 * Q
 	 * )))
 	 * ----
-	 * 
-	 * @param finalState
-	 * @param backToState
+	 *
 	 */
 	private void addBackToStateProperty(final MCState finalState, final MCState backToState) {
 	    final String id = SpecWriterUtilities.getValidIdentifierNoTimestamp(TLAConstants.Schemes.PROP_SCHEME);
@@ -905,8 +895,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	 * will append the following comment to the tla file:
 	 * 
 	 * \* :x:___trace_var_3242348934343:expr"$!@$!@$!@$!@$!"
-	 * 
-	 * @param traceExpressionData
+	 *
 	 */
 	public void addInfoComments(final TraceExpressionInformationHolder[] traceExpressionData) {
 		for (final TraceExpressionInformationHolder expressionData : traceExpressionData) {
@@ -1135,10 +1124,8 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
 	 * The expressions are idented twice.
      * 
      * This will return null if the state is stuttering or back to state.
-     * 
-     * @param state
-     * @return
-     */
+     *
+	 */
 	private static String getStateConjunction(final MCState state) {
 		return getStateConjunction(state, null);
 	}

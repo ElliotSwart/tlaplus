@@ -425,7 +425,6 @@ public class TableauNodePtrTable {
 	}
 
 	/**
-	 * @param nodes
 	 * @return True, iff the record at tloc has been marked seen.
 	 * @see TableauNodePtrTable#setSeen(int[], int)
 	 */
@@ -436,7 +435,6 @@ public class TableauNodePtrTable {
 	/**
 	 * Marks the record at tloc seen.
 	 * 
-	 * @param nodes
 	 * @see TableauNodePtrTable#setSeen(int[])
 	 * @see TableauNodePtrTable#resetElems()
 	 */
@@ -451,7 +449,6 @@ public class TableauNodePtrTable {
 
 	/**
 	 * @see TableauNodePtrTable#setSeen(int[])
-	 * @param nodes
 	 * @return True, iff the record has been marked seen.
 	 */
 	public static boolean isSeen(final int[] nodes) {
@@ -461,7 +458,6 @@ public class TableauNodePtrTable {
 	/**
 	 * Marks this record seen.
 	 * 
-	 * @param nodes
 	 * @see TableauNodePtrTable#resetElems()
 	 */
 	public static void setSeen(final int[] nodes) {

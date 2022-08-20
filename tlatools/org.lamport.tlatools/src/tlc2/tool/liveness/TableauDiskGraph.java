@@ -134,8 +134,6 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 	/**
 	 * Get the graph node. Returns a new GraphNode if the node is not in this.
 	 * 
-	 * @param fp
-	 * @param tidx
 	 * @return A new GraphNode instance or an existing GraphNode instance read
 	 *         from the graph (technically either cache or disk).
 	 *         <p>
@@ -153,9 +151,8 @@ public class TableauDiskGraph extends AbstractDiskGraph {
 	 *         nodeptrtbl. //TODO Add test case to TableauDiskGraph that adds
 	 *         the same GraphNode multiple times with different outgoing
 	 *         transitions.
-	 * 
-	 * @throws IOException
-	 */
+	 *
+     */
 	@Override
     public final GraphNode getNode(final long fp, final int tidx) throws IOException {
 		final long ptr = this.nodePtrTbl.get(fp, tidx);

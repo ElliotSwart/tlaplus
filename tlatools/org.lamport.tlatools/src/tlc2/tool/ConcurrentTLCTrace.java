@@ -203,7 +203,6 @@ public class ConcurrentTLCTrace extends TLCTrace {
 	 *            may not be null.
 	 * @param s2
 	 *            may be null.
-	 * @throws IOException
 	 */
 	@Override
     public void printTrace(final TLCState s1, final TLCState s2) throws IOException {

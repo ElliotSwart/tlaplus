@@ -70,21 +70,12 @@ public abstract class FPSetFactory {
 		}
 	}
 
-	/**
-	 * @see getFPSet
-	 * @return
-	 * @throws RemoteException 
-	 */
 	public static FPSet getFPSet() throws RemoteException {
 		return getFPSet(new FPSetConfiguration());
 	}
 
 	/**
 	 * Creates a new {@link FPSet} depending on what the caller wants.
-	 * @param fpBits if 0, a {@link DiskFPSet} will be returned, a {@link MultiFPSet} otherwise.
-	 * @param fpMemSizeInBytes
-	 * @return
-	 * @throws RemoteException
 	 */
 	public static FPSet getFPSet(final FPSetConfiguration fpSetConfig) throws RemoteException {
 		
@@ -148,7 +139,7 @@ public abstract class FPSetFactory {
 	}
 
 	/**
-	 * @return The default for {@link FPSet#getImplementations()}
+	 * @return The default for {@link FPSetFactory#getImplementations()}
 	 */
 	public static String getImplementationDefault() {
 		return MSBDiskFPSet.class.getName();
@@ -157,7 +148,6 @@ public abstract class FPSetFactory {
 	/**
 	 * @param clazz FPSet implementation to use
 	 * @param memory Memory dedicated to the FPSet implementation in MiB
-	 * @return
 	 */
 	public static String getVMArguments(final String clazz, final long memory) {
 		if (allocatesOnHeap(clazz)) {
@@ -170,11 +160,7 @@ public abstract class FPSetFactory {
 	/**
 	 * This block of code tries to load the given class with the FPSet class
 	 * loader. Thus, the class has to be available to it.
-	 * 
-	 * @param clazz
-	 * @param fpMemSizeInBytes 
-	 * @param fpBits 
-	 * @return
+	 *
 	 */
 	private static FPSet loadImplementation(final String clazz, final FPSetConfiguration fpSetConfig) {
 		Exception exp = null;

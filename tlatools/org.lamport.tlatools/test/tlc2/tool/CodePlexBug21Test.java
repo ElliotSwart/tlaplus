@@ -35,7 +35,7 @@ import tlc2.output.EC;
 import tlc2.tool.liveness.ModelCheckerTestCase;
 
 /**
- * see http://tlaplus.codeplex.com/workitem/21
+ * see <a href="http://tlaplus.codeplex.com/workitem/21">...</a>
  */
 public class CodePlexBug21Test extends ModelCheckerTestCase {
 

@@ -67,9 +67,6 @@ public abstract class Specs {
 
 	/**
 	 * Static method, does not change instance state
-	 * @param expr
-	 * @param subs
-	 * @return
 	 */
 	public static ExprNode addSubsts(final ExprNode expr, final LinkedList<SubstInNode> subs)
 	{

@@ -12,7 +12,7 @@ public class EvalControl {
    * Current evaluation within a primed variable. If isPrimed is true, lookup in
    * the Context chain terminates on a branch.
    * 
-   * @see tlc2.util.Context.lookup(SymbolNode, boolean)
+   * @see tlc2.util.Context#lookup
    */
   public static final int Primed = 1 << 1;
   /**

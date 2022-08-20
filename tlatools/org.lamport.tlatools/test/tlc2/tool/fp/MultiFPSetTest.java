@@ -29,7 +29,7 @@ public class MultiFPSetTest {
 	}
 
 	/**
-	 * Test method for {@link tlc2.tool.fp.MultiFPSet#new}.
+	 * Test method for {@link tlc2.tool.fp.MultiFPSet#MultiFPSet}.
 	 * @throws Exception Not supposed to happen
 	 */
 	@Test
@@ -47,7 +47,7 @@ public class MultiFPSetTest {
 	}
 	
 	/**
-	 * Test method for {@link tlc2.tool.fp.MultiFPSet#new}.
+	 * Test method for {@link tlc2.tool.fp.MultiFPSet#MultiFPSet}.
 	 * @throws Exception Not supposed to happen
 	 */
 	@Test
@@ -64,7 +64,7 @@ public class MultiFPSetTest {
 	}
 
 	/**
-	 * Test method for {@link tlc2.tool.fp.MultiFPSet#new}.
+	 * Test method for {@link tlc2.tool.fp.MultiFPSet#MultiFPSet}.
 	 * @throws Exception Not supposed to happen
 	 */
 	@Test
@@ -90,8 +90,7 @@ public class MultiFPSetTest {
 	}
 
 	/**
-	 * Test method for {@link tlc2.tool.fp.MultiFPSet#new}.
-	 * @throws Exception Not supposed to happen
+	 * Test method for {@link tlc2.tool.fp.MultiFPSet#MultiFPSet}.
 	 */
 	@Test
 	public void testCTorHigherMax() {

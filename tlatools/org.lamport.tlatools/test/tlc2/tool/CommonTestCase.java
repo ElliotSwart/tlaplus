@@ -66,7 +66,7 @@ public abstract class CommonTestCase {
 	}
 	
 	/**
-	 * @see assertTraceWith above except that this method also asserts matching names for the initial predicate and the sub-actions of the next-state relation.
+	 * This method asserts matching names for the initial predicate and the sub-actions of the next-state relation.
 	 */
 	protected void assertTraceWith(final List<Object> actual, final List<String> expectedTrace, final List<String> expectedActions) {
 		assertEquals(expectedTrace.size(), actual.size());
@@ -108,7 +108,7 @@ public abstract class CommonTestCase {
 	 * Asserts that the error trace loops back to the state with the given
 	 * number.
 	 * 
-	 * @param i The loop back state number.
+	 * @param stateNum The loop back state number.
 	 */
 	protected void assertBackToState(final int stateNum) {
 		assertTrue(recorder.recorded(EC.TLC_BACK_TO_STATE));
@@ -122,7 +122,7 @@ public abstract class CommonTestCase {
 	 * Asserts that the error trace loops back to the state with the given
 	 * number.
 	 * 
-	 * @param i The loop back state number.
+	 * @param stateNum The loop back state number.
 	 * @param action The action label associated with the loop back marker
 	 */
 	protected void assertBackToState(final int stateNum, final String action) {

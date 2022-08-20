@@ -93,8 +93,6 @@ public abstract class SymbolNode extends LevelNode {
    * would be difficult, so we require that the module has no parameters.  This covers
    * the common case when the definitions come from a standard module.
    *
-   * @param otherNode
-   * @return
    */
   public final boolean sameOriginallyDefinedInModule(final SymbolNode otherNode) {
       if (this.getClass() == otherNode.getClass()) {

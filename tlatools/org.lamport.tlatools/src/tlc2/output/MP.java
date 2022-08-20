@@ -1377,8 +1377,7 @@ public class MP
 	}
 
     /**
-     * Returns the error  
-     * @param errorCode
+     * Returns the error
      */
     public static String getError(final int errorCode)
     {
@@ -1386,9 +1385,7 @@ public class MP
     }
 
     /**
-     * Returns the error with one parameter 
-     * @param errorCode
-     * @param parameter
+     * Returns the error with one parameter
      */
     public static String getError(final int errorCode, final String parameter)
     {
@@ -1397,8 +1394,7 @@ public class MP
 
     /**
      * Returns parameterized error message
-     * @param errorCode 
-     * @param parameters a list of string parameters to be inserted into the message, by replacing 
+     * @param parameters a list of string parameters to be inserted into the message, by replacing
      * %i% with the i-th parameter in the array
      */
     public static String getError(final int errorCode, final String[] parameters)
@@ -1408,8 +1404,7 @@ public class MP
     }
 
     /**
-     * Returns the message  
-     * @param errorCode
+     * Returns the message
      */
     public static String getMessage(final int errorCode)
     {
@@ -1417,9 +1412,7 @@ public class MP
     }
 
     /**
-     * Returns the message with one parameter 
-     * @param errorCode
-     * @param parameter
+     * Returns the message with one parameter
      */
     public static String getMessage(final int errorCode, final String parameter)
     {
@@ -1428,8 +1421,7 @@ public class MP
 
     /**
      * Returns parameterized error message
-     * @param errorCode 
-     * @param parameters a list of string parameters to be inserted into the message, by replacing 
+     * @param parameters a list of string parameters to be inserted into the message, by replacing
      * %i% with the i-th parameter in the array
      */
     public static String getMessage(final int errorCode, final String[] parameters)
@@ -1440,8 +1432,6 @@ public class MP
 
     /**
      * Returns TLC Bug message
-     * @param errorCode
-     * @return
      */
     public static String getTLCBug(final int errorCode)
     {
@@ -1450,7 +1440,6 @@ public class MP
 
     /**
      * Prints the error for a given error code
-     * @param errorCode
      */
     public static int printError(final int errorCode)
     {
@@ -1458,9 +1447,7 @@ public class MP
     }
 
     /**
-     * Prints the error with one parameter 
-     * @param errorCode
-     * @param parameter
+     * Prints the error with one parameter
      */
     public static int printError(final int errorCode, final String parameter)
     {
@@ -1469,8 +1456,7 @@ public class MP
 
     /**
      * Prints parameterized error message
-     * @param errorCode 
-     * @param parameters a list of string parameters to be inserted into the message, by replacing 
+     * @param parameters a list of string parameters to be inserted into the message, by replacing
      * %i% with the i-th parameter in the array
      */
     public static int printError(final int errorCode, final String[] parameters)
@@ -1491,8 +1477,6 @@ public class MP
      * user, so LL changed this on 20 Mar 2012 so the trace is printed only when TLC is called
      * with the -debug option. 
      * 
-     * @param errorCode 
-     * @param cause
      * @param includeStackTrace boolean flag if the stack-trace should be printed
      */
     private static void printError(final int errorCode, final String cause, final Throwable throwable, final boolean includeStackTrace)
@@ -1508,9 +1492,7 @@ public class MP
     }
 
     /**
-     * Prints the error by code and reports the exception message 
-     * @param errorCode
-     * @param cause
+     * Prints the error by code and reports the exception message
      */
     public static void printError(final int errorCode, final String[] cause, final Throwable throwable)
     {
@@ -1526,9 +1508,6 @@ public class MP
      * Prints the error by code and reports the exception message
      * Modified by LL on 7 April 2012 to produce more sensible EC.GENERAL 
      * error messages.
-      
-     * @param errorCode
-     * @param cause
      */
     public static void printError(final int errorCode, final String cause, final Throwable throwable)
     {
@@ -1548,9 +1527,6 @@ public class MP
      * code for parsing TLC output apparently cannot handle a nested error message
      * containing text before and after it.  So I put all the additional message text
      * before throwable.getMessage().
-     * @param cause
-     * @param throwable
-     * @return
      */
     public static String ECGeneralMsg(final String cause, final Throwable throwable) {
         String msg = "TLC threw an unexpected exception.";
@@ -1601,9 +1577,7 @@ public class MP
      * Prints the error by code and reports the exception message.
      * Modified by LL on 7 April 2012 to produce more sensible EC.GENERAL 
      * error messages.
-     * 
-     * @param errorCode
-     * @param cause
+     *
      */
     public static int printError(final int errorCode, final Throwable cause)
     {
@@ -1617,7 +1591,6 @@ public class MP
 
     /**
      * Prints the error for a given error code
-     * @param errorCode
      */
     public static void printMessage(final int errorCode)
     {
@@ -1625,9 +1598,7 @@ public class MP
     }
 
     /**
-     * Prints the error with one parameter 
-     * @param errorCode
-     * @param parameter
+     * Prints the error with one parameter
      */
     public static void printMessage(final int errorCode, final String parameter)
     {
@@ -1636,8 +1607,7 @@ public class MP
 
     /**
      * Prints parameterized error message
-     * @param errorCode 
-     * @param parameters a list of string parameters to be inserted into the message, by replacing 
+     * @param parameters a list of string parameters to be inserted into the message, by replacing
      * %i% with the i-th parameter in the array
      */
     public static void printMessage(final int errorCode, final String... parameters)
@@ -1667,7 +1637,6 @@ public class MP
     
     /** 
      * Prints the state
-     * @param parameters
      */
     public static void printState(final int code, final String[] parameters, final TLCState state, final int num)
     {
@@ -1684,8 +1653,7 @@ public class MP
 
     /**
      * Prints parameterized TLC BUG message
-     * @param errorCode 
-     * @param parameters a list of string parameters to be inserted into the message, by replacing 
+     * @param parameters a list of string parameters to be inserted into the message, by replacing
      * %i% with the i-th parameter in the array
      */
     public static void printTLCBug(final int errorCode, final String[] parameters)
@@ -1713,8 +1681,6 @@ public class MP
 	
     /**
      * Prints a warning (if the global switch is enabled and it is not a duplicate warning)
-     * @param errorCode
-     * @param parameters
      */
     public static void printWarning(final int errorCode, final String... parameters)
     {
@@ -1740,8 +1706,6 @@ public class MP
     
     /**
      * Prints a warning (if the global switch is enabled and it is not a duplicate warning)
-     * @param errorCode
-     * @param parameters
      */
     public static void printWarning(final int errorCode, final String parameters, final Throwable e)
     {

@@ -32,7 +32,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * @see MethodValue.
+ * @see tlc2.value.impl.MethodValue
  */
 @Retention(RUNTIME)
 @Target(METHOD)
@@ -49,7 +49,7 @@ public @interface TLAPlusOperator {
 	String module();
 
 	/**
-	 * @see tlc2.overrides.Evaluation.minLevel()
+	 * @see tlc2.overrides.Evaluation#minLevel()
 	 */
 	int minLevel() default 0;
 	

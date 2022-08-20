@@ -96,11 +96,7 @@ public class PcalTLAGen
     // in pc[exp] := ... can be multi-line.
     private int kludgeToFixPCHandlingBug ;
     /**
-     * The public method: generate TLA+ as a vector of strings. 
-     * @param ast the AST of the PCal
-     * @param symtab the symbol table
-     * @return the vector of strings with TLA+ code
-     * @throws PcalTLAGenException on any unrecoverable methods
+     * The public method: generate TLA+ as a vector of strings.
      */
     
     /*
@@ -130,7 +126,6 @@ public class PcalTLAGen
      * @param symtab The symbol table.
      * @param report  A vector of strings, containing the reports of renaming.
      * @return A vector of strings.
-     * @throws PcalTLAGenException
      */
     public ArrayList<String> generate(final AST ast, final PcalSymTab symtab, final ArrayList<String> report) throws PcalTLAGenException
     {
@@ -617,10 +612,7 @@ public class PcalTLAGen
      * I can't see how any aliasing of MappingTokens could arise.
      * 
      * This method is called only by GenLabeledStmts.
-     * 
-     * @param lineNum
-     * @param startCol
-     * @param shift
+     *
      */
     private void shiftMappingVectorTokensLeft(final int lineNum, final int startCol, final int shift) {
         boolean lastWasBeginTLAToken = false;
@@ -733,12 +725,6 @@ public class PcalTLAGen
      * ***************************************************************/
     
     /**
-     * @param ast
-     * @param c
-     * @param context
-     * @param prefix
-     * @param col
-     * @throws PcalTLAGenException
      */
     private void GenAssign(final AST.Assign ast, final Changed c, final String context, final String prefix, final int col)
             throws PcalTLAGenException
@@ -1205,9 +1191,7 @@ public class PcalTLAGen
      * Returns the vector of MappingObjects containing the BeginTLAToken and
      * EndTLAToken that are put in the mappingVector by a call of addOneLineOfTLA.
      * The code was essentially copied from addOneTokenToTLA.
-     * 
-     * @param token
-     * @return
+     *
      */
     private ArrayList<MappingObject> stringToTLATokens(final String token) {
         final ArrayList<MappingObject> result = new ArrayList<>(3);
@@ -3289,8 +3273,7 @@ public class PcalTLAGen
      * ...TLAToken objects mark a region that excludes beginning and
      * ending space characters of token--unless the token has
      * only space characters.
-     * 
-     * @param token
+     *
      */
     private void addOneTokenToTLA(final String token) {
         String trimmedToken = token.trim() ;
@@ -3317,9 +3300,7 @@ public class PcalTLAGen
      * If region is non-null, then adds string str to the TLA output
      * as a SourceToken object with that region.  Otherwise, it adds
      * it as a TLAToken, with Begin/EndTLAToken objects.
-     * 
-     * @param str
-     * @param region
+     *
      */
     private void addOneSourceTokenToTLA(final String str, final Region region) {
         if (region == null) {
@@ -3337,8 +3318,7 @@ public class PcalTLAGen
      * Adds a complete line of TLA "code" that does not correspond to
      * any PlusCal code.  Adds Begin/EndTLAToken objects to the mapping
      * iff the line does not equal "".
-     * 
-     * @param line
+     *
      */
     private void addOneLineOfTLA(final String line) {
 // temporarily commented out.
@@ -3401,7 +3381,6 @@ public class PcalTLAGen
      * no space before the expression and leaves the last line of the
      * expression (which could be its first line) at the end of 
      * tlacodeNextLine.
-     * @param expr
      */
     private void addExprToTLA(final TLAExpr expr) {
         final ArrayList<String> sv = expr.toStringVector() ;
@@ -3446,9 +3425,7 @@ public class PcalTLAGen
      * algorithm for a procedure or process variable It is called with the 
      * StringBuffer `is' containing the text that precedes the "/\" of the 
      * conjunct, which will be "Init == " or just spaces.
-     * 
-     * @param decl
-     * @param is
+     *
      */
     private void addVarDeclToTLA(final VarDecl decl, StringBuffer is) {
         is.append("/\\ ");
@@ -3478,7 +3455,6 @@ public class PcalTLAGen
     /**
      * Adds a MappingObject.LeftParen object to the mapping vector
      * for the beginning of the Region region, if it's not null.
-     * @param region
      */
     private void addLeftParen(final Region region) {
         if (region != null) {
@@ -3490,7 +3466,6 @@ public class PcalTLAGen
     /**
      * Adds a MappingObject.LeftParen object to the mapping vector
      * for the beginning of the Region region, if it's not null.
-     * @param region
      */
     private void addRightParen(final Region region) {
         if (region != null) {
@@ -3506,8 +3481,7 @@ public class PcalTLAGen
      * However, if it is, then we don't add a Paren; this insures 
      * that the matching calls of addLeftParenV and addRightParenV
      * both either do or don't add a Paren.
-     *  
-     * @param ast
+     *
      */
     private void addLeftParenV(final AST ast, final PCalLocation loc) {
         if (ast.getOrigin() == null) {
@@ -3529,8 +3503,7 @@ public class PcalTLAGen
      * However, if it is, then we don't add a Paren; this insures 
      * that the matching calls of addLeftParenV and addRightParenV
      * both either do or don't add a Paren.
-     *  
-     * @param ast
+     *
      */
     private void addRightParenV(final AST ast, final PCalLocation loc) {
         if (ast.getOrigin() == null) {
@@ -3564,8 +3537,7 @@ public class PcalTLAGen
     	
     	/**
     	 * The string  wf /\ sf , or just wf if sf is null.
-    	 * @return
-    	 */
+         */
     	public String singleLine() {
     		if (sf == null) {
     			return wf ;
@@ -3576,9 +3548,8 @@ public class PcalTLAGen
     	/**
     	 * The width of the singleLine representation of the 
     	 * conjunction of the formlas.
-    	 * 
-    	 * @return
-    	 */
+    	 *
+         */
     	public int singleLineWidth() {
     	    if (sf == null) {
                 return wf.length() ;
@@ -3590,9 +3561,8 @@ public class PcalTLAGen
     	 * The representation of the conjunction of the formulas with
     	 * prefix /\s, where the first /\ appears in column col (Java
     	 * numbering), witout any ending "\n"
-    	 * 
-    	 * @return
-    	 */
+    	 *
+         */
     	public String multiLine(final int col) {
     		final String val = "/\\ " + wf ;
     		if (sf == null) {
@@ -3618,12 +3588,9 @@ public class PcalTLAGen
         private final PcalParams pcalParams;
     	/** 
     	 * The constructor
-    	 * @param xfVal
-    	 * @param prefixVal
     	 * @param bodyWF : can be null if bodySF is also null
     	 * @param bodySF : can be null
-    	 * @param prcdVal
-    	 */
+         */
     	public ProcessFairness (final String xfVal, final ArrayList<String>  prefixVal, final String bodyWF,
                                 final String bodySF, final ArrayList<FormulaPair>  prcdVal, PcalParams pcalParams) {
             this.pcalParams = pcalParams;
@@ -3640,9 +3607,8 @@ public class PcalTLAGen
     	 * formula.  Single-line means that it is not written as a 
     	 * conjunction list (with a leading /\).  It will actually
     	 * occupy multiple lines if prefix is a multi-line formula.
-    	 * 
-    	 * @return
-    	 */
+    	 *
+         */
     	public int singleLineWidth() {
     	    // Set maxPrefixWidth to length of longest non-final
     	    // line of prefix, width to lenght of final line
@@ -3675,10 +3641,8 @@ public class PcalTLAGen
     	 * in column col.  That is, all but the first line is indented
     	 * with col spaces, and all but the last line is ended with
     	 * a \n .
-    	 * 
-    	 * @param col
-    	 * @return
-    	 */
+    	 *
+         */
     	private StringBuffer prefixAsStringBuffer(final int col) {
     	    final StringBuffer val = new StringBuffer();
             if (prefix != null && prefix.size() > 0) {
@@ -3698,8 +3662,7 @@ public class PcalTLAGen
     	/**
     	 * The process fairness condition written as a single-line formula,
     	 * starting in column col.
-    	 * @return
-    	 */
+         */
     	public StringBuffer singleLine(final int col) {
     	    final StringBuffer val = prefixAsStringBuffer(col);
     	    val.append(bodyFormulas.wf);
@@ -3719,10 +3682,8 @@ public class PcalTLAGen
     	/**
     	 * Returns true iff format(col) should return a single-line version
     	 * of the formula.
-    	 * 
-    	 * @param col
-    	 * @return
-    	 */
+    	 *
+         */
     	private boolean fitsAsSingleLine(final int col) {
     	    return     (col + singleLineWidth() <= pcalParams.wrapColumn)
                     || (bodyFormulas.sf == null 
@@ -3734,10 +3695,8 @@ public class PcalTLAGen
     	 * It is formatted to try to extend no further than column 
     	 * PcalTLAGen.wrapColumn, but no individual formula is split
     	 * across lines.
-    	 * 
-    	 * @param col
-    	 * @return
-    	 */
+    	 *
+         */
     	public StringBuffer format(final int col) {
     		/*
     		 * Return the single-line form if either it fits on the

@@ -21,8 +21,6 @@ public class Messages
 
     /**
      * Retrieves the string by key
-     * @param key 
-     * @return
      */
     public static String getString(final String key)
     {
