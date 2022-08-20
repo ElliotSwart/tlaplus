@@ -7,7 +7,7 @@ package tlc2.tool.liveness;
 
 import tlc2.output.EC;
 import tlc2.tool.EvalException;
-import tlc2.util.MemObjectQueue;
+import java.util.ArrayDeque;
 import tlc2.util.MemObjectStack;
 import java.util.ArrayList;
 
@@ -69,13 +69,13 @@ public class BEGraph {
 			start.setParent(null);
 		} else {
 			final boolean unseen = start.getVisited();
-			final MemObjectQueue queue = new MemObjectQueue(null); // bomb if
+			final ArrayDeque<NodeAndParent> queue = new ArrayDeque<>(); // bomb if
 			// checkpoint
 			start.flipVisited();
-			queue.enqueue(new NodeAndParent(start, null));
+			queue.add(new NodeAndParent(start, null));
 			boolean found = false;
 			while (!found) {
-				final NodeAndParent np = (NodeAndParent) queue.dequeue();
+				final NodeAndParent np = queue.remove();
 				if (np == null) {
 					throw new EvalException(EC.TLC_LIVE_BEGRAPH_FAILED_TO_CONSTRUCT);
 				}
@@ -89,7 +89,7 @@ public class BEGraph {
 							break;
 						}
 						nextNode.flipVisited();
-						queue.enqueue(new NodeAndParent(nextNode, curNode));
+						queue.add(new NodeAndParent(nextNode, curNode));
 					}
 				}
 				curNode.setParent(np.parent);
