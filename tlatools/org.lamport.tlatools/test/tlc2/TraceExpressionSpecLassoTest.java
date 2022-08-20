@@ -42,7 +42,7 @@ import tlc2.tool.impl.Tool;
 import tlc2.tool.liveness.LiveCheck1;
 import tlc2.tool.liveness.LiveException;
 import tlc2.util.SetOfStates;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 import tlc2.value.IValue;
 import tlc2.value.impl.BoolValue;
 import tlc2.value.impl.IntValue;
@@ -74,7 +74,7 @@ public class TraceExpressionSpecLassoTest extends TraceExpressionSpecTest {
 		assertEquals(1, property.length);
 
 		// Assert there exists one init-predicate
-		final Vect<Action> initPred = tool.getInitPred();
+		final ArrayList<Action> initPred = tool.getInitPred();
 		assertEquals(1, initPred.size());
 
 		// Assert there exists a next-state relation

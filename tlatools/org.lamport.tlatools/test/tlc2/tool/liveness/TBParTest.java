@@ -44,8 +44,8 @@ public class TBParTest {
 	public void testParticleClosureInconsistentConstantLevel() {
 		final TBPar tbPar = new TBPar();
 		// Positive form (negation pushed down), and, thus, locally inconsistent.
-		tbPar.addElement(new LNBool(false));
-		tbPar.addElement(new LNNeg(new LNBool(false)));
+		tbPar.add(new LNBool(false));
+		tbPar.add(new LNNeg(new LNBool(false)));
 		assertEquals(0, tbPar.particleClosure().size());
 	}
 
@@ -54,16 +54,16 @@ public class TBParTest {
 		final TBPar tbPar = new TBPar();
 		// Positive form (negation pushed down), and, thus, locally inconsistent.
 		final LiveExprNode p = new LNStateAST(new DummyOpApplNode("p"), Context.Empty);
-		tbPar.addElement(p);
-		tbPar.addElement(new LNNeg(p));
+		tbPar.add(p);
+		tbPar.add(new LNNeg(p));
 		assertEquals(0, tbPar.particleClosure().size());
 	}
 
 	@Test
 	public void testParticleClosureConsistentConstantLevel() {
 		final TBPar tbPar = new TBPar();
-		tbPar.addElement(new LNBool(false));
-		tbPar.addElement(new LNNeg(new LNBool(true)));
+		tbPar.add(new LNBool(false));
+		tbPar.add(new LNNeg(new LNBool(true)));
 		assertEquals(1, tbPar.particleClosure().size());
 	}
 
@@ -71,8 +71,8 @@ public class TBParTest {
 	public void testParticleClosureConsistentStateLevel() {
 		final TBPar tbPar = new TBPar();
 		final LiveExprNode p = new LNStateAST(new DummyOpApplNode("p"), Context.Empty);
-		tbPar.addElement(p);
-		tbPar.addElement(new LNNeg(new LNNeg(p)));
+		tbPar.add(p);
+		tbPar.add(new LNNeg(new LNNeg(p)));
 		assertEquals(1, tbPar.particleClosure().size());
 	}
 
@@ -87,41 +87,41 @@ public class TBParTest {
 		// Because the same LNStateAST instance appears in both disjuncts, there is no
 		// need to tag it--LNState#equals behaves the same.
 		final LNDisj phi = new LNDisj(evenP, new LNAll(new LNNeg(p)));
-		tbPar.addElement(phi);
+		tbPar.add(phi);
 
 		// p 454 gives the expected particles.
 		final TBParVec particleClosure = tbPar.particleClosure();
 		assertEquals(3, particleClosure.size());
 
 		// <>p \/ []~p, <>p, p
-		assertEquals(phi, particleClosure.elementAt(0).elementAt(0));
-		assertEquals(evenP, particleClosure.elementAt(0).elementAt(1));
-		assertEquals(p, particleClosure.elementAt(0).elementAt(2));
+		assertEquals(phi, particleClosure.get(0).get(0));
+		assertEquals(evenP, particleClosure.get(0).get(1));
+		assertEquals(p, particleClosure.get(0).get(2));
 
 		// <>p \/ []~p, <>p, ()<>p
-		assertEquals(phi, particleClosure.elementAt(1).elementAt(0));
-		assertEquals(evenP, particleClosure.elementAt(1).elementAt(1));
+		assertEquals(phi, particleClosure.get(1).get(0));
+		assertEquals(evenP, particleClosure.get(1).get(1));
 		// LN*#equals(Object) just object identify, thus, manually checked here. 
-		final LiveExprNode nextEvenP = particleClosure.elementAt(1).elementAt(2);
+		final LiveExprNode nextEvenP = particleClosure.get(1).get(2);
 		assertTrue(nextEvenP instanceof LNNext);
 		assertEquals(evenP, ((LNNext) nextEvenP).getBody());
 
 		// <>p \/ []~p, []~p, ()[]~p, ~p
-		assertEquals(phi, particleClosure.elementAt(2).elementAt(0));
+		assertEquals(phi, particleClosure.get(2).get(0));
 		// ...[]~p
-		assertTrue(particleClosure.elementAt(2).elementAt(1) instanceof LNAll);
-		assertTrue(((LNAll) particleClosure.elementAt(2).elementAt(1)).getBody() instanceof LNNeg);
-		assertEquals(p, ((LNNeg) ((LNAll) particleClosure.elementAt(2).elementAt(1)).getBody()).getBody());
-		assertEquals("[]-TRUE", particleClosure.elementAt(2).elementAt(1).toString());
+		assertTrue(particleClosure.get(2).get(1) instanceof LNAll);
+		assertTrue(((LNAll) particleClosure.get(2).get(1)).getBody() instanceof LNNeg);
+		assertEquals(p, ((LNNeg) ((LNAll) particleClosure.get(2).get(1)).getBody()).getBody());
+		assertEquals("[]-TRUE", particleClosure.get(2).get(1).toString());
 		// ...~p
-		assertTrue((particleClosure.elementAt(2).elementAt(2)) instanceof LNNeg);
-		assertEquals(p, ((LNNeg) particleClosure.elementAt(2).elementAt(2)).getBody());
-		assertEquals("-TRUE", particleClosure.elementAt(2).elementAt(2).toString());
+		assertTrue((particleClosure.get(2).get(2)) instanceof LNNeg);
+		assertEquals(p, ((LNNeg) particleClosure.get(2).get(2)).getBody());
+		assertEquals("-TRUE", particleClosure.get(2).get(2).toString());
 		// ...()[]~p
-		assertTrue(particleClosure.elementAt(2).elementAt(3) instanceof LNNext);
-		assertTrue(((LNNext) particleClosure.elementAt(2).elementAt(3)).getBody() instanceof LNAll);
-		assertTrue(((LNAll) ((LNNext) particleClosure.elementAt(2).elementAt(3)).getBody()).getBody() instanceof LNNeg);
-		assertEquals("()[]-TRUE", particleClosure.elementAt(2).elementAt(3).toString());
+		assertTrue(particleClosure.get(2).get(3) instanceof LNNext);
+		assertTrue(((LNNext) particleClosure.get(2).get(3)).getBody() instanceof LNAll);
+		assertTrue(((LNAll) ((LNNext) particleClosure.get(2).get(3)).getBody()).getBody() instanceof LNNeg);
+		assertEquals("()[]-TRUE", particleClosure.get(2).get(3).toString());
 	}
 
 	@Test
@@ -135,41 +135,41 @@ public class TBParTest {
 		// Because the same LNStateAST instance appears in both disjuncts, there is no
 		// need to tag it--LNState#equals behaves the same.
 		final LNDisj phi = new LNDisj(evenP, new LNAll(new LNNeg(p)));
-		tbPar.addElement(phi);
+		tbPar.add(phi);
 
 		// p 454 gives the expected particles.
 		final TBParVec particleClosure = tbPar.particleClosure();
 		assertEquals(3, particleClosure.size());
 
 		// <>p \/ []~p, <>p, p
-		assertEquals(phi, particleClosure.elementAt(0).elementAt(0));
-		assertEquals(evenP, particleClosure.elementAt(0).elementAt(1));
-		assertEquals(p, particleClosure.elementAt(0).elementAt(2));
+		assertEquals(phi, particleClosure.get(0).get(0));
+		assertEquals(evenP, particleClosure.get(0).get(1));
+		assertEquals(p, particleClosure.get(0).get(2));
 
 		// <>p \/ []~p, <>p, ()<>p
-		assertEquals(phi, particleClosure.elementAt(1).elementAt(0));
-		assertEquals(evenP, particleClosure.elementAt(1).elementAt(1));
+		assertEquals(phi, particleClosure.get(1).get(0));
+		assertEquals(evenP, particleClosure.get(1).get(1));
 		// LN*#equals(Object) just object identify, thus, manually checked here. 
-		final LiveExprNode nextEvenP = particleClosure.elementAt(1).elementAt(2);
+		final LiveExprNode nextEvenP = particleClosure.get(1).get(2);
 		assertTrue(nextEvenP instanceof LNNext);
 		assertEquals(evenP, ((LNNext) nextEvenP).getBody());
 
 		// <>p \/ []~p, []~p, ()[]~p, ~p
-		assertEquals(phi, particleClosure.elementAt(2).elementAt(0));
+		assertEquals(phi, particleClosure.get(2).get(0));
 		// ...[]~p
-		assertTrue(particleClosure.elementAt(2).elementAt(1) instanceof LNAll);
-		assertTrue(((LNAll) particleClosure.elementAt(2).elementAt(1)).getBody() instanceof LNNeg);
-		assertEquals(p, ((LNNeg) ((LNAll) particleClosure.elementAt(2).elementAt(1)).getBody()).getBody());
-		assertEquals("[]-p", particleClosure.elementAt(2).elementAt(1).toString());
+		assertTrue(particleClosure.get(2).get(1) instanceof LNAll);
+		assertTrue(((LNAll) particleClosure.get(2).get(1)).getBody() instanceof LNNeg);
+		assertEquals(p, ((LNNeg) ((LNAll) particleClosure.get(2).get(1)).getBody()).getBody());
+		assertEquals("[]-p", particleClosure.get(2).get(1).toString());
 		// ...~p
-		assertTrue((particleClosure.elementAt(2).elementAt(2)) instanceof LNNeg);
-		assertEquals(p, ((LNNeg) particleClosure.elementAt(2).elementAt(2)).getBody());
-		assertEquals("-p", particleClosure.elementAt(2).elementAt(2).toString());
+		assertTrue((particleClosure.get(2).get(2)) instanceof LNNeg);
+		assertEquals(p, ((LNNeg) particleClosure.get(2).get(2)).getBody());
+		assertEquals("-p", particleClosure.get(2).get(2).toString());
 		// ...()[]~p
-		assertTrue(particleClosure.elementAt(2).elementAt(3) instanceof LNNext);
-		assertTrue(((LNNext) particleClosure.elementAt(2).elementAt(3)).getBody() instanceof LNAll);
-		assertTrue(((LNAll) ((LNNext) particleClosure.elementAt(2).elementAt(3)).getBody()).getBody() instanceof LNNeg);
-		assertEquals("()[]-p", particleClosure.elementAt(2).elementAt(3).toString());
+		assertTrue(particleClosure.get(2).get(3) instanceof LNNext);
+		assertTrue(((LNNext) particleClosure.get(2).get(3)).getBody() instanceof LNAll);
+		assertTrue(((LNAll) ((LNNext) particleClosure.get(2).get(3)).getBody()).getBody() instanceof LNNeg);
+		assertEquals("()[]-p", particleClosure.get(2).get(3).toString());
 	}
 
 	

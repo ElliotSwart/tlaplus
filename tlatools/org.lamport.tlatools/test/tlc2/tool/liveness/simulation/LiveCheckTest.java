@@ -131,7 +131,7 @@ public class LiveCheckTest {
 		EasyMock.replay(node);
 		
 		final TBGraph tbGraph = new TBGraph();
-		tbGraph.addElement(node);
+		tbGraph.add(node);
 		tbGraph.setInitCnt(1);
 		
 		// Configure OOS mock to react to the subsequent invocation. This is a

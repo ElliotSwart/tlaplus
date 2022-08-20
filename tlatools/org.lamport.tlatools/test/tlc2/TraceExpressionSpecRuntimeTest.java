@@ -36,7 +36,7 @@ import tlc2.output.EC;
 import tlc2.tool.Action;
 import tlc2.tool.StateVec;
 import tlc2.tool.impl.Tool;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 import tlc2.value.IValue;
 import tlc2.value.impl.IntValue;
 import tlc2.value.impl.RecordValue;
@@ -60,7 +60,7 @@ public class TraceExpressionSpecRuntimeTest extends TraceExpressionSpecTest {
 		assertEquals(1, invariants.length);
 
 		// Assert there exists one init-predicate
-		final Vect<Action> initPred = tool.getInitPred();
+		final ArrayList<Action> initPred = tool.getInitPred();
 		assertEquals(1, initPred.size());
 
 		// Assert there exists a next-state relation

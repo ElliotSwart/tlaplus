@@ -22,7 +22,7 @@ import tlc2.util.LongObjTable;
 import tlc2.util.MemObjectStack;
 import tlc2.util.ObjectStack;
 import tlc2.util.SetOfStates;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 import tlc2.util.statistics.DummyBucketStatistics;
 import tlc2.util.statistics.IBucketStatistics;
 
@@ -116,8 +116,8 @@ public class LiveCheck1 implements ILiveCheck {
 	 * state trace (a sequence of states). Assume trace.length > 0. It returns
 	 * the set of initial states.
 	 */
-	Vect<BEGraphNode> constructBEGraph(final ITool tool, final OrderOfSolution os) {
-		final Vect<BEGraphNode> initNodes = new Vect<>(1);
+	ArrayList<BEGraphNode> constructBEGraph(final ITool tool, final OrderOfSolution os) {
+		final ArrayList<BEGraphNode> initNodes = new ArrayList<>(1);
 		final int slen = os.getCheckState().length;
 		final int alen = os.getCheckAction().length;
 		TLCState srcState = stateTrace.elementAt(0); // the initial state
@@ -131,7 +131,7 @@ public class LiveCheck1 implements ILiveCheck {
 			srcNode.setCheckState(checkStateRes);
 			srcNode.addTransition(srcNode, slen, alen, checkActionRes);
 			allNodes.put(srcFP, srcNode);
-			initNodes.addElement(srcNode);
+			initNodes.add(srcNode);
 			for (int i = 1; i < stateTrace.size(); i++) {
 				final TLCState destState = stateTrace.elementAt(i);
 				final long destFP = destState.fingerPrint();
@@ -151,20 +151,20 @@ public class LiveCheck1 implements ILiveCheck {
 		} else {
 			// If there is tableau, construct begraph of (tableau X trace).
 			final LongObjTable allNodes = new LongObjTable(255);
-			Vect<BEGraphNode> srcNodes = new Vect<>();
+			ArrayList<BEGraphNode> srcNodes = new ArrayList<>();
 			final int initCnt = os.getTableau().getInitCnt();
 			for (int i = 0; i < initCnt; i++) {
 				final TBGraphNode tnode = os.getTableau().getNode(i);
 				if (tnode.isConsistent(srcState, myTool)) {
 					final BEGraphNode destNode = new BTGraphNode(srcFP, tnode.getIndex());
 					destNode.setCheckState(checkStateRes);
-					initNodes.addElement(destNode);
-					srcNodes.addElement(destNode);
+					initNodes.add(destNode);
+					srcNodes.add(destNode);
 					allNodes.put(FP64.Extend(srcFP, tnode.getIndex()), destNode);
 				}
 			}
 			for (int i = 0; i < srcNodes.size(); i++) {
-				final BEGraphNode srcNode = srcNodes.elementAt(i);
+				final BEGraphNode srcNode = srcNodes.get(i);
 				final TBGraphNode tnode = srcNode.getTNode(os.getTableau());
 				for (int j = 0; j < tnode.nextSize(); j++) {
 					final TBGraphNode tnode1 = tnode.nextAt(j);
@@ -176,13 +176,13 @@ public class LiveCheck1 implements ILiveCheck {
 				}
 			}
 			for (int i = 1; i < stateTrace.size(); i++) {
-				final Vect<BEGraphNode> destNodes = new Vect<>();
+				final ArrayList<BEGraphNode> destNodes = new ArrayList<>();
 				final TLCState destState = stateTrace.elementAt(i);
 				final long destStateFP = destState.fingerPrint();
 				checkStateRes = os.checkState(myTool, destState);
 				checkActionRes = os.checkAction(tool, srcState, destState);
 				for (int j = 0; j < srcNodes.size(); j++) {
-					final BEGraphNode srcNode = srcNodes.elementAt(j);
+					final BEGraphNode srcNode = srcNodes.get(j);
 					final TBGraphNode tnode = srcNode.getTNode(os.getTableau());
 					for (int k = 0; k < tnode.nextSize(); k++) {
 						final TBGraphNode tnode1 = tnode.nextAt(k);
@@ -193,7 +193,7 @@ public class LiveCheck1 implements ILiveCheck {
 								destNode = new BTGraphNode(destStateFP, tnode1.getIndex());
 								destNode.setCheckState(checkStateRes);
 								srcNode.addTransition(destNode, slen, alen, checkActionRes);
-								destNodes.addElement(destNode);
+								destNodes.add(destNode);
 								allNodes.put(destFP, destNode);
 							}
 						} else if (!srcNode.transExists(destNode)) {
@@ -203,7 +203,7 @@ public class LiveCheck1 implements ILiveCheck {
 				}
 				checkActionRes = os.checkAction(tool, destState, destState);
 				for (int j = 0; j < destNodes.size(); j++) {
-					final BEGraphNode srcNode = destNodes.elementAt(j);
+					final BEGraphNode srcNode = destNodes.get(j);
 					final TBGraphNode tnode = srcNode.getTNode(os.getTableau());
 					for (int k = 0; k < tnode.nextSize(); k++) {
 						final TBGraphNode tnode1 = tnode.nextAt(k);
@@ -214,7 +214,7 @@ public class LiveCheck1 implements ILiveCheck {
 								destNode = new BTGraphNode(destStateFP, tnode1.getIndex());
 								destNode.setCheckState(checkStateRes);
 								srcNode.addTransition(destNode, slen, alen, checkActionRes);
-								destNodes.addElement(destNode);
+								destNodes.add(destNode);
 								allNodes.put(destFP, destNode);
 							}
 						} else if (!srcNode.transExists(destNode)) {
@@ -491,7 +491,7 @@ public class LiveCheck1 implements ILiveCheck {
     public synchronized void checkTrace(final ITool tool, final Supplier<StateVec> trace) {
 		stateTrace = trace.get();
         for (final OrderOfSolution os : solutions) {
-            final Vect<BEGraphNode> initNodes = constructBEGraph(tool, os);
+            final ArrayList<BEGraphNode> initNodes = constructBEGraph(tool, os);
 
             // Liveness.printTBGraph(os.tableau);
             // ToolIO.err.println(os.behavior.toString());
@@ -502,7 +502,7 @@ public class LiveCheck1 implements ILiveCheck {
             initSccParams(os);
             final int numOfInits = initNodes.size();
             for (int i = 0; i < numOfInits; i++) {
-                initNode = initNodes.elementAt(i);
+                initNode = initNodes.get(i);
                 if (initNode.getNumber() == 0) {
                     checkSccs(initNode);
                 }
@@ -804,7 +804,7 @@ public class LiveCheck1 implements ILiveCheck {
 
 	/* This method checks whether a scc satisfies currentPEM. */
 	void checkComponent(final BEGraphNode node) {
-		final Vect<BEGraphNode> nodes = extractComponent(node);
+		final ArrayList<BEGraphNode> nodes = extractComponent(node);
 		if (nodes != null) {
 			final PossibleErrorModel[] pems = currentOOS.getPems();
             /******
@@ -819,7 +819,7 @@ public class LiveCheck1 implements ILiveCheck {
                 startSecondNum = secondNum;
                 startThirdNum = thirdNum;
                 for (int j = nodes.size() - 1; j >= 0; j--) {
-                    final BEGraphNode node1 = nodes.elementAt(j);
+                    final BEGraphNode node1 = nodes.get(j);
                     if (node1.getNumber() < startThirdNum) {
                         checkSccs1(node1);
                     }
@@ -840,21 +840,21 @@ public class LiveCheck1 implements ILiveCheck {
 	 * trivial one. It also assigns a new number to all the nodes in the
 	 * component.
 	 */
-	Vect<BEGraphNode> extractComponent(final BEGraphNode node) {
+	ArrayList<BEGraphNode> extractComponent(final BEGraphNode node) {
 		BEGraphNode node1 = (BEGraphNode) comStack.pop();
 		if (node == node1 && !node.transExists(node)) {
 			node.setNumber(MAX_FIRST);
 			return null;
 		}
-		final Vect<BEGraphNode> nodes = new Vect<>();
+		final ArrayList<BEGraphNode> nodes = new ArrayList<>();
 		numFirstCom = secondNum++;
 		numSecondCom = thirdNum;
 		Objects.requireNonNull(node1).setNumber(numFirstCom);
-		nodes.addElement(node1);
+		nodes.add(node1);
 		while (node != node1) {
 			node1 = (BEGraphNode) comStack.pop();
 			Objects.requireNonNull(node1).setNumber(numFirstCom);
-			nodes.addElement(node1);
+			nodes.add(node1);
 		}
 		return nodes;
 	}

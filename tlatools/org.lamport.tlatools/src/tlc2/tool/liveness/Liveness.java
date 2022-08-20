@@ -19,17 +19,10 @@ import tla2sany.semantic.SubstInNode;
 import tla2sany.semantic.SymbolNode;
 import tlc2.output.EC;
 import tlc2.output.MP;
-import tlc2.tool.Action;
-import tlc2.tool.BuiltInOPs;
-import tlc2.tool.EvalControl;
+import tlc2.tool.*;
 import tlc2.tool.IContextEnumerator;
-import tlc2.tool.ITool;
-import tlc2.tool.ModelChecker;
-import tlc2.tool.Specs;
-import tlc2.tool.TLCState;
-import tlc2.tool.ToolGlobals;
 import tlc2.util.Context;
-import tlc2.util.Vect;
+import java.util.ArrayList;
 import tlc2.value.IBoolValue;
 import tlc2.value.IFcnLambdaValue;
 import tlc2.value.IValue;
@@ -622,9 +615,9 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		// just syntactically. This is hopefully sufficient, because we
 		// haven't done any real rearrangement of them, apart from munging
 		// up \/ and /\ above them. tfbin contains the different tf's.
-		// pembin is a vect of vect-of-pems collecting each tf's pems.
+		// pembin is a ArrayList of ArrayList-of-pems collecting each tf's pems.
 		final TBPar tfbin = new TBPar(dnf.getCount());
-		final Vect<Vect<OSExprPem>> pembin = new Vect<>(dnf.getCount());
+		final ArrayList<ArrayList<OSExprPem>> pembin = new ArrayList<>(dnf.getCount());
 		for (int i = 0; i < dnf.getCount(); i++) {
 			int found = -1;
 			final LiveExprNode tf = tfs[i];
@@ -666,10 +659,10 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			}
 			if (found == -1) {
 				found = tfbin.size();
-				tfbin.addElement(tf);
-				pembin.addElement(new Vect<>());
+				tfbin.add(tf);
+				pembin.add(new ArrayList<>());
 			}
-			pembin.elementAt(found).addElement(pems[i]);
+			pembin.get(found).add(pems[i]);
 		}
 		// Could null pems (OSExprPem) and tfs (LiveExprNode[]) here.
 
@@ -746,26 +739,26 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			// The split into OrderOfSolution (OOS) and PossibleErrorModel (PEM) appears to
 			// be a code-level optimization to speed-up the check of the liveness/behavior-graph
 			// in LiveWorker.
-			final Vect<LiveExprNode> stateBin = new Vect<>();
-			final Vect<LiveExprNode> actionBin = new Vect<>();
-			final Vect<OSExprPem> tfPems = pembin.elementAt(i);
+			final ArrayList<LiveExprNode> stateBin = new ArrayList<>();
+			final ArrayList<LiveExprNode> actionBin = new ArrayList<>();
+			final ArrayList<OSExprPem> tfPems = pembin.get(i);
 			oss[i].setPems(new PossibleErrorModel[tfPems.size()]);
 			for (int j = 0; j < tfPems.size(); j++) {
-				final OSExprPem pem = tfPems.elementAt(j);
+				final OSExprPem pem = tfPems.get(j);
 				oss[i].getPems()[j] = new PossibleErrorModel(addToBin(pem.AEAction, actionBin),
 						addToBin(pem.AEState, stateBin), addToBin(pem.EAAction, actionBin));
 			}
 			// Finally, store the bins with the order of solution.
 			oss[i].setCheckState(new LiveExprNode[stateBin.size()]);
 			for (int j = 0; j < stateBin.size(); j++) {
-				oss[i].getCheckState()[j] = stateBin.elementAt(j);
+				oss[i].getCheckState()[j] = stateBin.get(j);
 			}
 			oss[i].setCheckAction(new LiveExprNode[actionBin.size()]);
 			for (int j = 0; j < actionBin.size(); j++) {
-				oss[i].getCheckAction()[j] = actionBin.elementAt(j);
+				oss[i].getCheckAction()[j] = actionBin.get(j);
 			}
 		}
-		// Could null TBPar tfbin and Vect<Vect<OSExprPem>> pembin here.
+		// Could null TBPar tfbin and ArrayList<ArrayList<OSExprPem>> pembin here.
 
 		MP.printMessage(EC.TLC_LIVE_IMPLIED, String.valueOf(oss.length));
 		// SZ Jul 28, 2009: What for?
@@ -778,28 +771,28 @@ public class Liveness implements ToolGlobals, ASTConstants {
 	 * Given a list of checks, ensures that the checks are in the bin. It
 	 * returns an array of index of the checks in the bin.
 	 */
-	private static int addToBin(final LiveExprNode check, final Vect<LiveExprNode> bin) {
+	private static int addToBin(final LiveExprNode check, final ArrayList<LiveExprNode> bin) {
 		if (check == null) {
 			return -1;
 		}
 		final int len = bin.size();
 		int idx;
 		for (idx = 0; idx < len; idx++) {
-			final LiveExprNode ln = bin.elementAt(idx);
+			final LiveExprNode ln = bin.get(idx);
 			if (check.equals(ln)) {
 				break;
 			}
 		}
 		if (idx >= len) {
-			bin.addElement(check);
+			bin.add(check);
 		}
 		return idx;
 	}
 
-	private static int[] addToBin(final Vect<LiveExprNode> checks, final Vect<LiveExprNode> bin) {
+	private static int[] addToBin(final ArrayList<LiveExprNode> checks, final ArrayList<LiveExprNode> bin) {
 		final int[] index = new int[checks.size()];
 		for (int i = 0; i < checks.size(); i++) {
-			final LiveExprNode check = checks.elementAt(i);
+			final LiveExprNode check = checks.get(i);
 			index[i] = addToBin(check, bin);
 		}
 		return index;
@@ -824,7 +817,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 			if (ln1 instanceof LNAll lna) {
 				final LiveExprNode ln2 = lna.getBody();
 				if (ln2.getLevel() < LevelConstants.TemporalLevel) {
-					pem.EAAction.addElement(ln2);
+					pem.EAAction.add(ln2);
 					return;
 				}
 			}
@@ -834,11 +827,11 @@ public class Liveness implements ToolGlobals, ASTConstants {
 				final LiveExprNode ln2 = lne.getBody();
 				final int level = ln2.getLevel();
 				if (level <= LevelConstants.VariableLevel) {
-					pem.AEState.addElement(ln2);
+					pem.AEState.add(ln2);
 					return;
 				}
 				if (level == LevelConstants.ActionLevel) {
-					pem.AEAction.addElement(ln2);
+					pem.AEAction.add(ln2);
 					return;
 				}
 			}
@@ -849,7 +842,7 @@ public class Liveness implements ToolGlobals, ASTConstants {
 		// If we get here (because of a temporal formula), at tableau is
 		// consequently going to be created. This part corresponds to the
 		// ideas in the MP book.
-		pem.tfs.addElement(ln);
+		pem.tfs.add(ln);
 	}
 
 	public static void printTBGraph(final TBGraph tableau) {
@@ -865,27 +858,27 @@ public class Liveness implements ToolGlobals, ASTConstants {
 	 * PossibleErrorModel and OrderOfSolution.
 	 */
 	private static class OSExprPem {
-		private final Vect<LiveExprNode> EAAction; // <>[]action's
-		private final Vect<LiveExprNode> AEState; // []<>state's
-		private final Vect<LiveExprNode> AEAction; // []<>action's
-		private final Vect<LiveExprNode> tfs; // other temp formulae with no actions
+		private final ArrayList<LiveExprNode> EAAction; // <>[]action's
+		private final ArrayList<LiveExprNode> AEState; // []<>state's
+		private final ArrayList<LiveExprNode> AEAction; // []<>action's
+		private final ArrayList<LiveExprNode> tfs; // other temp formulae with no actions
 
 		public OSExprPem() {
-			this.EAAction = new Vect<>();
-			this.AEState = new Vect<>();
-			this.AEAction = new Vect<>();
-			this.tfs = new Vect<>();
+			this.EAAction = new ArrayList<>();
+			this.AEState = new ArrayList<>();
+			this.AEAction = new ArrayList<>();
+			this.tfs = new ArrayList<>();
 		}
 
 		public LiveExprNode toTFS() {
 			if (tfs.size() == 1) {
 				// Once again avoid creating a superfluous LNConj in case of a singleton
 				// junction.
-				return tfs.elementAt(0);
+				return tfs.get(0);
 			} else if (tfs.size() > 1) {
 				final LNConj lnc2 = new LNConj(tfs.size());
 				for (int j = 0; j < tfs.size(); j++) {
-					lnc2.addConj(tfs.elementAt(j));
+					lnc2.addConj(tfs.get(j));
 				}
 				return lnc2;
 			} else {
