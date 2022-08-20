@@ -29,14 +29,14 @@ public class LeafProofNode extends ProofNode {
   * The following two fields are the semantic nodes for the facts and      *
   * defs.                                                                  *
   *************************************************************************/
-  LevelNode[]  facts;
+  final LevelNode[]  facts;
     /***********************************************************************
     * For each i, facts[i] will be either an ExprNode, a ModuleNode, or    *
     * an OpDefNode of type ModuleInstanceKind (with no parameters).  A     *
     * proof management tool will probably put restrictions on the class    *
     * of expressions that can be used as facts.                            *
     ***********************************************************************/
-  SymbolNode[] defs;
+    final SymbolNode[] defs;
     /***********************************************************************
     * For each i, defs[i] should be a UserDefinedOpDefKind or              *
     * ModuleInstanceKind OpDefNode or a ThmOrAssumpDefNode                 *

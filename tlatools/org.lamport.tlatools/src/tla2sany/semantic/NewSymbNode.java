@@ -35,12 +35,12 @@ public class NewSymbNode extends LevelNode {
   /*************************************************************************
   * Fields.                                                                *
   *************************************************************************/
-  private OpDeclNode opDeclNode;
+  private final OpDeclNode opDeclNode;
     /***********************************************************************
     * The OpDeclNode for the declaration represented by the NewSymbNode    *
     * object.                                                              *
     ***********************************************************************/
-  private ExprNode  set;
+  private final ExprNode  set;
     /***********************************************************************
     * The ExprNode for expression S in "CONSTANT id \in S".                *
     ***********************************************************************/

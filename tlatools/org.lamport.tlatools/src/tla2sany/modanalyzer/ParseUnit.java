@@ -50,7 +50,7 @@ public class ParseUnit {
 
   private final SpecObj            spec;
     // Back-reference to the SpecObj that this ParseUnit is part of
-  private NamedInputStream   nis;
+  private final NamedInputStream   nis;
     // nis contains the file name, top-level module name, and 
     //   source File object for a module
 

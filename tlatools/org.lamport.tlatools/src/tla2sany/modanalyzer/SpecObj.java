@@ -74,7 +74,7 @@ public class SpecObj
      * changed to private again.
      */
     // SZ 23.02.2009: renamed according to the purpose
-    private FilenameToStream resolver;
+    private final FilenameToStream resolver;
 
 
     ParseUnit rootParseUnit = null;

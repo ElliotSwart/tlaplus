@@ -13,7 +13,7 @@ import java.io.FileWriter;
 
 public class OutputFileWriter
  { private FileWriter fileWriter = null ;
-   private String name;
+   private final String name;
 
    public OutputFileWriter(final String fileName)
      /**********************************************************************

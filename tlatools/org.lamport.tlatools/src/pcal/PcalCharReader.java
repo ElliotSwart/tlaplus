@@ -59,8 +59,8 @@ class PcalCharReader
       * In Java fashion, these are numbered starting at 0.                 *
       *********************************************************************/
 
-    private int lastLine;
-    private int lastColumn;
+    private final int lastLine;
+    private final int lastColumn;
       /*********************************************************************
       * These values marks the position in the input vector immediately    *
       * following the last character in the input stream.                  *

@@ -19,7 +19,7 @@ public class PCalTLAGenerator
 {
 
     private PcalSymTab st = null;
-    private AST ast;
+    private final AST ast;
              // This is set to the AST constructed by ParseAlgorithm.getAlgorithm
 
     private final ParseAlgorithm parseAlgorithm;

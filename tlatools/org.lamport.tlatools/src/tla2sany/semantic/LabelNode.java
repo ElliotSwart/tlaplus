@@ -71,7 +71,7 @@ public class LabelNode extends ExprNode
     * label.                                                               *
     ***********************************************************************/
 
-  FormalParamNode[] params;
+    final FormalParamNode[] params;
     /***********************************************************************
     * The array of formal parameter nodes for this label.  These are all   *
     * FormalParamNode objects that were "declared" as bound symbols in     *
@@ -85,7 +85,7 @@ public class LabelNode extends ExprNode
     * labeled expression.                                                  *
     ***********************************************************************/
 
-  /* ExprNode */ LevelNode body;
+  /* ExprNode */ final LevelNode body;
     /***********************************************************************
     * The expression being labeled.                                        *
     *                                                                      *
@@ -102,7 +102,7 @@ public class LabelNode extends ExprNode
     * definition.                                                          *
     ***********************************************************************/
 
-  ThmOrAssumpDefNode goal;
+    final ThmOrAssumpDefNode goal;
   int goalClause ;
     /***********************************************************************
     * If the label appears within an ASSUME/PROVE, then goal is the        *
