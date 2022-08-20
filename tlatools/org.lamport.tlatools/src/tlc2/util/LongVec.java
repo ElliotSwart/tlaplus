@@ -88,7 +88,7 @@ public class LongVec implements Cloneable, Serializable {
 		}
 	}
 
-	public final void reset() { this.elementCount = 0; }
+	public final void clear() { this.elementCount = 0; }
 
 	private void readObject(final ObjectInputStream ois)
 			  throws IOException, ClassNotFoundException {

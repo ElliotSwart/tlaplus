@@ -176,7 +176,7 @@ private final IValue[] values;
 
   @Override
   public StateVec addToVec(final StateVec states) {
-    return states.add(this.copy());
+    return states.addState(this.copy());
   }
   
   @Override

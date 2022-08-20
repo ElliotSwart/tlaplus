@@ -242,7 +242,7 @@ public class Simulator {
 				}
 				
 				if (tool.isInModel(curState)) {
-					initStates.add(curState);
+					initStates.addState(curState);
 				}
 			}
 		} catch (final Exception e) {
@@ -409,7 +409,7 @@ public class Simulator {
         if (!stateTrace.isLastElement(state)) {
             // MAK 09/24/2019: this method is called with state being the stateTrace's
             // last element or not.
-            stateTrace.add(state);
+            stateTrace.addState(state);
         }
 
         MP.printError(EC.TLC_BEHAVIOR_UP_TO_THIS_POINT);

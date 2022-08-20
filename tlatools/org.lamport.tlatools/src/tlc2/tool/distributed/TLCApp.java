@@ -166,7 +166,8 @@ public class TLCApp extends DistApp {
         for (final Action curAction : this.actions) {
             final StateVec nstates = this.tool.getNextStates(curAction,
                     curState);
-            nextStates = nextStates.addElements(nstates);
+
+            nextStates.addAll(nstates);
         }
 		final int len = nextStates.size();
 		if (len == 0 && this.checkDeadlock) {

@@ -344,12 +344,12 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 	@Override
 	public Object setElement(final TLCState s) {
 		this.nextStates.clear();
-		this.nextStates.add(s);
+		this.nextStates.addState(s);
 		return this;
 	}
 
 	@Override
-	public Object add(final TLCState s, final Action a, final TLCState t) {
+	public Object addState(final TLCState s, final Action a, final TLCState t) {
 	    if (coverage) { a.cm.incInvocations(); }
 		numOfGenStates.increment();
 
@@ -412,7 +412,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 		
 		if ((tool.isInModel(t) && tool.isInActions(s, t))) {
 			if (coverage) {	a.cm.incSecondary(); }
-			return nextStates.add(t);
+			return nextStates.addState(t);
 		}
 
 		return this;
@@ -475,12 +475,12 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 					// getNextState doesn't throw SWE unless SimulationWorker#addElement above throws it.
 					return Optional.of(swe);
 				}
-				if (!nextStates.empty()) {
+				if (!nextStates.isEmpty()) {
 					break;
 				}
 				index = (index + p) % len;
 			}
-			if (nextStates.empty()) {
+			if (nextStates.isEmpty()) {
 				if (checkDeadlock) {
 					// We get here because of deadlock.
 					return Optional.of(new SimulationWorkerError(EC.TLC_DEADLOCK_REACHED, null, curState, getTrace(), null));

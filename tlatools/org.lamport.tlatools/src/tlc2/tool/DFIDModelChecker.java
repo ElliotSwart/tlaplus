@@ -431,7 +431,7 @@ public class DFIDModelChecker extends AbstractChecker
                         // Remember succState if it has not been completed at this level:
                         if (!FPIntSet.isCompleted(status))
                         {
-                            states.add(succState);
+                            states.addState(succState);
                             fps.add(fp);
                         }
 

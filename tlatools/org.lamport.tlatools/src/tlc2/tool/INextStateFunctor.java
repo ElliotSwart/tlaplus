@@ -34,16 +34,16 @@ public interface INextStateFunctor extends IStateFunctor {
 		private static final long serialVersionUID = 8396588814681641572L;
 	}
 
-	Object add(final TLCState s, final Action a, final TLCState t);
+	Object addState(final TLCState s, final Action a, final TLCState t);
 
 	@Override
-    default Object add(final TLCState state) {
+    default Object addState(final TLCState state) {
 		throw new UnsupportedOperationException();
 	}
 	
 	/**
-	 * Contrary to {@link INextStateFunctor#add(TLCState)} and
-	 * {@link INextStateFunctor#add(TLCState, Action, TLCState)}, replaces
+	 * Contrary to {@link INextStateFunctor#addState(TLCState)} and
+	 * {@link INextStateFunctor#addState(TLCState, Action, TLCState)}, replaces
 	 * the previously added elements (TLCStates) with this one. Implementations do
 	 * <i>not</i> check that TLCState <code>state</code> violates invariants, state-
 	 * or action-constraints, ... (to check properties, ..., call addElement first).

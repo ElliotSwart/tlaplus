@@ -919,7 +919,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 		 * @see tlc2.tool.IStateFunctor#add(tlc2.tool.TLCState)
 		 */
 		@Override
-        public Object add(final TLCState curState) {
+        public Object addState(final TLCState curState) {
 			if (e != null) {
 				return curState;
 			}

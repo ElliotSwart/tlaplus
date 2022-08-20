@@ -1186,7 +1186,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 				cm.incInvocations();
 				cm.getRoot().incInvocations();
 			}
-			states.add(ps.copy().setAction(acts.getAction()));
+			states.addState(ps.copy().setAction(acts.getAction()));
 			return;
 		} else if (ps.allAssigned()) {
 			// MAK 05/25/2018: If all values of the initial state have already been
@@ -1216,7 +1216,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 				cm.incInvocations();
 				cm.getRoot().incInvocations();
 			}
-			states.add(ps.copy().setAction(acts.getAction()));
+			states.addState(ps.copy().setAction(acts.getAction()));
 			return;
 		}
 		// Assert.check(act.kind > 0 || act.kind == -1);
@@ -1593,7 +1593,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   private TLCState getNextStates0(final Action action, final ActionItemList acts, final TLCState s0, final TLCState s1,
                                   final INextStateFunctor nss, CostModel cm) {
     if (acts.isEmpty()) {
-      nss.add(s0, action, s1);
+      nss.addState(s0, action, s1);
       return s1.copy();
     } else if (TLCGlobals.warn && s1.allAssigned()) {
 		// If all variables have been assigned and warnings are turned off, Tool can
@@ -1670,7 +1670,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 		  kind = acts.carKind();
           cm2 = acts.cm;
 	  }
-	  nss.add(s0, action, s1);
+	  nss.addState(s0, action, s1);
 	  return s1.copy();
   }
 
@@ -4017,7 +4017,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 				this.fp = fp;
 			}
 			@Override
-			public Object add(final TLCState state) {
+			public Object addState(final TLCState state) {
 				if (state == null) {
 					return null;
 				} else if (this.state != null) {

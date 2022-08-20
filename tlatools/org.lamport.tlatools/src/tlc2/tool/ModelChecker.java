@@ -1118,7 +1118,7 @@ public class ModelChecker extends AbstractChecker
 		 * @see tlc2.tool.IStateFunctor#add(tlc2.tool.TLCState)
 		 */
 		@Override
-        public Object add(final TLCState curState) {
+        public Object addState(final TLCState curState) {
 			if (Long.bitCount(numberOfInitialStates) == 1 && numberOfInitialStates > 1) {
 				MP.printMessage(EC.TLC_COMPUTING_INIT_PROGRESS, Long.toString(numberOfInitialStates));
 			}

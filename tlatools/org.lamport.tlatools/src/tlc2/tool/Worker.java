@@ -416,12 +416,12 @@ public final class Worker extends IdThread implements IWorker, INextStateFunctor
 	//**************************************************************//
 
 	@Override
-	public Object add(final TLCState state) {
+	public Object addState(final TLCState state) {
 		throw new WrongInvocationException("tlc2.tool.Worker.add(TLCState) should not be called");
 	}
 
 	@Override
-	public Object add(final TLCState curState, final Action action, final TLCState succState) {
+	public Object addState(final TLCState curState, final Action action, final TLCState succState) {
 	    if (coverage) { action.cm.incInvocations(); }
 		this.statesGenerated++;
 		

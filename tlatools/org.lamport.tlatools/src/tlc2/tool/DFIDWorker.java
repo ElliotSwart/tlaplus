@@ -194,8 +194,8 @@ public class DFIDWorker extends IdThread implements IWorker {
 	long cfp = this.theInitFPs[index];
 	this.stateStack[0] = curState;
 	this.fpStack[0] = cfp;
-	this.succStateStack[0].reset();
-	this.succFPStack[0].reset();
+	this.succStateStack[0].clear();
+	this.succFPStack[0].clear();
 	boolean isLeaf = this.toLevel < 2;
 	boolean noLeaf = this.tlc.doNext(curState, cfp, isLeaf,
 					 this.succStateStack[0],
@@ -219,8 +219,8 @@ public class DFIDWorker extends IdThread implements IWorker {
 	    cfp = this.succFPStack[this.curLevel-1].get(index);
 	    this.stateStack[this.curLevel] = curState;
 	    this.fpStack[this.curLevel] = cfp;
-	    this.succStateStack[this.curLevel].reset();
-	    this.succFPStack[this.curLevel].reset();
+	    this.succStateStack[this.curLevel].clear();
+	    this.succFPStack[this.curLevel].clear();
 	    isLeaf = (this.curLevel >= this.toLevel-1);
 	    noLeaf = this.tlc.doNext(curState, cfp, isLeaf,
 				     this.succStateStack[this.curLevel],
