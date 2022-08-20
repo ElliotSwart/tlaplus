@@ -1050,18 +1050,20 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           {
               final int cnt = this.actionVec.size();
               try {
-                  final ContextEnumerator Enum =
+                  final IContextEnumerator contextEnumerator =
                           this.contexts(next, con, EmptyState, EmptyState, EvalControl.Clear, cm);
-                  if (Enum.isDone()) {
-                      // No exception and no actions created implies Enum was empty:
+
+                  if (!contextEnumerator.hasNext()) {
+                      // No exception and no actions created implies contextEnumerator was empty:
                       // \E i \in {} : ...
                       // \E i \in Nat: FALSE
                       // ...
                       this.actionVec.addElement(new Action(next, con, actionName));
                       return;
                   }
-                  Context econ;
-                  while ((econ = Enum.nextElement()) != null) {
+
+                  while(contextEnumerator.hasNext()){
+                      Context econ = contextEnumerator.next();
                       this.getActions(args[0], econ, actionName, cm);
                   }
                   assert (cnt < this.actionVec.size())
@@ -1311,23 +1313,24 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           case OPCODE_be ->     // BoundedExists
           {
               final SemanticNode body = args[0];
-              final ContextEnumerator Enum = this.contexts(init, c, ps, EmptyState, EvalControl.Init, cm);
-              Context c1;
-              while ((c1 = Enum.nextElement()) != null) {
+              final IContextEnumerator contextEnumerator = this.contexts(init, c, ps, EmptyState, EvalControl.Init, cm);
+
+              while(contextEnumerator.hasNext()){
+                  Context c1 = contextEnumerator.next();
                   this.getInitStates(body, acts, c1, ps, states, cm);
               }
           }
           case OPCODE_bf ->     // BoundedForall
           {
               final SemanticNode body = args[0];
-              final ContextEnumerator Enum = this.contexts(init, c, ps, EmptyState, EvalControl.Init, cm);
-              final Context c1 = Enum.nextElement();
-              if (c1 == null) {
+              final IContextEnumerator contextEnumerator = this.contexts(init, c, ps, EmptyState, EvalControl.Init, cm);
+              final Context c1 = contextEnumerator.next();
+              if (!contextEnumerator.hasNext()) {
                   this.getInitStates(acts, ps, states, cm);
               } else {
                   ActionItemList acts1 = acts;
-                  Context c2;
-                  while ((c2 = Enum.nextElement()) != null) {
+                  while(contextEnumerator.hasNext()){
+                      Context c2 = contextEnumerator.next();
                       acts1 = (ActionItemList) acts1.cons(body, c2, cm, IActionItemList.PRED);
                   }
                   this.getInitStates(body, acts1, c1, ps, states, cm);
@@ -1805,9 +1808,9 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 
               if (PROBABLISTIC) {
                   // probabilistic (return after a state has been generated, ordered is randomized)
-                  final ContextEnumerator Enum = this.contexts(Ordering.RANDOMIZED, pred, c, s0, s1, EvalControl.Clear, cm);
-                  Context c1;
-                  while ((c1 = Enum.nextElement()) != null) {
+                  final IContextEnumerator contextEnumerator = this.contexts(Ordering.RANDOMIZED, pred, c, s0, s1, EvalControl.Clear, cm);
+                  while(contextEnumerator.hasNext()){
+                      Context c1 = contextEnumerator.next();
                       resState = this.getNextStates(action, body, acts, c1, s0, resState, nss, cm);
                       if (nss.hasStates()) {
                           return resState;
@@ -1815,9 +1818,9 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                   }
               } else {
                   // non-deterministically generate successor states (potentially many)
-                  final ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Clear, cm);
-                  Context c1;
-                  while ((c1 = Enum.nextElement()) != null) {
+                  final IContextEnumerator contextEnumerator = this.contexts(pred, c, s0, s1, EvalControl.Clear, cm);
+                  while(contextEnumerator.hasNext()){
+                      Context c1 = contextEnumerator.next();
                       resState = this.getNextStates(action, body, acts, c1, s0, resState, nss, cm);
                   }
               }
@@ -1827,14 +1830,15 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           case OPCODE_bf ->     // BoundedForall
           {
               final SemanticNode body = args[0];
-              final ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Clear, cm);
-              final Context c1 = Enum.nextElement();
-              if (c1 == null) {
+              final IContextEnumerator contextEnumerator = this.contexts(pred, c, s0, s1, EvalControl.Clear, cm);
+              final Context c1 = contextEnumerator.next();
+              if (!contextEnumerator.hasNext()) {
                   resState = this.getNextStates(action, acts, s0, s1, nss, cm);
               } else {
                   ActionItemList acts1 = acts;
-                  Context c2;
-                  while ((c2 = Enum.nextElement()) != null) {
+
+                  while(contextEnumerator.hasNext()){
+                      Context c2 = contextEnumerator.next();
                       acts1 = (ActionItemList) acts1.cons(body, c2, cm, IActionItemList.PRED);
                   }
                   resState = this.getNextStates(action, body, acts1, c1, s0, s1, nss, cm);
@@ -2676,10 +2680,11 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           }
           case OPCODE_be ->     // BoundedExists
           {
-              final ContextEnumerator Enum = this.contexts(expr, c, s0, s1, control, cm);
+              final IContextEnumerator contextEnumerator = this.contexts(expr, c, s0, s1, control, cm);
               final SemanticNode body = args[0];
-              Context c1;
-              while ((c1 = Enum.nextElement()) != null) {
+
+              while(contextEnumerator.hasNext()){
+                  Context c1 = contextEnumerator.next();
                   final Value bval = this.eval(body, c1, s0, s1, control, cm);
                   if (!(bval instanceof BoolValue)) {
                       Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, body, c1);
@@ -2692,10 +2697,11 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           }
           case OPCODE_bf ->     // BoundedForall
           {
-              final ContextEnumerator Enum = this.contexts(expr, c, s0, s1, control, cm);
+              final IContextEnumerator contextEnumerator = this.contexts(expr, c, s0, s1, control, cm);
               final SemanticNode body = args[0];
-              Context c1;
-              while ((c1 = Enum.nextElement()) != null) {
+
+              while(contextEnumerator.hasNext()){
+                  Context c1 = contextEnumerator.next();
                   final Value bval = this.eval(body, c1, s0, s1, control, cm);
                   if (!(bval instanceof BoolValue)) {
                       Assert.fail(EC.TLC_EXPECTED_VALUE, new String[]{"boolean", expr.toString()}, body, c1);
@@ -2906,10 +2912,11 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           case OPCODE_soa ->    // SetOfAll: {e(x) : x \in S}
           {
               final ValueVec vals = new ValueVec();
-              final ContextEnumerator Enum = this.contexts(expr, c, s0, s1, control, cm);
+              final IContextEnumerator contextEnumerator = this.contexts(expr, c, s0, s1, control, cm);
               final SemanticNode body = args[0];
-              Context c1;
-              while ((c1 = Enum.nextElement()) != null) {
+
+              while(contextEnumerator.hasNext()){
+                  Context c1 = contextEnumerator.next();
                   final Value val = this.eval(body, c1, s0, s1, control, cm);
                   vals.addElement(val);
                   // vals.addElement1(val);
@@ -3527,9 +3534,10 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           case OPCODE_be -> // BoundedExists
           {
               final SemanticNode body = args[0];
-              final ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Enabled, cm);
-              Context c1;
-              while ((c1 = Enum.nextElement()) != null) {
+              final IContextEnumerator contextEnumerator = this.contexts(pred, c, s0, s1, EvalControl.Enabled, cm);
+
+              while(contextEnumerator.hasNext()){
+                  Context c1 = contextEnumerator.next();
                   final TLCState s2 = this.enabled(body, acts, c1, s0, s1, cm);
                   if (s2 != null) {
                       return s2;
@@ -3540,14 +3548,15 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
           case OPCODE_bf -> // BoundedForall
           {
               final SemanticNode body = args[0];
-              final ContextEnumerator Enum = this.contexts(pred, c, s0, s1, EvalControl.Enabled, cm);
-              final Context c1 = Enum.nextElement();
-              if (c1 == null) {
+              final IContextEnumerator contextEnumerator = this.contexts(pred, c, s0, s1, EvalControl.Enabled, cm);
+              final Context c1 = contextEnumerator.next();
+              if (!contextEnumerator.hasNext()) {
                   return this.enabled(acts, s0, s1, cm);
               }
               ActionItemList acts1 = acts;
-              Context c2;
-              while ((c2 = Enum.nextElement()) != null) {
+
+              while(contextEnumerator.hasNext()){
+                  Context c2 = contextEnumerator.next();
                   acts1 = (ActionItemList) acts1.cons(body, c2, cm, IActionItemList.PRED);
               }
               return this.enabled(body, acts1, c1, s0, s1, cm);
@@ -4343,12 +4352,12 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
   }
 
   /* A context enumerator for an operator application. */
-  public final ContextEnumerator contexts(final OpApplNode appl, final Context c, final TLCState s0,
+  public final IContextEnumerator contexts(final OpApplNode appl, final Context c, final TLCState s0,
                                           final TLCState s1, final int control, final CostModel cm) {
     return contexts(Ordering.NORMALIZED, appl, c, s0, s1, control, cm);
   }
 
-	private ContextEnumerator contexts(final Ordering ordering, final OpApplNode appl, final Context c, final TLCState s0, final TLCState s1, final int control,
+	private IContextEnumerator contexts(final Ordering ordering, final OpApplNode appl, final Context c, final TLCState s0, final TLCState s1, final int control,
                                        final CostModel cm) {
 		final FormalParamNode[][] formals = appl.getBdedQuantSymbolLists();
 	    final boolean[] isTuples = appl.isBdedQuantATuple();
