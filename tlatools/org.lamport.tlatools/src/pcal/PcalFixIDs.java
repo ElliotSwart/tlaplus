@@ -174,9 +174,10 @@ public class PcalFixIDs {
             // We now fix proc.proceduresCalled by, for each procedure p in
             // it, we add all the procedures that p calls.
             final ArrayList<String> pCalled = proc.proceduresCalled;
-            for (final String pName : pCalled) {
+            for (int j = 0; j < pCalled.size(); j++) {
                 // Set idx to the value such that pCalled.get(j)
                 // is the name of the idx-th element in procedureNames.
+                final String pName = pCalled.get(j);
                 final int pNum = nameToNum(pName, procedureNames);
                 if (pNum == -1) {
                     // For some reason, this originally called PcalDebug.ReportBug.
