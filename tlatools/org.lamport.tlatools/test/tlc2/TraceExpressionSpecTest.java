@@ -75,7 +75,7 @@ public abstract class TraceExpressionSpecTest extends ModelCheckerTestCase {
 	}
 
 	@Test
-	public void testSpec() throws Exception {
+	public void testSpec() {
 		final Date timestamp = new Date(tlc.getStartTime());
 		final String traceSpecName = TraceExplorationSpec.deriveTESpecModuleName(spec, timestamp);
 		doTest(new FastTool(traceSpecName, traceSpecName + ".tla", tlc.getResolver()));

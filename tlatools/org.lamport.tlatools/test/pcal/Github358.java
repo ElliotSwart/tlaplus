@@ -41,7 +41,7 @@ public class Github358 extends PCalTest {
 				new trans().runMe(new String[] {"-nocfg", CommonTestCase.TEST_MODEL_PATH + "Github358.tla"}));
 		
 		final String[] messages = ToolIO.getAllMessages();
-		assertTrue(messages.length == 1);
+        assertEquals(1, messages.length);
 		
 		final String msg = messages[0];
 		assertEquals("""

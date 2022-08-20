@@ -2,14 +2,12 @@
 
 package tlc2.tool.fp;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.io.IOException;
 import org.junit.Test;
 
 import util.TLCRuntime;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Markus Alexander Kuppe
@@ -64,8 +62,8 @@ public class Bug246DiskFPSetTest {
 			// null fpSet and run a System.gc() to reclaim its allocated memory.
 			// Afterwards we hope to gracefully report test outcome.
 			System.gc();
-			
-			assertTrue("Expect not to have flushed to disk", growDiskMark == 0);
+
+			assertEquals("Expect not to have flushed to disk", 0, growDiskMark);
 			
 			// stats
 

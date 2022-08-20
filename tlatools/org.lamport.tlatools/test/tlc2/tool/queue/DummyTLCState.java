@@ -1,6 +1,5 @@
 package tlc2.tool.queue;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 

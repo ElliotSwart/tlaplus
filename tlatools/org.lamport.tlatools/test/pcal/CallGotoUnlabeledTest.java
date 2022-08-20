@@ -27,7 +27,7 @@ public class CallGotoUnlabeledTest extends PCalTest {
 		assertNotNull(mapping);
 		
 		final String[] messages = ToolIO.getAllMessages();
-		assertTrue(Arrays.toString(messages), messages.length == 6);
+        assertEquals(Arrays.toString(messages), 6, messages.length);
 		
         assertEquals("The following labels were added:", messages[0]);
         assertEquals("  Lbl_1 at line 10, column 3", messages[1]);

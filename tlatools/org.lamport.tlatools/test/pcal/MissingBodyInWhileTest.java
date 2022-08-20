@@ -16,7 +16,7 @@ public class MissingBodyInWhileTest extends PCalTest {
 				new trans().runMe(new String[] {"-nocfg", CommonTestCase.TEST_MODEL_PATH + "MissingBodyInWhile.tla"}));
 		
 		final String[] messages = ToolIO.getAllMessages();
-		assertTrue(messages.length == 1);
+        assertEquals(1, messages.length);
 		
 		final String msg = messages[0];
 		assertEquals("""

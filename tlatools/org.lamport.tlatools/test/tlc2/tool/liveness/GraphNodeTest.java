@@ -50,7 +50,7 @@ public class GraphNodeTest {
 		node.addTransition(5, -1, -1, -1, null, 0, sizeHint--);
 
 		final int overallocated = node.realign();
-		assertTrue("Allocation overallocated", overallocated == 0);
+        assertEquals("Allocation overallocated", 0, overallocated);
 
 		assertTrue("Lost a transition during the allocation business", node.transExists(1, -1));
 		assertTrue("Lost a transition during the allocation business", node.transExists(2, -1));
@@ -67,10 +67,10 @@ public class GraphNodeTest {
 		node.addTransition(1, -1, -1, -1, null, 0, 64);
 
 		int overallocated = node.realign();
-		assertTrue("Allocation overallocated", overallocated == 63);
+        assertEquals("Allocation overallocated", 63, overallocated);
 
 		overallocated = node.realign();
-		assertTrue("Allocation overallocated", overallocated == 0);
+        assertEquals("Allocation overallocated", 0, overallocated);
 
 		assertTrue("Lost a transition during the allocation business", node.transExists(1, -1));
 	}
@@ -90,7 +90,7 @@ public class GraphNodeTest {
 			}
 		}
 		final int overallocated = node.realign();
-		assertTrue("Nested allocation overallocated", overallocated == 0);
+        assertEquals("Nested allocation overallocated", 0, overallocated);
 
 		for (int i = 0; i < cnt; i++) {
 			assertTrue("Lost a transition during this allocation business", node.transExists(i, -1));
@@ -129,7 +129,7 @@ public class GraphNodeTest {
 		// Create a random graph node (fingerprint/tableau don't matter)
 		final GraphNode node = new GraphNode(0, 0);
 		node.addTransition(0, 0, 0, 0, null, 0, -1);
-		assertTrue("overallocated", node.realign() == 0);
+        assertEquals("overallocated", 0, node.realign());
 	}
 	
 	@Test

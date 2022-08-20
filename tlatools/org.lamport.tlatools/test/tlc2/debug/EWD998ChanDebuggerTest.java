@@ -282,7 +282,7 @@ public class EWD998ChanDebuggerTest extends TLCDebuggerTestCase {
 		variables.add(createVariable("i","1",IntValue.ValZero.getTypeString()));
 		variables.add(createVariable("j","1",IntValue.ValZero.getTypeString()));
 		variables.add(createVariable("@","<<[type |-> \"pl\"]>>",TupleValue.EmptyTuple.getTypeString()));
-		assertTLCActionFrame(stackFrames[0], 119, 44, 119, 57, RM, variables, vars[3]);
+		assertTLCActionFrame(stackFrames[0], 119, 44, 119, 57, RM, variables);
 
 		stackFrames = debugger.stepIn();
 		assertEquals(12, stackFrames.length);

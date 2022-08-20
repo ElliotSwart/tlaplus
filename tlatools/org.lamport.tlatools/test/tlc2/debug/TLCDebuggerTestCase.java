@@ -180,8 +180,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 	}
 
 	protected static void assertTLCActionFrame(final StackFrame stackFrame, final int beginLine, final int beginColumn,
-                                               final int endLine, final int endColumn, final String spec, final Set<Variable> expected,
-                                               final OpDeclNode... unassigned) {
+                                               final int endLine, final int endColumn, final String spec, final Set<Variable> expected) {
 		assertTLCActionFrame(stackFrame, beginLine, endLine, spec, expected);
 		assertEquals(beginColumn, stackFrame.getColumn());
 		assertEquals(endColumn + 1, (int) stackFrame.getEndColumn());

@@ -76,7 +76,6 @@ public class MultiFPSetTest {
 
 		} catch (final OutOfMemoryError e) {
 			// might happen depending on test machine setup
-			return;
 		} catch (final IllegalArgumentException e) {
 			// Happens when MultiFPSetConfiguration is invalid (too many fpsets
 			// leaving no room/memory for each individual fpset).

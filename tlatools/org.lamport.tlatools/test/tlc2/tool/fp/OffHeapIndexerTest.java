@@ -25,8 +25,6 @@
  ******************************************************************************/
 package tlc2.tool.fp;
 
-import java.rmi.RemoteException;
-
 import org.junit.Assert;
 import org.junit.Test;
 

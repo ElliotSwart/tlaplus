@@ -113,8 +113,8 @@ public abstract class MultiThreadedFPSetTest extends AbstractFPSetTest {
 		fpSet.incWorkers(NUM_THREADS);
 		final CountDownLatch latch = new CountDownLatch(NUM_THREADS);
 
-		final Constructor<?> constructor = fpgClass.getConstructor(new Class[] { MultiThreadedFPSetTest.class,
-				int.class, int.class, FPSet.class, CountDownLatch.class, long.class, long.class, CyclicBarrier.class });
+		final Constructor<?> constructor = fpgClass.getConstructor(MultiThreadedFPSetTest.class,
+				int.class, int.class, FPSet.class, CountDownLatch.class, long.class, long.class, CyclicBarrier.class);
 		
 		// Take timestamp after instantiating FPSet to not measure zero'ing/initializing FPSet.  
 		startTimestamp = System.currentTimeMillis();

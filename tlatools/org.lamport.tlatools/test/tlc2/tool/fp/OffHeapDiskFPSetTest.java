@@ -233,7 +233,7 @@ public class OffHeapDiskFPSetTest {
 			final long fp = getFingerprint(random);
 			assertTrue(String.format("Failed to find fp %s/%s with seed %sL and length %s.\n\nexpected: %s\n\nactual: %s",
 							fp, (fp | MARK_FLUSHED), rgenseed, length, Arrays.toString(expected),
-							actual.toString()),
+							actual),
 					fpSet.contains(fp));
 		}
 		

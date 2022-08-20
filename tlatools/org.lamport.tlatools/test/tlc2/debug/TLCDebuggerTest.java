@@ -31,7 +31,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.eclipse.lsp4j.debug.StackFrame;
@@ -161,7 +160,7 @@ public class TLCDebuggerTest {
 
 	// *************************** Helpers *************************** //
 
-	protected class TestTLCDebugger extends TLCDebugger {
+	protected static class TestTLCDebugger extends TLCDebugger {
 		public TestTLCDebugger() {
 			super(Step.In, true, true);
 		}
