@@ -141,7 +141,7 @@
 							<filesets>
 								<fileset>
 									<!-- Delete the ../states/ folder created by the Ant JUnit tests as part -->
-									<directory>${basedir}/states/</directory>
+									<directory>${project.basedir}/states/</directory>
 									<includes>
 										<include>**/*</include>
 									</includes>
@@ -1455,7 +1455,7 @@
 										</fileset>
 										<fileset>
 											<!-- Delete the ../states/ folder created by the Ant JUnit tests as part -->
-											<directory>${basedir}/states/</directory>
+											<directory>${project.basedir}/states/</directory>
 											<includes>
 												<include>**/*</include>
 											</includes>
