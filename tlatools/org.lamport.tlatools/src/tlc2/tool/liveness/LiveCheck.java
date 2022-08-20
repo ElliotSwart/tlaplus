@@ -298,7 +298,7 @@ public class LiveCheck implements ILiveCheck {
     public void checkTrace(final ITool tool, final Supplier<StateVec> traceSupplier) throws Exception {
 		final StateVec stateTrace = traceSupplier.get();
 		// Add the first state to the LiveCheck as the current init state
-		addInitState(tool, stateTrace.elementAt(0), stateTrace.elementAt(0).fingerPrint());
+		addInitState(tool, stateTrace.get(0), stateTrace.get(0).fingerPrint());
 		
 		// Add the remaining states...
 		final SetOfStates successors = new SetOfStates(stateTrace.size() * 2);
@@ -310,20 +310,20 @@ public class LiveCheck implements ILiveCheck {
 			successors.clear();
 			
 			// Calculate the current state's fingerprint
-			final TLCState tlcState = stateTrace.elementAt(i);
+			final TLCState tlcState = stateTrace.get(i);
 			final long fingerPrint = tlcState.fingerPrint();
 
 			// Add state itself to allow stuttering
 			successors.put(tlcState);
 			
 			// Add the successor in the trace
-			final TLCState successor = stateTrace.elementAt(i + 1);
+			final TLCState successor = stateTrace.get(i + 1);
 			successors.put(successor);
 			addNextState(tool, tlcState, fingerPrint, successors);
 		}
 		
 		// Add last state in trace for which *no* successors have been generated
-		final TLCState lastState = stateTrace.elementAt(stateTrace.size() - 1);
+		final TLCState lastState = stateTrace.get(stateTrace.size() - 1);
 		addNextState(tool, lastState, lastState.fingerPrint(), new SetOfStates(0));
 		
 		// Do *not* re-create the nodePtrTbl when it is thrown away anyway.
@@ -860,36 +860,35 @@ public class LiveCheck implements ILiveCheck {
             for (final Action action : actions) {
                 final StateVec nextStates = tool.getNextStates(action, s);
                 final int nextCnt = nextStates.size();
-                for (int j = 0; j < nextCnt; j++) {
-                    final TLCState s1 = nextStates.elementAt(j);
-                    if (tool.isInModel(s1) && tool.isInActions(s, s1)) {
-                        final long fp1 = s1.fingerPrint();
-                        final BitSet checkActionRes = oos.checkAction(tool, s, s1, new BitSet(alen), 0);
-                        final boolean isDone = dgraph.isDone(fp1);
-                        for (int k = 0; k < tnode.nextSize(); k++) {
-                            final TBGraphNode tnode1 = tnode.nextAt(k);
-                            final int tidx1 = tnode1.getIndex();
-                            final long ptr1 = dgraph.getPtr(fp1, tidx1);
-                            final int total = actions.length * nextCnt * tnode.nextSize();
-                            if (tnode1.isConsistent(s1, tool) && (ptr1 == -1 || !node.transExists(fp1, tidx1))) {
-                                node.addTransition(fp1, tidx1, slen, alen, checkActionRes, 0, (total - cnt));
-                                writer.writeState(s, tnode, s1, tnode1, checkActionRes, 0, alen, false, Visualization.DOTTED);
-                                // Record that we have seen <fp1, tnode1>. If
-                                // fp1 is done, we have to compute the next
-                                // states for <fp1, tnode1>.
-                                if (ptr1 == -1) {
-                                    dgraph.recordNode(fp1, tidx1);
-                                    if (isDone) {
-                                        addNextState(tool, s1, fp1, tnode1, oos, dgraph);
-                                    }
-                                }
-                            }
-                            cnt++;
-                        }
-                    } else {
-                        cnt++;
-                    }
-                }
+				for (final TLCState s1 : nextStates) {
+					if (tool.isInModel(s1) && tool.isInActions(s, s1)) {
+						final long fp1 = s1.fingerPrint();
+						final BitSet checkActionRes = oos.checkAction(tool, s, s1, new BitSet(alen), 0);
+						final boolean isDone = dgraph.isDone(fp1);
+						for (int k = 0; k < tnode.nextSize(); k++) {
+							final TBGraphNode tnode1 = tnode.nextAt(k);
+							final int tidx1 = tnode1.getIndex();
+							final long ptr1 = dgraph.getPtr(fp1, tidx1);
+							final int total = actions.length * nextCnt * tnode.nextSize();
+							if (tnode1.isConsistent(s1, tool) && (ptr1 == -1 || !node.transExists(fp1, tidx1))) {
+								node.addTransition(fp1, tidx1, slen, alen, checkActionRes, 0, (total - cnt));
+								writer.writeState(s, tnode, s1, tnode1, checkActionRes, 0, alen, false, Visualization.DOTTED);
+								// Record that we have seen <fp1, tnode1>. If
+								// fp1 is done, we have to compute the next
+								// states for <fp1, tnode1>.
+								if (ptr1 == -1) {
+									dgraph.recordNode(fp1, tidx1);
+									if (isDone) {
+										addNextState(tool, s1, fp1, tnode1, oos, dgraph);
+									}
+								}
+							}
+							cnt++;
+						}
+					} else {
+						cnt++;
+					}
+				}
             }
 			if (numSucc < node.succSize()) {
 				node.realign(); // see node.addTransition() hint

@@ -1132,7 +1132,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
     if (states.size() != 1) {
       Assert.fail("The predicate does not specify a unique state." + pred, pred);
     }
-    final TLCState state = states.elementAt(0);
+    final TLCState state = states.get(0);
     if (!this.isGoodState(state)) {
       Assert.fail("The state specified by the predicate is not complete." + pred, pred);
     }
@@ -4080,8 +4080,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 	  IdThread.setCurrentState(s);
       for (final Action curAction : this.actions) {
           final StateVec nextStates = this.getNextStates(curAction, s);
-          for (int j = 0; j < nextStates.size(); j++) {
-              final TLCState state = nextStates.elementAt(j);
+          for (final TLCState state : nextStates) {
               final long nfp = state.fingerPrint();
               if (fp == nfp) {
                   state.setPredecessor(s);
@@ -4099,8 +4098,7 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
 	  IdThread.setCurrentState(s);
       for (final Action curAction : this.actions) {
           final StateVec nextStates = this.getNextStates(curAction, s);
-          for (int j = 0; j < nextStates.size(); j++) {
-              final TLCState state = nextStates.elementAt(j);
+          for (final TLCState state : nextStates) {
               if (s1.equals(state)) {
                   state.setPredecessor(s);
                   assert !state.isInitial();

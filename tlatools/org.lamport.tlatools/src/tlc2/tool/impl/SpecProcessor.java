@@ -1186,7 +1186,6 @@ public class SpecProcessor implements ValueConstants, ToolGlobals {
                                         }
                                         if (opDef instanceof final LazyValue lv) {
                                             this.enter((ExprNode) lv.expr, lv.con);
-                                            return;
                                         }
                                         // ignore overridden operators etc
                                     }

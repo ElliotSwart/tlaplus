@@ -278,7 +278,7 @@ public class DFIDModelChecker extends AbstractChecker
             int idx = 0;
             for (int i = 0; i < l; i++)
             {
-                curState = states.elementAt(i);
+                curState = states.get(i);
                 // Check if the state is a legal state
                 if (!tool.isGoodState(curState))
                 {
@@ -389,37 +389,34 @@ public class DFIDModelChecker extends AbstractChecker
                 this.numOfGenStates.getAndAdd(sz);
                 deadLocked = deadLocked && (sz == 0);
 
-                for (int j = 0; j < sz; j++)
-                {
-                    succState = nextStates.elementAt(j);
+                for (TLCState nextState : nextStates) {
+                    succState = nextState;
                     // Check if the state is a legal state.
-                    if (!tool.isGoodState(succState))
-                    {
-						synchronized (this) {
+                    if (!tool.isGoodState(succState)) {
+                        synchronized (this) {
                             final int errorCode = EC.TLC_STATE_NOT_COMPLETELY_SPECIFIED_NEXT;
-							if (this.setErrState(curState, succState, false, errorCode)) {
-								final Set<OpDeclNode> unassigned = succState.getUnassigned();
-								final String[] parameters;
-								if (tool.getActions().length == 1) {
-									parameters = new String[] { unassigned.size() > 1 ? "s are" : " is",
-											unassigned.stream().map(n -> n.getName().toString())
-													.collect(Collectors.joining(", ")) };
-								} else {
-									parameters = new String[] { tool.getActions()[i].getName().toString(),
-											unassigned.size() > 1 ? "s are" : " is",
-											unassigned.stream().map(n -> n.getName().toString())
-													.collect(Collectors.joining(", ")) };
-								}
-								this.printTrace(errorCode, parameters, curState, succState);
-							}
-						}
+                            if (this.setErrState(curState, succState, false, errorCode)) {
+                                final Set<OpDeclNode> unassigned = succState.getUnassigned();
+                                final String[] parameters;
+                                if (tool.getActions().length == 1) {
+                                    parameters = new String[]{unassigned.size() > 1 ? "s are" : " is",
+                                            unassigned.stream().map(n -> n.getName().toString())
+                                                    .collect(Collectors.joining(", "))};
+                                } else {
+                                    parameters = new String[]{tool.getActions()[i].getName().toString(),
+                                            unassigned.size() > 1 ? "s are" : " is",
+                                            unassigned.stream().map(n -> n.getName().toString())
+                                                    .collect(Collectors.joining(", "))};
+                                }
+                                this.printTrace(errorCode, parameters, curState, succState);
+                            }
+                        }
                         return allSuccNonLeaf;
                     }
 
                     final boolean inModel = (tool.isInModel(succState) && tool.isInActions(curState, succState));
                     int status = FPIntSet.NEW;
-                    if (inModel)
-                    {
+                    if (inModel) {
                         final long fp = succState.fingerPrint();
                         status = this.theFPSet.setStatus(fp, FPIntSet.NEW);
                         allSuccDone = allSuccDone && FPIntSet.isDone(status);
@@ -429,43 +426,33 @@ public class DFIDModelChecker extends AbstractChecker
                         this.allStateWriter.writeState(curState, succState, status == FPIntSet.NEW);
 
                         // Remember succState if it has not been completed at this level:
-                        if (!FPIntSet.isCompleted(status))
-                        {
+                        if (!FPIntSet.isCompleted(status)) {
                             states.addElement(succState);
                             fps.addElement(fp);
                         }
 
                         // For liveness checking:
-                        if (this.checkLiveness && isLeaf)
-                        {
+                        if (this.checkLiveness && isLeaf) {
                             liveNextStates.put(fp, succState);
                         }
                     }
 
                     // Check if the state violates any invariant:
-                    if (status == FPIntSet.NEW)
-                    {
-                        try
-                        {
+                    if (status == FPIntSet.NEW) {
+                        try {
                             final int len = tool.getInvariants().length;
-                            for (k = 0; k < len; k++)
-                            {
-                                if (!tool.isValid(tool.getInvariants()[k], succState))
-                                {
+                            for (k = 0; k < len; k++) {
+                                if (!tool.isValid(tool.getInvariants()[k], succState)) {
                                     // We get here because of invariant violation:
-                                    synchronized (this)
-                                    {
-                                        if (TLCGlobals.continuation)
-                                        {
+                                    synchronized (this) {
+                                        if (TLCGlobals.continuation) {
                                             this.printTrace(EC.TLC_INVARIANT_VIOLATED_BEHAVIOR,
-                                                    new String[] { tool.getInvNames()[k] }, curState, succState);
+                                                    new String[]{tool.getInvNames()[k]}, curState, succState);
                                             break;
-                                        } else
-                                        {
-                                            if (this.setErrState(curState, succState, false, EC.TLC_INVARIANT_VIOLATED_BEHAVIOR))
-                                            {
+                                        } else {
+                                            if (this.setErrState(curState, succState, false, EC.TLC_INVARIANT_VIOLATED_BEHAVIOR)) {
                                                 this.printTrace(EC.TLC_INVARIANT_VIOLATED_BEHAVIOR,
-                                                        new String[] { tool.getInvNames()[k] }, curState,
+                                                        new String[]{tool.getInvNames()[k]}, curState,
                                                         succState);
                                                 this.notify();
                                             }
@@ -476,44 +463,35 @@ public class DFIDModelChecker extends AbstractChecker
                             }
                             if (k < len)
                                 continue;
-                        } catch (final Exception e)
-                        {
-                        	synchronized (this) {
-		                        if (this.setErrState(curState, succState, true, EC.TLC_INVARIANT_EVALUATION_FAILED))
-		                        {
-		                            this.printTrace(EC.TLC_INVARIANT_EVALUATION_FAILED, new String[] { tool
-		                                    .getInvNames()[k] }, curState, succState);
-		                            this.notify();
-		                        }
-		                        return allSuccNonLeaf;
-                        	}
+                        } catch (final Exception e) {
+                            synchronized (this) {
+                                if (this.setErrState(curState, succState, true, EC.TLC_INVARIANT_EVALUATION_FAILED)) {
+                                    this.printTrace(EC.TLC_INVARIANT_EVALUATION_FAILED, new String[]{tool
+                                            .getInvNames()[k]}, curState, succState);
+                                    this.notify();
+                                }
+                                return allSuccNonLeaf;
+                            }
                         }
                     }
                     // Check if the state violates any implied action. We need to do it
                     // even if succState is not new.
-                    try
-                    {
+                    try {
                         final int len = tool.getImpliedActions().length;
-                        for (k = 0; k < len; k++)
-                        {
-                            if (!tool.isValid(tool.getImpliedActions()[k], curState, succState))
-                            {
+                        for (k = 0; k < len; k++) {
+                            if (!tool.isValid(tool.getImpliedActions()[k], curState, succState)) {
                                 // We get here because of implied-action violation:
-                                synchronized (this)
-                                {
-                                    if (TLCGlobals.continuation)
-                                    {
+                                synchronized (this) {
+                                    if (TLCGlobals.continuation) {
                                         this
                                                 .printTrace(EC.TLC_ACTION_PROPERTY_VIOLATED_BEHAVIOR,
-                                                        new String[] { tool.getImpliedActNames()[k] }, curState,
+                                                        new String[]{tool.getImpliedActNames()[k]}, curState,
                                                         succState);
                                         break;
-                                    } else
-                                    {
-                                        if (this.setErrState(curState, succState, false, EC.TLC_ACTION_PROPERTY_VIOLATED_BEHAVIOR))
-                                        {
+                                    } else {
+                                        if (this.setErrState(curState, succState, false, EC.TLC_ACTION_PROPERTY_VIOLATED_BEHAVIOR)) {
                                             this.printTrace(EC.TLC_ACTION_PROPERTY_VIOLATED_BEHAVIOR,
-                                                    new String[] { tool.getImpliedActNames()[k] }, curState,
+                                                    new String[]{tool.getImpliedActNames()[k]}, curState,
                                                     succState);
                                             this.notify();
                                         }
@@ -524,17 +502,15 @@ public class DFIDModelChecker extends AbstractChecker
                         }
                         if (k < len) {
                         }
-                    } catch (final Exception e)
-                    {
-                    	synchronized (this) {
-		                    if (this.setErrState(curState, succState, true, EC.TLC_ACTION_PROPERTY_EVALUATION_FAILED))
-		                    {
-		                        this.printTrace(EC.TLC_ACTION_PROPERTY_EVALUATION_FAILED, new String[] { tool
-		                                .getImpliedActNames()[k] }, curState, succState);
-		                        this.notify();
-		                    }
-                    	}
-                    	return allSuccNonLeaf;
+                    } catch (final Exception e) {
+                        synchronized (this) {
+                            if (this.setErrState(curState, succState, true, EC.TLC_ACTION_PROPERTY_EVALUATION_FAILED)) {
+                                this.printTrace(EC.TLC_ACTION_PROPERTY_EVALUATION_FAILED, new String[]{tool
+                                        .getImpliedActNames()[k]}, curState, succState);
+                                this.notify();
+                            }
+                        }
+                        return allSuccNonLeaf;
                     }
                 }
 

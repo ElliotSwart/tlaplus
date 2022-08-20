@@ -166,7 +166,7 @@ public class TLCApp extends DistApp {
         for (final Action curAction : this.actions) {
             final StateVec nstates = this.tool.getNextStates(curAction,
                     curState);
-            nextStates = nextStates.addElements(nstates);
+            nextStates.addAll(nstates);
         }
 		final int len = nextStates.size();
 		if (len == 0 && this.checkDeadlock) {
@@ -175,7 +175,7 @@ public class TLCApp extends DistApp {
 		}
 		final TLCState[] res = new TLCState[nextStates.size()];
 		for (int i = 0; i < nextStates.size(); i++) {
-			final TLCState succState = nextStates.elementAt(i);
+			final TLCState succState = nextStates.get(i);
 			if (!this.tool.isGoodState(succState)) {
 				final String msg = "Error: Successor state is not completely specified by"
 						+ " the next-state action.";

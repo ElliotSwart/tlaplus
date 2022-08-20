@@ -156,7 +156,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 			final ArrayList<TLCState>[] newStates = new ArrayList[fpServerCnt];
 			final LongVec[] newFps = new LongVec[fpServerCnt];
 			for (int i = 0; i < fpServerCnt; i++) {
-				newStates[i] = new ArrayList<TLCState>();
+				newStates[i] = new ArrayList<>();
 				newFps[i] = new LongVec();
 			}
 

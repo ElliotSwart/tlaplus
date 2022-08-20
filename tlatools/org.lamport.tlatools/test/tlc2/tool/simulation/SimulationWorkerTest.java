@@ -91,14 +91,14 @@ public class SimulationWorkerTest extends CommonTestCase {
 		assertEquals(3, err.stateTrace.size());
 		
 		// Check the generated trace.
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "depth"));
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "branch"));
+		assertEquals("0", getStateVal(err.stateTrace.get(0), "depth"));
+		assertEquals("0", getStateVal(err.stateTrace.get(0), "branch"));
 		
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(1), "depth"));
-		assertEquals("6", getStateVal(err.stateTrace.elementAt(1), "branch"));
+		assertEquals("0", getStateVal(err.stateTrace.get(1), "depth"));
+		assertEquals("6", getStateVal(err.stateTrace.get(1), "branch"));
 		
-		assertEquals("1", getStateVal(err.stateTrace.elementAt(2), "depth"));
-		assertEquals("6", getStateVal(err.stateTrace.elementAt(2), "branch"));
+		assertEquals("1", getStateVal(err.stateTrace.get(2), "depth"));
+		assertEquals("6", getStateVal(err.stateTrace.get(2), "branch"));
 		
 		assertEquals("2", getStateVal(err.state, "depth"));
 		assertEquals("6", getStateVal(err.state, "branch"));
@@ -114,14 +114,14 @@ public class SimulationWorkerTest extends CommonTestCase {
 		assertEquals(3, err.stateTrace.size());
 		
 		// Check the generated trace.
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "depth"));
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "branch"));
+		assertEquals("0", getStateVal(err.stateTrace.get(0), "depth"));
+		assertEquals("0", getStateVal(err.stateTrace.get(0), "branch"));
 		
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(1), "depth"));
-		assertEquals("2", getStateVal(err.stateTrace.elementAt(1), "branch"));
+		assertEquals("0", getStateVal(err.stateTrace.get(1), "depth"));
+		assertEquals("2", getStateVal(err.stateTrace.get(1), "branch"));
 		
-		assertEquals("1", getStateVal(err.stateTrace.elementAt(2), "depth"));
-		assertEquals("2", getStateVal(err.stateTrace.elementAt(2), "branch"));
+		assertEquals("1", getStateVal(err.stateTrace.get(2), "depth"));
+		assertEquals("2", getStateVal(err.stateTrace.get(2), "branch"));
 		
 		res = resultQueue.take();
 		assertTrue(res.isError());
@@ -130,14 +130,14 @@ public class SimulationWorkerTest extends CommonTestCase {
 		assertEquals(3, err.stateTrace.size());
 		
 		// Check the generated trace.
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "depth"));
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "branch"));
+		assertEquals("0", getStateVal(err.stateTrace.get(0), "depth"));
+		assertEquals("0", getStateVal(err.stateTrace.get(0), "branch"));
 		
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(1), "depth"));
-		assertEquals("5", getStateVal(err.stateTrace.elementAt(1), "branch"));
+		assertEquals("0", getStateVal(err.stateTrace.get(1), "depth"));
+		assertEquals("5", getStateVal(err.stateTrace.get(1), "branch"));
 		
-		assertEquals("1", getStateVal(err.stateTrace.elementAt(2), "depth"));
-		assertEquals("5", getStateVal(err.stateTrace.elementAt(2), "branch"));
+		assertEquals("1", getStateVal(err.stateTrace.get(2), "depth"));
+		assertEquals("5", getStateVal(err.stateTrace.get(2), "branch"));
 		
 		// The worker should push one final OK result onto the queue upon termination.
 		res = resultQueue.take();
@@ -164,11 +164,11 @@ public class SimulationWorkerTest extends CommonTestCase {
 		assertEquals(2, err.stateTrace.size());
 		
 		// Check the generated trace.
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "depth"));
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "branch"));
+		assertEquals("0", getStateVal(err.stateTrace.get(0), "depth"));
+		assertEquals("0", getStateVal(err.stateTrace.get(0), "branch"));
 		
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(1), "depth"));
-		assertEquals("6", getStateVal(err.stateTrace.elementAt(1), "branch"));
+		assertEquals("0", getStateVal(err.stateTrace.get(1), "depth"));
+		assertEquals("6", getStateVal(err.stateTrace.get(1), "branch"));
 		
 		assertEquals("1", getStateVal(err.state, "depth"));
 		assertEquals("6", getStateVal(err.state, "branch"));
@@ -181,11 +181,11 @@ public class SimulationWorkerTest extends CommonTestCase {
 		assertEquals(2, err.stateTrace.size());
 		
 		// Check the generated trace.
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "depth"));
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "branch"));
+		assertEquals("0", getStateVal(err.stateTrace.get(0), "depth"));
+		assertEquals("0", getStateVal(err.stateTrace.get(0), "branch"));
 		
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(1), "depth"));
-		assertEquals("10", getStateVal(err.stateTrace.elementAt(1), "branch"));
+		assertEquals("0", getStateVal(err.stateTrace.get(1), "depth"));
+		assertEquals("10", getStateVal(err.stateTrace.get(1), "branch"));
 		
 		assertEquals("1", getStateVal(err.state, "depth"));
 		assertEquals("10", getStateVal(err.state, "branch"));		
@@ -212,8 +212,8 @@ public class SimulationWorkerTest extends CommonTestCase {
 		assertEquals(1, err.stateTrace.size());
 		
 		// Check the generated trace.
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "depth"));
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "branch"));
+		assertEquals("0", getStateVal(err.stateTrace.get(0), "depth"));
+		assertEquals("0", getStateVal(err.stateTrace.get(0), "branch"));
 
 		assertEquals("0", getStateVal(err.state, "depth"));
 		assertEquals("1", getStateVal(err.state, "branch"));
@@ -261,8 +261,8 @@ public class SimulationWorkerTest extends CommonTestCase {
 		assertEquals(1, err.stateTrace.size());
 		
 		// Check the generated trace.
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "depth"));
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "branch"));
+		assertEquals("0", getStateVal(err.stateTrace.get(0), "depth"));
+		assertEquals("0", getStateVal(err.stateTrace.get(0), "branch"));
 
 		assertNull(err.state.getVals().get(UniqueString.uniqueStringOf("depth")));
 		assertEquals("0", getStateVal(err.state, "branch"));
@@ -291,26 +291,26 @@ public class SimulationWorkerTest extends CommonTestCase {
 		assertEquals(7, err.stateTrace.size());
 		
 		// Check the generated trace.
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "depth"));
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(0), "branch"));
+		assertEquals("0", getStateVal(err.stateTrace.get(0), "depth"));
+		assertEquals("0", getStateVal(err.stateTrace.get(0), "branch"));
 		
-		assertEquals("0", getStateVal(err.stateTrace.elementAt(1), "depth"));
-		assertEquals("6", getStateVal(err.stateTrace.elementAt(1), "branch"));
+		assertEquals("0", getStateVal(err.stateTrace.get(1), "depth"));
+		assertEquals("6", getStateVal(err.stateTrace.get(1), "branch"));
 		
-		assertEquals("1", getStateVal(err.stateTrace.elementAt(2), "depth"));
-		assertEquals("6", getStateVal(err.stateTrace.elementAt(2), "branch"));
+		assertEquals("1", getStateVal(err.stateTrace.get(2), "depth"));
+		assertEquals("6", getStateVal(err.stateTrace.get(2), "branch"));
 		
-		assertEquals("2", getStateVal(err.stateTrace.elementAt(3), "depth"));
-		assertEquals("6", getStateVal(err.stateTrace.elementAt(3), "branch"));
+		assertEquals("2", getStateVal(err.stateTrace.get(3), "depth"));
+		assertEquals("6", getStateVal(err.stateTrace.get(3), "branch"));
 		
-		assertEquals("3", getStateVal(err.stateTrace.elementAt(4), "depth"));
-		assertEquals("6", getStateVal(err.stateTrace.elementAt(4), "branch"));
+		assertEquals("3", getStateVal(err.stateTrace.get(4), "depth"));
+		assertEquals("6", getStateVal(err.stateTrace.get(4), "branch"));
 
-		assertEquals("4", getStateVal(err.stateTrace.elementAt(5), "depth"));
-		assertEquals("6", getStateVal(err.stateTrace.elementAt(5), "branch"));
+		assertEquals("4", getStateVal(err.stateTrace.get(5), "depth"));
+		assertEquals("6", getStateVal(err.stateTrace.get(5), "branch"));
 
-		assertEquals("5", getStateVal(err.stateTrace.elementAt(6), "depth"));
-		assertEquals("6", getStateVal(err.stateTrace.elementAt(6), "branch"));
+		assertEquals("5", getStateVal(err.stateTrace.get(6), "depth"));
+		assertEquals("6", getStateVal(err.stateTrace.get(6), "branch"));
 
 		worker.join();
 		assertFalse(worker.isAlive());

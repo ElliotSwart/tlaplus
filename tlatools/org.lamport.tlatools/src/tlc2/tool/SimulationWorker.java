@@ -336,7 +336,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 		final int len = states.size();
 		if (len > 0) {
 			final int index = (int) Math.floor(rng.nextDouble() * len);
-			return states.elementAt(index);
+			return states.get(index);
 		}
 		return null;
 	}
@@ -475,12 +475,12 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 					// getNextState doesn't throw SWE unless SimulationWorker#addElement above throws it.
 					return Optional.of(swe);
 				}
-				if (!nextStates.empty()) {
+				if (!nextStates.isEmpty()) {
 					break;
 				}
 				index = (index + p) % len;
 			}
-			if (nextStates.empty()) {
+			if (nextStates.isEmpty()) {
 				if (checkDeadlock) {
 					// We get here because of deadlock.
 					return Optional.of(new SimulationWorkerError(EC.TLC_DEADLOCK_REACHED, null, curState, getTrace(), null));
@@ -547,7 +547,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 			final StateVec stateTrace = getTrace();
 			for (int idx = 0; idx < stateTrace .size(); idx++) {
 				pw.println("STATE_" + (idx + 1) + " == ");
-				pw.println(stateTrace.elementAt(idx) + "\n");
+				pw.println(stateTrace.get(idx) + "\n");
 			}
 			pw.println("=================================================");
 			pw.close();
@@ -587,7 +587,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
 		assert 0 < level && level <= stateTrace.size();
 		final TLCStateInfo[] trace = new TLCStateInfo[level];
 		for (int i = 0; i < trace.length; i++) {
-			final TLCState s = stateTrace.elementAt(i);
+			final TLCState s = stateTrace.get(i);
 			trace[i] = new TLCStateInfo(s);
 		}
 		return trace;

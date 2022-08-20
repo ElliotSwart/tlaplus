@@ -167,8 +167,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 		
 		final DiskByteArrayQueue.ByteValueOutputStream vos = new DiskByteArrayQueue.ByteValueOutputStream();
 		final byte[][] bytes = new byte[n][];
-		for (int i = 0; i < stateVec.size(); i++) {
-			final TLCState state = stateVec.elementAt(i);
+		for (final TLCState state : stateVec) {
 			if (state != null) {
 				bytes[n - 1] = toBytes(state, vos);
 				n--;

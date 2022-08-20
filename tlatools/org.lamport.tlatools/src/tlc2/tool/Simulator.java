@@ -227,20 +227,20 @@ public class Simulator {
 			MP.printMessage(EC.TLC_COMPUTING_INIT_PROGRESS, this.numOfGenStates.toString());
 
 			// Check all initial states for validity.
-			for (int i = 0; i < inits.size(); i++) {
-				curState = inits.elementAt(i);
+			for (TLCState init : inits) {
+				curState = init;
 				if (this.tool.isGoodState(curState)) {
 					for (int j = 0; j < this.invariants.length; j++) {
 						if (!this.tool.isValid(this.invariants[j], curState)) {
 							// We get here because of invariant violation.
 							return MP.printError(EC.TLC_INVARIANT_VIOLATED_INITIAL,
-									new String[] { this.tool.getInvNames()[j], curState.toString() });
+									new String[]{this.tool.getInvNames()[j], curState.toString()});
 						}
 					}
 				} else {
 					return MP.printError(EC.TLC_STATE_NOT_COMPLETELY_SPECIFIED_INITIAL, curState.toString());
 				}
-				
+
 				if (tool.isInModel(curState)) {
 					initStates.addElement(curState);
 				}
@@ -421,9 +421,9 @@ public class Simulator {
         TLCStateInfo sinfo;
         int omitted = 0;
         for (int i = 0; i < stateTrace.size(); i++) {
-            final TLCState curState = stateTrace.elementAt(i);
+            final TLCState curState = stateTrace.get(i);
             // Last state's successor is itself.
-            final TLCState sucState = stateTrace.elementAt(Math.min(i + 1, stateTrace.size() - 1));
+            final TLCState sucState = stateTrace.get(Math.min(i + 1, stateTrace.size() - 1));
             if (lastState != null) {
                 // Contrary to BFS/ModelChecker, simulation remembers the action (its id) during
                 // trace exploration to print the error-trace without re-evaluating the
