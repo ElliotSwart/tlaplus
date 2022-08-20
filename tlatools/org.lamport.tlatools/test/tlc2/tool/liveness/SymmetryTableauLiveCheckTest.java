@@ -125,14 +125,14 @@ public class SymmetryTableauLiveCheckTest {
 	
 	private ILiveCheck getLiveCheckWithTwoNodeTableau() throws Exception {
 		final TBGraphNode node1 = EasyMock.createNiceMock(TBGraphNode.class);
-		EasyMock.expect(node1.isConsistent((TLCState) EasyMock.anyObject(), (ITool) EasyMock.anyObject()))
+		EasyMock.expect(node1.isConsistent(EasyMock.anyObject(), EasyMock.anyObject()))
 				.andReturn(true).anyTimes();
 		EasyMock.expect(node1.nextSize()).andReturn(0).anyTimes();
 		EasyMock.expect(node1.getIndex()).andReturn(1).anyTimes();
 		EasyMock.replay(node1);
 
 		final TBGraphNode node0 = EasyMock.createMock(TBGraphNode.class);
-		EasyMock.expect(node0.isConsistent((TLCState) EasyMock.anyObject(), (ITool) EasyMock.anyObject()))
+		EasyMock.expect(node0.isConsistent(EasyMock.anyObject(), EasyMock.anyObject()))
 				.andReturn(true).anyTimes();
 		EasyMock.expect(node0.nextSize()).andReturn(2).anyTimes();
 		EasyMock.expect(node0.nextAt(0)).andReturn(node0).anyTimes();
@@ -153,7 +153,7 @@ public class SymmetryTableauLiveCheckTest {
 		EasyMock.expect(oos.getTableau()).andReturn(tbGraph).anyTimes();
 		EasyMock.expect(oos.getCheckAction()).andReturn(new LiveExprNode[0]).anyTimes();
 		EasyMock.expect(oos.getCheckState()).andReturn(new LiveExprNode[0]).anyTimes();
-		EasyMock.expect(oos.checkState(null, (TLCState) EasyMock.anyObject())).andReturn(new boolean[0]).anyTimes();
+		EasyMock.expect(oos.checkState(null, EasyMock.anyObject())).andReturn(new boolean[0]).anyTimes();
 		EasyMock.replay(oos);
 		
 		return new LiveCheck(tool,
@@ -292,7 +292,7 @@ public class SymmetryTableauLiveCheckTest {
 		final TBGraphNode node2 = EasyMock.createMock(TBGraphNode.class);
 		// consistency
 		final Capture<TLCState> capture = EasyMock.newCapture();
-		EasyMock.expect(node2.isConsistent(EasyMock.capture(capture), (ITool) EasyMock.anyObject())).andAnswer(() -> {
+		EasyMock.expect(node2.isConsistent(EasyMock.capture(capture), EasyMock.anyObject())).andAnswer(() -> {
 			final TLCState value = capture.getValue();
 			if (value == s) {
 				return false;
@@ -310,7 +310,7 @@ public class SymmetryTableauLiveCheckTest {
 		final TBGraphNode node1 = EasyMock.createMock(TBGraphNode.class);
 		// consistency
 		final Capture<TLCState> capture1 = EasyMock.newCapture();
-		EasyMock.expect(node1.isConsistent(EasyMock.capture(capture1), (ITool) EasyMock.anyObject())).andAnswer(() -> {
+		EasyMock.expect(node1.isConsistent(EasyMock.capture(capture1), EasyMock.anyObject())).andAnswer(() -> {
 			final TLCState value = capture1.getValue();
 			if (value == sSymmetric) {
 				return false;
@@ -328,7 +328,7 @@ public class SymmetryTableauLiveCheckTest {
 
 		final TBGraphNode node0 = EasyMock.createMock(TBGraphNode.class);
 		// consistency (simpler to node1 and node2)
-		EasyMock.expect(node0.isConsistent((TLCState) EasyMock.anyObject(), (ITool) EasyMock.anyObject())).andReturn(true).anyTimes();
+		EasyMock.expect(node0.isConsistent(EasyMock.anyObject(), EasyMock.anyObject())).andReturn(true).anyTimes();
 		// index
 		EasyMock.expect(node0.getIndex()).andReturn(0).anyTimes();
 		// nextSize
@@ -352,7 +352,7 @@ public class SymmetryTableauLiveCheckTest {
 		EasyMock.expect(oos.getTableau()).andReturn(tbGraph).anyTimes();
 		EasyMock.expect(oos.getCheckAction()).andReturn(new LiveExprNode[0]).anyTimes();
 		EasyMock.expect(oos.getCheckState()).andReturn(new LiveExprNode[0]).anyTimes();
-		EasyMock.expect(oos.checkState(null, (TLCState) EasyMock.anyObject())).andReturn(new boolean[0]).anyTimes();
+		EasyMock.expect(oos.checkState(null, EasyMock.anyObject())).andReturn(new boolean[0]).anyTimes();
 		EasyMock.replay(oos);
 		
 		final ITool tool = EasyMock.createNiceMock(ITool.class);
@@ -367,8 +367,8 @@ public class SymmetryTableauLiveCheckTest {
 			}
 			return nss;
 		});
-		EasyMock.expect(tool.isInModel((TLCState) EasyMock.anyObject())).andReturn(true).anyTimes();
-		EasyMock.expect(tool.isInActions((TLCState) EasyMock.anyObject(), (TLCState) EasyMock.anyObject())).andReturn(true).anyTimes();
+		EasyMock.expect(tool.isInModel(EasyMock.anyObject())).andReturn(true).anyTimes();
+		EasyMock.expect(tool.isInActions(EasyMock.anyObject(), EasyMock.anyObject())).andReturn(true).anyTimes();
 		EasyMock.replay(tool);
 		return new LiveCheck(tool,
 				new OrderOfSolution[] { oos }, "states", new DummyBucketStatistics(), null);

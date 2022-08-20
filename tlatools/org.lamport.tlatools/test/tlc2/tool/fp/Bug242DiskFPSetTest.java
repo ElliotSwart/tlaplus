@@ -37,8 +37,7 @@ public class Bug242DiskFPSetTest extends AbstractFPSetTest {
 			getFPSet(2097153638);
 		} catch (final OutOfMemoryError e) {
 			// valid case
-			return;
-		} catch (final Exception e) {
+        } catch (final Exception e) {
 			fail(e.getMessage());
 		}
 	}
@@ -48,8 +47,7 @@ public class Bug242DiskFPSetTest extends AbstractFPSetTest {
 			getFPSet(Integer.MAX_VALUE);
 		} catch (final OutOfMemoryError e) {
 			// valid case
-			return;
-		} catch (final Exception e) {
+        } catch (final Exception e) {
 			fail(e.getMessage());
 		}
 	}

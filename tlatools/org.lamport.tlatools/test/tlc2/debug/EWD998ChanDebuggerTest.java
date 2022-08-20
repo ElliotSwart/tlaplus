@@ -306,7 +306,7 @@ public class EWD998ChanDebuggerTest extends TLCDebuggerTestCase {
 		debugger.replaceAllBreakpointsWith(FOLDER, 150);
 		stackFrames = debugger.continue_();
 		assertEquals(11, stackFrames.length);
-		assertTLCStateFrame(stackFrames[0], 150, 3, 162, 34, FOLDER, (Context) null); //TODO Assert context that contains the refinement mapping
+		assertTLCStateFrame(stackFrames[0], 150, 3, 162, 34, FOLDER, null); //TODO Assert context that contains the refinement mapping
 		
 		// 8888888888888888888 Test resolving a location (e.g. editor hovering) to a value 888888888888888 //
 		debugger.replaceAllBreakpointsWith(RM, 120);

@@ -68,12 +68,11 @@ public class Bug246DiskFPSetTest {
 			assertTrue("Expect not to have flushed to disk", growDiskMark == 0);
 			
 			// stats
-			final StringBuilder buf = new StringBuilder(100);
-			buf.append("Bucket Capacity: ").append(bucketCapacity);
-			
-			buf.append("Tbl Capacity: ").append(tblCapacity);
-			buf.append("Tbl Load: ").append(tblLoad);
-			buf.append("Tbl Cnt: ").append(tblCnt);
+
+			String buf = "Bucket Capacity: " + bucketCapacity +
+					"Tbl Capacity: " + tblCapacity +
+					"Tbl Load: " + tblLoad +
+					"Tbl Cnt: " + tblCnt;
 			
 			
 			fail("OOM occurred (not flush to disk) " + buf);

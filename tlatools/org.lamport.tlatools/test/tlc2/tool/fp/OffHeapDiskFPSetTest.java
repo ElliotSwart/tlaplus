@@ -195,13 +195,13 @@ public class OffHeapDiskFPSetTest {
 				assertEquals(
 						String.format(
 								"Expected empty position with seed %sL and length %s.\n\nexpected: %s\n\nactual: %s",
-								new Object[] { rgenseed, length, Arrays.toString(expected), actual.toString() }),
+								rgenseed, length, Arrays.toString(expected), actual.toString()),
 						EMPTY, actual.get(i));
 			} else if (expected[i] < EMPTY) {
 				assertEquals(
 						String.format(
 								"Expected negative position with seed %sL and length %s.\n\nexpected: %s\n\nactual: %s",
-								new Object[] { rgenseed, length, Arrays.toString(expected), actual.toString() }),
+								rgenseed, length, Arrays.toString(expected), actual.toString()),
 						EMPTY, actual.get(i));
 			}
 		}
@@ -210,14 +210,14 @@ public class OffHeapDiskFPSetTest {
 		for (int i = 0; i < length / 2; i++) {
 			final long fp = getFingerprint(random);
 			assertTrue(String.format("Failed to find fp %s/%s with seed %sL and length %s.\n\nexpected: %s\n\nactual: %s",
-					new Object[] { fp, (fp | MARK_FLUSHED), rgenseed, length, Arrays.toString(expected),
-							actual.toString() }),
+							fp, (fp | MARK_FLUSHED), rgenseed, length, Arrays.toString(expected),
+							actual.toString()),
 					fpSet.contains(fp));
 		}
 		
 		assertTrue(
 				String.format("Invariant violated with seed %sL and length %s.\n\nexpected: %s\n\nactual: %s",
-						new Object[] { rgenseed, length, Arrays.toString(expected), actual.toString() }),
+						rgenseed, length, Arrays.toString(expected), actual.toString()),
 				fpSet.checkInvariant());
 
 		// Clear the index to secondary/disk which hides secondary from
@@ -232,8 +232,8 @@ public class OffHeapDiskFPSetTest {
 		for (int i = 0; i < length / 2; i++) {
 			final long fp = getFingerprint(random);
 			assertTrue(String.format("Failed to find fp %s/%s with seed %sL and length %s.\n\nexpected: %s\n\nactual: %s",
-					new Object[] { fp, (fp | MARK_FLUSHED), rgenseed, length, Arrays.toString(expected),
-							actual.toString() }),
+							fp, (fp | MARK_FLUSHED), rgenseed, length, Arrays.toString(expected),
+							actual.toString()),
 					fpSet.contains(fp));
 		}
 		
@@ -289,7 +289,7 @@ public class OffHeapDiskFPSetTest {
 		fpSet.forceFlush();
 		assertFalse(fpSet.contains(1L)); // contains triggers flush
 		
-		final Method field = OffHeapDiskFPSet.class.getDeclaredMethod("getDiskOffset", new Class[] {int.class, long.class});
+		final Method field = OffHeapDiskFPSet.class.getDeclaredMethod("getDiskOffset", int.class, long.class);
 		field.setAccessible(true);
 		
 		for (long i = 0L; i < longs.size(); i++) {
@@ -323,7 +323,7 @@ public class OffHeapDiskFPSetTest {
 
 		final OffHeapDiskFPSet fpSet = new OffHeapDiskFPSet(fpSetConfig);
 		final Method method = OffHeapDiskFPSet.class.getDeclaredMethod("writeIndex",
-				new Class[] { long[].class, java.io.RandomAccessFile.class, long.class });
+				long[].class, java.io.RandomAccessFile.class, long.class);
 		method.setAccessible(true);
 
 		// length of array times NumEntriesPerPage has to exceed Integer.MAX_VALUE

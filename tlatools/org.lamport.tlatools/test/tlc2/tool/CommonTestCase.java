@@ -32,6 +32,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -138,11 +139,11 @@ public abstract class CommonTestCase {
 
 	// Checks if all uncovered (zero) lines are found and no more (don't care if the invocation and costs match).
 	protected void assertUncovered(final String expectedUncovered) {
-		final List<Coverage> expected = Arrays.asList(expectedUncovered.trim().split("\n")).stream()
-				.map(o -> new Coverage(o.split(":"))).collect(Collectors.toList());
+		final List<Coverage> expected = Arrays.stream(expectedUncovered.trim().split("\n"))
+				.map(o -> new Coverage(o.split(":"))).toList();
 
 		final Set<Coverage> expectedZero = expected.stream().filter(Coverage::isZero).collect(Collectors.toSet());
-		final Set<Coverage> actualZeroCoverage = recorder.getZeroCoverage().stream().collect(Collectors.toSet());
+		final Set<Coverage> actualZeroCoverage = new HashSet<>(recorder.getZeroCoverage());
 		assertEquals(expectedZero, actualZeroCoverage);
 	}
 	
@@ -159,15 +160,15 @@ public abstract class CommonTestCase {
 	protected void assertCoverage(final String expectedCoverage) {
 		// Lines can be reported multiple times if invoked from different actions!!!
 		
-		final List<Coverage> expected = Arrays.asList(expectedCoverage.split("\n")).stream()
-				.map(o -> new Coverage(o.split(":"))).collect(Collectors.toList());
+		final List<Coverage> expected = Arrays.stream(expectedCoverage.split("\n"))
+				.map(o -> new Coverage(o.split(":"))).toList();
 		
 		// Step A:
 		// Validation of coverage results is split into two steps. Step A checks if all
 		// uncovered (zero) lines are found, step B checks if non-zero lines exist.		
 		final Set<Coverage> expectedZero = expected.stream().filter(Coverage::isZero)
 				.filter(Coverage::isCoverage).collect(Collectors.toSet());
-		final Set<Coverage> actualZeroCoverage = recorder.getZeroCoverage().stream().collect(Collectors.toSet());
+		final Set<Coverage> actualZeroCoverage = new HashSet<>(recorder.getZeroCoverage());
 		assertEquals(expectedZero, actualZeroCoverage);
 		
 		// Step B1 (coverage):
@@ -185,7 +186,7 @@ public abstract class CommonTestCase {
 		// Step B2 (coverage with cost):
 		final List<Coverage> actualCostCoverage = recorder.getCostCoverage();
 		final List<Coverage> expectedCostCoverage = expected.stream().filter(Coverage::isCoverage)
-				.filter(Coverage::isCost).collect(Collectors.toList());
+				.filter(Coverage::isCost).toList();
 		for (int i = 0; i < actualCostCoverage.size(); i++) {
 			final Coverage a = actualCostCoverage.get(i);
 			final Coverage e = expectedCostCoverage.get(i);
@@ -195,7 +196,7 @@ public abstract class CommonTestCase {
 		
 		// Step C (actions):
 		final List<Coverage> actualActions = recorder.getActionCoverage();
-		final List<Coverage> expectedActions = expected.stream().filter(Coverage::isAction).collect(Collectors.toList());
+		final List<Coverage> expectedActions = expected.stream().filter(Coverage::isAction).toList();
 		for (int i = 0; i < actualActions.size(); i++) {
 			final Coverage a = actualActions.get(i);
 			final Coverage e = expectedActions.get(i);

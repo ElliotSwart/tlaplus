@@ -79,7 +79,7 @@ public class RandomSubsetTest extends ModelCheckerTestCase {
 		assertTrue(100000000 <= firstY.val);
 
 		// Check z is true
-		assertEquals(BoolValue.ValTrue, (IBoolValue) firstState.get(UniqueString.uniqueStringOf("z")));
+		assertEquals(BoolValue.ValTrue, firstState.get(UniqueString.uniqueStringOf("z")));
 		
 		final TLCStateInfo second = (TLCStateInfo) ((Object[]) actual.get(1))[0];
 		assertTrue(((String) second.info).startsWith("<Next line 10, col 9 to line 11, col 21 of module RandomSubset>"));
@@ -89,7 +89,7 @@ public class RandomSubsetTest extends ModelCheckerTestCase {
 		assertEquals(firstX.val, ((IntValue) secondState.get(UniqueString.uniqueStringOf("x"))).val);
 		assertEquals(firstY.val, ((IntValue) secondState.get(UniqueString.uniqueStringOf("y"))).val);
 		// Check z is false
-		assertEquals(BoolValue.ValFalse, (IBoolValue) secondState.get(UniqueString.uniqueStringOf("z")));
+		assertEquals(BoolValue.ValFalse, secondState.get(UniqueString.uniqueStringOf("z")));
 
 		assertZeroUncovered();
 	}

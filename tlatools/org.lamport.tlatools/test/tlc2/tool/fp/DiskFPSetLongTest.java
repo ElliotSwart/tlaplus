@@ -11,7 +11,7 @@ public class DiskFPSetLongTest extends FPSetLongTest {
 	protected FPSet getFPSet(final FPSetConfiguration fpSetConfig) throws IOException {
 		final DiskFPSet fpSet = new LSBDiskFPSet(fpSetConfig);
 		System.out.println("DiskFPSet approx. consumes MiB: "
-				+ ((fpSet.getMaxTblCnt() * (long) FPSet.LongSize) >> 20));
+				+ ((fpSet.getMaxTblCnt() * FPSet.LongSize) >> 20));
     	return fpSet;
 	}
 }

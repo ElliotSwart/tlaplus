@@ -520,8 +520,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	 */
 	@Test
 	public void testComparePutAndPutBlock() throws Exception {
-		final FPSet putFpSet = (FPSet) getFPSetInitialized();
-		final FPSet putBlockFpSet = (FPSet) getFPSetInitialized();
+		final FPSet putFpSet = getFPSetInitialized();
+		final FPSet putBlockFpSet = getFPSetInitialized();
 		
 		final long fp = 1L;
 		final LongVec fpv = new LongVec();
@@ -541,8 +541,8 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	 */
 	@Test
 	public void testCompareContainsAndContainsBlock() throws Exception {
-		final FPSet containsFpSet = (FPSet) getFPSetInitialized();
-		final FPSet containsBlockFpSet = (FPSet) getFPSetInitialized();
+		final FPSet containsFpSet = getFPSetInitialized();
+		final FPSet containsBlockFpSet = getFPSetInitialized();
 		
 		final long fp = 1L;
 		final LongVec fpv = new LongVec();
@@ -558,7 +558,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 
 	@Test
 	public void testContainsBlock() throws Exception {
-		final FPSet fpSet = (FPSet) getFPSetInitialized();
+		final FPSet fpSet = getFPSetInitialized();
 		
 		final long fp = 1L;
 		final LongVec fpv = new LongVec();
@@ -577,7 +577,7 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 	
 	@Test
 	public void testPutBlock() throws Exception {
-		final FPSet fpSet = (FPSet) getFPSetInitialized();
+		final FPSet fpSet = getFPSetInitialized();
 		
 		final long fp = 1L;
 		final LongVec fpv = new LongVec();

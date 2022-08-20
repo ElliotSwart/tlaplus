@@ -77,7 +77,7 @@ public abstract class PCalModelCheckerTestCase extends ModelCheckerTestCase {
 		var t = new trans();
 
 		// Run PCal translator
-		assertEquals(0, t.runMe(pcalArgs.toArray(new String[pcalArgs.size()])));
+		assertEquals(0, t.runMe(pcalArgs.toArray(new String[0])));
 		assertNotNull(t.pcalParams.tlaPcalMapping); // successfully translated PCal to TLA+
 		
 		final String[] messages = ToolIO.getAllMessages();

@@ -363,8 +363,8 @@ public class DivergenceTest extends PCalTest {
 		ToolIO.out = testPrintStream;
 		SANY.SANYmain(new String[] { absolutePath });
 		testPrintStream.assertSubstring("Semantic processing of module " + filename);
-		testPrintStream.assertNoSubstring(String.format(
-				"!! WARNING:"));
+		testPrintStream.assertNoSubstring(
+				"!! WARNING:");
 	}
 
 	@Test

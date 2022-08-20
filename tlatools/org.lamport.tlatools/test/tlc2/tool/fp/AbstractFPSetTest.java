@@ -104,7 +104,7 @@ public abstract class AbstractFPSetTest {
 		final long size = fpSet.size();
 		// Normalize insertions to minutes.
 		final long duration = Math.max(end - start, 1); //ms (avoid div-by-zero)
-		final long insertions = (long) ((size / duration) * 60000L);
+		final long insertions = (size / duration) * 60000L;
 		if (fpSet instanceof final FPSetStatistic fpSetStatistics) {
 			System.out.println(System.currentTimeMillis() + " s; " + df.format(insertions) + " insertions/min; " + pf.format(fpSetStatistics.getLoadFactor()) + " load factor");
 		} else {

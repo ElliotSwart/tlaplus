@@ -226,8 +226,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		assertTrue(stackFrame instanceof TLCActionStackFrame);
 		final TLCActionStackFrame f = (TLCActionStackFrame) stackFrame;
 
-		assertTrue(Arrays.asList(f.getScopes()).stream().filter(s -> TLCActionStackFrame.SCOPE.equals(s.getName()))
-				.findAny().isPresent());
+		assertTrue(Arrays.stream(f.getScopes()).anyMatch(s -> TLCActionStackFrame.SCOPE.equals(s.getName())));
 
 		assertNotNull(f.getS());
 		assertTrue(f.getS().allAssigned());
@@ -350,7 +349,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 	private static void assertTrace(final TLCStateStackFrame frame) {
 		final Map<Integer, DebugTLCVariable> old = new HashMap<>(frame.nestedVariables);
 		try {
-			final List<DebugTLCVariable> trace = Arrays.asList(frame.getTrace()).stream()
+			final List<DebugTLCVariable> trace = Arrays.stream(frame.getTrace())
 					.map(v -> (DebugTLCVariable) v).collect(Collectors.toList());
 			
 			// Assert that the trace is never empty.
@@ -373,7 +372,7 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 				assertTrue(tlcValue instanceof RecordValue);
 				final RecordValue rv = (RecordValue) tlcValue;
 				for (final Value val : rv.values) {
-					assertTrue(!(val instanceof StringValue) || !DebuggerValue.NOT_EVALUATED.equals(((StringValue) val).toString()));
+					assertTrue(!(val instanceof StringValue) || !DebuggerValue.NOT_EVALUATED.equals(val.toString()));
 				}
 			}
 		} finally {
@@ -395,22 +394,21 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		final TLCSuccessorsStackFrame succframe = (TLCSuccessorsStackFrame) stackFrame;
 
 		if (!succframe.getSuccessors().isEmpty()) {
-			final Scope succs = Arrays.asList(succframe.getScopes()).stream().filter(s -> s.getName().equals("Successors"))
+			final Scope succs = Arrays.stream(succframe.getScopes()).filter(s -> s.getName().equals("Successors"))
 					.reduce((a, b) -> a).get();
 			assertNotNull(succs);
 			
 			final List<Variable> variables = Arrays.asList(succframe.getVariables(succs.getVariablesReference()));
 			assertEquals(expectedSuccessors, variables.size());
 			
-			final List<Value> stateRecords = variables.stream().map(v -> (DebugTLCVariable) v).map(DebugTLCVariable::getTLCValue)
-					.collect(Collectors.toList());
+			final List<Value> stateRecords = variables.stream().map(v -> (DebugTLCVariable) v).map(DebugTLCVariable::getTLCValue).toList();
 			final Set<RecordValue> successors = succframe.getSuccessors().stream().map(RecordValue::new)
 					.collect(Collectors.toSet());
 			for (final Value s : stateRecords) {
 				assertTrue(successors.contains(s));
 			}
 		} else {
-			final Optional<Scope> o = Arrays.asList(succframe.getScopes()).stream().filter(s -> s.getName().equals("Successors"))
+			final Optional<Scope> o = Arrays.stream(succframe.getScopes()).filter(s -> s.getName().equals("Successors"))
 					.reduce((a, b) -> a);
 			assertTrue(o.isEmpty());
 		}
@@ -485,9 +483,9 @@ public abstract class TLCDebuggerTestCase extends ModelCheckerTestCase implement
 		assertNotNull(f.getTool());
 
 
-		final Optional<Scope> scope = Arrays.asList(f.getScopes()).stream()
+		final Optional<Scope> scope = Arrays.stream(f.getScopes())
 				.filter(s -> TLCStackFrame.SCOPE.equals(s.getName())).findAny();
-		if (expectedContext != null && expectedContext == Context.Empty) {
+		if (expectedContext == Context.Empty) {
 			assertFalse(scope.isPresent());
 			return;
 		}

@@ -61,7 +61,6 @@ public class MultiFPSetTest {
 			fail();
 		}
 
-		return;
 	}
 
 	/**
@@ -89,7 +88,6 @@ public class MultiFPSetTest {
 		} catch (final RuntimeException e) {
 			fail();
 		}
-		return;
 	}
 
 	/**

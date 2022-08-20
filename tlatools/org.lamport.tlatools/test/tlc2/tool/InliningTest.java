@@ -126,7 +126,7 @@ public class InliningTest extends ModelCheckerTestCase {
 	// (https://twitter.com/ErikGahlin/status/1207536016858505217).
 	private void notIn(final Method method, final Set<RecordedObject> notInlined) {
 		final List<RecordedObject> methodNameMatches = notInlined.stream()
-				.filter(ro -> method.getName().equals(ro.getString("name"))).collect(Collectors.toList());
+				.filter(ro -> method.getName().equals(ro.getString("name"))).toList();
 		for (final RecordedObject methodNameMatch : methodNameMatches) {
 			assertTrue(isNoMatch(methodNameMatch, method));
 		}

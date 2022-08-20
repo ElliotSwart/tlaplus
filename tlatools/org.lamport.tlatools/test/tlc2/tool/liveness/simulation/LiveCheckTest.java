@@ -114,7 +114,7 @@ public class LiveCheckTest {
 		final OrderOfSolution oos = EasyMock.createNiceMock(OrderOfSolution.class);
 		EasyMock.expect(oos.hasTableau()).andReturn(false);
 		EasyMock.expect(oos.getCheckAction()).andReturn(new LiveExprNode[0]).anyTimes();
-		EasyMock.expect(oos.checkState((ITool) EasyMock.anyObject(), (TLCState) EasyMock.anyObject())).andReturn(new boolean[0]).anyTimes();
+		EasyMock.expect(oos.checkState(EasyMock.anyObject(), EasyMock.anyObject())).andReturn(new boolean[0]).anyTimes();
 		EasyMock.replay(oos);
 		
 		return new LiveCheck(tool,
@@ -123,7 +123,7 @@ public class LiveCheckTest {
 	
 	private ILiveCheck getLiveCheckWithTableau() throws Exception {
 		final TBGraphNode node = EasyMock.createMock(TBGraphNode.class);
-		EasyMock.expect(node.isConsistent((TLCState) EasyMock.anyObject(), (ITool) EasyMock.anyObject())).andReturn(true)
+		EasyMock.expect(node.isConsistent(EasyMock.anyObject(), EasyMock.anyObject())).andReturn(true)
 				.anyTimes();
 		EasyMock.expect(node.nextSize()).andReturn(1).anyTimes();
 		EasyMock.expect(node.nextAt(0)).andReturn(node).anyTimes();
@@ -141,7 +141,7 @@ public class LiveCheckTest {
 		EasyMock.expect(oos.hasTableau()).andReturn(true);
 		EasyMock.expect(oos.getTableau()).andReturn(tbGraph).anyTimes();
 		EasyMock.expect(oos.getCheckAction()).andReturn(new LiveExprNode[0]).anyTimes();
-		EasyMock.expect(oos.checkState((ITool) EasyMock.anyObject(), (TLCState) EasyMock.anyObject())).andReturn(new boolean[0]).anyTimes();
+		EasyMock.expect(oos.checkState(EasyMock.anyObject(), EasyMock.anyObject())).andReturn(new boolean[0]).anyTimes();
 		EasyMock.replay(oos);
 		
 		return new LiveCheck(tool,

@@ -183,7 +183,7 @@ public class TLCDebuggerTest {
 		public TestTLCDebugger(final int n, final boolean executionIsHalted) {
 			super(Step.In, true, executionIsHalted);
 			this.stack.addAll(IntStream.range(0, n).boxed().sorted(Collections.reverseOrder())
-					.map(TestTLCStackFrame::new).collect(Collectors.toList()));
+					.map(TestTLCStackFrame::new).toList());
 		}
 
 		public List<StackFrame> getFrames() throws InterruptedException, ExecutionException {

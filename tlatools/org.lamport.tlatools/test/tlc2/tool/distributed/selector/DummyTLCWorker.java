@@ -23,7 +23,7 @@ public class DummyTLCWorker extends TLCWorkerSmartProxy implements TLCWorkerRMI 
 	 */
 	@Override
     public NextStateResult getNextStates(final TLCState[] states) throws RemoteException {
-		return new NextStateResult((TLCStateVec[]) null, (LongVec[]) null, duration, -1L);
+		return new NextStateResult(null, null, duration, -1L);
 	}
 
 	@Override
