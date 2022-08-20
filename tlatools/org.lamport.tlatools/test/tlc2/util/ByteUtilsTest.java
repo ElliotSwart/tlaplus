@@ -25,23 +25,12 @@ public class ByteUtilsTest
 
     private File testFileA;
 
-    BigInteger[] Arr;
-    BigInteger[] Arr2;
-    BigInteger[] Arr3;
-    BigInteger[] Arr4;
-    BigInteger[] Arr5;
     long t1;
     long t2;
 
     @Before
 	public void setUp() throws Exception
     {
-        Arr = new BigInteger[ARRAYSIZE];
-        Arr2 = new BigInteger[ARRAYSIZE];
-        Arr3 = new BigInteger[ARRAYSIZE];
-        Arr4 = new BigInteger[ARRAYSIZE];
-        Arr5 = new BigInteger[ARRAYSIZE];
-
         // create temp files for unit tests
         testFileA = File.createTempFile("ByteUtilsTestA", null);
         testFileA.deleteOnExit();

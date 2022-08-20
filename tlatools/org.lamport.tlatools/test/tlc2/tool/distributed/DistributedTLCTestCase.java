@@ -46,11 +46,7 @@ public abstract class DistributedTLCTestCase extends CommonTestCase {
 	protected final String[] arguments;
 	protected final int fpSets;
 
-	
-	public DistributedTLCTestCase(final String spec, final String path) {
-		this(spec, path, new String[] {});
-	}
-	
+
 	public DistributedTLCTestCase(final String spec, final String path, final String[] args) {
 		this(spec, path, args, 0);
 	}

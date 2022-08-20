@@ -146,19 +146,6 @@ public class TestMPRecorder implements tlc2.output.IMessagePrinterRecorder {
 		return false;
 	}
 
-	public String getCoverageRecords() {
-		final List<Object> coverages = getRecords(EC.TLC_COVERAGE_VALUE);
-		StringBuilder out = new StringBuilder();
-		if (coverages == null) {
-			return out.toString();
-		}
-		for (final Object o : coverages) {
-			final String[] coverage = (String[]) o;
-			out.append(coverage[0]).append(": ").append(Integer.parseInt(coverage[1])).append("\n");
-		}
-		return out.toString();
-	}
-
 	public List<Coverage> getActionCoverage() {
 		final List<Object> init = getRecordsOrDefault(EC.TLC_COVERAGE_INIT, new ArrayList<>(0));
 		final List<Object> next = getRecordsOrDefault(EC.TLC_COVERAGE_NEXT, new ArrayList<>(0));
@@ -215,19 +202,7 @@ public class TestMPRecorder implements tlc2.output.IMessagePrinterRecorder {
 				throw new IllegalArgumentException();
 			}
 		}
-		
-		public String getLine() {
-			return line;
-		}
 
-		public long getCount() {
-			return count;
-		}
-		
-		public int getLevel() {
-			return level;
-		}
-		
 		public boolean isZero() {
 			return count == 0L;
 		}

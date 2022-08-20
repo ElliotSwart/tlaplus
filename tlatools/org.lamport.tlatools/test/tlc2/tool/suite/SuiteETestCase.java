@@ -41,10 +41,6 @@ public abstract class SuiteETestCase extends ModelCheckerTestCase {
 	public SuiteETestCase(final int exitStatus) {
 		super("setBySetUp", "suite", exitStatus);
 	}
-	
-	public SuiteETestCase(final String[] params) {
-		this(params, ExitStatus.SUCCESS);
-	}
 
 	public SuiteETestCase(final String[] params, final int exitStatus) {
 		super("setBySetUp", "suite", params, exitStatus);

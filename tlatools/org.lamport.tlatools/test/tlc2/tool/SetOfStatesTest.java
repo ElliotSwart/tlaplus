@@ -77,7 +77,6 @@ public class SetOfStatesTest extends TestCase {
 
 		// successor is not equal to predecessor
 		TLCState predecessor = null;
-		;
 		for (final TLCState state : s) {
 			assertNotSame(predecessor, state);
 			predecessor = state;

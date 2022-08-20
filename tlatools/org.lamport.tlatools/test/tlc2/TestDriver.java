@@ -33,7 +33,7 @@ public class TestDriver
         
         reported = 0;
         final TLC tlc = new TLC();
-        report("tlc created " + tlc.toString());
+        report("tlc created " + tlc);
         // handle parameters
         if (tlc.handleParameters(args))
         {
@@ -134,11 +134,6 @@ public class TestDriver
                 System.out.println("TLC Thread: ------------ {FINISHED}");
                 isRunning = false;
             }
-        }
-
-        public synchronized void setIsRunning(final boolean value)
-        {
-            isRunning = value;
         }
 
         /**

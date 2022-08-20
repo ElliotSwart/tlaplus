@@ -170,11 +170,6 @@ public class TLCDebuggerTest {
 			this.stack.add(tlcStackFrame);
 		}
 
-		public TestTLCDebugger(final List<TLCStackFrame> frames) {
-			super(Step.In, true, true);
-			this.stack.addAll(frames);
-		}
-
 		public TestTLCDebugger(final int n) {
 			this(n, true);
 		}
