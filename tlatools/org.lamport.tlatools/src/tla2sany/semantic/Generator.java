@@ -11,9 +11,7 @@
 
 package tla2sany.semantic;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Stream;
 
 import tla2sany.configuration.Configuration;
@@ -23,9 +21,7 @@ import tla2sany.parser.TLAplusParserConstants;
 import tla2sany.semantic.Context.Pair;
 import tla2sany.st.SyntaxTreeConstants;
 import tla2sany.st.TreeNode;
-import java.util.Stack;
 import tla2sany.utilities.Strings;
-import java.util.ArrayList;
 import tlc2.output.EC;
 import tlc2.output.MP;
 import util.UniqueString;
@@ -900,9 +896,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 										opParams = ((ThmOrAssumpDefNode) curNode).getParams();
 										newNode = ((ThmOrAssumpDefNode) curNode).getBody();
 									}
-									for (final FormalParamNode opParam : opParams) {
-										params.add(opParam);
-									}
+									params.addAll(Arrays.asList(opParams));
 									// for
 									curName = null;
 									if (sel.ops[idx + 1] == NameSel) {
@@ -990,10 +984,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 					}
 					// if (expectedArity == 0)
 
-					for (int i = 0; i < newLabelNode.getArity(); i++) {
-						final FormalParamNode pdecl = newLabelNode.params[i];
-						params.add(pdecl);
-					}
+					params.addAll(Arrays.asList(newLabelNode.params).subList(0, newLabelNode.getArity()));
 					if ((idx < sel.ops.length - 1) && (sel.ops[idx + 1] != NameSel)) {
 						mode = FindingSubExpr;
 					}
@@ -1178,9 +1169,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 										/*******************************************************
 										 * Add the elements of temp to the params ArrayList. *
 										 *******************************************************/
-										for (final FormalParamNode formalParamNode : temp) {
-											params.add(formalParamNode);
-										}
+										params.addAll(Arrays.asList(temp));
 										// for i
 
 										if (sel.ops[idx] == NullSel) {
@@ -1308,9 +1297,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 							}
 						}
 						// if (sel.ops[idx] == NullSel)
-						for (int i = 0; i < opDefOpNode.getArity(); i++) {
-							params.add(opDefOpNode.getParams()[i]);
-						}
+						params.addAll(Arrays.asList(opDefOpNode.getParams()).subList(0, opDefOpNode.getArity()));
 						curNode = opDefOpNode.getBody();
 					} // else if (curNode.getKind() == OpArgKind)
 
@@ -1489,9 +1476,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
                 nodeParams = ((ThmOrAssumpDefNode) curNode).getParams();
 			}
 
-            for (int i = 0; i < opDefArgs.size(); i++) {
-				allArgs.add(opDefArgArray[i]);
-			}
+			allArgs.addAll(Arrays.asList(opDefArgArray).subList(0, opDefArgs.size()));
             // for
 
 			final ExprOrOpArgNode[] temp = new ExprOrOpArgNode[nodeParams.length];
@@ -1955,9 +1940,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
                      * Append the opDefsInRecursiveSection field of the inner module * to that of
                      * the current module. *
                      *******************************************************************/
-                    for (int i = 0; i < mn.opDefsInRecursiveSection.size(); i++) {
-                        currentModule.opDefsInRecursiveSection.add(mn.opDefsInRecursiveSection.get(i));
-                    }
+					currentModule.opDefsInRecursiveSection.addAll(mn.opDefsInRecursiveSection);
                     break;
 
                 case N_Instance:

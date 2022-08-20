@@ -598,24 +598,15 @@ final void addAssumption(final TreeNode stn, final ExprNode ass, final SymbolTab
    }
 
   final void copyAssumes(final ModuleNode extendee) {
-    for (int i = 0; i < extendee.assumptionVec.size(); i++) {
-      final AssumeNode assume = extendee.assumptionVec.get(i);
-      assumptionVec.add(assume);
-    }
+    assumptionVec.addAll(extendee.assumptionVec);
   }
 
   final void copyTheorems(final ModuleNode extendee) {
-    for (int i = 0; i < extendee.theoremVec.size(); i++) {
-      final TheoremNode theorem = extendee.theoremVec.get(i);
-      theoremVec.add(theorem);
-    }
+    theoremVec.addAll(extendee.theoremVec);
   }
 
   final void copyTopLevel(final ModuleNode extendee) {
-    for (int i = 0; i < extendee.topLevelVec.size(); i++) {
-      final LevelNode node = extendee.topLevelVec.get(i);
-      topLevelVec.add(node);
-    }
+    topLevelVec.addAll(extendee.topLevelVec);
   }
 
 

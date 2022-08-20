@@ -301,9 +301,7 @@ public class TBPar extends ArrayList<LiveExprNode> {
 	private TBPar positiveClosure() {
 		// tps is the queue of terms to be processed.
 		final TBPar tps = new TBPar(this.size() * 2);
-		for (int i = 0; i < this.size(); i++) {
-			tps.add(this.get(i));
-		}
+		tps.addAll(this);
 		final TBPar result = new TBPar(this.size() * 2);
 		while (tps.size() > 0) {
 			final LiveExprNode ln = tps.exprAt(tps.size() - 1);

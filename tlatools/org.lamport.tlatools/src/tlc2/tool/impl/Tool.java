@@ -1066,8 +1066,8 @@ this.collectUnchangedLocs(odn.getBody(), c, tbl);
                   final Action action = new Action(next, con, actionName);
 
                   // Remove all elements except the first count
-                  for(var i = this.actionVec.size() - 1; i >= cnt; i--){
-                      this.actionVec.remove(i);
+                  if (this.actionVec.size() > cnt) {
+                      this.actionVec.subList(cnt, this.actionVec.size()).clear();
                   }
 
                   this.actionVec.add(action);
