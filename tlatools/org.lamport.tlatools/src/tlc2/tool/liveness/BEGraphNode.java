@@ -5,7 +5,7 @@
 
 package tlc2.tool.liveness;
 
-import tlc2.util.BitVector;
+import java.util.BitSet;
 import util.WrongInvocationException;
 
 public class BEGraphNode extends AbstractGraphNode {
@@ -23,7 +23,7 @@ public class BEGraphNode extends AbstractGraphNode {
 	private static final BEGraphNode[] emptyNodes = new BEGraphNode[0];
 
 	public BEGraphNode(final long fp) {
-		super(new BitVector(0));
+		super(new BitSet(0));
 		this.stateFP = fp;
 		this.nnodes = emptyNodes;
 		this.number = 0;

@@ -18,7 +18,7 @@ import org.junit.Test;
 
 import tlc2.tool.fp.FPSet;
 import tlc2.tool.fp.MemFPSet;
-import tlc2.util.BitVector;
+import java.util.BitSet;
 import tlc2.util.LongVec;
 
 public class DynamicFPSetManagerTest {
@@ -347,15 +347,15 @@ public class DynamicFPSetManagerTest {
 
 			/* Test DFM correctly behaves first time when TestFPSet works as expected */
 
-			BitVector[] bvs = dfm.putBlock(fps);
-			assertEquals(1, bvs[0].trueCnt());
-			assertEquals(1, bvs[1].trueCnt());
+			BitSet[] bvs = dfm.putBlock(fps);
+			assertEquals(1, bvs[0].cardinality());
+			assertEquals(1, bvs[1].cardinality());
 
 			bvs = dfm.containsBlock(fps);
 			// all (the same) fingerprints are now known (meaning corresponding
 			// bit in bvs[x] is zero).
-			assertEquals(0, bvs[0].trueCnt());
-			assertEquals(0, bvs[1].trueCnt());
+			assertEquals(0, bvs[0].cardinality());
+			assertEquals(0, bvs[1].cardinality());
 
 			/*
 			 * Test DFM correctly fails over to successor of TestFPSet (Here one can
@@ -364,8 +364,8 @@ public class DynamicFPSetManagerTest {
 			 */
 
 			bvs = dfm.putBlock(fps);
-			assertEquals(1, bvs[0].trueCnt()); // fingerprint is unknown after fpset crash
-			assertEquals(0, bvs[1].trueCnt());
+			assertEquals(1, bvs[0].cardinality()); // fingerprint is unknown after fpset crash
+			assertEquals(0, bvs[1].cardinality());
 
 			// The previous putBlock call has caused the FPSetManager to detect the
 			// failure state of the first FPSets and reassigned the replacement FPSet.
@@ -373,8 +373,8 @@ public class DynamicFPSetManagerTest {
 			assertEquals(1, dfm.numOfAliveServers());
 
 			bvs = dfm.containsBlock(fps);
-			assertEquals(0, bvs[0].trueCnt()); // fingerprint is known again
-			assertEquals(0, bvs[1].trueCnt());
+			assertEquals(0, bvs[0].cardinality()); // fingerprint is known again
+			assertEquals(0, bvs[1].cardinality());
 		}
 	}
 
@@ -403,15 +403,15 @@ public class DynamicFPSetManagerTest {
 
 			/* Test DFM correctly behaves first time when TestFPSet works as expected */
 
-			BitVector[] bvs = dfm.putBlock(fps);
-			assertEquals(1, bvs[0].trueCnt());
-			assertEquals(1, bvs[1].trueCnt());
+			BitSet[] bvs = dfm.putBlock(fps);
+			assertEquals(1, bvs[0].cardinality());
+			assertEquals(1, bvs[1].cardinality());
 
 			bvs = dfm.containsBlock(fps);
 			// all (the same) fingerprints are now known (meaning corresponding
 			// bit in bvs[x] is zero).
-			assertEquals(0, bvs[0].trueCnt());
-			assertEquals(0, bvs[1].trueCnt());
+			assertEquals(0, bvs[0].cardinality());
+			assertEquals(0, bvs[1].cardinality());
 
 			/*
 			 * Test DFM correctly fails over to successor of TestFPSet (Here one can
@@ -420,16 +420,16 @@ public class DynamicFPSetManagerTest {
 			 */
 
 			bvs = dfm.putBlock(fps);
-			assertEquals(2, bvs[0].trueCnt()); // fingerprint is unknown after fpset crash
-			assertEquals(2, bvs[1].trueCnt());
+			assertEquals(2, bvs[0].cardinality()); // fingerprint is unknown after fpset crash
+			assertEquals(2, bvs[1].cardinality());
 
 			// The previous putBlock call has caused the FPSetManager to detect the
 			// failure state of both FPSets
 			assertEquals(0, dfm.numOfAliveServers());
 
 			bvs = dfm.containsBlock(fps);
-			assertEquals(2, bvs[0].trueCnt()); // fingerprint is known again
-			assertEquals(2, bvs[1].trueCnt());
+			assertEquals(2, bvs[0].cardinality()); // fingerprint is known again
+			assertEquals(2, bvs[1].cardinality());
 		}
 	}
 	
@@ -460,15 +460,15 @@ public class DynamicFPSetManagerTest {
 			/* Test DFM correctly behaves first time when TestFPSet works as expected */
 			final ExecutorService es = Executors.newCachedThreadPool();
 			try {
-				BitVector[] bvs = dfm.putBlock(fps, es);
-				assertEquals(1, bvs[0].trueCnt());
-				assertEquals(1, bvs[1].trueCnt());
+				BitSet[] bvs = dfm.putBlock(fps, es);
+				assertEquals(1, bvs[0].cardinality());
+				assertEquals(1, bvs[1].cardinality());
 
 				bvs = dfm.containsBlock(fps, es);
 				// all (the same) fingerprints are now known (meaning corresponding
 				// bit in bvs[x] is zero).
-				assertEquals(0, bvs[0].trueCnt());
-				assertEquals(0, bvs[1].trueCnt());
+				assertEquals(0, bvs[0].cardinality());
+				assertEquals(0, bvs[1].cardinality());
 
 				/*
 				 * Test DFM correctly fails over to successor of TestFPSet (Here one can
@@ -477,16 +477,16 @@ public class DynamicFPSetManagerTest {
 				 */
 
 				bvs = dfm.putBlock(fps, es);
-				assertEquals(2, bvs[0].trueCnt()); // fingerprint is unknown after fpset crash
-				assertEquals(2, bvs[1].trueCnt());
+				assertEquals(2, bvs[0].cardinality()); // fingerprint is unknown after fpset crash
+				assertEquals(2, bvs[1].cardinality());
 
 				// The previous putBlock call has caused the FPSetManager to detect the
 				// failure state of both FPSets
 				assertEquals(0, dfm.numOfAliveServers());
 
 				bvs = dfm.containsBlock(fps, es);
-				assertEquals(2, bvs[0].trueCnt()); // fingerprint is known again
-				assertEquals(2, bvs[1].trueCnt());
+				assertEquals(2, bvs[0].cardinality()); // fingerprint is known again
+				assertEquals(2, bvs[1].cardinality());
 			} finally {
 				es.shutdown();
 			}
@@ -494,7 +494,7 @@ public class DynamicFPSetManagerTest {
 	}
 	
 	/**
-	 * Tests if the {@link FPSetManager} returns the BitVector[] with correct
+	 * Tests if the {@link FPSetManager} returns the BitSet[] with correct
 	 * order.
 	 * <p>
 	 * Due to the nature of concurrency, this test can pass by chance (inversely
@@ -531,14 +531,14 @@ public class DynamicFPSetManagerTest {
 			// Check if the last element in the resulting bitvector has the bit for the fp set
 			final ExecutorService es = Executors.newCachedThreadPool();
 			try {
-				final BitVector[] bvs = dfm.containsBlock(fps, es);
+				final BitSet[] bvs = dfm.containsBlock(fps, es);
 				// The first expectedNumOfServers - 1 must not contain the fp
 				for (int i = 0; i < expectedNumOfServers - 1; i++) {
-					assertEquals(1, bvs[i].trueCnt());
+					assertEquals(1, bvs[i].cardinality());
 				}
 
 				// The last element is expected to contain the fingerprint
-				assertEquals(0, bvs[expectedNumOfServers - 1].trueCnt());
+				assertEquals(0, bvs[expectedNumOfServers - 1].cardinality());
 			} finally {
 				es.shutdown();
 			}

@@ -26,6 +26,7 @@
 package tlc2.util;
 
 import java.io.IOException;
+import java.util.BitSet;
 
 import tlc2.tool.Action;
 import tlc2.tool.TLCState;
@@ -56,9 +57,9 @@ public interface IStateWriter {
 
 	void writeState(TLCState state, TLCState successor, boolean successorStateIsNew, Visualization visualization);
 	
-	void writeState(TLCState state, TLCState successor, BitVector actionChecks, int from, int length, boolean successorStateIsNew);
+	void writeState(TLCState state, TLCState successor, BitSet actionChecks, int from, int length, boolean successorStateIsNew);
 
-	void writeState(TLCState state, TLCState successor, BitVector actionChecks, int from, int length, boolean successorStateIsNew, Visualization visualization);
+	void writeState(TLCState state, TLCState successor, BitSet actionChecks, int from, int length, boolean successorStateIsNew, Visualization visualization);
 	
 	void close();
 

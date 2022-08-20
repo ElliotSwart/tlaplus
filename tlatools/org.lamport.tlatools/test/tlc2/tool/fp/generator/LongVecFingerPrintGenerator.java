@@ -10,7 +10,7 @@ import org.junit.Assert;
 
 import tlc2.tool.fp.FPSet;
 import tlc2.tool.fp.MultiThreadedFPSetTest;
-import tlc2.util.BitVector;
+import java.util.BitSet;
 import tlc2.util.LongVec;
 
 public class LongVecFingerPrintGenerator extends FingerPrintGenerator {
@@ -37,8 +37,8 @@ public class LongVecFingerPrintGenerator extends FingerPrintGenerator {
 			try {
 				// Make sure set still contains predecessors
 				if (initialized) {
-					final BitVector bitVector = fpSet.containsBlock(predecessors);
-					Assert.assertEquals(batch, batch - bitVector.trueCnt());
+					final BitSet bitVector = fpSet.containsBlock(predecessors);
+					Assert.assertEquals(batch, batch - bitVector.cardinality());
 				}
 
 				// Fill new fingerprints and sort them
@@ -49,9 +49,9 @@ public class LongVecFingerPrintGenerator extends FingerPrintGenerator {
 				predecessors.sort();
 
 				// Add sorted batch to fpset
-				final BitVector bitVector = fpSet.putBlock(predecessors);
-				puts += bitVector.trueCnt();
-				collisions += (batch - bitVector.trueCnt());
+				final BitSet bitVector = fpSet.putBlock(predecessors);
+				puts += bitVector.cardinality();
+				collisions += (batch - bitVector.cardinality());
 			} catch (final IOException e) {
 				e.printStackTrace();
 				Assert.fail("Unexpected");

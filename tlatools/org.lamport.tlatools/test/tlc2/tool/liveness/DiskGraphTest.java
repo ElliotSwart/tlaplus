@@ -37,7 +37,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import tlc2.util.BitVector;
+import java.util.BitSet;
 import tlc2.util.LongVec;
 import tlc2.util.statistics.FixedSizedBucketStatistics;
 import tlc2.util.statistics.IBucketStatistics;
@@ -48,7 +48,7 @@ public class DiskGraphTest {
 	private static final int NUMBER_OF_SOLUTIONS = 1;
 	private static final int NO_TABLEAU = -1;
 	private static final int NUMBER_OF_ACTIONS = 0;
-	private static final BitVector NO_ACTIONS = null;
+	private static final BitSet NO_ACTIONS = null;
 	
 	protected AbstractDiskGraph getDiskGraph() throws IOException {
 		// Have to use dedicated folder for each test. Otherwise tests interfere

@@ -40,7 +40,7 @@ import tlc2.TLC;
 import tlc2.output.EC;
 import tlc2.tool.AbstractChecker;
 import tlc2.tool.liveness.GraphNode.Transition;
-import tlc2.util.BitVector;
+import java.util.BitSet;
 import tlc2.util.LongVec;
 
 /**
@@ -110,7 +110,7 @@ public class April29Test extends ModelCheckerTestCase {
 		// Verify both outgoing transitions are self loops with the expected
 		// action predicates. transitions is a Set and thus adding equal
 		// instance does not increase the set's size.
-		final BitVector bv = new BitVector(alen + slen);
+		final BitSet bv = new BitSet(alen + slen);
 		bv.set(0);
 		bv.set(2);
 		transitions.add(new Transition(successor.stateFP, -1, bv));

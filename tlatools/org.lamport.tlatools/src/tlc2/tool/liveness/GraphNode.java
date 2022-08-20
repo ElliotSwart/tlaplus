@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import tlc2.util.BitVector;
+import java.util.BitSet;
+
+import tlc2.util.BitSetUtilities;
 import tlc2.util.BufferedRandomAccessFile;
 
 public class GraphNode extends AbstractGraphNode {
@@ -40,10 +42,10 @@ public class GraphNode extends AbstractGraphNode {
 	final int tindex;
 
 	public GraphNode(final long fp, final int tindex) {
-		this(fp, tindex, emptyIntArr, new BitVector(0));
+		this(fp, tindex, emptyIntArr, new BitSet(0));
 	}
 
-	private GraphNode(final long fp, final int tindex, final int[] nnodes, final BitVector checks) {
+	private GraphNode(final long fp, final int tindex, final int[] nnodes, final BitSet checks) {
 		super(checks);
 		this.stateFP = fp;
 		this.tindex = tindex;
@@ -161,18 +163,18 @@ public class GraphNode extends AbstractGraphNode {
 	 * @param alen
 	 *            number of actions
 	 * @param acts
-	 *            A {@link BitVector} of action results. Each bit in the vector
+	 *            A {@link BitSet} of action results. Each bit in the vector
 	 *            represents the result of the corresponding action (true or
 	 *            false) returned by
 	 *            tlc2.tool.liveness.OrderOfSolution.checkAction(TLCState,
-	 *            TLCState, BitVector, int). <code>null</code> if no action 
+	 *            TLCState, BitSet, int). <code>null</code> if no action 
 	 *            constraints to check.
 	 * @param actsOffset
-	 *            The offset into the {@link BitVector} acts. acts may hold
+	 *            The offset into the {@link BitSet} acts. acts may hold
 	 *            action results for more than just the currently added
 	 *            transition. In this case, provide an zero-based offset for
-	 *            where the action results in BitVector start. 0 if the given
-	 *            {@link BitVector} is exclusively used for the current
+	 *            where the action results in BitSet start. 0 if the given
+	 *            {@link BitSet} is exclusively used for the current
 	 *            transition.
 	 * @param allocationHint
 	 *            A (Naturals \ {0}) hint telling the method's implementation
@@ -183,9 +185,9 @@ public class GraphNode extends AbstractGraphNode {
 	 *            of how many additions are made across all iterations).
 	 * @see GraphNode#allocate(int)
 	 */
-	public final void addTransition(final long fp, final int tidx, final int slen, final int alen, final BitVector acts, final int actsOffset,
+	public final void addTransition(final long fp, final int tidx, final int slen, final int alen, final BitSet acts, final int actsOffset,
                                     final int allocationHint) {
-		// Grows BitVector "checks" and sets the corresponding field to true if
+		// Grows BitSet "checks" and sets the corresponding field to true if
 		// acts is true (false is default and thus can be ignored).
 		if (acts != null) {
 			final int pos = slen + alen * this.succSize();
@@ -278,7 +280,7 @@ public class GraphNode extends AbstractGraphNode {
 	public Set<Transition> getTransition(final int slen, final int alen) {
 		final Set<Transition> transitions = new HashSet<>();
 		for (int i = 0; i < succSize(); i++) {
-			final BitVector bv = new BitVector(alen);
+			final BitSet bv = new BitSet(alen);
 			for (int j = 0; j < alen; j++) {
 				if (getCheckAction(slen, alen, i, j)) {
 					bv.set(j);
@@ -293,9 +295,9 @@ public class GraphNode extends AbstractGraphNode {
 
 		private final long fp;
 		private final int tidx;
-		private final BitVector bv;
+		private final BitSet bv;
 
-		public Transition(final long fp, final int tidx, final BitVector bv) {
+		public Transition(final long fp, final int tidx, final BitSet bv) {
 			this.fp = fp;
 			this.tidx = tidx;
 			this.bv = bv;
@@ -334,7 +336,7 @@ public class GraphNode extends AbstractGraphNode {
             return tidx == other.tidx;
         }
 		
-		public BitVector getChecks() {
+		public BitSet getChecks() {
 			return bv;
 		}
 
@@ -368,7 +370,7 @@ public class GraphNode extends AbstractGraphNode {
             nodeRAF.writeInt(nnode);
         }
 		// Write checks
-		checks.write(nodeRAF);
+		BitSetUtilities.write(checks, nodeRAF);
 	}
 
 	void read(final BufferedRandomAccessFile nodeRAF) throws IOException {
@@ -379,8 +381,7 @@ public class GraphNode extends AbstractGraphNode {
 			nnodes[i] = nodeRAF.readInt();
 		}
 		// Read checks
-		checks = new BitVector();
-		checks.read(nodeRAF);
+		checks = BitSetUtilities.fromFile(nodeRAF);
 		
 		assert offset == NO_FREE_SLOTS;
 	}

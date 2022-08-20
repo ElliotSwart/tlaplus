@@ -9,7 +9,7 @@ import tlc2.tool.distributed.fp.FPSetManager.FPSets;
 import tlc2.tool.fp.FPSet;
 import tlc2.tool.fp.FPSetConfiguration;
 import tlc2.tool.fp.MSBDiskFPSet;
-import tlc2.util.BitVector;
+import java.util.BitSet;
 import tlc2.util.LongVec;
 
 /**
@@ -55,7 +55,7 @@ public interface IFPSetManager extends Serializable, AutoCloseable {
 	 * @see IFPSetManager#getFPSetIndex(long)
 	 * @see FPSetRMI#containsBlock(LongVec)
 	 */
-	BitVector[] containsBlock(LongVec[] fps);
+	BitSet[] containsBlock(LongVec[] fps);
 
 	/**
 	 * The given {@link LongVec} has to have the same size as
@@ -63,7 +63,7 @@ public interface IFPSetManager extends Serializable, AutoCloseable {
 	 * 
 	 * @see FPSetRMI#containsBlock(LongVec);
 	 */
-	BitVector[] containsBlock(LongVec[] fps, ExecutorService executorService);
+	BitSet[] containsBlock(LongVec[] fps, ExecutorService executorService);
 
 	/**
 	 * The index of the {@link FPSetRMI} corresponding with the given
@@ -123,7 +123,7 @@ public interface IFPSetManager extends Serializable, AutoCloseable {
 	 * 
 	 * @see FPSetRMI#putBlock(LongVec)
 	 */
-	BitVector[] putBlock(LongVec[] fps);
+	BitSet[] putBlock(LongVec[] fps);
 
 	/**
 	 * The given {@link LongVec} has to have the same size as
@@ -131,7 +131,7 @@ public interface IFPSetManager extends Serializable, AutoCloseable {
 	 * 
 	 * @see FPSetRMI#putBlock(LongVec)
 	 */
-	BitVector[] putBlock(LongVec[] fps, ExecutorService executorService);
+	BitSet[] putBlock(LongVec[] fps, ExecutorService executorService);
 
 	/**
 	 * @see FPSetRMI#recover(String)

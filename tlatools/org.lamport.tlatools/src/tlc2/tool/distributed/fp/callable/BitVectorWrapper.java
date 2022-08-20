@@ -1,14 +1,14 @@
 // Copyright (c) 2012 Markus Alexander Kuppe. All rights reserved.
 package tlc2.tool.distributed.fp.callable;
 
-import tlc2.util.BitVector;
+import java.util.BitSet;
 
 public class BitVectorWrapper {
 	
 	private final int index;
-	private final BitVector bitVector;
+	private final BitSet bitVector;
 	
-	public BitVectorWrapper(final int index, final BitVector bv) {
+	public BitVectorWrapper(final int index, final BitSet bv) {
 		this.index = index;
 		this.bitVector = bv;
 	}
@@ -16,7 +16,7 @@ public class BitVectorWrapper {
 	/**
 	 * @return the bitVector
 	 */
-	public BitVector getBitVector() {
+	public BitSet getBitVector() {
 		return bitVector;
 	}
 

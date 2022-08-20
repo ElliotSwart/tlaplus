@@ -95,7 +95,7 @@ public class LiveCheck implements ILiveCheck {
             // increase concurrency as the lock on the OrderOfSolution is pretty
             // coarse grained (it essentially means we lock the complete
             // behavior graph (DiskGraph) just to add a single node). The
-            // drawback is obviously, that we create a short-lived BitVector
+            // drawback is obviously, that we create a short-lived BitSet
             // to hold the result and loop over actions x successors twice
             // (here and down below). This is a little price to pay for significantly
             // increased concurrency.
@@ -111,7 +111,7 @@ public class LiveCheck implements ILiveCheck {
             // TODO: In the past (commit 768b8e8), actions were only evaluated for nodes
             // that are new (ptr == -1)
             // (see https://github.com/tlaplus/tlaplus/issues/614)
-            final BitVector checkActionResults = new BitVector(alen * nextStates.size());
+            final BitSet checkActionResults = new BitSet(alen * nextStates.size());
             for (int sidx = 0; sidx < nextStates.size(); sidx++) {
                 final TLCState s1 = nextStates.next();
                 oos.checkAction(tool, s0, s1, checkActionResults, alen * sidx);
@@ -498,11 +498,11 @@ public class LiveCheck implements ILiveCheck {
 		}
 
 		/* (non-Javadoc)
-		 * @see tlc2.tool.liveness.ILiveChecker#addNextState(tlc2.tool.TLCState, long, tlc2.util.SetOfStates, tlc2.util.BitVector, boolean[])
+		 * @see tlc2.tool.liveness.ILiveChecker#addNextState(tlc2.tool.TLCState, long, tlc2.util.SetOfStates, tlc2.util.BitSet, boolean[])
 		 */
 		@Override
         public void addNextState(final ITool tool, final TLCState s0, final long fp0,
-                                 final SetOfStates nextStates, final BitVector checkActionResults, final boolean[] checkStateResults) throws IOException {
+                                 final SetOfStates nextStates, final BitSet checkActionResults, final boolean[] checkStateResults) throws IOException {
 			int cnt = 0;
 			// if there is no tableau ...
 			final int succCnt = nextStates.size();
@@ -605,11 +605,11 @@ public class LiveCheck implements ILiveCheck {
 		}
 
 		/* (non-Javadoc)
-		 * @see tlc2.tool.liveness.ILiveChecker#addNextState(tlc2.tool.TLCState, long, tlc2.util.SetOfStates, tlc2.util.BitVector, boolean[])
+		 * @see tlc2.tool.liveness.ILiveChecker#addNextState(tlc2.tool.TLCState, long, tlc2.util.SetOfStates, tlc2.util.BitSet, boolean[])
 		 */
 		@Override
         public void addNextState(final ITool tool, final TLCState s0, final long fp0,
-                                 final SetOfStates nextStates, final BitVector checkActionResults, final boolean[] checkStateResults) throws Exception {
+                                 final SetOfStates nextStates, final BitSet checkActionResults, final boolean[] checkStateResults) throws Exception {
 			int cnt = 0;
 			final int succCnt = nextStates.size();
 
@@ -624,16 +624,16 @@ public class LiveCheck implements ILiveCheck {
 			// also dependent on the amount of nodes in the tableau times
 			// the number of successors. This used to be done within the
 			// global oos lock which caused huge thread contention. This variant
-			// trades speed for additional memory usage (BitVector).
+			// trades speed for additional memory usage (BitSet).
 			final TBGraph tableau = oos.getTableau();
-			final BitVector consistency = new BitVector(tableau.size() * succCnt);
+			final BitSet consistency = new BitSet(tableau.size() * succCnt);
 
 			for(final TBGraphNode tableauNode : tableau) {
 
 				for (int sidx = 0; sidx < succCnt; sidx++) {
 					final TLCState s1 = nextStates.next();
 					if(tableauNode.isConsistent(s1, tool)) {
-						// BitVector is divided into a segment for each
+						// BitSet is divided into a segment for each
 						// tableau node. Inside each segment, addressing is done
 						// via each state. Use identical addressing below
 						// where the lookup is done.
@@ -693,7 +693,7 @@ public class LiveCheck implements ILiveCheck {
 									// t to BG *incorrectly assuming it is done*.
 									// b) t in FG does not imply that <<t, tnode>> in BG
 									// Without a), LiveChecker.addNextState(ITool, TLCState, long, SetOfStates,
-									// BitVector, boolean[]) could skip checking t \in BG.
+									// BitSet, boolean[]) could skip checking t \in BG.
 									// In other words, t \in FG is a necessary but not a sufficient condition...
 									&& (ptr1 == -1 || !node0.transExists(successor, tnode1.getIndex()))) {
 								node0.addTransition(successor, tnode1.getIndex(), checkStateResults.length, alen,
@@ -813,7 +813,7 @@ public class LiveCheck implements ILiveCheck {
 			// Add edges induced by s -> s (self-loop) coming from the tableau
 			// graph:
 			final int nextSize = tnode.nextSize();
-			final BitVector checkActionResults = nextSize > 0 ? oos.checkAction(tool, s, s, new BitVector(alen), 0) : null;
+			final BitSet checkActionResults = nextSize > 0 ? oos.checkAction(tool, s, s, new BitSet(alen), 0) : null;
 			for (int i = 0; i < nextSize; i++) {
 				final TBGraphNode tnode1 = tnode.nextAt(i);
 				final int tidx1 = tnode1.getIndex();
@@ -836,7 +836,7 @@ public class LiveCheck implements ILiveCheck {
 						//
 						// Once all GraphNodes from the suffix have been added to the behavior graph,
 						// the calling method TableauLiveChecker.addNextState(ITool, TLCState, long,
-						// SetOfStates, BitVector, boolean[]) can reconstruct the path from the
+						// SetOfStates, BitSet, boolean[]) can reconstruct the path from the
 						// GraphNodes in the behavior graph (TableauGraph#getPath), and print the actual
 						// error-trace by recreating the sequence of states from their fingerprints in
 						// the state graph.
@@ -865,7 +865,7 @@ public class LiveCheck implements ILiveCheck {
                     final TLCState s1 = nextStates.elementAt(j);
                     if (tool.isInModel(s1) && tool.isInActions(s, s1)) {
                         final long fp1 = s1.fingerPrint();
-                        final BitVector checkActionRes = oos.checkAction(tool, s, s1, new BitVector(alen), 0);
+                        final BitSet checkActionRes = oos.checkAction(tool, s, s1, new BitSet(alen), 0);
                         final boolean isDone = dgraph.isDone(fp1);
                         for (int k = 0; k < tnode.nextSize(); k++) {
                             final TBGraphNode tnode1 = tnode.nextAt(k);

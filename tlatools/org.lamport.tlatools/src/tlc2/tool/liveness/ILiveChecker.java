@@ -30,7 +30,7 @@ import java.io.IOException;
 
 import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
-import tlc2.util.BitVector;
+import java.util.BitSet;
 import tlc2.util.SetOfStates;
 
 public interface ILiveChecker {
@@ -46,7 +46,7 @@ public interface ILiveChecker {
 	 * called after the successors of s0 are computed.
 	 */
 	void addNextState(ITool tool, TLCState s0, long fp0, SetOfStates nextStates,
-			BitVector checkActionResults, boolean[] checkStateResults) throws Exception;
+			BitSet checkActionResults, boolean[] checkStateResults) throws Exception;
 
 	AbstractDiskGraph getDiskGraph();
 

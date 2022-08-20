@@ -31,7 +31,7 @@ import tlc2.tool.distributed.fp.callable.CheckFPsCallable;
 import tlc2.tool.distributed.fp.callable.CheckInvariantCallable;
 import tlc2.tool.distributed.fp.callable.ContainsBlockCallable;
 import tlc2.tool.distributed.fp.callable.PutBlockCallable;
-import tlc2.util.BitVector;
+import java.util.BitSet;
 import tlc2.util.LongVec;
 import util.Assert;
 import util.ToolIO;
@@ -259,9 +259,9 @@ public abstract class FPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.IFPSetManager#putBlock(tlc2.util.LongVec[])
 	 */
 	@Override
-    public BitVector[] putBlock(final LongVec[] fps) {
+    public BitSet[] putBlock(final LongVec[] fps) {
 		final int len = this.fpSets.size();
-		final BitVector[] res = new BitVector[len];
+		final BitSet[] res = new BitSet[len];
 		for (int i = 0; i < len; i++) {
 			try {
 				res[i] = this.fpSets.get(i).putBlock(fps[i]);
@@ -273,8 +273,12 @@ public abstract class FPSetManager implements IFPSetManager {
 					ToolIO.out
 							.println("Warning: there is no fp server available.");
 					// Indicate for all fingerprints of the lost fpset that they are
-					// new. This is achieved by setting all bits in BitVector.
-					res[i] = new BitVector(fps[i].size(), true);
+					// new. This is achieved by setting all bits in BitSet.
+					final var bitSet = new BitSet(fps[i].size());
+					bitSet.set(0, bitSet.size()-1, true);
+
+					res[i] = bitSet;
+
 				} else {
 					// Cause for loop to retry the current fps[i] to the newly
 					// assigned fingerprint set
@@ -289,7 +293,7 @@ public abstract class FPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.fp.IFPSetManager#putBlock(tlc2.util.LongVec[], java.util.concurrent.ExecutorService)
 	 */
 	@Override
-    public BitVector[] putBlock(final LongVec[] fps, final ExecutorService executorService) {
+    public BitSet[] putBlock(final LongVec[] fps, final ExecutorService executorService) {
 		// Create a Callable for each fingerprint set
 		final int len = this.fpSets.size();
 		final List<Callable<BitVectorWrapper>> solvers = new ArrayList<>();
@@ -304,9 +308,9 @@ public abstract class FPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.IFPSetManager#containsBlock(tlc2.util.LongVec[])
 	 */
 	@Override
-    public BitVector[] containsBlock(final LongVec[] fps) {
+    public BitSet[] containsBlock(final LongVec[] fps) {
 		final int len = this.fpSets.size();
-		final BitVector[] res = new BitVector[len];
+		final BitSet[] res = new BitSet[len];
 		for (int i = 0; i < len; i++) {
 			try {
 				res[i] = this.fpSets.get(i).containsBlock(fps[i]);
@@ -318,8 +322,12 @@ public abstract class FPSetManager implements IFPSetManager {
 					ToolIO.out
 							.println("Warning: there is no fp server available.");
 					// Indicate for all fingerprints of the lost fpset that they are
-					// new. This is achieved by setting all bits in BitVector.
-					res[i] = new BitVector(fps[i].size(), true);
+					// new. This is achieved by setting all bits in BitSet.
+
+					final var bitSet = new BitSet(fps[i].size());
+					bitSet.set(0, bitSet.size()-1, true);
+
+					res[i] = bitSet;
 				} else {
 					// Cause for loop to retry the current fps[i] to the newly
 					// assigned fingerprint set
@@ -334,7 +342,7 @@ public abstract class FPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.fp.IFPSetManager#containsBlock(tlc2.util.LongVec[], java.util.concurrent.ExecutorService)
 	 */
 	@Override
-    public BitVector[] containsBlock(final LongVec[] fps, final ExecutorService executorService) {
+    public BitSet[] containsBlock(final LongVec[] fps, final ExecutorService executorService) {
 		// Create a Callable for each fingerprint set
 		final int len = this.fpSets.size();
 		final List<Callable<BitVectorWrapper>> solvers = new ArrayList<>();
@@ -349,7 +357,7 @@ public abstract class FPSetManager implements IFPSetManager {
 	 * Executes the given solvers by using the executor service. Afterwards it
 	 * waits for completion and collects the results.
 	 */
-	private BitVector[] executeCallablesAndCollect(final ExecutorService executorService, 
+	private BitSet[] executeCallablesAndCollect(final ExecutorService executorService, 
 			final List<Callable<BitVectorWrapper>> solvers) {
 		// Have the callables executed by the executor service
 		int retry = 0;
@@ -395,15 +403,15 @@ public abstract class FPSetManager implements IFPSetManager {
 
 		// Wait for completion of the executor service and convert and return
 		// result
-		final BitVector[] res = new BitVector[solvers.size()];
+		final BitSet[] res = new BitSet[solvers.size()];
 		for (int i = 0; i < res.length; i++) {
 			try {
 				// Callers of putBlock and containBlock expect as a post-condition:
-				// for all i BitVector[i] is result of LongVec[i].
-				// (The LongVec[] order has to reflect itself in the BitVector[] order)
+				// for all i BitSet[i] is result of LongVec[i].
+				// (The LongVec[] order has to reflect itself in the BitSet[] order)
 				// Otherwise one is going to see NPEs on the caller end.
 				// Thus this code uses a BitVectorWrapper which associates the
-				// BitVector return with its LongVec[i] input value.
+				// BitSet return with its LongVec[i] input value.
 				final BitVectorWrapper indexBitVector = ecs.take().get();
 				final int index = indexBitVector.getIndex();
 				// Only one result for a given LongVec[i] is correct
@@ -677,11 +685,11 @@ public abstract class FPSetManager implements IFPSetManager {
 			return fpset.size();
 		}
 
-		public BitVector containsBlock(final LongVec longVec) throws IOException {
+		public BitSet containsBlock(final LongVec longVec) throws IOException {
 			return fpset.containsBlock(longVec);
 		}
 
-		public BitVector putBlock(final LongVec longVec) throws IOException {
+		public BitSet putBlock(final LongVec longVec) throws IOException {
 			return fpset.putBlock(longVec);
 		}
 

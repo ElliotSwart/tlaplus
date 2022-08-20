@@ -41,7 +41,7 @@ import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.output.MP;
 import tlc2.tool.*;
-import tlc2.util.BitVector;
+import java.util.BitSet;
 import tlc2.util.BufferedRandomAccessFile;
 import util.FileUtil;
 import util.FilenameToStream;
@@ -152,18 +152,18 @@ public abstract class ModelCheckerTestCase extends CommonTestCase {
 	 * disk.
 	 * <p>
 	 * CAUTION: The order in which the transitions are inserted into the
-	 * {@link GraphNode} determines the size of the {@link BitVector}. I.e. if
+	 * {@link GraphNode} determines the size of the {@link BitSet}. I.e. if
 	 * the truth values of the first N nodes inserted are true, and the
-	 * remainder is false, the BitVector's size will correspond to N. However,
+	 * remainder is false, the BitSet's size will correspond to N. However,
 	 * if the first N truth values are false, followed by M trues, the
-	 * BitVector's size is N + M.
+	 * BitSet's size is N + M.
 	 * <p>
-	 * See {@link GraphNode}'s constructor: it initializes {@link BitVector}
+	 * See {@link GraphNode}'s constructor: it initializes {@link BitSet}
 	 * with capacity zero and subsequently grows BV when bits are set to true.
 	 * <p>
 	 *
-	 * @see BitVector#read(BufferedRandomAccessFile)
-	 * @see BitVector#write(BufferedRandomAccessFile)
+	 * @see BitSet#read(BufferedRandomAccessFile)
+	 * @see BitSet#write(BufferedRandomAccessFile)
 	 * @see GraphNode#read(BufferedRandomAccessFile)
 	 * @see GraphNode#write(BufferedRandomAccessFile)
 	 *

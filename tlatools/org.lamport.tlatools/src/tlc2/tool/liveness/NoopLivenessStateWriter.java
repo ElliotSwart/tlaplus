@@ -27,7 +27,7 @@ package tlc2.tool.liveness;
 
 import tlc2.tool.Action;
 import tlc2.tool.TLCState;
-import tlc2.util.BitVector;
+import java.util.BitSet;
 
 public class NoopLivenessStateWriter implements ILivenessStateWriter {
 
@@ -72,36 +72,36 @@ public class NoopLivenessStateWriter implements ILivenessStateWriter {
 	}
 
 	/* (non-Javadoc)
-	 * @see tlc2.tool.liveness.ILivenessStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.liveness.TBGraphNode, tlc2.tool.TLCState, tlc2.tool.liveness.TBGraphNode, tlc2.util.BitVector, int, int, boolean)
+	 * @see tlc2.tool.liveness.ILivenessStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.liveness.TBGraphNode, tlc2.tool.TLCState, tlc2.tool.liveness.TBGraphNode, tlc2.util.BitSet, int, int, boolean)
 	 */
 	@Override
     public final void writeState(final TLCState state, final TBGraphNode tableauNode, final TLCState successor,
-                                 final TBGraphNode tableauNodeSuccessor, final BitVector actionChecks, final int from, final int to, final boolean successorStateIsNew) {
+                                 final TBGraphNode tableauNodeSuccessor, final BitSet actionChecks, final int from, final int to, final boolean successorStateIsNew) {
 		// noop
 	}
 
 	/* (non-Javadoc)
-	 * @see tlc2.tool.liveness.ILivenessStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.liveness.TBGraphNode, tlc2.tool.TLCState, tlc2.tool.liveness.TBGraphNode, tlc2.util.BitVector, int, int, boolean, tlc2.util.IStateWriter.Visualization)
+	 * @see tlc2.tool.liveness.ILivenessStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.liveness.TBGraphNode, tlc2.tool.TLCState, tlc2.tool.liveness.TBGraphNode, tlc2.util.BitSet, int, int, boolean, tlc2.util.IStateWriter.Visualization)
 	 */
 	@Override
     public final void writeState(final TLCState state, final TBGraphNode tableauNode, final TLCState successor,
-                                 final TBGraphNode tableauNodeSuccessor, final BitVector actionChecks, final int from, final int to, final boolean successorStateIsNew, final Visualization visulation) {
+                                 final TBGraphNode tableauNodeSuccessor, final BitSet actionChecks, final int from, final int to, final boolean successorStateIsNew, final Visualization visulation) {
 		// noop
 	}
 
 	/* (non-Javadoc)
-	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitVector, int, int, boolean)
+	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitSet, int, int, boolean)
 	 */
 	@Override
-    public void writeState(final TLCState state, final TLCState successor, final BitVector actionChecks, final int from, final int to, final boolean successorStateIsNew) {
+    public void writeState(final TLCState state, final TLCState successor, final BitSet actionChecks, final int from, final int to, final boolean successorStateIsNew) {
 		// noop
 	}
 
 	/* (non-Javadoc)
-	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitVector, int, int, boolean, tlc2.util.IStateWriter.Visualization)
+	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitSet, int, int, boolean, tlc2.util.IStateWriter.Visualization)
 	 */
 	@Override
-    public void writeState(final TLCState state, final TLCState successor, final BitVector actionChecks, final int from, final int to, final boolean successorStateIsNew,
+    public void writeState(final TLCState state, final TLCState successor, final BitSet actionChecks, final int from, final int to, final boolean successorStateIsNew,
                            final Visualization visulation) {
 		// noop
 	}

@@ -10,7 +10,7 @@ import java.util.Objects;
 
 import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
-import tlc2.util.BitVector;
+import java.util.BitSet;
 
 /*
  * Roughly speaking, each temporal formula maps 1:1 to OrderOfSolution. Say TLC is set to check
@@ -155,7 +155,7 @@ public class OrderOfSolution {
 		return result;
 	}
 	
-	public BitVector checkAction(final ITool tool, final TLCState state0, final TLCState state1, final BitVector result, final int offset) {
+	public BitSet checkAction(final ITool tool, final TLCState state0, final TLCState state1, final BitSet result, final int offset) {
 		for (int i = 0; i < checkAction.length; i++) {
 			if (checkAction[i].eval(tool, state0, state1)) {
 				result.set(offset + i);

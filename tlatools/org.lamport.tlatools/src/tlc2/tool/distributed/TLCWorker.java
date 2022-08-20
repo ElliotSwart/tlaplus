@@ -29,11 +29,9 @@ import tlc2.tool.TLCState;
 import tlc2.tool.TLCStateVec;
 import tlc2.tool.WorkerException;
 import tlc2.tool.distributed.fp.IFPSetManager;
-import tlc2.util.BitVector;
-import tlc2.util.Cache;
-import tlc2.util.FP64;
-import tlc2.util.LongVec;
-import tlc2.util.SimpleCache;
+import java.util.BitSet;
+
+import tlc2.util.*;
 import util.Assert;
 import util.ToolIO;
 import util.UniqueString;
@@ -152,7 +150,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 				fpvv[fpIndex].addElement(fp);
 			}
 
-			final BitVector[] visited = this.fpSetManager.containsBlock(fpvv, executorService);
+			final BitSet[] visited = this.fpSetManager.containsBlock(fpvv, executorService);
 
 			// Remove the states that have already been seen, check if the
 			// remaining new states are valid and inModel.
@@ -164,9 +162,8 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
 			}
 
 			for (int i = 0; i < fpServerCnt; i++) {
-				final BitVector.Iter iter = new BitVector.Iter(visited[i]);
-				int index;
-				while ((index = iter.next()) != -1) {
+				for (var it =  visited[i].stream().iterator(); it.hasNext();) {
+					var index = it.next();
 					state1 = pvv[i].elementAt(index);
 					state2 = nvv[i].elementAt(index);
 					this.work.checkState(state1, state2);

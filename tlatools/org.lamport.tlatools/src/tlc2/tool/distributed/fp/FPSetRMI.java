@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
 
 import tlc2.tool.TLCTrace;
 import tlc2.tool.fp.FPSet;
-import tlc2.util.BitVector;
+import java.util.BitSet;
 import tlc2.util.LongVec;
 
 /**
@@ -55,12 +55,12 @@ public interface FPSetRMI extends Remote, AutoCloseable {
 	 * the given {@link LongVec}.
 	 * <p>
 	 * Contrary to {@link FPSet#contains(long)}, bits in the resulting
-	 * {@link BitVector} are set if the fingerprints are _not_ in this
+	 * {@link BitSet} are set if the fingerprints are _not_ in this
 	 * {@link FPSet}.
 	 * 
 	 * @see FPSetRMI#contains(long)
 	 */
-	BitVector containsBlock(LongVec fpv) throws IOException;
+	BitSet containsBlock(LongVec fpv) throws IOException;
 
 	/**
 	 * @return The amount of states seen by this FPSet (not distinct states!)
@@ -80,12 +80,12 @@ public interface FPSetRMI extends Remote, AutoCloseable {
 	 * to the {@link FPSet}.
 	 * <p>
 	 * Contrary to {@link FPSet#put(long)}, bits in the resulting
-	 * {@link BitVector} are set if the fingerprints have _not_ been in this
+	 * {@link BitSet} are set if the fingerprints have _not_ been in this
 	 * {@link FPSet}.
 	 * 
 	 * @see FPSet#put(long)
 	 */
-	BitVector putBlock(LongVec fpv) throws IOException;
+	BitSet putBlock(LongVec fpv) throws IOException;
 
 	void recover(TLCTrace trace) throws IOException;
 

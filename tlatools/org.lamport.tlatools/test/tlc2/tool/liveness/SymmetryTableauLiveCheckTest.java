@@ -44,7 +44,7 @@ import tlc2.tool.StateVec;
 import tlc2.tool.TLCState;
 import tlc2.tool.liveness.GraphNode.Transition;
 import tlc2.tool.queue.DummyTLCState;
-import tlc2.util.BitVector;
+import java.util.BitSet;
 import tlc2.util.SetOfStates;
 import tlc2.util.statistics.DummyBucketStatistics;
 
@@ -186,8 +186,8 @@ public class SymmetryTableauLiveCheckTest {
 		final GraphNode vgn = diskGraph.getNode(v.fingerPrint(), 0);
 		assertEquals(2, vgn.succSize()); // s is consistent with tidx0 and tidx1, but not with tidx2
 		final Set<Transition> tvgn = vgn.getTransition();
-		assertTrue(tvgn.contains(new Transition(s.fingerPrint(), 0, new BitVector(0))));
-		assertTrue(tvgn.contains(new Transition(s.fingerPrint(), 1, new BitVector(0))));
+		assertTrue(tvgn.contains(new Transition(s.fingerPrint(), 0, new BitSet(0))));
+		assertTrue(tvgn.contains(new Transition(s.fingerPrint(), 1, new BitSet(0))));
 		assertEquals(0, diskGraph.getNode(v.fingerPrint(), 1).succSize()); // only tidx0 is an init node
 		assertEquals(0, diskGraph.getNode(v.fingerPrint(), 2).succSize()); // only tidx0 is an init node
 		
@@ -267,14 +267,14 @@ public class SymmetryTableauLiveCheckTest {
 		final GraphNode node200_0 = diskGraph.getNode(s.fingerPrint(), 0);
 		assertEquals(2, node200_0.succSize());
 		final Set<Transition> transitions200_0 = node200_0.getTransition();
-		assertTrue(transitions200_0.contains(new Transition(t.fingerPrint(), 0, new BitVector(0))));
-		assertTrue(transitions200_0.contains(new Transition(t.fingerPrint(), 1, new BitVector(0))));
+		assertTrue(transitions200_0.contains(new Transition(t.fingerPrint(), 0, new BitSet(0))));
+		assertTrue(transitions200_0.contains(new Transition(t.fingerPrint(), 1, new BitSet(0))));
 		
 		final GraphNode node200_1 = diskGraph.getNode(s.fingerPrint(), 1);
 		assertEquals(2, node200_1.succSize());
 		final Set<Transition> transitions200_1 = node200_1.getTransition();
-		assertTrue(transitions200_1.contains(new Transition(t.fingerPrint(), 1, new BitVector(0))));
-		assertTrue(transitions200_1.contains(new Transition(t.fingerPrint(), 2, new BitVector(0))));
+		assertTrue(transitions200_1.contains(new Transition(t.fingerPrint(), 1, new BitSet(0))));
+		assertTrue(transitions200_1.contains(new Transition(t.fingerPrint(), 2, new BitSet(0))));
 	
 		final GraphNode node200_2 = diskGraph.getNode(s.fingerPrint(), 2);
 		assertEquals(0, node200_2.succSize());

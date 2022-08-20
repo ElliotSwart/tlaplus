@@ -13,7 +13,7 @@ import java.rmi.server.UnicastRemoteObject;
 import tlc2.tool.TLCTrace;
 import tlc2.tool.distributed.fp.DistributedFPSet;
 import tlc2.tool.distributed.fp.FPSetRMI;
-import tlc2.util.BitVector;
+import java.util.BitSet;
 import tlc2.util.LongVec;
 
 /**
@@ -173,13 +173,13 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
      * @see tlc2.tool.distributed.fp.FPSetRMI#putBlock(tlc2.util.LongVec)
      */
     @Override
-    public BitVector putBlock(final LongVec fpv) throws IOException
+    public BitSet putBlock(final LongVec fpv) throws IOException
     {
         final int size = fpv.size();
-		final BitVector bv = new BitVector(size);
+		final BitSet bv = new BitSet(size);
         for (int i = 0; i < fpv.size(); i++)
         {
-			// TODO Figure out why corresponding value in BitVector is inverted
+			// TODO Figure out why corresponding value in BitSet is inverted
 			// compared to put(long)
             if (!this.put(fpv.elementAt(i)))
             {
@@ -193,13 +193,13 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI
      * @see tlc2.tool.distributed.fp.FPSetRMI#containsBlock(tlc2.util.LongVec)
      */
     @Override
-    public BitVector containsBlock(final LongVec fpv) throws IOException
+    public BitSet containsBlock(final LongVec fpv) throws IOException
     {
     	statesSeen += fpv.size();
-        final BitVector bv = new BitVector(fpv.size());
+        final BitSet bv = new BitSet(fpv.size());
         for (int i = 0; i < fpv.size(); i++)
         {
-			// TODO Figure out why corresponding value in BitVector is inverted
+			// TODO Figure out why corresponding value in BitSet is inverted
 			// compared to contains(long)
             if (!this.contains(fpv.elementAt(i)))
             {

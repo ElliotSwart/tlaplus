@@ -2,6 +2,7 @@ package tlc2.util;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.BitSet;
 
 import tlc2.tool.Action;
 import tlc2.tool.TLCState;
@@ -98,20 +99,20 @@ public class StateWriter implements IStateWriter
     }
 
 	/* (non-Javadoc)
-	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitVector, int, int, boolean)
+	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitSet, int, int, boolean)
 	 */
 	@Override
-    public void writeState(final TLCState state, final TLCState successor, final BitVector actionChecks, final int from, final int to, final boolean successorStateIsNew) {
+    public void writeState(final TLCState state, final TLCState successor, final BitSet actionChecks, final int from, final int to, final boolean successorStateIsNew) {
     	if (successorStateIsNew) {
     		this.writeState(state);
     	}
 	}
 
 	/* (non-Javadoc)
-	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitVector, int, int, boolean, tlc2.util.IStateWriter.Visualization)
+	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitSet, int, int, boolean, tlc2.util.IStateWriter.Visualization)
 	 */
 	@Override
-    public void writeState(final TLCState state, final TLCState successor, final BitVector actionChecks, final int from, final int to, final boolean successorStateIsNew,
+    public void writeState(final TLCState state, final TLCState successor, final BitSet actionChecks, final int from, final int to, final boolean successorStateIsNew,
                            final Visualization visualization) {
     	if (successorStateIsNew) {
     		this.writeState(state);

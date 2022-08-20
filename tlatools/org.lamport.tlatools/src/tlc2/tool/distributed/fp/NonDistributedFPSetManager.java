@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutorService;
 import tlc2.output.EC;
 import tlc2.output.MP;
 import tlc2.tool.TLCTrace;
-import tlc2.util.BitVector;
+import java.util.BitSet;
 import tlc2.util.LongVec;
 
 @SuppressWarnings("serial")
@@ -95,8 +95,8 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.fp.FPSetManager#putBlock(tlc2.util.LongVec[])
 	 */
 	@Override
-    public BitVector[] putBlock(final LongVec[] fps) {
-		final BitVector[] res = new BitVector[fps.length];
+    public BitSet[] putBlock(final LongVec[] fps) {
+		final BitSet[] res = new BitSet[fps.length];
 		for (int i = 0; i < fps.length; i++) {
 			final LongVec longVec = fps[i];
 			try {
@@ -104,7 +104,7 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 			} catch (final IOException e) {
 				// not expected to happen
 				MP.printError(EC.GENERAL, e);
-				res[i] = new BitVector(0);
+				res[i] = new BitSet(0);
 			}
 		}
 		return res;
@@ -114,7 +114,7 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.fp.FPSetManager#putBlock(tlc2.util.LongVec[], java.util.concurrent.ExecutorService)
 	 */
 	@Override
-    public BitVector[] putBlock(final LongVec[] fps, final ExecutorService executorService) {
+    public BitSet[] putBlock(final LongVec[] fps, final ExecutorService executorService) {
 		return putBlock(fps);
 	}
 
@@ -122,8 +122,8 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.fp.FPSetManager#containsBlock(tlc2.util.LongVec[])
 	 */
 	@Override
-    public BitVector[] containsBlock(final LongVec[] fps) {
-		final BitVector[] res = new BitVector[fps.length];
+    public BitSet[] containsBlock(final LongVec[] fps) {
+		final BitSet[] res = new BitSet[fps.length];
 		for (int i = 0; i < fps.length; i++) {
 			final LongVec longVec = fps[i];
 			try {
@@ -131,7 +131,7 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 			} catch (final IOException e) {
 				// not expected to happen
 				MP.printError(EC.GENERAL, e);
-				res[i] = new BitVector(0);
+				res[i] = new BitSet(0);
 			}
 		}
 		return res;
@@ -141,7 +141,7 @@ public class NonDistributedFPSetManager implements IFPSetManager {
 	 * @see tlc2.tool.distributed.fp.FPSetManager#containsBlock(tlc2.util.LongVec[], java.util.concurrent.ExecutorService)
 	 */
 	@Override
-    public BitVector[] containsBlock(final LongVec[] fps,
+    public BitSet[] containsBlock(final LongVec[] fps,
                                      final ExecutorService executorService) {
 		return containsBlock(fps);
 	}

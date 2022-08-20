@@ -5,7 +5,7 @@
 
 package tlc2.tool.liveness;
 
-import tlc2.util.BitVector;
+import java.util.BitSet;
 
 /**
  * A {@link PossibleErrorModel} is technically a lookup table into its
@@ -20,12 +20,12 @@ import tlc2.util.BitVector;
  * checks
  * <ul>
  * <li>When the states and transitions (see
- * {@link GraphNode#addTransition(long, int, int, int, BitVector, int, int)})
+ * {@link GraphNode#addTransition(long, int, int, int, BitSet, int, int)})
  * are evaluated during "normal" model checking the PEM index selects the set of
  * relevant OOS checks. The result of each check is stored in a per node
- * {@link BitVector} index again by the corresponding PEM mapping.</li>
+ * {@link BitSet} index again by the corresponding PEM mapping.</li>
  * <li>During liveness checking (see {@link LiveWorker#checkSccs()} when the
- * pre-computed check result is being looked up in the node's {@link BitVector}.
+ * pre-computed check result is being looked up in the node's {@link BitSet}.
  * </li>
  * </ul>
  * <p>

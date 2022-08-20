@@ -30,10 +30,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import tlc2.tool.Action;
 import tlc2.tool.TLCState;
@@ -180,18 +177,18 @@ public class DotStateWriter extends StateWriter {
 	}
 
 	/* (non-Javadoc)
-	 * @see tlc2.util.StateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitVector, int, int, boolean)
+	 * @see tlc2.util.StateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitSet, int, int, boolean)
 	 */
 	@Override
-    public void writeState(final TLCState state, final TLCState successor, final BitVector actionChecks, final int from, final int length, final boolean successorStateIsNew) {
+    public void writeState(final TLCState state, final TLCState successor, final BitSet actionChecks, final int from, final int length, final boolean successorStateIsNew) {
 		writeState(state, successor, actionChecks, from, length, successorStateIsNew, Visualization.DEFAULT, null);
 	}
 
 	/* (non-Javadoc)
 	 * @see tlc2.util.StateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, java.lang.String, boolean, tlc2.util.IStateWriter.Visualization)
 	 */
-	private synchronized void writeState(final TLCState state, final TLCState successor, final BitVector actionChecks, final int from, final int length, final boolean successorStateIsNew,
-                                         final Visualization visualization, final Action action) {
+	private synchronized void writeState(final TLCState state, final TLCState successor, final BitSet actionChecks, final int from, final int length, final boolean successorStateIsNew,
+										 final Visualization visualization, final Action action) {
 		final String successorsFP = Long.toString(successor.fingerPrint());
 		
 		// Write the transition edge.

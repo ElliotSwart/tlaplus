@@ -5,7 +5,7 @@ import java.util.List;
 
 import tlc2.tool.distributed.fp.FPSetManager;
 import tlc2.tool.distributed.fp.FPSetManager.FPSets;
-import tlc2.util.BitVector;
+import java.util.BitSet;
 import tlc2.util.LongVec;
 
 public class ContainsBlockCallable extends FPSetManagerCallable {
@@ -20,7 +20,7 @@ public class ContainsBlockCallable extends FPSetManagerCallable {
 	@Override
     public BitVectorWrapper call() throws Exception {
 		try {
-			final BitVector bv = fpset.get(index).containsBlock(fps[index]);
+			final BitSet bv = fpset.get(index).containsBlock(fps[index]);
 			return new BitVectorWrapper(index, bv);
 		} catch (final Exception e) {
 			return reassign(e);

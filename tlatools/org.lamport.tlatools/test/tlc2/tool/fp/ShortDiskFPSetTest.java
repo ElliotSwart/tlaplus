@@ -564,12 +564,12 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		final LongVec fpv = new LongVec();
 		fpv.addElement(fp);
 		
-		// BitVector is true if fp not in set 
+		// BitSet is true if fp not in set 
 		assertTrue(fpSet.containsBlock(fpv).get(0));
 		
 		fpSet.put(fp);
 		
-		// BitVector is false if fp is in set 
+		// BitSet is false if fp is in set 
 		assertFalse(fpSet.containsBlock(fpv).get(0));
 
 		fpSet.close();
@@ -583,10 +583,10 @@ public class ShortDiskFPSetTest extends AbstractFPSetTest {
 		final LongVec fpv = new LongVec();
 		fpv.addElement(fp);
 		
-		// BitVector is true if fp not in set 
+		// BitSet is true if fp not in set 
 		assertTrue(fpSet.putBlock(fpv).get(0));
 		
-		// BitVector is false if fp is in set 
+		// BitSet is false if fp is in set 
 		assertFalse(fpSet.putBlock(fpv).get(0));
 
 		fpSet.close();

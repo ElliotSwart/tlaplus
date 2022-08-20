@@ -28,7 +28,9 @@ package tlc2.tool.liveness;
 import java.io.IOException;
 
 import tlc2.tool.TLCState;
-import tlc2.util.BitVector;
+import java.util.BitSet;
+
+import tlc2.util.BitSetUtilities;
 import tlc2.util.DotStateWriter;
 import tlc2.util.IStateWriter;
 
@@ -63,7 +65,7 @@ public class DotLivenessStateWriter extends DotStateWriter implements ILivenessS
 	 */
 	@Override
     public void writeState(final TLCState state, final TBGraphNode tableauNode, final TLCState successor,
-                           final TBGraphNode tableauNodeSuccessor, final BitVector actionChecks, final int from, final int length, final boolean successorStateIsNew) {
+                           final TBGraphNode tableauNodeSuccessor, final BitSet actionChecks, final int from, final int length, final boolean successorStateIsNew) {
 		writeState(state, tableauNode, successor, tableauNodeSuccessor, actionChecks, from, length, successorStateIsNew, Visualization.DEFAULT);
 	}
 
@@ -72,7 +74,7 @@ public class DotLivenessStateWriter extends DotStateWriter implements ILivenessS
 	 */
 	@Override
     public void writeState(final TLCState state, final TBGraphNode tableauNode, final TLCState successor,
-                           final TBGraphNode tableauNodeSuccessor, final BitVector actionChecks, final int from, final int length, final boolean successorStateIsNew, final Visualization visualization) {
+                           final TBGraphNode tableauNodeSuccessor, final BitSet actionChecks, final int from, final int length, final boolean successorStateIsNew, final Visualization visualization) {
 
 		final String successorsFP = Long.toString(successor.fingerPrint());
 
@@ -95,7 +97,7 @@ public class DotLivenessStateWriter extends DotStateWriter implements ILivenessS
 			this.writer.append(" [style=\"dotted\"]");
 		}
 		if (length > 0) {
-			this.writer.append(" [label=\"").append(actionChecks.toString(from, length, 't', 'f')).append("\"]");
+			this.writer.append(" [label=\"").append(BitSetUtilities.generateString(actionChecks, from, length, 't', 'f')).append("\"]");
 		}
 		this.writer.append(";\n");
 

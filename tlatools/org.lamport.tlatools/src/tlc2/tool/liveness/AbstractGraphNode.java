@@ -26,13 +26,13 @@
 
 package tlc2.tool.liveness;
 
-import tlc2.util.BitVector;
+import java.util.BitSet;
 
 public abstract class AbstractGraphNode {
 
-	protected BitVector checks; // truth values for state and action predicates
+	protected BitSet checks; // truth values for state and action predicates
 
-	public AbstractGraphNode(final BitVector bitVector) {
+	public AbstractGraphNode(final BitSet bitVector) {
 		checks = bitVector;
 	}
 
@@ -40,8 +40,8 @@ public abstract class AbstractGraphNode {
 		return this.checks.get(i);
 	}
 
-	public BitVector getCheckAction(final int slen, final int alen, final int nodeIdx) {
-		final BitVector bv = new BitVector(alen);
+	public BitSet getCheckAction(final int slen, final int alen, final int nodeIdx) {
+		final BitSet bv = new BitSet(alen);
 		for (int j = 0; j < alen; j++) {
 			bv.set(j, getCheckAction(slen, alen, nodeIdx, j));
 		}

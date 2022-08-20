@@ -27,7 +27,9 @@ import tlc2.tool.fp.FPSet;
 import tlc2.tool.impl.Tool;
 import tlc2.tool.queue.IStateQueue;
 import tlc2.tool.queue.StateQueue;
-import tlc2.util.BitVector;
+import java.util.BitSet;
+
+import tlc2.util.BitSetUtilities;
 import tlc2.util.IdThread;
 import tlc2.util.LongVec;
 
@@ -232,14 +234,13 @@ public class TLCServerThread extends IdThread {
 				// -> because if the worker crashes while computing states, the
 				// fp set would be inconsistent => making it an "atomic"
 				// operation)
-				final BitVector[] visited = this.tlcServer.fpSetManager
+				final BitSet[] visited = this.tlcServer.fpSetManager
 						.putBlock(newFps, executorService);
 
 				// recreate newly computed states and add them to queue
 				for (int i = 0; i < visited.length; i++) {
-					final BitVector.Iter iter = new BitVector.Iter(visited[i]);
-					int index;
-					while ((index = iter.next()) != -1) {
+					for (var it =  visited[i].stream().iterator(); it.hasNext();) {
+						final int index = it.next();
 						final TLCState state = newStates[i].elementAt(index);
 						// write state id and state fp to .st file for
 						// checkpointing

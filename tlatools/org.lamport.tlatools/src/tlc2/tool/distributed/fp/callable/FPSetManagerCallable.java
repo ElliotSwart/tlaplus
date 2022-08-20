@@ -6,7 +6,7 @@ import java.util.concurrent.Callable;
 
 import tlc2.tool.distributed.fp.FPSetManager;
 import tlc2.tool.distributed.fp.FPSetManager.FPSets;
-import tlc2.util.BitVector;
+import java.util.BitSet;
 import tlc2.util.LongVec;
 import util.ToolIO;
 
@@ -32,8 +32,10 @@ public abstract class FPSetManagerCallable implements Callable<BitVectorWrapper>
 			ToolIO.out
 			.println("Warning: there is no fp server available.");
 			// Indicate for all fingerprints of the lost fpset that they are
-			// new. This is achieved by setting all bits in BitVector.
-			return new BitVectorWrapper(index, new BitVector(fps[index].size(), true));
+			// new. This is achieved by setting all bits in BitSet.
+			final var bitSet = new BitSet(fps[index].size());
+			bitSet.set(0, bitSet.size()-1, true);
+			return new BitVectorWrapper(index, bitSet);
 		} else {
 			// Retry with newly assigned FPSet for the given index
 			return call();
