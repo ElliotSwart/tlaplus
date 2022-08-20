@@ -46,7 +46,7 @@ public class SimulationWorkerTest extends CommonTestCase {
 	
 	@After
 	public void tearDown() {
-        FileUtil.deleteDir(TLCGlobals.metaRoot, true);
+        //FileUtil.deleteDir(TLCGlobals.metaRoot, true);
 	}
 	
 	/**
