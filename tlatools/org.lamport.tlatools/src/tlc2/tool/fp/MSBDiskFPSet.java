@@ -26,10 +26,8 @@ public class MSBDiskFPSet extends HeapBasedDiskFPSet {
 	 * buffer of new fingerprints can contain up to
 	 * <code>DefaultMaxTblCnt</code> entries. When the buffer fills up, its
 	 * entries are atomically flushed to the FPSet's backing disk file.
-	 * 
-	 * @param maxInMemoryCapacity The number of fingerprints (not memory) this DiskFPSet should maximally store in-memory.
-	 * @param preBits Take the amount of DiskFPSet instance into account to move the index bits further to the right
-     */
+	 *
+	 */
 	protected MSBDiskFPSet(final FPSetConfiguration fpSetConfig) throws RemoteException {
 		super(fpSetConfig);
 

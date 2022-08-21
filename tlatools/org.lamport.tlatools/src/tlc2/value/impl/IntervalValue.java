@@ -306,7 +306,7 @@ public final int low;
 
   /* The string representation */
   @Override
-  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean ignored) {
+  public final StringBuilder toString(final StringBuilder sb, final int offset, final boolean ignored) {
     try {
       if (this.low <= this.high) {
         return sb.append(this.low).append("..").append(this.high);

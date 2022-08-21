@@ -387,7 +387,7 @@ public final Value[] elems;          // the elements of this tuple.
 
   /* The string representation of this value. */
   @Override
-  public final StringBuffer toString(StringBuffer sb, final int offset, final boolean swallow) {
+  public final StringBuilder toString(StringBuilder sb, final int offset, final boolean swallow) {
     try {
       sb.append("<<");
       final int len = this.elems.length;

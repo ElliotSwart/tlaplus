@@ -3,10 +3,10 @@
 
 package tla2sany.parser;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
 
 import tla2sany.st.SyntaxTreeConstants;
-// import tla2sany.error.*;
+
 /***************************************************************************
 * Use of classes from tla2sany/error eliminated by LL on 2 Mar 2007        *
 * The only such use was of Log.log, which did logging for error tracing    *
@@ -21,7 +21,7 @@ public class BracketStack implements //LogCategories,
 * and an Offset field, which are of type int.  The constructor is          *
 * StackElement(int Offset, int Kind)                                       *
 ***************************************************************************/
-  private final Stack<StackElement> stack = new Stack<>();
+  private final ArrayDeque<StackElement> stack = new ArrayDeque<>();
   private final int [] classes = new int[ NULL_ID ];
     /***********************************************************************
     * This is an array of length NULL_ID = 227.  Apparently, NULL_ID is    *

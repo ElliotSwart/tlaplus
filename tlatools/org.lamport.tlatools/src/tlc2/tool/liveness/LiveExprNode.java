@@ -58,12 +58,12 @@ public abstract class LiveExprNode {
 
 	/* The string representation. */
 	public final String toString() {
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		this.toString(sb, "");
 		return sb.toString();
 	}
 
-	public abstract void toString(StringBuffer sb, String padding);
+	public abstract void toString(StringBuilder sb, String padding);
 
 	/**
 	 * This method returns true or false for whether two LiveExprNodes are

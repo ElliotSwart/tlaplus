@@ -264,7 +264,7 @@ public final UniqueString val;
 
   /* The string representation of the value. */
   @Override
-  public StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow) {
+  public StringBuilder toString(final StringBuilder sb, final int offset, final boolean swallow) {
     try {
       return sb.append("\"").append(PrintVersion(this.val.toString())).append("\"");
     }

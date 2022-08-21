@@ -98,7 +98,7 @@ class LNDisj extends LiveExprNode {
 	}
 
 	@Override
-    public final void toString(final StringBuffer sb, final String padding) {
+    public final void toString(final StringBuilder sb, final String padding) {
 		final int len = this.getCount();
 		final String padding1 = padding + "    ";
 		for (int i = 0; i < len; i++) {

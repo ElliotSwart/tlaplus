@@ -113,7 +113,7 @@ public class AttachingDebugger extends TLCDebugger {
 					// debugger front-end of the VSCode extension waits for TLC to print this
 					// message when connecting to the TLA+ debugger:
 					// https://github.com/alygin/vscode-tlaplus/commit/74d4a34cf9e2b3864f7ee51402d88fc3b9f7525f#commitcomment-51478347
-					System.out.printf("Debugger is listening on %s\n", serverSocket.getLocalSocketAddress());
+					System.out.printf("Debugger is listening on %s%n", serverSocket.getLocalSocketAddress());
 					final Socket socket = serverSocket.accept();
 					final InputStream inputStream = socket.getInputStream();
 					final OutputStream outputStream = socket.getOutputStream();

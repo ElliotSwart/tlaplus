@@ -54,6 +54,7 @@ public class BTGraphNode extends BEGraphNode {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -65,6 +66,7 @@ public class BTGraphNode extends BEGraphNode {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
@@ -98,7 +100,7 @@ public class BTGraphNode extends BEGraphNode {
 	 * this.number as the visited bit.
 	 */
 	@Override
-    protected final void toString(final StringBuffer buf, final boolean unseen) {
+    protected final void toString(final StringBuilder buf, final boolean unseen) {
 		if (this.getVisited() == unseen) {
 			this.flipVisited();
 			buf.append("(").append(this.stateFP).append(",").append(this.getIndex()).append(") --> ");

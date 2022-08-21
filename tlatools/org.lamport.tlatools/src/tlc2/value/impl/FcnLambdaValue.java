@@ -775,13 +775,13 @@ public final FcnParams params;       // the function formals
   }
 
   /* The string representation of this function.  */
-  public final StringBuffer toString(final StringBuffer sb, final int offset) {
+  public final StringBuilder toString(final StringBuilder sb, final int offset) {
 	return toString(sb, offset, true);
 }
 
 /* The string representation of this function.  */
   @Override
-  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow) {
+  public final StringBuilder toString(final StringBuilder sb, final int offset, final boolean swallow) {
     try {
       if (TLCGlobals.expand || this.params == null) {
         try {

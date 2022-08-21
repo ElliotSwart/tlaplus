@@ -42,7 +42,7 @@ public abstract class AbstractBucketStatistics implements IBucketStatistics {
 	 */
 	protected final String title;
 
-	public AbstractBucketStatistics(final String aTitle) {
+	protected AbstractBucketStatistics(final String aTitle) {
 		super();
 		this.title = aTitle;
 	}
@@ -56,7 +56,7 @@ public abstract class AbstractBucketStatistics implements IBucketStatistics {
 	 * @param name
 	 *            The (class) name of the source of the statistics.
 	 */
-	public AbstractBucketStatistics(final String aTitle, final String pkg, final String name) {
+	protected AbstractBucketStatistics(final String aTitle, final String pkg, final String name) {
 		this(aTitle);
 		try {
 			//TODO unregister somehow

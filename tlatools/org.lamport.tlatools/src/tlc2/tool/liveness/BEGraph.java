@@ -8,7 +8,7 @@ package tlc2.tool.liveness;
 import tlc2.output.EC;
 import tlc2.tool.EvalException;
 import java.util.ArrayDeque;
-import java.util.Stack;
+import java.util.Deque;
 import java.util.ArrayList;
 
 import java.util.Objects;
@@ -32,18 +32,18 @@ public class BEGraph {
 	 * to 0. Assume that all the nodes have non-zero number fields.
 	 */
 	public final void resetNumberField() {
-		final Stack<BEGraphNode> stack = new Stack<>();
+		final Deque<BEGraphNode> Deque = new ArrayDeque<>();
 		for (final BEGraphNode node : this.initNodes) {
 			if (node.resetNumberField() != 0) {
-				stack.push(node);
+				Deque.push(node);
 			}
 		}
-		while (stack.size() != 0) {
-			final BEGraphNode node = stack.pop();
+		while (Deque.size() != 0) {
+			final BEGraphNode node = Deque.pop();
 			for (int i = 0; i < Objects.requireNonNull(node).nextSize(); i++) {
 				final BEGraphNode node1 = node.nextAt(i);
 				if (node1.resetNumberField() != 0) {
-					stack.push(node1);
+					Deque.push(node1);
 				}
 			}
 		}
@@ -115,7 +115,7 @@ public class BEGraph {
 	 * same value.
 	 */
 	public final String toString() {
-		final StringBuffer buf = new StringBuffer();
+		final StringBuilder buf = new StringBuilder();
 		final int sz = this.initNodes.size();
 		if (sz != 0) {
 			final boolean seen = this.getInitNode(0).getVisited();

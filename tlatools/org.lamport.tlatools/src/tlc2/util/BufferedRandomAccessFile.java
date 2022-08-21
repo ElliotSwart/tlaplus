@@ -297,7 +297,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile imp
         try {
         	final byte res = this.buff[(int)(this.curr - this.lo)];
         	this.curr++;
-        	return ((int)res) & 0xFF; // convert byte -> int
+        	return res & 0xFF; // convert byte -> int
         } catch (final ArrayIndexOutOfBoundsException e) {
         	throw new IOException("Read past end of file (increase with setLength)?", e);
         }
@@ -353,7 +353,7 @@ public final class BufferedRandomAccessFile extends java.io.RandomAccessFile imp
   public long readLongNat() throws IOException {
     long res = this.readInt();
     if (res >= 0) return res;
-    res = (res << 32) | ((long)this.readInt() & 0xffffffffL);
+    res = (res << 32) | (this.readInt() & 0xffffffffL);
     return -res;
   }
 

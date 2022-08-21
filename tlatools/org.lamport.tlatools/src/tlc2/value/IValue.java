@@ -112,10 +112,10 @@ public interface IValue extends Comparable<Object> {
 	IValue deepCopy();
 
 	/**
-	   * This abstract method returns a string representation of this
-	   * value. Each subclass must provide its own implementation.
-	   */
-	StringBuffer toString(StringBuffer sb, int offset, boolean swallow);
+	 * This abstract method returns a string representation of this
+	 * value. Each subclass must provide its own implementation.
+	 */
+	StringBuilder toString(StringBuilder sb, int offset, boolean swallow);
 
 	/* The string representation of this value */
 	String toString();

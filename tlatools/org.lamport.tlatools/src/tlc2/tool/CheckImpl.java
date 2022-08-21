@@ -29,7 +29,7 @@ public abstract class CheckImpl extends ModelChecker {
   private static final int TraceDuration = 30000;
 
 
-  public CheckImpl(final ITool tool, final String metadir, final boolean deadlock,
+  protected CheckImpl(final ITool tool, final String metadir, final boolean deadlock,
                    final int depth, final String fromChkpt, final FPSetConfiguration fpSetConfig)
   throws IOException {
     // SZ Feb 20, 2009: patched due to changes to ModelCheker

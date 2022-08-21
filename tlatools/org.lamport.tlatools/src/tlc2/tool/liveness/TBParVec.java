@@ -44,7 +44,7 @@ public class TBParVec extends ArrayList<TBPar> {
 	}
 
 	/* The string representation. */
-	public final void toString(final StringBuffer sb, final String padding) {
+	public final void toString(final StringBuilder sb, final String padding) {
 		sb.append("{");
 		final String padding1 = padding + " ";
 		if (this.size() != 0) {
@@ -59,7 +59,7 @@ public class TBParVec extends ArrayList<TBPar> {
 	}
 
 	public final String toString() {
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		this.toString(sb, "");
 		return sb.toString();
 	}

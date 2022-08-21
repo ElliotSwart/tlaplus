@@ -31,6 +31,7 @@ public final static BigInt BigZero = new BigInt("0");
     * Returns true iff x is a BigInt whose value is equal to this.value.
     * This method is provided so that BigInts can be used as hash keys.
     */
+  @Override
   public final boolean equals(final Object x) {
     return ((x instanceof BigInt) && super.equals(x));
   }

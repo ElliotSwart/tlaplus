@@ -274,7 +274,7 @@ protected final MethodHandle mh;
 
   /* String representation of the value.  */
   @Override
-  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean ignored) {
+  public final StringBuilder toString(final StringBuilder sb, final int offset, final boolean ignored) {
     try {
       return sb.append("<Java Method: ").append(this.md).append(">");
     }

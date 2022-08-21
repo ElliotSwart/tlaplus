@@ -315,7 +315,7 @@ public final Value set;
 
   /* String representation of this value. */
   @Override
-  public final StringBuffer toString(StringBuffer sb, final int offset, final boolean swallow) {
+  public final StringBuilder toString(StringBuilder sb, final int offset, final boolean swallow) {
     try {
       if (TLCGlobals.expand) {
         final Value val = this.toSetEnum();

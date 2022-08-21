@@ -144,12 +144,12 @@ public class BEGraphNode extends AbstractGraphNode {
 	 * this.number as the visited bit.
 	 */
 	public final String toString() {
-		final StringBuffer buf = new StringBuffer();
+		final StringBuilder buf = new StringBuilder();
 		this.toString(buf, this.getVisited());
 		return buf.toString();
 	}
 
-	protected void toString(final StringBuffer buf, final boolean unseen) {
+	protected void toString(final StringBuilder buf, final boolean unseen) {
 		if (this.getVisited() == unseen) {
 			this.flipVisited();
 			buf.append(this.stateFP).append(" --> ");

@@ -180,7 +180,7 @@ public final class LongArray {
 	 * Converts from logical positions to 
 	 * physical memory addresses.
 	 * 
-	 * @param logical position (zero indexed)
+	 * @param logicalAddress position (zero indexed)
 	 * @return The physical address of the fp slot
 	 */
 	private long log2phy(final long logicalAddress) {

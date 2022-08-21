@@ -107,8 +107,8 @@ public class LiveWorker implements Callable<Boolean> {
 	 * checkSccs runs on a partial graph. Thus some nodes are marked undone.
 	 * Those nodes are skipped by the SCC search.</li>
 	 * </ul>
-	 * @see http://en.wikipedia.org/wiki/Tarjan'
-	 *      s_strongly_connected_components_algorithm
+	 * @see <a href="http://en.wikipedia.org/wiki/Tarjan'
+	 * 	 *      s_strongly_connected_components_algorithm">Tarjan Algorithm</a>
 	 * @see http://dx.doi.org/10.1137%2F0201010
 	 *
 	 */
@@ -1284,7 +1284,7 @@ public class LiveWorker implements Callable<Boolean> {
 		}
 		
 		try(final java.io.BufferedWriter bwr = new java.io.BufferedWriter(new java.io.FileWriter(file))) {
-			// write contents of StringBuffer to a file
+			// write contents of StringBuilder to a file
 			bwr.write(toDotViz(state, tidx, tnpt));
 
 			// flush the stream

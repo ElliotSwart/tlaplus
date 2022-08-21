@@ -42,7 +42,7 @@ public class AnySet extends UserObj
     }
 
     @Override
-    public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow)
+    public final StringBuilder toString(final StringBuilder sb, final int offset, final boolean swallow)
     {
         return sb.append("ANY");
     }

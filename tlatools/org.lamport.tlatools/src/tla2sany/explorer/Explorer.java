@@ -37,7 +37,7 @@ public class Explorer {
 	// Next three vars used in reading commands from keyboard
 	private final InputStreamReader inStream = new InputStreamReader(System.in);
 	private final int inCapacity = 100;
-	private final StringBuffer input = new StringBuffer(inCapacity);
+	private final StringBuilder input = new StringBuilder(inCapacity);
 	private int lineLength;
 
 	// semNodesTable contains various nodes in the semantic graph keyed

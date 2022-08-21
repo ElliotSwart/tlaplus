@@ -408,7 +408,7 @@ public class Sequences extends UserObj implements ValueConstants
     }
 
     @Override
-    public final StringBuffer toString(StringBuffer sb, final int offset, final boolean swallow)
+    public final StringBuilder toString(StringBuilder sb, final int offset, final boolean swallow)
     {
         if (this.size == Integer.MAX_VALUE)
         {

@@ -22,7 +22,7 @@ public class Strings {
     return s.toString();
   }
 
-  // Same as above, but uses StringBuffer operations internally
+  // Same as above, but uses StringBuilder operations internally
   // Should be much faster for very large strings
   public static String indentSB(int n, final String ss) {
 

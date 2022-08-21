@@ -198,7 +198,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 
 		private final TreeNode treeNode;
 		// The syntax tree node holding this GenID
-		private final StringBuffer compoundID;
+		private final StringBuilder compoundID;
 		// The string name of the compound op, with "!"'s, if any
 		private final ArrayList<ExprOrOpArgNode> argsArrayList = new ArrayList<>();
 		// ArrayList of arguments (ExprNodes and OpArgNodes)
@@ -216,7 +216,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		// Constructor
 		public GenID(final TreeNode node) {
 			treeNode = node;
-			compoundID = new StringBuffer();
+			compoundID = new StringBuilder();
 			compoundIDUS = null;
 			fullyQualifiedOp = null;
 			args = null;
@@ -250,7 +250,7 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
 		 * Appends the final element of the fully-qualified name to the GenID that has
 		 * been being built using addArg() and append(). Since it signals the completion
 		 * of the construction of the name, this method converts the name from
-		 * StringBuffer to UniqueString, resolves it to a SymbolNode, and converts the
+		 * StringBuilder to UniqueString, resolves it to a SymbolNode, and converts the
 		 * argument list from ArrayList to array form.
 		 */
 		public final void finalAppend(final String s, final boolean unaryNegKludge) {

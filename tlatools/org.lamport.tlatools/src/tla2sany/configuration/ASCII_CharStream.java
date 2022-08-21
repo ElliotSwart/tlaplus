@@ -158,8 +158,6 @@ public final class ASCII_CharStream
               column--;
               column += (8 - (column & 07));
           }
-          default -> {
-          }
       }
 
      bufline[bufpos] = line;

@@ -729,11 +729,11 @@ if (opArgs.kind != N_OpArgs) { ToolIO.out.println("Bug: not N_OpArgs node"); };
     ***********************************************************************/
 
   private final String msgStackToString(ParseException e) {
-    StringBuffer msg;
+    StringBuilder msg;
     String name = " *unknown* (error occurred before module header)";
     if (mn != null) name = mn.toString();
 
-    msg = new StringBuffer("***Parse Error***\n");
+    msg = new StringBuilder("***Parse Error***\n");
     if ( expecting != emptyString ) {
       msg.append("Was expecting \"");
       msg.append( expecting );
@@ -871,7 +871,7 @@ if (System.getProperty("TLA-StackTrace", "off").equals("on")) ToolIO.out.println
 
   private final UniqueString reduceString( String s ) {
     int l = s.length();
-    StringBuffer copy = new StringBuffer( l );
+    StringBuilder copy = new StringBuilder( l );
     int i = 0;
     int j = 0;
     while ( i!= l ) {

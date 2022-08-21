@@ -54,7 +54,7 @@ class LNAll extends LiveExprNode {
 	}
 
 	@Override
-    public final void toString(final StringBuffer sb, final String padding) {
+    public final void toString(final StringBuilder sb, final String padding) {
 		sb.append(ALWAYS);
 		this.getBody().toString(sb, padding + "  ");
 	}

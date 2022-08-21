@@ -837,7 +837,7 @@ public class FcnRcdValue extends Value implements Applicable, IFcnRcdValue {
 
   /* The string representation of the value.  */
   @Override
-  public final StringBuffer toString(StringBuffer sb, final int offset, final boolean swallow) {
+  public final StringBuilder toString(StringBuilder sb, final int offset, final boolean swallow) {
     try {
 
       final int len = this.values.length;

@@ -43,7 +43,6 @@ public class MultiFPSet extends FPSet {
 
 	/**
 	 * Create a MultiFPSet with 2^bits FPSets.
-	 * @param bits [1,30]
 	 */
 	public MultiFPSet(final FPSetConfiguration fpSetConfiguration) throws RemoteException {
 		super(fpSetConfiguration);

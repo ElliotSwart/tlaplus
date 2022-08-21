@@ -223,7 +223,6 @@ public class APSubstInNode extends LevelNode {
       }
     }
 
-//    this.levelParams = new HashSet();
     Iterator<SymbolNode> iter = lpSet.iterator();
     while (iter.hasNext()) {
       this.levelParams.addAll(Subst.paramSet(iter.next(), this.substs));

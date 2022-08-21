@@ -67,7 +67,7 @@ public class TLCStateStackFrame extends TLCStackFrame {
 		}
 
 		@Override
-		public StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow) {
+		public StringBuilder toString(final StringBuilder sb, final int offset, final boolean swallow) {
 			return sb.append("?");
 		}
 		

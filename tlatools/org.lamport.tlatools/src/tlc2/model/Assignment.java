@@ -180,6 +180,7 @@ public class Assignment extends Formula {
         return params;
     }
 
+    @Override
     public String toString()
     {
         return getFormula();

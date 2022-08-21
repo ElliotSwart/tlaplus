@@ -4046,7 +4046,7 @@ static final long[] jjtoMore = {
 protected SimpleCharStream input_stream;
 private final int[] jjrounds = new int[227];
 private final int[] jjstateSet = new int[454];
-StringBuffer image;
+StringBuilder image;
 int jjimageLen;
 int lengthOfMatch;
 protected char curChar;
@@ -4252,13 +4252,13 @@ void SkipLexicalActions(final Token matchedToken)
    switch (jjmatchedKind) {
       case 28, 31 -> {
          if (image == null)
-            image = new StringBuffer();
+            image = new StringBuilder();
          image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
          bracketCount++;
       }
       case 30 -> {
          if (image == null)
-            image = new StringBuffer();
+            image = new StringBuilder();
          image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
          bracketCount--;
          if (bracketCount == 0) SwitchTo(IN_COMMENT);

@@ -681,7 +681,7 @@ public class OpDefNode extends OpDefOrDeclNode
    * OPERATOR as an argument.  LL rewrote the code on 22 July 2017 
    * to catch this case.
    * 
-   * @see IllegalOperatorTest
+   * @see tla2sany.drivers.IllegalOperatorTest
    */
   private boolean matchingOpArgOperand (final ExprOrOpArgNode arg, final int i) {
 	  // Set result to true iff arg is an operator argument of the

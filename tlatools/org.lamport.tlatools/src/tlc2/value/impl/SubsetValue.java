@@ -304,7 +304,7 @@ public Value  set;           // SUBSET set
 
   /* The string representation  */
   @Override
-  public final StringBuffer toString(StringBuffer sb, final int offset, final boolean swallow) {
+  public final StringBuilder toString(StringBuilder sb, final int offset, final boolean swallow) {
     try {
       boolean unlazy = TLCGlobals.expand;
       try {

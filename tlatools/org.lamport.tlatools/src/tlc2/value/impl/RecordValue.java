@@ -647,7 +647,7 @@ private static final UniqueString BLI = UniqueString.of("beginLine");
 
   /* The string representation */
   @Override
-  public final StringBuffer toString(StringBuffer sb, final int offset, final boolean swallow) {
+  public final StringBuilder toString(StringBuilder sb, final int offset, final boolean swallow) {
     try {
       final int len = this.names.length;
 

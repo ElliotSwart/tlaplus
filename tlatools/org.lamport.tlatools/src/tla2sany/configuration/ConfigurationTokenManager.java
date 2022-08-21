@@ -1000,7 +1000,7 @@ final long[] jjtoMore = {
 private ASCII_CharStream input_stream;
 private final int[] jjrounds = new int[174];
 private final int[] jjstateSet = new int[348];
-StringBuffer image;
+StringBuilder image;
 int jjimageLen;
 int lengthOfMatch;
 protected char curChar;

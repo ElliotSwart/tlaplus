@@ -64,12 +64,12 @@ public class PossibleErrorModel {
 	}
 
 	public final String toString(final LiveExprNode[] checkState, final LiveExprNode[] checkAction) {
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		this.toString(sb, "", checkState, checkAction);
 		return sb.toString();
 	}
 
-	public final void toString(final StringBuffer sb, final String padding, final LiveExprNode[] checkState, final LiveExprNode[] checkAction) {
+	public final void toString(final StringBuilder sb, final String padding, final LiveExprNode[] checkState, final LiveExprNode[] checkAction) {
 		boolean noPadding = true;
 		final String padding1 = padding + "       ";
 

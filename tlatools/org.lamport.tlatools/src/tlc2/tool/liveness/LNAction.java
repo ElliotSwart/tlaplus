@@ -86,7 +86,7 @@ public class LNAction extends LiveExprNode {
 	}
 
 	@Override
-    public final void toString(final StringBuffer sb, final String padding) {
+    public final void toString(final StringBuilder sb, final String padding) {
 		if (this.subscript == null) {
 			this.body.toString(sb, padding);
 		} else {

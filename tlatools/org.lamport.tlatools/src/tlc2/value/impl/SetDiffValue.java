@@ -257,7 +257,7 @@ public final Value set1;
 
   /* The string representation  */
   @Override
-  public final StringBuffer toString(StringBuffer sb, final int offset, final boolean swallow) {
+  public final StringBuilder toString(StringBuilder sb, final int offset, final boolean swallow) {
     try {
       try {
         if (TLCGlobals.expand) {

@@ -65,11 +65,6 @@ public class ActionItemListExt extends ActionItemList {
 	}
 
 	@Override
-	public boolean isEmpty() {
-		return super.isEmpty();
-	}
-
-	@Override
 	public ActionItemList getEmpty(){
 		return new ActionItemListExt(null, null, 0,null,null);
 	}

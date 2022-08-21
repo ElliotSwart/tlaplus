@@ -238,7 +238,7 @@ public final OpDefNode opDef;       // the operator definition.
 
   /* String representation of the value.  */
   @Override
-  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean ignored) {
+  public final StringBuilder toString(final StringBuilder sb, final int offset, final boolean ignored) {
     try {
       final String opName = this.opDef.getName().toString();
       return sb.append("<Operator ").append(opName).append(">");

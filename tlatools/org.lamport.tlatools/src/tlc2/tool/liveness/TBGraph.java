@@ -104,7 +104,7 @@ public class TBGraph extends ArrayList<TBGraphNode> {
 		return aNode.getIndex() < getInitCnt();
 	}
 
-	public final void toString(final StringBuffer sb, final String padding) {
+	public final void toString(final StringBuilder sb, final String padding) {
 		for (int i = 0; i < this.size(); i++) {
 			final TBGraphNode tnode = this.getNode(i);
 			sb.append(padding);
@@ -119,7 +119,7 @@ public class TBGraph extends ArrayList<TBGraphNode> {
 	}
 
 	public final String toString() {
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		this.toString(sb, "");
 		return sb.toString();
 	}

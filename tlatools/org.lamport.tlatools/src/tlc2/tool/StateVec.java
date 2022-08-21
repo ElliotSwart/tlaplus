@@ -155,7 +155,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
     }
 
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("{");
         if (this.size > 0) {
             sb.append(this.v[0].toString());

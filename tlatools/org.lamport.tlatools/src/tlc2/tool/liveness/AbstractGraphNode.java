@@ -32,7 +32,7 @@ public abstract class AbstractGraphNode {
 
 	protected BitSet checks; // truth values for state and action predicates
 
-	public AbstractGraphNode(final BitSet bitVector) {
+	protected AbstractGraphNode(final BitSet bitVector) {
 		checks = bitVector;
 	}
 

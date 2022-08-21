@@ -382,7 +382,7 @@ public abstract class SemanticNode
 * XXXXX A test for getLocation() returning null should be added            *
 *       to the following two toString methods.                             *
 ***************************************************************************/
-  public final void toString(final StringBuffer sb, final String padding) {
+  public final void toString(final StringBuilder sb, final String padding) {
 	  final TreeNode treeNode = getTreeNode();
 		if (treeNode instanceof final SyntaxTreeNode stn
 				&& System.getProperty(SemanticNode.class.getName() + ".showPlainFormulae") != null) {

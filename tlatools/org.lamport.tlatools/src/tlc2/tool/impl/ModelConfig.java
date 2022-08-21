@@ -164,7 +164,7 @@ public class ModelConfig implements ValueConstants, Serializable {
             final SimpleCharStream scs = new SimpleCharStream(fis, 1, 1);
             final TLAplusParserTokenManager tmgr = new TLAplusParserTokenManager(scs, 2);
 
-        	final List<StringBuffer> rawConstants = new ArrayList<>();
+        	final List<StringBuilder> rawConstants = new ArrayList<>();
             Token tt = getNextToken(tmgr);
             while (tt.kind != TLAplusParserConstants.EOF)
             {
@@ -260,7 +260,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                     }
                     case Constant:
                     case Constants:
-                        final StringBuffer buf = new StringBuffer(tval);
+                        final StringBuilder buf = new StringBuilder(tval);
                         rawConstants.add(buf);
                         while ((tt = getNextToken(tmgr)).kind != TLAplusParserConstants.EOF) {
                             /* Exit this while loop if the next token is something like "CONSTANT"
@@ -416,7 +416,7 @@ public class ModelConfig implements ValueConstants, Serializable {
                                 String.valueOf(scs.getBeginLine()), "a keyword"});
                 }
             }
-            this.rawConstants = rawConstants.stream().map(StringBuffer::toString).collect(Collectors.toList());
+            this.rawConstants = rawConstants.stream().map(StringBuilder::toString).collect(Collectors.toList());
         } catch (final IOException e)
         {
             throw new ConfigFileException(EC.CFG_ERROR_READING_FILE,
@@ -427,7 +427,7 @@ public class ModelConfig implements ValueConstants, Serializable {
     /**
      * Parses a value (number, string, boolean and set)
      */
-    private Value parseValue(Token tt, final SimpleCharStream scs, final TLAplusParserTokenManager tmgr, final StringBuffer buf) {
+    private Value parseValue(Token tt, final SimpleCharStream scs, final TLAplusParserTokenManager tmgr, final StringBuilder buf) {
         if (tt.kind == TLAplusParserConstants.NUMBER_LITERAL)
         {
             final int val = Integer.parseInt(tt.image);
@@ -487,7 +487,7 @@ public class ModelConfig implements ValueConstants, Serializable {
             return tt;
         }
     }
-    private static Token getNextToken(final TLAplusParserTokenManager tmgr, final StringBuffer buf)
+    private static Token getNextToken(final TLAplusParserTokenManager tmgr, final StringBuilder buf)
     {
         try
         {

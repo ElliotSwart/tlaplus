@@ -266,7 +266,7 @@ public class OpRcdValue extends OpValue implements Applicable {
 
   /* Pretty-printing  */
   @Override
-  public final StringBuffer toString(StringBuffer sb, final int offset, final boolean swallow) {
+  public final StringBuilder toString(StringBuilder sb, final int offset, final boolean swallow) {
     try {
       sb.append("{ ");
       if (this.values.size() != 0) {

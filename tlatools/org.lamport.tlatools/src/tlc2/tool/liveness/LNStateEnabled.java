@@ -59,7 +59,7 @@ class LNStateEnabled extends LNState {
 	}
 
 	@Override
-    public final void toString(final StringBuffer sb, final String padding) {
+    public final void toString(final StringBuilder sb, final String padding) {
 		sb.append("ENABLED ");
 		if (this.subscript == null) {
 			this.pred.toString(sb, padding + "        ");
@@ -75,7 +75,7 @@ class LNStateEnabled extends LNState {
 	 */
 	@Override
     public String toDotViz() {
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		if (this.pred instanceof final OpApplNode oan) {
             sb.append("(");
 			// Zeros

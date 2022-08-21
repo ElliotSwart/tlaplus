@@ -327,7 +327,7 @@ public final Object vars;           // FormalParamNode or FormalParamNode[]
 
   /* The string representation of the value. */
   @Override
-  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow) {
+  public final StringBuilder toString(final StringBuilder sb, final int offset, final boolean swallow) {
     try {
       try {
         if (TLCGlobals.expand) {

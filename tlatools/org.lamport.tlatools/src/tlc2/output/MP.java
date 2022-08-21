@@ -341,7 +341,7 @@ public class MP
     }
 
 	private static String getMessage0(final int messageClass, final int messageCode, final String[] parameters) {
-        final StringBuffer b = new StringBuffer();
+        final StringBuilder b = new StringBuilder();
 		// fill with different message depending on the error code
         switch (messageCode) {
         case EC.UNIT_TEST:
@@ -1747,7 +1747,7 @@ public class MP
     /**
      * Replaces the place holders by parameters 
      */
-    public static StringBuffer replaceString(final StringBuffer buffer, final String[] parameters)
+    public static StringBuilder replaceString(final StringBuilder buffer, final String[] parameters)
     {
         // replace parameters, if any
         int placeHolderPosition;

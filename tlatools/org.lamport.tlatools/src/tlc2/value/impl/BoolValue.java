@@ -202,13 +202,12 @@ public final boolean val;   // the boolean
   public final IValue permute(final IMVPerm perm) { return this; }
 
   /* The string representation */
-  public final StringBuffer toString(final StringBuffer sb, final int offset) {
+  public final StringBuilder toString(final StringBuilder sb, final int offset) {
 	return toString(sb, offset, true);
 }
 
 /* The string representation */
-  @Override
-  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow) {
+  public final StringBuilder toString(final StringBuilder sb, final int offset, final boolean swallow) {
     try {
       return sb.append((this.val) ? "TRUE" : "FALSE");
     }

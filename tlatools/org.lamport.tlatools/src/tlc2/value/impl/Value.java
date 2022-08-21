@@ -350,7 +350,7 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
   
   private String toStringImpl(final String delim, final boolean checked) {
     try {
-        final StringBuffer sb = this.toString(new StringBuffer(), 0, checked);
+        final StringBuilder sb = this.toString(new StringBuilder(), 0, checked);
         sb.append(delim);
         return sb.toString();
       }

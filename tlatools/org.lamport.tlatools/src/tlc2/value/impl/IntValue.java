@@ -233,7 +233,7 @@ private static final IntValue[] cache;
 
   /* The string representation. */
   @Override
-  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean ignored) {
+  public final StringBuilder toString(final StringBuilder sb, final int offset, final boolean ignored) {
     try {
       return sb.append(this.val);
     }

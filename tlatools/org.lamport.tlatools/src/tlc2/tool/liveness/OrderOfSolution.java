@@ -53,12 +53,11 @@ public class OrderOfSolution {
 	/**
 	 * A promise &#966; that a property expressed by a formula will eventually hold.
 	 * 
-	 * @see Page 409ff of Manna & Pnueli
-	 * "Temporal Verification of Reactive Systems: Safety"
+	 * @see "Page 409ff of Manna & Pnueli: Temporal Verification of Reactive Systems: Safety"
 	 * <p>
-	 * @see https://books.google.de/books?id=lfIGCAAAQBAJ&lpg=PR5&ots=_YBX09o5tM
-	 *      &dq=manna%20pnueli%20temporal%20verification%20of%20reactive%
-	 *      20systems%20safety%20doi&pg=PA409
+	 * @see <a href="https://books.google.de/books?id=lfIGCAAAQBAJ&lpg=PR5&ots=_YBX09o5tM
+	 * 	 *      &dq=manna%20pnueli%20temporal%20verification%20of%20reactive%
+	 * 	 *      20systems%20safety%20doi&pg=PA409">Book Link</a>
 	 */
 	private final LNEven[] promises; // promises in the tableau
 	private LiveExprNode[] checkState; // state subformula
@@ -84,12 +83,12 @@ public class OrderOfSolution {
 		if (this.getPems().length == 0) {
 			return "";
 		}
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		this.toString(sb);
 		return sb.toString();
 	}
 
-	public final void toString(final StringBuffer sb) {
+	public final void toString(final StringBuilder sb) {
 		String padding = "";
 		final int plen = this.getPems().length;
 

@@ -16,10 +16,10 @@ public abstract class UserObj {
   public abstract boolean isFinite();
   
   /* The String representation.    */
-  public abstract StringBuffer toString(StringBuffer sb, int offset, boolean swallow);
+  public abstract StringBuilder toString(StringBuilder sb, int offset, boolean swallow);
 
   public final String toString() {
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     sb = this.toString(sb, 0, true);
     return sb.toString();
   }

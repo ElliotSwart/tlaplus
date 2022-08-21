@@ -369,7 +369,7 @@ public final UniqueString[] names;      // The names of the fields.
 
   /* The string representation of the value. */
   @Override
-  public final StringBuffer toString(final StringBuffer sb, final int offset, final boolean swallow) {
+  public final StringBuilder toString(final StringBuilder sb, final int offset, final boolean swallow) {
     try {
       boolean unlazy = TLCGlobals.expand;
       try {

@@ -163,7 +163,7 @@ public final class Context implements Iterator<Context> {
 		return res;
 	}
 	
-	public StringBuffer toString(final StringBuffer sb) {
+	public StringBuilder toString(final StringBuilder sb) {
 		if (this.name == null) {
 			if (this == Empty) {
 				return sb;
@@ -185,7 +185,7 @@ public final class Context implements Iterator<Context> {
 	}
 
 	public String toString() {
-		StringBuffer sb = new StringBuffer("[");
+		StringBuilder sb = new StringBuilder("[");
 		sb = this.toString(sb);
 		sb.append("]");
 		return sb.toString();

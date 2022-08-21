@@ -251,11 +251,9 @@ public abstract class AbstractSpecWriter {
         // first run for all the declarations
         for (final Assignment value : constants) {
             constant = value;
-            if (constant.isModelValue()) {
-                if (constant.isSetOfModelValues()) {
+            if (constant.isModelValue() && constant.isSetOfModelValues()) {
                     // set model values
-                    addMVTypedSet(constant.getSetOfModelValues(), "MV CONSTANT declarations", attributeConstants);
-                }
+				addMVTypedSet(constant.getSetOfModelValues(), "MV CONSTANT declarations", attributeConstants);
             }
         }
 

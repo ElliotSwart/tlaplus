@@ -30,7 +30,7 @@ public class SyntaxTreePrinter {
   }
 
     private static void printSubTree(final java.io.PrintWriter o, final String offset, final TreeNode node ) {
-    final StringBuffer outS = new StringBuffer( offset );
+    final StringBuilder outS = new StringBuilder( offset );
     final Location l = node.getLocation();
     final String image = node.getImage();
         outS.append(Objects.requireNonNullElse(image, "-- no name --"));

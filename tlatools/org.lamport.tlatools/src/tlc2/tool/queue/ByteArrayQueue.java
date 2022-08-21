@@ -41,7 +41,7 @@ public abstract class ByteArrayQueue implements IStateQueue {
 
 	private final TLCState emptyState;
 	
-	public ByteArrayQueue(final TLCState emptyState){
+	protected ByteArrayQueue(final TLCState emptyState){
 		this.emptyState = emptyState;
 	}
 
@@ -458,23 +458,4 @@ public abstract class ByteArrayQueue implements IStateQueue {
 
 	/* This method must be implemented in the subclass. */
 	abstract byte[] peekInner();
-	
-	/* Checkpoint. */
-	/* (non-Javadoc)
-	 * @see tlc2.tool.queue.IStateQueue#beginChkpt()
-	 */
-	@Override
-    public abstract void beginChkpt() throws IOException;
-
-	/* (non-Javadoc)
-	 * @see tlc2.tool.queue.IStateQueue#commitChkpt()
-	 */
-	@Override
-    public abstract void commitChkpt() throws IOException;
-
-	/* (non-Javadoc)
-	 * @see tlc2.tool.queue.IStateQueue#recover()
-	 */
-	@Override
-    public abstract void recover() throws IOException;
 }

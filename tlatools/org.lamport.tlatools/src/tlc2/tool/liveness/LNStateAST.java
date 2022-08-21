@@ -45,7 +45,7 @@ class LNStateAST extends LNState {
 	}
 
 	@Override
-    public final void toString(final StringBuffer sb, final String padding) {
+    public final void toString(final StringBuilder sb, final String padding) {
 		sb.append(this.body);
 	}
 	
@@ -54,7 +54,7 @@ class LNStateAST extends LNState {
 	 */
 	@Override
     public String toDotViz() {
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		if (this.body instanceof final OpApplNode oan) {
             sb.append("(");
 			// Zeros

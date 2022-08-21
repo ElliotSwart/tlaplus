@@ -96,7 +96,7 @@ public abstract class AbstractDiskGraph {
 
 	private long sizeAtCheck = 1; // initialize with 1 to avoid div by zero
 
-	public AbstractDiskGraph(final String metadir, final int soln, final IBucketStatistics graphStats) throws IOException {
+	protected AbstractDiskGraph(final String metadir, final int soln, final IBucketStatistics graphStats) throws IOException {
 		this.metadir = metadir;
 		this.outDegreeGraphStats = graphStats;
 		this.chkptName = metadir + FileUtil.separator + "dgraph_" + soln;
@@ -490,7 +490,7 @@ public abstract class AbstractDiskGraph {
 		this.createCache();
 
 		try(final BufferedWriter bwr = new BufferedWriter(new FileWriter(file))) {
-			// write contents of StringBuffer to a file
+			// write contents of StringBuilder to a file
 			bwr.write(toDotViz(oos));
 
 			// flush the stream
