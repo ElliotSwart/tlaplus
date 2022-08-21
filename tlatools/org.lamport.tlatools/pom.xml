@@ -403,6 +403,8 @@
 								<include>tlc2/tool/InliningTest.java</include>
 
 								<include>tlc2/tool/EvalExceptionLivenessTest.java</include>
+								<include>tlc2/tool/Github648Test.java</include>
+								<include>tlc2/tool/Github648wNTest.java</include>
 								<include>tlc2/tool/MonolithSpecTest.java</include>
 								<include>tlc2/tool/TLCSetMultiSimTest.java</include>
 								<include>tlc2/tool/TLCSetSimTest.java</include>
@@ -852,6 +854,8 @@
 										-->
 
 										<include>tlc2/tool/EvalExceptionLivenessTest.java</include>
+										<include>tlc2/tool/Github648Test.java</include>
+										<include>tlc2/tool/Github648wNTest.java</include>
 										<include>tlc2/tool/MonolithSpecTest.java</include>
 										<include>tlc2/tool/TLCSetMultiSimTest.java</include>
 										<include>tlc2/tool/TLCSetSimTest.java</include>
