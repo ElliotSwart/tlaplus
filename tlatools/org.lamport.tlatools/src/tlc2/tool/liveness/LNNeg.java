@@ -9,117 +9,117 @@ import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
 
 public class LNNeg extends LiveExprNode {
-	private final LiveExprNode body;
+    private final LiveExprNode body;
 
-	public LNNeg(final LiveExprNode body) {
-		this.body = body;
-	}
+    public LNNeg(final LiveExprNode body) {
+        this.body = body;
+    }
 
-	public final LiveExprNode getBody() {
-		return this.body;
-	}
+    public final LiveExprNode getBody() {
+        return this.body;
+    }
 
-	@Override
+    @Override
     public final int getLevel() {
-		return this.body.getLevel();
-	}
+        return this.body.getLevel();
+    }
 
-	@Override
+    @Override
     public final boolean containAction() {
-		return this.body.containAction();
-	}
-	
-	@Override
-	public final boolean isPositiveForm() {
+        return this.body.containAction();
+    }
+
+    @Override
+    public final boolean isPositiveForm() {
         return this.body instanceof LNBool || this.body instanceof LNState;
     }
 
-	@Override
+    @Override
     public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
-		return !this.body.eval(tool, s1, s2);
-	}
+        return !this.body.eval(tool, s1, s2);
+    }
 
-	@Override
+    @Override
     public final void toString(final StringBuilder sb, final String padding) {
-		sb.append("-");
-		this.getBody().toString(sb, padding + " ");
-	}
+        sb.append("-");
+        this.getBody().toString(sb, padding + " ");
+    }
 
-	@Override
+    @Override
     public void extractPromises(final TBPar promises) {
-		getBody().extractPromises(promises);
-	}
+        getBody().extractPromises(promises);
+    }
 
-	@Override
+    @Override
     public int tagExpr(final int tag) {
-		return getBody().tagExpr(tag);
-	}
+        return getBody().tagExpr(tag);
+    }
 
-	@Override
+    @Override
     public final LiveExprNode makeBinary() {
-		return new LNNeg(getBody().makeBinary());
-	}
+        return new LNNeg(getBody().makeBinary());
+    }
 
-	@Override
+    @Override
     public LiveExprNode flattenSingleJunctions() {
-		final LiveExprNode ln1 = getBody();
-		if (ln1 instanceof LNNeg lnn) {
-			return lnn.getBody().flattenSingleJunctions();
-		}
-		return new LNNeg(ln1.flattenSingleJunctions());
-	}
+        final LiveExprNode ln1 = getBody();
+        if (ln1 instanceof LNNeg lnn) {
+            return lnn.getBody().flattenSingleJunctions();
+        }
+        return new LNNeg(ln1.flattenSingleJunctions());
+    }
 
-	@Override
+    @Override
     public final LiveExprNode toDNF() {
-		final LiveExprNode body = getBody();
-		if ((body instanceof LNState) || (body instanceof LNAction)) {
-			return this;
-		}
-		return body.pushNeg().toDNF();
-	}
+        final LiveExprNode body = getBody();
+        if ((body instanceof LNState) || (body instanceof LNAction)) {
+            return this;
+        }
+        return body.pushNeg().toDNF();
+    }
 
-	@Override
+    @Override
     public LiveExprNode simplify() {
-		final LiveExprNode body1 = getBody().simplify();
-		if (body1 instanceof LNBool lnb) {
-			return new LNBool(!lnb.b);
-		}
-		return new LNNeg(body1);
-	}
+        final LiveExprNode body1 = getBody().simplify();
+        if (body1 instanceof LNBool lnb) {
+            return new LNBool(!lnb.b);
+        }
+        return new LNNeg(body1);
+    }
 
-	@Override
+    @Override
     public boolean isGeneralTF() {
-		return getBody().isGeneralTF();
-	}
+        return getBody().isGeneralTF();
+    }
 
-	@Override
+    @Override
     public LiveExprNode pushNeg() {
-		return getBody();
-	}
+        return getBody();
+    }
 
-	@Override
+    @Override
     public LiveExprNode pushNeg(final boolean hasNeg) {
-		final LiveExprNode lexpr = getBody();
-		return lexpr.pushNeg(!hasNeg);
-	}
+        final LiveExprNode lexpr = getBody();
+        return lexpr.pushNeg(!hasNeg);
+    }
 
-	/**
-	 * This method returns true or false for whether two LiveExprNodes are
-	 * syntactically equal.
-	 */
-	@Override
+    /**
+     * This method returns true or false for whether two LiveExprNodes are
+     * syntactically equal.
+     */
+    @Override
     public boolean equals(final LiveExprNode exp) {
-		if (exp instanceof LNNeg lnn) {
-			return getBody().equals(lnn.getBody());
-		}
-		return false;
-	}
+        if (exp instanceof LNNeg lnn) {
+            return getBody().equals(lnn.getBody());
+        }
+        return false;
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.tool.liveness.LiveExprNode#toDotViz()
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.tool.liveness.LiveExprNode#toDotViz()
+     */
+    @Override
     public String toDotViz() {
-		return "-" + getBody().toDotViz();
-	}
+        return "-" + getBody().toDotViz();
+    }
 }

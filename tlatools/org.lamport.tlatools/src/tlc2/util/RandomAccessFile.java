@@ -6,20 +6,18 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * 
- * 
  * @version $Id$
  * Bogus name!
  */
 public class RandomAccessFile extends java.io.RandomAccessFile {
-    
+
     public long superSeekCnt = 0L;
     public long superReadCnt = 0L;
     public long superWriteCnt = 0L;
     public long superSeekTime = 0L;
     public long superReadTime = 0L;
     public long superWriteTime = 0L;
-    
+
     public RandomAccessFile(final File file, final String mode) throws IOException {
         super(file, mode);
     }
@@ -35,7 +33,7 @@ public class RandomAccessFile extends java.io.RandomAccessFile {
         super.seek(pos);
         this.superSeekTime += System.currentTimeMillis() - start;
     }
-    
+
     @Override
     public int read() throws IOException {
         this.superReadCnt++;
@@ -44,7 +42,7 @@ public class RandomAccessFile extends java.io.RandomAccessFile {
         this.superReadTime += System.currentTimeMillis() - start;
         return res;
     }
-    
+
     @Override
     public int read(final byte[] b) throws IOException {
         this.superReadCnt++;
@@ -53,7 +51,7 @@ public class RandomAccessFile extends java.io.RandomAccessFile {
         this.superReadTime += System.currentTimeMillis() - start;
         return res;
     }
-    
+
     @Override
     public int read(final byte[] b, final int off, final int len) throws IOException {
         this.superReadCnt++;
@@ -62,7 +60,7 @@ public class RandomAccessFile extends java.io.RandomAccessFile {
         this.superReadTime += System.currentTimeMillis() - start;
         return res;
     }
-    
+
     @Override
     public void write(final int b) throws IOException {
         this.superWriteCnt++;
@@ -70,15 +68,15 @@ public class RandomAccessFile extends java.io.RandomAccessFile {
         super.write(b);
         this.superWriteTime += System.currentTimeMillis() - start;
     }
-    
+
     @Override
     public void write(final byte[] b) throws IOException {
         this.superWriteCnt++;
         final long start = System.currentTimeMillis();
         super.write(b);
         this.superWriteTime += System.currentTimeMillis() - start;
-    }    
-    
+    }
+
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException {
         this.superWriteCnt++;

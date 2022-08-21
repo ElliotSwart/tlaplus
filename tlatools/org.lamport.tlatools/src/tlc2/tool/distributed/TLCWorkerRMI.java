@@ -5,12 +5,12 @@
 
 package tlc2.tool.distributed;
 
+import tlc2.tool.TLCState;
+import tlc2.tool.WorkerException;
+
 import java.net.URI;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-
-import tlc2.tool.TLCState;
-import tlc2.tool.WorkerException;
 
 /**
  * @author Simon Zambrovski
@@ -18,26 +18,26 @@ import tlc2.tool.WorkerException;
  */
 public interface TLCWorkerRMI extends Remote, AutoCloseable {
 
-	/**
-	 * @param states The initial states to work with
-	 * @return The next states for the initial state wet
+    /**
+     * @param states The initial states to work with
+     * @return The next states for the initial state wet
      */
     NextStateResult getNextStates(TLCState[] states) throws RemoteException,
-			WorkerException;
-	
-	/**
-	 * @return true iff worker is still alive
-	 */
+            WorkerException;
+
+    /**
+     * @return true iff worker is still alive
+     */
     boolean isAlive() throws RemoteException;
 
-	
-	/**
-	 * @return The {@link URI} address of this worker
+
+    /**
+     * @return The {@link URI} address of this worker
      */
     URI getURI() throws RemoteException;
 
-	/**
-	 * @return The ratio of cache hits to cache misses
-	 */
+    /**
+     * @return The ratio of cache hits to cache misses
+     */
     double getCacheRateRatio() throws RemoteException;
 }

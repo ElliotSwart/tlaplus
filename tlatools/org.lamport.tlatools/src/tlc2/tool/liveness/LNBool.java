@@ -10,58 +10,58 @@ import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
 
 class LNBool extends LiveExprNode {
-	public static final LNBool TRUE = new LNBool(true);
-	public static final LNBool FALSE = new LNBool(false);
+    public static final LNBool TRUE = new LNBool(true);
+    public static final LNBool FALSE = new LNBool(false);
 
-	protected final boolean b;
+    protected final boolean b;
 
-	public LNBool(final boolean b) {
-		this.b = b;
-	}
+    public LNBool(final boolean b) {
+        this.b = b;
+    }
 
-	@Override
+    @Override
     public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
-		return this.b;
-	}
+        return this.b;
+    }
 
-	@Override
+    @Override
     public final int getLevel() {
-		return LevelConstants.ConstantLevel;
-	}
+        return LevelConstants.ConstantLevel;
+    }
 
-	@Override
+    @Override
     public final boolean containAction() {
-		return false;
-	}
+        return false;
+    }
 
-	@Override
+    @Override
     public final void toString(final StringBuilder sb, final String padding) {
-		sb.append(this.b ? "TRUE" : "FALSE");
-	}
+        sb.append(this.b ? "TRUE" : "FALSE");
+    }
 
-	@Override
+    @Override
     public LiveExprNode pushNeg() {
-		return new LNBool(!b);
-	}
+        return new LNBool(!b);
+    }
 
-	/**
-	 * This method pushes a negation all the way down to the atoms. It is
-	 * currently not used.
-	 */
-	@Override
+    /**
+     * This method pushes a negation all the way down to the atoms. It is
+     * currently not used.
+     */
+    @Override
     public LiveExprNode pushNeg(final boolean hasNeg) {
-		// for the remaining types, negate when needed:
-		if (hasNeg) {
-			return new LNBool(!b);
-		}
-		return super.pushNeg(hasNeg);
-	}
+        // for the remaining types, negate when needed:
+        if (hasNeg) {
+            return new LNBool(!b);
+        }
+        return super.pushNeg(hasNeg);
+    }
 
-	@Override
+    @Override
     public boolean equals(final LiveExprNode exp) {
-		if (exp instanceof LNBool lnb) {
-			return b == lnb.b;
-		}
-		return false;
-	}
+        if (exp instanceof LNBool lnb) {
+            return b == lnb.b;
+        }
+        return false;
+    }
 }

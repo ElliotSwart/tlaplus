@@ -1,34 +1,27 @@
 package pcal;
 
-import java.util.ArrayList;
+import pcal.exception.*;
 
-import pcal.exception.PcalFixIDException;
-import pcal.exception.PcalSymTabException;
-import pcal.exception.PcalTLAGenException;
-import pcal.exception.PcalTranslateException;
-import pcal.exception.RemoveNameConflictsException;
+import java.util.ArrayList;
 
 /**
  * Responsible for generation of TLA+ from PCal AST<br>
  * Note: this class is renamed from NotYetImplemented on 11th March 2009
- * 
+ *
  * @author Leslie Lamport, Keith Marzullo
  * @version $Id$
  */
-public class PCalTLAGenerator
-{
+public class PCalTLAGenerator {
 
-    private PcalSymTab st = null;
     private final AST ast;
-             // This is set to the AST constructed by ParseAlgorithm.getAlgorithm
-
     private final ParseAlgorithm parseAlgorithm;
+    // This is set to the AST constructed by ParseAlgorithm.getAlgorithm
+    private PcalSymTab st = null;
 
     /**
      * Constructs a working copy
      */
-    public PCalTLAGenerator(final AST ast, final ParseAlgorithm parseAlgorithm)
-    {
+    public PCalTLAGenerator(final AST ast, final ParseAlgorithm parseAlgorithm) {
         this.ast = ast;
         this.parseAlgorithm = parseAlgorithm;
     }
@@ -36,13 +29,10 @@ public class PCalTLAGenerator
     /********************************************************************
      * Called by trans.java.  Should go in a new .java file.            *
      ********************************************************************/
-    public void removeNameConflicts() throws RemoveNameConflictsException
-    {
-        try
-        {
+    public void removeNameConflicts() throws RemoveNameConflictsException {
+        try {
             st = new PcalSymTab(ast);
-        } catch (final PcalSymTabException e)
-        {
+        } catch (final PcalSymTabException e) {
             throw new RemoveNameConflictsException(e.getMessage());
         }
 
@@ -52,11 +42,9 @@ public class PCalTLAGenerator
             PcalDebug.reportWarning("symbols were renamed.");
         if (st.errorReport.length() > 0)
             throw new RemoveNameConflictsException(st.errorReport);
-        try
-        {
+        try {
             PcalFixIDs.Fix(ast, st);
-        } catch (final PcalFixIDException e)
-        {
+        } catch (final PcalFixIDException e) {
             throw new RemoveNameConflictsException(e.getMessage());
         }
     }
@@ -66,43 +54,35 @@ public class PCalTLAGenerator
      * Note that this requires RemoveNameConflicts to be called first   *
      * because of the grotty use of the class variable st.              *
      ********************************************************************/
-    public ArrayList<String> translate() throws RemoveNameConflictsException
-    {
+    public ArrayList<String> translate() throws RemoveNameConflictsException {
         AST xast;  // Set to the exploded AST
 
         PcalTranslate pcalTranslate = new PcalTranslate(this.parseAlgorithm);
 
         ArrayList<String> result = new ArrayList<>(st.disambiguateReport);
-        try
-        {
+        try {
             xast = pcalTranslate.Explode(ast, st);
-        } catch (final PcalTranslateException e)
-        {
+        } catch (final PcalTranslateException e) {
             throw new RemoveNameConflictsException(e);
         }
         // System.out.println("After exploding: " + xast.toString());
-        try
-        {
+        try {
             final PcalTLAGen tlaGenerator = new PcalTLAGen(parseAlgorithm);
 //            result.addAll(tlaGenerator.generate(xast, st));
             result = tlaGenerator.generate(xast, st, result);
-        } catch (final PcalTLAGenException e)
-        {
+        } catch (final PcalTLAGenException e) {
             throw new RemoveNameConflictsException(e);
         }
 
 // tla-pcal debugging
 /*******************************************************************
-        * Following test added by LL on 31 Aug 2007.                       *
-        *******************************************************************/
-        try
-        {
-            if (parseAlgorithm.hasDefaultInitialization)
-            {
+ * Following test added by LL on 31 Aug 2007.                       *
+ *******************************************************************/
+        try {
+            if (parseAlgorithm.hasDefaultInitialization) {
                 st.CheckForDefaultInitValue();
             }
-        } catch (final PcalSymTabException e)
-        {
+        } catch (final PcalSymTabException e) {
             throw new RemoveNameConflictsException(e.getMessage());
         }
         return result;

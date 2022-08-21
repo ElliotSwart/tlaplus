@@ -25,110 +25,112 @@
  ******************************************************************************/
 package tlc2.value.impl;
 
-import java.math.BigInteger;
-
 import tlc2.value.RandomEnumerableValues;
+
+import java.math.BigInteger;
 
 public abstract class SetOfFcnsOrRcdsValue extends EnumerableValue {
 
-	private static final long serialVersionUID = -8514697790429935381L;
+    private static final long serialVersionUID = -8514697790429935381L;
 
-	@Override
-	public EnumerableValue getRandomSubset(final int kOutOfN) {
-		final ValueVec vec = new ValueVec(kOutOfN);
+    @Override
+    public EnumerableValue getRandomSubset(final int kOutOfN) {
+        final ValueVec vec = new ValueVec(kOutOfN);
 
-		final ValueEnumeration ve = elements(kOutOfN);
+        final ValueEnumeration ve = elements(kOutOfN);
 
-		Value v;
-		while ((v = ve.nextElement()) != null) {
-			vec.add(v);
-		}
-    	
-		// Assert no duplicates. For large sets we assume kOutOfN < size() to avoid
-		// calling size() which then throws an assertion exception anyway.
-		assert (needBigInteger() ? vec.sort(true).size() == kOutOfN
-				: vec.sort(true).size() == Math.min(kOutOfN, size()));
+        Value v;
+        while ((v = ve.nextElement()) != null) {
+            vec.add(v);
+        }
 
-		if (coverage) {cm.incSecondary(vec.size());}
-    	return new SetEnumValue(vec, false, cm);
-	}
+        // Assert no duplicates. For large sets we assume kOutOfN < size() to avoid
+        // calling size() which then throws an assertion exception anyway.
+        assert (needBigInteger() ? vec.sort(true).size() == kOutOfN
+                : vec.sort(true).size() == Math.min(kOutOfN, size()));
 
-	@Override
-	public ValueEnumeration elements(final int k) {
-		if (needBigInteger()) {
-			return getBigSubsetEnumerator(k);
-		} else {
-			return getSubsetEnumerator(k, size());
-		}
-	}
+        if (coverage) {
+            cm.incSecondary(vec.size());
+        }
+        return new SetEnumValue(vec, false, cm);
+    }
 
-	protected abstract BigIntegerSubsetEnumerator getBigSubsetEnumerator(int k);
+    @Override
+    public ValueEnumeration elements(final int k) {
+        if (needBigInteger()) {
+            return getBigSubsetEnumerator(k);
+        } else {
+            return getSubsetEnumerator(k, size());
+        }
+    }
 
-	protected abstract SubsetEnumerator getSubsetEnumerator(int k, int n);
+    protected abstract BigIntegerSubsetEnumerator getBigSubsetEnumerator(int k);
 
-	protected abstract boolean needBigInteger();
+    protected abstract SubsetEnumerator getSubsetEnumerator(int k, int n);
 
-	abstract class SubsetEnumerator extends EnumerableValue.SubsetEnumerator {
-		public SubsetEnumerator(final int k, final int n) {
-			super(k, n);
-		}
+    protected abstract boolean needBigInteger();
 
-		@Override
-		public Value nextElement() {
-			if (!hasNext()) {
-				return null;
-			}
-			return get(nextIndex());
-		}
+    abstract static class BigIntegerSubsetEnumerator implements ValueEnumeration {
 
-		protected abstract Value get(int nextIndex);
-	}
+        protected final BigInteger x;
+        protected final BigInteger a;
 
-	abstract static class BigIntegerSubsetEnumerator implements ValueEnumeration {
+        protected final int k;
 
-		protected final BigInteger x;
-		protected final BigInteger a;
+        protected BigInteger sz;
+        protected int i;
 
-		protected final int k;
-		
-		protected BigInteger sz;
-		protected int i;
+        public BigIntegerSubsetEnumerator(final int k) {
+            this.k = k;
+            this.i = 0;
 
-		public BigIntegerSubsetEnumerator(final int k) {
-			this.k = k;
-			this.i = 0;
+            this.a = BigInteger.valueOf(Math.abs(RandomEnumerableValues.get().nextLong()));
 
-			this.a = BigInteger.valueOf(Math.abs(RandomEnumerableValues.get().nextLong()));
+            // http://primes.utm.edu/lists/2small/0bit.html
+            // (2^63 - 25)
+            this.x = BigInteger.valueOf(Long.MAX_VALUE - 24L);
+        }
 
-			// http://primes.utm.edu/lists/2small/0bit.html
-			// (2^63 - 25)
-			this.x = BigInteger.valueOf(Long.MAX_VALUE - 24L);
-		}
+        private BigInteger nextIndex() {
+            // ((x * i) + a) % sz
+            final BigInteger bi = BigInteger.valueOf(this.i++);
+            final BigInteger multiply = this.x.multiply(bi);
+            return multiply.add(this.a).mod(this.sz);
+        }
 
-		private BigInteger nextIndex() {
-			// ((x * i) + a) % sz
-			final BigInteger bi = BigInteger.valueOf(this.i++);
-			final BigInteger multiply = this.x.multiply(bi);
-			return multiply.add(this.a).mod(this.sz);
-		}
+        @Override
+        public void reset() {
+            this.i = 0;
+        }
 
-		@Override
-		public void reset() {
-			this.i = 0;
-		}
+        private boolean hasNext() {
+            return this.i < this.k;
+        }
 
-		private boolean hasNext() {
-			return this.i < this.k;
-		}
+        @Override
+        public Value nextElement() {
+            if (!hasNext()) {
+                return null;
+            }
+            return get(nextIndex());
+        }
 
-		@Override
-		public Value nextElement() {
-			if (!hasNext()) {
-				return null;
-			}
-			return get(nextIndex());
-		}
+        protected abstract Value get(BigInteger nextIndex);
+    }
 
-		protected abstract Value get(BigInteger nextIndex);
-	}
+    abstract class SubsetEnumerator extends EnumerableValue.SubsetEnumerator {
+        public SubsetEnumerator(final int k, final int n) {
+            super(k, n);
+        }
+
+        @Override
+        public Value nextElement() {
+            if (!hasNext()) {
+                return null;
+            }
+            return get(nextIndex());
+        }
+
+        protected abstract Value get(int nextIndex);
+    }
 }

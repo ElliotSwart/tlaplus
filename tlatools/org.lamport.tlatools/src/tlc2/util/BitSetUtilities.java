@@ -18,24 +18,28 @@ public class BitSetUtilities {
         return "[" + buf.reverse() + "]";
     }
 
-    /** Write the bit vector to a file. */
+    /**
+     * Write the bit vector to a file.
+     */
     public static void write(final BitSet bitSet, final BufferedRandomAccessFile raf) throws IOException {
         final var words = bitSet.toLongArray();
 
         raf.writeNat(words.length);
 
-        for(final long word : words){
+        for (final long word : words) {
             raf.writeLong(word);
         }
     }
 
-    /** Read a bit vector from a file */
+    /**
+     * Read a bit vector from a file
+     */
     public static BitSet fromFile(final BufferedRandomAccessFile raf) throws IOException {
         final int wordCount = raf.readNat();
 
         final long[] words = new long[wordCount];
 
-        for(int i=0; i<wordCount;i++){
+        for (int i = 0; i < wordCount; i++) {
             words[i] = raf.readLong();
         }
 

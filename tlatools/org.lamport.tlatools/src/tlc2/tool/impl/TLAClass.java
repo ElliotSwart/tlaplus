@@ -5,101 +5,88 @@
 
 package tlc2.tool.impl;
 
-import java.io.File;
-import java.net.URL;
-import java.net.URLClassLoader;
-
 import tlc2.output.EC;
 import util.Assert;
 import util.FilenameToStream;
 
+import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
+
 /**
- * 
  * @author Yuan Yu, Simon Zambrovski
  * @version $Id$
  */
-public class TLAClass
-{
+public class TLAClass {
     /* Load a class from a file. */
     private final String pkg;
-	private final FilenameToStream resolver;
+    private final FilenameToStream resolver;
 
-    public TLAClass(final String pkg, final FilenameToStream resolver)
-    {
+    public TLAClass(final String pkg, final FilenameToStream resolver) {
         this.resolver = resolver;
-		if (pkg.length() != 0 && pkg.charAt(pkg.length() - 1) != '.')
-        {
+        if (pkg.length() != 0 && pkg.charAt(pkg.length() - 1) != '.') {
             this.pkg = pkg + '.';
-        } else
-        {
+        } else {
             this.pkg = pkg;
         }
     }
 
-	/**
-	 * This method attempts to load the java class with the given name.
-	 * 
-	 * Loading classes is done in three steps:
-	 * 
-	 * <ul>
-	 * <li>1) TLC's {@link FilenameToStream} resolver is used to locate a class
-	 * file in the resolver's lookup path. Check {@link FilenameToStream}'s
-	 * documentation on the lookup order. If a class file with name "name.class"
-	 * can be found, it is loaded.</li>
-	 * <li>2) With the unqualified name, we try to lookup the class in the
-	 * regular VM's CLASSPATH.</li>
-	 * <li>3) As a last resort, we try to load a class fully qualified with the
-	 * package name given in {@link TLAClass#pkg}.</li>
-	 * </ul>
-	 * <p>
-	 * If no class could be loaded, <code>null</code> is returned.
-	 **/
-    public synchronized Class<?> loadClass(final String name)
-    {
+    /**
+     * This method attempts to load the java class with the given name.
+     * <p>
+     * Loading classes is done in three steps:
+     *
+     * <ul>
+     * <li>1) TLC's {@link FilenameToStream} resolver is used to locate a class
+     * file in the resolver's lookup path. Check {@link FilenameToStream}'s
+     * documentation on the lookup order. If a class file with name "name.class"
+     * can be found, it is loaded.</li>
+     * <li>2) With the unqualified name, we try to lookup the class in the
+     * regular VM's CLASSPATH.</li>
+     * <li>3) As a last resort, we try to load a class fully qualified with the
+     * package name given in {@link TLAClass#pkg}.</li>
+     * </ul>
+     * <p>
+     * If no class could be loaded, <code>null</code> is returned.
+     **/
+    public synchronized Class<?> loadClass(final String name) {
         Class<?> cl = null;
         URLClassLoader classLoader = null;
-        
-        try
-        {
-        	try {
-        		if (resolver != null) {
-        			final File module = resolver.resolve(name + ".class", false);
-        			if (module != null) {
+
+        try {
+            try {
+                if (resolver != null) {
+                    final File module = resolver.resolve(name + ".class", false);
+                    if (module != null) {
                         module.getAbsoluteFile();
                         final URL url = module.getAbsoluteFile().getParentFile().toURI().toURL();
                         classLoader = new URLClassLoader(new URL[]{url});
                         cl = classLoader.loadClass(name);
                     }
-        		}
-        	} catch (final Exception ignored1) {
-        		/*SKIP*/
-        	} finally {
-        		if (cl == null) {
-        			try
-        			{
-        				cl = Class.forName(name);
-        			} catch (final Exception e)
-        			{ /*SKIP*/
-        			}
-        		}
-        		
-        		if(classLoader != null) {
-        			classLoader.close();
-        		}
-        	}
-            if (cl == null)
-            {
-                try
-                {
-                    cl = Class.forName(this.pkg + name);
-                } catch (final Exception e)
-                { /*SKIP*/
+                }
+            } catch (final Exception ignored1) {
+                /*SKIP*/
+            } finally {
+                if (cl == null) {
+                    try {
+                        cl = Class.forName(name);
+                    } catch (final Exception e) { /*SKIP*/
+                    }
+                }
+
+                if (classLoader != null) {
+                    classLoader.close();
                 }
             }
-        } catch (final Throwable e)
-        {
-            Assert.fail(EC.TLC_ERROR_REPLACING_MODULES, new String[] { name, 
-                       (e.getMessage()==null)?e.toString():e.getMessage() });
+            if (cl == null) {
+                try {
+                    cl = Class.forName(this.pkg + name);
+                } catch (final Exception e) { /*SKIP*/
+                }
+            }
+        } catch (final Throwable e) {
+            Assert.fail(EC.TLC_ERROR_REPLACING_MODULES, new String[]{name,
+                    (e.getMessage() == null) ? e.toString() : e.getMessage()});
         }
         return cl;
     }

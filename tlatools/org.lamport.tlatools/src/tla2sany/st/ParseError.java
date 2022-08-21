@@ -2,9 +2,10 @@
 package tla2sany.st;
 
 
-public interface ParseError  {
+public interface ParseError {
 
-  String reportedError();
-  String defaultError() ;
+    String reportedError();
+
+    String defaultError();
 }
 

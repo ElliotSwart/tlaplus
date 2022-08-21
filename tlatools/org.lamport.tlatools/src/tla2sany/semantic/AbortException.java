@@ -4,5 +4,5 @@ package tla2sany.semantic;
 
 public class AbortException extends Exception {
 
-	private static final long serialVersionUID = -865221207311135927L;
+    private static final long serialVersionUID = -865221207311135927L;
 }

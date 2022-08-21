@@ -5,24 +5,24 @@ import tlc2.value.IValue;
 
 /**
  * A common interface for workers
+ *
  * @author Simon Zambrovski
  */
-public interface IWorker
-{
-	/**
-	 * @return A worker's id in the range 0 to {@link TLCGlobals#getNumWorkers()} - 1
-	 */
+public interface IWorker {
+    /**
+     * @return A worker's id in the range 0 to {@link TLCGlobals#getNumWorkers()} - 1
+     */
     int myGetId();
-	
+
     // see Thread
-    
-	void start();
 
-	void join() throws InterruptedException;
+    void start();
 
-	// see IdThread
-	
-	IValue getLocalValue(int idx);
+    void join() throws InterruptedException;
 
-	void setLocalValue(int idx, IValue val);
+    // see IdThread
+
+    IValue getLocalValue(int idx);
+
+    void setLocalValue(int idx, IValue val);
 }

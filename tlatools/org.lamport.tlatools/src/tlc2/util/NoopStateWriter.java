@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software. 
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -32,91 +32,91 @@ import java.util.BitSet;
 
 public final class NoopStateWriter implements IStateWriter {
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.StateWriter#writeState(tlc2.tool.TLCState)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.StateWriter#writeState(tlc2.tool.TLCState)
+     */
+    @Override
     public void writeState(final TLCState state) {
-		// noop
-	}
+        // noop
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.StateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, boolean)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.StateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, boolean)
+     */
+    @Override
     public void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew) {
-		// noop
-	}
+        // noop
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, boolean, tlc2.util.IStateWriter.Visualization)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, boolean, tlc2.util.IStateWriter.Visualization)
+     */
+    @Override
     public void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew, final Visualization visualization) {
-		// noop
-	}
+        // noop
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.IStateWriter#close()
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.IStateWriter#close()
+     */
+    @Override
     public void close() {
-		// noop
-	}
+        // noop
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitSet, int, int, boolean)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitSet, int, int, boolean)
+     */
+    @Override
     public void writeState(final TLCState state, final TLCState successor, final BitSet actionChecks, final int from, final int to, final boolean successorStateIsNew) {
-		// noop
-	}
+        // noop
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitSet, int, int, boolean, tlc2.util.IStateWriter.Visualization)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, tlc2.util.BitSet, int, int, boolean, tlc2.util.IStateWriter.Visualization)
+     */
+    @Override
     public void writeState(final TLCState state, final TLCState successor, final BitSet actionChecks, final int from, final int to, final boolean successorStateIsNew,
-						   final Visualization visualization) {
-		// noop
-	}
+                           final Visualization visualization) {
+        // noop
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, boolean, tlc2.tool.Action)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.IStateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, boolean, tlc2.tool.Action)
+     */
+    @Override
     public void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew, final Action action) {
-		// noop
-	}
+        // noop
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.IStateWriter#isNoop()
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.IStateWriter#isNoop()
+     */
+    @Override
     public boolean isNoop() {
-		return true;
-	}
+        return true;
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.IStateWriter#isDot()
-	 */
-	@Override
-	public boolean isDot() {
-		return false;
-	}
-		
-	/* (non-Javadoc)
-	 * @see tlc2.util.IStateWriter#getDumpFileName()
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.IStateWriter#isDot()
+     */
+    @Override
+    public boolean isDot() {
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see tlc2.util.IStateWriter#getDumpFileName()
+     */
+    @Override
     public String getDumpFileName() {
-		return "";
-	}
+        return "";
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.IStateWriter#snapshot()
-	 */
-	@Override
-	public void snapshot() {
-	}
+    /* (non-Javadoc)
+     * @see tlc2.util.IStateWriter#snapshot()
+     */
+    @Override
+    public void snapshot() {
+    }
 }

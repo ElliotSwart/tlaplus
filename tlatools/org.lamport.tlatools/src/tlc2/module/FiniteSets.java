@@ -15,19 +15,15 @@ import tlc2.value.impl.Enumerable;
 import tlc2.value.impl.IntValue;
 import tlc2.value.impl.Value;
 
-public class FiniteSets implements ValueConstants
-{
-	public static final long serialVersionUID = 20160822L;
+public class FiniteSets implements ValueConstants {
+    public static final long serialVersionUID = 20160822L;
 
-    public static IBoolValue IsFiniteSet(final Value val)
-    {
+    public static IBoolValue IsFiniteSet(final Value val) {
         return val.isFinite() ? BoolValue.ValTrue : BoolValue.ValFalse;
     }
 
-    public static IntValue Cardinality(final Value val)
-    {
-        if (val instanceof Enumerable)
-        {
+    public static IntValue Cardinality(final Value val) {
+        if (val instanceof Enumerable) {
             return IntValue.gen(val.size());
         }
         throw new EvalException(EC.TLC_MODULE_COMPUTING_CARDINALITY, Values.ppr(val.toString()));

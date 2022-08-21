@@ -3,4 +3,5 @@ package tla2sany.drivers;
 
 public class SemanticException extends Exception {
 
-	private static final long serialVersionUID = 5101697823732743568L;}
+    private static final long serialVersionUID = 5101697823732743568L;
+}

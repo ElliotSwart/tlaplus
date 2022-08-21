@@ -5,11 +5,6 @@
 
 package tlc2.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
 import tlc2.output.EC;
 import tlc2.output.MP;
 import tlc2.tool.TLCState;
@@ -17,181 +12,175 @@ import tlc2.value.ValueInputStream;
 import util.Assert;
 import util.FatalException;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 public class StatePoolReader extends Thread {
 
-  public StatePoolReader(final int bufSize, TLCState emptyState) {
-	  this(bufSize, null, emptyState);
-  }
-
-
-  private final TLCState emptyState;
-
-  public StatePoolReader(final int bufSize, final File file, TLCState emptyState) {
-	  super("TLCStatePoolReader");
-    this.buf = new TLCState[bufSize];
-    this.poolFile = file;
-    this.isFull = false;
-    this.canRead = false;
-    this.emptyState = emptyState;
-  }
-  
-  private TLCState[] buf;
-  private File poolFile;      // the file to be read
-  private boolean isFull;     // true iff the buf is filled
-  private boolean canRead;    // true iff the file can be read
-  private boolean finished = false;
-
-  public final synchronized void wakeup() {
-    this.canRead = true;
-    this.notify();
-  }
-
-  public final synchronized void restart(final File file, final boolean canRead) {
-    this.poolFile = file;
-    this.isFull = false;
-    this.canRead = canRead;
-    this.notify();
-  }
-  
-  /*
-   * In the most common case, this method expects to see the buffer is
-   * full, it returns its buffer and notifies this reader to read the
-   * content of the file.
-   */
-  public final synchronized TLCState[] doWork(final TLCState[] deqBuf, final File file)
-  throws IOException {
-    if (this.isFull) {
-      assert this.poolFile == null : EC.SYSTEM_FILE_NULL;
-      final TLCState[] res = this.buf;
-      this.buf = deqBuf;
-      this.poolFile = file;
-      this.isFull = false;      // <file, false>
-      this.canRead = true;
-      this.notify();
-      return res;
+    private final TLCState emptyState;
+    private TLCState[] buf;
+    private File poolFile;      // the file to be read
+    private boolean isFull;     // true iff the buf is filled
+    private boolean canRead;    // true iff the file can be read
+    private boolean finished = false;
+    public StatePoolReader(final int bufSize, TLCState emptyState) {
+        this(bufSize, null, emptyState);
     }
-    else if (this.poolFile != null) {
-      final ValueInputStream vis = new ValueInputStream(this.poolFile);
-      for (int i = 0; i < deqBuf.length; i++) {
-	deqBuf[i] = emptyState.createNewFromValueStream(vis);
-      }
-      vis.close();
-      this.poolFile = file;     // <file, false>
-      this.canRead = true;
-      this.notify();
-      return deqBuf;
+    public StatePoolReader(final int bufSize, final File file, TLCState emptyState) {
+        super("TLCStatePoolReader");
+        this.buf = new TLCState[bufSize];
+        this.poolFile = file;
+        this.isFull = false;
+        this.canRead = false;
+        this.emptyState = emptyState;
     }
-    else {
-      final ValueInputStream vis = new ValueInputStream(file);
-      for (int i = 0; i < deqBuf.length; i++) {
-	deqBuf[i] = emptyState.createNewFromValueStream(vis);
-      }
-      vis.close();              // <null, false>
-      return deqBuf;
-    }
-  }
 
-  /*
-   * Returns the cached buffer if filled. Otherwise, returns null.
-   */
-  public final synchronized TLCState[] getCache(final TLCState[] deqBuf, final File file)
-  throws IOException {
-    if (this.isFull) {
-      assert this.poolFile == null : EC.SYSTEM_FILE_NULL;
-      final TLCState[] res = this.buf;
-      this.buf = deqBuf;
-      this.poolFile = file;
-      this.isFull = false;      // <file, false>
-      this.canRead = false;
-      return res;
+    public final synchronized void wakeup() {
+        this.canRead = true;
+        this.notify();
     }
-    else if (this.poolFile != null && this.canRead) {
-      // this should seldom occur.
-      final ValueInputStream vis = new ValueInputStream(this.poolFile);
-      for (int i = 0; i < deqBuf.length; i++) {
-	deqBuf[i] = emptyState.createNewFromValueStream(vis);
-      }
-      vis.close();
-      // this.poolFile.delete();
-      this.poolFile = file;    // <file, false>
-      this.canRead = false;
-      return deqBuf;
-    }
-    return null;
-  }
 
-  public final synchronized void beginChkpt(final ObjectOutputStream oos)
-  throws IOException {
-    final boolean hasFile = this.poolFile != null;
-    oos.writeBoolean(hasFile);
-    oos.writeBoolean(this.canRead);
-    oos.writeBoolean(this.isFull);
-    if (hasFile) {
-      oos.writeObject(this.poolFile);
+    public final synchronized void restart(final File file, final boolean canRead) {
+        this.poolFile = file;
+        this.isFull = false;
+        this.canRead = canRead;
+        this.notify();
     }
-    if (this.isFull) {
-        for (final TLCState tlcState : this.buf) {
-            oos.writeObject(tlcState);
+
+    /*
+     * In the most common case, this method expects to see the buffer is
+     * full, it returns its buffer and notifies this reader to read the
+     * content of the file.
+     */
+    public final synchronized TLCState[] doWork(final TLCState[] deqBuf, final File file)
+            throws IOException {
+        if (this.isFull) {
+            assert this.poolFile == null : EC.SYSTEM_FILE_NULL;
+            final TLCState[] res = this.buf;
+            this.buf = deqBuf;
+            this.poolFile = file;
+            this.isFull = false;      // <file, false>
+            this.canRead = true;
+            this.notify();
+            return res;
+        } else if (this.poolFile != null) {
+            final ValueInputStream vis = new ValueInputStream(this.poolFile);
+            for (int i = 0; i < deqBuf.length; i++) {
+                deqBuf[i] = emptyState.createNewFromValueStream(vis);
+            }
+            vis.close();
+            this.poolFile = file;     // <file, false>
+            this.canRead = true;
+            this.notify();
+            return deqBuf;
+        } else {
+            final ValueInputStream vis = new ValueInputStream(file);
+            for (int i = 0; i < deqBuf.length; i++) {
+                deqBuf[i] = emptyState.createNewFromValueStream(vis);
+            }
+            vis.close();              // <null, false>
+            return deqBuf;
         }
     }
-  }
 
-  /* Note that this method is not synchronized. */
-  public final void recover(final ObjectInputStream ois) throws IOException {
-    final boolean hasFile = ois.readBoolean();
-    this.canRead = ois.readBoolean();
-    this.isFull = ois.readBoolean();
-    try {
-      if (hasFile) {
-	this.poolFile = (File)ois.readObject();
-      }
-      if (this.isFull) {
-	for (int i = 0; i < this.buf.length; i++) {
-	  this.buf[i] = (TLCState)ois.readObject();
-	}
-      }
+    /*
+     * Returns the cached buffer if filled. Otherwise, returns null.
+     */
+    public final synchronized TLCState[] getCache(final TLCState[] deqBuf, final File file)
+            throws IOException {
+        if (this.isFull) {
+            assert this.poolFile == null : EC.SYSTEM_FILE_NULL;
+            final TLCState[] res = this.buf;
+            this.buf = deqBuf;
+            this.poolFile = file;
+            this.isFull = false;      // <file, false>
+            this.canRead = false;
+            return res;
+        } else if (this.poolFile != null && this.canRead) {
+            // this should seldom occur.
+            final ValueInputStream vis = new ValueInputStream(this.poolFile);
+            for (int i = 0; i < deqBuf.length; i++) {
+                deqBuf[i] = emptyState.createNewFromValueStream(vis);
+            }
+            vis.close();
+            // this.poolFile.delete();
+            this.poolFile = file;    // <file, false>
+            this.canRead = false;
+            return deqBuf;
+        }
+        return null;
     }
-    catch (final ClassNotFoundException e)
-    {
-      Assert.fail(EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT, e);
+
+    public final synchronized void beginChkpt(final ObjectOutputStream oos)
+            throws IOException {
+        final boolean hasFile = this.poolFile != null;
+        oos.writeBoolean(hasFile);
+        oos.writeBoolean(this.canRead);
+        oos.writeBoolean(this.isFull);
+        if (hasFile) {
+            oos.writeObject(this.poolFile);
+        }
+        if (this.isFull) {
+            for (final TLCState tlcState : this.buf) {
+                oos.writeObject(tlcState);
+            }
+        }
     }
-  }
-  
-  /**
-   * Read the contents of "poolFile" into "buf". The objects in the
-   * file are read using Java's object serialization facilities.
-   */
-  @Override
-  public void run() {
-    try {
-      synchronized(this) {
-	while (!Thread.currentThread().isInterrupted()) {
-	  while (this.poolFile == null || this.isFull || !this.canRead) {
-	    this.wait();
-	    if(this.finished ) {
-	    	return;
-	    }
-	  }
-	  final ValueInputStream vis = new ValueInputStream(this.poolFile);
-	  for (int i = 0; i < this.buf.length; i++) {
-	    this.buf[i] = emptyState.createNewFromValueStream(vis);
-	  }
-	  vis.close();
-	  this.poolFile = null;
-	  this.isFull = true;       // <null, true>
-	}
-      }
+
+    /* Note that this method is not synchronized. */
+    public final void recover(final ObjectInputStream ois) throws IOException {
+        final boolean hasFile = ois.readBoolean();
+        this.canRead = ois.readBoolean();
+        this.isFull = ois.readBoolean();
+        try {
+            if (hasFile) {
+                this.poolFile = (File) ois.readObject();
+            }
+            if (this.isFull) {
+                for (int i = 0; i < this.buf.length; i++) {
+                    this.buf[i] = (TLCState) ois.readObject();
+                }
+            }
+        } catch (final ClassNotFoundException e) {
+            Assert.fail(EC.SYSTEM_CHECKPOINT_RECOVERY_CORRUPT, e);
+        }
     }
-    catch (final Exception e)
-    {
-      // Assert.printStack(e);
-      MP.printError(EC.SYSTEM_ERROR_READING_POOL, e.getMessage(), e);
-      throw new FatalException("SYSTEM_ERROR_WRITING_POOL", e);
+
+    /**
+     * Read the contents of "poolFile" into "buf". The objects in the
+     * file are read using Java's object serialization facilities.
+     */
+    @Override
+    public void run() {
+        try {
+            synchronized (this) {
+                while (!Thread.currentThread().isInterrupted()) {
+                    while (this.poolFile == null || this.isFull || !this.canRead) {
+                        this.wait();
+                        if (this.finished) {
+                            return;
+                        }
+                    }
+                    final ValueInputStream vis = new ValueInputStream(this.poolFile);
+                    for (int i = 0; i < this.buf.length; i++) {
+                        this.buf[i] = emptyState.createNewFromValueStream(vis);
+                    }
+                    vis.close();
+                    this.poolFile = null;
+                    this.isFull = true;       // <null, true>
+                }
+            }
+        } catch (final Exception e) {
+            // Assert.printStack(e);
+            MP.printError(EC.SYSTEM_ERROR_READING_POOL, e.getMessage(), e);
+            throw new FatalException("SYSTEM_ERROR_WRITING_POOL", e);
+        }
     }
-  }
-  
-  public void setFinished() {
-	  finished = true;
-  }
-  
+
+    public void setFinished() {
+        finished = true;
+    }
+
 }

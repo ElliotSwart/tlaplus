@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software. 
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -30,22 +30,22 @@ import java.io.File;
 import java.lang.reflect.Field;
 
 public class BuiltInModuleHelper {
-	
-	public static final String BUNDLE_ID = "org.lamport.tlatools";
 
-	public static final String STANDARD_MODULES = "StandardModules";
-	public static final String STANDARD_MODULES_PATH = File.separator + "tla2sany" + File.separator;
-	
-	private BuiltInModuleHelper() {
-		// no instantiation
-	}
-	
-	public static boolean isBuiltInModule(final Class<?> clazz) {
+    public static final String BUNDLE_ID = "org.lamport.tlatools";
+
+    public static final String STANDARD_MODULES = "StandardModules";
+    public static final String STANDARD_MODULES_PATH = File.separator + "tla2sany" + File.separator;
+
+    private BuiltInModuleHelper() {
+        // no instantiation
+    }
+
+    public static boolean isBuiltInModule(final Class<?> clazz) {
         try {
-			// Compare serialVersionUID because a user is allowed to override a
-			// built-in module. Thus, the name alone does not uniquely identify
-			// a built-in class.
-			final Field field = clazz.getField("serialVersionUID");
+            // Compare serialVersionUID because a user is allowed to override a
+            // built-in module. Thus, the name alone does not uniquely identify
+            // a built-in class.
+            final Field field = clazz.getField("serialVersionUID");
             final long value = field.getLong(null);
             if (clazz == AnySet.class && value == AnySet.serialVersionUID) {
                 return true;
@@ -79,8 +79,8 @@ public class BuiltInModuleHelper {
             // TODO Add Toolbox.class here too should Toolbox.tla module ever get a module
             // override.
         } catch (final SecurityException | IllegalAccessException | IllegalArgumentException | NoSuchFieldException e) {
-			return false;
-		}
+            return false;
+        }
         return false;
-	}
+    }
 }

@@ -6,9 +6,12 @@ package tla2sany.st;
 // Outside of the parser package this is used only by 
 //   drivers.ParseUnit and drivers.SyntaxTreePrinter
 
-public  interface ParseTree {
-  String[] dependencies();
-  TreeNode rootNode();
-  String   moduleName();
-  boolean  parse();
+public interface ParseTree {
+    String[] dependencies();
+
+    TreeNode rootNode();
+
+    String moduleName();
+
+    boolean parse();
 }

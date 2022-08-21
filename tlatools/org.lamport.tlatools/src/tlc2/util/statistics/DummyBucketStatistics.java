@@ -2,7 +2,7 @@
  * Copyright (c) 2015 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software. 
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -35,81 +35,81 @@ import java.util.TreeMap;
  */
 public class DummyBucketStatistics implements IBucketStatistics {
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.statistics.IBucketStatistics#addSample(int)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.statistics.IBucketStatistics#addSample(int)
+     */
+    @Override
     public void addSample(final int amount) {
-		// ignore
-	}
+        // ignore
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.statistics.IBucketStatistics#getObservations()
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.statistics.IBucketStatistics#getObservations()
+     */
+    @Override
     public long getObservations() {
-		return 0;
-	}
+        return 0;
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.statistics.IBucketStatistics#getMedian()
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.statistics.IBucketStatistics#getMedian()
+     */
+    @Override
     public int getMedian() {
-		return 0;
-	}
+        return 0;
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.statistics.IBucketStatistics#getMean()
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.statistics.IBucketStatistics#getMean()
+     */
+    @Override
     public double getMean() {
-		return 0;
-	}
+        return 0;
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.statistics.IBucketStatistics#getMin()
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.statistics.IBucketStatistics#getMin()
+     */
+    @Override
     public int getMin() {
-		return 0;
-	}
+        return 0;
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.statistics.IBucketStatistics#getMax()
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.statistics.IBucketStatistics#getMax()
+     */
+    @Override
     public int getMax() {
-		return 0;
-	}
+        return 0;
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.statistics.IBucketStatistics#getStdDev()
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.statistics.IBucketStatistics#getStdDev()
+     */
+    @Override
     public double getStdDev() {
-		return 0;
-	}
+        return 0;
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.statistics.IBucketStatistics#getPercentile(double)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.statistics.IBucketStatistics#getPercentile(double)
+     */
+    @Override
     public double getPercentile(final double quantile) {
-		return 0;
-	}
+        return 0;
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.statistics.IBucketStatistics#getSamples()
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see tlc2.util.statistics.IBucketStatistics#getSamples()
+     */
+    @Override
     public NavigableMap<Integer, Long> getSamples() {
-		return new TreeMap<>();
-	}
+        return new TreeMap<>();
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.util.statistics.IBucketStatistics#addSamples(tlc2.util.statistics.IBucketStatistics)
-	 */
-	public void addSamples(final IBucketStatistics stat) {
-	}
+    /* (non-Javadoc)
+     * @see tlc2.util.statistics.IBucketStatistics#addSamples(tlc2.util.statistics.IBucketStatistics)
+     */
+    public void addSamples(final IBucketStatistics stat) {
+    }
 }

@@ -2,10 +2,11 @@ package tlc2.tool.liveness;
 
 public class LiveWorkerSynchronization {
 
-    int errFoundByThread = -1;
     final Object workerLock = new Object();
+    int errFoundByThread = -1;
 
-    public LiveWorkerSynchronization() {}
+    public LiveWorkerSynchronization() {
+    }
 
     /**
      * Returns true iff an error has already been found.

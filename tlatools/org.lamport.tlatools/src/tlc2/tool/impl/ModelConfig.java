@@ -5,6 +5,14 @@
 
 package tlc2.tool.impl;
 
+import tla2sany.parser.*;
+import tlc2.output.EC;
+import tlc2.tool.ConfigFileException;
+import tlc2.value.IValue;
+import tlc2.value.ValueConstants;
+import tlc2.value.impl.*;
+import util.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -13,42 +21,21 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import tla2sany.parser.SimpleCharStream;
-import tla2sany.parser.TLAplusParserConstants;
-import tla2sany.parser.TLAplusParserTokenManager;
-import tla2sany.parser.Token;
-import tla2sany.parser.TokenMgrError;
-import tlc2.output.EC;
-import tlc2.tool.ConfigFileException;
-import tlc2.value.IValue;
-import tlc2.value.ValueConstants;
-import tlc2.value.impl.BoolValue;
-import tlc2.value.impl.IntValue;
-import tlc2.value.impl.ModelValue;
-import tlc2.value.impl.SetEnumValue;
-import tlc2.value.impl.StringValue;
-import tlc2.value.impl.Value;
-import tlc2.value.impl.ValueVec;
-import util.FileUtil;
-import util.FilenameToStream;
-import util.MonolithSpecExtractor;
-import util.SimpleFilenameToStream;
-import util.TLAConstants;
-
-/** 
+/**
  * Stores information from user's model configuration file.
- * 
+ * <p>
  * TODO we should move from Hashtable to HashMap (we should probably also stop using our own collection implmentations
  * 			like {@link ArrayList}.)
  * TODO we're storing a heterogeneous mishmash in the values of configTbl - sometimes a ArrayList, sometimes a String, sometime
  * 			that ArrayList has only String instances, sometimes is has a String instance and Value subclasses, ... it would
  * 			be nice were the design cleaner.
- * 
+ *
  * @author Yuan Yu, Leslie Lamport
  */
 public class ModelConfig implements ValueConstants, Serializable {
+    public static final String CheckDeadlock = "CHECK_DEADLOCK";
     // keywords of the configuration file.
-	// CAREFUL: HAVE TO BE IN CONFIGTBL FOR PARSING TO WORK!
+    // CAREFUL: HAVE TO BE IN CONFIGTBL FOR PARSING TO WORK!
     private static final String Constant = TLAConstants.KeyWords.CONSTANT;
     private static final String Constants = TLAConstants.KeyWords.CONSTANTS;
     private static final String Constraint = "CONSTRAINT";
@@ -66,34 +53,30 @@ public class ModelConfig implements ValueConstants, Serializable {
     private static final String Props = "PROPERTIES";
     private static final String Alias = "ALIAS";
     private static final String PostCondition = "POSTCONDITION";
-    public static final String CheckDeadlock = "CHECK_DEADLOCK";
-
-    private static final long serialVersionUID = 1L;
-
     /**
      * All keywords used in the configuration file
      */
-    public final static String[] ALL_KEYWORDS = { Constant, Constants, Constraint, Constraints, ActionConstraint,
+    public final static String[] ALL_KEYWORDS = {Constant, Constants, Constraint, Constraints, ActionConstraint,
             ActionConstraints, Invariant, Invariants, Init, Next, View, Symmetry, Spec, Prop, Props, Alias,
-            PostCondition, CheckDeadlock };
-
+            PostCondition, CheckDeadlock};
+    private static final long serialVersionUID = 1L;
     private final Hashtable<String, Object> configTbl;
     private final Hashtable<String, String> overrides;
     private final Hashtable<String, String> overridesReverseMap;
     private final Hashtable<String, ArrayList<ArrayList<Comparable<?>>>> modConstants;
-    private final Hashtable<String, Hashtable<Comparable<?>,Object>> modOverrides;
+    private final Hashtable<String, Hashtable<Comparable<?>, Object>> modOverrides;
     private final String configFileName;
     private final FilenameToStream resolver; // resolver for the file
     private List<String> rawConstants;
 
     /**
      * Creates a new model config handle
+     *
      * @param configFileName name of the model configuration file
-     * @param resolver the name to stream resolver or <code>null</code> 
-     * is the standard one should be used
+     * @param resolver       the name to stream resolver or <code>null</code>
+     *                       is the standard one should be used
      */
-    public ModelConfig(final String configFileName, final FilenameToStream resolver)
-    {
+    public ModelConfig(final String configFileName, final FilenameToStream resolver) {
         // SZ Feb 20, 2009: added name resolver support, to be able to run from a toolbox
         // standard resolver
         this.resolver = Objects.requireNonNullElseGet(resolver, SimpleFilenameToStream::new);
@@ -125,7 +108,7 @@ public class ModelConfig implements ValueConstants, Serializable {
         this.configTbl.put(Alias, "");
         this.configTbl.put(PostCondition, "");
         this.configTbl.put(CheckDeadlock, "undef");
-        
+
         this.modConstants = new Hashtable<>();
         this.modOverrides = new Hashtable<>();
         this.overrides = new Hashtable<>();
@@ -134,40 +117,61 @@ public class ModelConfig implements ValueConstants, Serializable {
     }
 
     /**
+     * Retrieves the next token from the token manager
+     */
+    private static Token getNextToken(final TLAplusParserTokenManager tmgr) {
+        try {
+            return tmgr.getNextToken();
+        } catch (final TokenMgrError e) {
+            final Token tt = new Token();
+            tt.kind = TLAplusParserConstants.EOF;
+            return tt;
+        }
+    }
+
+    private static Token getNextToken(final TLAplusParserTokenManager tmgr, final StringBuilder buf) {
+        try {
+            final Token nextToken = tmgr.getNextToken();
+            buf.append(nextToken.image).append(" ");
+            return nextToken;
+        } catch (final TokenMgrError e) {
+            final Token tt = new Token();
+            tt.kind = TLAplusParserConstants.EOF;
+            return tt;
+        }
+    }
+
+    /**
      * Parse the configuration file
      */
-    public final void parse()
-    {
+    public final void parse() {
         final ArrayList<ArrayList<Comparable<?>>> constants = this.getConstants();
         final ArrayList<Comparable<?>> constraints = this.getConstraints();
         final ArrayList<Comparable<?>> actionConstraints = this.getActionConstraints();
         final ArrayList<Comparable<?>> invariants = this.getInvariants();
         final ArrayList<Comparable<?>> props = this.getProperties();
-        
-        try
-        {
+
+        try {
             // SZ 23.02.2009: separated file resolution from stream retrieval
             InputStream fis = FileUtil.newFIS(resolver.resolve(this.configFileName, false));
-            if (fis == null)
-            {
-                throw new ConfigFileException(EC.CFG_ERROR_READING_FILE, new String[] { this.configFileName,
-                        "File not found." });
+            if (fis == null) {
+                throw new ConfigFileException(EC.CFG_ERROR_READING_FILE, new String[]{this.configFileName,
+                        "File not found."});
             }
             if (this.configFileName.endsWith(TLAConstants.Files.TLA_EXTENSION)) {
-				fis = MonolithSpecExtractor.config(fis,
-						// strip ".tla" from this.configFileName.
+                fis = MonolithSpecExtractor.config(fis,
+                        // strip ".tla" from this.configFileName.
                         Paths
-                            .get(this.configFileName).getFileName()
-                            .toString()
-                            .replace(TLAConstants.Files.TLA_EXTENSION, ""));
+                                .get(this.configFileName).getFileName()
+                                .toString()
+                                .replace(TLAConstants.Files.TLA_EXTENSION, ""));
             }
             final SimpleCharStream scs = new SimpleCharStream(fis, 1, 1);
             final TLAplusParserTokenManager tmgr = new TLAplusParserTokenManager(scs, 2);
 
-        	final List<StringBuilder> rawConstants = new ArrayList<>();
+            final List<StringBuilder> rawConstants = new ArrayList<>();
             Token tt = getNextToken(tmgr);
-            while (tt.kind != TLAplusParserConstants.EOF)
-            {
+            while (tt.kind != TLAplusParserConstants.EOF) {
                 final String tval = tt.image;
                 final int loc = scs.getBeginLine();
                 switch (tval) {
@@ -417,10 +421,9 @@ public class ModelConfig implements ValueConstants, Serializable {
                 }
             }
             this.rawConstants = rawConstants.stream().map(StringBuilder::toString).collect(Collectors.toList());
-        } catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new ConfigFileException(EC.CFG_ERROR_READING_FILE,
-                    new String[] { this.configFileName, e.getMessage() }, e);
+                    new String[]{this.configFileName, e.getMessage()}, e);
         }
     }
 
@@ -428,29 +431,22 @@ public class ModelConfig implements ValueConstants, Serializable {
      * Parses a value (number, string, boolean and set)
      */
     private Value parseValue(Token tt, final SimpleCharStream scs, final TLAplusParserTokenManager tmgr, final StringBuilder buf) {
-        if (tt.kind == TLAplusParserConstants.NUMBER_LITERAL)
-        {
+        if (tt.kind == TLAplusParserConstants.NUMBER_LITERAL) {
             final int val = Integer.parseInt(tt.image);
             return IntValue.gen(val);
-        } else if (tt.kind == TLAplusParserConstants.STRING_LITERAL)
-        {
+        } else if (tt.kind == TLAplusParserConstants.STRING_LITERAL) {
             final String tval = tt.image;
             return new StringValue(tval.substring(1, tval.length() - 1));
-        } else if (tt.image.equals("TRUE"))
-        {
+        } else if (tt.image.equals("TRUE")) {
             return BoolValue.ValTrue;
-        } else if (tt.image.equals("FALSE"))
-        {
+        } else if (tt.image.equals("FALSE")) {
             return BoolValue.ValFalse;
-        } else if (tt.image.equals("{"))
-        {
+        } else if (tt.image.equals("{")) {
             final ValueVec elems = new ValueVec();
             tt = getNextToken(tmgr, buf);
-            if (!tt.image.equals("}"))
-            {
-                while (true)
-                {
-                	final Value elem = this.parseValue(tt, scs, tmgr, buf);
+            if (!tt.image.equals("}")) {
+                while (true) {
+                    final Value elem = this.parseValue(tt, scs, tmgr, buf);
                     elems.add(elem);
                     tt = getNextToken(tmgr, buf);
                     if (!tt.image.equals(","))
@@ -458,55 +454,22 @@ public class ModelConfig implements ValueConstants, Serializable {
                     tt = getNextToken(tmgr, buf);
                 }
             }
-            if (!tt.image.equals("}"))
-            {
-                throw new ConfigFileException(EC.CFG_EXPECTED_SYMBOL, new String[] {
-                        String.valueOf(scs.getBeginLine()), "}" });
+            if (!tt.image.equals("}")) {
+                throw new ConfigFileException(EC.CFG_EXPECTED_SYMBOL, new String[]{
+                        String.valueOf(scs.getBeginLine()), "}"});
             }
             return new SetEnumValue(elems, false);
-        } else if (tt.kind != TLAplusParserConstants.EOF)
-        {
+        } else if (tt.kind != TLAplusParserConstants.EOF) {
             return ModelValue.make(tt.image);
         }
-        throw new ConfigFileException(EC.CFG_EXPECTED_SYMBOL, new String[] { String.valueOf(scs.getBeginLine()),
-                "a value" });
-    }
-
-    /**
-     * Retrieves the next token from the token manager
-     */
-    private static Token getNextToken(final TLAplusParserTokenManager tmgr)
-    {
-        try
-        {
-            return tmgr.getNextToken();
-        } catch (final TokenMgrError e)
-        {
-            final Token tt = new Token();
-            tt.kind = TLAplusParserConstants.EOF;
-            return tt;
-        }
-    }
-    private static Token getNextToken(final TLAplusParserTokenManager tmgr, final StringBuilder buf)
-    {
-        try
-        {
-            final Token nextToken = tmgr.getNextToken();
-            buf.append(nextToken.image).append(" ");
-			return nextToken;
-        } catch (final TokenMgrError e)
-        {
-            final Token tt = new Token();
-            tt.kind = TLAplusParserConstants.EOF;
-            return tt;
-        }
+        throw new ConfigFileException(EC.CFG_EXPECTED_SYMBOL, new String[]{String.valueOf(scs.getBeginLine()),
+                "a value"});
     }
 
     /**
      * @return All CONSTANT or CONSTANTS statements as they appear in the config file.
      */
-    public synchronized final List<String> getRawConstants()
-    {
+    public synchronized final List<String> getRawConstants() {
         return this.rawConstants;
     }
 
@@ -534,152 +497,136 @@ public class ModelConfig implements ValueConstants, Serializable {
          * one element, but ).
          */
         return this.getRawConstants()
-            // Convert the list a stream so we can transform the input raw strings.
-            .stream()
-            /**
-             * Split by lines so each element will have the following form ([] represents a list):
-             *
-             * ["CONSTANT",
-             *  "a = b",
-             *  "c = d",
-             *  "e <- f",
-             *  "CONSTANTS",
-             *  "g <- h",
-             *  "i = j"]
-             */
-            .map(s -> s.split("\n"))
-            /**
-             * Flatten both lists, so `[["CONSTANT", "a = b"], ["g <- h"]]` becomes
-             * `["CONSTANT", "a = b", "g <- h"]`.
-             */
-            .flatMap(Stream::of)
-            /**
-             * Then we trim just to make sure we don't have whitespaces surrounding any element.
-             */
-            .map(String::trim)
-            /**
-             * Ignore `CONSTANT` or `CONSTANTS`:
-             *
-             * ["a = b",
-             *  "c = d",
-             *  "e <- f",
-             *  "g <- h",
-             *  "i = j"]
-             */
-            .filter(s -> !(s.equals(Constant) || s.equals(Constants)))
-            /**
-             * We split only `=` as `<-` means a replacement and we don't need to analyze
-             * its field separately.
-             *
-             * [["a", "b"],
-             *  ["c", "d"],
-             *  ["e <- f"],
-             *  ["g <- h"],
-             *  ["i", "j"]]
-             */
-            .map(s -> Arrays.asList(s.split(" = ")))
-            /**
-             * Convert the stream to a java List, we are finished processing it.
-             */
-            .collect(Collectors.toList());
+                // Convert the list a stream so we can transform the input raw strings.
+                .stream()
+                /**
+                 * Split by lines so each element will have the following form ([] represents a list):
+                 *
+                 * ["CONSTANT",
+                 *  "a = b",
+                 *  "c = d",
+                 *  "e <- f",
+                 *  "CONSTANTS",
+                 *  "g <- h",
+                 *  "i = j"]
+                 */
+                .map(s -> s.split("\n"))
+                /**
+                 * Flatten both lists, so `[["CONSTANT", "a = b"], ["g <- h"]]` becomes
+                 * `["CONSTANT", "a = b", "g <- h"]`.
+                 */
+                .flatMap(Stream::of)
+                /**
+                 * Then we trim just to make sure we don't have whitespaces surrounding any element.
+                 */
+                .map(String::trim)
+                /**
+                 * Ignore `CONSTANT` or `CONSTANTS`:
+                 *
+                 * ["a = b",
+                 *  "c = d",
+                 *  "e <- f",
+                 *  "g <- h",
+                 *  "i = j"]
+                 */
+                .filter(s -> !(s.equals(Constant) || s.equals(Constants)))
+                /**
+                 * We split only `=` as `<-` means a replacement and we don't need to analyze
+                 * its field separately.
+                 *
+                 * [["a", "b"],
+                 *  ["c", "d"],
+                 *  ["e <- f"],
+                 *  ["g <- h"],
+                 *  ["i", "j"]]
+                 */
+                .map(s -> Arrays.asList(s.split(" = ")))
+                /**
+                 * Convert the stream to a java List, we are finished processing it.
+                 */
+                .collect(Collectors.toList());
     }
 
     @SuppressWarnings("unchecked")
-	public synchronized final ArrayList<ArrayList<Comparable<?>>> getConstants()
-    {
+    public synchronized final ArrayList<ArrayList<Comparable<?>>> getConstants() {
         return (ArrayList<ArrayList<Comparable<?>>>) this.configTbl.get(Constant);
     }
 
-    public synchronized final Hashtable<String, ArrayList<ArrayList<Comparable<?>>>> getModConstants()
-    {
+    public synchronized final Hashtable<String, ArrayList<ArrayList<Comparable<?>>>> getModConstants() {
         return this.modConstants;
     }
 
-    public synchronized final Hashtable<String, String> getOverrides()
-    {
+    public synchronized final Hashtable<String, String> getOverrides() {
         return this.overrides;
     }
-    
+
     public synchronized final String getOverridenSpecNameForConfigName(final String configName) {
-    	return this.overridesReverseMap.get(configName);
+        return this.overridesReverseMap.get(configName);
     }
 
-    public synchronized final Hashtable<String, Hashtable<Comparable<?>,Object>> getModOverrides()
-    {
+    public synchronized final Hashtable<String, Hashtable<Comparable<?>, Object>> getModOverrides() {
         return this.modOverrides;
     }
 
     @SuppressWarnings("unchecked")
-	public synchronized final ArrayList<Comparable<?>> getConstraints()
-    {
+    public synchronized final ArrayList<Comparable<?>> getConstraints() {
         return (ArrayList<Comparable<?>>) this.configTbl.get(Constraint);
     }
 
     @SuppressWarnings("unchecked")
-	public synchronized final ArrayList<Comparable<?>> getActionConstraints()
-    {
+    public synchronized final ArrayList<Comparable<?>> getActionConstraints() {
         return (ArrayList<Comparable<?>>) this.configTbl.get(ActionConstraint);
     }
 
-    public synchronized final String getInit()
-    {
+    public synchronized final String getInit() {
         return (String) this.configTbl.get(Init);
     }
 
-    public synchronized final String getNext()
-    {
+    public synchronized final String getNext() {
         return (String) this.configTbl.get(Next);
     }
 
-    public synchronized final String getView()
-    {
+    public synchronized final String getView() {
         return (String) this.configTbl.get(View);
     }
-    
+
     public synchronized final boolean configDefinesSpecification() {
-    	final String spec = getSpec();
-    	
-    	return ((spec != null) && (spec.trim().length() > 0));
+        final String spec = getSpec();
+
+        return ((spec != null) && (spec.trim().length() > 0));
     }
 
-    public synchronized final String getSymmetry()
-    {
+    public synchronized final String getSymmetry() {
         return (String) this.configTbl.get(Symmetry);
     }
 
     @SuppressWarnings("unchecked")
-	public synchronized final ArrayList<Comparable<?>> getInvariants()
-    {
+    public synchronized final ArrayList<Comparable<?>> getInvariants() {
         return (ArrayList<Comparable<?>>) this.configTbl.get(Invariant);
     }
 
-    public synchronized final String getSpec()
-    {
+    public synchronized final String getSpec() {
         return (String) this.configTbl.get(Spec);
     }
 
     @SuppressWarnings("unchecked")
-	public synchronized final ArrayList<Comparable<?>> getProperties()
-    {
+    public synchronized final ArrayList<Comparable<?>> getProperties() {
         return (ArrayList<Comparable<?>>) this.configTbl.get(Prop);
     }
 
-    public synchronized final String getAlias()
-    {
+    public synchronized final String getAlias() {
         return (String) this.configTbl.get(Alias);
     }
 
-    public synchronized final String getPostCondition()
-    {
+    public synchronized final String getPostCondition() {
         return (String) this.configTbl.get(PostCondition);
     }
 
-    public synchronized final boolean getCheckDeadlock()
-    {
-    	final Object object = this.configTbl.get(CheckDeadlock);
-    	if (object instanceof Boolean b) {
-    		return b;
-    	}
-    	return true;
+    public synchronized final boolean getCheckDeadlock() {
+        final Object object = this.configTbl.get(CheckDeadlock);
+        if (object instanceof Boolean b) {
+            return b;
+        }
+        return true;
     }
 }

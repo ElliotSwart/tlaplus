@@ -16,10 +16,9 @@ import util.Assert;
  * allocation.
  */
 public final class StateVec implements IStateFunctor, INextStateFunctor {
+    private static final TLCState[] emptyStateArr = new TLCState[0];
     private TLCState v[];
     private int size;
-
-    private static final TLCState[] emptyStateArr = new TLCState[0];
 
     public StateVec(TLCState item0) {
         this.size = 1;
@@ -31,8 +30,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
         this.size = 0;
         if (length == 0) {
             this.v = emptyStateArr;
-        }
-        else {
+        } else {
             this.v = new TLCState[length];
         }
     }
@@ -50,7 +48,9 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
         this.size = v.length;
     }
 
-    public int size() { return this.size; }
+    public int size() {
+        return this.size;
+    }
 
     public boolean isEmpty() {
         return this.size == 0;
@@ -61,7 +61,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
         if (oldLen >= TLCGlobals.setBound) {
             Assert.fail(EC.TLC_TOO_MNY_POSSIBLE_STATES);
         }
-        int newLen = Math.min(Math.max(oldLen+add, 2*oldLen), TLCGlobals.setBound);
+        int newLen = Math.min(Math.max(oldLen + add, 2 * oldLen), TLCGlobals.setBound);
         TLCState oldv[] = this.v;
         this.v = new TLCState[newLen];
         for (int i = 0; i < this.size; i++) {
@@ -69,7 +69,9 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
         }
     }
 
-    public TLCState get(int i) { return this.v[i]; }
+    public TLCState get(int i) {
+        return this.v[i];
+    }
 
     public boolean isLastElement(final TLCState state) {
         if (isEmpty()) {
@@ -90,7 +92,9 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
      * @see tlc2.tool.IStateFunction#addElement(tlc2.tool.TLCState)
      */
     public StateVec addState(TLCState state) {
-        if (this.size >= this.v.length) { grow(1); }
+        if (this.size >= this.v.length) {
+            grow(1);
+        }
         this.v[this.size++] = state;
         return this;
     }
@@ -118,14 +122,14 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
             v0 = s0.v;
         }
         for (int i = 0; i < size1; i++) {
-            v0[size0+i] = v1[i];
+            v0[size0 + i] = v1[i];
         }
         s0.size = size0 + size1;
         return s0;
     }
 
     public void remove(int index) {
-        this.v[index] = this.v[this.size-1];
+        this.v[index] = this.v[this.size - 1];
         this.size--;
     }
 
@@ -146,7 +150,9 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
         return new StateVec(res);
     }
 
-    public void reset() { this.size = 0; }
+    public void reset() {
+        this.size = 0;
+    }
 
     public void deepNormalize() {
         for (int i = 0; i < this.size; i++) {

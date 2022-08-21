@@ -49,29 +49,29 @@ import java.util.BitSet;
  * such a behavior (SCC), it would violate the liveness property.
  */
 public class PossibleErrorModel {
-	final int[] EAAction; // <>[]act's (Eventually Always actions) (Strong fairness)
-	final int[] AEState; // []<>state's (Infinitely Often states)
-	final int[] AEAction; // []<>act's (Infinitely Often actions) (Weak fairness)
-	
-	public PossibleErrorModel(final int[] aeAction, final int[] aeState, final int[] eaAction) {
-		this.AEAction = aeAction;
-		this.AEState = aeState;
-		this.EAAction = eaAction;
-	}
-	
-	public final boolean isEmpty() {
-		return (this.EAAction.length == 0 && this.AEState.length == 0 && this.AEAction.length == 0);
-	}
+    final int[] EAAction; // <>[]act's (Eventually Always actions) (Strong fairness)
+    final int[] AEState; // []<>state's (Infinitely Often states)
+    final int[] AEAction; // []<>act's (Infinitely Often actions) (Weak fairness)
 
-	public final String toString(final LiveExprNode[] checkState, final LiveExprNode[] checkAction) {
-		final StringBuilder sb = new StringBuilder();
-		this.toString(sb, "", checkState, checkAction);
-		return sb.toString();
-	}
+    public PossibleErrorModel(final int[] aeAction, final int[] aeState, final int[] eaAction) {
+        this.AEAction = aeAction;
+        this.AEState = aeState;
+        this.EAAction = eaAction;
+    }
 
-	public final void toString(final StringBuilder sb, final String padding, final LiveExprNode[] checkState, final LiveExprNode[] checkAction) {
-		boolean noPadding = true;
-		final String padding1 = padding + "       ";
+    public final boolean isEmpty() {
+        return (this.EAAction.length == 0 && this.AEState.length == 0 && this.AEAction.length == 0);
+    }
+
+    public final String toString(final LiveExprNode[] checkState, final LiveExprNode[] checkAction) {
+        final StringBuilder sb = new StringBuilder();
+        this.toString(sb, "", checkState, checkAction);
+        return sb.toString();
+    }
+
+    public final void toString(final StringBuilder sb, final String padding, final LiveExprNode[] checkState, final LiveExprNode[] checkAction) {
+        boolean noPadding = true;
+        final String padding1 = padding + "       ";
 
         for (final int idx : this.EAAction) {
             if (noPadding) {
@@ -103,6 +103,6 @@ public class PossibleErrorModel {
             checkAction[idx].toString(sb, padding1);
             sb.append("\n");
         }
-	}
+    }
 
 }

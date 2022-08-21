@@ -11,50 +11,50 @@ import tlc2.tool.TLCState;
 import tlc2.util.Context;
 
 abstract class LNState extends LiveExprNode {
-	private final Context con;
-	private int tag;
+    private final Context con;
+    private int tag;
 
-	public LNState(final Context con) {
-		this.con = con;
-	}
+    public LNState(final Context con) {
+        this.con = con;
+    }
 
-	@Override
+    @Override
     public final int getLevel() {
-		return LevelConstants.VariableLevel;
-	}
+        return LevelConstants.VariableLevel;
+    }
 
-	@Override
+    @Override
     public final boolean containAction() {
-		return false;
-	}
+        return false;
+    }
 
-	public final boolean eval(final ITool tool, final TLCState s) {
-		return this.eval(tool, s, tool.getEmptyState());
-	}
+    public final boolean eval(final ITool tool, final TLCState s) {
+        return this.eval(tool, s, tool.getEmptyState());
+    }
 
-	public final Context getContext() {
-		return this.con;
-	}
+    public final Context getContext() {
+        return this.con;
+    }
 
-	public final int getTag() {
-		return this.tag;
-	}
+    public final int getTag() {
+        return this.tag;
+    }
 
-	private void setTag(final int t) {
-		this.tag = t;
-	}
+    private void setTag(final int t) {
+        this.tag = t;
+    }
 
-	@Override
+    @Override
     public int tagExpr(final int tag) {
-		setTag(tag);
-		return tag + 1;
-	}
+        setTag(tag);
+        return tag + 1;
+    }
 
-	@Override
+    @Override
     public boolean equals(final LiveExprNode exp) {
-		if (exp instanceof LNState lns) {
-			return getTag() == lns.getTag();
-		}
-		return false;
-	}
+        if (exp instanceof LNState lns) {
+            return getTag() == lns.getTag();
+        }
+        return false;
+    }
 }

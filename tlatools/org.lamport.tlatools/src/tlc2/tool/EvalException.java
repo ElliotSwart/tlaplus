@@ -9,46 +9,43 @@ import tlc2.output.MP;
 
 /**
  * Evaluation exception
+ *
  * @author Simon Zambrovski
  * @version $Id$
  */
-public class EvalException extends StatefulRuntimeException
-{
+public class EvalException extends StatefulRuntimeException {
 // SZ Jul 14, 2009: not used since error codes are in the {@link EC} class
 
 
     private static final long serialVersionUID = -7401139507774908329L;
-	private final int errorCode;
+    private final int errorCode;
     private final String[] parameters;
 
-	public EvalException(final int errorCode, final String[] parameters)
-    {
+    public EvalException(final int errorCode, final String[] parameters) {
         super(MP.getMessage(errorCode, parameters));
-		this.errorCode = errorCode;
-		this.parameters = parameters;
+        this.errorCode = errorCode;
+        this.parameters = parameters;
     }
 
-    public EvalException(final int errorCode, final String parameter)
-    {
-    	this(errorCode, new String[] {parameter});
+    public EvalException(final int errorCode, final String parameter) {
+        this(errorCode, new String[]{parameter});
     }
 
-    public EvalException(final int errorCode)
-    {
+    public EvalException(final int errorCode) {
         super(MP.getMessage(errorCode));
-		this.errorCode = errorCode;
-		this.parameters = null;
+        this.errorCode = errorCode;
+        this.parameters = null;
     }
 
     public int getErrorCode() {
-    	return errorCode;
+        return errorCode;
     }
 
-	public String[] getParameters() {
-		return parameters;
-	}
+    public String[] getParameters() {
+        return parameters;
+    }
 
-	public boolean hasParameters() {
-		return parameters != null;
-	}
+    public boolean hasParameters() {
+        return parameters != null;
+    }
 }

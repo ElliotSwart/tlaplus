@@ -5,6 +5,16 @@
 
 package tlc2.tool;
 
+import tla2sany.semantic.OpDeclNode;
+import tla2sany.semantic.SemanticNode;
+import tla2sany.semantic.SymbolNode;
+import tlc2.TLCGlobals;
+import tlc2.util.Context;
+import tlc2.util.FP64;
+import tlc2.value.*;
+import util.UniqueString;
+import util.WrongInvocationException;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Comparator;
@@ -12,85 +22,68 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
-import tla2sany.semantic.OpDeclNode;
-import tla2sany.semantic.SemanticNode;
-import tla2sany.semantic.SymbolNode;
-import tlc2.TLCGlobals;
-import tlc2.util.Context;
-import tlc2.util.FP64;
-import tlc2.value.IMVPerm;
-import tlc2.value.IValue;
-import tlc2.value.IValueInputStream;
-import tlc2.value.IValueOutputStream;
-import tlc2.value.Values;
-import util.UniqueString;
-import util.WrongInvocationException;
-
 /**
  * This class represents a TLA+ state, which simply is an assignment
  * of explicit values to all the global variables.  This is the
  * mutable version, which means that in-place updates are used for
  * improved performance and reduced allocation.
- *
+ * <p>
  * The viewMap was added by Rajeev Joshi.
  */
 public final class TLCStateMut extends TLCState implements Cloneable, Serializable {
-  private static final long serialVersionUID = 4041379887531543818L;
-private final IValue[] values;
-  private final ITool mytool;
+    private static final long serialVersionUID = 4041379887531543818L;
+    private final IValue[] values;
+    private final ITool mytool;
 
-  /**
-   * If non-null, viewMap denotes the function to be applied to
-   * a state before its fingerprint is computed.
-   */
-  private final SemanticNode viewMap;
+    /**
+     * If non-null, viewMap denotes the function to be applied to
+     * a state before its fingerprint is computed.
+     */
+    private final SemanticNode viewMap;
 
-  /**
-   * If non-null, perms denotes the set of permutations under the
-   * symmetry assumption.
-   */
-  private final IMVPerm[] perms;
+    /**
+     * If non-null, perms denotes the set of permutations under the
+     * symmetry assumption.
+     */
+    private final IMVPerm[] perms;
 
-  private TLCStateMut(final OpDeclNode[] vars, final IValue[] vals, final ITool tool) {
-      this(vars, vals, tool, tool.getViewSpec(), tool.getSymmetryPerms());
-  }
+    private TLCStateMut(final OpDeclNode[] vars, final IValue[] vals, final ITool tool) {
+        this(vars, vals, tool, tool.getViewSpec(), tool.getSymmetryPerms());
+    }
 
-  public TLCStateMut(final OpDeclNode[] vars, final IValue[] vals, final ITool tool, final SemanticNode viewMap, final IMVPerm[] perms) {
-    super(vars);
-    this.values = vals;
-    this.mytool = tool;
-    this.viewMap = viewMap;
-    this.perms = perms;
-  }
+    public TLCStateMut(final OpDeclNode[] vars, final IValue[] vals, final ITool tool, final SemanticNode viewMap, final IMVPerm[] perms) {
+        super(vars);
+        this.values = vals;
+        this.mytool = tool;
+        this.viewMap = viewMap;
+        this.perms = perms;
+    }
 
-  public TLCStateMut(final short workerId, final long uid, final int level, final OpDeclNode[] vars, final IValue[] vals, final ITool tool, final SemanticNode viewMap, final IMVPerm[] perms) {
+    public TLCStateMut(final short workerId, final long uid, final int level, final OpDeclNode[] vars, final IValue[] vals, final ITool tool, final SemanticNode viewMap, final IMVPerm[] perms) {
         super(workerId, uid, level, vars);
         this.values = vals;
         this.mytool = tool;
         this.viewMap = viewMap;
         this.perms = perms;
-  }
+    }
 
 
-  
-  public static TLCState getEmpty(final OpDeclNode[] vars, final ITool tool)
-  {
-      final IValue[] vals = new IValue[vars.length];
-      return new TLCStateMut(vars, vals, tool);
-      // SZ 10.04.2009: since this method is called exactly one from Spec#processSpec
-      // moved the call of UniqueString#setVariables to that place
-  }
+    public static TLCState getEmpty(final OpDeclNode[] vars, final ITool tool) {
+        final IValue[] vals = new IValue[vars.length];
+        return new TLCStateMut(vars, vals, tool);
+        // SZ 10.04.2009: since this method is called exactly one from Spec#processSpec
+        // moved the call of UniqueString#setVariables to that place
+    }
 
-
-
-  @Override
-  public TLCState createEmpty() {
-    final IValue[] vals = new IValue[vars.length];
-      return new TLCStateMut(vars, vals, mytool, viewMap, perms);
-  }
 
     @Override
-  public TLCState createNewFromValueStream(final IValueInputStream vis) throws IOException{
+    public TLCState createEmpty() {
+        final IValue[] vals = new IValue[vars.length];
+        return new TLCStateMut(vars, vals, mytool, viewMap, perms);
+    }
+
+    @Override
+    public TLCState createNewFromValueStream(final IValueInputStream vis) throws IOException {
         var workerId = vis.readShortNat();
         var uid = vis.readLongNat();
         var level = vis.readShortNat();
@@ -102,94 +95,93 @@ private final IValue[] values;
         }
 
         return new TLCStateMut(workerId, uid, level, vars, vals, mytool, viewMap, perms);
-  }
-
-  //TODO equals without hashcode!
-  public boolean equals(final Object obj) {
-    if (obj instanceof final TLCStateMut state) {
-        for (int i = 0; i < this.values.length; i++) {
-	if (this.values[i] == null) {
-	  if (state.values[i] != null) return false;
-	}
-	else if (state.values[i] == null ||
-		 !this.values[i].equals(state.values[i])) {
-	  return false;
-	}
-      }
-      return true;
     }
-    return false;
-  }
-  
-  @Override
-  public TLCState bind(final UniqueString name, final IValue value) {
-	  // Note, tla2sany.semantic.OpApplNode.toString(Value) relies on this ordering.
-    final int loc = name.getVarLoc(values.length);
-    this.values[loc] = value;
-    return this;
-  }
 
-  @Override
-  public TLCState bind(final SymbolNode id, final IValue value) {
-    throw new WrongInvocationException("TLCStateMut.bind: This is a TLC bug.");
-  }
-  
-  @Override
-  public TLCState unbind(final UniqueString name) {
-    final int loc = name.getVarLoc(values.length);
-    this.values[loc] = null;
-    return this;
-  }
-
-  @Override
-  public IValue lookup(final UniqueString var) {
-    final int loc = var.getVarLoc(values.length);
-    if (loc < 0) return null;
-    return this.values[loc];
-  }
-
-  @Override
-  public boolean containsKey(final UniqueString var) {
-    return (this.lookup(var) != null);
-  }
-
-  @Override
-  public TLCState copy() {
-    final int len = this.values.length;
-    final IValue[] vals = new IValue[len];
-      System.arraycopy(this.values, 0, vals, 0, len);
-    return copy(new TLCStateMut(vars, vals, mytool, viewMap, perms));
-  }
-
-  @Override
-  public TLCState deepCopy() {
-    final int len = this.values.length;
-    final IValue[] vals = new IValue[len];
-    for (int i = 0; i < len; i++) {
-      final IValue val = this.values[i];
-      if (val != null) {
-	vals[i] = val.deepCopy();
-      }
+    //TODO equals without hashcode!
+    public boolean equals(final Object obj) {
+        if (obj instanceof final TLCStateMut state) {
+            for (int i = 0; i < this.values.length; i++) {
+                if (this.values[i] == null) {
+                    if (state.values[i] != null) return false;
+                } else if (state.values[i] == null ||
+                        !this.values[i].equals(state.values[i])) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
-	return deepCopy(new TLCStateMut(vars, vals, mytool, viewMap, perms));
-  }
 
-  @Override
-  public StateVec addToVec(final StateVec states) {
-    return states.addState(this.copy());
-  }
-  
-  @Override
-  public void deepNormalize() {
-      for (final IValue val : this.values) {
-          if (val != null) {
-              val.deepNormalize();
-          }
-      }
-  }
+    @Override
+    public TLCState bind(final UniqueString name, final IValue value) {
+        // Note, tla2sany.semantic.OpApplNode.toString(Value) relies on this ordering.
+        final int loc = name.getVarLoc(values.length);
+        this.values[loc] = value;
+        return this;
+    }
 
-    public long generateFingerPrint(){
-      final int sz = this.values.length;
+    @Override
+    public TLCState bind(final SymbolNode id, final IValue value) {
+        throw new WrongInvocationException("TLCStateMut.bind: This is a TLC bug.");
+    }
+
+    @Override
+    public TLCState unbind(final UniqueString name) {
+        final int loc = name.getVarLoc(values.length);
+        this.values[loc] = null;
+        return this;
+    }
+
+    @Override
+    public IValue lookup(final UniqueString var) {
+        final int loc = var.getVarLoc(values.length);
+        if (loc < 0) return null;
+        return this.values[loc];
+    }
+
+    @Override
+    public boolean containsKey(final UniqueString var) {
+        return (this.lookup(var) != null);
+    }
+
+    @Override
+    public TLCState copy() {
+        final int len = this.values.length;
+        final IValue[] vals = new IValue[len];
+        System.arraycopy(this.values, 0, vals, 0, len);
+        return copy(new TLCStateMut(vars, vals, mytool, viewMap, perms));
+    }
+
+    @Override
+    public TLCState deepCopy() {
+        final int len = this.values.length;
+        final IValue[] vals = new IValue[len];
+        for (int i = 0; i < len; i++) {
+            final IValue val = this.values[i];
+            if (val != null) {
+                vals[i] = val.deepCopy();
+            }
+        }
+        return deepCopy(new TLCStateMut(vars, vals, mytool, viewMap, perms));
+    }
+
+    @Override
+    public StateVec addToVec(final StateVec states) {
+        return states.addState(this.copy());
+    }
+
+    @Override
+    public void deepNormalize() {
+        for (final IValue val : this.values) {
+            if (val != null) {
+                val.deepNormalize();
+            }
+        }
+    }
+
+    public long generateFingerPrint() {
+        final int sz = this.values.length;
 
         // TLC supports symmetry reduction. Symmetry reduction works by defining classes
         // of symmetrically equivalent states for which TLC only checks a
@@ -292,118 +284,116 @@ private final IValue[] values;
         return fp;
     }
 
-  /**
-   * This method returns the fingerprint of this state. We fingerprint
-   * the values in the state according to the order given by vars.
-   * This guarantees the same state has the same fingerprint.
-   *
-   * Since the values in this state can be shared by multiple threads
-   * via the state queue. They have to be normalized before adding to
-   * the state queue.  We do that here.
-   */
-	@Override
+    /**
+     * This method returns the fingerprint of this state. We fingerprint
+     * the values in the state according to the order given by vars.
+     * This guarantees the same state has the same fingerprint.
+     * <p>
+     * Since the values in this state can be shared by multiple threads
+     * via the state queue. They have to be normalized before adding to
+     * the state queue.  We do that here.
+     */
+    @Override
     public long fingerPrint() {
         return generateFingerPrint();
-	}
-
-  @Override
-  public boolean allAssigned() {
-    for (final IValue value : this.values) {
-          if (value == null) return false;
-      }
-    return true;
-  }
+    }
 
     @Override
-	public boolean noneAssigned() {
-		for (final IValue value : this.values) {
+    public boolean allAssigned() {
+        for (final IValue value : this.values) {
+            if (value == null) return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean noneAssigned() {
+        for (final IValue value : this.values) {
             if (value != null) {
                 return false;
             }
         }
-		return true;
-	}
- 
-    @Override
-	public Set<OpDeclNode> getUnassigned() {
-		// Return sorted set (lexicographical).
-		final Set<OpDeclNode> unassignedVars = new TreeSet<>(Comparator.comparing(o -> o.getName().toString()));
-		final int len = this.values.length;
-		for (int i = 0; i < len; i++) {
-			if (values[i] == null) {
-				unassignedVars.add(vars[i]);
-			}
-		}
-		return unassignedVars;
-	}
+        return true;
+    }
 
-  @Override
-  public void write(final IValueOutputStream vos) throws IOException {
-    super.write(vos);
-    for (final IValue value : this.values) {
-          value.write(vos);
-      }
-  }
-  
-  /* Returns a string representation of this state.  */
-  public String toString() {
-    if (TLCGlobals.useView && viewMap != null) {
-      final IValue val = mytool.eval(viewMap, Context.Empty, this);
-      return viewMap.toString(val);
+    @Override
+    public Set<OpDeclNode> getUnassigned() {
+        // Return sorted set (lexicographical).
+        final Set<OpDeclNode> unassignedVars = new TreeSet<>(Comparator.comparing(o -> o.getName().toString()));
+        final int len = this.values.length;
+        for (int i = 0; i < len; i++) {
+            if (values[i] == null) {
+                unassignedVars.add(vars[i]);
+            }
+        }
+        return unassignedVars;
     }
-    final StringBuilder result = new StringBuilder();
-    final int vlen = vars.length;
-    if (vlen == 1) {
-      final UniqueString key = vars[0].getName();
-      final IValue val = this.lookup(key);
-      result.append(key);
-      result.append(" = ");
-      result.append(Values.ppr(val));
-      result.append("\n");
+
+    @Override
+    public void write(final IValueOutputStream vos) throws IOException {
+        super.write(vos);
+        for (final IValue value : this.values) {
+            value.write(vos);
+        }
     }
-    else {
-        for (final OpDeclNode var : vars) {
-            final UniqueString key = var.getName();
+
+    /* Returns a string representation of this state.  */
+    public String toString() {
+        if (TLCGlobals.useView && viewMap != null) {
+            final IValue val = mytool.eval(viewMap, Context.Empty, this);
+            return viewMap.toString(val);
+        }
+        final StringBuilder result = new StringBuilder();
+        final int vlen = vars.length;
+        if (vlen == 1) {
+            final UniqueString key = vars[0].getName();
             final IValue val = this.lookup(key);
-            result.append("/\\ ");
             result.append(key);
             result.append(" = ");
             result.append(Values.ppr(val));
             result.append("\n");
+        } else {
+            for (final OpDeclNode var : vars) {
+                final UniqueString key = var.getName();
+                final IValue val = this.lookup(key);
+                result.append("/\\ ");
+                result.append(key);
+                result.append(" = ");
+                result.append(Values.ppr(val));
+                result.append("\n");
+            }
         }
+        return result.toString();
     }
-    return result.toString();
-  }
-  
-  /* Returns a string representation of this state.  */
-  @Override
-  public String toString(final TLCState lastState) {
-    final StringBuilder result = new StringBuilder();
-    final TLCStateMut lstate = (TLCStateMut)lastState;
 
-    final int vlen = vars.length;
-    if (vlen == 1) {
-      final UniqueString key = vars[0].getName();
-      final IValue val = this.lookup(key);
-      final IValue lstateVal = lstate.lookup(key);
-      if (!Objects.requireNonNull(lstateVal).equals(val)) {
-	result.append(key);
-	result.append(" = ").append(Values.ppr(val)).append("\n");
-      }
-    }
-    else {
-        for (final OpDeclNode var : vars) {
-            final UniqueString key = var.getName();
+    /* Returns a string representation of this state.  */
+    @Override
+    public String toString(final TLCState lastState) {
+        final StringBuilder result = new StringBuilder();
+        final TLCStateMut lstate = (TLCStateMut) lastState;
+
+        final int vlen = vars.length;
+        if (vlen == 1) {
+            final UniqueString key = vars[0].getName();
             final IValue val = this.lookup(key);
             final IValue lstateVal = lstate.lookup(key);
             if (!Objects.requireNonNull(lstateVal).equals(val)) {
-                result.append("/\\ ");
                 result.append(key);
                 result.append(" = ").append(Values.ppr(val)).append("\n");
             }
+        } else {
+            for (final OpDeclNode var : vars) {
+                final UniqueString key = var.getName();
+                final IValue val = this.lookup(key);
+                final IValue lstateVal = lstate.lookup(key);
+                if (!Objects.requireNonNull(lstateVal).equals(val)) {
+                    result.append("/\\ ");
+                    result.append(key);
+                    result.append(" = ").append(Values.ppr(val)).append("\n");
+                }
+            }
         }
+        return result.toString();
     }
-    return result.toString();
-  }
 
 }

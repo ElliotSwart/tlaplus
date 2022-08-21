@@ -2,19 +2,10 @@
 // Portions Copyright (c) 2003 Microsoft Corporation.  All rights reserved.
 package util;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import tlc2.TLCGlobals;
+import tlc2.output.EC;
+
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
@@ -24,16 +15,13 @@ import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import tlc2.TLCGlobals;
-import tlc2.output.EC;
-
 /**
  * Utilities for file modifications
+ *
  * @author Simon Zambrovski
  * @version $Id$
  */
-public class FileUtil
-{
+public class FileUtil {
     public static final char separatorChar = File.separatorChar;
     public static final String separator = File.separator;
     public static final String pathSeparator = File.pathSeparator;
@@ -56,28 +44,23 @@ public class FileUtil
      * succeeds. The argument recurse forces the deletion of non-empty
      * directory.
      */
-    public static boolean deleteDir(final File file, final boolean recurse)
-    {
+    public static boolean deleteDir(final File file, final boolean recurse) {
         return doDeleteDir(file, recurse);
     }
 
     /**
      * Convenience method
      */
-    public static boolean deleteDir(final String filename, final boolean recurse)
-    {
+    public static boolean deleteDir(final String filename, final boolean recurse) {
         return doDeleteDir(new File(filename), recurse);
     }
 
     /**
      * Implementation of the file deletion
      */
-    private static boolean doDeleteDir(final File file, final boolean recurse)
-    {
-        if (file !=null && file.exists())
-        {
-            if (file.isFile() || !recurse)
-            {
+    private static boolean doDeleteDir(final File file, final boolean recurse) {
+        if (file != null && file.exists()) {
+            if (file.isFile() || !recurse) {
                 return file.delete();
             }
             // must be a directory:
@@ -97,26 +80,21 @@ public class FileUtil
 
     /**
      * Constructs a input stream from the file
-     * @throws IOException
-     * SZ Feb 20, 2009: FileNotFoundException removed
+     *
+     * @throws IOException SZ Feb 20, 2009: FileNotFoundException removed
      */
     public static InputStream newBZFileInputStream(final String file, final boolean useGzip, final boolean useIBuffers, final int buffersize)
-            throws IOException
-    {
-        if (useGzip)
-        {
+            throws IOException {
+        if (useGzip) {
             return new GZIPInputStream(new FileInputStream(file), buffersize);
-        } else if (useIBuffers)
-        {
+        } else if (useIBuffers) {
             return new BufferedInputStream(new FileInputStream(file), buffersize);
-        } else
-        {
+        } else {
             return new FileInputStream(file);
         }
     }
 
-    public static InputStream newZFileInputStream(final String file) throws IOException
-    {
+    public static InputStream newZFileInputStream(final String file) throws IOException {
         return new GZIPInputStream(new FileInputStream(file));
     }
 
@@ -124,8 +102,7 @@ public class FileUtil
      * Constructs an output stream to a file
      */
     public static OutputStream newBZFileOutputStream(final String file, final boolean useGzip, final boolean useOBuffers, final int buffersize)
-            throws IOException
-    {
+            throws IOException {
         return newBZFileOutputStream(file, useGzip, useOBuffers, buffersize, false);
     }
 
@@ -133,71 +110,63 @@ public class FileUtil
      * Constructs an output stream to a file
      */
     public static OutputStream newBZFileOutputStream(final String file, final boolean useGzip, final boolean useOBuffers, final int buffersize,
-                                                     final boolean app) throws IOException
-    {
-        if (useGzip)
-        {
+                                                     final boolean app) throws IOException {
+        if (useGzip) {
             return new GZIPOutputStream(new FileOutputStream(file, app), buffersize);
-        } else if (useOBuffers)
-        {
+        } else if (useOBuffers) {
             return new BufferedOutputStream(new FileOutputStream(file, app), buffersize);
-        } else
-        {
+        } else {
             return new FileOutputStream(file, app);
         }
     }
 
     public static void copyFile(final String fromName, final String toName) throws IOException {
-    	copyFile(new File(fromName), new File(toName));
-    }
-    
-    
-    public static void copyFile(final File source, final File destination) throws IOException {
-    	Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        copyFile(new File(fromName), new File(toName));
     }
 
-	/**
-	 * Atomically replaces the file targetName with the file sourceName.
+
+    public static void copyFile(final File source, final File destination) throws IOException {
+        Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    /**
+     * Atomically replaces the file targetName with the file sourceName.
      */
-	public static void replaceFile(final String sourceName, final String targetName) throws IOException {
-		Files.move(new File(sourceName).toPath(), new File(targetName).toPath(), StandardCopyOption.REPLACE_EXISTING);
-	}
+    public static void replaceFile(final String sourceName, final String targetName) throws IOException {
+        Files.move(new File(sourceName).toPath(), new File(targetName).toPath(), StandardCopyOption.REPLACE_EXISTING);
+    }
 
     /**
      * The MetaDir is fromChkpt if it is not null. Otherwise, create a
      * new one based on the current time.
-     * @param specDir the specification directory
-     * @param fromChkpt, path of the checkpoints if recovering, or <code>null</code>
      *
+     * @param specDir    the specification directory
+     * @param fromChkpt, path of the checkpoints if recovering, or <code>null</code>
      */
-    public static String makeMetaDir(final String specDir, final String fromChkpt)
-    {
-    	return makeMetaDir(new Date(), specDir, fromChkpt);
+    public static String makeMetaDir(final String specDir, final String fromChkpt) {
+        return makeMetaDir(new Date(), specDir, fromChkpt);
     }
-    
-    public static String makeMetaDir(final Date date, final String specDir, final String fromChkpt)
-    {
-        if (fromChkpt != null)
-        {
+
+    public static String makeMetaDir(final Date date, final String specDir, final String fromChkpt) {
+        if (fromChkpt != null) {
             return fromChkpt;
         }
         String metadir = TLCGlobals.metaDir;
-        if (metadir == null)
-        {
+        if (metadir == null) {
             // If not given, use the directory specDir/metaRoot:
             metadir = specDir + TLCGlobals.metaRoot + FileUtil.separator;
         }
 
-		// MAK 07/2021: Flip the default from low-res time-stamp to high-res time-stamp.
-		// The old default causes problems when TLC is invoked on a small spec in
-		// scripts or e.g. bash while loops.
+        // MAK 07/2021: Flip the default from low-res time-stamp to high-res time-stamp.
+        // The old default causes problems when TLC is invoked on a small spec in
+        // scripts or e.g. bash while loops.
         final SimpleDateFormat sdf;
         final String highres = System.getProperty(FileUtil.class.getName() + ".milliseconds", "true");
         if (Boolean.parseBoolean(highres)) {
-        	sdf = new SimpleDateFormat("yy-MM-dd-HH-mm-ss.SSS");
+            sdf = new SimpleDateFormat("yy-MM-dd-HH-mm-ss.SSS");
         } else {
-        	// -Dutil.FileUtil.milliseconds=false
-        	sdf = new SimpleDateFormat("yy-MM-dd-HH-mm-ss");
+            // -Dutil.FileUtil.milliseconds=false
+            sdf = new SimpleDateFormat("yy-MM-dd-HH-mm-ss");
         }
         metadir += sdf.format(date);
         metadir += "-";
@@ -214,30 +183,27 @@ public class FileUtil
         return metadir;
     }
 
-    public static boolean namedInputStreamCanBeCreated(final String name, final FilenameToStream resolver){
-        try(final NamedInputStream is = FileUtil.createNamedInputStream(name, resolver)){
+    public static boolean namedInputStreamCanBeCreated(final String name, final FilenameToStream resolver) {
+        try (final NamedInputStream is = FileUtil.createNamedInputStream(name, resolver)) {
             return (is != null);
-        }
-        catch(final Exception e) {
+        } catch (final Exception e) {
             return false;
         }
     }
 
-    public static NamedInputStream createNamedInputStream(final String name, final FilenameToStream resolver)
-    {
+    public static NamedInputStream createNamedInputStream(final String name, final FilenameToStream resolver) {
         return FileUtil.createNamedInputStream(name, resolver, null);
     }
 
-    public static NamedInputStream createNamedInputStream(String name, final FilenameToStream resolver, final NamedInputStream rootFileNis)
-    {
+    public static NamedInputStream createNamedInputStream(String name, final FilenameToStream resolver, final NamedInputStream rootFileNis) {
         // Strip off one NEWLINE and anything after it, if it is there
         final int n;
-        n = name.indexOf( '\n' );
-        if ( n >= 0 ) {
+        n = name.indexOf('\n');
+        if (n >= 0) {
             // SZ Feb 20, 2009: the message adjusted to what is actually done
             ToolIO.out.println("*** Warning: module name '" + name + "' contained NEWLINE; "
                     + "Only the part before NEWLINE is considered.");
-            name = name.substring( 0, n );     // Strip off the newline
+            name = name.substring(0, n);     // Strip off the newline
         }
 
 
@@ -249,8 +215,7 @@ public class FileUtil
         // or name=/frob/bar/somemod
 
         // Make sure the file name ends with ".tla".
-        if (name.toLowerCase().endsWith(TLAConstants.Files.TLA_EXTENSION))
-        {
+        if (name.toLowerCase().endsWith(TLAConstants.Files.TLA_EXTENSION)) {
             name = name.substring(0, (name.length() - TLAConstants.Files.TLA_EXTENSION.length()));
         }
 
@@ -264,14 +229,11 @@ public class FileUtil
         sourceModuleName = name.substring(name.lastIndexOf(FileUtil.separator) + 1);
 
         final File sourceFile = resolver.resolve(sourceFileName, true);
-        if (sourceFile != null && sourceFile.exists())
-        {
-            try
-            {
+        if (sourceFile != null && sourceFile.exists()) {
+            try {
                 final NamedInputStream nis = new NamedInputStream(sourceFileName, sourceModuleName, sourceFile);
                 return nis;
-            } catch (final FileNotFoundException e)
-            {
+            } catch (final FileNotFoundException e) {
                 ToolIO.out.println("***Internal error: Unable to create NamedInputStream in toIStream method");
             }
         }
@@ -295,44 +257,34 @@ public class FileUtil
          * or the file cannot be read and now some printouts into ToolIO.err is being done.
          * Also, information about the actual path it is looking into is being added to the message.
          */
-        else if (sourceFile != null)
-        {
-          ToolIO.err.println("File does not exist: " + sourceFile.getAbsolutePath() +
-              " while looking in these directories: " + resolver.getFullPath());
-        }
-        else
-        {
-          ToolIO.err.println("Cannot locate " + sourceFileName + " in path: " + resolver.getFullPath());
+        else if (sourceFile != null) {
+            ToolIO.err.println("File does not exist: " + sourceFile.getAbsolutePath() +
+                    " while looking in these directories: " + resolver.getFullPath());
+        } else {
+            ToolIO.err.println("Cannot locate " + sourceFileName + " in path: " + resolver.getFullPath());
         }
         // TL - end of addition
         return null;
     }
 
-    public static FileInputStream newFIS(final File file)
-    {
-        if (file != null && file.exists())
-        {
-            try
-            {
+    public static FileInputStream newFIS(final File file) {
+        if (file != null && file.exists()) {
+            try {
                 final FileInputStream fis = new FileInputStream(file);
                 return fis;
-            } catch (final FileNotFoundException e)
-            {
+            } catch (final FileNotFoundException e) {
                 ToolIO.out.println("***Internal error: Unable to create FileInputStream");
             }
         }
         return null;
     }
-    public static FileOutputStream newFOS(final File file)
-    {
-        if (file != null && file.exists())
-        {
-            try
-            {
+
+    public static FileOutputStream newFOS(final File file) {
+        if (file != null && file.exists()) {
+            try {
                 final FileOutputStream fos = new FileOutputStream(file);
                 return fos;
-            } catch (final FileNotFoundException e)
-            {
+            } catch (final FileNotFoundException e) {
                 ToolIO.out.println("***Internal error: Unable to create FileOutStream");
             }
         }
@@ -343,23 +295,18 @@ public class FileUtil
     /**
      * retrieves a new buffered file output stream
      */
-    public static OutputStream newBFOS(final String name) throws FileNotFoundException
-    {
-        try
-        {
+    public static OutputStream newBFOS(final String name) throws FileNotFoundException {
+        try {
             return new FileOutputStream(name);
-        } catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             ToolIO.out.println("Error: Unable to write to file " + name);
             throw e;
         }
     }
 
     @SuppressWarnings("resource")
-	public static BufferedDataInputStream newBdFIS(final boolean useGZIP, final File file) throws IOException
-    {
-        if (useGZIP)
-        {
+    public static BufferedDataInputStream newBdFIS(final boolean useGZIP, final File file) throws IOException {
+        if (useGZIP) {
             return new BufferedDataInputStream(new GZIPInputStream(new FileInputStream(file)));
         } else {
             return new BufferedDataInputStream(new FileInputStream(file));
@@ -367,19 +314,18 @@ public class FileUtil
     }
 
     /**
+     *
      */
-    public static BufferedDataInputStream newBdFIS(final boolean useGZIP, final String filename) throws IOException
-    {
+    public static BufferedDataInputStream newBdFIS(final boolean useGZIP, final String filename) throws IOException {
         return newBdFIS(useGZIP, new File(filename));
     }
 
     /**
+     *
      */
     @SuppressWarnings("resource")
-	public static BufferedDataOutputStream newBdFOS(final boolean useGZIP, final File file) throws FileNotFoundException, IOException
-    {
-        if (useGZIP)
-        {
+    public static BufferedDataOutputStream newBdFOS(final boolean useGZIP, final File file) throws FileNotFoundException, IOException {
+        if (useGZIP) {
             return new BufferedDataOutputStream(new GZIPOutputStream(new FileOutputStream(file)));
         } else {
             return new BufferedDataOutputStream(new FileOutputStream(file));
@@ -387,92 +333,91 @@ public class FileUtil
     }
 
     /**
+     *
      */
-    public static BufferedDataOutputStream newBdFOS(final boolean useGZIP, final String filename) throws IOException
-    {
+    public static BufferedDataOutputStream newBdFOS(final boolean useGZIP, final String filename) throws IOException {
         return newBdFOS(useGZIP, new File(filename));
     }
 
 
-    public static ObjectInputStream newOBFIS(final File file) throws IOException
-    {
+    public static ObjectInputStream newOBFIS(final File file) throws IOException {
         return new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)));
     }
 
     /**
+     *
      */
-    public static ObjectInputStream newOBFIS(final String filename) throws FileNotFoundException, IOException
-    {
+    public static ObjectInputStream newOBFIS(final String filename) throws FileNotFoundException, IOException {
         return newOBFIS(new File(filename));
     }
 
 
     /**
+     *
      */
-    public static ObjectOutputStream newOBFOS(final File file) throws FileNotFoundException, IOException
-    {
+    public static ObjectOutputStream newOBFOS(final File file) throws FileNotFoundException, IOException {
         return new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
     }
 
     /**
+     *
      */
-    public static ObjectOutputStream newOBFOS(final String filename) throws FileNotFoundException, IOException
-    {
+    public static ObjectOutputStream newOBFOS(final String filename) throws FileNotFoundException, IOException {
         return newOBFOS(new File(filename));
     }
 
     /**
+     *
      */
-    public static DataInputStream newDFIS(final String filename) throws FileNotFoundException
-    {
+    public static DataInputStream newDFIS(final String filename) throws FileNotFoundException {
         return new DataInputStream(new FileInputStream(filename));
     }
 
     /**
+     *
      */
-    public static DataOutputStream newDFOS(final String filename) throws FileNotFoundException
-    {
+    public static DataOutputStream newDFOS(final String filename) throws FileNotFoundException {
         return new DataOutputStream(new FileOutputStream(filename));
     }
 
-	public static File createTempFile(final String fileName) {
-		final File file;
-		// Create the temp file in Java's temp dir unless TLC's metaDir has been set. The
-		// latter won't be the case when SANY is invoked directly or during the early
-		// startup phase of TLC.
-		if (TLCGlobals.metaDir != null) {
-			file = new File(TLCGlobals.metaDir + separatorChar + fileName);
-		} else {
-			final String tDir = System.getProperty("java.io.tmpdir");
-			file = new File(tDir + separatorChar + fileName);
-		}
-		// Let's get rid of the file when TLC terminates.
-		file.deleteOnExit();
-		return file;
-	}
-	
-	
-	/**
-	 * This is themed on commons-io-2.6's IOUtils.copyLarge(InputStream, OutputStream, byte[]) -
-	 * 	once we move to Java9+, dump this usage in favor of InputStream.transferTo(OutputStream)
-	 * 
-	 * @return the count of bytes copied
-	 */
-	public static long copyStream(final InputStream is, final OutputStream os) throws IOException {
-		final byte[] buffer = new byte[1024 * 4];
-		long byteCount = 0;
-		int n;
-		final BufferedInputStream bis = (is instanceof BufferedInputStream) ? (BufferedInputStream)is
-																			: new BufferedInputStream(is);
-		final BufferedOutputStream bos = (os instanceof BufferedOutputStream) ? (BufferedOutputStream)os
-																			  : new BufferedOutputStream(os);
-		while ((n = bis.read(buffer)) != -1) {
-			bos.write(buffer, 0, n);
-			byteCount += n;
-		}
-		
-		bos.flush();
-		
-		return byteCount;
-	}
+    public static File createTempFile(final String fileName) {
+        final File file;
+        // Create the temp file in Java's temp dir unless TLC's metaDir has been set. The
+        // latter won't be the case when SANY is invoked directly or during the early
+        // startup phase of TLC.
+        if (TLCGlobals.metaDir != null) {
+            file = new File(TLCGlobals.metaDir + separatorChar + fileName);
+        } else {
+            final String tDir = System.getProperty("java.io.tmpdir");
+            file = new File(tDir + separatorChar + fileName);
+        }
+        // Let's get rid of the file when TLC terminates.
+        file.deleteOnExit();
+        return file;
+    }
+
+
+    /**
+     * This is themed on commons-io-2.6's IOUtils.copyLarge(InputStream, OutputStream, byte[]) -
+     * once we move to Java9+, dump this usage in favor of InputStream.transferTo(OutputStream)
+     *
+     * @return the count of bytes copied
+     */
+    public static long copyStream(final InputStream is, final OutputStream os) throws IOException {
+        final byte[] buffer = new byte[1024 * 4];
+        long byteCount = 0;
+        int n;
+        final BufferedInputStream bis = (is instanceof BufferedInputStream) ? (BufferedInputStream) is
+                : new BufferedInputStream(is);
+        final BufferedOutputStream bos = (os instanceof BufferedOutputStream) ? (BufferedOutputStream) os
+                : new BufferedOutputStream(os);
+        while ((n = bis.read(buffer)) != -1) {
+            bos.write(buffer, 0, n);
+            byteCount += n;
+        }
+
+        bos.flush();
+
+        return byteCount;
+    }
 }

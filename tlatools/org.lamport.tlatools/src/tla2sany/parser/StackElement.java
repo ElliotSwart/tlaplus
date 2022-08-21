@@ -2,8 +2,11 @@
 package tla2sany.parser;
 
 class StackElement {
-  final int Kind;
-  final int Offset;
+    final int Kind;
+    final int Offset;
 
-  StackElement(final int o, final int k) { Kind = k; Offset = o; }
+    StackElement(final int o, final int k) {
+        Kind = k;
+        Offset = o;
+    }
 }

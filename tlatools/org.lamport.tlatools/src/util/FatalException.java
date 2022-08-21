@@ -1,6 +1,6 @@
 package util;
 
-public class FatalException extends RuntimeException{
+public class FatalException extends RuntimeException {
     private static final long serialVersionUID = -2030383158972968448L;
     public final int errorCode;
 
@@ -9,7 +9,7 @@ public class FatalException extends RuntimeException{
         this.errorCode = errorCode;
     }
 
-    public FatalException(String message, Throwable cause){
+    public FatalException(String message, Throwable cause) {
         this(message, cause, 1);
     }
 

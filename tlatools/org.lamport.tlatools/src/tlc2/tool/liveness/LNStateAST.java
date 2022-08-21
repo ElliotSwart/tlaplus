@@ -24,59 +24,59 @@ import util.Assert;
  * @version $Id$
  */
 class LNStateAST extends LNState {
-	private final ExprNode body;
+    private final ExprNode body;
 
-	public LNStateAST(final ExprNode body, final Context con) {
-		super(con);
-		this.body = body;
-	}
+    public LNStateAST(final ExprNode body, final Context con) {
+        super(con);
+        this.body = body;
+    }
 
-	public final ExprNode getBody() {
-		return this.body;
-	}
+    public final ExprNode getBody() {
+        return this.body;
+    }
 
-	@Override
+    @Override
     public final boolean eval(final ITool tool, final TLCState s1, final TLCState s2) {
-		final IValue val = tool.eval(this.body, getContext(), s1);
-		if (!(val instanceof IBoolValue)) {
-			Assert.fail(EC.TLC_LIVE_STATE_PREDICATE_NON_BOOL);
-		}
-		return ((IBoolValue) val).getVal();
-	}
+        final IValue val = tool.eval(this.body, getContext(), s1);
+        if (!(val instanceof IBoolValue)) {
+            Assert.fail(EC.TLC_LIVE_STATE_PREDICATE_NON_BOOL);
+        }
+        return ((IBoolValue) val).getVal();
+    }
 
-	@Override
+    @Override
     public final void toString(final StringBuilder sb, final String padding) {
-		sb.append(this.body);
-	}
-	
-	/* (non-Javadoc)
-	 * @see tlc2.tool.liveness.LiveExprNode#toDotViz()
-	 */
-	@Override
+        sb.append(this.body);
+    }
+
+    /* (non-Javadoc)
+     * @see tlc2.tool.liveness.LiveExprNode#toDotViz()
+     */
+    @Override
     public String toDotViz() {
-		final StringBuilder sb = new StringBuilder();
-		if (this.body instanceof final OpApplNode oan) {
+        final StringBuilder sb = new StringBuilder();
+        if (this.body instanceof final OpApplNode oan) {
             sb.append("(");
-			// Zeros
-			final TreeNode[] zero = oan.getTreeNode().zero();
-			for (final TreeNode treeNode : zero) {
-				// TreeNode is interface with only STN being impl => unchecked
-				// cast is safe.
-				final SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
-				sb.append(stn.getHumanReadableImage());
-			}
-			// Ones
-			final TreeNode[] one = oan.getTreeNode().one();
-			if (one != null) {
-				for (final TreeNode treeNode : one) {
-					final SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
-					sb.append(stn.getHumanReadableImage());
-				}
-			}
-			sb.append(")");
-		} else {
-			toString(sb, "");
-		}
-		return sb.toString();
-	}
+            // Zeros
+            final TreeNode[] zero = oan.getTreeNode().zero();
+            for (final TreeNode treeNode : zero) {
+                // TreeNode is interface with only STN being impl => unchecked
+                // cast is safe.
+                final SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
+                sb.append(stn.getHumanReadableImage());
+            }
+            // Ones
+            final TreeNode[] one = oan.getTreeNode().one();
+            if (one != null) {
+                for (final TreeNode treeNode : one) {
+                    final SyntaxTreeNode stn = (SyntaxTreeNode) treeNode;
+                    sb.append(stn.getHumanReadableImage());
+                }
+            }
+            sb.append(")");
+        } else {
+            toString(sb, "");
+        }
+        return sb.toString();
+    }
 }

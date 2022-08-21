@@ -1,9 +1,9 @@
 /***************************************************************************
-* This file seems to contain constants that are used to initialize the     *
-* semantic analysis.  This includes information about built-in operators.  *
-* A parser defined by config.jj apparently parses the string               *
-* defaultConfig to extract this information.                               *
-***************************************************************************/
+ * This file seems to contain constants that are used to initialize the     *
+ * semantic analysis.  This includes information about built-in operators.  *
+ * A parser defined by config.jj apparently parses the string               *
+ * defaultConfig to extract this information.                               *
+ ***************************************************************************/
 // Copyright (c) 2003 Compaq Corporation.  All rights reserved.
 
 // Last modified on Mon 16 February 2009 at 10:03:01 PST by lamport
@@ -11,65 +11,65 @@
 package tla2sany.configuration;
 
 interface ConfigConstants {
-  int nada = 0;
-  int infixOP = 1;
-  int prefixOP = 2;
-  int postfixOP = 3;
-  int preINfixOP = 4;
+    int nada = 0;
+    int infixOP = 1;
+    int prefixOP = 2;
+    int postfixOP = 3;
+    int preINfixOP = 4;
 
-  int leftAssoc = 10;
-  int rightAssoc = 11;
-  int noAssoc = 12;
+    int leftAssoc = 10;
+    int rightAssoc = 11;
+    int noAssoc = 12;
 
-  int EOF = 0;
-  int SINGLE_LINE = 4;
-  int CONSTANT = 7;
-  int OPERATOR = 8;
-  int INFIX = 9;
-  int POSTFIX = 10;
-  int PREFIX = 11;
-  int NFIX = 12;
-  int NOTOP = 13;
-  int SYNONYM = 14;
-  int LEFTASSOC = 15;
-  int RIGHTASSOC = 16;
-  int NOASSOC = 17;
-  int BUILTIN = 18;
-  int OPCHAR = 19;
-  int LETTER = 20;
-  int OPID = 21;
-  int NUMBER = 22;
-  int RESTRICTED = 23;
+    int EOF = 0;
+    int SINGLE_LINE = 4;
+    int CONSTANT = 7;
+    int OPERATOR = 8;
+    int INFIX = 9;
+    int POSTFIX = 10;
+    int PREFIX = 11;
+    int NFIX = 12;
+    int NOTOP = 13;
+    int SYNONYM = 14;
+    int LEFTASSOC = 15;
+    int RIGHTASSOC = 16;
+    int NOASSOC = 17;
+    int BUILTIN = 18;
+    int OPCHAR = 19;
+    int LETTER = 20;
+    int OPID = 21;
+    int NUMBER = 22;
+    int RESTRICTED = 23;
 
-  int DEFAULT = 0;
-  int IN_COMMENT = 1;
+    int DEFAULT = 0;
+    int IN_COMMENT = 1;
 
-  String[] tokenImage = {
-    "<EOF>",
-    "\" \"",
-    "\"\\t\"",
-    "\"\\n\"",
-    "\"(*\"",
-    "\"*)\"",
-    "<token of kind 6>",
-    "<CONSTANT>",
-    "<OPERATOR>",
-    "<INFIX>",
-    "<POSTFIX>",
-    "<PREFIX>",
-    "<NFIX>",
-    "<NOTOP>",
-    "<SYNONYM>",
-    "<LEFTASSOC>",
-    "<RIGHTASSOC>",
-    "<NOASSOC>",
-    "<BUILTIN>",
-    "<OPCHAR>",
-    "<LETTER>",
-    "<OPID>",
-    "<NUMBER>",
-    "<RESTRICTED>",
-  };
+    String[] tokenImage = {
+            "<EOF>",
+            "\" \"",
+            "\"\\t\"",
+            "\"\\n\"",
+            "\"(*\"",
+            "\"*)\"",
+            "<token of kind 6>",
+            "<CONSTANT>",
+            "<OPERATOR>",
+            "<INFIX>",
+            "<POSTFIX>",
+            "<PREFIX>",
+            "<NFIX>",
+            "<NOTOP>",
+            "<SYNONYM>",
+            "<LEFTASSOC>",
+            "<RIGHTASSOC>",
+            "<NOASSOC>",
+            "<BUILTIN>",
+            "<OPCHAR>",
+            "<LETTER>",
+            "<OPID>",
+            "<NUMBER>",
+            "<RESTRICTED>",
+    };
 
     // None, verified.
     //\n" +
@@ -95,11 +95,11 @@ interface ConfigConstants {
      * $Suffices added by LL 16 Feb 2009.                                   *
      ***********************************************************************/
     String defaultConfig =
-    /***********************************************************************
-    * This is used in config/Configuration.java to create Operator         *
-    * objects for each operator, which are put in the hashtable            *
-    * Operators.BuiltinTable.                                              *
-    ***********************************************************************/
+            /***********************************************************************
+             * This is used in config/Configuration.java to create Operator         *
+             * objects for each operator, which are put in the hashtable            *
+             * Operators.BuiltinTable.                                              *
+             ***********************************************************************/
             """
                     operator [ 160 160 Left postfix\s
                     operator . 170 170 Left infix\s
@@ -293,8 +293,6 @@ interface ConfigConstants {
                     builtin $Pick                    $$_null   1
                     builtin $Witness                 $$_null   -1
                     builtin $Suffices                $$_null   1
-                    """
-
-  ;
+                    """;
 }
 

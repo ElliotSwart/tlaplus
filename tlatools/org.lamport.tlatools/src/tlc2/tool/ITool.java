@@ -2,7 +2,7 @@
  * Copyright (c) 2019 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software. 
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -25,299 +25,304 @@
  ******************************************************************************/
 package tlc2.tool;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
-
 import tla2sany.semantic.*;
 import tlc2.tool.coverage.CostModel;
 import tlc2.tool.impl.ModelConfig;
 import tlc2.tool.impl.Tool.Mode;
 import tlc2.util.Context;
 import tlc2.util.ObjLongTable;
-import java.util.ArrayList;
 import tlc2.value.IFcnLambdaValue;
 import tlc2.value.IMVPerm;
 import tlc2.value.IValue;
 import util.FilenameToStream;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+
 public interface ITool extends TraceApp {
 
-	Mode getMode();
-	
-	/**
-	   * This method returns the set of all possible actions of the
-	   * spec, and sets the actions field of this object. In fact, we
-	   * could simply treat the next predicate as one "giant" action.
-	   * But for efficiency, we preprocess the next state predicate by
-	   * splitting it into a set of actions for the maximum prefix
-	   * of disjunction and existential quantification.
-	   */
-	Action[] getActions();
+    Mode getMode();
 
-	OpDeclNode[] getVariables();
+    /**
+     * This method returns the set of all possible actions of the
+     * spec, and sets the actions field of this object. In fact, we
+     * could simply treat the next predicate as one "giant" action.
+     * But for efficiency, we preprocess the next state predicate by
+     * splitting it into a set of actions for the maximum prefix
+     * of disjunction and existential quantification.
+     */
+    Action[] getActions();
 
-	TLCState createEmptyState();
+    OpDeclNode[] getVariables();
 
-	TLCState getEmptyState();
+    TLCState createEmptyState();
 
-	AbstractChecker getMainChecker();
-	Simulator getSimulator();
+    TLCState getEmptyState();
 
-	void setMainChecker(AbstractChecker abstractChecker);
-	void setSimulator(Simulator simulator);
+    AbstractChecker getMainChecker();
 
-	tla2sany.semantic.Context getSANYContext();
+    void setMainChecker(AbstractChecker abstractChecker);
 
-	/*
-	   * This method returns the set of possible initial states that
-	   * satisfies the initial state predicate. Initial state predicate
-	   * can be under-specified.  Too many possible initial states will
-	   * probably make tools like TLC useless.
-	   */
-	StateVec getInitStates();
+    Simulator getSimulator();
 
-	void getInitStates(IStateFunctor functor);
+    void setSimulator(Simulator simulator);
 
-	/* Create the state specified by pred.  */
-	TLCState makeState(SemanticNode pred);
+    tla2sany.semantic.Context getSANYContext();
 
-	/**
-	   * This method returns the set of next states when taking the action
-	   * in the given state.
-	   */
-	StateVec getNextStates(Action action, TLCState state);
-	
-	boolean getNextStates(final INextStateFunctor functor, final TLCState state);
+    /*
+     * This method returns the set of possible initial states that
+     * satisfies the initial state predicate. Initial state predicate
+     * can be under-specified.  Too many possible initial states will
+     * probably make tools like TLC useless.
+     */
+    StateVec getInitStates();
 
-	boolean getNextStates(final INextStateFunctor functor, final TLCState state, final Action action);
-	
-	IValue eval(SemanticNode expr);
+    void getInitStates(IStateFunctor functor);
 
-	IValue eval(SemanticNode expr, Context c);
+    /* Create the state specified by pred.  */
+    TLCState makeState(SemanticNode pred);
 
-	IValue eval(SemanticNode expr, Context c, TLCState s0);
+    /**
+     * This method returns the set of next states when taking the action
+     * in the given state.
+     */
+    StateVec getNextStates(Action action, TLCState state);
 
-	IValue eval(SemanticNode expr, Context c, TLCState s0, TLCState s1, int control);
-	
-	IValue eval(SemanticNode expr, Context c, TLCState s0, TLCState s1, int control, CostModel cm);
+    boolean getNextStates(final INextStateFunctor functor, final TLCState state);
 
-	/**
-	   * This method determines if the argument is a valid state.  A state
-	   * is good iff it assigns legal explicit values to all the global
-	   * state variables.
-	   */
-	boolean isGoodState(TLCState state);
+    boolean getNextStates(final INextStateFunctor functor, final TLCState state, final Action action);
 
-	/* This method determines if a state satisfies the model constraints. */
-	boolean isInModel(TLCState state) throws EvalException;
+    IValue eval(SemanticNode expr);
 
-	/* This method determines if a pair of states satisfy the action constraints. */
-	boolean isInActions(TLCState s1, TLCState s2) throws EvalException;
+    IValue eval(SemanticNode expr, Context c);
 
-	boolean hasStateOrActionConstraints();
+    IValue eval(SemanticNode expr, Context c, TLCState s0);
 
-	/**
-	   * This method determines if an action is enabled in the given state.
-	   * More precisely, it determines if (act.pred /\ (sub' # sub)) is
-	   * enabled in the state s and context act.con.
-	   */
-	TLCState enabled(SemanticNode pred, Context c, TLCState s0, TLCState s1, ExprNode subscript, final int ail);
-	TLCState enabled(SemanticNode pred, Context c, TLCState s0, TLCState s1);
-	TLCState enabled(SemanticNode pred, IActionItemList acts, Context c, TLCState s0, TLCState s1);
-	TLCState enabled(SemanticNode pred, IActionItemList acts, Context c, TLCState s0, TLCState s1, CostModel cm);
+    IValue eval(SemanticNode expr, Context c, TLCState s0, TLCState s1, int control);
 
-	boolean isValid(ExprNode expr, Context ctxt);
-	
-	/* This method determines if the action predicate is valid in (s0, s1). */
-	boolean isValid(Action act, TLCState s0, TLCState s1);
+    IValue eval(SemanticNode expr, Context c, TLCState s0, TLCState s1, int control, CostModel cm);
 
-	/* Returns true iff the predicate is valid in the state. */
-	boolean isValid(Action act, TLCState state);
+    /**
+     * This method determines if the argument is a valid state.  A state
+     * is good iff it assigns legal explicit values to all the global
+     * state variables.
+     */
+    boolean isGoodState(TLCState state);
 
-	/* Returns true iff the predicate is valid in the state. */
-	boolean isValid(Action act);
+    /* This method determines if a state satisfies the model constraints. */
+    boolean isInModel(TLCState state) throws EvalException;
 
-	boolean isValid(ExprNode expr);
+    /* This method determines if a pair of states satisfy the action constraints. */
+    boolean isInActions(TLCState s1, TLCState s2) throws EvalException;
 
-	/* Reconstruct the initial state whose fingerprint is fp. */
+    boolean hasStateOrActionConstraints();
+
+    /**
+     * This method determines if an action is enabled in the given state.
+     * More precisely, it determines if (act.pred /\ (sub' # sub)) is
+     * enabled in the state s and context act.con.
+     */
+    TLCState enabled(SemanticNode pred, Context c, TLCState s0, TLCState s1, ExprNode subscript, final int ail);
+
+    TLCState enabled(SemanticNode pred, Context c, TLCState s0, TLCState s1);
+
+    TLCState enabled(SemanticNode pred, IActionItemList acts, Context c, TLCState s0, TLCState s1);
+
+    TLCState enabled(SemanticNode pred, IActionItemList acts, Context c, TLCState s0, TLCState s1, CostModel cm);
+
+    boolean isValid(ExprNode expr, Context ctxt);
+
+    /* This method determines if the action predicate is valid in (s0, s1). */
+    boolean isValid(Action act, TLCState s0, TLCState s1);
+
+    /* Returns true iff the predicate is valid in the state. */
+    boolean isValid(Action act, TLCState state);
+
+    /* Returns true iff the predicate is valid in the state. */
+    boolean isValid(Action act);
+
+    boolean isValid(ExprNode expr);
+
+    /* Reconstruct the initial state whose fingerprint is fp. */
     @Override
     TLCStateInfo getState(long fp);
 
-	/**
-		 * Reconstruct the next state of state s whose fingerprint is fp.
-		 *
-		 * @return Returns the TLCState wrapped in TLCStateInfo. TLCStateInfo stores
-		 *         the stateNumber (relative to the given sinfo) and a pointer to
-		 *         the predecessor.
-		 */
-	TLCStateInfo getState(long fp, TLCStateInfo sinfo);
+    /**
+     * Reconstruct the next state of state s whose fingerprint is fp.
+     *
+     * @return Returns the TLCState wrapped in TLCStateInfo. TLCStateInfo stores
+     * the stateNumber (relative to the given sinfo) and a pointer to
+     * the predecessor.
+     */
+    TLCStateInfo getState(long fp, TLCStateInfo sinfo);
 
-	/* Reconstruct the next state of state s whose fingerprint is fp. */
+    /* Reconstruct the next state of state s whose fingerprint is fp. */
     @Override
     TLCStateInfo getState(long fp, TLCState s);
 
-	/* Reconstruct the info for s1.   */
+    /* Reconstruct the info for s1.   */
     @Override
     TLCStateInfo getState(TLCState s1, TLCState s);
 
-	/* Return the set of all permutations under the symmetry assumption. */
-	IMVPerm[] getSymmetryPerms();
+    /* Return the set of all permutations under the symmetry assumption. */
+    IMVPerm[] getSymmetryPerms();
 
-	boolean hasSymmetry();
+    boolean hasSymmetry();
 
-	Context getFcnContext(IFcnLambdaValue fcn, ExprOrOpArgNode[] args, Context c, TLCState s0, TLCState s1, int control);
+    Context getFcnContext(IFcnLambdaValue fcn, ExprOrOpArgNode[] args, Context c, TLCState s0, TLCState s1, int control);
 
-	Context getFcnContext(IFcnLambdaValue fcn, ExprOrOpArgNode[] args, Context c, TLCState s0, TLCState s1, int control,
-			CostModel cm);
+    Context getFcnContext(IFcnLambdaValue fcn, ExprOrOpArgNode[] args, Context c, TLCState s0, TLCState s1, int control,
+                          CostModel cm);
 
-	IContextEnumerator contexts(OpApplNode appl, Context c, TLCState s0, TLCState s1, int control);
+    IContextEnumerator contexts(OpApplNode appl, Context c, TLCState s0, TLCState s1, int control);
 
-	ArrayList<Action> getInitStateSpec();
+    ArrayList<Action> getInitStateSpec();
 
-	Action[] getInvariants();
+    Action[] getInvariants();
 
-	ObjLongTable<SemanticNode> getPrimedLocs();
+    ObjLongTable<SemanticNode> getPrimedLocs();
 
-	Context getOpContext(OpDefNode odn, ExprOrOpArgNode[] args, Context ctx, boolean b);
+    Context getOpContext(OpDefNode odn, ExprOrOpArgNode[] args, Context ctx, boolean b);
 
-	ExprNode[] getAssumptions();
+    ExprNode[] getAssumptions();
 
-	boolean[] getAssumptionIsAxiom();
+    boolean[] getAssumptionIsAxiom();
 
-	int checkAssumptions();
-	
-	int checkPostCondition();
-	
-	int checkPostConditionWithCounterExample(IValue value);
+    int checkAssumptions();
 
-	String[] getInvNames();
+    int checkPostCondition();
 
-	String[] getImpliedActNames();
+    int checkPostConditionWithCounterExample(IValue value);
 
-	/**
-	 * @return The name of the root module.
-	 */
-	String getRootName();
-	
-	/**
-	 * @return The file name of the root module which might contain the
-	 *         full or relative path information.
-	 */
-	String getRootFile();
+    String[] getInvNames();
 
-	String getConfigFile();
+    String[] getImpliedActNames();
 
-	String getSpecDir();
+    /**
+     * @return The name of the root module.
+     */
+    String getRootName();
 
-	String[] getImpliedInitNames();
+    /**
+     * @return The file name of the root module which might contain the
+     * full or relative path information.
+     */
+    String getRootFile();
 
-	/**
-	 * Initial predicate of the liveness property Prop (see impliedActions above).
-	 * Most common used when checking if a Spec implements another one, i.e. ASpec
-	 * => BSpec.
-	 * <p>
-	 * See the following tests:<br>
-	 * tlc2.tool.suite.Test55
-	 * <ul>
-	 * <li>Action line 7, col 1 to line 7, col 41 of module test55</li>
-	 * <li>Action line 7, col 1 to line 7, col 41 of module test55</li>
-	 * </ul>
-	 * tlc2.tool.suite.Test63
-	 * <ul>
-	 * <li>Action line 52, col 1 to line 52, col 21 of module test63</li>
-	 * </ul>
-	 */
-	Action[] getImpliedInits();
+    String getConfigFile();
 
-	/**
-	 * Checking a liveness property Prop (declared by the PROPERTY keyword in the
-	 * config file) means to verify Spec => Prop. An implied action is the [][A]_x
-	 * (A \/ x' = x) part of Prop where A is an action and x is a variable.
-	 * 
-	 * See the following tests:<br>
-	 * tlc2.tool.suite.Test52
-	 * <ul>
-	 * <li></li>
-	 * <li></li>
-	 * </ul>
-	 * tlc2.tool.suite.Test56
-	 * <ul>
-	 * <li></li>
-	 * </ul>
-	 */
-	Action[] getImpliedActions();
+    String getSpecDir();
 
-	boolean livenessIsTrue();
+    String[] getImpliedInitNames();
 
-	Action[] getImpliedTemporals();
+    /**
+     * Initial predicate of the liveness property Prop (see impliedActions above).
+     * Most common used when checking if a Spec implements another one, i.e. ASpec
+     * => BSpec.
+     * <p>
+     * See the following tests:<br>
+     * tlc2.tool.suite.Test55
+     * <ul>
+     * <li>Action line 7, col 1 to line 7, col 41 of module test55</li>
+     * <li>Action line 7, col 1 to line 7, col 41 of module test55</li>
+     * </ul>
+     * tlc2.tool.suite.Test63
+     * <ul>
+     * <li>Action line 52, col 1 to line 52, col 21 of module test63</li>
+     * </ul>
+     */
+    Action[] getImpliedInits();
 
-	Action[] getTemporals();
+    /**
+     * Checking a liveness property Prop (declared by the PROPERTY keyword in the
+     * config file) means to verify Spec => Prop. An implied action is the [][A]_x
+     * (A \/ x' = x) part of Prop where A is an action and x is a variable.
+     * <p>
+     * See the following tests:<br>
+     * tlc2.tool.suite.Test52
+     * <ul>
+     * <li></li>
+     * <li></li>
+     * </ul>
+     * tlc2.tool.suite.Test56
+     * <ul>
+     * <li></li>
+     * </ul>
+     */
+    Action[] getImpliedActions();
 
-	Object lookup(SymbolNode opNode, Context con, boolean b);
+    boolean livenessIsTrue();
 
-	Object lookup(SymbolNode operator);
+    Action[] getImpliedTemporals();
 
-	Object getVal(ExprOrOpArgNode expr, Context con, boolean b);
+    Action[] getTemporals();
 
-	Action getNextStateSpec();
+    Object lookup(SymbolNode opNode, Context con, boolean b);
 
-	SemanticNode getViewSpec();
+    Object lookup(SymbolNode operator);
 
-	ExprNode[] getPostConditionSpecs();
+    Object getVal(ExprOrOpArgNode expr, Context con, boolean b);
 
-	OpDefNode getCounterExampleDef();
+    Action getNextStateSpec();
 
-	int getId();
+    SemanticNode getViewSpec();
 
-	List<File> getModuleFiles(FilenameToStream resolver);
+    ExprNode[] getPostConditionSpecs();
 
-	ModelConfig getModelConfig();
+    OpDefNode getCounterExampleDef();
 
-	ExprNode[] getActionConstraints();
+    int getId();
 
-	ExprNode[] getModelConstraints();
+    List<File> getModuleFiles(FilenameToStream resolver);
 
-	Action getNextPred();
+    ModelConfig getModelConfig();
 
-	ModuleNode getRootModule();
+    ExprNode[] getActionConstraints();
 
-	Defns getDefns();
+    ExprNode[] getModelConstraints();
 
-	ExternalModuleTable getModuleTbl();
+    Action getNextPred();
 
-	ArrayList<Action> getInitPred();
+    ModuleNode getRootModule();
 
-	Map<ModuleNode, Map<OpDefOrDeclNode, Object>> getConstantDefns();
+    Defns getDefns();
 
-	TLCState evalAlias(TLCState curState, TLCState sucState);
+    ExternalModuleTable getModuleTbl();
 
-	ITool getFingerprintingTool();
+    ArrayList<Action> getInitPred();
 
-	default <T> T eval(final Supplier<T> supplier) {
-		return supplier.get();
-	}
+    Map<ModuleNode, Map<OpDefOrDeclNode, Object>> getConstantDefns();
 
-	default ITool getDebugger() {
-		if (getMainChecker() != null) {
-			return getMainChecker().tool;
-		}
-		if (getSimulator() != null) {
-			return getSimulator().getTool();
-		}
-		return this;
-	}
+    TLCState evalAlias(TLCState curState, TLCState sucState);
 
-	default ITool getLiveness() {
-		return this;
-	}
+    ITool getFingerprintingTool();
 
-	default ArrayList<Action> getSpecActions() {
-		// Do not modify the underlying list
-		var specActions = new ArrayList<>(getInitStateSpec());
-		specActions.addAll(Arrays.asList(getActions()));
-		return specActions;
-	}
+    default <T> T eval(final Supplier<T> supplier) {
+        return supplier.get();
+    }
+
+    default ITool getDebugger() {
+        if (getMainChecker() != null) {
+            return getMainChecker().tool;
+        }
+        if (getSimulator() != null) {
+            return getSimulator().getTool();
+        }
+        return this;
+    }
+
+    default ITool getLiveness() {
+        return this;
+    }
+
+    default ArrayList<Action> getSpecActions() {
+        // Do not modify the underlying list
+        var specActions = new ArrayList<>(getInitStateSpec());
+        specActions.addAll(Arrays.asList(getActions()));
+        return specActions;
+    }
 }
