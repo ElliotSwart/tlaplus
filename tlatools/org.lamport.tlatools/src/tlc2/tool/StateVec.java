@@ -11,6 +11,7 @@ import util.Assert;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 /*
  * This class represents a TLA+ state vector.
@@ -73,6 +74,17 @@ public final class StateVec extends ArrayList<TLCState> implements IStateFunctor
 
     public boolean contains(final TLCState state) {
         return this.stream().anyMatch(s -> s.fingerPrint() == state.fingerPrint());
+    }
+
+    /***
+     * This function is defined to remove elements in the same way as other data structures, to maintain index consistency
+     * @param index
+     */
+    public void removeIndexMovingLastElement(final int index){
+        final int lastIndex = size()-1;
+
+        Collections.swap(this, index, lastIndex);
+        this.remove(lastIndex);
     }
 
     @Override

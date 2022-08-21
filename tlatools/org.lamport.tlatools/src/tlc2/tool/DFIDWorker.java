@@ -117,7 +117,8 @@ public class DFIDWorker extends IdThread implements IWorker {
                     this.curLevel < FPIntSet.getLevel(status)) {
                 return index;
             }
-            succStates.remove(index);
+
+            succStates.removeIndexMovingLastElement(index);
             succFPs.removeIndexMovingLastElement(index);
             len--;
         }
