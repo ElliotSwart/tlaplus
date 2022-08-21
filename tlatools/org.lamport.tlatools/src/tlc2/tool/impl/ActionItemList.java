@@ -11,7 +11,7 @@ import tlc2.tool.coverage.CostModel;
 import tlc2.util.Context;
 
 class ActionItemList implements IActionItemList {
-    public final static ActionItemList
+    public static final ActionItemList
             Empty = new ActionItemList(null, null, 0, null, null);
     protected static final boolean coverage = TLCGlobals.isCoverageEnabled();
     /**

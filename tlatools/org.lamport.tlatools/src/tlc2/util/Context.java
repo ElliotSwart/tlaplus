@@ -32,8 +32,8 @@ import java.util.function.Function;
 // The contrived spec at the bottom exhibits this problem. Increasing the level,
 // the number of lookups go through the roof.
 public final class Context implements Iterator<Context> {
-    public final static Context Empty = new Context(null, null, null);
-    private final static Context BaseBranch = new Context(null, null, Empty);
+    public static final Context Empty = new Context(null, null, null);
+    private static final Context BaseBranch = new Context(null, null, Empty);
     /**
      * A link list of name and value pairs. When adding <name, value> to the
      * context, we assume that name != null.

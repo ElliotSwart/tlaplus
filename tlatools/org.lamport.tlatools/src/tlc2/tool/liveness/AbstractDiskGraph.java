@@ -207,7 +207,7 @@ public abstract class AbstractDiskGraph {
     protected abstract void putNode(GraphNode node, long ptr);
 
     /* Get the graph node at the file location ptr. */
-    public synchronized final GraphNode getNode(final long stateFP, final int tidx, final long ptr) throws IOException {
+    public final synchronized GraphNode getNode(final long stateFP, final int tidx, final long ptr) throws IOException {
         // Get from memory cache if cached:
         //TODO Adapt mask to array length iff array length is a func of available memory
         final int idx = (int) (stateFP + tidx) & 0xFFFF;
@@ -224,7 +224,7 @@ public abstract class AbstractDiskGraph {
         return gnode1;
     }
 
-    protected synchronized final GraphNode getNodeFromDisk(final long stateFP, final int tidx, final long ptr) throws IOException {
+    protected final synchronized GraphNode getNodeFromDisk(final long stateFP, final int tidx, final long ptr) throws IOException {
         // If the node is not found in the in-memory cache, the ptr has to be
         // positive. BufferedRandomAccessFile#seek will throw an IOException due
         // to "negative seek offset" anyway. Lets catch it early on!
@@ -480,7 +480,7 @@ public abstract class AbstractDiskGraph {
     }
 
     /* Checkpoint. */
-    public synchronized final void beginChkpt() throws IOException {
+    public final synchronized void beginChkpt() throws IOException {
         this.nodeRAF.flush();
         this.nodePtrRAF.flush();
         try (final FileOutputStream fos = new FileOutputStream(this.chkptName + ".chkpt.tmp");

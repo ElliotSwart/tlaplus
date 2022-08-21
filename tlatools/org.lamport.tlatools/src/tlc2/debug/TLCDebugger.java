@@ -271,7 +271,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
             // https://github.com/microsoft/debug-adapter-protocol/issues/231
             // https://github.com/microsoft/debug-adapter-protocol/issues/216
             try {
-                pipedOutputStream.write((args.getExpression() + "\n").getBytes());
+                pipedOutputStream.write((args.getExpression() + "%n").getBytes());
             } catch (final IOException notExpectedToHappen) {
                 notExpectedToHappen.printStackTrace();
             }
@@ -428,7 +428,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 
     @Override
     public synchronized CompletableFuture<StackTraceResponse> stackTrace(final StackTraceArguments args) {
-        LOGGER.finer(String.format("stackTrace frame: %s, levels: %s\n", args.getStartFrame(), args.getLevels()));
+        LOGGER.finer(String.format("stackTrace frame: %s, levels: %s%n", args.getStartFrame(), args.getLevels()));
         final StackTraceResponse res = new StackTraceResponse();
 
         if (!executionIsHalted) {
@@ -468,7 +468,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 
     @Override
     public synchronized CompletableFuture<ScopesResponse> scopes(final ScopesArguments args) {
-        LOGGER.finer(String.format("scopes frame %s\n", args.getFrameId()));
+        LOGGER.finer(String.format("scopes frame %s%n", args.getFrameId()));
 
         final ScopesResponse response = new ScopesResponse();
 
@@ -686,7 +686,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
     @Override
     public synchronized IDebugTarget popFrame(final Tool tool, final SemanticNode expr, final Context c) {
         if (LOGGER.isLoggable(Level.FINER)) {
-            LOGGER.finer(String.format("%s Call popFrame: [%s], level: %s\n",
+            LOGGER.finer(String.format("%s Call popFrame: [%s], level: %s%n",
                     new String(new char[this.stack.size()]).replace('\0', '#'), expr, this.stack.size()));
         }
         final TLCStackFrame pop = stack.pop();
@@ -742,7 +742,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
     @Override
     public synchronized IDebugTarget popExceptionFrame(final Tool tool, final SemanticNode expr, final Context c, final Value v, final StatefulRuntimeException e) {
         if (LOGGER.isLoggable(Level.FINER)) {
-            LOGGER.finer(String.format("%s Call popExceptionFrame: [%s], level: %s\n",
+            LOGGER.finer(String.format("%s Call popExceptionFrame: [%s], level: %s%n",
                     new String(new char[this.stack.size()]).replace('\0', '#'), expr, this.stack.size()));
         }
         final TLCStackFrame pop = stack.pop();
@@ -852,7 +852,7 @@ public abstract class TLCDebugger extends AbstractDebugger implements IDebugTarg
 
     protected void haltExecution(final TLCStackFrame frame, final int level) {
         if (LOGGER.isLoggable(Level.FINER)) {
-            LOGGER.finer(String.format("%s(%s): [%s]\n", new String(new char[level]).replace('\0', '#'), level, frame.getNode()));
+            LOGGER.finer(String.format("%s(%s): [%s]%n", new String(new char[level]).replace('\0', '#'), level, frame.getNode()));
         }
         if (matches(step, targetLevel, level)) {
             haltExecution(frame);

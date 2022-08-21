@@ -70,6 +70,7 @@ public final class SetOfStates extends AbstractSet<TLCState> {
         }
     }
 
+    @Override
     public void clear() {
         this.count = 0;
         this.states = new TLCState[length];
@@ -209,6 +210,7 @@ public final class SetOfStates extends AbstractSet<TLCState> {
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */
+    @Override
     public String toString() {
         final StringBuilder buf = new StringBuilder("{");
         for (final TLCState tlcState : states) {

@@ -37,7 +37,7 @@ public class ConfigurationTokenManager implements ConfigConstants {
     final long[] jjtoMore = {
             0x50L,
     };
-    final int defaultLexState = 0;
+    static final int defaultLexState = 0;
     private final int[] jjrounds = new int[174];
     private final int[] jjstateSet = new int[348];
     protected char curChar;
@@ -185,8 +185,7 @@ public class ConfigurationTokenManager implements ConfigConstants {
                 MatchLoop:
                 do {
                     switch (jjstateSet[--i]) {
-                        case 61:
-                        case 56:
+                        case 61, 56:
                             if ((0xf400fffa00000000L & l) == 0L)
                                 break;
                             if (kind > 21)
@@ -488,8 +487,7 @@ public class ConfigurationTokenManager implements ConfigConstants {
                             if (curChar == 116 && kind > 15)
                                 kind = 15;
                             break;
-                        case 41:
-                        case 98:
+                        case 41,98:
                             if (curChar == 102)
                                 jjCheckNAdd(40);
                             break;
@@ -505,8 +503,7 @@ public class ConfigurationTokenManager implements ConfigConstants {
                             if (curChar == 116 && kind > 16)
                                 kind = 16;
                             break;
-                        case 45:
-                        case 91:
+                        case 45,91:
                             if (curChar == 104)
                                 jjCheckNAdd(44);
                             break;
@@ -874,9 +871,7 @@ public class ConfigurationTokenManager implements ConfigConstants {
                             if (curChar == 80 && kind > 13)
                                 kind = 13;
                             break;
-                        case 147:
-                        case 149:
-                        case 151:
+                        case 147, 149, 151:
                             if (curChar == 79)
                                 jjCheckNAdd(146);
                             break;
@@ -920,8 +915,7 @@ public class ConfigurationTokenManager implements ConfigConstants {
                             if (curChar == 101 && kind > 17)
                                 kind = 17;
                             break;
-                        case 160:
-                        case 172:
+                        case 160,172:
                             if (curChar == 110)
                                 jjCheckNAdd(159);
                             break;

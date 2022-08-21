@@ -118,6 +118,7 @@ public class TBGraph extends ArrayList<TBGraphNode> {
         }
     }
 
+    @Override
     public final String toString() {
         final StringBuilder sb = new StringBuilder();
         this.toString(sb, "");

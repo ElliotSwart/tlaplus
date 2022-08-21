@@ -7,7 +7,7 @@ package tla2sany.parser;
  */
 
 public class SimpleCharStream {
-    protected final int tabSize = 8;
+    protected static final int tabSize = 8;
     public int bufpos = -1;
     protected int[] bufline;
     protected int[] bufcolumn;

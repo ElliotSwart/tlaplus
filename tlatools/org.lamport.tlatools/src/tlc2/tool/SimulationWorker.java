@@ -296,10 +296,11 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
                             new String[]{tool.getInvNames()[idx]}, t, getTrace());
                 }
             }
-        } catch (final Exception e) {
-            if (e instanceof SimulationWorkerError) {
-                throw e;
-            }
+        }
+        catch (final SimulationWorkerError e){
+            throw e;
+        }
+        catch (final Exception e) {
             throw new SimulationWorkerError(EC.TLC_INVARIANT_EVALUATION_FAILED,
                     new String[]{tool.getInvNames()[idx], e.getMessage()}, t, getTrace());
         }
@@ -313,10 +314,11 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
                             new String[]{tool.getImpliedActNames()[idx]}, t, getTrace());
                 }
             }
-        } catch (final Exception e) {
-            if (e instanceof SimulationWorkerError) {
-                throw e;
-            }
+        }
+        catch (final SimulationWorkerError e){
+            throw e;
+        }
+        catch (final Exception e) {
             throw new SimulationWorkerError(EC.TLC_ACTION_PROPERTY_EVALUATION_FAILED,
                     new String[]{tool.getImpliedActNames()[idx], e.getMessage()}, t, getTrace());
         }
@@ -475,7 +477,7 @@ public class SimulationWorker extends IdThread implements INextStateFunctor {
         return getTrace(curState);
     }
 
-    public synchronized final StateVec getTrace(TLCState s) {
+    public final synchronized StateVec getTrace(TLCState s) {
         if (s == null) {
             return new StateVec(0);
         }

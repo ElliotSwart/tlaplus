@@ -366,25 +366,6 @@ public abstract class StateQueue implements IStateQueue {
     /* This method must be implemented in the subclass. */
     abstract TLCState peekInner();
 
-    /* Checkpoint. */
-    /* (non-Javadoc)
-     * @see tlc2.tool.queue.IStateQueue#beginChkpt()
-     */
-    @Override
-    public abstract void beginChkpt() throws IOException;
-
-    /* (non-Javadoc)
-     * @see tlc2.tool.queue.IStateQueue#commitChkpt()
-     */
-    @Override
-    public abstract void commitChkpt() throws IOException;
-
-    /* (non-Javadoc)
-     * @see tlc2.tool.queue.IStateQueue#recover()
-     */
-    @Override
-    public abstract void recover() throws IOException;
-
     @Override
     public void delete() throws Exception {
         // no-op

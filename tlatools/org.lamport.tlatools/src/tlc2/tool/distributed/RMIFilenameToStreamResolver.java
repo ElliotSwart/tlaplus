@@ -101,21 +101,12 @@ public class RMIFilenameToStreamResolver implements FilenameToStream {
         final File f = new TLAFile(rndPrefix + File.separator + name, this);
         f.deleteOnExit();
 
-        FileOutputStream outputStream = null;
-        try {
-            outputStream = new FileOutputStream(f);
+        try(final FileOutputStream outputStream = new FileOutputStream(f);) {
             outputStream.write(bs);
         } catch (final IOException e) {
             e.printStackTrace();
-        } finally {
-            if (outputStream != null) {
-                try {
-                    outputStream.close();
-                } catch (final IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
+
         return f;
     }
 

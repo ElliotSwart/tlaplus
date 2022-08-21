@@ -16,34 +16,34 @@ public final class Parameters {
      * File parameters.                                                       *
      *************************************************************************/
 
-    public final String WordFile = "words.all";
+    public static final String WordFile = "words.all";
     /***********************************************************************
      * The name of the resource file containing the list of all common      *
      * English words.  This file must contain one word per line, with no    *
      * spaces.                                                              *
      ***********************************************************************/
 
-    public final String LaTeXStyleFile = "tlatex.sty";
+    public static final String LaTeXStyleFile = "tlatex.sty";
     /***********************************************************************
      * If not equal to "", then it is the user-supplied package that is     *
      * used instead of LaTeXStyleFile.  Set by the -style option.           *
      ***********************************************************************/
 
-    public final String HelpFile = "help.txt";
+    public static final String HelpFile = "help.txt";
     /***********************************************************************
      * The file containing the -help message for tlatex.TLA.                *
      ***********************************************************************/
 
-    public final String InfoFile = "info.txt";
+    public static final String InfoFile = "info.txt";
     /***********************************************************************
      * The file containing the -info message for tlatex.TLA, which is more  *
      * complete than the -help message.                                     *
      ***********************************************************************/
 
-    public final String TeXHelpFile = "texhelp.txt";
-    public final String TeXInfoFile = "texinfo.txt";
-    public final int MaxOutputLineLength = 78;
-    public final String LaTeXCommentVSpaceCmd = "\\vshade";
+    public static final String TeXHelpFile = "texhelp.txt";
+    public static final String TeXInfoFile = "texinfo.txt";
+    public static final int MaxOutputLineLength = 78;
+    public static final String LaTeXCommentVSpaceCmd = "\\vshade";
     /***********************************************************************
      * A command that takes an argument n and creates an n-point vertical   *
      * space between paragraphs in a comment, with proper shading.  (A      *
@@ -51,25 +51,25 @@ public final class Parameters {
      * paragraphs when shading.)                                            *
      ***********************************************************************/
 
-    public final String LaTeXStartLine = "\\@x";
+    public static final String LaTeXStartLine = "\\@x";
     /***********************************************************************
      * The command \@x{txt} starts a specification line in the -out file    *
      * that begins with txt.                                                *
      ***********************************************************************/
 
-    public final String LaTeXContinueLine = "\\@xx";
+    public static final String LaTeXContinueLine = "\\@xx";
     /***********************************************************************
      * The command \@xx{txt} continues a specification line of the -out or   *
      * -alignOut file with text txt.                                        *
      ***********************************************************************/
 
-    public final String LaTeXStartAlignLine = "\\fl";
+    public static final String LaTeXStartAlignLine = "\\fl";
     /***********************************************************************
      * The command \fl{txt} starts a specification line in the -alignOut    *
      * file that begins with txt.                                           *
      ***********************************************************************/
 
-    public final String LaTeXAlignPoint = "\\al";
+    public static final String LaTeXAlignPoint = "\\al";
     /***********************************************************************
      * True iff creating Postscript output file.                            *
      ***********************************************************************/
@@ -80,52 +80,52 @@ public final class Parameters {
      * where wd is the width of the line up to that point,                  *
      ***********************************************************************/
 
-    public final String LaTeXStringCommand = "\\@w";
+    public static final String LaTeXStringCommand = "\\@w";
     /***********************************************************************
      * The command \@w{xyz} produces "xyz", formatted as a TLA+ string.     *
      ***********************************************************************/
 
-    public final String LaTeXPfStepNumCommand = "\\@pfstepnum";
+    public static final String LaTeXPfStepNumCommand = "\\@pfstepnum";
     /***********************************************************************
      * The command \@pfstepnum{<42>}{1a.} produces "<42>1a.", properly      *
      * formatted with space after it.                                       *
      ***********************************************************************/
 
-    public final String LaTeXSpaceCommand = "\\@s";
+    public static final String LaTeXSpaceCommand = "\\@s";
     /***********************************************************************
      * The command \@s{n} produces an n-point horizontal space.              *
      ***********************************************************************/
 
-    public final String LaTeXOneLineCommentCommand = "\\@y";
-    public final String LaTeXZeroWidthCommentCommand = "\\@z";
-    public final String LaTeXLeftDash = "\\moduleLeftDash\\@xx";
-    public final String LaTeXRightDash = "\\moduleRightDash\\@xx";
+    public static final String LaTeXOneLineCommentCommand = "\\@y";
+    public static final String LaTeXZeroWidthCommentCommand = "\\@z";
+    public static final String LaTeXLeftDash = "\\moduleLeftDash\\@xx";
+    public static final String LaTeXRightDash = "\\moduleRightDash\\@xx";
     /***********************************************************************
      * The LaTeX commands that make the dashes to the left and right in     *
      * the beginning of a module.                                           *
      ***********************************************************************/
-    public final String LaTeXDash = "\\midbar\\@xx";
+    public static final String LaTeXDash = "\\midbar\\@xx";
     /***********************************************************************
      * The LaTeX commands that make the decorative horizontal bar in the    *
      * middle of a module, which appears as a sequence of dashes in the     *
      * input.                                                               *
      ***********************************************************************/
-    public final String LaTeXEndModule = "\\bottombar\\@xx";
+    public static final String LaTeXEndModule = "\\bottombar\\@xx";
     /***********************************************************************
      * The LaTeX commands that make the module-ending horizontal bar.       *
      ***********************************************************************/
 
-    public final String LaTeXAlignLeftDash = "\\moduleLeftDash\\cl";
-    public final String LaTeXAlignRightDash = "\\moduleRightDash\\cl";
-    public final String LaTeXAlignDash = "\\midbar\\cl";
-    public final String LaTeXAlignEndModule = "\\bottombar\\cl";
+    public static final String LaTeXAlignLeftDash = "\\moduleLeftDash\\cl";
+    public static final String LaTeXAlignRightDash = "\\moduleRightDash\\cl";
+    public static final String LaTeXAlignDash = "\\midbar\\cl";
+    public static final String LaTeXAlignEndModule = "\\bottombar\\cl";
     /***********************************************************************
      * These are the same as the four previous parameters, except they are  *
      * the commands for the alignment file.                                 *
      ***********************************************************************/
 
 
-    public final String LaTeXCommentPar = "cpar";
+    public static final String LaTeXCommentPar = "cpar";
     /***********************************************************************
      * This LaTeX environment takes two arguments--a dimension d in points  *
      * and a label.  It produces a sequence of paragraphs, shaped as        *
@@ -145,7 +145,7 @@ public final class Parameters {
      ***********************************************************************/
 
 
-    public final String LaTeXRightMultiLineComment = "mcom";
+    public static final String LaTeXRightMultiLineComment = "mcom";
     /***********************************************************************
      * The environment that formats a multi-line comment at the end of a    *
      * line.  It takes a single argument, the width of the comment in       *
@@ -154,7 +154,7 @@ public final class Parameters {
      * environments.                                                        *
      ***********************************************************************/
 
-    public final String LaTeXLeftMultiLineComment = "lcom";
+    public static final String LaTeXLeftMultiLineComment = "lcom";
     /***********************************************************************
      * The environment that formats a multi-line comment with nothing to    *
      * its left.  It takes a single argument, the indentation in points of  *
@@ -162,7 +162,7 @@ public final class Parameters {
      * actual text inside it must all be in LaTeXCommentPar environments.   *
      ***********************************************************************/
 
-    public final String LaTeXEndMultiLineVSpace = "\\multivspace";
+    public static final String LaTeXEndMultiLineVSpace = "\\multivspace";
     /*************************************************************************
      * Parameters Related to non-file Options                                 *
      *************************************************************************/

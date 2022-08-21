@@ -31,7 +31,7 @@ import java.util.Set;
  * case in the method {@link MP#getMessage(int, int, String[])}. For doing this, a new constant is required.
  * Since all constants are in the {@link EC} class we add a line:
  * <br><br>
- * <code>public final static int GET_LEVEL_THEOREM_BEFORE_LEVEL_CHECK = 4005;</code>
+ * <code>public static final int GET_LEVEL_THEOREM_BEFORE_LEVEL_CHECK = 4005;</code>
  * <br><br>
  * After the constant is added we add the case to the switch:
  * <br><br><code>
@@ -170,11 +170,11 @@ public class MP {
      * @param parameters   string of parameters to be replaced in the message
      * @return the formatted message
      */
-    public synchronized static String getMessage(final int messageClass, final int messageCode, final String[] parameters) {
+    public static synchronized String getMessage(final int messageClass, final int messageCode, final String[] parameters) {
         return getMessage(messageClass, messageCode, parameters, true);
     }
 
-    public synchronized static String getMessage(final int messageClass, final int messageCode, String[] parameters, final boolean tool) {
+    public static synchronized String getMessage(final int messageClass, final int messageCode, String[] parameters, final boolean tool) {
         if (parameters == null) {
             parameters = EMPTY_PARAMS;
         }
@@ -1365,11 +1365,9 @@ public class MP {
      */
     private static void printError(final int errorCode, final String cause, final Throwable throwable, final boolean includeStackTrace) {
         printError(errorCode, cause);
-        if (includeStackTrace) {   // Test of TLCGlobals.debug added by LL on 20 Mar 2012
-            if (TLCGlobals.debug) {
+        if (includeStackTrace && TLCGlobals.debug) {   // Test of TLCGlobals.debug added by LL on 20 Mar 2012
                 DebugPrinter.print("printing stacktrace in printError(int, Throwable, boolean)"); //$NON-NLS-1$
                 throwable.printStackTrace(ToolIO.out);
-            }
         }
     }
 

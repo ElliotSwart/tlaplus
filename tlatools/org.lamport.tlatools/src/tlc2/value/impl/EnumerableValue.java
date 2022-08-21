@@ -167,11 +167,11 @@ public abstract class EnumerableValue extends Value implements Enumerable {
         // Increment
         private int c;
 
-        public SubsetEnumerator(final int k) {
+        protected SubsetEnumerator(final int k) {
             this(k, size());
         }
 
-        public SubsetEnumerator(final int k, final int n) {
+        protected SubsetEnumerator(final int k, final int n) {
             if (n <= 0) {
                 // For n < 1, hasNext is always going to return false.
                 this.n = 0;
@@ -230,9 +230,6 @@ public abstract class EnumerableValue extends Value implements Enumerable {
             assert 0 <= index && index < this.n;
             return index;
         }
-
-        @Override
-        public abstract Value nextElement();
     }
 }
 

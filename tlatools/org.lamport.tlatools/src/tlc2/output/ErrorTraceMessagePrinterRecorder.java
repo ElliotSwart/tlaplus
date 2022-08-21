@@ -73,7 +73,7 @@ public class ErrorTraceMessagePrinterRecorder implements IMessagePrinterRecorder
                     this.traceFinished = true;
                     this.errorTrace.ifPresent(trace -> {
                         final List<MCState> states = trace.getStates();
-                        if (states.size() > 0) {
+                        if (!states.isEmpty()) {
                             final MCState finalState = states.get(states.size() - 1);
                             final MCState stutteringState = new MCState(finalState, true, false);
                             trace.addState(stutteringState);

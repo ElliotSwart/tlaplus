@@ -138,7 +138,7 @@ public class Json {
      * @return a boolean value indicating whether the serialization was successful
      */
     @TLAPlusOperator(identifier = "JsonSerialize", module = "Json", warn = false)
-    public synchronized static BoolValue serialize(final StringValue path, final Value v) throws IOException {
+    public static synchronized BoolValue serialize(final StringValue path, final Value v) throws IOException {
         final TupleValue value = (TupleValue) v.toTuple();
         final File file = new File(path.val.toString());
         if (file.getParentFile() != null) {

@@ -77,7 +77,6 @@ public class StateMonitor {
 
             int index;
             try (final Scanner scanner = new Scanner(System.in)) {
-                rd:
                 while (true) {
                     index = 1;
                     System.out.print("============\n");
@@ -90,7 +89,7 @@ public class StateMonitor {
 
                         // Check index is within bounds.
                         if (index >= 1 && index <= vmds.size()) {
-                            break rd;
+                            break;
                         }
                     }
                     System.err.printf("Invalid selection %s\n", index);

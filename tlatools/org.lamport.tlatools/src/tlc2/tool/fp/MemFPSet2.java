@@ -51,7 +51,7 @@ public final class MemFPSet2 extends FPSet {
        </OL>
      */
     private final int mask;
-    private final int LogSpineSize = 24;
+    private static final int LogSpineSize = 24;
     //@ invariant table.length > 0
     /*@ invariant (forall int i; 0 <= i & i < table.length ==>
             table[i] == null | (table[i].length / 5) * 5 ==  table[i].length) */
@@ -190,25 +190,25 @@ public final class MemFPSet2 extends FPSet {
 
     @Override
     public void beginChkpt(final String fname) throws IOException {
-        final BufferedDataOutputStream dos =
-                new BufferedDataOutputStream(this.chkptName(fname, "tmp"));
-        for (int i = 0; i < this.table.length; i++) {
-            final long low = i & 0xffffffL;
-            final byte[] bucket = this.table[i];
-            if (bucket != null) {
-                int j = 0;
-                while (j < bucket.length) {
-                    final long b1 = (bucket[j++] & 0xffL) << 24;
-                    final long b2 = (bucket[j++] & 0xffL) << 32;
-                    final long b3 = (bucket[j++] & 0xffL) << 40;
-                    final long b4 = (bucket[j++] & 0xffL) << 48;
-                    final long b5 = (bucket[j++] & 0xffL) << 56;
-                    final long fp = b5 | b4 | b3 | b2 | b1 | low;
-                    dos.writeLong(fp);
+        try(final BufferedDataOutputStream dos =
+                    new BufferedDataOutputStream(this.chkptName(fname, "tmp"))){
+            for (int i = 0; i < this.table.length; i++) {
+                final long low = i & 0xffffffL;
+                final byte[] bucket = this.table[i];
+                if (bucket != null) {
+                    int j = 0;
+                    while (j < bucket.length) {
+                        final long b1 = (bucket[j++] & 0xffL) << 24;
+                        final long b2 = (bucket[j++] & 0xffL) << 32;
+                        final long b3 = (bucket[j++] & 0xffL) << 40;
+                        final long b4 = (bucket[j++] & 0xffL) << 48;
+                        final long b5 = (bucket[j++] & 0xffL) << 56;
+                        final long fp = b5 | b4 | b3 | b2 | b1 | low;
+                        dos.writeLong(fp);
+                    }
                 }
             }
         }
-        dos.close();
     }
 
     @Override
@@ -223,16 +223,16 @@ public final class MemFPSet2 extends FPSet {
 
     @Override
     public void recover(final String fname) throws IOException {
-        final BufferedDataInputStream dis =
-                new BufferedDataInputStream(this.chkptName(fname, "chkpt"));
-        try {
-            while (!dis.atEOF()) {
-                Assert.check(!this.put(dis.readLong()), EC.TLC_FP_NOT_IN_SET);
+        try(final BufferedDataInputStream dis =
+                    new BufferedDataInputStream(this.chkptName(fname, "chkpt"))){
+            try {
+                while (!dis.atEOF()) {
+                    Assert.check(!this.put(dis.readLong()), EC.TLC_FP_NOT_IN_SET);
+                }
+            } catch (final EOFException e) {
+                throw new IOException("MemFPSet2.recover: failed.");
             }
-        } catch (final EOFException e) {
-            throw new IOException("MemFPSet2.recover: failed.");
         }
-        dis.close();
     }
 
     @Override

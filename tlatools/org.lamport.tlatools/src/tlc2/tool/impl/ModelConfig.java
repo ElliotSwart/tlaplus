@@ -56,7 +56,7 @@ public class ModelConfig implements ValueConstants, Serializable {
     /**
      * All keywords used in the configuration file
      */
-    public final static String[] ALL_KEYWORDS = {Constant, Constants, Constraint, Constraints, ActionConstraint,
+    public static final String[] ALL_KEYWORDS = {Constant, Constants, Constraint, Constraints, ActionConstraint,
             ActionConstraints, Invariant, Invariants, Init, Next, View, Symmetry, Spec, Prop, Props, Alias,
             PostCondition, CheckDeadlock};
     private static final long serialVersionUID = 1L;
@@ -469,7 +469,7 @@ public class ModelConfig implements ValueConstants, Serializable {
     /**
      * @return All CONSTANT or CONSTANTS statements as they appear in the config file.
      */
-    public synchronized final List<String> getRawConstants() {
+    public final synchronized  List<String> getRawConstants() {
         return this.rawConstants;
     }
 
@@ -480,7 +480,7 @@ public class ModelConfig implements ValueConstants, Serializable {
      * it has the form `["field", "value"]`, which is an assignment (which are the lines in a
      * config file for the CONSTANT(s) section where you have `field = value`).
      */
-    public synchronized final List<List<String>> getConstantsAsList() {
+    public final synchronized  List<List<String>> getConstantsAsList() {
         /**
          * `getRawConstants` returns a list of strings where each element has the
          * following form (fields and values are example letters):
@@ -548,81 +548,81 @@ public class ModelConfig implements ValueConstants, Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public synchronized final ArrayList<ArrayList<Comparable<?>>> getConstants() {
+    public final synchronized  ArrayList<ArrayList<Comparable<?>>> getConstants() {
         return (ArrayList<ArrayList<Comparable<?>>>) this.configTbl.get(Constant);
     }
 
-    public synchronized final Hashtable<String, ArrayList<ArrayList<Comparable<?>>>> getModConstants() {
+    public final synchronized  Hashtable<String, ArrayList<ArrayList<Comparable<?>>>> getModConstants() {
         return this.modConstants;
     }
 
-    public synchronized final Hashtable<String, String> getOverrides() {
+    public final synchronized  Hashtable<String, String> getOverrides() {
         return this.overrides;
     }
 
-    public synchronized final String getOverridenSpecNameForConfigName(final String configName) {
+    public final synchronized  String getOverridenSpecNameForConfigName(final String configName) {
         return this.overridesReverseMap.get(configName);
     }
 
-    public synchronized final Hashtable<String, Hashtable<Comparable<?>, Object>> getModOverrides() {
+    public final synchronized  Hashtable<String, Hashtable<Comparable<?>, Object>> getModOverrides() {
         return this.modOverrides;
     }
 
     @SuppressWarnings("unchecked")
-    public synchronized final ArrayList<Comparable<?>> getConstraints() {
+    public final synchronized  ArrayList<Comparable<?>> getConstraints() {
         return (ArrayList<Comparable<?>>) this.configTbl.get(Constraint);
     }
 
     @SuppressWarnings("unchecked")
-    public synchronized final ArrayList<Comparable<?>> getActionConstraints() {
+    public final synchronized  ArrayList<Comparable<?>> getActionConstraints() {
         return (ArrayList<Comparable<?>>) this.configTbl.get(ActionConstraint);
     }
 
-    public synchronized final String getInit() {
+    public final synchronized  String getInit() {
         return (String) this.configTbl.get(Init);
     }
 
-    public synchronized final String getNext() {
+    public final synchronized  String getNext() {
         return (String) this.configTbl.get(Next);
     }
 
-    public synchronized final String getView() {
+    public final synchronized  String getView() {
         return (String) this.configTbl.get(View);
     }
 
-    public synchronized final boolean configDefinesSpecification() {
+    public final synchronized  boolean configDefinesSpecification() {
         final String spec = getSpec();
 
         return ((spec != null) && (spec.trim().length() > 0));
     }
 
-    public synchronized final String getSymmetry() {
+    public final synchronized  String getSymmetry() {
         return (String) this.configTbl.get(Symmetry);
     }
 
     @SuppressWarnings("unchecked")
-    public synchronized final ArrayList<Comparable<?>> getInvariants() {
+    public final synchronized  ArrayList<Comparable<?>> getInvariants() {
         return (ArrayList<Comparable<?>>) this.configTbl.get(Invariant);
     }
 
-    public synchronized final String getSpec() {
+    public final synchronized  String getSpec() {
         return (String) this.configTbl.get(Spec);
     }
 
     @SuppressWarnings("unchecked")
-    public synchronized final ArrayList<Comparable<?>> getProperties() {
+    public final synchronized ArrayList<Comparable<?>> getProperties() {
         return (ArrayList<Comparable<?>>) this.configTbl.get(Prop);
     }
 
-    public synchronized final String getAlias() {
+    public final synchronized String getAlias() {
         return (String) this.configTbl.get(Alias);
     }
 
-    public synchronized final String getPostCondition() {
+    public final synchronized String getPostCondition() {
         return (String) this.configTbl.get(PostCondition);
     }
 
-    public synchronized final boolean getCheckDeadlock() {
+    public final synchronized boolean getCheckDeadlock() {
         final Object object = this.configTbl.get(CheckDeadlock);
         if (object instanceof Boolean b) {
             return b;

@@ -58,15 +58,10 @@ public class OperatorStack implements tla2sany.st.SyntaxTreeConstants {
          * Removes the element at the top of the operator stack.                *
          ***********************************************************************/
         StackOfStack.remove(StackOfStack.size() - 1);
-        if (StackOfStack.size() > 0)
+        if (!StackOfStack.isEmpty())
             CurrentTop = StackOfStack.get(StackOfStack.size() - 1);
         else
             CurrentTop = null;
-    }
-
-    //
-    public final boolean empty() {
-        return CurrentTop.size() == 0; // CurrentTop
     }
 
     public final int size() {
@@ -86,14 +81,14 @@ What do left and right mean?????? What does shift mean????????
     // returns true if the top of the stack holds a prefix or infix op
 // used to distinguish [] from [] - or vice versa ?
 // also used to distinguish junction from \/ or /\
-    final public boolean preInEmptyTop() {
+    public final boolean preInEmptyTop() {
         /***********************************************************************
          * Returns true iff OperatorStack is empty, the stack at the top of     *
          * OperatorStack is empty, or OSElement at the top of the stack at the  *
          * top of OperatorStack is that of a prefix or infix operator.          *
          ***********************************************************************/
         if (CurrentTop == null) return true; // empty or holding nothing - lookahead compliant
-        if (CurrentTop.size() == 0)
+        if (CurrentTop.isEmpty())
             return true;
         else {
             final Operator op = CurrentTop.get(CurrentTop.size() - 1).getOperator();
@@ -418,7 +413,7 @@ What do left and right mean?????? What does shift mean????????
 // System.out.println("exit at size: " + (CurrentTop.size()-1));
     }
 
-    final public SyntaxTreeNode finalReduce() throws ParseException {
+    public final SyntaxTreeNode finalReduce() throws ParseException {
 
         int n = 0;
         pushOnStack(null, Operator.VoidOperator());
@@ -443,7 +438,7 @@ What do left and right mean?????? What does shift mean????????
         return CurrentTop.size() == 2;
     }
 
-    final public void pushOnStack(final SyntaxTreeNode n, final Operator o) {
+    public final void pushOnStack(final SyntaxTreeNode n, final Operator o) {
         /* XXX could be optimized to reuse OSelements */
         /***********************************************************************
          * Apparently, the operator argument o is null if this is not an        *
@@ -485,7 +480,7 @@ What do left and right mean?????? What does shift mean????????
 
 // simple utility
 
-    final public OSelement topOfStack() {
+    public final OSelement topOfStack() {
         /***********************************************************************
          * Returns the top element of the top stack, or null if that stack is   *
          * empty.                                                               *
@@ -500,7 +495,7 @@ What do left and right mean?????? What does shift mean????????
         return CurrentTop.get(n - 1);
     }
 
-    final public void popCurrentTop() {
+    public final void popCurrentTop() {
         /***********************************************************************
          * Removes the element currently at the top of the CurrentTop stack.    *
          * Must not be called unless CurrentTop has at least one element.       *

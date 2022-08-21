@@ -15,7 +15,7 @@ import tlc2.value.impl.Value;
 public class AnySet extends UserObj {
     public static final long serialVersionUID = 20160822L;
 
-    private final static Value AnySet = new UserValue(new AnySet());
+    private static final Value AnySet = new UserValue(new AnySet());
 
     public static Value ANY() {
         return AnySet;

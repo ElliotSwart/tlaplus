@@ -134,7 +134,7 @@ public final class ActionWrapper extends CostModelNode {
         // Report count for action itself.
         if (relation == Relation.PROP) {
             assert getEvalCount() == 0L && this.secondary.getCount() == 0L;
-            MP.printMessage(EC.TLC_COVERAGE_PROPERTY, new String[]{printLocation()});
+            MP.printMessage(EC.TLC_COVERAGE_PROPERTY, printLocation());
         } else if (relation == Relation.INIT) {
             // TODO Eventually coverage for init and next should consistently report states
             // found and distinct states into the same counters.

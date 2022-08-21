@@ -68,7 +68,7 @@ public class ConcurrentTLCTrace extends TLCTrace {
      * @see ConcurrentTLCTrace#getLevel()
      */
     @Override
-    public final int getLevelForReporting() {
+    public final synchronized int getLevelForReporting() {
         return getLevel();
     }
 

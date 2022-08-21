@@ -80,7 +80,7 @@ public abstract class SetOfFcnsOrRcdsValue extends EnumerableValue {
         protected BigInteger sz;
         protected int i;
 
-        public BigIntegerSubsetEnumerator(final int k) {
+        protected BigIntegerSubsetEnumerator(final int k) {
             this.k = k;
             this.i = 0;
 
@@ -119,7 +119,7 @@ public abstract class SetOfFcnsOrRcdsValue extends EnumerableValue {
     }
 
     abstract class SubsetEnumerator extends EnumerableValue.SubsetEnumerator {
-        public SubsetEnumerator(final int k, final int n) {
+        protected SubsetEnumerator(final int k, final int n) {
             super(k, n);
         }
 

@@ -95,8 +95,9 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
          ***********************************************************************/
         final SetOfLevelConstraints res = new SetOfLevelConstraints();
         final SetOfLevelConstraints lcSet = body.getLevelConstraints();
-        for (final SymbolNode param : lcSet.keySet()) {
-            Integer plevel = lcSet.get(param);
+        for (final var kv : lcSet.entrySet()) {
+            var param = kv.getKey();
+            Integer plevel = kv.getValue();
             if (!isConstant) {
                 if (param.getKind() == ConstantDeclKind) {
                     plevel = Levels[ConstantLevel];
@@ -147,8 +148,9 @@ public class Subst implements LevelConstants, ASTConstants, ExploreNode, XMLExpo
          ***********************************************************************/
         final SetOfArgLevelConstraints res = new SetOfArgLevelConstraints();
         final SetOfArgLevelConstraints alcSet = body.getArgLevelConstraints();
-        for (ParamAndPosition pap : alcSet.keySet()) {
-            final Integer plevel = alcSet.get(pap);
+        for (var kv : alcSet.entrySet()) {
+            var pap = kv.getKey();
+            final Integer plevel = kv.getValue();
             final ExprOrOpArgNode sub = getSub(pap.param, subs);
             if (sub == null) {
                 res.put(pap, plevel);

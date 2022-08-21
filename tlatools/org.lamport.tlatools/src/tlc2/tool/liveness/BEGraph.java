@@ -85,7 +85,7 @@ public class BEGraph {
                 Deque.push(node);
             }
         }
-        while (Deque.size() != 0) {
+        while (!Deque.isEmpty()) {
             final BEGraphNode node = Deque.pop();
             for (int i = 0; i < Objects.requireNonNull(node).nextSize(); i++) {
                 final BEGraphNode node1 = node.nextAt(i);

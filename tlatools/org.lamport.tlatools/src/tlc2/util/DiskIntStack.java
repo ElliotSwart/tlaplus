@@ -22,7 +22,7 @@ import java.io.File;
  * the name suggests - in a synchronous fashion.
  */
 public final class DiskIntStack implements IntStack {
-    private final static int BufSize = 16384;
+    private static final int BufSize = 16384;
     private final String filePrefix;
     private final Reader reader;
     private final Writer writer;
@@ -137,12 +137,14 @@ public final class DiskIntStack implements IntStack {
                         while (DiskIntStack.this.poolFile == null) {
                             this.wait();
                         }
-                        final BufferedDataInputStream bdis = FileUtil.newBdFIS(false, DiskIntStack.this.poolFile);
-                        final int len = DiskIntStack.this.rwbuf.length;
-                        for (int i = 0; i < len; i++) {
-                            DiskIntStack.this.rwbuf[i] = bdis.readInt();
+
+                        try(final BufferedDataInputStream bdis = FileUtil.newBdFIS(false, DiskIntStack.this.poolFile)){
+                            final int len = DiskIntStack.this.rwbuf.length;
+                            for (int i = 0; i < len; i++) {
+                                DiskIntStack.this.rwbuf[i] = bdis.readInt();
+                            }
                         }
-                        bdis.close();
+
                         DiskIntStack.this.poolFile = null;
                         DiskIntStack.this.isIdle = true;
                         DiskIntStack.this.notify();
@@ -163,11 +165,13 @@ public final class DiskIntStack implements IntStack {
                         while (DiskIntStack.this.poolFile == null) {
                             this.wait();
                         }
-                        final BufferedDataOutputStream bdos = FileUtil.newBdFOS(false, DiskIntStack.this.poolFile);
-                        for (final int j : DiskIntStack.this.buf) {
-                            bdos.writeInt(j);
+
+                        try(final BufferedDataOutputStream bdos = FileUtil.newBdFOS(false, DiskIntStack.this.poolFile)){
+                            for (final int j : DiskIntStack.this.buf) {
+                                bdos.writeInt(j);
+                            }
                         }
-                        bdos.close();
+
                         DiskIntStack.this.poolFile = null;
                         DiskIntStack.this.isIdle = true;
                         DiskIntStack.this.notify();

@@ -113,19 +113,10 @@ public class CommentToken extends Token {
         rsubtype = sub;
         subtype = 0;
         switch (rsubtype) {
-            case NORMAL:
-                delimiters = pseudo ? 2 : 4;
-                break;
-            case LINE:
-            case BEGIN_OVERRUN:
-            case END_OVERRUN:
-                delimiters = pseudo ? 0 : 2;
-                break;
-
-            case OVERRUN:
-                break;
-            default:
-                Debug.ReportBug(
+            case NORMAL -> delimiters = pseudo ? 2 : 4;
+            case LINE,BEGIN_OVERRUN,END_OVERRUN -> delimiters = pseudo ? 0 : 2;
+            case OVERRUN -> {}
+            default -> Debug.ReportBug(
                         "CommentToken constructor called with illegal subtype"
                 );
         }
@@ -286,8 +277,7 @@ public class CommentToken extends Token {
                      * Set the subtype of the COMMENT token.                   *
                      **********************************************************/
                     switch (tok.rsubtype) {
-                        case NORMAL:
-                        case LINE:
+                        case NORMAL,LINE -> {
                             if (beginMultiLine) {
                                 tok.subtype = BEGIN_MULTI;
                             } else {
@@ -306,30 +296,24 @@ public class CommentToken extends Token {
                                     }
                                 }
                             }
-                            break;
-
-                        case BEGIN_OVERRUN:
+                        }
+                        case BEGIN_OVERRUN -> {
                             if (item == 0) {
                                 tok.subtype = PAR;
                             } else {
                                 tok.subtype = ONE_LINE;
                             }
-                            break;
-
-                        case END_OVERRUN:
+                        }
+                        case END_OVERRUN -> {
                             if (item == spec[line].length - 1) {
                                 tok.subtype = PAR;
                             } else {
                                 tok.subtype = ONE_LINE;
                             }
-                            break;
+                        }
+                        case OVERRUN -> tok.subtype = PAR;
 
-                        case OVERRUN:
-                            tok.subtype = PAR;
-                            break;
-
-                        default:
-                            Debug.ReportBug(
+                        default -> Debug.ReportBug(
                                     "Bad token rsubtype in CommentToken.ProcessComments");
                     } // END switch (tok.rsubtype)
 
@@ -386,6 +370,7 @@ public class CommentToken extends Token {
         return string.length() + delimiters;
     }
 
+    @Override
     public String toString()
     /*********************************************************************
      * For debugging output.                                              *

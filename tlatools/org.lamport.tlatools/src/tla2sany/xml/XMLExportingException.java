@@ -22,6 +22,7 @@ public class XMLExportingException extends Exception {
         return nested;
     }
 
+    @Override
     public String toString() {
         if (nested == null)
             return super.toString();

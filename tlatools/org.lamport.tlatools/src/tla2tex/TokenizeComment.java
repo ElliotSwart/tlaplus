@@ -1015,7 +1015,7 @@ public class TokenizeComment {
      * strings, turning each line into a TeX token.                       *
      *********************************************************************/
     {
-        if ((vec == null) || (vec.size() == 0)) {
+        if ((vec == null) || (vec.isEmpty())) {
             return null;
         }
         /*****************************************************************

@@ -17,7 +17,7 @@ public class TLCRuntime {
     /**
      * Absolute lower hard limit for {@link FPSet} memory
      */
-    public static final long MinFpMemSize = 20 * (1 << 19);
+    public static final long MinFpMemSize = 20L * (1 << 19);
 
     private static TLCRuntime runtime;
     private long physicalSystemMemory = -1;
@@ -130,7 +130,7 @@ public class TLCRuntime {
         }
         if (fpMemSize >= maxMemory) {
             // .75*maxMemory
-            fpMemSize = maxMemory - (maxMemory >> 2);
+            fpMemSize = maxMemory - (double)(maxMemory >> 2);
         }
         return (long) fpMemSize;
     }

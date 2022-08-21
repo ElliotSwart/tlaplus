@@ -393,7 +393,7 @@ public abstract class Value implements ValueConstants, Serializable, IValue {
     public List<TLCVariable> getTLCVariables(final TLCVariable var, final Random rnd) {
         if (this instanceof final Enumerable e && this.isFinite()) {
             return e.elements().all().stream().map(value -> value.toTLCVariable(var.newInstance(value, rnd), rnd))
-                    .collect(Collectors.toList());
+                    .toList();
         }
         return new ArrayList<>(0);
     }

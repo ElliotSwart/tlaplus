@@ -234,7 +234,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
         growDiskMark++;
         final long timestamp = System.currentTimeMillis();
         final long insertions = tblCnt.longValue();
-        final double lf = tblCnt.doubleValue() / (double) maxTblCnt;
+        final double lf = tblCnt.doubleValue() / maxTblCnt;
 
         if (Objects.nonNull(diskFPSetMXWrapper)) {
             LOGGER.log(Level.FINE,
@@ -316,7 +316,7 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
      * @return true iff the current hash table load exceeds the given limit
      */
     private boolean loadFactorExceeds(final double limit) {
-        final double d = (this.tblCnt.doubleValue()) / (double) this.maxTblCnt;
+        final double d = (this.tblCnt.doubleValue()) / this.maxTblCnt;
         return d >= limit;
     }
 
@@ -742,12 +742,12 @@ public final class OffHeapDiskFPSet extends NonCheckpointableDiskFPSet implement
         // See DiskFPSet#diskLookup for comments.
 
         // Lookup the corresponding disk page in index.
-        final double dfp = (double) fp;
+        final double dfp = fp;
         while (loPage < hiPage - 1) {
             final double dhi = hiPage;
             final double dlo = loPage;
-            final double dhiVal = (double) hiVal;
-            final double dloVal = (double) loVal;
+            final double dhiVal = hiVal;
+            final double dloVal = loVal;
             int midPage = (loPage + 1) + (int) ((dhi - dlo - 1.0) * (dfp - dloVal) / (dhiVal - dloVal));
             if (midPage == hiPage) {
                 midPage--;

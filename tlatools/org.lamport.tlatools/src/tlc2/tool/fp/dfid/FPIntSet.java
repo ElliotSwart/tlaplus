@@ -28,7 +28,7 @@ public abstract class FPIntSet implements AutoCloseable
     public static final int LeveledMask = 0x2;
     public static final int NEW = 0;
     public static final int DONE = 1;
-    public static int Port = 10998;   // port # for fpset server
+    public static final int Port = 10998;   // port # for fpset server
     /*
      * SZ Mar 9, 2009: These variables seem to be used in the following way.
      *

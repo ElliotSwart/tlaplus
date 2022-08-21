@@ -48,24 +48,24 @@ import java.util.stream.Stream;
 
 public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConstants, TLAplusParserConstants {
 
-    private final static UniqueString S_e = UniqueString.uniqueStringOf("\\E");
-    private final static UniqueString S_ex = UniqueString.uniqueStringOf("\\exists");
-    private final static UniqueString S_f = UniqueString.uniqueStringOf("\\A");
-    private final static UniqueString S_fx = UniqueString.uniqueStringOf("\\always");
+    private static final UniqueString S_e = UniqueString.uniqueStringOf("\\E");
+    private static final UniqueString S_ex = UniqueString.uniqueStringOf("\\exists");
+    private static final UniqueString S_f = UniqueString.uniqueStringOf("\\A");
+    private static final UniqueString S_fx = UniqueString.uniqueStringOf("\\always");
     // except for embedded modules
-    private final static UniqueString S_te = UniqueString.uniqueStringOf("\\EE");
+    private static final UniqueString S_te = UniqueString.uniqueStringOf("\\EE");
     @SuppressWarnings("unused")
-    private final static UniqueString S_tf = UniqueString.uniqueStringOf("\\AA");
-    private final static UniqueString S_a = UniqueString.uniqueStringOf("<<");
-    private final static UniqueString S_brack = UniqueString.uniqueStringOf("[");
+    private static final UniqueString S_tf = UniqueString.uniqueStringOf("\\AA");
+    private static final UniqueString S_a = UniqueString.uniqueStringOf("<<");
+    private static final UniqueString S_brack = UniqueString.uniqueStringOf("[");
     // operators representing ExceptSpecs;
     // also used for @
-    private final static UniqueString S_sf = UniqueString.uniqueStringOf("SF_");
-    private final static UniqueString S_wf = UniqueString.uniqueStringOf("WF_");
-    private final static UniqueString S_at = UniqueString.uniqueStringOf("@");
-    private final static UniqueString S_lambda = UniqueString.uniqueStringOf("LAMBDA");
+    private static final UniqueString S_sf = UniqueString.uniqueStringOf("SF_");
+    private static final UniqueString S_wf = UniqueString.uniqueStringOf("WF_");
+    private static final UniqueString S_at = UniqueString.uniqueStringOf("@");
+    private static final UniqueString S_lambda = UniqueString.uniqueStringOf("LAMBDA");
     @SuppressWarnings("unused")
-    private final static UniqueString S_subexpression = UniqueString.uniqueStringOf("$Subexpression");
+    private static final UniqueString S_subexpression = UniqueString.uniqueStringOf("$Subexpression");
     /***********************************************************************
      * currentGoal is the named theorem or proof-step node within * which lies the
      * current node that is being processed, or null if * we're not inside such a
@@ -91,8 +91,8 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
     // an ordinary ASSUME. It does this by declaring the dummy OpDeclNode
     // InAssumeDummyNode as if it were declared within the ASSUME and then
     // checking if it's defined where the []ASSUME is used.
-    private final static UniqueString S_InAssume = UniqueString.uniqueStringOf("$$InAssume");
-    private final static OpDeclNode InAssumeDummyNode = new OpDeclNode(S_InAssume, 0, 0, 0, null, null, null);
+    private static final UniqueString S_InAssume = UniqueString.uniqueStringOf("$$InAssume");
+    private static final OpDeclNode InAssumeDummyNode = new OpDeclNode(S_InAssume, 0, 0, 0, null, null, null);
     public final Errors errors;
     protected final OpApplNode nullOAN;
     protected final LabelNode nullLabelNode;
@@ -117,14 +117,14 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
      * of "!i". * * One of the following integers < 0. *
      *************************************************************************/
 
-    final int NameSel = -1; // A name like "Foo" ;
-    final int NullSel = -2; // A "(...)" selector ;
-    final int GGSel = -3; // ">>" ;
-    final int LLSel = -4; // "<<" ;
-    final int ColonSel = -5; // ":" ;
+    static final int NameSel = -1; // A name like "Foo" ;
+    static final int NullSel = -2; // A "(...)" selector ;
+    static final int GGSel = -3; // ">>" ;
+    static final int LLSel = -4; // "<<" ;
+    static final int ColonSel = -5; // ":" ;
 
     // This is the only instance of class Function
-    final int AtSel = -6; // "@" ;
+    static final int AtSel = -6; // "@" ;
     final ArrayList<Hashtable<UniqueString, LabelNode>> LSlabels = new ArrayList<>();
     /***********************************************************************
      * LSlabels.get(i) is a HashTable that represents * LS.labels[i+1]. The
@@ -6669,19 +6669,10 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
                 opsSTN[i] = stn;
                 opNames[i] = stn.getUS();
                 switch (stn.getKind()) {
-                    case IDENTIFIER:
-                    case N_InfixOp:
-                    case N_NonExpPrefixOp:
-                    case N_PostfixOp:
-                    case N_PrefixOp:
-                    case ProofStepLexeme:
-// xyz: following case added by LL on 13 Oct 2007
-//
-                    case ProofImplicitStepLexeme:
-                        ops[i] = NameSel;
-                        break;
+                    case IDENTIFIER, N_InfixOp, N_NonExpPrefixOp, N_PostfixOp, N_PrefixOp, ProofStepLexeme, ProofImplicitStepLexeme ->
+                            ops[i] = NameSel;
 
-                    case N_StructOp:
+                    case N_StructOp -> {
                         if (stn.heirs().length > 0) {
                             /************************************************************
                              * This is a number. *
@@ -6706,24 +6697,20 @@ public class Generator implements ASTConstants, SyntaxTreeConstants, LevelConsta
                                         "Internal error: Unexpected selector `" + stn.getImage() + "'.");
                             }
                         } // if stn.heirs().length > 0
-                        break;
+                    }
 
-                    case N_OpArgs:
-                        ops[i] = NullSel;
-                        break;
+                    case N_OpArgs -> ops[i] = NullSel;
 
-                    default:
-                        /***************************************************************
-                         * This error occurs on silly input like * * USE DEF <<1, 2>> * * It therefore
-                         * seems better to report a mysterious error and * let processing continue in
-                         * the hopes that it will generate * a later, more useful error. *
-                         ***************************************************************/
-//             errors.addAbort(
-                        errors.addError(stn.getLocation(),
+                    default -> errors.addError(stn.getLocation(),
 //               "Internal error: Selector had unexpected node kind " +
 //               stn.getKind()) ;
-                                "Unexpected token found.");
-                        break;
+                            "Unexpected token found.");
+                    /***************************************************************
+                     * This error occurs on silly input like * * USE DEF <<1, 2>> * * It therefore
+                     * seems better to report a mysterious error and * let processing continue in
+                     * the hopes that it will generate * a later, more useful error. *
+                     ***************************************************************/
+
                 }
             } // for
         }

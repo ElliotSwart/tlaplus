@@ -44,9 +44,4 @@ public class InJarFilenameToStream extends SimpleFilenameToStream implements
 
         return super.resolve(name, isModule);
     }
-
-    @Override
-    public File resolve(final String name) {
-        return super.resolve(name);
-    }
 }

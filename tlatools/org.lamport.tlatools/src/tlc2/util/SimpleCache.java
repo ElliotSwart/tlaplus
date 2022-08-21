@@ -24,7 +24,7 @@ public class SimpleCache implements Cache {
      */
     public SimpleCache(final int size) {
         final int capacity = 1 << size;
-        this.mask = capacity - 1;
+        this.mask = capacity - 1L;
         this.cache = new long[capacity];
     }
 

@@ -59,7 +59,7 @@ public class Parse {
 
     /***************************************************************************/
 
-    static public Node parse(final String string, int index) throws ParseException {
+    public static Node parse(final String string, int index) throws ParseException {
 
         if (string == null) {
             throw new ParseException("TLC Bug: while formating output," +

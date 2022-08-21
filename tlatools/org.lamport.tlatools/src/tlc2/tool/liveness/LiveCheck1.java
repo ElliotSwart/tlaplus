@@ -866,12 +866,11 @@ public class LiveCheck1 implements ILiveCheck {
                 }
             }
         }
-        if (lowlink == node.getNumber()) {
+        if (lowlink == node.getNumber() && extractComponent1(node)) {
             // The nodes on the stack from top to node consist of a
             // component. Check it as soon as it is found.
-            if (extractComponent1(node)) {
-                checkSubcomponent(node);
-            }
+
+            checkSubcomponent(node);
         }
         return lowlink;
     }

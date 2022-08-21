@@ -345,7 +345,7 @@ public class Sequences extends UserObj implements ValueConstants {
 
     @Override
     public final int compareTo(final Value s) {
-        if ((s instanceof UserValue) && (((UserValue) s).userObj instanceof final Sequences seq)) {
+        if ((s instanceof UserValue uv) && (uv.userObj instanceof final Sequences seq)) {
             int cmp = this.size - seq.size;
             if (cmp == 0) {
                 cmp = this.range.compareTo(seq.range);
@@ -365,8 +365,8 @@ public class Sequences extends UserObj implements ValueConstants {
     public final boolean member(final Value s) {
         final TupleValue seq = (TupleValue) s.toTuple();
         if (seq == null) {
-            if (s instanceof ModelValue)
-                return ((ModelValue) s).modelValueMember(this);
+            if (s instanceof ModelValue mv)
+                return mv.modelValueMember(this);
             throw new EvalException(EC.TLC_MODULE_CHECK_MEMBER_OF, new String[]{Values.ppr(s.toString()),
                     Values.ppr(this.toString())});
         }

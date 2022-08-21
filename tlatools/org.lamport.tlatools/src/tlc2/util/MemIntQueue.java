@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 
 public final class MemIntQueue extends MemBasedSet {
-    private final static int InitialSize = 4096;
+    private static final int InitialSize = 4096;
     private final String diskdir;
     private final String filename;
     private int start;
@@ -128,7 +128,7 @@ public final class MemIntQueue extends MemBasedSet {
         public static String fpAndtidx(final MemIntQueue aQueue) {
             final StringBuilder buf = new StringBuilder(aQueue.size / 3);
             for (int i = 0; i < aQueue.size; i += 3) {
-                final long fp = ((long) aQueue.elems[i] << 32) | ((long) (aQueue.elems[i + 1]) & 0xFFFFFFFFL);
+                final long fp = ((long) aQueue.elems[i] << 32) | ((aQueue.elems[i + 1]) & 0xFFFFFFFFL);
                 buf.append("fp: ").append(fp);
                 buf.append(" tidx: ").append(aQueue.elems[i + 2]);
                 buf.append("\n");
@@ -141,10 +141,10 @@ public final class MemIntQueue extends MemBasedSet {
         public static String fpAndtidxAndptr(final MemIntQueue aQueue) {
             final StringBuilder buf = new StringBuilder(aQueue.size / 5);
             for (int i = 0; i < aQueue.size; i += 5) {
-                final long fp = ((long) aQueue.elems[i] << 32) | ((long) (aQueue.elems[i + 1]) & 0xFFFFFFFFL);
+                final long fp = ((long) aQueue.elems[i] << 32) | ((aQueue.elems[i + 1]) & 0xFFFFFFFFL);
                 buf.append("fp: ").append(fp);
                 buf.append(" tidx: ").append(aQueue.elems[i + 2]);
-                final long ptr = ((long) aQueue.elems[i + 3] << 32) | ((long) (aQueue.elems[i + 4]) & 0xFFFFFFFFL);
+                final long ptr = ((long) aQueue.elems[i + 3] << 32) | ((aQueue.elems[i + 4]) & 0xFFFFFFFFL);
                 buf.append(" ptr: ").append(ptr);
                 buf.append("\n");
             }

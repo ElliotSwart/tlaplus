@@ -48,30 +48,6 @@ public abstract class DistApp implements TraceApp {
     // TLCWorker
     public abstract boolean isInActions(TLCState s1, TLCState s2);
 
-    // Reconstruct the initial state whose fingerprint is fp.
-    // TLCTrace
-    /* (non-Javadoc)
-     * @see tlc2.tool.TraceApp#getState(long)
-     */
-    @Override
-    public abstract TLCStateInfo getState(long fp);
-
-    // Reconstruct the next state of state s whose fingerprint is fp.
-    // TLCTrace
-    /* (non-Javadoc)
-     * @see tlc2.tool.TraceApp#getState(long, tlc2.tool.TLCState)
-     */
-    @Override
-    public abstract TLCStateInfo getState(long fp, TLCState s);
-
-    // Reconstruct the info for the transition from s to s1. /
-    // TLCTrace
-    /* (non-Javadoc)
-     * @see tlc2.tool.TraceApp#getState(tlc2.tool.TLCState, tlc2.tool.TLCState)
-     */
-    @Override
-    public abstract TLCStateInfo getState(TLCState s1, TLCState s);
-
     // Enables call stack tracing.
     // TLCServer
     public abstract void setCallStack();

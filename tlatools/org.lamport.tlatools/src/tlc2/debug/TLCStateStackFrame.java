@@ -49,8 +49,8 @@ public class TLCStateStackFrame extends TLCStackFrame {
     public static final DebuggerValue NOT_EVAL = new DebuggerValue();
     public static final String SCOPE = "State";
     public static final String TRACE = "Trace";
-    protected transient final TLCState state;
-    protected transient final int stateId;
+    protected final TLCState state;
+    protected final int stateId;
     public TLCStateStackFrame(final TLCStackFrame parent, final SemanticNode node, final Context ctxt, final Tool tool, final TLCState state) {
         this(parent, node, ctxt, tool, state, null);
     }

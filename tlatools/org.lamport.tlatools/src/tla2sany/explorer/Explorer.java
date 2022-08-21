@@ -30,7 +30,7 @@ public class Explorer {
 
     // Next three vars used in reading commands from keyboard
     private final InputStreamReader inStream = new InputStreamReader(System.in);
-    private final int inCapacity = 100;
+    private static final int inCapacity = 100;
     private final StringBuilder input = new StringBuilder(inCapacity);
     // semNodesTable contains various nodes in the semantic graph keyed
     // by their UIDs
@@ -64,7 +64,7 @@ public class Explorer {
             do {
                 input.setCharAt(lineLength, (char) inStream.read());
                 lineLength++;
-            } while (input.charAt(lineLength - 1) != '\n' & lineLength < inCapacity);
+            } while (input.charAt(lineLength - 1) != '\n' && lineLength < inCapacity);
             input.setLength(lineLength);
         } catch (final EOFException e) {
             return false;
@@ -169,25 +169,25 @@ public class Explorer {
 
             final ExploreNode semNode = Enum.nextElement();
 
-            if (semNode instanceof SymbolNode
-                    && ((SymbolNode) semNode).getName() == UniqueString.uniqueStringOf(symbName)) {
+            if (semNode instanceof SymbolNode sn
+                    && sn.getName() == UniqueString.uniqueStringOf(symbName)) {
 
-                symbolVect.add((SymbolNode) semNode);
+                symbolVect.add(sn);
 
             }
         }
 
         // Print them all
         for (final SymbolNode sym : symbolVect) {
-            if (sym instanceof OpDefOrDeclNode) {
-                if (((OpDefOrDeclNode) sym).getOriginallyDefinedInModuleNode() != null) {
+            if (sym instanceof OpDefOrDeclNode ododn) {
+                if (ododn.getOriginallyDefinedInModuleNode() != null) {
                     System.out.print(
                             "Module: " + ((OpDefOrDeclNode) sym).getOriginallyDefinedInModuleNode().getName() + "\n");
                 } else {
                     System.out.print("Module: " + "null" + "\n");
                 }
-            } else if (sym instanceof FormalParamNode) {
-                System.out.print("Module: " + ((FormalParamNode) sym).getModuleNode().getName() + "\n");
+            } else if (sym instanceof FormalParamNode fpn) {
+                System.out.print("Module: " + fpn.getModuleNode().getName() + "\n");
             }
             System.out.println(((ExploreNode) (sym)).levelDataToString());
             System.out.println();

@@ -31,7 +31,7 @@ public abstract class OpDefOrDeclNode extends SymbolNode {
 
     int arity;          // arity of -1 means no fixed arity, -2 is illegal
 
-    public OpDefOrDeclNode(final UniqueString name, final int kind, final int ar, final ModuleNode modNode,
+    protected OpDefOrDeclNode(final UniqueString name, final int kind, final int ar, final ModuleNode modNode,
                            final SymbolTable symbolTable, final TreeNode stn) {
         super(kind, stn, name);
         this.originallyDefinedInModule = modNode;

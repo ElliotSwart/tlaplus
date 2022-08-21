@@ -51,7 +51,6 @@ public class TLAClass {
      **/
     public synchronized Class<?> loadClass(final String name) {
         Class<?> cl = null;
-        URLClassLoader classLoader = null;
 
         try {
             try {
@@ -60,8 +59,9 @@ public class TLAClass {
                     if (module != null) {
                         module.getAbsoluteFile();
                         final URL url = module.getAbsoluteFile().getParentFile().toURI().toURL();
-                        classLoader = new URLClassLoader(new URL[]{url});
-                        cl = classLoader.loadClass(name);
+                        try(final var classLoader = new URLClassLoader(new URL[]{url})) {
+                            cl = classLoader.loadClass(name);
+                        }
                     }
                 }
             } catch (final Exception ignored1) {
@@ -72,10 +72,6 @@ public class TLAClass {
                         cl = Class.forName(name);
                     } catch (final Exception e) { /*SKIP*/
                     }
-                }
-
-                if (classLoader != null) {
-                    classLoader.close();
                 }
             }
             if (cl == null) {

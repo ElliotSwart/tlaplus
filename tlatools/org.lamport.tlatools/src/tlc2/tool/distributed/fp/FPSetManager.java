@@ -30,7 +30,7 @@ public abstract class FPSetManager implements IFPSetManager {
 
     private static final Random rnd = new Random();
 
-    private final static Logger LOGGER = Logger.getLogger(FPSetManager.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(FPSetManager.class.getName());
     /**
      * A list of pairs. A pair is a remote reference and its corresponding
      * hostname. The name is cached locally to report it correctly in the error
@@ -40,15 +40,15 @@ public abstract class FPSetManager implements IFPSetManager {
     protected long mask = 0x7FFFFFFFFFFFFFFFL;
     protected boolean managerIsBroken = false;
 
-    public FPSetManager() {
+    protected FPSetManager() {
         this(new ArrayList<>());
     }
 
-    public FPSetManager(final List<FPSets> fpSets) {
+    protected FPSetManager(final List<FPSets> fpSets) {
         this.fpSets = fpSets;
     }
 
-    public FPSetManager(final FPSetRMI fpSet) {
+    protected FPSetManager(final FPSetRMI fpSet) {
         this();
         this.fpSets.add(new FPSets(fpSet, fpSet.toString()));
     }
@@ -363,7 +363,7 @@ public abstract class FPSetManager implements IFPSetManager {
 
                     LOGGER.log(
                             Level.FINE,
-                            "{0}. time throttleing task submission due to overload during FPSetManager callable execution #{1} for {2} seconds",
+                            "time throttleing task submission due to overload during FPSetManager callable execution #{1} for {2} seconds",
                             new Object[]{retry, i});
 
                     // Sleep for n seconds

@@ -445,7 +445,7 @@ public class Simulator {
         if (omitted > 0) {
             assert TLCGlobals.printDiffsOnly;
             MP.printMessage(EC.GENERAL, String.format(
-                    "difftrace requested: Shortened behavior by omitting finite stuttering (%s states), which is an artifact of simulation mode.\n",
+                    "difftrace requested: Shortened behavior by omitting finite stuttering (%s states), which is an artifact of simulation mode.%n",
                     omitted));
         }
     }
@@ -464,7 +464,7 @@ public class Simulator {
     }
 
     public List<IValue> getAllValues(final int idx) {
-        return workers.stream().map(w -> w.getLocalValue(idx)).collect(Collectors.toList());
+        return workers.stream().map(w -> w.getLocalValue(idx)).toList();
     }
 
     public final Value getAllValues() {
@@ -668,7 +668,7 @@ public class Simulator {
                 if (l > 0L) {
                     // LogLog l (to keep the graph readable) and round to two decimal places (to not
                     // write a gazillion decimal places truncated by graphviz anyway).
-                    final double loglogWeight = Math.abs(Math.log10(Math.log10(l + 1))); // +1 to prevent negative inf.
+                    final double loglogWeight = Math.abs(Math.log10(Math.log10(l + (double)1))); // +1 to prevent negative inf.
                     dotActionWriter.write(i, j,
                             BigDecimal.valueOf(loglogWeight).setScale(2, RoundingMode.HALF_UP).doubleValue());
                 } else if (!idToAction.get(j).isInitPredicate()) {

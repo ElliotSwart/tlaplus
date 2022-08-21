@@ -139,8 +139,8 @@ public class DotExplorerVisitor extends ExplorerVisitor {
         if (rootModule.getContext().isBuiltIn(exploreNode)) {
             return true;
         }
-        if (exploreNode instanceof SemanticNode) {
-            return ((SemanticNode) exploreNode).isStandardModule();
+        if (exploreNode instanceof SemanticNode sn) {
+            return sn.isStandardModule();
         }
         return false;
     }
@@ -148,18 +148,14 @@ public class DotExplorerVisitor extends ExplorerVisitor {
     @SuppressWarnings("serial")
     private class NoopTable<K, V> extends Hashtable<K, V> {
         @Override
-        public V get(final Object key) {
+        public synchronized V get(final Object key) {
             // Return null here to visit an OpDefNode D multiple times if D is "called" from
             // multiple OpApplNodes. However, stop endless recursion if D is a RECURSIVE
             // operator.
             final V v = super.get(key);
-            if (v instanceof final OpDefNode odn) {
-                if (odn.getInRecursive()) {
-                    if (stack.contains(odn)) {
-                        // RECURSIVE operators
-                        return v;
-                    }
-                }
+            if (v instanceof final OpDefNode odn && odn.getInRecursive() && stack.contains(odn)) {
+                // RECURSIVE operators
+                return v;
             }
             return null;
         }

@@ -23,7 +23,7 @@ import java.util.Set;
  * can not be used in getInitStates and getNextStates.
  */
 public final class TLCStateFun extends TLCState {
-    public final static TLCState Empty = new TLCStateFun(null, null, null);
+    public static final TLCState Empty = new TLCStateFun(null, null, null);
     private static final long serialVersionUID = -357349115038775307L;
     private final SymbolNode name;
     private final IValue value;

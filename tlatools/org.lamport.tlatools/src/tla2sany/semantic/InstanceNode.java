@@ -162,18 +162,18 @@ public class InstanceNode extends LevelNode {
             /*********************************************************************
              * Check level constraints for a constant module.                     *
              *********************************************************************/
-            if (!this.module.isConstant()) {
-                if (mexp.getLevel() > mparam.getLevel()) {
-                    if (mexp.levelCheck(itr) && mparam.levelCheck(itr)) {
-                        errors.get().addError(
-                                this.stn.getLocation(),
-                                "Level error in instantiating module '" + module.getName() +
-                                        "':\nThe level of the expression or operator substituted for '"
-                                        + mparam.getName() +
-                                        "' \nmust be at most " + mparam.getLevel() + ".");
-                    }
-                    this.levelCorrect = false;
-                } //  if (mexp.getLevel() > mparam.getLevel())
+            if (!this.module.isConstant() && mexp.getLevel() > mparam.getLevel()) {
+
+                if (mexp.levelCheck(itr) && mparam.levelCheck(itr)) {
+                    errors.get().addError(
+                            this.stn.getLocation(),
+                            "Level error in instantiating module '" + module.getName() +
+                                    "':\nThe level of the expression or operator substituted for '"
+                                    + mparam.getName() +
+                                    "' \nmust be at most " + mparam.getLevel() + ".");
+                }
+                this.levelCorrect = false;
+                //  if (mexp.getLevel() > mparam.getLevel())
             } // if (!this.module.isConstant())
 
             /*******************************************************************
@@ -277,9 +277,9 @@ public class InstanceNode extends LevelNode {
                         /************************************************************
                          * Need to level check before calling op.getMaxLevel.        *
                          ************************************************************/
-                        if (op instanceof OpDefNode &&
+                        if (op instanceof OpDefNode odn &&
                                 subst.getExpr().getLevel() >
-                                        ((OpDefNode) op).getMaxLevel(alp.i)) {
+                                        odn.getMaxLevel(alp.i)) {
                             if (opLevelCheck &&
                                     subst.getExpr().levelCheck(itr)) {
                                 errors.get().addError(
@@ -288,7 +288,7 @@ public class InstanceNode extends LevelNode {
                                                 module.getName() + "':\nThe level of the argument " +
                                                 alp.i + " of the operator " +
                                                 pi.getName() + "' \nmust be at most " +
-                                                ((OpDefNode) op).getMaxLevel(alp.i) + ".");
+                                                odn.getMaxLevel(alp.i) + ".");
                             }
                             this.levelCorrect = false;
                         }

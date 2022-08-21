@@ -17,7 +17,7 @@ import util.Assert;
  */
 public final class StateVec implements IStateFunctor, INextStateFunctor {
     private static final TLCState[] emptyStateArr = new TLCState[0];
-    private TLCState v[];
+    private TLCState[] v;
     private int size;
 
     public StateVec(TLCState item0) {
@@ -43,7 +43,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
         }
     }
 
-    public StateVec(TLCState v[]) {
+    public StateVec(TLCState[] v) {
         this.v = v;
         this.size = v.length;
     }
@@ -62,11 +62,9 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
             Assert.fail(EC.TLC_TOO_MNY_POSSIBLE_STATES);
         }
         int newLen = Math.min(Math.max(oldLen + add, 2 * oldLen), TLCGlobals.setBound);
-        TLCState oldv[] = this.v;
+        TLCState[] oldv = this.v;
         this.v = new TLCState[newLen];
-        for (int i = 0; i < this.size; i++) {
-            this.v[i] = oldv[i];
-        }
+        if (this.size >= 0) System.arraycopy(oldv, 0, this.v, 0, this.size);
     }
 
     public TLCState get(int i) {
@@ -121,9 +119,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
             s0.grow(size1);
             v0 = s0.v;
         }
-        for (int i = 0; i < size1; i++) {
-            v0[size0 + i] = v1[i];
-        }
+        if (size1 >= 0) System.arraycopy(v1, 0, v0, size0 + 0, size1);
         s0.size = size0 + size1;
         return s0;
     }
@@ -183,6 +179,7 @@ public final class StateVec implements IStateFunctor, INextStateFunctor {
         return false;
     }
 
+    @Override
     public boolean hasStates() {
         return !isEmpty();
     }

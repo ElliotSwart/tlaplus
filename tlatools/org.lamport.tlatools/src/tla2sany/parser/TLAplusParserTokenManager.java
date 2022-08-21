@@ -265,8 +265,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                 MatchLoop:
                 do {
                     switch (jjstateSet[--i]) {
-                        case 0:
-                        case 1:
+                        case 0,1:
                             if (curChar == 45)
                                 jjCheckNAddStates(0, 2);
                             break;
@@ -498,8 +497,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                                     kind = 19;
                             }
                             break;
-                        case 1:
-                        case 2:
+                        case 1,2:
                             if (curChar == 45)
                                 jjCheckNAddStates(14, 16);
                             break;
@@ -530,8 +528,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                                 kind = 231;
                             jjstateSet[jjnewStateCnt++] = 16;
                             break;
-                        case 18:
-                        case 19:
+                        case 18,19:
                             if ((0x3ff000000000000L & l) == 0L)
                                 break;
                             if (kind > 231)
@@ -556,9 +553,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                             if ((0x3ff000000000000L & l) != 0L)
                                 jjCheckNAddTwoStates(25, 28);
                             break;
-                        case 27:
-                        case 42:
-                        case 52:
+                        case 27,42,52:
                             if (curChar == 47)
                                 jjCheckNAdd(26);
                             break;
@@ -600,8 +595,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                                 kind = 231;
                             jjstateSet[jjnewStateCnt++] = 38;
                             break;
-                        case 40:
-                        case 41:
+                        case 40,41:
                             if ((0x3ff000000000000L & l) != 0L)
                                 jjCheckNAddTwoStates(41, 43);
                             break;
@@ -609,8 +603,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                             if (curChar == 46)
                                 jjstateSet[jjnewStateCnt++] = 42;
                             break;
-                        case 44:
-                        case 45:
+                        case 44,45:
                             if ((0x3ff000000000000L & l) != 0L)
                                 jjCheckNAddTwoStates(45, 47);
                             break;
@@ -618,8 +611,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                             if (curChar == 46)
                                 jjstateSet[jjnewStateCnt++] = 46;
                             break;
-                        case 48:
-                        case 49:
+                        case 48,49:
                             if ((0x3ff000000000000L & l) == 0L)
                                 break;
                             if (kind > 231)
@@ -768,9 +760,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                             if ((0x7fffffe07fffffeL & l) != 0L)
                                 jjAddStates(33, 34);
                             break;
-                        case 31:
-                        case 46:
-                        case 55:
+                        case 31,46,55:
                             if (curChar == 92)
                                 jjCheckNAdd(30);
                             break;
@@ -2334,27 +2324,11 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                             if ((0x3ff000000000000L & l) != 0L)
                                 jjCheckNAddTwoStates(147, 149);
                             break;
-                        case 227:
-                        case 31:
+                        case 227, 31:
                             if ((0x3ff000000000000L & l) != 0L)
                                 jjCheckNAddTwoStates(31, 32);
                             break;
-                        case 80:
-                        case 207:
-                        case 14:
-                        case 81:
-                        case 219:
-                        case 19:
-                        case 13:
-                        case 82:
-                        case 221:
-                        case 228:
-                        case 112:
-                        case 218:
-                        case 70:
-                        case 18:
-                        case 12:
-                        case 220:
+                        case 80, 207, 14, 81, 219, 19, 13, 82, 221, 228, 112, 218, 70, 18, 12, 220:
                             if ((0x3ff000000000000L & l) != 0L) {
                                 if (kind > 231)
                                     kind = 231;
@@ -2440,8 +2414,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                             if ((0x3ff000000000000L & l) != 0L)
                                 jjCheckNAddTwoStates(147, 149);
                             break;
-                        case 0:
-                        case 1:
+                        case  0,1:
                             if (curChar != 61)
                                 break;
                             if (kind > 36)
@@ -2460,8 +2433,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                             if (curChar == 48 && kind > 110)
                                 kind = 110;
                             break;
-                        case 22:
-                        case 28:
+                        case 22,28:
                             if (curChar == 34)
                                 jjCheckNAddStates(58, 61);
                             break;
@@ -2488,8 +2460,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                                 kind = 231;
                             jjstateSet[jjnewStateCnt++] = 33;
                             break;
-                        case 35:
-                        case 36:
+                        case 35, 36:
                             if ((0x3ff000000000000L & l) == 0L)
                                 break;
                             if (kind > 231)
@@ -2533,8 +2504,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                             if (curChar == 45)
                                 jjAddStates(54, 55);
                             break;
-                        case 90:
-                        case 91:
+                        case 90,91:
                             if (curChar == 45)
                                 jjCheckNAddStates(64, 66);
                             break;
@@ -2542,8 +2512,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                             if (curChar == 32)
                                 jjCheckNAddTwoStates(92, 98);
                             break;
-                        case 101:
-                        case 102:
+                        case 101, 102:
                             if (curChar != 45)
                                 break;
                             if (kind > 35)
@@ -2576,9 +2545,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                             if ((0x3ff000000000000L & l) != 0L)
                                 jjCheckNAddTwoStates(131, 134);
                             break;
-                        case 133:
-                        case 148:
-                        case 158:
+                        case 133, 148, 158:
                             if (curChar == 47)
                                 jjCheckNAdd(132);
                             break;
@@ -2628,8 +2595,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                             if (curChar == 46)
                                 jjstateSet[jjnewStateCnt++] = 148;
                             break;
-                        case 150:
-                        case 151:
+                        case 150, 151:
                             if ((0x3ff000000000000L & l) != 0L)
                                 jjCheckNAddTwoStates(151, 153);
                             break;
@@ -2637,8 +2603,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                             if (curChar == 46)
                                 jjstateSet[jjnewStateCnt++] = 152;
                             break;
-                        case 154:
-                        case 155:
+                        case 154,155:
                             if ((0x3ff000000000000L & l) == 0L)
                                 break;
                             if (kind > 231)
@@ -3511,9 +3476,7 @@ public class TLAplusParserTokenManager implements TLAplusParserConstants {
                             if ((0x7fffffe07fffffeL & l) != 0L)
                                 jjAddStates(100, 101);
                             break;
-                        case 137:
-                        case 152:
-                        case 161:
+                        case 137,152,161:
                             if (curChar == 92)
                                 jjCheckNAdd(136);
                             break;

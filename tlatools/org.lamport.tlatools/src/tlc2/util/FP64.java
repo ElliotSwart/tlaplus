@@ -219,7 +219,7 @@ public class FP64 {
         final int len = s.length();
         for (int i = 0; i < len; i++) {
             final char c = s.charAt(i);
-            fp = ((fp >>> 8) ^ (mod[(((int) c) ^ ((int) fp)) & mask]));
+            fp = ((fp >>> 8) ^ (mod[((c) ^ ((int) fp)) & mask]));
         }
         return fp;
     }
@@ -232,7 +232,7 @@ public class FP64 {
         final long[] mod = ByteModTable_7;
         final int end = start + len;
         for (int i = start; i < end; i++) {
-            fp = ((fp >>> 8) ^ (mod[(((int) chars[i]) ^ ((int) fp)) & 0xFF]));
+            fp = ((fp >>> 8) ^ (mod[((chars[i]) ^ ((int) fp)) & 0xFF]));
         }
         return fp;
     }
@@ -271,7 +271,7 @@ public class FP64 {
      */
     public static long Extend(long fp, final char c) {
         final long[] mod = ByteModTable_7;
-        fp = ((fp >>> 8) ^ (mod[(((int) c) ^ ((int) fp)) & 0xFF]));
+        fp = ((fp >>> 8) ^ (mod[((c) ^ ((int) fp)) & 0xFF]));
         return fp;
     }
 

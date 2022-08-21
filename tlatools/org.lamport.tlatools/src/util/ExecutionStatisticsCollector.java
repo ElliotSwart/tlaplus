@@ -60,7 +60,7 @@ public class ExecutionStatisticsCollector {
     }
 
     private static String getRandomIdentifier() {
-        return UUID.randomUUID().toString().replaceAll("-", "");
+        return UUID.randomUUID().toString().replace("-", "");
     }
 
     private static boolean isOptOut() {
@@ -96,11 +96,10 @@ public class ExecutionStatisticsCollector {
     private static String encode(final Map<String, String> parameters) {
         final StringBuilder buf = new StringBuilder();
 
-        for (final String key : parameters.keySet()) {
-            final String value = parameters.get(key);
-            buf.append(URLEncoder.encode(key, StandardCharsets.UTF_8));
+        for (final var kv : parameters.entrySet()) {
+            buf.append(URLEncoder.encode(kv.getKey(), StandardCharsets.UTF_8));
             buf.append("=");
-            buf.append(URLEncoder.encode(value, StandardCharsets.UTF_8));
+            buf.append(URLEncoder.encode(kv.getValue(), StandardCharsets.UTF_8));
             buf.append(",");
         }
 

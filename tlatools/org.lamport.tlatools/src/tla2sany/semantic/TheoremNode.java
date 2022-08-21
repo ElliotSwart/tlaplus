@@ -154,10 +154,10 @@ public class TheoremNode extends LevelNode {
          * If the assertion of this theorem node is an OpApplNode,              *
          * then set oan to the node and oanOp to it's operator.                 *
          ***********************************************************************/
-        OpApplNode oan = null;
         SymbolNode oanOp = null;
-        if (this.theoremExprOrAssumeProve instanceof OpApplNode) {
-            oan = (OpApplNode) this.theoremExprOrAssumeProve;
+        OpApplNode oan = null;
+        if (this.theoremExprOrAssumeProve instanceof OpApplNode oanCast) {
+            oan = oanCast;
             oanOp = oan.operator;
         }
 
@@ -252,8 +252,8 @@ public class TheoremNode extends LevelNode {
             TheoremNode tnode = null;
             if (node.getKind() == TheoremKind) {
                 tnode = (TheoremNode) node;
-                if (tnode.theoremExprOrAssumeProve instanceof OpApplNode) {
-                    oanode = (OpApplNode) tnode.theoremExprOrAssumeProve;
+                if (tnode.theoremExprOrAssumeProve instanceof OpApplNode oan) {
+                    oanode = oan;
                 }
             }
             if (oanode != null) {

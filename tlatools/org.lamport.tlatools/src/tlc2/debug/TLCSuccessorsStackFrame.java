@@ -45,8 +45,8 @@ import java.util.concurrent.CompletableFuture;
 public class TLCSuccessorsStackFrame extends TLCStateStackFrame {
 
     public static final String SCOPE = "Successors";
-    private transient final INextStateFunctor fun;
-    private transient final Action a;
+    private final INextStateFunctor fun;
+    private final Action a;
     private StepDirection step = StepDirection.Continue;
 
     public TLCSuccessorsStackFrame(final TLCStackFrame parent, final OpDefNode node, final Context ctxt, final Tool tool, final TLCState s, final Action a,

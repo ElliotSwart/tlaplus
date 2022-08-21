@@ -1044,7 +1044,7 @@ public abstract class Tool
             final Action elem = init.get(i);
             acts = acts.cons(elem, IActionItemList.PRED);
         }
-        if (init.size() != 0) {
+        if (!init.isEmpty()) {
             final Action elem = init.get(0);
             final TLCState ps = this.createEmptyState();
             if (acts.isEmpty()) {

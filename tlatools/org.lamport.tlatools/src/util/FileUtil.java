@@ -324,7 +324,7 @@ public class FileUtil {
      *
      */
     @SuppressWarnings("resource")
-    public static BufferedDataOutputStream newBdFOS(final boolean useGZIP, final File file) throws FileNotFoundException, IOException {
+    public static BufferedDataOutputStream newBdFOS(final boolean useGZIP, final File file) throws IOException {
         if (useGZIP) {
             return new BufferedDataOutputStream(new GZIPOutputStream(new FileOutputStream(file)));
         } else {
@@ -347,7 +347,7 @@ public class FileUtil {
     /**
      *
      */
-    public static ObjectInputStream newOBFIS(final String filename) throws FileNotFoundException, IOException {
+    public static ObjectInputStream newOBFIS(final String filename) throws IOException {
         return newOBFIS(new File(filename));
     }
 
@@ -355,14 +355,14 @@ public class FileUtil {
     /**
      *
      */
-    public static ObjectOutputStream newOBFOS(final File file) throws FileNotFoundException, IOException {
+    public static ObjectOutputStream newOBFOS(final File file) throws IOException {
         return new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
     }
 
     /**
      *
      */
-    public static ObjectOutputStream newOBFOS(final String filename) throws FileNotFoundException, IOException {
+    public static ObjectOutputStream newOBFOS(final String filename) throws IOException {
         return newOBFOS(new File(filename));
     }
 
@@ -407,9 +407,9 @@ public class FileUtil {
         final byte[] buffer = new byte[1024 * 4];
         long byteCount = 0;
         int n;
-        final BufferedInputStream bis = (is instanceof BufferedInputStream) ? (BufferedInputStream) is
+        final BufferedInputStream bis = (is instanceof BufferedInputStream castBis) ? castBis
                 : new BufferedInputStream(is);
-        final BufferedOutputStream bos = (os instanceof BufferedOutputStream) ? (BufferedOutputStream) os
+        final BufferedOutputStream bos = (os instanceof BufferedOutputStream castBos) ? castBos
                 : new BufferedOutputStream(os);
         while ((n = bis.read(buffer)) != -1) {
             bos.write(buffer, 0, n);

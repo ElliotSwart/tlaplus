@@ -65,8 +65,8 @@
  ***************************************************************************/
 package tla2tex;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public final class FormatComments {
@@ -628,32 +628,27 @@ public final class FormatComments {
                     ptok = previousCToken(com, line, item);
                     ntok = nextCToken(com, line, item);
 
-                    if (tok.string.equals("'")) {
-                        if ((isNextAdjacent(com, line, item))
-                                && (ntok.type == CToken.IDENT)) {
-                            tok.isAmbiguous = false;
-                            ntok.isAmbiguous = false;
-                            ntok.isTLA = false;
-                        }
+                    if (tok.string.equals("'") && isNextAdjacent(com, line, item) && (ntok.type == CToken.IDENT)) {
+                        tok.isAmbiguous = false;
+                        ntok.isAmbiguous = false;
+                        ntok.isTLA = false;
                     }
 
-                    if (tok.string.equals("-")) {
-                        if (isPreviousAdjacent(com, line, item)) {
-                            if ((item == com[line].length - 1)
-                                    && (ptok.type == CToken.IDENT)
-                                    && (!ptok.isTLA)) {
-                                tok.isAmbiguous = false;
-                                ptok.isAmbiguous = false;
-                            }
+                    if (tok.string.equals("-") && isPreviousAdjacent(com, line, item)) {
+                        if ((item == com[line].length - 1)
+                                && (ptok.type == CToken.IDENT)
+                                && (!ptok.isTLA)) {
+                            tok.isAmbiguous = false;
+                            ptok.isAmbiguous = false;
+                        }
 
-                            if ((isNextAdjacent(com, line, item))
-                                    && (ntok.type == CToken.IDENT)
-                                    && ((!ntok.isTLA)
-                                    || (!ptok.isTLA))) {
-                                tok.isAmbiguous = false;
-                                ptok.isAmbiguous = false;
-                                ntok.isAmbiguous = false;
-                            }
+                        if ((isNextAdjacent(com, line, item))
+                                && (ntok.type == CToken.IDENT)
+                                && ((!ntok.isTLA)
+                                || (!ptok.isTLA))) {
+                            tok.isAmbiguous = false;
+                            ptok.isAmbiguous = false;
+                            ntok.isAmbiguous = false;
                         }
                     }
 
@@ -1344,7 +1339,7 @@ public final class FormatComments {
                      * the LaTeXCommentPar environment.                            *
                      **************************************************************/
                     if ((com[line][0].type == CToken.VERB)
-                            || ((com[line][0].type == CToken.TEX))
+                            || (com[line][0].type == CToken.TEX)
                             && (com[line].length == 1)) {    // BEGIN then OF if ((com[line][0].type == CToken.VERB)...)
                         /***************************************************************
                          * This is a VERB or TEX line.                                  *
@@ -1908,9 +1903,7 @@ public final class FormatComments {
                                 }
                                 break;
 
-                            case CToken.NUMBER:
-
-                            case CToken.OTHER:
+                            case CToken.NUMBER, CToken.OTHER:
                                 curOutput.append(Misc.TeXify(tok.string));
                                 /*******************************************
                                  * Need to TeXify because of numbers like   *

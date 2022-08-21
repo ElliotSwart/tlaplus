@@ -26,7 +26,7 @@ import java.nio.file.Files;
  */
 public class DiskStateQueue extends StateQueue {
     // TODO dynamic bufsize based on current VM parameters?
-    private final static int BufSize = Integer.getInteger(DiskStateQueue.class.getName() + ".BufSize", 8192);
+    private static final int BufSize = Integer.getInteger(DiskStateQueue.class.getName() + ".BufSize", 8192);
 
     /*
      * Invariants: I1. Entries in deqBuf are in the indices: [deqIndex,
@@ -236,7 +236,7 @@ public class DiskStateQueue extends StateQueue {
     }
 
     @Override
-    public void close() throws Exception {
+    public synchronized void close() throws Exception {
         super.close();
         synchronized (this.writer) {
             this.writer.notifyAll();

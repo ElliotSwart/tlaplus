@@ -47,8 +47,8 @@ class SetOfArgLevelConstraints extends HashMap<ParamAndPosition, Integer> implem
      */
     @Override
     public final void putAll(final Map<? extends ParamAndPosition, ? extends Integer> s) {
-        for (final ParamAndPosition key : s.keySet()) {
-            this.put(key, s.get(key));
+        for (final var kv : s.entrySet()) {
+            this.put(kv.getKey(), kv.getValue());
         }
     }
 

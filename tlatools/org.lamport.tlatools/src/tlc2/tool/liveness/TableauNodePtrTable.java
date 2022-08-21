@@ -484,7 +484,7 @@ public class TableauNodePtrTable {
                     final int[] node = table.nodes[i];
 
                     // fingerprint
-                    final long fp = ((long) node[0] << 32) | ((long) node[1] & 0xFFFFFFFFL);
+                    final long fp = ((long) node[0] << 32) | (node[1] & 0xFFFFFFFFL);
                     buf.append("fp (key): ").append(fp);
                     buf.append(" (idx: ").append(i).append(")");
                     buf.append(" isDone: ").append(node.length == 2 || (node.length > 2 && node[3] != -2));

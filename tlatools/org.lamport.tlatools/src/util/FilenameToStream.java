@@ -83,7 +83,7 @@ public interface FilenameToStream {
 
 
         private final boolean isLibraryModule;
-        private transient final FilenameToStream resolver;
+        private final transient FilenameToStream resolver;
         // may be null.
         private final URI libraryPath;
 

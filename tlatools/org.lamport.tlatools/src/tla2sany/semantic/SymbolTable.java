@@ -257,8 +257,8 @@ public class SymbolTable implements ASTConstants {
         }
 
         public final boolean equals(final Object obj) {
-            return ((obj instanceof ModuleName) &&
-                    this.name.equals(((ModuleName) obj).name));
+            return ((obj instanceof ModuleName mod) &&
+                    this.name.equals(mod.name));
         }
 
         public final String toString() {

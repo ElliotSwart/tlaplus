@@ -402,7 +402,7 @@ public enum LocalizedFormats implements Localizable {
      */
     public String getLocalizedString(final Locale locale) {
         try {
-            final String path = LocalizedFormats.class.getName().replaceAll("\\.", "/");
+            final String path = LocalizedFormats.class.getName().replace("\\.", "/");
             final ResourceBundle bundle =
                     ResourceBundle.getBundle("assets/" + path, locale);
             if (bundle.getLocale().getLanguage().equals(locale.getLanguage())) {

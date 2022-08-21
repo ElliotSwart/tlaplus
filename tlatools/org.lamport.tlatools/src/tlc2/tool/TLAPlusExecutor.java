@@ -55,10 +55,8 @@ public class TLAPlusExecutor {
         for (final Action action : actions) {
             if (action.getName().equals(actionName)) {
                 final Object lookup = action.con.lookup(s -> s.getName().equals(processNode));
-                if (lookup != null) {
-                    if (lookup.equals(v)) {
-                        return new Mapping(action, params);
-                    }
+                if (lookup != null && lookup.equals(v)) {
+                    return new Mapping(action, params);
                 }
             }
         }

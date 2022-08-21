@@ -14,7 +14,7 @@ abstract class LNState extends LiveExprNode {
     private final Context con;
     private int tag;
 
-    public LNState(final Context con) {
+    protected LNState(final Context con) {
         this.con = con;
     }
 

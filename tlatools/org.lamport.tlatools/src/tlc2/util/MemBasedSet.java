@@ -32,7 +32,7 @@ public abstract class MemBasedSet {
 
     protected int[] elems;
 
-    public MemBasedSet(final int minCapacity) {
+    protected MemBasedSet(final int minCapacity) {
         this.size = 0;
         this.elems = new int[minCapacity];
     }

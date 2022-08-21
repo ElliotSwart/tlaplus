@@ -30,7 +30,7 @@ public class GraphNode extends AbstractGraphNode {
      * The field tidx is the unique index for the tableau graph node. If tindex
      * = -1, then there is no tableau. So, the maximum size of tableau is 2^31.
      */
-    private final static int[] emptyIntArr = new int[0];
+    private static final int[] emptyIntArr = new int[0];
     private static final int NO_FREE_SLOTS = -1;
     final long stateFP; // fingerprint of the state
     final int tindex;

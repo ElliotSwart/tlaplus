@@ -513,8 +513,8 @@ public class OpApplNode extends ExprNode implements ExploreNode {
                     // See comments in AnyDefNode.java.  (It is only in the
                     // most bizarre cases that opd.getOp() would be a
                     // ThmOrAssumpDefNode.
-                    if (opd instanceof OpArgNode &&
-                            ((OpArgNode) opd).getOp() instanceof final AnyDefNode opdDef) {
+                    if (opd instanceof OpArgNode oan &&
+                            oan.getOp() instanceof final AnyDefNode opdDef) {
                         @SuppressWarnings("unused") final  // See below comment block
                         boolean opdDefLevelCheck = opdDef.levelCheck(itr);
                         /*************************************************************
@@ -663,7 +663,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
              ***************************************************************/
             for (final ExprOrOpArgNode orOpArgNode : this.operands) {
                 if (orOpArgNode != null) {
-                    if (allBoundSymbols.size() == 0) {
+                    if (allBoundSymbols.isEmpty()) {
                         this.levelConstraints.putAll(
                                 orOpArgNode.getLevelConstraints());
                     } else {
@@ -708,8 +708,8 @@ public class OpApplNode extends ExprNode implements ExploreNode {
                 // See comments in AnyDefNode.java.  (It is only in the
                 // most bizarre cases that opdi.getOp() would be a
                 // ThmOrAssumpDefNode.
-                if (opdi instanceof OpArgNode &&
-                        ((OpArgNode) opdi).getOp() instanceof final AnyDefNode argDef) {
+                if (opdi instanceof OpArgNode oan &&
+                        oan.getOp() instanceof final AnyDefNode argDef) {
                     argDef.levelCheck(itr);
                     /***************************************************************
                      * Need to invoke levelCheck before invoking getMaxLevel.       *
@@ -754,8 +754,8 @@ public class OpApplNode extends ExprNode implements ExploreNode {
                 // See comments in AnyDefNode.java.  (It is only in the
                 // most bizarre cases that arg.getOp() would be a
                 // ThmOrAssumpDefNode.
-                if (arg instanceof OpArgNode &&
-                        ((OpArgNode) arg).getOp() instanceof final AnyDefNode argDef) {
+                if (arg instanceof OpArgNode oan &&
+                        oan.getOp() instanceof final AnyDefNode argDef) {
                     argDef.levelCheck(itr);
                     /***************************************************************
                      * Need to invoke levelCheck before invoking getMaxLevel.       *
@@ -781,9 +781,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
             }
             for (int i = 0; i < this.operands.length; i++) {
                 final ExprOrOpArgNode opdi = this.operands[i];
-                if (opdi instanceof OpArgNode &&
-                        ((OpArgNode) opdi).getOp().isParam()) {
-                    final SymbolNode opArg = ((OpArgNode) opdi).getOp();
+                if (opdi instanceof OpArgNode oan &&
+                        oan.getOp().isParam()) {
+                    final SymbolNode opArg = oan.getOp();
                     final int alen = opArg.getArity();
                     for (int j = 0; j < alen; j++) {
                         final ParamAndPosition pap = new ParamAndPosition(opArg, j);
@@ -828,7 +828,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
              ***************************************************************/
             for (final ExprOrOpArgNode operand : this.operands) {
                 if (operand != null) {
-                    if (allBoundSymbols.size() == 0) {
+                    if (allBoundSymbols.isEmpty()) {
                         this.argLevelParams.addAll(operand.getArgLevelParams());
                     } else {
                         /***************************************************************
@@ -867,9 +867,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
                         }
                     }
                 } else {
-                    if (arg instanceof OpArgNode &&
-                            ((OpArgNode) arg).getOp().isParam()) {
-                        final SymbolNode argOp = ((OpArgNode) arg).getOp();
+                    if (arg instanceof OpArgNode oan &&
+                            oan.getOp().isParam()) {
+                        final SymbolNode argOp = oan.getOp();
                         this.argLevelParams.add(new ArgLevelParam(argOp, alp.i, alp.param));
                     }
                 }
@@ -880,9 +880,9 @@ public class OpApplNode extends ExprNode implements ExploreNode {
              *********************************************************************/
             for (int i = 0; i < this.operands.length; i++) {
                 final ExprOrOpArgNode opdi = this.operands[i];
-                if (opdi instanceof OpArgNode &&
-                        ((OpArgNode) opdi).getOp().isParam()) {
-                    final SymbolNode opArg = ((OpArgNode) opdi).getOp();
+                if (opdi instanceof OpArgNode oan &&
+                        oan.getOp().isParam()) {
+                    final SymbolNode opArg = oan.getOp();
                     final int alen = opArg.getArity();
                     for (int j = 0; j < this.operands.length; j++) {
                         for (int k = 0; k < alen; k++) {
@@ -1230,7 +1230,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
 
     @Override
     public String toString(final IValue aValue) {
-        if (aValue instanceof ITupleValue && allParams.size() == aValue.size()) {
+        if (aValue instanceof ITupleValue aValueTuple && allParams.size() == aValue.size()) {
             final StringBuilder result = new StringBuilder();
 
             // The values in aValue are ordered by the varloc of the variable names (see
@@ -1244,7 +1244,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
                 result.append("/\\ ");
                 result.append(sn.getName().toString());
 
-                final IValue value = ((ITupleValue) aValue).getElem(idx++);
+                final IValue value = aValueTuple.getElem(idx++);
                 result.append(" = ");
                 result.append(Values.ppr(value));
                 result.append("\n");
@@ -1264,13 +1264,11 @@ public class OpApplNode extends ExprNode implements ExploreNode {
         if (operator.getName().toString().equals("$Case") && operands.length > 1 /* OTHER cannot occur alone in a CASE */) {
             // OTHER should be last operand
             final ExprOrOpArgNode lastOperand = operands[operands.length - 1];
-            if (lastOperand instanceof final OpApplNode other) {
+            if (lastOperand instanceof final OpApplNode other && other.getOperator().getName().toString().equals("$Pair") && other.getArgs()[0] == null) {
                 // indeed the OTHER case
-                if (other.getOperator().getName().toString().equals("$Pair") && other.getArgs()[0] == null) {
-                    // we pass a flag that tells any future OpApplNode that a null operand in 0 position should be replaced by the string $Other
-                    context = new SymbolContext(context);
-                    context.setFlag(SymbolContext.OTHER_BUG);
-                }
+                // we pass a flag that tells any future OpApplNode that a null operand in 0 position should be replaced by the string $Other
+                context = new SymbolContext(context);
+                context.setFlag(SymbolContext.OTHER_BUG);
             }
 
         }
@@ -1293,7 +1291,7 @@ public class OpApplNode extends ExprNode implements ExploreNode {
         e.appendChild(ope);
 
         // bound variables (optional)
-        if (unboundedBoundSymbols != null | boundedBoundSymbols != null) {
+        if (unboundedBoundSymbols != null || boundedBoundSymbols != null) {
             final Element bvars = doc.createElement("boundSymbols");
             if (unboundedBoundSymbols != null) {
                 for (int i = 0; i < unboundedBoundSymbols.length; i++) {

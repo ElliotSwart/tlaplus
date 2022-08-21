@@ -441,7 +441,6 @@ public class SyntaxTreeNode implements TreeNode, SyntaxTreeConstants,
     }
 
     public final SyntaxTreeNode first() {
-        //System.out.println( image);
         if (zero != null) return zero[0];
         else return one[0];
     }

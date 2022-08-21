@@ -204,7 +204,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
                                                        final String actionConstraintId,
                                                        final String nextSubActionBasename,
                                                        final boolean leaveStubsForTraceExpression) {
-        if (trace.size() > 0) {
+        if (!trace.isEmpty()) {
             final Iterator<MCState> it = trace.iterator();
             MCState currentState = it.next();
             final StringBuilder subActionsAndConstraint = new StringBuilder();
@@ -575,7 +575,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
     /**
      * Indent n times a entire multiline string.
      */
-    static public String indentString(final String s, final int n) {
+    public static String indentString(final String s, final int n) {
         final String idnt = new String(new char[n]).replace("\0", TLAConstants.INDENT);
         return idnt + String.join(TLAConstants.CR + idnt, s.split(TLAConstants.CR));
     }
@@ -666,7 +666,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
         localBuffer.append(TLAConstants.COMMENT).append("Put additional constant-, state-, and action-level expressions here:").append(TLAConstants.CR);
         localBuffer.append(TLAConstants.COMMENT).append(",_stateNumber |-> _TEPosition").append(TLAConstants.CR);
 
-        if (variables.size() > 0) {
+        if (!variables.isEmpty()) {
             // Check that exists at least one variable so we can use
             // in the commented trace expressions.
             final String someVar = variables.get(0);
@@ -1159,7 +1159,7 @@ public class SpecTraceExpressionWriter extends AbstractSpecWriter {
     }
 
     public String getComment() {
-        return tlaBuffer.toString().replaceFirst("^", "\\\\*").replaceAll("\n", "\n\\\\*");
+        return tlaBuffer.toString().replaceFirst("^", "\\\\*").replace("\n", "\n\\\\*");
     }
 
     public void wrapConfig(final String moduleFilename) {

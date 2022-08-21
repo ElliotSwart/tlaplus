@@ -138,7 +138,7 @@ public class UsageGenerator {
 
         final StringBuilder sb = new StringBuilder(boldedCommandName);
 
-        if (optionalSingleDashValueless.size() > 0) {
+        if (!optionalSingleDashValueless.isEmpty()) {
             final StringBuilder concatenation = new StringBuilder("-");
             final List<Argument> nonShortArguments = new ArrayList<>();
             for (final Argument arg : optionalSingleDashValueless) {
@@ -161,7 +161,7 @@ public class UsageGenerator {
             }
         }
 
-        if (optionalDoubleDashValueless.size() > 0) {
+        if (!optionalDoubleDashValueless.isEmpty()) {
             for (final Argument arg : optionalDoubleDashValueless) {
                 sb.append(" [").append(markupWord(arg.getArgumentName(), true));
                 if (arg.hasSubOptions()) {
@@ -171,7 +171,7 @@ public class UsageGenerator {
             }
         }
 
-        if (optionalValued.size() > 0) {
+        if (!optionalValued.isEmpty()) {
             for (final Argument arg : optionalValued) {
                 sb.append(" [").append(markupWord(arg.getArgumentName(), true)).append(valuedArgumentsSeparator);
                 if (arg.hasSubOptions()) {
@@ -181,14 +181,14 @@ public class UsageGenerator {
             }
         }
 
-        if (requiredValued.size() > 0) {
+        if (!requiredValued.isEmpty()) {
             for (final Argument arg : requiredValued) {
                 sb.append(" ").append(markupWord(arg.getArgumentName(), true)).append(valuedArgumentsSeparator);
                 sb.append(markupWord(arg.getSampleValue(), false));
             }
         }
 
-        if (requiredValueless.size() > 0) {
+        if (!requiredValueless.isEmpty()) {
             for (final Argument arg : requiredValueless) {
                 sb.append(" ").append(arg.getArgumentName());
                 if (arg.hasSubOptions()) {

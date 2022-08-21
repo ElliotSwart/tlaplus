@@ -27,7 +27,7 @@ import java.util.List;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class PcalTLAGen {
     // Constants that control formatting
-    public final static boolean boxUnderCASE = true; /* else [] at end of line  */
+    public static final boolean boxUnderCASE = true; /* else [] at end of line  */
 
 
     // I think that this is used as follows:
@@ -3488,7 +3488,7 @@ public class PcalTLAGen {
             // line of prefix, width to lenght of final line
             int maxPrefixWidth = 0;
             int width = 0;
-            if (prefix != null && prefix.size() > 0) {
+            if (prefix != null && !prefix.isEmpty()) {
                 for (int i = 0; i < prefix.size() - 1; i++) {
                     final String line = prefix.get(i);
                     if (line.length() > maxPrefixWidth) {
@@ -3518,7 +3518,7 @@ public class PcalTLAGen {
          */
         private StringBuilder prefixAsStringBuilder(final int col) {
             final StringBuilder val = new StringBuilder();
-            if (prefix != null && prefix.size() > 0) {
+            if (prefix != null && !prefix.isEmpty()) {
                 for (int i = 0; i < prefix.size(); i++) {
                     final String line = prefix.get(i);
                     if (i != 0) {
@@ -3560,7 +3560,7 @@ public class PcalTLAGen {
         private boolean fitsAsSingleLine(final int col) {
             return (col + singleLineWidth() <= pcalParams.wrapColumn)
                     || (bodyFormulas.sf == null
-                    && (prcdFormulas == null || prcdFormulas.size() == 0));
+                    && (prcdFormulas == null || prcdFormulas.isEmpty()));
         }
 
         /**
@@ -3581,7 +3581,7 @@ public class PcalTLAGen {
             }
             final StringBuilder val = prefixAsStringBuilder(col);
             int prefixWidth = 0;
-            if (prefix != null && prefix.size() > 0) {
+            if (prefix != null && !prefix.isEmpty()) {
                 prefixWidth = prefix.get(prefix.size() - 1).length();
             }
             final int curCol = col + prefixWidth;

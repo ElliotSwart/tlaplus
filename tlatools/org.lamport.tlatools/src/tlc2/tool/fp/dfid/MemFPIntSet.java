@@ -91,7 +91,7 @@ public class MemFPIntSet extends FPIntSet {
     }
 
     @Override
-    public synchronized final void setLeveled(final long fp) {
+    public final synchronized void setLeveled(final long fp) {
         final int index = (int) (fp & this.mask);
         final int[] list = this.table[index];
 
@@ -99,7 +99,7 @@ public class MemFPIntSet extends FPIntSet {
         if (list != null) {
             final int listlen = list.length;
             for (int i = 0; i < listlen; i += 3) {
-                final long fp1 = ((long) list[i] << 32) | ((long) list[i + 1] & 0xFFFFFFFFL);
+                final long fp1 = ((long) list[i] << 32) | (list[i + 1] & 0xFFFFFFFFL);
                 if (fp1 == fp) {
                     list[i + 2] = (list[i + 2] & ~LeveledMask) | Leveled;
                     return;
@@ -111,7 +111,7 @@ public class MemFPIntSet extends FPIntSet {
     }
 
     @Override
-    public synchronized final int setStatus(final long fp, final int status) {
+    public final synchronized int setStatus(final long fp, final int status) {
         int index = (int) (fp & this.mask);
         int[] list = this.table[index];
 
@@ -119,7 +119,7 @@ public class MemFPIntSet extends FPIntSet {
         if (list != null) {
             final int listlen = list.length;
             for (int i = 0; i < listlen; i += 3) {
-                final long fp1 = ((long) list[i] << 32) | ((long) list[i + 1] & 0xFFFFFFFFL);
+                final long fp1 = ((long) list[i] << 32) | (list[i + 1] & 0xFFFFFFFFL);
                 if (fp == fp1) {
                     final int status1 = list[i + 2];
                     list[i + 2] = status1 | status;
@@ -151,7 +151,7 @@ public class MemFPIntSet extends FPIntSet {
     }
 
     @Override
-    public synchronized final int getStatus(final long fp) {
+    public final synchronized int getStatus(final long fp) {
         final int index = (int) (fp & this.mask);
         final int[] list = this.table[index];
 
@@ -159,7 +159,7 @@ public class MemFPIntSet extends FPIntSet {
         if (list != null) {
             final int listlen = list.length;
             for (int i = 0; i < listlen; i += 3) {
-                final long fp1 = ((long) list[i] << 32) | ((long) list[i + 1] & 0xFFFFFFFFL);
+                final long fp1 = ((long) list[i] << 32) | (list[i + 1] & 0xFFFFFFFFL);
                 if (fp1 == fp) {
                     return list[i + 2];
                 }
@@ -302,12 +302,12 @@ public class MemFPIntSet extends FPIntSet {
     }
 
     @Override
-    final public void beginChkpt() throws IOException {
+    public final void beginChkpt() throws IOException {
         this.beginChkpt(this.filename);
     }
 
     @Override
-    final public void commitChkpt(final String fname) throws IOException {
+    public final void commitChkpt(final String fname) throws IOException {
         final File oldChkpt = new File(this.chkptName(fname, "chkpt"));
         final File newChkpt = new File(this.chkptName(fname, "tmp"));
         if ((oldChkpt.exists() && !oldChkpt.delete()) ||
@@ -317,7 +317,7 @@ public class MemFPIntSet extends FPIntSet {
     }
 
     @Override
-    final public void commitChkpt() throws IOException {
+    public final void commitChkpt() throws IOException {
         this.commitChkpt(this.filename);
     }
 
@@ -351,7 +351,7 @@ public class MemFPIntSet extends FPIntSet {
     }
 
     @Override
-    final public void recover() throws IOException {
+    public final void recover() throws IOException {
         this.recover(this.filename);
     }
 

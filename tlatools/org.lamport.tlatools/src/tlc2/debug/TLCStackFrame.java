@@ -62,19 +62,19 @@ public class TLCStackFrame extends StackFrame {
     protected static final Random rnd = new Random();
     // Not thread-safe because TLCDebugger is assumed to take care of synchronization!
     private static final Map<SemanticNode, String> PATH_CACHE = new HashMap<>();
-    protected transient final Map<Integer, DebugTLCVariable> nestedVariables = new HashMap<>();
-    protected transient final Map<Integer, List<DebugTLCVariable>> nestedConstants = new HashMap<>();
+    protected final Map<Integer, DebugTLCVariable> nestedVariables = new HashMap<>();
+    protected final Map<Integer, List<DebugTLCVariable>> nestedConstants = new HashMap<>();
 
-    protected transient final SemanticNode node;
-    protected transient final Context ctxt;
-    protected transient final Tool tool;
-    protected transient final RuntimeException exception;
+    protected final SemanticNode node;
+    protected final Context ctxt;
+    protected final Tool tool;
+    protected final RuntimeException exception;
     protected final int ctxtId;
     // The Value this SemanticNode evaluated to eventually. null if this node has
     // not been evaluated yet or it doesn't evaluate to a value.
-    protected transient Value v;
+    protected Value v;
     // null if this is the root frame, i.e. the start of an evaluation.
-    protected transient TLCStackFrame parent;
+    protected TLCStackFrame parent;
 
     // Testing only!
     TLCStackFrame(final int id) {

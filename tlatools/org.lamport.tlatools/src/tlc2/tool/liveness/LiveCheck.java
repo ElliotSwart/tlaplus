@@ -435,7 +435,7 @@ public class LiveCheck implements ILiveCheck {
         return aGraphStats;
     }
 
-    static abstract class AbstractLiveChecker implements ILiveChecker {
+    abstract static class AbstractLiveChecker implements ILiveChecker {
 
         protected final ILivenessStateWriter writer;
 

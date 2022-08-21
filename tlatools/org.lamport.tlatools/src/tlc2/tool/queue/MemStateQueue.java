@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 public final class MemStateQueue extends StateQueue {
-    private final static int InitialSize = 4096;
+    private static final int InitialSize = 4096;
     private final String diskdir;
     private final ITool tool;
     /* Fields  */

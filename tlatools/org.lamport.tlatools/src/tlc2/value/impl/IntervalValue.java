@@ -99,10 +99,8 @@ public class IntervalValue extends EnumerableValue
     @Override
     public Value isSubsetEq(final Value other) {
         try {
-            if (other instanceof final IntervalValue iv) {
-                if (iv.low <= low && iv.high >= high) {
-                    return BoolValue.ValTrue;
-                }
+            if (other instanceof final IntervalValue iv && iv.low <= low && iv.high >= high) {
+                return BoolValue.ValTrue;
             }
             return super.isSubsetEq(other);
         } catch (final RuntimeException | OutOfMemoryError e) {

@@ -26,7 +26,7 @@ import java.util.Arrays;
  */
 public class DiskByteArrayQueue extends ByteArrayQueue {
     // TODO dynamic bufsize based on current VM parameters?
-    private final static int BufSize = Integer.getInteger(DiskStateQueue.class.getName() + ".BufSize", 8192);
+    private static final int BufSize = Integer.getInteger(DiskStateQueue.class.getName() + ".BufSize", 8192);
 
     /*
      * Invariants: I1. Entries in deqBuf are in the indices: [deqIndex,
@@ -240,7 +240,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
     }
 
     @Override
-    public void close() {
+    public synchronized void close() {
         super.close();
         synchronized (this.writer) {
             this.writer.notifyAll();
@@ -774,7 +774,7 @@ public class DiskByteArrayQueue extends ByteArrayQueue {
         public long readLongNat() {
             long res = this.readInt();
             if (res >= 0) return res;
-            res = (res << 32) | ((long) this.readInt() & 0xFFFFFFFFL);
+            res = (res << 32) | (this.readInt() & 0xFFFFFFFFL);
             return -res;
         }
 

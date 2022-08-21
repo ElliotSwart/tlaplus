@@ -258,7 +258,7 @@ public class MemFPSet extends FPSet {
     }
 
     @Override
-    final public void commitChkpt(final String fname) throws IOException {
+    public final void commitChkpt(final String fname) throws IOException {
         final File oldChkpt = new File(this.chkptName(fname, "chkpt"));
         final File newChkpt = new File(this.chkptName(fname, "tmp"));
         if ((oldChkpt.exists() && !oldChkpt.delete()) ||
@@ -282,17 +282,17 @@ public class MemFPSet extends FPSet {
     }
 
     @Override
-    final public void beginChkpt() throws IOException {
+    public final void beginChkpt() throws IOException {
         this.beginChkpt(this.filename);
     }
 
     @Override
-    final public void commitChkpt() throws IOException {
+    public final void commitChkpt() throws IOException {
         this.commitChkpt(this.filename);
     }
 
     @Override
-    final public void recover(final TLCTrace trace) throws IOException {
+    public final void recover(final TLCTrace trace) throws IOException {
         this.recover(this.filename);
     }
 

@@ -683,7 +683,7 @@ public class PcalSymTab {
             this.id = p.id;
             this.decls = p.decls;
             this.ast = p;
-            if (p.body.size() == 0) this.iPC = null;
+            if (p.body.isEmpty()) this.iPC = null;
             else {
                 final AST.LabeledStmt ls = (AST.LabeledStmt) p.body.get(0);
                 this.iPC = ls.label;

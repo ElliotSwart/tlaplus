@@ -220,9 +220,8 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
         MP.printMessage(EC.TLC_VERSION, "TLC Server " + TLCGlobals.versionOfTLC);
         TLCStandardMBean tlcServerMXWrapper = TLCStandardMBean.getNullTLCStandardMBean();
         MailSender mail = null;
-        TLCServer server = null;
         TLCApp app = null;
-        try {
+        try(final TLCServer server = (expectedFPSetCount > 0) ? new DistributedFPSetTLCServer(app, expectedFPSetCount) : new TLCServer(app)) {
             TLCGlobals.setNumWorkers(0);
             // Create MS before TLCApp to capture the parsing output.
             mail = new MailSender();
@@ -231,11 +230,6 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
             mail.setModelName(System.getProperty(MailSender.MODEL_NAME, Objects.requireNonNull(app).getFileName()));
             mail.setSpecName(System.getProperty(MailSender.SPEC_NAME, app.getFileName()));
 
-            if (expectedFPSetCount > 0) {
-                server = new DistributedFPSetTLCServer(app, expectedFPSetCount);
-            } else {
-                server = new TLCServer(app);
-            }
             tlcServerMXWrapper = new TLCServerMXWrapper(server);
             Runtime.getRuntime().addShutdownHook(new Thread(new WorkerShutdownHook(server)));
             server.modelCheck();
@@ -249,17 +243,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
             } else {
                 MP.printError(EC.GENERAL, e);
             }
-            if (server != null) {
-                try {
-                    server.close();
-                } catch (final Exception e1) {
-                    MP.printError(EC.GENERAL, e1);
-                }
-            }
         } finally {
-            if (!Objects.requireNonNull(server).es.isShutdown()) {
-                server.es.shutdownNow();
-            }
             tlcServerMXWrapper.unregister();
             // When creation of TLCApp fails, we get here as well.
             if (mail != null) {
@@ -352,7 +336,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
      * @see tlc2.tool.distributed.TLCServerRMI#registerWorker(tlc2.tool.distributed.TLCWorkerRMI)
      */
     @Override
-    public synchronized final void registerWorker(final TLCWorkerRMI worker
+    public final synchronized void registerWorker(final TLCWorkerRMI worker
     ) throws IOException {
 
         // Wake up potentially stuck TLCServerThreads (in
@@ -411,7 +395,7 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
      * calls by other workers will be ignored. This implies that other
      * error states are ignored.
      */
-    public synchronized final boolean setErrState(final TLCState s, final boolean keep) {
+    public final synchronized boolean setErrState(final TLCState s, final boolean keep) {
         if (this.done) {
             return false;
         }
@@ -514,6 +498,10 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
 
         if (!VETO_CLEANUP) {
             FileUtil.deleteDir(new File(this.metadir), true);
+        }
+
+        if(!this.es.isShutdown()){
+            this.es.shutdownNow();
         }
     }
 
@@ -847,30 +835,14 @@ public class TLCServer extends UnicastRemoteObject implements TLCServerRMI,
                     + file.getAbsolutePath() + " is too big");
 
         Throwable pending = null;
-        FileInputStream in = null;
         final byte[] buffer = new byte[(int) file.length()];
-        try {
-            in = new FileInputStream(file);
+        try(final FileInputStream in = new FileInputStream(file)) {
             in.read(buffer);
         } catch (final Exception e) {
             pending = new RuntimeException("Exception occured on reading file "
                     + file.getAbsolutePath(), e);
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (final Exception e) {
-                    if (pending == null) {
-                        pending = new RuntimeException(
-                                "Exception occured on closing file"
-                                        + file.getAbsolutePath(), e);
-                    }
-                }
-            }
-            if (pending != null) {
-                throw new RuntimeException(pending);
-            }
         }
+
         return buffer;
     }
 

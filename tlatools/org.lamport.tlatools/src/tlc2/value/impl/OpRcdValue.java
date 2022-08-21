@@ -306,7 +306,7 @@ public class OpRcdValue extends OpValue implements Applicable {
     public final StringBuilder toString(StringBuilder sb, final int offset, final boolean swallow) {
         try {
             sb.append("{ ");
-            if (this.values.size() != 0) {
+            if (!this.values.isEmpty()) {
                 sb.append("<");
                 final Value[] args = this.domain.get(0);
                 for (final Value arg : args) {

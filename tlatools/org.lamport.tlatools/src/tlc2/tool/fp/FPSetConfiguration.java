@@ -95,7 +95,7 @@ public class FPSetConfiguration implements Serializable {
         //TODO Replace FPSet.LongSize with fingerprint length
 
         // Explicitly floor to indicate that an FPSet cannot store a portion of a fingerprint.
-        return (long) Math.floor(getMemoryInBytes() / FPSet.LongSize);
+        return (long) Math.floor(getMemoryInBytes() / (double)FPSet.LongSize);
     }
 
     public int getMultiFPSetCnt() {

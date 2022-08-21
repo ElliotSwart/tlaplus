@@ -75,9 +75,9 @@ public final class Misc {
                     multiplier = multiplier * 10;
                     exponent = exponent - 1;
                 }
-                return ((float) Long.parseLong(substr)) * multiplier;
+                return (Long.parseLong(substr)) * multiplier;
             }
-            return (float) Long.parseLong(str);
+            return Long.parseLong(str);
         }
         String strMinusPoint
                 = str.substring(0, pointPos) + str.substring(pointPos + 1);
@@ -87,7 +87,7 @@ public final class Misc {
             strMinusPoint = strMinusPoint.substring(0, 18);
         }
         long divisor = 1;
-        long exponent = strMinusPoint.length() - pointPos;
+        long exponent = strMinusPoint.length() - (long)pointPos;
         while (exponent > 0) {
             divisor = divisor * 10;
             exponent = exponent - 1;
@@ -317,7 +317,7 @@ public final class Misc {
      * \f, \r, or ' '.  A \n is not considered a space character.         *
      *********************************************************************/
     {
-        return (c == ' ') | (c == '\f') | (c == '\r');
+        return (c == ' ') || (c == '\f') || (c == '\r');
     }
 
     public static boolean isBlank(final String str)

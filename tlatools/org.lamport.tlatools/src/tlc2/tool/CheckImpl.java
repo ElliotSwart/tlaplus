@@ -39,6 +39,7 @@ public abstract class CheckImpl extends ModelChecker {
     private TLCState curState;              // the current state
     private TLCTrace.Enumerator stateEnum;  // the enumerator for reachable state
     private long lastTraceTime;             // the time the last trace was generated
+
     protected CheckImpl(final ITool tool, final String metadir, final boolean deadlock,
                         final int depth, final String fromChkpt, final FPSetConfiguration fpSetConfig)
             throws IOException {
@@ -123,20 +124,19 @@ public abstract class CheckImpl extends ModelChecker {
         // Record the state in coverSet and theFPSet:
         final long fp = state.fingerPrint();
         final boolean seen = this.coverSet.put(fp);
-        if (!seen) {
-            if (!this.theFPSet.contains(fp)) {
-                state.uid = this.trace.writeState(this.curState, fp);
-                // Check invariant properties of the state:
-                final int cnt = this.tool.getInvariants().length;
-                for (int j = 0; j < cnt; j++) {
-                    if (!this.tool.isValid(this.tool.getInvariants()[j], state)) {
-                        // We get here because of invariant violation:
-                        ToolIO.out.println("Error: Invariant " + this.tool.getInvNames()[j] +
-                                " is violated. The behavior up to this point is:");
-                        return false;
-                    }
+        if (!seen && !this.theFPSet.contains(fp)) {
+            state.uid = this.trace.writeState(this.curState, fp);
+            // Check invariant properties of the state:
+            final int cnt = this.tool.getInvariants().length;
+            for (int j = 0; j < cnt; j++) {
+                if (!this.tool.isValid(this.tool.getInvariants()[j], state)) {
+                    // We get here because of invariant violation:
+                    ToolIO.out.println("Error: Invariant " + this.tool.getInvNames()[j] +
+                            " is violated. The behavior up to this point is:");
+                    return false;
                 }
             }
+
         }
         return true;
     }

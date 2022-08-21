@@ -102,7 +102,7 @@ public final class LongArray {
 
     public static void main(final String[] args) {
         final long elements = 1L << Integer.parseInt(args[0]);
-        System.out.format("Allocating LongArray with %,d elements.\n", elements);
+        System.out.format("Allocating LongArray with %,d elements.%n", elements);
         final LongArray longArray = new LongArray(elements);
         longArray.zeroMemory();
     }
@@ -126,7 +126,7 @@ public final class LongArray {
      */
     public void zeroMemory(final int numThreads) {
 
-        final long segmentSize = (long) Math.floor(length / numThreads);
+        final long segmentSize = (long) Math.floor(length / (double)numThreads);
 
         final ExecutorService es = Executors.newFixedThreadPool(numThreads);
         try {

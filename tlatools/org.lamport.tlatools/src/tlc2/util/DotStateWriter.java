@@ -100,7 +100,7 @@ public class DotStateWriter extends StateWriter {
 
         // Set the color scheme for transition edges if necessary.
         if (colorize) {
-            this.writer.append(String.format("edge [colorscheme=\"%s\"]\n", dotColorScheme));
+            this.writer.append(String.format("edge [colorscheme=\"%s\"]%n", dotColorScheme));
         }
 
         // Spread out state nodes a bit more.
@@ -162,12 +162,12 @@ public class DotStateWriter extends StateWriter {
      * @see tlc2.util.StateWriter#writeState(tlc2.tool.TLCState, tlc2.tool.TLCState, boolean)
      */
     @Override
-    public void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew) {
+    public synchronized void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew) {
         writeState(state, successor, successorStateIsNew, Visualization.DEFAULT);
     }
 
     @Override
-    public void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew, final Action action) {
+    public synchronized void writeState(final TLCState state, final TLCState successor, final boolean successorStateIsNew, final Action action) {
         writeState(state, successor, null, 0, 0, successorStateIsNew, Visualization.DEFAULT, action);
     }
 
@@ -294,10 +294,10 @@ public class DotStateWriter extends StateWriter {
         sb.append(String.format("subgraph %s {", "cluster_legend"));
         sb.append("graph[style=bold];");
         sb.append("label = \"Next State Actions\" style=\"solid\"\n");
-        sb.append(String.format("node [ labeljust=\"l\",colorscheme=\"%s\",style=filled,shape=record ]\n",
+        sb.append(String.format("node [ labeljust=\"l\",colorscheme=\"%s\",style=filled,shape=record ]%n",
                 dotColorScheme));
         for (final String action : actions) {
-            final String str = String.format("%s [label=\"%s\",fillcolor=%d]", action.replaceAll("!", ":"), action,
+            final String str = String.format("%s [label=\"%s\",fillcolor=%d]", action.replace("!", ":"), action,
                     this.actionToColors.get(action));
             sb.append(str);
             sb.append("\n");

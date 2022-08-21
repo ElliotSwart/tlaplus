@@ -89,11 +89,7 @@ public class IdThread extends Thread {
     }
 
     public static void setUsingModelChecker(Tool.Mode usingModelChecker) {
-        if (usingModelChecker == Tool.Mode.MC || usingModelChecker == Tool.Mode.MC_DEBUG) {
-            IdThread.usingModelChecker.set(true);
-        } else {
-            IdThread.usingModelChecker.set(false);
-        }
+        IdThread.usingModelChecker.set(usingModelChecker == Tool.Mode.MC || usingModelChecker == Tool.Mode.MC_DEBUG);
     }
 
     /**
@@ -126,7 +122,7 @@ public class IdThread extends Thread {
     // its use in class tlc.tool.liveness.LiveWorker assigned
     // its value to an int variable, so it was renamed myGetId.
     // It is used only in LiveWorker.
-    public final int myGetId() { // getId() {
+    public final int myGetId() {
         return this.id;
     }
 

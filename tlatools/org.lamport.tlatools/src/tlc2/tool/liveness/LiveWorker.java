@@ -141,7 +141,7 @@ public class LiveWorker implements Callable<Boolean> {
                 // Make sure none of the init states has already been assigned a
                 // link number. That would indicate a bug in makeNodePtrTbl
                 // which is supposed to reset all link numbers to file ptrs.
-                assert DiskGraph.isFilePointer(ptr);
+                assert AbstractDiskGraph.isFilePointer(ptr);
                 nodeQueue.enqueueLong(state);
                 nodeQueue.enqueueInt(tidx);
                 nodeQueue.enqueueLong(ptr);
@@ -214,7 +214,7 @@ public class LiveWorker implements Callable<Boolean> {
 
                 // At this point curLoc is still a file pointer (small MAX_PTR)
                 // and not yet replaced by a link (MAX_PTR < curLoc < MAX_LINK).
-                assert DiskGraph.isFilePointer(curLoc);
+                assert AbstractDiskGraph.isFilePointer(curLoc);
 
                 // The current node is explored iff curLoc < 0. If it is indeed fully explored,
                 // it means it has potentially found an SCC. Thus, check if this is the case
@@ -359,7 +359,7 @@ public class LiveWorker implements Callable<Boolean> {
                                     // explored during DFS search the first
                                     // time. Since it is new, add it to dfsStack
                                     // to have it explored subsequently by DFS.
-                                    if (DiskGraph.isFilePointer(nextLink)) {
+                                    if (AbstractDiskGraph.isFilePointer(nextLink)) {
                                         dfsStack.pushLong(nextState);
                                         dfsStack.pushInt(nextTidx);
                                         dfsStack.pushLong(nextLink); // nextLink is logically a ptr/loc here
@@ -390,7 +390,7 @@ public class LiveWorker implements Callable<Boolean> {
                                     // on disk state). The current path
                                     // potentially might be the only one by
                                     // which DFS can reach it.
-                                    if (DiskGraph.isFilePointer(nextLink)) {
+                                    if (AbstractDiskGraph.isFilePointer(nextLink)) {
                                         nodeQueue.enqueueLong(nextState);
                                         nodeQueue.enqueueInt(nextTidx);
                                         nodeQueue.enqueueLong(nextLink); // nextLink is logically a ptr/loc here
@@ -1334,11 +1334,11 @@ public class LiveWorker implements Callable<Boolean> {
                     buf.append(" tidx: ");
                     buf.append(dfsStack.peakInt(size - i - 3));
                     buf.append(" lowLink: ");
-                    buf.append(dfsStack.peakLong(size - i - 7) - DiskGraph.MAX_PTR);
+                    buf.append(dfsStack.peakLong(size - i - 7) - AbstractDiskGraph.MAX_PTR);
                     buf.append("]\n");
                     // Increase i by the number of elements peaked
                     i += 7;
-                } else if (DiskGraph.isFilePointer(topElement)) {
+                } else if (AbstractDiskGraph.isFilePointer(topElement)) {
                     final long location = topElement;
                     buf.append("succ [");
                     buf.append(" fp: ");
@@ -1350,8 +1350,8 @@ public class LiveWorker implements Callable<Boolean> {
                     buf.append("]\n");
                     // Increase i by the number of elements peaked
                     i += 5;
-                } else if (topElement >= DiskGraph.MAX_PTR) {
-                    final long pLowLink = topElement - DiskGraph.MAX_PTR;
+                } else if (topElement >= AbstractDiskGraph.MAX_PTR) {
+                    final long pLowLink = topElement - AbstractDiskGraph.MAX_PTR;
                     buf.append("pLowLink: ");
                     buf.append(pLowLink);
                     buf.append("\n");

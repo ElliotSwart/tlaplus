@@ -34,7 +34,7 @@ import java.util.Random;
 
 public class DebugTLCVariable extends Variable implements tlc2.value.impl.TLCVariable, Comparable<DebugTLCVariable> {
 
-    private transient Value tlcValue;
+    private Value tlcValue;
 
     public DebugTLCVariable(final UniqueString lhs) {
         this.setName(lhs.toString());

@@ -13,7 +13,7 @@ public class StaticBlockSelector extends BlockSelector {
     /**
      * TLC server threads manage the set of existing TLC workers.
      */
-    private final static int BlockSize = Integer.getInteger(BLOCK_SIZE, 1024);
+    private static final int BlockSize = Integer.getInteger(BLOCK_SIZE, 1024);
 
     StaticBlockSelector(final TLCServer aTLCServer) {
         super(aTLCServer);

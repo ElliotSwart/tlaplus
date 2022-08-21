@@ -52,7 +52,7 @@ public class TLCExt {
     private static final Scanner scanner = new Scanner(System.in);
 
     @Evaluation(definition = "AssertError", module = "TLCExt", warn = false, silent = true)
-    public synchronized static Value assertError(final Tool tool, final ExprOrOpArgNode[] args, final Context c,
+    public static synchronized Value assertError(final Tool tool, final ExprOrOpArgNode[] args, final Context c,
                                                  final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
 
         // Check expected err is a string.
@@ -73,7 +73,7 @@ public class TLCExt {
     // This is likely only useful with a single worker, but let's synchronize
     // anyway.
     @Evaluation(definition = "PickSuccessor", module = "TLCExt", warn = false, silent = true, minLevel = LevelConstants.ActionLevel)
-    public synchronized static Value pickSuccessor(final Tool tool, final ExprOrOpArgNode[] args, final Context c,
+    public static synchronized Value pickSuccessor(final Tool tool, final ExprOrOpArgNode[] args, final Context c,
                                                    final TLCState s0, final TLCState s1, final int control, final CostModel cm) {
 
         var mainChecker = tool.getMainChecker();
@@ -141,7 +141,7 @@ public class TLCExt {
                 return BoolValue.ValTrue;
             } else if (nextLine.charAt(0) == 's') {
                 MP.printMessage(EC.TLC_MODULE_OVERRIDE_STDOUT,
-                        String.format("%s\n~>\n%s", s0.toString().trim(), s1.toString().trim()));
+                        String.format("%s%n~>%n%s", s0.toString().trim(), s1.toString().trim()));
             } else if (nextLine.charAt(0) == 'd') {
                 MP.printMessage(EC.TLC_MODULE_OVERRIDE_STDOUT, s1.toString(s0));
             } else if (nextLine.charAt(0) == 'e') {

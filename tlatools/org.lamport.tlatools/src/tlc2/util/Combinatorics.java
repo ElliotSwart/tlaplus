@@ -28,7 +28,7 @@ public class Combinatorics {
             if (n == m + 2) {
                 n++;
                 m = 2;
-                sum = 1 + n;
+                sum = 1L + n;
             } else
                 m++;
         }

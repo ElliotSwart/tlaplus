@@ -12,9 +12,9 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class Operators {
-    static public final int assocNone = 0;
-    static public final int assocLeft = 1;
-    static public final int assocRight = 2;
+    public static final int assocNone = 0;
+    public static final int assocLeft = 1;
+    public static final int assocRight = 2;
 
     /*************************************************************************
      * The following appear to be classes of operators.                       *
@@ -22,10 +22,10 @@ public class Operators {
     /***********************************************************************
      * What is a nofix operator?????????                                    *
      ***********************************************************************/
-    static public final int prefix = 1;
-    static public final int postfix = 2;
-    static public final int infix = 3;
-    static public final int nfix = 4;// \X
+    public static final int prefix = 1;
+    public static final int postfix = 2;
+    public static final int infix = 3;
+    public static final int nfix = 4;// \X
     /***********************************************************************
      * The only operator of class nfix seems to be \X (aka \times).         *
      ***********************************************************************/

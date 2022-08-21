@@ -52,7 +52,7 @@ public class MCVariable {
     public String getSingleLineDisplayName() {
         final String s = isTraceExplorerExpression() ? traceExpression : name;
 
-        return s.replaceAll("\\n", "").replaceAll("\\r", "");
+        return s.replaceAll("\\n", "").replace("\\r", "");
     }
 
     public String getValueAsString() {

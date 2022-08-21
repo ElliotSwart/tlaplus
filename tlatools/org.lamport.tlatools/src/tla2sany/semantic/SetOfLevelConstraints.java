@@ -38,8 +38,8 @@ class SetOfLevelConstraints extends HashMap<SymbolNode, Integer> implements Leve
      */
     @Override
     public final void putAll(final Map<? extends SymbolNode, ? extends Integer> s) {
-        for (final SymbolNode key : s.keySet()) {
-            this.put(key, s.get(key));
+        for (final var kv : s.entrySet()) {
+            this.put(kv.getKey(), kv.getValue());
         }
     }
 

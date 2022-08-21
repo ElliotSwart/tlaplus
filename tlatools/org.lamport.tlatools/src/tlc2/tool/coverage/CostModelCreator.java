@@ -355,13 +355,11 @@ public class CostModelCreator extends ExplorerVisitor {
             }
 
             // RECURSIVE
-            if (operator instanceof final OpDefNode odn) {
-                if (odn.getInRecursive()) {
+            if (operator instanceof final OpDefNode odn && odn.getInRecursive()) {
                     stack.stream()
                             .filter(w -> w.getNode() != null && w.getNode() instanceof OpApplNode wOAN
                                     && wOAN.getOperator() == odn)
                             .findFirst().ifPresent(oan::setRecursive);
-                }
             }
 
             // Higher-order operators/Operators as arguments (LAMBDA, ...)

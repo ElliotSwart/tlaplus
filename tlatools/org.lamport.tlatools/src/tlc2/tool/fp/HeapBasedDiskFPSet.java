@@ -111,7 +111,7 @@ public abstract class HeapBasedDiskFPSet extends DiskFPSet {
         Assert.check(maxTblCnt > capacity && capacity > getTblCnt(),
                 "negative maxTblCnt");
 
-        this.mask = capacity - 1;
+        this.mask = capacity - 1L;
 
         this.lockMask = lockCnt - 1;
 

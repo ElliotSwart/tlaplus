@@ -28,7 +28,7 @@ public class Operator implements tla2sany.st.SyntaxTreeConstants {
 
     // SZ Apr 16, 2009: changed to a method in order to avoid the usage
     // of the unique string in the class loading time
-    public synchronized static Operator VoidOperator() {
+    public static synchronized Operator VoidOperator() {
         if (voidOperator == null) {
             voidOperator = new Operator(UniqueString.uniqueStringOf("$$_void"), 0, 0,
                     Operators.assocNone, Operators.infix);

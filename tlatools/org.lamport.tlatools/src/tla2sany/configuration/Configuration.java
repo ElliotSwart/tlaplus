@@ -29,8 +29,8 @@ import java.io.FileNotFoundException;
 public final class Configuration implements ConfigConstants {
 
     public final Context context;
-    final private int[] jj_la1 = new int[7];
-    final private int[] jj_la1_0 =
+    private final int[] jj_la1 = new int[7];
+    private final int[] jj_la1_0 =
             {0x44100, 0x402000, 0x44100, 0x38000,
                     0x1e00, 0x200000, 0x400e80,};
     private final java.util.ArrayList<int[]> jj_expentries = new java.util.ArrayList<>();
@@ -351,7 +351,7 @@ public final class Configuration implements ConfigConstants {
     }
 
     public ParseException generateParseException() {
-        jj_expentries.removeAll(jj_expentries);
+        jj_expentries.clear();
         final boolean[] la1tokens = new boolean[24];
         for (int i = 0; i < 24; i++) {
             la1tokens[i] = false;

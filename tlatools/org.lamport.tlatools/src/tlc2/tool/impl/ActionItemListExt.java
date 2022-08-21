@@ -33,7 +33,7 @@ import tlc2.util.Context;
 
 public class ActionItemListExt extends ActionItemList {
 
-    public final static ActionItemList Empty = new ActionItemListExt(null, null, 0, null, null);
+    public static final ActionItemList Empty = new ActionItemListExt(null, null, 0, null, null);
 
     private ActionItemListExt prev;
 

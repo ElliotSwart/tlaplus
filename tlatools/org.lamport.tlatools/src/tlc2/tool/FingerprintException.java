@@ -35,8 +35,8 @@ import java.util.List;
 public class FingerprintException extends RuntimeException {
 
     private static final long serialVersionUID = -3982482838722472641L;
-    final public IValue value;
-    final public FingerprintException next;
+    public final IValue value;
+    public final FingerprintException next;
 
     private FingerprintException(final Throwable initCauseThrowable, final IValue value, final FingerprintException next) {
         initCause(initCauseThrowable);

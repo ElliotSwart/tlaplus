@@ -1101,28 +1101,28 @@ public class ModuleNode extends SymbolNode {
                         LevelNode.HashSetToString(
                                 this.getExtendedModuleSet())));
 
-        if (instanceVec.size() > 0) {
+        if (!instanceVec.isEmpty()) {
             ret.append(Strings.indent(2, "\nInstantiations:"));
             for (InstanceNode instanceNode : instanceVec) {
                 ret.append(Strings.indent(4, instanceNode.toString(1)));
             }
         }
 
-        if (assumptionVec.size() > 0) {
+        if (!assumptionVec.isEmpty()) {
             ret.append(Strings.indent(2, "\nAssumptions:"));
             for (AssumeNode assumeNode : assumptionVec) {
                 ret.append(Strings.indent(4, assumeNode.toString(1)));
             }
         }
 
-        if (theoremVec.size() > 0) {
+        if (!theoremVec.isEmpty()) {
             ret.append(Strings.indent(2, "\nTheorems:"));
             for (TheoremNode theoremNode : theoremVec) {
                 ret.append(Strings.indent(4, theoremNode.toString(1)));
             }
         }
 
-        if (topLevelVec.size() > 0) {
+        if (!topLevelVec.isEmpty()) {
             ret.append(Strings.indent(2, "\ntopLevelVec: "));
             for (LevelNode levelNode : topLevelVec) {
                 ret.append(Strings.indent(4, levelNode.toString(1)));

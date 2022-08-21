@@ -22,6 +22,7 @@ public class PosAndCol extends Position implements Comparable<PosAndCol> {
     }
 
 
+    @Override
     public String toString() {
         return "[line |-> " + line + ", item |-> " + item
                 + ", col |-> " + column + "]";

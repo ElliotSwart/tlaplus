@@ -222,7 +222,7 @@ public class TLCWorker extends UnicastRemoteObject implements TLCWorkerRMI {
         // if callees wait for this termination, they might end up connecting to
         // the old TLCServer instance once
         // _again_.
-        Thread.sleep(10 * 1000);
+        Thread.sleep(10L * 1000);
     }
 
     //TODO Remove once performance tests show superiority of TreeSet

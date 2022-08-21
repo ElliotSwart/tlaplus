@@ -14,7 +14,7 @@ public class SyntaxTreePrinter {
      * This method is used in only one place--in the ParseUnit class--to write a copy
      * of the syntax tree to a file in case that option is invoked.
      */
-    static public void print(final ParseTree pt, final java.io.PrintWriter output) {
+    public static void print(final ParseTree pt, final java.io.PrintWriter output) {
         output.println("%% Output of parse tree for module " + pt.moduleName());
         final String[] dependencies = pt.dependencies();
         if (dependencies.length == 0) {

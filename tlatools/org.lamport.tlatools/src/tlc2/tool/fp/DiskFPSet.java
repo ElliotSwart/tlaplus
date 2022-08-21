@@ -55,7 +55,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
 
     /* Number of fingerprints per braf buffer. */
     public static final int NumEntriesPerPage = 8192 / (int) LongSize;
-    protected final static Logger LOGGER = Logger.getLogger(DiskFPSet.class.getName());
+    protected static final Logger LOGGER = Logger.getLogger(DiskFPSet.class.getName());
     protected static final long MARK_FLUSHED = 0x8000000000000000L;
 
     // fields
@@ -344,9 +344,6 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
         return this.getTblCnt() + this.fileCnt;
     }
 
-    @Override
-    public abstract long sizeof();
-
     /* (non-Javadoc)
      * @see tlc2.tool.fp.FPSet#addThread()
      */
@@ -441,7 +438,7 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
         if (fp == hiVal) {// why not check loVal? memLookup would have found it already!
             return true;
         }
-        final double dfp = (double) fp;
+        final double dfp = fp;
 
         // a) find disk page that would potentially contain the fp. this.index contains
         // the first fp of each disk page
@@ -455,8 +452,8 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
              */
             final double dhi = hiPage;
             final double dlo = loPage;
-            final double dhiVal = (double) hiVal;
-            final double dloVal = (double) loVal;
+            final double dhiVal = hiVal;
+            final double dloVal = loVal;
 
             int midPage = (loPage + 1)
                     + (int) ((dhi - dlo - 1.0) * (dfp - dloVal) / (dhiVal - dloVal));
@@ -584,10 +581,10 @@ public abstract class DiskFPSet extends FPSet implements FPSetStatistic {
      */
     long calculateMidEntry(final long loVal, final long hiVal, final double dfp, final long loEntry, final long hiEntry) {
 
-        final double dhi = (double) hiEntry;
-        final double dlo = (double) loEntry;
-        final double dhiVal = (double) hiVal;
-        final double dloVal = (double) loVal;
+        final double dhi = hiEntry;
+        final double dlo = loEntry;
+        final double dhiVal = hiVal;
+        final double dloVal = loVal;
 
         long midEntry = loEntry
                 + (long) ((dhi - dlo) * (dfp - dloVal) / (dhiVal - dloVal));

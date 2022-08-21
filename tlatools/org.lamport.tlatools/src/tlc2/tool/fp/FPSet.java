@@ -65,17 +65,6 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI {
     @Override
     public abstract long size();
 
-    /* (non-Javadoc)
-     * @see tlc2.tool.distributed.fp.FPSetRMI#put(long)
-     */
-    @Override
-    public abstract boolean put(long fp) throws IOException;
-
-    /* (non-Javadoc)
-     * @see tlc2.tool.distributed.fp.FPSetRMI#contains(long)
-     */
-    @Override
-    public abstract boolean contains(long fp) throws IOException;
 
     /* (non-Javadoc)
      * @see tlc2.tool.distributed.fp.FPSetRMI#close()
@@ -105,50 +94,7 @@ public abstract class FPSet extends UnicastRemoteObject implements FPSetRMI {
     public void addThread() throws IOException { /*SKIP*/
     }
 
-    /* (non-Javadoc)
-     * @see tlc2.tool.distributed.fp.FPSetRMI#checkFPs()
-     */
-    @Override
-    public abstract long checkFPs() throws IOException;
-
-    /* (non-Javadoc)
-     * @see tlc2.tool.distributed.fp.FPSetRMI#beginChkpt()
-     */
-    @Override
-    public abstract void beginChkpt() throws IOException;
-
-    /* (non-Javadoc)
-     * @see tlc2.tool.distributed.fp.FPSetRMI#commitChkpt()
-     */
-    @Override
-    public abstract void commitChkpt() throws IOException;
-
-    /* (non-Javadoc)
-     * @see tlc2.tool.distributed.fp.FPSetRMI#recover()
-     */
-    @Override
-    public abstract void recover(TLCTrace trace) throws IOException;
-
     public abstract void recoverFP(long fp) throws IOException;
-
-    /* The set of checkpoint methods for remote checkpointing. */
-    /* (non-Javadoc)
-     * @see tlc2.tool.distributed.fp.FPSetRMI#beginChkpt(java.lang.String)
-     */
-    @Override
-    public abstract void beginChkpt(String filename) throws IOException;
-
-    /* (non-Javadoc)
-     * @see tlc2.tool.distributed.fp.FPSetRMI#commitChkpt(java.lang.String)
-     */
-    @Override
-    public abstract void commitChkpt(String filename) throws IOException;
-
-    /* (non-Javadoc)
-     * @see tlc2.tool.distributed.fp.FPSetRMI#recover(java.lang.String)
-     */
-    @Override
-    public abstract void recover(String filename) throws IOException;
 
     /**
      * @return true iff no invaritant is violated.

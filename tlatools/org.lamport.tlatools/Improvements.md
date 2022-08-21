@@ -31,6 +31,8 @@
 
 - Simplified code by removing redundant / unnecessary casts
 
+
+
 ## Facilitate 
 - Decreased reliance on static mutable state
 - Allows for running most analyses in serial on the same JVM process
@@ -42,5 +44,4 @@
 
 ## Recommendations
 
-- Apply code formatter to entire project. Did not do to prevent unnecessary merge conflicts when merging upstream into fork
 - Slowly reduce the number of independantly run tests as a measure of code quality

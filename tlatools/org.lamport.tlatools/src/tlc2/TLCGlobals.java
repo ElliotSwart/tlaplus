@@ -87,15 +87,15 @@ public class TLCGlobals {
         return lnCheck.startsWith("seq");
     }
 
-    public synchronized static int getNumWorkers() {
+    public static synchronized int getNumWorkers() {
         return numWorkers;
     }
 
-    public synchronized static void setNumWorkers(final int n) {
+    public static synchronized void setNumWorkers(final int n) {
         numWorkers = n;
     }
 
-    public synchronized static void incNumWorkers(final int n) {
+    public static synchronized void incNumWorkers(final int n) {
         numWorkers += n;
     }
 

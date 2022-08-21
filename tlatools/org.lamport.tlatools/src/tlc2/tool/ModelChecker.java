@@ -291,8 +291,8 @@ public class ModelChecker extends AbstractChecker {
             final boolean success = result == EC.NO_ERROR;
             this.printSummary(success, startTime);
 
-            if (this.checkLiveness) {
-                if (LIVENESS_STATS) {
+            if (this.checkLiveness && LIVENESS_STATS) {
+
                     // Reclaim memory for in-degree calculation
                     System.gc();
 
@@ -300,7 +300,6 @@ public class ModelChecker extends AbstractChecker {
                                     .calculateInDegreeDiskGraphs(new BucketStatistics("Histogram vertex in-degree",
                                             LiveCheck.class.getPackage().getName(), "DiskGraphsInDegree")),
                             liveCheck.getOutDegreeStatistics());
-                }
             }
 
             this.cleanup(success);
@@ -401,10 +400,8 @@ public class ModelChecker extends AbstractChecker {
                         unseen = !isSeenState(curState, succState, action, worker, liveNextStates);
                     }
                     // Check if an unseen succState violates any invariant:
-                    if (unseen) {
-                        if (doNextCheckInvariants(tool, curState, succState)) {
+                    if (unseen && doNextCheckInvariants(tool, curState, succState)) {
                             return true;
-                        }
                     }
                     // Check if the state violates any implied action. We need to do it
                     // even if succState is not new.

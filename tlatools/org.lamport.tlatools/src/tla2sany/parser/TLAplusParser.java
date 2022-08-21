@@ -899,21 +899,17 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
             return true;
         }
         switch (tok.kind) {
-            case ProofStepLexeme:
-            case BareLevelLexeme:
-            case UnnumberedStepLexeme:
-            case ProofStepDotLexeme:
+            case ProofStepLexeme, BareLevelLexeme, UnnumberedStepLexeme, ProofStepDotLexeme -> {
                 if (proofDepth < 0) {
                     return true;
                 }
                 final int tokLevel = levelOfProofStepLexeme(tok);
                 return (proofLevelStack[proofDepth] >= 0)
                         && (tokLevel > proofLevelStack[proofDepth]);
-            case BY:
-            case PROOF:
-            case OBVIOUS:
-            case OMITTED:
+            }
+            case BY, PROOF, OBVIOUS, OMITTED -> {
                 return true;
+            }
         }// switch
         return false;
     }
@@ -965,7 +961,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     }
 
     /* beginning of the grammar productions */
-    final public Token PrefixOpToken() throws ParseException {
+    public final Token PrefixOpToken() throws ParseException {
         final Token t;
         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
             case op_26 -> t = jj_consume_token(op_26);
@@ -994,7 +990,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
      * NEPrefixOpToken and PrefixOpToken differ because the first includes      *
      * "-." while the second contains does not.  Neither includes "-".          *
      ***************************************************************************/
-    final public Token NEPrefixOpToken() throws ParseException {
+    public final Token NEPrefixOpToken() throws ParseException {
         final Token t;
         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
             case op_26 -> t = jj_consume_token(op_26);
@@ -1020,7 +1016,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public Token InfixOpToken() throws ParseException {
+    public final Token InfixOpToken() throws ParseException {
         final Token t;
         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
             case op_1 -> t = jj_consume_token(op_1);
@@ -1137,7 +1133,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public Token PostfixOpToken() throws ParseException {
+    public final Token PostfixOpToken() throws ParseException {
         final Token t;
         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
             case op_57 -> t = jj_consume_token(op_57);
@@ -1181,7 +1177,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
 //     epa(); return new SyntaxTreeNode( mn, N_NumberedAssumeProve, sn); }
 // }
 
-    final public SyntaxTreeNode CompilationUnit() throws ParseException {
+    public final SyntaxTreeNode CompilationUnit() throws ParseException {
         final SyntaxTreeNode tempASTN;
         belchDEF();
         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
@@ -1197,7 +1193,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     }
 
     /* SwitchTo is used to reset the state of the tokenizer */
-    final public void Prelude() throws ParseException {
+    public final void Prelude() throws ParseException {
         jj_consume_token(BEGIN_PRAGMA);
         label_1:
         while (true) {
@@ -1221,7 +1217,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         }
     }
 
-    final public SyntaxTreeNode Module() throws ParseException {
+    public final SyntaxTreeNode Module() throws ParseException {
         Token t;
         final SyntaxTreeNode[] lSTN = new SyntaxTreeNode[4];
         bpa("Module definition");
@@ -1246,7 +1242,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode BeginModule() throws ParseException {
+    public final SyntaxTreeNode BeginModule() throws ParseException {
         final SyntaxTreeNode[] lSTN = new SyntaxTreeNode[3];
         Token t;
         bpa("Begin module");
@@ -1277,7 +1273,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode EndModule() throws ParseException {
+    public final SyntaxTreeNode EndModule() throws ParseException {
         final SyntaxTreeNode[] lSTN = new SyntaxTreeNode[1];
         final Token t;
         t = jj_consume_token(END_MODULE);
@@ -1288,7 +1284,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode Extends() throws ParseException {
+    public final SyntaxTreeNode Extends() throws ParseException {
         SyntaxTreeNode tn;
         Token t;
         bpa("Extends");
@@ -1332,7 +1328,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode Body() throws ParseException {
+    public final SyntaxTreeNode Body() throws ParseException {
         SyntaxTreeNode tn;
         final SyntaxTreeNode[] sn;
         Token t;
@@ -1400,7 +1396,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode VariableDeclaration() throws ParseException {
+    public final SyntaxTreeNode VariableDeclaration() throws ParseException {
         SyntaxTreeNode tn;
         final SyntaxTreeNode[] sn;
         Token t;
@@ -1435,7 +1431,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode ParamDeclaration() throws ParseException {
+    public final SyntaxTreeNode ParamDeclaration() throws ParseException {
         SyntaxTreeNode tn;
         final SyntaxTreeNode[] sn;
         Token t;
@@ -1473,7 +1469,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     /***************************************************************************
      * Used to allow "STATE FUNCTION", "TEMPORAL", etc.                         *
      ***************************************************************************/
-    final public SyntaxTreeNode ParamSubDecl() throws ParseException {
+    public final SyntaxTreeNode ParamSubDecl() throws ParseException {
         final SyntaxTreeNode tn;
         final SyntaxTreeNode[] sn;
         final Token t;
@@ -1496,7 +1492,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
      *                                                                          *
      * Produces an N_Recursive node.                                            *
      ***************************************************************************/
-    final public SyntaxTreeNode Recursive() throws ParseException {
+    public final SyntaxTreeNode Recursive() throws ParseException {
         SyntaxTreeNode tn;
         final SyntaxTreeNode[] sn;
         Token t;
@@ -1532,7 +1528,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode ConstantDeclarationItems() throws ParseException {
+    public final SyntaxTreeNode ConstantDeclarationItems() throws ParseException {
         final SyntaxTreeNode tn;
         final SyntaxTreeNode[] sn;
         final int kind;
@@ -1640,7 +1636,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
      * array of length 1 containing the LOCAL token if it is present.  The      *
      * rest of the children/heirs of the node are in the array n.one.           *
      ***************************************************************************/
-    final public SyntaxTreeNode OperatorOrFunctionDefinition() throws ParseException {
+    public final SyntaxTreeNode OperatorOrFunctionDefinition() throws ParseException {
         SyntaxTreeNode tn;
         SyntaxTreeNode zn = null;
         bpa("Definition");
@@ -1770,7 +1766,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode IdentifierTuple() throws ParseException {
+    public final SyntaxTreeNode IdentifierTuple() throws ParseException {
         SyntaxTreeNode tn;
         SyntaxTreeNode[] hn;
         Token t;
@@ -1981,7 +1977,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
 //   }
 // }
 
-    final public SyntaxTreeNode IdentLHS() throws ParseException {
+    public final SyntaxTreeNode IdentLHS() throws ParseException {
         SyntaxTreeNode tn;
         Token t;
         bpa("Identifier LHS");
@@ -2043,7 +2039,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode PrefixLHS() throws ParseException {
+    public final SyntaxTreeNode PrefixLHS() throws ParseException {
         final SyntaxTreeNode[] sn = new SyntaxTreeNode[2];
         final SyntaxTreeNode tn;
         final Token t;
@@ -2060,7 +2056,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode InfixLHS() throws ParseException {
+    public final SyntaxTreeNode InfixLHS() throws ParseException {
         final SyntaxTreeNode[] sn = new SyntaxTreeNode[3];
         SyntaxTreeNode tn;
         final Token t;
@@ -2078,7 +2074,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode PostfixLHS() throws ParseException {
+    public final SyntaxTreeNode PostfixLHS() throws ParseException {
         final SyntaxTreeNode[] sn = new SyntaxTreeNode[2];
         final SyntaxTreeNode tn;
         final Token t;
@@ -2094,7 +2090,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode IdentDecl() throws ParseException {
+    public final SyntaxTreeNode IdentDecl() throws ParseException {
         final SyntaxTreeNode tn;
         Token t;
         bpa("Identifier Declation");
@@ -2138,7 +2134,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode SomeFixDecl() throws ParseException {
+    public final SyntaxTreeNode SomeFixDecl() throws ParseException {
         final SyntaxTreeNode localASTN = null;
         final SyntaxTreeNode tn;
         SyntaxTreeNode[] sn;
@@ -2198,7 +2194,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode Instance() throws ParseException {
+    public final SyntaxTreeNode Instance() throws ParseException {
         final SyntaxTreeNode tn;
         SyntaxTreeNode zn = null;
         final Token t;
@@ -2222,7 +2218,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode Instantiation() throws ParseException {
+    public final SyntaxTreeNode Instantiation() throws ParseException {
         SyntaxTreeNode tn;
         Token t;
         bpa("NonLocalInstance");
@@ -2267,7 +2263,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode Substitution() throws ParseException {
+    public final SyntaxTreeNode Substitution() throws ParseException {
         final SyntaxTreeNode[] zn = new SyntaxTreeNode[3];
         SyntaxTreeNode tn;
         final Token t;
@@ -2314,7 +2310,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode PrefixOp() throws ParseException {
+    public final SyntaxTreeNode PrefixOp() throws ParseException {
         final Token t;
         t = PrefixOpToken();
         lastOp = operators.getOperator(UniqueString.uniqueStringOf(t.image)); // YYY to revise
@@ -2324,7 +2320,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode NonExpPrefixOp() throws ParseException {
+    public final SyntaxTreeNode NonExpPrefixOp() throws ParseException {
         final Token t;
         t = NEPrefixOpToken();
         lastOp = operators.getOperator(UniqueString.uniqueStringOf(t.image)); // YYY to revise
@@ -2334,7 +2330,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode InfixOp() throws ParseException {
+    public final SyntaxTreeNode InfixOp() throws ParseException {
         final Token t;
         bpa("Infix Op");
         t = InfixOpToken();
@@ -2348,7 +2344,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
 
     // OpSuite
 
-    final public SyntaxTreeNode PostfixOp() throws ParseException {
+    public final SyntaxTreeNode PostfixOp() throws ParseException {
         final Token t;
         t = PostfixOpToken();
         lastOp = operators.getOperator(UniqueString.uniqueStringOf(t.image)); // YYY to revise
@@ -2358,7 +2354,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode Identifier() throws ParseException {
+    public final SyntaxTreeNode Identifier() throws ParseException {
         final Token t;
         t = jj_consume_token(IDENTIFIER);
         {
@@ -2371,7 +2367,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
      * Assumption ::= ( <ASSUME> | <ASSUMPTION> )                               *
      *                  ( Identifier <DEF> )? Expression                        *
      ***************************************************************************/
-    final public SyntaxTreeNode Assumption() throws ParseException {
+    public final SyntaxTreeNode Assumption() throws ParseException {
         SyntaxTreeNode tn;
         final SyntaxTreeNode zn = null;
         Token t;
@@ -2414,7 +2410,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode AssumeProve() throws ParseException {
+    public final SyntaxTreeNode AssumeProve() throws ParseException {
         /*************************************************************************
          * AssumeProve ::= (<IDENTIFIER> <COLONCOLON>)?                           *
          *                 (<ASSUME> | <BOXASSUME>)                               *
@@ -2567,7 +2563,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode NewSymb() throws ParseException {
+    public final SyntaxTreeNode NewSymb() throws ParseException {
         /*************************************************************************
          * NewSymb ::=   (<NEW> | <CONSTANT> | <NEW> <CONSTANT>)                  *
          *               (Identifier <IN> Expression | IdentDecl | SomeFixDecl)   *
@@ -2730,7 +2726,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
 //   { epa();
 //     return new SyntaxTreeNode( mn, N_AssumeDecl, zn );  }
 // }
-    final public SyntaxTreeNode MaybeBound() throws ParseException {
+    public final SyntaxTreeNode MaybeBound() throws ParseException {
         SyntaxTreeNode[] zn = null;
         SyntaxTreeNode tn;
         final Token t;
@@ -2760,7 +2756,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
      * Produces a Theorem node tn with tn.zero containing 2 or 4 nodes,         *
      * depending on whether or not the "Identifier <DEF>" is present.           *
      ***************************************************************************/
-    final public SyntaxTreeNode Theorem() throws ParseException {
+    public final SyntaxTreeNode Theorem() throws ParseException {
         SyntaxTreeNode tn;
         Token t;
         bpa("Theorem");
@@ -2863,7 +2859,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
      *     )                                                                    *
      *     (InnerProof)?                                                        *
      ***************************************************************************/
-    final public SyntaxTreeNode Proof() throws ParseException {
+    public final SyntaxTreeNode Proof() throws ParseException {
 /***************************************************************************
  * Returns an N_Proof or N_TerminalProof node.  The heirs of an N_Proof     *
  * node consist of an option PROOF token followed by a seequence of         *
@@ -2940,7 +2936,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode UseOrHideOrBy() throws ParseException {
+    public final SyntaxTreeNode UseOrHideOrBy() throws ParseException {
 /***************************************************************************
  * Returns an N_TerminalProof (for a BY) or N_UseOrHide node.  Having       *
  * one nonterminal that returns both is the only easy way I know to         *
@@ -3130,7 +3126,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public Token StepStartToken() throws ParseException {
+    public final Token StepStartToken() throws ParseException {
         final Token t;
         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
             case ProofStepLexeme -> t = jj_consume_token(ProofStepLexeme);
@@ -3150,7 +3146,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode QEDStep() throws ParseException {
+    public final SyntaxTreeNode QEDStep() throws ParseException {
 /***************************************************************************
  * Returns an N_ProofStep node whose body is an N_QEDStep node.             *
  ***************************************************************************/
@@ -3194,7 +3190,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode Step() throws ParseException {
+    public final SyntaxTreeNode Step() throws ParseException {
 /***************************************************************************
  * Returns an N_ProofStep node with the following heirs:                    *
  *                                                                          *
@@ -3297,7 +3293,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode DefStep() throws ParseException {
+    public final SyntaxTreeNode DefStep() throws ParseException {
 /***************************************************************************
  * Returns an N_DefStep node whose heirs begin with an optional <DEFINE>    *
  * followed by a non-empty sequence of nodes returned by                    *
@@ -3330,7 +3326,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode HaveStep() throws ParseException {
+    public final SyntaxTreeNode HaveStep() throws ParseException {
 /***************************************************************************
  * Returns an N_HaveStep node whose heirs are a <HAVE> token and an         *
  * expression node.                                                         *
@@ -3351,7 +3347,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode TakeStep() throws ParseException {
+    public final SyntaxTreeNode TakeStep() throws ParseException {
 /***************************************************************************
  * Returns an N_TakeStep node whose first heir is a <TAKE> token and whose  *
  * remaining heirs are a sequence of QuantBound() nodes or a sequence of    *
@@ -3421,7 +3417,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode WitnessStep() throws ParseException {
+    public final SyntaxTreeNode WitnessStep() throws ParseException {
 /***************************************************************************
  * Returns an N_WitnessStep node whose heirs are a <WITNESS> token and a    *
  * sequence of expression nodes.  It's up to later processing to decide if  *
@@ -3460,7 +3456,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode PickStep() throws ParseException {
+    public final SyntaxTreeNode PickStep() throws ParseException {
 /***************************************************************************
  * Returns an N_PickStep node whose heirs are a <PICK> token and an         *
  * expression node.                                                         *
@@ -3535,7 +3531,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode CaseStep() throws ParseException {
+    public final SyntaxTreeNode CaseStep() throws ParseException {
 /***************************************************************************
  * Returns an N_CaseStep node whose heirs are a <CASE> token and an         *
  * expression node.                                                         *
@@ -3556,7 +3552,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode AssertStep() throws ParseException {
+    public final SyntaxTreeNode AssertStep() throws ParseException {
 /***************************************************************************
  * Returns an N_AssertStep node whose heirs are an optional <SUFFICES>      *
  * token and an expression or N_AssumeProve node.                           *
@@ -3589,7 +3585,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode IdPrefix() throws ParseException {
+    public final SyntaxTreeNode IdPrefix() throws ParseException {
         SyntaxTreeNode tn;
         bpa("ID Prefix");
         label_23:
@@ -3609,7 +3605,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode IdPrefixElement() throws ParseException {
+    public final SyntaxTreeNode IdPrefixElement() throws ParseException {
         SyntaxTreeNode tn;
         final Token t;
         bpa("ID Prefix Element");
@@ -3632,7 +3628,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode ParenthesesExpression() throws ParseException {
+    public final SyntaxTreeNode ParenthesesExpression() throws ParseException {
         final SyntaxTreeNode tn;
         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
             case LBR -> tn = ParenExpr();
@@ -3653,7 +3649,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode ClosedExpressionOrOp() throws ParseException {
+    public final SyntaxTreeNode ClosedExpressionOrOp() throws ParseException {
         final SyntaxTreeNode tn;
         Token t;
         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
@@ -3672,7 +3668,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode OpenExpression() throws ParseException {
+    public final SyntaxTreeNode OpenExpression() throws ParseException {
         final SyntaxTreeNode tn;
         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
             case EXISTS, FORALL -> tn = SomeQuant();
@@ -3696,7 +3692,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     /*
   L.GeneralId, L.OpApplication, L.String, L.Number, L.GenOp...
 */
-    final public SyntaxTreeNode ElementaryExpression() throws ParseException {
+    public final SyntaxTreeNode ElementaryExpression() throws ParseException {
         final SyntaxTreeNode tn;
         Token t;
         bpa("Elementary expression");
@@ -3723,7 +3719,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode String() throws ParseException {
+    public final SyntaxTreeNode String() throws ParseException {
         final SyntaxTreeNode tn;
         final Token t;
         bpa("String");
@@ -3737,7 +3733,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode Number() throws ParseException {
+    public final SyntaxTreeNode Number() throws ParseException {
         SyntaxTreeNode tn;
         SyntaxTreeNode[] sn = null;
         Token t1;
@@ -3765,7 +3761,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode Extension() throws ParseException {
+    public final SyntaxTreeNode Extension() throws ParseException {
         SyntaxTreeNode last = null, tid, top = null;
         Token t;
         SyntaxTreeNode[] heirs;
@@ -3857,7 +3853,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode OpArgs() throws ParseException {
+    public final SyntaxTreeNode OpArgs() throws ParseException {
         // OpSuite contributes to Heir list.
         SyntaxTreeNode tn;
         Token t;
@@ -3968,7 +3964,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
      *    - The N_IdPrefixNode node produced in cases 1 and 2                   *
      *    - An N_OpArgs node for OpArgs.                                        *
      ***************************************************************************/
-    final public SyntaxTreeNode OpOrExpr() throws ParseException {
+    public final SyntaxTreeNode OpOrExpr() throws ParseException {
         /*************************************************************************
          * Used for parsing an operator argument or the right-hand side of a      *
          * substitution, which could be either an operator (like +) or an         *
@@ -4029,7 +4025,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public void OpSuite() throws ParseException {
+    public final void OpSuite() throws ParseException {
         final SyntaxTreeNode tn;
         tn = OpOrExpr();
         addHeir(tn);
@@ -4088,7 +4084,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
 //     /* check the nature of the node returned . Below Expression, it has to be a prefixed op. */
 //   { addHeir( tn ); }
 // }
-    final public SyntaxTreeNode ParenExpr() throws ParseException {
+    public final SyntaxTreeNode ParenExpr() throws ParseException {
         final SyntaxTreeNode[] zn = new SyntaxTreeNode[3];
         SyntaxTreeNode tn;
         Token t;
@@ -4103,7 +4099,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode SomeQuant() throws ParseException {
+    public final SyntaxTreeNode SomeQuant() throws ParseException {
         SyntaxTreeNode tn;
         Token t;
         bpa("Quantified form");
@@ -4271,7 +4267,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
 //    return tn; }
 // } // Expression()
 
-    final public SyntaxTreeNode SomeTQuant() throws ParseException {
+    public final SyntaxTreeNode SomeTQuant() throws ParseException {
         SyntaxTreeNode tn;
         Token t;
         bpa("Bound Quantified Expression");
@@ -4313,7 +4309,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode QuantBound() throws ParseException {
+    public final SyntaxTreeNode QuantBound() throws ParseException {
         SyntaxTreeNode tn;
         Token t;
         bpa("Quant Bound");
@@ -4361,7 +4357,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode BraceCases() throws ParseException {
+    public final SyntaxTreeNode BraceCases() throws ParseException {
         int kind = N_SetEnumerate; // set by default.
         SyntaxTreeNode tn;
         final SyntaxTreeNode tn_0;
@@ -4592,7 +4588,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode SBracketCases() throws ParseException {
+    public final SyntaxTreeNode SBracketCases() throws ParseException {
         SyntaxTreeNode tn;
         Token t;
         int kind;
@@ -4772,7 +4768,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode FieldVal() throws ParseException {
+    public final SyntaxTreeNode FieldVal() throws ParseException {
         final SyntaxTreeNode[] zn = new SyntaxTreeNode[3];
         final Token t;
         bpa("Field Value");
@@ -4787,7 +4783,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode FieldSet() throws ParseException {
+    public final SyntaxTreeNode FieldSet() throws ParseException {
         final SyntaxTreeNode[] zn = new SyntaxTreeNode[3];
         SyntaxTreeNode tn;
         final Token t;
@@ -4803,7 +4799,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode ExceptSpec() throws ParseException {
+    public final SyntaxTreeNode ExceptSpec() throws ParseException {
         SyntaxTreeNode tn;
         Token t;
         bpa("Except Spec");
@@ -4837,7 +4833,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode ExceptComponent() throws ParseException {
+    public final SyntaxTreeNode ExceptComponent() throws ParseException {
         SyntaxTreeNode tn;
         Token t;
         bpa("Except Component");
@@ -4897,7 +4893,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
      * The SetExcept non-terminal was eliminated from the grammar, but not      *
      * from the parser.                                                         *
      ***************************************************************************/
-    final public SyntaxTreeNode SetExcept() throws ParseException {
+    public final SyntaxTreeNode SetExcept() throws ParseException {
         SyntaxTreeNode tn;
         Token t;
         bpa("Set Except");
@@ -4933,7 +4929,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode SExceptSpec() throws ParseException {
+    public final SyntaxTreeNode SExceptSpec() throws ParseException {
         final SyntaxTreeNode[] zn = new SyntaxTreeNode[4];
         SyntaxTreeNode tn;
         Token t;
@@ -4967,7 +4963,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode TupleOrAction() throws ParseException {
+    public final SyntaxTreeNode TupleOrAction() throws ParseException {
         int kind;
         SyntaxTreeNode tn;
         Token t;
@@ -5020,7 +5016,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     }
 
     //  new SyntaxTreeNode( N_IdPrefix )  ???
-    final public SyntaxTreeNode NoOpExtension() throws ParseException {
+    public final SyntaxTreeNode NoOpExtension() throws ParseException {
         final SyntaxTreeNode tid;
         SyntaxTreeNode top;
         SyntaxTreeNode last;
@@ -5063,7 +5059,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode ReducedExpression() throws ParseException {
+    public final SyntaxTreeNode ReducedExpression() throws ParseException {
         /*************************************************************************
          * This is an expression that can follow "[...]_" or "<<...>>_".          *
          *************************************************************************/
@@ -5094,7 +5090,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
 // The cases break down in two categories: two set of () or a single one.
 // in general, it's going to be some () [] or {} expression, or an Identifier foollowed by . () or [].
 // Note that FcnAppl may be more intricate.
-    final public SyntaxTreeNode FairnessExpr() throws ParseException {
+    public final SyntaxTreeNode FairnessExpr() throws ParseException {
         final SyntaxTreeNode[] zn = new SyntaxTreeNode[5];
         SyntaxTreeNode tn, expr;
         Token t;
@@ -5167,7 +5163,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode IfThenElse() throws ParseException {
+    public final SyntaxTreeNode IfThenElse() throws ParseException {
         final SyntaxTreeNode[] zn = new SyntaxTreeNode[6];
         Token t;
         bpa("IF THEN ELSE");
@@ -5187,7 +5183,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode Case() throws ParseException {
+    public final SyntaxTreeNode Case() throws ParseException {
         SyntaxTreeNode tn;
         Token t;
         bpa("CASE Expression");
@@ -5220,7 +5216,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode CaseArm() throws ParseException {
+    public final SyntaxTreeNode CaseArm() throws ParseException {
         final SyntaxTreeNode[] zn = new SyntaxTreeNode[3];
         final Token t;
         bpa("Case Arm");
@@ -5235,7 +5231,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode OtherArm() throws ParseException {
+    public final SyntaxTreeNode OtherArm() throws ParseException {
         final SyntaxTreeNode[] zn = new SyntaxTreeNode[3];
         Token t;
         bpa("Case Other Arm");
@@ -5258,7 +5254,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
      *    "LET", LetDefinitions, "IN", Expression                               *
      * in tn.zero.                                                              *
      ***************************************************************************/
-    final public SyntaxTreeNode LetIn() throws ParseException {
+    public final SyntaxTreeNode LetIn() throws ParseException {
         final SyntaxTreeNode[] zn = new SyntaxTreeNode[4];
         SyntaxTreeNode tn;
         Token t;
@@ -5276,7 +5272,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode LetDefinitions() throws ParseException {
+    public final SyntaxTreeNode LetDefinitions() throws ParseException {
         SyntaxTreeNode tn;
         Token t;
         bpa("Let Definitions");
@@ -5315,7 +5311,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode Junctions() throws ParseException {
+    public final SyntaxTreeNode Junctions() throws ParseException {
         BStack.newReference(getToken(1).endColumn, getToken(1).kind);
         /***********************************************************************
          * Pushes onto BStack an element of the appropriate kind with offest    *
@@ -5343,7 +5339,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public void DisjList() throws ParseException {
+    public final void DisjList() throws ParseException {
         SyntaxTreeNode tn;
         tn = JuncItem(N_DisjItem);
         addHeir(tn);
@@ -5358,7 +5354,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         }
     }
 
-    final public void ConjList() throws ParseException {
+    public final void ConjList() throws ParseException {
         SyntaxTreeNode tn;
         tn = JuncItem(N_ConjItem);
         addHeir(tn);
@@ -5373,7 +5369,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         }
     }
 
-    final public SyntaxTreeNode JuncItem(final int itemKind) throws ParseException {
+    public final SyntaxTreeNode JuncItem(final int itemKind) throws ParseException {
         final SyntaxTreeNode[] zn = new SyntaxTreeNode[2];
         final SyntaxTreeNode tn;
         final Token t;
@@ -5405,7 +5401,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         throw new Error("Missing return statement in function");
     }
 
-    final public SyntaxTreeNode UnboundOrBoundChoose() throws ParseException {
+    public final SyntaxTreeNode UnboundOrBoundChoose() throws ParseException {
         final SyntaxTreeNode[] zn = new SyntaxTreeNode[5];
         SyntaxTreeNode tn;
         Token t;
@@ -5441,7 +5437,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
      *   (IdentDecl | SomeFixDecl) (<COMMA> (IdentDecl | SomeFixDecl))*         *
      *   <COLON> Expression                                                     *
      ***************************************************************************/
-    final public SyntaxTreeNode Lambda() throws ParseException {
+    public final SyntaxTreeNode Lambda() throws ParseException {
         SyntaxTreeNode tn;
         Token t;
         bpa("Lambda");
@@ -5482,7 +5478,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
 
     // boxDisc (riminate) uses preInEmptyTop
 // note that junction is processed separately.
-    final public SyntaxTreeNode Expression() throws ParseException {
+    public final SyntaxTreeNode Expression() throws ParseException {
         SyntaxTreeNode tn, tn0, tn1, tn2;
         int kind;
         Token t;
@@ -5546,7 +5542,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     }
 
     // Expression
-    final public void ExtendableExpr() throws ParseException {
+    public final void ExtendableExpr() throws ParseException {
         SyntaxTreeNode tn;
         final SyntaxTreeNode tn0;
         final SyntaxTreeNode tn1;
@@ -5727,7 +5723,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     }
 
     // ExtendableExpr
-    final public SyntaxTreeNode PrimitiveExp() throws ParseException {
+    public final SyntaxTreeNode PrimitiveExp() throws ParseException {
         final SyntaxTreeNode tn;
         final SyntaxTreeNode tn0;
         SyntaxTreeNode tn1;
@@ -5908,7 +5904,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     }
 
     // PrimitiveExp
-    final public SyntaxTreeNode BangExt() throws ParseException {
+    public final SyntaxTreeNode BangExt() throws ParseException {
         /*************************************************************************
          * Returns an N_IdPrefixElement node with 2 or 3 heirs consisting of:     *
          *  - A "!" (<BANG>) token.                                               *
@@ -5972,7 +5968,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     }
 
     // BangExt
-    final public SyntaxTreeNode StructOp() throws ParseException {
+    public final SyntaxTreeNode StructOp() throws ParseException {
         SyntaxTreeNode tn = null;
         Token t = null;
         bpa("StructOp");
@@ -10109,7 +10105,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         return false;
     }
 
-    final public Token getNextToken() {
+    public final Token getNextToken() {
         if (token.next != null) token = token.next;
         else token = token.next = token_source.getNextToken();
         jj_ntk = -1;
@@ -10117,7 +10113,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         return token;
     }
 
-    final public Token getToken(final int index) {
+    public final Token getToken(final int index) {
         Token t = lookingAhead ? jj_scanpos : token;
         for (int i = 0; i < index; i++) {
             if (t.next != null) t = t.next;
@@ -10159,7 +10155,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
     }
 
     public ParseException generateParseException() {
-        jj_expentries.removeAll(jj_expentries);
+        jj_expentries.clear();
         final boolean[] la1tokens = new boolean[237];
         for (int i = 0; i < 237; i++) {
             la1tokens[i] = false;
@@ -10215,10 +10211,10 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         return new ParseException(token, exptokseq, tokenImage);
     }
 
-    final public void enable_tracing() {
+    public final void enable_tracing() {
     }
 
-    final public void disable_tracing() {
+    public final void disable_tracing() {
     }
 
     private void jj_rescan_token() {
@@ -10332,7 +10328,7 @@ public class TLAplusParser implements tla2sany.st.SyntaxTreeConstants, ParseTree
         p.arg = xla;
     }
 
-    static private final class LookaheadSuccess extends java.lang.Error {
+    private static final class LookaheadSuccess extends java.lang.Error {
 
         /**
          *

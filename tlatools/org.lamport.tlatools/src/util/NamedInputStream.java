@@ -43,12 +43,6 @@ public class NamedInputStream extends FileInputStream {
 
     }
 
-    /**
-     * Sanity check method
-     */
-    public synchronized static int getNumberOfreferences() {
-        return numberOfReferences;
-    }
 
     public final String getName() {
         return fileName;

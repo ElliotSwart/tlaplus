@@ -13,6 +13,7 @@ import util.ToolIO;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Debug {
     public static void ReportError(final String msg)
@@ -117,7 +118,7 @@ public class Debug {
         }
     }
 
-    public static void printVector(final ArrayList<?> vec, final String name)
+    public static void printVector(final List<?> vec, final String name)
     /*********************************************************************
      * This method prints to standard output the contents of the vector   *
      * argument, where name is the name of the vector.                    *
@@ -137,7 +138,7 @@ public class Debug {
             }
             i = i + 1;
         }
-        if (vec.size() == 0) {
+        if (vec.isEmpty()) {
             ToolIO.out.println(name + " = zero-length vec");
         }
     }

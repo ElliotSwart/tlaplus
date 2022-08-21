@@ -223,7 +223,7 @@ public class PcalDebug {
             }
             i = i + 1;
         }
-        if (vec.size() == 0) {
+        if (vec.isEmpty()) {
             ToolIO.out.println(name + " = zero-length vec");
         }
     }
