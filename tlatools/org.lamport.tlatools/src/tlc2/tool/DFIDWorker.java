@@ -118,7 +118,7 @@ public class DFIDWorker extends IdThread implements IWorker {
                 return index;
             }
             succStates.remove(index);
-            succFPs.remove(index);
+            succFPs.removeIndexMovingLastElement(index);
             len--;
         }
         return -1;

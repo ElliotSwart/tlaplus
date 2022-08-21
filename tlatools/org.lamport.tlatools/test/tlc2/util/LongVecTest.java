@@ -67,7 +67,7 @@ public class LongVecTest {
         final LongVec vec = new LongVec(10);
         for (int i = -1; i <= 10; i++) {
             try {
-                vec.remove(0);
+                vec.removeIndexMovingLastElement(0);
             } catch (final IndexOutOfBoundsException e) {
                 continue;
             }
@@ -79,9 +79,9 @@ public class LongVecTest {
     public void testAddRemoveBeyondCapacity() {
         final LongVec vec = new LongVec(10);
         vec.add(1L);
-        vec.remove(0);
+        vec.removeIndexMovingLastElement(0);
         try {
-            vec.remove(1);
+            vec.removeIndexMovingLastElement(1);
         } catch (final IndexOutOfBoundsException e) {
             return;
         }
@@ -99,7 +99,7 @@ public class LongVecTest {
         assertEquals(2L, vec.get(1));
         assertEquals(3L, vec.get(2));
 
-        vec.remove(1);
+        vec.removeIndexMovingLastElement(1);
         assertEquals(1L, vec.get(0));
         assertEquals(3L, vec.get(1));
         // There must not be an element at idx 2 anymore!
@@ -120,9 +120,9 @@ public class LongVecTest {
         assertEquals(1L, vec.get(0));
         assertEquals(2L, vec.get(1));
 
-        vec.remove(0);
+        vec.removeIndexMovingLastElement(0);
         try {
-            vec.remove(1);
+            vec.removeIndexMovingLastElement(1);
         } catch (final IndexOutOfBoundsException e) {
             return;
         }
@@ -144,7 +144,7 @@ public class LongVecTest {
     public void testRemoveNegative() {
         final LongVec vec = getLongVec();
         try {
-            vec.remove(-1);
+            vec.removeIndexMovingLastElement(-1);
         } catch (final IndexOutOfBoundsException e) {
             return;
         }

@@ -49,13 +49,13 @@ public class GrowingLongVecTest extends LongVecTest {
         assertEquals(2, vec.size());
 
         // Remove in reverse order
-        vec.remove(1);
-        vec.remove(0);
+        vec.removeIndexMovingLastElement(1);
+        vec.removeIndexMovingLastElement(0);
 
         assertEquals(0, vec.size());
 
         try {
-            vec.remove(0);
+            vec.removeIndexMovingLastElement(0);
         } catch (final Exception e) {
             return;
         }
