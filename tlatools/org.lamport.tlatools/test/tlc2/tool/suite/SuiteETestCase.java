@@ -27,7 +27,7 @@
 package tlc2.tool.suite;
 
 import tlc2.output.EC.ExitStatus;
-import tlc2.tool.liveness.ModelCheckerTestCase;
+import tlc2.tool.ModelCheckerTestCase;
 import util.TestPrintStream;
 import util.ToolIO;
 

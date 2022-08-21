@@ -27,6 +27,7 @@ package tlc2.tool.liveness;
 
 import org.junit.Assume;
 import org.junit.Before;
+import tlc2.tool.ModelCheckerTestCase;
 import util.FilenameToStream;
 import util.SimpleFilenameToStream;
 import util.TLAConstants;

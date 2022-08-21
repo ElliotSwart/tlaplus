@@ -28,6 +28,7 @@ package tlc2.tool.liveness;
 import org.junit.Ignore;
 import org.junit.Test;
 import tlc2.output.EC;
+import tlc2.tool.ModelCheckerTestCase;
 
 import static org.junit.Assert.assertFalse;
 

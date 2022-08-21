@@ -33,7 +33,7 @@ import org.junit.Before;
 import tla2sany.semantic.OpDeclNode;
 import tlc2.debug.TLCStateStackFrame.DebuggerValue;
 import tlc2.tool.TLCState;
-import tlc2.tool.liveness.ModelCheckerTestCase;
+import tlc2.tool.ModelCheckerTestCase;
 import tlc2.util.Context;
 import tlc2.value.impl.LazyValue;
 import tlc2.value.impl.RecordValue;

@@ -30,6 +30,7 @@ import org.junit.Test;
 import tlc2.TLC;
 import tlc2.output.EC;
 import tlc2.tool.AbstractChecker;
+import tlc2.tool.ModelCheckerTestCase;
 import tlc2.tool.liveness.GraphNode.Transition;
 import tlc2.util.LongVec;
 

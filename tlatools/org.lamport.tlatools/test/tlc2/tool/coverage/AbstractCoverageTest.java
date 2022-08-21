@@ -26,7 +26,7 @@
  ******************************************************************************/
 package tlc2.tool.coverage;
 
-import tlc2.tool.liveness.ModelCheckerTestCase;
+import tlc2.tool.ModelCheckerTestCase;
 
 public abstract class AbstractCoverageTest extends ModelCheckerTestCase {
 

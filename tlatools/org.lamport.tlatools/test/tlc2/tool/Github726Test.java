@@ -27,7 +27,6 @@ package tlc2.tool;
 
 import org.junit.Test;
 import tlc2.output.EC;
-import tlc2.tool.liveness.ModelCheckerTestCase;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;

@@ -29,7 +29,7 @@ package tlc2.tool.doinitfunctor;
 import org.junit.Test;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
-import tlc2.tool.liveness.ModelCheckerTestCase;
+import tlc2.tool.ModelCheckerTestCase;
 
 import static org.junit.Assert.*;
 

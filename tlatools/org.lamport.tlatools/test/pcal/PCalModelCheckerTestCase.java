@@ -28,7 +28,7 @@ package pcal;
 import org.junit.Before;
 import tlc2.output.EC;
 import tlc2.tool.CommonTestCase;
-import tlc2.tool.liveness.ModelCheckerTestCase;
+import tlc2.tool.ModelCheckerTestCase;
 import util.TLAConstants;
 import util.ToolIO;
 

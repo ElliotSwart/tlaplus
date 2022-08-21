@@ -23,7 +23,7 @@
  * Contributors:
  *   Markus Alexander Kuppe - initial API and implementation
  ******************************************************************************/
-package tlc2.tool.liveness;
+package tlc2.tool;
 
 import org.junit.After;
 import org.junit.Before;
@@ -37,6 +37,8 @@ import tlc2.tool.CommonTestCase;
 import tlc2.tool.ModelChecker;
 import tlc2.tool.TLCStateInfo;
 import tlc2.tool.TLCStateMutExt;
+import tlc2.tool.liveness.GraphNode;
+import tlc2.tool.liveness.TTraceModelCheckerTestCase;
 import tlc2.util.BufferedRandomAccessFile;
 import util.FileUtil;
 import util.FilenameToStream;

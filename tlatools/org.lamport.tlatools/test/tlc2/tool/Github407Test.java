@@ -28,7 +28,6 @@ package tlc2.tool;
 import org.junit.Test;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
-import tlc2.tool.liveness.ModelCheckerTestCase;
 
 import java.io.*;
 import java.nio.file.Files;

@@ -30,7 +30,7 @@ import org.junit.Test;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.TLCStateInfo;
-import tlc2.tool.liveness.ModelCheckerTestCase;
+import tlc2.tool.ModelCheckerTestCase;
 
 import java.util.List;
 

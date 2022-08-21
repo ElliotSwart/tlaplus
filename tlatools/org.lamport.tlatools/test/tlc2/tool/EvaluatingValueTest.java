@@ -31,7 +31,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import tlc2.output.EC;
 import tlc2.overrides.Evaluation;
-import tlc2.tool.liveness.ModelCheckerTestCase;
 import tlc2.value.impl.BoolValue;
 import tlc2.value.impl.IntValue;
 import tlc2.value.impl.Value;

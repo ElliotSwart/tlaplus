@@ -35,7 +35,6 @@ import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.impl.FastTool;
 import tlc2.tool.impl.Tool;
-import tlc2.tool.liveness.ModelCheckerTestCase;
 import tlc2.util.ExpectInlined;
 import util.IndependentlyRunTest;
 

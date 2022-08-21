@@ -31,6 +31,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import tlc2.TLCGlobals;
 import tlc2.output.EC;
+import tlc2.tool.ModelCheckerTestCase;
 import tlc2.tool.WorkerMonitor;
 import util.LongTest;
 

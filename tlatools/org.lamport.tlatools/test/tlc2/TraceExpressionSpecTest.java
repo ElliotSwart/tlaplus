@@ -28,7 +28,7 @@ package tlc2;
 import org.junit.Test;
 import tlc2.tool.impl.FastTool;
 import tlc2.tool.impl.Tool;
-import tlc2.tool.liveness.ModelCheckerTestCase;
+import tlc2.tool.ModelCheckerTestCase;
 import util.FilenameToStream;
 import util.SimpleFilenameToStream;
 

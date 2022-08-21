@@ -29,7 +29,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import tlc2.TLC;
 import tlc2.output.EC;
-import tlc2.tool.liveness.ModelCheckerTestCase;
+import tlc2.tool.ModelCheckerTestCase;
 import util.IndependentlyRunTest;
 
 import static org.junit.Assert.assertFalse;

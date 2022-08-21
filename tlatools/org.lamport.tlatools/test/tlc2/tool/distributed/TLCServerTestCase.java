@@ -33,7 +33,7 @@ import tlc2.TLCGlobals;
 import tlc2.output.MP;
 import tlc2.tool.fp.FPSetConfiguration;
 import tlc2.tool.fp.MSBDiskFPSet;
-import tlc2.tool.liveness.ModelCheckerTestCase;
+import tlc2.tool.ModelCheckerTestCase;
 import util.ToolIO;
 
 import java.io.File;

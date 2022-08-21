@@ -30,7 +30,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
-import tlc2.tool.liveness.ModelCheckerTestCase;
 import util.IndependentlyRunTest;
 import util.TLAConstants;
 

@@ -29,7 +29,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import tlc2.output.EC;
-import tlc2.tool.liveness.ModelCheckerTestCase;
 
 import java.util.Comparator;
 import java.util.List;
