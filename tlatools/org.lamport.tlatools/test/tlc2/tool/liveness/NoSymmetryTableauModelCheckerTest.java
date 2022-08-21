@@ -2,7 +2,7 @@
  * Copyright (c) 2015 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software. 
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -26,40 +26,39 @@
 
 package tlc2.tool.liveness;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
-
 import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import util.IndependentlyRunTest;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 public class NoSymmetryTableauModelCheckerTest extends ModelCheckerTestCase {
 
-	public NoSymmetryTableauModelCheckerTest() {
-		super("NoSymmetryLivenessTableauMC", "symmetry");
-	}
+    public NoSymmetryTableauModelCheckerTest() {
+        super("NoSymmetryLivenessTableauMC", "symmetry");
+    }
 
-	@Category(IndependentlyRunTest.class)
-	@Test
-	public void testSpec() {
-		// ModelChecker intends to check liveness
-		assertTrue(recorder.recordedWithStringValues(EC.TLC_LIVE_IMPLIED, "2"));
-		assertTrue(recorder.recordedWithStringValues(EC.TLC_INIT_GENERATED1, "8", "s"));
+    @Category(IndependentlyRunTest.class)
+    @Test
+    public void testSpec() {
+        // ModelChecker intends to check liveness
+        assertTrue(recorder.recordedWithStringValues(EC.TLC_LIVE_IMPLIED, "2"));
+        assertTrue(recorder.recordedWithStringValues(EC.TLC_INIT_GENERATED1, "8", "s"));
 
-		assertNoTESpec();
-		
-		// ModelChecker has finished and generated the expected amount of states
-		assertTrue(recorder.recorded(EC.TLC_FINISHED));
-		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "5492", "1272", "0"));
-		assertFalse(recorder.recorded(EC.GENERAL));
-		
-		// Assert it has not found a temporal violation nor a counter example
-		assertFalse(recorder.recorded(EC.TLC_TEMPORAL_PROPERTY_VIOLATED));
-		assertFalse(recorder.recorded(EC.TLC_COUNTER_EXAMPLE));
-		assertFalse(recorder.recorded(EC.TLC_STATE_PRINT2));
+        assertNoTESpec();
 
-	assertZeroUncovered();
-	}
+        // ModelChecker has finished and generated the expected amount of states
+        assertTrue(recorder.recorded(EC.TLC_FINISHED));
+        assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "5492", "1272", "0"));
+        assertFalse(recorder.recorded(EC.GENERAL));
+
+        // Assert it has not found a temporal violation nor a counter example
+        assertFalse(recorder.recorded(EC.TLC_TEMPORAL_PROPERTY_VIOLATED));
+        assertFalse(recorder.recorded(EC.TLC_COUNTER_EXAMPLE));
+        assertFalse(recorder.recorded(EC.TLC_STATE_PRINT2));
+
+        assertZeroUncovered();
+    }
 }

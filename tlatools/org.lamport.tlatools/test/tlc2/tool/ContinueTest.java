@@ -2,7 +2,7 @@
  * Copyright (c) 2020 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software. 
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -25,41 +25,40 @@
  ******************************************************************************/
 package tlc2.tool;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
-
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.ModelCheckerTestCase;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 public class ContinueTest extends ModelCheckerTestCase {
 
-	public ContinueTest() {
-		super("Continue", new String[] { "-continue" }, ExitStatus.SUCCESS);
-	}
+    public ContinueTest() {
+        super("Continue", new String[]{"-continue"}, ExitStatus.SUCCESS);
+    }
 
-	@Override
-	protected boolean noGenerateSpec() {
-		return true;
-	}
+    @Override
+    protected boolean noGenerateSpec() {
+        return true;
+    }
 
-	@Test
-	public void testSpec() {
-		assertTrue(recorder.recorded(EC.TLC_FINISHED));
-		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "32", "29", "0"));
-		assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "29"));
+    @Test
+    public void testSpec() {
+        assertTrue(recorder.recorded(EC.TLC_FINISHED));
+        assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "32", "29", "0"));
+        assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "29"));
 
-		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
+        assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
 
-		assertNoTESpec();
-		
-		// With -continue, TLC simply prints two or more consecutive traces in no given
-		// order (determined by concurrent BFS) to stdout. This means that the
-		// MPRecorder just concatenates the traces and it is difficult to check them.
-		// For now we check that the concatenated trace has the expected number of states.
-		assertEquals(32, recorder.getRecords(EC.TLC_STATE_PRINT2).size());
+        assertNoTESpec();
+
+        // With -continue, TLC simply prints two or more consecutive traces in no given
+        // order (determined by concurrent BFS) to stdout. This means that the
+        // MPRecorder just concatenates the traces and it is difficult to check them.
+        // For now we check that the concatenated trace has the expected number of states.
+        assertEquals(32, recorder.getRecords(EC.TLC_STATE_PRINT2).size());
 //		// Trace 1
 //		final List<String> expectedTrace = new ArrayList<String>(2);
 //		expectedTrace.add("/\\ x = 1\n/\\ y = 1");
@@ -99,11 +98,11 @@ public class ContinueTest extends ModelCheckerTestCase {
 //		expectedTrace.add("/\\ x = 30\n/\\ y = 1");
 //		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
 
-		assertZeroUncovered();
-	}
+        assertZeroUncovered();
+    }
 
-	@Override
-	protected int getNumberOfThreads() {
-		return 3;
-	}
+    @Override
+    protected int getNumberOfThreads() {
+        return 3;
+    }
 }

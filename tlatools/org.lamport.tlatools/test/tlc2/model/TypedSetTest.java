@@ -4,18 +4,17 @@ import junit.framework.TestCase;
 
 /**
  * Test of the typed set factory
+ *
  * @author Simon Zambrovski
  * @version $Id$
  */
-public class TypedSetTest extends TestCase
-{
+public class TypedSetTest extends TestCase {
 
     /**
      * Test method for {@link tlc2.model.TypedSet#parseSet(java.lang.String)}.
      */
-    public void testParseSet1()
-    {
-        
+    public void testParseSet1() {
+
         final TypedSet reference = new TypedSet();
         reference.setValues(new String[]{"a", "b", "c", "d", "dsfdf"});
         assertEquals(reference, TypedSet.parseSet("a, b, c,     d,   dsfdf"));
@@ -24,8 +23,7 @@ public class TypedSetTest extends TestCase
     /**
      * Test method for {@link tlc2.model.TypedSet#parseSet(java.lang.String)}.
      */
-    public void testParseSet2()
-    {
+    public void testParseSet2() {
         final TypedSet reference = new TypedSet();
         reference.setValues(new String[]{"1", "2", "p", "h!@#$%^&*()_", "dsfdf"});
         assertEquals(reference, TypedSet.parseSet("1, 2, p, h!@#$%^&*()_, dsfdf"));
@@ -34,8 +32,7 @@ public class TypedSetTest extends TestCase
     /**
      * Test method for {@link tlc2.model.TypedSet#parseSet(java.lang.String)}.
      */
-    public void testParseSet3()
-    {
+    public void testParseSet3() {
         // positive test
         final TypedSet reference = new TypedSet();
         reference.setValues(new String[]{"1", "2", "3", "4", "5"});
@@ -44,24 +41,22 @@ public class TypedSetTest extends TestCase
         assertEquals(reference, sample);
     }
 
-    
+
     /**
      * Test method for {@link tlc2.model.TypedSet#parseSet(java.lang.String)}.
      */
-    public void testParseSet4()
-    {
+    public void testParseSet4() {
         final TypedSet reference = new TypedSet();
         reference.setValues(new String[]{"p_1", "i_2", "p_3", "p_4", "p_5"});
         final TypedSet sample = TypedSet.parseSet("p_1, i_2, p_3, p_4, p_5");
         assertEquals(reference, sample);
     }
 
-    
+
     /**
      * Test method for {@link tlc2.model.TypedSet#parseSet(java.lang.String)}.
      */
-    public void testParseSet5()
-    {
+    public void testParseSet5() {
         final TypedSet reference = new TypedSet();
         reference.setValues(new String[]{"p_", "p_2", "p_3", "p_4", "p_5"});
         final TypedSet sample = TypedSet.parseSet("p_, p_2, p_3, p_4, p_5");
@@ -71,13 +66,12 @@ public class TypedSetTest extends TestCase
     /**
      * Test method for {@link tlc2.model.TypedSet#parseSet(java.lang.String)}.
      */
-    public void testParseSet6()
-    {
+    public void testParseSet6() {
         // null set
         final TypedSet reference = new TypedSet();
         TypedSet sample = TypedSet.parseSet("");
         assertEquals(reference, sample);
-        
+
         sample = TypedSet.parseSet(null);
         assertEquals(reference, sample);
 

@@ -2,7 +2,7 @@
  * Copyright (c) 2017 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software. 
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -25,52 +25,51 @@
  ******************************************************************************/
 package tlc2.tool;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+import tlc2.output.EC;
+import tlc2.tool.liveness.ModelCheckerTestCase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
-import tlc2.output.EC;
-import tlc2.tool.liveness.ModelCheckerTestCase;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class DistributedTraceTest extends ModelCheckerTestCase {
 
-	public DistributedTraceTest() {
-		super("DistributedTrace", EC.ExitStatus.VIOLATION_SAFETY);
-	}
+    public DistributedTraceTest() {
+        super("DistributedTrace", EC.ExitStatus.VIOLATION_SAFETY);
+    }
 
-	@Test
-	public void testSpec() {
-		assertTrue(recorder.recorded(EC.TLC_FINISHED));
-		assertFalse(recorder.recorded(EC.GENERAL));
+    @Test
+    public void testSpec() {
+        assertTrue(recorder.recorded(EC.TLC_FINISHED));
+        assertFalse(recorder.recorded(EC.GENERAL));
 
-		//assertNoTESpec();
-		
-		// Assert the error trace
-		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<>(5);
-		expectedTrace.add("x = 10");
-		expectedTrace.add("x = 11");
-		expectedTrace.add("x = 12");
-		expectedTrace.add("x = 13");
-		expectedTrace.add("x = 14");
-		expectedTrace.add("x = 15");
-		expectedTrace.add("x = 16");
-		expectedTrace.add("x = 17");
-		expectedTrace.add("x = 18");
-		expectedTrace.add("x = 19");
-		expectedTrace.add("x = 20");
-		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
-	}
+        //assertNoTESpec();
 
-	/* (non-Javadoc)
-	 * @see tlc2.tool.liveness.ModelCheckerTestCase#getNumberOfThreads()
-	 */
-	@Override
+        // Assert the error trace
+        assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
+        final List<String> expectedTrace = new ArrayList<>(5);
+        expectedTrace.add("x = 10");
+        expectedTrace.add("x = 11");
+        expectedTrace.add("x = 12");
+        expectedTrace.add("x = 13");
+        expectedTrace.add("x = 14");
+        expectedTrace.add("x = 15");
+        expectedTrace.add("x = 16");
+        expectedTrace.add("x = 17");
+        expectedTrace.add("x = 18");
+        expectedTrace.add("x = 19");
+        expectedTrace.add("x = 20");
+        assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
+    }
+
+    /* (non-Javadoc)
+     * @see tlc2.tool.liveness.ModelCheckerTestCase#getNumberOfThreads()
+     */
+    @Override
     protected int getNumberOfThreads() {
-		return 4;
-	}
+        return 4;
+    }
 }

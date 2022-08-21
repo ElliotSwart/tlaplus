@@ -2,7 +2,7 @@
  * Copyright (c) 2017 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software. 
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -26,35 +26,34 @@
 
 package tlc2.tool;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Ignore;
 import org.junit.Test;
-
 import tlc2.output.EC;
 import tlc2.tool.liveness.ModelCheckerTestCase;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 public class DepthFirstTerminateTest extends ModelCheckerTestCase {
 
-	public DepthFirstTerminateTest() {
-		super("DepthFirstTerminate", "", new String[] { "-dfid", "50" });
-	}
+    public DepthFirstTerminateTest() {
+        super("DepthFirstTerminate", "", new String[]{"-dfid", "50"});
+    }
 
 
-	@Ignore // Not valid due to (https://github.com/tlaplus/tlaplus/issues/548)
-	@Test
-	public void testSpec() {
-		assertTrue(recorder.recorded(EC.TLC_FINISHED));
-		assertFalse(recorder.recorded(EC.GENERAL));
-	}
+    @Ignore // Not valid due to (https://github.com/tlaplus/tlaplus/issues/548)
+    @Test
+    public void testSpec() {
+        assertTrue(recorder.recorded(EC.TLC_FINISHED));
+        assertFalse(recorder.recorded(EC.GENERAL));
+    }
 
-	/* (non-Javadoc)
-	 * @see tlc2.tool.liveness.ModelCheckerTestCase#getNumberOfThreads()
-	 */
-	@Override
-	protected int getNumberOfThreads() {
-		// Run this test with as many threads possible to hopefully spot concurrency issues.
-		return Runtime.getRuntime().availableProcessors();
-	}
+    /* (non-Javadoc)
+     * @see tlc2.tool.liveness.ModelCheckerTestCase#getNumberOfThreads()
+     */
+    @Override
+    protected int getNumberOfThreads() {
+        // Run this test with as many threads possible to hopefully spot concurrency issues.
+        return Runtime.getRuntime().availableProcessors();
+    }
 }

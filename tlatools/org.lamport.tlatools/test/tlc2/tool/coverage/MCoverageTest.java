@@ -2,7 +2,7 @@
  * Copyright (c) 2021 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software. 
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -25,33 +25,32 @@
  ******************************************************************************/
 package tlc2.tool.coverage;
 
+import org.junit.Test;
+import tlc2.output.EC;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-
-import tlc2.output.EC;
-
 public class MCoverageTest extends AbstractCoverageTest {
 
-    public MCoverageTest () {
+    public MCoverageTest() {
         super("M");
     }
 
     @Test
-    public void testSpec () {
-		// ModelChecker has finished and generated the expected amount of states
-		assertTrue(recorder.recorded(EC.TLC_FINISHED));
-		assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "1"));
-		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "37056", "192", "0"));
+    public void testSpec() {
+        // ModelChecker has finished and generated the expected amount of states
+        assertTrue(recorder.recorded(EC.TLC_FINISHED));
+        assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "1"));
+        assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "37056", "192", "0"));
 
-		// No 'general' errors recorded
-		assertFalse(recorder.recorded(EC.GENERAL));
+        // No 'general' errors recorded
+        assertFalse(recorder.recorded(EC.GENERAL));
 
-		assertFalse(recorder.recorded(EC.TLC_COVERAGE_MISMATCH));
-		
-		assertFalse(recorder.recorded(EC.TLC_COVERAGE_MISMATCH));
-		assertCoverage("""
+        assertFalse(recorder.recorded(EC.TLC_COVERAGE_MISMATCH));
+
+        assertFalse(recorder.recorded(EC.TLC_COVERAGE_MISMATCH));
+        assertCoverage("""
                 <Init line 16, col 1 to line 16, col 4 of module M>: 192:192
                   line 17, col 17 to line 17, col 39 of module M: 1:24
                   |line 17, col 18 to line 17, col 27 of module M: 1

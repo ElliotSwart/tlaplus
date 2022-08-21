@@ -26,29 +26,28 @@
 
 package tlc2.tool;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
-
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.ModelCheckerTestCase;
 
+import static org.junit.Assert.assertTrue;
+
 public class FingerprintExceptionNextCallstackTest extends ModelCheckerTestCase {
 
-	public FingerprintExceptionNextCallstackTest() {
-		super("FingerprintExceptionNextCallstack", new String[] { "-config", "FingerprintExceptionNext.cfg" },
-				ExitStatus.FAILURE_SPEC_EVAL);
-	}
+    public FingerprintExceptionNextCallstackTest() {
+        super("FingerprintExceptionNextCallstack", new String[]{"-config", "FingerprintExceptionNext.cfg"},
+                ExitStatus.FAILURE_SPEC_EVAL);
+    }
 
-	@Test
-	public void testSpec() {
-		// ModelChecker has finished with a general exception, a fingerprint exception and underlying overflow exception
-		assertTrue(recorder.recorded(EC.TLC_FINISHED));
-		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "1", "1", "0"));
-		assertTrue(recorder.recordedWithStringValue(EC.TLC_INIT_GENERATED1, "1"));
-		assertTrue(recorder.recorded(EC.GENERAL));
-		final String arg1 = """
+    @Test
+    public void testSpec() {
+        // ModelChecker has finished with a general exception, a fingerprint exception and underlying overflow exception
+        assertTrue(recorder.recorded(EC.TLC_FINISHED));
+        assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "1", "1", "0"));
+        assertTrue(recorder.recordedWithStringValue(EC.TLC_INIT_GENERATED1, "1"));
+        assertTrue(recorder.recorded(EC.GENERAL));
+        final String arg1 = """
                 0. Line 9, column 9 to line 9, column 19 in FingerprintExceptionNextCallstack
                 1. Line 9, column 14 to line 9, column 19 in FingerprintExceptionNextCallstack
                 2. Line 7, column 10 to line 7, column 49 in FingerprintExceptionNextCallstack
@@ -56,11 +55,11 @@ public class FingerprintExceptionNextCallstackTest extends ModelCheckerTestCase 
                 4. Line 7, column 25 to line 7, column 32 in FingerprintExceptionNextCallstack
 
                 """;
-		final String arg2 = """
+        final String arg2 = """
                 Attempted to check if the non-enumerable value
                 42
                 is element of
                 SUBSET 42""";
-		assertTrue(recorder.recordedWithStringValues(EC.TLC_FINGERPRINT_EXCEPTION, arg1, arg2));
-	}
+        assertTrue(recorder.recordedWithStringValues(EC.TLC_FINGERPRINT_EXCEPTION, arg1, arg2));
+    }
 }

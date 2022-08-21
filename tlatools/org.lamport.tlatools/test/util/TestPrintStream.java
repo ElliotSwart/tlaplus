@@ -2,7 +2,7 @@
  * Copyright (c) 2017 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software. 
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -25,78 +25,78 @@
  ******************************************************************************/
 package util;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 public class TestPrintStream extends PrintStream {
 
-	private final StringBuilder buf = new StringBuilder();
-	private final List<String> strings = new ArrayList<>();
-	
-	public TestPrintStream() {
+    private final StringBuilder buf = new StringBuilder();
+    private final List<String> strings = new ArrayList<>();
+
+    public TestPrintStream() {
         super(ToolIO.out);
-	}
+    }
 
-	/* (non-Javadoc)
-	 * @see java.io.PrintStream#println(java.lang.String)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see java.io.PrintStream#println(java.lang.String)
+     */
+    @Override
     public void println(final String x) {
-		strings.add(x);
-		buf.append(x).append("\n");
-		super.println(x);
-	}
+        strings.add(x);
+        buf.append(x).append("\n");
+        super.println(x);
+    }
 
 
-	@Override
-	public PrintStream printf(String format, Object ... args){
-		String formattedString = String.format(format, args);
+    @Override
+    public PrintStream printf(String format, Object... args) {
+        String formattedString = String.format(format, args);
 
-		// Equivalent to println
-		if (format.endsWith("%n")){
-			strings.add(formattedString);
-		}
+        // Equivalent to println
+        if (format.endsWith("%n")) {
+            strings.add(formattedString);
+        }
 
-		return this;
-	}
-	
-	public void assertEmpty() {
-		assertTrue(this.strings.isEmpty());
-	}
-	
-	public void assertContains(final String seq) {
-		assertTrue(buf.toString().contains(seq));
-	}
-	
-	public void assertSubstring(final String substring) {
-		for (final String string : strings) {
-			if (string.contains(substring)) {
-				return;
-			}
-		}
-		fail("Substring not found");
-	}
+        return this;
+    }
 
-	public void assertRegex(final String regex) {
-		final Pattern pattern = Pattern.compile(regex);
-		for (final String string : strings) {
-			if (pattern.matcher(string).find()) {
-				return;
-			}
-		}
-		fail("Match not found for regex \"" + pattern + "\"");
-	}
-	
-	public void assertNoSubstring(final String substring) {
-		for (final String string : strings) {
-			if (string.contains(substring)) {
-				fail("Substring was found");
-			}
-		}
-	}
+    public void assertEmpty() {
+        assertTrue(this.strings.isEmpty());
+    }
+
+    public void assertContains(final String seq) {
+        assertTrue(buf.toString().contains(seq));
+    }
+
+    public void assertSubstring(final String substring) {
+        for (final String string : strings) {
+            if (string.contains(substring)) {
+                return;
+            }
+        }
+        fail("Substring not found");
+    }
+
+    public void assertRegex(final String regex) {
+        final Pattern pattern = Pattern.compile(regex);
+        for (final String string : strings) {
+            if (pattern.matcher(string).find()) {
+                return;
+            }
+        }
+        fail("Match not found for regex \"" + pattern + "\"");
+    }
+
+    public void assertNoSubstring(final String substring) {
+        for (final String string : strings) {
+            if (string.contains(substring)) {
+                fail("Substring was found");
+            }
+        }
+    }
 }

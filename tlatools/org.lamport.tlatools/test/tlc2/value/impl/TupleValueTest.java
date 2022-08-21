@@ -23,11 +23,10 @@
  ******************************************************************************/
 package tlc2.value.impl;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
-
 import util.Assert;
+
+import static org.junit.Assert.assertTrue;
 
 
 public class TupleValueTest {
@@ -37,28 +36,28 @@ public class TupleValueTest {
         final Value[] elems = {new StringValue("A")};
         final TupleValue tupVal = new TupleValue(elems);
 
-        try{
+        try {
             tupVal.apply(IntValue.gen(2), 0);
-        } catch(final Assert.TLCRuntimeException ex){
+        } catch (final Assert.TLCRuntimeException ex) {
             assertTrue(ex.getMessage().contains("Attempted to access index 2 of tuple\n<<\"A\">>\nwhich is out of bounds"));
         }
 
-        try{
+        try {
             tupVal.apply(new StringValue("a"), 0);
-        } catch(final Assert.TLCRuntimeException ex){
+        } catch (final Assert.TLCRuntimeException ex) {
             assertTrue(ex.getMessage().contains("Attempted to access tuple at a non integral index: \"a\""));
         }
 
-        try{
+        try {
             tupVal.select(new StringValue("a"));
-        } catch(final Assert.TLCRuntimeException ex){
+        } catch (final Assert.TLCRuntimeException ex) {
             assertTrue(ex.getMessage().contains("Attempted to access tuple at a non integral index: \"a\""));
         }
 
-        try{
+        try {
             final Value[] args = {new StringValue("arg1"), new StringValue("arg2")};
             tupVal.apply(args, 0);
-        } catch(final Assert.TLCRuntimeException ex){
+        } catch (final Assert.TLCRuntimeException ex) {
             assertTrue(ex.getMessage().contains("Attempted to access tuple with 2 arguments when it expects 1."));
         }
     }

@@ -2,7 +2,7 @@
  * Copyright (c) 2022 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software. 
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -25,41 +25,40 @@
  ******************************************************************************/
 package tlc2.tool;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
-
 import org.junit.experimental.categories.Category;
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.ModelCheckerTestCase;
 import util.IndependentlyRunTest;
 
+import static org.junit.Assert.assertTrue;
+
 public class Github648wNTest extends ModelCheckerTestCase {
 
-	public Github648wNTest() {
-		super("Github648", ExitStatus.SUCCESS);
-	}
+    public Github648wNTest() {
+        super("Github648", ExitStatus.SUCCESS);
+    }
 
-	@Override
-	protected int getNumberOfThreads() {
-		return 10;
-	}
+    @Override
+    protected int getNumberOfThreads() {
+        return 10;
+    }
 
-	@Override
+    @Override
     protected boolean doDump() {
-		return false;
-	}
+        return false;
+    }
 
-	@Category(IndependentlyRunTest.class)
-	@Test
-	public void testSpec() {
-		assertTrue(recorder.recorded(EC.TLC_FINISHED));
+    @Category(IndependentlyRunTest.class)
+    @Test
+    public void testSpec() {
+        assertTrue(recorder.recorded(EC.TLC_FINISHED));
 
-		assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "1"));
-		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "1332", "36", "0"));
-		
-		assertCoverage("""
+        assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "1"));
+        assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "1332", "36", "0"));
+
+        assertCoverage("""
                 <Init line 34, col 1 to line 34, col 4 of module Github648>: 36:36
                   line 35, col 8 to line 35, col 23 of module Github648: 1
                   line 36, col 8 to line 36, col 23 of module Github648: 36
@@ -95,5 +94,5 @@ public class Github648wNTest extends ModelCheckerTestCase {
                   |||||||||||line 13, col 19 to line 13, col 19 of module Github648: 40
                   ||||||||||line 13, col 30 to line 13, col 33 of module Github648: 10
                   ||||||||line 49, col 36 to line 49, col 42 of module Github648: 10:750""");
-	}
+    }
 }

@@ -9,17 +9,17 @@ import static org.junit.Assert.assertTrue;
 
 public class Github702Test extends ModelCheckerTestCase {
 
-	public Github702Test() {
-		super("Github702", new String[] { "-config", "Github702.cfg" }, EC.ExitStatus.SUCCESS);
-	}
+    public Github702Test() {
+        super("Github702", new String[]{"-config", "Github702.cfg"}, EC.ExitStatus.SUCCESS);
+    }
 
-	@Override
-	protected boolean doCoverage() {
-		return false;
-	}
+    @Override
+    protected boolean doCoverage() {
+        return false;
+    }
 
-	@Test
-	public void testSpec() {
-		assertTrue(recorder.recorded(EC.TLC_SUCCESS));
-	}
+    @Test
+    public void testSpec() {
+        assertTrue(recorder.recorded(EC.TLC_SUCCESS));
+    }
 }

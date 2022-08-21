@@ -2,7 +2,7 @@
  * Copyright (c) 2019 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software. 
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -25,29 +25,28 @@
  ******************************************************************************/
 package tlc2.tool;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
-
 import tlc2.output.EC;
 import tlc2.output.EC.ExitStatus;
 import tlc2.tool.liveness.ModelCheckerTestCase;
 
+import static org.junit.Assert.assertTrue;
+
 public class Github179cTest extends ModelCheckerTestCase {
 
-	public Github179cTest() {
-		super("Github179c", ExitStatus.FAILURE_SPEC_EVAL);
-	}
+    public Github179cTest() {
+        super("Github179c", ExitStatus.FAILURE_SPEC_EVAL);
+    }
 
-	@Test
-	public void testSpec() {
-		assertTrue(recorder.recorded(EC.TLC_FINISHED));
+    @Test
+    public void testSpec() {
+        assertTrue(recorder.recorded(EC.TLC_FINISHED));
 
-		assertTrue(recorder.recordedWithStringValues(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE,
-				"public static tlc2.value.impl.Value tlc2.module.TLC.PrintT(tlc2.value.impl.Value)",
-				"Attempted to check equality of integer 1 with non-integer:\n" + 
-				"{1}"));
-		assertTrue(recorder.recordedWithStringValues(EC.TLC_NESTED_EXPRESSION,
+        assertTrue(recorder.recordedWithStringValues(EC.TLC_MODULE_VALUE_JAVA_METHOD_OVERRIDE,
+                "public static tlc2.value.impl.Value tlc2.module.TLC.PrintT(tlc2.value.impl.Value)",
+                "Attempted to check equality of integer 1 with non-integer:\n" +
+                        "{1}"));
+        assertTrue(recorder.recordedWithStringValues(EC.TLC_NESTED_EXPRESSION,
                 """
                         0. Line 16, column 9 to line 16, column 42 in Github179c
                         1. Line 16, column 9 to line 16, column 33 in Github179c
@@ -57,5 +56,5 @@ public class Github179cTest extends ModelCheckerTestCase {
                         5. Line 10, column 27 to line 10, column 36 in Github179c
 
                         """));
-	}
+    }
 }

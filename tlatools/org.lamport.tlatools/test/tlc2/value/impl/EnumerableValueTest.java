@@ -26,127 +26,126 @@
  ******************************************************************************/
 package tlc2.value.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.Test;
-
 import tlc2.value.IValue;
 import tlc2.value.RandomEnumerableValues;
 import tlc2.value.impl.EnumerableValue.SubsetEnumerator;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 public class EnumerableValueTest {
 
-	@Test
-	public void test() {
-		RandomEnumerableValues.setSeed(15041980);
-		
-		final Set<Integer> indices = new HashSet<>();
-		// For the first n \in Nat+ up to 10657 show that:
-		for (int n = 1; n < 10657; n++) {
-			final SubsetEnumerator enumerator = (SubsetEnumerator) new DummyValue(n).elements(n);
+    @Test
+    public void test() {
+        RandomEnumerableValues.setSeed(15041980);
 
-			while (enumerator.hasNext()) {
-				final int index = enumerator.nextIndex();
-				assertTrue("Index %s out of bounds.", 0 <= index && index < n);
-				indices.add(index);
-			}
-			assertEquals("Missing indices.", n, indices.size());
-			indices.clear();
-		}
-	}
+        final Set<Integer> indices = new HashSet<>();
+        // For the first n \in Nat+ up to 10657 show that:
+        for (int n = 1; n < 10657; n++) {
+            final SubsetEnumerator enumerator = (SubsetEnumerator) new DummyValue(n).elements(n);
 
-	@SuppressWarnings("serial")
+            while (enumerator.hasNext()) {
+                final int index = enumerator.nextIndex();
+                assertTrue("Index %s out of bounds.", 0 <= index && index < n);
+                indices.add(index);
+            }
+            assertEquals("Missing indices.", n, indices.size());
+            indices.clear();
+        }
+    }
+
+    @SuppressWarnings("serial")
     static
     class DummyValue extends EnumerableValue {
 
-		private final int size;
+        private final int size;
 
-		public DummyValue(final int size) {
-			this.size = size;
-		}
+        public DummyValue(final int size) {
+            this.size = size;
+        }
 
-		@Override
-		public int size() {
-			return size;
-		}
-		
-		@Override
-		public ValueEnumeration elements(final int k) {
-			return new EnumerableValue.SubsetEnumerator(k) {
-				@Override
-				public Value nextElement() {
-					return null;
-				}
-			};
-		}
+        @Override
+        public int size() {
+            return size;
+        }
 
-		@Override
-		public ValueEnumeration elements() {
-			return null;
-		}
+        @Override
+        public ValueEnumeration elements(final int k) {
+            return new EnumerableValue.SubsetEnumerator(k) {
+                @Override
+                public Value nextElement() {
+                    return null;
+                }
+            };
+        }
 
-		@Override
-		public byte getKind() {
-			return 0;
-		}
+        @Override
+        public ValueEnumeration elements() {
+            return null;
+        }
 
-		@Override
-		public int compareTo(final Object val) {
-			return 0;
-		}
+        @Override
+        public byte getKind() {
+            return 0;
+        }
 
-		@Override
-		public boolean member(final Value elem) {
-			return false;
-		}
+        @Override
+        public int compareTo(final Object val) {
+            return 0;
+        }
 
-		@Override
-		public Value takeExcept(final ValueExcept ex) {
-			return null;
-		}
+        @Override
+        public boolean member(final Value elem) {
+            return false;
+        }
 
-		@Override
-		public Value takeExcept(final ValueExcept[] exs) {
-			return null;
-		}
+        @Override
+        public Value takeExcept(final ValueExcept ex) {
+            return null;
+        }
 
-		@Override
-		public boolean isNormalized() {
-			return false;
-		}
+        @Override
+        public Value takeExcept(final ValueExcept[] exs) {
+            return null;
+        }
 
-		@Override
-		public Value normalize() {
-			return this;
-		}
+        @Override
+        public boolean isNormalized() {
+            return false;
+        }
 
-		@Override
-		public boolean isFinite() {
-			return false;
-		}
+        @Override
+        public Value normalize() {
+            return this;
+        }
 
-		@Override
-		public boolean isDefined() {
-			return false;
-		}
+        @Override
+        public boolean isFinite() {
+            return false;
+        }
 
-		@Override
-		public IValue deepCopy() {
-			return null;
-		}
+        @Override
+        public boolean isDefined() {
+            return false;
+        }
 
-		@Override
-		public boolean assignable(final Value val) {
-			return false;
-		}
+        @Override
+        public IValue deepCopy() {
+            return null;
+        }
 
-		@Override
-		public StringBuilder toString(final StringBuilder sb, final int offset, final boolean swallow) {
-			return sb;
-		}
-	}
+        @Override
+        public boolean assignable(final Value val) {
+            return false;
+        }
+
+        @Override
+        public StringBuilder toString(final StringBuilder sb, final int offset, final boolean swallow) {
+            return sb;
+        }
+    }
 }

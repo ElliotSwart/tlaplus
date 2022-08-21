@@ -1,22 +1,28 @@
 # Test Benchmark
+
 ## Run JMH benchmarks from maven
 
 To build and run all the benchmarks, run:
+
 ``` shell
 mvn verify -P benchmark
 ```
 
 To run a specific benchmark
+
 ``` shell
 mvn verify -P benchmark -Dbenchmark.class=BENCHMARK_CLASS_WITH_PACKAGE
 ```
 
 ## Run JMH benchmarks from inside Eclipse:
 
-1. Activate Annotation Processing in the project preferences of the tlatools project under "Java Compiler" > "Annotation Processing"
-2. Add the two jars from lib/jmh/jmh-*.jar as annotation processors to "Java Compiler" > "Annotation Processing" > "Factory Path"
+1. Activate Annotation Processing in the project preferences of the tlatools project under "Java Compiler" > "Annotation
+   Processing"
+2. Add the two jars from lib/jmh/jmh-*.jar as annotation processors to "Java Compiler" > "Annotation Processing" > "
+   Factory Path"
 3. Add lib/jmh/commons-math3-*.jar to the launch configs classpath
-4. Add a main to the benchmark as shown in the various JMH examples (https://hg.openjdk.java.net/code-tools/jmh/file/tip/jmh-samples/src/main/java/org/openjdk/jmh/samples/)
+4. Add a main to the benchmark as shown in the various JMH
+   examples (https://hg.openjdk.java.net/code-tools/jmh/file/tip/jmh-samples/src/main/java/org/openjdk/jmh/samples/)
 
 ## Run JMH benchmarks from command line:
 

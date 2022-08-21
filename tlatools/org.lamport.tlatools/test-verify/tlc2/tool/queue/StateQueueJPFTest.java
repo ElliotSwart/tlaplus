@@ -2,7 +2,7 @@
  * Copyright (c) 2015 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software. 
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -36,91 +36,91 @@ import tlc2.tool.TLCStates;
 
 public class StateQueueJPFTest extends TestJPF {
 
-	public static void main(final String[] args) {
-		new StateQueueJPFTest().test();
-	}
-	
-	@Test
-	public void test() {
-		if (verifyNoPropertyViolation()) {
-			final StateQueue queue = new DummyStateQueue();
-			final TLCState tlcState = TLCStates.createDummyState();
-			queue.enqueue(tlcState);
-			
-			final Thread main = new Thread(new Runnable() {
-				@Override
+    public static void main(final String[] args) {
+        new StateQueueJPFTest().test();
+    }
+
+    @Test
+    public void test() {
+        if (verifyNoPropertyViolation()) {
+            final StateQueue queue = new DummyStateQueue();
+            final TLCState tlcState = TLCStates.createDummyState();
+            queue.enqueue(tlcState);
+
+            final Thread main = new Thread(new Runnable() {
+                @Override
                 public void run() {
-					queue.suspendAll();
-					// critical section (taking a checkpoint)
-					queue.resumeAll();
-				}
-			}, "Main");
-			main.start();
+                    queue.suspendAll();
+                    // critical section (taking a checkpoint)
+                    queue.resumeAll();
+                }
+            }, "Main");
+            main.start();
 
-			for (int i = 0; i < 3; i++) {
-				final Thread worker = new Thread(new Runnable() {
-					@Override
+            for (int i = 0; i < 3; i++) {
+                final Thread worker = new Thread(new Runnable() {
+                    @Override
                     public void run() {
-						for (int i = 0; i < 3; i++) {
-							final TLCState state = queue.dequeue();
-							if (state == null) {
-								try {
-									queue.close();
-								}
-								catch (Exception e){}
-								return;
-							}
-							queue.enqueue(tlcState);
-						}
+                        for (int i = 0; i < 3; i++) {
+                            final TLCState state = queue.dequeue();
+                            if (state == null) {
+                                try {
+                                    queue.close();
+                                } catch (Exception e) {
+                                }
+                                return;
+                            }
+                            queue.enqueue(tlcState);
+                        }
 
-						try {
-							queue.close();
-						}
-						catch (Exception e){}
-					}
-				}, "Worker" + i);
-				worker.start();
-			}
-		}
-	}
-	
-	/*
-	 * Dummy implementation of StateQueue with minimal functionality compared to
-	 * DiskStateQueue or MemStateQueue. After all, we verify the abstract
-	 * StateQueue and not the implementations (which should be done separately).
-	 */
-	private static class DummyStateQueue extends StateQueue {
+                        try {
+                            queue.close();
+                        } catch (Exception e) {
+                        }
+                    }
+                }, "Worker" + i);
+                worker.start();
+            }
+        }
+    }
 
-		private TLCState state;
+    /*
+     * Dummy implementation of StateQueue with minimal functionality compared to
+     * DiskStateQueue or MemStateQueue. After all, we verify the abstract
+     * StateQueue and not the implementations (which should be done separately).
+     */
+    private static class DummyStateQueue extends StateQueue {
 
-		@Override
+        private TLCState state;
+
+        @Override
         void enqueueInner(final TLCState state) {
-			this.state = state;
-		}
+            this.state = state;
+        }
 
-		@Override
+        @Override
         TLCState dequeueInner() {
-			return state;
-		}
+            return state;
+        }
 
-		@Override
+        @Override
         TLCState peekInner() {
-			return state;
-		}
+            return state;
+        }
 
-		@Override
+        @Override
         public void beginChkpt() throws IOException {
-			// checkpointing not being verified
-		}
+            // checkpointing not being verified
+        }
 
-		@Override
+        @Override
         public void commitChkpt() throws IOException {
-			// checkpointing not being verified
-		}
+            // checkpointing not being verified
+        }
 
-		@Override
+        @Override
         public void recover() throws IOException {
-			// checkpointing not being verified
-		}
-	}
+            // checkpointing not being verified
+        }
+    }
 }

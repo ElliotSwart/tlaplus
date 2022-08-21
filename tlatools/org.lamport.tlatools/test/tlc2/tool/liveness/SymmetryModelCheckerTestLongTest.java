@@ -2,7 +2,7 @@
  * Copyright (c) 2015 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software. 
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -26,51 +26,50 @@
 
 package tlc2.tool.liveness;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Ignore;
+import org.junit.Test;
+import tlc2.output.EC;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Ignore;
-import org.junit.Test;
-
-import tlc2.output.EC;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class SymmetryModelCheckerTestLongTest extends ModelCheckerTestCase {
 
-	public SymmetryModelCheckerTestLongTest() {
-		super("LongMC", "symmetry");
-	}
-	
-	@Test
-	@Ignore("Ignored for as long as symmetry is incorrectly handled by TLC with liveness checking.")
-	public void testSpec() {
-		assertTrue(recorder.recorded(EC.TLC_FINISHED));
-		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "8", "5", "0"));
-		assertFalse(recorder.recorded(EC.GENERAL));
+    public SymmetryModelCheckerTestLongTest() {
+        super("LongMC", "symmetry");
+    }
 
-		// Assert it has found the temporal violation and also a counter example
-		assertTrue(recorder.recorded(EC.TLC_TEMPORAL_PROPERTY_VIOLATED));
-		assertTrue(recorder.recorded(EC.TLC_COUNTER_EXAMPLE));
-		
-		assertNodeAndPtrSizes(192L, 80L);
+    @Test
+    @Ignore("Ignored for as long as symmetry is incorrectly handled by TLC with liveness checking.")
+    public void testSpec() {
+        assertTrue(recorder.recorded(EC.TLC_FINISHED));
+        assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "8", "5", "0"));
+        assertFalse(recorder.recorded(EC.GENERAL));
 
-		// Assert the error trace
-		assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
-		final List<String> expectedTrace = new ArrayList<>(4);
-		expectedTrace.add("/\\ x = a\n/\\ y = 0");
-		expectedTrace.add("/\\ x = a\n/\\ y = 1");
-		expectedTrace.add("/\\ x = a\n/\\ y = 2");
-		expectedTrace.add("/\\ x = a\n/\\ y = 3");
-		expectedTrace.add("/\\ x = a\n/\\ y = 4"); // <= x changes after this state
-		expectedTrace.add("/\\ x = b\n/\\ y = 0");
-		expectedTrace.add("/\\ x = b\n/\\ y = 1");
-		expectedTrace.add("/\\ x = b\n/\\ y = 2");
-		expectedTrace.add("/\\ x = b\n/\\ y = 3");
-		expectedTrace.add("/\\ x = b\n/\\ y = 4");
-		assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
-		
-		assertBackToState(1, "<Action line 47, col 12 to line 49, col 27 of module SymmetryLivenessLong>");
-	}
+        // Assert it has found the temporal violation and also a counter example
+        assertTrue(recorder.recorded(EC.TLC_TEMPORAL_PROPERTY_VIOLATED));
+        assertTrue(recorder.recorded(EC.TLC_COUNTER_EXAMPLE));
+
+        assertNodeAndPtrSizes(192L, 80L);
+
+        // Assert the error trace
+        assertTrue(recorder.recorded(EC.TLC_STATE_PRINT2));
+        final List<String> expectedTrace = new ArrayList<>(4);
+        expectedTrace.add("/\\ x = a\n/\\ y = 0");
+        expectedTrace.add("/\\ x = a\n/\\ y = 1");
+        expectedTrace.add("/\\ x = a\n/\\ y = 2");
+        expectedTrace.add("/\\ x = a\n/\\ y = 3");
+        expectedTrace.add("/\\ x = a\n/\\ y = 4"); // <= x changes after this state
+        expectedTrace.add("/\\ x = b\n/\\ y = 0");
+        expectedTrace.add("/\\ x = b\n/\\ y = 1");
+        expectedTrace.add("/\\ x = b\n/\\ y = 2");
+        expectedTrace.add("/\\ x = b\n/\\ y = 3");
+        expectedTrace.add("/\\ x = b\n/\\ y = 4");
+        assertTraceWith(recorder.getRecords(EC.TLC_STATE_PRINT2), expectedTrace);
+
+        assertBackToState(1, "<Action line 47, col 12 to line 49, col 27 of module SymmetryLivenessLong>");
+    }
 }

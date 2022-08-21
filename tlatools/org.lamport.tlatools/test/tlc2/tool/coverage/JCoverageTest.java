@@ -2,7 +2,7 @@
  * Copyright (c) 2019 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software. 
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -25,30 +25,29 @@
  ******************************************************************************/
 package tlc2.tool.coverage;
 
+import org.junit.Test;
+import tlc2.output.EC;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-
-import tlc2.output.EC;
-
 public class JCoverageTest extends AbstractCoverageTest {
 
-    public JCoverageTest () {
+    public JCoverageTest() {
         super("J");
     }
 
     @Test
-    public void testSpec () {
-		// ModelChecker has finished and generated the expected amount of states
-		assertTrue(recorder.recorded(EC.TLC_FINISHED));
-		assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "2"));
-		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "11", "6", "0"));
+    public void testSpec() {
+        // ModelChecker has finished and generated the expected amount of states
+        assertTrue(recorder.recorded(EC.TLC_FINISHED));
+        assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "2"));
+        assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "11", "6", "0"));
 
-		// No 'general' errors recorded
-		assertFalse(recorder.recorded(EC.GENERAL));
+        // No 'general' errors recorded
+        assertFalse(recorder.recorded(EC.GENERAL));
 
-		assertCoverage("""
+        assertCoverage("""
                 <Init line 5, col 1 to line 5, col 4 of module J>: 5:5
                   line 5, col 12 to line 5, col 28 of module J: 1:6
                   line 6, col 12 to line 6, col 40 of module J: 5
@@ -63,6 +62,6 @@ public class JCoverageTest extends AbstractCoverageTest {
                   |||line 10, col 7 to line 10, col 19 of module J: 4
                   ||line 12, col 21 to line 12, col 21 of module J: 6
                   line 13, col 12 to line 13, col 22 of module J: 6""");
-		assertFalse(recorder.recorded(EC.TLC_COVERAGE_MISMATCH));
+        assertFalse(recorder.recorded(EC.TLC_COVERAGE_MISMATCH));
     }
 }

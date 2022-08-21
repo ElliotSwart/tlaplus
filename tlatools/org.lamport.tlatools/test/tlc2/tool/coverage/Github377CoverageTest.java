@@ -2,7 +2,7 @@
  * Copyright (c) 2019 Microsoft Research. All rights reserved. 
  *
  * The MIT License (MIT)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software. 
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -25,30 +25,29 @@
  ******************************************************************************/
 package tlc2.tool.coverage;
 
+import org.junit.Test;
+import tlc2.output.EC;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-
-import tlc2.output.EC;
-
 public class Github377CoverageTest extends AbstractCoverageTest {
 
-    public Github377CoverageTest () {
+    public Github377CoverageTest() {
         super("Github377");
     }
 
     @Test
-    public void testSpec () {
-		// ModelChecker has finished and generated the expected amount of states
-		assertTrue(recorder.recorded(EC.TLC_FINISHED));
-		assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "1"));
-		assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "2", "1", "0"));
+    public void testSpec() {
+        // ModelChecker has finished and generated the expected amount of states
+        assertTrue(recorder.recorded(EC.TLC_FINISHED));
+        assertTrue(recorder.recordedWithStringValue(EC.TLC_SEARCH_DEPTH, "1"));
+        assertTrue(recorder.recordedWithStringValues(EC.TLC_STATS, "2", "1", "0"));
 
-		// No 'general' errors recorded
-		assertFalse(recorder.recorded(EC.GENERAL));
+        // No 'general' errors recorded
+        assertFalse(recorder.recorded(EC.GENERAL));
 
-		assertCoverage("""
+        assertCoverage("""
                 <Action line 5, col 9 to line 5, col 16 of module Github377>: 1:1
                   line 5, col 9 to line 5, col 16 of module Github377: 1
                 <Action line 5, col 24 to line 5, col 34 of module Github377>: 0:1
@@ -79,6 +78,6 @@ public class Github377CoverageTest extends AbstractCoverageTest {
                 <4Inv line 66, col 1 to line 66, col 4 of module Github377>
                   line 71, col 11 to line 71, col 18 of module Github377: 1
                   line 72, col 7 to line 72, col 11 of module Github377: 1""");
-		assertFalse(recorder.recorded(EC.TLC_COVERAGE_MISMATCH));
+        assertFalse(recorder.recorded(EC.TLC_COVERAGE_MISMATCH));
     }
 }
