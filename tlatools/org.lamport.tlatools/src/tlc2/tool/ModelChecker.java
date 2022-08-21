@@ -387,8 +387,8 @@ public class ModelChecker extends AbstractChecker {
                 worker.incrementStatesGenerated(sz);
                 deadLocked = deadLocked && (sz == 0);
 
-                for (int j = 0; j < sz; j++) {
-                    succState = nextStates.get(j);
+                for (TLCState nextState : nextStates) {
+                    succState = nextState;
                     // Check if succState is a legal state.
                     if (!tool.isGoodState(succState)) {
                         return doNextSetErr(curState, succState, action);
@@ -401,7 +401,7 @@ public class ModelChecker extends AbstractChecker {
                     }
                     // Check if an unseen succState violates any invariant:
                     if (unseen && doNextCheckInvariants(tool, curState, succState)) {
-                            return true;
+                        return true;
                     }
                     // Check if the state violates any implied action. We need to do it
                     // even if succState is not new.

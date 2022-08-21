@@ -65,8 +65,8 @@ public final class SetOfStates extends AbstractSet<TLCState> {
 
     public SetOfStates(final StateVec sv) {
         this(sv.size());
-        for (int i = 0; i < sv.size(); i++) {
-            add(sv.get(i));
+        for (TLCState tlcState : sv) {
+            add(tlcState);
         }
     }
 

@@ -3989,8 +3989,7 @@ public abstract class Tool
         IdThread.setCurrentState(s);
         for (final Action curAction : this.actions) {
             final StateVec nextStates = this.getNextStates(curAction, s);
-            for (int j = 0; j < nextStates.size(); j++) {
-                final TLCState state = nextStates.get(j);
+            for (final TLCState state : nextStates) {
                 final long nfp = state.fingerPrint();
                 if (fp == nfp) {
                     state.setPredecessor(s);
@@ -4008,8 +4007,7 @@ public abstract class Tool
         IdThread.setCurrentState(s);
         for (final Action curAction : this.actions) {
             final StateVec nextStates = this.getNextStates(curAction, s);
-            for (int j = 0; j < nextStates.size(); j++) {
-                final TLCState state = nextStates.get(j);
+            for (final TLCState state : nextStates) {
                 if (s1.equals(state)) {
                     state.setPredecessor(s);
                     assert !state.isInitial();

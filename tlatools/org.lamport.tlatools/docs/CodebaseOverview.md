@@ -110,22 +110,19 @@ There is a significant amount of static state. While much has been removed
 
 ### Testing Brittleness
 
-> Note: 
-
-### Proprietary Implementations of Standard Data Structures
-
-- MemObjectQueue
-- MemObjectStack
+#### Independently Run Tests
 
 
+### Primitive Versions of Standard Data Structures
 
-// Probably harder
-- SetOfStates
-- StateVec
+The standard collections in the Java standard library store only objects. Some custom collections are required that can store and/or be indexed by primitives. These are needed for performance reasons.
+- [LongVec](../src/tlc2/util/LongVec.java)
+- [IntStack](../src/tlc2/util/IntStack.java)
+- [SetOfLong](../src/tlc2/util/SetOfLong.java)
+- [ObjLongTable](../src/tlc2/util/ObjLongTable.java)
+- [LongObjTable](../src/tlc2/util/LongObjTable.java)
 
-Some collection classes are required as they store or index by primatives, rather than objects like in the standard java collections,
-
-They have no particularly unique functionality, however slight behavioral changes mean it is not a trivial substitution. Since none of them seem particularly Thread-safe, they should likely both be replaced with ArrayList's.
+> Note: There may be more not listed here, but ideally they should be added.
 
 ### Unchecked Casting
 As a language interpreter, there are a number of Abstract Syntax Tree node types. In many cases, functions use unchecked casts to resolve these node types, often after using if statements to check the nodes type.

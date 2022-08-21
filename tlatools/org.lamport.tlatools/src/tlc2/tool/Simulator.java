@@ -206,8 +206,8 @@ public class Simulator {
             MP.printMessage(EC.TLC_COMPUTING_INIT_PROGRESS, this.numOfGenStates.toString());
 
             // Check all initial states for validity.
-            for (int i = 0; i < inits.size(); i++) {
-                curState = inits.get(i);
+            for (TLCState init : inits) {
+                curState = init;
                 if (this.tool.isGoodState(curState)) {
                     for (int j = 0; j < this.invariants.length; j++) {
                         if (!this.tool.isValid(this.invariants[j], curState)) {

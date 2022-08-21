@@ -851,8 +851,7 @@ public class LiveCheck implements ILiveCheck {
             for (final Action action : actions) {
                 final StateVec nextStates = tool.getNextStates(action, s);
                 final int nextCnt = nextStates.size();
-                for (int j = 0; j < nextCnt; j++) {
-                    final TLCState s1 = nextStates.get(j);
+                for (final TLCState s1 : nextStates) {
                     if (tool.isInModel(s1) && tool.isInActions(s, s1)) {
                         final long fp1 = s1.fingerPrint();
                         final BitSet checkActionRes = oos.checkAction(tool, s, s1, new BitSet(alen), 0);

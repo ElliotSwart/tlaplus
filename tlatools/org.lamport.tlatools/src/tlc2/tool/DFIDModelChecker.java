@@ -340,8 +340,8 @@ public class DFIDModelChecker extends AbstractChecker {
                 this.numOfGenStates.getAndAdd(sz);
                 deadLocked = deadLocked && (sz == 0);
 
-                for (int j = 0; j < sz; j++) {
-                    succState = nextStates.get(j);
+                for (TLCState nextState : nextStates) {
+                    succState = nextState;
                     // Check if the state is a legal state.
                     if (!tool.isGoodState(succState)) {
                         synchronized (this) {

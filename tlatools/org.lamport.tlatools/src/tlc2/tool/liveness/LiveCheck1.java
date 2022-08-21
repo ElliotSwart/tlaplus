@@ -380,9 +380,8 @@ public class LiveCheck1 implements ILiveCheck {
         boolean[] checkActionRes = null;
         for (final Action curAction : actions) {
             final StateVec nextStates = myTool.getNextStates(curAction, s);
-            for (int j = 0; j < nextStates.size(); j++) {
+            for (final TLCState s1 : nextStates) {
                 // Add edges induced by s -> s1:
-                final TLCState s1 = nextStates.get(j);
                 final long fp1 = s1.fingerPrint();
                 boolean[] checkActionRes1 = null;
                 for (int k = 0; k < tnode.nextSize(); k++) {
