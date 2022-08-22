@@ -37,7 +37,8 @@ As the codebase is somewhat brittle, ensuring your feature is tested is the only
 
 ### Debugger
 
-
+Will keep the process alive indefinately.
+> Note: The eclipse network listener is not interuptable, so thread interuption behavior will not work. It relies on process exit.
 
 
 
@@ -110,7 +111,20 @@ There is a significant amount of static state. While much has been removed
 
 ### Testing Brittleness
 
+The end to end test suite is a very powerful tool of the project. It does have a reliance on the execution occurring in a very precise order. There are certain race conditions in the codebase that can cause some inconsistency in execution statistics, even while providing correct behavior. This can cause some tests to fail. Additionally, there are some race condition bugs. Additonally. It is not always easy to determine which case it falls into, and so categorizing / fixing these test cases should lead either codebase or test suite improvements. 
+
 #### Independently Run Tests
+
+
+``` java
+@Category(IndependentlyRunTest.class)
+@Category(IndependentlyRunTTraceTest.class)
+```
+
+#### Unique String ordering reliance
+
+
+
 
 
 ### Primitive Versions of Standard Data Structures
