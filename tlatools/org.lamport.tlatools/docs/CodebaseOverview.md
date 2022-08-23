@@ -48,6 +48,7 @@ This overview is meant to orient new programmers as well as reorient existing on
       - [Dead Code to be Removed](#dead-code-to-be-removed)
     - [Inconsistent Formatting](#inconsistent-formatting)
     - [JMX / Eclipse Integrations](#jmx--eclipse-integrations)
+    - [Java Pathfinder](#java-pathfinder)
 
 ## Java Version
 The project is currently targeting Java 17 LTS. This is meant to somewhat future-proof the project, with support [available until 2029](https://www.oracle.com/java/technologies/java-se-support-roadmap.html). It is likely it will be compatible with new java runtimes. This project currently compiles for JDK 18, and hopefully will work with newer versions of java for users who require it.
@@ -193,10 +194,9 @@ They are implemented in the [TLCState](../src/tlc2/tool/TLCState.java)::generate
 > Note: The order dependant nature of the fingerprint means that when using symmetry sets, the majority of the cpu cycles are spent "normalizing" the data structures such that the order the fingerprint gets assembled in are consistent. An order independent fingerprint hash would remove this performance hit, however would significantly increase the likelihood of collisions unless the hash algorithm itself was upgraded.
 
 ### Debugger
-The [AttachingDebugger](../src/tlc2/debug/AttachingDebugger.java) is the main debugger.
+The [AttachingDebugger](../src/tlc2/debug/AttachingDebugger.java) is the main debugger. It works in conjunction with the [DebugTool](../src/tlc2/tool/impl/DebugTool.java) to allow a user to step through a TLC execution.
 
-It will keep the process alive indefinitely.
-> Note: The eclipse network listener is not interuptable, so thread interruption behavior will not work. It relies on process exit.
+> Note: Using the debugger will keep the process alive indefinitely due to the listener. The eclipse network listener is not interruptable, so thread interruption behavior will not work. It relies on process exit.
 
 ### Coverage
 The coverage functionality determines what statements in the TLA+ spec have been used.
@@ -350,4 +350,12 @@ Any of this code should be removed when it loses relevance or accuracy.
 The formatting of certain classes is inconsistent and doesn't work well with modern IDEs. Ideally an autoformatter would be run on the codebase to fix this. However, as this is a fork of the primary codebase, it is left unrun to allow better diffs with the upstream repo.       
 
 ### JMX / Eclipse Integrations
-This project was initially developed as an Eclipse project.
+This project was initially developed as an Eclipse project, so it includes a number of Eclipse libraries and technologies. Most of them integrate rather seamlessly as dependencies, while enabling specialized diagnostic functionality for Eclipse.
+
+The project has [AspectJ](https://en.wikipedia.org/wiki/AspectJ) source that can be compiled in for additional diagnostics. It is also required for Long Tests to pass. The sources are located in [src-aspectj](../src-aspectj).
+
+Additionally this project uses Java Management Extensions for diagnostic purposes. They are always used an can be a source of memory leaks. 
+
+
+### Java Pathfinder
+There are java pathfinder tests in the project. Sources are located in [test-verify](../test-verify/). Additional information on these tests can be found in [test-verify/README](../test-verify/README.md).
