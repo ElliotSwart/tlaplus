@@ -1,6 +1,18 @@
+## Introduction
+This is a pull request meant to remove significant technical debt and barriers to entry from the TLA+ / TLC project. This was done for two primary reasons:
+- To make TLC easier to extend and develop for (difficulties adding functionality to TLC initiated this project)
+- To further ensure the future of TLC such that it could be safely be a building block in a larger system
+
+Note that it is not ready to merge instantly for the following reasons:
+- The TLAToolbox needs to be upgraded to OpenJDK 17
+- The CI/CD publishing workflow needs to be adjusted a bit to account for differences in the build process
+
+However none of those should be particularly difficult.
+
+While this can remain a fork, hopefully the improvements provided here prove worth the effort to merge in.
+
 ## Limitations of this pull request
 Ideally each improvement would have been a separate pull request, however the improvements needed to be made iteratively and experimentally.
-
 A code formatter and re-organizer was run on the codebase as the indentation was inconsistent and classes had been built up over time without consolidation. This means integrating upstream changes will be a more manual process.
 
 ## Improved Codebase Standardization for Developers
@@ -15,7 +27,6 @@ A code formatter and re-organizer was run on the codebase as the indentation was
 - Allow incremental compilation for Maven
 - Allow using diagnostic TLCState without starting the debugger, to facilitate easier testing.
 - Improved ClassLoading of TLA+ modules to be less brittle.
-
 
 ## Additional Documentation
 - The base README.md now serves as a getting started page for developers, as well as a reference for all standard commands. It also contains an index into the other documentation.
