@@ -19,7 +19,7 @@ The content below is a "Getting Started" guide to developing on this codebase. I
 ## Supported IDEs
 This project has configuration for the following IDEs:
 - Eclipse
-- Intellij
+- IntelliJ
 - VSCode
 
 Note that the majority of the configuration is derived from the Maven project, so you may need to reimport the maven project if it has changed. For certain changes this may involve sometimes requires deleting the project file.

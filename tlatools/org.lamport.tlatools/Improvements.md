@@ -6,7 +6,7 @@ A code formatter and re-organizer was run on the codebase as the indentation was
 ## Improved Codebase Standardization for Developers
 - Moved from Ant to Maven to allow easier builds and upgrades
 - Removed manual dependency management and converted it entirely to standard Maven.
-- Integrated code base with VSCode and Intellj, while maintaining Eclipse compatibility
+- Integrated code base with VSCode and IntelliJ, while maintaining Eclipse compatibility
 - Reduced test suite execution from 10min+ -> 2min.
 - Removed all known memory leaks. Prior the vast majority of allocated non-TLCState/FPSet memory was retained until process exit.
 - Allow tests to be run and debugged using IDE test runners
@@ -32,7 +32,7 @@ A code formatter and re-organizer was run on the codebase as the indentation was
 ## Standardize Data Structures
 
 ### Replaced home built data structures with standard equivalents
-Code was rewritten to use standard collection classes rather than depending on non-standard implementations, reducing the learning curve, code size, and reliability.
+Code was rewritten to use standard collection classes rather than depending on non-standard implementations, reducing the learning curve and code size, and increasing reliability.
 
 - tla2sany.utilities.Vector -> ArrayList
 - tla2sany.utilities.Stack -> java.util.ArrayDeque
