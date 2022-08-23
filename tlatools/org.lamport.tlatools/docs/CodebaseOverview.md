@@ -25,7 +25,7 @@ This overview is meant to orient new programmers as well as reorient existing on
       - [Fingerprint Sets (FPSets)](#fingerprint-sets-fpsets)
       - [StateQueue](#statequeue)
     - [Symmetry Sets](#symmetry-sets)
-    - [Debugging, Profiling](#debugging-profiling)
+    - [Debugger](#debugger)
     - [Coverage](#coverage)
     - [Unique Strings](#unique-strings)
   - [Deprecated Dependencies](#deprecated-dependencies)
@@ -123,6 +123,7 @@ This is a generalized mplified description of how this code is normally used, an
 3. Periodically the analysis pauses. If configured to create a checkpoint, a checkpoint is created. If configured to check temporal properties, the Liveness Checking workflow (described below) is performed by calling [LiveChecker](../src/tlc2/tool/liveness/LiveCheck.java)::check. Once done the analysis continues.
 4. When the StateQueue is empty or an error is detected, the analysis is over. 
 
+> Performance Note: The vast majority of CPU cycles are spent either calculating fingerprints or storing fingerprints in the FPSet.                        
 
 ### Depth-First Checker Analysis
 
@@ -165,19 +166,24 @@ Effectively, functions that are no-ops in TLCStateMut, persistently store that i
 The implementation to use is selected in the constructor of [Tool](../src/tlc2/tool/impl/Tool.java), by setting a reference Empty state for the analysis.
 
 ### High Performance Datastructures
+
+The ModelChecker performs a breadth-first search. In a standard BFS algorithm, there are two main datastructures: a queue of items of explore next, and a set of the nodes already explored. Because of the sheer size of the state space for the ModelChecker, specialized versions of these datastructures are used.
+
+> Note: These data-structures are a large focus of the profiling / testing work, because both performance and correctness are key for the ModelChecker to explore the full state space.
+
 #### Fingerprint Sets (FPSets)
 FPSets are sets with two main operations
 - put fingerprint
 - determine if fingerprint in set
-
-They are used to allow a breadth-first search of the state space.
 
 Located in [tlc2.tool.fp](../src/tlc2/tool/fp). All but [FPIntSet](../src/tlc2/tool/fp/dfid/FPIntSet.java) extend [FPSet](../src/tlc2/tool/fp/FPSet.java). FPIntSet is used specifically for depth-first-search and is not discussed here.
 
 In practice the performance and size of the FPSet determine the extent of analysis possible. The [OffHeapDiskFPSet](../src/tlc2/tool/fp/OffHeapDiskFPSet.java) is in practice the most powerful of the FPSets, efficiently spanning the operations across off-heap memory and the disk. There are also memory only FPSets that may be preferable for smaller state spaces.
 
 #### StateQueue
-Located in [tlc2.tool.queue](../src/tlc2/tool/queue)
+Located in [tlc2.tool.queue](../src/tlc2/tool/queue), with all implementations extending [StateQueue](../src/tlc2/tool/queue/StateQueue.java).
+
+The default implementation is [DiskStateQueue](../src/tlc2/tool/queue/DiskStateQueue.java). Because of the size of the queue, storing it in memory may not be an option.
 
 ### Symmetry Sets
 A discussion of Symmetry Sets can be found [here](https://www.learntla.com/core/constants.html).
@@ -186,18 +192,18 @@ They are implemented in the [TLCState](../src/tlc2/tool/TLCState.java)::generate
 
 > Note: The order dependant nature of the fingerprint means that when using symmetry sets, the majority of the cpu cycles are spent "normalizing" the data structures such that the order the fingerprint gets assembled in are consistent. An order independent fingerprint hash would remove this performance hit, however would significantly increase the likelihood of collisions unless the hash algorithm itself was upgraded.
 
-### Debugging, Profiling
-[AttachingDebugger](../src/tlc2/debug/AttachingDebugger.java)
+### Debugger
+The [AttachingDebugger](../src/tlc2/debug/AttachingDebugger.java) is the main debugger.
 
-Will keep the process alive indefinately.
-> Note: The eclipse network listener is not interuptable, so thread interuption behavior will not work. It relies on process exit.
+It will keep the process alive indefinitely.
+> Note: The eclipse network listener is not interuptable, so thread interruption behavior will not work. It relies on process exit.
 
 ### Coverage
+The coverage functionality determines what statements in the TLA+ spec have been used.
 Located in [tlc2.tool.coverage](../src/tlc2/tool/coverage)
 
 ### Unique Strings
-[util/UniqueString.java](../src/util/UniqueString.java)
-
+String comparison can be a relatively expensive operation compared to primitive comparison. There are lots of string comparisons required in the code, but with a relatively limited set of strings.[UniqueString](../src/util/UniqueString.java) maps each string to a monotonically increasing integer. Then comparisons are reduced to the much cheaper integer comparisons. This is used throughout the codebase.
 
 ## Deprecated Dependencies
 These deprecated methods/dependencies should be removed whenever technically feasible. Currently use of deprecated features is very limited (and called out in this document). Introducing new functionality depending on deprecated features is not recommended.
@@ -344,3 +350,4 @@ Any of this code should be removed when it loses relevance or accuracy.
 The formatting of certain classes is inconsistent and doesn't work well with modern IDEs. Ideally an autoformatter would be run on the codebase to fix this. However, as this is a fork of the primary codebase, it is left unrun to allow better diffs with the upstream repo.       
 
 ### JMX / Eclipse Integrations
+This project was initially developed as an Eclipse project.
