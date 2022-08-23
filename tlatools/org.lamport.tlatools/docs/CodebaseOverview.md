@@ -1,8 +1,40 @@
 # Codebase Overview
-## Introduction
+
 The tlatools codebase is a complex one, there are over 600k lines of code, in over 2000 files, written over 20+ years. And yet as the best distributed systems modelling tool on the market today, maintaining and improving it is critical.
 
 This overview is meant to orient new programmers as well as reorient existing ones. 
+
+## Table of Contents 
+- [Codebase Overview](#codebase-overview)
+  - [Table of Contents](#table-of-contents)
+  - [Java Version](#java-version)
+  - [Quality Standards](#quality-standards)
+    - [Treat Warnings as Errors](#treat-warnings-as-errors)
+    - [No Unnecessary Mutable Static State](#no-unnecessary-mutable-static-state)
+    - [Minimal Memory Leaks](#minimal-memory-leaks)
+    - [Ensure Test Coverage](#ensure-test-coverage)
+  - [Codebase Architecture Walkthrough](#codebase-architecture-walkthrough)
+    - [Debugger](#debugger)
+    - [Unique Strings](#unique-strings)
+  - [Deprecated Dependencies](#deprecated-dependencies)
+    - [`sun.misc.Unsafe`](#sunmiscunsafe)
+    - [`java.lang.String.getBytes(int srcBegin, int srcEnd, byte[] dst, int dstBegin)`](#javalangstringgetbytesint-srcbegin-int-srcend-byte-dst-int-dstbegin)
+  - [Codebase Idiosyncrasies](#codebase-idiosyncrasies)
+    - [Dynamic Class Loading](#dynamic-class-loading)
+      - [Operators / Modules](#operators--modules)
+      - [FPSet Selection](#fpset-selection)
+      - [Misc](#misc)
+    - [Notable Mutable Static State](#notable-mutable-static-state)
+    - [Testing Brittleness](#testing-brittleness)
+      - [Independently Run Tests](#independently-run-tests)
+      - [Unique String ordering reliance](#unique-string-ordering-reliance)
+      - [Debugger Tests](#debugger-tests)
+    - [Primitive Versions of Standard Data Structures](#primitive-versions-of-standard-data-structures)
+    - [Unchecked Casting](#unchecked-casting)
+    - [Dead Code](#dead-code)
+      - [Acceptable Dead Code](#acceptable-dead-code)
+      - [Dead Code to be Removed](#dead-code-to-be-removed)
+    - [Inconsistent Formatting](#inconsistent-formatting)
 
 ## Java Version
 The project is currently targeting Java 17 LTS. This is meant to somewhat future-proof the project, with support [available until 2029](https://www.oracle.com/java/technologies/java-se-support-roadmap.html). It is likely it will be compatible with new java runtimes. This project currently compiles for JDK 18, and hopefully will work with newer versions of java for users who require it.
