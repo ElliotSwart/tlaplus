@@ -32,6 +32,8 @@ The large end to end test suite is one of the project's greatest assets. Ensure 
 
 As the codebase is somewhat brittle, ensuring your feature is tested is the only way to help others not break your code.
 
+--- 
+<br>
 
 ## Codebase Architecture Walkthrough
 
@@ -40,7 +42,11 @@ As the codebase is somewhat brittle, ensuring your feature is tested is the only
 Will keep the process alive indefinately.
 > Note: The eclipse network listener is not interuptable, so thread interuption behavior will not work. It relies on process exit.
 
+### Unique Strings
 
+
+--- 
+<br>
 
 ## Deprecated Dependencies
 These deprecated methods/dependencies should be removed whenever technically feasible. Currently use of deprecated features is very limited (and called out in this document). Introducing new functionality depending on deprecated features is not recommended.
@@ -68,8 +74,8 @@ This project makes extensive use of Classloaders. This can make it slightly more
 
 #### Operators / Modules
 The ClassLoader is used to load both standard modules and user created modules. The standard modules can be found here:
-- [src/tlc2/module]
-- [src/tla2sany/StandardModules]
+- [src/tlc2/module](../src/tlc2/module)
+- [src/tla2sany/StandardModules](../src/tla2sany/StandardModules)
 
 The [SimpleFilenameToStream](../src/util/SimpleFilenameToStream.java) class is used to read in this information, and contains the logic about standard module directories. It is where the ClassLoader is used. [TLAClass](../src/tlc2/tool/impl/TLAClass.java) is also used for a similar purpose, used to loader certain built in classes.
 
@@ -115,17 +121,33 @@ The end to end test suite is a very powerful tool of the project. It does have a
 
 #### Independently Run Tests
 
+In order to allow tests to be independently run, we add one of the following tags depending on whether it is a standard test or a TTraceTest
 
 ``` java
 @Category(IndependentlyRunTest.class)
 @Category(IndependentlyRunTTraceTest.class)
 ```
 
+In general, these should be used sparingly, and instead if a test fails when run with others, the root cause should be discovered and fixed.
+
 #### Unique String ordering reliance
 
+As mentioned above, unique strings replace strings with a consistent integer token for faster comparison. That token is monotonically increasing from when the unique string is generated. When comparing unique strings, it compares the tokens, meaning the ordering of the UniqueString based collection is dependant on the ordering of the creation of strings. This can break tests that hardcode the ordering of the result output when they are not run in isolation. This isn't necessarily a fundamental problem with the system, as the output is consistent based on TLA+ semantics which does not differ based on order. 
 
+The tests that fail for this reason are marked as independent tests, but grouped under 
 
+``` xml
+<id>unique-string-conflicts</id>
+```
 
+in [pom.xml](../pom.xml). Their reason for failure is known.
+
+#### Debugger Tests
+The AttachedDebugger currently only terminates on process exit. For that reason, all debugger tests are marked with the annotation below, and run as independent processes.
+
+``` java
+@Category(DebuggerTest.class)
+```
 
 ### Primitive Versions of Standard Data Structures
 
