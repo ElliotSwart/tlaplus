@@ -8,7 +8,7 @@ A code formatter and re-organizer was run on the codebase as the indentation was
 - Removed manual dependency management and converted it entirely to standard Maven.
 - Integrated code base with VSCode and Intellj, while maintaining Eclipse compatibility
 - Reduced test suite execution from 10min+ -> 2min.
-- Removed all known memory leaks
+- Removed all known memory leaks. Prior the vast majority of allocated non-TLCState/FPSet memory was retained until process exit.
 - Allow tests to be run and debugged using IDE test runners
 - Place build outputs in standard target directory
 - Distinguish tests using JUnit categories, not just filepaths
