@@ -9,11 +9,15 @@ import tla2sany.modanalyzer.SpecObj;
 import tla2sany.parser.ParseException;
 import tla2sany.semantic.*;
 import tla2sany.st.TreeNode;
+
 import util.FileUtil;
 import util.ToolIO;
 import util.UniqueString;
+import util.UsageGenerator;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -344,6 +348,34 @@ public class SANY {
         }
     }
 
+    private static void printUsage()
+    {
+        final List<List<UsageGenerator.Argument>> commandVariants = new ArrayList<>();
+        final List<UsageGenerator.Argument> variant = new ArrayList<>();
+        variant.add(new UsageGenerator.Argument(
+                "-s", "Turns off semantic analysis", true));
+        commandVariants.add(variant);
+        variant.add(new UsageGenerator.Argument(
+                "-l", "Turns off level checking. Level checking won't be\n" +
+                "used, if the semantic analysis is disabled. ", true));
+        variant.add(new UsageGenerator.Argument(
+                "-stat", "Turns off reporting statistics about builtin operator\n" +
+                "usage." , true));
+        variant.add(new UsageGenerator.Argument(
+                "-error-codes", "If enabled, error level will be reported as the tools'\n" +
+                "return value." , true));
+        commandVariants.add(variant);
+        final List<String> tips = new ArrayList<String>();
+        UsageGenerator.displayUsage(
+                ToolIO.out, "SANY", version,
+                "provides parsing, semantic analysis, and level-checking for a TLA+ spec",
+                "SANY is a parser and syntax checker for TLA+ specifications.\n" +
+                        "It catches parsing errors and some \"semantic\" errors such as\n" +
+                        "priming an expression containing primed variables.",
+                commandVariants, tips, ' ');
+    }
+
+
     /**
      * This method should print statistics about the specification
      * It is obviously not finished.
@@ -369,9 +401,13 @@ public class SANY {
                 doStats = !doStats;
             else if (args[i].equalsIgnoreCase("-error-codes"))
                 doStrictErrorCodes = true;
-            else {
-                ToolIO.out.println("Illegal switch: " + args[i]);
-                return -1;
+            else if (args[i].equalsIgnoreCase("-help")) {
+                printUsage();
+                System.exit(0);
+            } else {
+                ToolIO.out.println("Command-line error: " + args[i]);
+                ToolIO.out.println("Use -help option for more information.");
+                System.exit(-1);
             }
         }
 

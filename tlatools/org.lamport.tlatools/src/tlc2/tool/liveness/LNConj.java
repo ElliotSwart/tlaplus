@@ -5,8 +5,10 @@
 
 package tlc2.tool.liveness;
 
+import tlc2.output.EC;
 import tlc2.tool.ITool;
 import tlc2.tool.TLCState;
+import util.Assert;
 
 import java.util.ArrayList;
 
@@ -195,7 +197,12 @@ class LNConj extends LiveExprNode {
             final LiveExprNode elem = temp[i];
             if (elem instanceof LNDisj lnd) {
                 nes.add(elem);
-                total *= lnd.getCount();
+                try {
+                    total = Math.multiplyExact(total, ((LNDisj) elem).getCount());
+                } catch (ArithmeticException e) {
+                    Assert.fail(EC.TLC_LIVE_CANNOT_HANDLE_FORMULA,
+                            "because it exceeds the maximum supported size in disjunctive normal form.");
+                }
             } else if (elem instanceof final LNConj elem1) {
                 // Flatten when elem is also a LNConj:
                 final int count1 = elem1.getCount();

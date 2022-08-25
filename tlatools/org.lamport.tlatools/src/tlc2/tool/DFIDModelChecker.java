@@ -273,7 +273,7 @@ public class DFIDModelChecker extends AbstractChecker {
                         if (!tool.isValid(tool.getInvariants()[j], curState)) {
                             // We get here because of invariant violation:
                             MP.printError(EC.TLC_INVARIANT_VIOLATED_INITIAL, new String[]{tool.getInvNames()[j],
-                                    curState.toString()});
+                                    tool.evalAlias(curState, curState).toString() });
                             if (!TLCGlobals.continuation)
                                 return EC.TLC_INVARIANT_VIOLATED_INITIAL;
                         }
@@ -282,7 +282,7 @@ public class DFIDModelChecker extends AbstractChecker {
                         if (!tool.isValid(tool.getImpliedInits()[j], curState)) {
                             // We get here because of implied-inits violation:
                             return MP.printError(EC.TLC_PROPERTY_VIOLATED_INITIAL, new String[]{
-                                    tool.getImpliedInitNames()[j], curState.toString()});
+                                    tool.getImpliedInitNames()[j], tool.evalAlias(curState, curState).toString() });
                         }
                     }
                 }

@@ -213,7 +213,7 @@ public class Simulator {
                         if (!this.tool.isValid(this.invariants[j], curState)) {
                             // We get here because of invariant violation.
                             return MP.printError(EC.TLC_INVARIANT_VIOLATED_INITIAL,
-                                    new String[]{this.tool.getInvNames()[j], curState.toString()});
+                                    new String[] { this.tool.getInvNames()[j], tool.evalAlias(curState, curState).toString() });
                         }
                     }
                 } else {
