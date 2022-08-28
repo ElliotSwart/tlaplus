@@ -100,12 +100,6 @@ mvn package -P benchmark
 ## Java Pathfinder Verification
 For details on pathfinder verification, see the [readme](test-verify/README.md).
 
-To run the pathfinder tests, run:
-
-``` shell
-mvn verify -P pathfinder-verification
-```
-
 
 ## Long Tests
 

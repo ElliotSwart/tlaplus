@@ -12,8 +12,10 @@ However none of those should be particularly difficult.
 While this can remain a fork, hopefully the improvements provided here prove worth the effort to merge in.
 
 ## Limitations of this pull request
-Ideally each improvement would have been a separate pull request, however the improvements needed to be made iteratively and experimentally.
+- Ideally each improvement would have been a separate pull request, however the improvements needed to be made iteratively and experimentally.
 A code formatter and re-organizer was run on the codebase as the indentation was inconsistent and classes had been built up over time without consolidation. This means integrating upstream changes will be a more manual process.
+
+- Java Pathfinder tests could not be run, as it still targets Java 8.
 
 ## Improved Codebase Standardization for Developers
 - Moved from Ant to Maven to allow easier builds and upgrades
